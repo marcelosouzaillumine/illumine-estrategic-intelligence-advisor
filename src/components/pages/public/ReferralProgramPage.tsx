@@ -4,6 +4,7 @@ import {
   BarChart3, Users, Sparkles, Ban, DollarSign, ArrowRight
 } from 'lucide-react';
 import { useDocumentTitle } from '../../../hooks/useDocumentTitle';
+import { useNavigate } from 'react-router-dom';
 
 // Editorial Causal Mesh backdrop (Static & Extremely Understated)
 const CausalTopologyVisual = () => {
@@ -72,6 +73,7 @@ const CausalTopologyVisual = () => {
 };
 
 export function ReferralProgramPage() {
+  const navigate = useNavigate();
   useDocumentTitle('Programa de Parceiros de Indicação | Illumine');
 
   useEffect(() => {
@@ -112,7 +114,7 @@ export function ReferralProgramPage() {
         <div className="max-w-7xl mx-auto px-6 sm:px-8 h-full flex items-center justify-between gap-8">
           
           {/* Logo Signature */}
-          <div className="flex items-center gap-0 cursor-pointer group opacity-90 hover:opacity-100 transition-opacity" onClick={() => window.location.href = '/'}>
+          <div className="flex items-center gap-0 cursor-pointer group opacity-90 hover:opacity-100 transition-opacity" onClick={() => navigate('/')}>
             <div className="w-[44px] h-[44px] flex items-center justify-center relative -translate-y-[2px]">
               <img src="/logo.png" alt="Illumine Icon" className="relative z-10 w-full h-full object-contain" />
             </div>

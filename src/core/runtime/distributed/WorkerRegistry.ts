@@ -1,6 +1,7 @@
 import { AsyncJob, AsyncJobQueue } from './AsyncJobQueue';
 import { RuntimePartitionManager, RuntimePartitionType } from './RuntimePartitionManager';
 import { DataAccessContext } from '../../security/data-access-context';
+import { getErrorMessage } from '../../../types/runtime/RuntimeErrorGuards';
 
 export type WorkerStatus = 'IDLE' | 'BUSY' | 'STOPPED';
 
@@ -117,11 +118,11 @@ export class WorkerRegistry {
           const latency = Date.now() - startTime;
           RuntimePartitionManager.registerExecution(worker.partitionName, latency, false);
 
-        } catch (execErr: any) {
+        } catch (execErr: unknown) {
           console.error(`[WorkerRegistry] Worker ${workerId} failed to execute job ${job.jobId}:`, execErr);
           
           worker.failuresCount++;
-          await AsyncJobQueue.failJob(job.jobId, execErr.message || String(execErr));
+          await AsyncJobQueue.failJob(job.jobId, getErrorMessage(execErr));
           
           const latency = Date.now() - startTime;
           RuntimePartitionManager.registerExecution(worker.partitionName, latency, true, true);

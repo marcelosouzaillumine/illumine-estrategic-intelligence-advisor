@@ -23,6 +23,7 @@ import { useInstitutionalRuntime } from '../../../hooks/useInstitutionalRuntime'
 import { useLanguage } from '../../../contexts/LanguageContext';
 import { cn, formatCurrency } from '../../../lib/utils';
 import { PageHeader } from '../../Common';
+import { InvestigationLauncherWrapper } from '../../investigation/InvestigationLauncherWrapper';
 
 interface SovereignDecisionCenterProps {
   clients?: any[];
@@ -246,6 +247,13 @@ export function SovereignDecisionCenter({ selectedClient, selectedYear }: Sovere
                             )}>
                               {dec.classification}
                             </span>
+                            <div onClick={(e) => e.stopPropagation()}>
+                              <InvestigationLauncherWrapper 
+                                tenantId="SYSTEM_TENANT" 
+                                nodeId={dec.id} 
+                                originSurface="CONSTITUTIONAL" 
+                              />
+                            </div>
                           </h4>
                           <p className="text-xs text-slate-500 mt-1">Domínios: {dec.originatingMetrics.join(', ') || 'Geral'}</p>
                         </div>

@@ -16,6 +16,9 @@ export default defineConfig(() => {
       emptyOutDir: true,
       chunkSizeWarningLimit: 3000,
     },
+    esbuild: {
+      pure: ['console.log', 'console.info', 'console.debug'],
+    },
     resolve: {
       alias: {
         '@': path.resolve(__dirname, './src'),

@@ -54,7 +54,7 @@ export function useMethodologicalAnalysis(clientId: string, year: number, month:
     } catch (err: any) {
       if (!isCancelled.current) {
         console.error("Erro ao buscar ou criar análise metodológica:", err);
-        setError(err.message || 'Erro ao processar análise');
+        setError((err instanceof Error ? err.message : String(err)) || 'Erro ao processar análise');
       }
     } finally {
       if (!isCancelled.current) {
@@ -91,7 +91,7 @@ export function useMethodologicalAnalysis(clientId: string, year: number, month:
       }));
     } catch (err: any) {
       console.error("Erro ao reprocessar análise:", err);
-      setError(err.message);
+      setError((err instanceof Error ? err.message : String(err)));
     } finally {
       setLoading(false);
     }

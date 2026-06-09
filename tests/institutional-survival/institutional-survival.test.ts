@@ -6,7 +6,7 @@ import { SurvivalPriorityClassificationEngine } from '../../src/core/runtime/ins
 import { InstitutionalConflictArbitrationEngine } from '../../src/core/runtime/institutional-survival/InstitutionalConflictArbitrationEngine';
 import { SurvivalConstraintPropagationEngine } from '../../src/core/runtime/institutional-survival/SurvivalConstraintPropagationEngine';
 import { ExecutiveActionMatrixEngine } from '../../src/core/runtime/integrity/ExecutiveActionMatrixEngine';
-import { ScenarioSimulationEngine } from '../../src/core/runtime/scenario/ScenarioSimulationEngine';
+import { ScenarioFiduciarySimulator } from '../../src/core/runtime/scenario/ScenarioFiduciarySimulator';
 import { TreasuryPriorityMatrixEngine } from '../../src/core/runtime/treasury-intelligence/TreasuryPriorityMatrixEngine';
 
 // Default healthy baseline input to avoid triggering fail-closed logic
@@ -135,7 +135,7 @@ describe('ISHE - Institutional Survival Hierarchy Engine', () => {
       isSurvivalMode: true
     };
 
-    const result = await ScenarioSimulationEngine.runSimulation(simulationInput, 'HIGH');
+    const result = await ScenarioFiduciarySimulator.runSimulation(simulationInput, 'HIGH');
     assert.equal(result.scenarioValidity, 'INVALID_SURVIVAL_CONFLICT');
     assert.equal(result.projectedConfidence, 'LOW');
   });

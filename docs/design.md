@@ -32,6 +32,12 @@ colors:
   secondary: "#FF8552"
   secondary-foreground: "#0E1C2C"
 
+  accent: "#FF8552"
+  accent-foreground: "#0E1C2C"
+
+  insight: "#BAB86C"
+  insight-foreground: "#0E1C2C"
+
   tertiary: "#BAB86C"
   tertiary-foreground: "#0E1C2C"
 
@@ -63,7 +69,8 @@ colors:
   ring: "#FF8552"
 
   success: "#0C7A3A"
-  warning: "#BAB86C"
+  warning: "#C8A94A"
+  critical: "#D01D1C"
   info: "#0E1C2C"
 
   chart-1: "#0E1C2C"
@@ -72,12 +79,15 @@ colors:
   chart-4: "#E5E5E5"
   chart-5: "#6B7280"
 
+  surface-low: "#FFFFFF"
+  surface-high: "#F7F7F5"
+  surface-highest: "#F2F2EF"
   surface-container-low: "#FFFFFF"
-  surface-container: "#F8F8F8"
-  surface-container-high: "#E5E5E5"
-  surface-container-highest: "#D9D9D9"
+  surface-container: "#FCFCFB"
+  surface-container-high: "#F7F7F5"
+  surface-container-highest: "#F2F2EF"
   surface-bright: "#FFFFFF"
-  surface-dim: "#E5E5E5"
+  surface-dim: "#F2F2EF"
   surface-inverse: "#0E1C2C"
   surface-inverse-foreground: "#FFFFFF"
 
@@ -167,6 +177,19 @@ typography:
     lineHeight: 1.4
     letterSpacing: "0em"
 
+icons:
+  mapping:
+    icon-primary: "#0E1C2C"
+    icon-secondary: "#6B7280"
+    icon-action: "#FF8552"
+    icon-insight: "#BAB86C"
+    icon-warning: "#C8A94A"
+    icon-success: "#0C7A3A"
+    icon-critical: "#D01D1C"
+  rules:
+    - "All icons must use semantic tokens."
+    - "No multicolor icons or gradients."
+
 spacing:
   "2": "0.5rem"
   "3": "0.75em"
@@ -190,10 +213,17 @@ rounded:
   input: "24px"
 
 shadows:
-  xs: "0 1px 2px rgba(14, 28, 44, 0.08)"
-  sm: "0 4px 12px rgba(14, 28, 44, 0.08)"
-  md: "0 8px 24px rgba(14, 28, 44, 0.12)"
-  lg: "0 16px 40px rgba(14, 28, 44, 0.16)"
+  xs: "0 1px 2px rgba(14, 28, 44, 0.04)"
+  sm: "0 2px 8px rgba(14, 28, 44, 0.06)"
+  md: "0 8px 16px rgba(14, 28, 44, 0.08)"
+  lg: "0 12px 32px rgba(14, 28, 44, 0.10)"
+  rules:
+    - "Quiet Luxury aesthetic: Shadows must be soft, low opacity, maximum 3 elevation levels, and no dramatic blur."
+
+borders:
+  rules:
+    - "Preferred: 1px solid semantic-border."
+    - "Avoid: 2px+ borders unless semantically justified."
 
 motion:
   duration-faster: "150ms"
@@ -473,17 +503,25 @@ prose:
     do:
       - "Use o azul escuro como base de autoridade e confiança."
       - "Use o laranja para ação, movimento e destaque."
-      - "Use espaços generosos e layouts limpos."
+      - "Use espaços generosos e layouts limpos (Quiet Luxury)."
       - "Mantenha contraste adequado para leitura."
       - "Use cards para organizar diagnósticos, indicadores e recomendações."
+      - "Utilize o token #D9D9D9 apenas em divisores, hairlines e elementos estruturais discretos."
+      - "O corpo de texto principal e de leitura contínua deve ter no mínimo 16px. Labels, captions, badges e metadados podem usar 14px."
+      - "Ícones devem ser monocromáticos utilizando tokens semânticos (icon-primary, icon-action, etc)."
+      - "Use sombras suaves, de baixa opacidade e evite dramatic blurs."
+      - "Bordas preferencialmente em 1px solid semantic-border."
     dont:
-      - "Não usar roxo ou cores associadas ao Nubank."
-      - "Não usar laranja como cor dominante de fundo em grandes áreas."
-      - "Não criar excesso de sombras ou gradientes."
-      - "Não reduzir corpo de texto abaixo de 16px."
-      - "Não misturar muitas cores fora da paleta institucional."
+      - "Não usar roxo ou paletas semelhantes a concorrentes B2C (ex: Nubank)."
+      - "Não usar laranja predominantemente em grandes áreas (containers, layouts, páginas ou painéis)."
+      - "Não criar excesso de sombras (sem shadow-2xl desnecessárias) ou gradientes."
+      - "Não reduzir corpo de texto principal abaixo de 16px."
+      - "Não utilizar valores HEX hardcoded fora do registro oficial de design tokens."
+      - "Não usar #D9D9D9 como fundo de Card, Panel, Modal, Dashboard, Widget ou Section."
+      - "Não usar ícones multicoloridos."
+      - "Não criar combinações de baixo contraste (ex: texto branco sobre laranja em componentes pequenos ou texto bege sobre branco)."
 
   implementation: >
     Stack sugerida: Next.js + Tailwind + shadcn/ui. Mapear os tokens de cores para variáveis CSS
-    em :root e utilizar as classes semânticas da interface, como primary, secondary, accent,
-    background, foreground, card, border e ring.
+    em :root e utilizar as classes semânticas da interface. Os tokens v4.0 devem refletir as 
+    diretrizes executivas e o script de auditoria deve garantir a adesão automática às regras de cores, ícones, tamanhos de fonte, bordas e sombras.

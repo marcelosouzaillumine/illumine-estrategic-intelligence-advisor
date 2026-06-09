@@ -21,7 +21,7 @@ export class GroupEntityMappingRepository {
       const q = query(collection(db, 'economic_group_entities'), where('groupId', '==', groupId));
       const snap = await getDocs(q);
       return snap.docs.map(d => d.data() as EconomicGroupEntityModel);
-    } catch (err: any) {
+    } catch (err: unknown) {
       console.error('[GroupEntityMappingRepository] Error listing entities:', err);
       throw err;
     }
@@ -39,7 +39,7 @@ export class GroupEntityMappingRepository {
 
       await setDoc(doc(db, 'economic_group_entities', id), newEntity);
       return newEntity;
-    } catch (err: any) {
+    } catch (err: unknown) {
       console.error('[GroupEntityMappingRepository] Error linking entity:', err);
       throw err;
     }
@@ -48,7 +48,7 @@ export class GroupEntityMappingRepository {
   static async unlinkEntity(entityId: string): Promise<void> {
     try {
       await deleteDoc(doc(db, 'economic_group_entities', entityId));
-    } catch (err: any) {
+    } catch (err: unknown) {
       console.error('[GroupEntityMappingRepository] Error unlinking entity:', err);
       throw err;
     }

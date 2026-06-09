@@ -1,5 +1,6 @@
 import { BPSummary } from '../../../../lib/bpEngine';
 import { PatrimonialIndicator } from './BalanceSheetFinancialMetricsEngine';
+import { CashConcentrationAssessmentEngine } from './CashConcentrationAssessmentEngine';
 
 export class BalanceSheetQualityEngine {
   static analyze(summary: BPSummary): PatrimonialIndicator[] {
@@ -23,12 +24,15 @@ export class BalanceSheetQualityEngine {
       } else if (pctClientes > 0.45) {
         concentrationRisk = 'ATTENTION';
         rationale = `Dependência excessiva da realização de recebíveis (${(pctClientes * 100).toFixed(1)}% do ativo).`;
-      } else if (pctCaixa > 0.4) {
-        concentrationRisk = 'CAPITAL_IDLE_WARNING';
-        rationale = 'Alta ociosidade de capital (caixa excessivo frente ao ativo total).';
-      } else if (pctCaixa < 0.02) {
-        concentrationRisk = 'CRITICAL';
-        rationale = 'Caixa estruturalmente irrelevante frente ao balanço, gerando alta dependência de giro.';
+      } else {
+        const cashAssessment = CashConcentrationAssessmentEngine.assess(summary);
+        if (cashAssessment) {
+           rationale = cashAssessment.classification;
+           if (rationale === 'Possível ociosidade de capital') concentrationRisk = 'CAPITAL_IDLE_WARNING';
+           else if (rationale === 'Reserva financeira elevada') concentrationRisk = 'NEUTRAL'; // or ATTENTION
+           else if (rationale === 'Baixa concentração') concentrationRisk = 'CRITICAL';
+           else concentrationRisk = 'HEALTHY';
+        }
       }
 
       indicators.push({

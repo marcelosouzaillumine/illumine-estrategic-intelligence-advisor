@@ -32,6 +32,7 @@ const React = await import('react');
 const { renderToStaticMarkup } = await import('react-dom/server');
 const { EFOSPage } = await import('../src/components/pages/EFOSPage');
 const { isProduction } = await import('../src/core/runtime/executive-consolidation/ProductionVisibilityPolicy');
+const { MemoryRouter } = await import('react-router-dom');
 
 // Forbidden tokens list for BOARD and EXECUTIVE contexts
 const FORBIDDEN_TOKENS = [
@@ -86,12 +87,14 @@ describe('EFOS Sovereignty and Visibility Tests', () => {
     });
 
     const html = renderToStaticMarkup(
-      <EFOSPage 
-        selectedClient="test-client" 
-        selectedYear={2026} 
-        profile="EXECUTIVE"
-        showDebugTools={false}
-      />
+      <MemoryRouter>
+        <EFOSPage 
+          selectedClient="test-client" 
+          selectedYear={2026} 
+          profile="EXECUTIVE"
+          showDebugTools={false}
+        />
+      </MemoryRouter>
     );
 
     const cleanText = html
@@ -125,12 +128,14 @@ describe('EFOS Sovereignty and Visibility Tests', () => {
     process.env.NODE_ENV = 'production';
     try {
       const html = renderToStaticMarkup(
-        <EFOSPage 
-          selectedClient="test-client" 
-          selectedYear={2026} 
-          profile="TECHNICAL"
-          showDebugTools={true}
-        />
+        <MemoryRouter>
+          <EFOSPage 
+            selectedClient="test-client" 
+            selectedYear={2026} 
+            profile="TECHNICAL"
+            showDebugTools={true}
+          />
+        </MemoryRouter>
       );
       
       const cleanText = html

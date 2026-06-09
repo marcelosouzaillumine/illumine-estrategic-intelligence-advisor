@@ -20,7 +20,7 @@ export class CashSustainabilityEngine {
         rationale = 'A operação é plenamente capaz de sustentar seu crescimento com recursos próprios.';
       } else {
         classification = 'EM_TRANSICAO';
-        rationale = 'A organização gera caixa, mas níveis de liquidez ou runway ainda sugerem transição para independência plena.';
+        rationale = 'A organização gera caixa, mas níveis de liquidez ou runway ainda indicam transição para independência plena.';
       }
     } else { // fco <= 0
       if (externalFunding > Math.abs(fco) && runwayMonths >= 3) {

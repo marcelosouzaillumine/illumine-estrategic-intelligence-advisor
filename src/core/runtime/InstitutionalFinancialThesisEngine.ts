@@ -165,7 +165,7 @@ export class InstitutionalFinancialThesisEngine {
 
         const liquidityClause = (metrics?.liqCorrente !== null && metrics?.liqCorrente !== undefined)
           ? (metrics.liqCorrente >= 1
-            ? `A liquidez corrente de ${liqStatus} sugere conforto no curto prazo`
+            ? `A liquidez corrente de ${liqStatus} aponta conforto no curto prazo`
             : `A liquidez corrente de ${liqStatus} indica aperto no ciclo de curto prazo`)
           : (hasBP ? 'A liquidez corrente não pôde ser calculada pois as contas de Ativo e Passivo Circulante não foram identificadas no Balanço' : 'A liquidez corrente não pôde ser avaliada por falta de dados do Balanço Patrimonial');
 

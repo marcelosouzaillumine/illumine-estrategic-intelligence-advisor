@@ -1,0 +1,764 @@
+{
+  "orphans": [
+    "src/components/GovernancePerspectiveSection.tsx",
+    "src/components/ScenarioLab/AdvisoryDeltaPanel.tsx",
+    "src/components/ScenarioLab/BeforeAfterComparisonPanel.tsx",
+    "src/components/ScenarioLab/InstitutionalProjectionPanel.tsx",
+    "src/components/ScenarioLab/RiskPropagationMap.tsx",
+    "src/components/ScenarioLab/ScenarioControlPanel.tsx",
+    "src/components/board-decision/DecisionApprovalPanel.tsx",
+    "src/components/executive/performance/ExecutiveGapAnalysisPanel.tsx",
+    "src/components/executive/performance/HistoricalInferenceDisclosure.tsx",
+    "src/components/executive/performance/OperationalBenchmarkPanel.tsx",
+    "src/components/executive/performance/StrategicPerformanceBaselineCard.tsx",
+    "src/components/institutional-reporting/ConstitutionalIntegrityPanel.tsx",
+    "src/components/institutional-reporting/ExecutiveSnapshotSurface.test.tsx",
+    "src/components/institutional-reporting/InstitutionalBoardPackCenter.test.ts",
+    "src/components/modals/BusinessModelOverrideModal.tsx",
+    "src/components/operational-governance/InstitutionalOperationalGovernanceCenter.tsx",
+    "src/components/panels/cash-intelligence/CashConversionStressPanel.tsx",
+    "src/components/panels/cash-intelligence/InstitutionalCashIntegrityPanel.tsx",
+    "src/components/panels/cash-intelligence/LiquidityConsumptionTimeline.tsx",
+    "src/components/panels/cash-intelligence/OperationalCashResiliencePanel.tsx",
+    "src/components/panels/cash-intelligence/SyntheticProfitRiskPanel.tsx",
+    "src/components/panels/cash-intelligence/WorkingCapitalPressurePanel.tsx",
+    "src/components/panels/causal-intelligence/InstitutionalCausalRootCausesPanel.tsx",
+    "src/components/panels/causal-intelligence/OperationalStressCascadePanel.tsx",
+    "src/components/panels/causal-intelligence/SurvivabilityDependencyGraphPanel.tsx",
+    "src/components/scenario-intelligence/InstitutionalScenarioPanel.tsx",
+    "src/components/scenario-simulation/ForecastDependencyPanel.tsx",
+    "src/components/scenario-simulation/HistoricalBasisExplorer.tsx",
+    "src/components/scenario-simulation/MultiEntityContagionSurface.tsx",
+    "src/components/scenario-simulation/PropagationTimelineViewer.tsx",
+    "src/components/systemic-heatmap/SystemicHeatmapComplianceGuard.ts",
+    "src/components/temporal/TemporalBoardWorkflowPanel.tsx",
+    "src/components/temporal/TemporalCollaborationPanel.tsx",
+    "src/components/ui/dropdown-menu.tsx",
+    "src/core/executive-delivery/ExecutiveCommunicationProfiles.ts",
+    "src/core/executive-delivery/ExecutivePriorityMapper.ts",
+    "src/core/executive-experience/BoardPresentationRuntime.ts",
+    "src/core/executive-experience/ExecutiveStorytellingEngine.ts",
+    "src/core/executive-experience/ExecutiveSummaryComposer.ts",
+    "src/core/export/board-pack/BoardPackBrandingEngine.ts",
+    "src/core/export/board-pack/InstitutionalBoardPackExportEngine.ts",
+    "src/core/export/board-pack/InstitutionalReportLayoutEngine.ts",
+    "src/core/governance/__tests__/BalanceSheetUISourceIntegrity.test.ts",
+    "src/core/governance/__tests__/CognitiveLoadGovernor.test.ts",
+    "src/core/governance/__tests__/CrossDomainCausalityEngine.test.ts",
+    "src/core/governance/__tests__/DFCCashFlowIntegrityGuard.test.ts",
+    "src/core/governance/__tests__/DFCPartnersDependencyGolden.test.ts",
+    "src/core/governance/__tests__/Granatum2023BPIntegrationGolden.test.ts",
+    "src/core/governance/__tests__/Granatum2023DFCGolden.test.ts",
+    "src/core/governance/__tests__/Granatum2023Golden.test.ts",
+    "src/core/governance/__tests__/GranatumLongitudinalGolden.test.ts",
+    "src/core/governance/__tests__/InstitutionalNarrativeEngine.test.ts",
+    "src/core/governance/__tests__/SignalPriorityEngine.test.ts",
+    "src/core/governance/__tests__/SignalSuppressionEngine.test.ts",
+    "src/core/knowledge/InstitutionalKnowledgeLayer.ts",
+    "src/core/observability/ReleaseHealthReporter.ts",
+    "src/core/presentation/emergency-executive-sanitizer.ts",
+    "src/core/runtime/benchmarking/BenchmarkExecutiveReportBuilder.ts",
+    "src/core/runtime/benchmarking/BenchmarkGovernanceEngine.ts",
+    "src/core/runtime/board/BoardDiagnosisEngine.ts",
+    "src/core/runtime/cache/CacheInvalidationEngine.ts",
+    "src/core/runtime/cache/ScenarioCacheProtector.ts",
+    "src/core/runtime/capital-governance/CapitalGovernanceNarrativeComposer.ts",
+    "src/core/runtime/capital-governance/CapitalRetentionEngine.ts",
+    "src/core/runtime/capital-governance/EquityPreservationEngine.ts",
+    "src/core/runtime/capital-governance/GovernanceCapitalBehaviorEngine.ts",
+    "src/core/runtime/capital-governance/InstitutionalCapitalizationEngine.ts",
+    "src/core/runtime/capital-governance/ShareholderDistributionEngine.ts",
+    "src/core/runtime/cash-intelligence/DFCExecutiveBindingAudit.ts",
+    "src/core/runtime/cash-intelligence/DFCPresentationSegregationEngine.ts",
+    "src/core/runtime/cash-intelligence/FiduciaryCashIntelligenceRuntime.spec.ts",
+    "src/core/runtime/cash-intelligence/InstitutionalCashSustainabilityEngine.ts",
+    "src/core/runtime/cash-intelligence/LongitudinalCashIntelligenceEngine.spec.ts",
+    "src/core/runtime/cash-intelligence/LongitudinalCashIntelligenceEngine.test.ts",
+    "src/core/runtime/cash-intelligence/UniversalCashIndicatorsEngine.spec.ts",
+    "src/core/runtime/commercial-readiness/AdvisorCommercialModel.ts",
+    "src/core/runtime/commercial-readiness/AdvisorEthicalBoundaryGuard.ts",
+    "src/core/runtime/commercial-readiness/AdvisorOperatingFramework.ts",
+    "src/core/runtime/commercial-readiness/BoardPackCommercializationFlow.ts",
+    "src/core/runtime/commercial-readiness/CommercialGovernanceBoundary.ts",
+    "src/core/runtime/commercial-readiness/CommercialReadinessAuditLogger.ts",
+    "src/core/runtime/commercial-readiness/EnterpriseFeatureMatrix.ts",
+    "src/core/runtime/commercial-readiness/OperationalPricingStructure.ts",
+    "src/core/runtime/commercial-readiness/ProductPackagingEngine.ts",
+    "src/core/runtime/commercial-readiness/RuntimeUsageGovernance.ts",
+    "src/core/runtime/cross-statement/CrossStatementLiquidityInterpreter.ts",
+    "src/core/runtime/decision-intelligence/DecisionMemoryLayer.test.ts",
+    "src/core/runtime/decision-intelligence/DecisionToCashCausalityEngine.test.ts",
+    "src/core/runtime/decision-intelligence/EarlyWarningEngine.test.ts",
+    "src/core/runtime/decision-intelligence/ExecutiveAccountabilityEngine.test.ts",
+    "src/core/runtime/decision-intelligence/GovernanceDriftDetectionEngine.test.ts",
+    "src/core/runtime/decision-intelligence/InstitutionalBehavioralPatternsEngine.test.ts",
+    "src/core/runtime/decision-intelligence/InstitutionalDecisionIntelligenceEngine.ts",
+    "src/core/runtime/decision-intelligence/InstitutionalRiskMatrixEngine.ts",
+    "src/core/runtime/decision-intelligence/InstitutionalStabilityEngine.test.ts",
+    "src/core/runtime/dre/DRECostStructureEngine.ts",
+    "src/core/runtime/dre/DREOperationalEfficiencyEngine.ts",
+    "src/core/runtime/dre/DREUnitEconomicsEngine.ts",
+    "src/core/runtime/enterprise-validation/CrossModuleConsistencyValidator.ts",
+    "src/core/runtime/enterprise-validation/RealDatasetProfiler.ts",
+    "src/core/runtime/executive/AdvisoryCompressionEngine.ts",
+    "src/core/runtime/executive/BoardStorytellingBoundary.ts",
+    "src/core/runtime/executive/InstitutionalPresentationGuard.ts",
+    "src/core/runtime/executive/RuntimeBackedStorytelling.ts",
+    "src/core/runtime/executive/ViolationVisibilityPolicy.ts",
+    "src/core/runtime/executive-consolidation/EFOSExecutiveLanguageBoundaryGuard.ts",
+    "src/core/runtime/executive-domain/ExecutiveDomainSegregationEngine.ts",
+    "src/core/runtime/financial-context/FinancialRuntimeContextAdapter.test.ts",
+    "src/core/runtime/governance/GovernanceJourneyAdapter.ts",
+    "src/core/runtime/governance/bp/BalanceSheetExecutiveRecommendationEngine.ts",
+    "src/core/runtime/governance/bp/BalanceSheetGovernanceOutputValidator.ts",
+    "src/core/runtime/governance/bp/BalanceSheetOutputAuthorityGuard.ts",
+    "src/core/runtime/governance/bp/BalanceSheetOutputTraceAudit.ts",
+    "src/core/runtime/governance/bp/BalanceSheetPresentationLeakAudit.ts",
+    "src/core/runtime/governance/bp/BalanceSheetRootCauseAnalyzer.ts",
+    "src/core/runtime/governance/bp/BalanceSheetRuntimePresentationReconciliationAudit.ts",
+    "src/core/runtime/governance/bp/CapitalRecoveryIndexEngine.ts",
+    "src/core/runtime/governance/bp/HistoricalNarrativeContaminationAudit.ts",
+    "src/core/runtime/governance/bp/HistoricalTrendExplainabilityEngine.ts",
+    "src/core/runtime/governance/cross-statement/CrossStatementReconciliationEngine.test.ts",
+    "src/core/runtime/governance/dfc/DFCSSOTAuthorityGuard.ts",
+    "src/core/runtime/governance/dlpa/DLPACanonicalBindingAudit.ts",
+    "src/core/runtime/governance/dlpa/DLPACanonicalPayloadEnforcer.ts",
+    "src/core/runtime/governance/dlpa/DLPACanonicalScoreResolver.ts",
+    "src/core/runtime/governance/dlpa/DLPARecoveryHorizonResolver.ts",
+    "src/core/runtime/governance/dlpa/DLPAUIConsistencyAudit.ts",
+    "src/core/runtime/governance/dlpa/DLPAUIHardFailAudit.ts",
+    "src/core/runtime/governance/fiduciary/DecisionFiduciaryValidator.ts",
+    "src/core/runtime/governance/risk/RiskTaxonomy.ts",
+    "src/core/runtime/institutional-context/EarlyStageNormalizationLayer.ts",
+    "src/core/runtime/institutional-context/SegmentIntelligenceEngine.test.ts",
+    "src/core/runtime/institutional-context/SegmentIntelligenceExplainability.ts",
+    "src/core/runtime/institutional-evidence/institutional-evidence-adapter.ts",
+    "src/core/runtime/institutional-memory/InstitutionalTimelineRuntime.ts",
+    "src/core/runtime/institutional-reporting/InstitutionalBoardPackDocumentRuntime.test.ts",
+    "src/core/runtime/institutional-reporting/engines/ExecutiveLongitudinalIntegration.spec.ts",
+    "src/core/runtime/institutional-reporting/engines/ExecutiveReportExportEngine.ts",
+    "src/core/runtime/institutional-reporting/engines/InstitutionalBoardPackEndToEnd.spec.ts",
+    "src/core/runtime/ios/CrossDomainStateResolver.ts",
+    "src/core/runtime/ios/InstitutionalCommandCenter.ts",
+    "src/core/runtime/ios/OperationalSynchronizationRuntime.ts",
+    "src/core/runtime/knowledge-graph/EntityRelationshipMapper.ts",
+    "src/core/runtime/knowledge-graph/GovernanceRelationshipGraph.ts",
+    "src/core/runtime/lifecycle/LifecycleSemanticConsumptionGuard.ts",
+    "src/core/runtime/lifecycle/LifecycleSemanticViolationScanner.ts",
+    "src/core/runtime/lifecycle/ObservabilityArchiveManager.ts",
+    "src/core/runtime/lifecycle/SnapshotRetentionPolicy.ts",
+    "src/core/runtime/monitoring/GovernanceEscalationEngine.ts",
+    "src/core/runtime/monitoring/LiquidityWatchEngine.ts",
+    "src/core/runtime/monitoring/SystemicRiskTrendAnalyzer.ts",
+    "src/core/runtime/monitoring/channels/EmailAlertChannel.ts",
+    "src/core/runtime/monitoring/channels/InAppAlertChannel.ts",
+    "src/core/runtime/monitoring/channels/WebhookAlertChannel.ts",
+    "src/core/runtime/narrative/NarrativeDeduplicationPass.ts",
+    "src/core/runtime/observability/InstitutionalExplainabilityEngine.ts",
+    "src/core/runtime/observability/ObservedConsolidatedRuntimeService.ts",
+    "src/core/runtime/observability/PropagationChainTracer.ts",
+    "src/core/runtime/observability/RuntimeTelemetry.test.ts",
+    "src/core/runtime/observability/ThesisStabilityEngine.ts",
+    "src/core/runtime/observability/sinks/FirebaseRuntimeTelemetrySink.ts",
+    "src/core/runtime/observability/sinks/NoopRuntimeTelemetrySink.ts",
+    "src/core/runtime/operational-playbooks/AdvisorOperationalGuide.ts",
+    "src/core/runtime/operational-playbooks/BoardPackPreparationPlaybook.ts",
+    "src/core/runtime/operational-playbooks/FinancialImportPlaybook.ts",
+    "src/core/runtime/operational-playbooks/GovernanceReviewPlaybook.ts",
+    "src/core/runtime/operational-playbooks/InstitutionalTrainingFlow.ts",
+    "src/core/runtime/operational-playbooks/OperationalPlaybookAuditLogger.ts",
+    "src/core/runtime/operational-scale/InstitutionalLoadProfiler.ts",
+    "src/core/runtime/operational-scale/OperationalRecoveryValidator.ts",
+    "src/core/runtime/operational-scale/RuntimeConcurrencyAnalyzer.ts",
+    "src/core/runtime/operational-scale/ScaleReadinessAuditLogger.ts",
+    "src/core/runtime/patrimonial-intelligence/PatrimonialIntelligenceRuntime.test.ts",
+    "src/core/runtime/performance/HistoricalInferenceGuard.ts",
+    "src/core/runtime/performance/OperationalEfficiencyInterpreter.ts",
+    "src/core/runtime/pilot-readiness/InstitutionalOnboardingFlow.ts",
+    "src/core/runtime/pilot-readiness/PilotEnvironmentManager.ts",
+    "src/core/runtime/pilot-readiness/PilotExecutionTracker.ts",
+    "src/core/runtime/pilot-readiness/PilotReadinessAuditLogger.ts",
+    "src/core/runtime/pilot-readiness/PilotWorkspaceProvisioner.ts",
+    "src/core/runtime/pilot-readiness/ProductionIsolationValidator.ts",
+    "src/core/runtime/premium-ux/CognitiveComplexityReducer.ts",
+    "src/core/runtime/premium-ux/ContextualVisualizationResolver.ts",
+    "src/core/runtime/premium-ux/ExecutiveClarityEngine.ts",
+    "src/core/runtime/premium-ux/ExecutiveNavigationSimplifier.ts",
+    "src/core/runtime/premium-ux/InstitutionalStorytellingOptimizer.ts",
+    "src/core/runtime/premium-ux/PremiumUXAuditLogger.ts",
+    "src/core/runtime/premium-ux/ProgressiveDisclosureEngine.ts",
+    "src/core/runtime/presentation-governance/DREPresentationGovernanceAudit.ts",
+    "src/core/runtime/presentation-governance/ExecutiveNarrativeSingleSourceValidator.ts",
+    "src/core/runtime/presentation-governance/OperationalSeverityGovernanceEngine.ts",
+    "src/core/runtime/presentation-governance/TemporalIntegrityValidator.ts",
+    "src/core/runtime/profiling/ReplayPerformanceMonitor.ts",
+    "src/core/runtime/profiling/ScenarioCostAnalyzer.ts",
+    "src/core/runtime/publication-governance/ExecutivePublicationRuntime.ts",
+    "src/core/runtime/reality-validation/ExecutiveWorkflowValidationEngine.ts",
+    "src/core/runtime/reality-validation/InstitutionalScenarioValidator.ts",
+    "src/core/runtime/reporting/ExecutiveBoardPackBuilder.ts",
+    "src/core/runtime/reporting/GovernanceAuditReportBuilder.ts",
+    "src/core/runtime/reporting/InstitutionalReportBuilder.ts",
+    "src/core/runtime/reporting/ReportLineageBinder.ts",
+    "src/core/runtime/reporting/ReportVersionRegistry.ts",
+    "src/core/runtime/reporting/ScenarioStressReportBuilder.ts",
+    "src/core/runtime/scenario-intelligence/ExecutivePriorityEvolutionEngine.ts",
+    "src/core/runtime/scenario-intelligence/ThesisFutureImpactEngine.ts",
+    "src/core/runtime/scenario-simulation/commandCenterContracts.ts",
+    "src/core/runtime/semantic/EarlyStageSemanticEngine.ts",
+    "src/core/runtime/semantic/RunwayDisclosureEngine.ts",
+    "src/core/runtime/strategic-simulation/DecisionRiskBalancer.ts",
+    "src/core/runtime/strategic-simulation/ExecutiveScenarioEngine.ts",
+    "src/core/runtime/strategic-simulation/InstitutionalPreservationEngine.ts",
+    "src/core/runtime/tenancy/TenantIsolationEngine.ts",
+    "src/core/runtime/tenancy/TenantLineageBinder.ts",
+    "src/core/runtime/treasury-intelligence/CapitalAllocationEngine.ts",
+    "src/core/runtime/ux-hardening/ExecutiveComplexityReducer.ts",
+    "src/core/runtime/ux-hardening/ExecutiveJourneyMapper.ts",
+    "src/core/runtime/ux-hardening/InstitutionalNavigationOptimizer.ts",
+    "src/core/runtime/ux-hardening/OperationalFrictionAnalyzer.ts",
+    "src/core/runtime/ux-hardening/UXValidationAuditLogger.ts",
+    "src/core/runtime/validation/MockBoardPackScenarios.ts",
+    "src/core/runtime/validation/RealWorldValidationSuite.spec.ts",
+    "src/core/runtime/war-gaming/CrisisPropagationEngine.ts",
+    "src/core/runtime/war-gaming/StrategicResponseComparisonEngine.ts",
+    "src/core/runtime/workflow-governance/BoardApprovalFlow.ts",
+    "src/core/runtime/workflow-governance/InstitutionalActionTracker.ts",
+    "src/core/runtime/workflow-governance/WorkflowAutomationEngine.ts",
+    "src/core/runtime/workflow-governance/WorkflowPolicyEngine.ts",
+    "src/data/complianceData.ts",
+    "src/hooks/useScenarioExecutionIntelligence.ts",
+    "src/i18n/semanticPreservation.ts",
+    "src/i18n/translationParityGuard.ts",
+    "src/lib/dfc-narrative-engine.ts",
+    "src/lib/dfc-narrative-mapper.ts",
+    "src/lib/dlpa-narrative-engine.ts",
+    "src/lib/dlpa-narrative-mapper.ts",
+    "src/lib/ilae-runtime-context.ts",
+    "src/lib/lifecycle-profile-mapper.ts",
+    "src/lib/narrative-context-engine.ts",
+    "src/lib/narrative-context-wrapper.ts",
+    "src/lib/pdfUtils.ts",
+    "src/lib/unified-financial-narrative-mapper.ts",
+    "src/lib/valuationEngine.ts",
+    "src/runtime/FiscalYearScopeGuard.ts",
+    "src/runtime/adapters/CapitalGovernanceFormulaAudit.ts",
+    "src/runtime/auditors/DFCSemanticContextAudit.ts",
+    "src/scripts/debugRuntime.ts",
+    "src/scripts/debug_browser_run.ts",
+    "src/scripts/debug_dlpa_adapter.ts",
+    "src/scripts/debug_entries.ts",
+    "src/scripts/debug_map.ts",
+    "src/scripts/dump_granatum_data.ts",
+    "src/scripts/fixLegacyImports.ts",
+    "src/scripts/inspect_active.ts",
+    "src/scripts/inspect_db.ts",
+    "src/scripts/inspect_firestore.ts",
+    "src/scripts/queryDfc.ts",
+    "src/scripts/replayLoadTest.ts",
+    "src/scripts/restoreBPDocuments.ts",
+    "src/scripts/runArchitectureAudit.ts",
+    "src/scripts/runConstitutionalAuditV3.ts",
+    "src/scripts/runDecisionGovernanceAudit.ts",
+    "src/scripts/runDemoIsolationAudit.ts",
+    "src/scripts/runDocsAudit.ts",
+    "src/scripts/runEconomicAuditV1.ts",
+    "src/scripts/runExecutiveCommandGovernanceAudit.ts",
+    "src/scripts/runImportsAudit.ts",
+    "src/scripts/runInstitutionalBoardPackAudit.ts",
+    "src/scripts/runInstitutionalContinuityGovernanceAudit.ts",
+    "src/scripts/runInstitutionalEvidenceAudit.ts",
+    "src/scripts/runMocksAudit.ts",
+    "src/scripts/runOperatingPressureGovernanceAudit.ts",
+    "src/scripts/runOperationalLanguageAudit.ts",
+    "src/scripts/runPerformanceTest.ts",
+    "src/scripts/runRuntimeContractAudit.ts",
+    "src/scripts/runStrategicIntelligenceAudit.ts",
+    "src/scripts/runWarGamingGovernanceAudit.ts",
+    "src/scripts/runtimeStressTest.ts",
+    "src/scripts/scenarioExplosionTest.ts",
+    "src/scripts/tenantIsolationStressTest.ts",
+    "src/scripts/test-adapter.ts",
+    "src/scripts/test_quota.ts",
+    "src/scripts/validateBoardPacks.ts",
+    "src/services/logging/InstitutionalLogger.ts",
+    "src/services/security/RoleManagementService.ts",
+    "src/tests/governance/bp/BalanceSheetExecutiveOutputGolden.test.ts",
+    "src/tests/governance/bp/BalanceSheetNarrativeAdapterBinding.test.ts",
+    "src/types/responsibilityMatrix.ts"
+  ],
+  "duplicates": [
+    {
+      "name": "index",
+      "paths": [
+        "src/components/Common/index.tsx",
+        "src/components/executive-cognitive/index.ts",
+        "src/components/executive-interaction/index.ts",
+        "src/components/institutional-memory/index.ts",
+        "src/core/governance/causality/index.ts",
+        "src/core/governance/executive-attention/index.ts",
+        "src/core/governance/narrative/index.ts",
+        "src/core/governance/signal-hierarchy/index.ts",
+        "src/core/runtime/consolidated/index.ts",
+        "src/core/runtime/consolidated/stress/index.ts",
+        "src/core/runtime/tenancy/hardening/index.ts",
+        "src/i18n/index.ts",
+        "src/runtime/index.ts"
+      ]
+    },
+    {
+      "name": "ExecutiveEvidenceExplorer",
+      "paths": [
+        "src/components/executive/board/ExecutiveEvidenceExplorer.tsx",
+        "src/components/executive-interaction/ExecutiveEvidenceExplorer.tsx"
+      ]
+    },
+    {
+      "name": "InstitutionalPrioritySurface",
+      "paths": [
+        "src/components/executive-cognitive/InstitutionalPrioritySurface.tsx",
+        "src/components/executive-command/InstitutionalPrioritySurface.tsx"
+      ]
+    },
+    {
+      "name": "RuntimeHealthPanel",
+      "paths": [
+        "src/components/executive-delivery/RuntimeHealthPanel.tsx",
+        "src/components/governance-command-center/RuntimeHealthPanel.tsx"
+      ]
+    },
+    {
+      "name": "DiagnosticoPage",
+      "paths": [
+        "src/components/pages/DiagnosticoPage.tsx",
+        "src/components/pages/public/DiagnosticoPage.tsx"
+      ]
+    },
+    {
+      "name": "types",
+      "paths": [
+        "src/core/governance/causality/types.ts",
+        "src/core/governance/signal-hierarchy/types.ts",
+        "src/core/governance/types.ts",
+        "src/core/runtime/cash-intelligence/types.ts",
+        "src/core/runtime/causal-intelligence/types.ts",
+        "src/core/runtime/compliance/types.ts",
+        "src/core/runtime/consolidated/types.ts",
+        "src/core/runtime/executive/types.ts",
+        "src/core/runtime/executive-interaction/types.ts",
+        "src/core/runtime/executive-orchestration/cognitive/types.ts",
+        "src/core/runtime/governance/fiduciary/types.ts",
+        "src/core/runtime/governance/risk/types.ts",
+        "src/core/runtime/governance-command-center/types.ts",
+        "src/core/runtime/institutional-causality/types.ts",
+        "src/core/runtime/institutional-context/types.ts",
+        "src/core/runtime/institutional-memory/types.ts",
+        "src/core/runtime/institutional-memory-legacy-backup/types.ts",
+        "src/core/runtime/performance/types.ts",
+        "src/core/runtime/pilot-operations/types.ts",
+        "src/core/runtime/scenario-simulation/types.ts",
+        "src/core/runtime/segment-intelligence/types.ts",
+        "src/core/runtime/structural-capital/types.ts",
+        "src/core/runtime/treasury-intelligence/types.ts",
+        "src/core/security/types.ts",
+        "src/import-governance/types.ts",
+        "src/runtime/types.ts",
+        "src/topology/types.ts"
+      ]
+    },
+    {
+      "name": "ExecutiveAttentionEngine",
+      "paths": [
+        "src/core/governance/executive-attention/ExecutiveAttentionEngine.ts",
+        "src/core/runtime/executive-orchestration/cognitive/ExecutiveAttentionEngine.ts"
+      ]
+    },
+    {
+      "name": "GovernanceRecommendationEngine",
+      "paths": [
+        "src/core/runtime/advisory-narrative/GovernanceRecommendationEngine.ts",
+        "src/core/runtime/governance-orchestration/GovernanceRecommendationEngine.ts"
+      ]
+    },
+    {
+      "name": "InstitutionalDisclosureEngine",
+      "paths": [
+        "src/core/runtime/advisory-narrative/InstitutionalDisclosureEngine.ts",
+        "src/core/runtime/institutional-reporting/engines/InstitutionalDisclosureEngine.ts"
+      ]
+    },
+    {
+      "name": "advisory-narrative-types",
+      "paths": [
+        "src/core/runtime/advisory-narrative/advisory-narrative-types.ts",
+        "src/lib/advisory-narrative-types.ts"
+      ]
+    },
+    {
+      "name": "BenchmarkReferenceEngine",
+      "paths": [
+        "src/core/runtime/benchmark/BenchmarkReferenceEngine.ts",
+        "src/core/runtime/integrity/BenchmarkReferenceEngine.ts"
+      ]
+    },
+    {
+      "name": "BoardResolutionEngine",
+      "paths": [
+        "src/core/runtime/board-decision/BoardResolutionEngine.ts",
+        "src/core/runtime/prescriptive-governance/BoardResolutionEngine.ts"
+      ]
+    },
+    {
+      "name": "EarningsQualityEngine",
+      "paths": [
+        "src/core/runtime/cash-intelligence/EarningsQualityEngine.ts",
+        "src/core/runtime/governance/dre/EarningsQualityEngine.ts"
+      ]
+    },
+    {
+      "name": "ConsolidatedConfidenceResolver",
+      "paths": [
+        "src/core/runtime/consolidated/ConsolidatedConfidenceResolver.ts",
+        "src/core/runtime/consolidated/advisory/ConsolidatedConfidenceResolver.ts"
+      ]
+    },
+    {
+      "name": "EarlyWarningTypes",
+      "paths": [
+        "src/core/runtime/decision-intelligence/EarlyWarningTypes.ts",
+        "src/core/runtime/early-warning/EarlyWarningTypes.ts"
+      ]
+    },
+    {
+      "name": "ExecutiveActionMatrixEngine",
+      "paths": [
+        "src/core/runtime/decision-intelligence/ExecutiveActionMatrixEngine.ts",
+        "src/core/runtime/integrity/ExecutiveActionMatrixEngine.ts"
+      ]
+    },
+    {
+      "name": "InstitutionalDecisionLedger",
+      "paths": [
+        "src/core/runtime/decision-intelligence/InstitutionalDecisionLedger.ts",
+        "src/core/runtime/institutional-memory/InstitutionalDecisionLedger.ts"
+      ]
+    },
+    {
+      "name": "StrategicPostureEngine",
+      "paths": [
+        "src/core/runtime/decision-policy/StrategicPostureEngine.ts",
+        "src/core/runtime/strategic-intelligence/StrategicPostureEngine.ts"
+      ]
+    },
+    {
+      "name": "ExecutiveDecisionAdapter",
+      "paths": [
+        "src/core/runtime/executive/ExecutiveDecisionAdapter.ts",
+        "src/core/workflows/ExecutiveDecisionAdapter.ts",
+        "src/runtime/adapters/ExecutiveDecisionAdapter.ts"
+      ]
+    },
+    {
+      "name": "ExecutiveDisclosureResolver",
+      "paths": [
+        "src/core/runtime/executive/ExecutiveDisclosureResolver.ts",
+        "src/core/runtime/executive-presentation/ExecutiveDisclosureResolver.ts"
+      ]
+    },
+    {
+      "name": "ExecutiveNarrativeSanitizer",
+      "paths": [
+        "src/core/runtime/executive-consolidation/ExecutiveNarrativeSanitizer.ts",
+        "src/core/runtime/institutional-causality/ExecutiveNarrativeSanitizer.ts"
+      ]
+    },
+    {
+      "name": "CapitalPreservationEngine",
+      "paths": [
+        "src/core/runtime/governance/bp/CapitalPreservationEngine.ts",
+        "src/core/runtime/treasury-intelligence/CapitalPreservationEngine.ts"
+      ]
+    },
+    {
+      "name": "InstitutionalRecoveryEngine",
+      "paths": [
+        "src/core/runtime/governance-orchestration/InstitutionalRecoveryEngine.ts",
+        "src/core/runtime/institutional-recovery/InstitutionalRecoveryEngine.ts"
+      ]
+    },
+    {
+      "name": "InstitutionalContextEngine",
+      "paths": [
+        "src/core/runtime/institutional-context/InstitutionalContextEngine.ts",
+        "src/core/runtime/ios/InstitutionalContextEngine.ts"
+      ]
+    },
+    {
+      "name": "AdvisoryContinuityEngine",
+      "paths": [
+        "src/core/runtime/institutional-memory/AdvisoryContinuityEngine.ts",
+        "src/core/runtime/institutional-memory-legacy-backup/AdvisoryContinuityEngine.ts"
+      ]
+    },
+    {
+      "name": "ExecutiveResponsivenessEngine",
+      "paths": [
+        "src/core/runtime/institutional-memory/ExecutiveResponsivenessEngine.ts",
+        "src/core/runtime/institutional-memory-legacy-backup/ExecutiveResponsivenessEngine.ts"
+      ]
+    },
+    {
+      "name": "GovernanceFatigueDetection",
+      "paths": [
+        "src/core/runtime/institutional-memory/GovernanceFatigueDetection.ts",
+        "src/core/runtime/institutional-memory-legacy-backup/GovernanceFatigueDetection.ts"
+      ]
+    },
+    {
+      "name": "GovernanceRecurrenceEngine",
+      "paths": [
+        "src/core/runtime/institutional-memory/GovernanceRecurrenceEngine.ts",
+        "src/core/runtime/institutional-memory-legacy-backup/GovernanceRecurrenceEngine.ts"
+      ]
+    },
+    {
+      "name": "GovernanceTimelineEngine",
+      "paths": [
+        "src/core/runtime/institutional-memory/GovernanceTimelineEngine.ts",
+        "src/core/runtime/institutional-memory-legacy-backup/GovernanceTimelineEngine.ts"
+      ]
+    },
+    {
+      "name": "HistoricalDecisionLedger",
+      "paths": [
+        "src/core/runtime/institutional-memory/HistoricalDecisionLedger.ts",
+        "src/core/runtime/institutional-memory-legacy-backup/HistoricalDecisionLedger.ts"
+      ]
+    },
+    {
+      "name": "HistoricalReplayIndex",
+      "paths": [
+        "src/core/runtime/institutional-memory/HistoricalReplayIndex.ts",
+        "src/core/runtime/institutional-memory-legacy-backup/HistoricalReplayIndex.ts"
+      ]
+    },
+    {
+      "name": "InstitutionalBehaviorAnalyzer",
+      "paths": [
+        "src/core/runtime/institutional-memory/InstitutionalBehaviorAnalyzer.ts",
+        "src/core/runtime/institutional-memory-legacy-backup/InstitutionalBehaviorAnalyzer.ts"
+      ]
+    },
+    {
+      "name": "InstitutionalDeteriorationModel",
+      "paths": [
+        "src/core/runtime/institutional-memory/InstitutionalDeteriorationModel.ts",
+        "src/core/runtime/institutional-memory-legacy-backup/InstitutionalDeteriorationModel.ts"
+      ]
+    },
+    {
+      "name": "InstitutionalEarlyWarningSystem",
+      "paths": [
+        "src/core/runtime/institutional-memory/InstitutionalEarlyWarningSystem.ts",
+        "src/core/runtime/institutional-memory-legacy-backup/InstitutionalEarlyWarningSystem.ts"
+      ]
+    },
+    {
+      "name": "InstitutionalLearningEngine",
+      "paths": [
+        "src/core/runtime/institutional-memory/InstitutionalLearningEngine.ts",
+        "src/core/runtime/institutional-memory-legacy-backup/InstitutionalLearningEngine.ts"
+      ]
+    },
+    {
+      "name": "InstitutionalMemoryEngine",
+      "paths": [
+        "src/core/runtime/institutional-memory/InstitutionalMemoryEngine.ts",
+        "src/core/runtime/institutional-memory-legacy-backup/InstitutionalMemoryEngine.ts",
+        "src/core/runtime/knowledge-graph/InstitutionalMemoryEngine.ts"
+      ]
+    },
+    {
+      "name": "InstitutionalMemoryRegistry",
+      "paths": [
+        "src/core/runtime/institutional-memory/InstitutionalMemoryRegistry.ts",
+        "src/core/runtime/institutional-memory-legacy-backup/InstitutionalMemoryRegistry.ts"
+      ]
+    },
+    {
+      "name": "InstitutionalPatternRecognitionEngine",
+      "paths": [
+        "src/core/runtime/institutional-memory/InstitutionalPatternRecognitionEngine.ts",
+        "src/core/runtime/institutional-memory-legacy-backup/InstitutionalPatternRecognitionEngine.ts"
+      ]
+    },
+    {
+      "name": "LongitudinalMaturityEngine",
+      "paths": [
+        "src/core/runtime/institutional-memory/LongitudinalMaturityEngine.ts",
+        "src/core/runtime/institutional-memory-legacy-backup/LongitudinalMaturityEngine.ts"
+      ]
+    },
+    {
+      "name": "LongitudinalSnapshotSummary",
+      "paths": [
+        "src/core/runtime/institutional-memory/LongitudinalSnapshotSummary.ts",
+        "src/core/runtime/institutional-memory-legacy-backup/LongitudinalSnapshotSummary.ts"
+      ]
+    },
+    {
+      "name": "MemoryRetentionGovernance",
+      "paths": [
+        "src/core/runtime/institutional-memory/MemoryRetentionGovernance.ts",
+        "src/core/runtime/institutional-memory-legacy-backup/MemoryRetentionGovernance.ts"
+      ]
+    },
+    {
+      "name": "MultiTenantIsolationGuard",
+      "paths": [
+        "src/core/runtime/institutional-memory/MultiTenantIsolationGuard.ts",
+        "src/core/runtime/institutional-memory-legacy-backup/MultiTenantIsolationGuard.ts"
+      ]
+    },
+    {
+      "name": "PatternRecurrenceResolver",
+      "paths": [
+        "src/core/runtime/institutional-memory/PatternRecurrenceResolver.ts",
+        "src/core/runtime/institutional-memory-legacy-backup/PatternRecurrenceResolver.ts"
+      ]
+    },
+    {
+      "name": "PredictiveRecurrenceEngine",
+      "paths": [
+        "src/core/runtime/institutional-memory/PredictiveRecurrenceEngine.ts",
+        "src/core/runtime/institutional-memory-legacy-backup/PredictiveRecurrenceEngine.ts"
+      ]
+    },
+    {
+      "name": "PriorityDeteriorationEngine",
+      "paths": [
+        "src/core/runtime/institutional-memory/PriorityDeteriorationEngine.ts",
+        "src/core/runtime/institutional-memory-legacy-backup/PriorityDeteriorationEngine.ts"
+      ]
+    },
+    {
+      "name": "RecommendationPersistenceTracker",
+      "paths": [
+        "src/core/runtime/institutional-memory/RecommendationPersistenceTracker.ts",
+        "src/core/runtime/institutional-memory-legacy-backup/RecommendationPersistenceTracker.ts"
+      ]
+    },
+    {
+      "name": "ReplayMetadataRegistry",
+      "paths": [
+        "src/core/runtime/institutional-memory/ReplayMetadataRegistry.ts",
+        "src/core/runtime/institutional-memory-legacy-backup/ReplayMetadataRegistry.ts"
+      ]
+    },
+    {
+      "name": "TemporalCausalityEngine",
+      "paths": [
+        "src/core/runtime/institutional-memory/TemporalCausalityEngine.ts",
+        "src/core/runtime/institutional-memory-legacy-backup/TemporalCausalityEngine.ts"
+      ]
+    },
+    {
+      "name": "TemporalEscalationEngine",
+      "paths": [
+        "src/core/runtime/institutional-memory/TemporalEscalationEngine.ts",
+        "src/core/runtime/institutional-memory-legacy-backup/TemporalEscalationEngine.ts"
+      ]
+    },
+    {
+      "name": "TemporalGovernanceScoring",
+      "paths": [
+        "src/core/runtime/institutional-memory/TemporalGovernanceScoring.ts",
+        "src/core/runtime/institutional-memory-legacy-backup/TemporalGovernanceScoring.ts"
+      ]
+    },
+    {
+      "name": "institutional-reporting-types",
+      "paths": [
+        "src/core/runtime/institutional-reporting/institutional-reporting-types.ts",
+        "src/lib/institutional-reporting-types.ts"
+      ]
+    },
+    {
+      "name": "InstitutionalResilienceEngine",
+      "paths": [
+        "src/core/runtime/institutional-resilience/InstitutionalResilienceEngine.ts",
+        "src/core/runtime/predictive-intelligence/InstitutionalResilienceEngine.ts"
+      ]
+    },
+    {
+      "name": "LifecycleClassificationEngine",
+      "paths": [
+        "src/core/runtime/lifecycle/LifecycleClassificationEngine.ts",
+        "src/core/runtime/semantic/LifecycleClassificationEngine.ts"
+      ]
+    },
+    {
+      "name": "RuntimeProfiler",
+      "paths": [
+        "src/core/runtime/observability/RuntimeProfiler.ts",
+        "src/core/runtime/profiling/RuntimeProfiler.ts"
+      ]
+    },
+    {
+      "name": "InstitutionalEarlyWarningEngine",
+      "paths": [
+        "src/core/runtime/predictive-governance/InstitutionalEarlyWarningEngine.ts",
+        "src/core/runtime/predictive-intelligence/InstitutionalEarlyWarningEngine.ts"
+      ]
+    },
+    {
+      "name": "InstitutionalScenarioEngine",
+      "paths": [
+        "src/core/runtime/predictive-governance/InstitutionalScenarioEngine.ts",
+        "src/core/runtime/scenario-intelligence/InstitutionalScenarioEngine.ts"
+      ]
+    },
+    {
+      "name": "ExecutiveSemanticRegistry",
+      "paths": [
+        "src/core/runtime/presentation-governance/ExecutiveSemanticRegistry.ts",
+        "src/core/runtime/semantic-consistency/ExecutiveSemanticRegistry.ts"
+      ]
+    },
+    {
+      "name": "NarrativeConsistencyEngine",
+      "paths": [
+        "src/core/runtime/publication-governance/NarrativeConsistencyEngine.ts",
+        "src/core/runtime/semantic-consistency/NarrativeConsistencyEngine.ts"
+      ]
+    },
+    {
+      "name": "ScenarioRegistry",
+      "paths": [
+        "src/core/runtime/scenario/ScenarioRegistry.ts",
+        "src/core/runtime/scenario-intelligence/ScenarioRegistry.ts"
+      ]
+    },
+    {
+      "name": "ScenarioSimulationEngine",
+      "paths": [
+        "src/core/runtime/scenario/ScenarioSimulationEngine.ts",
+        "src/core/runtime/scenario-simulation/ScenarioSimulationEngine.ts"
+      ]
+    },
+    {
+      "name": "PropagationSimulationEngine",
+      "paths": [
+        "src/core/runtime/scenario-intelligence/PropagationSimulationEngine.ts",
+        "src/core/runtime/scenario-simulation/PropagationSimulationEngine.ts"
+      ]
+    },
+    {
+      "name": "ScenarioTradeoffEngine",
+      "paths": [
+        "src/core/runtime/scenario-intelligence/ScenarioTradeoffEngine.ts",
+        "src/core/runtime/strategic-simulation/ScenarioTradeoffEngine.ts"
+      ]
+    }
+  ]
+}

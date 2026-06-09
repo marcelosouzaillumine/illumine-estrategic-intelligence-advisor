@@ -1,6 +1,6 @@
 import { GovernanceCoordinationResult, RecommendationEvidence } from './GovernanceOrchestrationTypes';
 import { GovernancePlaybookRegistry } from './GovernancePlaybookRegistry';
-import { GovernanceRecommendationEngine } from './GovernanceRecommendationEngine';
+import { GovernancePlaybookOrchestrator } from './GovernancePlaybookOrchestrator';
 import { InstitutionalActionPlanner } from './InstitutionalActionPlanner';
 import { GovernancePriorityResolver } from './GovernancePriorityResolver';
 import { GovernanceEscalationOrchestrator } from './GovernanceEscalationOrchestrator';
@@ -21,7 +21,7 @@ export class InstitutionalOrchestrationEngine {
     OrchestrationAuditLogger.logEvent(tenantId, 'ORCHESTRATION_STARTED', 'Iniciando orquestração para Playbook: ' + playbook.name);
 
     // 1. Emite Recomendação Supervisionada
-    const recommendation = GovernanceRecommendationEngine.emit(tenantId, playbook, evidence);
+    const recommendation = GovernancePlaybookOrchestrator.emit(tenantId, playbook, evidence);
     OrchestrationAuditLogger.logEvent(tenantId, 'RECOMMENDATION_GENERATED', 'Recomendação gerada com hash fiduciário: ' + evidence.lineage.lineageHash);
 
     // 2. Orquestração Escalonada

@@ -13,10 +13,10 @@ import { BoardCommunicationEngine } from './BoardCommunicationEngine';
 import { StrategicRecommendationEngine } from './StrategicRecommendationEngine';
 import { TradeoffNarrativeEngine } from './TradeoffNarrativeEngine';
 import { ScenarioExplanationEngine } from './ScenarioExplanationEngine';
-import { InstitutionalDisclosureEngine } from './InstitutionalDisclosureEngine';
+import { InstitutionalDisclosureNarrativeEngine } from './InstitutionalDisclosureNarrativeEngine';
 import { ExecutiveSummaryEngine } from './ExecutiveSummaryEngine';
 import { ConfidenceNarrativeEngine } from './ConfidenceNarrativeEngine';
-import { GovernanceRecommendationEngine } from './GovernanceRecommendationEngine';
+import { GovernanceNarrativeEngine } from './GovernanceNarrativeEngine';
 import { ScenarioCategory } from '../strategic-simulation/simulation-types';
 
 export class ExecutiveNarrativeEngine {
@@ -88,10 +88,10 @@ export class ExecutiveNarrativeEngine {
       ? ScenarioExplanationEngine.generateScenarioExplanation(comparisonReport.candidatePath, comparisonReport.baselines)
       : 'Os cenários de simulação não foram processados.';
 
-    const govGuidelines = GovernanceRecommendationEngine.generateGovernanceGuidelines(report, validationResult, audience);
+    const govGuidelines = GovernanceNarrativeEngine.generateGovernanceGuidelines(report, validationResult, audience);
     const summary = ExecutiveSummaryEngine.generateSummary(report, recommendedPath, audience);
     const confidenceStatement = ConfidenceNarrativeEngine.generateConfidenceStatement(report, audience);
-    const disclosure = InstitutionalDisclosureEngine.generateFiduciaryDisclosure(
+    const disclosure = InstitutionalDisclosureNarrativeEngine.generateFiduciaryDisclosure(
       lineageHash,
       correlationId,
       materialityThreshold

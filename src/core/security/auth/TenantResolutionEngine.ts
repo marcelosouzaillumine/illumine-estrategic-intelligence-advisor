@@ -61,8 +61,18 @@ export class TenantResolutionEngine {
     const actorId = user.uid;
     const requestSource = 'AuthResolution';
     
-    // 1. Super Admin Check
-    const isMaster = MASTER_ADMINS.some(email => email.toLowerCase().trim() === userEmail);
+    // 1. Super Admin Check (RBAC Custom Claims)
+    let isMaster = false;
+    
+    try {
+      const idTokenResult = await user.getIdTokenResult();
+      if (idTokenResult.claims.role === 'SUPER_ADMIN') {
+        isMaster = true;
+      }
+    } catch (e) {
+      console.warn("Failed to retrieve custom claims during resolution", e);
+    }
+
     if (isMaster) {
       // Para Super Admins, permitimos selecionar qualquer tenant, mas por padrão exigimos seleção
       // Neste mock da engine, eles operam no tenant 'master'

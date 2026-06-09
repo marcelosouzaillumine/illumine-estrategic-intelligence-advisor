@@ -1,6 +1,7 @@
 import { collection, doc, setDoc } from 'firebase/firestore';
 import { db } from '../../../lib/firebase';
 import { TenantAuditRecord } from './TenancyTypes';
+import { getErrorMessage } from '../../../types/runtime/RuntimeErrorGuards';
 
 export class TenantAuditLogger {
   /**
@@ -26,8 +27,8 @@ export class TenantAuditLogger {
 
       await setDoc(doc(db, 'tenant_audit_logs', record.auditId), record);
       console.log(`[TenantAuditLogger] ${action} registrado para Tenant ${tenantId}`);
-    } catch (err) {
-      console.error('[TenantAuditLogger] Falha ao registrar log de auditoria:', err);
+    } catch (err: unknown) {
+      console.error('[TenantAuditLogger] Falha ao registrar log de auditoria:', getErrorMessage(err));
     }
   }
 }

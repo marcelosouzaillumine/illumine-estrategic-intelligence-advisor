@@ -1,0 +1,25 @@
+(node:65385) [DEP0205] DeprecationWarning: `module.register()` is deprecated. Use `module.registerHooks()` instead.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+▶ Institutional Conversion Engine
+  ✔ should correctly calculate conversion rates for a full chain (0.821875ms)
+✔ Institutional Conversion Engine (1.578208ms)
+(node:65386) [DEP0205] DeprecationWarning: `module.register()` is deprecated. Use `module.registerHooks()` instead.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+▶ Institutional Evidence Audit Engine
+  ✔ should classify as GOVERNANCE_INTELLIGENCE_PLATFORM when E1/E2 predominate (2.028083ms)
+  ✔ should classify as INSTITUTIONAL_OPERATING_SYSTEM when E5/E6 predominate (0.267416ms)
+✔ Institutional Evidence Audit Engine (3.498709ms)
+(node:65387) [DEP0205] DeprecationWarning: `module.register()` is deprecated. Use `module.registerHooks()` instead.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+▶ Institutional Learning Engine
+  ✔ should discover a bottleneck when insights are high but decisions are low (0.77925ms)
+  ✔ should discover a transformation driver when actions map successfully to measured results (0.097667ms)
+✔ Institutional Learning Engine (1.486042ms)
+ℹ tests 5
+ℹ suites 3
+ℹ pass 5
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 407.13775

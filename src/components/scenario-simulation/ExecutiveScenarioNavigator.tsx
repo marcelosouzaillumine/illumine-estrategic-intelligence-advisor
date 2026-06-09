@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { useScenarioSimulation } from '../../context/scenario-simulation/ScenarioSimulationProvider';
 import { SandboxConfig } from '../../services/FiduciaryRuntimeAdapter';
 import { useLanguage } from '../../contexts/LanguageContext';
+import { InvestigationLauncherWrapper } from '../investigation/InvestigationLauncherWrapper';
 
 export const ExecutiveScenarioNavigator: React.FC = () => {
   const { t } = useLanguage();
@@ -115,10 +116,19 @@ export const ExecutiveScenarioNavigator: React.FC = () => {
                 {isActive && (
                   <div className="absolute inset-0 bg-gradient-to-br from-secondary/10 to-transparent pointer-events-none" />
                 )}
-                <div className="relative z-10">
+                <div className="relative z-10 flex items-start justify-between gap-2">
                   <span className={`text-xs font-semibold tracking-wider uppercase block ${isActive ? 'text-secondary font-bold' : 'text-foreground'}`}>
                     {act.label}
                   </span>
+                  <div onClick={(e) => e.stopPropagation()}>
+                    <InvestigationLauncherWrapper 
+                      tenantId="SYSTEM_TENANT" 
+                      nodeId={act.type} 
+                      originSurface="SCENARIO" 
+                    />
+                  </div>
+                </div>
+                <div className="relative z-10">
                   <p className="text-[10.5px] leading-relaxed mt-1.5 opacity-80">
                     {act.description}
                   </p>

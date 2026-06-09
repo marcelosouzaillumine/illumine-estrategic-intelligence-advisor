@@ -26,6 +26,8 @@ import { sha256 } from '../executive/types';
 import { RuntimeExecutionLogger } from '../observability/RuntimeExecutionLogger';
 import { SemanticComplianceAuditRuntime } from './SemanticComplianceAuditRuntime';
 import { SemanticLineagePayload } from './SemanticLineageReport';
+import { getErrorMessage, getErrorStack } from '../../../types/runtime/RuntimeErrorGuards';
+import { ConstitutionalGraphAdapter } from '../../knowledge-graph/adapters/ConstitutionalGraphAdapter';
 
 export class ExecutiveConstitutionalRuntime {
   public readonly axiomEngine = new FiduciaryAxiomEngine();
@@ -239,14 +241,14 @@ export class ExecutiveConstitutionalRuntime {
           hasSemanticViolation = true;
           semanticViolations.push(...semanticReport.violations);
         }
-      } catch (err: any) {
+      } catch (err: unknown) {
         hasSemanticViolation = true;
-        semanticViolations.push(err.message || String(err));
+        semanticViolations.push(getErrorMessage(err));
         this.auditEngine.logRecord({
           recordId: `AUD-SEM-ERR-${Date.now()}`,
           timestamp: new Date().toISOString(),
           type: 'AXIOM_AUDIT',
-          details: `Falha crítica na conformidade semântica: ${err.message || err}`,
+          details: `Falha crítica na conformidade semântica: ${getErrorMessage(err)}`,
           actor: 'SYSTEM',
           role: 'SovereignKernel',
           constitutionalLineageHash: this.computeLineageHash()
@@ -291,7 +293,7 @@ export class ExecutiveConstitutionalRuntime {
       compatibilityStatus[key] = !Object.values(compMatrix[key]).includes(false);
     }
 
-    return {
+    const metadata: ConstitutionalGovernanceMetadata = {
       constitutionalVersion: this.constitutionalVersion,
       doctrineVersion: activeDoctrine.doctrineVersion,
       policyVersion: activePolicy.policyVersion,
@@ -305,6 +307,13 @@ export class ExecutiveConstitutionalRuntime {
       auditRecords: this.auditEngine.getLogs(),
       status: integrityState === 'CONSTITUTIONALLY_STABLE' ? 'APPROVED' : 'REJECTED'
     };
+    
+    // [Knowledge Graph Integration] Chamada Passiva
+    ConstitutionalGraphAdapter.registerConstitutionalGraph(metadata, execId).catch(err => {
+      console.warn('[ConstitutionalGraphAdapter] Async error ignored:', err);
+    });
+
+    return metadata;
   }
 
   /**

@@ -1,4 +1,11 @@
-import { ExecutiveCardViewModel, ExecutiveSectionViewModel } from "../contracts/executive-view-models";
+import { 
+  ExecutiveCardViewModel, 
+  ExecutiveSectionViewModel,
+  ExecutiveLatencyViewModel,
+  ExecutiveHealthViewModel,
+  ExecutiveViolationViewModel,
+  ExecutiveConfidenceBadgeViewModel
+} from "../contracts/executive-view-models";
 import { resolveExecutiveLabel } from "../safe-executive-label-resolver";
 
 /**
@@ -57,6 +64,95 @@ export function mapToExecutiveSectionViewModel(runtimeData: RuntimePayload): Exe
       sourceModule: runtimeData.sourceModule,
       traceId: runtimeData.traceId,
       runtimeCode: runtimeData.runtimeCode || runtimeData.technicalCode,
+    }
+  };
+}
+
+export function mapToExecutiveLatencyViewModel(snapshot: any): ExecutiveLatencyViewModel {
+  return {
+    visible: {
+      totalDurationMs: snapshot.totalDurationMs || 0,
+      stages: (snapshot.stages || []).map((s: any) => ({
+        stage: resolveExecutiveLabel(s.stage, "generic"),
+        durationMs: s.durationMs
+      })),
+      bottlenecks: (snapshot.bottlenecks || []).map((b: string) => resolveExecutiveLabel(b, "generic"))
+    },
+    internal: {
+      runtimeCode: 'LATENCY_SNAPSHOT'
+    }
+  };
+}
+
+export function mapToExecutiveHealthViewModel(report: any): ExecutiveHealthViewModel {
+  const getConfidenceLabel = (level: string) => {
+    switch (level) {
+      case 'HIGH_CONFIDENCE': return 'Alta Confiança fiduciária';
+      case 'MEDIUM_CONFIDENCE': return 'Média Confiança';
+      case 'LOW_CONFIDENCE': return 'Degradação / Baixa Confiança';
+      default: return 'Não Determinado';
+    }
+  };
+
+  const getModeLabel = (mode: string) => {
+    switch (mode) {
+      case 'FULL_FINANCIAL_VIEW': return 'Visão Financeira Completa (BP + DRE)';
+      case 'PARTIAL_FINANCIAL_VIEW': return 'Visão Financeira Parcial';
+      case 'BALANCE_SHEET_ONLY': return 'Apenas Balanço Patrimonial (BP)';
+      case 'DRE_ONLY': return 'Apenas DRE';
+      case 'CASHFLOW_ONLY': return 'Apenas Fluxo de Caixa';
+      default: return mode;
+    }
+  };
+
+  return {
+    visible: {
+      confidenceLevel: report.compliance?.confidenceLevel || 'UNKNOWN',
+      confidenceLabel: getConfidenceLabel(report.compliance?.confidenceLevel),
+      causalDepth: String(report.compliance?.causalDepth || 'N/A'),
+      dataCompletenessPercent: ((report.compliance?.dataCompleteness || 0) * 100).toFixed(1),
+      modeLabel: getModeLabel(report.compliance?.runtimeMode || ''),
+      restrictions: report.compliance?.narrativeRestrictions || []
+    },
+    internal: {
+      traceId: String((report.runtimeMetadata as any)?.importId || report.runtimeMetadata?.executionId || 'EXEC-N/A')
+    }
+  };
+}
+
+export function mapToExecutiveViolationViewModel(violation: any): ExecutiveViolationViewModel {
+  return {
+    visible: {
+      severityLabel: resolveExecutiveLabel(violation.severity, "severities"),
+      message: resolveExecutiveLabel(violation.message, "generic"),
+      context: resolveExecutiveLabel(violation.sourceContext, "generic")
+    },
+    internal: {
+      id: violation.violationId,
+      runtimeCode: violation.severity
+    }
+  };
+}
+
+export function mapToExecutiveConfidenceBadgeViewModel(confidence: any): ExecutiveConfidenceBadgeViewModel {
+  const getConfidenceLabel = (level: string) => {
+    switch (level) {
+      case 'HIGH_CONFIDENCE': return 'Alta Confiança fiduciária';
+      case 'MEDIUM_CONFIDENCE': return 'Média Confiança';
+      case 'LOW_CONFIDENCE': return 'Degradação / Baixa Confiança';
+      default: return 'Não Determinado';
+    }
+  };
+
+  const levelStr = typeof confidence === 'string' ? confidence : confidence?.level;
+
+  return {
+    visible: {
+      confidenceLevel: levelStr || 'UNKNOWN',
+      label: getConfidenceLabel(levelStr)
+    },
+    internal: {
+      runtimeCode: levelStr
     }
   };
 }

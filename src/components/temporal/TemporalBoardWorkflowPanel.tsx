@@ -1,5 +1,5 @@
 import React from 'react';
-import { TemporalWorkflowState } from '../../core/workflows/ExecutiveDecisionAdapter';
+import { TemporalWorkflowState } from '../../core/workflows/ExecutiveTemporalWorkflow';
 
 interface TemporalBoardWorkflowPanelProps {
   currentState: TemporalWorkflowState;

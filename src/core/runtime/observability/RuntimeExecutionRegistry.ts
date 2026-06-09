@@ -6,10 +6,14 @@ export class RuntimeExecutionRegistry {
   static async registerExecution(record: RuntimeExecutionRecord): Promise<void> {
     try {
       await setDoc(doc(db, 'runtime_executions', record.executionId), record);
-    } catch (err: any) {
+    } catch (err: unknown) {
       console.error('[RuntimeExecutionRegistry] Error registering execution:', err);
       // Logger passivo: não quebra a aplicação se o log falhar, mas loga local.
     }
+  }
+
+  static log(entry: any): void {
+    console.error('[RuntimeExecutionRegistry] Fiduciary Violation Logged:', entry);
   }
 
   static async getExecution(executionId: string): Promise<RuntimeExecutionRecord | null> {
@@ -17,7 +21,7 @@ export class RuntimeExecutionRegistry {
       const snap = await getDoc(doc(db, 'runtime_executions', executionId));
       if (!snap.exists()) return null;
       return snap.data() as RuntimeExecutionRecord;
-    } catch (err: any) {
+    } catch (err: unknown) {
       console.error('[RuntimeExecutionRegistry] Error getting execution:', err);
       return null;
     }
@@ -32,7 +36,7 @@ export class RuntimeExecutionRegistry {
       );
       const snap = await getDocs(q);
       return snap.docs.map(d => d.data() as RuntimeExecutionRecord);
-    } catch (err: any) {
+    } catch (err: unknown) {
       console.error('[RuntimeExecutionRegistry] Error listing executions:', err);
       return [];
     }
@@ -46,7 +50,7 @@ export class RuntimeExecutionRegistry {
       );
       const snap = await getDocs(q);
       return snap.docs.map(d => d.data() as RuntimeExecutionRecord);
-    } catch (err: any) {
+    } catch (err: unknown) {
       console.error('[RuntimeExecutionRegistry] Error listing all executions:', err);
       return [];
     }

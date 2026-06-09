@@ -1,3 +1,4 @@
+import { logger } from "../services/logging/InstitutionalLogger";
 import * as fs from 'fs';
 import * as path from 'path';
 
@@ -29,7 +30,7 @@ function runReportingGovernanceAudit() {
   // Regras de Active Governance para Reporting
   const BANNED_PATTERNS = [
     { regex: /ConsolidatedFinancialOrchestrator/g, message: 'Tentativa de importar Motor Financeiro na camada de Relatórios. Relatório não calcula, apenas consome.' },
-    { regex: /ScenarioSimulationEngine/g, message: 'Tentativa de importar Motor de Cenários na camada de Relatórios. Relatório não simula, apenas consome.' },
+    { regex: /(ScenarioFiduciarySimulator|ScenarioMacroProjectionEngine)/g, message: 'Tentativa de importar Motor de Cenários na camada de Relatórios. Relatório não simula, apenas consome.' },
     { regex: /advisory\.executiveSummary\s*=/g, message: 'Tentativa de mutação de Advisory em tempo de formatação. Isolamento violado.' },
     { regex: /Math\./g, message: 'Encontrada biblioteca Math em Reporting. Reporting não pode fazer operações numéricas.' },
     { regex: /calculate/i, message: 'Função de cálculo detectada em Reporting. Reporting deve apenas organizar.' }
@@ -50,7 +51,7 @@ function runReportingGovernanceAudit() {
     // Validar Snapshot Builder
     if (fileName === 'FiduciarySnapshotBuilder.ts') {
         if (content.includes('bpByEntity') || content.includes('dreByEntity')) {
-           console.error(`❌ VIOLATION: FiduciarySnapshotBuilder não deve salvar BP/DRE completos. Salve apenas outputs e referencie o LineageHash. Arquivo: ${fileName}`);
+           logger.error('FiduciarySnapshotBuilder Violation', new Error(`Salva dados completos no arquivo: ${fileName}`));
            violations++;
         }
     }

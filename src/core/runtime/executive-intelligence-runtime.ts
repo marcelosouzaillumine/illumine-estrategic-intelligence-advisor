@@ -8,11 +8,19 @@ import { PatrimonialClassificationCeilingEngine } from "./governance/bp/Patrimon
 import { BalanceSheetQualityEngine } from "./governance/bp/BalanceSheetQualityEngine";
 import { WorkingCapitalIntelligenceEngine } from "./governance/bp/WorkingCapitalIntelligenceEngine";
 import { CapitalStructureIntelligenceEngine } from "./governance/bp/CapitalStructureIntelligenceEngine";
-import { CapitalPreservationEngine } from "./governance/bp/CapitalPreservationEngine";
+import { PatrimonialPreservationEngine } from "./governance/bp/PatrimonialPreservationEngine";
 import { LiquidityRealityEngine } from "./governance/bp/LiquidityRealityEngine";
 import { EquityQualityEngine } from "./governance/bp/EquityQualityEngine";
 import { BoardPatrimonialAdvisoryEngine } from "./governance/bp/BoardPatrimonialAdvisoryEngine";
 import { BoardConsistencyEngine } from "./governance/bp/BoardConsistencyEngine";
+import { BalanceSheetExecutiveNarrativeEngine } from "./governance/bp/BalanceSheetExecutiveNarrativeEngine";
+import { RuntimeExecutionRegistry } from './observability/RuntimeExecutionRegistry';
+import { BalanceSheetSummaryLineageAudit } from './governance/bp/BalanceSheetSummaryLineageAudit';
+import { BalanceSheetExerciseBindingGuard } from './governance/bp/BalanceSheetExerciseBindingGuard';
+import { BalanceSheetHistoricalContaminationAudit } from './governance/bp/BalanceSheetHistoricalContaminationAudit';
+import { BalanceSheetNarrativeTemporalAudit } from './governance/bp/BalanceSheetNarrativeTemporalAudit';
+import { BalanceSheetPatrimonialIntelligenceEngine } from './governance/bp/BalanceSheetPatrimonialIntelligenceEngine';
+import { BalanceSheetAnalyticalContextIntegrityGuard } from './governance/bp/BalanceSheetAnalyticalContextIntegrityGuard';
 import { getSectorProfile } from '../intelligence/sector-behavior-profiles';
 import { translateCapitalStructure } from './adapters/capital-structure-adapter';
 import { translateCausalityInterpretation } from './adapters/causality-interpretation-adapter';
@@ -23,7 +31,7 @@ import { generateDreInsights, DreMetrics } from '../../lib/dreInsights';
 import { ExecutiveEconomicQualityEngine } from './governance/dre/ExecutiveEconomicQualityEngine';
 import { EBITDARootCauseEngine } from './governance/dre/EBITDARootCauseEngine';
 import { EconomicValueIntelligenceEngine } from './governance/dre/EconomicValueIntelligenceEngine';
-import { EarningsQualityEngine } from './governance/dre/EarningsQualityEngine';
+import { EarningsCompositionEngine } from './governance/dre/EarningsCompositionEngine';
 import { InstitutionalConfidenceEngine } from './confidence/InstitutionalConfidenceEngine';
 import { ManagementDiscussionAnalysisEngine } from './governance/dre/ManagementDiscussionAnalysisEngine';
 import { DREExecutiveInterpretationEngine } from './dre/DREExecutiveInterpretationEngine';
@@ -574,7 +582,7 @@ export class ExecutiveIntelligenceRuntime implements
     }
 
     let bpSummary: any = rawData.rawFinancialData?.bpSummary || rawData.bpSummary || {};
-    console.log('BP SUMMARY DEBUG:', bpSummary);
+    
 
     // Contextualização (Segment Intelligence Matrix integrada ao Perfil Institucional)
     const segment = rawData.rawFinancialData?.segmentoEmpresa || 'Default';
@@ -607,6 +615,10 @@ export class ExecutiveIntelligenceRuntime implements
       bpSummary = rawData.rawFinancialData.bpSummary;
     }
 
+    if (bpSummary && !bpSummary.exerciseYear) {
+      bpSummary.exerciseYear = rawData.year;
+    }
+
     // Attempt to extract Ebitda and Lucro Liquido if DRE exists
     const dreEbitda = rawData.rawFinancialData?.ebitda !== undefined
       ? rawData.rawFinancialData.ebitda
@@ -615,7 +627,7 @@ export class ExecutiveIntelligenceRuntime implements
       ? rawData.rawFinancialData.lucroLiquido
       : (hasDRE ? (rawData.dreData.find((r: any) => r.category === 'LUCRO LÍQUIDO DO EXERCÍCIO' || r.id === 'LUCRO_LIQ')?.value || 0) : 0);
 
-    console.log("DEBUG RUNTIME DRE LUCRO:", dreLucro, "DREDATA:", JSON.stringify(rawData.dreData));
+    
 
     const metrics = calculateFinancialMetrics(bpSummary, dreEbitda, dreLucro, segment);
     const anosHistorico = rawData.historicalCyclesCount || 0;
@@ -774,7 +786,7 @@ export class ExecutiveIntelligenceRuntime implements
         baseCausality.rootCause = `Indícios apontam para: ${baseCausality.rootCause}`;
       }
       if (!baseCausality.strategicImpact.includes('INSUFFICIENT_DATA')) {
-        baseCausality.strategicImpact = `Visão parcial sugere: ${baseCausality.strategicImpact}`;
+        baseCausality.strategicImpact = `Visão parcial aponta: ${baseCausality.strategicImpact}`;
       }
     }
 
@@ -1255,7 +1267,7 @@ export class ExecutiveIntelligenceRuntime implements
         recLiquida, lucroLiq, ebitda, pontoEquilibrio
       );
 
-      const earningsQualityAssessment = EarningsQualityEngine.evaluate(
+      const earningsQualityAssessment = EarningsCompositionEngine.evaluate(
         recLiquida, 
         getV('OUTRAS_REC_DESP'), 
         despFin, 
@@ -1293,7 +1305,7 @@ export class ExecutiveIntelligenceRuntime implements
       });
 
       const normalizedDRE = mappedData.executiveMetrics;
-      console.log("DEBUG: normalizedDRE =", JSON.stringify(normalizedDRE));
+      
 
       const revenueEconomicStructure = RevenueEconomicStructureEngine.evaluate(normalizedDRE);
       const economicBurnRate = EconomicBurnRateEngine.evaluate(normalizedDRE);
@@ -2217,7 +2229,7 @@ export class ExecutiveIntelligenceRuntime implements
       const dreDataArray = rawData.dreData || [];
       bpIndicators.push(...BalanceSheetQualityEngine.analyze(bpSummary));
       bpIndicators.push(...WorkingCapitalIntelligenceEngine.analyze(bpSummary, dreDataArray));
-      bpIndicators.push(...CapitalPreservationEngine.analyze(bpSummary, dreDataArray));
+      bpIndicators.push(...PatrimonialPreservationEngine.analyze(bpSummary, dreDataArray));
       
       const lrOutput = LiquidityRealityEngine.evaluate(bpSummary);
       bpIndicators.push(...lrOutput.indicators);
@@ -2309,10 +2321,93 @@ export class ExecutiveIntelligenceRuntime implements
         sectorProfile.expectedInventoryIntensity === 'High'
       );
 
+      // ── Temporal Integrity Audits ──
+      const exerciseYear = rawData.year;
+      const summaryYear = bpSummary?.exerciseYear;
+      
+      const lineageAudit = BalanceSheetSummaryLineageAudit.generateLineage(bpSummary, exerciseYear, rawData);
+      const bindingGuard = BalanceSheetExerciseBindingGuard.validate(exerciseYear, summaryYear);
+      const contaminationAudit = BalanceSheetHistoricalContaminationAudit.audit(exerciseYear, rawData);
+      
+      const { text: generatedNarrativeText, narrativeMetadata } = BalanceSheetExecutiveNarrativeEngine.generate(
+        bpIndicators, 
+        bpSummary, 
+        exerciseYear, 
+        lineageAudit.datasetHash
+      );
+
+      const narrativeAudit = BalanceSheetNarrativeTemporalAudit.audit(generatedNarrativeText, bpSummary, bpIndicators);
+
+      const isTemporallyValid = bindingGuard.isValid && !contaminationAudit.isContaminated && !narrativeAudit.isDriftDetected;
+      const temporalViolations: string[] = [];
+      if (!bindingGuard.isValid) temporalViolations.push(bindingGuard.violation || 'EXERCISE_BINDING_VIOLATION');
+      if (contaminationAudit.isContaminated) temporalViolations.push(...contaminationAudit.violations);
+      if (narrativeAudit.isDriftDetected) temporalViolations.push(...narrativeAudit.violations);
+
+      if (!isTemporallyValid) {
+        RuntimeExecutionRegistry.log({
+          code: 'EXERCISE_BINDING_VIOLATION',
+          severity: 'CRITICAL',
+          module: 'BALANCE_SHEET',
+          selectedYear: exerciseYear,
+          summaryYear: summaryYear,
+          datasetHash: lineageAudit.datasetHash,
+        });
+      }
+
+      const blockingState = {
+        isBlocked: !isTemporallyValid,
+        blockingCode: !isTemporallyValid ? (temporalViolations[0]?.split(':')[0] || 'TEMPORAL_INTEGRITY_VIOLATION') : undefined,
+        blockingReason: !isTemporallyValid ? (temporalViolations[0] || 'Narrativa incompatível com os indicadores do exercício selecionado.') : undefined
+      };
+
+      const technicalViolations: string[] = [];
+      if (!hasBP) technicalViolations.push('NO_BALANCE_SHEET_DATA');
+      // bpIndicators returning INSUFFICIENT_DATA (like Debt-to-Equity when there's no debt) 
+      // should NOT trigger a full technical block. The UI will just show N/A.
+      
+      const isTechnicalValid = technicalViolations.length === 0;
+
+      const rawAnalyticalContext = {
+        clientContext: {
+          clientName: rawData.tenantId || 'Unknown', // Ideally get clientName from context, tenantId as fallback
+          segment: sectorProfile.name,
+          businessStage: (rawData.companyStage as string) || 'Mature',
+          operatingProfile: `${sectorProfile.expectedAssetType} Asset / ${sectorProfile.expectedInventoryIntensity} Inventory`,
+          companySize: 'Enterprise',
+          assumptions: [sectorProfile.typicalCashFlowDynamics]
+        },
+        patrimonialIntelligence: BalanceSheetPatrimonialIntelligenceEngine.generate(bpSummary, bpIndicators),
+        isAvailable: hasBP,
+        missingFields: []
+      };
+      
+      const analyticalContextIntegrity = BalanceSheetAnalyticalContextIntegrityGuard.validate(rawAnalyticalContext);
+
       executivePatrimonialReport = {
-        patrimonialHealth: interpretations.patrimonialThesis,
-        executivePlan: interpretations.executivePlan,
-        dominantRiskFamily: interpretations.dominantRiskFamily,
+        blockingState,
+        exerciseYear: exerciseYear,
+        summaryYear: summaryYear || 0,
+        temporalIntegrity: {
+          isValid: isTemporallyValid,
+          violations: temporalViolations
+        },
+        technicalIntegrity: {
+          isValid: isTechnicalValid,
+          violations: technicalViolations
+        },
+        executiveIntegrity: {
+          isValid: !blockingState.isBlocked,
+          violations: blockingState.isBlocked ? [blockingState.blockingReason || 'Executive Blocked'] : []
+        },
+        analyticalContextIntegrity,
+        analyticalContext: rawAnalyticalContext,
+        executiveNarrative: blockingState.isBlocked ? undefined : (generatedNarrativeText || interpretations.patrimonialThesis || rawAdvisory.fullText),
+        patrimonialThesis: blockingState.isBlocked ? undefined : interpretations.patrimonialThesis,
+        boardNarrative: blockingState.isBlocked ? undefined : rawAdvisory.fullText,
+        patrimonialHealth: blockingState.isBlocked ? undefined : interpretations.patrimonialThesis,
+        executivePlan: blockingState.isBlocked ? undefined : interpretations.executivePlan,
+        dominantRiskFamily: blockingState.isBlocked ? undefined : interpretations.dominantRiskFamily,
         liquidityHealth: undefined,
         workingCapitalHealth: undefined,
         capitalStructureHealth: undefined,

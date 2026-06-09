@@ -1,3 +1,4 @@
+import { logger } from "../../../../services/logging/InstitutionalLogger";
 import { collection, query, where, getDocs } from 'firebase/firestore';
 import { db } from '../../../../lib/firebase';
 
@@ -20,8 +21,8 @@ export class ConsolidatedEntityRepository {
       }
 
       return snap.docs.map(doc => ({ ...doc.data(), id: doc.id }));
-    } catch (err: any) {
-      console.error(`[ConsolidatedEntityRepository] Failed to fetch BP for ${entityId}: ${err.message}`);
+    } catch (err: unknown) {
+      logger.error('Failed to fetch BP', { entityId, error: err });
       return []; // Devolve vazio. A ausência deve ser punida pelo Motor Financeiro via Confidence Downgrade.
     }
   }
@@ -40,8 +41,8 @@ export class ConsolidatedEntityRepository {
       }
 
       return snap.docs.map(doc => ({ ...doc.data(), id: doc.id }));
-    } catch (err: any) {
-      console.error(`[ConsolidatedEntityRepository] Failed to fetch DRE for ${entityId}: ${err.message}`);
+    } catch (err: unknown) {
+      logger.error('Failed to fetch DRE', { entityId, error: err });
       return []; // Devolve vazio. Ausência rebaixa confidence no Runtime.
     }
   }

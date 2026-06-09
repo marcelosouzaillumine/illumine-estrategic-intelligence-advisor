@@ -20,7 +20,7 @@ export class GroupOnboardingRepository {
     try {
       const snap = await getDocs(collection(db, 'economic_groups'));
       return snap.docs.map(d => d.data() as EconomicGroupModel);
-    } catch (err: any) {
+    } catch (err: unknown) {
       console.error('[GroupOnboardingRepository] Error listing groups:', err);
       throw err;
     }
@@ -44,7 +44,7 @@ export class GroupOnboardingRepository {
 
       await setDoc(doc(db, 'economic_groups', id), newGroup);
       return newGroup;
-    } catch (err: any) {
+    } catch (err: unknown) {
       console.error('[GroupOnboardingRepository] Error creating group:', err);
       throw err;
     }

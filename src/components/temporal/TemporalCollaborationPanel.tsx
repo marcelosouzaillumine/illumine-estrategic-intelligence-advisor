@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { DataAccessContext } from '../../core/workflows/ExecutiveDecisionAdapter';
+import { DataAccessContext } from '../../core/workflows/ExecutiveTemporalWorkflow';
 
 interface TemporalCollaborationPanelProps {
   lineageReference: string;

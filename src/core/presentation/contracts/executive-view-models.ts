@@ -32,3 +32,37 @@ export interface ExecutiveSectionViewModel extends ExecutiveBaseViewModel {
     statusLabel?: string;
   };
 }
+
+export interface ExecutiveLatencyViewModel extends ExecutiveBaseViewModel {
+  visible: ExecutiveBaseViewModel["visible"] & {
+    totalDurationMs: number;
+    stages: { stage: string; durationMs: number }[];
+    bottlenecks: string[];
+  };
+}
+
+export interface ExecutiveHealthViewModel extends ExecutiveBaseViewModel {
+  visible: ExecutiveBaseViewModel["visible"] & {
+    confidenceLevel: string;
+    confidenceLabel: string;
+    causalDepth: string;
+    dataCompletenessPercent: string;
+    modeLabel: string;
+    restrictions: string[];
+  };
+}
+
+export interface ExecutiveViolationViewModel extends ExecutiveBaseViewModel {
+  visible: ExecutiveBaseViewModel["visible"] & {
+    severityLabel: string;
+    message: string;
+    context: string;
+  };
+}
+
+export interface ExecutiveConfidenceBadgeViewModel extends ExecutiveBaseViewModel {
+  visible: ExecutiveBaseViewModel["visible"] & {
+    confidenceLevel: string;
+    label: string;
+  };
+}

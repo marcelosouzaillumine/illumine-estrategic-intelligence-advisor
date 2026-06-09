@@ -82,3 +82,101 @@ exports.generateAdvisoryParecer = onRequest({ cors: true, invoker: "public", sec
     response.status(500).json({ error: "generation_failed" });
   }
 });
+
+// RBAC: Manage Roles
+exports.manageRole = onRequest({ cors: true, invoker: "public" }, async (request, response) => {
+  if (request.method !== "POST") {
+    response.status(405).json({ error: "method_not_allowed" });
+    return;
+  }
+
+  const authHeader = request.get("authorization") || "";
+  if (!authHeader.startsWith("Bearer ")) {
+    response.status(401).json({ error: "unauthorized" });
+    return;
+  }
+
+  const token = authHeader.slice(7);
+  let decodedToken;
+  try {
+    decodedToken = await admin.auth().verifyIdToken(token);
+  } catch (_err) {
+    response.status(401).json({ error: "invalid_token" });
+    return;
+  }
+
+  // RBAC Hierarchy Validation
+  const requesterRole = decodedToken.role || "NONE";
+  
+  if (!["SUPER_ADMIN", "GOVERNANCE_ADMIN"].includes(requesterRole)) {
+    response.status(403).json({ error: "forbidden", message: "You do not have permission to manage roles." });
+    return;
+  }
+
+  const payload = request.body || {};
+  const { targetUid, newRole } = payload;
+
+  if (!targetUid || !newRole) {
+    response.status(400).json({ error: "missing_parameters", message: "targetUid and newRole are required." });
+    return;
+  }
+
+  const validRoles = ["SUPER_ADMIN", "GOVERNANCE_ADMIN", "ADVISOR", "CLIENT_ADMIN", "CLIENT_USER", "AUDITOR", "NONE"];
+  if (!validRoles.includes(newRole)) {
+    response.status(400).json({ error: "invalid_role", message: "The provided role is not valid." });
+    return;
+  }
+
+  // Prevent horizontal/vertical escalation
+  if (requesterRole === "GOVERNANCE_ADMIN") {
+    const allowedForGovernance = ["CLIENT_ADMIN", "CLIENT_USER", "AUDITOR", "NONE"];
+    if (!allowedForGovernance.includes(newRole)) {
+      response.status(403).json({ 
+        error: "forbidden_escalation", 
+        message: "GOVERNANCE_ADMIN can only assign CLIENT_ADMIN, CLIENT_USER, or AUDITOR." 
+      });
+      return;
+    }
+  }
+
+  try {
+    const targetUser = await admin.auth().getUser(targetUid);
+    const oldRole = targetUser.customClaims?.role || "NONE";
+    
+    // Additional safeguard: GOVERNANCE_ADMIN cannot downgrade/change a SUPER_ADMIN
+    if (requesterRole === "GOVERNANCE_ADMIN" && oldRole === "SUPER_ADMIN") {
+      response.status(403).json({ 
+        error: "forbidden_escalation", 
+        message: "GOVERNANCE_ADMIN cannot alter a SUPER_ADMIN." 
+      });
+      return;
+    }
+
+    // Set or remove the role
+    const updatedClaims = { ...(targetUser.customClaims || {}) };
+    if (newRole === "NONE") {
+      delete updatedClaims.role;
+    } else {
+      updatedClaims.role = newRole;
+    }
+    await admin.auth().setCustomUserClaims(targetUid, updatedClaims);
+
+    // Audit Log
+    const db = admin.firestore();
+    await db.collection("security_audit_logs").add({
+      targetUid: targetUid,
+      targetEmail: targetUser.email || "unknown",
+      oldRole: oldRole,
+      newRole: newRole,
+      updatedBy: decodedToken.uid,
+      updatedByEmail: decodedToken.email,
+      timestamp: admin.firestore.FieldValue.serverTimestamp()
+    });
+
+    response.status(200).json({ success: true, message: \`Role \${newRole} assigned to \${targetUid} successfully.\` });
+  } catch (err) {
+    console.error("manageRole error", err);
+    response.status(500).json({ error: "operation_failed", message: err.message });
+  }
+});
+

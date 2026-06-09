@@ -1,0 +1,1171 @@
+[
+  {
+    "file": "src/context/ConsolidatedExecutiveContext.tsx",
+    "line": 53,
+    "content": "} catch (err: any) {",
+    "type": "any",
+    "risk": "HIGH"
+  },
+  {
+    "file": "src/context/institutional-memory/InstitutionalMemoryProvider.tsx",
+    "line": 33,
+    "content": "appendRecord: () => ({} as any),",
+    "type": "any",
+    "risk": "HIGH"
+  },
+  {
+    "file": "src/context/pilot-operations/PilotOperationsProvider.tsx",
+    "line": 31,
+    "content": "adoptionMetrics: any;",
+    "type": "any",
+    "risk": "HIGH"
+  },
+  {
+    "file": "src/context/pilot-operations/PilotOperationsProvider.tsx",
+    "line": 127,
+    "content": "} catch (err: any) {",
+    "type": "any",
+    "risk": "HIGH"
+  },
+  {
+    "file": "src/context/pilot-operations/PilotOperationsProvider.tsx",
+    "line": 170,
+    "content": "} catch (err: any) {",
+    "type": "any",
+    "risk": "HIGH"
+  },
+  {
+    "file": "src/context/scenario-simulation/ScenarioSimulationProvider.tsx",
+    "line": 185,
+    "content": "} catch (err: any) {",
+    "type": "any",
+    "risk": "HIGH"
+  },
+  {
+    "file": "src/context/scenario-simulation/ScenarioSimulationProvider.tsx",
+    "line": 225,
+    "content": "} catch (err: any) {",
+    "type": "any",
+    "risk": "HIGH"
+  },
+  {
+    "file": "src/context/scenario-simulation/ScenarioSimulationProvider.tsx",
+    "line": 259,
+    "content": "} catch (err: any) {",
+    "type": "any",
+    "risk": "HIGH"
+  },
+  {
+    "file": "src/hooks/useBoardCopilot.ts",
+    "line": 17,
+    "content": "export function useBoardCopilot(baseReport: any, prescriptiveData: any) {",
+    "type": "any",
+    "risk": "HIGH"
+  },
+  {
+    "file": "src/hooks/useBoardCopilot.ts",
+    "line": 17,
+    "content": "export function useBoardCopilot(baseReport: any, prescriptiveData: any) {",
+    "type": "any",
+    "risk": "HIGH"
+  },
+  {
+    "file": "src/hooks/useBoardCopilot.ts",
+    "line": 32,
+    "content": "prescriptiveData.boardAgenda.items.forEach((item: any, index: number) => {",
+    "type": "any",
+    "risk": "HIGH"
+  },
+  {
+    "file": "src/hooks/useBoardCopilot.ts",
+    "line": 40,
+    "content": "prescriptiveData.boardResolutions.forEach((res: any, index: number) => {",
+    "type": "any",
+    "risk": "HIGH"
+  },
+  {
+    "file": "src/hooks/useBoardMode.ts",
+    "line": 6,
+    "content": "risks: any;",
+    "type": "any",
+    "risk": "HIGH"
+  },
+  {
+    "file": "src/hooks/useBoardMode.ts",
+    "line": 7,
+    "content": "attentionItems: any[];",
+    "type": "any",
+    "risk": "HIGH"
+  },
+  {
+    "file": "src/hooks/useBoardMode.ts",
+    "line": 8,
+    "content": "resolutions: any[];",
+    "type": "any",
+    "risk": "HIGH"
+  },
+  {
+    "file": "src/hooks/useBoardMode.ts",
+    "line": 9,
+    "content": "agenda: any;",
+    "type": "any",
+    "risk": "HIGH"
+  },
+  {
+    "file": "src/hooks/useCurrencyRates.ts",
+    "line": 20,
+    "content": "const exchangeSecao = (DATA as any).premissas?.economicas?.find(",
+    "type": "any",
+    "risk": "HIGH"
+  },
+  {
+    "file": "src/hooks/useCurrencyRates.ts",
+    "line": 21,
+    "content": "(s: any) => s.categoria?.includes('Câmbio')",
+    "type": "any",
+    "risk": "HIGH"
+  },
+  {
+    "file": "src/hooks/useCurrencyRates.ts",
+    "line": 24,
+    "content": "exchangeSecao?.indicadores?.find((i: any) => i.nome?.includes('Dólar'))",
+    "type": "any",
+    "risk": "HIGH"
+  },
+  {
+    "file": "src/hooks/useCurrencyRates.ts",
+    "line": 28,
+    "content": "exchangeSecao?.indicadores?.find((i: any) => i.nome?.includes('Euro'))",
+    "type": "any",
+    "risk": "HIGH"
+  },
+  {
+    "file": "src/hooks/useDataTable.ts",
+    "line": 3,
+    "content": "export function useDataTable(data: any[], config: {",
+    "type": "any",
+    "risk": "HIGH"
+  },
+  {
+    "file": "src/hooks/useDataTable.ts",
+    "line": 7,
+    "content": "customFilter?: (item: any, currentFilters: Record<string, string>) => boolean;",
+    "type": "any",
+    "risk": "HIGH"
+  },
+  {
+    "file": "src/hooks/useExecutiveAdvisory.ts",
+    "line": 10,
+    "content": "export function useExecutiveAdvisory(clientId: string, year: number, month: number, rawClientData?: any) {",
+    "type": "any",
+    "risk": "HIGH"
+  },
+  {
+    "file": "src/hooks/useExecutiveAdvisory.ts",
+    "line": 21,
+    "content": "const getVal = (data: any[], name: string) => data.find(d => d.category === name || d.conta === name)?.value || data.find(d => d.category === name || d.conta === name)?.val || 0;",
+    "type": "any",
+    "risk": "HIGH"
+  },
+  {
+    "file": "src/hooks/useExecutiveAdvisory.ts",
+    "line": 39,
+    "content": "const metrics = calculateFinancialMetrics(bpSummary as any, dreEbitda, dreLucro, clientSector);",
+    "type": "any",
+    "risk": "HIGH"
+  },
+  {
+    "file": "src/hooks/useExecutiveAdvisory.ts",
+    "line": 43,
+    "content": "const identity: BusinessIdentity = inferBusinessIdentity(clientSector, 0, bpSummary as any, undefined);",
+    "type": "any",
+    "risk": "HIGH"
+  },
+  {
+    "file": "src/hooks/useExecutiveAdvisory.ts",
+    "line": 46,
+    "content": "// @ts-ignore",
+    "type": "tsIgnore",
+    "risk": "HIGH"
+  },
+  {
+    "file": "src/hooks/useExecutiveAdvisory.ts",
+    "line": 96,
+    "content": "// @ts-ignore",
+    "type": "tsIgnore",
+    "risk": "HIGH"
+  },
+  {
+    "file": "src/hooks/useFinancialData.ts",
+    "line": 8,
+    "content": "if ((globalThis as any).__mockUseFinancialData) {",
+    "type": "any",
+    "risk": "HIGH"
+  },
+  {
+    "file": "src/hooks/useFinancialData.ts",
+    "line": 9,
+    "content": "return (globalThis as any).__mockUseFinancialData(clientId, year, month, type);",
+    "type": "any",
+    "risk": "HIGH"
+  },
+  {
+    "file": "src/hooks/useFinancialData.ts",
+    "line": 36,
+    "content": "const allEntries: any[] = [];",
+    "type": "any",
+    "risk": "HIGH"
+  },
+  {
+    "file": "src/hooks/useFinancialData.ts",
+    "line": 38,
+    "content": "const docData = doc.data() as any;",
+    "type": "any",
+    "risk": "HIGH"
+  },
+  {
+    "file": "src/hooks/useFinancialData.ts",
+    "line": 47,
+    "content": "docData.data.forEach((entry: any) => {",
+    "type": "any",
+    "risk": "HIGH"
+  },
+  {
+    "file": "src/hooks/useFinancialData.ts",
+    "line": 67,
+    "content": "} catch (e: any) {",
+    "type": "any",
+    "risk": "HIGH"
+  },
+  {
+    "file": "src/hooks/useFinancialData.ts",
+    "line": 91,
+    "content": "if ((globalThis as any).__mockUseAllFinancialData) {",
+    "type": "any",
+    "risk": "HIGH"
+  },
+  {
+    "file": "src/hooks/useFinancialData.ts",
+    "line": 92,
+    "content": "return (globalThis as any).__mockUseAllFinancialData(clientId);",
+    "type": "any",
+    "risk": "HIGH"
+  },
+  {
+    "file": "src/hooks/useFinancialData.ts",
+    "line": 112,
+    "content": "const allEntries: any[] = [];",
+    "type": "any",
+    "risk": "HIGH"
+  },
+  {
+    "file": "src/hooks/useFinancialData.ts",
+    "line": 114,
+    "content": "const docData = doc.data() as any;",
+    "type": "any",
+    "risk": "HIGH"
+  },
+  {
+    "file": "src/hooks/useFinancialData.ts",
+    "line": 121,
+    "content": "docData.data.forEach((entry: any) => {",
+    "type": "any",
+    "risk": "HIGH"
+  },
+  {
+    "file": "src/hooks/useFinancialData.ts",
+    "line": 153,
+    "content": "} catch (e: any) {",
+    "type": "any",
+    "risk": "HIGH"
+  },
+  {
+    "file": "src/hooks/useFinancialData.ts",
+    "line": 186,
+    "content": "if ((globalThis as any).__mockUseAnnualFinancialData) {",
+    "type": "any",
+    "risk": "HIGH"
+  },
+  {
+    "file": "src/hooks/useFinancialData.ts",
+    "line": 187,
+    "content": "return (globalThis as any).__mockUseAnnualFinancialData(clientId, year, type);",
+    "type": "any",
+    "risk": "HIGH"
+  },
+  {
+    "file": "src/hooks/useFinancialData.ts",
+    "line": 208,
+    "content": "const allEntries: any[] = [];",
+    "type": "any",
+    "risk": "HIGH"
+  },
+  {
+    "file": "src/hooks/useFinancialData.ts",
+    "line": 214,
+    "content": "const docData = docSnap.data() as any;",
+    "type": "any",
+    "risk": "HIGH"
+  },
+  {
+    "file": "src/hooks/useFinancialData.ts",
+    "line": 223,
+    "content": "docData.data.forEach((entry: any) => {",
+    "type": "any",
+    "risk": "HIGH"
+  },
+  {
+    "file": "src/hooks/useFinancialData.ts",
+    "line": 301,
+    "content": "let finalEntries: any[] = [];",
+    "type": "any",
+    "risk": "HIGH"
+  },
+  {
+    "file": "src/hooks/useFinancialData.ts",
+    "line": 384,
+    "content": "} catch (e: any) {",
+    "type": "any",
+    "risk": "HIGH"
+  },
+  {
+    "file": "src/hooks/useFinancialMath.ts",
+    "line": 5,
+    "content": "aggregatePositions: (positions: any[], exchangeRates: Record<string, number>) => {",
+    "type": "any",
+    "risk": "HIGH"
+  },
+  {
+    "file": "src/hooks/useFinancialMath.ts",
+    "line": 21,
+    "content": "aggregateHistory: (positions: any[], exchangeRates: Record<string, number>, monthOrder: string[]) => {",
+    "type": "any",
+    "risk": "HIGH"
+  },
+  {
+    "file": "src/hooks/useFinancialMath.ts",
+    "line": 28,
+    "content": "let allMonths = Array.from(new Set(positions.flatMap(p => p.historico?.map((h: any) => normalizeMonth(h.mes)) || []))) as string[];",
+    "type": "any",
+    "risk": "HIGH"
+  },
+  {
+    "file": "src/hooks/useFinancialMath.ts",
+    "line": 41,
+    "content": "const hist = p.historico?.find((h: any) => normalizeMonth(h.mes) === m);",
+    "type": "any",
+    "risk": "HIGH"
+  },
+  {
+    "file": "src/hooks/useFinancialMath.ts",
+    "line": 50,
+    "content": "calculateTotalValue: (items: any[], valueKey: string) => {",
+    "type": "any",
+    "risk": "HIGH"
+  },
+  {
+    "file": "src/hooks/useHistoricalDemonstracoes.ts",
+    "line": 53,
+    "content": "const docData = docSnap.data() as any;",
+    "type": "any",
+    "risk": "HIGH"
+  },
+  {
+    "file": "src/hooks/useHistoricalDemonstracoes.ts",
+    "line": 63,
+    "content": "docData.data.forEach((entry: any) => {",
+    "type": "any",
+    "risk": "HIGH"
+  },
+  {
+    "file": "src/hooks/useHistoricalDemonstracoes.ts",
+    "line": 109,
+    "content": "} catch (e: any) {",
+    "type": "any",
+    "risk": "HIGH"
+  },
+  {
+    "file": "src/hooks/useInstitutionalRuntime.ts",
+    "line": 7,
+    "content": "input: any;",
+    "type": "any",
+    "risk": "HIGH"
+  },
+  {
+    "file": "src/hooks/useInstitutionalRuntime.ts",
+    "line": 11,
+    "content": "if ((globalThis as any).__mockUseInstitutionalRuntime) {",
+    "type": "any",
+    "risk": "HIGH"
+  },
+  {
+    "file": "src/hooks/useInstitutionalRuntime.ts",
+    "line": 12,
+    "content": "return (globalThis as any).__mockUseInstitutionalRuntime({ engineType, input });",
+    "type": "any",
+    "risk": "HIGH"
+  },
+  {
+    "file": "src/hooks/useMethodologicalAnalysis.ts",
+    "line": 6,
+    "content": "export function useMethodologicalAnalysis(clientId: string, year: number, month: number, dbDre: any[], dbBp: any[]) {",
+    "type": "any",
+    "risk": "HIGH"
+  },
+  {
+    "file": "src/hooks/useMethodologicalAnalysis.ts",
+    "line": 6,
+    "content": "export function useMethodologicalAnalysis(clientId: string, year: number, month: number, dbDre: any[], dbBp: any[]) {",
+    "type": "any",
+    "risk": "HIGH"
+  },
+  {
+    "file": "src/hooks/useMethodologicalAnalysis.ts",
+    "line": 7,
+    "content": "const [analysis, setAnalysis] = useState<any>(null);",
+    "type": "any",
+    "risk": "HIGH"
+  },
+  {
+    "file": "src/hooks/useMethodologicalAnalysis.ts",
+    "line": 54,
+    "content": "} catch (err: any) {",
+    "type": "any",
+    "risk": "HIGH"
+  },
+  {
+    "file": "src/hooks/useMethodologicalAnalysis.ts",
+    "line": 85,
+    "content": "setAnalysis((prev: any) => ({",
+    "type": "any",
+    "risk": "HIGH"
+  },
+  {
+    "file": "src/hooks/useMethodologicalAnalysis.ts",
+    "line": 92,
+    "content": "} catch (err: any) {",
+    "type": "any",
+    "risk": "HIGH"
+  },
+  {
+    "file": "src/hooks/useModuleData.ts",
+    "line": 48,
+    "content": "const add = async (item: any): Promise<string> => {",
+    "type": "any",
+    "risk": "HIGH"
+  },
+  {
+    "file": "src/hooks/useModuleData.ts",
+    "line": 65,
+    "content": "} catch (err: any) {",
+    "type": "any",
+    "risk": "HIGH"
+  },
+  {
+    "file": "src/hooks/useModuleData.ts",
+    "line": 72,
+    "content": "const update = async (id: string, item: any) => {",
+    "type": "any",
+    "risk": "HIGH"
+  },
+  {
+    "file": "src/hooks/useModuleData.ts",
+    "line": 83,
+    "content": "} catch (err: any) {",
+    "type": "any",
+    "risk": "HIGH"
+  },
+  {
+    "file": "src/hooks/useModuleData.ts",
+    "line": 93,
+    "content": "} catch (err: any) {",
+    "type": "any",
+    "risk": "HIGH"
+  },
+  {
+    "file": "src/hooks/usePaginatedData.ts",
+    "line": 18,
+    "content": "filters: { field: string; operator: any; value: any }[];",
+    "type": "any",
+    "risk": "HIGH"
+  },
+  {
+    "file": "src/hooks/usePaginatedData.ts",
+    "line": 18,
+    "content": "filters: { field: string; operator: any; value: any }[];",
+    "type": "any",
+    "risk": "HIGH"
+  },
+  {
+    "file": "src/hooks/usePaginatedData.ts",
+    "line": 63,
+    "content": "...(doc.data() as any)",
+    "type": "any",
+    "risk": "HIGH"
+  },
+  {
+    "file": "src/hooks/usePaginatedData.ts",
+    "line": 74,
+    "content": "} catch (err: any) {",
+    "type": "any",
+    "risk": "HIGH"
+  },
+  {
+    "file": "src/hooks/useRealIndicatorData.ts",
+    "line": 126,
+    "content": "let mappedAccounts: any[] = [];",
+    "type": "any",
+    "risk": "HIGH"
+  },
+  {
+    "file": "src/hooks/useRealIndicatorData.ts",
+    "line": 127,
+    "content": "let allEntries: any[] = [];",
+    "type": "any",
+    "risk": "HIGH"
+  },
+  {
+    "file": "src/hooks/useRealIndicatorData.ts",
+    "line": 128,
+    "content": "let currentAssets: any[] = [];",
+    "type": "any",
+    "risk": "HIGH"
+  },
+  {
+    "file": "src/hooks/useRealIndicatorData.ts",
+    "line": 129,
+    "content": "let currentCashFlows: any[] = [];",
+    "type": "any",
+    "risk": "HIGH"
+  },
+  {
+    "file": "src/hooks/useRealIndicatorData.ts",
+    "line": 130,
+    "content": "let currentPositions: any[] = [];",
+    "type": "any",
+    "risk": "HIGH"
+  },
+  {
+    "file": "src/hooks/useRealIndicatorData.ts",
+    "line": 131,
+    "content": "let currentPayables: any[] = [];",
+    "type": "any",
+    "risk": "HIGH"
+  },
+  {
+    "file": "src/hooks/useRealIndicatorData.ts",
+    "line": 132,
+    "content": "let currentReceivables: any[] = [];",
+    "type": "any",
+    "risk": "HIGH"
+  },
+  {
+    "file": "src/hooks/useRealIndicatorData.ts",
+    "line": 140,
+    "content": "mappedAccounts.forEach((acc: any) => {",
+    "type": "any",
+    "risk": "HIGH"
+  },
+  {
+    "file": "src/hooks/useRealIndicatorData.ts",
+    "line": 142,
+    "content": ".filter((e: any) => e.category === acc.name)",
+    "type": "any",
+    "risk": "HIGH"
+  },
+  {
+    "file": "src/hooks/useRealIndicatorData.ts",
+    "line": 143,
+    "content": ".reduce((s: number, e: any) => s + (Number(e.value) || 0), 0);",
+    "type": "any",
+    "risk": "HIGH"
+  },
+  {
+    "file": "src/hooks/useRealIndicatorData.ts",
+    "line": 160,
+    "content": ".filter((e: any) => {",
+    "type": "any",
+    "risk": "HIGH"
+  },
+  {
+    "file": "src/hooks/useRealIndicatorData.ts",
+    "line": 183,
+    "content": ".reduce((s: number, e: any) => s + (Number(e.value || e.valor || e.val) || 0), 0);",
+    "type": "any",
+    "risk": "HIGH"
+  },
+  {
+    "file": "src/hooks/useRealIndicatorData.ts",
+    "line": 207,
+    "content": "overdueLiabilities = passivo.reduce((s: number, p: any) => s + (Number(p.Valor) || 0), 0);",
+    "type": "any",
+    "risk": "HIGH"
+  },
+  {
+    "file": "src/hooks/useRealIndicatorData.ts",
+    "line": 216,
+    "content": "const bpEntries = allEntries.filter((e: any) => {",
+    "type": "any",
+    "risk": "HIGH"
+  },
+  {
+    "file": "src/hooks/useRealIndicatorData.ts",
+    "line": 254,
+    "content": "data.data.forEach((entry: any) => {",
+    "type": "any",
+    "risk": "HIGH"
+  },
+  {
+    "file": "src/hooks/useScenarioExecutionIntelligence.ts",
+    "line": 5,
+    "content": "valuationOutput: any,",
+    "type": "any",
+    "risk": "HIGH"
+  },
+  {
+    "file": "src/hooks/useScenarioExecutionIntelligence.ts",
+    "line": 6,
+    "content": "scenarioValuationInput: any,",
+    "type": "any",
+    "risk": "HIGH"
+  },
+  {
+    "file": "src/hooks/useScenarioExecutionIntelligence.ts",
+    "line": 7,
+    "content": "efosSnapshot: any,",
+    "type": "any",
+    "risk": "HIGH"
+  },
+  {
+    "file": "src/hooks/useScenarioExecutionIntelligence.ts",
+    "line": 9,
+    "content": "scenarioImpacts: any[]",
+    "type": "any",
+    "risk": "HIGH"
+  },
+  {
+    "file": "src/hooks/useScenarioSimulation.ts",
+    "line": 39,
+    "content": "} catch (err: any) {",
+    "type": "any",
+    "risk": "HIGH"
+  },
+  {
+    "file": "src/services/ClientExecutiveFinancialDataAdapter.ts",
+    "line": 94,
+    "content": "resolve(snap.docs.map(d => ({ id: d.id, ...d.data() as any })));",
+    "type": "any",
+    "risk": "CRITICAL"
+  },
+  {
+    "file": "src/services/FiduciaryRuntimeAdapter.ts",
+    "line": 140,
+    "content": "generateExecutiveReport(payload: any) {",
+    "type": "any",
+    "risk": "CRITICAL"
+  },
+  {
+    "file": "src/services/FiduciaryRuntimeAdapter.ts",
+    "line": 143,
+    "content": "generateBoardPack(payload: any) {",
+    "type": "any",
+    "risk": "CRITICAL"
+  },
+  {
+    "file": "src/services/FiduciaryRuntimeAdapter.ts",
+    "line": 147,
+    "content": "executeAssurance(payload: any) {",
+    "type": "any",
+    "risk": "CRITICAL"
+  },
+  {
+    "file": "src/services/FiduciaryRuntimeAdapter.ts",
+    "line": 151,
+    "content": "registerAudit(payload: any) {",
+    "type": "any",
+    "risk": "CRITICAL"
+  },
+  {
+    "file": "src/services/aiBoardReportService.ts",
+    "line": 273,
+    "content": "export async function generateBoardReportFull(companyName: string, financialData: FinancialEntry[], onProgress: (step: string) => void, clientData?: any): Promise<BoardReportData> {",
+    "type": "any",
+    "risk": "CRITICAL"
+  },
+  {
+    "file": "src/services/aiBoardReportService.ts",
+    "line": 364,
+    "content": "responseSchema: phase1Schema as any,",
+    "type": "any",
+    "risk": "CRITICAL"
+  },
+  {
+    "file": "src/services/aiBoardReportService.ts",
+    "line": 378,
+    "content": "responseSchema: phase2Schema as any,",
+    "type": "any",
+    "risk": "CRITICAL"
+  },
+  {
+    "file": "src/services/aiBoardReportService.ts",
+    "line": 392,
+    "content": "responseSchema: phase3Schema as any,",
+    "type": "any",
+    "risk": "CRITICAL"
+  },
+  {
+    "file": "src/services/aiService.ts",
+    "line": 148,
+    "content": "indicators: any[],",
+    "type": "any",
+    "risk": "CRITICAL"
+  },
+  {
+    "file": "src/services/aiService.ts",
+    "line": 185,
+    "content": "responseSchema: governanceDiagnosisSchema as any,",
+    "type": "any",
+    "risk": "CRITICAL"
+  },
+  {
+    "file": "src/services/aiService.ts",
+    "line": 265,
+    "content": "responseSchema: financialStatementSchema as any,",
+    "type": "any",
+    "risk": "CRITICAL"
+  },
+  {
+    "file": "src/services/auditService.ts",
+    "line": 10,
+    "content": "details: any;",
+    "type": "any",
+    "risk": "CRITICAL"
+  },
+  {
+    "file": "src/services/cashFlowService.ts",
+    "line": 36,
+    "content": "const payables = payablesSnap.docs.map(d => ({ id: d.id, ...d.data() as any }));",
+    "type": "any",
+    "risk": "CRITICAL"
+  },
+  {
+    "file": "src/services/cashFlowService.ts",
+    "line": 37,
+    "content": "const receivables = receivablesSnap.docs.map(d => ({ id: d.id, ...d.data() as any }));",
+    "type": "any",
+    "risk": "CRITICAL"
+  },
+  {
+    "file": "src/services/cashFlowService.ts",
+    "line": 38,
+    "content": "const positions = positionsSnap.docs.map(d => ({ id: d.id, ...d.data() as any }));",
+    "type": "any",
+    "risk": "CRITICAL"
+  },
+  {
+    "file": "src/services/cashFlowService.ts",
+    "line": 53,
+    "content": "const exchangeSecao = (DATA as any).premissas?.economicas?.find((s: any) => s.categoria.includes('Câmbio'));",
+    "type": "any",
+    "risk": "CRITICAL"
+  },
+  {
+    "file": "src/services/cashFlowService.ts",
+    "line": 53,
+    "content": "const exchangeSecao = (DATA as any).premissas?.economicas?.find((s: any) => s.categoria.includes('Câmbio'));",
+    "type": "any",
+    "risk": "CRITICAL"
+  },
+  {
+    "file": "src/services/cashFlowService.ts",
+    "line": 54,
+    "content": "const usdRate = parseFloat(exchangeSecao?.indicadores?.find((i: any) => i.nome.includes('Dólar'))?.valor.replace('R$ ', '').replace(',', '.') || '4.9809');",
+    "type": "any",
+    "risk": "CRITICAL"
+  },
+  {
+    "file": "src/services/cashFlowService.ts",
+    "line": 55,
+    "content": "const eurRate = parseFloat(exchangeSecao?.indicadores?.find((i: any) => i.nome.includes('Euro'))?.valor.replace('R$ ', '').replace(',', '.') || '5.772');",
+    "type": "any",
+    "risk": "CRITICAL"
+  },
+  {
+    "file": "src/services/cashFlowService.ts",
+    "line": 64,
+    "content": "const saldoInicialTotal = finalPositions.reduce((acc: number, p: any) => {",
+    "type": "any",
+    "risk": "CRITICAL"
+  },
+  {
+    "file": "src/services/cashFlowService.ts",
+    "line": 74,
+    "content": "const projections: any[] = [];",
+    "type": "any",
+    "risk": "CRITICAL"
+  },
+  {
+    "file": "src/services/cashFlowService.ts",
+    "line": 85,
+    "content": ".filter((r: any) => r.vencimento === dateStr && r.status !== 'Pago')",
+    "type": "any",
+    "risk": "CRITICAL"
+  },
+  {
+    "file": "src/services/cashFlowService.ts",
+    "line": 86,
+    "content": ".reduce((acc: number, r: any) => acc + (Number(r.valorAberto ?? r.valor) || 0), 0);",
+    "type": "any",
+    "risk": "CRITICAL"
+  },
+  {
+    "file": "src/services/cashFlowService.ts",
+    "line": 90,
+    "content": ".filter((p: any) => p.vencimento === dateStr && p.status !== 'Pago')",
+    "type": "any",
+    "risk": "CRITICAL"
+  },
+  {
+    "file": "src/services/cashFlowService.ts",
+    "line": 91,
+    "content": ".reduce((acc: number, p: any) => acc + (Number(p.valorAberto ?? p.valor) || 0), 0);",
+    "type": "any",
+    "risk": "CRITICAL"
+  },
+  {
+    "file": "src/services/cashFlowService.ts",
+    "line": 109,
+    "content": ".filter((r: any) => {",
+    "type": "any",
+    "risk": "CRITICAL"
+  },
+  {
+    "file": "src/services/cashFlowService.ts",
+    "line": 114,
+    "content": ".map((r: any) => ({",
+    "type": "any",
+    "risk": "CRITICAL"
+  },
+  {
+    "file": "src/services/cashFlowService.ts",
+    "line": 123,
+    "content": ".filter((p: any) => {",
+    "type": "any",
+    "risk": "CRITICAL"
+  },
+  {
+    "file": "src/services/cashFlowService.ts",
+    "line": 128,
+    "content": ".map((p: any) => ({",
+    "type": "any",
+    "risk": "CRITICAL"
+  },
+  {
+    "file": "src/services/cashFlowService.ts",
+    "line": 138,
+    "content": ".filter((p: any) => {",
+    "type": "any",
+    "risk": "CRITICAL"
+  },
+  {
+    "file": "src/services/cashFlowService.ts",
+    "line": 141,
+    "content": ".map((p: any) => ({",
+    "type": "any",
+    "risk": "CRITICAL"
+  },
+  {
+    "file": "src/services/cashFlowService.ts",
+    "line": 150,
+    "content": ".filter((r: any) => {",
+    "type": "any",
+    "risk": "CRITICAL"
+  },
+  {
+    "file": "src/services/cashFlowService.ts",
+    "line": 153,
+    "content": ".map((r: any) => ({",
+    "type": "any",
+    "risk": "CRITICAL"
+  },
+  {
+    "file": "src/services/cashFlowService.ts",
+    "line": 237,
+    "content": ".filter((d: any) => d.status !== 'archived' && d.status !== 'pending' && d.status !== 'rejected');",
+    "type": "any",
+    "risk": "CRITICAL"
+  },
+  {
+    "file": "src/services/governanceService.ts",
+    "line": 22,
+    "content": "async getFirestoreDocs(q: any): Promise<any> {",
+    "type": "any",
+    "risk": "CRITICAL"
+  },
+  {
+    "file": "src/services/governanceService.ts",
+    "line": 22,
+    "content": "async getFirestoreDocs(q: any): Promise<any> {",
+    "type": "any",
+    "risk": "CRITICAL"
+  },
+  {
+    "file": "src/services/governanceService.ts",
+    "line": 67,
+    "content": "timestamp: serverTimestamp() as any",
+    "type": "any",
+    "risk": "CRITICAL"
+  },
+  {
+    "file": "src/services/governanceService.ts",
+    "line": 144,
+    "content": "return snap.docs.map(d => ({ id: d.id, ...(d.data() as any) }));",
+    "type": "any",
+    "risk": "CRITICAL"
+  },
+  {
+    "file": "src/services/governanceService.ts",
+    "line": 177,
+    "content": "return snap.docs.map(d => ({ id: d.id, ...(d.data() as any) }));",
+    "type": "any",
+    "risk": "CRITICAL"
+  },
+  {
+    "file": "src/services/importService.ts",
+    "line": 53,
+    "content": "// @ts-ignore",
+    "type": "tsIgnore",
+    "risk": "CRITICAL"
+  },
+  {
+    "file": "src/services/importService.ts",
+    "line": 72,
+    "content": "textContent.items.forEach((item: any) => {",
+    "type": "any",
+    "risk": "CRITICAL"
+  },
+  {
+    "file": "src/services/importService.ts",
+    "line": 148,
+    "content": "textContent.items.forEach((item: any) => {",
+    "type": "any",
+    "risk": "CRITICAL"
+  },
+  {
+    "file": "src/services/importService.ts",
+    "line": 203,
+    "content": "const rawData = XLSX.utils.sheet_to_json(ws, { header: 1 }) as any[][];",
+    "type": "any",
+    "risk": "CRITICAL"
+  },
+  {
+    "file": "src/services/importService.ts",
+    "line": 373,
+    "content": "const jsonData = XLSX.utils.sheet_to_json(worksheet, { header: 1 }) as any[][];",
+    "type": "any",
+    "risk": "CRITICAL"
+  },
+  {
+    "file": "src/services/importService.ts",
+    "line": 482,
+    "content": "// @ts-ignore",
+    "type": "tsIgnore",
+    "risk": "CRITICAL"
+  },
+  {
+    "file": "src/services/importService.ts",
+    "line": 497,
+    "content": "textContent.items.forEach((item: any) => {",
+    "type": "any",
+    "risk": "CRITICAL"
+  },
+  {
+    "file": "src/services/importService.ts",
+    "line": 587,
+    "content": ".map(acc => (acc as any).id)",
+    "type": "any",
+    "risk": "CRITICAL"
+  },
+  {
+    "file": "src/services/importService.ts",
+    "line": 797,
+    "content": "const jsonData = XLSX.utils.sheet_to_json(worksheet, { header: 1 }) as any[][];",
+    "type": "any",
+    "risk": "CRITICAL"
+  },
+  {
+    "file": "src/services/importService.ts",
+    "line": 946,
+    "content": "// @ts-ignore",
+    "type": "tsIgnore",
+    "risk": "CRITICAL"
+  },
+  {
+    "file": "src/services/importService.ts",
+    "line": 963,
+    "content": "textContent.items.forEach((item: any) => {",
+    "type": "any",
+    "risk": "CRITICAL"
+  },
+  {
+    "file": "src/services/importService.ts",
+    "line": 1079,
+    "content": "const jsonData = XLSX.utils.sheet_to_json(ws, { header: 1 }) as any[][];",
+    "type": "any",
+    "risk": "CRITICAL"
+  },
+  {
+    "file": "src/services/importService.ts",
+    "line": 1134,
+    "content": "// @ts-ignore",
+    "type": "tsIgnore",
+    "risk": "CRITICAL"
+  },
+  {
+    "file": "src/services/importService.ts",
+    "line": 1150,
+    "content": "textContent.items.forEach((item: any) => {",
+    "type": "any",
+    "risk": "CRITICAL"
+  },
+  {
+    "file": "src/services/intelligenceEngine.ts",
+    "line": 5,
+    "content": "const getVal = (data: any[], names: string[]) => {",
+    "type": "any",
+    "risk": "CRITICAL"
+  },
+  {
+    "file": "src/services/intelligenceEngine.ts",
+    "line": 16,
+    "content": "const extractCMV = (dreRows: any[]): number => {",
+    "type": "any",
+    "risk": "CRITICAL"
+  },
+  {
+    "file": "src/services/intelligenceEngine.ts",
+    "line": 40,
+    "content": "processFinancialData: (currentDre: any[], currentBp: any[], version: string = CURRENT_METHODOLOGY_VERSION) => {",
+    "type": "any",
+    "risk": "CRITICAL"
+  },
+  {
+    "file": "src/services/intelligenceEngine.ts",
+    "line": 40,
+    "content": "processFinancialData: (currentDre: any[], currentBp: any[], version: string = CURRENT_METHODOLOGY_VERSION) => {",
+    "type": "any",
+    "risk": "CRITICAL"
+  },
+  {
+    "file": "src/services/logging/InstitutionalLogger.ts",
+    "line": 21,
+    "content": "debug(message: string, payload?: any) {",
+    "type": "any",
+    "risk": "CRITICAL"
+  },
+  {
+    "file": "src/services/logging/InstitutionalLogger.ts",
+    "line": 31,
+    "content": "info(message: string, payload?: any) {",
+    "type": "any",
+    "risk": "CRITICAL"
+  },
+  {
+    "file": "src/services/logging/InstitutionalLogger.ts",
+    "line": 41,
+    "content": "warn(message: string, payload?: any) {",
+    "type": "any",
+    "risk": "CRITICAL"
+  },
+  {
+    "file": "src/services/logging/InstitutionalLogger.ts",
+    "line": 51,
+    "content": "error(message: string, error?: any, context?: any) {",
+    "type": "any",
+    "risk": "CRITICAL"
+  },
+  {
+    "file": "src/services/logging/InstitutionalLogger.ts",
+    "line": 51,
+    "content": "error(message: string, error?: any, context?: any) {",
+    "type": "any",
+    "risk": "CRITICAL"
+  },
+  {
+    "file": "src/services/logging/InstitutionalLogger.ts",
+    "line": 71,
+    "content": "audit(event: string, payload: any) {",
+    "type": "any",
+    "risk": "CRITICAL"
+  },
+  {
+    "file": "src/services/logging/LogSanitizer.ts",
+    "line": 9,
+    "content": "static sanitizeForLog(payload: any): any {",
+    "type": "any",
+    "risk": "CRITICAL"
+  },
+  {
+    "file": "src/services/logging/LogSanitizer.ts",
+    "line": 9,
+    "content": "static sanitizeForLog(payload: any): any {",
+    "type": "any",
+    "risk": "CRITICAL"
+  },
+  {
+    "file": "src/services/logging/LogSanitizer.ts",
+    "line": 21,
+    "content": "const sanitized: any = {};",
+    "type": "any",
+    "risk": "CRITICAL"
+  },
+  {
+    "file": "src/services/notificationService.ts",
+    "line": 24,
+    "content": "metadata?: any;",
+    "type": "any",
+    "risk": "CRITICAL"
+  },
+  {
+    "file": "src/services/notificationService.ts",
+    "line": 25,
+    "content": "createdAt: any;",
+    "type": "any",
+    "risk": "CRITICAL"
+  },
+  {
+    "file": "src/services/security/AccessControlService.ts",
+    "line": 9,
+    "content": "claims: Record<string, any>;",
+    "type": "recordStringAny",
+    "risk": "CRITICAL"
+  },
+  {
+    "file": "src/services/supportService.ts",
+    "line": 108,
+    "content": "const updateData: any = { status, updatedAt: serverTimestamp() };",
+    "type": "any",
+    "risk": "CRITICAL"
+  },
+  {
+    "file": "src/services/taxService.ts",
+    "line": 23,
+    "content": "const anexoData = (DATA as any).premissas.tributarias.simplesNacional.find((a: any) => a.anexo === anexoNum);",
+    "type": "any",
+    "risk": "CRITICAL"
+  },
+  {
+    "file": "src/services/taxService.ts",
+    "line": 23,
+    "content": "const anexoData = (DATA as any).premissas.tributarias.simplesNacional.find((a: any) => a.anexo === anexoNum);",
+    "type": "any",
+    "risk": "CRITICAL"
+  },
+  {
+    "file": "src/services/taxService.ts",
+    "line": 27,
+    "content": "const faixa = anexoData.faixas.find((f: any) => rbt12 <= f.ate) || anexoData.faixas[anexoData.faixas.length - 1];",
+    "type": "any",
+    "risk": "CRITICAL"
+  }
+]

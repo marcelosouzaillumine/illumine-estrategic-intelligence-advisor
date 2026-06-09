@@ -1,7 +1,7 @@
 import { test as it, describe } from 'node:test';
 import assert from 'node:assert/strict';
 import { EconomicValueIntelligenceEngine } from '../src/core/runtime/governance/dre/EconomicValueIntelligenceEngine';
-import { EarningsQualityEngine } from '../src/core/runtime/governance/dre/EarningsQualityEngine';
+import { EarningsCompositionEngine } from '../src/core/runtime/governance/dre/EarningsCompositionEngine';
 import { InstitutionalConfidenceEngine } from '../src/core/runtime/confidence/InstitutionalConfidenceEngine';
 
 describe('DRE Executive Intelligence Pack', () => {
@@ -28,7 +28,7 @@ describe('DRE Executive Intelligence Pack', () => {
     });
   });
 
-  describe('EarningsQualityEngine', () => {
+  describe('EarningsCompositionEngine', () => {
     it('should classify as LOW_QUALITY_EARNINGS when profit is driven by non-operating revenue', () => {
       // Teste 2: Operação = negativa, Venda de ativo (não operacional) = positiva, Lucro final = positivo
       // Receita Liquida = 500.000
@@ -36,7 +36,7 @@ describe('DRE Executive Intelligence Pack', () => {
       // Resultado Financeiro = 0
       // Lucro Liquido = 50.000
       // Lucro Bruto (Operacao base proxy) = -50.000
-      const result = EarningsQualityEngine.evaluate(500000, 200000, 0, 50000, -50000, false);
+      const result = EarningsCompositionEngine.evaluate(500000, 200000, 0, 50000, -50000, false);
       assert.strictEqual(result.classification, 'LOW_QUALITY_EARNINGS');
       // Total Effect = |-50k| + |200k| = 250k
       // Non-Recurring Weight = 200k / 250k = 80%
@@ -44,7 +44,7 @@ describe('DRE Executive Intelligence Pack', () => {
     });
 
     it('should classify as HIGH_QUALITY_EARNINGS when profit is purely operational', () => {
-      const result = EarningsQualityEngine.evaluate(500000, 0, -10000, 50000, 100000, false);
+      const result = EarningsCompositionEngine.evaluate(500000, 0, -10000, 50000, 100000, false);
       assert.strictEqual(result.classification, 'HIGH_QUALITY_EARNINGS');
       // Total Effect = |100k| + |-10k| = 110k
       // Recurring Weight = 100k / 110k = ~90.9%
@@ -52,7 +52,7 @@ describe('DRE Executive Intelligence Pack', () => {
     });
 
     it('should classify as UNDETERMINED_EARNINGS_QUALITY when chart of accounts is simplified', () => {
-      const result = EarningsQualityEngine.evaluate(500000, 0, -10000, 50000, 100000, true);
+      const result = EarningsCompositionEngine.evaluate(500000, 0, -10000, 50000, 100000, true);
       assert.strictEqual(result.classification, 'UNDETERMINED_EARNINGS_QUALITY');
     });
   });

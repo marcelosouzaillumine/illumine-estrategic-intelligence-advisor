@@ -63,6 +63,18 @@ import { mapReportToBenchmarkIntelligenceInput } from "../../../lib/benchmark-in
 import { buildBenchmarkIntelligence } from "../../../lib/benchmark-intelligence-engine";
 import type { BenchmarkIntelligence } from "../../../lib/benchmark-intelligence-types";
 
+import { mapReportToSectorIntelligenceInput } from '../../../lib/sector-intelligence-mapper';
+import { buildSectorIntelligence } from '../../../lib/sector-intelligence-engine';
+import type { SectorIntelligence } from '../../../lib/sector-intelligence-types';
+
+import { mapReportToCapitalAllocationIntelligenceInput } from '../../../lib/capital-allocation-intelligence-mapper';
+import { buildCapitalAllocationIntelligence } from '../../../lib/capital-allocation-intelligence-engine';
+import type { CapitalAllocationIntelligence } from '../../../lib/capital-allocation-intelligence-types';
+
+import { mapReportToExecutiveSovereigntyInput } from '../../../lib/executive-sovereignty-mapper';
+import { buildExecutiveSovereigntyProfile } from '../../../lib/executive-sovereignty-engine';
+import type { ExecutiveSovereigntyProfile } from '../../../lib/executive-sovereignty-types';
+
 import { DLPAFiduciaryInterpretationEngine, DLPAFiduciaryOutput } from '../governance/dlpa/DLPAFiduciaryInterpretationEngine';
 import { FinancialRuntimeContext } from '../financial-context/FinancialRuntimeContextTypes';
 import { FinancialRuntimeContextAdapter } from '../financial-context/FinancialRuntimeContextAdapter';
@@ -186,6 +198,9 @@ export class CapitalGovernanceAdapter {
     esgIntelligence?: ESGIntelligence;
     valuationIntelligence?: ValuationIntelligence;
     benchmarkIntelligence?: BenchmarkIntelligence;
+    sectorIntelligence?: SectorIntelligence;
+    capitalAllocationIntelligence?: CapitalAllocationIntelligence;
+    executiveSovereignty?: ExecutiveSovereigntyProfile;
   } {
     
     let fallbackActivated = false;
@@ -748,13 +763,38 @@ export class CapitalGovernanceAdapter {
     const benchmarkInput = mapReportToBenchmarkIntelligenceInput(reportWithValuation);
     const benchmarkIntelligence = buildBenchmarkIntelligence(benchmarkInput);
 
-    const reportWithBenchmark = {
+    const reportWithBenchmarkIntelligence = {
       ...reportWithValuation,
-      ...(benchmarkIntelligence && { benchmarkIntelligence })
+      ...(benchmarkIntelligence && { benchmarkIntelligence }),
     };
 
-    return reportWithBenchmark;
+    // --- PHASE 17: Sector Intelligence Layer v3.0 ---
+    const sectorIntelligenceInput = mapReportToSectorIntelligenceInput(reportWithBenchmarkIntelligence);
+    const sectorIntelligence = buildSectorIntelligence(sectorIntelligenceInput);
+    const reportWithSectorIntelligence = {
+      ...reportWithBenchmarkIntelligence,
+      ...(sectorIntelligence && { sectorIntelligence }),
+    };
 
+    // --- PHASE 18: Capital Allocation Intelligence Layer v3.0 ---
+    const capitalAllocationInput = mapReportToCapitalAllocationIntelligenceInput(reportWithSectorIntelligence);
+    const capitalAllocationIntelligence = buildCapitalAllocationIntelligence(capitalAllocationInput);
+    
+    const reportWithCapitalAllocationIntelligence = {
+      ...reportWithSectorIntelligence,
+      ...(capitalAllocationIntelligence && { capitalAllocationIntelligence }),
+    };
+
+    // --- PHASE 19: Executive Sovereignty Layer v3.0 (Apex) ---
+    const executiveSovereigntyInput = mapReportToExecutiveSovereigntyInput(reportWithCapitalAllocationIntelligence);
+    const executiveSovereignty = buildExecutiveSovereigntyProfile(executiveSovereigntyInput);
+    
+    const reportWithExecutiveSovereignty = {
+      ...reportWithCapitalAllocationIntelligence,
+      ...(executiveSovereignty && { executiveSovereignty }),
+    };
+
+    return reportWithExecutiveSovereignty;
   }
 
   /**

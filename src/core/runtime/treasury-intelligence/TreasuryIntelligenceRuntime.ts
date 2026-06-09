@@ -12,7 +12,7 @@ import { ReinvestmentIntelligenceEngine } from './ReinvestmentIntelligenceEngine
 import { TreasuryResilienceEngine } from './TreasuryResilienceEngine';
 import { CashPriorityEngine } from './CashPriorityEngine';
 import { TreasuryStressEngine } from './TreasuryStressEngine';
-import { CapitalPreservationEngine } from './CapitalPreservationEngine';
+import { TreasuryPreservationScoringEngine } from './TreasuryPreservationScoringEngine';
 import { FiduciaryEfficiencyEngine } from './FiduciaryEfficiencyEngine';
 import { TreasuryPriorityMatrixEngine } from './TreasuryPriorityMatrixEngine';
 import { TreasuryGovernanceEngine } from './TreasuryGovernanceEngine';
@@ -173,7 +173,7 @@ export class TreasuryIntelligenceRuntime {
     auditTrail.push(`Treasury stress simulated. simulatedExhaustionProjected: ${stressSimulations.simulatedExhaustionProjected}`);
 
     // 7. Evaluate Capital Preservation Engine
-    const capitalPreservation = CapitalPreservationEngine.evaluate({
+    const capitalPreservation = TreasuryPreservationScoringEngine.evaluate({
       startingEquity,
       endingEquity,
       netIncome,

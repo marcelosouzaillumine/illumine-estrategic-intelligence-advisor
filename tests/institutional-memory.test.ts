@@ -21,6 +21,11 @@ describe('Institutional Memory Engine (RC-1.2A) Suite', () => {
   it('1. Deve detectar recorrência de caixa e estresse de fluxo de caixa', () => {
     const record1: InstitutionalMemoryRecord = {
       memoryId: 'mem-1',
+      objectId: 'mem-1',
+      objectType: 'MEMORY',
+      title: 'Consumo de caixa',
+      description: 'Teste de memória institucional',
+      sourceDomain: 'FINANCIAL',
       tenantId: 'TENANT-1',
       entityId: 'ENT-1',
       timestamp: '2026-01-01T00:00:00Z',
@@ -254,6 +259,11 @@ describe('Institutional Memory Engine (RC-1.2A) Suite', () => {
   // 11. Timeline sem lineage
   it('11. Deve rejeitar registros na memória fiduciária se lineageHash ou metadados estiverem ausentes', () => {
     const invalidRecord = {
+      objectId: 'invalid-1',
+      objectType: 'MEMORY' as const,
+      title: 'Invalid record',
+      description: 'Testing missing lineage',
+      sourceDomain: 'GOVERNANCE',
       tenantId: 'TENANT-1',
       entityId: 'ENT-1',
       timestamp: '2026-01-01T00:00:00Z',

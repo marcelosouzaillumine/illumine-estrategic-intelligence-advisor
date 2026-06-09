@@ -24,6 +24,7 @@ import {
   ESGIMScenario, 
   GovernanceJourneyStep 
 } from '../../../services/FiduciaryRuntimeAdapter';
+import { InvestigationLauncherWrapper } from '../../investigation/InvestigationLauncherWrapper';
 
 interface GovernanceJourneyPanelProps {
   clientId: string;
@@ -398,13 +399,20 @@ export function GovernanceJourneyPanel({
                       Bloqueado por Prontidão (BRL)
                     </div>
                   ) : (
-                    <button
-                      onClick={() => onNavigate(targetTab, sectionId)}
-                      className="w-full py-1.5 px-3 bg-slate-950 hover:bg-slate-900 border border-white/5 hover:border-indigo-500/20 text-[9px] font-black uppercase tracking-wider rounded text-indigo-400 hover:text-indigo-300 transition-all text-center flex items-center justify-center gap-1 group"
-                    >
-                      Análise Detalhada
-                      <ChevronRight className="w-3 h-3 transform group-hover:translate-x-0.5 transition-transform" />
-                    </button>
+                    <div className="flex items-center gap-2">
+                      <button
+                        onClick={() => onNavigate(targetTab, sectionId)}
+                        className="flex-1 py-1.5 px-3 bg-slate-950 hover:bg-slate-900 border border-white/5 hover:border-indigo-500/20 text-[9px] font-black uppercase tracking-wider rounded text-indigo-400 hover:text-indigo-300 transition-all text-center flex items-center justify-center gap-1 group"
+                      >
+                        Análise Detalhada
+                        <ChevronRight className="w-3 h-3 transform group-hover:translate-x-0.5 transition-transform" />
+                      </button>
+                      <InvestigationLauncherWrapper 
+                        tenantId="SYSTEM_TENANT" 
+                        nodeId={step.id} 
+                        originSurface="ESGIM" 
+                      />
+                    </div>
                   )}
                 </div>
               </motion.div>

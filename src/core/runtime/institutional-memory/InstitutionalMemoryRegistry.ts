@@ -9,6 +9,11 @@ const MEMORY_STORE: InstitutionalMemoryRecord[] = [];
 const DEMO_SEEDS: InstitutionalMemoryRecord[] = [
   {
     memoryId: 'demo-mem-1',
+    objectId: 'demo-mem-1',
+    objectType: 'MEMORY',
+    title: 'Sinais iniciais de deterioração de caixa',
+    description: 'Registro demo para sinal de caixa',
+    sourceDomain: 'FINANCIAL',
     tenantId: 'demo-tenant-turnaround',
     entityId: 'ENT-A',
     timestamp: new Date(Date.now() - 180 * 24 * 60 * 60 * 1000).toISOString(), // 6 months ago
@@ -26,6 +31,11 @@ const DEMO_SEEDS: InstitutionalMemoryRecord[] = [
   },
   {
     memoryId: 'demo-mem-2',
+    objectId: 'demo-mem-2',
+    objectType: 'MEMORY',
+    title: 'Redução acentuada na cobertura',
+    description: 'Registro demo para redução acentuada',
+    sourceDomain: 'FINANCIAL',
     tenantId: 'demo-tenant-turnaround',
     entityId: 'ENT-A',
     timestamp: new Date(Date.now() - 90 * 24 * 60 * 60 * 1000).toISOString(), // 3 months ago
@@ -43,6 +53,11 @@ const DEMO_SEEDS: InstitutionalMemoryRecord[] = [
   },
   {
     memoryId: 'demo-mem-3',
+    objectId: 'demo-mem-3',
+    objectType: 'MEMORY',
+    title: 'Conflito de interesse',
+    description: 'Registro demo para conflito societário',
+    sourceDomain: 'GOVERNANCE',
     tenantId: 'demo-tenant-turnaround',
     entityId: 'ENT-A',
     timestamp: new Date(Date.now() - 30 * 24 * 60 * 60 * 1000).toISOString(), // 1 month ago

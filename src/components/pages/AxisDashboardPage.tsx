@@ -430,9 +430,9 @@ export function AxisDashboardPage({ axis, clientId, onNavigate, selectedMonth, s
                 </div>
               </div>
 
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+              <div className="grid grid-cols-1 md:grid-cols-[repeat(auto-fit,minmax(300px,1fr))] items-stretch gap-8">
                 {/* Centralization Signal */}
-                <div className="p-8 rounded-[40px] bg-slate-50 border border-slate-100 space-y-6">
+                <div className="p-8 rounded-[40px] bg-slate-50 border border-slate-100 space-y-6 h-full flex flex-col">
                   <div className="flex items-center justify-between">
                      <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest">Sinal de Centralização</p>
                      <div className={cn("w-2 h-2 rounded-full", isCentralized ? "bg-amber-500 shadow-[0_0_10px_rgba(245,158,11,0.5)]" : "bg-emerald-500")} />
@@ -448,7 +448,7 @@ export function AxisDashboardPage({ axis, clientId, onNavigate, selectedMonth, s
                 </div>
 
                 {/* Fatigue Signal */}
-                <div className="p-8 rounded-[40px] bg-slate-50 border border-slate-100 space-y-6">
+                <div className="p-8 rounded-[40px] bg-slate-50 border border-slate-100 space-y-6 h-full flex flex-col">
                   <div className="flex items-center justify-between">
                      <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest">Fadiga Organizacional</p>
                      <div className={cn("w-2 h-2 rounded-full", isFatigued ? "bg-rose-500 shadow-[0_0_10px_rgba(244,63,94,0.5)]" : "bg-emerald-500")} />
@@ -457,14 +457,14 @@ export function AxisDashboardPage({ axis, clientId, onNavigate, selectedMonth, s
                      <h4 className="text-lg font-black text-slate-900">{isFatigued ? "Alerta de Estresse" : "Ritmo Sustentável"}</h4>
                      <p className="text-xs text-slate-500 leading-relaxed font-medium">
                        {isFatigued 
-                         ? "Índices de absenteísmo ou falta de desenvolvimento sugerem sobrecarga física ou mental nas equipes." 
-                         : "Os indicadores de presença e investimento em pessoas sugerem um ritmo operacional saudável e resiliente."}
+                         ? "Índices de absenteísmo ou falta de desenvolvimento indicam sobrecarga física ou mental nas equipes." 
+                         : "Os indicadores de presença e investimento em pessoas indicam um ritmo operacional saudável e resiliente."}
                      </p>
                   </div>
                 </div>
 
                 {/* Silent Climate Signal */}
-                <div className={cn("p-8 rounded-[40px] space-y-6 shadow-xl transition-colors duration-500", isSilent ? "bg-slate-950 text-white" : "bg-slate-100 text-slate-900")}>
+                <div className={cn("p-8 rounded-[40px] space-y-6 shadow-xl transition-colors duration-500 h-full flex flex-col", isSilent ? "bg-slate-950 text-white" : "bg-slate-100 text-slate-900")}>
                   <div className="flex items-center justify-between">
                      <p className="text-[10px] font-black opacity-50 uppercase tracking-widest">Clima Silencioso</p>
                      <div className={cn("w-2 h-2 rounded-full", isSilent ? "bg-primary animate-pulse" : "bg-emerald-500")} />
@@ -473,7 +473,7 @@ export function AxisDashboardPage({ axis, clientId, onNavigate, selectedMonth, s
                      <h4 className="text-lg font-black">{isSilent ? "Risco de Conformidade" : "Transparência Plena"}</h4>
                      <p className="text-xs opacity-70 leading-relaxed font-medium">
                        {isSilent 
-                         ? "Baixo turnover com baixo eNPS sugerem um ambiente onde os problemas não são vocalizados por medo ou apatia." 
+                         ? "Baixo turnover com baixo eNPS indicam um ambiente onde os problemas não são vocalizados por medo ou apatia." 
                          : "A relação entre engajamento e retenção aponta para um ambiente de diálogo aberto e segurança psicológica."}
                      </p>
                   </div>

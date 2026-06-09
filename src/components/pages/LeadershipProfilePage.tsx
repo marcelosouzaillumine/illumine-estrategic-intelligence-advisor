@@ -1132,7 +1132,7 @@ export function LeadershipProfilePage({ clientId }: { clientId: string }) {
                         <p className="text-sm leading-relaxed text-white/80">
                           {Math.abs(teamMetrics.actual.C - teamMetrics.ideal.C) > 15 ? 
                             "Há um desalinhamento significativo na precisão e conformidade técnica esperada para a estrutura atual." : 
-                            "O equilíbrio de estabilidade sugere um bom ritmo, mas cuidado com a resistência a mudanças rápidas."}
+                            "O equilíbrio de estabilidade indica um bom ritmo, mas cuidado com a resistência a mudanças rápidas."}
                         </p>
                       </div>
                     </div>

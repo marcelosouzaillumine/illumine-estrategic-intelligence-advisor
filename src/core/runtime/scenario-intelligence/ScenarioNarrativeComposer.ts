@@ -17,9 +17,9 @@ export class ScenarioNarrativeComposer {
 
     const { systemicSeverity, structuralIntegrityScore } = scenarioResult.propagationProfile;
     
-    let lead = 'A propagação estrutural observada sugere estabilidade relativa nas dimensões centrais de capital.';
+    let lead = 'A propagação estrutural observada indica estabilidade relativa nas dimensões centrais de capital.';
     if (systemicSeverity === 'CRÍTICA') {
-      lead = 'A propagação estrutural observada sugere forte pressão de liquidez operacional e resiliência reduzida de tesouraria.';
+      lead = 'A propagação estrutural observada evidencia forte pressão de liquidez operacional e resiliência reduzida de tesouraria.';
     } else if (systemicSeverity === 'ALTA') {
       lead = 'A propagação observada indica consumo acelerado de capital, tensionando a sustentabilidade de curto prazo.';
     }

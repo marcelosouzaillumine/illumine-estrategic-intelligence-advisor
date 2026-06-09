@@ -1,3 +1,4 @@
+import { logger } from "../../../services/logging/InstitutionalLogger";
 import { WorkflowAuditRecord, WorkflowActor } from './WorkflowGovernanceTypes';
 
 export class WorkflowAuditLogger {
@@ -21,7 +22,7 @@ export class WorkflowAuditLogger {
     };
     
     this.logs.push(record);
-    console.log(`[WorkflowAuditLogger] ${event} - Workflow: ${workflowId} - Actor: ${actor.role}`);
+    logger.audit('Workflow Audit Event', { event, workflowId, actorRole: actor.role });
   }
 
   static getLogsForTenant(tenantId: string): WorkflowAuditRecord[] {

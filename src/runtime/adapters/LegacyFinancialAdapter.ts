@@ -1,3 +1,4 @@
+import { logger } from "../../services/logging/InstitutionalLogger";
 import { EngineDefinition, InstitutionalContext, EngineExecutionResult, InferenceBlock, CausalityChain, AdvisoryNarrative } from '../types';
 import { buildBPHierarchy } from '../../lib/bpEngine';
 import { calculateFinancialMetrics } from '../../lib/financial-engine';
@@ -108,7 +109,7 @@ export const LegacyFinancialAdapter: EngineDefinition = {
       };
 
     } catch (error: any) {
-      console.error('LEGACY FINANCIAL ADAPTER ERROR STACK:', error);
+      logger.error('LEGACY FINANCIAL ADAPTER ERROR STACK', error);
       return {
         engineName: 'LegacyFinancialAdapter',
         success: false,

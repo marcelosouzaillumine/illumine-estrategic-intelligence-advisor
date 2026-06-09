@@ -52,7 +52,7 @@ export const ConsolidatedExecutiveProvider: React.FC<{ children: React.ReactNode
         setReport(advisoryReport);
       } catch (err: any) {
         console.error('Falha na geração do relatório consolidado:', err);
-        setError(err.message || 'Erro crítico na geração da inteligência multi-entidade.');
+        setError((err instanceof Error ? err.message : String(err)) || 'Erro crítico na geração da inteligência multi-entidade.');
       } finally {
         setLoading(false);
       }

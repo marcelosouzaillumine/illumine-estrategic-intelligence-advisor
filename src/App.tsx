@@ -72,6 +72,10 @@ import { ImportPlanoModal } from './components/modals/ImportPlanoModal';
 import { MappingWizard } from './components/modals/MappingWizard';
 import { PageHeader, Semaphore, StatusBadge, SectionHeader, WelcomeMessage, getRandomWelcomeMessage } from './components/Common';
 import { Routes, Route, Navigate, useLocation, useNavigate } from 'react-router-dom';
+import { BoardInvestigationWorkspace } from './components/investigation/BoardInvestigationWorkspace';
+import { GovernanceTimeMachinePage } from './components/pages/GovernanceTimeMachinePage';
+import { InstitutionalDigitalTwinPage } from './components/pages/InstitutionalDigitalTwinPage';
+import { InstitutionalIntelligenceWorkspace } from './components/intelligence/InstitutionalIntelligenceWorkspace';
 import { ClientsPage } from './components/pages/ClientsPage';
 import { FiscalTributarioPage } from './components/pages/FiscalTributarioPage';
 import { QuadroPessoalPage } from './components/pages/QuadroPessoalPage';
@@ -84,6 +88,7 @@ import { LoginPage } from './components/pages/public/LoginPage';
 import { ForcePasswordChangeModal } from './components/modals/ForcePasswordChangeModal';
 import { ConsolidatedExecutiveProvider } from './context/ConsolidatedExecutiveContext';
 import { ConsolidatedExecutivePage } from './components/pages/ConsolidatedExecutivePage';
+import { ExecutiveCognitivePage } from './components/pages/ExecutiveCognitivePage';
 import { ExecutiveInteractionProvider } from './context/executive-interaction/ExecutiveInteractionProvider';
 import { ExecutiveCognitiveProvider } from './context/executive-cognitive/ExecutiveCognitiveProvider';
 import { 
@@ -92,6 +97,7 @@ import {
   ExecutiveLoadingSurface, 
   GovernanceEscalationBanner 
 } from './components/executive-interaction';
+import { ExecutiveHomeWorkspace } from './components/executive/ExecutiveHomeWorkspace';
 import { InstitutionalMemoryProvider, useInstitutionalMemory } from './context/institutional-memory/InstitutionalMemoryProvider';
 
 import { useDataTable } from './hooks/useDataTable';
@@ -122,6 +128,8 @@ import { ClientSelector } from './components/ClientSelector';
 import { GovernanceProvider, useGovernance } from './lib/governanceContext';
 import { TenancyProvider } from './context/TenancyProvider';
 import { LGPDModal } from './components/modals/GovernanceModals';
+import { AdvisorCommandCenter } from './components/advisor/AdvisorCommandCenter';
+import { ScenarioCommandCenter } from './components/war-room/ScenarioCommandCenter';
 import { governanceService } from './services/governanceService';
 import { DataAccessContext } from './core/security/data-access-context';
 import { DadosHistoricosPage } from './components/pages/DadosHistoricosPage';
@@ -227,6 +235,30 @@ function AuthLoadingScreen() {
         <p className="text-body-sm font-medium uppercase tracking-widest text-muted-foreground">
           Validando acesso
         </p>
+      </div>
+    </main>
+  );
+}
+
+function AccessDeniedScreen({ onLogout }: { onLogout: () => void }) {
+  return (
+    <main className="min-h-screen bg-background flex items-center justify-center text-foreground">
+      <div className="flex flex-col items-center gap-6 max-w-md text-center p-6">
+        <div className="w-16 h-16 rounded-full bg-red-100 dark:bg-red-900/30 flex items-center justify-center text-red-600 dark:text-red-400">
+          <ShieldCheck size={32} />
+        </div>
+        <div>
+          <h1 className="text-2xl font-bold mb-2">Acesso Negado</h1>
+          <p className="text-muted-foreground">
+            Sua conta do Google foi autenticada, mas você não possui nenhum vínculo com empresas na plataforma ou privilégios administrativos.
+          </p>
+        </div>
+        <button 
+          onClick={onLogout}
+          className="px-6 py-2.5 bg-primary text-primary-foreground font-medium rounded-full hover:bg-primary/90 transition-colors"
+        >
+          Sair e tentar com outra conta
+        </button>
       </div>
     </main>
   );
@@ -431,6 +463,10 @@ export default function App() {
     return <AuthLoadingScreen />;
   }
 
+  if (user && session?.sessionState === 'DENIED') {
+    return <AccessDeniedScreen onLogout={institutionalLogout} />;
+  }
+
   return (
     <LanguageProvider>
       <GovernanceProvider user={user}>
@@ -444,8 +480,21 @@ export default function App() {
                   <Route path="/parceiros" element={<PartnerSalesPage />} />
                   <Route path="/programa-parceiros" element={<ReferralProgramPage />} />
                   <Route path="/diagnostico" element={<DiagnosticoPage />} />
-                  <Route path="/login" element={user ? <Navigate to="/dashboard/efos" replace /> : <LoginPage />} />
+                  <Route path="/login" element={user ? <Navigate to="/executive-home" replace /> : <LoginPage />} />
+                  <Route path="/executive-home" element={<ExecutiveHomeWorkspace />} />
                   <Route path="/consolidated-executive" element={<Navigate to="/dashboard/consolidated_executive" replace />} />
+                  <Route path="/executive-cognitive" element={<ExecutiveCognitivePage />} />
+                  <Route path="/investigation/:nodeId" element={<BoardInvestigationWorkspace />} />
+                  <Route path="/governance-time-machine" element={<GovernanceTimeMachinePage />} />
+                  <Route path="/governance-time-machine/:nodeId" element={<GovernanceTimeMachinePage />} />
+                  <Route path="/digital-twin" element={<InstitutionalDigitalTwinPage />} />
+                  <Route path="/digital-twin/:domainId" element={<InstitutionalDigitalTwinPage />} />
+                  <Route path="/advisor" element={<AdvisorCommandCenter />} />
+                  <Route path="/advisor/:organizationId" element={<AdvisorCommandCenter />} />
+                  <Route path="/war-room" element={<ScenarioCommandCenter />} />
+                  <Route path="/war-room/:scenarioId" element={<ScenarioCommandCenter />} />
+                  <Route path="/intelligence" element={<InstitutionalIntelligenceWorkspace />} />
+                  <Route path="/intelligence/:objectId" element={<InstitutionalIntelligenceWorkspace />} />
                   
                   <Route 
                     path="/dashboard/*" 

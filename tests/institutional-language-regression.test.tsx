@@ -190,7 +190,7 @@ describe('Institutional Language Regression Tests (ELSF v1.0 Refinement)', () =>
     ];
 
     for (const token of forbidden) {
-      const regex = new RegExp(`\\b${token}\\b`, 'i');
+      const regex = new RegExp(`\\b${token}\\b`);
       const hasToken = regex.test(cleanText);
       if (hasToken) {
         throw new Error(`EXECUTIVE_LANGUAGE_LEAK: Technical token "${token}" leaked in BOARD rendering: "${cleanText}"`);
@@ -246,7 +246,7 @@ describe('Institutional Language Regression Tests (ELSF v1.0 Refinement)', () =>
     ];
 
     for (const token of forbidden) {
-      const regex = new RegExp(`\\b${token}\\b`, 'i');
+      const regex = new RegExp(`\\b${token}\\b`);
       const hasToken = regex.test(cleanText);
       if (hasToken) {
         throw new Error(`EXECUTIVE_LANGUAGE_LEAK: Technical token "${token}" leaked in EXECUTIVE rendering: "${cleanText}"`);

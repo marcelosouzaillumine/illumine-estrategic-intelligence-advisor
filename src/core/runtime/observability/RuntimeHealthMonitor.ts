@@ -44,7 +44,7 @@ export class RuntimeHealthMonitor {
       await setDoc(doc(db, 'runtime_health_snapshots', snapshot.id), snapshot);
       return snapshot;
 
-    } catch (err: any) {
+    } catch (err: unknown) {
       console.error('[RuntimeHealthMonitor] Error generating snapshot:', err);
       throw err;
     }
@@ -60,7 +60,7 @@ export class RuntimeHealthMonitor {
       const snap = await getDocs(q);
       if (snap.empty) return null;
       return snap.docs[0].data() as RuntimeHealthSnapshot;
-    } catch (err: any) {
+    } catch (err: unknown) {
       console.error('[RuntimeHealthMonitor] Error getting snapshot:', err);
       return null;
     }

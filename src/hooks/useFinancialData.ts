@@ -1,4 +1,6 @@
+import { logger } from "../services/logging/InstitutionalLogger";
 import { useState, useEffect, useCallback } from 'react';
+import { FinancialStatementLike, FinancialEntryLike } from '../types/contracts';
 import { collection, query, where, getDocs } from 'firebase/firestore';
 import { db } from '../lib/firebase';
 import { buildHistoricalSeries, HistoricalFinancialSeries } from '../core/adapters/historical-series-adapter';
@@ -8,7 +10,7 @@ export function useFinancialData(clientId: string, year: number, month: number, 
   if ((globalThis as any).__mockUseFinancialData) {
     return (globalThis as any).__mockUseFinancialData(clientId, year, month, type);
   }
-  const [dbData, setDbData] = useState<any[]>([]);
+  const [dbData, setDbData] = useState<FinancialEntryLike[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
@@ -33,9 +35,9 @@ export function useFinancialData(clientId: string, year: number, month: number, 
       
       if (isCancelled.current) return;
 
-      const allEntries: any[] = [];
+      const allEntries: FinancialEntryLike[] = [];
       snap.docs.forEach(doc => {
-        const docData = doc.data() as any;
+        const docData = doc.data() as FinancialStatementLike;
         
         // Exibe dados pendentes, aprovados ou legados. Apenas ignora rejeitados ou arquivados.
         if (docData.status === 'rejected' || docData.status === 'archived') return;
@@ -44,7 +46,7 @@ export function useFinancialData(clientId: string, year: number, month: number, 
         if (month > 0 && docData.month !== undefined && docData.month !== 0 && docData.month !== month) return;
 
         if (Array.isArray(docData.data)) {
-          docData.data.forEach((entry: any) => {
+          docData.data.forEach((entry: FinancialEntryLike) => {
             allEntries.push({
               ...entry,
               id: entry.id ? entry.id : `${doc.id}_${entry.category}`,
@@ -91,7 +93,7 @@ export function useAllFinancialData(clientId: string) {
   if ((globalThis as any).__mockUseAllFinancialData) {
     return (globalThis as any).__mockUseAllFinancialData(clientId);
   }
-  const [dbData, setDbData] = useState<any[]>([]);
+  const [dbData, setDbData] = useState<FinancialEntryLike[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [historicalFinancialSeries, setHistoricalFinancialSeries] = useState<HistoricalFinancialSeries | null>(null);
@@ -109,16 +111,16 @@ export function useAllFinancialData(clientId: string) {
       
       if (isCancelled.current) return;
 
-      const allEntries: any[] = [];
+      const allEntries: FinancialEntryLike[] = [];
       snap.docs.forEach(doc => {
-        const docData = doc.data() as any;
+        const docData = doc.data() as FinancialStatementLike;
 
         // Exibe dados pendentes, aprovados ou legados. Apenas ignora rejeitados ou arquivados.
         if (docData.status === 'rejected' || docData.status === 'archived') return;
 
         if (Array.isArray(docData.data)) {
           let lastType = 'ativo';
-          docData.data.forEach((entry: any) => {
+          docData.data.forEach((entry: FinancialEntryLike) => {
             const innerType = entry.type || entry.tipo || lastType;
             lastType = innerType;
             allEntries.push({
@@ -186,7 +188,7 @@ export function useAnnualFinancialData(
   if ((globalThis as any).__mockUseAnnualFinancialData) {
     return (globalThis as any).__mockUseAnnualFinancialData(clientId, year, type);
   }
-  const [dbData, setDbData] = useState<any[]>([]);
+  const [dbData, setDbData] = useState<FinancialEntryLike[]>([]);
   const [docIds, setDocIds] = useState<string[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -205,13 +207,13 @@ export function useAnnualFinancialData(
 
       if (isCancelled.current) return;
 
-      const allEntries: any[] = [];
+      const allEntries: FinancialEntryLike[] = [];
       const ids: string[] = [];
       
       console.log(`[DEBUG USE_ANNUAL_DATA] Fetching ${type} for ${clientId} year ${year}. Found ${snap.docs.length} docs.`);
 
       snap.docs.forEach(docSnap => {
-        const docData = docSnap.data() as any;
+        const docData = docSnap.data() as FinancialStatementLike;
 
         // Exibe dados pendentes, aprovados ou legados. Apenas ignora rejeitados ou arquivados.
         if (docData.status === 'rejected' || docData.status === 'archived') return;
@@ -220,7 +222,7 @@ export function useAnnualFinancialData(
         if (Array.isArray(docData.data)) {
           // Para Balanço Patrimonial, tentamos inferir o tipo se estiver faltando
           let lastType = 'ativo';
-          docData.data.forEach((entry: any) => {
+          docData.data.forEach((entry: FinancialEntryLike) => {
             const entryType = entry.type || entry.tipo || lastType;
             lastType = entryType;
 
@@ -249,7 +251,7 @@ export function useAnnualFinancialData(
             conta: docData.category || docData.conta,
             valor: docData.value || docData.valor || docData.val,
             val: docData.value || docData.valor || docData.val,
-            type: (docData.type || docData.tipo || 'ativo').toLowerCase(),
+            type: (String(docData.type || docData.tipo || 'ativo')).toLowerCase(),
             year: docData.year,
             ano: docData.year,
             isBatch: false
@@ -298,8 +300,8 @@ export function useAnnualFinancialData(
       const batchEntries = filteredEntries.filter(e => e.isBatch);
       const flatEntries = filteredEntries.filter(e => !e.isBatch);
       
-      let finalEntries: any[] = [];
-      let finalDocIds = ids;
+      let finalEntries: FinancialEntryLike[] = [];
+      let finalDocIds = ids as string[];
 
       if (batchEntries.length > 0) {
         const docIdsPresent = [...new Set(batchEntries.map(e => e.docId))];
@@ -317,7 +319,7 @@ export function useAnnualFinancialData(
               ['receitas', 'despesas'].includes((e.category || e.conta || '').toLowerCase())
             );
             if (isCorrupted) {
-              console.warn(`[CORRUPTION RECOVERY] Documento BP ${docId} descartado pois contém dados de DFC/DRE.`);
+              logger.warn('Documento BP descartado pois contém dados de DFC/DRE', { docId });
               return false;
             }
             return true;
@@ -330,14 +332,14 @@ export function useAnnualFinancialData(
             validDocIds.forEach(docId => {
               const entry = batchEntries.find(e => e.docId === docId);
               if (entry && entry.createdAt) {
-                if (typeof entry.createdAt.toMillis === 'function') {
-                  const time = entry.createdAt.toMillis();
+                if (entry.createdAt && typeof (entry.createdAt as any).toMillis === 'function') {
+                  const time = (entry.createdAt as any).toMillis();
                   if (time > maxTime) {
                     maxTime = time;
                     latestDocId = docId;
                   }
-                } else if (entry.createdAt.seconds) {
-                  const time = entry.createdAt.seconds * 1000;
+                } else if (entry.createdAt && (entry.createdAt as any).seconds) {
+                  const time = (entry.createdAt as any).seconds * 1000;
                   if (time > maxTime) {
                     maxTime = time;
                     latestDocId = docId;
@@ -354,10 +356,10 @@ export function useAnnualFinancialData(
             }
 
             finalEntries = batchEntries.filter(e => e.docId === latestDocId);
-            finalDocIds = [latestDocId];
+            finalDocIds = [latestDocId as string];
           } else {
             finalEntries = batchEntries.filter(e => e.docId === validDocIds[0]);
-            finalDocIds = validDocIds;
+            finalDocIds = validDocIds as string[];
           }
         } else {
            // Se todos os batches estavam corrompidos, tentamos cair para flatEntries
@@ -369,12 +371,12 @@ export function useAnnualFinancialData(
         const hasRealData = finalEntries.some(e => (Number(e.value) || Number(e.val) || Number(e.valor) || 0) !== 0);
         if ((!hasRealData || finalEntries.length === 0) && flatEntries.length > 0) {
           finalEntries = flatEntries;
-          finalDocIds = [...new Set(flatEntries.map(e => e.docId))];
+          finalDocIds = [...new Set(flatEntries.map(e => String(e.docId)))];
         }
       } else {
         // Se não houver nenhum batch document, o histórico do cliente é feito totalmente de flat rows
         finalEntries = flatEntries;
-        finalDocIds = [...new Set(flatEntries.map(e => e.docId))];
+        finalDocIds = [...new Set(flatEntries.map(e => String(e.docId)))];
       }
 
       console.log(`[DEBUG USE_ANNUAL_DATA] After deduplication for ${type}, kept ${finalEntries.length} entries.`);

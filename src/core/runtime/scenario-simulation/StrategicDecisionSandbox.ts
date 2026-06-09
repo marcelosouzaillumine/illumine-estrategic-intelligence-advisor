@@ -4,7 +4,7 @@ import {
   SandboxConfig,
   SandboxResult
 } from './types';
-import { ScenarioSimulationEngine } from './ScenarioSimulationEngine';
+import { ScenarioMacroProjectionEngine } from './ScenarioMacroProjectionEngine';
 
 export class StrategicDecisionSandbox {
   /**
@@ -29,7 +29,7 @@ export class StrategicDecisionSandbox {
     const clonedInput: SimulationInput = JSON.parse(JSON.stringify(input));
 
     // 3. Obter output original de linha de base
-    const originalOutput = ScenarioSimulationEngine.run(input);
+    const originalOutput = ScenarioMacroProjectionEngine.run(input);
 
     // 4. Aplicar modificadores de decisão sobre as variáveis contábeis e de governança clonadas
     for (const action of actions) {
@@ -105,7 +105,7 @@ export class StrategicDecisionSandbox {
     }
 
     // 5. Executar simulação sobre o input modificado
-    const simulatedOutput = ScenarioSimulationEngine.run(clonedInput);
+    const simulatedOutput = ScenarioMacroProjectionEngine.run(clonedInput);
 
     // 6. Calcular o delta de stress (score simulado - score original)
     const stressDelta = simulatedOutput.projectedDeterioration.score - originalOutput.projectedDeterioration.score;

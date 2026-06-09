@@ -17,8 +17,9 @@ describe('TenantResolutionEngine - Institutional Auth & Tenant Resolution', () =
   it('1. Super Admin (Master) recebe role SUPER_ADMIN e acesso global imediato', async () => {
     const mockUser = {
       uid: 'master-user-uid',
-      email: 'marcelosouza.illumine@gmail.com'
-    } as User;
+      email: 'marcelosouza.illumine@gmail.com',
+      getIdTokenResult: async () => ({ claims: { role: 'SUPER_ADMIN' } })
+    } as unknown as User;
 
     const session = await TenantResolutionEngine.resolve(mockUser);
     

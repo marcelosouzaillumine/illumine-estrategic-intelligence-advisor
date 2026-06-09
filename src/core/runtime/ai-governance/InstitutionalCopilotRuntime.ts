@@ -40,7 +40,7 @@ export class InstitutionalCopilotRuntime {
     let groundings: AIGroundingReference[];
     try {
       groundings = AIResponseGroundingEngine.extractGrounding(allowedContexts);
-    } catch (e: any) {
+    } catch (e: unknown) {
       AIUsageAuditLogger.logEvent('AI_GROUNDING_FAILED', traceId, request.tenantId);
       return {
         answer: 'INSUFFICIENT_GROUNDED_CONTEXT: Não possuo base institucional suficiente para responder.',

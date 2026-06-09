@@ -1,3 +1,4 @@
+import { logger } from "../../../services/logging/InstitutionalLogger";
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import { useNavigate } from 'react-router-dom';
@@ -67,7 +68,7 @@ export function LoginPage() {
       await login();
       // O App.tsx detectará o auth state change e atualizará o usuário
     } catch (error: any) {
-      console.error('Google sign-in failed:', error);
+      logger.error('Google sign-in failed', error);
       setLoginError(
         error?.code === 'auth/popup-closed-by-user'
           ? t('auth.error.login_cancelled')
@@ -90,7 +91,7 @@ export function LoginPage() {
       await loginWithEmail(email.trim(), password);
       // App.tsx handle
     } catch (error: any) {
-      console.error('Email authentication error:', error);
+      logger.error('Email authentication error', error);
       let errorMsg = t('auth.error.invalid_credentials');
       switch (error?.code) {
         case 'auth/invalid-email':        errorMsg = t('auth.error.invalid_email'); break;
@@ -117,7 +118,7 @@ export function LoginPage() {
       await sendPasswordResetEmail(email.trim());
       setResetMessage(t('auth.success.recovery_email_sent'));
     } catch (error: any) {
-      console.error('Password reset error:', error);
+      logger.error('Password reset error', error);
       if (error?.code === 'auth/user-not-found') {
         setResetError(t('auth.error.user_not_found_short'));
       } else if (error?.code === 'auth/invalid-email') {

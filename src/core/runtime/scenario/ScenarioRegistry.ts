@@ -4,6 +4,8 @@ import { ScenarioSimulationResult } from './ScenarioTypes';
 import { GovernanceViolationRecord } from '../observability/observability-types';
 import { GovernedRepositoryWrapper } from '../../security/governed-repository';
 import { DataAccessContext } from '../../security/data-access-context';
+import { getErrorMessage } from '../../../types/runtime/RuntimeErrorGuards';
+import { ScenarioGraphAdapter } from '../../knowledge-graph/adapters/ScenarioGraphAdapter';
 
 export class ScenarioRegistry {
   static async registerScenario(context: DataAccessContext, result: ScenarioSimulationResult, propagatedViolations: GovernanceViolationRecord[]): Promise<void> {
@@ -25,8 +27,11 @@ export class ScenarioRegistry {
       await GovernedRepositoryWrapper.execute(simulationContext, async () => {
         await setDoc(doc(db, 'scenario_executions', result.scenarioId), record);
       });
-    } catch (err) {
-      console.error('[ScenarioRegistry] Error persisting scenario:', err);
+
+      // [Knowledge Graph Integration] Chamada Passiva
+      await ScenarioGraphAdapter.registerScenarioGraph(result);
+    } catch (err: unknown) {
+      console.error('[ScenarioRegistry] Error persisting scenario:', getErrorMessage(err));
       throw err; // Escalate failure because of governance
     }
   }

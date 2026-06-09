@@ -32,7 +32,7 @@ export class ExecutiveAttentionPriorityMapper {
     }
 
     // Se houver críticos, todas otimizações viram secundárias.
-    // Se não houver críticos, talvez ROCE seja primário (mas para a UI ExecutiveAttentionMap foca
+    // Se não houver críticos, focar no ROCE como primário (mas para a UI ExecutiveAttentionMap foca
     // em mostrar o que é urgência e o que pode esperar).
     // Aqui seguiremos a regra de que se não houver críticos, os secundários ficam vazios
     // ou apenas contêm as otimizações.

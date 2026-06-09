@@ -4,6 +4,10 @@ import React from 'react';
 import { Gavel, Scale, AlertTriangle, FileText, CheckCircle2, Shield } from 'lucide-react';
 import { ExecutiveDirectiveSection, BoardResolutionAppendix } from '../../../services/FiduciaryRuntimeAdapter';
 import { useLanguage } from '../../../contexts/LanguageContext';
+import { useCognitiveNavigation } from '../../../context/cognitive-navigation/CognitiveNavigationContext';
+import { BrainCircuit, Search } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
+import { InvestigationLauncherWrapper } from '../../investigation/InvestigationLauncherWrapper';
 
 interface BoardDecisionSurfaceProps {
   executiveDirectives?: ExecutiveDirectiveSection;
@@ -12,6 +16,19 @@ interface BoardDecisionSurfaceProps {
 
 export function BoardDecisionSurface({ executiveDirectives, boardResolutionAppendix }: BoardDecisionSurfaceProps) {
   const { t } = useLanguage();
+  const cognitiveNavigation = useCognitiveNavigation();
+  const openCognitiveDrawer = cognitiveNavigation?.openDrawer;
+  const navigate = useNavigate();
+
+  const handleNavigateToAdvisor = () => {
+    const navRef = {
+      tenantId: 'SYSTEM_TENANT',
+      sourceWorkspace: 'BOARD_DECISION',
+      targetWorkspace: 'ADVISOR',
+      correlationId: `nav-${Date.now()}`
+    };
+    navigate('/advisor', { state: { navRef } });
+  };
 
   const activeDirectives = executiveDirectives?.activeDirectives || [];
   const resolutions = boardResolutionAppendix?.resolutionIds || [];
@@ -40,10 +57,18 @@ export function BoardDecisionSurface({ executiveDirectives, boardResolutionAppen
             Painel de Diretivas e Deliberações do Conselho (Board Decision Surface)
           </h3>
         </div>
-        <span className="text-[9px] font-mono font-bold uppercase tracking-widest px-2.5 py-1 bg-slate-100 dark:bg-zinc-900 border border-slate-200 dark:border-zinc-800 text-slate-700 dark:text-zinc-400 rounded flex items-center gap-1.5 shadow-xs">
-          <Scale className="w-3.5 h-3.5" />
-          Fiduciary Directives
-        </span>
+        <div className="flex items-center gap-2">
+          <span className="text-[9px] font-mono font-bold uppercase tracking-widest px-2.5 py-1 bg-slate-100 dark:bg-zinc-900 border border-slate-200 dark:border-zinc-800 text-slate-700 dark:text-zinc-400 rounded flex items-center gap-1.5 shadow-xs">
+            <Scale className="w-3.5 h-3.5" />
+            Fiduciary Directives
+          </span>
+          <button
+            onClick={handleNavigateToAdvisor}
+            className="flex items-center gap-1.5 px-2.5 py-1 bg-slate-900 hover:bg-slate-800 text-white text-[9px] font-mono font-bold uppercase tracking-widest rounded transition-colors border border-slate-700 shadow-sm"
+          >
+            Abrir Advisor Workspace
+          </button>
+        </div>
       </div>
 
       {/* Grid: Directives List & Historical Memory */}
@@ -114,6 +139,33 @@ export function BoardDecisionSurface({ executiveDirectives, boardResolutionAppen
                     <span>Linhagem: <span className="text-slate-600 dark:text-zinc-400 select-all">{dir.lineageHash}</span></span>
                     <span className="font-bold uppercase text-amber-600 dark:text-amber-500/80">{dir.status}</span>
                   </div>
+
+                  <div className="flex items-center gap-2 pt-2 border-t border-slate-200/50 dark:border-white/5">
+                    <InvestigationLauncherWrapper 
+                      tenantId="SYSTEM_TENANT" 
+                      nodeId={dir.id} 
+                      originSurface="BOARD_PACK" 
+                    />
+                    
+                    {openCognitiveDrawer && (
+                      <>
+                        <button 
+                          onClick={() => openCognitiveDrawer(dir.id)}
+                          className="flex items-center gap-1.5 px-2.5 py-1.5 bg-indigo-500/10 hover:bg-indigo-500/20 text-indigo-600 dark:text-indigo-400 border border-indigo-500/20 rounded text-[9px] font-black uppercase tracking-wider transition-colors"
+                        >
+                          <BrainCircuit size={12} />
+                          Ver Cadeia Causal
+                        </button>
+                        <button 
+                          onClick={() => openCognitiveDrawer(dir.id)}
+                          className="flex items-center gap-1.5 px-2.5 py-1.5 bg-slate-500/10 hover:bg-slate-500/20 text-slate-600 dark:text-slate-400 border border-slate-500/20 rounded text-[9px] font-black uppercase tracking-wider transition-colors"
+                        >
+                          <Search size={12} />
+                          Ver Evidências
+                        </button>
+                      </>
+                    )}
+                  </div>
                 </div>
               ))}
             </div>
@@ -148,7 +200,23 @@ export function BoardDecisionSurface({ executiveDirectives, boardResolutionAppen
                   <div key={idx} className="p-3 bg-slate-200/30 dark:bg-zinc-900/40 border border-slate-200 dark:border-zinc-900 rounded-xl space-y-1.5 shadow-xs">
                     <div className="flex items-center justify-between text-[9px] font-mono">
                       <span className="font-bold text-slate-700 dark:text-zinc-300">{resId}</span>
-                      <span className="text-emerald-600 dark:text-emerald-500 font-bold uppercase">APROVADA</span>
+                      <div className="flex items-center gap-2">
+                        <InvestigationLauncherWrapper 
+                          tenantId="SYSTEM_TENANT" 
+                          nodeId={resId} 
+                          originSurface="BOARD_PACK" 
+                        />
+                        {openCognitiveDrawer && (
+                          <button 
+                            onClick={() => openCognitiveDrawer(resId)}
+                            className="text-indigo-600 dark:text-indigo-400 hover:text-indigo-700 transition-colors"
+                            title="Explorar Contexto Cognitivo"
+                          >
+                            <BrainCircuit size={14} />
+                          </button>
+                        )}
+                        <span className="text-emerald-600 dark:text-emerald-500 font-bold uppercase">APROVADA</span>
+                      </div>
                     </div>
                     {approvals[idx] && (
                       <p className="text-[10px] text-slate-650 dark:text-zinc-400 leading-snug font-medium italic">

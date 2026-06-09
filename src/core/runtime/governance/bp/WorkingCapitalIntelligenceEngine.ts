@@ -1,5 +1,6 @@
 import { BPSummary } from '../../../../lib/bpEngine';
 import { PatrimonialIndicator } from './BalanceSheetFinancialMetricsEngine';
+import { NaNEliminationGuard } from '../common/NaNEliminationGuard';
 
 export class WorkingCapitalIntelligenceEngine {
   static analyze(summary: BPSummary, dreData: any[]): PatrimonialIndicator[] {
@@ -26,11 +27,17 @@ export class WorkingCapitalIntelligenceEngine {
       pmpc = ((summary.fornecedores / cmvVal) * 360).toFixed(0); // Usando Nível 2 (CMV) como proxy, já que não temos 'Compras' isoladas.
     }
 
+    const safePMRV = NaNEliminationGuard.sanitizeNumber(pmrv);
+    const safePMRE = NaNEliminationGuard.sanitizeNumber(pmre);
+    const safePMPC = NaNEliminationGuard.sanitizeNumber(pmpc);
+
+    const isAllSafe = typeof safePMRV === 'number' && typeof safePMRE === 'number' && typeof safePMPC === 'number';
+
     indicators.push({
       metricName: 'Ciclo Financeiro (Estimativa Indireta)',
-      value: (typeof pmrv === 'string' || typeof pmre === 'string' || typeof pmpc === 'string') 
-        ? 'Não calculável com os dados disponíveis'
-        : Number(pmrv) + Number(pmre) - Number(pmpc),
+      value: isAllSafe 
+        ? (safePMRV as number) + (safePMRE as number) - (safePMPC as number)
+        : 'INSUFFICIENT_DATA',
       classification: 'NEUTRAL',
       severity: 'NEUTRAL',
       confidence: 70, // Proxy confidence

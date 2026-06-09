@@ -12,7 +12,7 @@ import { InstitutionalBusinessProfile } from '../../../src/core/runtime/institut
 import { ExecutiveActionMatrixEngine } from '../../../src/core/runtime/integrity/ExecutiveActionMatrixEngine';
 import { ExecutivePriorityConsolidationEngine } from '../../../src/core/runtime/ExecutivePriorityConsolidationEngine';
 import { ExecutiveNarrativeOrchestrator } from '../../../src/core/runtime/ExecutiveNarrativeOrchestrator';
-import { ScenarioSimulationEngine } from '../../../src/core/runtime/scenario/ScenarioSimulationEngine';
+import { ScenarioFiduciarySimulator } from '../../../src/core/runtime/scenario/ScenarioFiduciarySimulator';
 
 describe('Global Fiduciary Distribution Enforcement Layer Suite', () => {
 
@@ -124,7 +124,7 @@ describe('Global Fiduciary Distribution Enforcement Layer Suite', () => {
 
     // Payout shock of 5000 exceeds netIncome of 1000
     const shocks = [{ type: 'DIVIDEND_PAYOUT' as any, targetEntityId: 'ENT-1', magnitude: 5000, description: 'Dividends payout' }];
-    const result = await ScenarioSimulationEngine.runSimulation({ baseSnapshot, shocks, horizonMonths: 12 }, 'HIGH');
+    const result = await ScenarioFiduciarySimulator.runSimulation({ baseSnapshot, shocks, horizonMonths: 12 }, 'HIGH');
 
     assert.equal(result.projectedConfidence, 'CRITICAL_STRESS');
     assert.equal(result.fiduciarySeverity, 'CRITICAL');
@@ -231,7 +231,7 @@ describe('Global Fiduciary Distribution Enforcement Layer Suite', () => {
 
     // Capex shock under stress (negative netIncome, no dedicated funding)
     const shocks = [{ type: 'CAPEX_INVESTMENT' as any, targetEntityId: 'ENT-1', magnitude: 8000, description: 'Aggressive expansion Capex' }];
-    const result = await ScenarioSimulationEngine.runSimulation({ baseSnapshot, shocks, horizonMonths: 12 }, 'HIGH');
+    const result = await ScenarioFiduciarySimulator.runSimulation({ baseSnapshot, shocks, horizonMonths: 12 }, 'HIGH');
 
     assert.equal(result.projectedConfidence, 'CRITICAL_STRESS');
     assert.equal(result.fiduciarySeverity, 'CRITICAL');

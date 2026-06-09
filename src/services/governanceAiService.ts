@@ -30,7 +30,7 @@ export async function generateGovernanceParecer(req: GovernanceParecerRequest): 
         let insight = `Com base nos resultados atuais da ${req.clientName}, observamos uma oportunidade clara de fortalecer os fundamentos de ${req.topPrinciples.slice(0, 2).join(' e ')}. `;
         
         if (netProfit > 0 && cashBalance < netProfit) {
-          insight += `Detectamos uma divergência entre o lucro econômico e a disponibilidade financeira efetiva. Isso sugere que a lucratividade pode estar retida em ativos não líquidos, exigindo cautela na expansão e foco em eficiência de recebimento. `;
+          insight += `Detectamos uma divergência entre o lucro econômico e a disponibilidade financeira efetiva. Isso aponta que a lucratividade pode estar retida em ativos não líquidos, exigindo cautela na expansão e foco em eficiência de recebimento. `;
         } else if (netProfit > 0) {
           insight += `A saúde econômica está preservada, permitindo que a organização foque em investimentos estruturais e no fortalecimento da cultura de governança. `;
         }
@@ -88,6 +88,6 @@ Não use saudações. Vá direto ao discernimento estratégico.`;
     return response.text || "Análise de Discernimento indisponível no momento.";
   } catch (error) {
     console.error("AI Governance Service Error:", error);
-    return `O Motor de Inteligência encontrou uma oscilação técnica. Contudo, os indicadores de ${req.topPrinciples.slice(0, 1)} sugerem a necessidade de uma revisão estratégica dos processos de governança para assegurar o alinhamento institucional.`;
+    return `O Motor de Inteligência encontrou uma oscilação técnica. Contudo, os indicadores de ${req.topPrinciples.slice(0, 1)} apontam a necessidade de uma revisão estratégica dos processos de governança para assegurar o alinhamento institucional.`;
   }
 }

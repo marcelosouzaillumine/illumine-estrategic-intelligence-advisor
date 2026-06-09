@@ -22,7 +22,7 @@ export class IntercompanyRelationRepository {
       const q = query(collection(db, 'intercompany_relations'), where('groupId', '==', groupId));
       const snap = await getDocs(q);
       return snap.docs.map(d => d.data() as IntercompanyRelationModel);
-    } catch (err: any) {
+    } catch (err: unknown) {
       console.error('[IntercompanyRelationRepository] Error listing relations:', err);
       throw err;
     }
@@ -38,7 +38,7 @@ export class IntercompanyRelationRepository {
 
       await setDoc(doc(db, 'intercompany_relations', id), relation);
       return relation;
-    } catch (err: any) {
+    } catch (err: unknown) {
       console.error('[IntercompanyRelationRepository] Error adding relation:', err);
       throw err;
     }
@@ -47,7 +47,7 @@ export class IntercompanyRelationRepository {
   static async removeRelation(relationId: string): Promise<void> {
     try {
       await deleteDoc(doc(db, 'intercompany_relations', relationId));
-    } catch (err: any) {
+    } catch (err: unknown) {
       console.error('[IntercompanyRelationRepository] Error removing relation:', err);
       throw err;
     }

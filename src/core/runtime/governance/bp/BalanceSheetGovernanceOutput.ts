@@ -1,12 +1,64 @@
+export interface GovernanceBlockingState {
+  isBlocked: boolean;
+  blockingCode?: string;
+  blockingReason?: string;
+}
+
 export type BalanceSheetGovernanceOutput = {
+  blockingState: GovernanceBlockingState;
   exerciseYear: number;
+  summaryYear: number;
+  temporalIntegrity: {
+    isValid: boolean;
+    violations: string[];
+  };
+  technicalIntegrity: {
+    isValid: boolean;
+    violations: string[];
+  };
+  executiveIntegrity: {
+    isValid: boolean;
+    violations: string[];
+  };
+  analyticalContextIntegrity: {
+    isValid: boolean;
+    violations: string[];
+  };
+  analyticalContext: {
+    clientContext: {
+      clientName?: string;
+      segment?: string;
+      businessStage?: string;
+      operatingProfile?: string;
+      companySize?: string;
+      assumptions: string[];
+    };
+    patrimonialIntelligence: {
+      solvencyReading: string;
+      liquidityReading: string;
+      capitalStructureReading: string;
+      capitalPreservationReading: string;
+      assetQualityReading: string;
+      growthCapacityReading: string;
+    };
+    isAvailable: boolean;
+    missingFields: string[];
+  };
   sourceStatement: 'BALANCE_SHEET';
   indicators: {
     solvencyStatus: string;
     liquidityStatus: string;
     leverageStatus: string;
     capitalPreservationStatus: string;
+    debtToEquity?: string | number; // Phase 2
+    capitalConsumedAmount?: number; // Phase 5
+    capitalConsumedPercent?: number | string; // Phase 5
+    capitalConsumptionBase?: number; // Phase 5
+    capitalConsumptionExplanation?: string; // Phase 5
   };
+  executiveNarrative?: string; // Phase 3
+  patrimonialThesis?: string;
+  boardNarrative?: string;
   dominantBpRestriction: string | null;
   primaryRecommendation: {
     source: 'BALANCE_SHEET';

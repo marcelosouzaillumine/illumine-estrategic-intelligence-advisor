@@ -38,12 +38,27 @@ describe("Executive Data Boundary Audit", () => {
     const viewModel = mapToExecutiveCardViewModel(rawRuntimePayload);
 
     // 1. Check that 'visible' does not contain any forbidden tokens in its values
-    const visibleValues = Object.values(viewModel.visible).map(v => String(v));
-    
+    const visibleValues = Object.values(viewModel.visible);
+
+    // 1. Check for forbidden tokens
     FORBIDDEN_VIEWMODEL_VISIBLE_TOKENS.forEach(token => {
       visibleValues.forEach(value => {
-        assert.ok(!new RegExp(token).test(value));
+        if (typeof value === "string") {
+          assert.ok(!new RegExp(token).test(value), `Found forbidden token ${token} in visible value: ${value}`);
+        }
       });
+    });
+
+    // 2. Check that no internal metadata leaked to visible (e.g. no runtime code inside visible values)
+    const internalValues = Object.values(viewModel.internal || {});
+    internalValues.forEach(internalVal => {
+      if (typeof internalVal === "string" && internalVal.length > 2) {
+        visibleValues.forEach(visibleVal => {
+          if (typeof visibleVal === "string") {
+            assert.ok(!visibleVal.includes(internalVal), `Internal metadata ${internalVal} leaked into visible value: ${visibleVal}`);
+          }
+        });
+      }
     });
 
     // 2. Check that the translation worked

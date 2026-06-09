@@ -1,5 +1,6 @@
 import { GovernanceSignal } from '../signal-hierarchy/types';
 import { CausalityEngineResolution, CausalRelationship } from './types';
+import { CausalityGraphAdapter } from '../../knowledge-graph/adapters/CausalityGraphAdapter';
 
 export class CrossDomainCausalityEngine {
   public correlate(signals: GovernanceSignal[]): CausalityEngineResolution<CausalRelationship[]> {
@@ -24,6 +25,13 @@ export class CrossDomainCausalityEngine {
       return { status: 'BLOCKED_BY_MISSING_CAUSALITY', data: null, reason: 'No explicit dependencies found' };
     }
 
-    return { status: 'READY', data: relationships };
+    const resolution: CausalityEngineResolution<CausalRelationship[]> = { status: 'READY', data: relationships };
+    
+    // [Knowledge Graph Integration] Chamada Passiva
+    CausalityGraphAdapter.registerCausalityGraph(resolution).catch(err => {
+      console.warn('[CausalityGraphAdapter] Async error ignored:', err);
+    });
+
+    return resolution;
   }
 }

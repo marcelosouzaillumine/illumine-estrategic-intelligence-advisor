@@ -89,7 +89,7 @@ export function inferOperationalModel(
     indScore += 10;
     indExplains.push('Ativo fixo material suporta tese industrial.');
   } else if (indScore > 50) {
-    indExplains.push('Baixo imobilizado sugere mais Comércio/Distribuição do que Indústria pesada.');
+    indExplains.push('Baixo imobilizado indica mais Comércio/Distribuição do que Indústria pesada.');
   }
 
   if (indScore > highestScore) {

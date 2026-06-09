@@ -1,3 +1,4 @@
+import { logger } from "../../../../services/logging/InstitutionalLogger";
 import { CashFlowGovernanceOutput } from './CashFlowGovernanceOutput';
 
 export class DFCSSOTAuthorityGuard {
@@ -23,7 +24,7 @@ export class DFCSSOTAuthorityGuard {
   }
 
   private static buildUnauthorizedFallback(reason: string): CashFlowGovernanceOutput {
-    console.error(`[DFCSSOTAuthorityGuard] ${reason}`);
+    logger.error('DFCSSOTAuthorityGuard Violation', { reason });
     return {
       exerciseYear: new Date().getFullYear(),
       sourceStatement: 'CASH_FLOW_STATEMENT',

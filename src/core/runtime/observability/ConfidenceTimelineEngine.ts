@@ -8,7 +8,7 @@ export class ConfidenceTimelineEngine {
       const id = crypto.randomUUID();
       const newEntry: ConfidenceTimelineEntry = { ...entry, id };
       await setDoc(doc(db, 'confidence_timeline', id), newEntry);
-    } catch (err: any) {
+    } catch (err: unknown) {
       console.error('[ConfidenceTimelineEngine] Error recording confidence:', err);
     }
   }
@@ -22,7 +22,7 @@ export class ConfidenceTimelineEngine {
       );
       const snap = await getDocs(q);
       return snap.docs.map(d => d.data() as ConfidenceTimelineEntry);
-    } catch (err: any) {
+    } catch (err: unknown) {
       console.error('[ConfidenceTimelineEngine] Error getting history:', err);
       return [];
     }

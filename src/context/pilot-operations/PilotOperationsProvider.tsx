@@ -125,7 +125,7 @@ export const PilotOperationsProvider: React.FC<{ children: React.ReactNode }> = 
       const newEvent = PilotObservabilityEngine.logEvent(tenantId, actorId, actionType, durationMs, hasError);
       setTelemetryEvents(prev => [...prev, newEvent]);
     } catch (err: any) {
-      console.warn('Bloqueio de telemetria fiduciária:', err.message);
+      console.warn('Bloqueio de telemetria fiduciária:', (err instanceof Error ? err.message : String(err)));
     }
   };
 
@@ -168,7 +168,7 @@ export const PilotOperationsProvider: React.FC<{ children: React.ReactNode }> = 
       setFeedbackList(prev => [...prev, newFeedback]);
       logTelemetry(`FEEDBACK_REGISTERED_${category}`);
     } catch (err: any) {
-      console.error('Erro de validação de feedback:', err.message);
+      console.error('Erro de validação de feedback:', (err instanceof Error ? err.message : String(err)));
     }
   };
 

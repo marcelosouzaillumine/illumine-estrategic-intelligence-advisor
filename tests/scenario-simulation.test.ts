@@ -1,7 +1,7 @@
 import { describe, it } from 'node:test';
 import assert from 'node:assert';
 import { SimulationInput, SandboxConfig } from '../src/core/runtime/scenario-simulation/types';
-import { ScenarioSimulationEngine } from '../src/core/runtime/scenario-simulation/ScenarioSimulationEngine';
+import { ScenarioMacroProjectionEngine } from '../src/core/runtime/scenario-simulation/ScenarioMacroProjectionEngine';
 import { GovernanceForecastEngine } from '../src/core/runtime/scenario-simulation/GovernanceForecastEngine';
 import { PropagationSimulationEngine } from '../src/core/runtime/scenario-simulation/PropagationSimulationEngine';
 import { StrategicDecisionSandbox } from '../src/core/runtime/scenario-simulation/StrategicDecisionSandbox';
@@ -29,10 +29,10 @@ const getMockInput = (): SimulationInput => ({
 
 describe('SSPGL - Scenario Simulation & Predictive Governance Layer', () => {
 
-  describe('ScenarioSimulationEngine', () => {
+  describe('ScenarioMacroProjectionEngine', () => {
     it('should compute deterministic score, velocity, and escalation trajectory', () => {
       const input = getMockInput();
-      const output = ScenarioSimulationEngine.run(input);
+      const output = ScenarioMacroProjectionEngine.run(input);
 
       assert.strictEqual(output.tenantId, input.tenantId);
       assert.strictEqual(output.correlationId, input.correlationId);
@@ -52,7 +52,7 @@ describe('SSPGL - Scenario Simulation & Predictive Governance Layer', () => {
       input.lineageHash = ''; // missing
 
       assert.throws(() => {
-        ScenarioSimulationEngine.run(input);
+        ScenarioMacroProjectionEngine.run(input);
       }, /FAIL_CLOSED/);
     });
 
@@ -60,7 +60,7 @@ describe('SSPGL - Scenario Simulation & Predictive Governance Layer', () => {
       const input = getMockInput();
       input.historicalCycles = input.historicalCycles.slice(0, 2); // 2 cycles < 3
 
-      const output = ScenarioSimulationEngine.run(input);
+      const output = ScenarioMacroProjectionEngine.run(input);
       assert.strictEqual(output.confidenceLevel, 'INSUFFICIENT_HISTORY');
       assert.strictEqual(output.integrityState, 'DEGRADED');
     });

@@ -131,8 +131,6 @@ import { InstitutionalWarRoomPage } from '../components/war-gaming/Institutional
 import { InstitutionalPressureDashboard } from '../components/operating-pressure/InstitutionalPressureDashboard';
 import { InstitutionalContinuityCockpitPage } from '../components/pages/InstitutionalContinuityCockpitPage';
 import { InstitutionalDeploymentReadinessPage } from '../components/pages/InstitutionalDeploymentReadinessPage';
-import { DemoContinuityCockpitPage } from '../demo-runtime/DemoContinuityCockpitPage';
-import { DemoScenarioProvider } from '../demo-runtime/DemoScenarioProvider';
 import { InstitutionalExecutiveCommandCenter } from '../components/executive-command/InstitutionalExecutiveCommandCenter';
 import { InstitutionalOnboardingControlCenterPage } from '../components/pages/InstitutionalOnboardingControlCenterPage';
 import { InstitutionalStrategicIntelligencePage } from '../components/pages/InstitutionalStrategicIntelligencePage';
@@ -595,13 +593,6 @@ export function renderCurrentPage(ctx: RouteRenderContext) {
   }
   if (currentPage === 'institutional_continuity') {
     return <InstitutionalContinuityCockpitPage clientId={selectedClient} selectedYear={selectedYear} selectedMonth={selectedMonth} />;
-  }
-  if (currentPage === 'demo_continuity') {
-    return (
-      <DemoScenarioProvider>
-        <DemoContinuityCockpitPage />
-      </DemoScenarioProvider>
-    );
   }
   if (currentPage === 'deployment_readiness') {
     return <InstitutionalDeploymentReadinessPage />;

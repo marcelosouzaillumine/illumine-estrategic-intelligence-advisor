@@ -96,7 +96,7 @@ export class ExecutionTraceBuilder {
   static async getTrace(executionId: string): Promise<ExecutionTrace | null> {
     try {
       return await ExecutionTraceBuilder.activeSink.getTrace(executionId);
-    } catch (err: any) {
+    } catch (err: unknown) {
       console.error('[ExecutionTraceBuilder] Error getting trace:', err);
       return null;
     }

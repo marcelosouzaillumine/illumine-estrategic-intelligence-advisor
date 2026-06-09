@@ -2,7 +2,7 @@ import { test, describe } from 'node:test';
 import * as assert from 'node:assert';
 import React from 'react';
 import { renderToStaticMarkup } from 'react-dom/server';
-import { ExecutiveDecisionAdapter, WorkflowTransitionPayload, TemporalWorkflowState } from '../src/core/workflows/ExecutiveDecisionAdapter';
+import { ExecutiveTemporalWorkflow, WorkflowTransitionPayload, TemporalWorkflowState } from '../src/core/workflows/ExecutiveTemporalWorkflow';
 import { TemporalBoardWorkflowPanel } from '../src/components/temporal/TemporalBoardWorkflowPanel';
 import { TemporalCollaborationPanel } from '../src/components/temporal/TemporalCollaborationPanel';
 
@@ -26,7 +26,7 @@ describe('Phase 4 Step C: Workflows & Collaboration', () => {
 
   test('1. workflow sem lineageHash é negado', () => {
     const payload = { ...mockPayload, lineageHash: '' };
-    const result = ExecutiveDecisionAdapter.processTransition(payload);
+    const result = ExecutiveTemporalWorkflow.processTransition(payload);
     assert.strictEqual(result.success, false);
     assert.strictEqual(result.error, 'MISSING_LINEAGE_HASH');
   });
@@ -36,7 +36,7 @@ describe('Phase 4 Step C: Workflows & Collaboration', () => {
       ...mockPayload, 
       context: { ...mockPayload.context, roles: ['MANAGER'] }
     };
-    const result = ExecutiveDecisionAdapter.processTransition(payload);
+    const result = ExecutiveTemporalWorkflow.processTransition(payload);
     assert.strictEqual(result.success, false);
     assert.strictEqual(result.error, 'UNAUTHORIZED_ROLE');
   });
@@ -102,12 +102,12 @@ describe('Phase 4 Step C: Workflows & Collaboration', () => {
   test('10. recurrence acknowledgement preserva correlationId', () => {
     const payload = { ...mockPayload, targetState: 'RECURRENCE_ESCALATION_ACKNOWLEDGEMENT' as TemporalWorkflowState };
     // sem correlationId
-    const resultFail = ExecutiveDecisionAdapter.processTransition(payload);
+    const resultFail = ExecutiveTemporalWorkflow.processTransition(payload);
     assert.strictEqual(resultFail.success, false);
     assert.strictEqual(resultFail.error, 'MISSING_CORRELATION_ID');
 
     // com correlationId
-    const resultOk = ExecutiveDecisionAdapter.processTransition({ ...payload, correlationId: 'c1' });
+    const resultOk = ExecutiveTemporalWorkflow.processTransition({ ...payload, correlationId: 'c1' });
     assert.strictEqual(resultOk.success, true);
   });
 

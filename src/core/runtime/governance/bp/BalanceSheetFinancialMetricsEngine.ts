@@ -1,4 +1,5 @@
 import { BPSummary } from '../../../../lib/bpEngine';
+import { DebtToEquityEngine } from './DebtToEquityEngine';
 
 export interface PatrimonialIndicator {
   metricName: string;
@@ -37,7 +38,7 @@ export class BalanceSheetFinancialMetricsEngine {
         let severity = 'HEALTHY';
         if (val < 1.00) { classification = 'CRITICAL'; severity = 'CRITICAL'; }
         else if (val <= 1.20) { classification = 'ATTENTION'; severity = 'ATTENTION'; }
-        else if (val > 2.00) { classification = 'CAPITAL_IDLE_WARNING'; severity = 'CAPITAL_IDLE_WARNING'; }
+        else if (val > 3.00) { classification = 'CAPITAL_IDLE_WARNING'; severity = 'CAPITAL_IDLE_WARNING'; }
 
         indicators.push({
           metricName,
@@ -260,6 +261,25 @@ export class BalanceSheetFinancialMetricsEngine {
       }
     }
 
+    // 9.5 Debt-to-Equity (Geral)
+    {
+      const family = 'Estrutura de Capital';
+      const metricName = 'Debt-to-Equity';
+      const dte = DebtToEquityEngine.calculate(summary);
+      indicators.push({
+        metricName,
+        value: dte.value === 'N/A' ? 'INSUFFICIENT_DATA' : parseFloat(dte.value.replace('x', '')),
+        classification: dte.classification,
+        severity: dte.classification === 'UNKNOWN' ? 'NEUTRAL' : dte.classification,
+        confidence: 95,
+        evidence: { ratio: dte.value },
+        rationale: dte.explanation,
+        lineageHash: generateHash(`DTE-${dte.value}`),
+        family,
+        format: 'multiplier'
+      });
+    }
+
     // 10. Autonomia Financeira
     {
       const family = 'Estrutura de Capital';
@@ -346,7 +366,7 @@ export class BalanceSheetFinancialMetricsEngine {
         
         if (passivoOneroso === 0) {
           indicators.push({
-            metricName,
+            metricName: 'Financial Debt-to-Equity',
             value: 'N/A',
             classification: 'HEALTHY',
             severity: 'HEALTHY',

@@ -162,7 +162,7 @@ export function AdvisorWorkspacePage({ selectedClient }: { selectedClient: strin
             <div className="p-2 bg-indigo-600/10 text-indigo-400 rounded-lg"><Users size={16} /></div>
           </div>
           <div>
-            <h4 className="text-h3 font-display font-medium tracking-tight text-foreground">3 Empresas</h4>
+            <h4 className="text-h3 font-display font-medium tracking-tight text-foreground tabular-nums">3 Empresas</h4>
             <p className="text-[9px] text-muted-foreground font-semibold mt-1">ATENDIMENTO ATIVO DO GRUPO</p>
           </div>
         </div>
@@ -174,7 +174,7 @@ export function AdvisorWorkspacePage({ selectedClient }: { selectedClient: strin
             <div className="p-2 bg-indigo-600/10 text-indigo-400 rounded-lg"><FileCheck size={16} /></div>
           </div>
           <div>
-            <h4 className="text-h3 font-display font-medium tracking-tight text-foreground">
+            <h4 className="text-h3 font-display font-medium tracking-tight text-foreground tabular-nums">
               {stagingQueue.filter(j => j.status === 'PENDING_REVIEW').length} Importações
             </h4>
             <p className="text-[9px] text-muted-foreground font-semibold mt-1">INGESTÃO EM ESPERA NO STAGING</p>
@@ -253,7 +253,7 @@ export function AdvisorWorkspacePage({ selectedClient }: { selectedClient: strin
                         {job.status === 'PENDING_REVIEW' && (
                           <button 
                             onClick={() => handleJobAction(job.id, 'VALIDATED')}
-                            className="bg-indigo-600 text-white px-2 py-1 rounded text-[10px] font-bold uppercase"
+                            className="bg-indigo-600 text-white px-2 py-1 rounded text-[10px] font-bold uppercase hover:bg-indigo-700"
                           >
                             Validar
                           </button>
@@ -332,7 +332,7 @@ export function AdvisorWorkspacePage({ selectedClient }: { selectedClient: strin
                 <textarea 
                   value={customRationale} 
                   onChange={e => setCustomRationale(e.target.value)}
-                  className="w-full p-2.5 text-xs bg-slate-50 border border-slate-200 rounded-lg text-slate-800 focus:outline-none focus:border-indigo-500"
+                  className="w-full text-xs"
                   rows={2}
                 />
               </div>
@@ -346,25 +346,25 @@ export function AdvisorWorkspacePage({ selectedClient }: { selectedClient: strin
               <div className="grid grid-cols-2 gap-2">
                 <button 
                   onClick={() => handleApplyProfile('balanced')}
-                  className="px-2 py-1.5 bg-slate-800 hover:bg-slate-750 text-white rounded text-[10px] font-black uppercase tracking-wider"
+                  className="px-2 py-1.5 bg-surface-container-high hover:bg-surface-container-highest text-foreground border border-border rounded text-[10px] font-black uppercase tracking-wider transition-colors"
                 >
                   Balanced
                 </button>
                 <button 
                   onClick={() => handleApplyProfile('conservative')}
-                  className="px-2 py-1.5 bg-indigo-600 hover:bg-indigo-550 text-white rounded text-[10px] font-black uppercase tracking-wider"
+                  className="px-2 py-1.5 bg-indigo-600/10 hover:bg-indigo-600/20 text-indigo-400 border border-indigo-500/20 rounded text-[10px] font-black uppercase tracking-wider transition-colors"
                 >
                   Conservative
                 </button>
                 <button 
                   onClick={() => handleApplyProfile('aggressive')}
-                  className="px-2 py-1.5 bg-amber-600 hover:bg-amber-550 text-white rounded text-[10px] font-black uppercase tracking-wider"
+                  className="px-2 py-1.5 bg-amber-600/10 hover:bg-amber-600/20 text-amber-500 border border-amber-500/20 rounded text-[10px] font-black uppercase tracking-wider transition-colors"
                 >
                   Aggressive
                 </button>
                 <button 
                   onClick={() => handleApplyProfile('board_mode')}
-                  className="px-2 py-1.5 bg-primary hover:bg-primary text-white rounded text-[10px] font-black uppercase tracking-wider"
+                  className="px-2 py-1.5 bg-primary hover:opacity-90 text-primary-foreground rounded text-[10px] font-black uppercase tracking-wider transition-opacity"
                 >
                   Board Mode
                 </button>
@@ -377,15 +377,15 @@ export function AdvisorWorkspacePage({ selectedClient }: { selectedClient: strin
             <h3 className="text-xs font-black uppercase tracking-widest text-muted-foreground flex items-center gap-2">
               <FileText size={14} className="text-indigo-400" /> Log de Calibrações
             </h3>
-            <div className="space-y-3 max-h-[200px] overflow-y-auto pr-1">
+            <div className="space-y-3 max-h-[200px] overflow-y-auto pr-1 scrollbar-premium">
               {calibrationLogs.map((log, idx) => (
-                <div key={idx} className="p-2.5 bg-slate-50 border border-slate-100 rounded-lg space-y-1">
-                  <div className="flex justify-between items-center text-[9px] text-slate-400 font-bold">
+                <div key={idx} className="p-2.5 bg-surface-container border border-border rounded-lg space-y-1">
+                  <div className="flex justify-between items-center text-[9px] text-muted-foreground font-bold">
                     <span>{log.actorId} (versão {log.version})</span>
                     <span>{new Date(log.createdAt).toLocaleTimeString()}</span>
                   </div>
-                  <p className="text-[10px] font-bold text-slate-700">Mudou para perfil "{log.profileId}"</p>
-                  <p className="text-[9px] font-semibold text-slate-500 italic">"{log.rationale}"</p>
+                  <p className="text-[10px] font-bold text-foreground">Mudou para perfil "{log.profileId}"</p>
+                  <p className="text-[9px] font-semibold text-muted-foreground italic">"{log.rationale}"</p>
                 </div>
               ))}
               {calibrationLogs.length === 0 && (

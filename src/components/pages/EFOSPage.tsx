@@ -27,6 +27,7 @@ import { FiduciaryRuntimeAdapter, ExecutiveIntelligenceReport, ExecutiveRecommen
 import { PresentationLayer } from '../../services/EFOSTypes';
 import { useInstitutionalAuth } from '../../core/security/auth/InstitutionalAuthProvider';
 import { cn, formatCurrency } from '../../lib/utils';
+import { useLocation } from 'react-router-dom';
 import { PageHeader } from '../Common';
 import { useAnnualFinancialData, useAllFinancialData } from '../../hooks/useFinancialData';
 import { getComputedBPSummary, getComputedDreMetrics } from '../../core/orchestration/financial-math-adapter';
@@ -78,8 +79,9 @@ export function EFOSPage({
   const [semanticAudit, setSemanticAudit] = useState<{pass:boolean; violations:string[]} | null>(null);
   // Debug: force fallback view when URL contains ?forceFallback=true
   let forceFallback = false;
-  if (typeof window !== 'undefined' && window.location && window.location.search) {
-    const params = new URLSearchParams(window.location.search);
+  const location = useLocation();
+  if (location && location.search) {
+    const params = new URLSearchParams(location.search);
     forceFallback = params.get('forceFallback') === 'true';
   }
   const computedProfile = useMemo(() => {

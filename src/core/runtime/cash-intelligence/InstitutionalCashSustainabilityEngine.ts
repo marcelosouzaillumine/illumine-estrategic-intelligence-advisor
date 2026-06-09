@@ -1,5 +1,5 @@
 import { CashFlowReconciliationEngine } from './CashFlowReconciliationEngine';
-import { EarningsQualityEngine } from './EarningsQualityEngine';
+import { EarningsCashConversionEngine } from './EarningsCashConversionEngine';
 import { SyntheticProfitDetectionEngine } from './SyntheticProfitDetectionEngine';
 import { OperatingCashIntegrityEngine } from './OperatingCashIntegrityEngine';
 import { CashConversionStressEngine } from './CashConversionStressEngine';
@@ -50,7 +50,7 @@ export class InstitutionalCashSustainabilityEngine {
 
     // 2. Compute Signals
     const operatingCashIntegrity = OperatingCashIntegrityEngine.evaluate(fco, dreEbitda);
-    const earningsCashConversion = EarningsQualityEngine.evaluate(dreNetIncome, dreEbitda, fco);
+    const earningsCashConversion = EarningsCashConversionEngine.evaluate(dreNetIncome, dreEbitda, fco);
     const syntheticProfitRisk = SyntheticProfitDetectionEngine.evaluate(dreNetIncome, fco, workingCapitalVariation, receivables, inventory);
     const cashConversionStress = CashConversionStressEngine.evaluate(fco, dreEbitda);
     const liquidityConsumptionVelocity = LiquidityConsumptionVelocityEngine.evaluate(fco, availableCash);

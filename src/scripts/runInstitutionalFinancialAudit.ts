@@ -1,9 +1,10 @@
+import { logger } from "../services/logging/InstitutionalLogger";
 // src/scripts/runInstitutionalFinancialAudit.ts
 import fs from 'fs';
 import path from 'path';
 
 function runAudit() {
-  console.log('Iniciando Institutional Financial Audit (RC-1.5)...');
+  logger.audit('Iniciando Institutional Financial Audit', {});
   let hasErrors = false;
 
 
@@ -38,10 +39,10 @@ function runAudit() {
   }
 
   if (hasErrors) {
-    console.error('🔴 Institutional Financial Audit FALHOU. Build bloqueado.');
+    logger.error('Institutional Financial Audit Failed', new Error('Audit Failed'));
     process.exit(1);
   } else {
-    console.log('✅ Institutional Financial Audit FINALIZADA COM SUCESSO. Plataforma RC-1.5A Compliant.');
+    logger.audit('Institutional Financial Audit Success', {});
   }
 }
 

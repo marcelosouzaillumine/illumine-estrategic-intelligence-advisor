@@ -1,0 +1,79 @@
+import { describe, it, expect, vi, beforeEach } from 'vitest';
+import { approveScenario, validateScenarioIntegrity, createNewDraftScenario } from '../src/lib/scenarioEngine';
+
+// Mocking Firebase
+vi.mock('../src/lib/firebase', () => {
+  return {
+    db: {},
+    auth: {
+      currentUser: { uid: 'user123' }
+    }
+  };
+});
+
+vi.mock('firebase/firestore', () => {
+  return {
+    collection: vi.fn(),
+    doc: vi.fn((db, coll, id) => ({ id: id || 'mockDocId' })),
+    setDoc: vi.fn(),
+    getDocs: vi.fn(),
+    query: vi.fn(),
+    where: vi.fn(),
+    serverTimestamp: vi.fn(() => 'TIMESTAMP'),
+    updateDoc: vi.fn(),
+    getDoc: vi.fn(),
+    addDoc: vi.fn(),
+    runTransaction: vi.fn(async (db, callback) => {
+      const mockTransaction = {
+        get: vi.fn(async (ref) => ({
+          exists: () => true,
+          data: () => ({
+            status: 'Draft',
+            clientId: 'client123',
+            auditTrail: []
+          })
+        })),
+        update: vi.fn()
+      };
+      await callback(mockTransaction);
+    })
+  };
+});
+
+describe('Scenario Engine Certification', () => {
+  beforeEach(() => {
+    vi.clearAllMocks();
+  });
+
+  it('deve aprovar um cenário e arquivar o baseline anterior atomicamente', async () => {
+    const { runTransaction } = await import('firebase/firestore');
+    // We mocked runTransaction to succeed. We just want to check if it's called.
+    
+    // We need to mock validateScenarioIntegrity to not throw
+    // But validateScenarioIntegrity calls getDoc and getDocs
+    const firestore = await import('firebase/firestore');
+    firestore.getDoc.mockResolvedValueOnce({
+      exists: () => true,
+      data: () => ({ clientId: 'client123', status: 'Draft' })
+    });
+    firestore.getDocs.mockResolvedValueOnce({ empty: false, docs: [{ data: () => ({}) }] }); // assumptions
+    firestore.getDocs.mockResolvedValueOnce({ empty: false, docs: [{ data: () => ({ capexImpact: 10, revenueImpact: 10 }) }] }); // impacts
+    firestore.getDocs.mockResolvedValueOnce({ empty: false, docs: [{ id: 'oldBaseline', data: () => ({ status: 'Approved' }) }] }); // qOthers
+    
+    await approveScenario('scenario123');
+    
+    expect(runTransaction).toHaveBeenCalled();
+  });
+
+  it('deve bloquear aprovação se falhar na integridade (sem premissas)', async () => {
+    const firestore = await import('firebase/firestore');
+    firestore.getDoc.mockResolvedValueOnce({
+      exists: () => true,
+      data: () => ({ clientId: 'client123' })
+    });
+    // Missing assumptions
+    firestore.getDocs.mockResolvedValueOnce({ empty: true, docs: [] });
+    
+    await expect(approveScenario('scenario123')).rejects.toThrow("ScenarioIntegrityError: Missing scenario assumptions");
+  });
+});

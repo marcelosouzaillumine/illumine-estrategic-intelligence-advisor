@@ -130,7 +130,6 @@ export type Page =
   | 'strategic_intelligence'
   | 'institutional_board_pack'
   | 'institutional_continuity'
-  | 'demo_continuity'
   | 'deployment_readiness'
   | 'institutional_onboarding'
   | 'enterprise_validation'
@@ -357,7 +356,6 @@ const RAW_NAVIGATION_GROUPS: NavigationGroup[] = [
       // TODO: migrar crisis_response_center para restrictedRoles (C-Level/Board) em vez de masterOnly total.
       { id: 'institutional_onboarding', label: 'Institutional Onboarding', labelKey: 'navigation.page.institutional_onboarding', icon: Building2, masterOnly: true },
       { id: 'deployment_readiness', label: 'Deployment Readiness Layer', labelKey: 'navigation.page.deployment_readiness', icon: ShieldCheck, masterOnly: true },
-      { id: 'demo_continuity', label: 'Cockpit de Continuidade (Demo)', labelKey: 'navigation.page.demo_continuity', icon: HeartPulse, masterOnly: true },
       { id: 'crisis_response_center', label: 'Crisis Response Center', labelKey: 'navigation.page.crisis_response_center', icon: Siren, masterOnly: true },
       { id: 'runtime_observability_center', label: 'Runtime Observability Center', labelKey: 'navigation.page.runtime_observability_center', icon: Activity, masterOnly: true },
       { id: 'product_governance_center', label: 'Product Governance Center', labelKey: 'navigation.page.product_governance_center', icon: PackageCheck, masterOnly: true },

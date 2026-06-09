@@ -9,15 +9,15 @@ describe("Emergency Executive Sanitizer", () => {
         status: "CRITICAL",
         id: "sectionId",
       },
-      list: ["DFC_CAUSAL_INTELLIGENCE", "NORMAL", "Regular text"],
+      list: [{ section: "DFC_CAUSAL_INTELLIGENCE" }, { status: "NORMAL" }, "Regular text"],
     };
 
     const sanitized = sanitizeExecutivePayload(payload);
 
     assert.strictEqual((sanitized as any).data.status, "Atenção máxima");
     assert.strictEqual((sanitized as any).data.id, "Informação institucional");
-    assert.strictEqual((sanitized as any).list[0], "Inteligência causal do fluxo de caixa");
-    assert.strictEqual((sanitized as any).list[1], "Situação controlada");
+    assert.strictEqual((sanitized as any).list[0].section, "Inteligência causal do fluxo de caixa");
+    assert.strictEqual((sanitized as any).list[1].status, "Situação controlada");
     assert.strictEqual((sanitized as any).list[2], "Regular text");
   });
 });

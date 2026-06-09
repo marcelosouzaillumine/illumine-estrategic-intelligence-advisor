@@ -9,7 +9,7 @@ import { OperationalGovernanceReportingEngine } from './engines/OperationalGover
 import { ExecutiveDirectiveReportingEngine } from './engines/ExecutiveDirectiveReportingEngine';
 import { InstitutionalExplainabilityAppendixEngine } from './engines/InstitutionalExplainabilityAppendixEngine';
 import { InstitutionalLineageAppendixEngine } from './engines/InstitutionalLineageAppendixEngine';
-import { InstitutionalDisclosureEngine } from './engines/InstitutionalDisclosureEngine';
+import { InstitutionalDisclosureReportingEngine } from './engines/InstitutionalDisclosureReportingEngine';
 import { BoardResolutionAppendixEngine } from './engines/BoardResolutionAppendixEngine';
 import { RuntimeComplianceEngine } from '../compliance/RuntimeComplianceEngine';
 import { BoardPackMetadata } from './institutional-reporting-types';
@@ -23,6 +23,7 @@ import { EconomicValueCreationEngine } from '../economic-value/EconomicValueCrea
 import { InstitutionalExecutiveThesisEngine } from '../economic-value/InstitutionalExecutiveThesisEngine';
 import { ExecutivePriorityRankingEngine } from '../executive-prioritization/ExecutivePriorityRankingEngine';
 import { BoardTop3DecisionEngine } from '../executive-prioritization/BoardTop3DecisionEngine';
+import { BoardDecisionGraphAdapter } from '../../knowledge-graph/adapters/BoardDecisionGraphAdapter';
 import { ExecutiveActionPlanEngine } from '../executive-prioritization/ExecutiveActionPlanEngine';
 import { InstitutionalPriorityMatrixEngine } from '../executive-prioritization/InstitutionalPriorityMatrixEngine';
 import { BoardAttentionDemandIndexEngine } from '../executive-prioritization/BoardAttentionDemandIndexEngine';
@@ -94,8 +95,8 @@ export class InstitutionalBoardPackRuntime {
     const lineageAppendix = InstitutionalLineageAppendixEngine.generate(report, boardPackLineageHash as import('../shared/lineage-types').BoardPackLineageHash);
     const boardResolutionAppendix = BoardResolutionAppendixEngine.generate(report);
     
-    const disclosures = InstitutionalDisclosureEngine.generate(report, metadata);
-    const fiduciaryRestrictions = InstitutionalDisclosureEngine.generateRestrictions(report, metadata);
+    const disclosures = InstitutionalDisclosureReportingEngine.generate(report, metadata);
+    const fiduciaryRestrictions = InstitutionalDisclosureReportingEngine.generateRestrictions(report, metadata);
 
     // 5. Sovereign Status Resolution
     let finalStatus: ReportGenerationStatus = 'COMPLETE';
@@ -397,6 +398,11 @@ export class InstitutionalBoardPackRuntime {
 
     // 6. Hard-Fail Audit (Fase 2)
     RuntimeComplianceEngine.validate(output, 'render');
+
+    // [Knowledge Graph Integration] Chamada Passiva
+    BoardDecisionGraphAdapter.registerBoardDecisionGraph(output).catch(err => {
+      console.warn('[BoardDecisionGraphAdapter] Async error ignored:', err);
+    });
 
     // 7. Executive Semantic Leak Audit (ELSA Supremacy)
     const capReport = report.capitalGovernanceReport as any;

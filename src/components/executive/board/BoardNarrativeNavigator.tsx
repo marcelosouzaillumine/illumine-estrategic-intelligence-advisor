@@ -33,14 +33,14 @@ export const BoardNarrativeNavigator: React.FC<BoardNarrativeNavigatorProps> = (
   const steps: BoardFlowStep[] = ['SUMMARY', 'STRUCTURAL_TENSIONS', 'ROOT_CAUSE', 'PROPAGATION', 'INSTITUTIONAL_RISKS', 'RECOMMENDATIONS', 'EVIDENCE_CHAIN', 'TIMELINE', 'DRILLDOWN'];
 
   return (
-    <div className="w-full bg-slate-900/50 p-4 border-b border-slate-800">
+    <div className="w-full bg-primary/50 p-4 border-b border-slate-800">
       <div className="flex gap-2 overflow-x-auto pb-2">
         {steps.map(step => (
           <button
             key={step}
             onClick={() => handleTransition(step)}
             className={`px-4 py-2 text-sm uppercase tracking-wider rounded whitespace-nowrap transition-colors
-              ${currentStep === step ? 'bg-indigo-600 text-white font-bold' : 'bg-slate-800 text-slate-400 hover:bg-slate-700'}
+              ${currentStep === step ? 'bg-indigo-600 text-white font-bold' : 'bg-surface text-muted-foreground hover:bg-surface-low'}
             `}
           >
             {step.replace('_', ' ')}

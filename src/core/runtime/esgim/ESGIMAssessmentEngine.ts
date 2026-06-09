@@ -10,6 +10,7 @@ import {
 } from './esgimTypes';
 import { esgGovernanceEngine } from '../compliance/ESGGovernanceEngine';
 import { institutionalIntegrityEngine } from '../compliance/InstitutionalIntegrityEngine';
+import { ESGIMGraphAdapter } from '../../knowledge-graph/adapters/ESGIMGraphAdapter';
 
 export class ESGIMAssessmentEngine {
   private static instance: ESGIMAssessmentEngine;
@@ -211,7 +212,7 @@ export class ESGIMAssessmentEngine {
     const timestamp = new Date().toISOString();
     const lineageHash = `LIN-ESGIM-${clientId || 'GLOBAL'}-${mode}-${demoScenario}-${Date.now()}`;
 
-    return {
+    const assessment: ESGIMAssessment = {
       overallScore,
       maturityLevel,
       dimensions,
@@ -229,6 +230,13 @@ export class ESGIMAssessmentEngine {
       lineageHash,
       createdAt: timestamp
     };
+
+    // [Knowledge Graph Integration] Chamada Passiva
+    ESGIMGraphAdapter.registerESGIMGraph(assessment).catch(err => {
+      console.warn('[ESGIMGraphAdapter] Async error ignored:', err);
+    });
+
+    return assessment;
   }
 
   private getMaturityLevel(score: number): ESGIMMaturityLevel {

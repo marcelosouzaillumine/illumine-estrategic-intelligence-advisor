@@ -1,3 +1,4 @@
+import { ImportedPdfTextItem, ImportedSpreadsheetRow } from "../types/contracts";
 import * as pdfjsLib from 'pdfjs-dist';
 import type { AIFinancialDocument } from './aiService';
 import { ImportGovernanceEngine } from '../import-governance/ImportGovernanceEngine';
@@ -69,7 +70,7 @@ export const parseFinancialPdf = async (
 
     // Agrupar itens de texto pela coordenada Y (mesma linha)
     const lineMap = new Map<number, { text: string; x: number }[]>();
-    textContent.items.forEach((item: any) => {
+    textContent.items.forEach((_item) => { const item = _item as unknown as ImportedPdfTextItem;
       if (!item.str?.trim()) return;
       // Arredonda Y para agrupar itens na mesma linha (tolerância ±2px)
       const y = Math.round(item.transform[5] / 2) * 2;
@@ -145,7 +146,7 @@ export const parseFinancialDocumentIntelligent = async (
         
         // Group by Y coordinate with tolerance (±3px) to preserve lines
         const lineGroups: Record<number, { x: number, str: string }[]> = {};
-        textContent.items.forEach((item: any) => {
+        textContent.items.forEach((_item) => { const item = _item as unknown as ImportedPdfTextItem;
           const yRaw = item.transform[5];
           const x = item.transform[4];
           let yFound = Object.keys(lineGroups).map(Number).find(y => Math.abs(y - yRaw) < 3);
@@ -200,7 +201,7 @@ export const parseFinancialExcel = async (
         const data = new Uint8Array(e.target?.result as ArrayBuffer);
         const wb = XLSX.read(data, { type: 'array' });
         const ws = wb.Sheets[wb.SheetNames[0]];
-        const rawData = XLSX.utils.sheet_to_json(ws, { header: 1 }) as any[][];
+        const rawData = XLSX.utils.sheet_to_json(ws, { header: 1 }) as ImportedSpreadsheetRow[];
         if (onProgress) onProgress(50);
 
         const results: FinancialEntry[] = [];
@@ -370,7 +371,7 @@ export const parseExcel = async (file: File, onProgress?: (percent: number) => v
         const workbook = XLSX.read(data, { type: 'array' });
         const firstSheetName = workbook.SheetNames[0];
         const worksheet = workbook.Sheets[firstSheetName];
-        const jsonData = XLSX.utils.sheet_to_json(worksheet, { header: 1 }) as any[][];
+        const jsonData = XLSX.utils.sheet_to_json(worksheet, { header: 1 }) as ImportedSpreadsheetRow[];
         if (onProgress) onProgress(100);
 
         const accounts: ImportedAccount[] = [];
@@ -494,7 +495,7 @@ export const parsePdf = async (file: File, onProgress?: (percent: number) => voi
     
     // Group items by Y coordinate (same line) with a small tolerance (5px)
     const lineMap = new Map<number, { text: string; x: number }[]>();
-    textContent.items.forEach((item: any) => {
+    textContent.items.forEach((_item) => { const item = _item as unknown as ImportedPdfTextItem;
       if (!item.str?.trim()) return;
       // Precision for line grouping - group items within 5px of each other
       const y = Math.floor(item.transform[5] / 5) * 5;
@@ -794,7 +795,7 @@ export const parseTransactionsExcel = async (file: File, onProgress?: (percent: 
         const data = new Uint8Array(e.target?.result as ArrayBuffer);
         const workbook = XLSX.read(data, { type: 'array' });
         const worksheet = workbook.Sheets[workbook.SheetNames[0]];
-        const jsonData = XLSX.utils.sheet_to_json(worksheet, { header: 1 }) as any[][];
+        const jsonData = XLSX.utils.sheet_to_json(worksheet, { header: 1 }) as ImportedSpreadsheetRow[];
         if (onProgress) onProgress(100);
 
         const transactions: ImportedTransaction[] = [];
@@ -868,7 +869,7 @@ export const parseTransactionsExcel = async (file: File, onProgress?: (percent: 
           let emissao = '';
           if (row[emiCol]) {
              if (typeof row[emiCol] === 'number') {
-                const date = new Date(Math.round((row[emiCol] - 25569) * 86400 * 1000));
+                const date = new Date(Math.round(((row[emiCol] as number) - 25569) * 86400 * 1000));
                 emissao = date.toISOString().split('T')[0];
              } else {
                 const parts = String(row[emiCol]).split(/[/-]/);
@@ -882,7 +883,7 @@ export const parseTransactionsExcel = async (file: File, onProgress?: (percent: 
           let vencimento = '';
           if (row[venCol]) {
              if (typeof row[venCol] === 'number') {
-                const date = new Date(Math.round((row[venCol] - 25569) * 86400 * 1000));
+                const date = new Date(Math.round((Number(row[venCol]) - 25569) * 86400 * 1000));
                 vencimento = date.toISOString().split('T')[0];
              } else {
                 const parts = String(row[venCol]).split(/[/-]/);
@@ -960,7 +961,7 @@ export const parseTransactionsPdf = async (file: File, onProgress?: (percent: nu
     const textContent = await page.getTextContent();
     
     const lineMap = new Map<number, { text: string; x: number }[]>();
-    textContent.items.forEach((item: any) => {
+    textContent.items.forEach((_item) => { const item = _item as unknown as ImportedPdfTextItem;
       if (!item.str?.trim()) return;
       const y = Math.round(item.transform[5] / 2) * 2;
       const x = item.transform[4];
@@ -1076,7 +1077,7 @@ export const parseBankStatementExcel = async (file: File): Promise<BankTransacti
         const data = new Uint8Array(e.target?.result as ArrayBuffer);
         const wb = XLSX.read(data, { type: 'array' });
         const ws = wb.Sheets[wb.SheetNames[0]];
-        const jsonData = XLSX.utils.sheet_to_json(ws, { header: 1 }) as any[][];
+        const jsonData = XLSX.utils.sheet_to_json(ws, { header: 1 }) as ImportedSpreadsheetRow[];
         
         const transactions: BankTransaction[] = [];
         
@@ -1102,7 +1103,7 @@ export const parseBankStatementExcel = async (file: File): Promise<BankTransacti
           let date = '';
           if (row[dateCol]) {
             if (typeof row[dateCol] === 'number') {
-              const d = new Date(Math.round((row[dateCol] - 25569) * 86400 * 1000));
+              const d = new Date(Math.round((Number(row[dateCol]) - 25569) * 86400 * 1000));
               date = d.toISOString().split('T')[0];
             } else {
               const s = String(row[dateCol]);
@@ -1147,7 +1148,7 @@ export const parseBankStatementPdf = async (file: File): Promise<BankTransaction
     const textContent = await page.getTextContent();
     
     const lineMap = new Map<number, string>();
-    textContent.items.forEach((item: any) => {
+    textContent.items.forEach((_item) => { const item = _item as unknown as ImportedPdfTextItem;
       const y = Math.round(item.transform[5]);
       lineMap.set(y, (lineMap.get(y) || '') + ' ' + item.str);
     });

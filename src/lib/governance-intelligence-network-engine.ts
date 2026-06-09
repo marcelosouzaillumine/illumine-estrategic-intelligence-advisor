@@ -134,7 +134,7 @@ export function buildGovernanceIntelligenceNetwork(
   }
   
   if (persistentRisks.length > 0) {
-    institutionalLearnings.push(`A recorrência de ${persistentRisks.length} riscos já tratados sugere que causas raízes estruturais podem permanecer não resolvidas.`);
+    institutionalLearnings.push(`A recorrência de ${persistentRisks.length} riscos já tratados evidencia que causas raízes estruturais permanecem não resolvidas.`);
   }
 
   return {

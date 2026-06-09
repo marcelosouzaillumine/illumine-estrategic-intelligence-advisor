@@ -1,0 +1,2588 @@
+{
+  "total": 286,
+  "analyzed": 286,
+  "SAFE_TO_ARCHIVE": 71,
+  "REVIEW_REQUIRED": 127,
+  "KEEP_ACTIVE": 84,
+  "FALSE_POSITIVE": 4,
+  "metrics": {
+    "safeToArchiveLinesOfCode": 5256,
+    "safeToArchiveConsoleLogs": 187
+  },
+  "items": [
+    {
+      "file": "src/components/GovernancePerspectiveSection.tsx",
+      "status": "SAFE_TO_ARCHIVE",
+      "reason": "",
+      "metrics": {
+        "lines": 181,
+        "logs": 0
+      }
+    },
+    {
+      "file": "src/components/ScenarioLab/AdvisoryDeltaPanel.tsx",
+      "status": "REVIEW_REQUIRED",
+      "reason": "Archiving broke tests in tests/ directory",
+      "metrics": {
+        "lines": 76,
+        "logs": 0
+      }
+    },
+    {
+      "file": "src/components/ScenarioLab/BeforeAfterComparisonPanel.tsx",
+      "status": "SAFE_TO_ARCHIVE",
+      "reason": "",
+      "metrics": {
+        "lines": 81,
+        "logs": 0
+      }
+    },
+    {
+      "file": "src/components/ScenarioLab/InstitutionalProjectionPanel.tsx",
+      "status": "REVIEW_REQUIRED",
+      "reason": "Archiving broke tests in tests/ directory",
+      "metrics": {
+        "lines": 71,
+        "logs": 0
+      }
+    },
+    {
+      "file": "src/components/ScenarioLab/RiskPropagationMap.tsx",
+      "status": "REVIEW_REQUIRED",
+      "reason": "Archiving broke tests in tests/ directory",
+      "metrics": {
+        "lines": 54,
+        "logs": 0
+      }
+    },
+    {
+      "file": "src/components/ScenarioLab/ScenarioControlPanel.tsx",
+      "status": "REVIEW_REQUIRED",
+      "reason": "Archiving broke tests in tests/ directory",
+      "metrics": {
+        "lines": 102,
+        "logs": 0
+      }
+    },
+    {
+      "file": "src/components/board-decision/DecisionApprovalPanel.tsx",
+      "status": "SAFE_TO_ARCHIVE",
+      "reason": "",
+      "metrics": {
+        "lines": 109,
+        "logs": 0
+      }
+    },
+    {
+      "file": "src/components/executive/performance/ExecutiveGapAnalysisPanel.tsx",
+      "status": "SAFE_TO_ARCHIVE",
+      "reason": "",
+      "metrics": {
+        "lines": 48,
+        "logs": 0
+      }
+    },
+    {
+      "file": "src/components/executive/performance/HistoricalInferenceDisclosure.tsx",
+      "status": "SAFE_TO_ARCHIVE",
+      "reason": "",
+      "metrics": {
+        "lines": 26,
+        "logs": 0
+      }
+    },
+    {
+      "file": "src/components/executive/performance/OperationalBenchmarkPanel.tsx",
+      "status": "SAFE_TO_ARCHIVE",
+      "reason": "",
+      "metrics": {
+        "lines": 36,
+        "logs": 0
+      }
+    },
+    {
+      "file": "src/components/executive/performance/StrategicPerformanceBaselineCard.tsx",
+      "status": "SAFE_TO_ARCHIVE",
+      "reason": "",
+      "metrics": {
+        "lines": 33,
+        "logs": 0
+      }
+    },
+    {
+      "file": "src/components/institutional-reporting/ConstitutionalIntegrityPanel.tsx",
+      "status": "REVIEW_REQUIRED",
+      "reason": "Archiving broke tests in tests/ directory",
+      "metrics": {
+        "lines": 198,
+        "logs": 0
+      }
+    },
+    {
+      "file": "src/components/institutional-reporting/ExecutiveSnapshotSurface.test.tsx",
+      "status": "SAFE_TO_ARCHIVE",
+      "reason": "",
+      "metrics": {
+        "lines": 68,
+        "logs": 0
+      }
+    },
+    {
+      "file": "src/components/institutional-reporting/InstitutionalBoardPackCenter.test.ts",
+      "status": "SAFE_TO_ARCHIVE",
+      "reason": "",
+      "metrics": {
+        "lines": 74,
+        "logs": 0
+      }
+    },
+    {
+      "file": "src/components/modals/BusinessModelOverrideModal.tsx",
+      "status": "SAFE_TO_ARCHIVE",
+      "reason": "",
+      "metrics": {
+        "lines": 208,
+        "logs": 0
+      }
+    },
+    {
+      "file": "src/components/operational-governance/InstitutionalOperationalGovernanceCenter.tsx",
+      "status": "SAFE_TO_ARCHIVE",
+      "reason": "",
+      "metrics": {
+        "lines": 73,
+        "logs": 0
+      }
+    },
+    {
+      "file": "src/components/panels/cash-intelligence/CashConversionStressPanel.tsx",
+      "status": "SAFE_TO_ARCHIVE",
+      "reason": "",
+      "metrics": {
+        "lines": 23,
+        "logs": 0
+      }
+    },
+    {
+      "file": "src/components/panels/cash-intelligence/InstitutionalCashIntegrityPanel.tsx",
+      "status": "SAFE_TO_ARCHIVE",
+      "reason": "",
+      "metrics": {
+        "lines": 23,
+        "logs": 0
+      }
+    },
+    {
+      "file": "src/components/panels/cash-intelligence/LiquidityConsumptionTimeline.tsx",
+      "status": "FALSE_POSITIVE",
+      "reason": "Indirect string references or lazy loading detected",
+      "metrics": {
+        "lines": 23,
+        "logs": 0
+      }
+    },
+    {
+      "file": "src/components/panels/cash-intelligence/OperationalCashResiliencePanel.tsx",
+      "status": "SAFE_TO_ARCHIVE",
+      "reason": "",
+      "metrics": {
+        "lines": 23,
+        "logs": 0
+      }
+    },
+    {
+      "file": "src/components/panels/cash-intelligence/SyntheticProfitRiskPanel.tsx",
+      "status": "SAFE_TO_ARCHIVE",
+      "reason": "",
+      "metrics": {
+        "lines": 23,
+        "logs": 0
+      }
+    },
+    {
+      "file": "src/components/panels/cash-intelligence/WorkingCapitalPressurePanel.tsx",
+      "status": "SAFE_TO_ARCHIVE",
+      "reason": "",
+      "metrics": {
+        "lines": 23,
+        "logs": 0
+      }
+    },
+    {
+      "file": "src/components/panels/causal-intelligence/InstitutionalCausalRootCausesPanel.tsx",
+      "status": "REVIEW_REQUIRED",
+      "reason": "Archiving broke tests in tests/ directory",
+      "metrics": {
+        "lines": 76,
+        "logs": 0
+      }
+    },
+    {
+      "file": "src/components/panels/causal-intelligence/OperationalStressCascadePanel.tsx",
+      "status": "SAFE_TO_ARCHIVE",
+      "reason": "",
+      "metrics": {
+        "lines": 58,
+        "logs": 0
+      }
+    },
+    {
+      "file": "src/components/panels/causal-intelligence/SurvivabilityDependencyGraphPanel.tsx",
+      "status": "REVIEW_REQUIRED",
+      "reason": "Archiving broke tests in tests/ directory",
+      "metrics": {
+        "lines": 184,
+        "logs": 0
+      }
+    },
+    {
+      "file": "src/components/scenario-intelligence/InstitutionalScenarioPanel.tsx",
+      "status": "SAFE_TO_ARCHIVE",
+      "reason": "",
+      "metrics": {
+        "lines": 161,
+        "logs": 0
+      }
+    },
+    {
+      "file": "src/components/scenario-simulation/ForecastDependencyPanel.tsx",
+      "status": "SAFE_TO_ARCHIVE",
+      "reason": "",
+      "metrics": {
+        "lines": 63,
+        "logs": 0
+      }
+    },
+    {
+      "file": "src/components/scenario-simulation/HistoricalBasisExplorer.tsx",
+      "status": "SAFE_TO_ARCHIVE",
+      "reason": "",
+      "metrics": {
+        "lines": 86,
+        "logs": 0
+      }
+    },
+    {
+      "file": "src/components/scenario-simulation/MultiEntityContagionSurface.tsx",
+      "status": "SAFE_TO_ARCHIVE",
+      "reason": "",
+      "metrics": {
+        "lines": 101,
+        "logs": 0
+      }
+    },
+    {
+      "file": "src/components/scenario-simulation/PropagationTimelineViewer.tsx",
+      "status": "SAFE_TO_ARCHIVE",
+      "reason": "",
+      "metrics": {
+        "lines": 91,
+        "logs": 0
+      }
+    },
+    {
+      "file": "src/components/systemic-heatmap/SystemicHeatmapComplianceGuard.ts",
+      "status": "KEEP_ACTIVE",
+      "reason": "Is Engine/Provider/Adapter/Service/Guard",
+      "metrics": {
+        "lines": 14,
+        "logs": 0
+      }
+    },
+    {
+      "file": "src/components/temporal/TemporalBoardWorkflowPanel.tsx",
+      "status": "REVIEW_REQUIRED",
+      "reason": "Archiving broke tests in tests/ directory",
+      "metrics": {
+        "lines": 55,
+        "logs": 0
+      }
+    },
+    {
+      "file": "src/components/temporal/TemporalCollaborationPanel.tsx",
+      "status": "REVIEW_REQUIRED",
+      "reason": "Archiving broke tests in tests/ directory",
+      "metrics": {
+        "lines": 100,
+        "logs": 0
+      }
+    },
+    {
+      "file": "src/components/ui/dropdown-menu.tsx",
+      "status": "SAFE_TO_ARCHIVE",
+      "reason": "",
+      "metrics": {
+        "lines": 268,
+        "logs": 0
+      }
+    },
+    {
+      "file": "src/core/executive-delivery/ExecutiveCommunicationProfiles.ts",
+      "status": "REVIEW_REQUIRED",
+      "reason": "Archiving broke tests in tests/ directory",
+      "metrics": {
+        "lines": 100,
+        "logs": 0
+      }
+    },
+    {
+      "file": "src/core/executive-delivery/ExecutivePriorityMapper.ts",
+      "status": "REVIEW_REQUIRED",
+      "reason": "Archiving broke tests in tests/ directory",
+      "metrics": {
+        "lines": 113,
+        "logs": 0
+      }
+    },
+    {
+      "file": "src/core/executive-experience/BoardPresentationRuntime.ts",
+      "status": "REVIEW_REQUIRED",
+      "reason": "Archiving broke tests in tests/ directory",
+      "metrics": {
+        "lines": 127,
+        "logs": 0
+      }
+    },
+    {
+      "file": "src/core/executive-experience/ExecutiveStorytellingEngine.ts",
+      "status": "KEEP_ACTIVE",
+      "reason": "Is Engine/Provider/Adapter/Service/Guard",
+      "metrics": {
+        "lines": 122,
+        "logs": 0
+      }
+    },
+    {
+      "file": "src/core/executive-experience/ExecutiveSummaryComposer.ts",
+      "status": "REVIEW_REQUIRED",
+      "reason": "Archiving broke tests in tests/ directory",
+      "metrics": {
+        "lines": 75,
+        "logs": 0
+      }
+    },
+    {
+      "file": "src/core/export/board-pack/BoardPackBrandingEngine.ts",
+      "status": "KEEP_ACTIVE",
+      "reason": "Is Engine/Provider/Adapter/Service/Guard",
+      "metrics": {
+        "lines": 20,
+        "logs": 0
+      }
+    },
+    {
+      "file": "src/core/export/board-pack/InstitutionalBoardPackExportEngine.ts",
+      "status": "KEEP_ACTIVE",
+      "reason": "Is Engine/Provider/Adapter/Service/Guard",
+      "metrics": {
+        "lines": 34,
+        "logs": 0
+      }
+    },
+    {
+      "file": "src/core/export/board-pack/InstitutionalReportLayoutEngine.ts",
+      "status": "KEEP_ACTIVE",
+      "reason": "Is Engine/Provider/Adapter/Service/Guard",
+      "metrics": {
+        "lines": 33,
+        "logs": 0
+      }
+    },
+    {
+      "file": "src/core/governance/__tests__/BalanceSheetUISourceIntegrity.test.ts",
+      "status": "REVIEW_REQUIRED",
+      "reason": "Located in protected fiduciary/runtime domain",
+      "metrics": {
+        "lines": 32,
+        "logs": 0
+      }
+    },
+    {
+      "file": "src/core/governance/__tests__/CognitiveLoadGovernor.test.ts",
+      "status": "REVIEW_REQUIRED",
+      "reason": "Located in protected fiduciary/runtime domain",
+      "metrics": {
+        "lines": 42,
+        "logs": 0
+      }
+    },
+    {
+      "file": "src/core/governance/__tests__/CrossDomainCausalityEngine.test.ts",
+      "status": "KEEP_ACTIVE",
+      "reason": "Is Engine/Provider/Adapter/Service/Guard",
+      "metrics": {
+        "lines": 29,
+        "logs": 0
+      }
+    },
+    {
+      "file": "src/core/governance/__tests__/DFCCashFlowIntegrityGuard.test.ts",
+      "status": "KEEP_ACTIVE",
+      "reason": "Is Engine/Provider/Adapter/Service/Guard",
+      "metrics": {
+        "lines": 43,
+        "logs": 0
+      }
+    },
+    {
+      "file": "src/core/governance/__tests__/DFCPartnersDependencyGolden.test.ts",
+      "status": "REVIEW_REQUIRED",
+      "reason": "Located in protected fiduciary/runtime domain",
+      "metrics": {
+        "lines": 78,
+        "logs": 0
+      }
+    },
+    {
+      "file": "src/core/governance/__tests__/Granatum2023BPIntegrationGolden.test.ts",
+      "status": "REVIEW_REQUIRED",
+      "reason": "Located in protected fiduciary/runtime domain",
+      "metrics": {
+        "lines": 31,
+        "logs": 0
+      }
+    },
+    {
+      "file": "src/core/governance/__tests__/Granatum2023DFCGolden.test.ts",
+      "status": "REVIEW_REQUIRED",
+      "reason": "Located in protected fiduciary/runtime domain",
+      "metrics": {
+        "lines": 52,
+        "logs": 0
+      }
+    },
+    {
+      "file": "src/core/governance/__tests__/Granatum2023Golden.test.ts",
+      "status": "REVIEW_REQUIRED",
+      "reason": "Located in protected fiduciary/runtime domain",
+      "metrics": {
+        "lines": 98,
+        "logs": 0
+      }
+    },
+    {
+      "file": "src/core/governance/__tests__/GranatumLongitudinalGolden.test.ts",
+      "status": "REVIEW_REQUIRED",
+      "reason": "Located in protected fiduciary/runtime domain",
+      "metrics": {
+        "lines": 90,
+        "logs": 0
+      }
+    },
+    {
+      "file": "src/core/governance/__tests__/InstitutionalNarrativeEngine.test.ts",
+      "status": "KEEP_ACTIVE",
+      "reason": "Is Engine/Provider/Adapter/Service/Guard",
+      "metrics": {
+        "lines": 27,
+        "logs": 0
+      }
+    },
+    {
+      "file": "src/core/governance/__tests__/SignalPriorityEngine.test.ts",
+      "status": "KEEP_ACTIVE",
+      "reason": "Is Engine/Provider/Adapter/Service/Guard",
+      "metrics": {
+        "lines": 39,
+        "logs": 0
+      }
+    },
+    {
+      "file": "src/core/governance/__tests__/SignalSuppressionEngine.test.ts",
+      "status": "KEEP_ACTIVE",
+      "reason": "Is Engine/Provider/Adapter/Service/Guard",
+      "metrics": {
+        "lines": 34,
+        "logs": 0
+      }
+    },
+    {
+      "file": "src/core/knowledge/InstitutionalKnowledgeLayer.ts",
+      "status": "REVIEW_REQUIRED",
+      "reason": "Archiving broke tests in tests/ directory",
+      "metrics": {
+        "lines": 134,
+        "logs": 0
+      }
+    },
+    {
+      "file": "src/core/observability/ReleaseHealthReporter.ts",
+      "status": "SAFE_TO_ARCHIVE",
+      "reason": "",
+      "metrics": {
+        "lines": 46,
+        "logs": 0
+      }
+    },
+    {
+      "file": "src/core/presentation/emergency-executive-sanitizer.ts",
+      "status": "FALSE_POSITIVE",
+      "reason": "Indirect string references or lazy loading detected",
+      "metrics": {
+        "lines": 44,
+        "logs": 0
+      }
+    },
+    {
+      "file": "src/core/runtime/benchmarking/BenchmarkExecutiveReportBuilder.ts",
+      "status": "REVIEW_REQUIRED",
+      "reason": "Located in protected fiduciary/runtime domain",
+      "metrics": {
+        "lines": 30,
+        "logs": 0
+      }
+    },
+    {
+      "file": "src/core/runtime/benchmarking/BenchmarkGovernanceEngine.ts",
+      "status": "KEEP_ACTIVE",
+      "reason": "Is Engine/Provider/Adapter/Service/Guard",
+      "metrics": {
+        "lines": 17,
+        "logs": 0
+      }
+    },
+    {
+      "file": "src/core/runtime/board/BoardDiagnosisEngine.ts",
+      "status": "KEEP_ACTIVE",
+      "reason": "Is Engine/Provider/Adapter/Service/Guard",
+      "metrics": {
+        "lines": 44,
+        "logs": 0
+      }
+    },
+    {
+      "file": "src/core/runtime/cache/CacheInvalidationEngine.ts",
+      "status": "KEEP_ACTIVE",
+      "reason": "Is Engine/Provider/Adapter/Service/Guard",
+      "metrics": {
+        "lines": 41,
+        "logs": 0
+      }
+    },
+    {
+      "file": "src/core/runtime/cache/ScenarioCacheProtector.ts",
+      "status": "REVIEW_REQUIRED",
+      "reason": "Located in protected fiduciary/runtime domain",
+      "metrics": {
+        "lines": 11,
+        "logs": 0
+      }
+    },
+    {
+      "file": "src/core/runtime/capital-governance/CapitalGovernanceNarrativeComposer.ts",
+      "status": "REVIEW_REQUIRED",
+      "reason": "Located in protected fiduciary/runtime domain",
+      "metrics": {
+        "lines": 141,
+        "logs": 0
+      }
+    },
+    {
+      "file": "src/core/runtime/capital-governance/CapitalRetentionEngine.ts",
+      "status": "KEEP_ACTIVE",
+      "reason": "Is Engine/Provider/Adapter/Service/Guard",
+      "metrics": {
+        "lines": 50,
+        "logs": 0
+      }
+    },
+    {
+      "file": "src/core/runtime/capital-governance/EquityPreservationEngine.ts",
+      "status": "KEEP_ACTIVE",
+      "reason": "Is Engine/Provider/Adapter/Service/Guard",
+      "metrics": {
+        "lines": 74,
+        "logs": 0
+      }
+    },
+    {
+      "file": "src/core/runtime/capital-governance/GovernanceCapitalBehaviorEngine.ts",
+      "status": "KEEP_ACTIVE",
+      "reason": "Is Engine/Provider/Adapter/Service/Guard",
+      "metrics": {
+        "lines": 131,
+        "logs": 0
+      }
+    },
+    {
+      "file": "src/core/runtime/capital-governance/InstitutionalCapitalizationEngine.ts",
+      "status": "KEEP_ACTIVE",
+      "reason": "Is Engine/Provider/Adapter/Service/Guard",
+      "metrics": {
+        "lines": 29,
+        "logs": 0
+      }
+    },
+    {
+      "file": "src/core/runtime/capital-governance/ShareholderDistributionEngine.ts",
+      "status": "KEEP_ACTIVE",
+      "reason": "Is Engine/Provider/Adapter/Service/Guard",
+      "metrics": {
+        "lines": 68,
+        "logs": 0
+      }
+    },
+    {
+      "file": "src/core/runtime/cash-intelligence/DFCExecutiveBindingAudit.ts",
+      "status": "REVIEW_REQUIRED",
+      "reason": "Located in protected fiduciary/runtime domain",
+      "metrics": {
+        "lines": 93,
+        "logs": 0
+      }
+    },
+    {
+      "file": "src/core/runtime/cash-intelligence/DFCPresentationSegregationEngine.ts",
+      "status": "KEEP_ACTIVE",
+      "reason": "Is Engine/Provider/Adapter/Service/Guard",
+      "metrics": {
+        "lines": 32,
+        "logs": 0
+      }
+    },
+    {
+      "file": "src/core/runtime/cash-intelligence/FiduciaryCashIntelligenceRuntime.spec.ts",
+      "status": "REVIEW_REQUIRED",
+      "reason": "Located in protected fiduciary/runtime domain",
+      "metrics": {
+        "lines": 169,
+        "logs": 0
+      }
+    },
+    {
+      "file": "src/core/runtime/cash-intelligence/InstitutionalCashSustainabilityEngine.ts",
+      "status": "KEEP_ACTIVE",
+      "reason": "Is Engine/Provider/Adapter/Service/Guard",
+      "metrics": {
+        "lines": 90,
+        "logs": 0
+      }
+    },
+    {
+      "file": "src/core/runtime/cash-intelligence/LongitudinalCashIntelligenceEngine.spec.ts",
+      "status": "KEEP_ACTIVE",
+      "reason": "Is Engine/Provider/Adapter/Service/Guard",
+      "metrics": {
+        "lines": 97,
+        "logs": 0
+      }
+    },
+    {
+      "file": "src/core/runtime/cash-intelligence/LongitudinalCashIntelligenceEngine.test.ts",
+      "status": "KEEP_ACTIVE",
+      "reason": "Is Engine/Provider/Adapter/Service/Guard",
+      "metrics": {
+        "lines": 117,
+        "logs": 0
+      }
+    },
+    {
+      "file": "src/core/runtime/cash-intelligence/UniversalCashIndicatorsEngine.spec.ts",
+      "status": "KEEP_ACTIVE",
+      "reason": "Is Engine/Provider/Adapter/Service/Guard",
+      "metrics": {
+        "lines": 68,
+        "logs": 0
+      }
+    },
+    {
+      "file": "src/core/runtime/commercial-readiness/AdvisorCommercialModel.ts",
+      "status": "REVIEW_REQUIRED",
+      "reason": "Located in protected fiduciary/runtime domain",
+      "metrics": {
+        "lines": 3,
+        "logs": 0
+      }
+    },
+    {
+      "file": "src/core/runtime/commercial-readiness/AdvisorEthicalBoundaryGuard.ts",
+      "status": "KEEP_ACTIVE",
+      "reason": "Is Engine/Provider/Adapter/Service/Guard",
+      "metrics": {
+        "lines": 36,
+        "logs": 0
+      }
+    },
+    {
+      "file": "src/core/runtime/commercial-readiness/AdvisorOperatingFramework.ts",
+      "status": "REVIEW_REQUIRED",
+      "reason": "Located in protected fiduciary/runtime domain",
+      "metrics": {
+        "lines": 62,
+        "logs": 0
+      }
+    },
+    {
+      "file": "src/core/runtime/commercial-readiness/BoardPackCommercializationFlow.ts",
+      "status": "REVIEW_REQUIRED",
+      "reason": "Located in protected fiduciary/runtime domain",
+      "metrics": {
+        "lines": 3,
+        "logs": 0
+      }
+    },
+    {
+      "file": "src/core/runtime/commercial-readiness/CommercialGovernanceBoundary.ts",
+      "status": "REVIEW_REQUIRED",
+      "reason": "Located in protected fiduciary/runtime domain",
+      "metrics": {
+        "lines": 61,
+        "logs": 0
+      }
+    },
+    {
+      "file": "src/core/runtime/commercial-readiness/CommercialReadinessAuditLogger.ts",
+      "status": "REVIEW_REQUIRED",
+      "reason": "Located in protected fiduciary/runtime domain",
+      "metrics": {
+        "lines": 6,
+        "logs": 1
+      }
+    },
+    {
+      "file": "src/core/runtime/commercial-readiness/EnterpriseFeatureMatrix.ts",
+      "status": "REVIEW_REQUIRED",
+      "reason": "Located in protected fiduciary/runtime domain",
+      "metrics": {
+        "lines": 3,
+        "logs": 0
+      }
+    },
+    {
+      "file": "src/core/runtime/commercial-readiness/OperationalPricingStructure.ts",
+      "status": "REVIEW_REQUIRED",
+      "reason": "Located in protected fiduciary/runtime domain",
+      "metrics": {
+        "lines": 3,
+        "logs": 0
+      }
+    },
+    {
+      "file": "src/core/runtime/commercial-readiness/ProductPackagingEngine.ts",
+      "status": "KEEP_ACTIVE",
+      "reason": "Is Engine/Provider/Adapter/Service/Guard",
+      "metrics": {
+        "lines": 3,
+        "logs": 0
+      }
+    },
+    {
+      "file": "src/core/runtime/commercial-readiness/RuntimeUsageGovernance.ts",
+      "status": "REVIEW_REQUIRED",
+      "reason": "Located in protected fiduciary/runtime domain",
+      "metrics": {
+        "lines": 155,
+        "logs": 0
+      }
+    },
+    {
+      "file": "src/core/runtime/cross-statement/CrossStatementLiquidityInterpreter.ts",
+      "status": "REVIEW_REQUIRED",
+      "reason": "Located in protected fiduciary/runtime domain",
+      "metrics": {
+        "lines": 36,
+        "logs": 0
+      }
+    },
+    {
+      "file": "src/core/runtime/decision-intelligence/DecisionMemoryLayer.test.ts",
+      "status": "REVIEW_REQUIRED",
+      "reason": "Located in protected fiduciary/runtime domain",
+      "metrics": {
+        "lines": 106,
+        "logs": 0
+      }
+    },
+    {
+      "file": "src/core/runtime/decision-intelligence/DecisionToCashCausalityEngine.test.ts",
+      "status": "KEEP_ACTIVE",
+      "reason": "Is Engine/Provider/Adapter/Service/Guard",
+      "metrics": {
+        "lines": 113,
+        "logs": 0
+      }
+    },
+    {
+      "file": "src/core/runtime/decision-intelligence/EarlyWarningEngine.test.ts",
+      "status": "KEEP_ACTIVE",
+      "reason": "Is Engine/Provider/Adapter/Service/Guard",
+      "metrics": {
+        "lines": 189,
+        "logs": 0
+      }
+    },
+    {
+      "file": "src/core/runtime/decision-intelligence/ExecutiveAccountabilityEngine.test.ts",
+      "status": "KEEP_ACTIVE",
+      "reason": "Is Engine/Provider/Adapter/Service/Guard",
+      "metrics": {
+        "lines": 155,
+        "logs": 0
+      }
+    },
+    {
+      "file": "src/core/runtime/decision-intelligence/GovernanceDriftDetectionEngine.test.ts",
+      "status": "KEEP_ACTIVE",
+      "reason": "Is Engine/Provider/Adapter/Service/Guard",
+      "metrics": {
+        "lines": 138,
+        "logs": 0
+      }
+    },
+    {
+      "file": "src/core/runtime/decision-intelligence/InstitutionalBehavioralPatternsEngine.test.ts",
+      "status": "KEEP_ACTIVE",
+      "reason": "Is Engine/Provider/Adapter/Service/Guard",
+      "metrics": {
+        "lines": 168,
+        "logs": 0
+      }
+    },
+    {
+      "file": "src/core/runtime/decision-intelligence/InstitutionalDecisionIntelligenceEngine.ts",
+      "status": "KEEP_ACTIVE",
+      "reason": "Is Engine/Provider/Adapter/Service/Guard",
+      "metrics": {
+        "lines": 246,
+        "logs": 4
+      }
+    },
+    {
+      "file": "src/core/runtime/decision-intelligence/InstitutionalRiskMatrixEngine.ts",
+      "status": "KEEP_ACTIVE",
+      "reason": "Is Engine/Provider/Adapter/Service/Guard",
+      "metrics": {
+        "lines": 35,
+        "logs": 0
+      }
+    },
+    {
+      "file": "src/core/runtime/decision-intelligence/InstitutionalStabilityEngine.test.ts",
+      "status": "KEEP_ACTIVE",
+      "reason": "Is Engine/Provider/Adapter/Service/Guard",
+      "metrics": {
+        "lines": 189,
+        "logs": 0
+      }
+    },
+    {
+      "file": "src/core/runtime/dre/DRECostStructureEngine.ts",
+      "status": "KEEP_ACTIVE",
+      "reason": "Is Engine/Provider/Adapter/Service/Guard",
+      "metrics": {
+        "lines": 36,
+        "logs": 0
+      }
+    },
+    {
+      "file": "src/core/runtime/dre/DREOperationalEfficiencyEngine.ts",
+      "status": "KEEP_ACTIVE",
+      "reason": "Is Engine/Provider/Adapter/Service/Guard",
+      "metrics": {
+        "lines": 37,
+        "logs": 0
+      }
+    },
+    {
+      "file": "src/core/runtime/dre/DREUnitEconomicsEngine.ts",
+      "status": "KEEP_ACTIVE",
+      "reason": "Is Engine/Provider/Adapter/Service/Guard",
+      "metrics": {
+        "lines": 46,
+        "logs": 0
+      }
+    },
+    {
+      "file": "src/core/runtime/enterprise-validation/CrossModuleConsistencyValidator.ts",
+      "status": "REVIEW_REQUIRED",
+      "reason": "Located in protected fiduciary/runtime domain",
+      "metrics": {
+        "lines": 7,
+        "logs": 0
+      }
+    },
+    {
+      "file": "src/core/runtime/enterprise-validation/RealDatasetProfiler.ts",
+      "status": "REVIEW_REQUIRED",
+      "reason": "Located in protected fiduciary/runtime domain",
+      "metrics": {
+        "lines": 7,
+        "logs": 0
+      }
+    },
+    {
+      "file": "src/core/runtime/executive/AdvisoryCompressionEngine.ts",
+      "status": "KEEP_ACTIVE",
+      "reason": "Is Engine/Provider/Adapter/Service/Guard",
+      "metrics": {
+        "lines": 33,
+        "logs": 0
+      }
+    },
+    {
+      "file": "src/core/runtime/executive/BoardStorytellingBoundary.ts",
+      "status": "REVIEW_REQUIRED",
+      "reason": "Located in protected fiduciary/runtime domain",
+      "metrics": {
+        "lines": 24,
+        "logs": 0
+      }
+    },
+    {
+      "file": "src/core/runtime/executive/InstitutionalPresentationGuard.ts",
+      "status": "KEEP_ACTIVE",
+      "reason": "Is Engine/Provider/Adapter/Service/Guard",
+      "metrics": {
+        "lines": 28,
+        "logs": 0
+      }
+    },
+    {
+      "file": "src/core/runtime/executive/RuntimeBackedStorytelling.ts",
+      "status": "REVIEW_REQUIRED",
+      "reason": "Located in protected fiduciary/runtime domain",
+      "metrics": {
+        "lines": 39,
+        "logs": 0
+      }
+    },
+    {
+      "file": "src/core/runtime/executive/ViolationVisibilityPolicy.ts",
+      "status": "REVIEW_REQUIRED",
+      "reason": "Located in protected fiduciary/runtime domain",
+      "metrics": {
+        "lines": 30,
+        "logs": 0
+      }
+    },
+    {
+      "file": "src/core/runtime/executive-consolidation/EFOSExecutiveLanguageBoundaryGuard.ts",
+      "status": "KEEP_ACTIVE",
+      "reason": "Is Engine/Provider/Adapter/Service/Guard",
+      "metrics": {
+        "lines": 21,
+        "logs": 0
+      }
+    },
+    {
+      "file": "src/core/runtime/executive-domain/ExecutiveDomainSegregationEngine.ts",
+      "status": "KEEP_ACTIVE",
+      "reason": "Is Engine/Provider/Adapter/Service/Guard",
+      "metrics": {
+        "lines": 74,
+        "logs": 0
+      }
+    },
+    {
+      "file": "src/core/runtime/financial-context/FinancialRuntimeContextAdapter.test.ts",
+      "status": "KEEP_ACTIVE",
+      "reason": "Is Engine/Provider/Adapter/Service/Guard",
+      "metrics": {
+        "lines": 150,
+        "logs": 0
+      }
+    },
+    {
+      "file": "src/core/runtime/governance/GovernanceJourneyAdapter.ts",
+      "status": "KEEP_ACTIVE",
+      "reason": "Is Engine/Provider/Adapter/Service/Guard",
+      "metrics": {
+        "lines": 30,
+        "logs": 0
+      }
+    },
+    {
+      "file": "src/core/runtime/governance/bp/BalanceSheetExecutiveRecommendationEngine.ts",
+      "status": "KEEP_ACTIVE",
+      "reason": "Is Engine/Provider/Adapter/Service/Guard",
+      "metrics": {
+        "lines": 58,
+        "logs": 0
+      }
+    },
+    {
+      "file": "src/core/runtime/governance/bp/BalanceSheetGovernanceOutputValidator.ts",
+      "status": "REVIEW_REQUIRED",
+      "reason": "Located in protected fiduciary/runtime domain",
+      "metrics": {
+        "lines": 24,
+        "logs": 0
+      }
+    },
+    {
+      "file": "src/core/runtime/governance/bp/BalanceSheetOutputAuthorityGuard.ts",
+      "status": "KEEP_ACTIVE",
+      "reason": "Is Engine/Provider/Adapter/Service/Guard",
+      "metrics": {
+        "lines": 18,
+        "logs": 0
+      }
+    },
+    {
+      "file": "src/core/runtime/governance/bp/BalanceSheetOutputTraceAudit.ts",
+      "status": "REVIEW_REQUIRED",
+      "reason": "Located in protected fiduciary/runtime domain",
+      "metrics": {
+        "lines": 28,
+        "logs": 0
+      }
+    },
+    {
+      "file": "src/core/runtime/governance/bp/BalanceSheetPresentationLeakAudit.ts",
+      "status": "REVIEW_REQUIRED",
+      "reason": "Located in protected fiduciary/runtime domain",
+      "metrics": {
+        "lines": 21,
+        "logs": 0
+      }
+    },
+    {
+      "file": "src/core/runtime/governance/bp/BalanceSheetRootCauseAnalyzer.ts",
+      "status": "REVIEW_REQUIRED",
+      "reason": "Located in protected fiduciary/runtime domain",
+      "metrics": {
+        "lines": 36,
+        "logs": 0
+      }
+    },
+    {
+      "file": "src/core/runtime/governance/bp/BalanceSheetRuntimePresentationReconciliationAudit.ts",
+      "status": "REVIEW_REQUIRED",
+      "reason": "Located in protected fiduciary/runtime domain",
+      "metrics": {
+        "lines": 12,
+        "logs": 0
+      }
+    },
+    {
+      "file": "src/core/runtime/governance/bp/CapitalRecoveryIndexEngine.ts",
+      "status": "KEEP_ACTIVE",
+      "reason": "Is Engine/Provider/Adapter/Service/Guard",
+      "metrics": {
+        "lines": 26,
+        "logs": 0
+      }
+    },
+    {
+      "file": "src/core/runtime/governance/bp/HistoricalNarrativeContaminationAudit.ts",
+      "status": "REVIEW_REQUIRED",
+      "reason": "Located in protected fiduciary/runtime domain",
+      "metrics": {
+        "lines": 26,
+        "logs": 0
+      }
+    },
+    {
+      "file": "src/core/runtime/governance/bp/HistoricalTrendExplainabilityEngine.ts",
+      "status": "KEEP_ACTIVE",
+      "reason": "Is Engine/Provider/Adapter/Service/Guard",
+      "metrics": {
+        "lines": 31,
+        "logs": 0
+      }
+    },
+    {
+      "file": "src/core/runtime/governance/cross-statement/CrossStatementReconciliationEngine.test.ts",
+      "status": "KEEP_ACTIVE",
+      "reason": "Is Engine/Provider/Adapter/Service/Guard",
+      "metrics": {
+        "lines": 116,
+        "logs": 0
+      }
+    },
+    {
+      "file": "src/core/runtime/governance/dfc/DFCSSOTAuthorityGuard.ts",
+      "status": "KEEP_ACTIVE",
+      "reason": "Is Engine/Provider/Adapter/Service/Guard",
+      "metrics": {
+        "lines": 49,
+        "logs": 0
+      }
+    },
+    {
+      "file": "src/core/runtime/governance/dlpa/DLPACanonicalBindingAudit.ts",
+      "status": "REVIEW_REQUIRED",
+      "reason": "Located in protected fiduciary/runtime domain",
+      "metrics": {
+        "lines": 72,
+        "logs": 0
+      }
+    },
+    {
+      "file": "src/core/runtime/governance/dlpa/DLPACanonicalPayloadEnforcer.ts",
+      "status": "REVIEW_REQUIRED",
+      "reason": "Located in protected fiduciary/runtime domain",
+      "metrics": {
+        "lines": 44,
+        "logs": 0
+      }
+    },
+    {
+      "file": "src/core/runtime/governance/dlpa/DLPACanonicalScoreResolver.ts",
+      "status": "REVIEW_REQUIRED",
+      "reason": "Located in protected fiduciary/runtime domain",
+      "metrics": {
+        "lines": 20,
+        "logs": 0
+      }
+    },
+    {
+      "file": "src/core/runtime/governance/dlpa/DLPARecoveryHorizonResolver.ts",
+      "status": "REVIEW_REQUIRED",
+      "reason": "Located in protected fiduciary/runtime domain",
+      "metrics": {
+        "lines": 41,
+        "logs": 0
+      }
+    },
+    {
+      "file": "src/core/runtime/governance/dlpa/DLPAUIConsistencyAudit.ts",
+      "status": "REVIEW_REQUIRED",
+      "reason": "Located in protected fiduciary/runtime domain",
+      "metrics": {
+        "lines": 57,
+        "logs": 0
+      }
+    },
+    {
+      "file": "src/core/runtime/governance/dlpa/DLPAUIHardFailAudit.ts",
+      "status": "REVIEW_REQUIRED",
+      "reason": "Located in protected fiduciary/runtime domain",
+      "metrics": {
+        "lines": 57,
+        "logs": 5
+      }
+    },
+    {
+      "file": "src/core/runtime/governance/fiduciary/DecisionFiduciaryValidator.ts",
+      "status": "REVIEW_REQUIRED",
+      "reason": "Located in protected fiduciary/runtime domain",
+      "metrics": {
+        "lines": 111,
+        "logs": 0
+      }
+    },
+    {
+      "file": "src/core/runtime/governance/risk/RiskTaxonomy.ts",
+      "status": "REVIEW_REQUIRED",
+      "reason": "Located in protected fiduciary/runtime domain",
+      "metrics": {
+        "lines": 55,
+        "logs": 0
+      }
+    },
+    {
+      "file": "src/core/runtime/institutional-context/EarlyStageNormalizationLayer.ts",
+      "status": "REVIEW_REQUIRED",
+      "reason": "Located in protected fiduciary/runtime domain",
+      "metrics": {
+        "lines": 61,
+        "logs": 0
+      }
+    },
+    {
+      "file": "src/core/runtime/institutional-context/SegmentIntelligenceEngine.test.ts",
+      "status": "KEEP_ACTIVE",
+      "reason": "Is Engine/Provider/Adapter/Service/Guard",
+      "metrics": {
+        "lines": 84,
+        "logs": 0
+      }
+    },
+    {
+      "file": "src/core/runtime/institutional-context/SegmentIntelligenceExplainability.ts",
+      "status": "REVIEW_REQUIRED",
+      "reason": "Located in protected fiduciary/runtime domain",
+      "metrics": {
+        "lines": 24,
+        "logs": 0
+      }
+    },
+    {
+      "file": "src/core/runtime/institutional-evidence/institutional-evidence-adapter.ts",
+      "status": "KEEP_ACTIVE",
+      "reason": "Is Engine/Provider/Adapter/Service/Guard",
+      "metrics": {
+        "lines": 24,
+        "logs": 0
+      }
+    },
+    {
+      "file": "src/core/runtime/institutional-memory/InstitutionalTimelineRuntime.ts",
+      "status": "REVIEW_REQUIRED",
+      "reason": "Located in protected fiduciary/runtime domain",
+      "metrics": {
+        "lines": 56,
+        "logs": 0
+      }
+    },
+    {
+      "file": "src/core/runtime/institutional-reporting/InstitutionalBoardPackDocumentRuntime.test.ts",
+      "status": "REVIEW_REQUIRED",
+      "reason": "Located in protected fiduciary/runtime domain",
+      "metrics": {
+        "lines": 87,
+        "logs": 0
+      }
+    },
+    {
+      "file": "src/core/runtime/institutional-reporting/engines/ExecutiveLongitudinalIntegration.spec.ts",
+      "status": "FALSE_POSITIVE",
+      "reason": "Indirect string references or lazy loading detected",
+      "metrics": {
+        "lines": 157,
+        "logs": 0
+      }
+    },
+    {
+      "file": "src/core/runtime/institutional-reporting/engines/ExecutiveReportExportEngine.ts",
+      "status": "KEEP_ACTIVE",
+      "reason": "Is Engine/Provider/Adapter/Service/Guard",
+      "metrics": {
+        "lines": 38,
+        "logs": 0
+      }
+    },
+    {
+      "file": "src/core/runtime/institutional-reporting/engines/InstitutionalBoardPackEndToEnd.spec.ts",
+      "status": "REVIEW_REQUIRED",
+      "reason": "Located in protected fiduciary/runtime domain",
+      "metrics": {
+        "lines": 423,
+        "logs": 7
+      }
+    },
+    {
+      "file": "src/core/runtime/ios/CrossDomainStateResolver.ts",
+      "status": "REVIEW_REQUIRED",
+      "reason": "Located in protected fiduciary/runtime domain",
+      "metrics": {
+        "lines": 7,
+        "logs": 0
+      }
+    },
+    {
+      "file": "src/core/runtime/ios/InstitutionalCommandCenter.ts",
+      "status": "REVIEW_REQUIRED",
+      "reason": "Located in protected fiduciary/runtime domain",
+      "metrics": {
+        "lines": 13,
+        "logs": 0
+      }
+    },
+    {
+      "file": "src/core/runtime/ios/OperationalSynchronizationRuntime.ts",
+      "status": "REVIEW_REQUIRED",
+      "reason": "Located in protected fiduciary/runtime domain",
+      "metrics": {
+        "lines": 7,
+        "logs": 0
+      }
+    },
+    {
+      "file": "src/core/runtime/knowledge-graph/EntityRelationshipMapper.ts",
+      "status": "REVIEW_REQUIRED",
+      "reason": "Located in protected fiduciary/runtime domain",
+      "metrics": {
+        "lines": 20,
+        "logs": 0
+      }
+    },
+    {
+      "file": "src/core/runtime/knowledge-graph/GovernanceRelationshipGraph.ts",
+      "status": "REVIEW_REQUIRED",
+      "reason": "Located in protected fiduciary/runtime domain",
+      "metrics": {
+        "lines": 34,
+        "logs": 0
+      }
+    },
+    {
+      "file": "src/core/runtime/lifecycle/LifecycleSemanticConsumptionGuard.ts",
+      "status": "KEEP_ACTIVE",
+      "reason": "Is Engine/Provider/Adapter/Service/Guard",
+      "metrics": {
+        "lines": 30,
+        "logs": 0
+      }
+    },
+    {
+      "file": "src/core/runtime/lifecycle/LifecycleSemanticViolationScanner.ts",
+      "status": "REVIEW_REQUIRED",
+      "reason": "Located in protected fiduciary/runtime domain",
+      "metrics": {
+        "lines": 27,
+        "logs": 0
+      }
+    },
+    {
+      "file": "src/core/runtime/lifecycle/ObservabilityArchiveManager.ts",
+      "status": "REVIEW_REQUIRED",
+      "reason": "Located in protected fiduciary/runtime domain",
+      "metrics": {
+        "lines": 14,
+        "logs": 1
+      }
+    },
+    {
+      "file": "src/core/runtime/lifecycle/SnapshotRetentionPolicy.ts",
+      "status": "REVIEW_REQUIRED",
+      "reason": "Located in protected fiduciary/runtime domain",
+      "metrics": {
+        "lines": 21,
+        "logs": 0
+      }
+    },
+    {
+      "file": "src/core/runtime/monitoring/GovernanceEscalationEngine.ts",
+      "status": "KEEP_ACTIVE",
+      "reason": "Is Engine/Provider/Adapter/Service/Guard",
+      "metrics": {
+        "lines": 24,
+        "logs": 0
+      }
+    },
+    {
+      "file": "src/core/runtime/monitoring/LiquidityWatchEngine.ts",
+      "status": "KEEP_ACTIVE",
+      "reason": "Is Engine/Provider/Adapter/Service/Guard",
+      "metrics": {
+        "lines": 18,
+        "logs": 0
+      }
+    },
+    {
+      "file": "src/core/runtime/monitoring/SystemicRiskTrendAnalyzer.ts",
+      "status": "REVIEW_REQUIRED",
+      "reason": "Located in protected fiduciary/runtime domain",
+      "metrics": {
+        "lines": 24,
+        "logs": 0
+      }
+    },
+    {
+      "file": "src/core/runtime/monitoring/channels/EmailAlertChannel.ts",
+      "status": "REVIEW_REQUIRED",
+      "reason": "Located in protected fiduciary/runtime domain",
+      "metrics": {
+        "lines": 11,
+        "logs": 1
+      }
+    },
+    {
+      "file": "src/core/runtime/monitoring/channels/InAppAlertChannel.ts",
+      "status": "REVIEW_REQUIRED",
+      "reason": "Located in protected fiduciary/runtime domain",
+      "metrics": {
+        "lines": 13,
+        "logs": 1
+      }
+    },
+    {
+      "file": "src/core/runtime/monitoring/channels/WebhookAlertChannel.ts",
+      "status": "REVIEW_REQUIRED",
+      "reason": "Located in protected fiduciary/runtime domain",
+      "metrics": {
+        "lines": 11,
+        "logs": 1
+      }
+    },
+    {
+      "file": "src/core/runtime/narrative/NarrativeDeduplicationPass.ts",
+      "status": "REVIEW_REQUIRED",
+      "reason": "Located in protected fiduciary/runtime domain",
+      "metrics": {
+        "lines": 25,
+        "logs": 0
+      }
+    },
+    {
+      "file": "src/core/runtime/observability/InstitutionalExplainabilityEngine.ts",
+      "status": "KEEP_ACTIVE",
+      "reason": "Is Engine/Provider/Adapter/Service/Guard",
+      "metrics": {
+        "lines": 110,
+        "logs": 0
+      }
+    },
+    {
+      "file": "src/core/runtime/observability/ObservedConsolidatedRuntimeService.ts",
+      "status": "KEEP_ACTIVE",
+      "reason": "Is Engine/Provider/Adapter/Service/Guard",
+      "metrics": {
+        "lines": 142,
+        "logs": 1
+      }
+    },
+    {
+      "file": "src/core/runtime/observability/PropagationChainTracer.ts",
+      "status": "REVIEW_REQUIRED",
+      "reason": "Located in protected fiduciary/runtime domain",
+      "metrics": {
+        "lines": 79,
+        "logs": 0
+      }
+    },
+    {
+      "file": "src/core/runtime/observability/RuntimeTelemetry.test.ts",
+      "status": "REVIEW_REQUIRED",
+      "reason": "Located in protected fiduciary/runtime domain",
+      "metrics": {
+        "lines": 80,
+        "logs": 0
+      }
+    },
+    {
+      "file": "src/core/runtime/observability/ThesisStabilityEngine.ts",
+      "status": "KEEP_ACTIVE",
+      "reason": "Is Engine/Provider/Adapter/Service/Guard",
+      "metrics": {
+        "lines": 54,
+        "logs": 0
+      }
+    },
+    {
+      "file": "src/core/runtime/observability/sinks/FirebaseRuntimeTelemetrySink.ts",
+      "status": "REVIEW_REQUIRED",
+      "reason": "Located in protected fiduciary/runtime domain",
+      "metrics": {
+        "lines": 79,
+        "logs": 7
+      }
+    },
+    {
+      "file": "src/core/runtime/observability/sinks/NoopRuntimeTelemetrySink.ts",
+      "status": "REVIEW_REQUIRED",
+      "reason": "Located in protected fiduciary/runtime domain",
+      "metrics": {
+        "lines": 19,
+        "logs": 0
+      }
+    },
+    {
+      "file": "src/core/runtime/operational-playbooks/AdvisorOperationalGuide.ts",
+      "status": "REVIEW_REQUIRED",
+      "reason": "Located in protected fiduciary/runtime domain",
+      "metrics": {
+        "lines": 3,
+        "logs": 0
+      }
+    },
+    {
+      "file": "src/core/runtime/operational-playbooks/BoardPackPreparationPlaybook.ts",
+      "status": "REVIEW_REQUIRED",
+      "reason": "Located in protected fiduciary/runtime domain",
+      "metrics": {
+        "lines": 3,
+        "logs": 0
+      }
+    },
+    {
+      "file": "src/core/runtime/operational-playbooks/FinancialImportPlaybook.ts",
+      "status": "REVIEW_REQUIRED",
+      "reason": "Located in protected fiduciary/runtime domain",
+      "metrics": {
+        "lines": 3,
+        "logs": 0
+      }
+    },
+    {
+      "file": "src/core/runtime/operational-playbooks/GovernanceReviewPlaybook.ts",
+      "status": "REVIEW_REQUIRED",
+      "reason": "Located in protected fiduciary/runtime domain",
+      "metrics": {
+        "lines": 3,
+        "logs": 0
+      }
+    },
+    {
+      "file": "src/core/runtime/operational-playbooks/InstitutionalTrainingFlow.ts",
+      "status": "REVIEW_REQUIRED",
+      "reason": "Located in protected fiduciary/runtime domain",
+      "metrics": {
+        "lines": 3,
+        "logs": 0
+      }
+    },
+    {
+      "file": "src/core/runtime/operational-playbooks/OperationalPlaybookAuditLogger.ts",
+      "status": "REVIEW_REQUIRED",
+      "reason": "Located in protected fiduciary/runtime domain",
+      "metrics": {
+        "lines": 6,
+        "logs": 1
+      }
+    },
+    {
+      "file": "src/core/runtime/operational-scale/InstitutionalLoadProfiler.ts",
+      "status": "REVIEW_REQUIRED",
+      "reason": "Located in protected fiduciary/runtime domain",
+      "metrics": {
+        "lines": 15,
+        "logs": 0
+      }
+    },
+    {
+      "file": "src/core/runtime/operational-scale/OperationalRecoveryValidator.ts",
+      "status": "REVIEW_REQUIRED",
+      "reason": "Located in protected fiduciary/runtime domain",
+      "metrics": {
+        "lines": 7,
+        "logs": 0
+      }
+    },
+    {
+      "file": "src/core/runtime/operational-scale/RuntimeConcurrencyAnalyzer.ts",
+      "status": "REVIEW_REQUIRED",
+      "reason": "Located in protected fiduciary/runtime domain",
+      "metrics": {
+        "lines": 15,
+        "logs": 0
+      }
+    },
+    {
+      "file": "src/core/runtime/operational-scale/ScaleReadinessAuditLogger.ts",
+      "status": "REVIEW_REQUIRED",
+      "reason": "Located in protected fiduciary/runtime domain",
+      "metrics": {
+        "lines": 6,
+        "logs": 1
+      }
+    },
+    {
+      "file": "src/core/runtime/patrimonial-intelligence/PatrimonialIntelligenceRuntime.test.ts",
+      "status": "REVIEW_REQUIRED",
+      "reason": "Located in protected fiduciary/runtime domain",
+      "metrics": {
+        "lines": 169,
+        "logs": 0
+      }
+    },
+    {
+      "file": "src/core/runtime/performance/HistoricalInferenceGuard.ts",
+      "status": "KEEP_ACTIVE",
+      "reason": "Is Engine/Provider/Adapter/Service/Guard",
+      "metrics": {
+        "lines": 43,
+        "logs": 0
+      }
+    },
+    {
+      "file": "src/core/runtime/performance/OperationalEfficiencyInterpreter.ts",
+      "status": "REVIEW_REQUIRED",
+      "reason": "Located in protected fiduciary/runtime domain",
+      "metrics": {
+        "lines": 50,
+        "logs": 0
+      }
+    },
+    {
+      "file": "src/core/runtime/pilot-readiness/InstitutionalOnboardingFlow.ts",
+      "status": "REVIEW_REQUIRED",
+      "reason": "Located in protected fiduciary/runtime domain",
+      "metrics": {
+        "lines": 3,
+        "logs": 0
+      }
+    },
+    {
+      "file": "src/core/runtime/pilot-readiness/PilotEnvironmentManager.ts",
+      "status": "REVIEW_REQUIRED",
+      "reason": "Located in protected fiduciary/runtime domain",
+      "metrics": {
+        "lines": 14,
+        "logs": 0
+      }
+    },
+    {
+      "file": "src/core/runtime/pilot-readiness/PilotExecutionTracker.ts",
+      "status": "REVIEW_REQUIRED",
+      "reason": "Located in protected fiduciary/runtime domain",
+      "metrics": {
+        "lines": 3,
+        "logs": 0
+      }
+    },
+    {
+      "file": "src/core/runtime/pilot-readiness/PilotReadinessAuditLogger.ts",
+      "status": "REVIEW_REQUIRED",
+      "reason": "Located in protected fiduciary/runtime domain",
+      "metrics": {
+        "lines": 6,
+        "logs": 1
+      }
+    },
+    {
+      "file": "src/core/runtime/pilot-readiness/PilotWorkspaceProvisioner.ts",
+      "status": "REVIEW_REQUIRED",
+      "reason": "Located in protected fiduciary/runtime domain",
+      "metrics": {
+        "lines": 3,
+        "logs": 0
+      }
+    },
+    {
+      "file": "src/core/runtime/pilot-readiness/ProductionIsolationValidator.ts",
+      "status": "REVIEW_REQUIRED",
+      "reason": "Located in protected fiduciary/runtime domain",
+      "metrics": {
+        "lines": 3,
+        "logs": 0
+      }
+    },
+    {
+      "file": "src/core/runtime/premium-ux/CognitiveComplexityReducer.ts",
+      "status": "REVIEW_REQUIRED",
+      "reason": "Located in protected fiduciary/runtime domain",
+      "metrics": {
+        "lines": 11,
+        "logs": 0
+      }
+    },
+    {
+      "file": "src/core/runtime/premium-ux/ContextualVisualizationResolver.ts",
+      "status": "REVIEW_REQUIRED",
+      "reason": "Located in protected fiduciary/runtime domain",
+      "metrics": {
+        "lines": 14,
+        "logs": 0
+      }
+    },
+    {
+      "file": "src/core/runtime/premium-ux/ExecutiveClarityEngine.ts",
+      "status": "KEEP_ACTIVE",
+      "reason": "Is Engine/Provider/Adapter/Service/Guard",
+      "metrics": {
+        "lines": 16,
+        "logs": 0
+      }
+    },
+    {
+      "file": "src/core/runtime/premium-ux/ExecutiveNavigationSimplifier.ts",
+      "status": "REVIEW_REQUIRED",
+      "reason": "Located in protected fiduciary/runtime domain",
+      "metrics": {
+        "lines": 9,
+        "logs": 0
+      }
+    },
+    {
+      "file": "src/core/runtime/premium-ux/InstitutionalStorytellingOptimizer.ts",
+      "status": "REVIEW_REQUIRED",
+      "reason": "Located in protected fiduciary/runtime domain",
+      "metrics": {
+        "lines": 20,
+        "logs": 0
+      }
+    },
+    {
+      "file": "src/core/runtime/premium-ux/PremiumUXAuditLogger.ts",
+      "status": "REVIEW_REQUIRED",
+      "reason": "Located in protected fiduciary/runtime domain",
+      "metrics": {
+        "lines": 6,
+        "logs": 1
+      }
+    },
+    {
+      "file": "src/core/runtime/premium-ux/ProgressiveDisclosureEngine.ts",
+      "status": "KEEP_ACTIVE",
+      "reason": "Is Engine/Provider/Adapter/Service/Guard",
+      "metrics": {
+        "lines": 9,
+        "logs": 0
+      }
+    },
+    {
+      "file": "src/core/runtime/presentation-governance/DREPresentationGovernanceAudit.ts",
+      "status": "REVIEW_REQUIRED",
+      "reason": "Located in protected fiduciary/runtime domain",
+      "metrics": {
+        "lines": 55,
+        "logs": 0
+      }
+    },
+    {
+      "file": "src/core/runtime/presentation-governance/ExecutiveNarrativeSingleSourceValidator.ts",
+      "status": "REVIEW_REQUIRED",
+      "reason": "Located in protected fiduciary/runtime domain",
+      "metrics": {
+        "lines": 110,
+        "logs": 0
+      }
+    },
+    {
+      "file": "src/core/runtime/presentation-governance/OperationalSeverityGovernanceEngine.ts",
+      "status": "KEEP_ACTIVE",
+      "reason": "Is Engine/Provider/Adapter/Service/Guard",
+      "metrics": {
+        "lines": 17,
+        "logs": 0
+      }
+    },
+    {
+      "file": "src/core/runtime/presentation-governance/TemporalIntegrityValidator.ts",
+      "status": "REVIEW_REQUIRED",
+      "reason": "Located in protected fiduciary/runtime domain",
+      "metrics": {
+        "lines": 25,
+        "logs": 0
+      }
+    },
+    {
+      "file": "src/core/runtime/profiling/ReplayPerformanceMonitor.ts",
+      "status": "REVIEW_REQUIRED",
+      "reason": "Located in protected fiduciary/runtime domain",
+      "metrics": {
+        "lines": 22,
+        "logs": 1
+      }
+    },
+    {
+      "file": "src/core/runtime/profiling/ScenarioCostAnalyzer.ts",
+      "status": "REVIEW_REQUIRED",
+      "reason": "Located in protected fiduciary/runtime domain",
+      "metrics": {
+        "lines": 29,
+        "logs": 0
+      }
+    },
+    {
+      "file": "src/core/runtime/publication-governance/ExecutivePublicationRuntime.ts",
+      "status": "REVIEW_REQUIRED",
+      "reason": "Located in protected fiduciary/runtime domain",
+      "metrics": {
+        "lines": 136,
+        "logs": 0
+      }
+    },
+    {
+      "file": "src/core/runtime/reality-validation/ExecutiveWorkflowValidationEngine.ts",
+      "status": "KEEP_ACTIVE",
+      "reason": "Is Engine/Provider/Adapter/Service/Guard",
+      "metrics": {
+        "lines": 18,
+        "logs": 0
+      }
+    },
+    {
+      "file": "src/core/runtime/reality-validation/InstitutionalScenarioValidator.ts",
+      "status": "REVIEW_REQUIRED",
+      "reason": "Located in protected fiduciary/runtime domain",
+      "metrics": {
+        "lines": 27,
+        "logs": 0
+      }
+    },
+    {
+      "file": "src/core/runtime/reporting/ExecutiveBoardPackBuilder.ts",
+      "status": "REVIEW_REQUIRED",
+      "reason": "Located in protected fiduciary/runtime domain",
+      "metrics": {
+        "lines": 34,
+        "logs": 0
+      }
+    },
+    {
+      "file": "src/core/runtime/reporting/GovernanceAuditReportBuilder.ts",
+      "status": "REVIEW_REQUIRED",
+      "reason": "Located in protected fiduciary/runtime domain",
+      "metrics": {
+        "lines": 25,
+        "logs": 0
+      }
+    },
+    {
+      "file": "src/core/runtime/reporting/InstitutionalReportBuilder.ts",
+      "status": "REVIEW_REQUIRED",
+      "reason": "Located in protected fiduciary/runtime domain",
+      "metrics": {
+        "lines": 28,
+        "logs": 0
+      }
+    },
+    {
+      "file": "src/core/runtime/reporting/ReportLineageBinder.ts",
+      "status": "REVIEW_REQUIRED",
+      "reason": "Located in protected fiduciary/runtime domain",
+      "metrics": {
+        "lines": 27,
+        "logs": 0
+      }
+    },
+    {
+      "file": "src/core/runtime/reporting/ReportVersionRegistry.ts",
+      "status": "REVIEW_REQUIRED",
+      "reason": "Located in protected fiduciary/runtime domain",
+      "metrics": {
+        "lines": 64,
+        "logs": 1
+      }
+    },
+    {
+      "file": "src/core/runtime/reporting/ScenarioStressReportBuilder.ts",
+      "status": "REVIEW_REQUIRED",
+      "reason": "Located in protected fiduciary/runtime domain",
+      "metrics": {
+        "lines": 22,
+        "logs": 0
+      }
+    },
+    {
+      "file": "src/core/runtime/scenario-intelligence/ExecutivePriorityEvolutionEngine.ts",
+      "status": "KEEP_ACTIVE",
+      "reason": "Is Engine/Provider/Adapter/Service/Guard",
+      "metrics": {
+        "lines": 60,
+        "logs": 0
+      }
+    },
+    {
+      "file": "src/core/runtime/scenario-intelligence/ThesisFutureImpactEngine.ts",
+      "status": "KEEP_ACTIVE",
+      "reason": "Is Engine/Provider/Adapter/Service/Guard",
+      "metrics": {
+        "lines": 50,
+        "logs": 0
+      }
+    },
+    {
+      "file": "src/core/runtime/scenario-simulation/commandCenterContracts.ts",
+      "status": "REVIEW_REQUIRED",
+      "reason": "Located in protected fiduciary/runtime domain",
+      "metrics": {
+        "lines": 23,
+        "logs": 0
+      }
+    },
+    {
+      "file": "src/core/runtime/semantic/EarlyStageSemanticEngine.ts",
+      "status": "KEEP_ACTIVE",
+      "reason": "Is Engine/Provider/Adapter/Service/Guard",
+      "metrics": {
+        "lines": 46,
+        "logs": 0
+      }
+    },
+    {
+      "file": "src/core/runtime/semantic/RunwayDisclosureEngine.ts",
+      "status": "KEEP_ACTIVE",
+      "reason": "Is Engine/Provider/Adapter/Service/Guard",
+      "metrics": {
+        "lines": 16,
+        "logs": 0
+      }
+    },
+    {
+      "file": "src/core/runtime/strategic-simulation/DecisionRiskBalancer.ts",
+      "status": "REVIEW_REQUIRED",
+      "reason": "Located in protected fiduciary/runtime domain",
+      "metrics": {
+        "lines": 13,
+        "logs": 0
+      }
+    },
+    {
+      "file": "src/core/runtime/strategic-simulation/ExecutiveScenarioEngine.ts",
+      "status": "KEEP_ACTIVE",
+      "reason": "Is Engine/Provider/Adapter/Service/Guard",
+      "metrics": {
+        "lines": 131,
+        "logs": 0
+      }
+    },
+    {
+      "file": "src/core/runtime/strategic-simulation/InstitutionalPreservationEngine.ts",
+      "status": "KEEP_ACTIVE",
+      "reason": "Is Engine/Provider/Adapter/Service/Guard",
+      "metrics": {
+        "lines": 63,
+        "logs": 0
+      }
+    },
+    {
+      "file": "src/core/runtime/tenancy/TenantIsolationEngine.ts",
+      "status": "KEEP_ACTIVE",
+      "reason": "Is Engine/Provider/Adapter/Service/Guard",
+      "metrics": {
+        "lines": 21,
+        "logs": 0
+      }
+    },
+    {
+      "file": "src/core/runtime/tenancy/TenantLineageBinder.ts",
+      "status": "REVIEW_REQUIRED",
+      "reason": "Located in protected fiduciary/runtime domain",
+      "metrics": {
+        "lines": 21,
+        "logs": 0
+      }
+    },
+    {
+      "file": "src/core/runtime/treasury-intelligence/CapitalAllocationEngine.ts",
+      "status": "KEEP_ACTIVE",
+      "reason": "Is Engine/Provider/Adapter/Service/Guard",
+      "metrics": {
+        "lines": 127,
+        "logs": 0
+      }
+    },
+    {
+      "file": "src/core/runtime/ux-hardening/ExecutiveComplexityReducer.ts",
+      "status": "REVIEW_REQUIRED",
+      "reason": "Located in protected fiduciary/runtime domain",
+      "metrics": {
+        "lines": 3,
+        "logs": 0
+      }
+    },
+    {
+      "file": "src/core/runtime/ux-hardening/ExecutiveJourneyMapper.ts",
+      "status": "REVIEW_REQUIRED",
+      "reason": "Located in protected fiduciary/runtime domain",
+      "metrics": {
+        "lines": 14,
+        "logs": 0
+      }
+    },
+    {
+      "file": "src/core/runtime/ux-hardening/InstitutionalNavigationOptimizer.ts",
+      "status": "REVIEW_REQUIRED",
+      "reason": "Located in protected fiduciary/runtime domain",
+      "metrics": {
+        "lines": 3,
+        "logs": 0
+      }
+    },
+    {
+      "file": "src/core/runtime/ux-hardening/OperationalFrictionAnalyzer.ts",
+      "status": "REVIEW_REQUIRED",
+      "reason": "Located in protected fiduciary/runtime domain",
+      "metrics": {
+        "lines": 7,
+        "logs": 0
+      }
+    },
+    {
+      "file": "src/core/runtime/ux-hardening/UXValidationAuditLogger.ts",
+      "status": "REVIEW_REQUIRED",
+      "reason": "Located in protected fiduciary/runtime domain",
+      "metrics": {
+        "lines": 15,
+        "logs": 1
+      }
+    },
+    {
+      "file": "src/core/runtime/validation/MockBoardPackScenarios.ts",
+      "status": "REVIEW_REQUIRED",
+      "reason": "Located in protected fiduciary/runtime domain",
+      "metrics": {
+        "lines": 1,
+        "logs": 0
+      }
+    },
+    {
+      "file": "src/core/runtime/validation/RealWorldValidationSuite.spec.ts",
+      "status": "REVIEW_REQUIRED",
+      "reason": "Located in protected fiduciary/runtime domain",
+      "metrics": {
+        "lines": 73,
+        "logs": 0
+      }
+    },
+    {
+      "file": "src/core/runtime/war-gaming/CrisisPropagationEngine.ts",
+      "status": "KEEP_ACTIVE",
+      "reason": "Is Engine/Provider/Adapter/Service/Guard",
+      "metrics": {
+        "lines": 27,
+        "logs": 0
+      }
+    },
+    {
+      "file": "src/core/runtime/war-gaming/StrategicResponseComparisonEngine.ts",
+      "status": "KEEP_ACTIVE",
+      "reason": "Is Engine/Provider/Adapter/Service/Guard",
+      "metrics": {
+        "lines": 58,
+        "logs": 0
+      }
+    },
+    {
+      "file": "src/core/runtime/workflow-governance/BoardApprovalFlow.ts",
+      "status": "REVIEW_REQUIRED",
+      "reason": "Located in protected fiduciary/runtime domain",
+      "metrics": {
+        "lines": 21,
+        "logs": 0
+      }
+    },
+    {
+      "file": "src/core/runtime/workflow-governance/InstitutionalActionTracker.ts",
+      "status": "REVIEW_REQUIRED",
+      "reason": "Located in protected fiduciary/runtime domain",
+      "metrics": {
+        "lines": 32,
+        "logs": 0
+      }
+    },
+    {
+      "file": "src/core/runtime/workflow-governance/WorkflowAutomationEngine.ts",
+      "status": "KEEP_ACTIVE",
+      "reason": "Is Engine/Provider/Adapter/Service/Guard",
+      "metrics": {
+        "lines": 12,
+        "logs": 1
+      }
+    },
+    {
+      "file": "src/core/runtime/workflow-governance/WorkflowPolicyEngine.ts",
+      "status": "KEEP_ACTIVE",
+      "reason": "Is Engine/Provider/Adapter/Service/Guard",
+      "metrics": {
+        "lines": 18,
+        "logs": 0
+      }
+    },
+    {
+      "file": "src/data/complianceData.ts",
+      "status": "SAFE_TO_ARCHIVE",
+      "reason": "",
+      "metrics": {
+        "lines": 103,
+        "logs": 0
+      }
+    },
+    {
+      "file": "src/hooks/useScenarioExecutionIntelligence.ts",
+      "status": "SAFE_TO_ARCHIVE",
+      "reason": "",
+      "metrics": {
+        "lines": 61,
+        "logs": 0
+      }
+    },
+    {
+      "file": "src/i18n/semanticPreservation.ts",
+      "status": "SAFE_TO_ARCHIVE",
+      "reason": "",
+      "metrics": {
+        "lines": 49,
+        "logs": 0
+      }
+    },
+    {
+      "file": "src/i18n/translationParityGuard.ts",
+      "status": "KEEP_ACTIVE",
+      "reason": "Is Engine/Provider/Adapter/Service/Guard",
+      "metrics": {
+        "lines": 108,
+        "logs": 14
+      }
+    },
+    {
+      "file": "src/lib/dfc-narrative-engine.ts",
+      "status": "KEEP_ACTIVE",
+      "reason": "Is Engine/Provider/Adapter/Service/Guard",
+      "metrics": {
+        "lines": 84,
+        "logs": 0
+      }
+    },
+    {
+      "file": "src/lib/dfc-narrative-mapper.ts",
+      "status": "SAFE_TO_ARCHIVE",
+      "reason": "",
+      "metrics": {
+        "lines": 20,
+        "logs": 0
+      }
+    },
+    {
+      "file": "src/lib/dlpa-narrative-engine.ts",
+      "status": "KEEP_ACTIVE",
+      "reason": "Is Engine/Provider/Adapter/Service/Guard",
+      "metrics": {
+        "lines": 30,
+        "logs": 0
+      }
+    },
+    {
+      "file": "src/lib/dlpa-narrative-mapper.ts",
+      "status": "SAFE_TO_ARCHIVE",
+      "reason": "",
+      "metrics": {
+        "lines": 23,
+        "logs": 0
+      }
+    },
+    {
+      "file": "src/lib/ilae-runtime-context.ts",
+      "status": "SAFE_TO_ARCHIVE",
+      "reason": "",
+      "metrics": {
+        "lines": 17,
+        "logs": 0
+      }
+    },
+    {
+      "file": "src/lib/lifecycle-profile-mapper.ts",
+      "status": "SAFE_TO_ARCHIVE",
+      "reason": "",
+      "metrics": {
+        "lines": 39,
+        "logs": 0
+      }
+    },
+    {
+      "file": "src/lib/narrative-context-engine.ts",
+      "status": "KEEP_ACTIVE",
+      "reason": "Is Engine/Provider/Adapter/Service/Guard",
+      "metrics": {
+        "lines": 75,
+        "logs": 0
+      }
+    },
+    {
+      "file": "src/lib/narrative-context-wrapper.ts",
+      "status": "SAFE_TO_ARCHIVE",
+      "reason": "",
+      "metrics": {
+        "lines": 3,
+        "logs": 0
+      }
+    },
+    {
+      "file": "src/lib/pdfUtils.ts",
+      "status": "SAFE_TO_ARCHIVE",
+      "reason": "",
+      "metrics": {
+        "lines": 52,
+        "logs": 0
+      }
+    },
+    {
+      "file": "src/lib/unified-financial-narrative-mapper.ts",
+      "status": "SAFE_TO_ARCHIVE",
+      "reason": "",
+      "metrics": {
+        "lines": 26,
+        "logs": 0
+      }
+    },
+    {
+      "file": "src/lib/valuationEngine.ts",
+      "status": "KEEP_ACTIVE",
+      "reason": "Is Engine/Provider/Adapter/Service/Guard",
+      "metrics": {
+        "lines": 145,
+        "logs": 0
+      }
+    },
+    {
+      "file": "src/runtime/FiscalYearScopeGuard.ts",
+      "status": "KEEP_ACTIVE",
+      "reason": "Is Engine/Provider/Adapter/Service/Guard",
+      "metrics": {
+        "lines": 14,
+        "logs": 0
+      }
+    },
+    {
+      "file": "src/runtime/adapters/CapitalGovernanceFormulaAudit.ts",
+      "status": "REVIEW_REQUIRED",
+      "reason": "Located in protected fiduciary/runtime domain",
+      "metrics": {
+        "lines": 33,
+        "logs": 0
+      }
+    },
+    {
+      "file": "src/runtime/auditors/DFCSemanticContextAudit.ts",
+      "status": "REVIEW_REQUIRED",
+      "reason": "Located in protected fiduciary/runtime domain",
+      "metrics": {
+        "lines": 33,
+        "logs": 1
+      }
+    },
+    {
+      "file": "src/scripts/debugRuntime.ts",
+      "status": "SAFE_TO_ARCHIVE",
+      "reason": "",
+      "metrics": {
+        "lines": 88,
+        "logs": 12
+      }
+    },
+    {
+      "file": "src/scripts/debug_browser_run.ts",
+      "status": "SAFE_TO_ARCHIVE",
+      "reason": "",
+      "metrics": {
+        "lines": 95,
+        "logs": 11
+      }
+    },
+    {
+      "file": "src/scripts/debug_dlpa_adapter.ts",
+      "status": "KEEP_ACTIVE",
+      "reason": "Is Engine/Provider/Adapter/Service/Guard",
+      "metrics": {
+        "lines": 236,
+        "logs": 14
+      }
+    },
+    {
+      "file": "src/scripts/debug_entries.ts",
+      "status": "SAFE_TO_ARCHIVE",
+      "reason": "",
+      "metrics": {
+        "lines": 221,
+        "logs": 5
+      }
+    },
+    {
+      "file": "src/scripts/debug_map.ts",
+      "status": "SAFE_TO_ARCHIVE",
+      "reason": "",
+      "metrics": {
+        "lines": 16,
+        "logs": 2
+      }
+    },
+    {
+      "file": "src/scripts/dump_granatum_data.ts",
+      "status": "SAFE_TO_ARCHIVE",
+      "reason": "",
+      "metrics": {
+        "lines": 33,
+        "logs": 1
+      }
+    },
+    {
+      "file": "src/scripts/fixLegacyImports.ts",
+      "status": "SAFE_TO_ARCHIVE",
+      "reason": "",
+      "metrics": {
+        "lines": 57,
+        "logs": 1
+      }
+    },
+    {
+      "file": "src/scripts/inspect_active.ts",
+      "status": "SAFE_TO_ARCHIVE",
+      "reason": "",
+      "metrics": {
+        "lines": 43,
+        "logs": 9
+      }
+    },
+    {
+      "file": "src/scripts/inspect_db.ts",
+      "status": "SAFE_TO_ARCHIVE",
+      "reason": "",
+      "metrics": {
+        "lines": 45,
+        "logs": 10
+      }
+    },
+    {
+      "file": "src/scripts/inspect_firestore.ts",
+      "status": "SAFE_TO_ARCHIVE",
+      "reason": "",
+      "metrics": {
+        "lines": 1,
+        "logs": 0
+      }
+    },
+    {
+      "file": "src/scripts/queryDfc.ts",
+      "status": "SAFE_TO_ARCHIVE",
+      "reason": "",
+      "metrics": {
+        "lines": 31,
+        "logs": 1
+      }
+    },
+    {
+      "file": "src/scripts/replayLoadTest.ts",
+      "status": "SAFE_TO_ARCHIVE",
+      "reason": "",
+      "metrics": {
+        "lines": 32,
+        "logs": 5
+      }
+    },
+    {
+      "file": "src/scripts/restoreBPDocuments.ts",
+      "status": "SAFE_TO_ARCHIVE",
+      "reason": "",
+      "metrics": {
+        "lines": 97,
+        "logs": 4
+      }
+    },
+    {
+      "file": "src/scripts/runArchitectureAudit.ts",
+      "status": "SAFE_TO_ARCHIVE",
+      "reason": "",
+      "metrics": {
+        "lines": 89,
+        "logs": 3
+      }
+    },
+    {
+      "file": "src/scripts/runConstitutionalAuditV3.ts",
+      "status": "SAFE_TO_ARCHIVE",
+      "reason": "",
+      "metrics": {
+        "lines": 259,
+        "logs": 5
+      }
+    },
+    {
+      "file": "src/scripts/runDecisionGovernanceAudit.ts",
+      "status": "SAFE_TO_ARCHIVE",
+      "reason": "",
+      "metrics": {
+        "lines": 55,
+        "logs": 6
+      }
+    },
+    {
+      "file": "src/scripts/runDemoIsolationAudit.ts",
+      "status": "SAFE_TO_ARCHIVE",
+      "reason": "",
+      "metrics": {
+        "lines": 80,
+        "logs": 5
+      }
+    },
+    {
+      "file": "src/scripts/runDocsAudit.ts",
+      "status": "SAFE_TO_ARCHIVE",
+      "reason": "",
+      "metrics": {
+        "lines": 94,
+        "logs": 3
+      }
+    },
+    {
+      "file": "src/scripts/runEconomicAuditV1.ts",
+      "status": "SAFE_TO_ARCHIVE",
+      "reason": "",
+      "metrics": {
+        "lines": 170,
+        "logs": 2
+      }
+    },
+    {
+      "file": "src/scripts/runExecutiveCommandGovernanceAudit.ts",
+      "status": "SAFE_TO_ARCHIVE",
+      "reason": "",
+      "metrics": {
+        "lines": 59,
+        "logs": 9
+      }
+    },
+    {
+      "file": "src/scripts/runImportsAudit.ts",
+      "status": "SAFE_TO_ARCHIVE",
+      "reason": "",
+      "metrics": {
+        "lines": 65,
+        "logs": 3
+      }
+    },
+    {
+      "file": "src/scripts/runInstitutionalBoardPackAudit.ts",
+      "status": "SAFE_TO_ARCHIVE",
+      "reason": "",
+      "metrics": {
+        "lines": 81,
+        "logs": 5
+      }
+    },
+    {
+      "file": "src/scripts/runInstitutionalContinuityGovernanceAudit.ts",
+      "status": "SAFE_TO_ARCHIVE",
+      "reason": "",
+      "metrics": {
+        "lines": 59,
+        "logs": 11
+      }
+    },
+    {
+      "file": "src/scripts/runInstitutionalEvidenceAudit.ts",
+      "status": "SAFE_TO_ARCHIVE",
+      "reason": "",
+      "metrics": {
+        "lines": 222,
+        "logs": 1
+      }
+    },
+    {
+      "file": "src/scripts/runMocksAudit.ts",
+      "status": "SAFE_TO_ARCHIVE",
+      "reason": "",
+      "metrics": {
+        "lines": 68,
+        "logs": 3
+      }
+    },
+    {
+      "file": "src/scripts/runOperatingPressureGovernanceAudit.ts",
+      "status": "SAFE_TO_ARCHIVE",
+      "reason": "",
+      "metrics": {
+        "lines": 62,
+        "logs": 4
+      }
+    },
+    {
+      "file": "src/scripts/runOperationalLanguageAudit.ts",
+      "status": "SAFE_TO_ARCHIVE",
+      "reason": "",
+      "metrics": {
+        "lines": 89,
+        "logs": 5
+      }
+    },
+    {
+      "file": "src/scripts/runPerformanceTest.ts",
+      "status": "SAFE_TO_ARCHIVE",
+      "reason": "",
+      "metrics": {
+        "lines": 116,
+        "logs": 12
+      }
+    },
+    {
+      "file": "src/scripts/runRuntimeContractAudit.ts",
+      "status": "SAFE_TO_ARCHIVE",
+      "reason": "",
+      "metrics": {
+        "lines": 96,
+        "logs": 15
+      }
+    },
+    {
+      "file": "src/scripts/runStrategicIntelligenceAudit.ts",
+      "status": "SAFE_TO_ARCHIVE",
+      "reason": "",
+      "metrics": {
+        "lines": 66,
+        "logs": 5
+      }
+    },
+    {
+      "file": "src/scripts/runWarGamingGovernanceAudit.ts",
+      "status": "SAFE_TO_ARCHIVE",
+      "reason": "",
+      "metrics": {
+        "lines": 68,
+        "logs": 6
+      }
+    },
+    {
+      "file": "src/scripts/runtimeStressTest.ts",
+      "status": "SAFE_TO_ARCHIVE",
+      "reason": "",
+      "metrics": {
+        "lines": 32,
+        "logs": 3
+      }
+    },
+    {
+      "file": "src/scripts/scenarioExplosionTest.ts",
+      "status": "SAFE_TO_ARCHIVE",
+      "reason": "",
+      "metrics": {
+        "lines": 17,
+        "logs": 3
+      }
+    },
+    {
+      "file": "src/scripts/tenantIsolationStressTest.ts",
+      "status": "SAFE_TO_ARCHIVE",
+      "reason": "",
+      "metrics": {
+        "lines": 33,
+        "logs": 5
+      }
+    },
+    {
+      "file": "src/scripts/test-adapter.ts",
+      "status": "KEEP_ACTIVE",
+      "reason": "Is Engine/Provider/Adapter/Service/Guard",
+      "metrics": {
+        "lines": 31,
+        "logs": 3
+      }
+    },
+    {
+      "file": "src/scripts/test_quota.ts",
+      "status": "SAFE_TO_ARCHIVE",
+      "reason": "",
+      "metrics": {
+        "lines": 82,
+        "logs": 3
+      }
+    },
+    {
+      "file": "src/scripts/validateBoardPacks.ts",
+      "status": "SAFE_TO_ARCHIVE",
+      "reason": "",
+      "metrics": {
+        "lines": 77,
+        "logs": 9
+      }
+    },
+    {
+      "file": "src/services/logging/InstitutionalLogger.ts",
+      "status": "FALSE_POSITIVE",
+      "reason": "Indirect string references or lazy loading detected",
+      "metrics": {
+        "lines": 83,
+        "logs": 9
+      }
+    },
+    {
+      "file": "src/services/security/RoleManagementService.ts",
+      "status": "KEEP_ACTIVE",
+      "reason": "Is Engine/Provider/Adapter/Service/Guard",
+      "metrics": {
+        "lines": 29,
+        "logs": 0
+      }
+    },
+    {
+      "file": "src/tests/governance/bp/BalanceSheetExecutiveOutputGolden.test.ts",
+      "status": "SAFE_TO_ARCHIVE",
+      "reason": "",
+      "metrics": {
+        "lines": 67,
+        "logs": 0
+      }
+    },
+    {
+      "file": "src/tests/governance/bp/BalanceSheetNarrativeAdapterBinding.test.ts",
+      "status": "KEEP_ACTIVE",
+      "reason": "Is Engine/Provider/Adapter/Service/Guard",
+      "metrics": {
+        "lines": 45,
+        "logs": 0
+      }
+    },
+    {
+      "file": "src/types/responsibilityMatrix.ts",
+      "status": "SAFE_TO_ARCHIVE",
+      "reason": "",
+      "metrics": {
+        "lines": 72,
+        "logs": 0
+      }
+    }
+  ]
+}

@@ -1,3 +1,4 @@
+import { logger } from "../services/logging/InstitutionalLogger";
 import * as fs from 'fs';
 import * as path from 'path';
 
@@ -71,7 +72,7 @@ function runGovernanceCommandCenterAudit() {
     // Let's ensure that any button triggering actions checks for commandIntegrity === 'FAIL_CLOSED'
     if (file === 'GovernanceIncidentQueue.tsx') {
       if (!content.includes('commandIntegrity === \'FAIL_CLOSED\'') && !content.includes('commandIntegrity===\'FAIL_CLOSED\'')) {
-        console.error(`❌ VIOLATION [GCC-UI-003]: Controle de ações não desabilitado/bloqueado sob estado FAIL_CLOSED no componente ${file}.`);
+        logger.error('GCC-UI-003 Violation', new Error(`Controle de ações não bloqueado: ${file}`));
         violations++;
       }
     }

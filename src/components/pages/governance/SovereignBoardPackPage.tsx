@@ -16,6 +16,8 @@ import { ConstitutionalGovernanceDashboardPanel } from './ConstitutionalGovernan
 import { useInstitutionalAuth } from '../../../core/security/auth/InstitutionalAuthProvider';
 import { cn } from '../../../lib/utils';
 import { FiduciaryRuntimeAdapter, PresentationLayer, InstitutionalBoardPackOutput } from '../../../services/FiduciaryRuntimeAdapter';
+import { CognitiveNavigationProvider } from '../../../context/cognitive-navigation/CognitiveNavigationContext';
+import { DecisionCognitiveDrawer } from '../../cognitive/DecisionCognitiveDrawer';
 
 interface SovereignBoardPackPageProps {
   boardPack?: InstitutionalBoardPackOutput | null;
@@ -734,11 +736,14 @@ export function SovereignBoardPackPage({ boardPack, dataMode }: SovereignBoardPa
               {/* Causal Explanation Panel (ICE v1.0) */}
               <CausalityExplorerPanel causality={boardPack.causality} />
 
-              {/* Recommended Directives Board Surface */}
-              <BoardDecisionSurface 
-                executiveDirectives={boardPack.executiveDirectives}
-                boardResolutionAppendix={boardPack.boardResolutionAppendix}
-              />
+              {/* Recommended Directives Board Surface with Cognitive Integration */}
+              <CognitiveNavigationProvider>
+                <BoardDecisionSurface 
+                  executiveDirectives={boardPack.executiveDirectives}
+                  boardResolutionAppendix={boardPack.boardResolutionAppendix}
+                />
+                <DecisionCognitiveDrawer />
+              </CognitiveNavigationProvider>
 
               {/* Lineage & Auditor Cryptographic Hashes */}
               <InstitutionalLineageExplorer 

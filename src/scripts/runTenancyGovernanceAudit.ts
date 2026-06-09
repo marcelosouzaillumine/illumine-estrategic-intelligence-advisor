@@ -37,7 +37,7 @@ function runTenancyGovernanceAudit() {
   // Regras de Active Governance para Tenancy
   const BANNED_PATTERNS = [
     { regex: /ConsolidatedFinancialOrchestrator\.run\(/g, message: 'Tentativa de invocar Orchestrator diretamente da camada de Tenancy sem passar pelo Wrapper.' },
-    { regex: /ScenarioSimulationEngine\.run\(/g, message: 'Tentativa de invocar Scenario Engine diretamente sem isolamento.' },
+    { regex: /ScenarioFiduciarySimulator\.runSimulation\(/g, message: 'Tentativa de invocar Scenario Engine diretamente sem isolamento.' },
     { regex: /getDocs\(collection\(db,\s*'clients'\)\)/g, message: 'Query global (getDocs) sem filtro de tenant detectada. Leakage risk.' },
     { regex: /localStorage\.setItem\('tenant'/i, message: 'Cache local persistente de tenant detectado. Use o Provider de memória para evitar leakage pós-logout.' }
   ];

@@ -1,3 +1,4 @@
+import { logger } from "../../services/logging/InstitutionalLogger";
 export interface AccessSwitch {
   traceId: string;
   timestamp: string;
@@ -24,7 +25,7 @@ export class TenantAccessTrace {
     }
 
     if (access.securityEventTriggered) {
-      console.warn(`[TenantAccessTrace] SECURITY WARNING: Unauthorized tenant switch attempt detected by actor ${access.actorId} trying to access ${access.newTenantId}`);
+      logger.warn('SECURITY WARNING: Unauthorized tenant switch attempt detected', { actorId: access.actorId, newTenantId: access.newTenantId });
     } else {
       console.log(`[TenantAccessTrace] Tenant Switch by actor ${access.actorId}: ${access.previousTenantId || 'NONE'} -> ${access.newTenantId}`);
     }

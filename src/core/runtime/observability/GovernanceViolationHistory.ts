@@ -11,7 +11,7 @@ export class GovernanceViolationHistory {
         setDoc(doc(db, 'governance_violations', violation.violationId), violation)
       );
       await Promise.all(promises);
-    } catch (err: any) {
+    } catch (err: unknown) {
       console.error('[GovernanceViolationHistory] Error recording violations:', err);
     }
   }
@@ -25,7 +25,7 @@ export class GovernanceViolationHistory {
       );
       const snap = await getDocs(q);
       return snap.docs.map(d => d.data() as GovernanceViolationRecord);
-    } catch (err: any) {
+    } catch (err: unknown) {
       console.error('[GovernanceViolationHistory] Error getting violations:', err);
       return [];
     }

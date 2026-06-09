@@ -1,3 +1,4 @@
+import { logger } from "./logging/InstitutionalLogger";
 import { GoogleGenAI, Type } from '@google/genai';
 import { db, auth } from '../lib/firebase';
 import { collection, doc, writeBatch, serverTimestamp, setDoc, addDoc, query, where, getDocs, orderBy, limit } from 'firebase/firestore';
@@ -282,7 +283,7 @@ Retorne os dados seguindo estritamente o schema JSON definido.`;
 
     return docs as AIFinancialDocument[];
   } catch (error) {
-    console.error("AI Financial Parsing Error:", error);
+    logger.error('AI Financial Parsing Error', error);
     throw error;
   }
 };

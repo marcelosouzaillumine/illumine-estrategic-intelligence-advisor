@@ -61,7 +61,7 @@ export class ExecutiveLabelResolver {
     'Capital Erosion Velocity (CEV)': 'Velocidade de Erosão de Capital',
     'Funding Capacity Ratio': 'Capacidade de Sustentar Crescimento',
     'Debt Capacity Score': 'Capacidade de Endividamento',
-    'Equity Quality Index': 'Capital Consumido',
+    'Equity Quality Index': 'Qualidade do Capital',
     'Financial Debt-to-Equity': 'Endividamento Financeiro sobre PL',
     'Working Capital Intelligence': 'Inteligência de Capital de Giro',
     'Patrimonial Intelligence': 'Inteligência Patrimonial',

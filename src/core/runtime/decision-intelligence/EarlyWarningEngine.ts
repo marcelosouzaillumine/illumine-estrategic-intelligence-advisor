@@ -173,7 +173,7 @@ export class EarlyWarningEngine {
       'EMERGING_LIQUIDITY_DEPENDENCY': 'O modelo detecta risco crescente de dependência de capital externo para rolagem ou manutenção do runway.',
       'PRE_DISTRESS_STATE': 'Convergência de múltiplos sinais antecipatórios apontando para uma transição a estado de stress fiduciário.',
       'STRUCTURAL_DETERIORATION_ACCELERATION': 'A aceleração da deterioração no runway aponta para uma redução rápida do tempo útil da operação.',
-      'RECURSIVE_CAPITALIZATION_RISK': 'O padrão atual sugere aumento progressivo da pressão de liquidez, mantida sob risco crônico de dependência externa contínua.',
+      'RECURSIVE_CAPITALIZATION_RISK': 'O padrão atual aponta aumento progressivo da pressão de liquidez, mantida sob risco crônico de dependência externa contínua.',
       'OPERATIONAL_COLLAPSE_RISK': 'O FCO negativo e a falta de correção aceleram o risco projetado para limites operacionais críticos.',
       'HIGH_RECURRENCE_PROBABILITY': 'A alta probabilidade de reincidência destrutiva expõe o caixa a riscos contínuos no curto-prazo.',
       'CRITICAL_CONTINUITY_THREAT': 'O sistema antecipa risco substancial à continuidade fiduciária da instituição (Continuous Monitoring Requerido).',

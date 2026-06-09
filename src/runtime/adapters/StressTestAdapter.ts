@@ -110,7 +110,7 @@ export const StressTestAdapter: EngineDefinition = {
           scenarios.push({
              scenarioName: 'ILUSÃO DE LIQUIDEZ OPERACIONAL',
              severity: 'Alta',
-             description: 'EBITDA sugere capacidade de pagamento de dívida, mas o Fluxo Operacional real (FCO) é insuficiente.',
+             description: 'EBITDA indica capacidade de pagamento de dívida, mas o Fluxo Operacional real (FCO) é insuficiente.',
              estimatedImpact: 'Incapacidade de honrar serviço da dívida sem recorrer à alavancagem externa.'
           });
           causality.push({

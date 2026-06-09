@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { query, collection, where, onSnapshot } from 'firebase/firestore';
 import { db } from '../lib/firebase';
+import { FinancialEntryLike } from '../types/contracts';
 import { buildBPHierarchy } from '../lib/bpEngine';
 import { 
   matchFinancialKey, 
@@ -123,13 +124,13 @@ export function useRealIndicatorData(clientId: string, month: number, year: numb
     const qReceivables = query(collection(db, 'receivables'), where('clientId', '==', clientId));
 
     // State for local aggregation
-    let mappedAccounts: any[] = [];
-    let allEntries: any[] = [];
-    let currentAssets: any[] = [];
-    let currentCashFlows: any[] = [];
-    let currentPositions: any[] = [];
-    let currentPayables: any[] = [];
-    let currentReceivables: any[] = [];
+    let mappedAccounts: { name: string; kpiMapping: string; }[] = [];
+    let allEntries: FinancialEntryLike[] = [];
+    let currentAssets: FinancialEntryLike[] = [];
+    let currentCashFlows: FinancialEntryLike[] = [];
+    let currentPositions: FinancialEntryLike[] = [];
+    let currentPayables: FinancialEntryLike[] = [];
+    let currentReceivables: FinancialEntryLike[] = [];
 
     const calculateAll = () => {
       const calculated: RealKPIs = {
@@ -137,10 +138,10 @@ export function useRealIndicatorData(clientId: string, month: number, year: numb
       };
 
       // A. Process via manual mappings
-      mappedAccounts.forEach((acc: any) => {
+      mappedAccounts.forEach((acc: { name: string; kpiMapping: string; }) => {
         const sum = allEntries
-          .filter((e: any) => e.category === acc.name)
-          .reduce((s: number, e: any) => s + (Number(e.value) || 0), 0);
+          .filter((e: FinancialEntryLike) => e.category === acc.name)
+          .reduce((s: number, e: FinancialEntryLike) => s + (Number(e.value) || 0), 0);
         
         if (!calculated[acc.kpiMapping]) calculated[acc.kpiMapping] = 0;
         calculated[acc.kpiMapping] += sum;
@@ -157,7 +158,7 @@ export function useRealIndicatorData(clientId: string, month: number, year: numb
       Object.entries(standardMappings).forEach(([kpi, names]) => {
         if (calculated[kpi] === 0) {
           const sum = allEntries
-            .filter((e: any) => {
+            .filter((e: FinancialEntryLike) => {
               const docType = e.docType || '';
               // 3. Separar aliases por demonstração
               if (kpi === 'revenue' || kpi === 'ebitda') {
@@ -180,7 +181,7 @@ export function useRealIndicatorData(clientId: string, month: number, year: numb
 
               return matchFinancialKey(e.category || e.conta || '', names);
             })
-            .reduce((s: number, e: any) => s + (Number(e.value || e.valor || e.val) || 0), 0);
+            .reduce((s: number, e: FinancialEntryLike) => s + (Number(e.value || e.valor || e.val) || 0), 0);
           calculated[kpi] = sum;
         }
       });
@@ -199,12 +200,12 @@ export function useRealIndicatorData(clientId: string, month: number, year: numb
 
       if (currentCashFlows.length > 0) {
         const flowDoc = currentCashFlows[0];
-        const flow = flowDoc.Fluxo_Diario || [];
+        const flow = (flowDoc.Fluxo_Diario as any[]) || [];
         if (flow.length > 0) cashFlowSum = Number(flow[flow.length - 1]['Saldo Final']) || 0;
         
         // Overdue liabilities from cash flow doc
-        const passivo = flowDoc.Passivo_Vencido || [];
-        overdueLiabilities = passivo.reduce((s: number, p: any) => s + (Number(p.Valor) || 0), 0);
+        const passivo = (flowDoc.Passivo_Vencido as any[]) || [];
+        overdueLiabilities = passivo.reduce((s: number, p: FinancialEntryLike) => s + (Number(p.Valor) || 0), 0);
       }
 
       // Current Payables (not yet paid)
@@ -213,7 +214,7 @@ export function useRealIndicatorData(clientId: string, month: number, year: numb
         .reduce((s, p) => s + (Number(p.valor) || Number(p.Valor) || 0), 0);
 
       // BP Engine Processing (Reliable asset extraction from manual entries)
-      const bpEntries = allEntries.filter((e: any) => {
+      const bpEntries = allEntries.filter((e: FinancialEntryLike) => {
         const docType = e.docType || '';
         if (!isDocTypeBP(docType)) return false;
         return e.type === 'ativo' || e.type === 'passivo' || e.type === 'patrimônio líquido' || e.type === 'pl';
@@ -243,7 +244,7 @@ export function useRealIndicatorData(clientId: string, month: number, year: numb
 
     // Set up all listeners
     const unsubs = [
-      onSnapshot(qAcc, snap => { mappedAccounts = snap.docs.map(d => d.data()).filter(d => d.kpiMapping); calculateAll(); }),
+      onSnapshot(qAcc, snap => { mappedAccounts = snap.docs.map(d => d.data() as { name: string; kpiMapping: string; }).filter(d => d.kpiMapping); calculateAll(); }),
       onSnapshot(qEntries, snap => {
         allEntries = [];
         snap.docs.forEach(doc => {
@@ -251,7 +252,7 @@ export function useRealIndicatorData(clientId: string, month: number, year: numb
           if (data.status === 'archived' || data.status === 'rejected') return;
           if (month > 0 && data.month !== undefined && data.month !== 0 && data.month !== month) return;
           if (Array.isArray(data.data)) {
-            data.data.forEach((entry: any) => {
+            data.data.forEach((entry: FinancialEntryLike) => {
               allEntries.push({
                 ...entry,
                 docType: data.type

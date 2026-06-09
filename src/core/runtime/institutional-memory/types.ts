@@ -18,7 +18,9 @@ export type InstitutionalHistoricalConfidence = 'LOW' | 'MODERATE' | 'HIGH' | 'V
 
 export type MemorySourceType = 'DEMO' | 'RUNTIME' | 'IMPORTED';
 
-export interface InstitutionalMemoryRecord {
+import { InstitutionalObject } from '../../../types/intelligence/InstitutionalObject';
+
+export interface InstitutionalMemoryRecord extends InstitutionalObject {
   memoryId: string;
   tenantId: string;
   entityId: string;

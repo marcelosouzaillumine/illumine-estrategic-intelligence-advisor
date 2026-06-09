@@ -46,6 +46,13 @@ export function resolveExecutiveLabel(
     }
   }
 
+  // Fallback to searching all dictionaries
+  for (const dict of Object.values(ExecutivePresentationDictionary)) {
+    if (value in dict) {
+      return dict[value as keyof typeof dict];
+    }
+  }
+
   // Se não encontrou no dicionário, ou é generic, tenta aplicar fallback seguro
   // se o conteúdo parecer um código técnico vazado
   if (looksLikeTechnicalCode(value)) {

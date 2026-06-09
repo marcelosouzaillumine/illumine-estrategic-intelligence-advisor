@@ -1,0 +1,14 @@
+(node:65096) [DEP0205] DeprecationWarning: `module.register()` is deprecated. Use `module.registerHooks()` instead.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+▶ I18N ENUM STRUCTURAL AUDIT
+  ✔ [DICTIONARY-COVERAGE] All enums must be translated in all locales (51.283958ms)
+  ✔ [STATIC-LEAK-AUDIT] No raw enums should be rendered directly in JSX (659.306375ms)
+✔ I18N ENUM STRUCTURAL AUDIT (711.961292ms)
+ℹ tests 3
+ℹ suites 0
+ℹ pass 3
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 1375.350625

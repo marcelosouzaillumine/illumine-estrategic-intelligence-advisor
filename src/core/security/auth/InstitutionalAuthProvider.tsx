@@ -1,3 +1,4 @@
+import { logger } from "../../../services/logging/InstitutionalLogger";
 import React, { createContext, useContext, useEffect, useState } from 'react';
 import { onAuthStateChanged, User } from 'firebase/auth';
 import { auth, logout as firebaseLogout } from '../../../lib/firebase';
@@ -58,7 +59,7 @@ export const InstitutionalAuthProvider: React.FC<{ children: React.ReactNode }> 
         }
 
       } catch (error) {
-        console.error('[InstitutionalAuthProvider] Session resolution failed:', error);
+        logger.error('Session resolution failed', error);
         setUser(null);
         setSession(null);
       } finally {

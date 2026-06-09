@@ -1,0 +1,6 @@
+
+> illumine-strategic-intelligence-advisor@0.0.0 test
+> tsc -p tsconfig.test.json --noEmit && tsx --test tests/*.test.ts tests/*.test.tsx
+
+src/components/pages/ViabilityPage.tsx(518,21): error TS2339: Property 'id' does not exist on type '{ cl: any; ownerId: string; proj: any; nome: string; unidadeNegocio: string; filial: string; capex: number; ncg: number; receitaMensal: number; vpl: string; tir: string; payback: string; il: string; conclusao: string; fluxo: any[]; updatedAt: FieldValue; }'.
+src/components/pages/ViabilityPage.tsx(524,88): error TS2339: Property 'id' does not exist on type '{ cl: any; ownerId: string; proj: any; nome: string; unidadeNegocio: string; filial: string; capex: number; ncg: number; receitaMensal: number; vpl: string; tir: string; payback: string; il: string; conclusao: string; fluxo: any[]; updatedAt: FieldValue; }'.

@@ -4,11 +4,7 @@ service cloud.firestore {
     
     // MASTER ADMIN BYPASS - Full Access
     match /{allPaths=**} {
-      allow read, write: if request.auth != null && (
-        request.auth.token.email.matches('(?i)marcelo\\.illuminecoaching@gmail\\.com') ||
-        request.auth.token.email.matches('(?i)marcelosouza\\.illumine@gmail\\.com') ||
-        request.auth.token.email.matches('(?i)avivacolonia@gmail\\.com')
-      );
+      allow read, write: if isSuperAdmin();
     }
 
     // --- Helpers ---
@@ -20,12 +16,34 @@ service cloud.firestore {
       return isSignedIn() && data.ownerId == request.auth.uid;
     }
 
+    // --- RBAC Helpers ---
+    function hasRole(role) {
+      return isSignedIn() && request.auth.token.role == role;
+    }
+    
+    function isSuperAdmin() {
+      return hasRole('SUPER_ADMIN');
+    }
+    
+    function isGovernanceAdmin() {
+      return hasRole('GOVERNANCE_ADMIN');
+    }
+    
+    function isAdvisor() {
+      return hasRole('ADVISOR');
+    }
+    
+    function isClientAdmin() {
+      return hasRole('CLIENT_ADMIN');
+    }
+    
+    function isAuditor() {
+      return hasRole('AUDITOR');
+    }
+
+    // --- Legacy Helpers (Deprecated, use isSuperAdmin) ---
     function isMasterAdmin() {
-      return isSignedIn() && (
-        request.auth.token.email.matches('(?i)marcelo\\.illuminecoaching@gmail\\.com') ||
-        request.auth.token.email.matches('(?i)marcelosouza\\.illumine@gmail\\.com') ||
-        request.auth.token.email.matches('(?i)avivacolonia@gmail\\.com')
-      );
+      return isSuperAdmin();
     }
 
     function ownsClient(clientId) {
@@ -534,6 +552,37 @@ service cloud.firestore {
       allow read: if isSignedIn() && (ownsClient(resource.data.tenantId) || isMasterAdmin());
       allow create: if isSignedIn() && (ownsClient(request.resource.data.tenantId) || isMasterAdmin());
       allow update, delete: if false;
+    }
+
+    match /institutional_scenarios/{id} {
+      allow get: if isOwner(existing());
+      allow list: if isSignedIn() && resource.data.ownerId == request.auth.uid;
+      allow create: if isSignedIn() && isValidId(id) && ownsClient(incoming().clientId);
+      allow update: if isOwner(existing()) && incoming().clientId == existing().clientId;
+      allow delete: if isOwner(existing());
+    }
+
+    match /scenario_assumptions/{id} {
+      allow get: if isOwner(existing());
+      allow list: if isSignedIn() && resource.data.ownerId == request.auth.uid;
+      allow create: if isSignedIn() && isValidId(id) && ownsClient(incoming().clientId);
+      allow update: if isOwner(existing()) && incoming().clientId == existing().clientId;
+      allow delete: if isOwner(existing());
+    }
+
+    match /scenario_impacts/{id} {
+      allow get: if isOwner(existing());
+      allow list: if isSignedIn() && resource.data.ownerId == request.auth.uid;
+      allow create: if isSignedIn() && isValidId(id) && ownsClient(incoming().clientId);
+      allow update: if isOwner(existing()) && incoming().clientId == existing().clientId;
+      allow delete: if isOwner(existing());
+    }
+
+    match /security_audit_logs/{logId} {
+      allow read: if isSuperAdmin();
+      allow create: if false; // Creation is handled securely via Admin SDK in Cloud Functions
+      allow update: if false;
+      allow delete: if false;
     }
 
     // --- Global Safety Net (Moved to End) ---

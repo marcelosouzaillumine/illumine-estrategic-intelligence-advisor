@@ -9,7 +9,7 @@ import {
   PrioritizedAttentionItem,
   NarrativeHierarchyBlock
 } from '../../core/runtime/executive-orchestration/cognitive/types';
-import { ExecutiveAttentionEngine } from '../../core/runtime/executive-orchestration/cognitive/ExecutiveAttentionEngine';
+import { ExecutiveSignalPriorityEngine } from '../../core/runtime/executive-orchestration/cognitive/ExecutiveSignalPriorityEngine';
 import { DecisionFatigueProtectionEngine } from '../../core/runtime/executive-orchestration/cognitive/DecisionFatigueProtectionEngine';
 import { NarrativeCompressionEngine, CompressedOutput } from '../../core/runtime/executive-orchestration/cognitive/NarrativeCompressionEngine';
 import { ExecutiveNarrativeHierarchyEngine } from '../../core/runtime/executive-orchestration/cognitive/ExecutiveNarrativeHierarchyEngine';
@@ -115,8 +115,8 @@ export function ExecutiveCognitiveProvider({ children }: { children: React.React
 
   // Main orchestration loop
   useEffect(() => {
-    // 1. Prioritize focus using ExecutiveAttentionEngine
-    const rawPrioritized = ExecutiveAttentionEngine.prioritize(signals);
+    // 1. Prioritize focus using ExecutiveSignalPriorityEngine
+    const rawPrioritized = ExecutiveSignalPriorityEngine.prioritize(signals);
 
     // 2. Protect from fatigue using DecisionFatigueProtectionEngine
     const { items: protectedItems, loadLevel, signalDensity: density } = 

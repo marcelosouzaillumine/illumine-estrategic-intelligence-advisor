@@ -1,5 +1,6 @@
 import { DeferredExecutionResult } from './types';
 import { TenantIsolationError, TenantViolations } from '../tenancy/hardening/TenantExecutionContext';
+import { getErrorMessage } from '../../../types/runtime/RuntimeErrorGuards';
 
 export class LazyExecutionCoordinator {
   /**
@@ -45,13 +46,13 @@ export class LazyExecutionCoordinator {
         status: 'EXECUTED',
         data: result
       };
-    } catch (error: any) {
+    } catch (error: unknown) {
       if (error instanceof TenantIsolationError) {
         throw error;
       }
       return {
         status: 'BLOCKED',
-        reason: `Falha interna ao executar ${blockName}: ${error.message}`,
+        reason: `Falha interna ao executar ${blockName}: ${getErrorMessage(error)}`,
         violations: ['RUNTIME_EXECUTION_FAILURE']
       };
     }

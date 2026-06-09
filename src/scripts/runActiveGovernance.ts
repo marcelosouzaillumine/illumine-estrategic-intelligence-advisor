@@ -1,3 +1,4 @@
+import { logger } from "../services/logging/InstitutionalLogger";
 import fs from 'fs';
 import path from 'path';
 import { runSelfAudit } from '../governance/RuntimeSelfAuditEngine';
@@ -52,7 +53,7 @@ async function executeActiveGovernance() {
     process.exit(1);
   }
 
-  console.log('\nIniciando Consolidated Financial Audit...');
+  logger.audit('Iniciando Consolidated Financial Audit', {});
   try {
     execSync('npx tsx src/scripts/runConsolidatedFinancialAudit.ts', { stdio: 'inherit' });
   } catch (error) {
@@ -60,11 +61,11 @@ async function executeActiveGovernance() {
     process.exit(1);
   }
 
-  console.log('\nIniciando Institutional Financial Audit (RC-1.5)...');
+  logger.audit('Iniciando Institutional Financial Audit', {});
   try {
     execSync('npx tsx src/scripts/runInstitutionalFinancialAudit.ts', { stdio: 'inherit' });
   } catch (error) {
-    console.error('\nCRITICAL: Falha na Institutional Financial Audit. Abortando Governance Audit.\n');
+    logger.error('Falha na Institutional Financial Audit', new Error('Governance Audit Aborted'));
     process.exit(1);
   }
 

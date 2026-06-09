@@ -1,6 +1,7 @@
 import { collection, query, where, getDocs, doc, getDoc } from 'firebase/firestore';
 import { db } from '../../../../lib/firebase';
 import { ConsolidationEntity } from '../types';
+import { getErrorMessage } from '../../../../types/runtime/RuntimeErrorGuards';
 
 export class ConsolidatedGroupRepository {
   /**
@@ -29,8 +30,8 @@ export class ConsolidatedGroupRepository {
         groupName: data.name || 'Unnamed Group',
         entities
       };
-    } catch (err: any) {
-      console.error(`[ConsolidatedGroupRepository] Failed to fetch group: ${err.message}`);
+    } catch (err: unknown) {
+      console.error(`[ConsolidatedGroupRepository] Failed to fetch group: ${getErrorMessage(err)}`);
       throw err; // Repassa ao runtime, sem fallback silencioso
     }
   }

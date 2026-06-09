@@ -1,3 +1,4 @@
+import { PayableEntry, ReceivableEntry, PositionEntry, EconomicAssumption, IndicatorValue, FirestoreDocument, PreComputedData } from "../types/contracts";
 import { 
   collection, 
   query, 
@@ -33,9 +34,9 @@ export async function generateCashFlow(context: DataAccessContext, clientId: str
     ]);
   });
 
-  const payables = payablesSnap.docs.map(d => ({ id: d.id, ...d.data() as any }));
-  const receivables = receivablesSnap.docs.map(d => ({ id: d.id, ...d.data() as any }));
-  const positions = positionsSnap.docs.map(d => ({ id: d.id, ...d.data() as any }));
+  const payables = payablesSnap.docs.map(d => ({ id: d.id, ...(d.data() as PayableEntry) }));
+  const receivables = receivablesSnap.docs.map(d => ({ id: d.id, ...(d.data() as ReceivableEntry) }));
+  const positions = positionsSnap.docs.map(d => ({ id: d.id, ...(d.data() as PositionEntry) }));
 
 
   let finalPayables = [...payables];
@@ -50,9 +51,9 @@ export async function generateCashFlow(context: DataAccessContext, clientId: str
   }
 
   // Get exchange rates from DATA
-  const exchangeSecao = (DATA as any).premissas?.economicas?.find((s: any) => s.categoria.includes('Câmbio'));
-  const usdRate = parseFloat(exchangeSecao?.indicadores?.find((i: any) => i.nome.includes('Dólar'))?.valor.replace('R$ ', '').replace(',', '.') || '4.9809');
-  const eurRate = parseFloat(exchangeSecao?.indicadores?.find((i: any) => i.nome.includes('Euro'))?.valor.replace('R$ ', '').replace(',', '.') || '5.772');
+  const exchangeSecao = (DATA as unknown as PreComputedData).premissas?.economicas?.find((s: EconomicAssumption) => s.categoria.includes('Câmbio'));
+  const usdRate = parseFloat(exchangeSecao?.indicadores?.find((i: IndicatorValue) => i.nome.includes('Dólar'))?.valor.replace('R$ ', '').replace(',', '.') || '4.9809');
+  const eurRate = parseFloat(exchangeSecao?.indicadores?.find((i: IndicatorValue) => i.nome.includes('Euro'))?.valor.replace('R$ ', '').replace(',', '.') || '5.772');
   
   const exchangeRates: Record<string, number> = {
     'BRL': 1,
@@ -61,7 +62,7 @@ export async function generateCashFlow(context: DataAccessContext, clientId: str
   };
 
   // 2. Initial Balance (Sum of current balances in financial positions converted to BRL)
-  const saldoInicialTotal = finalPositions.reduce((acc: number, p: any) => {
+  const saldoInicialTotal = finalPositions.reduce((acc: number, p: PositionEntry) => {
     const rate = exchangeRates[p.moeda as keyof typeof exchangeRates] || 1;
     return acc + ((Number(p.saldoAtual) || 0) * rate);
   }, 0);
@@ -71,7 +72,7 @@ export async function generateCashFlow(context: DataAccessContext, clientId: str
   today.setHours(0, 0, 0, 0);
   const todayStr = today.toISOString().split('T')[0];
   
-  const projections: any[] = [];
+  const projections: FirestoreDocument[] = [];
   let currentSaldo = saldoInicialTotal;
 
   // We'll project for 360 days (1 year)
@@ -82,13 +83,13 @@ export async function generateCashFlow(context: DataAccessContext, clientId: str
 
     // Entradas: Only items due on this specific date
     const dayEntradas = finalReceivables
-      .filter((r: any) => r.vencimento === dateStr && r.status !== 'Pago')
-      .reduce((acc: number, r: any) => acc + (Number(r.valorAberto ?? r.valor) || 0), 0);
+      .filter((r: ReceivableEntry) => r.vencimento === dateStr && r.status !== 'Pago')
+      .reduce((acc: number, r: ReceivableEntry) => acc + (Number(r.valorAberto ?? r.valor) || 0), 0);
 
     // Saídas: Only items due on this specific date
     const daySaidas = finalPayables
-      .filter((p: any) => p.vencimento === dateStr && p.status !== 'Pago')
-      .reduce((acc: number, p: any) => acc + (Number(p.valorAberto ?? p.valor) || 0), 0);
+      .filter((p: PayableEntry) => p.vencimento === dateStr && p.status !== 'Pago')
+      .reduce((acc: number, p: PositionEntry) => acc + (Number(p.valorAberto ?? p.valor) || 0), 0);
 
     const saldoInicialDia = currentSaldo;
     const saldoFinalDia = saldoInicialDia + dayEntradas - daySaidas;
@@ -106,12 +107,12 @@ export async function generateCashFlow(context: DataAccessContext, clientId: str
 
   // 4. Detailed lists for the tabs (excluding paid items)
   const contasReceber = finalReceivables
-    .filter((r: any) => {
+    .filter((r: ReceivableEntry) => {
       if (r.status === 'Pago') return false;
       const entity = String(r.cliente || r.entidade || '').toLowerCase();
       return entity !== 'total' && !entity.includes('total:');
     })
-    .map((r: any) => ({
+    .map((r: ReceivableEntry) => ({
       Vencimento: r.vencimento || '',
       Cliente: r.cliente || r.entidade || 'Desconhecido',
       Valor: Number(r.valorAberto ?? r.valor) || 0,
@@ -120,12 +121,12 @@ export async function generateCashFlow(context: DataAccessContext, clientId: str
     .sort((a, b) => (a.Vencimento || '').localeCompare(b.Vencimento || ''));
 
   const contasPagar = finalPayables
-    .filter((p: any) => {
+    .filter((p: PayableEntry) => {
       if (p.status === 'Pago') return false;
       const entity = String(p.fornecedor || p.entidade || '').toLowerCase();
       return entity !== 'total' && !entity.includes('total:');
     })
-    .map((p: any) => ({
+    .map((p: PayableEntry) => ({
       Vencimento: p.vencimento || '',
       Fornecedor: p.fornecedor || p.entidade || 'Desconhecido',
       Valor: Number(p.valorAberto ?? p.valor) || 0,
@@ -135,10 +136,10 @@ export async function generateCashFlow(context: DataAccessContext, clientId: str
     .sort((a, b) => (a.Vencimento || '').localeCompare(b.Vencimento || ''));
 
   const passivoVencido = finalPayables
-    .filter((p: any) => {
+    .filter((p: PayableEntry) => {
         return p.status !== 'Pago' && p.vencimento && p.vencimento < todayStr;
     })
-    .map((p: any) => ({
+    .map((p: PayableEntry) => ({
       Credor: p.fornecedor || p.entidade || 'Desconhecido',
       Tipo: p.categoria || 'Operacional',
       Vencimento: p.vencimento || '',
@@ -147,10 +148,10 @@ export async function generateCashFlow(context: DataAccessContext, clientId: str
     .sort((a, b) => (a.Vencimento || '').localeCompare(b.Vencimento || ''));
 
   const inadimplencia = finalReceivables
-    .filter((r: any) => {
+    .filter((r: ReceivableEntry) => {
         return r.status !== 'Pago' && r.status !== 'Recebido' && r.vencimento && r.vencimento < todayStr;
     })
-    .map((r: any) => ({
+    .map((r: ReceivableEntry) => ({
       Cliente: r.cliente || r.entidade || 'Desconhecido',
       Vencimento: r.vencimento || '',
       Valor: Number(r.valorAberto ?? r.valor) || 0,
@@ -159,20 +160,20 @@ export async function generateCashFlow(context: DataAccessContext, clientId: str
     .sort((a, b) => (a.Vencimento || '').localeCompare(b.Vencimento || ''));
 
   // 5. KPIs & CFO Metrics (Basic aggregations only, no predictive logic)
-  const totalSaidasProjetadas = projections.reduce((acc, p) => acc + p.Saídas, 0);
+  const totalSaidasProjetadas = projections.reduce((acc, p) => acc + (Number(p.Saídas) || 0), 0);
   
   // CFO Strategic Metrics
-  const saldosFinais = projections.map(p => p["Saldo Final"]);
+  const saldosFinais = projections.map(p => Number(p["Saldo Final"]) || 0);
   const menorSaldo = Math.min(...saldosFinais);
-  const dataMenorSaldo = projections.find(p => p["Saldo Final"] === menorSaldo)?.Data || '';
+  const dataMenorSaldo = projections.find(p => (Number(p["Saldo Final"]) || 0) === menorSaldo)?.Data || '';
   
   // Advanced CFO KPIs
-  const receivables30d = projections.slice(0, 30).reduce((acc, p) => acc + p.Entradas, 0);
-  const payables30d = projections.slice(0, 30).reduce((acc, p) => acc + p.Saídas, 0);
+  const receivables30d = projections.slice(0, 30).reduce((acc, p) => acc + (Number(p.Entradas) || 0), 0);
+  const payables30d = projections.slice(0, 30).reduce((acc, p) => acc + (Number(p.Saídas) || 0), 0);
   const lcr = payables30d > 0 ? (saldoInicialTotal + receivables30d) / payables30d : 2;
 
-  const totalReceber = contasReceber.reduce((acc, r) => acc + r.Valor, 0);
-  const totalPagar = contasPagar.reduce((acc, p) => acc + p.Valor, 0);
+  const totalReceber = contasReceber.reduce((acc, r) => acc + (Number(r.Valor) || 0), 0);
+  const totalPagar = contasPagar.reduce((acc, p) => acc + (Number(p.Valor) || 0), 0);
 
   const kpis = [
     { "Indicador": "Burn rate médio diário", "Fórmula / Valor": "Requer Runtime Institucional", "Status": "Info" },
@@ -234,7 +235,7 @@ export async function getFinancialEntries(context: DataAccessContext, clientId: 
     const snap = await getDocs(q);
     return snap.docs
       .map(doc => ({ id: doc.id, ...doc.data() }))
-      .filter((d: any) => d.status !== 'archived' && d.status !== 'pending' && d.status !== 'rejected');
+      .filter((d: FirestoreDocument) => d.status !== 'archived' && d.status !== 'pending' && d.status !== 'rejected');
   });
 }
 

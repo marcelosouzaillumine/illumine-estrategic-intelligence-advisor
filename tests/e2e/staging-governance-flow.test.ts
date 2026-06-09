@@ -122,6 +122,11 @@ describe('E2E Staging Governance Workflow Test', () => {
 
     // 5. Open and append to Institutional Memory Timeline
     const memoryRecord = InstitutionalMemoryRegistry.append({
+      objectId: `mem-${Date.now()}`,
+      objectType: 'MEMORY',
+      title: 'Staging Timeline Event',
+      description: 'Event created during staging workflow',
+      sourceDomain: 'GOVERNANCE',
       tenantId: tenantId,
       entityId: 'ENT-1',
       timestamp: new Date().toISOString(),

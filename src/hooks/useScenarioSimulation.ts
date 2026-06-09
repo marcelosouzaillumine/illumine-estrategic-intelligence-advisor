@@ -37,7 +37,7 @@ export function useScenarioSimulation(baseData: SimulationBaseData | null, initi
         setOutput(result);
         setError(null);
       } catch (err: any) {
-        setError(err);
+        setError(err instanceof Error ? err : new Error(String(err)));
       } finally {
         setLoading(false);
       }

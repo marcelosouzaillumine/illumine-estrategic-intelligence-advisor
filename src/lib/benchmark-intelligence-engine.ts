@@ -26,6 +26,7 @@ function calculateExecutionPosition(input: BenchmarkIntelligenceInput): Benchmar
   const cap = input.governanceDigitalTwin?.executionCapacity.classification;
   if (cap === "HIGH") return "LEADING";
   if (cap === "MODERATE") return "ADVANCED";
+  if (cap === "LOW") return "EARLY";
   if (!input.governanceDigitalTwin) return "EARLY";
   return "DEVELOPING";
 }
@@ -43,8 +44,8 @@ function calculateValuationPosition(input: BenchmarkIntelligenceInput): Benchmar
   const readiness = input.valuationIntelligence?.valuationReadiness;
   if (readiness === "HIGH") return "LEADING";
   if (readiness === "MODERATE") return "ADVANCED";
-  if (readiness === "LOW") return "DEVELOPING";
-  return "EARLY";
+  if (readiness === "LOW") return "EARLY";
+  return "DEVELOPING";
 }
 
 function buildInstitutionalPosition(

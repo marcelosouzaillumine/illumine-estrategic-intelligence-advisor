@@ -18,15 +18,19 @@
   --text-body-md: clamp(14px, 1.2vw, 17px);
   --text-body-sm: clamp(12px, 1vw, 15px);
   
-  /* Colors - Core Palette */
+  /* Colors - Core Palette (v4.0 Premium) */
   --color-primary: #0E1C2C;
   --color-primary-foreground: #FFFFFF;
   --color-executive: #0E1C2C;
   --color-executive-foreground: #FFFFFF;
   
+  --color-accent: #FF8552;
+  --color-accent-foreground: #0E1C2C;
   --color-secondary: #FF8552;
   --color-secondary-foreground: #0E1C2C;
   
+  --color-insight: #BAB86C;
+  --color-insight-foreground: #0E1C2C;
   --color-tertiary: #BAB86C;
   --color-tertiary-foreground: #0E1C2C;
   
@@ -35,16 +39,30 @@
   --color-background: #FFFFFF;
   --color-foreground: #0E1C2C;
   
+  /* Text Semantic Tokens */
+  --color-text-primary: #0E1C2C;
+  --color-text-secondary: #6B7280;
+  --color-text-inverse: #FFFFFF;
+  --color-text-muted: #6B7280;
+  --color-text-disabled: #9CA3AF;
+
+  /* Icon Semantic Tokens */
+  --color-icon-primary: #0E1C2C;
+  --color-icon-secondary: #6B7280;
+  --color-icon-action: #FF8552;
+  --color-icon-insight: #BAB86C;
+  --color-icon-warning: #C8A94A;
+  --color-icon-success: #0C7A3A;
+  --color-icon-critical: #D01D1C;
+  
   /* Aliases for compatibility */
   --color-bg-main: var(--color-background);
   --color-text-main: var(--color-foreground);
   --color-bg-card: var(--color-card);
-  --color-bg-surface: var(--color-surface-container);
-  --color-text-muted: var(--color-muted-foreground);
-  --color-text-dim: var(--color-neutral);
+  --color-bg-surface: var(--color-surface);
   --color-border-main: var(--color-border);
   
-  --color-surface: #FFFFFF;
+  --color-surface: #FCFCFB;
   --color-surface-foreground: #0E1C2C;
   
   --color-card: #FFFFFF;
@@ -56,11 +74,10 @@
   --color-muted: #E5E5E5;
   --color-muted-foreground: #6B7280;
   
-  --color-accent: #FF8552;
-  --color-accent-foreground: #0E1C2C;
-  
   --color-destructive: #D01D1C;
   --color-destructive-foreground: #FFFFFF;
+  --color-critical: #D01D1C;
+  --color-critical-foreground: #FFFFFF;
   
   --color-border: #E5E5E5;
   --color-input: #FFFFFF;
@@ -68,10 +85,10 @@
   
   /* Status Colors */
   --color-success: #0C7A3A;
-  --color-warning: #BAB86C;
+  --color-warning: #C8A94A;
   --color-info: #0E1C2C;
   
-  /* Chart Colors */
+  /* Chart Colors (Executive Standard) */
   --color-chart-1: #0E1C2C;
   --color-chart-2: #FF8552;
   --color-chart-3: #BAB86C;
@@ -79,12 +96,15 @@
   --color-chart-5: #6B7280;
   
   /* Surface Variants */
+  --color-surface-low: #FFFFFF;
+  --color-surface-high: #F7F7F5;
+  --color-surface-highest: #F2F2EF;
   --color-surface-container-low: #FFFFFF;
-  --color-surface-container: #F8F8F8;
-  --color-surface-container-high: #E5E5E5;
-  --color-surface-container-highest: #D9D9D9;
+  --color-surface-container: #FCFCFB;
+  --color-surface-container-high: #F7F7F5;
+  --color-surface-container-highest: #F2F2EF;
   --color-surface-bright: #FFFFFF;
-  --color-surface-dim: #E5E5E5;
+  --color-surface-dim: #F2F2EF;
   
   /* Spacing */
   --spacing-xs: 0.35em;
@@ -102,12 +122,12 @@
   --radius-card: 32px;
   --radius-input: 24px;
   
-  /* Depth & Shadows */
-  --shadow-xs: 0 1px 2px rgba(14, 28, 44, 0.08);
-  --shadow-sm: 0 4px 12px rgba(14, 28, 44, 0.08);
-  --shadow-md: 0 8px 24px rgba(14, 28, 44, 0.12);
-  --shadow-lg: 0 16px 40px rgba(14, 28, 44, 0.16);
-  --shadow-modal: 0 24px 64px rgba(14, 28, 44, 0.24);
+  /* Depth & Shadows - "Quiet Luxury" */
+  --shadow-xs: 0 1px 2px rgba(14, 28, 44, 0.04);
+  --shadow-sm: 0 2px 8px rgba(14, 28, 44, 0.06);
+  --shadow-md: 0 8px 16px rgba(14, 28, 44, 0.08);
+  --shadow-lg: 0 12px 32px rgba(14, 28, 44, 0.10);
+  --shadow-modal: 0 24px 48px rgba(14, 28, 44, 0.12);
   
   /* Motion */
   --animate-duration-faster: 150ms;
@@ -124,6 +144,10 @@
   --color-primary-foreground: #FFFFFF;
   --color-secondary: #FF8552;
   --color-secondary-foreground: #0E1C2C;
+  --color-accent: #FF8552;
+  --color-accent-foreground: #0E1C2C;
+  --color-tertiary: #BAB86C;
+  --color-insight: #BAB86C;
   --color-card: #FFFFFF;
   --color-card-foreground: #0E1C2C;
   --color-muted: #E5E5E5;
@@ -132,25 +156,42 @@
   --color-ring: #FF8552;
   --color-executive: #0E1C2C;
   --color-executive-foreground: #FFFFFF;
+  --color-text-primary: #0E1C2C;
+  --color-text-secondary: #6B7280;
+  --color-text-inverse: #FFFFFF;
+  --color-text-muted: #6B7280;
+  --color-text-disabled: #9CA3AF;
 }
 
 .dark {
   --color-background: #0E1C2C;
   --color-foreground: #FFFFFF;
-  --color-primary: #FF8552;
+  --color-primary: #FFFFFF;
   --color-primary-foreground: #0E1C2C;
-  --color-secondary: #BAB86C;
+  --color-secondary: #FF8552;
   --color-secondary-foreground: #0E1C2C;
+  --color-accent: #FF8552;
+  --color-tertiary: #BAB86C;
+  --color-insight: #BAB86C;
   --color-card: #111F30;
   --color-card-foreground: #FFFFFF;
   --color-muted: #1B3148;
-  --color-muted-foreground: #E5E5E5;
+  --color-muted-foreground: #A1A9B3;
   --color-border: rgba(255, 255, 255, 0.1);
   --color-ring: #FF8552;
   --color-executive: #111F30;
   --color-executive-foreground: #FFFFFF;
+  --color-text-primary: #FFFFFF;
+  --color-text-secondary: #A1A9B3;
+  --color-text-inverse: #0E1C2C;
+  --color-text-muted: #A1A9B3;
+  --color-text-disabled: #6B7280;
   
   /* Surface Variants in Dark Mode */
+  --color-surface-low: #0A1420;
+  --color-surface: #111F30;
+  --color-surface-high: #162E4C;
+  --color-surface-highest: #1B385C;
   --color-surface-container-low: #0F2033;
   --color-surface-container: #12253D;
   --color-surface-container-high: #162E4C;
@@ -249,47 +290,47 @@ html, body {
 }
 
 @layer components {
-  /* Button System */
+  /* Button System - Executive V4 */
   .btn-primary {
-    @apply inline-flex items-center justify-center px-4 py-2.5 md:px-5 md:py-3 lg:px-6 lg:py-3.5 bg-primary text-primary-foreground rounded-button font-display text-xs md:text-sm lg:text-base font-medium shadow-sm hover:bg-[#07111C] hover:shadow-md active:scale-[0.98] transition-all gap-2;
+    @apply inline-flex items-center justify-center px-4 py-2.5 md:px-5 md:py-3 lg:px-6 lg:py-3.5 bg-primary text-primary-foreground rounded-button font-display text-xs md:text-sm lg:text-base font-medium shadow-sm hover:opacity-90 active:scale-[0.99] transition-opacity gap-2;
   }
 
   .btn-secondary {
-    @apply inline-flex items-center justify-center px-4 py-2.5 md:px-5 md:py-3 lg:px-6 lg:py-3.5 bg-secondary text-secondary-foreground rounded-[24px] font-display text-xs md:text-sm lg:text-base font-medium hover:bg-[#E96F3D] active:scale-[0.98] transition-all gap-2;
+    @apply inline-flex items-center justify-center px-4 py-2.5 md:px-5 md:py-3 lg:px-6 lg:py-3.5 bg-secondary text-secondary-foreground rounded-[24px] font-display text-xs md:text-sm lg:text-base font-medium hover:opacity-90 active:scale-[0.99] transition-opacity gap-2;
   }
 
   .btn-tertiary {
-    @apply inline-flex items-center justify-center px-4 py-2.5 md:px-5 md:py-3 lg:px-6 lg:py-3.5 bg-tertiary text-tertiary-foreground rounded-[24px] font-display text-xs md:text-sm lg:text-base font-medium hover:opacity-90 active:scale-[0.98] transition-all gap-2;
+    @apply inline-flex items-center justify-center px-4 py-2.5 md:px-5 md:py-3 lg:px-6 lg:py-3.5 bg-tertiary text-tertiary-foreground rounded-[24px] font-display text-xs md:text-sm lg:text-base font-medium hover:opacity-90 active:scale-[0.99] transition-opacity gap-2;
   }
 
   .btn-accent {
-    @apply inline-flex items-center justify-center px-4 py-2.5 md:px-5 md:py-3 lg:px-6 lg:py-3.5 bg-secondary text-secondary-foreground rounded-button font-display text-xs md:text-sm lg:text-base font-medium shadow-sm hover:bg-secondary/90 hover:shadow-md active:scale-[0.98] transition-all gap-2;
+    @apply inline-flex items-center justify-center px-4 py-2.5 md:px-5 md:py-3 lg:px-6 lg:py-3.5 bg-accent text-accent-foreground rounded-button font-display text-xs md:text-sm lg:text-base font-medium shadow-sm hover:opacity-90 active:scale-[0.99] transition-opacity gap-2;
   }
 
   .btn-executive {
-    @apply inline-flex items-center justify-center px-5 py-3 md:px-7 md:py-3.5 lg:px-8 lg:py-4 bg-primary text-primary-foreground rounded-button font-display text-[10px] md:text-xs lg:text-sm font-bold uppercase tracking-[0.1em] shadow-lg shadow-primary/20 hover:bg-primary/90 hover:shadow-xl active:scale-[0.98] transition-all gap-2 md:gap-3;
+    @apply inline-flex items-center justify-center px-5 py-3 md:px-7 md:py-3.5 lg:px-8 lg:py-4 bg-primary text-primary-foreground rounded-button font-display text-[10px] md:text-xs lg:text-sm font-medium uppercase tracking-[0.1em] shadow-sm hover:opacity-90 active:scale-[0.99] transition-opacity gap-2 md:gap-3;
   }
 
   .btn-ghost {
-    @apply inline-flex items-center justify-center px-4 py-2.5 md:px-5 md:py-3 lg:px-6 lg:py-3.5 bg-transparent text-foreground rounded-button font-display text-xs md:text-sm lg:text-base font-medium hover:bg-surface-container active:scale-[0.98] transition-all gap-2;
+    @apply inline-flex items-center justify-center px-4 py-2.5 md:px-5 md:py-3 lg:px-6 lg:py-3.5 bg-transparent text-text-primary rounded-button font-display text-xs md:text-sm lg:text-base font-medium hover:bg-surface-high active:scale-[0.99] transition-colors gap-2;
   }
 
   /* Card System */
   .card-premium {
-    @apply bg-card text-card-foreground border border-border shadow-sm rounded-card p-8 transition-all hover:shadow-md;
+    @apply bg-card text-text-primary border border-border shadow-sm rounded-card p-8 transition-shadow hover:shadow-md;
   }
 
   .card-hover {
-    @apply hover:shadow-md transition-all;
+    @apply hover:shadow-md transition-shadow;
   }
 
   .shadow-floating {
-    @apply shadow-lg shadow-primary/5;
+    @apply shadow-md;
   }
 
   /* Status Badges */
   .badge-default {
-    @apply inline-flex items-center px-4 py-2 bg-tertiary text-tertiary-foreground rounded-full font-display text-body-sm font-medium;
+    @apply inline-flex items-center px-4 py-2 bg-surface-high text-text-primary border border-border rounded-full font-display text-body-sm font-medium;
   }
 
   /* Layout Utilities */

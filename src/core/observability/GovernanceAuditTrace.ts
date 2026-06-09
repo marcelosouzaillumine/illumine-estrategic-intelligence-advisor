@@ -1,3 +1,4 @@
+import { logger } from "../../services/logging/InstitutionalLogger";
 export interface AuditTrace {
   traceId: string;
   timestamp: string;
@@ -27,7 +28,7 @@ export class GovernanceAuditTrace {
     }
 
     if (!trace.permissionGranted) {
-      console.warn(`[GovernanceAuditTrace] DENIAL AUDIT: Actor ${trace.actorId} with role ${trace.role} blocked on action ${trace.action} (Reason: ${trace.denialCode})`);
+      logger.warn('SECURITY WARNING/DENIAL AUDIT', { actorId: trace.actorId, role: trace.role, action: trace.action, denialCode: trace.denialCode });
     } else {
       console.log(`[GovernanceAuditTrace] ACTION AUDIT: Actor ${trace.actorId} performed ${trace.action} successfully.`);
     }

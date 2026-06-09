@@ -339,7 +339,7 @@ export function buildBPHierarchy(rows: any[]): { nodes: BPNode[], flatNodes: BPN
   const clientes = extractGroupSum(['clientes', 'duplicatas a receber', 'contas a receber', 'recebíveis'], 'ativo');
   const estoques = extractGroupSum(['estoques', 'estoque', 'inventário', 'mercadorias', 'produtos acabados'], 'ativo');
   const fornecedores = extractGroupSum(['fornecedores', 'fornecedor', 'contas a pagar'], 'passivo');
-  const passivosFinanceiros = extractGroupSum(['empréstimos', 'financiamentos', 'dívidas', 'debêntures'], 'passivo');
+  const passivosFinanceiros = extractGroupSum(['empréstimo', 'emprestimo', 'financiamento', 'dívida', 'divida', 'debênture', 'debenture', 'empréstimos', 'financiamentos', 'dívidas', 'debêntures'], 'passivo');
   const capitalSocial = extractGroupSum(['capital social', 'capital subscrito', 'capital integralizado']);
   
   let lucrosPrejuizos = 0;

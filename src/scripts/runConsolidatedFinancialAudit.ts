@@ -1,8 +1,9 @@
+import { logger } from "../services/logging/InstitutionalLogger";
 import { ConsolidatedFinancialOrchestrator } from '../core/runtime/consolidated/ConsolidatedFinancialOrchestrator';
 import { ConsolidatedFinancialInput } from '../core/runtime/consolidated/types';
 
 async function runAudit() {
-  console.log('Iniciando Consolidated Financial Audit...\n');
+  logger.audit('Iniciando Consolidated Financial Audit', {});
 
   // MOCK DATA PARA TESTE
   const inputMulti: ConsolidatedFinancialInput = {
@@ -71,7 +72,7 @@ async function runAudit() {
   const outputMulti = ConsolidatedFinancialOrchestrator.run(inputMulti);
 
   console.log('======================================');
-  console.log('CONSOLIDATED FINANCIAL TESTS');
+  
   console.log('======================================\n');
 
   // Teste 1: Degradação de Confidence
@@ -107,16 +108,16 @@ async function runAudit() {
   const custoIntragrupo = outputSingle.consolidatedDRE.find(d => d.category === 'Custos Intragrupo');
 
   if (receitaConsolidada && receitaConsolidada.consolidatedValue === 800000) {
-    console.log('✅ Test 3 Passed: Soma linear de DRE correta (800,000).');
+    logger.audit('Test 3 Passed', {});
   } else {
-    console.error('❌ Test 3 Failed: Soma DRE incorreta.');
+    logger.error('Test 3 Failed: Soma DRE incorreta', new Error('Consolidated Calculation Error'));
     process.exit(1);
   }
 
   if (receitaIntragrupo && receitaIntragrupo.consolidatedValue === 0 && custoIntragrupo && custoIntragrupo.consolidatedValue === 0) {
     console.log('✅ Test 4 Passed: Receitas e Custos Intragrupo eliminados corretamente (valor líquido 0).');
   } else {
-    console.error('❌ Test 4 Failed: Eliminação DRE falhou.');
+    logger.error('Test 4 Failed: Eliminação DRE falhou', new Error('Consolidated Elimination Error'));
     process.exit(1);
   }
 
@@ -133,13 +134,13 @@ async function runAudit() {
   const outputMissing = ConsolidatedFinancialOrchestrator.run(inputMissing);
   
   if (outputMissing.confidence === 'LOW' && outputMissing.warnings.some(w => w.includes('Entidades sem DRE: sub-A'))) {
-    console.log('✅ Test 6 Passed: Degradação e aviso aplicados por falta de peças contábeis (DRE ausente em sub-A).');
+    logger.audit('Test 6 Passed', {});
   } else {
-    console.error('❌ Test 6 Failed: Degradação por ausência de DRE falhou.');
+    logger.error('Test 6 Failed', new Error('Consolidated Degradation Error'));
     process.exit(1);
   }
 
-  console.log('\nConsolidated Financial Audit Finalizada. Status: COMPLIANT');
+  logger.audit('Consolidated Financial Audit Finalizada', {});
 }
 
 runAudit().catch(console.error);

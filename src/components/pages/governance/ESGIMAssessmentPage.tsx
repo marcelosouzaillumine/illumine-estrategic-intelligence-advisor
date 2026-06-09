@@ -45,6 +45,7 @@ import { BenchmarkComparativePanel } from './BenchmarkComparativePanel';
 import { BenchmarkAdvisoryPanel } from './BenchmarkAdvisoryPanel';
 import { GovernanceLearningPanel } from './GovernanceLearningPanel';
 import { GovernanceJourneyPanel } from './GovernanceJourneyPanel';
+import { InvestigationLauncherWrapper } from '../../investigation/InvestigationLauncherWrapper';
 
 export function ESGIMAssessmentPage({ clientId }: { clientId: string }) {
   const { translateLabel: t } = useLanguage();
@@ -842,6 +843,11 @@ export function ESGIMAssessmentPage({ clientId }: { clientId: string }) {
                         <span className="text-[10px] font-mono text-slate-500">
                           Priority Score: <strong className="text-indigo-400 font-black">{priority.priorityScore}</strong>
                         </span>
+                        <InvestigationLauncherWrapper 
+                          tenantId="SYSTEM_TENANT" 
+                          nodeId={priority.id} 
+                          originSurface="ESGIM" 
+                        />
                       </div>
                       <p className="text-xs text-slate-500 leading-relaxed truncate md:max-w-xl">
                         {priority.description}

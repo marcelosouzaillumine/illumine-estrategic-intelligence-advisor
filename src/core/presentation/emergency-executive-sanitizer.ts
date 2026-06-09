@@ -35,6 +35,9 @@ export function sanitizeExecutivePayload<T>(payload: T): T {
       })
     ) as unknown as T;
   }
+  if (typeof payload === "string" && looksLikeTechnicalCode(payload)) {
+    return resolveExecutiveLabel(payload, "generic") as unknown as T;
+  }
   
   return payload;
 }

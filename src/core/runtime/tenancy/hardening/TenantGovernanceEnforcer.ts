@@ -6,6 +6,7 @@ import { TenantAwareAuditTrail } from './TenantAwareAuditTrail';
 import { RuntimeIsolationValidator } from './RuntimeIsolationValidator';
 import { ConsolidationEntity } from '../../consolidated/types';
 import { EntityGraphData } from '../../../../topology/types';
+import { getErrorMessage, isViolationLike } from '../../../../types/runtime/RuntimeErrorGuards';
 
 export class TenantGovernanceEnforcer {
   /**
@@ -32,9 +33,9 @@ export class TenantGovernanceEnforcer {
       // 4. Sucesso: Registrar log de auditoria isolado
       TenantAwareAuditTrail.logExecutionAttempt(safeContext, `exec-${Date.now()}`, 'CONSOLIDATED_RUNTIME_START');
       
-    } catch (error: any) {
+    } catch (error: unknown) {
       // Falhou a validação: logar forense e re-lançar a exceção fatal
-      TenantAwareAuditTrail.logViolation(context || null, error.violationCode || 'UNKNOWN_VIOLATION', error.message);
+      TenantAwareAuditTrail.logViolation(context || null, (isViolationLike(error) ? error.violationCode : 'UNKNOWN_VIOLATION') || 'UNKNOWN_VIOLATION', getErrorMessage(error));
       throw error;
     }
   }
@@ -42,8 +43,8 @@ export class TenantGovernanceEnforcer {
   static enforceCacheAccess(context: TenantExecutionContext, accessedEntityId: string, cachedTenantId: string): void {
     try {
       CrossTenantAccessDetector.detectMemoryViolation(context, accessedEntityId, cachedTenantId);
-    } catch (error: any) {
-      TenantAwareAuditTrail.logViolation(context, error.violationCode || 'CACHE_VIOLATION', error.message);
+    } catch (error: unknown) {
+      TenantAwareAuditTrail.logViolation(context, (isViolationLike(error) ? error.violationCode : 'UNKNOWN_VIOLATION') || 'CACHE_VIOLATION', getErrorMessage(error));
       throw error;
     }
   }

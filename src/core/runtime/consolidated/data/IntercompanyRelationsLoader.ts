@@ -1,5 +1,6 @@
 import { collection, query, where, getDocs } from 'firebase/firestore';
 import { db } from '../../../../lib/firebase';
+import { getErrorMessage } from '../../../../types/runtime/RuntimeErrorGuards';
 
 export class IntercompanyRelationsLoader {
   /**
@@ -18,8 +19,8 @@ export class IntercompanyRelationsLoader {
       }
 
       return snap.docs.map(doc => ({ ...doc.data(), operationId: doc.id }));
-    } catch (err: any) {
-      console.error(`[IntercompanyRelationsLoader] Failed to fetch relations: ${err.message}`);
+    } catch (err: unknown) {
+      console.error(`[IntercompanyRelationsLoader] Failed to fetch relations: ${getErrorMessage(err)}`);
       return [];
     }
   }

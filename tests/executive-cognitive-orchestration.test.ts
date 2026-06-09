@@ -1,6 +1,6 @@
 import { describe, it } from 'node:test';
 import assert from 'node:assert';
-import { ExecutiveAttentionEngine } from '../src/core/runtime/executive-orchestration/cognitive/ExecutiveAttentionEngine';
+import { ExecutiveSignalPriorityEngine } from '../src/core/runtime/executive-orchestration/cognitive/ExecutiveSignalPriorityEngine';
 import { NarrativeCompressionEngine } from '../src/core/runtime/executive-orchestration/cognitive/NarrativeCompressionEngine';
 import { DecisionFatigueProtectionEngine } from '../src/core/runtime/executive-orchestration/cognitive/DecisionFatigueProtectionEngine';
 import { ExecutiveNarrativeHierarchyEngine } from '../src/core/runtime/executive-orchestration/cognitive/ExecutiveNarrativeHierarchyEngine';
@@ -9,7 +9,7 @@ import { ExecutiveIntelligenceReport } from '../src/core/runtime/executive-intel
 
 describe('Executive Cognitive Orchestration Module Tests', () => {
 
-  it('1. ExecutiveAttentionEngine prioritiza e ordena sinais por peso fiduciário', () => {
+  it('1. ExecutiveSignalPriorityEngine prioritiza e ordena sinais por peso fiduciário', () => {
     const signals: CognitiveSignal[] = [
       {
         id: 'sig-low',
@@ -38,7 +38,7 @@ describe('Executive Cognitive Orchestration Module Tests', () => {
       }
     ];
 
-    const result = ExecutiveAttentionEngine.prioritize(signals);
+    const result = ExecutiveSignalPriorityEngine.prioritize(signals);
     assert.strictEqual(result.length, 3);
     // João Silva (CFO) is immediate focus (sig-fid)
     assert.strictEqual(result[0].signal.id, 'sig-fid');

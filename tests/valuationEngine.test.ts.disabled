@@ -1,0 +1,77 @@
+import test from 'node:test';
+import assert from 'node:assert';
+import { 
+  calculateFCFFProjection, 
+  calculateDiscountedCashFlow, 
+  calculateTerminalValue, 
+  calculateEnterpriseValue, 
+  calculateScenarioValueDelta,
+  ScenarioValuationInput 
+} from '../src/lib/valuationEngine';
+
+test('▶ Valuation Engine', async (t) => {
+  const mockInput: ScenarioValuationInput = {
+    clientId: 'client123',
+    scenarioId: 'scenario123',
+    revenueProjection: [1000, 1100, 1200, 1300, 1400],
+    ebitdaProjection: [200, 220, 240, 260, 280],
+    taxRate: 34,
+    capexProjection: [50, 50, 50, 50, 50],
+    workingCapitalProjection: [10, 10, 10, 10, 10],
+    discountRate: 14,
+    terminalGrowthRate: 3
+  };
+
+  await t.test('✔ calcula o FCFF determinístico corretamente', () => {
+    const fcff = calculateFCFFProjection(mockInput);
+    // Year 1: EBITDA = 200, Tax = 34%, Capex = 50, NCG = 10
+    // FCFF = 200 * (1 - 0.34) - 50 - 10 = 132 - 60 = 72
+    assert.strictEqual(Math.round(fcff[0]), 72);
+    // Year 5: EBITDA = 280
+    // FCFF = 280 * 0.66 - 60 = 184.8 - 60 = 124.8
+    assert.strictEqual(Math.round(fcff[4] * 10) / 10, 124.8);
+  });
+
+  await t.test('✔ calcula o fluxo de caixa descontado (VPL dos fluxos explícitos)', () => {
+    const fcff = calculateFCFFProjection(mockInput);
+    const pv = calculateDiscountedCashFlow(fcff, 14);
+    assert.ok(pv > 0);
+    assert.ok(pv < fcff.reduce((a,b)=>a+b, 0));
+  });
+
+  await t.test('✔ calcula o valor terminal corretamente', () => {
+    const fcff = calculateFCFFProjection(mockInput);
+    const tv = calculateTerminalValue(fcff, 14, 3);
+    assert.strictEqual(Math.round(tv * 100) / 100, 1168.58);
+  });
+
+  await t.test('✔ bloqueia desconto menor ou igual ao crescimento perpétuo', () => {
+    const invalidInput = { ...mockInput, discountRate: 2, terminalGrowthRate: 3 };
+    assert.throws(() => calculateEnterpriseValue(invalidInput), /must be strictly greater/);
+  });
+
+  await t.test('✔ calcula o enterprise value e o delta de valor corretamente', () => {
+    const baselineInput = { ...mockInput };
+    const scenarioInput = { ...mockInput, capexProjection: [40, 40, 40, 40, 40] };
+
+    const output = calculateScenarioValueDelta(baselineInput, scenarioInput);
+    
+    assert.ok(output.valueDeltaVsBaseline > 0);
+    assert.strictEqual(output.valueCreationStatus, 'Value Creating');
+  });
+
+  await t.test('✔ classifica corretamente como Value Destroying se o cenário for pior', () => {
+    const baselineInput = { ...mockInput };
+    const scenarioInput = { ...mockInput, capexProjection: [100, 100, 100, 100, 100] };
+
+    const output = calculateScenarioValueDelta(baselineInput, scenarioInput);
+    assert.ok(output.valueDeltaVsBaseline < 0);
+    assert.strictEqual(output.valueCreationStatus, 'Value Destroying');
+  });
+
+  await t.test('✔ garante idempotência e Value Neutrality quando os cenários são iguais', () => {
+    const output = calculateScenarioValueDelta(mockInput, mockInput);
+    assert.strictEqual(Math.round(output.valueDeltaVsBaseline), 0);
+    assert.strictEqual(output.valueCreationStatus, 'Value Neutral');
+  });
+});

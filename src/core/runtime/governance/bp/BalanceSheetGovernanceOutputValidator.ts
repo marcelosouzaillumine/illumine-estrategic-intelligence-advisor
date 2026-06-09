@@ -13,6 +13,7 @@ export class BalanceSheetGovernanceOutputValidator {
     if (!output.primaryRecommendation || !output.primaryRecommendation.text) errors.push('Missing primaryRecommendation');
     if (!output.validation) errors.push('Missing validation block');
     if (!output.explainability) errors.push('Missing explainability block');
+    if (!output.executiveNarrative || output.executiveNarrative.trim() === '') errors.push('MISSING_EXECUTIVE_NARRATIVE (BLOCKING)');
 
     return {
       isValid: errors.length === 0,

@@ -55,7 +55,7 @@ const AXIS_DATA = [
     id: 'governanca_estrategica', 
     name: 'Governança Corporativa', 
     icon: ShieldCheck, 
-    color: 'bg-slate-900', 
+    color: 'bg-primary', 
     mainKpi: 'Maturidade de Governança',
     suffix: '%' 
   },
@@ -71,7 +71,7 @@ const AXIS_DATA = [
     id: 'dashboard_gestao', 
     name: 'Administração e Finanças', 
     icon: BarChartIcon, 
-    color: 'bg-slate-800', 
+    color: 'bg-surface', 
     mainKpi: 'Margem EBITDA',
     suffix: '%' 
   },
@@ -103,7 +103,7 @@ const AXIS_DATA = [
     id: 'dashboard_operacional', 
     name: 'Gestão Operacional', 
     icon: Activity, 
-    color: 'bg-slate-700', 
+    color: 'bg-surface-low', 
     mainKpi: 'OEE (Eficiência)',
     suffix: '%' 
   },
@@ -679,7 +679,7 @@ export function DashboardPage({
   
               <Button 
                 onClick={() => onNavigate('advisory_insights')}
-                className="mt-12 w-full py-5 bg-secondary text-primary rounded-2xl text-[10px] font-black uppercase tracking-[0.2em] hover:bg-white hover:scale-[1.02] transition-all flex items-center justify-center gap-3 group shadow-xl shadow-secondary/10"
+                className="mt-12 w-full py-5 bg-secondary text-primary rounded-2xl text-[10px] font-black uppercase tracking-[0.2em] hover:bg-card hover:scale-[1.02] transition-all flex items-center justify-center gap-3 group shadow-xl shadow-secondary/10"
               >
                 {t('dashboard.btn.access_advisory')} <ArrowRight size={16} strokeWidth={3} className="group-hover:translate-x-2 transition-transform" />
               </Button>

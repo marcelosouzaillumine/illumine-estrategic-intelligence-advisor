@@ -8,7 +8,7 @@ import {
   SandboxConfig,
   SandboxResult
 } from '../../core/runtime/scenario-simulation/types';
-import { ScenarioSimulationEngine } from '../../core/runtime/scenario-simulation/ScenarioSimulationEngine';
+import { ScenarioMacroProjectionEngine } from '../../core/runtime/scenario-simulation/ScenarioMacroProjectionEngine';
 import { GovernanceForecastEngine, ForecastOutput } from '../../core/runtime/scenario-simulation/GovernanceForecastEngine';
 import { PropagationSimulationEngine } from '../../core/runtime/scenario-simulation/PropagationSimulationEngine';
 import { StrategicDecisionSandbox } from '../../core/runtime/scenario-simulation/StrategicDecisionSandbox';
@@ -159,7 +159,7 @@ export const ScenarioSimulationProvider: React.FC<{ children: React.ReactNode }>
       };
 
       // Executar motores de simulação e forecast determinísticos
-      const simOut = ScenarioSimulationEngine.run(preparedInput);
+      const simOut = ScenarioMacroProjectionEngine.run(preparedInput);
       const foreOut = GovernanceForecastEngine.generateForecast(preparedInput);
 
       // Calcular cadeia de propagação no Propagation Engine
@@ -184,7 +184,7 @@ export const ScenarioSimulationProvider: React.FC<{ children: React.ReactNode }>
       }
     } catch (err: any) {
       console.error('Falha de execução do SSPGL:', err);
-      setError(err.message || 'Erro crítico na simulação fiduciária.');
+      setError((err instanceof Error ? err.message : String(err)) || 'Erro crítico na simulação fiduciária.');
       setSimulationOutput(null);
       setForecastOutput(null);
       setSandboxResult(null);
@@ -224,7 +224,7 @@ export const ScenarioSimulationProvider: React.FC<{ children: React.ReactNode }>
         setSandboxResult(sandResult);
       } catch (err: any) {
         console.error('Erro ao processar sandbox estratégico:', err);
-        setError(err.message);
+        setError((err instanceof Error ? err.message : String(err)));
       }
 
       return newActions;
@@ -258,7 +258,7 @@ export const ScenarioSimulationProvider: React.FC<{ children: React.ReactNode }>
         setSandboxResult(sandResult);
       } catch (err: any) {
         console.error('Erro ao remover ação do sandbox:', err);
-        setError(err.message);
+        setError((err instanceof Error ? err.message : String(err)));
       }
 
       return newActions;

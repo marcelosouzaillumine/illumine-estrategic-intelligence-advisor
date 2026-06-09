@@ -5,7 +5,7 @@ import { resolveInstitutionalLabel, humanizeInstitutionalKey } from '../core/run
 interface LanguageContextType {
   language: Locale;
   setLanguage: (lang: Locale) => void;
-  t: (key: string, fallbacks?: string | Record<string, string>) => string;
+  t: (key: string, options?: string | Record<string, any>) => string;
   safeT: (key: string, fallback?: string) => string;
   translateLabel: (label: string) => string;
 }
@@ -234,30 +234,48 @@ export function LanguageProvider({ children }: { children: React.ReactNode }) {
     window.dispatchEvent(new Event('storage'));
   };
 
-  const t = (key: string, fallbacks?: string | Record<string, string>): string => {
+  const t = (key: string, options?: string | Record<string, any>): string => {
+    let result: string | undefined = undefined;
+
     // 1. Try active dictionary
     const activeDict = dictionaries[language];
     if (activeDict && (activeDict as any)[key] !== undefined) {
-      return (activeDict as any)[key];
+      result = (activeDict as any)[key];
     }
     
     // 2. Try fallback dict if provided
-    if (fallbacks) {
-      if (typeof fallbacks === 'string') {
-        return fallbacks;
-      }
-      if (fallbacks[language] !== undefined) {
-        return fallbacks[language];
+    if (result === undefined && options) {
+      if (typeof options === 'string') {
+        result = options;
+      } else if (options[language] !== undefined) {
+        result = options[language];
       }
     }
 
     // 3. Try default dictionary (pt-BR)
-    const defaultDict = dictionaries['pt-BR'];
-    if (language !== 'pt-BR' && defaultDict && (defaultDict as any)[key] !== undefined) {
-      if (process.env.NODE_ENV === 'development') {
-        console.warn(`[i18n] Fallback to default pt-BR for key: "${key}" (requested locale "${language}").`);
+    if (result === undefined) {
+      const defaultDict = dictionaries['pt-BR'];
+      if (language !== 'pt-BR' && defaultDict && (defaultDict as any)[key] !== undefined) {
+        if (process.env.NODE_ENV === 'development') {
+          console.warn(`[i18n] Fallback to default pt-BR for key: "${key}" (requested locale "${language}").`);
+        }
+        result = (defaultDict as any)[key];
       }
-      return (defaultDict as any)[key];
+    }
+
+    if (result !== undefined) {
+      // String interpolation for variables like {{count}}
+      if (options && typeof options === 'object') {
+        let interpolated = result;
+        for (const [k, v] of Object.entries(options)) {
+          // Ignore language keys if they were passed as fallbacks
+          if (k !== 'pt-BR' && k !== 'en-US' && k !== 'es-ES') {
+            interpolated = interpolated.replace(new RegExp(`\\{\\{${k}\\}\\}`, 'g'), String(v));
+          }
+        }
+        return interpolated;
+      }
+      return result;
     }
 
     // Emit warning for missing key

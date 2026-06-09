@@ -1,3 +1,4 @@
+import { logger } from "../services/logging/InstitutionalLogger";
 import { ConsolidatedAdvisoryOrchestrator } from '../core/runtime/consolidated/advisory/ConsolidatedAdvisoryOrchestrator';
 import { ConsolidatedFinancialOutput, ConsolidationEntity } from '../core/runtime/consolidated/types';
 
@@ -49,7 +50,7 @@ async function runAudit() {
 
   const hasParasitism = report1.causalities.some(c => c.causalityType === 'OPERATIONAL_PARASITISM');
   if (hasParasitism) {
-    console.log('✅ Test 1 Passed: Operational Parasitism detectado corretamente (Holding drena Filial Operacional via Mútuo).');
+    logger.audit('Test 1 Passed: Operational Parasitism', {});
   } else {
     console.error('❌ Test 1 Failed: Falha ao detectar Operational Parasitism.');
     process.exit(1);

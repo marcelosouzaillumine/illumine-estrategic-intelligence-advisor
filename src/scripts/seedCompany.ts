@@ -1,3 +1,4 @@
+import { logger } from "../services/logging/InstitutionalLogger";
 import { GoogleGenAI, Type } from '@google/genai';
 import { db, auth } from '../lib/firebase';
 import { collection, doc, writeBatch, serverTimestamp, setDoc, addDoc } from 'firebase/firestore';
@@ -855,7 +856,7 @@ export const createAICompanyInFirestore = async (aiData: AICompanyData) => {
         });
       }
     } catch (err: any) {
-      console.error('FAIL financial_positions:', err);
+      logger.error('FAIL financial_positions', err);
     }
 
     for (const emp of (aiData.employees || [])) {

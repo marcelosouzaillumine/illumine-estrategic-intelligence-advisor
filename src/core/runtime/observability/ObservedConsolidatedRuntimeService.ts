@@ -130,7 +130,7 @@ export class ObservedConsolidatedRuntimeService {
       // 8. Retorna o output exato e imutável para a View Layer do Context
       return advisoryReport;
 
-    } catch (err: any) {
+    } catch (err: unknown) {
       const errorMsg = err instanceof Error ? err.message : 'Unknown error';
       trace.endStage('FAILED', { error: errorMsg });
       await trace.flushAndSave();

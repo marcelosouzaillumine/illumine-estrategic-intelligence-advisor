@@ -109,7 +109,7 @@ export function useHistoricalDemonstracoes(clientId: string, currentYear: number
     } catch (e: any) {
       if (!isCancelled.current) {
         console.error(e);
-        setError(e.message || 'Erro ao carregar dados financeiros históricos');
+        setError((e instanceof Error ? e.message : String(e)) || 'Erro ao carregar dados financeiros históricos');
       }
     } finally {
       if (!isCancelled.current) setLoading(false);

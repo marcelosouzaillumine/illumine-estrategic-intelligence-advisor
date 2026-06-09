@@ -1,5 +1,6 @@
 import { collection, doc, setDoc } from 'firebase/firestore';
 import { db } from '../../../lib/firebase';
+import { getErrorMessage } from '../../../types/runtime/RuntimeErrorGuards';
 
 export type ScenarioEventName = 
   | 'SCENARIO_STARTED'
@@ -20,8 +21,8 @@ export class ScenarioExecutionLogger {
         metadata
       };
       await setDoc(doc(db, 'scenario_logs', id), event);
-    } catch (err) {
-      console.error('[ScenarioExecutionLogger] Failed to log event:', err);
+    } catch (err: unknown) {
+      console.error('[ScenarioExecutionLogger] Failed to log event:', getErrorMessage(err));
     }
   }
 }
