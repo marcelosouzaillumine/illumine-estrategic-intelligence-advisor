@@ -52,3 +52,32 @@ export type BalanceSheetTechnicalFamilyViewModel = {
 export type BalanceSheetTechnicalLayerViewModel = {
   families: BalanceSheetTechnicalFamilyViewModel[];
 };
+
+export type BalanceSheetAuditOverrideViewModel = {
+  overrideNameLabel: string;
+  severityLabel: string;
+};
+
+export type BalanceSheetAuditStructuralRestrictionsViewModel = {
+  overrides: BalanceSheetAuditOverrideViewModel[];
+  originalClassificationLabel: string;
+  classificationCeilingLabel: string;
+};
+
+export type BalanceSheetAuditConsistencyIssueViewModel = {
+  type: 'critical' | 'warning' | 'disclosure';
+  typeLabel: string;
+  message: string;
+};
+
+export type BalanceSheetAuditConsistencyViewModel = {
+  statusLabel: string;
+  statusTone: 'success' | 'critical' | 'warning';
+  hasIssues: boolean;
+  issues: BalanceSheetAuditConsistencyIssueViewModel[];
+};
+
+export type BalanceSheetAuditLayerViewModel = {
+  structuralRestrictions?: BalanceSheetAuditStructuralRestrictionsViewModel;
+  governanceConsistency?: BalanceSheetAuditConsistencyViewModel;
+};

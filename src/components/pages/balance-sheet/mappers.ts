@@ -1,4 +1,4 @@
-import { BalanceSheetIndicator, BalanceSheetInstitutionalContextInput } from './types';
+import { BalanceSheetIndicator, BalanceSheetInstitutionalContextInput, BalanceSheetStructuralRestrictionsInput, BalanceSheetGovernanceConsistencyInput } from './types';
 import { BalanceSheetIndicatorViewModel, BalanceSheetRiskDivergenceViewModel, BalanceSheetRiskDivergenceTone, BalanceSheetInstitutionalContextViewModel } from './view-models';
 
 export function mapIndicatorsToViewModels(params: {
@@ -148,4 +148,87 @@ export function mapTechnicalLayerToViewModel(params: {
   });
 
   return { families };
+}
+
+import { 
+  BalanceSheetAuditLayerViewModel, 
+  BalanceSheetAuditStructuralRestrictionsViewModel, 
+  BalanceSheetAuditOverrideViewModel, 
+  BalanceSheetAuditConsistencyViewModel, 
+  BalanceSheetAuditConsistencyIssueViewModel 
+} from './view-models';
+
+export function mapAuditLayerToViewModel(params: {
+  structuralRestrictions?: BalanceSheetStructuralRestrictionsInput;
+  governanceConsistency?: BalanceSheetGovernanceConsistencyInput;
+  resolveLabel: (key: string) => string;
+}): BalanceSheetAuditLayerViewModel {
+  let structuralRestrictions: BalanceSheetAuditStructuralRestrictionsViewModel | undefined;
+  
+  if (params.structuralRestrictions) {
+    const hardcodedOverrides = [
+      'Liquidity Fragility Override', 
+      'Treasury Stress Override', 
+      'Short-Term Debt Concentration Override', 
+      'Capital Dependency Override', 
+      'Earnings Quality Override'
+    ];
+
+    const overrides: BalanceSheetAuditOverrideViewModel[] = [];
+    
+    hardcodedOverrides.forEach(overrideName => {
+      const activeOverride = params.structuralRestrictions?.appliedOverrides?.find(o => o.name === overrideName);
+      if (activeOverride) {
+        overrides.push({
+          overrideNameLabel: params.resolveLabel(overrideName),
+          severityLabel: params.resolveLabel(activeOverride.severity)
+        });
+      }
+    });
+
+    structuralRestrictions = {
+      overrides,
+      originalClassificationLabel: params.resolveLabel(params.structuralRestrictions.originalClassification),
+      classificationCeilingLabel: params.structuralRestrictions.classificationCeiling 
+        ? params.resolveLabel(params.structuralRestrictions.classificationCeiling) 
+        : 'NENHUM'
+    };
+  }
+
+  let governanceConsistency: BalanceSheetAuditConsistencyViewModel | undefined;
+
+  if (params.governanceConsistency) {
+    let statusTone: 'success' | 'critical' | 'warning' = 'warning';
+    if (params.governanceConsistency.consistencyStatus === 'CONSISTENT') {
+      statusTone = 'success';
+    } else if (params.governanceConsistency.consistencyStatus === 'FAIL_CLOSED') {
+      statusTone = 'critical';
+    }
+
+    const issues: BalanceSheetAuditConsistencyIssueViewModel[] = [];
+
+    params.governanceConsistency.detectedIssues?.forEach(issue => {
+      issues.push({ type: 'critical', typeLabel: 'Falha Crítica', message: issue });
+    });
+    
+    params.governanceConsistency.warnings?.forEach(warning => {
+      issues.push({ type: 'warning', typeLabel: 'Alerta', message: warning });
+    });
+
+    params.governanceConsistency.forcedDisclosures?.forEach(disclosure => {
+      issues.push({ type: 'disclosure', typeLabel: 'Comunicação Prudencial Obrigatória', message: disclosure });
+    });
+
+    governanceConsistency = {
+      statusLabel: params.resolveLabel(params.governanceConsistency.consistencyStatus),
+      statusTone,
+      hasIssues: issues.length > 0,
+      issues
+    };
+  }
+
+  return {
+    structuralRestrictions,
+    governanceConsistency
+  };
 }
