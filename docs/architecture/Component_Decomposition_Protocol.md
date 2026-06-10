@@ -20,6 +20,7 @@ Separar estritamente essas preocupações gera benefícios operacionais claros:
 | **2. Estabilização** | Consolidar interfaces, tipagem estrita e fronteiras entre os componentes recém-extraídos. | Componentes perfeitamente coesos, com `props` explícitas, livres do tipo `any` e sem dependências residuais. |
 | **3. Canonicalização** | Migrar os blocos locais gradualmente para os componentes canônicos (`MetricTile`, `SemanticCard`, `ExecutiveChart`, `ExecutiveTable`, etc.). | Adoção madura do *Design System* sem regressões e com controle modular total. |
 | **4. Simplificação e Orquestração Final** | Transformar a página principal em um orquestrador declarativo. | Arquivo original contendo mínima complexidade de JSX (poucas centenas de linhas), delegando 100% da responsabilidade de apresentação aos subcomponentes. |
+| **5. Consolidação de Adaptadores de Apresentação** | Desacoplar definitivamente contratos de domínio da camada visual. | Nenhuma página acessa objetos complexos de engines diretamente. Toda conversão ocorre via funções puras (`mappers.ts`) gerando `ViewModels` estritos. Mudanças no domínio não quebram a UI. |
 
 ---
 
@@ -29,10 +30,11 @@ Para sustentar o objetivo de orquestração declarativa, toda a refatoração de
 
 | Camada | Responsabilidade | O que pode conhecer e importar |
 | :--- | :--- | :--- |
-| **Página** (`*Page.tsx`) | Orquestrar, buscar dados, resolver `i18n`, montar DTOs de exibição | Hooks, adapters, engines, serviços, contextos. |
-| **Seções** (`*Section.tsx`) | Organizar blocos visuais relacionados e gerenciar grid | Apenas `props` (ViewModels e DTOs) preparadas pelo pai. |
-| **Componentes Folha** (`*Card`, `*Toolbar`) | Renderização pura, microinterações (UI) | Strings, números, callbacks simples e DTOs estritos. |
-| **Tipos** (`types.ts`) | Definir os contratos exatos de apresentação | Interfaces e *types* somente (sem implementações). |
+| **Página** (`*Page.tsx`) | Orquestrar, buscar dados, montar DTOs de exibição | Hooks, adapters, engines, serviços, contextos e mappers. |
+| **Mappers** (`mappers.ts`) | Funções puras que convertem Domain DTOs em ViewModels | Tipos de domínio e `view-models.ts` (sem dependência de React). Onde `i18n` e formatações pesadas ocorrem. |
+| **Seções** (`*Section.tsx`) | Organizar blocos visuais relacionados e gerenciar grid | Apenas `props` (ViewModels estritos) preparadas pelo pai/mapper. |
+| **Componentes Folha** (`*Card`, `*Toolbar`) | Renderização pura, microinterações (UI) | Strings, números, callbacks simples e ViewModels. |
+| **Tipos** (`types.ts`, `view-models.ts`) | Contratos estruturais e contratos de apresentação | Interfaces e *types* somente (sem implementações). |
 
 ---
 
@@ -41,9 +43,20 @@ Para sustentar o objetivo de orquestração declarativa, toda a refatoração de
 Durante as microextrações de apresentação, as seguintes regras são inegociáveis para evitar a propagação de dívida técnica:
 - **Payloads Mínimos:** Nunca passar objetos gigantes ou relatórios completos se o componente utilizar apenas dois ou três campos específicos.
 - **Tipagem Estrita:** É proibido o uso de `any`. Interfaces explícitas (`type` ou `interface`) devem ser declaradas descrevendo estritamente a forma dos dados esperados. Caso o conceito se repita, crie e importe tipos centralizados (ex: `types.ts`).
-- **Pré-processamento no Orquestrador:** Componentes de apresentação não devem realizar buscas (`find`, `filter`, `map` complexos) sobre estruturas pesadas de domínio quando isso puder ser pré-processado pelo componente pai. O orquestrador deve resolver os dados brutos e enviar objetos purificados (ex: `ViewModel`) diretamente para o filho.
-- **Resolução Centralizada de i18n:** Todo texto dinâmico traduzido deve ser resolvido no componente orquestrador (`Page.tsx`) e repassado aos filhos folha/seção como `string` pronta para exibição.
+- **Pré-processamento no Orquestrador/Mapper:** Componentes de apresentação não devem realizar buscas (`find`, `filter`, `map` complexos) sobre estruturas pesadas de domínio quando isso puder ser pré-processado. O orquestrador deve invocar o `mappers.ts` para resolver os dados brutos e enviar objetos purificados (ex: `ViewModel`) diretamente para o filho.
+- **Resolução Centralizada de i18n:** Todo texto dinâmico traduzido deve ser resolvido no componente orquestrador (`Page.tsx`) ou no `mappers.ts` e repassado aos filhos folha/seção como `string` pronta para exibição.
 - **Lógica Isolada:** Não mover lógica de negócio, transformações complexas ou cálculos pesados para dentro do componente extraído. Ele recebe dados prontos e apenas renderiza, permitindo delegar interações via callbacks primitivos (`onClick`, `onChange`).
+
+---
+
+## Indicadores Objetivos de Sucesso (Métricas de Maturidade)
+
+Uma microextração e consolidação só é considerada 100% finalizada quando cumprir os seguintes critérios na camada de apresentação (Folhas e Seções):
+- **0 hooks** (`useLanguage`, `useMemo`, `useContext`, etc.) em componentes folha.
+- **0 imports** de engines, serviços, ou adapters de domínio em componentes folha.
+- **0 uso de `any`** em novos componentes (tudo tipado via `types.ts` ou `view-models.ts`).
+- **100% das transformações de dados** concentradas em orquestradores ou `mappers.ts`.
+- **1 responsabilidade por componente**, mantendo cada arquivo focado exclusivamente em uma única função visual.
 
 ---
 
