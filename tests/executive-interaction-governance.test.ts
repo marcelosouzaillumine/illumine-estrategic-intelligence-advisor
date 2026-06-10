@@ -15,16 +15,15 @@ describe('Executive Interaction Governance System Tests', () => {
     assert.strictEqual(criticalStyle.textColor, 'text-red-400');
     assert.ok(criticalStyle.accessibilityLabel.includes('Crítico'));
 
-    // Locked style
     const lockedStyle = SeveritySemanticEngine.getSeverityStyle('LOCKED');
-    assert.strictEqual(lockedStyle.textColor, 'text-slate-400');
+    assert.strictEqual(lockedStyle.textColor, 'text-muted-foreground');
     assert.ok(lockedStyle.accessibilityLabel.includes('Bloqueado'));
   });
 
   it('2. SeveritySemanticEngine maps escalation levels correctly', () => {
     // Normal level
     const normalStyle = SeveritySemanticEngine.getEscalationStyle('NORMAL');
-    assert.strictEqual(normalStyle.textColor, 'text-slate-400');
+    assert.strictEqual(normalStyle.textColor, 'text-muted-foreground');
 
     // Board critical level
     const boardStyle = SeveritySemanticEngine.getEscalationStyle('BOARD_CRITICAL');

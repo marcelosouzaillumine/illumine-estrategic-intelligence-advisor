@@ -106,7 +106,7 @@ export function BoardModeDashboard({ input }: BoardModeDashboardProps) {
                 </div>
                 <h4 className="text-base font-bold text-muted-foreground mb-2">{res.topic}</h4>
                 <p className="text-sm text-muted-foreground mb-3">{res.justification}</p>
-                <div className="flex items-center gap-2 text-xs font-bold text-emerald-600 bg-emerald-50 px-3 py-2 rounded-lg">
+                <div className="flex items-center gap-2 text-xs font-bold text-emerald-600 bg-success-soft px-3 py-2 rounded-lg">
                   <span>Impacto Esperado:</span> {res.impact}
                 </div>
               </div>
@@ -122,8 +122,8 @@ export function BoardModeDashboard({ input }: BoardModeDashboardProps) {
               {attentionItems.map((item, i) => (
                 <div key={i} className={cn(
                   "p-4 rounded-xl border",
-                  item.category === 'Escalar' ? "bg-rose-50 border-rose-200" :
-                  item.category === 'Deliberar' ? "bg-amber-50 border-amber-200" :
+                  item.category === 'Escalar' ? "bg-critical-soft border-rose-200" :
+                  item.category === 'Deliberar' ? "bg-warning-soft border-amber-200" :
                   "bg-slate-50 border-border"
                 )}>
                   <div className="flex justify-between items-center mb-2">

@@ -11,7 +11,7 @@ export const InstitutionalObjectCard: React.FC<Props> = ({ context }) => {
     return (
       <div className="card-premium p-6 text-center text-muted-foreground">
         <Info size={32} className="mx-auto mb-4 text-muted-foreground/60" />
-        <p className="text-sm">Contexto Institucional não encontrado.</p>
+        <p className="text-sm">Contexto indisponível.</p>
       </div>
     );
   }
@@ -107,7 +107,7 @@ export const InstitutionalObjectCard: React.FC<Props> = ({ context }) => {
             ))}
           </ul>
         ) : (
-          <p className="text-xs italic text-muted-foreground">Relações indisponíveis.</p>
+          <p className="text-xs italic text-muted-foreground">Relacionamentos indisponíveis.</p>
         )}
       </div>
 

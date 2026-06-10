@@ -32,7 +32,7 @@ export const ExecutiveOnboardingSurface: React.FC = () => {
       </div>
 
       {isFailClosed && (
-        <div className="p-4 bg-rose-500/10 border border-rose-500/25 rounded-xl text-rose-500 flex items-start gap-2.5">
+        <div className="p-4 bg-critical-soft0/10 border border-rose-500/25 rounded-xl text-rose-500 flex items-start gap-2.5">
           <ShieldAlert size={16} className="shrink-0 mt-0.5" />
           <div className="text-[10px] leading-relaxed">
             <p className="font-bold uppercase tracking-wider mb-0.5">PROGRESSÃO DE ONBOARDING BLOQUEADA</p>

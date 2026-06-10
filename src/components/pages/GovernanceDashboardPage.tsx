@@ -159,7 +159,7 @@ export function GovernanceDashboardPage({
       suffix: '%', 
       status: 'positive', 
       icon: ShoppingBag,
-      color: 'bg-emerald-500'
+      color: 'bg-success-soft0'
     },
     { 
       id: 'dashboard_operacional' as Page,
@@ -169,7 +169,7 @@ export function GovernanceDashboardPage({
       suffix: '%', 
       status: 'neutral', 
       icon: Activity,
-      color: 'bg-amber-500'
+      color: 'bg-warning-soft0'
     }
   ], [dbIndicators, t]);
 

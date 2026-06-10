@@ -17,8 +17,8 @@ export function UnifiedGovernanceTimelinePanel({ tenantId }: { tenantId: string 
         {state.timeline.map((evt) => {
           let color = 'bg-primary';
           let border = 'border-primary';
-          if (evt.severity === 'CRITICAL') { color = 'bg-rose-500'; border = 'border-rose-500'; }
-          if (evt.severity === 'WARNING') { color = 'bg-amber-500'; border = 'border-amber-500'; }
+          if (evt.severity === 'CRITICAL') { color = 'bg-critical-soft0'; border = 'border-rose-500'; }
+          if (evt.severity === 'WARNING') { color = 'bg-warning-soft0'; border = 'border-amber-500'; }
 
           return (
             <div key={evt.eventId} className="relative pl-6">

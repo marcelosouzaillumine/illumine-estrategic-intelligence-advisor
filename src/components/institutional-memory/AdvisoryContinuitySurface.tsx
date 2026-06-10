@@ -30,7 +30,7 @@ export function AdvisoryContinuitySurface() {
             key={idx} 
             className={cn(
               "p-4 border rounded-xl space-y-3 bg-surface-container/20 border-border/40",
-              rec.unresolved ? "border-amber-500/25 bg-amber-500/[0.02]" : ""
+              rec.unresolved ? "border-amber-500/25 bg-warning-soft0/[0.02]" : ""
             )}
           >
             <div className="flex justify-between items-start gap-4">

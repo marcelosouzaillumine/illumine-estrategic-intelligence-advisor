@@ -11,8 +11,8 @@ export function BoardDeckCenter({ onNavigate }: BoardDeckCenterProps) {
   // Mock data for metrics
   const metrics = [
     { label: 'Total Decks Gerados', value: '124', icon: FileBarChart, color: 'text-blue-500 dark:text-blue-400', bg: 'bg-blue-500/10', border: 'border-blue-500/20' },
-    { label: 'Aprovações Pendentes', value: '3', icon: Clock, color: 'text-amber-500 dark:text-amber-400', bg: 'bg-amber-500/10', border: 'border-amber-500/20' },
-    { label: 'Decks Assinados', value: '118', icon: CheckCircle2, color: 'text-emerald-500 dark:text-emerald-400', bg: 'bg-emerald-500/10', border: 'border-emerald-500/20' },
+    { label: 'Aprovações Pendentes', value: '3', icon: Clock, color: 'text-amber-500 dark:text-amber-400', bg: 'bg-warning-soft0/10', border: 'border-amber-500/20' },
+    { label: 'Decks Assinados', value: '118', icon: CheckCircle2, color: 'text-emerald-500 dark:text-emerald-400', bg: 'bg-success-soft0/10', border: 'border-emerald-500/20' },
     { label: 'Índice de Conformidade', value: '99.8%', icon: ShieldCheck, color: 'text-primary dark:text-primary', bg: 'bg-primary', border: 'border-primary' },
   ];
 
@@ -79,7 +79,7 @@ export function BoardDeckCenter({ onNavigate }: BoardDeckCenterProps) {
                   }}
                   className={`w-full flex items-center justify-between px-4 py-3 rounded-xl text-xs font-bold uppercase tracking-wider transition-all border group ${
                     item.active 
-                      ? 'bg-amber-500/10 text-amber-600 dark:text-amber-400 border-amber-500/20 shadow-glow-amber' 
+                      ? 'bg-warning-soft0/10 text-amber-600 dark:text-amber-400 border-amber-500/20 shadow-glow-amber' 
                       : 'text-muted-foreground hover:text-foreground bg-transparent border-transparent hover:bg-surface-container'
                   }`}
                 >
@@ -146,13 +146,13 @@ export function BoardDeckCenter({ onNavigate }: BoardDeckCenterProps) {
                   <div className="flex items-center gap-4 w-full md:w-auto justify-between md:justify-end border-t border-border md:border-none pt-4 md:pt-0 mt-2 md:mt-0">
                     <span className={`text-[10px] font-bold uppercase tracking-widest px-3 py-1.5 rounded-full flex items-center gap-1.5 ${
                       doc.status === 'Assinado' 
-                        ? 'bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border border-emerald-500/20' 
-                        : 'bg-amber-500/10 text-amber-600 dark:text-amber-400 border border-amber-500/20'
+                        ? 'bg-success-soft0/10 text-emerald-600 dark:text-emerald-400 border border-emerald-500/20' 
+                        : 'bg-warning-soft0/10 text-amber-600 dark:text-amber-400 border border-amber-500/20'
                     }`}>
                       {doc.status === 'Assinado' ? <CheckCircle2 className="w-3.5 h-3.5" /> : <Clock className="w-3.5 h-3.5" />}
                       {doc.status}
                     </span>
-                    <button className="p-2.5 text-muted-foreground hover:text-amber-600 dark:hover:text-amber-400 hover:bg-amber-500/10 rounded-lg transition-all border border-transparent hover:border-amber-500/20 focus:outline-none">
+                    <button className="p-2.5 text-muted-foreground hover:text-amber-600 dark:hover:text-amber-400 hover:bg-warning-soft0/10 rounded-lg transition-all border border-transparent hover:border-amber-500/20 focus:outline-none">
                       <Download className="w-5 h-5" />
                     </button>
                   </div>

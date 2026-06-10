@@ -125,23 +125,23 @@ export function GovernanceExecutionPanel({ clientId, scenario, mode }: Governanc
   const getStatusBadge = (status: string) => {
     switch (status) {
       case 'COMPLETED':
-        return 'bg-emerald-500/10 border-emerald-500/30 text-emerald-400';
+        return 'bg-success-soft0/10 border-emerald-500/30 text-emerald-400';
       case 'IN_PROGRESS':
         return 'bg-blue-500/10 border-blue-500/30 text-blue-400';
       case 'OVERDUE':
-        return 'bg-rose-500/10 border-rose-500/30 text-rose-400';
+        return 'bg-critical-soft0/10 border-rose-500/30 text-rose-400';
       case 'CANCELLED':
         return 'bg-slate-500/10 border-white/10 text-muted-foreground';
       case 'OPEN':
       default:
-        return 'bg-amber-500/10 border-amber-500/30 text-amber-400';
+        return 'bg-warning-soft0/10 border-amber-500/30 text-amber-400';
     }
   };
 
   const getRiskBadge = (risk: DecisionExecutionRisk) => {
     switch (risk) {
       case 'CRITICAL':
-        return 'bg-rose-500/20 text-rose-400 border border-rose-500/40 font-black';
+        return 'bg-critical-soft0/20 text-rose-400 border border-rose-500/40 font-black';
       case 'HIGH':
         return 'bg-orange-500/20 text-orange-400 border border-orange-500/30 font-bold';
       case 'MODERATE':
@@ -172,7 +172,7 @@ export function GovernanceExecutionPanel({ clientId, scenario, mode }: Governanc
           <div className="flex justify-between items-start">
             <div>
               <span className="text-[10px] text-muted-foreground uppercase tracking-widest font-black block mb-1">GEI™ Weighted Score</span>
-              <h4 className="text-xs font-bold text-muted-foreground">Ponderado por Risco/Prazo</h4>
+              <h4 className="text-xs font-bold text-primary">Ponderado por Risco/Prazo</h4>
             </div>
             <div className="w-10 h-10 rounded-full border-2 border-[#FF8552]/20 flex items-center justify-center font-bold text-xs text-[#FF8552] bg-[#FF8552]/5">
               40%
@@ -192,7 +192,7 @@ export function GovernanceExecutionPanel({ clientId, scenario, mode }: Governanc
           <div className="flex justify-between items-start">
             <div>
               <span className="text-[10px] text-muted-foreground uppercase tracking-widest font-black block mb-1">GEI™ Simple Score</span>
-              <h4 className="text-xs font-bold text-muted-foreground">Concluídas / Total</h4>
+              <h4 className="text-xs font-bold text-primary">Concluídas / Total</h4>
             </div>
             <div className="w-10 h-10 rounded-full border-2 border-[#BAB86C]/20 flex items-center justify-center font-bold text-xs text-[#BAB86C] bg-[#BAB86C]/5">
               GEI
@@ -212,7 +212,7 @@ export function GovernanceExecutionPanel({ clientId, scenario, mode }: Governanc
           <div className="flex justify-between items-start">
             <div>
               <span className="text-[10px] text-muted-foreground uppercase tracking-widest font-black block mb-1">GAI™ Accountability</span>
-              <h4 className="text-xs font-bold text-muted-foreground">Decisões com Responsável</h4>
+              <h4 className="text-xs font-bold text-primary">Decisões com Responsável</h4>
             </div>
             <div className="w-10 h-10 rounded-full border-2 border-primary flex items-center justify-center font-bold text-xs text-primary bg-primary">
               GAI
@@ -232,9 +232,9 @@ export function GovernanceExecutionPanel({ clientId, scenario, mode }: Governanc
           <div className="flex justify-between items-start">
             <div>
               <span className="text-[10px] text-muted-foreground uppercase tracking-widest font-black block mb-1">Atrasos & Pendências</span>
-              <h4 className="text-xs font-bold text-muted-foreground">Taxa de Atraso e Aging</h4>
+              <h4 className="text-xs font-bold text-primary">Taxa de Atraso e Aging</h4>
             </div>
-            <div className={`w-10 h-10 rounded-full border-2 flex items-center justify-center font-bold text-xs bg-rose-500/5 ${overdueRate > 0 ? 'border-rose-500/30 text-rose-400 animate-pulse' : 'border-border text-muted-foreground'}`}>
+            <div className={`w-10 h-10 rounded-full border-2 flex items-center justify-center font-bold text-xs bg-critical-soft0/5 ${overdueRate > 0 ? 'border-rose-500/30 text-rose-400 animate-pulse' : 'border-border text-muted-foreground'}`}>
               ⚠️
             </div>
           </div>
@@ -255,7 +255,7 @@ export function GovernanceExecutionPanel({ clientId, scenario, mode }: Governanc
       {/* 2. Actions & Register List Header */}
       <div className="flex justify-between items-center bg-slate-950/20 p-4 border border-white/5 rounded-2xl">
         <div>
-          <h3 className="text-sm font-bold uppercase tracking-wider text-muted-foreground">Decisões e Planos de Ação Governados</h3>
+          <h3 className="text-sm font-bold uppercase tracking-wider text-primary">Decisões e Planos de Ação Governados</h3>
           <p className="text-xs text-muted-foreground mt-1">
             Cada registro vincula resoluções do conselho a origens cognitivas e pesos de risco específicos.
           </p>
@@ -442,14 +442,14 @@ export function GovernanceExecutionPanel({ clientId, scenario, mode }: Governanc
                       {dec.category}
                     </span>
                   </div>
-                  <h4 className="text-sm font-bold text-muted-foreground">{dec.title}</h4>
+                  <h4 className="text-sm font-bold text-primary">{dec.title}</h4>
                 </div>
 
                 {/* Status Switcher & Board Approval Actions */}
                 <div className="flex items-center gap-3">
                   {/* Board Approval Badge or Button */}
                   {dec.approvedByBoard ? (
-                    <div className="flex items-center gap-1.5 px-3 py-1 bg-emerald-500/10 border border-emerald-500/30 text-emerald-400 rounded-lg text-[9px] font-black uppercase tracking-widest">
+                    <div className="flex items-center gap-1.5 px-3 py-1 bg-success-soft0/10 border border-emerald-500/30 text-emerald-400 rounded-lg text-[9px] font-black uppercase tracking-widest">
                       <CheckCircle2 size={10} />
                       Ata Board: OK
                     </div>

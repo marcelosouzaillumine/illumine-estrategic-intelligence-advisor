@@ -171,7 +171,7 @@ export function ReferralProgramPage() {
             <span className="w-1.5 h-1.5 rounded-full bg-secondary shadow-[0_0_8px_rgba(255,133,82,0.8)] animate-pulse" />
             Illumine Governance™
           </span>
-          <h1 className="text-5xl md:text-7xl font-display font-medium tracking-tight text-white leading-[1.05]">
+          <h1 className="text-5xl md:text-7xl font-display font-medium tracking-tight text-white leading-[1.05] text-primary">
             Programa de Parceiros<br/><span className="text-white/40 italic">de Indicação</span>
           </h1>
           <p className="text-lg md:text-xl text-white/50 font-sans leading-relaxed max-w-2xl mx-auto font-light">

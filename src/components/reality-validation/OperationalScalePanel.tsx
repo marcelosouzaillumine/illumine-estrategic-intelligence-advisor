@@ -29,7 +29,7 @@ export function OperationalScalePanel({ tenantId }: Props) {
             </div>
             <div className="w-full bg-border/50 h-2 rounded overflow-hidden">
               <div
-                className={`h-full rounded ${item.value >= 0.85 ? 'bg-emerald-500' : 'bg-amber-500'}`}
+                className={`h-full rounded ${item.value >= 0.85 ? 'bg-success-soft0' : 'bg-warning-soft0'}`}
                 style={{ width: `${item.value * 100}%` }}
               />
             </div>
@@ -37,7 +37,7 @@ export function OperationalScalePanel({ tenantId }: Props) {
         ))}
       </div>
       <div className="mt-4 flex items-center gap-2 text-xs">
-        <div className={`w-2 h-2 rounded-full ${report.crossTenantIsolationValid ? 'bg-emerald-500' : 'bg-rose-500'}`} />
+        <div className={`w-2 h-2 rounded-full ${report.crossTenantIsolationValid ? 'bg-success-soft0' : 'bg-critical-soft0'}`} />
         <span className="text-muted-foreground">Cross-Tenant Isolation: {report.crossTenantIsolationValid ? 'VÁLIDO' : 'VIOLADO'}</span>
       </div>
     </div>

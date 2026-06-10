@@ -182,7 +182,7 @@ export function LessonPlayerPage({ courseId, onBack, userId, clientId }: LessonP
             <ChevronLeft size={20} strokeWidth={2.5} />
           </button>
           <div>
-            <h1 className="text-base font-display font-medium text-foreground leading-tight tracking-tight">{course.title}</h1>
+            <h1 className="text-base font-display font-medium text-foreground leading-tight tracking-tight text-primary">{course.title}</h1>
             {currentLesson && (
               <p className="text-[9px] text-secondary uppercase tracking-[0.2em] font-black max-w-xs truncate mt-1">
                 {currentLesson.title}

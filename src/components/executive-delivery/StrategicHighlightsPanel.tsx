@@ -18,11 +18,11 @@ export function StrategicHighlightsPanel({ report, className }: StrategicHighlig
   const getStatusColor = (status: string) => {
     switch (status) {
       case 'Verde':
-        return 'bg-emerald-50 text-emerald-700 border-emerald-100';
+        return 'bg-success-soft text-emerald-700 border-emerald-100';
       case 'Amarelo':
-        return 'bg-amber-50 text-amber-700 border-amber-100';
+        return 'bg-warning-soft text-amber-700 border-amber-100';
       case 'Vermelho':
-        return 'bg-rose-50 text-rose-700 border-rose-100';
+        return 'bg-critical-soft text-rose-700 border-rose-100';
       default:
         return 'bg-slate-50 text-muted-foreground border-border';
     }
@@ -32,13 +32,13 @@ export function StrategicHighlightsPanel({ report, className }: StrategicHighlig
     switch (color) {
       case 'green':
       case 'emerald':
-        return 'text-emerald-600 bg-emerald-50 border-emerald-100';
+        return 'text-emerald-600 bg-success-soft border-emerald-100';
       case 'yellow':
       case 'amber':
-        return 'text-amber-600 bg-amber-50 border-amber-100';
+        return 'text-amber-600 bg-warning-soft border-amber-100';
       case 'red':
       case 'rose':
-        return 'text-rose-600 bg-rose-50 border-rose-100';
+        return 'text-rose-600 bg-critical-soft border-rose-100';
       default:
         return 'text-primary bg-primary border-primary';
     }

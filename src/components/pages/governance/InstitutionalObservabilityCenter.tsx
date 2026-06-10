@@ -77,7 +77,7 @@ export function InstitutionalObservabilityCenter() {
                 <span className="text-muted-foreground text-sm">{service}</span>
                 <div className="flex items-center gap-3">
                   <span className="text-xs text-muted-foreground font-mono">12ms</span>
-                  <span className="flex items-center gap-1.5 text-xs text-emerald-400 bg-emerald-500/10 px-2.5 py-1 rounded-xl border border-emerald-500/20 font-bold uppercase tracking-wider">
+                  <span className="flex items-center gap-1.5 text-xs text-emerald-400 bg-success-soft0/10 px-2.5 py-1 rounded-xl border border-emerald-500/20 font-bold uppercase tracking-wider">
                     <span className="w-1.5 h-1.5 bg-emerald-400 rounded-full animate-pulse"></span>
                     Saudável
                   </span>

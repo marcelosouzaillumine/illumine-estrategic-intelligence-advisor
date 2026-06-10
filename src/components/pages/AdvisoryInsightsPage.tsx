@@ -17,8 +17,8 @@ import { useLanguage } from '../../contexts/LanguageContext';
 
 function SectionHeader({ icon: Icon, title, subtitle, tone }: any) {
   const tones: any = {
-    emerald: "bg-emerald-50 text-emerald-600 border-emerald-100",
-    rose: "bg-rose-50 text-rose-600 border-rose-100",
+    emerald: "bg-success-soft text-emerald-600 border-emerald-100",
+    rose: "bg-critical-soft text-rose-600 border-rose-100",
     blue: "bg-blue-50 text-blue-600 border-blue-100",
     slate: "bg-slate-50 text-muted-foreground border-border",
   };
@@ -188,7 +188,7 @@ export function AdvisoryInsightsPage({ clients, selectedClient, selectedYear, se
             </div>
 
             {advisoryReport.blockedFalsePositives.length > 0 && (
-              <div className="bg-destructive/10 border border-destructive/20 p-6 rounded-md space-y-4">
+              <div className="bg-critical-soft border border-destructive/20 p-6 rounded-md space-y-4">
                 <h4 className="text-[10px] font-medium text-destructive uppercase tracking-widest flex items-center gap-2">
                   <AlertTriangle size={14} /> {t("advisory.causal_moderation_title")}
                 </h4>

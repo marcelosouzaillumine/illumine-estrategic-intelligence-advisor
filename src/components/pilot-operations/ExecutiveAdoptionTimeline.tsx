@@ -41,7 +41,7 @@ export const ExecutiveAdoptionTimeline: React.FC = () => {
               {/* Dot indicator */}
               <span className={`absolute -left-[30px] top-1 w-2 h-2 rounded-full border transition-all ${
                 event.hasError 
-                  ? 'bg-rose-500 border-rose-500' 
+                  ? 'bg-critical-soft0 border-rose-500' 
                   : 'bg-secondary border-secondary group-hover/item:scale-125'
               }`} />
 

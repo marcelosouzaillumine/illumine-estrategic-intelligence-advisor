@@ -34,7 +34,7 @@ function ExecutionReplayPanel({ replay }: { replay: ReplayExecutionResult | null
   
   return (
     <div className="space-y-4">
-      <div className="bg-rose-500/10 border border-rose-500/30 p-3 rounded-lg flex items-center gap-2 text-rose-500 text-xs font-medium uppercase">
+      <div className="bg-critical-soft0/10 border border-rose-500/30 p-3 rounded-lg flex items-center gap-2 text-rose-500 text-xs font-medium uppercase">
         <History size={14} /> FORENSIC REPLAY MODE - READING IMMUTABLE SNAPSHOT (VERSION: {replay.executionRecord.runtimeVersion})
       </div>
       
@@ -149,8 +149,8 @@ export function RuntimeObservabilityPage() {
                 <div className="flex justify-between items-center mb-1">
                   <span className="text-[10px] font-mono text-muted-foreground">{new Date(ex.timestamp).toLocaleString()}</span>
                   <span className={cn("text-[10px] px-2 py-0.5 rounded-button uppercase font-bold", 
-                    ex.executionStatus === 'COMPLETED' ? "bg-success/10 text-success" : 
-                    ex.executionStatus === 'BLOCKED' ? "bg-warning/10 text-warning" : "bg-destructive/10 text-destructive"
+                    ex.executionStatus === 'COMPLETED' ? "bg-success-soft text-success" : 
+                    ex.executionStatus === 'BLOCKED' ? "bg-warning-soft text-warning" : "bg-critical-soft text-destructive"
                   )}>
                     {ex.executionStatus}
                   </span>

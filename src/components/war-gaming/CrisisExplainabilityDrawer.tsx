@@ -29,7 +29,7 @@ export function CrisisExplainabilityDrawer({ profile }: { profile: CrisisExplain
             <ul className="mt-1 space-y-1">
               {profile.brokenConstraints.map((c, i) => (
                 <li key={i} className="text-xs font-medium text-rose-400 flex items-center gap-2">
-                  <span className="w-1 h-1 bg-rose-500 rounded-full"></span> {c}
+                  <span className="w-1 h-1 bg-critical-soft0 rounded-full"></span> {c}
                 </li>
               ))}
             </ul>

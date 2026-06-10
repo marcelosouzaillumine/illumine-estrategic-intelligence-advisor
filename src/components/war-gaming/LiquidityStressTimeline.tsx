@@ -16,7 +16,7 @@ export function LiquidityStressTimeline({ treasury }: { treasury: TreasurySurviv
       
       <div className="relative w-full h-8 bg-slate-100 rounded-full overflow-hidden border border-border">
         <div 
-          className={`absolute top-0 left-0 h-full transition-all duration-1000 ${treasury.exhaustionPointReached ? 'bg-rose-500' : 'bg-emerald-500'}`}
+          className={`absolute top-0 left-0 h-full transition-all duration-1000 ${treasury.exhaustionPointReached ? 'bg-critical-soft0' : 'bg-success-soft0'}`}
           style={{ width: `${percentage}%` }}
         ></div>
         

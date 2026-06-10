@@ -41,7 +41,7 @@ export function InstitutionalMemoryTimeline() {
           <div key={idx} className="relative group space-y-2">
             <div className={cn(
               "absolute left-[-25px] top-1.5 w-3.5 h-3.5 rounded-full border bg-background flex items-center justify-center transition-transform group-hover:scale-110",
-              phase.isFiduciary ? "border-rose-500 bg-rose-500/10 text-rose-500" : "border-secondary bg-secondary/10 text-secondary"
+              phase.isFiduciary ? "border-rose-500 bg-critical-soft0/10 text-rose-500" : "border-secondary bg-secondary/10 text-secondary"
             )}>
               <div className="w-1.5 h-1.5 rounded-full bg-current"></div>
             </div>

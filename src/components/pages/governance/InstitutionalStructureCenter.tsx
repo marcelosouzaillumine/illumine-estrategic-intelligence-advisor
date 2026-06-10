@@ -77,7 +77,7 @@ export function InstitutionalStructureCenter() {
                 <UserX className="w-5 h-5 text-amber-500 flex-shrink-0 mt-0.5" />
                 <div>
                   <h4 className="text-sm font-medium text-muted-foreground">Gaps Identificados (1)</h4>
-                  <div className="text-xs mt-2 p-3 bg-amber-500/5 border border-amber-500/15 rounded-xl text-amber-400 leading-relaxed">
+                  <div className="text-xs mt-2 p-3 bg-warning-soft0/5 border border-amber-500/15 rounded-xl text-amber-400 leading-relaxed">
                     O CFO atual acumula a diretoria de Relações com Investidores. Risco de conflito.
                   </div>
                 </div>
@@ -96,7 +96,7 @@ export function InstitutionalStructureCenter() {
                 <span className="font-medium text-muted-foreground">3 (60%)</span>
               </div>
               <div className="w-full bg-slate-900 h-1.5 rounded-full overflow-hidden border border-border/5">
-                <div className="bg-emerald-500 h-full w-[60%]"></div>
+                <div className="bg-success-soft0 h-full w-[60%]"></div>
               </div>
               
               <div className="flex justify-between items-center text-sm pt-4 border-t border-border/10">

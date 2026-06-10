@@ -101,8 +101,8 @@ export const ScenarioSimulationPanel: React.FC = () => {
                   className={`flex-1 py-2 rounded-lg text-center font-mono text-xs font-bold transition-all flex flex-col items-center justify-center cursor-pointer ${
                     historyCyclesToUse === cycles
                       ? cycles < 3
-                        ? 'bg-amber-500/10 text-amber-500 border border-amber-500/35 shadow-sm'
-                        : 'bg-emerald-500/10 text-emerald-500 border border-emerald-500/35 shadow-sm'
+                        ? 'bg-warning-soft0/10 text-amber-500 border border-amber-500/35 shadow-sm'
+                        : 'bg-success-soft0/10 text-emerald-500 border border-emerald-500/35 shadow-sm'
                       : 'text-muted-foreground hover:text-foreground'
                   }`}
                 >

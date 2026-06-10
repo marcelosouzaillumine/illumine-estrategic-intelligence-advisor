@@ -25,7 +25,7 @@ export const HistoricalEvidencePanel: React.FC<HistoricalEvidencePanelProps> = (
       <div className="bg-surface-container p-5 rounded-xl border border-emerald-500/10 space-y-4">
         <div>
           <span className="text-eyebrow text-muted-foreground block mb-1">Provenance ID</span>
-          <div className="font-mono text-xs text-emerald-400 bg-emerald-500/10 px-2 py-1 rounded border border-emerald-500/20 inline-block">
+          <div className="font-mono text-xs text-emerald-400 bg-success-soft0/10 px-2 py-1 rounded border border-emerald-500/20 inline-block">
             {provenance.provenanceId}
           </div>
         </div>

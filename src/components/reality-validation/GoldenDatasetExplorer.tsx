@@ -3,10 +3,10 @@ import { Layers, AlertTriangle, CheckCircle2 } from 'lucide-react';
 import { GoldenDatasetProfile } from '../../services/FiduciaryRuntimeAdapter';
 
 const PRESSURE_COLORS: Record<string, string> = {
-  CRITICAL: 'text-rose-500 bg-rose-500/10 border-rose-500/30',
-  HIGH: 'text-amber-500 bg-amber-500/10 border-amber-500/30',
+  CRITICAL: 'text-rose-500 bg-critical-soft0/10 border-rose-500/30',
+  HIGH: 'text-amber-500 bg-warning-soft0/10 border-amber-500/30',
   MEDIUM: 'text-yellow-500 bg-yellow-500/10 border-yellow-500/30',
-  LOW: 'text-emerald-500 bg-emerald-500/10 border-emerald-500/30'
+  LOW: 'text-emerald-500 bg-success-soft0/10 border-emerald-500/30'
 };
 
 interface Props {
@@ -37,7 +37,7 @@ export function GoldenDatasetExplorer({ datasets, selectedId, onSelect }: Props)
             <div className="flex justify-between items-start mb-2">
               <span className="text-sm font-bold text-foreground">{ds.name}</span>
               <span className={`text-[10px] font-bold px-2 py-0.5 rounded border ${
-                ds.complexityScore > 0.9 ? 'text-rose-500 bg-rose-500/10 border-rose-500/30' : 'text-amber-500 bg-amber-500/10 border-amber-500/30'
+                ds.complexityScore > 0.9 ? 'text-rose-500 bg-critical-soft0/10 border-rose-500/30' : 'text-amber-500 bg-warning-soft0/10 border-amber-500/30'
               }`}>
                 {(ds.complexityScore * 100).toFixed(0)}% COMPLEXIDADE
               </span>

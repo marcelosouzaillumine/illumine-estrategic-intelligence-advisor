@@ -76,16 +76,16 @@ export function GovernanceJourneyPanel({
   // Helper: map status to tailwind colors
   const getStatusBadgeStyles = (status: 'HEALTHY' | 'ATTENTION' | 'CRITICAL', isLocked: boolean) => {
     if (isLocked) {
-      return 'bg-rose-500/10 border-rose-500/20 text-rose-400';
+      return 'bg-critical-soft0/10 border-rose-500/20 text-rose-400';
     }
     switch (status) {
       case 'CRITICAL':
-        return 'bg-rose-500/10 border-rose-500/20 text-rose-400';
+        return 'bg-critical-soft0/10 border-rose-500/20 text-rose-400';
       case 'ATTENTION':
-        return 'bg-amber-500/10 border-amber-500/20 text-amber-400';
+        return 'bg-warning-soft0/10 border-amber-500/20 text-amber-400';
       case 'HEALTHY':
         default:
-        return 'bg-emerald-500/10 border-emerald-500/20 text-emerald-400';
+        return 'bg-success-soft0/10 border-emerald-500/20 text-emerald-400';
     }
   };
 
@@ -147,12 +147,12 @@ export function GovernanceJourneyPanel({
             <div className="pt-2">
               <span className={`inline-block px-3 py-1 rounded-full text-[10px] font-black tracking-wider border ${
                 journey.gjiScore >= 80 
-                  ? 'bg-emerald-500/10 border-emerald-500/20 text-emerald-400' 
+                  ? 'bg-success-soft0/10 border-emerald-500/20 text-emerald-400' 
                   : journey.gjiScore >= 65 
                   ? 'bg-teal-500/10 border-teal-500/20 text-teal-400' 
                   : journey.gjiScore >= 50 
-                  ? 'bg-amber-500/10 border-amber-500/20 text-amber-400' 
-                  : 'bg-rose-500/10 border-rose-500/20 text-rose-400'
+                  ? 'bg-warning-soft0/10 border-amber-500/20 text-amber-400' 
+                  : 'bg-critical-soft0/10 border-rose-500/20 text-rose-400'
               }`}>
                 {journey.gjiStage}
               </span>
@@ -347,7 +347,7 @@ export function GovernanceJourneyPanel({
                   <div className="flex items-center gap-3">
                     <div className={`w-9 h-9 rounded-lg flex items-center justify-center border ${
                       isStepLocked 
-                        ? 'bg-rose-500/5 border-rose-500/10' 
+                        ? 'bg-critical-soft0/5 border-rose-500/10' 
                         : 'bg-slate-950/50 border-white/5'
                     }`}>
                       {getStepIcon(step.id, isStepLocked)}
@@ -394,7 +394,7 @@ export function GovernanceJourneyPanel({
                   )}
 
                   {isStepLocked ? (
-                    <div className="w-full py-1.5 px-3 bg-rose-500/10 border border-rose-500/20 text-rose-400 rounded text-[9px] font-black uppercase tracking-wider text-center flex items-center justify-center gap-1">
+                    <div className="w-full py-1.5 px-3 bg-critical-soft0/10 border border-rose-500/20 text-rose-400 rounded text-[9px] font-black uppercase tracking-wider text-center flex items-center justify-center gap-1">
                       <Lock className="w-3 h-3" />
                       Bloqueado por Prontidão (BRL)
                     </div>

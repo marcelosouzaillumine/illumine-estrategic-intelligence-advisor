@@ -63,7 +63,7 @@ export const DecisionCognitiveDrawer: React.FC = () => {
           )}
 
           {!loading && error && (
-            <div className="p-4 bg-rose-50 border border-rose-200 text-rose-800 dark:bg-rose-950/30 dark:border-rose-900 dark:text-rose-400 rounded-xl">
+            <div className="p-4 bg-critical-soft border border-rose-200 text-rose-800 dark:bg-rose-950/30 dark:border-rose-900 dark:text-rose-400 rounded-xl">
               <p className="font-bold text-sm mb-1 uppercase tracking-wider">Falha Cognitiva</p>
               <p className="text-xs">{error}</p>
             </div>

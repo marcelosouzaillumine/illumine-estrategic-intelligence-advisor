@@ -11,7 +11,12 @@ import {
   ShieldCheck,
   CheckSquare,
   RefreshCw,
-  FileText
+  FileText,
+  Target,
+  Network,
+  Layers,
+  Presentation,
+  BarChart
 } from 'lucide-react';
 import { PageHeader, StatusBadge } from '../Common';
 import { CalibrationEngine } from '../../services/FiduciaryRuntimeAdapter';
@@ -19,6 +24,7 @@ import { CalibrationStatusPanel } from '../executive-delivery/CalibrationStatusP
 import { governanceService } from '../../services/governanceService';
 import { DataAccessContext } from '../../core/security/data-access-context';
 import { OnboardingEngine } from '../../core/onboarding/OnboardingEngine';
+import { InstitutionalObservabilityRegistry } from '../../core/observability/InstitutionalObservabilityRegistry';
 
 export function AdvisorWorkspacePage({ selectedClient }: { selectedClient: string }) {
   const [activeProfile, setActiveProfile] = useState<string>('balanced');
@@ -99,8 +105,25 @@ export function AdvisorWorkspacePage({ selectedClient }: { selectedClient: strin
   };
 
   useEffect(() => {
+    if (selectedClient) {
+      InstitutionalObservabilityRegistry.recordAdvisorWorkspaceOpened(
+        selectedClient,
+        `ctx-${Date.now()}`,
+        'CURRENT_USER'
+      );
+    }
+    
     loadData();
   }, [selectedClient]);
+
+  if (!selectedClient) {
+    return (
+      <div className="flex flex-col items-center justify-center min-h-[400px]">
+        <Briefcase className="text-muted-foreground/60 mb-4" size={48} />
+        <p className="text-eyebrow text-muted-foreground uppercase tracking-widest">Contexto indisponível.</p>
+      </div>
+    );
+  }
 
   const handleApplyProfile = (profileId: string) => {
     try {
@@ -241,10 +264,10 @@ export function AdvisorWorkspacePage({ selectedClient }: { selectedClient: strin
                       <td className="py-3.5 text-muted-foreground">{job.submittedBy}</td>
                       <td className="py-3.5">
                         <span className={`text-[9px] font-black px-2.5 py-1 rounded-full border uppercase tracking-wider inline-block ${
-                          job.status === 'PROMOTED' ? 'bg-emerald-50 text-emerald-700 border-emerald-200' :
+                          job.status === 'PROMOTED' ? 'bg-success-soft text-emerald-700 border-emerald-200' :
                           job.status === 'VALIDATED' ? 'bg-blue-50 text-blue-700 border-blue-200' :
-                          job.status === 'PENDING_REVIEW' ? 'bg-amber-50 text-amber-700 border-amber-200' :
-                          'bg-rose-50 text-rose-700 border-rose-200'
+                          job.status === 'PENDING_REVIEW' ? 'bg-warning-soft text-amber-700 border-amber-200' :
+                          'bg-critical-soft text-rose-700 border-rose-200'
                         }`}>
                           {job.status}
                         </span>
@@ -402,13 +425,13 @@ export function AdvisorWorkspacePage({ selectedClient }: { selectedClient: strin
             
             <div className="space-y-3">
               {incidents.length === 0 ? (
-                <div className="p-4 bg-emerald-500/5 border border-emerald-500/10 rounded-xl text-emerald-500 flex items-center gap-2">
+                <div className="p-4 bg-success-soft0/5 border border-emerald-500/10 rounded-xl text-emerald-500 flex items-center gap-2">
                   <CheckCircle size={16} />
                   <p className="text-xs font-semibold">Sem incidentes detectados.</p>
                 </div>
               ) : (
                 incidents.map((inc) => (
-                  <div key={inc.id} className="p-4 bg-rose-500/5 border border-rose-500/10 rounded-xl flex items-start gap-2.5">
+                  <div key={inc.id} className="p-4 bg-critical-soft0/5 border border-rose-500/10 rounded-xl flex items-start gap-2.5">
                     <AlertTriangle size={16} className="text-rose-500 shrink-0 mt-0.5" />
                     <div>
                       <h4 className="text-xs font-bold text-foreground capitalize">{inc.type.replace('_', ' ')}</h4>

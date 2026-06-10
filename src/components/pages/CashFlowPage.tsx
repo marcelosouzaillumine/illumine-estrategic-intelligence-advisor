@@ -383,8 +383,8 @@ export function CashFlowPage({ clients, selectedClient, selectedMonth, selectedY
                 <p className="text-[10px] font-bold text-muted-foreground uppercase tracking-widest mb-4">{t('cf.cfo_summary')}</p>
                 <div className="space-y-4">
                   {executiveReport?.metrics?.alerts?.map((alert: any, i: number) => (
-                    <div key={i} className={`flex items-start gap-3 p-4 rounded-2xl border ${alert.type === 'danger' ? 'bg-rose-50 border-rose-100' : 'bg-amber-50 border-amber-100'}`}>
-                      <div className={`w-8 h-8 rounded-full flex items-center justify-center text-white shrink-0 ${alert.type === 'danger' ? 'bg-rose-500' : 'bg-amber-500'}`}>!</div>
+                    <div key={i} className={`flex items-start gap-3 p-4 rounded-2xl border ${alert.type === 'danger' ? 'bg-critical-soft border-rose-100' : 'bg-warning-soft border-amber-100'}`}>
+                      <div className={`w-8 h-8 rounded-full flex items-center justify-center text-white shrink-0 ${alert.type === 'danger' ? 'bg-critical-soft0' : 'bg-warning-soft0'}`}>!</div>
                       <div>
                         <h4 className={`text-sm font-black uppercase tracking-tight ${alert.type === 'danger' ? 'text-rose-900' : 'text-amber-900'}`}>{alert.type === 'danger' ? 'Alerta Crítico' : 'Atenção'}</h4>
                         <p className={`text-xs mt-1 ${alert.type === 'danger' ? 'text-rose-700' : 'text-amber-700'}`}>{alert.msg}</p>
@@ -396,14 +396,14 @@ export function CashFlowPage({ clients, selectedClient, selectedMonth, selectedY
                       <p className="text-[9px] font-bold text-muted-foreground uppercase">{t('cf.runway')}</p>
                       <p className="text-lg font-black text-muted-foreground">{resumo.diasCaixa} dias</p>
                       <div className={cn("mt-1 w-full h-1 bg-slate-200 rounded-full overflow-hidden")}>
-                        <div className={cn("h-full", resumo.diasCaixa < 30 ? "bg-rose-500" : "bg-emerald-500")} style={{ width: `${Math.min(resumo.diasCaixa, 100)}%` }} />
+                        <div className={cn("h-full", resumo.diasCaixa < 30 ? "bg-critical-soft0" : "bg-success-soft0")} style={{ width: `${Math.min(resumo.diasCaixa, 100)}%` }} />
                       </div>
                     </div>
                     <div className="p-4 bg-slate-50 rounded-2xl border border-border">
                       <p className="text-[9px] font-bold text-muted-foreground uppercase">{t('cf.investment_capacity')}</p>
                       <p className="text-lg font-black text-muted-foreground">{formatCurrency(Math.max(0, resumo?.saldoFinal - resumo?.passivoVencido))}</p>
                     </div>
-                    <div className="p-4 bg-rose-50 rounded-2xl border border-rose-100 col-span-2">
+                    <div className="p-4 bg-critical-soft rounded-2xl border border-rose-100 col-span-2">
                       <div className="flex justify-between items-center">
                         <p className="text-[9px] font-bold text-rose-900 uppercase">Inadimplência de Clientes (Atrasados)</p>
                         <span className="text-[10px] font-black text-rose-600 bg-white px-2 py-0.5 rounded-full">{resumo?.indiceInadimplencia.toFixed(2)}%</span>
@@ -549,10 +549,10 @@ export function CashFlowPage({ clients, selectedClient, selectedMonth, selectedY
                         </div>
                         <div className="space-y-1">
                            <div className="bg-slate-50 h-1.5 rounded-full overflow-hidden">
-                             <div className="bg-emerald-500 h-full rounded-full" style={{ width: `${(m.entradas / maxVal) * 100}%` }} />
+                             <div className="bg-success-soft0 h-full rounded-full" style={{ width: `${(m.entradas / maxVal) * 100}%` }} />
                            </div>
                            <div className="bg-slate-50 h-1.5 rounded-full overflow-hidden">
-                             <div className="bg-rose-500 h-full rounded-full" style={{ width: `${(m.saidas / maxVal) * 100}%` }} />
+                             <div className="bg-critical-soft0 h-full rounded-full" style={{ width: `${(m.saidas / maxVal) * 100}%` }} />
                            </div>
                         </div>
                       </div>

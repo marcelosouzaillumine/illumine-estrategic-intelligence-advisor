@@ -47,7 +47,7 @@ export function PageHeader({
               {renderIcon(22, "text-secondary")}
             </div>
             <div className="flex flex-col sm:flex-row sm:items-center gap-3 min-w-0">
-              <h1 className="text-h2 font-display font-medium tracking-tight text-foreground leading-tight truncate">
+              <h1 className="text-h2 font-display font-medium tracking-tight text-foreground leading-tight truncate text-primary">
                 {translateLabel(title)}
               </h1>
               {badge && (
@@ -90,20 +90,20 @@ export function Semaphore({ status }: { status: string }) {
 
 export function StatusBadge({ status, label, className }: { status: string; label?: string; className?: string }) {
   const classMap: Record<string, string> = {
-    'Verde': 'text-success border-success/30 bg-success/10',
-    'Amarelo': 'text-warning border-warning/30 bg-warning/10',
-    'Vermelho': 'text-destructive border-destructive/30 bg-destructive/10',
-    'Azul': 'text-primary border-primary/30 bg-primary/10',
-    'Pendente': 'text-warning border-warning bg-warning/5 shadow-sm',
-    'Ativo': 'text-success border-success bg-success/5',
-    'Inativo': 'text-destructive border-destructive bg-destructive/5',
-    'Em Implantação': 'text-warning border-warning bg-warning/5',
+    'Verde': 'text-success border-success/20 bg-success-soft font-semibold',
+    'Amarelo': 'text-warning border-warning/20 bg-warning-soft font-semibold',
+    'Vermelho': 'text-critical border-critical/20 bg-critical-soft font-semibold',
+    'Azul': 'text-primary border-primary/40 bg-primary/15',
+    'Pendente': 'text-warning border-warning/20 bg-warning-soft shadow-sm font-semibold',
+    'Ativo': 'text-success border-success/20 bg-success-soft font-semibold',
+    'Inativo': 'text-critical border-critical/20 bg-critical-soft font-semibold',
+    'Em Implantação': 'text-warning border-warning/20 bg-warning-soft font-semibold',
   };
   
   return (
     <span className={cn(
-      "px-3 py-1.5 rounded-full text-[10px] font-bold uppercase tracking-widest border transition-all whitespace-normal break-words text-balance text-center inline-block",
-      classMap[status] || 'text-muted-foreground border-border bg-surface-container',
+      "px-3 py-1.5 rounded-full text-[10px] font-extrabold uppercase tracking-widest border transition-all whitespace-normal break-words text-balance text-center inline-block shadow-sm",
+      classMap[status] || 'text-secondary border-border bg-surface-container',
       className
     )}>
       {label || status}
@@ -226,21 +226,21 @@ export function KpiCard({
   // Trend-specific color config — each evolution state has its own highlight color
   const trendConfig: Record<string, { bg: string; text: string; border: string; glow: string; dot: string }> = {
     // 🟢 Positive / Growth
-    'Em Alta':    { bg: 'bg-emerald-500/10', text: 'text-emerald-500', border: 'border-emerald-500/25', glow: 'shadow-[0_0_14px_rgba(16,185,129,0.12)]', dot: 'bg-emerald-500' },
-    'Bullish':    { bg: 'bg-emerald-500/10', text: 'text-emerald-500', border: 'border-emerald-500/25', glow: 'shadow-[0_0_14px_rgba(16,185,129,0.12)]', dot: 'bg-emerald-500' },
-    'Saudável':   { bg: 'bg-emerald-500/10', text: 'text-emerald-500', border: 'border-emerald-500/25', glow: 'shadow-[0_0_14px_rgba(16,185,129,0.12)]', dot: 'bg-emerald-500' },
-    'Verde':      { bg: 'bg-emerald-500/10', text: 'text-emerald-500', border: 'border-emerald-500/25', glow: 'shadow-[0_0_14px_rgba(16,185,129,0.12)]', dot: 'bg-emerald-500' },
-    'Stable':     { bg: 'bg-emerald-500/10', text: 'text-emerald-500', border: 'border-emerald-500/25', glow: 'shadow-[0_0_14px_rgba(16,185,129,0.12)]', dot: 'bg-emerald-500' },
+    'Em Alta':    { bg: 'bg-success-soft0/10', text: 'text-emerald-500', border: 'border-emerald-500/25', glow: 'shadow-[0_0_14px_rgba(16,185,129,0.12)]', dot: 'bg-success-soft0' },
+    'Bullish':    { bg: 'bg-success-soft0/10', text: 'text-emerald-500', border: 'border-emerald-500/25', glow: 'shadow-[0_0_14px_rgba(16,185,129,0.12)]', dot: 'bg-success-soft0' },
+    'Saudável':   { bg: 'bg-success-soft0/10', text: 'text-emerald-500', border: 'border-emerald-500/25', glow: 'shadow-[0_0_14px_rgba(16,185,129,0.12)]', dot: 'bg-success-soft0' },
+    'Verde':      { bg: 'bg-success-soft0/10', text: 'text-emerald-500', border: 'border-emerald-500/25', glow: 'shadow-[0_0_14px_rgba(16,185,129,0.12)]', dot: 'bg-success-soft0' },
+    'Stable':     { bg: 'bg-success-soft0/10', text: 'text-emerald-500', border: 'border-emerald-500/25', glow: 'shadow-[0_0_14px_rgba(16,185,129,0.12)]', dot: 'bg-success-soft0' },
     // 🔴 Negative / Decline
-    'Em Queda':   { bg: 'bg-rose-500/10', text: 'text-rose-500', border: 'border-rose-500/25', glow: 'shadow-[0_0_14px_rgba(239,68,68,0.12)]', dot: 'bg-rose-500' },
-    'Bearish':    { bg: 'bg-rose-500/10', text: 'text-rose-500', border: 'border-rose-500/25', glow: 'shadow-[0_0_14px_rgba(239,68,68,0.12)]', dot: 'bg-rose-500' },
-    'Crítico':    { bg: 'bg-rose-500/10', text: 'text-rose-500', border: 'border-rose-500/25', glow: 'shadow-[0_0_14px_rgba(239,68,68,0.12)]', dot: 'bg-rose-500' },
-    'Vermelho':   { bg: 'bg-rose-500/10', text: 'text-rose-500', border: 'border-rose-500/25', glow: 'shadow-[0_0_14px_rgba(239,68,68,0.12)]', dot: 'bg-rose-500' },
+    'Em Queda':   { bg: 'bg-critical-soft0/10', text: 'text-rose-500', border: 'border-rose-500/25', glow: 'shadow-[0_0_14px_rgba(239,68,68,0.12)]', dot: 'bg-critical-soft0' },
+    'Bearish':    { bg: 'bg-critical-soft0/10', text: 'text-rose-500', border: 'border-rose-500/25', glow: 'shadow-[0_0_14px_rgba(239,68,68,0.12)]', dot: 'bg-critical-soft0' },
+    'Crítico':    { bg: 'bg-critical-soft0/10', text: 'text-rose-500', border: 'border-rose-500/25', glow: 'shadow-[0_0_14px_rgba(239,68,68,0.12)]', dot: 'bg-critical-soft0' },
+    'Vermelho':   { bg: 'bg-critical-soft0/10', text: 'text-rose-500', border: 'border-rose-500/25', glow: 'shadow-[0_0_14px_rgba(239,68,68,0.12)]', dot: 'bg-critical-soft0' },
     // 🟡 Neutral / Caution
-    'Estável':    { bg: 'bg-amber-500/10', text: 'text-amber-500', border: 'border-amber-500/25', glow: 'shadow-[0_0_14px_rgba(245,158,11,0.10)]', dot: 'bg-amber-500' },
-    'Correction': { bg: 'bg-amber-500/10', text: 'text-amber-500', border: 'border-amber-500/25', glow: 'shadow-[0_0_14px_rgba(245,158,11,0.10)]', dot: 'bg-amber-500' },
-    'Atenção':    { bg: 'bg-amber-500/10', text: 'text-amber-500', border: 'border-amber-500/25', glow: 'shadow-[0_0_14px_rgba(245,158,11,0.10)]', dot: 'bg-amber-500' },
-    'Amarelo':    { bg: 'bg-amber-500/10', text: 'text-amber-500', border: 'border-amber-500/25', glow: 'shadow-[0_0_14px_rgba(245,158,11,0.10)]', dot: 'bg-amber-500' },
+    'Estável':    { bg: 'bg-warning-soft0/10', text: 'text-amber-500', border: 'border-amber-500/25', glow: 'shadow-[0_0_14px_rgba(245,158,11,0.10)]', dot: 'bg-warning-soft0' },
+    'Correction': { bg: 'bg-warning-soft0/10', text: 'text-amber-500', border: 'border-amber-500/25', glow: 'shadow-[0_0_14px_rgba(245,158,11,0.10)]', dot: 'bg-warning-soft0' },
+    'Atenção':    { bg: 'bg-warning-soft0/10', text: 'text-amber-500', border: 'border-amber-500/25', glow: 'shadow-[0_0_14px_rgba(245,158,11,0.10)]', dot: 'bg-warning-soft0' },
+    'Amarelo':    { bg: 'bg-warning-soft0/10', text: 'text-amber-500', border: 'border-amber-500/25', glow: 'shadow-[0_0_14px_rgba(245,158,11,0.10)]', dot: 'bg-warning-soft0' },
     // 🔵 Informational
     'Real':       { bg: 'bg-blue-500/10', text: 'text-blue-500', border: 'border-blue-500/25', glow: 'shadow-[0_0_14px_rgba(59,130,246,0.10)]', dot: 'bg-blue-500' },
     'Calculado':  { bg: 'bg-blue-500/10', text: 'text-blue-500', border: 'border-blue-500/25', glow: 'shadow-[0_0_14px_rgba(59,130,246,0.10)]', dot: 'bg-blue-500' },
@@ -273,10 +273,10 @@ export function KpiCard({
   const cfg = statusConfig[finalStatus] || statusConfig['Verde'];
 
   const getStatusDotClass = (status: string) => {
-    if (status === 'Vermelho' || status === 'Bearish' || status === 'Em Queda') return 'bg-rose-500';
-    if (status === 'Amarelo' || status === 'Correction' || status === 'Atenção') return 'bg-amber-500';
+    if (status === 'Vermelho' || status === 'Bearish' || status === 'Em Queda') return 'bg-critical-soft0';
+    if (status === 'Amarelo' || status === 'Correction' || status === 'Atenção') return 'bg-warning-soft0';
     if (status === 'Pendente' || status === 'N/A') return 'bg-muted-foreground';
-    return 'bg-emerald-500';
+    return 'bg-success-soft0';
   };
 
   // When a trend is provided, use its specific color; otherwise fall back to status color
@@ -292,10 +292,10 @@ export function KpiCard({
       className={cn(
         /* overflow-clip instead of overflow-hidden: clips visually without affecting layout/scrollbars,
            preventing digit descenders (6, 3, 9, etc.) from being cut by the border radius */
-        "rounded-2xl border shadow-xs p-8 min-w-0 h-full flex flex-col justify-between transition-all duration-300 relative group",
+        "rounded-2xl shadow-sm p-8 min-w-0 h-full flex flex-col justify-between transition-all duration-300 relative group",
         highlight 
           ? "bg-primary text-primary-foreground border-transparent" 
-          : "bg-card text-card-foreground border-border hover:border-secondary/40",
+          : "bg-card text-card-foreground border border-border/50 hover:border-secondary/40",
         onClick && "cursor-pointer",
         className
       )}
@@ -332,7 +332,7 @@ export function KpiCard({
         {/* Title — single line, truncate gracefully if too long */}
         <p className={cn(
           "text-[clamp(8.5px,0.75vw,10.5px)] font-black uppercase tracking-[0.2em] leading-relaxed transition-colors duration-300 line-clamp-2",
-          highlight ? "text-secondary/90" : "text-muted-foreground group-hover:text-secondary"
+          highlight ? "text-secondary/90" : "text-primary group-hover:text-secondary"
         )}>
           {translateLabel(title)}
         </p>
@@ -342,8 +342,8 @@ export function KpiCard({
           suffix={suffix} 
           noScroll={true}
           className={cn(
-            "font-semibold tracking-tight font-display transition-transform duration-300 group-hover:scale-[1.01] origin-left",
-            highlight ? "text-white" : "text-foreground"
+            "font-semibold tracking-tight font-display tabular-nums transition-transform duration-300 group-hover:scale-[1.01] origin-left",
+            highlight ? "text-white" : "text-primary"
           )} 
         />
       </div>
@@ -484,9 +484,9 @@ export function ControlBar({
   const showSelectors = selectedYear !== undefined && setSelectedYear !== undefined && selectedMonth !== undefined && setSelectedMonth !== undefined;
   
   const badgeColors = {
-    success: 'bg-success/10 text-success border-success/20',
-    warning: 'bg-warning/10 text-warning border-warning/20',
-    destructive: 'bg-destructive/10 text-destructive border-destructive/20',
+    success: 'bg-success-soft text-success border-success/20',
+    warning: 'bg-warning-soft text-warning border-warning/20',
+    destructive: 'bg-critical-soft text-destructive border-destructive/20',
     info: 'bg-info/10 text-info border-info/20',
     primary: 'bg-primary/10 text-primary border-primary/20',
   };

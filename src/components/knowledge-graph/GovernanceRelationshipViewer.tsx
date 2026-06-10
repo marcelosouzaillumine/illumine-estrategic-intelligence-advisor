@@ -27,7 +27,7 @@ export function GovernanceRelationshipViewer({ tenantId }: { tenantId: string })
           return (
             <div key={e.edgeId} className="flex justify-between items-center text-sm bg-background border border-border/50 rounded p-2">
                <span className="text-muted-foreground">{source?.label || 'External'}</span>
-               <span className="text-[10px] text-emerald-500 bg-emerald-500/10 px-1.5 py-0.5 rounded uppercase font-bold">
+               <span className="text-[10px] text-emerald-500 bg-success-soft0/10 px-1.5 py-0.5 rounded uppercase font-bold">
                  {e.type}
                </span>
                <span className="text-foreground">{target?.label || 'External'}</span>

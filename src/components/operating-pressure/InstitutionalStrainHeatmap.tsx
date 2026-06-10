@@ -25,9 +25,9 @@ export function InstitutionalStrainHeatmap({ scores }: HeatmapProps) {
 
   const getColorClass = (val: number) => {
     if (val > 80) return 'bg-destructive/20 text-destructive border-destructive/40';
-    if (val > 50) return 'bg-amber-500/10 text-amber-500 border-amber-500/30';
+    if (val > 50) return 'bg-warning-soft0/10 text-amber-500 border-amber-500/30';
     if (val > 25) return 'bg-blue-500/10 text-blue-500 border-blue-500/30';
-    return 'bg-emerald-500/10 text-emerald-500 border-emerald-500/30';
+    return 'bg-success-soft0/10 text-emerald-500 border-emerald-500/30';
   };
 
   return (

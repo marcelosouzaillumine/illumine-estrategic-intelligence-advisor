@@ -21,20 +21,32 @@ import {
   BarChart as BarChartIcon
 } from 'lucide-react';
 import { 
-  CartesianGrid, 
-  Tooltip as RechartsTooltip, 
-  ResponsiveContainer, 
-  XAxis,
-  YAxis,
   AreaChart,
   Area
 } from 'recharts';
+import { 
+  ExecutiveChart,
+  ExecutiveChartGrid,
+  ExecutiveChartXAxis,
+  ExecutiveChartYAxis,
+  ExecutiveChartTooltip
+} from '../ui/executive-chart';
+import { ExecutiveSurface } from '../ui/executive-surface';
 import { calculateDreCascade } from '../../lib/dreCascade';
 import { DRE_OFFICIAL_STRUCTURE } from '../../constants/dreStructure';
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '../ui/tooltip';
 import { DashboardSkeleton } from '../ui/skeletons';
 import { SandboxWarningOverlay } from '../executive-interaction/SandboxWarningOverlay';
-import { PageHeader, Semaphore, KpiCard, KpiValue, ControlBar } from '../Common';
+import { Semaphore, KpiCard, KpiValue, ControlBar } from '../Common';
+import { PageHeader } from '../ui/page-header';
+import { SectionHeader } from '../ui/section-header';
+import { SemanticCard } from '../ui/semantic-card';
+import { MetricTile, MetricGrid } from '../ui/metric-tile';
+import { ExecutivePageTemplate } from '../ui/executive-page-template';
+import { PageSection } from '../ui/page-section';
+import { ExecutiveCallout } from '../ui/executive-callout';
+import { ExecutiveNarrative } from '../ui/executive-narrative';
+import { NarrativeStack } from '../ui/narrative-stack';
 import { formatCurrency, formatValue, cn, getThemeColors } from '../../lib/utils';
 import { db } from '../../lib/firebase';
 import { query, collection, where, onSnapshot } from 'firebase/firestore';
@@ -109,21 +121,7 @@ const AXIS_DATA = [
   },
 ];
 
-const AxisCard = ({ axis, value, status, trend, onClick }: any) => {
-  return (
-    <KpiCard
-      title={axis.name}
-      value={formatValue(value, '')}
-      suffix={axis.suffix}
-      icon={axis.icon}
-      status={status || (value === 0 ? 'Pendente' : 'Verde')}
-      trend={trend || (value === 0 ? 'Pendente' : 'Estável')}
-      onClick={onClick}
-      className="group"
-      noScroll={true}
-    />
-  );
-};
+
 
 export function DashboardPage({ 
   selectedClient, 
@@ -433,7 +431,7 @@ export function DashboardPage({
          </div>
          <div className="text-center space-y-4 w-full max-w-2xl mx-auto">
             <h2 className="text-h2 font-medium text-foreground tracking-tight">{t('gov.empty.title_select_company')}</h2>
-            <p className="text-muted-foreground w-full max-w-2xl mx-auto font-medium leading-relaxed">
+            <p className="text-secondary">
               {t('gov.empty.desc_select_company')}
             </p>
          </div>
@@ -444,12 +442,12 @@ export function DashboardPage({
   if (accessDenied) {
     return (
       <div className="flex flex-col items-center justify-center min-h-[600px] space-y-8 animate-executive-fade bg-background border border-destructive/20 rounded-md p-20 text-center w-full">
-         <div className="w-24 h-24 rounded-full bg-destructive/10 flex items-center justify-center text-destructive shadow-xl relative">
+         <div className="w-24 h-24 rounded-full bg-critical-soft flex items-center justify-center text-destructive shadow-xl relative">
             <AlertTriangle size={48} className="relative z-10" />
          </div>
          <div className="text-center space-y-4 w-full max-w-2xl mx-auto">
             <h2 className="text-h2 font-medium text-destructive tracking-tight">{t('gov.empty.access_denied_title')}</h2>
-            <p className="text-muted-foreground w-full max-w-2xl mx-auto font-medium leading-relaxed">
+            <p className="text-secondary">
               {denialReason}
             </p>
          </div>
@@ -462,16 +460,15 @@ export function DashboardPage({
   }
 
   return (
-    <div className="max-w-[1440px] mx-auto space-y-16 pb-32 animate-executive-fade">
+    <ExecutivePageTemplate
+      header={{
+        title: t('dashboard.main.title'),
+        description: t('dashboard.main.subtitle')
+      }}
+    >
       {((runtimeOutput as any)?.isSandbox || (runtimeOutput as any)?.isDemonstrative) && (
         <SandboxWarningOverlay type={(runtimeOutput as any).isSandbox ? 'sandbox' : 'demonstrative'} />
       )}
-      <PageHeader 
-        title={t('dashboard.main.title')}
-        subtitle={t('dashboard.main.subtitle')}
-        icon={LayoutDashboard}
-        color="executive"
-      />
 
       {/* Control Bar */}
       <ControlBar 
@@ -486,257 +483,196 @@ export function DashboardPage({
       />
 
       {isMemoryBlocked && (
-        <div className="bg-destructive/10 border border-destructive/20 rounded-md p-4 flex items-center gap-3 text-destructive">
-          <AlertTriangle size={18} />
-          <div>
-            <p className="text-xs font-bold uppercase tracking-widest">{t('dashboard.warning.inference_title')}</p>
-            <p className="text-sm">{t('dashboard.warning.inference_desc')}</p>
-          </div>
-        </div>
+        <ExecutiveCallout variant="critical" title={t('dashboard.warning.inference_title')}>
+          {t('dashboard.warning.inference_desc')}
+        </ExecutiveCallout>
       )}
 
       {/* Strategic Summary Bar */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-2 2xl:grid-cols-4 gap-6">
+      <MetricGrid columns={4}>
         {[
           { label: t('dashboard.kpi.net_revenue'), value: getIndicatorValue('Receita Líquida'), key: 'Receita Líquida', isCur: true, icon: TrendingUp },
           { label: t('dashboard.kpi.ebitda'), value: getIndicatorValue('EBITDA'), key: 'EBITDA', isCur: true, icon: Zap },
           { label: t('dashboard.kpi.net_profit'), value: getIndicatorValue('Lucro Líquido'), key: 'Lucro Líquido', isCur: true, icon: PieChartIcon },
-          { label: t('dashboard.kpi.estimated_value'), value: (getIndicatorValue('EBITDA') * 12 * 6.5), key: 'EBITDA', isCur: true, icon: Target, highlight: true },
-        ].map((item, idx) => (
-          <KpiCard 
-            key={idx}
-            title={item.label}
-            value={formatValue(item.value, item.isCur ? 'R$' : '')}
-            icon={item.icon}
-            highlight={item.highlight}
-            status={getIndicatorStatus(item.key) || (item.value === 0 ? 'Pendente' : 'Verde')}
-            trend={getIndicatorTrend(item.key)}
-            noScroll={true}
-          />
-        ))}
-      </div>
+          { label: t('dashboard.kpi.estimated_value'), value: (getIndicatorValue('EBITDA') * 12 * 6.5), key: 'EBITDA', isCur: true, icon: Target },
+        ].map((item, idx) => {
+          const status = getIndicatorStatus(item.key) || (item.value === 0 ? 'Pendente' : 'Verde');
+          const variant = status === 'Verde' ? 'success' : status === 'Amarelo' ? 'warning' : status === 'Vermelho' ? 'critical' : 'default';
+          const trendLabel = getIndicatorTrend(item.key);
+          const trendDirection = trendLabel === 'Em Alta' ? 'up' : trendLabel === 'Em Queda' ? 'down' : 'neutral';
+
+          return (
+            <MetricTile 
+              key={idx}
+              label={item.label}
+              value={formatValue(item.value, item.isCur ? 'R$' : '')}
+              icon={item.icon}
+              variant={idx === 3 ? 'insight' : variant as any}
+              trend={{
+                value: trendLabel,
+                direction: trendDirection
+              }}
+            />
+          );
+        })}
+      </MetricGrid>
 
       {/* The Pilares de Gestão Hub */}
-      <div className="space-y-10">
-        <div className="flex items-center justify-between px-6">
-          <div className="space-y-1">
-            <h2 className="text-3xl font-display font-medium text-foreground flex items-center gap-4">
-              <div className="w-12 h-12 rounded-2xl bg-surface-container border border-border flex items-center justify-center text-secondary">
-                <LayoutDashboard size={24} />
-              </div>
-              {t('dashboard.hub.title')}
-            </h2>
-            <p className="text-body-sm font-medium text-muted-foreground ml-16">{t('dashboard.hub.subtitle')}</p>
-          </div>
-          <div className="h-px flex-1 bg-gradient-to-r from-border to-transparent mx-12 hidden lg:block"></div>
+      <PageSection
+        title={t('dashboard.hub.title')}
+        description={t('dashboard.hub.subtitle')}
+        actions={
           <div className="flex items-center gap-2 px-5 py-2 bg-secondary/5 border border-secondary/10 rounded-full">
             <span className="w-2 h-2 rounded-full bg-secondary animate-pulse" />
             <p className="text-[10px] font-black text-secondary uppercase tracking-[0.2em]">{t('dashboard.hub.executive_view')}</p>
           </div>
-        </div>
+        }
+      >
+        <MetricGrid columns={4}>
+          {AXIS_DATA.map((axis) => {
+            const val = getIndicatorValue(axis.mainKpi);
+            const status = getIndicatorStatus(axis.mainKpi);
+            const variant = status === 'Verde' ? 'success' : status === 'Amarelo' ? 'warning' : status === 'Vermelho' ? 'critical' : 'default';
+            const trendLabel = getIndicatorTrend(axis.mainKpi);
+            const trendDirection = trendLabel === 'Em Alta' ? 'up' : trendLabel === 'Em Queda' ? 'down' : 'neutral';
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4 gap-6">
-          {AXIS_DATA.map((axis) => (
-            <AxisCard 
-              key={axis.id} 
-              axis={axis} 
-              value={getIndicatorValue(axis.mainKpi)} 
-              status={getIndicatorStatus(axis.mainKpi)}
-              trend={getIndicatorTrend(axis.mainKpi)}
-              onClick={() => onNavigate(axis.id)}
-            />
-          ))}
-        </div>
-      </div>
+            return (
+              <MetricTile 
+                key={axis.id}
+                label={axis.name}
+                value={`${formatValue(val, '')}${axis.suffix}`}
+                icon={axis.icon}
+                variant={variant as any}
+                trend={{
+                  value: trendLabel,
+                  direction: trendDirection
+                }}
+                onClick={() => onNavigate(axis.id)}
+              />
+            );
+          })}
+        </MetricGrid>
+      </PageSection>
 
       {/* Mid Section: Charts and AI */}
       <div className="grid grid-cols-1 xl:grid-cols-3 gap-10">
         <div className="xl:col-span-2 space-y-8">
-          <div className="bg-card p-12 rounded-[48px] border border-border shadow-sm relative overflow-hidden">
-            <div className="flex items-center justify-between mb-12">
-              <div className="space-y-1">
-                <h3 className="text-2xl font-display font-medium text-foreground tracking-tight">{t('dashboard.charts.evolution_title')}</h3>
-                <p className="text-body-sm text-muted-foreground font-medium">{t('dashboard.charts.evolution_subtitle')}</p>
-              </div>
-              <div className="flex items-center gap-6 text-[10px] font-black uppercase tracking-widest">
-                <div className="flex items-center gap-3">
-                  <div className="w-3 h-3 rounded-full bg-primary shadow-lg shadow-primary/20"></div>
-                  <span className="text-muted-foreground">{t('dashboard.charts.legend_gross_revenue')}</span>
-                </div>
-                <div className="flex items-center gap-3">
-                  <div className="w-3 h-3 rounded-full bg-secondary shadow-lg shadow-secondary/20"></div>
-                  <span className="text-muted-foreground">{t('dashboard.charts.legend_ebitda')}</span>
-                </div>
-              </div>
-            </div>
-            
-            <div className="h-[420px] w-full relative z-10 overflow-visible">
-              <ResponsiveContainer width="100%" height={400}>
-                <AreaChart data={evolData} margin={{ top: 10, right: 10, left: 0, bottom: 0 }}>
-                  <defs>
-                    <linearGradient id="colorRec" x1="0" y1="0" x2="0" y2="1">
-                      <stop offset="5%" stopColor={colors.primary} stopOpacity={0.25}/>
-                      <stop offset="95%" stopColor={colors.primary} stopOpacity={0}/>
-                    </linearGradient>
-                    <linearGradient id="colorEbitda" x1="0" y1="0" x2="0" y2="1">
-                      <stop offset="5%" stopColor={colors.secondary} stopOpacity={0.25}/>
-                      <stop offset="95%" stopColor={colors.secondary} stopOpacity={0}/>
-                    </linearGradient>
-                  </defs>
-                  <CartesianGrid strokeDasharray="3 3" vertical={false} stroke={colors.border} />
-                  <XAxis 
-                    dataKey="name" 
-                    axisLine={false} 
-                    tickLine={false} 
-                    tick={{ fontSize: 10, fill: colors.mutedForeground, fontWeight: 700 }} 
-                    dy={10}
-                  />
-                  <YAxis 
-                    axisLine={false} 
-                    tickLine={false} 
-                    tick={{ fontSize: 10, fill: colors.mutedForeground, fontWeight: 700 }} 
-                    tickFormatter={(v) => `R$${v / 1000}k`} 
-                  />
-                  <RechartsTooltip 
-                    contentStyle={{ 
-                        borderRadius: '24px', 
-                        border: `1px solid ${colors.border}`, 
-                        backgroundColor: colors.cardBg,
-                        color: colors.cardFg,
-                        boxShadow: 'var(--shadow-md)', 
-                        fontSize: '12px',
-                        padding: '16px'
-                      }}
-                      cursor={{ stroke: colors.border, strokeWidth: 2 }}
-                      formatter={(value: number) => [formatCurrency(value), '']}
-                    />
-                    <Area 
-                      type="monotone" 
-                      dataKey="Receita" 
-                      stroke={colors.primary} 
-                      strokeWidth={4} 
-                      fillOpacity={1} 
-                      fill="url(#colorRec)" 
-                      animationDuration={2000}
-                    />
-                    <Area 
-                      type="monotone" 
-                      dataKey="EBITDA" 
-                      stroke={colors.secondary} 
-                      strokeWidth={4} 
-                      fillOpacity={1} 
-                      fill="url(#colorEbitda)" 
-                      animationDuration={2500}
-                    />
-                  </AreaChart>
-                </ResponsiveContainer>
-              </div>
-            </div>
-          </div>
+          <ExecutiveChart 
+            title={t('dashboard.charts.evolution_title')}
+            description={t('dashboard.charts.evolution_subtitle')}
+            height={400}
+            className="p-8 md:p-12 pb-0"
+          >
+            <AreaChart data={evolData} margin={{ top: 10, right: 10, left: 0, bottom: 0 }}>
+              <defs>
+                <linearGradient id="colorRec" x1="0" y1="0" x2="0" y2="1">
+                  <stop offset="5%" stopColor={colors.primary} stopOpacity={0.25}/>
+                  <stop offset="95%" stopColor={colors.primary} stopOpacity={0}/>
+                </linearGradient>
+                <linearGradient id="colorEbitda" x1="0" y1="0" x2="0" y2="1">
+                  <stop offset="5%" stopColor={colors.secondary} stopOpacity={0.25}/>
+                  <stop offset="95%" stopColor={colors.secondary} stopOpacity={0}/>
+                </linearGradient>
+              </defs>
+              <ExecutiveChartGrid vertical={false} />
+              <ExecutiveChartXAxis dataKey="name" dy={10} />
+              <ExecutiveChartYAxis tickFormatter={(v: number) => `R$${v / 1000}k`} />
+              <ExecutiveChartTooltip formatter={(value: number) => [formatCurrency(value), '']} />
+              <Area 
+                type="monotone" 
+                dataKey="Receita" 
+                stroke={colors.primary} 
+                strokeWidth={4} 
+                fillOpacity={1} 
+                fill="url(#colorRec)" 
+                animationDuration={2000}
+              />
+              <Area 
+                type="monotone" 
+                dataKey="EBITDA" 
+                stroke={colors.secondary} 
+                strokeWidth={4} 
+                fillOpacity={1} 
+                fill="url(#colorEbitda)" 
+                animationDuration={2500}
+              />
+            </AreaChart>
+          </ExecutiveChart>
   
-          <div className="space-y-10">
-            <div className="bg-primary rounded-[48px] p-12 text-primary-foreground relative overflow-hidden h-full flex flex-col group shadow-2xl shadow-primary/20">
-              <div className="absolute top-0 right-0 p-10 opacity-10 group-hover:scale-125 group-hover:-rotate-12 transition-all duration-1000">
-                <Sparkles size={140} className="text-secondary" />
-              </div>
-              
-              <div className="relative z-10 flex-1">
-                <div className="flex items-center gap-4 mb-10">
-                  <div className="w-14 h-14 rounded-2xl bg-secondary flex items-center justify-center text-primary shadow-lg shadow-secondary/20 animate-pulse">
-                    <Zap size={24} fill="currentColor" />
-                  </div>
-                  <div>
-                     <h3 className="text-[10px] font-black uppercase tracking-[0.3em] text-secondary">{t('dashboard.ai.executive_opinion')}</h3>
-                     <p className="text-white/60 text-[9px] font-bold uppercase tracking-widest">{t('dashboard.ai.activated')}</p>
-                  </div>
-                </div>
+          <div className="space-y-10 h-full">
+            <SemanticCard variant="insight" className="h-full flex flex-col justify-between">
+              <NarrativeStack divider>
+                <ExecutiveNarrative 
+                  variant="insight" 
+                  title={t('dashboard.ai.executive_opinion')}
+                >
+                  {dbIndicators.length > 0 ? t('dashboard.ai.consolidated_insight') : t('dashboard.ai.waiting_data')}
+                </ExecutiveNarrative>
                 
-                <div className="space-y-8">
-                  <h4 className="text-3xl font-display font-medium leading-[1.1] tracking-tight">
-                    {dbIndicators.length > 0 ? t('dashboard.ai.consolidated_insight') : t('dashboard.ai.waiting_data')}
-                  </h4>
-                  <div className="relative">
-                     <div className="absolute -left-6 top-0 bottom-0 w-1 bg-secondary/30 rounded-full" />
-                     <p className="text-primary-foreground/70 text-lg leading-relaxed italic font-light">
-                      {dbIndicators.length > 0 
-                        ? t('dashboard.ai.mock_correlation')
-                        : t('dashboard.ai.mock_require_data')}
-                     </p>
-                  </div>
-                  
-                  {dbIndicators.length > 0 && (
-                    <div className="pt-8 flex items-center gap-4">
-                      <div className="flex -space-x-2">
-                         {[1,2,3].map(i => (
-                           <div key={i} className="w-8 h-8 rounded-full border-2 border-primary bg-secondary/20 flex items-center justify-center text-[10px] font-bold">AI</div>
-                         ))}
-                      </div>
-                      <span className="text-[10px] font-bold uppercase tracking-widest text-white/60">{t('dashboard.ai.based_on_data')}</span>
-                    </div>
-                  )}
-                </div>
-              </div>
-  
+                <ExecutiveNarrative 
+                  variant="summary"
+                >
+                  {dbIndicators.length > 0 
+                    ? t('dashboard.ai.mock_correlation')
+                    : t('dashboard.ai.mock_require_data')}
+                </ExecutiveNarrative>
+              </NarrativeStack>
+
               <Button 
                 onClick={() => onNavigate('advisory_insights')}
-                className="mt-12 w-full py-5 bg-secondary text-primary rounded-2xl text-[10px] font-black uppercase tracking-[0.2em] hover:bg-card hover:scale-[1.02] transition-all flex items-center justify-center gap-3 group shadow-xl shadow-secondary/10"
+                className="mt-8 w-full py-5 bg-secondary text-primary rounded-2xl text-[10px] font-black uppercase tracking-[0.2em] hover:bg-card hover:scale-[1.02] transition-all flex items-center justify-center gap-3 group shadow-xl shadow-secondary/10"
               >
                 {t('dashboard.btn.access_advisory')} <ArrowRight size={16} strokeWidth={3} className="group-hover:translate-x-2 transition-transform" />
               </Button>
-            </div>
+            </SemanticCard>
           </div>
         </div>
   
-        {/* Bottom Insights Section */}
-        <div className="bg-card border border-border rounded-2xl p-10 md:p-16 shadow-sm hover:shadow-md transition-shadow">
-          <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-8 mb-16">
-            <div className="space-y-1">
-              <h3 className="text-3xl font-display font-medium text-foreground tracking-tight">{t('dashboard.guidance.title')}</h3>
-              <p className="text-body-md text-muted-foreground font-medium">{t('dashboard.guidance.subtitle')}</p>
-            </div>
+      {/* Bottom Insights Section */}
+        <PageSection
+          title={t('dashboard.guidance.title')}
+          description={t('dashboard.guidance.subtitle')}
+          actions={
             <Button 
               onClick={() => onNavigate('relatorio_executivo')}
               className="flex items-center gap-3 px-5 md:px-8 py-2.5 md:py-4 bg-surface-container text-foreground rounded-xl text-[10px] font-black uppercase tracking-[0.2em] hover:bg-primary hover:text-white transition-all border border-border shadow-sm shrink-0"
             >
               {t('dashboard.btn.generate_report')}
             </Button>
-          </div>
-  
-          <div className="grid grid-cols-1 md:grid-cols-2 2xl:grid-cols-3 gap-6">
+          }
+        >
+          <MetricGrid columns={3}>
             {dbIndicators.length > 0 ? (
               AXIS_DATA.slice(0, 3).map((axis, idx) => {
                 const val = getIndicatorValue(axis.mainKpi);
                 const status = getIndicatorStatus(axis.mainKpi);
+                const variant = status === 'Verde' ? 'success' : status === 'Amarelo' ? 'warning' : status === 'Vermelho' ? 'critical' : 'default';
+                const trendLabel = getIndicatorTrend(axis.mainKpi);
+                const trendDirection = trendLabel === 'Em Alta' ? 'up' : trendLabel === 'Em Queda' ? 'down' : 'neutral';
+
                 return (
-                  <div key={idx} className="bg-surface-container/30 border border-border p-8 rounded-2xl flex gap-6 group cursor-pointer transition-all hover:bg-surface-container" onClick={() => onNavigate(axis.id)}>
-                    <div className="shrink-0 pt-2">
-                      <div className="w-4 h-4 rounded-full flex items-center justify-center border-2 border-border group-hover:border-secondary transition-colors">
-                         <Semaphore status={status} />
-                      </div>
-                    </div>
-                    <div className="space-y-2 min-w-0 flex-1 overflow-visible">
-                      <h4 className="text-[10px] font-black text-muted-foreground uppercase tracking-[0.2em] group-hover:text-secondary transition-colors break-words leading-normal">{axis.name}</h4>
-                      <KpiValue 
-                        value={val > 0 ? formatValue(val, '') : '0,00'} 
-                        suffix={axis.suffix}
-                        noScroll={true}
-                        className="text-lg font-medium text-foreground tracking-tight"
-                      />
-                      <div className="flex items-center justify-between gap-2 pt-2 overflow-visible">
-                         <span className="text-[9px] font-bold text-secondary uppercase tracking-widest opacity-0 group-hover:opacity-100 group-hover:translate-x-1 transition-all">{t('dashboard.btn.analyze')}</span>
-                         <span className="text-[9px] font-medium text-muted-foreground uppercase break-words leading-normal">{t(`gov.area.${axis.id.replace('dashboard_', '').replace('governanca_estrategica', 'governance')}`, axis.name)}</span>
-                      </div>
-                    </div>
-                  </div>
+                  <MetricTile 
+                    key={idx}
+                    label={axis.name}
+                    value={`${val > 0 ? formatValue(val, '') : '0,00'}${axis.suffix}`}
+                    icon={axis.icon}
+                    variant={variant as any}
+                    trend={{
+                      value: trendLabel,
+                      direction: trendDirection
+                    }}
+                    onClick={() => onNavigate(axis.id)}
+                  />
                 );
               })
-          ) : (
-            <div className="col-span-3 py-16 text-center bg-surface-container/30 rounded-[32px] border border-dashed border-border">
-              <p className="text-sm text-muted-foreground font-medium italic">{t('dashboard.guidance.empty')}</p>
-            </div>
-          )}
-        </div>
+            ) : (
+              <div className="col-span-3 py-16 text-center bg-surface-container/30 rounded-[32px] border border-dashed border-border">
+                <p className="text-secondary">{t('dashboard.guidance.empty')}</p>
+              </div>
+            )}
+          </MetricGrid>
+        </PageSection>
       </div>
-    </div>
+    </ExecutivePageTemplate>
   );
 }

@@ -117,9 +117,9 @@ export function ExecutiveDecisionCenter({ executionIntelligence, executiveDecisi
                         <td className="py-4">
                           <span className={cn(
                             "px-2 py-1 text-[10px] font-black uppercase tracking-widest rounded border",
-                            rank?.rankCategory === '1º Recomendado' ? "bg-emerald-500/20 text-emerald-400 border-emerald-500/30" :
+                            rank?.rankCategory === '1º Recomendado' ? "bg-success-soft0/20 text-emerald-400 border-emerald-500/30" :
                             rank?.rankCategory === '2º Alternativo' ? "bg-blue-500/20 text-blue-400 border-blue-500/30" :
-                            "bg-amber-500/20 text-amber-400 border-amber-500/30"
+                            "bg-warning-soft0/20 text-amber-400 border-amber-500/30"
                           )}>
                             {rank?.rankCategory}
                           </span>

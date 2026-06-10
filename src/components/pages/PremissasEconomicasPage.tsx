@@ -274,9 +274,9 @@ export function PremissasEconomicasPage() {
                               ind.status === 'Manutenção' || ind.status === 'Vigente' || ind.status === 'Estável' || ind.status === 'Sincronizado'
                                 ? 'bg-surface-container text-foreground border-border'
                                 : ind.status === 'Alta Demanda' || ind.status === 'Rendimento Real' || ind.status === 'Recuperação' || ind.status === 'Dentro da Meta' || ind.status === 'Redução' || ind.status === 'Atualizado'
-                                ? 'bg-emerald-50 text-emerald-600 border-emerald-100'
+                                ? 'bg-success-soft text-emerald-600 border-emerald-100'
                                 : ind.status === 'Deflação'
-                                ? 'bg-amber-50 text-amber-600 border-amber-100'
+                                ? 'bg-warning-soft text-amber-600 border-amber-100'
                                 : 'bg-surface-container text-muted-foreground border-border'
                             )}>
                               {ind.status}
@@ -338,7 +338,7 @@ export function PremissasEconomicasPage() {
                 </div>
                 <div className={cn(
                   "w-10 h-5 rounded-full relative shadow-inner transition-colors",
-                  isSyncing ? "bg-amber-500" : "bg-emerald-500"
+                  isSyncing ? "bg-warning-soft0" : "bg-success-soft0"
                 )}>
                   <div className={cn(
                     "absolute top-1 w-3 h-3 bg-white rounded-full shadow-sm transition-all",

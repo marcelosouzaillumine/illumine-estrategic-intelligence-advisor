@@ -70,7 +70,7 @@ export function BoardJourneyNavigator({
           className={cn(
             "flex items-center gap-1.5 px-3 py-1.5 rounded-full text-[10px] font-black uppercase tracking-widest border transition-all",
             evidenceModeActive 
-              ? "bg-amber-500 text-muted-foreground border-amber-400 hover:bg-amber-400"
+              ? "bg-warning-soft0 text-muted-foreground border-amber-400 hover:bg-amber-400"
               : "bg-slate-800 text-muted-foreground border-border hover:bg-slate-750"
           )}
         >
@@ -81,7 +81,7 @@ export function BoardJourneyNavigator({
         {/* Exit Journey */}
         <button 
           onClick={onExit}
-          className="p-2 rounded-full bg-rose-600 hover:bg-rose-500 text-white transition-colors"
+          className="p-2 rounded-full bg-rose-600 hover:bg-critical-soft0 text-white transition-colors"
           title="Sair da Apresentação"
         >
           <X size={16} />

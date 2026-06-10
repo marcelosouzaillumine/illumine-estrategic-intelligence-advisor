@@ -20,10 +20,10 @@ export function ContinuityRiskPanel({ continuityReport, treasuryReport, fiduciar
   
   // Custom visual color for Antifragility
   const scoreColor = antfragilityScore >= 80 
-    ? 'text-emerald-400 border-emerald-500/25 bg-emerald-500/5' 
+    ? 'text-emerald-400 border-emerald-500/25 bg-success-soft0/5' 
     : antfragilityScore >= 50 
-    ? 'text-amber-400 border-amber-500/25 bg-amber-500/5' 
-    : 'text-rose-400 border-rose-500/25 bg-rose-500/5';
+    ? 'text-amber-400 border-amber-500/25 bg-warning-soft0/5' 
+    : 'text-rose-400 border-rose-500/25 bg-critical-soft0/5';
 
   return (
     <div className="p-6 rounded-[32px] border border-border dark:border-zinc-900 bg-slate-50/50 dark:bg-zinc-950/40 backdrop-blur-md space-y-6 shadow-xs">
@@ -182,7 +182,7 @@ export function ContinuityRiskPanel({ continuityReport, treasuryReport, fiduciar
 
           {/* Fiduciary warnings longitudinal */}
           {fiduciaryTimeline.fiduciaryWarnings && fiduciaryTimeline.fiduciaryWarnings.length > 0 && (
-            <div className="p-4 rounded-xl bg-rose-50/50 dark:bg-rose-950/20 border border-rose-200 dark:border-rose-950/40 space-y-2 shadow-xs">
+            <div className="p-4 rounded-xl bg-critical-soft/50 dark:bg-rose-950/20 border border-rose-200 dark:border-rose-950/40 space-y-2 shadow-xs">
               <span className="text-[9px] font-black uppercase tracking-widest text-rose-800 dark:text-rose-400 block">
                 Alertas Fiduciários Longitudinais
               </span>

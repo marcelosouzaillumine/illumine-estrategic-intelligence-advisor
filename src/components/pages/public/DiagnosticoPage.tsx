@@ -36,7 +36,7 @@ export function DiagnosticoPage() {
         <div className="w-16 h-16 mx-auto bg-primary/10 rounded-full flex items-center justify-center">
           <Target className="w-8 h-8 text-primary" />
         </div>
-        <h1 className="text-4xl md:text-5xl font-medium tracking-tight" style={{ fontFamily: "'Tilt Warp', sans-serif" }}>
+        <h1 className="text-4xl md:text-5xl font-medium tracking-tight text-primary" style={{ fontFamily: "'Tilt Warp', sans-serif" }}>
           Diagnóstico Estratégico
         </h1>
         <p className="text-lg text-muted-foreground font-medium leading-relaxed">

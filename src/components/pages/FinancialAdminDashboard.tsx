@@ -304,7 +304,7 @@ export function FinancialAdminDashboard({
         </div>
 
         <div className="flex items-center gap-4">
-           <div className="flex items-center gap-2 px-4 py-2 bg-success/10 text-success rounded-full border border-success/20">
+           <div className="flex items-center gap-2 px-4 py-2 bg-success-soft text-success rounded-full border border-success/20">
               <CheckCircle2 size={14} />
               <span className="text-[10px] font-medium uppercase tracking-widest">{t('fin_admin.status.sync_active')}</span>
            </div>
@@ -459,7 +459,7 @@ export function FinancialAdminDashboard({
                     <span className="text-[10px] font-medium text-muted-foreground uppercase tracking-widest">{pillar.label}</span>
                     <span className={cn(
                       "text-[10px] font-medium px-2 py-0.5 rounded-full",
-                      pillar.value >= pillar.target ? "bg-success/10 text-success" : "bg-warning/10 text-warning"
+                      pillar.value >= pillar.target ? "bg-success-soft text-success" : "bg-warning-soft text-warning"
                     )}>
                       {pillar.value >= pillar.target ? t('fin_admin.pillars.above_target') : t('fin_admin.pillars.below_target')}
                     </span>
@@ -601,7 +601,7 @@ export function FinancialAdminDashboard({
                 </div>
 
                 <div className="flex items-start gap-4">
-                   <div className="w-10 h-10 rounded-md bg-warning/10 flex items-center justify-center text-warning shrink-0">
+                   <div className="w-10 h-10 rounded-md bg-warning-soft flex items-center justify-center text-warning shrink-0">
                       <AlertTriangle size={20} />
                    </div>
                    <div>

@@ -23,9 +23,9 @@ export const InstitutionalScenarioTimeline: React.FC<InstitutionalScenarioTimeli
           <div key={index} className="relative">
             <span className={`absolute -left-[30px] top-1.5 w-3.5 h-3.5 rounded-full border-4 border-border ${
               ev.status === 'Stable' || ev.status === 'Stabilized' || ev.status === 'Normal'
-                ? 'bg-emerald-500'
+                ? 'bg-success-soft0'
                 : ev.status === 'Warning'
-                ? 'bg-amber-500'
+                ? 'bg-warning-soft0'
                 : 'bg-red-500'
             }`} />
             <div>

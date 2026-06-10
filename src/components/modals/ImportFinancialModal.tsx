@@ -334,7 +334,7 @@ export function ImportFinancialModal({ type, clientId, year, clients, onClose, o
                 </table>
               </div>
 
-              <div className="bg-amber-50 border border-amber-100 p-4 rounded-2xl flex gap-3">
+              <div className="bg-warning-soft border border-amber-100 p-4 rounded-2xl flex gap-3">
                 <AlertTriangle size={18} className="text-amber-500 shrink-0 mt-0.5" />
                 <div className="space-y-1">
                   <p className="text-[11px] font-black text-amber-800 uppercase tracking-tight">{t("modals.import_financial.warning_replace")}</p>
@@ -347,7 +347,7 @@ export function ImportFinancialModal({ type, clientId, year, clients, onClose, o
           )}
 
           {error && (
-            <div className="p-4 bg-rose-50 border border-rose-100 rounded-2xl flex items-start gap-3">
+            <div className="p-4 bg-critical-soft border border-rose-100 rounded-2xl flex items-start gap-3">
               <AlertTriangle size={20} className="text-rose-500 shrink-0 mt-0.5" />
               <p className="text-xs text-rose-600 font-bold">{error}</p>
             </div>

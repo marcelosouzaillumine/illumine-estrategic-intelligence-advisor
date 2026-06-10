@@ -16,9 +16,9 @@ export function PilotReadinessPanel({ tenantId }: { tenantId: string }) {
           <div key={check.checkId} className="flex justify-between items-center p-2 bg-background border border-border/50 rounded">
             <span className="text-xs text-foreground">{check.name}</span>
             {check.passed ? (
-              <span className="text-[10px] bg-emerald-500/20 text-emerald-500 px-2 py-0.5 rounded font-bold">PASSED</span>
+              <span className="text-[10px] bg-success-soft0/20 text-emerald-500 px-2 py-0.5 rounded font-bold">PASSED</span>
             ) : (
-              <span className="text-[10px] bg-rose-500/20 text-rose-500 px-2 py-0.5 rounded font-bold">FAILED</span>
+              <span className="text-[10px] bg-critical-soft0/20 text-rose-500 px-2 py-0.5 rounded font-bold">FAILED</span>
             )}
           </div>
         ))}

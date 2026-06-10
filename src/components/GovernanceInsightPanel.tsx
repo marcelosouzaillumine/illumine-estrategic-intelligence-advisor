@@ -66,7 +66,7 @@ export function GovernanceInsightPanel({
                 <MarkdownText text={misalignment} />
               </div>
               {impact && (
-                <div className="text-xs text-rose-600 mt-2 font-medium bg-rose-50 px-3 py-1 rounded-lg border border-rose-100 inline-block">
+                <div className="text-xs text-rose-600 mt-2 font-medium bg-critical-soft px-3 py-1 rounded-lg border border-rose-100 inline-block">
                   Impacto: <MarkdownText text={impact} />
                 </div>
               )}
@@ -75,7 +75,7 @@ export function GovernanceInsightPanel({
         )}
         
         {principle.situationalScenario && (
-          <div className="flex gap-4 p-4 bg-amber-50/50 rounded-2xl border border-amber-100/50">
+          <div className="flex gap-4 p-4 bg-warning-soft/50 rounded-2xl border border-amber-100/50">
             <HelpCircle size={20} className="text-amber-500 shrink-0 mt-1" />
             <div>
               <p className="text-[10px] font-black text-amber-600 uppercase tracking-widest">Cenário de Maturidade Organizacional</p>

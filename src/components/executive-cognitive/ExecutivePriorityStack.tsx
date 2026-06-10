@@ -22,7 +22,7 @@ export function ExecutivePriorityStack() {
     <div className="card-premium p-8 bg-card/45 backdrop-blur-md border border-border/60 space-y-6 animate-executive-fade">
       <div className="flex items-center justify-between pb-4 border-b border-border/40">
         <div className="flex items-center gap-3">
-          <div className="p-2 bg-rose-500/10 text-rose-500 rounded-lg">
+          <div className="p-2 bg-critical-soft0/10 text-rose-500 rounded-lg">
             <Flame size={18} />
           </div>
           <div>
@@ -42,7 +42,7 @@ export function ExecutivePriorityStack() {
             className={cn(
               "p-4 rounded-xl border flex justify-between items-start gap-4 transition-all hover:bg-surface-container/20",
               item.priority === 'IMMEDIATE' 
-                ? "bg-rose-500/5 border-rose-500/25" 
+                ? "bg-critical-soft0/5 border-rose-500/25" 
                 : "bg-surface-container/40 border-border"
             )}
           >
@@ -51,9 +51,9 @@ export function ExecutivePriorityStack() {
                 <span className={cn(
                   "px-2 py-0.5 rounded text-[8px] font-black uppercase tracking-wider border",
                   item.priority === 'IMMEDIATE'
-                    ? "bg-rose-500/10 text-rose-500 border-rose-500/20"
+                    ? "bg-critical-soft0/10 text-rose-500 border-rose-500/20"
                     : item.priority === 'CRITICAL'
-                    ? "bg-amber-500/10 text-amber-500 border-amber-500/20"
+                    ? "bg-warning-soft0/10 text-amber-500 border-amber-500/20"
                     : "bg-blue-500/10 text-blue-500 border-blue-500/20"
                 )}>
                   {item.priority}

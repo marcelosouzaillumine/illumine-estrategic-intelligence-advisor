@@ -54,7 +54,7 @@ export function InstitutionalIntegrationsPage() {
           <h3 className="text-h3 font-medium text-foreground tracking-tight">Conectores Disponíveis</h3>
           <ConnectorRegistryPanel onSimulateUpload={handleSimulateUpload} />
           
-          <div className="flex items-start gap-3 p-5 bg-warning/10 border border-warning/20 rounded-md text-warning">
+          <div className="flex items-start gap-3 p-5 bg-warning-soft border border-warning/20 rounded-md text-warning">
             <AlertTriangle size={16} className="shrink-0 mt-0.5" />
             <div>
               <p className="text-[10px] font-bold uppercase tracking-widest mb-1">Nota de Governança (MVP)</p>

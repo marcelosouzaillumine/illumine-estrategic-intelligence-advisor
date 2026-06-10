@@ -168,7 +168,7 @@ export function ViabilityScenario({ project }: { project: any }) {
               <p className="text-[10px] text-muted-foreground font-medium uppercase tracking-widest mt-1">Estimativa de entradas e saídas por período</p>
             </div>
             {simulatedPayback && (
-              <div className="px-3 py-1 bg-amber-500/10 border border-amber-500/20 rounded-lg">
+              <div className="px-3 py-1 bg-warning-soft0/10 border border-amber-500/20 rounded-lg">
                 <span className="text-[10px] font-bold text-amber-400 uppercase tracking-tight">Payback Point: {simulatedPayback.toFixed(1)}m</span>
               </div>
             )}

@@ -139,9 +139,9 @@ export function ExecutiveTimelinePanel({ timeline }: ExecutiveTimelinePanelProps
             <div className="space-y-2.5 max-h-[300px] overflow-y-auto pr-2 no-scrollbar">
               {timelineEvents.map((evt, idx) => {
                 const badgeColor = evt.severity === 'RESTRICTIVE' || evt.severity === 'CRITICAL'
-                  ? 'bg-rose-500/10 text-rose-700 dark:text-rose-400 border border-rose-500/20'
+                  ? 'bg-critical-soft0/10 text-rose-700 dark:text-rose-400 border border-rose-500/20'
                   : evt.severity === 'WARNING'
-                  ? 'bg-amber-500/10 text-amber-700 dark:text-amber-400 border border-amber-500/20'
+                  ? 'bg-warning-soft0/10 text-amber-700 dark:text-amber-400 border border-amber-500/20'
                   : 'bg-slate-100 dark:bg-zinc-900 text-muted-foreground dark:text-zinc-400 border border-border dark:border-zinc-800';
 
                 return (
@@ -176,9 +176,9 @@ export function ExecutiveTimelinePanel({ timeline }: ExecutiveTimelinePanelProps
             <div className="space-y-2 max-h-[300px] overflow-y-auto pr-2 no-scrollbar">
               {inflectionPoints.map((ip, idx) => {
                 const impactColor = ip.fiduciaryImpact === 'POSITIVE'
-                  ? 'text-emerald-600 dark:text-emerald-400 bg-emerald-500/5 dark:bg-emerald-500/5 border-emerald-250 dark:border-emerald-500/10'
+                  ? 'text-emerald-600 dark:text-emerald-400 bg-success-soft0/5 dark:bg-success-soft0/5 border-emerald-250 dark:border-emerald-500/10'
                   : ip.fiduciaryImpact === 'NEGATIVE'
-                  ? 'text-rose-650 dark:text-rose-400 bg-rose-500/5 dark:bg-rose-500/5 border-rose-250 dark:border-rose-500/10'
+                  ? 'text-rose-650 dark:text-rose-400 bg-critical-soft0/5 dark:bg-critical-soft0/5 border-rose-250 dark:border-rose-500/10'
                   : 'text-muted-foreground dark:text-zinc-400 bg-slate-100 dark:bg-zinc-900 border border-border dark:border-zinc-850';
 
                 return (

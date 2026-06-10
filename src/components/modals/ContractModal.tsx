@@ -245,7 +245,7 @@ export function ContractModal({ clientId, onClose, onSuccess, contractToEdit }: 
             )}
 
             {contractType === 'TRIBUTARIO' && (
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-6 p-6 bg-rose-50/30 rounded-2xl border border-rose-100">
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-6 p-6 bg-critical-soft/30 rounded-2xl border border-rose-100">
                 <div className="space-y-2">
                   <label className="text-[10px] font-black text-rose-600 uppercase tracking-widest">
                     Esfera

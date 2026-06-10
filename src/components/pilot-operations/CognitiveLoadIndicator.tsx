@@ -8,9 +8,9 @@ export const CognitiveLoadIndicator: React.FC = () => {
   const { cognitiveLoadSignals, pilotStatus } = usePilotOperations();
 
   const loadStatusColors = {
-    NORMAL: 'text-emerald-500 bg-emerald-500/10 border-emerald-500/25',
-    HIGH: 'text-amber-500 bg-amber-500/10 border-amber-500/25',
-    CRITICAL: 'text-rose-500 bg-rose-500/10 border-rose-500/25 animate-pulse'
+    NORMAL: 'text-emerald-500 bg-success-soft0/10 border-emerald-500/25',
+    HIGH: 'text-amber-500 bg-warning-soft0/10 border-amber-500/25',
+    CRITICAL: 'text-rose-500 bg-critical-soft0/10 border-rose-500/25 animate-pulse'
   };
 
   const isFailClosed = pilotStatus === 'FAIL_CLOSED';

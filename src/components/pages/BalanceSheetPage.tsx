@@ -3,7 +3,6 @@ import { SandboxWarningOverlay } from '../executive-interaction/SandboxWarningOv
 import { createPortal } from 'react-dom';
 import { Calendar, Loader2, Upload, Trash2, Plus, BookOpen, Database, TrendingUp, TrendingDown, Info, BarChart3, PieChart as PieChartIcon, AlertCircle, Activity, Target, AlertTriangle, Lightbulb, Zap, ShieldCheck, Gem, Crosshair, Layers, PiggyBank, ShieldAlert, ChevronDown, ChevronUp } from 'lucide-react';
 import { 
-  ResponsiveContainer, 
   BarChart, 
   Bar, 
   AreaChart,
@@ -19,6 +18,14 @@ import {
   PieChart,
   Pie
 } from 'recharts';
+import { 
+  ExecutiveChart,
+  ExecutiveChartGrid,
+  ExecutiveChartXAxis,
+  ExecutiveChartYAxis,
+  ExecutiveChartTooltip
+} from '../ui/executive-chart';
+import { ExecutiveSurface } from '../ui/executive-surface';
 import { cn, formatCurrency, formatValue } from '../../lib/utils';
 import { StatusBadge, PageHeader } from '../Common';
 import { useLanguage } from '../../contexts/LanguageContext';
@@ -499,7 +506,7 @@ export function BalanceSheetPage({ clients, selectedClient, selectedYear }: any)
 
       <div className="flex items-center justify-between gap-4 flex-wrap bg-surface-container/60 p-4 rounded-md border border-border backdrop-blur-sm shadow-sm -mt-6 mb-10">
         <div className="flex items-center gap-3">
-          <div className="bg-card border border-border rounded-md px-4 py-2 flex items-center gap-3 shadow-sm">
+          <div className="bg-card border border-border/50 shadow-sm rounded-md px-4 py-2 flex items-center gap-3 shadow-sm">
             {(loadingBP || loadingHistory) && <Loader2 size={14} className="animate-spin text-secondary" />}
             <Database size={14} className={financialEntries.length > 0 ? 'text-success' : 'text-muted-foreground/30'} />
             <span className={cn('text-[10px] font-medium uppercase tracking-[0.2em]', financialEntries.length > 0 ? 'text-success' : 'text-muted-foreground/40')}>
@@ -524,7 +531,7 @@ export function BalanceSheetPage({ clients, selectedClient, selectedYear }: any)
         <div className="flex items-center gap-3">
           <button
             onClick={() => setShowManualModal(true)}
-            className="px-4 py-3 bg-success/10 hover:bg-success text-success hover:text-white border border-success/20 rounded-md text-[10px] font-medium uppercase tracking-widest transition-all flex items-center gap-2 shadow-sm"
+            className="px-4 py-3 bg-success-soft hover:bg-success text-success hover:text-white border border-success/20 rounded-md text-[10px] font-medium uppercase tracking-widest transition-all flex items-center gap-2 shadow-sm"
           >
             <Plus size={14} /> Lançar Dados
           </button>
@@ -536,7 +543,7 @@ export function BalanceSheetPage({ clients, selectedClient, selectedYear }: any)
           </button>
           <button
             onClick={() => setShowDeleteConfirm(true)}
-            className="px-4 py-3 bg-destructive/10 hover:bg-destructive text-destructive hover:text-white border border-destructive/20 rounded-md text-[10px] font-medium uppercase tracking-widest transition-all flex items-center gap-2 shadow-sm"
+            className="px-4 py-3 bg-critical-soft hover:bg-destructive text-destructive hover:text-white border border-destructive/20 rounded-md text-[10px] font-medium uppercase tracking-widest transition-all flex items-center gap-2 shadow-sm"
           >
             <Trash2 size={14} /> Excluir
           </button>
@@ -563,11 +570,11 @@ export function BalanceSheetPage({ clients, selectedClient, selectedYear }: any)
                     </div>
 
                     {hasParecer && (
-                    <div className="bg-white rounded-[40px] p-10 md:p-12 shadow-xl shadow-slate-200/40 hover:shadow-2xl hover:shadow-slate-200/50 border border-border flex flex-col justify-center transition-all duration-500 relative overflow-hidden group">
-                      <div className="absolute top-0 right-0 w-32 h-32 bg-slate-50 rounded-bl-full -mr-4 -mt-4 transition-transform group-hover:scale-110 pointer-events-none" />
+                    <div className="bg-card rounded-[40px] p-10 md:p-12 shadow-xl shadow-slate-200/40 hover:shadow-2xl hover:shadow-slate-200/50 border border-border flex flex-col justify-center transition-all duration-500 relative overflow-hidden group">
+                      <div className="absolute top-0 right-0 w-32 h-32 bg-surface-container/30 rounded-bl-full -mr-4 -mt-4 transition-transform group-hover:scale-110 pointer-events-none" />
                       <div className="relative z-10">
 
-                      <span className="inline-block px-4 py-1.5 rounded-full border border-border bg-slate-50 text-[10px] font-black uppercase tracking-widest text-muted-foreground mb-6 self-start">Parecer do Conselho</span>
+                      <span className="inline-block px-4 py-1.5 rounded-full border border-border bg-surface-container/30 text-[10px] font-black uppercase tracking-widest text-muted-foreground mb-6 self-start">Parecer do Conselho</span>
                       {patrimonialIntelligenceReport.boardAdvisory?.fullText ? (
                         <div className="text-sm md:text-base font-semibold text-muted-foreground leading-relaxed space-y-4">
                           {patrimonialIntelligenceReport.boardAdvisory.fullText.includes('Recomendação:') ? (
@@ -580,7 +587,7 @@ export function BalanceSheetPage({ clients, selectedClient, selectedYear }: any)
                           )}
                         </div>
                       ) : (
-                        <p className="text-sm md:text-base font-semibold text-muted-foreground leading-relaxed">Parecer não gerado.</p>
+                        <p className="text-secondary">Parecer não gerado.</p>
                       )}
                       </div>
                     </div>
@@ -591,16 +598,16 @@ export function BalanceSheetPage({ clients, selectedClient, selectedYear }: any)
 
               {/* --- 7. PLANO EXECUTIVO --- */}
               {(executiveReport as any)?.governanceStatus?.isValid && (
-              <div className="bg-white rounded-[40px] p-10 shadow-xl shadow-slate-200/30 hover:shadow-2xl hover:shadow-slate-200/50 transition-all duration-500 border border-border flex flex-col justify-center relative overflow-hidden">
-                <div className="absolute top-0 right-0 w-64 h-64 bg-slate-50 rounded-full blur-3xl -mr-20 -mt-20 pointer-events-none" />
-                <h3 className="text-2xl font-black text-muted-foreground mb-6 relative z-10">Plano Executivo Consolidado</h3>
+              <div className="bg-card rounded-[40px] p-10 shadow-xl shadow-slate-200/30 hover:shadow-2xl hover:shadow-slate-200/50 transition-all duration-500 border border-border flex flex-col justify-center relative overflow-hidden">
+                <div className="absolute top-0 right-0 w-64 h-64 bg-surface-container/30 rounded-full blur-3xl -mr-20 -mt-20 pointer-events-none" />
+                <h3 className="text-2xl font-black text-primary mb-6 relative z-10">Plano Executivo Consolidado</h3>
                 
                 <div className="relative z-10">
                   {patrimonialIntelligenceReport.executivePlan && patrimonialIntelligenceReport.executivePlan.includes('|') ? (
-                    <div className="border-l-4 rounded-r-3xl rounded-l-md p-8 flex flex-col shadow-sm transition-all hover:shadow-md bg-slate-50 border-accent">
+                    <div className="border-l-4 rounded-r-3xl rounded-l-md p-8 flex flex-col shadow-sm transition-all hover:shadow-md bg-surface-container/30 border-accent">
                       <div className="flex flex-col md:flex-row items-start md:items-center justify-between mb-6 border-b border-primary pb-4 gap-4">
                         <div>
-                          <h4 className="text-[10px] font-black uppercase tracking-widest text-muted-foreground mb-2">Prioridade Estratégica</h4>
+                          <h4 className="text-[10px] font-black uppercase tracking-widest text-primary mb-2">Prioridade Estratégica</h4>
                           <div className="flex items-center gap-3">
                             <span className={"text-sm font-black uppercase tracking-widest px-3 py-1 rounded-full border " + 
                               (patrimonialIntelligenceReport.executiveInterpretation?.strategicSeverity === 'CRITICAL' ? 'bg-rose-100 text-rose-700 border-rose-200' :
@@ -612,12 +619,12 @@ export function BalanceSheetPage({ clients, selectedClient, selectedYear }: any)
                                patrimonialIntelligenceReport.executiveInterpretation?.strategicSeverity === 'HIGH' ? '🟠 ALTA' :
                                patrimonialIntelligenceReport.executiveInterpretation?.strategicSeverity === 'MODERATE' ? '🟡 MODERADA' : '🟢 MONITORAMENTO'}
                             </span>
-                            <span className="text-lg font-bold text-muted-foreground">
+                            <span className="text-lg font-bold text-primary">
                               {patrimonialIntelligenceReport.dominantRiskFamily || 'Diretriz Estratégica'}
                             </span>
                           </div>
                         </div>
-                        <div className="bg-white px-4 py-2 rounded-xl border border-border shadow-sm text-right">
+                        <div className="bg-card px-4 py-2 rounded-xl border border-border shadow-sm text-right">
                           <span className="block text-[9px] font-bold uppercase tracking-widest text-muted-foreground mb-1">Motivo Principal</span>
                           <span className="text-sm font-bold text-muted-foreground">{patrimonialIntelligenceReport.executiveInterpretation?.strategicSeverityReason || 'Análise Executiva'}</span>
                         </div>
@@ -630,12 +637,12 @@ export function BalanceSheetPage({ clients, selectedClient, selectedYear }: any)
                         ].map((frente, i) => {
                           if (!frente.plan) return null;
                           return (
-                            <div key={i} className="bg-white p-6 rounded-3xl border border-border shadow-md shadow-slate-200/30 hover:shadow-lg hover:shadow-slate-200/50 hover:-translate-y-1 transition-all duration-300 flex flex-col group">
+                            <div key={i} className="bg-card p-6 rounded-3xl border border-border shadow-md shadow-slate-200/30 hover:shadow-lg hover:shadow-slate-200/50 hover:-translate-y-1 transition-all duration-300 flex flex-col group">
                               <h5 className="text-[10px] font-black uppercase tracking-widest text-primary mb-4">{frente.title}</h5>
                               <span className="inline-block self-start px-3 py-1.5 bg-accent group-hover:bg-accent text-accent rounded-lg text-[9px] font-black uppercase tracking-widest mb-4 transition-colors">
                                 {frente.plan.prazo}
                               </span>
-                              <p className="text-sm font-semibold text-muted-foreground leading-snug">
+                              <p className="text-secondary">
                                 {frente.plan.acao}
                               </p>
                             </div>
@@ -644,15 +651,15 @@ export function BalanceSheetPage({ clients, selectedClient, selectedYear }: any)
                       </div>
                     </div>
                   ) : (
-                    <p className="text-sm font-medium text-muted-foreground">{patrimonialIntelligenceReport.executivePlan}</p>
+                    <p className="text-secondary">{patrimonialIntelligenceReport.executivePlan}</p>
                   )}
                 </div>
               </div>
               )}
 
               {/* --- 2. CAPITAL PRESERVATION --- */}
-              <div className="bg-white rounded-[40px] p-10 shadow-xl shadow-slate-200/30 hover:shadow-2xl hover:shadow-slate-200/50 transition-all duration-500 border border-border relative overflow-hidden">
-                <h3 className="text-2xl font-black text-muted-foreground mb-6">Preservação de Capital</h3>
+              <div className="bg-card rounded-[40px] p-10 shadow-xl shadow-slate-200/30 hover:shadow-2xl hover:shadow-slate-200/50 transition-all duration-500 border border-border relative overflow-hidden">
+                <h3 className="text-2xl font-black text-primary mb-6">Preservação de Capital</h3>
                 <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-3 2xl:grid-cols-5 gap-6">
                   {['Loss Absorption Capacity', 'Equity Buffer', 'Survival Index', 'Capital Erosion Velocity (CEV)', 'Equity Quality Index'].map((metric, idx) => {
                     const ind = patrimonialIntelligenceReport.indicators?.find((i: any) => i.metricName === metric);
@@ -662,9 +669,9 @@ export function BalanceSheetPage({ clients, selectedClient, selectedYear }: any)
                     const isWarn = ind.classification === 'ATTENTION';
                     
                     return (
-                      <div key={idx} className={cn("rounded-2xl p-6 shadow-sm border-l-4 transition-all hover:shadow-md flex flex-col", isCrit ? 'bg-rose-50 border-rose-500' : isWarn ? 'bg-amber-50 border-amber-500' : 'bg-slate-50 border-border')}>
-                        <h4 className="text-[10px] font-black uppercase tracking-widest text-muted-foreground mb-4">{ExecutiveLabelResolver.resolve(metric, t)}</h4>
-                        <div className="text-3xl font-black text-muted-foreground mb-2">
+                      <div key={idx} className={cn("rounded-2xl p-6 shadow-sm border-l-4 transition-all hover:shadow-md flex flex-col", isCrit ? 'bg-critical-soft border-rose-500' : isWarn ? 'bg-warning-soft border-amber-500' : 'bg-surface-container/30 border-border')}>
+                        <h4 className="text-[10px] font-black uppercase tracking-widest text-primary mb-4">{ExecutiveLabelResolver.resolve(metric, t)}</h4>
+                        <div className="text-3xl font-black text-primary mb-2">
                           {ind.format === 'percentage' ? (Number(ind.value)*100).toFixed(1)+'%' : 
                            ind.format === 'multiplier' ? Number(ind.value).toFixed(2)+'x' : 
                            ind.format === 'string' ? ind.value : 
@@ -684,7 +691,7 @@ export function BalanceSheetPage({ clients, selectedClient, selectedYear }: any)
                             </span>
                           </div>
                         )}
-                        <p className="text-xs font-semibold text-muted-foreground leading-relaxed mt-auto">{ind.rationale}</p>
+                        <p className="text-secondary">{ind.rationale}</p>
                       </div>
                     );
                   })}
@@ -692,17 +699,17 @@ export function BalanceSheetPage({ clients, selectedClient, selectedYear }: any)
               </div>
 
               {/* --- 3. LIQUIDEZ E SOLVÊNCIA --- */}
-              <div className="bg-white rounded-[40px] p-10 shadow-xl shadow-slate-200/30 hover:shadow-2xl hover:shadow-slate-200/50 transition-all duration-500 border border-border relative overflow-hidden">
-                <h3 className="text-2xl font-black text-muted-foreground mb-6">Liquidez e Solvência</h3>
+              <div className="bg-card rounded-[40px] p-10 shadow-xl shadow-slate-200/30 hover:shadow-2xl hover:shadow-slate-200/50 transition-all duration-500 border border-border relative overflow-hidden">
+                <h3 className="text-2xl font-black text-primary mb-6">Liquidez e Solvência</h3>
                 <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-6">
                   {['Liquidez Real', 'Liquidez Instantânea Real', 'Liquidez Seca'].map((metric, idx) => {
                     const ind = patrimonialIntelligenceReport.indicators?.find((i: any) => i.metricName === metric);
                     if (!ind) return null;
                     return (
-                      <div key={idx} className="bg-slate-50 border border-border rounded-2xl p-6 shadow-sm flex flex-col justify-between">
-                        <h4 className="text-[10px] font-black uppercase tracking-widest text-muted-foreground mb-2">{metric}</h4>
-                        <span className="text-2xl font-black text-muted-foreground mb-2">{Number(ind.value).toFixed(2)}</span>
-                        <p className="text-[10px] font-medium text-muted-foreground leading-relaxed">{ind.rationale}</p>
+                      <div key={idx} className="bg-surface-container/30 border border-border rounded-2xl p-6 shadow-sm flex flex-col justify-between">
+                        <h4 className="text-[10px] font-black uppercase tracking-widest text-primary mb-2">{metric}</h4>
+                        <span className="text-2xl font-black text-primary mb-2">{Number(ind.value).toFixed(2)}</span>
+                        <p className="text-secondary">{ind.rationale}</p>
                       </div>
                     );
                   })}
@@ -710,19 +717,19 @@ export function BalanceSheetPage({ clients, selectedClient, selectedYear }: any)
               </div>
 
               {/* --- 4. QUALIDADE DO ATIVO --- */}
-              <div className="bg-white rounded-[40px] p-10 shadow-xl shadow-slate-200/30 hover:shadow-2xl hover:shadow-slate-200/50 transition-all duration-500 border border-border relative overflow-hidden">
-                <h3 className="text-2xl font-black text-muted-foreground mb-6">Qualidade do Ativo</h3>
+              <div className="bg-card rounded-[40px] p-10 shadow-xl shadow-slate-200/30 hover:shadow-2xl hover:shadow-slate-200/50 transition-all duration-500 border border-border relative overflow-hidden">
+                <h3 className="text-2xl font-black text-primary mb-6">Qualidade do Ativo</h3>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                   {['Asset Concentration Risk', 'Ativo - Estoques %'].map((metric, idx) => {
                     const ind = patrimonialIntelligenceReport.indicators?.find((i: any) => i.metricName === metric);
                     if (!ind) return null;
                     return (
-                      <div key={idx} className="bg-slate-50 border border-border rounded-2xl p-6 shadow-sm flex flex-col gap-2">
-                        <h4 className="text-[11px] font-black uppercase tracking-widest text-muted-foreground mb-2">{ExecutiveLabelResolver.resolve(metric, t)}</h4>
-                        <span className="text-3xl font-black text-muted-foreground mb-2 block">
+                      <div key={idx} className="bg-surface-container/30 border border-border rounded-2xl p-6 shadow-sm flex flex-col gap-2">
+                        <h4 className="text-[11px] font-black uppercase tracking-widest text-primary mb-2">{ExecutiveLabelResolver.resolve(metric, t)}</h4>
+                        <span className="text-3xl font-black text-primary mb-2 block">
                           {ind.format === 'percentage' ? (Number(ind.value)*100).toFixed(1)+'%' : ind.format === 'multiplier' ? Number(ind.value).toFixed(2)+'x' : Number(ind.value).toFixed(2)}
                         </span>
-                        <p className="text-xs font-semibold text-muted-foreground leading-relaxed">{ind.rationale}</p>
+                        <p className="text-secondary">{ind.rationale}</p>
                       </div>
                     );
                   })}
@@ -730,20 +737,20 @@ export function BalanceSheetPage({ clients, selectedClient, selectedYear }: any)
               </div>
 
               {/* --- 5. ESTRUTURA DE CAPITAL --- */}
-              <div className="bg-white rounded-[40px] p-10 shadow-xl shadow-slate-200/30 hover:shadow-2xl hover:shadow-slate-200/50 transition-all duration-500 border border-border relative overflow-hidden">
-                <h3 className="text-2xl font-black text-muted-foreground mb-6">Estrutura de Capital</h3>
+              <div className="bg-card rounded-[40px] p-10 shadow-xl shadow-slate-200/30 hover:shadow-2xl hover:shadow-slate-200/50 transition-all duration-500 border border-border relative overflow-hidden">
+                <h3 className="text-2xl font-black text-primary mb-6">Estrutura de Capital</h3>
                 <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-2 2xl:grid-cols-4 gap-6">
                   {['Funding Capacity Ratio', 'Debt Capacity Score', 'Financial Debt-to-Equity', 'Endividamento Geral', 'Dependência de Capital de Terceiros'].map((metric, idx) => {
                     const ind = patrimonialIntelligenceReport.indicators?.find((i: any) => i.metricName === metric);
                     if (!ind) return null;
                     return (
-                      <div key={idx} className="bg-slate-50 border border-border rounded-2xl p-6 shadow-sm flex flex-col">
-                        <h4 className="text-[10px] font-black uppercase tracking-widest text-muted-foreground mb-4">{ExecutiveLabelResolver.resolve(metric, t)}</h4>
-                        <div className="text-2xl font-black text-muted-foreground mb-2">
+                      <div key={idx} className="bg-surface-container/30 border border-border rounded-2xl p-6 shadow-sm flex flex-col">
+                        <h4 className="text-[10px] font-black uppercase tracking-widest text-primary mb-4">{ExecutiveLabelResolver.resolve(metric, t)}</h4>
+                        <div className="text-2xl font-black text-primary mb-2">
                           {ind.format === 'percentage' ? (Number(ind.value)*100).toFixed(1)+'%' : ind.format === 'multiplier' ? Number(ind.value).toFixed(2)+'x' : ind.format === 'decimal' ? Number(ind.value).toFixed(2) : ind.value}
                         </div>
 
-                        <p className="text-[10px] font-medium text-muted-foreground leading-relaxed mt-auto">{ind.rationale}</p>
+                        <p className="text-secondary">{ind.rationale}</p>
                       </div>
                     );
                   })}
@@ -751,19 +758,19 @@ export function BalanceSheetPage({ clients, selectedClient, selectedYear }: any)
               </div>
 
               {/* --- 6. WORKING CAPITAL INTELLIGENCE --- */}
-              <div className="bg-white rounded-[40px] p-10 shadow-xl shadow-slate-200/30 hover:shadow-2xl hover:shadow-slate-200/50 transition-all duration-500 border border-border relative overflow-hidden">
-                <h3 className="text-2xl font-black text-muted-foreground mb-6">Inteligência de Capital de Giro</h3>
+              <div className="bg-card rounded-[40px] p-10 shadow-xl shadow-slate-200/30 hover:shadow-2xl hover:shadow-slate-200/50 transition-all duration-500 border border-border relative overflow-hidden">
+                <h3 className="text-2xl font-black text-primary mb-6">Inteligência de Capital de Giro</h3>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                   {['Alocação de Capital de Giro', 'Ciclo Financeiro (Estimativa Indireta)'].map((metric, idx) => {
                     const ind = patrimonialIntelligenceReport.indicators?.find((i: any) => i.metricName === metric);
                     if (!ind) return null;
                     return (
-                      <div key={idx} className="bg-slate-50 border border-border rounded-2xl p-6 shadow-sm">
-                        <h4 className="text-[11px] font-black uppercase tracking-widest text-muted-foreground mb-2">{metric}</h4>
-                        <span className="text-2xl font-black text-muted-foreground mb-2 block">
+                      <div key={idx} className="bg-surface-container/30 border border-border rounded-2xl p-6 shadow-sm">
+                        <h4 className="text-[11px] font-black uppercase tracking-widest text-primary mb-2">{metric}</h4>
+                        <span className="text-2xl font-black text-primary mb-2 block">
                           {ind.format === 'percentage' ? (Number(ind.value)*100).toFixed(1)+'%' : ind.format === 'multiplier' ? Number(ind.value).toFixed(2)+'x' : ind.format === 'decimal' ? Number(ind.value).toFixed(1) : ind.value}
                         </span>
-                        <p className="text-xs font-semibold text-muted-foreground leading-relaxed">{ind.rationale}</p>
+                        <p className="text-secondary">{ind.rationale}</p>
                       </div>
                     );
                   })}
@@ -771,20 +778,20 @@ export function BalanceSheetPage({ clients, selectedClient, selectedYear }: any)
               </div>
 
               {/* --- 1B. SCORE PATRIMONIAL (DIVERGENCE ANALYSIS) --- */}
-              <div className="bg-slate-50/30 rounded-[32px] p-8 border border-border mt-12 relative overflow-hidden">
+              <div className="bg-surface-container/30/30 rounded-[32px] p-8 border border-border mt-12 relative overflow-hidden">
                 <div className="flex flex-col md:flex-row items-center gap-8">
                   <div className="flex-1">
-                    <h3 className="text-xl font-black text-muted-foreground mb-4">Análise de Divergência de Risco</h3>
+                    <h3 className="text-xl font-black text-primary mb-4">Análise de Divergência de Risco</h3>
                     <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4 mb-6">
-                      <div className="bg-white p-4 rounded-2xl border border-border shadow-sm">
+                      <div className="bg-card p-4 rounded-2xl border border-border shadow-sm">
                         <span className="block text-[10px] font-bold uppercase tracking-widest text-muted-foreground mb-1">Classificação Matemática</span>
-                        <span className="text-lg font-black text-muted-foreground">
+                        <span className="text-lg font-black text-primary">
                           {patrimonialIntelligenceReport.scoreBreakdown?.globalScore >= 80 ? 'Resiliente' : 
                            patrimonialIntelligenceReport.scoreBreakdown?.globalScore >= 65 ? 'Estável' : 
                            patrimonialIntelligenceReport.scoreBreakdown?.globalScore >= 50 ? 'Vulnerável' : 'Crítico'}
                         </span>
                       </div>
-                      <div className="bg-white p-4 rounded-2xl border border-border shadow-sm">
+                      <div className="bg-card p-4 rounded-2xl border border-border shadow-sm">
                         <span className="block text-[10px] font-bold uppercase tracking-widest text-muted-foreground mb-1">Classificação Fiduciária</span>
                         <span className={patrimonialIntelligenceReport.patrimonialClassification.includes('RESILIENT') ? 'text-primary font-black text-lg' :
                            patrimonialIntelligenceReport.patrimonialClassification.includes('STABLE') ? 'text-emerald-600 font-black text-lg' :
@@ -793,9 +800,9 @@ export function BalanceSheetPage({ clients, selectedClient, selectedYear }: any)
                           {ExecutiveLabelResolver.resolve(patrimonialIntelligenceReport.patrimonialClassification, t)}
                         </span>
                       </div>
-                      <div className="bg-white p-4 rounded-2xl border border-border shadow-sm">
+                      <div className="bg-card p-4 rounded-2xl border border-border shadow-sm">
                         <span className="block text-[10px] font-bold uppercase tracking-widest text-muted-foreground mb-1">Indicador de Síntese</span>
-                        <span className="text-lg font-black text-muted-foreground">
+                        <span className="text-lg font-black text-primary">
                           {patrimonialIntelligenceReport.scoreBreakdown?.globalScore || 0} <span className="text-[10px] font-bold text-muted-foreground uppercase tracking-widest">pontos</span>
                         </span>
                       </div>
@@ -810,26 +817,26 @@ export function BalanceSheetPage({ clients, selectedClient, selectedYear }: any)
                           <AlertTriangle size={20} strokeWidth={2.5} />
                         </div>
                         <div>
-                          <h4 className="text-lg font-black text-muted-foreground tracking-tight">Ofensores Fiduciários Críticos</h4>
+                          <h4 className="text-lg font-black text-primary tracking-tight">Ofensores Fiduciários Críticos</h4>
                           <p className="text-[11px] font-bold text-rose-600/80 uppercase tracking-[0.2em] mt-1">Matriz de Impacto Estrutural</p>
                         </div>
                       </div>
                       
                       <div className="flex flex-col gap-3 relative z-10">
                         {patrimonialIntelligenceReport.indicators?.filter((i: any) => i.classification === 'CRITICAL' || i.classification === 'Crítica' || i.classification === 'Crítico').map((ind: any, i: number) => (
-                          <div key={i} className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 bg-white p-4 rounded-2xl border border-rose-100 shadow-sm hover:shadow-md hover:border-rose-300 transition-all group">
+                          <div key={i} className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 bg-card p-4 rounded-2xl border border-rose-100 shadow-sm hover:shadow-md hover:border-rose-300 transition-all group">
                             <div className="flex items-center gap-4 w-full sm:w-[35%]">
-                              <div className="w-1.5 h-1.5 rounded-full bg-rose-500 shadow-[0_0_8px_rgba(244,63,94,0.6)]"></div>
+                              <div className="w-1.5 h-1.5 rounded-full bg-critical-soft0 shadow-[0_0_8px_rgba(244,63,94,0.6)]"></div>
                               <span className="text-[13px] font-black text-muted-foreground">{ExecutiveLabelResolver.resolve(ind.metricName, t)}</span>
                             </div>
                             <div className="w-full sm:w-[20%]">
-                              <span className="inline-flex items-center justify-center px-3 py-1 rounded-lg bg-rose-50 text-rose-700 text-[10px] font-black uppercase tracking-widest border border-rose-100/50 group-hover:bg-rose-500 group-hover:text-white group-hover:border-rose-500 transition-all duration-300">
+                              <span className="inline-flex items-center justify-center px-3 py-1 rounded-lg bg-critical-soft text-rose-700 text-[10px] font-black uppercase tracking-widest border border-rose-100/50 group-hover:bg-critical-soft0 group-hover:text-white group-hover:border-rose-500 transition-all duration-300">
                                 {ExecutiveLabelResolver.resolve(ind.classification, t)}
                               </span>
                             </div>
                             <div className="w-full sm:w-[45%] flex items-center justify-between gap-4 pl-4 sm:border-l border-border">
                               <span className="text-xs font-bold text-muted-foreground leading-snug group-hover:text-muted-foreground transition-colors">{ExecutiveLabelResolver.resolveImpact(ind.metricName)}</span>
-                              <div className="p-1.5 bg-slate-50 rounded-md text-muted-foreground group-hover:text-rose-500 group-hover:bg-rose-50 transition-colors">
+                              <div className="p-1.5 bg-surface-container/30 rounded-md text-muted-foreground group-hover:text-rose-500 group-hover:bg-critical-soft transition-colors">
                                 <AlertCircle size={14} strokeWidth={2.5} />
                               </div>
                             </div>
@@ -842,18 +849,18 @@ export function BalanceSheetPage({ clients, selectedClient, selectedYear }: any)
               </div>
 
               {/* --- 8. CAMADA TÉCNICA (Indicadores Financeiros Patrimoniais Brutos) --- */}
-              <details className="group bg-white border border-border rounded-[32px] open:shadow-2xl open:shadow-slate-200/40 transition-all duration-500 mb-12 overflow-hidden">
-                <summary className="flex items-center justify-between p-8 cursor-pointer list-none hover:bg-slate-50/50 transition-colors">
+              <details className="group bg-card border border-border rounded-[32px] open:shadow-2xl open:shadow-slate-200/40 transition-all duration-500 mb-12 overflow-hidden">
+                <summary className="flex items-center justify-between p-8 cursor-pointer list-none hover:bg-surface-container/30/50 transition-colors">
                   <div className="flex items-center gap-3">
                     <Layers size={20} className="text-muted-foreground group-open:text-primary transition-colors" />
-                    <h3 className="text-lg font-black text-muted-foreground group-open:text-primary">Camada Técnica</h3>
+                    <h3 className="text-lg font-black text-primary group-open:text-primary">Camada Técnica</h3>
                   </div>
                   <ChevronDown size={20} className="text-muted-foreground group-open:rotate-180 transition-transform" />
                 </summary>
-                <div className="p-8 border-t border-border bg-slate-50/30">
+                <div className="p-8 border-t border-border bg-surface-container/30/30">
                   <div className="flex flex-col mb-6 border-b border-border pb-4">
-                    <h4 className="text-sm font-black text-muted-foreground mb-2">Indicadores Quantitativos Subjacentes</h4>
-                    <p className="text-xs text-muted-foreground font-medium leading-relaxed max-w-3xl">
+                    <h4 className="text-sm font-black text-primary mb-2">Indicadores Quantitativos Subjacentes</h4>
+                    <p className="text-secondary">
                       Métricas e avaliações brutas utilizadas para o embasamento da Tese Patrimonial e elaboração do Score Matemático.
                     </p>
                   </div>
@@ -861,25 +868,25 @@ export function BalanceSheetPage({ clients, selectedClient, selectedYear }: any)
                 <div className="grid grid-cols-1 xl:grid-cols-2 gap-10">
                   {Object.entries(indicatorsByFamily).map(([family, indicators]) => (
                     <div key={family} className="space-y-4">
-                      <h4 className="text-[10px] font-black text-muted-foreground uppercase tracking-widest border-b border-border pb-2">{family}</h4>
+                      <h4 className="text-[10px] font-black text-primary uppercase tracking-widest border-b border-border pb-2">{family}</h4>
                       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                         {indicators.filter(ind => !['Liquidez Real', 'Liquidez Instantânea Real', 'Liquidez Seca'].includes(ind.metricName)).map((ind, idx) => (
-                          <div key={idx} className="bg-slate-50 border border-border rounded-2xl p-5 hover:shadow-md transition-all group relative cursor-help flex flex-col justify-between" title={`Rationale: ${ind.rationale}`}>
+                          <div key={idx} className="bg-surface-container/30 border border-border rounded-2xl p-5 hover:shadow-md transition-all group relative cursor-help flex flex-col justify-between" title={`Rationale: ${ind.rationale}`}>
                             <div className="flex justify-between items-start mb-4">
                               <span className="text-[10px] font-black uppercase tracking-widest text-muted-foreground w-2/3 leading-relaxed">{ExecutiveLabelResolver.resolve(ind.metricName, t)}</span>
                               <span className={cn(
                                 "text-[8px] font-black uppercase px-2 py-1 rounded-full tracking-wider border whitespace-nowrap",
-                                ind.classification === 'INSUFFICIENT_DATA' ? 'bg-slate-100 text-muted-foreground border-border' :
-                                'CRITICAL' === ind.severity ? 'bg-rose-50 text-rose-500 border-rose-200' :
-                                'ATTENTION' === ind.severity ? 'bg-amber-50 text-amber-500 border-amber-200' :
+                                ind.classification === 'INSUFFICIENT_DATA' ? 'bg-surface-container text-muted-foreground border-border' :
+                                'CRITICAL' === ind.severity ? 'bg-critical-soft text-rose-700 border-rose-200' :
+                                'ATTENTION' === ind.severity ? 'bg-warning-soft text-amber-700 border-amber-200' :
                                 'CAPITAL_IDLE_WARNING' === ind.severity ? 'bg-blue-50 text-blue-500 border-blue-200' :
-                                'bg-emerald-50 text-emerald-500 border-emerald-200'
+                                'bg-success-soft text-emerald-700 border-emerald-200'
                               )}>
                                 {ExecutiveLabelResolver.resolve(ind.classification, t).replace(/_/g, ' ')}
                               </span>
                             </div>
                             <div className="flex items-end justify-between">
-                              <span className="text-2xl font-black text-muted-foreground leading-none">
+                              <span className="text-2xl font-black text-primary leading-none">
                                 {ind.value === 'INSUFFICIENT_DATA' ? '—' : 
                                   (ind.format === 'percentage' ? (Number(ind.value) * 100).toFixed(1) + '%' : 
                                   ind.format === 'multiplier' ? Number(ind.value).toFixed(2) + 'x' :
@@ -901,11 +908,11 @@ export function BalanceSheetPage({ clients, selectedClient, selectedYear }: any)
               </details>
 
               {/* --- 9. AUDIT LAYER (Camada Fiduciária e Rastreabilidade) --- */}
-              <details className="group bg-white border border-border rounded-[32px] open:shadow-2xl open:shadow-slate-200/40 transition-all duration-500 mb-12 overflow-hidden">
-                <summary className="flex items-center justify-between p-8 cursor-pointer list-none hover:bg-slate-50/50 transition-colors">
+              <details className="group bg-card border border-border rounded-[32px] open:shadow-2xl open:shadow-slate-200/40 transition-all duration-500 mb-12 overflow-hidden">
+                <summary className="flex items-center justify-between p-8 cursor-pointer list-none hover:bg-surface-container/30/50 transition-colors">
                   <div className="flex items-center gap-3">
                     <ShieldAlert size={20} className="text-muted-foreground group-open:text-primary transition-colors" />
-                    <h3 className="text-lg font-black text-muted-foreground group-open:text-primary">Restrições Fiduciárias Ativas</h3>
+                    <h3 className="text-lg font-black text-primary group-open:text-primary">Restrições Fiduciárias Ativas</h3>
                   </div>
                   <ChevronDown size={20} className="text-muted-foreground group-open:rotate-180 transition-transform" />
                 </summary>
@@ -914,14 +921,14 @@ export function BalanceSheetPage({ clients, selectedClient, selectedYear }: any)
                   {/* Structural Risks Overrides */}
                   {executiveReport?.patrimonialStructuralRestrictions && (
                     <div className="flex flex-col">
-                      <h4 className="text-sm font-black text-muted-foreground mb-4 border-b border-border pb-2">Restrições Estruturais e Tetos de Classificação</h4>
+                      <h4 className="text-sm font-black text-primary mb-4 border-b border-border pb-2">Restrições Estruturais e Tetos de Classificação</h4>
                       <div className="space-y-3 flex-1">
                         {['Liquidity Fragility Override', 'Treasury Stress Override', 'Short-Term Debt Concentration Override', 'Capital Dependency Override', 'Earnings Quality Override'].map((overrideName, idx) => {
                           const activeOverride = executiveReport.patrimonialStructuralRestrictions?.appliedOverrides?.find((o: any) => o.name === overrideName);
                           const isActive = !!activeOverride;
                           if (!isActive) return null;
                           return (
-                            <div key={idx} className={cn("border rounded-xl p-3 flex items-center justify-between", isActive ? 'bg-rose-50/50 border-rose-200' : 'bg-slate-50 border-border opacity-60')}>
+                            <div key={idx} className={cn("border rounded-xl p-3 flex items-center justify-between", isActive ? 'bg-critical-soft/50 border-rose-200' : 'bg-surface-container/30 border-border opacity-60')}>
                               <span className="text-[9px] font-black uppercase tracking-widest text-muted-foreground">{ExecutiveLabelResolver.resolve(overrideName, t)}</span>
                               <div className="flex items-center gap-2">
                                 {isActive && (
@@ -936,7 +943,7 @@ export function BalanceSheetPage({ clients, selectedClient, selectedYear }: any)
                         })}
                       </div>
                       
-                      <div className="mt-4 pt-4 border-t border-border flex items-center justify-between bg-slate-50 p-3 rounded-xl">
+                      <div className="mt-4 pt-4 border-t border-border flex items-center justify-between bg-surface-container/30 p-3 rounded-xl">
                         <div className="text-center">
                           <span className="text-[8px] font-black uppercase tracking-widest text-muted-foreground block mb-1">Score Matemático</span>
                           <span className="text-sm font-black text-muted-foreground">{ExecutiveLabelResolver.resolve(executiveReport.patrimonialStructuralRestrictions.originalClassification, t)}</span>
@@ -954,11 +961,11 @@ export function BalanceSheetPage({ clients, selectedClient, selectedYear }: any)
                   {patrimonialIntelligenceReport?.governanceConsistency && (
                     <div className="flex flex-col">
                       <div className="flex items-center justify-between border-b border-border pb-2 mb-4">
-                        <h4 className="text-sm font-black text-muted-foreground">Validação de Consistência Institucional</h4>
+                        <h4 className="text-sm font-black text-primary">Validação de Consistência Institucional</h4>
                         <div className={cn("px-3 py-1 rounded-full border text-[9px] font-bold tracking-widest", 
-                          patrimonialIntelligenceReport.governanceConsistency.consistencyStatus === 'CONSISTENT' ? 'bg-emerald-50 text-emerald-600 border-emerald-200' :
-                          patrimonialIntelligenceReport.governanceConsistency.consistencyStatus === 'FAIL_CLOSED' ? 'bg-rose-50 text-rose-600 border-rose-200' :
-                          'bg-amber-50 text-amber-600 border-amber-200'
+                          patrimonialIntelligenceReport.governanceConsistency.consistencyStatus === 'CONSISTENT' ? 'bg-success-soft text-emerald-600 border-emerald-200' :
+                          patrimonialIntelligenceReport.governanceConsistency.consistencyStatus === 'FAIL_CLOSED' ? 'bg-critical-soft text-rose-600 border-rose-200' :
+                          'bg-warning-soft text-amber-600 border-amber-200'
                         )}>
                           Status: {ExecutiveLabelResolver.resolve(patrimonialIntelligenceReport.governanceConsistency.consistencyStatus, t)}
                         </div>
@@ -969,13 +976,13 @@ export function BalanceSheetPage({ clients, selectedClient, selectedYear }: any)
                         patrimonialIntelligenceReport.governanceConsistency.forcedDisclosures.length > 0) ? (
                         <div className="flex flex-col gap-2 overflow-y-auto max-h-[250px] pr-2">
                           {patrimonialIntelligenceReport.governanceConsistency.detectedIssues.map((issue: string, idx: number) => (
-                            <div key={`issue-${idx}`} className="p-3 bg-rose-50 border-l-4 border-rose-500 rounded-r-lg">
+                            <div key={`issue-${idx}`} className="p-3 bg-critical-soft border-l-4 border-rose-500 rounded-r-lg">
                               <span className="text-[9px] font-black uppercase text-rose-400 tracking-widest block mb-0.5">Falha Crítica</span>
                               <span className="text-[10px] font-bold text-rose-900 leading-relaxed">{issue}</span>
                             </div>
                           ))}
                           {patrimonialIntelligenceReport.governanceConsistency.warnings.map((warning: string, idx: number) => (
-                            <div key={`warn-${idx}`} className="p-3 bg-amber-50 border-l-4 border-amber-500 rounded-r-lg">
+                            <div key={`warn-${idx}`} className="p-3 bg-warning-soft border-l-4 border-amber-500 rounded-r-lg">
                               <span className="text-[9px] font-black uppercase text-amber-500 tracking-widest block mb-0.5">Alerta</span>
                               <span className="text-[10px] font-bold text-amber-900 leading-relaxed">{warning}</span>
                             </div>
@@ -988,8 +995,8 @@ export function BalanceSheetPage({ clients, selectedClient, selectedYear }: any)
                           ))}
                         </div>
                       ) : (
-                        <div className="flex-1 flex items-center justify-center p-4 bg-slate-50 border border-border rounded-xl text-center">
-                          <p className="text-xs font-bold text-muted-foreground">Nenhuma inconsistência fiduciária detectada.</p>
+                        <div className="flex-1 flex items-center justify-center p-4 bg-surface-container/30 border border-border rounded-xl text-center">
+                          <p className="text-secondary">Nenhuma inconsistência fiduciária detectada.</p>
                         </div>
                       )}
                     </div>
@@ -1015,18 +1022,18 @@ export function BalanceSheetPage({ clients, selectedClient, selectedYear }: any)
       ========================================================= */}
       {hasData && (
         <div className="mb-12">
-          <details className="group bg-white border border-border rounded-[32px] open:shadow-2xl open:shadow-slate-200/40 transition-all duration-500 mb-12 overflow-hidden">
-            <summary className="flex items-center justify-between p-8 cursor-pointer list-none hover:bg-slate-50/50 transition-colors">
+          <details className="group bg-card border border-border rounded-[32px] open:shadow-2xl open:shadow-slate-200/40 transition-all duration-500 mb-12 overflow-hidden">
+            <summary className="flex items-center justify-between p-8 cursor-pointer list-none hover:bg-surface-container/30/50 transition-colors">
               <div className="flex items-center gap-3">
                 <BarChart3 size={20} className="text-muted-foreground group-open:text-primary transition-colors" />
-                <h3 className="text-lg font-black text-muted-foreground group-open:text-primary">{ExecutiveLocaleEnforcer.normalize('Executive Financial Analytics')}</h3>
+                <h3 className="text-lg font-black text-primary group-open:text-primary">{ExecutiveLocaleEnforcer.normalize('Executive Financial Analytics')}</h3>
               </div>
               <ChevronDown size={20} className="text-muted-foreground group-open:rotate-180 transition-transform" />
             </summary>
-            <div className="p-8 border-t border-border bg-slate-50/30">
+            <div className="p-8 border-t border-border bg-surface-container/30/30">
               <div className="flex flex-col mb-6 border-b border-border pb-4">
-                <h4 className="text-sm font-black text-muted-foreground mb-2">Análise Estrutural Detalhada</h4>
-                <p className="text-xs text-muted-foreground font-medium leading-relaxed max-w-3xl">
+                <h4 className="text-sm font-black text-primary mb-2">Análise Estrutural Detalhada</h4>
+                <p className="text-secondary">
                   Cálculos • Análise Horizontal e Vertical • Gráficos
                 </p>
               </div>
@@ -1036,34 +1043,28 @@ export function BalanceSheetPage({ clients, selectedClient, selectedYear }: any)
               {/* ── Gráficos Adicionais Executivos ── */}
               <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
                 {/* Waterfall: Dinâmica de Capital de Giro */}
-                <div className="bg-white p-8 rounded-[40px] border border-border shadow-sm col-span-1 md:col-span-2 lg:col-span-1 flex flex-col">
-                  <h3 className="text-lg font-black text-muted-foreground mb-1">{t('bp.working_capital.title')}</h3>
-                  <p className="text-[10px] text-muted-foreground uppercase font-bold tracking-[0.2em] mb-6">{ExecutiveLocaleEnforcer.normalize('Estrutura de Liquidez e Capital de Giro')}</p>
-                  
-                  <div className="flex-1 min-h-[250px] w-full">
-                    <ResponsiveContainer width="100%" height="100%">
-                      <BarChart data={waterfallData} margin={{ top: 20, right: 30, left: 20, bottom: 5 }}>
-                        <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#f1f5f9" />
-                        <XAxis dataKey="name" axisLine={false} tickLine={false} tick={{ fontSize: 10, fontWeight: 800, fill: '#94a3b8' }} />
-                        <YAxis hide />
-                        <Tooltip 
-                          formatter={(value: number) => formatCurrency(value)}
-                          cursor={{ fill: '#f8fafc' }}
-                        />
-                        <Bar dataKey="value">
-                          {waterfallData.map((entry, index) => (
-                            <Cell key={`cell-${index}`} fill={entry.isTotal ? '#3b82f6' : (entry.isPositive ? '#10b981' : '#ef4444')} />
-                          ))}
-                        </Bar>
-                      </BarChart>
-                    </ResponsiveContainer>
-                  </div>
-                </div>
+                <ExecutiveChart 
+                  title={t('bp.working_capital.title')}
+                  description={ExecutiveLocaleEnforcer.normalize('Estrutura de Liquidez e Capital de Giro')}
+                  height={250}
+                  className="col-span-1 md:col-span-2 lg:col-span-1"
+                >
+                  <BarChart data={waterfallData} margin={{ top: 20, right: 30, left: 20, bottom: 5 }}>
+                    <ExecutiveChartGrid vertical={false} />
+                    <ExecutiveChartXAxis dataKey="name" />
+                    <ExecutiveChartTooltip formatter={(value: number) => formatCurrency(value)} />
+                    <Bar dataKey="value">
+                      {waterfallData.map((entry, index) => (
+                        <Cell key={`cell-${index}`} fill={entry.isTotal ? '#3b82f6' : (entry.isPositive ? '#10b981' : '#ef4444')} />
+                      ))}
+                    </Bar>
+                  </BarChart>
+                </ExecutiveChart>
 
                 {/* Heatmap: Concentração */}
-                <div className="bg-white p-8 rounded-[40px] border border-border shadow-sm flex flex-col">
-                  <h3 className="text-lg font-black text-muted-foreground mb-1">Mapa de Calor: Concentração</h3>
-                  <p className="text-[10px] text-muted-foreground uppercase font-bold tracking-[0.2em] mb-6">{t('bp.working_capital.subtitle')}</p>
+                <div className="bg-card p-8 rounded-[40px] border border-border shadow-sm flex flex-col">
+                  <h3 className="text-lg font-black text-primary mb-1">Mapa de Calor: Concentração</h3>
+                  <p className="text-secondary">{t('bp.working_capital.subtitle')}</p>
                   
                   <div className="flex-1 flex flex-col justify-center space-y-6">
                     <div>
@@ -1071,8 +1072,8 @@ export function BalanceSheetPage({ clients, selectedClient, selectedYear }: any)
                         <span className="text-xs font-black uppercase tracking-widest text-muted-foreground">Estoque / Ativo Circulante</span>
                         <span className="text-sm font-bold">{bpSummary && bpSummary.ativoCirculante > 0 ? ((bpSummary.estoques / bpSummary.ativoCirculante) * 100).toFixed(1) : 0}%</span>
                       </div>
-                      <div className="w-full h-3 bg-slate-100 rounded-full overflow-hidden flex">
-                        <div className="h-full bg-amber-500" style={{ width: `${bpSummary && bpSummary.ativoCirculante > 0 ? (bpSummary.estoques / bpSummary.ativoCirculante) * 100 : 0}%` }} />
+                      <div className="w-full h-3 bg-surface-container rounded-full overflow-hidden flex">
+                        <div className="h-full bg-warning-soft0" style={{ width: `${bpSummary && bpSummary.ativoCirculante > 0 ? (bpSummary.estoques / bpSummary.ativoCirculante) * 100 : 0}%` }} />
                       </div>
                     </div>
                     <div>
@@ -1080,8 +1081,8 @@ export function BalanceSheetPage({ clients, selectedClient, selectedYear }: any)
                         <span className="text-xs font-black uppercase tracking-widest text-muted-foreground">Dívida CP / Passivo Total</span>
                         <span className="text-sm font-bold">{bpSummary && bpSummary.passivoTotal > 0 ? ((bpSummary.passivoCirculante / bpSummary.passivoTotal) * 100).toFixed(1) : 0}%</span>
                       </div>
-                      <div className="w-full h-3 bg-slate-100 rounded-full overflow-hidden flex">
-                        <div className="h-full bg-rose-500" style={{ width: `${bpSummary && bpSummary.passivoTotal > 0 ? (bpSummary.passivoCirculante / bpSummary.passivoTotal) * 100 : 0}%` }} />
+                      <div className="w-full h-3 bg-surface-container rounded-full overflow-hidden flex">
+                        <div className="h-full bg-critical-soft0" style={{ width: `${bpSummary && bpSummary.passivoTotal > 0 ? (bpSummary.passivoCirculante / bpSummary.passivoTotal) * 100 : 0}%` }} />
                       </div>
                     </div>
                     <div>
@@ -1089,7 +1090,7 @@ export function BalanceSheetPage({ clients, selectedClient, selectedYear }: any)
                         <span className="text-xs font-black uppercase tracking-widest text-muted-foreground">PL / Ativo Total (Autonomia)</span>
                         <span className="text-sm font-bold">{bpSummary && bpSummary.ativoTotal > 0 ? ((bpSummary.patrimonioLiquido / bpSummary.ativoTotal) * 100).toFixed(1) : 0}%</span>
                       </div>
-                      <div className="w-full h-3 bg-slate-100 rounded-full overflow-hidden flex">
+                      <div className="w-full h-3 bg-surface-container rounded-full overflow-hidden flex">
                         <div className="h-full bg-primary" style={{ width: `${bpSummary && bpSummary.ativoTotal > 0 ? (bpSummary.patrimonioLiquido / bpSummary.ativoTotal) * 100 : 0}%` }} />
                       </div>
                     </div>
@@ -1097,14 +1098,14 @@ export function BalanceSheetPage({ clients, selectedClient, selectedYear }: any)
                 </div>
 
                 {/* Composição do Ativo */}
-                <div className="bg-white p-8 rounded-[40px] border border-border shadow-sm">
-                  <h3 className="text-lg font-black text-muted-foreground mb-1">{t('bp.assets.title')}</h3>
-                  <p className="text-[10px] text-muted-foreground uppercase font-bold tracking-[0.2em] mb-6">{t('bp.assets.subtitle')}</p>
-                  
-                  <div className="flex items-center">
-                    <div className="h-64 w-1/2">
-                      <ResponsiveContainer width="100%" height="100%">
-                        <PieChart>
+                <ExecutiveChart 
+                  title={t('bp.assets.title')}
+                  description={t('bp.assets.subtitle')}
+                  height={256}
+                >
+                  <div className="flex items-center h-full w-full">
+                    <div className="h-full w-1/2">
+                        <PieChart width={250} height={250}>
                           <Pie
                             data={ativoData}
                             cx="50%"
@@ -1114,40 +1115,36 @@ export function BalanceSheetPage({ clients, selectedClient, selectedYear }: any)
                             paddingAngle={5}
                             dataKey="value"
                           >
-                            {ativoData.map((entry, index) => (
+                            {ativoData.map((entry: any, index: number) => (
                               <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
                             ))}
                           </Pie>
-                          <Tooltip 
-                            formatter={(value: number) => formatCurrency(value)}
-                            contentStyle={{ borderRadius: '16px', border: 'none', boxShadow: '0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.1)' }}
-                          />
+                          <ExecutiveChartTooltip formatter={(value: number) => formatCurrency(value)} />
                         </PieChart>
-                      </ResponsiveContainer>
                     </div>
                     <div className="w-1/2 pl-4 space-y-3">
-                      {ativoData.map((item, idx) => (
+                      {ativoData.map((item: any, idx: number) => (
                         <div key={idx} className="flex items-center gap-3">
                           <div className="w-3 h-3 rounded-full shrink-0" style={{ backgroundColor: COLORS[idx % COLORS.length] }} />
                           <div>
-                             <p className="text-[10px] font-black uppercase tracking-wider text-muted-foreground truncate" title={item.name}>{item.name}</p>
-                             <p className="text-sm font-bold text-muted-foreground">{formatCurrency(item.value)}</p>
+                             <p className="text-secondary" title={item.name}>{item.name}</p>
+                             <p className="text-secondary">{formatCurrency(item.value)}</p>
                           </div>
                         </div>
                       ))}
                     </div>
                   </div>
-                </div>
+                </ExecutiveChart>
 
                 {/* Composição do Passivo */}
-                <div className="bg-white p-8 rounded-[40px] border border-border shadow-sm">
-                  <h3 className="text-lg font-black text-muted-foreground mb-1">{t('bp.liabilities.title')}</h3>
-                  <p className="text-[10px] text-muted-foreground uppercase font-bold tracking-[0.2em] mb-6">{t('bp.liabilities.subtitle')}</p>
-                  
-                  <div className="flex items-center">
-                    <div className="h-64 w-1/2">
-                      <ResponsiveContainer width="100%" height="100%">
-                        <PieChart>
+                <ExecutiveChart 
+                  title={t('bp.liabilities.title')}
+                  description={t('bp.liabilities.subtitle')}
+                  height={256}
+                >
+                  <div className="flex items-center h-full w-full">
+                    <div className="h-full w-1/2">
+                        <PieChart width={250} height={250}>
                           <Pie
                             data={passivoData}
                             cx="50%"
@@ -1157,144 +1154,124 @@ export function BalanceSheetPage({ clients, selectedClient, selectedYear }: any)
                             paddingAngle={5}
                             dataKey="value"
                           >
-                            {passivoData.map((entry, index) => (
+                            {passivoData.map((entry: any, index: number) => (
                               <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
                             ))}
                           </Pie>
-                          <Tooltip 
-                            formatter={(value: number) => formatCurrency(value)}
-                            contentStyle={{ borderRadius: '16px', border: 'none', boxShadow: '0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.1)' }}
-                          />
+                          <ExecutiveChartTooltip formatter={(value: number) => formatCurrency(value)} />
                         </PieChart>
-                      </ResponsiveContainer>
                     </div>
                     <div className="w-1/2 pl-4 space-y-3">
-                      {passivoData.map((item, idx) => (
+                      {passivoData.map((item: any, idx: number) => (
                         <div key={idx} className="flex items-center gap-3">
                           <div className="w-3 h-3 rounded-full shrink-0" style={{ backgroundColor: COLORS[idx % COLORS.length] }} />
                           <div>
-                             <p className="text-[10px] font-black uppercase tracking-wider text-muted-foreground truncate" title={item.name}>{item.name}</p>
-                             <p className="text-sm font-bold text-muted-foreground">{formatCurrency(item.value)}</p>
+                             <p className="text-secondary" title={item.name}>{item.name}</p>
+                             <p className="text-secondary">{formatCurrency(item.value)}</p>
                           </div>
                         </div>
                       ))}
                     </div>
                   </div>
-                </div>
+                </ExecutiveChart>
               </div>
 
               {/* ── Análise de Evolução e Gráficos ── */}
               {chartData.length < 2 ? (
-                <div className="bg-white p-8 rounded-[40px] border border-border shadow-sm relative overflow-hidden flex flex-col items-center justify-center min-h-[300px] text-center">
-                   <div className="w-16 h-16 bg-slate-50 rounded-2xl flex items-center justify-center mb-6 border border-border text-muted-foreground">
+                <div className="bg-card p-8 rounded-[40px] border border-border shadow-sm relative overflow-hidden flex flex-col items-center justify-center min-h-[300px] text-center">
+                   <div className="w-16 h-16 bg-surface-container/30 rounded-2xl flex items-center justify-center mb-6 border border-border text-muted-foreground">
                      <TrendingDown size={32} />
                    </div>
-                   <h3 className="text-lg font-black text-muted-foreground mb-2">{t('bp.empty_longitudinal')}</h3>
-                   <p className="text-xs font-medium text-muted-foreground max-w-3xl leading-relaxed">
+                   <h3 className="text-lg font-black text-primary mb-2">{t('bp.empty_longitudinal')}</h3>
+                   <p className="text-secondary">
                      Esta demonstração representa apenas um ciclo financeiro e não permite inferências longitudinais sobre estabilidade, deterioração ou consolidação operacional. A inteligência de evolução requer ao menos dois exercícios.
                    </p>
                 </div>
               ) : (
                 <div className="grid grid-cols-1 xl:grid-cols-3 gap-8">
-                  <div className="xl:col-span-2 bg-white p-8 rounded-[40px] border border-border shadow-sm relative overflow-hidden group">
-                    <div className="absolute top-0 right-0 w-full h-32 bg-gradient-to-b from-slate-50/50 to-transparent pointer-events-none" />
-                    
-                    <div className="flex items-center justify-between mb-8 relative z-10">
-                      <div>
-                        <h3 className="text-lg font-black text-muted-foreground">{t('bp.evolution.title')}</h3>
-                        <p className="text-[10px] text-muted-foreground uppercase font-bold tracking-[0.2em] mt-1">Comparativo de 5 Anos</p>
+                  <ExecutiveChart 
+                    title={t('bp.evolution.title')}
+                    description="Comparativo de 5 Anos"
+                    height={320}
+                    className="xl:col-span-2 group"
+                  >
+                    <div className="flex gap-5 bg-surface-container/30 px-4 py-2 rounded-full border border-border absolute top-6 right-6 z-10">
+                      <div className="flex items-center gap-2">
+                        <div className="w-2 h-2 rounded-full bg-blue-500 shadow-[0_0_8px_rgba(59,130,246,0.5)]" />
+                        <span className="text-[9px] font-black text-muted-foreground uppercase tracking-widest">{t('bp.metrics.assets')}</span>
                       </div>
-                      <div className="flex gap-5 bg-slate-50 px-4 py-2 rounded-full border border-border">
-                        <div className="flex items-center gap-2">
-                          <div className="w-2 h-2 rounded-full bg-blue-500 shadow-[0_0_8px_rgba(59,130,246,0.5)]" />
-                          <span className="text-[9px] font-black text-muted-foreground uppercase tracking-widest">{t('bp.metrics.assets')}</span>
-                        </div>
-                        <div className="flex items-center gap-2">
-                          <div className="w-2 h-2 rounded-full bg-slate-400 shadow-[0_0_8px_rgba(148,163,184,0.5)]" />
-                          <span className="text-[9px] font-black text-muted-foreground uppercase tracking-widest">{t('bp.metrics.liabilities')}</span>
-                        </div>
-                        <div className="flex items-center gap-2">
-                          <div className="w-2 h-2 rounded-full bg-primary shadow-[0_0_8px_rgba(168,85,247,0.5)]" />
-                          <span className="text-[9px] font-black text-muted-foreground uppercase tracking-widest">{t('bp.metrics.equity')}</span>
-                        </div>
+                      <div className="flex items-center gap-2">
+                        <div className="w-2 h-2 rounded-full bg-surface-container 400 shadow-[0_0_8px_rgba(148,163,184,0.5)]" />
+                        <span className="text-[9px] font-black text-muted-foreground uppercase tracking-widest">{t('bp.metrics.liabilities')}</span>
+                      </div>
+                      <div className="flex items-center gap-2">
+                        <div className="w-2 h-2 rounded-full bg-primary shadow-[0_0_8px_rgba(168,85,247,0.5)]" />
+                        <span className="text-[9px] font-black text-muted-foreground uppercase tracking-widest">{t('bp.metrics.equity')}</span>
                       </div>
                     </div>
-                    
-                    <div className="h-[320px] w-full relative z-10">
-                      <ResponsiveContainer width="100%" height="100%">
-                        <AreaChart data={chartData} margin={{ top: 10, right: 10, left: 10, bottom: 0 }}>
-                          <defs>
-                            <linearGradient id="colorAtivo" x1="0" y1="0" x2="0" y2="1">
-                              <stop offset="5%" stopColor="#3b82f6" stopOpacity={0.3}/>
-                              <stop offset="95%" stopColor="#3b82f6" stopOpacity={0}/>
-                            </linearGradient>
-                            <linearGradient id="colorPassivo" x1="0" y1="0" x2="0" y2="1">
-                              <stop offset="5%" stopColor="#94a3b8" stopOpacity={0.3}/>
-                              <stop offset="95%" stopColor="#94a3b8" stopOpacity={0}/>
-                            </linearGradient>
-                            <linearGradient id="colorPl" x1="0" y1="0" x2="0" y2="1">
-                              <stop offset="5%" stopColor="#a855f7" stopOpacity={0.3}/>
-                              <stop offset="95%" stopColor="#a855f7" stopOpacity={0}/>
-                            </linearGradient>
-                          </defs>
-                          <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#f1f5f9" />
-                          <XAxis 
-                            dataKey="year" 
-                            axisLine={false} 
-                            tickLine={false} 
-                            tick={{ fontSize: 10, fontWeight: 800, fill: '#94a3b8' }} 
-                            dy={10}
-                          />
-                          <YAxis hide />
-                          <Tooltip 
-                            cursor={{ stroke: '#e2e8f0', strokeWidth: 1, strokeDasharray: '4 4' }}
-                            content={({ active, payload }) => {
-                              if (active && payload && payload.length) {
-                                return (
-                                  <div className="bg-slate-900/90 text-white p-5 rounded-2xl shadow-2xl border border-white/10 backdrop-blur-xl">
-                                    <p className="text-[10px] font-black uppercase tracking-[0.2em] mb-4 text-white/50">{payload[0].payload.year}</p>
-                                    <div className="space-y-3">
-                                      {payload.map((p: any, idx: number) => (
-                                        <div key={idx} className="flex items-center justify-between gap-10">
-                                          <div className="flex items-center gap-2">
-                                            <div className="w-1.5 h-1.5 rounded-full" style={{ backgroundColor: p.color }} />
-                                            <span className="text-[10px] font-bold text-white/80 uppercase tracking-widest">{p.name}</span>
-                                          </div>
-                                          <span className="text-xs font-black tabular-nums">{formatCurrency(p.value)}</span>
-                                        </div>
-                                      ))}
+                    <AreaChart data={chartData} margin={{ top: 10, right: 10, left: 10, bottom: 0 }}>
+                      <defs>
+                        <linearGradient id="colorAtivo" x1="0" y1="0" x2="0" y2="1">
+                          <stop offset="5%" stopColor="#3b82f6" stopOpacity={0.3}/>
+                          <stop offset="95%" stopColor="#3b82f6" stopOpacity={0}/>
+                        </linearGradient>
+                        <linearGradient id="colorPassivo" x1="0" y1="0" x2="0" y2="1">
+                          <stop offset="5%" stopColor="#94a3b8" stopOpacity={0.3}/>
+                          <stop offset="95%" stopColor="#94a3b8" stopOpacity={0}/>
+                        </linearGradient>
+                        <linearGradient id="colorPl" x1="0" y1="0" x2="0" y2="1">
+                          <stop offset="5%" stopColor="#a855f7" stopOpacity={0.3}/>
+                          <stop offset="95%" stopColor="#a855f7" stopOpacity={0}/>
+                        </linearGradient>
+                      </defs>
+                      <ExecutiveChartGrid vertical={false} />
+                      <ExecutiveChartXAxis dataKey="year" dy={10} />
+                      <ExecutiveChartTooltip 
+                        content={({ active, payload }: any) => {
+                          if (active && payload && payload.length) {
+                            return (
+                              <div className="bg-foreground/90 text-white p-5 rounded-2xl shadow-2xl border border-white/10 backdrop-blur-xl">
+                                <p className="text-[10px] font-black uppercase tracking-[0.2em] mb-4 text-white/50">{payload[0].payload.year}</p>
+                                <div className="space-y-3">
+                                  {payload.map((p: any, idx: number) => (
+                                    <div key={idx} className="flex items-center justify-between gap-10">
+                                      <div className="flex items-center gap-2">
+                                        <div className="w-1.5 h-1.5 rounded-full" style={{ backgroundColor: p.color }} />
+                                        <span className="text-[10px] font-bold text-white/80 uppercase tracking-widest">{p.name}</span>
+                                      </div>
+                                      <span className="text-xs font-black tabular-nums">{formatCurrency(p.value)}</span>
                                     </div>
-                                  </div>
-                                );
-                              }
-                              return null;
-                            }}
-                          />
-                          <Area type="monotone" dataKey="ativo" name="Ativo" stroke="#3b82f6" strokeWidth={3} fillOpacity={1} fill="url(#colorAtivo)" />
-                          <Area type="monotone" dataKey="passivo" name="Passivo" stroke="#94a3b8" strokeWidth={3} fillOpacity={1} fill="url(#colorPassivo)" />
-                          <Area type="monotone" dataKey="pl" name="PL" stroke="#a855f7" strokeWidth={3} fillOpacity={1} fill="url(#colorPl)" />
-                        </AreaChart>
-                      </ResponsiveContainer>
-                    </div>
-                  </div>
+                                  ))}
+                                </div>
+                              </div>
+                            );
+                          }
+                          return null;
+                        }}
+                      />
+                      <Area type="monotone" dataKey="ativo" name="Ativo" stroke="#3b82f6" strokeWidth={3} fillOpacity={1} fill="url(#colorAtivo)" />
+                      <Area type="monotone" dataKey="passivo" name="Passivo" stroke="#94a3b8" strokeWidth={3} fillOpacity={1} fill="url(#colorPassivo)" />
+                      <Area type="monotone" dataKey="pl" name="PL" stroke="#a855f7" strokeWidth={3} fillOpacity={1} fill="url(#colorPl)" />
+                    </AreaChart>
+                  </ExecutiveChart>
 
-                  <div className="bg-slate-900 text-white p-8 rounded-[40px] shadow-2xl relative overflow-hidden flex flex-col">
+                  <div className="bg-foreground text-white p-8 rounded-[40px] shadow-2xl relative overflow-hidden flex flex-col">
                     <div className="absolute top-0 right-0 w-64 h-64 bg-secondary/10 rounded-full blur-3xl -mr-32 -mt-32 pointer-events-none" />
                     
                     <h3 className="text-lg font-black mb-1">{t('bp.highlights.title')}</h3>
-                    <p className="text-[10px] text-muted-foreground uppercase font-bold tracking-widest mb-8">Variações Significativas (YoY)</p>
+                    <p className="text-secondary">Variações Significativas (YoY)</p>
                     
                     <div className="space-y-6 flex-1">
                       {majorChanges.map((change, i) => (
-                        <div key={i} className="flex items-start gap-4 p-4 bg-white/5 rounded-2xl border border-white/5">
+                        <div key={i} className="flex items-start gap-4 p-4 bg-card/5 rounded-2xl border border-white/5">
                           <div className={cn(
                             "p-2 rounded-xl shrink-0",
-                            change.ah > 0 ? "bg-emerald-500/20 text-emerald-400" : "bg-rose-500/20 text-rose-400"
+                            change.ah > 0 ? "bg-success-soft0/20 text-emerald-700" : "bg-critical-soft0/20 text-rose-700"
                           )}>
                             {change.ah > 0 ? <TrendingUp size={16} /> : <TrendingDown size={16} />}
                           </div>
                           <div>
-                            <p className="text-[9px] font-black text-muted-foreground uppercase tracking-widest mb-0.5">{change.name || change.conta}</p>
+                            <p className="text-secondary">{change.name || change.conta}</p>
                             <p className="text-sm font-bold">{formatCurrency(change.val)}</p>
                             <div className="flex items-center gap-2 mt-1">
                               <span className={cn("text-[10px] font-black", change.ah > 0 ? "text-emerald-400" : "text-rose-400")}>
@@ -1308,10 +1285,10 @@ export function BalanceSheetPage({ clients, selectedClient, selectedYear }: any)
                       {majorChanges.length === 0 && (
                         <div className="flex flex-col items-center justify-center py-10 opacity-50 text-center px-4">
                           <Info size={32} className="mb-3 text-muted-foreground" />
-                          <p className="text-xs font-bold text-muted-foreground">
+                          <p className="text-secondary">
                             {chartData.length <= 2 ? "Comparação preliminar entre exercícios" : "Estabilidade Estrutural"}
                           </p>
-                          <p className="text-[10px] mt-1 text-muted-foreground font-medium">
+                          <p className="text-secondary">
                             {chartData.length <= 2
                               ? "As variações observadas ainda representam uma base histórica limitada, insuficiente para validações conclusivas sobre estabilidade ou maturação estrutural."
                               : "A arquitetura de capital não sofreu realocações bruscas entre os ciclos avaliados."
@@ -1328,15 +1305,15 @@ export function BalanceSheetPage({ clients, selectedClient, selectedYear }: any)
               <div>
                 <div className="flex items-center justify-between px-2 mb-4">
                   <div>
-                    <h3 className="text-lg font-black text-muted-foreground">{t('bp.structural.title')}</h3>
-                    <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-muted-foreground mt-1">{t('bp.structural.subtitle')}</p>
+                    <h3 className="text-lg font-black text-primary">{t('bp.structural.title')}</h3>
+                    <p className="text-secondary">{t('bp.structural.subtitle')}</p>
                   </div>
                   <div className="flex gap-4">
-                     <div className="flex items-center gap-2 px-3 py-1.5 bg-white rounded-full border border-border shadow-sm">
+                     <div className="flex items-center gap-2 px-3 py-1.5 bg-card rounded-full border border-border shadow-sm">
                        <span className="w-1.5 h-1.5 rounded-full bg-primary" />
                        <span className="text-[9px] font-black text-muted-foreground uppercase tracking-widest">AV: Análise Vertical</span>
                      </div>
-                     <div className="flex items-center gap-2 px-3 py-1.5 bg-white rounded-full border border-border shadow-sm">
+                     <div className="flex items-center gap-2 px-3 py-1.5 bg-card rounded-full border border-border shadow-sm">
                        <span className="w-1.5 h-1.5 rounded-full bg-emerald-400" />
                        <span className="text-[9px] font-black text-muted-foreground uppercase tracking-widest">AH: Análise Horizontal</span>
                      </div>
@@ -1344,12 +1321,12 @@ export function BalanceSheetPage({ clients, selectedClient, selectedYear }: any)
                 </div>
 
                 {rows.length === 0 ? (
-                  <div className="flex flex-col items-center justify-center py-24 bg-white rounded-[40px] border border-dashed border-border shadow-sm">
-                    <div className="w-16 h-16 bg-slate-50 rounded-full flex items-center justify-center mb-4">
+                  <div className="flex flex-col items-center justify-center py-24 bg-card rounded-[40px] border border-dashed border-border shadow-sm">
+                    <div className="w-16 h-16 bg-surface-container/30 rounded-full flex items-center justify-center mb-4">
                       <Calendar size={28} className="text-muted-foreground" />
                     </div>
-                    <p className="text-sm font-black text-muted-foreground">{t('bp.empty_data')}</p>
-                    <p className="text-xs font-medium text-muted-foreground mt-2">
+                    <p className="text-secondary">{t('bp.empty_data')}</p>
+                    <p className="text-secondary">
                       Importe ou insira manualmente os dados para o ano {filterYear}
                     </p>
                   </div>
@@ -1360,11 +1337,11 @@ export function BalanceSheetPage({ clients, selectedClient, selectedYear }: any)
                       { title: 'Passivo', data: comparativeAnalysis.filter(r => { const t = (r.tipo || r.type || '').toLowerCase(); return t.includes('passivo') && !t.includes('patrimônio') && !t.includes('pl'); }), color: 'blue' },
                       { title: 'Patrimônio Líquido', data: comparativeAnalysis.filter(r => { const t = (r.tipo || r.type || '').toLowerCase(); return t.includes('patrimônio') || t.includes('pl'); }), color: 'primary' }
                     ].map((section, idx) => (
-                      <div key={idx} className="bg-white border border-border rounded-[32px] shadow-sm overflow-hidden group">
-                        <div className={cn("px-6 py-5 border-b flex items-center justify-between bg-slate-50/50", `border-${section.color}-100/50`)}>
+                      <div key={idx} className="bg-card border border-border rounded-[32px] shadow-sm overflow-hidden group">
+                        <div className={cn("px-6 py-5 border-b flex items-center justify-between bg-surface-container/30/50", `border-${section.color}-100/50`)}>
                           <div className="flex items-center gap-3">
                             <div className={cn("w-2 h-6 rounded-full", `bg-${section.color}-500`)} />
-                            <h4 className="text-base font-black text-muted-foreground tracking-tight">{translateLabel(section.title)}</h4>
+                            <h4 className="text-base font-black text-primary tracking-tight">{translateLabel(section.title)}</h4>
                           </div>
                           <span className={cn("text-[9px] font-black uppercase tracking-widest px-3 py-1.5 rounded-full", `bg-${section.color}-50 text-${section.color}-600`)}>
                             {translateLabel('Detalhamento Estrutural')}
@@ -1385,8 +1362,8 @@ export function BalanceSheetPage({ clients, selectedClient, selectedYear }: any)
                               if (!label) return null;
                               return (
                               <div key={i} className={cn(
-                                "flex items-center px-4 py-3 rounded-2xl transition-all duration-200 hover:bg-slate-50",
-                                row.level === 1 ? "bg-slate-50/50" : ""
+                                "flex items-center px-4 py-3 rounded-2xl transition-all duration-200 hover:bg-surface-container/30",
+                                row.level === 1 ? "bg-surface-container/30/50" : ""
                               )}>
                                 <div className="flex-1 flex items-center">
                                   <span 
@@ -1397,7 +1374,7 @@ export function BalanceSheetPage({ clients, selectedClient, selectedYear }: any)
                                     style={{ paddingLeft: row.level > 1 ? `${(row.level - 1) * 16}px` : '0px' }}
                                   >
                                     {row.level > 1 && (
-                                      <span className="inline-block w-3 h-[1px] bg-slate-300 mr-2 align-middle opacity-50" />
+                                      <span className="inline-block w-3 h-[1px] bg-surface-container 300 mr-2 align-middle opacity-50" />
                                     )}
                                     {label}
                                   </span>
@@ -1410,7 +1387,7 @@ export function BalanceSheetPage({ clients, selectedClient, selectedYear }: any)
                                 <div className="w-24 text-right flex flex-col items-end justify-center">
                                   <span className={cn(
                                     "inline-flex items-center justify-center px-2 py-1 rounded-lg text-[10px] font-black tabular-nums border",
-                                    row.av > 100 ? "bg-rose-50 text-rose-600 border-rose-200" : "bg-slate-100/50 text-muted-foreground border-border"
+                                    row.av > 100 ? "bg-critical-soft text-rose-600 border-rose-200" : "bg-surface-container/50 text-muted-foreground border-border"
                                   )}>
                                     {row.av !== null && row.av !== undefined ? (row.av > 100 ? '> 100%' : `${row.av.toFixed(2)}%`) : (
                                       <span className="text-[10px] font-black text-muted-foreground tabular-nums uppercase tracking-widest">-</span>
@@ -1422,7 +1399,7 @@ export function BalanceSheetPage({ clients, selectedClient, selectedYear }: any)
                                   {row.ah !== 0 && row.ah !== null ? (
                                     <span className={cn(
                                       "inline-flex items-center justify-center gap-1 px-2.5 py-1 rounded-lg text-[10px] font-black tabular-nums border",
-                                      row.ah > 0 ? "bg-emerald-50 text-emerald-600 border-emerald-100" : row.ah < 0 ? "bg-rose-50 text-rose-600 border-rose-100" : "bg-slate-50 text-muted-foreground border-border"
+                                      row.ah > 0 ? "bg-success-soft text-emerald-600 border-emerald-100" : row.ah < 0 ? "bg-critical-soft text-rose-600 border-rose-100" : "bg-surface-container/30 text-muted-foreground border-border"
                                     )}>
                                       {row.ah > 0 ? <TrendingUp size={10} strokeWidth={3} /> : <TrendingDown size={10} strokeWidth={3} />}
                                       {Math.abs(row.ah).toFixed(2)}%
@@ -1452,7 +1429,7 @@ export function BalanceSheetPage({ clients, selectedClient, selectedYear }: any)
 
       {/* ── Comentário Executivo ─────────────────────────────────────────── */}
       {engineError ? (
-        <div className="bg-rose-50 border border-rose-200 text-rose-600 px-6 py-4 rounded-xl mt-6">
+        <div className="bg-critical-soft border border-rose-200 text-rose-600 px-6 py-4 rounded-xl mt-6">
           <h4 className="font-bold mb-1">{t('bp.engine_failure')}</h4>
           <p className="text-sm">{engineError}</p>
           <p className="text-xs opacity-80 mt-2">bpSummary exists: {bpSummary ? 'Yes' : 'No'}</p>
@@ -1507,22 +1484,22 @@ export function BalanceSheetPage({ clients, selectedClient, selectedYear }: any)
 
       {/* Delete Confirmation */}
       {showDeleteConfirm && typeof document !== 'undefined' && createPortal(
-        <div className="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-[100] flex items-center justify-center p-4">
-          <div className="bg-white rounded-[32px] p-8 w-full max-w-md min-w-[300px] md:min-w-[400px] shadow-2xl shrink-0">
-            <h3 className="text-xl font-black text-muted-foreground mb-2">Excluir Dados?</h3>
-            <p className="text-sm text-muted-foreground mb-8 font-medium">
+        <div className="fixed inset-0 bg-foreground/60 backdrop-blur-sm z-[100] flex items-center justify-center p-4">
+          <div className="bg-card rounded-[32px] p-8 w-full max-w-md min-w-[300px] md:min-w-[400px] shadow-2xl shrink-0">
+            <h3 className="text-xl font-black text-primary mb-2">Excluir Dados?</h3>
+            <p className="text-sm text-secondary mb-8 font-medium">
               Esta ação removerá todos os registros do Balanço Patrimonial para o ano <strong>{filterYear}</strong> deste cliente. Esta ação não pode ser desfeita.
             </p>
             <div className="flex gap-4">
               <button
                 onClick={() => setShowDeleteConfirm(false)}
-                className="flex-1 py-3 text-sm font-bold text-muted-foreground hover:bg-slate-50 rounded-2xl transition-all"
+                className="flex-1 py-3 text-sm font-bold text-muted-foreground hover:bg-surface-container/30 rounded-2xl transition-all"
               >
                 Cancelar
               </button>
               <button
                 onClick={handleDelete}
-                className="flex-1 py-3 bg-rose-500 text-white text-sm font-black uppercase tracking-widest rounded-2xl shadow-lg shadow-rose-500/20 hover:scale-105 transition-all"
+                className="flex-1 py-3 bg-critical-soft0 text-white text-sm font-black uppercase tracking-widest rounded-2xl shadow-lg shadow-rose-500/20 hover:scale-105 transition-all"
               >
                 {deleting ? 'Excluindo...' : 'Sim, Excluir'}
               </button>
@@ -1536,7 +1513,7 @@ export function BalanceSheetPage({ clients, selectedClient, selectedYear }: any)
       {toast && typeof document !== 'undefined' && createPortal(
         <div className={cn(
           'fixed bottom-8 right-8 px-5 md:px-8 py-2.5 md:py-4 rounded-2xl shadow-2xl z-[100] animate-in fade-in slide-in-from-bottom-4 transition-all',
-          toast.type === 'success' ? 'bg-emerald-500 text-white' : 'bg-rose-500 text-white'
+          toast.type === 'success' ? 'bg-success-soft0 text-white' : 'bg-critical-soft0 text-white'
         )}>
           <p className="text-xs font-black uppercase tracking-widest">{toast.message}</p>
         </div>,

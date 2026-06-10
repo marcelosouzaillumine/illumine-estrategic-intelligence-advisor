@@ -35,7 +35,7 @@ export function ExecutiveAttentionMap() {
                 key={moduleName} 
                 className={cn(
                   "p-4 rounded-xl border flex flex-col justify-between gap-3 bg-surface-container/20 transition-all hover:bg-surface-container/30",
-                  level === 'crítico' ? "border-rose-500/25 bg-rose-500/[0.02]" : "border-border"
+                  level === 'crítico' ? "border-rose-500/25 bg-critical-soft0/[0.02]" : "border-border"
                 )}
               >
                 <div>
@@ -55,7 +55,7 @@ export function ExecutiveAttentionMap() {
                     <div 
                       className={cn(
                         "h-full rounded-full transition-all duration-700",
-                        level === 'crítico' ? "bg-rose-500" : level === 'alto' ? "bg-amber-500" : "bg-secondary"
+                        level === 'crítico' ? "bg-critical-soft0" : level === 'alto' ? "bg-warning-soft0" : "bg-secondary"
                       )}
                       style={{ width: `${weight * 100}%` }}
                     ></div>

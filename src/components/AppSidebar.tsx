@@ -197,7 +197,7 @@ export function AppSidebar({
               {/* Group label — hidden when collapsed */}
               <SidebarGroupLabel
                 className={cn(
-                  'cursor-pointer select-none hover:text-foreground transition-colors sidebar-group-label-text text-muted-foreground/85 h-7 mb-1',
+                  'cursor-pointer select-none hover:text-foreground transition-colors sidebar-group-label-text text-secondary font-semibold uppercase tracking-widest h-7 mb-1',
                   !isCollapsed ? 'flex' : 'hidden'
                 )}
                 onClick={() => toggleSubmenu(group.group)}
@@ -230,8 +230,8 @@ export function AppSidebar({
                           className={cn(
                             'relative group px-2 xl:px-2.5 py-1 xl:py-1.5 rounded-button transition-all duration-300 sidebar-menu-item-button',
                             isActive
-                              ? 'text-foreground font-normal bg-surface-container/40 shadow-xs'
-                              : 'text-muted-foreground hover:text-foreground hover:bg-surface-container/20'
+                              ? 'text-primary font-medium bg-surface-high shadow-sm border border-border/50'
+                              : 'text-secondary hover:text-foreground hover:bg-surface-high/50'
                           )}
                         >
                           {/* Active pill indicator */}
@@ -258,7 +258,7 @@ export function AppSidebar({
                                   {t(item.labelKey || `navigation.page.${item.id}`)}
                                 </span>
                                 {item.id === 'aprovacoes' && totalPending > 0 && (
-                                  <span className="flex h-4 min-w-[16px] px-1 items-center justify-center bg-rose-500 text-white text-[9px] font-black rounded-full animate-pulse">
+                                  <span className="flex h-4 min-w-[16px] px-1 items-center justify-center bg-critical-soft0 text-white text-[9px] font-black rounded-full animate-pulse">
                                     {totalPending}
                                   </span>
                                 )}
@@ -278,7 +278,7 @@ export function AppSidebar({
 
                           {/* Dot badge when collapsed */}
                           {isCollapsed && item.id === 'aprovacoes' && totalPending > 0 && (
-                            <div className="absolute top-1.5 right-1.5 w-1.5 h-1.5 bg-rose-500 rounded-full animate-pulse" />
+                            <div className="absolute top-1.5 right-1.5 w-1.5 h-1.5 bg-critical-soft0 rounded-full animate-pulse" />
                           )}
                         </SidebarMenuButton>
 
@@ -301,8 +301,8 @@ export function AppSidebar({
                                     className={cn(
                                       'w-full text-left flex items-center gap-1.5 xl:gap-2.5 py-0.5 xl:py-1 px-1.5 xl:px-2 rounded-sm font-normal leading-none transition-colors sidebar-submenu-item-text',
                                       currentPage === child.id
-                                        ? 'text-primary bg-surface-container'
-                                        : 'text-muted-foreground hover:text-foreground'
+                                        ? 'text-primary bg-surface-high font-medium shadow-sm border border-border/30'
+                                        : 'text-secondary hover:text-foreground'
                                     )}
                                   >
                                     <span className={cn(

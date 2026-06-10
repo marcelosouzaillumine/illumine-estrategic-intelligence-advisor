@@ -38,11 +38,11 @@ export function BenchmarkAdvisoryPanel({ clientId, scenario }: BenchmarkAdvisory
       case 'TOP_10':
         return { text: 'text-primary bg-primary border-primary', label: 'Top 10% (Líder)' };
       case 'TOP_25':
-        return { text: 'text-emerald-400 bg-emerald-500/10 border-emerald-500/25', label: 'Top 25% (Excelente)' };
+        return { text: 'text-emerald-400 bg-success-soft0/10 border-emerald-500/25', label: 'Top 25% (Excelente)' };
       case 'TOP_50':
         return { text: 'text-primary bg-primary border-primary', label: 'Top 50% (Maduro)' };
       case 'BOTTOM_50':
-        return { text: 'text-amber-400 bg-amber-500/10 border-amber-500/25', label: 'Bottom 50% (Em Desenvolvimento)' };
+        return { text: 'text-amber-400 bg-warning-soft0/10 border-amber-500/25', label: 'Bottom 50% (Em Desenvolvimento)' };
       case 'BOTTOM_25':
       default:
         return { text: 'text-red-400 bg-red-500/10 border-red-500/25', label: 'Bottom 25% (Crítico)' };
@@ -52,7 +52,7 @@ export function BenchmarkAdvisoryPanel({ clientId, scenario }: BenchmarkAdvisory
   const getInitiativeTypeStyles = (type: string) => {
     switch (type) {
       case 'QUICK_WIN':
-        return { bg: 'bg-emerald-500/10 border-emerald-500/20 text-emerald-400', label: 'Quick Win' };
+        return { bg: 'bg-success-soft0/10 border-emerald-500/20 text-emerald-400', label: 'Quick Win' };
       case 'FOUNDATIONAL':
         return { bg: 'bg-primary border-primary text-primary', label: 'Foundational' };
       case 'TRANSFORMATIONAL':
@@ -138,7 +138,7 @@ export function BenchmarkAdvisoryPanel({ clientId, scenario }: BenchmarkAdvisory
         <>
           {/* CONDITIONAL ADVISORY BANNERS */}
           {isConditional && (
-            <div className="p-4 bg-amber-500/10 border border-amber-500/20 text-amber-400 rounded-2xl flex items-start gap-3 shadow-md shadow-amber-500/5">
+            <div className="p-4 bg-warning-soft0/10 border border-amber-500/20 text-amber-400 rounded-2xl flex items-start gap-3 shadow-md shadow-amber-500/5">
               <AlertTriangle className="w-5 h-5 shrink-0 mt-0.5" />
               <div className="space-y-1 text-xs">
                 <span className="font-extrabold uppercase tracking-wider block">Comparação Condicionada à Prontidão:</span>

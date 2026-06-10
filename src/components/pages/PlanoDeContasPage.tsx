@@ -68,7 +68,7 @@ function DeletePlanModal({
         className="bg-white rounded-3xl w-full max-w-md shadow-2xl overflow-hidden"
       >
         {/* Header */}
-        <div className="p-6 bg-rose-50 border-b border-rose-100 flex items-start gap-4">
+        <div className="p-6 bg-critical-soft border-b border-rose-100 flex items-start gap-4">
           <div className="w-12 h-12 bg-rose-100 rounded-2xl flex items-center justify-center text-rose-600 shrink-0">
             <Trash2 size={22} />
           </div>
@@ -83,7 +83,7 @@ function DeletePlanModal({
 
         {/* Body */}
         <div className="p-6 space-y-5">
-          <div className="bg-amber-50 border border-amber-200 rounded-2xl p-4 flex items-start gap-3">
+          <div className="bg-warning-soft border border-amber-200 rounded-2xl p-4 flex items-start gap-3">
             <AlertTriangle size={18} className="text-amber-500 shrink-0 mt-0.5" />
             <p className="text-xs text-amber-700 font-medium leading-relaxed">
               Você está prestes a excluir permanentemente <span className="font-black">{accountCount} contas</span> do plano de <span className="font-black">{clientName}</span>. Todos os vínculos de KPI e mapeamentos serão perdidos.
@@ -105,7 +105,7 @@ function DeletePlanModal({
               className={cn(
                 "w-full px-4 py-2.5 border rounded-xl text-sm outline-none transition-all",
                 isValid 
-                  ? "border-rose-400 bg-rose-50 focus:ring-2 focus:ring-rose-300/30" 
+                  ? "border-rose-400 bg-critical-soft focus:ring-2 focus:ring-rose-300/30" 
                   : "border-border focus:border-border"
               )}
               autoFocus
@@ -371,7 +371,7 @@ export function PlanoDeContasPage({
           {selectedClient && savedCount > 0 && (
             <button 
               onClick={() => setIsDeletePlanOpen(true)}
-              className="px-5 py-3 bg-white border border-border text-rose-500 rounded-2xl text-[10px] font-black uppercase tracking-widest hover:bg-rose-50 transition-all flex items-center gap-2 shadow-sm"
+              className="px-5 py-3 bg-white border border-border text-rose-500 rounded-2xl text-[10px] font-black uppercase tracking-widest hover:bg-critical-soft transition-all flex items-center gap-2 shadow-sm"
             >
               <Trash2 size={14} /> EXCLUIR PLANO
             </button>
@@ -383,7 +383,7 @@ export function PlanoDeContasPage({
             className={cn(
               "px-4 md:px-6 py-2 md:py-3 rounded-2xl text-[10px] font-black uppercase tracking-widest transition-all shadow-sm flex items-center gap-2 border",
               saveSuccess 
-                ? "bg-emerald-500 text-white border-emerald-400" 
+                ? "bg-success-soft0 text-white border-emerald-400" 
                 : "bg-white text-muted-foreground border-border hover:bg-slate-50"
             )}
           >
@@ -500,9 +500,9 @@ export function PlanoDeContasPage({
                       <span className={cn(
                         "text-[10px] font-black px-2 py-1 rounded-md uppercase tracking-tighter",
                         acc.type === 'Ativo' ? "bg-primary/5 text-primary" :
-                        acc.type === 'Passivo' ? "bg-rose-50 text-rose-700" :
-                        acc.type === 'Patrimônio Líquido' ? "bg-amber-50 text-amber-700" :
-                        acc.type === 'Receita' ? "bg-emerald-50 text-emerald-700" :
+                        acc.type === 'Passivo' ? "bg-critical-soft text-rose-700" :
+                        acc.type === 'Patrimônio Líquido' ? "bg-warning-soft text-amber-700" :
+                        acc.type === 'Receita' ? "bg-success-soft text-emerald-700" :
                         acc.type === 'Despesa' ? "bg-slate-100 text-muted-foreground" :
                         "bg-secondary/10 text-secondary"
                       )}>
@@ -559,7 +559,7 @@ export function PlanoDeContasPage({
                                   handleFirestoreError(e, OperationType.UPDATE, 'account_plans');
                                 }
                               }}
-                              className="text-[9px] font-black text-rose-500 bg-rose-50 px-2 py-1 rounded-lg border border-rose-100 flex items-center justify-center gap-1 hover:bg-rose-600 hover:text-white transition-all shadow-sm"
+                              className="text-[9px] font-black text-rose-500 bg-critical-soft px-2 py-1 rounded-lg border border-rose-100 flex items-center justify-center gap-1 hover:bg-rose-600 hover:text-white transition-all shadow-sm"
                             >
                               <Sparkles size={10} /> Vincular KPI
                             </button>
@@ -579,7 +579,7 @@ export function PlanoDeContasPage({
                         </button>
                         <button 
                           onClick={() => handleDeleteAccount(acc.id, acc.code)}
-                          className="p-2 text-muted-foreground hover:text-rose-600 hover:bg-rose-50 rounded-lg transition-all"
+                          className="p-2 text-muted-foreground hover:text-rose-600 hover:bg-critical-soft rounded-lg transition-all"
                         >
                           <Trash2 size={16} />
                         </button>

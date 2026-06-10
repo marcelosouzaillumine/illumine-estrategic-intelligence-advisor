@@ -32,8 +32,8 @@ import { DashboardSkeleton } from '../ui/skeletons';
 
 function SectionHeader({ icon: Icon, title, subtitle, tone }: any) {
   const tones: any = {
-    emerald: "bg-emerald-50 text-emerald-600 border-emerald-100",
-    rose: "bg-rose-50 text-rose-600 border-rose-100",
+    emerald: "bg-success-soft text-emerald-600 border-emerald-100",
+    rose: "bg-critical-soft text-rose-600 border-rose-100",
     blue: "bg-blue-50 text-blue-600 border-blue-100",
     slate: "bg-slate-50 text-muted-foreground border-border",
   };
@@ -183,7 +183,7 @@ export function PremissasClientePage({ clients, selectedClient }: { clients: any
             animate={{ opacity: 1, scale: 1 }}
             className="bg-white rounded-3xl p-8 shadow-2xl max-w-sm w-full text-center"
           >
-            <div className="w-16 h-16 bg-rose-50 rounded-full flex items-center justify-center mx-auto mb-6">
+            <div className="w-16 h-16 bg-critical-soft rounded-full flex items-center justify-center mx-auto mb-6">
               <Trash2 size={32} className="text-rose-500" />
             </div>
             <h3 className="text-xl font-black text-muted-foreground mb-2">Confirmar Exclusão</h3>
@@ -219,7 +219,7 @@ export function PremissasClientePage({ clients, selectedClient }: { clients: any
           className={cn(
             "flex items-center gap-2 px-4 md:px-6 py-2 md:py-3 rounded-2xl font-black text-xs uppercase tracking-widest transition-all shadow-lg disabled:opacity-50",
             saveSuccess 
-              ? "bg-emerald-500 text-white shadow-emerald-500/25" 
+              ? "bg-success-soft0 text-white shadow-emerald-500/25" 
               : "bg-blue-600 text-white shadow-blue-500/25 hover:bg-blue-700"
           )}
         >
@@ -240,7 +240,7 @@ export function PremissasClientePage({ clients, selectedClient }: { clients: any
             />
             <button 
               onClick={() => addEntry('receitas')}
-              className="flex items-center gap-2 px-4 py-2 bg-emerald-50 text-emerald-600 rounded-xl font-black text-[10px] uppercase tracking-widest hover:bg-emerald-100 transition-all active:scale-95"
+              className="flex items-center gap-2 px-4 py-2 bg-success-soft text-emerald-600 rounded-xl font-black text-[10px] uppercase tracking-widest hover:bg-emerald-100 transition-all active:scale-95"
             >
               <Plus size={14} />
               Adicionar
@@ -350,7 +350,7 @@ export function PremissasClientePage({ clients, selectedClient }: { clients: any
             />
             <button 
               onClick={() => addEntry('custos')}
-              className="flex items-center gap-2 px-4 py-2 bg-rose-50 text-rose-600 rounded-xl font-black text-[10px] uppercase tracking-widest hover:bg-rose-100 transition-all active:scale-95"
+              className="flex items-center gap-2 px-4 py-2 bg-critical-soft text-rose-600 rounded-xl font-black text-[10px] uppercase tracking-widest hover:bg-rose-100 transition-all active:scale-95"
             >
               <Plus size={14} />
               Adicionar

@@ -173,7 +173,7 @@ export function ValuationPage({ clients, selectedClient, selectedYear, selectedM
         <div className="lg:col-span-2 space-y-8">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             <div className="bg-white p-8 rounded-3xl border border-border text-center flex flex-col items-center">
-              <div className="w-12 h-12 bg-emerald-50 text-emerald-600 rounded-2xl flex items-center justify-center mb-4">
+              <div className="w-12 h-12 bg-success-soft text-emerald-600 rounded-2xl flex items-center justify-center mb-4">
                 <TrendingUp size={24} />
               </div>
               <h4 className="text-[10px] font-black text-muted-foreground uppercase tracking-widest mb-1">Múltiplo de EBITDA</h4>

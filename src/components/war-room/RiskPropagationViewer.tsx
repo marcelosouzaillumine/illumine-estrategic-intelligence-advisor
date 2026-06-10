@@ -40,7 +40,7 @@ export const RiskPropagationViewer: React.FC<RiskPropagationViewerProps> = ({ im
           </div>
         ) : (
           riskImpacts.map(risk => (
-            <div key={risk.id} className="p-3 bg-rose-500/5 border border-rose-500/20 rounded-lg">
+            <div key={risk.id} className="p-3 bg-critical-soft0/5 border border-rose-500/20 rounded-lg">
               <div className="flex items-start justify-between">
                 <p className="text-xs text-rose-200/80 font-medium leading-relaxed pr-4">
                   {risk.description}

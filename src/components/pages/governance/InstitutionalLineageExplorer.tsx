@@ -35,7 +35,7 @@ export function InstitutionalLineageExplorer({ lineageAppendix, disclosureSet, d
     <div className="p-6 rounded-[32px] border border-border dark:border-zinc-900 bg-slate-50/50 dark:bg-zinc-950/40 backdrop-blur-md space-y-6 shadow-xs">
       {/* Sandbox banner if mock data is used */}
       {isMock && (
-        <div className="p-4 rounded-2xl bg-amber-500/10 border border-amber-500/20 flex items-start gap-3">
+        <div className="p-4 rounded-2xl bg-warning-soft0/10 border border-amber-500/20 flex items-start gap-3">
           <AlertTriangle className="w-5 h-5 text-amber-500 dark:text-amber-400 shrink-0 mt-0.5" />
           <div>
             <h4 className="text-xs font-black uppercase tracking-wider text-amber-600 dark:text-amber-400">Demo dataset / No real financial data loaded</h4>
@@ -119,9 +119,9 @@ export function InstitutionalLineageExplorer({ lineageAppendix, disclosureSet, d
           <div className="space-y-3">
             {activeDisclosures.map((disc, idx) => {
               const badgeColors = disc.severity === 'CRITICAL' || disc.severity === 'RESTRICTED'
-                ? 'bg-rose-500/10 text-rose-700 dark:text-rose-400 border border-rose-500/20'
+                ? 'bg-critical-soft0/10 text-rose-700 dark:text-rose-400 border border-rose-500/20'
                 : disc.severity === 'ELEVATED' || disc.severity === 'HIGH'
-                ? 'bg-amber-500/10 text-amber-700 dark:text-amber-400 border border-amber-500/20'
+                ? 'bg-warning-soft0/10 text-amber-700 dark:text-amber-400 border border-amber-500/20'
                 : 'bg-slate-100 text-muted-foreground dark:text-zinc-400 border border-border dark:border-zinc-500/20';
 
               return (

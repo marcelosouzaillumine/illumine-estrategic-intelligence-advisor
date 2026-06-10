@@ -21,7 +21,7 @@ export const ExecutiveCognitivePage: React.FC = () => {
 
   return (
     <div className="max-w-7xl mx-auto py-8 px-4">
-      <h1 className="text-3xl font-bold text-foreground mb-2">
+      <h1 className="text-3xl font-bold text-foreground mb-2 text-primary">
         Executive Cognitive Layer
       </h1>
       <p className="text-muted-foreground mb-8 text-lg max-w-4xl">
@@ -59,7 +59,7 @@ export const ExecutiveCognitivePage: React.FC = () => {
       )}
 
       {targetNodeId && !loading && error && (
-        <div className="p-6 bg-rose-50 border border-rose-200 text-rose-800 dark:bg-rose-950/30 dark:border-rose-900 dark:text-rose-400 rounded-xl">
+        <div className="p-6 bg-critical-soft border border-rose-200 text-rose-800 dark:bg-rose-950/30 dark:border-rose-900 dark:text-rose-400 rounded-xl">
           <p className="font-bold mb-1">Falha Cognitiva</p>
           <p className="text-sm">{error}</p>
         </div>

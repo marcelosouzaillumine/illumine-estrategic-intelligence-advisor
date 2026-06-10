@@ -6,7 +6,7 @@ export function AlertSeverityBadge({ severity }: { severity: MonitoringSeverity 
   switch (severity) {
     case 'CRITICAL':
       return (
-        <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded text-[10px] font-bold bg-rose-500/10 text-rose-500 border border-rose-500/20 uppercase">
+        <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded text-[10px] font-bold bg-critical-soft0/10 text-rose-500 border border-rose-500/20 uppercase">
           <OctagonAlert size={10} /> CRITICAL
         </span>
       );
@@ -18,7 +18,7 @@ export function AlertSeverityBadge({ severity }: { severity: MonitoringSeverity 
       );
     case 'WARNING':
       return (
-        <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded text-[10px] font-bold bg-amber-500/10 text-amber-500 border border-amber-500/20 uppercase">
+        <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded text-[10px] font-bold bg-warning-soft0/10 text-amber-500 border border-amber-500/20 uppercase">
           <AlertTriangle size={10} /> WARNING
         </span>
       );

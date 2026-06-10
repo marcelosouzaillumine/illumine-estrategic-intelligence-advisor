@@ -25,12 +25,12 @@ export const SimulationConfidenceCard: React.FC = () => {
   if (confidenceLevel === 'INSUFFICIENT_HISTORY') {
     confidenceLabel = t('scenario.confidence.insufficientHistory');
     confidenceDesc = t('scenario.confidence.insufficientHistoryDesc');
-    cardBorder = 'border-amber-500/30 bg-amber-500/5 shadow-[0_0_12px_rgba(245,158,11,0.08)]';
+    cardBorder = 'border-amber-500/30 bg-warning-soft0/5 shadow-[0_0_12px_rgba(245,158,11,0.08)]';
     titleColor = 'text-amber-500';
   } else if (integrityState === 'FAIL_CLOSED') {
     confidenceLabel = t('scenario.confidence.failClosed');
     confidenceDesc = t('scenario.confidence.failClosedDesc');
-    cardBorder = 'border-rose-500/30 bg-rose-500/5 shadow-[0_0_12px_rgba(239,68,68,0.08)] animate-executive-pulse';
+    cardBorder = 'border-rose-500/30 bg-critical-soft0/5 shadow-[0_0_12px_rgba(239,68,68,0.08)] animate-executive-pulse';
     titleColor = 'text-rose-500';
   }
 

@@ -525,3 +525,47 @@ prose:
     Stack sugerida: Next.js + Tailwind + shadcn/ui. Mapear os tokens de cores para variáveis CSS
     em :root e utilizar as classes semânticas da interface. Os tokens v4.0 devem refletir as 
     diretrizes executivas e o script de auditoria deve garantir a adesão automática às regras de cores, ícones, tamanhos de fonte, bordas e sombras.
+
+  canonical_components:
+    ExecutiveNarrative: >
+      Objetivo: Padronizar toda comunicação analítica, executiva e institucional da plataforma, garantindo que pareceres, interpretações, recomendações e conclusões sigam uma identidade visual consistente, altamente legível e alinhada ao padrão premium da Illumine Governance™.
+      Responsabilidades: O componente será a forma oficial de renderizar: pareceres executivos, análises financeiras, recomendações estratégicas, insights institucionais, narrativas produzidas pelos motores analíticos, explicações de indicadores, conclusões de simulações, comentários de governança, justificativas de alertas e riscos, textos gerados por IA.
+      Estrutura visual:
+      - Título: text-primary, font-semibold
+      - Corpo principal: text-secondary, espaçamento confortável entre linhas, largura otimizada para leitura prolongada
+      - Observações auxiliares: text-muted, uso restrito a notas de apoio, referências e informações secundárias
+      - Listas: marcadores discretos, espaçamento consistente, alinhamento uniforme
+      - Destaques: Utilizar elementos semânticos (StatusBadge, SemanticCard ou InfoBanner) em vez de aplicar cores diretamente no texto.
+
+    SemanticCard: >
+      Expandir as variantes para: default, info, insight, success, warning, critical.
+      Cada variante deve controlar automaticamente: fundo, borda, tipografia, contraste, ícones, espaçamento.
+      Nenhuma página poderá construir manualmente um card colorido utilizando apenas div + classes utilitárias.
+
+    ExecutiveTable: >
+      Padronizar: cabeçalhos com text-secondary, células numéricas com text-primary e tabular-nums, alinhamento consistente, densidade adequada para dados financeiros, bordas suaves, excelente legibilidade em grandes volumes de informação.
+
+    ExecutiveStat_MetricInline: >
+      Indicadores compactos exibidos em linhas, toolbars e tabelas. Muitas plataformas mantêm um excelente padrão visual justamente porque diferenciam KPIs em destaque (MetricTile) de métricas resumidas (ExecutiveStat), evitando que cada tela invente seu próprio estilo para pequenos indicadores. Isso reforçará ainda mais a consistência visual da Illumine Governance™ em toda a aplicação.
+
+  antigravity_evolution:
+    verificacoes_arquiteturais:
+      - "textos analíticos que não utilizem ExecutiveNarrative"
+      - "KPIs renderizados fora de MetricTile/KPICard"
+      - "títulos renderizados fora de PageHeader ou SectionHeader"
+      - "badges fora de StatusBadge"
+      - "cards coloridos fora de SemanticCard"
+      - "tabelas financeiras fora de ExecutiveTable"
+      - "sobrescritas locais (className) que enfraqueçam contraste, tipografia ou hierarquia dos componentes canônicos."
+      - "MetricTile recriado manualmente com div;"
+      - "grids de KPIs fora de MetricGrid;"
+      - "títulos de página fora de PageHeader;"
+      - "cards coloridos fora de SemanticCard;"
+      - "recomendações renderizadas sem ExecutiveNarrative ou ExecutiveCallout."
+      - "sequências narrativas que não utilizem NarrativeStack."
+      - "blocos textuais soltos (<p>, <span>) para relatórios longos passam a ser uma infração visual."
+
+  architectural_principle: >
+    Obrigatório: Toda narrativa analítica ou executiva deve utilizar ExecutiveNarrative. Sequências narrativas devem utilizar NarrativeStack. Construções manuais equivalentes com <div>, <p> ou <span> configuram infração ao padrão visual institucional.
+    Obrigatório: A partir desta constituição visual, nenhuma página da Illumine Governance™ deve definir diretamente regras de tipografia, contraste, semântica de cores ou hierarquia visual. As páginas devem apenas compor componentes canônicos, que encapsulam essas decisões e garantem uma experiência consistente, sofisticada e de fácil manutenção em toda a plataforma.
+    Regra de Ouro Visual: Nenhum desenvolvedor deve criar diretamente um layout executivo usando div + classes Tailwind quando existir um componente canônico equivalente. Toda nova funcionalidade deve ser construída por composição de componentes oficiais, preservando a consistência visual, a acessibilidade e a governança do Design System.

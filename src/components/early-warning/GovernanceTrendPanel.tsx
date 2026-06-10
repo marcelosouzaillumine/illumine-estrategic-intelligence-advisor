@@ -17,7 +17,7 @@ export function GovernanceTrendPanel({ tenantId }: { tenantId: string }) {
           {Math.round(trend.currentScore * 100)}<span className="text-lg text-muted-foreground">/100</span>
         </div>
         <div className="mb-1">
-          <span className="text-xs bg-rose-500/10 text-rose-500 font-bold px-2 py-1 rounded">
+          <span className="text-xs bg-critical-soft0/10 text-rose-500 font-bold px-2 py-1 rounded">
             {trend.trendDirection}
           </span>
         </div>

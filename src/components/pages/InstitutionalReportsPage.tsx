@@ -194,7 +194,7 @@ export function InstitutionalReportsPage() {
               {/* Capa */}
               <div className="border-b-4 border-black pb-8 mb-8">
                 <p className="text-sm font-bold tracking-widest text-muted-foreground mb-2 uppercase">Executive Board Pack</p>
-                <h1 className="text-4xl font-extrabold mb-4 text-black">Relatório Institucional de Governança e Performance</h1>
+                <h1 className="text-4xl font-extrabold mb-4 text-black text-primary">Relatório Institucional de Governança e Performance</h1>
                 <div className="flex justify-between text-sm text-muted-foreground font-medium">
                   <span>Grupo Econômico: {pack.groupId}</span>
                   <span>Data Base: {new Date(pack.timestamp).toLocaleDateString()}</span>

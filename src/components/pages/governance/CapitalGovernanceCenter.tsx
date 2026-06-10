@@ -46,10 +46,10 @@ function CgsScoreRing({ value, label, status }: { value: number; label: string; 
   const offset = c - (value / 100) * c;
   
   const getColors = (v: number) => {
-    if (v >= 85) return { stroke: '#10b981', text: 'text-emerald-400', bg: 'bg-emerald-500/10' };
+    if (v >= 85) return { stroke: '#10b981', text: 'text-emerald-400', bg: 'bg-success-soft0/10' };
     if (v >= 70) return { stroke: '#3b82f6', text: 'text-blue-400', bg: 'bg-blue-500/10' };
-    if (v >= 50) return { stroke: '#f59e0b', text: 'text-amber-400', bg: 'bg-amber-500/10' };
-    return { stroke: '#ef4444', text: 'text-rose-400', bg: 'bg-rose-500/10' };
+    if (v >= 50) return { stroke: '#f59e0b', text: 'text-amber-400', bg: 'bg-warning-soft0/10' };
+    return { stroke: '#ef4444', text: 'text-rose-400', bg: 'bg-critical-soft0/10' };
   };
 
   const colors = getColors(value);
@@ -73,10 +73,10 @@ function CgsScoreRing({ value, label, status }: { value: number; label: string; 
       <div className="text-center">
         <p className="text-xs font-bold text-muted-foreground uppercase tracking-widest">{label}</p>
         <span className={cn("mt-1 inline-block text-[9px] font-black uppercase px-2.5 py-0.5 rounded-full border", 
-          value >= 85 ? 'bg-emerald-500/10 border-emerald-500/20 text-emerald-400' :
+          value >= 85 ? 'bg-success-soft0/10 border-emerald-500/20 text-emerald-400' :
           value >= 70 ? 'bg-blue-500/10 border-blue-500/20 text-blue-400' :
-          value >= 50 ? 'bg-amber-500/10 border-amber-500/20 text-amber-400' :
-          'bg-rose-500/10 border-rose-500/20 text-rose-400'
+          value >= 50 ? 'bg-warning-soft0/10 border-amber-500/20 text-amber-400' :
+          'bg-critical-soft0/10 border-rose-500/20 text-rose-400'
         )}>
           {status}
         </span>
@@ -223,11 +223,11 @@ export function CapitalGovernanceCenter({ selectedClient, selectedYear }: Capita
   // Trajectory timeline definition
   const trajectoryTimeline = useMemo(() => {
     const list = [
-      { state: 'RECOVERING', label: 'Recuperando Base de Capital', color: 'text-emerald-400 border-emerald-500/20 bg-emerald-500/5' },
+      { state: 'RECOVERING', label: 'Recuperando Base de Capital', color: 'text-emerald-400 border-emerald-500/20 bg-success-soft0/5' },
       { state: 'STABILIZING', label: 'Estrutura Estabilizada', color: 'text-blue-400 border-blue-500/20 bg-blue-500/5' },
       { state: 'VOLATILE', label: 'Erosão Oscilante / Volatilidade', color: 'text-yellow-400 border-yellow-500/20 bg-yellow-500/5' },
-      { state: 'DEPENDENT', label: 'Dependência de Reforço Recorrente', color: 'text-amber-500 border-amber-500/20 bg-amber-500/5' },
-      { state: 'DETERIORATING', label: 'Deterioração Progressiva do Capital', color: 'text-rose-400 border-rose-500/20 bg-rose-500/5' }
+      { state: 'DEPENDENT', label: 'Dependência de Reforço Recorrente', color: 'text-amber-500 border-amber-500/20 bg-warning-soft0/5' },
+      { state: 'DETERIORATING', label: 'Deterioração Progressiva do Capital', color: 'text-rose-400 border-rose-500/20 bg-critical-soft0/5' }
     ];
     return list;
   }, []);
@@ -265,7 +265,7 @@ export function CapitalGovernanceCenter({ selectedClient, selectedYear }: Capita
         
         {/* CGS Gauge Card */}
         <div className="card-premium p-8 flex flex-col justify-between relative overflow-hidden group hover:border-border transition-all duration-300">
-          <div className="absolute top-0 right-0 w-32 h-32 bg-emerald-500/5 rounded-full blur-3xl pointer-events-none"></div>
+          <div className="absolute top-0 right-0 w-32 h-32 bg-success-soft0/5 rounded-full blur-3xl pointer-events-none"></div>
           <div>
             <div className="flex justify-between items-start mb-6">
               <div>
@@ -394,9 +394,9 @@ export function CapitalGovernanceCenter({ selectedClient, selectedYear }: Capita
                 <div className="flex items-center gap-4">
                   <span className="text-[10px] text-muted-foreground">CDI: {(item.cdi * 100).toFixed(1)}%</span>
                   <span className={cn("px-2.5 py-0.5 rounded-full text-[9px] font-black tracking-wider border",
-                    item.status === 'Independent' ? 'bg-emerald-500/10 border-emerald-500/20 text-emerald-400' :
+                    item.status === 'Independent' ? 'bg-success-soft0/10 border-emerald-500/20 text-emerald-400' :
                     item.status === 'Moderate Dependency' ? 'bg-yellow-500/10 border-yellow-500/20 text-yellow-400' :
-                    'bg-rose-500/10 border-rose-500/20 text-rose-400'
+                    'bg-critical-soft0/10 border-rose-500/20 text-rose-400'
                   )}>
                     {item.status}
                   </span>
@@ -470,7 +470,7 @@ export function CapitalGovernanceCenter({ selectedClient, selectedYear }: Capita
             Auditoria de Linhagem da Governança de Capital
           </h3>
           {hasMismatches && (
-            <span className="px-2.5 py-0.5 rounded bg-rose-500/10 border border-rose-500/20 text-rose-400 text-[10px] font-black uppercase tracking-wider animate-pulse">
+            <span className="px-2.5 py-0.5 rounded bg-critical-soft0/10 border border-rose-500/20 text-rose-400 text-[10px] font-black uppercase tracking-wider animate-pulse">
               UI_RENDER_MISMATCH
             </span>
           )}
@@ -495,7 +495,7 @@ export function CapitalGovernanceCenter({ selectedClient, selectedYear }: Capita
                 <td className="py-3 px-4">{renderedNetIncome !== null && renderedNetIncome !== undefined ? formatCurrency(renderedNetIncome) : 'N/A'}</td>
                 <td className="py-3 px-4">
                   <span className={cn("px-2.5 py-0.5 rounded text-[10px] font-black uppercase border",
-                    renderedNetIncome === runtimeNetIncome ? "bg-emerald-500/10 border-emerald-500/20 text-emerald-400" : "bg-rose-500/10 border-rose-500/20 text-rose-400"
+                    renderedNetIncome === runtimeNetIncome ? "bg-success-soft0/10 border-emerald-500/20 text-emerald-400" : "bg-critical-soft0/10 border-rose-500/20 text-rose-400"
                   )}>
                     {renderedNetIncome === runtimeNetIncome ? 'Consistente' : 'Inconsistente'}
                   </span>
@@ -508,7 +508,7 @@ export function CapitalGovernanceCenter({ selectedClient, selectedYear }: Capita
                 <td className="py-3 px-4">{renderedCapitalSocial !== null && renderedCapitalSocial !== undefined ? formatCurrency(renderedCapitalSocial) : 'N/A'}</td>
                 <td className="py-3 px-4">
                   <span className={cn("px-2.5 py-0.5 rounded text-[10px] font-black uppercase border",
-                    renderedCapitalSocial === runtimeCapitalSocial ? "bg-emerald-500/10 border-emerald-500/20 text-emerald-400" : "bg-rose-500/10 border-rose-500/20 text-rose-400"
+                    renderedCapitalSocial === runtimeCapitalSocial ? "bg-success-soft0/10 border-emerald-500/20 text-emerald-400" : "bg-critical-soft0/10 border-rose-500/20 text-rose-400"
                   )}>
                     {renderedCapitalSocial === runtimeCapitalSocial ? 'Consistente' : 'Inconsistente'}
                   </span>
@@ -521,7 +521,7 @@ export function CapitalGovernanceCenter({ selectedClient, selectedYear }: Capita
                 <td className="py-3 px-4">{renderedPreservation !== null && renderedPreservation !== undefined ? `${renderedPreservation.toFixed(2)}%` : 'N/A'}</td>
                 <td className="py-3 px-4">
                   <span className={cn("px-2.5 py-0.5 rounded text-[10px] font-black uppercase border",
-                    renderedPreservation === runtimePreservation ? "bg-emerald-500/10 border-emerald-500/20 text-emerald-400" : "bg-rose-500/10 border-rose-500/20 text-rose-400"
+                    renderedPreservation === runtimePreservation ? "bg-success-soft0/10 border-emerald-500/20 text-emerald-400" : "bg-critical-soft0/10 border-rose-500/20 text-rose-400"
                   )}>
                     {renderedPreservation === runtimePreservation ? 'Consistente' : 'Inconsistente'}
                   </span>
@@ -534,7 +534,7 @@ export function CapitalGovernanceCenter({ selectedClient, selectedYear }: Capita
                 <td className="py-3 px-4">{renderedIntegrity !== null && renderedIntegrity !== undefined ? `${renderedIntegrity.toFixed(0)}` : 'N/A'}</td>
                 <td className="py-3 px-4">
                   <span className={cn("px-2.5 py-0.5 rounded text-[10px] font-black uppercase border",
-                    renderedIntegrity === runtimeIntegrity ? "bg-emerald-500/10 border-emerald-500/20 text-emerald-400" : "bg-rose-500/10 border-rose-500/20 text-rose-400"
+                    renderedIntegrity === runtimeIntegrity ? "bg-success-soft0/10 border-emerald-500/20 text-emerald-400" : "bg-critical-soft0/10 border-rose-500/20 text-rose-400"
                   )}>
                     {renderedIntegrity === runtimeIntegrity ? 'Consistente' : 'Inconsistente'}
                   </span>
@@ -547,7 +547,7 @@ export function CapitalGovernanceCenter({ selectedClient, selectedYear }: Capita
                 <td className="py-3 px-4">{renderedResilience !== null && renderedResilience !== undefined ? `${renderedResilience.toFixed(0)}` : 'N/A'}</td>
                 <td className="py-3 px-4">
                   <span className={cn("px-2.5 py-0.5 rounded text-[10px] font-black uppercase border",
-                    renderedResilience === runtimeResilience ? "bg-emerald-500/10 border-emerald-500/20 text-emerald-400" : "bg-rose-500/10 border-rose-500/20 text-rose-400"
+                    renderedResilience === runtimeResilience ? "bg-success-soft0/10 border-emerald-500/20 text-emerald-400" : "bg-critical-soft0/10 border-rose-500/20 text-rose-400"
                   )}>
                     {renderedResilience === runtimeResilience ? 'Consistente' : 'Inconsistente'}
                   </span>

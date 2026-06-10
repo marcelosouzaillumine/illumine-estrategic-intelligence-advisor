@@ -191,20 +191,20 @@ export function CreditCommitteeCenter({ selectedClient, selectedYear }: CreditCo
   };
 
   const getScoreBg = (val: number): string => {
-    if (val >= 85) return 'bg-emerald-500/10 border-emerald-500/20 text-emerald-400';
+    if (val >= 85) return 'bg-success-soft0/10 border-emerald-500/20 text-emerald-400';
     if (val >= 70) return 'bg-yellow-500/10 border-yellow-500/20 text-yellow-400';
-    if (val >= 50) return 'bg-amber-500/10 border-amber-500/20 text-amber-500';
-    return 'bg-rose-500/10 border-rose-500/20 text-rose-500';
+    if (val >= 50) return 'bg-warning-soft0/10 border-amber-500/20 text-amber-500';
+    return 'bg-critical-soft0/10 border-rose-500/20 text-rose-500';
   };
 
   const getDecisionBadge = (decision: string) => {
     const maps: Record<string, string> = {
-      APPROVED: 'bg-emerald-500/10 border-emerald-500/20 text-emerald-400',
+      APPROVED: 'bg-success-soft0/10 border-emerald-500/20 text-emerald-400',
       APPROVED_WITH_RESTRICTIONS: 'bg-teal-500/10 border-teal-500/20 text-teal-400',
       CONDITIONAL_APPROVAL: 'bg-yellow-500/10 border-yellow-500/20 text-yellow-400',
-      HIGH_MONITORING_REQUIRED: 'bg-amber-500/10 border-amber-500/20 text-amber-500',
+      HIGH_MONITORING_REQUIRED: 'bg-warning-soft0/10 border-amber-500/20 text-amber-500',
       RESTRICTED_CREDIT: 'bg-orange-500/10 border-orange-500/20 text-orange-400',
-      DECLINED: 'bg-rose-500/10 border-rose-500/20 text-rose-500'
+      DECLINED: 'bg-critical-soft0/10 border-rose-500/20 text-rose-500'
     };
     return maps[decision] || 'bg-slate-800 border-border text-muted-foreground';
   };
@@ -223,9 +223,9 @@ export function CreditCommitteeCenter({ selectedClient, selectedYear }: CreditCo
 
   const getConfidenceBadge = (confidence: string) => {
     const maps: Record<string, string> = {
-      HIGH_CONFIDENCE: 'bg-emerald-500/10 border-emerald-500/20 text-emerald-400',
+      HIGH_CONFIDENCE: 'bg-success-soft0/10 border-emerald-500/20 text-emerald-400',
       MODERATE_CONFIDENCE: 'bg-yellow-500/10 border-yellow-500/20 text-yellow-400',
-      LOW_CONFIDENCE: 'bg-rose-500/10 border-rose-500/20 text-rose-500'
+      LOW_CONFIDENCE: 'bg-critical-soft0/10 border-rose-500/20 text-rose-500'
     };
     return maps[confidence] || 'bg-slate-800 border-border text-muted-foreground';
   };
@@ -241,11 +241,11 @@ export function CreditCommitteeCenter({ selectedClient, selectedYear }: CreditCo
 
   const getRecoveryBadge = (recovery: string) => {
     const maps: Record<string, string> = {
-      ACCELERATING_RECOVERY: 'bg-emerald-500/10 border-emerald-500/20 text-emerald-400',
+      ACCELERATING_RECOVERY: 'bg-success-soft0/10 border-emerald-500/20 text-emerald-400',
       STABILIZING_RECOVERY: 'bg-teal-500/10 border-teal-500/20 text-teal-400',
       VOLATILE_RECOVERY: 'bg-yellow-500/10 border-yellow-500/20 text-yellow-400',
-      STALLED_RECOVERY: 'bg-amber-500/10 border-amber-500/20 text-amber-500',
-      DETERIORATING: 'bg-rose-500/10 border-rose-500/20 text-rose-500'
+      STALLED_RECOVERY: 'bg-warning-soft0/10 border-amber-500/20 text-amber-500',
+      DETERIORATING: 'bg-critical-soft0/10 border-rose-500/20 text-rose-500'
     };
     return maps[recovery] || 'bg-slate-800 border-border text-muted-foreground';
   };
@@ -461,7 +461,7 @@ export function CreditCommitteeCenter({ selectedClient, selectedYear }: CreditCo
               </div>
 
               {activeScenario.cascadeLogs?.length > 0 && (
-                <div className="space-y-2 pt-4 border-t border-border bg-rose-500/5 p-3 rounded-lg border border-rose-500/20">
+                <div className="space-y-2 pt-4 border-t border-border bg-critical-soft0/5 p-3 rounded-lg border border-rose-500/20">
                   <div className="flex items-center gap-2 text-xs font-bold text-rose-400 uppercase">
                     <ShieldAlert className="w-4 h-4" />
                     <span>Propagação Causal (Contagion Path):</span>
@@ -620,7 +620,7 @@ export function CreditCommitteeCenter({ selectedClient, selectedYear }: CreditCo
                 fr.active 
                   ? fr.waived 
                     ? "bg-teal-500/5 border-teal-500/10 text-teal-300"
-                    : "bg-rose-500/5 border-rose-500/10 text-rose-300"
+                    : "bg-critical-soft0/5 border-rose-500/10 text-rose-300"
                   : "bg-slate-950/20 border-border text-muted-foreground opacity-60"
               )}
             >
@@ -628,7 +628,7 @@ export function CreditCommitteeCenter({ selectedClient, selectedYear }: CreditCo
                 <div className="flex items-center gap-2">
                   <span className="text-xs font-bold font-mono tracking-wide">{fr.name}</span>
                   {fr.active && (
-                    <span className={cn("px-2 py-0.5 rounded text-[8px] font-bold font-mono", fr.waived ? "bg-teal-500/10 text-teal-400" : "bg-rose-500/10 text-rose-400")}>
+                    <span className={cn("px-2 py-0.5 rounded text-[8px] font-bold font-mono", fr.waived ? "bg-teal-500/10 text-teal-400" : "bg-critical-soft0/10 text-rose-400")}>
                       {fr.waived ? 'WAIVED' : 'ATIVADA'}
                     </span>
                   )}

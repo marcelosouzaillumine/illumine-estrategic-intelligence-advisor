@@ -48,7 +48,7 @@ class ErrorBoundary extends Component<{children: ReactNode}, {hasError: boolean,
   render() {
     if (this.state.hasError) {
       return (
-        <div className="p-8 bg-rose-50 border border-rose-200 rounded-lg">
+        <div className="p-8 bg-critical-soft border border-rose-200 rounded-lg">
           <h2 className="text-xl font-bold text-rose-600 mb-4">Um erro ocorreu na interface</h2>
           <pre className="text-sm bg-white p-4 rounded overflow-auto max-w-full text-rose-800">
             {this.state.error?.toString()}
@@ -246,7 +246,7 @@ function ClientUserManagerInner({ clientId }: { clientId: string }) {
               style={{ width: '100%', maxWidth: '448px', minWidth: '320px' }}
             >
               <div className="flex justify-center mb-6">
-                <div className="w-16 h-16 bg-emerald-500/10 text-emerald-500 rounded-full flex items-center justify-center">
+                <div className="w-16 h-16 bg-success-soft0/10 text-emerald-500 rounded-full flex items-center justify-center">
                   <CheckCircle2 size={32} />
                 </div>
               </div>
@@ -333,7 +333,7 @@ function ClientUserManagerInner({ clientId }: { clientId: string }) {
                    {editingId ? <Edit3 size={18} className="text-secondary" /> : <UserPlus size={18} className="text-secondary" />} 
                    {editingId ? 'Editar Parâmetros de Acesso' : 'Configurar Novo Usuário'}
                 </h5>
-                <button onClick={() => { setIsAdding(false); setEditingId(null); }} className="w-8 h-8 rounded-full flex items-center justify-center text-text-dim hover:bg-rose-50 hover:text-rose-600 transition-all">
+                <button onClick={() => { setIsAdding(false); setEditingId(null); }} className="w-8 h-8 rounded-full flex items-center justify-center text-text-dim hover:bg-critical-soft hover:text-rose-600 transition-all">
                    <X size={20} />
                 </button>
              </div>
@@ -416,7 +416,7 @@ function ClientUserManagerInner({ clientId }: { clientId: string }) {
                         className={cn(
                           "px-5 md:px-8 py-2 md:py-3 rounded-xl text-[10px] font-black uppercase tracking-widest transition-all border flex items-center gap-3",
                           formData.status === status 
-                            ? (status === 'Ativo' ? "bg-emerald-500 text-white border-emerald-500 shadow-floating-success" : "bg-rose-500 text-white border-rose-500 shadow-floating-danger")
+                            ? (status === 'Ativo' ? "bg-success-soft0 text-white border-emerald-500 shadow-floating-success" : "bg-critical-soft0 text-white border-rose-500 shadow-floating-danger")
                             : "bg-bg-surface text-text-dim border-border-main hover:bg-bg-card"
                         )}
                       >
@@ -589,7 +589,7 @@ function ClientUserManagerInner({ clientId }: { clientId: string }) {
                         </td>
                         <td className="px-8 py-6">
                            <div className="flex items-center gap-2">
-                             <div className={cn("w-2 h-2 rounded-full shadow-sm", u.status === 'Ativo' ? "bg-emerald-500" : "bg-rose-500")} />
+                             <div className={cn("w-2 h-2 rounded-full shadow-sm", u.status === 'Ativo' ? "bg-success-soft0" : "bg-critical-soft0")} />
                              <span className="text-[10px] font-black text-text-main uppercase tracking-widest">{u.status}</span>
                            </div>
                         </td>
@@ -607,7 +607,7 @@ function ClientUserManagerInner({ clientId }: { clientId: string }) {
                               </button>
                               <button 
                                 onClick={() => handleDelete(u.id)}
-                                className="w-8 h-8 rounded-full flex items-center justify-center text-text-dim hover:bg-rose-50 hover:text-rose-600 transition-all"
+                                className="w-8 h-8 rounded-full flex items-center justify-center text-text-dim hover:bg-critical-soft hover:text-rose-600 transition-all"
                               >
                                  <Trash2 size={16} />
                               </button>

@@ -327,14 +327,14 @@ export function ImportBankStatementModal({ selectedClient, onClose, onSuccess }:
                         className={cn(
                           "p-4 rounded-2xl border text-left transition-all flex items-start gap-3 relative overflow-hidden",
                           strategy === key 
-                            ? (cfg.danger ? "border-rose-500 bg-rose-50/50 ring-2 ring-rose-500/10" : "border-primary bg-primary/5 ring-2 ring-primary/10")
+                            ? (cfg.danger ? "border-rose-500 bg-critical-soft/50 ring-2 ring-rose-500/10" : "border-primary bg-primary/5 ring-2 ring-primary/10")
                             : "border-border bg-white hover:bg-slate-50"
                         )}
                       >
                         <div className={cn(
                           "p-2 rounded-xl mt-0.5",
                           strategy === key 
-                            ? (cfg.danger ? "bg-rose-500 text-white" : "bg-primary text-white")
+                            ? (cfg.danger ? "bg-critical-soft0 text-white" : "bg-primary text-white")
                             : "bg-slate-100 text-muted-foreground"
                         )}>
                           {cfg.icon}
@@ -350,7 +350,7 @@ export function ImportBankStatementModal({ selectedClient, onClose, onSuccess }:
               )}
 
               {error && (
-                <div className="p-4 bg-rose-50 border border-rose-100 rounded-xl flex items-start gap-3">
+                <div className="p-4 bg-critical-soft border border-rose-100 rounded-xl flex items-start gap-3">
                   <AlertTriangle size={18} className="text-rose-500 shrink-0 mt-0.5" />
                   <p className="text-xs text-rose-600 font-medium">{error}</p>
                 </div>

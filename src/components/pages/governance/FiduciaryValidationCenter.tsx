@@ -220,7 +220,7 @@ function ConflictItem({ director, role, type, severity, status }: any) {
         </div>
         <div className="flex items-center gap-3 mt-2">
           <p className="text-xs text-muted-foreground">{type}</p>
-          <span className={`text-[10px] uppercase font-black tracking-widest px-2.5 py-1 rounded-xl ${severity === 'Alta' ? 'text-amber-400 bg-amber-500/10 border border-amber-500/20' : 'text-muted-foreground bg-slate-800 border border-border'}`}>
+          <span className={`text-[10px] uppercase font-black tracking-widest px-2.5 py-1 rounded-xl ${severity === 'Alta' ? 'text-amber-400 bg-warning-soft0/10 border border-amber-500/20' : 'text-muted-foreground bg-slate-800 border border-border'}`}>
             Severidade {severity}
           </span>
         </div>
@@ -238,7 +238,7 @@ function DecisionItem({ title, status, reason, hash }: any) {
     <div className={`p-5 bg-slate-950/40 border rounded-xl ${isBlocked ? 'border-red-500/20' : 'border-border/10'}`}>
       <div className="flex justify-between items-start mb-2">
         <h3 className="text-muted-foreground font-medium text-sm md:text-base">{title}</h3>
-        <span className={`px-3 py-1 text-[10px] uppercase font-black tracking-widest rounded-xl border ${isBlocked ? 'bg-red-500/10 text-red-400 border-red-500/20' : 'bg-amber-500/10 text-amber-400 border-amber-500/20'}`}>
+        <span className={`px-3 py-1 text-[10px] uppercase font-black tracking-widest rounded-xl border ${isBlocked ? 'bg-red-500/10 text-red-400 border-red-500/20' : 'bg-warning-soft0/10 text-amber-400 border-amber-500/20'}`}>
           {status}
         </span>
       </div>

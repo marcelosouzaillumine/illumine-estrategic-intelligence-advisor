@@ -43,7 +43,7 @@ export function DeliveryTimelinePanel({ report, className }: DeliveryTimelinePan
                         <span className="text-xs font-bold text-muted-foreground">{signal.indicator}</span>
                         <span className={cn(
                           "text-[9px] px-2 py-0.5 rounded font-black uppercase tracking-wider",
-                          signal.isFavorable ? "bg-emerald-50 text-emerald-700 border border-emerald-100" : "bg-rose-50 text-rose-700 border border-rose-100"
+                          signal.isFavorable ? "bg-success-soft text-emerald-700 border border-emerald-100" : "bg-critical-soft text-rose-700 border border-rose-100"
                         )}>
                           {signal.direction}
                         </span>

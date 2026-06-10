@@ -39,7 +39,7 @@ export class DFCCashBPDivergenceAudit {
     if (accountingProfit < 0 && fco > 0 && Math.abs(accountingProfit) > fco) {
        return {
         severity: 'EXPLAINABLE_WARNING',
-        explanation: `Atenção Executiva: A operação reporta prejuízo contábil (R$ ${accountingProfit.toFixed(2)}), mas gerou caixa operacional (R$ ${fco.toFixed(2)}). Isso pode indicar liquidação de estoques sem reposição, atraso a fornecedores ou forte impacto de depreciações/amortizações não-caixa.`
+        explanation: `Atenção Executiva: A operação reporta prejuízo contábil (R$ ${accountingProfit.toFixed(2)}), mas gerou caixa operacional (R$ ${fco.toFixed(2)}). Contexto indisponível.`
       };
     }
 

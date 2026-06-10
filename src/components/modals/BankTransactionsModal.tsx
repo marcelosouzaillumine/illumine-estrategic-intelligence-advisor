@@ -139,13 +139,13 @@ export function BankTransactionsModal({ account, onClose }: BankTransactionsModa
               </div>
             </div>
             <div className="flex gap-4">
-              <div className="px-4 py-2 bg-emerald-50 rounded-xl border border-emerald-100 flex items-center gap-2">
+              <div className="px-4 py-2 bg-success-soft rounded-xl border border-emerald-100 flex items-center gap-2">
                 <TrendingUp size={14} className="text-emerald-500" />
                 <span className="text-[10px] font-black text-emerald-700 uppercase tracking-widest">
                   Créditos: {formatCurrency(filtered.filter(t => t.amount > 0).reduce((acc, t) => acc + t.amount, 0))}
                 </span>
               </div>
-              <div className="px-4 py-2 bg-rose-50 rounded-xl border border-rose-100 flex items-center gap-2">
+              <div className="px-4 py-2 bg-critical-soft rounded-xl border border-rose-100 flex items-center gap-2">
                 <TrendingDown size={14} className="text-rose-500" />
                 <span className="text-[10px] font-black text-rose-700 uppercase tracking-widest">
                   Débitos: {formatCurrency(Math.abs(filtered.filter(t => t.amount < 0).reduce((acc, t) => acc + t.amount, 0)))}
@@ -198,7 +198,7 @@ export function BankTransactionsModal({ account, onClose }: BankTransactionsModa
                               onChange={(e) => handleUpdateCategory(t.id, e.target.value)}
                               className={cn(
                                 "bg-slate-50 border border-border rounded-lg px-3 py-1.5 text-[10px] font-bold outline-none focus:ring-2 focus:ring-indigo-500/10 transition-all w-full max-w-[200px]",
-                                !t.category && "text-rose-500 border-rose-100 bg-rose-50/50"
+                                !t.category && "text-rose-500 border-rose-100 bg-critical-soft/50"
                               )}
                             >
                               <option value="">NÃO CLASSIFICADO</option>

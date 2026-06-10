@@ -89,7 +89,7 @@ export function SovereignDecisionCenter({ selectedClient, selectedYear }: Sovere
     return (
       <div className="flex flex-col items-center justify-center min-h-[400px] space-y-4">
         <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary"></div>
-        <p className="text-sm text-muted-foreground font-medium">Orquestrando Inteligência de Decisão Soberana...</p>
+        <p className="text-sm text-secondary font-medium">Orquestrando Inteligência de Decisão Soberana...</p>
       </div>
     );
   }
@@ -114,7 +114,7 @@ export function SovereignDecisionCenter({ selectedClient, selectedYear }: Sovere
       {alerts.length > 0 && (
         <div className="grid grid-cols-1 gap-4">
           {alerts.map((alert: string, idx: number) => (
-            <div key={idx} className="flex items-start gap-3 p-4 bg-amber-50 border border-amber-200 text-amber-900 rounded-2xl">
+            <div key={idx} className="flex items-start gap-3 p-4 bg-warning-soft border border-amber-200 text-amber-900 rounded-2xl">
               <AlertTriangle className="text-amber-600 shrink-0 mt-0.5" size={18} />
               <div>
                 <h4 className="text-xs font-bold text-amber-950">Aviso do Conselho de Administração</h4>
@@ -141,7 +141,7 @@ export function SovereignDecisionCenter({ selectedClient, selectedYear }: Sovere
             <div 
               className={cn(
                 "h-full rounded-full transition-all duration-500",
-                sdsUrgency >= 75 ? "bg-rose-500" : sdsUrgency >= 50 ? "bg-amber-500" : "bg-emerald-500"
+                sdsUrgency >= 75 ? "bg-critical-soft0" : sdsUrgency >= 50 ? "bg-warning-soft0" : "bg-success-soft0"
               )}
               style={{ width: `${sdsUrgency}%` }}
             />
@@ -158,14 +158,14 @@ export function SovereignDecisionCenter({ selectedClient, selectedYear }: Sovere
           </div>
           <p className="text-xs font-bold text-muted-foreground uppercase tracking-widest">Decision Health & Readiness</p>
           <div className="mt-4 flex items-baseline gap-2">
-            <span className="text-5xl font-extrabold tracking-tight text-muted-foreground">{sdsHealth}</span>
+            <span className="text-5xl font-extrabold tracking-tight text-primary">{sdsHealth}</span>
             <span className="text-muted-foreground font-bold">/ 100</span>
           </div>
           <div className="mt-4 h-1.5 bg-slate-100 rounded-full overflow-hidden">
             <div 
               className={cn(
                 "h-full rounded-full transition-all duration-500",
-                sdsHealth >= 80 ? "bg-emerald-500" : sdsHealth >= 60 ? "bg-amber-500" : "bg-rose-500"
+                sdsHealth >= 80 ? "bg-success-soft0" : sdsHealth >= 60 ? "bg-warning-soft0" : "bg-critical-soft0"
               )}
               style={{ width: `${sdsHealth}%` }}
             />
@@ -179,7 +179,7 @@ export function SovereignDecisionCenter({ selectedClient, selectedYear }: Sovere
         <div className="bg-white border border-border rounded-3xl p-6 shadow-sm">
           <p className="text-xs font-bold text-muted-foreground uppercase tracking-widest">Execution Capacity (ECE)</p>
           <div className="mt-4 flex items-baseline gap-2">
-            <span className="text-5xl font-extrabold tracking-tight text-muted-foreground">{executionCapacity}</span>
+            <span className="text-5xl font-extrabold tracking-tight text-primary">{executionCapacity}</span>
             <span className="text-muted-foreground font-bold">/ 100</span>
           </div>
           <div className="mt-4 h-1.5 bg-slate-100 rounded-full overflow-hidden">
@@ -194,14 +194,14 @@ export function SovereignDecisionCenter({ selectedClient, selectedYear }: Sovere
         <div className="bg-white border border-border rounded-3xl p-6 shadow-sm">
           <p className="text-xs font-bold text-muted-foreground uppercase tracking-widest">Decision Fatigue Index</p>
           <div className="mt-4 flex items-baseline gap-2">
-            <span className="text-5xl font-extrabold tracking-tight text-muted-foreground">{decisionFatigueIndex}</span>
+            <span className="text-5xl font-extrabold tracking-tight text-primary">{decisionFatigueIndex}</span>
             <span className="text-muted-foreground font-bold">/ 100</span>
           </div>
           <div className="mt-4 h-1.5 bg-slate-100 rounded-full overflow-hidden">
             <div 
               className={cn(
                 "h-full rounded-full",
-                decisionFatigueIndex > 70 ? "bg-rose-500" : "bg-slate-400"
+                decisionFatigueIndex > 70 ? "bg-critical-soft0" : "bg-slate-400"
               )} 
               style={{ width: `${decisionFatigueIndex}%` }} 
             />
@@ -220,7 +220,7 @@ export function SovereignDecisionCenter({ selectedClient, selectedYear }: Sovere
           <div className="bg-white border border-border rounded-3xl shadow-sm overflow-hidden">
             <div className="p-6 border-b border-border flex items-center justify-between">
               <div>
-                <h3 className="text-lg font-bold text-muted-foreground">Decision Priority Board</h3>
+                <h3 className="text-lg font-bold text-primary">Decision Priority Board</h3>
                 <p className="text-xs text-muted-foreground mt-0.5">Top 10 decisões prioritárias geradas de forma determinística.</p>
               </div>
             </div>
@@ -236,12 +236,12 @@ export function SovereignDecisionCenter({ selectedClient, selectedYear }: Sovere
                           {idx + 1}
                         </div>
                         <div>
-                          <h4 className="text-sm font-bold text-muted-foreground flex items-center gap-2">
+                          <h4 className="text-sm font-bold text-primary flex items-center gap-2">
                             {dec.label}
                             <span className={cn(
                               "px-2 py-0.5 rounded-full text-[10px] font-bold tracking-tight uppercase",
-                              dec.classification === 'STABILIZE' ? "bg-rose-50 border border-rose-200 text-rose-800" :
-                              dec.classification === 'RESTRUCTURE' ? "bg-amber-50 border border-amber-200 text-amber-800" :
+                              dec.classification === 'STABILIZE' ? "bg-critical-soft border border-rose-200 text-rose-800" :
+                              dec.classification === 'RESTRUCTURE' ? "bg-warning-soft border border-amber-200 text-amber-800" :
                               dec.classification === 'PRESERVE' ? "bg-sky-50 border border-sky-200 text-sky-800" :
                               "bg-primary border border-primary text-primary"
                             )}>
@@ -262,7 +262,7 @@ export function SovereignDecisionCenter({ selectedClient, selectedYear }: Sovere
                       <div className="flex items-center gap-6 self-end sm:self-auto">
                         <div className="text-right">
                           <p className="text-[10px] font-bold text-muted-foreground uppercase tracking-widest">DPI SCORE</p>
-                          <p className="text-lg font-extrabold text-muted-foreground">{dec.dpi}<span className="text-xs text-muted-foreground">/100</span></p>
+                          <p className="text-lg font-extrabold text-primary">{dec.dpi}<span className="text-xs text-muted-foreground">/100</span></p>
                         </div>
                         {isExpanded ? <ChevronUp size={18} className="text-muted-foreground" /> : <ChevronDown size={18} className="text-muted-foreground" />}
                       </div>
@@ -340,7 +340,7 @@ export function SovereignDecisionCenter({ selectedClient, selectedYear }: Sovere
           {/* Capital Allocation Ranking */}
           <div className="bg-white border border-border rounded-3xl p-6 shadow-sm space-y-4">
             <div>
-              <h3 className="text-base font-bold text-muted-foreground">Direcionamento de Capital</h3>
+              <h3 className="text-base font-bold text-primary">Direcionamento de Capital</h3>
               <p className="text-xs text-muted-foreground">Ordem recomendada para alocação do próximo real/dólar.</p>
             </div>
             <div className="space-y-3">
@@ -350,7 +350,7 @@ export function SovereignDecisionCenter({ selectedClient, selectedYear }: Sovere
                     {alloc.rank}
                   </div>
                   <div>
-                    <h4 className="text-xs font-bold text-muted-foreground">{alloc.destination}</h4>
+                    <h4 className="text-xs font-bold text-primary">{alloc.destination}</h4>
                     <p className="text-[10px] text-muted-foreground mt-0.5">{alloc.description}</p>
                   </div>
                 </div>
@@ -361,23 +361,23 @@ export function SovereignDecisionCenter({ selectedClient, selectedYear }: Sovere
           {/* Trade-Off / Conflict Matrix */}
           <div className="bg-white border border-border rounded-3xl p-6 shadow-sm space-y-4">
             <div>
-              <h3 className="text-base font-bold text-muted-foreground">Filtro de Conflitos</h3>
+              <h3 className="text-base font-bold text-primary">Filtro de Conflitos</h3>
               <p className="text-xs text-muted-foreground">Contradições de diretrizes táticas com severidade dinâmica.</p>
             </div>
             <div className="space-y-4">
               {conflicts.length > 0 ? (
                 conflicts.map((conf: any) => (
-                  <div key={conf.id} className="p-4 bg-rose-50/50 border border-rose-100 rounded-2xl space-y-2">
+                  <div key={conf.id} className="p-4 bg-critical-soft/50 border border-rose-100 rounded-2xl space-y-2">
                     <div className="flex items-center justify-between">
                       <span className="text-[10px] font-bold text-muted-foreground">CHOQUE DE DIRETRIZES</span>
                       <span className={cn(
                         "px-2 py-0.5 rounded-full text-[9px] font-bold tracking-tight uppercase",
-                        conf.severity === 'CRITICAL' ? "bg-rose-500 text-white" : "bg-amber-500 text-white"
+                        conf.severity === 'CRITICAL' ? "bg-critical-soft0 text-white" : "bg-warning-soft0 text-white"
                       )}>
                         {conf.severity} ({conf.score})
                       </span>
                     </div>
-                    <h4 className="text-xs font-bold text-muted-foreground">{conf.decA} vs {conf.decB}</h4>
+                    <h4 className="text-xs font-bold text-primary">{conf.decA} vs {conf.decB}</h4>
                     <p className="text-[11px] text-muted-foreground leading-relaxed">{conf.explanation}</p>
                   </div>
                 ))
@@ -398,7 +398,7 @@ export function SovereignDecisionCenter({ selectedClient, selectedYear }: Sovere
         {/* Cascade Viewer */}
         <div className="bg-white border border-border rounded-3xl p-6 shadow-sm space-y-6">
           <div>
-            <h3 className="text-base font-bold text-muted-foreground">Cascade Decision Viewer</h3>
+            <h3 className="text-base font-bold text-primary">Cascade Decision Viewer</h3>
             <p className="text-xs text-muted-foreground">Mapeamento dinâmico de consequências de segunda ordem da recomendação selecionada.</p>
           </div>
 
@@ -422,7 +422,7 @@ export function SovereignDecisionCenter({ selectedClient, selectedYear }: Sovere
               <div className="flex items-start gap-4">
                 <div className="w-8 h-8 rounded-full bg-slate-100 flex items-center justify-center text-muted-foreground font-bold shrink-0">1</div>
                 <div>
-                  <h4 className="text-xs font-bold text-muted-foreground">Efeito Direto Primário</h4>
+                  <h4 className="text-xs font-bold text-primary">Efeito Direto Primário</h4>
                   <p className="text-xs text-muted-foreground mt-1">{currentSimDecision.directEffect}</p>
                 </div>
               </div>
@@ -436,7 +436,7 @@ export function SovereignDecisionCenter({ selectedClient, selectedYear }: Sovere
               </div>
 
               <div className="flex items-start gap-4">
-                <div className="w-8 h-8 rounded-full bg-emerald-50 flex items-center justify-center text-emerald-700 font-bold shrink-0">3</div>
+                <div className="w-8 h-8 rounded-full bg-success-soft flex items-center justify-center text-emerald-700 font-bold shrink-0">3</div>
                 <div>
                   <h4 className="text-xs font-bold text-emerald-800">Efeito Sistêmico Fiduciário</h4>
                   <p className="text-xs text-muted-foreground mt-1">{currentSimDecision.systemicEffect}</p>
@@ -449,13 +449,13 @@ export function SovereignDecisionCenter({ selectedClient, selectedYear }: Sovere
         {/* Scenario Decision Simulator */}
         <div className="bg-white border border-border rounded-3xl p-6 shadow-sm space-y-6">
           <div>
-            <h3 className="text-base font-bold text-muted-foreground">Scenario Decision Simulator</h3>
+            <h3 className="text-base font-bold text-primary">Scenario Decision Simulator</h3>
             <p className="text-xs text-muted-foreground">Projeção da decisão selecionada sob diferentes estresses macroeconômicos.</p>
           </div>
 
           {currentSimDecision && decisionScenarioMatrix[currentSimDecision.id] && (
             <div className="space-y-4">
-              <h4 className="text-xs font-bold text-muted-foreground">Cenários de Estresse para: {currentSimDecision.label}</h4>
+              <h4 className="text-xs font-bold text-primary">Cenários de Estresse para: {currentSimDecision.label}</h4>
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 {Object.entries(decisionScenarioMatrix[currentSimDecision.id]).map(([scName, scVal]: [string, any]) => (
                   <div key={scName} className="p-4 bg-slate-50 border border-border rounded-2xl space-y-2">
@@ -489,7 +489,7 @@ export function SovereignDecisionCenter({ selectedClient, selectedYear }: Sovere
       {/* ── THIRD ROW: TIMELINE & PATHWAYS ── */}
       <div className="bg-white border border-border rounded-3xl p-6 shadow-sm space-y-6">
         <div>
-          <h3 className="text-base font-bold text-muted-foreground">Executive Action Timeline</h3>
+          <h3 className="text-base font-bold text-primary">Executive Action Timeline</h3>
           <p className="text-xs text-muted-foreground">Sequenciamento temporal de iniciativas táticas e caminhos estratégicos recomendados.</p>
         </div>
 
@@ -524,7 +524,7 @@ export function SovereignDecisionCenter({ selectedClient, selectedYear }: Sovere
         {/* Action Items for Timeline */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <div className="space-y-3">
-            <h4 className="text-xs font-bold text-muted-foreground flex items-center gap-1.5"><Clock size={14} className="text-primary" /> Ações Programadas</h4>
+            <h4 className="text-xs font-bold text-primary flex items-center gap-1.5"><Clock size={14} className="text-primary" /> Ações Programadas</h4>
             {(() => {
               const currentList = selectedTimelineTab === 'immediate' ? timelineDecisions.immediate :
                                   selectedTimelineTab === 'short' ? timelineDecisions.shortTerm :
@@ -540,7 +540,7 @@ export function SovereignDecisionCenter({ selectedClient, selectedYear }: Sovere
                 if (!dec) return null;
                 return (
                   <div key={dec.id} className="p-4 bg-slate-50 border border-border rounded-2xl">
-                    <h5 className="text-xs font-bold text-muted-foreground">{dec.label}</h5>
+                    <h5 className="text-xs font-bold text-primary">{dec.label}</h5>
                     <p className="text-[11px] text-muted-foreground mt-1">{dec.benefits}</p>
                   </div>
                 );
@@ -550,12 +550,12 @@ export function SovereignDecisionCenter({ selectedClient, selectedYear }: Sovere
 
           {/* Pathway Viabilities */}
           <div className="space-y-4 border-l border-border pl-6">
-            <h4 className="text-xs font-bold text-muted-foreground">Vias Estratégicas Alternativas</h4>
+            <h4 className="text-xs font-bold text-primary">Vias Estratégicas Alternativas</h4>
             <div className="space-y-3">
               {Object.entries(pathways).map(([pathId, pathVal]: [string, any]) => (
                 <div key={pathId} className="p-4 bg-slate-50 border border-border rounded-2xl space-y-2">
                   <div className="flex items-center justify-between">
-                    <h5 className="text-xs font-bold text-muted-foreground">{pathVal.name}</h5>
+                    <h5 className="text-xs font-bold text-primary">{pathVal.name}</h5>
                     <span className="text-xs font-extrabold text-primary bg-primary border border-primary px-2 py-0.5 rounded-lg">
                       {pathVal.probability}% viabilidade
                     </span>

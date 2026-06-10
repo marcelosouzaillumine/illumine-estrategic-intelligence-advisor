@@ -19,7 +19,7 @@ export function EarlyWarningFeed({ tenantId }: { tenantId: string }) {
   return (
     <div className="space-y-4">
       {event.relatedSignals.map(signal => (
-        <div key={signal.signalId} className="bg-rose-500/10 border border-rose-500/30 rounded-lg p-5">
+        <div key={signal.signalId} className="bg-critical-soft0/10 border border-rose-500/30 rounded-lg p-5">
           <div className="flex items-start gap-3">
             <div className="mt-1">
               <Siren className="text-rose-500 animate-pulse" size={24} />
@@ -31,7 +31,7 @@ export function EarlyWarningFeed({ tenantId }: { tenantId: string }) {
                   <div className="text-xs font-mono text-muted-foreground mt-1">ID: {signal.signalId} | {new Date(signal.createdAt).toLocaleString()}</div>
                 </div>
                 <div className="flex gap-2">
-                  <span className="bg-rose-500 text-white text-[10px] uppercase font-bold px-2 py-1 rounded">
+                  <span className="bg-critical-soft0 text-white text-[10px] uppercase font-bold px-2 py-1 rounded">
                     {signal.severity}
                   </span>
                   <span className="bg-orange-500/20 text-orange-400 border border-orange-500/20 text-[10px] uppercase font-bold px-2 py-1 rounded">

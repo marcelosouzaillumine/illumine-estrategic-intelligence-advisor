@@ -1,0 +1,274 @@
+[
+  {
+    "page": "ReceivablesPage",
+    "filePath": "src/components/pages/ReceivablesPage.tsx",
+    "ees": 61,
+    "previousEes": 61,
+    "variation": 0,
+    "subscores": {
+      "colors": 28,
+      "typography": 80,
+      "surfaces": 32,
+      "icons": 100,
+      "density": 85,
+      "accessibility": 37,
+      "legibility": 50,
+      "depth": 100
+    }
+  },
+  {
+    "page": "SovereignBoardPackPage",
+    "filePath": "src/components/pages/governance/SovereignBoardPackPage.tsx",
+    "ees": 66,
+    "previousEes": 66,
+    "variation": 0,
+    "subscores": {
+      "colors": 52,
+      "typography": 80,
+      "surfaces": 42,
+      "icons": 100,
+      "density": 100,
+      "accessibility": 43,
+      "legibility": 35,
+      "depth": 100
+    }
+  },
+  {
+    "page": "BoardMeetingMode",
+    "filePath": "src/components/pages/governance/BoardMeetingMode.tsx",
+    "ees": 68,
+    "previousEes": 70,
+    "variation": -2,
+    "subscores": {
+      "colors": 0,
+      "typography": 100,
+      "surfaces": 60,
+      "icons": 100,
+      "density": 100,
+      "accessibility": 32,
+      "legibility": 70,
+      "depth": 100
+    }
+  },
+  {
+    "page": "LoanInvestmentSimPage",
+    "filePath": "src/components/pages/LoanInvestmentSimPage.tsx",
+    "ees": 73,
+    "previousEes": 73,
+    "variation": 0,
+    "subscores": {
+      "colors": 26,
+      "typography": 100,
+      "surfaces": 30,
+      "icons": 100,
+      "density": 100,
+      "accessibility": 50,
+      "legibility": 95,
+      "depth": 100
+    }
+  },
+  {
+    "page": "ObservabilityConsolePage",
+    "filePath": "src/components/pages/governance/ObservabilityConsolePage.tsx",
+    "ees": 73,
+    "previousEes": 70,
+    "variation": 3,
+    "subscores": {
+      "colors": 1,
+      "typography": 80,
+      "surfaces": 70,
+      "icons": 100,
+      "density": 100,
+      "accessibility": 57,
+      "legibility": 100,
+      "depth": 100
+    }
+  },
+  {
+    "page": "AxisDashboardPage",
+    "filePath": "src/components/pages/AxisDashboardPage.tsx",
+    "ees": 73,
+    "previousEes": 73,
+    "variation": 0,
+    "subscores": {
+      "colors": 80,
+      "typography": 100,
+      "surfaces": 46,
+      "icons": 100,
+      "density": 100,
+      "accessibility": 50,
+      "legibility": 25,
+      "depth": 100
+    }
+  },
+  {
+    "page": "DFCPage",
+    "filePath": "src/components/pages/DFCPage.tsx",
+    "ees": 74,
+    "previousEes": 75,
+    "variation": -1,
+    "subscores": {
+      "colors": 0,
+      "typography": 80,
+      "surfaces": 90,
+      "icons": 100,
+      "density": 85,
+      "accessibility": 46,
+      "legibility": 100,
+      "depth": 100
+    }
+  },
+  {
+    "page": "GovernanceExecutionPanel",
+    "filePath": "src/components/pages/governance/GovernanceExecutionPanel.tsx",
+    "ees": 74,
+    "previousEes": 71,
+    "variation": 3,
+    "subscores": {
+      "colors": 0,
+      "typography": 100,
+      "surfaces": 70,
+      "icons": 100,
+      "density": 100,
+      "accessibility": 47,
+      "legibility": 95,
+      "depth": 100
+    }
+  },
+  {
+    "page": "BalanceSheetPage",
+    "filePath": "src/components/pages/BalanceSheetPage.tsx",
+    "ees": 77,
+    "previousEes": 87,
+    "variation": -10,
+    "subscores": {
+      "colors": 37,
+      "typography": 100,
+      "surfaces": 50,
+      "icons": 100,
+      "density": 100,
+      "accessibility": 59,
+      "legibility": 90,
+      "depth": 100
+    }
+  },
+  {
+    "page": "ESGIMAssessmentPage",
+    "filePath": "src/components/pages/governance/ESGIMAssessmentPage.tsx",
+    "ees": 78,
+    "previousEes": 78,
+    "variation": 0,
+    "subscores": {
+      "colors": 19,
+      "typography": 100,
+      "surfaces": 100,
+      "icons": 100,
+      "density": 100,
+      "accessibility": 60,
+      "legibility": 60,
+      "depth": 100
+    }
+  },
+  {
+    "page": "SovereignDecisionCenter",
+    "filePath": "src/components/pages/governance/SovereignDecisionCenter.tsx",
+    "ees": 78,
+    "previousEes": 78,
+    "variation": 0,
+    "subscores": {
+      "colors": 62,
+      "typography": 100,
+      "surfaces": 32,
+      "icons": 100,
+      "density": 100,
+      "accessibility": 60,
+      "legibility": 85,
+      "depth": 100
+    }
+  },
+  {
+    "page": "DLPAPage",
+    "filePath": "src/components/pages/DLPAPage.tsx",
+    "ees": 84,
+    "previousEes": 89,
+    "variation": -5,
+    "subscores": {
+      "colors": 67,
+      "typography": 80,
+      "surfaces": 70,
+      "icons": 100,
+      "density": 85,
+      "accessibility": 79,
+      "legibility": 100,
+      "depth": 100
+    }
+  },
+  {
+    "page": "DREPage",
+    "filePath": "src/components/pages/DREPage.tsx",
+    "ees": 89,
+    "previousEes": 93,
+    "variation": -4,
+    "subscores": {
+      "colors": 84,
+      "typography": 80,
+      "surfaces": 80,
+      "icons": 100,
+      "density": 85,
+      "accessibility": 88,
+      "legibility": 100,
+      "depth": 100
+    }
+  },
+  {
+    "page": "FinancialAdminDashboard",
+    "filePath": "src/components/pages/FinancialAdminDashboard.tsx",
+    "ees": 96,
+    "previousEes": 96,
+    "variation": 0,
+    "subscores": {
+      "colors": 100,
+      "typography": 100,
+      "surfaces": 76,
+      "icons": 100,
+      "density": 100,
+      "accessibility": 92,
+      "legibility": 100,
+      "depth": 100
+    }
+  },
+  {
+    "page": "DashboardPage",
+    "filePath": "src/components/pages/DashboardPage.tsx",
+    "ees": 97,
+    "previousEes": 97,
+    "variation": 0,
+    "subscores": {
+      "colors": 100,
+      "typography": 100,
+      "surfaces": 100,
+      "icons": 100,
+      "density": 100,
+      "accessibility": 95,
+      "legibility": 85,
+      "depth": 100
+    }
+  },
+  {
+    "page": "AdvisoryInsightsPage",
+    "filePath": "src/components/pages/AdvisoryInsightsPage.tsx",
+    "ees": 97,
+    "previousEes": 97,
+    "variation": 0,
+    "subscores": {
+      "colors": 98,
+      "typography": 100,
+      "surfaces": 98,
+      "icons": 100,
+      "density": 100,
+      "accessibility": 95,
+      "legibility": 90,
+      "depth": 100
+    }
+  }
+]

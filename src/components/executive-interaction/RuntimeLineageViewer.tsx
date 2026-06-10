@@ -30,7 +30,7 @@ export const RuntimeLineageViewer: React.FC<RuntimeLineageViewerProps> = ({
             Rastreabilidade matemática ponta a ponta de todas as transformações de dados.
           </p>
         </div>
-        <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-xl text-[9px] font-black uppercase tracking-widest bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">
+        <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-xl text-[9px] font-black uppercase tracking-widest bg-success-soft0/10 text-emerald-400 border border-emerald-500/20">
           <ShieldCheck className="w-3.5 h-3.5" /> Assinado
         </span>
       </div>

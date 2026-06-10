@@ -10,7 +10,7 @@ export function TreasurySurvivalMap({ treasury }: { treasury: TreasurySurvivalPr
   return (
     <div className={cn(
       "border p-6 rounded-3xl transition-all",
-      isCritical ? "bg-rose-50/10 border-rose-200" : "bg-emerald-50/10 border-emerald-200"
+      isCritical ? "bg-critical-soft/10 border-rose-200" : "bg-success-soft/10 border-emerald-200"
     )}>
       <h3 className="text-[10px] font-black uppercase tracking-widest text-muted-foreground mb-4">Treasury Survival Map</h3>
       <div className="flex items-end gap-4">
@@ -32,7 +32,7 @@ export function TreasurySurvivalMap({ treasury }: { treasury: TreasurySurvivalPr
       </div>
       
       {treasury.criticalCovenantBreached && (
-        <div className="mt-4 p-3 bg-amber-50 border border-amber-200 rounded-lg flex items-center gap-2">
+        <div className="mt-4 p-3 bg-warning-soft border border-amber-200 rounded-lg flex items-center gap-2">
           <span className="text-amber-500 text-sm">⚠</span>
           <span className="text-xs font-bold text-amber-700 uppercase">Rompimento Projetado de Covenants</span>
         </div>

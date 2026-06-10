@@ -114,10 +114,10 @@ export function InstitutionalMemoryCenter({ selectedClient, selectedYear }: Inst
   };
 
   const scoreBgMap: Record<string, string> = {
-    ESTAVEL: 'bg-emerald-500/10 border-emerald-500/20 text-emerald-400',
+    ESTAVEL: 'bg-success-soft0/10 border-emerald-500/20 text-emerald-400',
     MODERADO: 'bg-yellow-500/10 border-yellow-500/20 text-yellow-400',
-    ALTO: 'bg-amber-500/10 border-amber-500/20 text-amber-500',
-    CRITICO: 'bg-rose-500/10 border-rose-500/20 text-rose-500'
+    ALTO: 'bg-warning-soft0/10 border-amber-500/20 text-amber-500',
+    CRITICO: 'bg-critical-soft0/10 border-rose-500/20 text-rose-500'
   };
 
   const getLabelKey = (val: number): string => {
@@ -129,25 +129,25 @@ export function InstitutionalMemoryCenter({ selectedClient, selectedYear }: Inst
   };
 
   const getHeatmapBg = (val: number): string => {
-    return val >= 85 ? 'bg-emerald-500/10 border-emerald-500/20 text-emerald-400' :
+    return val >= 85 ? 'bg-success-soft0/10 border-emerald-500/20 text-emerald-400' :
            val >= 70 ? 'bg-yellow-500/10 border-yellow-500/20 text-yellow-400' :
-           val >= 50 ? 'bg-amber-500/10 border-amber-500/20 text-amber-500' :
-           'bg-rose-500/10 border-rose-500/20 text-rose-500';
+           val >= 50 ? 'bg-warning-soft0/10 border-amber-500/20 text-amber-500' :
+           'bg-critical-soft0/10 border-rose-500/20 text-rose-500';
   };
 
   const getMomentumBg = (momentum: string): string => {
-    return momentum === 'ACCELERATING' ? 'bg-emerald-500/15 border-emerald-500/30 text-emerald-400' :
+    return momentum === 'ACCELERATING' ? 'bg-success-soft0/15 border-emerald-500/30 text-emerald-400' :
            momentum === 'STABILIZING' ? 'bg-teal-500/15 border-teal-500/30 text-teal-400' :
-           'bg-rose-500/15 border-rose-500/30 text-rose-500';
+           'bg-critical-soft0/15 border-rose-500/30 text-rose-500';
   };
 
   const getStatusBadge = (status: string) => {
     const maps: Record<string, string> = {
       ACTIVE: 'bg-blue-500/10 border-blue-500/20 text-blue-400',
-      RESOLVED: 'bg-emerald-500/10 border-emerald-500/20 text-emerald-400',
+      RESOLVED: 'bg-success-soft0/10 border-emerald-500/20 text-emerald-400',
       MITIGATED: 'bg-teal-500/10 border-teal-500/20 text-teal-400',
       RECURRING: 'bg-yellow-500/10 border-yellow-500/20 text-yellow-400',
-      ESCALATED: 'bg-rose-500/10 border-rose-500/20 text-rose-500'
+      ESCALATED: 'bg-critical-soft0/10 border-rose-500/20 text-rose-500'
     };
     return maps[status] || 'bg-slate-800 border-border text-muted-foreground';
   };
@@ -243,7 +243,7 @@ export function InstitutionalMemoryCenter({ selectedClient, selectedYear }: Inst
 
       {/* Row 2: Warnings & Trajectory Diagnostics */}
       {alerts.length > 0 && (
-        <div className="card-premium p-6 border-l-4 border-l-amber-500/70 bg-amber-500/5 space-y-4">
+        <div className="card-premium p-6 border-l-4 border-l-amber-500/70 bg-warning-soft0/5 space-y-4">
           <div className="flex items-center gap-3">
             <AlertTriangle className="w-5 h-5 text-amber-500" />
             <h4 className="text-sm font-bold uppercase tracking-wider text-amber-400">Alertas de Risco Longitudinal Ativos</h4>
@@ -251,7 +251,7 @@ export function InstitutionalMemoryCenter({ selectedClient, selectedYear }: Inst
           <ul className="space-y-2.5">
             {alerts.map((alert: string, idx: number) => (
               <li key={idx} className="text-xs text-muted-foreground font-medium leading-relaxed flex items-start gap-2">
-                <span className="w-1.5 h-1.5 rounded-full bg-amber-500 mt-1.5 flex-shrink-0"></span>
+                <span className="w-1.5 h-1.5 rounded-full bg-warning-soft0 mt-1.5 flex-shrink-0"></span>
                 {alert}
               </li>
             ))}

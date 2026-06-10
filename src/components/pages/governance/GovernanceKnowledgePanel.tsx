@@ -45,9 +45,9 @@ export function GovernanceKnowledgePanel({ clientId, scenario, executiveSummary 
       case 'EXCELLENT':
         return {
           text: 'text-emerald-400',
-          bg: 'bg-emerald-500/10',
+          bg: 'bg-success-soft0/10',
           border: 'border-emerald-500/30',
-          accent: 'bg-emerald-500',
+          accent: 'bg-success-soft0',
           progressColor: '#10b981',
           label: 'Excelente'
         };
@@ -63,9 +63,9 @@ export function GovernanceKnowledgePanel({ clientId, scenario, executiveSummary 
       case 'DEVELOPING':
         return {
           text: 'text-amber-400',
-          bg: 'bg-amber-500/10',
+          bg: 'bg-warning-soft0/10',
           border: 'border-amber-500/30',
-          accent: 'bg-amber-500',
+          accent: 'bg-warning-soft0',
           progressColor: '#f59e0b',
           label: 'Em Desenvolvimento'
         };
@@ -122,7 +122,7 @@ export function GovernanceKnowledgePanel({ clientId, scenario, executiveSummary 
     <div className="bg-gray-900/60 backdrop-blur-md border border-border rounded-3xl p-6 md:p-8 space-y-8 shadow-2xl relative overflow-hidden">
       
       {/* Background radial accent */}
-      <div className={`absolute top-0 right-0 w-64 h-64 rounded-full filter blur-[120px] opacity-10 transition-colors duration-1000 ${theme.progressColor === '#ef4444' ? 'bg-red-500' : 'bg-emerald-500'}`} />
+      <div className={`absolute top-0 right-0 w-64 h-64 rounded-full filter blur-[120px] opacity-10 transition-colors duration-1000 ${theme.progressColor === '#ef4444' ? 'bg-red-500' : 'bg-success-soft0'}`} />
 
       {/* Header */}
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 border-b border-border pb-6">
@@ -240,7 +240,7 @@ export function GovernanceKnowledgePanel({ clientId, scenario, executiveSummary 
               <p className="text-[10px] text-muted-foreground">PAI limitado a **48** devido ao estresse extremo de sobrevivência e runway fiduciário.</p>
             </div>
 
-            <div className={`p-4 rounded-xl border text-xs ${scenario === 'MISSION_STRESS' ? 'bg-amber-500/10 border-amber-500/30' : 'bg-gray-950/20 border-border'}`}>
+            <div className={`p-4 rounded-xl border text-xs ${scenario === 'MISSION_STRESS' ? 'bg-warning-soft0/10 border-amber-500/30' : 'bg-gray-950/20 border-border'}`}>
               <div className="flex items-center gap-2 font-bold mb-1">
                 <Compass className={`w-3.5 h-3.5 ${scenario === 'MISSION_STRESS' ? 'text-amber-400' : 'text-muted-foreground'}`} />
                 <span className={scenario === 'MISSION_STRESS' ? 'text-amber-400' : 'text-muted-foreground'}>Mission Stress Cap</span>
@@ -317,7 +317,7 @@ export function GovernanceKnowledgePanel({ clientId, scenario, executiveSummary 
                 key={idx} 
                 className="p-5 bg-black/25 border border-border hover:border-border transition-colors rounded-2xl flex items-start gap-4 shadow-sm"
               >
-                <div className="p-2.5 bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 rounded-xl mt-0.5 shrink-0">
+                <div className="p-2.5 bg-success-soft0/10 border border-emerald-500/20 text-emerald-400 rounded-xl mt-0.5 shrink-0">
                   <CheckCircle2 className="w-4 h-4" />
                 </div>
                 <div className="space-y-2">

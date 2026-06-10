@@ -13,7 +13,7 @@ export function GovernanceViolationsPanel({ violations }: { violations: RuntimeV
       </h3>
       <div className="space-y-3">
         {violations.map((v, idx) => (
-          <div key={idx} className="p-4 rounded-xl bg-rose-50 border border-rose-100">
+          <div key={idx} className="p-4 rounded-xl bg-critical-soft border border-rose-100">
             <div className="flex items-center gap-3 mb-2">
               <span className="text-[10px] font-black uppercase px-2 py-0.5 rounded bg-rose-200 text-rose-800">
                 {v.severity}

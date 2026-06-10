@@ -825,7 +825,7 @@ export function DadosHistoricosPage({
                         </button>
                         <button 
                           onClick={handleBulkRejectApprovals}
-                          className="px-4 py-2 bg-destructive/10 text-destructive border border-destructive/20 rounded-button hover:bg-destructive hover:text-white transition-all duration-300 text-[10px] font-black uppercase tracking-widest cursor-pointer"
+                          className="px-4 py-2 bg-critical-soft text-destructive border border-destructive/20 rounded-button hover:bg-destructive hover:text-white transition-all duration-300 text-[10px] font-black uppercase tracking-widest cursor-pointer"
                         >
                           Rejeitar Selecionados ({selectedApprovals.length})
                         </button>
@@ -871,7 +871,7 @@ export function DadosHistoricosPage({
                             {!h.isBatch && h.sourceCollection !== 'document_uploads' && (
                                <button 
                                 onClick={() => handleReject(h.id, h.sourceCollection)}
-                                className="p-2.5 bg-destructive/10 text-destructive border border-destructive/20 rounded-button hover:bg-destructive hover:text-white transition-all duration-300 cursor-pointer"
+                                className="p-2.5 bg-critical-soft text-destructive border border-destructive/20 rounded-button hover:bg-destructive hover:text-white transition-all duration-300 cursor-pointer"
                                >
                                 <Trash2 size={14} />
                                </button>
@@ -879,7 +879,7 @@ export function DadosHistoricosPage({
                             {h.isBatch && (
                                <button 
                                 onClick={() => handleReject(h.id, h.sourceCollection, true, h.itemIds)}
-                                className="px-4 py-2.5 bg-destructive/10 text-destructive border border-destructive/20 rounded-button hover:bg-destructive hover:text-white transition-all duration-300 text-[10px] font-black uppercase tracking-widest cursor-pointer"
+                                className="px-4 py-2.5 bg-critical-soft text-destructive border border-destructive/20 rounded-button hover:bg-destructive hover:text-white transition-all duration-300 text-[10px] font-black uppercase tracking-widest cursor-pointer"
                                >
                                 Rejeitar Lote
                                </button>
@@ -1068,7 +1068,7 @@ export function DadosHistoricosPage({
                     {selectedHistoryItems.length > 0 && (
                       <button 
                         onClick={handleBulkDeleteHistory}
-                        className="px-4 py-2 bg-destructive/10 text-destructive border border-destructive/20 rounded-button hover:bg-destructive hover:text-white transition-all duration-300 text-[10px] font-black uppercase tracking-widest cursor-pointer"
+                        className="px-4 py-2 bg-critical-soft text-destructive border border-destructive/20 rounded-button hover:bg-destructive hover:text-white transition-all duration-300 text-[10px] font-black uppercase tracking-widest cursor-pointer"
                       >
                         Excluir Selecionados ({selectedHistoryItems.length})
                       </button>
@@ -1104,10 +1104,10 @@ export function DadosHistoricosPage({
                           <span className={cn(
                             "text-[8px] font-black uppercase px-2.5 py-1 rounded-full border", 
                             h.status === 'approved' 
-                              ? "bg-success/10 text-success border-success/20" 
+                              ? "bg-success-soft text-success border-success/20" 
                               : h.status === 'rejected'
-                                ? "bg-destructive/10 text-destructive border-destructive/20"
-                                : "bg-warning/10 text-warning border-warning/20"
+                                ? "bg-critical-soft text-destructive border-destructive/20"
+                                : "bg-warning-soft text-warning border-warning/20"
                           )}>
                             {h.status === 'approved' ? 'Aprovado' : h.status === 'rejected' ? 'Rejeitado' : 'Pendente'}
                           </span>

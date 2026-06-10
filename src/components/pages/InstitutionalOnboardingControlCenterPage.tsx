@@ -123,7 +123,7 @@ export function InstitutionalOnboardingControlCenterPage() {
             <Building2 size={16} />
             <span className="text-[10px] uppercase font-bold tracking-widest font-mono">Client Activation Control</span>
           </div>
-          <h1 className="text-2xl font-bold tracking-tight">{t("onboarding.control_center")}</h1>
+          <h1 className="text-2xl font-bold tracking-tight text-primary">{t("onboarding.control_center")}</h1>
           <p className="text-xs text-zinc-500 font-mono mt-1 uppercase tracking-widest">{t("onboarding.subtitle")}</p>
         </div>
         {lineageHash && (
@@ -168,7 +168,7 @@ export function InstitutionalOnboardingControlCenterPage() {
                   </div>
                   {idx < stages.length - 1 && (
                     <div className="flex-1 h-0.5 bg-zinc-800 relative -top-3">
-                       <div className="h-full bg-emerald-500 transition-all" style={{ width: isPast ? '100%' : '0%' }} />
+                       <div className="h-full bg-success-soft0 transition-all" style={{ width: isPast ? '100%' : '0%' }} />
                     </div>
                   )}
                 </React.Fragment>

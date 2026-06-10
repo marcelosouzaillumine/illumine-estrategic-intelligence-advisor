@@ -311,7 +311,7 @@ export function PartnerSalesPage() {
               Illumine Advisors
             </span>
             
-            <h1 className="text-4xl sm:text-5xl md:text-6xl font-display font-medium tracking-tight text-white leading-[1.1] max-w-4xl mx-auto">
+            <h1 className="text-4xl sm:text-5xl md:text-6xl font-display font-medium tracking-tight text-white leading-[1.1] max-w-4xl mx-auto text-primary">
               Você consegue enxergar aquilo que seus clientes ainda não conseguem ver?
             </h1>
             

@@ -9,7 +9,7 @@ export const RuntimeIntegrityBadge: React.FC = () => {
   return (
     <div className={`inline-flex items-center gap-2 px-3 py-1 rounded-xl text-[9px] font-black uppercase tracking-widest border ${
       lineageIntegrity 
-        ? 'bg-emerald-500/10 text-emerald-400 border-emerald-500/20' 
+        ? 'bg-success-soft0/10 text-emerald-400 border-emerald-500/20' 
         : 'bg-red-500/10 text-red-400 border-red-500/20 animate-pulse'
     }`}>
       {lineageIntegrity ? (

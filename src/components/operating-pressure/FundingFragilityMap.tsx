@@ -26,10 +26,10 @@ export function FundingFragilityMap({ data }: FundingFragilityProps) {
           </h3>
           <span className={cn(
             "text-[10px] font-black uppercase tracking-widest px-3 py-1 rounded-full border",
-            data.rolloverRiskLevel === 'CRITICAL' ? 'bg-destructive/10 text-destructive border-destructive/20' :
-            data.rolloverRiskLevel === 'HIGH' ? 'bg-amber-500/10 text-amber-500 border-amber-500/20' :
+            data.rolloverRiskLevel === 'CRITICAL' ? 'bg-critical-soft text-destructive border-destructive/20' :
+            data.rolloverRiskLevel === 'HIGH' ? 'bg-warning-soft0/10 text-amber-500 border-amber-500/20' :
             data.rolloverRiskLevel === 'MEDIUM' ? 'bg-blue-500/10 text-blue-500 border-blue-500/20' :
-            'bg-emerald-500/10 text-emerald-500 border-emerald-500/20'
+            'bg-success-soft0/10 text-emerald-500 border-emerald-500/20'
           )}>
             Rollover: {data.rolloverRiskLevel}
           </span>

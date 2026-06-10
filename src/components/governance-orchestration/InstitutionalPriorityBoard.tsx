@@ -17,7 +17,7 @@ export function InstitutionalPriorityBoard({ tenantId }: { tenantId: string }) {
           <div key={prio.priorityId} className="flex flex-col gap-1 p-3 bg-background border border-rose-500/30 rounded">
             <div className="flex justify-between items-center">
               <span className="text-xs font-bold text-foreground uppercase">{prio.domain}</span>
-              <span className="bg-rose-500 text-white text-[10px] font-bold px-2 py-0.5 rounded uppercase">
+              <span className="bg-critical-soft0 text-white text-[10px] font-bold px-2 py-0.5 rounded uppercase">
                 {prio.urgency}
               </span>
             </div>

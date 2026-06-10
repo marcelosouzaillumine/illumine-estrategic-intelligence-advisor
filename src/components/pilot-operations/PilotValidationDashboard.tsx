@@ -10,9 +10,9 @@ export const PilotValidationDashboard: React.FC = () => {
   const isFailClosed = pilotStatus === 'FAIL_CLOSED';
 
   const ratingColors = {
-    GO_LIVE_READY: 'text-emerald-500 bg-emerald-500/10 border-emerald-500/25',
-    CONDITIONAL_APPROVAL: 'text-amber-500 bg-amber-500/10 border-amber-500/25',
-    UNREADY: 'text-rose-500 bg-rose-500/10 border-rose-500/25'
+    GO_LIVE_READY: 'text-emerald-500 bg-success-soft0/10 border-emerald-500/25',
+    CONDITIONAL_APPROVAL: 'text-amber-500 bg-warning-soft0/10 border-amber-500/25',
+    UNREADY: 'text-rose-500 bg-critical-soft0/10 border-rose-500/25'
   };
 
   const ratingLabels = {
@@ -34,7 +34,7 @@ export const PilotValidationDashboard: React.FC = () => {
           </div>
         </div>
         <div className={`px-3 py-1 rounded-full border text-[10px] font-black uppercase tracking-wider ${
-          isFailClosed ? 'text-rose-500 bg-rose-500/10 border-rose-500/25' : ratingColors[readinessReport.rating]
+          isFailClosed ? 'text-rose-500 bg-critical-soft0/10 border-rose-500/25' : ratingColors[readinessReport.rating]
         }`}>
           {isFailClosed ? 'UNREADY (FAIL CLOSED)' : ratingLabels[readinessReport.rating]}
         </div>
@@ -52,8 +52,8 @@ export const PilotValidationDashboard: React.FC = () => {
           <div className="w-full bg-surface-container-high rounded-full h-1.5 overflow-hidden">
             <div 
               className={`h-1.5 rounded-full transition-all duration-500 ${
-                isFailClosed ? 'bg-rose-500' :
-                readinessReport.maturityScore >= 90 ? 'bg-emerald-500' : readinessReport.maturityScore >= 60 ? 'bg-amber-500' : 'bg-rose-500'
+                isFailClosed ? 'bg-critical-soft0' :
+                readinessReport.maturityScore >= 90 ? 'bg-success-soft0' : readinessReport.maturityScore >= 60 ? 'bg-warning-soft0' : 'bg-critical-soft0'
               }`}
               style={{ width: `${isFailClosed ? 0 : readinessReport.maturityScore}%` }}
             />
@@ -82,19 +82,19 @@ export const PilotValidationDashboard: React.FC = () => {
         <span className="text-[9px] font-mono font-black text-muted-foreground uppercase tracking-widest block">ACTIVE GOVERNANCE BLOCKERS ({isFailClosed ? 1 : readinessReport.unresolvedGovernanceBlockers.length})</span>
         
         {isFailClosed ? (
-          <div className="p-3 bg-rose-500/5 border border-rose-500/10 rounded-xl flex gap-2">
+          <div className="p-3 bg-critical-soft0/5 border border-rose-500/10 rounded-xl flex gap-2">
             <AlertOctagon size={14} className="text-rose-500 shrink-0 mt-0.5" />
             <p className="text-[11px] text-rose-500 leading-normal">FAIL_CLOSED_STATE: O inquilino está bloqueado para go-live devido a isolamentoemergencial.</p>
           </div>
         ) : readinessReport.unresolvedGovernanceBlockers.length === 0 ? (
-          <div className="p-4 bg-emerald-500/5 border border-emerald-500/10 rounded-xl flex gap-2.5 items-center text-emerald-500">
+          <div className="p-4 bg-success-soft0/5 border border-emerald-500/10 rounded-xl flex gap-2.5 items-center text-emerald-500">
             <CheckCircle2 size={16} className="shrink-0" />
             <p className="text-xs font-bold">Nenhum bloqueador societário ativo. Homologação fiduciária aprovada para produção.</p>
           </div>
         ) : (
           <div className="space-y-2 max-h-[160px] overflow-y-auto pr-1">
             {readinessReport.unresolvedGovernanceBlockers.map((blocker, idx) => (
-              <div key={idx} className="p-3 bg-rose-500/5 border border-rose-500/10 rounded-xl flex gap-2.5 text-rose-500">
+              <div key={idx} className="p-3 bg-critical-soft0/5 border border-rose-500/10 rounded-xl flex gap-2.5 text-rose-500">
                 <AlertTriangle size={14} className="shrink-0 mt-0.5" />
                 <p className="text-[11px] leading-normal text-muted-foreground">
                   <span className="text-rose-500 font-bold uppercase tracking-wider font-mono mr-1">

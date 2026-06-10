@@ -39,9 +39,9 @@ export function BoardDecisionSurface({ executiveDirectives, boardResolutionAppen
       case 'RESTRICTIVE':
         return 'bg-red-500/10 text-red-400 border border-red-500/20';
       case 'CRITICAL':
-        return 'bg-rose-500/10 text-rose-400 border border-rose-500/20';
+        return 'bg-critical-soft0/10 text-rose-400 border border-rose-500/20';
       case 'ELEVATED':
-        return 'bg-amber-500/10 text-amber-400 border border-amber-500/20';
+        return 'bg-warning-soft0/10 text-amber-400 border border-amber-500/20';
       case 'STANDARD':
       default:
         return 'bg-zinc-500/10 text-zinc-400 border border-zinc-500/20';

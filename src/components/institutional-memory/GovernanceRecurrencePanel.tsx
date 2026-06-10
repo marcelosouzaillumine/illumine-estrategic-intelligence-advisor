@@ -19,7 +19,7 @@ export function GovernanceRecurrencePanel() {
     <div className="card-premium p-8 bg-card/45 border border-border/60 space-y-6 animate-executive-fade leading-relaxed">
       <div className="flex items-center justify-between pb-4 border-b border-border/40">
         <div className="flex items-center gap-3">
-          <div className="p-2 bg-amber-500/10 text-amber-500 rounded-lg">
+          <div className="p-2 bg-warning-soft0/10 text-amber-500 rounded-lg">
             <ShieldAlert size={18} />
           </div>
           <div>
@@ -30,7 +30,7 @@ export function GovernanceRecurrencePanel() {
       </div>
 
       {repeatingSignals.length === 0 ? (
-        <div className="p-5 border border-emerald-500/20 bg-emerald-500/5 text-emerald-400 text-xs rounded-xl flex items-center gap-3 font-semibold">
+        <div className="p-5 border border-emerald-500/20 bg-success-soft0/5 text-emerald-400 text-xs rounded-xl flex items-center gap-3 font-semibold">
           <ShieldCheck size={16} />
           <span>Zero anomalias com padrões recorrentes ou sistêmicos no período vigente.</span>
         </div>
@@ -42,7 +42,7 @@ export function GovernanceRecurrencePanel() {
               className={cn(
                 "p-4 border rounded-xl flex justify-between items-start gap-4 transition-all hover:bg-surface-container/20",
                 signal.recurrence === 'SYSTEMIC' || signal.recurrence === 'CHRONIC'
-                  ? "bg-rose-500/[0.02] border-rose-500/25"
+                  ? "bg-critical-soft0/[0.02] border-rose-500/25"
                   : "bg-surface-container/20 border-border/40"
               )}
             >
@@ -51,8 +51,8 @@ export function GovernanceRecurrencePanel() {
                   <span className={cn(
                     "px-2 py-0.5 rounded text-[8px] font-black uppercase tracking-wider border",
                     signal.recurrence === 'SYSTEMIC' 
-                      ? "bg-rose-500/10 text-rose-500 border-rose-500/20"
-                      : "bg-amber-500/10 text-amber-500 border-amber-500/20"
+                      ? "bg-critical-soft0/10 text-rose-500 border-rose-500/20"
+                      : "bg-warning-soft0/10 text-amber-500 border-amber-500/20"
                   )}>
                     {signal.recurrence}
                   </span>

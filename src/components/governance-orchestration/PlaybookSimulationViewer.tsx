@@ -19,7 +19,7 @@ export function PlaybookSimulationViewer({ tenantId }: { tenantId: string }) {
       <div className="space-y-2 border-t border-border/50 pt-4">
         <div className="text-xs text-muted-foreground font-bold uppercase mb-2">Trade-offs Institucionais</div>
         {coord.projection.tradeoffs.map((td, idx) => (
-          <div key={idx} className="p-2 text-sm text-rose-500 bg-rose-500/10 border border-rose-500/20 rounded">
+          <div key={idx} className="p-2 text-sm text-rose-500 bg-critical-soft0/10 border border-rose-500/20 rounded">
             {td}
           </div>
         ))}

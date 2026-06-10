@@ -15,7 +15,7 @@ export class DebtDependencyPressureEngine {
       }
     } else if (thirdPartyFunding > 0 && fco > 0) {
       classification = 'ATTENTION';
-      narrative = 'Captação ativa apesar de geração operacional positiva. Pode indicar pipeline de expansão ou rolagem defensiva.';
+      narrative = 'Captação ativa apesar de geração operacional positiva. Contexto indisponível.';
     }
 
     return {

@@ -68,7 +68,7 @@ export function CleanupTool() {
   return (
     <div className="p-8 max-w-2xl mx-auto space-y-8">
       <div className="bg-white p-8 rounded-3xl border border-border shadow-xl">
-        <h1 className="text-2xl font-bold text-muted-foreground mb-2">Limpeza de DRE (2025-2026)</h1>
+        <h1 className="text-2xl font-bold text-primary mb-2">Limpeza de DRE (2025-2026)</h1>
         <p className="text-muted-foreground mb-6">Esta ferramenta irá apagar permanentemente os registros de DRE da empresa Empório referentes aos anos de 2025 e 2026.</p>
         
         {clientId ? (
@@ -77,7 +77,7 @@ export function CleanupTool() {
             <p className="text-[10px] text-blue-600 uppercase tracking-widest mt-1">ID: {clientId}</p>
           </div>
         ) : !loading && (
-          <div className="p-4 bg-rose-50 border border-rose-100 rounded-xl mb-6">
+          <div className="p-4 bg-critical-soft border border-rose-100 rounded-xl mb-6">
             <p className="text-sm font-bold text-rose-700">Erro: Empresa não encontrada no banco.</p>
           </div>
         )}
@@ -95,8 +95,8 @@ export function CleanupTool() {
       <div className="space-y-4">
         {status.map((s, i) => (
           <div key={i} className={`p-4 rounded-2xl border flex items-center gap-3 ${
-            s.type === 'success' ? 'bg-emerald-50 border-emerald-100 text-emerald-700' :
-            s.type === 'error' ? 'bg-rose-50 border-rose-100 text-rose-700' :
+            s.type === 'success' ? 'bg-success-soft border-emerald-100 text-emerald-700' :
+            s.type === 'error' ? 'bg-critical-soft border-rose-100 text-rose-700' :
             'bg-slate-50 border-border text-muted-foreground'
           }`}>
             {s.type === 'success' ? <CheckCircle size={18} /> : 

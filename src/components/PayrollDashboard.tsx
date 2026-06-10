@@ -291,7 +291,7 @@ export default function PayrollDashboard({ clientId }: { clientId: string }) {
         {[
           { label: 'Custo Mensal', val: summary.monthlyCost, helper: 'Recorrência mensal bruta', icon: DollarSign, color: 'text-blue-500', bg: 'bg-blue-50' },
           { label: 'Custo Anual', val: summary.annualCost, helper: 'Projeção 12 meses', icon: TrendingUp, color: 'text-muted-foreground', bg: 'bg-slate-50' },
-          { label: 'Colaboradores', val: summary.total, suffix: ' pessoas', helper: `${summary.active} ativos no grupo`, icon: UserCheck, color: 'text-emerald-500', bg: 'bg-emerald-50' },
+          { label: 'Colaboradores', val: summary.total, suffix: ' pessoas', helper: `${summary.active} ativos no grupo`, icon: UserCheck, color: 'text-emerald-500', bg: 'bg-success-soft' },
           { label: 'Custo Médio', val: summary.averageCost, helper: 'Gasto médio por pessoa', icon: Clock, color: 'text-orange-500', bg: 'bg-orange-50' }
         ].map((kpi, idx) => (
           <div key={idx} className="bg-white p-6 rounded-2xl border border-border shadow-sm group hover:border-secondary/30 transition-all">
@@ -581,14 +581,14 @@ export default function PayrollDashboard({ clientId }: { clientId: string }) {
                   <td className="px-5 md:px-8 py-3 md:py-5">
                     <span className={cn(
                       "px-2.5 py-1 rounded-lg text-[9px] font-black uppercase tracking-widest", 
-                      emp.tipoContrato === 'CLT' ? 'bg-blue-50 text-blue-600 border border-blue-100' : 'bg-amber-50 text-amber-600 border border-amber-100'
+                      emp.tipoContrato === 'CLT' ? 'bg-blue-50 text-blue-600 border border-blue-100' : 'bg-warning-soft text-amber-600 border border-amber-100'
                     )}>
                       {emp.tipoContrato}
                     </span>
                   </td>
                   <td className="px-5 md:px-8 py-3 md:py-5">
                     <div className="flex items-center gap-2 text-[10px] font-black uppercase tracking-widest text-muted-foreground">
-                      <div className={cn("w-2 h-2 rounded-full", emp.status === 'Ativo' ? 'bg-emerald-500 shadow-[0_0_8px_rgba(16,185,129,0.3)]' : 'bg-slate-300')} />
+                      <div className={cn("w-2 h-2 rounded-full", emp.status === 'Ativo' ? 'bg-success-soft0 shadow-[0_0_8px_rgba(16,185,129,0.3)]' : 'bg-slate-300')} />
                       {emp.status}
                     </div>
                   </td>

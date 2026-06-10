@@ -20,7 +20,7 @@ export function RealityValidationTimeline({ dataset }: Props) {
       </div>
       <div className="relative border-l border-border/50 ml-3 space-y-5">
         {events.map(evt => {
-          const dot = evt.type === 'WARNING' ? 'bg-rose-500' : evt.type === 'ORCHESTRATION' ? 'bg-amber-500' : 'bg-primary';
+          const dot = evt.type === 'WARNING' ? 'bg-critical-soft0' : evt.type === 'ORCHESTRATION' ? 'bg-warning-soft0' : 'bg-primary';
           return (
             <div key={evt.id} className="relative pl-5">
               <div className={`absolute w-2.5 h-2.5 ${dot} rounded-full -left-1.5 top-1`} />

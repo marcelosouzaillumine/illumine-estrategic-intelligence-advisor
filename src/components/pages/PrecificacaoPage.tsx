@@ -180,9 +180,9 @@ export function PrecificacaoPage({ clientId }: PrecificacaoPageProps) {
                 </div>
               <div className={cn(
                 "w-2 h-2 rounded-full",
-                kpi.status === 'positive' ? "bg-emerald-500 shadow-[0_0_12px_rgba(16,185,129,0.4)]" : 
-                kpi.status === 'negative' ? "bg-rose-500 shadow-[0_0_12px_rgba(244,63,94,0.4)]" : 
-                "bg-amber-500 shadow-[0_0_12px_rgba(245,158,11,0.4)]"
+                kpi.status === 'positive' ? "bg-success-soft0 shadow-[0_0_12px_rgba(16,185,129,0.4)]" : 
+                kpi.status === 'negative' ? "bg-critical-soft0 shadow-[0_0_12px_rgba(244,63,94,0.4)]" : 
+                "bg-warning-soft0 shadow-[0_0_12px_rgba(245,158,11,0.4)]"
               )} />
             </div>
 
@@ -214,7 +214,7 @@ export function PrecificacaoPage({ clientId }: PrecificacaoPageProps) {
             </div>
             <form onSubmit={handleAdd} className="space-y-10 relative z-10">
                <div className="flex items-center gap-4 mb-4">
-                  <div className="w-12 h-12 rounded-2xl bg-emerald-50 flex items-center justify-center text-emerald-600">
+                  <div className="w-12 h-12 rounded-2xl bg-success-soft flex items-center justify-center text-emerald-600">
                     <Plus size={24} />
                   </div>
                   <div>
@@ -302,9 +302,9 @@ export function PrecificacaoPage({ clientId }: PrecificacaoPageProps) {
                     <div className="absolute top-0 right-0 p-8 flex flex-col gap-2">
                        <div className={cn(
                          "px-4 py-2 rounded-2xl text-[10px] font-black uppercase tracking-widest shadow-sm",
-                         item.margemPct >= 40 ? "bg-emerald-50 text-emerald-600" : 
+                         item.margemPct >= 40 ? "bg-success-soft text-emerald-600" : 
                          item.margemPct >= 20 ? "bg-blue-50 text-blue-600" : 
-                         item.margemPct > 0 ? "bg-amber-50 text-amber-600" : "bg-rose-50 text-rose-600"
+                         item.margemPct > 0 ? "bg-warning-soft text-amber-600" : "bg-critical-soft text-rose-600"
                        )}>
                          {item.margemPct.toFixed(1)}% Margem
                        </div>
@@ -339,7 +339,7 @@ export function PrecificacaoPage({ clientId }: PrecificacaoPageProps) {
                           </div>
                           <button 
                             onClick={() => remove(item.id!)} 
-                            className="p-4 rounded-2xl text-muted-foreground hover:text-rose-500 hover:bg-rose-50 transition-all opacity-0 group-hover:opacity-100"
+                            className="p-4 rounded-2xl text-muted-foreground hover:text-rose-500 hover:bg-critical-soft transition-all opacity-0 group-hover:opacity-100"
                           >
                              <Trash2 size={20} />
                           </button>
@@ -354,7 +354,7 @@ export function PrecificacaoPage({ clientId }: PrecificacaoPageProps) {
             <SectionHeader title="Simulador de Impacto" subtitle="Sensibilidade de preço e volume" icon={ArrowRightLeft} />
             
             <div className="bg-slate-900 rounded-[56px] p-12 text-white space-y-10 relative overflow-hidden shadow-[0_32px_64px_-12px_rgba(15,23,42,0.3)] border border-white/5">
-               <div className="absolute -left-20 -bottom-20 w-80 h-80 bg-emerald-500/10 blur-[100px] rounded-full"></div>
+               <div className="absolute -left-20 -bottom-20 w-80 h-80 bg-success-soft0/10 blur-[100px] rounded-full"></div>
                <div className="absolute -right-20 -top-20 w-64 h-64 bg-blue-500/10 blur-[100px] rounded-full"></div>
                
                <div className="relative z-10 space-y-10">
@@ -431,7 +431,7 @@ export function PrecificacaoPage({ clientId }: PrecificacaoPageProps) {
                  <AlertCircle size={140} />
                </div>
                <div className="flex items-center gap-3 text-muted-foreground relative z-10">
-                  <div className="w-10 h-10 rounded-xl bg-amber-50 flex items-center justify-center text-amber-600">
+                  <div className="w-10 h-10 rounded-xl bg-warning-soft flex items-center justify-center text-amber-600">
                     <AlertCircle size={20} />
                   </div>
                   <h4 className="text-sm font-black uppercase tracking-[0.2em] font-display">Insights Estratégicos</h4>
@@ -442,7 +442,7 @@ export function PrecificacaoPage({ clientId }: PrecificacaoPageProps) {
                      A empresa possui um custo operacional fixo de <span className="font-black text-muted-foreground">{formatCurrency(custosFixosTotais)}</span>. Sua margem de contribuição atual deve priorizar o atingimento do Ponto de Equilíbrio global.
                   </div>
                   {stats.some(p => p.margemPct < 25) && (
-                    <div className="p-6 bg-rose-50 rounded-3xl border border-rose-100 text-xs font-medium text-rose-800 leading-relaxed">
+                    <div className="p-6 bg-critical-soft rounded-3xl border border-rose-100 text-xs font-medium text-rose-800 leading-relaxed">
                        <span className="font-black uppercase block mb-2 tracking-widest text-rose-600">Alerta de Rentabilidade</span>
                        Detectamos produtos com margem inferior a <span className="font-black">25%</span>. Itens com margem baixa exigem alto volume para compensar ou renegociação de custos de insumos.
                     </div>

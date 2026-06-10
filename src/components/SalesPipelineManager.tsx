@@ -326,8 +326,8 @@ export function SalesPipelineManager({ clientId }: SalesPipelineManagerProps) {
                     <td className="px-6 py-5">
                       <span className={cn(
                         "px-3 py-1 rounded-full text-[9px] font-black uppercase tracking-widest border",
-                        entry.etapa === 'Fechamento' ? "bg-emerald-50 text-emerald-600 border-emerald-100" :
-                        entry.etapa === 'Negociação' ? "bg-amber-50 text-amber-600 border-amber-100" :
+                        entry.etapa === 'Fechamento' ? "bg-success-soft text-emerald-600 border-emerald-100" :
+                        entry.etapa === 'Negociação' ? "bg-warning-soft text-amber-600 border-amber-100" :
                         "bg-slate-50 text-muted-foreground border-border"
                       )}>
                         {entry.etapa}
@@ -339,7 +339,7 @@ export function SalesPipelineManager({ clientId }: SalesPipelineManagerProps) {
                     <td className="px-6 py-5 text-right">
                       <button 
                         onClick={() => handleDelete(entry.id)}
-                        className="w-8 h-8 rounded-lg flex items-center justify-center text-muted-foreground hover:bg-rose-50 hover:text-rose-600 transition-all opacity-0 group-hover:opacity-100"
+                        className="w-8 h-8 rounded-lg flex items-center justify-center text-muted-foreground hover:bg-critical-soft hover:text-rose-600 transition-all opacity-0 group-hover:opacity-100"
                       >
                         <Trash2 size={16} />
                       </button>

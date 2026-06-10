@@ -23,9 +23,9 @@ export function LiquidityCompressionGraph({ data }: LiquidityCompressionProps) {
           </h3>
           <span className={cn(
             "text-[10px] font-black uppercase tracking-widest px-3 py-1 rounded-full border",
-            data.compressionState === 'COMPRESSED' ? 'bg-destructive/10 text-destructive border-destructive/20' :
-            data.compressionState === 'WARNING' ? 'bg-amber-500/10 text-amber-500 border-amber-500/20' :
-            'bg-emerald-500/10 text-emerald-500 border-emerald-500/20'
+            data.compressionState === 'COMPRESSED' ? 'bg-critical-soft text-destructive border-destructive/20' :
+            data.compressionState === 'WARNING' ? 'bg-warning-soft0/10 text-amber-500 border-amber-500/20' :
+            'bg-success-soft0/10 text-emerald-500 border-emerald-500/20'
           )}>
             Estado: {data.compressionState}
           </span>

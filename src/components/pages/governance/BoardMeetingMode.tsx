@@ -150,7 +150,7 @@ export function BoardMeetingMode({ clientId, scenario, companyName = 'Holding Il
           <div className="absolute top-0 right-0 w-96 h-96 bg-[#FF8552]/5 blur-[120px] rounded-full pointer-events-none" />
           
           <div className="max-w-3xl space-y-6">
-            <div className="inline-flex items-center gap-2 px-3 py-1 bg-amber-500/10 border border-amber-500/25 rounded-full text-amber-400 text-xs font-semibold uppercase tracking-wider">
+            <div className="inline-flex items-center gap-2 px-3 py-1 bg-warning-soft0/10 border border-amber-500/25 rounded-full text-amber-700 text-xs font-semibold uppercase tracking-wider">
               <Users size={12} />
               Boardroom Environment
             </div>
@@ -159,7 +159,7 @@ export function BoardMeetingMode({ clientId, scenario, companyName = 'Holding Il
               Board Meeting Mode (BMM™) <span className="text-xs font-mono text-muted-foreground">v1.0</span>
             </h2>
             
-            <p className="text-muted-foreground text-sm leading-relaxed">
+            <p className="text-secondary text-sm leading-relaxed">
               O BMM™ é a primeira sala de deliberação governada do Illumine Governance™. 
               Esta camada permite que recomendações estruturadas se tornem decisões formais, 
               registrando responsabilidades e prazos de forma humana no Governance Decision Tracking Layer (GDTL™).
@@ -209,12 +209,12 @@ export function BoardMeetingMode({ clientId, scenario, companyName = 'Holding Il
                             <span className="text-[9px] font-mono text-muted-foreground font-bold">EAI: {step.executiveAttentionScore}</span>
                             <span className={`px-1.5 py-0.5 rounded text-[8px] font-black border uppercase ${
                               isLocked 
-                                ? 'bg-rose-500/10 border-rose-500/25 text-rose-400' 
+                                ? 'bg-critical-soft0/10 border-rose-500/25 text-rose-700' 
                                 : step.status === 'CRITICAL'
-                                ? 'bg-rose-500/10 border-rose-500/25 text-rose-400'
+                                ? 'bg-critical-soft0/10 border-rose-500/25 text-rose-700'
                                 : step.status === 'ATTENTION'
-                                ? 'bg-amber-500/10 border-amber-500/25 text-amber-400'
-                                : 'bg-emerald-500/10 border-emerald-500/25 text-emerald-400'
+                                ? 'bg-warning-soft0/10 border-amber-500/25 text-amber-700'
+                                : 'bg-success-soft0/10 border-emerald-500/25 text-emerald-700'
                             }`}>
                               {isLocked ? 'BLOQUEADO' : step.status}
                             </span>
@@ -271,7 +271,7 @@ export function BoardMeetingMode({ clientId, scenario, companyName = 'Holding Il
             onConfirm={() => setWarningMessage(null)}
           >
             <div className="space-y-3 py-2">
-              <p className="text-sm text-muted-foreground">{warningMessage}</p>
+              <p className="text-sm text-secondary">{warningMessage}</p>
             </div>
           </FiduciaryModalShell>
         )}
@@ -304,7 +304,7 @@ export function BoardMeetingMode({ clientId, scenario, companyName = 'Holding Il
             
             <button
               onClick={() => setConfirmingComplete(true)}
-              className="bg-emerald-500/10 hover:bg-emerald-500/20 border border-emerald-500/30 text-emerald-400 font-bold py-2 px-4 rounded-xl text-xs uppercase tracking-wider transition-colors"
+              className="bg-success-soft0/10 hover:bg-success-soft0/20 border border-emerald-500/30 text-emerald-700 font-bold py-2 px-4 rounded-xl text-xs uppercase tracking-wider transition-colors"
             >
               Concluir e Compilar Ata
             </button>
@@ -347,9 +347,9 @@ export function BoardMeetingMode({ clientId, scenario, companyName = 'Holding Il
                       <div className="flex gap-2">
                         <span className={`text-[8px] font-bold uppercase tracking-wider px-1.5 py-0.5 rounded ${
                           item.criticality === 'CRITICAL' 
-                            ? 'bg-rose-500/15 text-rose-400 border border-rose-500/25'
+                            ? 'bg-critical-soft0/15 text-rose-700 border border-rose-500/25'
                             : item.criticality === 'HIGH'
-                            ? 'bg-amber-500/15 text-amber-400 border border-amber-500/25'
+                            ? 'bg-warning-soft0/15 text-amber-700 border border-amber-500/25'
                             : 'bg-slate-800 text-muted-foreground border border-white/5'
                         }`}>
                           {item.criticality}
@@ -376,9 +376,9 @@ export function BoardMeetingMode({ clientId, scenario, companyName = 'Holding Il
                 
                 <span className={`text-xs font-bold uppercase tracking-wider px-3 py-1 rounded-full ${
                   activeItem.criticality === 'CRITICAL' 
-                    ? 'bg-rose-500/10 border border-rose-500/20 text-rose-400'
+                    ? 'bg-critical-soft0/10 border border-rose-500/20 text-rose-700'
                     : activeItem.criticality === 'HIGH'
-                    ? 'bg-amber-500/10 border border-amber-500/20 text-amber-400'
+                    ? 'bg-warning-soft0/10 border border-amber-500/20 text-amber-700'
                     : 'bg-slate-900 text-muted-foreground border border-white/5'
                 }`}>
                   Criticidade: {activeItem.criticality}
@@ -412,9 +412,9 @@ export function BoardMeetingMode({ clientId, scenario, companyName = 'Holding Il
                               
                               <span className={`text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded border ${
                                 res.decision === 'APPROVED'
-                                  ? 'bg-emerald-500/10 border-emerald-500/20 text-emerald-400'
+                                  ? 'bg-success-soft0/10 border-emerald-500/20 text-emerald-700'
                                   : res.decision === 'REJECTED'
-                                  ? 'bg-rose-500/10 border-rose-500/20 text-rose-400'
+                                  ? 'bg-critical-soft0/10 border-rose-500/20 text-rose-700'
                                   : 'bg-slate-900 border-white/10 text-muted-foreground'
                               }`}>
                                 {res.decision === 'APPROVED' ? 'Aprovada' : res.decision === 'REJECTED' ? 'Rejeitada' : 'Adiada'}
@@ -448,7 +448,7 @@ export function BoardMeetingMode({ clientId, scenario, companyName = 'Holding Il
                             )}
 
                             {res.decision === 'APPROVED' && (
-                              <div className="bg-emerald-500/5 border border-emerald-500/10 rounded-lg p-3 text-[11px] text-emerald-400/90 space-y-1">
+                              <div className="bg-success-soft0/5 border border-emerald-500/10 rounded-lg p-3 text-[11px] text-emerald-700/90 space-y-1">
                                 <div className="flex items-center gap-1.5 font-bold uppercase tracking-wider text-[9px]">
                                   <ShieldCheck size={12} />
                                   Conectado ao GDTL™
@@ -460,7 +460,7 @@ export function BoardMeetingMode({ clientId, scenario, companyName = 'Holding Il
                             )}
 
                             {res.decision === 'REJECTED' && (
-                              <div className="bg-rose-500/5 border border-rose-500/10 rounded-lg p-3 text-[11px] text-rose-400/90">
+                              <div className="bg-critical-soft0/5 border border-rose-500/10 rounded-lg p-3 text-[11px] text-rose-700/90">
                                 <div>Rejeitado por: <span className="font-semibold text-white">{res.decidedBy}</span></div>
                                 <div>Motivo: <span className="italic text-muted-foreground">"{res.decisionReason}"</span></div>
                               </div>
@@ -471,13 +471,13 @@ export function BoardMeetingMode({ clientId, scenario, companyName = 'Holding Il
                               <div className="flex gap-2 justify-end">
                                 <button
                                   onClick={() => handleOpenConfirmation(res.id, 'APPROVED')}
-                                  className="bg-emerald-500 hover:bg-emerald-600 text-white font-bold py-1 px-3 rounded-lg text-[10px] uppercase tracking-wider transition-colors"
+                                  className="bg-success-soft0 hover:bg-emerald-600 text-white font-bold py-1 px-3 rounded-lg text-[10px] uppercase tracking-wider transition-colors"
                                 >
                                   Aprovar
                                 </button>
                                 <button
                                   onClick={() => handleOpenConfirmation(res.id, 'REJECTED')}
-                                  className="bg-rose-500 hover:bg-rose-600 text-white font-bold py-1 px-3 rounded-lg text-[10px] uppercase tracking-wider transition-colors"
+                                  className="bg-critical-soft0 hover:bg-rose-600 text-white font-bold py-1 px-3 rounded-lg text-[10px] uppercase tracking-wider transition-colors"
                                 >
                                   Rejeitar
                                 </button>
@@ -585,7 +585,7 @@ export function BoardMeetingMode({ clientId, scenario, companyName = 'Holding Il
                 </button>
                 <button
                   onClick={handleCompleteMeeting}
-                  className="px-4 py-2 rounded-xl text-xs font-bold text-white bg-emerald-500 hover:bg-emerald-600 transition-colors"
+                  className="px-4 py-2 rounded-xl text-xs font-bold text-white bg-success-soft0 hover:bg-emerald-600 transition-colors"
                 >
                   Compilar e Encerrar
                 </button>
@@ -602,7 +602,7 @@ export function BoardMeetingMode({ clientId, scenario, companyName = 'Holding Il
             onConfirm={() => setWarningMessage(null)}
           >
             <div className="space-y-3 py-2">
-              <p className="text-sm text-muted-foreground">{warningMessage}</p>
+              <p className="text-sm text-secondary">{warningMessage}</p>
             </div>
           </FiduciaryModalShell>
         )}
@@ -616,11 +616,11 @@ export function BoardMeetingMode({ clientId, scenario, companyName = 'Holding Il
       <div className="space-y-6">
         <div className="card-premium p-8 border border-white/5 bg-[#060D17] rounded-3xl relative overflow-hidden">
           {/* Cover/Seal */}
-          <div className="absolute top-0 right-0 w-96 h-96 bg-emerald-500/5 blur-[120px] rounded-full pointer-events-none" />
+          <div className="absolute top-0 right-0 w-96 h-96 bg-success-soft0/5 blur-[120px] rounded-full pointer-events-none" />
           
           <div className="flex justify-between items-center border-b border-white/5 pb-6">
             <div className="space-y-1">
-              <div className="inline-flex items-center gap-2 px-3 py-1 bg-emerald-500/10 border border-emerald-500/25 rounded-full text-emerald-400 text-xs font-semibold uppercase tracking-wider">
+              <div className="inline-flex items-center gap-2 px-3 py-1 bg-success-soft0/10 border border-emerald-500/25 rounded-full text-emerald-700 text-xs font-semibold uppercase tracking-wider">
                 <FileText size={12} />
                 Ata de Reunião Concluída
               </div>
@@ -632,7 +632,7 @@ export function BoardMeetingMode({ clientId, scenario, companyName = 'Holding Il
               </span>
             </div>
 
-            <span className="bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 font-bold px-4 py-1.5 rounded-full text-xs uppercase tracking-widest">
+            <span className="bg-success-soft0/10 border border-emerald-500/20 text-emerald-700 font-bold px-4 py-1.5 rounded-full text-xs uppercase tracking-widest">
               {completedMinutes.status}
             </span>
           </div>
@@ -695,7 +695,7 @@ export function BoardMeetingMode({ clientId, scenario, companyName = 'Holding Il
                   <div className="space-y-2">
                     <span className="text-[9px] font-bold text-emerald-400 uppercase tracking-wider block">Aprovadas</span>
                     {completedMinutes.approvedResolutions.map((res, i) => (
-                      <div key={i} className="p-3 bg-emerald-500/5 border border-emerald-500/10 rounded-xl text-xs text-emerald-300">
+                      <div key={i} className="p-3 bg-success-soft0/5 border border-emerald-500/10 rounded-xl text-xs text-emerald-700">
                         {res}
                       </div>
                     ))}
@@ -706,7 +706,7 @@ export function BoardMeetingMode({ clientId, scenario, companyName = 'Holding Il
                   <div className="space-y-2">
                     <span className="text-[9px] font-bold text-rose-400 uppercase tracking-wider block">Rejeitadas</span>
                     {completedMinutes.rejectedResolutions.map((res, i) => (
-                      <div key={i} className="p-3 bg-rose-500/5 border border-rose-500/10 rounded-xl text-xs text-rose-300">
+                      <div key={i} className="p-3 bg-critical-soft0/5 border border-rose-500/10 rounded-xl text-xs text-rose-700">
                         {res}
                       </div>
                     ))}
@@ -760,7 +760,7 @@ export function BoardMeetingMode({ clientId, scenario, companyName = 'Holding Il
             onConfirm={() => setWarningMessage(null)}
           >
             <div className="space-y-3 py-2">
-              <p className="text-sm text-muted-foreground">{warningMessage}</p>
+              <p className="text-sm text-secondary">{warningMessage}</p>
             </div>
           </FiduciaryModalShell>
         )}

@@ -14,7 +14,7 @@ export const InstitutionalCausalRootCausesPanel: React.FC<RootCausesPanelProps> 
       case 'CRITICAL':
         return 'bg-red-50 text-red-700 border-red-200';
       case 'HIGH':
-        return 'bg-amber-50 text-amber-700 border-amber-200';
+        return 'bg-warning-soft text-amber-700 border-amber-200';
       case 'MODERATE':
         return 'bg-yellow-50 text-yellow-800 border-yellow-200';
       default:
@@ -53,11 +53,11 @@ export const InstitutionalCausalRootCausesPanel: React.FC<RootCausesPanelProps> 
                 </div>
 
                 {factor.isDefinitive ? (
-                  <span className="flex items-center gap-1 text-[9px] text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded-full font-black uppercase border border-emerald-200">
+                  <span className="flex items-center gap-1 text-[9px] text-emerald-700 bg-success-soft px-2 py-0.5 rounded-full font-black uppercase border border-emerald-200">
                     <ShieldCheck size={10} /> {t('causal.confirmed')}
                   </span>
                 ) : (
-                  <span className="flex items-center gap-1 text-[9px] text-amber-700 bg-amber-50 px-2 py-0.5 rounded-full font-black uppercase border border-amber-200">
+                  <span className="flex items-center gap-1 text-[9px] text-amber-700 bg-warning-soft px-2 py-0.5 rounded-full font-black uppercase border border-amber-200">
                     <HelpCircle size={10} /> {t('causal.probable')}
                   </span>
                 )}

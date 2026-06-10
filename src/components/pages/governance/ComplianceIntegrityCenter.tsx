@@ -215,10 +215,10 @@ function TrendItem({ label, value, type }: { label: string, value: string, type:
 function RiskItem({ title, severity }: { title: string, severity: string }) {
   const isCritical = severity === 'Crítica';
   return (
-    <div className={`p-4 rounded-xl border ${isCritical ? 'bg-red-500/5 border-red-500/20 text-red-300' : 'bg-amber-500/5 border-amber-500/20 text-amber-300'}`}>
+    <div className={`p-4 rounded-xl border ${isCritical ? 'bg-red-500/5 border-red-500/20 text-red-300' : 'bg-warning-soft0/5 border-amber-500/20 text-amber-300'}`}>
       <div className="flex justify-between items-center">
         <span className="text-sm font-medium">{title}</span>
-        <span className={`text-[10px] uppercase font-black tracking-widest px-2.5 py-1 rounded-xl ${isCritical ? 'bg-red-500/20 text-red-400' : 'bg-amber-500/20 text-amber-400'}`}>
+        <span className={`text-[10px] uppercase font-black tracking-widest px-2.5 py-1 rounded-xl ${isCritical ? 'bg-red-500/20 text-red-400' : 'bg-warning-soft0/20 text-amber-400'}`}>
           {severity}
         </span>
       </div>
@@ -237,7 +237,7 @@ function ReportItem({ protocol, category, severity, status, date }: any) {
         </div>
         <div className="flex items-center gap-3 mt-2">
           <p className="text-xs text-muted-foreground">{category}</p>
-          <span className={`text-[10px] uppercase font-bold tracking-wider px-2 py-0.5 rounded ${isCritical ? 'text-red-400 bg-red-500/10 border border-red-500/20' : 'text-amber-400 bg-amber-500/10 border border-amber-500/20'}`}>
+          <span className={`text-[10px] uppercase font-bold tracking-wider px-2 py-0.5 rounded ${isCritical ? 'text-red-400 bg-red-500/10 border border-red-500/20' : 'text-amber-400 bg-warning-soft0/10 border border-amber-500/20'}`}>
             Severidade {severity}
           </span>
         </div>

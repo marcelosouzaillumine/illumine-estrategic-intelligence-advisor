@@ -140,7 +140,7 @@ export const FiduciaryModalShell: React.FC<FiduciaryModalShellProps> = ({
                   isFiduciary 
                     ? 'bg-red-500 text-white hover:bg-red-650' 
                     : isHigh 
-                      ? 'bg-amber-500 text-black hover:bg-amber-600' 
+                      ? 'bg-warning-soft0 text-black hover:bg-amber-600' 
                       : 'bg-accent text-white hover:bg-accent'
                 }`}
               >

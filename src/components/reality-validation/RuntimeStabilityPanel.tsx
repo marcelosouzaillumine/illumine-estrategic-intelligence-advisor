@@ -19,7 +19,7 @@ export function RuntimeStabilityPanel({ tenantId }: { tenantId: string }) {
         ].map(item => (
           <div key={item.label} className="flex justify-between items-center p-2 bg-background border border-border/50 rounded">
             <span className="text-foreground">{item.label}</span>
-            <span className={`font-bold px-2 py-0.5 rounded text-[10px] ${item.ok ? 'bg-emerald-500/20 text-emerald-500' : 'bg-rose-500/20 text-rose-500'}`}>
+            <span className={`font-bold px-2 py-0.5 rounded text-[10px] ${item.ok ? 'bg-success-soft0/20 text-emerald-500' : 'bg-critical-soft0/20 text-rose-500'}`}>
               {item.ok ? 'OK' : 'FAIL'}
             </span>
           </div>

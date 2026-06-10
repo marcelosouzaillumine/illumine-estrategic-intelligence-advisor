@@ -34,7 +34,7 @@ function MetricCard({ title, value, subtitle, icon: Icon, colorClass, trend }: a
         {trend !== undefined && (
           <div className={cn(
             "flex items-center gap-1 text-[10px] font-black px-2 py-1 rounded-full",
-            trend > 0 ? "bg-rose-50 text-rose-600" : "bg-emerald-50 text-emerald-600"
+            trend > 0 ? "bg-critical-soft text-rose-600" : "bg-success-soft text-emerald-600"
           )}>
             {trend > 0 ? <TrendingUp size={12} /> : <TrendingDown size={12} />}
             {Math.abs(trend).toFixed(2)}%
@@ -385,7 +385,7 @@ export function TaxReformImpactPage({ clientId, selectedYear }: any) {
                             <p className="text-xs font-bold text-muted-foreground">{formatCurrency(p.valorMensal)}</p>
                           </div>
                         </div>
-                        <button onClick={() => removeProduct(p.id)} className="p-2 text-rose-500 hover:bg-rose-50 rounded-lg transition-all">
+                        <button onClick={() => removeProduct(p.id)} className="p-2 text-rose-500 hover:bg-critical-soft rounded-lg transition-all">
                           <Trash2 size={16} />
                         </button>
                       </div>
@@ -396,7 +396,7 @@ export function TaxReformImpactPage({ clientId, selectedYear }: any) {
 
               {/* NCM Insights Section */}
               {hasData && ncmInsights.length > 0 && (
-                <div className="bg-amber-50 rounded-[40px] border border-amber-100 p-10 shadow-sm">
+                <div className="bg-warning-soft rounded-[40px] border border-amber-100 p-10 shadow-sm">
                   <div className="flex items-center gap-4 mb-8">
                     <div className="w-12 h-12 bg-white text-amber-600 rounded-2xl flex items-center justify-center shadow-sm">
                       <Lightbulb size={24} />
@@ -455,7 +455,7 @@ export function TaxReformImpactPage({ clientId, selectedYear }: any) {
                   <div className="bg-white rounded-[40px] border border-border p-8 shadow-sm">
                     <div className="flex items-center justify-between mb-8">
                       <h3 className="text-lg font-display font-extrabold text-muted-foreground">Laboratório de Cenários</h3>
-                      <div className="flex items-center gap-2 px-4 py-2 bg-emerald-50 text-emerald-600 rounded-full text-[10px] font-black uppercase">
+                      <div className="flex items-center gap-2 px-4 py-2 bg-success-soft text-emerald-600 rounded-full text-[10px] font-black uppercase">
                         <Clock size={14} />
                         Linha do Tempo Oficial
                       </div>
@@ -487,14 +487,14 @@ export function TaxReformImpactPage({ clientId, selectedYear }: any) {
                       value={formatCurrency(metrics.impactOnEBITDA)}
                       subtitle="Redução direta na margem"
                       icon={BarChart3}
-                      colorClass="bg-rose-50 text-rose-600"
+                      colorClass="bg-critical-soft text-rose-600"
                     />
                     <MetricCard 
                       title="Necessidade de Capital"
                       value={formatCurrency(metrics.splitPaymentImpact)}
                       subtitle="Efeito Split Payment no caixa"
                       icon={ArrowRight}
-                      colorClass="bg-amber-50 text-amber-600"
+                      colorClass="bg-warning-soft text-amber-600"
                     />
                   </div>
 
@@ -691,7 +691,7 @@ export function TaxReformImpactPage({ clientId, selectedYear }: any) {
                       <h5 className="text-[11px] font-black text-muted-foreground uppercase">{rec.title}</h5>
                       <span className={cn(
                         "text-[8px] font-black px-2 py-0.5 rounded-full",
-                        rec.urgency === 'Crítica' ? "bg-rose-500 text-white" : "bg-primary text-white"
+                        rec.urgency === 'Crítica' ? "bg-critical-soft0 text-white" : "bg-primary text-white"
                       )}>{rec.urgency}</span>
                     </div>
                     <p className="text-[10px] text-muted-foreground font-medium leading-relaxed">{rec.desc}</p>
@@ -708,9 +708,9 @@ export function TaxReformImpactPage({ clientId, selectedYear }: any) {
             </div>
 
             <div className="space-y-6 pt-6 border-t border-border">
-              <ScoreGauge label="Score de Impacto" score={hasData ? scores.impact : 0} color="bg-rose-500" />
-              <ScoreGauge label="Vulnerabilidade Setorial" score={hasData ? scores.vulnerability : 0} color="bg-amber-500" />
-              <ScoreGauge label="Maturidade Fiscal" score={hasData ? scores.maturity : 0} color="bg-emerald-500" />
+              <ScoreGauge label="Score de Impacto" score={hasData ? scores.impact : 0} color="bg-critical-soft0" />
+              <ScoreGauge label="Vulnerabilidade Setorial" score={hasData ? scores.vulnerability : 0} color="bg-warning-soft0" />
+              <ScoreGauge label="Maturidade Fiscal" score={hasData ? scores.maturity : 0} color="bg-success-soft0" />
             </div>
           </div>
 

@@ -5,7 +5,7 @@ export function CriticalEmissionBlocker({ reason }: { reason: string }) {
   return (
     <div className="bg-rose-600 text-white rounded-[32px] p-10 border border-rose-700 shadow-2xl relative overflow-hidden flex flex-col items-center justify-center text-center">
       <div className="absolute inset-0 bg-[url('/noise.png')] opacity-10 mix-blend-overlay pointer-events-none" />
-      <div className="w-20 h-20 bg-rose-500/50 rounded-full flex items-center justify-center mb-6 relative z-10 border border-rose-400">
+      <div className="w-20 h-20 bg-critical-soft0/50 rounded-full flex items-center justify-center mb-6 relative z-10 border border-rose-400">
         <Lock size={32} className="text-white" />
       </div>
       

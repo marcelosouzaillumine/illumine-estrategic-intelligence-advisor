@@ -36,9 +36,9 @@ export async function generateAdvisoryParecer(req: AdvisoryReportRequest): Promi
     }
 
     const body = await response.json();
-    return body.text || "Não foi possível extrair o texto do parecer.";
+    return body.text || "Evidências indisponíveis.";
   } catch (error) {
     console.error("AI Advisory Service Error:", error);
-    return "Não foi possível gerar um parecer automático no momento. Por favor, revise manualmente os indicadores destacados no dashboard.";
+    return "Estado indisponível. Por favor, revise manualmente os indicadores destacados no dashboard.";
   }
 }

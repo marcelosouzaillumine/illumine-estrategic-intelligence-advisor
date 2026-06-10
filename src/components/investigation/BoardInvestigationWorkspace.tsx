@@ -12,6 +12,8 @@ export const BoardInvestigationWorkspace: React.FC = () => {
   const { tenantId, nodeId } = useParams<{ tenantId: string; nodeId: string }>();
   const navigate = useNavigate();
 
+  const activeTenantId = tenantId || 'SYSTEM_TENANT';
+
   const handleCrossNavigation = (targetWorkspace: string, path: string) => {
     const navRef = {
       tenantId: tenantId || 'SYSTEM_TENANT',
@@ -96,6 +98,15 @@ export const BoardInvestigationWorkspace: React.FC = () => {
     };
   }, [nodeId]);
 
+  if (!activeTenantId || !nodeId) {
+    return (
+      <div className="flex flex-col items-center justify-center h-full min-h-[400px] text-muted-foreground">
+        <Search className="mb-4 text-muted-foreground/60" size={48} />
+        <p className="text-eyebrow text-muted-foreground uppercase tracking-widest">Contexto indisponível.</p>
+      </div>
+    );
+  }
+
   if (loading) {
     return (
       <div className="flex flex-col items-center justify-center h-full min-h-[400px] text-muted-foreground">
@@ -119,7 +130,7 @@ export const BoardInvestigationWorkspace: React.FC = () => {
       <header className="space-y-4">
         <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
           <div className="space-y-1">
-            <h1 className="text-h1 font-display font-black text-foreground tracking-tight flex items-center gap-2">
+            <h1 className="text-h1 font-display font-black text-foreground tracking-tight flex items-center gap-2 text-primary">
               <Search className="text-primary" />
               Workspace de Investigação
             </h1>
@@ -138,7 +149,7 @@ export const BoardInvestigationWorkspace: React.FC = () => {
             </button>
             <button
               onClick={() => handleCrossNavigation('WAR_ROOM', `/war-room`)}
-              className="flex items-center gap-2 px-4 py-2 bg-amber-500/10 hover:bg-amber-500/20 text-amber-400 text-sm font-display font-medium rounded-[12px] transition-colors border border-amber-500/30 shadow-sm"
+              className="flex items-center gap-2 px-4 py-2 bg-warning-soft0/10 hover:bg-warning-soft0/20 text-amber-400 text-sm font-display font-medium rounded-[12px] transition-colors border border-amber-500/30 shadow-sm"
             >
               <span>Testar em War Room</span>
             </button>
@@ -157,7 +168,7 @@ export const BoardInvestigationWorkspace: React.FC = () => {
             </button>
             <button
               onClick={() => handleCrossNavigation('MEMORY', `/memory`)}
-              className="flex items-center gap-2 px-4 py-2 bg-emerald-500/10 hover:bg-emerald-500/20 text-emerald-400 text-sm font-display font-medium rounded-[12px] transition-colors border border-emerald-500/30 shadow-sm"
+              className="flex items-center gap-2 px-4 py-2 bg-success-soft0/10 hover:bg-success-soft0/20 text-emerald-400 text-sm font-display font-medium rounded-[12px] transition-colors border border-emerald-500/30 shadow-sm"
             >
               <Database size={16} />
               <span>Memória Institucional</span>

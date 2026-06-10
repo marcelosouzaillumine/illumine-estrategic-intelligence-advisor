@@ -20,8 +20,8 @@ export function SandboxWarningOverlay({ className, type = 'demonstrative', messa
       )}
       
       {/* Warning banner floating */}
-      <div className="pointer-events-auto bg-amber-500/10 border border-amber-500/20 shadow-2xl shadow-amber-500/5 backdrop-blur-md px-6 py-4 rounded-2xl flex items-start gap-4 max-w-lg transform -rotate-1 hover:rotate-0 transition-transform duration-300">
-        <div className="bg-amber-500/20 p-2 rounded-xl text-amber-500 shrink-0">
+      <div className="pointer-events-auto bg-warning-soft0/10 border border-amber-500/20 shadow-2xl shadow-amber-500/5 backdrop-blur-md px-6 py-4 rounded-2xl flex items-start gap-4 max-w-lg transform -rotate-1 hover:rotate-0 transition-transform duration-300">
+        <div className="bg-warning-soft0/20 p-2 rounded-xl text-amber-500 shrink-0">
           {type === 'insufficient_evidence' ? <Info size={24} /> : <ShieldAlert size={24} />}
         </div>
         <div>

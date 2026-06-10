@@ -45,7 +45,7 @@ export function UsageQuotaDashboard({ tenantId }: { tenantId: string }) {
             
             <div className="h-1.5 w-full bg-background rounded-full overflow-hidden">
               <div 
-                className={`h-full ${isExceeded ? 'bg-rose-500' : 'bg-primary'}`} 
+                className={`h-full ${isExceeded ? 'bg-critical-soft0' : 'bg-primary'}`} 
                 style={{ width: `${Math.min(percent, 100)}%` }} 
               />
             </div>

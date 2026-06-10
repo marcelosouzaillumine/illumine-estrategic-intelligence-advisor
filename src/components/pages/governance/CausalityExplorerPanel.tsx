@@ -43,9 +43,9 @@ export function CausalityExplorerPanel({ causality }: CausalityExplorerPanelProp
       case 'RESTRICTIVE':
         return 'bg-red-500/10 text-red-700 dark:text-red-400 border-red-500/20';
       case 'CRITICAL':
-        return 'bg-rose-500/10 text-rose-700 dark:text-rose-400 border-rose-500/20 animate-pulse';
+        return 'bg-critical-soft0/10 text-rose-700 dark:text-rose-400 border-rose-500/20 animate-pulse';
       case 'WARNING':
-        return 'bg-amber-500/10 text-amber-700 dark:text-amber-400 border-amber-500/20';
+        return 'bg-warning-soft0/10 text-amber-700 dark:text-amber-400 border-amber-500/20';
       case 'INFO':
       default:
         return 'bg-slate-100 dark:bg-zinc-900 text-muted-foreground dark:text-zinc-400 border-border dark:border-zinc-800';
@@ -96,9 +96,9 @@ export function CausalityExplorerPanel({ causality }: CausalityExplorerPanelProp
           </span>
           <span className={cn(
             "text-[9px] font-black uppercase tracking-wider px-3 py-1.5 rounded-full border shadow-xs",
-            confidenceLevel === 'HIGH' ? 'bg-emerald-500/10 text-emerald-700 dark:text-emerald-400 border-emerald-500/20' :
+            confidenceLevel === 'HIGH' ? 'bg-success-soft0/10 text-emerald-700 dark:text-emerald-400 border-emerald-500/20' :
             confidenceLevel === 'MEDIUM' ? 'bg-primary text-primary dark:text-primary border-primary' :
-            confidenceLevel === 'LOW' ? 'bg-amber-500/10 text-amber-700 dark:text-amber-400 border-amber-500/20' :
+            confidenceLevel === 'LOW' ? 'bg-warning-soft0/10 text-amber-700 dark:text-amber-400 border-amber-500/20' :
             'bg-red-500/10 text-red-750 dark:text-red-400 border-red-500/25 animate-pulse'
           )}>
             {translateConfidence(confidenceLevel)}
@@ -221,7 +221,7 @@ export function CausalityExplorerPanel({ causality }: CausalityExplorerPanelProp
 
                   {/* Driver */}
                   <div className="flex-1 p-3 bg-slate-50/90 dark:bg-zinc-950/50 border border-border dark:border-zinc-900 rounded-xl flex items-center gap-3">
-                    <div className="w-6 h-6 rounded-lg bg-amber-500/10 border border-amber-500/20 text-amber-650 dark:text-amber-400 flex items-center justify-center shrink-0">
+                    <div className="w-6 h-6 rounded-lg bg-warning-soft0/10 border border-amber-500/20 text-amber-650 dark:text-amber-400 flex items-center justify-center shrink-0">
                       <Activity className="w-3.5 h-3.5" />
                     </div>
                     <div className="min-w-0">

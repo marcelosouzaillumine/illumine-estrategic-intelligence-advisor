@@ -129,10 +129,10 @@ export function EconomicNormalizationCenter({ selectedClient, selectedYear }: Ec
   };
 
   const scoreBgMap: Record<string, string> = {
-    ESTAVEL: 'bg-emerald-500/10 border-emerald-500/20 text-emerald-400',
+    ESTAVEL: 'bg-success-soft0/10 border-emerald-500/20 text-emerald-400',
     MODERADO: 'bg-yellow-500/10 border-yellow-500/20 text-yellow-400',
-    ALTO: 'bg-amber-500/10 border-amber-500/20 text-amber-500',
-    CRITICO: 'bg-rose-500/10 border-rose-500/20 text-rose-500'
+    ALTO: 'bg-warning-soft0/10 border-amber-500/20 text-amber-500',
+    CRITICO: 'bg-critical-soft0/10 border-rose-500/20 text-rose-500'
   };
 
   const getLabelKey = (val: number): string => {
@@ -148,10 +148,10 @@ export function EconomicNormalizationCenter({ selectedClient, selectedYear }: Ec
   };
 
   const getHeatmapBg = (val: number): string => {
-    return val >= 85 ? 'bg-emerald-500/10 border-emerald-500/20 text-emerald-400' :
+    return val >= 85 ? 'bg-success-soft0/10 border-emerald-500/20 text-emerald-400' :
            val >= 70 ? 'bg-yellow-500/10 border-yellow-500/20 text-yellow-400' :
-           val >= 50 ? 'bg-amber-500/10 border-amber-500/20 text-amber-500' :
-           'bg-rose-500/10 border-rose-500/20 text-rose-500';
+           val >= 50 ? 'bg-warning-soft0/10 border-amber-500/20 text-amber-500' :
+           'bg-critical-soft0/10 border-rose-500/20 text-rose-500';
   };
 
   const toggleSection = (section: string) => {
@@ -402,7 +402,7 @@ export function EconomicNormalizationCenter({ selectedClient, selectedYear }: Ec
             {alerts.length > 0 ? (
               <div className="space-y-4 max-h-[220px] overflow-y-auto pr-2 no-scrollbar">
                 {alerts.map((alert: string, idx: number) => (
-                  <div key={idx} className="p-3 bg-rose-500/5 border border-rose-500/10 rounded-xl flex gap-3 items-start">
+                  <div key={idx} className="p-3 bg-critical-soft0/5 border border-rose-500/10 rounded-xl flex gap-3 items-start">
                     <AlertTriangle className="w-4 h-4 text-rose-500 flex-shrink-0 mt-0.5" />
                     <p className="text-[11px] text-rose-400 font-light leading-normal">{alert}</p>
                   </div>

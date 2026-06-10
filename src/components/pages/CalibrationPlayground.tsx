@@ -175,7 +175,7 @@ export function CalibrationPlayground() {
         icon={Sparkles}
         transparent
         actions={
-          <div className="flex items-center gap-4 bg-success/10 text-success px-4 py-2 border border-success/20 rounded-button shadow-xs">
+          <div className="flex items-center gap-4 bg-success-soft text-success px-4 py-2 border border-success/20 rounded-button shadow-xs">
             <ShieldCheck size={16} className="shrink-0" />
             <span className="text-[10px] font-black uppercase tracking-widest">Sandbox Mode Active</span>
           </div>
@@ -278,14 +278,14 @@ export function CalibrationPlayground() {
 
             {/* Governance Alerts */}
             {successMessage && (
-              <div className="p-4 bg-success/10 border border-success/20 rounded-xl text-success flex items-start gap-2.5">
+              <div className="p-4 bg-success-soft border border-success/20 rounded-xl text-success flex items-start gap-2.5">
                 <CheckCircle2 size={16} className="shrink-0 mt-0.5" />
                 <p className="text-xs font-semibold leading-normal">{successMessage}</p>
               </div>
             )}
 
             {errorMessage && (
-              <div className="p-4 bg-destructive/10 border border-destructive/20 rounded-xl text-destructive flex items-start gap-2.5">
+              <div className="p-4 bg-critical-soft border border-destructive/20 rounded-xl text-destructive flex items-start gap-2.5">
                 <AlertTriangle size={16} className="shrink-0 mt-0.5" />
                 <p className="text-xs font-semibold leading-normal">{errorMessage}</p>
               </div>

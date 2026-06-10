@@ -346,7 +346,7 @@ export function FinancialPositionPage({ clients, selectedClient }: { clients: an
                       <td className="px-8 py-6 text-center">
                         <div className={cn(
                           "inline-flex items-center gap-1 px-2.5 py-1 rounded-lg text-[10px] font-black uppercase",
-                          varAbs >= 0 ? "bg-emerald-50 text-emerald-600" : "bg-rose-50 text-rose-600"
+                          varAbs >= 0 ? "bg-success-soft text-emerald-600" : "bg-critical-soft text-rose-600"
                         )}>
                           {varAbs >= 0 ? <ChevronUp size={12} /> : <ChevronDown size={12} />}
                           {Math.abs(varPerc).toFixed(1)}%
@@ -377,7 +377,7 @@ export function FinancialPositionPage({ clients, selectedClient }: { clients: an
                           <button 
                             onClick={() => handleDeleteAccount(id)}
                             disabled={isDeletingId === id}
-                            className="p-2 text-muted-foreground hover:text-rose-600 hover:bg-rose-50 rounded-lg transition-all disabled:opacity-50"
+                            className="p-2 text-muted-foreground hover:text-rose-600 hover:bg-critical-soft rounded-lg transition-all disabled:opacity-50"
                             title="Excluir Conta"
                           >
                             {isDeletingId === id ? <Loader2 size={16} className="animate-spin" /> : <Trash2 size={16} />}

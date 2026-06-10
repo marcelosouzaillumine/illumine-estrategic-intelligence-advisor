@@ -63,10 +63,10 @@ export function BoardPackPreviewModal({
 
   // Readiness level labeling
   const getReadinessLevel = (score: number) => {
-    if (score >= 85) return { text: 'ALTA CONFIANÇA', color: 'text-emerald-400 border-emerald-500/20 bg-emerald-500/10' };
+    if (score >= 85) return { text: 'ALTA CONFIANÇA', color: 'text-emerald-400 border-emerald-500/20 bg-success-soft0/10' };
     if (score >= 70) return { text: 'MODERADA CONFIANÇA', color: 'text-blue-400 border-blue-500/20 bg-blue-500/10' };
-    if (score >= 50) return { text: 'MÉDIA CONFIANÇA', color: 'text-amber-400 border-amber-500/20 bg-amber-500/10' };
-    return { text: 'BAIXA CONFIANÇA', color: 'text-rose-400 border-rose-500/20 bg-rose-500/10' };
+    if (score >= 50) return { text: 'MÉDIA CONFIANÇA', color: 'text-amber-400 border-amber-500/20 bg-warning-soft0/10' };
+    return { text: 'BAIXA CONFIANÇA', color: 'text-rose-400 border-rose-500/20 bg-critical-soft0/10' };
   };
 
   const readiness = getReadinessLevel(pack.decisionReadinessScore);
@@ -128,8 +128,8 @@ export function BoardPackPreviewModal({
                   
                   {activeSlide.slideNumber !== 12 && (
                     <span className={`text-[8px] font-black uppercase tracking-wider px-2 py-0.5 rounded border ${
-                      activeSlide.meetingCriticality === 'CRITICAL' ? 'bg-rose-50 border-rose-200 text-rose-600' :
-                      activeSlide.meetingCriticality === 'HIGH' ? 'bg-amber-50 border-amber-200 text-amber-600' :
+                      activeSlide.meetingCriticality === 'CRITICAL' ? 'bg-critical-soft border-rose-200 text-rose-600' :
+                      activeSlide.meetingCriticality === 'HIGH' ? 'bg-warning-soft border-amber-200 text-amber-600' :
                       activeSlide.meetingCriticality === 'MODERATE' ? 'bg-blue-50 border-blue-200 text-blue-600' :
                       'bg-slate-50 border-border text-muted-foreground'
                     }`}>
@@ -146,7 +146,7 @@ export function BoardPackPreviewModal({
                   <div className="h-full flex flex-col justify-between py-2">
                     <div className="w-8 h-8 bg-[#BAB86C] rounded-md flex-shrink-0" />
                     <div>
-                      <h1 className="text-2xl font-black tracking-tight text-white mb-2">{activeSlide.title}</h1>
+                      <h1 className="text-2xl font-black tracking-tight text-white mb-2 text-primary">{activeSlide.title}</h1>
                       <p className="text-xs italic text-[#BAB86C] font-light">"{pack.executiveHeadline}"</p>
                     </div>
                     

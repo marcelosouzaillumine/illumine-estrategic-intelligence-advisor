@@ -21,7 +21,7 @@ export function AdvisorCockpitPage() {
     {
       icon: ShieldCheck,
       iconColor: 'text-success',
-      iconBg: 'bg-success/10',
+      iconBg: 'bg-success-soft',
       title: 'Status Institucional',
       subtitle: `Grupo: ${context.activeGroupId}`,
       value: 'Compliance Adequado',
@@ -39,7 +39,7 @@ export function AdvisorCockpitPage() {
     {
       icon: AlertTriangle,
       iconColor: 'text-warning',
-      iconBg: 'bg-warning/10',
+      iconBg: 'bg-warning-soft',
       title: 'Alertas de Risco',
       subtitle: '1 Risco Sistêmico detectado',
       value: '1',

@@ -20,7 +20,7 @@ export function InstitutionalPrioritySurface({ children, title, subtitle, action
       {/* Visual pacing header */}
       <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-6 pb-6 border-b border-border/40">
         <div className="space-y-1.5 max-w-[70%]">
-          <h1 className="text-h1 font-display font-medium tracking-tight text-foreground">{title}</h1>
+          <h1 className="text-h1 font-display font-medium tracking-tight text-foreground text-primary">{title}</h1>
           {subtitle && <p className="text-body text-muted-foreground font-medium">{subtitle}</p>}
         </div>
         <div className="flex items-center gap-4 shrink-0">

@@ -42,7 +42,7 @@ export function PressurePropagationGraph({ data }: PropagationProps) {
               <div className={cn(
                 "flex-1 w-full md:w-auto p-4 rounded-xl border text-center transition-all",
                 isActive 
-                  ? "bg-destructive/10 text-destructive border-destructive/20 font-bold" 
+                  ? "bg-critical-soft text-destructive border-destructive/20 font-bold" 
                   : "bg-surface-container/50 text-muted-foreground border-border"
               )}>
                 <div className="text-[10px] font-black uppercase tracking-wider mb-1">Passo {idx + 1}</div>

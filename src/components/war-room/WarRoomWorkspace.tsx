@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { WarRoomRuntime } from '../../core/war-room/WarRoomRuntime';
 import { WarRoomViewModel, UIWarRoomScenario, UIWarRoomImpact } from '../../viewmodels/war-room/WarRoomViewModel';
+import { InstitutionalObservabilityRegistry } from '../../core/observability/InstitutionalObservabilityRegistry';
 import { PageHeader } from '../Common';
 import { Shield, Target } from 'lucide-react';
 import { ScenarioCatalog } from './ScenarioCatalog';
@@ -28,8 +29,20 @@ export const WarRoomWorkspace: React.FC<WarRoomWorkspaceProps> = ({
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
+    if (tenantId) {
+      InstitutionalObservabilityRegistry.recordWarRoomOpened(
+        tenantId,
+        `ctx-${Date.now()}`,
+        'CURRENT_USER',
+        activeScenario?.id
+      );
+    }
+  }, [tenantId, activeScenario]);
+
+  useEffect(() => {
     let active = true;
     const loadContext = async () => {
+      if (!tenantId || !organizationId) return;
       setLoading(true);
       try {
         const data = await runtime.loadScenarioContext(tenantId, organizationId, initialScenarioId);
@@ -51,6 +64,15 @@ export const WarRoomWorkspace: React.FC<WarRoomWorkspaceProps> = ({
     loadContext();
     return () => { active = false; };
   }, [runtime, tenantId, organizationId, initialScenarioId]);
+
+  if (!tenantId || !organizationId) {
+    return (
+      <div className="flex flex-col items-center justify-center min-h-[400px]">
+        <Target className="text-muted-foreground/60 mb-4" size={48} />
+        <p className="text-eyebrow text-muted-foreground uppercase tracking-widest">Contexto indisponível.</p>
+      </div>
+    );
+  }
 
   if (loading) {
     return (

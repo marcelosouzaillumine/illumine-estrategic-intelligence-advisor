@@ -10,7 +10,7 @@ export function CognitiveOverloadState() {
   }
 
   return (
-    <div className="card-premium p-6 border border-amber-500/25 bg-amber-500/5 rounded-xl space-y-4 animate-executive-fade leading-relaxed">
+    <div className="card-premium p-6 border border-amber-500/25 bg-warning-soft0/5 rounded-xl space-y-4 animate-executive-fade leading-relaxed">
       <div className="flex items-start gap-3">
         <ShieldAlert size={18} className="text-amber-500 shrink-0 mt-0.5" />
         <div className="space-y-1">
@@ -25,7 +25,7 @@ export function CognitiveOverloadState() {
         {compressionMode !== 'board' && (
           <button
             onClick={() => setCompressionMode('board')}
-            className="px-3 py-1 bg-amber-500/10 border border-amber-500/35 text-amber-400 rounded hover:bg-amber-500/20 transition-colors"
+            className="px-3 py-1 bg-warning-soft0/10 border border-amber-500/35 text-amber-400 rounded hover:bg-warning-soft0/20 transition-colors"
           >
             Ativar Board Mode (Máxima Compressão)
           </button>

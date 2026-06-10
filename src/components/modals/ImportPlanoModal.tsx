@@ -36,8 +36,8 @@ interface ImportPlanoModalProps {
 // ─── Helpers ──────────────────────────────────────────────────────────────────
 
 const STATUS_CONFIG: Record<AccountStatus, { label: string; color: string; bg: string; dot: string }> = {
-  new:       { label: 'Nova',      color: 'text-emerald-700', bg: 'bg-emerald-50 border-emerald-200', dot: 'bg-emerald-500' },
-  duplicate: { label: 'Duplicada', color: 'text-amber-700',   bg: 'bg-amber-50 border-amber-200',     dot: 'bg-amber-400'   },
+  new:       { label: 'Nova',      color: 'text-emerald-700', bg: 'bg-success-soft border-emerald-200', dot: 'bg-success-soft0' },
+  duplicate: { label: 'Duplicada', color: 'text-amber-700',   bg: 'bg-warning-soft border-amber-200',     dot: 'bg-amber-400'   },
   conflict:  { label: 'Conflito',  color: 'text-orange-700',  bg: 'bg-orange-50 border-orange-200',   dot: 'bg-orange-500'  },
 };
 
@@ -360,7 +360,7 @@ export function ImportPlanoModal({ clients, selectedClient, onClose, onSuccess, 
               </div>
               <div className="flex gap-4 mt-2">
                 {importResult.created > 0 && (
-                  <div className="text-center px-5 py-3 bg-emerald-50 border border-emerald-200 rounded-2xl">
+                  <div className="text-center px-5 py-3 bg-success-soft border border-emerald-200 rounded-2xl">
                     <p className="text-2xl font-black text-emerald-600">{importResult.created}</p>
                     <p className="text-[10px] font-bold text-emerald-500 uppercase tracking-widest">Criadas</p>
                   </div>
@@ -473,13 +473,13 @@ export function ImportPlanoModal({ clients, selectedClient, onClose, onSuccess, 
                   {classifiedData.length > 0 && (
                     <div className="flex gap-2 flex-wrap">
                       {counts.new > 0 && (
-                        <span className="px-3 py-1 bg-emerald-50 border border-emerald-200 text-emerald-700 text-[10px] font-black rounded-full uppercase tracking-widest flex items-center gap-1.5">
-                          <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 inline-block" />
+                        <span className="px-3 py-1 bg-success-soft border border-emerald-200 text-emerald-700 text-[10px] font-black rounded-full uppercase tracking-widest flex items-center gap-1.5">
+                          <span className="w-1.5 h-1.5 rounded-full bg-success-soft0 inline-block" />
                           {counts.new} Novas
                         </span>
                       )}
                       {counts.duplicate > 0 && (
-                        <span className="px-3 py-1 bg-amber-50 border border-amber-200 text-amber-700 text-[10px] font-black rounded-full uppercase tracking-widest flex items-center gap-1.5">
+                        <span className="px-3 py-1 bg-warning-soft border border-amber-200 text-amber-700 text-[10px] font-black rounded-full uppercase tracking-widest flex items-center gap-1.5">
                           <span className="w-1.5 h-1.5 rounded-full bg-amber-400 inline-block" />
                           {counts.duplicate} Duplicadas
                         </span>
@@ -558,7 +558,7 @@ export function ImportPlanoModal({ clients, selectedClient, onClose, onSuccess, 
                           'w-full flex items-start gap-3 p-4 rounded-2xl border text-left transition-all',
                           strategy === key
                             ? cfg.danger
-                              ? 'border-rose-400 bg-rose-50 ring-2 ring-rose-300/30'
+                              ? 'border-rose-400 bg-critical-soft ring-2 ring-rose-300/30'
                               : 'border-blue-400 bg-blue-50 ring-2 ring-blue-300/20'
                             : 'border-border bg-white hover:bg-slate-50'
                         )}
@@ -580,7 +580,7 @@ export function ImportPlanoModal({ clients, selectedClient, onClose, onSuccess, 
                         <span className={cn(
                           'ml-auto mt-0.5 w-4 h-4 rounded-full border-2 shrink-0 transition-all',
                           strategy === key
-                            ? cfg.danger ? 'border-rose-500 bg-rose-500' : 'border-blue-500 bg-blue-500'
+                            ? cfg.danger ? 'border-rose-500 bg-critical-soft0' : 'border-blue-500 bg-blue-500'
                             : 'border-border'
                         )} />
                       </button>
@@ -591,7 +591,7 @@ export function ImportPlanoModal({ clients, selectedClient, onClose, onSuccess, 
                   <div className={cn(
                     'p-3 rounded-xl border text-[11px] font-bold flex items-center gap-2',
                     strategy === 'replace_all'
-                      ? 'bg-rose-50 border-rose-200 text-rose-700'
+                      ? 'bg-critical-soft border-rose-200 text-rose-700'
                       : 'bg-slate-50 border-border text-muted-foreground'
                   )}>
                     {strategy === 'replace_all' && <AlertTriangle size={13} className="text-rose-500 shrink-0" />}
@@ -602,7 +602,7 @@ export function ImportPlanoModal({ clients, selectedClient, onClose, onSuccess, 
 
               {/* No existing plan info */}
               {classifiedData.length > 0 && !hasExistingPlan && (
-                <div className="p-3 rounded-xl border bg-emerald-50 border-emerald-200 text-[11px] font-bold text-emerald-700 flex items-center gap-2">
+                <div className="p-3 rounded-xl border bg-success-soft border-emerald-200 text-[11px] font-bold text-emerald-700 flex items-center gap-2">
                   <CheckCircle2 size={13} className="text-emerald-500 shrink-0" />
                   Todas as {classifiedData.length} contas serão criadas (sem duplicidade).
                 </div>
@@ -610,7 +610,7 @@ export function ImportPlanoModal({ clients, selectedClient, onClose, onSuccess, 
 
               {/* Error */}
               {error && (
-                <div className="p-4 bg-rose-50 border border-rose-100 rounded-xl flex items-start gap-3">
+                <div className="p-4 bg-critical-soft border border-rose-100 rounded-xl flex items-start gap-3">
                   <AlertTriangle size={18} className="text-rose-500 shrink-0 mt-0.5" />
                   <p className="text-xs text-rose-600 font-medium">{error}</p>
                 </div>

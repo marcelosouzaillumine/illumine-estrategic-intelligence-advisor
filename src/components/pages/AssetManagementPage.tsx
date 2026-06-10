@@ -339,7 +339,7 @@ export function AssetManagementPage({ clientId, selectedYear, selectedMonth }: a
           <div className="shrink-0">
              <div className="w-20 h-20 rounded-[32px] bg-secondary/10 flex items-center justify-center text-secondary relative">
                 <Sparkles size={40} />
-                <div className="absolute -top-2 -right-2 w-6 h-6 bg-emerald-500 rounded-full border-4 border-white flex items-center justify-center">
+                <div className="absolute -top-2 -right-2 w-6 h-6 bg-success-soft0 rounded-full border-4 border-white flex items-center justify-center">
                   <div className="w-1.5 h-1.5 bg-white rounded-full animate-ping"></div>
                 </div>
              </div>

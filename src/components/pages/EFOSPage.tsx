@@ -341,7 +341,7 @@ function sanitizeReport(obj: any): any {
       <div className="flex flex-col items-center justify-center min-h-[500px] gap-4">
         <AlertTriangle size={40} className="text-rose-500" />
         <span className="text-xl font-black text-rose-500">CROSS_STATEMENT_BINDING_FAILURE</span>
-        <pre className="text-xs text-rose-800 bg-rose-50 p-4 rounded-xl max-w-2xl overflow-auto w-full text-left">
+        <pre className="text-xs text-rose-800 bg-critical-soft p-4 rounded-xl max-w-2xl overflow-auto w-full text-left">
           {JSON.stringify(bindingError, null, 2)}
         </pre>
       </div>
@@ -353,7 +353,7 @@ function sanitizeReport(obj: any): any {
       <div className="flex flex-col items-center justify-center min-h-[500px] gap-4">
         <AlertTriangle size={40} className="text-rose-500" />
         <span className="text-xl font-black text-rose-500">Erro na Geração do Reporte</span>
-        <pre className="text-xs text-rose-800 bg-rose-50 p-4 rounded-xl max-w-2xl overflow-auto">{generateError}</pre>
+        <pre className="text-xs text-rose-800 bg-critical-soft p-4 rounded-xl max-w-2xl overflow-auto">{generateError}</pre>
       </div>
     );
   }

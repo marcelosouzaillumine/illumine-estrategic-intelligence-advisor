@@ -20,7 +20,7 @@ export function FiduciaryRestrictionPanel({ restrictions, status, quarantineReas
   if (!isRestricted && (!restrictions || restrictions.length === 0)) {
     return (
       <div className={`p-6 rounded-2xl border ${EXECUTIVE_SEVERITY_THEME.HEALTHY.border} ${EXECUTIVE_SEVERITY_THEME.HEALTHY.bg} ${EXECUTIVE_SEVERITY_THEME.HEALTHY.glow} flex items-center gap-4`}>
-        <div className={`p-2.5 rounded-xl bg-emerald-500/10 border border-emerald-500/20 text-emerald-400`}>
+        <div className={`p-2.5 rounded-xl bg-success-soft0/10 border border-emerald-500/20 text-emerald-400`}>
           <ShieldAlert className="w-5 h-5" />
         </div>
         <div>

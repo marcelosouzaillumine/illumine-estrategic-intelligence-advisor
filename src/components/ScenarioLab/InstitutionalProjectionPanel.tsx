@@ -15,9 +15,9 @@ export function InstitutionalProjectionPanel({ output }: Props) {
     causalOutput
   } = output;
   
-  const runwayClass = projectedRunwayMonths < 3 ? 'text-rose-600 bg-rose-50 border-rose-200' 
-                    : projectedRunwayMonths < 6 ? 'text-amber-600 bg-amber-50 border-amber-200'
-                    : 'text-emerald-600 bg-emerald-50 border-emerald-200';
+  const runwayClass = projectedRunwayMonths < 3 ? 'text-rose-600 bg-critical-soft border-rose-200' 
+                    : projectedRunwayMonths < 6 ? 'text-amber-600 bg-warning-soft border-amber-200'
+                    : 'text-emerald-600 bg-success-soft border-emerald-200';
 
   return (
     <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8">

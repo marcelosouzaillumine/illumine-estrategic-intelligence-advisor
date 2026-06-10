@@ -24,7 +24,7 @@ export const GovernanceForecastSurface: React.FC = () => {
   // Mapear faixas de risco determinísticas
   const riskBand = activeForecast.deterministicRiskBand;
   let riskColor = 'text-emerald-500';
-  let riskBg = 'bg-emerald-500/10 border-emerald-500/25';
+  let riskBg = 'bg-success-soft0/10 border-emerald-500/25';
 
   if (riskBand === 'CRITICAL_RISK') {
     riskColor = 'text-rose-400';
@@ -69,7 +69,7 @@ export const GovernanceForecastSurface: React.FC = () => {
         {/* Liquidez Crise */}
         <div className="p-6 bg-surface-container/40 border border-border/40 rounded-2xl space-y-4 h-full flex flex-col justify-center relative overflow-hidden">
           {activeForecast.liquidityDaysToCrisis < 90 && (
-            <div className="absolute top-0 right-0 w-24 h-24 bg-rose-500/10 blur-2xl rounded-full translate-x-1/2 -translate-y-1/2" />
+            <div className="absolute top-0 right-0 w-24 h-24 bg-critical-soft0/10 blur-2xl rounded-full translate-x-1/2 -translate-y-1/2" />
           )}
           <span className="text-[10px] font-mono font-bold tracking-widest text-muted-foreground uppercase block">{t('scenario.forecast.liquidityTitle')}</span>
           <div className="flex items-baseline gap-2">
@@ -98,7 +98,7 @@ export const GovernanceForecastSurface: React.FC = () => {
             </div>
             <div className="w-full bg-surface-container-high rounded-full h-1.5 overflow-hidden">
               <div 
-                className={`h-1.5 rounded-full transition-all duration-500 ${activeForecast.governanceInstabilityIndex > 50 ? 'bg-rose-500' : 'bg-secondary'}`}
+                className={`h-1.5 rounded-full transition-all duration-500 ${activeForecast.governanceInstabilityIndex > 50 ? 'bg-critical-soft0' : 'bg-secondary'}`}
                 style={{ width: `${activeForecast.governanceInstabilityIndex}%` }}
               />
             </div>
@@ -113,7 +113,7 @@ export const GovernanceForecastSurface: React.FC = () => {
             </div>
             <div className="w-full bg-surface-container-high rounded-full h-1.5 overflow-hidden">
               <div 
-                className={`h-1.5 rounded-full transition-all duration-500 ${activeForecast.operationalFatigueIndex > 50 ? 'bg-amber-500' : 'bg-emerald-500'}`}
+                className={`h-1.5 rounded-full transition-all duration-500 ${activeForecast.operationalFatigueIndex > 50 ? 'bg-warning-soft0' : 'bg-success-soft0'}`}
                 style={{ width: `${activeForecast.operationalFatigueIndex}%` }}
               />
             </div>
@@ -129,7 +129,7 @@ export const GovernanceForecastSurface: React.FC = () => {
               {idx > 0 && <span className="text-muted-foreground/50">➔</span>}
               <span className={`px-3 py-1 rounded-full border text-[10px] font-bold tracking-wider ${
                 idx === activeForecast.projectedEscalationTrajectory.length - 1
-                  ? 'bg-rose-500/10 text-rose-500 border-rose-500/25'
+                  ? 'bg-critical-soft0/10 text-rose-500 border-rose-500/25'
                   : 'bg-card text-muted-foreground border-border'
               }`}>
                 {step}

@@ -422,7 +422,7 @@ export function ClientExecutiveWorkspace({ selectedClient, selectedYear }: { sel
     <div className="max-w-[1440px] mx-auto px-6 lg:px-10 space-y-10 pb-32 animate-executive-fade text-foreground">
       
       {/* Visual warning banner & Fiduciary Stamps (Never hidden by white-label) */}
-      <div className="bg-rose-500/10 border-l-4 border-rose-500 p-4 rounded-r-xl flex items-start gap-3">
+      <div className="bg-critical-soft0/10 border-l-4 border-rose-500 p-4 rounded-r-xl flex items-start gap-3">
         <AlertTriangle className="text-rose-500 shrink-0 mt-0.5" size={18} />
         <div className="space-y-1">
           <h4 className="text-xs font-bold text-rose-500 uppercase tracking-widest">
@@ -443,7 +443,7 @@ export function ClientExecutiveWorkspace({ selectedClient, selectedYear }: { sel
       />
 
       {licensingError && (
-        <div className="bg-destructive/10 border border-destructive/30 text-destructive p-3 rounded-lg text-xs font-medium">
+        <div className="bg-critical-soft border border-destructive/30 text-destructive p-3 rounded-lg text-xs font-medium">
           {licensingError}
         </div>
       )}
@@ -574,7 +574,7 @@ export function ClientExecutiveWorkspace({ selectedClient, selectedYear }: { sel
               </div>
 
               {workflowError && (
-                <div className="bg-rose-500/10 border border-rose-500/30 text-rose-500 p-2.5 rounded text-[10px] font-semibold">
+                <div className="bg-critical-soft0/10 border border-rose-500/30 text-rose-500 p-2.5 rounded text-[10px] font-semibold">
                   {workflowError}
                 </div>
               )}

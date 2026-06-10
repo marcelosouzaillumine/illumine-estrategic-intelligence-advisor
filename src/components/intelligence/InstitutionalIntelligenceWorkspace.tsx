@@ -8,10 +8,13 @@ import { InstitutionalIntelligenceContext } from '../../types/intelligence/Insti
 import { InstitutionalIntelligenceSummary } from '../../types/intelligence/InstitutionalIntelligenceSummary';
 import { InstitutionalObjectCard } from './InstitutionalObjectCard';
 import { ExecutiveInstitutionalIntelligenceDashboard } from './ExecutiveInstitutionalIntelligenceDashboard';
+import { InstitutionalObservabilityRegistry } from '../../core/observability/InstitutionalObservabilityRegistry';
+import { Info } from 'lucide-react';
 
 export const InstitutionalIntelligenceWorkspace: React.FC = () => {
-  const { objectId } = useParams<{ objectId: string }>();
+  const { objectId, tenantId: urlTenantId } = useParams<{ objectId: string, tenantId?: string }>();
   const navigate = useNavigate();
+  const tenantId = urlTenantId || 'SYSTEM_TENANT';
   
   const [context, setContext] = useState<InstitutionalIntelligenceContext | null>(null);
   const [summary, setSummary] = useState<InstitutionalIntelligenceSummary | null>(null);
@@ -24,11 +27,17 @@ export const InstitutionalIntelligenceWorkspace: React.FC = () => {
   useEffect(() => {
     let active = true;
     const load = async () => {
-      if (!objectId) return;
+      if (!objectId || !tenantId) return;
       setLoading(true);
 
-      const tenantId = 'SYSTEM_TENANT'; // Injected by Auth Context
       try {
+        InstitutionalObservabilityRegistry.recordObjectOpened(
+          tenantId,
+          `ctx-${Date.now()}`,
+          objectId,
+          'INSTITUTIONAL_INTELLIGENCE'
+        );
+
         const ctx = await runtime.getInstitutionalContext(tenantId, objectId);
         const sum = await runtime.getInstitutionalSummary(tenantId, objectId);
         
@@ -48,7 +57,16 @@ export const InstitutionalIntelligenceWorkspace: React.FC = () => {
     return () => {
       active = false;
     };
-  }, [objectId]);
+  }, [objectId, tenantId]);
+
+  if (!tenantId || !objectId) {
+    return (
+      <div className="flex flex-col items-center justify-center min-h-[400px]">
+        <Info size={32} className="text-muted-foreground/60 mb-4" />
+        <p className="text-eyebrow text-muted-foreground uppercase tracking-widest">Contexto indisponível.</p>
+      </div>
+    );
+  }
 
   if (loading) {
     return (

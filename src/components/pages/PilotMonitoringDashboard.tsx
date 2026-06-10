@@ -168,7 +168,7 @@ export function PilotMonitoringDashboard() {
         <div className="card-premium p-6 flex flex-col justify-between hover:border-success/30 transition-all">
           <div className="flex justify-between items-start mb-4">
             <span className="text-[10px] font-black uppercase tracking-wider text-muted-foreground">Taxa de Aprovação</span>
-            <div className="p-2 bg-success/10 text-success rounded-lg"><CheckCircle2 size={16} /></div>
+            <div className="p-2 bg-success-soft text-success rounded-lg"><CheckCircle2 size={16} /></div>
           </div>
           <div>
             <h4 className="text-h3 font-display font-medium tracking-tight text-success">{metrics.approvalRate}%</h4>
@@ -179,7 +179,7 @@ export function PilotMonitoringDashboard() {
         <div className="card-premium p-6 flex flex-col justify-between hover:border-destructive/30 transition-all">
           <div className="flex justify-between items-start mb-4">
             <span className="text-[10px] font-black uppercase tracking-wider text-muted-foreground">Rejeição & Reversão</span>
-            <div className="p-2 bg-destructive/10 text-destructive rounded-lg"><Ban size={16} /></div>
+            <div className="p-2 bg-critical-soft text-destructive rounded-lg"><Ban size={16} /></div>
           </div>
           <div>
             <h4 className="text-h3 font-display font-medium tracking-tight text-destructive">{metrics.rejectionRate}%</h4>
@@ -297,7 +297,7 @@ export function PilotMonitoringDashboard() {
           {/* Failed Ingestion / Audit Logs */}
           <div className="card-premium p-8 space-y-6">
             <div className="flex items-center gap-3">
-              <div className="w-8 h-8 rounded-md bg-destructive/10 flex items-center justify-center text-destructive">
+              <div className="w-8 h-8 rounded-md bg-critical-soft flex items-center justify-center text-destructive">
                 <AlertTriangle size={16} />
               </div>
               <div>
@@ -344,7 +344,7 @@ export function PilotMonitoringDashboard() {
             </div>
 
             {/* Warning Alert about Soft Rollback */}
-            <div className="p-4 bg-warning/10 border border-warning/20 rounded-xl text-warning flex items-start gap-2.5">
+            <div className="p-4 bg-warning-soft border border-warning/20 rounded-xl text-warning flex items-start gap-2.5">
               <AlertTriangle size={16} className="shrink-0 mt-0.5" />
               <div className="text-[10px] leading-relaxed">
                 <p className="font-bold uppercase tracking-wider mb-0.5">Soft Rollback Fiduciário</p>
@@ -354,14 +354,14 @@ export function PilotMonitoringDashboard() {
 
             {/* Feedback Alerts */}
             {successMessage && (
-              <div className="p-4 bg-success/10 border border-success/20 rounded-xl text-success flex items-start gap-2.5">
+              <div className="p-4 bg-success-soft border border-success/20 rounded-xl text-success flex items-start gap-2.5">
                 <CheckCircle2 size={16} className="shrink-0 mt-0.5" />
                 <p className="text-xs font-semibold leading-normal">{successMessage}</p>
               </div>
             )}
 
             {errorMessage && (
-              <div className="p-4 bg-destructive/10 border border-destructive/20 rounded-xl text-destructive flex items-start gap-2.5">
+              <div className="p-4 bg-critical-soft border border-destructive/20 rounded-xl text-destructive flex items-start gap-2.5">
                 <Ban size={16} className="shrink-0 mt-0.5" />
                 <p className="text-xs font-semibold leading-normal">{errorMessage}</p>
               </div>

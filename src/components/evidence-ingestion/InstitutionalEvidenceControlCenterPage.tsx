@@ -42,7 +42,7 @@ export function InstitutionalEvidenceControlCenterPage({ evidenceReport }: Insti
   return (
     <div className="space-y-6">
       <div className="flex flex-col space-y-2">
-        <h1 className="text-3xl font-bold text-muted-foreground flex items-center gap-3">
+        <h1 className="text-3xl font-bold text-primary flex items-center gap-3">
           <FileText className="h-8 w-8 text-blue-500" />
           Centro de Evidência Fiduciária
         </h1>

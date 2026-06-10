@@ -25,10 +25,10 @@ export function TreasuryErosionTimeline({ data }: TreasuryErosionProps) {
           </h3>
           <span className={cn(
             "text-[10px] font-black uppercase tracking-widest px-3 py-1 rounded-full border",
-            data.erosionState === 'CRITICAL_EROSION' ? 'bg-destructive/10 text-destructive border-destructive/20' :
-            data.erosionState === 'ERODING' ? 'bg-amber-500/10 text-amber-500 border-amber-500/20' :
+            data.erosionState === 'CRITICAL_EROSION' ? 'bg-critical-soft text-destructive border-destructive/20' :
+            data.erosionState === 'ERODING' ? 'bg-warning-soft0/10 text-amber-500 border-amber-500/20' :
             data.erosionState === 'MODERATE' ? 'bg-blue-500/10 text-blue-500 border-blue-500/20' :
-            'bg-emerald-500/10 text-emerald-500 border-emerald-500/20'
+            'bg-success-soft0/10 text-emerald-500 border-emerald-500/20'
           )}>
             Estado: {data.erosionState}
           </span>

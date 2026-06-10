@@ -46,7 +46,7 @@ export const EscalationTopologyMap: React.FC = () => {
           <div className="space-y-2">
             {criticalPropagationChain.map((node, idx) => (
               <div key={idx} className="flex items-center gap-2 text-xs font-mono">
-                <span className="w-1.5 h-1.5 rounded-full bg-rose-500 animate-ping" />
+                <span className="w-1.5 h-1.5 rounded-full bg-critical-soft0 animate-ping" />
                 <span className="text-muted-foreground">Node:</span>
                 <span className="text-muted-foreground font-bold">{node}</span>
               </div>
@@ -65,7 +65,7 @@ export const EscalationTopologyMap: React.FC = () => {
           </div>
           <div className="w-full bg-slate-950 rounded-full h-2 overflow-hidden">
             <div
-              className={`h-2 rounded-full transition-all duration-500 ${contagionRiskLevel > 70 ? 'bg-rose-500' : contagionRiskLevel > 40 ? 'bg-amber-500' : 'bg-emerald-500'}`}
+              className={`h-2 rounded-full transition-all duration-500 ${contagionRiskLevel > 70 ? 'bg-critical-soft0' : contagionRiskLevel > 40 ? 'bg-warning-soft0' : 'bg-success-soft0'}`}
               style={{ width: `${contagionRiskLevel}%` }}
             />
           </div>

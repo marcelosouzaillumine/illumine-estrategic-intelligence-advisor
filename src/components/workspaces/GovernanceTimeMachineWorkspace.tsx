@@ -12,10 +12,10 @@ import { TimelineEvent } from '../../types/temporal/TimelineEvent';
 import { TemporalLineage } from '../../types/temporal/TemporalLineage';
 import { InstitutionalMilestone } from '../../types/temporal/InstitutionalMilestone';
 import { TemporalProvenanceRecord } from '../../types/temporal/TemporalProvenanceRecord';
-
 import { InstitutionalDriftEngine } from '../../core/temporal/InstitutionalDriftEngine';
 import { GovernanceTimeMachineRuntime } from '../../core/temporal/GovernanceTimeMachineRuntime';
 import { ExecutiveTimeMachineDashboard } from '../temporal/ExecutiveTimeMachineDashboard';
+import { InstitutionalObservabilityRegistry } from '../../core/observability/InstitutionalObservabilityRegistry';
 import { useNavigate } from 'react-router-dom';
 
 interface GovernanceTimeMachineWorkspaceProps {
@@ -58,8 +58,16 @@ export const GovernanceTimeMachineWorkspace: React.FC<GovernanceTimeMachineWorks
 
   useEffect(() => {
     const fetchContext = async () => {
+      if (!tenantId || !timelineId) return;
       setLoading(true);
       try {
+        InstitutionalObservabilityRegistry.recordTimelineOpened(
+          tenantId,
+          `ctx-${Date.now()}`,
+          'CURRENT_USER',
+          timelineId
+        );
+
         const { timeline: t, snapshots: s, events: e } = await viewModel.fetchHistoricalContext(tenantId, timelineId);
         const m = await viewModel.fetchMilestones(tenantId, timelineId);
         
@@ -98,6 +106,15 @@ export const GovernanceTimeMachineWorkspace: React.FC<GovernanceTimeMachineWorks
       <div className="flex flex-col items-center justify-center min-h-[400px]">
         <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary"></div>
         <p className="text-eyebrow text-muted-foreground mt-4">Carregando Histórico Institucional...</p>
+      </div>
+    );
+  }
+
+  if (!tenantId || !timelineId) {
+    return (
+      <div className="flex flex-col items-center justify-center min-h-[400px]">
+        <History size={48} className="text-muted-foreground/60 mb-4" />
+        <p className="text-eyebrow text-muted-foreground uppercase tracking-widest">Contexto indisponível.</p>
       </div>
     );
   }
@@ -144,13 +161,13 @@ export const GovernanceTimeMachineWorkspace: React.FC<GovernanceTimeMachineWorks
           </button>
           <button
             onClick={() => handleCrossNavigation('WAR_ROOM', `/war-room`)}
-            className="flex items-center gap-2 px-4 py-2 bg-amber-500/10 hover:bg-amber-500/20 text-amber-400 text-sm font-display font-medium rounded-[12px] transition-colors border border-amber-500/30 shadow-sm"
+            className="flex items-center gap-2 px-4 py-2 bg-warning-soft0/10 hover:bg-warning-soft0/20 text-amber-400 text-sm font-display font-medium rounded-[12px] transition-colors border border-amber-500/30 shadow-sm"
           >
             <span>Ver Evolução dos Cenários</span>
           </button>
           <button
             onClick={() => handleCrossNavigation('MEMORY', `/memory`)}
-            className="flex items-center gap-2 px-4 py-2 bg-emerald-500/10 hover:bg-emerald-500/20 text-emerald-400 text-sm font-display font-medium rounded-[12px] transition-colors border border-emerald-500/30 shadow-sm"
+            className="flex items-center gap-2 px-4 py-2 bg-success-soft0/10 hover:bg-success-soft0/20 text-emerald-400 text-sm font-display font-medium rounded-[12px] transition-colors border border-emerald-500/30 shadow-sm"
           >
             <Database size={16} />
             <span>Memória Institucional</span>

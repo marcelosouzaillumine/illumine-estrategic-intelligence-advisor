@@ -30,7 +30,7 @@ export function StrategicStressCascadePanel({ tenantId }: { tenantId: string }) 
         <div className="mt-4 pt-4 border-t border-border/50">
           <div className="text-xs uppercase font-bold text-rose-500 mb-2">Risco de Colapso em Cadeia Detectado</div>
           {risks.map(r => (
-            <div key={r.riskId} className="p-3 bg-rose-500/10 border border-rose-500/20 rounded text-sm text-rose-500 font-medium">
+            <div key={r.riskId} className="p-3 bg-critical-soft0/10 border border-rose-500/20 rounded text-sm text-rose-500 font-medium">
               {r.description} (Probabilidade: {Math.round(r.probability * 100)}%)
             </div>
           ))}

@@ -163,8 +163,8 @@ export function AnaliseMercadoPage({ clientId }: AnaliseMercadoPageProps) {
               <div className="flex items-center justify-between mb-8 relative z-10">
                 <div className={cn(
                   "w-12 h-12 rounded-md flex items-center justify-center shadow-inner group-hover:shadow-premium transition-all duration-500",
-                  trend.status === 'positive' ? "bg-success/10 text-success group-hover:bg-success group-hover:text-white" : 
-                  trend.status === 'warning' ? "bg-warning/10 text-warning group-hover:bg-warning group-hover:text-white" : 
+                  trend.status === 'positive' ? "bg-success-soft text-success group-hover:bg-success group-hover:text-white" : 
+                  trend.status === 'warning' ? "bg-warning-soft text-warning group-hover:bg-warning group-hover:text-white" : 
                   "bg-surface-container text-muted-foreground group-hover:bg-executive group-hover:text-white"
                 )}>
                   {(() => {

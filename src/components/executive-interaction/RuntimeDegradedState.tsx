@@ -15,8 +15,8 @@ export const RuntimeDegradedState: React.FC<RuntimeDegradedStateProps> = ({
   const displayTitle = title || t('overlays.degraded_mode') || 'Operação em Modo Degradado';
   const displayDescription = description || t('overlays.degraded_mode_desc') || 'Parte dos módulos analíticos ou históricos está indisponível neste momento. Os resultados atuais refletem apenas dados estruturais correntes, com score de confiança reduzido.';
   return (
-    <div className="p-6 bg-amber-500/5 border border-amber-500/25 rounded-xl flex items-start gap-4">
-      <div className="p-2.5 bg-amber-500/10 rounded-xl text-amber-400 border border-amber-500/15">
+    <div className="p-6 bg-warning-soft0/5 border border-amber-500/25 rounded-xl flex items-start gap-4">
+      <div className="p-2.5 bg-warning-soft0/10 rounded-xl text-amber-400 border border-amber-500/15">
         <AlertTriangle className="w-5 h-5 animate-pulse" />
       </div>
       <div className="space-y-1">

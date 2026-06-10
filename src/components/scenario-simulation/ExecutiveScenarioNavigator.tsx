@@ -71,7 +71,7 @@ export const ExecutiveScenarioNavigator: React.FC = () => {
         {sandboxActions.length > 0 && (
           <button
             onClick={clearSandbox}
-            className="text-[10px] font-mono text-rose-500 hover:text-rose-600 uppercase border border-rose-500/20 px-3 py-1 rounded-full bg-rose-500/10 cursor-pointer transition-all duration-200"
+            className="text-[10px] font-mono text-rose-500 hover:text-rose-600 uppercase border border-rose-500/20 px-3 py-1 rounded-full bg-critical-soft0/10 cursor-pointer transition-all duration-200"
           >
             {t('scenario.sandbox.clearAll')}
           </button>

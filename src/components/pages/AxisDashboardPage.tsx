@@ -435,7 +435,7 @@ export function AxisDashboardPage({ axis, clientId, onNavigate, selectedMonth, s
                 <div className="p-8 rounded-[40px] bg-slate-50 border border-border space-y-6 h-full flex flex-col">
                   <div className="flex items-center justify-between">
                      <p className="text-[10px] font-black text-muted-foreground uppercase tracking-widest">Sinal de Centralização</p>
-                     <div className={cn("w-2 h-2 rounded-full", isCentralized ? "bg-amber-500 shadow-[0_0_10px_rgba(245,158,11,0.5)]" : "bg-emerald-500")} />
+                     <div className={cn("w-2 h-2 rounded-full", isCentralized ? "bg-warning-soft0 shadow-[0_0_10px_rgba(245,158,11,0.5)]" : "bg-success-soft0")} />
                   </div>
                   <div className="space-y-2">
                      <h4 className="text-lg font-black text-muted-foreground">{isCentralized ? "Risco Identificado" : "Liderança Distribuída"}</h4>
@@ -451,7 +451,7 @@ export function AxisDashboardPage({ axis, clientId, onNavigate, selectedMonth, s
                 <div className="p-8 rounded-[40px] bg-slate-50 border border-border space-y-6 h-full flex flex-col">
                   <div className="flex items-center justify-between">
                      <p className="text-[10px] font-black text-muted-foreground uppercase tracking-widest">Fadiga Organizacional</p>
-                     <div className={cn("w-2 h-2 rounded-full", isFatigued ? "bg-rose-500 shadow-[0_0_10px_rgba(244,63,94,0.5)]" : "bg-emerald-500")} />
+                     <div className={cn("w-2 h-2 rounded-full", isFatigued ? "bg-critical-soft0 shadow-[0_0_10px_rgba(244,63,94,0.5)]" : "bg-success-soft0")} />
                   </div>
                   <div className="space-y-2">
                      <h4 className="text-lg font-black text-muted-foreground">{isFatigued ? "Alerta de Estresse" : "Ritmo Sustentável"}</h4>
@@ -467,7 +467,7 @@ export function AxisDashboardPage({ axis, clientId, onNavigate, selectedMonth, s
                 <div className={cn("p-8 rounded-[40px] space-y-6 shadow-xl transition-colors duration-500 h-full flex flex-col", isSilent ? "bg-slate-950 text-white" : "bg-slate-100 text-muted-foreground")}>
                   <div className="flex items-center justify-between">
                      <p className="text-[10px] font-black opacity-50 uppercase tracking-widest">Clima Silencioso</p>
-                     <div className={cn("w-2 h-2 rounded-full", isSilent ? "bg-primary animate-pulse" : "bg-emerald-500")} />
+                     <div className={cn("w-2 h-2 rounded-full", isSilent ? "bg-primary animate-pulse" : "bg-success-soft0")} />
                   </div>
                   <div className="space-y-2">
                      <h4 className="text-lg font-black">{isSilent ? "Risco de Conformidade" : "Transparência Plena"}</h4>

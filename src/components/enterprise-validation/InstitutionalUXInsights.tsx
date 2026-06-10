@@ -18,7 +18,7 @@ export function InstitutionalUXInsights({ tenantId }: { tenantId: string }) {
             <span className="font-bold text-amber-500">{(uxMetrics.cognitiveLoadScore * 100).toFixed(0)}%</span>
           </div>
           <div className="w-full bg-border/50 h-2 rounded overflow-hidden">
-            <div className="bg-amber-500 h-full" style={{ width: `${uxMetrics.cognitiveLoadScore * 100}%` }}></div>
+            <div className="bg-warning-soft0 h-full" style={{ width: `${uxMetrics.cognitiveLoadScore * 100}%` }}></div>
           </div>
         </div>
         <div>
@@ -27,7 +27,7 @@ export function InstitutionalUXInsights({ tenantId }: { tenantId: string }) {
             <span className="font-bold text-emerald-500">{(uxMetrics.navigationFriction * 100).toFixed(0)}%</span>
           </div>
           <div className="w-full bg-border/50 h-2 rounded overflow-hidden">
-            <div className="bg-emerald-500 h-full" style={{ width: `${uxMetrics.navigationFriction * 100}%` }}></div>
+            <div className="bg-success-soft0 h-full" style={{ width: `${uxMetrics.navigationFriction * 100}%` }}></div>
           </div>
         </div>
       </div>

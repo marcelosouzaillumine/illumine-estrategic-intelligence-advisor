@@ -17,7 +17,7 @@ export function CriticalDecisionSurface() {
 
   if (!criticalItem) {
     return (
-      <div className="card-premium p-6 border border-emerald-500/20 bg-emerald-500/5 rounded-xl flex items-center gap-4 text-emerald-400 font-semibold animate-executive-fade leading-relaxed">
+      <div className="card-premium p-6 border border-emerald-500/20 bg-success-soft0/5 rounded-xl flex items-center gap-4 text-emerald-400 font-semibold animate-executive-fade leading-relaxed">
         <Activity size={18} className="shrink-0 animate-pulse text-emerald-500" />
         <div className="text-xs">
           <p className="font-bold uppercase tracking-wider text-[9px] text-emerald-500 mb-0.5 font-display">Status Fiduciário</p>

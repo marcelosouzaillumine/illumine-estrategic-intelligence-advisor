@@ -181,7 +181,7 @@ class GlobalErrorBoundary extends React.Component<{children: React.ReactNode}, {
     if (this.state.hasError) {
       return (
         <div className="p-8 bg-red-100 border border-red-500 rounded-xl m-8">
-          <h1 className="text-2xl font-bold text-red-800 mb-4">CRITICAL RENDER ERROR</h1>
+          <h1 className="text-2xl font-bold text-red-800 mb-4 text-primary">CRITICAL RENDER ERROR</h1>
           <pre className="whitespace-pre-wrap text-sm text-red-900 bg-white/50 p-4 rounded">
             {String(this.state.error)}
           </pre>
@@ -248,7 +248,7 @@ function AccessDeniedScreen({ onLogout }: { onLogout: () => void }) {
           <ShieldCheck size={32} />
         </div>
         <div>
-          <h1 className="text-2xl font-bold mb-2">Acesso Negado</h1>
+          <h1 className="text-2xl font-bold mb-2 text-primary">Acesso Negado</h1>
           <p className="text-muted-foreground">
             Sua conta do Google foi autenticada, mas você não possui nenhum vínculo com empresas na plataforma ou privilégios administrativos.
           </p>
@@ -738,7 +738,7 @@ function AppContent({
               >
                <UploadCloud size={20} strokeWidth={1} />
                  {totalPending > 0 && isMaster && (
-                   <span className="absolute top-2 right-2 w-2 h-2 bg-rose-500 rounded-full animate-pulse" />
+                   <span className="absolute top-2 right-2 w-2 h-2 bg-critical-soft0 rounded-full animate-pulse" />
                  )}
               </button>
             </div>

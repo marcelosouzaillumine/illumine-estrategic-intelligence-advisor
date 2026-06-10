@@ -9,9 +9,9 @@ export const PilotOperationalHealthCard: React.FC = () => {
   const { pilotStatus, operationalHealth, updatePilotStatus, resetPilot } = usePilotOperations();
 
   const healthColors = {
-    HEALTHY: 'text-emerald-500 bg-emerald-500/10 border-emerald-500/25',
-    PARTIAL: 'text-amber-500 bg-amber-500/10 border-amber-500/25',
-    DEGRADED: 'text-rose-500 bg-rose-500/10 border-rose-500/25',
+    HEALTHY: 'text-emerald-500 bg-success-soft0/10 border-emerald-500/25',
+    PARTIAL: 'text-amber-500 bg-warning-soft0/10 border-amber-500/25',
+    DEGRADED: 'text-rose-500 bg-critical-soft0/10 border-rose-500/25',
     FAIL_CLOSED: 'text-rose-600 bg-rose-950/20 border-rose-600/30 animate-pulse'
   };
 

@@ -95,7 +95,7 @@ export function InstitutionalExecutiveCommandCenter({ clientId, selectedYear }: 
             <ShieldCheck size={16} />
             <span className="text-[10px] uppercase font-bold tracking-widest font-mono">{t('cmd.board_room')}</span>
           </div>
-          <h1 className="text-2xl font-bold tracking-tight">{t('cmd.header_title')}</h1>
+          <h1 className="text-2xl font-bold tracking-tight text-primary">{t('cmd.header_title')}</h1>
           <p className="text-xs text-zinc-500 font-mono mt-1 uppercase tracking-widest">{t('cmd.header_subtitle')}</p>
         </div>
         

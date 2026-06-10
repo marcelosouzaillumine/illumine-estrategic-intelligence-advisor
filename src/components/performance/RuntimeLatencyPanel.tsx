@@ -27,7 +27,7 @@ export function RuntimeLatencyPanel({ snapshot }: { snapshot?: RuntimeLatencySna
         ))}
       </div>
       {snapshot.bottlenecks.length > 0 && (
-        <div className="mt-4 p-3 bg-rose-500/10 text-rose-500 border border-rose-500/20 rounded text-xs">
+        <div className="mt-4 p-3 bg-critical-soft0/10 text-rose-500 border border-rose-500/20 rounded text-xs">
           <strong>Gargalos Detectados:</strong>
           <ul className="list-disc list-inside mt-1">
             {snapshot.bottlenecks.map((b, i) => <li key={i}>{b}</li>)}

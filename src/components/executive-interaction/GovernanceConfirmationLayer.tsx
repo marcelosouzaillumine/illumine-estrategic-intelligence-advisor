@@ -66,7 +66,7 @@ export const GovernanceConfirmationLayer: React.FC<GovernanceConfirmationLayerPr
           disabled={!isChecked || isSubmitting}
           className={`px-4 py-2 rounded-lg text-xs font-bold uppercase tracking-wider transition-colors flex items-center gap-1.5 ${
             isChecked && !isSubmitting
-              ? 'bg-amber-500 text-black hover:bg-amber-600'
+              ? 'bg-warning-soft0 text-black hover:bg-amber-600'
               : 'bg-slate-900 text-muted-foreground border border-border/5 cursor-not-allowed'
           }`}
         >

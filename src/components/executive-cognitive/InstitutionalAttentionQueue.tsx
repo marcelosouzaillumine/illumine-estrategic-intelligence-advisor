@@ -49,7 +49,7 @@ export function InstitutionalAttentionQueue() {
               item.priority === 'IMMEDIATE' 
                 ? "border-red-500 bg-red-500/20" 
                 : item.priority === 'CRITICAL'
-                ? "border-amber-500 bg-amber-500/20"
+                ? "border-amber-500 bg-warning-soft0/20"
                 : "border-secondary bg-secondary/20"
             )}></div>
 

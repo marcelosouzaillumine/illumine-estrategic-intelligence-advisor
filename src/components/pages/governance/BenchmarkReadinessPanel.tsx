@@ -32,17 +32,17 @@ export function BenchmarkReadinessPanel({ clientId, scenario }: BenchmarkReadine
     switch (status) {
       case 'CERTIFIED':
         return {
-          text: 'text-emerald-400 bg-emerald-500/10 border-emerald-500/25',
+          text: 'text-emerald-400 bg-success-soft0/10 border-emerald-500/25',
           progressColor: '#10b981',
-          bgBar: 'bg-emerald-500',
+          bgBar: 'bg-success-soft0',
           label: 'Certificado para Benchmark',
           description: 'A holding atende plenamente aos requisitos de maturidade e integridade.'
         };
       case 'CONDITIONALLY_CERTIFIED':
         return {
-          text: 'text-amber-400 bg-amber-500/10 border-amber-500/25',
+          text: 'text-amber-400 bg-warning-soft0/10 border-amber-500/25',
           progressColor: '#f59e0b',
-          bgBar: 'bg-amber-500',
+          bgBar: 'bg-warning-soft0',
           label: 'Certificado Condicionalmente',
           description: 'Aprovado para rodadas de benchmark, sujeito a ajustes ou evidências adicionais.'
         };
@@ -63,13 +63,13 @@ export function BenchmarkReadinessPanel({ clientId, scenario }: BenchmarkReadine
   // Dimension details helper
   const renderDimension = (label: string, score: number, status: 'CRITICAL' | 'WARNING' | 'OPTIMAL', icon: React.ReactNode) => {
     let scoreColor = 'text-emerald-450';
-    let barColor = 'bg-emerald-500';
+    let barColor = 'bg-success-soft0';
     if (status === 'CRITICAL') {
       scoreColor = 'text-red-450';
       barColor = 'bg-red-500';
     } else if (status === 'WARNING') {
       scoreColor = 'text-amber-450';
-      barColor = 'bg-amber-500';
+      barColor = 'bg-warning-soft0';
     }
 
     return (
@@ -122,7 +122,7 @@ export function BenchmarkReadinessPanel({ clientId, scenario }: BenchmarkReadine
         {/* Eligibility Indicator */}
         <div className="flex items-center gap-2">
           {readiness.benchmarkEligible ? (
-            <div className="flex items-center gap-2 px-3 py-1.5 bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 rounded-full text-xs font-black uppercase tracking-wider">
+            <div className="flex items-center gap-2 px-3 py-1.5 bg-success-soft0/10 border border-emerald-500/20 text-emerald-400 rounded-full text-xs font-black uppercase tracking-wider">
               <CheckCircle className="w-4 h-4" />
               <span>Aprovado para Benchmark</span>
             </div>

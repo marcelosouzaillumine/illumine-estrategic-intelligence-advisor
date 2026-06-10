@@ -12,7 +12,7 @@ export function EscalationOrchestrationPanel({ tenantId }: { tenantId: string })
         <ChevronsUp className="text-rose-500" />
         <h3 className="text-sm font-semibold text-foreground">Escalation Sequence</h3>
       </div>
-      <div className="text-center p-4 bg-rose-500/10 border border-rose-500/20 rounded mb-4">
+      <div className="text-center p-4 bg-critical-soft0/10 border border-rose-500/20 rounded mb-4">
         <span className="text-xs text-rose-500 font-bold uppercase block mb-1">Target Audience</span>
         <span className="text-lg font-bold text-foreground">{coord.escalation.targetAudience.replace(/_/g, ' ')}</span>
       </div>

@@ -41,7 +41,7 @@ export function CourseDetailsPage({ courseId, onBack, onStart }: CourseDetailsPa
               <span className="text-muted-foreground text-[10px] font-black uppercase tracking-[0.2em]">{course.level}</span>
             </div>
             
-            <h1 className="text-5xl font-display font-medium text-foreground leading-tight tracking-tight">
+            <h1 className="text-5xl font-display font-medium text-foreground leading-tight tracking-tight text-primary">
               {course.title}
             </h1>
 

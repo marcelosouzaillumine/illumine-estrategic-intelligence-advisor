@@ -100,7 +100,7 @@ export const ClientSupportPanel: React.FC<{ selectedClient?: string, headerAddon
 
       {successMessage && (
         <div className="bg-success/5 border border-success/10 p-6 rounded-md flex items-start gap-5 animate-executive-fade shadow-premium">
-          <div className="p-3 bg-success/10 rounded-sm border border-success/20 shadow-inner">
+          <div className="p-3 bg-success-soft rounded-sm border border-success/20 shadow-inner">
             <CheckCircle2 className="w-6 h-6 text-success" />
           </div>
           <div className="flex-1 space-y-1">
@@ -280,7 +280,7 @@ export const ClientSupportPanel: React.FC<{ selectedClient?: string, headerAddon
                         </span>
                         <span className="text-[10px] font-medium text-muted-foreground/40 font-mono tracking-widest italic">{ticket.protocolo}</span>
                         {(!isClosed && isOver24h) && (
-                           <span className="px-2 py-1.5 bg-destructive/10 border border-destructive/20 text-destructive text-[9px] uppercase tracking-widest rounded-sm flex items-center gap-1 animate-pulse">
+                           <span className="px-2 py-1.5 bg-critical-soft border border-destructive/20 text-destructive text-[9px] uppercase tracking-widest rounded-sm flex items-center gap-1 animate-pulse">
                               <AlertCircle size={10} /> SLA Excedido (24h)
                            </span>
                         )}
@@ -340,14 +340,14 @@ export const ClientSupportPanel: React.FC<{ selectedClient?: string, headerAddon
           <h4 className="text-[11px] font-medium text-secondary uppercase tracking-[0.2em]">SLA de Atendimento</h4>
           <p className="text-[11px] text-muted-foreground font-medium uppercase tracking-widest leading-relaxed italic opacity-80">Nosso time técnico analisa todos os reportes em até 24 horas úteis para garantir a fluidez da sua operação.</p>
         </div>
-        <div className="card-premium p-8 space-y-4 relative overflow-hidden bg-success/5 border-success/10 group hover:bg-success/10 transition-all">
+        <div className="card-premium p-8 space-y-4 relative overflow-hidden bg-success/5 border-success/10 group hover:bg-success-soft transition-all">
           <div className="w-12 h-12 bg-success/20 rounded-sm flex items-center justify-center shadow-inner group-hover:bg-success group-hover:text-white transition-all">
             <ShieldAlert className="w-6 h-6 text-success" />
           </div>
           <h4 className="text-[11px] font-medium text-success uppercase tracking-[0.2em]">Segurança de Dados</h4>
           <p className="text-[11px] text-muted-foreground font-medium uppercase tracking-widest leading-relaxed italic opacity-80">Toda inconsistência reportada é tratada sob protocolos rígidos de sigilo e auditoria por nossos curadores.</p>
         </div>
-        <div className="card-premium p-8 space-y-4 relative overflow-hidden bg-warning/5 border-warning/10 group hover:bg-warning/10 transition-all">
+        <div className="card-premium p-8 space-y-4 relative overflow-hidden bg-warning/5 border-warning/10 group hover:bg-warning-soft transition-all">
           <div className="w-12 h-12 bg-warning/20 rounded-sm flex items-center justify-center shadow-inner group-hover:bg-warning group-hover:text-white transition-all">
             <AlertCircle className="w-6 h-6 text-warning" />
           </div>

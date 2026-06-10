@@ -39,7 +39,7 @@ export function InstitutionalVectorMap({ vector }: InstitutionalVectorMapProps) 
           <div className="bg-zinc-900/50 border border-zinc-800/80 p-3 rounded">
             <span className="text-[9px] text-zinc-500 uppercase font-bold tracking-widest block mb-2">{t('overlay.stability')}</span>
             <div className="w-full h-1 bg-zinc-800 rounded-full overflow-hidden">
-              <div className="h-full bg-emerald-500" style={{ width: `${vector.vectorStability * 100}%` }} />
+              <div className="h-full bg-success-soft0" style={{ width: `${vector.vectorStability * 100}%` }} />
             </div>
             <span className="text-[10px] font-bold text-zinc-400 mt-1 block">{(vector.vectorStability * 100).toFixed(0)}%</span>
           </div>

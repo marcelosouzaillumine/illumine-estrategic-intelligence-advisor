@@ -1,6 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { Search, X, Network, Database, History, Target } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
+import { InstitutionalObservabilityRegistry } from '../../core/observability/InstitutionalObservabilityRegistry';
+import { useInstitutionalContext } from '../../hooks/useInstitutionalContext';
+import { InstitutionalNavigationService } from '../../core/navigation/InstitutionalNavigationService';
+import { InstitutionalNavigationReference } from '../../types/intelligence/InstitutionalNavigationReference';
 
 interface SearchResult {
   id: string;
@@ -16,12 +20,25 @@ export const UniversalSearchHub: React.FC = () => {
   const [query, setQuery] = useState('');
   const [results, setResults] = useState<SearchResult[]>([]);
   const navigate = useNavigate();
+  const { tenantId: ctxTenantId } = useInstitutionalContext();
+  const tenantId = ctxTenantId || 'SYSTEM_TENANT';
+  const correlationId = `search-${Date.now()}`;
 
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
       if ((e.metaKey || e.ctrlKey) && e.key === 'k') {
         e.preventDefault();
-        setIsOpen(prev => !prev);
+        setIsOpen(prev => {
+          if (!prev && tenantId) {
+            InstitutionalObservabilityRegistry.recordExecutiveEvent(
+              'UNIVERSAL_SEARCH_OPENED',
+              tenantId,
+              correlationId,
+              { sourceWorkspace: 'UNIVERSAL_SEARCH' }
+            );
+          }
+          return !prev;
+        });
       }
       if (e.key === 'Escape') {
         setIsOpen(false);
@@ -53,18 +70,27 @@ export const UniversalSearchHub: React.FC = () => {
   }, [query]);
 
   const handleCrossNavigation = (result: SearchResult) => {
-    const navRef = {
-      tenantId: 'SYSTEM_TENANT',
+    if (!tenantId) return;
+
+    const navRef: InstitutionalNavigationReference = {
+      tenantId: tenantId,
       sourceWorkspace: 'UNIVERSAL_SEARCH',
-      targetWorkspace: result.targetWorkspace,
+      targetWorkspace: result.targetWorkspace as any,
+      targetObjectId: result.id,
       correlationId: `nav-${Date.now()}`
     };
     
-    // Observersibilidade: UNIVERSAL_SEARCH_RESULT_SELECTED poderia ser disparada aqui
+    InstitutionalObservabilityRegistry.recordObjectNavigated(
+      tenantId,
+      navRef.correlationId,
+      result.id,
+      'UNIVERSAL_SEARCH',
+      result.targetWorkspace
+    );
     
     setIsOpen(false);
     setQuery('');
-    navigate(result.path, { state: { navRef } });
+    InstitutionalNavigationService.navigate(navigate, navRef);
   };
 
   if (!isOpen) return null;

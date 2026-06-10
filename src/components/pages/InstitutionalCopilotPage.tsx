@@ -20,7 +20,7 @@ export function InstitutionalCopilotPage() {
           icon={Bot}
           transparent
         />
-        <div className="flex items-center gap-2 px-4 py-2 bg-success/10 text-success border border-success/20 rounded-button text-[10px] font-bold uppercase tracking-widest shrink-0">
+        <div className="flex items-center gap-2 px-4 py-2 bg-success-soft text-success border border-success/20 rounded-button text-[10px] font-bold uppercase tracking-widest shrink-0">
           <ShieldCheck size={14} /> AI Governance Active
         </div>
       </div>

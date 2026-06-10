@@ -16,11 +16,11 @@ export function RuntimeHealthPanel({ report, className }: RuntimeHealthPanelProp
   const getConfidenceStyle = (level: string) => {
     switch (level) {
       case 'HIGH_CONFIDENCE':
-        return { text: 'text-emerald-700', bg: 'bg-emerald-50', border: 'border-emerald-200', label: 'Alta Confiança fiduciária' };
+        return { text: 'text-emerald-700', bg: 'bg-success-soft', border: 'border-emerald-200', label: 'Alta Confiança fiduciária' };
       case 'MEDIUM_CONFIDENCE':
         return { text: 'text-blue-700', bg: 'bg-blue-50', border: 'border-blue-200', label: 'Média Confiança' };
       case 'LOW_CONFIDENCE':
-        return { text: 'text-rose-700', bg: 'bg-rose-50', border: 'border-rose-200', label: 'Degradação / Baixa Confiança' };
+        return { text: 'text-rose-700', bg: 'bg-critical-soft', border: 'border-rose-200', label: 'Degradação / Baixa Confiança' };
       default:
         return { text: 'text-muted-foreground', bg: 'bg-slate-50', border: 'border-border', label: 'Não Determinado' };
     }
@@ -114,7 +114,7 @@ export function RuntimeHealthPanel({ report, className }: RuntimeHealthPanelProp
 
       {/* Warnings & Restrictions */}
       {compliance.narrativeRestrictions && compliance.narrativeRestrictions.length > 0 && (
-        <div className="mt-6 p-4 bg-amber-50/50 border border-amber-100 rounded-xl">
+        <div className="mt-6 p-4 bg-warning-soft/50 border border-amber-100 rounded-xl">
           <p className="text-[9px] font-bold text-amber-800 uppercase tracking-widest mb-2 flex items-center gap-1.5">
             <ShieldAlert size={12} />
             Políticas de Supressão & Restrições Narrativas

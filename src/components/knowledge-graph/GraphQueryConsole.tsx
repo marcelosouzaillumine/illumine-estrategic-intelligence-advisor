@@ -35,7 +35,7 @@ export function GraphQueryConsole({ tenantId }: { tenantId: string }) {
         
         <button 
           onClick={executeMockQuery}
-          className="absolute top-4 right-4 bg-emerald-500/20 hover:bg-emerald-500/30 text-emerald-500 p-2 rounded transition-colors"
+          className="absolute top-4 right-4 bg-success-soft0/20 hover:bg-success-soft0/30 text-emerald-500 p-2 rounded transition-colors"
         >
           <Play size={14} fill="currentColor" />
         </button>

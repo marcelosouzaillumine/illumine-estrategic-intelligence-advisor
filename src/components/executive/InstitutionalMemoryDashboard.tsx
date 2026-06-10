@@ -5,7 +5,7 @@ export const InstitutionalMemoryDashboard: React.FC = () => {
   return (
     <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
       <div className="bg-slate-900 border border-border rounded-xl p-5 flex items-start gap-4">
-        <div className="p-3 bg-emerald-500/10 rounded-lg">
+        <div className="p-3 bg-success-soft0/10 rounded-lg">
           <Database size={24} className="text-emerald-400" />
         </div>
         <div>
@@ -25,7 +25,7 @@ export const InstitutionalMemoryDashboard: React.FC = () => {
       </div>
 
       <div className="bg-slate-900 border border-border rounded-xl p-5 flex items-start gap-4">
-        <div className="p-3 bg-amber-500/10 rounded-lg">
+        <div className="p-3 bg-warning-soft0/10 rounded-lg">
           <Activity size={24} className="text-amber-400" />
         </div>
         <div>

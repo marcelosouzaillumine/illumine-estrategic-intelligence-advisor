@@ -35,11 +35,11 @@ export function PlanoEstrategicoGlobalPage({ clientId }: PlanejamentoEstrategico
 
   const axes = [
     { id: 'gov', title: 'Governança Corporativa', icon: ShieldCheck, color: 'text-blue-500', bg: 'bg-blue-50/50', status: hasData ? 85 : 0, goals: okrs?.filter(o => o.eixo === 'Governança Corporativa').length || 0 },
-    { id: 'cul', title: 'Cultura Organizacional', icon: Users, color: 'text-rose-500', bg: 'bg-rose-50/50', status: hasData ? 72 : 0, goals: okrs?.filter(o => o.eixo === 'Cultura Organizacional').length || 0 },
+    { id: 'cul', title: 'Cultura Organizacional', icon: Users, color: 'text-rose-500', bg: 'bg-critical-soft/50', status: hasData ? 72 : 0, goals: okrs?.filter(o => o.eixo === 'Cultura Organizacional').length || 0 },
     { id: 'ges', title: 'Administração e Finanças', icon: TrendingUp, color: 'text-muted-foreground', bg: 'bg-slate-100/50', status: hasData ? 95 : 0, goals: okrs?.filter(o => o.eixo === 'Gestão Administrativa e Financeira').length || 0 },
-    { id: 'ino', title: 'Gestão de Inovação', icon: Lightbulb, color: 'text-amber-500', bg: 'bg-amber-50/50', status: hasData ? 45 : 0, goals: okrs?.filter(o => o.eixo === 'Gestão de Inovação').length || 0 },
+    { id: 'ino', title: 'Gestão de Inovação', icon: Lightbulb, color: 'text-amber-500', bg: 'bg-warning-soft/50', status: hasData ? 45 : 0, goals: okrs?.filter(o => o.eixo === 'Gestão de Inovação').length || 0 },
     { id: 'mkt', title: 'Gestão de Marketing', icon: Globe, color: 'text-primary', bg: 'bg-primary', status: hasData ? 60 : 0, goals: okrs?.filter(o => o.eixo === 'Gestão de Marketing').length || 0 },
-    { id: 'com', title: 'Gestão Comercial', icon: ShoppingBag, color: 'text-emerald-500', bg: 'bg-emerald-50/50', status: hasData ? 90 : 0, goals: okrs?.filter(o => o.eixo === 'Gestão Comercial').length || 0 },
+    { id: 'com', title: 'Gestão Comercial', icon: ShoppingBag, color: 'text-emerald-500', bg: 'bg-success-soft/50', status: hasData ? 90 : 0, goals: okrs?.filter(o => o.eixo === 'Gestão Comercial').length || 0 },
     { id: 'ope', title: 'Gestão Operacional', icon: Settings, color: 'text-orange-500', bg: 'bg-orange-50/50', status: hasData ? 88 : 0, goals: okrs?.filter(o => o.eixo === 'Gestão Operacional').length || 0 }
   ];
 

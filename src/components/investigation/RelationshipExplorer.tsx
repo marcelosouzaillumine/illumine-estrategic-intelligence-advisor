@@ -36,9 +36,9 @@ export const RelationshipExplorer: React.FC<RelationshipExplorerProps> = ({ node
                   {node.type}
                 </span>
                 <span className={`text-[10px] font-bold uppercase tracking-wider px-1.5 py-0.5 rounded ${
-                  node.confidence === 'VERIFIED' ? 'bg-emerald-500/10 text-emerald-400' :
+                  node.confidence === 'VERIFIED' ? 'bg-success-soft0/10 text-emerald-400' :
                   node.confidence === 'HIGH' ? 'bg-primary text-primary' :
-                  node.confidence === 'MEDIUM' ? 'bg-amber-500/10 text-amber-400' :
+                  node.confidence === 'MEDIUM' ? 'bg-warning-soft0/10 text-amber-400' :
                   'bg-surface-container-highest text-muted-foreground'
                 }`}>
                   {node.confidence}

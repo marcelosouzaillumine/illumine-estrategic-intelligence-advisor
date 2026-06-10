@@ -35,9 +35,9 @@ export const ImpactExplorer: React.FC<ImpactExplorerProps> = ({ impacts }) => {
             
             <div className="flex justify-between items-start mb-3 ml-2">
               <span className={`text-[9px] font-black uppercase px-2 py-0.5 rounded ${
-                impact.severity === 'CRITICAL' ? 'bg-rose-500/20 text-rose-400 border border-rose-500/30' :
+                impact.severity === 'CRITICAL' ? 'bg-critical-soft0/20 text-rose-400 border border-rose-500/30' :
                 impact.severity === 'HIGH' ? 'bg-orange-500/20 text-orange-400 border border-orange-500/30' :
-                impact.severity === 'MEDIUM' ? 'bg-amber-500/20 text-amber-400 border border-amber-500/30' :
+                impact.severity === 'MEDIUM' ? 'bg-warning-soft0/20 text-amber-400 border border-amber-500/30' :
                 'bg-surface-container-highest text-muted-foreground border border-border'
               }`}>
                 {impact.severity} IMPACT

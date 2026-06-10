@@ -52,10 +52,10 @@ export function ExportHistoryPanel({ exports, onDownloadReport, className }: Exp
                     <span className={cn(
                       "text-[9px] px-2 py-0.5 rounded border uppercase tracking-wider font-black",
                       exp.confidenceSnapshot === 'HIGH_CONFIDENCE' 
-                        ? "bg-emerald-50 text-emerald-700 border-emerald-100"
+                        ? "bg-success-soft text-emerald-700 border-emerald-100"
                         : exp.confidenceSnapshot === 'MEDIUM_CONFIDENCE'
                         ? "bg-blue-50 text-blue-700 border-blue-100"
-                        : "bg-rose-50 text-rose-700 border-rose-100"
+                        : "bg-critical-soft text-rose-700 border-rose-100"
                     )}>
                       {exp.confidenceSnapshot.replace('_CONFIDENCE', '')}
                     </span>

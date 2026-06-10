@@ -160,7 +160,7 @@ export function MaintenancePage({ clients }: { clients: any[] }) {
           <div className="relative z-10 text-left md:text-right bg-surface-container/30 backdrop-blur-md border border-border rounded-xl px-4 md:px-6 py-3 md:py-4 shadow-inner w-full sm:w-auto mt-4 sm:mt-0">
              <span className="text-[9px] md:text-[10px] font-medium text-muted-foreground uppercase tracking-widest block mb-1.5">Status do Firestore</span>
              <span className="text-success font-bold uppercase text-[9px] md:text-[10px] flex items-center sm:justify-end gap-2 tracking-widest">
-               <div className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse shadow-[0_0_8px_rgba(16,185,129,0.5)]"></div>
+               <div className="w-1.5 h-1.5 rounded-full bg-success-soft0 animate-pulse shadow-[0_0_8px_rgba(16,185,129,0.5)]"></div>
                Sincronizado
              </span>
           </div>
@@ -171,7 +171,7 @@ export function MaintenancePage({ clients }: { clients: any[] }) {
         {/* Pending Approvals Section */}
         {(role === 'master' || role === 'admin') && (
           <div className="bg-card border border-border rounded-3xl md:rounded-[32px] p-6 md:p-10 shadow-sm relative overflow-hidden">
-            <div className="absolute top-0 left-0 w-1 md:w-1.5 bg-amber-500 h-full" />
+            <div className="absolute top-0 left-0 w-1 md:w-1.5 bg-warning-soft0 h-full" />
             <div className="mb-8 md:mb-10">
               <h3 className="text-xl md:text-2xl font-black text-foreground font-display tracking-tight">Curadoria & Aprovações</h3>
               <p className="text-[9px] md:text-[10px] font-black text-muted-foreground uppercase tracking-[0.2em] md:tracking-[0.25em] mt-2">Documentos aguardando validação técnica</p>
@@ -193,7 +193,7 @@ export function MaintenancePage({ clients }: { clients: any[] }) {
                         <div className="min-w-0 w-full">
                           <div className="flex flex-wrap items-center gap-2 md:gap-3 mb-2">
                             <h4 className="text-base md:text-lg font-black text-foreground font-display tracking-tight truncate max-w-full">{doc.fileName}</h4>
-                            <span className="px-2 py-0.5 bg-amber-500/10 text-amber-500 border border-amber-500/20 text-[8px] font-black uppercase rounded-full shrink-0">Pendente</span>
+                            <span className="px-2 py-0.5 bg-warning-soft0/10 text-amber-500 border border-amber-500/20 text-[8px] font-black uppercase rounded-full shrink-0">Pendente</span>
                           </div>
                           <p className="text-[11px] md:text-xs font-bold text-muted-foreground mb-3 truncate">Cliente: {doc.clientName}</p>
                           <div className="flex flex-wrap gap-3 md:gap-4 text-[9px] md:text-[10px] font-black uppercase text-muted-foreground/60">
@@ -216,7 +216,7 @@ export function MaintenancePage({ clients }: { clients: any[] }) {
                         )}
                         <button 
                           onClick={() => handleReject(doc.id, doc)}
-                          className="flex-1 px-4 py-3 bg-rose-500/10 text-rose-500 border border-rose-500/20 rounded-xl text-[9px] font-black uppercase tracking-widest hover:bg-rose-500/20 transition-all"
+                          className="flex-1 px-4 py-3 bg-critical-soft0/10 text-rose-500 border border-rose-500/20 rounded-xl text-[9px] font-black uppercase tracking-widest hover:bg-critical-soft0/20 transition-all"
                         >
                           Rejeitar
                         </button>
@@ -279,7 +279,7 @@ export function MaintenancePage({ clients }: { clients: any[] }) {
 
                     <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3 md:gap-6 relative z-10 w-full md:w-auto mt-2 md:mt-0">
                       {status[client.id] === 'success' && (
-                        <div className="flex items-center gap-2 px-3 md:px-4 py-1.5 md:py-2 bg-emerald-500/10 text-emerald-500 rounded-full border border-emerald-500/20 animate-executive-fade justify-center">
+                        <div className="flex items-center gap-2 px-3 md:px-4 py-1.5 md:py-2 bg-success-soft0/10 text-emerald-500 rounded-full border border-emerald-500/20 animate-executive-fade justify-center">
                           <CheckCircle2 size={14} />
                           <span className="text-[9px] md:text-[10px] font-black uppercase tracking-widest">Sanitizado</span>
                         </div>

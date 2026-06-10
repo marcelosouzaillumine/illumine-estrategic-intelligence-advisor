@@ -53,7 +53,7 @@ export const GovernanceReadabilityPanel: React.FC = () => {
           </div>
           <div className="w-full bg-surface-container-high rounded-full h-1.5 overflow-hidden">
             <div 
-              className="h-1.5 rounded-full bg-emerald-500 transition-all duration-500"
+              className="h-1.5 rounded-full bg-success-soft0 transition-all duration-500"
               style={{ width: `${isFailClosed ? 0 : supervisionClarity}%` }}
             />
           </div>

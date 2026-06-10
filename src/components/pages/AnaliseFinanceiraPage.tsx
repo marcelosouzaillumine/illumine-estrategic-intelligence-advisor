@@ -222,7 +222,7 @@ export function AnaliseFinanceiraPage({ clients, selectedClient, selectedYear }:
           </div>
 
           {/* Temporal Scope Indicator (FYSIF) */}
-          <div className="flex items-center gap-2 px-4 py-2 border border-amber-200 bg-amber-50 rounded-xl shadow-sm">
+          <div className="flex items-center gap-2 px-4 py-2 border border-amber-200 bg-warning-soft rounded-xl shadow-sm">
             <Calendar size={14} className="text-amber-600" />
             <span className="text-[10px] font-black uppercase tracking-widest text-amber-800">
               Escopo Estrito: Até {year}
@@ -264,7 +264,7 @@ export function AnaliseFinanceiraPage({ clients, selectedClient, selectedYear }:
           <div className="shrink-0">
              <div className="w-20 h-20 rounded-[32px] bg-secondary/10 flex items-center justify-center text-secondary relative">
                 <Sparkles size={40} />
-                <div className="absolute -top-2 -right-2 w-6 h-6 bg-emerald-500 rounded-full border-4 border-white flex items-center justify-center">
+                <div className="absolute -top-2 -right-2 w-6 h-6 bg-success-soft0 rounded-full border-4 border-white flex items-center justify-center">
                   <div className="w-1.5 h-1.5 bg-white rounded-full animate-ping"></div>
                 </div>
              </div>

@@ -6,7 +6,7 @@ export class BalanceSheetExecutiveNarrativeEngine {
     
     if (!summary || summary.patrimonioLiquido === undefined) {
       return { 
-        text: 'Não foi possível gerar a narrativa executiva: falta de dados no sumário patrimonial.',
+        text: 'Contexto indisponível: falta de dados no sumário patrimonial.',
         narrativeMetadata: { generatedFromExercise: exerciseYear, generatedFromSummaryHash: summaryHash }
       };
     }

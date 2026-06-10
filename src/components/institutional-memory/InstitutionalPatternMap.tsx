@@ -33,7 +33,7 @@ export function InstitutionalPatternMap() {
               <span className={cn(
                 "px-2 py-0.5 text-[8px] font-black uppercase tracking-wider rounded border inline-block",
                 sig.recurrence === 'SYSTEMIC' || sig.recurrence === 'CHRONIC'
-                  ? "bg-rose-500/10 text-rose-500 border-rose-500/20 animate-pulse"
+                  ? "bg-critical-soft0/10 text-rose-500 border-rose-500/20 animate-pulse"
                   : "bg-surface-container border-border text-muted-foreground"
               )}>
                 {sig.recurrence}
@@ -53,7 +53,7 @@ export function InstitutionalPatternMap() {
                   className={cn(
                     "h-full rounded-full",
                     sig.recurrence === 'SYSTEMIC' || sig.recurrence === 'CHRONIC'
-                      ? "bg-rose-500"
+                      ? "bg-critical-soft0"
                       : "bg-secondary"
                   )}
                   style={{ width: `${Math.min((sig.frequencyCount / 5) * 100, 100)}%` }}

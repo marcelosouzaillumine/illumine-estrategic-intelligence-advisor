@@ -581,7 +581,7 @@ export function ManualFinancialModal({ type, clientId, year, onClose, onSuccess 
         {/* Content */}
         <div className="p-8 space-y-6 overflow-y-auto flex-1 min-h-0">
           {errorMsg && (
-            <div className="bg-rose-50 border border-rose-200 text-rose-600 px-4 py-3 rounded-xl flex items-start gap-3">
+            <div className="bg-critical-soft border border-rose-200 text-rose-600 px-4 py-3 rounded-xl flex items-start gap-3">
               <AlertCircle size={20} className="shrink-0 mt-0.5" />
               <p className="text-sm font-medium">{errorMsg}</p>
             </div>
@@ -724,7 +724,7 @@ export function ManualFinancialModal({ type, clientId, year, onClose, onSuccess 
                           </td>
                           <td className="py-2 px-2 text-center flex items-center justify-center gap-1">
                             {(!isLocked) && (
-                              <button onClick={() => removeRow(row.id)} className="p-1 text-rose-400 hover:text-rose-600 hover:bg-rose-50 rounded transition-all">
+                              <button onClick={() => removeRow(row.id)} className="p-1 text-rose-400 hover:text-rose-600 hover:bg-critical-soft rounded transition-all">
                                 <Trash2 size={16} />
                               </button>
                             )}

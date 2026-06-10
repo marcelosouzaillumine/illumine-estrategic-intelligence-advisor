@@ -41,7 +41,7 @@ export const ExecutiveQuickActions: React.FC = () => {
       icon: <Target size={20} />,
       targetWorkspace: 'WAR_ROOM',
       path: '/war-room',
-      color: 'text-amber-400 bg-amber-500/10 border-amber-500/20 hover:bg-amber-500/20'
+      color: 'text-amber-400 bg-warning-soft0/10 border-amber-500/20 hover:bg-warning-soft0/20'
     },
     {
       id: 'qa-time-machine',

@@ -59,7 +59,7 @@ export const CausalChainSurface: React.FC<CausalChainSurfaceProps> = ({
                   <span className={`text-xs font-bold px-2.5 py-1 rounded-lg border ${
                     edge.impactScore >= 80 
                       ? 'bg-red-500/10 text-red-400 border-red-500/20' 
-                      : 'bg-amber-500/10 text-amber-400 border-amber-500/20'
+                      : 'bg-warning-soft0/10 text-amber-400 border-amber-500/20'
                   }`}>
                     {edge.impactScore}%
                   </span>

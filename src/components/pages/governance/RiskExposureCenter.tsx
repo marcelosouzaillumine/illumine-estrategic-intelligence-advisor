@@ -111,10 +111,10 @@ export function RiskExposureCenter({ selectedClient, selectedYear }: RiskExposur
   };
 
   const getScoreBg = (val: number) => {
-    return val >= 85 ? 'bg-emerald-500/10 border-emerald-500/20 text-emerald-400' :
+    return val >= 85 ? 'bg-success-soft0/10 border-emerald-500/20 text-emerald-400' :
            val >= 70 ? 'bg-yellow-500/10 border-yellow-500/20 text-yellow-400' :
-           val >= 50 ? 'bg-amber-500/10 border-amber-500/20 text-amber-500' :
-           'bg-rose-500/10 border-rose-500/20 text-rose-500';
+           val >= 50 ? 'bg-warning-soft0/10 border-amber-500/20 text-amber-500' :
+           'bg-critical-soft0/10 border-rose-500/20 text-rose-500';
   };
 
   const getStatusLabel = (val: number) => {
@@ -172,7 +172,7 @@ export function RiskExposureCenter({ selectedClient, selectedYear }: RiskExposur
                 className={cn("h-1.5 rounded-full transition-all duration-1000", 
                   boardRiskScore >= 85 ? 'bg-emerald-400' :
                   boardRiskScore >= 70 ? 'bg-yellow-400' :
-                  boardRiskScore >= 50 ? 'bg-amber-500' : 'bg-rose-500'
+                  boardRiskScore >= 50 ? 'bg-warning-soft0' : 'bg-critical-soft0'
                 )}
                 style={{ width: `${boardRiskScore}%` }}
               ></div>
@@ -205,7 +205,7 @@ export function RiskExposureCenter({ selectedClient, selectedYear }: RiskExposur
                 className={cn("h-1.5 rounded-full transition-all duration-1000", 
                   bankingReadinessScore >= 85 ? 'bg-emerald-400' :
                   bankingReadinessScore >= 70 ? 'bg-sky-400' :
-                  bankingReadinessScore >= 50 ? 'bg-amber-500' : 'bg-rose-500'
+                  bankingReadinessScore >= 50 ? 'bg-warning-soft0' : 'bg-critical-soft0'
                 )}
                 style={{ width: `${bankingReadinessScore}%` }}
               ></div>
@@ -220,11 +220,11 @@ export function RiskExposureCenter({ selectedClient, selectedYear }: RiskExposur
             <div className="flex justify-between items-start mb-4">
               <span className="text-xs font-bold uppercase tracking-wider text-muted-foreground">Divergência: Caixa vs Lucro</span>
               {divergence.divergenceScore > 30 ? (
-                <span className="bg-rose-500/10 border-rose-500/20 text-rose-400 px-2 py-0.5 rounded text-[10px] font-bold uppercase tracking-wider border">
+                <span className="bg-critical-soft0/10 border-rose-500/20 text-rose-400 px-2 py-0.5 rounded text-[10px] font-bold uppercase tracking-wider border">
                   Alto Descompasso
                 </span>
               ) : (
-                <span className="bg-emerald-500/10 border-emerald-500/20 text-emerald-400 px-2 py-0.5 rounded text-[10px] font-bold uppercase tracking-wider border">
+                <span className="bg-success-soft0/10 border-emerald-500/20 text-emerald-400 px-2 py-0.5 rounded text-[10px] font-bold uppercase tracking-wider border">
                   Sincronia Estável
                 </span>
               )}

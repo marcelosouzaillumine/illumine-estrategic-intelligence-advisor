@@ -22,7 +22,7 @@ export function EnterpriseReadinessDashboard({ tenantId }: { tenantId: string })
         </div>
         <div className="text-right">
           <span className="text-[10px] text-muted-foreground uppercase font-bold block mb-1">Status</span>
-          <span className="px-3 py-1 bg-amber-500/10 text-amber-500 border border-amber-500/20 rounded font-bold">{readiness.status}</span>
+          <span className="px-3 py-1 bg-warning-soft0/10 text-amber-500 border border-amber-500/20 rounded font-bold">{readiness.status}</span>
         </div>
       </div>
       

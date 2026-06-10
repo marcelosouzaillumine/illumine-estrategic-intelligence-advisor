@@ -5,7 +5,7 @@ export function TrialModePanel({ isTrial, endDate }: { isTrial: boolean, endDate
   if (!isTrial) return null;
 
   return (
-    <div className="bg-amber-500/10 border border-amber-500/30 rounded-lg p-4 flex items-start gap-4">
+    <div className="bg-warning-soft0/10 border border-amber-500/30 rounded-lg p-4 flex items-start gap-4">
       <Timer className="text-amber-500 mt-0.5" />
       <div>
         <h3 className="text-sm font-semibold text-amber-500 uppercase tracking-widest">Trial Mode Active</h3>

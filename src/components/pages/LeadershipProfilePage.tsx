@@ -809,7 +809,7 @@ export function LeadershipProfilePage({ clientId }: { clientId: string }) {
                             setShowResults(true);
                             setActiveTab('analysis');
                           }}
-                          className="px-6 md:px-10 py-3 md:py-4 bg-emerald-500 text-white rounded-2xl text-xs font-black uppercase tracking-widest flex items-center gap-3 hover:shadow-xl hover:shadow-emerald-500/20 transition-all active:scale-95"
+                          className="px-6 md:px-10 py-3 md:py-4 bg-success-soft0 text-white rounded-2xl text-xs font-black uppercase tracking-widest flex items-center gap-3 hover:shadow-xl hover:shadow-emerald-500/20 transition-all active:scale-95"
                         >
                           Ver Resultados
                           <Zap size={16} fill="currentColor" />
@@ -918,7 +918,7 @@ export function LeadershipProfilePage({ clientId }: { clientId: string }) {
                         setShowResults(true);
                         setActiveTab('analysis');
                       }}
-                      className="px-6 md:px-10 py-3 md:py-4 bg-emerald-500 text-white rounded-2xl text-xs font-black uppercase tracking-widest flex items-center gap-3 hover:shadow-xl hover:shadow-emerald-500/20 transition-all active:scale-95"
+                      className="px-6 md:px-10 py-3 md:py-4 bg-success-soft0 text-white rounded-2xl text-xs font-black uppercase tracking-widest flex items-center gap-3 hover:shadow-xl hover:shadow-emerald-500/20 transition-all active:scale-95"
                     >
                       Finalizar Diagnóstico
                       <Zap size={16} fill="currentColor" />

@@ -298,12 +298,12 @@ export function ImportTransactionsModal({ collectionName, selectedClient, client
                 <p className="text-[10px] font-mono text-muted-foreground mt-2 bg-slate-50 px-2 py-1 rounded">ID do Cliente: {selectedClient}</p>
               </div>
               <div className="flex gap-4 mt-2">
-                <div className="text-center px-5 py-3 bg-emerald-50 border border-emerald-200 rounded-2xl">
+                <div className="text-center px-5 py-3 bg-success-soft border border-emerald-200 rounded-2xl">
                   <p className="text-2xl font-black text-emerald-600">{importResult.created}</p>
                   <p className="text-[10px] font-bold text-emerald-500 uppercase tracking-widest">Criados</p>
                 </div>
                 {importResult.deleted > 0 && (
-                  <div className="text-center px-5 py-3 bg-rose-50 border border-rose-200 rounded-2xl">
+                  <div className="text-center px-5 py-3 bg-critical-soft border border-rose-200 rounded-2xl">
                     <p className="text-2xl font-black text-rose-600">{importResult.deleted}</p>
                     <p className="text-[10px] font-bold text-rose-500 uppercase tracking-widest">Excluídos</p>
                   </div>
@@ -404,7 +404,7 @@ export function ImportTransactionsModal({ collectionName, selectedClient, client
                           'w-full flex items-start gap-3 p-4 rounded-2xl border text-left transition-all',
                           strategy === key
                             ? cfg.danger
-                              ? 'border-rose-400 bg-rose-50 ring-2 ring-rose-300/30'
+                              ? 'border-rose-400 bg-critical-soft ring-2 ring-rose-300/30'
                               : 'border-blue-400 bg-blue-50 ring-2 ring-blue-300/20'
                             : 'border-border bg-white hover:bg-slate-50'
                         )}
@@ -426,7 +426,7 @@ export function ImportTransactionsModal({ collectionName, selectedClient, client
                         <span className={cn(
                           'ml-auto mt-0.5 w-4 h-4 rounded-full border-2 shrink-0 transition-all',
                           strategy === key
-                            ? cfg.danger ? 'border-rose-500 bg-rose-500' : 'border-blue-500 bg-blue-500'
+                            ? cfg.danger ? 'border-rose-500 bg-critical-soft0' : 'border-blue-500 bg-blue-500'
                             : 'border-border'
                         )} />
                       </button>
@@ -436,7 +436,7 @@ export function ImportTransactionsModal({ collectionName, selectedClient, client
                   <div className={cn(
                     'p-3 rounded-xl border text-[11px] font-bold flex items-center gap-2',
                     strategy === 'replace_all'
-                      ? 'bg-rose-50 border-rose-200 text-rose-700'
+                      ? 'bg-critical-soft border-rose-200 text-rose-700'
                       : 'bg-slate-50 border-border text-muted-foreground'
                   )}>
                     {strategy === 'replace_all' && <AlertTriangle size={13} className="text-rose-500 shrink-0" />}
@@ -475,7 +475,7 @@ export function ImportTransactionsModal({ collectionName, selectedClient, client
               )}
 
               {validationWarnings.length > 0 && (
-                <div className="p-4 bg-rose-50 border border-rose-100 rounded-xl flex flex-col gap-2">
+                <div className="p-4 bg-critical-soft border border-rose-100 rounded-xl flex flex-col gap-2">
                   <div className="flex items-center gap-2">
                     <AlertTriangle size={18} className="text-rose-500 shrink-0" />
                     <p className="text-xs text-rose-700 font-bold uppercase">Staging Warnings ({validationWarnings.length})</p>
@@ -492,7 +492,7 @@ export function ImportTransactionsModal({ collectionName, selectedClient, client
               )}
 
               {error && (
-                <div className="p-4 bg-rose-50 border border-rose-100 rounded-xl flex items-start gap-3">
+                <div className="p-4 bg-critical-soft border border-rose-100 rounded-xl flex items-start gap-3">
                   <AlertTriangle size={18} className="text-rose-500 shrink-0 mt-0.5" />
                   <p className="text-xs text-rose-600 font-medium">{error}</p>
                 </div>

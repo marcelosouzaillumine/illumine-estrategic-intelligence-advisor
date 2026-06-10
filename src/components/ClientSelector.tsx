@@ -169,7 +169,7 @@ export function ClientSelector({
                           <div className="flex items-center gap-1.5 mt-1">
                             <div className={cn(
                               "w-1.5 h-1.5 rounded-full",
-                              client.status === 'Ativo' ? "bg-emerald-500" : "bg-rose-500"
+                              client.status === 'Ativo' ? "bg-success-soft0" : "bg-critical-soft0"
                             )} />
                             <span className="text-[8px] font-bold uppercase tracking-widest opacity-50">{client.status}</span>
                           </div>

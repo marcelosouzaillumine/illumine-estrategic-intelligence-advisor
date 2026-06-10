@@ -422,7 +422,7 @@ export function OrcamentoPage({
           <button 
             onClick={handleDuplicate}
             disabled={isSaving || budgets.filter(b => b.month === localMonth).length === 0}
-            className="px-4 md:px-6 py-2 md:py-2.5 bg-white border border-border text-emerald-600 rounded-2xl text-[10px] font-black uppercase tracking-widest hover:bg-emerald-50 transition-all flex items-center gap-2 shadow-sm disabled:opacity-50 h-[40px]"
+            className="px-4 md:px-6 py-2 md:py-2.5 bg-white border border-border text-emerald-600 rounded-2xl text-[10px] font-black uppercase tracking-widest hover:bg-success-soft transition-all flex items-center gap-2 shadow-sm disabled:opacity-50 h-[40px]"
           >
             <LayoutGrid size={14} /> DUPLICAR MÊS
           </button>
@@ -470,7 +470,7 @@ export function OrcamentoPage({
           <p className="text-3xl font-display font-black text-muted-foreground tracking-tighter">{filteredBudgets.length}</p>
         </div>
         <div className="bg-white p-8 rounded-[32px] border border-border shadow-sm relative overflow-hidden group">
-          <div className="absolute top-0 left-0 w-1 h-full bg-emerald-500" />
+          <div className="absolute top-0 left-0 w-1 h-full bg-success-soft0" />
           <p className="text-[10px] font-black text-muted-foreground uppercase tracking-widest mb-2">Referência</p>
           <div className="flex items-baseline gap-2">
             <span className="text-3xl font-display font-black text-muted-foreground tracking-tighter">
@@ -482,7 +482,7 @@ export function OrcamentoPage({
           </div>
         </div>
         <div className="bg-white p-8 rounded-[32px] border border-border shadow-sm relative overflow-hidden group">
-          <div className="absolute top-0 left-0 w-1 h-full bg-amber-500" />
+          <div className="absolute top-0 left-0 w-1 h-full bg-warning-soft0" />
           <p className="text-[10px] font-black text-muted-foreground uppercase tracking-widest mb-2">Principais CCs</p>
           <div className="flex flex-wrap gap-1 mt-1">
             {budgetsByCC.slice(0, 3).map(([cc]) => (
@@ -572,7 +572,7 @@ export function OrcamentoPage({
                             <button 
                               onClick={() => b.id && viewType === 'mensal' && handleDelete(b.id)}
                               disabled={viewType === 'anual'}
-                              className="p-2 text-muted-foreground hover:text-rose-600 hover:bg-rose-50 rounded-lg transition-all"
+                              className="p-2 text-muted-foreground hover:text-rose-600 hover:bg-critical-soft rounded-lg transition-all"
                             >
                               <Trash2 size={16} />
                             </button>

@@ -3,9 +3,20 @@ import { UniversalSearchHub } from './UniversalSearchHub';
 import { WorkspaceHubNavigation } from './WorkspaceHubNavigation';
 import { GuidedInvestigationCard, GuidedJourney } from './GuidedInvestigationCard';
 import { ExecutiveQuickActions } from './ExecutiveQuickActions';
-import { Search } from 'lucide-react';
+import { Search, Info } from 'lucide-react';
 
 export const ExecutiveHomeWorkspace: React.FC = () => {
+  const tenantId = 'SYSTEM_TENANT'; // Fallback for observability
+
+  if (!tenantId) {
+    return (
+      <div className="flex flex-col items-center justify-center min-h-[400px]">
+        <Info size={32} className="text-muted-foreground/60 mb-4" />
+        <p className="text-eyebrow text-muted-foreground uppercase tracking-widest">Contexto indisponível.</p>
+      </div>
+    );
+  }
+
   const journeys: GuidedJourney[] = [
     {
       id: 'journey-compliance',
@@ -49,7 +60,7 @@ export const ExecutiveHomeWorkspace: React.FC = () => {
         
         {/* Header bar with fake search trigger to visually show Universal Search */}
         <header className="h-16 border-b border-border bg-surface-container/60 backdrop-blur flex items-center px-8 justify-between">
-          <h1 className="text-h4 font-display font-medium text-foreground">Executive Home</h1>
+          <h1 className="text-h4 font-display font-medium text-foreground text-primary">Executive Home</h1>
           <div className="flex items-center gap-4">
             <button 
               className="flex items-center gap-2 px-4 py-2 bg-surface-container-high hover:bg-surface-container-highest rounded-lg text-muted-foreground text-sm transition-colors border border-border"

@@ -256,8 +256,8 @@ export function MessagesPage() {
                 <div className={cn(
                   "absolute left-0 top-1.5 w-9 h-9 rounded-xl flex items-center justify-center border-4 border-white dark:border-border shadow-sm z-10 transition-transform group-hover:scale-110",
                   entry.type === 'feature' ? "bg-secondary text-white" : 
-                  entry.type === 'improvement' ? "bg-emerald-500 text-white" : 
-                  "bg-rose-500 text-white"
+                  entry.type === 'improvement' ? "bg-success-soft0 text-white" : 
+                  "bg-critical-soft0 text-white"
                 )}>
                   {entry.type === 'feature' ? <Rocket size={16} /> : 
                    entry.type === 'improvement' ? <Zap size={16} /> : 
@@ -270,8 +270,8 @@ export function MessagesPage() {
                       <span className={cn(
                         "px-3 py-1 rounded-full text-[10px] font-black uppercase tracking-widest",
                         entry.type === 'feature' ? "bg-secondary/10 text-secondary" : 
-                        entry.type === 'improvement' ? "bg-emerald-500/10 text-emerald-600 dark:text-emerald-400" : 
-                        "bg-rose-500/10 text-rose-600 dark:text-rose-400"
+                        entry.type === 'improvement' ? "bg-success-soft0/10 text-emerald-600 dark:text-emerald-400" : 
+                        "bg-critical-soft0/10 text-rose-600 dark:text-rose-400"
                       )}>
                         {entry.type === 'feature' ? 'Nova Implementação' : 
                          entry.type === 'improvement' ? 'Ajuste' : 

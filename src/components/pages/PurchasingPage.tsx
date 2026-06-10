@@ -304,7 +304,7 @@ export function PurchasingPage({ clients, selectedClient }: { clients: any[], se
                           <span className="text-sm font-black text-emerald-600">+{formatCurrency(economy)}</span>
                           <div className={cn(
                             "w-1.5 h-1.5 rounded-full",
-                            economy > 1000 ? "bg-emerald-500 animate-pulse" : "bg-emerald-300"
+                            economy > 1000 ? "bg-success-soft0 animate-pulse" : "bg-emerald-300"
                           )} />
                         </div>
                         <span className="text-[9px] font-bold text-muted-foreground uppercase tracking-widest">Saving por Volume ({item.qtd} un.)</span>

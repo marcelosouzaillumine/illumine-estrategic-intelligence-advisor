@@ -12,7 +12,7 @@ export function SubscriptionStatusCard({ planName, status, isDemo }: { planName:
           <h3 className="text-sm font-semibold text-muted-foreground uppercase tracking-widest">Plano Atual</h3>
           <div className="text-2xl font-bold text-foreground flex items-center gap-2">
             {planName} 
-            {isDemo && <span className="text-[10px] bg-amber-500/20 text-amber-500 px-2 py-0.5 rounded uppercase font-bold tracking-widest border border-amber-500/20">Modo Demo</span>}
+            {isDemo && <span className="text-[10px] bg-warning-soft0/20 text-amber-500 px-2 py-0.5 rounded uppercase font-bold tracking-widest border border-amber-500/20">Modo Demo</span>}
           </div>
         </div>
       </div>

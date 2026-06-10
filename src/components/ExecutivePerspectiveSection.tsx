@@ -79,13 +79,13 @@ const pt = (key: string) => ENUM_PT[key] || key.replace(/_/g, ' ').replace(/^./,
 function inferManagementArea(action: string): { area: string; icon: any; color: string } {
   const lower = action.toLowerCase();
   if (lower.includes('receita') || lower.includes('comercial') || lower.includes('venda') || lower.includes('market') || lower.includes('faturamento') || lower.includes('cliente'))
-    return { area: 'Gestão Comercial', icon: TrendingUp, color: 'text-emerald-600 bg-emerald-50 border-emerald-200' };
+    return { area: 'Gestão Comercial', icon: TrendingUp, color: 'text-emerald-600 bg-success-soft border-emerald-200' };
   if (lower.includes('pessoa') || lower.includes('equipe') || lower.includes('liderança') || lower.includes('talent') || lower.includes('rh') || lower.includes('humano'))
     return { area: 'Gestão de Pessoas', icon: Users, color: 'text-blue-600 bg-blue-50 border-blue-200' };
   if (lower.includes('caixa') || lower.includes('liquid') || lower.includes('financ') || lower.includes('dívida') || lower.includes('cr') || lower.includes('capital') || lower.includes('investimento'))
     return { area: 'Gestão Financeira', icon: DollarSign, color: 'text-primary-600 bg-primary-50 border-primary-200' };
   if (lower.includes('operac') || lower.includes('processo') || lower.includes('eficiên') || lower.includes('produt') || lower.includes('estrutura') || lower.includes('escala'))
-    return { area: 'Gestão Operacional', icon: Layers, color: 'text-amber-600 bg-amber-50 border-amber-200' };
+    return { area: 'Gestão Operacional', icon: Layers, color: 'text-amber-600 bg-warning-soft border-amber-200' };
   if (lower.includes('estratég') || lower.includes('posicion') || lower.includes('mercado') || lower.includes('competi') || lower.includes('inovaç'))
     return { area: 'Gestão Estratégica', icon: Target, color: 'text-primary bg-primary border-primary' };
   return { area: 'Governança Corporativa', icon: BarChart2, color: 'text-muted-foreground bg-slate-50 border-border' };
@@ -296,9 +296,9 @@ export function ExecutivePerspectiveSection({
                     {intelligenceReport.institutionalContext.segmentConfidence && (
                       <span className={cn(
                         "text-[8px] font-bold px-1.5 py-0.5 rounded-sm border uppercase tracking-wider",
-                        intelligenceReport.institutionalContext.segmentConfidence.confidence >= 0.8 ? "bg-emerald-50 text-emerald-600 border-emerald-200" :
-                        intelligenceReport.institutionalContext.segmentConfidence.confidence >= 0.5 ? "bg-amber-50 text-amber-600 border-amber-200" :
-                        "bg-rose-50 text-rose-600 border-rose-200"
+                        intelligenceReport.institutionalContext.segmentConfidence.confidence >= 0.8 ? "bg-success-soft text-emerald-600 border-emerald-200" :
+                        intelligenceReport.institutionalContext.segmentConfidence.confidence >= 0.5 ? "bg-warning-soft text-amber-600 border-amber-200" :
+                        "bg-critical-soft text-rose-600 border-rose-200"
                       )}>
                         {intelligenceReport.institutionalContext.segmentConfidence.inferenceMode === 'direct' ? 'Exato' : 
                          intelligenceReport.institutionalContext.segmentConfidence.inferenceMode === 'heuristic' ? 'Inferido' : 'Genérico'}
@@ -517,10 +517,10 @@ export function ExecutivePerspectiveSection({
                 return (
                   <div key={idx} className={cn(
                     "rounded-2xl p-5 border hover:shadow-md transition-all group",
-                    action.mgmt.color.includes('emerald') ? 'bg-emerald-50/60 border-emerald-200/70 hover:border-emerald-300' :
+                    action.mgmt.color.includes('emerald') ? 'bg-success-soft/60 border-emerald-200/70 hover:border-emerald-300' :
                     action.mgmt.color.includes('blue') ? 'bg-blue-50/60 border-blue-200/70 hover:border-blue-300' :
                     action.mgmt.color.includes('primary') ? 'bg-primary-50/60 border-primary-200/70 hover:border-primary-300' :
-                    action.mgmt.color.includes('amber') ? 'bg-amber-50/60 border-amber-200/70 hover:border-amber-300' :
+                    action.mgmt.color.includes('amber') ? 'bg-warning-soft/60 border-amber-200/70 hover:border-amber-300' :
                     action.mgmt.color.includes('indigo') ? 'bg-accent border-accent hover:border-accent' :
                     'bg-slate-50/60 border-border hover:border-border'
                   )}>
@@ -579,7 +579,7 @@ export function ExecutivePerspectiveSection({
         {(blockedFalsePositives.length > 0 || causalConflicts.length > 0) && (
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             {blockedFalsePositives.length > 0 && (
-              <div className="bg-rose-50 border border-rose-100 rounded-2xl p-6">
+              <div className="bg-critical-soft border border-rose-100 rounded-2xl p-6">
                 <div className="flex items-center gap-2 text-rose-600 mb-4">
                   <ShieldCheck size={16} />
                   <span className="text-[10px] font-black uppercase tracking-widest">Falsos Positivos Bloqueados</span>
@@ -593,7 +593,7 @@ export function ExecutivePerspectiveSection({
             )}
 
             {causalConflicts.length > 0 && (
-              <div className="bg-amber-50 border border-amber-100 rounded-2xl p-6">
+              <div className="bg-warning-soft border border-amber-100 rounded-2xl p-6">
                 <div className="flex items-center gap-2 text-amber-600 mb-4">
                   <AlertTriangle size={16} />
                   <span className="text-[10px] font-black uppercase tracking-widest">Conflitos Causais Resolvidos</span>

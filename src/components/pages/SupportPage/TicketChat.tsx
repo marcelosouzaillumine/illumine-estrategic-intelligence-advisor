@@ -126,7 +126,7 @@ export const TicketChat: React.FC<TicketChatProps> = ({ ticket, isMaster, onClos
           <div className="flex flex-wrap items-center gap-4 text-[10px] font-medium uppercase tracking-widest italic text-muted-foreground">
             <span className="px-3 py-1 bg-surface-container rounded-sm border border-border">Protocolo: {ticket.protocolo}</span>
             
-            <div className={cn("flex items-center gap-2 px-3 py-1 rounded-sm border", isOver24h && ticket.status !== 'resolved' && ticket.status !== 'closed' ? "bg-destructive/10 text-destructive border-destructive/20" : "bg-surface-container border-border")}>
+            <div className={cn("flex items-center gap-2 px-3 py-1 rounded-sm border", isOver24h && ticket.status !== 'resolved' && ticket.status !== 'closed' ? "bg-critical-soft text-destructive border-destructive/20" : "bg-surface-container border-border")}>
               <Clock size={12} />
               <span>Aberto há {timeOpen}</span>
             </div>

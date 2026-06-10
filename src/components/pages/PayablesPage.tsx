@@ -338,7 +338,7 @@ export function PayablesPage({ clients, selectedClient, isMaster }: { clients: a
               <h3 className="text-sm font-bold text-muted-foreground">Fluxo de Vencimentos</h3>
               <p className="text-[10px] text-muted-foreground font-bold uppercase tracking-widest mt-1">Projeção por Semana (Mês Atual)</p>
              </div>
-             <div className="p-2 bg-emerald-50 rounded-xl">
+             <div className="p-2 bg-success-soft rounded-xl">
                <TrendingUp size={18} className="text-emerald-500" />
              </div>
           </div>
@@ -459,8 +459,8 @@ export function PayablesPage({ clients, selectedClient, isMaster }: { clients: a
                     <td className="px-5 md:px-8 py-2.5 md:py-4 text-center">
                       <span className={cn(
                         "text-[10px] px-3 py-1 rounded-full uppercase tracking-tighter",
-                        item.status === 'Pago' ? "bg-emerald-50 text-emerald-600 border border-emerald-100" :
-                        item.status === 'Em atraso' ? "bg-rose-50 text-rose-600 border border-rose-100" :
+                        item.status === 'Pago' ? "bg-success-soft text-emerald-600 border border-emerald-100" :
+                        item.status === 'Em atraso' ? "bg-critical-soft text-rose-600 border border-rose-100" :
                         "bg-blue-50 text-blue-600 border border-blue-100"
                       )}>
                         {item.status}
@@ -476,7 +476,7 @@ export function PayablesPage({ clients, selectedClient, isMaster }: { clients: a
                         </button>
                         <button 
                           onClick={() => handleDelete(item.id)}
-                          className="p-2 text-muted-foreground hover:text-rose-600 hover:bg-rose-50 rounded-lg transition-all"
+                          className="p-2 text-muted-foreground hover:text-rose-600 hover:bg-critical-soft rounded-lg transition-all"
                         >
                           <Trash2 size={16} />
                         </button>

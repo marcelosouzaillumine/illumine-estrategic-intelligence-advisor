@@ -113,7 +113,7 @@ export function ExecutiveExecutionCenter({ selectedClient, selectedYear }: Execu
             </div>
           )}
           {isSmallOrg && (
-            <div className="flex items-center gap-2 px-3 py-1.5 bg-emerald-50 border border-emerald-200 text-emerald-800 rounded-xl text-xs font-semibold">
+            <div className="flex items-center gap-2 px-3 py-1.5 bg-success-soft border border-emerald-200 text-emerald-800 rounded-xl text-xs font-semibold">
               <Info size={14} /> Penalidades de PME Atenuadas (50%)
             </div>
           )}
@@ -125,7 +125,7 @@ export function ExecutiveExecutionCenter({ selectedClient, selectedYear }: Execu
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           {/* Overdue Escalation Alerts */}
           {escalations.length > 0 && (
-            <div className="bg-rose-50 border border-rose-200 text-rose-950 p-6 rounded-3xl space-y-3">
+            <div className="bg-critical-soft border border-rose-200 text-rose-950 p-6 rounded-3xl space-y-3">
               <div className="flex items-center gap-2 text-rose-800 font-bold text-sm">
                 <AlertCircle size={18} />
                 <span>Protocolo de Escalonamento Ativo ({escalations.length})</span>
@@ -145,7 +145,7 @@ export function ExecutiveExecutionCenter({ selectedClient, selectedYear }: Execu
 
           {/* Strategic Execution Gaps */}
           {strategicGaps.length > 0 && (
-            <div className="bg-amber-50 border border-amber-200 text-amber-950 p-6 rounded-3xl space-y-3">
+            <div className="bg-warning-soft border border-amber-200 text-amber-950 p-6 rounded-3xl space-y-3">
               <div className="flex items-center gap-2 text-amber-800 font-bold text-sm">
                 <AlertTriangle size={18} />
                 <span>Lacunas de Execução Estratégica (Strategic Gaps)</span>
@@ -181,7 +181,7 @@ export function ExecutiveExecutionCenter({ selectedClient, selectedYear }: Execu
             <div 
               className={cn(
                 "h-full rounded-full transition-all duration-500",
-                eesScore >= 85 ? "bg-emerald-500" : eesScore >= 70 ? "bg-blue-500" : eesScore >= 50 ? "bg-amber-500" : "bg-rose-500"
+                eesScore >= 85 ? "bg-success-soft0" : eesScore >= 70 ? "bg-blue-500" : eesScore >= 50 ? "bg-warning-soft0" : "bg-critical-soft0"
               )}
               style={{ width: `${eesScore}%` }}
             />
@@ -213,7 +213,7 @@ export function ExecutiveExecutionCenter({ selectedClient, selectedYear }: Execu
             <div 
               className={cn(
                 "h-full rounded-full transition-all duration-500",
-                dphs >= 75 ? "bg-emerald-500" : dphs >= 50 ? "bg-amber-500" : "bg-rose-500"
+                dphs >= 75 ? "bg-success-soft0" : dphs >= 50 ? "bg-warning-soft0" : "bg-critical-soft0"
               )}
               style={{ width: `${dphs}%` }}
             />
@@ -237,7 +237,7 @@ export function ExecutiveExecutionCenter({ selectedClient, selectedYear }: Execu
             <div 
               className={cn(
                 "h-full rounded-full transition-all duration-500",
-                iddsLevel === 'CRITICAL' ? "bg-rose-500" : iddsLevel === 'HIGH' ? "bg-amber-500" : "bg-emerald-500"
+                iddsLevel === 'CRITICAL' ? "bg-critical-soft0" : iddsLevel === 'HIGH' ? "bg-warning-soft0" : "bg-success-soft0"
               )}
               style={{ width: `${iddsScore}%` }}
             />
@@ -260,7 +260,7 @@ export function ExecutiveExecutionCenter({ selectedClient, selectedYear }: Execu
             <div 
               className={cn(
                 "h-full rounded-full transition-all duration-500",
-                capacityForecast === 'HIGH' ? "bg-emerald-500" : capacityForecast === 'MODERATE' ? "bg-blue-500" : "bg-rose-500"
+                capacityForecast === 'HIGH' ? "bg-success-soft0" : capacityForecast === 'MODERATE' ? "bg-blue-500" : "bg-critical-soft0"
               )}
               style={{ width: capacityForecast === 'HIGH' ? '100%' : capacityForecast === 'MODERATE' ? '65%' : '30%' }}
             />
@@ -440,7 +440,7 @@ export function ExecutiveExecutionCenter({ selectedClient, selectedYear }: Execu
                               )}
 
                               {dec.abandonmentJustification && (
-                                <div className="p-3 bg-amber-50 border border-amber-100 rounded-xl space-y-1.5 mt-2">
+                                <div className="p-3 bg-warning-soft border border-amber-100 rounded-xl space-y-1.5 mt-2">
                                   <p className="font-bold text-amber-900">Justificativa de Cancelamento/Superação:</p>
                                   <p className="text-amber-800 text-[11px]">"{dec.abandonmentJustification.reason}"</p>
                                   <p className="text-[10px] text-amber-700">Autoridade de aprovação: <b>{dec.abandonmentJustification.approvingAuthority}</b></p>

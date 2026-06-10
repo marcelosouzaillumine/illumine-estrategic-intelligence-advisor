@@ -21,8 +21,8 @@ export const RuntimeStabilitySurface: React.FC = () => {
       <div className="flex justify-between items-center border-b border-border/40 pb-3">
         <span className="text-[10px] font-mono font-bold tracking-widest text-secondary uppercase block">RUNTIME STABILITY SURFACE</span>
         <div className={`px-2.5 py-0.5 rounded-full border text-[9px] font-black uppercase tracking-wider ${
-          isFailClosed ? 'text-rose-500 bg-rose-500/10 border-rose-500/25' :
-          runtimeStability > 95 ? 'text-emerald-500 bg-emerald-500/10 border-emerald-500/25' : 'text-amber-500 bg-amber-500/10 border-amber-500/25'
+          isFailClosed ? 'text-rose-500 bg-critical-soft0/10 border-rose-500/25' :
+          runtimeStability > 95 ? 'text-emerald-500 bg-success-soft0/10 border-emerald-500/25' : 'text-amber-500 bg-warning-soft0/10 border-amber-500/25'
         }`}>
           {isFailClosed ? 'FAIL CLOSED' : `${runtimeStability}% STATUS`}
         </div>

@@ -102,7 +102,7 @@ export function MappingWizard({ selectedClient, onClose }: any) {
                 <p className="text-sm font-bold text-muted-foreground">Analisando documentos...</p>
               </div>
             ) : unmappedEntries.length === 0 ? (
-              <div className="py-20 text-center bg-emerald-50 rounded-2xl border border-emerald-100">
+              <div className="py-20 text-center bg-success-soft rounded-2xl border border-emerald-100">
                 <CheckCircle2 size={40} className="text-emerald-500 mx-auto mb-2" />
                 <p className="text-xs text-emerald-600 px-6">Todos os itens de documentos já estão mapeados.</p>
               </div>

@@ -47,12 +47,12 @@ export const GovernanceDataDependencyPanel: React.FC = () => {
                   <span className="text-[10px] text-muted-foreground font-mono">{t("overlays.sync")} {dep.updatedAt}</span>
                 )}
                 {isAvailable ? (
-                  <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-xl text-[9px] font-black uppercase tracking-widest bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">
+                  <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-xl text-[9px] font-black uppercase tracking-widest bg-success-soft0/10 text-emerald-400 border border-emerald-500/20">
                     <CheckCircle2 className="w-3.5 h-3.5" />
                     Ativo
                   </span>
                 ) : isStale ? (
-                  <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-xl text-[9px] font-black uppercase tracking-widest bg-amber-500/10 text-amber-400 border border-amber-500/20">
+                  <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-xl text-[9px] font-black uppercase tracking-widest bg-warning-soft0/10 text-amber-400 border border-amber-500/20">
                     <AlertOctagon className="w-3.5 h-3.5" />
                     Obsoleto
                   </span>

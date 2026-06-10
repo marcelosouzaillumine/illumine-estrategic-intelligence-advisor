@@ -1171,7 +1171,7 @@ export function EstruturaGovernancaPage({ clientId }: { clientId: string }) {
                               <div className="flex items-center gap-4">
                                 <div className={cn(
                                   "w-2 h-2 rounded-full",
-                                  gap.severity === 'high' ? "bg-rose-500 animate-pulse" : "bg-amber-500"
+                                  gap.severity === 'high' ? "bg-critical-soft0 animate-pulse" : "bg-warning-soft0"
                                 )} />
                                 <div>
                                   <p className="text-xs font-black">Traço: {gap.trait === 'D' ? 'Domínio' : gap.trait === 'I' ? 'Influência' : gap.trait === 'S' ? 'Estabilidade' : 'Cautela'}</p>
@@ -1186,7 +1186,7 @@ export function EstruturaGovernancaPage({ clientId }: { clientId: string }) {
                           ))}
                           {analysis?.discGaps.length === 0 && (
                             <div className="flex flex-col items-center justify-center py-10 text-center space-y-4">
-                              <div className="w-16 h-16 bg-emerald-500/20 rounded-full flex items-center justify-center text-emerald-400">
+                              <div className="w-16 h-16 bg-success-soft0/20 rounded-full flex items-center justify-center text-emerald-400">
                                 <CheckCircle2 size={32} />
                               </div>
                               <p className="text-sm font-bold">Perfil Altamente Alinhado</p>

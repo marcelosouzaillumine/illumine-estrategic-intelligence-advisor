@@ -49,15 +49,15 @@ export const ScenarioCatalog: React.FC<ScenarioCatalogProps> = ({ scenarios, act
             }}
             className={`w-full text-left p-3 rounded-xl border transition-all ${
               activeScenarioId === scenario.id 
-                ? 'bg-amber-500/10 border-amber-500/30 shadow-[0_0_15px_rgba(245,158,11,0.05)]' 
+                ? 'bg-warning-soft0/10 border-amber-500/30 shadow-[0_0_15px_rgba(245,158,11,0.05)]' 
                 : 'bg-surface-container/40 border-border/50 hover:bg-surface-container hover:border-border-hover'
             }`}
           >
             <div className="flex justify-between items-start mb-2">
               <span className={`text-[9px] font-black uppercase px-2 py-0.5 rounded-full ${
-                scenario.confidenceLevel === 'HIGH' ? 'bg-emerald-500/10 text-emerald-400' :
-                scenario.confidenceLevel === 'MEDIUM' ? 'bg-amber-500/10 text-amber-400' :
-                'bg-rose-500/10 text-rose-400'
+                scenario.confidenceLevel === 'HIGH' ? 'bg-success-soft0/10 text-emerald-400' :
+                scenario.confidenceLevel === 'MEDIUM' ? 'bg-warning-soft0/10 text-amber-400' :
+                'bg-critical-soft0/10 text-rose-400'
               }`}>
                 {scenario.confidenceLevel} Confiança
               </span>

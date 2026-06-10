@@ -49,7 +49,7 @@ export const RuntimeHealthPanel: React.FC = () => {
           <div className="text-xl font-bold font-mono text-muted-foreground">{integrityPercentage}%</div>
           <div className="w-full bg-slate-950 rounded-full h-1 overflow-hidden">
             <div
-              className={`h-1 rounded-full transition-all duration-500 ${status === 'FAIL_CLOSED' ? 'bg-rose-500' : integrityPercentage < 80 ? 'bg-amber-500' : 'bg-emerald-500'}`}
+              className={`h-1 rounded-full transition-all duration-500 ${status === 'FAIL_CLOSED' ? 'bg-critical-soft0' : integrityPercentage < 80 ? 'bg-warning-soft0' : 'bg-success-soft0'}`}
               style={{ width: `${integrityPercentage}%` }}
             />
           </div>

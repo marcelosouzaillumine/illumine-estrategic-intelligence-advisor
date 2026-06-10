@@ -676,7 +676,7 @@ export function PortfolioPage({ clients, onSelectClient, isPartner, userPartnerI
                   {activeRealPortfolioData.some(c => c.industry.toLowerCase().includes('indúst') || c.industry.toLowerCase().includes('fabr')) && (
                     <div className="flex items-center justify-between p-4 bg-background rounded-button border border-border shadow-sm">
                       <div className="flex items-center gap-3">
-                        <div className="w-8 h-8 rounded-button bg-success/10 text-success flex items-center justify-center"><ShieldCheck size={16} /></div>
+                        <div className="w-8 h-8 rounded-button bg-success-soft text-success flex items-center justify-center"><ShieldCheck size={16} /></div>
                         <span className="text-body-sm font-medium uppercase text-muted-foreground tracking-tight">Setor Industrial</span>
                       </div>
                       <span className="text-body-sm font-medium text-success">Complexidade Alta</span>
@@ -685,7 +685,7 @@ export function PortfolioPage({ clients, onSelectClient, isPartner, userPartnerI
                   {stats.impactPercentage > 0 && (
                     <div className="flex items-center justify-between p-4 bg-background rounded-button border border-border shadow-sm">
                       <div className="flex items-center gap-3">
-                        <div className="w-8 h-8 rounded-button bg-destructive/10 text-destructive flex items-center justify-center"><AlertCircle size={16} /></div>
+                        <div className="w-8 h-8 rounded-button bg-critical-soft text-destructive flex items-center justify-center"><AlertCircle size={16} /></div>
                         <span className="text-body-sm font-medium uppercase text-muted-foreground tracking-tight">Serviços / Tech</span>
                       </div>
                       <span className="text-body-sm font-medium text-destructive">Impacto Direto IVA-S</span>
@@ -791,7 +791,7 @@ export function PortfolioPage({ clients, onSelectClient, isPartner, userPartnerI
         </div>
       ) : viewMode === 'model' ? (
         <div className="space-y-8 animate-executive-fade">
-          <div className="bg-warning/10 border border-warning/20 rounded-card p-6 md:p-8 flex flex-col sm:flex-row items-start gap-4 md:gap-6">
+          <div className="bg-warning-soft border border-warning/20 rounded-card p-6 md:p-8 flex flex-col sm:flex-row items-start gap-4 md:gap-6">
             <div className="w-12 h-12 rounded-button bg-warning text-white flex items-center justify-center shadow-lg shadow-warning/20 shrink-0">
               <Sparkles size={24} />
             </div>
@@ -933,11 +933,11 @@ export function PortfolioPage({ clients, onSelectClient, isPartner, userPartnerI
                               Pendente
                             </div>
                           ) : client.criticalAlerts > 0 ? (
-                            <div className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-sm bg-rose-500/10 text-rose-500 border border-rose-500/20 text-[10px] font-bold uppercase tracking-widest">
+                            <div className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-sm bg-critical-soft0/10 text-rose-500 border border-rose-500/20 text-[10px] font-bold uppercase tracking-widest">
                               <AlertCircle size={12} /> {client.criticalAlerts} Críticos
                             </div>
                           ) : (
-                            <div className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-sm bg-emerald-500/10 text-emerald-500 border border-emerald-500/20 text-[10px] font-bold uppercase tracking-widest">
+                            <div className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-sm bg-success-soft0/10 text-emerald-500 border border-emerald-500/20 text-[10px] font-bold uppercase tracking-widest">
                               <CheckCircle2 size={12} /> Saudável
                             </div>
                           )}

@@ -52,7 +52,7 @@ export function RuntimePerformancePage() {
 
         <div className="card-premium p-8 space-y-4">
           <div className="flex items-center gap-3">
-            <div className="w-8 h-8 rounded-md bg-success/10 flex items-center justify-center text-success">
+            <div className="w-8 h-8 rounded-md bg-success-soft flex items-center justify-center text-success">
               <Database size={16} />
             </div>
             <h3 className="text-h3 font-medium text-foreground tracking-tight">Query Performance</h3>

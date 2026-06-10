@@ -338,7 +338,7 @@ export function DocumentCurationModal({ isOpen, onClose, document: docItem, clie
               <div className="space-y-3">
                 <h4 className="text-xs font-bold text-muted-foreground uppercase tracking-widest mb-2">Gateways de Integração</h4>
                 
-                <div className={cn("p-3 rounded-xl border flex gap-3", hasLowConfidence ? "bg-red-50 border-red-100 text-red-700" : "bg-emerald-50 border-emerald-100 text-emerald-700")}>
+                <div className={cn("p-3 rounded-xl border flex gap-3", hasLowConfidence ? "bg-red-50 border-red-100 text-red-700" : "bg-success-soft border-emerald-100 text-emerald-700")}>
                   {hasLowConfidence ? <AlertTriangle size={18} /> : <CheckCircle2 size={18} />}
                   <div>
                     <p className="text-xs font-bold">Confiança da Extração</p>
@@ -346,7 +346,7 @@ export function DocumentCurationModal({ isOpen, onClose, document: docItem, clie
                   </div>
                 </div>
 
-                <div className={cn("p-3 rounded-xl border flex gap-3", hasCnpjMismatch ? "bg-red-50 border-red-100 text-red-700" : "bg-emerald-50 border-emerald-100 text-emerald-700")}>
+                <div className={cn("p-3 rounded-xl border flex gap-3", hasCnpjMismatch ? "bg-red-50 border-red-100 text-red-700" : "bg-success-soft border-emerald-100 text-emerald-700")}>
                   {hasCnpjMismatch ? <AlertTriangle size={18} /> : <CheckCircle2 size={18} />}
                   <div>
                     <p className="text-xs font-bold">Autenticidade (CNPJ)</p>
@@ -356,7 +356,7 @@ export function DocumentCurationModal({ isOpen, onClose, document: docItem, clie
                   </div>
                 </div>
 
-                <div className={cn("p-3 rounded-xl border flex gap-3", isDuplicate ? "bg-red-50 border-red-100 text-red-700" : "bg-emerald-50 border-emerald-100 text-emerald-700")}>
+                <div className={cn("p-3 rounded-xl border flex gap-3", isDuplicate ? "bg-red-50 border-red-100 text-red-700" : "bg-success-soft border-emerald-100 text-emerald-700")}>
                   {isDuplicate ? <AlertTriangle size={18} /> : <CheckCircle2 size={18} />}
                   <div>
                     <p className="text-xs font-bold">Duplicidade</p>
@@ -364,7 +364,7 @@ export function DocumentCurationModal({ isOpen, onClose, document: docItem, clie
                   </div>
                 </div>
 
-                <div className={cn("p-3 rounded-xl border flex gap-3", hasUnmappedAccounts ? "bg-amber-50 border-amber-100 text-amber-700" : "bg-emerald-50 border-emerald-100 text-emerald-700")}>
+                <div className={cn("p-3 rounded-xl border flex gap-3", hasUnmappedAccounts ? "bg-warning-soft border-amber-100 text-amber-700" : "bg-success-soft border-emerald-100 text-emerald-700")}>
                   {hasUnmappedAccounts ? <AlertTriangle size={18} /> : <CheckCircle2 size={18} />}
                   <div>
                     <p className="text-xs font-bold">De-Para Estrutural</p>
@@ -429,7 +429,7 @@ export function DocumentCurationModal({ isOpen, onClose, document: docItem, clie
                         const isMapped = !!mappings[entry.category];
                         
                         return (
-                          <div key={eIdx} className={cn("grid grid-cols-[1fr_200px_150px] gap-4 items-center p-2 rounded-lg border", isMapped ? "bg-card border-border" : "bg-amber-50/50 border-amber-100")}>
+                          <div key={eIdx} className={cn("grid grid-cols-[1fr_200px_150px] gap-4 items-center p-2 rounded-lg border", isMapped ? "bg-card border-border" : "bg-warning-soft/50 border-amber-100")}>
                             {/* Conta Original */}
                             <div className="truncate text-xs font-medium text-foreground" title={entry.category}>
                               {entry.category}

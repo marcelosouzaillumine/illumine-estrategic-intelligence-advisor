@@ -2,8 +2,20 @@
 @import "tailwindcss";
 
 @theme {
+  /* 
+    ========================================================================
+    ILLUMINE GOVERNANCE OS - VISUAL CONSTITUTION (Phase 0)
+    ========================================================================
+    This file (index.css) and docs/visual-constitution.md are the ONLY 
+    authorized sources for visual identity.
+    
+    FUNDAMENTAL PRINCIPLE:
+    No component or page may define fixed colors, typography, or spacing
+    when a corresponding token exists. All components must inherit from 
+    these primitives.
+    ========================================================================
+  */
   /* Illumine Design System - Atomization & Tokenization v2.2 */
-  
   /* Typography - Professional and Purposeful Voice */
   --font-display: "graphikMedium", "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
   --font-sans: "graphikRegular", "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
@@ -41,10 +53,16 @@
   
   /* Text Semantic Tokens */
   --color-text-primary: #0E1C2C;
-  --color-text-secondary: #6B7280;
+  --color-text-secondary: #475569;
   --color-text-inverse: #FFFFFF;
-  --color-text-muted: #6B7280;
+  --color-text-muted: #64748B;
   --color-text-disabled: #9CA3AF;
+  
+  /* Semantic Soft Backgrounds */
+  --color-insight-soft: rgba(186, 184, 108, 0.14);
+  --color-warning-soft: rgba(200, 169, 74, 0.16);
+  --color-critical-soft: rgba(208, 29, 28, 0.08);
+  --color-success-soft: rgba(12, 122, 58, 0.12);
 
   /* Icon Semantic Tokens */
   --color-icon-primary: #0E1C2C;
@@ -157,10 +175,14 @@
   --color-executive: #0E1C2C;
   --color-executive-foreground: #FFFFFF;
   --color-text-primary: #0E1C2C;
-  --color-text-secondary: #6B7280;
+  --color-text-secondary: #475569;
   --color-text-inverse: #FFFFFF;
-  --color-text-muted: #6B7280;
+  --color-text-muted: #64748B;
   --color-text-disabled: #9CA3AF;
+  --color-insight-soft: rgba(186, 184, 108, 0.14);
+  --color-warning-soft: rgba(200, 169, 74, 0.16);
+  --color-critical-soft: rgba(208, 29, 28, 0.08);
+  --color-success-soft: rgba(12, 122, 58, 0.12);
 }
 
 .dark {
@@ -182,10 +204,14 @@
   --color-executive: #111F30;
   --color-executive-foreground: #FFFFFF;
   --color-text-primary: #FFFFFF;
-  --color-text-secondary: #A1A9B3;
+  --color-text-secondary: #CBD5E1;
   --color-text-inverse: #0E1C2C;
-  --color-text-muted: #A1A9B3;
+  --color-text-muted: #94A3B8;
   --color-text-disabled: #6B7280;
+  --color-insight-soft: rgba(186, 184, 108, 0.10);
+  --color-warning-soft: rgba(200, 169, 74, 0.12);
+  --color-critical-soft: rgba(208, 29, 28, 0.12);
+  --color-success-soft: rgba(12, 122, 58, 0.10);
   
   /* Surface Variants in Dark Mode */
   --color-surface-low: #0A1420;

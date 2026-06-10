@@ -177,7 +177,7 @@ export function ExecutiveCommentary({ reportType, clientId, year, month, default
           <div className="flex justify-end gap-4">
             <button 
               onClick={handleDelete}
-              className="h-12 px-6 rounded-full bg-white border border-rose-200 text-rose-500 text-[10px] font-black uppercase tracking-widest hover:bg-rose-50 transition-colors"
+              className="h-12 px-6 rounded-full bg-white border border-rose-200 text-rose-500 text-[10px] font-black uppercase tracking-widest hover:bg-critical-soft transition-colors"
             >
               Excluir
             </button>
@@ -228,7 +228,7 @@ export function ExecutiveCommentary({ reportType, clientId, year, month, default
                 className={cn(
                   "h-16 px-10 rounded-[28px] text-xs font-black uppercase tracking-widest transition-all inline-flex items-center gap-4 shadow-xl active:scale-95 shrink-0",
                   saveSuccess 
-                    ? "bg-emerald-500 text-white shadow-emerald-500/30" 
+                    ? "bg-success-soft0 text-white shadow-emerald-500/30" 
                     : "bg-slate-900 hover:bg-primary text-white shadow-slate-900/20"
                 )}
               >

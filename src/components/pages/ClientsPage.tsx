@@ -639,10 +639,10 @@ loading: ${loading}
                     <motion.div 
                       initial={{ opacity: 0, height: 0 }}
                       animate={{ opacity: 1, height: "auto" }}
-                      className="p-6 bg-success/10 border border-success/20 rounded-md flex items-center justify-between"
+                      className="p-6 bg-success-soft border border-success/20 rounded-md flex items-center justify-between"
                     >
                       <div className="flex items-center gap-4">
-                        <div className="w-10 h-10 rounded-button bg-success/10 flex items-center justify-center text-success">
+                        <div className="w-10 h-10 rounded-button bg-success-soft flex items-center justify-center text-success">
                           <LayoutGrid size={20} />
                         </div>
                         <div>
@@ -657,7 +657,7 @@ loading: ${loading}
                           checked={formData.projectBased}
                           onChange={(e) => setFormData({...formData, projectBased: e.target.checked})}
                         />
-                        <div className="w-11 h-6 bg-slate-200 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-border after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-emerald-500"></div>
+                        <div className="w-11 h-6 bg-slate-200 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-border after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-success-soft0"></div>
                       </label>
                     </motion.div>
                   )}
@@ -716,7 +716,7 @@ loading: ${loading}
                         {validationErrors.cnpj && <p className="text-[10px] text-destructive font-medium mt-2 uppercase tracking-widest">{validationErrors.cnpj}</p>}
                       </div>
                       {error && (
-                        <div className="mt-4 p-4 bg-destructive/10 border border-destructive/20 rounded-md flex items-start gap-3">
+                        <div className="mt-4 p-4 bg-critical-soft border border-destructive/20 rounded-md flex items-start gap-3">
                           <AlertCircle size={16} className="text-destructive shrink-0 mt-0.5" />
                           <div>
                             <p className="text-body-sm font-medium text-destructive uppercase tracking-widest mb-1">Erro de Sincronização</p>
@@ -1036,7 +1036,7 @@ loading: ${loading}
                                 )}
                               />
                               {formData.logo.startsWith("data:image") && (
-                                <button onClick={() => setFormData({...formData, logo: ""})} className="absolute right-2 top-1/2 -translate-y-1/2 text-rose-500 p-1 hover:bg-rose-50 rounded-full transition-all">
+                                <button onClick={() => setFormData({...formData, logo: ""})} className="absolute right-2 top-1/2 -translate-y-1/2 text-rose-500 p-1 hover:bg-critical-soft rounded-full transition-all">
                                   <X size={12} />
                                 </button>
                               )}
@@ -1073,7 +1073,7 @@ loading: ${loading}
                                 )}
                               />
                               {formData.icon.startsWith("data:image") && (
-                                <button onClick={() => setFormData({...formData, icon: ""})} className="absolute right-2 top-1/2 -translate-y-1/2 text-rose-500 p-1 hover:bg-rose-50 rounded-full transition-all">
+                                <button onClick={() => setFormData({...formData, icon: ""})} className="absolute right-2 top-1/2 -translate-y-1/2 text-rose-500 p-1 hover:bg-critical-soft rounded-full transition-all">
                                   <X size={12} />
                                 </button>
                               )}
@@ -1118,7 +1118,7 @@ loading: ${loading}
                                 const newSM = formData.socialMedia.filter((_, i) => i !== idx);
                                 setFormData({...formData, socialMedia: newSM});
                               }}
-                              className="p-2 text-text-dim hover:text-rose-500 hover:bg-rose-50 rounded-compact transition-all"
+                              className="p-2 text-text-dim hover:text-rose-500 hover:bg-critical-soft rounded-compact transition-all"
                             >
                               <X size={14} />
                             </button>
@@ -1591,7 +1591,7 @@ loading: ${loading}
                                         </div>
                                         <button 
                                           onClick={() => setFormData({...formData, cnaesSecundarios: formData.cnaesSecundarios.filter((_, i) => i !== idx)})}
-                                          className="p-1.5 text-rose-400 hover:bg-rose-50 rounded-lg shrink-0"
+                                          className="p-1.5 text-rose-400 hover:bg-critical-soft rounded-lg shrink-0"
                                         >
                                            <X size={14} />
                                         </button>
@@ -2370,10 +2370,10 @@ loading: ${loading}
                           {client.fantasia || client.name || "Empresa sem Nome"}
                         </h3>
                         {client.isModel && (
-                          <span className="px-1.5 py-0.5 bg-warning/10 text-warning text-[7.5px] font-semibold uppercase rounded-full border border-warning/20 shrink-0 tracking-wider">Modelo</span>
+                          <span className="px-1.5 py-0.5 bg-warning-soft text-warning text-[7.5px] font-semibold uppercase rounded-full border border-warning/20 shrink-0 tracking-wider">Modelo</span>
                         )}
                         {client.approvalStatus === "Pending" && (
-                          <span className="px-1.5 py-0.5 bg-destructive/10 text-destructive text-[7.5px] font-semibold uppercase rounded-full border border-destructive/20 shrink-0 tracking-wider">Pendente</span>
+                          <span className="px-1.5 py-0.5 bg-critical-soft text-destructive text-[7.5px] font-semibold uppercase rounded-full border border-destructive/20 shrink-0 tracking-wider">Pendente</span>
                         )}
                       </div>
                       <p className="text-[9px] font-medium text-muted-foreground/70 uppercase tracking-widest truncate leading-tight mb-2">{client.razao || "—"}</p>
@@ -2443,7 +2443,7 @@ loading: ${loading}
                               await updateDoc(doc(db, "clients", client.id), { approvalStatus: "Approved" });
                             }
                           }}
-                          className="flex items-center gap-1 px-2.5 py-1.5 bg-success/10 border border-success/20 hover:bg-success hover:text-white text-success text-[8px] font-semibold uppercase tracking-widest rounded-md transition-all whitespace-nowrap"
+                          className="flex items-center gap-1 px-2.5 py-1.5 bg-success-soft border border-success/20 hover:bg-success hover:text-white text-success text-[8px] font-semibold uppercase tracking-widest rounded-md transition-all whitespace-nowrap"
                         >
                           <ShieldCheck size={11} /> Aprovar
                         </button>
@@ -2533,7 +2533,7 @@ loading: ${loading}
               exit={{ opacity: 0, scale: 0.95, y: 20 }}
               className="card-premium bg-card max-w-md w-full text-center p-12 space-y-8"
             >
-              <div className="w-20 h-20 bg-destructive/10 text-destructive rounded-md flex items-center justify-center mx-auto shadow-inner border border-destructive/20">
+              <div className="w-20 h-20 bg-critical-soft text-destructive rounded-md flex items-center justify-center mx-auto shadow-inner border border-destructive/20">
                 <Trash2 size={36} />
               </div>
               <div className="space-y-3">

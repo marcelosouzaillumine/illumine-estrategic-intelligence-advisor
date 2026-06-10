@@ -323,7 +323,7 @@ export function ClientImportHistory({ clientId, clientName }: { clientId: string
           {uploadStatus.type !== 'idle' && (
             <div className={cn(
               "mt-4 p-3 rounded-xl flex items-center gap-2 animate-in fade-in slide-in-from-top-1 duration-300",
-              uploadStatus.type === 'success' ? "bg-emerald-50 text-emerald-700 border border-emerald-100" : "bg-rose-50 text-rose-700 border border-rose-100"
+              uploadStatus.type === 'success' ? "bg-success-soft text-emerald-700 border border-emerald-100" : "bg-critical-soft text-rose-700 border border-rose-100"
             )}>
               {uploadStatus.type === 'success' ? <CheckCircle2 size={14} /> : <AlertTriangle size={14} />}
               <span className="text-[10px] font-bold">{uploadStatus.message}</span>

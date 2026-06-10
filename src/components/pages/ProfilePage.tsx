@@ -134,7 +134,7 @@ export function ProfilePage({ user, clients = [], selectedClient = '' }: Profile
           >
             <div className={cn(
               "p-3 rounded-xl border shrink-0 shadow-inner",
-              message.type === 'success' ? "bg-success/10 border-success/20" : "bg-destructive/10 border-destructive/20"
+              message.type === 'success' ? "bg-success-soft border-success/20" : "bg-critical-soft border-destructive/20"
             )}>
               {message.type === 'success' ? <CheckCircle2 className="w-6 h-6" /> : <AlertCircle className="w-6 h-6" />}
             </div>
@@ -203,7 +203,7 @@ export function ProfilePage({ user, clients = [], selectedClient = '' }: Profile
 
             <button 
               onClick={logout}
-              className="mt-8 w-full flex items-center justify-center gap-2 px-4 py-4 rounded-2xl text-[10px] font-black uppercase tracking-[0.2em] text-rose-400 border border-white/5 hover:bg-rose-500/10 hover:border-rose-500/20 transition-all relative z-10"
+              className="mt-8 w-full flex items-center justify-center gap-2 px-4 py-4 rounded-2xl text-[10px] font-black uppercase tracking-[0.2em] text-rose-400 border border-white/5 hover:bg-critical-soft0/10 hover:border-rose-500/20 transition-all relative z-10"
             >
               <LogOut size={16} />
               Encerrar Sessão
@@ -215,7 +215,7 @@ export function ProfilePage({ user, clients = [], selectedClient = '' }: Profile
               <Shield size={64} />
             </div>
             <div className="flex items-center gap-4 mb-4 relative z-10">
-              <div className="w-12 h-12 rounded-2xl bg-success/10 text-success flex items-center justify-center">
+              <div className="w-12 h-12 rounded-2xl bg-success-soft text-success flex items-center justify-center">
                 <Shield size={24} />
               </div>
               <div>
@@ -361,7 +361,7 @@ export function ProfilePage({ user, clients = [], selectedClient = '' }: Profile
                         <p className="text-[9px] md:text-[10px] font-black text-muted-foreground uppercase tracking-widest">Sincronização Ativa</p>
                       </div>
                     </div>
-                    <span className="flex items-center justify-center gap-2 px-4 py-2 bg-success/10 text-success rounded-xl text-[10px] font-black uppercase tracking-widest border border-success/20 w-full sm:w-auto">
+                    <span className="flex items-center justify-center gap-2 px-4 py-2 bg-success-soft text-success rounded-xl text-[10px] font-black uppercase tracking-widest border border-success/20 w-full sm:w-auto">
                       <CheckCircle2 size={14} /> Conectado
                     </span>
                   </div>
@@ -464,12 +464,12 @@ export function ProfilePage({ user, clients = [], selectedClient = '' }: Profile
                   </div>
                 </div>
 
-                <div className="p-8 bg-rose-500/5 border border-rose-500/10 rounded-[32px] relative overflow-hidden group">
+                <div className="p-8 bg-critical-soft0/5 border border-rose-500/10 rounded-[32px] relative overflow-hidden group">
                   <div className="absolute top-0 right-0 p-4 opacity-5 group-hover:scale-110 transition-transform text-destructive">
                     <AlertCircle size={64} />
                   </div>
                   <div className="flex flex-col sm:flex-row sm:items-start gap-4 md:gap-6 relative z-10">
-                    <div className="w-12 h-12 md:w-14 md:h-14 rounded-2xl bg-rose-500/10 text-destructive flex items-center justify-center shrink-0 border border-rose-500/10">
+                    <div className="w-12 h-12 md:w-14 md:h-14 rounded-2xl bg-critical-soft0/10 text-destructive flex items-center justify-center shrink-0 border border-rose-500/10">
                       <AlertCircle size={24} className="md:w-7 md:h-7" />
                     </div>
                     <div>

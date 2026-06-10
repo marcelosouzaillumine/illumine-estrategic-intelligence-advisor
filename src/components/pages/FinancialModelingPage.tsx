@@ -106,7 +106,7 @@ function FinancialModelTable({ table, title, subtitle }: { table: any, title: st
                     <td key={i} className={cn(
                       "px-5 md:px-8 py-2.5 md:py-4 text-xs font-black text-right transition-all",
                       isNumeric && v < 0 ? "text-rose-500" : "text-card-foreground",
-                      isInvalid ? "bg-rose-50/50" : ""
+                      isInvalid ? "bg-critical-soft/50" : ""
                     )}>
                       <div className="flex items-center justify-end gap-1.5">
                         {isInvalid && (

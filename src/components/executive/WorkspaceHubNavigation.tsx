@@ -3,6 +3,7 @@ import { Home, Compass, Target, History, Network, ArrowRight } from 'lucide-reac
 import { useNavigate, useLocation } from 'react-router-dom';
 import { InstitutionalNavigationService } from '../../core/navigation/InstitutionalNavigationService';
 import { InstitutionalWorkspaceType, InstitutionalNavigationReference } from '../../types/intelligence/InstitutionalNavigationReference';
+import { useInstitutionalContext } from '../../hooks/useInstitutionalContext';
 
 interface HubAction {
   id: string;
@@ -15,6 +16,7 @@ interface HubAction {
 export const WorkspaceHubNavigation: React.FC = () => {
   const navigate = useNavigate();
   const location = useLocation();
+  const { tenantId } = useInstitutionalContext();
 
   const currentPath = location.pathname;
 
@@ -27,11 +29,15 @@ export const WorkspaceHubNavigation: React.FC = () => {
   ];
 
   const handleNavigation = (action: HubAction) => {
+    // Phase 3 & 5: Ensure context preservation bidirectionally
+    const currentNavRef = location.state?.navigationReference || location.state?.navRef;
+    
     const navRef: InstitutionalNavigationReference = {
-      tenantId: 'SYSTEM_TENANT',
+      tenantId: tenantId || currentNavRef?.tenantId || 'SYSTEM_TENANT',
       sourceWorkspace: 'HUB',
       targetWorkspace: action.workspaceId,
-      correlationId: `nav-${Date.now()}`
+      correlationId: currentNavRef?.correlationId || `nav-${Date.now()}`,
+      lineageId: currentNavRef?.lineageId
     };
     InstitutionalNavigationService.navigate(navigate, navRef);
   };

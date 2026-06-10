@@ -61,7 +61,7 @@ export function InstitutionalBenchmarkingPage() {
 
       {execution?.status === 'BLOCKED_BY_PRIVACY' ? (
         <div className="card-premium p-12 flex flex-col items-center justify-center text-center space-y-6">
-          <div className="w-20 h-20 rounded-xl bg-destructive/10 flex items-center justify-center text-destructive">
+          <div className="w-20 h-20 rounded-xl bg-critical-soft flex items-center justify-center text-destructive">
             <AlertOctagon size={40} />
           </div>
           <div>

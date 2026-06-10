@@ -15,11 +15,11 @@ export function ExecutiveHeroPanel({ report, className }: ExecutiveHeroPanelProp
 
   // Map severity levels to colors passively (just mapping, no decision logic)
   const severityColors: Record<string, { bg: string; border: string; text: string; iconBg: string }> = {
-    'SAUDÁVEL': { bg: 'bg-emerald-50', border: 'border-emerald-200', text: 'text-emerald-700', iconBg: 'bg-emerald-100' },
+    'SAUDÁVEL': { bg: 'bg-success-soft', border: 'border-emerald-200', text: 'text-emerald-700', iconBg: 'bg-emerald-100' },
     'SENSÍVEL': { bg: 'bg-blue-50', border: 'border-blue-200', text: 'text-blue-700', iconBg: 'bg-blue-100' },
-    'PRESSIONADO': { bg: 'bg-amber-50', border: 'border-amber-200', text: 'text-amber-700', iconBg: 'bg-amber-100' },
+    'PRESSIONADO': { bg: 'bg-warning-soft', border: 'border-amber-200', text: 'text-amber-700', iconBg: 'bg-amber-100' },
     'RESTRITIVO': { bg: 'bg-orange-50', border: 'border-orange-200', text: 'text-orange-700', iconBg: 'bg-orange-100' },
-    'ESTRESSADO': { bg: 'bg-rose-50', border: 'border-rose-200', text: 'text-rose-700', iconBg: 'bg-rose-100' },
+    'ESTRESSADO': { bg: 'bg-critical-soft', border: 'border-rose-200', text: 'text-rose-700', iconBg: 'bg-rose-100' },
     'CRÍTICO': { bg: 'bg-red-100', border: 'border-red-300', text: 'text-red-800', iconBg: 'bg-red-200' },
     'COLAPSO': { bg: 'bg-stone-900', border: 'border-stone-700', text: 'text-rose-500', iconBg: 'bg-stone-800' }
   };

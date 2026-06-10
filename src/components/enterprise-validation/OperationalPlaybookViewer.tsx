@@ -14,7 +14,7 @@ export function OperationalPlaybookViewer({ tenantId }: { tenantId: string }) {
       <div className="space-y-2">
         {playbook.steps.map((step, idx) => (
           <div key={idx} className="flex gap-3 items-center text-sm p-2 bg-background rounded border border-border/50">
-            <span className="w-5 h-5 flex items-center justify-center bg-amber-500/20 text-amber-500 rounded-full text-xs font-bold">{idx + 1}</span>
+            <span className="w-5 h-5 flex items-center justify-center bg-warning-soft0/20 text-amber-500 rounded-full text-xs font-bold">{idx + 1}</span>
             <span className="text-foreground">{step}</span>
           </div>
         ))}

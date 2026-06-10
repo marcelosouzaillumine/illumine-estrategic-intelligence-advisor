@@ -58,7 +58,7 @@ export const BoardReportPDF = forwardRef(({ data, companyName, reportDate, tempo
             </div>
             
             <h3 className="text-sm font-medium text-[#FF8552] tracking-widest uppercase mb-2">{translate('boardpack.title')}</h3>
-            <h1 className="text-5xl font-bold tracking-tighter leading-tight">{companyName}</h1>
+            <h1 className="text-5xl font-bold tracking-tighter leading-tight text-primary">{companyName}</h1>
             
             <div className="mt-12 space-y-2 border-l-2 border-[#BAB86C] pl-6">
               <p className="text-xs text-muted-foreground font-medium uppercase tracking-widest">{translate('boardpack.pdf.issue_date')}: <span className="text-white">{reportDate}</span></p>
@@ -204,7 +204,7 @@ export const BoardReportPDF = forwardRef(({ data, companyName, reportDate, tempo
            </div>
 
            {data.blockedFalsePositives.length > 0 && (
-             <div className="bg-rose-50 border border-rose-200 p-4 rounded">
+             <div className="bg-critical-soft border border-rose-200 p-4 rounded">
                 <h3 className="text-[10px] font-bold text-rose-800 uppercase tracking-widest mb-3 border-b border-rose-200 pb-1 flex items-center gap-2">
                    <Zap size={12}/> {translate('boardpack.pdf.blocked_false_positives')}
                 </h3>

@@ -1,0 +1,52 @@
+import React from 'react';
+import { cn } from '@/lib/utils';
+import { Info, Lightbulb, ShieldAlert, CheckCircle2, FileText } from 'lucide-react';
+
+export interface ExecutiveNarrativeProps extends Omit<React.HTMLAttributes<HTMLDivElement>, 'title'> {
+  variant?: 'summary' | 'insight' | 'risk' | 'recommendation' | 'board-note';
+  title?: React.ReactNode;
+  icon?: React.ElementType;
+  children: React.ReactNode;
+}
+
+const variantConfig = {
+  summary: { defaultIcon: Info, color: 'text-primary' },
+  insight: { defaultIcon: Lightbulb, color: 'text-insight' },
+  risk: { defaultIcon: ShieldAlert, color: 'text-critical' },
+  recommendation: { defaultIcon: CheckCircle2, color: 'text-success' },
+  'board-note': { defaultIcon: FileText, color: 'text-secondary' },
+};
+
+export function ExecutiveNarrative({
+  variant = 'summary',
+  title,
+  icon,
+  children,
+  className,
+  ...props
+}: ExecutiveNarrativeProps) {
+  const config = variantConfig[variant];
+  const IconComponent = icon || config.defaultIcon;
+
+  return (
+    <div className={cn("bg-transparent flex flex-col gap-3", className)} {...props}>
+      {(title || IconComponent) && (
+        <div className="flex items-center gap-3">
+          {IconComponent && (
+            <div className={cn("shrink-0", config.color)}>
+              <IconComponent size={20} strokeWidth={2} />
+            </div>
+          )}
+          {title && (
+            <h4 className={cn("font-medium text-base tracking-tight leading-none", config.color)}>
+              {title}
+            </h4>
+          )}
+        </div>
+      )}
+      <div className="text-muted-foreground text-[15px] leading-relaxed tabular-nums">
+        {children}
+      </div>
+    </div>
+  );
+}

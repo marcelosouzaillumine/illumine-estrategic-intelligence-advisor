@@ -171,7 +171,7 @@ export function GovernanceMaturityCenter({ clientId }: { clientId: string }) {
         <div className="flex items-center gap-3">
           <div className="bg-card px-4 py-2 rounded-md border border-border shadow-sm flex items-center gap-6">
             <div className="flex items-center gap-3">
-              <div className="w-8 h-8 bg-warning/10 rounded-md flex items-center justify-center text-warning">
+              <div className="w-8 h-8 bg-warning-soft rounded-md flex items-center justify-center text-warning">
                 <Target size={18} />
               </div>
               <div>
@@ -342,7 +342,7 @@ export function GovernanceMaturityCenter({ clientId }: { clientId: string }) {
                    </div>
                    
                    <div className="flex-1 space-y-4">
-                     <div className="inline-flex items-center gap-2 px-4 py-1.5 bg-warning/10 text-warning rounded-md border border-warning/10 text-[10px] font-medium uppercase tracking-widest mb-2">
+                     <div className="inline-flex items-center gap-2 px-4 py-1.5 bg-warning-soft text-warning rounded-md border border-warning/10 text-[10px] font-medium uppercase tracking-widest mb-2">
                         <Activity size={12} /> Avaliação Inteligente
                      </div>
                      <h2 className="text-h1 font-medium text-foreground tracking-tight leading-[1.1]">
@@ -395,7 +395,7 @@ export function GovernanceMaturityCenter({ clientId }: { clientId: string }) {
                                 <span className="text-[10px] font-medium text-warning uppercase tracking-widest">{principle.name}</span>
                                 <h4 className="text-body-md font-medium text-foreground tracking-tight leading-relaxed">{principle.maturityQuestion}</h4>
                               </div>
-                              <div className="shrink-0 bg-surface-container px-4 py-2 rounded-md border border-border text-[10px] font-medium text-muted-foreground group-hover:bg-warning/10 group-hover:text-warning group-hover:border-warning/20 transition-colors flex items-center gap-2">
+                              <div className="shrink-0 bg-surface-container px-4 py-2 rounded-md border border-border text-[10px] font-medium text-muted-foreground group-hover:bg-warning-soft group-hover:text-warning group-hover:border-warning/20 transition-colors flex items-center gap-2">
                                 <span className="uppercase tracking-widest">Impacto</span>
                                 <div className="flex gap-0.5">
                                   {[1, 2, 3, 4, 5].map((star) => (

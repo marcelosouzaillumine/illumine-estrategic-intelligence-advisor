@@ -21,7 +21,7 @@ export const InstitutionalResilienceTimeline: React.FC<ResilienceTimelineProps> 
       case 'DETERIORATION': return 'bg-red-500';
       case 'ESCALATION': return 'bg-orange-500';
       case 'ADVISORY_ACKNOWLEDGEMENT': return 'bg-blue-500';
-      case 'WORKFLOW_COMPLETION': return 'bg-emerald-500';
+      case 'WORKFLOW_COMPLETION': return 'bg-success-soft0';
       case 'RECURRENCE_MILESTONE': return 'bg-primary';
       default: return 'bg-gray-500';
     }

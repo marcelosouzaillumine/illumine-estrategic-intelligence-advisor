@@ -12,13 +12,13 @@ export function SourceTrustBadge({ trust }: { trust: SourceTrustLevel }) {
       );
     case 'HIGH':
       return (
-        <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded text-[10px] font-bold bg-emerald-500/10 text-emerald-500 border border-emerald-500/20 uppercase" title="Origem Autenticada (Ex: ERP API)">
+        <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded text-[10px] font-bold bg-success-soft0/10 text-emerald-500 border border-emerald-500/20 uppercase" title="Origem Autenticada (Ex: ERP API)">
           <ShieldCheck size={10} /> HIGH
         </span>
       );
     case 'MEDIUM':
       return (
-        <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded text-[10px] font-bold bg-amber-500/10 text-amber-500 border border-amber-500/20 uppercase" title="Origem Parcialmente Validada">
+        <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded text-[10px] font-bold bg-warning-soft0/10 text-amber-500 border border-amber-500/20 uppercase" title="Origem Parcialmente Validada">
           <Shield size={10} /> MEDIUM
         </span>
       );
@@ -31,7 +31,7 @@ export function SourceTrustBadge({ trust }: { trust: SourceTrustLevel }) {
     case 'UNVERIFIED':
     default:
       return (
-        <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded text-[10px] font-bold bg-rose-500/10 text-rose-500 border border-rose-500/20 uppercase" title="Origem Genérica/Sem Assinatura (Ex: CSV)">
+        <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded text-[10px] font-bold bg-critical-soft0/10 text-rose-500 border border-rose-500/20 uppercase" title="Origem Genérica/Sem Assinatura (Ex: CSV)">
           <ShieldX size={10} /> UNVERIFIED
         </span>
       );

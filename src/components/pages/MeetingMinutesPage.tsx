@@ -816,8 +816,8 @@ export function MeetingMinutesPage({ clientId }: { clientId: string }) {
                 <div className={cn(
                   "w-12 h-12 rounded-md flex items-center justify-center shadow-sm border transition-all",
                   minute.status === 'Finalized' 
-                    ? "bg-success/10 border-success/20 text-success" 
-                    : "bg-warning/10 border-warning/20 text-warning"
+                    ? "bg-success-soft border-success/20 text-success" 
+                    : "bg-warning-soft border-warning/20 text-warning"
                 )}>
                   <FileText size={22} strokeWidth={1.5} />
                 </div>

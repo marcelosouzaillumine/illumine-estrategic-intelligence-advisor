@@ -408,7 +408,7 @@ export function DiagnosticoPage({ clientId, selectedYear, selectedMonth }: Diagn
 
               <div className="flex flex-col gap-3 pt-4">
                 {saveError && (
-                  <div className="px-4 md:px-6 py-2 md:py-3 bg-destructive/10 border border-destructive/20 rounded-md text-[10px] font-medium text-destructive uppercase tracking-widest">
+                  <div className="px-4 md:px-6 py-2 md:py-3 bg-critical-soft border border-destructive/20 rounded-md text-[10px] font-medium text-destructive uppercase tracking-widest">
                     ⚠️ {saveError}
                   </div>
                 )}
@@ -508,7 +508,7 @@ export function DiagnosticoPage({ clientId, selectedYear, selectedMonth }: Diagn
                <button onClick={() => startEdit(item)} className="p-3 text-muted-foreground hover:text-primary hover:bg-primary/10 rounded-md transition-all shadow-sm border border-transparent hover:border-primary/20">
                  <Edit2 size={18} />
                </button>
-               <button onClick={() => remove(item.id!)} className="p-3 text-muted-foreground hover:text-destructive hover:bg-destructive/10 rounded-md transition-all shadow-sm border border-transparent hover:border-destructive/20">
+               <button onClick={() => remove(item.id!)} className="p-3 text-muted-foreground hover:text-destructive hover:bg-critical-soft rounded-md transition-all shadow-sm border border-transparent hover:border-destructive/20">
                  <Trash2 size={18} />
                </button>
             </div>

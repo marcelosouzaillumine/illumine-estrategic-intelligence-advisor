@@ -238,7 +238,7 @@ export function LoansPage({ clients, selectedClient }: { clients: any[], selecte
           <div className="flex items-center gap-4">
             <button 
               onClick={() => setShowContractModal(true)}
-              className="px-4 md:px-6 py-2 md:py-3 bg-emerald-500 hover:bg-emerald-600 text-white rounded-xl text-xs font-black uppercase tracking-widest transition-all flex items-center gap-2 shadow-lg shadow-emerald-500/20"
+              className="px-4 md:px-6 py-2 md:py-3 bg-success-soft0 hover:bg-emerald-600 text-white rounded-xl text-xs font-black uppercase tracking-widest transition-all flex items-center gap-2 shadow-lg shadow-emerald-500/20"
             >
               <Plus size={16} /> Inserir Contrato
             </button>
@@ -274,14 +274,14 @@ export function LoansPage({ clients, selectedClient }: { clients: any[], selecte
           <div className="flex items-center gap-3">
             <button 
               onClick={() => setShowContractModal(true)}
-              className="px-4 py-2 bg-emerald-50 hover:bg-emerald-100 text-emerald-600 border border-emerald-100 rounded-xl text-[10px] font-black uppercase tracking-[0.2em] transition-all flex items-center gap-2 shadow-sm cursor-pointer"
+              className="px-4 py-2 bg-success-soft hover:bg-emerald-100 text-emerald-600 border border-emerald-100 rounded-xl text-[10px] font-black uppercase tracking-[0.2em] transition-all flex items-center gap-2 shadow-sm cursor-pointer"
             >
               <Plus size={14} /> Inserir
             </button>
             <button className="px-4 py-2 bg-blue-50 hover:bg-blue-100 text-blue-600 border border-blue-100 rounded-xl text-[10px] font-black uppercase tracking-[0.2em] transition-all flex items-center gap-2 shadow-sm cursor-pointer">
               <Upload size={14} /> Importar
             </button>
-            <button className="px-4 py-2 bg-rose-50 hover:bg-rose-100 text-rose-600 border border-rose-100 rounded-xl text-[10px] font-black uppercase tracking-[0.2em] transition-all flex items-center gap-2 shadow-sm cursor-pointer">
+            <button className="px-4 py-2 bg-critical-soft hover:bg-rose-100 text-rose-600 border border-rose-100 rounded-xl text-[10px] font-black uppercase tracking-[0.2em] transition-all flex items-center gap-2 shadow-sm cursor-pointer">
               <Trash2 size={14} /> Excluir
             </button>
           </div>
@@ -304,7 +304,7 @@ export function LoansPage({ clients, selectedClient }: { clients: any[], selecte
                 <div className="shrink-0">
                    <div className="w-20 h-20 rounded-[28px] bg-secondary/10 flex items-center justify-center text-secondary relative">
                       <Sparkles size={40} />
-                      <div className="absolute -top-2 -right-2 w-6 h-6 bg-emerald-500 rounded-full border-4 border-white flex items-center justify-center">
+                      <div className="absolute -top-2 -right-2 w-6 h-6 bg-success-soft0 rounded-full border-4 border-white flex items-center justify-center">
                         <div className="w-1.5 h-1.5 bg-white rounded-full animate-ping"></div>
                       </div>
                    </div>
@@ -575,7 +575,7 @@ export function LoansPage({ clients, selectedClient }: { clients: any[], selecte
                 <p className="text-sm text-muted-foreground">Gestão de liquidação de parcelas e conciliação.</p>
               </div>
               <div className="flex gap-4">
-                <div className="px-4 py-2 bg-emerald-50 border border-emerald-100 rounded-xl">
+                <div className="px-4 py-2 bg-success-soft border border-emerald-100 rounded-xl">
                   <p className="text-[8px] font-bold text-emerald-600 uppercase tracking-widest">Liquidado</p>
                   <p className="text-sm font-black text-emerald-700">{formatCurrency(priceSchedule.slice(0, pagosCount).reduce((acc, r) => acc + r.parcela, 0))}</p>
                 </div>

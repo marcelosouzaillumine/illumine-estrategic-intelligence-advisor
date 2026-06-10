@@ -3,20 +3,24 @@ import { createPortal } from 'react-dom';
 import { Calendar, Loader2, Upload, Trash2, Plus, BarChart3, Database, TrendingUp, TrendingDown, Info, PieChart as PieChartIcon, AlertTriangle, Sparkles, Bug, Target, Shield, Activity, Layers, Scale, Zap, Building2, Coins, Receipt, Briefcase, CheckCircle, AlertCircle, RefreshCw, BarChart2, Eye, ShieldAlert, Cpu } from 'lucide-react';
 import { DATA } from '../../data';
 import { 
-  ResponsiveContainer, 
   BarChart, 
   Bar, 
   XAxis, 
   YAxis, 
   CartesianGrid, 
   Tooltip, 
-  Legend, 
-  LineChart, 
-  Line,
+  Legend,
   Cell,
   PieChart,
   Pie
 } from 'recharts';
+import { 
+  ExecutiveChart,
+  ExecutiveChartGrid,
+  ExecutiveChartXAxis,
+  ExecutiveChartYAxis,
+  ExecutiveChartTooltip
+} from '../ui/executive-chart';
 import { cn, formatCurrency, formatValue, getThemeColors } from '../../lib/utils';
 import { SandboxWarningOverlay } from '../executive-interaction/SandboxWarningOverlay';
 import { PageHeader, KpiCard } from '../Common';
@@ -372,7 +376,7 @@ export function DREPage({ clients, selectedClient, selectedYear }: any) {
 
       <div className="flex items-center justify-between gap-4 flex-wrap bg-surface-container/60 p-4 rounded-md border border-border backdrop-blur-sm shadow-sm -mt-6 mb-10">
         <div className="flex items-center gap-3">
-          <div className="bg-card border border-border rounded-md px-4 py-2 flex items-center gap-3 shadow-sm">
+          <div className="bg-card border border-border/50 shadow-sm rounded-md px-4 py-2 flex items-center gap-3 shadow-sm">
             {(loading || loadingHistory) && <Loader2 size={14} className="animate-spin text-secondary" />}
             <Database size={14} className={dbData.length > 0 ? 'text-success' : 'text-muted-foreground/30'} />
             <span className={cn('text-[10px] font-medium uppercase tracking-[0.2em]', dbData.length > 0 ? 'text-success' : 'text-muted-foreground')}>
@@ -422,33 +426,33 @@ export function DREPage({ clients, selectedClient, selectedYear }: any) {
       
       {/* 2. DIAGNÓSTICO ECONÔMICO E BOARD DECISION FRAMEWORK */}
       {isSectionVisible('DRE_DIAGNOSTICO') && economicDiagnosis && (
-        <div className="bg-white border border-border rounded-3xl p-8 shadow-sm flex flex-col mb-10">
+        <div className="bg-card border border-border rounded-3xl p-8 shadow-sm flex flex-col mb-10">
           <div className="flex items-center gap-3 mb-6 border-b border-border pb-4">
-            <div className="w-10 h-10 rounded-xl bg-slate-50 border border-border flex items-center justify-center text-muted-foreground">
+            <div className="w-10 h-10 rounded-xl bg-surface-container/30 border border-border flex items-center justify-center text-muted-foreground">
               <Activity size={20} />
             </div>
             <div>
-              <h4 className="text-xl font-black text-muted-foreground">{t('dre.diagnosis.title')}</h4>
-              <p className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground">{t('dre.diagnosis.subtitle')}</p>
+              <h4 className="text-xl font-black text-primary">{t('dre.diagnosis.title')}</h4>
+              <p className="text-secondary">{t('dre.diagnosis.subtitle')}</p>
             </div>
           </div>
 
           <div className="flex flex-col 2xl:flex-row gap-6 items-stretch">
             {/* Core Metrics Grid */}
             <div className="flex-1 grid grid-cols-1 md:grid-cols-2 gap-6">
-              <div className="bg-slate-50 p-6 rounded-3xl border border-border flex flex-col items-start justify-start shadow-sm transition-all hover:shadow-md">
+              <div className="bg-surface-container/30 p-6 rounded-3xl border border-border flex flex-col items-start justify-start shadow-sm transition-all hover:shadow-md">
                 <span className="text-[10px] uppercase font-black text-muted-foreground block mb-2 tracking-[0.2em]">{t('dre.diagnosis.value_creation')}</span>
                 <span className="text-base font-bold text-muted-foreground leading-snug">{economicDiagnosis.valueCreationAssessment}</span>
               </div>
-              <div className="bg-rose-50/50 p-6 rounded-3xl border border-rose-100/50 flex flex-col items-start justify-start shadow-sm transition-all hover:shadow-md">
+              <div className="bg-critical-soft/50 p-6 rounded-3xl border border-rose-100/50 flex flex-col items-start justify-start shadow-sm transition-all hover:shadow-md">
                 <span className="text-[10px] uppercase font-black text-rose-400 block mb-2 tracking-[0.2em]">{t('dre.diagnosis.primary_constraint')}</span>
                 <span className="text-base font-bold text-rose-700 leading-snug">{economicDiagnosis.primaryConstraint}</span>
               </div>
-              <div className="bg-amber-50/50 p-6 rounded-3xl border border-amber-100/50 flex flex-col items-start justify-start shadow-sm transition-all hover:shadow-md">
+              <div className="bg-warning-soft/50 p-6 rounded-3xl border border-amber-100/50 flex flex-col items-start justify-start shadow-sm transition-all hover:shadow-md">
                 <span className="text-[10px] uppercase font-black text-amber-500 block mb-2 tracking-[0.2em]">{t('dre.diagnosis.recoverability')}</span>
                 <span className="text-base font-bold text-amber-700 leading-snug">{economicDiagnosis.recoverabilityAssessment}</span>
               </div>
-              <div className="bg-emerald-50/50 p-6 rounded-3xl border border-emerald-100/50 flex flex-col items-start justify-start shadow-sm transition-all hover:shadow-md">
+              <div className="bg-success-soft/50 p-6 rounded-3xl border border-emerald-100/50 flex flex-col items-start justify-start shadow-sm transition-all hover:shadow-md">
                 <span className="text-[10px] uppercase font-black text-emerald-500 block mb-2 tracking-[0.2em]">{t('dre.diagnosis.strategic_priority')}</span>
                 <span className="text-base font-bold text-emerald-700 leading-snug">{economicDiagnosis.strategicPriority}</span>
               </div>
@@ -478,26 +482,26 @@ export function DREPage({ clients, selectedClient, selectedYear }: any) {
         
         {/* ESTRUTURA ECONÔMICA DA RECEITA */}
         {isSectionVisible('DRE_ESTRUTURA_ECONOMICA') && (
-          <div className="bg-white border border-border rounded-3xl p-6 shadow-sm flex flex-col">
+          <div className="bg-card border border-border rounded-3xl p-6 shadow-sm flex flex-col">
           <div className="flex items-center gap-3 mb-6 border-b border-border pb-4">
             <div className="w-10 h-10 rounded-xl bg-primary border border-primary flex items-center justify-center text-primary">
               <Layers size={20} />
             </div>
             <div>
-              <h4 className="text-lg font-black text-muted-foreground">Estrutura Econômica</h4>
-              <p className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground">Para cada R$ 100 vendidos</p>
+              <h4 className="text-lg font-black text-primary">Estrutura Econômica</h4>
+              <p className="text-secondary">Para cada R$ 100 vendidos</p>
             </div>
           </div>
           
             <div className="flex-1 flex flex-col justify-center">
               {revenueEconomicStructure?.available ? (
-                 <div className="bg-slate-50 border border-border rounded-2xl p-6 text-center shadow-inner h-full flex items-center">
-                    <p className="text-sm font-medium text-muted-foreground leading-relaxed whitespace-pre-line w-full">
+                 <div className="bg-surface-container/30 border border-border rounded-2xl p-6 text-center shadow-inner h-full flex items-center">
+                    <p className="text-secondary">
                       {revenueEconomicStructure.value.narrativa}
                     </p>
                  </div>
               ) : (
-                 <p className="text-sm font-medium text-muted-foreground text-center">{FiduciaryRuntimeAdapter.ExecutiveEmptyStatePolicy.getFallbackMessage(revenueEconomicStructure?.reason || 'INSUFFICIENT_DATA')}</p>
+                 <p className="text-secondary">{FiduciaryRuntimeAdapter.ExecutiveEmptyStatePolicy.getFallbackMessage(revenueEconomicStructure?.reason || 'INSUFFICIENT_DATA')}</p>
               )}
           </div>
         </div>
@@ -505,21 +509,21 @@ export function DREPage({ clients, selectedClient, selectedYear }: any) {
 
         {/* CONSUMO ECONÔMICO (BURN RATE) */}
         {isSectionVisible('DRE_CONSUMO_ECONOMICO') && (
-          <div className="bg-white border border-border rounded-3xl p-6 shadow-sm flex flex-col">
+          <div className="bg-card border border-border rounded-3xl p-6 shadow-sm flex flex-col">
           <div className="flex items-center gap-3 mb-6 border-b border-border pb-4">
-            <div className="w-10 h-10 rounded-xl bg-rose-50 border border-rose-100 flex items-center justify-center text-rose-600">
+            <div className="w-10 h-10 rounded-xl bg-critical-soft border border-rose-100 flex items-center justify-center text-rose-600">
               <AlertTriangle size={20} />
             </div>
             <div>
-              <h4 className="text-lg font-black text-muted-foreground">Consumo Econômico</h4>
-              <p className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground">Consumo Econômico do Resultado</p>
+              <h4 className="text-lg font-black text-primary">Consumo Econômico</h4>
+              <p className="text-secondary">Consumo Econômico do Resultado</p>
             </div>
           </div>
           
            <div className="flex-1 flex flex-col justify-center">
               {economicBurnRate?.available ? (
                 economicBurnRate.value.monthlyEconomicBurn !== null ? (
-                 <div className="bg-rose-50/50 border border-rose-100 rounded-2xl p-6 text-center shadow-inner h-full flex flex-col items-center justify-center">
+                 <div className="bg-critical-soft/50 border border-rose-100 rounded-2xl p-6 text-center shadow-inner h-full flex flex-col items-center justify-center">
                     <p className="text-sm font-medium text-rose-800 leading-relaxed whitespace-pre-line mb-4">
                       {economicBurnRate.value.narrativa}
                     </p>
@@ -535,14 +539,14 @@ export function DREPage({ clients, selectedClient, selectedYear }: any) {
                     </div>
                  </div>
                 ) : (
-                 <div className="bg-emerald-50/50 border border-emerald-100 rounded-2xl p-6 text-center shadow-inner h-full flex items-center justify-center">
+                 <div className="bg-success-soft/50 border border-emerald-100 rounded-2xl p-6 text-center shadow-inner h-full flex items-center justify-center">
                     <p className="text-sm font-bold text-emerald-700 leading-relaxed w-full">
                       {economicBurnRate.value.narrativa}
                     </p>
                  </div>
                 )
               ) : (
-                 <p className="text-sm font-medium text-muted-foreground text-center">{FiduciaryRuntimeAdapter.ExecutiveEmptyStatePolicy.getFallbackMessage(economicBurnRate?.reason || 'INSUFFICIENT_DATA')}</p>
+                 <p className="text-secondary">{FiduciaryRuntimeAdapter.ExecutiveEmptyStatePolicy.getFallbackMessage(economicBurnRate?.reason || 'INSUFFICIENT_DATA')}</p>
               )}
           </div>
         </div>
@@ -550,34 +554,34 @@ export function DREPage({ clients, selectedClient, selectedYear }: any) {
 
         {/* PONTO DE EQUILÍBRIO E COBERTURA */}
         {isSectionVisible('DRE_BREAK_EVEN') && (
-          <div className="bg-white border border-border rounded-3xl p-6 shadow-sm flex flex-col">
+          <div className="bg-card border border-border rounded-3xl p-6 shadow-sm flex flex-col">
           <div className="flex items-center gap-3 mb-6 border-b border-border pb-4">
             <div className="w-10 h-10 rounded-xl bg-blue-50 border border-blue-100 flex items-center justify-center text-blue-600">
               <Target size={20} />
             </div>
             <div>
-              <h4 className="text-lg font-black text-muted-foreground">Ponto de Equilíbrio</h4>
-              <p className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground">Absorção & Cobertura</p>
+              <h4 className="text-lg font-black text-primary">Ponto de Equilíbrio</h4>
+              <p className="text-secondary">Absorção & Cobertura</p>
             </div>
           </div>
           
            <div className="flex-1 flex flex-col justify-center">
               {breakEvenAnalysis?.available && breakEvenAnalysis.value.breakEvenRevenue > 0 ? (
-                 <div className="bg-slate-50 border border-border rounded-2xl p-6 text-center shadow-inner h-full flex items-center justify-center flex-col">
-                    <p className="text-sm font-medium text-muted-foreground leading-relaxed whitespace-pre-line mb-3">
+                 <div className="bg-surface-container/30 border border-border rounded-2xl p-6 text-center shadow-inner h-full flex items-center justify-center flex-col">
+                    <p className="text-secondary">
                       {breakEvenAnalysis.value.narrativa}
                     </p>
                     {operationalAbsorption?.available && (
                         <span className={cn("text-[10px] font-black uppercase tracking-widest px-3 py-1 rounded-full border mt-2", 
-                        operationalAbsorption.value.classificacao === 'Plena' || operationalAbsorption.value.classificacao === 'Adequada' ? "bg-emerald-50 text-emerald-600 border-emerald-200" :
-                        operationalAbsorption.value.classificacao === 'Parcial' ? "bg-amber-50 text-amber-600 border-amber-200" : "bg-rose-50 text-rose-600 border-rose-200"
+                        operationalAbsorption.value.classificacao === 'Plena' || operationalAbsorption.value.classificacao === 'Adequada' ? "bg-success-soft text-emerald-600 border-emerald-200" :
+                        operationalAbsorption.value.classificacao === 'Parcial' ? "bg-warning-soft text-amber-600 border-amber-200" : "bg-critical-soft text-rose-600 border-rose-200"
                         )}>
                         Absorção {operationalAbsorption.value.classificacao}
                         </span>
                     )}
                  </div>
               ) : (
-                 <p className="text-sm font-medium text-muted-foreground text-center">{FiduciaryRuntimeAdapter.ExecutiveEmptyStatePolicy.getFallbackMessage(breakEvenAnalysis?.reason || 'INSUFFICIENT_DATA')}</p>
+                 <p className="text-secondary">{FiduciaryRuntimeAdapter.ExecutiveEmptyStatePolicy.getFallbackMessage(breakEvenAnalysis?.reason || 'INSUFFICIENT_DATA')}</p>
               )}
           </div>
         </div>
@@ -588,76 +592,76 @@ export function DREPage({ clients, selectedClient, selectedYear }: any) {
 
       {/* 5.5 BOARD DECISION SUPPORT FRAMEWORK */}
       {isSectionVisible('DRE_DECISION_SUPPORT') && dreBoardDecisionSupport && (
-        <div className="bg-white border border-border rounded-3xl p-8 shadow-sm flex flex-col mb-10">
+        <div className="bg-card border border-border rounded-3xl p-8 shadow-sm flex flex-col mb-10">
           <div className="flex items-center gap-3 mb-6 border-b border-border pb-4">
-            <div className="w-10 h-10 rounded-xl bg-slate-900 flex items-center justify-center text-white">
+            <div className="w-10 h-10 rounded-xl bg-foreground flex items-center justify-center text-white">
               <ShieldAlert size={20} />
             </div>
             <div>
-              <h4 className="text-xl font-black text-muted-foreground">DRE Board Decision Support Framework</h4>
-              <p className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground">Diagnóstico Executivo Diretivo</p>
+              <h4 className="text-xl font-black text-primary">DRE Board Decision Support Framework</h4>
+              <p className="text-secondary">Diagnóstico Executivo Diretivo</p>
             </div>
           </div>
           
             <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4 gap-6">
               {/* P1 */}
-              <div className="bg-slate-50 border border-border rounded-2xl p-5">
-                <p className="text-[9px] font-black text-muted-foreground uppercase tracking-widest mb-1">P1 — Criação de Valor</p>
-                <h5 className="text-xs font-bold text-muted-foreground mb-2">A empresa cria ou destrói valor?</h5>
+              <div className="bg-surface-container/30 border border-border rounded-2xl p-5">
+                <p className="text-secondary">P1 — Criação de Valor</p>
+                <h5 className="text-xs font-bold text-primary mb-2">A empresa cria ou destrói valor?</h5>
                 <p className={cn("text-xs font-medium leading-relaxed", dreBoardDecisionSupport.geraValor === 'Sim' ? 'text-emerald-600' : 'text-rose-600')}>
                   {dreBoardDecisionSupport.criacaoDeValor || dreBoardDecisionSupport.geraValor}
                 </p>
               </div>
 
               {/* P2 */}
-              <div className="bg-slate-50 border border-border rounded-2xl p-5">
-                <p className="text-[9px] font-black text-muted-foreground uppercase tracking-widest mb-1">P2 — Sustentação</p>
-                <h5 className="text-xs font-bold text-muted-foreground mb-2">O faturamento sustenta a estrutura?</h5>
-                <p className="text-xs font-medium text-muted-foreground leading-relaxed">
+              <div className="bg-surface-container/30 border border-border rounded-2xl p-5">
+                <p className="text-secondary">P2 — Sustentação</p>
+                <h5 className="text-xs font-bold text-primary mb-2">O faturamento sustenta a estrutura?</h5>
+                <p className="text-secondary">
                   {dreBoardDecisionSupport.faturamentoSustaenta || dreBoardDecisionSupport.problemaPrincipal}
                 </p>
               </div>
 
               {/* P3 */}
-              <div className="bg-slate-50 border border-border rounded-2xl p-5">
-                <p className="text-[9px] font-black text-muted-foreground uppercase tracking-widest mb-1">P3 — Equilíbrio</p>
-                <h5 className="text-xs font-bold text-muted-foreground mb-2">Quanto falta para o equilíbrio?</h5>
-                <p className="text-xs font-medium text-muted-foreground leading-relaxed">
+              <div className="bg-surface-container/30 border border-border rounded-2xl p-5">
+                <p className="text-secondary">P3 — Equilíbrio</p>
+                <h5 className="text-xs font-bold text-primary mb-2">Quanto falta para o equilíbrio?</h5>
+                <p className="text-secondary">
                   {dreBoardDecisionSupport.lacunaEquilibrio || '—'}
                 </p>
               </div>
 
               {/* P4 */}
-              <div className="bg-slate-50 border border-border rounded-2xl p-5">
-                <p className="text-[9px] font-black text-muted-foreground uppercase tracking-widest mb-1">P4 — Restrição</p>
-                <h5 className="text-xs font-bold text-muted-foreground mb-2">Qual é a principal restrição econômica?</h5>
-                <p className="text-xs font-medium text-muted-foreground leading-relaxed">
+              <div className="bg-surface-container/30 border border-border rounded-2xl p-5">
+                <p className="text-secondary">P4 — Restrição</p>
+                <h5 className="text-xs font-bold text-primary mb-2">Qual é a principal restrição econômica?</h5>
+                <p className="text-secondary">
                   {dreBoardDecisionSupport.restricaoPrincipal || dreBoardDecisionSupport.problemaPrincipal}
                 </p>
               </div>
 
               {/* P5 */}
-              <div className="bg-slate-50 border border-border rounded-2xl p-5">
-                <p className="text-[9px] font-black text-muted-foreground uppercase tracking-widest mb-1">P5 — Oportunidade</p>
-                <h5 className="text-xs font-bold text-muted-foreground mb-2">Qual é a principal oportunidade econômica?</h5>
+              <div className="bg-surface-container/30 border border-border rounded-2xl p-5">
+                <p className="text-secondary">P5 — Oportunidade</p>
+                <h5 className="text-xs font-bold text-primary mb-2">Qual é a principal oportunidade econômica?</h5>
                 <p className="text-xs font-medium text-emerald-700 leading-relaxed">
                   {dreBoardDecisionSupport.oportunidadePrincipal || '—'}
                 </p>
               </div>
 
               {/* P6 */}
-              <div className="bg-slate-50 border border-border rounded-2xl p-5">
-                <p className="text-[9px] font-black text-muted-foreground uppercase tracking-widest mb-1">P6 — Inação</p>
-                <h5 className="text-xs font-bold text-muted-foreground mb-2">Se nada for feito, o que acontece?</h5>
+              <div className="bg-surface-container/30 border border-border rounded-2xl p-5">
+                <p className="text-secondary">P6 — Inação</p>
+                <h5 className="text-xs font-bold text-primary mb-2">Se nada for feito, o que acontece?</h5>
                 <p className={cn("text-xs font-medium leading-relaxed", dreBoardDecisionSupport.geraValor === 'Sim' ? 'text-emerald-600' : 'text-rose-600')}>
                   {dreBoardDecisionSupport.consequenciaDaInacao || dreBoardDecisionSupport.risco}
                 </p>
               </div>
 
               {/* P7 */}
-              <div className="bg-slate-50 border border-border rounded-2xl p-5 xl:col-span-2">
-                <p className="text-[9px] font-black text-muted-foreground uppercase tracking-widest mb-1">P7 — Prioridade do Conselho</p>
-                <h5 className="text-xs font-bold text-muted-foreground mb-2">Qual é a prioridade estratégica?</h5>
+              <div className="bg-surface-container/30 border border-border rounded-2xl p-5 xl:col-span-2">
+                <p className="text-secondary">P7 — Prioridade do Conselho</p>
+                <h5 className="text-xs font-bold text-primary mb-2">Qual é a prioridade estratégica?</h5>
                 <p className="text-xs font-medium text-blue-700 leading-relaxed">
                   {dreBoardDecisionSupport.prioridadeConselho || dreBoardDecisionSupport.prioridade}
                 </p>
@@ -668,14 +672,14 @@ export function DREPage({ clients, selectedClient, selectedYear }: any) {
 
       {/* 5.6 HEALTH SCORE EXPLAINABILITY */}
       {isSectionVisible('DRE_HEALTH_SCORE') && healthExplainability && (
-        <div className="bg-white border border-border rounded-3xl p-8 shadow-sm flex flex-col mb-10">
+        <div className="bg-card border border-border rounded-3xl p-8 shadow-sm flex flex-col mb-10">
           <div className="flex items-center gap-3 mb-6 border-b border-border pb-4 flex-wrap gap-y-4">
-            <div className="w-10 h-10 rounded-xl bg-slate-50 border border-border flex items-center justify-center text-muted-foreground shrink-0">
+            <div className="w-10 h-10 rounded-xl bg-surface-container/30 border border-border flex items-center justify-center text-muted-foreground shrink-0">
               <Activity size={20} />
             </div>
             <div className="flex-1">
-              <h4 className="text-xl font-black text-muted-foreground">{t('dre.health.title')}</h4>
-              <p className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground">{t('dre.health.economics_diagnosis')}</p>
+              <h4 className="text-xl font-black text-primary">{t('dre.health.title')}</h4>
+              <p className="text-secondary">{t('dre.health.economics_diagnosis')}</p>
             </div>
             <div className="flex items-center gap-3 ml-auto">
               <span className={cn(
@@ -687,16 +691,16 @@ export function DREPage({ clients, selectedClient, selectedYear }: any) {
               )}>{healthExplainability.score}/100</span>
               <span className={cn(
                 "text-[10px] font-black uppercase tracking-widest px-4 py-2 rounded-2xl border text-center break-words whitespace-normal leading-snug",
-                healthExplainability.classificationColor === 'emerald' ? 'bg-emerald-50 text-emerald-700 border-emerald-200' :
-                healthExplainability.classificationColor === 'amber' ? 'bg-amber-50 text-amber-700 border-amber-200' :
+                healthExplainability.classificationColor === 'emerald' ? 'bg-success-soft text-emerald-700 border-emerald-200' :
+                healthExplainability.classificationColor === 'amber' ? 'bg-warning-soft text-amber-700 border-amber-200' :
                 healthExplainability.classificationColor === 'orange' ? 'bg-orange-50 text-orange-700 border-orange-200' :
-                healthExplainability.classificationColor === 'rose' ? 'bg-rose-50 text-rose-700 border-rose-200' : 'bg-red-50 text-red-700 border-red-200'
+                healthExplainability.classificationColor === 'rose' ? 'bg-critical-soft text-rose-700 border-rose-200' : 'bg-red-50 text-red-700 border-red-200'
               )}>{healthExplainability.classification}</span>
             </div>
           </div>
           {healthExplainability.drivers.length > 0 && (
             <div>
-              <p className="text-[10px] font-black uppercase tracking-widest text-muted-foreground mb-3">Principais Determinantes</p>
+              <p className="text-secondary">Principais Determinantes</p>
               <ul className="space-y-2">
                 {healthExplainability.drivers.map((driver: string, i: number) => (
                   <li key={i} className="flex items-start gap-2 text-sm text-muted-foreground font-medium">
@@ -712,14 +716,14 @@ export function DREPage({ clients, selectedClient, selectedYear }: any) {
 
       {/* 6. EXECUTIVE ADVISORY — Bloco unificado (substitui Síntese + Sumário duplicados) */}
       {isSectionVisible('DRE_ADVISORY') && (dreExecutiveAdvisoryFull || dreExecutiveAdvisory || managementDiscussion) && (
-        <div className="bg-white border border-border rounded-3xl p-8 shadow-sm flex flex-col mb-10">
+        <div className="bg-card border border-border rounded-3xl p-8 shadow-sm flex flex-col mb-10">
           <div className="flex items-center gap-3 mb-6 border-b border-border pb-4">
-            <div className="w-10 h-10 rounded-xl bg-slate-900 flex items-center justify-center text-white">
+            <div className="w-10 h-10 rounded-xl bg-foreground flex items-center justify-center text-white">
               <Briefcase size={20} />
             </div>
             <div>
-              <h4 className="text-xl font-black text-muted-foreground">{t('dre.advisory.title')}</h4>
-              <p className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground">{t('dre.advisory.subtitle')}</p>
+              <h4 className="text-xl font-black text-primary">{t('dre.advisory.title')}</h4>
+              <p className="text-secondary">{t('dre.advisory.subtitle')}</p>
             </div>
           </div>
 
@@ -732,15 +736,15 @@ export function DREPage({ clients, selectedClient, selectedYear }: any) {
                 { label: 'Prioridade Estratégica', content: dreExecutiveAdvisoryFull.prioridadeEstrategica, color: 'border-l-blue-400' },
                 { label: 'Outlook', content: dreExecutiveAdvisoryFull.outlook, color: 'border-l-indigo-400' },
               ].map((item, i) => (
-                <div key={i} className={cn('bg-slate-50 rounded-2xl p-5 border border-border border-l-4', item.color)}>
-                  <p className="text-[9px] font-black uppercase tracking-widest text-muted-foreground mb-2">{item.label}</p>
-                  <p className="text-sm text-muted-foreground font-medium leading-relaxed">{item.content}</p>
+                <div key={i} className={cn('bg-surface-container/30 rounded-2xl p-5 border border-border border-l-4', item.color)}>
+                  <p className="text-secondary">{item.label}</p>
+                  <p className="text-sm text-secondary font-medium leading-relaxed">{item.content}</p>
                 </div>
               ))}
             </div>
           ) : dreExecutiveAdvisory ? (
-            <div className="bg-slate-50 p-6 rounded-2xl border border-border">
-              <p className="text-sm text-muted-foreground leading-relaxed font-medium whitespace-pre-line">{dreExecutiveAdvisory}</p>
+            <div className="bg-surface-container/30 p-6 rounded-2xl border border-border">
+              <p className="text-sm text-secondary leading-relaxed font-medium whitespace-pre-line">{dreExecutiveAdvisory}</p>
             </div>
           ) : null}
         </div>
@@ -751,15 +755,15 @@ export function DREPage({ clients, selectedClient, selectedYear }: any) {
         <div className="mb-10">
         <button 
           onClick={() => setShowTechnicalLayer(!showTechnicalLayer)}
-          className="w-full bg-slate-100 hover:bg-slate-200 transition-colors border border-border rounded-2xl p-4 flex items-center justify-between group"
+          className="w-full bg-surface-container hover:bg-slate-200 transition-colors border border-border rounded-2xl p-4 flex items-center justify-between group"
         >
           <div className="flex items-center gap-3">
             <div className="w-8 h-8 rounded-lg bg-slate-200 flex items-center justify-center text-muted-foreground group-hover:text-muted-foreground transition-colors">
               <Database size={16} />
             </div>
             <div className="text-left">
-              <h4 className="text-sm font-black text-muted-foreground">Camada Técnica & KPIs</h4>
-              <p className="text-[10px] font-bold uppercase text-muted-foreground tracking-widest">Métricas Contábeis, Gráficos e Tabelas</p>
+              <h4 className="text-sm font-black text-primary">Camada Técnica & KPIs</h4>
+              <p className="text-secondary">Métricas Contábeis, Gráficos e Tabelas</p>
             </div>
           </div>
           <div className="text-muted-foreground font-bold text-xs uppercase tracking-wider flex items-center gap-2">
@@ -801,14 +805,14 @@ export function DREPage({ clients, selectedClient, selectedYear }: any) {
             {/* SCALE EFFICIENCY E QUALIDADE */}
             <div className="grid grid-cols-1 xl:grid-cols-2 gap-6">
               {scaleEfficiency && (
-                <div className="bg-white border border-border rounded-3xl p-6 shadow-sm flex flex-col">
+                <div className="bg-card border border-border rounded-3xl p-6 shadow-sm flex flex-col">
                   <div className="flex items-center gap-3 mb-6 border-b border-border pb-4">
-                    <div className="w-10 h-10 rounded-xl bg-slate-50 border border-border flex items-center justify-center text-muted-foreground">
+                    <div className="w-10 h-10 rounded-xl bg-surface-container/30 border border-border flex items-center justify-center text-muted-foreground">
                       <Scale size={20} />
                     </div>
                     <div>
-                      <h4 className="text-lg font-black text-muted-foreground">{t('dre.scale.subtitle')}</h4>
-                      <p className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground">{t('dre.scale.desc')}</p>
+                      <h4 className="text-lg font-black text-primary">{t('dre.scale.subtitle')}</h4>
+                      <p className="text-secondary">{t('dre.scale.desc')}</p>
                     </div>
                   </div>
                   
@@ -825,21 +829,21 @@ export function DREPage({ clients, selectedClient, selectedYear }: any) {
                     </div>
                     
                     <div className="flex items-center justify-between gap-4">
-                        <div className="flex-1 bg-slate-50 border border-border rounded-2xl p-6 text-center">
-                          <p className="text-[10px] font-black uppercase tracking-widest text-muted-foreground mb-2">Crescimento de Receita</p>
+                        <div className="flex-1 bg-surface-container/30 border border-border rounded-2xl p-6 text-center">
+                          <p className="text-secondary">Crescimento de Receita</p>
                           <p className={cn("text-3xl font-black", (scaleEfficiency.recGrowth || 0) >= 0 ? "text-emerald-600" : "text-rose-600")}>
                             {scaleEfficiency.recGrowth === null ? 'N/A' : `${scaleEfficiency.recGrowth > 0 ? '+' : ''}${scaleEfficiency.recGrowth.toFixed(2)}%`}
                           </p>
                         </div>
-                        <div className="flex-1 bg-slate-50 border border-border rounded-2xl p-6 text-center">
-                          <p className="text-[10px] font-black uppercase tracking-widest text-muted-foreground mb-2">Crescimento de EBITDA</p>
+                        <div className="flex-1 bg-surface-container/30 border border-border rounded-2xl p-6 text-center">
+                          <p className="text-secondary">Crescimento de EBITDA</p>
                           <p className={cn("text-3xl font-black", (scaleEfficiency.ebitdaGrowth || 0) >= 0 ? "text-emerald-600" : "text-rose-600")}>
                             {scaleEfficiency.ebitdaGrowth === null ? 'N/A' : `${scaleEfficiency.ebitdaGrowth > 0 ? '+' : ''}${scaleEfficiency.ebitdaGrowth.toFixed(2)}%`}
                           </p>
                         </div>
                     </div>
                     
-                    <p className="text-sm font-medium text-muted-foreground mt-8 text-center leading-relaxed">
+                    <p className="text-secondary">
                       {scaleEfficiency.description}
                     </p>
                   </div>
@@ -847,22 +851,22 @@ export function DREPage({ clients, selectedClient, selectedYear }: any) {
               )}
 
               {earningsQualityAssessment && (
-                <div className="bg-white border border-border rounded-3xl p-6 shadow-sm flex flex-col">
-                  <h4 className="text-[10px] font-black uppercase text-muted-foreground tracking-widest mb-1">Qualidade Contábil do Resultado</h4>
+                <div className="bg-card border border-border rounded-3xl p-6 shadow-sm flex flex-col">
+                  <h4 className="text-[10px] font-black uppercase text-primary tracking-widest mb-1">Qualidade Contábil do Resultado</h4>
                   <h3 className={cn("text-lg font-black mb-2", 
                     earningsQualityAssessment.classification === 'HIGH_QUALITY_EARNINGS' ? 'text-emerald-600' :
                     earningsQualityAssessment.classification === 'LOW_QUALITY_EARNINGS' ? 'text-rose-600' : 
-                    earningsQualityAssessment.classification === 'UNDETERMINED_EARNINGS_QUALITY' ? 'text-muted-foreground' : 'text-amber-500'
+                    earningsQualityAssessment.classification === 'UNDETERMINED_EARNINGS_QUALITY' ? 'text-primary' : 'text-amber-500'
                   )}>
                     {earningsQualityAssessment.classification === 'HIGH_QUALITY_EARNINGS' ? 'Alta Qualidade (Operacional)' :
                     earningsQualityAssessment.classification === 'LOW_QUALITY_EARNINGS' ? 'Baixa Qualidade (Extraordinário)' : 
                     earningsQualityAssessment.classification === 'UNDETERMINED_EARNINGS_QUALITY' ? 'Qualidade Indeterminada' : 'Qualidade Média'}
                   </h3>
-                  <p className="text-xs text-muted-foreground mb-4">{earningsQualityAssessment.rationale}</p>
+                  <p className="text-secondary">{earningsQualityAssessment.rationale}</p>
                   {earningsQualityAssessment.classification !== 'UNDETERMINED_EARNINGS_QUALITY' && (
                     <div className="mt-auto flex flex-col gap-2">
-                      <div className="w-full bg-slate-100 h-2 rounded-full overflow-hidden flex">
-                        <div className="h-full bg-emerald-500" style={{ width: `${earningsQualityAssessment.recurringRevenueWeight}%` }} />
+                      <div className="w-full bg-surface-container h-2 rounded-full overflow-hidden flex">
+                        <div className="h-full bg-success-soft0" style={{ width: `${earningsQualityAssessment.recurringRevenueWeight}%` }} />
                         <div className="h-full bg-rose-400" style={{ width: `${earningsQualityAssessment.nonRecurringWeight}%` }} />
                       </div>
                       <div className="flex justify-between text-[9px] font-bold uppercase text-muted-foreground">
@@ -875,73 +879,59 @@ export function DREPage({ clients, selectedClient, selectedYear }: any) {
               )}
             </div>            {/* CHARTS E HIGHLIGHTS */}
             <div className="grid grid-cols-1 gap-8">
-              <div className="bg-gradient-to-br from-white to-slate-50 p-8 rounded-[40px] border border-border shadow-xl shadow-slate-200/40 flex flex-col">
-                <div className="flex items-center justify-between mb-8 shrink-0 flex-wrap gap-4">
-                  <div>
-                    <h3 className="text-xl font-black bg-clip-text text-transparent bg-gradient-to-r from-slate-900 to-slate-600">{t('dre.evolution.title')}</h3>
-                    <p className="text-[10px] text-muted-foreground uppercase font-bold tracking-widest mt-1">Receita, EBITDA e Lucro</p>
+              <ExecutiveChart 
+                title={t('dre.evolution.title')}
+                description="Receita, EBITDA e Lucro"
+                height={300}
+                className="w-full"
+              >
+                <div className="flex gap-4 absolute top-6 right-6 z-10">
+                  <div className="flex items-center gap-1.5">
+                    <div className="w-2.5 h-2.5 rounded-full bg-blue-500" />
+                    <span className="text-[9px] font-bold uppercase text-muted-foreground">{t('dre.metrics.net_revenue')}</span>
                   </div>
-                  <div className="flex gap-4">
-                    <div className="flex items-center gap-1.5">
-                      <div className="w-2.5 h-2.5 rounded-full bg-blue-500" />
-                      <span className="text-[9px] font-bold uppercase text-muted-foreground">{t('dre.metrics.net_revenue')}</span>
-                    </div>
-                    <div className="flex items-center gap-1.5">
-                      <div className="w-2.5 h-2.5 rounded-full bg-rose-500" />
-                      <span className="text-[9px] font-bold uppercase text-muted-foreground">{cmvLabel}</span>
-                    </div>
-                    <div className="flex items-center gap-1.5">
-                      <div className="w-2.5 h-2.5 rounded-full bg-emerald-500" />
-                      <span className="text-[9px] font-bold uppercase text-muted-foreground">{t('dre.metrics.ebitda')}</span>
-                    </div>
-                    <div className="flex items-center gap-1.5">
-                      <div className="w-2.5 h-2.5 rounded-full bg-primary" />
-                      <span className="text-[9px] font-bold uppercase text-muted-foreground">{t('dre.metrics.net_result')}</span>
-                    </div>
+                  <div className="flex items-center gap-1.5">
+                    <div className="w-2.5 h-2.5 rounded-full bg-critical-soft0" />
+                    <span className="text-[9px] font-bold uppercase text-muted-foreground">{cmvLabel}</span>
+                  </div>
+                  <div className="flex items-center gap-1.5">
+                    <div className="w-2.5 h-2.5 rounded-full bg-success-soft0" />
+                    <span className="text-[9px] font-bold uppercase text-muted-foreground">{t('dre.metrics.ebitda')}</span>
+                  </div>
+                  <div className="flex items-center gap-1.5">
+                    <div className="w-2.5 h-2.5 rounded-full bg-primary" />
+                    <span className="text-[9px] font-bold uppercase text-muted-foreground">{t('dre.metrics.net_result')}</span>
                   </div>
                 </div>
-                
-                <div className="flex-1 w-full min-h-[300px]">
-                  <ResponsiveContainer width="100%" height="100%">
-                    <BarChart data={chartData} margin={{ top: 10, right: 10, left: 10, bottom: 0 }}>
-                      <CartesianGrid strokeDasharray="3 3" vertical={false} stroke={colors.border} />
-                      <XAxis 
-                        dataKey="year" 
-                        axisLine={false} 
-                        tickLine={false} 
-                        tick={{ fontSize: 10, fontWeight: 700, fill: colors.mutedForeground }} 
-                        dy={10}
-                      />
-                      <YAxis hide />
-                      <Tooltip 
-                        cursor={{ fill: 'rgba(0, 0, 0, 0.05)' }}
-                        content={({ active, payload }) => {
-                          if (active && payload && payload.length) {
-                            return (
-                              <div className="bg-slate-900 text-white p-4 rounded-2xl shadow-2xl border border-white/10 backdrop-blur-md">
-                                <p className="text-[10px] font-black uppercase tracking-widest mb-2 text-white/50">{payload[0].payload.year}</p>
-                                <div className="space-y-1.5">
-                                  {payload.map((p: any, idx: number) => (
-                                    <div key={idx} className="flex items-center justify-between gap-8">
-                                      <span className="text-[10px] font-bold text-white/70 uppercase">{p.name}</span>
-                                      <span className="text-xs font-black">{formatCurrency(p.value)}</span>
-                                    </div>
-                                  ))}
+                <BarChart data={chartData} margin={{ top: 10, right: 10, left: 10, bottom: 0 }}>
+                  <ExecutiveChartGrid vertical={false} />
+                  <ExecutiveChartXAxis dataKey="year" dy={10} />
+                  <ExecutiveChartTooltip 
+                    content={({ active, payload }: any) => {
+                      if (active && payload && payload.length) {
+                        return (
+                          <div className="bg-foreground text-white p-4 rounded-2xl shadow-2xl border border-white/10 backdrop-blur-md">
+                            <p className="text-[10px] font-black uppercase tracking-widest mb-2 text-white/50">{payload[0].payload.year}</p>
+                            <div className="space-y-1.5">
+                              {payload.map((p: any, idx: number) => (
+                                <div key={idx} className="flex items-center justify-between gap-8">
+                                  <span className="text-[10px] font-bold text-white/70 uppercase">{p.name}</span>
+                                  <span className="text-xs font-black">{formatCurrency(p.value)}</span>
                                 </div>
-                              </div>
-                            );
-                          }
-                          return null;
-                        }}
-                      />
-                      <Bar dataKey="receita" name="Receita Líquida" fill="#3b82f6" radius={[4, 4, 0, 0]} />
-                      <Bar dataKey="cmv" name={cmvLabel} fill="#f43f5e" radius={[4, 4, 0, 0]} />
-                      <Bar dataKey="ebitda" name="EBITDA" fill="#10b981" radius={[4, 4, 0, 0]} />
-                      <Bar dataKey="lucro" name="Resultado Líquido" fill="#a855f7" radius={[4, 4, 0, 0]} />
-                    </BarChart>
-                  </ResponsiveContainer>
-                </div>
-              </div>
+                              ))}
+                            </div>
+                          </div>
+                        );
+                      }
+                      return null;
+                    }}
+                  />
+                  <Bar dataKey="receita" name="Receita Líquida" fill="#3b82f6" radius={[4, 4, 0, 0]} />
+                  <Bar dataKey="cmv" name={cmvLabel} fill="#f43f5e" radius={[4, 4, 0, 0]} />
+                  <Bar dataKey="ebitda" name="EBITDA" fill="#10b981" radius={[4, 4, 0, 0]} />
+                  <Bar dataKey="lucro" name="Resultado Líquido" fill="#a855f7" radius={[4, 4, 0, 0]} />
+                </BarChart>
+              </ExecutiveChart>
 
               <div className="bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 text-white p-8 rounded-[40px] shadow-2xl relative overflow-hidden flex flex-col border border-border">
                 <div className="absolute top-0 right-0 w-64 h-64 bg-blue-500/10 rounded-full blur-3xl -mr-32 -mt-32 pointer-events-none" />
@@ -949,8 +939,8 @@ export function DREPage({ clients, selectedClient, selectedYear }: any) {
                 <p className="text-[10px] text-blue-400/80 uppercase font-bold tracking-widest mb-8">{t('dre.highlights.subtitle')}</p>
                 
                 <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 flex-1">
-                  <div className="p-6 bg-white/5 rounded-2xl border border-white/5 space-y-2 relative z-10 h-fit">
-                    <p className="text-[9px] font-black text-muted-foreground uppercase tracking-widest mb-4">{t('dre.highlights.composition')}</p>
+                  <div className="p-6 bg-card/5 rounded-2xl border border-white/5 space-y-2 relative z-10 h-fit">
+                    <p className="text-secondary">{t('dre.highlights.composition')}</p>
                     
                     <div className="flex justify-between items-center text-xs text-white/70 mb-2">
                       <span>Receita Operacional Bruta:</span>
@@ -966,9 +956,9 @@ export function DREPage({ clients, selectedClient, selectedYear }: any) {
                     </div>
                   </div>
                   
-                  <div className="p-6 bg-white/5 rounded-2xl border border-white/5 relative z-10 h-fit flex flex-col justify-between">
+                  <div className="p-6 bg-card/5 rounded-2xl border border-white/5 relative z-10 h-fit flex flex-col justify-between">
                     <div>
-                      <p className="text-[9px] font-black text-muted-foreground uppercase tracking-widest mb-4">Ponto de Equilíbrio & Cobertura</p>
+                      <p className="text-secondary">Ponto de Equilíbrio & Cobertura</p>
                       
                       <div className="flex justify-between items-center text-xs text-white/70 mb-2">
                         <span>Receita Operacional Líquida:</span>
@@ -988,7 +978,7 @@ export function DREPage({ clients, selectedClient, selectedYear }: any) {
                           <span>Despesas Fixas:</span>
                           <span className="font-bold text-rose-300">{formatCurrency(despesasFixas)}</span>
                         </div>
-                        <div className="flex justify-between items-center text-xs text-white font-bold bg-white/5 p-3 rounded-xl mt-2 border border-white/5">
+                        <div className="flex justify-between items-center text-xs text-white font-bold bg-card/5 p-3 rounded-xl mt-2 border border-white/5">
                           <span>Ponto de Equilíbrio (Absoluto):</span>
                           <span className="text-blue-400">{dbData.length > 0 ? formatCurrency(pontoEquilibrio) : '---'}</span>
                         </div>
@@ -1017,9 +1007,9 @@ export function DREPage({ clients, selectedClient, selectedYear }: any) {
             </div>
 
 
-      <div className="bg-white border border-border rounded-[40px] shadow-sm overflow-hidden mb-10">
-        <div className="px-6 py-5 border-b border-border bg-slate-50/50 flex items-center justify-between">
-          <h4 className="text-sm font-black text-muted-foreground uppercase tracking-widest">{translateLabel('Detalhamento da DRE')}</h4>
+      <div className="bg-card border border-border rounded-[40px] shadow-sm overflow-hidden mb-10">
+        <div className="px-6 py-5 border-b border-border bg-surface-container/30/50 flex items-center justify-between">
+          <h4 className="text-sm font-black text-primary uppercase tracking-widest">{translateLabel('Detalhamento da DRE')}</h4>
           <span className="text-[9px] font-black uppercase px-3 py-1 rounded-full bg-blue-50 text-blue-600">
             {translateLabel('Análise Horizontal e Vertical')}
           </span>
@@ -1027,7 +1017,7 @@ export function DREPage({ clients, selectedClient, selectedYear }: any) {
         <div className="overflow-x-auto">
           <table className="w-full text-sm">
             <thead>
-              <tr className="bg-slate-50/50 border-b border-border">
+              <tr className="bg-surface-container/30/50 border-b border-border">
                 <th className="text-left py-2.5 md:py-4 px-5 md:px-8 text-[10px] font-bold text-muted-foreground uppercase tracking-widest">{translateLabel('Conta')}</th>
                 <th className="text-right py-2.5 md:py-4 px-5 md:px-8 text-[10px] font-bold text-muted-foreground uppercase tracking-widest">{translateLabel('Valor (R$)')}</th>
                 <th className="text-right py-2.5 md:py-4 px-5 md:px-8 text-[10px] font-bold text-muted-foreground uppercase tracking-widest">{translateLabel('AV (%)')}</th>
@@ -1062,7 +1052,7 @@ export function DREPage({ clients, selectedClient, selectedYear }: any) {
                     const isTotal = level === 1;
 
                     return (
-                      <tr key={i} className={cn('hover:bg-slate-50 transition-colors group', isTotal ? 'bg-slate-50/30 font-bold' : '')}>
+                      <tr key={i} className={cn('hover:bg-surface-container/30 transition-colors group', isTotal ? 'bg-surface-container/30/30 font-bold' : '')}>
                         <td className="py-2.5 md:py-4 px-5 md:px-8">
                           <span
                             className={cn('block break-words overflow-visible', isTotal ? 'text-primary font-bold' : 'text-muted-foreground font-medium')}
@@ -1134,7 +1124,7 @@ export function DREPage({ clients, selectedClient, selectedYear }: any) {
                   ].map((row, i) => {
                     const isTotal = row.level === 1;
                     return (
-                      <tr key={i} className={cn('transition-colors group', isTotal ? 'bg-slate-50/30 font-bold' : '')}>
+                      <tr key={i} className={cn('transition-colors group', isTotal ? 'bg-surface-container/30/30 font-bold' : '')}>
                         <td className="py-2.5 md:py-4 px-5 md:px-8">
                           <span
                             className={cn('block break-words overflow-visible', isTotal ? 'text-muted-foreground font-bold' : 'text-muted-foreground font-medium')}
@@ -1168,12 +1158,12 @@ export function DREPage({ clients, selectedClient, selectedYear }: any) {
             </div>
             <div>
               <h4 className="text-xl font-black bg-clip-text text-transparent bg-gradient-to-r from-slate-900 to-slate-600">{t('dre.notes.title')}</h4>
-              <p className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground mt-1">Tendência Histórica Acumulada ({trendNote.period})</p>
+              <p className="text-secondary">Tendência Histórica Acumulada ({trendNote.period})</p>
             </div>
           </div>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-            <div className="p-5 bg-white rounded-3xl border border-border flex flex-col h-full shadow-sm hover:shadow-md transition-shadow">
-              <p className="text-[10px] font-bold text-muted-foreground uppercase tracking-widest mb-4 truncate" title={t('dre.notes.revenue_growth')}>{t('dre.notes.revenue_growth')}</p>
+            <div className="p-5 bg-card rounded-3xl border border-border flex flex-col h-full shadow-sm hover:shadow-md transition-shadow">
+              <p className="text-secondary" title={t('dre.notes.revenue_growth')}>{t('dre.notes.revenue_growth')}</p>
               <div className="flex items-center gap-2 mt-auto">
                 {trendNote.receita > 0 ? <TrendingUp size={18} className="text-emerald-500" /> : <TrendingDown size={18} className="text-rose-500" />}
                 <p className={cn("text-3xl font-black", trendNote.receita > 0 ? "text-emerald-500" : "text-rose-500")}>
@@ -1181,8 +1171,8 @@ export function DREPage({ clients, selectedClient, selectedYear }: any) {
                 </p>
               </div>
             </div>
-            <div className="p-5 bg-white rounded-3xl border border-border flex flex-col h-full shadow-sm hover:shadow-md transition-shadow">
-              <p className="text-[10px] font-bold text-muted-foreground uppercase tracking-widest mb-4 truncate" title={`Evolução de ${cmvLabel}`}>Evolução de {cmvLabel}</p>
+            <div className="p-5 bg-card rounded-3xl border border-border flex flex-col h-full shadow-sm hover:shadow-md transition-shadow">
+              <p className="text-secondary" title={`Evolução de ${cmvLabel}`}>Evolução de {cmvLabel}</p>
               <div className="flex items-center gap-2 mt-auto">
                 {trendNote.cmv > 0 ? <TrendingUp size={18} className="text-rose-500" /> : <TrendingDown size={18} className="text-emerald-500" />}
                 <p className={cn("text-3xl font-black", trendNote.cmv > 0 ? "text-rose-500" : "text-emerald-500")}>
@@ -1190,8 +1180,8 @@ export function DREPage({ clients, selectedClient, selectedYear }: any) {
                 </p>
               </div>
             </div>
-            <div className="p-5 bg-white rounded-3xl border border-border flex flex-col h-full shadow-sm hover:shadow-md transition-shadow">
-              <p className="text-[10px] font-bold text-muted-foreground uppercase tracking-widest mb-4 truncate" title={t('dre.notes.ebitda_growth')}>{t('dre.notes.ebitda_growth')}</p>
+            <div className="p-5 bg-card rounded-3xl border border-border flex flex-col h-full shadow-sm hover:shadow-md transition-shadow">
+              <p className="text-secondary" title={t('dre.notes.ebitda_growth')}>{t('dre.notes.ebitda_growth')}</p>
               <div className="flex items-center gap-2 mt-auto">
                 {trendNote.ebitda > 0 ? <TrendingUp size={18} className="text-emerald-500" /> : <TrendingDown size={18} className="text-rose-500" />}
                 <p className={cn("text-3xl font-black", trendNote.ebitda > 0 ? "text-emerald-500" : "text-rose-500")}>
@@ -1199,8 +1189,8 @@ export function DREPage({ clients, selectedClient, selectedYear }: any) {
                 </p>
               </div>
             </div>
-            <div className="p-5 bg-white rounded-3xl border border-border flex flex-col h-full shadow-sm hover:shadow-md transition-shadow">
-              <p className="text-[10px] font-bold text-muted-foreground uppercase tracking-widest mb-4 truncate" title={t('dre.notes.profit_growth')}>{t('dre.notes.profit_growth')}</p>
+            <div className="p-5 bg-card rounded-3xl border border-border flex flex-col h-full shadow-sm hover:shadow-md transition-shadow">
+              <p className="text-secondary" title={t('dre.notes.profit_growth')}>{t('dre.notes.profit_growth')}</p>
               <div className="flex items-center gap-2 mt-auto">
                 {trendNote.lucro > 0 ? <TrendingUp size={18} className="text-emerald-500" /> : <TrendingDown size={18} className="text-rose-500" />}
                 <p className={cn("text-3xl font-black", trendNote.lucro > 0 ? "text-emerald-500" : "text-rose-500")}>
@@ -1209,7 +1199,7 @@ export function DREPage({ clients, selectedClient, selectedYear }: any) {
               </div>
             </div>
           </div>
-          <p className="text-sm text-muted-foreground mt-6 leading-relaxed">
+          <p className="text-sm text-secondary mt-6 leading-relaxed">
             A análise histórica demonstra um {trendNote.receita > 0 ? 'crescimento' : 'decréscimo'} de <strong>{Math.abs(trendNote.receita).toFixed(2)}%</strong> nas receitas líquidas no período de {trendNote.period}.
             Este movimento foi acompanhado por uma variação de <strong>{trendNote.cmv > 0 ? '+' : ''}{trendNote.cmv.toFixed(2)}%</strong> em <strong>{cmvLabel}</strong>.
             No que tange à geração de caixa operacional, o EBITDA obteve uma variação de <strong>{trendNote.ebitda > 0 ? '+' : ''}{trendNote.ebitda.toFixed(2)}%</strong>, resultando
@@ -1255,22 +1245,22 @@ export function DREPage({ clients, selectedClient, selectedYear }: any) {
       )}
 
       {showDeleteConfirm && typeof document !== 'undefined' && createPortal(
-        <div className="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-[100] flex items-center justify-center p-4">
-          <div className="bg-white rounded-[32px] p-8 w-full max-w-md min-w-[300px] md:min-w-[400px] shadow-2xl shrink-0">
-            <h3 className="text-xl font-black text-muted-foreground mb-2">Excluir Dados?</h3>
-            <p className="text-sm text-muted-foreground mb-8 font-medium">
+        <div className="fixed inset-0 bg-foreground/60 backdrop-blur-sm z-[100] flex items-center justify-center p-4">
+          <div className="bg-card rounded-[32px] p-8 w-full max-w-md min-w-[300px] md:min-w-[400px] shadow-2xl shrink-0">
+            <h3 className="text-xl font-black text-primary mb-2">Excluir Dados?</h3>
+            <p className="text-sm text-secondary mb-8 font-medium">
               Esta ação removerá todos os registros da DRE para o ano <strong>{filterYear}</strong> deste cliente. Esta ação não pode ser desfeita.
             </p>
             <div className="flex gap-4">
               <button
                 onClick={() => setShowDeleteConfirm(false)}
-                className="flex-1 py-3 text-sm font-bold text-muted-foreground hover:bg-slate-50 rounded-2xl transition-all"
+                className="flex-1 py-3 text-sm font-bold text-muted-foreground hover:bg-surface-container/30 rounded-2xl transition-all"
               >
                 Cancelar
               </button>
               <button
                 onClick={handleDelete}
-                className="flex-1 py-3 bg-rose-500 text-white text-sm font-black uppercase tracking-widest rounded-2xl shadow-lg shadow-rose-500/20 hover:scale-105 transition-all"
+                className="flex-1 py-3 bg-critical-soft0 text-white text-sm font-black uppercase tracking-widest rounded-2xl shadow-lg shadow-rose-500/20 hover:scale-105 transition-all"
               >
                 {deleting ? 'Excluindo...' : 'Sim, Excluir'}
               </button>
@@ -1283,7 +1273,7 @@ export function DREPage({ clients, selectedClient, selectedYear }: any) {
       {toast && typeof document !== 'undefined' && createPortal(
         <div className={cn(
           'fixed bottom-8 right-8 px-5 md:px-8 py-2.5 md:py-4 rounded-2xl shadow-2xl z-[100] animate-in fade-in slide-in-from-bottom-4 transition-all',
-          toast.type === 'success' ? 'bg-emerald-500 text-white' : 'bg-rose-500 text-white'
+          toast.type === 'success' ? 'bg-success-soft0 text-white' : 'bg-critical-soft0 text-white'
         )}>
           <p className="text-xs font-black uppercase tracking-widest">{toast.message}</p>
         </div>,

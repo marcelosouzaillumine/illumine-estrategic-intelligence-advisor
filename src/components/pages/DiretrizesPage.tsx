@@ -117,7 +117,7 @@ export function DiretrizesPage({ clientId }: DiretrizesPageProps) {
           </div>
           <div className="relative z-10 space-y-6">
             <div className="flex items-center gap-4">
-              <div className="w-12 h-12 rounded-md bg-destructive/10 flex items-center justify-center text-destructive shadow-inner">
+              <div className="w-12 h-12 rounded-md bg-critical-soft flex items-center justify-center text-destructive shadow-inner">
                 <Heart size={24} />
               </div>
               <h3 className="text-xl font-medium text-foreground tracking-tight uppercase">Propósito</h3>

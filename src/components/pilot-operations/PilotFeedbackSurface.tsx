@@ -44,9 +44,9 @@ export const PilotFeedbackSurface: React.FC = () => {
 
   const getSeverityStyle = (sev: PilotFeedbackSeverity) => {
     switch (sev) {
-      case 'CRITICAL': return 'bg-rose-500/10 text-rose-500 border-rose-500/25 font-black animate-pulse';
-      case 'BLOCKING': return 'bg-rose-500/10 text-rose-500 border-rose-500/25';
-      case 'ATTENTION': return 'bg-amber-500/10 text-amber-500 border-amber-500/25';
+      case 'CRITICAL': return 'bg-critical-soft0/10 text-rose-500 border-rose-500/25 font-black animate-pulse';
+      case 'BLOCKING': return 'bg-critical-soft0/10 text-rose-500 border-rose-500/25';
+      case 'ATTENTION': return 'bg-warning-soft0/10 text-amber-500 border-amber-500/25';
       default: return 'bg-secondary/10 text-secondary border-secondary/25';
     }
   };

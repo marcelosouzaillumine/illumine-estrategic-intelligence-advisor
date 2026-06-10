@@ -169,7 +169,7 @@ export const parseFinancialDocumentIntelligent = async (
     }
 
     if (!fullText.trim()) {
-      throw new Error("Não foi possível extrair texto legível do documento.");
+      throw new Error("Evidências indisponíveis.");
     }
 
     console.log(`[Import] Sending text to AI...`);

@@ -168,7 +168,7 @@ export function SovereignBoardPackPage({ boardPack, dataMode }: SovereignBoardPa
       
       {/* Sandbox banner if mock data is used */}
       {isMock && (
-        <div className="p-4 rounded-2xl bg-amber-500/10 border border-amber-500/20 flex items-start gap-3">
+        <div className="p-4 rounded-2xl bg-warning-soft0/10 border border-amber-500/20 flex items-start gap-3">
           <AlertTriangle className="w-5 h-5 text-amber-400 shrink-0 mt-0.5" />
           <div>
             <h4 className="text-xs font-black uppercase tracking-wider text-amber-400">Demo dataset / No real financial data loaded</h4>
@@ -233,14 +233,14 @@ export function SovereignBoardPackPage({ boardPack, dataMode }: SovereignBoardPa
             <span className="text-[9px] font-black uppercase tracking-widest text-muted-foreground dark:text-zinc-550">
               Tese Fiduciária Consolidada
             </span>
-            <h2 className="text-sm font-bold text-muted-foreground dark:text-zinc-300">
+            <h2 className="text-sm font-bold text-primary dark:text-zinc-300">
               {snapshot.unifiedThesisStatement}
             </h2>
           </div>
           {snapshot.periodScore !== undefined && (
             <div className="px-4 py-2 bg-slate-100 dark:bg-zinc-900 border border-border dark:border-zinc-800 rounded-2xl flex flex-col items-center shadow-xs">
               <span className="text-[8px] text-muted-foreground dark:text-zinc-500 font-black uppercase tracking-wider">Score</span>
-              <span className="text-xl font-light text-muted-foreground dark:text-zinc-200">{snapshot.periodScore}</span>
+              <span className="text-xl font-light text-primary dark:text-zinc-200">{snapshot.periodScore}</span>
             </div>
           )}
         </div>
@@ -262,7 +262,7 @@ export function SovereignBoardPackPage({ boardPack, dataMode }: SovereignBoardPa
             </span>
           )}
           {snapshot.earlyWarningLevel && (
-            <span className="text-[8px] font-black uppercase tracking-widest px-2.5 py-1 bg-amber-500/10 text-amber-700 dark:text-amber-400 border border-amber-500/20 rounded">
+            <span className="text-[8px] font-black uppercase tracking-widest px-2.5 py-1 bg-warning-soft0/10 text-amber-700 dark:text-amber-700 border border-amber-500/20 rounded">
               EARLY WARNING LEVEL: {snapshot.earlyWarningLevel}
             </span>
           )}
@@ -281,7 +281,7 @@ export function SovereignBoardPackPage({ boardPack, dataMode }: SovereignBoardPa
             <span className="text-[10px] font-black uppercase tracking-widest text-primary dark:text-primary">
               Página Zero — Executive Strategic Snapshot
             </span>
-            <h3 className="text-lg font-black text-muted-foreground dark:text-zinc-200 mt-1">
+            <h3 className="text-lg font-black text-primary dark:text-zinc-200 mt-1">
               Visão Soberana de Alta Direção
             </h3>
           </div>
@@ -293,7 +293,7 @@ export function SovereignBoardPackPage({ boardPack, dataMode }: SovereignBoardPa
                 <span className={cn(
                   "px-2.5 py-0.5 rounded text-[10px] font-black uppercase tracking-wider",
                   boardPack.executiveDecisionPrioritization.pageZero.sobrevivendo === 'Sim'
-                    ? "bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border border-emerald-500/25"
+                    ? "bg-success-soft0/10 text-emerald-600 dark:text-emerald-700 border border-emerald-500/25"
                     : "bg-red-500/10 text-red-600 dark:text-red-400 border border-red-500/25"
                 )}>
                   {boardPack.executiveDecisionPrioritization.pageZero.sobrevivendo}
@@ -310,7 +310,7 @@ export function SovereignBoardPackPage({ boardPack, dataMode }: SovereignBoardPa
                 <span className={cn(
                   "px-2.5 py-0.5 rounded text-[10px] font-black uppercase tracking-wider",
                   boardPack.executiveDecisionPrioritization.pageZero.criandoValor.includes('Criação')
-                    ? "bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border border-emerald-500/25"
+                    ? "bg-success-soft0/10 text-emerald-600 dark:text-emerald-700 border border-emerald-500/25"
                     : "bg-red-500/10 text-red-600 dark:text-red-400 border border-red-500/25"
                 )}>
                   {boardPack.executiveDecisionPrioritization.pageZero.criandoValor}
@@ -330,9 +330,9 @@ export function SovereignBoardPackPage({ boardPack, dataMode }: SovereignBoardPa
                 <span className={cn(
                   "px-2.5 py-0.5 rounded text-[10px] font-black uppercase tracking-wider",
                   boardPack.executiveDecisionPrioritization.pageZero.capitalPreservado === 'Preservado'
-                    ? "bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border border-emerald-500/25"
+                    ? "bg-success-soft0/10 text-emerald-600 dark:text-emerald-700 border border-emerald-500/25"
                     : boardPack.executiveDecisionPrioritization.pageZero.capitalPreservado === 'Parcialmente Preservado'
-                    ? "bg-amber-500/10 text-amber-600 dark:text-amber-400 border border-amber-500/25"
+                    ? "bg-warning-soft0/10 text-amber-600 dark:text-amber-700 border border-amber-500/25"
                     : "bg-red-500/10 text-red-600 dark:text-red-400 border border-red-500/25"
                 )}>
                   {boardPack.executiveDecisionPrioritization.pageZero.capitalPreservado}
@@ -388,7 +388,7 @@ export function SovereignBoardPackPage({ boardPack, dataMode }: SovereignBoardPa
           <div className="p-6 md:p-8 rounded-[32px] border border-border dark:border-zinc-900 bg-slate-50/40 dark:bg-zinc-950/30 backdrop-blur-md space-y-6">
             <div>
               <span className="text-[9px] font-black uppercase tracking-widest text-primary dark:text-primary">Conselho de Administração</span>
-              <h3 className="text-base font-black text-muted-foreground dark:text-zinc-200 mt-0.5">Top 3 Decisões do Conselho</h3>
+              <h3 className="text-base font-black text-primary dark:text-zinc-200 mt-0.5">Top 3 Decisões do Conselho</h3>
             </div>
 
             <div className="space-y-6">
@@ -397,13 +397,13 @@ export function SovereignBoardPackPage({ boardPack, dataMode }: SovereignBoardPa
                   <div className="flex items-start justify-between gap-3">
                     <div className="flex gap-2.5 items-center">
                       <span className="w-6 h-6 flex items-center justify-center rounded-full bg-primary text-primary dark:text-primary font-bold text-xs shrink-0">{idx + 1}</span>
-                      <h4 className="text-xs font-black text-muted-foreground dark:text-zinc-200 uppercase tracking-wide">{dec.titulo}</h4>
+                      <h4 className="text-xs font-black text-primary dark:text-zinc-200 uppercase tracking-wide">{dec.titulo}</h4>
                     </div>
                     <div className="flex flex-wrap gap-1.5 justify-end shrink-0">
                       <span className={cn(
                         "px-2 py-0.5 rounded text-[8px] font-black uppercase tracking-wider border",
                         dec.impactLabel === 'Muito Alto' ? "bg-red-500/10 text-red-600 dark:text-red-400 border-red-500/25" :
-                        dec.impactLabel === 'Alto' ? "bg-amber-500/10 text-amber-600 dark:text-amber-400 border-amber-500/25" :
+                        dec.impactLabel === 'Alto' ? "bg-warning-soft0/10 text-amber-600 dark:text-amber-700 border-amber-500/25" :
                         dec.impactLabel === 'Moderado' ? "bg-blue-500/10 text-blue-600 dark:text-blue-400 border-blue-500/25" :
                         "bg-slate-500/10 text-muted-foreground dark:text-muted-foreground border-border"
                       )}>
@@ -412,7 +412,7 @@ export function SovereignBoardPackPage({ boardPack, dataMode }: SovereignBoardPa
                       <span className={cn(
                         "px-2 py-0.5 rounded text-[8px] font-black uppercase tracking-wider border",
                         dec.urgencyLabel === 'Imediata' ? "bg-red-500/10 text-red-600 dark:text-red-400 border-red-500/25" :
-                        dec.urgencyLabel === 'Curto Prazo' ? "bg-amber-500/10 text-amber-600 dark:text-amber-400 border-amber-500/25" :
+                        dec.urgencyLabel === 'Curto Prazo' ? "bg-warning-soft0/10 text-amber-600 dark:text-amber-700 border-amber-500/25" :
                         "bg-blue-500/10 text-blue-600 dark:text-blue-400 border-blue-500/25"
                       )}>
                         Urgência: {dec.urgencyLabel}
@@ -443,7 +443,7 @@ export function SovereignBoardPackPage({ boardPack, dataMode }: SovereignBoardPa
           <div className="p-6 md:p-8 rounded-[32px] border border-border dark:border-zinc-900 bg-slate-50/40 dark:bg-zinc-950/30 backdrop-blur-md space-y-6">
             <div>
               <span className="text-[9px] font-black uppercase tracking-widest text-emerald-500 dark:text-emerald-400">Diretoria Executiva</span>
-              <h3 className="text-base font-black text-muted-foreground dark:text-zinc-200 mt-0.5">Top 5 Ações da Diretoria</h3>
+              <h3 className="text-base font-black text-primary dark:text-zinc-200 mt-0.5">Top 5 Ações da Diretoria</h3>
             </div>
 
             <div className="space-y-4">
@@ -451,8 +451,8 @@ export function SovereignBoardPackPage({ boardPack, dataMode }: SovereignBoardPa
                 <div key={idx} className="p-4 rounded-xl border border-border dark:border-zinc-900 bg-white/40 dark:bg-zinc-900/20 space-y-2 hover:scale-[1.01] transition-transform duration-300">
                   <div className="flex items-center justify-between gap-3">
                     <div className="flex gap-2 items-center">
-                      <span className="w-5 h-5 flex items-center justify-center rounded-full bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 font-bold text-[10px] shrink-0">{idx + 1}</span>
-                      <h4 className="text-[11px] font-black text-muted-foreground dark:text-zinc-200 uppercase tracking-wide">{act.acao}</h4>
+                      <span className="w-5 h-5 flex items-center justify-center rounded-full bg-success-soft0/10 text-emerald-600 dark:text-emerald-700 font-bold text-[10px] shrink-0">{idx + 1}</span>
+                      <h4 className="text-[11px] font-black text-primary dark:text-zinc-200 uppercase tracking-wide">{act.acao}</h4>
                     </div>
                     <span className="px-2 py-0.5 rounded bg-slate-100 dark:bg-zinc-800 text-[8px] font-mono text-muted-foreground dark:text-zinc-450 uppercase shrink-0">
                       Prazo: {act.prazo}
@@ -484,7 +484,7 @@ export function SovereignBoardPackPage({ boardPack, dataMode }: SovereignBoardPa
         <div className="p-6 md:p-8 rounded-[32px] border border-border dark:border-zinc-900 bg-slate-50/40 dark:bg-zinc-950/30 backdrop-blur-md space-y-6">
           <div className="border-b border-border dark:border-white/5 pb-4">
             <span className="text-[9px] font-black uppercase tracking-widest text-primary dark:text-primary">Criação de Valor Econômico</span>
-            <h3 className="text-base font-black text-muted-foreground dark:text-zinc-200 mt-0.5">Economic Value Creation Framework</h3>
+            <h3 className="text-base font-black text-primary dark:text-zinc-200 mt-0.5">Economic Value Creation Framework</h3>
           </div>
 
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
@@ -492,7 +492,7 @@ export function SovereignBoardPackPage({ boardPack, dataMode }: SovereignBoardPa
             <div className="lg:col-span-1 p-6 rounded-2xl border border-border dark:border-zinc-900 bg-white/40 dark:bg-zinc-900/20 flex flex-col justify-between gap-6">
               <div className="space-y-2">
                 <span className="text-[9px] font-black uppercase tracking-widest text-muted-foreground dark:text-zinc-500">Taxa de Retorno Operacional (ROCE Proxy)</span>
-                <div className="text-4xl font-light text-muted-foreground dark:text-zinc-100 tracking-tight">
+                <div className="text-4xl font-light text-primary dark:text-zinc-100 tracking-tight">
                   {boardPack.executiveDecisionPrioritization.economicReturn.returnRate.toFixed(1).replace('.', ',')}%
                 </div>
                 <div className="text-[10px] font-semibold text-muted-foreground dark:text-zinc-500">
@@ -573,7 +573,7 @@ export function SovereignBoardPackPage({ boardPack, dataMode }: SovereignBoardPa
           <div className="p-6 md:p-8 rounded-[32px] border border-border dark:border-zinc-900 bg-slate-50/40 dark:bg-zinc-950/30 backdrop-blur-md space-y-6">
             <div>
               <span className="text-[9px] font-black uppercase tracking-widest text-primary dark:text-primary">BADI</span>
-              <h3 className="text-base font-black text-muted-foreground dark:text-zinc-200 mt-0.5">Board Attention Demand Index (Demanda de Atenção)</h3>
+              <h3 className="text-base font-black text-primary dark:text-zinc-200 mt-0.5">Board Attention Demand Index (Demanda de Atenção)</h3>
               <p className="text-[10px] text-muted-foreground dark:text-zinc-550 uppercase tracking-widest mt-0.5">Notas maiores indicam maior urgência/prioridade fiduciária de atenção do Conselho.</p>
             </div>
 
@@ -591,7 +591,7 @@ export function SovereignBoardPackPage({ boardPack, dataMode }: SovereignBoardPa
                     <span className={cn(
                       "font-mono font-bold px-2 py-0.5 rounded text-[10px]",
                       bad.value >= 75 ? "text-red-600 bg-red-500/10" :
-                      bad.value >= 50 ? "text-amber-600 bg-amber-500/10" :
+                      bad.value >= 50 ? "text-amber-600 bg-warning-soft0/10" :
                       "text-primary bg-primary"
                     )}>
                       {bad.value}/100
@@ -602,7 +602,7 @@ export function SovereignBoardPackPage({ boardPack, dataMode }: SovereignBoardPa
                       className={cn(
                         "h-full rounded-full transition-all duration-1000",
                         bad.value >= 75 ? "bg-red-500" :
-                        bad.value >= 50 ? "bg-amber-500" :
+                        bad.value >= 50 ? "bg-warning-soft0" :
                         "bg-primary"
                       )}
                       style={{ width: `${bad.value}%` }}
@@ -617,7 +617,7 @@ export function SovereignBoardPackPage({ boardPack, dataMode }: SovereignBoardPa
           <div className="p-6 md:p-8 rounded-[32px] border border-border dark:border-zinc-900 bg-slate-50/40 dark:bg-zinc-950/30 backdrop-blur-md space-y-6">
             <div>
               <span className="text-[9px] font-black uppercase tracking-widest text-primary dark:text-primary">Matriz de Prioridades</span>
-              <h3 className="text-base font-black text-muted-foreground dark:text-zinc-200 mt-0.5">Matriz Institucional de Prioridades</h3>
+              <h3 className="text-base font-black text-primary dark:text-zinc-200 mt-0.5">Matriz Institucional de Prioridades</h3>
               <p className="text-[10px] text-muted-foreground dark:text-zinc-555 uppercase tracking-widest mt-0.5">Resumo executivo de impacto, urgência e esforço por domínio corporativo.</p>
             </div>
 
@@ -639,7 +639,7 @@ export function SovereignBoardPackPage({ boardPack, dataMode }: SovereignBoardPa
                         <span className={cn(
                           "px-2.5 py-0.5 rounded text-[9px] font-black uppercase tracking-wider",
                           row.impacto === 'Muito Alto' ? "bg-red-500/10 text-red-600 dark:text-red-400 border border-red-500/20" :
-                          row.impacto === 'Alto' ? "bg-amber-500/10 text-amber-600 dark:text-amber-400 border border-amber-500/20" :
+                          row.impacto === 'Alto' ? "bg-warning-soft0/10 text-amber-600 dark:text-amber-700 border border-amber-500/20" :
                           "bg-blue-500/10 text-blue-600 dark:text-blue-400 border border-blue-500/20"
                         )}>
                           {row.impacto}
@@ -649,7 +649,7 @@ export function SovereignBoardPackPage({ boardPack, dataMode }: SovereignBoardPa
                         <span className={cn(
                           "px-2.5 py-0.5 rounded text-[9px] font-black uppercase tracking-wider",
                           row.urgencia === 'Imediata' ? "bg-red-500/10 text-red-600 dark:text-red-400 border border-red-500/20" :
-                          row.urgencia === 'Curto Prazo' ? "bg-amber-500/10 text-amber-600 dark:text-amber-400 border border-amber-500/20" :
+                          row.urgencia === 'Curto Prazo' ? "bg-warning-soft0/10 text-amber-600 dark:text-amber-700 border border-amber-500/20" :
                           row.urgencia === 'Médio Prazo' ? "bg-blue-500/10 text-blue-600 dark:text-blue-400 border border-blue-500/20" :
                           "bg-slate-500/10 text-muted-foreground dark:text-muted-foreground border border-border"
                         )}>
@@ -660,7 +660,7 @@ export function SovereignBoardPackPage({ boardPack, dataMode }: SovereignBoardPa
                         <span className={cn(
                           "px-2.5 py-0.5 rounded text-[9px] font-black uppercase tracking-wider",
                           row.esforco === 'Muito Alto' ? "bg-red-500/10 text-red-600 dark:text-red-400 border border-red-500/20" :
-                          row.esforco === 'Alto' ? "bg-amber-500/10 text-amber-600 dark:text-amber-400 border border-amber-500/20" :
+                          row.esforco === 'Alto' ? "bg-warning-soft0/10 text-amber-600 dark:text-amber-700 border border-amber-500/20" :
                           row.esforco === 'Moderado' ? "bg-blue-500/10 text-blue-600 dark:text-blue-400 border border-blue-500/20" :
                           "bg-slate-500/10 text-muted-foreground dark:text-muted-foreground border border-border"
                         )}>
@@ -686,7 +686,7 @@ export function SovereignBoardPackPage({ boardPack, dataMode }: SovereignBoardPa
             <div className="flex items-center gap-3 text-left">
               <Lock className="w-5 h-5 text-primary dark:text-primary" />
               <div>
-                <h3 className="text-sm font-black uppercase tracking-wider text-muted-foreground dark:text-zinc-205">
+                <h3 className="text-sm font-black uppercase tracking-wider text-primary dark:text-zinc-205">
                   Apêndice Técnico de Auditoria (Technical Appendix)
                 </h3>
                 <p className="text-[10px] text-muted-foreground dark:text-zinc-500 uppercase tracking-widest mt-0.5">

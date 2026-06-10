@@ -41,10 +41,10 @@ export const TimelineExplorer: React.FC<TimelineExplorerProps> = ({ events, mile
             const milestone = item.data as InstitutionalMilestone;
             return (
               <div key={`m-${milestone.milestoneId}`} className="relative flex items-center justify-between md:justify-normal md:odd:flex-row-reverse group is-active">
-                <div className="absolute left-[-24px] w-6 h-6 rounded-full border-4 border-background bg-amber-500 flex items-center justify-center shadow-[0_0_10px_rgba(245,158,11,0.5)] z-10">
+                <div className="absolute left-[-24px] w-6 h-6 rounded-full border-4 border-background bg-warning-soft0 flex items-center justify-center shadow-[0_0_10px_rgba(245,158,11,0.5)] z-10">
                   <Flag size={10} className="text-white" />
                 </div>
-                <div className="bg-amber-500/10 border border-amber-500/20 rounded-xl p-4 w-full ml-4 shadow-lg">
+                <div className="bg-warning-soft0/10 border border-amber-500/20 rounded-xl p-4 w-full ml-4 shadow-lg">
                   <div className="flex items-center justify-between mb-1">
                     <span className="text-[9px] font-bold uppercase tracking-wider text-amber-500">
                       MARCO INSTITUCIONAL: {milestone.milestoneType}

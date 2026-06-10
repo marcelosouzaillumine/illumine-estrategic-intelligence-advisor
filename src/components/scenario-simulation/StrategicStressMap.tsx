@@ -31,8 +31,8 @@ export const StrategicStressMap: React.FC = () => {
       level: 'LIGHT',
       label: t('scenario.stress.levels.light.label'),
       description: t('scenario.stress.levels.light.desc'),
-      bgStyle: 'bg-emerald-500/5 border-border/60 hover:bg-emerald-500/10 text-emerald-600 dark:text-emerald-400',
-      activeBorder: 'border-emerald-500 bg-emerald-500/10 shadow-[0_0_12px_rgba(16,185,129,0.12)] text-emerald-600 dark:text-emerald-400',
+      bgStyle: 'bg-success-soft0/5 border-border/60 hover:bg-success-soft0/10 text-emerald-600 dark:text-emerald-400',
+      activeBorder: 'border-emerald-500 bg-success-soft0/10 shadow-[0_0_12px_rgba(16,185,129,0.12)] text-emerald-600 dark:text-emerald-400',
       textColor: 'text-emerald-600 dark:text-emerald-400'
     },
     {
@@ -47,16 +47,16 @@ export const StrategicStressMap: React.FC = () => {
       level: 'HIGH',
       label: t('scenario.stress.levels.high.label'),
       description: t('scenario.stress.levels.high.desc'),
-      bgStyle: 'bg-amber-500/5 border-border/60 hover:bg-amber-500/10 text-amber-600 dark:text-amber-400',
-      activeBorder: 'border-amber-500 bg-amber-500/10 shadow-[0_0_12px_rgba(245,158,11,0.12)] text-amber-600 dark:text-amber-400',
+      bgStyle: 'bg-warning-soft0/5 border-border/60 hover:bg-warning-soft0/10 text-amber-600 dark:text-amber-400',
+      activeBorder: 'border-amber-500 bg-warning-soft0/10 shadow-[0_0_12px_rgba(245,158,11,0.12)] text-amber-600 dark:text-amber-400',
       textColor: 'text-amber-600 dark:text-amber-400'
     },
     {
       level: 'EXTREME',
       label: t('scenario.stress.levels.extreme.label'),
       description: t('scenario.stress.levels.extreme.desc'),
-      bgStyle: 'bg-rose-500/5 border-border/60 hover:bg-rose-500/10 text-rose-600 dark:text-rose-400',
-      activeBorder: 'border-rose-500 bg-rose-500/10 shadow-[0_0_24px_rgba(225,29,72,0.25)] ring-1 ring-rose-500/30 text-rose-600 dark:text-rose-400 scale-[1.02] z-10 animate-pulse',
+      bgStyle: 'bg-critical-soft0/5 border-border/60 hover:bg-critical-soft0/10 text-rose-600 dark:text-rose-400',
+      activeBorder: 'border-rose-500 bg-critical-soft0/10 shadow-[0_0_24px_rgba(225,29,72,0.25)] ring-1 ring-rose-500/30 text-rose-600 dark:text-rose-400 scale-[1.02] z-10 animate-pulse',
       textColor: 'text-rose-600 dark:text-rose-400'
     }
   ];

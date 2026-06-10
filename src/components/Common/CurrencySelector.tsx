@@ -75,7 +75,7 @@ export function CurrencySelector({
           <WifiOff size={10} className="text-amber-400" />
         ) : (
           <div className="flex items-center gap-1">
-            <span className="w-1 h-1 md:w-1.5 md:h-1.5 rounded-full bg-emerald-500 animate-pulse" />
+            <span className="w-1 h-1 md:w-1.5 md:h-1.5 rounded-full bg-success-soft0 animate-pulse" />
           </div>
         )}
         <ChevronDown
@@ -110,12 +110,12 @@ export function CurrencySelector({
                     <span className="text-[9px] font-medium text-muted-foreground uppercase">Buscando...</span>
                   </div>
                 ) : error ? (
-                  <div className="flex items-center gap-1.5 px-2.5 py-1 bg-warning/10 border border-warning/20 rounded-button">
+                  <div className="flex items-center gap-1.5 px-2.5 py-1 bg-warning-soft border border-warning/20 rounded-button">
                     <WifiOff size={10} className="text-warning" />
                     <span className="text-[9px] font-medium text-warning uppercase">Fallback</span>
                   </div>
                 ) : (
-                  <div className="flex items-center gap-1.5 px-2.5 py-1 bg-success/10 border border-success/20 rounded-button">
+                  <div className="flex items-center gap-1.5 px-2.5 py-1 bg-success-soft border border-success/20 rounded-button">
                     <Wifi size={10} className="text-success" />
                     <span className="text-[9px] font-medium text-success uppercase">Ao Vivo</span>
                   </div>

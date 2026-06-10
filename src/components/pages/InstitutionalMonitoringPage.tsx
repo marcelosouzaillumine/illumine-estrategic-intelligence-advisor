@@ -76,7 +76,7 @@ export function InstitutionalMonitoringPage() {
           <h3 className="text-h3 font-medium text-foreground tracking-tight">Métricas Consolidadas</h3>
           <div className="card-premium p-6 space-y-4">
             <div className="flex items-center gap-4">
-              <div className="w-10 h-10 rounded-md bg-destructive/10 flex items-center justify-center text-destructive">
+              <div className="w-10 h-10 rounded-md bg-critical-soft flex items-center justify-center text-destructive">
                 <AlertCircle size={18} />
               </div>
               <div>

@@ -165,7 +165,7 @@ export const GovernanceIncidentQueue: React.FC = () => {
                           resolveIncident(incident.incidentId);
                         }}
                         disabled={isActionsDisabled}
-                        className="px-2.5 py-1 rounded bg-emerald-500 text-muted-foreground font-bold font-mono text-[10px] disabled:opacity-50 disabled:cursor-not-allowed"
+                        className="px-2.5 py-1 rounded bg-success-soft0 text-muted-foreground font-bold font-mono text-[10px] disabled:opacity-50 disabled:cursor-not-allowed"
                       >
                         RESOLVE
                       </button>

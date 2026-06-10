@@ -162,8 +162,8 @@ export function ObservabilityConsolePage({ selectedClient }: ObservabilityConsol
     return (
       <div className="max-w-[1440px] mx-auto px-6 py-20 text-center animate-executive-fade">
         <ShieldX className="w-16 h-16 text-rose-500 mx-auto mb-6" />
-        <h1 className="text-xl font-bold text-muted-foreground uppercase tracking-widest mb-2">Acesso Restrito</h1>
-        <p className="text-sm text-muted-foreground max-w-md mx-auto">
+        <h1 className="text-xl font-bold text-primary uppercase tracking-widest mb-2">Acesso Restrito</h1>
+        <p className="text-sm text-secondary max-w-md mx-auto">
           Você não possui privilégios de auditoria (`VIEW_OBSERVABILITY`) para visualizar o console de observabilidade institucional.
         </p>
       </div>
@@ -212,7 +212,7 @@ export function ObservabilityConsolePage({ selectedClient }: ObservabilityConsol
       </div>
 
       {errorMsg && (
-        <div className="p-4 bg-rose-500/10 border border-rose-500/20 rounded-xl flex items-center gap-3 text-rose-400 text-sm">
+        <div className="p-4 bg-critical-soft0/10 border border-rose-500/20 rounded-xl flex items-center gap-3 text-rose-400 text-sm">
           <AlertTriangle className="w-5 h-5 flex-shrink-0" />
           <span>{errorMsg}</span>
         </div>
@@ -271,7 +271,7 @@ export function ObservabilityConsolePage({ selectedClient }: ObservabilityConsol
               
               {/* Graphic container */}
               <div className="card-premium p-6 lg:col-span-2 space-y-4">
-                <h3 className="text-sm font-semibold tracking-wider uppercase text-muted-foreground flex items-center gap-2">
+                <h3 className="text-sm font-semibold tracking-wider uppercase text-primary flex items-center gap-2">
                   <Activity className="w-4 h-4 text-primary" />
                   Evolução Temporal de Ações e Bloqueios
                 </h3>
@@ -302,13 +302,13 @@ export function ObservabilityConsolePage({ selectedClient }: ObservabilityConsol
 
               {/* Status Panel */}
               <div className="card-premium p-6 space-y-6">
-                <h3 className="text-sm font-semibold tracking-wider uppercase text-muted-foreground">Distribuição Organizacional</h3>
+                <h3 className="text-sm font-semibold tracking-wider uppercase text-primary">Distribuição Organizacional</h3>
                 <div className="space-y-4">
                   <ProgressIndicator label="Visualização Financeira" value={auditEvents.filter(e => e.eventType === 'VIEW_FINANCIALS').length} total={stats.total} color="bg-primary" />
                   <ProgressIndicator label="Consultas de Causalidade" value={auditEvents.filter(e => e.eventType === 'VIEW_CAUSALITY').length} total={stats.total} color="bg-teal-500" />
-                  <ProgressIndicator label="Geração de Snapshots" value={auditEvents.filter(e => e.eventType === 'CREATE_SNAPSHOT').length} total={stats.total} color="bg-emerald-500" />
-                  <ProgressIndicator label="Geração de Simulations" value={auditEvents.filter(e => e.eventType === 'CREATE_SIMULATION').length} total={stats.total} color="bg-amber-500" />
-                  <ProgressIndicator label="Exportações Gerais" value={stats.total - auditEvents.filter(e => !e.eventType.includes('EXPORT')).length} total={stats.total} color="bg-rose-500" />
+                  <ProgressIndicator label="Geração de Snapshots" value={auditEvents.filter(e => e.eventType === 'CREATE_SNAPSHOT').length} total={stats.total} color="bg-success-soft0" />
+                  <ProgressIndicator label="Geração de Simulations" value={auditEvents.filter(e => e.eventType === 'CREATE_SIMULATION').length} total={stats.total} color="bg-warning-soft0" />
+                  <ProgressIndicator label="Exportações Gerais" value={stats.total - auditEvents.filter(e => !e.eventType.includes('EXPORT')).length} total={stats.total} color="bg-critical-soft0" />
                 </div>
               </div>
 
@@ -318,7 +318,7 @@ export function ObservabilityConsolePage({ selectedClient }: ObservabilityConsol
           {/* 2. ANOMALIES TAB */}
           {activeTab === 'anomalies' && (
             <div className="card-premium p-6 space-y-4">
-              <h3 className="text-sm font-semibold tracking-wider uppercase text-muted-foreground flex items-center gap-2">
+              <h3 className="text-sm font-semibold tracking-wider uppercase text-primary flex items-center gap-2">
                 <ShieldAlert className="w-4 h-4 text-rose-500" />
                 Eventos Anômalos e Ações Corretivas Recomendadas
               </h3>
@@ -342,7 +342,7 @@ export function ObservabilityConsolePage({ selectedClient }: ObservabilityConsol
                         <div className="flex items-center gap-3">
                           <span className={cn(
                             "px-2.5 py-0.5 rounded-full text-[9px] font-black uppercase tracking-wider border",
-                            anom.severity === 'CRITICAL' ? 'bg-red-500/10 text-red-400 border-red-500/20' : anom.severity === 'HIGH' ? 'bg-amber-500/10 text-amber-400 border-amber-500/20' : 'bg-slate-800 text-muted-foreground border-border'
+                            anom.severity === 'CRITICAL' ? 'bg-red-500/10 text-red-400 border-red-500/20' : anom.severity === 'HIGH' ? 'bg-warning-soft0/10 text-amber-400 border-amber-500/20' : 'bg-slate-800 text-muted-foreground border-border'
                           )}>
                             {anom.severity}
                           </span>
@@ -383,7 +383,7 @@ export function ObservabilityConsolePage({ selectedClient }: ObservabilityConsol
           {activeTab === 'history' && (
             <div className="card-premium p-6 space-y-4">
               <div className="flex items-center justify-between gap-4">
-                <h3 className="text-sm font-semibold tracking-wider uppercase text-muted-foreground flex items-center gap-2">
+                <h3 className="text-sm font-semibold tracking-wider uppercase text-primary flex items-center gap-2">
                   <Terminal className="w-4 h-4 text-primary" />
                   Histórico Imutável de Auditoria (Ledger)
                 </h3>
@@ -414,7 +414,7 @@ export function ObservabilityConsolePage({ selectedClient }: ObservabilityConsol
                             <span className={cn(
                               "px-2 py-0.5 rounded-lg text-[9px] font-bold tracking-tight border",
                               evt.eventType.startsWith('DENY_') ? 'bg-red-500/10 text-red-400 border-red-500/10' :
-                              evt.eventType === 'CROSS_TENANT_ATTEMPT' ? 'bg-rose-500/10 text-rose-400 border-rose-500/20' :
+                              evt.eventType === 'CROSS_TENANT_ATTEMPT' ? 'bg-critical-soft0/10 text-rose-400 border-rose-500/20' :
                               'bg-primary text-primary border-primary'
                             )}>
                               {evt.eventType}
@@ -436,7 +436,7 @@ export function ObservabilityConsolePage({ selectedClient }: ObservabilityConsol
           {/* 4. SESSIONS TAB */}
           {activeTab === 'sessions' && (
             <div className="card-premium p-6 space-y-4">
-              <h3 className="text-sm font-semibold tracking-wider uppercase text-muted-foreground flex items-center gap-2">
+              <h3 className="text-sm font-semibold tracking-wider uppercase text-primary flex items-center gap-2">
                 <Users className="w-4 h-4 text-teal-400" />
                 Fluxo de Sessões e Tenant Switchings
               </h3>
@@ -453,7 +453,7 @@ export function ObservabilityConsolePage({ selectedClient }: ObservabilityConsol
                         <div className="flex items-center gap-2">
                           <span className={cn(
                             "w-2 h-2 rounded-full",
-                            evt.eventType === 'SESSION_START' || evt.eventType === 'LOGIN' ? 'bg-emerald-500' :
+                            evt.eventType === 'SESSION_START' || evt.eventType === 'LOGIN' ? 'bg-success-soft0' :
                             evt.eventType === 'SESSION_END' || evt.eventType === 'LOGOUT' ? 'bg-slate-500' : 'bg-primary'
                           )} />
                           <span className="text-sm font-bold text-muted-foreground">{evt.eventType}</span>
@@ -476,7 +476,7 @@ export function ObservabilityConsolePage({ selectedClient }: ObservabilityConsol
           {/* 5. GOVERNANCE INTEGRITY TAB */}
           {activeTab === 'integrity' && (
             <div className="card-premium p-8 space-y-6">
-              <h2 className="text-lg font-medium text-muted-foreground flex items-center gap-2 border-b border-border/10 pb-4">
+              <h2 className="text-lg font-medium text-primary flex items-center gap-2 border-b border-border/10 pb-4">
                 <ShieldCheck className="w-5 h-5 text-emerald-400" />
                 Integridade Fiduciária do Ledger
               </h2>
@@ -484,7 +484,7 @@ export function ObservabilityConsolePage({ selectedClient }: ObservabilityConsol
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 
                 {/* Ledger Integrity status */}
-                <div className="p-5 bg-emerald-500/5 border border-emerald-500/10 rounded-xl space-y-2">
+                <div className="p-5 bg-success-soft0/5 border border-emerald-500/10 rounded-xl space-y-2">
                   <h3 className="text-sm font-semibold text-emerald-400 flex items-center gap-2">
                     <ShieldCheck className="w-4 h-4" />
                     Ledger Conexão Ativa
@@ -509,7 +509,7 @@ export function ObservabilityConsolePage({ selectedClient }: ObservabilityConsol
 
               {/* Status checklist */}
               <div className="border border-border/10 rounded-xl p-5 space-y-4 bg-slate-950/20">
-                <h3 className="text-sm font-bold uppercase tracking-wider text-muted-foreground">Verificações Ativas do Trust Framework</h3>
+                <h3 className="text-sm font-bold uppercase tracking-wider text-primary">Verificações Ativas do Trust Framework</h3>
                 
                 <div className="space-y-3">
                   <Checkline label="Fila de Retentativa Ativa com Retry Exponencial" checked={true} />
@@ -530,7 +530,7 @@ export function ObservabilityConsolePage({ selectedClient }: ObservabilityConsol
                 
                 {/* Partitions metrics */}
                 <div className="card-premium p-6 space-y-4 bg-slate-950/40">
-                  <h3 className="text-sm font-semibold tracking-wider uppercase text-muted-foreground flex items-center gap-2">
+                  <h3 className="text-sm font-semibold tracking-wider uppercase text-primary flex items-center gap-2">
                     <Layers className="w-4 h-4 text-teal-400" />
                     Partições de Runtime e Latência
                   </h3>
@@ -542,8 +542,8 @@ export function ObservabilityConsolePage({ selectedClient }: ObservabilityConsol
                           <span className="text-[11px] font-bold text-muted-foreground truncate max-w-[120px]">{name.replace(' Runtime', '')}</span>
                           <span className={cn(
                             "px-1.5 py-0.2 rounded text-[9px] font-black uppercase tracking-wider",
-                            metrics.healthState === 'HEALTHY' ? 'bg-emerald-500/10 text-emerald-400 border border-emerald-500/15' :
-                            metrics.healthState === 'CONGESTED' ? 'bg-amber-500/10 text-amber-400 border border-amber-500/15' :
+                            metrics.healthState === 'HEALTHY' ? 'bg-success-soft0/10 text-emerald-400 border border-emerald-500/15' :
+                            metrics.healthState === 'CONGESTED' ? 'bg-warning-soft0/10 text-amber-400 border border-amber-500/15' :
                             'bg-red-500/10 text-red-400 border border-red-500/15'
                           )}>
                             {metrics.healthState}
@@ -557,8 +557,8 @@ export function ObservabilityConsolePage({ selectedClient }: ObservabilityConsol
                           <div className={cn(
                             "h-full rounded-full",
                             metrics.pressureLevel === 'CRITICAL' ? 'bg-red-500' :
-                            metrics.pressureLevel === 'HIGH' ? 'bg-amber-500' :
-                            metrics.pressureLevel === 'MEDIUM' ? 'bg-primary' : 'bg-emerald-500'
+                            metrics.pressureLevel === 'HIGH' ? 'bg-warning-soft0' :
+                            metrics.pressureLevel === 'MEDIUM' ? 'bg-primary' : 'bg-success-soft0'
                           )} style={{ width: `${Math.min(100, Math.max(10, metrics.queueDepth * 10))}%` }} />
                         </div>
                       </div>
@@ -569,7 +569,7 @@ export function ObservabilityConsolePage({ selectedClient }: ObservabilityConsol
                 {/* Worker status cockpit */}
                 <div className="card-premium p-6 space-y-4 bg-slate-950/40">
                   <div className="flex justify-between items-center">
-                    <h3 className="text-sm font-semibold tracking-wider uppercase text-muted-foreground flex items-center gap-2">
+                    <h3 className="text-sm font-semibold tracking-wider uppercase text-primary flex items-center gap-2">
                       <Cpu className="w-4 h-4 text-primary" />
                       Status dos Workers Locais (Nó)
                     </h3>
@@ -632,8 +632,8 @@ export function ObservabilityConsolePage({ selectedClient }: ObservabilityConsol
                               <td className="p-3">
                                 <span className={cn(
                                   "px-1.5 py-0.5 rounded text-[9px] font-bold",
-                                  w.status === 'BUSY' ? 'bg-amber-500/10 text-amber-400 border border-amber-500/15' :
-                                  w.status === 'IDLE' ? 'bg-emerald-500/10 text-emerald-400 border border-emerald-500/15' :
+                                  w.status === 'BUSY' ? 'bg-warning-soft0/10 text-amber-400 border border-amber-500/15' :
+                                  w.status === 'IDLE' ? 'bg-success-soft0/10 text-emerald-400 border border-emerald-500/15' :
                                   'bg-slate-800 text-muted-foreground border border-border'
                                 )}>
                                   {w.status}
@@ -652,7 +652,7 @@ export function ObservabilityConsolePage({ selectedClient }: ObservabilityConsol
 
               {/* Fila de Jobs & DLQ */}
               <div className="card-premium p-6 space-y-4 bg-slate-950/40">
-                <h3 className="text-sm font-semibold tracking-wider uppercase text-muted-foreground flex items-center gap-2">
+                <h3 className="text-sm font-semibold tracking-wider uppercase text-primary flex items-center gap-2">
                   <Terminal className="w-4 h-4 text-primary" />
                   Distributed Async Job Queue (`institutional_jobs`)
                 </h3>
@@ -683,10 +683,10 @@ export function ObservabilityConsolePage({ selectedClient }: ObservabilityConsol
                             <td className="p-3">
                               <span className={cn(
                                 "px-2 py-0.5 rounded-lg text-[9px] font-black uppercase border",
-                                j.jobState === 'COMPLETED' ? 'bg-emerald-500/10 text-emerald-400 border-emerald-500/20' :
-                                j.jobState === 'RUNNING' ? 'bg-amber-500/10 text-amber-400 border-amber-500/20 animate-pulse' :
+                                j.jobState === 'COMPLETED' ? 'bg-success-soft0/10 text-emerald-400 border-emerald-500/20' :
+                                j.jobState === 'RUNNING' ? 'bg-warning-soft0/10 text-amber-400 border-amber-500/20 animate-pulse' :
                                 j.jobState === 'FAILED' ? 'bg-red-500/10 text-red-400 border-red-500/20' :
-                                j.jobState === 'DEAD_LETTER' ? 'bg-rose-500/20 text-rose-300 border-rose-500/30' :
+                                j.jobState === 'DEAD_LETTER' ? 'bg-critical-soft0/20 text-rose-300 border-rose-500/30' :
                                 'bg-slate-800 text-muted-foreground border-border'
                               )}>
                                 {j.jobState}
@@ -718,7 +718,7 @@ export function ObservabilityConsolePage({ selectedClient }: ObservabilityConsol
 
               {/* Alertas de Pressão de Runtime */}
               <div className="card-premium p-6 space-y-4 bg-slate-950/40">
-                <h3 className="text-sm font-semibold tracking-wider uppercase text-muted-foreground flex items-center gap-2">
+                <h3 className="text-sm font-semibold tracking-wider uppercase text-primary flex items-center gap-2">
                   <AlertTriangle className="w-4 h-4 text-amber-500" />
                   Alertas Ativos de Saturação (`runtime_pressure`)
                 </h3>
@@ -735,7 +735,7 @@ export function ObservabilityConsolePage({ selectedClient }: ObservabilityConsol
                           <div className="flex items-center gap-2">
                             <span className={cn(
                               "px-2 py-0.5 rounded text-[9px] font-black uppercase border",
-                              i.severity === 'CRITICAL' ? 'bg-red-500/10 text-red-400 border-red-500/20' : 'bg-amber-500/10 text-amber-400 border-amber-500/20'
+                              i.severity === 'CRITICAL' ? 'bg-red-500/10 text-red-400 border-red-500/20' : 'bg-warning-soft0/10 text-amber-400 border-amber-500/20'
                             )}>{i.severity}</span>
                             <span className="text-xs font-bold text-muted-foreground">{i.runtimeType}</span>
                           </div>
@@ -761,13 +761,13 @@ function StatusCard({ title, value, icon, trend }: { title: string, value: any, 
   return (
     <div className="card-premium p-6 flex flex-col justify-between hover:border-border transition-all bg-slate-950/40">
       <div className="flex justify-between items-start mb-4">
-        <h3 className="text-xs font-bold uppercase tracking-wider text-muted-foreground">{title}</h3>
+        <h3 className="text-xs font-bold uppercase tracking-wider text-primary">{title}</h3>
         <div className="p-2 bg-slate-950/40 rounded-xl border border-border/10">
           {icon}
         </div>
       </div>
       <div>
-        <div className="text-2xl font-light text-muted-foreground">{value}</div>
+        <div className="text-2xl font-light text-primary">{value}</div>
         <div className="text-xs text-muted-foreground mt-1 uppercase tracking-wider font-bold">{trend}</div>
       </div>
     </div>
@@ -810,7 +810,7 @@ function Checkline({ label, checked }: { label: string, checked: boolean }) {
     <div className="flex items-center gap-3 text-xs">
       <div className={cn(
         "w-4 h-4 rounded-full flex items-center justify-center border",
-        checked ? "border-emerald-500 bg-emerald-500/10 text-emerald-400" : "border-border bg-slate-900"
+        checked ? "border-emerald-500 bg-success-soft0/10 text-emerald-400" : "border-border bg-slate-900"
       )}>
         <ShieldCheck className="w-3 h-3" />
       </div>

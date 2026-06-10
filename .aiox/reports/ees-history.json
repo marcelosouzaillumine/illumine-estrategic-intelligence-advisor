@@ -1,0 +1,210 @@
+{
+  "src/components/pages/ReceivablesPage.tsx": {
+    "ees": 61,
+    "subscores": {
+      "colors": 28,
+      "typography": 80,
+      "surfaces": 32,
+      "icons": 100,
+      "density": 85,
+      "accessibility": 37,
+      "legibility": 50,
+      "depth": 100
+    }
+  },
+  "src/components/pages/governance/SovereignBoardPackPage.tsx": {
+    "ees": 66,
+    "subscores": {
+      "colors": 52,
+      "typography": 80,
+      "surfaces": 42,
+      "icons": 100,
+      "density": 100,
+      "accessibility": 43,
+      "legibility": 35,
+      "depth": 100
+    }
+  },
+  "src/components/pages/governance/BoardMeetingMode.tsx": {
+    "ees": 68,
+    "subscores": {
+      "colors": 0,
+      "typography": 100,
+      "surfaces": 60,
+      "icons": 100,
+      "density": 100,
+      "accessibility": 32,
+      "legibility": 70,
+      "depth": 100
+    }
+  },
+  "src/components/pages/LoanInvestmentSimPage.tsx": {
+    "ees": 73,
+    "subscores": {
+      "colors": 26,
+      "typography": 100,
+      "surfaces": 30,
+      "icons": 100,
+      "density": 100,
+      "accessibility": 50,
+      "legibility": 95,
+      "depth": 100
+    }
+  },
+  "src/components/pages/governance/ObservabilityConsolePage.tsx": {
+    "ees": 73,
+    "subscores": {
+      "colors": 1,
+      "typography": 80,
+      "surfaces": 70,
+      "icons": 100,
+      "density": 100,
+      "accessibility": 57,
+      "legibility": 100,
+      "depth": 100
+    }
+  },
+  "src/components/pages/AxisDashboardPage.tsx": {
+    "ees": 73,
+    "subscores": {
+      "colors": 80,
+      "typography": 100,
+      "surfaces": 46,
+      "icons": 100,
+      "density": 100,
+      "accessibility": 50,
+      "legibility": 25,
+      "depth": 100
+    }
+  },
+  "src/components/pages/DFCPage.tsx": {
+    "ees": 74,
+    "subscores": {
+      "colors": 0,
+      "typography": 80,
+      "surfaces": 90,
+      "icons": 100,
+      "density": 85,
+      "accessibility": 46,
+      "legibility": 100,
+      "depth": 100
+    }
+  },
+  "src/components/pages/governance/GovernanceExecutionPanel.tsx": {
+    "ees": 74,
+    "subscores": {
+      "colors": 0,
+      "typography": 100,
+      "surfaces": 70,
+      "icons": 100,
+      "density": 100,
+      "accessibility": 47,
+      "legibility": 95,
+      "depth": 100
+    }
+  },
+  "src/components/pages/BalanceSheetPage.tsx": {
+    "ees": 77,
+    "subscores": {
+      "colors": 37,
+      "typography": 100,
+      "surfaces": 50,
+      "icons": 100,
+      "density": 100,
+      "accessibility": 59,
+      "legibility": 90,
+      "depth": 100
+    }
+  },
+  "src/components/pages/governance/ESGIMAssessmentPage.tsx": {
+    "ees": 78,
+    "subscores": {
+      "colors": 19,
+      "typography": 100,
+      "surfaces": 100,
+      "icons": 100,
+      "density": 100,
+      "accessibility": 60,
+      "legibility": 60,
+      "depth": 100
+    }
+  },
+  "src/components/pages/governance/SovereignDecisionCenter.tsx": {
+    "ees": 78,
+    "subscores": {
+      "colors": 62,
+      "typography": 100,
+      "surfaces": 32,
+      "icons": 100,
+      "density": 100,
+      "accessibility": 60,
+      "legibility": 85,
+      "depth": 100
+    }
+  },
+  "src/components/pages/DLPAPage.tsx": {
+    "ees": 84,
+    "subscores": {
+      "colors": 67,
+      "typography": 80,
+      "surfaces": 70,
+      "icons": 100,
+      "density": 85,
+      "accessibility": 79,
+      "legibility": 100,
+      "depth": 100
+    }
+  },
+  "src/components/pages/DREPage.tsx": {
+    "ees": 89,
+    "subscores": {
+      "colors": 84,
+      "typography": 80,
+      "surfaces": 80,
+      "icons": 100,
+      "density": 85,
+      "accessibility": 88,
+      "legibility": 100,
+      "depth": 100
+    }
+  },
+  "src/components/pages/FinancialAdminDashboard.tsx": {
+    "ees": 96,
+    "subscores": {
+      "colors": 100,
+      "typography": 100,
+      "surfaces": 76,
+      "icons": 100,
+      "density": 100,
+      "accessibility": 92,
+      "legibility": 100,
+      "depth": 100
+    }
+  },
+  "src/components/pages/DashboardPage.tsx": {
+    "ees": 97,
+    "subscores": {
+      "colors": 100,
+      "typography": 100,
+      "surfaces": 100,
+      "icons": 100,
+      "density": 100,
+      "accessibility": 95,
+      "legibility": 85,
+      "depth": 100
+    }
+  },
+  "src/components/pages/AdvisoryInsightsPage.tsx": {
+    "ees": 97,
+    "subscores": {
+      "colors": 98,
+      "typography": 100,
+      "surfaces": 98,
+      "icons": 100,
+      "density": 100,
+      "accessibility": 95,
+      "legibility": 90,
+      "depth": 100
+    }
+  }
+}

@@ -33,12 +33,12 @@ export function ClientLoginAudit({ clientId }: { clientId: string }) {
           {audits.map((audit) => (
             <div key={audit.id} className={cn(
               "flex items-center justify-between p-4 rounded-xl border transition-all",
-              audit.status === 'success' ? "bg-white border-border" : "bg-rose-50/50 border-rose-100"
+              audit.status === 'success' ? "bg-white border-border" : "bg-critical-soft/50 border-rose-100"
             )}>
               <div className="flex items-center gap-4">
                 <div className={cn(
                   "w-10 h-10 rounded-full flex items-center justify-center",
-                  audit.type === 'login' ? "bg-emerald-50 text-emerald-500" : 
+                  audit.type === 'login' ? "bg-success-soft text-emerald-500" : 
                   audit.type === 'logout' ? "bg-slate-100 text-muted-foreground" : "bg-rose-100 text-rose-500"
                 )}>
                   {audit.type === 'login' ? <LogIn size={18} /> : 
@@ -49,8 +49,8 @@ export function ClientLoginAudit({ clientId }: { clientId: string }) {
                     {audit.user} 
                     <span className={cn(
                       "ml-2 text-[9px] font-black uppercase tracking-widest px-2 py-0.5 rounded-full border",
-                      audit.type === 'login' ? "bg-emerald-50 text-emerald-600 border-emerald-100" : 
-                      audit.type === 'logout' ? "bg-slate-50 text-muted-foreground border-border" : "bg-rose-50 text-rose-600 border-rose-100"
+                      audit.type === 'login' ? "bg-success-soft text-emerald-600 border-emerald-100" : 
+                      audit.type === 'logout' ? "bg-slate-50 text-muted-foreground border-border" : "bg-critical-soft text-rose-600 border-rose-100"
                     )}>
                       {audit.type === 'login' ? 'Login' : audit.type === 'logout' ? 'Logout' : 'Falha'}
                     </span>
@@ -74,7 +74,7 @@ export function ClientLoginAudit({ clientId }: { clientId: string }) {
         </div>
       </div>
 
-      <div className="bg-amber-50 p-6 rounded-2xl border border-amber-100 flex items-start gap-4">
+      <div className="bg-warning-soft p-6 rounded-2xl border border-amber-100 flex items-start gap-4">
         <div className="w-10 h-10 rounded-xl bg-amber-100 text-amber-600 flex items-center justify-center shrink-0">
           <ShieldAlert size={24} />
         </div>

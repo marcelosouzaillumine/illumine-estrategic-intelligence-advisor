@@ -19,7 +19,7 @@ export function DecisionImpactPanel({ tenantId }: { tenantId: string }) {
           <div key={impact.impactId} className="flex flex-col gap-1 p-3 bg-background border border-border/50 rounded">
             <div className="flex justify-between items-center">
               <span className="text-xs font-bold text-foreground uppercase">{impact.domain}</span>
-              <span className={'text-xs font-bold px-2 py-0.5 rounded ' + (impact.delta > 0 ? 'bg-emerald-500/10 text-emerald-500' : 'bg-rose-500/10 text-rose-500')}>
+              <span className={'text-xs font-bold px-2 py-0.5 rounded ' + (impact.delta > 0 ? 'bg-success-soft0/10 text-emerald-500' : 'bg-critical-soft0/10 text-rose-500')}>
                 {impact.delta > 0 ? '+' : ''}{Math.round(impact.delta * 100)}%
               </span>
             </div>

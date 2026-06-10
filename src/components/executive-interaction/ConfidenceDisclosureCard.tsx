@@ -87,7 +87,7 @@ export const ConfidenceDisclosureCard: React.FC = () => {
       </div>
 
       {missingDependencies.length > 0 && (
-        <div className="p-4 bg-amber-500/5 border border-amber-500/15 rounded-xl space-y-2">
+        <div className="p-4 bg-warning-soft0/5 border border-amber-500/15 rounded-xl space-y-2">
           <p className="text-xs font-bold text-amber-450 uppercase tracking-wider">{t("overlays.missing_context_dependencies")}</p>
           <ul className="list-disc list-inside text-[11px] text-amber-550 space-y-1">
             {missingDependencies.map((dep, idx) => (

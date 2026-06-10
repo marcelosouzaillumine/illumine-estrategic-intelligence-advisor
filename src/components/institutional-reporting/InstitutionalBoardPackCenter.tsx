@@ -62,7 +62,7 @@ export function InstitutionalBoardPackCenter({ boardPack }: { boardPack: Institu
 
       <div className="flex items-center justify-between border-b border-zinc-800 pb-4">
         <div>
-          <h1 className="text-2xl font-bold text-white flex items-center gap-3">
+          <h1 className="text-2xl font-bold text-white flex items-center gap-3 text-primary">
             <FileText className="text-blue-500" />
             {t('boardpack.title')}
           </h1>

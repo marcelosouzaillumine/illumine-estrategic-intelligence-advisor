@@ -7,13 +7,13 @@ export function WorkflowStatusBadge({ status }: { status: WorkflowStatus }) {
     case 'APPROVED':
     case 'COMPLETED':
       return (
-        <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded text-[10px] font-bold bg-emerald-500/10 text-emerald-500 border border-emerald-500/20 uppercase">
+        <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded text-[10px] font-bold bg-success-soft0/10 text-emerald-500 border border-emerald-500/20 uppercase">
           <CheckCircle size={10} /> {status}
         </span>
       );
     case 'WAITING_APPROVAL':
       return (
-        <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded text-[10px] font-bold bg-amber-500/10 text-amber-500 border border-amber-500/20 uppercase">
+        <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded text-[10px] font-bold bg-warning-soft0/10 text-amber-500 border border-amber-500/20 uppercase">
           <Clock size={10} /> WAITING APPROVAL
         </span>
       );
@@ -25,7 +25,7 @@ export function WorkflowStatusBadge({ status }: { status: WorkflowStatus }) {
       );
     case 'REJECTED':
       return (
-        <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded text-[10px] font-bold bg-rose-500/10 text-rose-500 border border-rose-500/20 uppercase">
+        <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded text-[10px] font-bold bg-critical-soft0/10 text-rose-500 border border-rose-500/20 uppercase">
           <XCircle size={10} /> REJECTED
         </span>
       );

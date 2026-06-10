@@ -96,7 +96,7 @@ export function AdminAcademyDashboard({ onEditCourse, onCreateCourse }: AdminAca
                 <td className="px-4 md:px-6 py-2.5 md:py-4 text-xs font-medium text-muted-foreground">{course.instructor}</td>
                 <td className="px-4 md:px-6 py-2.5 md:py-4">
                   <span className={`px-2.5 py-1 rounded-sm text-[10px] font-medium uppercase tracking-widest ${
-                    course.status === 'published' ? 'bg-success/10 text-success border border-success/20' : 'bg-warning/10 text-warning border border-warning/20'
+                    course.status === 'published' ? 'bg-success-soft text-success border border-success/20' : 'bg-warning-soft text-warning border border-warning/20'
                   }`}>
                     {course.status === 'published' ? 'Publicado' : 'Rascunho'}
                   </span>
@@ -119,7 +119,7 @@ export function AdminAcademyDashboard({ onEditCourse, onCreateCourse }: AdminAca
                     >
                       <Edit2 size={14} />
                     </button>
-                    <button className="p-2 hover:bg-rose-500/10 rounded-md text-muted-foreground hover:text-destructive transition-colors" title="Excluir">
+                    <button className="p-2 hover:bg-critical-soft0/10 rounded-md text-muted-foreground hover:text-destructive transition-colors" title="Excluir">
                       <Trash2 size={14} />
                     </button>
                   </div>

@@ -147,7 +147,7 @@ export function InstitutionalContinuityCockpitPage({ clientId, selectedYear, sel
             <ShieldCheck size={16} />
             <span className="text-[10px] uppercase font-bold tracking-widest font-mono">Sovereign Fiduciary Board Room</span>
           </div>
-          <h1 className="text-2xl font-bold tracking-tight">Institutional Continuity Cockpit</h1>
+          <h1 className="text-2xl font-bold tracking-tight text-primary">Institutional Continuity Cockpit</h1>
           <p className="text-xs text-zinc-500 font-mono mt-1 uppercase tracking-widest">Sovereign Fiduciary Lifecycle Visualization Layer</p>
         </div>
         

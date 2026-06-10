@@ -138,10 +138,10 @@ export function BoardCopilotPanel({ messages, isProcessing, suggestedQuestions, 
                                 <span className="text-[10px] uppercase tracking-widest font-black text-muted-foreground">Confiança:</span>
                                 <span className={`px-2 py-0.5 text-[9px] uppercase tracking-widest font-black rounded ${
                                   msg.result.traceability.confidenceLevel === 'HIGH' || msg.result.traceability.confidenceLevel === 'VERY_HIGH' 
-                                  ? 'bg-emerald-500/20 text-emerald-400 border border-emerald-500/30'
+                                  ? 'bg-success-soft0/20 text-emerald-400 border border-emerald-500/30'
                                   : msg.result.traceability.confidenceLevel === 'MODERATE'
-                                  ? 'bg-amber-500/20 text-amber-400 border border-amber-500/30'
-                                  : 'bg-rose-500/20 text-rose-400 border border-rose-500/30'
+                                  ? 'bg-warning-soft0/20 text-amber-400 border border-amber-500/30'
+                                  : 'bg-critical-soft0/20 text-rose-400 border border-rose-500/30'
                                 }`}>
                                   {msg.result.traceability.confidenceLevel}
                                 </span>

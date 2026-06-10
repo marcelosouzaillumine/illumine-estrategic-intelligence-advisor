@@ -34,7 +34,7 @@ export const ExecutiveInstitutionalIntelligenceDashboard: React.FC<Props> = ({ s
       </div>
 
       <div className="card-premium p-5 flex items-start gap-4">
-        <div className="p-3 bg-emerald-500/10 rounded-lg">
+        <div className="p-3 bg-success-soft0/10 rounded-lg">
           <Database size={24} className="text-emerald-400" />
         </div>
         <div>
@@ -46,7 +46,7 @@ export const ExecutiveInstitutionalIntelligenceDashboard: React.FC<Props> = ({ s
       </div>
 
       <div className="card-premium p-5 flex items-start gap-4">
-        <div className="p-3 bg-amber-500/10 rounded-lg">
+        <div className="p-3 bg-warning-soft0/10 rounded-lg">
           <GitMerge size={24} className="text-amber-400" />
         </div>
         <div>

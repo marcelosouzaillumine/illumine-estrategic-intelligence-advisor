@@ -323,7 +323,7 @@ export function EmpresasPage() {
               Governança Institucional Inteligente
             </span>
             
-            <h1 className="text-4xl sm:text-5xl md:text-6xl font-display font-medium tracking-tight text-white leading-[1.1] max-w-5xl mx-auto">
+            <h1 className="text-4xl sm:text-5xl md:text-6xl font-display font-medium tracking-tight text-white leading-[1.1] max-w-5xl mx-auto text-primary">
               Sua organização está preparada para continuar saudável quando as condições deixarem de ser favoráveis?
             </h1>
             

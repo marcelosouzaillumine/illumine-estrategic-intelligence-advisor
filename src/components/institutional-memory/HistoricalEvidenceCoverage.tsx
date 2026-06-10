@@ -29,7 +29,7 @@ export function HistoricalEvidenceCoverage() {
           </div>
           <div className="h-1.5 w-full bg-surface-container rounded-full overflow-hidden">
             <div 
-              className="h-full bg-emerald-500 transition-all duration-700" 
+              className="h-full bg-success-soft0 transition-all duration-700" 
               style={{ width: `${coveragePercent}%` }}
             ></div>
           </div>

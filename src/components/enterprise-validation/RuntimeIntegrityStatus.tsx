@@ -15,15 +15,15 @@ export function RuntimeIntegrityStatus({ tenantId }: { tenantId: string }) {
         <h3 className="text-sm font-semibold text-foreground">Runtime Integrity (Golden Dataset)</h3>
       </div>
       <div className="grid grid-cols-3 gap-3 text-center text-xs">
-        <div className={`p-2 rounded border ${integrity.bpConsistency ? 'bg-emerald-500/10 border-emerald-500/30 text-emerald-500' : 'bg-rose-500/10 border-rose-500/30 text-rose-500'}`}>
+        <div className={`p-2 rounded border ${integrity.bpConsistency ? 'bg-success-soft0/10 border-emerald-500/30 text-emerald-500' : 'bg-critical-soft0/10 border-rose-500/30 text-rose-500'}`}>
           <span className="font-bold block mb-1">BP Math</span>
           {integrity.bpConsistency ? 'VALID' : 'INVALID'}
         </div>
-        <div className={`p-2 rounded border ${integrity.dreConsistency ? 'bg-emerald-500/10 border-emerald-500/30 text-emerald-500' : 'bg-rose-500/10 border-rose-500/30 text-rose-500'}`}>
+        <div className={`p-2 rounded border ${integrity.dreConsistency ? 'bg-success-soft0/10 border-emerald-500/30 text-emerald-500' : 'bg-critical-soft0/10 border-rose-500/30 text-rose-500'}`}>
           <span className="font-bold block mb-1">DRE Math</span>
           {integrity.dreConsistency ? 'VALID' : 'INVALID'}
         </div>
-        <div className={`p-2 rounded border ${integrity.dfcConsistency ? 'bg-emerald-500/10 border-emerald-500/30 text-emerald-500' : 'bg-rose-500/10 border-rose-500/30 text-rose-500'}`}>
+        <div className={`p-2 rounded border ${integrity.dfcConsistency ? 'bg-success-soft0/10 border-emerald-500/30 text-emerald-500' : 'bg-critical-soft0/10 border-rose-500/30 text-rose-500'}`}>
           <span className="font-bold block mb-1">DFC Math</span>
           {integrity.dfcConsistency ? 'VALID' : 'INVALID'}
         </div>

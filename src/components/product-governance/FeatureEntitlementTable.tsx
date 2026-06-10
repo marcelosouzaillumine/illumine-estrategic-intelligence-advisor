@@ -23,11 +23,11 @@ export function FeatureEntitlementTable({ tenantId }: { tenantId: string }) {
             <div key={f.id} className="flex items-center justify-between p-4">
               <span className="text-sm font-medium text-foreground">{f.label}</span>
               {isGranted ? (
-                <span className="inline-flex items-center gap-1.5 text-xs text-emerald-500 font-medium bg-emerald-500/10 px-2 py-1 rounded">
+                <span className="inline-flex items-center gap-1.5 text-xs text-emerald-500 font-medium bg-success-soft0/10 px-2 py-1 rounded">
                   <CheckCircle2 size={14} /> Autorizado
                 </span>
               ) : (
-                <span className="inline-flex items-center gap-1.5 text-xs text-rose-500 font-medium bg-rose-500/10 px-2 py-1 rounded border border-rose-500/20">
+                <span className="inline-flex items-center gap-1.5 text-xs text-rose-500 font-medium bg-critical-soft0/10 px-2 py-1 rounded border border-rose-500/20">
                   <Lock size={14} /> Bloqueado pelo Plano
                 </span>
               )}

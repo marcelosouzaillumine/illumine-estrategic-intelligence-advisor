@@ -71,7 +71,7 @@ export function WelcomeMessage({ isOpen, onClose, message, userName }: WelcomeMe
                   <p className="text-body-sm font-medium text-foreground">Crescimento</p>
                 </div>
                 <div className="p-4 rounded-md bg-surface-container border border-border flex flex-col gap-2">
-                  <div className="w-8 h-8 rounded-button bg-success/10 flex items-center justify-center text-success">
+                  <div className="w-8 h-8 rounded-button bg-success-soft flex items-center justify-center text-success">
                     <ShieldCheck size={16} />
                   </div>
                   <p className="text-body-sm font-medium uppercase tracking-widest text-muted-foreground">Segurança</p>

@@ -112,13 +112,13 @@ export const AdvisorWorkspaceShell: React.FC<AdvisorWorkspaceShellProps> = ({
           </button>
           <button
             onClick={() => handleCrossNavigation('WAR_ROOM', '/war-room')}
-            className="flex items-center gap-2 px-4 py-2 bg-amber-500/10 hover:bg-amber-500/20 text-amber-400 text-sm font-display font-medium rounded-[12px] transition-colors border border-amber-500/30 shadow-sm"
+            className="flex items-center gap-2 px-4 py-2 bg-warning-soft0/10 hover:bg-warning-soft0/20 text-amber-400 text-sm font-display font-medium rounded-[12px] transition-colors border border-amber-500/30 shadow-sm"
           >
             <span>Abrir War Room</span>
           </button>
           <button
             onClick={() => handleCrossNavigation('MEMORY', '/memory')}
-            className="flex items-center gap-2 px-4 py-2 bg-emerald-500/10 hover:bg-emerald-500/20 text-emerald-400 text-sm font-display font-medium rounded-[12px] transition-colors border border-emerald-500/30 shadow-sm"
+            className="flex items-center gap-2 px-4 py-2 bg-success-soft0/10 hover:bg-success-soft0/20 text-emerald-400 text-sm font-display font-medium rounded-[12px] transition-colors border border-emerald-500/30 shadow-sm"
           >
             <Database size={16} />
             <span>Memória Institucional</span>

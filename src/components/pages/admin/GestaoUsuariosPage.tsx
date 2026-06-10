@@ -175,7 +175,7 @@ export function GestaoUsuariosPage({ setSelectedClient, setCurrentPage }: any) {
       </div>
 
       {successMessage && (
-        <div className="p-4 bg-emerald-500/10 border border-emerald-500/20 text-emerald-500 text-sm font-bold uppercase tracking-widest rounded-button flex items-center gap-2">
+        <div className="p-4 bg-success-soft0/10 border border-emerald-500/20 text-emerald-500 text-sm font-bold uppercase tracking-widest rounded-button flex items-center gap-2">
           <ShieldCheck size={18} />
           {successMessage}
         </div>
@@ -282,7 +282,7 @@ export function GestaoUsuariosPage({ setSelectedClient, setCurrentPage }: any) {
                       <button
                         onClick={() => handleResetPassword(u.email, u.id)}
                         disabled={resettingUserId === u.id}
-                        className="inline-flex items-center gap-2 px-4 py-2 bg-rose-500/10 text-rose-600 hover:bg-rose-500 hover:text-white border border-rose-500/20 rounded-lg text-[10px] font-black uppercase tracking-widest transition-all shadow-sm"
+                        className="inline-flex items-center gap-2 px-4 py-2 bg-critical-soft0/10 text-rose-600 hover:bg-critical-soft0 hover:text-white border border-rose-500/20 rounded-lg text-[10px] font-black uppercase tracking-widest transition-all shadow-sm"
                       >
                         {resettingUserId === u.id ? <Loader2 size={14} className="animate-spin" /> : <Key size={14} />}
                         Reset de Senha

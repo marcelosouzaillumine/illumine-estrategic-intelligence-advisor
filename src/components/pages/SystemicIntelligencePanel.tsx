@@ -314,7 +314,7 @@ export function SystemicIntelligencePanel({ clientId, selectedMonth, selectedYea
           <div className="space-y-3">
              <div className={cn(
                "flex items-center justify-between p-3 rounded-md border",
-               stats.frictionIndex > 10 ? "bg-destructive/10 border-destructive/20" : "bg-success/10 border-success/20"
+               stats.frictionIndex > 10 ? "bg-critical-soft border-destructive/20" : "bg-success-soft border-success/20"
              )}>
                 <span className={cn(
                   "text-[10px] font-medium uppercase tracking-widest",
@@ -381,7 +381,7 @@ export function SystemicIntelligencePanel({ clientId, selectedMonth, selectedYea
               Sinais Antecipados de Inteligência (Leading Indicators)
            </h2>
            {stats.warnings.length > 0 && (
-             <span className="px-3 py-1 bg-warning/10 text-warning rounded-md text-[9px] font-medium uppercase tracking-widest">{stats.warnings.length} Alertas Ativos</span>
+             <span className="px-3 py-1 bg-warning-soft text-warning rounded-md text-[9px] font-medium uppercase tracking-widest">{stats.warnings.length} Alertas Ativos</span>
            )}
         </div>
 
@@ -398,7 +398,7 @@ export function SystemicIntelligencePanel({ clientId, selectedMonth, selectedYea
             >
               <div className={cn(
                 "w-16 h-16 rounded-md shrink-0 flex items-center justify-center shadow-inner",
-                alert.severity === 'high' ? "bg-destructive/10 text-destructive" : "bg-warning/10 text-warning"
+                alert.severity === 'high' ? "bg-critical-soft text-destructive" : "bg-warning-soft text-warning"
               )}>
                 <AlertTriangle size={32} />
               </div>

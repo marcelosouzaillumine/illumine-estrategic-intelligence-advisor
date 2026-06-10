@@ -86,7 +86,7 @@ export function ClientAccessLogs({ clientId }: { clientId: string }) {
           <h5 className="text-2xl font-black text-blue-700 font-display">1.240</h5>
           <p className="text-[10px] text-blue-600/60 font-medium">+12% em relação ao mês anterior</p>
         </div>
-        <div className="bg-emerald-50 p-6 rounded-2xl border border-emerald-100 space-y-2">
+        <div className="bg-success-soft p-6 rounded-2xl border border-emerald-100 space-y-2">
           <p className="text-[10px] font-black text-emerald-400 uppercase tracking-widest">Exportações de Relatórios</p>
           <h5 className="text-2xl font-black text-emerald-700 font-display">48</h5>
           <p className="text-[10px] text-emerald-600/60 font-medium">Todos concluídos com sucesso</p>

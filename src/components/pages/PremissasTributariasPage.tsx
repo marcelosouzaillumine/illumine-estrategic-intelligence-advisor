@@ -103,7 +103,7 @@ export function PremissasTributariasPage({ clients }: any) {
                   <p className="text-[10px] text-muted-foreground font-medium mt-0.5">{anexo.descricao}</p>
                 </div>
                 {anexo.fatorR && (
-                  <div className="flex items-center gap-1.5 bg-amber-50 text-amber-700 px-2.5 py-1 rounded-lg border border-amber-100">
+                  <div className="flex items-center gap-1.5 bg-warning-soft text-amber-700 px-2.5 py-1 rounded-lg border border-amber-100">
                     <Activity size={10} />
                     <span className="text-[9px] font-black uppercase tracking-tight">Fator R</span>
                   </div>
@@ -111,7 +111,7 @@ export function PremissasTributariasPage({ clients }: any) {
               </div>
               
               {anexo.fatorR && (
-                <div title={anexo.fatorR} className="px-4 md:px-6 py-1.5 md:py-2 bg-amber-50/30 border-b border-amber-100/50">
+                <div title={anexo.fatorR} className="px-4 md:px-6 py-1.5 md:py-2 bg-warning-soft/30 border-b border-amber-100/50">
                   <p className="text-[9px] text-amber-800 font-medium flex items-center gap-2 italic">
                     <Info size={10} />
                     {anexo.fatorR}
@@ -349,7 +349,7 @@ export function PremissasTributariasPage({ clients }: any) {
                 <span className="text-lg font-display text-primary">5.80%</span>
               </div>
             </div>
-            <div className="p-6 bg-amber-50/50 border-t border-amber-100">
+            <div className="p-6 bg-warning-soft/50 border-t border-amber-100">
               <p className="text-[11px] text-amber-800 font-medium leading-relaxed italic">
                 * Clientes no <strong>Simples Nacional</strong> (exceto Anexo IV) são isentos de INSS Patronal, RAT e Terceiros na cota patronal regular.
               </p>

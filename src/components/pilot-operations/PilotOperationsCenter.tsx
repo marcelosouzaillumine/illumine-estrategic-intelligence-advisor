@@ -31,13 +31,13 @@ export const PilotOperationsCenter: React.FC = () => {
       {isFailClosed && (
         <div className="bg-rose-950/40 border border-rose-600/40 text-rose-500 p-4 rounded-xl flex items-center justify-between shadow-lg backdrop-blur-sm animate-pulse -mb-4">
           <div className="flex items-center gap-3">
-            <div className="w-8 h-8 rounded-full bg-rose-500/20 flex items-center justify-center font-bold text-rose-500 text-sm">!</div>
+            <div className="w-8 h-8 rounded-full bg-critical-soft0/20 flex items-center justify-center font-bold text-rose-500 text-sm">!</div>
             <div>
               <p className="text-xs font-black uppercase tracking-wider">FAIL-CLOSED ACTIVE</p>
               <p className="text-[10px] text-rose-400 mt-0.5">Integridade regulatória comprometida. Ações e métricas estão bloqueadas.</p>
             </div>
           </div>
-          <span className="text-[9px] font-mono font-bold tracking-widest bg-rose-500/10 border border-rose-500/20 px-2 py-0.5 rounded text-rose-500">
+          <span className="text-[9px] font-mono font-bold tracking-widest bg-critical-soft0/10 border border-rose-500/20 px-2 py-0.5 rounded text-rose-500">
             SECURE DEGRADATION
           </span>
         </div>

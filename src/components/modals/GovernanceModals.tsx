@@ -70,7 +70,7 @@ export function LGPDModal({ isOpen, onAccept }: LGPDModalProps) {
                 <div 
                   className={cn(
                     "flex items-start gap-[clamp(0.5rem,1.5dvw,1.25rem)] p-[clamp(0.75rem,2dvh,1.5rem)] rounded-md border-2 transition-all cursor-pointer group",
-                    accepted.lgpd ? "border-success bg-success/10" : "border-border bg-surface-container hover:border-primary/20"
+                    accepted.lgpd ? "border-success bg-success-soft" : "border-border bg-surface-container hover:border-primary/20"
                   )}
                   onClick={() => setAccepted(prev => ({ ...prev, lgpd: !prev.lgpd }))}
                 >
@@ -92,7 +92,7 @@ export function LGPDModal({ isOpen, onAccept }: LGPDModalProps) {
                 <div 
                   className={cn(
                     "flex items-start gap-[clamp(0.5rem,1.5dvw,1.25rem)] p-[clamp(0.75rem,2dvh,1.5rem)] rounded-md border-2 transition-all cursor-pointer group",
-                    accepted.policies ? "border-success bg-success/10" : "border-border bg-surface-container hover:border-primary/20"
+                    accepted.policies ? "border-success bg-success-soft" : "border-border bg-surface-container hover:border-primary/20"
                   )}
                   onClick={() => setAccepted(prev => ({ ...prev, policies: !prev.policies }))}
                 >
@@ -114,7 +114,7 @@ export function LGPDModal({ isOpen, onAccept }: LGPDModalProps) {
                 <div 
                   className={cn(
                     "flex items-start gap-[clamp(0.5rem,1.5dvw,1.25rem)] p-[clamp(0.75rem,2dvh,1.5rem)] rounded-md border-2 transition-all cursor-pointer group",
-                    accepted.curation ? "border-success bg-success/10" : "border-border bg-surface-container hover:border-primary/20"
+                    accepted.curation ? "border-success bg-success-soft" : "border-border bg-surface-container hover:border-primary/20"
                   )}
                   onClick={() => setAccepted(prev => ({ ...prev, curation: !prev.curation }))}
                 >
@@ -189,7 +189,7 @@ export function LGPDModal({ isOpen, onAccept }: LGPDModalProps) {
               </button>
             </div>
             <div className="flex-1 overflow-y-auto p-10 custom-scrollbar prose prose-slate max-w-none">
-              <h1 className="text-4xl font-black mb-8">Políticas de Governança Illumine Governance</h1>
+              <h1 className="text-4xl font-black mb-8 text-primary">Políticas de Governança Illumine Governance</h1>
               <p className="text-lg text-muted-foreground mb-8">Esta plataforma foi desenvolvida para garantir a máxima transparência e integridade na assessoria estratégica corporativa.</p>
               
               <h3 className="text-xl font-bold mt-10 mb-4">1. Proteção de Dados (LGPD)</h3>
@@ -297,7 +297,7 @@ export function DocConfirmationModal({ isOpen, onConfirm, onCancel, data }: DocC
                 onClick={() => setConfirmed(!confirmed)}
                 className={cn(
                   "flex items-start gap-4 p-5 rounded-button border-2 transition-all cursor-pointer",
-                  confirmed ? "border-success bg-success/10" : "border-border bg-surface-container"
+                  confirmed ? "border-success bg-success-soft" : "border-border bg-surface-container"
                 )}
               >
                 <div className={cn(
@@ -359,7 +359,7 @@ export function MandatoryClientModal({ isOpen, onSelect }: MandatoryClientModalP
             className="relative w-full max-w-md bg-background rounded-card shadow-lg p-10 text-center border border-border animate-in zoom-in-95 slide-in-from-bottom-4 duration-500"
             style={{ width: '100%', maxWidth: '448px', minWidth: '320px' }}
           >
-            <div className="w-20 h-20 rounded-md bg-destructive/10 text-destructive flex items-center justify-center mx-auto mb-8 shadow-inner">
+            <div className="w-20 h-20 rounded-md bg-critical-soft text-destructive flex items-center justify-center mx-auto mb-8 shadow-inner">
               <AlertTriangle size={32} />
             </div>
             

@@ -92,7 +92,7 @@ export function InstitutionalDeploymentReadinessPage() {
             <Server size={16} />
             <span className="text-[10px] uppercase font-bold tracking-widest font-mono">Deployment Readiness Layer</span>
           </div>
-          <h1 className="text-2xl font-bold tracking-tight">Institutional Production Readiness</h1>
+          <h1 className="text-2xl font-bold tracking-tight text-primary">Institutional Production Readiness</h1>
           <p className="text-xs text-zinc-500 font-mono mt-1 uppercase tracking-widest">Sovereign Fiduciary Execution Integrity</p>
         </div>
       </div>

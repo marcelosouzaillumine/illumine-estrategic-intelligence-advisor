@@ -237,7 +237,7 @@ export function RelatorioExecutivoPage({ clientId, selectedMonth, selectedYear }
                         <div className="w-12 h-12 bg-secondary rounded-md flex items-center justify-center text-white">
                            <Layout size={24} />
                         </div>
-                        <h1 className="text-4xl font-medium tracking-tighter text-foreground uppercase">Relatório Executivo</h1>
+                        <h1 className="text-4xl font-medium tracking-tighter text-foreground uppercase text-primary">Relatório Executivo</h1>
                      </div>
                      <div className="space-y-1">
                         <p className="text-[10px] font-medium text-secondary tracking-widest uppercase">Illumine Governance</p>

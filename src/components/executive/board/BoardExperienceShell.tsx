@@ -31,7 +31,7 @@ export const BoardExperienceShell: React.FC<BoardExperienceShellProps> = ({ narr
     return (
       <div className="w-full h-screen bg-background flex flex-col items-center justify-center p-8">
         <div className="max-w-2xl w-full bg-red-950/50 border border-red-500/50 p-8 rounded-lg shadow-2xl">
-          <h1 className="text-red-500 text-2xl font-bold mb-4 uppercase tracking-wider">Institutional Guard Block</h1>
+          <h1 className="text-red-500 text-2xl font-bold mb-4 uppercase tracking-wider text-primary">Institutional Guard Block</h1>
           <p className="text-red-200 font-mono mb-6">{guardError}</p>
           <div className="p-4 bg-black/50 rounded text-sm text-muted-foreground">
             Render pipeline aborted. Graceful degradation is disabled in Board Mode to prevent fiduciary misalignment.

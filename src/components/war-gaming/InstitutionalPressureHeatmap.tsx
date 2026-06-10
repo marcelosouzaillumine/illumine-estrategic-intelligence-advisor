@@ -26,8 +26,8 @@ export function InstitutionalPressureHeatmap({ thesis }: { thesis: Institutional
           <span className="text-xs font-bold text-muted-foreground uppercase">Sustainability Status</span>
           <span className={cn(
             "text-[10px] font-black uppercase px-2 py-1 rounded border",
-            thesis.sustainabilityStatus === 'PRESERVADA' ? "bg-emerald-50 text-emerald-700 border-emerald-200" : 
-            (thesis.sustainabilityStatus === 'INSUSTENTÁVEL' ? "bg-rose-100 text-rose-700 border-rose-300" : "bg-amber-50 text-amber-700 border-amber-200")
+            thesis.sustainabilityStatus === 'PRESERVADA' ? "bg-success-soft text-emerald-700 border-emerald-200" : 
+            (thesis.sustainabilityStatus === 'INSUSTENTÁVEL' ? "bg-rose-100 text-rose-700 border-rose-300" : "bg-warning-soft text-amber-700 border-amber-200")
           )}>
             {thesis.sustainabilityStatus}
           </span>

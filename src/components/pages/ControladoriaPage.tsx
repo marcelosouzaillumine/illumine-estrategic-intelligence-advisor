@@ -184,7 +184,7 @@ export function ControladoriaPage({ clientId }: ControladoriaPageProps) {
   if (accessDenied) {
     return (
       <div className="flex flex-col items-center justify-center min-h-[600px] space-y-8 animate-executive-fade bg-background border border-destructive/20 rounded-md p-20 text-center w-full">
-         <div className="w-24 h-24 rounded-full bg-destructive/10 flex items-center justify-center text-destructive shadow-xl relative">
+         <div className="w-24 h-24 rounded-full bg-critical-soft flex items-center justify-center text-destructive shadow-xl relative">
             <AlertTriangle size={48} className="relative z-10" />
          </div>
          <div className="text-center space-y-4 w-full max-w-2xl mx-auto">
@@ -231,7 +231,7 @@ export function ControladoriaPage({ clientId }: ControladoriaPageProps) {
                 <span className="text-5xl font-medium text-foreground tracking-tighter tabular-nums">{adherenceScore}%</span>
                 <span className={cn(
                   "text-[9px] font-medium uppercase tracking-widest px-4 py-1.5 rounded-sm border shadow-sm",
-                  adherenceScore >= 90 ? "text-success bg-success/10 border-success/20" : "text-warning bg-warning/10 border-warning/20"
+                  adherenceScore >= 90 ? "text-success bg-success-soft border-success/20" : "text-warning bg-warning-soft border-warning/20"
                 )}>
                   {adherenceScore >= 90 ? 'Eficiente' : 'Atenção'}
                 </span>
@@ -407,15 +407,15 @@ export function ControladoriaPage({ clientId }: ControladoriaPageProps) {
                               Pendente
                             </div>
                           ) : row.indice > 100 ? (
-                            <div className="flex items-center gap-2 px-4 py-1.5 rounded-sm bg-destructive/10 text-destructive border border-destructive/20 text-[8px] font-medium uppercase tracking-widest animate-pulse shadow-sm">
+                            <div className="flex items-center gap-2 px-4 py-1.5 rounded-sm bg-critical-soft text-destructive border border-destructive/20 text-[8px] font-medium uppercase tracking-widest animate-pulse shadow-sm">
                               <ShieldAlert size={12} /> Crítico
                             </div>
                           ) : row.indice > 90 ? (
-                            <div className="flex items-center gap-2 px-4 py-1.5 rounded-sm bg-warning/10 text-warning border border-warning/20 text-[8px] font-medium uppercase tracking-widest shadow-sm">
+                            <div className="flex items-center gap-2 px-4 py-1.5 rounded-sm bg-warning-soft text-warning border border-warning/20 text-[8px] font-medium uppercase tracking-widest shadow-sm">
                               <AlertCircle size={12} /> Alerta
                             </div>
                           ) : (
-                            <div className="flex items-center gap-2 px-4 py-1.5 rounded-sm bg-success/10 text-success border border-success/20 text-[8px] font-medium uppercase tracking-widest shadow-sm">
+                            <div className="flex items-center gap-2 px-4 py-1.5 rounded-sm bg-success-soft text-success border border-success/20 text-[8px] font-medium uppercase tracking-widest shadow-sm">
                               <CheckCircle2 size={12} /> Saudável
                             </div>
                           )}

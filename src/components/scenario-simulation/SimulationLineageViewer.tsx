@@ -43,7 +43,7 @@ export const SimulationLineageViewer: React.FC = () => {
 
         <div className="flex justify-between items-center p-3 bg-surface-container/40 rounded-xl">
           <span className="text-[9px] font-bold tracking-widest text-muted-foreground">{t('scenario.lineage.auditHash')}</span>
-          <span className="text-[10px] font-mono text-emerald-500 font-bold bg-emerald-500/10 px-2 py-1 rounded select-all">
+          <span className="text-[10px] font-mono text-emerald-500 font-bold bg-success-soft0/10 px-2 py-1 rounded select-all">
             {lineageHash}
           </span>
         </div>

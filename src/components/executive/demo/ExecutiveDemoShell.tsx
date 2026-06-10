@@ -254,7 +254,7 @@ export const ExecutiveDemoShell: React.FC = () => {
     <div className="w-full min-h-screen bg-slate-950 text-muted-foreground p-8 space-y-8">
       <div className="flex items-center justify-between border-b border-border pb-4">
         <div>
-          <h1 className="text-3xl font-light text-white tracking-tight">Executive Demonstrability Workspace</h1>
+          <h1 className="text-3xl font-light text-white tracking-tight text-primary">Executive Demonstrability Workspace</h1>
           <p className="text-xs text-muted-foreground mt-1">Fiduciary Board & Advisor Presentation Suite</p>
         </div>
         <div className="text-right">

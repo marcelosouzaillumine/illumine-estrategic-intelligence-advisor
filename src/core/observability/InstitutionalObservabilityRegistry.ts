@@ -12,6 +12,14 @@ export class InstitutionalObservabilityRegistry {
         throw new Error("Invalid observability event. Missing critical context.");
       }
       
+      // Phase 5: Obrigatoriedade de payload
+      if (event.metadata && 'objectId' in event.metadata && !event.metadata.objectId) {
+        throw new Error("Invalid observability event. objectId is required when applicable to the event.");
+      }
+      if (event.metadata && 'tenantId' in event.metadata && !event.metadata.tenantId) {
+        throw new Error("Invalid observability event. tenantId is required when applicable to the event.");
+      }
+      
       console.log(`[ObservabilityRegistry] Event ${event.eventType} recorded for trace ${event.correlationId}`);
     } catch (error: unknown) {
       console.error(`[ObservabilityRegistry] Failed to record observability event:`, getErrorMessage(error));

@@ -125,9 +125,9 @@ export const AdminSupportPanel: React.FC<{ headerAddon?: React.ReactNode }> = ({
                     <div className="flex items-center gap-3">
                       <span className={cn(
                         "px-3 py-1 rounded-sm text-[8px] font-medium uppercase tracking-widest border",
-                        ticket.status === 'pending' ? "bg-warning/10 text-warning border-warning/20" :
+                        ticket.status === 'pending' ? "bg-warning-soft text-warning border-warning/20" :
                         ticket.status === 'in_progress' ? "bg-blue-500/10 text-blue-500 border-blue-500/20" :
-                        ticket.status === 'resolved' ? "bg-success/10 text-success border-success/20" :
+                        ticket.status === 'resolved' ? "bg-success-soft text-success border-success/20" :
                         "bg-slate-500/10 text-muted-foreground border-border"
                       )}>
                         {ticket.status === 'pending' ? 'Pendente' : 

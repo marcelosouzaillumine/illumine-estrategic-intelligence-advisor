@@ -134,11 +134,11 @@ export function InstitutionalPressureDashboard({ clientId, selectedYear, selecte
           
           <div className={cn(
             "px-6 py-2.5 mt-8 rounded-full border text-xs font-bold uppercase tracking-wider inline-flex",
-            pressureReport.overallPressureLevel === 'ACUTE' ? 'bg-destructive/10 text-destructive border-destructive/20' :
-            pressureReport.overallPressureLevel === 'CRITICAL' ? 'bg-rose-500/10 text-rose-500 border-rose-500/20' :
-            pressureReport.overallPressureLevel === 'ELEVATED' ? 'bg-amber-500/10 text-amber-500 border-amber-500/20' :
+            pressureReport.overallPressureLevel === 'ACUTE' ? 'bg-critical-soft text-destructive border-destructive/20' :
+            pressureReport.overallPressureLevel === 'CRITICAL' ? 'bg-critical-soft0/10 text-rose-500 border-rose-500/20' :
+            pressureReport.overallPressureLevel === 'ELEVATED' ? 'bg-warning-soft0/10 text-amber-500 border-amber-500/20' :
             pressureReport.overallPressureLevel === 'MODERATE' ? 'bg-blue-500/10 text-blue-500 border-blue-500/20' :
-            'bg-emerald-500/10 text-emerald-500 border-emerald-500/20'
+            'bg-success-soft0/10 text-emerald-500 border-emerald-500/20'
           )}>
             {mappedSeverityLabel}
           </div>

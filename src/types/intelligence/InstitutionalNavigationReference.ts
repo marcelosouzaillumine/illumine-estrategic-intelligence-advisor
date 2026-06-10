@@ -7,7 +7,8 @@ export type InstitutionalWorkspaceType =
   | 'INTELLIGENCE_FABRIC'
   | 'MEMORY'
   | 'EXECUTIVE_HOME'
-  | 'HUB';
+  | 'HUB'
+  | 'UNIVERSAL_SEARCH';
 
 export interface InstitutionalNavigationReference {
   sourceWorkspace: InstitutionalWorkspaceType;
@@ -16,4 +17,5 @@ export interface InstitutionalNavigationReference {
   targetObjectId?: string;
   tenantId: string;
   correlationId?: string;
+  lineageId?: string;
 }

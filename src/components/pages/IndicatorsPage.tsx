@@ -147,8 +147,8 @@ const CATEGORY_CONFIG: Record<string, {
   'Governança Corporativa':  { icon: ShieldCheck,  accentFrom: 'from-slate-500',   accentTo: 'to-slate-700',   badgeBg: 'bg-slate-500/10 border-border',   badgeText: 'text-muted-foreground dark:text-muted-foreground',   borderAccent: 'border-l-slate-400',   glowColor: 'rgba(100,116,139,0.18)',   pillActive: 'bg-slate-800 text-white border-border' },
   'Cultura Organizacional':  { icon: Users,         accentFrom: 'from-primary',  accentTo: 'to-secondary',  badgeBg: 'bg-primary border-primary',  badgeText: 'text-primary dark:text-primary',  borderAccent: 'border-l-primary-400',  glowColor: 'rgba(59,130,246,0.18)',   pillActive: 'bg-primary text-white border-primary' },
   'Gestão de Inovação':      { icon: Lightbulb,     accentFrom: 'from-cyan-500',    accentTo: 'to-blue-600',    badgeBg: 'bg-cyan-500/10 border-cyan-500/20',      badgeText: 'text-cyan-600 dark:text-cyan-300',      borderAccent: 'border-l-cyan-400',    glowColor: 'rgba(6,182,212,0.18)',    pillActive: 'bg-cyan-800 text-white border-cyan-800' },
-  'Gestão Comercial':        { icon: ShoppingBag,   accentFrom: 'from-emerald-500', accentTo: 'to-teal-600',    badgeBg: 'bg-emerald-500/10 border-emerald-500/20', badgeText: 'text-emerald-600 dark:text-emerald-300', borderAccent: 'border-l-emerald-400', glowColor: 'rgba(16,185,129,0.18)',   pillActive: 'bg-emerald-800 text-white border-emerald-800' },
-  'Gestão Operacional':      { icon: Activity,      accentFrom: 'from-amber-500',   accentTo: 'to-orange-600',  badgeBg: 'bg-amber-500/10 border-amber-500/20',    badgeText: 'text-amber-600 dark:text-amber-300',    borderAccent: 'border-l-amber-400',   glowColor: 'rgba(245,158,11,0.18)',   pillActive: 'bg-amber-800 text-white border-amber-800' },
+  'Gestão Comercial':        { icon: ShoppingBag,   accentFrom: 'from-emerald-500', accentTo: 'to-teal-600',    badgeBg: 'bg-success-soft0/10 border-emerald-500/20', badgeText: 'text-emerald-600 dark:text-emerald-300', borderAccent: 'border-l-emerald-400', glowColor: 'rgba(16,185,129,0.18)',   pillActive: 'bg-emerald-800 text-white border-emerald-800' },
+  'Gestão Operacional':      { icon: Activity,      accentFrom: 'from-amber-500',   accentTo: 'to-orange-600',  badgeBg: 'bg-warning-soft0/10 border-amber-500/20',    badgeText: 'text-amber-600 dark:text-amber-300',    borderAccent: 'border-l-amber-400',   glowColor: 'rgba(245,158,11,0.18)',   pillActive: 'bg-amber-800 text-white border-amber-800' },
   'Administração e Finanças':{ icon: BarChart3,      accentFrom: 'from-indigo-500',  accentTo: 'to-blue-700',    badgeBg: 'bg-primary border-primary',  badgeText: 'text-primary dark:text-primary',  borderAccent: 'border-l-indigo-400',  glowColor: 'rgba(99,102,241,0.18)',   pillActive: 'bg-primary text-white border-primary' },
   'Gestão de Marketing':     { icon: Globe,         accentFrom: 'from-blue-500',    accentTo: 'to-indigo-600',  badgeBg: 'bg-blue-500/10 border-blue-500/20',      badgeText: 'text-blue-600 dark:text-blue-300',      borderAccent: 'border-l-blue-400',    glowColor: 'rgba(59,130,246,0.18)',   pillActive: 'bg-blue-800 text-white border-blue-800' },
 };
@@ -166,9 +166,9 @@ const getValueSizeClass = (maxLen: number) => {
 
 // Status bar progress helper
 const semProgress = (sem: string) => {
-  if (sem === 'Verde')  return { w: '100%', bar: 'bg-gradient-to-r from-emerald-400 to-emerald-500', glow: 'shadow-[0_0_8px_rgba(16,185,129,0.55)]', label: 'Meta Superada', labelCls: 'text-emerald-600 dark:text-emerald-400 bg-emerald-50 dark:bg-emerald-950/25 border-emerald-200 dark:border-emerald-800/40' };
-  if (sem === 'Amarelo') return { w: '62%',  bar: 'bg-gradient-to-r from-amber-400 to-amber-500',   glow: 'shadow-[0_0_8px_rgba(245,158,11,0.55)]',   label: 'Em Atenção',   labelCls: 'text-amber-600 dark:text-amber-400 bg-amber-50 dark:bg-amber-950/25 border-amber-200 dark:border-amber-800/40' };
-  return { w: '30%', bar: 'bg-gradient-to-r from-rose-400 to-rose-500', glow: 'shadow-[0_0_8px_rgba(244,63,94,0.55)]', label: 'Alerta Crítico', labelCls: 'text-rose-600 dark:text-rose-400 bg-rose-50 dark:bg-rose-950/25 border-rose-200 dark:border-rose-800/40' };
+  if (sem === 'Verde')  return { w: '100%', bar: 'bg-gradient-to-r from-emerald-400 to-emerald-500', glow: 'shadow-[0_0_8px_rgba(16,185,129,0.55)]', label: 'Meta Superada', labelCls: 'text-emerald-600 dark:text-emerald-400 bg-success-soft dark:bg-emerald-950/25 border-emerald-200 dark:border-emerald-800/40' };
+  if (sem === 'Amarelo') return { w: '62%',  bar: 'bg-gradient-to-r from-amber-400 to-amber-500',   glow: 'shadow-[0_0_8px_rgba(245,158,11,0.55)]',   label: 'Em Atenção',   labelCls: 'text-amber-600 dark:text-amber-400 bg-warning-soft dark:bg-amber-950/25 border-amber-200 dark:border-amber-800/40' };
+  return { w: '30%', bar: 'bg-gradient-to-r from-rose-400 to-rose-500', glow: 'shadow-[0_0_8px_rgba(244,63,94,0.55)]', label: 'Alerta Crítico', labelCls: 'text-rose-600 dark:text-rose-400 bg-critical-soft dark:bg-rose-950/25 border-rose-200 dark:border-rose-800/40' };
 };
 
 function KPICard({ r, group, valueClassName, onAction }: any) {
@@ -291,8 +291,8 @@ function SummaryCard({ label, value, icon: Icon, colorClass, trend, valueClassNa
           <div className={cn(
             "flex items-center gap-1 px-2.5 py-1 rounded-full text-[8.5px] font-black uppercase tracking-wider border",
             isNeg
-              ? "text-rose-600 dark:text-rose-400 border-rose-200 dark:border-rose-800/40 bg-rose-50 dark:bg-rose-950/20"
-              : "text-emerald-600 dark:text-emerald-400 border-emerald-200 dark:border-emerald-800/40 bg-emerald-50 dark:bg-emerald-950/20"
+              ? "text-rose-600 dark:text-rose-400 border-rose-200 dark:border-rose-800/40 bg-critical-soft dark:bg-rose-950/20"
+              : "text-emerald-600 dark:text-emerald-400 border-emerald-200 dark:border-emerald-800/40 bg-success-soft dark:bg-emerald-950/20"
           )}>
             {isNeg ? <ArrowDown size={9} /> : <ArrowUp size={9} />}
             {trend}
@@ -518,7 +518,7 @@ export function IndicatorsPage({ clients, selectedClient, selectedMonth, selecte
                 <div className={cn(
                   "w-9 h-9 rounded-xl flex items-center justify-center border shadow-xs shrink-0",
                   indicators.length > 0
-                    ? "bg-emerald-500/10 text-emerald-500 border-emerald-500/20"
+                    ? "bg-success-soft0/10 text-emerald-500 border-emerald-500/20"
                     : "bg-surface-container text-muted-foreground border-border"
                 )}>
                   <ShieldCheck size={16} />
@@ -530,9 +530,9 @@ export function IndicatorsPage({ clients, selectedClient, selectedMonth, selecte
               <span className={cn(
                 "text-[8px] font-black uppercase tracking-widest px-2.5 py-1 rounded-full border shadow-sm shrink-0 whitespace-nowrap",
                 indicators.length > 0
-                  ? hsColor === 'emerald' ? "text-emerald-600 dark:text-emerald-400 bg-emerald-50 dark:bg-emerald-950/20 border-emerald-200 dark:border-emerald-800/40"
-                  : hsColor === 'amber'   ? "text-amber-600 dark:text-amber-400 bg-amber-50 dark:bg-amber-950/20 border-amber-200 dark:border-amber-800/40"
-                  :                        "text-rose-600 dark:text-rose-400 bg-rose-50 dark:bg-rose-950/20 border-rose-200 dark:border-rose-800/40"
+                  ? hsColor === 'emerald' ? "text-emerald-600 dark:text-emerald-400 bg-success-soft dark:bg-emerald-950/20 border-emerald-200 dark:border-emerald-800/40"
+                  : hsColor === 'amber'   ? "text-amber-600 dark:text-amber-400 bg-warning-soft dark:bg-amber-950/20 border-amber-200 dark:border-amber-800/40"
+                  :                        "text-rose-600 dark:text-rose-400 bg-critical-soft dark:bg-rose-950/20 border-rose-200 dark:border-rose-800/40"
                   : "text-muted-foreground bg-surface-container border-border"
               )}>
                 {indicators.length > 0 ? hsLabel : 'Pendente'}
@@ -717,18 +717,18 @@ export function IndicatorsPage({ clients, selectedClient, selectedMonth, selecte
                     {/* Mini status summary */}
                     <div className="flex items-center gap-2 ml-0 sm:ml-4 shrink-0">
                       {verde > 0 && (
-                        <span className="flex items-center gap-1 px-2.5 py-1 rounded-full text-[8px] font-black uppercase tracking-wider bg-emerald-50 dark:bg-emerald-950/25 text-emerald-600 dark:text-emerald-400 border border-emerald-200 dark:border-emerald-800/40">
-                          <span className="w-1.5 h-1.5 rounded-full bg-emerald-500" />{verde} ok
+                        <span className="flex items-center gap-1 px-2.5 py-1 rounded-full text-[8px] font-black uppercase tracking-wider bg-success-soft dark:bg-emerald-950/25 text-emerald-600 dark:text-emerald-400 border border-emerald-200 dark:border-emerald-800/40">
+                          <span className="w-1.5 h-1.5 rounded-full bg-success-soft0" />{verde} ok
                         </span>
                       )}
                       {amarelo > 0 && (
-                        <span className="flex items-center gap-1 px-2.5 py-1 rounded-full text-[8px] font-black uppercase tracking-wider bg-amber-50 dark:bg-amber-950/25 text-amber-600 dark:text-amber-400 border border-amber-200 dark:border-amber-800/40">
-                          <span className="w-1.5 h-1.5 rounded-full bg-amber-500" />{amarelo} atenção
+                        <span className="flex items-center gap-1 px-2.5 py-1 rounded-full text-[8px] font-black uppercase tracking-wider bg-warning-soft dark:bg-amber-950/25 text-amber-600 dark:text-amber-400 border border-amber-200 dark:border-amber-800/40">
+                          <span className="w-1.5 h-1.5 rounded-full bg-warning-soft0" />{amarelo} atenção
                         </span>
                       )}
                       {vermelho > 0 && (
-                        <span className="flex items-center gap-1 px-2.5 py-1 rounded-full text-[8px] font-black uppercase tracking-wider bg-rose-50 dark:bg-rose-950/25 text-rose-600 dark:text-rose-400 border border-rose-200 dark:border-rose-800/40">
-                          <span className="w-1.5 h-1.5 rounded-full bg-rose-500" />{vermelho} alerta
+                        <span className="flex items-center gap-1 px-2.5 py-1 rounded-full text-[8px] font-black uppercase tracking-wider bg-critical-soft dark:bg-rose-950/25 text-rose-600 dark:text-rose-400 border border-rose-200 dark:border-rose-800/40">
+                          <span className="w-1.5 h-1.5 rounded-full bg-critical-soft0" />{vermelho} alerta
                         </span>
                       )}
                     </div>

@@ -12,7 +12,7 @@ export function StrategicGroupAlertsPanel({ alerts }: { alerts: string[] }) {
       </h3>
       <div className="space-y-3">
         {alerts.map((alert, idx) => (
-          <div key={idx} className="p-4 rounded-xl bg-amber-50/50 border border-amber-100 flex gap-3">
+          <div key={idx} className="p-4 rounded-xl bg-warning-soft/50 border border-amber-100 flex gap-3">
             <div className="w-1.5 h-1.5 rounded-full bg-amber-400 mt-2 shrink-0" />
             <p className="text-xs font-medium text-muted-foreground leading-relaxed">{alert}</p>
           </div>

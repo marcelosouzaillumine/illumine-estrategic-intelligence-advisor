@@ -23,7 +23,7 @@ export const GovernanceCommandCenterSurface: React.FC = () => {
       <div className="flex justify-between items-center bg-slate-950/60 border border-border p-5 rounded-2xl flex-wrap gap-4">
         <div className="space-y-1">
           <div className="flex items-center gap-3">
-            <h1 className="text-xl font-bold font-mono text-muted-foreground uppercase tracking-wide">
+            <h1 className="text-xl font-bold font-mono text-primary uppercase tracking-wide">
               Governance Command Center
             </h1>
             <CommandIntegrityBadge state={commandIntegrity} />

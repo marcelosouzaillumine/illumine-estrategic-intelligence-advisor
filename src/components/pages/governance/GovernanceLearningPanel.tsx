@@ -33,9 +33,9 @@ export function GovernanceLearningPanel({ clientId, scenario }: GovernanceLearni
       case 'HIGHLY_ACCURATE':
         return { text: 'text-primary bg-primary border-primary', label: 'Highly Accurate' };
       case 'RELIABLE':
-        return { text: 'text-emerald-400 bg-emerald-500/10 border-emerald-500/25', label: 'Reliable (Confiável)' };
+        return { text: 'text-emerald-400 bg-success-soft0/10 border-emerald-500/25', label: 'Reliable (Confiável)' };
       case 'NEEDS_CALIBRATION':
-        return { text: 'text-amber-400 bg-amber-500/10 border-amber-500/25', label: 'Needs Calibration' };
+        return { text: 'text-amber-400 bg-warning-soft0/10 border-amber-500/25', label: 'Needs Calibration' };
       case 'WEAK_PREDICTIVE_ACCURACY':
       default:
         return { text: 'text-red-400 bg-red-500/10 border-red-500/25', label: 'Weak Predictive Accuracy' };
@@ -47,9 +47,9 @@ export function GovernanceLearningPanel({ clientId, scenario }: GovernanceLearni
       case 'EXCEEDED':
         return 'text-primary bg-primary border-primary';
       case 'ACHIEVED':
-        return 'text-emerald-400 bg-emerald-500/10 border-emerald-500/20';
+        return 'text-emerald-400 bg-success-soft0/10 border-emerald-500/20';
       case 'PARTIALLY_ACHIEVED':
-        return 'text-amber-400 bg-amber-500/10 border-amber-500/20';
+        return 'text-amber-400 bg-warning-soft0/10 border-amber-500/20';
       case 'FAILED':
       default:
         return 'text-red-400 bg-red-500/10 border-red-500/20';
@@ -62,12 +62,12 @@ export function GovernanceLearningPanel({ clientId, scenario }: GovernanceLearni
     <div className="bg-gray-900/60 backdrop-blur-md border border-border rounded-3xl p-6 md:p-8 space-y-8 shadow-2xl relative overflow-hidden">
       
       {/* Background soft lighting */}
-      <div className={`absolute top-0 right-0 w-64 h-64 rounded-full filter blur-[120px] opacity-10 transition-colors duration-1000 ${isBlocked ? 'bg-red-500' : 'bg-emerald-500'}`} />
+      <div className={`absolute top-0 right-0 w-64 h-64 rounded-full filter blur-[120px] opacity-10 transition-colors duration-1000 ${isBlocked ? 'bg-red-500' : 'bg-success-soft0'}`} />
 
       {/* Header */}
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 border-b border-border pb-6">
         <div className="flex items-center gap-3">
-          <div className="p-3 bg-emerald-500/10 rounded-2xl border border-emerald-500/25 text-emerald-400 shadow-lg shadow-emerald-500/5">
+          <div className="p-3 bg-success-soft0/10 rounded-2xl border border-emerald-500/25 text-emerald-400 shadow-lg shadow-emerald-500/5">
             <BrainCircuit className="w-6 h-6" />
           </div>
           <div>
@@ -75,7 +75,7 @@ export function GovernanceLearningPanel({ clientId, scenario }: GovernanceLearni
               <h2 className="text-xl font-bold tracking-tight text-white">
                 Governance Learning Layer
               </h2>
-              <span className="text-[10px] font-black uppercase tracking-widest px-2 py-0.5 bg-emerald-500/15 border border-emerald-500/30 text-emerald-400 rounded-full">
+              <span className="text-[10px] font-black uppercase tracking-widest px-2 py-0.5 bg-success-soft0/15 border border-emerald-500/30 text-emerald-400 rounded-full">
                 GLL™ v1.0
               </span>
             </div>
@@ -186,7 +186,7 @@ export function GovernanceLearningPanel({ clientId, scenario }: GovernanceLearni
               </div>
 
               <div className="space-y-2 w-full">
-                <div className="py-1 px-3.5 rounded-lg border text-center font-bold text-[10px] tracking-wider text-emerald-400 bg-emerald-500/10 border-emerald-500/25 uppercase">
+                <div className="py-1 px-3.5 rounded-lg border text-center font-bold text-[10px] tracking-wider text-emerald-400 bg-success-soft0/10 border-emerald-500/25 uppercase">
                   Maturidade: {learning.learningMaturity}
                 </div>
                 <p className="text-[10px] text-muted-foreground leading-normal">

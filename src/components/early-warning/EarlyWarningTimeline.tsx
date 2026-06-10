@@ -16,7 +16,7 @@ export function EarlyWarningTimeline({ tenantId }: { tenantId: string }) {
       <div className="relative border-l border-border/50 ml-3 space-y-6">
         {signals.map(signal => (
           <div key={signal.signalId} className="relative pl-6">
-            <div className="absolute w-3 h-3 bg-rose-500 rounded-full -left-1.5 top-1.5 border-2 border-background"></div>
+            <div className="absolute w-3 h-3 bg-critical-soft0 rounded-full -left-1.5 top-1.5 border-2 border-background"></div>
             <div className="text-xs text-muted-foreground font-mono">{new Date(signal.createdAt).toLocaleTimeString()}</div>
             <div className="text-sm font-medium text-foreground mt-1">{signal.title}</div>
             <div className="text-xs text-muted-foreground mt-1">{signal.category}</div>

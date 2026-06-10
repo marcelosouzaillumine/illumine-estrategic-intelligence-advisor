@@ -97,7 +97,7 @@ export function ForcePasswordChangeModal({ onSuccess }: ForcePasswordChangeModal
 
         {success ? (
           <div className="flex flex-col items-center gap-4 py-8">
-            <div className="w-16 h-16 bg-emerald-500/10 text-emerald-500 rounded-full flex items-center justify-center">
+            <div className="w-16 h-16 bg-success-soft0/10 text-emerald-500 rounded-full flex items-center justify-center">
               <CheckCircle2 size={32} />
             </div>
             <p className="text-lg font-bold text-emerald-500">Senha atualizada com sucesso!</p>
@@ -139,7 +139,7 @@ export function ForcePasswordChangeModal({ onSuccess }: ForcePasswordChangeModal
             </div>
 
             {error && (
-              <div className="p-3 bg-rose-500/10 border border-rose-500/20 text-rose-500 text-sm font-medium rounded-lg">
+              <div className="p-3 bg-critical-soft0/10 border border-rose-500/20 text-rose-500 text-sm font-medium rounded-lg">
                 {error}
               </div>
             )}

@@ -20,7 +20,7 @@ export function CrossTenantStressViewer({ tenantIds }: { tenantIds: string[] }) 
           <div className="text-[10px] text-muted-foreground uppercase font-bold mb-1">Switches</div>
           <div className="text-lg font-bold text-primary">{result.switchesValidated}</div>
         </div>
-        <div className={`p-3 border rounded ${result.leakageDetected ? 'bg-rose-500/10 border-rose-500/30' : 'bg-emerald-500/10 border-emerald-500/30'}`}>
+        <div className={`p-3 border rounded ${result.leakageDetected ? 'bg-critical-soft0/10 border-rose-500/30' : 'bg-success-soft0/10 border-emerald-500/30'}`}>
           <div className="text-[10px] text-muted-foreground uppercase font-bold mb-1">Leakage</div>
           <div className={`text-lg font-bold ${result.leakageDetected ? 'text-rose-500' : 'text-emerald-500'}`}>
             {result.leakageDetected ? 'SIM' : 'NÃO'}

@@ -24,7 +24,7 @@ export function SystemicRisksPanel({ risks }: { risks: SystemicRisk[] }) {
       </h3>
       <div className="space-y-4">
         {risks.map((risk, idx) => (
-          <div key={idx} className="p-5 rounded-2xl border border-rose-100 bg-rose-50/30 flex flex-col gap-3">
+          <div key={idx} className="p-5 rounded-2xl border border-rose-100 bg-critical-soft/30 flex flex-col gap-3">
             <div className="flex items-center justify-between">
               <span className="text-[10px] font-black uppercase px-3 py-1 rounded-full bg-rose-100 text-rose-700 border border-rose-200">
                 {risk.riskType.replace(/_/g, ' ')}

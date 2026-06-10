@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from 'react';
-import { Layers, Search, History, Shield, Network, Database } from 'lucide-react';
+import { Layers, Search, History, Shield, Network, Database, Activity, Target, Workflow, Users, ShieldAlert, Cpu } from 'lucide-react';
 import { InstitutionalDigitalTwinRuntime } from '../../core/digital-twin/InstitutionalDigitalTwinRuntime';
 import { TwinAssemblyEngine } from '../../core/digital-twin/TwinAssemblyEngine';
+import { InstitutionalObservabilityRegistry } from '../../core/observability/InstitutionalObservabilityRegistry';
 import { 
   InstitutionalDigitalTwinViewModel, 
   UIDigitalTwin, 
@@ -45,9 +46,20 @@ export const InstitutionalDigitalTwinWorkspace: React.FC<InstitutionalDigitalTwi
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
+    if (tenantId) {
+      InstitutionalObservabilityRegistry.recordDigitalTwinOpened(
+        tenantId,
+        `ctx-${Date.now()}`,
+        'CURRENT_USER'
+      );
+    }
+  }, [tenantId]);
+
+  useEffect(() => {
     let active = true;
 
     const load = async () => {
+      if (!tenantId) return;
       try {
         const { twin: rawTwin, relationships: rawRels } = await runtime.loadInstitutionalTwin(tenantId);
         if (!active) return;
@@ -78,6 +90,15 @@ export const InstitutionalDigitalTwinWorkspace: React.FC<InstitutionalDigitalTwi
       active = false;
     };
   }, [runtime, assemblyEngine, tenantId]);
+
+  if (!tenantId) {
+    return (
+      <div className="flex flex-col items-center justify-center min-h-[400px]">
+        <Layers className="text-muted-foreground/60 mb-4" size={48} />
+        <p className="text-eyebrow text-muted-foreground uppercase tracking-widest">Contexto indisponível.</p>
+      </div>
+    );
+  }
 
   if (loading) {
     return (
@@ -123,7 +144,7 @@ export const InstitutionalDigitalTwinWorkspace: React.FC<InstitutionalDigitalTwi
           </button>
           <button
             onClick={() => handleCrossNavigation('WAR_ROOM', `/war-room`)}
-            className="flex items-center gap-2 px-4 py-2 bg-amber-500/10 hover:bg-amber-500/20 text-amber-400 text-sm font-display font-medium rounded-[12px] transition-colors border border-amber-500/30 shadow-sm"
+            className="flex items-center gap-2 px-4 py-2 bg-warning-soft0/10 hover:bg-warning-soft0/20 text-amber-400 text-sm font-display font-medium rounded-[12px] transition-colors border border-amber-500/30 shadow-sm"
           >
             <span>Ver Cenários Relacionados</span>
           </button>

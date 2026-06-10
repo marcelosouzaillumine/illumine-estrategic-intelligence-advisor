@@ -49,11 +49,11 @@ export const FiduciaryTimelineSurface: React.FC<FiduciaryTimelineSurfaceProps> =
           if (type === 'NUMBER') {
             const num = val as number;
             if (num < 0) { bgColor = 'bg-red-500/20'; textColor = 'text-red-400'; }
-            else if (num > 0) { bgColor = 'bg-emerald-500/20'; textColor = 'text-emerald-400'; }
+            else if (num > 0) { bgColor = 'bg-success-soft0/20'; textColor = 'text-emerald-400'; }
           } else {
             const str = val as string;
-            if (str === 'LIQUIDEZ_ARTIFICIAL') { bgColor = 'bg-amber-500/20'; textColor = 'text-amber-400'; }
-            else if (str === 'HEALTHY' || str === 'SAUDÁVEL') { bgColor = 'bg-emerald-500/20'; textColor = 'text-emerald-400'; }
+            if (str === 'LIQUIDEZ_ARTIFICIAL') { bgColor = 'bg-warning-soft0/20'; textColor = 'text-amber-400'; }
+            else if (str === 'HEALTHY' || str === 'SAUDÁVEL') { bgColor = 'bg-success-soft0/20'; textColor = 'text-emerald-400'; }
             else { bgColor = 'bg-slate-500/20'; textColor = 'text-muted-foreground'; }
           }
 
@@ -98,7 +98,7 @@ export const FiduciaryTimelineSurface: React.FC<FiduciaryTimelineSurfaceProps> =
       </div>
 
       {(timeline.fiduciaryWarnings.length > 0 || timeline.dependencyRecurrence > 0) && (
-        <div className="bg-amber-500/5 border border-amber-500/20 rounded-xl p-5">
+        <div className="bg-warning-soft0/5 border border-amber-500/20 rounded-xl p-5">
           <div className="flex items-center gap-2 mb-3">
             <AlertTriangle className="w-4 h-4 text-amber-500" />
             <h3 className="text-amber-500 font-medium text-sm">{t("panels.trajectory_markers")}</h3>

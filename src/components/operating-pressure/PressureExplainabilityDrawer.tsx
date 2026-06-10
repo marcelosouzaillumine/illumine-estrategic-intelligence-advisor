@@ -92,7 +92,7 @@ export function PressureExplainabilityDrawer({ data, lineageHash }: Explainabili
             </div>
           </div>
 
-          <div className="flex items-center gap-3 bg-emerald-500/5 border border-emerald-500/10 p-4 rounded-xl">
+          <div className="flex items-center gap-3 bg-success-soft0/5 border border-emerald-500/10 p-4 rounded-xl">
             <Check size={16} className="text-emerald-500 shrink-0" />
             <div className="min-w-0">
               <span className="text-[9px] font-black uppercase tracking-widest text-emerald-500 block">Lineage Hash Consolidado</span>

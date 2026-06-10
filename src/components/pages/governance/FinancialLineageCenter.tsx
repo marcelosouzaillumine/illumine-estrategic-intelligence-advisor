@@ -81,10 +81,10 @@ export function FinancialLineageCenter({ selectedClient, selectedYear }: Financi
   });
 
   const getReliabilityBg = (v: number) => {
-    if (v >= 90) return 'bg-emerald-500/10 border-emerald-500/20 text-emerald-400';
+    if (v >= 90) return 'bg-success-soft0/10 border-emerald-500/20 text-emerald-400';
     if (v >= 70) return 'bg-yellow-500/10 border-yellow-500/20 text-yellow-400';
-    if (v >= 50) return 'bg-amber-500/10 border-amber-500/20 text-amber-500';
-    return 'bg-rose-500/10 border-rose-500/20 text-rose-500';
+    if (v >= 50) return 'bg-warning-soft0/10 border-amber-500/20 text-amber-500';
+    return 'bg-critical-soft0/10 border-rose-500/20 text-rose-500';
   };
 
   const getReliabilityColor = (v: number) => {
@@ -150,7 +150,7 @@ export function FinancialLineageCenter({ selectedClient, selectedYear }: Financi
       title: 'Executive Execution',
       metric: 'Execution Score',
       val: e3Metrics()?.score,
-      color: 'border-rose-500 text-rose-400 bg-rose-500/5'
+      color: 'border-rose-500 text-rose-400 bg-critical-soft0/5'
     }
   ];
 
@@ -349,7 +349,7 @@ export function FinancialLineageCenter({ selectedClient, selectedYear }: Financi
                       </td>
                       <td className="py-4 px-6">
                         {isViolation ? (
-                          <span className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-[9px] font-bold uppercase tracking-wide bg-rose-500/10 border border-rose-500/20 text-rose-400">
+                          <span className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-[9px] font-bold uppercase tracking-wide bg-critical-soft0/10 border border-rose-500/20 text-rose-400">
                             Violação de Linhagem
                           </span>
                         ) : isWarning ? (
@@ -361,7 +361,7 @@ export function FinancialLineageCenter({ selectedClient, selectedYear }: Financi
                             Não Observável
                           </span>
                         ) : (
-                          <span className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-[9px] font-bold uppercase tracking-wide bg-emerald-500/10 border border-emerald-500/20 text-emerald-400">
+                          <span className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-[9px] font-bold uppercase tracking-wide bg-success-soft0/10 border border-emerald-500/20 text-emerald-400">
                             Linhagem Íntegra
                           </span>
                         )}

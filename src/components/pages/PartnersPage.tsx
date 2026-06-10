@@ -750,7 +750,7 @@ export function PartnersPage({ clients, setClients, setSelectedClient, isMaster 
         {partnerToDelete && (
           <div className="fixed inset-0 bg-primary/20 backdrop-blur-md z-[9999] flex items-center justify-center p-4">
              <motion.div initial={{ opacity: 0, scale: 0.95, y: 20 }} animate={{ opacity: 1, scale: 1, y: 0 }} exit={{ opacity: 0, scale: 0.95, y: 20 }} className="card-premium bg-bg-card max-w-md w-full text-center p-12 space-y-8">
-                 <div className="w-24 h-24 bg-rose-500/10 text-rose-500 rounded-[2rem] flex items-center justify-center mx-auto shadow-inner-soft border border-rose-500/20"><Trash2 size={40} /></div>
+                 <div className="w-24 h-24 bg-critical-soft0/10 text-rose-500 rounded-[2rem] flex items-center justify-center mx-auto shadow-inner-soft border border-rose-500/20"><Trash2 size={40} /></div>
                  <div className="space-y-3">
                     <h3 className="text-2xl font-display font-black text-text-main uppercase tracking-tight">Remover Parceiro?</h3>
                     <p className="text-sm text-text-muted leading-relaxed font-medium">Você está prestes a remover <strong className="text-text-main">{partnerToDelete.name}</strong>. Esta ação não removerá os clientes vinculados.</p>

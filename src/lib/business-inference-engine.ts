@@ -186,7 +186,7 @@ export function inferOperationalModel(
       inferenceData: {
         confidenceScore: 0,
         adherenceLevel: 'Baixo',
-        explainability: ['Não foi possível inferir o modelo com confiança estatística.']
+        explainability: ['Estado indisponível.']
       }
     };
   }

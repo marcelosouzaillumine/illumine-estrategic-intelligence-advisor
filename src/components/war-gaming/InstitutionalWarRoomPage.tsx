@@ -36,7 +36,7 @@ export function InstitutionalWarRoomPage({ rawData }: { rawData: any }) {
     <div className="p-8 max-w-7xl mx-auto space-y-8 animate-fade-in">
       <header className="flex justify-between items-end border-b border-border pb-6">
         <div>
-          <h1 className="text-3xl font-black text-muted-foreground tracking-tight">Institutional War Room</h1>
+          <h1 className="text-3xl font-black text-primary tracking-tight">Institutional War Room</h1>
           <p className="text-sm font-medium text-muted-foreground mt-2">
             Simulação estrutural de crise e deterioração institucional sob governança fiduciária.
           </p>
@@ -44,7 +44,7 @@ export function InstitutionalWarRoomPage({ rawData }: { rawData: any }) {
       </header>
 
       {error && (
-        <div className="bg-rose-50 border-l-4 border-rose-500 p-4 rounded-r-lg">
+        <div className="bg-critical-soft border-l-4 border-rose-500 p-4 rounded-r-lg">
           <p className="text-rose-700 font-bold text-sm uppercase tracking-wider">Bloqueio Fiduciário</p>
           <p className="text-rose-600 text-xs mt-1">{error}</p>
         </div>

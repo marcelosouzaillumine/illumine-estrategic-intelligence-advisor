@@ -164,7 +164,7 @@ export function RelatorioDemonstracoes5Anos({ clientId, selectedYear }: Relatori
       </div>
 
       {isMemoryBlocked && (
-        <div className="bg-destructive/10 border border-destructive/20 rounded-md p-4 flex items-center gap-3 text-destructive">
+        <div className="bg-critical-soft border border-destructive/20 rounded-md p-4 flex items-center gap-3 text-destructive">
           <AlertCircle size={18} />
           <div>
             <p className="text-xs font-bold uppercase tracking-widest">Aviso de Inferência</p>
