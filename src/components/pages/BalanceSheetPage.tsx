@@ -35,6 +35,8 @@ import { BalanceSheetBoardAdvisory } from './balance-sheet/BalanceSheetBoardAdvi
 import { BalanceSheetExecutivePlan } from './balance-sheet/BalanceSheetExecutivePlan';
 import { BalanceSheetLiquiditySection } from './balance-sheet/BalanceSheetLiquiditySection';
 import { BalanceSheetWorkingCapitalSection } from './balance-sheet/BalanceSheetWorkingCapitalSection';
+import { BalanceSheetAssetQualitySection } from './balance-sheet/BalanceSheetAssetQualitySection';
+import { mapIndicatorsToViewModels } from './balance-sheet/mappers';
 
 import { useLanguage } from '../../contexts/LanguageContext';
 
@@ -598,24 +600,13 @@ export function BalanceSheetPage({ clients, selectedClient, selectedYear }: any)
               />
 
               {/* --- 4. QUALIDADE DO ATIVO --- */}
-              <div className="bg-card rounded-[40px] p-10 shadow-xl shadow-slate-200/30 hover:shadow-2xl hover:shadow-slate-200/50 transition-all duration-500 border border-border relative overflow-hidden">
-                <h3 className="text-2xl font-black text-primary mb-6">Qualidade do Ativo</h3>
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                  {['Asset Concentration Risk', 'Ativo - Estoques %'].map((metric, idx) => {
-                    const ind = patrimonialIntelligenceReport.indicators?.find((i: any) => i.metricName === metric);
-                    if (!ind) return null;
-                    return (
-                      <div key={idx} className="bg-surface-container/30 border border-border rounded-2xl p-6 shadow-sm flex flex-col gap-2">
-                        <h4 className="text-[11px] font-black uppercase tracking-widest text-primary mb-2">{ExecutiveLabelResolver.resolve(metric, t)}</h4>
-                        <span className="text-3xl font-black text-primary mb-2 block">
-                          {ind.format === 'percentage' ? (Number(ind.value)*100).toFixed(1)+'%' : ind.format === 'multiplier' ? Number(ind.value).toFixed(2)+'x' : Number(ind.value).toFixed(2)}
-                        </span>
-                        <p className="text-secondary">{ind.rationale}</p>
-                      </div>
-                    );
-                  })}
-                </div>
-              </div>
+              <BalanceSheetAssetQualitySection 
+                indicators={mapIndicatorsToViewModels({
+                  indicators: patrimonialIntelligenceReport.indicators,
+                  metricNames: ['Asset Concentration Risk', 'Ativo - Estoques %'],
+                  resolveLabel: (metric) => ExecutiveLabelResolver.resolve(metric, t)
+                })}
+              />
 
               {/* --- 5. ESTRUTURA DE CAPITAL --- */}
               <div className="bg-card rounded-[40px] p-10 shadow-xl shadow-slate-200/30 hover:shadow-2xl hover:shadow-slate-200/50 transition-all duration-500 border border-border relative overflow-hidden">
