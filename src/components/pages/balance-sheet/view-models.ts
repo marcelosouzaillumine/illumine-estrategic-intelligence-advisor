@@ -32,3 +32,23 @@ export type BalanceSheetInstitutionalContextViewModel = {
   capitalIntensity: string;
   stage: string;
 };
+
+export type BalanceSheetTechnicalIndicatorTone = 'critical' | 'warning' | 'success' | 'info' | 'neutral' | 'insufficient';
+
+export type BalanceSheetTechnicalIndicatorViewModel = {
+  label: string;
+  classificationLabel: string;
+  classificationTone: BalanceSheetTechnicalIndicatorTone;
+  formattedValue: string;
+  confidence?: number;
+  rationale?: string;
+};
+
+export type BalanceSheetTechnicalFamilyViewModel = {
+  familyName: string;
+  indicators: BalanceSheetTechnicalIndicatorViewModel[];
+};
+
+export type BalanceSheetTechnicalLayerViewModel = {
+  families: BalanceSheetTechnicalFamilyViewModel[];
+};

@@ -4,6 +4,9 @@ export interface BalanceSheetIndicator {
   format?: string;
   rationale?: string;
   classification?: string;
+  family?: string;
+  severity?: string;
+  confidence?: number;
 }
 
 export type BalanceSheetInstitutionalContextInput = {
