@@ -41,7 +41,8 @@ import { BalanceSheetInstitutionalContextSection } from './balance-sheet/Balance
 import { BalanceSheetRiskDivergenceSection } from './balance-sheet/BalanceSheetRiskDivergenceSection';
 import { BalanceSheetTechnicalLayerSection } from './balance-sheet/BalanceSheetTechnicalLayerSection';
 import { BalanceSheetAuditLayerSection } from './balance-sheet/BalanceSheetAuditLayerSection';
-import { mapIndicatorsToViewModels, mapInstitutionalContextToViewModel, mapRiskDivergenceToViewModel, mapTechnicalLayerToViewModel, mapAuditLayerToViewModel } from './balance-sheet/mappers';
+import { BalanceSheetWaterfallChartSection } from './balance-sheet/BalanceSheetWaterfallChartSection';
+import { mapIndicatorsToViewModels, mapInstitutionalContextToViewModel, mapRiskDivergenceToViewModel, mapTechnicalLayerToViewModel, mapAuditLayerToViewModel, mapFinancialAnalyticsToViewModels } from './balance-sheet/mappers';
 
 import { useLanguage } from '../../contexts/LanguageContext';
 
@@ -489,11 +490,32 @@ export function BalanceSheetPage({ clients, selectedClient, selectedYear }: any)
   const waterfallData = useMemo(() => {
     if (!bpSummary) return [];
     return [
-      { name: 'Ativo Circulante', value: bpSummary.ativoCirculante, isPositive: true },
-      { name: 'Passivo Circulante', value: -bpSummary.passivoCirculante, isPositive: false },
-      { name: 'Capital de Giro Líquido', value: bpSummary.ativoCirculante - bpSummary.passivoCirculante, isTotal: true }
+      { name: 'Ativo Circulante', value: bpSummary.ativoCirculante, fill: '#10b981' },
+      { name: 'Passivo Circulante', value: -bpSummary.passivoCirculante, fill: '#ef4444' },
+      { name: 'Capital de Giro Líquido', value: bpSummary.ativoCirculante - bpSummary.passivoCirculante, fill: '#3b82f6' }
     ];
   }, [bpSummary]);
+
+  const financialAnalyticsViewModel = useMemo(() => {
+    return mapFinancialAnalyticsToViewModels({
+      waterfallData,
+      ativoData,
+      passivoData,
+      chartData,
+      majorChanges,
+      comparativeAnalysis: {
+        ativo: comparativeAnalysis.filter((r: any) => (r.tipo || r.type || '').toLowerCase().includes('ativo')),
+        passivo: comparativeAnalysis.filter((r: any) => { const t = (r.tipo || r.type || '').toLowerCase(); return t.includes('passivo') && !t.includes('patrimônio') && !t.includes('pl'); }),
+        patrimonioLiquido: comparativeAnalysis.filter((r: any) => { const t = (r.tipo || r.type || '').toLowerCase(); return t.includes('patrimônio') || t.includes('pl'); })
+      },
+      bpSummary: bpSummary || { ativoTotal: 0, patrimonioLiquido: 0 },
+      translateLabel,
+      formatCurrency: (value: number) => {
+        if (value === null || value === undefined) return 'R$ 0';
+        return new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL', maximumFractionDigits: 0 }).format(value);
+      }
+    });
+  }, [waterfallData, ativoData, passivoData, chartData, majorChanges, comparativeAnalysis, bpSummary, translateLabel]);
 
   const COLORS = ['#3b82f6', '#10b981', '#f59e0b', '#ef4444', '#8b5cf6', '#ec4899', '#06b6d4'];
 
@@ -700,23 +722,13 @@ export function BalanceSheetPage({ clients, selectedClient, selectedYear }: any)
               {/* ── Gráficos Adicionais Executivos ── */}
               <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
                 {/* Waterfall: Dinâmica de Capital de Giro */}
-                <ExecutiveChart 
-                  title={t('bp.working_capital.title')}
-                  description={ExecutiveLocaleEnforcer.normalize('Estrutura de Liquidez e Capital de Giro')}
-                  height={250}
-                  className="col-span-1 md:col-span-2 lg:col-span-1"
-                >
-                  <BarChart data={waterfallData} margin={{ top: 20, right: 30, left: 20, bottom: 5 }}>
-                    <ExecutiveChartGrid vertical={false} />
-                    <ExecutiveChartXAxis dataKey="name" />
-                    <ExecutiveChartTooltip formatter={(value: number) => formatCurrency(value)} />
-                    <Bar dataKey="value">
-                      {waterfallData.map((entry, index) => (
-                        <Cell key={`cell-${index}`} fill={entry.isTotal ? '#3b82f6' : (entry.isPositive ? '#10b981' : '#ef4444')} />
-                      ))}
-                    </Bar>
-                  </BarChart>
-                </ExecutiveChart>
+                <BalanceSheetWaterfallChartSection 
+                  viewModel={financialAnalyticsViewModel.waterfall} 
+                  formatCurrency={(value: number) => {
+                    if (value === null || value === undefined) return 'R$ 0';
+                    return new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL', maximumFractionDigits: 0 }).format(value);
+                  }}
+                />
 
                 {/* Heatmap: Concentração */}
                 <div className="bg-card p-8 rounded-[40px] border border-border shadow-sm flex flex-col">
