@@ -1,0 +1,33 @@
+import React from 'react';
+
+export type BalanceSheetIndicator = {
+  metricName: string;
+  value: string | number;
+  format?: string;
+  rationale?: string;
+};
+
+export type BalanceSheetLiquiditySectionProps = {
+  indicators?: BalanceSheetIndicator[];
+};
+
+export const BalanceSheetLiquiditySection = ({ indicators }: BalanceSheetLiquiditySectionProps) => {
+  return (
+    <div className="bg-card rounded-[40px] p-10 shadow-xl shadow-slate-200/30 hover:shadow-2xl hover:shadow-slate-200/50 transition-all duration-500 border border-border relative overflow-hidden">
+      <h3 className="text-2xl font-black text-primary mb-6">Liquidez e Solvência</h3>
+      <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-6">
+        {['Liquidez Real', 'Liquidez Instantânea Real', 'Liquidez Seca'].map((metric, idx) => {
+          const ind = indicators?.find((i) => i.metricName === metric);
+          if (!ind) return null;
+          return (
+            <div key={idx} className="bg-surface-container/30 border border-border rounded-2xl p-6 shadow-sm flex flex-col justify-between">
+              <h4 className="text-[10px] font-black uppercase tracking-widest text-primary mb-2">{metric}</h4>
+              <span className="text-2xl font-black text-primary mb-2">{Number(ind.value).toFixed(2)}</span>
+              <p className="text-secondary">{ind.rationale}</p>
+            </div>
+          );
+        })}
+      </div>
+    </div>
+  );
+};

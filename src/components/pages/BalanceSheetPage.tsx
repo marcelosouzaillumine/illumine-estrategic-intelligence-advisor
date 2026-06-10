@@ -33,6 +33,7 @@ import { BalanceSheetYearFilter } from './balance-sheet/BalanceSheetYearFilter';
 import { BalanceSheetActionToolbar } from './balance-sheet/BalanceSheetActionToolbar';
 import { BalanceSheetBoardAdvisory } from './balance-sheet/BalanceSheetBoardAdvisory';
 import { BalanceSheetExecutivePlan } from './balance-sheet/BalanceSheetExecutivePlan';
+import { BalanceSheetLiquiditySection } from './balance-sheet/BalanceSheetLiquiditySection';
 
 import { useLanguage } from '../../contexts/LanguageContext';
 
@@ -582,22 +583,9 @@ export function BalanceSheetPage({ clients, selectedClient, selectedYear }: any)
               </div>
 
               {/* --- 3. LIQUIDEZ E SOLVÊNCIA --- */}
-              <div className="bg-card rounded-[40px] p-10 shadow-xl shadow-slate-200/30 hover:shadow-2xl hover:shadow-slate-200/50 transition-all duration-500 border border-border relative overflow-hidden">
-                <h3 className="text-2xl font-black text-primary mb-6">Liquidez e Solvência</h3>
-                <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-6">
-                  {['Liquidez Real', 'Liquidez Instantânea Real', 'Liquidez Seca'].map((metric, idx) => {
-                    const ind = patrimonialIntelligenceReport.indicators?.find((i: any) => i.metricName === metric);
-                    if (!ind) return null;
-                    return (
-                      <div key={idx} className="bg-surface-container/30 border border-border rounded-2xl p-6 shadow-sm flex flex-col justify-between">
-                        <h4 className="text-[10px] font-black uppercase tracking-widest text-primary mb-2">{metric}</h4>
-                        <span className="text-2xl font-black text-primary mb-2">{Number(ind.value).toFixed(2)}</span>
-                        <p className="text-secondary">{ind.rationale}</p>
-                      </div>
-                    );
-                  })}
-                </div>
-              </div>
+              <BalanceSheetLiquiditySection 
+                indicators={patrimonialIntelligenceReport.indicators}
+              />
 
               {/* --- 4. QUALIDADE DO ATIVO --- */}
               <div className="bg-card rounded-[40px] p-10 shadow-xl shadow-slate-200/30 hover:shadow-2xl hover:shadow-slate-200/50 transition-all duration-500 border border-border relative overflow-hidden">
