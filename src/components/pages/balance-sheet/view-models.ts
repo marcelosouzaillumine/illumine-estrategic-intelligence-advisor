@@ -81,3 +81,75 @@ export type BalanceSheetAuditLayerViewModel = {
   structuralRestrictions?: BalanceSheetAuditStructuralRestrictionsViewModel;
   governanceConsistency?: BalanceSheetAuditConsistencyViewModel;
 };
+
+export type BalanceSheetWaterfallPointViewModel = {
+  name: string;
+  value: number;
+  fill?: string;
+};
+
+export type BalanceSheetWaterfallViewModel = {
+  data: BalanceSheetWaterfallPointViewModel[];
+  equityToAssetsPercentage: number;
+};
+
+export type BalanceSheetCompositionPointViewModel = {
+  name: string;
+  value: number;
+  fill?: string;
+};
+
+export type BalanceSheetCompositionViewModel = {
+  assetsData: BalanceSheetCompositionPointViewModel[];
+  liabilitiesData: BalanceSheetCompositionPointViewModel[];
+};
+
+export type BalanceSheetEvolutionPointViewModel = {
+  year: string | number;
+  ativo: number;
+  passivo: number;
+  patrimonioLiquido: number;
+};
+
+export type BalanceSheetHighlightTone = 'positive' | 'negative' | 'neutral';
+
+export type BalanceSheetHighlightViewModel = {
+  label: string;
+  valueFormatted: string;
+  horizontalAnalysis: number;
+  tone: BalanceSheetHighlightTone;
+};
+
+export type BalanceSheetEvolutionViewModel = {
+  hasEnoughData: boolean;
+  chartData: BalanceSheetEvolutionPointViewModel[];
+  highlights: BalanceSheetHighlightViewModel[];
+};
+
+export type BalanceSheetStructuralRowViewModel = {
+  label: string;
+  valueFormatted: string;
+  verticalAnalysis: number | null;
+  horizontalAnalysis: number | null;
+  level: number;
+};
+
+export type BalanceSheetStructuralSectionTone = 'assets' | 'liabilities' | 'equity';
+
+export type BalanceSheetStructuralSectionViewModel = {
+  titleLabel: string;
+  tone: BalanceSheetStructuralSectionTone;
+  rows: BalanceSheetStructuralRowViewModel[];
+};
+
+export type BalanceSheetStructuralTablesViewModel = {
+  isEmpty: boolean;
+  sections: BalanceSheetStructuralSectionViewModel[];
+};
+
+export type BalanceSheetFinancialAnalyticsViewModel = {
+  waterfall: BalanceSheetWaterfallViewModel;
+  composition: BalanceSheetCompositionViewModel;
+  evolution: BalanceSheetEvolutionViewModel;
+  structuralTables: BalanceSheetStructuralTablesViewModel;
+};
