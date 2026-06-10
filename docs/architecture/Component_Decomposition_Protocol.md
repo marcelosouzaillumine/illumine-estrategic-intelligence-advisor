@@ -1,6 +1,14 @@
-# Protocolo de Decomposição e Migração Estrutural (Canonical Migration Protocol)
+# Illumine Governance Component Decomposition Protocol
 
-Este documento define o padrão de engenharia da plataforma Illumine Governance™ para a modernização estrutural e visual de suas páginas executivas monolíticas (BP, DFC, DRE, DLPA, ESGIM, etc.).
+## Princípio Fundamental (A Regra de Ouro)
+
+> **"Toda complexidade deve caminhar em direção ao orquestrador ou aos adaptadores (mappers); os componentes de apresentação devem caminhar continuamente em direção à simplicidade."**
+
+Esta regra sintetiza a essência da arquitetura de UI da plataforma. Ela cria uma fronteira clara entre domínio e interface, reduz acoplamento, facilita testes, torna as migrações visuais previsíveis e fornece um modelo escalável de evolução segura.
+
+---
+
+Este documento define a estratégia, as diretrizes e as restrições inegociáveis para a refatoração e migração dos grandes componentes executivos (ex: `BalanceSheetPage.tsx`, `DREPage.tsx`, `DFCPage.tsx`) da plataforma Illumine Governance™.
 
 ## Princípio de Ouro (Golden Rule)
 
