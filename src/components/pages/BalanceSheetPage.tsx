@@ -36,6 +36,7 @@ import { BalanceSheetExecutivePlan } from './balance-sheet/BalanceSheetExecutive
 import { BalanceSheetLiquiditySection } from './balance-sheet/BalanceSheetLiquiditySection';
 import { BalanceSheetWorkingCapitalSection } from './balance-sheet/BalanceSheetWorkingCapitalSection';
 import { BalanceSheetAssetQualitySection } from './balance-sheet/BalanceSheetAssetQualitySection';
+import { BalanceSheetCapitalStructureSection } from './balance-sheet/BalanceSheetCapitalStructureSection';
 import { mapIndicatorsToViewModels } from './balance-sheet/mappers';
 
 import { useLanguage } from '../../contexts/LanguageContext';
@@ -609,25 +610,13 @@ export function BalanceSheetPage({ clients, selectedClient, selectedYear }: any)
               />
 
               {/* --- 5. ESTRUTURA DE CAPITAL --- */}
-              <div className="bg-card rounded-[40px] p-10 shadow-xl shadow-slate-200/30 hover:shadow-2xl hover:shadow-slate-200/50 transition-all duration-500 border border-border relative overflow-hidden">
-                <h3 className="text-2xl font-black text-primary mb-6">Estrutura de Capital</h3>
-                <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-2 2xl:grid-cols-4 gap-6">
-                  {['Funding Capacity Ratio', 'Debt Capacity Score', 'Financial Debt-to-Equity', 'Endividamento Geral', 'Dependência de Capital de Terceiros'].map((metric, idx) => {
-                    const ind = patrimonialIntelligenceReport.indicators?.find((i: any) => i.metricName === metric);
-                    if (!ind) return null;
-                    return (
-                      <div key={idx} className="bg-surface-container/30 border border-border rounded-2xl p-6 shadow-sm flex flex-col">
-                        <h4 className="text-[10px] font-black uppercase tracking-widest text-primary mb-4">{ExecutiveLabelResolver.resolve(metric, t)}</h4>
-                        <div className="text-2xl font-black text-primary mb-2">
-                          {ind.format === 'percentage' ? (Number(ind.value)*100).toFixed(1)+'%' : ind.format === 'multiplier' ? Number(ind.value).toFixed(2)+'x' : ind.format === 'decimal' ? Number(ind.value).toFixed(2) : ind.value}
-                        </div>
-
-                        <p className="text-secondary">{ind.rationale}</p>
-                      </div>
-                    );
-                  })}
-                </div>
-              </div>
+              <BalanceSheetCapitalStructureSection 
+                indicators={mapIndicatorsToViewModels({
+                  indicators: patrimonialIntelligenceReport.indicators,
+                  metricNames: ['Funding Capacity Ratio', 'Debt Capacity Score', 'Financial Debt-to-Equity', 'Endividamento Geral', 'Dependência de Capital de Terceiros'],
+                  resolveLabel: (metric) => ExecutiveLabelResolver.resolve(metric, t)
+                })}
+              />
 
               {/* --- 6. WORKING CAPITAL INTELLIGENCE --- */}
               <BalanceSheetWorkingCapitalSection 
