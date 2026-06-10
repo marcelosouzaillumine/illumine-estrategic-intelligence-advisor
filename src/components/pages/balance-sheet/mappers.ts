@@ -59,3 +59,25 @@ export function mapRiskDivergenceToViewModel(params: {
     criticalOffenders
   };
 }
+
+import { BalanceSheetInstitutionalContextViewModel } from './view-models';
+
+export function mapInstitutionalContextToViewModel(
+  context: any,
+  maturidadeOverride?: string
+): BalanceSheetInstitutionalContextViewModel {
+  if (!context) {
+    return {
+      segment: 'Geral',
+      businessModel: 'Não Identificado',
+      capitalIntensity: 'Não Identificada',
+      stage: maturidadeOverride || 'Pendente'
+    };
+  }
+  return {
+    segment: context.segment || 'Geral',
+    businessModel: context.businessModel || 'Não Identificado',
+    capitalIntensity: context.capitalIntensity || 'Não Identificada',
+    stage: maturidadeOverride || context.stage || 'Pendente'
+  };
+}

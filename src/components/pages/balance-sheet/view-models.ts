@@ -25,3 +25,10 @@ export type BalanceSheetRiskDivergenceViewModel = {
   globalScore: number;
   criticalOffenders: BalanceSheetCriticalOffenderViewModel[];
 };
+
+export type BalanceSheetInstitutionalContextViewModel = {
+  segment: string;
+  businessModel: string;
+  capitalIntensity: string;
+  stage: string;
+};

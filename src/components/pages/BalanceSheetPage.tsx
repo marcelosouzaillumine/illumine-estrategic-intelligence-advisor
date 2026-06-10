@@ -37,7 +37,8 @@ import { BalanceSheetLiquiditySection } from './balance-sheet/BalanceSheetLiquid
 import { BalanceSheetWorkingCapitalSection } from './balance-sheet/BalanceSheetWorkingCapitalSection';
 import { BalanceSheetAssetQualitySection } from './balance-sheet/BalanceSheetAssetQualitySection';
 import { BalanceSheetCapitalStructureSection } from './balance-sheet/BalanceSheetCapitalStructureSection';
-import { mapIndicatorsToViewModels } from './balance-sheet/mappers';
+import { BalanceSheetInstitutionalContextSection } from './balance-sheet/BalanceSheetInstitutionalContextSection';
+import { mapIndicatorsToViewModels, mapInstitutionalContextToViewModel } from './balance-sheet/mappers';
 
 import { useLanguage } from '../../contexts/LanguageContext';
 
@@ -546,6 +547,11 @@ export function BalanceSheetPage({ clients, selectedClient, selectedYear }: any)
       <div className="space-y-6 mb-12">
         {hasData && patrimonialIntelligenceReport ? (
           <>
+
+            {/* --- 0. INSTITUTIONAL CONTEXT --- */}
+            <BalanceSheetInstitutionalContextSection 
+              context={mapInstitutionalContextToViewModel(executiveReport?.context, maturidade)} 
+            />
 
             <div className="space-y-6 mb-12">
               
