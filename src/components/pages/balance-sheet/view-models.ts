@@ -5,3 +5,23 @@ export type BalanceSheetIndicatorViewModel = {
   format?: string;
   rationale?: string;
 };
+
+export type BalanceSheetCriticalOffenderViewModel = {
+  metricName: string;
+  classification: string;
+  impact: string;
+};
+
+export type BalanceSheetRiskDivergenceTone =
+  | 'primary'
+  | 'success'
+  | 'warning'
+  | 'critical';
+
+export type BalanceSheetRiskDivergenceViewModel = {
+  mathClassificationLabel: string;
+  fiduciaryClassificationLabel: string;
+  fiduciaryClassificationTone: BalanceSheetRiskDivergenceTone;
+  globalScore: number;
+  criticalOffenders: BalanceSheetCriticalOffenderViewModel[];
+};

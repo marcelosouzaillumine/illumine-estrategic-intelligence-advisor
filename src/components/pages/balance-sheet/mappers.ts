@@ -1,5 +1,5 @@
 import { BalanceSheetIndicator } from './types';
-import { BalanceSheetIndicatorViewModel } from './view-models';
+import { BalanceSheetIndicatorViewModel, BalanceSheetRiskDivergenceViewModel, BalanceSheetRiskDivergenceTone } from './view-models';
 
 export function mapIndicatorsToViewModels(params: {
   indicators?: BalanceSheetIndicator[];
@@ -22,4 +22,40 @@ export function mapIndicatorsToViewModels(params: {
       };
     })
     .filter((v): v is BalanceSheetIndicatorViewModel => v !== null);
+}
+
+export function mapRiskDivergenceToViewModel(params: {
+  globalScore?: number;
+  patrimonialClassification?: string;
+  indicators?: BalanceSheetIndicator[];
+  resolveLabel: (key: string) => string;
+  resolveImpact: (metric: string) => string;
+}): BalanceSheetRiskDivergenceViewModel {
+  const score = params.globalScore || 0;
+  let mathLabel = 'Crítico';
+  if (score >= 80) mathLabel = 'Resiliente';
+  else if (score >= 65) mathLabel = 'Estável';
+  else if (score >= 50) mathLabel = 'Vulnerável';
+
+  const classStr = params.patrimonialClassification || '';
+  let tone: BalanceSheetRiskDivergenceTone = 'critical';
+  if (classStr.includes('RESILIENT')) tone = 'primary';
+  else if (classStr.includes('STABLE')) tone = 'success';
+  else if (classStr.includes('VULNERABLE')) tone = 'warning';
+
+  const criticalOffenders = (params.indicators || [])
+    .filter(i => i.classification === 'CRITICAL' || i.classification === 'Crítica' || i.classification === 'Crítico')
+    .map(i => ({
+      metricName: params.resolveLabel(i.metricName),
+      classification: params.resolveLabel(i.classification || ''),
+      impact: params.resolveImpact(i.metricName)
+    }));
+
+  return {
+    mathClassificationLabel: mathLabel,
+    fiduciaryClassificationLabel: params.resolveLabel(classStr),
+    fiduciaryClassificationTone: tone,
+    globalScore: score,
+    criticalOffenders
+  };
 }

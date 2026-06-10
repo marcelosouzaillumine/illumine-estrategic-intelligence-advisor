@@ -3,4 +3,5 @@ export interface BalanceSheetIndicator {
   value: string | number;
   format?: string;
   rationale?: string;
+  classification?: string;
 }
