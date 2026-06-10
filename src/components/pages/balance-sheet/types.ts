@@ -5,3 +5,10 @@ export interface BalanceSheetIndicator {
   rationale?: string;
   classification?: string;
 }
+
+export type BalanceSheetInstitutionalContextInput = {
+  segment?: string;
+  businessModel?: string;
+  capitalIntensity?: string;
+  stage?: string;
+};

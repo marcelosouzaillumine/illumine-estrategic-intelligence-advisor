@@ -1,5 +1,5 @@
-import { BalanceSheetIndicator } from './types';
-import { BalanceSheetIndicatorViewModel, BalanceSheetRiskDivergenceViewModel, BalanceSheetRiskDivergenceTone } from './view-models';
+import { BalanceSheetIndicator, BalanceSheetInstitutionalContextInput } from './types';
+import { BalanceSheetIndicatorViewModel, BalanceSheetRiskDivergenceViewModel, BalanceSheetRiskDivergenceTone, BalanceSheetInstitutionalContextViewModel } from './view-models';
 
 export function mapIndicatorsToViewModels(params: {
   indicators?: BalanceSheetIndicator[];
@@ -60,10 +60,10 @@ export function mapRiskDivergenceToViewModel(params: {
   };
 }
 
-import { BalanceSheetInstitutionalContextViewModel } from './view-models';
+
 
 export function mapInstitutionalContextToViewModel(
-  context: any,
+  context?: BalanceSheetInstitutionalContextInput,
   maturidadeOverride?: string
 ): BalanceSheetInstitutionalContextViewModel {
   if (!context) {
