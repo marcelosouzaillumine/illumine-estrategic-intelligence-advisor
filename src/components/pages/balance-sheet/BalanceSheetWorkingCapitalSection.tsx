@@ -1,11 +1,5 @@
 import React from 'react';
-
-export type BalanceSheetIndicator = {
-  metricName: string;
-  value: string | number;
-  format?: string;
-  rationale?: string;
-};
+import { BalanceSheetIndicator } from './types';
 
 export type BalanceSheetWorkingCapitalSectionProps = {
   indicators?: BalanceSheetIndicator[];
