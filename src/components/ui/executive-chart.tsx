@@ -2,6 +2,7 @@ import React from 'react';
 import { cn } from '@/lib/utils';
 import { ExecutiveSurface } from './executive-surface';
 import { ResponsiveContainer, XAxis, YAxis, CartesianGrid, Tooltip, Legend } from 'recharts';
+// Layout‑only className policy: only spacing/flex utilities may be used; visual styling must rely on design tokens.
 
 export interface ExecutiveChartProps extends Omit<React.HTMLAttributes<HTMLDivElement>, 'title'> {
   title?: React.ReactNode;
@@ -16,11 +17,11 @@ export interface ExecutiveChartProps extends Omit<React.HTMLAttributes<HTMLDivEl
 
 // These colors follow the Executive Standard tokens.
 export const chartColors = [
-  '#0E1C2C', // chart-1
-  '#FF8552', // chart-2
-  '#BAB86C', // chart-3
-  '#E5E5E5', // chart-4
-  '#6B7280', // chart-5
+  'var(--color-chart-1)', // chart-1
+  'var(--color-chart-2)', // chart-2
+  'var(--color-chart-3)', // chart-3
+  'var(--color-chart-4)', // chart-4
+  'var(--color-chart-5)', // chart-5
 ];
 
 export function ExecutiveChart({

@@ -2,6 +2,7 @@ import React from 'react';
 import { cn } from '@/lib/utils';
 import { AlertTriangle, CheckCircle2, Info, Lightbulb, ShieldAlert } from 'lucide-react';
 import { ExecutiveSurface } from './executive-surface';
+// Layout‑only className policy: only spacing/flex utilities may be used; visual styling must rely on design tokens.
 
 export interface SemanticCardProps extends Omit<React.HTMLAttributes<HTMLDivElement>, 'title'> {
   variant?: 'default' | 'info' | 'insight' | 'success' | 'warning' | 'critical';
