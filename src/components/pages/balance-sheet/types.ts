@@ -33,3 +33,45 @@ export type BalanceSheetGovernanceConsistencyInput = {
   warnings: string[];
   forcedDisclosures: string[];
 };
+
+export type BalanceSheetWaterfallInputPoint = {
+  name: string;
+  value: number;
+  fill?: string;
+};
+
+export type BalanceSheetCompositionInputPoint = {
+  name: string;
+  value: number;
+  fill?: string;
+};
+
+export type BalanceSheetEvolutionInputPoint = {
+  year: string | number;
+  ativo: number;
+  passivo: number;
+  pl: number;
+};
+
+export type BalanceSheetMajorChangeInput = {
+  name?: string;
+  conta?: string;
+  val: number;
+  ah: number;
+};
+
+export type BalanceSheetComparativeRowInput = {
+  name?: string;
+  conta?: string;
+  val: number;
+  av: number | null;
+  ah: number | null;
+  level: number;
+  tipo?: string;
+  type?: string;
+};
+
+export type BalanceSheetSummaryInput = {
+  ativoTotal: number;
+  patrimonioLiquido: number;
+};

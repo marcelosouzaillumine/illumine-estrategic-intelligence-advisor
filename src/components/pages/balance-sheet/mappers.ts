@@ -1,4 +1,4 @@
-import { BalanceSheetIndicator, BalanceSheetInstitutionalContextInput, BalanceSheetStructuralRestrictionsInput, BalanceSheetGovernanceConsistencyInput } from './types';
+import { BalanceSheetIndicator, BalanceSheetInstitutionalContextInput, BalanceSheetStructuralRestrictionsInput, BalanceSheetGovernanceConsistencyInput, BalanceSheetWaterfallInputPoint, BalanceSheetCompositionInputPoint, BalanceSheetEvolutionInputPoint, BalanceSheetMajorChangeInput, BalanceSheetComparativeRowInput, BalanceSheetSummaryInput } from './types';
 import { BalanceSheetIndicatorViewModel, BalanceSheetRiskDivergenceViewModel, BalanceSheetRiskDivergenceTone, BalanceSheetInstitutionalContextViewModel } from './view-models';
 
 export function mapIndicatorsToViewModels(params: {
@@ -230,5 +230,97 @@ export function mapAuditLayerToViewModel(params: {
   return {
     structuralRestrictions,
     governanceConsistency
+  };
+}
+
+import {
+  BalanceSheetFinancialAnalyticsViewModel,
+  BalanceSheetStructuralSectionTone,
+  BalanceSheetHighlightTone
+} from './view-models';
+
+export function mapFinancialAnalyticsToViewModels(params: {
+  waterfallData: BalanceSheetWaterfallInputPoint[];
+  ativoData: BalanceSheetCompositionInputPoint[];
+  passivoData: BalanceSheetCompositionInputPoint[];
+  chartData: BalanceSheetEvolutionInputPoint[];
+  majorChanges: BalanceSheetMajorChangeInput[];
+  comparativeAnalysis: {
+    ativo: BalanceSheetComparativeRowInput[];
+    passivo: BalanceSheetComparativeRowInput[];
+    patrimonioLiquido: BalanceSheetComparativeRowInput[];
+  };
+  bpSummary: BalanceSheetSummaryInput;
+  translateLabel: (key: string) => string;
+  formatCurrency: (value: number) => string;
+}): BalanceSheetFinancialAnalyticsViewModel {
+  
+  const equityToAssetsPercentage = params.bpSummary.ativoTotal > 0 
+    ? (params.bpSummary.patrimonioLiquido / params.bpSummary.ativoTotal) * 100 
+    : 0;
+
+  const evolutionHighlights = params.majorChanges.map(change => {
+    let tone: BalanceSheetHighlightTone = 'neutral';
+    if (change.ah > 0) tone = 'positive';
+    else if (change.ah < 0) tone = 'negative';
+
+    return {
+      label: change.name || change.conta || '',
+      valueFormatted: params.formatCurrency(change.val),
+      horizontalAnalysis: change.ah,
+      tone
+    };
+  });
+
+  const mapStructuralSection = (
+    data: BalanceSheetComparativeRowInput[], 
+    titleKey: string, 
+    tone: BalanceSheetStructuralSectionTone
+  ) => {
+    return {
+      titleLabel: params.translateLabel(titleKey),
+      tone,
+      rows: data.map(row => ({
+        label: params.translateLabel((row.name || row.conta) === 'Patrimônio Líquido' ? 'Patrimônio' : (row.name || row.conta || '')),
+        valueFormatted: params.formatCurrency(row.val),
+        verticalAnalysis: row.av,
+        horizontalAnalysis: row.ah,
+        level: row.level
+      })).filter(r => r.label !== '')
+    };
+  };
+
+  const hasStructuralData = 
+    params.comparativeAnalysis.ativo.length > 0 || 
+    params.comparativeAnalysis.passivo.length > 0 || 
+    params.comparativeAnalysis.patrimonioLiquido.length > 0;
+
+  return {
+    waterfall: {
+      data: params.waterfallData.map(d => ({ name: d.name, value: d.value, fill: d.fill })),
+      equityToAssetsPercentage
+    },
+    composition: {
+      assetsData: params.ativoData.map(d => ({ name: d.name, value: d.value, fill: d.fill })),
+      liabilitiesData: params.passivoData.map(d => ({ name: d.name, value: d.value, fill: d.fill }))
+    },
+    evolution: {
+      hasEnoughData: params.chartData.length >= 2,
+      chartData: params.chartData.map(d => ({
+        year: d.year,
+        ativo: d.ativo,
+        passivo: d.passivo,
+        patrimonioLiquido: d.pl
+      })),
+      highlights: evolutionHighlights
+    },
+    structuralTables: {
+      isEmpty: !hasStructuralData,
+      sections: hasStructuralData ? [
+        mapStructuralSection(params.comparativeAnalysis.ativo, 'Ativo', 'assets'),
+        mapStructuralSection(params.comparativeAnalysis.passivo, 'Passivo', 'liabilities'),
+        mapStructuralSection(params.comparativeAnalysis.patrimonioLiquido, 'Patrimônio Líquido', 'equity')
+      ] : []
+    }
   };
 }
