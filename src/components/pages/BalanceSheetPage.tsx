@@ -409,6 +409,11 @@ export function BalanceSheetPage({ clients, selectedClient, selectedYear }: any)
   const patrimonialIntelligenceReport = executiveReport?.patrimonialIntelligenceReport;
   const maturidade = executiveReport?.institutionalView?.maturity?.stageLabel || executiveReport?.context.stage || 'Pendente';
 
+  console.log('[DEBUG-BALANCE-SHEET] executiveReport:', !!executiveReport);
+  console.log('[DEBUG-BALANCE-SHEET] patrimonialIntelligenceReport:', !!patrimonialIntelligenceReport);
+  console.log('[DEBUG-BALANCE-SHEET] governanceStatus:', (executiveReport as any)?.governanceStatus);
+  console.log('[DEBUG-BALANCE-SHEET] scoreBreakdown:', patrimonialIntelligenceReport?.scoreBreakdown);
+
   function getHistoricalValue(y: number, accountName: string) {
     const yearRows = historyByYear[y] || [];
     const search = accountName.toLowerCase();
@@ -534,7 +539,7 @@ export function BalanceSheetPage({ clients, selectedClient, selectedYear }: any)
             <div className="space-y-6 mb-12">
               
               {/* --- 1. PATRIMONIAL THESIS & BOARD ADVISORY --- */}
-              {(executiveReport as any)?.governanceStatus?.isValid && (() => {
+              {patrimonialIntelligenceReport?.boardAdvisory && (() => {
                 const hasParecer = patrimonialIntelligenceReport.boardAdvisory?.fullText?.trim() && patrimonialIntelligenceReport.boardAdvisory.fullText !== 'Parecer não gerado.';
                 return (
                   <BalanceSheetBoardAdvisory 
@@ -546,7 +551,7 @@ export function BalanceSheetPage({ clients, selectedClient, selectedYear }: any)
               })()}
 
               {/* --- 7. PLANO EXECUTIVO --- */}
-              {(executiveReport as any)?.governanceStatus?.isValid && (
+              {patrimonialIntelligenceReport?.executivePlan && (
               <BalanceSheetExecutivePlan
                 executivePlan={patrimonialIntelligenceReport.executivePlan}
                 dominantRiskFamily={patrimonialIntelligenceReport.dominantRiskFamily}
@@ -639,11 +644,11 @@ export function BalanceSheetPage({ clients, selectedClient, selectedYear }: any)
                       </div>
                       <div className="bg-card p-4 rounded-2xl border border-border shadow-sm">
                         <span className="block text-[10px] font-bold uppercase tracking-widest text-muted-foreground mb-1">Classificação Fiduciária</span>
-                        <span className={patrimonialIntelligenceReport.patrimonialClassification.includes('RESILIENT') ? 'text-primary font-black text-lg' :
-                           patrimonialIntelligenceReport.patrimonialClassification.includes('STABLE') ? 'text-emerald-600 font-black text-lg' :
-                           patrimonialIntelligenceReport.patrimonialClassification.includes('VULNERABLE') ? 'text-amber-600 font-black text-lg' :
+                        <span className={patrimonialIntelligenceReport.patrimonialClassification?.includes('RESILIENT') ? 'text-primary font-black text-lg' :
+                           patrimonialIntelligenceReport.patrimonialClassification?.includes('STABLE') ? 'text-emerald-600 font-black text-lg' :
+                           patrimonialIntelligenceReport.patrimonialClassification?.includes('VULNERABLE') ? 'text-amber-600 font-black text-lg' :
                            'text-rose-600 font-black text-lg'}>
-                          {ExecutiveLabelResolver.resolve(patrimonialIntelligenceReport.patrimonialClassification, t)}
+                          {ExecutiveLabelResolver.resolve(patrimonialIntelligenceReport.patrimonialClassification || '', t)}
                         </span>
                       </div>
                       <div className="bg-card p-4 rounded-2xl border border-border shadow-sm">
