@@ -3,6 +3,10 @@ import { cn } from '@/lib/utils';
 import { ExecutiveSurface } from './executive-surface';
 import { Loader2 } from 'lucide-react';
 
+import { Skeleton } from './skeleton';
+import { ExecutiveCallout } from './executive-callout';
+import { AlertCircle, FileX } from 'lucide-react';
+
 export interface MetricTileProps extends React.HTMLAttributes<HTMLDivElement> {
   label: React.ReactNode;
   value?: React.ReactNode;
@@ -16,6 +20,7 @@ export interface MetricTileProps extends React.HTMLAttributes<HTMLDivElement> {
   loading?: boolean;
   empty?: boolean;
   emptyMessage?: string;
+  error?: string | boolean;
 }
 
 export function MetricTile({ 
@@ -26,12 +31,25 @@ export function MetricTile({
   variant = 'default',
   loading = false,
   empty = false,
-  emptyMessage = 'Indisponível',
+  emptyMessage = 'Dados indisponíveis',
+  error,
   className,
   onClick,
   ...props 
 }: MetricTileProps) {
   
+  if (error) {
+    const errorMessage = typeof error === 'string' ? error : 'Erro ao carregar indicador';
+    return (
+      <ExecutiveCallout 
+        variant="critical" 
+        title="Indisponível"
+      >
+        <span className="text-xs">{errorMessage}</span>
+      </ExecutiveCallout>
+    );
+  }
+
   const getTrendColor = (direction: string) => {
     switch (direction) {
       case 'up': return 'text-success';
@@ -47,7 +65,7 @@ export function MetricTile({
       radius="md"
       interactive={!!onClick}
       onClick={onClick}
-      className={cn("flex flex-col gap-4", className)} 
+      className={cn("flex flex-col gap-4 min-h-[140px]", className)} 
       {...props}
     >
       <div className="flex items-center justify-between gap-4">
@@ -56,22 +74,23 @@ export function MetricTile({
       </div>
       
       {loading ? (
-        <div className="flex items-center gap-2 py-2 text-muted-foreground">
-          <Loader2 className="w-5 h-5 animate-spin" />
-          <span className="text-sm font-medium">Carregando...</span>
+        <div className="flex flex-col gap-2 pt-1">
+          <Skeleton className="h-10 w-[70%]" />
+          <Skeleton className="h-3 w-[40%]" />
         </div>
       ) : empty || value === undefined ? (
-        <div className="flex items-center gap-2 py-2">
-          <span className="text-sm italic text-muted-foreground">{emptyMessage}</span>
+        <div className="flex flex-col items-start gap-2 py-2 flex-1 justify-center opacity-60">
+          <FileX className="w-6 h-6 text-muted-foreground mb-1" />
+          <span className="text-sm font-medium italic text-muted-foreground">{emptyMessage}</span>
         </div>
       ) : (
-        <>
+        <div className="flex flex-col justify-end flex-1">
           <div className="flex items-baseline gap-3">
             <span className="text-primary font-medium tabular-nums text-4xl tracking-tighter leading-none">{value}</span>
           </div>
           
           {trend && (
-            <div className="flex items-center gap-2 mt-1">
+            <div className="flex items-center gap-2 mt-2">
               <span className={cn("text-[10px] font-black uppercase tracking-widest flex items-center gap-1", getTrendColor(trend.direction))}>
                 {trend.direction === 'up' ? '↗' : trend.direction === 'down' ? '↘' : '→'}
                 {trend.value}
@@ -79,7 +98,7 @@ export function MetricTile({
               {trend.label && <span className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground/60">{trend.label}</span>}
             </div>
           )}
-        </>
+        </div>
       )}
     </ExecutiveSurface>
   );

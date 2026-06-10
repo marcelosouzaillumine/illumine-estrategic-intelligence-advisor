@@ -1,102 +1,235 @@
-# Illumine Governance™ OS — Visual Constitution
+# Illumine Governance™ — Visual Constitution Rewrite v8.0
 
-## 1. Fundamental Principle
-**Pages must not define visual identity. Pages are responsible only for composition.**
+## Objective
 
-Visual identity must originate exclusively from:
-1. Design Tokens (`index.css`)
-2. Canonical Components
-3. Executive Templates
+Completely rewrite `docs/visual-constitution.md` to become the single normative authority governing the visual identity of the Illumine Governance™ platform. This document supersedes all previous fragmented visual rules from earlier sprints. After this phase, no other document may define colors, typography, spacing, or visual semantics independently.
 
-No component or page may define fixed colors, typography, or spacing when a corresponding token exists. All components must inherit from these primitives.
+---
 
-## 2. Visual Authority Hierarchy
+## Architectural Principle
+
+The visual architecture follows an immutable hierarchy:
+
 ```
+Visual Constitution
+    ↓
 Design Tokens (index.css)
-      │
-      ▼
-Canonical Components (ExecutiveSurface, MetricTile, SemanticCard)
-      │
-      ▼
-Executive Templates (ExecutivePageTemplate)
-      │
-      ▼
-Pages (DashboardPage, DFCPage, etc.)
+    ↓
+Canonical Components
+    ↓
+Templates
+    ↓
+Pages
 ```
 
-## 3. Design Tokens
+- **Pages never define design.** They compose canonical components.
+- **Canonical Components** consume design tokens.
+- **Design Tokens** implement the Constitution.
 
-### 3.1 Official Palette
-The platform uses a semantic palette defined in `index.css`.
-- **Primary / Executive**: `--color-primary` (`#0E1C2C`)
-- **Accent / Secondary**: `--color-accent` (`#FF8552`)
-- **Insight / Tertiary**: `--color-insight` (`#BAB86C`)
-- **Success**: `--color-success` (`#0C7A3A`)
-- **Warning**: `--color-warning` (`#C8A94A`)
-- **Critical**: `--color-critical` (`#D01D1C`)
-- **Neutral / Muted**: `--color-muted-foreground` (`#6B7280`)
+---
 
-### 3.2 Typography Hierarchy
-- **h1**: `clamp(32px, 5.5vw, 68px)`
-- **h2**: `clamp(26px, 4vw, 44px)`
-- **h3**: `clamp(20px, 3vw, 32px)`
-- **h4**: `clamp(16px, 2.5vw, 24px)`
-- **Body Large**: `clamp(16px, 1.5vw, 20px)`
-- **Body Medium**: `clamp(14px, 1.2vw, 17px)`
-- **Body Small**: `clamp(12px, 1vw, 15px)`
+## 1. Philosophy
 
-### 3.3 Spacing Rules
-- `--spacing-xs`: `0.35em`
-- `--spacing-sm`: `0.5rem`
-- `--spacing-md`: `0.625em`
-- `--spacing-lg`: `0.75em`
-- `--spacing-xl`: `1em`
+The Illumine visual philosophy embodies:
 
-### 3.4 Border Radii
-- `--radius-sm`: `12px`
-- `--radius-md`: `24px`
-- `--radius-lg`: `32px`
-- `--radius-xl`: `48px`
-- `--radius-button`: `12px`
-- `--radius-card`: `32px`
+- **Executive Operating System** – a unified, enterprise‑grade UI.
+- **Quiet Luxury** – restrained elegance, premium feel.
+- **Institutional Authority** – confidence through consistency.
+- **Clarity over Decoration** – functional aesthetics dominate.
+- **Trust through Restraint** – minimal visual noise.
+- **Typography over Color** – hierarchy expressed primarily via type.
+- **Composition over Ornamentation** – layout and spacing drive meaning.
 
-### 3.5 Shadows & Visual Depth
-Quiet Luxury shadows:
-- `--shadow-xs`: `0 1px 2px rgba(14, 28, 44, 0.04)`
-- `--shadow-sm`: `0 2px 8px rgba(14, 28, 44, 0.06)`
-- `--shadow-md`: `0 8px 16px rgba(14, 28, 44, 0.08)`
-- `--shadow-lg`: `0 12px 32px rgba(14, 28, 44, 0.10)`
+---
 
-## 4. Component Catalogue & Mandatory Rules
-- **`ExecutiveSurface`**: The common base for all cards and panels.
-- **`MetricTile`**: Must be used for ALL KPIs. Supports optional click navigation, trend indicators, tooltips, and loading/empty states.
-- **`SemanticCard`**: Extends `ExecutiveSurface`. Used for semantic groupings (default, info, insight, success, warning, critical).
-- **`ExecutiveChart`**: Controls all chart rendering. Controls palette, typography, tooltips, grids, and accessibility.
-- **`ExecutiveNarrative`**: Must be used for all analytical prose.
-- **`ExecutiveTable`**: Standardized data tables.
-- **`ExecutiveStat`**: Inline statistics.
-- **`ActionToolbar`**: Contextual executive actions.
-- **`ExecutiveCallout`**: Compact layout for institutional notes, extends `ExecutiveSurface`.
+## 2. Governance Model
 
-## 5. Prohibited Patterns
-- 🚫 **Manual KPIs**: Using `div` with custom classes instead of `MetricTile`.
-- 🚫 **Manual Surfaces**: Using colored `div` blocks instead of `SemanticCard` or `ExecutiveSurface`.
-- 🚫 **Manual Tables**: Using native `<table>` without `ExecutiveTable` wrapper.
-- 🚫 **Manual Charts**: Rendering Recharts (`ResponsiveContainer`, etc) or Chart.js without using `ExecutiveChart`.
-- 🚫 **Excessive Tailwind**: Using arbitrary Tailwind colors or spacing when a semantic canonical component exists.
-- 🚫 **Overriding Canonical Components**: Passing `className` that overrides typography (`text-*`), backgrounds (`bg-*`), or borders (`border-*`) on Canonical Components.
-- 🚫 **Page Styling**: Pages defining background colors, border radii, or typographic hierarchies.
+- This document is the **supreme visual authority**.
+- `design.md` is a **subordinate implementation guide** and component catalogue.
+- `index.css` implements **Design Tokens** as prescribed herein.
+- **Canonical Components** enforce presentation rules.
+- **Pages** must never define visual identity.
 
-## 6. Component Reusability Rule
-**Any new reusable UI component MUST be born as a canonical component before being consumed by two or more pages.**
-This explicitly forbids the creation of localized "wrapper components" duplicated across directories. If it's used in multiple places, it belongs in the Canonical Design System.
+> **Conflict Resolution:** In any conflict, *visual‑constitution.md* prevails.
 
-## 7. AntiGravity™ Enforcement Policies
-The AntiGravity™ Architectural Enforcer actively scans and rejects code violating this constitution. It ensures strict compliance with canonical usage through AST analysis.
+---
 
-### Enforced AST Rules:
-- Detects any `div` replicating visually `MetricTile` or `SemanticCard` (e.g., `div` with `className` containing `bg-card` + `border` + `shadow` or `p-*`).
-- Identifies direct use of `ResponsiveContainer` or `recharts` chart configurations directly in pages instead of `ExecutiveChart`.
-- Blocks `className` overriding typography (`text-*`), backgrounds (`bg-*`), or borders (`border-*`) on canonical components.
-- Verifies that every top-level page uses `ExecutivePageTemplate` or `PageHeader`.
-- Emits a compliance report by module.
+## 3. Color Constitution
+
+### Neutral Surfaces
+| Role | Token | Hex |
+|------|-------|-----|
+| Background | `--color-background` | `#FAFBFC` |
+| Surface | `--color-surface` | `#F8FAFC` |
+| Card | `--color-card` | `#FFFFFF` |
+| Border | `--color-border` | `#E2E8F0` |
+
+- **Target distribution:** ~90% neutral surfaces, ~8% structural surfaces, ~2% semantic colors.
+
+### Institutional Colors
+- **Primary:** `#0E1C2C`
+- **Accent (Orange):** `#FF8552`
+
+**Orange Usage Rules** (must be **ERROR** if violated):
+- Allowed only for **branding**, **strategic CTAs**, **small institutional accents**, and **optional sidebar group headings**.
+- **Prohibited** as default navigation color, KPI coloring, page titles, icons, or narrative text.
+
+---
+
+## 4. Typography Constitution
+
+### text‑primary (allowed)
+- H1, H2, H3
+- Card titles
+- KPI values, executive metrics
+- Active navigation items
+
+### text‑secondary (allowed)
+- Executive narratives
+- Analytical paragraphs
+- Descriptions, recommendations, supporting text
+
+### text‑muted (STRICTLY LIMITED – **ERROR** if misused)
+**Allowed contexts:**
+- Timestamps
+- Placeholders
+- Breadcrumbs
+- Helper text
+- Captions
+- Metadata
+- Disabled information
+
+**Forbidden contexts:**
+- Page titles (H1‑H3)
+- KPI values
+- Executive narratives, conclusions, board recommendations, strategic insights
+
+---
+
+## 5. Sidebar Constitution
+
+- **Group Headings:** compact, uppercase, subtle; may optionally use orange.
+- **Navigation Items:**
+  - Inactive – `text-secondary`
+  - Hover – `text-primary`
+  - Active – `text-primary` + `semibold` + subtle neutral background.
+- **Orange navigation items are prohibited.**
+
+---
+
+## 6. Card Constitution
+
+Cards communicate hierarchy via **spacing**, **typography**, **composition**, **subtle borders**, and **restrained shadows**. Avoid colorful backgrounds.
+
+- **Default Card:** white background, soft border, minimal shadow.
+- **Surface Usage:** `bg-card` for most panels; `bg-surface` only for structural groupings.
+
+---
+
+## 7. KPI Constitution
+
+Structure:
+1. **Label** – `text-secondary`
+2. **Primary Value** – `text-primary`, `semibold`, `tabular-nums`
+3. **Optional Badge** – semantic color accent
+4. **Description** – `text-secondary`
+
+- **Muted KPI values are prohibited.**
+
+---
+
+## 8. Executive Narrative Constitution
+
+Long‑form executive analysis must use the `ExecutiveNarrative` component with:
+- Readable width
+- Generous vertical spacing
+- Primary headings (`text-primary`)
+- Secondary body text (`text-secondary`)
+- Editorial appearance
+
+---
+
+## 9. Charts Constitution
+
+Standard palette:
+- **Primary series** – institutional blue (`#0E1C2C`)
+- **Secondary series** – neutral gray (`#6B7280`)
+- **Success** – green (`#0C7A3A`)
+- **Warning** – amber (`#B7791F`)
+- **Critical** – red (`#B91C1C`)
+
+- **Multicolor decorative palettes are prohibited.**
+
+---
+
+## 10. Tables Constitution
+
+- Consistent spacing and padding
+- Typographic hierarchy matching design tokens
+- Header styling with uppercase, tracking, and subtle background
+- Numeric alignment using `tabular-nums`
+- Full accessibility (ARIA labels, keyboard navigation)
+
+---
+
+## 11. Canonical Components
+
+| Component | Responsibility |
+|-----------|----------------|
+| `ExecutivePageTemplate` | Top‑level page layout, spacing, responsive rhythm |
+| `ExecutiveSurface` | Base surface: background, border, radius, shadow |
+| `SemanticCard` | Grouped information blocks, semantic variants |
+| `MetricTile` | KPI display, values, labels, badges |
+| `ExecutiveScore` | Scored visualizations, rating displays |
+| `ExecutiveStat` | Compact inline statistics |
+| `ExecutiveNarrative` | Long‑form analytical prose |
+| `ExecutiveTable` | Data tables with token‑driven styling |
+| `ExecutiveChart` | Charts following the chart palette |
+| `ExecutiveCallout` | Alerts, warnings, critical messages |
+| `StatusBadge` | Semantic status indicators |
+| `ActionToolbar` | Contextual actions, toolbars |
+| `PageHeader` | Consistent page headers, breadcrumbs |
+| `PageSection` | Structured vertical sections within pages |
+
+Pages must **compose** these components and **must not** implement local visual structures.
+
+---
+
+## 12. Forbidden Patterns
+
+- Hard‑coded HEX colors
+- Manual KPI cards or surfaces
+- Local shadows, gradients, spacing, or typography overrides
+- Direct use of `text-muted` in executive content
+- Visual overrides that bypass canonical components
+
+Violations are treated as **ERROR** by AntiGravity.
+
+---
+
+## 13. AntiGravity Enforcement
+
+AntiGravity functions as an architectural auditor, validating:
+- Design Tokens conformity
+- Canonical Component usage
+- Typography hierarchy
+- Color semantics and orange restrictions
+- Navigation rules
+- Card composition
+- KPI implementation
+- Executive narratives
+- Chart and table standards
+
+Any breach triggers an **ERROR**.
+
+---
+
+## 14. Compliance Principle
+
+Any implementation that violates this Constitution is **architecturally non‑compliant**, even if it renders correctly. All CI/CD pipelines must enforce compliance before merge.
+
+---
+
+*Version:* **v8.0** – **Effective Date:** June 2026
+
+*This document is the definitive source of visual truth for the Illumine Governance™ platform.*

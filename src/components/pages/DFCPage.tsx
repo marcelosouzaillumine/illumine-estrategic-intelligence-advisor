@@ -11,6 +11,14 @@ import {
 } from '../ui/executive-chart';
 import { cn, formatCurrency, formatValue } from '../../lib/utils';
 import { PageHeader, KpiCard } from '../Common';
+import { MetricTile } from '../ui/metric-tile';
+import { SemanticCard } from '../ui/semantic-card';
+import { ExecutiveSurface } from '../ui/executive-surface';
+import { ExecutivePageTemplate } from '../ui/executive-page-template';
+import { PageSection } from '../ui/page-section';
+import { ExecutiveNarrative } from '../ui/executive-narrative';
+import { ExecutiveCallout } from '../ui/executive-callout';
+import { ExecutiveTable, ExecutiveTableHeader, ExecutiveTableBody, ExecutiveTableRow, ExecutiveTableHead, ExecutiveTableCell } from '../ui/executive-table';
 import { useAnnualFinancialData, useAllFinancialData } from '../../hooks/useFinancialData';
 import { useInstitutionalRuntime } from '../../hooks/useInstitutionalRuntime';
 import { useLanguage } from '../../contexts/LanguageContext';
@@ -355,13 +363,14 @@ export function DFCPage({ clients, selectedClient, selectedYear }: any) {
 
 
   return (
-    <div className="max-w-[1440px] mx-auto space-y-10 pb-32 animate-executive-fade @container">
-      <PageHeader 
-        title="Fluxo de Caixa (DFC)" 
-        subtitle="Análise detalhada de geração e consumo de caixa pelo método indireto."
-        icon={WalletCards}
-        color="executive"
-      />
+    <ExecutivePageTemplate 
+      header={{
+        title: "Fluxo de Caixa (DFC)",
+        description: "Fluxo de Caixa Direto e Indireto consolidado com inferências de inteligência.",
+        color: "executive"
+      }}
+      className="@container"
+    >
 
       <div className="flex items-center justify-between gap-4 flex-wrap bg-surface-container/60 p-4 rounded-[24px] border border-border backdrop-blur-sm shadow-sm -mt-6 mb-10">
 
@@ -412,24 +421,26 @@ export function DFCPage({ clients, selectedClient, selectedYear }: any) {
 
       {/* Contexto Empresarial Block */}
       {!(viewMode === 'fiduciario' && densityLevel === 'BOARD') && (
-        <div className="bg-card p-8 rounded-[32px] mb-10 flex flex-col @3xl:flex-row @3xl:items-center justify-between gap-6 shadow-sm border border-border">
-        <div>
-          <div className="flex items-center gap-2 mb-3">
-            <span className="bg-primary text-primary text-[10px] font-black uppercase tracking-widest px-3 py-1.5 rounded-lg border border-primary shadow-sm whitespace-normal break-words text-balance">
-              {dfcInference?.executiveLifecycleContext?.executiveTitle || 'Contexto Empresarial'}
-            </span>
+        <SemanticCard
+          className="mb-10"
+        >
+          <div className="flex flex-col @3xl:flex-row @3xl:items-center justify-between gap-6">
+            <ExecutiveNarrative 
+              variant="summary" 
+              title={dfcInference?.executiveLifecycleContext?.executiveBadge || 'Contexto empresarial não classificado'}
+            >
+              <div className="flex items-center gap-2 mb-3">
+                <span className="bg-primary text-primary text-[10px] font-black uppercase tracking-widest px-3 py-1.5 rounded-lg border border-primary shadow-sm whitespace-normal break-words text-balance">
+                  {dfcInference?.executiveLifecycleContext?.executiveTitle || 'Contexto Empresarial'}
+                </span>
+              </div>
+              {dfcInference?.executiveLifecycleContext?.executiveDescription || 'Os dados disponíveis não permitem determinar com segurança o estágio empresarial.'}
+            </ExecutiveNarrative>
+            <div className="w-16 h-16 rounded-2xl bg-surface-container/30 flex items-center justify-center border border-border shrink-0">
+              <Database className="text-muted-foreground w-8 h-8" />
+            </div>
           </div>
-          <h3 className="text-2xl font-black text-primary tracking-tight mb-2">
-            {dfcInference?.executiveLifecycleContext?.executiveBadge || 'Contexto empresarial não classificado'}
-          </h3>
-          <p className="text-secondary">
-            {dfcInference?.executiveLifecycleContext?.executiveDescription || 'Os dados disponíveis não permitem determinar com segurança o estágio empresarial.'}
-          </p>
-        </div>
-        <div className="w-16 h-16 rounded-2xl bg-surface-container/30 flex items-center justify-center border border-border shrink-0">
-          <Database className="text-muted-foreground w-8 h-8" />
-        </div>
-      </div>
+        </SemanticCard>
       )}
 
       {/* Toggle Premium para DFC Fiduciária Ajustada */}
@@ -508,7 +519,7 @@ export function DFCPage({ clients, selectedClient, selectedYear }: any) {
 
       {/* Alertas de Governança Fiduciária */}
       {viewMode === 'fiduciario' && metrics.fiduciary?.lifecycleProfile && (
-        <div className="bg-success-soft border border-emerald-200 rounded-[32px] p-6 mb-8 flex flex-col @3xl:flex-row @3xl:items-center justify-between gap-6 shadow-sm">
+        <SemanticCard variant="success" className="mb-8 flex flex-col @3xl:flex-row @3xl:items-center justify-between gap-6">
           <div>
             <div className="flex items-center gap-2 mb-2">
               <span className="bg-emerald-100 text-emerald-800 text-[10px] font-black uppercase tracking-widest px-2.5 py-1 rounded-md border border-emerald-200/50">
@@ -543,20 +554,11 @@ export function DFCPage({ clients, selectedClient, selectedYear }: any) {
               </span>
             </div>
           </div>
-        </div>
+        </SemanticCard>
       )}
       
       {viewMode === 'fiduciario' && metrics.fiduciary?.governanceWarnings && metrics.fiduciary.governanceWarnings.length > 0 && (
-        <div className="bg-warning-soft border border-amber-200 p-6 rounded-[32px] shadow-sm flex flex-col gap-4 animate-in fade-in slide-in-from-top-4 duration-300 mb-8">
-          <div className="flex items-center gap-3">
-            <div className="w-10 h-10 rounded-full bg-warning-soft0/10 flex items-center justify-center text-amber-700">
-              <AlertTriangle size={20} />
-            </div>
-            <div>
-              <h4 className="text-sm font-black text-amber-800 uppercase tracking-wider">Alertas de Governança Fiduciária</h4>
-              <p className="text-[10px] text-amber-600 uppercase tracking-widest font-bold">Incongruências societárias ou operacionais detectadas no exercício</p>
-            </div>
-          </div>
+        <SemanticCard variant="warning" className="mb-8" title="Alertas de Governança Fiduciária" description="Incongruências societárias ou operacionais detectadas no exercício">
           <ul className="grid grid-cols-1 @2xl:grid-cols-2 gap-3 pl-2 mt-2">
             {metrics.fiduciary.governanceWarnings.map((warning: string, idx: number) => (
               <li key={idx} className="flex items-start gap-2.5 text-xs font-semibold text-muted-foreground">
@@ -565,32 +567,34 @@ export function DFCPage({ clients, selectedClient, selectedYear }: any) {
               </li>
             ))}
           </ul>
-        </div>
+        </SemanticCard>
       )}
 
       {/* KPI Cards Dinâmicos */}
       {viewMode === 'oficial' && (
         <div className="grid grid-cols-1 @xl:grid-cols-2 @4xl:grid-cols-4 gap-6 mb-10">
           {cashIndices.map((idx, i) => (
-            <KpiCard 
+            <MetricTile 
               key={i}
-              title={idx.name}
-              value={formatValue(idx.val, '')}
-              suffix="R$"
+              label={idx.name}
+              value={`R$ ${formatValue(idx.val, '')}`}
               icon={WalletCards}
-              status={idx.val >= 0 ? 'Verde' : 'Vermelho'}
+              variant={idx.val >= 0 ? 'success' : 'critical'}
+              loading={loading}
+              empty={!dbData || dbData.length === 0}
             />
           ))}
         </div>
       )}
 
       {/* Histórico de Fluxos de Caixa Chart */}
-      {viewMode === 'oficial' && chartData && chartData.length > 0 && (
+      {viewMode === 'oficial' && (
           <ExecutiveChart 
             title="Histórico de Fluxos de Caixa"
             description="Evolução comparativa de geração, investimentos, financiamentos e resultado contábil"
             height={320}
             className="mb-10"
+            empty={!chartData || chartData.length === 0}
           >
             <ComposedChart data={chartData} margin={{ top: 10, right: 10, left: 10, bottom: 0 }}>
               <ExecutiveChartGrid vertical={false} />
@@ -798,7 +802,7 @@ export function DFCPage({ clients, selectedClient, selectedYear }: any) {
             {isSectionVisible('DFC_SNAPSHOT') && (() => {
               const snapshot = safeSnapshot;
               return (
-                <div className="bg-gradient-to-br from-foreground via-foreground to-[#07111C] p-8 rounded-[32px] shadow-2xl border border-white/10 space-y-6 text-left relative overflow-hidden">
+                <ExecutiveSurface className="bg-gradient-to-br from-foreground via-foreground to-[#07111C] p-8 rounded-[32px] shadow-2xl border border-white/10 space-y-6 text-left relative overflow-hidden">
                   <div className="absolute top-0 right-0 w-64 h-64 bg-secondary/10 rounded-full blur-3xl -mr-32 -mt-32 pointer-events-none" />
                   <div className="flex items-center justify-between border-b border-white/10 pb-4">
                     <div>
@@ -843,21 +847,16 @@ export function DFCPage({ clients, selectedClient, selectedYear }: any) {
                       </p>
                     </div>
                   </div>
-                </div>
+                </ExecutiveSurface>
               );
             })()}
 
             {/* DFC_BOARD_PRIORITIES Section */}
             {isSectionVisible('DFC_BOARD_PRIORITIES') && (() => {
               return (
-                <div className="bg-card p-8 rounded-[32px] shadow-sm border border-border space-y-6 text-left">
-                  <div className="flex items-center justify-between border-b border-border pb-4">
-                    <div>
-                      <h3 className="text-xl font-black text-primary mt-2">
-                        {getSectionHeader('DFC_BOARD_PRIORITIES', 'DFC_BOARD_PRIORITIES_TITLE')}
-                      </h3>
-                    </div>
-                  </div>
+                <SemanticCard
+                  title={getSectionHeader('DFC_BOARD_PRIORITIES', 'DFC_BOARD_PRIORITIES_TITLE')}
+                >
                   <div className="space-y-4">
                     {adaptedPriorities.slice(0, 3).map((d: any, idx: number) => {
                       const raw = (rawPriorities[idx] || {}) as RawPriorityLike;
@@ -888,20 +887,15 @@ export function DFCPage({ clients, selectedClient, selectedYear }: any) {
                       );
                     })}
                   </div>
-                </div>
+                </SemanticCard>
               );
             })()}
 
             {/* DFC_EXECUTIVE_DIAGNOSIS Section */}
             {isSectionVisible('DFC_EXECUTIVE_DIAGNOSIS') && (
-              <div className="bg-card p-8 rounded-[32px] shadow-sm border border-border space-y-6 text-left">
-                <div className="flex items-center justify-between border-b border-border pb-4">
-                  <div>
-                    <h3 className="text-xl font-black text-primary mt-2">
-                      {getSectionHeader('DFC_EXECUTIVE_DIAGNOSIS', 'DFC_DIAGNOSIS_TITLE')}
-                    </h3>
-                  </div>
-                </div>
+              <SemanticCard
+                title={getSectionHeader('DFC_EXECUTIVE_DIAGNOSIS', 'DFC_DIAGNOSIS_TITLE')}
+              >
                 <div className="bg-gradient-to-br from-foreground via-foreground to-[#07111C] text-white rounded-3xl p-6 border border-white/10 shadow-lg relative overflow-hidden">
                   <div className="absolute top-0 right-0 w-32 h-32 bg-secondary/5 rounded-full blur-2xl -mr-16 -mt-16 pointer-events-none" />
                   <p className="text-secondary">Questão Principal</p>
@@ -948,26 +942,21 @@ export function DFCPage({ clients, selectedClient, selectedYear }: any) {
                     </p>
                   </div>
                 </div>
-              </div>
+              </SemanticCard>
             )}
 
             {/* DFC_CAUSAL_INTELLIGENCE Section */}
             {isSectionVisible('DFC_CAUSAL_INTELLIGENCE') && (() => {
               return (
-                <div className="bg-card p-8 rounded-[32px] shadow-sm border border-border space-y-6 text-left">
-                  <div className="flex items-center justify-between border-b border-border pb-4">
-                    <div>
-                      <h3 className="text-xl font-black text-primary mt-2">
-                        {getSectionHeader('DFC_CAUSAL_INTELLIGENCE', 'DFC_CAUSAL_INTELLIGENCE_TITLE')}
-                      </h3>
-                    </div>
-                  </div>
-                  <div className="p-6 bg-foreground/5 border border-foreground/10 rounded-2xl">
+                <SemanticCard
+                  title={getSectionHeader('DFC_CAUSAL_INTELLIGENCE', 'DFC_CAUSAL_INTELLIGENCE_TITLE')}
+                >
+                  <ExecutiveNarrative variant="summary" className="p-6 bg-foreground/5 border border-foreground/10 rounded-2xl">
                     <span className="text-[10px] font-black uppercase text-foreground/50 tracking-wider block mb-2">Explicabilidade Causal do Caixa</span>
                     <p className="text-sm font-bold text-foreground leading-relaxed">
                       {governanceOutput.narratives.causalNarrative}
                     </p>
-                  </div>
+                  </ExecutiveNarrative>
                   <div className="grid grid-cols-1 @2xl:grid-cols-2 gap-6 mt-4">
                      <div className="space-y-2">
                         <span className="text-[10px] font-black uppercase tracking-widest text-[#0C7A3A]">Vetor de Geração</span>
@@ -986,20 +975,15 @@ export function DFCPage({ clients, selectedClient, selectedYear }: any) {
                         ))}
                      </div>
                   </div>
-                </div>
+                </SemanticCard>
               );
             })()}
 
             {/* DFC_EARLY_WARNING Section */}
             {isSectionVisible('DFC_EARLY_WARNING') && metrics.fiduciary?.earlyWarning && (
-              <div className="bg-card p-8 rounded-[32px] shadow-sm border border-border space-y-6 text-left">
-                <div className="flex items-center justify-between border-b border-border pb-4">
-                  <div>
-                    <h3 className="text-xl font-black text-primary mt-2">
-                      {getSectionHeader('DFC_EARLY_WARNING', 'DFC_EARLY_WARNING_TITLE')}
-                    </h3>
-                  </div>
-                </div>
+              <SemanticCard
+                title={getSectionHeader('DFC_EARLY_WARNING', 'DFC_EARLY_WARNING_TITLE')}
+              >
                 <div className="grid grid-cols-1 @3xl:grid-cols-2 gap-4">
                   {((densityLevel === 'TECHNICAL' ? rawEarlyWarning.alerts : earlyWarningViewModels) || []).map((item: any, idx: number) => {
                     const isTech = densityLevel === 'TECHNICAL';
@@ -1048,19 +1032,14 @@ export function DFCPage({ clients, selectedClient, selectedYear }: any) {
                     );
                   })}
                 </div>
-              </div>
+              </SemanticCard>
             )}
 
             {/* DFC_REVENUE_CASH_CONVERSION Section */}
             {isSectionVisible('DFC_REVENUE_CASH_CONVERSION') && (
-              <div className="bg-card p-8 rounded-[32px] shadow-sm border border-border space-y-6 text-left">
-                <div className="flex items-center justify-between border-b border-border pb-4">
-                  <div>
-                    <h3 className="text-xl font-black text-primary mt-2">
-                      {getSectionHeader('DFC_REVENUE_CASH_CONVERSION', 'DFC_REVENUE_CASH_CONVERSION_TITLE')}
-                    </h3>
-                  </div>
-                </div>
+              <SemanticCard
+                title={getSectionHeader('DFC_REVENUE_CASH_CONVERSION', 'DFC_REVENUE_CASH_CONVERSION_TITLE')}
+              >
                 <div className="flex flex-col @3xl:flex-row items-stretch gap-6 bg-foreground/5 p-6 rounded-[24px] border border-foreground/10 shadow-sm">
                   <div className="flex-1 text-left space-y-2 py-2">
                     <span className="text-[10px] font-black text-foreground/50 uppercase tracking-widest block">Análise de Conversão</span>
@@ -1083,19 +1062,14 @@ export function DFCPage({ clients, selectedClient, selectedYear }: any) {
                     )}
                   </div>
                 </div>
-              </div>
+              </SemanticCard>
             )}
 
             {/* DFC_SHAREHOLDER_DEPENDENCY Section */}
             {isSectionVisible('DFC_SHAREHOLDER_DEPENDENCY') && (
-              <div className="bg-card p-8 rounded-[32px] shadow-sm border border-border space-y-6 text-left">
-                <div className="flex items-center justify-between border-b border-border pb-4">
-                  <div>
-                    <h3 className="text-xl font-black text-primary mt-2">
-                      {getSectionHeader('DFC_SHAREHOLDER_DEPENDENCY', 'DFC_SHAREHOLDER_DEPENDENCY_TITLE')}
-                    </h3>
-                  </div>
-                </div>
+              <SemanticCard
+                title={getSectionHeader('DFC_SHAREHOLDER_DEPENDENCY', 'DFC_SHAREHOLDER_DEPENDENCY_TITLE')}
+              >
                 <div className="grid grid-cols-1 @3xl:grid-cols-2 gap-6">
                   <div className="border border-[#BAB86C]/30 rounded-2xl p-5 space-y-1 bg-[#BAB86C]/10 shadow-sm hover:shadow-md transition-all duration-300">
                     <span className="text-[9px] font-black uppercase text-foreground/50 tracking-wider">Índice de Autossuficiência Financeira</span>
@@ -1113,19 +1087,14 @@ export function DFCPage({ clients, selectedClient, selectedYear }: any) {
                 <p className="text-secondary">
                   {metrics.fiduciary?.shareholderDependencyAnalysis?.rationale}
                 </p>
-              </div>
+              </SemanticCard>
             )}
 
             {/* DFC_RUNWAY Section */}
             {isSectionVisible('DFC_RUNWAY') && (
-              <div className="bg-card p-8 rounded-[32px] shadow-sm border border-border space-y-6 text-left">
-                <div className="flex items-center justify-between border-b border-border pb-4">
-                  <div>
-                    <h3 className="text-xl font-black text-primary mt-2">
-                      {getSectionHeader('DFC_RUNWAY', 'DFC_RUNWAY_TITLE')}
-                    </h3>
-                  </div>
-                </div>
+              <SemanticCard
+                title={getSectionHeader('DFC_RUNWAY', 'DFC_RUNWAY_TITLE')}
+              >
                 <div className="bg-gradient-to-br from-foreground to-[#07111C] text-white p-8 rounded-[24px] border border-white/10 shadow-xl relative overflow-hidden">
                   <div className="absolute top-0 right-0 w-64 h-64 bg-secondary/10 rounded-full blur-3xl -mr-32 -mt-32 pointer-events-none" />
                   <div className="relative z-10 flex flex-col @3xl:flex-row @3xl:items-stretch justify-between gap-8">
@@ -1146,7 +1115,7 @@ export function DFCPage({ clients, selectedClient, selectedYear }: any) {
                     </div>
                   </div>
                 </div>
-              </div>
+              </SemanticCard>
             )}
 
             {/* DFC_SCENARIO_SIMULATION Section */}
@@ -1168,21 +1137,18 @@ export function DFCPage({ clients, selectedClient, selectedYear }: any) {
               );
 
               return (
-                <div className="bg-card p-8 rounded-[32px] shadow-sm border border-border space-y-6 text-left">
-                  <div className="flex flex-col lg:flex-row lg:items-center justify-between border-b border-border pb-4 gap-4">
-                    <div>
-                      <h3 className="text-xl font-black text-foreground mt-2">
-                        {getSectionHeader('DFC_SCENARIO_SIMULATION', 'DFC_SCENARIO_SIMULATION_TITLE')}
-                      </h3>
-                    </div>
-                    {densityLevel === 'TECHNICAL' && (
+                <SemanticCard
+                  title={getSectionHeader('DFC_SCENARIO_SIMULATION', 'DFC_SCENARIO_SIMULATION_TITLE')}
+                  actions={
+                    densityLevel === 'TECHNICAL' && (
                       <div className="flex items-center gap-2 text-[8px] font-black uppercase tracking-widest bg-surface-container text-muted-foreground px-3 py-1.5 rounded-lg border border-border">
                         <span>Historical Data: Immutable</span>
                         <span className="text-muted-foreground">|</span>
                         <span className="text-primary">Scenario Data: Hypothetical / Decision Support Only</span>
                       </div>
-                    )}
-                  </div>
+                    )
+                  }
+                >
 
                   <div className="flex border-b border-border">
                     {metrics.fiduciary.scenarioIntelligence.scenarios.map((g: any, idx: number) => (
@@ -1256,7 +1222,7 @@ export function DFCPage({ clients, selectedClient, selectedYear }: any) {
                       </p>
                     </div>
                   )}
-                </div>
+                </SemanticCard>
               );
             })()}
 
@@ -1270,18 +1236,11 @@ export function DFCPage({ clients, selectedClient, selectedYear }: any) {
                 runwayVal
               );
               return (
-                <div className="bg-card p-8 rounded-[32px] shadow-sm border border-border space-y-6 text-left">
-                  <div className="flex items-center justify-between border-b border-border pb-4">
-                    <div>
-                      <h3 className="text-xl font-black text-foreground mt-2">
-                        {getSectionHeader('DFC_EFSI', 'DFC_EFSI_TITLE')}
-                      </h3>
-                    </div>
-                  </div>
+                <SemanticCard title={getSectionHeader('DFC_EFSI', 'DFC_EFSI_TITLE')}>
                   <div className="bg-foreground/5 p-6 rounded-2xl border border-foreground/10 text-xs text-foreground leading-relaxed font-semibold">
                     {narrative}
                   </div>
-                </div>
+                </SemanticCard>
               );
             })()}
 
@@ -1289,11 +1248,11 @@ export function DFCPage({ clients, selectedClient, selectedYear }: any) {
             {isSectionVisible('DFC_BOARD_ADVISORY') && (() => {
               const advisory = metrics.fiduciary?.compressedAdvisory || { situacaoAtual: '-', restricaoPrincipal: '-', prioridadeEstrategica: '-', outlook: '-' };
               return (
-                <div className="bg-gradient-to-br from-foreground via-foreground to-[#07111C] text-white p-8 rounded-[32px] shadow-2xl relative overflow-hidden space-y-6 text-left border border-white/10">
+                <ExecutiveSurface className="bg-gradient-to-br from-foreground via-foreground to-[#07111C] text-white p-8 rounded-[32px] shadow-2xl relative overflow-hidden space-y-6 text-left border border-white/10">
                   <div className="absolute top-0 right-0 w-64 h-64 bg-secondary/10 rounded-full blur-3xl -mr-32 -mt-32 pointer-events-none" />
                   <div className="flex items-center justify-between border-b border-white/10 pb-4">
                     <div className="flex items-center gap-2">
-                      <h3 className="text-xl font-black">
+                      <h3 className="text-xl font-black mt-2">
                         {getSectionHeader('DFC_BOARD_ADVISORY', 'DFC_BOARD_ADVISORY_TITLE')}
                       </h3>
                     </div>
@@ -1374,19 +1333,15 @@ export function DFCPage({ clients, selectedClient, selectedYear }: any) {
                       </div>
                     </div>
                   </div>
-                </div>
+                </ExecutiveSurface>
               );
             })()}
 
             {/* DFC_RECONCILIATION_SUMMARY Section */}
             {isSectionVisible('DFC_RECONCILIATION_SUMMARY') && (
-              <div className="bg-card p-8 rounded-[32px] shadow-sm border border-border space-y-6 text-left">
-                <div className="flex items-center justify-between border-b border-border pb-4">
-                  <div>
-                    <h3 className="text-xl font-black text-foreground mt-2">
-                      {getSectionHeader('DFC_RECONCILIATION_SUMMARY', 'DFC_RECONCILIATION_SUMMARY_TITLE')}
-                    </h3>
-                  </div>
+              <SemanticCard
+                title={getSectionHeader('DFC_RECONCILIATION_SUMMARY', 'DFC_RECONCILIATION_SUMMARY_TITLE')}
+                actions={
                   <span className={cn(
                     "px-3 py-1 rounded-full text-[9px] font-black uppercase tracking-wider whitespace-normal break-words text-balance text-center",
                     metrics.fiduciary?.reconciliationMismatch 
@@ -1395,7 +1350,8 @@ export function DFCPage({ clients, selectedClient, selectedYear }: any) {
                   )}>
                     {metrics.fiduciary?.reconciliationMismatch ? "Divergência Detectada" : "Conciliado (Diferença R$ 0)"}
                   </span>
-                </div>
+                }
+              >
                 <div className="grid grid-cols-1 @3xl:grid-cols-2 gap-6 bg-foreground/5 p-6 rounded-2xl border border-foreground/10">
                   <div className="space-y-3">
                     <span className="text-[10px] font-black uppercase tracking-widest text-foreground/50 block mb-1">Cálculo DFC</span>
@@ -1428,25 +1384,22 @@ export function DFCPage({ clients, selectedClient, selectedYear }: any) {
                     </div>
                   </div>
                 </div>
-              </div>
+              </SemanticCard>
             )}
 
             {/* DFC_TECHNICAL_LAYER Section */}
             {isSectionVisible('DFC_TECHNICAL_LAYER') && (
-              <div className="bg-card p-8 rounded-[32px] shadow-sm border border-border space-y-4 text-left">
-                <div className="flex items-center justify-between border-b border-border pb-4">
-                  <div>
-                    <h3 className="text-xl font-black text-foreground mt-2">
-                      {getSectionHeader('DFC_TECHNICAL_LAYER', 'DFC_TECHNICAL_LAYER_TITLE')}
-                    </h3>
-                  </div>
+              <SemanticCard
+                title={getSectionHeader('DFC_TECHNICAL_LAYER', 'DFC_TECHNICAL_LAYER_TITLE')}
+                actions={
                   <button
                     onClick={() => setTechnicalTableOpen(!technicalTableOpen)}
                     className="px-4 py-2 border border-foreground/20 rounded-xl text-xs font-black uppercase tracking-widest hover:bg-foreground/5 text-foreground transition-all select-none cursor-pointer"
                   >
                     {technicalTableOpen ? 'Ocultar Detalhes' : 'Visualizar Detalhes'}
                   </button>
-                </div>
+                }
+              >
 
                 {technicalTableOpen && (
                   <div className="space-y-8 animate-in fade-in duration-300">
@@ -1477,14 +1430,14 @@ export function DFCPage({ clients, selectedClient, selectedYear }: any) {
                       <div className="bg-foreground/5 px-6 py-3 border-b border-foreground/10">
                         <span className="text-[10px] font-black uppercase tracking-widest text-foreground/60">Tabela de Reclassificação Fiduciária</span>
                       </div>
-                      <table className="w-full text-xs">
-                        <thead>
-                          <tr className="bg-foreground/5 border-b border-foreground/10">
+                      <ExecutiveTable className="w-full text-xs border-0 rounded-none">
+                        <ExecutiveTableHeader>
+                          <ExecutiveTableRow className="bg-foreground/5 border-b border-foreground/10">
                             <th className="text-left py-3 px-6 font-bold text-foreground/50 uppercase tracking-wider">Descrição</th>
                             <th className="text-right py-3 px-6 font-bold text-foreground/50 uppercase tracking-wider">Valor (R$)</th>
-                          </tr>
-                        </thead>
-                        <tbody className="divide-y divide-foreground/10">
+                          </ExecutiveTableRow>
+                        </ExecutiveTableHeader>
+                        <ExecutiveTableBody>
                           {rows.map((row: any, idx: number) => {
                             const cleanItemName = (row.conta || row.category || row.item || '');
                             const isIndented = cleanItemName.startsWith('  ');
@@ -1501,10 +1454,10 @@ export function DFCPage({ clients, selectedClient, selectedYear }: any) {
                             );
 
                             return (
-                              <tr 
-                                key={idx} 
-                                className={cn(
-                                  'hover:bg-foreground/5 transition-colors', 
+                            <ExecutiveTableRow 
+                              key={idx} 
+                              className={cn(
+                                'hover:bg-foreground/5 transition-colors', 
                                   (row.isTotal || row.isSubTotal) ? 'bg-foreground/5 font-bold text-foreground' : '',
                                   isReclassified ? 'bg-[#BAB86C]/10 font-bold' : ''
                                 )}
@@ -1527,28 +1480,24 @@ export function DFCPage({ clients, selectedClient, selectedYear }: any) {
                                 )}>
                                   {formatCurrency(row.val || row.valor || row.value || 0)}
                                 </td>
-                              </tr>
+                              </ExecutiveTableRow>
                             );
                           })}
-                        </tbody>
-                      </table>
+                        </ExecutiveTableBody>
+                      </ExecutiveTable>
                     </div>
                   </div>
                 )}
-              </div>
+              </SemanticCard>
             )}
 
             {/* DFC_EQE_SUMMARY Section (Earnings Quality Engine subordinate block) */}
             {isSectionVisible('DFC_EQE_SUMMARY') && earningsQuality && (
-              <div className="bg-card border border-foreground/10 rounded-[32px] shadow-sm p-8 space-y-8 mb-10">
-                <div>
-                  <h3 className="text-xl font-black text-foreground uppercase tracking-wider">
-                    {getEQETitle()}
-                  </h3>
-                  <p className="text-xs text-foreground/50 font-bold uppercase tracking-widest mt-1">
-                    Avaliação fiduciária de integridade, sustentabilidade e recorrência da lucratividade operacional
-                  </p>
-                </div>
+              <SemanticCard
+                className="mb-10"
+                title={getEQETitle()}
+                description="Avaliação fiduciária de integridade, sustentabilidade e recorrência da lucratividade operacional"
+              >
 
                 <div className="grid grid-cols-1 @xl:grid-cols-2 @5xl:grid-cols-3 gap-8 items-center">
                   <div className="bg-foreground/5 border border-foreground/10 rounded-[32px] p-8 flex flex-col items-center justify-center text-center relative overflow-hidden h-full min-h-[300px]">
@@ -1719,7 +1668,7 @@ export function DFCPage({ clients, selectedClient, selectedYear }: any) {
                     </div>
                   </div>
                 )}
-              </div>
+              </SemanticCard>
             )}
           </div>
         )}
@@ -1748,15 +1697,15 @@ export function DFCPage({ clients, selectedClient, selectedYear }: any) {
               </div>
             </div>
           )}
-          <div className="overflow-x-auto">
-            <table className="w-full text-sm">
-              <thead>
-                <tr className="bg-foreground/5 border-b border-foreground/10">
+          <div className="mt-4">
+            <ExecutiveTable className="w-full text-sm">
+              <ExecutiveTableHeader>
+                <ExecutiveTableRow className="bg-foreground/5 border-b border-foreground/10">
                   <th className="text-left py-3.5 px-5 md:px-8 text-[10px] font-bold text-foreground/50 uppercase tracking-widest">Descrição</th>
                   <th className="text-right py-3.5 px-5 md:px-8 text-[10px] font-bold text-foreground/50 uppercase tracking-widest">Valor (R$)</th>
-                </tr>
-              </thead>
-              <tbody className="divide-y divide-foreground/10">
+                </ExecutiveTableRow>
+              </ExecutiveTableHeader>
+              <ExecutiveTableBody>
                 {rows.map((row: any, i: number) => {
                    const cleanItemName = (row.conta || row.category || row.item || '');
                    const isIndented = cleanItemName.startsWith('  ');
@@ -1766,7 +1715,7 @@ export function DFCPage({ clients, selectedClient, selectedYear }: any) {
                    const isTotalRow = row.isTotal || row.isSubTotal;
 
                    return (
-                     <tr 
+                     <ExecutiveTableRow 
                        key={i} 
                        className={cn(
                          'hover:bg-foreground/5 transition-colors group', 
@@ -1798,11 +1747,11 @@ export function DFCPage({ clients, selectedClient, selectedYear }: any) {
                        )}>
                          {formatCurrency(row.val || row.valor || row.value || 0)}
                        </td>
-                     </tr>
+                     </ExecutiveTableRow>
                    );
                  })}
-              </tbody>
-            </table>
+              </ExecutiveTableBody>
+            </ExecutiveTable>
           </div>
         </div>
       )}
@@ -1889,7 +1838,7 @@ export function DFCPage({ clients, selectedClient, selectedYear }: any) {
         </div>,
         document.body
       )}
-    </div>
+    </ExecutivePageTemplate>
   );
 }
 

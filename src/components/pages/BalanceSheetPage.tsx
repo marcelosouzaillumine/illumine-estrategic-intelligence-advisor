@@ -28,6 +28,9 @@ import {
 import { ExecutiveSurface } from '../ui/executive-surface';
 import { cn, formatCurrency, formatValue } from '../../lib/utils';
 import { StatusBadge, PageHeader } from '../Common';
+import { BalanceSheetDataSourceStatus } from './balance-sheet/BalanceSheetDataSourceStatus';
+import { BalanceSheetYearFilter } from './balance-sheet/BalanceSheetYearFilter';
+
 import { useLanguage } from '../../contexts/LanguageContext';
 
 import { useAnnualFinancialData, useAllFinancialData } from '../../hooks/useFinancialData';
@@ -507,25 +510,10 @@ export function BalanceSheetPage({ clients, selectedClient, selectedYear }: any)
       <div className="flex items-center justify-between gap-4 flex-wrap bg-surface-container/60 p-4 rounded-md border border-border backdrop-blur-sm shadow-sm -mt-6 mb-10">
         <div className="flex items-center gap-3">
           <div className="bg-card border border-border/50 shadow-sm rounded-md px-4 py-2 flex items-center gap-3 shadow-sm">
-            {(loadingBP || loadingHistory) && <Loader2 size={14} className="animate-spin text-secondary" />}
-            <Database size={14} className={financialEntries.length > 0 ? 'text-success' : 'text-muted-foreground/30'} />
-            <span className={cn('text-[10px] font-medium uppercase tracking-[0.2em]', financialEntries.length > 0 ? 'text-success' : 'text-muted-foreground/40')}>
-              {financialEntries.length > 0 ? 'Dados Reais' : 'Amostra'}
-            </span>
+            <BalanceSheetDataSourceStatus hasRealData={financialEntries.length > 0} loading={loadingBP || loadingHistory} />
           </div>
 
-          <div className="flex bg-card border border-border p-1 rounded-md shadow-sm items-center">
-            <Calendar size={12} className="ml-2 text-secondary" />
-            <select
-              onChange={(e) => setFilterYear(Number(e.target.value))}
-              value={filterYear}
-              className="bg-transparent px-3 py-1.5 text-[10px] font-medium uppercase tracking-widest outline-none cursor-pointer text-foreground appearance-none pr-1"
-            >
-              {Array.from({ length: 11 }, (_, i) => new Date().getFullYear() - 5 + i).map((y) => (
-                <option key={y} value={y}>{y}</option>
-              ))}
-            </select>
-          </div>
+<BalanceSheetYearFilter filterYear={filterYear} onChangeYear={setFilterYear} />
         </div>
 
         <div className="flex items-center gap-3">

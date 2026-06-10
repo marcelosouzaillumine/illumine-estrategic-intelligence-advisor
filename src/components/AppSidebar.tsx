@@ -197,7 +197,7 @@ export function AppSidebar({
               {/* Group label — hidden when collapsed */}
               <SidebarGroupLabel
                 className={cn(
-                  'cursor-pointer select-none hover:text-foreground transition-colors sidebar-group-label-text text-secondary font-semibold uppercase tracking-widest h-7 mb-1',
+                  'cursor-pointer select-none hover:text-accent/80 transition-colors sidebar-group-label-text text-accent font-semibold uppercase tracking-[0.15em] h-7 mb-1',
                   !isCollapsed ? 'flex' : 'hidden'
                 )}
                 onClick={() => toggleSubmenu(group.group)}
@@ -230,17 +230,10 @@ export function AppSidebar({
                           className={cn(
                             'relative group px-2 xl:px-2.5 py-1 xl:py-1.5 rounded-button transition-all duration-300 sidebar-menu-item-button',
                             isActive
-                              ? 'text-primary font-medium bg-surface-high shadow-sm border border-border/50'
-                              : 'text-secondary hover:text-foreground hover:bg-surface-high/50'
+                              ? 'text-primary font-semibold bg-surface shadow-sm border border-border/50'
+                              : 'text-secondary hover:text-primary hover:bg-surface'
                           )}
                         >
-                          {/* Active pill indicator */}
-                          {currentPage === item.id && (
-                            <motion.div
-                              layoutId="active-pill"
-                              className="absolute left-0 top-1/2 -translate-y-1/2 w-0.5 h-3.5 bg-primary rounded-full"
-                            />
-                          )}
 
                           <item.icon
                             size={isCollapsed ? 18 : 14}
@@ -301,13 +294,13 @@ export function AppSidebar({
                                     className={cn(
                                       'w-full text-left flex items-center gap-1.5 xl:gap-2.5 py-0.5 xl:py-1 px-1.5 xl:px-2 rounded-sm font-normal leading-none transition-colors sidebar-submenu-item-text',
                                       currentPage === child.id
-                                        ? 'text-primary bg-surface-high font-medium shadow-sm border border-border/30'
-                                        : 'text-secondary hover:text-foreground'
+                                        ? 'text-primary bg-surface font-semibold shadow-sm border border-border/30'
+                                        : 'text-secondary hover:text-primary'
                                     )}
                                   >
                                     <span className={cn(
                                       'w-1 h-1 rounded-full shrink-0 transition-all',
-                                      currentPage === child.id ? 'bg-secondary scale-125' : 'bg-muted/80'
+                                      currentPage === child.id ? 'bg-primary scale-125' : 'bg-muted/80'
                                     )} />
                                     <span>{t(child.labelKey || `navigation.page.${child.id}`)}</span>
                                   </button>
