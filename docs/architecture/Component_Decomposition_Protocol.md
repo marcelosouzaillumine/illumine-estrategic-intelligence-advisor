@@ -23,12 +23,26 @@ Separar estritamente essas preocupações gera benefícios operacionais claros:
 
 ---
 
+## Modelo de Responsabilidade em Camadas (Executive Pages)
+
+Para sustentar o objetivo de orquestração declarativa, toda a refatoração deve obedecer à seguinte matriz de responsabilidades:
+
+| Camada | Responsabilidade | O que pode conhecer e importar |
+| :--- | :--- | :--- |
+| **Página** (`*Page.tsx`) | Orquestrar, buscar dados, resolver `i18n`, montar DTOs de exibição | Hooks, adapters, engines, serviços, contextos. |
+| **Seções** (`*Section.tsx`) | Organizar blocos visuais relacionados e gerenciar grid | Apenas `props` (ViewModels e DTOs) preparadas pelo pai. |
+| **Componentes Folha** (`*Card`, `*Toolbar`) | Renderização pura, microinterações (UI) | Strings, números, callbacks simples e DTOs estritos. |
+| **Tipos** (`types.ts`) | Definir os contratos exatos de apresentação | Interfaces e *types* somente (sem implementações). |
+
+---
+
 ## Regras Operacionais de Props
 
 Durante as microextrações de apresentação, as seguintes regras são inegociáveis para evitar a propagação de dívida técnica:
 - **Payloads Mínimos:** Nunca passar objetos gigantes ou relatórios completos se o componente utilizar apenas dois ou três campos específicos.
 - **Tipagem Estrita:** É proibido o uso de `any`. Interfaces explícitas (`type` ou `interface`) devem ser declaradas descrevendo estritamente a forma dos dados esperados. Caso o conceito se repita, crie e importe tipos centralizados (ex: `types.ts`).
-- **Sem Dependências Funcionais:** Componentes folha de apresentação (ex: localizados em `src/components/pages/<feature>/`) **não devem** importar *hooks* (`useLanguage`, `useFinancialData`, etc.), serviços ou *engines* de negócio diretamente. Devem consumir apenas suas `props` puras, o que as torna determinísticas e testáveis.
+- **Pré-processamento no Orquestrador:** Componentes de apresentação não devem realizar buscas (`find`, `filter`, `map` complexos) sobre estruturas pesadas de domínio quando isso puder ser pré-processado pelo componente pai. O orquestrador deve resolver os dados brutos e enviar objetos purificados (ex: `ViewModel`) diretamente para o filho.
+- **Resolução Centralizada de i18n:** Todo texto dinâmico traduzido deve ser resolvido no componente orquestrador (`Page.tsx`) e repassado aos filhos folha/seção como `string` pronta para exibição.
 - **Lógica Isolada:** Não mover lógica de negócio, transformações complexas ou cálculos pesados para dentro do componente extraído. Ele recebe dados prontos e apenas renderiza, permitindo delegar interações via callbacks primitivos (`onClick`, `onChange`).
 
 ---
