@@ -42,6 +42,7 @@ import { BalanceSheetRiskDivergenceSection } from './balance-sheet/BalanceSheetR
 import { BalanceSheetTechnicalLayerSection } from './balance-sheet/BalanceSheetTechnicalLayerSection';
 import { BalanceSheetAuditLayerSection } from './balance-sheet/BalanceSheetAuditLayerSection';
 import { BalanceSheetWaterfallChartSection } from './balance-sheet/BalanceSheetWaterfallChartSection';
+import { BalanceSheetCompositionChartsSection } from './balance-sheet/BalanceSheetCompositionChartsSection';
 import { mapIndicatorsToViewModels, mapInstitutionalContextToViewModel, mapRiskDivergenceToViewModel, mapTechnicalLayerToViewModel, mapAuditLayerToViewModel, mapFinancialAnalyticsToViewModels } from './balance-sheet/mappers';
 
 import { useLanguage } from '../../contexts/LanguageContext';
@@ -475,16 +476,20 @@ export function BalanceSheetPage({ clients, selectedClient, selectedYear }: any)
     return FiduciaryRuntimeAdapter.ExecutiveInformationDensityFramework.isSectionVisible(sectionName, densityLevel);
   };
 
+  const COLORS = ['#3b82f6', '#10b981', '#f59e0b', '#ef4444', '#8b5cf6', '#ec4899', '#06b6d4'];
+
   const ativoData = useMemo(() => {
-    return comparativeAnalysis.filter((r: any) => 
+    const raw = comparativeAnalysis.filter((r: any) => 
       (r.tipo || r.type || '').toLowerCase().includes('ativo') && r.level === 2 && r.val > 0
     ).map((r: any) => ({ name: r.name, value: r.val })).sort((a: any, b: any) => b.value - a.value);
+    return raw.map((item, idx) => ({ ...item, fill: COLORS[idx % COLORS.length] }));
   }, [comparativeAnalysis]);
 
   const passivoData = useMemo(() => {
-    return comparativeAnalysis.filter((r: any) => 
+    const raw = comparativeAnalysis.filter((r: any) => 
       (r.tipo || r.type || '').toLowerCase().includes('passivo') && !((r.tipo || r.type || '').toLowerCase().includes('patrimônio') || (r.tipo || r.type || '').toLowerCase().includes('pl')) && r.level === 2 && r.val > 0
     ).map((r: any) => ({ name: r.name, value: r.val })).sort((a: any, b: any) => b.value - a.value);
+    return raw.map((item, idx) => ({ ...item, fill: COLORS[idx % COLORS.length] }));
   }, [comparativeAnalysis]);
 
   const waterfallData = useMemo(() => {
@@ -517,7 +522,7 @@ export function BalanceSheetPage({ clients, selectedClient, selectedYear }: any)
     });
   }, [waterfallData, ativoData, passivoData, chartData, majorChanges, comparativeAnalysis, bpSummary, translateLabel]);
 
-  const COLORS = ['#3b82f6', '#10b981', '#f59e0b', '#ef4444', '#8b5cf6', '#ec4899', '#06b6d4'];
+
 
   return (
     <div className="max-w-[1440px] mx-auto space-y-10 pb-32 animate-executive-fade">
@@ -766,83 +771,14 @@ export function BalanceSheetPage({ clients, selectedClient, selectedYear }: any)
                   </div>
                 </div>
 
-                {/* Composição do Ativo */}
-                <ExecutiveChart 
-                  title={t('bp.assets.title')}
-                  description={t('bp.assets.subtitle')}
-                  height={256}
-                >
-                  <div className="flex items-center h-full w-full">
-                    <div className="h-full w-1/2">
-                        <PieChart width={250} height={250}>
-                          <Pie
-                            data={ativoData}
-                            cx="50%"
-                            cy="50%"
-                            innerRadius={60}
-                            outerRadius={80}
-                            paddingAngle={5}
-                            dataKey="value"
-                          >
-                            {ativoData.map((entry: any, index: number) => (
-                              <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
-                            ))}
-                          </Pie>
-                          <ExecutiveChartTooltip formatter={(value: number) => formatCurrency(value)} />
-                        </PieChart>
-                    </div>
-                    <div className="w-1/2 pl-4 space-y-3">
-                      {ativoData.map((item: any, idx: number) => (
-                        <div key={idx} className="flex items-center gap-3">
-                          <div className="w-3 h-3 rounded-full shrink-0" style={{ backgroundColor: COLORS[idx % COLORS.length] }} />
-                          <div>
-                             <p className="text-secondary" title={item.name}>{item.name}</p>
-                             <p className="text-secondary">{formatCurrency(item.value)}</p>
-                          </div>
-                        </div>
-                      ))}
-                    </div>
-                  </div>
-                </ExecutiveChart>
-
-                {/* Composição do Passivo */}
-                <ExecutiveChart 
-                  title={t('bp.liabilities.title')}
-                  description={t('bp.liabilities.subtitle')}
-                  height={256}
-                >
-                  <div className="flex items-center h-full w-full">
-                    <div className="h-full w-1/2">
-                        <PieChart width={250} height={250}>
-                          <Pie
-                            data={passivoData}
-                            cx="50%"
-                            cy="50%"
-                            innerRadius={60}
-                            outerRadius={80}
-                            paddingAngle={5}
-                            dataKey="value"
-                          >
-                            {passivoData.map((entry: any, index: number) => (
-                              <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
-                            ))}
-                          </Pie>
-                          <ExecutiveChartTooltip formatter={(value: number) => formatCurrency(value)} />
-                        </PieChart>
-                    </div>
-                    <div className="w-1/2 pl-4 space-y-3">
-                      {passivoData.map((item: any, idx: number) => (
-                        <div key={idx} className="flex items-center gap-3">
-                          <div className="w-3 h-3 rounded-full shrink-0" style={{ backgroundColor: COLORS[idx % COLORS.length] }} />
-                          <div>
-                             <p className="text-secondary" title={item.name}>{item.name}</p>
-                             <p className="text-secondary">{formatCurrency(item.value)}</p>
-                          </div>
-                        </div>
-                      ))}
-                    </div>
-                  </div>
-                </ExecutiveChart>
+                {/* Composição do Ativo e Passivo */}
+                <BalanceSheetCompositionChartsSection 
+                  viewModel={financialAnalyticsViewModel.composition}
+                  formatCurrency={(value: number) => {
+                    if (value === null || value === undefined) return 'R$ 0';
+                    return new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL', maximumFractionDigits: 0 }).format(value);
+                  }}
+                />
               </div>
 
               {/* ── Análise de Evolução e Gráficos ── */}
