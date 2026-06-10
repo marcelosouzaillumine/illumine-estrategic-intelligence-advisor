@@ -30,6 +30,7 @@ import { cn, formatCurrency, formatValue } from '../../lib/utils';
 import { StatusBadge, PageHeader } from '../Common';
 import { BalanceSheetDataSourceStatus } from './balance-sheet/BalanceSheetDataSourceStatus';
 import { BalanceSheetYearFilter } from './balance-sheet/BalanceSheetYearFilter';
+import { BalanceSheetActionToolbar } from './balance-sheet/BalanceSheetActionToolbar';
 
 import { useLanguage } from '../../contexts/LanguageContext';
 
@@ -497,6 +498,7 @@ export function BalanceSheetPage({ clients, selectedClient, selectedYear }: any)
 
   return (
     <div className="max-w-[1440px] mx-auto space-y-10 pb-32 animate-executive-fade">
+      <BalanceSheetActionToolbar onLaunchData={() => setShowManualModal(true)} onImport={() => setShowImportModal(true)} onDelete={() => setShowDeleteConfirm(true)} />
       {(executiveReport?.isSandbox || executiveReport?.isDemonstrative) && (
         <SandboxWarningOverlay type={executiveReport.isSandbox ? 'sandbox' : 'demonstrative'} />
       )}
@@ -507,36 +509,7 @@ export function BalanceSheetPage({ clients, selectedClient, selectedYear }: any)
         color="executive"
       />
 
-      <div className="flex items-center justify-between gap-4 flex-wrap bg-surface-container/60 p-4 rounded-md border border-border backdrop-blur-sm shadow-sm -mt-6 mb-10">
-        <div className="flex items-center gap-3">
-          <div className="bg-card border border-border/50 shadow-sm rounded-md px-4 py-2 flex items-center gap-3 shadow-sm">
-            <BalanceSheetDataSourceStatus hasRealData={financialEntries.length > 0} loading={loadingBP || loadingHistory} />
-          </div>
 
-<BalanceSheetYearFilter filterYear={filterYear} onChangeYear={setFilterYear} />
-        </div>
-
-        <div className="flex items-center gap-3">
-          <button
-            onClick={() => setShowManualModal(true)}
-            className="px-4 py-3 bg-success-soft hover:bg-success text-success hover:text-white border border-success/20 rounded-md text-[10px] font-medium uppercase tracking-widest transition-all flex items-center gap-2 shadow-sm"
-          >
-            <Plus size={14} /> Lançar Dados
-          </button>
-          <button
-            onClick={() => setShowImportModal(true)}
-            className="px-4 py-3 bg-secondary/10 hover:bg-secondary text-secondary hover:text-white border border-secondary/20 rounded-md text-[10px] font-medium uppercase tracking-widest transition-all flex items-center gap-2 shadow-sm"
-          >
-            <Upload size={14} /> Importar
-          </button>
-          <button
-            onClick={() => setShowDeleteConfirm(true)}
-            className="px-4 py-3 bg-critical-soft hover:bg-destructive text-destructive hover:text-white border border-destructive/20 rounded-md text-[10px] font-medium uppercase tracking-widest transition-all flex items-center gap-2 shadow-sm"
-          >
-            <Trash2 size={14} /> Excluir
-          </button>
-        </div>
-      </div>
 
       <div className="space-y-6 mb-12">
         {hasData && patrimonialIntelligenceReport ? (
