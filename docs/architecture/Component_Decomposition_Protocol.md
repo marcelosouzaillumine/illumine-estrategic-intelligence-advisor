@@ -83,3 +83,150 @@ Ao atuar no desmonte estrutural de qualquer página, todos os desenvolvedores e 
 9. **Reiniciar:** Apenas após a finalização bem-sucedida do commit, a equipe está autorizada a escolher a próxima extração.
 
 > **Regra de Transição:** O avanço para a Fase 3 (Canonicalização) está bloqueado até que todas as extrações locais e isolamentos estruturais de uma página atinjam plena completude e estabilidade na Fase 2.
+
+---
+
+## Mandatory Rule — Native Architecture for New Executive Pages
+
+### Objective
+
+From this protocol version onward, all newly created Executive Pages must be implemented directly using the decomposed architecture, eliminating the need for future structural refactoring.
+
+Structural decomposition is no longer considered a remediation activity; it is now a mandatory engineering requirement for any new page.
+
+### Native Architecture Standard
+
+Every new Executive Page must be organized using the following structure (or an equivalent modular organization):
+
+```text
+<Feature>Page.tsx          ← Declarative Orchestrator
+types.ts                   ← Presentation DTOs
+view-models.ts             ← UI ViewModels
+mappers.ts                 ← Pure Domain → ViewModel transformations
+<Feature>Header.tsx
+<Feature>Filters.tsx
+<Feature>ActionToolbar.tsx
+<Feature>SectionA.tsx
+<Feature>SectionB.tsx
+<Feature>SectionC.tsx
+...
+```
+
+The page itself must act only as an orchestration layer responsible for:
+
+* retrieving data;
+* invoking services or engines;
+* resolving internationalization (i18n);
+* preparing ViewModels;
+* delegating rendering to presentation components.
+
+### Mandatory Rendering Pipeline
+
+Every Executive Page must follow this responsibility chain:
+
+```text
+Domain Engine / Service
+        ↓
+Business Objects / DTOs
+        ↓
+Page Orchestrator
+        ↓
+Pure Mapper Functions
+        ↓
+ViewModels
+        ↓
+Presentation Components
+        ↓
+Rendered UI
+```
+
+No presentation component may bypass this pipeline.
+
+### Non-Negotiable Engineering Rules
+
+#### 1. Components are Pure Renderers
+
+Leaf presentation components must:
+* receive only presentation-ready data;
+* contain no business logic;
+* contain no domain transformations;
+* contain no side effects.
+
+They exist solely to render UI.
+
+#### 2. Internationalization Must Be Resolved Upstream
+
+Hooks or translation services (such as `useLanguage()`, `t`, or `ExecutiveLabelResolver`) must execute only in the orchestrator or mapper layer.
+
+Presentation components must receive already resolved strings.
+
+Example:
+```tsx
+// Correct
+<AssetQualitySection title="Qualidade do Ativo" />
+
+// Avoid
+const { t } = useLanguage();
+```
+
+#### 3. ViewModels Are the Public Contract of the UI
+
+Presentation components must depend exclusively on ViewModels.
+They must never receive raw domain entities or AI/runtime payloads directly.
+
+#### 4. Mapper Functions Must Be Pure
+
+`mappers.ts` functions:
+* must be deterministic;
+* must not mutate inputs;
+* must not access React;
+* must not depend on hooks or contexts;
+* must transform only input → output.
+
+#### 5. Shared Presentation Types
+
+Reusable presentation contracts shall be centralized in `types.ts`.
+Duplicated interfaces across sibling components should be promoted to shared types.
+
+#### 6. No `any`
+
+New code introduced under this protocol must not use `any`.
+Interfaces and explicit types are mandatory.
+
+#### 7. Single Responsibility
+
+Each presentation component should represent one cohesive visual responsibility.
+Large visual sections should be decomposed into smaller components whenever practical.
+
+#### 8. No Domain Dependencies in Leaf Components
+
+Presentation components must not import:
+* services;
+* engines;
+* repositories;
+* runtime contracts;
+* business calculations;
+* governance logic.
+
+Only presentation types and ViewModels are permitted.
+
+### Definition of Done for Every New Executive Page
+
+A page is considered architecturally compliant only if:
+
+* it acts as a declarative orchestrator;
+* all rendering is delegated to specialized components;
+* ViewModels are produced before rendering;
+* translation is resolved before presentation;
+* no presentation component imports business logic;
+* no presentation component uses hooks solely to transform data;
+* no `any` is introduced;
+* shared contracts are centralized in `types.ts`;
+* transformations are isolated in `mappers.ts`;
+* `npm run typecheck` and `npm run lint` complete successfully.
+
+### Institutional Principle
+
+**Every new Executive Page must be born decomposed.**
+
+The structural decomposition protocol validated on `BalanceSheetPage` is now the default construction model for future modules (including DRE, DFC, DLPA, ESGIM, and subsequent Executive Pages), ensuring long-term maintainability, auditability, predictable evolution, and safe adoption of future design-system upgrades.
