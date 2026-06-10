@@ -502,6 +502,16 @@ export function BalanceSheetPage({ clients, selectedClient, selectedYear }: any)
 
   return (
     <div className="max-w-[1440px] mx-auto space-y-10 pb-32 animate-executive-fade">
+      {(executiveReport?.isSandbox || executiveReport?.isDemonstrative) && (
+        <SandboxWarningOverlay type={executiveReport.isSandbox ? 'sandbox' : 'demonstrative'} />
+      )}
+      <PageHeader 
+        title="Balanço Patrimonial" 
+        subtitle="Análise da posição financeira, estrutura de capital e solvência patrimonial."
+        icon={BookOpen}
+        color="executive"
+      />
+
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-6 mb-10">
         <div>
           <div className="flex items-center gap-4 mb-2">
@@ -514,17 +524,6 @@ export function BalanceSheetPage({ clients, selectedClient, selectedYear }: any)
 
         <BalanceSheetActionToolbar onLaunchData={() => setShowManualModal(true)} onImport={() => setShowImportModal(true)} onDelete={() => setShowDeleteConfirm(true)} />
       </div>
-      {(executiveReport?.isSandbox || executiveReport?.isDemonstrative) && (
-        <SandboxWarningOverlay type={executiveReport.isSandbox ? 'sandbox' : 'demonstrative'} />
-      )}
-      <PageHeader 
-        title="Balanço Patrimonial" 
-        subtitle="Análise da posição financeira, estrutura de capital e solvência patrimonial."
-        icon={BookOpen}
-        color="executive"
-      />
-
-
 
       <div className="space-y-6 mb-12">
         {hasData && patrimonialIntelligenceReport ? (
