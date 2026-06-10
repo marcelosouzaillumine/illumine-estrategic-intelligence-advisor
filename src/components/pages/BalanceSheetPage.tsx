@@ -39,7 +39,8 @@ import { BalanceSheetAssetQualitySection } from './balance-sheet/BalanceSheetAss
 import { BalanceSheetCapitalStructureSection } from './balance-sheet/BalanceSheetCapitalStructureSection';
 import { BalanceSheetInstitutionalContextSection } from './balance-sheet/BalanceSheetInstitutionalContextSection';
 import { BalanceSheetRiskDivergenceSection } from './balance-sheet/BalanceSheetRiskDivergenceSection';
-import { mapIndicatorsToViewModels, mapInstitutionalContextToViewModel, mapRiskDivergenceToViewModel } from './balance-sheet/mappers';
+import { BalanceSheetTechnicalLayerSection } from './balance-sheet/BalanceSheetTechnicalLayerSection';
+import { mapIndicatorsToViewModels, mapInstitutionalContextToViewModel, mapRiskDivergenceToViewModel, mapTechnicalLayerToViewModel } from './balance-sheet/mappers';
 
 import { useLanguage } from '../../contexts/LanguageContext';
 
@@ -256,21 +257,6 @@ export function BalanceSheetPage({ clients, selectedClient, selectedYear }: any)
     const bpCalc = FiduciaryRuntimeAdapter.BalanceSheetFinancialMetricsEngine.calculateIndicators(bpSummary);
     return bpCalc;
   }, [bpSummary]);
-
-  const indicatorsByFamily = useMemo(() => {
-    const families: Record<string, any[]> = {
-      'Liquidez': [],
-      'Capital de Giro': [],
-      'Estrutura de Capital': [],
-      'Imobilização': []
-    };
-    financialIndicators.forEach(ind => {
-      if (families[ind.family]) {
-        families[ind.family].push(ind);
-      }
-    });
-    return families;
-  }, [financialIndicators]);
 
   const parseMetricStr = (val: any) => {
     if (typeof val === 'number') return val;
@@ -658,63 +644,12 @@ export function BalanceSheetPage({ clients, selectedClient, selectedYear }: any)
               />
 
               {/* --- 8. CAMADA TÉCNICA (Indicadores Financeiros Patrimoniais Brutos) --- */}
-              <details className="group bg-card border border-border rounded-[32px] open:shadow-2xl open:shadow-slate-200/40 transition-all duration-500 mb-12 overflow-hidden">
-                <summary className="flex items-center justify-between p-8 cursor-pointer list-none hover:bg-surface-container/30/50 transition-colors">
-                  <div className="flex items-center gap-3">
-                    <Layers size={20} className="text-muted-foreground group-open:text-primary transition-colors" />
-                    <h3 className="text-lg font-black text-primary group-open:text-primary">Camada Técnica</h3>
-                  </div>
-                  <ChevronDown size={20} className="text-muted-foreground group-open:rotate-180 transition-transform" />
-                </summary>
-                <div className="p-8 border-t border-border bg-surface-container/30/30">
-                  <div className="flex flex-col mb-6 border-b border-border pb-4">
-                    <h4 className="text-sm font-black text-primary mb-2">Indicadores Quantitativos Subjacentes</h4>
-                    <p className="text-secondary">
-                      Métricas e avaliações brutas utilizadas para o embasamento da Tese Patrimonial e elaboração do Score Matemático.
-                    </p>
-                  </div>
-                
-                <div className="grid grid-cols-1 xl:grid-cols-2 gap-10">
-                  {Object.entries(indicatorsByFamily).map(([family, indicators]) => (
-                    <div key={family} className="space-y-4">
-                      <h4 className="text-[10px] font-black text-primary uppercase tracking-widest border-b border-border pb-2">{family}</h4>
-                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                        {indicators.filter(ind => !['Liquidez Real', 'Liquidez Instantânea Real', 'Liquidez Seca'].includes(ind.metricName)).map((ind, idx) => (
-                          <div key={idx} className="bg-surface-container/30 border border-border rounded-2xl p-5 hover:shadow-md transition-all group relative cursor-help flex flex-col justify-between" title={`Rationale: ${ind.rationale}`}>
-                            <div className="flex justify-between items-start mb-4">
-                              <span className="text-[10px] font-black uppercase tracking-widest text-muted-foreground w-2/3 leading-relaxed">{ExecutiveLabelResolver.resolve(ind.metricName, t)}</span>
-                              <span className={cn(
-                                "text-[8px] font-black uppercase px-2 py-1 rounded-full tracking-wider border whitespace-nowrap",
-                                ind.classification === 'INSUFFICIENT_DATA' ? 'bg-surface-container text-muted-foreground border-border' :
-                                'CRITICAL' === ind.severity ? 'bg-critical-soft text-rose-700 border-rose-200' :
-                                'ATTENTION' === ind.severity ? 'bg-warning-soft text-amber-700 border-amber-200' :
-                                'CAPITAL_IDLE_WARNING' === ind.severity ? 'bg-blue-50 text-blue-500 border-blue-200' :
-                                'bg-success-soft text-emerald-700 border-emerald-200'
-                              )}>
-                                {ExecutiveLabelResolver.resolve(ind.classification, t).replace(/_/g, ' ')}
-                              </span>
-                            </div>
-                            <div className="flex items-end justify-between">
-                              <span className="text-2xl font-black text-primary leading-none">
-                                {ind.value === 'INSUFFICIENT_DATA' ? '—' : 
-                                  (ind.format === 'percentage' ? (Number(ind.value) * 100).toFixed(1) + '%' : 
-                                  ind.format === 'multiplier' ? Number(ind.value).toFixed(2) + 'x' :
-                                  ind.format === 'decimal' ? Number(ind.value).toFixed(2) : 
-                                  ind.format === 'currency' ? new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL', maximumFractionDigits: 0 }).format(Number(ind.value)) : 
-                                  ind.value)}
-                              </span>
-                              {ind.confidence < 100 && (
-                                <span className="text-[8px] font-bold text-muted-foreground">Confiança {ind.confidence}%</span>
-                              )}
-                            </div>
-                          </div>
-                        ))}
-                      </div>
-                    </div>
-                  ))}
-                </div>
-              </div>
-              </details>
+              <BalanceSheetTechnicalLayerSection 
+                viewModel={mapTechnicalLayerToViewModel({
+                  indicators: financialIndicators,
+                  resolveLabel: (key) => ExecutiveLabelResolver.resolve(key, t)
+                })}
+              />
 
               {/* --- 9. AUDIT LAYER (Camada Fiduciária e Rastreabilidade) --- */}
               <details className="group bg-card border border-border rounded-[32px] open:shadow-2xl open:shadow-slate-200/40 transition-all duration-500 mb-12 overflow-hidden">
