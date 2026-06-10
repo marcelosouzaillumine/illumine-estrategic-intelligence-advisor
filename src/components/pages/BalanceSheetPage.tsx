@@ -513,12 +513,11 @@ export function BalanceSheetPage({ clients, selectedClient, selectedYear }: any)
       />
 
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-6 mb-10">
-        <div>
-          <div className="flex items-center gap-4 mb-2">
+        <div className="flex flex-col md:flex-row md:items-center gap-4">
+          <div className="flex items-center gap-4">
             <StatusBadge status={executiveReport?.isSandbox || executiveReport?.isDemonstrative ? 'SANDBOX' : ((executiveReport as any)?.status || 'UNAVAILABLE')} />
             <BalanceSheetDataSourceStatus hasRealData={hasData} loading={loadingBP} />
           </div>
-
           <BalanceSheetYearFilter filterYear={filterYear} onChangeYear={setFilterYear} />
         </div>
 
