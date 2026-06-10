@@ -40,7 +40,8 @@ import { BalanceSheetCapitalStructureSection } from './balance-sheet/BalanceShee
 import { BalanceSheetInstitutionalContextSection } from './balance-sheet/BalanceSheetInstitutionalContextSection';
 import { BalanceSheetRiskDivergenceSection } from './balance-sheet/BalanceSheetRiskDivergenceSection';
 import { BalanceSheetTechnicalLayerSection } from './balance-sheet/BalanceSheetTechnicalLayerSection';
-import { mapIndicatorsToViewModels, mapInstitutionalContextToViewModel, mapRiskDivergenceToViewModel, mapTechnicalLayerToViewModel } from './balance-sheet/mappers';
+import { BalanceSheetAuditLayerSection } from './balance-sheet/BalanceSheetAuditLayerSection';
+import { mapIndicatorsToViewModels, mapInstitutionalContextToViewModel, mapRiskDivergenceToViewModel, mapTechnicalLayerToViewModel, mapAuditLayerToViewModel } from './balance-sheet/mappers';
 
 import { useLanguage } from '../../contexts/LanguageContext';
 
@@ -652,101 +653,13 @@ export function BalanceSheetPage({ clients, selectedClient, selectedYear }: any)
               />
 
               {/* --- 9. AUDIT LAYER (Camada Fiduciária e Rastreabilidade) --- */}
-              <details className="group bg-card border border-border rounded-[32px] open:shadow-2xl open:shadow-slate-200/40 transition-all duration-500 mb-12 overflow-hidden">
-                <summary className="flex items-center justify-between p-8 cursor-pointer list-none hover:bg-surface-container/30/50 transition-colors">
-                  <div className="flex items-center gap-3">
-                    <ShieldAlert size={20} className="text-muted-foreground group-open:text-primary transition-colors" />
-                    <h3 className="text-lg font-black text-primary group-open:text-primary">Restrições Fiduciárias Ativas</h3>
-                  </div>
-                  <ChevronDown size={20} className="text-muted-foreground group-open:rotate-180 transition-transform" />
-                </summary>
-                <div className="p-6 border-t border-border grid grid-cols-1 xl:grid-cols-2 gap-8">
-                  
-                  {/* Structural Risks Overrides */}
-                  {executiveReport?.patrimonialStructuralRestrictions && (
-                    <div className="flex flex-col">
-                      <h4 className="text-sm font-black text-primary mb-4 border-b border-border pb-2">Restrições Estruturais e Tetos de Classificação</h4>
-                      <div className="space-y-3 flex-1">
-                        {['Liquidity Fragility Override', 'Treasury Stress Override', 'Short-Term Debt Concentration Override', 'Capital Dependency Override', 'Earnings Quality Override'].map((overrideName, idx) => {
-                          const activeOverride = executiveReport.patrimonialStructuralRestrictions?.appliedOverrides?.find((o: any) => o.name === overrideName);
-                          const isActive = !!activeOverride;
-                          if (!isActive) return null;
-                          return (
-                            <div key={idx} className={cn("border rounded-xl p-3 flex items-center justify-between", isActive ? 'bg-critical-soft/50 border-rose-200' : 'bg-surface-container/30 border-border opacity-60')}>
-                              <span className="text-[9px] font-black uppercase tracking-widest text-muted-foreground">{ExecutiveLabelResolver.resolve(overrideName, t)}</span>
-                              <div className="flex items-center gap-2">
-                                {isActive && (
-                                  <span className="text-[8px] font-bold text-rose-500 border border-rose-200 bg-rose-100 px-2 py-0.5 rounded-full uppercase">
-                                    {ExecutiveLabelResolver.resolve(activeOverride.severity, t)}
-                                  </span>
-                                )}
-                                <span className={cn("text-[10px] font-black uppercase tracking-wider", isActive ? 'text-rose-600' : 'text-muted-foreground')}>{isActive ? 'Em vigor' : 'Inativo'}</span>
-                              </div>
-                            </div>
-                          );
-                        })}
-                      </div>
-                      
-                      <div className="mt-4 pt-4 border-t border-border flex items-center justify-between bg-surface-container/30 p-3 rounded-xl">
-                        <div className="text-center">
-                          <span className="text-[8px] font-black uppercase tracking-widest text-muted-foreground block mb-1">Score Matemático</span>
-                          <span className="text-sm font-black text-muted-foreground">{ExecutiveLabelResolver.resolve(executiveReport.patrimonialStructuralRestrictions.originalClassification, t)}</span>
-                        </div>
-                        <div className="text-muted-foreground">→</div>
-                        <div className="text-center">
-                          <span className="text-[8px] font-black uppercase tracking-widest text-rose-500 block mb-1">Teto Aplicado</span>
-                          <span className="text-sm font-black text-rose-600">{executiveReport.patrimonialStructuralRestrictions.classificationCeiling ? ExecutiveLabelResolver.resolve(executiveReport.patrimonialStructuralRestrictions.classificationCeiling, t) : 'NENHUM'}</span>
-                        </div>
-                      </div>
-                    </div>
-                  )}
-
-                  {/* Governance Consistency */}
-                  {patrimonialIntelligenceReport?.governanceConsistency && (
-                    <div className="flex flex-col">
-                      <div className="flex items-center justify-between border-b border-border pb-2 mb-4">
-                        <h4 className="text-sm font-black text-primary">Validação de Consistência Institucional</h4>
-                        <div className={cn("px-3 py-1 rounded-full border text-[9px] font-bold tracking-widest", 
-                          patrimonialIntelligenceReport.governanceConsistency.consistencyStatus === 'CONSISTENT' ? 'bg-success-soft text-emerald-600 border-emerald-200' :
-                          patrimonialIntelligenceReport.governanceConsistency.consistencyStatus === 'FAIL_CLOSED' ? 'bg-critical-soft text-rose-600 border-rose-200' :
-                          'bg-warning-soft text-amber-600 border-amber-200'
-                        )}>
-                          Status: {ExecutiveLabelResolver.resolve(patrimonialIntelligenceReport.governanceConsistency.consistencyStatus, t)}
-                        </div>
-                      </div>
-                      
-                      {(patrimonialIntelligenceReport.governanceConsistency.detectedIssues.length > 0 || 
-                        patrimonialIntelligenceReport.governanceConsistency.warnings.length > 0 || 
-                        patrimonialIntelligenceReport.governanceConsistency.forcedDisclosures.length > 0) ? (
-                        <div className="flex flex-col gap-2 overflow-y-auto max-h-[250px] pr-2">
-                          {patrimonialIntelligenceReport.governanceConsistency.detectedIssues.map((issue: string, idx: number) => (
-                            <div key={`issue-${idx}`} className="p-3 bg-critical-soft border-l-4 border-rose-500 rounded-r-lg">
-                              <span className="text-[9px] font-black uppercase text-rose-400 tracking-widest block mb-0.5">Falha Crítica</span>
-                              <span className="text-[10px] font-bold text-rose-900 leading-relaxed">{issue}</span>
-                            </div>
-                          ))}
-                          {patrimonialIntelligenceReport.governanceConsistency.warnings.map((warning: string, idx: number) => (
-                            <div key={`warn-${idx}`} className="p-3 bg-warning-soft border-l-4 border-amber-500 rounded-r-lg">
-                              <span className="text-[9px] font-black uppercase text-amber-500 tracking-widest block mb-0.5">Alerta</span>
-                              <span className="text-[10px] font-bold text-amber-900 leading-relaxed">{warning}</span>
-                            </div>
-                          ))}
-                          {patrimonialIntelligenceReport.governanceConsistency.forcedDisclosures.map((disc: string, idx: number) => (
-                            <div key={`disc-${idx}`} className="p-3 bg-primary border-l-4 border-primary rounded-r-lg">
-                              <span className="text-[9px] font-black uppercase text-primary tracking-widest block mb-0.5">Comunicação Prudencial Obrigatória</span>
-                              <span className="text-[10px] font-bold text-primary leading-relaxed">{disc}</span>
-                            </div>
-                          ))}
-                        </div>
-                      ) : (
-                        <div className="flex-1 flex items-center justify-center p-4 bg-surface-container/30 border border-border rounded-xl text-center">
-                          <p className="text-secondary">Nenhuma inconsistência fiduciária detectada.</p>
-                        </div>
-                      )}
-                    </div>
-                  )}
-                </div>
-              </details>
+              <BalanceSheetAuditLayerSection 
+                viewModel={mapAuditLayerToViewModel({
+                  structuralRestrictions: executiveReport?.patrimonialStructuralRestrictions,
+                  governanceConsistency: patrimonialIntelligenceReport?.governanceConsistency,
+                  resolveLabel: (key: string) => ExecutiveLabelResolver.resolve(key, t)
+                })}
+              />
             </div>
 
           </>
