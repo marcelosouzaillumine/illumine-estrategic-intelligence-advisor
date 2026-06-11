@@ -24,6 +24,7 @@ import { collection, query, where, getDocs, addDoc, updateDoc, deleteDoc, doc, s
 import { db, auth, createSecondaryUser } from '../lib/firebase';
 import { cn } from '../lib/utils';
 import { PermissaoModulo } from '../types/modules';
+import { ExecutiveTable, ExecutiveTableHeader, ExecutiveTableBody, ExecutiveTableRow, ExecutiveTableHead, ExecutiveTableCell } from './ui/executive-table';
 
 import { NAVIGATION_GROUPS } from '../app/navigation';
 
@@ -526,20 +527,20 @@ function ClientUserManagerInner({ clientId }: { clientId: string }) {
 
       <div className="card-premium p-0 overflow-hidden">
          <div className="overflow-x-auto">
-           <table className="w-full text-left">
-             <thead className="bg-bg-surface border-b border-border-main">
-               <tr>
-                 <th className="px-5 md:px-8 py-3 md:py-5 text-[10px] font-black text-text-dim uppercase tracking-widest">Identificação / Função</th>
-                 <th className="px-5 md:px-8 py-3 md:py-5 text-[10px] font-black text-text-dim uppercase tracking-widest">Nível Global</th>
-                 <th className="px-5 md:px-8 py-3 md:py-5 text-[10px] font-black text-text-dim uppercase tracking-widest">Módulos</th>
-                 <th className="px-5 md:px-8 py-3 md:py-5 text-[10px] font-black text-text-dim uppercase tracking-widest">Status</th>
-                 <th className="px-5 md:px-8 py-3 md:py-5 text-right text-[10px] font-black text-text-dim uppercase tracking-widest">Ações</th>
-               </tr>
-             </thead>
-             <tbody className="divide-y divide-border-soft">
+           <ExecutiveTable className="w-full text-left">
+             <ExecutiveTableHeader className="bg-bg-surface border-b border-border-main">
+               <ExecutiveTableRow>
+                 <ExecutiveTableHead className="px-5 md:px-8 py-3 md:py-5 text-[10px] font-black text-text-dim uppercase tracking-widest">Identificação / Função</ExecutiveTableHead>
+                 <ExecutiveTableHead className="px-5 md:px-8 py-3 md:py-5 text-[10px] font-black text-text-dim uppercase tracking-widest">Nível Global</ExecutiveTableHead>
+                 <ExecutiveTableHead className="px-5 md:px-8 py-3 md:py-5 text-[10px] font-black text-text-dim uppercase tracking-widest">Módulos</ExecutiveTableHead>
+                 <ExecutiveTableHead className="px-5 md:px-8 py-3 md:py-5 text-[10px] font-black text-text-dim uppercase tracking-widest">Status</ExecutiveTableHead>
+                 <ExecutiveTableHead className="px-5 md:px-8 py-3 md:py-5 text-right text-[10px] font-black text-text-dim uppercase tracking-widest">Ações</ExecutiveTableHead>
+               </ExecutiveTableRow>
+             </ExecutiveTableHeader>
+             <ExecutiveTableBody className="divide-y divide-border-soft">
                {users.length === 0 ? (
-                    <tr>
-                      <td colSpan={5} className="px-8 py-24 text-center">
+                    <ExecutiveTableRow>
+                      <ExecutiveTableCell colSpan={5} className="px-8 py-24 text-center">
                         <div className="flex flex-col items-center gap-4">
                           <div className="w-16 h-16 bg-bg-surface rounded-2xl flex items-center justify-center text-text-dim border border-border-main">
                             <ShieldAlert size={32} className="opacity-30" />
@@ -549,12 +550,12 @@ function ClientUserManagerInner({ clientId }: { clientId: string }) {
                             <p className="text-[11px] text-text-dim font-medium uppercase tracking-widest">Inicie o cadastro para conceder acesso externo a este cliente.</p>
                           </div>
                         </div>
-                      </td>
-                    </tr>
+                      </ExecutiveTableCell>
+                    </ExecutiveTableRow>
                   ) : (
                     users.map(u => (
-                      <tr key={u.id} className="hover:bg-bg-surface/30 transition-colors group">
-                        <td className="px-8 py-6">
+                      <ExecutiveTableRow key={u.id} className="hover:bg-bg-surface/30 transition-colors group">
+                        <ExecutiveTableCell className="px-8 py-6">
                            <div className="flex items-center gap-5">
                              <div className="w-10 h-10 rounded-xl bg-secondary/5 border border-secondary/10 flex items-center justify-center text-secondary font-black text-sm group-hover:bg-secondary group-hover:text-white transition-all">
                                {u.nome.substring(0, 1).toUpperCase()}
@@ -565,8 +566,8 @@ function ClientUserManagerInner({ clientId }: { clientId: string }) {
                                <p className="text-[10px] text-text-muted font-bold uppercase tracking-widest mt-1 opacity-60">{u.cargo}</p>
                              </div>
                            </div>
-                        </td>
-                        <td className="px-8 py-6">
+                        </ExecutiveTableCell>
+                        <ExecutiveTableCell className="px-8 py-6">
                            <span className={cn(
                              "px-3 py-1 rounded-lg text-[9px] font-black uppercase tracking-widest border shadow-inner-soft",
                              u.nivelAcesso === 'Admin' ? "bg-primary/10 text-primary border-primary/20" : 
@@ -574,8 +575,8 @@ function ClientUserManagerInner({ clientId }: { clientId: string }) {
                            )}>
                              {u.nivelAcesso}
                            </span>
-                        </td>
-                        <td className="px-8 py-6">
+                        </ExecutiveTableCell>
+                        <ExecutiveTableCell className="px-8 py-6">
                            <div className="flex flex-wrap gap-2 max-w-[240px]">
                              {(() => {
                                const safePerms = Array.isArray(u.permissoes) ? u.permissoes : [];
@@ -586,14 +587,14 @@ function ClientUserManagerInner({ clientId }: { clientId: string }) {
                                ));
                              })()}
                            </div>
-                        </td>
-                        <td className="px-8 py-6">
+                        </ExecutiveTableCell>
+                        <ExecutiveTableCell className="px-8 py-6">
                            <div className="flex items-center gap-2">
                              <div className={cn("w-2 h-2 rounded-full shadow-sm", u.status === 'Ativo' ? "bg-success-soft0" : "bg-critical-soft0")} />
                              <span className="text-[10px] font-black text-text-main uppercase tracking-widest">{u.status}</span>
                            </div>
-                        </td>
-                        <td className="px-8 py-6 text-right">
+                        </ExecutiveTableCell>
+                        <ExecutiveTableCell className="px-8 py-6 text-right">
                            <div className="flex items-center justify-end gap-3 opacity-0 group-hover:opacity-100 transition-opacity">
                               <button 
                                 onClick={() => {
@@ -612,12 +613,12 @@ function ClientUserManagerInner({ clientId }: { clientId: string }) {
                                  <Trash2 size={16} />
                               </button>
                            </div>
-                        </td>
-                      </tr>
+                        </ExecutiveTableCell>
+                      </ExecutiveTableRow>
                     ))
                   )}
-             </tbody>
-           </table>
+             </ExecutiveTableBody>
+           </ExecutiveTable>
          </div>
       </div>
 
