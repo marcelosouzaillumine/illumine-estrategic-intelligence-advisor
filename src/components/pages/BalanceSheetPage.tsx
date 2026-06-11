@@ -379,7 +379,7 @@ export function BalanceSheetPage({ clients, selectedClient, selectedYear }: any)
     runAnalysis();
   }, [bpSummary, ebitda, lucroLiquido, filterYear, dreDbData.length, dlpaDbData, cashFlowDbData, financialEntries, historyByYear, historicalFinancialSeries, clients, selectedClient]);
 
-  const hasData = financialEntries.length > 0;
+  const hasBalanceSheetData = financialEntries.length > 0 && !!bpSummary && (bpSummary.ativoTotal !== 0 || bpSummary.passivoTotal !== 0 || bpSummary.patrimonioLiquido !== 0);
   const resilienciaGlobal = executiveReport?.scores.composite || 0;
   const patrimonialIntelligenceReport = executiveReport?.patrimonialIntelligenceReport;
   const maturidade = executiveReport?.institutionalView?.maturity?.stageLabel || executiveReport?.context.stage || 'Pendente';
@@ -523,21 +523,23 @@ export function BalanceSheetPage({ clients, selectedClient, selectedYear }: any)
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-6 mb-10">
         <div className="flex flex-col md:flex-row md:items-center gap-4">
           <div className="flex items-center gap-4">
-            <StatusBadge status={executiveReport?.isSandbox || executiveReport?.isDemonstrative ? 'SANDBOX' : (executiveReport?.canonicalState?.status || (hasData ? 'Ativo' : 'UNAVAILABLE'))} />
-            <BalanceSheetDataSourceStatus hasRealData={hasData} loading={loadingBP} />
+            <StatusBadge status={executiveReport?.isSandbox || executiveReport?.isDemonstrative ? 'SANDBOX' : (executiveReport?.canonicalState?.status || (hasBalanceSheetData ? 'Ativo' : 'UNAVAILABLE'))} />
+            <BalanceSheetDataSourceStatus hasRealData={hasBalanceSheetData} loading={loadingBP} />
           </div>
           <BalanceSheetYearFilter filterYear={filterYear} onChangeYear={setFilterYear} />
         </div>
 
-        <BalanceSheetActionToolbar onLaunchData={() => setShowManualModal(true)} onImport={() => setShowImportModal(true)} onDelete={() => setShowDeleteConfirm(true)} />
+        {hasBalanceSheetData && (
+          <BalanceSheetActionToolbar onLaunchData={() => setShowManualModal(true)} onImport={() => setShowImportModal(true)} onDelete={() => setShowDeleteConfirm(true)} />
+        )}
       </div>
 
-      {!hasData ? (
+      {!hasBalanceSheetData ? (
         <div className="mb-12">
           <ExecutiveEmptyState
             title="Inteligência Patrimonial"
-            description="Ainda não existem dados suficientes para gerar análises patrimoniais para este exercício."
-            actionLabel="Lançar Dados"
+            description="Ainda não existem dados patrimoniais suficientes para gerar inteligência executiva deste exercício. O lançamento do Balanço Patrimonial permitirá calcular liquidez, solvência, estrutura de capital, capacidade de absorção de perdas e demais indicadores."
+            actionLabel="Lançar Dados do Balanço"
             onAction={() => setShowManualModal(true)}
           />
         </div>
