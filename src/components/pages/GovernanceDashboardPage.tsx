@@ -20,6 +20,7 @@ import { GovernanceInsightPanel } from '../GovernanceInsightPanel';
 import { orchestrateGovernanceNarrative } from '../../core/orchestration/executiveOrchestrationEngine';
 import { DashboardSkeleton } from '../ui/skeletons';
 import { ExecutiveEmptyState } from '../ui/executive-empty-state';
+import { ExecutiveMetricCard } from '../ui/executive-metric-card';
 import { ExecutiveSurface } from '../ui/executive-surface';
 import { ExecutiveDecisionMemo } from '../ui/executive-decision-memo';
 import { ExecutiveNarrative } from '../ui/executive-narrative';
@@ -506,30 +507,42 @@ export function GovernanceDashboardPage({
       </div>
 
       {/* Area Snapshots Grid */}
-      <div className="space-y-8">
-        <div className="flex justify-between items-end">
+      <div className="space-y-6 mt-10">
+        <div className="flex justify-between items-end mb-6">
            <div>
-              <h3 className="text-h2 font-medium text-foreground tracking-tight">{t('gov.health.title')}</h3>
-              <p className="text-muted-foreground text-body-sm font-medium uppercase tracking-widest mt-1">{t('gov.health.subtitle')}</p>
+              <h3 className="text-h3 font-medium text-foreground tracking-tight">{t('gov.health.title')}</h3>
+              <p className="text-muted-foreground text-[10px] font-medium uppercase tracking-widest mt-1">{t('gov.health.subtitle')}</p>
            </div>
-           <button className="btn-ghost flex items-center gap-2">
+           <button className="btn-ghost flex items-center gap-2 text-xs font-semibold text-primary">
               {t('gov.btn.view_all')} <ChevronRight size={14} />
            </button>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-2 2xl:grid-cols-4 gap-6">
            {areaSnapshots.map((area, idx) => (
-             <KpiCard
-               key={idx}
-               title={area.label}
-               value={formatValue(area.value, '')}
-               suffix={area.suffix || (area.isCur ? 'R$' : '')}
-               icon={area.icon}
-               status={area.status === 'positive' ? t('gov.status.positive') : t('gov.status.neutral')}
-               trend={area.status === 'positive' ? t('gov.trend.healthy') : t('gov.trend.attention')}
-               onClick={() => onNavigate(area.id)}
-               className="group"
-             />
+             <div key={idx} onClick={() => onNavigate(area.id)} className="cursor-pointer group h-full transition-all duration-300 hover:scale-[1.02]">
+               <ExecutiveMetricCard
+                 label={area.label}
+                 value={
+                   <div className="flex items-baseline gap-1">
+                     {area.isCur && <span className="text-sm font-normal text-muted-foreground mr-1">R$</span>}
+                     {formatValue(area.value, '')}
+                     {area.suffix && <span className="text-sm font-normal text-muted-foreground ml-1">{area.suffix}</span>}
+                   </div>
+                 }
+                 statusBadge={<span>{area.status === 'positive' ? t('gov.status.positive') : t('gov.status.neutral')}</span>}
+                 tone={area.status === 'positive' ? 'success' : 'warning'}
+                 description={
+                   <div className="flex items-center gap-1.5 mt-1">
+                     <span className={cn("flex items-center gap-1 font-medium", area.status === 'positive' ? "text-emerald-600" : "text-amber-600")}>
+                        {area.status === 'positive' ? <TrendingUp size={14} /> : <TrendingDown size={14} />}
+                        {area.status === 'positive' ? t('gov.trend.healthy') : t('gov.trend.attention')}
+                     </span>
+                   </div>
+                 }
+                 className="border border-border shadow-sm group-hover:border-primary/40 group-hover:shadow-md transition-all"
+               />
+             </div>
            ))}
         </div>
       </div>
