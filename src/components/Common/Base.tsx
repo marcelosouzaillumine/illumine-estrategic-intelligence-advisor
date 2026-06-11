@@ -89,6 +89,8 @@ export function Semaphore({ status }: { status: string }) {
 }
 
 export function StatusBadge({ status, label, className }: { status: string; label?: string; className?: string }) {
+  const { t } = useLanguage();
+
   const classMap: Record<string, string> = {
     'Verde': 'text-success border-success/20 bg-success-soft font-semibold',
     'Amarelo': 'text-warning border-warning/20 bg-warning-soft font-semibold',
@@ -98,6 +100,15 @@ export function StatusBadge({ status, label, className }: { status: string; labe
     'Ativo': 'text-success border-success/20 bg-success-soft font-semibold',
     'Inativo': 'text-critical border-critical/20 bg-critical-soft font-semibold',
     'Em Implantação': 'text-warning border-warning/20 bg-warning-soft font-semibold',
+    'UNAVAILABLE': 'text-foreground/60 border-border bg-surface-container font-semibold',
+    'SANDBOX': 'text-blue-500 border-blue-500/20 bg-blue-50 font-semibold',
+  };
+
+  const getDisplayLabel = () => {
+    if (label) return label;
+    if (status === 'UNAVAILABLE') return t('common.unavailable', 'Indisponível');
+    if (status === 'SANDBOX') return 'SANDBOX';
+    return status;
   };
   
   return (
@@ -106,7 +117,7 @@ export function StatusBadge({ status, label, className }: { status: string; labe
       classMap[status] || 'text-secondary border-border bg-surface-container',
       className
     )}>
-      {label || status}
+      {getDisplayLabel()}
     </span>
   );
 }
