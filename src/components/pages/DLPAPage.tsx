@@ -26,11 +26,12 @@ import {
   ExecutiveComposedChart, ExecutiveBar, ExecutiveLine, ExecutiveChartGrid, ExecutiveChartXAxis, ExecutiveChartYAxis, ExecutiveChartTooltip 
 } from '../ui/executive-chart';
 import { ExecutiveChartSemanticPalette } from '../../core/theme/ExecutiveChartSemanticPalette';
-import { HistoricalInsightEngine, HistoricalSeries } from '../../core/runtime/executive-consolidation/HistoricalInsightEngine';
+import { HistoricalInsightEngine } from '../../services/FiduciaryRuntimeAdapter';
+import type { HistoricalSeries } from '../../services/FiduciaryRuntimeAdapter';
 import { ExecutiveEmptyState } from '../ui/executive-empty-state';
 import { ExecutiveSurface } from '../ui/executive-surface';
-import { ExecutiveDecisionSummaryCard } from '../ui/executive-decision-summary-card';
-import { ExecutiveDecisionSynthesisEngine } from '../../core/runtime/executive-consolidation/ExecutiveDecisionSynthesisEngine';
+import { ExecutiveStrategicSemanticCards } from '../ui/executive-strategic-semantic-cards';
+import { ExecutiveDecisionSynthesisEngine } from '../../services/FiduciaryRuntimeAdapter';
 import { ExecutiveNarrative } from '../ui/executive-narrative';
 import { ExecutiveMetricCard } from '../ui/executive-metric-card';
 import { ExecutiveTechnicalMetricCard } from '../ui/executive-technical-metric-card';
@@ -519,7 +520,9 @@ export function DLPAPage({ clients, selectedClient, selectedYear }: any) {
 
   const dlpaPayload = useMemo(() => {
     if (!executiveLayer) return null;
-    return ExecutiveDecisionSynthesisEngine.generatePayload({
+    return ExecutiveDecisionSynthesisEngine.generateStrategicDiagnosisPayload({
+      analysisYear: selectedYear,
+      generatedAt: new Date().toISOString(),
       moduleContext: 'DLPA',
       activeFiduciaryRestrictions: [],
       fiduciaryClassification: 'HEALTHY',
@@ -533,7 +536,7 @@ export function DLPAPage({ clients, selectedClient, selectedYear }: any) {
       },
       contextualAlerts: []
     });
-  }, [executiveLayer, dlpaMetrics]);
+  }, [executiveLayer, dlpaMetrics, selectedYear]);
 
 
   const capitalSocialValue = dlpaMetrics?.capitalSocial ?? 0;
@@ -899,7 +902,9 @@ export function DLPAPage({ clients, selectedClient, selectedYear }: any) {
 
                 <div className="col-span-1 xl:col-span-8 h-full">
                   {dlpaPayload && (
-                    <ExecutiveDecisionSummaryCard payload={dlpaPayload} moduleName="Distribuição de Valor (DLPA)" className="h-full" />
+                    <div className="mb-12">
+                      <ExecutiveStrategicSemanticCards payload={dlpaPayload} selectedYear={selectedYear} />
+                    </div>
                   )}
                 </div>
               </div>
@@ -1212,18 +1217,18 @@ export function DLPAPage({ clients, selectedClient, selectedYear }: any) {
               </div>
 
               {/* --- 4. TABELA DETALHADA --- */}
-              <div className="bg-card rounded-[40px] shadow-sm border border-border overflow-hidden">
-                <div className="px-10 py-8 border-b border-border flex items-center justify-between bg-surface-container/30/50">
+              <ExecutiveSurface padding="none" radius="xl" className="overflow-hidden border-border">
+                <div className="p-6 md:px-8 border-b border-border flex items-center justify-between bg-surface-container/30">
                   <div className="flex items-center gap-4">
-                    <div className="w-12 h-12 rounded-xl bg-blue-50 flex items-center justify-center border border-blue-100">
-                      <FileText size={20} className="text-blue-500" />
+                    <div className="w-10 h-10 rounded-lg bg-surface-container flex items-center justify-center border border-border">
+                      <FileText size={18} className="text-foreground" />
                     </div>
                     <div>
-                      <h4 className="text-lg font-black text-primary uppercase tracking-widest">Detalhamento DLPA — {filterYear}</h4>
-                      <p className="text-secondary">Demonstração Contábil Importada</p>
+                      <h4 className="text-base font-bold text-foreground uppercase tracking-widest">Detalhamento DLPA — {filterYear}</h4>
+                      <p className="text-muted-foreground text-xs mt-1">Demonstração Contábil Importada</p>
                     </div>
                   </div>
-                  <span className="text-[10px] font-black uppercase px-4 py-1.5 rounded-full bg-blue-50 text-blue-600 border border-blue-100">
+                  <span className="text-[10px] font-bold uppercase px-3 py-1 rounded-full bg-surface-container text-foreground border border-border">
                     {dbDataDLPA.length} lançamentos
                   </span>
                 </div>
@@ -1231,9 +1236,9 @@ export function DLPAPage({ clients, selectedClient, selectedYear }: any) {
                   <ExecutiveTable className="w-full text-sm">
                     <ExecutiveTableHeader>
                       <ExecutiveTableRow className="border-b border-border">
-                        <ExecutiveTableHead className="text-left py-5 px-8 text-[10px] font-black text-muted-foreground uppercase tracking-widest">Descrição da Conta</ExecutiveTableHead>
-                        <ExecutiveTableHead className="text-right py-5 px-8 text-[10px] font-black text-muted-foreground uppercase tracking-widest">Valor (R$)</ExecutiveTableHead>
-                        <ExecutiveTableHead className="text-right py-5 px-8 text-[10px] font-black text-muted-foreground uppercase tracking-widest">Natureza</ExecutiveTableHead>
+                        <ExecutiveTableHead className="text-left py-5 px-8 text-xs font-bold text-muted-foreground uppercase tracking-widest">Descrição da Conta</ExecutiveTableHead>
+                        <ExecutiveTableHead className="text-right py-5 px-8 text-xs font-bold text-muted-foreground uppercase tracking-widest">Valor (R$)</ExecutiveTableHead>
+                        <ExecutiveTableHead className="text-right py-5 px-8 text-xs font-bold text-muted-foreground uppercase tracking-widest">Natureza</ExecutiveTableHead>
                       </ExecutiveTableRow>
                     </ExecutiveTableHeader>
                     <ExecutiveTableBody>
@@ -1255,8 +1260,10 @@ export function DLPAPage({ clients, selectedClient, selectedYear }: any) {
                               {formatCurrency(row.value)}
                             </ExecutiveTableCell>
                             <ExecutiveTableCell className="py-4 px-8 text-right">
-                              <span className={cn('text-[9px] font-black uppercase px-3 py-1 rounded-full border inline-block w-[72px] text-center',
-                                row.nature === 'negative' ? 'bg-critical-soft text-rose-600 border-rose-200' : row.nature === 'positive' ? 'bg-success-soft text-emerald-600 border-emerald-200' : 'bg-surface-container/30 text-muted-foreground border-border'
+                              <span className={cn('text-[10px] font-bold uppercase px-3 py-1 rounded-full border inline-block w-[72px] text-center',
+                                row.nature === 'negative' ? 'bg-red-500/10 text-red-600 border-red-500/20' : 
+                                row.nature === 'positive' ? 'bg-emerald-500/10 text-emerald-600 border-emerald-500/20' : 
+                                'bg-surface-container/30 text-muted-foreground border-border'
                               )}>
                                 {row.nature === 'negative' ? 'Redução' : row.nature === 'positive' ? 'Adição' : 'Neutro'}
                               </span>
@@ -1265,16 +1272,16 @@ export function DLPAPage({ clients, selectedClient, selectedYear }: any) {
                         );
                       })}
                       {dlpaMetrics && (
-                        <ExecutiveTableRow className="bg-foreground text-white hover:bg-foreground/90">
-                          <ExecutiveTableCell className="py-6 px-8 text-sm font-black uppercase tracking-widest">
+                        <ExecutiveTableRow className="bg-surface-high/30 hover:bg-surface-high/50 transition-colors">
+                          <ExecutiveTableCell className="py-6 px-8 text-sm font-bold uppercase tracking-widest">
                             {lucrosPrejuizosFinal < 0 ? "Prejuízo Acumulado" : "Saldo de Lucros Acumulados"}
                           </ExecutiveTableCell>
-                          <ExecutiveTableCell className={cn('py-6 px-8 text-right font-mono font-black text-lg',
-                            lucrosPrejuizosFinal >= 0 ? 'text-emerald-400' : 'text-rose-400')}>
+                          <ExecutiveTableCell className={cn('py-6 px-8 text-right font-mono font-bold text-lg',
+                            lucrosPrejuizosFinal >= 0 ? 'text-emerald-500' : 'text-rose-500')}>
                             {formatCurrency(lucrosPrejuizosFinal)}
                           </ExecutiveTableCell>
                           <ExecutiveTableCell className="py-6 px-8 text-right">
-                            <span className="text-[10px] font-black uppercase px-3 py-1.5 rounded-full bg-card/10 text-white border border-white/20">
+                            <span className="text-[10px] font-bold uppercase px-3 py-1.5 rounded-full bg-surface-container text-muted-foreground border border-border">
                               Calculado
                             </span>
                           </ExecutiveTableCell>
@@ -1283,7 +1290,7 @@ export function DLPAPage({ clients, selectedClient, selectedYear }: any) {
                     </ExecutiveTableBody>
                   </ExecutiveTable>
                 </div>
-              </div>
+              </ExecutiveSurface>
             </>
           )}
         </div>
