@@ -654,8 +654,8 @@ export function DLPAPage({ clients, selectedClient, selectedYear }: any) {
   // ── Action Bar ─────────────────────────────────────────────────────────────
   const actionButtons = (
     <div className="flex items-center gap-3">
-      <div className="flex bg-card p- border border-border/50 shadow-sm rounded-md border border-border items-center mr-2 shadow-sm">
-        <Calendar size={12} className="ml-2 text-secondary" />
+      <div className="flex bg-surface border border-border/50 shadow-sm rounded-md items-center mr-2">
+        <Calendar size={12} className="ml-2 text-muted-foreground" />
         <select
           onChange={e => setFilterYear(Number(e.target.value))}
           value={filterYear}
@@ -809,10 +809,10 @@ export function DLPAPage({ clients, selectedClient, selectedYear }: any) {
       )}
 
       {/* Control Bar */}
-      <div className="flex items-center justify-between gap-4 flex-wrap bg-surface-container/60 p-4 rounded-md border border-border backdrop-blur-sm shadow-sm -mt-6 mb-10">
+      <ExecutiveSurface padding="md" radius="md" className="flex items-center justify-between gap-4 flex-wrap -mt-6 mb-10">
         <div className="flex items-center gap-3">
-          {loading && <Loader2 size={14} className="animate-spin text-secondary" />}
-          <div className="bg-card border border-border/50 shadow-sm rounded-md px-4 py-2 flex items-center gap-3 shadow-sm">
+          {loading && <Loader2 size={14} className="animate-spin text-muted-foreground" />}
+          <div className="bg-surface border border-border/50 shadow-sm rounded-md px-4 py-2 flex items-center gap-3">
             <Database size={14} className={hasData ? 'text-success' : 'text-muted-foreground/30'} />
             <span className={cn('text-[10px] font-medium uppercase tracking-[0.2em]', hasData ? 'text-success' : 'text-muted-foreground/40')}>
               {hasData
@@ -822,7 +822,7 @@ export function DLPAPage({ clients, selectedClient, selectedYear }: any) {
           </div>
         </div>
         {actionButtons}
-      </div>
+      </ExecutiveSurface>
 
       {!loading && !hasData && (
         <div className="flex flex-col gap-6 w-full">
