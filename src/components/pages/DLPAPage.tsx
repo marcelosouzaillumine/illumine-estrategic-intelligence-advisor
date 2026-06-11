@@ -28,6 +28,7 @@ import { ExecutiveEmptyState } from '../ui/executive-empty-state';
 import { ExecutiveSurface } from '../ui/executive-surface';
 import { ExecutiveDecisionMemo } from '../ui/executive-decision-memo';
 import { ExecutiveNarrative } from '../ui/executive-narrative';
+import { ExecutiveMetricCard } from '../ui/executive-metric-card';
 import { cn, formatCurrency, formatValue } from '../../lib/utils';
 import { PageHeader, KpiValue } from '../Common';
 import { useAnnualFinancialData, useAllFinancialData } from '../../hooks/useFinancialData';
@@ -964,36 +965,27 @@ export function DLPAPage({ clients, selectedClient, selectedYear }: any) {
                   {(() => {
                     const val = executiveLayer.capitalPreservationStatus?.value ?? 0;
                     const classification = executiveLayer.capitalPreservationStatus?.classification || 'Capital Erodido';
-                    const badgeColor = val >= 0.90 
-                      ? 'bg-success-soft text-emerald-700 border-emerald-200/80' 
+                    const tone = val >= 0.90 
+                      ? 'success' 
                       : val >= 0.75
-                        ? 'bg-blue-50 text-blue-700 border-blue-200/80'
+                        ? 'info'
                         : val >= 0.50 
-                          ? 'bg-warning-soft text-amber-700 border-amber-200/80' 
-                          : val >= 0.25
-                            ? 'bg-critical-soft/50 text-rose-600 border-rose-200/50'
-                            : 'bg-critical-soft text-rose-700 border-rose-200/80';
+                          ? 'warning' 
+                          : 'critical';
                     
                     return (
-                      <div className="bg-surface-container/30/50 rounded-3xl p-6 border border-border flex flex-col justify-between hover:bg-surface-container/30 hover:shadow-md transition-all duration-300 min-h-[220px]">
-                        <div className="flex-1 flex flex-col">
-                          <div className="flex flex-col items-start gap-3 mb-4">
-                            <span className="text-[10px] font-black uppercase tracking-wider text-muted-foreground leading-tight">Capital Remanescente</span>
-                            <span className={cn("px-3 py-1.5 rounded-full text-[9px] font-black uppercase tracking-wider border text-left max-w-full", badgeColor)}>
-                              {classification}
-                            </span>
+                      <ExecutiveMetricCard
+                        label="Capital Remanescente"
+                        value={`${(val * 100).toFixed(1).replace('.', ',')}%`}
+                        statusBadge={<span>{classification}</span>}
+                        tone={tone}
+                        description={
+                          <div className="flex flex-col gap-2">
+                            <span>{executiveLayer.capitalPreservationStatus?.narrative}</span>
+                            <span className="opacity-75">{executiveLayer.capitalPreservationStatus?.rationale}</span>
                           </div>
-                          <div className="text-3xl font-black text-primary tracking-tight">
-                            {(val * 100).toFixed(1).replace('.', ',')}%
-                          </div>
-                          <p className="text-secondary">
-                            {executiveLayer.capitalPreservationStatus?.narrative}
-                          </p>
-                        </div>
-                        <p className="text-secondary">
-                          {executiveLayer.capitalPreservationStatus?.rationale}
-                        </p>
-                      </div>
+                        }
+                      />
                     );
                   })()}
 
@@ -1002,32 +994,25 @@ export function DLPAPage({ clients, selectedClient, selectedYear }: any) {
                     const val = executiveLayer.capitalErosionRisk?.value ?? 0;
                     const consumedAmount = executiveLayer.capitalErosionRisk?.capitalConsumedAmount ?? 0;
                     const classification = executiveLayer.capitalErosionRisk?.classification || 'Baixo';
-                    const badgeColor = val >= 0.50 
-                      ? 'bg-critical-soft text-rose-700 border-rose-200/80' 
+                    const tone = val >= 0.50 
+                      ? 'critical' 
                       : val >= 0.25 
-                        ? 'bg-warning-soft text-amber-700 border-amber-200/80' 
-                        : 'bg-success-soft text-emerald-700 border-emerald-200/80';
+                        ? 'warning' 
+                        : 'success';
                     
                     return (
-                      <div className="bg-surface-container/30/50 rounded-3xl p-6 border border-border flex flex-col justify-between hover:bg-surface-container/30 hover:shadow-md transition-all duration-300 min-h-[220px]">
-                        <div className="flex-1 flex flex-col">
-                          <div className="flex flex-col items-start gap-3 mb-4">
-                            <span className="text-[10px] font-black uppercase tracking-wider text-muted-foreground leading-tight">Capital Consumido</span>
-                            <span className={cn("px-3 py-1.5 rounded-full text-[9px] font-black uppercase tracking-wider border text-left max-w-full", badgeColor)}>
-                              Risco: {classification}
-                            </span>
+                      <ExecutiveMetricCard
+                        label="Capital Consumido"
+                        value={formatCurrency(consumedAmount)}
+                        statusBadge={<span>Risco: {classification}</span>}
+                        tone={tone}
+                        description={
+                          <div className="flex flex-col gap-2">
+                            <span>{executiveLayer.capitalErosionRisk?.narrative}</span>
+                            <span className="opacity-75">{executiveLayer.capitalErosionRisk?.rationale}</span>
                           </div>
-                          <div className="text-3xl font-black text-primary tracking-tight">
-                            {formatCurrency(consumedAmount)}
-                          </div>
-                          <p className="text-secondary">
-                            {executiveLayer.capitalErosionRisk?.narrative}
-                          </p>
-                        </div>
-                        <p className="text-secondary">
-                          {executiveLayer.capitalErosionRisk?.rationale}
-                        </p>
-                      </div>
+                        }
+                      />
                     );
                   })()}
 
@@ -1036,68 +1021,51 @@ export function DLPAPage({ clients, selectedClient, selectedYear }: any) {
                     const val = executiveLayer.capitalRecoveryRequirement?.value ?? 0;
                     const requiredAmount = executiveLayer.capitalRecoveryRequirement?.capitalRecoveryRequired ?? 0;
                     const classification = executiveLayer.capitalRecoveryRequirement?.classification || 'Patrimônio Íntegro';
-                    const badgeColor = val > 0 
-                      ? 'bg-critical-soft text-rose-700 border-rose-200/80' 
-                      : 'bg-success-soft text-emerald-700 border-emerald-200/80';
+                    const tone = val > 0 
+                      ? 'critical' 
+                      : 'success';
                     
                     return (
-                      <div className="bg-surface-container/30/50 rounded-3xl p-6 border border-border flex flex-col justify-between hover:bg-surface-container/30 hover:shadow-md transition-all duration-300 min-h-[220px]">
-                        <div className="flex-1 flex flex-col">
-                          <div className="flex flex-col items-start gap-3 mb-4">
-                            <span className="text-[10px] font-black uppercase tracking-wider text-muted-foreground leading-tight">Recomposição Requerida</span>
-                            <span className={cn("px-3 py-1.5 rounded-full text-[9px] font-black uppercase tracking-wider border text-left max-w-full", badgeColor)}>
-                              {classification}
-                            </span>
+                      <ExecutiveMetricCard
+                        label="Recomposição Requerida"
+                        value={formatCurrency(requiredAmount)}
+                        statusBadge={<span>{classification}</span>}
+                        tone={tone}
+                        description={
+                          <div className="flex flex-col gap-2">
+                            <span>{executiveLayer.capitalRecoveryRequirement?.narrative}</span>
+                            <span className="opacity-75">{executiveLayer.capitalRecoveryRequirement?.rationale}</span>
                           </div>
-                          <div className="text-3xl font-black text-primary tracking-tight">
-                            {formatCurrency(requiredAmount)}
-                          </div>
-                          <p className="text-secondary">
-                            {executiveLayer.capitalRecoveryRequirement?.narrative}
-                          </p>
-                        </div>
-                        <p className="text-secondary">
-                          {executiveLayer.capitalRecoveryRequirement?.rationale}
-                        </p>
-                      </div>
+                        }
+                      />
                     );
                   })()}
 
                   {/* Card 4: Horizonte de Recuperação Patrimonial */}
                   {(() => {
                     const formatted = executiveLayer.patrimonialRecoveryHorizon?.formatted || 'Não Estimável';
-                    const value = executiveLayer.patrimonialRecoveryHorizon?.value;
                     const classification = executiveLayer.capitalRecoverability?.classification || 'Não Estimável';
-                    const badgeColor = classification === 'Alta'
-                      ? 'bg-success-soft text-emerald-700 border-emerald-200/80'
+                    const tone = classification === 'Alta'
+                      ? 'success'
                       : classification === 'Moderada'
-                        ? 'bg-blue-50 text-blue-700 border-blue-200/80'
+                        ? 'info'
                         : classification === 'Baixa'
-                          ? 'bg-warning-soft text-amber-700 border-amber-200/80'
-                          : 'bg-critical-soft text-rose-700 border-rose-200/80';
+                          ? 'warning'
+                          : 'critical';
                     
                     return (
-                      <div className="bg-surface-container/30/50 rounded-3xl p-6 border border-border flex flex-col justify-between hover:bg-surface-container/30 hover:shadow-md transition-all duration-300 min-h-[220px]">
-                        <div className="flex-1 flex flex-col">
-                          <div className="flex flex-col items-start gap-3 mb-4">
-                            <span className="text-[10px] font-black uppercase tracking-wider text-muted-foreground leading-tight">
-                              Horizonte de Recuperação
-                            </span>
-                            <span className={cn("px-3 py-1.5 rounded-full text-[9px] font-black uppercase tracking-wider border text-left max-w-full", badgeColor)}>
-                              {classification}
-                            </span>
+                      <ExecutiveMetricCard
+                        label="Horizonte de Recuperação"
+                        value={formatted}
+                        statusBadge={<span>{classification}</span>}
+                        tone={tone}
+                        description={
+                          <div className="flex flex-col gap-2">
+                            <span>{executiveLayer.capitalRecoverability?.narrative}</span>
+                            <span className="opacity-75">{executiveLayer.patrimonialRecoveryHorizon?.rationale}</span>
                           </div>
-                          <div className="text-3xl font-black text-foreground tracking-tight mb-2">
-                            {formatted}
-                          </div>
-                          <p className="text-secondary">
-                            {executiveLayer.capitalRecoverability?.narrative}
-                          </p>
-                        </div>
-                        <p className="text-secondary">
-                          {executiveLayer.patrimonialRecoveryHorizon?.rationale}
-                        </p>
-                      </div>
+                        }
+                      />
                     );
                   })()}
                 </div>
