@@ -560,7 +560,12 @@ export function BalanceSheetPage({ clients, selectedClient, selectedYear }: any)
               )}
 
               {/* --- 2. CAPITAL PRESERVATION --- */}
-              <div className="bg-card rounded-[40px] p-10 shadow-xl shadow-slate-200/30 hover:shadow-2xl hover:shadow-slate-200/50 transition-all duration-500 border border-border relative overflow-hidden">
+              <ExecutiveSurface 
+                variant="default" 
+                elevation="lg" 
+                padding="none" 
+                className="rounded-[40px] p-10 hover:shadow-2xl hover:shadow-slate-200/50 transition-all duration-500 relative overflow-hidden"
+              >
                 <h3 className="text-2xl font-black text-primary mb-6">Preservação de Capital</h3>
                 <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-3 2xl:grid-cols-5 gap-6">
                   {['Loss Absorption Capacity', 'Equity Buffer', 'Survival Index', 'Capital Erosion Velocity (CEV)', 'Equity Quality Index'].map((metric, idx) => {
@@ -598,7 +603,7 @@ export function BalanceSheetPage({ clients, selectedClient, selectedYear }: any)
                     );
                   })}
                 </div>
-              </div>
+              </ExecutiveSurface>
 
               {/* --- 3. LIQUIDEZ E SOLVÊNCIA --- */}
               <BalanceSheetLiquiditySection 
@@ -704,7 +709,12 @@ export function BalanceSheetPage({ clients, selectedClient, selectedYear }: any)
                 />
 
                 {/* Heatmap: Concentração */}
-                <div className="bg-card p-8 rounded-[40px] border border-border shadow-sm flex flex-col">
+                <ExecutiveSurface 
+                  variant="default" 
+                  elevation="sm" 
+                  padding="lg" 
+                  className="rounded-[40px] border border-border flex flex-col"
+                >
                   <h3 className="text-lg font-black text-primary mb-1">Mapa de Calor: Concentração</h3>
                   <p className="text-secondary">{t('bp.working_capital.subtitle')}</p>
                   
@@ -737,7 +747,7 @@ export function BalanceSheetPage({ clients, selectedClient, selectedYear }: any)
                       </div>
                     </div>
                   </div>
-                </div>
+                </ExecutiveSurface>
 
                 {/* Composição do Ativo e Passivo */}
                 <BalanceSheetCompositionChartsSection 
@@ -827,7 +837,12 @@ export function BalanceSheetPage({ clients, selectedClient, selectedYear }: any)
       {/* Delete Confirmation */}
       {showDeleteConfirm && typeof document !== 'undefined' && createPortal(
         <div className="fixed inset-0 bg-foreground/60 backdrop-blur-sm z-[100] flex items-center justify-center p-4">
-          <div className="bg-card rounded-[32px] p-8 w-full max-w-md min-w-[300px] md:min-w-[400px] shadow-2xl shrink-0">
+          <ExecutiveSurface 
+            variant="default" 
+            elevation="lg" 
+            padding="none" 
+            className="rounded-[32px] p-8 w-full max-w-md min-w-[300px] md:min-w-[400px] shrink-0"
+          >
             <h3 className="text-xl font-black text-primary mb-2">Excluir Dados?</h3>
             <p className="text-sm text-secondary mb-8 font-medium">
               Esta ação removerá todos os registros do Balanço Patrimonial para o ano <strong>{filterYear}</strong> deste cliente. Esta ação não pode ser desfeita.
@@ -846,7 +861,7 @@ export function BalanceSheetPage({ clients, selectedClient, selectedYear }: any)
                 {deleting ? 'Excluindo...' : 'Sim, Excluir'}
               </button>
             </div>
-          </div>
+          </ExecutiveSurface>
         </div>,
         document.body
       )}
