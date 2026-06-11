@@ -18,7 +18,7 @@ export function ExecutiveActionCard({
   return (
     <ExecutiveSurface
       padding="none"
-      className={cn("flex flex-col items-start justify-start p-6 rounded-[24px] shadow-sm border border-border/50", className)}
+      className={cn("flex flex-col items-start justify-start p-6 rounded-[24px] shadow-sm border border-border/50 h-full", className)}
     >
       <div className="w-full flex items-center justify-between mb-4">
         <h5 className="text-[10px] font-semibold uppercase tracking-[0.08em] text-foreground/60">{category}</h5>

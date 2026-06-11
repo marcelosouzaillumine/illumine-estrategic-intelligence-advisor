@@ -1,6 +1,7 @@
 import React from 'react';
 import { ExecutiveActionCard } from '../../ui/executive-action-card';
-import { ExecutiveActionSummary } from '../../ui/executive-action-summary';
+import { ExecutiveDecisionSummary } from '../../ui/executive-decision-summary';
+import { ExecutiveActionGrid } from '../../ui/executive-action-grid';
 
 export type ExecutivePlanAction = {
   prazo: string;
@@ -52,14 +53,14 @@ export const BalanceSheetExecutivePlan = ({
       <div className="w-full flex flex-col items-start justify-start gap-8">
         {executivePlan && executivePlan.includes('|') ? (
           <>
-            <ExecutiveActionSummary 
+            <ExecutiveDecisionSummary 
               severityLabel={getSeverityLabel(executiveInterpretation?.strategicSeverity)}
               severityTone={getSeverityTone(executiveInterpretation?.strategicSeverity)}
-              directive={dominantRiskFamily || 'Diretriz Estratégica'}
+              theme={dominantRiskFamily || 'Diretriz Estratégica'}
               reason={executiveInterpretation?.strategicSeverityReason || 'Análise Executiva'}
             />
             
-            <div className="w-full grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            <ExecutiveActionGrid>
               {[
                 { title: 'Financeiro', plan: executiveInterpretation?.planFinanceiro },
                 { title: 'Operacional', plan: executiveInterpretation?.planOperacional },
@@ -75,7 +76,7 @@ export const BalanceSheetExecutivePlan = ({
                   />
                 );
               })}
-            </div>
+            </ExecutiveActionGrid>
           </>
         ) : (
           <p className="text-[16px] font-normal leading-[1.75] text-foreground/80 max-w-[78ch]">
