@@ -169,30 +169,7 @@ function getMaturityLabel(maturity: string) {
 }
 
 
-// ── Score Ring ────────────────────────────────────────────────────────────────
-function ScoreRing({ value, label, color }: { value: number; label: string; color: string }) {
-  const r = 40, c = 2 * Math.PI * r;
-  const offset = c - (value / 100) * c;
-  const colorMap: Record<string, string> = {
-    emerald: '#10b981', blue: '#3b82f6', amber: '#f59e0b', rose: '#f43f5e', slate: '#94a3b8'
-  };
-  const stroke = colorMap[color] || colorMap.slate;
-  return (
-    <div className="flex flex-col items-center gap-2">
-      <svg width="96" height="96" viewBox="0 0 96 96">
-        <circle cx="48" cy="48" r={r} fill="none" stroke="var(--surface-container)" strokeWidth="8" />
-        <circle cx="48" cy="48" r={r} fill="none" stroke={stroke} strokeWidth="8"
-          strokeDasharray={`${c} ${c}`} strokeDashoffset={offset}
-          strokeLinecap="round" transform="rotate(-90 48 48)" style={{ transition: 'stroke-dashoffset 0.8s ease' }} />
-        <text x="48" y="48" textAnchor="middle" dominantBaseline="central"
-          style={{ fontSize: '24px', fontWeight: 800, fill: stroke }}>
-          {Math.round(value)}
-        </text>
-      </svg>
-      <p className="text-secondary">{label}</p>
-    </div>
-  );
-}
+
 
 // ── Main Component ────────────────────────────────────────────────────────────
 export function DLPAPage({ clients, selectedClient, selectedYear }: any) {
