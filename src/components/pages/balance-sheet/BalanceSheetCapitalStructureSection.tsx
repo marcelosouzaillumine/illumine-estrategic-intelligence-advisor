@@ -11,7 +11,7 @@ export const BalanceSheetCapitalStructureSection = ({ indicators }: BalanceSheet
       <h3 className="text-2xl font-black text-primary mb-6">Estrutura de Capital</h3>
       <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-2 2xl:grid-cols-4 gap-6">
         {indicators.map((ind, idx) => (
-          <div key={idx} className="bg-surface-container/30 border border-border rounded-2xl p-6 shadow-sm flex flex-col">
+          <div key={idx} className="bg-surface-container/30 border border-border rounded-2xl p-6 shadow-sm flex flex-col items-start justify-start w-full">
             <div>
               <h4 className="text-[10px] font-semibold uppercase tracking-widest text-foreground mb-3 opacity-90">{ind.label}</h4>
               <div className="text-2xl font-bold text-foreground block">

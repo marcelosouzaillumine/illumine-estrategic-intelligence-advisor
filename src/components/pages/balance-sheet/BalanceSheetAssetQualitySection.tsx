@@ -11,7 +11,7 @@ export const BalanceSheetAssetQualitySection = ({ indicators }: BalanceSheetAsse
       <h3 className="text-2xl font-black text-primary mb-6">Qualidade do Ativo</h3>
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         {indicators.map((ind, idx) => (
-          <div key={idx} className="bg-surface-container/30 border border-border rounded-2xl p-6 shadow-sm flex flex-col">
+          <div key={idx} className="bg-surface-container/30 border border-border rounded-2xl p-6 shadow-sm flex flex-col items-start justify-start w-full">
             <div>
               <h4 className="text-[11px] font-semibold uppercase tracking-widest text-foreground mb-3 opacity-90">{ind.label}</h4>
               <span className="text-3xl font-bold text-foreground block">

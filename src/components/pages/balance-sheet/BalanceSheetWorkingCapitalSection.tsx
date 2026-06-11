@@ -25,7 +25,7 @@ export const BalanceSheetWorkingCapitalSection = ({ indicators }: BalanceSheetWo
               variant="transparent" 
               elevation="sm" 
               padding="none" 
-              className="bg-surface-container/30 border border-border rounded-2xl p-6 flex flex-col"
+              className="bg-surface-container/30 border border-border rounded-2xl p-6 flex flex-col items-start justify-start"
             >
               <div>
                 <h4 className="text-[11px] font-semibold uppercase tracking-widest text-foreground mb-3 opacity-90">{metric}</h4>

@@ -210,6 +210,29 @@ Presentation components must not import:
 
 Only presentation types and ViewModels are permitted.
 
+#### 9. Executive Card Alignment Rule
+
+All executive cards, KPI cards, insight cards, advisory cards, and metric surfaces must align their internal content to the top.
+
+**Rationale:**
+Executive interfaces often display cards with different text lengths. Vertical centering creates visual instability, weakens scanability, and makes cards appear misaligned. Top alignment preserves hierarchy, readability, and board-level visual discipline.
+
+**Mandatory rules:**
+- Card content must use `items-start`, `justify-start`, or equivalent top-aligned structure.
+- Avoid `items-center`, `justify-center`, `place-items-center`, or vertical centering inside content cards unless the component is purely iconic or intentionally empty-state.
+- KPI cards must render in this order:
+  1. Label/title
+  2. Main value
+  3. Supporting rationale/description
+  4. Badge/status/metadata, if applicable
+- Descriptions must begin at the same vertical rhythm across sibling cards.
+- Cards in the same grid must not depend on vertical centering to appear balanced.
+- Empty states may use centered alignment only when they are standalone empty-state components, not mixed with KPI/content cards.
+
+**AntiGravity rule:**
+Add a warning when card-like components contain `items-center`, `justify-center`, or `place-items-center` combined with KPI, narrative, or metric content.
+Escalate to ERROR if vertical centering appears in canonical executive cards.
+
 ### Definition of Done for Every New Executive Page
 
 A page is considered architecturally compliant only if:
