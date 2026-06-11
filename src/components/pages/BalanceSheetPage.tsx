@@ -43,6 +43,7 @@ import { BalanceSheetTechnicalLayerSection } from './balance-sheet/BalanceSheetT
 import { BalanceSheetAuditLayerSection } from './balance-sheet/BalanceSheetAuditLayerSection';
 import { BalanceSheetWaterfallChartSection } from './balance-sheet/BalanceSheetWaterfallChartSection';
 import { BalanceSheetCompositionChartsSection } from './balance-sheet/BalanceSheetCompositionChartsSection';
+import { BalanceSheetEvolutionAnalysisSection } from './balance-sheet/BalanceSheetEvolutionAnalysisSection';
 import { mapIndicatorsToViewModels, mapInstitutionalContextToViewModel, mapRiskDivergenceToViewModel, mapTechnicalLayerToViewModel, mapAuditLayerToViewModel, mapFinancialAnalyticsToViewModels } from './balance-sheet/mappers';
 
 import { useLanguage } from '../../contexts/LanguageContext';
@@ -782,129 +783,13 @@ export function BalanceSheetPage({ clients, selectedClient, selectedYear }: any)
               </div>
 
               {/* ── Análise de Evolução e Gráficos ── */}
-              {chartData.length < 2 ? (
-                <div className="bg-card p-8 rounded-[40px] border border-border shadow-sm relative overflow-hidden flex flex-col items-center justify-center min-h-[300px] text-center">
-                   <div className="w-16 h-16 bg-surface-container/30 rounded-2xl flex items-center justify-center mb-6 border border-border text-muted-foreground">
-                     <TrendingDown size={32} />
-                   </div>
-                   <h3 className="text-lg font-black text-primary mb-2">{t('bp.empty_longitudinal')}</h3>
-                   <p className="text-secondary">
-                     Esta demonstração representa apenas um ciclo financeiro e não permite inferências longitudinais sobre estabilidade, deterioração ou consolidação operacional. A inteligência de evolução requer ao menos dois exercícios.
-                   </p>
-                </div>
-              ) : (
-                <div className="grid grid-cols-1 xl:grid-cols-3 gap-8">
-                  <ExecutiveChart 
-                    title={t('bp.evolution.title')}
-                    description="Comparativo de 5 Anos"
-                    height={320}
-                    className="xl:col-span-2 group"
-                  >
-                    <div className="flex gap-5 bg-surface-container/30 px-4 py-2 rounded-full border border-border absolute top-6 right-6 z-10">
-                      <div className="flex items-center gap-2">
-                        <div className="w-2 h-2 rounded-full bg-blue-500 shadow-[0_0_8px_rgba(59,130,246,0.5)]" />
-                        <span className="text-[9px] font-black text-muted-foreground uppercase tracking-widest">{t('bp.metrics.assets')}</span>
-                      </div>
-                      <div className="flex items-center gap-2">
-                        <div className="w-2 h-2 rounded-full bg-surface-container 400 shadow-[0_0_8px_rgba(148,163,184,0.5)]" />
-                        <span className="text-[9px] font-black text-muted-foreground uppercase tracking-widest">{t('bp.metrics.liabilities')}</span>
-                      </div>
-                      <div className="flex items-center gap-2">
-                        <div className="w-2 h-2 rounded-full bg-primary shadow-[0_0_8px_rgba(168,85,247,0.5)]" />
-                        <span className="text-[9px] font-black text-muted-foreground uppercase tracking-widest">{t('bp.metrics.equity')}</span>
-                      </div>
-                    </div>
-                    <AreaChart data={chartData} margin={{ top: 10, right: 10, left: 10, bottom: 0 }}>
-                      <defs>
-                        <linearGradient id="colorAtivo" x1="0" y1="0" x2="0" y2="1">
-                          <stop offset="5%" stopColor="#3b82f6" stopOpacity={0.3}/>
-                          <stop offset="95%" stopColor="#3b82f6" stopOpacity={0}/>
-                        </linearGradient>
-                        <linearGradient id="colorPassivo" x1="0" y1="0" x2="0" y2="1">
-                          <stop offset="5%" stopColor="#94a3b8" stopOpacity={0.3}/>
-                          <stop offset="95%" stopColor="#94a3b8" stopOpacity={0}/>
-                        </linearGradient>
-                        <linearGradient id="colorPl" x1="0" y1="0" x2="0" y2="1">
-                          <stop offset="5%" stopColor="#a855f7" stopOpacity={0.3}/>
-                          <stop offset="95%" stopColor="#a855f7" stopOpacity={0}/>
-                        </linearGradient>
-                      </defs>
-                      <ExecutiveChartGrid vertical={false} />
-                      <ExecutiveChartXAxis dataKey="year" dy={10} />
-                      <ExecutiveChartTooltip 
-                        content={({ active, payload }: any) => {
-                          if (active && payload && payload.length) {
-                            return (
-                              <div className="bg-foreground/90 text-white p-5 rounded-2xl shadow-2xl border border-white/10 backdrop-blur-xl">
-                                <p className="text-[10px] font-black uppercase tracking-[0.2em] mb-4 text-white/50">{payload[0].payload.year}</p>
-                                <div className="space-y-3">
-                                  {payload.map((p: any, idx: number) => (
-                                    <div key={idx} className="flex items-center justify-between gap-10">
-                                      <div className="flex items-center gap-2">
-                                        <div className="w-1.5 h-1.5 rounded-full" style={{ backgroundColor: p.color }} />
-                                        <span className="text-[10px] font-bold text-white/80 uppercase tracking-widest">{p.name}</span>
-                                      </div>
-                                      <span className="text-xs font-black tabular-nums">{formatCurrency(p.value)}</span>
-                                    </div>
-                                  ))}
-                                </div>
-                              </div>
-                            );
-                          }
-                          return null;
-                        }}
-                      />
-                      <Area type="monotone" dataKey="ativo" name="Ativo" stroke="#3b82f6" strokeWidth={3} fillOpacity={1} fill="url(#colorAtivo)" />
-                      <Area type="monotone" dataKey="passivo" name="Passivo" stroke="#94a3b8" strokeWidth={3} fillOpacity={1} fill="url(#colorPassivo)" />
-                      <Area type="monotone" dataKey="pl" name="PL" stroke="#a855f7" strokeWidth={3} fillOpacity={1} fill="url(#colorPl)" />
-                    </AreaChart>
-                  </ExecutiveChart>
-
-                  <div className="bg-foreground text-white p-8 rounded-[40px] shadow-2xl relative overflow-hidden flex flex-col">
-                    <div className="absolute top-0 right-0 w-64 h-64 bg-secondary/10 rounded-full blur-3xl -mr-32 -mt-32 pointer-events-none" />
-                    
-                    <h3 className="text-lg font-black mb-1">{t('bp.highlights.title')}</h3>
-                    <p className="text-secondary">Variações Significativas (YoY)</p>
-                    
-                    <div className="space-y-6 flex-1">
-                      {majorChanges.map((change, i) => (
-                        <div key={i} className="flex items-start gap-4 p-4 bg-card/5 rounded-2xl border border-white/5">
-                          <div className={cn(
-                            "p-2 rounded-xl shrink-0",
-                            change.ah > 0 ? "bg-success-soft0/20 text-emerald-700" : "bg-critical-soft0/20 text-rose-700"
-                          )}>
-                            {change.ah > 0 ? <TrendingUp size={16} /> : <TrendingDown size={16} />}
-                          </div>
-                          <div>
-                            <p className="text-secondary">{change.name || change.conta}</p>
-                            <p className="text-sm font-bold">{formatCurrency(change.val)}</p>
-                            <div className="flex items-center gap-2 mt-1">
-                              <span className={cn("text-[10px] font-black", change.ah > 0 ? "text-emerald-400" : "text-rose-400")}>
-                                {change.ah > 0 ? '+' : ''}{change.ah.toFixed(2)}%
-                              </span>
-                              <span className="text-[9px] text-white/30 font-medium">vs ano anterior</span>
-                            </div>
-                          </div>
-                        </div>
-                      ))}
-                      {majorChanges.length === 0 && (
-                        <div className="flex flex-col items-center justify-center py-10 opacity-50 text-center px-4">
-                          <Info size={32} className="mb-3 text-muted-foreground" />
-                          <p className="text-secondary">
-                            {chartData.length <= 2 ? "Comparação preliminar entre exercícios" : "Estabilidade Estrutural"}
-                          </p>
-                          <p className="text-secondary">
-                            {chartData.length <= 2
-                              ? "As variações observadas ainda representam uma base histórica limitada, insuficiente para validações conclusivas sobre estabilidade ou maturação estrutural."
-                              : "A arquitetura de capital não sofreu realocações bruscas entre os ciclos avaliados."
-                            }
-                          </p>
-                        </div>
-                      )}
-                    </div>
-                  </div>
-                </div>
-              )}
+              <BalanceSheetEvolutionAnalysisSection
+                viewModel={financialAnalyticsViewModel.evolution}
+                formatCurrency={(value: number) => {
+                  if (value === null || value === undefined) return 'R$ 0';
+                  return new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL', maximumFractionDigits: 0 }).format(value);
+                }}
+              />
 
               {/* ── Tabelas Detalhadas com AV/AH ── */}
               <div>
