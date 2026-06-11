@@ -23,6 +23,7 @@ import { ExecutiveEmptyState } from '../ui/executive-empty-state';
 import { ExecutiveSurface } from '../ui/executive-surface';
 import { ExecutiveDecisionMemo } from '../ui/executive-decision-memo';
 import { ExecutiveNarrative } from '../ui/executive-narrative';
+import { ExecutiveCallout } from '../ui/executive-callout';
 import { useHistoricalDemonstracoes } from '../../hooks/useHistoricalDemonstracoes';
 import { useInstitutionalRuntime } from '../../hooks/useInstitutionalRuntime';
 import { useTemporalRuntime } from '../../hooks/useTemporalRuntime';
@@ -489,37 +490,35 @@ export function GovernanceDashboardPage({
         </ExecutiveSurface>
 
         {/* Strategic Insights */}
-        <div className="flex flex-col h-full">
-          <ExecutiveDecisionMemo
-            icon={<MessageSquare />}
-            title={t('gov.insights.title')}
-            subtitle={t('gov.insights.subtitle')}
-            className="h-full"
-            narrative={
-              <div className="space-y-4 w-full">
-                {[
-                  { title: t('gov.insights.mock1.title'), text: t('gov.insights.mock1.text'), icon: Scale },
-                  { title: t('gov.insights.mock2.title'), text: t('gov.insights.mock2.text'), icon: Zap },
-                  { title: t('gov.insights.mock3.title'), text: t('gov.insights.mock3.text'), icon: Users }
-                ].map((insight, i) => (
-                  <ExecutiveNarrative 
-                    key={i} 
-                    variant="insight" 
-                    icon={insight.icon} 
-                    title={insight.title}
-                  >
-                    {insight.text}
-                  </ExecutiveNarrative>
-                ))}
+        <ExecutiveSurface padding="xl" className="flex flex-col justify-between h-full border-border shadow-inner">
+           <div className="space-y-10">
+              <div className="flex items-center gap-4">
+                 <div className="w-12 h-12 rounded-md bg-executive flex items-center justify-center text-white shadow-premium">
+                    <MessageSquare size={24} />
+                 </div>
+                 <div>
+                    <h3 className="text-h3 font-medium text-foreground tracking-tight">{t('gov.insights.title')}</h3>
+                    <p className="text-muted-foreground text-[10px] font-medium uppercase tracking-widest mt-1">{t('gov.insights.subtitle')}</p>
+                 </div>
               </div>
-            }
-            recommendation={
-              <button className="btn-executive w-full">
-                {t('gov.btn.export_monthly')}
-              </button>
-            }
-          />
-        </div>
+
+              <div className="space-y-4">
+                 {[
+                   { title: t('gov.insights.mock1.title'), text: t('gov.insights.mock1.text') },
+                   { title: t('gov.insights.mock2.title'), text: t('gov.insights.mock2.text') },
+                   { title: t('gov.insights.mock3.title'), text: t('gov.insights.mock3.text') }
+                 ].map((insight, i) => (
+                   <ExecutiveCallout key={i} variant="insight" title={insight.title}>
+                     {insight.text}
+                   </ExecutiveCallout>
+                 ))}
+              </div>
+           </div>
+
+           <button className="w-full mt-10 px-4 py-3 bg-executive text-white rounded-xl text-sm font-bold hover:bg-executive/90 transition-colors shadow-sm">
+              {t('gov.btn.export_monthly')}
+           </button>
+        </ExecutiveSurface>
 
       </div>
 
