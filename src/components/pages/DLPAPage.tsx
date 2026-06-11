@@ -27,8 +27,11 @@ import {
 import { ExecutiveEmptyState } from '../ui/executive-empty-state';
 import { ExecutiveSurface } from '../ui/executive-surface';
 import { ExecutiveDecisionMemo } from '../ui/executive-decision-memo';
+import { ExecutiveSurface } from '../ui/executive-surface';
+import { ExecutiveDecisionMemo } from '../ui/executive-decision-memo';
 import { ExecutiveNarrative } from '../ui/executive-narrative';
 import { ExecutiveMetricCard } from '../ui/executive-metric-card';
+import { ExecutiveTechnicalMetricCard } from '../ui/executive-technical-metric-card';
 import { ExecutiveTable, ExecutiveTableHeader, ExecutiveTableBody, ExecutiveTableRow, ExecutiveTableHead, ExecutiveTableCell } from '../ui/executive-table';
 import { cn, formatCurrency, formatValue } from '../../lib/utils';
 import { PageHeader, KpiValue } from '../Common';
@@ -1212,40 +1215,39 @@ export function DLPAPage({ clients, selectedClient, selectedYear }: any) {
                 </ExecutiveChart>
 
                 {/* Radar de Governança Integrado */}
-                <div className="bg-foreground text-white rounded-[40px] p-10 shadow-2xl relative overflow-hidden flex flex-col">
-                  <div className="absolute top-0 right-0 w-64 h-64 bg-success-soft0/10 rounded-full blur-3xl -mr-32 -mt-32 pointer-events-none" />
+                <ExecutiveSurface padding="xl" radius="xl" className="bg-foreground text-white shadow-2xl relative overflow-hidden flex flex-col">
+                  <div className="absolute top-0 right-0 w-64 h-64 bg-emerald-500/10 rounded-full blur-3xl -mr-32 -mt-32 pointer-events-none" />
                   <div className="absolute bottom-0 left-0 w-64 h-64 bg-blue-500/10 rounded-full blur-3xl -ml-32 -mb-32 pointer-events-none" />
 
                   <h3 className="text-xl font-black text-white mb-2 relative z-10">Radar de Governança</h3>
-                  <p className="text-sm text-secondary font-medium leading-relaxed mb-8 relative z-10">Dimensões Institucionais de Retenção de Capital.</p>
+                  <p className="text-sm text-white/70 font-medium leading-relaxed mb-8 relative z-10">Dimensões Institucionais de Retenção de Capital.</p>
 
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4 flex-1 relative z-10">
                     {[
-                      { label: 'Sustentabilidade Patrimonial', value: cpiStatus !== 'NEUTRO' ? cpiStatus : '—', badge: preservationStyle.label, badgeColor: preservationStyle.color, icon: ShieldCheck },
-                      { label: 'Dependência de Capitalização', value: fiduciaryOutput?.capitalSupportRatio === 'NOT_AVAILABLE' ? 'N/A' : fiduciaryOutput?.capitalSupportRatio != null ? `${(fiduciaryOutput.capitalSupportRatio * 100).toFixed(1)}%` : '—', badge: retentionStyle.label, badgeColor: retentionStyle.color, icon: BookMarked },
-                      { label: 'Capacidade Distributiva', value: distribution?.distributionRatio != null && distribution.distributionRatio > 0 ? `${(distribution.distributionRatio * 100).toFixed(1)}%` : 'Inexistente', badge: distributionStyle.label, badgeColor: distributionStyle.color, icon: PieChartIcon },
-                      { label: 'Integridade Patrimonial', value: preservation ? `${(preservation.equityPreservationRatio * 100).toFixed(1)}%` : '—', badge: preservationStyle.label, badgeColor: preservationStyle.color, icon: ShieldCheck }
-                    ].map(({ label, value, badge, badgeColor, icon: Icon }) => {
-                      const darkBadgeColor = badgeColor.replace('700', '400').replace('600', '400').replace(/bg-[a-z]+-50/g, 'bg-card/5').replace(/border-[a-z]+-200/g, 'border-white/10').replace(/border-[a-z]+-100/g, 'border-white/10');
+                      { label: 'Sustentabilidade Patrimonial', value: cpiStatus !== 'NEUTRO' ? cpiStatus : '—', badge: preservationStyle.label, badgeColor: preservationStyle.color },
+                      { label: 'Dependência de Capitalização', value: fiduciaryOutput?.capitalSupportRatio === 'NOT_AVAILABLE' ? 'N/A' : fiduciaryOutput?.capitalSupportRatio != null ? `${(fiduciaryOutput.capitalSupportRatio * 100).toFixed(1)}%` : '—', badge: retentionStyle.label, badgeColor: retentionStyle.color },
+                      { label: 'Capacidade Distributiva', value: distribution?.distributionRatio != null && distribution.distributionRatio > 0 ? `${(distribution.distributionRatio * 100).toFixed(1)}%` : 'Inexistente', badge: distributionStyle.label, badgeColor: distributionStyle.color },
+                      { label: 'Integridade Patrimonial', value: preservation ? `${(preservation.equityPreservationRatio * 100).toFixed(1)}%` : '—', badge: preservationStyle.label, badgeColor: preservationStyle.color }
+                    ].map(({ label, value, badge, badgeColor }) => {
+                      const tone = badgeColor.includes('emerald') || badgeColor.includes('success') ? 'success' :
+                                   badgeColor.includes('amber') || badgeColor.includes('warning') ? 'warning' :
+                                   badgeColor.includes('rose') || badgeColor.includes('critical') ? 'critical' :
+                                   badgeColor.includes('blue') || badgeColor.includes('info') ? 'info' : 'neutral';
+                      
                       return (
-                      <div key={label} className="p-5 bg-card/[0.03] rounded-2xl border border-white/10 flex flex-col gap-3 hover:bg-card/[0.08] transition-all duration-300 backdrop-blur-md shadow-lg group">
-                        <div className="flex items-center justify-between">
-                          <div className="flex items-center gap-4">
-                            <div className="w-10 h-10 rounded-xl bg-card/10 flex items-center justify-center border border-white/20 group-hover:scale-110 transition-transform">
-                              <Icon size={18} className="text-white/80" />
-                            </div>
-                            <div>
-                              <p className="text-[10px] font-black text-white/50 uppercase tracking-[0.15em] mb-0.5">{label}</p>
-                              <p className={cn('text-xs font-bold px-2 py-0.5 rounded border inline-block mt-1', darkBadgeColor)}>{badge}</p>
-                            </div>
-                          </div>
+                        <div key={label} className="[&_*]:!text-white [&_.bg-surface-container\\/50]:!bg-white/10 [&_.border-border]:!border-white/10">
+                          <ExecutiveTechnicalMetricCard
+                            label={label}
+                            value={value}
+                            statusLabel={badge}
+                            statusTone={tone as any}
+                            className="bg-card/5 border-white/10 backdrop-blur-md hover:bg-card/10 transition-colors"
+                          />
                         </div>
-                        <p className="text-xl font-black text-white tracking-tight text-right">{value}</p>
-                      </div>
                       );
                     })}
                   </div>
-                </div>
+                </ExecutiveSurface>
 
               </div>
 
