@@ -25,6 +25,7 @@ import {
   ExecutiveChartTooltip
 } from '../ui/executive-chart';
 import { ExecutiveEmptyState } from '../ui/executive-empty-state';
+import { ExecutiveSurface } from '../ui/executive-surface';
 import { cn, formatCurrency, formatValue } from '../../lib/utils';
 import { PageHeader, KpiValue } from '../Common';
 import { useAnnualFinancialData, useAllFinancialData } from '../../hooks/useFinancialData';
@@ -812,7 +813,7 @@ export function DLPAPage({ clients, selectedClient, selectedYear }: any) {
       {hasData && (
         <div className="space-y-6 mb-12">
           {(capitalGov as any)?.error && (
-            <div className="bg-critical-soft border border-rose-200 rounded-[32px] p-8 shadow-sm flex flex-col items-center justify-center text-center">
+            <ExecutiveSurface variant="critical" padding="xl" radius="xl" className="flex flex-col items-center justify-center text-center">
               <div className="w-16 h-16 bg-rose-100 text-rose-700 rounded-full flex items-center justify-center mb-4">
                 <ShieldAlert size={28} />
               </div>
@@ -823,7 +824,7 @@ export function DLPAPage({ clients, selectedClient, selectedYear }: any) {
               <div className="bg-card border border-border rounded-xl p-4 text-xs font-mono text-rose-600 w-full max-w-2xl text-left overflow-auto">
                 {(capitalGov as any).error}
               </div>
-            </div>
+            </ExecutiveSurface>
           )}
           
           {/* --- 2. EXECUTIVE LAYER UI --- */}
