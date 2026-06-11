@@ -22,7 +22,7 @@ export function BalanceSheetWaterfallChartSection({
         <ExecutiveChartGrid vertical={false} />
         <ExecutiveChartXAxis dataKey="name" />
         <ExecutiveChartTooltip formatter={(value: number) => formatCurrency(value)} />
-        <Bar dataKey="value">
+        <Bar dataKey="value" barSize={32}>
           {viewModel.data && viewModel.data.map((entry, index) => (
             <Cell key={`cell-${index}`} fill={entry.fill || '#3b82f6'} />
           ))}

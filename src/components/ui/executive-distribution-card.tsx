@@ -4,23 +4,23 @@ import { ExecutiveSurface } from './executive-surface';
 import { ExecutiveChartTooltip } from './executive-chart';
 import { cn } from '@/lib/utils';
 
-export interface ExecutiveCompositionChartProps {
+export interface ExecutiveDistributionCardProps {
   title: string;
-  description?: string;
+  subtitle?: string;
   data: Array<{ name: string; value: number; fill?: string }>;
   formatValue: (val: number) => string;
   empty?: boolean;
   className?: string;
 }
 
-export function ExecutiveCompositionChart({
+export function ExecutiveDistributionCard({
   title,
-  description,
+  subtitle,
   data,
   formatValue,
   empty = false,
   className
-}: ExecutiveCompositionChartProps) {
+}: ExecutiveDistributionCardProps) {
   const hasData = !empty && data && data.length > 0;
   const isSingleSegment = hasData && data.length === 1;
 
@@ -29,24 +29,24 @@ export function ExecutiveCompositionChart({
       {/* Cabeçalho */}
       <div className="flex flex-col mb-4 pb-4 border-b border-border/40 shrink-0">
         <h3 className="text-[18px] font-semibold text-foreground tracking-tight leading-none">{title}</h3>
-        {description && (
-          <p className="text-[13px] text-foreground/70 mt-1.5">{description}</p>
+        {subtitle && (
+          <p className="text-[13px] text-foreground/65 mt-1.5">{subtitle}</p>
         )}
       </div>
 
       {/* Área Gráfica e Legenda */}
-      <div className="flex-1 flex flex-col xl:flex-row items-center justify-center gap-6 mt-2">
+      <div className="flex-1 flex flex-col xl:flex-row items-center justify-center gap-2 mt-2">
         {hasData ? (
           <>
-            <div className="w-[200px] h-[200px] shrink-0 relative flex items-center justify-center">
+            <div className="w-[240px] h-[240px] shrink-0 relative flex items-center justify-center">
               <ResponsiveContainer width="100%" height="100%">
                 <RechartsPieChart>
                   <Pie
                     data={data}
                     cx="50%"
                     cy="50%"
-                    innerRadius={72}
-                    outerRadius={96}
+                    innerRadius={85}
+                    outerRadius={115}
                     paddingAngle={isSingleSegment ? 0 : 4}
                     dataKey="value"
                     stroke="none"
@@ -59,20 +59,21 @@ export function ExecutiveCompositionChart({
                 </RechartsPieChart>
               </ResponsiveContainer>
               {isSingleSegment && (
-                <div className="absolute inset-0 flex flex-col items-center justify-center pointer-events-none">
-                  <span className="text-2xl font-bold text-foreground">100%</span>
+                <div className="absolute inset-0 flex flex-col items-center justify-center pointer-events-none text-center">
+                  <span className="text-[26px] font-bold text-foreground leading-none">100%</span>
+                  <span className="text-[11px] font-medium text-foreground/60 mt-1 max-w-[120px] truncate">{data[0].name}</span>
                 </div>
               )}
             </div>
 
             {/* Legenda Lateral / Inferior */}
-            <div className="flex-1 w-full flex flex-col justify-center space-y-3">
+            <div className="flex-1 w-full flex flex-col justify-center space-y-2.5 pl-2">
               {data.map((item, idx) => (
-                <div key={idx} className="flex items-start gap-3">
-                  <div className="w-3 h-3 rounded-full shrink-0 mt-1" style={{ backgroundColor: item.fill || '#3b82f6' }} />
+                <div key={idx} className="flex items-center gap-2.5">
+                  <div className="w-3 h-3 rounded-full shrink-0" style={{ backgroundColor: item.fill || '#3b82f6' }} />
                   <div className="flex flex-col">
                     <span className="text-[13px] font-medium text-foreground leading-snug">{item.name}</span>
-                    <span className="text-[12px] font-semibold text-muted-foreground mt-0.5">{formatValue(item.value)}</span>
+                    <span className="text-[13px] font-medium text-foreground/70">{formatValue(item.value)}</span>
                   </div>
                 </div>
               ))}

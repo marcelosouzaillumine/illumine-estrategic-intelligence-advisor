@@ -1,6 +1,6 @@
 import React from 'react';
 import { BalanceSheetCompositionViewModel } from './view-models';
-import { ExecutiveCompositionChart } from '../../ui/executive-composition-chart';
+import { ExecutiveDistributionCard } from '../../ui/executive-distribution-card';
 
 export function BalanceSheetCompositionChartsSection({
   viewModel,
@@ -11,17 +11,17 @@ export function BalanceSheetCompositionChartsSection({
 }) {
   return (
     <>
-      <ExecutiveCompositionChart 
+      <ExecutiveDistributionCard 
         title="Composição do Ativo"
-        description="Distribuição do Capital Aplicado"
+        subtitle="Distribuição do Capital Aplicado"
         data={viewModel.assetsData || []}
         formatValue={formatCurrency}
         empty={!viewModel.assetsData || viewModel.assetsData.length === 0}
       />
 
-      <ExecutiveCompositionChart 
+      <ExecutiveDistributionCard 
         title="Composição do Passivo"
-        description="Origem dos Recursos"
+        subtitle="Origem dos Recursos"
         data={viewModel.liabilitiesData || []}
         formatValue={formatCurrency}
         empty={!viewModel.liabilitiesData || viewModel.liabilitiesData.length === 0}

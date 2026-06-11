@@ -19,8 +19,9 @@ import { BalanceSheetRiskDivergenceSection } from './balance-sheet/BalanceSheetR
 import { BalanceSheetTechnicalLayerSection } from './balance-sheet/BalanceSheetTechnicalLayerSection';
 import { BalanceSheetAuditLayerSection } from './balance-sheet/BalanceSheetAuditLayerSection';
 import { BalanceSheetWaterfallChartSection } from './balance-sheet/BalanceSheetWaterfallChartSection';
-import { BalanceSheetCompositionChartsSection } from './balance-sheet/BalanceSheetCompositionChartsSection';
 import { BalanceSheetEvolutionAnalysisSection } from './balance-sheet/BalanceSheetEvolutionAnalysisSection';
+import { BalanceSheetCompositionChartsSection } from './balance-sheet/BalanceSheetCompositionChartsSection';
+import { ExecutiveExposureCard } from '../ui/executive-exposure-card';
 import { BalanceSheetStructuralTablesSection } from './balance-sheet/BalanceSheetStructuralTablesSection';
 import { BalanceSheetCapitalPreservationSection } from './balance-sheet/BalanceSheetCapitalPreservationSection';
 import { mapIndicatorsToViewModels, mapInstitutionalContextToViewModel, mapRiskDivergenceToViewModel, mapTechnicalLayerToViewModel, mapAuditLayerToViewModel, mapFinancialAnalyticsToViewModels } from './balance-sheet/mappers';
@@ -475,9 +476,9 @@ export function BalanceSheetPage({ clients, selectedClient, selectedYear }: any)
   const waterfallData = useMemo(() => {
     if (!bpSummary) return [];
     return [
-      { name: 'Ativo Circulante', value: bpSummary.ativoCirculante, fill: '#10b981' },
-      { name: 'Passivo Circulante', value: -bpSummary.passivoCirculante, fill: '#ef4444' },
-      { name: 'Capital de Giro Líquido', value: bpSummary.ativoCirculante - bpSummary.passivoCirculante, fill: '#3b82f6' }
+      { name: 'Ativo Circulante', value: bpSummary.ativoCirculante, fill: '#34d399' },
+      { name: 'Passivo Circulante', value: -bpSummary.passivoCirculante, fill: '#fb7185' },
+      { name: 'Capital de Giro Líquido', value: bpSummary.ativoCirculante - bpSummary.passivoCirculante, fill: '#60a5fa' }
     ];
   }, [bpSummary]);
 
@@ -670,45 +671,27 @@ export function BalanceSheetPage({ clients, selectedClient, selectedYear }: any)
                 />
 
                 {/* Heatmap: Concentração */}
-                <ExecutiveSurface 
-                  variant="default" 
-                  elevation="sm" 
-                  padding="lg" 
-                  className="rounded-[40px] border border-border flex flex-col"
-                >
-                  <h3 className="text-lg font-black text-primary mb-1">Mapa de Calor: Concentração</h3>
-                  <p className="text-secondary">{t('bp.working_capital.subtitle')}</p>
-                  
-                  <div className="flex-1 flex flex-col justify-center space-y-6">
-                    <div>
-                      <div className="flex justify-between items-end mb-2">
-                        <span className="text-xs font-black uppercase tracking-widest text-muted-foreground">Estoque / Ativo Circulante</span>
-                        <span className="text-sm font-bold">{bpSummary && bpSummary.ativoCirculante > 0 ? ((bpSummary.estoques / bpSummary.ativoCirculante) * 100).toFixed(1) : 0}%</span>
-                      </div>
-                      <div className="w-full h-3 bg-surface-container rounded-full overflow-hidden flex">
-                        <div className="h-full bg-warning-soft0" style={{ width: `${bpSummary && bpSummary.ativoCirculante > 0 ? (bpSummary.estoques / bpSummary.ativoCirculante) * 100 : 0}%` }} />
-                      </div>
-                    </div>
-                    <div>
-                      <div className="flex justify-between items-end mb-2">
-                        <span className="text-xs font-black uppercase tracking-widest text-muted-foreground">Dívida CP / Passivo Total</span>
-                        <span className="text-sm font-bold">{bpSummary && bpSummary.passivoTotal > 0 ? ((bpSummary.passivoCirculante / bpSummary.passivoTotal) * 100).toFixed(1) : 0}%</span>
-                      </div>
-                      <div className="w-full h-3 bg-surface-container rounded-full overflow-hidden flex">
-                        <div className="h-full bg-critical-soft0" style={{ width: `${bpSummary && bpSummary.passivoTotal > 0 ? (bpSummary.passivoCirculante / bpSummary.passivoTotal) * 100 : 0}%` }} />
-                      </div>
-                    </div>
-                    <div>
-                      <div className="flex justify-between items-end mb-2">
-                        <span className="text-xs font-black uppercase tracking-widest text-muted-foreground">PL / Ativo Total (Autonomia)</span>
-                        <span className="text-sm font-bold">{bpSummary && bpSummary.ativoTotal > 0 ? ((bpSummary.patrimonioLiquido / bpSummary.ativoTotal) * 100).toFixed(1) : 0}%</span>
-                      </div>
-                      <div className="w-full h-3 bg-surface-container rounded-full overflow-hidden flex">
-                        <div className="h-full bg-primary" style={{ width: `${bpSummary && bpSummary.ativoTotal > 0 ? (bpSummary.patrimonioLiquido / bpSummary.ativoTotal) * 100 : 0}%` }} />
-                      </div>
-                    </div>
-                  </div>
-                </ExecutiveSurface>
+                <ExecutiveExposureCard
+                  title="Mapa de Calor: Concentração"
+                  subtitle={t('bp.working_capital.subtitle')}
+                  metrics={[
+                    {
+                      label: 'Estoque / Ativo Circulante',
+                      percentage: bpSummary && bpSummary.ativoCirculante > 0 ? (bpSummary.estoques / bpSummary.ativoCirculante) * 100 : 0,
+                      colorClass: 'bg-amber-500/80'
+                    },
+                    {
+                      label: 'Dívida CP / Passivo Total',
+                      percentage: bpSummary && bpSummary.passivoTotal > 0 ? (bpSummary.passivoCirculante / bpSummary.passivoTotal) * 100 : 0,
+                      colorClass: 'bg-rose-500/80'
+                    },
+                    {
+                      label: 'PL / Ativo Total (Autonomia)',
+                      percentage: bpSummary && bpSummary.ativoTotal > 0 ? (bpSummary.patrimonioLiquido / bpSummary.ativoTotal) * 100 : 0,
+                      colorClass: 'bg-blue-500/80'
+                    }
+                  ]}
+                />
 
                 {/* Composição do Ativo e Passivo */}
                 <BalanceSheetCompositionChartsSection 
