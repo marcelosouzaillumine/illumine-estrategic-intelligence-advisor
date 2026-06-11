@@ -1,5 +1,22 @@
 import { BalanceSheetIndicator, BalanceSheetInstitutionalContextInput, BalanceSheetStructuralRestrictionsInput, BalanceSheetGovernanceConsistencyInput, BalanceSheetWaterfallInputPoint, BalanceSheetCompositionInputPoint, BalanceSheetEvolutionInputPoint, BalanceSheetMajorChangeInput, BalanceSheetComparativeRowInput, BalanceSheetSummaryInput } from './types';
-import { BalanceSheetIndicatorViewModel, BalanceSheetRiskDivergenceViewModel, BalanceSheetRiskDivergenceTone, BalanceSheetInstitutionalContextViewModel } from './view-models';
+import { 
+  BalanceSheetIndicatorViewModel, 
+  BalanceSheetRiskDivergenceViewModel, 
+  BalanceSheetRiskDivergenceTone, 
+  BalanceSheetInstitutionalContextViewModel,
+  BalanceSheetTechnicalLayerViewModel, 
+  BalanceSheetTechnicalFamilyViewModel, 
+  BalanceSheetTechnicalIndicatorViewModel, 
+  BalanceSheetTechnicalIndicatorTone,
+  BalanceSheetAuditLayerViewModel, 
+  BalanceSheetAuditStructuralRestrictionsViewModel, 
+  BalanceSheetAuditOverrideViewModel, 
+  BalanceSheetAuditConsistencyViewModel, 
+  BalanceSheetAuditConsistencyIssueViewModel,
+  BalanceSheetFinancialAnalyticsViewModel,
+  BalanceSheetStructuralSectionTone,
+  BalanceSheetHighlightTone
+} from './view-models';
 
 export function mapIndicatorsToViewModels(params: {
   indicators?: BalanceSheetIndicator[];
@@ -32,7 +49,9 @@ export function mapRiskDivergenceToViewModel(params: {
   resolveImpact: (metric: string) => string;
 }): BalanceSheetRiskDivergenceViewModel {
   const score = params.globalScore || 0;
-  const mathLabel = 'NO_CLASSIFICATION';
+  
+  const mathLabel = params.patrimonialClassification || 'Crítica';
+
 
   const classStr = params.patrimonialClassification || '';
   let tone: BalanceSheetRiskDivergenceTone = 'critical';
@@ -79,7 +98,7 @@ export function mapInstitutionalContextToViewModel(
   };
 }
 
-import { BalanceSheetTechnicalLayerViewModel, BalanceSheetTechnicalFamilyViewModel, BalanceSheetTechnicalIndicatorViewModel, BalanceSheetTechnicalIndicatorTone } from './view-models';
+
 
 export function mapTechnicalLayerToViewModel(params: {
   indicators: BalanceSheetIndicator[];
@@ -165,13 +184,7 @@ export function mapTechnicalLayerToViewModel(params: {
   return { families };
 }
 
-import { 
-  BalanceSheetAuditLayerViewModel, 
-  BalanceSheetAuditStructuralRestrictionsViewModel, 
-  BalanceSheetAuditOverrideViewModel, 
-  BalanceSheetAuditConsistencyViewModel, 
-  BalanceSheetAuditConsistencyIssueViewModel 
-} from './view-models';
+
 
 export function mapAuditLayerToViewModel(params: {
   structuralRestrictions?: BalanceSheetStructuralRestrictionsInput;
@@ -248,11 +261,7 @@ export function mapAuditLayerToViewModel(params: {
   };
 }
 
-import {
-  BalanceSheetFinancialAnalyticsViewModel,
-  BalanceSheetStructuralSectionTone,
-  BalanceSheetHighlightTone
-} from './view-models';
+
 
 export function mapFinancialAnalyticsToViewModels(params: {
   waterfallData: BalanceSheetWaterfallInputPoint[];
