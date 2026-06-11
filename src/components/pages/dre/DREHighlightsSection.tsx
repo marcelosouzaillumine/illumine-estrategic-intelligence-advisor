@@ -69,7 +69,7 @@ export function DREHighlightsSection({ viewModel }: Props) {
 
                 <div className="mt-6 pt-4 border-t border-border flex flex-col gap-3">
                   <div className="flex justify-between items-center text-xs text-foreground/70">
-                    <span>Gap para Equilíbrio:</span>
+                    <span>Distância para Equilíbrio:</span>
                     <span className="font-bold text-rose-600">{viewModel.gapEquilibrioFormatted}</span>
                   </div>
                   <div className="flex justify-between items-center text-xs text-foreground/70">

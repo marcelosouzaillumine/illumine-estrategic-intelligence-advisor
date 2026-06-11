@@ -16,7 +16,7 @@ export function DREBoardDecisionSupportSection({ viewModel }: Props) {
     <div className="mb-10">
       <ExecutiveDecisionMemo
         icon={<ShieldAlert />}
-        title="DRE Board Decision Support Framework"
+        title="Parecer Executivo para o Conselho"
         subtitle="Diagnóstico Executivo Diretivo"
         narrative={
           <div className="flex flex-col gap-8 w-full">
