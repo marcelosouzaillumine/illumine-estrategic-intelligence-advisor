@@ -12,11 +12,11 @@ export const BalanceSheetAssetQualitySection = ({ indicators }: BalanceSheetAsse
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         {indicators.map((ind, idx) => (
           <div key={idx} className="bg-surface-container/30 border border-border rounded-2xl p-6 shadow-sm flex flex-col gap-2">
-            <h4 className="text-[11px] font-black uppercase tracking-widest text-primary mb-2">{ind.label}</h4>
-            <span className="text-3xl font-black text-primary mb-2 block">
+            <h4 className="text-[11px] font-semibold uppercase tracking-widest text-foreground mb-2">{ind.label}</h4>
+            <span className="text-3xl font-bold text-foreground mb-2 block">
               {ind.format === 'percentage' ? (Number(ind.value)*100).toFixed(1)+'%' : ind.format === 'multiplier' ? Number(ind.value).toFixed(2)+'x' : Number(ind.value).toFixed(2)}
             </span>
-            <p className="text-secondary">{ind.rationale}</p>
+            <p className="text-muted-foreground">{ind.rationale}</p>
           </div>
         ))}
       </div>

@@ -27,8 +27,8 @@ export const BalanceSheetWorkingCapitalSection = ({ indicators }: BalanceSheetWo
               padding="none" 
               className="bg-surface-container/30 border border-border rounded-2xl p-6"
             >
-              <h4 className="text-[11px] font-black uppercase tracking-widest text-primary mb-2">{metric}</h4>
-              <span className="text-2xl font-black text-primary mb-2 block">
+              <h4 className="text-[11px] font-semibold uppercase tracking-widest text-foreground mb-2">{metric}</h4>
+              <span className="text-2xl font-bold text-foreground mb-2 block">
                 {ind.format === 'percentage' ? (Number(ind.value)*100).toFixed(1)+'%' : ind.format === 'multiplier' ? Number(ind.value).toFixed(2)+'x' : ind.format === 'decimal' ? Number(ind.value).toFixed(1) : ind.value}
               </span>
               <p className="text-muted-foreground">{ind.rationale}</p>

@@ -12,12 +12,12 @@ export const BalanceSheetCapitalStructureSection = ({ indicators }: BalanceSheet
       <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-2 2xl:grid-cols-4 gap-6">
         {indicators.map((ind, idx) => (
           <div key={idx} className="bg-surface-container/30 border border-border rounded-2xl p-6 shadow-sm flex flex-col">
-            <h4 className="text-[10px] font-black uppercase tracking-widest text-primary mb-4">{ind.label}</h4>
-            <div className="text-2xl font-black text-primary mb-2">
+            <h4 className="text-[10px] font-semibold uppercase tracking-widest text-foreground mb-4">{ind.label}</h4>
+            <div className="text-2xl font-bold text-foreground mb-2">
               {ind.format === 'percentage' ? (Number(ind.value)*100).toFixed(1)+'%' : ind.format === 'multiplier' ? Number(ind.value).toFixed(2)+'x' : ind.format === 'decimal' ? Number(ind.value).toFixed(2) : ind.value}
             </div>
 
-            <p className="text-secondary">{ind.rationale}</p>
+            <p className="text-muted-foreground">{ind.rationale}</p>
           </div>
         ))}
       </div>
