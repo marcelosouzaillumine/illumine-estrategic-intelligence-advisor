@@ -38,11 +38,11 @@ export function ExecutiveTechnicalMetricCard({
       variant="default"
       elevation="none"
       className={cn(
-        "flex flex-col justify-start w-full p-3 md:p-4 rounded-2xl border border-border bg-surface-container/30",
+        "flex flex-col justify-start w-full h-full p-3 md:p-4 rounded-2xl border border-border bg-surface-container/30",
         className
       )}
     >
-      <div className="w-full flex items-start justify-between gap-2 mb-2">
+      <div className="w-full flex items-start justify-between gap-2 mb-2 min-h-[34px]">
         <span className="text-[11px] font-medium tracking-wide text-foreground/65 leading-snug line-clamp-2">
           {label}
         </span>
@@ -53,7 +53,7 @@ export function ExecutiveTechnicalMetricCard({
         )}
       </div>
 
-      <div className="w-full flex items-end justify-between mt-auto pt-1">
+      <div className="w-full flex items-end justify-between pt-1">
         <div className="text-[26px] font-semibold text-foreground leading-none">
           {value}
         </div>
@@ -68,7 +68,7 @@ export function ExecutiveTechnicalMetricCard({
       </div>
 
       {description && (
-        <div className="w-full mt-3 pt-3 border-t border-border/50">
+        <div className="w-full mt-auto pt-3 border-t border-border/50">
           <p className="text-[11px] leading-relaxed text-foreground/70">
             {description}
           </p>
