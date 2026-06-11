@@ -58,9 +58,9 @@ describe('ENGF v1.1 — DRE Narrative Single Source Retirement', () => {
     const advisory = DREBoardAdvisoryEngine.generateExecutiveAdvisory(granatumNormalized as any, granatumDiagnosis);
     // The advisory produces a single unified block with 5 structured fields
     assert.ok(advisory.situacaoAtual, 'situacaoAtual must be present');
-    assert.ok(advisory.problemaPrincipal, 'problemaPrincipal must be present');
-    assert.ok(advisory.problemaPrincipal, 'problemaPrincipal must be present');
-    assert.ok(advisory.focoImediatoEstrategica, 'focoImediatoEstrategica must be present');
+    assert.ok(advisory.restricaoPrincipal.length > 0);
+    assert.ok(advisory.oportunidadePrincipal.length > 0);
+    assert.ok(advisory.prioridadeEstrategica.length > 0);
     assert.ok(advisory.outlook, 'outlook must be present');
     // Single fullNarrative — not split into multiple separate blocks
     assert.ok(advisory.fullNarrative.length > 0, 'fullNarrative must be present');

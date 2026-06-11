@@ -115,9 +115,9 @@ describe('ENGF v1.0 — DRE Narrative Governance Tests', () => {
     const advisory = DREBoardAdvisoryEngine.generateExecutiveAdvisory(granatumNormalized as any, granatumDiagnosis);
     assert.ok(advisory.fullNarrative.length <= 800, `Advisory too long: ${advisory.fullNarrative.length} chars`);
     assert.ok(advisory.situacaoAtual.length > 0);
-    assert.ok(advisory.problemaPrincipal.length > 0);
-    assert.ok(advisory.problemaPrincipal.length > 0);
-    assert.ok(advisory.focoImediatoEstrategica.length > 0);
+    assert.ok(advisory.restricaoPrincipal.length > 0);
+    assert.ok(advisory.oportunidadePrincipal.length > 0);
+    assert.ok(advisory.prioridadeEstrategica.length > 0);
     assert.ok(advisory.outlook.length > 0);
   });
 

@@ -38,8 +38,8 @@ export class DFCCashAdvisoryEngine {
       restricaoPrincipal,
       dependenciaCapital,
       sustentabilidade,
-      prioridadeEstrategica,
       parecerConsolidado,
+      outlook: prioridadeEstrategica,
       confidenceLevel: confidence
     };
   }
