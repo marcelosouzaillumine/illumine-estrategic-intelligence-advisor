@@ -19,6 +19,7 @@ import { GOVERNANCE_PRINCIPLES, evaluateAxisRules } from '../../lib/governanceIn
 import { GovernanceInsightPanel } from '../GovernanceInsightPanel';
 import { orchestrateGovernanceNarrative } from '../../core/orchestration/executiveOrchestrationEngine';
 import { DashboardSkeleton } from '../ui/skeletons';
+import { ExecutiveEmptyState } from '../ui/executive-empty-state';
 import { useHistoricalDemonstracoes } from '../../hooks/useHistoricalDemonstracoes';
 import { useInstitutionalRuntime } from '../../hooks/useInstitutionalRuntime';
 import { useTemporalRuntime } from '../../hooks/useTemporalRuntime';
@@ -232,20 +233,15 @@ export function GovernanceDashboardPage({
   if (!loading && !hasData) {
     return (
       <div className="flex flex-col items-center justify-center min-h-[600px] space-y-10 animate-executive-fade">
-         <div className="relative">
-            <div className="absolute inset-0 bg-primary blur-3xl opacity-10 animate-pulse" />
-            <div className="w-40 h-40 rounded-[48px] bg-slate-900 flex items-center justify-center text-secondary shadow-2xl relative z-10 border border-white/5">
-              <ShieldCheck size={80} strokeWidth={1} />
-            </div>
-         </div>
+         <ExecutiveEmptyState
+           icon={<ShieldCheck size={48} />}
+           title={t('gov.empty.title')}
+           description={`${t('gov.empty.desc_1')} ${t(`common.months.${selectedMonth || 1}`)} ${selectedYear}. ${t('gov.empty.desc_2')}`}
+           className="bg-transparent border-none shadow-none"
+         />
          
          <div className="text-center space-y-4 w-full max-w-2xl mx-auto px-6">
-            <h2 className="text-4xl font-display font-black text-muted-foreground tracking-tight leading-tight">{t('gov.empty.title')}</h2>
-            <p className="text-muted-foreground w-full max-w-2xl mx-auto font-medium leading-relaxed">
-              {t('gov.empty.desc_1')} <strong>{t(`common.months.${selectedMonth || 1}`)} {selectedYear}</strong>. 
-              {t('gov.empty.desc_2')}
-            </p>
-          <div className="flex flex-col sm:flex-row items-center gap-6 pt-4">
+          <div className="flex flex-col sm:flex-row items-center justify-center gap-6 pt-4">
             <div className="flex items-center gap-4 bg-white/10 backdrop-blur-md rounded-2xl px-5 py-2 border border-border shadow-sm h-[40px]">
               <span className={cn(
                 "text-[10px] font-black uppercase tracking-widest transition-colors",
