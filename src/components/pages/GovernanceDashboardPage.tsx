@@ -10,7 +10,7 @@ import { db } from '../../lib/firebase';
 import { Page } from '../../app/navigation';
 import { motion } from 'motion/react';
 import { 
-  Radar, RadarChart, PolarGrid, PolarAngleAxis, PolarRadiusAxis, 
+  Radar, RadarChart as GovRadarChart, PolarGrid, PolarAngleAxis, PolarRadiusAxis, 
   ResponsiveContainer, Tooltip
 } from 'recharts';
 import { PageHeader, StatusBadge, MarkdownText, KpiCard } from '../Common';
@@ -210,24 +210,8 @@ export function GovernanceDashboardPage({
     return evaluateAxisRules(flatMetrics, 'Governança Corporativa', isBlocked);
   }, [flatMetrics, isBlocked]);
 
-  const [loadingAi, setLoadingAi] = useState(false);
-  const [aiAnalysis, setAiAnalysis] = useState<string>('');
-  const [auditTrail, setAuditTrail] = useState<any>(null);
-
-
-  const handleGenerateAnalysis = async () => {
-    setLoadingAi(true);
-    setTimeout(() => {
-      // SFFL v1.0: Delegate strictly to runtime
-      if ((runtimeOutput?.advisory as any)?.executiveSummary || (runtimeOutput as any)?.orchestratedNarrative?.narrative) {
-        setAiAnalysis((runtimeOutput?.advisory as any)?.executiveSummary || (runtimeOutput as any)?.orchestratedNarrative?.narrative);
-      } else {
-        setAiAnalysis(t('gov.ai.mock_client'));
-      }
-      setAuditTrail({ complianceStatus: isBlocked ? 'non_compliant' : 'compliant', warnings: (runtimeOutput as any)?.canonicalState?.fiduciaryWarnings || [] });
-      setLoadingAi(false);
-    }, 500);
-  };
+  const runtimeNarrative = (runtimeOutput?.advisory as any)?.executiveSummary || (runtimeOutput as any)?.orchestratedNarrative?.narrative;
+  const runtimeWarnings = (runtimeOutput as any)?.canonicalState?.fiduciaryWarnings || [];
 
   const [isYTD, setIsYTD] = useState(false);
   const hasData = dbIndicators.length > 0;
@@ -349,7 +333,7 @@ export function GovernanceDashboardPage({
 
       <ExecutiveSurface padding="md" radius="md" className="flex items-center justify-start gap-4 flex-wrap -mt-6 mb-10">
         <div className="flex items-center gap-3 flex-wrap">
-          <div className="flex items-center gap-4 bg-card rounded-md px-4 md:px-6 py-2 md:py-2.5 border border-border shadow-sm h-[40px]">
+          <div className="flex items-center gap-4 bg-surface rounded-md px-4 md:px-6 py-2 md:py-2.5 border border-border shadow-sm h-[40px]">
             <span className={cn(
               "text-[10px] font-medium uppercase tracking-widest transition-colors",
               !isYTD ? "text-secondary" : "text-muted-foreground"
@@ -374,7 +358,7 @@ export function GovernanceDashboardPage({
             </span>
           </div>
 
-          <div className="flex items-center bg-card border border-border rounded-md p-1 shadow-sm h-[40px]">
+          <div className="flex items-center bg-surface border border-border rounded-md p-1 shadow-sm h-[40px]">
             <div className={cn("flex items-center px-4 py-2", !isYTD && "border-r border-border")}>
               <BookOpen size={14} className="text-secondary mr-2.5" />
               <select 
@@ -429,7 +413,7 @@ export function GovernanceDashboardPage({
           height={380}
           className="h-full border-border"
         >
-          <RadarChart cx="50%" cy="50%" outerRadius="80%" data={radarData}>
+          <GovRadarChart cx="50%" cy="50%" outerRadius="80%" data={radarData}>
              <defs>
                 <linearGradient id="radarScoreGrad" x1="0" y1="0" x2="1" y2="1">
                    <stop offset="0%" stopColor="var(--color-chart-1)" stopOpacity={0.65} />
@@ -470,7 +454,7 @@ export function GovernanceDashboardPage({
              />
              
              <ExecutiveChartTooltip />
-          </RadarChart>
+          </GovRadarChart>
         </ExecutiveChart>
 
         {/* Strategic Insights */}
@@ -559,51 +543,43 @@ export function GovernanceDashboardPage({
               <p className="text-xs text-muted-foreground font-medium uppercase tracking-wider mt-1">{t('gov.perspective.subtitle')}</p>
             </div>
           </div>
-          <button 
-            onClick={handleGenerateAnalysis}
-            disabled={loadingAi}
-            className="btn-executive flex items-center gap-2"
-          >
-            {loadingAi ? <Loader2 size={16} className="animate-spin" /> : <Zap size={16} />} 
-            {aiAnalysis ? t('gov.btn.regenerate_ai') : t('gov.btn.generate_ai')}
-          </button>
         </div>
 
-        {aiAnalysis && (
+        {isBlocked ? (
+          <ExecutiveCallout 
+            variant="critical"
+            title={t('gov.ai.blocked_title')}
+          >
+            <p>{t('gov.ai.blocked_desc')}</p>
+            {runtimeWarnings?.length > 0 && (
+              <ul className="mt-2 list-disc list-inside opacity-90 text-sm">
+                {runtimeWarnings.map((w: any, i: number) => (
+                  <li key={i}>
+                    {typeof w === 'string' ? w : t(w.labelKey, w.args)}
+                  </li>
+                ))}
+              </ul>
+            )}
+          </ExecutiveCallout>
+        ) : runtimeNarrative ? (
           <ExecutiveNarrative 
             title={<span className="flex items-center gap-2"><Zap size={14} /> {t('gov.ai.strategic_reading')}</span>}
             variant="insight"
           >
             <div className="flex flex-col gap-6">
-              {auditTrail?.complianceStatus === 'non_compliant' ? (
+              {runtimeWarnings?.length > 0 && (
                 <ExecutiveCallout 
-                  variant="critical"
-                  title={t('gov.ai.blocked_title')}
-                >
-                  <p>{t('gov.ai.blocked_desc')}</p>
-                  {auditTrail.warnings?.length > 0 && (
-                    <ul className="mt-2 list-disc list-inside opacity-90 text-sm">
-                      {auditTrail.warnings.map((w: any, i: number) => (
-                        <li key={i}>
-                          {typeof w === 'string' ? w : t(w.labelKey, w.args)}
-                        </li>
-                      ))}
-                    </ul>
-                  )}
-                </ExecutiveCallout>
-              ) : (
-                <>
-                  {auditTrail?.complianceStatus === 'partially_compliant' && (
-                    <ExecutiveCallout 
-                      variant="warning"
-                      title={t('gov.ai.partial_reading')}
-                    />
-                  )}
-                  <MarkdownText text={aiAnalysis} />
-                </>
+                  variant="warning"
+                  title={t('gov.ai.partial_reading')}
+                />
               )}
+              <MarkdownText text={runtimeNarrative} />
             </div>
           </ExecutiveNarrative>
+        ) : (
+          <ExecutiveCallout variant="info" title="Aguardando Validação do Runtime Institucional">
+            <p className="text-sm opacity-90 mt-1">A perspectiva executiva será gerada automaticamente assim que os dados estruturais passarem pelos checks de governança e causalidade.</p>
+          </ExecutiveCallout>
         )}
 
         <div className="grid grid-cols-1 xl:grid-cols-2 gap-8">
