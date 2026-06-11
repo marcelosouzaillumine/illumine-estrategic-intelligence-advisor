@@ -30,7 +30,8 @@ import { useLanguage } from '../../contexts/LanguageContext';
 
 import { useAnnualFinancialData, useAllFinancialData } from '../../hooks/useFinancialData';
 
-import { ExecutiveCommentary } from '../ExecutiveCommentary';
+import { ExecutiveDecisionMemo } from '../ui/executive-decision-memo';
+import { MessageSquare } from 'lucide-react';
 import { ImportFinancialModal } from '../modals/ImportFinancialModal';
 import { ManualFinancialModal } from '../modals/ManualFinancialModal';
 import { buildBPHierarchy } from '../../lib/bpEngine';
@@ -735,13 +736,14 @@ export function BalanceSheetPage({ clients, selectedClient, selectedYear }: any)
 
 
       {!executiveReport ? null : (
-        <ExecutiveCommentary
-          reportType="Balance Sheet Intelligence"
-          clientId={selectedClient}
-          year={filterYear}
-          month={12}
-          defaultNote={executiveReport.patrimonialIntelligenceReport?.executiveNarrative || 'Nenhuma narrativa disponível para este exercício.'}
-        />
+        <div className="w-full mt-12 mb-12">
+          <ExecutiveDecisionMemo
+            icon={<MessageSquare />}
+            title="Síntese Executiva para Tomada de Decisão"
+            subtitle="Parecer analítico fiduciário para o Conselho"
+            narrative={executiveReport.patrimonialIntelligenceReport?.executiveNarrative || 'Nenhuma narrativa disponível para este exercício.'}
+          />
+        </div>
       )}
 
       {/* Modals */}
