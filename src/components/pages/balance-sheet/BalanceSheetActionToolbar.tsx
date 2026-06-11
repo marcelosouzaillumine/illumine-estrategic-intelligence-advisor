@@ -1,5 +1,6 @@
 import React from 'react';
 import { Plus, Upload, Trash2 } from 'lucide-react';
+import { ExecutiveSurface } from '../../ui/executive-surface';
 
 export type BalanceSheetActionToolbarProps = {
   onLaunchData: () => void;
@@ -9,7 +10,7 @@ export type BalanceSheetActionToolbarProps = {
 
 export const BalanceSheetActionToolbar = ({ onLaunchData, onImport, onDelete }: BalanceSheetActionToolbarProps) => {
   return (
-    <div className="flex items-center gap-3">
+    <ExecutiveSurface variant="transparent" padding="none" elevation="none" className="flex items-center gap-3">
       <button
         onClick={onLaunchData}
         className="px-4 py-3 bg-success-soft hover:bg-success text-success hover:text-white border border-success/20 rounded-md text-[10px] font-medium uppercase tracking-widest transition-all flex items-center gap-2 shadow-sm"
@@ -28,6 +29,6 @@ export const BalanceSheetActionToolbar = ({ onLaunchData, onImport, onDelete }: 
       >
         <Trash2 size={14} /> Excluir
       </button>
-    </div>
+    </ExecutiveSurface>
   );
 };
