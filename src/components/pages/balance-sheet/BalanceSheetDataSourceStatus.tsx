@@ -15,7 +15,7 @@ export const BalanceSheetDataSourceStatus = ({ hasRealData, loading }: BalanceSh
       elevation="sm"
       radius="sm"
       padding="none"
-      className="px-4 py-2 flex items-center gap-3"
+      className="px-3 py-1.5 h-8 flex items-center gap-3"
     >
       {loading && <Loader2 size={14} className="animate-spin text-secondary" />}
       <Database size={14} className={hasRealData ? 'text-success' : 'text-muted-foreground/30'} />

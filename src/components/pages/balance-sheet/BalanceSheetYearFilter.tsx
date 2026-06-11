@@ -14,7 +14,7 @@ export const BalanceSheetYearFilter = ({ filterYear, onChangeYear }: BalanceShee
       elevation="sm"
       radius="sm"
       padding="none"
-      className="flex p-1 items-center"
+      className="flex h-8 items-center px-2"
     >
       <Calendar size={12} className="ml-2 text-secondary" />
       <select

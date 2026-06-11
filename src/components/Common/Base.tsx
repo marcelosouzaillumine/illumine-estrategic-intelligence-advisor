@@ -47,7 +47,7 @@ export function PageHeader({
               {renderIcon(22, "text-secondary")}
             </div>
             <div className="flex flex-col sm:flex-row sm:items-center gap-3 min-w-0">
-              <h1 className="text-h2 font-display font-medium tracking-tight text-foreground leading-tight truncate text-primary">
+              <h1 className="text-4xl md:text-[44px] font-semibold tracking-tight text-foreground leading-tight truncate">
                 {translateLabel(title)}
               </h1>
               {badge && (
@@ -58,7 +58,7 @@ export function PageHeader({
             </div>
           </div>
           {subtitle && (
-            <p className="text-foreground/75 text-body-md font-medium ml-0 xl:ml-16 leading-relaxed max-w-3xl break-words">
+            <p className="text-[15px] font-normal text-foreground/72 ml-0 xl:ml-16 leading-relaxed max-w-3xl break-words">
               {translateLabel(subtitle)}
             </p>
           )}
