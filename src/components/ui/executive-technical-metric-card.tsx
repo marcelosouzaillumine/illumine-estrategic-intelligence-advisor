@@ -38,11 +38,12 @@ export function ExecutiveTechnicalMetricCard({
       variant="default"
       elevation="none"
       className={cn(
-        "flex flex-col justify-start w-full h-full p-3 md:p-4 rounded-2xl border border-border bg-surface-container/30",
+        "flex flex-col justify-start items-stretch w-full h-full p-4 rounded-2xl border border-border bg-surface-container/30",
         className
       )}
     >
-      <div className="w-full flex items-start justify-between gap-2 mb-2 min-h-[34px]">
+      {/* Header Zone */}
+      <div className="w-full flex items-start justify-between gap-2 min-h-[32px]">
         <span className="text-[11px] font-medium tracking-wide text-foreground/65 leading-snug line-clamp-2">
           {label}
         </span>
@@ -53,23 +54,30 @@ export function ExecutiveTechnicalMetricCard({
         )}
       </div>
 
-      <div className="w-full flex items-end justify-between pt-1">
+      {/* Value Zone */}
+      <div className="w-full flex items-end justify-between min-h-[48px]">
         <div className="text-[26px] font-semibold text-foreground leading-none">
           {value}
         </div>
         
         {confidence !== undefined && (
           <div className="shrink-0 flex items-center justify-end pl-2">
-            <span className="text-[11px] text-foreground/55 font-medium">
+            <span className="text-[11px] text-foreground/55 font-medium mb-0.5">
               Conf: {confidence}%
             </span>
           </div>
         )}
       </div>
 
+      {/* Divider Zone */}
       {description && (
-        <div className="w-full mt-auto pt-3 border-t border-border/50">
-          <p className="text-[11px] leading-relaxed text-foreground/70">
+        <div className="w-full my-2 border-t border-border/40" />
+      )}
+
+      {/* Description Zone */}
+      {description && (
+        <div className="w-full flex-1">
+          <p className="text-[12px] leading-5 text-foreground/72">
             {description}
           </p>
         </div>

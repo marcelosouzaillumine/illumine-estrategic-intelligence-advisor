@@ -32,7 +32,7 @@ export function BalanceSheetTechnicalLayerSection({
           {viewModel.families.map((family) => (
             <div key={family.familyName} className="space-y-4">
               <h4 className="text-[10px] font-black text-primary uppercase tracking-widest border-b border-border pb-2">{family.familyName}</h4>
-              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 items-stretch">
                 {family.indicators.map((ind, idx) => {
                   let tone = ind.classificationTone as any;
                   if (tone === 'insufficient') tone = 'neutral';
