@@ -17,10 +17,9 @@ export function BalanceSheetEvolutionAnalysisSection({
   if (!viewModel.hasEnoughData) {
     return (
       <ExecutiveEmptyState 
-        icon={TrendingDown}
+        icon={<TrendingDown />}
         title="Evolução histórica insuficiente"
-        description="São necessários ao menos dois exercícios para gerar inferências longitudinais."
-        className="mb-6"
+        description="São necessários ao menos dois exercícios para gerar inferências longitudinais consistentes."
       />
     );
   }

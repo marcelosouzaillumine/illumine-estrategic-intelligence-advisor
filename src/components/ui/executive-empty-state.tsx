@@ -1,37 +1,49 @@
 import React from 'react';
 import { ExecutiveSurface } from './executive-surface';
 import { cn } from '@/lib/utils';
-import { LucideIcon } from 'lucide-react';
 
 export interface ExecutiveEmptyStateProps {
-  icon: LucideIcon;
+  icon?: React.ReactNode;
   title: string;
   description: string;
+  maxWidth?: "sm" | "md" | "lg";
+  compact?: boolean;
   className?: string;
 }
 
 export function ExecutiveEmptyState({
-  icon: Icon,
+  icon,
   title,
   description,
+  maxWidth = "md",
+  compact = false,
   className
 }: ExecutiveEmptyStateProps) {
   return (
     <ExecutiveSurface 
-      padding="lg" 
+      padding="none" 
       radius="xl"
       className={cn(
-        "flex flex-col items-center justify-center text-center py-10", 
+        "flex flex-col items-center justify-center text-center w-full",
+        compact ? "py-8" : "py-10 md:py-12",
+        "gap-5",
         className
       )}
     >
-      <div className="w-12 h-12 bg-surface-container/30 rounded-xl flex items-center justify-center mb-5 text-muted-foreground/80">
-        <Icon size={24} strokeWidth={2} />
+      {icon && (
+        <div className="text-muted-foreground/60 flex items-center justify-center [&>svg]:w-10 [&>svg]:h-10">
+          {icon}
+        </div>
+      )}
+      <div className="flex flex-col items-center gap-3">
+        <h3 className="text-[24px] md:text-[26px] font-semibold text-foreground tracking-tight text-center">{title}</h3>
+        <p className={cn(
+          "text-[14px] md:text-[15px] leading-6 text-foreground/70 text-center w-full",
+          maxWidth === 'sm' ? 'max-w-[40ch]' : maxWidth === 'lg' ? 'max-w-[80ch]' : 'max-w-[60ch]'
+        )}>
+          {description}
+        </p>
       </div>
-      <h3 className="text-[22px] font-semibold text-foreground tracking-tight mb-2">{title}</h3>
-      <p className="text-[14px] leading-6 text-muted-foreground max-w-xl">
-        {description}
-      </p>
     </ExecutiveSurface>
   );
 }
