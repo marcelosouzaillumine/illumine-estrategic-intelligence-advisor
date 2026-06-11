@@ -24,6 +24,7 @@ import {
   ExecutiveChartYAxis,
   ExecutiveChartTooltip
 } from '../ui/executive-chart';
+import { ExecutiveEmptyState } from '../ui/executive-empty-state';
 import { cn, formatCurrency, formatValue } from '../../lib/utils';
 import { PageHeader, KpiValue } from '../Common';
 import { useAnnualFinancialData, useAllFinancialData } from '../../hooks/useFinancialData';
@@ -791,19 +792,17 @@ export function DLPAPage({ clients, selectedClient, selectedYear }: any) {
       </div>
 
       {!loading && !hasData && (
-        <div className="bg-card border border-dashed border-border rounded-[40px] p-16 text-center shadow-sm">
-          <div className="mx-auto w-16 h-16 bg-surface-container rounded-2xl flex items-center justify-center mb-5">
-            <BookOpen size={28} className="text-muted-foreground" />
-          </div>
-          <h3 className="text-lg font-black text-primary mb-2">Nenhum dado DLPA encontrado</h3>
-          <p className="text-sm text-secondary leading-relaxed mx-auto" style={{ maxWidth: '36rem' }}>
-            Importe ou lance manualmente os dados da Demonstração de Lucros e Prejuízos Acumulados para {filterYear}.
-          </p>
-          <div className="flex gap-3 mt-6 justify-center">
-            <button onClick={() => setShowManualModal(true)} className="px-6 py-2.5 bg-blue-600 text-white rounded-xl text-sm font-bold hover:bg-blue-700 transition-colors flex items-center gap-2">
+        <div className="flex flex-col gap-6 w-full">
+          <ExecutiveEmptyState
+            icon={<BookOpen />}
+            title="Nenhum dado DLPA encontrado"
+            description={`Importe ou lance manualmente os dados da Demonstração de Lucros e Prejuízos Acumulados para ${filterYear}.`}
+          />
+          <div className="flex gap-3 justify-center">
+            <button onClick={() => setShowManualModal(true)} className="px-6 py-2.5 bg-blue-600 text-white rounded-xl text-sm font-bold hover:bg-blue-700 transition-colors flex items-center gap-2 shadow-sm">
               <Plus size={16} /> Lançar DLPA
             </button>
-            <button onClick={() => setShowImportModal(true)} className="px-6 py-2.5 bg-surface-container text-muted-foreground rounded-xl text-sm font-bold hover:bg-surface-container 200 transition-colors flex items-center gap-2">
+            <button onClick={() => setShowImportModal(true)} className="px-6 py-2.5 bg-surface-container text-muted-foreground rounded-xl text-sm font-bold hover:bg-surface-container 200 transition-colors flex items-center gap-2 shadow-sm">
               <Upload size={16} /> Importar
             </button>
           </div>
