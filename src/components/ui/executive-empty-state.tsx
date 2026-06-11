@@ -9,6 +9,8 @@ export interface ExecutiveEmptyStateProps {
   maxWidth?: "sm" | "md" | "lg";
   compact?: boolean;
   className?: string;
+  actionLabel?: string;
+  onAction?: () => void;
 }
 
 export function ExecutiveEmptyState({
@@ -17,7 +19,9 @@ export function ExecutiveEmptyState({
   description,
   maxWidth = "md",
   compact = false,
-  className
+  className,
+  actionLabel,
+  onAction
 }: ExecutiveEmptyStateProps) {
   return (
     <ExecutiveSurface 
@@ -43,6 +47,14 @@ export function ExecutiveEmptyState({
         )}>
           {description}
         </p>
+        {actionLabel && onAction && (
+          <button 
+            onClick={onAction}
+            className="mt-4 px-6 py-2.5 bg-executive text-white rounded-xl text-sm font-medium hover:bg-executive/90 transition-colors shadow-sm"
+          >
+            {actionLabel}
+          </button>
+        )}
       </div>
     </ExecutiveSurface>
   );
