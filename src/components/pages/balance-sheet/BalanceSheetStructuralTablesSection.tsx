@@ -55,7 +55,7 @@ export function BalanceSheetStructuralTablesSection({
               </div>
               
               <div className="p-2">
-                <div className="flex items-start px-4 py-3 border-b border-border text-[9px] font-bold text-foreground/70 uppercase tracking-[0.2em]">
+                <div className="flex items-center px-4 py-3 border-b border-border text-[9px] font-bold text-foreground/70 uppercase tracking-[0.2em]">
                   <div className="flex-1">Conta Contábil</div>
                   <div className="w-32 text-right">Saldo (R$)</div>
                   <div className="w-24 text-right">AV (%)</div>
@@ -66,31 +66,31 @@ export function BalanceSheetStructuralTablesSection({
                   {section.rows.map((row, i) => {
                     return (
                     <div key={i} className={cn(
-                      "flex items-start px-4 py-3 rounded-2xl transition-all duration-200 hover:bg-surface-container/30",
+                      "flex items-center px-4 py-2.5 rounded-2xl transition-all duration-200 hover:bg-surface-container/30",
                       row.level === 1 ? "bg-surface-container/30/50" : ""
                     )}>
-                      <div className="flex-1 flex items-start">
+                      <div className="flex-1 flex items-center pr-4">
                         <span 
                           className={cn(
-                            "text-xs block truncate pr-4", 
-                            row.level === 1 ? "font-bold text-foreground" : "font-semibold text-foreground/70"
+                            "text-[13px] leading-tight truncate", 
+                            row.level === 1 ? "font-bold text-foreground" : "font-medium text-foreground/75"
                           )}
                           style={{ paddingLeft: row.level > 1 ? `${(row.level - 1) * 16}px` : '0px' }}
                         >
                           {row.level > 1 && (
-                            <span className="inline-block w-3 h-[1px] bg-surface-container mr-2 align-middle opacity-50" />
+                            <span className="inline-block w-3 h-[1px] bg-foreground/20 mr-2.5 align-middle" />
                           )}
                           {row.label}
                         </span>
                       </div>
                       
-                      <div className="w-32 text-right font-display text-sm font-bold text-foreground tabular-nums pt-[2px]">
+                      <div className="w-32 text-right font-display text-[13px] font-semibold text-foreground tabular-nums">
                         {row.valueFormatted}
                       </div>
                       
-                      <div className="w-24 text-right flex flex-col items-end justify-start">
+                      <div className="w-24 text-right flex items-center justify-end">
                         <span className={cn(
-                          "inline-flex items-start justify-center px-2 py-1 rounded-lg text-[10px] font-bold tabular-nums border",
+                          "inline-flex items-center justify-center px-2 py-0.5 rounded-[6px] text-[10px] font-bold tabular-nums border",
                           (row.verticalAnalysis ?? 0) > 100 ? "bg-critical-soft text-rose-600 border-rose-200" : "bg-surface-container/50 text-foreground/70 border-border"
                         )}>
                           {row.verticalAnalysis !== null && row.verticalAnalysis !== undefined ? (row.verticalAnalysis > 100 ? '> 100%' : `${row.verticalAnalysis.toFixed(2)}%`) : (
@@ -99,17 +99,17 @@ export function BalanceSheetStructuralTablesSection({
                         </span>
                       </div>
                       
-                      <div className="w-28 text-right flex justify-end items-start">
+                      <div className="w-28 text-right flex items-center justify-end">
                         {(row.horizontalAnalysis ?? 0) !== 0 && row.horizontalAnalysis !== null && row.horizontalAnalysis !== undefined ? (
                           <span className={cn(
-                            "inline-flex items-center justify-center gap-1 px-2.5 py-1 rounded-lg text-[10px] font-bold tabular-nums border",
+                            "inline-flex items-center justify-center gap-1 px-2 py-0.5 rounded-[6px] text-[10px] font-bold tabular-nums border",
                             row.horizontalAnalysis > 0 ? "bg-success-soft text-emerald-600 border-emerald-100" : row.horizontalAnalysis < 0 ? "bg-critical-soft text-rose-600 border-rose-100" : "bg-surface-container/30 text-foreground/70 border-border"
                           )}>
                             {row.horizontalAnalysis > 0 ? <TrendingUp size={10} strokeWidth={3} /> : <TrendingDown size={10} strokeWidth={3} />}
                             {Math.abs(row.horizontalAnalysis).toFixed(2)}%
                           </span>
                         ) : (
-                           <span className="inline-flex items-start justify-center px-2 py-1 text-foreground/70 text-[10px] font-bold">
+                           <span className="inline-flex items-center justify-center px-2 py-0.5 text-foreground/70 text-[10px] font-bold">
                              —
                            </span>
                         )}

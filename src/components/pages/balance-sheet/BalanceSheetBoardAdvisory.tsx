@@ -32,8 +32,7 @@ export const BalanceSheetBoardAdvisory = ({
     <div className="w-full mb-12">
       <ExecutiveDecisionMemo
         icon={<Briefcase />}
-        title="Síntese Executiva para Tomada de Decisão"
-        subtitle="Parecer analítico fiduciário para o Conselho"
+        title="Parecer Estratégico"
         thesis={patrimonialHealth || 'Estrutura patrimonial em avaliação.'}
         narrative={narrative}
         recommendation={recommendation}
