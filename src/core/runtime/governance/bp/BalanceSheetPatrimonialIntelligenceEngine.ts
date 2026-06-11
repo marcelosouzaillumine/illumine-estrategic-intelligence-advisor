@@ -1,16 +1,17 @@
 import { BPSummary } from '../../../../lib/bpEngine';
 import { PatrimonialIndicator } from './BalanceSheetFinancialMetricsEngine';
+import { sanitize, translate } from '../../executive-consolidation/ExecutiveSemanticBoundaryGuard';
 
 export class BalanceSheetPatrimonialIntelligenceEngine {
   static generate(bpSummary: BPSummary | undefined, indicators: PatrimonialIndicator[]) {
     if (!bpSummary || indicators.length === 0) {
       return {
-        solvencyReading: 'Indisponível',
-        liquidityReading: 'Indisponível',
-        capitalStructureReading: 'Indisponível',
-        capitalPreservationReading: 'Indisponível',
-        assetQualityReading: 'Indisponível',
-        growthCapacityReading: 'Indisponível'
+        solvencyReading: translate('INDISPONÍVEL'),
+        liquidityReading: translate('INDISPONÍVEL'),
+        capitalStructureReading: translate('INDISPONÍVEL'),
+        capitalPreservationReading: translate('INDISPONÍVEL'),
+        assetQualityReading: translate('INDISPONÍVEL'),
+        growthCapacityReading: translate('INDISPONÍVEL')
       };
     }
 
@@ -51,12 +52,12 @@ export class BalanceSheetPatrimonialIntelligenceEngine {
     }
 
     return {
-      solvencyReading,
-      liquidityReading,
-      capitalStructureReading,
-      capitalPreservationReading,
-      assetQualityReading: 'As imobilizações acompanham a característica operacional sem evidências de excessos de iliquidez nos ativos não circulantes.',
-      growthCapacityReading: 'A robustez do capital circulante líquido sinaliza viabilidade para ciclos moderados de expansão sem diluição agressiva.'
+      solvencyReading: sanitize(solvencyReading),
+      liquidityReading: sanitize(liquidityReading),
+      capitalStructureReading: sanitize(capitalStructureReading),
+      capitalPreservationReading: sanitize(capitalPreservationReading),
+      assetQualityReading: sanitize('As imobilizações acompanham a característica operacional sem evidências de excessos de iliquidez nos ativos não circulantes.'),
+      growthCapacityReading: sanitize('A robustez do capital circulante líquido sinaliza viabilidade para ciclos moderados de expansão sem diluição agressiva.')
     };
   }
 }

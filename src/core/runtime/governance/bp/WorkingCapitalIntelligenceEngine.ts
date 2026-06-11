@@ -31,7 +31,8 @@ export class WorkingCapitalIntelligenceEngine {
     const safePMRE = NaNEliminationGuard.sanitizeNumber(pmre);
     const safePMPC = NaNEliminationGuard.sanitizeNumber(pmpc);
 
-    const isAllSafe = typeof safePMRV === 'number' && typeof safePMRE === 'number' && typeof safePMPC === 'number';
+    const isAllSafe = typeof safePMRV === 'number' && typeof safePMRE === 'number' && typeof safePMPC === 'number' 
+                      && !Number.isNaN(safePMRV) && !Number.isNaN(safePMRE) && !Number.isNaN(safePMPC);
 
     indicators.push({
       metricName: 'Ciclo Financeiro (Estimativa Indireta)',

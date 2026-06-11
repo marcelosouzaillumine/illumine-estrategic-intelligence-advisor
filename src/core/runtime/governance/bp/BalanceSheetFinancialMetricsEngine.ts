@@ -1,5 +1,6 @@
 import { BPSummary } from '../../../../lib/bpEngine';
 import { DebtToEquityEngine } from './DebtToEquityEngine';
+import { NaNEliminationGuard } from '../common/NaNEliminationGuard';
 
 export interface PatrimonialIndicator {
   metricName: string;
@@ -33,7 +34,7 @@ export class BalanceSheetFinancialMetricsEngine {
       const family = 'Liquidez';
       const metricName = 'Liquidez Corrente';
       if (summary.passivoCirculante > 0) {
-        const val = summary.ativoCirculante / summary.passivoCirculante;
+        const val = Number(NaNEliminationGuard.sanitizeNumber(summary.ativoCirculante / summary.passivoCirculante, 0));
         let classification = 'HEALTHY';
         let severity = 'HEALTHY';
         if (val < 1.00) { classification = 'CRITICAL'; severity = 'CRITICAL'; }
@@ -62,7 +63,7 @@ export class BalanceSheetFinancialMetricsEngine {
       const family = 'Liquidez';
       const metricName = 'Liquidez Seca';
       if (summary.passivoCirculante > 0) {
-        const val = (summary.ativoCirculante - summary.estoques) / summary.passivoCirculante;
+        const val = Number(NaNEliminationGuard.sanitizeNumber((summary.ativoCirculante - summary.estoques) / summary.passivoCirculante, 0));
         const classification = val >= 1.0 ? 'HEALTHY' : (val >= 0.8 ? 'ATTENTION' : 'CRITICAL');
         indicators.push({
           metricName,
@@ -86,7 +87,7 @@ export class BalanceSheetFinancialMetricsEngine {
       const family = 'Liquidez';
       const metricName = 'Liquidez Imediata';
       if (summary.passivoCirculante > 0) {
-        const val = summary.caixaEquivalentes / summary.passivoCirculante;
+        const val = Number(NaNEliminationGuard.sanitizeNumber(summary.caixaEquivalentes / summary.passivoCirculante, 0));
         const classification = val >= 0.5 ? 'HEALTHY' : (val >= 0.2 ? 'ATTENTION' : 'CRITICAL');
         indicators.push({
           metricName,
@@ -111,8 +112,8 @@ export class BalanceSheetFinancialMetricsEngine {
       const metricName = 'Liquidez Geral';
       const rlp = summary.realizavelLongoPrazo || 0;
       if ((summary.passivoCirculante + summary.passivoNaoCirculante) > 0) {
-        const val = (summary.ativoCirculante + rlp) / (summary.passivoCirculante + summary.passivoNaoCirculante);
-        const valLC = summary.passivoCirculante > 0 ? summary.ativoCirculante / summary.passivoCirculante : 0;
+        const val = Number(NaNEliminationGuard.sanitizeNumber((summary.ativoCirculante + rlp) / (summary.passivoCirculante + summary.passivoNaoCirculante), 0));
+        const valLC = summary.passivoCirculante > 0 ? Number(NaNEliminationGuard.sanitizeNumber(summary.ativoCirculante / summary.passivoCirculante, 0)) : 0;
         
         let rationale = 'Solvência estrutural de longo prazo.';
         if (Math.abs(val - valLC) < 0.0001 && rlp === 0 && summary.passivoNaoCirculante === 0) {
@@ -218,7 +219,7 @@ export class BalanceSheetFinancialMetricsEngine {
       const family = 'Estrutura de Capital';
       const metricName = 'Endividamento Geral';
       if (summary.ativoTotal > 0) {
-        const val = summary.passivoTotal / summary.ativoTotal;
+        const val = Number(NaNEliminationGuard.sanitizeNumber(summary.passivoTotal / summary.ativoTotal, 0));
         const classification = val > 0.8 ? 'CRITICAL' : (val > 0.6 ? 'ATTENTION' : 'HEALTHY');
         indicators.push({
           metricName,
@@ -242,7 +243,7 @@ export class BalanceSheetFinancialMetricsEngine {
       const family = 'Estrutura de Capital';
       const metricName = 'Dependência de Capital de Terceiros';
       if (summary.patrimonioLiquido > 0) {
-        const val = summary.passivoTotal / summary.patrimonioLiquido;
+        const val = Number(NaNEliminationGuard.sanitizeNumber(summary.passivoTotal / summary.patrimonioLiquido, 0));
         const classification = val > 2.0 ? 'CRITICAL' : (val > 1.0 ? 'ATTENTION' : 'HEALTHY');
         indicators.push({
           metricName,
@@ -285,7 +286,7 @@ export class BalanceSheetFinancialMetricsEngine {
       const family = 'Estrutura de Capital';
       const metricName = 'Autonomia Financeira';
       if (summary.ativoTotal > 0 && summary.patrimonioLiquido >= 0) {
-        const val = summary.patrimonioLiquido / summary.ativoTotal;
+        const val = Number(NaNEliminationGuard.sanitizeNumber(summary.patrimonioLiquido / summary.ativoTotal, 0));
         const classification = val < 0.2 ? 'CRITICAL' : (val < 0.4 ? 'ATTENTION' : 'HEALTHY');
         indicators.push({
           metricName,
@@ -309,7 +310,7 @@ export class BalanceSheetFinancialMetricsEngine {
       const family = 'Estrutura de Capital';
       const metricName = 'Composição do Endividamento';
       if (summary.passivoTotal > 0) {
-        const val = summary.passivoCirculante / summary.passivoTotal;
+        const val = Number(NaNEliminationGuard.sanitizeNumber(summary.passivoCirculante / summary.passivoTotal, 0));
         let classification = 'HEALTHY';
         let severity = 'HEALTHY';
         if (val > 0.6) { classification = 'SHORT_TERM_PRESSURE'; severity = 'CRITICAL'; }
@@ -338,7 +339,7 @@ export class BalanceSheetFinancialMetricsEngine {
       const family = 'Imobilização';
       const metricName = 'Imobilização do Patrimônio Líquido';
       if (summary.ativoPermanente !== null && summary.patrimonioLiquido > 0) {
-        const val = summary.ativoPermanente / summary.patrimonioLiquido;
+        const val = Number(NaNEliminationGuard.sanitizeNumber(summary.ativoPermanente / summary.patrimonioLiquido, 0));
         const classification = val > 1.0 ? 'CRITICAL' : (val > 0.8 ? 'ATTENTION' : 'HEALTHY');
         indicators.push({
           metricName,
@@ -378,7 +379,7 @@ export class BalanceSheetFinancialMetricsEngine {
             format: 'string'
           });
         } else {
-          const val = passivoOneroso / summary.patrimonioLiquido;
+          const val = Number(NaNEliminationGuard.sanitizeNumber(passivoOneroso / summary.patrimonioLiquido, 0));
           const classification = val > 1.5 ? 'CRITICAL' : (val > 0.8 ? 'ATTENTION' : 'HEALTHY');
           indicators.push({
             metricName: 'Financial Debt-to-Equity',

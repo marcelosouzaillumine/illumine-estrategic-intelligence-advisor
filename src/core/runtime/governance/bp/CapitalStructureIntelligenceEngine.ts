@@ -1,4 +1,5 @@
 import { BPSummary } from '../../../../lib/bpEngine';
+import { NaNEliminationGuard } from '../common/NaNEliminationGuard';
 import { PatrimonialIndicator } from './BalanceSheetFinancialMetricsEngine';
 
 export class CapitalStructureIntelligenceEngine {
@@ -11,10 +12,10 @@ export class CapitalStructureIntelligenceEngine {
     const family = 'Capital Structure Intelligence';
 
     const lrValue = typeof liquidezReal === 'number' ? liquidezReal : 1.0;
-    const lsValue = (summary.passivoCirculante || 0) > 0 ? (summary.ativoCirculante - summary.estoques) / summary.passivoCirculante : 1.0;
+    const lsValue = (summary.passivoCirculante || 0) > 0 ? Number(NaNEliminationGuard.sanitizeNumber((summary.ativoCirculante - summary.estoques) / summary.passivoCirculante, 0)) : 1.0;
     const laValue = typeof lossAbsorption === 'number' ? lossAbsorption : 5.0;
-    const estoqueConc = summary.ativoTotal > 0 ? summary.estoques / summary.ativoTotal : 0;
-    const divCPConc = summary.passivoTotal > 0 ? summary.passivoCirculante / summary.passivoTotal : 0;
+    const estoqueConc = summary.ativoTotal > 0 ? Number(NaNEliminationGuard.sanitizeNumber(summary.estoques / summary.ativoTotal, 0)) : 0;
+    const divCPConc = summary.passivoTotal > 0 ? Number(NaNEliminationGuard.sanitizeNumber(summary.passivoCirculante / summary.passivoTotal, 0)) : 0;
 
     // Funding Capacity Ratio
     if (summary.obrigacoesOperacionais !== null && summary.patrimonioLiquido > 0) {
@@ -26,7 +27,7 @@ export class CapitalStructureIntelligenceEngine {
       const margemEndividamento = Math.max(0, tetoEndividamento - passivoOneroso);
       
       if (ncgIncremental > 0) {
-        const val = (summary.caixaEquivalentes + margemEndividamento) / ncgIncremental;
+        const val = Number(NaNEliminationGuard.sanitizeNumber((summary.caixaEquivalentes + margemEndividamento) / ncgIncremental, 0));
         
         let classification = 'NEUTRAL';
         if (val > 3.0) classification = 'Excelente';
@@ -58,8 +59,8 @@ export class CapitalStructureIntelligenceEngine {
 
     // Debt Capacity Score
     if (summary.patrimonioLiquido > 0 && summary.ativoTotal > 0) {
-      const debtToEquity = (summary.passivosFinanceiros || 0) / summary.patrimonioLiquido;
-      const liquidityProxy = summary.ativoCirculante / (summary.passivoCirculante || 1);
+      const debtToEquity = Number(NaNEliminationGuard.sanitizeNumber((summary.passivosFinanceiros || 0) / summary.patrimonioLiquido, 0));
+      const liquidityProxy = Number(NaNEliminationGuard.sanitizeNumber(summary.ativoCirculante / (summary.passivoCirculante || 1), 0));
       
       let debtCapacityScore = 100;
       if (debtToEquity > 1.5) debtCapacityScore -= 40;

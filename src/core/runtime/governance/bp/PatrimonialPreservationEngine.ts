@@ -1,26 +1,31 @@
 import { BPSummary } from '../../../../lib/bpEngine';
+import { NaNEliminationGuard } from '../common/NaNEliminationGuard';
 import { PatrimonialIndicator } from './BalanceSheetFinancialMetricsEngine';
 
 export class PatrimonialPreservationEngine {
   static getConsumptionMetrics(summary: BPSummary) {
-    const amount = summary.lucrosPrejuizos || 0;
+    const lucrosPrejuizos = summary.lucrosPrejuizos || 0;
     const base = summary.capitalSocial || 0;
     
-    if (base === 0 || amount === 0) {
+    // Apenas lucrosPrejuizos negativo representa prejuízo consumindo capital
+    if (base === 0 || lucrosPrejuizos >= 0) {
       return {
-        capitalConsumedAmount: amount > 0 ? amount : undefined,
+        capitalConsumedAmount: undefined,
         capitalConsumedPercent: 'INSUFFICIENT_DATA',
         capitalConsumptionBase: undefined,
-        capitalConsumptionExplanation: 'Dados insuficientes de capital social ou ausência de prejuízos acumulados para calcular o consumo de capital.'
+        capitalConsumptionExplanation: lucrosPrejuizos >= 0 
+          ? 'Não há consumo de capital, pois a empresa apresenta lucros retidos (ou saldo zerado).' 
+          : 'Dados insuficientes de capital social para calcular o consumo de capital.'
       };
     }
 
-    const percent = (amount / base) * 100;
+    const amountConsumed = Math.abs(lucrosPrejuizos);
+    const percent = (amountConsumed / base) * 100;
     return {
-      capitalConsumedAmount: amount,
+      capitalConsumedAmount: amountConsumed,
       capitalConsumedPercent: Number(percent.toFixed(1)),
       capitalConsumptionBase: base,
-      capitalConsumptionExplanation: `Os prejuízos acumulados (R$ ${amount.toLocaleString('pt-BR')}) consumiram ${percent.toFixed(1)}% do capital social (R$ ${base.toLocaleString('pt-BR')}).`
+      capitalConsumptionExplanation: `Os prejuízos acumulados (R$ ${amountConsumed.toLocaleString('pt-BR')}) consumiram ${percent.toFixed(1)}% do capital social (R$ ${base.toLocaleString('pt-BR')}).`
     };
   }
 
@@ -43,7 +48,7 @@ export class PatrimonialPreservationEngine {
         if (result < 0) {
           isLoss = true;
           prejuizo = Math.abs(result);
-          const yearsToErode = summary.patrimonioLiquido / prejuizo;
+          const yearsToErode = Number(NaNEliminationGuard.sanitizeNumber(summary.patrimonioLiquido / prejuizo, 0));
           cev = yearsToErode.toFixed(1);
           if (yearsToErode < 2) {
             cevClassification = 'CRITICAL';
@@ -63,12 +68,12 @@ export class PatrimonialPreservationEngine {
       }
 
       // Equity Buffer (Margem para Insolvência)
-      const equityBuffer = summary.patrimonioLiquido / summary.ativoTotal;
+      const equityBuffer = Number(NaNEliminationGuard.sanitizeNumber(summary.patrimonioLiquido / summary.ativoTotal, 0));
       const bufferClassification = equityBuffer > 0.3 ? 'HEALTHY' : (equityBuffer > 0.1 ? 'ATTENTION' : 'CRITICAL');
 
       // Liquidity & Debt assessment for recalibration
-      const isLiquidityHealthy = summary.passivoCirculante > 0 && (summary.ativoCirculante / summary.passivoCirculante >= 1.0);
-      const isDebtHealthy = summary.ativoTotal > 0 && (summary.passivoTotal / summary.ativoTotal <= 0.6);
+      const isLiquidityHealthy = summary.passivoCirculante > 0 && (Number(NaNEliminationGuard.sanitizeNumber(summary.ativoCirculante / summary.passivoCirculante >= 1.0, 0)));
+      const isDebtHealthy = summary.ativoTotal > 0 && (Number(NaNEliminationGuard.sanitizeNumber(summary.passivoTotal / summary.ativoTotal, 0)) <= 0.6);
 
       // Recalibrated Loss Absorption Capacity
       let lacClassification = cevClassification;
@@ -110,8 +115,8 @@ export class PatrimonialPreservationEngine {
 
       // 2. Equity Quality Index (EQI)
       // Caixa / Patrimônio Líquido como simplificação inicial de qualidade de reserva de liquidez versus ativos intangíveis/estoque.
-      const pctCaixaNoPL = summary.caixaEquivalentes / summary.patrimonioLiquido;
-      const pctIntangivelNoPL = summary.ativoPermanente !== null ? summary.ativoPermanente / summary.patrimonioLiquido : 0;
+      const pctCaixaNoPL = Number(NaNEliminationGuard.sanitizeNumber(summary.caixaEquivalentes / summary.patrimonioLiquido, 0));
+      const pctIntangivelNoPL = summary.ativoPermanente !== null ? Number(NaNEliminationGuard.sanitizeNumber(summary.ativoPermanente / summary.patrimonioLiquido, 0)) : 0;
       
       let eqiClassification = 'NEUTRAL';
       let eqiRationale = '';
@@ -188,7 +193,7 @@ export class PatrimonialPreservationEngine {
 
         indicators.push({
           metricName: 'Capital Consumido',
-          value: (consumptionMetrics.capitalConsumedPercent as number) / 100,
+          value: Number(NaNEliminationGuard.sanitizeNumber((consumptionMetrics.capitalConsumedPercent as number) / 100, 0)),
           classification: consClass,
           severity: consClass,
           confidence: 95,

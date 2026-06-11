@@ -1,3 +1,5 @@
+import { sanitize } from '../../executive-consolidation/ExecutiveSemanticBoundaryGuard';
+
 export class BalanceSheetExecutiveRecommendationEngine {
   /**
    * Generates Primary Recommendations based only on the dominant restriction identified in the BP.
@@ -8,36 +10,36 @@ export class BalanceSheetExecutiveRecommendationEngine {
   ): { text: string; rationale: string[] } {
     if (!dominantRestriction) {
       return {
-        text: 'Preserve solvency discipline and optimize capital allocation due to high liquidity and low leverage.',
-        rationale: [rootCause, 'Capital is formally preserved.']
+        text: sanitize('Preservar a disciplina de solvência e otimizar a alocação de capital dada a liquidez adequada e o baixo endividamento.'),
+        rationale: [sanitize(rootCause), sanitize('O capital encontra-se formalmente preservado.')]
       };
     }
 
     switch (dominantRestriction) {
       case 'LIQUIDITY_CRITICAL':
         return {
-          text: 'Prioritize actions to release working capital, reduce inventory, and lengthen the profile of operational liabilities.',
-          rationale: [rootCause]
+          text: sanitize('Priorizar ações para liberação de capital de giro, redução de estoques e alongamento do perfil de exigibilidades operacionais.'),
+          rationale: [sanitize(rootCause)]
         };
       case 'SOLVENCY_CRITICAL':
         return {
-          text: 'Immediate need for capital injection or debt restructuring to restore solvency.',
-          rationale: [rootCause]
+          text: sanitize('Necessidade imediata de injeção de capital ou reestruturação de passivos onerosos para restaurar a solvência.'),
+          rationale: [sanitize(rootCause)]
         };
       case 'LEVERAGE_CRITICAL':
         return {
-          text: 'Halt new debt issuance and prioritize deleveraging through operational cash generation or asset sales.',
-          rationale: [rootCause]
+          text: sanitize('Interromper novas captações onerosas e priorizar desalavancagem via geração de caixa operacional ou desmobilização de ativos.'),
+          rationale: [sanitize(rootCause)]
         };
       case 'CAPITAL_CONSUMPTION_CRITICAL':
         return {
-          text: 'Mandatory halt of cash burn and reinforcement of profit retention; suspend dividend distribution.',
-          rationale: [rootCause]
+          text: sanitize('Interrupção obrigatória da queima de caixa e reforço na retenção de lucros operacionais; suspender distribuição de proventos.'),
+          rationale: [sanitize(rootCause)]
         };
       default:
         return {
-          text: 'Maintain strict monitoring of balance sheet components.',
-          rationale: [rootCause]
+          text: sanitize('Manter monitoramento rigoroso dos componentes estruturais do balanço patrimonial.'),
+          rationale: [sanitize(rootCause)]
         };
     }
   }
@@ -50,7 +52,7 @@ export class BalanceSheetExecutiveRecommendationEngine {
   ): Array<{ source: 'DRE' | 'DFC' | 'DLPA'; text: string; severity: 'INFO' | 'WARNING' }> {
     return externalAlerts.map(alert => ({
       source: alert.source,
-      text: `Contextual advisory originating from ${alert.source}: ${alert.message}`,
+      text: sanitize(`Parecer contextual originado no demonstrativo ${alert.source}: ${alert.message}`),
       severity: alert.severity
     }));
   }

@@ -1,5 +1,7 @@
 import { BPSummary } from '../../../../lib/bpEngine';
 import { PatrimonialIndicator } from './BalanceSheetFinancialMetricsEngine';
+import { NaNEliminationGuard } from '../common/NaNEliminationGuard';
+import { sanitize } from '../../executive-consolidation/ExecutiveSemanticBoundaryGuard';
 
 export class EquityQualityEngine {
   /**
@@ -18,7 +20,7 @@ export class EquityQualityEngine {
       return { indicators: [], equityQualityClass: 'INSUFFICIENT_DATA', consumptionRatio: null, capitalConsumedAmount: null };
     }
 
-    const prejuizosAcumulados = summary.lucrosPrejuizos || 0;
+    const lucrosPrejuizos = summary.lucrosPrejuizos || 0;
     const capital = summary.capitalSocial || 0;
     
     let eqClass = 'Baixa';
@@ -29,11 +31,11 @@ export class EquityQualityEngine {
     let metricValue: number | string = 'INSUFFICIENT_DATA';
     let format: 'string' | 'percentage' = 'string';
 
-    // Se prejuizosAcumulados for maior que zero, significa que há perdas (pois a engine extrai prejuízos como números positivos absolutos)
-    if (prejuizosAcumulados > 0) {
-      capitalConsumedAmount = prejuizosAcumulados;
+    // Se lucrosPrejuizos for menor que zero, significa que há perdas (prejuízos acumulados)
+    if (lucrosPrejuizos < 0) {
+      capitalConsumedAmount = Math.abs(lucrosPrejuizos);
       if (capital > 0) {
-        consumptionRatio = capitalConsumedAmount / capital;
+        consumptionRatio = Number(NaNEliminationGuard.sanitizeNumber(capitalConsumedAmount / capital, 0));
         if (consumptionRatio > 0.75) {
           eqClass = 'Crítico';
           severity = 'CRITICAL';
@@ -59,7 +61,7 @@ export class EquityQualityEngine {
         metricValue = 'Consumo de Capital';
       }
     } else {
-      // Não há prejuízos acumulados registrados
+      // lucrosPrejuizos >= 0 significa que há lucros retidos ou zero perdas
       if (summary.patrimonioLiquido > capital * 1.2) {
         eqClass = 'Saudável';
         severity = 'HEALTHY';
@@ -76,11 +78,11 @@ export class EquityQualityEngine {
     indicators.push({
       metricName: 'Equity Quality Index',
       value: metricValue,
-      classification: eqClass,
+      classification: sanitize(eqClass),
       severity: severity,
       confidence: 100,
-      evidence: { prejuizosAcumulados, capital, consumptionRatio, capitalConsumedAmount },
-      rationale,
+      evidence: { lucrosPrejuizos, capital, consumptionRatio, capitalConsumedAmount },
+      rationale: sanitize(rationale),
       lineageHash: `EQE-IDX-${Date.now().toString(16)}`,
       family,
       format
@@ -88,7 +90,7 @@ export class EquityQualityEngine {
 
     return {
       indicators,
-      equityQualityClass: eqClass,
+      equityQualityClass: sanitize(eqClass),
       consumptionRatio,
       capitalConsumedAmount
     };

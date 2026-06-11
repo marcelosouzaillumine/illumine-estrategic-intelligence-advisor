@@ -26,7 +26,8 @@ export class SemanticComplianceAuditRuntime {
     // 2. Protect against Semantic Drift
     // If ELSA evaluates the exact same context/version, the hash MUST be identical.
     // We pass the payload hash as context, and semanticLineageHash as result to simulate this.
-    const contextHash = `${lineagePayload.analysisYear}_${lineagePayload.lifecycleStage}`;
+    const dataSignature = SemanticLineageReport.generateHash({...lineagePayload, authority: 'data_signature'});
+    const contextHash = `${lineagePayload.analysisYear}_${lineagePayload.lifecycleStage}_${dataSignature}`;
     SemanticDeterminismValidator.validate(
       contextHash, 
       semanticLineageHash, 
