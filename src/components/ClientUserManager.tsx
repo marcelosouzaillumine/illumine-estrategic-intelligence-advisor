@@ -25,6 +25,7 @@ import { db, auth, createSecondaryUser } from '../lib/firebase';
 import { cn } from '../lib/utils';
 import { PermissaoModulo } from '../types/modules';
 import { ExecutiveTable, ExecutiveTableHeader, ExecutiveTableBody, ExecutiveTableRow, ExecutiveTableHead, ExecutiveTableCell } from './ui/executive-table';
+import { ExecutiveSurface } from './ui/executive-surface';
 
 import { NAVIGATION_GROUPS } from '../app/navigation';
 
@@ -326,8 +327,8 @@ function ClientUserManagerInner({ clientId }: { clientId: string }) {
       </div>
 
       {isAdding && (
-          <div 
-            className="card-premium space-y-10 border-secondary/20"
+          <ExecutiveSurface 
+            className="space-y-10 border-secondary/20"
           >
              <div className="flex items-center justify-between">
                 <h5 className="text-[11px] font-black text-text-main uppercase tracking-[0.2em] flex items-center gap-3">
@@ -522,10 +523,10 @@ function ClientUserManagerInner({ clientId }: { clientId: string }) {
                   {editingId ? 'Confirmar Alterações' : 'Liberar Acesso'}
                 </button>
              </div>
-          </div>
+          </ExecutiveSurface>
         )}
 
-      <div className="card-premium p-0 overflow-hidden">
+      <ExecutiveSurface padding="none" className="overflow-hidden">
          <div className="overflow-x-auto">
            <ExecutiveTable className="w-full text-left">
              <ExecutiveTableHeader className="bg-bg-surface border-b border-border-main">
@@ -620,9 +621,9 @@ function ClientUserManagerInner({ clientId }: { clientId: string }) {
              </ExecutiveTableBody>
            </ExecutiveTable>
          </div>
-      </div>
+      </ExecutiveSurface>
 
-      <div className="card-premium bg-bg-surface/30 border-dashed p-8 flex flex-col md:flex-row items-center gap-8 group">
+      <ExecutiveSurface className="bg-bg-surface/30 border-dashed flex flex-col md:flex-row items-center gap-8 group">
          <div className="w-16 h-16 rounded-[1.5rem] bg-bg-card border border-border-main flex items-center justify-center text-text-dim group-hover:text-secondary transition-all shadow-premium shrink-0">
             <Shield size={32} className="opacity-40" />
          </div>
@@ -635,7 +636,7 @@ function ClientUserManagerInner({ clientId }: { clientId: string }) {
          <div className="shrink-0 flex items-center gap-2 text-[10px] font-black text-secondary uppercase tracking-widest opacity-0 group-hover:opacity-100 transition-all">
            Saber mais <ArrowRight size={14} />
          </div>
-        </div>
+        </ExecutiveSurface>
     </div>
   );
 }

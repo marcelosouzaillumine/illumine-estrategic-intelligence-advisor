@@ -11,6 +11,8 @@ export interface ExecutiveEmptyStateProps {
   className?: string;
   actionLabel?: string;
   onAction?: () => void;
+  secondaryActionLabel?: string;
+  onSecondaryAction?: () => void;
 }
 
 export function ExecutiveEmptyState({
@@ -21,7 +23,9 @@ export function ExecutiveEmptyState({
   compact = false,
   className,
   actionLabel,
-  onAction
+  onAction,
+  secondaryActionLabel,
+  onSecondaryAction
 }: ExecutiveEmptyStateProps) {
   return (
     <ExecutiveSurface 
@@ -48,12 +52,22 @@ export function ExecutiveEmptyState({
           {description}
         </p>
         {actionLabel && onAction && (
-          <button 
-            onClick={onAction}
-            className="mt-4 px-6 py-2.5 bg-executive text-white rounded-xl text-sm font-medium hover:bg-executive/90 transition-colors shadow-sm"
-          >
-            {actionLabel}
-          </button>
+          <div className="flex items-center gap-3 mt-4">
+            <button 
+              onClick={onAction}
+              className="px-6 py-2.5 bg-executive text-white rounded-xl text-sm font-medium hover:bg-executive/90 transition-colors shadow-sm"
+            >
+              {actionLabel}
+            </button>
+            {secondaryActionLabel && onSecondaryAction && (
+              <button 
+                onClick={onSecondaryAction}
+                className="px-6 py-2.5 bg-surface text-secondary border border-border rounded-xl text-sm font-medium hover:bg-surface-container/30 hover:text-foreground transition-colors shadow-sm"
+              >
+                {secondaryActionLabel}
+              </button>
+            )}
+          </div>
         )}
       </div>
     </ExecutiveSurface>

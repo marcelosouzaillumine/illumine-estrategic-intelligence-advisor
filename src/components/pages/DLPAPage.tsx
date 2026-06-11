@@ -557,7 +557,7 @@ export function DLPAPage({ clients, selectedClient, selectedYear }: any) {
   };
 
   const loading = loadingDLPA || loadingHistory;
-  const hasData = dbDataDLPA.length > 0;
+  const hasData = dbDataDLPA.length > 0 && !!dlpaMetrics && (dlpaMetrics.lucroLiquido !== 0 || dlpaMetrics.dividendos !== 0 || dlpaMetrics.plFim !== 0);
   const retention    = (capitalGov as any)?.diagnostics?.retention;
   const distribution = (capitalGov as any)?.diagnostics?.distribution;
   const preservation = (capitalGov as any)?.diagnostics?.preservation;
@@ -667,27 +667,27 @@ export function DLPAPage({ clients, selectedClient, selectedYear }: any) {
         </select>
       </div>
 
-      <button
-        onClick={() => setShowManualModal(true)}
-        className="px-4 py-2 bg-success-soft hover:bg-success text-success hover:text-white border border-success/20 rounded-md text-[10px] font-medium uppercase tracking-widest transition-all flex items-center gap-2 shadow-sm"
-      >
-        <Plus size={14} /> Lançar
-      </button>
-
-      <button
-        onClick={() => setShowImportModal(true)}
-        className="px-4 py-2 bg-secondary/10 hover:bg-secondary text-secondary hover:text-white border border-secondary/20 rounded-md text-[10px] font-medium uppercase tracking-widest transition-all flex items-center gap-2 shadow-sm"
-      >
-        <Upload size={14} /> Importar
-      </button>
-
       {hasData && (
-        <button
-          onClick={() => setShowDeleteConfirm(true)}
-          className="px-4 py-2 bg-red-50 hover:bg-red-500 text-red-500 hover:text-white border border-red-200 rounded-md text-[10px] font-medium uppercase tracking-widest transition-all flex items-center gap-2 shadow-sm"
-        >
-          <Trash2 size={14} /> Excluir
-        </button>
+        <>
+          <button
+            onClick={() => setShowManualModal(true)}
+            className="px-4 py-2 bg-success-soft hover:bg-success text-success hover:text-white border border-success/20 rounded-md text-[10px] font-medium uppercase tracking-widest transition-all flex items-center gap-2 shadow-sm"
+          >
+            <Plus size={14} /> Lançar
+          </button>
+          <button
+            onClick={() => setShowImportModal(true)}
+            className="px-4 py-2 bg-secondary/10 hover:bg-secondary text-secondary hover:text-white border border-secondary/20 rounded-md text-[10px] font-medium uppercase tracking-widest transition-all flex items-center gap-2 shadow-sm"
+          >
+            <Upload size={14} /> Importar
+          </button>
+          <button
+            onClick={() => setShowDeleteConfirm(true)}
+            className="px-4 py-2 bg-red-50 hover:bg-red-500 text-red-500 hover:text-white border border-red-200 rounded-md text-[10px] font-medium uppercase tracking-widest transition-all flex items-center gap-2 shadow-sm"
+          >
+            <Trash2 size={14} /> Excluir
+          </button>
+        </>
       )}
     </div>
   );

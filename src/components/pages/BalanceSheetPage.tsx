@@ -316,12 +316,20 @@ export function BalanceSheetPage({ clients, selectedClient, selectedYear }: any)
     return { ebitda: directEbitda, lucroLiquido: directLucro };
   }, [dreDbData]);
   
-  const [executiveReport, setExecutiveReport] = useState<ExecutiveIntelligenceReport | null>(null);
+  const ENGINE_VERSION = 'v1.2.0';
+  const inputHash = bpSummary ? `${bpSummary.ativoTotal}_${bpSummary.passivoTotal}_${ebitda}_${lucroLiquido}` : 'no-data';
+  const analysisKey = `${selectedClient}:bp:${filterYear}:${ENGINE_VERSION}:${inputHash}`;
+
+  const [reportsCache, setReportsCache] = useState<Record<string, ExecutiveIntelligenceReport>>({});
+  const [isGenerating, setIsGenerating] = useState<boolean>(false);
   const [engineError, setEngineError] = useState<string | null>(null);
 
   useEffect(() => {
     async function runAnalysis() {
       if (!bpSummary) return;
+      
+      setIsGenerating(true);
+      setEngineError(null);
 
       const prevPl = getHistoricalValue(filterYear - 1, 'patrimônio líquido') || getHistoricalValue(filterYear - 1, 'pl') || 0;
       const clientObj = clients?.find((c: any) => c.id === selectedClient);
@@ -368,18 +376,20 @@ export function BalanceSheetPage({ clients, selectedClient, selectedYear }: any)
         console.log(`[TELEMETRY] Temporal Mode: ${report.compliance.runtimeMode}`);
         console.log(`[TELEMETRY] Trend Confidence: ${report.compliance.confidenceLevel}`);
         
-        setEngineError(null);
-        setExecutiveReport(report);
+        setReportsCache(prev => ({ ...prev, [analysisKey]: report }));
       } catch (err: any) {
         console.error("Executive Runtime Falhou:", err);
         setEngineError(err.message || 'Erro desconhecido na engine executiva');
+      } finally {
+        setIsGenerating(false);
       }
     }
 
     runAnalysis();
-  }, [bpSummary, ebitda, lucroLiquido, filterYear, dreDbData.length, dlpaDbData, cashFlowDbData, financialEntries, historyByYear, historicalFinancialSeries, clients, selectedClient]);
+  }, [bpSummary, ebitda, lucroLiquido, filterYear, dreDbData.length, dlpaDbData, cashFlowDbData, financialEntries, historyByYear, historicalFinancialSeries, clients, selectedClient, analysisKey]);
 
   const hasBalanceSheetData = financialEntries.length > 0 && !!bpSummary && (bpSummary.ativoTotal !== 0 || bpSummary.passivoTotal !== 0 || bpSummary.patrimonioLiquido !== 0);
+  const executiveReport = reportsCache[analysisKey] || null;
   const resilienciaGlobal = executiveReport?.scores.composite || 0;
   const patrimonialIntelligenceReport = executiveReport?.patrimonialIntelligenceReport;
   const maturidade = executiveReport?.institutionalView?.maturity?.stageLabel || executiveReport?.context.stage || 'Pendente';
@@ -523,7 +533,9 @@ export function BalanceSheetPage({ clients, selectedClient, selectedYear }: any)
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-6 mb-10">
         <div className="flex flex-col md:flex-row md:items-center gap-4">
           <div className="flex items-center gap-4">
-            <StatusBadge status={executiveReport?.isSandbox || executiveReport?.isDemonstrative ? 'SANDBOX' : (executiveReport?.canonicalState?.status || (hasBalanceSheetData ? 'Ativo' : 'UNAVAILABLE'))} />
+            {hasBalanceSheetData && (
+              <StatusBadge status={executiveReport?.isSandbox || executiveReport?.isDemonstrative ? 'SANDBOX' : (executiveReport?.canonicalState?.status || 'Ativo')} />
+            )}
             <BalanceSheetDataSourceStatus hasRealData={hasBalanceSheetData} loading={loadingBP} />
           </div>
           <BalanceSheetYearFilter filterYear={filterYear} onChangeYear={setFilterYear} />
@@ -537,10 +549,29 @@ export function BalanceSheetPage({ clients, selectedClient, selectedYear }: any)
       {!hasBalanceSheetData ? (
         <div className="mb-12">
           <ExecutiveEmptyState
+            
             title="Inteligência Patrimonial"
             description="Ainda não existem dados patrimoniais suficientes para gerar inteligência executiva deste exercício. O lançamento do Balanço Patrimonial permitirá calcular liquidez, solvência, estrutura de capital, capacidade de absorção de perdas e demais indicadores."
             actionLabel="Lançar Dados do Balanço"
             onAction={() => setShowManualModal(true)}
+            secondaryActionLabel="Importar"
+            onSecondaryAction={() => setShowImportModal(true)}
+          />
+        </div>
+      ) : hasBalanceSheetData && !executiveReport && isGenerating ? (
+        <div className="flex flex-col items-center justify-center p-12 bg-card border border-border rounded-2xl shadow-sm mb-12">
+          <Loader2 size={32} className="animate-spin text-secondary mb-4" />
+          <h3 className="text-lg font-black text-primary mb-2">Processando Análise</h3>
+          <p className="text-sm text-secondary text-center max-w-md">Gerando inteligência patrimonial e parecer estratégico fiduciário para o exercício de {filterYear}...</p>
+        </div>
+      ) : hasBalanceSheetData && !executiveReport && engineError ? (
+        <div className="mb-12">
+          <ExecutiveEmptyState
+            
+            title="Falha na Geração Executiva"
+            description={`Os dados contábeis de ${filterYear} existem, mas a inteligência executiva encontrou um erro: ${engineError}`}
+            actionLabel="Tentar Novamente (Gerar Análise)"
+            onAction={() => setFilterYear(filterYear)}
           />
         </div>
       ) : (
@@ -730,13 +761,6 @@ export function BalanceSheetPage({ clients, selectedClient, selectedYear }: any)
           </div>
 
           {/* ── Comentário Executivo ─────────────────────────────────────────── */}
-          {engineError ? (
-            <div className="bg-critical-soft border border-rose-200 text-rose-600 px-6 py-4 rounded-xl mt-6">
-              <h4 className="font-bold mb-1">{t('bp.engine_failure')}</h4>
-              <p className="text-sm">{engineError}</p>
-              <p className="text-xs opacity-80 mt-2">bpSummary exists: {bpSummary ? 'Yes' : 'No'}</p>
-            </div>
-          ) : null}
 
           {executiveReport && (
             <BalanceSheetExecutiveSynthesisSection 
