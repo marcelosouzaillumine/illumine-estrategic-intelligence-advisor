@@ -44,6 +44,7 @@ import { BalanceSheetAuditLayerSection } from './balance-sheet/BalanceSheetAudit
 import { BalanceSheetWaterfallChartSection } from './balance-sheet/BalanceSheetWaterfallChartSection';
 import { BalanceSheetCompositionChartsSection } from './balance-sheet/BalanceSheetCompositionChartsSection';
 import { BalanceSheetEvolutionAnalysisSection } from './balance-sheet/BalanceSheetEvolutionAnalysisSection';
+import { BalanceSheetStructuralTablesSection } from './balance-sheet/BalanceSheetStructuralTablesSection';
 import { mapIndicatorsToViewModels, mapInstitutionalContextToViewModel, mapRiskDivergenceToViewModel, mapTechnicalLayerToViewModel, mapAuditLayerToViewModel, mapFinancialAnalyticsToViewModels } from './balance-sheet/mappers';
 
 import { useLanguage } from '../../contexts/LanguageContext';
@@ -792,124 +793,9 @@ export function BalanceSheetPage({ clients, selectedClient, selectedYear }: any)
               />
 
               {/* ── Tabelas Detalhadas com AV/AH ── */}
-              <div>
-                <div className="flex items-center justify-between px-2 mb-4">
-                  <div>
-                    <h3 className="text-lg font-black text-primary">{t('bp.structural.title')}</h3>
-                    <p className="text-secondary">{t('bp.structural.subtitle')}</p>
-                  </div>
-                  <div className="flex gap-4">
-                     <div className="flex items-center gap-2 px-3 py-1.5 bg-card rounded-full border border-border shadow-sm">
-                       <span className="w-1.5 h-1.5 rounded-full bg-primary" />
-                       <span className="text-[9px] font-black text-muted-foreground uppercase tracking-widest">AV: Análise Vertical</span>
-                     </div>
-                     <div className="flex items-center gap-2 px-3 py-1.5 bg-card rounded-full border border-border shadow-sm">
-                       <span className="w-1.5 h-1.5 rounded-full bg-emerald-400" />
-                       <span className="text-[9px] font-black text-muted-foreground uppercase tracking-widest">AH: Análise Horizontal</span>
-                     </div>
-                  </div>
-                </div>
-
-                {rows.length === 0 ? (
-                  <div className="flex flex-col items-center justify-center py-24 bg-card rounded-[40px] border border-dashed border-border shadow-sm">
-                    <div className="w-16 h-16 bg-surface-container/30 rounded-full flex items-center justify-center mb-4">
-                      <Calendar size={28} className="text-muted-foreground" />
-                    </div>
-                    <p className="text-secondary">{t('bp.empty_data')}</p>
-                    <p className="text-secondary">
-                      Importe ou insira manualmente os dados para o ano {filterYear}
-                    </p>
-                  </div>
-                ) : (
-                  <div className="space-y-8">
-                    {[
-                      { title: 'Ativo', data: comparativeAnalysis.filter(r => (r.tipo || r.type || '').toLowerCase().includes('ativo')), color: 'emerald' },
-                      { title: 'Passivo', data: comparativeAnalysis.filter(r => { const t = (r.tipo || r.type || '').toLowerCase(); return t.includes('passivo') && !t.includes('patrimônio') && !t.includes('pl'); }), color: 'blue' },
-                      { title: 'Patrimônio Líquido', data: comparativeAnalysis.filter(r => { const t = (r.tipo || r.type || '').toLowerCase(); return t.includes('patrimônio') || t.includes('pl'); }), color: 'primary' }
-                    ].map((section, idx) => (
-                      <div key={idx} className="bg-card border border-border rounded-[32px] shadow-sm overflow-hidden group">
-                        <div className={cn("px-6 py-5 border-b flex items-center justify-between bg-surface-container/30/50", `border-${section.color}-100/50`)}>
-                          <div className="flex items-center gap-3">
-                            <div className={cn("w-2 h-6 rounded-full", `bg-${section.color}-500`)} />
-                            <h4 className="text-base font-black text-primary tracking-tight">{translateLabel(section.title)}</h4>
-                          </div>
-                          <span className={cn("text-[9px] font-black uppercase tracking-widest px-3 py-1.5 rounded-full", `bg-${section.color}-50 text-${section.color}-600`)}>
-                            {translateLabel('Detalhamento Estrutural')}
-                          </span>
-                        </div>
-                        
-                        <div className="p-2">
-                          <div className="flex items-center px-4 py-3 border-b border-border text-[9px] font-black text-muted-foreground uppercase tracking-[0.2em]">
-                            <div className="flex-1">{translateLabel('Conta Contábil')}</div>
-                            <div className="w-32 text-right">{translateLabel('Saldo (R$)')}</div>
-                            <div className="w-24 text-right">{translateLabel('AV (%)')}</div>
-                            <div className="w-28 text-right">{translateLabel('AH (%)')}</div>
-                          </div>
-                          
-                          <div className="space-y-1 mt-2">
-                            {section.data.map((row: any, i: number) => {
-                              const label = translateLabel((row.name || row.conta) === 'Patrimônio Líquido' ? 'Patrimônio' : (row.name || row.conta));
-                              if (!label) return null;
-                              return (
-                              <div key={i} className={cn(
-                                "flex items-center px-4 py-3 rounded-2xl transition-all duration-200 hover:bg-surface-container/30",
-                                row.level === 1 ? "bg-surface-container/30/50" : ""
-                              )}>
-                                <div className="flex-1 flex items-center">
-                                  <span 
-                                    className={cn(
-                                      "text-xs block truncate pr-4", 
-                                      row.level === 1 ? "font-black text-muted-foreground" : "font-semibold text-muted-foreground"
-                                    )}
-                                    style={{ paddingLeft: row.level > 1 ? `${(row.level - 1) * 16}px` : '0px' }}
-                                  >
-                                    {row.level > 1 && (
-                                      <span className="inline-block w-3 h-[1px] bg-surface-container 300 mr-2 align-middle opacity-50" />
-                                    )}
-                                    {label}
-                                  </span>
-                                </div>
-                                
-                                <div className="w-32 text-right font-display text-sm font-bold text-muted-foreground tabular-nums">
-                                  {formatCurrency(row.val)}
-                                </div>
-                                
-                                <div className="w-24 text-right flex flex-col items-end justify-center">
-                                  <span className={cn(
-                                    "inline-flex items-center justify-center px-2 py-1 rounded-lg text-[10px] font-black tabular-nums border",
-                                    row.av > 100 ? "bg-critical-soft text-rose-600 border-rose-200" : "bg-surface-container/50 text-muted-foreground border-border"
-                                  )}>
-                                    {row.av !== null && row.av !== undefined ? (row.av > 100 ? '> 100%' : `${row.av.toFixed(2)}%`) : (
-                                      <span className="text-[10px] font-black text-muted-foreground tabular-nums uppercase tracking-widest">-</span>
-                                    )}
-                                  </span>
-                                </div>
-                                
-                                <div className="w-28 text-right flex justify-end">
-                                  {row.ah !== 0 && row.ah !== null ? (
-                                    <span className={cn(
-                                      "inline-flex items-center justify-center gap-1 px-2.5 py-1 rounded-lg text-[10px] font-black tabular-nums border",
-                                      row.ah > 0 ? "bg-success-soft text-emerald-600 border-emerald-100" : row.ah < 0 ? "bg-critical-soft text-rose-600 border-rose-100" : "bg-surface-container/30 text-muted-foreground border-border"
-                                    )}>
-                                      {row.ah > 0 ? <TrendingUp size={10} strokeWidth={3} /> : <TrendingDown size={10} strokeWidth={3} />}
-                                      {Math.abs(row.ah).toFixed(2)}%
-                                    </span>
-                                  ) : (
-                                     <span className="inline-flex items-center justify-center px-2 py-1 text-muted-foreground text-[10px] font-black">
-                                       —
-                                     </span>
-                                  )}
-                                </div>
-                               </div>
-                              );
-                            })}
-                          </div>
-                        </div>
-                      </div>
-                    ))}
-                  </div>
-                )}
-              </div>
+              <BalanceSheetStructuralTablesSection
+                viewModel={financialAnalyticsViewModel.structuralTables}
+              />
 
             </div>
           </div>
