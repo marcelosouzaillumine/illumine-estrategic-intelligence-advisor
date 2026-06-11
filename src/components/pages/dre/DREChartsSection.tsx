@@ -1,17 +1,17 @@
 import React from 'react';
 import { useLanguage } from '../../../contexts/LanguageContext';
 import { 
-  BarChart, 
-  Bar, 
-} from 'recharts';
-import { 
-  ExecutiveChart,
+  ExecutiveBarChart, 
+  ExecutiveBar, 
   ExecutiveChartGrid,
   ExecutiveChartXAxis,
   ExecutiveChartTooltip
 } from '../../ui/executive-chart';
+import { ExecutiveHistoricalEvolutionCard } from '../../ui/executive-historical-evolution-card';
 import { formatCurrency } from '../../../lib/utils';
 import { DREChartsSectionViewModel } from './view-models';
+import { ExecutiveChartSemanticPalette } from '../../../core/theme/ExecutiveChartSemanticPalette';
+import { HistoricalInsightEngine, HistoricalSeries } from '../../../core/runtime/executive-consolidation/HistoricalInsightEngine';
 
 interface Props {
   viewModel: DREChartsSectionViewModel;
@@ -20,42 +20,47 @@ interface Props {
 export function DREChartsSection({ viewModel }: Props) {
   const { t } = useLanguage();
 
+  const seriesDict: Record<string, HistoricalSeries> = {
+    profit: { metricName: 'Lucro', data: viewModel.data ? viewModel.data.map(d => ({ year: d.year, value: d.lucro })) : [] }
+  };
+
+  const insight = HistoricalInsightEngine.generateExecutiveNarrative(
+    { module: 'DRE', globalFiduciaryStatus: 'NEUTRAL' }, // Propagate status later if needed
+    seriesDict
+  );
+
   return (
-    <ExecutiveChart 
+    <ExecutiveHistoricalEvolutionCard 
       title={t('dre.evolution.title')}
       description="Receita, EBITDA e Lucro"
-      height={300}
+      insight={insight}
+      legendItems={[
+        { label: t('dre.metrics.net_revenue'), colorKey: 'revenue' },
+        { label: viewModel.cmvLabel, colorKey: 'liability' },
+        { label: t('dre.metrics.ebitda'), colorKey: 'profit' },
+        { label: t('dre.metrics.net_result'), colorKey: 'equity' }
+      ]}
     >
-      <div className="flex gap-4 absolute top-6 right-6 z-10">
-        <div className="flex items-center gap-1.5">
-          <div className="w-2.5 h-2.5 rounded-full" style={{ backgroundColor: 'var(--color-chart-1)' }} />
-          <span className="text-[10px] font-bold uppercase text-muted-foreground">{t('dre.metrics.net_revenue')}</span>
-        </div>
-        <div className="flex items-center gap-1.5">
-          <div className="w-2.5 h-2.5 rounded-full" style={{ backgroundColor: 'var(--color-chart-2)' }} />
-          <span className="text-[10px] font-bold uppercase text-muted-foreground">{viewModel.cmvLabel}</span>
-        </div>
-        <div className="flex items-center gap-1.5">
-          <div className="w-2.5 h-2.5 rounded-full" style={{ backgroundColor: 'var(--color-chart-3)' }} />
-          <span className="text-[10px] font-bold uppercase text-muted-foreground">{t('dre.metrics.ebitda')}</span>
-        </div>
-        <div className="flex items-center gap-1.5">
-          <div className="w-2.5 h-2.5 rounded-full" style={{ backgroundColor: 'var(--color-chart-4)' }} />
-          <span className="text-[10px] font-bold uppercase text-muted-foreground">{t('dre.metrics.net_result')}</span>
-        </div>
+      <div style={{ height: 300 }} className="w-full mt-4">
+        {(!viewModel.data || viewModel.data.length === 0) ? (
+          <div className="absolute inset-0 flex items-center justify-center bg-surface-high/50 rounded-lg">
+            <span className="text-muted-foreground text-sm italic">Nenhum dado disponível para este gráfico.</span>
+          </div>
+        ) : (
+          <ExecutiveBarChart data={viewModel.data} margin={{ top: 10, right: 10, left: 10, bottom: 0 }}>
+            <ExecutiveChartGrid vertical={false} />
+            <ExecutiveChartXAxis dataKey="year" dy={10} />
+            <ExecutiveChartTooltip 
+              formatter={(value: any) => formatCurrency(Number(value))}
+              cursor={{ fill: 'var(--color-muted)', opacity: 0.2 }}
+            />
+            <ExecutiveBar dataKey="receita" name="Receita Líquida" fill={ExecutiveChartSemanticPalette.revenue} radius={[4, 4, 0, 0]} />
+            <ExecutiveBar dataKey="cmv" name={viewModel.cmvLabel} fill={ExecutiveChartSemanticPalette.liability} radius={[4, 4, 0, 0]} />
+            <ExecutiveBar dataKey="ebitda" name="EBITDA" fill={ExecutiveChartSemanticPalette.profit} radius={[4, 4, 0, 0]} />
+            <ExecutiveBar dataKey="lucro" name="Resultado Líquido" fill={ExecutiveChartSemanticPalette.equity} radius={[4, 4, 0, 0]} />
+          </ExecutiveBarChart>
+        )}
       </div>
-      <BarChart data={viewModel.data} margin={{ top: 10, right: 10, left: 10, bottom: 0 }}>
-        <ExecutiveChartGrid vertical={false} />
-        <ExecutiveChartXAxis dataKey="year" dy={10} />
-        <ExecutiveChartTooltip 
-          formatter={(value: any) => formatCurrency(Number(value))}
-          cursor={{ fill: 'var(--color-muted)', opacity: 0.2 }}
-        />
-        <Bar dataKey="receita" name="Receita Líquida" fill="var(--color-chart-1)" radius={[4, 4, 0, 0]} />
-        <Bar dataKey="cmv" name={viewModel.cmvLabel} fill="var(--color-chart-2)" radius={[4, 4, 0, 0]} />
-        <Bar dataKey="ebitda" name="EBITDA" fill="var(--color-chart-3)" radius={[4, 4, 0, 0]} />
-        <Bar dataKey="lucro" name="Resultado Líquido" fill="var(--color-chart-4)" radius={[4, 4, 0, 0]} />
-      </BarChart>
-    </ExecutiveChart>
+    </ExecutiveHistoricalEvolutionCard>
   );
 }
