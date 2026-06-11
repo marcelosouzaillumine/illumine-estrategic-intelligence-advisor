@@ -49,6 +49,8 @@ import { Button } from "../ui/button";
 import { Input } from "../ui/input";
 import { Label } from "../ui/label";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "../ui/table";
+import { ExecutiveSurface } from "../ui/executive-surface";
+import { ExecutiveEmptyState } from "../ui/executive-empty-state";
 
 export function ClientsPage({ clients, setClients, setSelectedClient, isMaster, isPartner, userPartnerIds }: any) {
   const [view, setView] = useState<"list" | "form">("list");
@@ -525,7 +527,7 @@ loading: ${loading}
           </div>
         </div>
 
-        <div className="card-premium p-0 overflow-hidden flex flex-col border-none shadow-floating">
+        <ExecutiveSurface padding="none" className="overflow-hidden flex flex-col border-none shadow-none">
           {/* Executive Tabs Navigation — scrollable com fade nas bordas */}
           <div className="relative bg-surface-container border-b border-border">
             <div className="flex p-1.5 gap-0.5 overflow-x-auto no-scrollbar">
@@ -1930,15 +1932,11 @@ loading: ${loading}
                 {editingId ? (
                   <ClientUserManager clientId={editingId} />
                 ) : (
-                  <div className="card-premium bg-surface-container/50 border-dashed text-center py-24 space-y-8">
-                    <div className="w-24 h-24 bg-card rounded-md flex items-center justify-center text-muted-foreground mx-auto shadow-md border border-border">
-                        <Key size={40} className="opacity-50" />
-                    </div>
-                    <div className="space-y-2">
-                      <h4 className="text-h4 font-medium text-foreground uppercase tracking-widest">Aguardando Cadastro</h4>
-                      <p className="text-body-sm text-muted-foreground font-medium uppercase tracking-widest max-w-[300px] mx-auto leading-relaxed">Para gerenciar usuários e acessos, conclua primeiro o salvamento dos dados básicos da empresa.</p>
-                    </div>
-                  </div>
+                  <ExecutiveEmptyState
+                    icon={<Key />}
+                    title="Aguardando Cadastro"
+                    description="Cadastre os dados básicos da empresa para gerenciar usuários e acessos."
+                  />
                 )}
               </div>
             )}
@@ -2024,34 +2022,28 @@ loading: ${loading}
                     </div>
                   </div>
                 ) : (
-                  <div className="card-premium bg-surface-container/50 border-dashed text-center py-24 space-y-8">
-                    <div className="w-24 h-24 bg-card rounded-md flex items-center justify-center text-muted-foreground mx-auto shadow-md border border-border">
-                        <Sparkles size={40} className="opacity-50 text-secondary" />
-                    </div>
-                    <div className="space-y-2">
-                      <h4 className="text-h4 font-medium text-foreground uppercase tracking-widest">Sem Análise de IA</h4>
-                      <p className="text-body-sm text-muted-foreground font-medium uppercase tracking-widest max-w-[300px] mx-auto leading-relaxed">Este cliente não possui um relatório gerencial automatizado vinculado no momento.</p>
-                    </div>
-                  </div>
+                  <ExecutiveEmptyState
+                    icon={<Sparkles />}
+                    title="Sem Análise de IA"
+                    description="Nenhum relatório gerencial automatizado foi gerado para esta empresa."
+                  />
                 )}
               </motion.div>
             )}
 
             {["pessoal", "importacao", "acessos", "auditoria"].map(tab => (
               activeFormTab === tab && !editingId && (
-                <div key={tab} className="card-premium bg-surface-container/50 border-dashed text-center py-24 space-y-8">
-                  <div className="w-24 h-24 bg-card rounded-md flex items-center justify-center text-muted-foreground mx-auto shadow-md border border-border">
-                      <AlertCircle size={40} className="opacity-50" />
-                  </div>
-                  <div className="space-y-2">
-                    <h4 className="text-h4 font-medium text-foreground uppercase tracking-widest">Aguardando Cadastro</h4>
-                    <p className="text-body-sm text-muted-foreground font-medium uppercase tracking-widest max-w-[300px] mx-auto leading-relaxed">Para visualizar esta seção, você precisa primeiro concluir o cadastro básico da empresa.</p>
-                  </div>
+                <div key={tab}>
+                  <ExecutiveEmptyState
+                    icon={<AlertCircle />}
+                    title="Aguardando Cadastro"
+                    description="Conclua o cadastro básico da empresa para visualizar esta seção."
+                  />
                 </div>
               )
             ))}
           </div>
-        </div>
+        </ExecutiveSurface>
       </div>
     );
   }
