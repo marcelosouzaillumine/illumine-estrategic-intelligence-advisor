@@ -856,16 +856,16 @@ export function DLPAPage({ clients, selectedClient, selectedYear }: any) {
                 <ExecutiveSurface className="col-span-1 xl:col-span-4 flex flex-col justify-center relative overflow-hidden h-full">
                   <ExecutiveNarrative title="Tese de Governança" icon={Target} variant="insight">
                     <div className="flex flex-col gap-4 mt-2">
-                      <span className="text-[10px] font-black text-foreground bg-surface-container px-3 py-1.5 rounded-full self-start uppercase tracking-widest">
+                      <span className="inline-flex px-3 py-1 bg-surface-container/30 border border-border rounded-full text-[10px] font-bold uppercase tracking-wider text-muted-foreground self-start">
                         {executiveLayer.governanceInterpretation?.classification}
                       </span>
-                      <span className="text-sm text-secondary leading-relaxed font-medium">
+                      <p className="text-sm text-foreground/80 leading-relaxed font-medium">
                         {executiveLayer.governanceInterpretation?.narrative}
-                      </span>
+                      </p>
                       {executiveLayer.governanceInterpretation?.riskToShareholders && (
                         <div className="mt-2 pt-4 border-t border-border">
-                          <p className="text-[10px] font-black uppercase tracking-wider text-rose-500 mb-1">Risco ao Capital dos Sócios</p>
-                          <p className="text-secondary text-sm">
+                          <p className="text-xs font-bold uppercase tracking-wider text-rose-500 mb-2">Risco ao Capital dos Sócios</p>
+                          <p className="text-foreground/80 text-sm leading-relaxed">
                             {executiveLayer.governanceInterpretation.riskToShareholders}
                           </p>
                         </div>
@@ -924,7 +924,7 @@ export function DLPAPage({ clients, selectedClient, selectedYear }: any) {
               </ExecutiveSurface>
 
               {/* 3, 4, 5, 6. Inteligência de Preservação de Capital */}
-              <div className="bg-card rounded-[40px] p-8 shadow-sm border border-border">
+              <ExecutiveSurface padding="xl" radius="xl" className="border-border">
                 <div className="flex items-center gap-3 mb-6">
                   <TrendingUp size={20} className="text-foreground" />
                   <h3 className="text-xl font-black text-primary">Inteligência de Preservação de Capital</h3>
@@ -1039,10 +1039,10 @@ export function DLPAPage({ clients, selectedClient, selectedYear }: any) {
                     );
                   })()}
                 </div>
-              </div>
+              </ExecutiveSurface>
 
               {/* 7. Proteção ao Capital dos Sócios */}
-              <div className="bg-card rounded-[40px] p-8 shadow-sm border border-border">
+              <ExecutiveSurface padding="xl" radius="xl" className="border-border">
                 <div className="flex items-center gap-3 mb-6">
                   <ShieldCheck size={20} className="text-emerald-500" />
                   <h3 className="text-xl font-black text-primary">Proteção ao Capital dos Sócios</h3>
@@ -1099,32 +1099,32 @@ export function DLPAPage({ clients, selectedClient, selectedYear }: any) {
                   </div>
 
                   {/* Card 3: Tese de Recuperação Patrimonial */}
-                  <div className="bg-surface-container/30/50 rounded-3xl p-6 border border-border flex flex-col justify-between hover:bg-surface-container/30 hover:shadow-md transition-all duration-300 min-h-[220px]">
+                  <ExecutiveSurface padding="md" variant="info" className="flex flex-col justify-between h-full border border-border min-h-[220px]">
                     <div>
-                      <span className="text-[10px] font-black uppercase tracking-wider text-muted-foreground block mb-3">Diretriz de Recomposição</span>
-                      <h4 className="text-base font-black text-secondary mb-2">Recovery Thesis</h4>
-                      <p className="text-secondary">
+                      <span className="text-[10px] font-bold uppercase tracking-wider text-muted-foreground block mb-3">Diretriz de Recomposição</span>
+                      <ExecutiveNarrative title="Recovery Thesis" variant="insight" className="mb-2" />
+                      <p className="text-foreground/80 leading-relaxed text-sm">
                         {executiveLayer.governanceInterpretation?.recoveryThesis}
                       </p>
                     </div>
-                    <p className="text-[9px] text-foreground font-bold uppercase tracking-wider mt-4 pt-3 border-t border-border">
+                    <p className="text-[10px] text-muted-foreground font-bold uppercase tracking-wider mt-4 pt-3 border-t border-border">
                       Tese de Governança Fiduciária
                     </p>
-                  </div>
+                  </ExecutiveSurface>
                 </div>
-              </div>
+              </ExecutiveSurface>
 
               {/* Aviso de Retenção Compulsória */}
               {executiveLayer.retention?.classification === 'Retenção Compulsória' && (
-                <div className="bg-warning-soft border border-amber-200 text-amber-900 rounded-[24px] p-6 flex items-start gap-4 shadow-sm mt-6 animate-executive-fade">
-                  <AlertTriangle className="text-amber-600 shrink-0 mt-0.5" size={20} />
-                  <div>
-                    <p className="text-[10px] font-black uppercase tracking-wider text-amber-700 mb-1">Aviso de Governança Patrimonial: Retenção Compulsória</p>
-                    <p className="text-xs font-bold leading-relaxed">
-                      Todo lucro futuro deverá ser destinado prioritariamente à absorção dos prejuízos acumulados antes da retomada de distribuições aos sócios.
-                    </p>
-                  </div>
-                </div>
+                <ExecutiveCallout 
+                  variant="warning"
+                  title="Aviso de Governança Patrimonial: Retenção Compulsória"
+                  className="mt-6 animate-executive-fade"
+                >
+                  <p className="text-xs font-bold leading-relaxed">
+                    Todo lucro futuro deverá ser destinado prioritariamente à absorção dos prejuízos acumulados antes da retomada de distribuições aos sócios.
+                  </p>
+                </ExecutiveCallout>
               )}
             </div>
           )}
