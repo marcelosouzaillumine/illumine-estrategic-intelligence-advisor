@@ -14,7 +14,7 @@ export const BalanceSheetBoardAdvisory = ({
   boardAdvisoryFullText 
 }: BalanceSheetBoardAdvisoryProps) => {
   return (
-    <div className={cn("grid grid-cols-1 gap-6 mb-6", hasParecer ? "lg:grid-cols-2" : "lg:grid-cols-1")}>
+    <div className="flex flex-col gap-6 mb-6">
       <ExecutiveSurface variant="transparent" padding="none" className="bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 text-white rounded-[40px] p-10 md:p-12 shadow-2xl hover:shadow-indigo-900/20 transition-all duration-500 relative overflow-hidden flex flex-col items-start justify-start border border-border">
         <div className="absolute top-0 right-0 w-96 h-96 bg-primary rounded-full blur-3xl -mr-32 -mt-32 pointer-events-none" />
         <span className="inline-block px-4 py-1.5 rounded-full border border-white/20 bg-white/10 text-[10px] font-semibold uppercase tracking-widest text-white mb-6 self-start">Tese Patrimonial</span>
