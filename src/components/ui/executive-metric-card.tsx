@@ -35,7 +35,7 @@ export function ExecutiveMetricCard({
       padding="none" 
       variant={variant}
       className={cn(
-        "flex flex-col items-start justify-start w-full p-4 md:p-5 rounded-[24px] shadow-sm transition-all h-full",
+        "flex flex-col items-start justify-start w-full p-3 md:p-4 rounded-[24px] shadow-sm transition-all h-full",
         toneClasses,
         className
       )}
@@ -53,7 +53,7 @@ export function ExecutiveMetricCard({
       </div>
 
       {/* Value Zone */}
-      <div className="w-full flex flex-col items-start justify-start min-h-[44px] mb-2">
+      <div className="w-full flex flex-col items-start justify-start min-h-[40px] mb-1">
         <div className="text-2xl md:text-3xl font-semibold text-foreground leading-tight">
           {value}
         </div>
@@ -63,7 +63,7 @@ export function ExecutiveMetricCard({
       {description && (
         <>
           <div className="w-full h-px bg-border/50 my-2" />
-          <div className="w-full flex-1 flex flex-col items-start justify-start text-[12px] leading-5 text-foreground/75">
+          <div className="w-full flex-1 flex flex-col items-start justify-start text-[12px] leading-relaxed text-foreground/75">
             {description}
           </div>
         </>
