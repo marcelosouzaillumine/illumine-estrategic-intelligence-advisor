@@ -19,7 +19,7 @@ export function ExecutiveRecommendationBlock({
           {title}
         </h4>
       )}
-      <div className="text-[15px] md:text-[16px] leading-7 text-foreground/85 max-w-[78ch]">
+      <div className="text-[16px] font-normal leading-[1.75] text-foreground/80 max-w-[78ch]">
         {children}
       </div>
     </div>
