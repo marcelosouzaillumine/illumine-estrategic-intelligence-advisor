@@ -1,7 +1,7 @@
 
 import React, { useMemo, useState } from 'react';
 import { 
-  ShieldCheck, TrendingUp, Users, Activity, Globe, ShoppingBag, 
+  ShieldCheck, TrendingUp, TrendingDown, Users, Activity, Globe, ShoppingBag, 
   FileText, Zap, BarChart3, Target, ArrowUpRight, LayoutGrid, 
   BookOpen, Lightbulb, Loader2, PieChart as PieIcon, MessageSquare, Scale, ChevronRight, ShieldAlert
 } from 'lucide-react';
