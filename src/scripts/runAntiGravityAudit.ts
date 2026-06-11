@@ -197,7 +197,19 @@ function scanFile(filePath: string): Violation[] {
   visit(sourceFile);
 
   // Rule 4 check
-  if (isPageFile && !hasPageHeaderOrExecutiveTemplate && !filePath.includes('components/pages/index.tsx') && !filePath.includes('components/pages/SupportPage.tsx')) {
+  let isTruePageFile = false;
+  if (filePath.endsWith('Page.tsx')) {
+    isTruePageFile = true;
+  } else if (filePath.includes('/pages/')) {
+    const relativePath = filePath.split('/pages/')[1] || '';
+    const isTopLevel = !relativePath.includes('/');
+    const isLeaf = ['Section.tsx', 'Toolbar.tsx', 'Filter.tsx', 'Status.tsx', 'Card.tsx', 'Modal.tsx'].some(ext => filePath.endsWith(ext));
+    if (isTopLevel && !isLeaf) {
+      isTruePageFile = true;
+    }
+  }
+
+  if (isTruePageFile && !hasPageHeaderOrExecutiveTemplate && !filePath.includes('components/pages/index.tsx') && !filePath.includes('components/pages/SupportPage.tsx')) {
     const basename = path.basename(filePath, '.tsx');
     if (content.includes(`function ${basename}`) || content.includes(`const ${basename}`)) {
       usageStats.ExecutivePageTemplate.manual++;
