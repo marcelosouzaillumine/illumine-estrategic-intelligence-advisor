@@ -24,6 +24,7 @@ import {
 import { cn, formatCurrency, formatValue, getThemeColors } from '../../lib/utils';
 import { SandboxWarningOverlay } from '../executive-interaction/SandboxWarningOverlay';
 import { PageHeader, KpiCard } from '../Common';
+import { ExecutiveEmptyState } from '../ui/executive-empty-state';
 import { useLanguage } from '../../contexts/LanguageContext';
 import { useAnnualFinancialData, useAllFinancialData } from '../../hooks/useFinancialData';
 import { FiduciaryRuntimeAdapter, PresentationLayer, ExecutiveIntelligenceReport, ExecutiveLabelResolver } from '../../services/FiduciaryRuntimeAdapter';
@@ -428,6 +429,7 @@ export function DREPage({ clients, selectedClient, selectedYear }: any) {
     };
   });
   const technicalLayerVM = mapTechnicalRows(technicalRowsInput, translateLabel);
+  const hasDreData = dbData.length > 0 && !!cascadeResult && (recLiquida !== 0 || lucroLiq !== 0 || receitaBruta !== 0);
 
   return (
     <div className="max-w-[1440px] mx-auto space-y-10 pb-32 animate-executive-fade">
@@ -446,9 +448,9 @@ export function DREPage({ clients, selectedClient, selectedYear }: any) {
         <div className="flex items-center gap-3">
           <div className="bg-card border border-border/50 shadow-sm rounded-md px-4 py-2 flex items-center gap-3 shadow-sm">
             {(loading || loadingHistory) && <Loader2 size={14} className="animate-spin text-secondary" />}
-            <Database size={14} className={dbData.length > 0 ? 'text-success' : 'text-muted-foreground/30'} />
-            <span className={cn('text-[10px] font-medium uppercase tracking-[0.2em]', dbData.length > 0 ? 'text-success' : 'text-muted-foreground')}>
-              {dbData.length > 0 ? 'Dados Reais' : 'Amostra'}
+            <Database size={14} className={hasDreData ? 'text-success' : 'text-muted-foreground/30'} />
+            <span className={cn('text-[10px] font-medium uppercase tracking-[0.2em]', hasDreData ? 'text-success' : 'text-muted-foreground')}>
+              {hasDreData ? 'Dados Reais' : 'Amostra'}
             </span>
           </div>
 
@@ -466,27 +468,44 @@ export function DREPage({ clients, selectedClient, selectedYear }: any) {
           </div>
         </div>
 
-        <div className="flex items-center gap-3">
-          <button
-            onClick={() => setShowManualModal(true)}
-            className="px-4 py-3 bg-surface-container hover:bg-success hover:text-white text-success border border-border rounded-md text-[10px] font-medium uppercase tracking-widest transition-all flex items-center gap-2"
-          >
-            <Plus size={14} /> Lançar Dados
-          </button>
-          <button
-            onClick={() => setShowImportModal(true)}
-            className="px-4 py-3 bg-surface-container hover:bg-secondary hover:text-white text-secondary border border-border rounded-md text-[10px] font-medium uppercase tracking-widest transition-all flex items-center gap-2"
-          >
-            <Upload size={14} /> Importar
-          </button>
-          <button
-            onClick={() => setShowDeleteConfirm(true)}
-            className="px-4 py-3 bg-surface-container hover:bg-destructive hover:text-white text-destructive border border-border rounded-md text-[10px] font-medium uppercase tracking-widest transition-all flex items-center gap-2"
-          >
-            <Trash2 size={14} /> Excluir
-          </button>
-        </div>
+        {hasDreData && (
+          <div className="flex items-center gap-3">
+            <button
+              onClick={() => setShowManualModal(true)}
+              className="px-4 py-3 bg-surface-container hover:bg-success hover:text-white text-success border border-border rounded-md text-[10px] font-medium uppercase tracking-widest transition-all flex items-center gap-2"
+            >
+              <Plus size={14} /> Lançar Dados
+            </button>
+            <button
+              onClick={() => setShowImportModal(true)}
+              className="px-4 py-3 bg-surface-container hover:bg-secondary hover:text-white text-secondary border border-border rounded-md text-[10px] font-medium uppercase tracking-widest transition-all flex items-center gap-2"
+            >
+              <Upload size={14} /> Importar
+            </button>
+            <button
+              onClick={() => setShowDeleteConfirm(true)}
+              className="px-4 py-3 bg-surface-container hover:bg-destructive hover:text-white text-destructive border border-border rounded-md text-[10px] font-medium uppercase tracking-widest transition-all flex items-center gap-2"
+            >
+              <Trash2 size={14} /> Excluir
+            </button>
+          </div>
+        )}
       </div>
+
+      {!hasDreData ? (
+        <div className="mb-12">
+          <ExecutiveEmptyState
+            title="Demonstração do Resultado"
+            description="Ainda não existem dados de resultado suficientes para gerar inteligência executiva deste exercício. O lançamento da DRE permitirá analisar receitas, margens, eficiência operacional e lucro líquido."
+            actionLabel="Lançar Dados da DRE"
+            onAction={() => setShowManualModal(true)}
+            secondaryActionLabel="Importar"
+            onSecondaryAction={() => setShowImportModal(true)}
+          />
+        </div>
+      ) : (
+        <>
+
 
 
 
@@ -685,8 +704,8 @@ export function DREPage({ clients, selectedClient, selectedYear }: any) {
         )}
         </div>
       )}
-
-
+      </>
+      )}
 
       {/* ExecutiveCommentary retired in ENGF v1.1 — Executive Advisory is the single narrative source */}
 
