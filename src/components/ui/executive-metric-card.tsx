@@ -21,7 +21,6 @@ export function ExecutiveMetricCard({
   variant = 'default',
   className
 }: ExecutiveMetricCardProps) {
-  // Determine border/subtle accents based on tone
   const toneClasses = {
     neutral: 'border-border',
     success: 'border-success/30 hover:border-success/50',
@@ -41,6 +40,24 @@ export function ExecutiveMetricCard({
     }
   }, [tone, label, statusBadge]);
 
+  // Enforce high-contrast semantic badges globally, safely overriding only text spans
+  const getBadgeClasses = (t: string) => {
+    const base = "text-[10px] uppercase tracking-widest px-2.5 py-0.5 rounded-full border whitespace-nowrap font-semibold";
+    switch (t) {
+      case 'critical': return cn(base, "bg-rose-100 text-rose-900 border-rose-300");
+      case 'warning': return cn(base, "bg-amber-100 text-amber-900 border-amber-300");
+      case 'success': return cn(base, "bg-emerald-100 text-emerald-900 border-emerald-300");
+      case 'info': return cn(base, "bg-blue-100 text-blue-900 border-blue-300");
+      default: return cn(base, "bg-surface-container/50 text-foreground/70 border-border");
+    }
+  };
+
+  const renderedBadge = React.isValidElement(statusBadge) && statusBadge.type === 'span'
+    ? React.cloneElement(statusBadge as React.ReactElement<{ className?: string }>, {
+        className: getBadgeClasses(tone)
+      })
+    : statusBadge;
+
   return (
     <ExecutiveSurface 
       padding="none" 
@@ -56,9 +73,9 @@ export function ExecutiveMetricCard({
         <span className="text-[11px] font-medium tracking-wide text-foreground/65 leading-snug line-clamp-2">
           {label}
         </span>
-        {statusBadge && (
+        {renderedBadge && (
           <div ref={badgeRef} className="shrink-0 flex items-start">
-            {statusBadge}
+            {renderedBadge}
           </div>
         )}
       </div>
@@ -74,7 +91,7 @@ export function ExecutiveMetricCard({
       {description && (
         <div className="w-full flex flex-col flex-1 justify-start">
           <div className="w-full h-px bg-border/50 mb-2 shrink-0" />
-          <div className="w-full flex-1 flex flex-col items-start justify-start text-[12px] leading-5 text-foreground/75">
+          <div className="w-full flex-1 flex flex-col items-start justify-start text-[12px] leading-[1.55] text-foreground/75">
             {description}
           </div>
         </div>
