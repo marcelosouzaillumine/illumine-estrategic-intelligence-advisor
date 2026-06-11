@@ -5,6 +5,7 @@ import { ExecutiveChart, ExecutiveChartGrid, ExecutiveChartXAxis, ExecutiveChart
 import { ExecutiveSurface } from '../../ui/executive-surface';
 import { BalanceSheetEvolutionViewModel } from './view-models';
 import { cn } from '../../../lib/utils';
+import { ExecutiveEmptyState } from '../../ui/executive-empty-state';
 
 export function BalanceSheetEvolutionAnalysisSection({
   viewModel,
@@ -15,20 +16,12 @@ export function BalanceSheetEvolutionAnalysisSection({
 }) {
   if (!viewModel.hasEnoughData) {
     return (
-      <ExecutiveSurface 
-        variant="default" 
-        elevation="sm" 
-        padding="lg" 
-        className="rounded-[40px] relative overflow-hidden flex flex-col items-center justify-center min-h-[300px] text-center"
-      >
-         <div className="w-16 h-16 bg-surface-container/30 rounded-2xl flex items-center justify-center mb-6 border border-border text-muted-foreground">
-           <TrendingDown size={32} />
-         </div>
-         <h3 className="text-lg font-black text-primary mb-2">Evolução Histórica Insuficiente</h3>
-         <p className="text-secondary">
-           Esta demonstração representa apenas um ciclo financeiro e não permite inferências longitudinais sobre estabilidade, deterioração ou consolidação operacional. A inteligência de evolução requer ao menos dois exercícios.
-         </p>
-      </ExecutiveSurface>
+      <ExecutiveEmptyState 
+        icon={TrendingDown}
+        title="Evolução histórica insuficiente"
+        description="São necessários ao menos dois exercícios para gerar inferências longitudinais."
+        className="mb-6"
+      />
     );
   }
 

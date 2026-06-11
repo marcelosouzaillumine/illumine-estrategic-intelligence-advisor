@@ -17,13 +17,13 @@ export function BalanceSheetStructuralTablesSection({
           <div className="text-foreground/70">Detalhamento de Contas e Participação (AV/AH)</div>
         </div>
         <div className="flex gap-4">
-           <ExecutiveSurface padding="none" variant="default" elevation="sm" className="flex items-start gap-2 px-3 py-1.5 rounded-full">
-             <span className="w-1.5 h-1.5 rounded-full bg-primary mt-1" />
-             <span className="text-[9px] font-semibold text-foreground/70 uppercase tracking-widest">AV: Análise Vertical</span>
+           <ExecutiveSurface padding="none" variant="default" elevation="sm" className="flex items-center h-8 gap-2 px-3 rounded-full">
+             <span className="w-1.5 h-1.5 rounded-full bg-primary" />
+             <span className="text-[10px] font-medium text-foreground/70 uppercase tracking-wider">AV: Análise Vertical</span>
            </ExecutiveSurface>
-           <ExecutiveSurface padding="none" variant="default" elevation="sm" className="flex items-start gap-2 px-3 py-1.5 rounded-full">
-             <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 mt-1" />
-             <span className="text-[9px] font-semibold text-foreground/70 uppercase tracking-widest">AH: Análise Horizontal</span>
+           <ExecutiveSurface padding="none" variant="default" elevation="sm" className="flex items-center h-8 gap-2 px-3 rounded-full">
+             <span className="w-1.5 h-1.5 rounded-full bg-emerald-400" />
+             <span className="text-[10px] font-medium text-foreground/70 uppercase tracking-wider">AH: Análise Horizontal</span>
            </ExecutiveSurface>
         </div>
       </div>
