@@ -1,8 +1,19 @@
 import React, { useState } from 'react';
-import { Database, TrendingUp, TrendingDown } from 'lucide-react';
+import { Database, TrendingUp, TrendingDown, ChevronDown } from 'lucide-react';
 import { useLanguage } from '../../../contexts/LanguageContext';
 import { cn, formatCurrency } from '../../../lib/utils';
 import { DRETechnicalLayerViewModel } from './view-models';
+import { ExecutiveSurface } from '../../ui/executive-surface';
+import { ExecutiveEmptyState } from '../../ui/executive-empty-state';
+import { StatusBadge } from '../../Common';
+import { 
+  ExecutiveTable, 
+  ExecutiveTableHeader, 
+  ExecutiveTableBody, 
+  ExecutiveTableRow, 
+  ExecutiveTableHead, 
+  ExecutiveTableCell 
+} from '../../ui/executive-table';
 
 interface Props {
   viewModel: DRETechnicalLayerViewModel;
@@ -16,53 +27,50 @@ export function DRETechnicalLayerSection({ viewModel }: Props) {
     <div className="mb-10">
       <button 
         onClick={() => setShowTechnicalLayer(!showTechnicalLayer)}
-        className="w-full bg-surface-container hover:bg-slate-200 transition-colors border border-border rounded-2xl p-4 flex items-center justify-between group"
+        className="w-full bg-surface hover:bg-muted transition-colors border border-border rounded-2xl p-4 flex items-center justify-between group"
       >
         <div className="flex items-center gap-3">
-          <div className="w-8 h-8 rounded-lg bg-slate-200 flex items-center justify-center text-muted-foreground group-hover:text-muted-foreground transition-colors">
+          <div className="w-8 h-8 rounded-lg bg-muted flex items-center justify-center text-muted-foreground group-hover:text-foreground transition-colors">
             <Database size={16} />
           </div>
           <div className="text-left">
-            <h4 className="text-sm font-black text-primary">Camada Técnica & KPIs</h4>
-            <p className="text-secondary">Métricas Contábeis, Gráficos e Tabelas</p>
+            <h4 className="text-sm font-bold text-primary">Camada Técnica & KPIs</h4>
+            <p className="text-xs text-muted-foreground">Métricas Contábeis, Gráficos e Tabelas</p>
           </div>
         </div>
         <div className="text-muted-foreground font-bold text-xs uppercase tracking-wider flex items-center gap-2">
           {showTechnicalLayer ? 'Ocultar Detalhes' : 'Expandir Detalhes'}
-          <div className={cn("transform transition-transform", showTechnicalLayer ? "rotate-180" : "rotate-0")}>
-            ▼
-          </div>
+          <ChevronDown className={cn("w-4 h-4 transform transition-transform", showTechnicalLayer ? "rotate-180" : "rotate-0")} />
         </div>
       </button>
 
       {showTechnicalLayer && (
         <div className="mt-8 space-y-10 animate-in fade-in slide-in-from-top-4 duration-300">
-          <div className="bg-card border border-border rounded-[40px] shadow-sm overflow-hidden mb-10">
-            <div className="px-6 py-5 border-b border-border bg-surface-container/30/50 flex items-center justify-between">
-              <h4 className="text-sm font-black text-primary uppercase tracking-widest">{translateLabel('Detalhamento da DRE')}</h4>
-              <span className="text-[9px] font-black uppercase px-3 py-1 rounded-full bg-blue-50 text-blue-600">
-                {translateLabel('Análise Horizontal e Vertical')}
-              </span>
+          <ExecutiveSurface padding="none" radius="xl">
+            <div className="overflow-hidden border border-border rounded-xl">
+            <div className="px-6 py-5 border-b border-border bg-muted/30 flex items-center justify-between">
+              <h4 className="text-sm font-bold text-primary uppercase tracking-widest">{translateLabel('Detalhamento da DRE')}</h4>
+              <StatusBadge status="info" label={translateLabel('Análise Horizontal e Vertical')} />
             </div>
             <div className="overflow-x-auto">
-              <table className="w-full text-sm">
-                <thead>
-                  <tr className="bg-surface-container/30/50 border-b border-border">
-                    <th className="text-left py-2.5 md:py-4 px-5 md:px-8 text-[10px] font-bold text-muted-foreground uppercase tracking-widest">{translateLabel('Conta')}</th>
-                    <th className="text-right py-2.5 md:py-4 px-5 md:px-8 text-[10px] font-bold text-muted-foreground uppercase tracking-widest">{translateLabel('Valor (R$)')}</th>
-                    <th className="text-right py-2.5 md:py-4 px-5 md:px-8 text-[10px] font-bold text-muted-foreground uppercase tracking-widest">{translateLabel('AV (%)')}</th>
-                    <th className="text-right py-2.5 md:py-4 px-5 md:px-8 text-[10px] font-bold text-muted-foreground uppercase tracking-widest">{translateLabel('AH (1 Ano)')}</th>
-                    <th className="text-right py-2.5 md:py-4 px-5 md:px-8 text-[10px] font-bold text-muted-foreground uppercase tracking-widest">{translateLabel('AH (2 Anos)')}</th>
-                    <th className="text-right py-2.5 md:py-4 px-5 md:px-8 text-[10px] font-bold text-muted-foreground uppercase tracking-widest">{translateLabel('AH (3 Anos)')}</th>
-                  </tr>
-                </thead>
-                <tbody className="divide-y divide-slate-50">
+              <ExecutiveTable empty={viewModel.rows.length === 0}>
+                <ExecutiveTableHeader>
+                  <ExecutiveTableRow>
+                    <ExecutiveTableHead className="w-[300px]">{translateLabel('Conta')}</ExecutiveTableHead>
+                    <ExecutiveTableHead className="text-right">{translateLabel('Valor (R$)')}</ExecutiveTableHead>
+                    <ExecutiveTableHead className="text-right">{translateLabel('AV (%)')}</ExecutiveTableHead>
+                    <ExecutiveTableHead className="text-right">{translateLabel('AH (1 Ano)')}</ExecutiveTableHead>
+                    <ExecutiveTableHead className="text-right">{translateLabel('AH (2 Anos)')}</ExecutiveTableHead>
+                    <ExecutiveTableHead className="text-right">{translateLabel('AH (3 Anos)')}</ExecutiveTableHead>
+                  </ExecutiveTableRow>
+                </ExecutiveTableHeader>
+                <ExecutiveTableBody>
                   {viewModel.rows.length > 0 ? (
                     viewModel.rows.map((row, i) => (
-                      <tr key={i} className={cn('hover:bg-surface-container/30 transition-colors group', row.isTotal ? 'bg-surface-container/30/30 font-bold' : '')}>
-                        <td className="py-2.5 md:py-4 px-5 md:px-8">
+                      <ExecutiveTableRow key={i} className={cn(row.isTotal ? 'bg-muted/30 font-bold' : '')}>
+                        <ExecutiveTableCell>
                           <span
-                            className={cn('block break-words overflow-visible', row.isTotal ? 'text-primary font-bold' : 'text-muted-foreground font-medium')}
+                            className={cn('block break-words overflow-visible', row.isTotal ? 'text-foreground font-bold' : 'text-muted-foreground font-medium')}
                             style={{ paddingLeft: row.level > 1 ? `${(row.level - 1) * 20}px` : '0px' }}
                           >
                             {row.level > 1 && (
@@ -70,16 +78,16 @@ export function DRETechnicalLayerSection({ viewModel }: Props) {
                             )}
                             {row.label}
                           </span>
-                        </td>
-                        <td className={cn("py-2.5 md:py-4 px-5 md:px-8 text-right font-mono", row.val < 0 ? "text-rose-500" : "text-muted-foreground")}>
+                        </ExecutiveTableCell>
+                        <ExecutiveTableCell className={cn("text-right font-mono", row.val < 0 ? "text-rose-600" : "text-muted-foreground")}>
                           {formatCurrency(row.val)}
-                        </td>
-                        <td className="py-2.5 md:py-4 px-5 md:px-8 text-right font-bold text-muted-foreground text-xs">
+                        </ExecutiveTableCell>
+                        <ExecutiveTableCell className="text-right font-bold text-muted-foreground text-xs">
                           {row.av.toFixed(2)}%
-                        </td>
-                        <td className={cn(
-                          "py-2.5 md:py-4 px-5 md:px-8 text-right font-black text-xs",
-                          row.ah1 === null ? "text-muted-foreground" : row.ah1 > 0 ? "text-emerald-500" : row.ah1 < 0 ? "text-rose-500" : "text-muted-foreground"
+                        </ExecutiveTableCell>
+                        <ExecutiveTableCell className={cn(
+                          "text-right font-bold text-xs",
+                          row.ah1 === null ? "text-muted-foreground" : row.ah1 > 0 ? "text-emerald-600" : row.ah1 < 0 ? "text-rose-600" : "text-muted-foreground"
                         )}>
                           {row.ah1 !== null ? (
                             <div className="flex items-center justify-end gap-1">
@@ -87,10 +95,10 @@ export function DRETechnicalLayerSection({ viewModel }: Props) {
                               {Math.abs(row.ah1).toFixed(2)}%
                             </div>
                           ) : '—'}
-                        </td>
-                        <td className={cn(
-                          "py-2.5 md:py-4 px-5 md:px-8 text-right font-black text-xs",
-                          row.ah2 === null ? "text-muted-foreground" : row.ah2 > 0 ? "text-emerald-500" : row.ah2 < 0 ? "text-rose-500" : "text-muted-foreground"
+                        </ExecutiveTableCell>
+                        <ExecutiveTableCell className={cn(
+                          "text-right font-bold text-xs",
+                          row.ah2 === null ? "text-muted-foreground" : row.ah2 > 0 ? "text-emerald-600" : row.ah2 < 0 ? "text-rose-600" : "text-muted-foreground"
                         )}>
                           {row.ah2 !== null ? (
                             <div className="flex items-center justify-end gap-1">
@@ -98,10 +106,10 @@ export function DRETechnicalLayerSection({ viewModel }: Props) {
                               {Math.abs(row.ah2).toFixed(2)}%
                             </div>
                           ) : '—'}
-                        </td>
-                        <td className={cn(
-                          "py-2.5 md:py-4 px-5 md:px-8 text-right font-black text-xs",
-                          row.ah3 === null ? "text-muted-foreground" : row.ah3 > 0 ? "text-emerald-500" : row.ah3 < 0 ? "text-rose-500" : "text-muted-foreground"
+                        </ExecutiveTableCell>
+                        <ExecutiveTableCell className={cn(
+                          "text-right font-bold text-xs",
+                          row.ah3 === null ? "text-muted-foreground" : row.ah3 > 0 ? "text-emerald-600" : row.ah3 < 0 ? "text-rose-600" : "text-muted-foreground"
                         )}>
                           {row.ah3 !== null ? (
                             <div className="flex items-center justify-end gap-1">
@@ -109,20 +117,24 @@ export function DRETechnicalLayerSection({ viewModel }: Props) {
                               {Math.abs(row.ah3).toFixed(2)}%
                             </div>
                           ) : '—'}
-                        </td>
-                      </tr>
+                        </ExecutiveTableCell>
+                      </ExecutiveTableRow>
                     ))
                   ) : (
-                     <tr className="transition-colors group">
-                       <td colSpan={6} className="py-2.5 md:py-4 px-5 md:px-8 text-center text-muted-foreground">
-                         Nenhum dado disponível.
-                       </td>
-                     </tr>
+                     <ExecutiveTableRow>
+                       <ExecutiveTableCell colSpan={6} className="p-0">
+                         <ExecutiveEmptyState 
+                           title="Nenhum dado disponível"
+                           description="Não há detalhamento técnico da DRE para este período."
+                         />
+                       </ExecutiveTableCell>
+                     </ExecutiveTableRow>
                   )}
-                </tbody>
-              </table>
+                </ExecutiveTableBody>
+              </ExecutiveTable>
             </div>
           </div>
+          </ExecutiveSurface>
         </div>
       )}
     </div>
