@@ -84,7 +84,10 @@ export function BalanceSheetStructuralTablesSection({
                         </span>
                       </div>
                       
-                      <div className="w-32 text-right font-display text-[13px] font-semibold text-foreground tabular-nums">
+                      <div className={cn(
+                        "w-32 text-right font-display text-[13px] tabular-nums",
+                        row.level === 1 ? "font-bold text-foreground" : "font-medium text-foreground/75"
+                      )}>
                         {row.valueFormatted}
                       </div>
                       

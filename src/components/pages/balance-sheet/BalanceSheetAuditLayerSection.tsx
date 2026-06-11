@@ -26,7 +26,7 @@ export function BalanceSheetAuditLayerSection({
         {viewModel.structuralRestrictions && (
           <div className="flex flex-col">
             <h4 className="text-sm font-black text-primary mb-4 border-b border-border pb-2">Restrições Estruturais e Tetos de Classificação</h4>
-            <div className="grid grid-cols-1 xl:grid-cols-2 gap-3 flex-1 content-start">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-3 flex-1 content-start">
               {viewModel.structuralRestrictions.overrides.map((override, idx) => {
                 const s = override.severityLabel.toLowerCase();
                 const severity = s.includes('crítico') || s.includes('critical') ? 'critical' : s.includes('alta') ? 'warning' : 'attention';
@@ -86,7 +86,7 @@ export function BalanceSheetAuditLayerSection({
             </div>
             
             {viewModel.governanceConsistency.hasIssues ? (
-              <div className="grid grid-cols-1 xl:grid-cols-2 gap-3 overflow-y-auto max-h-[300px] pr-2 content-start">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-3 overflow-y-auto max-h-[300px] pr-2 content-start">
                 {viewModel.governanceConsistency.issues.map((issue, idx) => {
                   let severity: "critical" | "warning" | "attention" | "info" = "info";
                   if (issue.type === 'critical') severity = 'critical';

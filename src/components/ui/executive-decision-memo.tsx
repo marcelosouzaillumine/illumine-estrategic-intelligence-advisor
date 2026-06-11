@@ -54,15 +54,15 @@ export function ExecutiveDecisionMemo({
       </div>
 
       {/* Body */}
-      <div className="p-6 md:p-8 flex flex-col gap-6 w-full">
-        <div className="max-w-[78ch] w-full flex flex-col gap-6">
+      <div className="p-6 md:p-8 flex flex-col items-center w-full">
+        <div className="max-w-[88ch] w-full flex flex-col gap-6">
           {thesis && (
             <h4 className="text-[18px] md:text-[20px] font-semibold text-foreground leading-snug">
               {thesis}
             </h4>
           )}
           
-          <div className="text-[15px] md:text-[16px] leading-7 text-foreground/80 text-left whitespace-pre-wrap">
+          <div className="text-[15px] md:text-[16px] leading-relaxed text-foreground/80 text-justify whitespace-pre-wrap">
             {narrative}
           </div>
 

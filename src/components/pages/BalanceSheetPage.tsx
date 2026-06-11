@@ -341,6 +341,7 @@ export function BalanceSheetPage({ clients, selectedClient, selectedYear }: any)
           ebitda,
           lucroLiquido,
           industry,
+          segmentoEmpresa: industry,
           prevPl,
           prevEbitda,
           prevCaixa,
@@ -521,7 +522,7 @@ export function BalanceSheetPage({ clients, selectedClient, selectedYear }: any)
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-6 mb-10">
         <div className="flex flex-col md:flex-row md:items-center gap-4">
           <div className="flex items-center gap-4">
-            <StatusBadge status={executiveReport?.isSandbox || executiveReport?.isDemonstrative ? 'SANDBOX' : ((executiveReport as any)?.status || 'UNAVAILABLE')} />
+            <StatusBadge status={executiveReport?.isSandbox || executiveReport?.isDemonstrative ? 'SANDBOX' : (executiveReport?.canonicalState?.status || (hasData ? 'Ativo' : 'UNAVAILABLE'))} />
             <BalanceSheetDataSourceStatus hasRealData={hasData} loading={loadingBP} />
           </div>
           <BalanceSheetYearFilter filterYear={filterYear} onChangeYear={setFilterYear} />
@@ -653,7 +654,7 @@ export function BalanceSheetPage({ clients, selectedClient, selectedYear }: any)
             <div className="p-8 border-t border-border bg-surface-container/30/30">
               <div className="flex flex-col mb-6 border-b border-border pb-4">
                 <h4 className="text-sm font-black text-primary mb-2">Análise Estrutural Detalhada</h4>
-                <p className="text-secondary">
+                <p className="text-sm text-foreground/68 font-normal">
                   Cálculos • Análise Horizontal e Vertical • Gráficos
                 </p>
               </div>

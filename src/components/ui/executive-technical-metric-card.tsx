@@ -43,13 +43,23 @@ export function ExecutiveTechnicalMetricCard({
       )}
     >
       {/* Header Zone */}
-      <div className="w-full flex items-start justify-between gap-2 min-h-[32px]">
-        <span className="text-[11px] font-medium tracking-wide text-foreground/65 leading-snug line-clamp-2">
-          {label}
-        </span>
+      <div 
+        className="w-full grid items-start gap-[12px] min-h-[36px]" 
+        style={{ gridTemplateColumns: 'minmax(0, 1fr) auto' }}
+      >
+        <div className="min-w-0 pr-2">
+          <span className="text-[11px] font-medium tracking-wide text-foreground/65 leading-4 line-clamp-2 break-words">
+            {label}
+          </span>
+        </div>
         {statusLabel && (
-          <div className="shrink-0 flex items-start">
-            <span className={getBadgeClasses(statusTone)}>{statusLabel}</span>
+          <div className="shrink-0 justify-self-end">
+            <span 
+              className={cn(getBadgeClasses(statusTone), "max-w-[140px] whitespace-normal break-words block text-center")}
+              title={statusLabel}
+            >
+              {statusLabel === 'CONCENTRAÇÃO NO CURTO PRAZO' ? 'CURTO PRAZO' : statusLabel}
+            </span>
           </div>
         )}
       </div>

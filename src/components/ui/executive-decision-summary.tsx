@@ -29,15 +29,15 @@ export function ExecutiveDecisionSummary({
   className
 }: ExecutiveDecisionSummaryProps) {
   return (
-    <div className={cn("flex flex-col lg:flex-row lg:items-start lg:justify-between w-full border-l-2 border-border/50 pl-5 lg:pl-6 gap-6", className)}>
-      <div className="flex flex-col items-start justify-start max-w-2xl">
+    <div className={cn("flex flex-col lg:flex-row lg:items-start lg:justify-between w-full border-l-2 border-border/50 pl-5 lg:pl-6 gap-6 lg:gap-12", className)}>
+      <div className="flex flex-col items-start justify-start flex-1 min-w-0">
         {label && (
           <h4 className="text-[10px] font-semibold uppercase tracking-[0.08em] text-foreground/50 mb-3">
             {label}
           </h4>
         )}
         <div className="flex flex-wrap items-center gap-3">
-          <span className={cn("inline-flex items-center h-6 px-2.5 rounded text-[10px] font-semibold uppercase tracking-[0.06em] border", toneMap[severityTone])}>
+          <span className={cn("inline-flex items-center h-6 px-2.5 rounded text-[10px] font-semibold uppercase tracking-[0.06em] border shrink-0", toneMap[severityTone])}>
             {severityLabel}
           </span>
           <span className="text-[18px] lg:text-[20px] font-semibold text-foreground leading-tight">
@@ -46,13 +46,13 @@ export function ExecutiveDecisionSummary({
         </div>
       </div>
       
-      <div className="flex flex-col items-start lg:items-end justify-start lg:text-right max-w-sm">
+      <div className="flex flex-col items-start lg:items-end justify-start lg:text-right shrink-0">
         {reasonLabel && (
-          <span className="text-[10px] font-semibold uppercase tracking-[0.08em] text-foreground/50 mb-2">
+          <h4 className="text-[10px] font-semibold uppercase tracking-[0.08em] text-foreground/50 mb-3">
             {reasonLabel}
-          </span>
+          </h4>
         )}
-        <div className="text-[13px] leading-relaxed text-foreground/75">
+        <div className="text-[14px] leading-relaxed font-medium text-foreground/75 flex items-center min-h-[24px]">
           {reason}
         </div>
       </div>

@@ -89,7 +89,7 @@ export function Semaphore({ status }: { status: string }) {
 }
 
 export function StatusBadge({ status, label, className }: { status: string; label?: string; className?: string }) {
-  const { t } = useLanguage();
+  const { t, translateLabel } = useLanguage();
 
   const classMap: Record<string, string> = {
     'Verde': 'text-success border-success/20 bg-success-soft font-semibold',
@@ -102,12 +102,18 @@ export function StatusBadge({ status, label, className }: { status: string; labe
     'Em Implantação': 'text-warning border-warning/20 bg-warning-soft font-semibold',
     'UNAVAILABLE': 'text-foreground/60 border-border bg-surface-container font-semibold',
     'SANDBOX': 'text-blue-500 border-blue-500/20 bg-blue-50 font-semibold',
+    'HEALTHY': 'text-success border-success/20 bg-success-soft font-semibold',
+    'WARNING': 'text-warning border-warning/20 bg-warning-soft font-semibold',
+    'CRITICAL': 'text-critical border-critical/20 bg-critical-soft font-semibold',
   };
 
   const getDisplayLabel = () => {
     if (label) return label;
     if (status === 'UNAVAILABLE') return t('common.unavailable', 'Indisponível');
     if (status === 'SANDBOX') return 'SANDBOX';
+    if (status === 'HEALTHY') return translateLabel ? translateLabel('Saudável') : 'SAUDÁVEL';
+    if (status === 'WARNING') return translateLabel ? translateLabel('Atenção') : 'ATENÇÃO';
+    if (status === 'CRITICAL') return translateLabel ? translateLabel('Crítico') : 'CRÍTICO';
     return status;
   };
   
