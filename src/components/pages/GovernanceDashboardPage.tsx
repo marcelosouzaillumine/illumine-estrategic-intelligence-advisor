@@ -21,6 +21,8 @@ import { orchestrateGovernanceNarrative } from '../../core/orchestration/executi
 import { DashboardSkeleton } from '../ui/skeletons';
 import { ExecutiveEmptyState } from '../ui/executive-empty-state';
 import { ExecutiveSurface } from '../ui/executive-surface';
+import { ExecutiveDecisionMemo } from '../ui/executive-decision-memo';
+import { ExecutiveNarrative } from '../ui/executive-narrative';
 import { useHistoricalDemonstracoes } from '../../hooks/useHistoricalDemonstracoes';
 import { useInstitutionalRuntime } from '../../hooks/useInstitutionalRuntime';
 import { useTemporalRuntime } from '../../hooks/useTemporalRuntime';
@@ -487,44 +489,38 @@ export function GovernanceDashboardPage({
         </ExecutiveSurface>
 
         {/* Strategic Insights */}
-        <ExecutiveSurface padding="xl" className="flex flex-col justify-between h-full border-border shadow-inner">
-           <div className="space-y-10">
-              <div className="flex items-center gap-4">
-                 <div className="w-12 h-12 rounded-md bg-executive flex items-center justify-center text-white shadow-premium">
-                    <MessageSquare size={24} />
-                 </div>
-                 <div>
-                    <h3 className="text-h3 font-medium text-foreground tracking-tight">{t('gov.insights.title')}</h3>
-                    <p className="text-muted-foreground text-[10px] font-medium uppercase tracking-widest mt-1">{t('gov.insights.subtitle')}</p>
-                 </div>
+        <div className="flex flex-col h-full">
+          <ExecutiveDecisionMemo
+            icon={<MessageSquare />}
+            title={t('gov.insights.title')}
+            subtitle={t('gov.insights.subtitle')}
+            className="h-full"
+            narrative={
+              <div className="space-y-4 w-full">
+                {[
+                  { title: t('gov.insights.mock1.title'), text: t('gov.insights.mock1.text'), icon: Scale },
+                  { title: t('gov.insights.mock2.title'), text: t('gov.insights.mock2.text'), icon: Zap },
+                  { title: t('gov.insights.mock3.title'), text: t('gov.insights.mock3.text'), icon: Users }
+                ].map((insight, i) => (
+                  <ExecutiveNarrative 
+                    key={i} 
+                    variant="insight" 
+                    icon={insight.icon} 
+                    title={insight.title}
+                  >
+                    {insight.text}
+                  </ExecutiveNarrative>
+                ))}
               </div>
+            }
+            recommendation={
+              <button className="btn-executive w-full">
+                {t('gov.btn.export_monthly')}
+              </button>
+            }
+          />
+        </div>
 
-              <div className="space-y-6">
-                 {[
-                   { title: t('gov.insights.mock1.title'), text: t('gov.insights.mock1.text'), icon: Scale },
-                   { title: t('gov.insights.mock2.title'), text: t('gov.insights.mock2.text'), icon: Zap },
-                   { title: t('gov.insights.mock3.title'), text: t('gov.insights.mock3.text'), icon: Users }
-                 ].map((insight, i) => (
-                   <div key={i} className="flex gap-6 p-6 bg-card rounded-md border border-border shadow-sm hover:shadow-md transition-all group cursor-default">
-                      <div className="w-12 h-12 rounded-md bg-surface-container flex items-center justify-center text-muted-foreground group-hover:text-primary transition-colors shrink-0">
-                         {(() => {
-                           const Icon = insight.icon;
-                           return <Icon size={20} />;
-                         })()}
-                      </div>
-                      <div className="space-y-1">
-                         <h4 className="text-[10px] font-medium text-foreground uppercase tracking-widest">{insight.title}</h4>
-                         <p className="text-body-sm text-muted-foreground leading-relaxed font-medium italic">{insight.text}</p>
-                      </div>
-                   </div>
-                 ))}
-              </div>
-           </div>
-
-           <button className="btn-executive w-full mt-10">
-              {t('gov.btn.export_monthly')}
-           </button>
-        </ExecutiveSurface>
       </div>
 
       {/* Area Snapshots Grid */}
