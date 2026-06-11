@@ -93,12 +93,22 @@ export function BalanceSheetAuditLayerSection({
                   else if (issue.type === 'warning') severity = 'warning';
                   else if (issue.type === 'disclosure') severity = 'attention';
                   
+                  // Extract specific title if message follows "Title: Description" format
+                  let title = issue.typeLabel;
+                  let description = issue.message;
+                  
+                  const colonIndex = issue.message.indexOf(':');
+                  if (colonIndex > 0 && colonIndex < 80) {
+                    title = issue.message.substring(0, colonIndex).trim();
+                    description = issue.message.substring(colonIndex + 1).trim();
+                  }
+                  
                   return (
                     <ExecutiveRestrictionRow
                       key={idx}
-                      label={issue.typeLabel}
-                      title={issue.message}
+                      title={title}
                       severity={severity}
+                      description={description}
                     />
                   );
                 })}
