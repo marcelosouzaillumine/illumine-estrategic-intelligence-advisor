@@ -32,10 +32,7 @@ export function mapRiskDivergenceToViewModel(params: {
   resolveImpact: (metric: string) => string;
 }): BalanceSheetRiskDivergenceViewModel {
   const score = params.globalScore || 0;
-  let mathLabel = 'Crítico';
-  if (score >= 80) mathLabel = 'Resiliente';
-  else if (score >= 65) mathLabel = 'Estável';
-  else if (score >= 50) mathLabel = 'Vulnerável';
+  const mathLabel = 'NO_CLASSIFICATION';
 
   const classStr = params.patrimonialClassification || '';
   let tone: BalanceSheetRiskDivergenceTone = 'critical';
