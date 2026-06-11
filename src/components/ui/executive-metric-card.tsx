@@ -42,7 +42,7 @@ export function ExecutiveMetricCard({
     >
       {/* Header Zone */}
       <div className="w-full flex items-start justify-between min-h-[40px] gap-2 mb-2">
-        <span className="text-xs font-medium text-foreground/65">
+        <span className="text-[11px] font-medium tracking-wide text-foreground/65">
           {label}
         </span>
         {statusBadge && (
@@ -63,7 +63,7 @@ export function ExecutiveMetricCard({
       {description && (
         <>
           <div className="w-full h-px bg-border/50 my-3" />
-          <div className="w-full flex-1 flex flex-col items-start justify-start text-sm leading-relaxed text-muted-foreground">
+          <div className="w-full flex-1 flex flex-col items-start justify-start text-[13px] md:text-sm leading-relaxed text-foreground/70">
             {description}
           </div>
         </>

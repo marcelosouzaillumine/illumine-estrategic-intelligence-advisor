@@ -58,7 +58,7 @@ export function PageHeader({
             </div>
           </div>
           {subtitle && (
-            <p className="text-muted-foreground text-body-md font-medium ml-0 xl:ml-16 leading-relaxed max-w-3xl break-words">
+            <p className="text-foreground/75 text-body-md font-medium ml-0 xl:ml-16 leading-relaxed max-w-3xl break-words">
               {translateLabel(subtitle)}
             </p>
           )}
