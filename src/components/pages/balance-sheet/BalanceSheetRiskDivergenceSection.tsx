@@ -4,6 +4,7 @@ import { BalanceSheetRiskDivergenceViewModel } from './view-models';
 import { cn } from '../../../lib/utils';
 import { ExecutiveSurface } from '../../ui/executive-surface';
 import { ExecutiveMetricCard } from '../../ui/executive-metric-card';
+import { ExecutiveRiskRow } from '../../ui/executive-risk-row';
 
 export function BalanceSheetRiskDivergenceSection({
   viewModel
@@ -87,26 +88,26 @@ export function BalanceSheetRiskDivergenceSection({
                 </div>
               </div>
               
-              <div className="w-full flex flex-col gap-3 relative z-10 items-start justify-start">
-                {viewModel.criticalOffenders.map((offender, i) => (
-                  <ExecutiveSurface padding="none" key={i} className="w-full flex flex-col sm:flex-row sm:items-center justify-between gap-4 p-4 rounded-2xl shadow-sm hover:shadow-md transition-all group border-border">
-                    <div className="flex items-center gap-4 w-full sm:w-[35%]">
-                      <div className="w-1.5 h-1.5 rounded-full bg-critical shadow-[0_0_8px_rgba(244,63,94,0.6)]"></div>
-                      <span className="text-[13px] font-bold text-foreground">{offender.metricName}</span>
-                    </div>
-                    <div className="w-full sm:w-[20%] flex items-start justify-start">
-                      <span className="inline-flex items-center justify-center px-3 py-1 rounded-lg bg-critical-soft text-critical-foreground text-[10px] font-bold uppercase tracking-widest border border-critical/20 group-hover:bg-critical group-hover:text-white transition-all duration-300">
-                        {offender.classification}
-                      </span>
-                    </div>
-                    <div className="w-full sm:w-[45%] flex items-center justify-between gap-4 pl-0 sm:pl-4 sm:border-l border-border">
-                      <span className="text-xs font-bold text-foreground/75 leading-snug group-hover:text-foreground transition-colors">{offender.impact}</span>
-                      <div className="p-1.5 bg-surface-container/30 rounded-md text-foreground/50 group-hover:text-critical group-hover:bg-critical-soft transition-colors">
-                        <AlertCircle size={14} strokeWidth={2.5} />
-                      </div>
-                    </div>
-                  </ExecutiveSurface>
-                ))}
+              <div className="w-full flex flex-col relative z-10 items-start justify-start border border-border/30 rounded-[24px] overflow-hidden bg-card shadow-sm">
+                {viewModel.criticalOffenders.map((offender, i) => {
+                  // Define o tone com base na classificação. (Nesta seção a maioria é crítico)
+                  const classStr = offender.classification.toUpperCase();
+                  let tone: "critical" | "warning" | "success" | "info" | "neutral" = "critical";
+                  if (classStr.includes("ATENÇÃO") || classStr.includes("WARNING") || classStr.includes("ALERTA") || classStr.includes("MODERAD")) {
+                    tone = "warning";
+                  }
+
+                  return (
+                    <ExecutiveRiskRow
+                      key={i}
+                      title={offender.metricName}
+                      severityTone={tone}
+                      severityLabel={offender.classification}
+                      consequence={offender.impact}
+                      action={<AlertCircle size={14} />}
+                    />
+                  );
+                })}
               </div>
             </ExecutiveSurface>
           )}
