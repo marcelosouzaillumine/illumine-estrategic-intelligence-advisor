@@ -936,20 +936,21 @@ export function DLPAPage({ clients, selectedClient, selectedYear }: any) {
               </div>
 
               {/* 2. Framework de Governança de Capital */}
-              <div className="bg-card rounded-[40px] p-8 shadow-sm border border-border">
+              <ExecutiveSurface padding="xl" radius="xl" className="border-border">
                 <div className="flex items-center gap-3 mb-6">
                   <CheckCircle2 size={20} className="text-blue-500" />
                   <h3 className="text-xl font-black text-primary">Framework de Decisão do Conselho</h3>
                 </div>
                 <div className="grid grid-cols-1 md:grid-cols-2 2xl:grid-cols-3 gap-6">
                   {executiveLayer.boardDecisionSupport?.value?.map((item: any, idx: number) => (
-                    <div key={idx} className="bg-surface-container/30 rounded-2xl p-5 border border-border">
-                      <p className="text-secondary">{item.question}</p>
-                      <p className="text-secondary">{item.answer}</p>
-                    </div>
+                    <ExecutiveSurface key={idx} padding="md" variant="info" className="flex flex-col h-full bg-surface-container/30 border border-border">
+                      <ExecutiveNarrative title={item.question} variant="board-note" className="h-full">
+                        <span className="text-[14px] leading-relaxed">{item.answer}</span>
+                      </ExecutiveNarrative>
+                    </ExecutiveSurface>
                   ))}
                 </div>
-              </div>
+              </ExecutiveSurface>
 
               {/* 3, 4, 5, 6. Inteligência de Preservação de Capital */}
               <div className="bg-card rounded-[40px] p-8 shadow-sm border border-border">
