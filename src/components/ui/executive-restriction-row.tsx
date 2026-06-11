@@ -57,7 +57,7 @@ export function ExecutiveRestrictionRow({
       </div>
       
       {description && (
-        <div className="mt-3 pt-3 border-t border-border/50 text-[12px] leading-5 text-foreground/75">
+        <div className="mt-3 pt-3 border-t border-border/50 text-[12px] leading-snug text-foreground/75">
           {description}
         </div>
       )}
