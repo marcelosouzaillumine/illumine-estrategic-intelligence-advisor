@@ -31,14 +31,14 @@ export function ExecutiveNarrative({
   return (
     <div className={cn("bg-transparent flex flex-col gap-3", className)} {...props}>
       {(title || IconComponent) && (
-        <div className="flex items-center gap-3">
+        <div className="flex items-center gap-2.5 mb-1">
           {IconComponent && (
             <div className={cn("shrink-0", config.color)}>
-              <IconComponent size={20} strokeWidth={2} />
+              <IconComponent size={14} strokeWidth={2.5} />
             </div>
           )}
           {title && (
-            <h4 className={cn("font-medium text-base tracking-tight leading-none", config.color)}>
+            <h4 className="text-[11px] font-semibold uppercase tracking-[0.08em] text-foreground/50">
               {title}
             </h4>
           )}

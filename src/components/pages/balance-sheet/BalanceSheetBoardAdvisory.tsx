@@ -15,16 +15,17 @@ export const BalanceSheetBoardAdvisory = ({
   boardAdvisoryFullText 
 }: BalanceSheetBoardAdvisoryProps) => {
   return (
-    <div className="flex flex-col gap-6 mb-12">
-      <ExecutiveInsightCard
-        badge="Tese Patrimonial"
-        headline={patrimonialHealth || 'Estrutura patrimonial em avaliação.'}
-      />
+    <div className="flex flex-col lg:flex-row items-start gap-8 lg:gap-16 mb-12">
+      <div className="w-full lg:w-[35%] shrink-0">
+        <ExecutiveInsightCard
+          badge="Tese Patrimonial"
+          headline={patrimonialHealth || 'Estrutura patrimonial em avaliação.'}
+        />
+      </div>
 
       {hasParecer && (
-        <div className="px-2 md:px-4 mt-2">
-          <h4 className="text-[11px] font-semibold uppercase tracking-[0.08em] text-foreground/50 mb-4">Parecer do Conselho</h4>
-          <ExecutiveNarrative>
+        <div className="w-full lg:w-[65%] min-w-0 mt-2 lg:mt-0 pt-0 lg:pt-6">
+          <ExecutiveNarrative variant="board-note" title="Parecer Estratégico">
             {boardAdvisoryFullText ? (
               <div className="space-y-4">
                 {boardAdvisoryFullText.includes('Recomendação:') ? (
