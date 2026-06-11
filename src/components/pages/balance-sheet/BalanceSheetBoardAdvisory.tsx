@@ -1,6 +1,7 @@
 import React from 'react';
-import { ExecutiveDecisionMemo } from '../../ui/executive-decision-memo';
-import { Briefcase } from 'lucide-react';
+import { ExecutiveInsightCard } from '../../ui/executive-insight-card';
+import { ExecutiveNarrative } from '../../ui/executive-narrative';
+import { ExecutiveRecommendationBlock } from '../../ui/executive-recommendation-block';
 
 export type BalanceSheetBoardAdvisoryProps = {
   hasParecer: boolean;
@@ -13,30 +14,37 @@ export const BalanceSheetBoardAdvisory = ({
   patrimonialHealth, 
   boardAdvisoryFullText 
 }: BalanceSheetBoardAdvisoryProps) => {
-  if (!hasParecer && !patrimonialHealth) return null;
-
-  let narrative: React.ReactNode = <p className="text-foreground/60">Parecer não gerado.</p>;
-  let recommendation: React.ReactNode = undefined;
-
-  if (boardAdvisoryFullText) {
-    if (boardAdvisoryFullText.includes('Recomendação:')) {
-      const parts = boardAdvisoryFullText.split('Recomendação:');
-      narrative = parts[0].trim();
-      recommendation = parts[1].trim();
-    } else {
-      narrative = boardAdvisoryFullText;
-    }
-  }
-
   return (
-    <div className="w-full mb-12">
-      <ExecutiveDecisionMemo
-        icon={<Briefcase />}
-        title="Parecer Estratégico"
-        thesis={patrimonialHealth || 'Estrutura patrimonial em avaliação.'}
-        narrative={narrative}
-        recommendation={recommendation}
-      />
+    <div className="flex flex-col lg:flex-row items-start gap-8 lg:gap-16 mb-12">
+      <div className="w-full lg:w-[35%] shrink-0">
+        <ExecutiveInsightCard
+          badge="Tese Patrimonial"
+          headline={patrimonialHealth || 'Estrutura patrimonial em avaliação.'}
+        />
+      </div>
+
+      {hasParecer && (
+        <div className="w-full lg:w-[65%] min-w-0 mt-2 lg:mt-0 pt-0 lg:pt-6">
+          <ExecutiveNarrative variant="board-note" title="Parecer Estratégico">
+            {boardAdvisoryFullText ? (
+              <div className="space-y-4">
+                {boardAdvisoryFullText.includes('Recomendação:') ? (
+                  <>
+                    <p>{boardAdvisoryFullText.split('Recomendação:')[0].trim()}</p>
+                    <ExecutiveRecommendationBlock>
+                      {boardAdvisoryFullText.split('Recomendação:')[1].trim()}
+                    </ExecutiveRecommendationBlock>
+                  </>
+                ) : (
+                  <p>{boardAdvisoryFullText}</p>
+                )}
+              </div>
+            ) : (
+              <p className="text-foreground/60">Parecer não gerado.</p>
+            )}
+          </ExecutiveNarrative>
+        </div>
+      )}
     </div>
   );
 };
