@@ -17,7 +17,7 @@ export const BalanceSheetCapitalStructureSection = ({ indicators }: BalanceSheet
               {ind.format === 'percentage' ? (Number(ind.value)*100).toFixed(1)+'%' : ind.format === 'multiplier' ? Number(ind.value).toFixed(2)+'x' : ind.format === 'decimal' ? Number(ind.value).toFixed(2) : ind.value}
             </div>
 
-            <p className="text-muted-foreground">{ind.rationale}</p>
+            <p className="text-foreground/70">{ind.rationale}</p>
           </div>
         ))}
       </div>

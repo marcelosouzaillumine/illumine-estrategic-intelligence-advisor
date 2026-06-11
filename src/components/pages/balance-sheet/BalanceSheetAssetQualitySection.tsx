@@ -16,7 +16,7 @@ export const BalanceSheetAssetQualitySection = ({ indicators }: BalanceSheetAsse
             <span className="text-3xl font-bold text-foreground mb-2 block">
               {ind.format === 'percentage' ? (Number(ind.value)*100).toFixed(1)+'%' : ind.format === 'multiplier' ? Number(ind.value).toFixed(2)+'x' : Number(ind.value).toFixed(2)}
             </span>
-            <p className="text-muted-foreground">{ind.rationale}</p>
+            <p className="text-foreground/70">{ind.rationale}</p>
           </div>
         ))}
       </div>

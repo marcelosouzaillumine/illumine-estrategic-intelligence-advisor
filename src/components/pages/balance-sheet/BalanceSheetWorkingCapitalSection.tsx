@@ -31,7 +31,7 @@ export const BalanceSheetWorkingCapitalSection = ({ indicators }: BalanceSheetWo
               <span className="text-2xl font-bold text-foreground mb-2 block">
                 {ind.format === 'percentage' ? (Number(ind.value)*100).toFixed(1)+'%' : ind.format === 'multiplier' ? Number(ind.value).toFixed(2)+'x' : ind.format === 'decimal' ? Number(ind.value).toFixed(1) : ind.value}
               </span>
-              <p className="text-muted-foreground">{ind.rationale}</p>
+              <p className="text-foreground/70">{ind.rationale}</p>
             </ExecutiveSurface>
           );
         })}

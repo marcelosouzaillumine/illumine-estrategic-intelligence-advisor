@@ -29,7 +29,7 @@ export const BalanceSheetLiquiditySection = ({ indicators }: BalanceSheetLiquidi
             >
               <h4 className="text-[10px] font-semibold uppercase tracking-widest text-foreground mb-2">{metric}</h4>
               <span className="text-2xl font-bold text-foreground mb-2">{Number(ind.value).toFixed(2)}</span>
-              <p className="text-muted-foreground">{ind.rationale}</p>
+              <p className="text-foreground/70">{ind.rationale}</p>
             </ExecutiveSurface>
           );
         })}
