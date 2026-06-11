@@ -35,14 +35,14 @@ export function ExecutiveMetricCard({
       padding="none" 
       variant={variant}
       className={cn(
-        "flex flex-col items-start justify-start w-full p-6 rounded-[24px] shadow-sm transition-all h-full",
+        "flex flex-col items-start justify-start w-full p-5 rounded-[24px] shadow-sm transition-all h-full",
         toneClasses,
         className
       )}
     >
       {/* Header Zone */}
-      <div className="w-full flex items-start justify-between min-h-[48px] gap-2 mb-2">
-        <span className="text-[10px] font-bold uppercase tracking-widest text-foreground/70">
+      <div className="w-full flex items-start justify-between min-h-[40px] gap-2 mb-2">
+        <span className="text-xs font-medium text-foreground/65">
           {label}
         </span>
         {statusBadge && (
@@ -53,8 +53,8 @@ export function ExecutiveMetricCard({
       </div>
 
       {/* Value Zone */}
-      <div className="w-full flex flex-col items-start justify-start min-h-[64px] mb-2">
-        <div className="text-xl md:text-2xl font-bold text-foreground leading-tight">
+      <div className="w-full flex flex-col items-start justify-start min-h-[52px] mb-2">
+        <div className="text-2xl md:text-3xl font-semibold text-foreground leading-tight">
           {value}
         </div>
       </div>
@@ -62,8 +62,8 @@ export function ExecutiveMetricCard({
       {/* Separator & Narrative Zone */}
       {description && (
         <>
-          <div className="w-full h-px bg-border/50 my-4" />
-          <div className="w-full flex-1 flex flex-col items-start justify-start text-sm text-foreground/75 leading-relaxed">
+          <div className="w-full h-px bg-border/50 my-3" />
+          <div className="w-full flex-1 flex flex-col items-start justify-start text-sm leading-relaxed text-muted-foreground">
             {description}
           </div>
         </>
