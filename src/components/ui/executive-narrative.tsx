@@ -44,7 +44,7 @@ export function ExecutiveNarrative({
           )}
         </div>
       )}
-      <div className="text-muted-foreground text-[15px] leading-relaxed tabular-nums">
+      <div className="text-[16px] leading-[1.75] font-normal text-foreground/78 max-w-[82ch]">
         {children}
       </div>
     </div>
