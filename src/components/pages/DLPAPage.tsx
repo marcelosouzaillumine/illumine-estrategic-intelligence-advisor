@@ -168,42 +168,6 @@ function getMaturityLabel(maturity: string) {
   return map[maturity] || { label: maturity, color: 'text-muted-foreground', bg: 'bg-surface-container/30 border-border', border: 'border-border', score: 50 };
 }
 
-// ── KPI Card ─────────────────────────────────────────────────────────────────
-function DlpaKpiCard({ title, value, subtitle, statusLabel, statusBg, statusText, statusBorder, icon: Icon, accentColor, formula }: any) {
-  return (
-    <div className={cn(
-      'group relative bg-card rounded-[20px] border p-6 shadow-sm hover:shadow-md transition-all overflow-hidden flex flex-col',
-      statusBorder || 'border-border'
-    )}>
-      <div className={cn('absolute -right-8 -top-8 w-28 h-28 rounded-full opacity-[0.04] pointer-events-none transition-transform duration-500 group-hover:scale-125', accentColor || 'bg-surface-container 400')} />
-      <div className="flex items-start justify-between mb-4 relative z-10">
-        <h4 className="text-[10px] font-black text-primary uppercase tracking-widest leading-snug w-3/4">{title}</h4>
-        <div className={cn('w-9 h-9 rounded-xl flex items-center justify-center shrink-0', accentColor || 'bg-surface-container')}>
-          <Icon size={16} />
-        </div>
-      </div>
-      <div className="relative z-10 mt-auto">
-        <div className="mb-2">
-          <KpiValue
-            value={value}
-            className="font-semibold tracking-tight text-muted-foreground"
-          />
-          {formula && (
-            <p className="text-secondary">
-              {formula}
-            </p>
-          )}
-        </div>
-        <div className="flex items-center gap-2 flex-wrap">
-          <span className={cn('text-[9px] font-black uppercase px-2.5 py-1 rounded-full border', statusBg, statusText, statusBorder)}>
-            {statusLabel}
-          </span>
-          <span className="text-[10px] text-muted-foreground font-medium whitespace-normal break-words leading-snug min-w-0 max-w-full">{subtitle}</span>
-        </div>
-      </div>
-    </div>
-  );
-}
 
 // ── Score Ring ────────────────────────────────────────────────────────────────
 function ScoreRing({ value, label, color }: { value: number; label: string; color: string }) {
