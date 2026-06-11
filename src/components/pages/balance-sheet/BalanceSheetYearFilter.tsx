@@ -1,5 +1,6 @@
 import React from 'react';
 import { Calendar } from 'lucide-react';
+import { ExecutiveSurface } from '../../ui/executive-surface';
 
 export type BalanceSheetYearFilterProps = {
   filterYear: number;
@@ -8,7 +9,12 @@ export type BalanceSheetYearFilterProps = {
 
 export const BalanceSheetYearFilter = ({ filterYear, onChangeYear }: BalanceSheetYearFilterProps) => {
   return (
-    <div className="flex bg-card border border-border p-1 rounded-md shadow-sm items-center">
+    <ExecutiveSurface 
+      variant="default"
+      elevation="sm"
+      radius="md"
+      className="flex p-1 items-center"
+    >
       <Calendar size={12} className="ml-2 text-secondary" />
       <select
         onChange={(e) => onChangeYear(Number(e.target.value))}
@@ -19,6 +25,6 @@ export const BalanceSheetYearFilter = ({ filterYear, onChangeYear }: BalanceShee
           <option key={y} value={y}>{y}</option>
         ))}
       </select>
-    </div>
+    </ExecutiveSurface>
   );
 };
