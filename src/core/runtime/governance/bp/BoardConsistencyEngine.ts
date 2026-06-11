@@ -58,9 +58,7 @@ export class BoardConsistencyEngine {
         'forte blindagem patrimonial', 
         'patrimônio sólido', 
         'forte capacidade de absorção',
-        'sólido amortecedor',
-        'robusto',
-        'confortável'
+        'sólido amortecedor'
       ];
       
       prohibitedPatrimonio.forEach(phrase => {

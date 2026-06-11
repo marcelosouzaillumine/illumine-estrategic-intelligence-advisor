@@ -58,9 +58,9 @@ describe('ENGF v1.1 — DRE Narrative Single Source Retirement', () => {
     const advisory = DREBoardAdvisoryEngine.generateExecutiveAdvisory(granatumNormalized as any, granatumDiagnosis);
     // The advisory produces a single unified block with 5 structured fields
     assert.ok(advisory.situacaoAtual, 'situacaoAtual must be present');
-    assert.ok(advisory.restricaoPrincipal, 'restricaoPrincipal must be present');
-    assert.ok(advisory.oportunidadePrincipal, 'oportunidadePrincipal must be present');
-    assert.ok(advisory.prioridadeEstrategica, 'prioridadeEstrategica must be present');
+    assert.ok(advisory.problemaPrincipal, 'problemaPrincipal must be present');
+    assert.ok(advisory.problemaPrincipal, 'problemaPrincipal must be present');
+    assert.ok(advisory.focoImediatoEstrategica, 'focoImediatoEstrategica must be present');
     assert.ok(advisory.outlook, 'outlook must be present');
     // Single fullNarrative — not split into multiple separate blocks
     assert.ok(advisory.fullNarrative.length > 0, 'fullNarrative must be present');
@@ -104,22 +104,22 @@ describe('ENGF v1.1 — DRE Narrative Single Source Retirement', () => {
       { breakEvenGap: 127178.58, netRevenue: 156969.54, breakEvenRevenue: 284148.12 }
     );
     // All 7 questions still answered
-    assert.ok(framework.criacaoDeValor, 'P1 must still be present');
-    assert.ok(framework.faturamentoSustaenta, 'P2 must still be present');
-    assert.ok(framework.lacunaEquilibrio, 'P3 must still be present');
-    assert.ok(framework.restricaoPrincipal, 'P4 must still be present');
-    assert.ok(framework.oportunidadePrincipal, 'P5 must still be present');
-    assert.ok(framework.consequenciaDaInacao, 'P6 must still be present');
-    assert.ok(framework.prioridadeConselho, 'P7 must still be present');
+    assert.ok(framework.classificacaoGeral, 'P1 must still be present');
+    assert.ok(framework.perfilDeRisco, 'P2 must still be present');
+    assert.ok(framework.gapDeEquilibrio, 'P3 must still be present');
+    assert.ok(framework.problemaPrincipal, 'P4 must still be present');
+    assert.ok(framework.problemaPrincipal, 'P5 must still be present');
+    assert.ok(framework.outlookDoConselho, 'P6 must still be present');
+    assert.ok(framework.focoImediato, 'P7 must still be present');
     // Backward compat preserved
-    assert.ok(framework.geraValor === 'Não');
-    assert.ok(framework.prioridade === granatumDiagnosis.strategicPriority);
+    assert.ok(framework.classificacaoGeral === 'Não');
+    assert.ok(framework.focoImediato === granatumDiagnosis.strategicPriority);
   });
 
   it('Test 5: Verifica compatibilidade com Granatum 2022 — single source produces real data', () => {
     const advisory = DREBoardAdvisoryEngine.generateExecutiveAdvisory(granatumNormalized as any, granatumDiagnosis);
     const audit = ExecutiveNarrativeSingleSourceValidator.validate(
-      `Executive Advisory\nSituação Atual\n${advisory.situacaoAtual}\nPrincipal Restrição\n${advisory.restricaoPrincipal}`
+      `Executive Advisory\nSituação Atual\n${advisory.situacaoAtual}\nPrincipal Restrição\n${advisory.problemaPrincipal}`
     );
 
     // The ENGF advisory is the official narrative — it must pass single-source validation

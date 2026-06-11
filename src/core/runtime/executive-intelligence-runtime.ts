@@ -1,4 +1,5 @@
 import { BalanceSheetFinancialMetricsEngine } from "./governance/bp/BalanceSheetFinancialMetricsEngine";
+import { ExecutiveAnalysisContext } from "./executive-consolidation/StrategicOpinionConsistencyEngine";
 import { PatrimonialScoreExplainabilityEngine } from "./governance/bp/PatrimonialScoreExplainabilityEngine";
 import { InstitutionalPatrimonialClassificationEngine } from "./governance/bp/InstitutionalPatrimonialClassificationEngine";
 import { PatrimonialExecutiveInterpretationEngine } from "./governance/bp/PatrimonialExecutiveInterpretationEngine";
@@ -744,19 +745,8 @@ export class ExecutiveIntelligenceRuntime implements
       let finalComposite = Math.round((composite / 100) * 10) / 10;
       let finalStructural = Math.round(scoreEstrutura);
 
-      // Memory penalty: ONLY if sufficient history
-      if (memoryProfile.historicalDensityRequirement === 'SUFFICIENT') {
-        if (memoryProfile.recurrenceSeverity === 'CRITICAL_STRUCTURAL_RECURRENCE') {
-          finalComposite = Math.max(finalComposite - 15, 0);
-          finalStructural = Math.max(finalStructural - 15, 0);
-        } else if (memoryProfile.recurrenceSeverity === 'HIGH_RECURRENCE') {
-          finalComposite = Math.max(finalComposite - 10, 0);
-          finalStructural = Math.max(finalStructural - 10, 0);
-        } else if (memoryProfile.recurrenceSeverity === 'MODERATE_RECURRENCE') {
-          finalComposite = Math.max(finalComposite - 5, 0);
-          finalStructural = Math.max(finalStructural - 5, 0);
-        }
-      }
+      // Remover penalidade histórica: o score deve ser 100% fotográfico do exercício selecionado.
+      // O histórico/tendência será avaliado em camadas próprias, não na nota principal.
 
       return {
         financial: Math.round(scoreLiquidez),
@@ -1287,10 +1277,27 @@ export class ExecutiveIntelligenceRuntime implements
         recLiquida, lucroLiq, ebitda, pontoEquilibrio, despesasFixas, recGrowth, ebitdaGrowth, advisory.actionMatrix, hasBP ? ['DRE', 'BP'] : ['DRE']
       );
 
+      const dreContext: ExecutiveAnalysisContext = {
+        moduleContext: 'DRE',
+        activeFiduciaryRestrictions: [],
+        fiduciaryClassification: '', // Will be updated
+        mathematicalClassification: '', // Will be updated
+        globalScore: 50,
+        primaryIndicators: {},
+        technicalDrivers: {
+          netRevenue: recLiquida,
+          grossMargin: lucroBruto / recLiquida,
+          netProfit: lucroLiq,
+          ebitda: ebitda
+        },
+        contextualAlerts: []
+      };
+
       const executiveInterpretation = DREExecutiveInterpretationEngine.evaluate({
         economicValueInput: { receitaLiquida: recLiquida, lucroBruto, ebitda, lucroLiquido: lucroLiq, despesasFixas },
         recoverabilityInput: { receitaLiquida: recLiquida, lucroBruto, pontoEquilibrio, ebitda },
-        recGrowth
+        recGrowth,
+        context: dreContext
       });
 
       // --- DRE EXECUTIVE LAYER BINDING FIX ---
@@ -1320,8 +1327,12 @@ export class ExecutiveIntelligenceRuntime implements
         economicBurnRate
       });
 
+      // Update DRE context with calculated diagnosis values
+      dreContext.fiduciaryClassification = economicDiagnosis.recoverabilityAssessment;
+      dreContext.mathematicalClassification = economicDiagnosis.valueCreationAssessment === 'Sim' ? 'RESILIENT' : 'ATTENTION';
+
       // ENGF v1.0 — Compressed Executive Advisory (replaces dual Síntese + Sumário)
-      const dreExecutiveAdvisoryFull = DREBoardAdvisoryEngine.generateExecutiveAdvisory(normalizedDRE, economicDiagnosis);
+      const dreExecutiveAdvisoryFull = DREBoardAdvisoryEngine.generateExecutiveAdvisory(normalizedDRE, economicDiagnosis, dreContext);
       const dreBoardAdvisory = dreExecutiveAdvisoryFull.fullNarrative;
 
       // Board Decision Framework with 7 fiduciary questions
@@ -1331,7 +1342,8 @@ export class ExecutiveIntelligenceRuntime implements
           breakEvenGap: breakEvenAnalysis.available ? breakEvenAnalysis.value.breakEvenGap : undefined,
           netRevenue: normalizedDRE.netRevenue.value,
           breakEvenRevenue: breakEvenAnalysis.available ? breakEvenAnalysis.value.breakEvenRevenue : undefined,
-        }
+        },
+        dreContext
       );
 
       // Health Score Explainability (ENGF v1.0)
@@ -2255,9 +2267,33 @@ export class ExecutiveIntelligenceRuntime implements
         }
       );
       
+      const liqReal = bpIndicators.find((i: any) => i.metricName === 'Liquidez Real')?.value;
+      const compEndiv = bpIndicators.find((i: any) => i.metricName === 'Composição do Endividamento')?.value;
+      const equityQuality = bpIndicators.find((i: any) => i.metricName === 'Qualidade do Capital (AIOX)')?.classification;
+
+      const execContext: ExecutiveAnalysisContext = {
+        moduleContext: 'BP',
+        activeFiduciaryRestrictions: ceilingOutput.classificationCeiling ? [ceilingOutput.classificationCeiling.ruleName] : [],
+        fiduciaryClassification: ceilingOutput.finalClassification,
+        mathematicalClassification: classification.label,
+        globalScore: scoreBreakdown.globalScore || 0,
+        primaryIndicators: {
+          liquidityScore: scoreBreakdown.liquidityScore || 0,
+          solvencyScore: scoreBreakdown.capitalStructureScore || 0
+        },
+        technicalDrivers: {
+          liquidityReal: liqReal,
+          debtConcentration: compEndiv,
+          equityQuality: equityQuality,
+          fco: fco
+        },
+        contextualAlerts: []
+      };
+
       const interpretations = PatrimonialExecutiveInterpretationEngine.generateInterpretations(
         bpIndicators, 
         scoreBreakdown,
+        execContext,
         ceilingOutput.classificationCeiling !== null,
         hasValidatedCashFlowEvidence,
         fco > 0
@@ -2280,7 +2316,8 @@ export class ExecutiveIntelligenceRuntime implements
 
       const patrimonialTrend = PatrimonialTrendEngine.analyzeTrend(bpHistoryArray);
 
-      const rawAdvisory = BoardPatrimonialAdvisoryEngine.generate(bpIndicators, interpretations);
+
+      const rawAdvisory = BoardPatrimonialAdvisoryEngine.generate(bpIndicators, interpretations, execContext);
       
       const consistencyPatrimonial = BoardConsistencyEngine.validate(interpretations.patrimonialThesis, bpIndicators);
       interpretations.patrimonialThesis = consistencyPatrimonial.scrubbedText;
@@ -2841,9 +2878,19 @@ export class ExecutiveIntelligenceRuntime implements
     report.isSandbox = !!rawData?.isSandbox || !!rawData?.metadata?.isSandbox;
     report.isDemonstrative = !!rawData?.isDemonstrative || !!rawData?.metadata?.isDemonstrative;
     
+    console.log('[DEBUG-CANONICAL] report.scores.composite:', report.scores?.composite);
+    console.log('[DEBUG-CANONICAL] patClass:', report.patrimonialIntelligenceReport?.scoreBreakdown?.scoreGlobal);
     let canonicalStatus = 'CRITICAL';
     if (report.scores?.composite >= 70) canonicalStatus = 'HEALTHY';
     else if (report.scores?.composite >= 40) canonicalStatus = 'WARNING';
+
+    // Alignment Guard: Ensure badge reflects patrimonial classification if it is healthy
+    const patClass = report.patrimonialIntelligenceReport?.patrimonialClassification;
+    if (patClass === 'RESILIENT' || patClass === 'HEALTHY' || patClass === 'STABLE') {
+      canonicalStatus = 'HEALTHY';
+    } else if (patClass === 'VULNERABLE') {
+      canonicalStatus = 'WARNING';
+    }
 
     let canonicalTrend = 'STABLE';
     if (report.scores?.financialStress?.isStressed || report.severity?.level === 'COLAPSO' || report.severity?.level === 'CRÍTICO') {

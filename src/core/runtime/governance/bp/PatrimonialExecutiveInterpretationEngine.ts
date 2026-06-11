@@ -1,5 +1,7 @@
 import { PatrimonialIndicator } from './BalanceSheetFinancialMetricsEngine';
 import { PatrimonialScoreBreakdown } from './PatrimonialScoreExplainabilityEngine';
+import { ExecutiveAnalysisContext } from '../../executive-consolidation/StrategicOpinionConsistencyEngine';
+import { ExecutivePrimaryMotiveConsistencyEngine } from '../../executive-consolidation/ExecutivePrimaryMotiveConsistencyEngine';
 
 export interface PatrimonialInterpretationOutput {
   patrimonialThesis: string;
@@ -21,6 +23,7 @@ export class PatrimonialExecutiveInterpretationEngine {
   public static generateInterpretations(
     indicators: PatrimonialIndicator[],
     breakdown: PatrimonialScoreBreakdown,
+    context: ExecutiveAnalysisContext,
     ceilingApplied?: boolean,
     hasValidatedCashFlowEvidence: boolean = false,
     isOperationalCashFlowPositive: boolean = false
@@ -38,22 +41,31 @@ export class PatrimonialExecutiveInterpretationEngine {
     const debtCapacity = indicators.find(i => i.metricName === 'Debt Capacity Score')?.value as number | 'INSUFFICIENT_DATA';
     const fundingCapacityVal = indicators.find(i => i.metricName === 'Funding Capacity Ratio')?.value as number | 'INSUFFICIENT_DATA';
 
-    // Strategic Severity Logic
-    let strategicSeverity: 'CRITICAL' | 'HIGH' | 'MODERATE' | 'MONITORING' = 'MONITORING';
-    let strategicSeverityReason = 'Sem vulnerabilidades críticas identificadas';
+    // Obter label técnico original (fallback para o Primary Motive Engine analisar)
+    let rawTechnicalDriverLabel = 'Sem vulnerabilidades críticas identificadas';
 
     if (typeof liqReal === 'number' && liqReal < 0.50) {
-      strategicSeverity = 'CRITICAL';
-      strategicSeverityReason = `Liquidez Real Crítica (${liqReal.toFixed(2)})`;
+      rawTechnicalDriverLabel = `Liquidez Real Crítica (${liqReal.toFixed(2)})`;
     } else if (typeof debtCapacity === 'number' && debtCapacity < 50) {
-      strategicSeverity = 'HIGH';
-      strategicSeverityReason = `Debt Capacity Reduzido (${debtCapacity})`;
+      rawTechnicalDriverLabel = `Debt Capacity Reduzido (${debtCapacity})`;
     } else if (typeof fundingCapacityVal === 'number' && fundingCapacityVal < 60) {
-      strategicSeverity = 'HIGH';
-      strategicSeverityReason = `Funding Capacity Limitado (${fundingCapacityVal})`;
+      rawTechnicalDriverLabel = `Funding Capacity Limitado (${fundingCapacityVal})`;
     } else if (score < 50) {
+      rawTechnicalDriverLabel = 'Múltiplos indicadores em alerta (Score Vulnerável)';
+    }
+
+    // Call Central ExecutivePrimaryMotiveConsistencyEngine
+    const motive = ExecutivePrimaryMotiveConsistencyEngine.deriveExecutivePrimaryMotive(context, rawTechnicalDriverLabel);
+    const strategicSeverityReason = motive.label;
+    
+    // Map Central Severity back to legacy string format used internally by this class
+    let strategicSeverity: 'CRITICAL' | 'HIGH' | 'MODERATE' | 'MONITORING' = 'MONITORING';
+    if (motive.severity === 'CRITICAL') {
+      strategicSeverity = 'CRITICAL';
+    } else if (motive.severity === 'WARNING') {
       strategicSeverity = 'MODERATE';
-      strategicSeverityReason = 'Múltiplos indicadores em alerta (Score Vulnerável)';
+    } else {
+      strategicSeverity = 'MONITORING';
     }
 
     // 1. Tese Patrimonial Hierárquica (Continuidade > Liquidez > Solvência > Preservação > Estrutura > Score)
@@ -111,7 +123,7 @@ export class PatrimonialExecutiveInterpretationEngine {
       
       planFinanceiro = { prazo: 'Curto Prazo', acao: 'Alongar passivos, renegociar dívidas curtas e reforçar posição imediata de liquidez.' };
       planOperacional = { prazo: 'Médio Prazo', acao: 'Reduzir aprisionamento em estoques e acelerar giro de recebíveis.' };
-      planGovernanca = { prazo: 'Longo Prazo', acao: 'Estabelecer política restritiva de capital de giro e tesouraria.' };
+      planGovernanca = { prazo: 'Longo Prazo', acao: 'Recompor liquidez, reduzir estoques, alongar passivos e preservar caixa imediatamente.' };
       
     } else if (isConsumoCap) {
       dominantRiskFamily = 'Otimização Patrimonial';

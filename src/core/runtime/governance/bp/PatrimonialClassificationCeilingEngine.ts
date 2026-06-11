@@ -62,10 +62,10 @@ export class PatrimonialClassificationCeilingEngine {
       triggeredAt: treasuryStressMet ? new Date().toISOString() : undefined
     });
 
-    // Rule Group 3: Short-Term Debt Concentration Override
-    const ceVal = getVal('Composição do Endividamento');
-    const debtConcModerate = ceVal !== null && ceVal > 0.80 && ceVal <= 0.95;
-    const debtConcSevere = ceVal !== null && ceVal > 0.95;
+    // Rule Group 3: Short-Term Debt Concentration Override (Materiality Based)
+    const ceClass = getClass('Composição do Endividamento');
+    const debtConcSevere = ceClass === 'SHORT_TERM_PRESSURE';
+    const debtConcModerate = ceClass === 'ATTENTION';
     FiduciaryOverrideRegistry.register({
       id: 'PAT_DEBT_CONCENTRATION',
       name: 'Short-Term Debt Concentration Override',

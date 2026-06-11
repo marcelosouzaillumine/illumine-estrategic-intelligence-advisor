@@ -1,10 +1,13 @@
 import { EconomicValueInput, EconomicValueNarrativeEngine } from './EconomicValueNarrativeEngine';
 import { RecoverabilityInput, RecoverabilityAssessmentEngine } from './RecoverabilityAssessmentEngine';
+import { ExecutivePrimaryMotiveConsistencyEngine } from '../executive-consolidation/ExecutivePrimaryMotiveConsistencyEngine';
+import { ExecutiveAnalysisContext } from '../executive-consolidation/StrategicOpinionConsistencyEngine';
 
 export interface ExecutiveInterpretationInput {
   economicValueInput: EconomicValueInput;
   recoverabilityInput: RecoverabilityInput;
   recGrowth: number | null;
+  context?: ExecutiveAnalysisContext;
 }
 
 export interface ExecutiveInterpretationOutput {
@@ -24,11 +27,17 @@ export class DREExecutiveInterpretationEngine {
     let economicDiagnosis = economicValue.justificativa;
 
     // 2. Primary Constraint
-    let primaryConstraint: string = economicValue.fonteProblema;
-    if (primaryConstraint === 'Nenhum') primaryConstraint = 'Ausência de Restrições Estruturais';
-    if (primaryConstraint === 'Escala') primaryConstraint = 'Escala Comercial';
-    if (primaryConstraint === 'Margem') primaryConstraint = 'Margem de Contribuição / Precificação';
-    if (primaryConstraint === 'Estrutura') primaryConstraint = 'Estrutura Operacional / Custo Fixo';
+    let rawPrimaryConstraint: string = economicValue.fonteProblema;
+    if (rawPrimaryConstraint === 'Nenhum') rawPrimaryConstraint = 'Ausência de Restrições Estruturais';
+    if (rawPrimaryConstraint === 'Escala') rawPrimaryConstraint = 'Escala Comercial';
+    if (rawPrimaryConstraint === 'Margem') rawPrimaryConstraint = 'Margem de Contribuição / Precificação';
+    if (rawPrimaryConstraint === 'Estrutura') rawPrimaryConstraint = 'Estrutura Operacional / Custo Fixo';
+
+    let primaryConstraint = rawPrimaryConstraint;
+    if (input.context) {
+      const motive = ExecutivePrimaryMotiveConsistencyEngine.deriveExecutivePrimaryMotive(input.context, rawPrimaryConstraint);
+      primaryConstraint = motive.label;
+    }
 
     // 3. Recoverability
     let recoverabilityAssessment = recoverability.classificacao;

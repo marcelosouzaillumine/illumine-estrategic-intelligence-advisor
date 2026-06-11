@@ -311,10 +311,38 @@ export class BalanceSheetFinancialMetricsEngine {
       const metricName = 'Composição do Endividamento';
       if (summary.passivoTotal > 0) {
         const val = Number(NaNEliminationGuard.sanitizeNumber(summary.passivoCirculante / summary.passivoTotal, 0));
+        const totalDebtRatio = summary.ativoTotal > 0 ? summary.passivoTotal / summary.ativoTotal : 1;
+        const liquidity = summary.passivoCirculante > 0 ? summary.ativoCirculante / summary.passivoCirculante : 10;
+        
         let classification = 'HEALTHY';
         let severity = 'HEALTHY';
-        if (val > 0.6) { classification = 'SHORT_TERM_PRESSURE'; severity = 'CRITICAL'; }
-        else if (val >= 0.4) { classification = 'ATTENTION'; severity = 'ATTENTION'; }
+        let rationale = 'Passivo adequadamente distribuído ou de baixa relevância.';
+
+        if (val > 0.8) {
+          if (totalDebtRatio > 0.4 || liquidity < 1.0) {
+            classification = 'SHORT_TERM_PRESSURE';
+            severity = 'CRITICAL';
+            rationale = 'Concentração severa de dívida no curto prazo agravada por alta alavancagem geral ou baixa liquidez.';
+          } else if (totalDebtRatio > 0.25 || liquidity < 1.5) {
+            classification = 'ATTENTION';
+            severity = 'ATTENTION';
+            rationale = 'Concentração de obrigações no curto prazo. Demanda monitoramento, embora suportada por liquidez.';
+          } else {
+            classification = 'MONITORING';
+            severity = 'HEALTHY';
+            rationale = 'Alta concentração de CP, porém irrelevante frente ao porte do ativo e ampla liquidez.';
+          }
+        } else if (val > 0.6) {
+          if (totalDebtRatio > 0.5 || liquidity < 1.0) {
+            classification = 'SHORT_TERM_PRESSURE';
+            severity = 'CRITICAL';
+            rationale = 'Maior parte das obrigações no curto prazo com estrutura de capital alavancada ou ilíquida.';
+          } else if (totalDebtRatio > 0.25 || liquidity < 1.5) {
+            classification = 'ATTENTION';
+            severity = 'ATTENTION';
+            rationale = 'Concentração de obrigações de CP moderada.';
+          }
+        }
 
         indicators.push({
           metricName,
@@ -322,8 +350,8 @@ export class BalanceSheetFinancialMetricsEngine {
           classification,
           severity,
           confidence: 95,
-          evidence: { PC: summary.passivoCirculante, PassivoTotal: summary.passivoTotal },
-          rationale: 'Concentração de obrigações de curto prazo.',
+          evidence: { PC: summary.passivoCirculante, PassivoTotal: summary.passivoTotal, Liquidez: liquidity, Endividamento: totalDebtRatio },
+          rationale,
           lineageHash: generateHash(`${metricName}-${val}`),
           family,
           format: 'percentage'

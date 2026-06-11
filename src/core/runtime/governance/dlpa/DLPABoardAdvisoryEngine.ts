@@ -1,3 +1,5 @@
+import { StrategicOpinionConsistencyEngine, ExecutiveAnalysisContext } from '../../executive-consolidation/StrategicOpinionConsistencyEngine';
+
 export class DLPABoardAdvisoryEngine {
   static evaluate(
     endingEquity: number,
@@ -6,8 +8,21 @@ export class DLPABoardAdvisoryEngine {
     netIncome: number,
     distributionCapacity: string,
     capitalPreservationRatio: number,
-    shareholderCapitalProtectionNarrative: string
+    shareholderCapitalProtectionNarrative: string,
+    context?: ExecutiveAnalysisContext
   ) {
+    const safeContext = context || {
+      moduleContext: 'DLPA',
+      activeFiduciaryRestrictions: [],
+      fiduciaryClassification: endingEquity <= 0 ? 'CRITICAL' : (netIncome < 0 || consumptionValue >= 0.25 ? 'WARNING' : 'HEALTHY'),
+      mathematicalClassification: endingEquity > 0 ? 'RESILIENT' : 'FRAGILE',
+      globalScore: 50,
+      primaryIndicators: {},
+      contextualAlerts: []
+    };
+
+    const opinion = StrategicOpinionConsistencyEngine.deriveStrategicOpinion(safeContext);
+
     // Point 1: Formação Patrimonial
     let p1 = `1. Formação Patrimonial: O patrimônio líquido final de R$ ${endingEquity.toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 })} apresenta-se estruturado sob a classificação fiduciária "${formationQuality}". `;
     if (formationQuality === 'Dependente de Capitalização') {
@@ -39,23 +54,16 @@ export class DLPABoardAdvisoryEngine {
       p4 += `Há restrições parciais que limitam a flexibilidade de distribuição de dividendos no exercício.`;
     }
 
-    // Point 5: Prioridade do Conselho
-    let p5 = `5. Prioridade do Conselho: `;
-    if (endingEquity <= 0) {
-      p5 += `O Conselho deve pautar com máxima urgência o plano de capitalização imediata para restaurar a solvência patrimonial e a continuidade operacional da companhia.`;
-    } else if (netIncome <= 0 || consumptionValue >= 0.25 || distributionCapacity === 'Bloqueada') {
-      p5 += `O Conselho deve priorizar a recuperação da rentabilidade e a recomposição da integridade do capital próprio, suspendendo novas propostas de distribuição e focando no estancamento da erosão operacional.`;
-    } else {
-      p5 += `O Conselho deve priorizar a eficiência na alocação do caixa excedente, a consolidação de reservas estratégicas e a sustentação do payout equilibrado.`;
-    }
+    // Point 5: Prioridade do Conselho (Using Unified Opinion)
+    let p5 = `5. Prioridade Estratégica: ${opinion.prioridadeEstrategica} ${opinion.outlook}`;
 
-    const narrative = `${p1}\n\n${p2}\n\n${p3}\n\n${p4}\n\n${p5}`;
+    const narrative = `${opinion.situacaoAtual}\n\n${p1}\n\n${p2}\n\n${p3}\n\n${p4}\n\n${p5}`;
 
     return {
       value: narrative,
       classification: 'Parecer do Conselho',
       narrative,
-      rationale: 'Consolidação textual estruturada nos 5 pilares de governança de capital.',
+      rationale: 'Consolidação textual estruturada nos 5 pilares de governança de capital via Consistency Engine.',
       sourceMetrics: {
         endingEquity,
         formationQuality,

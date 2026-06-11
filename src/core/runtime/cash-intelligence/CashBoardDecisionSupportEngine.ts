@@ -1,5 +1,7 @@
 import { CashBoardDecision, CashConfidenceLevel, CashConstraintDiagnosis, OperationalCashBurn, ShareholderDependency, CashSustainability, RevenueCashConversion } from './CashIntelligenceTypes';
 import { RunwayClassificationEngine } from './RunwayClassificationEngine';
+import { ExecutiveAnalysisContext } from '../executive-consolidation/StrategicOpinionConsistencyEngine';
+import { ExecutivePrimaryMotiveConsistencyEngine } from '../executive-consolidation/ExecutivePrimaryMotiveConsistencyEngine';
 
 export class CashBoardDecisionSupportEngine {
   public static evaluate(
@@ -10,7 +12,8 @@ export class CashBoardDecisionSupportEngine {
     sustainability: CashSustainability,
     runwayMonths: number,
     confidenceLevel: CashConfidenceLevel,
-    cashConversionAnalysis: RevenueCashConversion
+    cashConversionAnalysis: RevenueCashConversion,
+    context?: ExecutiveAnalysisContext
   ): CashBoardDecision {
     const isBurning = fco <= 0;
 
@@ -18,9 +21,15 @@ export class CashBoardDecisionSupportEngine {
       ? 'Não, a operação consome caixa.' 
       : 'Sim, a operação é superavitária e gera caixa.';
 
-    const primaryConstraint = isBurning 
+    const rawPrimaryConstraint = isBurning 
       ? 'Estrutura operacional deficitária.' 
       : constraint.rationale;
+
+    let primaryConstraint = rawPrimaryConstraint;
+    if (context) {
+      const motive = ExecutivePrimaryMotiveConsistencyEngine.deriveExecutivePrimaryMotive(context, rawPrimaryConstraint);
+      primaryConstraint = motive.label;
+    }
 
     const runwayAssessment = (() => {
       const safeRunway = typeof runwayMonths === 'number' && !isNaN(runwayMonths) ? runwayMonths : 0;

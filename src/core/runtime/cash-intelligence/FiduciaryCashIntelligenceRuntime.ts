@@ -35,6 +35,8 @@ import { CashFlowScenarioEngine } from '../cash-scenario-intelligence/CashFlowSc
 import { TreasuryEarlyWarningEngine } from '../treasury-early-warning/TreasuryEarlyWarningEngine';
 import { TreasurySustainabilityEngine } from '../treasury-sustainability/TreasurySustainabilityEngine';
 
+import { ExecutiveAnalysisContext } from '../executive-consolidation/StrategicOpinionConsistencyEngine';
+
 export class FiduciaryCashIntelligenceRuntime {
   /**
    * Ponto de entrada unificado e soberano do ecossistema de inteligência fiduciária de caixa.
@@ -264,8 +266,24 @@ export class FiduciaryCashIntelligenceRuntime {
     
     const cashConversionAnalysis = RevenueCashConversionEngine.evaluate(fcoOperacionalReal, netRevenue || 0, confidence);
     
-    const cashBoardDecisionFramework = CashBoardDecisionSupportEngine.evaluate(fcoOperacionalReal, cashConstraintDiagnosis, cashBurnAnalysis, shareholderDependencyAnalysis, cashSustainabilityAnalysis, continuity.projectedRunwayMonths, confidence, cashConversionAnalysis);
-    const cashExecutiveAdvisory = DFCCashAdvisoryEngine.evaluate(fcoOperacionalReal, cashBoardDecisionFramework, cashSustainabilityAnalysis, confidence);
+    const dfcContext: ExecutiveAnalysisContext = {
+      moduleContext: 'DFC',
+      activeFiduciaryRestrictions: [],
+      fiduciaryClassification: cashSustainabilityAnalysis.classification,
+      mathematicalClassification: cashSustainabilityAnalysis.classification === 'AUTOSSUSTENTADA' ? 'RESILIENT' : 'ATTENTION',
+      globalScore: 50,
+      primaryIndicators: {},
+      technicalDrivers: {
+        fco: fcoOperacionalReal,
+        fci: fci,
+        fcf: fcf,
+        runwayMonths: continuity.projectedRunwayMonths
+      },
+      contextualAlerts: []
+    };
+
+    const cashBoardDecisionFramework = CashBoardDecisionSupportEngine.evaluate(fcoOperacionalReal, cashConstraintDiagnosis, cashBurnAnalysis, shareholderDependencyAnalysis, cashSustainabilityAnalysis, continuity.projectedRunwayMonths, confidence, cashConversionAnalysis, dfcContext);
+    const cashExecutiveAdvisory = DFCCashAdvisoryEngine.evaluate(fcoOperacionalReal, cashBoardDecisionFramework, cashSustainabilityAnalysis, confidence, dfcContext);
     const cashReinvestmentAnalysis = CashReinvestmentEngine.evaluate(fcoOperacionalReal, fci, confidence);
 
     // DEEFF v1.0 Integrations

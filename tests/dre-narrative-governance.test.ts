@@ -87,17 +87,17 @@ describe('ENGF v1.0 — DRE Narrative Governance Tests', () => {
     );
 
     // Verifica as 7 respostas obrigatórias
-    assert.ok(framework.criacaoDeValor, 'P1: criacaoDeValor should be present');
-    assert.ok(framework.faturamentoSustaenta, 'P2: faturamentoSustaenta should be present');
-    assert.ok(framework.lacunaEquilibrio, 'P3: lacunaEquilibrio should be present');
-    assert.ok(framework.restricaoPrincipal, 'P4: restricaoPrincipal should be present');
-    assert.ok(framework.oportunidadePrincipal, 'P5: oportunidadePrincipal should be present');
-    assert.ok(framework.consequenciaDaInacao, 'P6: consequenciaDaInacao should be present');
-    assert.ok(framework.prioridadeConselho, 'P7: prioridadeConselho should be present');
+    assert.ok(framework.classificacaoGeral, 'P1: classificacaoGeral should be present');
+    assert.ok(framework.perfilDeRisco, 'P2: perfilDeRisco should be present');
+    assert.ok(framework.gapDeEquilibrio, 'P3: gapDeEquilibrio should be present');
+    assert.ok(framework.problemaPrincipal, 'P4: problemaPrincipal should be present');
+    assert.ok(framework.problemaPrincipal, 'P5: problemaPrincipal should be present');
+    assert.ok(framework.outlookDoConselho, 'P6: outlookDoConselho should be present');
+    assert.ok(framework.focoImediato, 'P7: focoImediato should be present');
 
     // Backward compat
-    assert.ok(framework.geraValor);
-    assert.ok(framework.prioridade);
+    assert.ok(framework.classificacaoGeral);
+    assert.ok(framework.focoImediato);
   });
 
   it('Test 6: Verifica que DRE não produz recomendações de liquidez', () => {
@@ -115,9 +115,9 @@ describe('ENGF v1.0 — DRE Narrative Governance Tests', () => {
     const advisory = DREBoardAdvisoryEngine.generateExecutiveAdvisory(granatumNormalized as any, granatumDiagnosis);
     assert.ok(advisory.fullNarrative.length <= 800, `Advisory too long: ${advisory.fullNarrative.length} chars`);
     assert.ok(advisory.situacaoAtual.length > 0);
-    assert.ok(advisory.restricaoPrincipal.length > 0);
-    assert.ok(advisory.oportunidadePrincipal.length > 0);
-    assert.ok(advisory.prioridadeEstrategica.length > 0);
+    assert.ok(advisory.problemaPrincipal.length > 0);
+    assert.ok(advisory.problemaPrincipal.length > 0);
+    assert.ok(advisory.focoImediatoEstrategica.length > 0);
     assert.ok(advisory.outlook.length > 0);
   });
 
@@ -156,9 +156,9 @@ describe('ENGF v1.0 — DRE Narrative Governance Tests', () => {
     });
 
     // Granatum 2022 is a loss-making operation — confirm narrative reflects this
-    assert.ok(framework.geraValor === 'Não' || advisory.situacaoAtual.toLowerCase().includes('resultado'));
+    assert.ok(framework.classificacaoGeral === 'Não' || advisory.situacaoAtual.toLowerCase().includes('resultado'));
     assert.ok(explainability.classification !== 'SAUDÁVEL', 'Score 40 should not be SAUDÁVEL');
     // Break-even gap: faltam R$ 127.178,58
-    assert.ok(framework.lacunaEquilibrio.includes('127'), `Expected lacuna to mention 127k, got: ${framework.lacunaEquilibrio}`);
+    assert.ok(framework.gapDeEquilibrio.includes('127'), `Expected lacuna to mention 127k, got: ${framework.gapDeEquilibrio}`);
   });
 });
