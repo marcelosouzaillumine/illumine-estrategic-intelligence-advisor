@@ -25,13 +25,17 @@ export const BalanceSheetWorkingCapitalSection = ({ indicators }: BalanceSheetWo
               variant="transparent" 
               elevation="sm" 
               padding="none" 
-              className="bg-surface-container/30 border border-border rounded-2xl p-6"
+              className="bg-surface-container/30 border border-border rounded-2xl p-6 flex flex-col h-full"
             >
-              <h4 className="text-[11px] font-semibold uppercase tracking-widest text-foreground mb-2">{metric}</h4>
-              <span className="text-2xl font-bold text-foreground mb-2 block">
-                {ind.format === 'percentage' ? (Number(ind.value)*100).toFixed(1)+'%' : ind.format === 'multiplier' ? Number(ind.value).toFixed(2)+'x' : ind.format === 'decimal' ? Number(ind.value).toFixed(1) : ind.value}
-              </span>
-              <p className="text-foreground/70">{ind.rationale}</p>
+              <div className="flex-1">
+                <h4 className="text-[11px] font-semibold uppercase tracking-widest text-foreground mb-3 opacity-90">{metric}</h4>
+                <span className="text-2xl font-bold text-foreground block">
+                  {ind.format === 'percentage' ? (Number(ind.value)*100).toFixed(1)+'%' : ind.format === 'multiplier' ? Number(ind.value).toFixed(2)+'x' : ind.format === 'decimal' ? Number(ind.value).toFixed(1) : ind.value}
+                </span>
+              </div>
+              <div className="mt-5 pt-4 border-t border-border/50">
+                <p className="text-foreground/70 text-xs leading-relaxed">{ind.rationale}</p>
+              </div>
             </ExecutiveSurface>
           );
         })}

@@ -11,13 +11,16 @@ export const BalanceSheetCapitalStructureSection = ({ indicators }: BalanceSheet
       <h3 className="text-2xl font-black text-primary mb-6">Estrutura de Capital</h3>
       <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-2 2xl:grid-cols-4 gap-6">
         {indicators.map((ind, idx) => (
-          <div key={idx} className="bg-surface-container/30 border border-border rounded-2xl p-6 shadow-sm flex flex-col">
-            <h4 className="text-[10px] font-semibold uppercase tracking-widest text-foreground mb-4">{ind.label}</h4>
-            <div className="text-2xl font-bold text-foreground mb-2">
-              {ind.format === 'percentage' ? (Number(ind.value)*100).toFixed(1)+'%' : ind.format === 'multiplier' ? Number(ind.value).toFixed(2)+'x' : ind.format === 'decimal' ? Number(ind.value).toFixed(2) : ind.value}
+          <div key={idx} className="bg-surface-container/30 border border-border rounded-2xl p-6 shadow-sm flex flex-col h-full">
+            <div className="flex-1">
+              <h4 className="text-[10px] font-semibold uppercase tracking-widest text-foreground mb-3 opacity-90">{ind.label}</h4>
+              <div className="text-2xl font-bold text-foreground block">
+                {ind.format === 'percentage' ? (Number(ind.value)*100).toFixed(1)+'%' : ind.format === 'multiplier' ? Number(ind.value).toFixed(2)+'x' : ind.format === 'decimal' ? Number(ind.value).toFixed(2) : ind.value}
+              </div>
             </div>
-
-            <p className="text-foreground/70">{ind.rationale}</p>
+            <div className="mt-5 pt-4 border-t border-border/50">
+              <p className="text-foreground/70 text-xs leading-relaxed">{ind.rationale}</p>
+            </div>
           </div>
         ))}
       </div>
