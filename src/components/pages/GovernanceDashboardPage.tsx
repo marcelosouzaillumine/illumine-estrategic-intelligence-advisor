@@ -20,6 +20,7 @@ import { GovernanceInsightPanel } from '../GovernanceInsightPanel';
 import { orchestrateGovernanceNarrative } from '../../core/orchestration/executiveOrchestrationEngine';
 import { DashboardSkeleton } from '../ui/skeletons';
 import { ExecutiveEmptyState } from '../ui/executive-empty-state';
+import { ExecutiveSurface } from '../ui/executive-surface';
 import { useHistoricalDemonstracoes } from '../../hooks/useHistoricalDemonstracoes';
 import { useInstitutionalRuntime } from '../../hooks/useInstitutionalRuntime';
 import { useTemporalRuntime } from '../../hooks/useTemporalRuntime';
@@ -417,7 +418,7 @@ export function GovernanceDashboardPage({
 
       <div className="grid grid-cols-1 xl:grid-cols-2 gap-10">
         {/* Radar Analysis */}
-        <div className="card-premium p-12 flex flex-col">
+        <ExecutiveSurface padding="xl" className="flex flex-col h-full border-border">
           <div className="flex justify-between items-center mb-10">
             <div>
               <h3 className="text-h3 font-medium text-foreground tracking-tight">{t('gov.radar.title')}</h3>
@@ -483,10 +484,10 @@ export function GovernanceDashboardPage({
                 </RadarChart>
              </ResponsiveContainer>
           </div>
-        </div>
+        </ExecutiveSurface>
 
         {/* Strategic Insights */}
-        <div className="bg-surface-container p-12 rounded-md border border-border shadow-inner flex flex-col justify-between">
+        <ExecutiveSurface padding="xl" className="flex flex-col justify-between h-full border-border shadow-inner">
            <div className="space-y-10">
               <div className="flex items-center gap-4">
                  <div className="w-12 h-12 rounded-md bg-executive flex items-center justify-center text-white shadow-premium">
@@ -523,7 +524,7 @@ export function GovernanceDashboardPage({
            <button className="btn-executive w-full mt-10">
               {t('gov.btn.export_monthly')}
            </button>
-        </div>
+        </ExecutiveSurface>
       </div>
 
       {/* Area Snapshots Grid */}
@@ -556,7 +557,7 @@ export function GovernanceDashboardPage({
       </div>
 
       {/* Perspectiva Governança Aplicada ao Eixo de Governança */}
-      <div className="card-premium p-12 overflow-hidden relative shadow-sm">
+      <ExecutiveSurface padding="xl" className="overflow-hidden relative shadow-sm border-border">
         <div className="absolute -left-20 -top-20 w-80 h-80 bg-primary/5 rounded-full blur-3xl" />
         <div className="relative z-10">
           <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-6 mb-10 border-b border-border pb-8">
@@ -641,7 +642,7 @@ export function GovernanceDashboardPage({
             )}
           </div>
         </div>
-      </div>
+      </ExecutiveSurface>
     </div>
   );
 }
