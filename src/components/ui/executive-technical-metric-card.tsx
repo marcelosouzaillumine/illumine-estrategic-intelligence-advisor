@@ -77,7 +77,7 @@ export function ExecutiveTechnicalMetricCard({
       {/* Description Zone */}
       {description && (
         <div className="w-full flex-1">
-          <p className="text-[12px] leading-5 text-foreground/75">
+          <p className="text-[12px] leading-[1.55] text-foreground/75">
             {description}
           </p>
         </div>
