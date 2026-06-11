@@ -16,6 +16,8 @@ import { collection, query, where, getDocs, addDoc, updateDoc, deleteDoc, doc, s
 import { db, auth } from '../lib/firebase';
 import { formatCurrency } from '../lib/utils';
 import { calculatePayrollBurdens, calculateSeverance } from '../services/taxService';
+import { ExecutiveTable, ExecutiveTableHeader, ExecutiveTableBody, ExecutiveTableRow, ExecutiveTableHead, ExecutiveTableCell } from './ui/executive-table';
+import { ExecutiveSurface } from './ui/executive-surface';
 
 export function EmployeeManager({ clientId, clientConfig }: { clientId: string, clientConfig: any }) {
   const [employees, setEmployees] = useState<any[]>([]);
@@ -149,7 +151,7 @@ export function EmployeeManager({ clientId, clientConfig }: { clientId: string, 
       </div>
 
       {isAdding && (
-        <div className="bg-slate-50 p-8 rounded-[32px] border border-border shadow-sm space-y-8">
+        <ExecutiveSurface className="space-y-8">
            <div className="flex items-center justify-between">
               <h5 className="text-[10px] font-black text-muted-foreground uppercase tracking-widest flex items-center gap-2">
                  {editingId ? <Edit3 size={16} /> : <Plus size={16} />} 
@@ -290,45 +292,45 @@ export function EmployeeManager({ clientId, clientConfig }: { clientId: string, 
                 {editingId ? 'Salvar Edição' : 'Cadastrar Colaborador'}
               </button>
            </div>
-        </div>
+        </ExecutiveSurface>
       )}
 
-      <div className="bg-white rounded-3xl border border-border overflow-hidden shadow-sm">
+      <ExecutiveSurface padding="none" className="overflow-hidden">
          <div className="overflow-x-auto">
-           <table className="w-full text-left">
-             <thead className="bg-slate-50">
-               <tr>
-                 <th className="px-4 md:px-6 py-2.5 md:py-4 text-[10px] font-black text-muted-foreground uppercase tracking-widest">Nome / Cargo</th>
-                 <th className="px-4 md:px-6 py-2.5 md:py-4 text-[10px] font-black text-muted-foreground uppercase tracking-widest">Área</th>
-                 <th className="px-4 md:px-6 py-2.5 md:py-4 text-[10px] font-black text-muted-foreground uppercase tracking-widest">Vínculo</th>
-                 <th className="px-4 md:px-6 py-2.5 md:py-4 text-right text-[10px] font-black text-muted-foreground uppercase tracking-widest">Salário Base</th>
-                 <th className="px-4 md:px-6 py-2.5 md:py-4 text-right text-[10px] font-black text-muted-foreground uppercase tracking-widest">Ações</th>
-               </tr>
-             </thead>
-             <tbody className="divide-y divide-slate-100">
+           <ExecutiveTable className="w-full text-left">
+             <ExecutiveTableHeader className="bg-slate-50">
+               <ExecutiveTableRow>
+                 <ExecutiveTableHead className="px-4 md:px-6 py-2.5 md:py-4 text-[10px] font-black text-muted-foreground uppercase tracking-widest">Nome / Cargo</ExecutiveTableHead>
+                 <ExecutiveTableHead className="px-4 md:px-6 py-2.5 md:py-4 text-[10px] font-black text-muted-foreground uppercase tracking-widest">Área</ExecutiveTableHead>
+                 <ExecutiveTableHead className="px-4 md:px-6 py-2.5 md:py-4 text-[10px] font-black text-muted-foreground uppercase tracking-widest">Vínculo</ExecutiveTableHead>
+                 <ExecutiveTableHead className="px-4 md:px-6 py-2.5 md:py-4 text-right text-[10px] font-black text-muted-foreground uppercase tracking-widest">Salário Base</ExecutiveTableHead>
+                 <ExecutiveTableHead className="px-4 md:px-6 py-2.5 md:py-4 text-right text-[10px] font-black text-muted-foreground uppercase tracking-widest">Ações</ExecutiveTableHead>
+               </ExecutiveTableRow>
+             </ExecutiveTableHeader>
+             <ExecutiveTableBody className="divide-y divide-slate-100">
                {employees.length === 0 ? (
-                   <tr>
-                     <td colSpan={5} className="px-6 py-12 text-center text-muted-foreground italic text-sm">
+                   <ExecutiveTableRow>
+                     <ExecutiveTableCell colSpan={5} className="px-6 py-12 text-center text-muted-foreground italic text-sm">
                         Nenhum colaborador cadastrado para este cliente.
-                     </td>
-                   </tr>
+                     </ExecutiveTableCell>
+                   </ExecutiveTableRow>
                  ) : (
                    employees.map(emp => (
-                     <tr key={emp.id} className="hover:bg-slate-50/50 transition-colors">
-                       <td className="px-4 md:px-6 py-2.5 md:py-4">
+                     <ExecutiveTableRow key={emp.id} className="hover:bg-slate-50/50 transition-colors">
+                       <ExecutiveTableCell className="px-4 md:px-6 py-2.5 md:py-4">
                           <p className="text-xs font-bold text-muted-foreground">{emp.nome}</p>
                           <p className="text-[10px] text-muted-foreground font-medium">{emp.funcao}</p>
-                       </td>
-                       <td className="px-4 md:px-6 py-2.5 md:py-4 text-[10px] font-black text-muted-foreground uppercase tracking-tighter">
+                       </ExecutiveTableCell>
+                       <ExecutiveTableCell className="px-4 md:px-6 py-2.5 md:py-4 text-[10px] font-black text-muted-foreground uppercase tracking-tighter">
                           {emp.area}
-                       </td>
-                       <td className="px-4 md:px-6 py-2.5 md:py-4">
+                       </ExecutiveTableCell>
+                       <ExecutiveTableCell className="px-4 md:px-6 py-2.5 md:py-4">
                           <span className="px-2 py-0.5 bg-slate-50 border border-border rounded text-[9px] font-black text-muted-foreground uppercase">{emp.tipoContrato}</span>
-                       </td>
-                       <td className="px-4 md:px-6 py-2.5 md:py-4 text-right font-mono text-xs font-bold text-muted-foreground">
+                       </ExecutiveTableCell>
+                       <ExecutiveTableCell className="px-4 md:px-6 py-2.5 md:py-4 text-right font-mono text-xs font-bold text-muted-foreground">
                           {formatCurrency(emp.salarioBase)}
-                       </td>
-                       <td className="px-4 md:px-6 py-2.5 md:py-4 text-right">
+                       </ExecutiveTableCell>
+                       <ExecutiveTableCell className="px-4 md:px-6 py-2.5 md:py-4 text-right">
                           <div className="flex items-center justify-end gap-2">
                              <button 
                                onClick={() => {
@@ -347,14 +349,14 @@ export function EmployeeManager({ clientId, clientConfig }: { clientId: string, 
                                 <Trash2 size={14} />
                              </button>
                           </div>
-                       </td>
-                     </tr>
+                       </ExecutiveTableCell>
+                     </ExecutiveTableRow>
                    ))
                  )}
-               </tbody>
-             </table>
+               </ExecutiveTableBody>
+             </ExecutiveTable>
            </div>
-        </div>
+        </ExecutiveSurface>
     </div>
   );
 }
