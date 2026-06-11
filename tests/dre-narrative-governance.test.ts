@@ -159,6 +159,6 @@ describe('ENGF v1.0 — DRE Narrative Governance Tests', () => {
     assert.ok(framework.classificacaoGeral === 'Não' || advisory.situacaoAtual.toLowerCase().includes('resultado'));
     assert.ok(explainability.classification !== 'SAUDÁVEL', 'Score 40 should not be SAUDÁVEL');
     // Break-even gap: faltam R$ 127.178,58
-    assert.ok(framework.gapDeEquilibrio.includes('127'), `Expected lacuna to mention 127k, got: ${framework.gapDeEquilibrio}`);
+    assert.ok(String(framework.gapDeEquilibrio).includes('127'), `Expected lacuna to mention 127k, got: ${framework.gapDeEquilibrio}`);
   });
 });

@@ -119,7 +119,7 @@ describe('ENGF v1.1 — DRE Narrative Single Source Retirement', () => {
   it('Test 5: Verifica compatibilidade com Granatum 2022 — single source produces real data', () => {
     const advisory = DREBoardAdvisoryEngine.generateExecutiveAdvisory(granatumNormalized as any, granatumDiagnosis);
     const audit = ExecutiveNarrativeSingleSourceValidator.validate(
-      `Executive Advisory\nSituação Atual\n${advisory.situacaoAtual}\nPrincipal Restrição\n${advisory.problemaPrincipal}`
+      `Executive Advisory\nSituação Atual\n${advisory.situacaoAtual}\nPrincipal Restrição\n${advisory.restricaoPrincipal}`
     );
 
     // The ENGF advisory is the official narrative — it must pass single-source validation

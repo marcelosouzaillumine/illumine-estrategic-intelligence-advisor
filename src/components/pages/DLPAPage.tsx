@@ -1114,7 +1114,7 @@ export function DLPAPage({ clients, selectedClient, selectedYear }: any) {
                     </p>
                   </ExecutiveSurface>
                 </div>
-              </div>
+              </ExecutiveSurface>
 
               {/* Aviso de Retenção Compulsória */}
               {executiveLayer.retention?.classification === 'Retenção Compulsória' && (
