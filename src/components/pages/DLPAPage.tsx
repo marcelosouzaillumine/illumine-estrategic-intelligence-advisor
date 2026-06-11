@@ -1102,7 +1102,9 @@ export function DLPAPage({ clients, selectedClient, selectedYear }: any) {
                   <ExecutiveSurface padding="md" variant="info" className="flex flex-col justify-between h-full border border-border min-h-[220px]">
                     <div>
                       <span className="text-[10px] font-bold uppercase tracking-wider text-muted-foreground block mb-3">Diretriz de Recomposição</span>
-                      <ExecutiveNarrative title="Recovery Thesis" variant="insight" className="mb-2" />
+                      <ExecutiveNarrative title="Recovery Thesis" variant="insight" className="mb-2">
+                        <span className="hidden"></span>
+                      </ExecutiveNarrative>
                       <p className="text-foreground/80 leading-relaxed text-sm">
                         {executiveLayer.governanceInterpretation?.recoveryThesis}
                       </p>
@@ -1116,15 +1118,14 @@ export function DLPAPage({ clients, selectedClient, selectedYear }: any) {
 
               {/* Aviso de Retenção Compulsória */}
               {executiveLayer.retention?.classification === 'Retenção Compulsória' && (
-                <ExecutiveCallout 
-                  variant="warning"
-                  title="Aviso de Governança Patrimonial: Retenção Compulsória"
-                  className="mt-6 animate-executive-fade"
+                <div 
+                  className="mt-6 animate-executive-fade p-4 bg-amber-500/10 border border-amber-500/20 rounded-xl"
                 >
-                  <p className="text-xs font-bold leading-relaxed">
+                  <h4 className="text-amber-500 font-bold mb-2">Aviso de Governança Patrimonial: Retenção Compulsória</h4>
+                  <p className="text-xs font-bold leading-relaxed text-amber-500/90">
                     Todo lucro futuro deverá ser destinado prioritariamente à absorção dos prejuízos acumulados antes da retomada de distribuições aos sócios.
                   </p>
-                </ExecutiveCallout>
+                </div>
               )}
             </div>
           )}
