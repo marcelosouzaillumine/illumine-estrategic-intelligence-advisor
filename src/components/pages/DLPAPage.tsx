@@ -29,6 +29,7 @@ import { ExecutiveSurface } from '../ui/executive-surface';
 import { ExecutiveDecisionMemo } from '../ui/executive-decision-memo';
 import { ExecutiveNarrative } from '../ui/executive-narrative';
 import { ExecutiveMetricCard } from '../ui/executive-metric-card';
+import { ExecutiveTable, ExecutiveTableHeader, ExecutiveTableBody, ExecutiveTableRow, ExecutiveTableHead, ExecutiveTableCell } from '../ui/executive-table';
 import { cn, formatCurrency, formatValue } from '../../lib/utils';
 import { PageHeader, KpiValue } from '../Common';
 import { useAnnualFinancialData, useAllFinancialData } from '../../hooks/useFinancialData';
@@ -1264,66 +1265,61 @@ export function DLPAPage({ clients, selectedClient, selectedYear }: any) {
                     {dbDataDLPA.length} lançamentos
                   </span>
                 </div>
-                <div className="overflow-x-auto p-2">
-                  <table className="w-full text-sm">
-                    <thead>
-                      <tr className="border-b border-border">
-                        <th className="text-left py-5 px-8 text-[10px] font-black text-muted-foreground uppercase tracking-widest">Descrição da Conta</th>
-                        <th className="text-right py-5 px-8 text-[10px] font-black text-muted-foreground uppercase tracking-widest">Valor (R$)</th>
-                        <th className="text-right py-5 px-8 text-[10px] font-black text-muted-foreground uppercase tracking-widest">Natureza</th>
-                      </tr>
-                    </thead>
-                    <tbody className="divide-y divide-slate-50">
-                      {dbDataDLPA.map((row: any, i: number) => {
-                        const v = Number(row.val || row.valor || row.value || 0);
-                        const isNegative = v < 0;
-                        const conta = row.conta || row.category || row.nome || '—';
-                        const isTotal = conta.toLowerCase().includes('total') ||
-                          conta.toLowerCase().includes('saldo') ||
-                          conta.toLowerCase().includes('lucro liquido') ||
-                          conta.toLowerCase().includes('resultado');
+                <div className="p-2">
+                  <ExecutiveTable className="w-full text-sm">
+                    <ExecutiveTableHeader>
+                      <ExecutiveTableRow className="border-b border-border">
+                        <ExecutiveTableHead className="text-left py-5 px-8 text-[10px] font-black text-muted-foreground uppercase tracking-widest">Descrição da Conta</ExecutiveTableHead>
+                        <ExecutiveTableHead className="text-right py-5 px-8 text-[10px] font-black text-muted-foreground uppercase tracking-widest">Valor (R$)</ExecutiveTableHead>
+                        <ExecutiveTableHead className="text-right py-5 px-8 text-[10px] font-black text-muted-foreground uppercase tracking-widest">Natureza</ExecutiveTableHead>
+                      </ExecutiveTableRow>
+                    </ExecutiveTableHeader>
+                    <ExecutiveTableBody>
+                      {dbDataDLPA.map((rawRow: any, i: number) => {
+                        const row = normalizeDLPARow(rawRow, i);
                         return (
-                          <tr key={row.id || i} className={cn('hover:bg-surface-container/30 transition-colors', isTotal ? 'bg-surface-container/30/60' : '')}>
-                            <td className="py-4 px-8">
-                              <span className={cn('block', isTotal ? 'text-muted-foreground font-black text-sm' : 'text-muted-foreground font-medium pl-4 text-sm')}>
-                                {conta}
+                          <ExecutiveTableRow 
+                            key={row.id} 
+                            className={cn('transition-colors', row.isTotal ? 'bg-surface-container/30/60' : '')}
+                          >
+                            <ExecutiveTableCell className="py-4 px-8">
+                              <span className={cn('block', row.isTotal ? 'text-muted-foreground font-black text-sm' : 'text-muted-foreground font-medium pl-4 text-sm')}>
+                                {row.description}
                               </span>
-                            </td>
-                            <td className={cn('py-4 px-8 text-right font-mono font-bold text-sm',
-                              isNegative ? 'text-rose-600' : 'text-muted-foreground',
-                              isTotal && 'text-muted-foreground font-black')}>
-                              {formatCurrency(v)}
-                            </td>
-                            <td className="py-4 px-8 text-right">
-                              <span className={cn('text-[9px] font-black uppercase px-3 py-1 rounded-full border',
-                                isNegative ? 'bg-critical-soft text-rose-600 border-rose-200' : v > 0 ? 'bg-success-soft text-emerald-600 border-emerald-200' : 'bg-surface-container/30 text-muted-foreground border-border'
+                            </ExecutiveTableCell>
+                            <ExecutiveTableCell className={cn('py-4 px-8 text-right font-mono font-bold text-sm',
+                              row.nature === 'negative' ? 'text-rose-600' : 'text-muted-foreground',
+                              row.isTotal && 'text-muted-foreground font-black')}>
+                              {formatCurrency(row.value)}
+                            </ExecutiveTableCell>
+                            <ExecutiveTableCell className="py-4 px-8 text-right">
+                              <span className={cn('text-[9px] font-black uppercase px-3 py-1 rounded-full border inline-block w-[72px] text-center',
+                                row.nature === 'negative' ? 'bg-critical-soft text-rose-600 border-rose-200' : row.nature === 'positive' ? 'bg-success-soft text-emerald-600 border-emerald-200' : 'bg-surface-container/30 text-muted-foreground border-border'
                               )}>
-                                {isNegative ? 'Redução' : v > 0 ? 'Adição' : 'Neutro'}
+                                {row.nature === 'negative' ? 'Redução' : row.nature === 'positive' ? 'Adição' : 'Neutro'}
                               </span>
-                            </td>
-                          </tr>
+                            </ExecutiveTableCell>
+                          </ExecutiveTableRow>
                         );
                       })}
-                    </tbody>
-                    {dlpaMetrics && (
-                      <tfoot>
-                        <tr className="bg-foreground text-white rounded-b-3xl overflow-hidden">
-                          <td className="py-6 px-8 text-sm font-black uppercase tracking-widest rounded-bl-[32px]">
+                      {dlpaMetrics && (
+                        <ExecutiveTableRow className="bg-foreground text-white hover:bg-foreground/90">
+                          <ExecutiveTableCell className="py-6 px-8 text-sm font-black uppercase tracking-widest">
                             {lucrosPrejuizosFinal < 0 ? "Prejuízo Acumulado" : "Saldo de Lucros Acumulados"}
-                          </td>
-                          <td className={cn('py-6 px-8 text-right font-mono font-black text-lg',
+                          </ExecutiveTableCell>
+                          <ExecutiveTableCell className={cn('py-6 px-8 text-right font-mono font-black text-lg',
                             lucrosPrejuizosFinal >= 0 ? 'text-emerald-400' : 'text-rose-400')}>
                             {formatCurrency(lucrosPrejuizosFinal)}
-                          </td>
-                          <td className="py-6 px-8 text-right rounded-br-[32px]">
+                          </ExecutiveTableCell>
+                          <ExecutiveTableCell className="py-6 px-8 text-right">
                             <span className="text-[10px] font-black uppercase px-3 py-1.5 rounded-full bg-card/10 text-white border border-white/20">
                               Calculado
                             </span>
-                          </td>
-                        </tr>
-                      </tfoot>
-                    )}
-                  </table>
+                          </ExecutiveTableCell>
+                        </ExecutiveTableRow>
+                      )}
+                    </ExecutiveTableBody>
+                  </ExecutiveTable>
                 </div>
               </div>
             </>
