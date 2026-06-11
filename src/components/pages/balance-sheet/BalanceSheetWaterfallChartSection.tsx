@@ -1,5 +1,5 @@
 import React from 'react';
-import { BarChart, Bar, Cell } from 'recharts';
+import { BarChart as RechartsBarChart, Bar, Cell } from 'recharts';
 import { ExecutiveChart, ExecutiveChartGrid, ExecutiveChartXAxis, ExecutiveChartTooltip } from '../../ui/executive-chart';
 import { BalanceSheetWaterfallViewModel } from './view-models';
 
@@ -16,17 +16,18 @@ export function BalanceSheetWaterfallChartSection({
       description="Estrutura de Liquidez e Capital de Giro"
       height={250}
       className="col-span-1 md:col-span-2 lg:col-span-1"
+      empty={!viewModel.data || viewModel.data.length === 0}
     >
-      <BarChart data={viewModel.data} margin={{ top: 20, right: 30, left: 20, bottom: 5 }}>
+      <RechartsBarChart data={viewModel.data} margin={{ top: 20, right: 30, left: 20, bottom: 5 }}>
         <ExecutiveChartGrid vertical={false} />
         <ExecutiveChartXAxis dataKey="name" />
         <ExecutiveChartTooltip formatter={(value: number) => formatCurrency(value)} />
         <Bar dataKey="value">
-          {viewModel.data.map((entry, index) => (
+          {viewModel.data && viewModel.data.map((entry, index) => (
             <Cell key={`cell-${index}`} fill={entry.fill || '#3b82f6'} />
           ))}
         </Bar>
-      </BarChart>
+      </RechartsBarChart>
     </ExecutiveChart>
   );
 }
