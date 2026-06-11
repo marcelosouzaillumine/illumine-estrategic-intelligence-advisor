@@ -26,6 +26,8 @@ import {
 } from '../ui/executive-chart';
 import { ExecutiveEmptyState } from '../ui/executive-empty-state';
 import { ExecutiveSurface } from '../ui/executive-surface';
+import { ExecutiveDecisionMemo } from '../ui/executive-decision-memo';
+import { ExecutiveNarrative } from '../ui/executive-narrative';
 import { cn, formatCurrency, formatValue } from '../../lib/utils';
 import { PageHeader, KpiValue } from '../Common';
 import { useAnnualFinancialData, useAllFinancialData } from '../../hooks/useFinancialData';
@@ -880,53 +882,56 @@ export function DLPAPage({ clients, selectedClient, selectedYear }: any) {
 
               {/* 1. Tese de Governança & 8. Síntese Executiva */}
               <div className="grid grid-cols-1 xl:grid-cols-12 gap-6 items-start">
-                <div className="col-span-1 xl:col-span-4 bg-card rounded-[40px] p-8 shadow-sm border border-border flex flex-col justify-center relative overflow-hidden">
-                  <div className="flex items-center gap-3 mb-4">
-                    <Target size={20} className="text-secondary" />
-                    <h3 className="text-xl font-black text-foreground">Tese de Governança</h3>
-                  </div>
-                  <p className="text-xs font-black text-foreground bg-surface-container px-3 py-1.5 rounded-full self-start mb-4 uppercase tracking-widest">
-                    {executiveLayer.governanceInterpretation?.classification}
-                  </p>
-                  <p className="text-sm text-secondary leading-relaxed font-medium">
-                    {executiveLayer.governanceInterpretation?.narrative}
-                  </p>
-                  {executiveLayer.governanceInterpretation?.riskToShareholders && (
-                    <div className="mt-4 pt-4 border-t border-border">
-                      <p className="text-[10px] font-black uppercase tracking-wider text-rose-500 mb-1">Risco ao Capital dos Sócios</p>
-                      <p className="text-secondary">
-                        {executiveLayer.governanceInterpretation.riskToShareholders}
-                      </p>
-                    </div>
-                  )}
-                </div>
-
-                <div className="col-span-1 xl:col-span-8 bg-card rounded-[40px] p-8 shadow-sm border border-border flex flex-col justify-center relative overflow-hidden">
-                  <div className="flex items-center gap-3 mb-4">
-                    <Activity size={20} className="text-emerald-500" />
-                    <h3 className="text-xl font-black text-foreground">Síntese Executiva Advisory</h3>
-                  </div>
-                  <div className="space-y-4">
-                    {executiveLayer.boardAdvisory?.narrative?.split('\n\n').map((paragraph: string, idx: number) => {
-                      if (!paragraph.trim()) return null;
-                      const colonIndex = paragraph.indexOf(':');
-                      if (colonIndex > 0 && colonIndex < 40) {
-                        const title = paragraph.substring(0, colonIndex + 1);
-                        const rest = paragraph.substring(colonIndex + 1);
-                        return (
-                          <p key={idx} className="text-sm text-secondary leading-relaxed font-medium">
-                            <span className="font-bold text-foreground">{title}</span>
-                            {rest}
+                <ExecutiveSurface className="col-span-1 xl:col-span-4 flex flex-col justify-center relative overflow-hidden h-full">
+                  <ExecutiveNarrative title="Tese de Governança" icon={Target} variant="insight">
+                    <div className="flex flex-col gap-4 mt-2">
+                      <span className="text-[10px] font-black text-foreground bg-surface-container px-3 py-1.5 rounded-full self-start uppercase tracking-widest">
+                        {executiveLayer.governanceInterpretation?.classification}
+                      </span>
+                      <span className="text-sm text-secondary leading-relaxed font-medium">
+                        {executiveLayer.governanceInterpretation?.narrative}
+                      </span>
+                      {executiveLayer.governanceInterpretation?.riskToShareholders && (
+                        <div className="mt-2 pt-4 border-t border-border">
+                          <p className="text-[10px] font-black uppercase tracking-wider text-rose-500 mb-1">Risco ao Capital dos Sócios</p>
+                          <p className="text-secondary text-sm">
+                            {executiveLayer.governanceInterpretation.riskToShareholders}
                           </p>
-                        );
-                      }
-                      return (
-                        <p key={idx} className="text-sm text-secondary leading-relaxed font-medium">
-                          {paragraph}
-                        </p>
-                      );
-                    })}
-                  </div>
+                        </div>
+                      )}
+                    </div>
+                  </ExecutiveNarrative>
+                </ExecutiveSurface>
+
+                <div className="col-span-1 xl:col-span-8 h-full">
+                  <ExecutiveDecisionMemo
+                    icon={<Activity />}
+                    title="Síntese Executiva Advisory"
+                    className="h-full"
+                    narrative={
+                      <div className="space-y-4">
+                        {executiveLayer.boardAdvisory?.narrative?.split('\n\n').map((paragraph: string, idx: number) => {
+                          if (!paragraph.trim()) return null;
+                          const colonIndex = paragraph.indexOf(':');
+                          if (colonIndex > 0 && colonIndex < 40) {
+                            const title = paragraph.substring(0, colonIndex + 1);
+                            const rest = paragraph.substring(colonIndex + 1);
+                            return (
+                              <p key={idx} className="text-sm text-foreground/80 leading-relaxed font-medium">
+                                <span className="font-bold text-foreground">{title}</span>
+                                {rest}
+                              </p>
+                            );
+                          }
+                          return (
+                            <p key={idx} className="text-sm text-foreground/80 leading-relaxed font-medium">
+                              {paragraph}
+                            </p>
+                          );
+                        })}
+                      </div>
+                    }
+                  />
                 </div>
               </div>
 
