@@ -32,6 +32,7 @@ import {
   ExecutiveChartTooltip
 } from '../ui/executive-chart';
 import { ExecutiveSurface } from '../ui/executive-surface';
+import { ExecutiveEmptyState } from '../ui/executive-empty-state';
 import { calculateDreCascade } from '../../lib/dreCascade';
 import { DRE_OFFICIAL_STRUCTURE } from '../../constants/dreStructure';
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '../ui/tooltip';
@@ -424,33 +425,25 @@ export function DashboardPage({
 
   if (!selectedClient) {
     return (
-      <div className="flex flex-col items-center justify-center min-h-[600px] space-y-8 animate-executive-fade bg-background border border-border rounded-md p-20 text-center w-full">
-         <div className="w-24 h-24 rounded-full bg-surface-container flex items-center justify-center text-secondary shadow-xl relative">
-            <div className="absolute inset-0 bg-secondary blur-3xl opacity-20 animate-pulse" />
-            <LayoutDashboard size={48} className="relative z-10 animate-pulse" />
-         </div>
-         <div className="text-center space-y-4 w-full max-w-2xl mx-auto">
-            <h2 className="text-h2 font-medium text-foreground tracking-tight">{t('gov.empty.title_select_company')}</h2>
-            <p className="text-secondary">
-              {t('gov.empty.desc_select_company')}
-            </p>
-         </div>
+      <div className="flex flex-col items-center justify-center min-h-[600px] w-full animate-executive-fade">
+        <ExecutiveEmptyState
+          icon={<LayoutDashboard />}
+          title={t('gov.empty.title_select_company')}
+          description={t('gov.empty.desc_select_company')}
+        />
       </div>
     );
   }
 
   if (accessDenied) {
     return (
-      <div className="flex flex-col items-center justify-center min-h-[600px] space-y-8 animate-executive-fade bg-background border border-destructive/20 rounded-md p-20 text-center w-full">
-         <div className="w-24 h-24 rounded-full bg-critical-soft flex items-center justify-center text-destructive shadow-xl relative">
-            <AlertTriangle size={48} className="relative z-10" />
-         </div>
-         <div className="text-center space-y-4 w-full max-w-2xl mx-auto">
-            <h2 className="text-h2 font-medium text-destructive tracking-tight">{t('gov.empty.access_denied_title')}</h2>
-            <p className="text-secondary">
-              {denialReason}
-            </p>
-         </div>
+      <div className="flex flex-col items-center justify-center min-h-[600px] w-full animate-executive-fade">
+        <ExecutiveEmptyState
+          icon={<AlertTriangle />}
+          title={t('gov.empty.access_denied_title')}
+          description={denialReason}
+          className="border-destructive/20"
+        />
       </div>
     );
   }
@@ -666,8 +659,12 @@ export function DashboardPage({
                 );
               })
             ) : (
-              <div className="col-span-3 py-16 text-center bg-surface-container/30 rounded-[32px] border border-dashed border-border">
-                <p className="text-secondary">{t('dashboard.guidance.empty')}</p>
+              <div className="col-span-3">
+                <ExecutiveEmptyState
+                  title={t('dashboard.guidance.empty')}
+                  description=""
+                  compact
+                />
               </div>
             )}
           </MetricGrid>
