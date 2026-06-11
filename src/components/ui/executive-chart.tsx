@@ -41,7 +41,7 @@ export function ExecutiveChart({
       {(title || description) && (
         <div className="flex flex-col gap-1.5">
           {title && <h3 className="font-semibold text-lg tracking-tight leading-none">{title}</h3>}
-          {description && <p className="text-muted-foreground text-sm">{description}</p>}
+          {description && <p className="text-foreground/70 text-sm leading-snug">{description}</p>}
         </div>
       )}
 

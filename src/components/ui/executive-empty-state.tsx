@@ -38,7 +38,7 @@ export function ExecutiveEmptyState({
       <div className="flex flex-col items-center gap-3">
         <h3 className="text-[24px] md:text-[26px] font-semibold text-foreground tracking-tight text-center">{title}</h3>
         <p className={cn(
-          "text-[14px] md:text-[15px] leading-6 text-foreground/70 text-center w-full",
+          "text-[14px] md:text-[15px] leading-snug text-foreground/70 text-center w-full",
           maxWidth === 'sm' ? 'max-w-[40ch]' : maxWidth === 'lg' ? 'max-w-[80ch]' : 'max-w-[60ch]'
         )}>
           {description}
