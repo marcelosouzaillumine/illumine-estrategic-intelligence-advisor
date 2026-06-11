@@ -1,6 +1,7 @@
 import React from 'react';
 import { ExecutiveInsightCard } from '../../ui/executive-insight-card';
 import { ExecutiveNarrative } from '../../ui/executive-narrative';
+import { ExecutiveRecommendationBlock } from '../../ui/executive-recommendation-block';
 
 export type BalanceSheetBoardAdvisoryProps = {
   hasParecer: boolean;
@@ -29,7 +30,9 @@ export const BalanceSheetBoardAdvisory = ({
                 {boardAdvisoryFullText.includes('Recomendação:') ? (
                   <>
                     <p>{boardAdvisoryFullText.split('Recomendação:')[0].trim()}</p>
-                    <p><strong className="font-medium text-foreground">Recomendação:</strong> {boardAdvisoryFullText.split('Recomendação:')[1].trim()}</p>
+                    <ExecutiveRecommendationBlock>
+                      {boardAdvisoryFullText.split('Recomendação:')[1].trim()}
+                    </ExecutiveRecommendationBlock>
                   </>
                 ) : (
                   <p>{boardAdvisoryFullText}</p>

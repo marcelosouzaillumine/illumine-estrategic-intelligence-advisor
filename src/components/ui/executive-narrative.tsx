@@ -44,7 +44,7 @@ export function ExecutiveNarrative({
           )}
         </div>
       )}
-      <div className="text-[16px] leading-[1.75] font-normal text-foreground/78 max-w-[82ch]">
+      <div className="text-[16px] font-normal leading-[1.75] text-foreground/80 max-w-[78ch]">
         {children}
       </div>
     </div>

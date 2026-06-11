@@ -19,16 +19,16 @@ export function ExecutiveInsightCard({
     <ExecutiveSurface
       padding="none"
       className={cn(
-        "flex flex-col items-start justify-start p-8 md:p-12 w-full rounded-[32px] shadow-sm",
+        "flex flex-col items-start justify-start p-6 md:p-8 w-full rounded-[32px] shadow-sm",
         className
       )}
     >
       {badge && (
-        <span className="inline-flex items-center h-7 px-3 bg-surface-container border border-border rounded-full text-[10px] md:text-[11px] font-medium uppercase tracking-[0.08em] text-foreground/70 mb-4">
+        <span className="inline-flex items-center h-7 px-3 bg-surface-container border border-border rounded-full text-[10px] font-medium uppercase tracking-[0.06em] text-foreground/60 mb-4">
           {badge}
         </span>
       )}
-      <div className="text-[26px] md:text-[30px] lg:text-[32px] font-semibold leading-tight tracking-tight text-foreground mb-4">
+      <div className="text-[28px] lg:text-[30px] font-semibold leading-[1.2] tracking-tight text-foreground mb-4">
         {headline}
       </div>
       {content && (
