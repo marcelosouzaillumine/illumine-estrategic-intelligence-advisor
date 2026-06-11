@@ -1,7 +1,8 @@
 import React from 'react';
-import { AreaChart, Area } from 'recharts';
+import { AreaChart as RechartsAreaChart, Area } from 'recharts';
 import { TrendingUp, TrendingDown, Info } from 'lucide-react';
 import { ExecutiveChart, ExecutiveChartGrid, ExecutiveChartXAxis, ExecutiveChartTooltip } from '../../ui/executive-chart';
+import { ExecutiveSurface } from '../../ui/executive-surface';
 import { BalanceSheetEvolutionViewModel } from './view-models';
 import { cn } from '../../../lib/utils';
 
@@ -14,7 +15,12 @@ export function BalanceSheetEvolutionAnalysisSection({
 }) {
   if (!viewModel.hasEnoughData) {
     return (
-      <div className="bg-card p-8 rounded-[40px] border border-border shadow-sm relative overflow-hidden flex flex-col items-center justify-center min-h-[300px] text-center">
+      <ExecutiveSurface 
+        variant="default" 
+        elevation="sm" 
+        padding="lg" 
+        className="rounded-[40px] relative overflow-hidden flex flex-col items-center justify-center min-h-[300px] text-center"
+      >
          <div className="w-16 h-16 bg-surface-container/30 rounded-2xl flex items-center justify-center mb-6 border border-border text-muted-foreground">
            <TrendingDown size={32} />
          </div>
@@ -22,7 +28,7 @@ export function BalanceSheetEvolutionAnalysisSection({
          <p className="text-secondary">
            Esta demonstração representa apenas um ciclo financeiro e não permite inferências longitudinais sobre estabilidade, deterioração ou consolidação operacional. A inteligência de evolução requer ao menos dois exercícios.
          </p>
-      </div>
+      </ExecutiveSurface>
     );
   }
 
@@ -33,6 +39,7 @@ export function BalanceSheetEvolutionAnalysisSection({
         description="Comparativo de 5 Anos"
         height={320}
         className="xl:col-span-2 group"
+        empty={!viewModel.chartData || viewModel.chartData.length === 0}
       >
         <div className="flex gap-5 bg-surface-container/30 px-4 py-2 rounded-full border border-border absolute top-6 right-6 z-10">
           <div className="flex items-center gap-2">
@@ -48,7 +55,7 @@ export function BalanceSheetEvolutionAnalysisSection({
             <span className="text-[9px] font-black text-muted-foreground uppercase tracking-widest">Patrimônio</span>
           </div>
         </div>
-        <AreaChart data={viewModel.chartData} margin={{ top: 10, right: 10, left: 10, bottom: 0 }}>
+        <RechartsAreaChart data={viewModel.chartData} margin={{ top: 10, right: 10, left: 10, bottom: 0 }}>
           <defs>
             <linearGradient id="colorAtivo" x1="0" y1="0" x2="0" y2="1">
               <stop offset="5%" stopColor="#3b82f6" stopOpacity={0.3}/>
@@ -91,7 +98,7 @@ export function BalanceSheetEvolutionAnalysisSection({
           <Area type="monotone" dataKey="ativo" name="Ativo" stroke="#3b82f6" strokeWidth={3} fillOpacity={1} fill="url(#colorAtivo)" />
           <Area type="monotone" dataKey="passivo" name="Passivo" stroke="#94a3b8" strokeWidth={3} fillOpacity={1} fill="url(#colorPassivo)" />
           <Area type="monotone" dataKey="patrimonioLiquido" name="PL" stroke="#a855f7" strokeWidth={3} fillOpacity={1} fill="url(#colorPl)" />
-        </AreaChart>
+        </RechartsAreaChart>
       </ExecutiveChart>
 
       <div className="bg-foreground text-white p-8 rounded-[40px] shadow-2xl relative overflow-hidden flex flex-col">
@@ -102,7 +109,7 @@ export function BalanceSheetEvolutionAnalysisSection({
         
         <div className="space-y-6 flex-1 mt-6">
           {viewModel.highlights.map((change, i) => (
-            <div key={i} className="flex items-start gap-4 p-4 bg-card/5 rounded-2xl border border-white/5">
+            <div key={i} className="flex items-start gap-4 p-4 bg-white/5 rounded-2xl border border-white/5">
               <div className={cn(
                 "p-2 rounded-xl shrink-0",
                 change.tone === 'positive' ? "bg-success-soft0/20 text-emerald-700" : 
