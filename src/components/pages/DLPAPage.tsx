@@ -27,8 +27,6 @@ import {
 import { ExecutiveEmptyState } from '../ui/executive-empty-state';
 import { ExecutiveSurface } from '../ui/executive-surface';
 import { ExecutiveDecisionMemo } from '../ui/executive-decision-memo';
-import { ExecutiveSurface } from '../ui/executive-surface';
-import { ExecutiveDecisionMemo } from '../ui/executive-decision-memo';
 import { ExecutiveNarrative } from '../ui/executive-narrative';
 import { ExecutiveMetricCard } from '../ui/executive-metric-card';
 import { ExecutiveTechnicalMetricCard } from '../ui/executive-technical-metric-card';
@@ -50,6 +48,33 @@ import { DLPALegacyLabelScanner } from '../../services/FiduciaryRuntimeAdapter';
 type ToastType = { type: 'success' | 'error'; message: string } | null;
 
 // ── Helpers ─────────────────────────────────────────────────────────────────
+
+export interface NormalizedDLPARow {
+  id: string | number;
+  description: string;
+  value: number;
+  isTotal: boolean;
+  nature: 'positive' | 'negative' | 'neutral';
+}
+
+export function normalizeDLPARow(row: any, index: number): NormalizedDLPARow {
+  const v = Number(row.val || row.valor || row.value || 0);
+  const desc = String(row.conta || row.category || row.nome || '—');
+  const lowerDesc = desc.toLowerCase();
+  const isTotal = lowerDesc.includes('total') ||
+    lowerDesc.includes('saldo') ||
+    lowerDesc.includes('lucro liquido') ||
+    lowerDesc.includes('resultado');
+  
+  return {
+    id: row.id || index,
+    description: desc,
+    value: v,
+    isTotal,
+    nature: v < 0 ? 'negative' : v > 0 ? 'positive' : 'neutral'
+  };
+}
+
 
 function resolveDisplayLabel(semanticSource: string, resolvedValue: string | undefined, rawValue: string, fallback: string) {
   if (semanticSource === 'ELSA' && resolvedValue) return resolvedValue;
