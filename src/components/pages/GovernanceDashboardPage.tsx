@@ -548,73 +548,65 @@ export function GovernanceDashboardPage({
       </div>
 
       {/* Perspectiva Governança Aplicada ao Eixo de Governança */}
-      <ExecutiveSurface padding="xl" className="overflow-hidden relative shadow-sm border-border">
-        <div className="absolute -left-20 -top-20 w-80 h-80 bg-primary/5 rounded-full blur-3xl" />
-        <div className="relative z-10">
-          <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-6 mb-10 border-b border-border pb-8">
-            <div className="flex items-center gap-5">
-              <div className="p-4 rounded-md bg-surface-container text-primary border border-border">
-                <ShieldCheck size={28} strokeWidth={2.5} />
-              </div>
-              <div>
-                <h3 className="text-h2 font-medium text-foreground tracking-tight leading-none mb-2">{t('gov.perspective.title')}</h3>
-                <p className="text-[10px] text-muted-foreground font-medium uppercase tracking-widest">{t('gov.perspective.subtitle')}</p>
-              </div>
+      <ExecutiveSurface padding="xl" className="overflow-hidden relative shadow-sm border-border flex flex-col gap-8 w-full">
+        <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-6 pb-6 border-b border-border/50">
+          <div className="flex items-center gap-4">
+            <div className="p-3 bg-surface-container text-primary rounded-lg border border-border">
+              <ShieldCheck size={24} />
             </div>
-            <button 
-              onClick={handleGenerateAnalysis}
-              disabled={loadingAi}
-              className="btn-executive flex items-center gap-2"
-            >
-              {loadingAi ? <Loader2 size={16} className="animate-spin" /> : <Zap size={16} />} 
-              {aiAnalysis ? t('gov.btn.regenerate_ai') : t('gov.btn.generate_ai')}
-            </button>
+            <div>
+              <h3 className="text-xl font-semibold tracking-tight text-foreground leading-none">{t('gov.perspective.title')}</h3>
+              <p className="text-xs text-muted-foreground font-medium uppercase tracking-wider mt-1">{t('gov.perspective.subtitle')}</p>
+            </div>
           </div>
+          <button 
+            onClick={handleGenerateAnalysis}
+            disabled={loadingAi}
+            className="btn-executive flex items-center gap-2"
+          >
+            {loadingAi ? <Loader2 size={16} className="animate-spin" /> : <Zap size={16} />} 
+            {aiAnalysis ? t('gov.btn.regenerate_ai') : t('gov.btn.generate_ai')}
+          </button>
+        </div>
 
-          {aiAnalysis && (
-            <div className="mb-10 bg-surface-container p-8 rounded-md border border-border text-foreground font-medium leading-relaxed text-sm relative overflow-hidden">
-              <div className="absolute top-0 right-0 p-4 opacity-5">
-                <ShieldCheck size={64} />
-              </div>
-              <div className="flex items-center gap-2 mb-4 text-primary font-medium uppercase tracking-widest text-[10px]">
-                <Zap size={14} /> {t('gov.ai.strategic_reading')}
-              </div>
-              <div className="whitespace-pre-wrap relative z-10 text-xs text-muted-foreground font-medium italic">
-                {auditTrail?.complianceStatus === 'non_compliant' ? (
-                  <div className="bg-red-500/10 border border-red-500/50 p-6 rounded-md mb-8 flex items-start gap-4 text-left not-italic">
-                    <ShieldAlert className="text-red-500 shrink-0" size={24} />
-                    <div>
-                      <h3 className="text-red-500 font-bold text-lg mb-2">{t('gov.ai.blocked_title')}</h3>
-                      <p className="text-red-400 font-medium leading-relaxed">
-                        {t('gov.ai.blocked_desc')}
-                      </p>
-                      {auditTrail.warnings?.length > 0 && (
-                        <ul className="mt-4 list-disc list-inside text-red-400/80 text-sm">
-                          {auditTrail.warnings.map((w: any, i: number) => (
-                            <li key={i}>
-                              {typeof w === 'string' ? w : t(w.labelKey, w.args)}
-                            </li>
-                          ))}
-                        </ul>
-                      )}
-                    </div>
-                  </div>
-                ) : (
-                  <>
-                    {auditTrail?.complianceStatus === 'partially_compliant' && (
-                      <div className="bg-yellow-500/10 border border-yellow-500/50 p-4 rounded-md mb-8 flex items-center gap-3 text-left not-italic">
-                        <ShieldAlert className="text-yellow-500 shrink-0" size={20} />
-                        <p className="text-yellow-500 font-bold text-sm">{t('gov.ai.partial_reading')}</p>
-                      </div>
-                    )}
-                    <MarkdownText text={aiAnalysis} />
-                  </>
-                )}
-              </div>
+        {aiAnalysis && (
+          <ExecutiveNarrative 
+            title={<span className="flex items-center gap-2"><Zap size={14} /> {t('gov.ai.strategic_reading')}</span>}
+            variant="insight"
+          >
+            <div className="flex flex-col gap-6">
+              {auditTrail?.complianceStatus === 'non_compliant' ? (
+                <ExecutiveCallout 
+                  variant="critical"
+                  title={t('gov.ai.blocked_title')}
+                >
+                  <p>{t('gov.ai.blocked_desc')}</p>
+                  {auditTrail.warnings?.length > 0 && (
+                    <ul className="mt-2 list-disc list-inside opacity-90 text-sm">
+                      {auditTrail.warnings.map((w: any, i: number) => (
+                        <li key={i}>
+                          {typeof w === 'string' ? w : t(w.labelKey, w.args)}
+                        </li>
+                      ))}
+                    </ul>
+                  )}
+                </ExecutiveCallout>
+              ) : (
+                <>
+                  {auditTrail?.complianceStatus === 'partially_compliant' && (
+                    <ExecutiveCallout 
+                      variant="warning"
+                      title={t('gov.ai.partial_reading')}
+                    />
+                  )}
+                  <MarkdownText text={aiAnalysis} />
+                </>
+              )}
             </div>
-          )}
+          </ExecutiveNarrative>
+        )}
 
-          <div className="grid grid-cols-1 xl:grid-cols-2 gap-8">
+        <div className="grid grid-cols-1 xl:grid-cols-2 gap-8">
             {triggeredRules.map((rule) => (
               <GovernanceInsightPanel 
                 key={rule.id}
@@ -632,7 +624,6 @@ export function GovernanceDashboardPage({
               </div>
             )}
           </div>
-        </div>
       </ExecutiveSurface>
     </div>
   );
