@@ -30,17 +30,17 @@ const elevationStyles = {
 
 const paddingStyles = {
   none: 'p-0',
-  sm: 'p-4 md:p-6',
-  md: 'p-6 md:p-8',
-  lg: 'p-8 md:p-10',
-  xl: 'p-10 md:p-12',
+  sm: 'p-3 md:p-4',
+  md: 'p-4 md:p-6',
+  lg: 'p-6 md:p-8',
+  xl: 'p-8 md:p-10',
 };
 
 const radiusStyles = {
-  sm: 'rounded-sm',
-  md: 'rounded-[24px]',
-  lg: 'rounded-[32px]',
-  xl: 'rounded-[48px]',
+  sm: 'rounded-lg',
+  md: 'rounded-xl',
+  lg: 'rounded-[24px]',
+  xl: 'rounded-[32px]',
 };
 
 export const ExecutiveSurface = React.forwardRef<HTMLDivElement, ExecutiveSurfaceProps>(({
