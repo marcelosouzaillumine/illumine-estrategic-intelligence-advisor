@@ -342,7 +342,7 @@ export function GovernanceDashboardPage({
         </div>
       )}
 
-      <div className="flex items-center justify-start gap-4 flex-wrap bg-surface-container/60 p-4 rounded-md border border-border backdrop-blur-sm shadow-sm -mt-6 mb-10">
+      <ExecutiveSurface padding="md" radius="md" className="flex items-center justify-start gap-4 flex-wrap -mt-6 mb-10">
         <div className="flex items-center gap-3 flex-wrap">
           <div className="flex items-center gap-4 bg-card rounded-md px-4 md:px-6 py-2 md:py-2.5 border border-border shadow-sm h-[40px]">
             <span className={cn(
@@ -397,7 +397,7 @@ export function GovernanceDashboardPage({
             )}
           </div>
         </div>
-      </div>
+      </ExecutiveSurface>
 
 
       {/* Strategic KPIs Grid - Standardized */}
