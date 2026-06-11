@@ -15,7 +15,7 @@ export const BalanceSheetLiquiditySection = ({ indicators }: BalanceSheetLiquidi
       padding="none" 
       className="rounded-[40px] p-10 hover:shadow-2xl hover:shadow-slate-200/50 transition-all duration-500 relative overflow-hidden"
     >
-      <h3 className="text-2xl font-bold text-foreground mb-6">Liquidez e Solvência</h3>
+      <h3 className="text-xl md:text-[22px] font-semibold text-foreground mb-6">Liquidez e Solvência</h3>
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
         {['Liquidez Real', 'Liquidez Instantânea Real', 'Liquidez Seca'].map((metric, idx) => {
           const ind = indicators?.find((i) => i.metricName === metric);

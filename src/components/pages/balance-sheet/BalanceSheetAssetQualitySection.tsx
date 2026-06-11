@@ -15,7 +15,7 @@ export const BalanceSheetAssetQualitySection = ({ indicators }: BalanceSheetAsse
       padding="none" 
       className="rounded-[40px] p-10 hover:shadow-2xl hover:shadow-slate-200/50 transition-all duration-500 relative overflow-hidden"
     >
-      <h3 className="text-2xl font-bold text-foreground mb-6">Qualidade do Ativo</h3>
+      <h3 className="text-xl md:text-[22px] font-semibold text-foreground mb-6">Qualidade do Ativo</h3>
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         {indicators.map((ind, idx) => (
           <ExecutiveMetricCard
