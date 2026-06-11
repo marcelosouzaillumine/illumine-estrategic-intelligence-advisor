@@ -15,13 +15,11 @@ export function DREEconomicDiagnosisSection({ viewModel }: Props) {
 
   return (
     <ExecutiveSurface padding="xl" radius="xl" className="flex flex-col mb-10">
-      <div className="flex items-center gap-3 mb-6 border-b border-border pb-4">
-        <div className="w-10 h-10 rounded-xl bg-surface-container/30 border border-border flex items-center justify-center text-muted-foreground">
-          <Activity size={20} />
-        </div>
+      <div className="flex items-center gap-3 mb-6">
+        <Activity className="text-secondary w-6 h-6" />
         <div>
-          <h4 className="text-xl font-black text-primary">{t('dre.diagnosis.title')}</h4>
-          <p className="text-secondary">{t('dre.diagnosis.subtitle')}</p>
+          <h4 className="text-lg font-bold text-primary">{t('dre.diagnosis.title')}</h4>
+          <p className="text-sm text-secondary">{t('dre.diagnosis.subtitle')}</p>
         </div>
       </div>
 
@@ -35,23 +33,23 @@ export function DREEconomicDiagnosisSection({ viewModel }: Props) {
           />
           <ExecutiveMetricCard
             label={t('dre.diagnosis.primary_constraint')}
-            value={<span className="text-[16px] leading-snug text-rose-700">{viewModel.primaryConstraint}</span>}
+            value={<span className="text-[16px] leading-snug">{viewModel.primaryConstraint}</span>}
             tone="critical"
           />
           <ExecutiveMetricCard
             label={t('dre.diagnosis.recoverability')}
-            value={<span className="text-[16px] leading-snug text-amber-700">{viewModel.recoverabilityAssessment}</span>}
+            value={<span className="text-[16px] leading-snug">{viewModel.recoverabilityAssessment}</span>}
             tone="warning"
           />
           <ExecutiveMetricCard
             label={t('dre.diagnosis.strategic_priority')}
-            value={<span className="text-[16px] leading-snug text-emerald-700">{viewModel.strategicPriority}</span>}
+            value={<span className="text-[16px] leading-snug">{viewModel.strategicPriority}</span>}
             tone="success"
           />
         </div>
         
         {/* Featured Outlook Panel */}
-        <ExecutiveSurface variant="info" padding="lg" radius="lg" className="w-full 2xl:w-[420px] flex flex-col justify-center">
+        <ExecutiveSurface variant="info" padding="lg" radius="lg" className="w-full lg:w-1/3 flex flex-col justify-center">
           <ExecutiveNarrative variant="insight" title={t('dre.diagnosis.outlook_directional')}>
             <span className="font-semibold">{viewModel.boardOutlook}</span>
           </ExecutiveNarrative>
