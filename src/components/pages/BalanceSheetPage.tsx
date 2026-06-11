@@ -2,29 +2,6 @@ import React, { useState, useEffect, useMemo, useRef } from 'react';
 import { SandboxWarningOverlay } from '../executive-interaction/SandboxWarningOverlay';
 import { createPortal } from 'react-dom';
 import { Calendar, Loader2, Upload, Trash2, Plus, BookOpen, Database, TrendingUp, TrendingDown, Info, BarChart3, PieChart as PieChartIcon, AlertCircle, Activity, Target, AlertTriangle, Lightbulb, Zap, ShieldCheck, Gem, Crosshair, Layers, PiggyBank, ShieldAlert, ChevronDown, ChevronUp } from 'lucide-react';
-import { 
-  BarChart, 
-  Bar, 
-  AreaChart,
-  Area,
-  XAxis, 
-  YAxis, 
-  CartesianGrid, 
-  Tooltip, 
-  Legend, 
-  LineChart, 
-  Line,
-  Cell,
-  PieChart,
-  Pie
-} from 'recharts';
-import { 
-  ExecutiveChart,
-  ExecutiveChartGrid,
-  ExecutiveChartXAxis,
-  ExecutiveChartYAxis,
-  ExecutiveChartTooltip
-} from '../ui/executive-chart';
 import { ExecutiveSurface } from '../ui/executive-surface';
 import { cn, formatCurrency, formatValue } from '../../lib/utils';
 import { StatusBadge, PageHeader } from '../Common';
