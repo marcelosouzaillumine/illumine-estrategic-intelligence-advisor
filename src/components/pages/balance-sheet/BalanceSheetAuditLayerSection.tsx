@@ -96,9 +96,9 @@ export function BalanceSheetAuditLayerSection({
                   return (
                     <ExecutiveRestrictionRow
                       key={idx}
-                      title={issue.typeLabel}
+                      label={issue.typeLabel}
+                      title={issue.message}
                       severity={severity}
-                      description={issue.message}
                     />
                   );
                 })}
