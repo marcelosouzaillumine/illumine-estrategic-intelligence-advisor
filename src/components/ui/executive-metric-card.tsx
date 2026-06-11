@@ -63,7 +63,7 @@ export function ExecutiveMetricCard({
       {description && (
         <>
           <div className="w-full h-px bg-border/50 my-3" />
-          <div className="w-full flex-1 flex flex-col items-start justify-start text-[13px] md:text-sm leading-relaxed text-foreground/70">
+          <div className="w-full flex-1 flex flex-col items-start justify-start text-[12px] leading-6 text-foreground/75">
             {description}
           </div>
         </>
