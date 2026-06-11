@@ -1,34 +1,41 @@
-import React from 'react';
-import { ExecutiveDecisionMemo } from '../../ui/executive-decision-memo';
-import { MessageSquare } from 'lucide-react';
+import React, { useMemo } from 'react';
+import { ExecutiveDecisionSummaryCard } from '../../ui/executive-decision-summary-card';
+import { ExecutiveDecisionSynthesisEngine } from '../../../core/runtime/executive-consolidation/ExecutiveDecisionSynthesisEngine';
+import { ExecutiveAnalysisContext } from '../../../core/runtime/executive-consolidation/StrategicOpinionConsistencyEngine';
 
 export type BalanceSheetExecutiveSynthesisSectionProps = {
   executiveNarrative?: string;
+  context?: ExecutiveAnalysisContext;
 };
 
 export const BalanceSheetExecutiveSynthesisSection = ({
-  executiveNarrative
+  executiveNarrative,
+  context
 }: BalanceSheetExecutiveSynthesisSectionProps) => {
-  if (!executiveNarrative) return null;
+  const payload = useMemo(() => {
+    if (context) {
+      return ExecutiveDecisionSynthesisEngine.generatePayload(context);
+    }
+    return null;
+  }, [context]);
 
-  let narrative: React.ReactNode = executiveNarrative;
-  let recommendation: React.ReactNode = undefined;
+  if (!payload && !executiveNarrative) return null;
 
-  if (executiveNarrative.includes('Recomendação:')) {
-    const parts = executiveNarrative.split('Recomendação:');
-    narrative = parts[0].trim();
-    recommendation = parts[1].trim();
+  if (payload) {
+    return (
+      <div className="w-full mt-12 mb-12">
+        <ExecutiveDecisionSummaryCard payload={payload} moduleName="Balanço Patrimonial" />
+      </div>
+    );
   }
 
+  // Fallback for legacy text
   return (
     <div className="w-full mt-12 mb-12">
-      <ExecutiveDecisionMemo
-        icon={<MessageSquare />}
-        title="Síntese Executiva para Tomada de Decisão"
-        subtitle="Parecer analítico fiduciário para o Conselho"
-        narrative={narrative}
-        recommendation={recommendation}
-      />
+      <div className="p-6 bg-surface-high border border-border rounded-lg shadow-sm">
+        <h3 className="text-sm font-bold text-foreground mb-4">Síntese Executiva</h3>
+        <p className="text-sm text-muted-foreground">{executiveNarrative}</p>
+      </div>
     </div>
   );
 };

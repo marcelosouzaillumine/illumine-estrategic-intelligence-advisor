@@ -1,3 +1,5 @@
+import { ExecutiveTable, ExecutiveTableHeader, ExecutiveTableBody, ExecutiveTableRow, ExecutiveTableHead, ExecutiveTableCell } from "../ui/executive-table";
+
 import React, { useState, useEffect, useMemo } from 'react';
 import { createPortal } from 'react-dom';
 import {
@@ -15,22 +17,24 @@ import {
   CartesianGrid, 
   Tooltip, 
   Line, 
-  ComposedChart 
+  ComposedChart,
+  ResponsiveContainer 
 } from 'recharts';
+
+import { ExecutiveHistoricalEvolutionCard } from '../ui/executive-historical-evolution-card';
 import { 
-  ExecutiveChart,
-  ExecutiveChartGrid,
-  ExecutiveChartXAxis,
-  ExecutiveChartYAxis,
-  ExecutiveChartTooltip
+  ExecutiveComposedChart, ExecutiveBar, ExecutiveLine, ExecutiveChartGrid, ExecutiveChartXAxis, ExecutiveChartYAxis, ExecutiveChartTooltip 
 } from '../ui/executive-chart';
+import { ExecutiveChartSemanticPalette } from '../../core/theme/ExecutiveChartSemanticPalette';
+import { HistoricalInsightEngine, HistoricalSeries } from '../../core/runtime/executive-consolidation/HistoricalInsightEngine';
 import { ExecutiveEmptyState } from '../ui/executive-empty-state';
 import { ExecutiveSurface } from '../ui/executive-surface';
-import { ExecutiveDecisionMemo } from '../ui/executive-decision-memo';
+import { ExecutiveDecisionSummaryCard } from '../ui/executive-decision-summary-card';
+import { ExecutiveDecisionSynthesisEngine } from '../../core/runtime/executive-consolidation/ExecutiveDecisionSynthesisEngine';
 import { ExecutiveNarrative } from '../ui/executive-narrative';
 import { ExecutiveMetricCard } from '../ui/executive-metric-card';
 import { ExecutiveTechnicalMetricCard } from '../ui/executive-technical-metric-card';
-import { ExecutiveTable, ExecutiveTableHeader, ExecutiveTableBody, ExecutiveTableRow, ExecutiveTableHead, ExecutiveTableCell } from '../ui/executive-table';
+
 import { cn, formatCurrency, formatValue } from '../../lib/utils';
 import { PageHeader, KpiValue } from '../Common';
 import { useAnnualFinancialData, useAllFinancialData } from '../../hooks/useFinancialData';
@@ -513,6 +517,25 @@ export function DLPAPage({ clients, selectedClient, selectedYear }: any) {
 
   const executiveLayer = (capitalGov as any)?.executiveLayer;
 
+  const dlpaPayload = useMemo(() => {
+    if (!executiveLayer) return null;
+    return ExecutiveDecisionSynthesisEngine.generatePayload({
+      moduleContext: 'DLPA',
+      activeFiduciaryRestrictions: [],
+      fiduciaryClassification: 'HEALTHY',
+      mathematicalClassification: '',
+      globalScore: 75,
+      primaryIndicators: {},
+      technicalDrivers: {
+        lucroLiquido: dlpaMetrics?.lucroLiquido || 0,
+        dividendosPagos: dlpaMetrics?.dividendos || 0,
+        payoutRatio: (dlpaMetrics?.lucroLiquido || 0) > 0 ? (dlpaMetrics?.dividendos || 0) / (dlpaMetrics?.lucroLiquido || 1) : 0
+      },
+      contextualAlerts: []
+    });
+  }, [executiveLayer, dlpaMetrics]);
+
+
   const capitalSocialValue = dlpaMetrics?.capitalSocial ?? 0;
 
   const cpi = useMemo(() => {
@@ -875,34 +898,9 @@ export function DLPAPage({ clients, selectedClient, selectedYear }: any) {
                 </ExecutiveSurface>
 
                 <div className="col-span-1 xl:col-span-8 h-full">
-                  <ExecutiveDecisionMemo
-                    icon={<Activity />}
-                    title="Síntese Executiva Advisory"
-                    className="h-full"
-                    narrative={
-                      <div className="space-y-4">
-                        {executiveLayer.boardAdvisory?.narrative?.split('\n\n').map((paragraph: string, idx: number) => {
-                          if (!paragraph.trim()) return null;
-                          const colonIndex = paragraph.indexOf(':');
-                          if (colonIndex > 0 && colonIndex < 40) {
-                            const title = paragraph.substring(0, colonIndex + 1);
-                            const rest = paragraph.substring(colonIndex + 1);
-                            return (
-                              <p key={idx} className="text-sm text-foreground/80 leading-relaxed font-medium">
-                                <span className="font-bold text-foreground">{title}</span>
-                                {rest}
-                              </p>
-                            );
-                          }
-                          return (
-                            <p key={idx} className="text-sm text-foreground/80 leading-relaxed font-medium">
-                              {paragraph}
-                            </p>
-                          );
-                        })}
-                      </div>
-                    }
-                  />
+                  {dlpaPayload && (
+                    <ExecutiveDecisionSummaryCard payload={dlpaPayload} moduleName="Distribuição de Valor (DLPA)" className="h-full" />
+                  )}
                 </div>
               </div>
 
@@ -1145,41 +1143,36 @@ export function DLPAPage({ clients, selectedClient, selectedYear }: any) {
               {/* --- 3. GRÁFICOS & MAPA DE GOVERNANÇA (Originalmente 1. Lucro vs Distribuição e 2. Radar) --- */}
               <div className="grid grid-cols-1 xl:grid-cols-2 gap-6 mb-6">
                 
-                <ExecutiveChart 
+                <ExecutiveHistoricalEvolutionCard 
                   title="Lucro vs Distribuição Histórica"
                   description="Evolução dos últimos 5 anos de destinação de resultados."
-                  height={300}
+                  insight={HistoricalInsightEngine.generateExecutiveNarrative(
+                    { module: 'DLPA', globalFiduciaryStatus: 'NEUTRAL' },
+                    { profit: { metricName: 'Lucro', data: chartData.map((d: any) => ({ year: d.year, value: d.LucroLíquido })) } }
+                  )}
+                  legendItems={[
+                    { label: 'Lucro Líquido', colorKey: 'profit' },
+                    { label: 'Dividendos', colorKey: 'liability' },
+                    { label: 'Reserva Legal', colorKey: 'primary' }
+                  ]}
                 >
-                  <ComposedChart data={chartData} margin={{ top: 10, right: 10, left: 0, bottom: 0 }}>
-                    <ExecutiveChartGrid vertical={false} />
-                    <ExecutiveChartXAxis dataKey="year" dy={8} />
-                    <ExecutiveChartTooltip 
-                      content={({ active, payload }: any) => {
-                        if (active && payload && payload.length) {
-                          return (
-                            <div className="bg-card p-4 rounded-2xl shadow-xl border border-border">
-                              <p className="text-secondary">{payload[0]?.payload?.year}</p>
-                              {payload.map((p: any, i: number) => (
-                                <div key={i} className="flex items-center justify-between gap-6 mb-1">
-                                  <div className="flex items-center gap-2">
-                                    <div className="w-2 h-2 rounded-full" style={{ backgroundColor: p.color }} />
-                                    <span className="text-[10px] font-bold text-muted-foreground uppercase">{p.name}</span>
-                                  </div>
-                                  <span className="text-xs font-black text-muted-foreground">{formatCurrency(p.value)}</span>
-                                </div>
-                              ))}
-                            </div>
-                          );
-                        }
-                        return null;
-                      }}
-                    />
-                    <Bar dataKey="LucroLíquido" name="Lucro Líquido" fill="#3b82f6" radius={[5, 5, 0, 0]} maxBarSize={40} />
-                    <Bar dataKey="Dividendos"   name="Dividendos"    fill="#f43f5e" radius={[5, 5, 0, 0]} maxBarSize={40} />
-                    <Line type="monotone" dataKey="ReservaLegal" name="Reserva Legal" stroke="#8b5cf6" strokeWidth={3}
-                      dot={{ r: 4, fill: '#8b5cf6', strokeWidth: 2, stroke: '#fff' }} />
-                  </ComposedChart>
-                </ExecutiveChart>
+                  <div style={{ height: 300 }} className="w-full mt-4 relative">
+                    <ResponsiveContainer width="100%" height="100%">
+                      <ExecutiveComposedChart data={chartData} margin={{ top: 10, right: 10, left: 0, bottom: 0 }}>
+                        <ExecutiveChartGrid vertical={false} />
+                        <ExecutiveChartXAxis dataKey="year" dy={8} />
+                        <ExecutiveChartTooltip 
+                          formatter={(value: number) => formatCurrency(value)}
+                          labelStyle={{ color: 'var(--color-muted-foreground)', fontWeight: 'bold' }}
+                        />
+                        <ExecutiveBar dataKey="LucroLíquido" name="Lucro Líquido" fill={ExecutiveChartSemanticPalette.profit} radius={[5, 5, 0, 0]} maxBarSize={40} />
+                        <ExecutiveBar dataKey="Dividendos"   name="Dividendos"    fill={ExecutiveChartSemanticPalette.liability} radius={[5, 5, 0, 0]} maxBarSize={40} />
+                        <ExecutiveLine type="monotone" dataKey="ReservaLegal" name="Reserva Legal" stroke={ExecutiveChartSemanticPalette.primary} strokeWidth={3}
+                          dot={{ r: 4, fill: ExecutiveChartSemanticPalette.primary, strokeWidth: 2, stroke: '#fff' }} />
+                      </ExecutiveComposedChart>
+                    </ResponsiveContainer>
+                  </div>
+                </ExecutiveHistoricalEvolutionCard>
 
                 {/* Radar de Governança Integrado */}
                 <ExecutiveSurface padding="xl" radius="xl" className="bg-foreground text-white shadow-2xl relative overflow-hidden flex flex-col">

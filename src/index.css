@@ -106,12 +106,34 @@
   --color-warning: #B7791F;
   --color-info: #0E1C2C;
   
-  /* Chart Colors (Executive Standard) */
-  --color-chart-1: #0E1C2C;
-  --color-chart-2: #FF8552;
-  --color-chart-3: #BAB86C;
+  /* Chart Colors (Executive Standard Canonical Framework v1.0) */
+  --chart-primary: #0E1C2C;
+  --chart-secondary: #FF8552;
+  --chart-tertiary: #BAB86C;
+  
+  --chart-asset: #0E1C2C;           /* Azul Institucional */
+  --chart-liability: #6B7280;       /* Cinza Executivo */
+  --chart-equity: #FF8552;          /* Laranja Institucional */
+  
+  --chart-revenue: #0E1C2C;         /* Azul Institucional */
+  --chart-profit: #0C7A3A;          /* Verde Institucional */
+  --chart-expense: #B91C1C;         /* Vermelho Institucional */
+  
+  --chart-cash: #0F4C5C;            /* Azul Petróleo */
+  --chart-negative-flow: #B91C1C;   /* Vermelho Institucional */
+  
+  --chart-projection: #94A3B8;      /* Slate 400 */
+  --chart-benchmark: #64748B;       /* Slate 500 */
+  
+  --chart-margin: #BAB86C;
+  --chart-rate: #FF8552;
+  
+  /* Legacy mappings to prevent breaks */
+  --color-chart-1: var(--chart-primary);
+  --color-chart-2: var(--chart-secondary);
+  --color-chart-3: var(--chart-tertiary);
   --color-chart-4: #E5E5E5;
-  --color-chart-5: #6B7280;
+  --color-chart-5: var(--chart-liability);
   
   /* Surface Variants */
   --color-surface-low: #FFFFFF;

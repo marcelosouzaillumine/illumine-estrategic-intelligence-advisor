@@ -53,7 +53,7 @@ export function DRETechnicalLayerSection({ viewModel }: Props) {
               <StatusBadge status="info" label={translateLabel('Análise Horizontal e Vertical')} />
             </div>
             <div className="overflow-x-auto">
-              <ExecutiveTable empty={viewModel.rows.length === 0}>
+              <ExecutiveTable >
                 <ExecutiveTableHeader>
                   <ExecutiveTableRow>
                     <ExecutiveTableHead className="w-[300px]">{translateLabel('Conta')}</ExecutiveTableHead>

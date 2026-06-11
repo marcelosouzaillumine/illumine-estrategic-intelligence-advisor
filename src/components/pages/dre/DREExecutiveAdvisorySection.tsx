@@ -1,62 +1,42 @@
-import React from 'react';
-import { Briefcase } from 'lucide-react';
+import React, { useMemo } from 'react';
 import { useLanguage } from '../../../contexts/LanguageContext';
 import { DREExecutiveAdvisorySectionViewModel } from './view-models';
-import { ExecutiveDecisionMemo } from '../../ui/executive-decision-memo';
-import { ExecutiveNarrative } from '../../ui/executive-narrative';
+import { ExecutiveDecisionSummaryCard } from '../../ui/executive-decision-summary-card';
+import { ExecutiveDecisionSynthesisEngine } from '../../../core/runtime/executive-consolidation/ExecutiveDecisionSynthesisEngine';
+import { ExecutiveAnalysisContext } from '../../../core/runtime/executive-consolidation/StrategicOpinionConsistencyEngine';
 
 interface Props {
   viewModel?: DREExecutiveAdvisorySectionViewModel;
+  context?: ExecutiveAnalysisContext;
 }
 
-export function DREExecutiveAdvisorySection({ viewModel }: Props) {
+export function DREExecutiveAdvisorySection({ viewModel, context }: Props) {
   const { t } = useLanguage();
 
-  if (!viewModel) return null;
+  const payload = useMemo(() => {
+    if (context) {
+      return ExecutiveDecisionSynthesisEngine.generatePayload(context);
+    }
+    return null;
+  }, [context]);
 
+  if (!payload && !viewModel) return null;
+
+  if (payload) {
+    return (
+      <div className="mb-10 mt-10">
+        <ExecutiveDecisionSummaryCard payload={payload} moduleName="Demonstração do Resultado" />
+      </div>
+    );
+  }
+
+  // Fallback para legado
   return (
-    <div className="mb-10">
-      <ExecutiveDecisionMemo
-        icon={<Briefcase />}
-        title={t('dre.advisory.title')}
-        subtitle={t('dre.advisory.subtitle')}
-        thesis={viewModel.hasFullAdvisory ? "Síntese Estratégica da Demonstração de Resultados" : undefined}
-        narrative={
-          viewModel.hasFullAdvisory ? (
-            <div className="flex flex-col gap-6 mt-2 w-full">
-              {viewModel.situacaoAtual && (
-                <ExecutiveNarrative variant="summary" title="Situação Atual">
-                  {viewModel.situacaoAtual}
-                </ExecutiveNarrative>
-              )}
-              {viewModel.restricaoPrincipal && (
-                <ExecutiveNarrative variant="risk" title="Principal Restrição">
-                  {viewModel.restricaoPrincipal}
-                </ExecutiveNarrative>
-              )}
-              {viewModel.oportunidadePrincipal && (
-                <ExecutiveNarrative variant="insight" title="Principal Oportunidade">
-                  {viewModel.oportunidadePrincipal}
-                </ExecutiveNarrative>
-              )}
-              {viewModel.prioridadeEstrategica && (
-                <ExecutiveNarrative variant="board-note" title="Prioridade Estratégica">
-                  {viewModel.prioridadeEstrategica}
-                </ExecutiveNarrative>
-              )}
-              {viewModel.outlook && (
-                <ExecutiveNarrative variant="summary" title="Perspectiva">
-                  {viewModel.outlook}
-                </ExecutiveNarrative>
-              )}
-            </div>
-          ) : (
-            <ExecutiveNarrative variant="summary">
-              {viewModel.simpleAdvisoryText}
-            </ExecutiveNarrative>
-          )
-        }
-      />
+    <div className="mb-10 mt-10">
+      <div className="p-6 bg-surface-high border border-border rounded-lg shadow-sm">
+        <h3 className="text-sm font-bold text-foreground mb-4">{t('dre.advisory.title')}</h3>
+        <p className="text-sm text-muted-foreground">{viewModel?.simpleAdvisoryText}</p>
+      </div>
     </div>
   );
 }

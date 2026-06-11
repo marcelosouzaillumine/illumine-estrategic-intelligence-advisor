@@ -765,6 +765,7 @@ export function BalanceSheetPage({ clients, selectedClient, selectedYear }: any)
           {executiveReport && (
             <BalanceSheetExecutiveSynthesisSection 
               executiveNarrative={executiveReport.patrimonialIntelligenceReport?.executiveNarrative || 'Nenhuma narrativa disponível para este exercício.'}
+              context={executiveReport.patrimonialIntelligenceReport?.analyticalContext}
             />
           )}
         </>

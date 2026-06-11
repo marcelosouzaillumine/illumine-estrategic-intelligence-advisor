@@ -1,5 +1,6 @@
 import React from 'react';
 import { useLanguage } from '../../../contexts/LanguageContext';
+import { ResponsiveContainer } from 'recharts';
 import { 
   ExecutiveBarChart, 
   ExecutiveBar, 
@@ -47,18 +48,20 @@ export function DREChartsSection({ viewModel }: Props) {
             <span className="text-muted-foreground text-sm italic">Nenhum dado disponível para este gráfico.</span>
           </div>
         ) : (
-          <ExecutiveBarChart data={viewModel.data} margin={{ top: 10, right: 10, left: 10, bottom: 0 }}>
-            <ExecutiveChartGrid vertical={false} />
-            <ExecutiveChartXAxis dataKey="year" dy={10} />
-            <ExecutiveChartTooltip 
-              formatter={(value: any) => formatCurrency(Number(value))}
-              cursor={{ fill: 'var(--color-muted)', opacity: 0.2 }}
-            />
-            <ExecutiveBar dataKey="receita" name="Receita Líquida" fill={ExecutiveChartSemanticPalette.revenue} radius={[4, 4, 0, 0]} />
-            <ExecutiveBar dataKey="cmv" name={viewModel.cmvLabel} fill={ExecutiveChartSemanticPalette.liability} radius={[4, 4, 0, 0]} />
-            <ExecutiveBar dataKey="ebitda" name="EBITDA" fill={ExecutiveChartSemanticPalette.profit} radius={[4, 4, 0, 0]} />
-            <ExecutiveBar dataKey="lucro" name="Resultado Líquido" fill={ExecutiveChartSemanticPalette.equity} radius={[4, 4, 0, 0]} />
-          </ExecutiveBarChart>
+          <ResponsiveContainer width="100%" height="100%">
+            <ExecutiveBarChart data={viewModel.data} margin={{ top: 10, right: 10, left: 10, bottom: 0 }}>
+              <ExecutiveChartGrid vertical={false} />
+              <ExecutiveChartXAxis dataKey="year" dy={10} />
+              <ExecutiveChartTooltip 
+                formatter={(value: any) => formatCurrency(Number(value))}
+                cursor={{ fill: 'var(--color-muted)', opacity: 0.2 }}
+              />
+              <ExecutiveBar dataKey="receita" name="Receita Líquida" fill={ExecutiveChartSemanticPalette.revenue} radius={[4, 4, 0, 0]} />
+              <ExecutiveBar dataKey="cmv" name={viewModel.cmvLabel} fill={ExecutiveChartSemanticPalette.liability} radius={[4, 4, 0, 0]} />
+              <ExecutiveBar dataKey="ebitda" name="EBITDA" fill={ExecutiveChartSemanticPalette.profit} radius={[4, 4, 0, 0]} />
+              <ExecutiveBar dataKey="lucro" name="Resultado Líquido" fill={ExecutiveChartSemanticPalette.equity} radius={[4, 4, 0, 0]} />
+            </ExecutiveBarChart>
+          </ResponsiveContainer>
         )}
       </div>
     </ExecutiveHistoricalEvolutionCard>

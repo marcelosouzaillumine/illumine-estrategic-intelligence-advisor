@@ -577,7 +577,23 @@ export function DREPage({ clients, selectedClient, selectedYear }: any) {
 
       {/* 6. EXECUTIVE ADVISORY — Bloco unificado */}
       {isSectionVisible('DRE_ADVISORY') && executiveAdvisoryVM && (
-        <DREExecutiveAdvisorySection viewModel={executiveAdvisoryVM} />
+        <DREExecutiveAdvisorySection 
+          viewModel={executiveAdvisoryVM} 
+          context={{
+            moduleContext: 'DRE',
+            activeFiduciaryRestrictions: [],
+            fiduciaryClassification: economicDiagnosis?.status || 'HEALTHY',
+            mathematicalClassification: '',
+            globalScore: 70,
+            primaryIndicators: {},
+            technicalDrivers: {
+              receitaLiquida: recLiquida,
+              ebitda: ebitda,
+              margemEbitda: (recLiquida > 0 ? ebitda / recLiquida : 0)
+            },
+            contextualAlerts: []
+          }}
+        />
       )}
 
       {/* 7. CAMADA TÉCNICA (COLAPSADA) */}

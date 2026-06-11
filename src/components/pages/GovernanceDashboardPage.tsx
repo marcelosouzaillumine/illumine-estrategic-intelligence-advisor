@@ -406,56 +406,47 @@ export function GovernanceDashboardPage({
       </div>
 
       <div className="grid grid-cols-1 xl:grid-cols-2 gap-10">
-        {/* Radar Analysis */}
-        <ExecutiveChart
-          title={t('gov.radar.title')}
-          description={t('gov.radar.subtitle')}
-          height={380}
-          className="h-full border-border"
-        >
-          <GovRadarChart cx="50%" cy="50%" outerRadius="80%" data={radarData}>
-             <defs>
-                <linearGradient id="radarScoreGrad" x1="0" y1="0" x2="1" y2="1">
-                   <stop offset="0%" stopColor="var(--color-chart-1)" stopOpacity={0.65} />
-                   <stop offset="100%" stopColor="var(--color-chart-2)" stopOpacity={0.2} />
-                </linearGradient>
-                <linearGradient id="radarTargetGrad" x1="0" y1="0" x2="1" y2="1">
-                   <stop offset="0%" stopColor="var(--color-chart-3)" stopOpacity={0.15} />
-                   <stop offset="100%" stopColor="var(--color-chart-3)" stopOpacity={0.02} />
-                </linearGradient>
-             </defs>
-             
-             <PolarGrid stroke="var(--color-border)" opacity={0.6} />
-             <PolarAngleAxis 
-               dataKey="area" 
-               tick={{ fill: 'var(--color-muted-foreground)', fontSize: 10, fontWeight: '900', letterSpacing: '0.05em' }}
-             />
-             <PolarRadiusAxis angle={30} domain={[0, 100]} tick={false} axisLine={false} />
-             
-             <Radar
-               name={t('gov.radar.target')}
-               dataKey="target"
-               stroke="var(--color-chart-3)"
-               fill="url(#radarTargetGrad)"
-               fillOpacity={0.2}
-               strokeWidth={1.5}
-               strokeDasharray="4 4"
-               dot={{ r: 3.5, stroke: 'var(--color-chart-3)', strokeWidth: 1, fill: 'var(--color-card)' }}
-             />
-             
-             <Radar
-               name={t('gov.radar.score')}
-               dataKey="score"
-               stroke="var(--color-chart-1)"
-               fill="url(#radarScoreGrad)"
-               fillOpacity={0.55}
-               strokeWidth={2.5}
-               dot={{ r: 4.5, stroke: 'var(--color-chart-1)', strokeWidth: 1.5, fill: 'var(--color-card)' }}
-             />
-             
-             <ExecutiveChartTooltip />
-          </GovRadarChart>
-        </ExecutiveChart>
+        <ExecutiveSurface className="h-full border-border">
+          <div style={{ height: 380 }} className="w-full relative">
+            <ResponsiveContainer width="100%" height="100%">
+              <GovRadarChart cx="50%" cy="50%" outerRadius="80%" data={radarData}>
+                 <defs>
+                    <linearGradient id="radarScoreGrad" x1="0" y1="0" x2="1" y2="1">
+                       <stop offset="0%" stopColor="var(--color-chart-1)" stopOpacity={0.9} />
+                       <stop offset="100%" stopColor="var(--color-chart-1)" stopOpacity={0.4} />
+                    </linearGradient>
+                 </defs>
+                 
+                 <PolarGrid stroke="var(--color-border)" strokeWidth={1.5} />
+                 
+                 <PolarAngleAxis 
+                   dataKey="subject" 
+                   tick={{ fill: 'var(--color-foreground)', fontSize: 11, fontWeight: 700 }}
+                   stroke="transparent"
+                 />
+                 
+                 <PolarRadiusAxis 
+                   angle={30} 
+                   domain={[0, 100]} 
+                   tick={false} 
+                   axisLine={false} 
+                 />
+                 
+                 <Radar 
+                   name="Score Real" 
+                   dataKey="A" 
+                   stroke="var(--color-chart-1)" 
+                   fill="url(#radarScoreGrad)" 
+                   fillOpacity={0.55}
+                   strokeWidth={2.5}
+                   dot={{ r: 4.5, stroke: 'var(--color-chart-1)', strokeWidth: 1.5, fill: 'var(--color-card)' }}
+                 />
+                 
+                 <ExecutiveChartTooltip />
+              </GovRadarChart>
+            </ResponsiveContainer>
+          </div>
+        </ExecutiveSurface>
 
         {/* Strategic Insights */}
         <ExecutiveSurface padding="xl" className="flex flex-col justify-between h-full border-border shadow-inner">

@@ -1,14 +1,7 @@
 import React, { useState, useEffect, useMemo } from 'react';
 import { createPortal } from 'react-dom';
 import { Calendar, Loader2, Upload, Trash2, Plus, WalletCards, Database, TrendingUp, TrendingDown, Info, BarChart3 } from 'lucide-react';
-import { ResponsiveContainer, BarChart, Bar, LineChart, Line, Cell, PieChart, Pie, RadarChart, PolarGrid, PolarAngleAxis, PolarRadiusAxis, Radar, ComposedChart } from 'recharts';
-import { 
-  ExecutiveChart,
-  ExecutiveChartGrid,
-  ExecutiveChartXAxis,
-  ExecutiveChartYAxis,
-  ExecutiveChartTooltip
-} from '../ui/executive-chart';
+import { ResponsiveContainer, PieChart, Pie, RadarChart, PolarGrid, PolarAngleAxis, PolarRadiusAxis, Radar } from 'recharts';
 import { cn, formatCurrency, formatValue } from '../../lib/utils';
 import { PageHeader, KpiCard } from '../Common';
 import { MetricTile } from '../ui/metric-tile';
@@ -19,6 +12,14 @@ import { PageSection } from '../ui/page-section';
 import { ExecutiveNarrative } from '../ui/executive-narrative';
 import { ExecutiveCallout } from '../ui/executive-callout';
 import { ExecutiveTable, ExecutiveTableHeader, ExecutiveTableBody, ExecutiveTableRow, ExecutiveTableHead, ExecutiveTableCell } from '../ui/executive-table';
+import { ExecutiveHistoricalEvolutionCard } from '../ui/executive-historical-evolution-card';
+import { ExecutiveDecisionSummaryCard } from '../ui/executive-decision-summary-card';
+import { ExecutiveDecisionSynthesisEngine } from '../../core/runtime/executive-consolidation/ExecutiveDecisionSynthesisEngine';
+import { 
+  ExecutiveComposedChart, ExecutiveBar, ExecutiveLine, ExecutiveChartGrid, ExecutiveChartXAxis, ExecutiveChartYAxis, ExecutiveChartTooltip 
+} from '../ui/executive-chart';
+import { ExecutiveChartSemanticPalette } from '../../core/theme/ExecutiveChartSemanticPalette';
+import { HistoricalInsightEngine, HistoricalSeries } from '../../core/runtime/executive-consolidation/HistoricalInsightEngine';
 import { useAnnualFinancialData, useAllFinancialData } from '../../hooks/useFinancialData';
 import { useInstitutionalRuntime } from '../../hooks/useInstitutionalRuntime';
 import { useLanguage } from '../../contexts/LanguageContext';
@@ -255,6 +256,26 @@ export function DFCPage({ clients, selectedClient, selectedYear }: any) {
   const semanticSource = semanticAudit?.canonicalRoot ?? dfcInference?.semanticSource ?? 'LEGACY';
   const lifecycleStage = semanticAudit?.lifecycleStage ?? semanticContext?.lifecycleStage ?? outputAny?.institutionalContext?.lifecycleStage ?? 'ESTABLISHED_ANALYSIS';
   const lifecycleLabel = semanticAudit?.lifecycleLabel ?? semanticContext?.lifecycleLabel ?? (lifecycleStage === 'INITIAL_CAPITALIZATION' ? 'Fase Inicial de Capitalização' : lifecycleStage);
+
+  const dfcPayload = useMemo(() => {
+    if (!dfcInference) return null;
+    return ExecutiveDecisionSynthesisEngine.generatePayload({
+      moduleContext: 'DFC',
+      activeFiduciaryRestrictions: [],
+      fiduciaryClassification: dfcInference?.executiveLifecycleContext?.executiveBadge || 'HEALTHY',
+      mathematicalClassification: '',
+      globalScore: dfcInference?.metrics?.fco > 0 ? 80 : 40,
+      primaryIndicators: {
+        liquidityScore: dfcInference?.metrics?.fco > 0 ? 80 : 40
+      },
+      technicalDrivers: {
+        fco: dfcInference?.metrics?.fco,
+        caixaLivre: dfcInference?.metrics?.fcf,
+        runway: 12 // Optional default for fallback
+      },
+      contextualAlerts: []
+    });
+  }, [dfcInference]);
   
   const executiveDisplay = metrics.semanticDisplays?.executiveDisplay;
 
@@ -589,63 +610,51 @@ export function DFCPage({ clients, selectedClient, selectedYear }: any) {
 
       {/* Histórico de Fluxos de Caixa Chart */}
       {viewMode === 'oficial' && (
-          <ExecutiveChart 
+          <ExecutiveHistoricalEvolutionCard 
             title="Histórico de Fluxos de Caixa"
             description="Evolução comparativa de geração, investimentos, financiamentos e resultado contábil"
-            height={320}
             className="mb-10"
-            empty={!chartData || chartData.length === 0}
+            insight={HistoricalInsightEngine.generateExecutiveNarrative(
+              { module: 'DFC', globalFiduciaryStatus: metrics.fiduciary?.lifecycleProfile?.lifecycleStage || 'NEUTRAL' },
+              { cash: { metricName: 'Caixa', data: chartData.map((d: any) => ({ year: d.year, value: d.operacional })) } }
+            )}
+            legendItems={[
+              { label: 'FCO', colorKey: 'profit' },
+              { label: 'FCI', colorKey: 'benchmark' },
+              { label: 'FCF', colorKey: 'primary' },
+              { label: 'Lucro Líquido', colorKey: 'equity' }
+            ]}
           >
-            <ComposedChart data={chartData} margin={{ top: 10, right: 10, left: 10, bottom: 0 }}>
-              <ExecutiveChartGrid vertical={false} />
-              <ExecutiveChartXAxis dataKey="year" dy={10} />
-              <ExecutiveChartYAxis 
-                tickFormatter={(val: number) => {
-                  if (Math.abs(val) >= 1_000_000) return `R$ ${(val / 1_000_000).toFixed(1)}M`;
-                  if (Math.abs(val) >= 1_000) return `R$ ${(val / 1_000).toFixed(0)}k`;
-                  return `R$ ${val}`;
-                }}
-              />
-              <ExecutiveChartTooltip 
-                cursor={{ fill: 'rgba(14, 28, 44, 0.03)' }}
-                content={({ active, payload }: any) => {
-                  if (active && payload && payload.length) {
-                    return (
-                      <div className="bg-foreground text-white p-4 rounded-2xl shadow-2xl border border-white/10 backdrop-blur-md">
-                        <p className="text-[10px] font-black uppercase tracking-widest mb-2 text-white/50">
-                          Ano {payload[0].payload.year}
-                        </p>
-                        <div className="space-y-1.5 min-w-[180px]">
-                          {payload.map((p: any, idx: number) => {
-                            let name = p.name;
-                            if (p.dataKey === 'operacional') name = 'FCO';
-                            else if (p.dataKey === 'investimento') name = 'FCI';
-                            else if (p.dataKey === 'financiamento') name = 'FCF';
-                            else if (p.dataKey === 'lucroLiquido') name = 'Lucro Líquido';
-
-                            return (
-                              <div key={idx} className="flex items-center justify-between gap-8">
-                                <div className="flex items-center gap-1.5">
-                                  <div className="w-2 h-2 rounded-full" style={{ backgroundColor: p.color || p.stroke }} />
-                                  <span className="text-[10px] font-bold text-white/70 uppercase">{name}</span>
-                                </div>
-                                <span className="text-xs font-black font-mono">{formatCurrency(p.value)}</span>
-                              </div>
-                            );
-                          })}
-                        </div>
-                      </div>
-                    );
-                  }
-                  return null;
-                }}
-              />
-              <Bar dataKey="operacional" name="FCO" fill="var(--foreground)" radius={[4, 4, 0, 0]} />
-              <Bar dataKey="investimento" name="FCI" fill="var(--secondary)" radius={[4, 4, 0, 0]} />
-              <Bar dataKey="financiamento" name="FCF" fill="#BAB86C" radius={[4, 4, 0, 0]} />
-              <Line type="monotone" dataKey="lucroLiquido" name="Lucro Líquido" stroke="#a855f7" strokeWidth={3} dot={{ r: 4, strokeWidth: 2 }} activeDot={{ r: 6 }} />
-            </ComposedChart>
-          </ExecutiveChart>
+            <div style={{ height: 320 }} className="w-full mt-4">
+              {(!chartData || chartData.length === 0) ? (
+                <div className="absolute inset-0 flex items-center justify-center bg-surface-high/50 rounded-lg">
+                  <span className="text-muted-foreground text-sm italic">Nenhum dado disponível para este gráfico.</span>
+                </div>
+              ) : (
+                <ResponsiveContainer width="100%" height="100%">
+                  <ExecutiveComposedChart data={chartData} margin={{ top: 10, right: 10, left: 10, bottom: 0 }}>
+                    <ExecutiveChartGrid vertical={false} />
+                    <ExecutiveChartXAxis dataKey="year" dy={10} />
+                    <ExecutiveChartYAxis 
+                      tickFormatter={(val: number) => {
+                        if (Math.abs(val) >= 1_000_000) return `R$ ${(val / 1_000_000).toFixed(1)}M`;
+                        if (Math.abs(val) >= 1_000) return `R$ ${(val / 1_000).toFixed(0)}k`;
+                        return `R$ ${val}`;
+                      }}
+                    />
+                    <ExecutiveChartTooltip 
+                      formatter={(value: number) => formatCurrency(value)}
+                      labelStyle={{ color: 'var(--color-muted-foreground)', fontWeight: 'bold' }}
+                    />
+                    <ExecutiveBar dataKey="operacional" name="FCO" fill={ExecutiveChartSemanticPalette.profit} radius={[4, 4, 0, 0]} />
+                    <ExecutiveBar dataKey="investimento" name="FCI" fill={ExecutiveChartSemanticPalette.benchmark} radius={[4, 4, 0, 0]} />
+                    <ExecutiveBar dataKey="financiamento" name="FCF" fill={ExecutiveChartSemanticPalette.primary} radius={[4, 4, 0, 0]} />
+                    <ExecutiveLine type="monotone" dataKey="lucroLiquido" name="Lucro Líquido" stroke={ExecutiveChartSemanticPalette.equity} strokeWidth={3} dot={{ r: 4, strokeWidth: 2 }} activeDot={{ r: 6 }} />
+                  </ExecutiveComposedChart>
+                </ResponsiveContainer>
+              )}
+            </div>
+          </ExecutiveHistoricalEvolutionCard>
       )}
       
       {viewMode === 'fiduciario' && (() => {
@@ -1757,19 +1766,9 @@ export function DFCPage({ clients, selectedClient, selectedYear }: any) {
       )}
 
       {/* Advisory Institutions Layer */}
-      {viewMode === 'oficial' && dfcInference?.narrative && (
-        <div className="bg-gradient-to-br from-foreground via-foreground to-[#07111C] text-white p-8 rounded-[32px] shadow-xl relative overflow-hidden mb-10 border border-white/5">
-          <div className="absolute top-0 right-0 w-64 h-64 bg-secondary/10 rounded-full blur-3xl -mr-32 -mt-32 pointer-events-none" />
-          <p className="text-[10px] text-secondary uppercase font-bold tracking-widest mb-1 relative z-10">Diagnóstico de Caixa & Estratégia</p>
-          <div className="flex items-center justify-between mb-6 flex-wrap gap-4 relative z-10">
-            <div className="flex items-center gap-3">
-              <Info size={22} className="text-secondary" />
-              <h3 className="text-xl font-black tracking-tight text-white">Advisory Institucional</h3>
-            </div>
-          </div>
-          <p className="text-secondary">
-            {dfcInference.narrative.executiveNarrative || dfcInference.narrative.diagnostic}
-          </p>
+      {viewMode === 'oficial' && dfcPayload && (
+        <div className="mb-10">
+          <ExecutiveDecisionSummaryCard payload={dfcPayload} moduleName="Fluxo de Caixa (DFC)" />
         </div>
       )}
       {showImportModal && (

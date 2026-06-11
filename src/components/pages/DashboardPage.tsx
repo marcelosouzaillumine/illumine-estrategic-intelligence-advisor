@@ -1,4 +1,6 @@
 import React, { useMemo, useEffect, useState, useCallback } from 'react';
+import { ResponsiveContainer } from "recharts";
+
 import { motion, AnimatePresence } from 'motion/react';
 import { 
   Calendar, 
@@ -548,14 +550,13 @@ export function DashboardPage({
       {/* Mid Section: Charts and AI */}
       <div className="grid grid-cols-1 xl:grid-cols-3 gap-10">
         <div className="xl:col-span-2 space-y-8">
-          <ExecutiveChart 
-            title={t('dashboard.charts.evolution_title')}
-            description={t('dashboard.charts.evolution_subtitle')}
-            height={400}
-            className="p-8 md:p-12 pb-0"
-          >
-            <DashboardEvolutionChart data={evolData} colors={colors} formatCurrency={formatCurrency} />
-          </ExecutiveChart>
+          <ExecutiveSurface className="p-8 md:p-12 pb-0">
+            <div style={{ height: 400 }} className="w-full relative">
+              <ResponsiveContainer width="100%" height="100%">
+                <DashboardEvolutionChart data={evolData} colors={colors} formatCurrency={formatCurrency} />
+              </ResponsiveContainer>
+            </div>
+          </ExecutiveSurface>
   
           <div className="space-y-10 h-full">
             <SemanticCard variant="insight" className="h-full flex flex-col justify-between">
