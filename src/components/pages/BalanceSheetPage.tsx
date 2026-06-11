@@ -520,17 +520,6 @@ export function BalanceSheetPage({ clients, selectedClient, selectedYear }: any)
           <div className="flex items-center gap-4">
             <StatusBadge status={executiveReport?.isSandbox || executiveReport?.isDemonstrative ? 'SANDBOX' : ((executiveReport as any)?.status || 'UNAVAILABLE')} />
             <BalanceSheetDataSourceStatus hasRealData={hasData} loading={loadingBP} />
-            
-            {hasData && executiveReport?.context?.segment && (
-              <div className="hidden md:flex items-center gap-2 border-l border-border pl-4 ml-1">
-                <span className="bg-primary/5 text-primary border border-primary/10 px-3 py-1.5 rounded-full text-[10px] font-black uppercase tracking-widest">
-                  {executiveReport.context.segment}
-                </span>
-                <span className="bg-surface-container text-muted-foreground border border-border px-3 py-1.5 rounded-full text-[10px] font-bold uppercase tracking-widest">
-                  Nível {maturidade}
-                </span>
-              </div>
-            )}
           </div>
           <BalanceSheetYearFilter filterYear={filterYear} onChangeYear={setFilterYear} />
         </div>
