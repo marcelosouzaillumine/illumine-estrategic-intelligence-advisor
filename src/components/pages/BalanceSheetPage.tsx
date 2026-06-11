@@ -22,6 +22,7 @@ import { BalanceSheetWaterfallChartSection } from './balance-sheet/BalanceSheetW
 import { BalanceSheetEvolutionAnalysisSection } from './balance-sheet/BalanceSheetEvolutionAnalysisSection';
 import { BalanceSheetCompositionChartsSection } from './balance-sheet/BalanceSheetCompositionChartsSection';
 import { ExecutiveExposureCard } from '../ui/executive-exposure-card';
+import { BalanceSheetExecutiveSynthesisSection } from './balance-sheet/BalanceSheetExecutiveSynthesisSection';
 import { BalanceSheetStructuralTablesSection } from './balance-sheet/BalanceSheetStructuralTablesSection';
 import { BalanceSheetCapitalPreservationSection } from './balance-sheet/BalanceSheetCapitalPreservationSection';
 import { mapIndicatorsToViewModels, mapInstitutionalContextToViewModel, mapRiskDivergenceToViewModel, mapTechnicalLayerToViewModel, mapAuditLayerToViewModel, mapFinancialAnalyticsToViewModels } from './balance-sheet/mappers';
@@ -30,7 +31,7 @@ import { useLanguage } from '../../contexts/LanguageContext';
 
 import { useAnnualFinancialData, useAllFinancialData } from '../../hooks/useFinancialData';
 
-import { ExecutiveCommentary } from '../ExecutiveCommentary';
+
 import { ImportFinancialModal } from '../modals/ImportFinancialModal';
 import { ManualFinancialModal } from '../modals/ManualFinancialModal';
 import { buildBPHierarchy } from '../../lib/bpEngine';
@@ -735,12 +736,8 @@ export function BalanceSheetPage({ clients, selectedClient, selectedYear }: any)
 
 
       {!executiveReport ? null : (
-        <ExecutiveCommentary
-          reportType="Balance Sheet Intelligence"
-          clientId={selectedClient}
-          year={filterYear}
-          month={12}
-          defaultNote={executiveReport.patrimonialIntelligenceReport?.executiveNarrative || 'Nenhuma narrativa disponível para este exercício.'}
+        <BalanceSheetExecutiveSynthesisSection 
+          executiveNarrative={executiveReport.patrimonialIntelligenceReport?.executiveNarrative || 'Nenhuma narrativa disponível para este exercício.'}
         />
       )}
 

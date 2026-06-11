@@ -104,7 +104,25 @@ export function mapTechnicalLayerToViewModel(params: {
   const families: BalanceSheetTechnicalFamilyViewModel[] = [];
 
   Object.entries(familiesRecord).forEach(([family, inds]) => {
-    const validIndicators = inds.filter(ind => !['Liquidez Real', 'Liquidez Instantânea Real', 'Liquidez Seca'].includes(ind.metricName));
+    // EXCLUSION LIST: Indicators already rendered in executive cards are removed from the Technical Layer
+    // to prevent cognitive fatigue and redundancy.
+    const excludedMetrics = [
+      'Liquidez Real',
+      'Liquidez Instantânea Real',
+      'Liquidez Seca',
+      'Asset Concentration Risk',
+      'Risco de Concentração de Ativos',
+      'Ativo - Estoques %',
+      'Endividamento Geral',
+      'Dependência de Capital de Terceiros',
+      'Financial Debt-to-Equity',
+      'Dívida Financeira sobre Patrimônio Líquido',
+      'Funding Capacity Ratio',
+      'Índice de Capacidade de Financiamento',
+      'Debt Capacity Score',
+      'Score de Capacidade de Endividamento'
+    ];
+    const validIndicators = inds.filter(ind => !excludedMetrics.includes(ind.metricName));
 
     const mappedIndicators = validIndicators.map(ind => {
       let tone: BalanceSheetTechnicalIndicatorTone = 'success';
