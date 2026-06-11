@@ -9,6 +9,7 @@ import { db, auth } from '../../lib/firebase';
 import { Page } from '../../app/navigation';
 import { motion } from 'motion/react';
 import { PageHeader, StatusBadge, MarkdownText, KpiCard } from '../Common';
+import { ExecutiveEmptyState } from '../ui/executive-empty-state';
 import { formatValue, formatCurrency, cn } from '../../lib/utils';
 import { EixoGestao } from '../../types/modules';
 import { GOVERNANCE_PRINCIPLES, evaluateAxisRules } from '../../lib/governanceIntelligence';
@@ -271,21 +272,12 @@ export function AxisDashboardPage({ axis, clientId, onNavigate, selectedMonth, s
   if (!loading && !hasData) {
     const Icon = config.icon;
     return (
-      <div className="flex flex-col items-center justify-center min-h-[600px] space-y-10 animate-executive-fade">
-         <div className="relative">
-            <div className="absolute inset-0 bg-primary blur-3xl opacity-10 animate-pulse" />
-            <div className={cn("w-40 h-40 rounded-[48px] flex items-center justify-center text-secondary shadow-2xl relative z-10 border border-white/5", config.color)}>
-              <Icon size={80} strokeWidth={1} />
-            </div>
-         </div>
-         
-         <div className="text-center space-y-4 max-w-xl mx-auto px-6">
-            <h2 className="text-4xl font-display font-black text-muted-foreground tracking-tight leading-tight">Dashboard de {axis} Indisponível</h2>
-            <p className="text-muted-foreground font-medium leading-relaxed">
-              Não identificamos indicadores financeiros ou estratégicos para o eixo de <strong>{axis}</strong> no período selecionado. 
-              Por favor, realize a importação dos dados históricos para visualizar a performance.
-            </p>
-         </div>
+      <div className="flex flex-col items-center justify-center min-h-[600px] space-y-10 animate-executive-fade w-full">
+         <ExecutiveEmptyState
+           icon={<Icon />}
+           title={`Dashboard de ${axis} Indisponível`}
+           description={`Não identificamos indicadores financeiros ou estratégicos para o eixo de ${axis} no período selecionado. Por favor, realize a importação dos dados históricos para visualizar a performance.`}
+         />
 
          <div className="flex flex-col sm:flex-row items-center gap-6 pt-4">
             <div className="flex items-center gap-4 bg-white/10 backdrop-blur-md rounded-2xl px-5 py-2 border border-border shadow-sm h-[40px]">
