@@ -22,11 +22,11 @@ export function ExecutiveMetricCard({
   className
 }: ExecutiveMetricCardProps) {
   const toneClasses = {
-    neutral: 'border-border',
-    success: 'border-success/30 hover:border-success/50',
-    warning: 'border-warning/30 hover:border-warning/50',
-    critical: 'border-critical/30 hover:border-critical/50',
-    info: 'border-info/30 hover:border-info/50',
+    neutral: '',
+    success: '',
+    warning: '',
+    critical: '',
+    info: '',
   }[tone];
 
   const badgeRef = React.useRef<HTMLDivElement>(null);

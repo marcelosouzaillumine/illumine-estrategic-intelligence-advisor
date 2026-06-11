@@ -30,6 +30,16 @@ export function BalanceSheetRiskDivergenceSection({
     }
   };
 
+  const getBadgeLabel = (tone: string) => {
+    switch (tone) {
+      case 'success': return 'ESTÁVEL';
+      case 'warning': return 'ATENÇÃO';
+      case 'critical': return 'CRÍTICO';
+      case 'info': return 'INFO';
+      default: return 'NEUTRO';
+    }
+  };
+
   return (
     <ExecutiveSurface variant="transparent" padding="none" className="bg-surface-container/30 rounded-[32px] p-8 border border-border mt-12 relative overflow-hidden flex flex-col items-start justify-start w-full">
       <div className="w-full flex flex-col items-start justify-start gap-8">
@@ -47,7 +57,7 @@ export function BalanceSheetRiskDivergenceSection({
               value={viewModel.fiduciaryClassificationLabel}
               tone={getCardTone(viewModel.fiduciaryClassificationTone)}
               statusBadge={
-                <div className={cn("w-2 h-2 rounded-full mt-1", getBadgeColor(viewModel.fiduciaryClassificationTone))} />
+                <span>{getBadgeLabel(viewModel.fiduciaryClassificationTone)}</span>
               }
             />
             
