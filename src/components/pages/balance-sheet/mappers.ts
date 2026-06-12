@@ -50,7 +50,21 @@ export function mapRiskDivergenceToViewModel(params: {
 }): BalanceSheetRiskDivergenceViewModel {
   const score = params.globalScore || 0;
   
-  const mathLabel = params.patrimonialClassification || 'Crítica';
+  const translateClassification = (label: string) => {
+    const map: Record<string, string> = {
+      'STABLE': 'Estável',
+      'RESILIENT': 'Resiliente',
+      'VULNERABLE': 'Vulnerável',
+      'FRAGILE': 'Frágil',
+      'CRITICAL': 'Crítica',
+      'WARNING': 'Atenção',
+      'HEALTHY': 'Saudável',
+      'NEUTRAL': 'Neutra'
+    };
+    return map[label.toUpperCase()] || label;
+  };
+
+  const mathLabel = translateClassification(params.patrimonialClassification || 'Crítica');
 
 
   const classStr = params.patrimonialClassification || '';
@@ -63,13 +77,13 @@ export function mapRiskDivergenceToViewModel(params: {
     .filter(i => i.classification === 'CRITICAL' || i.classification === 'Crítica' || i.classification === 'Crítico')
     .map(i => ({
       metricName: params.resolveLabel(i.metricName),
-      classification: params.resolveLabel(i.classification || ''),
+      classification: translateClassification(params.resolveLabel(i.classification || '')),
       impact: params.resolveImpact(i.metricName)
     }));
 
   return {
     mathClassificationLabel: mathLabel,
-    fiduciaryClassificationLabel: params.resolveLabel(classStr),
+    fiduciaryClassificationLabel: translateClassification(params.resolveLabel(classStr)),
     fiduciaryClassificationTone: tone,
     globalScore: score,
     criticalOffenders

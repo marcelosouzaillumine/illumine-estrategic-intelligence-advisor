@@ -27,7 +27,7 @@ import { BalanceSheetExecutiveSynthesisSection } from './balance-sheet/BalanceSh
 import { BalanceSheetStructuralTablesSection } from './balance-sheet/BalanceSheetStructuralTablesSection';
 import { BalanceSheetCapitalPreservationSection } from './balance-sheet/BalanceSheetCapitalPreservationSection';
 import { mapIndicatorsToViewModels, mapInstitutionalContextToViewModel, mapRiskDivergenceToViewModel, mapTechnicalLayerToViewModel, mapAuditLayerToViewModel, mapFinancialAnalyticsToViewModels } from './balance-sheet/mappers';
-
+import { BPStrategicDiagnosisDriverMapper } from '../../core/runtime/governance/bp/BPStrategicDiagnosisDriverMapper';
 import { useLanguage } from '../../contexts/LanguageContext';
 
 import { useAnnualFinancialData, useAllFinancialData } from '../../hooks/useFinancialData';
@@ -590,6 +590,28 @@ export function BalanceSheetPage({ clients, selectedClient, selectedYear }: any)
                   {/* --- 1. PATRIMONIAL THESIS & BOARD ADVISORY --- */}
                   {/* (Retired) O antigo Parecer Estratégico textual foi substituído pela seção de Diagnóstico Estratégico (Executive Synthesis) */}
 
+                  {/* ── Comentário Executivo ─────────────────────────────────────────── */}
+                  {executiveReport && (() => {
+                    const technicalDrivers = BPStrategicDiagnosisDriverMapper.map(financialIndicators, bpSummary);
+                    const execContext = {
+                      analysisYear: filterYear,
+                      generatedAt: new Date().toISOString(),
+                      moduleContext: 'BP' as any,
+                      activeFiduciaryRestrictions: [],
+                      fiduciaryClassification: patrimonialIntelligenceReport?.patrimonialClassification || 'SAUDÁVEL',
+                      mathematicalClassification: 'STABLE',
+                      globalScore: resilienciaGlobal,
+                      primaryIndicators: {},
+                      technicalDrivers,
+                      contextualAlerts: []
+                    };
+                    return <BalanceSheetExecutiveSynthesisSection 
+                      executiveNarrative={executiveReport.patrimonialIntelligenceReport?.executiveNarrative || 'Nenhuma narrativa disponível para este exercício.'}
+                      context={execContext}
+                      selectedYear={filterYear}
+                    />;
+                  })()}
+
                   {/* --- 7. PLANO EXECUTIVO --- */}
                   {patrimonialIntelligenceReport?.executivePlan && (
                   <BalanceSheetExecutivePlan
@@ -751,43 +773,7 @@ export function BalanceSheetPage({ clients, selectedClient, selectedYear }: any)
             </details>
           </div>
 
-          {/* ── Comentário Executivo ─────────────────────────────────────────── */}
 
-          {executiveReport && (() => {
-            const liqReal = financialIndicators.find((i: any) => i.metricName === 'Liquidez Real')?.value;
-            const liqSeca = financialIndicators.find((i: any) => i.metricName === 'Liquidez Seca')?.value;
-            const liqInst = financialIndicators.find((i: any) => i.metricName === 'Liquidez Instantânea')?.value || financialIndicators.find((i: any) => i.metricName === 'Liquidez Instantânea Real')?.value;
-            const endiv = financialIndicators.find((i: any) => i.metricName === 'Endividamento Geral')?.value;
-            const auto = financialIndicators.find((i: any) => i.metricName === 'Autonomia Financeira')?.value;
-            const dep = financialIndicators.find((i: any) => i.metricName === 'Dependência de Capital de Terceiros')?.value;
-            const pl = executiveReport.metrics?.financialMetrics?.patrimonioLiquido || 0;
-            
-            const execContext = {
-              analysisYear: filterYear,
-              generatedAt: new Date().toISOString(),
-              moduleContext: 'BP' as any,
-              activeFiduciaryRestrictions: [],
-              fiduciaryClassification: patrimonialIntelligenceReport?.patrimonialClassification || 'SAUDÁVEL',
-              mathematicalClassification: 'STABLE',
-              globalScore: resilienciaGlobal,
-              primaryIndicators: {},
-              technicalDrivers: {
-                liquidezReal: liqReal,
-                liquidezSeca: liqSeca,
-                liquidezInstantaneaReal: liqInst,
-                endividamentoGeral: endiv,
-                autonomiaFinanceira: auto,
-                dependenciaCapitalTerceiros: dep,
-                patrimonioLiquido: pl
-              },
-              contextualAlerts: []
-            };
-            return <BalanceSheetExecutiveSynthesisSection 
-              executiveNarrative={executiveReport.patrimonialIntelligenceReport?.executiveNarrative || 'Nenhuma narrativa disponível para este exercício.'}
-              context={execContext}
-              selectedYear={filterYear}
-            />;
-          })()}
         </>
       )}
 

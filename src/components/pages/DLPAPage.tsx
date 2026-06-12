@@ -868,54 +868,11 @@ export function DLPAPage({ clients, selectedClient, selectedYear }: any) {
                 </ExecutiveSurface>
               )}
 
-              {/* 1. Tese de Governança & 8. Síntese Executiva */}
-              <div className="grid grid-cols-1 xl:grid-cols-12 gap-6 items-start">
-                <ExecutiveSurface className="col-span-1 xl:col-span-4 flex flex-col justify-center relative overflow-hidden h-full">
-                  <ExecutiveNarrative title="Tese de Governança" icon={Target} variant="insight">
-                    <div className="flex flex-col gap-4 mt-2">
-                      <span className="inline-flex px-3 py-1 bg-surface-container/30 border border-border rounded-full text-[10px] font-bold uppercase tracking-wider text-muted-foreground self-start">
-                        {executiveLayer.governanceInterpretation?.classification}
-                      </span>
-                      <p className="text-sm text-foreground/80 leading-relaxed font-medium">
-                        {executiveLayer.governanceInterpretation?.narrative}
-                      </p>
-                      {executiveLayer.governanceInterpretation?.riskToShareholders && (
-                        <div className="mt-2 pt-4 border-t border-border">
-                          <p className="text-xs font-bold uppercase tracking-wider text-rose-500 mb-2">Risco ao Capital dos Sócios</p>
-                          <p className="text-foreground/80 text-sm leading-relaxed">
-                            {executiveLayer.governanceInterpretation.riskToShareholders}
-                          </p>
-                        </div>
-                      )}
-                    </div>
-                  </ExecutiveNarrative>
-                </ExecutiveSurface>
-
-                <div className="col-span-1 xl:col-span-8 h-full">
-                  {dlpaPayload && (
-                    <div className="mb-12">
-                      <ExecutiveStrategicSemanticCards payload={dlpaPayload} selectedYear={selectedYear} />
-                    </div>
-                  )}
+              {dlpaPayload && (
+                <div className="mb-12">
+                  <ExecutiveStrategicSemanticCards payload={dlpaPayload} selectedYear={selectedYear} />
                 </div>
-              </div>
-
-              {/* 2. Framework de Governança de Capital */}
-              <ExecutiveSurface padding="xl" radius="xl" className="border-border">
-                <div className="flex items-center gap-3 mb-6">
-                  <CheckCircle2 size={20} className="text-blue-500" />
-                  <h3 className="text-xl font-black text-primary">Framework de Decisão do Conselho</h3>
-                </div>
-                <div className="grid grid-cols-1 md:grid-cols-2 2xl:grid-cols-3 gap-6">
-                  {executiveLayer.boardDecisionSupport?.value?.map((item: any, idx: number) => (
-                    <ExecutiveSurface key={idx} padding="md" variant="info" className="flex flex-col h-full bg-surface-container/30 border border-border">
-                      <ExecutiveNarrative title={item.question} variant="board-note" className="h-full">
-                        <span className="text-[14px] leading-relaxed">{item.answer}</span>
-                      </ExecutiveNarrative>
-                    </ExecutiveSurface>
-                  ))}
-                </div>
-              </ExecutiveSurface>
+              )}
 
               {/* 3, 4, 5, 6. Inteligência de Preservação de Capital */}
               <ExecutiveSurface padding="xl" radius="xl" className="border-border">

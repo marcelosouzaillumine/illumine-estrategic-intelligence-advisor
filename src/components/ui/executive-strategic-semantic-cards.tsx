@@ -22,7 +22,7 @@ export function ExecutiveStrategicSemanticCards({ payload, selectedYear, classNa
           </div>
           <div>
             <h2 className="text-lg font-bold text-foreground leading-tight tracking-tight">
-              Diagnóstico Estratégico
+              Parecer Estratégico
             </h2>
             <p className="text-sm text-muted-foreground flex items-center gap-2 mt-1">
               <Loader2 className="w-3 h-3 animate-spin" /> Recalculando inteligência executiva para {selectedYear}...
@@ -60,9 +60,9 @@ export function ExecutiveStrategicSemanticCards({ payload, selectedYear, classNa
         </div>
         <div>
           <h2 className="text-lg font-bold text-foreground leading-tight tracking-tight">
-            Diagnóstico Estratégico
+            Parecer Estratégico
           </h2>
-          <p className="text-sm text-muted-foreground">
+          <p className="text-sm text-foreground/70 mt-1">
             Síntese consolidada da condição atual, das prioridades executivas e das perspectivas futuras para suporte à tomada de decisão da Diretoria e do Conselho.
           </p>
         </div>
@@ -97,7 +97,7 @@ export function ExecutiveStrategicSemanticCards({ payload, selectedYear, classNa
         <ExecutiveSurface padding="md" radius="md" className="bg-card border-border flex flex-col gap-2">
           <h4 className="text-sm font-bold text-foreground flex items-center gap-2">
             <LineChart className="w-4 h-4 text-primary" />
-            Outlook
+            Perspectiva
           </h4>
           <p className="text-sm text-foreground/80 leading-relaxed text-pretty flex-1">
             {payload.outlook}
@@ -119,9 +119,9 @@ export function ExecutiveStrategicSemanticCards({ payload, selectedYear, classNa
           
           {/* Fator Determinante Opcional */}
           {payload.primaryDriver && (
-            <div className="mt-2 pt-2 border-t border-black/5 dark:border-white/5 z-10">
-              <p className="text-xs text-muted-foreground">
-                <span className="font-semibold">Fator determinante:</span> {payload.primaryDriver}
+            <div className="mt-2 pt-2 border-t border-current/10 z-10">
+              <p className="text-xs text-current/90">
+                <span className="font-bold">Fator determinante:</span> {payload.primaryDriver}
               </p>
             </div>
           )}
