@@ -197,7 +197,7 @@ export function AppSidebar({
               {/* Group label — hidden when collapsed */}
               <SidebarGroupLabel
                 className={cn(
-                  'cursor-pointer select-none hover:text-primary transition-colors sidebar-group-label-text text-muted-foreground font-semibold uppercase tracking-[0.2em] text-[9px] h-7 mb-1',
+                  'cursor-pointer select-none hover:text-primary transition-colors sidebar-group-label-text text-muted-foreground/80 font-semibold uppercase tracking-[0.2em] text-[9px] h-7 mb-1',
                   !isCollapsed ? 'flex' : 'hidden'
                 )}
                 onClick={() => toggleSubmenu(group.group)}
@@ -231,7 +231,7 @@ export function AppSidebar({
                             'relative group px-2 xl:px-2.5 py-1.5 xl:py-2 rounded-button transition-all duration-300 sidebar-menu-item-button overflow-hidden',
                             isActive
                               ? 'text-primary font-semibold bg-primary/10'
-                              : 'text-muted-foreground hover:text-primary hover:bg-surface-elevated bg-transparent'
+                              : 'text-foreground/65 hover:text-primary hover:bg-primary/5 bg-transparent'
                           )}
                         >
                           {isActive && (
@@ -243,7 +243,7 @@ export function AppSidebar({
                             strokeWidth={1.25}
                             className={cn(
                               'shrink-0 transition-colors',
-                              isActive ? 'text-primary' : 'text-muted-foreground group-hover:text-primary'
+                              isActive ? 'text-primary' : 'text-foreground/50 group-hover:text-primary'
                             )}
                           />
 
@@ -265,7 +265,7 @@ export function AppSidebar({
                                   strokeWidth={1}
                                   className={cn(
                                     'shrink-0 transition-transform duration-300',
-                                    isActive ? 'rotate-90 text-primary' : 'text-muted-foreground group-hover:text-primary'
+                                    isActive ? 'rotate-90 text-primary' : 'text-foreground/50 group-hover:text-primary'
                                   )}
                                 />
                               )}
@@ -298,7 +298,7 @@ export function AppSidebar({
                                       'w-full text-left flex items-center gap-1.5 xl:gap-2.5 py-0.5 xl:py-1 px-1.5 xl:px-2 rounded-sm font-normal leading-none transition-colors sidebar-submenu-item-text',
                                       currentPage === child.id
                                         ? 'text-primary bg-primary/5 font-semibold border border-transparent'
-                                        : 'text-muted-foreground hover:text-primary hover:bg-surface-elevated bg-transparent'
+                                        : 'text-foreground/65 hover:text-primary hover:bg-primary/5 bg-transparent'
                                     )}
                                   >
                                     <span className={cn(

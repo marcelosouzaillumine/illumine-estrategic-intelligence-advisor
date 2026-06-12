@@ -144,7 +144,7 @@ export function ClientSelector({
                         "w-full flex items-center gap-3 p-3 rounded-xl transition-all group",
                         selectedClient === client.id 
                           ? "bg-primary text-primary-foreground shadow-md" 
-                          : "hover:bg-surface-elevated text-muted-foreground hover:text-foreground border border-transparent hover:border-border/30"
+                          : "hover:bg-primary/5 text-foreground border border-transparent hover:border-border/30"
                       )}
                     >
                       <div className={cn(
@@ -158,10 +158,10 @@ export function ClientSelector({
                         />
                       </div>
                       <div className="text-left flex-1 min-w-0">
-                        <p className="text-xs font-bold tracking-tight">{client.fantasia}</p>
+                        <p className="text-xs font-bold tracking-tight text-foreground">{client.fantasia}</p>
                         <p className={cn(
-                          "text-[9px] font-bold uppercase tracking-widest opacity-60",
-                          selectedClient === client.id ? "text-muted-foreground" : "text-muted-foreground"
+                          "text-[9px] font-bold uppercase tracking-widest text-muted-foreground",
+                          selectedClient === client.id ? "opacity-80" : ""
                         )}>
                           {client.segmento} {client.cnpj ? `• ${formatDoc(client.cnpj)}` : ''}
                         </p>
