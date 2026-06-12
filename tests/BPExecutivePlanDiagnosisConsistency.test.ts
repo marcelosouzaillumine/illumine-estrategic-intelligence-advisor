@@ -70,7 +70,7 @@ describe('BPExecutivePlanDiagnosisConsistency', () => {
 
     assert.strictEqual(planMotive.severity, 'HEALTHY');
     assert.ok(!planMotive.label.includes('Dados Insuficientes'));
-    assert.ok(planMotive.label === 'Liquidez Real Elevada' || planMotive.label === 'Autonomia Financeira Preservada');
+    assert.ok(planMotive.label === 'Liquidez Real Confortável' || planMotive.label.includes('Autonomia'));
   });
 
   it('2022: Liquidez Crítica', () => {

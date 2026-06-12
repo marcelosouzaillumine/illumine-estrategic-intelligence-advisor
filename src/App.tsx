@@ -698,7 +698,7 @@ function AppContent({
 
       {/* Main Content */}
       <main className="flex-1 flex flex-col min-w-0 relative h-full overflow-hidden">
-        <header className="h-14 sm:h-16 bg-background/60 backdrop-blur-3xl flex items-center justify-between px-2 sm:px-4 md:px-8 sticky top-0 z-50 transition-all duration-700 border-b border-border shadow-sm">
+        <header className="h-14 sm:h-16 bg-background flex items-center justify-between px-2 sm:px-4 md:px-8 sticky top-0 z-50 transition-all duration-700 border-b border-border/40">
           <div className="flex items-center gap-1 sm:gap-2 md:gap-8 min-w-0">
             <SidebarTrigger className="text-muted-foreground hover:text-foreground hover:bg-surface-elevated transition-all duration-300 rounded-full p-2 shrink-0" />
             
@@ -715,7 +715,7 @@ function AppContent({
               <input 
                 type="text" 
                 placeholder={t('buttons.search_placeholder')} 
-                className="pl-11 pr-5 py-2.5 bg-surface-elevated border border-border rounded-full focus:ring-4 focus:ring-primary/5 focus:border-primary/20 transition-all duration-300 outline-none w-48 xl:w-80 text-xs font-sans text-foreground placeholder:text-muted-foreground hover:border-border/80" 
+                className="pl-11 pr-5 py-3 bg-surface-elevated border border-border rounded-full focus:ring-4 focus:ring-primary/5 focus:border-primary/20 transition-all duration-300 outline-none w-48 xl:w-80 text-xs font-sans text-foreground placeholder:text-muted-foreground hover:border-border/80" 
               />
               <Search size={15} strokeWidth={1.5} className="text-muted-foreground absolute left-4 top-1/2 -translate-y-1/2 group-focus-within:text-primary transition-colors duration-300" />
             </div>

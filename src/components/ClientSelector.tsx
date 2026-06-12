@@ -157,11 +157,14 @@ export function ClientSelector({
                           fallback={<Building2 size={18} className={selectedClient === client.id ? "text-white" : "text-muted-foreground"} />}
                         />
                       </div>
-                      <div className="text-left flex-1 min-w-0">
-                        <p className="text-xs font-bold tracking-tight text-foreground">{client.fantasia}</p>
+                      <div className="text-left flex-1 min-w-0 pr-3">
                         <p className={cn(
-                          "text-[9px] font-bold uppercase tracking-widest text-muted-foreground",
-                          selectedClient === client.id ? "opacity-80" : ""
+                          "text-xs font-bold tracking-tight truncate",
+                          selectedClient === client.id ? "text-primary-foreground" : "text-foreground"
+                        )}>{client.fantasia}</p>
+                        <p className={cn(
+                          "text-[9px] font-bold uppercase tracking-widest truncate",
+                          selectedClient === client.id ? "text-primary-foreground/80" : "text-muted-foreground"
                         )}>
                           {client.segmento} {client.cnpj ? `• ${formatDoc(client.cnpj)}` : ''}
                         </p>
@@ -176,7 +179,7 @@ export function ClientSelector({
                         )}
                       </div>
                       {selectedClient === client.id && (
-                        <div className="w-6 h-6 bg-white/20 text-white rounded-full flex items-center justify-center">
+                        <div className="w-6 h-6 bg-white/20 text-white rounded-full flex items-center justify-center shrink-0">
                           <Check size={14} />
                         </div>
                       )}

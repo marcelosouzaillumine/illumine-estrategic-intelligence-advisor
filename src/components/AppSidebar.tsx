@@ -197,7 +197,7 @@ export function AppSidebar({
               {/* Group label — hidden when collapsed */}
               <SidebarGroupLabel
                 className={cn(
-                  'cursor-pointer select-none hover:text-primary transition-colors sidebar-group-label-text text-muted-foreground/80 font-semibold uppercase tracking-[0.2em] text-[9px] h-7 mb-1',
+                  'cursor-pointer select-none hover:text-primary transition-colors sidebar-group-label-text text-muted-foreground font-semibold uppercase tracking-[0.14em] text-[9px] h-7 mb-1',
                   !isCollapsed ? 'flex' : 'hidden'
                 )}
                 onClick={() => toggleSubmenu(group.group)}

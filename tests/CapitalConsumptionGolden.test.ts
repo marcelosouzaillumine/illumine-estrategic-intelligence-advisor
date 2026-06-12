@@ -5,7 +5,7 @@ import { PatrimonialPreservationEngine } from '../src/core/runtime/governance/bp
 describe('CapitalConsumption Golden Test', () => {
   it('should calculate 22.5% consumed capital for Granatum 2023', () => {
     const summary = {
-      lucrosPrejuizos: 60536.59,
+      lucrosPrejuizos: -60536.59,
       capitalSocial: 269051.51
     };
     

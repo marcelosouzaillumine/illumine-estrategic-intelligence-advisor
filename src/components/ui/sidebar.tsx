@@ -119,7 +119,7 @@ const Sidebar = React.forwardRef<
     return (
       <div
         data-slot="sidebar"
-        className={cn("flex h-full w-(--sidebar-width) flex-col bg-bg-card text-text-main", className)}
+        className={cn("flex h-full w-(--sidebar-width) flex-col bg-background text-text-main", className)}
         ref={ref}
         {...props}
       >
@@ -141,7 +141,7 @@ const Sidebar = React.forwardRef<
           data-slot="sidebar"
           data-mobile="true"
           className={cn(
-            "fixed inset-y-0 z-[70] flex h-full w-[--sidebar-width-mobile] flex-col bg-bg-card shadow-separator transition-transform duration-300",
+            "fixed inset-y-0 z-[70] flex h-full w-[--sidebar-width-mobile] flex-col bg-background shadow-separator transition-transform duration-300",
             side === "left" ? "left-0" : "right-0",
             openMobile
               ? "translate-x-0"
@@ -196,7 +196,7 @@ const Sidebar = React.forwardRef<
       >
         <div
           data-sidebar="sidebar"
-          className="flex h-full w-full flex-col bg-bg-card/90 backdrop-blur-3xl shadow-separator group-data-[variant=floating]:rounded-2xl group-data-[variant=floating]:border group-data-[variant=floating]:border-border-main group-data-[variant=floating]:shadow-lg"
+          className="flex h-full w-full flex-col bg-background shadow-separator group-data-[variant=floating]:rounded-2xl group-data-[variant=floating]:border group-data-[variant=floating]:border-border-main group-data-[variant=floating]:shadow-lg"
         >
           {children}
         </div>
