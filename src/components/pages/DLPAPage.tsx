@@ -817,7 +817,7 @@ export function DLPAPage({ clients, selectedClient, selectedYear }: any) {
                       </div>
                       <p className="text-foreground/70 text-sm font-medium mb-6">Métrica Principal de Governança Fiduciária</p>
                       
-                      <p className="text-sm text-foreground/70 leading-relaxed max-w-2xl">
+                      <p className="text-sm text-foreground/80 leading-relaxed">
                         {executiveLayer.capitalPreservationScore.rationale}
                       </p>
                     </div>
@@ -886,7 +886,7 @@ export function DLPAPage({ clients, selectedClient, selectedYear }: any) {
                         description={
                           <div className="flex flex-col gap-2">
                             <span>{executiveLayer.capitalPreservationStatus?.narrative}</span>
-                            <span className="text-foreground/90 font-medium">{executiveLayer.capitalPreservationStatus?.rationale}</span>
+                            <span className="text-foreground/70">{executiveLayer.capitalPreservationStatus?.rationale}</span>
                           </div>
                         }
                       />
@@ -913,7 +913,7 @@ export function DLPAPage({ clients, selectedClient, selectedYear }: any) {
                         description={
                           <div className="flex flex-col gap-2">
                             <span>{executiveLayer.capitalErosionRisk?.narrative}</span>
-                            <span className="text-foreground/90 font-medium">{executiveLayer.capitalErosionRisk?.rationale}</span>
+                            <span className="text-foreground/70">{executiveLayer.capitalErosionRisk?.rationale}</span>
                           </div>
                         }
                       />
@@ -938,7 +938,7 @@ export function DLPAPage({ clients, selectedClient, selectedYear }: any) {
                         description={
                           <div className="flex flex-col gap-2">
                             <span>{executiveLayer.capitalRecoveryRequirement?.narrative}</span>
-                            <span className="text-foreground/90 font-medium">{executiveLayer.capitalRecoveryRequirement?.rationale}</span>
+                            <span className="text-foreground/70">{executiveLayer.capitalRecoveryRequirement?.rationale}</span>
                           </div>
                         }
                       />
@@ -965,8 +965,8 @@ export function DLPAPage({ clients, selectedClient, selectedYear }: any) {
                         tone={tone}
                         description={
                           <div className="flex flex-col gap-2">
-                            <span className="text-foreground/80">{executiveLayer.capitalRecoverability?.narrative}</span>
-                            <span className="text-foreground font-semibold">{executiveLayer.patrimonialRecoveryHorizon?.rationale}</span>
+                            <span>{executiveLayer.capitalRecoverability?.narrative}</span>
+                            <span className="text-foreground/70">{executiveLayer.patrimonialRecoveryHorizon?.rationale}</span>
                           </div>
                         }
                       />
