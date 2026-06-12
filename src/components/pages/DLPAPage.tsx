@@ -38,9 +38,12 @@ import { ExecutiveTechnicalMetricCard } from '../ui/executive-technical-metric-c
 import { ExecutiveScore } from '../ui/executive-score';
 
 import { cn, formatCurrency, formatValue } from '../../lib/utils';
-import { PageHeader, KpiValue } from '../Common';
+import { PageHeader, KpiValue, StatusBadge } from '../Common';
 import { useAnnualFinancialData, useAllFinancialData } from '../../hooks/useFinancialData';
 import { ImportFinancialModal } from '../modals/ImportFinancialModal';
+import { DLPAActionToolbar } from './dlpa/DLPAActionToolbar';
+import { DLPADataSourceStatus } from './dlpa/DLPADataSourceStatus';
+import { DLPAYearFilter } from './dlpa/DLPAYearFilter';
 import { ManualFinancialModal } from '../modals/ManualFinancialModal';
 import { collection, deleteDoc, doc, query, where, getDocs } from 'firebase/firestore';
 import { db } from '../../lib/firebase';
@@ -624,46 +627,7 @@ export function DLPAPage({ clients, selectedClient, selectedYear }: any) {
   const parsedTaxaDistribuicao = distribution ? distribution.distributionRatio * 100 : 0;
   const retentionValue = retention ? retention.retainedEarnings : 0;
 
-  // ── Action Bar ─────────────────────────────────────────────────────────────
-  const actionButtons = (
-    <div className="flex items-center gap-3">
-      <div className="flex bg-surface border border-border/50 shadow-sm rounded-md items-center mr-2">
-        <Calendar size={12} className="ml-2 text-muted-foreground" />
-        <select
-          onChange={e => setFilterYear(Number(e.target.value))}
-          value={filterYear}
-          className="bg-transparent px-3 py-1 text-[10px] font-medium uppercase tracking-widest outline-none cursor-pointer text-foreground appearance-none pr-1"
-        >
-          {Array.from({ length: 11 }, (_, i) => new Date().getFullYear() - 5 + i).map(y => (
-            <option key={y} value={y}>{y}</option>
-          ))}
-        </select>
-      </div>
 
-      {hasData && (
-        <>
-          <button
-            onClick={() => setShowManualModal(true)}
-            className="px-4 py-2 bg-success-soft hover:bg-success text-success hover:text-white border border-success/20 rounded-md text-[10px] font-medium uppercase tracking-widest transition-all flex items-center gap-2 shadow-sm"
-          >
-            <Plus size={14} /> Lançar
-          </button>
-          <button
-            onClick={() => setShowImportModal(true)}
-            className="px-4 py-2 bg-secondary/10 hover:bg-secondary text-secondary hover:text-white border border-secondary/20 rounded-md text-[10px] font-medium uppercase tracking-widest transition-all flex items-center gap-2 shadow-sm"
-          >
-            <Upload size={14} /> Importar
-          </button>
-          <button
-            onClick={() => setShowDeleteConfirm(true)}
-            className="px-4 py-2 bg-red-50 hover:bg-red-500 text-red-500 hover:text-white border border-red-200 rounded-md text-[10px] font-medium uppercase tracking-widest transition-all flex items-center gap-2 shadow-sm"
-          >
-            <Trash2 size={14} /> Excluir
-          </button>
-        </>
-      )}
-    </div>
-  );
 
   return (
     <div className="max-w-[1440px] mx-auto space-y-10 pb-32 animate-executive-fade">
@@ -782,20 +746,25 @@ export function DLPAPage({ clients, selectedClient, selectedYear }: any) {
       )}
 
       {/* Control Bar */}
-      <ExecutiveSurface padding="md" radius="md" className="flex items-center justify-between gap-4 flex-wrap -mt-6 mb-10">
-        <div className="flex items-center gap-3">
-          {loading && <Loader2 size={14} className="animate-spin text-muted-foreground" />}
-          <div className="bg-surface border border-border/50 shadow-sm rounded-md px-4 py-2 flex items-center gap-3">
-            <Database size={14} className={hasData ? 'text-success' : 'text-muted-foreground/30'} />
-            <span className={cn('text-[10px] font-medium uppercase tracking-[0.2em]', hasData ? 'text-success' : 'text-muted-foreground/40')}>
-              {hasData
-                ? `${dbDataDLPA.length} registro${dbDataDLPA.length !== 1 ? 's' : ''} · DLPA ${filterYear}`
-                : `Amostra · DLPA ${filterYear}`}
-            </span>
+      <div className="flex flex-col md:flex-row md:items-center justify-between gap-6 mb-10">
+        <div className="flex flex-col md:flex-row md:items-center gap-4">
+          <div className="flex items-center gap-4">
+            {hasData && (
+              <StatusBadge status="Ativo" />
+            )}
+            <DLPADataSourceStatus hasRealData={hasData} loading={loadingDLPA} />
           </div>
+          <DLPAYearFilter filterYear={filterYear} onChangeYear={setFilterYear} />
         </div>
-        {actionButtons}
-      </ExecutiveSurface>
+
+        {hasData && (
+          <DLPAActionToolbar 
+            onLaunchData={() => setShowManualModal(true)} 
+            onImport={() => setShowImportModal(true)} 
+            onDelete={() => setShowDeleteConfirm(true)} 
+          />
+        )}
+      </div>
 
       {!loading && !hasData && (
         <div className="flex flex-col gap-6 w-full">
