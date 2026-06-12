@@ -15,6 +15,8 @@ export interface ExecutiveScoreProps extends React.HTMLAttributes<HTMLDivElement
   empty?: boolean;
   emptyMessage?: string;
   error?: string | boolean;
+  maxValue?: number;
+  size?: 'sm' | 'md' | 'lg' | 'xl';
 }
 
 export function ExecutiveScore({ 
@@ -26,6 +28,8 @@ export function ExecutiveScore({
   empty = false,
   emptyMessage = 'Dados indisponíveis',
   error,
+  maxValue,
+  size = 'md',
   className,
   onClick,
   ...props 
@@ -43,9 +47,19 @@ export function ExecutiveScore({
     );
   }
 
-  const r = 40;
+  const sizeMap = {
+    sm: { r: 28, stroke: 6, font: '16px', box: 64 },
+    md: { r: 40, stroke: 8, font: '24px', box: 96 },
+    lg: { r: 60, stroke: 12, font: '36px', box: 144 },
+    xl: { r: 80, stroke: 16, font: '48px', box: 192 }
+  };
+  const { r, stroke: strokeWidth, font, box } = sizeMap[size] || sizeMap.md;
+  const center = box / 2;
+
   const c = 2 * Math.PI * r;
-  const offset = c - (Math.min(Math.max(value, 0), 100) / 100) * c;
+  const max = maxValue ?? 100;
+  const percentage = Math.min(Math.max(value, 0), max) / max;
+  const offset = c - percentage * c;
   
   const colorMap: Record<string, string> = {
     emerald: 'var(--color-success)', // maps to success token
@@ -78,30 +92,41 @@ export function ExecutiveScore({
         </div>
       ) : (
         <div className="flex flex-col items-center gap-3">
-          <svg width="96" height="96" viewBox="0 0 96 96" className="drop-shadow-sm">
-            <circle cx="48" cy="48" r={r} fill="none" stroke="currentColor" strokeWidth="8" className="text-surface-container-highest" />
+          <svg width={box} height={box} viewBox={`0 0 ${box} ${box}`} className="drop-shadow-sm">
+            <circle cx={center} cy={center} r={r} fill="none" stroke="currentColor" strokeWidth={strokeWidth} className="text-surface-container-highest" />
             <circle 
-              cx="48" 
-              cy="48" 
+              cx={center} 
+              cy={center} 
               r={r} 
               fill="none" 
               stroke={stroke} 
-              strokeWidth="8"
+              strokeWidth={strokeWidth}
               strokeDasharray={`${c} ${c}`} 
               strokeDashoffset={offset}
               strokeLinecap="round" 
-              transform="rotate(-90 48 48)" 
+              transform={`rotate(-90 ${center} ${center})`} 
               style={{ transition: 'stroke-dashoffset 0.8s ease-out' }} 
             />
             <text 
-              x="48" 
-              y="48" 
+              x={center} 
+              y={center - (maxValue ? 4 : 0)} 
               textAnchor="middle" 
               dominantBaseline="central"
-              style={{ fontSize: '24px', fontWeight: 800, fill: stroke }}
+              style={{ fontSize: font, fontWeight: 800, fill: stroke }}
             >
               {Math.round(value)}
             </text>
+            {maxValue && (
+              <text 
+                x={center} 
+                y={center + (size === 'sm' ? 12 : size === 'lg' ? 24 : size === 'xl' ? 32 : 16)} 
+                textAnchor="middle" 
+                dominantBaseline="central"
+                style={{ fontSize: size === 'sm' ? '8px' : size === 'lg' ? '14px' : size === 'xl' ? '18px' : '10px', fontWeight: 700, fill: 'var(--color-muted-foreground)' }}
+              >
+                / {maxValue}
+              </text>
+            )}
           </svg>
           <p className="text-[11px] font-black uppercase tracking-widest text-muted-foreground text-center">{label}</p>
         </div>
