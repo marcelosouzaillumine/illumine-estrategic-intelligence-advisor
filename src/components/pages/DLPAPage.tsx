@@ -807,63 +807,46 @@ export function DLPAPage({ clients, selectedClient, selectedYear }: any) {
               
               {/* Capital Preservation Score (CPS) Header Block */}
               {executiveLayer.capitalPreservationScore && (
-                <ExecutiveSurface padding="xl" radius="xl" className="flex flex-col md:flex-row items-center justify-between gap-8 mb-6 border-border">
-                  <div className="flex-1 flex flex-col justify-center">
-                    <div className="flex items-center gap-3 mb-2">
-                      <ShieldCheck size={24} className="text-primary" />
-                      <h3 className="text-xl font-bold tracking-tight text-foreground">Capital Preservation Score (CPS)</h3>
-                    </div>
-                    <p className="text-muted-foreground text-sm font-medium mb-6">Métrica Principal de Governança Fiduciária</p>
-                    
-                    {executiveLayer.capitalPreservationScore.components ? (
-                      <div>
-                        <p className="text-xs font-bold uppercase tracking-wider text-muted-foreground mb-3">Ponderação da Inteligência Patrimonial</p>
-                        <div className="flex flex-wrap items-center gap-x-4 gap-y-2">
-                          <div className="flex items-center gap-2">
-                            <span className="text-sm font-semibold text-foreground">Remanescente</span>
-                            <span className="text-sm text-muted-foreground">({executiveLayer.capitalPreservationScore.components.remanescenteScore?.toFixed(0) || '0'} pts × 45%)</span>
-                          </div>
-                          <span className="text-muted-foreground/50 font-bold">+</span>
-                          <div className="flex items-center gap-2">
-                            <span className="text-sm font-semibold text-foreground">Dependência</span>
-                            <span className="text-sm text-muted-foreground">({executiveLayer.capitalPreservationScore.components.dependencyScore?.toFixed(0) || '0'} pts × 30%)</span>
-                          </div>
-                          <span className="text-muted-foreground/50 font-bold">+</span>
-                          <div className="flex items-center gap-2">
-                            <span className="text-sm font-semibold text-foreground">Distribuição</span>
-                            <span className="text-sm text-muted-foreground">({executiveLayer.capitalPreservationScore.components.distributionScore?.toFixed(0) || '0'} pts × 10%)</span>
-                          </div>
-                          <span className="text-muted-foreground/50 font-bold">+</span>
-                          <div className="flex items-center gap-2">
-                            <span className="text-sm font-semibold text-foreground">Horizonte</span>
-                            <span className="text-sm text-muted-foreground">({executiveLayer.capitalPreservationScore.components.horizonScore?.toFixed(0) || '0'} pts × 15%)</span>
-                          </div>
-                        </div>
+                <ExecutiveSurface padding="xl" radius="xl" className="mb-6 border-border">
+                  <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-stretch">
+                    {/* Left: Title & Weights */}
+                    <div className="lg:col-span-8 flex flex-col justify-center">
+                      <div className="flex items-center gap-3 mb-1">
+                        <ShieldCheck size={24} className="text-primary" />
+                        <h3 className="text-xl font-semibold tracking-tight text-foreground">Capital Preservation Score (CPS)</h3>
                       </div>
-                    ) : (
-                      <p className="text-sm text-muted-foreground leading-relaxed">
+                      <p className="text-foreground/70 text-sm font-medium mb-6">Métrica Principal de Governança Fiduciária</p>
+                      
+                      <p className="text-sm text-foreground/70 leading-relaxed max-w-2xl">
                         {executiveLayer.capitalPreservationScore.rationale}
                       </p>
-                    )}
-                  </div>
+                    </div>
 
-                  <div className="shrink-0 w-full md:w-auto">
-                    {(() => {
-                      const cpsValue = executiveLayer.capitalPreservationScore.value || 0;
-                      let color: 'emerald' | 'blue' | 'amber' | 'rose' | 'slate' = 'emerald';
-                      if (cpsValue < 40) color = 'rose';
-                      else if (cpsValue < 70) color = 'amber';
-                      else if (cpsValue < 90) color = 'blue';
-                      
-                      return (
-                        <ExecutiveScore
-                          value={cpsValue}
-                          label={executiveLayer.capitalPreservationScore.classification || "Score Geral"}
-                          color={color}
-                          className="border-none shadow-none bg-transparent"
-                        />
-                      );
-                    })()}
+                    {/* Right: Score Panel */}
+                    <div className="lg:col-span-4 w-full h-full flex flex-col justify-center">
+                      {(() => {
+                        const cpsValue = executiveLayer.capitalPreservationScore.value || 0;
+                        let tone: 'success' | 'info' | 'warning' | 'critical' | 'neutral' = 'success';
+                        if (cpsValue < 40) tone = 'critical';
+                        else if (cpsValue < 70) tone = 'warning';
+                        else if (cpsValue < 90) tone = 'info';
+                        
+                        return (
+                          <ExecutiveMetricCard
+                            label="Score Geral"
+                            value={<span className="text-4xl font-black">{cpsValue.toFixed(0)}<span className="text-xl text-muted-foreground font-semibold">/100</span></span>}
+                            statusBadge={<span>{executiveLayer.capitalPreservationScore.classification || "Capital Erodido"}</span>}
+                            tone={tone}
+                            description={
+                              <span className="text-sm font-medium opacity-80">
+                                {executiveLayer.capitalPreservationScore.rationale || "Preservação Geral"}
+                              </span>
+                            }
+                            className="h-full justify-center"
+                          />
+                        );
+                      })()}
+                    </div>
                   </div>
                 </ExecutiveSurface>
               )}
@@ -903,7 +886,7 @@ export function DLPAPage({ clients, selectedClient, selectedYear }: any) {
                         description={
                           <div className="flex flex-col gap-2">
                             <span>{executiveLayer.capitalPreservationStatus?.narrative}</span>
-                            <span className="opacity-75">{executiveLayer.capitalPreservationStatus?.rationale}</span>
+                            <span className="text-foreground/90 font-medium">{executiveLayer.capitalPreservationStatus?.rationale}</span>
                           </div>
                         }
                       />
@@ -930,7 +913,7 @@ export function DLPAPage({ clients, selectedClient, selectedYear }: any) {
                         description={
                           <div className="flex flex-col gap-2">
                             <span>{executiveLayer.capitalErosionRisk?.narrative}</span>
-                            <span className="opacity-75">{executiveLayer.capitalErosionRisk?.rationale}</span>
+                            <span className="text-foreground/90 font-medium">{executiveLayer.capitalErosionRisk?.rationale}</span>
                           </div>
                         }
                       />
@@ -955,7 +938,7 @@ export function DLPAPage({ clients, selectedClient, selectedYear }: any) {
                         description={
                           <div className="flex flex-col gap-2">
                             <span>{executiveLayer.capitalRecoveryRequirement?.narrative}</span>
-                            <span className="opacity-75">{executiveLayer.capitalRecoveryRequirement?.rationale}</span>
+                            <span className="text-foreground/90 font-medium">{executiveLayer.capitalRecoveryRequirement?.rationale}</span>
                           </div>
                         }
                       />
@@ -982,8 +965,8 @@ export function DLPAPage({ clients, selectedClient, selectedYear }: any) {
                         tone={tone}
                         description={
                           <div className="flex flex-col gap-2">
-                            <span>{executiveLayer.capitalRecoverability?.narrative}</span>
-                            <span className="opacity-75">{executiveLayer.patrimonialRecoveryHorizon?.rationale}</span>
+                            <span className="text-foreground/80">{executiveLayer.capitalRecoverability?.narrative}</span>
+                            <span className="text-foreground font-semibold">{executiveLayer.patrimonialRecoveryHorizon?.rationale}</span>
                           </div>
                         }
                       />
