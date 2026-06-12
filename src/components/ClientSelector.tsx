@@ -164,7 +164,7 @@ export function ClientSelector({
                         )}>{client.fantasia}</p>
                         <p className={cn(
                           "text-[9px] font-bold uppercase tracking-widest truncate",
-                          selectedClient === client.id ? "text-primary-foreground/80" : "text-muted-foreground"
+                          selectedClient === client.id ? "text-primary-foreground/80" : "text-foreground/70"
                         )}>
                           {client.segmento} {client.cnpj ? `• ${formatDoc(client.cnpj)}` : ''}
                         </p>
