@@ -1,0 +1,27 @@
+--- tests/FiduciaryDriverPriorityMatrix.test.ts
++++ tests/FiduciaryDriverPriorityMatrix.test.ts
+@@ -107,20 +107,18 @@
+     assert.strictEqual(motive.severity, 'NEUTRAL');
+     assert.strictEqual(motive.label, 'Dados Insuficientes');
+   });
+-
+-});
+-
+   it('Cenário 7: Payload BP Completo não cai em NEUTRAL', () => {
+     const ctx = {
+       ...baseContext,
+       technicalDrivers: {
+         liquidezReal: 1.5,
+         liquidezSeca: 1.2,
+         liquidezInstantaneaReal: 0.8,
+         endividamentoGeral: 40,
+         autonomiaFinanceira: 60,
+         patrimonioLiquido: 5000000,
+         dependenciaCapitalTerceiros: 40
+       }
+     };
+     
+     const motive = ExecutivePrimaryMotiveConsistencyEngine.deriveExecutivePrimaryMotive(ctx);
+     assert.notStrictEqual(motive.severity, 'NEUTRAL');
++  });
++});
