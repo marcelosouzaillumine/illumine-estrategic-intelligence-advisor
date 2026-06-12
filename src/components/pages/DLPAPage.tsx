@@ -38,7 +38,7 @@ import { ExecutiveMetricCard } from '../ui/executive-metric-card';
 import { ExecutiveTechnicalMetricCard } from '../ui/executive-technical-metric-card';
 import { ExecutiveScore } from '../ui/executive-score';
 import { ExecutiveHeroMetric } from '../ui/executive-hero-metric';
-import { CPS_COMPONENTS, getCPSClassification } from '../../core/runtime/governance/cps-framework';
+import { CPS_COMPONENTS, getCPSClassification } from '../ui/cps-framework';
 
 import { cn, formatCurrency, formatValue } from '../../lib/utils';
 import { PageHeader, KpiValue, StatusBadge } from '../Common';
