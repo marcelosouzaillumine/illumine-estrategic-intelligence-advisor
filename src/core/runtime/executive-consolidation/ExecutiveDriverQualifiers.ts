@@ -26,8 +26,8 @@ export function qualifyAutonomy(autonomiaFinanceira: number | undefined): string
 
 export function qualifyCapitalDependency(dependenciaCapitalTerceiros: number | undefined): string {
   if (dependenciaCapitalTerceiros === undefined) return "dependência de capital controlada";
-  if (dependenciaCapitalTerceiros > 70) return "forte dependência de terceiros";
-  if (dependenciaCapitalTerceiros > 50) return "dependência de terceiros expressiva";
-  if (dependenciaCapitalTerceiros > 30) return "dependência de capital equilibrada";
+  if (dependenciaCapitalTerceiros > 1.0) return "dependência crítica de capital de terceiros";
+  if (dependenciaCapitalTerceiros > 0.75) return "dependência elevada de terceiros";
+  if (dependenciaCapitalTerceiros > 0.30) return "dependência moderada de capital de terceiros";
   return "baixa dependência de terceiros";
 }

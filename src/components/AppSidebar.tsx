@@ -148,7 +148,7 @@ export function AppSidebar({
           {isMobile && (
             <button
               onClick={() => setOpenMobile(false)}
-              className="absolute right-0 p-1.5 text-muted-foreground hover:text-rose-500 transition-colors rounded-lg"
+              className="absolute right-0 p-1.5 text-muted-foreground hover:text-destructive transition-colors rounded-lg"
             >
               <X size={16} />
             </button>

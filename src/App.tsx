@@ -783,7 +783,7 @@ function AppContent({
 
 
         {showUniversalImport && (
-          <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-slate-900/60 backdrop-blur-sm">
+          <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-background/80 backdrop-blur-sm">
             <div className="w-full max-w-4xl max-h-[90vh] overflow-hidden rounded-3xl shadow-2xl bg-card flex flex-col">
               <div className="p-6 border-b border-border flex justify-between items-center bg-surface-container/50 shrink-0">
                 <div>
@@ -794,7 +794,7 @@ function AppContent({
                 </div>
                 <button 
                   onClick={() => setShowUniversalImport(false)}
-                  className="p-2 hover:bg-slate-200 rounded-full transition-colors text-neutral"
+                  className="p-2 hover:bg-surface-elevated rounded-full transition-colors text-neutral"
                 >
                   <X size={20} />
                 </button>

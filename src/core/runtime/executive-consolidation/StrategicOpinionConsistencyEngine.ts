@@ -1,4 +1,6 @@
 import * as ExecutiveSemanticBoundaryGuard from './ExecutiveSemanticBoundaryGuard';
+import { ExecutiveNarrativeBuilder } from './ExecutiveNarrativeBuilder';
+import { ExecutivePrimaryMotiveConsistencyEngine } from './ExecutivePrimaryMotiveConsistencyEngine';
 import { qualifyLiquidity, qualifyLeverage, qualifyAutonomy, qualifyCapitalDependency } from './ExecutiveDriverQualifiers';
 
 export type AnalyticalModule = 'BP' | 'DRE' | 'DFC' | 'DLPA' | 'EFOS' | 'ESGIM' | 'WORKSPACE' | 'BOARD_INT';
@@ -114,118 +116,44 @@ export class StrategicOpinionConsistencyEngine {
   }
 
   /**
-   * Synthesizes the core opinion components preventing hallucinations or contradictions.
-   */
-  private static synthesizeComponents(context: ExecutiveAnalysisContext, severity: StrategicSeverityLevel) {
-    if (severity === 'NEUTRAL') {
-      return {
-        situacaoAtual: 'Dados insuficientes para diagnóstico fiduciário completo. Requer mapeamento detalhado dos drivers vitais.',
-        prioridadeEstrategica: 'Normalização da base de dados e consolidação das demonstrações financeiras.',
-        outlook: 'Aguardando informações materiais para projeção estratégica confiável.'
-      };
-    }
-
-    let situacaoAtual = '';
-    let prioridadeEstrategica = '';
-    let outlook = '';
-
-    const isPatrimonial = context.moduleContext === 'BP' || context.moduleContext === 'EFOS';
-    const isPerformance = context.moduleContext === 'DRE' || context.moduleContext === 'DFC' || context.moduleContext === 'EFOS';
-
-    const d = context.technicalDrivers || {};
-
-    // For BP context
-    const liquidezReal = Number(d.liquidezReal);
-    const endividamentoGeral = Number(d.endividamentoGeral);
-    const autonomiaFinanceira = Number(d.autonomiaFinanceira);
-    const dependenciaCapital = Number(d.dependenciaCapitalTerceiros);
-
-    const qLiquidez = qualifyLiquidity(isNaN(liquidezReal) ? undefined : liquidezReal);
-    const qAlavancagem = qualifyLeverage(isNaN(endividamentoGeral) ? undefined : endividamentoGeral);
-    const qAutonomia = qualifyAutonomy(isNaN(autonomiaFinanceira) ? undefined : autonomiaFinanceira);
-    const qDependencia = qualifyCapitalDependency(isNaN(dependenciaCapital) ? undefined : dependenciaCapital);
-
-    // For DRE context
-    const margemLiquida = Number(d.margemLiquida);
-    const ebitda = Number(d.ebitda);
-    
-    // For DFC context
-    const fco = Number(d.fco);
-
-    switch (severity) {
-      case 'CRITICAL':
-        situacaoAtual = isPatrimonial 
-          ? `A estrutura patrimonial encontra-se sob stress severo, refletindo ${qLiquidez} e ${qAutonomia}, exigindo ações imediatas de proteção de capital.`
-          : 'A operação apresenta vulnerabilidades críticas, operando com restrições materiais que comprometem o equilíbrio de curto prazo.';
-        if (context.moduleContext === 'DRE') {
-           situacaoAtual = `O desempenho econômico revela compressão crítica, com ${!isNaN(margemLiquida) && margemLiquida < 0 ? 'margens negativas materiais' : 'baixa rentabilidade operacional'}.`;
-        } else if (context.moduleContext === 'DFC') {
-           situacaoAtual = `A dinâmica de caixa sinaliza exaustão, com ${!isNaN(fco) && fco < 0 ? 'queima de caixa operacional recorrente' : 'tesouraria sob forte pressão'}.`;
-        }
-
-        prioridadeEstrategica = isPatrimonial
-          ? `Recomposição urgente de liquidez, estancamento de consumo de capital e mitigação da ${qDependencia}.`
-          : 'Recomposição urgente de caixa, contenção de expansão e alongamento de passivos operacionais.';
-        outlook = 'O cenário exige foco total em sobrevivência e gestão emergencial até a normalização dos indicadores vitais.';
-        break;
-
-      case 'WARNING':
-        situacaoAtual = isPatrimonial
-          ? `A estrutura patrimonial é funcional, porém apresenta pontos de atenção como ${qAlavancagem} e ${qLiquidez}, exigindo monitoramento ativo.`
-          : 'O modelo de operação apresenta viabilidade, mas com margens sob pressão e necessidade de ganho de eficiência operacional.';
-        if (context.moduleContext === 'DRE') {
-           situacaoAtual = `A geração de resultados é viável, porém o EBITDA de ${!isNaN(ebitda) ? ebitda.toLocaleString('pt-BR', {style: 'currency', currency: 'BRL'}) : 'nível restrito'} aponta para pressões de custo.`;
-        } else if (context.moduleContext === 'DFC') {
-           situacaoAtual = 'A geração de caixa cobre as necessidades básicas, mas apresenta oscilações que reduzem a margem de segurança.';
-        }
-
-        prioridadeEstrategica = isPatrimonial
-          ? `Prudência na alocação de recursos, otimização de capital de giro e esforços para garantir ${qAutonomia}.`
-          : 'Prudência na alocação, otimização do capital de giro, redução de concentração de riscos e disciplina na execução.';
-        outlook = 'Cenário estável no curto prazo, exigindo gestão cuidadosa da estrutura de capital para transição a um estado de maior resiliência.';
-        break;
-
-      case 'HEALTHY':
-        situacaoAtual = isPatrimonial
-          ? `Estrutura patrimonial resiliente, destacando-se por ${qLiquidez}, ${qAlavancagem} e ${qAutonomia}, suportando adequadamente o ciclo da operação.`
-          : 'A operação demonstra forte capacidade de geração de valor, com indicadores consistentes de rentabilidade e conversão em caixa.';
-        if (context.moduleContext === 'DRE') {
-           situacaoAtual = `Rentabilidade robusta com margens resilientes e EBITDA de ${!isNaN(ebitda) ? ebitda.toLocaleString('pt-BR', {style: 'currency', currency: 'BRL'}) : 'alto valor agregado'}.`;
-        } else if (context.moduleContext === 'DFC') {
-           situacaoAtual = `A operação é altamente geradora de caixa, sustentando suas obrigações por meio de um FCO robusto de ${!isNaN(fco) ? fco.toLocaleString('pt-BR', {style: 'currency', currency: 'BRL'}) : 'excelência'}.`;
-        }
-
-        prioridadeEstrategica = isPatrimonial
-          ? `Manutenção da disciplina na estrutura de capital, garantindo ${qDependencia} e alocação eficiente de excedentes.`
-          : 'Otimização operacional, alocação eficiente de excedentes e expansão sustentável com disciplina financeira.';
-        outlook = 'O cenário atual oferece fundamentos robustos e flexibilidade financeira para sustentar planos de crescimento de forma sustentável.';
-        break;
-    }
-
-    return { situacaoAtual, prioridadeEstrategica, outlook };
-  }
-
-  /**
    * Generates the final Strategic Opinion using the unified framework
    */
   public static deriveStrategicOpinion(context: ExecutiveAnalysisContext): StrategicOpinion {
     const isComplete = this.checkDriverCompleteness(context);
     const severityState = this.determineSeverityState(context);
-    const { situacaoAtual, prioridadeEstrategica, outlook } = this.synthesizeComponents(context, severityState);
+    
+    if (severityState === 'NEUTRAL') {
+      const situacaoAtual = 'Dados insuficientes para diagnóstico fiduciário completo. Requer mapeamento detalhado dos drivers vitais.';
+      const prioridadeEstrategica = 'Normalização da base de dados e consolidação das demonstrações financeiras.';
+      const outlook = 'Aguardando informações materiais para projeção estratégica confiável.';
+      return {
+        situacaoAtual,
+        prioridadeEstrategica,
+        outlook,
+        fullNarrative: `Situação Atual: ${situacaoAtual} Prioridade Estratégica: ${prioridadeEstrategica} Outlook: ${outlook}`,
+        severityState,
+        isComplete
+      };
+    }
+
+    const narrativeContext = ExecutivePrimaryMotiveConsistencyEngine.deriveNarrativeContext(context, severityState);
+
+    const situacaoAtual = ExecutiveNarrativeBuilder.buildSituacaoAtual(narrativeContext);
+    const prioridadeEstrategica = ExecutiveNarrativeBuilder.buildPrioridadeEstrategica(narrativeContext);
+    const outlook = ExecutiveNarrativeBuilder.buildOutlook(narrativeContext);
 
     const rawNarrative = `Situação Atual: ${situacaoAtual} Prioridade Estratégica: ${prioridadeEstrategica} Outlook: ${outlook}`;
     
-    // Pass everything through the semantic guardrail to enforce vocabulary coherence
     const safeSituacao = ExecutiveSemanticBoundaryGuard.sanitize(situacaoAtual, severityState === 'CRITICAL' ? 'SEVERE' : 'MONITORING');
     const safePrioridade = ExecutiveSemanticBoundaryGuard.sanitize(prioridadeEstrategica, severityState === 'CRITICAL' ? 'SEVERE' : 'MONITORING');
     const safeOutlook = ExecutiveSemanticBoundaryGuard.sanitize(outlook, severityState === 'CRITICAL' ? 'SEVERE' : 'MONITORING');
     const safeFullNarrative = ExecutiveSemanticBoundaryGuard.sanitize(rawNarrative, severityState === 'CRITICAL' ? 'SEVERE' : 'MONITORING');
 
     return {
-      situacaoAtual: severityState === 'NEUTRAL' ? situacaoAtual : safeSituacao,
-      prioridadeEstrategica: severityState === 'NEUTRAL' ? prioridadeEstrategica : safePrioridade,
-      outlook: severityState === 'NEUTRAL' ? outlook : safeOutlook,
-      fullNarrative: severityState === 'NEUTRAL' ? rawNarrative : safeFullNarrative,
+      situacaoAtual: safeSituacao,
+      prioridadeEstrategica: safePrioridade,
+      outlook: safeOutlook,
+      fullNarrative: safeFullNarrative,
       severityState,
       isComplete
     };

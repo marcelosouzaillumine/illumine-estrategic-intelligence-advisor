@@ -105,7 +105,7 @@ export class ExecutivePrimaryMotiveConsistencyEngine {
     } else { // HEALTHY
       // Priority 5 — Positive drivers
       if (!isNaN(autonomia) && autonomia >= 80) dominantStrength = 'Autonomia Financeira Robusta';
-      else if (!isNaN(dep) && dep < 30) dominantStrength = 'Baixa Dependência de Capital de Terceiros';
+      else if (!isNaN(dep) && dep <= 0.30) dominantStrength = 'Baixa Dependência de Capital de Terceiros';
       else if (!isNaN(lqReal) && lqReal >= 3.0) dominantStrength = 'Liquidez Real Elevada';
       else if (!isNaN(fco) && fco > 0) dominantStrength = 'Forte Geração de Caixa';
       else dominantStrength = 'Fundamentos Robustos';
