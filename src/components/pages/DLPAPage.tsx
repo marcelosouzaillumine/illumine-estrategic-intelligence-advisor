@@ -35,6 +35,7 @@ import { ExecutiveDecisionSynthesisEngine } from '../../services/FiduciaryRuntim
 import { ExecutiveNarrative } from '../ui/executive-narrative';
 import { ExecutiveMetricCard } from '../ui/executive-metric-card';
 import { ExecutiveTechnicalMetricCard } from '../ui/executive-technical-metric-card';
+import { ExecutiveScore } from '../ui/executive-score';
 
 import { cn, formatCurrency, formatValue } from '../../lib/utils';
 import { PageHeader, KpiValue } from '../Common';
@@ -832,49 +833,65 @@ export function DLPAPage({ clients, selectedClient, selectedYear }: any) {
               
               {/* Capital Preservation Score (CPS) Header Block */}
               {executiveLayer.capitalPreservationScore && (
-                <div className="bg-card border border-border rounded-[40px] p-8 shadow-sm relative overflow-hidden flex flex-col md:flex-row items-start md:items-center justify-between gap-6 mb-6">
-                  <div className="relative z-10 flex-1">
+                <ExecutiveSurface padding="xl" radius="xl" className="flex flex-col md:flex-row items-center justify-between gap-8 mb-6 border-border">
+                  <div className="flex-1 flex flex-col justify-center">
                     <div className="flex items-center gap-3 mb-2">
-                      <ShieldCheck size={24} className="text-secondary" />
-                      <h3 className="text-xl font-black tracking-wide text-foreground">Capital Preservation Score (CPS)</h3>
+                      <ShieldCheck size={24} className="text-primary" />
+                      <h3 className="text-xl font-bold tracking-tight text-foreground">Capital Preservation Score (CPS)</h3>
                     </div>
-                    <p className="text-secondary">Métrica Principal de Governança Fiduciária</p>
+                    <p className="text-muted-foreground text-sm font-medium mb-6">Métrica Principal de Governança Fiduciária</p>
+                    
                     {executiveLayer.capitalPreservationScore.components ? (
-                      <div className="flex flex-wrap items-center gap-2 mt-2">
-                        <span className="text-[10px] font-bold uppercase tracking-wider text-muted-foreground mr-1">Ponderação:</span>
-                        <div className="inline-flex items-center px-3 py-1.5 bg-surface-container/30 border border-border rounded-lg shadow-sm text-[11px] font-semibold text-muted-foreground">
-                          Remanescente <span className="text-muted-foreground ml-1">({executiveLayer.capitalPreservationScore.components.remanescenteScore?.toFixed(0) || '0'} pts × 45%)</span>
-                        </div>
-                        <span className="text-muted-foreground font-black">+</span>
-                        <div className="inline-flex items-center px-3 py-1.5 bg-surface-container/30 border border-border rounded-lg shadow-sm text-[11px] font-semibold text-muted-foreground">
-                          Dependência <span className="text-muted-foreground ml-1">({executiveLayer.capitalPreservationScore.components.dependencyScore?.toFixed(0) || '0'} pts × 30%)</span>
-                        </div>
-                        <span className="text-muted-foreground font-black">+</span>
-                        <div className="inline-flex items-center px-3 py-1.5 bg-surface-container/30 border border-border rounded-lg shadow-sm text-[11px] font-semibold text-muted-foreground">
-                          Distribuição <span className="text-muted-foreground ml-1">({executiveLayer.capitalPreservationScore.components.distributionScore?.toFixed(0) || '0'} pts × 10%)</span>
-                        </div>
-                        <span className="text-muted-foreground font-black">+</span>
-                        <div className="inline-flex items-center px-3 py-1.5 bg-surface-container/30 border border-border rounded-lg shadow-sm text-[11px] font-semibold text-muted-foreground">
-                          Horizonte <span className="text-muted-foreground ml-1">({executiveLayer.capitalPreservationScore.components.horizonScore?.toFixed(0) || '0'} pts × 15%)</span>
+                      <div>
+                        <p className="text-xs font-bold uppercase tracking-wider text-muted-foreground mb-3">Ponderação da Inteligência Patrimonial</p>
+                        <div className="flex flex-wrap items-center gap-x-4 gap-y-2">
+                          <div className="flex items-center gap-2">
+                            <span className="text-sm font-semibold text-foreground">Remanescente</span>
+                            <span className="text-sm text-muted-foreground">({executiveLayer.capitalPreservationScore.components.remanescenteScore?.toFixed(0) || '0'} pts × 45%)</span>
+                          </div>
+                          <span className="text-muted-foreground/50 font-bold">+</span>
+                          <div className="flex items-center gap-2">
+                            <span className="text-sm font-semibold text-foreground">Dependência</span>
+                            <span className="text-sm text-muted-foreground">({executiveLayer.capitalPreservationScore.components.dependencyScore?.toFixed(0) || '0'} pts × 30%)</span>
+                          </div>
+                          <span className="text-muted-foreground/50 font-bold">+</span>
+                          <div className="flex items-center gap-2">
+                            <span className="text-sm font-semibold text-foreground">Distribuição</span>
+                            <span className="text-sm text-muted-foreground">({executiveLayer.capitalPreservationScore.components.distributionScore?.toFixed(0) || '0'} pts × 10%)</span>
+                          </div>
+                          <span className="text-muted-foreground/50 font-bold">+</span>
+                          <div className="flex items-center gap-2">
+                            <span className="text-sm font-semibold text-foreground">Horizonte</span>
+                            <span className="text-sm text-muted-foreground">({executiveLayer.capitalPreservationScore.components.horizonScore?.toFixed(0) || '0'} pts × 15%)</span>
+                          </div>
                         </div>
                       </div>
                     ) : (
-                      <div className="inline-flex items-center px-4 py-2 mt-1 bg-surface-container/30 border border-border rounded-xl shadow-sm text-xs font-semibold text-muted-foreground tracking-wide">
+                      <p className="text-sm text-muted-foreground leading-relaxed">
                         {executiveLayer.capitalPreservationScore.rationale}
-                      </div>
+                      </p>
                     )}
                   </div>
 
-                  <div className="relative z-10 flex flex-col items-center justify-center shrink-0 bg-surface-container/30 border border-border rounded-3xl p-6 min-w-[200px]">
-                    <span className="text-[10px] font-black uppercase tracking-wider text-muted-foreground mb-2">Preservação Geral</span>
-                    <div className="text-5xl font-black text-foreground tracking-tight mb-2">
-                      {executiveLayer.capitalPreservationScore.value}<span className="text-lg text-primary">/100</span>
-                    </div>
-                    <span className="px-3 py-1 rounded-full text-[10px] font-black uppercase tracking-wider border border-border bg-card text-muted-foreground">
-                      {executiveLayer.capitalPreservationScore.classification}
-                    </span>
+                  <div className="shrink-0 w-full md:w-auto">
+                    {(() => {
+                      const cpsValue = executiveLayer.capitalPreservationScore.value || 0;
+                      let color: 'emerald' | 'blue' | 'amber' | 'rose' | 'slate' = 'emerald';
+                      if (cpsValue < 40) color = 'rose';
+                      else if (cpsValue < 70) color = 'amber';
+                      else if (cpsValue < 90) color = 'blue';
+                      
+                      return (
+                        <ExecutiveScore
+                          value={cpsValue}
+                          label={executiveLayer.capitalPreservationScore.classification || "Score Geral"}
+                          color={color}
+                          className="border-none shadow-none bg-transparent"
+                        />
+                      );
+                    })()}
                   </div>
-                </div>
+                </ExecutiveSurface>
               )}
 
               {/* 1. Tese de Governança & 8. Síntese Executiva */}
