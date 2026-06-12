@@ -816,10 +816,6 @@ export function DLPAPage({ clients, selectedClient, selectedYear }: any) {
                         <h3 className="text-xl font-semibold tracking-tight text-foreground">Capital Preservation Score (CPS)</h3>
                       </div>
                       <p className="text-foreground/70 text-sm font-medium mb-6">Métrica Principal de Governança Fiduciária</p>
-                      
-                      <p className="text-sm text-foreground/80 leading-relaxed">
-                        {executiveLayer.capitalPreservationScore.rationale}
-                      </p>
                     </div>
 
                     {/* Right: Score Panel */}
@@ -838,8 +834,8 @@ export function DLPAPage({ clients, selectedClient, selectedYear }: any) {
                             statusBadge={<span>{executiveLayer.capitalPreservationScore.classification || "Capital Erodido"}</span>}
                             tone={tone}
                             description={
-                              <span className="text-sm font-medium opacity-80">
-                                {executiveLayer.capitalPreservationScore.rationale || "Preservação Geral"}
+                              <span className="text-sm font-medium text-foreground/90">
+                                Preservação Geral
                               </span>
                             }
                             className="h-full justify-center"
@@ -885,8 +881,8 @@ export function DLPAPage({ clients, selectedClient, selectedYear }: any) {
                         tone={tone}
                         description={
                           <div className="flex flex-col gap-2">
-                            <span>{executiveLayer.capitalPreservationStatus?.narrative}</span>
-                            <span className="text-foreground/70">{executiveLayer.capitalPreservationStatus?.rationale}</span>
+                            <span className="font-medium text-foreground/90">{executiveLayer.capitalPreservationStatus?.narrative}</span>
+                            <span className="text-foreground/80">{executiveLayer.capitalPreservationStatus?.rationale}</span>
                           </div>
                         }
                       />
@@ -912,8 +908,8 @@ export function DLPAPage({ clients, selectedClient, selectedYear }: any) {
                         tone={tone}
                         description={
                           <div className="flex flex-col gap-2">
-                            <span>{executiveLayer.capitalErosionRisk?.narrative}</span>
-                            <span className="text-foreground/70">{executiveLayer.capitalErosionRisk?.rationale}</span>
+                            <span className="font-medium text-foreground/90">{executiveLayer.capitalErosionRisk?.narrative}</span>
+                            <span className="text-foreground/80">{executiveLayer.capitalErosionRisk?.rationale}</span>
                           </div>
                         }
                       />
@@ -937,8 +933,8 @@ export function DLPAPage({ clients, selectedClient, selectedYear }: any) {
                         tone={tone}
                         description={
                           <div className="flex flex-col gap-2">
-                            <span>{executiveLayer.capitalRecoveryRequirement?.narrative}</span>
-                            <span className="text-foreground/70">{executiveLayer.capitalRecoveryRequirement?.rationale}</span>
+                            <span className="font-medium text-foreground/90">{executiveLayer.capitalRecoveryRequirement?.narrative}</span>
+                            <span className="text-foreground/80">{executiveLayer.capitalRecoveryRequirement?.rationale}</span>
                           </div>
                         }
                       />
@@ -965,8 +961,8 @@ export function DLPAPage({ clients, selectedClient, selectedYear }: any) {
                         tone={tone}
                         description={
                           <div className="flex flex-col gap-2">
-                            <span>{executiveLayer.capitalRecoverability?.narrative}</span>
-                            <span className="text-foreground/70">{executiveLayer.patrimonialRecoveryHorizon?.rationale}</span>
+                            <span className="font-medium text-foreground/90">{executiveLayer.capitalRecoverability?.narrative}</span>
+                            <span className="text-foreground/80">{executiveLayer.patrimonialRecoveryHorizon?.rationale}</span>
                           </div>
                         }
                       />
