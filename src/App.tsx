@@ -700,7 +700,7 @@ function AppContent({
       <main className="flex-1 flex flex-col min-w-0 relative h-full overflow-hidden">
         <header className="h-14 sm:h-16 bg-background/60 backdrop-blur-3xl flex items-center justify-between px-2 sm:px-4 md:px-8 sticky top-0 z-50 transition-all duration-700 border-b border-border shadow-sm">
           <div className="flex items-center gap-1 sm:gap-2 md:gap-8 min-w-0">
-            <SidebarTrigger className="text-muted-foreground hover:text-foreground hover:bg-surface-container transition-colors rounded-button p-1.5 sm:p-2 shrink-0" />
+            <SidebarTrigger className="text-muted-foreground hover:text-foreground hover:bg-surface-elevated transition-all duration-300 rounded-full p-2 shrink-0" />
             
             <div className="block shrink min-w-0">
               <ClientSelector 
@@ -715,9 +715,9 @@ function AppContent({
               <input 
                 type="text" 
                 placeholder={t('buttons.search_placeholder')} 
-                className="pl-8 pr-4 py-2 bg-surface-container/40 border-b border-border focus:border-secondary transition-all outline-none w-44 xl:w-72 text-xs font-sans text-foreground placeholder:text-neutral focus:bg-background" 
+                className="pl-11 pr-5 py-2.5 bg-surface-elevated border border-border rounded-full focus:ring-4 focus:ring-primary/5 focus:border-primary/20 transition-all duration-300 outline-none w-48 xl:w-80 text-xs font-sans text-foreground placeholder:text-muted-foreground hover:border-border/80" 
               />
-              <Search size={14} strokeWidth={1.25} className="text-neutral absolute left-2 top-1/2 -translate-y-1/2 group-focus-within:text-secondary transition-colors" />
+              <Search size={15} strokeWidth={1.5} className="text-muted-foreground absolute left-4 top-1/2 -translate-y-1/2 group-focus-within:text-primary transition-colors duration-300" />
             </div>
           </div>
             
@@ -726,14 +726,14 @@ function AppContent({
             <div className="hidden sm:flex items-center gap-1.5 sm:gap-3">
               <button 
                  onClick={() => window.print()}
-                 className="p-3 text-muted-foreground hover:text-foreground hover:bg-surface-container rounded-full transition-all"
+                 className="p-2.5 text-muted-foreground hover:text-foreground hover:bg-surface-elevated rounded-full transition-all duration-300"
                  title={t('buttons.print_page')}
               >
                  <FileSpreadsheet size={20} strokeWidth={1} />
               </button>
               <button 
                  onClick={() => setShowUniversalImport(true)}
-                 className="p-3 text-text-muted hover:text-accent hover:bg-bg-surface rounded-full transition-all hidden sm:flex group relative"
+                 className="p-2.5 text-muted-foreground hover:text-primary hover:bg-surface-elevated rounded-full transition-all duration-300 hidden sm:flex group relative"
                  title={t('buttons.import_documents')}
               >
                <UploadCloud size={20} strokeWidth={1} />

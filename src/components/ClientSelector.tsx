@@ -124,7 +124,7 @@ export function ClientSelector({
                   placeholder="Pesquisar cliente..."
                   value={searchTerm}
                   onChange={(e) => setSearchTerm(e.target.value)}
-                  className="w-full pl-9 pr-4 py-2.5 bg-background border border-border rounded-button text-body-sm font-medium outline-none focus:ring-4 focus:ring-primary/5 focus:border-primary/20 transition-all"
+                  className="w-full pl-9 pr-4 py-2.5 bg-surface-elevated border border-border rounded-button text-body-sm font-medium outline-none focus:ring-4 focus:ring-primary/5 focus:border-primary/20 transition-all"
                 />
               </div>
             </div>
@@ -144,7 +144,7 @@ export function ClientSelector({
                         "w-full flex items-center gap-3 p-3 rounded-xl transition-all group",
                         selectedClient === client.id 
                           ? "bg-primary text-primary-foreground shadow-md" 
-                          : "hover:bg-surface-container text-muted-foreground hover:text-foreground"
+                          : "hover:bg-surface-elevated text-muted-foreground hover:text-foreground border border-transparent hover:border-border/30"
                       )}
                     >
                       <div className={cn(
@@ -176,7 +176,7 @@ export function ClientSelector({
                         )}
                       </div>
                       {selectedClient === client.id && (
-                        <div className="w-6 h-6 bg-secondary text-white rounded-full flex items-center justify-center">
+                        <div className="w-6 h-6 bg-white/20 text-white rounded-full flex items-center justify-center">
                           <Check size={14} />
                         </div>
                       )}
@@ -200,7 +200,7 @@ export function ClientSelector({
                   setIsOpen(false);
                   onManageClients?.();
                 }}
-                className="flex-1 flex items-center justify-center gap-2 py-3 text-body-sm font-medium uppercase tracking-widest text-muted-foreground hover:text-primary hover:bg-background rounded-button transition-all"
+                className="flex-1 flex items-center justify-center gap-2 py-3 text-body-sm font-medium uppercase tracking-widest text-muted-foreground hover:text-foreground hover:bg-surface-elevated border border-transparent rounded-button transition-all"
               >
                 <Settings size={14} /> Gerenciar
               </button>
@@ -209,7 +209,7 @@ export function ClientSelector({
                   setIsOpen(false);
                   onManageClients?.();
                 }}
-                className="flex-1 flex items-center justify-center gap-2 py-3 bg-primary/5 text-primary text-body-sm font-medium uppercase tracking-widest hover:bg-primary hover:text-primary-foreground rounded-button transition-all"
+                className="flex-1 flex items-center justify-center gap-2 py-3 btn-primary w-full text-body-sm font-medium uppercase tracking-widest rounded-button transition-all"
               >
                 <Plus size={14} /> Cadastrar Empresa
               </button>

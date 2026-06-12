@@ -1,3 +1,7 @@
+import { describe, it } from 'node:test';
+import assert from 'node:assert';
+
+
 import { StrategicOpinionConsistencyEngine, ExecutiveAnalysisContext } from '../src/core/runtime/executive-consolidation/StrategicOpinionConsistencyEngine';
 import { ExecutiveDecisionSynthesisEngine } from '../src/core/runtime/executive-consolidation/ExecutiveDecisionSynthesisEngine';
 
@@ -41,11 +45,11 @@ describe('StrategicOpinionConsistencyEngine Parametric Test v1.3', () => {
       payload2024.currentSituation,
       payload2025.currentSituation
     ]);
-    expect(uniqueSituations.size).toBe(3);
+    assert.strictEqual(uniqueSituations.size, 3);
 
     // Validate semantics
-    expect(payload2023.currentSituation.toLowerCase()).toContain('liquidez');
-    expect(payload2024.currentSituation.toLowerCase()).toContain('autonomia');
-    expect(payload2025.primaryDriver?.toLowerCase()).toContain('autonomia');
+    assert.ok(payload2023.currentSituation.toLowerCase()?.includes('liquidez'));
+    assert.ok(payload2024.currentSituation.toLowerCase()?.includes('autonomia'));
+    assert.ok(payload2025.primaryDriver?.toLowerCase()?.includes('autonomia'));
   });
 });

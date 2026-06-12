@@ -1,3 +1,5 @@
+import { describe, it } from 'node:test';
+
 import assert from 'node:assert';
 import { ExecutivePrimaryMotiveConsistencyEngine } from '../src/core/runtime/executive-consolidation/ExecutivePrimaryMotiveConsistencyEngine';
 import { ExecutiveAnalysisContext } from '../src/core/runtime/executive-consolidation/StrategicOpinionConsistencyEngine';
