@@ -2,6 +2,7 @@ import { ExecutiveAnalysisContext, StrategicOpinionConsistencyEngine } from './S
 import { ExecutiveDecisionPayload, ExecutiveStrategicDiagnosisPayload } from './ExecutiveSynthesisTypes';
 import { SynthesisMetricsResolver } from './SynthesisMetricsResolver';
 import { ExecutivePrimaryMotiveConsistencyEngine } from './ExecutivePrimaryMotiveConsistencyEngine';
+import { ExecutiveNarrativeBuilder } from './ExecutiveNarrativeBuilder';
 
 export class ExecutiveDecisionSynthesisEngine {
   public static generatePayload(context: ExecutiveAnalysisContext): ExecutiveDecisionPayload {
@@ -46,13 +47,27 @@ export class ExecutiveDecisionSynthesisEngine {
     const severityLower = opinion.severityState.toLowerCase() as "healthy" | "warning" | "critical" | "neutral";
     const recommendationPriority = severityLower === 'critical' ? 'high' : (severityLower === 'warning' ? 'medium' : 'low');
     
+    const narrativeContext = ExecutivePrimaryMotiveConsistencyEngine.deriveNarrativeContext(context, opinion.severityState);
+    let priorityRecommendation = ExecutiveNarrativeBuilder.buildPriorityRecommendation(narrativeContext);
+    
+    if (context.moduleContext === 'BP') {
+      const stage = narrativeContext.strategicStage;
+      if (stage === 'recovery') {
+        priorityRecommendation = "Consolidar a recomposição patrimonial, preservar liquidez e fortalecer a qualidade do capital.";
+      } else if (stage === 'expansion') {
+        priorityRecommendation = "Preservar disciplina de capital durante a expansão, monitorando estoques, obrigações de curto prazo e necessidade de capital de giro.";
+      } else if (stage === 'capital_allocation') {
+        priorityRecommendation = "Formalizar política de alocação de excedentes, equilibrando reserva de segurança, reinvestimento produtivo e eficiência do capital.";
+      }
+    }
+    
     return {
       analysisYear: context.analysisYear,
       generatedAt: context.generatedAt,
       currentSituation: opinion.situacaoAtual,
       strategicPriority: opinion.prioridadeEstrategica,
       outlook: opinion.outlook,
-      priorityRecommendation: opinion.prioridadeEstrategica, // Currently mapped from prioridadeEstrategica
+      priorityRecommendation,
       severityState: severityLower,
       recommendationPriority,
       primaryDriver: motive.label,

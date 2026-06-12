@@ -1,4 +1,5 @@
-import { describe, it, expect } from 'vitest';
+import { describe, it } from 'node:test';
+import assert from 'node:assert';
 import { ExecutivePrimaryMotiveConsistencyEngine } from '../src/core/runtime/executive-consolidation/ExecutivePrimaryMotiveConsistencyEngine';
 import { StrategicOpinionConsistencyEngine, ExecutiveAnalysisContext } from '../src/core/runtime/executive-consolidation/StrategicOpinionConsistencyEngine';
 
@@ -31,8 +32,8 @@ describe('Fiduciary Driver Priority Matrix v1.4', () => {
     };
     
     const motive = ExecutivePrimaryMotiveConsistencyEngine.deriveExecutivePrimaryMotive(ctx);
-    expect(motive.severity).toBe('HEALTHY');
-    expect(motive.dominantStrength).toContain('Autonomia');
+    assert.strictEqual(motive.severity, 'HEALTHY');
+    assert.ok(motive.dominantStrength?.includes('Autonomia'));
   });
 
   it('Cenário 2: Cliente com Liquidez Crítica (Priority 1 bloqueando Priority 5)', () => {
@@ -49,9 +50,9 @@ describe('Fiduciary Driver Priority Matrix v1.4', () => {
     };
     
     const motive = ExecutivePrimaryMotiveConsistencyEngine.deriveExecutivePrimaryMotive(ctx);
-    expect(motive.severity).toBe('CRITICAL');
-    expect(motive.dominantStrength).toContain('Liquidez Real Crítica');
-    expect(motive.label).not.toContain('Autonomia');
+    assert.strictEqual(motive.severity, 'CRITICAL');
+    assert.ok(motive.dominantStrength?.includes('Liquidez Real Crítica'));
+    assert.ok(!motive.label?.includes('Autonomia'));
   });
 
   it('Cenário 3: Cliente com Lucro, mas FCO negativo (Priority 1 vencendo Priority 4)', () => {
@@ -69,8 +70,8 @@ describe('Fiduciary Driver Priority Matrix v1.4', () => {
     };
     
     const motive = ExecutivePrimaryMotiveConsistencyEngine.deriveExecutivePrimaryMotive(ctx);
-    expect(motive.severity).toBe('CRITICAL');
-    expect(motive.dominantStrength).toContain('Caixa Operacional Negativo');
+    assert.strictEqual(motive.severity, 'CRITICAL');
+    assert.ok(motive.dominantStrength?.includes('Caixa Operacional Negativo'));
   });
 
   it('Cenário 4: Cliente com PL Positivo mas Liquidez Insuficiente', () => {
@@ -87,8 +88,8 @@ describe('Fiduciary Driver Priority Matrix v1.4', () => {
     };
     
     const motive = ExecutivePrimaryMotiveConsistencyEngine.deriveExecutivePrimaryMotive(ctx);
-    expect(motive.severity).toBe('CRITICAL');
-    expect(motive.dominantStrength).toContain('Liquidez Real Crítica');
+    assert.strictEqual(motive.severity, 'CRITICAL');
+    assert.ok(motive.dominantStrength?.includes('Liquidez Real Crítica'));
   });
 
   it('Cenário 5: Cliente com Baixa Dívida mas PL Negativo (Priority 2)', () => {
@@ -105,8 +106,8 @@ describe('Fiduciary Driver Priority Matrix v1.4', () => {
     };
     
     const motive = ExecutivePrimaryMotiveConsistencyEngine.deriveExecutivePrimaryMotive(ctx);
-    expect(motive.severity).toBe('CRITICAL');
-    expect(motive.dominantStrength).toContain('Patrimônio Líquido a Descoberto');
+    assert.strictEqual(motive.severity, 'CRITICAL');
+    assert.ok(motive.dominantStrength?.includes('Patrimônio Líquido a Descoberto'));
   });
 
   it('Cenário 6: Driver Completeness Guard (Dados Insuficientes)', () => {
@@ -119,8 +120,8 @@ describe('Fiduciary Driver Priority Matrix v1.4', () => {
     };
     
     const motive = ExecutivePrimaryMotiveConsistencyEngine.deriveExecutivePrimaryMotive(ctx);
-    expect(motive.severity).toBe('NEUTRAL');
-    expect(motive.label).toBe('Dados Insuficientes');
+    assert.strictEqual(motive.severity, 'NEUTRAL');
+    assert.strictEqual(motive.label, 'Dados Insuficientes');
   });
 
 });

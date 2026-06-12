@@ -37,8 +37,6 @@ import { ExecutiveTechnicalLayer } from '../ui/executive-technical-layer';
 import { ExecutiveMetricCard } from '../ui/executive-metric-card';
 import { ExecutiveTechnicalMetricCard } from '../ui/executive-technical-metric-card';
 import { ExecutiveScore } from '../ui/executive-score';
-import { ExecutiveHeroMetric } from '../ui/executive-hero-metric';
-import { CPS_COMPONENTS, getCPSClassification } from '../ui/cps-framework';
 
 import { cn, formatCurrency, formatValue } from '../../lib/utils';
 import { PageHeader, KpiValue, StatusBadge } from '../Common';
@@ -852,28 +850,94 @@ export function DLPAPage({ clients, selectedClient, selectedYear }: any) {
                 </div>
               )}
 
-              {/* 4. Hero Metric (CPS) */}
-              {(() => {
-                const cpsScoreRaw = executiveLayer.capitalPreservationStatus?.value ?? 0;
-                const cpsScore = Math.max(0, Math.min(Math.round(cpsScoreRaw * 100), 100));
-                const cpsMeta = getCPSClassification(cpsScore);
-                
-                return (
-                  <div className="mt-8 mb-8">
-                    <ExecutiveHeroMetric
-                      title="Índice de Preservação de Capital (CPS)"
-                      subtitle="Índice fiduciário composto que sintetiza a capacidade institucional de preservar, recompor e fortalecer o capital investido pelos sócios ao longo do tempo."
-                      narrative={executiveLayer.capitalPreservationStatus?.narrative}
-                      score={cpsScore}
-                      scoreColor={cpsMeta.tone === 'success' ? 'emerald' : cpsMeta.tone === 'warning' ? 'amber' : cpsMeta.tone === 'critical' ? 'rose' : cpsMeta.tone === 'info' ? 'blue' : 'slate'}
-                      classification={cpsMeta.classification}
-                      classificationTone={cpsMeta.tone}
-                      riskLevel={cpsMeta.riskLevel}
-                      components={CPS_COMPONENTS}
-                    />
+              {/* 3. Inteligência de Preservação de Capital */}
+              <ExecutiveSurface padding="xl" radius="xl" className="border-border mt-8">
+                <div className="mb-6 md:mb-8">
+                  <div className="flex items-center gap-2 mb-1">
+                    <TrendingUp size={24} className="text-primary" />
+                    <h3 className="text-xl md:text-[22px] font-semibold text-foreground">Inteligência de Preservação de Capital</h3>
                   </div>
-                );
-              })()}
+                  <p className="text-sm text-foreground/70 font-medium">Indicadores sintéticos de preservação, consumo e recomposição do capital.</p>
+                </div>
+                
+                <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-5 md:gap-6 items-stretch mb-8">
+                  {/* Card 1: Índice de Preservação de Capital (CPS) */}
+                  {(() => {
+                    const val = executiveLayer.capitalPreservationStatus?.value ?? 0;
+                    const classification = executiveLayer.capitalPreservationStatus?.classification || 'Capital Erodido';
+                    let tone: 'critical' | 'warning' | 'info' | 'success' = val >= 0.90 ? 'success' : val >= 0.75 ? 'info' : val >= 0.50 ? 'warning' : 'critical';
+                    const badgeClass = tone === 'critical' ? 'bg-critical-soft text-critical-foreground border-critical/20' : tone === 'warning' ? 'bg-warning-soft text-warning-foreground border-warning/20' : 'bg-success-soft text-success-foreground border-success/20';
+                    return (
+                      <ExecutiveMetricCard
+                        label="Índice de Preservação de Capital (CPS)"
+                        value={`${(val * 100).toFixed(1).replace('.', ',')}%`}
+                        statusBadge={<span className={cn("text-[10px] font-semibold uppercase tracking-widest px-2.5 py-0.5 rounded-full border whitespace-nowrap", badgeClass)}>{classification}</span>}
+                        tone={tone}
+                        description={<span className="font-medium text-foreground/90">{executiveLayer.capitalPreservationStatus?.narrative}</span>}
+                        className="h-full bg-surface-container/30"
+                      />
+                    );
+                  })()}
+
+                  {/* Card 2: Capital Consumido */}
+                  {(() => {
+                    const val = executiveLayer.capitalErosionRisk?.value ?? 0;
+                    const consumedAmount = executiveLayer.capitalErosionRisk?.capitalConsumedAmount ?? 0;
+                    const classification = executiveLayer.capitalErosionRisk?.classification || 'Baixo';
+                    let tone: 'critical' | 'warning' | 'info' | 'success' = val >= 0.50 ? 'critical' : val >= 0.25 ? 'warning' : 'success';
+                    const badgeClass = tone === 'critical' ? 'bg-critical-soft text-critical-foreground border-critical/20' : tone === 'warning' ? 'bg-warning-soft text-warning-foreground border-warning/20' : 'bg-success-soft text-success-foreground border-success/20';
+                    return (
+                      <ExecutiveMetricCard
+                        label="Capital Consumido"
+                        value={formatCurrency(consumedAmount)}
+                        statusBadge={<span className={cn("text-[10px] font-semibold uppercase tracking-widest px-2.5 py-0.5 rounded-full border whitespace-nowrap", badgeClass)}>{classification}</span>}
+                        tone={tone}
+                        description={<span className="font-medium text-foreground/90">{executiveLayer.capitalErosionRisk?.narrative}</span>}
+                        className="h-full bg-surface-container/30"
+                      />
+                    );
+                  })()}
+
+                  {/* Card 3: Recomposição Requerida */}
+                  {(() => {
+                    const val = executiveLayer.capitalRecoveryRequirement?.value ?? 0;
+                    const requiredAmount = executiveLayer.capitalRecoveryRequirement?.capitalRecoveryRequired ?? 0;
+                    const classification = executiveLayer.capitalRecoveryRequirement?.classification || 'Patrimônio Íntegro';
+                    const tone = val > 0 ? 'critical' : 'success';
+                    const badgeClass = tone === 'critical' ? 'bg-critical-soft text-critical-foreground border-critical/20' : 'bg-success-soft text-success-foreground border-success/20';
+                    return (
+                      <ExecutiveMetricCard
+                        label="Recomposição"
+                        value={formatCurrency(requiredAmount)}
+                        statusBadge={<span className={cn("text-[10px] font-semibold uppercase tracking-widest px-2.5 py-0.5 rounded-full border whitespace-nowrap", badgeClass)}>{classification}</span>}
+                        tone={tone}
+                        description={<span className="font-medium text-foreground/90">{executiveLayer.capitalRecoveryRequirement?.narrative}</span>}
+                        className="h-full bg-surface-container/30"
+                      />
+                    );
+                  })()}
+
+                  {/* Card 4: Horizonte de Recuperação Patrimonial */}
+                  {(() => {
+                    const formatted = executiveLayer.patrimonialRecoveryHorizon?.formatted || 'Não Estimável';
+                    const classification = executiveLayer.capitalRecoverability?.classification || 'Não Estimável';
+                    let tone: 'critical' | 'warning' | 'info' | 'success' = classification === 'Alta' ? 'success' : classification === 'Moderada' ? 'info' : classification === 'Baixa' ? 'warning' : 'critical';
+                    const badgeClass = tone === 'critical' ? 'bg-critical-soft text-critical-foreground border-critical/20' : tone === 'warning' ? 'bg-warning-soft text-warning-foreground border-warning/20' : 'bg-success-soft text-success-foreground border-success/20';
+                    return (
+                      <ExecutiveMetricCard
+                        label="Horizonte"
+                        value={formatted}
+                        statusBadge={<span className={cn("text-[10px] font-semibold uppercase tracking-widest px-2.5 py-0.5 rounded-full border whitespace-nowrap", badgeClass)}>{classification}</span>}
+                        tone={tone}
+                        description={<span className="font-medium text-foreground/90">{executiveLayer.capitalRecoverability?.narrative}</span>}
+                        className="h-full bg-surface-container/30"
+                      />
+                    );
+                  })()}
+                </div>
+
+                {/* Narrativas Consolidadas foram movidas para a Camada Técnica no final da página */}
+              </ExecutiveSurface>
 
               {/* 4. Proteção ao Capital dos Sócios */}
               <ExecutiveSurface padding="xl" radius="xl" className="border-border mt-8">
