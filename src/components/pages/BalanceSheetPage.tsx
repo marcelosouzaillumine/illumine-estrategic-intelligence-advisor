@@ -588,16 +588,7 @@ export function BalanceSheetPage({ clients, selectedClient, selectedYear }: any)
                 <div className="space-y-6 mb-12">
                   
                   {/* --- 1. PATRIMONIAL THESIS & BOARD ADVISORY --- */}
-                  {patrimonialIntelligenceReport?.boardAdvisory && (() => {
-                    const hasParecer = patrimonialIntelligenceReport.boardAdvisory?.fullText?.trim() && patrimonialIntelligenceReport.boardAdvisory.fullText !== 'Parecer não gerado.';
-                    return (
-                      <BalanceSheetBoardAdvisory 
-                        hasParecer={hasParecer}
-                        patrimonialHealth={patrimonialIntelligenceReport.patrimonialHealth}
-                        boardAdvisoryFullText={patrimonialIntelligenceReport.boardAdvisory?.fullText}
-                      />
-                    );
-                  })()}
+                  {/* (Retired) O antigo Parecer Estratégico textual foi substituído pela seção de Diagnóstico Estratégico (Executive Synthesis) */}
 
                   {/* --- 7. PLANO EXECUTIVO --- */}
                   {patrimonialIntelligenceReport?.executivePlan && (
@@ -762,12 +753,41 @@ export function BalanceSheetPage({ clients, selectedClient, selectedYear }: any)
 
           {/* ── Comentário Executivo ─────────────────────────────────────────── */}
 
-          {executiveReport && (
-            <BalanceSheetExecutiveSynthesisSection 
+          {executiveReport && (() => {
+            const liqReal = financialIndicators.find((i: any) => i.metricName === 'Liquidez Real')?.value;
+            const liqSeca = financialIndicators.find((i: any) => i.metricName === 'Liquidez Seca')?.value;
+            const liqInst = financialIndicators.find((i: any) => i.metricName === 'Liquidez Instantânea')?.value || financialIndicators.find((i: any) => i.metricName === 'Liquidez Instantânea Real')?.value;
+            const endiv = financialIndicators.find((i: any) => i.metricName === 'Endividamento Geral')?.value;
+            const auto = financialIndicators.find((i: any) => i.metricName === 'Autonomia Financeira')?.value;
+            const dep = financialIndicators.find((i: any) => i.metricName === 'Dependência de Capital de Terceiros')?.value;
+            const pl = executiveReport.metrics?.financialMetrics?.patrimonioLiquido || 0;
+            
+            const execContext = {
+              analysisYear: filterYear,
+              generatedAt: new Date().toISOString(),
+              moduleContext: 'BP' as any,
+              activeFiduciaryRestrictions: [],
+              fiduciaryClassification: patrimonialIntelligenceReport?.patrimonialClassification || 'SAUDÁVEL',
+              mathematicalClassification: 'STABLE',
+              globalScore: resilienciaGlobal,
+              primaryIndicators: {},
+              technicalDrivers: {
+                liquidezReal: liqReal,
+                liquidezSeca: liqSeca,
+                liquidezInstantaneaReal: liqInst,
+                endividamentoGeral: endiv,
+                autonomiaFinanceira: auto,
+                dependenciaCapitalTerceiros: dep,
+                patrimonioLiquido: pl
+              },
+              contextualAlerts: []
+            };
+            return <BalanceSheetExecutiveSynthesisSection 
               executiveNarrative={executiveReport.patrimonialIntelligenceReport?.executiveNarrative || 'Nenhuma narrativa disponível para este exercício.'}
-              context={executiveReport.patrimonialIntelligenceReport?.analyticalContext}
-            />
-          )}
+              context={execContext}
+              selectedYear={filterYear}
+            />;
+          })()}
         </>
       )}
 

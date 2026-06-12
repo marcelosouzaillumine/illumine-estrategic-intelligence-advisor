@@ -1278,7 +1278,7 @@ export class ExecutiveIntelligenceRuntime implements
       );
 
       const dreContext: ExecutiveAnalysisContext = {
-        moduleContext: 'DRE',
+        analysisYear: new Date().getFullYear(), generatedAt: new Date().toISOString(), moduleContext: 'DRE',
         activeFiduciaryRestrictions: [],
         fiduciaryClassification: '', // Will be updated
         mathematicalClassification: '', // Will be updated
@@ -2272,7 +2272,7 @@ export class ExecutiveIntelligenceRuntime implements
       const equityQuality = bpIndicators.find((i: any) => i.metricName === 'Qualidade do Capital (AIOX)')?.classification;
 
       const execContext: ExecutiveAnalysisContext = {
-        moduleContext: 'BP',
+        analysisYear: new Date().getFullYear(), generatedAt: new Date().toISOString(), moduleContext: 'BP',
         activeFiduciaryRestrictions: ceilingOutput.classificationCeiling ? [ceilingOutput.classificationCeiling.ruleName] : [],
         fiduciaryClassification: ceilingOutput.finalClassification,
         mathematicalClassification: classification.label,

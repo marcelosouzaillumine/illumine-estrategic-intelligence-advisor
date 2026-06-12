@@ -9,7 +9,8 @@ import { BalanceSheetEvolutionViewModel } from './view-models';
 import { ExecutiveEmptyState } from '../../ui/executive-empty-state';
 import { TrendingDown } from 'lucide-react';
 import { ExecutiveChartSemanticPalette } from '../../../core/theme/ExecutiveChartSemanticPalette';
-import { HistoricalInsightEngine, HistoricalSeries } from '../../../core/runtime/executive-consolidation/HistoricalInsightEngine';
+import { HistoricalInsightEngine } from '../../../services/FiduciaryRuntimeAdapter';
+import type { HistoricalSeries } from '../../../services/FiduciaryRuntimeAdapter';
 
 export function BalanceSheetEvolutionAnalysisSection({
   viewModel,

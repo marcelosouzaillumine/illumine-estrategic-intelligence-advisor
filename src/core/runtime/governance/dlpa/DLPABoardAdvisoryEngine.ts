@@ -12,7 +12,7 @@ export class DLPABoardAdvisoryEngine {
     context?: ExecutiveAnalysisContext
   ) {
     const safeContext = context || {
-      moduleContext: 'DLPA',
+      analysisYear: new Date().getFullYear(), generatedAt: new Date().toISOString(), moduleContext: 'DLPA',
       activeFiduciaryRestrictions: [],
       fiduciaryClassification: endingEquity <= 0 ? 'CRITICAL' : (netIncome < 0 || consumptionValue >= 0.25 ? 'WARNING' : 'HEALTHY'),
       mathematicalClassification: endingEquity > 0 ? 'RESILIENT' : 'FRAGILE',

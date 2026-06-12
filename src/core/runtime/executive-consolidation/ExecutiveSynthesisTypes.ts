@@ -26,3 +26,17 @@ export interface ExecutiveDecisionPayload {
   boardConclusion: BoardConclusion;
   priorityRecommendation: PriorityRecommendation;
 }
+
+export interface ExecutiveStrategicDiagnosisPayload {
+  analysisYear: number;
+  generatedAt: string;
+  currentSituation: string;
+  strategicPriority: string;
+  outlook: string;
+  priorityRecommendation: string;
+  severityState?: "healthy" | "warning" | "critical" | "neutral";
+  recommendationPriority?: "low" | "medium" | "high";
+  primaryDriver?: string;
+  dominantStrength?: string;
+  secondaryAttention?: string;
+}

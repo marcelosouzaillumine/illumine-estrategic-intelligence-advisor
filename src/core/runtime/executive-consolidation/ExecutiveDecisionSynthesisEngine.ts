@@ -1,6 +1,7 @@
 import { ExecutiveAnalysisContext, StrategicOpinionConsistencyEngine } from './StrategicOpinionConsistencyEngine';
-import { ExecutiveDecisionPayload } from './ExecutiveSynthesisTypes';
+import { ExecutiveDecisionPayload, ExecutiveStrategicDiagnosisPayload } from './ExecutiveSynthesisTypes';
 import { SynthesisMetricsResolver } from './SynthesisMetricsResolver';
+import { ExecutivePrimaryMotiveConsistencyEngine } from './ExecutivePrimaryMotiveConsistencyEngine';
 
 export class ExecutiveDecisionSynthesisEngine {
   public static generatePayload(context: ExecutiveAnalysisContext): ExecutiveDecisionPayload {
@@ -33,6 +34,30 @@ export class ExecutiveDecisionSynthesisEngine {
       thematicNarratives,
       boardConclusion,
       priorityRecommendation
+    };
+  }
+
+  public static generateStrategicDiagnosisPayload(context: ExecutiveAnalysisContext): ExecutiveStrategicDiagnosisPayload {
+    const opinion = StrategicOpinionConsistencyEngine.deriveStrategicOpinion(context);
+    const motive = ExecutivePrimaryMotiveConsistencyEngine.deriveExecutivePrimaryMotive(context);
+    
+    // In future versions, this would be explicitly populated by the domain engines.
+    // We map severity -> recommendation priority conceptually.
+    const severityLower = opinion.severityState.toLowerCase() as "healthy" | "warning" | "critical" | "neutral";
+    const recommendationPriority = severityLower === 'critical' ? 'high' : (severityLower === 'warning' ? 'medium' : 'low');
+    
+    return {
+      analysisYear: context.analysisYear,
+      generatedAt: context.generatedAt,
+      currentSituation: opinion.situacaoAtual,
+      strategicPriority: opinion.prioridadeEstrategica,
+      outlook: opinion.outlook,
+      priorityRecommendation: opinion.prioridadeEstrategica, // Currently mapped from prioridadeEstrategica
+      severityState: severityLower,
+      recommendationPriority,
+      primaryDriver: motive.label,
+      dominantStrength: motive.dominantStrength,
+      secondaryAttention: motive.secondaryAttention
     };
   }
 

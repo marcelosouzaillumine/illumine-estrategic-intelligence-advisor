@@ -14,12 +14,13 @@ import { ExecutiveCallout } from '../ui/executive-callout';
 import { ExecutiveTable, ExecutiveTableHeader, ExecutiveTableBody, ExecutiveTableRow, ExecutiveTableHead, ExecutiveTableCell } from '../ui/executive-table';
 import { ExecutiveHistoricalEvolutionCard } from '../ui/executive-historical-evolution-card';
 import { ExecutiveDecisionSummaryCard } from '../ui/executive-decision-summary-card';
-import { ExecutiveDecisionSynthesisEngine } from '../../core/runtime/executive-consolidation/ExecutiveDecisionSynthesisEngine';
+import { ExecutiveStrategicSemanticCards } from '../ui/executive-strategic-semantic-cards';
+import { ExecutiveDecisionSynthesisEngine } from '../../services/FiduciaryRuntimeAdapter';
 import { 
   ExecutiveComposedChart, ExecutiveBar, ExecutiveLine, ExecutiveChartGrid, ExecutiveChartXAxis, ExecutiveChartYAxis, ExecutiveChartTooltip 
 } from '../ui/executive-chart';
 import { ExecutiveChartSemanticPalette } from '../../core/theme/ExecutiveChartSemanticPalette';
-import { HistoricalInsightEngine, HistoricalSeries } from '../../core/runtime/executive-consolidation/HistoricalInsightEngine';
+import { HistoricalInsightEngine, HistoricalSeries } from '../../services/FiduciaryRuntimeAdapter';
 import { useAnnualFinancialData, useAllFinancialData } from '../../hooks/useFinancialData';
 import { useInstitutionalRuntime } from '../../hooks/useInstitutionalRuntime';
 import { useLanguage } from '../../contexts/LanguageContext';
@@ -259,7 +260,9 @@ export function DFCPage({ clients, selectedClient, selectedYear }: any) {
 
   const dfcPayload = useMemo(() => {
     if (!dfcInference) return null;
-    return ExecutiveDecisionSynthesisEngine.generatePayload({
+    return ExecutiveDecisionSynthesisEngine.generateStrategicDiagnosisPayload({
+      analysisYear: selectedYear,
+      generatedAt: new Date().toISOString(),
       moduleContext: 'DFC',
       activeFiduciaryRestrictions: [],
       fiduciaryClassification: dfcInference?.executiveLifecycleContext?.executiveBadge || 'HEALTHY',
@@ -270,12 +273,14 @@ export function DFCPage({ clients, selectedClient, selectedYear }: any) {
       },
       technicalDrivers: {
         fco: dfcInference?.metrics?.fco,
-        caixaLivre: dfcInference?.metrics?.fcf,
-        runway: 12 // Optional default for fallback
+        saldoTesouraria: caixaFinalBP || caixaFinalDFC,
+        runway: dfcInference?.metrics?.runway || 12,
+        dependenciaSocios: dfcInference?.metrics?.dependenciaSocios || 0,
+        conversaoReceitaCaixa: dfcInference?.metrics?.conversaoReceitaCaixa || 0
       },
       contextualAlerts: []
     });
-  }, [dfcInference]);
+  }, [dfcInference, selectedYear]);
   
   const executiveDisplay = metrics.semanticDisplays?.executiveDisplay;
 
@@ -1766,11 +1771,11 @@ export function DFCPage({ clients, selectedClient, selectedYear }: any) {
       )}
 
       {/* Advisory Institutions Layer */}
-      {viewMode === 'oficial' && dfcPayload && (
-        <div className="mb-10">
-          <ExecutiveDecisionSummaryCard payload={dfcPayload} moduleName="Fluxo de Caixa (DFC)" />
-        </div>
-      )}
+        {isSectionVisible('DFC_ADVISORY') && dfcPayload && (
+          <div className="mb-10">
+            <ExecutiveStrategicSemanticCards payload={dfcPayload} selectedYear={selectedYear} />
+          </div>
+        )}
       {showImportModal && (
         <ImportFinancialModal
           type="DFC"

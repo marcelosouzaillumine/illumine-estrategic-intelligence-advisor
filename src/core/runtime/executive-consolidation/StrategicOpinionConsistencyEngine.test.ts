@@ -3,7 +3,7 @@ import { StrategicOpinionConsistencyEngine, ExecutiveAnalysisContext } from './S
 describe('StrategicOpinionConsistencyEngine', () => {
   it('should return CRITICAL when there are active fiduciary restrictions', () => {
     const context: ExecutiveAnalysisContext = {
-      moduleContext: 'BP',
+      analysisYear: new Date().getFullYear(), generatedAt: new Date().toISOString(), moduleContext: 'BP',
       activeFiduciaryRestrictions: ['PAT_LIQUIDITY_WARNING'],
       fiduciaryClassification: 'SAUDÁVEL',
       mathematicalClassification: 'STABLE',
@@ -19,7 +19,7 @@ describe('StrategicOpinionConsistencyEngine', () => {
 
   it('should return HEALTHY for robust BP scenarios without restrictions', () => {
     const context: ExecutiveAnalysisContext = {
-      moduleContext: 'BP',
+      analysisYear: new Date().getFullYear(), generatedAt: new Date().toISOString(), moduleContext: 'BP',
       activeFiduciaryRestrictions: [],
       fiduciaryClassification: 'SAUDÁVEL',
       mathematicalClassification: 'STABLE',
@@ -37,7 +37,7 @@ describe('StrategicOpinionConsistencyEngine', () => {
 
   it('should evaluate warning state properly for DFC', () => {
     const context: ExecutiveAnalysisContext = {
-      moduleContext: 'DFC',
+      analysisYear: new Date().getFullYear(), generatedAt: new Date().toISOString(), moduleContext: 'DFC',
       activeFiduciaryRestrictions: [],
       fiduciaryClassification: 'ATENÇÃO',
       mathematicalClassification: 'ATTENTION',

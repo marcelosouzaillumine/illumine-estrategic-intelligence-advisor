@@ -533,7 +533,12 @@ export function DLPAPage({ clients, selectedClient, selectedYear }: any) {
       technicalDrivers: {
         lucroLiquido: dlpaMetrics?.lucroLiquido || 0,
         dividendosPagos: dlpaMetrics?.dividendos || 0,
-        payoutRatio: (dlpaMetrics?.lucroLiquido || 0) > 0 ? (dlpaMetrics?.dividendos || 0) / (dlpaMetrics?.lucroLiquido || 1) : 0
+        payoutRatio: (dlpaMetrics?.lucroLiquido || 0) > 0 ? (dlpaMetrics?.dividendos || 0) / (dlpaMetrics?.lucroLiquido || 1) : 0,
+        lucroPrejuizoPeriodo: dlpaMetrics?.lucroLiquido || 0,
+        lucrosPrejuizosAcumulados: (dlpaMetrics?.lucrosPrejuizosInicio || 0) + (dlpaMetrics?.lucroLiquido || 0),
+        capitalSocial: dlpaMetrics?.capitalSocial || 0,
+        patrimonioLiquido: dlpaMetrics?.plFim || 0,
+        capacidadeDistribuicao: (dlpaMetrics?.lucroLiquido || 0) - (dlpaMetrics?.dividendos || 0)
       },
       contextualAlerts: []
     });

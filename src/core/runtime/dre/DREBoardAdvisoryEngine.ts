@@ -44,7 +44,7 @@ export class DREBoardAdvisoryEngine {
 
     // Use unified strategic opinion engine if context is provided, else fallback to safe local generation for tests
     const safeContext = context || {
-      moduleContext: 'DRE',
+      analysisYear: new Date().getFullYear(), generatedAt: new Date().toISOString(), moduleContext: 'DRE',
       activeFiduciaryRestrictions: [],
       fiduciaryClassification: recoverabilityAssessment,
       mathematicalClassification: valueCreationAssessment === 'Sim' ? 'RESILIENT' : 'ATTENTION',

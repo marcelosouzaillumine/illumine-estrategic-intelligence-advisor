@@ -578,8 +578,11 @@ export function DREPage({ clients, selectedClient, selectedYear }: any) {
       {/* 6. EXECUTIVE ADVISORY — Bloco unificado */}
       {isSectionVisible('DRE_ADVISORY') && executiveAdvisoryVM && (
         <DREExecutiveAdvisorySection 
-          viewModel={executiveAdvisoryVM} 
+          viewModel={executiveAdvisoryVM}
+          selectedYear={selectedYear}
           context={{
+            analysisYear: selectedYear,
+            generatedAt: new Date().toISOString(),
             moduleContext: 'DRE',
             activeFiduciaryRestrictions: [],
             fiduciaryClassification: economicDiagnosis?.status || 'HEALTHY',
@@ -589,7 +592,10 @@ export function DREPage({ clients, selectedClient, selectedYear }: any) {
             technicalDrivers: {
               receitaLiquida: recLiquida,
               ebitda: ebitda,
-              margemEbitda: (recLiquida > 0 ? ebitda / recLiquida : 0)
+              margemEbitda: (recLiquida > 0 ? ebitda / recLiquida : 0),
+              margemLiquida: margemLiquida,
+              coberturaPontoEquilibrio: pontoEquilibrio,
+              resultadoLiquido: lucroLiq
             },
             contextualAlerts: []
           }}

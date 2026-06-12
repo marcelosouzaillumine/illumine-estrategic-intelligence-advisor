@@ -1,31 +1,37 @@
 import React, { useMemo } from 'react';
 import { useLanguage } from '../../../contexts/LanguageContext';
 import { DREExecutiveAdvisorySectionViewModel } from './view-models';
-import { ExecutiveDecisionSummaryCard } from '../../ui/executive-decision-summary-card';
-import { ExecutiveDecisionSynthesisEngine } from '../../../core/runtime/executive-consolidation/ExecutiveDecisionSynthesisEngine';
-import { ExecutiveAnalysisContext } from '../../../core/runtime/executive-consolidation/StrategicOpinionConsistencyEngine';
+import { ExecutiveStrategicSemanticCards } from '../../ui/executive-strategic-semantic-cards';
+import { ExecutiveDecisionSynthesisEngine } from '../../../services/FiduciaryRuntimeAdapter';
+import { ExecutiveAnalysisContext } from '../../../services/FiduciaryRuntimeAdapter';
 
 interface Props {
   viewModel?: DREExecutiveAdvisorySectionViewModel;
   context?: ExecutiveAnalysisContext;
+  selectedYear: number;
 }
 
-export function DREExecutiveAdvisorySection({ viewModel, context }: Props) {
+export function DREExecutiveAdvisorySection({ viewModel, context, selectedYear }: Props) {
   const { t } = useLanguage();
 
   const payload = useMemo(() => {
     if (context) {
-      return ExecutiveDecisionSynthesisEngine.generatePayload(context);
+      const isolatedContext: ExecutiveAnalysisContext = {
+        ...context,
+        analysisYear: selectedYear,
+        generatedAt: new Date().toISOString()
+      };
+      return ExecutiveDecisionSynthesisEngine.generateStrategicDiagnosisPayload(isolatedContext);
     }
     return null;
-  }, [context]);
+  }, [context, selectedYear]);
 
   if (!payload && !viewModel) return null;
 
   if (payload) {
     return (
       <div className="mb-10 mt-10">
-        <ExecutiveDecisionSummaryCard payload={payload} moduleName="Demonstração do Resultado" />
+        <ExecutiveStrategicSemanticCards payload={payload} selectedYear={selectedYear} />
       </div>
     );
   }

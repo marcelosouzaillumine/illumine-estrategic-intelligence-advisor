@@ -1,0 +1,42 @@
+--- src/components/pages/BalanceSheetPage.tsx
++++ src/components/pages/BalanceSheetPage.tsx
+@@ -754,12 +754,32 @@
+ 
+           {/* ── Comentário Executivo ─────────────────────────────────────────── */}
+ 
+-          {executiveReport && (
+-            <BalanceSheetExecutiveSynthesisSection 
+-              executiveNarrative={executiveReport.patrimonialIntelligenceReport?.executiveNarrative || 'Nenhuma narrativa disponível para este exercício.'}
+-              context={executiveReport.patrimonialIntelligenceReport?.analyticalContext}
+-              selectedYear={filterYear}
+-            />
+-          )}
++          {executiveReport && (() => {
++            const liqReal = financialIndicators.find((i: any) => i.metricName === 'Liquidez Real')?.value;
++            const endiv = financialIndicators.find((i: any) => i.metricName === 'Endividamento Geral')?.value;
++            const auto = financialIndicators.find((i: any) => i.metricName === 'Autonomia Financeira')?.value;
++            const dep = financialIndicators.find((i: any) => i.metricName === 'Dependência de Capital de Terceiros')?.value;
++            
++            const execContext = {
++              analysisYear: filterYear,
++              generatedAt: new Date().toISOString(),
++              moduleContext: 'BP' as any,
++              activeFiduciaryRestrictions: [],
++              fiduciaryClassification: patrimonialIntelligenceReport?.patrimonialClassification || 'SAUDÁVEL',
++              mathematicalClassification: 'STABLE',
++              globalScore: resilienciaGlobal,
++              primaryIndicators: {},
++              technicalDrivers: {
++                liquidezReal: liqReal,
++                endividamentoGeral: endiv,
++                autonomiaFinanceira: auto,
++                dependenciaCapitalTerceiros: dep
++              },
++              contextualAlerts: []
++            };
++            return <BalanceSheetExecutiveSynthesisSection 
++              executiveNarrative={executiveReport.patrimonialIntelligenceReport?.executiveNarrative || 'Nenhuma narrativa disponível para este exercício.'}
++              context={execContext}
++              selectedYear={filterYear}
++            />;
++          })()}

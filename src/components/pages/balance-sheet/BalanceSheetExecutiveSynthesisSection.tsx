@@ -1,30 +1,38 @@
 import React, { useMemo } from 'react';
-import { ExecutiveDecisionSummaryCard } from '../../ui/executive-decision-summary-card';
-import { ExecutiveDecisionSynthesisEngine } from '../../../core/runtime/executive-consolidation/ExecutiveDecisionSynthesisEngine';
-import { ExecutiveAnalysisContext } from '../../../core/runtime/executive-consolidation/StrategicOpinionConsistencyEngine';
+import { ExecutiveStrategicSemanticCards } from '../../ui/executive-strategic-semantic-cards';
+import { ExecutiveDecisionSynthesisEngine } from '../../../services/FiduciaryRuntimeAdapter';
+import { ExecutiveAnalysisContext } from '../../../services/FiduciaryRuntimeAdapter';
 
 export type BalanceSheetExecutiveSynthesisSectionProps = {
   executiveNarrative?: string;
   context?: ExecutiveAnalysisContext;
+  selectedYear: number;
 };
 
 export const BalanceSheetExecutiveSynthesisSection = ({
   executiveNarrative,
-  context
+  context,
+  selectedYear
 }: BalanceSheetExecutiveSynthesisSectionProps) => {
   const payload = useMemo(() => {
     if (context) {
-      return ExecutiveDecisionSynthesisEngine.generatePayload(context);
+      // Isolate context to the exact year
+      const isolatedContext: ExecutiveAnalysisContext = {
+        ...context,
+        analysisYear: selectedYear,
+        generatedAt: new Date().toISOString()
+      };
+      return ExecutiveDecisionSynthesisEngine.generateStrategicDiagnosisPayload(isolatedContext);
     }
     return null;
-  }, [context]);
+  }, [context, selectedYear]);
 
   if (!payload && !executiveNarrative) return null;
 
   if (payload) {
     return (
       <div className="w-full mt-12 mb-12">
-        <ExecutiveDecisionSummaryCard payload={payload} moduleName="Balanço Patrimonial" />
+        <ExecutiveStrategicSemanticCards payload={payload} selectedYear={selectedYear} />
       </div>
     );
   }

@@ -267,7 +267,7 @@ export class FiduciaryCashIntelligenceRuntime {
     const cashConversionAnalysis = RevenueCashConversionEngine.evaluate(fcoOperacionalReal, netRevenue || 0, confidence);
     
     const dfcContext: ExecutiveAnalysisContext = {
-      moduleContext: 'DFC',
+      analysisYear: new Date().getFullYear(), generatedAt: new Date().toISOString(), moduleContext: 'DFC',
       activeFiduciaryRestrictions: [],
       fiduciaryClassification: cashSustainabilityAnalysis.classification,
       mathematicalClassification: cashSustainabilityAnalysis.classification === 'AUTOSSUSTENTADA' ? 'RESILIENT' : 'ATTENTION',

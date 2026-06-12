@@ -301,3 +301,10 @@ export type { ExecutiveRecommendation } from '../core/runtime/executive-consolid
 export type { GovernanceCoordinationResult } from '../core/runtime/governance-orchestration/GovernanceOrchestrationTypes';
 export type { ESGIMDimension, ESGIMMode, ESGIMScenario, IRILevel, BoardPriority, BoardExecutiveBrief, GovernanceRoadmap, GovernanceRoadmapPhase, GovernanceMonitoringSnapshot, GovernanceMonitoringResult, MonitoringAlert as GMLMonitoringAlert, ExecutiveBoardReport, BoardPack, BoardPackSlide, RecommendedDecisionEntry, BoardPackSlideTemplate, SlideMeetingCriticality, GovernanceDecision, GovernanceDecisionType, CognitiveOriginEngine, DecisionExecutionRisk, MeetingAgendaItem, BoardResolution as MeetingBoardResolution, BoardMeeting, MeetingMinutes, PrincipleMatch, GovernanceKnowledgeResult, BenchmarkReadinessLevel, BenchmarkReadinessResult, BenchmarkPosition, BenchmarkGap, ComparativeDimension, BenchmarkComparativeResult, BenchmarkTargetTier, AdvisoryInitiative, BenchmarkAdvancementGap, BenchmarkAdvisoryResult, LearningObservation, GovernanceLearningResult, GovernanceJourneyStep, GovernanceJourneyResult } from '../core/runtime/esgim/esgimTypes';
 export type { IWLPrinciple } from '../core/runtime/knowledge/InstitutionalWisdomLibrary';
+export { ExecutiveDecisionSynthesisEngine } from '../core/runtime/executive-consolidation/ExecutiveDecisionSynthesisEngine';
+export { HistoricalInsightEngine } from '../core/runtime/executive-consolidation/HistoricalInsightEngine';
+export type { HistoricalSeries } from '../core/runtime/executive-consolidation/HistoricalInsightEngine';
+export type { ExecutiveStrategicDiagnosisPayload } from '../core/runtime/executive-consolidation/ExecutiveSynthesisTypes';
+export type { ExecutiveDecisionPayload } from '../core/runtime/executive-consolidation/ExecutiveSynthesisTypes';
+export type { ExecutiveAnalysisContext } from '../core/runtime/executive-consolidation/StrategicOpinionConsistencyEngine';
+export type { HistoricalInsightDriver } from '../core/runtime/executive-consolidation/HistoricalInsightEngine';

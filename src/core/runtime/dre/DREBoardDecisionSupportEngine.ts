@@ -23,7 +23,7 @@ export class DREBoardDecisionSupportEngine {
     const { valueCreationAssessment, primaryConstraint, recoverabilityAssessment, strategicPriority, boardOutlook } = diagnosis;
 
     const safeContext = context || {
-      moduleContext: 'DRE',
+      analysisYear: new Date().getFullYear(), generatedAt: new Date().toISOString(), moduleContext: 'DRE',
       activeFiduciaryRestrictions: [],
       fiduciaryClassification: recoverabilityAssessment,
       mathematicalClassification: valueCreationAssessment === 'Sim' ? 'RESILIENT' : 'ATTENTION',

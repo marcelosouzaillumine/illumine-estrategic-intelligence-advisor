@@ -12,7 +12,7 @@ import { ExecutiveHistoricalEvolutionCard } from '../../ui/executive-historical-
 import { formatCurrency } from '../../../lib/utils';
 import { DREChartsSectionViewModel } from './view-models';
 import { ExecutiveChartSemanticPalette } from '../../../core/theme/ExecutiveChartSemanticPalette';
-import { HistoricalInsightEngine, HistoricalSeries } from '../../../core/runtime/executive-consolidation/HistoricalInsightEngine';
+import { HistoricalInsightEngine, HistoricalSeries } from '../../../services/FiduciaryRuntimeAdapter';
 
 interface Props {
   viewModel: DREChartsSectionViewModel;

@@ -1,7 +1,7 @@
 import React from 'react';
 import { cn } from '@/lib/utils';
 import { ExecutiveSurface } from './executive-surface';
-import { HistoricalInsightDriver } from '@/core/runtime/executive-consolidation/HistoricalInsightEngine';
+import { HistoricalInsightDriver } from '@/services/FiduciaryRuntimeAdapter';
 import { CheckCircle2, ChevronRight } from 'lucide-react';
 
 export interface ExecutiveHistoricalInsightCardProps {

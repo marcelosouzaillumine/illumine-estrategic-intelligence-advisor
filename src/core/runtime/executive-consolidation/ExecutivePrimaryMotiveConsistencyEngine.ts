@@ -2,7 +2,9 @@ import * as ExecutiveSemanticBoundaryGuard from './ExecutiveSemanticBoundaryGuar
 import { ExecutiveAnalysisContext, StrategicSeverityLevel, StrategicOpinionConsistencyEngine } from './StrategicOpinionConsistencyEngine';
 
 export interface ExecutivePrimaryMotive {
-  label: string;
+  label: string; // The legacy label, now the composed string or dominant driver
+  dominantStrength?: string;
+  secondaryAttention?: string;
   severity: StrategicSeverityLevel;
   rationale: string;
   sourceDrivers: string[];
@@ -11,74 +13,101 @@ export interface ExecutivePrimaryMotive {
 export class ExecutivePrimaryMotiveConsistencyEngine {
   
   public static deriveExecutivePrimaryMotive(context: ExecutiveAnalysisContext, rawTechnicalDriverLabel?: string): ExecutivePrimaryMotive {
-    // 1. Base Severity from the central engine
     const opinion = StrategicOpinionConsistencyEngine.deriveStrategicOpinion(context);
     const severity = opinion.severityState;
-    
     const sourceDrivers = context.technicalDrivers ? Object.keys(context.technicalDrivers) : [];
 
-    let label = rawTechnicalDriverLabel || 'Ausência de Restrições Estruturais';
+    let dominantStrength: string | undefined = undefined;
+    let secondaryAttention: string | undefined = undefined;
+    let label = rawTechnicalDriverLabel || '';
     let rationale = 'Motivo derivado do contexto consolidado.';
 
-    // 2. Coherence Matrix based on Severity
-    if (severity === 'CRITICAL') {
-      if (!rawTechnicalDriverLabel || rawTechnicalDriverLabel.includes('Sem vulnerabilidades')) {
-        // Find worst technical driver if raw is missing/wrong
-        if (context.technicalDrivers?.liquidityReal !== undefined && Number(context.technicalDrivers.liquidityReal) < 0.5) {
-          label = 'Liquidez Real Crítica';
-        } else if (context.technicalDrivers?.fco !== undefined && Number(context.technicalDrivers.fco) < 0) {
-          label = 'Pressão Operacional sobre Caixa';
-        } else {
-          label = 'Fragilidade Estrutural de Capital';
-        }
-      } else {
-        label = rawTechnicalDriverLabel;
-      }
-      rationale = 'Cenário Crítico: O motivo reflete os indicadores fiduciários mais expostos a risco.';
-      
-    } else if (severity === 'WARNING') {
-      if (!rawTechnicalDriverLabel || rawTechnicalDriverLabel.includes('Sem vulnerabilidades')) {
-        label = 'Monitoramento de Capital de Giro e Eficiência';
-      } else {
-        // Adapt critical sounding drivers to warning language
-        if (rawTechnicalDriverLabel.toLowerCase().includes('crítica') || rawTechnicalDriverLabel.toLowerCase().includes('fragilidade')) {
-          label = 'Monitoramento de Capital de Giro';
-        } else {
-          label = rawTechnicalDriverLabel;
-        }
-      }
-      rationale = 'Cenário de Atenção: Foco em monitoramento e eficiência operacional.';
-      
-    } else { // HEALTHY
-      // 3. Prohibit limiting strings if the consolidated context is HEALTHY/RESILIENT
-      const prohibitedForHealthy = ['limitado', 'crítica', 'fragilidade', 'urgente', 'erosão', 'restrição', 'sobrevivência', 'vulnerável', 'reduzido'];
-      const hasProhibited = prohibitedForHealthy.some(word => label.toLowerCase().includes(word));
-      
-      if (hasProhibited || label.includes('Sem vulnerabilidades críticas identificadas')) {
-        if (context.moduleContext === 'BP') {
-          if (context.technicalDrivers?.liquidityReal !== undefined && Number(context.technicalDrivers.liquidityReal) > 1.5) {
-            label = 'Gestão de Excedente de Liquidez e Alocação de Capital';
-          } else {
-            label = 'Otimização da Estrutura de Capital';
-          }
-        } else if (context.moduleContext === 'DRE') {
-          label = 'Expansão Sustentável e Geração de Valor';
-        } else if (context.moduleContext === 'DFC') {
-          label = 'Forte Capacidade de Geração de Caixa';
-        } else if (context.moduleContext === 'DLPA') {
-          label = 'Preservação de Robustez Patrimonial';
-        } else {
-          label = 'Consolidação Patrimonial e Disciplina de Capital';
-        }
-      }
-      rationale = 'Cenário Resiliente/Saudável: O motivo reflete estabilidade e otimização da estrutura de capital, sem limitações iminentes.';
+    if (severity === 'NEUTRAL' || !opinion.isComplete) {
+      return {
+        label: 'Dados Insuficientes',
+        severity,
+        rationale: 'Faltam drivers mínimos para determinar o motivo principal.',
+        sourceDrivers
+      };
     }
 
-    // 4. Semantic Guardrail
+    const d = context.technicalDrivers || {};
+    
+    // Priority 1
+    const lqReal = Number(d.liquidezReal);
+    const lqSeca = Number(d.liquidezSeca);
+    const lqInst = Number(d.liquidezInstantaneaReal);
+    const fco = Number(d.fco);
+    const tesouraria = Number(d.saldoTesouraria);
+
+    // Priority 2
+    const pl = Number(d.patrimonioLiquido);
+    
+    // Priority 3
+    const endiv = Number(d.endividamentoGeral);
+    const dep = Number(d.dependenciaCapitalTerceiros);
+
+    // Priority 4
+    const ebitda = Number(d.ebitda);
+    const margem = Number(d.margemLiquida);
+
+    // Priority 5
+    const autonomia = Number(d.autonomiaFinanceira);
+
+    if (severity === 'CRITICAL') {
+      // Priority 1 — Continuity and liquidity
+      if (!isNaN(lqReal) && lqReal < 1.0) dominantStrength = 'Liquidez Real Crítica';
+      else if (!isNaN(lqInst) && lqInst < 0.5) dominantStrength = 'Liquidez Instantânea Crítica';
+      else if (!isNaN(lqSeca) && lqSeca < 1.0) dominantStrength = 'Liquidez Seca Crítica';
+      else if (!isNaN(fco) && fco < 0) dominantStrength = 'Caixa Operacional Negativo';
+      else if (!isNaN(tesouraria) && tesouraria < 0) dominantStrength = 'Saldo de Tesouraria Descoberto';
+      // Priority 2 — Solvency and capital
+      else if (!isNaN(pl) && pl < 0) dominantStrength = 'Patrimônio Líquido a Descoberto';
+      else if (context.activeFiduciaryRestrictions?.length > 0) dominantStrength = 'Restrição Fiduciária Ativa';
+      // Priority 3 — Capital structure
+      else if (!isNaN(endiv) && endiv > 60) dominantStrength = 'Endividamento Geral Elevado';
+      else if (!isNaN(dep) && dep > 60) dominantStrength = 'Dependência Elevada de Terceiros';
+      // Priority 4 — Economic performance
+      else if (!isNaN(margem) && margem < -0.1) dominantStrength = 'Margem de Contribuição Insuficiente';
+      else if (!isNaN(ebitda) && ebitda < 0) dominantStrength = 'EBITDA Negativo';
+      else dominantStrength = 'Fragilidade Fiduciária Estrutural';
+
+      secondaryAttention = 'Risco de Continuidade Operacional';
+      label = dominantStrength;
+      rationale = 'Matriz de Prioridade: Identificou driver crítico sobrepondo qualquer driver positivo.';
+    } else if (severity === 'WARNING') {
+      if (!isNaN(endiv) && endiv > 40) dominantStrength = 'Pressão de Alavancagem';
+      else if (!isNaN(lqReal) && lqReal < 1.5) dominantStrength = 'Liquidez sob Monitoramento';
+      else dominantStrength = 'Necessidade de Otimização Operacional';
+
+      if (!isNaN(dep) && dep > 50) secondaryAttention = 'Forte Dependência de Terceiros';
+      else secondaryAttention = 'Concentração de Riscos Operacionais';
+      
+      label = dominantStrength;
+      rationale = 'Matriz de Prioridade: Foco em monitoramento de drivers de risco mitigado.';
+    } else { // HEALTHY
+      // Priority 5 — Positive drivers
+      if (!isNaN(autonomia) && autonomia >= 80) dominantStrength = 'Autonomia Financeira Robusta';
+      else if (!isNaN(dep) && dep < 30) dominantStrength = 'Baixa Dependência de Capital de Terceiros';
+      else if (!isNaN(lqReal) && lqReal >= 3.0) dominantStrength = 'Liquidez Real Elevada';
+      else if (!isNaN(fco) && fco > 0) dominantStrength = 'Forte Geração de Caixa';
+      else dominantStrength = 'Fundamentos Robustos';
+
+      if (!isNaN(lqReal) && lqReal >= 5.0) secondaryAttention = 'Oportunidade de Alocação de Excedentes';
+      else if (!isNaN(endiv) && endiv > 30) secondaryAttention = 'Custo de Oportunidade da Dívida';
+      else if (!isNaN(autonomia) && autonomia < 60) secondaryAttention = 'Disciplina na Manutenção de Capital Próprio';
+      else secondaryAttention = 'Consolidação Sustentável da Operação';
+
+      label = dominantStrength;
+      rationale = 'Matriz de Prioridade: Validação positiva após passagem limpa pela Severity Lock.';
+    }
+
     const safeLabel = ExecutiveSemanticBoundaryGuard.sanitize(label, severity === 'CRITICAL' ? 'SEVERE' : 'MONITORING');
 
     return {
       label: safeLabel,
+      dominantStrength,
+      secondaryAttention,
       severity,
       rationale,
       sourceDrivers

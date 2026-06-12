@@ -13,7 +13,7 @@ export class DFCCashAdvisoryEngine {
     const isResilient = sustainability.classification === 'AUTOSSUSTENTADA'; // removed PRESERVACAO_DE_CAPITAL as it has no overlap
 
     const safeContext = context || {
-      moduleContext: 'DFC',
+      analysisYear: new Date().getFullYear(), generatedAt: new Date().toISOString(), moduleContext: 'DFC',
       activeFiduciaryRestrictions: [],
       fiduciaryClassification: sustainability.classification,
       mathematicalClassification: isResilient ? 'RESILIENT' : (isBurning ? 'CRITICAL' : 'ATTENTION'),

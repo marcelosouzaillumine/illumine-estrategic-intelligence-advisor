@@ -1,10 +1,11 @@
+import assert from 'node:assert';
 import { ExecutivePrimaryMotiveConsistencyEngine } from '../src/core/runtime/executive-consolidation/ExecutivePrimaryMotiveConsistencyEngine';
 import { ExecutiveAnalysisContext } from '../src/core/runtime/executive-consolidation/StrategicOpinionConsistencyEngine';
 
 describe('ExecutivePrimaryMotiveConsistencyEngine', () => {
   it('should return CRITICAL motive for BP 2022 (Liquidez Real Crítica)', () => {
     const context: ExecutiveAnalysisContext = {
-      moduleContext: 'BP',
+      analysisYear: new Date().getFullYear(), generatedAt: new Date().toISOString(), moduleContext: 'BP',
       fiduciaryClassification: 'CRITICAL',
       mathematicalClassification: 'FRAGILE',
       globalScore: 20,
@@ -15,13 +16,13 @@ describe('ExecutivePrimaryMotiveConsistencyEngine', () => {
     };
 
     const motive = ExecutivePrimaryMotiveConsistencyEngine.deriveExecutivePrimaryMotive(context, 'Liquidez Real Crítica (0.30)');
-    expect(motive.severity).toBe('CRITICAL');
-    expect(motive.label).toContain('Liquidez');
+    assert.strictEqual(motive.severity, 'CRITICAL');
+    assert.ok(motive.label.includes('Liquidez'));
   });
 
   it('should return SAUDAVEL motive for BP 2025 (Resiliente)', () => {
     const context: ExecutiveAnalysisContext = {
-      moduleContext: 'BP',
+      analysisYear: new Date().getFullYear(), generatedAt: new Date().toISOString(), moduleContext: 'BP',
       fiduciaryClassification: 'HEALTHY',
       mathematicalClassification: 'RESILIENT',
       globalScore: 94,
@@ -33,8 +34,8 @@ describe('ExecutivePrimaryMotiveConsistencyEngine', () => {
 
     // Even if a local engine mistakenly sends a limited constraint
     const motive = ExecutivePrimaryMotiveConsistencyEngine.deriveExecutivePrimaryMotive(context, 'Funding Capacity Limitado');
-    expect(motive.severity).toBe('HEALTHY');
-    expect(motive.label).not.toContain('Limitado');
-    expect(motive.label).toContain('Excedente de Liquidez');
+    assert.strictEqual(motive.severity, 'HEALTHY');
+    assert.ok(!motive.label.includes('Limitado'));
+    assert.ok(motive.label.includes('Excedente de Liquidez'));
   });
 });
