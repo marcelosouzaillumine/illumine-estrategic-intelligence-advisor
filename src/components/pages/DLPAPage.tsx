@@ -33,6 +33,7 @@ import { ExecutiveSurface } from '../ui/executive-surface';
 import { ExecutiveStrategicSemanticCards } from '../ui/executive-strategic-semantic-cards';
 import { ExecutiveDecisionSynthesisEngine } from '../../services/FiduciaryRuntimeAdapter';
 import { ExecutiveNarrative } from '../ui/executive-narrative';
+import { ExecutiveTechnicalLayer } from '../ui/executive-technical-layer';
 import { ExecutiveMetricCard } from '../ui/executive-metric-card';
 import { ExecutiveTechnicalMetricCard } from '../ui/executive-technical-metric-card';
 import { ExecutiveScore } from '../ui/executive-score';
@@ -850,25 +851,30 @@ export function DLPAPage({ clients, selectedClient, selectedYear }: any) {
               )}
 
               {/* 3. Inteligência de Preservação de Capital */}
-              <ExecutiveSurface padding="xl" radius="xl" className="border-border">
-                <div className="flex items-center gap-3 mb-6">
-                  <TrendingUp size={20} className="text-foreground" />
-                  <h3 className="text-xl font-black text-primary">Inteligência e Proteção ao Capital dos Sócios</h3>
+              <ExecutiveSurface padding="xl" radius="xl" className="border-border mt-8">
+                <div className="mb-6 md:mb-8">
+                  <div className="flex items-center gap-2 mb-1">
+                    <TrendingUp size={24} className="text-primary" />
+                    <h3 className="text-xl md:text-[22px] font-semibold text-foreground">Inteligência de Preservação de Capital</h3>
+                  </div>
+                  <p className="text-sm text-foreground/70 font-medium">Indicadores sintéticos de preservação, consumo e recomposição do capital.</p>
                 </div>
                 
-                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-6 mb-8">
+                <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-5 md:gap-6 items-stretch mb-8">
                   {/* Card 1: Capital Remanescente */}
                   {(() => {
                     const val = executiveLayer.capitalPreservationStatus?.value ?? 0;
                     const classification = executiveLayer.capitalPreservationStatus?.classification || 'Capital Erodido';
-                    const tone = val >= 0.90 ? 'success' : val >= 0.75 ? 'info' : val >= 0.50 ? 'warning' : 'critical';
+                    let tone: 'critical' | 'warning' | 'info' | 'success' = val >= 0.90 ? 'success' : val >= 0.75 ? 'info' : val >= 0.50 ? 'warning' : 'critical';
+                    const badgeClass = tone === 'critical' ? 'bg-critical-soft text-critical-foreground border-critical/20' : tone === 'warning' ? 'bg-warning-soft text-warning-foreground border-warning/20' : 'bg-success-soft text-success-foreground border-success/20';
                     return (
                       <ExecutiveMetricCard
                         label="Capital Remanescente"
                         value={`${(val * 100).toFixed(1).replace('.', ',')}%`}
-                        statusBadge={<span>{classification}</span>}
+                        statusBadge={<span className={cn("text-[10px] font-semibold uppercase tracking-widest px-2.5 py-0.5 rounded-full border whitespace-nowrap", badgeClass)}>{classification}</span>}
                         tone={tone}
                         description={<span className="font-medium text-foreground/90">{executiveLayer.capitalPreservationStatus?.narrative}</span>}
+                        className="h-full bg-surface-container/30"
                       />
                     );
                   })()}
@@ -878,14 +884,16 @@ export function DLPAPage({ clients, selectedClient, selectedYear }: any) {
                     const val = executiveLayer.capitalErosionRisk?.value ?? 0;
                     const consumedAmount = executiveLayer.capitalErosionRisk?.capitalConsumedAmount ?? 0;
                     const classification = executiveLayer.capitalErosionRisk?.classification || 'Baixo';
-                    const tone = val >= 0.50 ? 'critical' : val >= 0.25 ? 'warning' : 'success';
+                    let tone: 'critical' | 'warning' | 'info' | 'success' = val >= 0.50 ? 'critical' : val >= 0.25 ? 'warning' : 'success';
+                    const badgeClass = tone === 'critical' ? 'bg-critical-soft text-critical-foreground border-critical/20' : tone === 'warning' ? 'bg-warning-soft text-warning-foreground border-warning/20' : 'bg-success-soft text-success-foreground border-success/20';
                     return (
                       <ExecutiveMetricCard
                         label="Capital Consumido"
                         value={formatCurrency(consumedAmount)}
-                        statusBadge={<span>Risco: {classification}</span>}
+                        statusBadge={<span className={cn("text-[10px] font-semibold uppercase tracking-widest px-2.5 py-0.5 rounded-full border whitespace-nowrap", badgeClass)}>{classification}</span>}
                         tone={tone}
                         description={<span className="font-medium text-foreground/90">{executiveLayer.capitalErosionRisk?.narrative}</span>}
+                        className="h-full bg-surface-container/30"
                       />
                     );
                   })()}
@@ -896,13 +904,15 @@ export function DLPAPage({ clients, selectedClient, selectedYear }: any) {
                     const requiredAmount = executiveLayer.capitalRecoveryRequirement?.capitalRecoveryRequired ?? 0;
                     const classification = executiveLayer.capitalRecoveryRequirement?.classification || 'Patrimônio Íntegro';
                     const tone = val > 0 ? 'critical' : 'success';
+                    const badgeClass = tone === 'critical' ? 'bg-critical-soft text-critical-foreground border-critical/20' : 'bg-success-soft text-success-foreground border-success/20';
                     return (
                       <ExecutiveMetricCard
-                        label="Recomposição Requerida"
+                        label="Recomposição"
                         value={formatCurrency(requiredAmount)}
-                        statusBadge={<span>{classification}</span>}
+                        statusBadge={<span className={cn("text-[10px] font-semibold uppercase tracking-widest px-2.5 py-0.5 rounded-full border whitespace-nowrap", badgeClass)}>{classification}</span>}
                         tone={tone}
                         description={<span className="font-medium text-foreground/90">{executiveLayer.capitalRecoveryRequirement?.narrative}</span>}
+                        className="h-full bg-surface-container/30"
                       />
                     );
                   })()}
@@ -911,61 +921,62 @@ export function DLPAPage({ clients, selectedClient, selectedYear }: any) {
                   {(() => {
                     const formatted = executiveLayer.patrimonialRecoveryHorizon?.formatted || 'Não Estimável';
                     const classification = executiveLayer.capitalRecoverability?.classification || 'Não Estimável';
-                    const tone = classification === 'Alta' ? 'success' : classification === 'Moderada' ? 'info' : classification === 'Baixa' ? 'warning' : 'critical';
+                    let tone: 'critical' | 'warning' | 'info' | 'success' = classification === 'Alta' ? 'success' : classification === 'Moderada' ? 'info' : classification === 'Baixa' ? 'warning' : 'critical';
+                    const badgeClass = tone === 'critical' ? 'bg-critical-soft text-critical-foreground border-critical/20' : tone === 'warning' ? 'bg-warning-soft text-warning-foreground border-warning/20' : 'bg-success-soft text-success-foreground border-success/20';
                     return (
                       <ExecutiveMetricCard
-                        label="Horizonte de Recuperação"
+                        label="Horizonte"
                         value={formatted}
-                        statusBadge={<span>{classification}</span>}
+                        statusBadge={<span className={cn("text-[10px] font-semibold uppercase tracking-widest px-2.5 py-0.5 rounded-full border whitespace-nowrap", badgeClass)}>{classification}</span>}
                         tone={tone}
                         description={<span className="font-medium text-foreground/90">{executiveLayer.capitalRecoverability?.narrative}</span>}
-                      />
-                    );
-                  })()}
-
-                  {/* Card 5: Dependência dos Sócios (Moved from Proteção ao Capital) */}
-                  {(() => {
-                    const val = executiveLayer.shareholderDependencyNarrative?.value ?? 1;
-                    const classification = executiveLayer.shareholderDependencyNarrative?.classification || 'Baixa';
-                    const tone = classification === 'Crítica' || classification === 'Alta' ? 'critical' : classification === 'Moderada' ? 'warning' : 'success';
-                    const formattedValue = val === Infinity ? 'Insolvência' : `${val.toFixed(2).replace('.', ',')}x`;
-                    return (
-                      <ExecutiveMetricCard
-                        label="Dependência de Aportes"
-                        value={formattedValue}
-                        statusBadge={<span>Grau: {classification}</span>}
-                        tone={tone}
-                        description={<span className="font-medium text-foreground/90">{executiveLayer.shareholderDependencyNarrative?.narrative}</span>}
+                        className="h-full bg-surface-container/30"
                       />
                     );
                   })()}
                 </div>
 
-                {/* --- Narrativas Consolidadas --- */}
-                <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mt-6 pt-6 border-t border-border">
-                  <div className="flex flex-col gap-4">
-                    {/* Rationale Aggregation from Inteligência */}
-                    <ExecutiveNarrative title="Fundamentação de Preservação" variant="summary">
-                      {executiveLayer.capitalPreservationStatus?.rationale && <p className="text-sm text-foreground/80 mb-2">{executiveLayer.capitalPreservationStatus?.rationale}</p>}
-                      {executiveLayer.capitalErosionRisk?.rationale && <p className="text-sm text-foreground/80 mb-2">{executiveLayer.capitalErosionRisk?.rationale}</p>}
-                      {executiveLayer.capitalRecoveryRequirement?.rationale && <p className="text-sm text-foreground/80">{executiveLayer.capitalRecoveryRequirement?.rationale}</p>}
-                    </ExecutiveNarrative>
+                {/* Narrativas Consolidadas foram movidas para a Camada Técnica no final da página */}
+              </ExecutiveSurface>
 
-                    {executiveLayer.shareholderDependencyNarrative?.rationale && (
-                      <ExecutiveNarrative title="Salvaguarda Patrimonial" variant="insight">
-                        {executiveLayer.governanceInterpretation?.shareholderCapitalProtection && <p className="text-sm text-foreground/80 mb-2">{executiveLayer.governanceInterpretation?.shareholderCapitalProtection}</p>}
-                        <p className="text-sm text-foreground/80">{executiveLayer.shareholderDependencyNarrative?.rationale}</p>
-                      </ExecutiveNarrative>
-                    )}
+              {/* 4. Proteção ao Capital dos Sócios */}
+              <ExecutiveSurface padding="xl" radius="xl" className="border-border mt-8">
+                <div className="mb-6 md:mb-8">
+                  <div className="flex items-center gap-2 mb-1">
+                    <ShieldCheck size={24} className="text-primary" />
+                    <h3 className="text-xl md:text-[22px] font-semibold text-foreground">Proteção ao Capital dos Sócios</h3>
+                  </div>
+                  <p className="text-sm text-foreground/70 font-medium">Análise de risco, dependência e salvaguarda do capital investido.</p>
+                </div>
+
+                <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-5 md:gap-6 items-stretch mb-8">
+                  {/* Card 5: Dependência dos Sócios */}
+                  {(() => {
+                    const val = executiveLayer.shareholderDependencyNarrative?.value ?? 1;
+                    const classification = executiveLayer.shareholderDependencyNarrative?.classification || 'Baixa';
+                    let tone: 'critical' | 'warning' | 'info' | 'success' = classification === 'Crítica' || classification === 'Alta' ? 'critical' : classification === 'Moderada' ? 'warning' : 'success';
+                    const badgeClass = tone === 'critical' ? 'bg-critical-soft text-critical-foreground border-critical/20' : tone === 'warning' ? 'bg-warning-soft text-warning-foreground border-warning/20' : 'bg-success-soft text-success-foreground border-success/20';
+                    const formattedValue = val === Infinity ? 'Insolvência' : `${val.toFixed(2).replace('.', ',')}x`;
+                    return (
+                      <ExecutiveMetricCard
+                        label="Dependência de Aportes"
+                        value={formattedValue}
+                        statusBadge={<span className={cn("text-[10px] font-semibold uppercase tracking-widest px-2.5 py-0.5 rounded-full border whitespace-nowrap", badgeClass)}>{classification}</span>}
+                        tone={tone}
+                        description={<span className="font-medium text-foreground/90">{executiveLayer.shareholderDependencyNarrative?.narrative}</span>}
+                        className="h-full bg-surface-container/30"
+                      />
+                    );
+                  })()}
+                </div>
+
+                <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 pt-6 border-t border-border">
+                  <div className="flex flex-col gap-4">
+                    {/* Salvaguarda Patrimonial movido para a Camada Técnica */}
                   </div>
 
                   <div className="flex flex-col gap-4">
-                    {executiveLayer.governanceInterpretation?.recoveryThesis && (
-                      <ExecutiveNarrative title="Tese de Recuperação Patrimonial" variant="insight">
-                        <p className="text-sm text-foreground/80 mb-2">{executiveLayer.governanceInterpretation?.recoveryThesis}</p>
-                        {executiveLayer.patrimonialRecoveryHorizon?.rationale && <p className="text-sm text-foreground/80">{executiveLayer.patrimonialRecoveryHorizon?.rationale}</p>}
-                      </ExecutiveNarrative>
-                    )}
+                    {/* Tese de Recuperação Patrimonial movido para a Camada Técnica */}
 
                     {executiveLayer.retention?.classification === 'Retenção Compulsória' && (
                       <div className="animate-executive-fade p-5 bg-amber-50 dark:bg-amber-500/10 border border-amber-200/60 dark:border-amber-500/20 rounded-2xl flex items-start gap-4 shadow-sm mt-2">
@@ -1144,6 +1155,49 @@ export function DLPAPage({ clients, selectedClient, selectedYear }: any) {
               </ExecutiveSurface>
             </>
           )}
+          {/* --- CAMADA TÉCNICA (Nova Regra Arquitetural) --- */}
+          <ExecutiveTechnicalLayer
+            title="Camada Técnica e Metodologia"
+            subtitle="Fundamentação e Racional Fiduciário"
+            description="Toda fundamentação de cálculo, proxy, memória de cálculo e explicação metodológica para a DLPA."
+          >
+            <div className="grid grid-cols-1 gap-6">
+              {/* Racional 1: Preservação de Capital */}
+              {(executiveLayer.capitalPreservationStatus?.rationale || executiveLayer.capitalErosionRisk?.rationale || executiveLayer.capitalRecoveryRequirement?.rationale) && (
+                <div className="p-4 bg-surface-container/30 border border-border rounded-xl">
+                  <h4 className="text-sm font-bold text-primary mb-3">Fundamentação de Preservação</h4>
+                  <div className="space-y-2">
+                    {executiveLayer.capitalPreservationStatus?.rationale && <p className="text-sm text-foreground/80">{executiveLayer.capitalPreservationStatus?.rationale}</p>}
+                    {executiveLayer.capitalErosionRisk?.rationale && <p className="text-sm text-foreground/80">{executiveLayer.capitalErosionRisk?.rationale}</p>}
+                    {executiveLayer.capitalRecoveryRequirement?.rationale && <p className="text-sm text-foreground/80">{executiveLayer.capitalRecoveryRequirement?.rationale}</p>}
+                  </div>
+                </div>
+              )}
+
+              {/* Racional 2: Salvaguarda Patrimonial */}
+              {(executiveLayer.shareholderDependencyNarrative?.rationale || executiveLayer.governanceInterpretation?.shareholderCapitalProtection) && (
+                <div className="p-4 bg-surface-container/30 border border-border rounded-xl">
+                  <h4 className="text-sm font-bold text-primary mb-3">Salvaguarda Patrimonial</h4>
+                  <div className="space-y-2">
+                    {executiveLayer.governanceInterpretation?.shareholderCapitalProtection && <p className="text-sm text-foreground/80">{executiveLayer.governanceInterpretation?.shareholderCapitalProtection}</p>}
+                    {executiveLayer.shareholderDependencyNarrative?.rationale && <p className="text-sm text-foreground/80">{executiveLayer.shareholderDependencyNarrative?.rationale}</p>}
+                  </div>
+                </div>
+              )}
+
+              {/* Racional 3: Recuperação Patrimonial */}
+              {(executiveLayer.governanceInterpretation?.recoveryThesis || executiveLayer.patrimonialRecoveryHorizon?.rationale) && (
+                <div className="p-4 bg-surface-container/30 border border-border rounded-xl">
+                  <h4 className="text-sm font-bold text-primary mb-3">Tese de Recuperação Patrimonial</h4>
+                  <div className="space-y-2">
+                    {executiveLayer.governanceInterpretation?.recoveryThesis && <p className="text-sm text-foreground/80">{executiveLayer.governanceInterpretation?.recoveryThesis}</p>}
+                    {executiveLayer.patrimonialRecoveryHorizon?.rationale && <p className="text-sm text-foreground/80">{executiveLayer.patrimonialRecoveryHorizon?.rationale}</p>}
+                  </div>
+                </div>
+              )}
+            </div>
+          </ExecutiveTechnicalLayer>
+
         </div>
       )}
 

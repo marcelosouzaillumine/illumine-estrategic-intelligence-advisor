@@ -25,7 +25,6 @@ export const BalanceSheetWorkingCapitalSection = ({ indicators }: BalanceSheetWo
               key={idx}
               label={metric}
               value={ind.value === 'INSUFFICIENT_DATA' ? 'Dados Insuficientes' : (ind.format === 'percentage' ? (Number(ind.value)*100).toFixed(1)+'%' : ind.format === 'multiplier' ? Number(ind.value).toFixed(2)+'x' : ind.format === 'decimal' ? Number(ind.value).toFixed(1) : ind.value)}
-              description={ind.rationale}
               variant="transparent"
               className="bg-surface-container/30"
             />

@@ -22,7 +22,6 @@ export const BalanceSheetAssetQualitySection = ({ indicators }: BalanceSheetAsse
             key={idx}
             label={ind.label}
             value={ind.format === 'percentage' ? (Number(ind.value)*100).toFixed(1)+'%' : ind.format === 'multiplier' ? Number(ind.value).toFixed(2)+'x' : Number(ind.value).toFixed(2)}
-            description={ind.rationale}
             variant="transparent"
             className="bg-surface-container/30"
           />

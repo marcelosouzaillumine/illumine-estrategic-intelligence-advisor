@@ -12,6 +12,7 @@ import { PageSection } from '../ui/page-section';
 import { ExecutiveNarrative } from '../ui/executive-narrative';
 import { ExecutiveCallout } from '../ui/executive-callout';
 import { ExecutiveTable, ExecutiveTableHeader, ExecutiveTableBody, ExecutiveTableRow, ExecutiveTableHead, ExecutiveTableCell } from '../ui/executive-table';
+import { ExecutiveTechnicalLayer } from '../ui/executive-technical-layer';
 import { ExecutiveHistoricalEvolutionCard } from '../ui/executive-historical-evolution-card';
 import { ExecutiveDecisionSummaryCard } from '../ui/executive-decision-summary-card';
 import { ExecutiveStrategicSemanticCards } from '../ui/executive-strategic-semantic-cards';
@@ -1153,15 +1154,6 @@ export function DFCPage({ clients, selectedClient, selectedYear }: any) {
               return (
                 <SemanticCard
                   title={getSectionHeader('DFC_SCENARIO_SIMULATION', 'DFC_SCENARIO_SIMULATION_TITLE')}
-                  actions={
-                    densityLevel === 'TECHNICAL' && (
-                      <div className="flex items-center gap-2 text-[8px] font-black uppercase tracking-widest bg-surface-container text-muted-foreground px-3 py-1.5 rounded-lg border border-border">
-                        <span>Historical Data: Immutable</span>
-                        <span className="text-muted-foreground">|</span>
-                        <span className="text-primary">Scenario Data: Hypothetical / Decision Support Only</span>
-                      </div>
-                    )
-                  }
                 >
 
                   <div className="flex border-b border-border">
@@ -1398,110 +1390,6 @@ export function DFCPage({ clients, selectedClient, selectedYear }: any) {
                     </div>
                   </div>
                 </div>
-              </SemanticCard>
-            )}
-
-            {/* DFC_TECHNICAL_LAYER Section */}
-            {isSectionVisible('DFC_TECHNICAL_LAYER') && (
-              <SemanticCard
-                title={getSectionHeader('DFC_TECHNICAL_LAYER', 'DFC_TECHNICAL_LAYER_TITLE')}
-                actions={
-                  <button
-                    onClick={() => setTechnicalTableOpen(!technicalTableOpen)}
-                    className="px-4 py-2 border border-foreground/20 rounded-xl text-xs font-black uppercase tracking-widest hover:bg-foreground/5 text-foreground transition-all select-none cursor-pointer"
-                  >
-                    {technicalTableOpen ? 'Ocultar Detalhes' : 'Visualizar Detalhes'}
-                  </button>
-                }
-              >
-
-                {technicalTableOpen && (
-                  <div className="space-y-8 animate-in fade-in duration-300">
-                    <div className="grid grid-cols-1 @xl:grid-cols-2 @4xl:grid-cols-3 gap-4">
-                      {Object.entries(cashQuality?.dimensions || {}).map(([key, dim]: [string, any]) => {
-                        let title = '';
-                        if (key === 'conversion') title = 'Conversão Operacional';
-                        else if (key === 'dependency') title = 'Independência dos Sócios';
-                        else if (key === 'liquidity') title = 'Integridade da Liquidez';
-                        else if (key === 'stress') title = 'Resiliência de Tesouraria';
-                        else if (key === 'workingCapital') title = 'Giro Operacional';
-                        else title = 'Sustentabilidade do Caixa';
-
-                        return (
-                          <div key={key} className="border border-foreground/10 rounded-xl p-4 bg-foreground/5 text-xs space-y-2 text-foreground">
-                            <span className="font-bold text-foreground block border-b border-foreground/10 pb-1">{title}</span>
-                            <div className="space-y-1">
-                              <p className="text-[10px] text-foreground/70"><strong className="text-foreground">Score:</strong> {dim.score}</p>
-                              <p className="text-[10px] text-foreground/70"><strong className="text-foreground">Fórmula:</strong> {dim.formula}</p>
-                              <p className="text-[10px] text-foreground/70"><strong className="text-foreground">Linhagem:</strong> {dim.lineage}</p>
-                              <p className="text-[10px] text-foreground/70"><strong className="text-foreground">Racional:</strong> {dim.rationale}</p>
-                            </div>
-                          </div>
-                        );
-                      })}
-                    </div>
-                    <div className="border border-foreground/10 rounded-2xl overflow-hidden shadow-sm">
-                      <div className="bg-foreground/5 px-6 py-3 border-b border-foreground/10">
-                        <span className="text-[10px] font-black uppercase tracking-widest text-foreground/60">Tabela de Reclassificação Fiduciária</span>
-                      </div>
-                      <ExecutiveTable className="w-full text-xs border-0 rounded-none">
-                        <ExecutiveTableHeader>
-                          <ExecutiveTableRow className="bg-foreground/5 border-b border-foreground/10">
-                            <th className="text-left py-3 px-6 font-bold text-foreground/50 uppercase tracking-wider">Descrição</th>
-                            <th className="text-right py-3 px-6 font-bold text-foreground/50 uppercase tracking-wider">Valor (R$)</th>
-                          </ExecutiveTableRow>
-                        </ExecutiveTableHeader>
-                        <ExecutiveTableBody>
-                          {rows.map((row: any, idx: number) => {
-                            const cleanItemName = (row.conta || row.category || row.item || '');
-                            const isIndented = cleanItemName.startsWith('  ');
-                            const hasBullet = cleanItemName.startsWith('  * ');
-                            const displayItemName = cleanItemName.replace(/^  * |^  /, '');
-
-                            const isReclassified = row.item && (
-                              row.item.includes('Relacionada') || 
-                              row.item.includes('Partes Relacionadas') || 
-                              row.item.includes('Societário') || 
-                              row.item.includes('Capitalização') ||
-                              row.item.includes('Capitalizacao') ||
-                              row.item.includes('Artificial')
-                            );
-
-                            return (
-                            <ExecutiveTableRow 
-                              key={idx} 
-                              className={cn(
-                                'hover:bg-foreground/5 transition-colors', 
-                                  (row.isTotal || row.isSubTotal) ? 'bg-foreground/5 font-bold text-foreground' : '',
-                                  isReclassified ? 'bg-[#BAB86C]/10 font-bold' : ''
-                                )}
-                              >
-                                <td className="py-3 px-6">
-                                  <span className={cn(
-                                    'block flex items-center gap-1.5 flex-wrap',
-                                    isIndented ? (hasBullet ? 'pl-6' : 'pl-4') : '',
-                                    isReclassified ? 'text-foreground' : 'text-muted-foreground'
-                                  )}>
-                                    {hasBullet && <span className="w-1.5 h-1.5 rounded-full bg-[#BAB86C] shrink-0" />}
-                                    <span>{displayItemName}</span>
-                                  </span>
-                                </td>
-                                <td className={cn(
-                                  "py-3 px-6 text-right font-mono", 
-                                  (row.val || row.valor || row.value || 0) < 0 
-                                    ? "text-destructive" 
-                                    : (isReclassified ? "text-foreground" : "text-muted-foreground")
-                                )}>
-                                  {formatCurrency(row.val || row.valor || row.value || 0)}
-                                </td>
-                              </ExecutiveTableRow>
-                            );
-                          })}
-                        </ExecutiveTableBody>
-                      </ExecutiveTable>
-                    </div>
-                  </div>
-                )}
               </SemanticCard>
             )}
 
@@ -1776,6 +1664,193 @@ export function DFCPage({ clients, selectedClient, selectedYear }: any) {
             <ExecutiveStrategicSemanticCards payload={dfcPayload} selectedYear={selectedYear} />
           </div>
         )}
+
+      {/* --- CAMADA TÉCNICA (Nova Regra Arquitetural) --- */}
+      {isSectionVisible('DFC_TECHNICAL_LAYER') && (
+        <ExecutiveTechnicalLayer
+          title="Camada Técnica e Metodologia"
+          subtitle="Fundamentação e Auditoria Fiduciária"
+          description="Fórmulas, proxies, memórias de cálculo e auditoria de linhagem para os indicadores de DFC."
+        >
+          <div className="space-y-8 animate-in fade-in duration-300">
+            {/* DIMENSÕES DE QUALIDADE DO CAIXA */}
+            <div>
+              <h4 className="text-sm font-black text-foreground uppercase tracking-widest mb-4">Dimensões de Qualidade do Caixa</h4>
+              <div className="grid grid-cols-1 @xl:grid-cols-2 @4xl:grid-cols-3 gap-4">
+                {Object.entries(cashQuality?.dimensions || {}).map(([key, dim]: [string, any]) => {
+                  let title = '';
+                  if (key === 'conversion') title = 'Conversão Operacional';
+                  else if (key === 'dependency') title = 'Independência dos Sócios';
+                  else if (key === 'liquidity') title = 'Integridade da Liquidez';
+                  else if (key === 'stress') title = 'Resiliência de Tesouraria';
+                  else if (key === 'workingCapital') title = 'Giro Operacional';
+                  else title = 'Sustentabilidade do Caixa';
+
+                  return (
+                    <div key={key} className="border border-foreground/10 rounded-xl p-4 bg-surface-container/30 text-xs space-y-2 text-foreground">
+                      <span className="font-bold text-primary block border-b border-foreground/10 pb-1">{title}</span>
+                      <div className="space-y-1">
+                        <p className="text-[10px] text-foreground/70"><strong className="text-foreground">Score:</strong> {dim.score}</p>
+                        <p className="text-[10px] text-foreground/70"><strong className="text-foreground">Fórmula:</strong> {dim.formula}</p>
+                        <p className="text-[10px] text-foreground/70"><strong className="text-foreground">Linhagem:</strong> {dim.lineage}</p>
+                        <p className="text-[10px] text-foreground/70"><strong className="text-foreground">Racional:</strong> {dim.rationale}</p>
+                      </div>
+                    </div>
+                  );
+                })}
+              </div>
+            </div>
+
+            {/* TABELA DE RECLASSIFICAÇÃO */}
+            <div className="border border-foreground/10 rounded-2xl overflow-hidden shadow-sm">
+              <div className="bg-foreground/5 px-6 py-3 border-b border-foreground/10">
+                <span className="text-[10px] font-black uppercase tracking-widest text-foreground/60">Tabela de Reclassificação Fiduciária</span>
+              </div>
+              <ExecutiveTable className="w-full text-xs border-0 rounded-none">
+                <ExecutiveTableHeader>
+                  <ExecutiveTableRow className="bg-foreground/5 border-b border-foreground/10">
+                    <th className="text-left py-3 px-6 font-bold text-foreground/50 uppercase tracking-wider">Descrição</th>
+                    <th className="text-right py-3 px-6 font-bold text-foreground/50 uppercase tracking-wider">Valor (R$)</th>
+                  </ExecutiveTableRow>
+                </ExecutiveTableHeader>
+                <ExecutiveTableBody>
+                  {rows.map((row: any, idx: number) => {
+                    const cleanItemName = (row.conta || row.category || row.item || '');
+                    const isIndented = cleanItemName.startsWith('  ');
+                    const hasBullet = cleanItemName.startsWith('  * ');
+                    const displayItemName = cleanItemName.replace(/^  * |^  /, '');
+
+                    return (
+                      <ExecutiveTableRow 
+                        key={idx}
+                        className={cn(
+                          "hover:bg-foreground/5 transition-colors border-b border-foreground/5 last:border-0",
+                          row.isReclassified && "bg-warning-soft0/5 hover:bg-warning-soft0/10"
+                        )}
+                      >
+                        <td className="py-2.5 px-6">
+                          <div className="flex items-center gap-2">
+                            <span className={cn(
+                              "font-medium",
+                              isIndented ? (hasBullet ? 'pl-6' : 'pl-4') : '',
+                              row.isReclassified ? 'text-amber-700 dark:text-amber-500 font-bold' : 'text-foreground/80'
+                            )}>
+                              {hasBullet && <span className="w-1 h-1 rounded-full bg-secondary inline-block mr-1.5 align-middle" />}
+                              {displayItemName}
+                            </span>
+                            {row.isReclassified && (
+                              <span className="px-1.5 py-0.5 rounded text-[8px] font-bold bg-amber-500/10 text-amber-700 dark:text-amber-500 border border-amber-500/20 uppercase tracking-wider">
+                                Reclassificado
+                              </span>
+                            )}
+                          </div>
+                        </td>
+                        <td className={cn(
+                          "py-2.5 px-6 text-right font-mono",
+                          (row.val || row.valor || row.value || 0) < 0 ? "text-destructive" : "text-foreground/80"
+                        )}>
+                          {formatCurrency(row.val || row.valor || row.value || 0)}
+                        </td>
+                      </ExecutiveTableRow>
+                    );
+                  })}
+                </ExecutiveTableBody>
+              </ExecutiveTable>
+            </div>
+
+            {metrics.fiduciary?.alerts && metrics.fiduciary.alerts.length > 0 && (
+              <div className="border border-warning-soft0/20 rounded-2xl overflow-hidden bg-warning-soft0/5">
+                <div className="px-6 py-3 border-b border-warning-soft0/20 bg-warning-soft0/10 flex items-center gap-2">
+                  <AlertTriangle className="text-warning-soft0" size={14} />
+                  <span className="text-[10px] font-black uppercase tracking-widest text-warning-soft0">Pontos de Atenção Fiduciária</span>
+                </div>
+                <div className="p-4 grid grid-cols-1 md:grid-cols-2 gap-3">
+                  {metrics.fiduciary.alerts.map((alert: string, idx: number) => (
+                    <div key={idx} className="flex gap-3 bg-card p-3 rounded-xl border border-warning-soft0/10 shadow-sm">
+                      <div className="w-1.5 h-1.5 rounded-full bg-warning-soft0 mt-1.5 shrink-0" />
+                      <p className="text-[10px] text-foreground/80 font-semibold mt-0.5 leading-relaxed">{alert}</p>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )}
+
+            {isSectionVisible('DFC_EQE_LINEAGE') && (
+              <div className="border-t border-border pt-8 space-y-4">
+                <div>
+                  <h4 className="text-sm font-black text-primary uppercase tracking-widest">
+                    {FiduciaryRuntimeAdapter.ExecutiveLanguageBoundaryGuard.translate('Explicabilidade & Rastreabilidade do Lucro (EQE)', densityLevel)}
+                  </h4>
+                  <p className="text-[10px] text-foreground/50 font-bold uppercase tracking-widest mt-0.5">Fórmula, linhagem contábil, racional e triggers de proteção de maturidade</p>
+                </div>
+
+                {earningsQuality?.netIncomeTrace && (
+                  <div className="bg-surface-container/30 border border-border rounded-xl p-5 flex flex-col @3xl:flex-row @3xl:items-center justify-between gap-4 text-foreground">
+                    <div>
+                      <h5 className="text-[10px] font-black uppercase tracking-widest text-foreground/50">Auditoria de Linhagem do Lucro Líquido</h5>
+                    </div>
+                    <div className="flex flex-wrap items-center gap-6 text-[11px] font-bold text-foreground/80">
+                      <div className="flex flex-col gap-0.5">
+                        <span className="text-[9px] font-black uppercase text-foreground/40 tracking-wider">Fonte</span>
+                        <span className="text-foreground">{earningsQuality.netIncomeTrace.source}</span>
+                      </div>
+                      <div className="flex flex-col gap-0.5">
+                        <span className="text-[9px] font-black uppercase text-foreground/40 tracking-wider">Valor na DRE</span>
+                        <span className="text-foreground">
+                          {earningsQuality.netIncomeTrace.sourceValue !== null 
+                            ? formatCurrency(earningsQuality.netIncomeTrace.sourceValue) 
+                            : 'Não identificado na DRE'}
+                        </span>
+                      </div>
+                      <div className="flex flex-col gap-0.5">
+                        <span className="text-[9px] font-black uppercase text-foreground/40 tracking-wider">
+                          {FiduciaryRuntimeAdapter.ExecutiveLanguageBoundaryGuard.translate('Valor usado pelo EQE', densityLevel)}
+                        </span>
+                        <span className="text-foreground">{formatCurrency(earningsQuality.netIncomeTrace.consumedByEQE)}</span>
+                      </div>
+                    </div>
+                  </div>
+                )}
+
+                <div className="grid grid-cols-1 @xl:grid-cols-2 @4xl:grid-cols-3 gap-4">
+                  {Object.entries(earningsQuality?.dimensions || {}).map(([key, dim]: [string, any]) => {
+                    let title = '';
+                    if (key === 'cashBacked') { title = 'Conversão em Caixa (Cash-Backed)'; }
+                    else if (key === 'recurrence') { title = 'Recorrência Econômica'; }
+                    else if (key === 'sustainability') { title = 'Sustentabilidade da Margem'; }
+                    else if (key === 'shareholderSupport') { title = 'Suporte dos Sócios'; }
+                    else if (key === 'accountingAggressiveness') { title = 'Ponto de Atenção'; }
+                    else { title = 'Estabilidade Longitudinal'; }
+
+                    title = FiduciaryRuntimeAdapter.ExecutiveLanguageBoundaryGuard.translate(title, densityLevel);
+
+                    return (
+                      <div key={key} className="border border-border bg-surface-container/30 rounded-xl p-5 text-left text-foreground">
+                        <div className="flex items-center justify-between mb-2">
+                          <div>
+                            <p className="text-[10px] font-black uppercase tracking-wider text-primary">{title}</p>
+                            <p className="text-[10px] font-semibold mt-1 text-foreground/70">Score: {dim.score}</p>
+                          </div>
+                        </div>
+                        <div className="mt-3 pt-3 border-t border-border space-y-3 text-xs">
+                          <div>
+                            <p className="text-[9px] font-black text-foreground/50 uppercase tracking-widest">Fórmula Econômica</p>
+                            <code className="block bg-black/5 dark:bg-white/5 p-2 rounded-lg mt-1 font-mono text-[10px] text-primary break-all">{dim.formula}</code>
+                          </div>
+                          <div>
+                            <p className="text-[9px] font-black text-foreground/50 uppercase tracking-widest">Linhagem de Contas (Lineage)</p>
+                            <p className="text-[10px] font-medium text-foreground/80 mt-1">{dim.lineage}</p>
+                          </div>
+                        </div>
+                      </div>
+                    );
+                  })}
+                </div>
+              </div>
+            )}
+          </div>
+        </ExecutiveTechnicalLayer>
+      )}
       {showImportModal && (
         <ImportFinancialModal
           type="DFC"

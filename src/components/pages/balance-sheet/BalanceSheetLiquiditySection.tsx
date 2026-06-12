@@ -25,7 +25,6 @@ export const BalanceSheetLiquiditySection = ({ indicators }: BalanceSheetLiquidi
               key={idx}
               label={metric}
               value={Number(ind.value).toFixed(2)}
-              description={ind.rationale}
               variant="transparent"
               className="bg-surface-container/30"
             />

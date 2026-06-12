@@ -45,4 +45,21 @@ describe('Architectural Boundaries & Constitutional Integrity', () => {
     
     assert.strictEqual(invalidFiles.length, 0, `UI Components must NEVER import from core/runtime directly. Found ${invalidFiles.length} violations.`);
   });
+
+  it('ExecutiveMetricCard must NOT contain formulas, proxies or rationale in description', () => {
+    const invalidFiles = allComponentFiles.filter(file => {
+      const content = fs.readFileSync(file, 'utf-8');
+      if (!content.includes('<ExecutiveMetricCard')) return false;
+
+      // Extract ExecutiveMetricCard blocks loosely
+      const regex = /<ExecutiveMetricCard[^>]*description=\{[^}]*(?:rationale|fórmula|cálculo|proxy|metodologia)[^}]*\}/gi;
+      return regex.test(content);
+    });
+
+    if (invalidFiles.length > 0) {
+      console.error('[CRITICAL] Technical rationale found inside ExecutiveMetricCard descriptions:', invalidFiles);
+    }
+    
+    assert.strictEqual(invalidFiles.length, 0, `Technical explanations must be moved to the final Technical Layer. Found ${invalidFiles.length} violations.`);
+  });
 });

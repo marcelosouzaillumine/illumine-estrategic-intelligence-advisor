@@ -63,7 +63,6 @@ export const BalanceSheetCapitalPreservationSection = ({ indicators, t }: Balanc
                   )}
                 </div>
               }
-              description={ind.rationale}
               tone={tone}
               variant="transparent"
               className="bg-surface-container/30"
