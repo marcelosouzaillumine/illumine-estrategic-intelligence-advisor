@@ -27,7 +27,7 @@ import { BalanceSheetExecutiveSynthesisSection } from './balance-sheet/BalanceSh
 import { BalanceSheetStructuralTablesSection } from './balance-sheet/BalanceSheetStructuralTablesSection';
 import { BalanceSheetCapitalPreservationSection } from './balance-sheet/BalanceSheetCapitalPreservationSection';
 import { mapIndicatorsToViewModels, mapInstitutionalContextToViewModel, mapRiskDivergenceToViewModel, mapTechnicalLayerToViewModel, mapAuditLayerToViewModel, mapFinancialAnalyticsToViewModels } from './balance-sheet/mappers';
-import { BPStrategicDiagnosisDriverMapper } from '../../core/runtime/governance/bp/BPStrategicDiagnosisDriverMapper';
+import { BPStrategicDiagnosisAdapter } from './balance-sheet/adapters/BPStrategicDiagnosisAdapter';
 import { useLanguage } from '../../contexts/LanguageContext';
 
 import { useAnnualFinancialData, useAllFinancialData } from '../../hooks/useFinancialData';
@@ -592,7 +592,7 @@ export function BalanceSheetPage({ clients, selectedClient, selectedYear }: any)
 
                   {/* ── Comentário Executivo ─────────────────────────────────────────── */}
                   {executiveReport && (() => {
-                    const technicalDrivers = BPStrategicDiagnosisDriverMapper.map(financialIndicators, bpSummary);
+                    const technicalDrivers = BPStrategicDiagnosisAdapter.mapDrivers(financialIndicators, bpSummary);
                     const execContext = {
                       analysisYear: filterYear,
                       generatedAt: new Date().toISOString(),
