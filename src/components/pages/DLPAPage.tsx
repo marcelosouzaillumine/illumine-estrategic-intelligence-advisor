@@ -190,7 +190,7 @@ export function DLPAPage({ clients, selectedClient, selectedYear }: any) {
   const [showImportModal, setShowImportModal] = useState(false);
   const [showManualModal, setShowManualModal] = useState(false);
   const [showElsaPanel, setShowElsaPanel] = useState(false);
-  const [showTechnicalLayer, setShowTechnicalLayer] = useState(false);
+  
 
   useEffect(() => {
     if (selectedYear) setFilterYear(Number(selectedYear));
@@ -995,18 +995,13 @@ export function DLPAPage({ clients, selectedClient, selectedYear }: any) {
             </div>
           )}
 
-          <div className="flex justify-center mt-8">
-            <button 
-              onClick={() => setShowTechnicalLayer(!showTechnicalLayer)}
-              className="px-6 py-2 rounded-full border border-border text-xs font-bold text-muted-foreground uppercase tracking-widest hover:bg-surface-container/30 transition-colors"
-            >
-              {showTechnicalLayer ? 'Ocultar Camada Técnica (Contábil)' : 'Exibir Camada Técnica (Contábil)'}
-            </button>
-          </div>
-
-          {/* --- 9. CAMADA TÉCNICA (Oculta por padrão) --- */}
-          {showTechnicalLayer && (
-            <>
+          {/* --- 9. CAMADA TÉCNICA (CONTÁBIL) --- */}
+          <ExecutiveTechnicalLayer
+            title="Camada Técnica (Contábil)"
+            subtitle="Detalhamento Analítico da DLPA"
+            description="Gráficos, Mapa de Governança e tabela completa de movimentações do Patrimônio Líquido."
+            className="mb-8"
+          >
               {/* --- 3. GRÁFICOS & MAPA DE GOVERNANÇA (Originalmente 1. Lucro vs Distribuição e 2. Radar) --- */}
               <div className="grid grid-cols-1 xl:grid-cols-2 gap-6 mb-6">
                 
@@ -1153,8 +1148,7 @@ export function DLPAPage({ clients, selectedClient, selectedYear }: any) {
                   </ExecutiveTable>
                 </div>
               </ExecutiveSurface>
-            </>
-          )}
+          </ExecutiveTechnicalLayer>
           {/* --- CAMADA TÉCNICA (Nova Regra Arquitetural) --- */}
           <ExecutiveTechnicalLayer
             title="Camada Técnica e Metodologia"
