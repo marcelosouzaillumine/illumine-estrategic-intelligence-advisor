@@ -3,6 +3,9 @@ import { Calendar, TrendingUp, TrendingDown } from 'lucide-react';
 import { cn } from '../../../lib/utils';
 import { BalanceSheetStructuralTablesViewModel } from './view-models';
 import { ExecutiveSurface } from '../../ui/executive-surface';
+import { ExecutiveHeading } from '../../ui/executive-heading';
+import { ExecutiveText } from '../../ui/executive-typography';
+import { ExecutiveBadge } from '../../ui/executive-badge';
 
 export function BalanceSheetStructuralTablesSection({
   viewModel
@@ -13,17 +16,17 @@ export function BalanceSheetStructuralTablesSection({
     <div>
       <div className="flex items-start justify-between px-2 mb-4">
         <div>
-          <h3 className="text-lg font-semibold text-foreground">Análise Estrutural do Balanço</h3>
-          <div className="text-foreground/70">Detalhamento de Contas e Participação (AV/AH)</div>
+          <ExecutiveHeading as="h3" variant="moduleTitle">Análise Estrutural do Balanço</ExecutiveHeading>
+          <div className="text-executive-secondary">Detalhamento de Contas e Participação (AV/AH)</div>
         </div>
         <div className="flex gap-4">
            <ExecutiveSurface padding="none" variant="default" elevation="sm" className="flex items-center h-8 gap-2 px-3 rounded-full">
              <span className="w-1.5 h-1.5 rounded-full bg-primary" />
-             <span className="text-[10px] font-medium text-foreground/70 uppercase tracking-wider">AV: Análise Vertical</span>
+             <ExecutiveText as="span" variant="microLabel" className="text-executive-secondary">AV: Análise Vertical</ExecutiveText>
            </ExecutiveSurface>
            <ExecutiveSurface padding="none" variant="default" elevation="sm" className="flex items-center h-8 gap-2 px-3 rounded-full">
-             <span className="w-1.5 h-1.5 rounded-full bg-emerald-400" />
-             <span className="text-[10px] font-medium text-foreground/70 uppercase tracking-wider">AH: Análise Horizontal</span>
+             <span className="w-1.5 h-1.5 rounded-full bg-success" />
+             <ExecutiveText as="span" variant="microLabel" className="text-executive-secondary">AH: Análise Horizontal</ExecutiveText>
            </ExecutiveSurface>
         </div>
       </div>
@@ -33,8 +36,8 @@ export function BalanceSheetStructuralTablesSection({
           <div className="w-16 h-16 bg-surface-container/30 rounded-full flex items-center justify-center mb-4">
             <Calendar size={28} className="text-muted-foreground" />
           </div>
-          <p className="text-foreground/70 font-semibold">Sem dados para análise</p>
-          <p className="text-foreground/70">
+          <ExecutiveText as="p" variant="bodyStandard" className="text-executive-secondary">Sem dados para análise</ExecutiveText>
+          <p className="text-executive-secondary">
             Nenhum dado estrutural encontrado para análise.
           </p>
         </ExecutiveSurface>
@@ -42,25 +45,26 @@ export function BalanceSheetStructuralTablesSection({
         <div className="space-y-8">
           {viewModel.sections.map((section, idx) => {
             const colorTheme = section.tone === 'assets' ? 'emerald' : section.tone === 'liabilities' ? 'blue' : 'primary';
+            const badgeVariant = section.tone === 'assets' ? 'success' : section.tone === 'liabilities' ? 'info' : 'neutral';
             return (
             <ExecutiveSurface padding="none" key={idx} className="rounded-[32px] overflow-hidden group">
-              <div className={cn("px-6 py-5 border-b flex items-start justify-between bg-surface-container/30/50", `border-${colorTheme}-100/50`)}>
+              <div className={cn("px-6 py-5 border-b flex items-start justify-between bg-surface-container/30", `border-${colorTheme}-100/50`)}>
                 <div className="flex items-start gap-3">
                   <div className={cn("w-2 h-6 rounded-full", `bg-${colorTheme}-500`)} />
-                  <h4 className="text-base font-bold text-foreground tracking-tight">{section.titleLabel}</h4>
+                  <ExecutiveHeading as="h4" variant="submoduleTitle">{section.titleLabel}</ExecutiveHeading>
                 </div>
-                <span className={cn("text-[9px] font-bold uppercase tracking-widest px-3 py-1.5 rounded-full", `bg-${colorTheme}-50 text-${colorTheme}-600`)}>
+                <ExecutiveBadge variant={badgeVariant}>
                   Detalhamento Estrutural
-                </span>
+                </ExecutiveBadge>
               </div>
               
               <div className="p-2">
-                <div className="flex items-center px-4 py-3 border-b border-border text-[9px] font-bold text-foreground/70 uppercase tracking-[0.2em]">
+                <ExecutiveText as="div" variant="microLabel" className="flex items-center px-4 py-3 border-b border-border text-executive-secondary">
                   <div className="flex-1">Conta Contábil</div>
                   <div className="w-32 text-right">Saldo (R$)</div>
                   <div className="w-24 text-right">AV (%)</div>
                   <div className="w-28 text-right">AH (%)</div>
-                </div>
+                </ExecutiveText>
                 
                 <div className="space-y-1 mt-2">
                   {section.rows.map((row, i) => {
@@ -70,51 +74,53 @@ export function BalanceSheetStructuralTablesSection({
                       row.level === 1 ? "bg-surface-container/30/50" : ""
                     )}>
                       <div className="flex-1 flex items-center pr-4">
-                        <span 
-                          className={cn(
-                            "text-[13px] leading-tight truncate", 
-                            row.level === 1 ? "font-bold text-foreground" : "font-medium text-foreground/75"
-                          )}
+                        <ExecutiveText
+                          as="span"
+                          variant={row.level === 1 ? "bodyStrong" : "bodyStandard"} 
+                          className="truncate"
                           style={{ paddingLeft: row.level > 1 ? `${(row.level - 1) * 16}px` : '0px' }}
                         >
                           {row.level > 1 && (
                             <span className="inline-block w-3 h-[1px] bg-foreground/20 mr-2.5 align-middle" />
                           )}
                           {row.label}
-                        </span>
+                        </ExecutiveText>
                       </div>
                       
-                      <div className={cn(
-                        "w-32 text-right font-display text-[13px] tabular-nums",
-                        row.level === 1 ? "font-bold text-foreground" : "font-medium text-foreground/75"
-                      )}>
-                        {row.valueFormatted}
+                      <div className="w-32 text-right">
+                        <ExecutiveText
+                          as="span"
+                          variant={row.level === 1 ? "bodyStrong" : "bodyStandard"}
+                          className="tabular-nums"
+                        >
+                          {row.valueFormatted}
+                        </ExecutiveText>
                       </div>
                       
                       <div className="w-24 text-right flex items-center justify-end">
-                        <span className={cn(
-                          "inline-flex items-center justify-center px-2 py-0.5 rounded-[6px] text-[10px] font-bold tabular-nums border",
-                          (row.verticalAnalysis ?? 0) > 100 ? "bg-critical-soft text-rose-600 border-rose-200" : "bg-surface-container/50 text-foreground/70 border-border"
+                        <ExecutiveText as="span" variant="microLabel" className={cn(
+                          "inline-flex items-center justify-center px-2 py-0.5 rounded-[6px] tabular-nums border",
+                          "bg-surface-container/50 text-executive-secondary border-border"
                         )}>
-                          {row.verticalAnalysis !== null && row.verticalAnalysis !== undefined ? (row.verticalAnalysis > 100 ? '> 100%' : `${row.verticalAnalysis.toFixed(2)}%`) : (
-                            <span className="text-[10px] font-bold text-foreground/70 tabular-nums uppercase tracking-widest">-</span>
+                          {row.verticalAnalysis !== null && row.verticalAnalysis !== undefined ? (`${Math.min(row.verticalAnalysis, 100).toFixed(2)}%`) : (
+                            <ExecutiveText as="span" variant="microLabel" className="text-executive-secondary tabular-nums">-</ExecutiveText>
                           )}
-                        </span>
+                        </ExecutiveText>
                       </div>
                       
                       <div className="w-28 text-right flex items-center justify-end">
                         {(row.horizontalAnalysis ?? 0) !== 0 && row.horizontalAnalysis !== null && row.horizontalAnalysis !== undefined ? (
-                          <span className={cn(
-                            "inline-flex items-center justify-center gap-1 px-2 py-0.5 rounded-[6px] text-[10px] font-bold tabular-nums border",
-                            row.horizontalAnalysis > 0 ? "bg-success-soft text-emerald-600 border-emerald-100" : row.horizontalAnalysis < 0 ? "bg-critical-soft text-rose-600 border-rose-100" : "bg-surface-container/30 text-foreground/70 border-border"
+                          <ExecutiveText as="span" variant="microLabel" className={cn(
+                            "inline-flex items-center justify-center gap-1 px-2 py-0.5 rounded-[6px] tabular-nums border",
+                            row.horizontalAnalysis > 0 ? "bg-success-soft text-success border-success/20" : row.horizontalAnalysis < 0 ? "bg-critical-soft text-critical border-critical/20" : "bg-surface-container/30 text-executive-secondary border-border"
                           )}>
                             {row.horizontalAnalysis > 0 ? <TrendingUp size={10} strokeWidth={3} /> : <TrendingDown size={10} strokeWidth={3} />}
                             {Math.abs(row.horizontalAnalysis).toFixed(2)}%
-                          </span>
+                          </ExecutiveText>
                         ) : (
-                           <span className="inline-flex items-center justify-center px-2 py-0.5 text-foreground/70 text-[10px] font-bold">
+                           <ExecutiveText as="span" variant="caption" className="inline-flex items-center justify-center px-2 py-0.5 text-executive-secondary">
                              —
-                           </span>
+                           </ExecutiveText>
                         )}
                       </div>
                      </div>

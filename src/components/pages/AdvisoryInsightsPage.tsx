@@ -1,14 +1,5 @@
 import React, { useState } from 'react';
-import { 
-  Activity, 
-  Zap, 
-  Target,
-  Sparkles,
-  AlertTriangle,
-  ShieldCheck,
-  Presentation,
-  BookOpen
-} from 'lucide-react';
+import { Activity, Zap, Target, Sparkles, AlertTriangle, ShieldCheck, Presentation, BookOpen } from 'lucide-react';
 import { motion, AnimatePresence } from 'motion/react';
 import { PageHeader } from '../Common';
 import { cn } from '../../lib/utils';
@@ -88,7 +79,7 @@ export function AdvisoryInsightsPage({ clients, selectedClient, selectedYear, se
                 <h4 className="text-[10px] font-medium text-secondary uppercase tracking-widest mb-2 flex items-center gap-2">
                   <Activity size={14} /> {t("advisory.institutional_diagnosis")}
                 </h4>
-                <p className="text-body text-muted-foreground leading-relaxed">{advisoryReport.institutionalDiagnosis}</p>
+        <p className="text-body text-executive-secondary leading-relaxed">{advisoryReport.institutionalDiagnosis}</p>
               </div>
 
               <div className="grid grid-cols-1 md:grid-cols-2 gap-8 border-t border-border pt-6">
@@ -218,7 +209,7 @@ export function AdvisoryInsightsPage({ clients, selectedClient, selectedYear, se
         <div className="card-premium bg-surface-container p-20 text-center">
           <Sparkles size={64} className="mx-auto mb-6 text-muted-foreground/20" />
           <h4 className="text-h4 font-medium text-foreground mb-2 tracking-tight">{t("advisory.waiting_data_title")}</h4>
-          <p className="text-muted-foreground font-medium">{t("advisory.waiting_data_subtitle")}</p>
+     <p className="text-executive-secondary font-medium">{t("advisory.waiting_data_subtitle")}</p>
         </div>
       )}
     </div>

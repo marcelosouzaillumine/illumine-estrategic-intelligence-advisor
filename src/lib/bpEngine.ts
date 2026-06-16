@@ -131,7 +131,7 @@ export function buildBPHierarchy(rows: any[]): { nodes: BPNode[], flatNodes: BPN
     }
     
     return {
-      id: r.id || `node_${i}`,
+      id: r.id ? `${r.id}_idx${i}` : `node_${i}`,
       category: rawCategory,
       cleanCategory: cleanCat,
       value: nodeValue,
@@ -235,8 +235,11 @@ export function buildBPHierarchy(rows: any[]): { nodes: BPNode[], flatNodes: BPN
         const hasMatchedDescendant = foundNodes.some(other => {
           if (other.id === n.id) return false;
           let current = other.parentId;
+          const visited = new Set<string>();
           while (current) {
             if (current === n.id) return true;
+            if (visited.has(current)) break; // Prevent circular references
+            visited.add(current);
             const parentNode = flatNodes.find(p => p.id === current);
             if (!parentNode) break;
             current = parentNode.parentId;

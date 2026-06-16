@@ -3,7 +3,8 @@ import { createPortal } from 'react-dom';
 import { Calendar, Loader2, Upload, Trash2, Plus, WalletCards, Database, TrendingUp, TrendingDown, Info, BarChart3 } from 'lucide-react';
 import { ResponsiveContainer, PieChart, Pie, RadarChart, PolarGrid, PolarAngleAxis, PolarRadiusAxis, Radar } from 'recharts';
 import { cn, formatCurrency, formatValue } from '../../lib/utils';
-import { PageHeader, KpiCard } from '../Common';
+import { PageHeader } from '../Common';
+import { ExecutiveMetricCard } from '../ui/executive-metric-card';
 import { MetricTile } from '../ui/metric-tile';
 import { SemanticCard } from '../ui/semantic-card';
 import { ExecutiveSurface } from '../ui/executive-surface';
@@ -17,9 +18,7 @@ import { ExecutiveHistoricalEvolutionCard } from '../ui/executive-historical-evo
 import { ExecutiveDecisionSummaryCard } from '../ui/executive-decision-summary-card';
 import { ExecutiveStrategicSemanticCards } from '../ui/executive-strategic-semantic-cards';
 import { ExecutiveDecisionSynthesisEngine } from '../../services/FiduciaryRuntimeAdapter';
-import { 
-  ExecutiveComposedChart, ExecutiveBar, ExecutiveLine, ExecutiveChartGrid, ExecutiveChartXAxis, ExecutiveChartYAxis, ExecutiveChartTooltip 
-} from '../ui/executive-chart';
+import { ExecutiveComposedChart, ExecutiveBar, ExecutiveLine, ExecutiveChartGrid, ExecutiveChartXAxis, ExecutiveChartYAxis, ExecutiveChartTooltip } from '../ui/executive-chart';
 import { ExecutiveChartSemanticPalette } from '../../core/theme/ExecutiveChartSemanticPalette';
 import { HistoricalInsightEngine, HistoricalSeries } from '../../services/FiduciaryRuntimeAdapter';
 import { useAnnualFinancialData, useAllFinancialData } from '../../hooks/useFinancialData';
@@ -31,14 +30,7 @@ import { ManualFinancialModal } from '../modals/ManualFinancialModal';
 import { useInstitutionalAuth } from '../../core/security/auth/InstitutionalAuthProvider';
 import { FiduciaryRuntimeAdapter } from '../../services/FiduciaryRuntimeAdapter';
 import type { PresentationLayer } from '../../services/FiduciaryRuntimeAdapter';
-import {
-  collection,
-  deleteDoc,
-  doc,
-  query,
-  where,
-  getDocs,
-} from 'firebase/firestore';
+import { collection, deleteDoc, doc, query, where, getDocs } from 'firebase/firestore';
 import { db, auth } from '../../lib/firebase';
 
 type ToastType = { type: 'success' | 'error'; message: string } | null;
@@ -558,7 +550,7 @@ export function DFCPage({ clients, selectedClient, selectedYear }: any) {
                metrics.fiduciary.lifecycleProfile.lifecycleStage === 'EARLY_GROWTH' ? 'Fase de Crescimento Inicial' : 
                metrics.fiduciary.lifecycleProfile.lifecycleStage}
             </h3>
-            <p className="text-sm text-secondary font-medium mt-1">
+      <p className="text-sm text-executive-secondary font-medium mt-1">
               Classificação ELSA: <span className="font-bold">{metrics.fiduciary.lifecycleProfile.lifecycleStage}</span> (Confiança: {metrics.fiduciary.lifecycleProfile.lifecycleConfidence})
             </p>
           </div>
@@ -634,7 +626,7 @@ export function DFCPage({ clients, selectedClient, selectedYear }: any) {
             <div style={{ height: 320 }} className="w-full mt-4">
               {(!chartData || chartData.length === 0) ? (
                 <div className="absolute inset-0 flex items-center justify-center bg-surface-high/50 rounded-lg">
-                  <span className="text-muted-foreground text-sm italic">Nenhum dado disponível para este gráfico.</span>
+         <span className="text-executive-secondary text-sm italic">Nenhum dado disponível para este gráfico.</span>
                 </div>
               ) : (
                 <ResponsiveContainer width="100%" height="100%">
@@ -851,13 +843,13 @@ export function DFCPage({ clients, selectedClient, selectedYear }: any) {
                   <div className="grid grid-cols-1 @3xl:grid-cols-2 gap-6 relative z-10 border-t border-white/10 pt-4">
                     <div className="bg-card/5 p-5 rounded-2xl border border-white/10 shadow-sm hover:bg-card/10 transition-colors">
                       <span className="text-[9px] font-black uppercase text-muted-foreground tracking-wider">Maior Risco Detectado</span>
-                      <p className="text-secondary">
+           <p className="text-executive-secondary">
                         {FiduciaryRuntimeAdapter.ExecutiveLanguageBoundaryGuard.translate(snapshot.maiorRisco, densityLevel)}
                       </p>
                     </div>
                     <div className="bg-card/5 p-5 rounded-2xl border border-white/10 shadow-sm hover:bg-card/10 transition-colors">
                       <span className="text-[9px] font-black uppercase text-secondary tracking-wider">Ação Recomendada</span>
-                      <p className="text-sm font-black text-secondary mt-1">
+           <p className="text-sm font-black text-executive-secondary mt-1">
                         {FiduciaryRuntimeAdapter.ExecutiveLanguageBoundaryGuard.translate(snapshot.acaoPrioritaria, densityLevel)}
                       </p>
                     </div>
@@ -884,7 +876,7 @@ export function DFCPage({ clients, selectedClient, selectedYear }: any) {
                                 {d.impact}
                               </span>
                             </div>
-                            <p className="text-secondary">{d.recommendation}</p>
+              <p className="text-executive-secondary">{d.recommendation}</p>
                             
                             {/* Collapse debug section for technical profile */}
                             {densityLevel === 'TECHNICAL' && (
@@ -913,8 +905,8 @@ export function DFCPage({ clients, selectedClient, selectedYear }: any) {
               >
                 <div className="bg-gradient-to-br from-foreground via-foreground to-[#07111C] text-white rounded-3xl p-6 border border-white/10 shadow-lg relative overflow-hidden">
                   <div className="absolute top-0 right-0 w-32 h-32 bg-secondary/5 rounded-full blur-2xl -mr-16 -mt-16 pointer-events-none" />
-                  <p className="text-secondary">Questão Principal</p>
-                  <p className="text-secondary">A operação é autossustentável?</p>
+         <p className="text-executive-secondary">Questão Principal</p>
+         <p className="text-executive-secondary">A operação é autossustentável?</p>
                   <p className="text-base font-black text-emerald-400 mt-2 leading-relaxed">
                     {FiduciaryRuntimeAdapter.ExecutiveLanguageBoundaryGuard.translate(metrics.fiduciary?.cashBoardDecisionFramework?.isOperationSelfSustaining, densityLevel)}
                   </p>
@@ -1039,7 +1031,7 @@ export function DFCPage({ clients, selectedClient, selectedYear }: any) {
                               {statusVal}
                             </span>
                           </div>
-                          <p className="text-secondary">
+             <p className="text-executive-secondary">
                             {messageVal}
                           </p>
                         </div>
@@ -1099,7 +1091,7 @@ export function DFCPage({ clients, selectedClient, selectedYear }: any) {
                     </p>
                   </div>
                 </div>
-                <p className="text-secondary">
+        <p className="text-executive-secondary">
                   {metrics.fiduciary?.shareholderDependencyAnalysis?.rationale}
                 </p>
               </SemanticCard>
@@ -1271,8 +1263,8 @@ export function DFCPage({ clients, selectedClient, selectedYear }: any) {
                   <div className="grid grid-cols-1 @3xl:grid-cols-2 gap-6 relative z-10">
                     <div className="space-y-4">
                       <div>
-                        <p className="text-secondary">Diagnóstico Governança</p>
-                        <p className="text-secondary">
+            <p className="text-executive-secondary">Diagnóstico Governança</p>
+            <p className="text-executive-secondary">
                           {governanceOutput.narratives.executiveSummary}
                         </p>
                       </div>
@@ -1304,7 +1296,7 @@ export function DFCPage({ clients, selectedClient, selectedYear }: any) {
                     <div className="space-y-4">
                       <div>
                         <p className="text-[9px] font-black uppercase tracking-widest text-[#BAB86C] mb-1">Consequência da Ação</p>
-                        <p className="text-secondary">
+            <p className="text-executive-secondary">
                           {FiduciaryRuntimeAdapter.ExecutiveLanguageBoundaryGuard.translate(consequence.consequenceOfAction, densityLevel)}
                         </p>
                       </div>
@@ -1318,13 +1310,13 @@ export function DFCPage({ clients, selectedClient, selectedYear }: any) {
                     <div className="space-y-4">
                       <div className="grid grid-cols-1 @sm:grid-cols-2 gap-4">
                         <div>
-                          <p className="text-secondary">Horizonte do Impacto</p>
-                          <p className="text-secondary">
+             <p className="text-executive-secondary">Horizonte do Impacto</p>
+             <p className="text-executive-secondary">
                             {FiduciaryRuntimeAdapter.ExecutiveLanguageBoundaryGuard.translate(consequence.impactHorizon, densityLevel)}
                           </p>
                         </div>
                         <div>
-                          <p className="text-secondary">Reversibilidade</p>
+             <p className="text-executive-secondary">Reversibilidade</p>
                           <div>
                             <span className={cn(
                               "inline-block px-2.5 py-1 rounded text-[8px] font-black uppercase tracking-wider whitespace-normal break-words text-balance text-center",
@@ -1886,13 +1878,13 @@ export function DFCPage({ clients, selectedClient, selectedYear }: any) {
         <div className="fixed inset-0 bg-foreground/60 backdrop-blur-sm z-[100] flex items-center justify-center p-4">
           <div className="bg-card rounded-[32px] p-8 w-full max-w-md min-w-[300px] md:min-w-[400px] shadow-2xl shrink-0">
             <h3 className="text-xl font-black text-primary mb-2">Excluir Dados?</h3>
-            <p className="text-sm text-secondary mb-8 font-medium">
+      <p className="text-sm text-executive-secondary mb-8 font-medium">
               Esta ação removerá todos os registros da DFC para o ano <strong>{filterYear}</strong> deste cliente. Esta ação não pode ser desfeita.
             </p>
             <div className="flex gap-4">
               <button
                 onClick={() => setShowDeleteConfirm(false)}
-                className="flex-1 py-3 text-sm font-bold text-muted-foreground hover:bg-surface-container/30 rounded-2xl transition-all"
+        className="flex-1 py-3 text-sm font-bold text-executive-secondary hover:bg-surface-container/30 rounded-2xl transition-all"
               >
                 Cancelar
               </button>

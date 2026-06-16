@@ -43,8 +43,8 @@ export function ExecutiveCallout({
           </div>
         )}
         <div className="flex-1 space-y-1.5">
-          {title && <h4 className="font-medium text-base tracking-tight leading-none">{title}</h4>}
-          {children && <div className="text-muted-foreground text-sm leading-relaxed max-w-3xl">{children}</div>}
+          {title && <h4 className="text-base font-semibold text-foreground tracking-tight mb-2">{title}</h4>}
+          {children && <div className="text-executive-secondary text-sm leading-relaxed max-w-3xl">{children}</div>}
         </div>
       </div>
     </ExecutiveSurface>

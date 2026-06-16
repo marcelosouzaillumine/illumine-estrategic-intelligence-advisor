@@ -4,6 +4,9 @@ export type BalanceSheetIndicatorViewModel = {
   value: string | number;
   format?: string;
   rationale?: string;
+  classification?: string;
+  classificationLabel?: string;
+  severity?: string;
 };
 
 export type BalanceSheetCriticalOffenderViewModel = {
@@ -33,7 +36,7 @@ export type BalanceSheetInstitutionalContextViewModel = {
   stage: string;
 };
 
-export type BalanceSheetTechnicalIndicatorTone = 'critical' | 'warning' | 'success' | 'info' | 'neutral' | 'insufficient';
+export type BalanceSheetTechnicalIndicatorTone = 'critical' | 'warning' | 'success' | 'neutral';
 
 export type BalanceSheetTechnicalIndicatorViewModel = {
   label: string;
@@ -68,11 +71,13 @@ export type BalanceSheetAuditConsistencyIssueViewModel = {
   type: 'critical' | 'warning' | 'disclosure';
   typeLabel: string;
   message: string;
+  severity: "critical" | "warning" | "attention" | "info";
+  severityLabel: string;
 };
 
 export type BalanceSheetAuditConsistencyViewModel = {
   statusLabel: string;
-  statusTone: 'success' | 'critical' | 'warning';
+  statusTone: 'success' | 'critical' | 'warning' | 'attention' | 'neutral';
   hasIssues: boolean;
   issues: BalanceSheetAuditConsistencyIssueViewModel[];
 };
@@ -80,12 +85,14 @@ export type BalanceSheetAuditConsistencyViewModel = {
 export type BalanceSheetAuditLayerViewModel = {
   structuralRestrictions?: BalanceSheetAuditStructuralRestrictionsViewModel;
   governanceConsistency?: BalanceSheetAuditConsistencyViewModel;
+  globalScore?: number;
+  criticalOffenders?: BalanceSheetCriticalOffenderViewModel[];
 };
 
 export type BalanceSheetWaterfallPointViewModel = {
   name: string;
   value: number;
-  fill?: string;
+  variant?: 'primary' | 'secondary' | 'success' | 'warning' | 'critical' | 'neutral' | 'insufficient' | 'healthy' | 'excellent';
 };
 
 export type BalanceSheetWaterfallViewModel = {
@@ -96,7 +103,7 @@ export type BalanceSheetWaterfallViewModel = {
 export type BalanceSheetCompositionPointViewModel = {
   name: string;
   value: number;
-  fill?: string;
+  variant?: 'primary' | 'secondary' | 'success' | 'warning' | 'critical' | 'neutral' | 'insufficient' | 'healthy' | 'excellent';
 };
 
 export type BalanceSheetCompositionViewModel = {

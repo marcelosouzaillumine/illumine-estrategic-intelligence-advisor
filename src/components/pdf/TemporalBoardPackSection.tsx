@@ -10,7 +10,7 @@ const styles = StyleSheet.create({
   header: {
     fontSize: 14,
     fontWeight: 'bold',
-    color: '#0f172a',
+    color: 'var(--color-foreground)',
     marginBottom: 5,
     textTransform: 'uppercase'
   },
@@ -31,7 +31,7 @@ const styles = StyleSheet.create({
   value: {
     fontSize: 10,
     fontWeight: 'bold',
-    color: '#0f172a',
+    color: 'var(--color-foreground)',
   },
   warningBlock: {
     backgroundColor: '#fef2f2',
@@ -42,7 +42,7 @@ const styles = StyleSheet.create({
   warningTitle: {
     fontSize: 10,
     fontWeight: 'bold',
-    color: '#b91c1c',
+    color: 'var(--color-state-critical)',
   },
   warningText: {
     fontSize: 9,
@@ -56,7 +56,7 @@ const styles = StyleSheet.create({
   },
   auditText: {
     fontSize: 8,
-    color: '#94a3b8',
+    color: 'var(--color-state-insufficient)',
     fontFamily: 'Courier',
   }
 });

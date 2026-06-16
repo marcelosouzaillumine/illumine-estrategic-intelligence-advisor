@@ -1,4 +1,4 @@
-import { logger } from "../../../services/logging/InstitutionalLogger";
+import { logger } from '../../../services/logging/InstitutionalLogger';
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import { useNavigate } from 'react-router-dom';
@@ -141,7 +141,7 @@ export function LoginPage() {
       {/* Return Home Button */}
       <button 
         onClick={() => navigate('/')}
-        className="absolute top-6 left-6 text-sm font-bold text-muted-foreground hover:text-foreground flex items-center gap-2 transition-colors z-50"
+    className="absolute top-6 left-6 text-sm font-bold text-executive-secondary hover:text-foreground flex items-center gap-2 transition-colors z-50"
       >
         <span className="text-xl">&larr;</span> {t('auth.button.back')}
       </button>
@@ -173,7 +173,7 @@ export function LoginPage() {
           <h2 className="text-[clamp(1.25rem,4vh,1.5rem)] font-medium tracking-tight text-foreground leading-tight">
             {t('auth.title.login')}
           </h2>
-          <p className="mt-[clamp(0.25rem,1vh,0.375rem)] text-[clamp(0.75rem,2vh,0.875rem)] leading-snug text-muted-foreground font-medium font-sans">
+     <p className="mt-[clamp(0.25rem,1vh,0.375rem)] text-[clamp(0.75rem,2vh,0.875rem)] leading-snug text-executive-secondary font-medium font-sans">
             {t('auth.subtitle.login')}
           </p>
         </div>
@@ -314,11 +314,11 @@ export function LoginPage() {
 
           {/* Security note */}
           <div className="hidden sm:block rounded-button bg-surface-container/40 border border-border/60 p-[clamp(0.5rem,2vh,0.75rem)] mt-[clamp(0.5rem,2vh,1rem)]">
-            <p className="text-[clamp(0.5rem,1.5vh,0.625rem)] font-bold uppercase tracking-widest text-muted-foreground flex items-center gap-1.5">
+      <p className="text-[clamp(0.5rem,1.5vh,0.625rem)] font-bold uppercase tracking-widest text-executive-secondary flex items-center gap-1.5">
               <ShieldCheck className="w-[clamp(0.625rem,2vh,0.6875rem)] h-[clamp(0.625rem,2vh,0.6875rem)] text-secondary shrink-0" />
               {t('auth.warning.secure_environment')}
             </p>
-            <p className="mt-[clamp(0.25rem,1vh,0.375rem)] text-[clamp(0.625rem,1.8vh,0.6875rem)] leading-snug text-muted-foreground/75 font-medium font-sans">
+      <p className="mt-[clamp(0.25rem,1vh,0.375rem)] text-[clamp(0.625rem,1.8vh,0.6875rem)] leading-snug text-executive-secondary/75 font-medium font-sans">
               {t('auth.note.secure_environment')}
             </p>
           </div>

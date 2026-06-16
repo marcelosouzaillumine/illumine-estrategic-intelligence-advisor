@@ -4,68 +4,12 @@ import React, {
     useMemo,
     useEffect
 } from 'react';
-import {
-    Calculator,
-    TrendingUp,
-    ArrowRight,
-    Zap,
-    Percent,
-    Building2,
-    PiggyBank,
-    Scale,
-    AlertCircle,
-    HelpCircle,
-    History,
-    ShieldCheck,
-    Boxes,
-    Sparkles,
-    Printer,
-    Calendar,
-    Target,
-    DollarSign,
-    LayoutDashboard,
-    Save,
-    Plus,
-    Trash2,
-    FileText,
-    ChevronDown,
-    Award,
-    Loader2,
-    BarChart
-} from 'lucide-react';
-import { 
-    collection, 
-    query, 
-    where, 
-    onSnapshot, 
-    addDoc, 
-    updateDoc, 
-    doc, 
-    serverTimestamp,
-    deleteDoc 
-} from 'firebase/firestore';
+import { Calculator, TrendingUp, ArrowRight, Zap, Percent, Building2, PiggyBank, Scale, AlertCircle, HelpCircle, History, ShieldCheck, Boxes, Sparkles, Printer, Calendar, Target, DollarSign, LayoutDashboard, Save, Plus, Trash2, FileText, ChevronDown, Award, Loader2, BarChart } from 'lucide-react';
+import { collection, query, where, onSnapshot, addDoc, updateDoc, doc, serverTimestamp, deleteDoc } from 'firebase/firestore';
 import { db, auth } from '../../lib/firebase';
-import {
-    motion,
-    AnimatePresence
-} from 'motion/react';
-import {
-    Bar,
-    XAxis,
-    YAxis,
-    CartesianGrid,
-    Tooltip,
-    Legend,
-    ResponsiveContainer,
-    ComposedChart,
-    Line,
-    Area,
-    Cell
-} from 'recharts';
-import {
-    cn,
-    formatCurrency
-} from '../../lib/utils';
+import { motion, AnimatePresence } from 'motion/react';
+import { Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer, ComposedChart, Line, Area, Cell } from 'recharts';
+import { cn, formatCurrency } from '../../lib/utils';
 import { useAllFinancialData } from '../../hooks/useFinancialData';
 
 // --- Math Helpers ---
@@ -351,7 +295,7 @@ export function LoanInvestmentSimPage({ clientId }: { clientId?: string }) {
                             </div>
                         </div>
                         <h1 className="text-5xl font-display font-black text-primary tracking-tight uppercase">Simulador de Captação</h1>
-                        <p className="text-secondary text-lg font-medium max-w-2xl mx-auto italic">
+            <p className="text-executive-secondary text-lg font-medium max-w-2xl mx-auto italic">
                             "Modelagem estratégica de capital, spread operacional e alavancagem financeira para decisões de alto impacto."
                         </p>
                     </div>
@@ -368,7 +312,7 @@ export function LoanInvestmentSimPage({ clientId }: { clientId?: string }) {
                                     <Plus size={32} />
                                 </div>
                                 <h3 className="text-2xl font-display font-black uppercase mb-2">Novo Projeto</h3>
-                                <p className="text-secondary text-sm font-medium leading-relaxed">
+                <p className="text-executive-secondary text-sm font-medium leading-relaxed">
                                     Inicie uma modelagem do zero, definindo valor, prazo e comparando instituições.
                                 </p>
                             </div>
@@ -392,7 +336,7 @@ export function LoanInvestmentSimPage({ clientId }: { clientId?: string }) {
                                         >
                                             <div className="text-left">
                                                 <p className="text-xs font-black uppercase tracking-tight mb-1">{p.projectName}</p>
-                                                <p className="text-[10px] font-bold opacity-40">{formatCurrency(p.amount)} • {p.months} Meses</p>
+                        <p className="text-[10px] font-bold ">{formatCurrency(p.amount)} • {p.months} Meses</p>
                                             </div>
                                             <ArrowRight size={16} className="opacity-0 group-hover/item:opacity-100 transform translate-x-[-10px] group-hover/item:translate-x-0 transition-all" />
                                         </button>
@@ -497,7 +441,7 @@ export function LoanInvestmentSimPage({ clientId }: { clientId?: string }) {
                     </div>
                     <div>
                         <h3 className="text-[11px] font-black text-secondary uppercase tracking-[0.3em] mb-3">Melhor Opção Identificada</h3>
-                        <p className="executive-note italic text-muted-foreground">
+            <p className="executive-note italic text-executive-secondary">
                             {bestOption 
                                 ? `Baseado no Custo Efetivo Total (CET), a melhor alternativa é ${bestOption.name} (${bestOption.type}), com taxa de ${bestOption.cet.toFixed(2)}% a.a. O spread contra o retorno do negócio é de ${(expectedBusinessROI - bestOption.cet).toFixed(1)}%.`
                                 : "Aguardando modelagem de dados para análise de spread e custo de capital."
@@ -509,7 +453,7 @@ export function LoanInvestmentSimPage({ clientId }: { clientId?: string }) {
                     <div className="absolute -bottom-10 -right-10 w-40 h-40 bg-secondary/20 rounded-full blur-3xl"></div>
                     <div>
                         <h3 className="text-[10px] font-black text-primary uppercase tracking-widest mb-4">Menor CET Projetado</h3>
-                        <p className="text-4xl font-display font-black mb-2">{bestOption ? bestOption.cet.toFixed(2) : '0.00'}% <span className="text-sm font-bold opacity-50">a.a.</span></p>
+            <p className="text-4xl font-display font-black mb-2">{bestOption ? bestOption.cet.toFixed(2) : '0.00'}% <span className="text-sm font-bold ">a.a.</span></p>
                         <div className="flex items-center gap-2 text-emerald-400">
                             <ShieldCheck size={16} />
                             <span className="text-xs font-bold uppercase tracking-widest">Análise Multibancos</span>
@@ -549,7 +493,7 @@ export function LoanInvestmentSimPage({ clientId }: { clientId?: string }) {
                                 </div>
                                 <div className="space-y-1">
                                     <label className="text-[10px] font-black text-muted-foreground uppercase flex items-center gap-1"><DollarSign size={10} /> Valor Necessário</label>
-                                    <input type="number" value={amount} onChange={(e) => setAmount(Number(e.target.value))} className="w-full px-4 py-3 bg-slate-50 border border-border rounded-xl font-bold text-muted-foreground outline-none focus:border-border text-sm" />
+                  <input type="number" value={amount} onChange={(e) => setAmount(Number(e.target.value))} className="w-full px-4 py-3 bg-slate-50 border border-border rounded-xl font-bold text-executive-secondary outline-none focus:border-border text-sm" />
                                 </div>
                                 <div className="space-y-1">
                                     <label className="text-[10px] font-black text-muted-foreground uppercase flex items-center gap-1"><Calendar size={10} /> Prazo Total (Meses)</label>
@@ -796,15 +740,15 @@ export function LoanInvestmentSimPage({ clientId }: { clientId?: string }) {
                                         <p className="text-[10px] font-black text-muted-foreground uppercase tracking-widest mb-4">Sistema PRICE</p>
                                         <div className="space-y-4">
                                             <div>
-                                                <p className="text-2xl font-black text-primary">{res.price.cet.toFixed(2)}% <span className="text-[10px] opacity-40">CET a.a.</span></p>
+                        <p className="text-2xl font-black text-primary">{res.price.cet.toFixed(2)}% <span className="text-[10px] ">CET a.a.</span></p>
                                             </div>
                                             <div className="grid grid-cols-2 gap-4 pt-4 border-t border-border">
                                                 <div>
-                                                    <p className="text-[8px] font-black text-muted-foreground uppercase">Total Pago</p>
+                          <p className="text-[8px] font-black text-executive-secondary uppercase">Total Pago</p>
                                                     <p className="text-xs font-bold text-muted-foreground">{formatCurrency(res.price.totalPaid)}</p>
                                                 </div>
                                                 <div>
-                                                    <p className="text-[8px] font-black text-muted-foreground uppercase">Juros</p>
+                          <p className="text-[8px] font-black text-executive-secondary uppercase">Juros</p>
                                                     <p className="text-xs font-bold text-rose-500">{formatCurrency(res.price.totalInterest)}</p>
                                                 </div>
                                             </div>
@@ -816,15 +760,15 @@ export function LoanInvestmentSimPage({ clientId }: { clientId?: string }) {
                                         <p className="text-[10px] font-black text-muted-foreground uppercase tracking-widest mb-4">Sistema SAC</p>
                                         <div className="space-y-4">
                                             <div>
-                                                <p className="text-2xl font-black text-primary">{res.sac.cet.toFixed(2)}% <span className="text-[10px] opacity-40">CET a.a.</span></p>
+                        <p className="text-2xl font-black text-primary">{res.sac.cet.toFixed(2)}% <span className="text-[10px] ">CET a.a.</span></p>
                                             </div>
                                             <div className="grid grid-cols-2 gap-4 pt-4 border-t border-emerald-200">
                                                 <div>
-                                                    <p className="text-[8px] font-black text-muted-foreground uppercase">Total Pago</p>
+                          <p className="text-[8px] font-black text-executive-secondary uppercase">Total Pago</p>
                                                     <p className="text-xs font-bold text-muted-foreground">{formatCurrency(res.sac.totalPaid)}</p>
                                                 </div>
                                                 <div>
-                                                    <p className="text-[8px] font-black text-muted-foreground uppercase">Juros</p>
+                          <p className="text-[8px] font-black text-executive-secondary uppercase">Juros</p>
                                                     <p className="text-xs font-bold text-emerald-600">{formatCurrency(res.sac.totalInterest)}</p>
                                                 </div>
                                             </div>
@@ -843,7 +787,7 @@ export function LoanInvestmentSimPage({ clientId }: { clientId?: string }) {
                         ))}
                         {consortiumCalculatedResults.filter(r => r !== null).map((res: any, idx) => (
                             <div key={`cons_res_${idx}`} className="bg-white p-6 rounded-[32px] border border-amber-100 shadow-sm">
-                                <p className="text-[8px] font-black text-muted-foreground uppercase tracking-widest mb-2">{res.name} (CONSÓRCIO)</p>
+                <p className="text-[8px] font-black text-executive-secondary uppercase tracking-widest mb-2">{res.name} (CONSÓRCIO)</p>
                                 <div className="flex items-baseline gap-1 mb-4">
                                     <span className="text-2xl font-black text-primary">{res.cet.toFixed(2)}%</span>
                                     <span className="text-[10px] font-bold text-muted-foreground">CET a.a.</span>
@@ -895,7 +839,7 @@ export function LoanInvestmentSimPage({ clientId }: { clientId?: string }) {
                                     </div>
                                     <div className="bg-white/5 p-8 rounded-[40px] border border-white/10 backdrop-blur-md">
                                         <h4 className="text-[10px] font-black text-blue-400 uppercase tracking-widest mb-6 flex items-center gap-2"><ShieldCheck size={14} /> Parecer CFO</h4>
-                                        <p className="text-sm text-secondary leading-relaxed font-medium mb-6">
+                    <p className="text-sm text-executive-secondary leading-relaxed font-medium mb-6">
                                             {projectPurpose === 'Alongamento de Dívida' && `Estratégia focada em redução de desembolso mensal e otimização do cronograma de amortização.`}
                                             {projectPurpose === 'Capital de Giro' && `Foco em liquidez imediata. O CET de ${loanResults.cet.toFixed(1)}% deve ser comparado ao custo de oportunidade do caixa.`}
                                             {projectPurpose.includes('Expansão') && `Investimento em crescimento. O ROI de ${expectedBusinessROI.toFixed(1)}% justifica a alavancagem com spread de ${(expectedBusinessROI - loanResults.cet).toFixed(1)}%.`}

@@ -1,40 +1,10 @@
 import React, { useState, useEffect } from 'react';
-import { 
-  Database, 
-  UploadCloud, 
-  Loader2, 
-  CheckCircle2, 
-  AlertTriangle, 
-  Clock, 
-  X, 
-  FileText, 
-  Info,
-  ShieldCheck,
-  History,
-  RotateCw,
-  Trash2,
-  Calendar,
-  Filter
-} from 'lucide-react';
+import { Database, UploadCloud, Loader2, CheckCircle2, AlertTriangle, Clock, X, FileText, Info, ShieldCheck, History, RotateCw, Trash2, Calendar, Filter } from 'lucide-react';
 import { motion } from 'motion/react';
 import { cn } from '../../lib/utils';
 import * as XLSX from 'xlsx';
 import * as pdfjsLib from 'pdfjs-dist';
-import { 
-  collection, 
-  query, 
-  where, 
-  getDocs, 
-  addDoc, 
-  serverTimestamp, 
-  deleteDoc, 
-  doc, 
-  orderBy, 
-  limit,
-  updateDoc,
-  writeBatch,
-  onSnapshot
-} from 'firebase/firestore';
+import { collection, query, where, getDocs, addDoc, serverTimestamp, deleteDoc, doc, orderBy, limit, updateDoc, writeBatch, onSnapshot } from 'firebase/firestore';
 import { ref, getDownloadURL, uploadBytesResumable } from 'firebase/storage';
 import { db, storage, login, auth, handleFirestoreError, OperationType } from '../../lib/firebase';
 import { DOCUMENT_TYPES } from '../../constants/documents';
@@ -672,7 +642,7 @@ export function DadosHistoricosPage({
       <div className="flex flex-col items-center justify-center min-h-[400px] bg-card border border-border rounded-card p-20 text-center">
         <Database size={48} className="text-muted-foreground/30 mb-6 animate-pulse" />
         <h3 className="text-xl font-display text-primary mb-2">Acesso Restrito</h3>
-        <p className="text-muted-foreground font-medium max-w-md mb-8">Faça login com Google para gerenciar os dados.</p>
+    <p className="text-executive-secondary font-medium max-w-md mb-8">Faça login com Google para gerenciar os dados.</p>
         <button onClick={login} className="px-5 md:px-8 py-2 md:py-3 bg-primary text-primary-foreground rounded-button font-bold uppercase tracking-widest hover:bg-primary/95 transition-all shadow-sm cursor-pointer">
           Entrar com Google
         </button>
@@ -691,7 +661,7 @@ export function DadosHistoricosPage({
             <Loader2 size={40} className="animate-spin text-secondary mx-auto" />
             <div>
               <h4 className="text-xl font-bold text-foreground mb-2">Processando Documento</h4>
-              <p className="text-body-sm text-muted-foreground font-medium">Sincronizando com a Nuvem...</p>
+       <p className="text-body-sm text-executive-secondary font-medium">Sincronizando com a Nuvem...</p>
             </div>
             <div className="space-y-2">
               <div className="flex justify-between text-[10px] font-black text-secondary uppercase tracking-widest">
@@ -1033,7 +1003,7 @@ export function DadosHistoricosPage({
                     <UploadCloud size={28} />
                   </div>
                   <h4 className="text-body-lg font-bold text-foreground mb-1.5">Arraste seu arquivo aqui</h4>
-                  <p className="text-body-sm text-muted-foreground mb-4">PDF, XLSX, XLS ou CSV</p>
+         <p className="text-body-sm text-executive-secondary mb-4">PDF, XLSX, XLS ou CSV</p>
                   <button className="px-4 py-2 bg-background border border-border rounded-button text-[10px] font-black uppercase tracking-widest text-secondary hover:bg-secondary hover:text-white transition-all shadow-xs pointer-events-none">
                     Selecionar Arquivo
                   </button>
@@ -1094,7 +1064,7 @@ export function DadosHistoricosPage({
                           </div>
                           <div className="min-w-0 flex-1">
                             <p className="text-body-sm font-bold text-foreground break-words">{h.fileName}</p>
-                            <p className="text-[9px] font-medium text-muted-foreground mt-0.5 uppercase tracking-wider">
+              <p className="text-[9px] font-medium text-executive-secondary mt-0.5 uppercase tracking-wider">
                               {h.createdAt ? (typeof h.createdAt.toDate === 'function' ? h.createdAt.toDate().toLocaleDateString('pt-BR', {day: 'numeric', month: 'short', year: 'numeric'}) : 'Recente') : 'Recente'}
                               {h.creatorEmail && ` • por ${h.creatorEmail}`}
                             </p>
@@ -1139,7 +1109,7 @@ export function DadosHistoricosPage({
                     <Info size={22} className="text-secondary" />
                   </div>
                   <h4 className="text-h3 font-display font-medium text-white mb-2">Rastreabilidade & Integridade</h4>
-                  <p className="text-body-sm text-muted-foreground font-medium leading-relaxed font-sans">
+         <p className="text-body-sm text-executive-secondary font-medium leading-relaxed font-sans">
                     Todos os documentos enviados passam por um processo de curadoria estratégica para garantir que os KPIs reflitam a realidade fiel do seu negócio.
                   </p>
                 </div>

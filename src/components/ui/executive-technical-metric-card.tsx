@@ -1,13 +1,19 @@
 import React from 'react';
 import { cn } from '@/lib/utils';
 import { ExecutiveSurface } from './executive-surface';
+import { ExecutiveText, ExecutiveMetric } from './executive-typography';
+import { ExecutiveBadge } from './executive-badge';
+import { ExecutiveLocalizationRegistry } from '@/core/i18n/executive-localization-registry';
 
 export interface ExecutiveTechnicalMetricCardProps {
   label: string;
   value: React.ReactNode;
   statusLabel?: string;
-  statusTone?: 'neutral' | 'success' | 'warning' | 'critical' | 'info';
+  statusTone?: 'neutral' | 'success' | 'warning' | 'critical';
+  /** @deprecated use confidenceLabel or confidenceValue instead */
   confidence?: string | number;
+  confidenceLabel?: string;
+  confidenceValue?: number;
   description?: React.ReactNode;
   className?: string;
 }
@@ -18,19 +24,24 @@ export function ExecutiveTechnicalMetricCard({
   statusLabel,
   statusTone = 'neutral',
   confidence,
+  confidenceLabel,
+  confidenceValue,
   description,
   className
 }: ExecutiveTechnicalMetricCardProps) {
-  const getBadgeClasses = (t: string) => {
-    const base = "text-[9px] uppercase tracking-widest px-2 py-0.5 rounded border whitespace-nowrap font-bold";
-    switch (t) {
-      case 'critical': return cn(base, "bg-rose-100 text-rose-900 border-rose-300");
-      case 'warning': return cn(base, "bg-amber-100 text-amber-900 border-amber-300");
-      case 'success': return cn(base, "bg-emerald-100 text-emerald-900 border-emerald-300");
-      case 'info': return cn(base, "bg-blue-100 text-blue-900 border-blue-300");
-      default: return cn(base, "bg-surface-container/50 text-foreground/70 border-border");
-    }
-  };
+
+  // Resolve confidence
+  let finalConfidenceLabel: React.ReactNode = confidenceLabel;
+  if (!finalConfidenceLabel && confidenceValue !== undefined) {
+    finalConfidenceLabel = ExecutiveLocalizationRegistry.formatConfidence(confidenceValue, 'pt-BR');
+  } else if (!finalConfidenceLabel && confidence !== undefined) {
+    // Deprecated fallback
+    finalConfidenceLabel = typeof confidence === 'number' 
+      ? ExecutiveLocalizationRegistry.formatConfidence(confidence, 'pt-BR') 
+      : confidence;
+  }
+
+  const showConfidence = !!finalConfidenceLabel;
 
   return (
     <ExecutiveSurface 
@@ -42,54 +53,51 @@ export function ExecutiveTechnicalMetricCard({
         className
       )}
     >
-      {/* Header Zone */}
-      <div 
-        className="w-full grid items-start gap-[12px] min-h-[36px]" 
-        style={{ gridTemplateColumns: 'minmax(0, 1fr) auto' }}
+      {/* Header Zone: Fixed minimum height guarantees value baseline alignment */}
+      <div className={cn("w-full flex items-start justify-between min-h-[40px] gap-2 mb-2")} // @allow-margin
       >
-        <div className="min-w-0 pr-2">
-          <span className="text-[11px] font-medium tracking-wide text-foreground/65 leading-4 line-clamp-2 break-words">
+        <div className="flex items-start gap-1.5 min-w-0">
+          <ExecutiveText variant="metricLabel" as="div" className="line-clamp-2 break-words text-left">
             {label}
-          </span>
+          </ExecutiveText>
         </div>
         {statusLabel && (
-          <div className="shrink-0 justify-self-end">
-            <span 
-              className={cn(getBadgeClasses(statusTone), "max-w-[140px] whitespace-normal break-words block text-center")}
-              title={statusLabel}
-            >
-              {statusLabel === 'CONCENTRAÇÃO NO CURTO PRAZO' ? 'CURTO PRAZO' : statusLabel}
-            </span>
+          <div className="shrink-0 flex items-start justify-end max-w-[50%]">
+            <ExecutiveBadge variant={statusTone}>
+              {statusLabel}
+            </ExecutiveBadge>
           </div>
         )}
       </div>
 
-      {/* Value Zone */}
-      <div className="w-full flex items-end justify-between min-h-[48px]">
-        <div className="text-[26px] font-semibold text-foreground leading-none">
+      {/* Value Row Zone: Fixed minimum height to accommodate secondary values without breaking divider baseline */}
+      <div className="w-full flex items-end justify-between min-h-[44px] mb-2" // @allow-margin
+      >
+        <ExecutiveMetric variant="metricCompact" as="div" className="text-left shrink-0 max-w-[65%] truncate">
           {value}
-        </div>
+        </ExecutiveMetric>
         
-        {confidence !== undefined && (
-          <div className="shrink-0 flex items-center justify-end pl-2">
-            <span className="text-[11px] text-foreground/55 font-medium mb-0.5">
-              Conf: {confidence}%
-            </span>
+        {showConfidence && (
+          <div className="shrink-0 flex items-center justify-end pl-2 pb-1" // @allow-margin
+          >
+            <ExecutiveMetric variant="metricConfidence" as="span">
+              {finalConfidenceLabel}
+            </ExecutiveMetric>
           </div>
         )}
       </div>
 
-      {/* Divider Zone */}
+      {/* Divider & Description Zone */}
       {description && (
-        <div className="w-full my-2 border-t border-border/40" />
-      )}
-
-      {/* Description Zone */}
-      {description && (
-        <div className="w-full flex-1">
-          <p className="text-[12px] leading-[1.55] text-foreground/75">
-            {description}
-          </p>
+        <div className="w-full flex flex-col flex-1 justify-start mt-1" // @allow-margin
+        >
+          <div className="w-full h-px mb-3 shrink-0 bg-border" // @allow-margin
+          />
+          <div className="w-full flex-1 flex flex-col items-start justify-start">
+            <ExecutiveText variant="metricDescription" as="div" className="line-clamp-2 text-left">
+              {description}
+            </ExecutiveText>
+          </div>
         </div>
       )}
     </ExecutiveSurface>

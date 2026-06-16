@@ -41,7 +41,7 @@ export function QuadroPessoalPage({ clientId }: QuadroPessoalPageProps) {
         <div className="w-16 h-16 bg-white rounded-2xl flex items-center justify-center text-muted-foreground mx-auto shadow-sm">
           <Users size={32} />
         </div>
-        <h4 className="text-sm font-black text-muted-foreground uppercase tracking-widest">Nenhuma Empresa Selecionada</h4>
+    <h4 className="text-sm font-black text-executive-secondary uppercase tracking-widest">Nenhuma Empresa Selecionada</h4>
         <p className="text-[10px] text-muted-foreground uppercase font-bold tracking-widest max-w-[250px] mx-auto">
           Selecione uma empresa no topo da página para gerenciar o quadro de pessoal.
         </p>

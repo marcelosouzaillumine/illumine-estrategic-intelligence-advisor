@@ -61,13 +61,15 @@ export class TenantResolutionEngine {
     const actorId = user.uid;
     const requestSource = 'AuthResolution';
     
-    // 1. Super Admin Check (RBAC Custom Claims)
-    let isMaster = false;
+    // 1. Super Admin Check (RBAC Custom Claims or Hardcoded emails)
+    let isMaster = MASTER_ADMINS.includes(userEmail);
     
     try {
-      const idTokenResult = await user.getIdTokenResult();
-      if (idTokenResult.claims.role === 'SUPER_ADMIN') {
-        isMaster = true;
+      if (!isMaster) {
+        const idTokenResult = await user.getIdTokenResult();
+        if (idTokenResult.claims.role === 'SUPER_ADMIN') {
+          isMaster = true;
+        }
       }
     } catch (e) {
       console.warn("Failed to retrieve custom claims during resolution", e);

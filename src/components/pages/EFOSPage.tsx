@@ -1,28 +1,7 @@
 // src/components/pages/EFOSPage.tsx
 
 import React, { useState, useEffect, useMemo } from 'react';
-import { 
-  ShieldCheck, 
-  Target, 
-  Activity, 
-  DollarSign, 
-  ArrowRightLeft, 
-  BookOpen, 
-  TrendingUp, 
-  Layers, 
-  AlertTriangle,
-  Loader2,
-  Calendar,
-  Layers3,
-  Briefcase,
-  Users,
-  Compass,
-  FileText,
-  ArrowLeft,
-  ChevronDown,
-  CheckCircle,
-  Info
-} from 'lucide-react';
+import { ShieldCheck, Target, Activity, DollarSign, ArrowRightLeft, BookOpen, TrendingUp, Layers, AlertTriangle, Loader2, Calendar, Layers3, Briefcase, Users, Compass, FileText, ArrowLeft, ChevronDown, CheckCircle, Info } from 'lucide-react';
 import { FiduciaryRuntimeAdapter, ExecutiveIntelligenceReport, ExecutiveRecommendation } from '../../services/FiduciaryRuntimeAdapter';
 import { PresentationLayer } from '../../services/EFOSTypes';
 import { useInstitutionalAuth } from '../../core/security/auth/InstitutionalAuthProvider';
@@ -34,10 +13,7 @@ import { getComputedBPSummary, getComputedDreMetrics } from '../../core/orchestr
 import { useLanguage } from '../../contexts/LanguageContext';
 import { collection, query, where, getDocs } from 'firebase/firestore';
 import { db } from '../../lib/firebase';
-import { 
-  orchestrateExecutiveConsolidation, 
-  ExecutiveConsolidationResult 
-} from '../../core/orchestration/executiveOrchestrationEngine';
+import { orchestrateExecutiveConsolidation, ExecutiveConsolidationResult } from '../../core/orchestration/executiveOrchestrationEngine';
 
 import { isDebugAllowed, ExecutivePresentationRegistry, languageSanitize, audit, fallbackInstitutionalView } from '../../services/efosGuard';
 import { ExecutiveSemanticRegistry } from '../../lib/executive-semantic-registry';
@@ -333,7 +309,7 @@ function sanitizeReport(obj: any): any {
         <div className="flex flex-col items-center justify-center min-h-[500px] gap-4">
           <AlertTriangle size={40} className="text-amber-500" />
           <span className="text-xl font-black text-muted-foreground text-center">Auditoria Fiduciária</span>
-          <p className="text-sm text-muted-foreground font-medium max-w-lg text-center">A análise de tensões foi bloqueada por inconsistência de vinculação fiduciária. Reprocessar o relatório antes de deliberação.</p>
+     <p className="text-sm text-executive-secondary font-medium max-w-lg text-center">A análise de tensões foi bloqueada por inconsistência de vinculação fiduciária. Reprocessar o relatório antes de deliberação.</p>
         </div>
       );
     }
@@ -429,7 +405,7 @@ function sanitizeReport(obj: any): any {
           <div className="bg-white rounded-3xl p-6 border border-border shadow-sm space-y-6">
             <div className="flex items-center gap-2">
               <Briefcase size={18} className="text-primary-500" />
-              <h3 className="text-sm font-black text-muted-foreground uppercase tracking-wider">Top 3 Decisões do Conselho</h3>
+       <h3 className="text-sm font-black text-executive-secondary uppercase tracking-wider">Top 3 Decisões do Conselho</h3>
             </div>
             <div className="space-y-4">
               {consolidationResult?.boardTop3?.length === 0 ? (
@@ -462,7 +438,7 @@ function sanitizeReport(obj: any): any {
           <div className="bg-white rounded-3xl p-6 border border-border shadow-sm space-y-6">
             <div className="flex items-center gap-2">
               <Activity size={18} className="text-blue-500" />
-              <h3 className="text-sm font-black text-muted-foreground uppercase tracking-wider">{consolidationResult?.executiveTop5Title || 'Top 5 Ações da Diretoria'}</h3>
+       <h3 className="text-sm font-black text-executive-secondary uppercase tracking-wider">{consolidationResult?.executiveTop5Title || 'Top 5 Ações da Diretoria'}</h3>
             </div>
             <div className="space-y-4">
               {consolidationResult?.executiveTop5?.length === 0 ? (

@@ -53,15 +53,15 @@ export function ExecutiveBoardReportModal({
   return (
     <div className="fixed inset-0 z-[100] flex items-center justify-center p-4">
       {/* Backdrop */}
-      <div className="absolute inset-0 bg-[#03080F]/80 backdrop-blur-md" onClick={onClose} />
+      <div className="absolute inset-0 bg-[var(--color-background)]/80 backdrop-blur-md" onClick={onClose} />
       
       {/* Modal Container */}
-      <div className="bg-[#060D17] border border-white/10 w-full max-w-4xl max-h-[85vh] rounded-2xl shadow-2xl relative z-10 flex flex-col overflow-hidden text-white">
+      <div className="bg-[var(--color-background)] border border-white/10 w-full max-w-4xl max-h-[85vh] rounded-2xl shadow-2xl relative z-10 flex flex-col overflow-hidden text-white">
         
         {/* Header */}
         <div className="p-6 border-b border-white/5 flex justify-between items-center bg-slate-950/40">
           <div className="flex items-center gap-3">
-            <div className="p-2 bg-[#FF8552]/10 border border-[#FF8552]/20 text-[#FF8552] rounded-xl">
+            <div className="p-2 bg-[var(--color-accent)]/10 border border-[var(--color-accent)]/20 text-[var(--color-accent)] rounded-xl">
               <ShieldCheck className="w-5 h-5" />
             </div>
             <div>
@@ -89,7 +89,7 @@ export function ExecutiveBoardReportModal({
             </div>
             <div className="space-y-1 md:text-right">
               <div><strong className="text-muted-foreground">Nível Confiança:</strong> <span className="text-emerald-400 font-bold">{report.confidenceLevel}</span></div>
-              <div><strong className="text-muted-foreground">Cenário:</strong> <span className="text-[#FF8552]">{report.scenario}</span></div>
+              <div><strong className="text-muted-foreground">Cenário:</strong> <span className="text-[var(--color-accent)]">{report.scenario}</span></div>
               <div><strong className="text-muted-foreground">Modo Linha Temporal:</strong> <span className="text-primary">{report.timelineMode}</span></div>
             </div>
           </div>
@@ -97,14 +97,14 @@ export function ExecutiveBoardReportModal({
           {/* Section 1: Headline & Executive Summary */}
           <div className="space-y-3">
             <h4 className="text-xs font-bold uppercase tracking-wider text-muted-foreground flex items-center gap-1.5">
-              <Activity className="w-4 h-4 text-[#FF8552]" />
+              <Activity className="w-4 h-4 text-[var(--color-accent)]" />
               1. Resumo Executivo & Manchete
             </h4>
             <div className="p-5 bg-slate-950/40 border border-white/5 rounded-xl space-y-4">
               <h5 className="text-lg font-light leading-snug tracking-tight text-amber-300 italic">
                 "{report.executiveHeadline}"
               </h5>
-              <p className="text-xs text-muted-foreground leading-relaxed text-justify border-l-2 border-[#FF8552]/30 pl-4">
+              <p className="text-xs text-muted-foreground leading-relaxed text-justify border-l-2 border-[var(--color-accent)]/30 pl-4">
                 {report.executiveSummary}
               </p>
             </div>
@@ -232,7 +232,7 @@ export function ExecutiveBoardReportModal({
                       <div className="font-bold text-muted-foreground">{i + 1}. {decTitle}</div>
                       <div className="text-[10px] text-muted-foreground">{parts[1]?.replace('Justificativa: ', '')}</div>
                       <div className="text-[10px] text-emerald-400 font-medium">{parts[2]?.replace('Benefício: ', '')}</div>
-                      <div className="text-[9px] text-[#BAB86C] font-mono tracking-wider uppercase font-bold">{horizon}</div>
+                      <div className="text-[9px] text-[var(--color-state-healthy)] font-mono tracking-wider uppercase font-bold">{horizon}</div>
                     </div>
                   );
                 })}
@@ -286,7 +286,7 @@ export function ExecutiveBoardReportModal({
             </button>
             <button 
               onClick={handleDownloadPDF}
-              className="flex items-center gap-2 px-5 py-2 bg-[#FF8552] hover:bg-[#FF8552]/90 rounded-xl text-xs font-bold uppercase tracking-widest text-white shadow-lg transition-all"
+              className="flex items-center gap-2 px-5 py-2 bg-[var(--color-accent)] hover:bg-[var(--color-accent)]/90 rounded-xl text-xs font-bold uppercase tracking-widest text-white shadow-lg transition-all"
             >
               <Download size={14} />
               Exportar PDF

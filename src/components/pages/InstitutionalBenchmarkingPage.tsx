@@ -66,7 +66,7 @@ export function InstitutionalBenchmarkingPage() {
           </div>
           <div>
             <h2 className="text-h3 font-medium text-destructive uppercase tracking-widest mb-3">Privacy Blocked</h2>
-            <p className="text-body-sm text-muted-foreground max-w-md leading-relaxed font-medium">
+      <p className="text-body-sm text-executive-secondary max-w-md leading-relaxed font-medium">
               A amostra de dados institucionais solicitada não possui o tamanho mínimo exigido (k-anonymity) para garantir o anonimato estatístico.
             </p>
           </div>

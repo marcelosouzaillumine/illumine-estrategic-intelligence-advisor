@@ -1,10 +1,3 @@
-export type DREEconomicDiagnosisViewModel = {
-  valueCreationAssessment: string;
-  primaryConstraint: string;
-  recoverabilityAssessment: string;
-  strategicPriority: string;
-  boardOutlook: string;
-};
 
 export type DRERevenueEconomicStructureViewModel = {
   available: boolean;
@@ -29,74 +22,41 @@ export type DREBreakEvenAnalysisViewModel = {
   absorptionTone?: 'success' | 'warning' | 'critical';
 };
 
+export type BoardQuestionVM = {
+  title: string;
+  response: string;
+  rationale: string;
+  recommendation: string;
+};
+
 export type DREBoardDecisionSupportViewModel = {
-  valueCreationLabel: string;
-  valueCreationTone: 'success' | 'critical';
-  sustainabilityLabel: string;
-  balanceGapLabel: string;
-  primaryConstraintLabel: string;
-  primaryOpportunityLabel: string;
-  inactionConsequenceLabel: string;
-  inactionTone: 'success' | 'critical';
-  boardPriorityLabel: string;
+  p1ValueCreation: BoardQuestionVM;
+  p2StructureSupport: BoardQuestionVM;
+  p3EconomicEquilibrium: BoardQuestionVM;
+  p4PrimaryConstraint: BoardQuestionVM;
+  p5EconomicOpportunity: BoardQuestionVM;
+  p6InactionRisk: BoardQuestionVM;
+  p7BoardPriority: BoardQuestionVM;
+  overallStatus: string;
+  confidenceScore: number;
 };
 
 export type DREExecutiveAdvisorySectionViewModel = {
-  hasFullAdvisory: boolean;
-  situacaoAtual?: string;
-  restricaoPrincipal?: string;
-  oportunidadePrincipal?: string;
-  prioridadeEstrategica?: string;
-  outlook?: string;
-  simpleAdvisoryText?: string;
+  currentSituation: string;
+  strategicPriority: string;
+  operationalOutlook: string;
+  primaryRecommendation: string;
+  primaryEconomicDriver: string;
+  severityState: "critical" | "warning" | "healthy" | "neutral";
+  recommendationPriority: "high" | "medium" | "low";
+  dominantStrength: string;
+  secondaryAttention: string;
 };
 
-export type DREScaleEfficiencyViewModel = {
-  classificationLabel: string;
-  toneClass: string;
-  recGrowthFormatted: string;
-  recGrowthTone: 'success' | 'critical';
-  ebitdaGrowthFormatted: string;
-  ebitdaGrowthTone: 'success' | 'critical';
-  description: string;
-};
 
-export type DREEarningsQualityAssessmentViewModel = {
-  classificationTitle: string;
-  classificationTone: 'success' | 'critical' | 'neutral' | 'warning';
-  rationale: string;
-  recurringRevenueWeight: number;
-  nonRecurringWeight: number;
-};
 
-export type DREHighlightsViewModel = {
-  receitaBrutaFormatted: string;
-  deducoesReceitaFormatted: string;
-  recLiquidaFormatted: string;
-  custosVarFormatted: string;
-  cmvLabel: string;
-  margemContribFormatted: string;
-  margemContribPercent: string;
-  despesasFixasFormatted: string;
-  pontoEquilibrioFormatted: string;
-  gapEquilibrioFormatted: string;
-  margemSegurancaValorFormatted: string;
-  indiceCoberturaOperacionalFormatted: string;
-  coberturaTone: 'success' | 'info' | 'warning' | 'critical';
-};
 
-export type DREChartPointViewModel = {
-  year: string | number;
-  receita: number;
-  cmv: number;
-  ebitda: number;
-  lucro: number;
-};
 
-export type DREChartsSectionViewModel = {
-  data: DREChartPointViewModel[];
-  cmvLabel: string;
-};
 
 export type DRETechnicalRowViewModel = {
   label: string;

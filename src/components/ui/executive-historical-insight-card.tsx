@@ -5,15 +5,17 @@ import { HistoricalInsightDriver } from '@/services/FiduciaryRuntimeAdapter';
 import { CheckCircle2, ChevronRight } from 'lucide-react';
 
 export interface ExecutiveHistoricalInsightCardProps {
+  title?: string;
   narrative: string;
   drivers?: HistoricalInsightDriver[];
   className?: string;
 }
 
 /**
- * Phase 4: Executive Narrative Layer & Explainability
+ * Phase 4: Executive Narrative & Insight Layer
+ * @deprecated Use `ExecutiveChartInsight` from ExecutiveChart V2.
  */
-export function ExecutiveHistoricalInsightCard({ narrative, drivers, className }: ExecutiveHistoricalInsightCardProps) {
+export function ExecutiveHistoricalInsightCard({ title = "Insight Analítico", narrative, drivers, className }: ExecutiveHistoricalInsightCardProps) {
   return (
     <ExecutiveSurface padding="md" radius="md" className={cn("flex flex-col gap-3 bg-surface-high/30 border border-border/50", className)}>
       <div className="flex gap-3">
@@ -24,9 +26,9 @@ export function ExecutiveHistoricalInsightCard({ narrative, drivers, className }
         </div>
         <div className="flex-1">
           <h4 className="text-sm font-semibold tracking-tight text-foreground mb-1">
-            Síntese Executiva
+            {title}
           </h4>
-          <p className="text-sm text-foreground/80 leading-relaxed">
+     <p className="text-sm text-executive-secondary leading-relaxed">
             {narrative}
           </p>
         </div>
@@ -41,7 +43,7 @@ export function ExecutiveHistoricalInsightCard({ narrative, drivers, className }
             {drivers.map((driver, idx) => (
               <li key={idx} className="flex items-start gap-2">
                 <ChevronRight className="w-3.5 h-3.5 text-muted-foreground mt-0.5 shrink-0" />
-                <span className="text-sm text-foreground/70">{driver.description}</span>
+        <span className="text-sm text-executive-secondary">{driver.description}</span>
               </li>
             ))}
           </ul>

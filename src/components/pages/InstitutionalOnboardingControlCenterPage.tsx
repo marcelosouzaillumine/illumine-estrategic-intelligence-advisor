@@ -1,9 +1,6 @@
 import { useLanguage } from '../../contexts/LanguageContext';
 import React, { useState, useEffect } from 'react';
-import { 
-  Building2, Users, FileSignature, Server, AlertOctagon, 
-  CheckCircle2, XCircle, ChevronRight, Fingerprint, Lock, ShieldAlert, Activity
-} from 'lucide-react';
+import { Building2, Users, FileSignature, Server, AlertOctagon, CheckCircle2, XCircle, ChevronRight, Fingerprint, Lock, ShieldAlert, Activity } from 'lucide-react';
 import { executiveRuntime } from '../../services/FiduciaryRuntimeAdapter';
 import { InstitutionalOnboardingOutput } from '../../services/FiduciaryRuntimeAdapter';
 
@@ -42,7 +39,7 @@ export function InstitutionalOnboardingControlCenterPage() {
   if (loading) {
     return (
       <div className="flex h-[80vh] items-center justify-center font-mono">
-        <div className="flex flex-col items-center gap-4 text-zinc-500">
+    <div className="flex flex-col items-center gap-4 text-executive-secondary">
           <Activity className="animate-spin" size={32} />
           <p className="text-xs uppercase tracking-widest">{t("onboarding.evaluating")}</p>
         </div>
@@ -109,27 +106,27 @@ export function InstitutionalOnboardingControlCenterPage() {
       case 'LOW':
         return 'text-red-500';
       default:
-        return 'text-zinc-400';
+    return 'text-executive-secondary';
     }
   };
 
   return (
-    <div className="flex flex-col gap-6 max-w-[1600px] mx-auto w-full text-zinc-100 pb-12 bg-zinc-950 p-6 rounded-3xl border border-zinc-800 font-mono">
+  <div className="flex flex-col gap-6 max-w-[1600px] mx-auto w-full text-executive-secondary pb-12 bg-zinc-950 p-6 rounded-3xl border border-zinc-800 font-mono">
       
       {/* Header */}
       <div className="flex flex-col md:flex-row md:items-end justify-between gap-4 border-b border-zinc-800 pb-4">
         <div>
-          <div className="flex items-center gap-2 text-zinc-400 mb-1">
+     <div className="flex items-center gap-2 text-executive-secondary mb-1">
             <Building2 size={16} />
             <span className="text-[10px] uppercase font-bold tracking-widest font-mono">Client Activation Control</span>
           </div>
           <h1 className="text-2xl font-bold tracking-tight text-primary">{t("onboarding.control_center")}</h1>
-          <p className="text-xs text-zinc-500 font-mono mt-1 uppercase tracking-widest">{t("onboarding.subtitle")}</p>
+     <p className="text-xs text-executive-secondary font-mono mt-1 uppercase tracking-widest">{t("onboarding.subtitle")}</p>
         </div>
         {lineageHash && (
-          <div className="text-[10px] text-zinc-400 bg-zinc-900 border border-zinc-800 px-3 py-1.5 rounded-lg flex items-center gap-2">
+     <div className="text-[10px] text-executive-secondary bg-zinc-900 border border-zinc-800 px-3 py-1.5 rounded-lg flex items-center gap-2">
             <span>{t("onboarding.audit_lineage")}</span>
-            <span className="font-bold text-zinc-300">{lineageHash.substring(0, 16)}...</span>
+      <span className="font-bold text-executive-secondary">{lineageHash.substring(0, 16)}...</span>
           </div>
         )}
       </div>
@@ -138,11 +135,11 @@ export function InstitutionalOnboardingControlCenterPage() {
       <div className={`p-6 rounded-2xl border ${onboardingBlocked ? 'bg-red-950/40 border-red-900/50' : isFullOperation ? 'bg-emerald-950/20 border-emerald-900/50' : 'bg-zinc-900 border-zinc-800'}`}>
         <div className="flex items-start justify-between gap-4">
           <div>
-            <p className="text-[10px] uppercase tracking-widest text-zinc-400 font-mono mb-2">{t("onboarding.current_stage")}</p>
+      <p className="text-[10px] uppercase tracking-widest text-executive-secondary font-mono mb-2">{t("onboarding.current_stage")}</p>
             <h2 className={`text-4xl font-black tracking-tight mb-4 ${onboardingBlocked ? 'text-red-500' : isFullOperation ? 'text-emerald-400' : 'text-blue-400'}`}>
               {onboardingStage.replace(/_/g, ' ')}
             </h2>
-            <p className="text-sm text-zinc-300 max-w-3xl">{onboardingNarrative}</p>
+      <p className="text-sm text-executive-secondary max-w-3xl">{onboardingNarrative}</p>
           </div>
           <div className="shrink-0 flex items-center justify-center p-4 bg-zinc-950 rounded-full border border-zinc-800">
              {onboardingBlocked ? <Lock size={48} className="text-red-500" /> : <ShieldAlert size={48} className={isFullOperation ? 'text-emerald-500' : 'text-blue-500'} />}
@@ -160,7 +157,7 @@ export function InstitutionalOnboardingControlCenterPage() {
               
               return (
                 <React.Fragment key={stage}>
-                  <div className={`flex flex-col items-center gap-2 relative z-10 w-32 ${isBlockedStage ? 'text-red-500' : isActive ? 'text-blue-400' : isPast ? 'text-emerald-500' : 'text-zinc-600'}`}>
+         <div className={`flex flex-col items-center gap-2 relative z-10 w-32 ${isBlockedStage ? 'text-red-500' : isActive ? 'text-blue-400' : isPast ? 'text-emerald-500' : 'text-executive-secondary'}`}>
                     <div className={`w-6 h-6 rounded-full flex items-center justify-center border-2 ${isBlockedStage ? 'bg-red-950 border-red-500' : isActive ? 'bg-blue-950 border-blue-400' : isPast ? 'bg-emerald-950 border-emerald-500' : 'bg-zinc-900 border-zinc-700'}`}>
                       {isBlockedStage ? <XCircle size={12} /> : isPast ? <CheckCircle2 size={12} /> : <div className="w-1.5 h-1.5 rounded-full bg-current" />}
                     </div>
@@ -200,20 +197,20 @@ export function InstitutionalOnboardingControlCenterPage() {
         
         {/* Tenant Provisioning Surface */}
         <div className="bg-zinc-900/60 p-5 rounded-2xl border border-zinc-800 space-y-4">
-          <h3 className="text-[10px] uppercase tracking-widest text-zinc-500 flex items-center gap-2">
+     <h3 className="text-[10px] uppercase tracking-widest text-executive-secondary flex items-center gap-2">
             <Server size={14} /> {t("onboarding.tenant_provisioning")}
           </h3>
           <div className="space-y-3">
             <div className="flex justify-between items-center">
-              <span className="text-xs text-zinc-400">{t("onboarding.provisioning_status")}</span>
+       <span className="text-xs text-executive-secondary">{t("onboarding.provisioning_status")}</span>
               <span className={`text-[10px] font-bold px-2 py-0.5 rounded border border-zinc-800 bg-zinc-950 ${getStatusColor(tenantProvisioningStatus)}`}>{tenantProvisioningStatus}</span>
             </div>
             <div className="flex justify-between items-center">
-              <span className="text-xs text-zinc-400">{t("onboarding.tenant_isolation")}</span>
+       <span className="text-xs text-executive-secondary">{t("onboarding.tenant_isolation")}</span>
               <span className={`text-[10px] font-bold px-2 py-0.5 rounded border border-zinc-800 bg-zinc-950 ${getStatusColor(tenantIsolationStatus)}`}>{tenantIsolationStatus}</span>
             </div>
             <div className="flex justify-between items-center">
-              <span className="text-xs text-zinc-400">{t("onboarding.deployment_inheritance")}</span>
+       <span className="text-xs text-executive-secondary">{t("onboarding.deployment_inheritance")}</span>
               <span className={`text-[10px] font-bold px-2 py-0.5 rounded border border-zinc-800 bg-zinc-950 ${getStatusColor(deploymentInheritanceStatus)}`}>{deploymentInheritanceStatus}</span>
             </div>
           </div>
@@ -221,20 +218,20 @@ export function InstitutionalOnboardingControlCenterPage() {
 
         {/* Fiduciary Validation Panel */}
         <div className="bg-zinc-900/60 p-5 rounded-2xl border border-zinc-800 space-y-4">
-          <h3 className="text-[10px] uppercase tracking-widest text-zinc-500 flex items-center gap-2">
+     <h3 className="text-[10px] uppercase tracking-widest text-executive-secondary flex items-center gap-2">
             <FileSignature size={14} /> {t("onboarding.doc_governance")}
           </h3>
           <div className="space-y-3">
             <div className="flex justify-between items-center">
-              <span className="text-xs text-zinc-400">{t("onboarding.org_readiness")}</span>
+       <span className="text-xs text-executive-secondary">{t("onboarding.org_readiness")}</span>
               <span className={`text-[10px] font-bold px-2 py-0.5 rounded border border-zinc-800 bg-zinc-950 ${getStatusColor(organizationalReadinessStatus)}`}>{organizationalReadinessStatus}</span>
             </div>
             <div className="flex justify-between items-center">
-              <span className="text-xs text-zinc-400">{t("onboarding.fiduciary_signoff")}</span>
+       <span className="text-xs text-executive-secondary">{t("onboarding.fiduciary_signoff")}</span>
               <span className={`text-[10px] font-bold px-2 py-0.5 rounded border border-zinc-800 bg-zinc-950 ${getStatusColor(fiduciaryValidationStatus)}`}>{fiduciaryValidationStatus}</span>
             </div>
             <div className="flex justify-between items-center">
-              <span className="text-xs text-zinc-400">{t("onboarding.activation_gov")}</span>
+       <span className="text-xs text-executive-secondary">{t("onboarding.activation_gov")}</span>
               <span className={`text-[10px] font-bold px-2 py-0.5 rounded border border-zinc-800 bg-zinc-950 ${getStatusColor(activationGovernanceStatus)}`}>{activationGovernanceStatus}</span>
             </div>
           </div>
@@ -242,7 +239,7 @@ export function InstitutionalOnboardingControlCenterPage() {
 
         {/* Unresolved Issues */}
         <div className="bg-zinc-900/60 p-5 rounded-2xl border border-zinc-800 space-y-4">
-          <h3 className="text-[10px] uppercase tracking-widest text-zinc-500 flex items-center gap-2">
+     <h3 className="text-[10px] uppercase tracking-widest text-executive-secondary flex items-center gap-2">
             <Fingerprint size={14} /> {t("onboarding.audit_trail")}
           </h3>
           <div className="space-y-2 max-h-32 overflow-y-auto pr-2 custom-scrollbar">

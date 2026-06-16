@@ -43,13 +43,13 @@ export const SurvivabilityDependencyGraphPanel: React.FC<DependencyGraphPanelPro
   const getNodeColor = (severity: CausalSeverity) => {
     switch (severity) {
       case 'CRITICAL':
-        return '#ef4444';
+        return 'var(--color-state-critical)';
       case 'HIGH':
-        return '#f59e0b';
+        return 'var(--color-state-warning)';
       case 'MODERATE':
-        return '#eab308';
+        return 'var(--color-state-warning)';
       default:
-        return '#3b82f6';
+        return 'var(--color-primary)';
     }
   };
 
@@ -93,7 +93,7 @@ export const SurvivabilityDependencyGraphPanel: React.FC<DependencyGraphPanelPro
                   markerHeight="6"
                   orient="auto-start-reverse"
                 >
-                  <path d="M 0 0 L 10 5 L 0 10 z" fill="#cbd5e1" />
+                  <path d="M 0 0 L 10 5 L 0 10 z" fill="var(--color-border)" />
                 </marker>
               </defs>
 
@@ -108,7 +108,7 @@ export const SurvivabilityDependencyGraphPanel: React.FC<DependencyGraphPanelPro
                       y1={pts.y1}
                       x2={pts.x2}
                       y2={pts.y2}
-                      stroke="#cbd5e1"
+                      stroke="var(--color-border)"
                       strokeWidth="1.5"
                       markerEnd="url(#arrow)"
                       strokeDasharray="4 2"
@@ -122,7 +122,7 @@ export const SurvivabilityDependencyGraphPanel: React.FC<DependencyGraphPanelPro
                 const color = getNodeColor(node.severity);
                 return (
                   <g key={i} transform={`translate(${node.x}, ${node.y})`}>
-                    <circle r="7" fill={color} stroke="#ffffff" strokeWidth="2" className="drop-shadow-sm" />
+                    <circle r="7" fill={color} stroke="var(--color-card)" strokeWidth="2" className="drop-shadow-sm" />
                     {/* Background rectangle for premium legibility */}
                     <rect
                       x="-65"
@@ -130,8 +130,8 @@ export const SurvivabilityDependencyGraphPanel: React.FC<DependencyGraphPanelPro
                       width="130"
                       height="22"
                       rx="4"
-                      fill="#ffffff"
-                      stroke="#f1f5f9"
+                      fill="var(--color-card)"
+                      stroke="var(--color-surface)"
                       strokeWidth="1"
                     />
                     <text
@@ -139,7 +139,7 @@ export const SurvivabilityDependencyGraphPanel: React.FC<DependencyGraphPanelPro
                       textAnchor="middle"
                       fontSize="8"
                       fontWeight="bold"
-                      fill="#334155"
+                      fill="var(--color-state-neutral)"
                     >
                       {node.label.length > 22 ? `${node.label.substring(0, 20)}...` : node.label}
                     </text>

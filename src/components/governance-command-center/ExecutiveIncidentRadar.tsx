@@ -69,7 +69,7 @@ export const ExecutiveIncidentRadar: React.FC = () => {
               cy={cy}
               r={rMax * scale}
               fill="none"
-              stroke="#334155"
+              stroke="var(--color-state-neutral)"
               strokeWidth={0.5}
               strokeDasharray={i === 3 ? 'none' : '2 2'}
               opacity={0.3}
@@ -85,11 +85,11 @@ export const ExecutiveIncidentRadar: React.FC = () => {
 
             return (
               <g key={i} className="opacity-40">
-                <line x1={cx} y1={cy} x2={x} y2={y} stroke="#475569" strokeWidth={0.5} />
+                <line x1={cx} y1={cy} x2={x} y2={y} stroke="var(--color-primary)" strokeWidth={0.5} />
                 <text
                   x={labelX}
                   y={labelY}
-                  fill="#94a3b8"
+                  fill="var(--color-state-insufficient)"
                   fontSize={8}
                   textAnchor="middle"
                   fontFamily="monospace"
@@ -106,7 +106,7 @@ export const ExecutiveIncidentRadar: React.FC = () => {
             <path
               d={pathD}
               fill="rgba(6, 182, 212, 0.15)"
-              stroke="#06b6d4"
+              stroke="var(--color-primary)"
               strokeWidth={1.5}
               strokeLinejoin="round"
             />
@@ -119,7 +119,7 @@ export const ExecutiveIncidentRadar: React.FC = () => {
               cx={p.x}
               cy={p.y}
               r={2.5}
-              fill="#06b6d4"
+              fill="var(--color-primary)"
               className="filter drop-shadow-[0_0_3px_rgba(6,182,212,0.5)]"
             />
           ))}

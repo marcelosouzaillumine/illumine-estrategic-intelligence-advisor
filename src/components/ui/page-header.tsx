@@ -23,7 +23,7 @@ export function PageHeader({
       <div className="flex flex-col md:flex-row md:items-end justify-between gap-6">
         <div className="space-y-3">
           <h1 className="text-4xl md:text-5xl text-primary font-medium tracking-tight leading-[1.1]">{title}</h1>
-          {description && <p className="text-secondary text-lg max-w-3xl leading-relaxed">{description}</p>}
+          {description && <p className="text-executive-secondary text-lg max-w-3xl leading-relaxed">{description}</p>}
         </div>
         
         {actions && (

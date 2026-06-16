@@ -19,8 +19,8 @@ export function PremissasTributariasPage({ clients }: any) {
       <div className="grid grid-cols-1 lg:grid-cols-4 gap-8">
         <div className="lg:col-span-3 bg-white border border-border p-8 rounded-2xl shadow-sm flex items-center justify-between">
           <div>
-            <h4 className="text-xl font-bold text-muted-foreground">Cenário Tributário</h4>
-            <p className="text-sm text-muted-foreground mt-1">Visão geral dos regimes adotados pela carteira de clientes atual.</p>
+      <h4 className="text-xl font-bold text-executive-secondary">Cenário Tributário</h4>
+      <p className="text-sm text-executive-secondary mt-1">Visão geral dos regimes adotados pela carteira de clientes atual.</p>
           </div>
           <div className="flex gap-8">
              <div className="text-center">
@@ -75,14 +75,14 @@ export function PremissasTributariasPage({ clients }: any) {
             <TrendingUp size={20} />
           </div>
           <div>
-            <h3 className="text-lg font-bold text-muted-foreground">Simples Nacional</h3>
+      <h3 className="text-lg font-bold text-executive-secondary">Simples Nacional</h3>
             <p className="text-xs text-muted-foreground font-medium uppercase tracking-wider">Tabelas Progressivas (Anexos 2026)</p>
           </div>
         </div>
 
         <div className="mb-8 p-6 bg-slate-50 border border-border rounded-2xl flex gap-6 items-center">
           <div className="flex-1">
-            <h4 className="text-sm font-bold text-muted-foreground mb-1">Cálculo da Alíquota Efetiva</h4>
+      <h4 className="text-sm font-bold text-executive-secondary mb-1">Cálculo da Alíquota Efetiva</h4>
             <p className="text-xs text-muted-foreground leading-relaxed">
               A alíquota exibida nas tabelas é a <strong>Nominal</strong>. Para encontrar a taxa real paga sobre o faturamento do mês, utilize a fórmula:
             </p>
@@ -121,7 +121,7 @@ export function PremissasTributariasPage({ clients }: any) {
 
               {anexo.obs && (
                 <div className="px-4 md:px-6 py-1.5 md:py-2 bg-slate-50/50 border-b border-border">
-                  <p className="text-[9px] text-muted-foreground font-medium italic">Nota: {anexo.obs}</p>
+         <p className="text-[9px] text-executive-secondary font-medium italic">Nota: {anexo.obs}</p>
                 </div>
               )}
 
@@ -159,7 +159,7 @@ export function PremissasTributariasPage({ clients }: any) {
               <BookOpen size={20} />
             </div>
             <div>
-              <h3 className="text-lg font-bold text-muted-foreground">Lucro Presumido</h3>
+       <h3 className="text-lg font-bold text-executive-secondary">Lucro Presumido</h3>
               <p className="text-xs text-muted-foreground font-medium uppercase tracking-wider">Carga Tributária Federal e Municipal</p>
             </div>
           </div>
@@ -194,13 +194,13 @@ export function PremissasTributariasPage({ clients }: any) {
 
             <div className="bg-white rounded-xl border border-border overflow-hidden shadow-sm">
               <div className="p-6 border-b border-border">
-                <h4 className="text-sm font-bold text-muted-foreground">Tributos Federais</h4>
+        <h4 className="text-sm font-bold text-executive-secondary">Tributos Federais</h4>
               </div>
               <div className="grid grid-cols-1 divide-y divide-slate-100">
                 {p.lucroPresumido.federal.map((imp: any, idx: number) => (
                   <div key={idx} className="px-4 md:px-6 py-2.5 md:py-4 flex items-center justify-between hover:bg-slate-50">
                     <div className="flex flex-col">
-                      <span className="text-sm font-bold text-muted-foreground">{imp.imposto}</span>
+           <span className="text-sm font-bold text-executive-secondary">{imp.imposto}</span>
                       <span className="text-[10px] text-muted-foreground font-medium uppercase tracking-widest">Base Presumida: {(imp.base * 100)}%</span>
                     </div>
                     <span className="bg-blue-50 text-blue-700 px-3 py-1 rounded-full text-xs font-bold border border-blue-100">
@@ -212,10 +212,10 @@ export function PremissasTributariasPage({ clients }: any) {
               <div className="p-6 bg-slate-50 border-t border-border">
                 <div className="flex items-center justify-between">
                   <div>
-                    <span className="text-sm font-bold text-muted-foreground">ISS (Municipal)</span>
+          <span className="text-sm font-bold text-executive-secondary">ISS (Municipal)</span>
                     <p className="text-[10px] text-muted-foreground font-medium uppercase tracking-widest mt-1">Variável por município</p>
                   </div>
-                  <span className="text-sm font-bold text-muted-foreground">{(p.lucroPresumido.municipal.aliq_min * 100).toFixed(2)}% ~ {(p.lucroPresumido.municipal.aliq_max * 100).toFixed(2)}%</span>
+         <span className="text-sm font-bold text-executive-secondary">{(p.lucroPresumido.municipal.aliq_min * 100).toFixed(2)}% ~ {(p.lucroPresumido.municipal.aliq_max * 100).toFixed(2)}%</span>
                 </div>
               </div>
             </div>
@@ -229,7 +229,7 @@ export function PremissasTributariasPage({ clients }: any) {
               <Activity size={20} />
             </div>
             <div>
-              <h3 className="text-lg font-bold text-muted-foreground">Lucro Real</h3>
+       <h3 className="text-lg font-bold text-executive-secondary">Lucro Real</h3>
               <p className="text-xs text-muted-foreground font-medium uppercase tracking-wider">Regime Especial e Não-Cumulativo</p>
             </div>
           </div>
@@ -254,7 +254,7 @@ export function PremissasTributariasPage({ clients }: any) {
                     {p.lucroReal.modelos.map((modelo: any, idx: number) => (
                       <tr key={idx} className="hover:bg-slate-50 transition-colors">
                         <td className="px-4 md:px-6 py-2.5 md:py-4">
-                          <span className="text-sm font-bold text-muted-foreground block">{modelo.nome}</span>
+             <span className="text-sm font-bold text-executive-secondary block">{modelo.nome}</span>
                           <span className="text-[9px] text-muted-foreground font-medium italic mt-0.5">{modelo.obs}</span>
                         </td>
                         <td className="px-4 md:px-6 py-2.5 md:py-4 text-[11px] text-muted-foreground leading-relaxed max-w-xs">{modelo.descricao}</td>
@@ -274,13 +274,13 @@ export function PremissasTributariasPage({ clients }: any) {
           
           <div className="bg-white rounded-xl border border-border overflow-hidden shadow-sm">
             <div className="p-6 border-b border-border">
-              <h4 className="text-sm font-bold text-muted-foreground">Tributos Federais</h4>
+       <h4 className="text-sm font-bold text-executive-secondary">Tributos Federais</h4>
             </div>
             <div className="grid grid-cols-1 divide-y divide-slate-100">
               {p.lucroReal.federal.map((imp: any, idx: number) => (
                 <div key={idx} className="px-4 md:px-6 py-2.5 md:py-4 flex items-center justify-between hover:bg-slate-50">
                   <div className="flex flex-col">
-                    <span className="text-sm font-bold text-muted-foreground">{imp.imposto}</span>
+          <span className="text-sm font-bold text-executive-secondary">{imp.imposto}</span>
                     {imp.adicional && (
                       <span className="text-[10px] text-rose-500 font-bold uppercase tracking-widest">+ Adicional de {(imp.adicional * 100)}% {">"} {formatCurrency(imp.teto_mensal)}/mês</span>
                     )}
@@ -307,7 +307,7 @@ export function PremissasTributariasPage({ clients }: any) {
             <Users size={24} />
           </div>
           <div>
-            <h3 className="text-xl font-display text-muted-foreground">Encargos Sociais & Trabalhistas</h3>
+      <h3 className="text-xl font-display text-executive-secondary">Encargos Sociais & Trabalhistas</h3>
             <p className="text-xs text-muted-foreground font-medium uppercase tracking-widest">Parâmetros para cálculo de custo de pessoal 2026</p>
           </div>
         </div>
@@ -316,7 +316,7 @@ export function PremissasTributariasPage({ clients }: any) {
           {/* Encargos Patronais */}
           <div className="bg-white rounded-[32px] border border-border shadow-sm overflow-hidden flex flex-col">
             <div className="bg-slate-50 px-5 md:px-8 py-3 md:py-5 border-b border-border">
-              <h4 className="text-sm font-black text-muted-foreground uppercase tracking-widest">Encargos Patronais (Empresa)</h4>
+       <h4 className="text-sm font-black text-executive-secondary uppercase tracking-widest">Encargos Patronais (Empresa)</h4>
               <p className="text-[10px] text-muted-foreground font-medium">Aplicado sobre a folha bruta mensal</p>
             </div>
             <div className="flex-1 p-6 space-y-4">
@@ -359,7 +359,7 @@ export function PremissasTributariasPage({ clients }: any) {
           {/* Provisões e Multas */}
           <div className="bg-white rounded-[32px] border border-border shadow-sm overflow-hidden flex flex-col">
             <div className="bg-slate-50 px-5 md:px-8 py-3 md:py-5 border-b border-border">
-              <h4 className="text-sm font-black text-muted-foreground uppercase tracking-widest">Provisões & Riscos</h4>
+       <h4 className="text-sm font-black text-executive-secondary uppercase tracking-widest">Provisões & Riscos</h4>
               <p className="text-[10px] text-muted-foreground font-medium">Reservas financeiras obrigatórias</p>
             </div>
             <div className="flex-1 p-6 space-y-4">
@@ -390,7 +390,7 @@ export function PremissasTributariasPage({ clients }: any) {
           {/* IRRF Tabela */}
           <div className="bg-white rounded-[32px] border border-border shadow-sm overflow-hidden flex flex-col">
             <div className="bg-slate-50 px-5 md:px-8 py-3 md:py-5 border-b border-border">
-              <h4 className="text-sm font-black text-muted-foreground uppercase tracking-widest">IRRF - Folha (Retenção)</h4>
+       <h4 className="text-sm font-black text-executive-secondary uppercase tracking-widest">IRRF - Folha (Retenção)</h4>
               <p className="text-[10px] text-muted-foreground font-medium">Tabela Progressiva Mensal</p>
             </div>
             <div className="flex-1">

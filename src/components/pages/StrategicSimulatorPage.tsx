@@ -1,19 +1,6 @@
 
 import React, { useState, useMemo, useEffect } from 'react';
-import { 
-  Zap, 
-  TrendingUp, 
-  Activity, 
-  DollarSign, 
-  Target, 
-  BarChart3, 
-  ArrowRight, 
-  Percent,
-  RefreshCw,
-  Info,
-  ChevronRight,
-  ShieldCheck
-} from 'lucide-react';
+import { Zap, TrendingUp, Activity, DollarSign, Target, BarChart3, ArrowRight, Percent, RefreshCw, Info, ChevronRight, ShieldCheck } from 'lucide-react';
 import { motion } from 'motion/react';
 import { PageHeader } from '../Common';
 import { cn, formatCurrency } from '../../lib/utils';
@@ -140,7 +127,7 @@ export function StrategicSimulatorPage({ clientId, selectedYear, selectedMonth }
         {/* Sliders Area */}
         <div className="lg:col-span-4 space-y-10">
           <div className="bg-white p-10 rounded-[40px] border border-border shadow-sm space-y-12">
-            <h3 className="text-sm font-black text-muted-foreground uppercase tracking-widest flex items-center gap-3">
+      <h3 className="text-sm font-black text-executive-secondary uppercase tracking-widest flex items-center gap-3">
                <Activity size={20} className="text-primary" /> Alavancas de Valor
             </h3>
 
@@ -228,18 +215,18 @@ export function StrategicSimulatorPage({ clientId, selectedYear, selectedMonth }
               <div className="relative z-10 space-y-8">
                 <div>
                   <p className="text-[10px] font-black text-muted-foreground uppercase tracking-[0.3em] mb-4">EBITDA Anual Projetado</p>
-                  <h2 className="text-5xl font-display font-black text-muted-foreground tracking-tight">{formatCurrency(simulation.simulatedEbitda)}</h2>
+         <h2 className="text-5xl font-display font-black text-executive-secondary tracking-tight">{formatCurrency(simulation.simulatedEbitda)}</h2>
                 </div>
                 <div className="flex items-center gap-6">
                    <div className="bg-slate-50 px-4 md:px-6 py-1.5 md:py-2 rounded-2xl border border-border">
                       <p className="text-[10px] font-black text-muted-foreground uppercase tracking-widest mb-1">Margem Projetada</p>
-                      <p className="text-lg font-black text-muted-foreground">
+           <p className="text-lg font-black text-executive-secondary">
                         {((simulation.simulatedEbitda / (simulation.simulatedRevenue || 1)) * 100).toFixed(2)}%
                       </p>
                    </div>
                    <div>
                       <p className="text-[10px] font-black text-muted-foreground uppercase tracking-widest mb-1">Receita Anual</p>
-                      <p className="text-lg font-black text-muted-foreground">{formatCurrency(simulation.simulatedRevenue)}</p>
+           <p className="text-lg font-black text-executive-secondary">{formatCurrency(simulation.simulatedRevenue)}</p>
                    </div>
                 </div>
               </div>
@@ -251,7 +238,7 @@ export function StrategicSimulatorPage({ clientId, selectedYear, selectedMonth }
              <div className="flex justify-between items-center mb-12">
                <div>
                  <h3 className="text-[11px] font-black text-muted-foreground uppercase tracking-[0.3em] mb-2">Análise Comparativa</h3>
-                 <h2 className="text-2xl font-display font-black text-muted-foreground tracking-tight">Cenário Atual vs. Projetado</h2>
+         <h2 className="text-2xl font-display font-black text-executive-secondary tracking-tight">Cenário Atual vs. Projetado</h2>
                </div>
                <div className="w-14 h-14 rounded-2xl bg-slate-50 flex items-center justify-center text-muted-foreground">
                  <BarChart3 size={28} />
@@ -268,12 +255,12 @@ export function StrategicSimulatorPage({ clientId, selectedYear, selectedMonth }
                      <p className="text-[10px] font-black text-muted-foreground uppercase tracking-widest">{item.label}</p>
                      
                      <div className="space-y-2">
-                        <p className="text-[9px] font-bold text-muted-foreground uppercase">Atual</p>
-                        <p className="text-sm font-black text-muted-foreground">{formatCurrency(item.current)}</p>
+            <p className="text-[9px] font-bold text-executive-secondary uppercase">Atual</p>
+            <p className="text-sm font-black text-executive-secondary">{formatCurrency(item.current)}</p>
                      </div>
 
                      <div className="space-y-2">
-                        <p className="text-[9px] font-bold text-muted-foreground uppercase flex items-center gap-2">
+            <p className="text-[9px] font-bold text-executive-secondary uppercase flex items-center gap-2">
                           Projetado <ChevronRight size={10} className="text-emerald-500" />
                         </p>
                         <p className={cn("text-xl font-black transition-all group-hover:scale-105 origin-left", `text-${item.color}`)}>

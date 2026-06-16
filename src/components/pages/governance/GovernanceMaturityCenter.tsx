@@ -1,41 +1,10 @@
 import React, { useState, useEffect, useMemo } from 'react';
-import { 
-  BookOpen, 
-  Target, 
-  ShieldCheck, 
-  CheckCircle2, 
-  TrendingUp, 
-  AlertTriangle, 
-  Zap, 
-  ChevronRight,
-  Brain,
-  Activity,
-  Download,
-  Share2,
-  Loader2,
-  Star
-} from 'lucide-react';
+import { BookOpen, Target, ShieldCheck, CheckCircle2, TrendingUp, AlertTriangle, Zap, ChevronRight, Brain, Activity, Download, Share2, Loader2, Star } from 'lucide-react';
 import { motion, AnimatePresence } from 'motion/react';
-import { 
-  Radar, 
-  RadarChart, 
-  PolarGrid, 
-  PolarAngleAxis, 
-  PolarRadiusAxis, 
-  ResponsiveContainer
-} from 'recharts';
+import { Radar, RadarChart, PolarGrid, PolarAngleAxis, PolarRadiusAxis, ResponsiveContainer } from 'recharts';
 import { PageHeader, MarkdownText } from '../../Common';
 import { cn } from '../../../lib/utils';
-import { 
-  GOVERNANCE_PRINCIPLES, 
-  calculateGovernanceMaturityScore, 
-  calculateAxisMaturity,
-  getMaturityClassification,
-  GOVERNANCE_ALIGNMENT_ASSESSMENT, 
-  getPrincipleById,
-  crossValidateWithIndicators,
-  calculateGovernanceAlignmentScore
-} from '../../../lib/governanceIntelligence';
+import { GOVERNANCE_PRINCIPLES, calculateGovernanceMaturityScore, calculateAxisMaturity, getMaturityClassification, GOVERNANCE_ALIGNMENT_ASSESSMENT, getPrincipleById, crossValidateWithIndicators, calculateGovernanceAlignmentScore } from '../../../lib/governanceIntelligence';
 import { db } from '../../../lib/firebase';
 import { query, collection, where, onSnapshot, addDoc, serverTimestamp, orderBy, limit } from 'firebase/firestore';
 import { generateGovernanceDiagnosis } from '../../../services/aiService';

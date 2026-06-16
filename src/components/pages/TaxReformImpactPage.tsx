@@ -1,26 +1,13 @@
 
 import React, { useState, useEffect, useMemo } from 'react';
-import { 
-  Percent, TrendingUp, TrendingDown, ShieldCheck, Lightbulb, Target, BookOpen, 
-  Database, Tag, FileText, CheckCircle2, Calculator, BarChart3, Clock, 
-  AlertTriangle, Globe, Landmark, ArrowRight, Download, Info, Loader2, Trash2
-} from 'lucide-react';
+import { Percent, TrendingUp, TrendingDown, ShieldCheck, Lightbulb, Target, BookOpen, Database, Tag, FileText, CheckCircle2, Calculator, BarChart3, Clock, AlertTriangle, Globe, Landmark, ArrowRight, Download, Info, Loader2, Trash2 } from 'lucide-react';
 import { PageHeader } from '../Common';
 import { cn, formatCurrency } from '../../lib/utils';
 import { ExecutiveCommentary } from '../ExecutiveCommentary';
 import { useAnnualFinancialData } from '../../hooks/useFinancialData';
 import { db } from '../../lib/firebase';
 import { query, collection, where, onSnapshot } from 'firebase/firestore';
-import { 
-  TaxReformDiagnosis, 
-  ProductInfo,
-  calculateTaxImpact, 
-  getTransitionScenarios, 
-  getStrategicRecommendations,
-  calculateReformScores,
-  getNCMInsights,
-  TAX_REFORM_CONSTANTS
-} from '../../lib/taxIntelligence';
+import { TaxReformDiagnosis, ProductInfo, calculateTaxImpact, getTransitionScenarios, getStrategicRecommendations, calculateReformScores, getNCMInsights, TAX_REFORM_CONSTANTS } from '../../lib/taxIntelligence';
 
 // --- Components ---
 
@@ -42,7 +29,7 @@ function MetricCard({ title, value, subtitle, icon: Icon, colorClass, trend }: a
         )}
       </div>
       <p className="text-[10px] font-black text-muted-foreground uppercase tracking-widest mb-1">{title}</p>
-      <p className="text-xl font-black text-muted-foreground">{value}</p>
+   <p className="text-xl font-black text-executive-secondary">{value}</p>
       <p className="text-[10px] text-muted-foreground font-medium mt-1">{subtitle}</p>
     </div>
   );
@@ -53,7 +40,7 @@ function ScoreGauge({ label, score, color }: { label: string, score: number, col
     <div className="space-y-2">
       <div className="flex justify-between items-end">
         <span className="text-[10px] font-black text-muted-foreground uppercase tracking-widest">{label}</span>
-        <span className="text-sm font-black text-muted-foreground">{score.toFixed(0)}%</span>
+    <span className="text-sm font-black text-executive-secondary">{score.toFixed(0)}%</span>
       </div>
       <div className="h-2 bg-slate-100 rounded-full overflow-hidden">
         <div 
@@ -95,7 +82,7 @@ function TimelineItem({ year, event, desc, active }: any) {
         {year.substring(0, 4)}
       </div>
       <div>
-        <h4 className="text-sm font-black text-muted-foreground">{event}</h4>
+    <h4 className="text-sm font-black text-executive-secondary">{event}</h4>
         <p className="text-xs text-muted-foreground font-medium">{desc}</p>
       </div>
     </div>
@@ -264,7 +251,7 @@ export function TaxReformImpactPage({ clientId, selectedYear }: any) {
                       <Calculator size={24} />
                     </div>
                     <div>
-                      <h3 className="text-xl font-display font-extrabold text-muted-foreground">Configuração do Diagnóstico</h3>
+           <h3 className="text-xl font-display font-extrabold text-executive-secondary">Configuração do Diagnóstico</h3>
                       <p className="text-xs text-muted-foreground font-medium">Parâmetros operacionais e financeiros reais (DRE sincronizada).</p>
                     </div>
                   </div>
@@ -283,7 +270,7 @@ export function TaxReformImpactPage({ clientId, selectedYear }: any) {
                       <select 
                         value={diagnosis.regimeTributario}
                         onChange={(e) => setDiagnosis({...diagnosis, regimeTributario: e.target.value as any})}
-                        className="w-full bg-slate-50 border border-border rounded-2xl px-4 md:px-6 py-2.5 md:py-4 text-sm font-bold text-muted-foreground focus:ring-4 focus:ring-blue-100 outline-none transition-all"
+            className="w-full bg-slate-50 border border-border rounded-2xl px-4 md:px-6 py-2.5 md:py-4 text-sm font-bold text-executive-secondary focus:ring-4 focus:ring-blue-100 outline-none transition-all"
                       >
                         <option value="Lucro Real">Lucro Real</option>
                         <option value="Lucro Presumido">Lucro Presumido</option>
@@ -296,7 +283,7 @@ export function TaxReformImpactPage({ clientId, selectedYear }: any) {
                         type="number"
                         value={diagnosis.faturamentoMensal}
                         onChange={(e) => setDiagnosis({...diagnosis, faturamentoMensal: Number(e.target.value)})}
-                        className="w-full bg-slate-50 border border-border rounded-2xl px-4 md:px-6 py-2.5 md:py-4 text-sm font-bold text-muted-foreground focus:ring-4 focus:ring-blue-100 outline-none transition-all"
+            className="w-full bg-slate-50 border border-border rounded-2xl px-4 md:px-6 py-2.5 md:py-4 text-sm font-bold text-executive-secondary focus:ring-4 focus:ring-blue-100 outline-none transition-all"
                       />
                     </div>
                   </div>
@@ -308,7 +295,7 @@ export function TaxReformImpactPage({ clientId, selectedYear }: any) {
                         type="number"
                         value={(diagnosis.margemEBITDA * 100).toFixed(2)}
                         onChange={(e) => setDiagnosis({...diagnosis, margemEBITDA: Number(e.target.value) / 100})}
-                        className="w-full bg-slate-50 border border-border rounded-2xl px-4 md:px-6 py-2.5 md:py-4 text-sm font-bold text-muted-foreground focus:ring-4 focus:ring-blue-100 outline-none transition-all"
+            className="w-full bg-slate-50 border border-border rounded-2xl px-4 md:px-6 py-2.5 md:py-4 text-sm font-bold text-executive-secondary focus:ring-4 focus:ring-blue-100 outline-none transition-all"
                       />
                     </div>
                     <div>
@@ -317,7 +304,7 @@ export function TaxReformImpactPage({ clientId, selectedYear }: any) {
                         type="number"
                         value={(diagnosis.aliquotaEfetivaAtual * 100).toFixed(2)}
                         onChange={(e) => setDiagnosis({...diagnosis, aliquotaEfetivaAtual: Number(e.target.value) / 100})}
-                        className="w-full bg-slate-50 border border-border rounded-2xl px-4 md:px-6 py-2.5 md:py-4 text-sm font-bold text-muted-foreground focus:ring-4 focus:ring-blue-100 outline-none transition-all"
+            className="w-full bg-slate-50 border border-border rounded-2xl px-4 md:px-6 py-2.5 md:py-4 text-sm font-bold text-executive-secondary focus:ring-4 focus:ring-blue-100 outline-none transition-all"
                       />
                     </div>
                   </div>
@@ -327,7 +314,7 @@ export function TaxReformImpactPage({ clientId, selectedYear }: any) {
                 <div className="border-t border-border pt-10">
                   <div className="flex items-center gap-3 mb-8">
                     <Tag size={20} className="text-secondary" />
-                    <h4 className="text-lg font-display font-extrabold text-muted-foreground">Mapeamento de Produtos e NCM</h4>
+          <h4 className="text-lg font-display font-extrabold text-executive-secondary">Mapeamento de Produtos e NCM</h4>
                   </div>
                   
                   <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-6 p-6 bg-slate-50 rounded-[32px] border border-border">
@@ -373,15 +360,15 @@ export function TaxReformImpactPage({ clientId, selectedYear }: any) {
                       <div key={p.id} className="flex items-center justify-between p-4 bg-white border border-border rounded-2xl hover:shadow-md transition-all">
                         <div className="flex items-center gap-6">
                           <div>
-                            <p className="text-[9px] font-black text-muted-foreground uppercase">Descrição</p>
-                            <p className="text-sm font-bold text-muted-foreground">{p.descricao}</p>
+              <p className="text-[9px] font-black text-executive-secondary uppercase">Descrição</p>
+              <p className="text-sm font-bold text-executive-secondary">{p.descricao}</p>
                           </div>
                           <div>
-                            <p className="text-[9px] font-black text-muted-foreground uppercase">NCM</p>
+              <p className="text-[9px] font-black text-executive-secondary uppercase">NCM</p>
                             <p className="text-xs font-mono font-bold text-muted-foreground">{p.ncm || 'N/A'}</p>
                           </div>
                           <div>
-                            <p className="text-[9px] font-black text-muted-foreground uppercase">Faturamento</p>
+              <p className="text-[9px] font-black text-executive-secondary uppercase">Faturamento</p>
                             <p className="text-xs font-bold text-muted-foreground">{formatCurrency(p.valorMensal)}</p>
                           </div>
                         </div>
@@ -414,7 +401,7 @@ export function TaxReformImpactPage({ clientId, selectedYear }: any) {
                           <span className="text-[9px] font-black bg-amber-100 text-amber-700 px-3 py-1 rounded-full uppercase">Sugestão NCM</span>
                           <span className="text-sm font-black text-emerald-600">{insight.potencialEconomia}</span>
                         </div>
-                        <h4 className="text-sm font-black text-muted-foreground mb-1">{insight.descricao}</h4>
+            <h4 className="text-sm font-black text-executive-secondary mb-1">{insight.descricao}</h4>
                         <div className="flex items-center gap-3 mb-4">
                           <span className="text-xs font-mono text-muted-foreground line-through">{insight.ncmOriginal}</span>
                           <ArrowRight size={14} className="text-muted-foreground" />
@@ -438,8 +425,8 @@ export function TaxReformImpactPage({ clientId, selectedYear }: any) {
                   <div className="w-20 h-20 bg-slate-50 text-muted-foreground rounded-[32px] flex items-center justify-center mx-auto mb-6">
                     <BarChart3 size={32} />
                   </div>
-                  <h3 className="text-xl font-display font-extrabold text-muted-foreground mb-2">Simulação Indisponível</h3>
-                  <p className="text-sm text-muted-foreground font-medium max-w-2xl mx-auto">
+         <h3 className="text-xl font-display font-extrabold text-executive-secondary mb-2">Simulação Indisponível</h3>
+         <p className="text-sm text-executive-secondary font-medium max-w-2xl mx-auto">
                     Insira o faturamento ou cadastre produtos no primeiro passo para desbloquear o Laboratório de Cenários.
                   </p>
                   <button 
@@ -454,7 +441,7 @@ export function TaxReformImpactPage({ clientId, selectedYear }: any) {
                   {/* Scenario Selector */}
                   <div className="bg-white rounded-[40px] border border-border p-8 shadow-sm">
                     <div className="flex items-center justify-between mb-8">
-                      <h3 className="text-lg font-display font-extrabold text-muted-foreground">Laboratório de Cenários</h3>
+           <h3 className="text-lg font-display font-extrabold text-executive-secondary">Laboratório de Cenários</h3>
                       <div className="flex items-center gap-2 px-4 py-2 bg-success-soft text-emerald-600 rounded-full text-[10px] font-black uppercase">
                         <Clock size={14} />
                         Linha do Tempo Oficial
@@ -572,7 +559,7 @@ export function TaxReformImpactPage({ clientId, selectedYear }: any) {
                       <Landmark size={24} />
                     </div>
                     <div>
-                      <h3 className="text-xl font-display font-extrabold text-muted-foreground">Central de Atualizações</h3>
+           <h3 className="text-xl font-display font-extrabold text-executive-secondary">Central de Atualizações</h3>
                       <p className="text-xs text-muted-foreground font-medium">Acompanhamento regulatório em tempo real via IA Illumine.</p>
                     </div>
                   </div>
@@ -594,7 +581,7 @@ export function TaxReformImpactPage({ clientId, selectedYear }: any) {
                           <ArrowRight size={12} />
                         </div>
                       </div>
-                      <h4 className="text-sm font-black text-muted-foreground mb-2">{update.title}</h4>
+           <h4 className="text-sm font-black text-executive-secondary mb-2">{update.title}</h4>
                       <p className="text-xs text-muted-foreground font-medium">{update.impact}</p>
                     </div>
                   ))}
@@ -619,8 +606,8 @@ export function TaxReformImpactPage({ clientId, selectedYear }: any) {
                 <div className="w-20 h-20 bg-primary/10 text-primary rounded-[32px] flex items-center justify-center mx-auto mb-6">
                   <FileText size={32} />
                 </div>
-                <h3 className="text-2xl font-display font-extrabold text-muted-foreground mb-4">Central de Relatórios Executivos</h3>
-                <p className="text-sm text-muted-foreground font-medium max-w-md mx-auto mb-10">
+        <h3 className="text-2xl font-display font-extrabold text-executive-secondary mb-4">Central de Relatórios Executivos</h3>
+        <p className="text-sm text-executive-secondary font-medium max-w-md mx-auto mb-10">
                   Gere visões estratégicas completas para o Board e CFO, com projeções de 10 anos e análise de sensibilidade.
                 </p>
 
@@ -669,7 +656,7 @@ export function TaxReformImpactPage({ clientId, selectedYear }: any) {
               <ShieldCheck size={24} strokeWidth={2.5} />
             </div>
             <div>
-              <h3 className="text-xl font-display font-extrabold text-muted-foreground tracking-tight leading-none mb-1">Tax Intelligence</h3>
+       <h3 className="text-xl font-display font-extrabold text-executive-secondary tracking-tight leading-none mb-1">Tax Intelligence</h3>
               <p className="text-[10px] text-muted-foreground font-bold uppercase tracking-wider">Parecer CFO Advisory</p>
             </div>
           </div>

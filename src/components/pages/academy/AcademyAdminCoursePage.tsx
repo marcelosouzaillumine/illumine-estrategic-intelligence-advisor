@@ -100,7 +100,7 @@ export function AcademyAdminCoursePage({ courseId, onBack }: AcademyAdminCourseP
               </div>
               <div>
                 <h3 className="text-2xl font-display font-medium text-foreground tracking-tight uppercase tracking-[0.1em]">Informações Básicas</h3>
-                <p className="text-body-sm text-muted-foreground font-medium">Parâmetros essenciais de apresentação do curso.</p>
+        <p className="text-body-sm text-executive-secondary font-medium">Parâmetros essenciais de apresentação do curso.</p>
               </div>
             </div>
 

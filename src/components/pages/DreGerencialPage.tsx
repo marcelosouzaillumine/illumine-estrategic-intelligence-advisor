@@ -16,7 +16,8 @@ import {
 import { motion } from 'motion/react';
 import { cn, formatCurrency, formatValue } from '../../lib/utils';
 import { ExecutiveCommentary } from '../ExecutiveCommentary';
-import { PageHeader, KpiCard } from '../Common';
+import { PageHeader } from '../Common';
+import { ExecutiveMetricCard } from '../ui/executive-metric-card';
 import { useAllFinancialData } from '../../hooks/useFinancialData';
 import { FULL_MONTH_LABELS, MONTH_LABELS } from '../../constants';
 import { DashboardSkeleton } from '../ui/skeletons';
@@ -351,38 +352,10 @@ export function DreGerencialPage({ selectedClient, selectedYear: initialYear, se
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-        <KpiCard 
-          title="Receita (Período)" 
-          value={formatValue(reportData?.valuesByPeriod[currentKey]?.rl || 0, '')} 
-          suffix="R$"
-          icon={TrendingUp} 
-          status="Verde" 
-          trend="Estável" 
-        />
-        <KpiCard 
-          title="EBITDA (Período)" 
-          value={formatValue(reportData?.valuesByPeriod[currentKey]?.ebitda || 0, '')} 
-          suffix="R$"
-          icon={CircleDollarSign} 
-          status={(reportData?.valuesByPeriod[currentKey]?.ebitda || 0) >= 0 ? "Verde" : "Vermelho"} 
-          trend={(reportData?.valuesByPeriod[currentKey]?.ebitda || 0) >= 0 ? "Bullish" : "Bearish"} 
-        />
-        <KpiCard 
-          title="Margem EBITDA" 
-          value={((reportData?.valuesByPeriod[currentKey]?.ebitda || 0) / (reportData?.valuesByPeriod[currentKey]?.rl || 1) * 100).toFixed(2)} 
-          suffix="%"
-          icon={Target} 
-          status={((reportData?.valuesByPeriod[currentKey]?.ebitda || 0) / (reportData?.valuesByPeriod[currentKey]?.rl || 1) * 100) >= 20 ? "Verde" : "Amarelo"} 
-          trend="Estável" 
-        />
-        <KpiCard 
-          title="Lucro Líquido" 
-          value={formatValue(reportData?.valuesByPeriod[currentKey]?.ll || 0, '')} 
-          suffix="R$"
-          icon={Activity} 
-          status={(reportData?.valuesByPeriod[currentKey]?.ll || 0) >= 0 ? "Verde" : "Vermelho"} 
-          trend="Consolidado" 
-        />
+        <ExecutiveMetricCard density="analytical" label="Receita (Período)" value={`R$ ${formatValue(reportData?.valuesByPeriod[currentKey]?.rl || 0, '')}`} icon={TrendingUp} tone="success" description="Estável" />
+        <ExecutiveMetricCard density="analytical" label="EBITDA (Período)" value={`R$ ${formatValue(reportData?.valuesByPeriod[currentKey]?.ebitda || 0, '')}`} icon={CircleDollarSign} tone={(reportData?.valuesByPeriod[currentKey]?.ebitda || 0) >= 0 ? "success" : "critical"} description={(reportData?.valuesByPeriod[currentKey]?.ebitda || 0) >= 0 ? "Bullish" : "Bearish"} />
+        <ExecutiveMetricCard density="analytical" label="Margem EBITDA" value={`${((reportData?.valuesByPeriod[currentKey]?.ebitda || 0) / (reportData?.valuesByPeriod[currentKey]?.rl || 1) * 100).toFixed(2)}%`} icon={Target} tone={((reportData?.valuesByPeriod[currentKey]?.ebitda || 0) / (reportData?.valuesByPeriod[currentKey]?.rl || 1) * 100) >= 20 ? "success" : "warning"} description="Estável" />
+        <ExecutiveMetricCard density="analytical" label="Lucro Líquido" value={`R$ ${formatValue(reportData?.valuesByPeriod[currentKey]?.ll || 0, '')}`} icon={Activity} tone={(reportData?.valuesByPeriod[currentKey]?.ll || 0) >= 0 ? "success" : "critical"} description="Consolidado" />
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-4 bg-card p-6 rounded-md border border-border shadow-sm items-end">
@@ -531,11 +504,11 @@ export function DreGerencialPage({ selectedClient, selectedYear: initialYear, se
                    
                    <div className="grid grid-cols-2 gap-4">
                       <div className="p-4 bg-surface-container rounded-md border border-border">
-                         <p className="text-[9px] font-black text-muted-foreground uppercase tracking-widest mb-1">Margem Alvo</p>
+             <p className="text-[9px] font-black text-executive-secondary uppercase tracking-widest mb-1">Margem Alvo</p>
                          <p className="text-xl font-bold text-foreground">0.0%</p>
                       </div>
                       <div className="p-4 bg-surface-container rounded-md border border-border">
-                         <p className="text-[9px] font-black text-muted-foreground uppercase tracking-widest mb-1">Gap de Resultado</p>
+             <p className="text-[9px] font-black text-executive-secondary uppercase tracking-widest mb-1">Gap de Resultado</p>
                          <p className="text-xl font-bold text-foreground">R$ 0</p>
                       </div>
                    </div>

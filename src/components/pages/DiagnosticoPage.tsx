@@ -1,18 +1,14 @@
 
 import React, { useState, useMemo } from "react";
-import { 
-  AlertTriangle, Plus, Trash2, Edit2,
-  TrendingUp, Activity, ShieldAlert, Target,
-  Link2, Check, X
-} from "lucide-react";
-import { motion, AnimatePresence } from "motion/react";
-import { useModuleData } from "../../hooks/useModuleData";
-import { DiagnosticoItem, ObjetivoOKR, EixoGestao, ClassificacaoSWOT, TipoRisco, Gravidade, Urgencia, Tendencia, ImpactoFinanceiro } from "../../types/modules";
-import { cn } from "../../lib/utils";
-import { SectionHeader, PageHeader } from "../Common";
-import { GOVERNANCE_PRINCIPLES } from "../../lib/governanceIntelligence";
-import { GovernanceInsightPanel } from "../GovernanceInsightPanel";
-import { DashboardSkeleton } from "../ui/skeletons";
+import { AlertTriangle, Plus, Trash2, Edit2, TrendingUp, Activity, ShieldAlert, Target, Link2, Check, X } from 'lucide-react';
+import { motion, AnimatePresence } from 'motion/react';
+import { useModuleData } from '../../hooks/useModuleData';
+import { DiagnosticoItem, ObjetivoOKR, EixoGestao, ClassificacaoSWOT, TipoRisco, Gravidade, Urgencia, Tendencia, ImpactoFinanceiro } from '../../types/modules';
+import { cn } from '../../lib/utils';
+import { SectionHeader, PageHeader } from '../Common';
+import { GOVERNANCE_PRINCIPLES } from '../../lib/governanceIntelligence';
+import { GovernanceInsightPanel } from '../GovernanceInsightPanel';
+import { DashboardSkeleton } from '../ui/skeletons';
 
 const EIXOS: EixoGestao[] = [
   "Governança Corporativa", "Cultura Organizacional", "Gestão Administrativa e Financeira", "Gestão de Inovação", "Gestão de Marketing", "Gestão Comercial", "Gestão Operacional"
@@ -266,7 +262,7 @@ export function DiagnosticoPage({ clientId, selectedYear, selectedMonth }: Diagn
         <h3 className="text-body-sm font-semibold text-secondary uppercase tracking-widest mb-3 flex items-center gap-2">
           <Target size={16} className="text-secondary" /> O que é o IVE e qual sua importância?
         </h3>
-        <p className="text-body-sm text-muted-foreground leading-relaxed font-normal">
+    <p className="text-body-sm text-executive-secondary leading-relaxed font-normal">
           O <strong className="text-foreground font-medium">Índice de Valor Estratégico (IVE)</strong> é uma métrica avançada criada para medir o verdadeiro impacto de uma ação no negócio. Ao invés de focar apenas em mitigar riscos, o IVE prioriza a <strong className="text-secondary font-semibold">Geração de Valor</strong>, cruzando a urgência do problema com o potencial de <strong className="text-success font-semibold">Retorno sobre Investimento (ROI)</strong>, <strong className="text-foreground font-semibold">Efeito Financeiro</strong> e <strong className="text-warning font-semibold">Custo</strong>.
           Itens com maior IVE são as prioridades absolutas: requerem menor esforço financeiro e entregam o maior resultado no caixa ou EBITDA da empresa.
         </p>
@@ -534,7 +530,7 @@ export function DiagnosticoPage({ clientId, selectedYear, selectedMonth }: Diagn
             >
               <div className="p-8 border-b border-border flex justify-between items-start shrink-0 bg-surface-container/30 shadow-inner">
                 <div>
-                  <p className="text-[10px] font-medium text-secondary uppercase tracking-widest">Conexão Estratégica</p>
+         <p className="text-[10px] font-medium text-executive-secondary uppercase tracking-widest">Conexão Estratégica</p>
                   <h3 className="text-xl font-medium text-foreground mt-1 uppercase tracking-tighter">Vincular IVE a OKR</h3>
                   <p className="text-[10px] text-muted-foreground mt-1 font-medium max-w-xs uppercase tracking-widest italic">{linkingItem.descricao}</p>
                 </div>
@@ -558,12 +554,12 @@ export function DiagnosticoPage({ clientId, selectedYear, selectedMonth }: Diagn
                     <div className="text-center py-12 text-muted-foreground/30 flex flex-col items-center gap-3">
                       <Target size={40} strokeWidth={1} />
                       <p className="font-medium uppercase tracking-widest text-[10px]">Nenhum OKR cadastrado ainda.</p>
-                      <p className="text-[9px] text-muted-foreground uppercase tracking-widest italic">OKR é opcional — vincule quando fizer sentido estratégico.</p>
+           <p className="text-[9px] text-executive-secondary uppercase tracking-widest italic">OKR é opcional — vincule quando fizer sentido estratégico.</p>
                       <button onClick={() => setLinkTab("criar")} className="text-secondary font-medium text-[10px] uppercase tracking-widest underline shadow-sm">Criar agora</button>
                     </div>
                   ) : (
                     <div className="space-y-3">
-                      <p className="text-[9px] text-muted-foreground font-medium uppercase tracking-widest italic mb-4">OKR é opcional. Vincule somente quando fizer sentido estratégico para este diagnóstico.</p>
+           <p className="text-[9px] text-executive-secondary font-medium uppercase tracking-widest italic mb-4">OKR é opcional. Vincule somente quando fizer sentido estratégico para este diagnóstico.</p>
                       {okrsData.map(okr => {
                         const isLinked = (linkingItem.okrVinculado ?? []).includes(okr.id!);
                         return (
@@ -575,7 +571,7 @@ export function DiagnosticoPage({ clientId, selectedYear, selectedMonth }: Diagn
                             >
                               <div className="flex items-start justify-between gap-4">
                                 <div className="flex-1 min-w-0">
-                                  <p className="text-[9px] font-medium text-muted-foreground uppercase tracking-widest mb-1 italic">{okr.eixo} • {okr.periodo}</p>
+                 <p className="text-[9px] font-medium text-executive-secondary uppercase tracking-widest mb-1 italic">{okr.eixo} • {okr.periodo}</p>
                                   <p className="font-medium text-foreground text-sm uppercase tracking-tighter leading-tight">{okr.titulo}</p>
                                 </div>
                                 <div className={cn("w-6 h-6 rounded-md border-2 flex items-center justify-center shrink-0 transition-all mt-0.5 shadow-sm",

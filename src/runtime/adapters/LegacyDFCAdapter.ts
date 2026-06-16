@@ -1,9 +1,8 @@
 import { EngineDefinition, InstitutionalContext, EngineExecutionResult, InferenceBlock, CausalityChain, AdvisoryNarrative } from '../types';
 import { EarlyStageNarrativeEngine } from '../../core/runtime/semantic/EarlyStageNarrativeEngine';
-import { buildBPHierarchy } from '../../lib/bpEngine';
-import { calculateDreCascade } from '../../lib/dreCascade';
 import { RunwayAuditEngine } from '../../core/runtime/semantic/RunwayAuditEngine';
-import { DRE_OFFICIAL_STRUCTURE } from '../../constants/dreStructure';
+import { DreCashEvidence, BalanceSheetCashEvidence, DfcPrimaryEvidence } from '../../core/runtime/cash-intelligence/CashEvidenceContracts';
+import { DFCIndirectMethodEngine } from '../../core/runtime/cash-intelligence/DFCIndirectMethodEngine';
 import { DFCSemanticCanonicalRootResolver } from '../../core/runtime/lifecycle/DFCSemanticCanonicalRootResolver';
 import { ExecutiveLifecycleContextResolver } from '../../core/runtime/lifecycle/ExecutiveLifecycleContextResolver';
 import { FiduciaryCashIntelligenceRuntime } from '../../core/runtime/cash-intelligence/FiduciaryCashIntelligenceRuntime';
@@ -213,23 +212,12 @@ export const LegacyDFCAdapter: EngineDefinition = {
           Number(d.year) === filterYear && matchDocType(d, ['dre', 'resultado'])
         );
 
-        // Calculate via cascade first to get the mathematically correct value, bypassing corrupted 0 rows
-        const m = dreEntries.map((d: any) => ({ ...d, value: d.val || d.valor || d.value || 0 }));
-        const cascadeRes = calculateDreCascade([...DRE_OFFICIAL_STRUCTURE.map(a => ({ ...a, value: 0 })), ...m]);
-        const calculatedLL = cascadeRes.find((r: any) => r.id === 'LUCRO_LIQ')?.computedValue;
-        
-        if (calculatedLL !== undefined && calculatedLL !== null && calculatedLL !== 0) {
-          netIncome = calculatedLL;
-          netIncomeSourceAccount = 'DRE Cascade (Soberano)';
-          netIncomeSourceValue = calculatedLL;
-        } else {
-          // Fallback to raw extraction
-          const extracted = extractSovereignNetIncomeWithAccount(dreEntries);
-          if (extracted) {
-            netIncome = extracted.value;
-            netIncomeSourceAccount = extracted.account;
-            netIncomeSourceValue = extracted.value;
-          }
+        // Fallback to raw extraction since DRE Cascade is now isolated
+        const extracted = extractSovereignNetIncomeWithAccount(dreEntries);
+        if (extracted) {
+          netIncome = extracted.value;
+          netIncomeSourceAccount = extracted.account;
+          netIncomeSourceValue = extracted.value;
         }
       }
 
@@ -449,40 +437,24 @@ export const LegacyDFCAdapter: EngineDefinition = {
         matchDocType(d, ['balanço patrimonial', 'bp', 'balanco patrimonial', 'balanco'])
       );
       
-      const mappedBpEntries = bpEntriesForYear.map((d: any) => ({
-        ...d,
-        type: d.entryType || d.type
-      }));
-      const { summary: bpSummary, flatNodes } = buildBPHierarchy(mappedBpEntries);
-      const ativoTotal = bpSummary.ativoTotal || 1;
-      const ativoCirculante = bpSummary.ativoCirculante || 0;
-      const passivoCirculante = bpSummary.passivoCirculante || 1;
-      const estoques = bpSummary.estoques || 0;
+      // ACL: Extracting BP Evidence without importing BP engine
+      const ativoTotal = getHistoricalValue(filterYear, ['balanço patrimonial', 'bp', 'balanco patrimonial', 'balanco'], ['ativo total']) || 1;
+      const ativoCirculante = getHistoricalValue(filterYear, ['balanço patrimonial', 'bp', 'balanco patrimonial', 'balanco'], ['ativo circulante']) || 0;
+      const passivoCirculante = getHistoricalValue(filterYear, ['balanço patrimonial', 'bp', 'balanco patrimonial', 'balanco'], ['passivo circulante']) || 1;
+      const estoques = getHistoricalSum(filterYear, ['balanço patrimonial', 'bp', 'balanco patrimonial', 'balanco'], ['estoques', 'estoque', 'mercadorias']);
       
       // Exclui crédito de partes relacionadas não circulantes da fórmula de liquidez Operacional Real
       let creditosSociosCirculantes = 0;
       const rpKeywords = ['mutuo', 'socio', 'partes relacionadas', 'adiantamento a socios', 'creditos com socios', 'conta corrente socios'];
       
-      flatNodes.forEach((node: any) => {
-        if (node.type === 'ativo' && !node.isSynthetic) {
-          const name = normalizeString(node.category);
+      bpEntriesForYear.forEach((d: any) => {
+        if ((d.entryType === 'ativo' || d.type === 'ativo') && !d.isSynthetic) {
+          const name = normalizeString(d.category || d.item || d.conta || '');
           if (rpKeywords.some(k => name.includes(k))) {
-            // Check if this node is non-circulating by checking its ancestors
-            let isNonCirculating = false;
-            let current = node;
-            while (current) {
-              const currentName = normalizeString(current.category);
-              if (currentName.includes('nao circulante') || currentName.includes('não circulante') || currentName.includes('longo prazo') || currentName.includes('realizavel a longo prazo')) {
-                isNonCirculating = true;
-                break;
-              }
-              if (!current.parentId) break;
-              const parentNode = flatNodes.find((p: any) => p.id === current.parentId);
-              if (!parentNode) break;
-              current = parentNode;
-            }
+            const parentName = normalizeString(d.parentId || d.parent || '');
+            const isNonCirculating = parentName.includes('nao circulante') || parentName.includes('não circulante') || parentName.includes('longo prazo');
             if (!isNonCirculating) {
-              creditosSociosCirculantes += node.value;
+              creditosSociosCirculantes += (d.val || d.valor || d.value || 0);
             }
           }
         }
@@ -534,14 +506,32 @@ export const LegacyDFCAdapter: EngineDefinition = {
         matchDocType(d, ['balanço patrimonial', 'bp', 'balanco patrimonial', 'balanco'])
       );
 
+      const getBPCashValue = (entries: any[]) => {
+        let disponivel = 0;
+        let childrenSum = 0;
+        entries.forEach(d => {
+          if ((d.type || d.entryType) === 'passivo') return;
+          const c = normalizeString(d.category || d.conta || d.item || '');
+          if (c.includes('banco de emprestimo') || c.includes('banco de empréstimo')) return;
+          if (c === 'disponivel' || c === 'disponível' || c === 'caixa e equivalentes' || c === 'disponibilidades') {
+            disponivel += (d.val || d.valor || d.value || 0);
+          } else if (c === 'caixa' || c === 'banco' || c === 'bancos' || c.includes('aplicacao') || c.includes('aplicação')) {
+            childrenSum += (d.val || d.valor || d.value || 0);
+          }
+        });
+        return disponivel > 0 ? disponivel : childrenSum;
+      };
+
       const buildCashReconciliation = () => {
-        const caixaFinalReal = bpSummary.caixaEquivalentes || 0;
+        const bpEntriesCurrentYear = allHistoryData.filter((d: any) => 
+          Number(d.year) === filterYear && 
+          matchDocType(d, ['balanço patrimonial', 'bp', 'balanco patrimonial', 'balanco'])
+        );
+        const caixaFinalReal = getBPCashValue(bpEntriesCurrentYear);
 
         let bpAnteriorCaixaEquivalentes: number | null = null;
         if (bpEntriesPrevYear.length > 0) {
-          const mappedBpEntriesPrev = bpEntriesPrevYear.map((d: any) => ({ ...d, type: d.entryType || d.type }));
-          const { summary: bpSummaryPrev } = buildBPHierarchy(mappedBpEntriesPrev);
-          bpAnteriorCaixaEquivalentes = bpSummaryPrev.caixaEquivalentes || 0;
+          bpAnteriorCaixaEquivalentes = getBPCashValue(bpEntriesPrevYear);
         }
 
         const caixaInicialReal = bpAnteriorCaixaEquivalentes ?? (hasDfcCaixaInicial ? dfcCaixaInicial : 0);
@@ -1617,7 +1607,7 @@ export const LegacyDFCAdapter: EngineDefinition = {
 
       const resolvedThirdPartyFunding = varDividas > 0 ? varDividas : 0;
       const resolvedEquityFunding = varCapital > 0 ? varCapital : 0;
-      const patrimonioLiquido = bpSummary.patrimonioLiquido || 0;
+      const patrimonioLiquido = getHistoricalValue(filterYear, ['balanço patrimonial', 'bp', 'balanco patrimonial', 'balanco'], ['patrimônio líquido', 'patrimonio liquido', 'pl']) || 0;
       const dfcDataEntries = isOfficialDfcAvailable 
         ? allHistoryData.filter((d: any) => Number(d.year) === filterYear && matchDocType(d, ['dfc']))
         : [];

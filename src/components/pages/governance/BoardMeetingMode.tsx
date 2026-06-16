@@ -1,23 +1,7 @@
 // src/components/pages/governance/BoardMeetingMode.tsx
 
 import React, { useState, useEffect, useMemo } from 'react';
-import { 
-  Users, 
-  Play, 
-  CheckCircle, 
-  XCircle, 
-  AlertTriangle, 
-  ChevronLeft, 
-  ChevronRight, 
-  FileText, 
-  ShieldCheck, 
-  HelpCircle,
-  FileCheck,
-  UserCheck,
-  ArrowRight,
-  TrendingUp,
-  Activity
-} from 'lucide-react';
+import { Users, Play, CheckCircle, XCircle, AlertTriangle, ChevronLeft, ChevronRight, FileText, ShieldCheck, HelpCircle, FileCheck, UserCheck, ArrowRight, TrendingUp, Activity } from 'lucide-react';
 import { motion, AnimatePresence } from 'motion/react';
 import { FiduciaryRuntimeAdapter } from '../../../services/FiduciaryRuntimeAdapter';
 import { BoardMeeting, MeetingBoardResolution, MeetingMinutes, ESGIMScenario } from '../../../services/FiduciaryRuntimeAdapter';

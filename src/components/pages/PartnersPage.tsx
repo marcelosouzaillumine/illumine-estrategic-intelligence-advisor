@@ -1,33 +1,6 @@
 
 import React, { useState, useEffect, useMemo } from 'react';
-import { 
-  Plus, 
-  Search, 
-  Filter, 
-  ChevronLeft, 
-  ChevronRight, 
-  Edit3, 
-  Trash2, 
-  Building2, 
-  MapPin, 
-  Users, 
-  Activity,
-  LayoutGrid,
-  X,
-  ShieldCheck,
-  Briefcase,
-  DollarSign,
-  Landmark,
-  TrendingUp,
-  AlertCircle,
-  Sparkles,
-  Save,
-  Calendar,
-  Globe,
-  Key,
-  History,
-  Loader2
-} from 'lucide-react';
+import { Plus, Search, Filter, ChevronLeft, ChevronRight, Edit3, Trash2, Building2, MapPin, Users, Activity, LayoutGrid, X, ShieldCheck, Briefcase, DollarSign, Landmark, TrendingUp, AlertCircle, Sparkles, Save, Calendar, Globe, Key, History, Loader2 } from 'lucide-react';
 import { motion, AnimatePresence } from 'motion/react';
 import { collection, addDoc, updateDoc, deleteDoc, doc, serverTimestamp, query, onSnapshot } from 'firebase/firestore';
 import { db, auth } from '../../lib/firebase';
@@ -334,7 +307,7 @@ export function PartnersPage({ clients, setClients, setSelectedClient, isMaster 
                     </div>
                     {error && <p className="text-rose-500 text-xs font-bold mt-3">{error}</p>}
                     {docType === 'CPF' && !loading && !formData.razao && (
-                      <p className="text-[9px] text-muted-foreground mt-4 italic font-medium">Nota: A busca por CPF utiliza simulação de perfil para demonstração, devido a restrições de privacidade em APIs públicas.</p>
+           <p className="text-[9px] text-executive-secondary mt-4 italic font-medium">Nota: A busca por CPF utiliza simulação de perfil para demonstração, devido a restrições de privacidade em APIs públicas.</p>
                     )}
                   </div>
                 )}
@@ -585,7 +558,7 @@ export function PartnersPage({ clients, setClients, setSelectedClient, isMaster 
                         }
                       }} className="w-5 h-5 rounded-lg border-2 border-border-main text-secondary focus:ring-secondary" />
                       <div>
-                        <p className="text-xs font-black text-text-main group-hover:text-secondary transition-colors">{client.fantasia || client.name}</p>
+            <p className="text-xs font-black text-text-main group-hover:text-executive-secondary transition-colors">{client.fantasia || client.name}</p>
                         <p className="text-[10px] text-text-dim font-bold uppercase tracking-widest">{client.cnpj}</p>
                       </div>
                     </label>
@@ -753,7 +726,7 @@ export function PartnersPage({ clients, setClients, setSelectedClient, isMaster 
                  <div className="w-24 h-24 bg-critical-soft0/10 text-rose-500 rounded-[2rem] flex items-center justify-center mx-auto shadow-inner-soft border border-rose-500/20"><Trash2 size={40} /></div>
                  <div className="space-y-3">
                     <h3 className="text-2xl font-display font-black text-text-main uppercase tracking-tight">Remover Parceiro?</h3>
-                    <p className="text-sm text-text-muted leading-relaxed font-medium">Você está prestes a remover <strong className="text-text-main">{partnerToDelete.name}</strong>. Esta ação não removerá os clientes vinculados.</p>
+          <p className="text-sm text-text-executive-secondary leading-relaxed font-medium">Você está prestes a remover <strong className="text-text-main">{partnerToDelete.name}</strong>. Esta ação não removerá os clientes vinculados.</p>
                  </div>
                  <div className="grid grid-cols-2 gap-4 pt-4">
                     <button onClick={() => setPartnerToDelete(null)} className="px-4 md:px-6 py-2.5 md:py-4 bg-bg-surface text-text-dim rounded-2xl text-[10px] font-black uppercase tracking-widest border border-border-main">Cancelar</button>

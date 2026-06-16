@@ -2,29 +2,34 @@ import React, { useMemo } from 'react';
 import { useLanguage } from '../../../contexts/LanguageContext';
 import { DREExecutiveAdvisorySectionViewModel } from './view-models';
 import { ExecutiveStrategicSemanticCards } from '../../ui/executive-strategic-semantic-cards';
-import { ExecutiveDecisionSynthesisEngine } from '../../../services/FiduciaryRuntimeAdapter';
-import { ExecutiveAnalysisContext } from '../../../services/FiduciaryRuntimeAdapter';
+import { ExecutiveStrategicDiagnosisPayload } from '../../../core/runtime/executive-consolidation/ExecutiveSynthesisTypes';
 
 interface Props {
   viewModel?: DREExecutiveAdvisorySectionViewModel;
-  context?: ExecutiveAnalysisContext;
   selectedYear: number;
 }
 
-export function DREExecutiveAdvisorySection({ viewModel, context, selectedYear }: Props) {
+export function DREExecutiveAdvisorySection({ viewModel, selectedYear }: Props) {
   const { t } = useLanguage();
 
-  const payload = useMemo(() => {
-    if (context) {
-      const isolatedContext: ExecutiveAnalysisContext = {
-        ...context,
+  const payload = useMemo((): ExecutiveStrategicDiagnosisPayload | null => {
+    if (viewModel) {
+      return {
         analysisYear: selectedYear,
-        generatedAt: new Date().toISOString()
+        generatedAt: new Date().toISOString(),
+        currentSituation: viewModel.currentSituation,
+        strategicPriority: viewModel.strategicPriority,
+        outlook: viewModel.operationalOutlook,
+        priorityRecommendation: viewModel.primaryRecommendation,
+        severityState: viewModel.severityState,
+        recommendationPriority: viewModel.recommendationPriority,
+        primaryDriver: viewModel.primaryEconomicDriver,
+        dominantStrength: viewModel.dominantStrength,
+        secondaryAttention: viewModel.secondaryAttention
       };
-      return ExecutiveDecisionSynthesisEngine.generateStrategicDiagnosisPayload(isolatedContext);
     }
     return null;
-  }, [context, selectedYear]);
+  }, [viewModel, selectedYear]);
 
   if (!payload && !viewModel) return null;
 
@@ -36,13 +41,5 @@ export function DREExecutiveAdvisorySection({ viewModel, context, selectedYear }
     );
   }
 
-  // Fallback para legado
-  return (
-    <div className="mb-10 mt-10">
-      <div className="p-6 bg-surface-high border border-border rounded-lg shadow-sm">
-        <h3 className="text-sm font-bold text-foreground mb-4">{t('dre.advisory.title')}</h3>
-        <p className="text-sm text-muted-foreground">{viewModel?.simpleAdvisoryText}</p>
-      </div>
-    </div>
-  );
+  return null;
 }

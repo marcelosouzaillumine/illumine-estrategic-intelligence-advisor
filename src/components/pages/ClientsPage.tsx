@@ -1,56 +1,24 @@
 
 import React, { useState, useEffect, useMemo } from "react";
-import { 
-  Plus, 
-  Search, 
-  Filter, 
-  ChevronLeft, 
-  ChevronRight, 
-  MoreHorizontal, 
-  Edit3, 
-  Trash2, 
-  Building2, 
-  MapPin, 
-  Users, 
-  Activity,
-  FileText,
-  LayoutGrid,
-  Loader2,
-  X,
-  ShieldCheck,
-  Briefcase,
-  History,
-  DollarSign,
-  Landmark,
-  TrendingUp,
-  AlertCircle,
-  Sparkles,
-  Link2,
-  Image as ImageIcon,
-  Upload,
-  Key,
-  Save,
-  Calendar,
-  Globe
-} from "lucide-react";
-import { motion, AnimatePresence } from "motion/react";
-import { collection, addDoc, updateDoc, deleteDoc, doc, serverTimestamp, query, where, getDocs, writeBatch, onSnapshot } from "firebase/firestore";
-import { db, auth } from "../../lib/firebase";
-import { PageHeader, StatusBadge, MarkdownText } from "../Common";
-import { DATA } from "../../data";
-import { cn, formatCurrency, validateCNPJ, formatDoc } from "../../lib/utils";
-import { useDataTable } from "../../hooks/useDataTable";
-import { EmployeeManager } from "../EmployeeManager";
+import { Plus, Search, Filter, ChevronLeft, ChevronRight, MoreHorizontal, Edit3, Trash2, Building2, MapPin, Users, Activity, FileText, LayoutGrid, Loader2, X, ShieldCheck, Briefcase, History, DollarSign, Landmark, TrendingUp, AlertCircle, Sparkles, Link2, Image as ImageIcon, Upload, Key, Save, Calendar, Globe } from 'lucide-react';
+import { motion, AnimatePresence } from 'motion/react';
+import { collection, addDoc, updateDoc, deleteDoc, doc, serverTimestamp, query, where, getDocs, writeBatch, onSnapshot } from 'firebase/firestore';
+import { db, auth } from '../../lib/firebase';
+import { PageHeader, StatusBadge, MarkdownText } from '../Common';
+import { DATA } from '../../data';
+import { cn, formatCurrency, validateCNPJ, formatDoc } from '../../lib/utils';
+import { useDataTable } from '../../hooks/useDataTable';
+import { EmployeeManager } from '../EmployeeManager';
 // Removed GenerateAICompanyModal import
-import { ClientImportHistory } from "../ClientImportHistory";
-import { ClientLoginAudit } from "../ClientLoginAudit";
-import { ClientUserManager } from "../ClientUserManager";
-import { Button } from "../ui/button";
-import { Input } from "../ui/input";
-import { Label } from "../ui/label";
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "../ui/table";
-import { ExecutiveSurface } from "../ui/executive-surface";
-import { ExecutiveEmptyState } from "../ui/executive-empty-state";
+import { ClientImportHistory } from '../ClientImportHistory';
+import { ClientLoginAudit } from '../ClientLoginAudit';
+import { ClientUserManager } from '../ClientUserManager';
+import { Button } from '../ui/button';
+import { Input } from '../ui/input';
+import { Label } from '../ui/label';
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '../ui/table';
+import { ExecutiveSurface } from '../ui/executive-surface';
+import { ExecutiveEmptyState } from '../ui/executive-empty-state';
 
 export function ClientsPage({ clients, setClients, setSelectedClient, isMaster, isPartner, userPartnerIds }: any) {
   const [view, setView] = useState<"list" | "form">("list");
@@ -500,7 +468,7 @@ loading: ${loading}
               <h2 className="text-h1 font-medium text-foreground tracking-tight">
                 {editingId ? "Alterar Cadastro" : "Cadastrar Empresa"}
               </h2>
-              <p className="text-muted-foreground text-sm mt-2 font-sans max-w-2xl leading-relaxed text-balance">
+       <p className="text-executive-secondary text-sm mt-2 font-sans max-w-2xl leading-relaxed text-balance">
                 Configure as informações estratégicas, estrutura societária e parâmetros tributários da organização.
               </p>
             </div>
@@ -579,7 +547,7 @@ loading: ${loading}
                     </div>
                     <div>
                       <h3 className="text-body-sm font-medium text-foreground uppercase tracking-widest">Perfil Estratégico</h3>
-                      <p className="text-[9px] text-muted-foreground font-medium uppercase tracking-widest">Defina a natureza e os parâmetros de gestão</p>
+           <p className="text-[9px] text-executive-secondary font-medium uppercase tracking-widest">Defina a natureza e os parâmetros de gestão</p>
                     </div>
                   </div>
 
@@ -674,7 +642,7 @@ loading: ${loading}
                       </div>
                       <div>
                         <h3 className="text-body-sm font-medium text-foreground uppercase tracking-widest">Identificação Jurídica</h3>
-                        <p className="text-[9px] text-muted-foreground font-medium uppercase tracking-widest">Dados oficiais e vínculos de gestão</p>
+            <p className="text-[9px] text-executive-secondary font-medium uppercase tracking-widest">Dados oficiais e vínculos de gestão</p>
                       </div>
                     </div>
 
@@ -1665,7 +1633,7 @@ loading: ${loading}
                 {/* 3. Payroll Taxes Section */}
                 <div className="bg-white p-8 rounded-[32px] border border-border shadow-sm space-y-8">
                   <div className="space-y-1">
-                    <h5 className="text-sm font-black text-muted-foreground uppercase tracking-widest flex items-center gap-2">
+          <h5 className="text-sm font-black text-executive-secondary uppercase tracking-widest flex items-center gap-2">
                        <Users size={20} className="text-secondary" /> Encargos de Folha de Pagamento
                     </h5>
                     <p className="text-[11px] text-muted-foreground font-medium lowercase">Configure os encargos incidentes sobre a folha de pagamento para as simulações.</p>
@@ -1849,7 +1817,7 @@ loading: ${loading}
                 </div>
 
                 <div className="card-premium bg-surface-container/50 border-dashed">
-                   <h4 className="text-body-sm font-medium text-muted-foreground uppercase tracking-widest mb-10 flex items-center gap-3">
+          <h4 className="text-body-sm font-medium text-executive-secondary uppercase tracking-widest mb-10 flex items-center gap-3">
                      <Users size={18} className="text-secondary" /> Contatos Adicionais
                    </h4>
                    
@@ -1950,7 +1918,7 @@ loading: ${loading}
                       <div className="w-16 h-16 bg-white rounded-2xl flex items-center justify-center text-muted-foreground mx-auto shadow-sm">
                          <AlertCircle size={32} />
                       </div>
-                      <h4 className="text-sm font-black text-muted-foreground uppercase tracking-widest">Salve o cliente primeiro</h4>
+           <h4 className="text-sm font-black text-executive-secondary uppercase tracking-widest">Salve o cliente primeiro</h4>
                       <p className="text-[10px] text-muted-foreground uppercase font-bold tracking-widest max-w-[200px] mx-auto">Para gerenciar o quadro de pessoal, você precisa primeiro concluir o cadastro básico do cliente.</p>
                    </div>
                  )}
@@ -2134,7 +2102,7 @@ loading: ${loading}
             
             <div className="relative p-5 md:p-6">
               <div className="flex items-start justify-between mb-4">
-                <p className="text-[9px] font-medium text-muted-foreground uppercase tracking-[0.2em]">{stat.label}</p>
+        <p className="text-[9px] font-medium text-executive-secondary uppercase tracking-[0.2em]">{stat.label}</p>
                 <div className={`w-9 h-9 rounded-md flex items-center justify-center transition-all duration-300 group-hover:scale-110 group-hover:shadow-md ${stat.iconBg} ${stat.iconColor}`}>
                   {(() => { const Icon = stat.icon; return <Icon size={18} strokeWidth={1.5} />; })()}
                 </div>
@@ -2291,7 +2259,7 @@ loading: ${loading}
               </div>
               <div className="space-y-2">
                 <h3 className="text-h4 font-medium text-foreground">Nenhuma empresa encontrada</h3>
-                <p className="text-body-sm text-muted-foreground max-w-xs mx-auto leading-relaxed text-balance">
+        <p className="text-body-sm text-executive-secondary max-w-xs mx-auto leading-relaxed text-balance">
                   Ajuste os filtros ou o termo de busca para visualizar empresas da carteira.
                 </p>
               </div>
@@ -2368,7 +2336,7 @@ loading: ${loading}
                           <span className="px-1.5 py-0.5 bg-critical-soft text-destructive text-[7.5px] font-semibold uppercase rounded-full border border-destructive/20 shrink-0 tracking-wider">Pendente</span>
                         )}
                       </div>
-                      <p className="text-[9px] font-medium text-muted-foreground/70 uppercase tracking-widest truncate leading-tight mb-2">{client.razao || "—"}</p>
+           <p className="text-[9px] font-medium text-executive-secondary/70 uppercase tracking-widest truncate leading-tight mb-2">{client.razao || "—"}</p>
                       <div className="flex items-center gap-1.5 flex-wrap">
                         {(client.segmentoAtuacao || client.segmento) && (
                           <span className="px-2 py-0.5 bg-surface-container text-muted-foreground text-[8px] font-medium uppercase rounded-full border border-border tracking-wide">
@@ -2479,7 +2447,7 @@ loading: ${loading}
             animate={{ opacity: 1, y: 0 }}
             className="flex items-center justify-between pt-5 border-t border-border"
           >
-            <p className="text-[9.5px] font-medium text-muted-foreground/70 uppercase tracking-[0.15em]">
+      <p className="text-[9.5px] font-medium text-executive-secondary/70 uppercase tracking-[0.15em]">
               Mostrando página <span className="text-foreground font-semibold">{currentPage}</span> de <span className="text-foreground font-semibold">{totalPages}</span>
             </p>
             <div className="flex items-center gap-1.5">
@@ -2530,7 +2498,7 @@ loading: ${loading}
               </div>
               <div className="space-y-3">
                 <h3 className="text-h3 font-medium text-foreground uppercase tracking-tight">Remover Cliente?</h3>
-                <p className="text-body-sm text-muted-foreground leading-relaxed font-medium">
+        <p className="text-body-sm text-executive-secondary leading-relaxed font-medium">
                   Você está prestes a remover <strong className="text-foreground">{clientToDelete.name}</strong> da sua carteira estratégica. Esta ação desvinculará todos os históricos financeiros.
                 </p>
               </div>

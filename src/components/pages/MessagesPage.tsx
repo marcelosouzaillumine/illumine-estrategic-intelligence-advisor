@@ -1,21 +1,7 @@
 import React, { useState } from 'react';
 import { useLanguage } from '../../contexts/LanguageContext';
 import { PageHeader } from '../Common';
-import { 
-  Rocket, 
-  Settings, 
-  Bug, 
-  Zap, 
-  Calendar,
-  CheckCircle2,
-  Bell,
-  MessageSquare,
-  Info,
-  ShieldCheck,
-  Megaphone,
-  ArrowRight,
-  AlertTriangle
-} from 'lucide-react';
+import { Rocket, Settings, Bug, Zap, Calendar, CheckCircle2, Bell, MessageSquare, Info, ShieldCheck, Megaphone, ArrowRight, AlertTriangle } from 'lucide-react';
 import { motion, AnimatePresence } from 'motion/react';
 import { cn } from '../../lib/utils';
 import { useNotifications } from '../../hooks/useNotifications';
@@ -190,7 +176,7 @@ export function MessagesPage() {
                         {msg.createdAt?.toDate ? msg.createdAt.toDate().toLocaleDateString('pt-BR') : 'Recent'}
                       </span>
                     </div>
-                    <p className="text-text-muted text-lg leading-relaxed mb-8 font-light max-w-3xl">
+          <p className="text-text-executive-secondary text-lg leading-relaxed mb-8 font-light max-w-3xl">
                       {msg.message}
                     </p>
                     {msg.link && (
@@ -232,7 +218,7 @@ export function MessagesPage() {
                       </div>
                       <span className="text-[10px] font-bold uppercase tracking-[0.3em] text-text-dim">{msg.date}</span>
                     </div>
-                    <p className="text-text-muted text-lg leading-relaxed mb-8 font-light max-w-3xl">
+          <p className="text-text-executive-secondary text-lg leading-relaxed mb-8 font-light max-w-3xl">
                       {msg.content}
                     </p>
                     <button className="flex items-center gap-3 text-[10px] font-bold uppercase tracking-[0.4em] text-accent group/btn hover:text-primary transition-colors">
@@ -286,13 +272,13 @@ export function MessagesPage() {
                   </div>
 
                   <h3 className="text-xl font-bold text-text-main font-display mb-3">{entry.title}</h3>
-                  <p className="text-text-muted text-sm leading-relaxed mb-6 font-medium">
+         <p className="text-text-executive-secondary text-sm leading-relaxed mb-6 font-medium">
                     {entry.description}
                   </p>
 
                   <div className="space-y-3">
                     {entry.items.map((item, i) => (
-                      <div key={i} className="flex items-start gap-3 text-sm text-text-muted font-medium">
+           <div key={i} className="flex items-start gap-3 text-sm text-text-executive-secondary font-medium">
                         <CheckCircle2 size={16} className="text-emerald-500 shrink-0 mt-0.5" />
                         <span>{item}</span>
                       </div>

@@ -207,14 +207,14 @@ function IllumineMark({ className = "w-16 h-16" }: { className?: string }) {
       className={className}
       aria-hidden="true"
     >
-      <line x1="30" y1="30" x2="22" y2="22" stroke="#ff8552" strokeWidth="6" strokeLinecap="round" />
-      <line x1="18" y1="50" x2="8" y2="50" stroke="#ff8552" strokeWidth="6" strokeLinecap="round" />
-      <line x1="30" y1="70" x2="22" y2="78" stroke="#ff8552" strokeWidth="6" strokeLinecap="round" />
-      <line x1="50" y1="82" x2="50" y2="92" stroke="#ff8552" strokeWidth="6" strokeLinecap="round" />
-      <line x1="70" y1="70" x2="78" y2="78" stroke="#ff8552" strokeWidth="6" strokeLinecap="round" />
+      <line x1="30" y1="30" x2="22" y2="22" stroke="var(--chart-secondary)" strokeWidth="6" strokeLinecap="round" />
+      <line x1="18" y1="50" x2="8" y2="50" stroke="var(--chart-secondary)" strokeWidth="6" strokeLinecap="round" />
+      <line x1="30" y1="70" x2="22" y2="78" stroke="var(--chart-secondary)" strokeWidth="6" strokeLinecap="round" />
+      <line x1="50" y1="82" x2="50" y2="92" stroke="var(--chart-secondary)" strokeWidth="6" strokeLinecap="round" />
+      <line x1="70" y1="70" x2="78" y2="78" stroke="var(--chart-secondary)" strokeWidth="6" strokeLinecap="round" />
       <path
         d="M50 22 C 34.5 22, 22 34.5, 22 50 C 22 65.5, 34.5 78, 50 78 C 65.5 78, 78 65.5, 78 50 M50 50 L75 25 M75 25 L65 25 M75 25 L75 35"
-        stroke="#ff8552"
+        stroke="var(--chart-secondary)"
         strokeWidth="6"
         strokeLinecap="round"
         strokeLinejoin="round"
@@ -480,7 +480,7 @@ export default function App() {
                   <Route path="/parceiros" element={<PartnerSalesPage />} />
                   <Route path="/programa-parceiros" element={<ReferralProgramPage />} />
                   <Route path="/diagnostico" element={<DiagnosticoPage />} />
-                  <Route path="/login" element={user ? <Navigate to="/executive-home" replace /> : <LoginPage />} />
+                  <Route path="/login" element={user ? <Navigate to={isMaster || isPartner ? "/dashboard/portfolio" : "/dashboard/efos"} replace /> : <LoginPage />} />
                   <Route path="/executive-home" element={<ExecutiveHomeWorkspace />} />
                   <Route path="/consolidated-executive" element={<Navigate to="/dashboard/consolidated_executive" replace />} />
                   <Route path="/executive-cognitive" element={<ExecutiveCognitivePage />} />

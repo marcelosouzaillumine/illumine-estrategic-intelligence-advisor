@@ -29,7 +29,8 @@ import {
 import { db } from '../../lib/firebase';
 import { DATA } from '../../data';
 import { cn, formatCurrency, formatValue, getThemeColors } from '../../lib/utils';
-import { PageHeader, KpiCard } from '../Common';
+import { PageHeader } from '../Common';
+import { ExecutiveMetricCard } from '../ui/executive-metric-card';
 import { 
   AreaChart, 
   Area, 
@@ -175,32 +176,16 @@ export function FinancialPositionPage({ clients, selectedClient }: { clients: an
 
 
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-        <KpiCard 
-          title="Saldo Total Atual" 
-          value={formatValue(kpis.totalCurrent, '')}
-          suffix="R$"
-          icon={Landmark}
-        />
-        <KpiCard 
-          title="Saldos no Início do Mês" 
-          value={formatValue(kpis.totalInitial, '')}
-          suffix="R$"
-          icon={Clock}
-        />
-        <KpiCard 
-          title="Evolução no Mês" 
-          value={kpis.variation.toFixed(2)}
-          suffix="%"
-          icon={TrendingUp}
-          status={kpis.variation >= 0 ? 'Verde' : 'Vermelho'}
-        />
+        <ExecutiveMetricCard density="analytical" label="Saldo Total Atual" value={`R$ ${formatValue(kpis.totalCurrent, '')}`} icon={Landmark} />
+        <ExecutiveMetricCard density="analytical" label="Saldos no Início do Mês" value={`R$ ${formatValue(kpis.totalInitial, '')}`} icon={Clock} />
+        <ExecutiveMetricCard density="analytical" label="Evolução no Mês" value={`${kpis.variation.toFixed(2)}%`} icon={TrendingUp} tone={kpis.variation >= 0 ? "success" : "critical"} />
       </div>
 
       <div className="grid grid-cols-1 xl:grid-cols-3 gap-8">
         <div className="xl:col-span-2 bg-white p-8 rounded-3xl border border-border shadow-sm">
           <div className="flex items-center justify-between mb-8">
              <div>
-              <h3 className="text-sm font-bold text-muted-foreground">Evolução do Saldo Consolidado</h3>
+       <h3 className="text-sm font-bold text-executive-secondary">Evolução do Saldo Consolidado</h3>
               <p className="text-[10px] text-muted-foreground font-bold uppercase tracking-widest mt-1">Histórico dos últimos 5 meses</p>
              </div>
              <div className="p-2 bg-primary/5 rounded-xl">
@@ -232,7 +217,7 @@ export function FinancialPositionPage({ clients, selectedClient }: { clients: an
         <div className="bg-white p-8 rounded-3xl border border-border shadow-sm">
           <div className="flex items-center justify-between mb-8">
              <div>
-              <h3 className="text-sm font-bold text-muted-foreground">Composição por Banco</h3>
+       <h3 className="text-sm font-bold text-executive-secondary">Composição por Banco</h3>
               <p className="text-[10px] text-muted-foreground font-bold uppercase tracking-widest mt-1">Distribuição de Disponibilidades</p>
              </div>
              <div className="p-2 bg-slate-50 rounded-xl">
@@ -286,7 +271,7 @@ export function FinancialPositionPage({ clients, selectedClient }: { clients: an
                 <tr>
                    <td colSpan={7} className="px-8 py-20 text-center">
                     <Loader2 size={32} className="animate-spin text-secondary mx-auto mb-4" />
-                    <p className="text-muted-foreground font-bold">Carregando posições...</p>
+          <p className="text-executive-secondary font-bold">Carregando posições...</p>
                   </td>
                 </tr>
               ) : positions.length === 0 ? (
@@ -307,7 +292,7 @@ export function FinancialPositionPage({ clients, selectedClient }: { clients: an
                             <Landmark size={18} className="text-muted-foreground" />
                           </div>
                           <div>
-                            <p className="text-sm font-bold text-muted-foreground">{p.banco}</p>
+              <p className="text-sm font-bold text-executive-secondary">{p.banco}</p>
                             <p className="text-[10px] text-muted-foreground font-bold uppercase tracking-widest">ID: {(id || '').padStart(3, '0')}</p>
                           </div>
                         </div>

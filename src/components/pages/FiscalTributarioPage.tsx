@@ -1,19 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { 
-  ShieldCheck, 
-  Landmark, 
-  TrendingUp, 
-  Activity, 
-  History, 
-  FileText, 
-  DollarSign, 
-  Users, 
-  Plus, 
-  X,
-  Save,
-  Loader2,
-  AlertCircle
-} from 'lucide-react';
+import { ShieldCheck, Landmark, TrendingUp, Activity, History, FileText, DollarSign, Users, Plus, X, Save, Loader2, AlertCircle } from 'lucide-react';
 import { motion } from 'motion/react';
 import { doc, onSnapshot, updateDoc, serverTimestamp } from 'firebase/firestore';
 import { PageHeader } from '../Common';
@@ -74,7 +60,7 @@ export function FiscalTributarioPage({ clientId }: FiscalTributarioPageProps) {
         <div className="w-16 h-16 bg-white rounded-2xl flex items-center justify-center text-muted-foreground mx-auto shadow-sm">
           <AlertCircle size={32} />
         </div>
-        <h4 className="text-sm font-black text-muted-foreground uppercase tracking-widest">Nenhuma Empresa Selecionada</h4>
+    <h4 className="text-sm font-black text-executive-secondary uppercase tracking-widest">Nenhuma Empresa Selecionada</h4>
         <p className="text-[10px] text-muted-foreground uppercase font-bold tracking-widest max-w-[250px] mx-auto">
           Selecione uma empresa no topo da página para gerenciar as configurações fiscais.
         </p>

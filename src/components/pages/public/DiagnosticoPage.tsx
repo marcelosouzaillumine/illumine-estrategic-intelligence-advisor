@@ -23,7 +23,7 @@ export function DiagnosticoPage() {
       
       <button 
         onClick={() => navigate(-1)}
-        className="absolute top-6 left-6 text-sm font-bold text-muted-foreground hover:text-foreground flex items-center gap-2 transition-colors z-50"
+    className="absolute top-6 left-6 text-sm font-bold text-executive-secondary hover:text-foreground flex items-center gap-2 transition-colors z-50"
       >
         <span className="text-xl">&larr;</span> Voltar
       </button>
@@ -39,7 +39,7 @@ export function DiagnosticoPage() {
         <h1 className="text-4xl md:text-5xl font-medium tracking-tight text-primary" style={{ fontFamily: "'Tilt Warp', sans-serif" }}>
           Diagnóstico Estratégico
         </h1>
-        <p className="text-lg text-muted-foreground font-medium leading-relaxed">
+    <p className="text-lg text-executive-secondary font-medium leading-relaxed">
           O Diagnóstico Estratégico Inicial realiza uma análise aprofundada da estrutura financeira, operacional, organizacional e gerencial da sua empresa para identificar riscos, gargalos, oportunidades e prioridades.
         </p>
         <div className="flex flex-col sm:flex-row items-center justify-center gap-4 pt-8">

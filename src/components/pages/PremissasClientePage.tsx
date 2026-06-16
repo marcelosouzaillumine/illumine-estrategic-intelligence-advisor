@@ -1,29 +1,8 @@
 
 import React, { useState, useEffect } from 'react';
-import { 
-  Loader2, 
-  Save, 
-  CheckCircle2, 
-  Trash2, 
-  Plus, 
-  TrendingUp, 
-  TrendingDown, 
-  Zap, 
-  Calculator, 
-  Info 
-} from 'lucide-react';
+import { Loader2, Save, CheckCircle2, Trash2, Plus, TrendingUp, TrendingDown, Zap, Calculator, Info } from 'lucide-react';
 import { motion } from 'motion/react';
-import { 
-  collection, 
-  query, 
-  where, 
-  getDocs, 
-  orderBy, 
-  addDoc, 
-  updateDoc, 
-  doc, 
-  serverTimestamp 
-} from 'firebase/firestore';
+import { collection, query, where, getDocs, orderBy, addDoc, updateDoc, doc, serverTimestamp } from 'firebase/firestore';
 import { db, handleFirestoreError, OperationType } from '../../lib/firebase';
 import { cn } from '../../lib/utils';
 import { DATA } from '../../data';
@@ -44,7 +23,7 @@ function SectionHeader({ icon: Icon, title, subtitle, tone }: any) {
         <Icon size={24} strokeWidth={2.5} />
       </div>
       <div>
-        <h3 className="text-xl font-display font-extrabold text-muted-foreground tracking-tight leading-none mb-1">{title}</h3>
+    <h3 className="text-xl font-display font-extrabold text-executive-secondary tracking-tight leading-none mb-1">{title}</h3>
         <p className="text-[10px] text-muted-foreground font-bold uppercase tracking-wider">{subtitle}</p>
       </div>
     </div>
@@ -186,8 +165,8 @@ export function PremissasClientePage({ clients, selectedClient }: { clients: any
             <div className="w-16 h-16 bg-critical-soft rounded-full flex items-center justify-center mx-auto mb-6">
               <Trash2 size={32} className="text-rose-500" />
             </div>
-            <h3 className="text-xl font-black text-muted-foreground mb-2">Confirmar Exclusão</h3>
-            <p className="text-sm text-muted-foreground font-medium mb-8">
+      <h3 className="text-xl font-black text-executive-secondary mb-2">Confirmar Exclusão</h3>
+      <p className="text-sm text-executive-secondary font-medium mb-8">
               Deseja realmente remover esta premissa? Esta ação pode impactar os cálculos de projeção.
             </p>
             <div className="grid grid-cols-2 gap-4">
@@ -210,8 +189,8 @@ export function PremissasClientePage({ clients, selectedClient }: { clients: any
 
       <div className="flex items-center justify-between">
         <div>
-          <h2 className="text-2xl font-display font-black text-muted-foreground tracking-tight">Premissas do Cliente</h2>
-          <p className="text-sm font-medium text-muted-foreground mt-1">Configure os descasamentos de prazos e taxas de crescimento para projeções financeiras personalizadas.</p>
+     <h2 className="text-2xl font-display font-black text-executive-secondary tracking-tight">Premissas do Cliente</h2>
+     <p className="text-sm font-medium text-executive-secondary mt-1">Configure os descasamentos de prazos e taxas de crescimento para projeções financeiras personalizadas.</p>
         </div>
         <button 
           onClick={handleSave}
@@ -275,7 +254,7 @@ export function PremissasClientePage({ clients, selectedClient }: { clients: any
                           };
                           setAssumptions({ ...assumptions, receitas: newData });
                         }}
-                        className="w-full text-sm font-bold text-muted-foreground bg-slate-50 px-3 py-2 rounded-xl border border-border outline-none focus:ring-2 focus:ring-emerald-500/10 transition-all"
+            className="w-full text-sm font-bold text-executive-secondary bg-slate-50 px-3 py-2 rounded-xl border border-border outline-none focus:ring-2 focus:ring-emerald-500/10 transition-all"
                       >
                         <option value="">Selecione uma conta de receita...</option>
                         {accounts.filter(a => a.type?.toLowerCase().includes('receita')).map(acc => (
@@ -305,7 +284,7 @@ export function PremissasClientePage({ clients, selectedClient }: { clients: any
                         min="1"
                         value={item.parcelas || 1}
                         onChange={(e) => updateEntry('receitas', idx, 'parcelas', parseInt(e.target.value) || 1)}
-                        className="w-12 text-center text-sm font-black text-muted-foreground bg-slate-50 py-1 rounded-lg border border-border outline-none focus:border-emerald-500"
+            className="w-12 text-center text-sm font-black text-executive-secondary bg-slate-50 py-1 rounded-lg border border-border outline-none focus:border-emerald-500"
                       />
                     </td>
                     <td className="px-4 md:px-6 py-2.5 md:py-4 text-center">
@@ -315,7 +294,7 @@ export function PremissasClientePage({ clients, selectedClient }: { clients: any
                           min="0"
                           value={item.intervalo || 30}
                           onChange={(e) => updateEntry('receitas', idx, 'intervalo', parseInt(e.target.value) || 0)}
-                          className="w-14 text-center text-sm font-black text-muted-foreground bg-slate-50 py-1 rounded-lg border border-border outline-none focus:border-emerald-500"
+             className="w-14 text-center text-sm font-black text-executive-secondary bg-slate-50 py-1 rounded-lg border border-border outline-none focus:border-emerald-500"
                         />
                         <span className="text-[10px] font-bold text-muted-foreground uppercase">d</span>
                       </div>
@@ -385,7 +364,7 @@ export function PremissasClientePage({ clients, selectedClient }: { clients: any
                           };
                           setAssumptions({ ...assumptions, custos: newData });
                         }}
-                        className="w-full text-sm font-bold text-muted-foreground bg-slate-50 px-3 py-2 rounded-xl border border-border outline-none focus:ring-2 focus:ring-rose-500/10 transition-all"
+            className="w-full text-sm font-bold text-executive-secondary bg-slate-50 px-3 py-2 rounded-xl border border-border outline-none focus:ring-2 focus:ring-rose-500/10 transition-all"
                       >
                         <option value="">Selecione uma conta de custo/despesa...</option>
                         {accounts.filter(a => {
@@ -418,7 +397,7 @@ export function PremissasClientePage({ clients, selectedClient }: { clients: any
                         min="1"
                         value={item.parcelas || 1}
                         onChange={(e) => updateEntry('custos', idx, 'parcelas', parseInt(e.target.value) || 1)}
-                        className="w-12 text-center text-sm font-black text-muted-foreground bg-slate-50 py-1 rounded-lg border border-border outline-none focus:border-rose-500"
+            className="w-12 text-center text-sm font-black text-executive-secondary bg-slate-50 py-1 rounded-lg border border-border outline-none focus:border-rose-500"
                       />
                     </td>
                     <td className="px-4 md:px-6 py-2.5 md:py-4 text-center">
@@ -428,7 +407,7 @@ export function PremissasClientePage({ clients, selectedClient }: { clients: any
                           min="0"
                           value={item.intervalo || 30}
                           onChange={(e) => updateEntry('custos', idx, 'intervalo', parseInt(e.target.value) || 0)}
-                          className="w-14 text-center text-sm font-black text-muted-foreground bg-slate-50 py-1 rounded-lg border border-border outline-none focus:border-rose-500"
+             className="w-14 text-center text-sm font-black text-executive-secondary bg-slate-50 py-1 rounded-lg border border-border outline-none focus:border-rose-500"
                         />
                         <span className="text-[10px] font-bold text-muted-foreground uppercase">d</span>
                       </div>

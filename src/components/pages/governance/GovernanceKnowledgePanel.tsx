@@ -1,19 +1,7 @@
 // src/components/pages/governance/GovernanceKnowledgePanel.tsx
 
 import React, { useState } from 'react';
-import { 
-  BookOpen, 
-  Scale, 
-  Award, 
-  Shield, 
-  AlertTriangle, 
-  Compass, 
-  CheckCircle2, 
-  HelpCircle, 
-  Activity, 
-  Lock, 
-  FileText 
-} from 'lucide-react';
+import { BookOpen, Scale, Award, Shield, AlertTriangle, Compass, CheckCircle2, HelpCircle, Activity, Lock, FileText } from 'lucide-react';
 import { FiduciaryRuntimeAdapter, ESGIMScenario, PrincipleMatch } from '../../../services/FiduciaryRuntimeAdapter';
 import { useLanguage } from '../../../contexts/LanguageContext';
 

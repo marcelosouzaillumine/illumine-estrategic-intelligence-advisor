@@ -1,18 +1,11 @@
 
 import React, { useMemo, useState } from 'react';
-import { 
-  ShieldCheck, TrendingUp, TrendingDown, Users, Activity, Globe, ShoppingBag, 
-  FileText, Zap, BarChart3, Target, ArrowUpRight, LayoutGrid, 
-  BookOpen, Lightbulb, Loader2, PieChart as PieIcon, MessageSquare, Scale, ChevronRight, ShieldAlert
-} from 'lucide-react';
+import { ShieldCheck, TrendingUp, TrendingDown, Users, Activity, Globe, ShoppingBag, FileText, Zap, BarChart3, Target, ArrowUpRight, LayoutGrid, BookOpen, Lightbulb, Loader2, PieChart as PieIcon, MessageSquare, Scale, ChevronRight, ShieldAlert } from 'lucide-react';
 import { collection, query, where, onSnapshot } from 'firebase/firestore';
 import { db } from '../../lib/firebase';
 import { Page } from '../../app/navigation';
 import { motion } from 'motion/react';
-import { 
-  Radar, RadarChart as GovRadarChart, PolarGrid, PolarAngleAxis, PolarRadiusAxis, 
-  ResponsiveContainer, Tooltip
-} from 'recharts';
+import { Radar, RadarChart as GovRadarChart, PolarGrid, PolarAngleAxis, PolarRadiusAxis, ResponsiveContainer, Tooltip } from 'recharts';
 import { PageHeader, StatusBadge, MarkdownText, KpiCard } from '../Common';
 import { formatValue, formatCurrency, cn } from '../../lib/utils';
 import { GOVERNANCE_PRINCIPLES, evaluateAxisRules } from '../../lib/governanceIntelligence';
@@ -392,15 +385,14 @@ export function GovernanceDashboardPage({
       {/* Strategic KPIs Grid - Standardized */}
       <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-2 2xl:grid-cols-4 gap-6">
         {strategicKPIs.map((kpi, idx) => (
-          <KpiCard 
+          <ExecutiveMetricCard 
             key={idx}
-            title={kpi.label}
+            label={kpi.label}
             value={formatValue(kpi.value, '')}
             suffix={kpi.suffix || ''}
             icon={kpi.icon}
-            status={kpi.status === 'positive' ? t('gov.status.positive') : kpi.status === 'negative' ? t('gov.status.negative') : t('gov.status.neutral')}
+            tone={kpi.status === 'positive' ? t('gov.status.positive') : kpi.status === 'negative' ? t('gov.status.negative') : t('gov.status.neutral')}
             trend={t('gov.trend.bullish')}
-            noScroll={true}
           />
         ))}
       </div>
@@ -500,9 +492,9 @@ export function GovernanceDashboardPage({
                  label={area.label}
                  value={
                    <div className="flex items-baseline gap-1">
-                     {area.isCur && <span className="text-sm font-normal text-muted-foreground mr-1">R$</span>}
+           {area.isCur && <span className="text-sm font-normal text-executive-secondary mr-1">R$</span>}
                      {formatValue(area.value, '')}
-                     {area.suffix && <span className="text-sm font-normal text-muted-foreground ml-1">{area.suffix}</span>}
+           {area.suffix && <span className="text-sm font-normal text-executive-secondary ml-1">{area.suffix}</span>}
                    </div>
                  }
                  statusBadge={<span>{area.status === 'positive' ? t('gov.status.positive') : t('gov.status.neutral')}</span>}
@@ -569,7 +561,7 @@ export function GovernanceDashboardPage({
           </ExecutiveNarrative>
         ) : (
           <ExecutiveCallout variant="info" title="Aguardando Validação do Runtime Institucional">
-            <p className="text-sm opacity-90 mt-1">A perspectiva executiva será gerada automaticamente assim que os dados estruturais passarem pelos checks de governança e causalidade.</p>
+      <p className="text-sm mt-1">A perspectiva executiva será gerada automaticamente assim que os dados estruturais passarem pelos checks de governança e causalidade.</p>
           </ExecutiveCallout>
         )}
 
@@ -587,7 +579,7 @@ export function GovernanceDashboardPage({
               <div className="col-span-1 xl:col-span-2 flex flex-col items-center justify-center p-12 bg-success/5 border border-success/20 rounded-md text-success">
                 <ShieldCheck size={48} className="mb-4 opacity-50" />
                 <h4 className="text-body-md font-medium tracking-tight mb-1 uppercase">{t('gov.ai.healthy_axis')}</h4>
-                <p className="text-[10px] font-medium opacity-80 text-center w-full max-w-2xl uppercase tracking-widest">{t('gov.ai.healthy_desc')}</p>
+        <p className="text-[10px] font-medium text-center w-full max-w-2xl uppercase tracking-widest">{t('gov.ai.healthy_desc')}</p>
               </div>
             )}
           </div>

@@ -1,18 +1,7 @@
 // src/components/pages/governance/GovernanceLearningPanel.tsx
 
 import React from 'react';
-import { 
-  Lock, 
-  AlertTriangle, 
-  CheckCircle2, 
-  Info,
-  Award,
-  Activity,
-  Zap,
-  ShieldCheck,
-  BrainCircuit,
-  TrendingUp
-} from 'lucide-react';
+import { Lock, AlertTriangle, CheckCircle2, Info, Award, Activity, Zap, ShieldCheck, BrainCircuit, TrendingUp } from 'lucide-react';
 import { FiduciaryRuntimeAdapter, ESGIMScenario } from '../../../services/FiduciaryRuntimeAdapter';
 
 interface GovernanceLearningPanelProps {

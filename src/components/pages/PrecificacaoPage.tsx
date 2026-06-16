@@ -1,35 +1,8 @@
 
 import React, { useState, useMemo } from 'react';
-import { 
-  DollarSign, 
-  Plus, 
-  Trash2, 
-  TrendingUp, 
-  TrendingDown, 
-  Percent, 
-  Calculator,
-  ArrowRightLeft,
-  AlertCircle,
-  BarChart2,
-  Package,
-  ArrowUpRight,
-  ChevronRight,
-  Target
-} from 'lucide-react';
+import { DollarSign, Plus, Trash2, TrendingUp, TrendingDown, Percent, Calculator, ArrowRightLeft, AlertCircle, BarChart2, Package, ArrowUpRight, ChevronRight, Target } from 'lucide-react';
 import { motion, AnimatePresence } from 'motion/react';
-import { 
-  BarChart, 
-  Bar, 
-  XAxis, 
-  YAxis, 
-  CartesianGrid, 
-  Tooltip, 
-  ResponsiveContainer, 
-  Legend,
-  Cell,
-  PieChart,
-  Pie
-} from 'recharts';
+import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, Legend, Cell, PieChart, Pie } from 'recharts';
 import { useModuleData } from '../../hooks/useModuleData';
 import { useFinancialData } from '../../hooks/useFinancialData';
 import { ProdutoServico } from '../../types/modules';
@@ -187,12 +160,12 @@ export function PrecificacaoPage({ clientId }: PrecificacaoPageProps) {
             </div>
 
             <div>
-              <h4 className="text-[clamp(1rem,1.3vw,1.25rem)] font-display font-black text-muted-foreground leading-tight group-hover:text-secondary transition-colors mb-1.5">
+       <h4 className="text-[clamp(1rem,1.3vw,1.25rem)] font-display font-black text-executive-secondary leading-tight group-hover:text-secondary transition-colors mb-1.5">
                 {kpi.label}
               </h4>
-              <p className="text-[9px] font-black text-muted-foreground uppercase tracking-[0.2em] mb-4">Métrica de Performance</p>
+       <p className="text-[9px] font-black text-executive-secondary uppercase tracking-[0.2em] mb-4">Métrica de Performance</p>
               <div className="flex items-baseline gap-2">
-                <p className="text-3xl font-black text-muted-foreground tabular-nums tracking-tighter whitespace-nowrap">
+        <p className="text-3xl font-black text-executive-secondary tabular-nums tracking-tighter whitespace-nowrap">
                   {kpi.isText ? kpi.value : formatValue(kpi.value as number, kpi.isCur ? 'R$' : kpi.suffix || '')}
                 </p>
               </div>
@@ -218,7 +191,7 @@ export function PrecificacaoPage({ clientId }: PrecificacaoPageProps) {
                     <Plus size={24} />
                   </div>
                   <div>
-                    <h3 className="text-2xl font-black text-muted-foreground tracking-tight">Novo Item para Precificação</h3>
+          <h3 className="text-2xl font-black text-executive-secondary tracking-tight">Novo Item para Precificação</h3>
                     <p className="text-xs font-bold text-muted-foreground uppercase tracking-widest">Defina os parâmetros unitários de venda e custo</p>
                   </div>
                </div>
@@ -315,7 +288,7 @@ export function PrecificacaoPage({ clientId }: PrecificacaoPageProps) {
                           <div className="w-12 h-12 rounded-2xl bg-slate-50 flex items-center justify-center text-muted-foreground group-hover:bg-primary group-hover:text-white transition-all duration-500">
                              <Package size={24} />
                           </div>
-                          <h4 className="text-2xl font-display font-black text-muted-foreground tracking-tight">
+             <h4 className="text-2xl font-display font-black text-executive-secondary tracking-tight">
                              {item.nome}
                           </h4>
                           <p className="text-[10px] font-black text-muted-foreground uppercase tracking-[0.2em]">Preço Praticado: <span className="text-muted-foreground">{formatCurrency(item.precoVenda)}</span></p>
@@ -414,7 +387,7 @@ export function PrecificacaoPage({ clientId }: PrecificacaoPageProps) {
                        <div className="grid grid-cols-2 gap-6 border-t border-white/5 pt-8">
                           <div className="text-center space-y-1">
                              <div className="text-[9px] font-bold text-muted-foreground uppercase tracking-widest">Base de Cálculo</div>
-                             <div className="text-sm font-black text-muted-foreground">{formatCurrency(simuladorResult.original)}</div>
+               <div className="text-sm font-black text-executive-secondary">{formatCurrency(simuladorResult.original)}</div>
                           </div>
                           <div className="text-center border-l border-white/5 space-y-1">
                              <div className="text-[9px] font-bold text-muted-foreground uppercase tracking-widest">Expectativa</div>

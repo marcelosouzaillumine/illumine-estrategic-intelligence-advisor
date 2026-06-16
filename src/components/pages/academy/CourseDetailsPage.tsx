@@ -70,7 +70,7 @@ export function CourseDetailsPage({ courseId, onBack, onStart }: CourseDetailsPa
           {/* Description */}
           <div className="space-y-4">
             <h2 className="text-2xl font-display font-medium text-foreground">Sobre este curso</h2>
-            <p className="text-muted-foreground leading-relaxed text-base whitespace-pre-wrap font-medium">
+      <p className="text-executive-secondary leading-relaxed text-base whitespace-pre-wrap font-medium">
               {course.description}
             </p>
           </div>
@@ -125,7 +125,7 @@ export function CourseDetailsPage({ courseId, onBack, onStart }: CourseDetailsPa
               </button>
               
               <div className="space-y-6 pt-2">
-                <p className="text-[9px] font-black uppercase tracking-[0.2em] text-secondary border-b border-border pb-3">O que você vai aprender</p>
+        <p className="text-[9px] font-black uppercase tracking-[0.2em] text-executive-secondary border-b border-border pb-3">O que você vai aprender</p>
                 <ul className="space-y-4">
                   {[
                     'Mentalidade estratégica aplicada',

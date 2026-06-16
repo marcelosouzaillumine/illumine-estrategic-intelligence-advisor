@@ -46,13 +46,13 @@ export function InstitutionalContinuityCockpitPage({ clientId, selectedYear, sel
 
   if (!clientId) {
     return (
-      <div className="flex flex-col items-center justify-center min-h-[600px] space-y-8 bg-zinc-950 border border-zinc-800 rounded-3xl p-20 text-center w-full text-zinc-100 font-mono">
-        <div className="w-24 h-24 rounded-full bg-zinc-900 border border-zinc-800 flex items-center justify-center text-zinc-400 shadow-xl relative animate-pulse">
+   <div className="flex flex-col items-center justify-center min-h-[600px] space-y-8 bg-zinc-950 border border-zinc-800 rounded-3xl p-20 text-center w-full text-executive-secondary font-mono">
+    <div className="w-24 h-24 rounded-full bg-zinc-900 border border-zinc-800 flex items-center justify-center text-executive-secondary shadow-xl relative animate-pulse">
           <HeartPulse size={48} />
         </div>
         <div className="text-center space-y-4 w-full max-w-2xl mx-auto">
           <h2 className="text-2xl font-bold tracking-tight">Selecione uma Empresa</h2>
-          <p className="text-zinc-500 text-xs tracking-wider uppercase">
+     <p className="text-executive-secondary text-xs tracking-wider uppercase">
             Selecione uma organização fiduciária ativa para carregar o cockpit de continuidade.
           </p>
         </div>
@@ -62,8 +62,8 @@ export function InstitutionalContinuityCockpitPage({ clientId, selectedYear, sel
 
   if (loading) {
     return (
-      <div className="flex h-[80vh] items-center justify-center font-mono bg-zinc-950 text-zinc-100">
-        <div className="flex flex-col items-center gap-4 text-zinc-500">
+   <div className="flex h-[80vh] items-center justify-center font-mono bg-zinc-950 text-executive-secondary">
+    <div className="flex flex-col items-center gap-4 text-executive-secondary">
           <Loader2 className="animate-spin" size={32} />
           <p className="text-xs uppercase tracking-widest">Avaliando Linhagem e Continuidade...</p>
         </div>
@@ -120,13 +120,13 @@ export function InstitutionalContinuityCockpitPage({ clientId, selectedYear, sel
 
   if (evidenceReport?.fiduciaryInterpretationBlocked) {
     return (
-      <div className="flex flex-col items-center justify-center min-h-[600px] space-y-8 bg-zinc-950 border border-zinc-800 rounded-3xl p-20 text-center w-full text-zinc-100 font-mono">
+   <div className="flex flex-col items-center justify-center min-h-[600px] space-y-8 bg-zinc-950 border border-zinc-800 rounded-3xl p-20 text-center w-full text-executive-secondary font-mono">
         <div className="w-24 h-24 rounded-full bg-red-950/50 border border-red-900/50 flex items-center justify-center text-red-500 shadow-xl relative">
           <AlertTriangle size={48} />
         </div>
         <div className="text-center space-y-4 w-full max-w-2xl mx-auto">
           <h2 className="text-2xl font-bold tracking-tight text-red-400">Visão Institucional Indisponível — evidência fiduciária não validada.</h2>
-          <p className="text-zinc-500 text-xs tracking-wider uppercase">
+     <p className="text-executive-secondary text-xs tracking-wider uppercase">
             A proteção de Fail-Closed está ativa. Os componentes de continuidade institucional estão bloqueados devido a inconsistências ou falta de validação das evidências contábeis primárias.
           </p>
         </div>
@@ -138,23 +138,23 @@ export function InstitutionalContinuityCockpitPage({ clientId, selectedYear, sel
   }
 
   return (
-    <div className="flex flex-col gap-6 max-w-[1600px] mx-auto w-full text-zinc-100 pb-12 bg-zinc-950 p-6 rounded-3xl border border-zinc-800 font-mono">
+  <div className="flex flex-col gap-6 max-w-[1600px] mx-auto w-full text-executive-secondary pb-12 bg-zinc-950 p-6 rounded-3xl border border-zinc-800 font-mono">
       
       {/* Sovereign Header */}
       <div className="flex flex-col md:flex-row md:items-end justify-between gap-4 border-b border-zinc-800 pb-4">
         <div>
-          <div className="flex items-center gap-2 text-zinc-400 mb-1">
+     <div className="flex items-center gap-2 text-executive-secondary mb-1">
             <ShieldCheck size={16} />
             <span className="text-[10px] uppercase font-bold tracking-widest font-mono">Sovereign Fiduciary Board Room</span>
           </div>
           <h1 className="text-2xl font-bold tracking-tight text-primary">Institutional Continuity Cockpit</h1>
-          <p className="text-xs text-zinc-500 font-mono mt-1 uppercase tracking-widest">Sovereign Fiduciary Lifecycle Visualization Layer</p>
+     <p className="text-xs text-executive-secondary font-mono mt-1 uppercase tracking-widest">Sovereign Fiduciary Lifecycle Visualization Layer</p>
         </div>
         
         {rep?.metadata?.lineageHash && (
-          <div className="text-[10px] text-zinc-400 bg-zinc-900 border border-zinc-800 px-3 py-1.5 rounded-lg flex items-center gap-2">
+     <div className="text-[10px] text-executive-secondary bg-zinc-900 border border-zinc-800 px-3 py-1.5 rounded-lg flex items-center gap-2">
             <span>Lineage Hash:</span>
-            <span className="font-bold text-zinc-300">{rep.metadata.lineageHash.substring(0, 16)}...</span>
+      <span className="font-bold text-executive-secondary">{rep.metadata.lineageHash.substring(0, 16)}...</span>
           </div>
         )}
       </div>
@@ -238,8 +238,8 @@ export function InstitutionalContinuityCockpitPage({ clientId, selectedYear, sel
         {/* Bottom Row: Go-Live Readiness Evaluation */}
         {readinessMatrix && (
           <div className="xl:col-span-12 mt-6 bg-zinc-950 border border-zinc-800 rounded-3xl p-6 space-y-6">
-            <h3 className="text-xs font-black uppercase tracking-widest text-zinc-400 flex items-center gap-2 border-b border-zinc-800 pb-3">
-              <Milestone size={14} className="text-zinc-500" /> Go-Live Deployment & Fiduciary Readiness Assessment
+      <h3 className="text-xs font-black uppercase tracking-widest text-executive-secondary flex items-center gap-2 border-b border-zinc-800 pb-3">
+       <Milestone size={14} className="text-executive-secondary" /> Go-Live Deployment & Fiduciary Readiness Assessment
             </h3>
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
@@ -247,14 +247,14 @@ export function InstitutionalContinuityCockpitPage({ clientId, selectedYear, sel
               {/* Column 1: Production Readiness */}
               <div className="space-y-4">
                 <div className="flex items-center justify-between">
-                  <span className="text-xs font-bold text-zinc-200 uppercase tracking-wider flex items-center gap-2">
-                    <Server size={14} className="text-zinc-400" /> Production Readiness (Technical)
+         <span className="text-xs font-bold text-executive-secondary uppercase tracking-wider flex items-center gap-2">
+          <Server size={14} className="text-executive-secondary" /> Production Readiness (Technical)
                   </span>
                   <span className={`text-[10px] px-2 py-0.5 rounded font-black uppercase tracking-wider ${readinessMatrix.productionReadiness.status === 'VALIDATED' ? 'bg-emerald-950 text-emerald-400 border border-emerald-800' : 'bg-red-950 text-red-400 border border-red-900'}`}>
                     {readinessMatrix.productionReadiness.status}
                   </span>
                 </div>
-                <p className="text-[10px] text-zinc-500 leading-relaxed">{readinessMatrix.productionReadiness.description}</p>
+        <p className="text-[10px] text-executive-secondary leading-relaxed">{readinessMatrix.productionReadiness.description}</p>
                 <div className="space-y-2">
                   {readinessMatrix.productionReadiness.issues.length === 0 ? (
                     <div className="text-[10px] text-emerald-400 flex items-center gap-1 bg-emerald-950/20 p-2 rounded-lg border border-emerald-900/30">
@@ -275,14 +275,14 @@ export function InstitutionalContinuityCockpitPage({ clientId, selectedYear, sel
               {/* Column 2: Fiduciary Readiness */}
               <div className="space-y-4">
                 <div className="flex items-center justify-between">
-                  <span className="text-xs font-bold text-zinc-200 uppercase tracking-wider flex items-center gap-2">
-                    <Shield size={14} className="text-zinc-400" /> Fiduciary Readiness (Governance)
+         <span className="text-xs font-bold text-executive-secondary uppercase tracking-wider flex items-center gap-2">
+          <Shield size={14} className="text-executive-secondary" /> Fiduciary Readiness (Governance)
                   </span>
                   <span className={`text-[10px] px-2 py-0.5 rounded font-black uppercase tracking-wider ${readinessMatrix.fiduciaryReadiness.status === 'VALIDATED' ? 'bg-emerald-950 text-emerald-400 border border-emerald-800' : 'bg-red-950 text-red-400 border border-red-900'}`}>
                     {readinessMatrix.fiduciaryReadiness.status}
                   </span>
                 </div>
-                <p className="text-[10px] text-zinc-500 leading-relaxed">{readinessMatrix.fiduciaryReadiness.description}</p>
+        <p className="text-[10px] text-executive-secondary leading-relaxed">{readinessMatrix.fiduciaryReadiness.description}</p>
                 <div className="space-y-2">
                   {readinessMatrix.fiduciaryReadiness.issues.length === 0 ? (
                     <div className="text-[10px] text-emerald-400 flex items-center gap-1 bg-emerald-950/20 p-2 rounded-lg border border-emerald-900/30">
@@ -303,25 +303,25 @@ export function InstitutionalContinuityCockpitPage({ clientId, selectedYear, sel
               {/* Sub Matrix dimensions details */}
               <div className="col-span-1 md:col-span-2 grid grid-cols-1 sm:grid-cols-4 gap-4 pt-4 border-t border-zinc-800">
                 <div className="bg-zinc-900/40 p-3 rounded-xl border border-zinc-800 text-center space-y-1">
-                  <span className="text-[9px] text-zinc-500 uppercase tracking-widest">Governance</span>
+         <span className="text-[9px] text-executive-secondary uppercase tracking-widest">Governance</span>
                   <span className={`text-[10px] font-bold block ${readinessMatrix.governanceReadiness.status === 'VALIDATED' ? 'text-emerald-400' : 'text-red-400'}`}>
                     {readinessMatrix.governanceReadiness.status}
                   </span>
                 </div>
                 <div className="bg-zinc-900/40 p-3 rounded-xl border border-zinc-800 text-center space-y-1">
-                  <span className="text-[9px] text-zinc-500 uppercase tracking-widest">Continuity</span>
+         <span className="text-[9px] text-executive-secondary uppercase tracking-widest">Continuity</span>
                   <span className={`text-[10px] font-bold block ${readinessMatrix.continuityReadiness.status === 'VALIDATED' ? 'text-emerald-400' : 'text-red-400'}`}>
                     {readinessMatrix.continuityReadiness.status}
                   </span>
                 </div>
                 <div className="bg-zinc-900/40 p-3 rounded-xl border border-zinc-800 text-center space-y-1">
-                  <span className="text-[9px] text-zinc-500 uppercase tracking-widest">Observability</span>
+         <span className="text-[9px] text-executive-secondary uppercase tracking-widest">Observability</span>
                   <span className={`text-[10px] font-bold block ${readinessMatrix.observabilityReadiness.status === 'VALIDATED' ? 'text-emerald-400' : 'text-red-400'}`}>
                     {readinessMatrix.observabilityReadiness.status}
                   </span>
                 </div>
                 <div className="bg-zinc-900/40 p-3 rounded-xl border border-zinc-800 text-center space-y-1">
-                  <span className="text-[9px] text-zinc-500 uppercase tracking-widest">Auditability</span>
+         <span className="text-[9px] text-executive-secondary uppercase tracking-widest">Auditability</span>
                   <span className={`text-[10px] font-bold block ${readinessMatrix.auditabilityReadiness.status === 'VALIDATED' ? 'text-emerald-400' : 'text-red-400'}`}>
                     {readinessMatrix.auditabilityReadiness.status}
                   </span>

@@ -2,22 +2,11 @@
 import React, { useMemo } from 'react';
 import { collection, query, where, onSnapshot } from 'firebase/firestore';
 import { db } from '../../lib/firebase';
-import { 
-  FileText, 
-  Users, 
-  TrendingDown, 
-  BarChart3, 
-  Layout, 
-  ShieldCheck,
-  Clock,
-  DollarSign,
-  PieChart as PieIcon,
-  Zap,
-  MessageSquare
-} from 'lucide-react';
+import { FileText, Users, TrendingDown, BarChart3, Layout, ShieldCheck, Clock, DollarSign, PieChart as PieIcon, Zap, MessageSquare } from 'lucide-react';
 import { motion } from 'motion/react';
 import { cn, formatValue, formatCurrency } from '../../lib/utils';
-import { PageHeader, KpiCard } from '../Common';
+import { PageHeader } from '../Common';
+import { ExecutiveMetricCard } from '../ui/executive-metric-card';
 
 interface AdministrativaPageProps {
   clientId: string;
@@ -115,13 +104,12 @@ export function AdministrativaPage({ clientId }: AdministrativaPageProps) {
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
         {indicators.map((kpi, idx) => (
-          <KpiCard 
-            key={idx}
-            title={kpi.label}
+          <ExecutiveMetricCard density="analytical" key={idx}
+            label={kpi.label}
             value={formatValue(kpi.value, '')}
             suffix={kpi.isCur ? 'R$' : kpi.suffix || ''}
             icon={kpi.icon}
-            status={kpi.status === 'positive' ? 'Verde' : kpi.status === 'negative' ? 'Vermelho' : 'Amarelo'}
+            tone={kpi.status === "positive" ? "success" : kpi.status === "negative" ? "critical" : "warning"}
           />
         ))}
       </div>

@@ -1,21 +1,7 @@
 // src/components/pages/governance/BenchmarkReadinessPanel.tsx
 
 import React from 'react';
-import { 
-  Gauge, 
-  AlertTriangle, 
-  CheckCircle, 
-  ShieldAlert, 
-  Lock, 
-  Activity, 
-  Sparkles, 
-  Info, 
-  CheckCircle2, 
-  XCircle,
-  HelpCircle,
-  TrendingUp,
-  Compass
-} from 'lucide-react';
+import { Gauge, AlertTriangle, CheckCircle, ShieldAlert, Lock, Activity, Sparkles, Info, CheckCircle2, XCircle, HelpCircle, TrendingUp, Compass } from 'lucide-react';
 import { FiduciaryRuntimeAdapter, ESGIMScenario } from '../../../services/FiduciaryRuntimeAdapter';
 
 interface BenchmarkReadinessPanelProps {

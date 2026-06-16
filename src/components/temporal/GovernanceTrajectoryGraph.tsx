@@ -37,19 +37,19 @@ export const GovernanceTrajectoryGraph: React.FC<GovernanceTrajectoryGraphProps>
       <div className="h-72 w-full">
         <ResponsiveContainer width="100%" height="100%">
           <LineChart data={data} margin={{ top: 5, right: 20, bottom: 5, left: 0 }}>
-            <CartesianGrid strokeDasharray="3 3" stroke="#334155" vertical={false} />
-            <XAxis dataKey="period" stroke="#94a3b8" fontSize={12} tickMargin={10} />
-            <YAxis stroke="#94a3b8" fontSize={12} domain={[0, 100]} />
+            <CartesianGrid strokeDasharray="3 3" stroke="var(--chart-neutral)" vertical={false} />
+            <XAxis dataKey="period" stroke="var(--chart-neutral)" fontSize={12} tickMargin={10} />
+            <YAxis stroke="var(--chart-neutral)" fontSize={12} domain={[0, 100]} />
             <Tooltip 
-              contentStyle={{ backgroundColor: '#0f172a', borderColor: '#334155', color: '#f8fafc' }}
+              contentStyle={{ backgroundColor: 'var(--color-foreground)', borderColor: 'var(--color-state-neutral)', color: 'var(--color-background)' }}
               itemStyle={{ fontSize: '13px' }}
             />
             <Legend wrapperStyle={{ fontSize: '12px', paddingTop: '10px' }} />
-            <Line type="monotone" dataKey="temporalGovernanceScore" name="Gov Score" stroke="#3b82f6" strokeWidth={2} dot={{ r: 4 }} activeDot={{ r: 6 }} />
-            <Line type="monotone" dataKey="maturityScore" name="Maturity" stroke="#10b981" strokeWidth={2} />
-            <Line type="monotone" dataKey="fatigueScore" name="Fatigue" stroke="#f59e0b" strokeWidth={2} strokeDasharray="5 5" />
-            <Line type="monotone" dataKey="deteriorationScore" name="Deterioration" stroke="#ef4444" strokeWidth={2} strokeDasharray="3 3" />
-            <Line type="monotone" dataKey="resilienceScore" name="Resilience" stroke="#8b5cf6" strokeWidth={2} />
+            <Line type="monotone" dataKey="temporalGovernanceScore" name="Gov Score" stroke="var(--chart-primary)" strokeWidth={2} dot={{ r: 4 }} activeDot={{ r: 6 }} />
+            <Line type="monotone" dataKey="maturityScore" name="Maturity" stroke="var(--chart-positive)" strokeWidth={2} />
+            <Line type="monotone" dataKey="fatigueScore" name="Fatigue" stroke="var(--chart-warning)" strokeWidth={2} strokeDasharray="5 5" />
+            <Line type="monotone" dataKey="deteriorationScore" name="Deterioration" stroke="var(--chart-negative)" strokeWidth={2} strokeDasharray="3 3" />
+            <Line type="monotone" dataKey="resilienceScore" name="Resilience" stroke="var(--chart-secondary)" strokeWidth={2} />
           </LineChart>
         </ResponsiveContainer>
       </div>

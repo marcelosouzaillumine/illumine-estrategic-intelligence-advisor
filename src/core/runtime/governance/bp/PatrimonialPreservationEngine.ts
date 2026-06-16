@@ -34,7 +34,7 @@ export class PatrimonialPreservationEngine {
     const family = 'Capital Preservation';
 
     if (summary.patrimonioLiquido > 0) {
-      // 1. Capital Erosion Velocity (CEV)
+      // 1. Velocidade de Erosão Patrimonial
       let cev = 'INSUFFICIENT_DATA';
       let cevRationale = 'Prejuízo líquido anual não detectado na DRE.';
       let cevClassification = 'NEUTRAL';
@@ -61,9 +61,9 @@ export class PatrimonialPreservationEngine {
             cevRationale = `Margem longa de absorção: o patrimônio suporta o prejuízo atual por ${cev} anos.`;
           }
         } else {
-          cev = '0';
+          cev = 'N/A'; // Mudança v5.4.2: Evitar 0,00 quando não há prejuízo
           cevClassification = 'HEALTHY';
-          cevRationale = 'A empresa está gerando lucro líquido, havendo acúmulo (e não erosão) de capital.';
+          cevRationale = 'Não aplicável (A empresa apresenta geração de lucro líquido, resultando em acúmulo estrutural e não erosão de capital).';
         }
       }
 
@@ -88,8 +88,8 @@ export class PatrimonialPreservationEngine {
       }
 
       indicators.push({
-        metricName: 'Loss Absorption Capacity',
-        value: cev === 'INSUFFICIENT_DATA' ? cev : Number(cev),
+        metricName: 'Reserva Patrimonial para Choques',
+        value: (cev === 'INSUFFICIENT_DATA' || cev === 'N/A') ? cev : Number(cev),
         classification: lacClassification,
         severity: lacClassification,
         confidence: 90,
@@ -101,8 +101,8 @@ export class PatrimonialPreservationEngine {
       });
 
       indicators.push({
-        metricName: 'Capital Erosion Velocity (CEV)',
-        value: cev === 'INSUFFICIENT_DATA' ? cev : Number(cev),
+        metricName: 'Velocidade de Erosão Patrimonial',
+        value: (cev === 'INSUFFICIENT_DATA' || cev === 'N/A') ? cev : Number(cev),
         classification: cevClassification,
         severity: cevClassification,
         confidence: 90,
@@ -132,7 +132,7 @@ export class PatrimonialPreservationEngine {
       }
 
       indicators.push({
-        metricName: 'Equity Quality Index (EQI)',
+        metricName: 'Qualidade do Patrimônio Líquido',
         value: pctCaixaNoPL,
         classification: eqiClassification,
         severity: eqiClassification,
@@ -153,7 +153,7 @@ export class PatrimonialPreservationEngine {
       }
       
       indicators.push({
-        metricName: 'Equity Buffer',
+        metricName: 'Margem de Segurança Patrimonial',
         value: equityBuffer,
         classification: bufferClassification,
         severity: bufferClassification,
@@ -172,7 +172,7 @@ export class PatrimonialPreservationEngine {
       else if (lacClassification === 'CRITICAL' && bufferClassification === 'CRITICAL') survivalClass = 'Crítico';
 
       indicators.push({
-        metricName: 'Survival Index',
+        metricName: 'Índice de Sobrevivência Patrimonial',
         value: survivalClass,
         classification: survivalClass === 'Forte' ? 'HEALTHY' : (survivalClass === 'Crítico' ? 'CRITICAL' : 'ATTENTION'),
         severity: survivalClass === 'Forte' ? 'HEALTHY' : (survivalClass === 'Crítico' ? 'CRITICAL' : 'ATTENTION'),

@@ -1,27 +1,13 @@
 
 import React, { useState, useMemo } from "react";
-import { 
-  Target, 
-  TrendingUp, 
-  Plus, 
-  Trash2, 
-  Edit2, 
-  ChevronRight,
-  MoreVertical,
-  CheckCircle2,
-  Clock,
-  AlertCircle,
-  Users,
-  LayoutGrid,
-  BarChart3
-} from "lucide-react";
-import { motion, AnimatePresence } from "motion/react";
-import { useModuleData } from "../../hooks/useModuleData";
-import { useAllFinancialData } from "../../hooks/useFinancialData";
-import { ObjetivoOKR, KR, EixoGestao } from "../../types/modules";
-import { cn, formatValue, formatCurrency } from "../../lib/utils";
-import { PageHeader, SectionHeader } from "../Common";
-import { DashboardSkeleton } from "../ui/skeletons";
+import { Target, TrendingUp, Plus, Trash2, Edit2, ChevronRight, MoreVertical, CheckCircle2, Clock, AlertCircle, Users, LayoutGrid, BarChart3 } from 'lucide-react';
+import { motion, AnimatePresence } from 'motion/react';
+import { useModuleData } from '../../hooks/useModuleData';
+import { useAllFinancialData } from '../../hooks/useFinancialData';
+import { ObjetivoOKR, KR, EixoGestao } from '../../types/modules';
+import { cn, formatValue, formatCurrency } from '../../lib/utils';
+import { PageHeader, SectionHeader } from '../Common';
+import { DashboardSkeleton } from '../ui/skeletons';
 
 const EIXOS: EixoGestao[] = [
   "Governança Corporativa", "Cultura Organizacional", "Gestão Administrativa e Financeira", "Gestão de Inovação", "Gestão de Marketing", "Gestão Comercial", "Gestão Operacional"
@@ -323,7 +309,7 @@ export function OKRsPage({ clientId }: OKRsPageProps) {
                              <Clock size={14} className="text-warning" />}
                             <span className="text-[11px] font-medium text-foreground uppercase tracking-widest line-clamp-1 italic">{kr.descricao}</span>
                          </div>
-                         <p className="text-[9px] font-medium text-muted-foreground uppercase tracking-tight italic opacity-60">KPI: {kr.kpi}</p>
+       <p className="text-[9px] font-medium text-executive-secondary uppercase tracking-tight italic ">KPI: {kr.kpi}</p>
                       </div>
                       <div className="text-right">
                          <p className="text-[11px] font-medium text-foreground uppercase tracking-tighter tabular-nums">
@@ -331,7 +317,7 @@ export function OKRsPage({ clientId }: OKRsPageProps) {
                            <span className="text-muted-foreground/40 text-[9px] mx-1">/</span>
                            {kr.tipo === "Monetário" ? formatCurrency(kr.meta) : kr.meta}
                          </p>
-                         <p className="text-[10px] font-medium text-secondary tabular-nums italic">{kr.progresso.toFixed(0)}%</p>
+             <p className="text-[10px] font-medium text-executive-secondary tabular-nums italic">{kr.progresso.toFixed(0)}%</p>
                       </div>
                    </div>
                    <div className="h-1 bg-surface-container rounded-sm overflow-hidden border border-border/50">

@@ -1,5 +1,7 @@
 import React from 'react';
 import { ExecutiveSurface } from './executive-surface';
+import { ExecutiveHeading } from './executive-heading';
+import { ExecutiveText } from './executive-typography';
 import { cn } from '@/lib/utils';
 
 export interface ExecutiveEmptyStateProps {
@@ -39,30 +41,30 @@ export function ExecutiveEmptyState({
       )}
     >
       {icon && (
-        <div className="text-muted-foreground/60 flex items-center justify-center [&>svg]:w-10 [&>svg]:h-10">
+        <div className="text-executive-muted flex items-center justify-center [&>svg]:w-10 [&>svg]:h-10">
           {icon}
         </div>
       )}
       <div className="flex flex-col items-center gap-3">
-        <h3 className="text-[24px] md:text-[26px] font-semibold text-foreground tracking-tight text-center">{title}</h3>
-        <p className={cn(
-          "text-[14px] md:text-[15px] leading-snug text-foreground/70 text-center w-full",
+        <ExecutiveHeading as="h3" variant="sectionTitle" className="text-center">{title}</ExecutiveHeading>
+        <ExecutiveText as="p" variant="bodyStandard" className={cn(
+          "text-center w-full",
           maxWidth === 'sm' ? 'max-w-[40ch]' : maxWidth === 'lg' ? 'max-w-[80ch]' : 'max-w-[60ch]'
         )}>
           {description}
-        </p>
+        </ExecutiveText>
         {actionLabel && onAction && (
           <div className="flex items-center gap-3 mt-4">
             <button 
               onClick={onAction}
-              className="px-6 py-2.5 bg-executive text-white rounded-xl text-sm font-medium hover:bg-executive/90 transition-colors shadow-sm"
+              className="px-6 py-2.5 bg-executive text-white rounded-xl text-sm font-medium hover:bg-executive/90 transition-colors shadow-sm" // @allow-typography
             >
               {actionLabel}
             </button>
             {secondaryActionLabel && onSecondaryAction && (
               <button 
                 onClick={onSecondaryAction}
-                className="px-6 py-2.5 bg-surface text-secondary border border-border rounded-xl text-sm font-medium hover:bg-surface-container/30 hover:text-foreground transition-colors shadow-sm"
+                className="px-6 py-2.5 bg-surface text-secondary border border-border rounded-xl text-sm font-medium hover:bg-surface-container/30 hover:text-foreground transition-colors shadow-sm" // @allow-typography
               >
                 {secondaryActionLabel}
               </button>

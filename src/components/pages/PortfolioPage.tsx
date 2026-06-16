@@ -1,39 +1,9 @@
 import React, { useMemo, useState, useEffect } from 'react';
-import { 
-  Users, 
-  TrendingUp, 
-  AlertCircle, 
-  CheckCircle2, 
-  ChevronRight, 
-  ArrowUpRight, 
-  ArrowDownRight,
-  Target,
-  Zap,
-  Activity,
-  Search,
-  Filter,
-  Globe,
-  ShieldCheck,
-  ShieldAlert,
-  Coins,
-  LayoutDashboard,
-  Sparkles
-} from 'lucide-react';
+import { Users, TrendingUp, AlertCircle, CheckCircle2, ChevronRight, ArrowUpRight, ArrowDownRight, Target, Zap, Activity, Search, Filter, Globe, ShieldCheck, ShieldAlert, Coins, LayoutDashboard, Sparkles } from 'lucide-react';
 import { useCurrencyRates, convertCurrency } from '../../hooks/useCurrencyRates';
 import { CurrencySelector } from '../Common/CurrencySelector';
 import { motion, AnimatePresence } from 'motion/react';
-import { 
-  BarChart, 
-  Bar, 
-  XAxis, 
-  YAxis, 
-  CartesianGrid, 
-  Tooltip, 
-  ResponsiveContainer, 
-  Cell,
-  PieChart,
-  Pie
-} from 'recharts';
+import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, Cell, PieChart, Pie } from 'recharts';
 import { cn } from '../../lib/utils';
 import { calculateGovernanceAlignmentScore } from '../../lib/governanceIntelligence';
 import { onSnapshot, collection, getDocs, query, where } from 'firebase/firestore';
@@ -521,11 +491,11 @@ export function PortfolioPage({ clients, onSelectClient, isPartner, userPartnerI
                 return <Icon size={120} strokeWidth={1} />;
               })()}
             </div>
-            <p className="text-body-sm font-medium text-muted-foreground uppercase tracking-widest mb-1">{stat.label}</p>
+      <p className="text-body-sm font-medium text-executive-secondary uppercase tracking-widest mb-1">{stat.label}</p>
             <div className="flex items-baseline gap-1 sm:gap-2 min-w-0">
               <h3 className="text-h2 font-medium text-foreground">{stat.value}</h3>
             </div>
-            <p className="text-body-sm font-medium text-muted-foreground mt-2">{stat.desc}</p>
+      <p className="text-body-sm font-medium text-executive-secondary mt-2">{stat.desc}</p>
           </div>
         ))}
       </div>
@@ -543,19 +513,19 @@ export function PortfolioPage({ clients, onSelectClient, isPartner, userPartnerI
                 <h4 className="text-xl md:text-2xl lg:text-3xl font-medium mb-6 max-w-2xl leading-tight">Exposição do Portfólio à Transição da Reforma Tributária</h4>
                 <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 sm:gap-6">
                   <div className="p-4 bg-white/10 border border-white/10 rounded-button">
-                    <p className="text-body-sm font-medium text-muted-foreground uppercase mb-2">Empresas Impactadas</p>
-                    <p className="text-lg md:text-xl lg:text-2xl font-medium text-secondary">{stats.impactPercentage}%</p>
-                    <p className="text-body-sm text-muted-foreground mt-2">Setores de Serviços e Tecnologia na base.</p>
+          <p className="text-body-sm font-medium text-executive-secondary uppercase mb-2">Empresas Impactadas</p>
+          <p className="text-lg md:text-xl lg:text-2xl font-medium text-executive-secondary">{stats.impactPercentage}%</p>
+          <p className="text-body-sm text-executive-secondary mt-2">Setores de Serviços e Tecnologia na base.</p>
                   </div>
                   <div className="p-4 bg-white/10 border border-white/10 rounded-button">
-                    <p className="text-body-sm font-medium text-muted-foreground uppercase mb-2">Volume sob Risco</p>
+          <p className="text-body-sm font-medium text-executive-secondary uppercase mb-2">Volume sob Risco</p>
                     <p className="text-lg md:text-xl lg:text-2xl font-medium text-primary-foreground">{fmtCurrency(stats.impactedRevenue, selectedCurrency)}</p>
-                    <p className="text-body-sm text-muted-foreground mt-2">Receita total dos clientes expostos.</p>
+          <p className="text-body-sm text-executive-secondary mt-2">Receita total dos clientes expostos.</p>
                   </div>
                   <div className="p-4 bg-white/10 border border-white/10 rounded-button">
-                    <p className="text-body-sm font-medium text-muted-foreground uppercase mb-2">Prioridade de Saneamento</p>
-                    <p className="text-lg md:text-xl lg:text-2xl font-medium text-secondary">{stats.impactPercentage > 50 ? 'Alta' : 'Média'}</p>
-                    <p className="text-body-sm text-muted-foreground mt-2">Necessidade de revisão de NCM/CST.</p>
+          <p className="text-body-sm font-medium text-executive-secondary uppercase mb-2">Prioridade de Saneamento</p>
+          <p className="text-lg md:text-xl lg:text-2xl font-medium text-executive-secondary">{stats.impactPercentage > 50 ? 'Alta' : 'Média'}</p>
+          <p className="text-body-sm text-executive-secondary mt-2">Necessidade de revisão de NCM/CST.</p>
                   </div>
                 </div>
               </div>
@@ -563,7 +533,7 @@ export function PortfolioPage({ clients, onSelectClient, isPartner, userPartnerI
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               <div className="card-premium p-6 md:p-8">
-                <h5 className="text-body-sm font-medium text-muted-foreground uppercase tracking-widest mb-6 flex items-center gap-2">
+        <h5 className="text-body-sm font-medium text-executive-secondary uppercase tracking-widest mb-6 flex items-center gap-2">
                   <Target size={14} className="text-secondary" /> Concentração por Segmento (Fat.)
                 </h5>
                 <div className="space-y-4">
@@ -592,7 +562,7 @@ export function PortfolioPage({ clients, onSelectClient, isPartner, userPartnerI
 
               <div className="card-premium p-6 md:p-8 flex flex-col justify-between">
                 <div>
-                  <h5 className="text-body-sm font-medium text-muted-foreground uppercase tracking-widest mb-6 flex items-center gap-2">
+         <h5 className="text-body-sm font-medium text-executive-secondary uppercase tracking-widest mb-6 flex items-center gap-2">
                     <Users size={14} className="text-secondary" /> Volume por Parceiro Estratégico
                   </h5>
                   <div className="h-[200px] w-full">
@@ -662,7 +632,7 @@ export function PortfolioPage({ clients, onSelectClient, isPartner, userPartnerI
                     </div>
                   ))}
                 {activeRealPortfolioData.filter(c => c.status === 'critical' || c.criticalAlerts > 0).length === 0 && (
-                  <p className="text-body-sm font-medium text-muted-foreground italic text-center py-4">Nenhum cliente crítico no radar.</p>
+         <p className="text-body-sm font-medium text-executive-secondary italic text-center py-4">Nenhum cliente crítico no radar.</p>
                 )}
               </div>
               <button className="btn-executive w-full mt-8">
@@ -671,7 +641,7 @@ export function PortfolioPage({ clients, onSelectClient, isPartner, userPartnerI
             </div>
 
             <div className="bg-surface-container rounded-card p-6 md:p-8 border border-border">
-               <h5 className="text-body-sm font-medium text-muted-foreground uppercase tracking-widest mb-6">Radar de Conformidade IVA</h5>
+        <h5 className="text-body-sm font-medium text-executive-secondary uppercase tracking-widest mb-6">Radar de Conformidade IVA</h5>
                <div className="space-y-4">
                   {activeRealPortfolioData.some(c => c.industry.toLowerCase().includes('indúst') || c.industry.toLowerCase().includes('fabr')) && (
                     <div className="flex items-center justify-between p-4 bg-background rounded-button border border-border shadow-sm">
@@ -692,7 +662,7 @@ export function PortfolioPage({ clients, onSelectClient, isPartner, userPartnerI
                     </div>
                   )}
                   {stats.impactPercentage === 0 && !activeRealPortfolioData.some(c => c.industry.toLowerCase().includes('indúst')) && (
-                    <p className="text-body-sm font-medium text-muted-foreground italic text-center py-4">Nenhum risco setorial imediato detectado.</p>
+          <p className="text-body-sm font-medium text-executive-secondary italic text-center py-4">Nenhum risco setorial imediato detectado.</p>
                   )}
                </div>
             </div>
@@ -706,7 +676,7 @@ export function PortfolioPage({ clients, onSelectClient, isPartner, userPartnerI
               <div className="h-2 bg-secondary-foreground/20 rounded-full overflow-hidden">
                 <div className="h-full bg-background rounded-full transition-all duration-1000" style={{ width: `${stats.maturityScore}%` }} />
               </div>
-              <p className="text-body-sm text-secondary-foreground/80 mt-4 leading-relaxed font-medium">
+       <p className="text-body-sm text-executive-secondary-foreground/80 mt-4 leading-relaxed font-medium">
                 {stats.maturityScore > 70 
                   ? `O portfólio apresenta alta aderência aos princípios da Illumine, com ${stats.maturityScore}% dos clientes ativos acima do score 60.`
                   : `Aderência em evolução: ${stats.maturityScore}% dos clientes ativos estão com score acima de 60.`}
@@ -728,23 +698,23 @@ export function PortfolioPage({ clients, onSelectClient, isPartner, userPartnerI
                       </div>
                       <div>
                         <h4 className="text-h3 font-medium text-foreground group-hover:text-secondary transition-colors">{group.fantasia || group.razao}</h4>
-                        <p className="text-body-sm font-medium text-muted-foreground uppercase tracking-widest">{group.clientCount} Clientes Vinculados</p>
+            <p className="text-body-sm font-medium text-executive-secondary uppercase tracking-widest">{group.clientCount} Clientes Vinculados</p>
                       </div>
                     </div>
 
                     <div className="grid grid-cols-2 gap-4 mb-8">
                       <div className="p-4 bg-surface-container rounded-button border border-border">
-                        <p className="text-body-sm font-medium text-muted-foreground uppercase tracking-widest mb-1">Fat. ({selectedCurrency})</p>
+            <p className="text-body-sm font-medium text-executive-secondary uppercase tracking-widest mb-1">Fat. ({selectedCurrency})</p>
                         <p className="text-body-md font-medium text-foreground">{fmtCurrency(group.totalRevenue, selectedCurrency)}</p>
                       </div>
                       <div className="p-4 bg-surface-container rounded-button border border-border">
-                        <p className="text-body-sm font-medium text-muted-foreground uppercase tracking-widest mb-1">Health Score Médio</p>
+            <p className="text-body-sm font-medium text-executive-secondary uppercase tracking-widest mb-1">Health Score Médio</p>
                       <p className="text-body-md font-medium text-foreground">{group.avgScore.toFixed(1)}%</p>
                       </div>
                     </div>
 
                     <div className="space-y-3">
-                      <h5 className="text-body-sm font-medium text-muted-foreground uppercase tracking-widest mb-4">Empresas do Portfólio</h5>
+           <h5 className="text-body-sm font-medium text-executive-secondary uppercase tracking-widest mb-4">Empresas do Portfólio</h5>
                       {group.clients.slice(0, 3).map((client) => (
                         <div 
                           key={client.id} 
@@ -762,7 +732,7 @@ export function PortfolioPage({ clients, onSelectClient, isPartner, userPartnerI
                         </div>
                       ))}
                       {group.clientCount > 3 && (
-                        <p className="text-body-sm text-muted-foreground text-center pt-2 font-medium uppercase tracking-widest">
+            <p className="text-body-sm text-executive-secondary text-center pt-2 font-medium uppercase tracking-widest">
                           + {group.clientCount - 3} outras empresas
                         </p>
                       )}
@@ -783,7 +753,7 @@ export function PortfolioPage({ clients, onSelectClient, isPartner, userPartnerI
                 <Users size={40} />
               </div>
               <h4 className="text-h2 font-medium text-foreground mb-2">Nenhum parceiro estratégico identificado</h4>
-              <p className="text-muted-foreground block text-center mx-auto" style={{ whiteSpace: 'normal', overflowWrap: 'break-word', wordBreak: 'break-word', display: 'block', width: '100%', maxWidth: 'none' }}>
+       <p className="text-executive-secondary block text-center mx-auto" style={{ whiteSpace: 'normal', overflowWrap: 'break-word', wordBreak: 'break-word', display: 'block', width: '100%', maxWidth: 'none' }}>
                 Cadastre parceiros e vincule clientes para habilitar esta visão consolidada.
               </p>
             </div>
@@ -797,7 +767,7 @@ export function PortfolioPage({ clients, onSelectClient, isPartner, userPartnerI
             </div>
             <div>
               <h4 className="text-h2 font-medium text-foreground">Empresas Modelo para Demonstração</h4>
-              <p className="text-body-md text-muted-foreground mt-1 font-medium">
+       <p className="text-body-md text-executive-secondary mt-1 font-medium">
                 Estas empresas servem apenas para fins didáticos e demonstração da plataforma. Os dados aqui contidos não impactam a visão consolidada de clientes reais.
               </p>
             </div>
@@ -827,13 +797,13 @@ export function PortfolioPage({ clients, onSelectClient, isPartner, userPartnerI
                     </div>
                     <div className="min-w-0">
                       <p className="text-body-md font-medium text-foreground group-hover:text-primary transition-colors">{client.name}</p>
-                      <p className="text-[9px] font-normal text-muted-foreground/60 uppercase tracking-widest mt-0.5">{client.industry}</p>
+           <p className="text-[9px] font-normal text-executive-secondary/60 uppercase tracking-widest mt-0.5">{client.industry}</p>
                     </div>
                   </div>
                   
                   <div className="flex justify-between items-end">
                     <div>
-                      <p className="text-body-sm font-medium text-muted-foreground uppercase tracking-widest mb-1">Health Score</p>
+           <p className="text-body-sm font-medium text-executive-secondary uppercase tracking-widest mb-1">Health Score</p>
                       <p className="text-h3 font-medium text-foreground">{client.score}</p>
                     </div>
                     <button className="p-2 bg-surface-container text-muted-foreground rounded-button group-hover:bg-primary group-hover:text-primary-foreground transition-all">
@@ -845,7 +815,7 @@ export function PortfolioPage({ clients, onSelectClient, isPartner, userPartnerI
             </div>
           ) : (
             <div className="w-full py-20 text-center bg-surface-container rounded-card border border-dashed border-border">
-              <p className="text-muted-foreground font-medium uppercase tracking-widest text-body-sm">Nenhuma empresa modelo cadastrada.</p>
+       <p className="text-executive-secondary font-medium uppercase tracking-widest text-body-sm">Nenhuma empresa modelo cadastrada.</p>
             </div>
           )}
         </div>
@@ -902,7 +872,7 @@ export function PortfolioPage({ clients, onSelectClient, isPartner, userPartnerI
                             </div>
                             <div className="min-w-0">
                               <p className="text-body-md font-medium text-foreground group-hover:text-primary transition-colors">{client.name}</p>
-                              <p className="text-[9px] font-normal text-muted-foreground/60 uppercase tracking-widest mt-0.5">{client.industry}</p>
+               <p className="text-[9px] font-normal text-executive-secondary/60 uppercase tracking-widest mt-0.5">{client.industry}</p>
                             </div>
                           </div>
                         </td>

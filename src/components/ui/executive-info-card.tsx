@@ -1,6 +1,7 @@
 import React from 'react';
 import { cn } from '../../lib/utils';
 import { ExecutiveSurface } from './executive-surface';
+import { ExecutiveText, ExecutiveSpacingRegistry } from './executive-typography';
 
 export interface ExecutiveInfoCardProps {
   icon?: React.ReactNode;
@@ -37,23 +38,24 @@ export function ExecutiveInfoCard({
     <ExecutiveSurface
       padding="none"
       className={cn(
-        "flex flex-col items-start justify-start p-5 h-full rounded-[24px] shadow-sm",
+        "flex flex-col items-start justify-start h-full rounded-[24px] shadow-sm",
+        ExecutiveSpacingRegistry.cardPaddingCompact,
         className
       )}
     >
-      <div className="flex items-center gap-3 mb-3">
+      <div className={cn("flex items-center", ExecutiveSpacingRegistry.elementGap, "mb-3")}>
         {icon && (
           <div className={cn("flex items-center justify-center shrink-0 w-10 h-10 rounded-full border border-border/50", bgClasses[tone], toneClasses[tone])}>
             {icon}
           </div>
         )}
-        <span className="text-[11px] font-medium tracking-wide text-foreground/65">
+        <ExecutiveText variant="caption" as="span">
           {label}
-        </span>
+        </ExecutiveText>
       </div>
-      <div className="text-[18px] font-semibold leading-snug text-foreground">
+      <ExecutiveText variant="cardTitle" as="div">
         {value}
-      </div>
+      </ExecutiveText>
     </ExecutiveSurface>
   );
 }

@@ -5,10 +5,6 @@ import { ExecutivePrimaryMotiveConsistencyEngine } from '../../executive-consoli
 
 export interface PatrimonialInterpretationOutput {
   patrimonialThesis: string;
-  executivePlan: string;
-  planFinanceiro: { prazo: string; acao: string };
-  planOperacional: { prazo: string; acao: string };
-  planGovernanca: { prazo: string; acao: string };
   dominantRiskFamily: string;
   strategicSeverity: 'CRITICAL' | 'HIGH' | 'MODERATE' | 'MONITORING';
   strategicSeverityReason: string;
@@ -76,6 +72,9 @@ export class PatrimonialExecutiveInterpretationEngine {
     const isEndivAlto = typeof endivGeral === 'number' && endivGeral > 0.8;
     const isConsumoCap = equityQuality === 'Consumo de Capital' || equityQuality === 'Erosão Patrimonial';
 
+    const narrativeContext = ExecutivePrimaryMotiveConsistencyEngine.deriveNarrativeContext(context, motive.severity);
+    const stage = narrativeContext.strategicStage;
+
     if (isLRFragil || isLSCritica || isConsumoCap) {
       const issues: string[] = [];
       if (isLRFragil || isLSCritica) issues.push('fragilidade crítica de liquidez');
@@ -96,7 +95,11 @@ export class PatrimonialExecutiveInterpretationEngine {
       patrimonialThesis = `A estrutura patrimonial apresenta solvência de curto prazo preservada, mas a elevada alavancagem limita a capacidade de financiar crescimento operacional.`;
     } else {
       if (score >= 80) {
-        patrimonialThesis = `A estrutura patrimonial é forte e resiliente, suportando crescimento sustentável com robusta margem de absorção contra choques.`;
+        if (stage === 'capital_allocation' || strategicSeverityReason.toLowerCase().includes('excedente') || strategicSeverityReason.toLowerCase().includes('conservador')) {
+          patrimonialThesis = `A robusta posição patrimonial proporciona elevada segurança financeira; contudo, a forte retenção de liquidez sugere oportunidade de otimização na alocação de capital.`;
+        } else {
+          patrimonialThesis = `A estrutura patrimonial é forte e resiliente, suportando crescimento sustentável com robusta margem de absorção contra choques.`;
+        }
       } else if (score >= 60) {
         patrimonialThesis = `A estrutura patrimonial é estável e equilibrada, apresentando indicadores controlados sem exposição severa no curto prazo.`;
       } else {
@@ -104,63 +107,15 @@ export class PatrimonialExecutiveInterpretationEngine {
       }
     }
 
-    // 2. Plano Executivo (Risco Dominante)
-    let executivePlan = '';
-    let dominantRiskFamily = '';
-    
-    let planFinanceiro = { prazo: 'Curto Prazo', acao: 'Manter liquidez de segurança e monitorar covenants.' };
-    let planOperacional = { prazo: 'Médio Prazo', acao: 'Otimizar ciclo de conversão de caixa.' };
-    let planGovernanca = { prazo: 'Longo Prazo', acao: 'Garantir retenção de lucros compatível com o crescimento sustentável.' };
-
-    // Hierarchy of dominance:
-    if (isLRFragil || isLSCritica) {
-      dominantRiskFamily = 'Liquidez';
-      let causa = 'Descasamento severo entre recebimentos operacionais e obrigações de curto prazo.';
-      if (typeof estoqueConc === 'number' && estoqueConc > 0.4) {
-        causa = `${(estoqueConc * 100).toFixed(1)}% do ativo concentrado em estoques e obrigações concentradas no curto prazo.`;
-      }
-      executivePlan = `Risco Dominante: Fragilidade de liquidez estrutural. | Causa Raiz: ${causa} | Ação Estratégica: Reduzir capital aprisionado e alongar passivos operacionais. | KPI: Liquidez Real > 0.75.`;
-      
-      planFinanceiro = { prazo: 'Curto Prazo', acao: 'Alongar passivos, renegociar dívidas curtas e reforçar posição imediata de liquidez.' };
-      planOperacional = { prazo: 'Médio Prazo', acao: 'Reduzir aprisionamento em estoques e acelerar giro de recebíveis.' };
-      planGovernanca = { prazo: 'Longo Prazo', acao: 'Recompor liquidez, reduzir estoques, alongar passivos e preservar caixa imediatamente.' };
-      
-    } else if (isConsumoCap) {
-      dominantRiskFamily = 'Otimização Patrimonial';
-      executivePlan = `Risco Dominante: Erosão Patrimonial. | Causa Raiz: Operação consumindo caixa e recursos aportados ao longo do tempo. | Ação Estratégica: Revisão radical do modelo de margem e estancamento da queima de caixa. | KPI: Lucro Líquido e Patrimônio Líquido > 3 anos.`;
-      
-      planFinanceiro = { prazo: 'Curto Prazo', acao: 'Suspender distribuição de dividendos e novos Capex não-essenciais.' };
-      planOperacional = { prazo: 'Médio Prazo', acao: 'Revisão drástica do modelo de margens para estancar a queima de caixa.' };
-      planGovernanca = { prazo: 'Longo Prazo', acao: 'Monitorar consumo de capital e elaborar plano formal de recomposição patrimonial.' };
-      
-    } else if (isEndivAlto) {
-      dominantRiskFamily = 'Estrutura de Capital';
-      const c = typeof compEndiv === 'number' && compEndiv > 0.6 ? 'Alta concentração de dívida onerosa no curto prazo.' : 'Nível geral de endividamento superior à capacidade de geração de valor.';
-      executivePlan = `Risco Dominante: Alavancagem Excessiva. | Causa Raiz: ${c} | Ação Estratégica: Desalavancagem através de retenção de lucros ou troca de dívida curta por longa. | KPI: Debt Capacity Score.`;
-      
-      planFinanceiro = { prazo: 'Curto Prazo', acao: 'Refinanciar dívidas onerosas e buscar troca de passivo curto por longo.' };
-      planOperacional = { prazo: 'Médio Prazo', acao: 'Garantir geração de caixa livre superior ao serviço da dívida.' };
-      planGovernanca = { prazo: 'Longo Prazo', acao: 'Definir teto de alavancagem estrutural e política estrita de funding.' };
-      
-    } else if (breakdown.workingCapitalScore !== null && breakdown.workingCapitalScore < 50) {
-      dominantRiskFamily = 'Capital de Giro';
-      executivePlan = `Risco Dominante: Estagnação no ciclo financeiro. | Causa Raiz: Prazo médio de recebimento dilatado e/ou giro de estoques lento. | Ação Estratégica: Revisão da política de concessão de crédito e aceleração de recebíveis. | KPI: Necessidade de Capital de Giro (NCG).`;
-      
-      planFinanceiro = { prazo: 'Curto Prazo', acao: 'Antecipar recebíveis apenas em janelas de oportunidade de custo, sem depender estruturalmente.' };
-      planOperacional = { prazo: 'Curto Prazo', acao: 'Acelerar cobrança e restringir política de concessão de crédito.' };
-      planGovernanca = { prazo: 'Médio Prazo', acao: 'Auditar políticas de vendas a prazo e giro comercial.' };
-      
-    } else {
-      dominantRiskFamily = 'Otimização Estratégica';
-      executivePlan = `Risco Dominante: Não identificado. | Situação: Estrutura equilibrada. | Ação Estratégica: Focar em maximização de retorno sobre o capital investido (ROIC) e eficiência tributária. | KPI: ROIC e EVA.`;
-    }
+    // 2. Risco Dominante
+    let dominantRiskFamily = 'Otimização Estratégica';
+    if (isLRFragil || isLSCritica) dominantRiskFamily = 'Liquidez';
+    else if (isConsumoCap) dominantRiskFamily = 'Otimização Patrimonial';
+    else if (isEndivAlto) dominantRiskFamily = 'Estrutura de Capital';
+    else if (breakdown.workingCapitalScore !== null && breakdown.workingCapitalScore < 50) dominantRiskFamily = 'Capital de Giro';
 
     return {
       patrimonialThesis,
-      executivePlan,
-      planFinanceiro,
-      planOperacional,
-      planGovernanca,
       dominantRiskFamily,
       strategicSeverity,
       strategicSeverityReason,

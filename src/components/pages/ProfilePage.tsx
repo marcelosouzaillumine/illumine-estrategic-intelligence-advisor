@@ -1,24 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { PageHeader } from '../Common';
-import { 
-  User, 
-  Mail, 
-  Shield, 
-  Key, 
-  Camera,
-  Building,
-  CheckCircle2,
-  AlertCircle,
-  ChevronRight,
-  LogOut,
-  Activity,
-  Save,
-  X,
-  Loader2,
-  RefreshCw,
-  Sparkles,
-  ArrowRight
-} from 'lucide-react';
+import { User, Mail, Shield, Key, Camera, Building, CheckCircle2, AlertCircle, ChevronRight, LogOut, Activity, Save, X, Loader2, RefreshCw, Sparkles, ArrowRight } from 'lucide-react';
 import { motion, AnimatePresence } from 'motion/react';
 import { cn, getThemeColors } from '../../lib/utils';
 import type { User as FirebaseUser } from 'firebase/auth';
@@ -304,7 +286,7 @@ export function ProfilePage({ user, clients = [], selectedClient = '' }: Profile
                       </div>
                       <span className="text-xs sm:text-sm font-semibold text-muted-foreground truncate min-w-0 flex-1">{user?.email}</span>
                       {!isMaster && (
-                        <span title="Somente Master Admin pode alterar" className="opacity-50 shrink-0">
+            <span title="Somente Master Admin pode alterar" className=" shrink-0">
                           <Shield size={12} />
                         </span>
                       )}
@@ -320,7 +302,7 @@ export function ProfilePage({ user, clients = [], selectedClient = '' }: Profile
                       </div>
                       <span className="text-xs sm:text-sm font-semibold text-muted-foreground truncate min-w-0 flex-1">{companyName}</span>
                       {!isMaster && (
-                        <span title="Somente Master Admin pode alterar" className="opacity-50 shrink-0">
+            <span title="Somente Master Admin pode alterar" className=" shrink-0">
                           <Shield size={12} />
                         </span>
                       )}
@@ -336,7 +318,7 @@ export function ProfilePage({ user, clients = [], selectedClient = '' }: Profile
                       </div>
                       <span className="text-xs sm:text-sm font-semibold text-muted-foreground truncate min-w-0 flex-1">{isMaster ? 'Master Admin' : userRole}</span>
                       {!isMaster && (
-                        <span title="Somente Master Admin pode alterar" className="opacity-50 shrink-0">
+            <span title="Somente Master Admin pode alterar" className=" shrink-0">
                           <Shield size={12} />
                         </span>
                       )}
@@ -390,7 +372,7 @@ export function ProfilePage({ user, clients = [], selectedClient = '' }: Profile
                           </div>
                           <div>
                             <h4 className="text-lg font-semibold text-foreground">Resetar Senha de Usuário</h4>
-                            <p className="text-sm font-medium text-muted-foreground mt-1">O usuário receberá um e-mail com protocolo para definir uma nova credencial</p>
+              <p className="text-sm font-medium text-executive-secondary mt-1">O usuário receberá um e-mail com protocolo para definir uma nova credencial</p>
                           </div>
                         </div>
                         <div className="flex flex-col sm:flex-row gap-4">
@@ -425,7 +407,7 @@ export function ProfilePage({ user, clients = [], selectedClient = '' }: Profile
                         </div>
                         <div>
                           <h4 className="text-lg font-semibold text-foreground">Autenticação de Dois Fatores</h4>
-                          <p className="text-sm font-medium text-muted-foreground mt-1">Camada extra de proteção via aplicativo de segurança</p>
+             <p className="text-sm font-medium text-executive-secondary mt-1">Camada extra de proteção via aplicativo de segurança</p>
                         </div>
                       </div>
                       <Button 
@@ -449,7 +431,7 @@ export function ProfilePage({ user, clients = [], selectedClient = '' }: Profile
                         </div>
                         <div>
                           <h4 className="text-lg font-semibold text-foreground">Alterar Minha Senha</h4>
-                          <p className="text-sm font-medium text-muted-foreground mt-1">Troque sua senha periodicamente para manter a segurança</p>
+             <p className="text-sm font-medium text-executive-secondary mt-1">Troque sua senha periodicamente para manter a segurança</p>
                         </div>
                       </div>
                       <Button 
@@ -474,7 +456,7 @@ export function ProfilePage({ user, clients = [], selectedClient = '' }: Profile
                     </div>
                     <div>
                       <h4 className="text-lg font-semibold text-destructive">Zona de Perigo</h4>
-                      <p className="text-sm font-medium text-muted-foreground mt-2 mb-6 leading-relaxed">
+           <p className="text-sm font-medium text-executive-secondary mt-2 mb-6 leading-relaxed">
                         Ao excluir sua conta, todos os seus dados pessoais, relatórios e preferências salvos serão removidos permanentemente. Esta ação é irreversível.
                       </p>
                       <Button variant="destructive" className="px-4 md:px-6 py-2 md:py-3 text-[10px] font-black uppercase tracking-[0.2em] shadow-xl">
@@ -509,7 +491,7 @@ export function ProfilePage({ user, clients = [], selectedClient = '' }: Profile
                           <h4 className="text-lg font-semibold text-foreground">Dispositivo Atual</h4>
                           <span className="px-3 py-1 bg-secondary text-primary text-[9px] font-black uppercase tracking-widest rounded-lg shadow-lg shadow-secondary/10">Ativo</span>
                         </div>
-                        <p className="text-sm font-medium text-muted-foreground mt-1">Chrome / MacBook Pro • IP: 189.122.XX.XX</p>
+            <p className="text-sm font-medium text-executive-secondary mt-1">Chrome / MacBook Pro • IP: 189.122.XX.XX</p>
                       </div>
                     </div>
                     <button className="hidden md:block p-3 text-muted-foreground/30 cursor-not-allowed">
@@ -524,7 +506,7 @@ export function ProfilePage({ user, clients = [], selectedClient = '' }: Profile
                       </div>
                       <div>
                         <h4 className="text-lg font-semibold text-foreground font-display">Dispositivo Mobile</h4>
-                        <p className="text-sm font-medium text-muted-foreground mt-1">Aplicativo Illumine / iPhone 15 • Curitiba, Brasil • Há 2 horas</p>
+            <p className="text-sm font-medium text-executive-secondary mt-1">Aplicativo Illumine / iPhone 15 • Curitiba, Brasil • Há 2 horas</p>
                       </div>
                     </div>
                     <button className="px-4 md:px-6 py-2 md:py-3 text-destructive hover:bg-destructive/5 rounded-2xl text-[10px] font-black uppercase tracking-[0.2em] transition-all border border-transparent hover:border-destructive/10 whitespace-nowrap shrink-0">

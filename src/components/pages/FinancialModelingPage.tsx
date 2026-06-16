@@ -1,49 +1,6 @@
 
 import React, { useState, useMemo, useEffect } from 'react';
-import { 
-  LayoutGrid, 
-  Activity, 
-  FileText, 
-  Coins, 
-  BookOpen, 
-  Settings2, 
-  AlertTriangle,
-  ShieldCheck,
-  Upload,
-  Plus,
-  TrendingUp,
-  LayoutDashboard,
-  Presentation,
-  Scale,
-  Compass,
-  Fingerprint,
-  Target,
-  Globe,
-  ClipboardList,
-  BarChart3,
-  PieChart,
-  Zap,
-  Briefcase,
-  Calculator,
-  CreditCard,
-  ArrowUpRight,
-  CircleDollarSign,
-  List,
-  Landmark,
-  Boxes,
-  Rocket,
-  LineChart,
-  Percent,
-  ShoppingBag,
-  HardDrive,
-  Layers,
-  Bell,
-  Users,
-  Trash2,
-  Save,
-  Loader2,
-  CheckCircle2
-} from 'lucide-react';
+import { LayoutGrid, Activity, FileText, Coins, BookOpen, Settings2, AlertTriangle, ShieldCheck, Upload, Plus, TrendingUp, LayoutDashboard, Presentation, Scale, Compass, Fingerprint, Target, Globe, ClipboardList, BarChart3, PieChart, Zap, Briefcase, Calculator, CreditCard, ArrowUpRight, CircleDollarSign, List, Landmark, Boxes, Rocket, LineChart, Percent, ShoppingBag, HardDrive, Layers, Bell, Users, Trash2, Save, Loader2, CheckCircle2 } from 'lucide-react';
 import { collection, query, where, getDocs, orderBy, addDoc, updateDoc, doc, serverTimestamp, deleteDoc } from 'firebase/firestore';
 import { db, handleFirestoreError, OperationType } from '../../lib/firebase';
 import { motion, AnimatePresence } from 'motion/react';
@@ -62,7 +19,7 @@ function KpiCardModeling({ label, value, tone = 'default', helper }: any) {
         "text-2xl font-black tracking-tight leading-[1.2] whitespace-nowrap",
         tone === 'danger' ? "text-rose-600" : tone === 'success' ? "text-emerald-600" : "text-card-foreground"
       )}>{value}</h3>
-      {helper && <p className="text-[10px] text-muted-foreground mt-2 font-medium italic opacity-80">{helper}</p>}
+   {helper && <p className="text-[10px] text-muted-foreground mt-2 font-medium italic ">{helper}</p>}
     </div>
   );
 }
@@ -88,7 +45,7 @@ function FinancialModelTable({ table, title, subtitle }: { table: any, title: st
                 <th key={h} className="px-5 md:px-8 py-2.5 md:py-4 text-right text-[10px] font-black text-muted-foreground uppercase tracking-widest border-b border-border whitespace-nowrap bg-surface-high">
                   <div className="flex flex-col items-end">
                     <span>{h}</span>
-                    <span className="hidden md:inline text-[8px] opacity-40 font-bold">Projeção</span>
+          <span className="hidden md:inline text-[8px] font-bold">Projeção</span>
                   </div>
                 </th>
               ))}
@@ -232,7 +189,7 @@ function InputsDataEntryView({ selectedClient }: { selectedClient: string }) {
               <Layers size={32} />
             </div>
             <h3 className="text-sm font-bold text-card-foreground mb-2">Nenhum input manual cadastrado</h3>
-            <p className="text-sm text-muted-foreground max-w-sm">
+      <p className="text-sm text-executive-secondary max-w-sm">
               Adicione valores projetados para Capex, Receitas ou Despesas que complementarão o modelo estrutural.
             </p>
           </div>

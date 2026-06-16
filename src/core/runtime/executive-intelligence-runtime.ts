@@ -608,8 +608,8 @@ export class ExecutiveIntelligenceRuntime implements
         }
       }
       bpSummary = {
-        ...rawData.rawFinancialData?.bpSummary,
-        ...cleanHierarchySummary
+        ...cleanHierarchySummary,
+        ...rawData.rawFinancialData?.bpSummary // Prefer explicitly passed UI data, overriding zeroes
       };
     } else if (rawData.rawFinancialData?.bpSummary && Object.keys(rawData.rawFinancialData.bpSummary).length > 0) {
       // Pre-computed summary passed directly from the page (BalanceSheetPage)
@@ -2322,8 +2322,7 @@ export class ExecutiveIntelligenceRuntime implements
       const consistencyPatrimonial = BoardConsistencyEngine.validate(interpretations.patrimonialThesis, bpIndicators);
       interpretations.patrimonialThesis = consistencyPatrimonial.scrubbedText;
       
-      const consistencyPlan = BoardConsistencyEngine.validate(interpretations.executivePlan, bpIndicators);
-      interpretations.executivePlan = consistencyPlan.scrubbedText;
+      
       
       const consistencyAdvisory = BoardConsistencyEngine.validate(rawAdvisory.fullText, bpIndicators);
       rawAdvisory.fullText = consistencyAdvisory.scrubbedText;
@@ -2443,7 +2442,6 @@ export class ExecutiveIntelligenceRuntime implements
         patrimonialThesis: blockingState.isBlocked ? undefined : interpretations.patrimonialThesis,
         boardNarrative: blockingState.isBlocked ? undefined : rawAdvisory.fullText,
         patrimonialHealth: blockingState.isBlocked ? undefined : interpretations.patrimonialThesis,
-        executivePlan: blockingState.isBlocked ? undefined : interpretations.executivePlan,
         dominantRiskFamily: blockingState.isBlocked ? undefined : interpretations.dominantRiskFamily,
         liquidityHealth: undefined,
         workingCapitalHealth: undefined,
@@ -2455,11 +2453,12 @@ export class ExecutiveIntelligenceRuntime implements
         scoreBreakdown: scoreBreakdown,
         executiveInterpretation: interpretations,
         boardAdvisory: rawAdvisory,
-        consistencyAudit: [...consistencyPatrimonial.auditTrail, ...consistencyPlan.auditTrail, ...allAdvisoryAudits],
+        consistencyAudit: [...consistencyPatrimonial.auditTrail, ...allAdvisoryAudits],
         indicators: bpIndicators,
         sourceRuntime: 'BP_RUNTIME' as const,
         confidenceScore: 100, // Default start
-        governanceConsistency: undefined as any
+        governanceConsistency: undefined as any,
+        bpSummary: bpSummary
       };
 
       const consistency = PatrimonialGovernanceConsistencyEngine.evaluate({

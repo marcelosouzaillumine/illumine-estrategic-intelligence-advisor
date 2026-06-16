@@ -1,37 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import { 
-  Plus, 
-  Search, 
-  Filter, 
-  Save, 
-  UploadCloud, 
-  Link2,
-  CheckCircle2,
-  Loader2,
-  Edit2,
-  Trash2,
-  BookOpen,
-  ChevronRight,
-  Sparkles,
-  AlertTriangle,
-  X,
-  List,
-  LayoutGrid
-} from 'lucide-react';
-import { 
-  collection, 
-  query, 
-  where, 
-  orderBy, 
-  onSnapshot, 
-  writeBatch, 
-  doc, 
-  serverTimestamp, 
-  addDoc, 
-  updateDoc, 
-  deleteDoc,
-  getDocs
-} from 'firebase/firestore';
+import { Plus, Search, Filter, Save, UploadCloud, Link2, CheckCircle2, Loader2, Edit2, Trash2, BookOpen, ChevronRight, Sparkles, AlertTriangle, X, List, LayoutGrid } from 'lucide-react';
+import { collection, query, where, orderBy, onSnapshot, writeBatch, doc, serverTimestamp, addDoc, updateDoc, deleteDoc, getDocs } from 'firebase/firestore';
 import { db, auth, handleFirestoreError, OperationType } from '../../lib/firebase';
 import { DATA } from '../../data';
 import { SYSTEM_KPI_CATEGORIES } from '../../constants';
@@ -118,7 +87,7 @@ function DeletePlanModal({
           <button
             onClick={onClose}
             disabled={isDeleting}
-            className="flex-1 py-3 text-muted-foreground font-bold text-sm hover:bg-slate-200 rounded-2xl transition-all"
+      className="flex-1 py-3 text-executive-secondary font-bold text-sm hover:bg-slate-200 rounded-2xl transition-all"
           >
             Cancelar
           </button>
@@ -437,7 +406,7 @@ export function PlanoDeContasPage({
             <select 
               value={filterType}
               onChange={(e) => setFilterType(e.target.value)}
-              className="bg-slate-50 border border-border rounded-xl px-4 py-3 text-sm font-bold text-muted-foreground outline-none"
+       className="bg-slate-50 border border-border rounded-xl px-4 py-3 text-sm font-bold text-executive-secondary outline-none"
             >
               <option value="Todos">Todos os Grupos</option>
               {accountTypes.map(t => <option key={t} value={t}>{t}</option>)}
@@ -473,7 +442,7 @@ export function PlanoDeContasPage({
                 <tr>
                   <td colSpan={7} className="px-8 py-20 text-center">
                     <Loader2 size={32} className="animate-spin text-secondary mx-auto mb-4" />
-                    <p className="text-muted-foreground font-bold">Carregando plano de contas...</p>
+          <p className="text-executive-secondary font-bold">Carregando plano de contas...</p>
                   </td>
                 </tr>
               ) : filteredAccounts.length === 0 ? (
@@ -481,7 +450,7 @@ export function PlanoDeContasPage({
                   <td colSpan={7} className="px-8 py-20 text-center">
                     <BookOpen size={48} className="text-muted-foreground mx-auto mb-4" />
                     <h4 className="text-xl font-display text-primary">Nenhuma conta encontrada</h4>
-                    <p className="text-muted-foreground max-w-2xl mx-auto mt-2 font-sans">Ajuste seus filtros ou adicione uma nova conta ao plano.</p>
+          <p className="text-executive-secondary max-w-2xl mx-auto mt-2 font-sans">Ajuste seus filtros ou adicione uma nova conta ao plano.</p>
                   </td>
                 </tr>
               ) : (
@@ -491,7 +460,7 @@ export function PlanoDeContasPage({
                     <td className="px-5 md:px-8 py-2.5 md:py-4">
                       <div className="flex items-center gap-2" style={{ paddingLeft: `${(acc.level - 1) * 20}px` }}>
                         {acc.level > 1 && <ChevronRight size={12} className="text-muted-foreground" />}
-                        <span className={cn("text-sm", acc.level === 1 ? "font-black text-primary" : "font-bold text-muted-foreground")}>
+            <span className={cn("text-sm", acc.level === 1 ? "font-black text-primary" : "font-bold text-executive-secondary")}>
                           {acc.name}
                         </span>
                       </div>

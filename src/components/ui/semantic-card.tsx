@@ -73,9 +73,9 @@ export function SemanticCard({
                   <IconComponent size={24} strokeWidth={2} />
                 </div>
               )}
-              <div className="flex-1 space-y-1.5">
-                {title && <h3 className="font-semibold text-xl tracking-tight leading-none">{title}</h3>}
-                {description && <p className="text-muted-foreground text-sm leading-relaxed max-w-2xl">{description}</p>}
+              <div className="flex-1 min-w-0">
+                {title && <h3 className={cn("text-base font-semibold text-foreground tracking-tight", description && "mb-1")}>{title}</h3>}
+                {description && <p className="text-executive-secondary text-sm leading-relaxed max-w-2xl">{description}</p>}
               </div>
             </div>
             {actions && <div className="shrink-0">{actions}</div>}

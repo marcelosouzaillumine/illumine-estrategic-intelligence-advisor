@@ -13,7 +13,8 @@ export interface ExecutiveHistoricalLegendProps {
 }
 
 /**
- * Phase 1: Canonical Legend positioned OUTSIDE the chart canvas.
+ * Phase 1: Separated Legend System (Out of Recharts Canvas)
+ * @deprecated Use `ExecutiveChartLegend` from ExecutiveChart V2.
  */
 export function ExecutiveHistoricalLegend({ items, className }: ExecutiveHistoricalLegendProps) {
   return (

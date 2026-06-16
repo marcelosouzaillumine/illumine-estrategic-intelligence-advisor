@@ -1,12 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { motion, AnimatePresence } from 'motion/react';
-import { 
-  ShieldCheck, BrainCircuit, Target, Activity, 
-  Layers, AlertCircle, Briefcase, Network, CheckCircle2, 
-  BarChart3, ArrowRight, ChevronRight, Scale, Building, Users,
-  HeartHandshake, ArrowUpRight, Sparkles
-} from 'lucide-react';
+import { ShieldCheck, BrainCircuit, Target, Activity, Layers, AlertCircle, Briefcase, Network, CheckCircle2, BarChart3, ArrowRight, ChevronRight, Scale, Building, Users, HeartHandshake, ArrowUpRight, Sparkles } from 'lucide-react';
 import { useDocumentTitle } from '../../../hooks/useDocumentTitle';
 
 // Editorial Causal Mesh backdrop (Static & Extremely Understated)
@@ -620,8 +615,8 @@ export function EmpresasPage() {
               { letter: 'M', name: 'Mission', desc: 'Alinhamento dos processos e decisões estratégicas com a missão fundadora.' }
             ].map((dim, i) => (
               <div key={i} className={`group relative p-6 bg-[#060D17] border border-white/5 rounded-xl flex flex-col items-center justify-center text-center hover:border-white/20 transition-all duration-300 min-h-[155px] overflow-hidden cursor-help ${i === 4 ? 'sm:col-span-2 lg:col-span-1' : ''}`}>
-                <span className="text-4xl font-display font-bold text-secondary transition-all duration-300 group-hover:scale-95 group-hover:opacity-0">{dim.letter}</span>
-                <h5 className="text-xs font-bold uppercase tracking-wider text-white mt-2 transition-all duration-300 group-hover:opacity-0">{dim.name}</h5>
+        <span className="text-4xl font-display font-bold text-secondary transition-all duration-300 group-hover:scale-95 group-hover:">{dim.letter}</span>
+        <h5 className="text-xs font-bold uppercase tracking-wider text-white mt-2 transition-all duration-300 group-hover:">{dim.name}</h5>
                 
                 {/* Hover overlay description */}
                 <div className="absolute inset-0 bg-[#070F1A]/98 p-4 flex flex-col items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none">

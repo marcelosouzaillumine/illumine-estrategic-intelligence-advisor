@@ -1,25 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { 
-  FileText, 
-  Plus, 
-  Search, 
-  Calendar, 
-  Users, 
-  Clock, 
-  ChevronRight, 
-  MoreHorizontal, 
-  Trash2, 
-  Edit3, 
-  Download, 
-  ChevronLeft,
-  Save,
-  X,
-  AlertCircle,
-  CheckCircle2,
-  Briefcase,
-  MapPin,
-  MessageSquare
-} from 'lucide-react';
+import { FileText, Plus, Search, Calendar, Users, Clock, ChevronRight, MoreHorizontal, Trash2, Edit3, Download, ChevronLeft, Save, X, AlertCircle, CheckCircle2, Briefcase, MapPin, MessageSquare } from 'lucide-react';
 import { motion, AnimatePresence } from 'motion/react';
 import { collection, query, where, getDocs, addDoc, serverTimestamp, updateDoc, doc, deleteDoc, orderBy, onSnapshot } from 'firebase/firestore';
 import { db, auth } from '../../lib/firebase';

@@ -40,7 +40,7 @@ export const BalanceSheetBoardAdvisory = ({
                 )}
               </div>
             ) : (
-              <p className="text-foreground/60">Parecer não gerado.</p>
+              <p className="text-executive-muted">Parecer não gerado.</p>
             )}
           </ExecutiveNarrative>
         </div>

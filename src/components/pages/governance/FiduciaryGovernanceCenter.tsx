@@ -4,12 +4,7 @@ import { PageHeader } from '../../Common';
 import { useExecutiveCognitive } from '../../../context/executive-cognitive/ExecutiveCognitiveProvider';
 import { InstitutionalPrioritySurface, CriticalDecisionSurface, ExecutivePriorityStack } from '../../executive-cognitive';
 import { useInstitutionalMemory } from '../../../context/institutional-memory/InstitutionalMemoryProvider';
-import { 
-  GovernanceHistoryExplorer, 
-  GovernanceRecurrencePanel, 
-  AdvisoryContinuitySurface,
-  MemoryIntegrityBadge
-} from '../../institutional-memory';
+import { GovernanceHistoryExplorer, GovernanceRecurrencePanel, AdvisoryContinuitySurface, MemoryIntegrityBadge } from '../../institutional-memory';
 
 export function FiduciaryGovernanceCenter() {
   const [activeTab, setActiveTab] = useState<'conflitos' | 'relacionadas' | 'decisoes' | 'memoria'>('conflitos');

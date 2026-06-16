@@ -74,7 +74,7 @@ export function ExecutiveScore({
       ) : empty || value === undefined ? (
         <div className="flex flex-col items-center gap-2 py-4 flex-1 justify-center opacity-60">
           <FileX className="w-8 h-8 text-muted-foreground mb-2" />
-          <span className="text-sm font-medium italic text-muted-foreground text-center">{emptyMessage}</span>
+     <span className="text-sm font-medium italic text-executive-secondary text-center">{emptyMessage}</span>
         </div>
       ) : (
         <div className="flex flex-col items-center gap-3">

@@ -2,21 +2,7 @@
 import React, { useMemo, useRef, useState, useEffect } from 'react';
 import { collection, query, where, onSnapshot } from 'firebase/firestore';
 import { db } from '../../lib/firebase';
-import { 
-  BarChart3, 
-  TrendingUp, 
-  ShieldCheck, 
-  Target, 
-  Activity, 
-  Zap, 
-  FileText,
-  FileDown,
-  MessageSquarePlus,
-  Layout,
-  CheckCircle2,
-  ShieldAlert,
-  Loader2
-} from 'lucide-react';
+import { BarChart3, TrendingUp, ShieldCheck, Target, Activity, Zap, FileText, FileDown, MessageSquarePlus, Layout, CheckCircle2, ShieldAlert, Loader2 } from 'lucide-react';
 import { motion } from 'motion/react';
 import { formatCurrency, cn, formatValue } from '../../lib/utils';
 import { useModuleData } from '../../hooks/useModuleData';
@@ -26,7 +12,8 @@ import html2canvas from 'html2canvas';
 import jsPDF from 'jspdf';
 import { evaluateFinancialRules } from '../../lib/governanceIntelligence';
 import { GovernanceInsightPanel } from '../GovernanceInsightPanel';
-import { PageHeader, StatusBadge, KpiCard } from '../Common';
+import { PageHeader, StatusBadge } from '../Common';
+import { ExecutiveMetricCard } from '../ui/executive-metric-card';
 import { ObjetivoOKR as OKR, DiagnosticoItem as Diagnostico, Diretriz as Diretrizes } from '../../types/modules';
 import { Button } from '../ui/button';
 import { RelatorioDemonstracoes5Anos } from './RelatorioDemonstracoes5Anos';
@@ -199,7 +186,7 @@ export function RelatorioExecutivoPage({ clientId, selectedMonth, selectedYear }
            
            <div className="text-center space-y-4 w-full max-w-2xl mx-auto px-6">
               <h2 className="text-h1 font-medium text-foreground tracking-tight leading-tight">Relatório Executivo Silencioso</h2>
-              <p className="text-muted-foreground w-full max-w-2xl mx-auto font-medium leading-relaxed italic">
+       <p className="text-executive-secondary w-full max-w-2xl mx-auto font-medium leading-relaxed italic">
                 Não identificamos dados estratégicos, indicadores ou planos de ação para o período de <strong>{['Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho', 'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro'][(selectedMonth || 1) - 1]} de {selectedYear}</strong>. 
                 Importe os dados ou defina OKRs para gerar o relatório.
               </p>
@@ -240,7 +227,7 @@ export function RelatorioExecutivoPage({ clientId, selectedMonth, selectedYear }
                         <h1 className="text-4xl font-medium tracking-tighter text-foreground uppercase text-primary">Relatório Executivo</h1>
                      </div>
                      <div className="space-y-1">
-                        <p className="text-[10px] font-medium text-secondary tracking-widest uppercase">Illumine Governance</p>
+            <p className="text-[10px] font-medium text-executive-secondary tracking-widest uppercase">Illumine Governance</p>
                         <p className="text-[10px] font-medium text-muted-foreground uppercase tracking-widest">Referência: {selectedMonth}/{selectedYear}</p>
                      </div>
                   </div>
@@ -255,16 +242,16 @@ export function RelatorioExecutivoPage({ clientId, selectedMonth, selectedYear }
                {(reportType === 'full' || reportType === 'governance') && (
                  <div className="grid grid-cols-2 gap-12 mb-12 border-b border-border pb-12">
                     <div className="bg-executive p-10 rounded-md text-white shadow-premium">
-                       <p className="text-secondary text-[8px] font-medium uppercase tracking-widest mb-1">Propósito</p>
+            <p className="text-executive-secondary text-[8px] font-medium uppercase tracking-widest mb-1">Propósito</p>
                        <p className="text-white text-[11px] font-medium leading-relaxed italic">"{mvv?.proposito || 'Propósito não definido'}"</p>
                        <div className="mt-8 flex gap-4">
                           <div>
-                             <p className="text-secondary/60 text-[8px] font-medium uppercase tracking-widest mb-1">Missão</p>
-                             <p className="text-[9px] font-medium opacity-80 leading-relaxed italic break-words overflow-visible">{mvv?.missao || 'Não definida'}</p>
+               <p className="text-executive-secondary/60 text-[8px] font-medium uppercase tracking-widest mb-1">Missão</p>
+               <p className="text-[9px] font-medium leading-relaxed italic break-words overflow-visible">{mvv?.missao || 'Não definida'}</p>
                           </div>
                           <div>
-                             <p className="text-secondary/60 text-[8px] font-medium uppercase tracking-widest mb-1">Visão</p>
-                             <p className="text-[9px] font-medium opacity-80 leading-relaxed italic break-words overflow-visible">{mvv?.visao || 'Não definida'}</p>
+               <p className="text-executive-secondary/60 text-[8px] font-medium uppercase tracking-widest mb-1">Visão</p>
+               <p className="text-[9px] font-medium leading-relaxed italic break-words overflow-visible">{mvv?.visao || 'Não definida'}</p>
                           </div>
                        </div>
                     </div>
@@ -364,11 +351,11 @@ export function RelatorioExecutivoPage({ clientId, selectedMonth, selectedYear }
                          <div className="flex justify-between items-end">
                             <div>
                                <p className="text-[24px] font-medium text-foreground tracking-tighter leading-none">{actionStats.completed}</p>
-                               <p className="text-[9px] font-medium text-muted-foreground uppercase tracking-widest">Ações Concluídas</p>
+                <p className="text-[9px] font-medium text-executive-secondary uppercase tracking-widest">Ações Concluídas</p>
                             </div>
                             <div className="text-right">
-                               <p className="text-[24px] font-medium text-secondary tracking-tighter leading-none">{actionStats.pending}</p>
-                               <p className="text-[9px] font-medium text-muted-foreground uppercase tracking-widest">Em Execução</p>
+                <p className="text-[24px] font-medium text-executive-secondary tracking-tighter leading-none">{actionStats.pending}</p>
+                <p className="text-[9px] font-medium text-executive-secondary uppercase tracking-widest">Em Execução</p>
                             </div>
                          </div>
                          <div className="h-2.5 bg-card rounded-full overflow-hidden border border-border p-0.5">

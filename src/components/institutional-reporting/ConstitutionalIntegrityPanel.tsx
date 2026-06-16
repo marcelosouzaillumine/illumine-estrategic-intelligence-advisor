@@ -36,7 +36,7 @@ export const ConstitutionalIntegrityPanel: React.FC<ConstitutionalIntegrityPanel
     <div className="bg-zinc-950 border border-zinc-800 rounded-xl p-6 font-mono text-zinc-300 relative overflow-hidden">
       {/* Background Subtle Accent */}
       <div className="absolute inset-0 opacity-5 pointer-events-none" style={{
-        backgroundImage: 'radial-gradient(circle at top right, #3b82f6 0%, transparent 60%)'
+        backgroundImage: 'radial-gradient(circle at top right, var(--color-primary) 0%, transparent 60%)'
       }}></div>
 
       <div className="relative z-10 space-y-6">

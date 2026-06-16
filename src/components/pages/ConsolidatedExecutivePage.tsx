@@ -21,7 +21,7 @@ export function ConsolidatedExecutivePage() {
     return (
       <div className="flex flex-col items-center justify-center h-96">
         <Loader2 className="w-8 h-8 text-secondary animate-spin mb-4" />
-        <p className="text-sm font-black text-muted-foreground uppercase tracking-widest">Carregando Inteligência Consolidada...</p>
+    <p className="text-sm font-black text-executive-secondary uppercase tracking-widest">Carregando Inteligência Consolidada...</p>
       </div>
     );
   }

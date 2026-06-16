@@ -1,22 +1,5 @@
 import React, { useState, useEffect, useMemo } from 'react';
-import { 
-  LayoutDashboard, 
-  Presentation, 
-  Download, 
-  ChevronRight, 
-  ChevronLeft,
-  X,
-  Database,
-  ShieldCheck,
-  CheckSquare,
-  FileDown,
-  MessageSquare,
-  Activity,
-  UserCheck,
-  Send,
-  AlertTriangle,
-  Sparkles
-} from 'lucide-react';
+import { LayoutDashboard, Presentation, Download, ChevronRight, ChevronLeft, X, Database, ShieldCheck, CheckSquare, FileDown, MessageSquare, Activity, UserCheck, Send, AlertTriangle, Sparkles } from 'lucide-react';
 import { cn } from '../../lib/utils';
 import { PageHeader, StatusBadge } from '../Common';
 import { executiveRuntime } from '../../services/FiduciaryRuntimeAdapter';

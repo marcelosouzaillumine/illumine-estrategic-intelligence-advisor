@@ -1,35 +1,7 @@
 // src/components/pages/governance/ESGIMAssessmentPage.tsx
 
 import React, { useState, useMemo } from 'react';
-import { 
-  Brain, 
-  Target, 
-  Activity, 
-  Scale, 
-  Building, 
-  Users, 
-  ShieldCheck, 
-  ShieldAlert, 
-  ChevronRight, 
-  ChevronDown,
-  Info, 
-  AlertCircle, 
-  CheckCircle2, 
-  Clock,
-  TrendingUp,
-  Dna,
-  Lock,
-  Compass,
-  Coins,
-  HeartPulse,
-  Workflow,
-  Sparkles,
-  ArrowRight,
-  TrendingDown,
-  Calendar,
-  Layers,
-  MapPin
-} from 'lucide-react';
+import { Brain, Target, Activity, Scale, Building, Users, ShieldCheck, ShieldAlert, ChevronRight, ChevronDown, Info, AlertCircle, CheckCircle2, Clock, TrendingUp, Dna, Lock, Compass, Coins, HeartPulse, Workflow, Sparkles, ArrowRight, TrendingDown, Calendar, Layers, MapPin } from 'lucide-react';
 import { motion, AnimatePresence } from 'motion/react';
 import { PageHeader } from '../../Common';
 import { useLanguage } from '../../../contexts/LanguageContext';
@@ -159,7 +131,7 @@ export function ESGIMAssessmentPage({ clientId }: { clientId: string }) {
           <ShieldAlert className="w-12 h-12 mx-auto" />
         </div>
         <h2 className="text-xl font-bold uppercase tracking-wider text-primary mb-2">Acesso Restrito</h2>
-        <p className="text-secondary text-sm max-w-md">
+    <p className="text-executive-secondary text-sm max-w-md">
           Esta área é restrita a Conselheiros (Board), Assessores (Advisor), Executivos e Administradores da holding.
         </p>
       </div>
@@ -345,7 +317,7 @@ export function ESGIMAssessmentPage({ clientId }: { clientId: string }) {
               <span className="text-[10px] text-muted-foreground uppercase tracking-widest font-black mb-1 block">Maturidade ESGIM™</span>
               <div className="text-3xl font-light flex items-center justify-end gap-1.5">
                 <span className={esgimStyles.text}>{assessment.overallScore}</span>
-                <span className="text-sm text-muted-foreground">/100</span>
+        <span className="text-sm text-executive-secondary">/100</span>
               </div>
               <span className={`inline-block mt-1 px-2 py-0.5 rounded-lg text-[9px] font-black tracking-widest border uppercase ${esgimStyles.bg} ${esgimStyles.text} ${esgimStyles.border}`}>
                 {assessment.maturityLevel}
@@ -360,7 +332,7 @@ export function ESGIMAssessmentPage({ clientId }: { clientId: string }) {
               <span className="text-[10px] text-muted-foreground uppercase tracking-widest font-black mb-1 block">Resiliência IRI™</span>
               <div className="text-3xl font-light flex items-center justify-end gap-1.5">
                 <span className={iriStyles.text}>{resilience.score}</span>
-                <span className="text-sm text-muted-foreground">/100</span>
+        <span className="text-sm text-executive-secondary">/100</span>
               </div>
               <span className={`inline-block mt-1 px-2 py-0.5 rounded-lg text-[9px] font-black tracking-widest border uppercase ${iriStyles.bg} ${iriStyles.text} ${iriStyles.border}`}>
                 {resilience.level.replace('_', ' ')}
@@ -375,7 +347,7 @@ export function ESGIMAssessmentPage({ clientId }: { clientId: string }) {
       <div className="card-premium p-6 border border-white/5 bg-[#060D17]/50 backdrop-blur-md rounded-2xl flex flex-col md:flex-row md:items-center justify-between gap-6">
         <div>
           <h3 className="text-sm font-bold uppercase tracking-wider text-primary">Filtro de Leitura Estrutural</h3>
-          <p className="text-secondary">Diferencie entre dados contábeis auditados (LIVE_DATA) e simulações cognitivas de estresse (DEMO_SCENARIO).</p>
+     <p className="text-executive-secondary">Diferencie entre dados contábeis auditados (LIVE_DATA) e simulações cognitivas de estresse (DEMO_SCENARIO).</p>
         </div>
 
         <div className="flex flex-wrap items-center gap-4">
@@ -572,7 +544,7 @@ export function ESGIMAssessmentPage({ clientId }: { clientId: string }) {
                         className={`h-full rounded-full ${styles.bgBar}`} 
                       />
                     </div>
-                    <p className="text-secondary">
+          <p className="text-executive-secondary">
                       {dim.explanation}
                     </p>
                   </div>
@@ -610,7 +582,7 @@ export function ESGIMAssessmentPage({ clientId }: { clientId: string }) {
                     className="h-full rounded-full bg-success-soft0" 
                   />
                 </div>
-                <p className="text-secondary">
+        <p className="text-executive-secondary">
                   Mede o runway financeiro, a liquidez de tesouraria e a suficiência de capital sob stress agudo.
                 </p>
               </div>
@@ -632,7 +604,7 @@ export function ESGIMAssessmentPage({ clientId }: { clientId: string }) {
                     className="h-full rounded-full bg-teal-500" 
                   />
                 </div>
-                <p className="text-secondary">
+        <p className="text-executive-secondary">
                   Mede a ausência de personificação do legado, blindagem sucessória e formalização corporativa.
                 </p>
               </div>
@@ -654,7 +626,7 @@ export function ESGIMAssessmentPage({ clientId }: { clientId: string }) {
                     className="h-full rounded-full bg-sky-500" 
                   />
                 </div>
-                <p className="text-secondary">
+        <p className="text-executive-secondary">
                   Mede a adaptabilidade estratégica, prontidão para inovação e capacidade de transição de ciclos.
                 </p>
               </div>
@@ -676,7 +648,7 @@ export function ESGIMAssessmentPage({ clientId }: { clientId: string }) {
                     className="h-full rounded-full bg-critical-soft0" 
                   />
                 </div>
-                <p className="text-secondary">
+        <p className="text-executive-secondary">
                   Mede a solidez existencial do propósito do fundador mesmo em períodos de reestruturação severa.
                 </p>
               </div>
@@ -691,7 +663,7 @@ export function ESGIMAssessmentPage({ clientId }: { clientId: string }) {
           
           <div className="text-center">
             <h4 className="text-xs font-bold uppercase tracking-wider text-primary">Gauges de Diagnóstico</h4>
-            <p className="text-secondary">Maturidade operacional versus capacidade de sobrevivência.</p>
+      <p className="text-executive-secondary">Maturidade operacional versus capacidade de sobrevivência.</p>
           </div>
 
           <div className="grid grid-cols-2 gap-6 w-full">
@@ -773,7 +745,7 @@ export function ESGIMAssessmentPage({ clientId }: { clientId: string }) {
             <h4 className="text-2xl font-light leading-snug tracking-tight text-amber-300 font-sans italic">
               "{brief.headline}"
             </h4>
-            <p className="text-sm text-secondary leading-relaxed font-sans font-normal border-l-2 border-amber-500/30 pl-4">
+      <p className="text-sm text-executive-secondary leading-relaxed font-sans font-normal border-l-2 border-amber-500/30 pl-4">
               {brief.summary}
             </p>
           </div>
@@ -849,7 +821,7 @@ export function ESGIMAssessmentPage({ clientId }: { clientId: string }) {
                           originSurface="ESGIM" 
                         />
                       </div>
-                      <p className="text-secondary">
+           <p className="text-executive-secondary">
                         {priority.description}
                       </p>
                     </div>
@@ -898,7 +870,7 @@ export function ESGIMAssessmentPage({ clientId }: { clientId: string }) {
                           {/* Expected Benefit */}
                           <div className="space-y-2">
                             <span className="text-[9px] font-black uppercase tracking-widest text-muted-foreground block">Benefício Esperado</span>
-                            <p className="text-secondary">
+              <p className="text-executive-secondary">
                               {priority.expectedBenefit}
                             </p>
                           </div>
@@ -1036,7 +1008,7 @@ export function ESGIMAssessmentPage({ clientId }: { clientId: string }) {
         </div>
 
         {/* Narrative recommendation */}
-        <p className="text-secondary">
+    <p className="text-executive-secondary">
           "{roadmap.executiveSummary}"
         </p>
 
@@ -1058,7 +1030,7 @@ export function ESGIMAssessmentPage({ clientId }: { clientId: string }) {
                   {/* Glowing dot for active phase */}
                   {isActive && (
                     <div className="absolute top-3 right-3 flex h-2 w-2">
-                      <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-primary opacity-75"></span>
+           <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-primary "></span>
                       <span className="relative inline-flex rounded-full h-2 w-2 bg-primary"></span>
                     </div>
                   )}
@@ -1072,7 +1044,7 @@ export function ESGIMAssessmentPage({ clientId }: { clientId: string }) {
                       </h4>
                     </div>
 
-                    <p className="text-secondary">
+          <p className="text-executive-secondary">
                       {phase.objective}
                     </p>
 
@@ -1203,7 +1175,7 @@ export function ESGIMAssessmentPage({ clientId }: { clientId: string }) {
         </div>
 
         {/* Executive summary paragraph */}
-        <div className="p-4 bg-surface-container 950/40 border border-white/5 rounded-xl text-sm text-muted-foreground leading-relaxed">
+    <div className="p-4 bg-surface-container 950/40 border border-white/5 rounded-xl text-sm text-executive-secondary leading-relaxed">
           <strong className="text-muted-foreground block uppercase tracking-wider text-[10px] mb-1">Sumário Executivo de Evolução</strong>
           "{monitoring.executiveSummary}"
         </div>
@@ -1251,7 +1223,7 @@ export function ESGIMAssessmentPage({ clientId }: { clientId: string }) {
                 </React.Fragment>
               ))}
             </div>
-            <p className="text-secondary">
+      <p className="text-executive-secondary">
               A maturidade mede a adesão formal de processos nos eixos socioambientais, sociais, governança, institucionais e missão.
             </p>
           </div>
@@ -1289,7 +1261,7 @@ export function ESGIMAssessmentPage({ clientId }: { clientId: string }) {
                 </React.Fragment>
               ))}
             </div>
-            <p className="text-secondary">
+      <p className="text-executive-secondary">
               A resiliência mede o grau de blindagem sucessória, proteção fiduciária e adaptabilidade estratégica da holding.
             </p>
           </div>
@@ -1340,7 +1312,7 @@ export function ESGIMAssessmentPage({ clientId }: { clientId: string }) {
                 );
               })()}
             </div>
-            <p className="text-secondary">
+      <p className="text-executive-secondary">
               Mede se as prioridades e decisões recomendadas pelo conselho estão sendo executadas dentro do prazo.
             </p>
           </div>
@@ -1367,7 +1339,7 @@ export function ESGIMAssessmentPage({ clientId }: { clientId: string }) {
                 style={{ width: `${monitoring.snapshots[3].roadmapProgress}%` }}
               />
             </div>
-            <p className="text-secondary">
+      <p className="text-executive-secondary">
               Consome e cruza a taxa de conclusão dos critérios e marcos críticos definidos nas fases ativas do GRE™.
             </p>
           </div>
@@ -1417,7 +1389,7 @@ export function ESGIMAssessmentPage({ clientId }: { clientId: string }) {
                 );
               })()}
             </div>
-            <p className="text-secondary">
+      <p className="text-executive-secondary">
               Avaliação de ameaça nas categorias estatutárias, fiduciárias, constitucionais e operacionais.
             </p>
           </div>
@@ -1465,12 +1437,12 @@ export function ESGIMAssessmentPage({ clientId }: { clientId: string }) {
                           {alert.severity}
                         </span>
                       </div>
-                      <p className="text-[11px] opacity-70 leading-relaxed">{alert.description}</p>
+           <p className="text-[11px] leading-relaxed">{alert.description}</p>
                     </div>
 
                     <div className="text-[10px] border-t border-white/5 pt-2 flex items-start gap-1">
                       <strong className="uppercase text-[8px] font-black tracking-widest block text-primary mt-0.5">Ação:</strong>
-                      <span className="opacity-90">{alert.recommendedAction}</span>
+           <span className="">{alert.recommendedAction}</span>
                     </div>
                   </div>
                 );
@@ -1567,7 +1539,7 @@ export function ESGIMAssessmentPage({ clientId }: { clientId: string }) {
                 exit={{ opacity: 0, y: -5 }}
                 className="space-y-6"
               >
-                <div className="flex items-center gap-2 text-sm font-bold uppercase tracking-wider text-muted-foreground">
+        <div className="flex items-center gap-2 text-sm font-bold uppercase tracking-wider text-executive-secondary">
                   <ShieldCheck className="w-5 h-5 text-primary" />
                   <h4>Trilha de Sinais e Evidências Associadas</h4>
                 </div>
@@ -1635,7 +1607,7 @@ export function ESGIMAssessmentPage({ clientId }: { clientId: string }) {
                 exit={{ opacity: 0, y: -5 }}
                 className="space-y-6"
               >
-                <div className="flex items-center gap-2 text-sm font-bold uppercase tracking-wider text-muted-foreground">
+        <div className="flex items-center gap-2 text-sm font-bold uppercase tracking-wider text-executive-secondary">
                   <Scale className="w-5 h-5 text-primary" />
                   <h4>Regras da Constituição Cognitiva & Overrides Aplicados</h4>
                 </div>
@@ -1724,7 +1696,7 @@ export function ESGIMAssessmentPage({ clientId }: { clientId: string }) {
                 exit={{ opacity: 0, y: -5 }}
                 className="space-y-6"
               >
-                <div className="flex items-center gap-2 text-sm font-bold uppercase tracking-wider text-muted-foreground">
+        <div className="flex items-center gap-2 text-sm font-bold uppercase tracking-wider text-executive-secondary">
                   <Dna className="w-5 h-5 text-primary" />
                   <h4>Rastreabilidade Fiduciária e Assinatura Criptográfica</h4>
                 </div>

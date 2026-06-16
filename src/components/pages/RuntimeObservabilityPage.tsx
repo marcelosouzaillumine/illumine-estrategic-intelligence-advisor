@@ -29,7 +29,7 @@ function ExecutionTraceTree({ trace }: { trace: any }) {
 }
 
 function ExecutionReplayPanel({ replay }: { replay: ReplayExecutionResult | null }) {
-  if (!replay) return <div className="text-sm text-muted-foreground">Selecione uma execução para Replay.</div>;
+ if (!replay) return <div className="text-sm text-executive-secondary">Selecione uma execução para Replay.</div>;
   const report = replay.snapshotReport as any as ConsolidatedExecutiveAdvisoryReport;
   
   return (
@@ -117,7 +117,7 @@ export function RuntimeObservabilityPage() {
           </div>
           <div className="card-premium p-6 space-y-2">
             <p className="text-[10px] font-medium text-muted-foreground uppercase tracking-widest">Avg Duration</p>
-            <p className="text-h3 font-medium text-secondary tabular-nums">{health.avgDurationMs}ms</p>
+      <p className="text-h3 font-medium text-executive-secondary tabular-nums">{health.avgDurationMs}ms</p>
           </div>
           <div className="card-premium p-6 space-y-2">
             <p className="text-[10px] font-medium text-muted-foreground uppercase tracking-widest">Failure Rate</p>
@@ -161,7 +161,7 @@ export function RuntimeObservabilityPage() {
                 </div>
               </div>
             ))}
-            {executions.length === 0 && <p className="text-body-sm text-muted-foreground">Nenhuma execução registrada.</p>}
+      {executions.length === 0 && <p className="text-body-sm text-executive-secondary">Nenhuma execução registrada.</p>}
           </div>
         </div>
 

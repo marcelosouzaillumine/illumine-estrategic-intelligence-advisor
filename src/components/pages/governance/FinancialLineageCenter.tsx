@@ -1,18 +1,5 @@
 import React, { useState, useMemo } from 'react';
-import { 
-  ShieldCheck, 
-  GitFork, 
-  AlertOctagon, 
-  CheckCircle, 
-  HelpCircle, 
-  Filter, 
-  RefreshCw, 
-  Layers, 
-  Activity, 
-  ArrowRight,
-  TrendingUp,
-  Cpu
-} from 'lucide-react';
+import { ShieldCheck, GitFork, AlertOctagon, CheckCircle, HelpCircle, Filter, RefreshCw, Layers, Activity, ArrowRight, TrendingUp, Cpu } from 'lucide-react';
 import { useAllFinancialData } from '../../../hooks/useFinancialData';
 import { useInstitutionalRuntime } from '../../../hooks/useInstitutionalRuntime';
 import { cn, formatCurrency } from '../../../lib/utils';

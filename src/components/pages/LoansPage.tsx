@@ -1,35 +1,8 @@
 
 import React, { useState, useEffect, useMemo } from 'react';
-import { 
-  WalletCards, 
-  CalendarDays, 
-  Calculator, 
-  TrendingDown, 
-  ArrowRight, 
-  ChevronLeft, 
-  ChevronRight, 
-  FileSpreadsheet,
-  Boxes,
-  Sparkles,
-  Zap,
-  TrendingUp,
-  Plus,
-  Upload,
-  Trash2
-} from 'lucide-react';
+import { WalletCards, CalendarDays, Calculator, TrendingDown, ArrowRight, ChevronLeft, ChevronRight, FileSpreadsheet, Boxes, Sparkles, Zap, TrendingUp, Plus, Upload, Trash2 } from 'lucide-react';
 import { motion, AnimatePresence } from 'motion/react';
-import { 
-  BarChart, 
-  Bar, 
-  XAxis, 
-  YAxis, 
-  CartesianGrid, 
-  Tooltip, 
-  Legend, 
-  ResponsiveContainer, 
-  AreaChart, 
-  Area 
-} from 'recharts';
+import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer, AreaChart, Area } from 'recharts';
 import { PageHeader, ControlBar } from '../Common';
 import { DATA } from '../../data';
 import { cn, formatCurrency, getThemeColors } from '../../lib/utils';
@@ -213,8 +186,8 @@ export function LoansPage({ clients, selectedClient }: { clients: any[], selecte
             <Boxes size={48} className="relative z-10 animate-pulse" />
          </div>
          <div className="text-center space-y-4 w-full max-w-2xl mx-auto">
-            <h2 className="text-2xl font-display font-black text-muted-foreground tracking-tight">Selecione uma Empresa</h2>
-            <p className="text-muted-foreground w-full max-w-2xl mx-auto font-medium leading-relaxed">
+      <h2 className="text-2xl font-display font-black text-executive-secondary tracking-tight">Selecione uma Empresa</h2>
+      <p className="text-executive-secondary w-full max-w-2xl mx-auto font-medium leading-relaxed">
               Por favor, selecione uma empresa no seletor de cliente ativo no topo da tela para visualizar o painel de passivos.
             </p>
          </div>
@@ -233,8 +206,8 @@ export function LoansPage({ clients, selectedClient }: { clients: any[], selecte
           <div className="w-24 h-24 bg-slate-50 rounded-full flex items-center justify-center mb-6">
             <WalletCards size={48} className="text-muted-foreground" />
           </div>
-          <h3 className="text-xl font-bold text-muted-foreground mb-2">Sem contratos registrados</h3>
-          <p className="text-muted-foreground max-w-2xl mx-auto mb-8 leading-relaxed">Nenhum contrato de financiamento foi cadastrado para o cliente {(clients || []).find((c: any) => c.id === selectedClient)?.fantasia || 'Selecionado'} até o momento.</p>
+     <h3 className="text-xl font-bold text-executive-secondary mb-2">Sem contratos registrados</h3>
+     <p className="text-executive-secondary max-w-2xl mx-auto mb-8 leading-relaxed">Nenhum contrato de financiamento foi cadastrado para o cliente {(clients || []).find((c: any) => c.id === selectedClient)?.fantasia || 'Selecionado'} até o momento.</p>
           <div className="flex items-center gap-4">
             <button 
               onClick={() => setShowContractModal(true)}
@@ -350,8 +323,8 @@ export function LoansPage({ clients, selectedClient }: { clients: any[], selecte
                       })()}
                     </div>
                   </div>
-                  <h3 className="text-2xl font-display font-black text-muted-foreground tracking-tight relative z-10 whitespace-nowrap">{kpi.value}</h3>
-                  <p className="text-[10px] font-bold text-muted-foreground mt-4 flex items-center gap-2 relative z-10 opacity-80 italic">
+         <h3 className="text-2xl font-display font-black text-executive-secondary tracking-tight relative z-10 whitespace-nowrap">{kpi.value}</h3>
+         <p className="text-[10px] font-bold text-muted-foreground mt-4 flex items-center gap-2 relative z-10 italic">
                     <ArrowRight size={12} className="text-secondary" /> {kpi.helper}
                   </p>
                   <div className="absolute -bottom-6 -right-6 w-24 h-24 bg-slate-50 rounded-full opacity-0 group-hover:opacity-100 transition-all duration-500 pointer-events-none"></div>
@@ -362,7 +335,7 @@ export function LoansPage({ clients, selectedClient }: { clients: any[], selecte
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
               <div className="bg-white p-8 rounded-[32px] border border-border shadow-sm">
                 <div className="mb-6">
-                  <h3 className="text-lg font-bold text-muted-foreground">Comparativo PRICE x SAC</h3>
+         <h3 className="text-lg font-bold text-executive-secondary">Comparativo PRICE x SAC</h3>
                   <p className="text-xs text-muted-foreground">Desembolso total vs Custo financeiro (Juros)</p>
                 </div>
                 <div className="h-[300px] w-full">
@@ -385,7 +358,7 @@ export function LoansPage({ clients, selectedClient }: { clients: any[], selecte
 
               <div className="bg-white p-8 rounded-[32px] border border-border shadow-sm">
                 <div className="mb-6">
-                  <h3 className="text-lg font-bold text-muted-foreground">Evolução do Saldo Devedor</h3>
+         <h3 className="text-lg font-bold text-executive-secondary">Evolução do Saldo Devedor</h3>
                   <p className="text-xs text-muted-foreground">Curva de amortização projetada ao longo do tempo</p>
                 </div>
                 <div className="h-[300px] w-full">
@@ -445,8 +418,8 @@ export function LoansPage({ clients, selectedClient }: { clients: any[], selecte
             className="bg-white p-8 rounded-[32px] border border-border shadow-sm"
           >
             <div className="mb-8">
-              <h3 className="text-xl font-bold text-muted-foreground">Simulador de Cenários</h3>
-              <p className="text-sm text-muted-foreground">Ajuste as premissas para recalcular o cronograma financeiro.</p>
+       <h3 className="text-xl font-bold text-executive-secondary">Simulador de Cenários</h3>
+       <p className="text-sm text-executive-secondary">Ajuste as premissas para recalcular o cronograma financeiro.</p>
             </div>
             
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
@@ -510,8 +483,8 @@ export function LoansPage({ clients, selectedClient }: { clients: any[], selecte
             className="bg-white rounded-[32px] border border-border shadow-sm overflow-hidden"
           >
             <div className="p-8 border-b border-border">
-              <h3 className="text-xl font-bold text-muted-foreground">Cronograma de Amortização (PRICE)</h3>
-              <p className="text-sm text-muted-foreground">Detalhe de Principal e Juros por período.</p>
+       <h3 className="text-xl font-bold text-executive-secondary">Cronograma de Amortização (PRICE)</h3>
+       <p className="text-sm text-executive-secondary">Detalhe de Principal e Juros por período.</p>
             </div>
             <div className="overflow-x-auto max-h-[600px] custom-scrollbar">
               <table className="w-full">
@@ -525,13 +498,13 @@ export function LoansPage({ clients, selectedClient }: { clients: any[], selecte
                 <tbody className="divide-y divide-slate-100">
                   {paginatedSchedule.map((row: any) => (
                     <tr key={row.periodo} className="hover:bg-slate-50 transition-colors group">
-                      <td className="px-4 md:px-6 py-2.5 md:py-4 text-sm font-bold text-muted-foreground">{row.periodo}</td>
-                      <td className="px-4 md:px-6 py-2.5 md:py-4 text-sm font-semibold text-muted-foreground">{formatDate(row.vencimento)}</td>
-                      <td className="px-4 md:px-6 py-2.5 md:py-4 text-sm font-medium text-muted-foreground">{formatCurrency(row.saldoInicial)}</td>
+           <td className="px-4 md:px-6 py-2.5 md:py-4 text-sm font-bold text-executive-secondary">{row.periodo}</td>
+           <td className="px-4 md:px-6 py-2.5 md:py-4 text-sm font-semibold text-executive-secondary">{formatDate(row.vencimento)}</td>
+           <td className="px-4 md:px-6 py-2.5 md:py-4 text-sm font-medium text-executive-secondary">{formatCurrency(row.saldoInicial)}</td>
                       <td className="px-4 md:px-6 py-2.5 md:py-4 text-sm font-bold text-secondary">{formatCurrency(row.parcela)}</td>
                       <td className="px-4 md:px-6 py-2.5 md:py-4 text-sm font-medium text-rose-500">{formatCurrency(row.juros)}</td>
                       <td className="px-4 md:px-6 py-2.5 md:py-4 text-sm font-medium text-emerald-500">{formatCurrency(row.amortizacao)}</td>
-                      <td className="px-4 md:px-6 py-2.5 md:py-4 text-sm font-black text-muted-foreground group-hover:text-secondary transition-colors">{formatCurrency(row.saldoFinal)}</td>
+           <td className="px-4 md:px-6 py-2.5 md:py-4 text-sm font-black text-executive-secondary group-hover:text-secondary transition-colors">{formatCurrency(row.saldoFinal)}</td>
                     </tr>
                   ))}
                 </tbody>
@@ -571,8 +544,8 @@ export function LoansPage({ clients, selectedClient }: { clients: any[], selecte
           >
             <div className="p-8 border-b border-border flex flex-col md:flex-row md:items-center md:justify-between gap-6">
               <div>
-                <h3 className="text-xl font-bold text-muted-foreground">Controle de Fluxo de Pagamento</h3>
-                <p className="text-sm text-muted-foreground">Gestão de liquidação de parcelas e conciliação.</p>
+        <h3 className="text-xl font-bold text-executive-secondary">Controle de Fluxo de Pagamento</h3>
+        <p className="text-sm text-executive-secondary">Gestão de liquidação de parcelas e conciliação.</p>
               </div>
               <div className="flex gap-4">
                 <div className="px-4 py-2 bg-success-soft border border-emerald-100 rounded-xl">
@@ -599,9 +572,9 @@ export function LoansPage({ clients, selectedClient }: { clients: any[], selecte
                     const payment = paymentStatus.find((item) => item.periodo === row.periodo) || { status: "A Vencer", dataDebito: "" };
                     return (
                       <tr key={row.periodo} className="hover:bg-slate-50 transition-colors">
-                        <td className="px-4 md:px-6 py-2.5 md:py-4 text-sm font-bold text-muted-foreground">{row.periodo}</td>
-                        <td className="px-4 md:px-6 py-2.5 md:py-4 text-sm font-semibold text-muted-foreground">{formatDate(row.vencimento)}</td>
-                        <td className="px-4 md:px-6 py-2.5 md:py-4 text-sm font-bold text-muted-foreground">{formatCurrency(row.parcela)}</td>
+            <td className="px-4 md:px-6 py-2.5 md:py-4 text-sm font-bold text-executive-secondary">{row.periodo}</td>
+            <td className="px-4 md:px-6 py-2.5 md:py-4 text-sm font-semibold text-executive-secondary">{formatDate(row.vencimento)}</td>
+            <td className="px-4 md:px-6 py-2.5 md:py-4 text-sm font-bold text-executive-secondary">{formatCurrency(row.parcela)}</td>
                         <td className="px-4 md:px-6 py-2.5 md:py-4">
                           <select 
                             value={payment.status} 

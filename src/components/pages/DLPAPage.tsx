@@ -1,30 +1,12 @@
-import { ExecutiveTable, ExecutiveTableHeader, ExecutiveTableBody, ExecutiveTableRow, ExecutiveTableHead, ExecutiveTableCell } from "../ui/executive-table";
+import { ExecutiveTable, ExecutiveTableHeader, ExecutiveTableBody, ExecutiveTableRow, ExecutiveTableHead, ExecutiveTableCell } from '../ui/executive-table';
 
 import React, { useState, useEffect, useMemo } from 'react';
 import { createPortal } from 'react-dom';
-import {
-  Calendar, Loader2, Upload, Trash2, Plus, FileText, Database,
-  TrendingUp, TrendingDown, Info, BarChart3, AlertTriangle,
-  ShieldAlert, Zap, Target, Activity, ShieldCheck, CheckCircle2,
-  BookOpen, Percent, PieChart as PieChartIcon, ArrowUpRight,
-  ArrowDownRight, Minus, BookMarked, Scale
-} from 'lucide-react';
-import { 
-  BarChart, 
-  Bar, 
-  XAxis, 
-  YAxis, 
-  CartesianGrid, 
-  Tooltip, 
-  Line, 
-  ComposedChart,
-  ResponsiveContainer 
-} from 'recharts';
+import { Calendar, Loader2, Upload, Trash2, Plus, FileText, Database, TrendingUp, TrendingDown, Info, BarChart3, AlertTriangle, ShieldAlert, Zap, Target, Activity, ShieldCheck, CheckCircle2, BookOpen, Percent, PieChart as PieChartIcon, ArrowUpRight, ArrowDownRight, Minus, BookMarked, Scale } from 'lucide-react';
+import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Line, ComposedChart, ResponsiveContainer } from 'recharts';
 
 import { ExecutiveHistoricalEvolutionCard } from '../ui/executive-historical-evolution-card';
-import { 
-  ExecutiveComposedChart, ExecutiveBar, ExecutiveLine, ExecutiveChartGrid, ExecutiveChartXAxis, ExecutiveChartYAxis, ExecutiveChartTooltip 
-} from '../ui/executive-chart';
+import { ExecutiveComposedChart, ExecutiveBar, ExecutiveLine, ExecutiveChartGrid, ExecutiveChartXAxis, ExecutiveChartYAxis, ExecutiveChartTooltip } from '../ui/executive-chart';
 import { ExecutiveChartSemanticPalette } from '../../core/theme/ExecutiveChartSemanticPalette';
 import { HistoricalInsightEngine } from '../../services/FiduciaryRuntimeAdapter';
 import type { HistoricalSeries } from '../../services/FiduciaryRuntimeAdapter';
@@ -37,9 +19,10 @@ import { ExecutiveTechnicalLayer } from '../ui/executive-technical-layer';
 import { ExecutiveMetricCard } from '../ui/executive-metric-card';
 import { ExecutiveTechnicalMetricCard } from '../ui/executive-technical-metric-card';
 import { ExecutiveScore } from '../ui/executive-score';
+import { ExecutiveBadge } from '../ui/executive-badge';
 
 import { cn, formatCurrency, formatValue } from '../../lib/utils';
-import { PageHeader, KpiValue, StatusBadge } from '../Common';
+import { PageHeader, StatusBadge } from '../Common';
 import { useAnnualFinancialData, useAllFinancialData } from '../../hooks/useFinancialData';
 import { ImportFinancialModal } from '../modals/ImportFinancialModal';
 import { DLPAActionToolbar } from './dlpa/DLPAActionToolbar';
@@ -92,68 +75,68 @@ function resolveDisplayLabel(semanticSource: string, resolvedValue: string | und
 }
 
 function getRetentionLabel(status: string) {
-  const map: Record<string, { label: string; color: string; bg: string; border: string; icon: React.ElementType }> = {
-    'ALTA_RETENÇÃO':              { label: 'Alta Retenção',             color: 'text-emerald-700', bg: 'bg-success-soft',  border: 'border-emerald-200', icon: ArrowUpRight },
-    'RETENÇÃO_MODERADA':          { label: 'Retenção Moderada',         color: 'text-blue-700',    bg: 'bg-blue-50',     border: 'border-blue-200',    icon: TrendingUp },
-    'DISTRIBUIÇÃO_EXCESSIVA':     { label: 'Distribuição Excessiva',    color: 'text-amber-700',   bg: 'bg-warning-soft',    border: 'border-amber-200',   icon: TrendingDown },
-    'DESCAPITALIZAÇÃO_DELIBERADA':{ label: 'Descapitalização Deliberada', color: 'text-rose-700', bg: 'bg-critical-soft',     border: 'border-rose-200',    icon: ShieldAlert },
-    'NÃO_APLICÁVEL_SEM_LUCRO':   { label: 'N/A — Sem Lucro',           color: 'text-muted-foreground',   bg: 'bg-surface-container/30',    border: 'border-border',   icon: Minus },
-    'NÃO_APLICÁVEL':              { label: 'N/A',                       color: 'text-muted-foreground',   bg: 'bg-surface-container/30',    border: 'border-border',   icon: Minus },
-    'AUSÊNCIA_DE_CAPACIDADE_DISTRIBUTIVA': { label: 'Sem Capacidade Distributiva', color: 'text-muted-foreground', bg: 'bg-surface-container/30', border: 'border-border', icon: Minus },
-    'RETENÇÃO_COMPULSÓRIA_POR_PREJUÍZO':   { label: 'Retenção por Prejuízo', color: 'text-rose-700', bg: 'bg-critical-soft', border: 'border-rose-200', icon: ShieldAlert },
+  const map: Record<string, { label: string; tone: 'success' | 'warning' | 'critical' | 'info' | 'neutral' }> = {
+    'ALTA_RETENÇÃO':              { label: 'Alta Retenção',             tone: 'success' },
+    'RETENÇÃO_MODERADA':          { label: 'Retenção Moderada',         tone: 'info' },
+    'DISTRIBUIÇÃO_EXCESSIVA':     { label: 'Distribuição Excessiva',    tone: 'warning' },
+    'DESCAPITALIZAÇÃO_DELIBERADA':{ label: 'Descapitalização Deliberada', tone: 'critical' },
+    'NÃO_APLICÁVEL_SEM_LUCRO':   { label: 'N/A — Sem Lucro',           tone: 'neutral' },
+    'NÃO_APLICÁVEL':              { label: 'N/A',                       tone: 'neutral' },
+    'AUSÊNCIA_DE_CAPACIDADE_DISTRIBUTIVA': { label: 'Sem Capacidade Distributiva', tone: 'neutral' },
+    'RETENÇÃO_COMPULSÓRIA_POR_PREJUÍZO':   { label: 'Retenção por Prejuízo', tone: 'critical' },
     
     // New fiduciaries
-    'STRATEGIC_RETENTION':        { label: 'Retenção Estratégica',      color: 'text-emerald-700', bg: 'bg-success-soft',  border: 'border-emerald-200', icon: ArrowUpRight },
-    'FORCED_RETENTION':           { label: 'Retenção Compulsória',      color: 'text-muted-foreground',   bg: 'bg-surface-container/30',    border: 'border-border',   icon: Minus },
-    'EMERGENCY_CAPITAL_PRESERVATION': { label: 'Preservação Emergencial', color: 'text-amber-700', bg: 'bg-warning-soft',    border: 'border-amber-200',   icon: ShieldAlert },
-    'SURVIVAL_STAGE_CAPITAL_STRUCTURE': { label: 'Estrutura de Sobrevivência', color: 'text-rose-700', bg: 'bg-critical-soft', border: 'border-rose-200', icon: ShieldAlert },
-    'UNSUSTAINABLE_PRESERVATION': { label: 'Preservação Insustentável', color: 'text-amber-700',   bg: 'bg-warning-soft',    border: 'border-amber-200',   icon: TrendingDown },
-    'GOVERNANCE_RETENTION':       { label: 'Retenção de Governança',    color: 'text-blue-700',    bg: 'bg-blue-50',     border: 'border-blue-200',    icon: TrendingUp },
-    'RETENTION_NOT_ELIGIBLE':     { label: 'Inelegível para Retenção',  color: 'text-muted-foreground',   bg: 'bg-surface-container/30',    border: 'border-border',   icon: Minus },
+    'STRATEGIC_RETENTION':        { label: 'Retenção Estratégica',      tone: 'success' },
+    'FORCED_RETENTION':           { label: 'Retenção Compulsória',      tone: 'neutral' },
+    'EMERGENCY_CAPITAL_PRESERVATION': { label: 'Preservação Emergencial', tone: 'warning' },
+    'SURVIVAL_STAGE_CAPITAL_STRUCTURE': { label: 'Estrutura de Sobrevivência', tone: 'critical' },
+    'UNSUSTAINABLE_PRESERVATION': { label: 'Preservação Insustentável', tone: 'warning' },
+    'GOVERNANCE_RETENTION':       { label: 'Retenção de Governança',    tone: 'info' },
+    'RETENTION_NOT_ELIGIBLE':     { label: 'Inelegível para Retenção',  tone: 'neutral' },
   };
   return map[status] || map['NÃO_APLICÁVEL'];
 }
 
 function getDistributionLabel(pressure: string) {
-  const map: Record<string, { label: string; color: string; bg: string; border: string }> = {
-    'BAIXA':                   { label: 'Conservadora',              color: 'text-emerald-700', bg: 'bg-success-soft', border: 'border-emerald-200' },
-    'MODERADA':                { label: 'Equilibrada',               color: 'text-blue-700',    bg: 'bg-blue-50',    border: 'border-blue-200' },
-    'ALTA':                    { label: 'Agressiva',                  color: 'text-amber-700',   bg: 'bg-warning-soft',   border: 'border-amber-200' },
-    'CRÍTICA':                 { label: 'Predatória',                 color: 'text-rose-700',    bg: 'bg-critical-soft',    border: 'border-rose-200' },
-    'NÃO_APLICÁVEL_SEM_LUCRO': { label: 'Sem distribuição no período', color: 'text-muted-foreground',  bg: 'bg-surface-container/30',   border: 'border-border' },
-    'NÃO_APLICÁVEL':           { label: 'N/A',                        color: 'text-muted-foreground',   bg: 'bg-surface-container/30',   border: 'border-border' },
+  const map: Record<string, { label: string; tone: 'success' | 'warning' | 'critical' | 'info' | 'neutral' }> = {
+    'BAIXA':                   { label: 'Conservadora',              tone: 'success' },
+    'MODERADA':                { label: 'Equilibrada',               tone: 'info' },
+    'ALTA':                    { label: 'Agressiva',                  tone: 'warning' },
+    'CRÍTICA':                 { label: 'Predatória',                 tone: 'critical' },
+    'NÃO_APLICÁVEL_SEM_LUCRO': { label: 'Sem distribuição no período', tone: 'neutral' },
+    'NÃO_APLICÁVEL':           { label: 'N/A',                        tone: 'neutral' },
   };
   return map[pressure] || map['NÃO_APLICÁVEL'];
 }
 
 function getPreservationLabel(status: string) {
-  const map: Record<string, { label: string; color: string; bg: string; border: string }> = {
-    'PRESERVAÇÃO_SAUDÁVEL':   { label: 'Preservação Saudável',       color: 'text-emerald-700', bg: 'bg-success-soft', border: 'border-emerald-200' },
-    'EROSÃO_MODERADA':        { label: 'Erosão Moderada',             color: 'text-blue-700',    bg: 'bg-blue-50',    border: 'border-blue-200' },
-    'EROSÃO_RELEVANTE':       { label: 'Erosão Relevante',            color: 'text-amber-700',   bg: 'bg-warning-soft',   border: 'border-amber-200' },
-    'FRAGILIDADE_PATRIMONIAL':{ label: 'Fragilidade Patrimonial',     color: 'text-rose-700',    bg: 'bg-critical-soft',    border: 'border-rose-200' },
-    'NEUTRO':                 { label: 'Patrimônio Preservado',       color: 'text-muted-foreground',   bg: 'bg-surface-container/30',   border: 'border-border' },
-    'DEPENDÊNCIA_DE_CAPITALIZAÇÃO':{ label: 'Dependência de Capital', color: 'text-rose-700', bg: 'bg-critical-soft', border: 'border-rose-200' },
-    'SUSTENTAÇÃO_PATRIMONIAL_EXTERNA':{ label: 'Sustentação Externa', color: 'text-amber-700', bg: 'bg-warning-soft', border: 'border-amber-200' },
-    'EROSÃO_PATRIMONIAL_OPERACIONAL':{ label: 'Erosão Operacional', color: 'text-rose-700', bg: 'bg-critical-soft', border: 'border-rose-200' },
+  const map: Record<string, { label: string; tone: 'success' | 'warning' | 'critical' | 'info' | 'neutral' }> = {
+    'PRESERVAÇÃO_SAUDÁVEL':   { label: 'Preservação Saudável',       tone: 'success' },
+    'EROSÃO_MODERADA':        { label: 'Erosão Moderada',             tone: 'info' },
+    'EROSÃO_RELEVANTE':       { label: 'Erosão Relevante',            tone: 'warning' },
+    'FRAGILIDADE_PATRIMONIAL':{ label: 'Fragilidade Patrimonial',     tone: 'critical' },
+    'NEUTRO':                 { label: 'Patrimônio Preservado',       tone: 'neutral' },
+    'DEPENDÊNCIA_DE_CAPITALIZAÇÃO':{ label: 'Dependência de Capital', tone: 'critical' },
+    'SUSTENTAÇÃO_PATRIMONIAL_EXTERNA':{ label: 'Sustentação Externa', tone: 'warning' },
+    'EROSÃO_PATRIMONIAL_OPERACIONAL':{ label: 'Erosão Operacional', tone: 'critical' },
     // legado
-    'PRESERVADO':             { label: 'Preservado',                  color: 'text-emerald-700', bg: 'bg-success-soft', border: 'border-emerald-200' },
-    'DRENADO':                { label: 'Erosão Relevante',             color: 'text-amber-700',   bg: 'bg-warning-soft',   border: 'border-amber-200' },
+    'PRESERVADO':             { label: 'Preservado',                  tone: 'success' },
+    'DRENADO':                { label: 'Erosão Relevante',             tone: 'warning' },
     // fiduciários novos
-    'PRESERVED':              { label: 'Preservado',                  color: 'text-emerald-700', bg: 'bg-success-soft', border: 'border-emerald-200' },
-    'PRESSURED':              { label: 'Pressionado',                 color: 'text-blue-700',    bg: 'bg-blue-50',    border: 'border-blue-200' },
-    'SEVERELY_ERODED':        { label: 'Erosão Severa',               color: 'text-amber-700',   bg: 'bg-warning-soft',   border: 'border-amber-200' },
-    'CAPITAL_COLLAPSE_RISK':  { label: 'Risco de Colapso',            color: 'text-rose-700',    bg: 'bg-critical-soft',    border: 'border-rose-200' },
+    'PRESERVED':              { label: 'Preservado',                  tone: 'success' },
+    'PRESSURED':              { label: 'Pressionado',                 tone: 'info' },
+    'SEVERELY_ERODED':        { label: 'Erosão Severa',               tone: 'warning' },
+    'CAPITAL_COLLAPSE_RISK':  { label: 'Risco de Colapso',            tone: 'critical' },
     // CPI classifications
-    'CAPITAL_EXPANSION':      { label: 'Expansão de Capital',         color: 'text-emerald-700', bg: 'bg-success-soft', border: 'border-emerald-200' },
-    'CAPITAL_PRESERVED':      { label: 'Capital Preservado',          color: 'text-emerald-700', bg: 'bg-success-soft', border: 'border-emerald-200' },
-    'MODERATE_EROSION':       { label: 'Erosão Moderada',             color: 'text-blue-700',    bg: 'bg-blue-50',    border: 'border-blue-200' },
-    'HIGH_EROSION':           { label: 'High Capital Erosion',        color: 'text-amber-700',   bg: 'bg-warning-soft',   border: 'border-amber-200' },
-    'CRITICAL_EROSION':       { label: 'Erosão Crítica',              color: 'text-rose-700',    bg: 'bg-critical-soft',    border: 'border-rose-200' },
-    'CAPITAL_COLLAPSE':       { label: 'Colapso de Capital',          color: 'text-rose-700',    bg: 'bg-critical-soft',    border: 'border-rose-200' },
-    'Capitalização em Consolidação': { label: 'Capitalização em Consolidação', color: 'text-blue-700', bg: 'bg-blue-50 border-blue-100', border: 'border-blue-200' },
-    'Estrutura de Capital em Formação': { label: 'Estrutura de Capital em Formação', color: 'text-muted-foreground', bg: 'bg-surface-container/30 border-border', border: 'border-border' },
-    'Estrutura Patrimonial em Formação': { label: 'Estrutura Patrimonial em Formação', color: 'text-muted-foreground', bg: 'bg-surface-container/30 border-border', border: 'border-border' }
+    'CAPITAL_EXPANSION':      { label: 'Expansão de Capital',         tone: 'success' },
+    'CAPITAL_PRESERVED':      { label: 'Capital Preservado',          tone: 'success' },
+    'MODERATE_EROSION':       { label: 'Erosão Moderada',             tone: 'info' },
+    'HIGH_EROSION':           { label: 'High Capital Erosion',        tone: 'warning' },
+    'CRITICAL_EROSION':       { label: 'Erosão Crítica',              tone: 'critical' },
+    'CAPITAL_COLLAPSE':       { label: 'Colapso de Capital',          tone: 'critical' },
+    'Capitalização em Consolidação': { label: 'Capitalização em Consolidação', tone: 'info' },
+    'Estrutura de Capital em Formação': { label: 'Estrutura de Capital em Formação', tone: 'neutral' },
+    'Estrutura Patrimonial em Formação': { label: 'Estrutura Patrimonial em Formação', tone: 'neutral' }
   };
   return map[status] || map['NEUTRO'];
 }
@@ -646,13 +629,13 @@ export function DLPAPage({ clients, selectedClient, selectedYear }: any) {
       {showDeleteConfirm && createPortal(
         <div className="fixed inset-0 z-[9999] flex items-center justify-center bg-black/40 backdrop-blur-sm px-4">
           <div className="bg-card rounded-2xl p-8 shadow-2xl" style={{ width: '100%', maxWidth: '24rem' }}>
-            <ShieldAlert size={32} className="text-rose-500 mb-4" />
+            <ShieldAlert size={32} className="text-critical mb-4" />
             <h3 className="text-lg font-black text-primary mb-2">Confirmar Exclusão</h3>
-            <p className="text-sm text-secondary mb-6 leading-relaxed">
+      <p className="text-sm text-executive-secondary mb-6 leading-relaxed">
               Todos os registros DLPA de <strong>{filterYear}</strong> serão excluídos permanentemente.
             </p>
             <div className="flex gap-3">
-              <button onClick={() => setShowDeleteConfirm(false)} className="flex-1 px-4 py-2 border border-border rounded-xl text-sm font-medium text-muted-foreground hover:bg-surface-container/30">Cancelar</button>
+       <button onClick={() => setShowDeleteConfirm(false)} className="flex-1 px-4 py-2 border border-border rounded-xl text-sm font-medium text-executive-secondary hover:bg-surface-container/30">Cancelar</button>
               <button onClick={handleDeleteAll} disabled={deleting} className="flex-1 px-4 py-2 bg-critical-soft0 text-white rounded-xl text-sm font-bold hover:bg-rose-600 disabled:opacity-60">
                 {deleting ? <Loader2 size={16} className="animate-spin mx-auto" /> : 'Excluir'}
               </button>
@@ -671,7 +654,7 @@ export function DLPAPage({ clients, selectedClient, selectedYear }: any) {
 
       {lifecycleStage === 'INITIAL_CAPITALIZATION' && (
         <div className="flex justify-start -mt-6 -mb-6">
-          <span className="px-4 py-1.5 rounded-full text-[9px] font-black uppercase tracking-widest bg-blue-500/10 text-blue-600 border border-blue-500/20 shadow-sm">
+          <span className="px-4 py-1.5 rounded-full text-[9px] font-black uppercase tracking-widest bg-insight-soft text-insight border border-insight/20 shadow-sm">
             Fase Inicial de Capitalização
           </span>
         </div>
@@ -785,14 +768,14 @@ export function DLPAPage({ clients, selectedClient, selectedYear }: any) {
         <div className="space-y-6 mb-12">
           {(capitalGov as any)?.error && (
             <ExecutiveSurface variant="critical" padding="xl" radius="xl" className="flex flex-col items-center justify-center text-center">
-              <div className="w-16 h-16 bg-rose-100 text-rose-700 rounded-full flex items-center justify-center mb-4">
+              <div className="w-16 h-16 bg-critical-soft text-critical rounded-full flex items-center justify-center mb-4">
                 <ShieldAlert size={28} />
               </div>
               <h3 className="text-lg font-black text-primary mb-2">Falha na Renderização Executiva</h3>
-              <p className="text-sm text-secondary max-w-lg mb-4">
+       <p className="text-sm text-executive-secondary max-w-lg mb-4">
                 Houve um erro ao processar a governança de capital.
               </p>
-              <div className="bg-card border border-border rounded-xl p-4 text-xs font-mono text-rose-600 w-full max-w-2xl text-left overflow-auto">
+              <div className="bg-card border border-border rounded-xl p-4 text-xs font-mono text-critical w-full max-w-2xl text-left overflow-auto">
                 {(capitalGov as any).error}
               </div>
             </ExecutiveSurface>
@@ -861,17 +844,33 @@ export function DLPAPage({ clients, selectedClient, selectedYear }: any) {
                 </div>
                 
                 <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-5 md:gap-6 items-stretch mb-8">
+                  {/* Card 0: Índice de Síntese Fiduciária */}
+                  {(() => {
+                    const val = executiveLayer.fiduciarySynthesisIndicator?.value ?? 0;
+                    const classification = executiveLayer.fiduciarySynthesisIndicator?.classification || 'Não Calculado';
+                    let tone: 'critical' | 'warning' | 'info' | 'success' = val >= 75 ? 'success' : val >= 50 ? 'info' : val >= 30 ? 'warning' : 'critical';
+                    return (
+                      <ExecutiveMetricCard
+                        label="Índice de Síntese Fiduciária"
+                        value={`${val.toFixed(1).replace('.', ',')}`}
+                        statusBadge={<ExecutiveBadge variant={tone}>{classification}</ExecutiveBadge>}
+                        tone={tone}
+                        description={<span className="font-medium text-foreground/90">{executiveLayer.fiduciarySynthesisIndicator?.narrative}</span>}
+                        className="h-full bg-surface-container/30"
+                      />
+                    );
+                  })()}
+
                   {/* Card 1: Índice de Preservação de Capital (CPS) */}
                   {(() => {
                     const val = executiveLayer.capitalPreservationStatus?.value ?? 0;
                     const classification = executiveLayer.capitalPreservationStatus?.classification || 'Capital Erodido';
                     let tone: 'critical' | 'warning' | 'info' | 'success' = val >= 0.90 ? 'success' : val >= 0.75 ? 'info' : val >= 0.50 ? 'warning' : 'critical';
-                    const badgeClass = tone === 'critical' ? 'bg-critical-soft text-critical-foreground border-critical/20' : tone === 'warning' ? 'bg-warning-soft text-warning-foreground border-warning/20' : 'bg-success-soft text-success-foreground border-success/20';
                     return (
                       <ExecutiveMetricCard
                         label="Índice de Preservação de Capital (CPS)"
                         value={`${(val * 100).toFixed(1).replace('.', ',')}%`}
-                        statusBadge={<span className={cn("text-[10px] font-semibold uppercase tracking-widest px-2.5 py-0.5 rounded-full border whitespace-nowrap", badgeClass)}>{classification}</span>}
+                        statusBadge={<ExecutiveBadge variant={tone}>{classification}</ExecutiveBadge>}
                         tone={tone}
                         description={<span className="font-medium text-foreground/90">{executiveLayer.capitalPreservationStatus?.narrative}</span>}
                         className="h-full bg-surface-container/30"
@@ -885,12 +884,11 @@ export function DLPAPage({ clients, selectedClient, selectedYear }: any) {
                     const consumedAmount = executiveLayer.capitalErosionRisk?.capitalConsumedAmount ?? 0;
                     const classification = executiveLayer.capitalErosionRisk?.classification || 'Baixo';
                     let tone: 'critical' | 'warning' | 'info' | 'success' = val >= 0.50 ? 'critical' : val >= 0.25 ? 'warning' : 'success';
-                    const badgeClass = tone === 'critical' ? 'bg-critical-soft text-critical-foreground border-critical/20' : tone === 'warning' ? 'bg-warning-soft text-warning-foreground border-warning/20' : 'bg-success-soft text-success-foreground border-success/20';
                     return (
                       <ExecutiveMetricCard
                         label="Capital Consumido"
                         value={formatCurrency(consumedAmount)}
-                        statusBadge={<span className={cn("text-[10px] font-semibold uppercase tracking-widest px-2.5 py-0.5 rounded-full border whitespace-nowrap", badgeClass)}>{classification}</span>}
+                        statusBadge={<ExecutiveBadge variant={tone}>{classification}</ExecutiveBadge>}
                         tone={tone}
                         description={<span className="font-medium text-foreground/90">{executiveLayer.capitalErosionRisk?.narrative}</span>}
                         className="h-full bg-surface-container/30"
@@ -904,12 +902,11 @@ export function DLPAPage({ clients, selectedClient, selectedYear }: any) {
                     const requiredAmount = executiveLayer.capitalRecoveryRequirement?.capitalRecoveryRequired ?? 0;
                     const classification = executiveLayer.capitalRecoveryRequirement?.classification || 'Patrimônio Íntegro';
                     const tone = val > 0 ? 'critical' : 'success';
-                    const badgeClass = tone === 'critical' ? 'bg-critical-soft text-critical-foreground border-critical/20' : 'bg-success-soft text-success-foreground border-success/20';
                     return (
                       <ExecutiveMetricCard
                         label="Recomposição"
                         value={formatCurrency(requiredAmount)}
-                        statusBadge={<span className={cn("text-[10px] font-semibold uppercase tracking-widest px-2.5 py-0.5 rounded-full border whitespace-nowrap", badgeClass)}>{classification}</span>}
+                        statusBadge={<ExecutiveBadge variant={tone}>{classification}</ExecutiveBadge>}
                         tone={tone}
                         description={<span className="font-medium text-foreground/90">{executiveLayer.capitalRecoveryRequirement?.narrative}</span>}
                         className="h-full bg-surface-container/30"
@@ -922,12 +919,11 @@ export function DLPAPage({ clients, selectedClient, selectedYear }: any) {
                     const formatted = executiveLayer.patrimonialRecoveryHorizon?.formatted || 'Não Estimável';
                     const classification = executiveLayer.capitalRecoverability?.classification || 'Não Estimável';
                     let tone: 'critical' | 'warning' | 'info' | 'success' = classification === 'Alta' ? 'success' : classification === 'Moderada' ? 'info' : classification === 'Baixa' ? 'warning' : 'critical';
-                    const badgeClass = tone === 'critical' ? 'bg-critical-soft text-critical-foreground border-critical/20' : tone === 'warning' ? 'bg-warning-soft text-warning-foreground border-warning/20' : 'bg-success-soft text-success-foreground border-success/20';
                     return (
                       <ExecutiveMetricCard
                         label="Horizonte"
                         value={formatted}
-                        statusBadge={<span className={cn("text-[10px] font-semibold uppercase tracking-widest px-2.5 py-0.5 rounded-full border whitespace-nowrap", badgeClass)}>{classification}</span>}
+                        statusBadge={<ExecutiveBadge variant={tone}>{classification}</ExecutiveBadge>}
                         tone={tone}
                         description={<span className="font-medium text-foreground/90">{executiveLayer.capitalRecoverability?.narrative}</span>}
                         className="h-full bg-surface-container/30"
@@ -955,13 +951,12 @@ export function DLPAPage({ clients, selectedClient, selectedYear }: any) {
                     const val = executiveLayer.shareholderDependencyNarrative?.value ?? 1;
                     const classification = executiveLayer.shareholderDependencyNarrative?.classification || 'Baixa';
                     let tone: 'critical' | 'warning' | 'info' | 'success' = classification === 'Crítica' || classification === 'Alta' ? 'critical' : classification === 'Moderada' ? 'warning' : 'success';
-                    const badgeClass = tone === 'critical' ? 'bg-critical-soft text-critical-foreground border-critical/20' : tone === 'warning' ? 'bg-warning-soft text-warning-foreground border-warning/20' : 'bg-success-soft text-success-foreground border-success/20';
                     const formattedValue = val === Infinity ? 'Insolvência' : `${val.toFixed(2).replace('.', ',')}x`;
                     return (
                       <ExecutiveMetricCard
                         label="Dependência de Aportes"
                         value={formattedValue}
-                        statusBadge={<span className={cn("text-[10px] font-semibold uppercase tracking-widest px-2.5 py-0.5 rounded-full border whitespace-nowrap", badgeClass)}>{classification}</span>}
+                        statusBadge={<ExecutiveBadge variant={tone}>{classification}</ExecutiveBadge>}
                         tone={tone}
                         description={<span className="font-medium text-foreground/90">{executiveLayer.shareholderDependencyNarrative?.narrative}</span>}
                         className="h-full bg-surface-container/30"
@@ -1046,15 +1041,11 @@ export function DLPAPage({ clients, selectedClient, selectedYear }: any) {
 
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4 flex-1 relative z-10">
                     {[
-                      { label: 'Sustentabilidade Patrimonial', value: cpiStatus !== 'NEUTRO' ? cpiStatus : '—', badge: preservationStyle.label, badgeColor: preservationStyle.color },
-                      { label: 'Dependência de Capitalização', value: fiduciaryOutput?.capitalSupportRatio === 'NOT_AVAILABLE' ? 'N/A' : fiduciaryOutput?.capitalSupportRatio != null ? `${(fiduciaryOutput.capitalSupportRatio * 100).toFixed(1)}%` : '—', badge: retentionStyle.label, badgeColor: retentionStyle.color },
-                      { label: 'Capacidade Distributiva', value: distribution?.distributionRatio != null && distribution.distributionRatio > 0 ? `${(distribution.distributionRatio * 100).toFixed(1)}%` : 'Inexistente', badge: distributionStyle.label, badgeColor: distributionStyle.color },
-                      { label: 'Integridade Patrimonial', value: preservation ? `${(preservation.equityPreservationRatio * 100).toFixed(1)}%` : '—', badge: preservationStyle.label, badgeColor: preservationStyle.color }
-                    ].map(({ label, value, badge, badgeColor }) => {
-                      const tone = badgeColor.includes('emerald') || badgeColor.includes('success') ? 'success' :
-                                   badgeColor.includes('amber') || badgeColor.includes('warning') ? 'warning' :
-                                   badgeColor.includes('rose') || badgeColor.includes('critical') ? 'critical' :
-                                   badgeColor.includes('blue') || badgeColor.includes('info') ? 'info' : 'neutral';
+                      { label: 'Sustentabilidade Patrimonial', value: cpiStatus !== 'NEUTRO' ? cpiStatus : '—', badge: preservationStyle.label, tone: preservationStyle.tone },
+                      { label: 'Dependência de Capitalização', value: fiduciaryOutput?.capitalSupportRatio === 'NOT_AVAILABLE' ? 'N/A' : fiduciaryOutput?.capitalSupportRatio != null ? `${(fiduciaryOutput.capitalSupportRatio * 100).toFixed(1)}%` : '—', badge: retentionStyle.label, tone: retentionStyle.tone },
+                      { label: 'Capacidade Distributiva', value: distribution?.distributionRatio != null && distribution.distributionRatio > 0 ? `${(distribution.distributionRatio * 100).toFixed(1)}%` : 'Inexistente', badge: distributionStyle.label, tone: distributionStyle.tone },
+                      { label: 'Integridade Patrimonial', value: preservation ? `${(preservation.equityPreservationRatio * 100).toFixed(1)}%` : '—', badge: preservationStyle.label, tone: preservationStyle.tone }
+                    ].map(({ label, value, badge, tone }) => {
                       
                       return (
                         <div key={label} className="[&_*]:!text-white [&_.bg-surface-container\\/50]:!bg-white/10 [&_.border-border]:!border-white/10">
@@ -1107,23 +1098,19 @@ export function DLPAPage({ clients, selectedClient, selectedYear }: any) {
                             className={cn('transition-colors', row.isTotal ? 'bg-surface-container/30/60' : '')}
                           >
                             <ExecutiveTableCell className="py-4 px-8">
-                              <span className={cn('block', row.isTotal ? 'text-muted-foreground font-black text-sm' : 'text-muted-foreground font-medium pl-4 text-sm')}>
+               <span className={cn('block', row.isTotal ? 'text-executive-secondary font-black text-sm' : 'text-executive-secondary font-medium pl-4 text-sm')}>
                                 {row.description}
                               </span>
                             </ExecutiveTableCell>
                             <ExecutiveTableCell className={cn('py-4 px-8 text-right font-mono font-bold text-sm',
-                              row.nature === 'negative' ? 'text-rose-600' : 'text-muted-foreground',
+                              row.nature === 'negative' ? 'text-critical' : 'text-muted-foreground',
                               row.isTotal && 'text-muted-foreground font-black')}>
                               {formatCurrency(row.value)}
                             </ExecutiveTableCell>
                             <ExecutiveTableCell className="py-4 px-8 text-right">
-                              <span className={cn('text-[10px] font-bold uppercase px-3 py-1 rounded-full border inline-block w-[72px] text-center',
-                                row.nature === 'negative' ? 'bg-red-500/10 text-red-600 border-red-500/20' : 
-                                row.nature === 'positive' ? 'bg-emerald-500/10 text-emerald-600 border-emerald-500/20' : 
-                                'bg-surface-container/30 text-muted-foreground border-border'
-                              )}>
-                                {row.nature === 'negative' ? 'Redução' : row.nature === 'positive' ? 'Adição' : 'Neutro'}
-                              </span>
+                              <ExecutiveBadge variant={row.nature === 'negative' ? 'critical' : row.nature === 'positive' ? 'success' : 'neutral'}>
+    {row.nature === 'negative' ? 'Redução' : row.nature === 'positive' ? 'Adição' : 'Neutro'}
+  </ExecutiveBadge>
                             </ExecutiveTableCell>
                           </ExecutiveTableRow>
                         );
@@ -1134,13 +1121,11 @@ export function DLPAPage({ clients, selectedClient, selectedYear }: any) {
                             {lucrosPrejuizosFinal < 0 ? "Prejuízo Acumulado" : "Saldo de Lucros Acumulados"}
                           </ExecutiveTableCell>
                           <ExecutiveTableCell className={cn('py-6 px-8 text-right font-mono font-bold text-lg',
-                            lucrosPrejuizosFinal >= 0 ? 'text-emerald-500' : 'text-rose-500')}>
+                            lucrosPrejuizosFinal >= 0 ? 'text-success' : 'text-critical')}>
                             {formatCurrency(lucrosPrejuizosFinal)}
                           </ExecutiveTableCell>
                           <ExecutiveTableCell className="py-6 px-8 text-right">
-                            <span className="text-[10px] font-bold uppercase px-3 py-1.5 rounded-full bg-surface-container text-muted-foreground border border-border">
-                              Calculado
-                            </span>
+                            <ExecutiveBadge variant="neutral">Calculado</ExecutiveBadge>
                           </ExecutiveTableCell>
                         </ExecutiveTableRow>
                       )}

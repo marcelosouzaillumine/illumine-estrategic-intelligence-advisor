@@ -1,25 +1,5 @@
 import React, { useState, useMemo, useEffect } from 'react';
-import { 
-  Users, 
-  Target, 
-  Brain, 
-  BarChart, 
-  ChevronRight, 
-  CheckCircle2, 
-  AlertCircle,
-  TrendingUp,
-  Award,
-  ShieldCheck,
-  Briefcase,
-  Compass,
-  Zap,
-  Info,
-  ArrowRight,
-  BookOpen,
-  PieChart,
-  Lightbulb,
-  Search
-} from 'lucide-react';
+import { Users, Target, Brain, BarChart, ChevronRight, CheckCircle2, AlertCircle, TrendingUp, Award, ShieldCheck, Briefcase, Compass, Zap, Info, ArrowRight, BookOpen, PieChart, Lightbulb, Search } from 'lucide-react';
 import { motion, AnimatePresence } from 'motion/react';
 import { collection, addDoc, serverTimestamp, query, where, getDocs, orderBy } from 'firebase/firestore';
 import { db, auth } from '../../../lib/firebase';

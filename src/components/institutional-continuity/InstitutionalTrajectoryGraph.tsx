@@ -35,10 +35,10 @@ export function InstitutionalTrajectoryGraph({
 
   // Determine dot color per severity (render-only mapping, no calculation)
   const severityColorMap: Record<string, string> = {
-    STABLE: '#34d399',
-    STRESSED: '#fbbf24',
-    CRITICAL: '#ef4444',
-    UNKNOWN: '#71717a'
+    STABLE: 'var(--color-primary)',
+    STRESSED: 'var(--color-primary)',
+    CRITICAL: 'var(--color-state-critical)',
+    UNKNOWN: 'var(--color-primary)'
   };
 
   const CustomDot = (props: any) => {
@@ -48,9 +48,9 @@ export function InstitutionalTrajectoryGraph({
 
     return (
       <g>
-        <circle cx={cx} cy={cy} r={isSurvival ? 6 : 4} fill={color} stroke="#18181b" strokeWidth={2} />
+        <circle cx={cx} cy={cy} r={isSurvival ? 6 : 4} fill={color} stroke="var(--chart-primary)" strokeWidth={2} />
         {isSurvival && (
-          <circle cx={cx} cy={cy} r={9} fill="none" stroke="#ef4444" strokeWidth={1} strokeDasharray="3 2" />
+          <circle cx={cx} cy={cy} r={9} fill="none" stroke="var(--chart-negative)" strokeWidth={1} strokeDasharray="3 2" />
         )}
       </g>
     );
@@ -93,25 +93,25 @@ export function InstitutionalTrajectoryGraph({
       <div className={`w-full ${isFailClosed ? 'opacity-40' : ''}`} style={{ height: 220 }}>
         <ResponsiveContainer width="100%" height="100%">
           <LineChart data={chartData} margin={{ top: 5, right: 20, left: 0, bottom: 5 }}>
-            <CartesianGrid strokeDasharray="3 3" stroke="#27272a" />
+            <CartesianGrid strokeDasharray="3 3" stroke="var(--chart-primary)" />
             <XAxis 
               dataKey="name" 
-              tick={{ fill: '#71717a', fontSize: 10, fontFamily: 'monospace' }} 
-              axisLine={{ stroke: '#3f3f46' }}
+              tick={{ fill: 'var(--color-primary)', fontSize: 10, fontFamily: 'monospace' }} 
+              axisLine={{ stroke: 'var(--color-primary)' }}
             />
             <YAxis 
-              tick={{ fill: '#52525b', fontSize: 10, fontFamily: 'monospace' }} 
-              axisLine={{ stroke: '#3f3f46' }}
+              tick={{ fill: 'var(--color-primary)', fontSize: 10, fontFamily: 'monospace' }} 
+              axisLine={{ stroke: 'var(--color-primary)' }}
             />
             <Tooltip content={<CustomTooltipContent />} />
-            <ReferenceLine y={0} stroke="#52525b" strokeDasharray="4 2" />
+            <ReferenceLine y={0} stroke="var(--chart-primary)" strokeDasharray="4 2" />
             <Line
               type="monotone"
               dataKey="fco"
-              stroke="#818cf8"
+              stroke="var(--chart-secondary)"
               strokeWidth={2}
               dot={<CustomDot />}
-              activeDot={{ r: 6, stroke: '#818cf8', strokeWidth: 2 }}
+              activeDot={{ r: 6, stroke: 'var(--color-accent)', strokeWidth: 2 }}
             />
           </LineChart>
         </ResponsiveContainer>

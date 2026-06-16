@@ -1,51 +1,18 @@
 import React, { useMemo, useState, useEffect } from 'react';
-import { 
-  BarChart3, 
-  TrendingUp, 
-  Zap, 
-  ShieldCheck, 
-  Activity, 
-  Target, 
-  WalletCards, 
-  Calculator,
-  BookOpen,
-  PieChart as PieIcon,
-  ArrowUpRight,
-  TrendingDown,
-  Building2,
-  FileText,
-  Clock,
-  CheckCircle2,
-  AlertTriangle,
-  ChevronRight,
-  Loader2,
-  DollarSign,
-  ShieldAlert
-} from 'lucide-react';
+import { BarChart3, TrendingUp, Zap, ShieldCheck, Activity, Target, WalletCards, Calculator, BookOpen, PieChart as PieIcon, ArrowUpRight, TrendingDown, Building2, FileText, Clock, CheckCircle2, AlertTriangle, ChevronRight, Loader2, DollarSign, ShieldAlert } from 'lucide-react';
 import { collection, query, where, onSnapshot } from 'firebase/firestore';
 import { db } from '../../lib/firebase';
 import { motion } from 'motion/react';
 import { formatValue, formatCurrency, cn } from '../../lib/utils';
-import { PageHeader, Semaphore, StatusBadge, MarkdownText, KpiCard } from '../Common';
+import { PageHeader, Semaphore, StatusBadge, MarkdownText } from '../Common';
+import { ExecutiveMetricCard } from '../ui/executive-metric-card';
 import { useRealIndicatorData } from '../../hooks/useRealIndicatorData';
 import { GOVERNANCE_PRINCIPLES, evaluateAxisRules } from '../../lib/governanceIntelligence';
 import { getLiquidityIndicators } from '../../lib/master-causal-engine';
 import { ExecutivePerspectiveSection } from '../ExecutivePerspectiveSection';
 import { useExecutiveAdvisory } from '../../hooks/useExecutiveAdvisory';
 import { useLanguage } from '../../contexts/LanguageContext';
-import { 
-  AreaChart, 
-  Area, 
-  XAxis, 
-  YAxis, 
-  CartesianGrid, 
-  Tooltip, 
-  ResponsiveContainer,
-  BarChart,
-  Bar,
-  Cell,
-  Tooltip as RechartsTooltip
-} from 'recharts';
+import { AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, BarChart, Bar, Cell, Tooltip as RechartsTooltip } from 'recharts';
 import { FULL_MONTH_LABELS } from '../../constants';
 import { DashboardSkeleton } from '../ui/skeletons';
 
@@ -314,13 +281,12 @@ export function FinancialAdminDashboard({
       {/* 1. Executive Summary Cards */}
       <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-2 2xl:grid-cols-4 gap-6">
         {summaryMetrics.map((metric, idx) => (
-          <KpiCard 
-            key={idx}
-            title={metric.label}
+          <ExecutiveMetricCard density="analytical" key={idx}
+            label={metric.label}
             value={formatValue(metric.value, '')}
             suffix={metric.isCur ? 'R$' : metric.suffix || ''}
             icon={metric.icon}
-            status="Verde"
+            tone="success"
           />
         ))}
       </div>

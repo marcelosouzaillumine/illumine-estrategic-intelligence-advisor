@@ -37,7 +37,7 @@ export function InstitutionalWarRoomPage({ rawData }: { rawData: any }) {
       <header className="flex justify-between items-end border-b border-border pb-6">
         <div>
           <h1 className="text-3xl font-black text-primary tracking-tight">Institutional War Room</h1>
-          <p className="text-sm font-medium text-muted-foreground mt-2">
+     <p className="text-sm font-medium text-executive-secondary mt-2">
             Simulação estrutural de crise e deterioração institucional sob governança fiduciária.
           </p>
         </div>
@@ -70,7 +70,7 @@ export function InstitutionalWarRoomPage({ rawData }: { rawData: any }) {
           ) : (
             <div className="bg-slate-50 border border-border rounded-2xl flex flex-col items-center justify-center h-96 p-8 text-center">
               <span className="text-muted-foreground font-black text-xl mb-4">NENHUMA CRISE ATIVA</span>
-              <p className="text-muted-foreground text-sm">
+       <p className="text-executive-secondary text-sm">
                 Configure os parâmetros de estresse no painel lateral para iniciar a simulação estrutural de sobrevivência.
               </p>
             </div>

@@ -27,7 +27,7 @@ export const QuarantineModeSurface: React.FC<QuarantineModeSurfaceProps> = ({
       
       {/* Background warning pattern */}
       <div className="absolute inset-0 opacity-5 pointer-events-none" style={{
-        backgroundImage: 'repeating-linear-gradient(45deg, #ef4444 0, #ef4444 10px, transparent 10px, transparent 20px)'
+        backgroundImage: 'repeating-linear-gradient(45deg, var(--color-state-critical) 0, var(--color-state-critical) 10px, transparent 10px, transparent 20px)'
       }}></div>
 
       <div className="relative z-10 flex flex-col items-center text-center max-w-xl w-full">

@@ -1,13 +1,14 @@
 import React from 'react';
 import { ShieldCheck, Activity, Users, Database } from 'lucide-react';
-import { PageHeader, KpiCard } from '../../Common';
+import { PageHeader } from '../../Common';
+import { ExecutiveMetricCard } from '../../ui/executive-metric-card';
 
 export function MultiTenantGovernanceCenter() {
   const kpis = [
-    { label: 'Tenants Ativos', value: '1', icon: Database, status: 'Neutro' as const, trend: 'Estável' },
-    { label: 'Workspaces Operacionais', value: '2', icon: Users, status: 'Neutro' as const, trend: 'Estável' },
-    { label: 'Execuções Rastreadas', value: '1.042', icon: Activity, status: 'Neutro' as const, trend: 'Bullish' },
-    { label: 'Leakage Detectado', value: '0', icon: ShieldCheck, status: 'Neutro' as const, trend: 'Saudável' },
+    { label: 'Tenants Ativos', value: '1', icon: Database, status: 'neutral' as const, trend: 'Estável' },
+    { label: 'Workspaces Operacionais', value: '2', icon: Users, status: 'neutral' as const, trend: 'Estável' },
+    { label: 'Execuções Rastreadas', value: '1.042', icon: Activity, status: 'neutral' as const, trend: 'Bullish' },
+    { label: 'Leakage Detectado', value: '0', icon: ShieldCheck, status: 'neutral' as const, trend: 'Saudável' },
   ];
 
   const auditLog = [
@@ -27,15 +28,13 @@ export function MultiTenantGovernanceCenter() {
       {/* KPIs */}
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-6">
         {kpis.map((kpi, i) => (
-          <KpiCard
-            key={i}
-            title={kpi.label}
+          <ExecutiveMetricCard density="analytical" key={i}
+            label={kpi.label}
             value={kpi.value}
             icon={kpi.icon}
-            status={kpi.status}
-            trend={kpi.trend}
-            noScroll
-          />
+            tone={kpi.status}
+            description={kpi.trend}
+                      />
         ))}
       </div>
 

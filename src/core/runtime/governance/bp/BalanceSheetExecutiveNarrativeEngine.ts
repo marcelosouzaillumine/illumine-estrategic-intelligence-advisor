@@ -23,6 +23,12 @@ export class BalanceSheetExecutiveNarrativeEngine {
       parts.push(`A companhia encerrou o exercício com patrimônio líquido negativo (passivo a descoberto) de ${plFormatted}, evidenciando ruptura de solvência patrimonial.`);
     }
 
+    const growthEquityInd = indicators.find(i => i.metricName === 'Crescimento do PL' || i.metricName === 'Variação do Patrimônio Líquido');
+    if (growthEquityInd && Number(growthEquityInd.value) < 0) {
+      const dropPct = Math.abs(Number(growthEquityInd.value) * 100).toFixed(1).replace('.', ',');
+      parts.push(`Consumo de reservas impactou o PL em -${dropPct}%.`);
+    }
+
     // 2. Liquidez
     const liqRealInd = indicators.find(i => i.metricName === 'Liquidez Real');
     const liqInstInd = indicators.find(i => i.metricName === 'Liquidez Instantânea Real');
@@ -33,6 +39,7 @@ export class BalanceSheetExecutiveNarrativeEngine {
         parts.push(`A liquidez permanece forte, com Liquidez Real de ${liqR} e Liquidez Instantânea Real de ${liqI}, indicando ampla capacidade de cobertura das obrigações de curto prazo.`);
       } else {
         parts.push(`A liquidez apresenta restrições, com Liquidez Real de ${liqR} e Liquidez Instantânea Real de ${liqI}, requerendo atenção à cobertura de curto prazo.`);
+        parts.push(`Compressão de caixa reduziu liquidez para ${liqR}.`);
       }
     }
 

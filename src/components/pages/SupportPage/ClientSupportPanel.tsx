@@ -1,8 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { 
-  MessageSquare, Plus, CheckCircle2, ShieldAlert, Clock, 
-  Search, Filter, Loader2, ArrowRight, AlertCircle, Send
-} from 'lucide-react';
+import { MessageSquare, Plus, CheckCircle2, ShieldAlert, Clock, Search, Filter, Loader2, ArrowRight, AlertCircle, Send } from 'lucide-react';
 import { auth } from '../../../lib/firebase';
 import { supportService } from '../../../services/supportService';
 import { SupportTicket, TicketType, TicketPriority } from '../../../types/support';

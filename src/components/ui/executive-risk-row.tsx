@@ -27,7 +27,7 @@ export function ExecutiveRiskRow({
       case 'warning': return cn(base, "bg-amber-100 text-amber-900 border-amber-300");
       case 'success': return cn(base, "bg-emerald-100 text-emerald-900 border-emerald-300");
       case 'info': return cn(base, "bg-blue-100 text-blue-900 border-blue-300");
-      default: return cn(base, "bg-surface-container/50 text-foreground/70 border-border");
+      default: return cn(base, "bg-surface-container/50 text-muted-foreground border-border");
     }
   };
 

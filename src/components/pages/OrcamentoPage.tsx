@@ -1,39 +1,6 @@
 import React, { useState, useEffect, useMemo } from 'react';
-import { 
-  Plus, 
-  Search, 
-  Filter, 
-  Save, 
-  UploadCloud, 
-  ChevronRight, 
-  Calculator,
-  Trash2,
-  Edit2,
-  X,
-  FileSpreadsheet,
-  CheckCircle2,
-  Loader2,
-  Building2,
-  Landmark,
-  LayoutGrid,
-  AlertCircle,
-  TrendingUp,
-  FileText,
-  Calendar
-} from 'lucide-react';
-import { 
-  collection, 
-  query, 
-  where, 
-  onSnapshot, 
-  addDoc, 
-  updateDoc, 
-  doc, 
-  deleteDoc, 
-  serverTimestamp,
-  getDocs,
-  writeBatch
-} from 'firebase/firestore';
+import { Plus, Search, Filter, Save, UploadCloud, ChevronRight, Calculator, Trash2, Edit2, X, FileSpreadsheet, CheckCircle2, Loader2, Building2, Landmark, LayoutGrid, AlertCircle, TrendingUp, FileText, Calendar } from 'lucide-react';
+import { collection, query, where, onSnapshot, addDoc, updateDoc, doc, deleteDoc, serverTimestamp, getDocs, writeBatch } from 'firebase/firestore';
 import { db, auth, handleFirestoreError, OperationType } from '../../lib/firebase';
 import { notificationService } from '../../services/notificationService';
 import { cn, formatCurrency } from '../../lib/utils';
@@ -462,12 +429,12 @@ export function OrcamentoPage({
         <div className="bg-white p-8 rounded-[32px] border border-border shadow-sm relative overflow-hidden group">
           <div className="absolute top-0 left-0 w-1 h-full bg-secondary" />
           <p className="text-[10px] font-black text-muted-foreground uppercase tracking-widest mb-2">Total Orçado ({viewType === 'mensal' ? 'Mês' : 'Ano'})</p>
-          <p className="text-3xl font-display font-black text-muted-foreground tracking-tighter">{formatCurrency(totalBudget)}</p>
+     <p className="text-3xl font-display font-black text-executive-secondary tracking-tighter">{formatCurrency(totalBudget)}</p>
         </div>
         <div className="bg-white p-8 rounded-[32px] border border-border shadow-sm relative overflow-hidden group">
           <div className="absolute top-0 left-0 w-1 h-full bg-primary" />
           <p className="text-[10px] font-black text-muted-foreground uppercase tracking-widest mb-2">Itens Planejados</p>
-          <p className="text-3xl font-display font-black text-muted-foreground tracking-tighter">{filteredBudgets.length}</p>
+     <p className="text-3xl font-display font-black text-executive-secondary tracking-tighter">{filteredBudgets.length}</p>
         </div>
         <div className="bg-white p-8 rounded-[32px] border border-border shadow-sm relative overflow-hidden group">
           <div className="absolute top-0 left-0 w-1 h-full bg-success-soft0" />
@@ -477,7 +444,7 @@ export function OrcamentoPage({
               {viewType === 'mensal' ? months.find(m => m.v === localMonth)?.l : localYear}
             </span>
             {viewType === 'mensal' && (
-              <span className="text-sm font-bold text-muted-foreground">{localYear}</span>
+       <span className="text-sm font-bold text-executive-secondary">{localYear}</span>
             )}
           </div>
         </div>
@@ -525,7 +492,7 @@ export function OrcamentoPage({
                     <tr>
                       <td colSpan={5} className="px-8 py-20 text-center">
                         <Loader2 size={32} className="animate-spin text-secondary mx-auto mb-4" />
-                        <p className="text-muted-foreground font-bold">Carregando orçamento...</p>
+            <p className="text-executive-secondary font-bold">Carregando orçamento...</p>
                       </td>
                     </tr>
                   ) : filteredBudgets.length === 0 ? (
@@ -533,7 +500,7 @@ export function OrcamentoPage({
                       <td colSpan={5} className="px-8 py-20 text-center">
                         <FileSpreadsheet size={48} className="text-muted-foreground mx-auto mb-4" />
                         <h4 className="text-xl font-display text-primary">Nenhum lançamento encontrado</h4>
-                        <p className="text-muted-foreground max-w-2xl mx-auto mt-2">Clique em "Novo Lançamento" ou importe um arquivo CSV para começar.</p>
+            <p className="text-executive-secondary max-w-2xl mx-auto mt-2">Clique em "Novo Lançamento" ou importe um arquivo CSV para começar.</p>
                       </td>
                     </tr>
                   ) : (
@@ -555,7 +522,7 @@ export function OrcamentoPage({
                           <span className="text-xs font-bold text-muted-foreground">{b.centroCusto || 'Geral'}</span>
                         </td>
                         <td className="px-5 md:px-8 py-2.5 md:py-4 text-right">
-                          <span className="text-sm font-black text-muted-foreground">{formatCurrency(b.valor)}</span>
+             <span className="text-sm font-black text-executive-secondary">{formatCurrency(b.valor)}</span>
                         </td>
                         <td className="px-5 md:px-8 py-2.5 md:py-4 text-right">
                           <div className={cn(
@@ -590,7 +557,7 @@ export function OrcamentoPage({
         {/* CC Summary Column */}
         <div className="space-y-6">
           <div className="bg-white p-8 rounded-[32px] border border-border shadow-sm space-y-6">
-            <h3 className="text-sm font-black text-muted-foreground uppercase tracking-widest flex items-center gap-3">
+      <h3 className="text-sm font-black text-executive-secondary uppercase tracking-widest flex items-center gap-3">
               <TrendingUp size={20} className="text-secondary" /> Resumo por Centro de Custo
             </h3>
             <div className="space-y-4">

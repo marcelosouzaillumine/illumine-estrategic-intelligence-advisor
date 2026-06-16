@@ -1,29 +1,9 @@
 // src/components/pages/governance/GovernanceJourneyPanel.tsx
 
 import React, { useMemo } from 'react';
-import { 
-  Compass, 
-  ShieldAlert, 
-  Target, 
-  Users, 
-  TrendingUp, 
-  Brain, 
-  Scale, 
-  Sparkles, 
-  Lock, 
-  AlertCircle, 
-  ChevronRight, 
-  Clock, 
-  FileText,
-  Activity
-} from 'lucide-react';
+import { Compass, ShieldAlert, Target, Users, TrendingUp, Brain, Scale, Sparkles, Lock, AlertCircle, ChevronRight, Clock, FileText, Activity } from 'lucide-react';
 import { motion } from 'motion/react';
-import { 
-  FiduciaryRuntimeAdapter,
-  ESGIMMode, 
-  ESGIMScenario, 
-  GovernanceJourneyStep 
-} from '../../../services/FiduciaryRuntimeAdapter';
+import { FiduciaryRuntimeAdapter, ESGIMMode, ESGIMScenario, GovernanceJourneyStep } from '../../../services/FiduciaryRuntimeAdapter';
 import { InvestigationLauncherWrapper } from '../../investigation/InvestigationLauncherWrapper';
 
 interface GovernanceJourneyPanelProps {

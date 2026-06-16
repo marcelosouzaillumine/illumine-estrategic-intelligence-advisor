@@ -44,20 +44,20 @@ export function ResilienceAntifragilityRadar({
   ];
 
   // Determine radar stroke color based on classification
-  let radarStroke = '#71717a'; // zinc-500
+  let radarStroke = 'var(--color-primary)'; // zinc-500
   let radarFill = 'rgba(113, 113, 122, 0.15)';
 
   if (isFailClosed) {
-    radarStroke = '#52525b'; // zinc-600 muted
+    radarStroke = 'var(--color-primary)'; // zinc-600 muted
     radarFill = 'rgba(82, 82, 91, 0.1)';
   } else if (isAntifragileUnlocked) {
-    radarStroke = '#34d399'; // emerald-400
+    radarStroke = 'var(--color-primary)'; // emerald-400
     radarFill = 'rgba(52, 211, 153, 0.12)';
   } else if (resilienceClassification === 'RESILIENT' || resilienceClassification === 'ADAPTIVE') {
-    radarStroke = '#818cf8'; // indigo-400
+    radarStroke = 'var(--color-accent)'; // indigo-400
     radarFill = 'rgba(129, 140, 248, 0.12)';
   } else if (resilienceClassification === 'INSTITUTIONALLY_FRAGILE') {
-    radarStroke = '#f87171'; // red-400
+    radarStroke = 'var(--color-primary)'; // red-400
     radarFill = 'rgba(248, 113, 113, 0.12)';
   }
 
@@ -105,15 +105,15 @@ export function ResilienceAntifragilityRadar({
       <div className={`w-full ${isFailClosed ? 'opacity-40' : ''}`} style={{ height: 260 }}>
         <ResponsiveContainer width="100%" height="100%">
           <RadarChart data={radarData} cx="50%" cy="50%" outerRadius="70%">
-            <PolarGrid stroke="#27272a" />
+            <PolarGrid stroke="var(--chart-primary)" />
             <PolarAngleAxis 
               dataKey="dimension" 
-              tick={{ fill: '#71717a', fontSize: 10, fontFamily: 'monospace' }} 
+              tick={{ fill: 'var(--color-primary)', fontSize: 10, fontFamily: 'monospace' }} 
             />
             <PolarRadiusAxis 
               angle={90} 
               domain={[0, 100]} 
-              tick={{ fill: '#3f3f46', fontSize: 9 }}
+              tick={{ fill: 'var(--color-primary)', fontSize: 9 }}
               axisLine={false}
             />
             <Radar
@@ -125,12 +125,12 @@ export function ResilienceAntifragilityRadar({
             />
             <Tooltip
               contentStyle={{
-                backgroundColor: '#18181b',
-                border: '1px solid #3f3f46',
+                backgroundColor: 'var(--color-primary)',
+                border: '1px solid var(--color-primary)',
                 borderRadius: '4px',
                 fontFamily: 'monospace',
                 fontSize: '11px',
-                color: '#d4d4d8'
+                color: 'var(--color-primary)'
               }}
             />
           </RadarChart>

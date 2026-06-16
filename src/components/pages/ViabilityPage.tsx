@@ -2,19 +2,7 @@
 import React, { useState, useEffect } from 'react';
 import { Plus, X, Activity, ShieldCheck, TrendingUp, TrendingDown, Settings2, Rocket } from 'lucide-react';
 import { motion } from 'motion/react';
-import { 
-  BarChart, 
-  Bar, 
-  Line, 
-  XAxis, 
-  YAxis, 
-  CartesianGrid, 
-  Tooltip, 
-  ResponsiveContainer, 
-  ReferenceLine,
-  Cell,
-  ComposedChart
-} from 'recharts';
+import { BarChart, Bar, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, ReferenceLine, Cell, ComposedChart } from 'recharts';
 import { PageHeader, StatusBadge } from '../Common';
 import { formatCurrency, calculateVPL, calculateTIR, calculatePayback, cn } from '../../lib/utils';
 import { collection, query, where, getDocs } from 'firebase/firestore';
@@ -332,8 +320,8 @@ export function ViabilityPage({ selectedClient, clients }: { selectedClient: str
           <div className="w-24 h-24 bg-slate-50 rounded-full flex items-center justify-center mb-6">
             <Activity size={48} className="text-muted-foreground" />
           </div>
-          <h3 className="text-xl font-black text-muted-foreground mb-2">Sem projetos vinculados</h3>
-          <p className="text-muted-foreground max-w-md mx-auto mb-8 font-medium">Nenhum projeto de inovação foi cadastrado para este cliente até o momento.</p>
+     <h3 className="text-xl font-black text-executive-secondary mb-2">Sem projetos vinculados</h3>
+     <p className="text-executive-secondary max-w-md mx-auto mb-8 font-medium">Nenhum projeto de inovação foi cadastrado para este cliente até o momento.</p>
         </div>
       </div>
     );
@@ -354,7 +342,7 @@ export function ViabilityPage({ selectedClient, clients }: { selectedClient: str
           >
             <div className="p-8 border-b border-border flex items-center justify-between">
               <div>
-                <h3 className="text-xl font-black text-muted-foreground">Lançar Projeto de Inovação</h3>
+        <h3 className="text-xl font-black text-executive-secondary">Lançar Projeto de Inovação</h3>
                 <p className="text-[11px] text-muted-foreground font-bold uppercase tracking-widest mt-1">Configuração inicial de CAPEX e unidade.</p>
               </div>
               <button 
@@ -457,7 +445,7 @@ export function ViabilityPage({ selectedClient, clients }: { selectedClient: str
             
             <div className="mb-10">
                <h2 className="text-[10px] font-bold text-muted-foreground uppercase tracking-widest mb-1">{v.cl} · Projeto {v.proj}</h2>
-               <h4 className="text-3xl font-bold tracking-tight italic text-muted-foreground">{v.nome}</h4>
+        <h4 className="text-3xl font-bold tracking-tight italic text-executive-secondary">{v.nome}</h4>
             </div>
             
             <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
@@ -491,7 +479,7 @@ export function ViabilityPage({ selectedClient, clients }: { selectedClient: str
               <div className="lg:col-span-2">
                 <div className="mb-4 flex items-center justify-between">
                   <div>
-                    <h5 className="text-sm font-bold text-muted-foreground uppercase tracking-wide">Fluxo de Caixa Projetado</h5>
+          <h5 className="text-sm font-bold text-executive-secondary uppercase tracking-wide">Fluxo de Caixa Projetado</h5>
                     <p className="text-[10px] text-muted-foreground font-medium">Monthly vs Cumulative Cash Flow (Payback Point Highlighted)</p>
                   </div>
                   <div className="flex items-center gap-4 text-[10px] font-bold uppercase tracking-widest">

@@ -1,34 +1,7 @@
 import React, { useMemo } from 'react';
 import { motion } from 'motion/react';
-import { 
-  Cpu, 
-  TrendingUp, 
-  AlertTriangle, 
-  Zap, 
-  Target, 
-  ShieldCheck, 
-  Activity, 
-  ArrowRightLeft,
-  Sparkles,
-  Info,
-  Layers,
-  Loader2
-} from 'lucide-react';
-import { 
-  ResponsiveContainer, 
-  RadarChart, 
-  PolarGrid, 
-  PolarAngleAxis, 
-  PolarRadiusAxis, 
-  Radar,
-  Tooltip,
-  BarChart,
-  Bar,
-  XAxis,
-  YAxis,
-  CartesianGrid,
-  Cell
-} from 'recharts';
+import { Cpu, TrendingUp, AlertTriangle, Zap, Target, ShieldCheck, Activity, ArrowRightLeft, Sparkles, Info, Layers, Loader2 } from 'lucide-react';
+import { ResponsiveContainer, RadarChart, PolarGrid, PolarAngleAxis, PolarRadiusAxis, Radar, Tooltip, BarChart, Bar, XAxis, YAxis, CartesianGrid, Cell } from 'recharts';
 import { cn, formatCurrency } from '../../lib/utils';
 import { useModuleData } from '../../hooks/useModuleData';
 import { useRealIndicatorData } from '../../hooks/useRealIndicatorData';

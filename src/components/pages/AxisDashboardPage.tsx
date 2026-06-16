@@ -1,14 +1,11 @@
 import React, { useMemo, useState } from 'react';
-import { 
-  ShieldCheck, TrendingUp, Users, Activity, Globe, ShoppingBag, 
-  FileText, Zap, BarChart3, Target, ArrowUpRight, LayoutGrid, 
-  BookOpen, Percent, Lightbulb, Loader2, LayoutDashboard, ShieldAlert
-} from 'lucide-react';
+import { ShieldCheck, TrendingUp, Users, Activity, Globe, ShoppingBag, FileText, Zap, BarChart3, Target, ArrowUpRight, LayoutGrid, BookOpen, Percent, Lightbulb, Loader2, LayoutDashboard, ShieldAlert } from 'lucide-react';
 import { collection, query, where, onSnapshot, getDocs, limit } from 'firebase/firestore';
 import { db, auth } from '../../lib/firebase';
 import { Page } from '../../app/navigation';
 import { motion } from 'motion/react';
 import { PageHeader, StatusBadge, MarkdownText, KpiCard } from '../Common';
+import { ExecutiveMetricCard } from '../ui/executive-metric-card';
 import { ExecutiveEmptyState } from '../ui/executive-empty-state';
 import { formatValue, formatCurrency, cn } from '../../lib/utils';
 import { EixoGestao } from '../../types/modules';
@@ -417,7 +414,7 @@ export function AxisDashboardPage({ axis, clientId, onNavigate, selectedMonth, s
                   <Users size={32} />
                 </div>
                 <div>
-                  <h3 className="text-2xl font-black text-muted-foreground tracking-tight">Inteligência Antropológica & Clima</h3>
+         <h3 className="text-2xl font-black text-executive-secondary tracking-tight">Inteligência Antropológica & Clima</h3>
                   <p className="text-xs text-muted-foreground font-medium">Detectando sinais invisíveis de fadiga, centralização e saúde cultural.</p>
                 </div>
               </div>
@@ -430,7 +427,7 @@ export function AxisDashboardPage({ axis, clientId, onNavigate, selectedMonth, s
                      <div className={cn("w-2 h-2 rounded-full", isCentralized ? "bg-warning-soft0 shadow-[0_0_10px_rgba(245,158,11,0.5)]" : "bg-success-soft0")} />
                   </div>
                   <div className="space-y-2">
-                     <h4 className="text-lg font-black text-muted-foreground">{isCentralized ? "Risco Identificado" : "Liderança Distribuída"}</h4>
+           <h4 className="text-lg font-black text-executive-secondary">{isCentralized ? "Risco Identificado" : "Liderança Distribuída"}</h4>
                      <p className="text-xs text-muted-foreground leading-relaxed font-medium">
                        {isCentralized 
                          ? "Correlação entre Turnover em posições chave e score de eNPS indica possíveis gargalos decisórios no topo." 
@@ -446,7 +443,7 @@ export function AxisDashboardPage({ axis, clientId, onNavigate, selectedMonth, s
                      <div className={cn("w-2 h-2 rounded-full", isFatigued ? "bg-critical-soft0 shadow-[0_0_10px_rgba(244,63,94,0.5)]" : "bg-success-soft0")} />
                   </div>
                   <div className="space-y-2">
-                     <h4 className="text-lg font-black text-muted-foreground">{isFatigued ? "Alerta de Estresse" : "Ritmo Sustentável"}</h4>
+           <h4 className="text-lg font-black text-executive-secondary">{isFatigued ? "Alerta de Estresse" : "Ritmo Sustentável"}</h4>
                      <p className="text-xs text-muted-foreground leading-relaxed font-medium">
                        {isFatigued 
                          ? "Índices de absenteísmo ou falta de desenvolvimento indicam sobrecarga física ou mental nas equipes." 
@@ -458,12 +455,12 @@ export function AxisDashboardPage({ axis, clientId, onNavigate, selectedMonth, s
                 {/* Silent Climate Signal */}
                 <div className={cn("p-8 rounded-[40px] space-y-6 shadow-xl transition-colors duration-500 h-full flex flex-col", isSilent ? "bg-slate-950 text-white" : "bg-slate-100 text-muted-foreground")}>
                   <div className="flex items-center justify-between">
-                     <p className="text-[10px] font-black opacity-50 uppercase tracking-widest">Clima Silencioso</p>
+           <p className="text-[10px] font-black uppercase tracking-widest">Clima Silencioso</p>
                      <div className={cn("w-2 h-2 rounded-full", isSilent ? "bg-primary animate-pulse" : "bg-success-soft0")} />
                   </div>
                   <div className="space-y-2">
                      <h4 className="text-lg font-black">{isSilent ? "Risco de Conformidade" : "Transparência Plena"}</h4>
-                     <p className="text-xs opacity-70 leading-relaxed font-medium">
+           <p className="text-xs leading-relaxed font-medium">
                        {isSilent 
                          ? "Baixo turnover com baixo eNPS indicam um ambiente onde os problemas não são vocalizados por medo ou apatia." 
                          : "A relação entre engajamento e retenção aponta para um ambiente de diálogo aberto e segurança psicológica."}
@@ -479,7 +476,7 @@ export function AxisDashboardPage({ axis, clientId, onNavigate, selectedMonth, s
       {/* KPI Grid - Standardized */}
       <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4 gap-6">
         {primaryKPIs.map((kpi: any, idx: number) => (
-          <KpiCard 
+          <ExecutiveMetricCard 
             key={idx}
             title={kpi.label}
             value={formatValue(kpi.value, '')}

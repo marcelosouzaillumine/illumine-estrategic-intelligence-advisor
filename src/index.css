@@ -195,6 +195,48 @@
   --color-critical-bg: rgba(185,28,28,0.12);
   --color-insight-bg: rgba(186,184,108,0.12);
 
+  /* Semantic State Palette (v1.0 Sovereign) */
+  --color-state-excellent: #0C7A3A;
+  --color-state-excellent-foreground: #FFFFFF;
+  --color-state-excellent-soft: rgba(12, 122, 58, 0.12);
+  --color-state-excellent-border: #0C7A3A;
+  
+  --color-state-healthy: #BAB86C;
+  --color-state-healthy-foreground: #0E1C2C;
+  --color-state-healthy-soft: rgba(186, 184, 108, 0.12);
+  --color-state-healthy-border: #BAB86C;
+  
+  --color-state-warning: #B7791F;
+  --color-state-warning-foreground: #FFFFFF;
+  --color-state-warning-soft: rgba(183, 121, 31, 0.12);
+  --color-state-warning-border: #B7791F;
+  
+  --color-state-critical: #B91C1C;
+  --color-state-critical-foreground: #FFFFFF;
+  --color-state-critical-soft: rgba(185, 28, 28, 0.12);
+  --color-state-critical-border: #B91C1C;
+  
+  --color-state-neutral: #6B7280;
+  --color-state-neutral-foreground: #FFFFFF;
+  --color-state-neutral-soft: rgba(107, 114, 128, 0.12);
+  --color-state-neutral-border: #6B7280;
+  
+  --color-state-insufficient: #94A3B8;
+  --color-state-insufficient-foreground: #FFFFFF;
+  --color-state-insufficient-soft: rgba(148, 163, 184, 0.12);
+  --color-state-insufficient-border: #94A3B8;
+
+  /* Universal Chart Palette (Analytical focus) */
+  --chart-positive: #10b981;
+  --chart-negative: #ef4444;
+  --chart-primary: #3b82f6;
+  --chart-secondary: #8b5cf6;
+  --chart-warning: #f59e0b;
+  --chart-neutral: #94a3b8;
+  --chart-benchmark: #cbd5e1;
+  --chart-grid: #e2e8f0;
+  --chart-axis: #64748b;
+
 }
 
 .light {
@@ -225,6 +267,37 @@
   --color-warning-soft: rgba(183, 121, 31, 0.12);
   --color-critical-soft: rgba(185, 28, 28, 0.12);
   --color-success-soft: rgba(12, 122, 58, 0.12);
+
+  /* Semantic State Palette - Light */
+  --color-state-excellent: #0C7A3A;
+  --color-state-excellent-foreground: #FFFFFF;
+  --color-state-excellent-soft: rgba(12, 122, 58, 0.12);
+  --color-state-excellent-border: #0C7A3A;
+  
+  --color-state-healthy: #BAB86C;
+  --color-state-healthy-foreground: #0E1C2C;
+  --color-state-healthy-soft: rgba(186, 184, 108, 0.12);
+  --color-state-healthy-border: #BAB86C;
+  
+  --color-state-warning: #B7791F;
+  --color-state-warning-foreground: #FFFFFF;
+  --color-state-warning-soft: rgba(183, 121, 31, 0.12);
+  --color-state-warning-border: #B7791F;
+  
+  --color-state-critical: #B91C1C;
+  --color-state-critical-foreground: #FFFFFF;
+  --color-state-critical-soft: rgba(185, 28, 28, 0.12);
+  --color-state-critical-border: #B91C1C;
+  
+  --color-state-neutral: #6B7280;
+  --color-state-neutral-foreground: #FFFFFF;
+  --color-state-neutral-soft: rgba(107, 114, 128, 0.12);
+  --color-state-neutral-border: #6B7280;
+  
+  --color-state-insufficient: #94A3B8;
+  --color-state-insufficient-foreground: #FFFFFF;
+  --color-state-insufficient-soft: rgba(148, 163, 184, 0.12);
+  --color-state-insufficient-border: #94A3B8;
 }
 
 .dark {
@@ -254,6 +327,37 @@
   --color-warning-soft: rgba(200, 169, 74, 0.12);
   --color-critical-soft: rgba(208, 29, 28, 0.12);
   --color-success-soft: rgba(12, 122, 58, 0.10);
+
+  /* Semantic State Palette - Dark */
+  --color-state-excellent: #0C7A3A;
+  --color-state-excellent-foreground: #FFFFFF;
+  --color-state-excellent-soft: rgba(12, 122, 58, 0.10);
+  --color-state-excellent-border: #0C7A3A;
+  
+  --color-state-healthy: #BAB86C;
+  --color-state-healthy-foreground: #0E1C2C;
+  --color-state-healthy-soft: rgba(186, 184, 108, 0.10);
+  --color-state-healthy-border: #BAB86C;
+  
+  --color-state-warning: #C8A94A;
+  --color-state-warning-foreground: #0E1C2C;
+  --color-state-warning-soft: rgba(200, 169, 74, 0.12);
+  --color-state-warning-border: #C8A94A;
+  
+  --color-state-critical: #D01D1C;
+  --color-state-critical-foreground: #FFFFFF;
+  --color-state-critical-soft: rgba(208, 29, 28, 0.12);
+  --color-state-critical-border: #D01D1C;
+  
+  --color-state-neutral: #94A3B8;
+  --color-state-neutral-foreground: #0E1C2C;
+  --color-state-neutral-soft: rgba(148, 163, 184, 0.10);
+  --color-state-neutral-border: #94A3B8;
+  
+  --color-state-insufficient: #6B7280;
+  --color-state-insufficient-foreground: #FFFFFF;
+  --color-state-insufficient-soft: rgba(107, 114, 128, 0.10);
+  --color-state-insufficient-border: #6B7280;
   
   /* Surface Variants in Dark Mode */
   --color-surface-low: #0A1420;
@@ -463,6 +567,17 @@ html, body {
 .text-eyebrow {
   @apply font-display text-body-sm font-medium tracking-normal text-muted-foreground;
 }
+
+/* Executive Text Sovereignty (v1.1) */
+.text-executive-primary { color: var(--color-text-primary); }
+.text-executive-secondary { color: var(--color-text-secondary); }
+.text-executive-muted { color: var(--color-text-muted); }
+.text-executive-label { color: var(--color-text-muted); } /* Can be adjusted globally later */
+
+/* Executive Text Sovereignty - Inverse Modes (v1.2) */
+.text-executive-inverse-primary { color: var(--color-executive-foreground); }
+.text-executive-inverse-secondary { color: color-mix(in srgb, var(--color-executive-foreground) 80%, transparent); }
+.text-executive-inverse-muted { color: color-mix(in srgb, var(--color-executive-foreground) 60%, transparent); }
 
 /* ==========================================
    TOTAL RESPONSIVENESS SYSTEM (100% Fluid)

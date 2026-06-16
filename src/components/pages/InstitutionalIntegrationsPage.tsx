@@ -66,7 +66,7 @@ export function InstitutionalIntegrationsPage() {
         </div>
         
         <div className="md:col-span-2 space-y-4">
-          <h3 className="text-h3 font-medium text-foreground tracking-tight">Import Review Queue <span className="text-muted-foreground font-normal text-body-sm ml-2">(Staging)</span></h3>
+     <h3 className="text-h3 font-medium text-foreground tracking-tight">Import Review Queue <span className="text-executive-secondary font-normal text-body-sm ml-2">(Staging)</span></h3>
           <ImportReviewQueueTable
             queue={queue}
             onApprove={handleApprove}

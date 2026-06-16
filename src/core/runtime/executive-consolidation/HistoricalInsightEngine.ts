@@ -57,6 +57,15 @@ export class HistoricalInsightEngine {
     return d2 > d1 && d2 > 0;
   }
 
+  private static getTextualQualifier(growthPct: number): string {
+    if (growthPct >= 50) return 'expansão expressiva';
+    if (growthPct >= 20) return 'expansão relevante';
+    if (growthPct >= 5) return 'expansão moderada';
+    if (growthPct > -5) return 'estabilidade relativa';
+    if (growthPct > -20) return 'redução moderada';
+    return 'retração relevante';
+  }
+
   public static detectCapitalStrengthening(equitySeries: HistoricalSeries, assetSeries: HistoricalSeries): HistoricalExecutiveNarrative | null {
     const eqTrend = this.detectTrend(equitySeries);
     const asTrend = this.detectTrend(assetSeries);
@@ -64,12 +73,13 @@ export class HistoricalInsightEngine {
     if (eqTrend === 'up' && asTrend === 'up') {
       const p1 = equitySeries.data[0].value;
       const p2 = equitySeries.data[equitySeries.data.length - 1].value;
-      const growth = p1 !== 0 ? ((p2 - p1) / p1) * 100 : 0;
+      const growth = p1 !== 0 ? ((p2 - p1) / Math.abs(p1)) * 100 : 0;
+      const qualifier = this.getTextualQualifier(growth);
 
       return {
-        narrative: 'O patrimônio líquido apresentou crescimento consistente ao longo do período, reforçando a estrutura de capital.',
+        narrative: `O patrimônio líquido apresentou ${qualifier} ao longo do período analisado, refletindo retenção de resultados e fortalecimento consistente da estrutura patrimonial.`,
         drivers: [
-          { description: `Crescimento de Patrimônio Líquido de ${growth.toFixed(1)}%` },
+          { description: `Evolução de Patrimônio Líquido aponta ${qualifier}` },
           { description: 'Expansão de Ativos acompanhada por capitalização' }
         ]
       };

@@ -1,25 +1,5 @@
 import React, { useState, useMemo, useEffect } from 'react';
-import { 
-  Users, 
-  Target, 
-  Brain, 
-  BarChart, 
-  ChevronRight, 
-  CheckCircle2, 
-  AlertCircle,
-  TrendingUp,
-  Award,
-  ShieldCheck,
-  Briefcase,
-  Compass,
-  Zap,
-  Info,
-  ArrowRight,
-  BookOpen,
-  PieChart,
-  Lightbulb,
-  Search
-} from 'lucide-react';
+import { Users, Target, Brain, BarChart, ChevronRight, CheckCircle2, AlertCircle, TrendingUp, Award, ShieldCheck, Briefcase, Compass, Zap, Info, ArrowRight, BookOpen, PieChart, Lightbulb, Search } from 'lucide-react';
 import { motion, AnimatePresence } from 'motion/react';
 import { collection, addDoc, serverTimestamp, query, where, getDocs, orderBy } from 'firebase/firestore';
 import { db, auth } from '../../lib/firebase';
@@ -614,7 +594,7 @@ export function EstruturaGovernancaPage({ clientId }: { clientId: string }) {
                         <StatusBadge status={selectedRole.category === 'Direção' ? 'Verde' : 'Amarelo'} />
                         <h2 className="text-h2 font-medium text-foreground tracking-tight">{selectedRole.title}</h2>
                       </div>
-                      <p className="text-body-sm text-muted-foreground font-medium max-w-2xl">{selectedRole.description}</p>
+           <p className="text-body-sm text-executive-secondary font-medium max-w-2xl">{selectedRole.description}</p>
                     </div>
                     <div className="w-16 h-16 bg-surface-container rounded-md flex items-center justify-center text-primary border border-border">
                       <Compass size={32} strokeWidth={1.5} />
@@ -623,7 +603,7 @@ export function EstruturaGovernancaPage({ clientId }: { clientId: string }) {
 
                   <div className="grid md:grid-cols-2 gap-8">
                     <div className="space-y-6">
-                      <h3 className="text-body-sm font-medium uppercase tracking-widest text-muted-foreground flex items-center gap-2">
+           <h3 className="text-body-sm font-medium uppercase tracking-widest text-executive-secondary flex items-center gap-2">
                         <Target size={14} className="text-secondary" />
                         Soft Skills Essenciais
                       </h3>
@@ -651,7 +631,7 @@ export function EstruturaGovernancaPage({ clientId }: { clientId: string }) {
                     </div>
 
                     <div className="space-y-6">
-                      <h3 className="text-body-sm font-medium uppercase tracking-widest text-muted-foreground flex items-center gap-2">
+           <h3 className="text-body-sm font-medium uppercase tracking-widest text-executive-secondary flex items-center gap-2">
                         <PieChart size={14} className="text-primary" />
                         Perfil Comportamental Ideal (DISC)
                       </h3>
@@ -666,13 +646,13 @@ export function EstruturaGovernancaPage({ clientId }: { clientId: string }) {
                                   className="w-full bg-white/30 backdrop-blur-md"
                                 />
                               </div>
-                              <span className="text-[10px] font-medium uppercase tracking-widest opacity-60">{trait}</span>
+               <span className="text-[10px] font-medium uppercase tracking-widest ">{trait}</span>
                               <span className="text-xs font-medium">{val}%</span>
                             </div>
                           ))}
                         </div>
                         <div className="pt-4 border-t border-white/10">
-                          <p className="text-[10px] font-medium uppercase tracking-widest opacity-60 mb-2">Arquétipos de Eneagrama</p>
+             <p className="text-[10px] font-medium uppercase tracking-widest mb-2">Arquétipos de Eneagrama</p>
                           <div className="flex gap-2">
                             {selectedRole.idealProfile.enneagram.map(type => (
                               <div key={type} className="px-3 py-1 bg-white/10 rounded-md text-[10px] font-medium uppercase tracking-widest">
@@ -688,7 +668,7 @@ export function EstruturaGovernancaPage({ clientId }: { clientId: string }) {
                           <Lightbulb size={20} className="text-secondary" />
                         </div>
                         <div>
-                          <p className="text-[10px] font-medium text-secondary uppercase tracking-widest mb-1">Insight do Advisor</p>
+             <p className="text-[10px] font-medium text-executive-secondary uppercase tracking-widest mb-1">Insight do Advisor</p>
                           <p className="text-[11px] text-muted-foreground leading-relaxed italic font-medium">
                             "Para este cargo, buscamos um equilíbrio entre a {selectedRole.category === 'Direção' ? 'agilidade executiva e a visão estratégica' : 'imparcialidade e a profundidade analítica'}. O perfil deve inspirar confiança imediata."
                           </p>
@@ -703,7 +683,7 @@ export function EstruturaGovernancaPage({ clientId }: { clientId: string }) {
                     <Users size={40} strokeWidth={1} />
                   </div>
                   <h3 className="text-body-md font-medium text-foreground uppercase tracking-widest">Nenhum cargo selecionado</h3>
-                  <p className="mt-2 text-body-sm text-muted-foreground font-medium max-w-2xl">Escolha uma função na lista ao lado para explorar as competências e o perfil ideal de governança.</p>
+         <p className="mt-2 text-body-sm text-executive-secondary font-medium max-w-2xl">Escolha uma função na lista ao lado para explorar as competências e o perfil ideal de governança.</p>
                 </div>
               )}
             </div>
@@ -722,7 +702,7 @@ export function EstruturaGovernancaPage({ clientId }: { clientId: string }) {
               <SectionHeader title="Prudência Decisória" subtitle="Avaliação de tomada de decisão para Diretores e Conselheiros." icon={ShieldCheck} />
               <div className="text-right pb-2">
                 <p className="text-[10px] font-medium text-muted-foreground uppercase tracking-widest">Progresso do Diagnóstico</p>
-                <p className="text-h2 font-medium text-primary">{dilemmaStep + 1} <span className="text-muted-foreground/30">/ {ETHICAL_DILEMMAS.length}</span></p>
+        <p className="text-h2 font-medium text-primary">{dilemmaStep + 1} <span className="text-executive-secondary/30">/ {ETHICAL_DILEMMAS.length}</span></p>
               </div>
             </div>
 
@@ -748,7 +728,7 @@ export function EstruturaGovernancaPage({ clientId }: { clientId: string }) {
                       <AlertCircle size={28} />
                     </div>
                     <div>
-                      <p className="text-[10px] font-medium text-secondary uppercase tracking-widest mb-1">
+           <p className="text-[10px] font-medium text-executive-secondary uppercase tracking-widest mb-1">
                         {GOVERNANCE_PRINCIPLES.find(p => p.id === ETHICAL_DILEMMAS[dilemmaStep].principleId)?.axis}
                       </p>
                       <h4 className="text-h2 font-medium text-foreground tracking-tight">{ETHICAL_DILEMMAS[dilemmaStep].title}</h4>
@@ -756,7 +736,7 @@ export function EstruturaGovernancaPage({ clientId }: { clientId: string }) {
                   </div>
                   <div className="relative">
                     <div className="absolute -left-4 top-0 bottom-0 w-1 bg-secondary/20 rounded-full" />
-                    <p className="text-body-md text-muted-foreground font-medium leading-relaxed italic pl-6">
+          <p className="text-body-md text-executive-secondary font-medium leading-relaxed italic pl-6">
                       "{ETHICAL_DILEMMAS[dilemmaStep].scenario}"
                     </p>
                   </div>
@@ -841,7 +821,7 @@ export function EstruturaGovernancaPage({ clientId }: { clientId: string }) {
                     <Users size={14} className="text-secondary" />
                     <span className="text-[10px] font-medium tracking-widest uppercase">Avaliador: {auth.currentUser?.displayName || 'Convidado'}</span>
                   </div>
-                  <p className="text-[10px] font-medium uppercase tracking-[0.2em] opacity-60">Deep Profile Analysis</p>
+         <p className="text-[10px] font-medium uppercase tracking-[0.2em] ">Deep Profile Analysis</p>
                   <h2 className="text-h2 font-medium tracking-tight">
                     {!hasConfirmedRole ? 'Confirme seu Cargo' : assessmentType === 'disc' ? 'DNA Comportamental' : 'Arquétipo de Eneagrama'}
                   </h2>
@@ -872,7 +852,7 @@ export function EstruturaGovernancaPage({ clientId }: { clientId: string }) {
                         </div>
                         <div>
                           <h3 className="text-body-md font-medium text-foreground">Confirme sua posição de Governança</h3>
-                          <p className="text-body-sm text-muted-foreground font-medium">Isso garante que sua análise seja comparada ao perfil ideal correto do cargo.</p>
+             <p className="text-body-sm text-executive-secondary font-medium">Isso garante que sua análise seja comparada ao perfil ideal correto do cargo.</p>
                         </div>
                       </div>
                       
@@ -1041,7 +1021,7 @@ export function EstruturaGovernancaPage({ clientId }: { clientId: string }) {
                             </div>
                             <div>
                               <p className="text-body-sm font-medium text-foreground">{trait}</p>
-                              <p className="text-[9px] font-medium text-muted-foreground uppercase tracking-widest">
+               <p className="text-[9px] font-medium text-executive-secondary uppercase tracking-widest">
                                 {trait === 'D' ? 'Domínio' : 
                                  trait === 'I' ? 'Influência' : 
                                  trait === 'S' ? 'Estabilidade' : 'Cautela'}
@@ -1053,7 +1033,7 @@ export function EstruturaGovernancaPage({ clientId }: { clientId: string }) {
                     </div>
                     <div className="mt-10 p-6 bg-surface-container/50 rounded-md border border-border">
                       <p className="text-[10px] font-medium text-foreground uppercase tracking-widest mb-2">Resumo Comportamental</p>
-                      <p className="text-body-sm text-muted-foreground font-medium leading-relaxed italic">
+           <p className="text-body-sm text-executive-secondary font-medium leading-relaxed italic">
                         Seu perfil demonstra uma forte orientação para {userProfile.D > 40 ? 'resultados e tomada de decisão assertiva' : userProfile.I > 40 ? 'comunicação e influência interpessoal' : userProfile.S > 40 ? 'estabilidade e trabalho em equipe' : 'precisão e conformidade técnica'}.
                       </p>
                     </div>
@@ -1066,7 +1046,7 @@ export function EstruturaGovernancaPage({ clientId }: { clientId: string }) {
                     <div className="p-6 bg-white/5 rounded-md border border-white/10 backdrop-blur-md mb-8">
                       <div className="flex justify-between items-center mb-6">
                         <div>
-                          <p className="text-[10px] font-medium uppercase tracking-widest text-secondary">Aderência ao Cargo</p>
+             <p className="text-[10px] font-medium uppercase tracking-widest text-executive-secondary">Aderência ao Cargo</p>
                           <h4 className="text-h3 font-medium tracking-tight">Gráfico de Aderência (DISC + Eneagrama)</h4>
                         </div>
                         <div className="text-right">
@@ -1079,7 +1059,7 @@ export function EstruturaGovernancaPage({ clientId }: { clientId: string }) {
                         <div className="grid grid-cols-2 gap-8">
                            {/* DISC Alignment */}
                            <div className="space-y-3">
-                              <p className="text-[10px] font-black uppercase tracking-widest opacity-60">Aderência DISC</p>
+               <p className="text-[10px] font-black uppercase tracking-widest ">Aderência DISC</p>
                               <div className="space-y-2">
                                 {['D', 'I', 'S', 'C'].map((t) => {
                                   const trait = t as keyof typeof userProfile;
@@ -1103,7 +1083,7 @@ export function EstruturaGovernancaPage({ clientId }: { clientId: string }) {
 
                            {/* Enneagram Alignment */}
                            <div className="space-y-3">
-                              <p className="text-[10px] font-black uppercase tracking-widest opacity-60">Aderência Eneagrama</p>
+               <p className="text-[10px] font-black uppercase tracking-widest ">Aderência Eneagrama</p>
                               <div className="flex flex-wrap gap-2 pt-2">
                                 {selectedRole.idealProfile.enneagram.map(type => (
                                   <div key={type} className={cn(
@@ -1123,7 +1103,7 @@ export function EstruturaGovernancaPage({ clientId }: { clientId: string }) {
                       <div className="mt-8 pt-8 border-t border-white/10">
                         <div className="flex justify-between items-center mb-6">
                           <div>
-                            <p className="text-[10px] font-medium uppercase tracking-widest text-secondary">Inteligência Governança</p>
+              <p className="text-[10px] font-medium uppercase tracking-widest text-executive-secondary">Inteligência Governança</p>
                             <h4 className="text-h3 font-medium tracking-tight">Alinhamento de Princípios</h4>
                           </div>
                           <div className="text-right">
@@ -1144,10 +1124,10 @@ export function EstruturaGovernancaPage({ clientId }: { clientId: string }) {
                           "w-2 h-2 rounded-full",
                           governançaAlignment.score > 80 ? "bg-emerald-400" : governançaAlignment.score > 50 ? "bg-amber-400" : "bg-rose-400"
                         )} />
-                        <p className="text-xs font-bold opacity-80">{governançaAlignment.status}</p>
+            <p className="text-xs font-bold ">{governançaAlignment.status}</p>
                       </div>
 
-                      <p className="mt-4 text-[11px] opacity-60 leading-relaxed italic font-medium">
+           <p className="mt-4 text-[11px] leading-relaxed italic font-medium">
                         "Este score reflete o quanto sua tomada de decisão individual converge com os Princípios de Governança da Inteligência Governança. Um score alto indica que sua liderança preservará o DNA espiritual e ético da organização."
                       </p>
                     </div>
@@ -1160,7 +1140,7 @@ export function EstruturaGovernancaPage({ clientId }: { clientId: string }) {
                             <Compass size={24} />
                           </div>
                           <div>
-                            <p className="text-[10px] font-medium uppercase tracking-widest opacity-60">Cargo Alvo</p>
+              <p className="text-[10px] font-medium uppercase tracking-widest ">Cargo Alvo</p>
                             <p className="text-body-md font-medium tracking-tight">{selectedRole.title}</p>
                           </div>
                         </div>
@@ -1175,12 +1155,12 @@ export function EstruturaGovernancaPage({ clientId }: { clientId: string }) {
                                 )} />
                                 <div>
                                   <p className="text-xs font-black">Traço: {gap.trait === 'D' ? 'Domínio' : gap.trait === 'I' ? 'Influência' : gap.trait === 'S' ? 'Estabilidade' : 'Cautela'}</p>
-                                  <p className="text-[10px] opacity-60">Sinal de {gap.direction === 'excess' ? 'excesso' : 'necessidade de desenvolvimento'}</p>
+                 <p className="text-[10px] ">Sinal de {gap.direction === 'excess' ? 'excesso' : 'necessidade de desenvolvimento'}</p>
                                 </div>
                               </div>
                               <div className="text-right">
-                                <p className="text-xs font-black text-secondary">{gap.actual}% vs {gap.ideal}%</p>
-                                <p className="text-[9px] opacity-40 uppercase font-black">Gap de {Math.abs(gap.actual - gap.ideal)}%</p>
+                <p className="text-xs font-black text-executive-secondary">{gap.actual}% vs {gap.ideal}%</p>
+                <p className="text-[9px] uppercase font-black">Gap de {Math.abs(gap.actual - gap.ideal)}%</p>
                               </div>
                             </div>
                           ))}
@@ -1190,7 +1170,7 @@ export function EstruturaGovernancaPage({ clientId }: { clientId: string }) {
                                 <CheckCircle2 size={32} />
                               </div>
                               <p className="text-sm font-bold">Perfil Altamente Alinhado</p>
-                              <p className="text-xs opacity-60 max-w-xs">Não foram identificados gaps críticos entre seu perfil e as exigências do cargo.</p>
+               <p className="text-xs max-w-xs">Não foram identificados gaps críticos entre seu perfil e as exigências do cargo.</p>
                             </div>
                           )}
                         </div>
@@ -1221,7 +1201,7 @@ export function EstruturaGovernancaPage({ clientId }: { clientId: string }) {
                           <Award size={24} />
                         </div>
                         <h4 className="text-body-md font-medium text-foreground mb-2 uppercase tracking-widest">{trail.title}</h4>
-                        <p className="text-body-sm text-muted-foreground font-medium leading-relaxed mb-6">{trail.description}</p>
+            <p className="text-body-sm text-executive-secondary font-medium leading-relaxed mb-6">{trail.description}</p>
                         
                         <div className="space-y-3">
                           {trail.items.map((item, i) => (
@@ -1248,7 +1228,7 @@ export function EstruturaGovernancaPage({ clientId }: { clientId: string }) {
                   <Brain size={48} strokeWidth={1} />
                 </div>
                 <h3 className="text-h3 font-medium text-foreground uppercase tracking-widest">Aguardando Avaliação</h3>
-                <p className="mt-4 text-body-sm text-muted-foreground max-w-md mx-auto leading-relaxed font-medium">
+        <p className="mt-4 text-body-sm text-executive-secondary max-w-md mx-auto leading-relaxed font-medium">
                   Para visualizar a análise de gaps e receber suas trilhas de desenvolvimento, primeiro complete o questionário de autoavaliação comportamental.
                 </p>
                 <button 
@@ -1312,7 +1292,7 @@ export function EstruturaGovernancaPage({ clientId }: { clientId: string }) {
                   </div>
                 ) : (
                   <div className="p-8 bg-slate-50 rounded-3xl border-2 border-dashed border-border text-center">
-                    <p className="text-sm text-muted-foreground">Nenhum dado de time disponível ainda.</p>
+          <p className="text-sm text-executive-secondary">Nenhum dado de time disponível ainda.</p>
                   </div>
                 )}
               </div>

@@ -1,0 +1,82 @@
+{
+  "contractVersion": "7.3",
+  "client": "Granatum",
+  "year": 2025,
+  "expectedConstraints": {
+    "capitalEfficiency": {
+      "forbiddenStatus": "Excelente",
+      "requiredStatus": "Atenção à Eficiência da Alocação",
+      "requiredScoreMax": 80,
+      "requiredDriverSubstring": "oportunidade de otimização"
+    },
+    "protection": {
+      "forbiddenStatus": "Dados Insuficientes",
+      "requiredStatus": "Proteção Patrimonial Robusta",
+      "requiredDriverSubstring": "Base patrimonial altamente preservada"
+    },
+    "liquidity": {
+      "requiredStatus": "Liquidez Excedente"
+    },
+    "capitalStructure": {
+      "requiredStatus": "Estrutura Patrimonial Muito Sólida"
+    },
+    "workingCapital": {
+      "requiredStatus": "Cobertura de Giro Preservada"
+    },
+    "assetQuality": {
+      "requiredStatus": "Qualidade Estrutural Preservada"
+    },
+    "requiredPanels": [
+      "protection",
+      "liquidity",
+      "capitalStructure",
+      "workingCapital",
+      "assetQuality",
+      "capitalEfficiency"
+    ],
+    "executivePlan": {
+      "shortTerm": "política institucional de gestão de excedentes",
+      "forbiddenTerms": [
+        "Análise indisponível",
+        "Dados insuficientes",
+        "Preservar disciplina operacional",
+        "Melhorar previsibilidade",
+        "Fortalecer controles"
+      ]
+    },
+    "numericPreservation": {
+      "liquidezCorrente": "11.97",
+      "liquidezImediata": "7.65",
+      "autonomiaFinanceira": "92.9%",
+      "dependenciaCapitalTerceiros": "7.1%",
+      "relacaoDividaPl": "0.08x",
+      "capitalGiroLiquido": "R$ 1.830.998",
+      "saldoTesouraria": "R$ 1.231.692"
+    },
+    "forbiddenEnums": [
+      "HEALTHY",
+      "WARNING",
+      "EXCELLENT",
+      "RESILIENT",
+      "MONITORING",
+      "MINOR_WARNINGS"
+    ],
+    "forbiddenTerminology": [
+      "Painel não gerado",
+      "Erro Estrutural",
+      "Aguardando evidências",
+      "Omitido do contexto",
+      "Dados Insuficientes",
+      "Dados Indisponíveis",
+      "Indeterminada",
+      "Indeterminado",
+      "Debt-to-Equity",
+      "Working Capital",
+      "Current Ratio",
+      "Quick Ratio",
+      "Cash Ratio",
+      "N/A",
+      "NaN"
+    ]
+  }
+}

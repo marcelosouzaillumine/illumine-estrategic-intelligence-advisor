@@ -1,35 +1,10 @@
 import React, { useMemo, useEffect, useState, useCallback } from 'react';
-import { ResponsiveContainer } from "recharts";
+import { ResponsiveContainer } from 'recharts';
 
 import { motion, AnimatePresence } from 'motion/react';
-import { 
-  Calendar, 
-  TrendingUp, 
-  AlertTriangle, 
-  Zap, 
-  ChevronRight, 
-  ShieldCheck, 
-  Activity, 
-  Target, 
-  LayoutDashboard,
-  Users,
-  Globe,
-  ShoppingBag,
-  Lightbulb,
-  Loader2,
-  Sparkles,
-  ArrowRight,
-  PieChart as PieChartIcon,
-  BarChart as BarChartIcon
-} from 'lucide-react';
+import { Calendar, TrendingUp, AlertTriangle, Zap, ChevronRight, ShieldCheck, Activity, Target, LayoutDashboard, Users, Globe, ShoppingBag, Lightbulb, Loader2, Sparkles, ArrowRight, PieChart as PieChartIcon, BarChart as BarChartIcon } from 'lucide-react';
 
-import { 
-  ExecutiveChart,
-  ExecutiveChartGrid,
-  ExecutiveChartXAxis,
-  ExecutiveChartYAxis,
-  ExecutiveChartTooltip
-} from '../ui/executive-chart';
+import { ExecutiveChart, ExecutiveChartGrid, ExecutiveChartXAxis, ExecutiveChartYAxis, ExecutiveChartTooltip } from '../ui/executive-chart';
 import { ExecutiveSurface } from '../ui/executive-surface';
 import { ExecutiveEmptyState } from '../ui/executive-empty-state';
 import { calculateDreCascade } from '../../lib/dreCascade';
@@ -37,7 +12,8 @@ import { DRE_OFFICIAL_STRUCTURE } from '../../constants/dreStructure';
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '../ui/tooltip';
 import { DashboardSkeleton } from '../ui/skeletons';
 import { SandboxWarningOverlay } from '../executive-interaction/SandboxWarningOverlay';
-import { Semaphore, KpiCard, KpiValue, ControlBar } from '../Common';
+import { Semaphore, ControlBar } from '../Common';
+import { ExecutiveMetricCard } from '../ui/executive-metric-card';
 import { PageHeader } from '../ui/page-header';
 import { SectionHeader } from '../ui/section-header';
 import { SemanticCard } from '../ui/semantic-card';
@@ -517,7 +493,7 @@ export function DashboardPage({
         actions={
           <div className="flex items-center gap-2 px-5 py-2 bg-secondary/5 border border-secondary/10 rounded-full">
             <span className="w-2 h-2 rounded-full bg-secondary animate-pulse" />
-            <p className="text-[10px] font-black text-secondary uppercase tracking-[0.2em]">{t('dashboard.hub.executive_view')}</p>
+      <p className="text-[10px] font-black text-executive-secondary uppercase tracking-[0.2em]">{t('dashboard.hub.executive_view')}</p>
           </div>
         }
       >

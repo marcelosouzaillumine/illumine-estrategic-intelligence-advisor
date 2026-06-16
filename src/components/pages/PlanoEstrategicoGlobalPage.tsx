@@ -1,23 +1,6 @@
 
 import React, { useMemo } from 'react';
-import { 
-  Target, 
-  TrendingUp, 
-  ShieldCheck, 
-  Users, 
-  Lightbulb, 
-  Globe, 
-  ShoppingBag, 
-  Settings,
-  ChevronRight,
-  CheckCircle2,
-  Clock,
-  AlertCircle,
-  BarChart3,
-  ArrowRightLeft,
-  Activity,
-  Zap
-} from 'lucide-react';
+import { Target, TrendingUp, ShieldCheck, Users, Lightbulb, Globe, ShoppingBag, Settings, ChevronRight, CheckCircle2, Clock, AlertCircle, BarChart3, ArrowRightLeft, Activity, Zap } from 'lucide-react';
 import { motion } from 'motion/react';
 import { cn, formatValue, formatCurrency } from '../../lib/utils';
 import { PageHeader, SectionHeader, StatusBadge } from '../Common';
@@ -153,7 +136,7 @@ export function PlanoEstrategicoGlobalPage({ clientId }: PlanejamentoEstrategico
             <h3 className="text-4xl font-medium text-foreground tracking-tighter">{strategicData.gapsCount}</h3>
             <span className="text-[10px] font-medium text-destructive mb-2 uppercase tracking-widest shadow-sm">{strategicData.criticalCount} críticos</span>
           </div>
-          <p className="mt-6 text-[9px] font-medium text-muted-foreground uppercase tracking-widest italic">Ações corretivas pendentes</p>
+     <p className="mt-6 text-[9px] font-medium text-executive-secondary uppercase tracking-widest italic">Ações corretivas pendentes</p>
         </div>
 
         <div className="card-premium p-8 relative overflow-hidden group">
@@ -165,7 +148,7 @@ export function PlanoEstrategicoGlobalPage({ clientId }: PlanejamentoEstrategico
             <h3 className="text-4xl font-medium text-secondary tracking-tighter">{hasData ? 'A-' : '---'}</h3>
             <span className="text-[10px] font-medium text-secondary/60 mb-2 uppercase tracking-widest shadow-sm">{hasData ? 'Estável' : 'Pendente'}</span>
           </div>
-          <p className="mt-6 text-[9px] font-medium text-muted-foreground uppercase tracking-widest italic">{hasData ? 'Risco de execução: Baixo' : 'Aguardando Planejamento'}</p>
+     <p className="mt-6 text-[9px] font-medium text-executive-secondary uppercase tracking-widest italic">{hasData ? 'Risco de execução: Baixo' : 'Aguardando Planejamento'}</p>
         </div>
       </div>
 
@@ -202,7 +185,7 @@ export function PlanoEstrategicoGlobalPage({ clientId }: PlanejamentoEstrategico
                </div>
             </div>
             <h3 className="text-lg font-medium text-foreground tracking-tight uppercase mb-1">{axis.title}</h3>
-            <p className="text-[9px] font-medium text-muted-foreground uppercase tracking-widest italic">{axis.goals} Objetivos em Curso</p>
+      <p className="text-[9px] font-medium text-executive-secondary uppercase tracking-widest italic">{axis.goals} Objetivos em Curso</p>
             
             <div className="mt-6 flex items-center justify-between relative z-10">
                <div className="flex -space-x-2">

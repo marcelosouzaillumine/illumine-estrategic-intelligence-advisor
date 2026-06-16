@@ -1,5 +1,7 @@
 import React, { useMemo } from 'react';
 import { ExecutiveStrategicSemanticCards } from '../../ui/executive-strategic-semantic-cards';
+import { ExecutiveHeading } from '../../ui/executive-heading';
+import { ExecutiveText } from '../../ui/executive-typography';
 import { ExecutiveDecisionSynthesisEngine } from '../../../services/FiduciaryRuntimeAdapter';
 import { ExecutiveAnalysisContext } from '../../../services/FiduciaryRuntimeAdapter';
 
@@ -41,8 +43,8 @@ export const BalanceSheetExecutiveSynthesisSection = ({
   return (
     <div className="w-full mt-12 mb-12">
       <div className="p-6 bg-surface-high border border-border rounded-lg shadow-sm">
-        <h3 className="text-sm font-bold text-foreground mb-4">Síntese Executiva</h3>
-        <p className="text-sm text-muted-foreground">{executiveNarrative}</p>
+        <ExecutiveHeading as="h3" variant="moduleTitle" className="mb-4">Síntese Executiva</ExecutiveHeading>
+        <ExecutiveText as="div" variant="moduleSubtitle">{executiveNarrative || 'Nenhuma narrativa disponível para este exercício.'}</ExecutiveText>
       </div>
     </div>
   );

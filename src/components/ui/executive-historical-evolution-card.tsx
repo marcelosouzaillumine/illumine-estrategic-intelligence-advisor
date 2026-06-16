@@ -1,6 +1,7 @@
 import React from 'react';
 import { cn } from '@/lib/utils';
 import { ExecutiveSurface } from './executive-surface';
+import { ExecutiveText } from './executive-typography';
 import { ExecutiveHistoricalLegend, ExecutiveHistoricalLegendItem } from './executive-historical-legend';
 import { ExecutiveHistoricalInsightCard, ExecutiveHistoricalInsightCardProps } from './executive-historical-insight-card';
 import { ExecutiveAnalyticalHighlightsCardProps, ExecutiveAnalyticalHighlightsCard } from './executive-analytical-highlights';
@@ -36,7 +37,11 @@ export function ExecutiveHistoricalEvolutionCard({
       <div className="flex flex-col gap-3 md:flex-row md:justify-between md:items-start">
         <div className="flex flex-col gap-1.5 flex-1">
           <h3 className="font-semibold text-lg tracking-tight leading-none text-foreground">{title}</h3>
-          {description && <p className="text-foreground/70 text-sm leading-snug">{description}</p>}
+          {description && (
+            <ExecutiveText variant="moduleSubtitle">
+              {description}
+            </ExecutiveText>
+          )}
         </div>
         
         {/* Phase 1: Legend positioned OUTSIDE the canvas */}

@@ -1,22 +1,5 @@
 import React, { useState } from 'react';
-import { 
-  Users, 
-  Plus, 
-  Upload, 
-  GitFork, 
-  Layers, 
-  TrendingUp, 
-  CheckCircle2, 
-  AlertCircle,
-  Search,
-  ChevronRight,
-  MoreVertical,
-  Building2,
-  Trash2,
-  Edit2,
-  Save,
-  X
-} from 'lucide-react';
+import { Users, Plus, Upload, GitFork, Layers, TrendingUp, CheckCircle2, AlertCircle, Search, ChevronRight, MoreVertical, Building2, Trash2, Edit2, Save, X } from 'lucide-react';
 import { motion, AnimatePresence } from 'motion/react';
 import { PageHeader, SectionHeader, StatusBadge } from '../Common';
 import { cn } from '../../lib/utils';

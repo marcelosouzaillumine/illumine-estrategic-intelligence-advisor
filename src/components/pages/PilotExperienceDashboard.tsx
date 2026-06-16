@@ -1,17 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { 
-  Activity, 
-  Clock, 
-  BarChart2, 
-  Download, 
-  AlertCircle, 
-  Smile, 
-  User, 
-  MessageSquare, 
-  FileText,
-  MousePointer,
-  RefreshCw
-} from 'lucide-react';
+import { Activity, Clock, BarChart2, Download, AlertCircle, Smile, User, MessageSquare, FileText, MousePointer, RefreshCw } from 'lucide-react';
 import { PageHeader } from '../Common';
 import { CommercialPilotSessionManager } from '../../core/commercial/CommercialPilotSessionManager';
 import { PilotFeedbackEngine } from '../../core/commercial/PilotFeedbackEngine';

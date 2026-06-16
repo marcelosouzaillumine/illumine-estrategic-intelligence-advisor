@@ -1,38 +1,14 @@
 
 import React, { useState, useEffect, useMemo } from 'react';
-import { 
-  TrendingDown, 
-  Search, 
-  ChevronLeft, 
-  ChevronRight, 
-  Users, 
-  ShoppingBag, 
-  TrendingUp 
-} from 'lucide-react';
-import { 
-  query, 
-  collection, 
-  where, 
-  onSnapshot 
-} from 'firebase/firestore';
+import { TrendingDown, Search, ChevronLeft, ChevronRight, Users, ShoppingBag, TrendingUp } from 'lucide-react';
+import { query, collection, where, onSnapshot } from 'firebase/firestore';
 import { db } from '../../lib/firebase';
 import { PageHeader } from '../Common';
 import { SortableHeader } from '../SortableHeader';
 import { DATA } from '../../data';
 import { cn, formatCurrency } from '../../lib/utils';
 import { useDataTable } from '../../hooks/useDataTable';
-import { 
-  BarChart, 
-  Bar, 
-  XAxis, 
-  YAxis, 
-  CartesianGrid, 
-  Tooltip, 
-  ResponsiveContainer,
-  PieChart,
-  Pie,
-  Cell
-} from 'recharts';
+import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, PieChart, Pie, Cell } from 'recharts';
 
 function KpiCardModeling({ label, value, tone = 'default', helper }: any) {
   return (
@@ -44,7 +20,7 @@ function KpiCardModeling({ label, value, tone = 'default', helper }: any) {
           tone === 'danger' ? "text-destructive" : tone === 'success' ? "text-success" : ""
         )}>{value}</h3>
       </div>
-      {helper && <p className="text-[10px] text-muted-foreground mt-4 font-medium italic opacity-85 leading-relaxed">{helper}</p>}
+   {helper && <p className="text-[10px] text-muted-foreground mt-4 font-medium italic leading-relaxed">{helper}</p>}
     </div>
   );
 }
@@ -182,7 +158,7 @@ export function PurchasingPage({ clients, selectedClient }: { clients: any[], se
         <div className="bg-white p-10 rounded-[40px] border border-border shadow-sm">
           <div className="flex items-center justify-between mb-8">
              <div>
-              <h3 className="text-sm font-bold text-muted-foreground">ABC por Fornecedor</h3>
+       <h3 className="text-sm font-bold text-executive-secondary">ABC por Fornecedor</h3>
               <p className="text-[10px] text-muted-foreground font-bold uppercase tracking-widest mt-1">Concentração do Volume de Compras</p>
              </div>
              <div className="p-2 bg-slate-50 rounded-xl">
@@ -208,7 +184,7 @@ export function PurchasingPage({ clients, selectedClient }: { clients: any[], se
         <div className="bg-white p-10 rounded-[40px] border border-border shadow-sm">
           <div className="flex items-center justify-between mb-8">
              <div>
-              <h3 className="text-sm font-bold text-muted-foreground">Principais Itens (ABC)</h3>
+       <h3 className="text-sm font-bold text-executive-secondary">Principais Itens (ABC)</h3>
               <p className="text-[10px] text-muted-foreground font-bold uppercase tracking-widest mt-1">Produtos com maior impacto financeiro</p>
              </div>
              <div className="p-2 bg-blue-50 rounded-xl">
@@ -276,7 +252,7 @@ export function PurchasingPage({ clients, selectedClient }: { clients: any[], se
                   <tr key={item.id} className="hover:bg-slate-50/50 transition-colors">
                     <td className="px-5 md:px-8 py-3 md:py-5">
                       <div className="flex flex-col">
-                        <span className="text-sm font-bold text-muted-foreground">{item.produto}</span>
+            <span className="text-sm font-bold text-executive-secondary">{item.produto}</span>
                         <span className="text-[10px] font-bold text-muted-foreground uppercase">{item.centroCusto}</span>
                       </div>
                     </td>
@@ -289,7 +265,7 @@ export function PurchasingPage({ clients, selectedClient }: { clients: any[], se
                           "p-2 rounded-xl border transition-all",
                           f.selecionado ? "bg-primary/5 border-primary/20" : "bg-white border-border"
                         )}>
-                          <p className="text-[9px] font-black text-muted-foreground uppercase">{f.nome}</p>
+             <p className="text-[9px] font-black text-executive-secondary uppercase">{f.nome}</p>
                           <p className={cn(
                             "text-xs font-black mt-1",
                             f.selecionado ? "text-primary" : "text-muted-foreground"

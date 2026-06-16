@@ -1,39 +1,12 @@
 import React, { useMemo } from 'react';
-import { 
-  ShieldCheck, 
-  TrendingUp, 
-  BarChart3, 
-  Scale, 
-  WalletCards,
-  AlertCircle,
-  CheckCircle2,
-  PieChart as PieIcon,
-  Zap,
-  MessageSquare,
-  Landmark,
-  Calendar,
-  Target,
-  ArrowUpRight,
-  Activity,
-  ShieldAlert,
-  AlertTriangle
-} from 'lucide-react';
+import { ShieldCheck, TrendingUp, BarChart3, Scale, WalletCards, AlertCircle, CheckCircle2, PieChart as PieIcon, Zap, MessageSquare, Landmark, Calendar, Target, ArrowUpRight, Activity, ShieldAlert, AlertTriangle } from 'lucide-react';
 import { motion } from 'motion/react';
 import { collection, query, where, onSnapshot } from 'firebase/firestore';
 import { db } from '../../lib/firebase';
-import { 
-  BarChart, 
-  Bar, 
-  XAxis, 
-  YAxis, 
-  CartesianGrid, 
-  Tooltip, 
-  ResponsiveContainer, 
-  Cell,
-  Legend
-} from 'recharts';
+import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, Cell, Legend } from 'recharts';
 import { cn, formatValue, formatCurrency, getThemeColors } from '../../lib/utils';
-import { PageHeader, KpiCard, KpiValue, ControlBar } from '../Common';
+import { PageHeader, ControlBar } from '../Common';
+import { ExecutiveMetricCard } from '../ui/executive-metric-card';
 
 import { useInstitutionalContext } from '../../hooks/useInstitutionalContext';
 import { DataAccessContext } from '../../core/security/data-access-context';
@@ -189,7 +162,7 @@ export function ControladoriaPage({ clientId }: ControladoriaPageProps) {
          </div>
          <div className="text-center space-y-4 w-full max-w-2xl mx-auto">
             <h2 className="text-h2 font-medium text-destructive tracking-tight">Acesso Institucional Negado</h2>
-            <p className="text-muted-foreground w-full max-w-2xl mx-auto font-medium leading-relaxed">
+      <p className="text-executive-secondary w-full max-w-2xl mx-auto font-medium leading-relaxed">
               {denialReason}
             </p>
          </div>
@@ -257,14 +230,13 @@ export function ControladoriaPage({ clientId }: ControladoriaPageProps) {
 
       <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-2 2xl:grid-cols-4 gap-6">
         {indicators.map((kpi, idx) => (
-          <KpiCard 
-            key={idx}
-            title={kpi.label}
+          <ExecutiveMetricCard density="analytical" key={idx}
+            label={kpi.label}
             value={formatValue(kpi.value, '')}
             suffix={kpi.isCur ? 'R$' : kpi.suffix || ''}
             icon={kpi.icon}
-            status={kpi.status === 'positive' ? 'Verde' : kpi.status === 'negative' ? 'Vermelho' : 'Amarelo'}
-            trend={kpi.trend}
+            tone={kpi.status === "positive" ? "success" : kpi.status === "negative" ? "critical" : "warning"}
+            description={kpi.trend}
           />
         ))}
       </div>
@@ -277,7 +249,7 @@ export function ControladoriaPage({ clientId }: ControladoriaPageProps) {
                  <h3 className="text-[10px] font-medium text-foreground uppercase tracking-[0.2em] flex items-center gap-3">
                     <BarChart3 size={20} className="text-secondary" /> Budget vs Realizado
                  </h3>
-                 <p className="text-[9px] font-medium text-muted-foreground uppercase tracking-widest mt-1 italic">Análise de desvios orçamentários (YTD)</p>
+         <p className="text-[9px] font-medium text-executive-secondary uppercase tracking-widest mt-1 italic">Análise de desvios orçamentários (YTD)</p>
                </div>
                <div className="flex items-center gap-6 text-[9px] font-medium uppercase tracking-widest">
                   <div className="flex items-center gap-2 text-muted-foreground/40">
@@ -353,7 +325,7 @@ export function ControladoriaPage({ clientId }: ControladoriaPageProps) {
               </div>
               <div>
                 <h2 className="text-xl font-medium text-foreground tracking-tight uppercase">Monitoramento de Desvios Orçamentários</h2>
-                <p className="text-[9px] font-medium text-muted-foreground uppercase tracking-widest italic mt-1">Relação de itens com maior variação vs. budget</p>
+        <p className="text-[9px] font-medium text-executive-secondary uppercase tracking-widest italic mt-1">Relação de itens com maior variação vs. budget</p>
               </div>
             </div>
             <div className="flex items-center gap-4">

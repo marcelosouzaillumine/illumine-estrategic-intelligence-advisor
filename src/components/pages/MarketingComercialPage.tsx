@@ -1,26 +1,8 @@
 import React, { useMemo, useState, useEffect } from 'react';
-import { 
-  Globe, 
-  ShoppingBag, 
-  TrendingUp, 
-  Users, 
-  ArrowUpRight, 
-  Target, 
-  Percent, 
-  Zap,
-  BarChart3,
-  MessageSquare,
-  Activity,
-  ShieldCheck,
-  LayoutDashboard,
-  Search,
-  ChevronRight,
-  TrendingDown,
-  Info,
-  Building
-} from 'lucide-react';
+import { Globe, ShoppingBag, TrendingUp, Users, ArrowUpRight, Target, Percent, Zap, BarChart3, MessageSquare, Activity, ShieldCheck, LayoutDashboard, Search, ChevronRight, TrendingDown, Info, Building } from 'lucide-react';
 import { motion } from 'motion/react';
-import { PageHeader, StatusBadge, KpiCard, KpiValue, ControlBar } from '../Common';
+import { PageHeader, StatusBadge, ControlBar } from '../Common';
+import { ExecutiveMetricCard } from '../ui/executive-metric-card';
 import { formatValue, cn } from '../../lib/utils';
 import { db } from '../../lib/firebase';
 import { collection, query, where, onSnapshot } from 'firebase/firestore';
@@ -275,7 +257,7 @@ export function MarketingComercialPage({ type, clientId }: MarketingComercialPag
                     <span className="text-[11px] font-medium uppercase tracking-widest">{item.stage}</span>
                     <div className="text-right">
                       <p className="text-lg font-medium tabular-nums tracking-tighter">
-                        {item.value} {item.labelValue && <span className="text-[10px] opacity-60 ml-2 italic">{item.labelValue}</span>}
+            {item.value} {item.labelValue && <span className="text-[10px] ml-2 italic">{item.labelValue}</span>}
                       </p>
                       <p className="text-[9px] font-medium text-white/50 uppercase tracking-widest tabular-nums italic">{item.conversion}</p>
                     </div>
@@ -317,7 +299,7 @@ export function MarketingComercialPage({ type, clientId }: MarketingComercialPag
                         </div>
                         <div className="min-w-0">
                           <p className="text-xs font-medium text-foreground">{item.name}</p>
-                          <p className="text-[9px] font-medium text-muted-foreground uppercase tracking-widest italic">{item.share} do Total</p>
+             <p className="text-[9px] font-medium text-executive-secondary uppercase tracking-widest italic">{item.share} do Total</p>
                         </div>
                       </div>
                       <div className="text-right ml-4">
@@ -336,13 +318,12 @@ export function MarketingComercialPage({ type, clientId }: MarketingComercialPag
 
       <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-2 2xl:grid-cols-4 gap-8">
         {indicators.map((kpi, idx) => (
-          <KpiCard 
-            key={idx}
-            title={kpi.label}
+          <ExecutiveMetricCard density="analytical" key={idx}
+            label={kpi.label}
             value={formatValue(kpi.value, '')}
             suffix={kpi.isCur ? 'R$' : kpi.suffix || ''}
             icon={kpi.icon}
-            status={kpi.status === 'positive' ? 'Verde' : kpi.status === 'negative' ? 'Vermelho' : 'Amarelo'}
+            tone={kpi.status === "positive" ? "success" : kpi.status === "negative" ? "critical" : "warning"}
           />
         ))}
       </div>
@@ -381,7 +362,7 @@ export function MarketingComercialPage({ type, clientId }: MarketingComercialPag
               </div>
               <div className="relative z-10 flex flex-col h-full">
                  <div className="mb-12">
-                    <p className="text-[10px] font-medium text-secondary uppercase tracking-[0.3em] mb-2">Deep Insights</p>
+          <p className="text-[10px] font-medium text-executive-secondary uppercase tracking-[0.3em] mb-2">Deep Insights</p>
                     <h3 className="text-xl font-medium text-white uppercase tracking-widest flex items-center gap-3">
                       Recomendações Estratégicas
                     </h3>
@@ -394,7 +375,7 @@ export function MarketingComercialPage({ type, clientId }: MarketingComercialPag
                             {i + 1}
                          </div>
                          <div className="space-y-1">
-                           <p className="text-sm font-medium text-white leading-relaxed group-hover:text-secondary transition-colors italic">
+              <p className="text-sm font-medium text-white leading-relaxed group-hover:text-executive-secondary transition-colors italic">
                               {rec}
                            </p>
                            <div className="h-0.5 w-0 group-hover:w-full bg-secondary/30 transition-all duration-700" />

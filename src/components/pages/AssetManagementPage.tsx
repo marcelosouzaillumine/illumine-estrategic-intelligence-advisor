@@ -1,44 +1,8 @@
 
 import React, { useState, useEffect, useMemo } from 'react';
-import { 
-  WalletCards, 
-  TrendingUp, 
-  Sparkles, 
-  PieChart as PieChartIcon, 
-  BarChart3, 
-  ArrowUpRight, 
-  ArrowDownRight,
-  Plus,
-  Search,
-  Filter,
-  Calendar,
-  ChevronRight,
-  Activity,
-  Briefcase,
-  ShieldCheck,
-  Target,
-  Download,
-  Trash2,
-  Coins,
-  Percent,
-  TrendingDown,
-  Info,
-  Loader2
-} from 'lucide-react';
+import { WalletCards, TrendingUp, Sparkles, PieChart as PieChartIcon, BarChart3, ArrowUpRight, ArrowDownRight, Plus, Search, Filter, Calendar, ChevronRight, Activity, Briefcase, ShieldCheck, Target, Download, Trash2, Coins, Percent, TrendingDown, Info, Loader2 } from 'lucide-react';
 import { motion } from 'motion/react';
-import { 
-  AreaChart, 
-  Area, 
-  XAxis, 
-  YAxis, 
-  CartesianGrid, 
-  Tooltip, 
-  ResponsiveContainer, 
-  PieChart, 
-  Pie, 
-  Cell,
-  Legend
-} from 'recharts';
+import { AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, PieChart, Pie, Cell, Legend } from 'recharts';
 import { db } from '../../lib/firebase';
 import { collection, query, where, onSnapshot } from 'firebase/firestore';
 
@@ -246,8 +210,8 @@ export function AssetManagementPage({ clientId, selectedYear, selectedMonth }: a
             <Briefcase size={48} className="relative z-10 animate-pulse" />
          </div>
          <div className="text-center space-y-4 w-full max-w-2xl mx-auto">
-            <h2 className="text-2xl font-display font-black text-muted-foreground tracking-tight">Selecione uma Empresa</h2>
-            <p className="text-muted-foreground w-full max-w-2xl mx-auto font-medium leading-relaxed">
+      <h2 className="text-2xl font-display font-black text-executive-secondary tracking-tight">Selecione uma Empresa</h2>
+      <p className="text-executive-secondary w-full max-w-2xl mx-auto font-medium leading-relaxed">
               Por favor, selecione uma empresa no seletor de cliente ativo no topo da tela para visualizar o painel de ativos.
             </p>
          </div>
@@ -267,8 +231,8 @@ export function AssetManagementPage({ clientId, selectedYear, selectedMonth }: a
             <Briefcase size={64} className="relative z-10" />
          </div>
          <div className="text-center space-y-4 w-full max-w-2xl mx-auto">
-            <h2 className="text-3xl font-display font-black text-muted-foreground tracking-tight">Gestão de Ativos Indisponível</h2>
-            <p className="text-muted-foreground w-full max-w-2xl mx-auto font-medium leading-relaxed">
+      <h2 className="text-3xl font-display font-black text-executive-secondary tracking-tight">Gestão de Ativos Indisponível</h2>
+      <p className="text-executive-secondary w-full max-w-2xl mx-auto font-medium leading-relaxed">
               Não foram encontrados ativos financeiros registrados para este cliente no período selecionado. Importe seus ativos ou adicione-os manualmente para iniciar o monitoramento.
             </p>
          </div>
@@ -379,7 +343,7 @@ export function AssetManagementPage({ clientId, selectedYear, selectedMonth }: a
                   <m.icon size={18} />
                 </div>
               </div>
-              <p className="text-2xl font-display tracking-tight text-primary group-hover:text-secondary transition-colors">
+       <p className="text-2xl font-display tracking-tight text-primary group-hover:text-executive-secondary transition-colors">
                 {m.value}
               </p>
               <div className="mt-4 flex items-center gap-2">
@@ -522,7 +486,7 @@ export function AssetManagementPage({ clientId, selectedYear, selectedMonth }: a
                       className={cn("h-full", b.color.replace('text-', 'bg-'))}
                     />
                   </div>
-                  <p className="text-[9px] text-muted-foreground font-medium">
+         <p className="text-[9px] text-executive-secondary font-medium">
                     {monthlyYield > b.value ? 'Alpha Positivo' : 'Abaixo do Benchmark'}
                   </p>
                 </div>
@@ -552,7 +516,7 @@ export function AssetManagementPage({ clientId, selectedYear, selectedMonth }: a
                     </div>
                   </div>
                   <div className="text-right">
-                    <p className="text-lg font-display text-secondary">{sim.yield}% <span className="text-[10px] text-muted-foreground uppercase">Est.</span></p>
+          <p className="text-lg font-display text-executive-secondary">{sim.yield}% <span className="text-[10px] text-muted-foreground uppercase">Est.</span></p>
                     <p className="text-[9px] text-emerald-400">+{ (sim.yield - monthlyYield).toFixed(2) }% vs Atual</p>
                   </div>
                 </div>
@@ -601,7 +565,7 @@ export function AssetManagementPage({ clientId, selectedYear, selectedMonth }: a
                     <div className="mt-1 w-1.5 h-1.5 rounded-full bg-secondary shrink-0" />
                     <div>
                       <p className="text-[10px] font-black text-muted-foreground uppercase tracking-tighter">{rule.label}</p>
-                      <p className="text-[9px] text-muted-foreground font-medium">{rule.desc}</p>
+           <p className="text-[9px] text-executive-secondary font-medium">{rule.desc}</p>
                     </div>
                   </div>
                 ))}

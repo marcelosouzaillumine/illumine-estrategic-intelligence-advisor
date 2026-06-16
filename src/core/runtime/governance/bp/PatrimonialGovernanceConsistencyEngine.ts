@@ -16,7 +16,7 @@ export interface ConsistencyEngineInputs {
   bpIndicators: PatrimonialIndicator[];
   scoreBreakdown: PatrimonialScoreBreakdown;
   classification: { label: string; rationale: string };
-  interpretations: { patrimonialThesis: string; executivePlan: string; dominantRiskFamily: string; };
+  interpretations: { patrimonialThesis: string; dominantRiskFamily: string; };
   patrimonialTrend: any;
   ceilingApplied: boolean;
   efosContext: {
@@ -46,7 +46,7 @@ export class PatrimonialGovernanceConsistencyEngine {
     } = inputs;
 
     // Helper
-    const getNarrative = (family: string) => interpretations.executivePlan || '';
+    const getNarrative = (family: string) => interpretations.patrimonialThesis || '';
     const getIndicatorValue = (metric: string) => {
       const ind = bpIndicators.find(i => i.metricName === metric);
       return ind && typeof ind.value === 'number' ? ind.value : null;
@@ -75,8 +75,8 @@ export class PatrimonialGovernanceConsistencyEngine {
       }
     }
 
-    // ── Domain 2: Classification vs Narratives ─────────────────────────────
-    const combinedText = (interpretations.patrimonialThesis + ' ' + interpretations.executivePlan).toLowerCase();
+    // ── Domain 2: Lexical Leakage Validation (Fiduciary Guard) ─────────────────────────────
+    const combinedText = (interpretations.patrimonialThesis).toLowerCase();
     const hasPositiveTone = combinedText.includes('sólid') || combinedText.includes('confort') || 
                             combinedText.includes('resilien') || combinedText.includes('excelent');
     if ((normalizedClass === 'CRITICAL' || normalizedClass === 'FRAGILE') && hasPositiveTone) {

@@ -1,6 +1,7 @@
 import React from 'react';
 import { cn } from '../../lib/utils';
 import { ExecutiveSurface } from './executive-surface';
+import { ExecutiveText, ExecutiveSpacingRegistry } from './executive-typography';
 
 export interface ExecutiveInsightCardProps {
   badge?: string;
@@ -19,22 +20,25 @@ export function ExecutiveInsightCard({
     <ExecutiveSurface
       padding="none"
       className={cn(
-        "flex flex-col items-start justify-start p-6 md:p-8 w-full rounded-[32px] shadow-sm",
+        "flex flex-col items-start justify-start w-full rounded-[32px] shadow-sm",
+        ExecutiveSpacingRegistry.cardPadding,
         className
       )}
     >
       {badge && (
-        <span className="inline-flex items-center h-7 px-3 bg-surface-container border border-border rounded-full text-[10px] font-medium uppercase tracking-[0.06em] text-foreground/60 mb-4">
-          {badge}
-        </span>
-      )}
-      <div className="text-[28px] lg:text-[30px] font-semibold leading-[1.2] tracking-tight text-foreground mb-4">
-        {headline}
-      </div>
-      {content && (
-        <div className="text-[16px] leading-[1.75] text-foreground/75 max-w-[82ch]">
-          {content}
+        <div className={cn("inline-flex items-center h-7 px-3 bg-surface-container border border-border rounded-full", ExecutiveSpacingRegistry.elementGap, "mb-4")}>
+          <ExecutiveText variant="caption" className="uppercase">
+            {badge}
+          </ExecutiveText>
         </div>
+      )}
+      <ExecutiveText variant="cardTitle" as="div" className="mb-4">
+        {headline}
+      </ExecutiveText>
+      {content && (
+        <ExecutiveText variant="body" as="div" className="max-w-[82ch]">
+          {content}
+        </ExecutiveText>
       )}
     </ExecutiveSurface>
   );

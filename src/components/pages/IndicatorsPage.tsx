@@ -1,40 +1,11 @@
 import React, { useState, useEffect, useMemo } from 'react';
 import { query, collection, where, onSnapshot, getDocs, limit, startAfter, orderBy } from 'firebase/firestore';
 import { usePaginatedData } from '../../hooks/usePaginatedData';
-import { 
-  TrendingUp, 
-  BarChart3, 
-  Settings, 
-  DollarSign, 
-  Waves, 
-  Activity, 
-  Wallet, 
-  Building, 
-  Target, 
-  ShieldAlert, 
-  Zap, 
-  ArrowUpRight, 
-  Rocket,
-  LayoutGrid,
-  List,
-  ShieldCheck,
-  Users,
-  ChevronRight,
-  Info,
-  Calendar,
-  Lightbulb,
-  Globe,
-  ShoppingBag,
-  Loader2,
-  TrendingDown,
-  Minus,
-  ArrowUp,
-  ArrowDown
-} from 'lucide-react';
+import { TrendingUp, BarChart3, Settings, DollarSign, Waves, Activity, Wallet, Building, Target, ShieldAlert, Zap, ArrowUpRight, Rocket, LayoutGrid, List, ShieldCheck, Users, ChevronRight, Info, Calendar, Lightbulb, Globe, ShoppingBag, Loader2, TrendingDown, Minus, ArrowUp, ArrowDown } from 'lucide-react';
 import { motion, AnimatePresence } from 'motion/react';
 import { db } from '../../lib/firebase';
 import { formatValue, cn, formatCurrency } from '../../lib/utils';
-import { SectionHeader, StatusBadge, PageHeader, KpiValue, ControlBar } from '../Common';
+import { SectionHeader, StatusBadge, PageHeader, ControlBar, KpiValue } from '../Common';
 import { FULL_MONTH_LABELS, EIXOS_ORDEM } from '../../constants';
 import { useRealIndicatorData } from '../../hooks/useRealIndicatorData';
 import { DashboardSkeleton } from '../ui/skeletons';
@@ -223,11 +194,9 @@ function KPICard({ r, group, valueClassName, onAction }: any) {
 
         {/* Value block */}
         <div className="bg-surface-container/50 dark:bg-slate-900/30 rounded-xl px-4 py-3 border border-border/40 overflow-visible relative">
-          <KpiValue
-            value={formatValue(r.val, '')}
-            suffix={r.un}
-            className={cn("font-semibold tracking-tight text-foreground", valueClassName)}
-          />
+          <div className={cn("font-semibold tracking-tight text-foreground", valueClassName)}>
+            {formatValue(r.val, '')}{r.un}
+          </div>
         </div>
       </div>
 
@@ -301,11 +270,10 @@ function SummaryCard({ label, value, icon: Icon, colorClass, trend, valueClassNa
       </div>
 
       <div className="relative z-10 overflow-visible min-w-0">
-        <p className="text-[8.5px] font-black text-muted-foreground uppercase tracking-[0.2em] mb-1.5 truncate">{label}</p>
-        <KpiValue
-          value={value}
-          className={cn("font-semibold tracking-tight text-foreground", valueClassName)}
-        />
+    <p className="text-[8.5px] font-black text-executive-secondary uppercase tracking-[0.2em] mb-1.5 truncate">{label}</p>
+        <div className={cn("font-semibold tracking-tight text-foreground", valueClassName)}>
+          {value}
+        </div>
       </div>
     </motion.div>
   );
@@ -523,7 +491,7 @@ export function IndicatorsPage({ clients, selectedClient, selectedMonth, selecte
                 )}>
                   <ShieldCheck size={16} />
                 </div>
-                <p className="text-[9px] font-black text-muted-foreground uppercase tracking-[0.2em] leading-snug">
+        <p className="text-[9px] font-black text-executive-secondary uppercase tracking-[0.2em] leading-snug">
                   Score de Saúde<br />Consolidado
                 </p>
               </div>
@@ -710,7 +678,7 @@ export function IndicatorsPage({ clients, selectedClient, selectedMonth, selecte
                       </div>
                       <div className="min-w-0">
                         <h3 className="text-lg font-display font-bold text-foreground leading-none tracking-tight truncate">{group}</h3>
-                        <p className="text-[9px] font-black text-muted-foreground uppercase tracking-widest mt-1">{items.length} indicadores</p>
+            <p className="text-[9px] font-black text-executive-secondary uppercase tracking-widest mt-1">{items.length} indicadores</p>
                       </div>
                     </div>
 
@@ -765,7 +733,7 @@ export function IndicatorsPage({ clients, selectedClient, selectedMonth, selecte
                   <Info size={36} />
                 </div>
                 <h3 className="text-xl font-bold text-foreground mb-2">Sem resultados</h3>
-                <p className="text-muted-foreground max-w-sm font-medium">
+        <p className="text-executive-secondary max-w-sm font-medium">
                   Nenhum indicador encontrado para os filtros selecionados neste eixo.
                 </p>
               </div>

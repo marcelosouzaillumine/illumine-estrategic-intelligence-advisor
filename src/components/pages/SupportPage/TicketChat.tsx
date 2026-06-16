@@ -1,8 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { 
-  X, Send, Paperclip, Loader2, Download, CheckCircle2, User, 
-  ShieldAlert, Clock, Info, Check, Image as ImageIcon
-} from 'lucide-react';
+import { X, Send, Paperclip, Loader2, Download, CheckCircle2, User, ShieldAlert, Clock, Info, Check, Image as ImageIcon } from 'lucide-react';
 import { SupportTicket, SupportMessage, TicketStatus } from '../../../types/support';
 import { supportService } from '../../../services/supportService';
 import { auth } from '../../../lib/firebase';

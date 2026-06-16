@@ -38,7 +38,7 @@ import { PageHeader } from './Common';
 import { collection, query, where, onSnapshot, doc } from 'firebase/firestore';
 import { db } from '../lib/firebase';
 
-const CHART_COLORS = ['#3b82f6', '#10b981', '#f59e0b', '#ef4444', '#8b5cf6', '#06b6d4'];
+const CHART_COLORS = ['var(--color-primary)', 'var(--color-state-excellent)', 'var(--color-state-warning)', 'var(--color-state-critical)', 'var(--color-accent)', 'var(--color-primary)'];
 
 interface Employee {
   id: string;
@@ -392,18 +392,18 @@ export default function PayrollDashboard({ clientId }: { clientId: string }) {
           <div className="h-[300px] w-full">
             <ResponsiveContainer width="100%" height="100%">
               <BarChart data={areaCost} layout="vertical" margin={{ left: 40, right: 40, top: 20 }}>
-                <CartesianGrid strokeDasharray="3 3" horizontal={true} vertical={false} stroke="#f1f5f9" />
+                <CartesianGrid strokeDasharray="3 3" horizontal={true} vertical={false} stroke="var(--color-surface)" />
                 <XAxis type="number" hide />
                 <YAxis 
                   dataKey="name" 
                   type="category" 
-                  tick={{ fontSize: 9, fontWeight: 700, fill: '#64748b' }}
+                  tick={{ fontSize: 9, fontWeight: 700, fill: 'var(--color-state-neutral)' }}
                   width={100}
                   axisLine={false}
                   tickLine={false}
                 />
                 <Tooltip 
-                  cursor={{ fill: '#f8fafc' }}
+                  cursor={{ fill: 'var(--color-background)' }}
                   content={({ active, payload }) => {
                     if (active && payload && payload.length) {
                       return (

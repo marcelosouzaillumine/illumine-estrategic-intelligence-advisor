@@ -62,4 +62,17 @@ export class ExecutiveLocaleEnforcer {
     
     return translated;
   }
+
+  /**
+   * Elimina completamente N/A, NaN, null, undefined da camada executiva.
+   * Substitui por contexto institucional legível.
+   */
+  public static sanitizeTechnicalLeak(value: any, contextFallback: string = 'Não aplicável'): string {
+    if (value === null || value === undefined) return contextFallback;
+    const strVal = String(value).trim().toUpperCase();
+    if (strVal === 'NAN' || strVal === 'N/A' || strVal === 'NULL' || strVal === 'UNDEFINED' || strVal === 'INSUFFICIENT_DATA') {
+      return contextFallback;
+    }
+    return String(value);
+  }
 }

@@ -6,7 +6,8 @@ import { collection, query, where, getDocs } from 'firebase/firestore';
 import { db, auth } from '../../lib/firebase';
 import { cn, formatCurrency, formatDate, formatValue, getThemeColors } from '../../lib/utils';
 import { SandboxWarningOverlay } from '../executive-interaction/SandboxWarningOverlay';
-import { PageHeader, KpiCard } from '../Common';
+import { PageHeader } from '../Common';
+import { ExecutiveMetricCard } from '../ui/executive-metric-card';
 import { ExecutiveCommentary } from '../ExecutiveCommentary';
 import { ExecutivePerspectiveSection } from '../ExecutivePerspectiveSection';
 // Enforce test requirement: useExecutiveAdvisory
@@ -284,8 +285,8 @@ export function CashFlowPage({ clients, selectedClient, selectedMonth, selectedY
           <div className="w-24 h-24 bg-slate-50 rounded-full flex items-center justify-center mb-6">
             <Calculator size={48} className="text-muted-foreground" />
           </div>
-          <h3 className="text-xl font-black text-muted-foreground mb-2">{t('cf.empty_detailed')}</h3>
-          <p className="text-muted-foreground max-w-md mb-8 font-medium">Não encontramos o arquivo de projeção de caixa para este cliente.</p>
+     <h3 className="text-xl font-black text-executive-secondary mb-2">{t('cf.empty_detailed')}</h3>
+     <p className="text-executive-secondary max-w-md mb-8 font-medium">Não encontramos o arquivo de projeção de caixa para este cliente.</p>
         </div>
       </div>
     );
@@ -393,15 +394,15 @@ export function CashFlowPage({ clients, selectedClient, selectedMonth, selectedY
                   ))}
                   <div className="grid grid-cols-2 gap-4">
                     <div className="p-4 bg-slate-50 rounded-2xl border border-border">
-                      <p className="text-[9px] font-bold text-muted-foreground uppercase">{t('cf.runway')}</p>
-                      <p className="text-lg font-black text-muted-foreground">{resumo.diasCaixa} dias</p>
+           <p className="text-[9px] font-bold text-executive-secondary uppercase">{t('cf.runway')}</p>
+           <p className="text-lg font-black text-executive-secondary">{resumo.diasCaixa} dias</p>
                       <div className={cn("mt-1 w-full h-1 bg-slate-200 rounded-full overflow-hidden")}>
                         <div className={cn("h-full", resumo.diasCaixa < 30 ? "bg-critical-soft0" : "bg-success-soft0")} style={{ width: `${Math.min(resumo.diasCaixa, 100)}%` }} />
                       </div>
                     </div>
                     <div className="p-4 bg-slate-50 rounded-2xl border border-border">
-                      <p className="text-[9px] font-bold text-muted-foreground uppercase">{t('cf.investment_capacity')}</p>
-                      <p className="text-lg font-black text-muted-foreground">{formatCurrency(Math.max(0, resumo?.saldoFinal - resumo?.passivoVencido))}</p>
+           <p className="text-[9px] font-bold text-executive-secondary uppercase">{t('cf.investment_capacity')}</p>
+           <p className="text-lg font-black text-executive-secondary">{formatCurrency(Math.max(0, resumo?.saldoFinal - resumo?.passivoVencido))}</p>
                     </div>
                     <div className="p-4 bg-critical-soft rounded-2xl border border-rose-100 col-span-2">
                       <div className="flex justify-between items-center">
@@ -422,13 +423,12 @@ export function CashFlowPage({ clients, selectedClient, selectedMonth, selectedY
                   { title: 'Inadimplência', value: formatValue(resumo.indiceInadimplencia, ''), color: resumo.indiceInadimplencia > 10 ? 'Vermelho' : 'Verde', icon: Calculator, suffix: '%' },
                   { title: 'Burn Rate Diário', value: formatValue(resumo.burnRate, ''), color: 'Amarelo', icon: Calculator, suffix: 'R$' },
                 ].map((kpi, idx) => (
-                  <KpiCard 
-                    key={idx}
-                    title={kpi.title}
+                  <ExecutiveMetricCard density="analytical" key={idx}
+                    label={kpi.title}
                     value={kpi.value}
                     suffix={kpi.suffix}
                     icon={kpi.icon}
-                    status={kpi.color as any}
+                    tone={kpi.color as any}
                   />
                 ))}
               </div>
@@ -438,8 +438,8 @@ export function CashFlowPage({ clients, selectedClient, selectedMonth, selectedY
 
             <div className="bg-white p-8 rounded-3xl border border-border shadow-sm">
               <div className="mb-8">
-                <h3 className="text-xl font-bold text-muted-foreground">{t('cf.liquidity_curve')}</h3>
-                <p className="text-sm text-muted-foreground">Saldo acumulado disponível ao longo dos próximos {viewRange} dias.</p>
+        <h3 className="text-xl font-bold text-executive-secondary">{t('cf.liquidity_curve')}</h3>
+        <p className="text-sm text-executive-secondary">Saldo acumulado disponível ao longo dos próximos {viewRange} dias.</p>
               </div>
               <div className="h-[300px] w-full">
                 <ResponsiveContainer width="100%" height="100%">
@@ -495,8 +495,8 @@ export function CashFlowPage({ clients, selectedClient, selectedMonth, selectedY
               <div className="bg-white p-8 rounded-3xl border border-border shadow-sm">
                 <div className="mb-6 flex justify-between items-center">
                   <div>
-                    <h3 className="text-xl font-bold text-muted-foreground">{t('cf.expenses_composition')}</h3>
-                    <p className="text-sm text-muted-foreground">Distribuição por categoria.</p>
+          <h3 className="text-xl font-bold text-executive-secondary">{t('cf.expenses_composition')}</h3>
+          <p className="text-sm text-executive-secondary">Distribuição por categoria.</p>
                   </div>
                   <span className="text-[10px] font-black bg-slate-100 px-3 py-1 rounded-full uppercase tracking-tighter">{t('cf.cfo_view')}</span>
                 </div>
@@ -535,8 +535,8 @@ export function CashFlowPage({ clients, selectedClient, selectedMonth, selectedY
 
               <div className="bg-white p-8 rounded-3xl border border-border shadow-sm overflow-hidden">
                 <div className="mb-8">
-                  <h3 className="text-xl font-bold text-muted-foreground">{t('cf.monthly_consolidated')}</h3>
-                  <p className="text-sm text-muted-foreground">Comparativo de entradas e saídas por competência.</p>
+         <h3 className="text-xl font-bold text-executive-secondary">{t('cf.monthly_consolidated')}</h3>
+         <p className="text-sm text-executive-secondary">Comparativo de entradas e saídas por competência.</p>
                 </div>
                 <div className="space-y-6">
                   {fluxoMensal.slice(0, 5).map((m: any) => {
@@ -564,8 +564,8 @@ export function CashFlowPage({ clients, selectedClient, selectedMonth, selectedY
 
             <div className="bg-white rounded-3xl border border-border shadow-sm overflow-hidden">
               <div className="p-8 border-b border-border">
-                <h3 className="text-xl font-bold text-muted-foreground">{t('cf.daily_statement')}</h3>
-                <p className="text-sm text-muted-foreground">Movimentação esperada para os próximos 180 dias.</p>
+        <h3 className="text-xl font-bold text-executive-secondary">{t('cf.daily_statement')}</h3>
+        <p className="text-sm text-executive-secondary">Movimentação esperada para os próximos 180 dias.</p>
               </div>
               <div className="overflow-x-auto max-h-[600px] custom-scrollbar">
                 <table className="w-full">
@@ -579,11 +579,11 @@ export function CashFlowPage({ clients, selectedClient, selectedMonth, selectedY
                   <tbody className="divide-y divide-slate-100">
                     {Fluxo_Diario_Filtered.map((row: any, idx: number) => (
                       <tr key={idx} className="hover:bg-slate-50 transition-colors border-l-4 border-transparent hover:border-secondary">
-                        <td className="px-4 md:px-6 py-2.5 md:py-4 text-sm text-muted-foreground">{formatDate(row.Data)}</td>
-                        <td className="px-4 md:px-6 py-2.5 md:py-4 text-sm text-muted-foreground bg-slate-50/30">{formatCurrency(row["Saldo Inicial"])}</td>
+            <td className="px-4 md:px-6 py-2.5 md:py-4 text-sm text-executive-secondary">{formatDate(row.Data)}</td>
+            <td className="px-4 md:px-6 py-2.5 md:py-4 text-sm text-executive-secondary bg-slate-50/30">{formatCurrency(row["Saldo Inicial"])}</td>
                         <td className="px-4 md:px-6 py-2.5 md:py-4 text-sm text-emerald-600">+{formatCurrency(row.Entradas)}</td>
                         <td className="px-4 md:px-6 py-2.5 md:py-4 text-sm text-rose-600">-{formatCurrency(row["Saídas"])}</td>
-                        <td className={cn("px-4 md:px-6 py-2.5 md:py-4 text-sm", row["Saldo Final"] < 0 ? "text-rose-600" : "text-muted-foreground")}>
+            <td className={cn("px-4 md:px-6 py-2.5 md:py-4 text-sm", row["Saldo Final"] < 0 ? "text-rose-600" : "text-executive-secondary")}>
                           {formatCurrency(row["Saldo Final"])}
                         </td>
                       </tr>
@@ -603,8 +603,8 @@ export function CashFlowPage({ clients, selectedClient, selectedMonth, selectedY
             className="bg-white rounded-3xl border border-border shadow-sm overflow-hidden"
           >
             <div className="p-8 border-b border-border">
-              <h3 className="text-xl font-bold text-muted-foreground">{t('cf.daily_statement')}</h3>
-              <p className="text-sm text-muted-foreground">Movimentação esperada para os próximos 180 dias.</p>
+       <h3 className="text-xl font-bold text-executive-secondary">{t('cf.daily_statement')}</h3>
+       <p className="text-sm text-executive-secondary">Movimentação esperada para os próximos 180 dias.</p>
             </div>
             <div className="overflow-x-auto max-h-[600px] custom-scrollbar">
               <table className="w-full">
@@ -618,11 +618,11 @@ export function CashFlowPage({ clients, selectedClient, selectedMonth, selectedY
                 <tbody className="divide-y divide-slate-100">
                   {Fluxo_Diario.map((row: any, idx: number) => (
                     <tr key={idx} className="hover:bg-slate-50 transition-colors border-l-4 border-transparent hover:border-secondary">
-                      <td className="px-4 md:px-6 py-2.5 md:py-4 text-sm text-muted-foreground">{formatDate(row.Data)}</td>
-                      <td className="px-4 md:px-6 py-2.5 md:py-4 text-sm text-muted-foreground bg-slate-50/30">{formatCurrency(row["Saldo Inicial"])}</td>
+           <td className="px-4 md:px-6 py-2.5 md:py-4 text-sm text-executive-secondary">{formatDate(row.Data)}</td>
+           <td className="px-4 md:px-6 py-2.5 md:py-4 text-sm text-executive-secondary bg-slate-50/30">{formatCurrency(row["Saldo Inicial"])}</td>
                       <td className="px-4 md:px-6 py-2.5 md:py-4 text-sm text-emerald-600">+{formatCurrency(row.Entradas)}</td>
                       <td className="px-4 md:px-6 py-2.5 md:py-4 text-sm text-rose-600">-{formatCurrency(row["Saídas"])}</td>
-                      <td className={cn("px-4 md:px-6 py-2.5 md:py-4 text-sm", row["Saldo Final"] < 0 ? "text-rose-600" : "text-muted-foreground")}>
+           <td className={cn("px-4 md:px-6 py-2.5 md:py-4 text-sm", row["Saldo Final"] < 0 ? "text-rose-600" : "text-executive-secondary")}>
                         {formatCurrency(row["Saldo Final"])}
                       </td>
                     </tr>
@@ -642,8 +642,8 @@ export function CashFlowPage({ clients, selectedClient, selectedMonth, selectedY
           >
             <div className="p-8 border-b border-border flex flex-col md:flex-row md:items-center md:justify-between gap-6">
               <div>
-                <h3 className="text-xl font-bold text-muted-foreground">{activeTab === 'receber' ? 'Contas a Receber' : 'Contas a Pagar'}</h3>
-                <p className="text-sm text-muted-foreground">Gestão detalhada de {activeTab === 'receber' ? 'receitas' : 'obrigações'}.</p>
+        <h3 className="text-xl font-bold text-executive-secondary">{activeTab === 'receber' ? 'Contas a Receber' : 'Contas a Pagar'}</h3>
+        <p className="text-sm text-executive-secondary">Gestão detalhada de {activeTab === 'receber' ? 'receitas' : 'obrigações'}.</p>
               </div>
               <div className="relative group">
                 <input 
@@ -698,8 +698,8 @@ export function CashFlowPage({ clients, selectedClient, selectedMonth, selectedY
             className="bg-white rounded-3xl border border-border shadow-sm overflow-hidden"
           >
             <div className="p-8 border-b border-border">
-              <h3 className="text-xl font-bold text-muted-foreground">{t('cf.default.clients')}</h3>
-              <p className="text-sm text-muted-foreground">Títulos com vencimento anterior a hoje e não recebidos.</p>
+       <h3 className="text-xl font-bold text-executive-secondary">{t('cf.default.clients')}</h3>
+       <p className="text-sm text-executive-secondary">Títulos com vencimento anterior a hoje e não recebidos.</p>
             </div>
             <div className="overflow-x-auto">
               <table className="w-full">
@@ -713,8 +713,8 @@ export function CashFlowPage({ clients, selectedClient, selectedMonth, selectedY
                 <tbody className="divide-y divide-slate-100">
                   {Inadimplencia.map((row: any, idx: number) => (
                     <tr key={idx} className="hover:bg-slate-50 transition-colors">
-                      <td className="px-4 md:px-6 py-2.5 md:py-4 text-sm text-muted-foreground">{row.Cliente}</td>
-                      <td className="px-4 md:px-6 py-2.5 md:py-4 text-sm text-muted-foreground">{formatDate(row.Vencimento)}</td>
+           <td className="px-4 md:px-6 py-2.5 md:py-4 text-sm text-executive-secondary">{row.Cliente}</td>
+           <td className="px-4 md:px-6 py-2.5 md:py-4 text-sm text-executive-secondary">{formatDate(row.Vencimento)}</td>
                       <td className="px-4 md:px-6 py-2.5 md:py-4 text-sm text-rose-600">{formatCurrency(row.Valor)}</td>
                       <td className="px-4 md:px-6 py-2.5 md:py-4">
                         <span className="text-[9px] px-2 py-1 rounded uppercase tracking-tighter bg-rose-100 text-rose-700">{t('cf.default.overdue')}</span>
@@ -735,8 +735,8 @@ export function CashFlowPage({ clients, selectedClient, selectedMonth, selectedY
             className="bg-white rounded-3xl border border-border shadow-sm overflow-hidden"
           >
             <div className="p-8 border-b border-border">
-              <h3 className="text-xl font-bold text-muted-foreground">{t('cf.default.liabilities')}</h3>
-              <p className="text-sm text-muted-foreground">Débitos acumulados fora do fluxo operacional corrente.</p>
+       <h3 className="text-xl font-bold text-executive-secondary">{t('cf.default.liabilities')}</h3>
+       <p className="text-sm text-executive-secondary">Débitos acumulados fora do fluxo operacional corrente.</p>
             </div>
             <div className="overflow-x-auto">
               <table className="w-full">
@@ -750,9 +750,9 @@ export function CashFlowPage({ clients, selectedClient, selectedMonth, selectedY
                 <tbody className="divide-y divide-slate-100">
                   {Passivo_Vencido.map((row: any, idx: number) => (
                     <tr key={idx} className="hover:bg-slate-50 transition-colors">
-                      <td className="px-4 md:px-6 py-2.5 md:py-4 text-sm text-muted-foreground">{row.Credor}</td>
+           <td className="px-4 md:px-6 py-2.5 md:py-4 text-sm text-executive-secondary">{row.Credor}</td>
                       <td className="px-4 md:px-6 py-2.5 md:py-4 text-xs uppercase text-muted-foreground">{row.Tipo}</td>
-                      <td className="px-4 md:px-6 py-2.5 md:py-4 text-sm text-muted-foreground">{formatDate(row.Vencimento)}</td>
+           <td className="px-4 md:px-6 py-2.5 md:py-4 text-sm text-executive-secondary">{formatDate(row.Vencimento)}</td>
                       <td className="px-4 md:px-6 py-2.5 md:py-4 text-sm text-rose-600">{formatCurrency(row.Valor)}</td>
                     </tr>
                   ))}

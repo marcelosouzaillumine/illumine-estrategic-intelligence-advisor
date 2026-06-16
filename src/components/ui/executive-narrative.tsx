@@ -1,6 +1,7 @@
 import React from 'react';
 import { cn } from '@/lib/utils';
 import { Info, Lightbulb, ShieldAlert, CheckCircle2, FileText } from 'lucide-react';
+import { ExecutiveText, ExecutiveSpacingRegistry } from './executive-typography';
 
 export interface ExecutiveNarrativeProps extends Omit<React.HTMLAttributes<HTMLDivElement>, 'title'> {
   variant?: 'summary' | 'insight' | 'risk' | 'recommendation' | 'board-note';
@@ -29,24 +30,24 @@ export function ExecutiveNarrative({
   const IconComponent = icon || config.defaultIcon;
 
   return (
-    <div className={cn("bg-transparent flex flex-col gap-3", className)} {...props}>
+    <div className={cn("bg-transparent flex flex-col", ExecutiveSpacingRegistry.elementGap, className)} {...props}>
       {(title || IconComponent) && (
-        <div className="flex items-center gap-2.5 mb-1">
+        <div className={cn("flex items-center", ExecutiveSpacingRegistry.elementGap, "mb-1")}>
           {IconComponent && (
             <div className={cn("shrink-0", config.color)}>
               <IconComponent size={14} strokeWidth={2.5} />
             </div>
           )}
           {title && (
-            <h4 className="text-[11px] font-semibold uppercase tracking-[0.08em] text-foreground/50">
+            <ExecutiveText variant="label" as="h4">
               {title}
-            </h4>
+            </ExecutiveText>
           )}
         </div>
       )}
-      <div className="text-[16px] font-normal leading-[1.75] text-foreground/80 max-w-[78ch]">
+      <ExecutiveText variant="body" as="div" className="max-w-[78ch]">
         {children}
-      </div>
+      </ExecutiveText>
     </div>
   );
 }

@@ -115,7 +115,7 @@ export function ValuationPage({ clients, selectedClient, selectedYear, selectedM
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
         <div className="lg:col-span-1 space-y-6">
           <div className="bg-white p-6 rounded-3xl border border-border">
-            <h3 className="text-sm font-bold text-muted-foreground mb-6 flex items-center gap-2">
+      <h3 className="text-sm font-bold text-executive-secondary mb-6 flex items-center gap-2">
               <Calculator size={18} className="text-secondary" />
               Premissas de Avaliação
             </h3>
@@ -153,17 +153,17 @@ export function ValuationPage({ clients, selectedClient, selectedYear, selectedM
             <div className="space-y-4">
               <div>
                 <p className="text-4xl font-black whitespace-nowrap">{formatCurrency(anualizedEbitda)}</p>
-                <p className="text-[10px] font-bold opacity-80 uppercase tracking-tighter">EBITDA Estimado</p>
+        <p className="text-[10px] font-bold uppercase tracking-tighter">EBITDA Estimado</p>
               </div>
               <div className="h-px bg-white/20" />
               <div className="flex justify-between items-end">
                 <div>
                   <p className="text-xl font-bold whitespace-nowrap">{formatCurrency(anualizedRevenue)}</p>
-                  <p className="text-[9px] font-medium opacity-70">Receita Líquida Est.</p>
+         <p className="text-[9px] font-medium ">Receita Líquida Est.</p>
                 </div>
                 <div className="text-right">
                   <p className="text-xl font-bold">{anualizedRevenue > 0 ? ((anualizedEbitda / anualizedRevenue) * 100).toFixed(2) : 0}%</p>
-                  <p className="text-[9px] font-medium opacity-70">Margem EBITDA</p>
+         <p className="text-[9px] font-medium ">Margem EBITDA</p>
                 </div>
               </div>
             </div>
@@ -177,7 +177,7 @@ export function ValuationPage({ clients, selectedClient, selectedYear, selectedM
                 <TrendingUp size={24} />
               </div>
               <h4 className="text-[10px] font-black text-muted-foreground uppercase tracking-widest mb-1">Múltiplo de EBITDA</h4>
-              <p className="text-3xl font-black text-muted-foreground mb-2 whitespace-nowrap">{formatCurrency(valuationEbitda)}</p>
+       <p className="text-3xl font-black text-executive-secondary mb-2 whitespace-nowrap">{formatCurrency(valuationEbitda)}</p>
               <div className="px-3 py-1 bg-emerald-100 text-emerald-700 text-[10px] font-black rounded-lg">
                 MÉTODO COMPARATIVO
               </div>
@@ -191,7 +191,7 @@ export function ValuationPage({ clients, selectedClient, selectedYear, selectedM
                 <Zap size={24} />
               </div>
               <h4 className="text-[10px] font-black text-muted-foreground uppercase tracking-widest mb-1">Valor Presente (DCF)</h4>
-              <p className="text-3xl font-black text-muted-foreground mb-2 whitespace-nowrap">{formatCurrency(enterpriseValueDCF)}</p>
+       <p className="text-3xl font-black text-executive-secondary mb-2 whitespace-nowrap">{formatCurrency(enterpriseValueDCF)}</p>
               <div className="px-3 py-1 bg-secondary/20 text-secondary text-[10px] font-black rounded-lg">
                 MÉTODO INTRÍNSECO
               </div>

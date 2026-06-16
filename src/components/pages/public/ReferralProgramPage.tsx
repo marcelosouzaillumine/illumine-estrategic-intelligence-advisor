@@ -1,8 +1,5 @@
 import React, { useEffect } from 'react';
-import { 
-  Target, Activity, Layers, Briefcase, CheckCircle2, 
-  BarChart3, Users, Sparkles, Ban, DollarSign, ArrowRight
-} from 'lucide-react';
+import { Target, Activity, Layers, Briefcase, CheckCircle2, BarChart3, Users, Sparkles, Ban, DollarSign, ArrowRight } from 'lucide-react';
 import { useDocumentTitle } from '../../../hooks/useDocumentTitle';
 import { useNavigate } from 'react-router-dom';
 

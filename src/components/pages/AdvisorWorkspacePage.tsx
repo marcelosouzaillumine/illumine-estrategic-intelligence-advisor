@@ -1,23 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { 
-  Briefcase, 
-  Users, 
-  FileCheck, 
-  Activity, 
-  Sliders, 
-  AlertTriangle, 
-  CheckCircle,
-  ExternalLink,
-  ShieldCheck,
-  CheckSquare,
-  RefreshCw,
-  FileText,
-  Target,
-  Network,
-  Layers,
-  Presentation,
-  BarChart
-} from 'lucide-react';
+import { Briefcase, Users, FileCheck, Activity, Sliders, AlertTriangle, CheckCircle, ExternalLink, ShieldCheck, CheckSquare, RefreshCw, FileText, Target, Network, Layers, Presentation, BarChart } from 'lucide-react';
 import { PageHeader, StatusBadge } from '../Common';
 import { CalibrationEngine } from '../../services/FiduciaryRuntimeAdapter';
 import { CalibrationStatusPanel } from '../executive-delivery/CalibrationStatusPanel';
@@ -120,7 +102,7 @@ export function AdvisorWorkspacePage({ selectedClient }: { selectedClient: strin
     return (
       <div className="flex flex-col items-center justify-center min-h-[400px]">
         <Briefcase className="text-muted-foreground/60 mb-4" size={48} />
-        <p className="text-eyebrow text-muted-foreground uppercase tracking-widest">Contexto indisponível.</p>
+    <p className="text-eyebrow text-executive-secondary uppercase tracking-widest">Contexto indisponível.</p>
       </div>
     );
   }
@@ -186,7 +168,7 @@ export function AdvisorWorkspacePage({ selectedClient }: { selectedClient: strin
           </div>
           <div>
             <h4 className="text-h3 font-display font-medium tracking-tight text-foreground tabular-nums">3 Empresas</h4>
-            <p className="text-[9px] text-muted-foreground font-semibold mt-1">ATENDIMENTO ATIVO DO GRUPO</p>
+      <p className="text-[9px] text-executive-secondary font-semibold mt-1">ATENDIMENTO ATIVO DO GRUPO</p>
           </div>
         </div>
 
@@ -200,7 +182,7 @@ export function AdvisorWorkspacePage({ selectedClient }: { selectedClient: strin
             <h4 className="text-h3 font-display font-medium tracking-tight text-foreground tabular-nums">
               {stagingQueue.filter(j => j.status === 'PENDING_REVIEW').length} Importações
             </h4>
-            <p className="text-[9px] text-muted-foreground font-semibold mt-1">INGESTÃO EM ESPERA NO STAGING</p>
+      <p className="text-[9px] text-executive-secondary font-semibold mt-1">INGESTÃO EM ESPERA NO STAGING</p>
           </div>
         </div>
 
@@ -212,7 +194,7 @@ export function AdvisorWorkspacePage({ selectedClient }: { selectedClient: strin
           </div>
           <div>
             <h4 className="text-h3 font-display font-medium tracking-tight text-primary capitalize">{activeProfile}</h4>
-            <p className="text-[9px] text-muted-foreground font-semibold mt-1">VERSÃO: {activeVersion}</p>
+      <p className="text-[9px] text-executive-secondary font-semibold mt-1">VERSÃO: {activeVersion}</p>
           </div>
         </div>
 
@@ -226,7 +208,7 @@ export function AdvisorWorkspacePage({ selectedClient }: { selectedClient: strin
             <h4 className="text-h3 font-display font-medium tracking-tight text-foreground">
               {incidents.some(i => i.type === 'LATENCY_WARNING') ? 'Degradada' : 'Nominal'}
             </h4>
-            <p className="text-[9px] text-muted-foreground font-semibold mt-1">LATÊNCIA MÉDIA DE EXECUÇÃO</p>
+      <p className="text-[9px] text-executive-secondary font-semibold mt-1">LATÊNCIA MÉDIA DE EXECUÇÃO</p>
           </div>
         </div>
 
@@ -408,7 +390,7 @@ export function AdvisorWorkspacePage({ selectedClient }: { selectedClient: strin
                     <span>{new Date(log.createdAt).toLocaleTimeString()}</span>
                   </div>
                   <p className="text-[10px] font-bold text-foreground">Mudou para perfil "{log.profileId}"</p>
-                  <p className="text-[9px] font-semibold text-muted-foreground italic">"{log.rationale}"</p>
+         <p className="text-[9px] font-semibold text-executive-secondary italic">"{log.rationale}"</p>
                 </div>
               ))}
               {calibrationLogs.length === 0 && (

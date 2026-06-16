@@ -141,7 +141,7 @@ export function ExecutiveCommentary({ reportType, clientId, year, month, default
           </div>
           <div>
             <h4 className="text-lg font-display font-black text-white uppercase tracking-widest">Síntese Executiva para Tomada de Decisão</h4>
-            <p className="text-[11px] text-muted-foreground font-bold uppercase tracking-[0.2em]">Parecer analítico fiduciário para o Conselho</p>
+            <p className="text-[11px] text-muted-foreground font-bold uppercase tracking-[0.2em]">Diagnóstico analítico fiduciário para o Conselho</p>
           </div>
         </div>
       </div>
@@ -153,7 +153,7 @@ export function ExecutiveCommentary({ reportType, clientId, year, month, default
             </div>
           ) : (
             <div className="flex justify-center">
-              <span className="text-muted-foreground italic font-serif">Nenhum parecer emitido.</span>
+              <span className="text-muted-foreground italic font-serif">Nenhum diagnóstico emitido.</span>
             </div>
           )}
           <div className="flex justify-end">
@@ -165,7 +165,7 @@ export function ExecutiveCommentary({ reportType, clientId, year, month, default
               className="h-14 px-8 rounded-full bg-slate-50 border border-border text-muted-foreground text-xs font-black uppercase tracking-widest hover:bg-slate-100 transition-colors flex items-center gap-3"
             >
               <MessageSquare size={16} />
-              {defaultNote ? 'Personalizar Parecer' : 'Incluir Parecer'}
+              {defaultNote ? 'Personalizar Diagnóstico' : 'Incluir Diagnóstico'}
             </button>
           </div>
         </div>
@@ -195,7 +195,7 @@ export function ExecutiveCommentary({ reportType, clientId, year, month, default
             <textarea 
               value={note}
               onChange={(e) => setNote(e.target.value)}
-              placeholder="Insira aqui as observações críticas, variações relevantes e o parecer estratégico sobre esta demonstração..."
+              placeholder="Insira aqui as observações críticas, variações relevantes e o diagnóstico estratégico sobre esta demonstração..."
               className="w-full h-72 bg-slate-50/50 border border-border rounded-[40px] p-10 text-xl font-serif italic leading-relaxed text-muted-foreground outline-none focus:ring-8 focus:ring-blue-500/5 focus:bg-white focus:border-blue-200 transition-all resize-none shadow-inner"
             />
             <div className="absolute top-6 right-8 text-muted-foreground pointer-events-none group-focus-within:text-blue-100 transition-colors">
@@ -209,7 +209,7 @@ export function ExecutiveCommentary({ reportType, clientId, year, month, default
                 <Info size={20} />
               </div>
               <p className="text-[10px] text-blue-600/80 font-bold uppercase tracking-wide leading-relaxed italic">
-                Este parecer será consolidado nos relatórios executivos e no dashboard estratégico do cliente, servindo como base para decisões do Board.
+                Este diagnóstico será consolidado nos relatórios executivos e no dashboard estratégico do cliente, servindo como base para decisões do Board.
               </p>
             </div>
 
@@ -239,7 +239,7 @@ export function ExecutiveCommentary({ reportType, clientId, year, month, default
                 ) : (
                   <Save size={20} />
                 )}
-                <span>{saveSuccess ? 'Parecer Salvo' : 'Salvar Parecer'}</span>
+                <span>{saveSuccess ? 'Diagnóstico Salvo' : 'Salvar Diagnóstico'}</span>
               </button>
             </div>
           </div>

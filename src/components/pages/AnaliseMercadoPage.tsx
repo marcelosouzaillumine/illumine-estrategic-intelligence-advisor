@@ -1,23 +1,5 @@
 import React, { useMemo, useState, useEffect } from 'react';
-import { 
-  Globe, 
-  TrendingUp, 
-  BarChart3, 
-  ArrowUpRight, 
-  ArrowDownRight, 
-  Zap, 
-  MessageSquare,
-  Search,
-  RefreshCw,
-  PieChart as PieIcon,
-  Activity,
-  Target,
-  BarChart,
-  Calendar,
-  ChevronRight,
-  Info,
-  Layers
-} from 'lucide-react';
+import { Globe, TrendingUp, BarChart3, ArrowUpRight, ArrowDownRight, Zap, MessageSquare, Search, RefreshCw, PieChart as PieIcon, Activity, Target, BarChart, Calendar, ChevronRight, Info, Layers } from 'lucide-react';
 import { motion, AnimatePresence } from 'motion/react';
 import { cn, formatCurrency, formatValue } from '../../lib/utils';
 import { PageHeader, SectionHeader } from '../Common';
@@ -223,7 +205,7 @@ export function AnaliseMercadoPage({ clientId }: AnaliseMercadoPageProps) {
                  <Activity size={32} />
                </div>
                <p className="text-muted-foreground font-medium uppercase tracking-widest text-[10px] mb-2 italic text-center">Integração de Dados em Tempo Real</p>
-               <p className="text-muted-foreground/40 text-[9px] font-medium uppercase tracking-widest text-center">Sincronizado via Premissas do Sistema</p>
+        <p className="text-executive-secondary/40 text-[9px] font-medium uppercase tracking-widest text-center">Sincronizado via Premissas do Sistema</p>
             </div>
          </div>
 
@@ -233,7 +215,7 @@ export function AnaliseMercadoPage({ clientId }: AnaliseMercadoPageProps) {
             
             <div className="relative z-10 flex flex-col h-full">
                <div className="mb-12">
-                  <p className="text-[10px] font-medium text-secondary uppercase tracking-[0.3em] mb-2">Deep Insights</p>
+         <p className="text-[10px] font-medium text-executive-secondary uppercase tracking-[0.3em] mb-2">Deep Insights</p>
                   <h3 className="text-2xl font-medium text-white tracking-tight flex items-center gap-3 uppercase">
                     Panorama de Oportunidades
                   </h3>

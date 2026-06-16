@@ -1,19 +1,6 @@
 import React, { useState } from 'react';
 import { useLanguage } from '../../contexts/LanguageContext';
-import { 
-  Database, 
-  Trash2, 
-  AlertTriangle, 
-  CheckCircle2, 
-  Loader2, 
-  Search,
-  HardDrive,
-  RefreshCw,
-  ShieldAlert,
-  ChevronRight,
-  FileText,
-  ImageIcon
-} from 'lucide-react';
+import { Database, Trash2, AlertTriangle, CheckCircle2, Loader2, Search, HardDrive, RefreshCw, ShieldAlert, ChevronRight, FileText, ImageIcon } from 'lucide-react';
 import { collection, query, getDocs, where, deleteDoc, doc, writeBatch, onSnapshot, updateDoc, serverTimestamp } from 'firebase/firestore';
 import { db, auth } from '../../lib/firebase';
 import { PageHeader } from '../Common';
@@ -324,7 +311,7 @@ export function MaintenancePage({ clients }: { clients: any[] }) {
                   Estas ferramentas operam diretamente no núcleo da base de dados. O motor de busca identifica documentos marcados como simulação estrutural.
                 </p>
                 <div className="p-4 md:p-6 bg-white/5 rounded-2xl md:rounded-3xl border border-white/10 backdrop-blur-sm">
-                  <p className="text-[9px] md:text-[10px] font-black uppercase tracking-widest text-secondary mb-3 flex items-center gap-2">
+         <p className="text-[9px] md:text-[10px] font-black uppercase tracking-widest text-executive-secondary mb-3 flex items-center gap-2">
                     <AlertTriangle size={12} className="shrink-0" /> Ação de Alta Criticidade
                   </p>
                   <p className="text-[9px] md:text-[10px] text-white/40 leading-normal font-medium">
@@ -350,7 +337,7 @@ export function MaintenancePage({ clients }: { clients: any[] }) {
               <div className="flex-1 overflow-y-auto space-y-3 pr-4 custom-scrollbar relative z-10">
                 {logs.map((log, i) => (
                   <div key={i} className="text-[10px] font-mono text-muted-foreground border-l-2 border-secondary/20 pl-4 py-1.5 hover:border-secondary transition-colors">
-                    <span className="text-secondary/40 mr-2 opacity-50">{i + 1}</span>
+          <span className="text-secondary/40 mr-2 ">{i + 1}</span>
                     {log}
                   </div>
                 ))}

@@ -69,7 +69,7 @@ export function GenerateBoardReportModal({
           scale: 2, // High res
           useCORS: true,
           logging: false,
-          backgroundColor: '#ffffff'
+          backgroundColor: 'var(--color-card)'
         });
         
         const imgData = canvas.toDataURL('image/png');
@@ -142,7 +142,7 @@ export function GenerateBoardReportModal({
                      {t('boardpack.modal.ready_desc')}
                   </p>
                </div>
-               <Button onClick={handleDownloadPDF} className="w-full bg-[#FF8552] text-white hover:bg-[#FF8552]/90 font-bold uppercase tracking-widest">
+               <Button onClick={handleDownloadPDF} className="w-full bg-[var(--color-accent)] text-white hover:bg-[var(--color-accent)]/90 font-bold uppercase tracking-widest">
                  {t('boardpack.modal.download_pdf')}
                </Button>
             </div>

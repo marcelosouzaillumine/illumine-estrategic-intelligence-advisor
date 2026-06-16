@@ -37,7 +37,7 @@ export function RuntimePerformancePage() {
             <h3 className="text-h3 font-medium text-foreground tracking-tight">Memory Spikes (RAM)</h3>
           </div>
           {spikes.length === 0 ? (
-            <p className="text-body-sm text-muted-foreground font-medium italic">Nenhum pico de memória detectado.</p>
+      <p className="text-body-sm text-executive-secondary font-medium italic">Nenhum pico de memória detectado.</p>
           ) : (
             <div className="space-y-3">
               {spikes.map((s, i) => (
@@ -58,7 +58,7 @@ export function RuntimePerformancePage() {
             <h3 className="text-h3 font-medium text-foreground tracking-tight">Query Performance</h3>
           </div>
           {queries.length === 0 ? (
-            <p className="text-body-sm text-muted-foreground font-medium italic">Nenhuma query lenta detectada.</p>
+      <p className="text-body-sm text-executive-secondary font-medium italic">Nenhuma query lenta detectada.</p>
           ) : (
             <div className="space-y-2">
               {queries.map((q, i) => (

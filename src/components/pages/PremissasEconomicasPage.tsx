@@ -1,15 +1,7 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { TrendingUp, Search, Activity, RefreshCw, CheckCircle2 } from 'lucide-react';
 import { motion, AnimatePresence } from 'motion/react';
-import { 
-  LineChart, 
-  Line, 
-  XAxis, 
-  YAxis, 
-  CartesianGrid, 
-  Tooltip, 
-  ResponsiveContainer 
-} from 'recharts';
+import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
 import { PageHeader } from '../Common';
 import { cn } from '../../lib/utils';
 import { DATA } from '../../data';
@@ -303,7 +295,7 @@ export function PremissasEconomicasPage() {
         <div className="relative z-10 flex flex-col md:flex-row items-start justify-between gap-6 text-left md:text-left">
           <div className="flex-1 min-w-0">
             <h3 className="text-3xl font-black tracking-tight mb-4 break-words self-start text-foreground">Conectividade com o Mercado</h3>
-            <p className="text-muted-foreground text-lg leading-relaxed font-light break-words self-start">
+      <p className="text-executive-secondary text-lg leading-relaxed font-light break-words self-start">
               Nossas premissas são fundamentadas nos relatórios mais recentes do mercado financeiro brasileiro, 
               garantindo que suas simulações de viabilidade e fluxo de caixa reflitam a realidade monetária e fiscal.
             </p>
@@ -331,7 +323,7 @@ export function PremissasEconomicasPage() {
             >
               <div className="flex items-center justify-between group min-w-0">
                 <div>
-                  <span className="block text-[10px] font-bold text-zinc-400 uppercase tracking-widest mb-1">Sincronização Diária</span>
+         <span className="block text-[10px] font-bold text-executive-secondary uppercase tracking-widest mb-1">Sincronização Diária</span>
                   <span className="text-xs font-bold text-secondary">
                     {isSyncing ? "Buscando dados no BCB..." : "Atualizar agora"}
                   </span>

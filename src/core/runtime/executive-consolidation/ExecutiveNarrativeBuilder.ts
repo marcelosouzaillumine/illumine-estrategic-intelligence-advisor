@@ -26,7 +26,22 @@ export class ExecutiveNarrativeBuilder {
       let text = `${moduleName} encontra-se sob stress severo, com ${dominantText}, exigindo ações imediatas de proteção de capital.`;
       
       if (context.mitigatingDriver) {
-        text = `${moduleName} encontra-se sob stress severo, com ${dominantText}. Embora a ${context.mitigatingDriver.shortLabel.toLowerCase()} apresente um quadro de ${context.mitigatingDriver.narratives.healthy}, esse fator não é suficiente para compensar a fragilidade dominante, exigindo ações imediatas de proteção de capital.`;
+        const mitigatingSubjectRaw = context.mitigatingDriver.shortLabel.toLowerCase();
+        let mitigatingSubject = `a ${mitigatingSubjectRaw}`;
+        if (mitigatingSubjectRaw.includes('estrutura')) {
+          mitigatingSubject = 'a estrutura patrimonial';
+        } else if (mitigatingSubjectRaw.includes('caixa') || mitigatingSubjectRaw.includes('tesouraria')) {
+          mitigatingSubject = 'o caixa';
+        }
+
+        let prudentialText = 'alguma margem de absorção';
+        if (mitigatingSubjectRaw.includes('estrutura')) {
+          prudentialText = 'uma base de capital ainda existente';
+        }
+
+        const dominantName = context.dominantDriver.shortLabel.toLowerCase();
+
+        text = `${moduleName} encontra-se sob stress severo, com ${dominantText}. Embora ${mitigatingSubject} ainda ofereça ${prudentialText}, esse fator não é suficiente para compensar a fragilidade dominante de ${dominantName}, exigindo ações imediatas de proteção de capital, preservação de caixa e continuidade operacional.`;
       }
       return text;
     }
@@ -80,16 +95,26 @@ export class ExecutiveNarrativeBuilder {
       return 'Cenário indeterminado até a normalização do fluxo de informações.';
     }
 
+    // Zero Semantic Contradiction: CRITICAL and WARNING must override any stage optimism
     if (context.institutionalState === 'CRITICAL') {
-      return 'O cenário exige foco total em estabilização, continuidade operacional e gestão emergencial até a normalização dos indicadores críticos.';
+      return 'O cenário exige foco total em estabilização, sobrevivência, preservação de caixa, continuidade operacional e normalização dos indicadores vitais.';
     }
 
     if (context.institutionalState === 'WARNING') {
-      return 'O cenário é operacionalmente administrável, desde que os pontos de atenção sejam tratados antes que se convertam em restrições materiais.';
+      return 'O cenário exige prudência, eficiência operacional, monitoramento contínuo e recomposição de margens de segurança.';
     }
 
-    // HEALTHY
-    return 'O cenário oferece fundamentos robustos e flexibilidade financeira para sustentar planos de crescimento com disciplina.';
+    if (context.module === 'BP') {
+      const stage = context.strategicStage;
+      if (stage === 'recovery') return 'A prioridade permanece na estabilização financeira e recomposição gradual da capacidade operacional.';
+      if (stage === 'stabilization') return 'O fortalecimento recente cria condições para consolidar ganhos e reduzir vulnerabilidades remanescentes.';
+      if (stage === 'expansion') return 'O desafio passa a ser sustentar o crescimento preservando disciplina de capital, liquidez e eficiência operacional.';
+      if (stage === 'optimization') return 'O foco estratégico migra para ganhos de produtividade e melhor utilização dos recursos disponíveis.';
+      if (stage === 'capital_allocation') return 'A elevada capacidade financeira exige a formalização de uma política de excedentes, equilibrando reinvestimento produtivo, reserva de segurança e eficiência do capital.';
+    }
+
+    // HEALTHY fallback
+    return 'O fortalecimento patrimonial recente cria uma sólida fundação para a execução contínua do plano de negócios.';
   }
 
   public static buildPriorityRecommendation(context: ExecutiveNarrativeContext): string {

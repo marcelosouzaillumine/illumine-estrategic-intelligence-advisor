@@ -1,33 +1,8 @@
 
 import React, { useState, useEffect, useMemo } from 'react';
-import { 
-  TrendingUp, 
-  Sparkles, 
-  Activity, 
-  Target, 
-  ShieldCheck, 
-  LayoutDashboard,
-  ArrowRight,
-  Loader2,
-  Calendar,
-  ChevronRight,
-  Zap,
-  BarChart as BarChartIcon,
-  PieChart as PieChartIcon,
-  ArrowRightLeft
-} from 'lucide-react';
+import { TrendingUp, Sparkles, Activity, Target, ShieldCheck, LayoutDashboard, ArrowRight, Loader2, Calendar, ChevronRight, Zap, BarChart as BarChartIcon, PieChart as PieChartIcon, ArrowRightLeft } from 'lucide-react';
 import { motion } from 'motion/react';
-import { 
-  BarChart, 
-  Bar, 
-  XAxis, 
-  YAxis, 
-  CartesianGrid, 
-  Tooltip, 
-  ResponsiveContainer, 
-  Cell,
-  Legend
-} from 'recharts';
+import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, Cell, Legend } from 'recharts';
 
 import { cn, formatCurrency } from '../../lib/utils';
 import { DATA } from '../../data';
@@ -271,7 +246,7 @@ export function AnaliseFinanceiraPage({ clients, selectedClient, selectedYear }:
           </div>
           <div>
             <h3 className="text-[11px] font-black text-secondary uppercase tracking-[0.3em] mb-3">Insight de Capital</h3>
-            <p className="executive-note font-semibold text-muted-foreground italic leading-relaxed">
+      <p className="executive-note font-semibold text-executive-secondary italic leading-relaxed">
               {executiveReport ? (
                 `"${executiveReport.orchestratedNarrative?.leadParagraph || executiveReport.financialThesis?.thesis}"`
               ) : (
@@ -306,7 +281,7 @@ export function AnaliseFinanceiraPage({ clients, selectedClient, selectedYear }:
                 <p className="text-[11px] font-black uppercase tracking-[0.2em] text-muted-foreground">{m.label}</p>
                 <Semaphore status={m.sem as 'Verde' | 'Amarelo' | 'Vermelho'} />
               </div>
-              <p className="text-2xl font-display font-medium tracking-tight text-primary group-hover:text-secondary transition-colors">
+       <p className="text-2xl font-display font-medium tracking-tight text-primary group-hover:text-executive-secondary transition-colors">
                 {m.value}
               </p>
               <div className="mt-4 flex items-center gap-2">
@@ -338,7 +313,7 @@ export function AnaliseFinanceiraPage({ clients, selectedClient, selectedYear }:
                 <div key={idx}>
                   <div className="flex justify-between items-baseline mb-2">
                     <span className="text-xs font-bold text-muted-foreground">{item.label}</span>
-                    <span className="text-base font-medium text-muted-foreground">{item.display || `${item.val.toFixed(2)}%`}</span>
+          <span className="text-base font-medium text-executive-secondary">{item.display || `${item.val.toFixed(2)}%`}</span>
                   </div>
                   <div className="w-full bg-slate-100 h-1.5 rounded-full overflow-hidden">
                     <motion.div 
@@ -377,8 +352,8 @@ export function AnaliseFinanceiraPage({ clients, selectedClient, selectedYear }:
               <div className="bg-slate-50 p-6 rounded-[32px] border border-border">
                 {/* Gráfico de barras empilhadas proporcional: mantém valores de enquadramento */}
                 <div className="flex flex-col items-center gap-4">
-                  <p className="text-[9px] font-black text-muted-foreground uppercase tracking-widest">Dívida Total</p>
-                  <p className="text-xl font-medium text-muted-foreground">{formatCurrency(totalThirdParty)}</p>
+         <p className="text-[9px] font-black text-executive-secondary uppercase tracking-widest">Dívida Total</p>
+         <p className="text-xl font-medium text-executive-secondary">{formatCurrency(totalThirdParty)}</p>
 
                   {totalThirdParty > 0 ? (
                     <div className="w-full space-y-3">

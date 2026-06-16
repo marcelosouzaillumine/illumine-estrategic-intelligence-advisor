@@ -130,7 +130,7 @@ export function DiretrizesPage({ clientId }: DiretrizesPageProps) {
                 placeholder="Por que a empresa existe? Qual a sua causa?"
               />
             ) : (
-              <p className="text-muted-foreground leading-relaxed font-medium text-lg italic uppercase tracking-widest">
+       <p className="text-executive-secondary leading-relaxed font-medium text-lg italic uppercase tracking-widest">
                 {currentDiretriz?.proposito ? `"${currentDiretriz.proposito}"` : 'O propósito ainda não foi definido. Ele é o "porquê" por trás de tudo.'}
               </p>
             )}
@@ -168,7 +168,7 @@ export function DiretrizesPage({ clientId }: DiretrizesPageProps) {
                   <p key={i}>{paragraph}</p>
                 ))
               ) : (
-                <p className="italic text-muted-foreground/40">A história da empresa ainda não foi registrada. O storytelling é fundamental para criar conexão e confiança.</p>
+        <p className="italic text-executive-secondary/40">A história da empresa ainda não foi registrada. O storytelling é fundamental para criar conexão e confiança.</p>
               )}
             </div>
           )}

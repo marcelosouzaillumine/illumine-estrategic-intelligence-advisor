@@ -2,6 +2,8 @@ import React from 'react';
 import { PieChart as RechartsPieChart, Pie, Cell, ResponsiveContainer } from 'recharts';
 import { ExecutiveSurface } from './executive-surface';
 import { ExecutiveChartTooltip } from './executive-chart';
+import { ExecutiveHeading } from './executive-heading';
+import { ExecutiveText, ExecutiveMetric } from './executive-typography';
 import { cn } from '@/lib/utils';
 
 export interface ExecutiveDistributionCardProps {
@@ -27,15 +29,18 @@ export function ExecutiveDistributionCard({
   return (
     <ExecutiveSurface padding="none" className={cn("flex flex-col p-5 w-full h-full bg-card border-border/60", className)}>
       {/* Cabeçalho */}
-      <div className="flex flex-col mb-4 pb-4 border-b border-border/40 shrink-0">
-        <h3 className="text-[18px] font-semibold text-foreground tracking-tight leading-none">{title}</h3>
+      <div className="flex flex-col mb-4 pb-4 border-b border-border/40 shrink-0" // @allow-margin
+      >
+        <ExecutiveHeading as="h3" variant="submoduleTitle">{title}</ExecutiveHeading>
         {subtitle && (
-          <p className="text-[13px] text-foreground/65 mt-1.5">{subtitle}</p>
+          <ExecutiveText as="p" variant="moduleSubtitle" className="mt-1.5" // @allow-margin
+        >{subtitle}</ExecutiveText>
         )}
       </div>
 
       {/* Área Gráfica e Legenda */}
-      <div className="flex-1 flex flex-col xl:flex-row items-center justify-center gap-2 mt-2">
+      <div className="flex-1 flex flex-col xl:flex-row items-center justify-center gap-2 mt-2" // @allow-margin
+      >
         {hasData ? (
           <>
             <div className="w-[240px] h-[240px] shrink-0 relative flex items-center justify-center">
@@ -52,7 +57,7 @@ export function ExecutiveDistributionCard({
                     stroke="none"
                   >
                     {data.map((entry, index) => (
-                      <Cell key={`cell-${index}`} fill={entry.fill || '#3b82f6'} />
+                      <Cell key={`cell-${index}`} fill={entry.fill || 'var(--chart-primary)'} />
                     ))}
                   </Pie>
                   <ExecutiveChartTooltip formatter={(value: number) => formatValue(value)} />
@@ -60,8 +65,9 @@ export function ExecutiveDistributionCard({
               </ResponsiveContainer>
               {isSingleSegment && (
                 <div className="absolute inset-0 flex flex-col items-center justify-center pointer-events-none text-center">
-                  <span className="text-[26px] font-bold text-foreground leading-none">100%</span>
-                  <span className="text-[11px] font-medium text-foreground/60 mt-1 max-w-[120px] truncate">{data[0].name}</span>
+                  <ExecutiveMetric variant="metricCompact">100%</ExecutiveMetric>
+                  <ExecutiveText as="span" variant="microLabel" className="mt-1 max-w-[120px] truncate" // @allow-margin
+                >{data[0].name}</ExecutiveText>
                 </div>
               )}
             </div>
@@ -70,10 +76,10 @@ export function ExecutiveDistributionCard({
             <div className="flex-1 w-full flex flex-col justify-center space-y-2.5 pl-2">
               {data.map((item, idx) => (
                 <div key={idx} className="flex items-center gap-2.5">
-                  <div className="w-3 h-3 rounded-full shrink-0" style={{ backgroundColor: item.fill || '#3b82f6' }} />
+                  <div className="w-3 h-3 rounded-full shrink-0" style={{ backgroundColor: item.fill || 'var(--color-primary)' }} />
                   <div className="flex flex-col">
-                    <span className="text-[13px] font-medium text-foreground leading-snug">{item.name}</span>
-                    <span className="text-[13px] font-medium text-foreground/70">{formatValue(item.value)}</span>
+                    <ExecutiveText as="span" variant="bodyStrong">{item.name}</ExecutiveText>
+                    <ExecutiveText as="span" variant="bodyStandard" className="text-muted-foreground">{formatValue(item.value)}</ExecutiveText>
                   </div>
                 </div>
               ))}
@@ -81,7 +87,7 @@ export function ExecutiveDistributionCard({
           </>
         ) : (
           <div className="flex-1 flex items-center justify-center w-full h-full min-h-[200px]">
-            <p className="text-sm text-muted-foreground">Nenhum dado disponível.</p>
+            <ExecutiveText as="p" variant="bodyStandard" className="text-center">Nenhum dado disponível.</ExecutiveText>
           </div>
         )}
       </div>

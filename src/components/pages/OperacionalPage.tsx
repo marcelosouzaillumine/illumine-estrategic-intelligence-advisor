@@ -1,24 +1,10 @@
 import React, { useMemo } from 'react';
-import { 
-  Database, 
-  Activity, 
-  Truck, 
-  Box, 
-  Settings, 
-  TrendingUp, 
-  AlertCircle,
-  CheckCircle2,
-  Clock,
-  BarChart3,
-  Zap,
-  MessageSquare,
-  Layers,
-  ShieldCheck
-} from 'lucide-react';
+import { Database, Activity, Truck, Box, Settings, TrendingUp, AlertCircle, CheckCircle2, Clock, BarChart3, Zap, MessageSquare, Layers, ShieldCheck } from 'lucide-react';
 import { motion } from 'motion/react';
 import { collection, query, where, onSnapshot } from 'firebase/firestore';
 import { db } from '../../lib/firebase';
-import { StatusBadge, PageHeader, KpiCard, KpiValue } from '../Common';
+import { StatusBadge, PageHeader } from '../Common';
+import { ExecutiveMetricCard } from '../ui/executive-metric-card';
 import { formatValue, formatCurrency, cn } from '../../lib/utils';
 
 interface OperacionalPageProps {
@@ -140,13 +126,12 @@ export function OperacionalPage({ type, clientId }: OperacionalPageProps) {
 
       <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-2 2xl:grid-cols-4 gap-6">
         {indicators.map((kpi, idx) => (
-          <KpiCard 
-            key={idx}
-            title={kpi.label}
+          <ExecutiveMetricCard density="analytical" key={idx}
+            label={kpi.label}
             value={formatValue(kpi.value, '')}
             suffix={kpi.suffix || ''}
             icon={kpi.icon}
-            status={kpi.status === 'positive' ? 'Verde' : kpi.status === 'negative' ? 'Vermelho' : 'Amarelo'}
+            tone={kpi.status === "positive" ? "success" : kpi.status === "negative" ? "critical" : "warning"}
           />
         ))}
       </div>
@@ -165,7 +150,7 @@ export function OperacionalPage({ type, clientId }: OperacionalPageProps) {
                </div>
             </div>
             <div className="h-[300px] bg-surface-container/50 rounded-sm flex items-center justify-center border border-dashed border-border relative z-10 shadow-inner">
-               <p className="text-muted-foreground/40 font-medium uppercase tracking-widest text-[9px] italic">Monitoramento em Tempo Real</p>
+        <p className="text-executive-secondary/40 font-medium uppercase tracking-widest text-[9px] italic">Monitoramento em Tempo Real</p>
             </div>
          </div>
 

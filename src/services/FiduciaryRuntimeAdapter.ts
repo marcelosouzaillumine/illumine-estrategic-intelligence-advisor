@@ -308,3 +308,15 @@ export type { ExecutiveStrategicDiagnosisPayload } from '../core/runtime/executi
 export type { ExecutiveDecisionPayload } from '../core/runtime/executive-consolidation/ExecutiveSynthesisTypes';
 export type { ExecutiveAnalysisContext } from '../core/runtime/executive-consolidation/StrategicOpinionConsistencyEngine';
 export type { HistoricalInsightDriver } from '../core/runtime/executive-consolidation/HistoricalInsightEngine';
+export { ExecutivePrimaryMotiveConsistencyEngine } from '../core/runtime/executive-consolidation/ExecutivePrimaryMotiveConsistencyEngine';
+export { LiquidityExecutiveAssessmentEngine } from '../core/runtime/executive-consolidation/LiquidityExecutiveAssessmentEngine';
+export type { ExecutiveAssessmentResult } from '../core/runtime/executive-consolidation/LiquidityExecutiveAssessmentEngine';
+export { AssetQualityExecutiveAssessmentEngine } from '../core/runtime/executive-consolidation/AssetQualityExecutiveAssessmentEngine';
+export { CapitalStructureExecutiveAssessmentEngine } from '../core/runtime/executive-consolidation/CapitalStructureExecutiveAssessmentEngine';
+export { WorkingCapitalExecutiveAssessmentEngine } from '../core/runtime/executive-consolidation/WorkingCapitalExecutiveAssessmentEngine';
+export { CapitalEfficiencyExecutiveAssessmentEngine } from '../core/runtime/executive-consolidation/CapitalEfficiencyExecutiveAssessmentEngine';
+export { CapitalPreservationExecutiveAssessmentEngine } from '../core/runtime/executive-consolidation/CapitalPreservationExecutiveAssessmentEngine';
+
+export {
+  CrossStatementExecutiveNarrativeEngine,
+} from '../core/runtime/executive-consolidation/CrossStatementExecutiveNarrativeEngine';

@@ -1,18 +1,10 @@
 import React, { useEffect, useState, useMemo } from 'react';
-import { 
-  Eye, ShieldCheck, ShieldAlert, Users, AlertTriangle, 
-  Activity, ArrowRightLeft, FileSpreadsheet, Lock, RefreshCw,
-  Search, ShieldX, Terminal, Calendar, Building, Clock,
-  Server, Cpu, Layers, PlayCircle, StopCircle
-} from 'lucide-react';
+import { Eye, ShieldCheck, ShieldAlert, Users, AlertTriangle, Activity, ArrowRightLeft, FileSpreadsheet, Lock, RefreshCw, Search, ShieldX, Terminal, Calendar, Building, Clock, Server, Cpu, Layers, PlayCircle, StopCircle } from 'lucide-react';
 import { PageHeader } from '../../Common';
 import { useInstitutionalAuth } from '../../../core/security/auth/InstitutionalAuthProvider';
 import { useRuntimeContext } from '../../../core/security/auth/RuntimeContextProvider';
 import { governanceService } from '../../../services/governanceService';
-import { 
-  ResponsiveContainer, ComposedChart, Area, Line, XAxis, YAxis, 
-  CartesianGrid, Tooltip as ChartTooltip, Legend, Bar 
-} from 'recharts';
+import { ResponsiveContainer, ComposedChart, Area, Line, XAxis, YAxis, CartesianGrid, Tooltip as ChartTooltip, Legend, Bar } from 'recharts';
 import { cn } from '../../../lib/utils';
 import { RuntimePartitionManager } from '../../../services/FiduciaryRuntimeAdapter';
 import { WorkerRegistry } from '../../../services/FiduciaryRuntimeAdapter';
@@ -163,7 +155,7 @@ export function ObservabilityConsolePage({ selectedClient }: ObservabilityConsol
       <div className="max-w-[1440px] mx-auto px-6 py-20 text-center animate-executive-fade">
         <ShieldX className="w-16 h-16 text-rose-500 mx-auto mb-6" />
         <h1 className="text-xl font-bold text-primary uppercase tracking-widest mb-2">Acesso Restrito</h1>
-        <p className="text-sm text-secondary max-w-md mx-auto">
+    <p className="text-sm text-executive-secondary max-w-md mx-auto">
           Você não possui privilégios de auditoria (`VIEW_OBSERVABILITY`) para visualizar o console de observabilidade institucional.
         </p>
       </div>
@@ -346,7 +338,7 @@ export function ObservabilityConsolePage({ selectedClient }: ObservabilityConsol
                           )}>
                             {anom.severity}
                           </span>
-                          <span className="text-sm font-bold text-muted-foreground">{anom.anomalyType}</span>
+             <span className="text-sm font-bold text-executive-secondary">{anom.anomalyType}</span>
                         </div>
                         <p className="text-xs text-muted-foreground flex items-center gap-1">
                           <Clock className="w-3.5 h-3.5 text-muted-foreground" />
@@ -456,7 +448,7 @@ export function ObservabilityConsolePage({ selectedClient }: ObservabilityConsol
                             evt.eventType === 'SESSION_START' || evt.eventType === 'LOGIN' ? 'bg-success-soft0' :
                             evt.eventType === 'SESSION_END' || evt.eventType === 'LOGOUT' ? 'bg-slate-500' : 'bg-primary'
                           )} />
-                          <span className="text-sm font-bold text-muted-foreground">{evt.eventType}</span>
+             <span className="text-sm font-bold text-executive-secondary">{evt.eventType}</span>
                         </div>
                         <p className="text-xs text-muted-foreground">Ator: <span className="font-mono">{evt.actorId}</span> | Sessão: <span className="font-mono">{evt.sessionId.substring(0, 15)}...</span></p>
                       </div>

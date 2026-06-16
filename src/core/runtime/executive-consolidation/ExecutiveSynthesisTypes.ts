@@ -39,4 +39,5 @@ export interface ExecutiveStrategicDiagnosisPayload {
   primaryDriver?: string;
   dominantStrength?: string;
   secondaryAttention?: string;
+  moduleContext?: string;
 }

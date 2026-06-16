@@ -72,7 +72,8 @@ export class ExecutiveDecisionSynthesisEngine {
       recommendationPriority,
       primaryDriver: motive.label,
       dominantStrength: motive.dominantStrength,
-      secondaryAttention: motive.secondaryAttention
+      secondaryAttention: motive.secondaryAttention,
+      moduleContext: context.moduleContext
     };
   }
 

@@ -1,13 +1,5 @@
 import React, { useState, useEffect, useMemo } from 'react';
-import { 
-  ChevronLeft, 
-  CheckCircle2, 
-  PlayCircle, 
-  FileText, 
-  Link as LinkIcon,
-  ChevronDown,
-  Loader2
-} from 'lucide-react';
+import { ChevronLeft, CheckCircle2, PlayCircle, FileText, Link as LinkIcon, ChevronDown, Loader2 } from 'lucide-react';
 import { motion, AnimatePresence } from 'motion/react';
 import { useAcademyData, useAcademyModules, useAcademyLessons, useAcademyProgress, toggleLessonProgress } from '../../../hooks/useAcademyData';
 import type { Lesson } from '../../../types/academy';
@@ -92,7 +84,7 @@ function ModuleLessonList({
                 Aula {lIdx + 1}: {lesson.title}
               </p>
               {lesson.duration && (
-                <p className="text-[9px] font-black uppercase tracking-widest text-secondary/75 mt-1">
+        <p className="text-[9px] font-black uppercase tracking-widest text-executive-secondary/75 mt-1">
                   {lesson.duration} min
                 </p>
               )}
@@ -184,7 +176,7 @@ export function LessonPlayerPage({ courseId, onBack, userId, clientId }: LessonP
           <div>
             <h1 className="text-base font-display font-medium text-foreground leading-tight tracking-tight text-primary">{course.title}</h1>
             {currentLesson && (
-              <p className="text-[9px] text-secondary uppercase tracking-[0.2em] font-black max-w-xs truncate mt-1">
+       <p className="text-[9px] text-executive-secondary uppercase tracking-[0.2em] font-black max-w-xs truncate mt-1">
                 {currentLesson.title}
               </p>
             )}

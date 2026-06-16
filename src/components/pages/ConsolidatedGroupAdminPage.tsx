@@ -191,7 +191,7 @@ export function ConsolidatedGroupAdminPage() {
                     </div>
                   ))}
                   {entities.length === 0 && (
-                    <p className="text-body-sm text-muted-foreground italic text-center py-6">Nenhuma entidade vinculada.</p>
+          <p className="text-body-sm text-executive-secondary italic text-center py-6">Nenhuma entidade vinculada.</p>
                   )}
                 </div>
               </div>
@@ -213,7 +213,7 @@ export function ConsolidatedGroupAdminPage() {
               <div className="w-16 h-16 rounded-xl bg-surface-container flex items-center justify-center">
                 <Building2 size={32} className="opacity-30" />
               </div>
-              <p className="text-body-sm font-medium text-muted-foreground/60 uppercase tracking-widest">Selecione um grupo ao lado ou crie um novo.</p>
+       <p className="text-body-sm font-medium text-executive-secondary/60 uppercase tracking-widest">Selecione um grupo ao lado ou crie um novo.</p>
             </div>
           )}
         </div>

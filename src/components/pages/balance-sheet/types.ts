@@ -37,7 +37,7 @@ export type BalanceSheetGovernanceConsistencyInput = {
 export type BalanceSheetWaterfallInputPoint = {
   name: string;
   value: number;
-  fill?: string;
+  variant?: 'primary' | 'secondary' | 'success' | 'warning' | 'critical' | 'neutral' | 'insufficient' | 'healthy' | 'excellent';
 };
 
 export type BalanceSheetCompositionInputPoint = {

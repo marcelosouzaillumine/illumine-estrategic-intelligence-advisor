@@ -1,29 +1,8 @@
 // src/components/pages/governance/GovernanceExecutionPanel.tsx
 
 import React, { useState, useEffect } from 'react';
-import { 
-  Activity, 
-  User, 
-  Calendar, 
-  AlertTriangle, 
-  CheckCircle2, 
-  Clock, 
-  ShieldAlert, 
-  Plus, 
-  ArrowRight,
-  Bookmark,
-  ExternalLink,
-  ChevronDown,
-  UserCheck
-} from 'lucide-react';
-import { 
-  FiduciaryRuntimeAdapter, 
-  GovernanceDecision, 
-  GovernanceDecisionType, 
-  CognitiveOriginEngine, 
-  DecisionExecutionRisk,
-  ESGIMScenario
-} from '../../../services/FiduciaryRuntimeAdapter';
+import { Activity, User, Calendar, AlertTriangle, CheckCircle2, Clock, ShieldAlert, Plus, ArrowRight, Bookmark, ExternalLink, ChevronDown, UserCheck } from 'lucide-react';
+import { FiduciaryRuntimeAdapter, GovernanceDecision, GovernanceDecisionType, CognitiveOriginEngine, DecisionExecutionRisk, ESGIMScenario } from '../../../services/FiduciaryRuntimeAdapter';
 
 interface GovernanceExecutionPanelProps {
   clientId: string;

@@ -1,23 +1,5 @@
 import React, { useState, useMemo } from 'react';
-import { 
-  Activity, 
-  AlertTriangle, 
-  CheckCircle2, 
-  Info, 
-  ChevronDown, 
-  ChevronUp, 
-  Clock, 
-  Scale, 
-  ShieldCheck,
-  Brain,
-  Sliders,
-  DollarSign,
-  Zap,
-  ArrowRight,
-  TrendingUp,
-  History,
-  AlertCircle
-} from 'lucide-react';
+import { Activity, AlertTriangle, CheckCircle2, Info, ChevronDown, ChevronUp, Clock, Scale, ShieldCheck, Brain, Sliders, DollarSign, Zap, ArrowRight, TrendingUp, History, AlertCircle } from 'lucide-react';
 import { useAllFinancialData } from '../../../hooks/useFinancialData';
 import { useInstitutionalRuntime } from '../../../hooks/useInstitutionalRuntime';
 import { useLanguage } from '../../../contexts/LanguageContext';

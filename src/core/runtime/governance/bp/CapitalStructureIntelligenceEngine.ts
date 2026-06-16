@@ -43,7 +43,7 @@ export class CapitalStructureIntelligenceEngine {
         }
 
         indicators.push({
-          metricName: 'Funding Capacity Ratio',
+          metricName: 'Capacidade de Financiamento',
           value: val,
           classification,
           severity: classification === 'Baixa' ? 'CRITICAL' : (classification === 'Moderada' ? 'ATTENTION' : 'HEALTHY'),
@@ -85,7 +85,7 @@ export class CapitalStructureIntelligenceEngine {
       else classification = 'Crítica';
 
       indicators.push({
-        metricName: 'Debt Capacity Score',
+        metricName: 'Índice de Capacidade de Endividamento',
         value: debtCapacityScore,
         classification,
         severity: classification === 'Excelente' ? 'HEALTHY' : (classification === 'Moderada' ? 'ATTENTION' : 'CRITICAL'),

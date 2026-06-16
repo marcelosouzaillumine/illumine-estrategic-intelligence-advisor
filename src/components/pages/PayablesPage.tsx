@@ -1,68 +1,30 @@
 
 import React, { useState, useEffect, useMemo } from 'react';
-import { 
-  Plus, 
-  Search, 
-  Filter, 
-  ChevronLeft, 
-  ChevronRight, 
-  Edit2, 
-  Trash2, 
-  Loader2, 
-  X, 
-  TrendingUp, 
-  PieChart as PieChartIcon,
-  Save,
-  UploadCloud
-} from 'lucide-react';
+import { Plus, Search, Filter, ChevronLeft, ChevronRight, Edit2, Trash2, Loader2, X, TrendingUp, PieChart as PieChartIcon, Save, UploadCloud } from 'lucide-react';
 import { ImportTransactionsModal } from '../modals/ImportTransactionsModal';
 import { motion } from 'motion/react';
-import { 
-  collection, 
-  addDoc, 
-  updateDoc, 
-  deleteDoc, 
-  doc, 
-  serverTimestamp, 
-  query, 
-  where, 
-  orderBy, 
-  onSnapshot,
-  getDocs,
-  writeBatch
-} from 'firebase/firestore';
+import { collection, addDoc, updateDoc, deleteDoc, doc, serverTimestamp, query, where, orderBy, onSnapshot, getDocs, writeBatch } from 'firebase/firestore';
 import { db, auth } from '../../lib/firebase';
 import { PageHeader, KpiValue } from '../Common';
 import { SortableHeader } from '../SortableHeader';
 import { DATA } from '../../data';
 import { cn, formatCurrency, formatDate } from '../../lib/utils';
 import { useDataTable } from '../../hooks/useDataTable';
-import { 
-  BarChart, 
-  Bar, 
-  AreaChart, 
-  Area, 
-  XAxis, 
-  YAxis, 
-  CartesianGrid, 
-  Tooltip, 
-  ResponsiveContainer 
-} from 'recharts';
+import { BarChart, Bar, AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
 
 function KpiCardModeling({ label, value, tone = 'default', helper }: any) {
   return (
     <div className="bg-white p-6 rounded-3xl border border-border shadow-sm hover:shadow-md transition-all group flex flex-col justify-between min-h-[140px]">
       <div>
         <p className="text-[10px] font-black text-muted-foreground uppercase tracking-[0.15em] mb-2 group-hover:text-muted-foreground transition-colors whitespace-nowrap overflow-hidden text-ellipsis">{label}</p>
-        <KpiValue 
-          value={value} 
-          className={cn(
+        <div className={cn(
             "font-semibold tracking-tight",
             tone === 'danger' ? "text-rose-600" : tone === 'success' ? "text-emerald-600" : "text-muted-foreground"
-          )} 
-        />
+          )}>
+          {value}
+        </div>
       </div>
-      {helper && <p className="text-[10px] text-muted-foreground mt-2 font-medium italic opacity-80 leading-relaxed">{helper}</p>}
+   {helper && <p className="text-[10px] text-muted-foreground mt-2 font-medium italic leading-relaxed">{helper}</p>}
     </div>
   );
 }
@@ -308,7 +270,7 @@ export function PayablesPage({ clients, selectedClient, isMaster }: { clients: a
         <div className="bg-white p-8 rounded-3xl border border-border shadow-sm">
           <div className="flex items-center justify-between mb-8">
              <div>
-              <h3 className="text-sm font-bold text-muted-foreground">Curva ABC de Fornecedores</h3>
+       <h3 className="text-sm font-bold text-executive-secondary">Curva ABC de Fornecedores</h3>
               <p className="text-[10px] text-muted-foreground font-bold uppercase tracking-widest mt-1">Concentração de Pagamentos</p>
              </div>
              <div className="p-2 bg-slate-50 rounded-xl">
@@ -335,7 +297,7 @@ export function PayablesPage({ clients, selectedClient, isMaster }: { clients: a
         <div className="bg-white p-8 rounded-3xl border border-border shadow-sm">
           <div className="flex items-center justify-between mb-8">
              <div>
-              <h3 className="text-sm font-bold text-muted-foreground">Fluxo de Vencimentos</h3>
+       <h3 className="text-sm font-bold text-executive-secondary">Fluxo de Vencimentos</h3>
               <p className="text-[10px] text-muted-foreground font-bold uppercase tracking-widest mt-1">Projeção por Semana (Mês Atual)</p>
              </div>
              <div className="p-2 bg-success-soft rounded-xl">
@@ -382,7 +344,7 @@ export function PayablesPage({ clients, selectedClient, isMaster }: { clients: a
             <select 
               value={filters.status || 'Todos'}
               onChange={e => setFilters(prev => ({ ...prev, status: e.target.value }))}
-              className="w-full md:w-auto px-4 py-2.5 bg-white border border-border rounded-xl text-sm font-bold text-muted-foreground outline-none"
+       className="w-full md:w-auto px-4 py-2.5 bg-white border border-border rounded-xl text-sm font-bold text-executive-secondary outline-none"
             >
               <option value="Todos">Todos os Status</option>
               <option value="A vencer">A vencer</option>
@@ -411,7 +373,7 @@ export function PayablesPage({ clients, selectedClient, isMaster }: { clients: a
                 <tr>
                    <td colSpan={7} className="px-8 py-20 text-center">
                     <Loader2 size={32} className="animate-spin text-secondary mx-auto mb-4" />
-                    <p className="text-muted-foreground font-bold">Carregando títulos...</p>
+          <p className="text-executive-secondary font-bold">Carregando títulos...</p>
                   </td>
                 </tr>
               ) : paginatedPayables.length === 0 ? (
@@ -425,7 +387,7 @@ export function PayablesPage({ clients, selectedClient, isMaster }: { clients: a
                   <tr key={item.id} className="hover:bg-slate-50/50 transition-colors group">
                     <td className="px-5 md:px-8 py-2.5 md:py-4">
                       <div className="flex flex-col">
-                        <span className="text-sm text-muted-foreground">{item.fornecedor}</span>
+            <span className="text-sm text-executive-secondary">{item.fornecedor}</span>
                         {item.centroCusto && <span className="text-[9px] uppercase tracking-tighter bg-blue-50 px-1.5 py-0.5 rounded border border-blue-100/50 self-start mt-1">{item.centroCusto}</span>}
                       </div>
                     </td>
@@ -553,7 +515,7 @@ function PayableModal({ payable, onClose, onSave }: any) {
       >
         <div className="p-8 border-b border-border flex justify-between items-center bg-slate-50/50">
           <div>
-            <h3 className="text-xl font-bold text-muted-foreground">{payable ? 'Editar Título' : 'Lançar Título'}</h3>
+      <h3 className="text-xl font-bold text-executive-secondary">{payable ? 'Editar Título' : 'Lançar Título'}</h3>
             <p className="text-xs text-muted-foreground mt-1 uppercase tracking-widest font-bold">Registro de Contas a Pagar</p>
           </div>
           <button onClick={onClose} className="p-2 hover:bg-slate-200 rounded-full transition-colors text-muted-foreground"><X size={20} /></button>
@@ -687,7 +649,7 @@ function PayableModal({ payable, onClose, onSave }: any) {
         </div>
 
         <div className="p-8 bg-slate-50 border-t border-border flex gap-4">
-          <button onClick={onClose} className="flex-1 py-3 text-muted-foreground font-bold text-sm hover:bg-slate-200 rounded-2xl transition-all">Cancelar</button>
+     <button onClick={onClose} className="flex-1 py-3 text-executive-secondary font-bold text-sm hover:bg-slate-200 rounded-2xl transition-all">Cancelar</button>
           <button 
             onClick={handleSave}
             className="flex-1 py-3 bg-secondary text-white rounded-2xl text-xs font-black uppercase tracking-widest shadow-lg shadow-secondary/20 hover:bg-secondary/90 transition-all flex items-center justify-center gap-2"

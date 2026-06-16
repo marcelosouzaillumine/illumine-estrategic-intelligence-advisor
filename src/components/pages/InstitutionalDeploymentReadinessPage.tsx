@@ -37,7 +37,7 @@ export function InstitutionalDeploymentReadinessPage() {
   if (loading) {
     return (
       <div className="flex h-[80vh] items-center justify-center font-mono">
-        <div className="flex flex-col items-center gap-4 text-zinc-500">
+    <div className="flex flex-col items-center gap-4 text-executive-secondary">
           <Activity className="animate-spin" size={32} />
           <p className="text-xs uppercase tracking-widest">Validating Deployment Readiness...</p>
         </div>
@@ -78,22 +78,22 @@ export function InstitutionalDeploymentReadinessPage() {
       case 'CRITICAL':
         return 'text-red-500';
       default:
-        return 'text-zinc-400';
+    return 'text-executive-secondary';
     }
   };
 
   return (
-    <div className="flex flex-col gap-6 max-w-[1600px] mx-auto w-full text-zinc-100 pb-12 font-sans">
+  <div className="flex flex-col gap-6 max-w-[1600px] mx-auto w-full text-executive-secondary pb-12 font-sans">
       
       {/* Sovereign Header */}
       <div className="flex flex-col md:flex-row md:items-end justify-between gap-4 border-b border-zinc-800 pb-4">
         <div>
-          <div className="flex items-center gap-2 text-zinc-400 mb-1">
+     <div className="flex items-center gap-2 text-executive-secondary mb-1">
             <Server size={16} />
             <span className="text-[10px] uppercase font-bold tracking-widest font-mono">Deployment Readiness Layer</span>
           </div>
           <h1 className="text-2xl font-bold tracking-tight text-primary">Institutional Production Readiness</h1>
-          <p className="text-xs text-zinc-500 font-mono mt-1 uppercase tracking-widest">Sovereign Fiduciary Execution Integrity</p>
+     <p className="text-xs text-executive-secondary font-mono mt-1 uppercase tracking-widest">Sovereign Fiduciary Execution Integrity</p>
         </div>
       </div>
 
@@ -103,11 +103,11 @@ export function InstitutionalDeploymentReadinessPage() {
         <div className={`xl:col-span-12 p-6 rounded-lg border ${isBlocked ? 'bg-red-950/40 border-red-900/50' : isFullProduction ? 'bg-emerald-950/20 border-emerald-900/50' : 'bg-zinc-900 border-zinc-800'}`}>
           <div className="flex items-start justify-between gap-4">
             <div>
-              <p className="text-[10px] uppercase tracking-widest text-zinc-400 font-mono mb-2">Readiness Classification</p>
+       <p className="text-[10px] uppercase tracking-widest text-executive-secondary font-mono mb-2">Readiness Classification</p>
               <h2 className={`text-4xl font-bold tracking-tight mb-4 ${isBlocked ? 'text-red-500' : isFullProduction ? 'text-emerald-400' : 'text-blue-400'}`}>
                 {readinessData.deploymentReadiness.replace(/_/g, ' ')}
               </h2>
-              <p className="text-sm text-zinc-300 max-w-3xl">{readinessData.readinessNarrative}</p>
+       <p className="text-sm text-executive-secondary max-w-3xl">{readinessData.readinessNarrative}</p>
             </div>
             <div className="shrink-0 flex items-center justify-center p-4 bg-zinc-950 rounded-full border border-zinc-800">
                {isBlocked ? <Lock size={48} className="text-red-500" /> : <ShieldCheck size={48} className={isFullProduction ? 'text-emerald-500' : 'text-blue-500'} />}
@@ -136,33 +136,33 @@ export function InstitutionalDeploymentReadinessPage() {
         {/* Matrix Panels */}
         <div className="xl:col-span-4 flex flex-col gap-4">
           <div className="p-5 bg-zinc-900 border border-zinc-800 rounded-lg">
-            <h3 className="text-xs uppercase tracking-widest text-zinc-400 font-mono mb-4 border-b border-zinc-800 pb-2">Environment Integrity</h3>
+      <h3 className="text-xs uppercase tracking-widest text-executive-secondary font-mono mb-4 border-b border-zinc-800 pb-2">Environment Integrity</h3>
             <div className="flex justify-between items-center mb-3">
-              <span className="text-sm text-zinc-300">Segregation Status</span>
+       <span className="text-sm text-executive-secondary">Segregation Status</span>
               <span className={`text-xs font-bold font-mono ${getStatusColor(readinessData.environmentIntegrityStatus)}`}>{readinessData.environmentIntegrityStatus}</span>
             </div>
             <div className="flex justify-between items-center">
-              <span className="text-sm text-zinc-300">Pilot Governance</span>
+       <span className="text-sm text-executive-secondary">Pilot Governance</span>
               <span className={`text-xs font-bold font-mono ${getStatusColor(readinessData.pilotGovernanceStatus)}`}>{readinessData.pilotGovernanceStatus}</span>
             </div>
           </div>
 
           <div className="p-5 bg-zinc-900 border border-zinc-800 rounded-lg">
-            <h3 className="text-xs uppercase tracking-widest text-zinc-400 font-mono mb-4 border-b border-zinc-800 pb-2">Runtime Integrity</h3>
+      <h3 className="text-xs uppercase tracking-widest text-executive-secondary font-mono mb-4 border-b border-zinc-800 pb-2">Runtime Integrity</h3>
             <div className="flex justify-between items-center mb-3">
-              <span className="text-sm text-zinc-300">Deterministic Engine</span>
+       <span className="text-sm text-executive-secondary">Deterministic Engine</span>
               <span className={`text-xs font-bold font-mono ${getStatusColor(readinessData.runtimeIntegrityStatus)}`}>{readinessData.runtimeIntegrityStatus}</span>
             </div>
             <div className="flex justify-between items-center mb-3">
-              <span className="text-sm text-zinc-300">Fail-Closed Safeties</span>
+       <span className="text-sm text-executive-secondary">Fail-Closed Safeties</span>
               <span className={`text-xs font-bold font-mono ${getStatusColor(readinessData.failClosedIntegrityStatus)}`}>{readinessData.failClosedIntegrityStatus}</span>
             </div>
              <div className="flex justify-between items-center mb-3">
-              <span className="text-sm text-zinc-300">Runtime Regression Risk</span>
+       <span className="text-sm text-executive-secondary">Runtime Regression Risk</span>
               <span className={`text-xs font-bold font-mono ${getStatusColor(readinessData.runtimeRegressionRisk)}`}>{readinessData.runtimeRegressionRisk}</span>
             </div>
             <div className="mt-4 pt-3 border-t border-zinc-800/50">
-              <p className="text-[10px] text-zinc-500 font-mono break-all">Lineage: {readinessData.lineage?.lineageHash}</p>
+       <p className="text-[10px] text-executive-secondary font-mono break-all">Lineage: {readinessData.lineage?.lineageHash}</p>
             </div>
           </div>
         </div>
@@ -171,28 +171,28 @@ export function InstitutionalDeploymentReadinessPage() {
            {/* Operational Assurance & Recommendations */}
            <div className="p-5 bg-zinc-900 border border-zinc-800 rounded-lg flex-1">
              <div className="flex items-center justify-between border-b border-zinc-800 pb-2 mb-4">
-               <h3 className="text-xs uppercase tracking-widest text-zinc-400 font-mono">Operational Assurance</h3>
+        <h3 className="text-xs uppercase tracking-widest text-executive-secondary font-mono">Operational Assurance</h3>
                <span className={`text-xs font-bold font-mono px-2 py-1 rounded bg-zinc-950 ${getStatusColor(readinessData.operationalAssuranceStatus)}`}>
                  {readinessData.operationalAssuranceStatus}
                </span>
              </div>
 
              <div className="mb-6">
-                <h4 className="text-[11px] uppercase tracking-wider text-zinc-500 mb-2 flex items-center gap-1"><Users size={12}/> Executive Access Governance</h4>
+        <h4 className="text-[11px] uppercase tracking-wider text-executive-secondary mb-2 flex items-center gap-1"><Users size={12}/> Executive Access Governance</h4>
                 <div className="bg-zinc-950 p-3 rounded border border-zinc-800">
                    <span className={`text-sm font-bold font-mono ${getStatusColor(readinessData.executiveAccessGovernanceStatus)}`}>
                      {readinessData.executiveAccessGovernanceStatus}
                    </span>
-                   <p className="text-xs text-zinc-500 mt-1">Supervises cross-environment executive access and role constraints.</p>
+          <p className="text-xs text-executive-secondary mt-1">Supervises cross-environment executive access and role constraints.</p>
                 </div>
              </div>
 
              {readinessData.operationalRecommendations.length > 0 && (
                <div>
-                 <h4 className="text-[11px] uppercase tracking-wider text-zinc-500 mb-2">Operational Recommendations</h4>
+         <h4 className="text-[11px] uppercase tracking-wider text-executive-secondary mb-2">Operational Recommendations</h4>
                  <ul className="space-y-2">
                    {readinessData.operationalRecommendations.map((rec, idx) => (
-                     <li key={idx} className="text-sm text-zinc-300 flex items-start gap-2">
+           <li key={idx} className="text-sm text-executive-secondary flex items-start gap-2">
                        <CheckCircle2 size={16} className="text-blue-500 mt-0.5 shrink-0" />
                        <span>{rec}</span>
                      </li>

@@ -24,7 +24,7 @@ export const ExecutiveCognitivePage: React.FC = () => {
       <h1 className="text-3xl font-bold text-foreground mb-2 text-primary">
         Executive Cognitive Layer
       </h1>
-      <p className="text-muted-foreground mb-8 text-lg max-w-4xl">
+   <p className="text-executive-secondary mb-8 text-lg max-w-4xl">
         Interface de consulta cognitiva institucional determinística. Nenhuma inteligência generativa é utilizada nesta camada. Todos os dados representam vínculos causais rastreáveis dentro do Knowledge Graph Fiduciário.
       </p>
 
@@ -46,7 +46,7 @@ export const ExecutiveCognitivePage: React.FC = () => {
 
       {!targetNodeId && (
         <div className="p-12 text-center bg-surface-container/50 border border-border border-dashed rounded-xl">
-          <p className="text-muted-foreground">
+     <p className="text-executive-secondary">
             Insira o ID de um nó institucional (Risco, Decisão, Fator, Indicador) para visualizar o rastreio executivo.
           </p>
         </div>

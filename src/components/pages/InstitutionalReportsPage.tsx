@@ -45,10 +45,10 @@ function LineageStamp({ lineage }: { lineage: any }) {
     <div className="bg-secondary/10 border border-secondary/30 p-3 rounded-lg text-[10px] font-mono text-secondary-foreground space-y-1 mt-6 no-print">
       <div className="flex items-center gap-2 font-bold mb-2 uppercase tracking-widest"><ShieldCheck size={14}/> {t("reports.fiduciary_lineage_stamp") || "Fiduciary Lineage Stamp"}</div>
       <div className="grid grid-cols-2 gap-2">
-        <div><span className="opacity-50">Execution ID:</span> {lineage.executionId}</div>
-        <div><span className="opacity-50">Report Ver:</span> v{lineage.reportVersion}</div>
-        <div><span className="opacity-50">Input Hash:</span> {lineage.inputHash.slice(0, 16)}...</div>
-        <div><span className="opacity-50">Lineage Hash:</span> {lineage.lineageHash.slice(0, 16)}...</div>
+    <div><span className="">Execution ID:</span> {lineage.executionId}</div>
+    <div><span className="">Report Ver:</span> v{lineage.reportVersion}</div>
+    <div><span className="">Input Hash:</span> {lineage.inputHash.slice(0, 16)}...</div>
+    <div><span className="">Lineage Hash:</span> {lineage.lineageHash.slice(0, 16)}...</div>
       </div>
     </div>
   );
@@ -158,7 +158,7 @@ export function InstitutionalReportsPage() {
           <div className="w-16 h-16 rounded-xl bg-surface-container flex items-center justify-center">
             <FileText size={32} className="opacity-30" />
           </div>
-          <p className="text-body-sm font-medium text-muted-foreground/60 uppercase tracking-widest">{t("reports.empty_state")}</p>
+     <p className="text-body-sm font-medium text-executive-secondary/60 uppercase tracking-widest">{t("reports.empty_state")}</p>
         </div>
       )}
 
@@ -193,9 +193,9 @@ export function InstitutionalReportsPage() {
             <div id="printable-board-pack" className="bg-white text-black p-10 rounded-xl shadow-sm border border-border min-h-[800px]">
               {/* Capa */}
               <div className="border-b-4 border-black pb-8 mb-8">
-                <p className="text-sm font-bold tracking-widest text-muted-foreground mb-2 uppercase">Executive Board Pack</p>
+        <p className="text-sm font-bold tracking-widest text-executive-secondary mb-2 uppercase">Executive Board Pack</p>
                 <h1 className="text-4xl font-extrabold mb-4 text-black text-primary">Relatório Institucional de Governança e Performance</h1>
-                <div className="flex justify-between text-sm text-muted-foreground font-medium">
+        <div className="flex justify-between text-sm text-executive-secondary font-medium">
                   <span>Grupo Econômico: {pack.groupId}</span>
                   <span>Data Base: {new Date(pack.timestamp).toLocaleDateString()}</span>
                 </div>
@@ -204,7 +204,7 @@ export function InstitutionalReportsPage() {
               {/* Seção 1: Executive Summary */}
               <div className="mb-12">
                 <h2 className="text-xl font-bold border-b border-border pb-2 mb-4 text-black">1. Parecer Executivo (Advisory)</h2>
-                <p className="text-sm leading-relaxed text-muted-foreground text-justify">
+        <p className="text-sm leading-relaxed text-executive-secondary text-justify">
                   {pack.executiveReport.executiveSummary}
                 </p>
                 <LineageStamp lineage={pack.executiveReport.lineage} />
@@ -219,13 +219,13 @@ export function InstitutionalReportsPage() {
                     {pack.governanceReport.warningViolations.map((v, i) => (
                       <div key={i} className="p-4 bg-gray-50 border-l-4 border-amber-500 rounded text-sm">
                         <p className="font-bold text-amber-700 mb-1">[{v.severity}] Alerta de Integridade</p>
-                        <p className="text-muted-foreground">{v.message}</p>
+            <p className="text-executive-secondary">{v.message}</p>
                         <p className="text-xs text-muted-foreground mt-2 font-mono">Entidades: {v.affectedEntities.join(', ')}</p>
                       </div>
                     ))}
                   </div>
                 ) : (
-                  <p className="text-sm text-muted-foreground italic">Nenhuma violação institucional detectada nesta emissão.</p>
+         <p className="text-sm text-executive-secondary italic">Nenhuma violação institucional detectada nesta emissão.</p>
                 )}
                 <LineageStamp lineage={pack.governanceReport.lineage} />
               </div>

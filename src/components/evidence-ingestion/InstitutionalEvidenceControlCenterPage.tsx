@@ -12,8 +12,8 @@ export function InstitutionalEvidenceControlCenterPage({ evidenceReport }: Insti
     return (
       <div className="flex flex-col items-center justify-center p-12 bg-slate-900 border border-border rounded-lg">
         <Lock className="h-12 w-12 text-muted-foreground mb-4" />
-        <h2 className="text-xl font-bold text-muted-foreground">Evidência Fiduciária Indisponível</h2>
-        <p className="text-muted-foreground mt-2 text-center max-w-md">
+    <h2 className="text-xl font-bold text-executive-secondary">Evidência Fiduciária Indisponível</h2>
+    <p className="text-executive-secondary mt-2 text-center max-w-md">
           A camada de ingestão de evidências não foi executada ou nenhum dado fiduciário foi submetido para validação.
         </p>
       </div>
@@ -46,7 +46,7 @@ export function InstitutionalEvidenceControlCenterPage({ evidenceReport }: Insti
           <FileText className="h-8 w-8 text-blue-500" />
           Centro de Evidência Fiduciária
         </h1>
-        <p className="text-muted-foreground">
+    <p className="text-executive-secondary">
           Governança, validação estrutural e integridade da evidência institucional ingerida.
         </p>
       </div>
@@ -67,7 +67,7 @@ export function InstitutionalEvidenceControlCenterPage({ evidenceReport }: Insti
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
         <Card className="bg-slate-900 border-border">
           <CardHeader className="pb-2">
-            <CardTitle className="text-sm font-medium text-muted-foreground">Status da Evidência</CardTitle>
+      <CardTitle className="text-sm font-medium text-executive-secondary">Status da Evidência</CardTitle>
           </CardHeader>
           <CardContent>
             <p className={`text-2xl font-bold ${getStatusColor(evidenceStatus)}`}>
@@ -78,7 +78,7 @@ export function InstitutionalEvidenceControlCenterPage({ evidenceReport }: Insti
         
         <Card className="bg-slate-900 border-border">
           <CardHeader className="pb-2">
-            <CardTitle className="text-sm font-medium text-muted-foreground">Integridade Documental</CardTitle>
+      <CardTitle className="text-sm font-medium text-executive-secondary">Integridade Documental</CardTitle>
           </CardHeader>
           <CardContent>
             <p className={`text-2xl font-bold ${getStatusColor(evidenceIntegrityStatus)}`}>
@@ -89,7 +89,7 @@ export function InstitutionalEvidenceControlCenterPage({ evidenceReport }: Insti
 
         <Card className="bg-slate-900 border-border">
           <CardHeader className="pb-2">
-            <CardTitle className="text-sm font-medium text-muted-foreground">Reconciliação Contábil</CardTitle>
+      <CardTitle className="text-sm font-medium text-executive-secondary">Reconciliação Contábil</CardTitle>
           </CardHeader>
           <CardContent>
             <p className={`text-2xl font-bold ${getStatusColor(reconciliationStatus)}`}>
@@ -100,7 +100,7 @@ export function InstitutionalEvidenceControlCenterPage({ evidenceReport }: Insti
 
         <Card className="bg-slate-900 border-border">
           <CardHeader className="pb-2">
-            <CardTitle className="text-sm font-medium text-muted-foreground">Confiança Fiduciária</CardTitle>
+      <CardTitle className="text-sm font-medium text-executive-secondary">Confiança Fiduciária</CardTitle>
           </CardHeader>
           <CardContent>
             <p className={`text-2xl font-bold ${getStatusColor(confidenceLevel)}`}>
@@ -115,7 +115,7 @@ export function InstitutionalEvidenceControlCenterPage({ evidenceReport }: Insti
           <CardTitle className="text-lg font-bold text-muted-foreground">Narrativa de Validação</CardTitle>
         </CardHeader>
         <CardContent>
-          <p className="text-muted-foreground">{evidenceNarrative}</p>
+     <p className="text-executive-secondary">{evidenceNarrative}</p>
         </CardContent>
       </Card>
 
@@ -148,7 +148,7 @@ export function InstitutionalEvidenceControlCenterPage({ evidenceReport }: Insti
           </CardTitle>
         </CardHeader>
         <CardContent>
-          <div className="bg-slate-950 p-4 rounded-lg font-mono text-sm text-muted-foreground space-y-1">
+     <div className="bg-slate-950 p-4 rounded-lg font-mono text-sm text-executive-secondary space-y-1">
             {uploadAuditTrail.map((log, idx) => (
               <div key={idx}>{log}</div>
             ))}

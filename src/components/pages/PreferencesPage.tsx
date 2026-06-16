@@ -1,23 +1,6 @@
 import React, { useState } from 'react';
 import { PageHeader, ControlBar } from '../Common';
-import { 
-  Settings2, 
-  Sun, 
-  Moon,
-  Languages, 
-  Bell, 
-  Eye, 
-  Palette,
-  Layout,
-  Clock,
-  CheckCircle2,
-  Globe,
-  Database,
-  Lock,
-  Sparkles,
-  Zap,
-  ArrowRight
-} from 'lucide-react';
+import { Settings2, Sun, Moon, Languages, Bell, Eye, Palette, Layout, Clock, CheckCircle2, Globe, Database, Lock, Sparkles, Zap, ArrowRight } from 'lucide-react';
 import { motion } from 'motion/react';
 import { cn, getThemeColors } from '../../lib/utils';
 import { useLanguage } from '../../contexts/LanguageContext';
@@ -69,7 +52,7 @@ export function PreferencesPage() {
             </div>
             <div>
               <h3 className="text-2xl font-display font-medium text-foreground tracking-tight">{trans('common.appearance')}</h3>
-              <p className="text-body-sm text-muted-foreground font-medium">{trans('common.appearance_sub')}</p>
+       <p className="text-body-sm text-executive-secondary font-medium">{trans('common.appearance_sub')}</p>
             </div>
           </div>
 
@@ -162,7 +145,7 @@ export function PreferencesPage() {
             </div>
             <div>
               <h3 className="text-2xl font-display font-medium text-foreground tracking-tight">{trans('common.communication')}</h3>
-              <p className="text-body-sm text-muted-foreground font-medium">{trans('common.communication_sub')}</p>
+       <p className="text-body-sm text-executive-secondary font-medium">{trans('common.communication_sub')}</p>
             </div>
           </div>
 

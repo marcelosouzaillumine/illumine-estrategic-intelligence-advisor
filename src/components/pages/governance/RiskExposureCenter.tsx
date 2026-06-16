@@ -1,29 +1,6 @@
 import React, { useState, useMemo } from 'react';
-import { 
-  ShieldAlert, 
-  AlertTriangle, 
-  TrendingUp, 
-  Activity, 
-  CheckCircle, 
-  Users, 
-  Coins, 
-  Scale, 
-  Layers, 
-  Compass, 
-  ChevronDown, 
-  ChevronUp,
-  HelpCircle,
-  TrendingDown,
-  Info
-} from 'lucide-react';
-import { 
-  ResponsiveContainer, 
-  RadarChart, 
-  PolarGrid, 
-  PolarAngleAxis, 
-  PolarRadiusAxis, 
-  Radar 
-} from 'recharts';
+import { ShieldAlert, AlertTriangle, TrendingUp, Activity, CheckCircle, Users, Coins, Scale, Layers, Compass, ChevronDown, ChevronUp, HelpCircle, TrendingDown, Info } from 'lucide-react';
+import { ResponsiveContainer, RadarChart, PolarGrid, PolarAngleAxis, PolarRadiusAxis, Radar } from 'recharts';
 import { useAllFinancialData } from '../../../hooks/useFinancialData';
 import { useInstitutionalRuntime } from '../../../hooks/useInstitutionalRuntime';
 import { cn, formatCurrency } from '../../../lib/utils';

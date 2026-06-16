@@ -96,8 +96,8 @@ export function InstitutionalBoardPackPage({ clients, selectedClient, selectedMo
 
   if (loading) {
     return (
-      <div className="flex h-[80vh] items-center justify-center font-mono bg-zinc-950 text-zinc-100">
-        <div className="flex flex-col items-center gap-4 text-zinc-500">
+   <div className="flex h-[80vh] items-center justify-center font-mono bg-zinc-950 text-executive-secondary">
+    <div className="flex flex-col items-center gap-4 text-executive-secondary">
           <Loader2 className="animate-spin text-primary" size={32} />
           <p className="text-xs uppercase tracking-widest">Compilando Fiduciary Board Pack...</p>
         </div>

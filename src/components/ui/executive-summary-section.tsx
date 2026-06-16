@@ -1,0 +1,70 @@
+import React from 'react';
+import { cn } from '../../lib/utils';
+import { ExecutiveBadge, ExecutiveBadgeVariant } from './executive-badge';
+import { ExecutiveDecisionPanel } from './executive-decision-panel';
+import { ExecutiveTechnicalScore } from './executive-technical-score';
+import { ExecutiveSpacingRegistry } from './executive-typography';
+
+export type ExecutiveSummaryDensity = 'comfortable' | 'compact' | 'analytical';
+
+export interface ExecutiveSummaryMetric {
+  title: string;
+  value: string | number;
+}
+
+export interface ExecutiveSummarySectionProps {
+  status: {
+    label: string;
+    variant: ExecutiveBadgeVariant;
+  };
+  question: string;
+  opinion: string;
+  driver: string;
+  implication: string;
+  action: string;
+  technicalScore?: {
+    value: number | string | null;
+    confidence?: string;
+  };
+  children?: React.ReactNode;
+  className?: string;
+}
+
+export function ExecutiveSummarySection({ 
+  status,
+  question,
+  opinion,
+  driver,
+  implication,
+  action,
+  technicalScore,
+  children,
+  className 
+}: ExecutiveSummarySectionProps) {
+  
+  return (
+    <div className={cn("flex flex-col w-full", ExecutiveSpacingRegistry.blockGap, className)}>
+      
+      <div className="flex flex-col w-full p-6 md:p-8 rounded-[24px] border border-border shadow-sm bg-white">
+        <ExecutiveDecisionPanel 
+          question={question}
+          statusBadge={<ExecutiveBadge variant={status.variant}>{status.label}</ExecutiveBadge>}
+          opinion={opinion}
+          driver={driver}
+          implication={implication}
+          action={action}
+          confidence={technicalScore?.confidence}
+          technicalIndex={technicalScore?.value ?? undefined}
+        />
+      </div>
+
+      {/* 2. Evidence Grid */}
+      {children && (
+        <div className="w-full">
+          {children}
+        </div>
+      )}
+      
+    </div>
+  );
+}

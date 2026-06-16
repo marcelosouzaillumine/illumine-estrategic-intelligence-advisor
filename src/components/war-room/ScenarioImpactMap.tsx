@@ -31,7 +31,7 @@ export const ScenarioImpactMap: React.FC<ScenarioImpactMapProps> = ({ impacts })
       <div className="flex-1 relative bg-slate-950/80 p-6 flex flex-col items-center justify-center">
         {/* Mock representation of a graph visualization */}
         <div className="absolute inset-0 opacity-20 pointer-events-none" 
-             style={{ backgroundImage: 'radial-gradient(circle at center, #4f46e5 1px, transparent 1px)', backgroundSize: '40px 40px' }} 
+             style={{ backgroundImage: 'radial-gradient(circle at center, var(--color-accent) 1px, transparent 1px)', backgroundSize: '40px 40px' }} 
         />
         <div className="z-10 bg-primary/80 p-6 rounded-2xl border border-border backdrop-blur shadow-xl text-center max-w-lg">
           <h4 className="text-sm font-bold text-muted-foreground mb-2">Representação Gráfica Estática</h4>

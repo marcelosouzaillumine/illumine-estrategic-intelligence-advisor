@@ -2,12 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import { useNavigate } from 'react-router-dom';
 import { useDocumentTitle } from '../../hooks/useDocumentTitle';
-import { 
-  ShieldCheck, Activity, CheckCircle2, ArrowRight,
-  Users, Scale, Landmark, Building, BrainCircuit, Target,
-  ChevronRight, HeartHandshake, ArrowUpRight, Sparkles,
-  BarChart3, Briefcase
-} from 'lucide-react';
+import { ShieldCheck, Activity, CheckCircle2, ArrowRight, Users, Scale, Landmark, Building, BrainCircuit, Target, ChevronRight, HeartHandshake, ArrowUpRight, Sparkles, BarChart3, Briefcase } from 'lucide-react';
 
 // Quiet, Editorial Causal Topology Watermark (Static & Subdued)
 const CausalTopologyVisual = () => {
@@ -323,7 +318,7 @@ export function PartnerSalesPage() {
               </p>
               
               <div className="py-4 px-6 bg-[#060D17]/40 border border-white/5 rounded-xl max-w-2xl mx-auto">
-                <p className="text-sm italic text-secondary font-medium font-sans">
+        <p className="text-sm italic text-executive-secondary font-medium font-sans">
                   Sua experiência continua sendo essencial. Mas agora ela pode ser ampliada por uma camada de Governança Institucional Inteligente.
                 </p>
               </div>
@@ -859,7 +854,7 @@ export function PartnerSalesPage() {
             <p className="text-sm md:text-base text-white/75 max-w-2xl mx-auto leading-relaxed font-sans">
               Amplie sua capacidade diagnóstica. Amplie sua influência. Amplie o impacto que você gera nas organizações que atende.
             </p>
-            <p className="text-[13px] text-secondary font-semibold uppercase tracking-widest pt-6 max-w-2xl mx-auto">
+      <p className="text-[13px] text-executive-secondary font-semibold uppercase tracking-widest pt-6 max-w-2xl mx-auto">
               Porque organizações complexas precisam de advisors capazes de enxergar além dos relatórios.
             </p>
           </div>

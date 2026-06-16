@@ -1,27 +1,5 @@
 import React, { useState, useMemo, useEffect } from 'react';
-import { 
-  Users, 
-  Target, 
-  Brain, 
-  BarChart, 
-  ChevronRight, 
-  CheckCircle2, 
-  AlertCircle,
-  TrendingUp,
-  Award,
-  ShieldCheck,
-  Briefcase,
-  Compass,
-  Zap,
-  Info,
-  ArrowRight,
-  BookOpen,
-  PieChart,
-  Lightbulb,
-  Search,
-  Star,
-  Save
-} from 'lucide-react';
+import { Users, Target, Brain, BarChart, ChevronRight, CheckCircle2, AlertCircle, TrendingUp, Award, ShieldCheck, Briefcase, Compass, Zap, Info, ArrowRight, BookOpen, PieChart, Lightbulb, Search, Star, Save } from 'lucide-react';
 import { motion, AnimatePresence } from 'motion/react';
 import { collection, addDoc, serverTimestamp, query, where, getDocs, orderBy, limit } from 'firebase/firestore';
 import { db, auth } from '../../lib/firebase';
@@ -616,7 +594,7 @@ export function LeadershipProfilePage({ clientId }: { clientId: string }) {
                                   className="w-full bg-secondary shadow-premium"
                                 />
                               </div>
-                              <span className="text-[10px] font-medium uppercase tracking-widest opacity-40">{trait}</span>
+               <span className="text-[10px] font-medium uppercase tracking-widest ">{trait}</span>
                               <span className="text-[10px] font-medium uppercase tracking-widest">{val}%</span>
                             </div>
                           ))}
@@ -628,7 +606,7 @@ export function LeadershipProfilePage({ clientId }: { clientId: string }) {
                           <Lightbulb size={20} className="text-secondary" />
                         </div>
                         <div>
-                          <p className="text-[10px] font-medium text-secondary uppercase tracking-widest mb-1">Dica de Gestão</p>
+             <p className="text-[10px] font-medium text-executive-secondary uppercase tracking-widest mb-1">Dica de Gestão</p>
                           <p className="text-[10px] text-muted-foreground leading-relaxed italic uppercase tracking-widest">
                             "Para {selectedRole.category.toLowerCase()}s, a aderência ao perfil DISC garante que a liderança seja exercida de forma fluida, reduzindo o turnover e aumentando o engajamento da base."
                           </p>
@@ -668,7 +646,7 @@ export function LeadershipProfilePage({ clientId }: { clientId: string }) {
                     <Users size={14} className="text-secondary" />
                     <span className="text-[10px] font-medium tracking-widest uppercase">Avaliador: {auth.currentUser?.displayName || 'Convidado'}</span>
                   </div>
-                  <p className="text-[10px] font-medium uppercase tracking-[0.2em] opacity-40">Leadership DNA</p>
+         <p className="text-[10px] font-medium uppercase tracking-[0.2em] ">Leadership DNA</p>
                   <h2 className="text-4xl font-medium tracking-tighter uppercase">
                     {!hasConfirmedRole ? 'Confirme seu Cargo' : assessmentType === 'disc' ? 'DNA de Gestão' : 'Eneagrama Tático'}
                   </h2>
@@ -717,7 +695,7 @@ export function LeadershipProfilePage({ clientId }: { clientId: string }) {
                             )}
                           >
                             <p className="text-[11px] font-medium text-foreground uppercase tracking-widest">{role.title}</p>
-                            <p className="text-[9px] text-muted-foreground font-medium uppercase tracking-widest mt-0.5">{role.category}</p>
+              <p className="text-[9px] text-executive-secondary font-medium uppercase tracking-widest mt-0.5">{role.category}</p>
                           </button>
                         ))}
                       </div>
@@ -835,7 +813,7 @@ export function LeadershipProfilePage({ clientId }: { clientId: string }) {
               <SectionHeader title="Dilemas de Gestão" subtitle="Avaliação de alinhamento com os 49 princípios da governança." icon={ShieldCheck} />
               <div className="text-right pb-2">
                 <p className="text-[10px] font-black text-muted-foreground uppercase tracking-widest">Progresso do Diagnóstico</p>
-                <p className="text-xl font-black text-primary">{dilemmaStep + 1} <span className="text-muted-foreground">/ {ETHICAL_DILEMMAS.length}</span></p>
+        <p className="text-xl font-black text-primary">{dilemmaStep + 1} <span className="text-executive-secondary">/ {ETHICAL_DILEMMAS.length}</span></p>
               </div>
             </div>
 
@@ -861,7 +839,7 @@ export function LeadershipProfilePage({ clientId }: { clientId: string }) {
                       <AlertCircle size={28} />
                     </div>
                     <div>
-                      <p className="text-xs font-black text-secondary uppercase tracking-widest mb-1">
+           <p className="text-xs font-black text-executive-secondary uppercase tracking-widest mb-1">
                         {GOVERNANCE_PRINCIPLES.find(p => p.id === ETHICAL_DILEMMAS[dilemmaStep].principleId)?.axis}
                       </p>
                       <h4 className="text-2xl font-display font-black text-primary">{ETHICAL_DILEMMAS[dilemmaStep].title}</h4>
@@ -869,7 +847,7 @@ export function LeadershipProfilePage({ clientId }: { clientId: string }) {
                   </div>
                   <div className="relative">
                     <div className="absolute -left-4 top-0 bottom-0 w-1 bg-secondary/20 rounded-full" />
-                    <p className="text-lg text-muted-foreground leading-relaxed italic pl-6">
+          <p className="text-lg text-executive-secondary leading-relaxed italic pl-6">
                       "{ETHICAL_DILEMMAS[dilemmaStep].scenario}"
                     </p>
                   </div>
@@ -979,9 +957,9 @@ export function LeadershipProfilePage({ clientId }: { clientId: string }) {
                     </div>
 
                     <div className="p-8 bg-primary text-white rounded-3xl flex flex-col justify-center items-center text-center shadow-xl shadow-primary/20">
-                      <p className="text-xs font-black uppercase tracking-widest opacity-60 mb-2">Alinhamento de Governança</p>
+           <p className="text-xs font-black uppercase tracking-widest mb-2">Alinhamento de Governança</p>
                       <div className="text-6xl font-black mb-4">{governanceAlignmentScore}%</div>
-                      <p className="text-[11px] opacity-80">
+           <p className="text-[11px] ">
                         {governanceAlignmentScore > 80 ? 'Alta maturidade ética e processual.' : 
                          governanceAlignmentScore > 50 ? 'Alinhamento médio com os padrões da organização.' : 
                          'Necessário treinamento intensivo em princípios de governança.'}
@@ -1008,8 +986,8 @@ export function LeadershipProfilePage({ clientId }: { clientId: string }) {
             ) : (
               <div className="text-center py-20 bg-slate-50 rounded-[40px] border-2 border-dashed border-border">
                 <Brain size={60} className="mx-auto text-muted-foreground mb-6" />
-                <h3 className="text-xl font-bold text-muted-foreground">Nenhum resultado para exibir</h3>
-                <p className="text-muted-foreground mt-2">Complete a autoavaliação para ver sua análise de perfil.</p>
+        <h3 className="text-xl font-bold text-executive-secondary">Nenhum resultado para exibir</h3>
+        <p className="text-executive-secondary mt-2">Complete a autoavaliação para ver sua análise de perfil.</p>
               </div>
             )}
           </motion.div>
@@ -1056,7 +1034,7 @@ export function LeadershipProfilePage({ clientId }: { clientId: string }) {
                   </div>
                 ) : (
                   <div className="p-8 bg-slate-50 rounded-3xl border-2 border-dashed border-border text-center">
-                    <p className="text-sm text-muted-foreground">Nenhum dado de time disponível ainda.</p>
+          <p className="text-sm text-executive-secondary">Nenhum dado de time disponível ainda.</p>
                   </div>
                 )}
               </div>

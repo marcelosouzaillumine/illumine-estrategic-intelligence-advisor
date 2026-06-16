@@ -1,32 +1,54 @@
 import React from 'react';
-import { BalanceSheetIndicatorViewModel } from './view-models';
+import { ExecutiveEvidenceGrid } from '../../ui/executive-evidence-grid';
+import { ExecutiveBadge } from '../../ui/executive-badge';
+import { ExecutiveDecisionPanel } from '../../ui/executive-decision-panel';
 import { ExecutiveSurface } from '../../ui/executive-surface';
-import { ExecutiveMetricCard } from '../../ui/executive-metric-card';
+import { DecisionPanelViewModel } from '../../../types/executive/BalanceSheetExecutiveViewModel';
 
 export type BalanceSheetCapitalStructureSectionProps = {
-  indicators: BalanceSheetIndicatorViewModel[];
+  panel?: DecisionPanelViewModel;
 };
 
-export const BalanceSheetCapitalStructureSection = ({ indicators }: BalanceSheetCapitalStructureSectionProps) => {
+export const BalanceSheetCapitalStructureSection = ({ panel }: BalanceSheetCapitalStructureSectionProps) => {
+  const forbidden = [
+    "Painel não gerado",
+    "Erro Estrutural",
+    "Aguardando evidências",
+    "Omitido do contexto",
+    "Dados Insuficientes",
+    "Dados Indisponíveis",
+    "Indeterminada",
+    "Indeterminado"
+  ];
+  if (panel && forbidden.some(term => JSON.stringify(panel).includes(term))) {
+    throw new Error("[BP Constitutional Violation] Panel contains forbidden synthetic placeholders.");
+  }
+
+  if (!panel) {
+    throw new Error('[BP Constitutional Violation] Required decision panel missing in BalanceSheetCapitalStructureSection.');
+  }
+
   return (
-    <ExecutiveSurface 
-      variant="default" 
-      elevation="lg" 
-      padding="none" 
-      className="rounded-[40px] p-10 hover:shadow-2xl hover:shadow-slate-200/50 transition-all duration-500 relative overflow-hidden"
-    >
-      <h3 className="text-xl md:text-[22px] font-semibold text-foreground mb-6">Estrutura de Capital</h3>
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-        {indicators.map((ind, idx) => (
-          <ExecutiveMetricCard
-            key={idx}
-            label={ind.label}
-            value={ind.format === 'percentage' ? (Number(ind.value)*100).toFixed(1)+'%' : ind.format === 'multiplier' ? Number(ind.value).toFixed(2)+'x' : ind.format === 'decimal' ? Number(ind.value).toFixed(2) : ind.value}
-            variant="transparent"
-            className="bg-surface-container/30"
-          />
-        ))}
-      </div>
-    </ExecutiveSurface>
+    <div className="mb-10 animate-executive-fade relative">
+      <ExecutiveSurface variant="default" elevation="sm" className="p-6 md:p-8 mb-6 rounded-[24px]">
+        <ExecutiveDecisionPanel
+          question="Há riscos estruturais no endividamento atual?"
+          statusBadge={
+            <ExecutiveBadge variant={panel.statusBadgeVariant}>
+              {panel.statusLabel}
+            </ExecutiveBadge>
+          }
+          opinion={panel.opinion}
+          driver={panel.driver}
+          implication={panel.implication}
+          action={panel.action}
+          confidence={panel.confidence}
+          technicalIndex={panel.score}
+        />
+      </ExecutiveSurface>
+      {panel.evidences.length > 0 && (
+        <ExecutiveEvidenceGrid metrics={panel.evidences as any} />
+      )}
+    </div>
   );
 };

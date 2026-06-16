@@ -3,6 +3,7 @@ import { Building2, Compass, Briefcase, Zap } from 'lucide-react';
 import { BalanceSheetInstitutionalContextViewModel } from './view-models';
 import { ExecutiveSurface } from '../../ui/executive-surface';
 import { ExecutiveInfoCard } from '../../ui/executive-info-card';
+import { ExecutiveHeading } from '../../ui/executive-heading';
 
 export function BalanceSheetInstitutionalContextSection({
   context
@@ -11,7 +12,7 @@ export function BalanceSheetInstitutionalContextSection({
 }) {
   return (
     <ExecutiveSurface variant="transparent" padding="none" className="bg-surface-container/30 rounded-[32px] p-6 md:p-8 border border-border mt-8 mb-12 relative overflow-hidden w-full flex flex-col items-start justify-start">
-      <h3 className="text-xl md:text-[22px] font-semibold text-foreground mb-6">Contexto Institucional da Operação</h3>
+      <ExecutiveHeading as="h3" variant="moduleTitle" className="mb-6">Contexto Institucional da Operação</ExecutiveHeading>
       <div className="w-full grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
         
         {/* Segmento */}

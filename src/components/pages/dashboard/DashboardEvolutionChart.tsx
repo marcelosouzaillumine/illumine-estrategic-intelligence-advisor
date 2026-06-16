@@ -1,11 +1,6 @@
 import React from 'react';
 import { AreaChart, Area } from 'recharts';
-import {
-  ExecutiveChartGrid,
-  ExecutiveChartXAxis,
-  ExecutiveChartYAxis,
-  ExecutiveChartTooltip
-} from '@/components/ui/executive-chart';
+import { ExecutiveChartGrid, ExecutiveChartXAxis, ExecutiveChartYAxis, ExecutiveChartTooltip } from '@/components/ui/executive-chart';
 
 export function DashboardEvolutionChart({ data, colors, formatCurrency }: any) {
   return (

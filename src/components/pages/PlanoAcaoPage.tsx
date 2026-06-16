@@ -1,43 +1,7 @@
 import React, { useState, useEffect, useMemo } from 'react';
-import { 
-  Plus, 
-  Search, 
-  Target, 
-  Printer, 
-  CheckCircle2, 
-  ClipboardCheck, 
-  Clock, 
-  AlertCircle, 
-  Users, 
-  Calendar,
-  ChevronRight,
-  MoreHorizontal,
-  Trash2,
-  Edit3,
-  Filter,
-  CheckCircle,
-  X,
-  Save,
-  Flag,
-  LayoutGrid,
-  List,
-  MessageSquare,
-  BarChart2,
-  Zap,
-  Bell,
-  AlertTriangle,
-  ArrowRight,
-  TrendingUp,
-  Activity,
-  Filter as FilterIcon,
-  ChevronDown
-} from 'lucide-react';
+import { Plus, Search, Target, Printer, CheckCircle2, ClipboardCheck, Clock, AlertCircle, Users, Calendar, ChevronRight, MoreHorizontal, Trash2, Edit3, Filter, CheckCircle, X, Save, Flag, LayoutGrid, List, MessageSquare, BarChart2, Zap, Bell, AlertTriangle, ArrowRight, TrendingUp, Activity, Filter as FilterIcon, ChevronDown } from 'lucide-react';
 import { motion, AnimatePresence } from 'motion/react';
-import { 
-  PieChart, Pie, Cell, Legend,
-  BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip as RechartsTooltip, ResponsiveContainer,
-  LineChart, Line, AreaChart, Area
-} from 'recharts';
+import { PieChart, Pie, Cell, Legend, BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip as RechartsTooltip, ResponsiveContainer, LineChart, Line, AreaChart, Area } from 'recharts';
 import { collection, query, where, getDocs, addDoc, serverTimestamp, updateDoc, doc, deleteDoc, orderBy, onSnapshot } from 'firebase/firestore';
 import { db, auth } from '../../lib/firebase';
 import { PageHeader, StatusBadge } from '../Common';
@@ -393,7 +357,7 @@ export function PlanoAcaoPage({ clientId }: { clientId: string }) {
               <stat.icon size={20} className={stat.color} />
             </div>
             <div className="relative z-10">
-              <p className="text-[9px] font-medium text-muted-foreground uppercase tracking-[0.2em]">{stat.label}</p>
+       <p className="text-[9px] font-medium text-executive-secondary uppercase tracking-[0.2em]">{stat.label}</p>
               <p className={cn("text-2xl font-medium tracking-tighter tabular-nums", stat.color)}>{stat.value}</p>
             </div>
           </div>
@@ -476,7 +440,7 @@ export function PlanoAcaoPage({ clientId }: { clientId: string }) {
                   </div>
                   <div className="flex items-center gap-6">
                      <div className="text-right">
-                        <p className="text-[9px] font-medium text-muted-foreground uppercase tracking-widest italic">Esforço Total</p>
+            <p className="text-[9px] font-medium text-executive-secondary uppercase tracking-widest italic">Esforço Total</p>
                         <p className="text-[11px] font-medium text-foreground uppercase tracking-tighter tabular-nums">{items.reduce((acc, i) => acc + (i.effort || 0), 0)}h</p>
                      </div>
                   </div>
@@ -520,7 +484,7 @@ export function PlanoAcaoPage({ clientId }: { clientId: string }) {
                                   )}
                                 </div>
                                 {action.originTitle && (
-                                  <span className="text-[9px] font-medium text-secondary flex items-center gap-1.5 italic opacity-60 uppercase tracking-widest">
+                 <span className="text-[9px] font-medium text-secondary flex items-center gap-1.5 italic uppercase tracking-widest">
                                     <MessageSquare size={10} /> {action.originTitle}
                                   </span>
                                 )}
@@ -552,7 +516,7 @@ export function PlanoAcaoPage({ clientId }: { clientId: string }) {
                                  <p className={cn("text-[10px] font-medium uppercase tracking-widest tabular-nums", isOverdue ? "text-destructive" : "text-foreground")}>
                                    {new Date(action.deadline).toLocaleDateString('pt-BR', { day: '2-digit', month: 'short' })}
                                  </p>
-                                 <p className="text-[8px] font-medium text-muted-foreground uppercase tracking-tighter italic tabular-nums">{action.effort || 0}h esforço</p>
+                 <p className="text-[8px] font-medium text-executive-secondary uppercase tracking-tighter italic tabular-nums">{action.effort || 0}h esforço</p>
                               </div>
                             </td>
                             <td className="px-6 py-5 text-center">
@@ -642,7 +606,7 @@ export function PlanoAcaoPage({ clientId }: { clientId: string }) {
                             <span className="text-[7px] font-medium text-destructive uppercase tracking-widest italic">Atrasado</span>
                           )}
                         </div>
-                        <p className="text-[8px] font-medium text-muted-foreground uppercase tracking-widest italic opacity-60">
+      <p className="text-[8px] font-medium text-executive-secondary uppercase tracking-widest italic ">
                           {action.phase}
                         </p>
                       </div>
@@ -669,7 +633,7 @@ export function PlanoAcaoPage({ clientId }: { clientId: string }) {
                 })}
                 {actions.filter(a => a.status === status).length === 0 && (
                   <div className="py-10 text-center">
-                    <p className="text-[9px] font-medium text-muted-foreground/40 uppercase tracking-widest italic">Nenhuma tarefa</p>
+          <p className="text-[9px] font-medium text-executive-secondary/40 uppercase tracking-widest italic">Nenhuma tarefa</p>
                   </div>
                 )}
                 <button 
@@ -690,7 +654,7 @@ export function PlanoAcaoPage({ clientId }: { clientId: string }) {
               <div className="flex items-center justify-between relative z-10">
                 <div>
                   <h3 className="text-[10px] font-medium uppercase tracking-[0.2em] text-foreground">Distribuição por Status</h3>
-                  <p className="text-[9px] text-muted-foreground font-medium uppercase tracking-widest mt-1 italic">Visão geral do progresso operacional</p>
+         <p className="text-[9px] text-executive-secondary font-medium uppercase tracking-widest mt-1 italic">Visão geral do progresso operacional</p>
                 </div>
                 <Activity size={20} className="text-secondary" />
               </div>
@@ -724,7 +688,7 @@ export function PlanoAcaoPage({ clientId }: { clientId: string }) {
               <div className="flex items-center justify-between relative z-10">
                 <div>
                   <h3 className="text-[10px] font-medium uppercase tracking-[0.2em] text-foreground">Prioridades Estratégicas</h3>
-                  <p className="text-[9px] text-muted-foreground font-medium uppercase tracking-widest mt-1 italic">Concentração de urgência e impacto</p>
+         <p className="text-[9px] text-executive-secondary font-medium uppercase tracking-widest mt-1 italic">Concentração de urgência e impacto</p>
                 </div>
                 <Flag size={20} className="text-destructive" />
               </div>
@@ -753,7 +717,7 @@ export function PlanoAcaoPage({ clientId }: { clientId: string }) {
             <div className="flex items-center justify-between relative z-10">
               <div>
                 <h3 className="text-[10px] font-medium uppercase tracking-[0.2em] text-foreground">Linha do Tempo de Produtividade</h3>
-                <p className="text-[9px] text-muted-foreground font-medium uppercase tracking-widest mt-1 italic">Acompanhamento de entregas nos últimos meses</p>
+        <p className="text-[9px] text-executive-secondary font-medium uppercase tracking-widest mt-1 italic">Acompanhamento de entregas nos últimos meses</p>
               </div>
               <TrendingUp size={20} className="text-success" />
             </div>

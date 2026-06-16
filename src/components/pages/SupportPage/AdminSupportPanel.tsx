@@ -1,8 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { 
-  ShieldAlert, Search, Filter, Clock, AlertCircle, 
-  Loader2, MessageSquare, ArrowRight, CheckCircle2
-} from 'lucide-react';
+import { ShieldAlert, Search, Filter, Clock, AlertCircle, Loader2, MessageSquare, ArrowRight, CheckCircle2 } from 'lucide-react';
 import { supportService } from '../../../services/supportService';
 import { SupportTicket, TicketType, TicketStatus } from '../../../types/support';
 import { PageHeader } from '../../Common';
