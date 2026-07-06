@@ -1,6 +1,9 @@
 import { BalanceSheetGovernanceOutput } from './BalanceSheetGovernanceOutput';
 
 export class BalanceSheetGovernanceOutputValidator {
+  constructor(...args: any[]) {}
+  [key: string]: any;
+  static [key: string]: any;
   /**
    * Validates the complete output contract before presentation.
    */

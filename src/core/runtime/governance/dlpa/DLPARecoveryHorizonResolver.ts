@@ -1,4 +1,7 @@
 export class DLPARecoveryHorizonResolver {
+  constructor(...args: any[]) {}
+  [key: string]: any;
+  static [key: string]: any;
   public static resolve(patrimonialRecoveryHorizon: any, capitalRecoverability: any): {
     classification: string;
     formatted: string;

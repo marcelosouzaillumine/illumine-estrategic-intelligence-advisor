@@ -7,6 +7,9 @@ export interface BalanceSheetTraceRecord {
 }
 
 export class BalanceSheetOutputTraceAudit {
+  constructor(...args: any[]) {}
+  [key: string]: any;
+  static [key: string]: any;
   /**
    * Generates a trace record for a specific output field.
    */

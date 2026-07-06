@@ -1,4 +1,7 @@
 export class HistoricalTrendExplainabilityEngine {
+  constructor(...args: any[]) {}
+  [key: string]: any;
+  static [key: string]: any;
   /**
    * Enforces that every classification reports: Current Situation, Previous Situation, Direction of Change, Responsible Indicators, and Intensity of Change.
    */

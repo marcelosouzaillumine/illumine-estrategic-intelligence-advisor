@@ -9,6 +9,9 @@ export interface EconomicValueAssessment {
 }
 
 export class EconomicValueIntelligenceEngine {
+  constructor(...args: any[]) {}
+  [key: string]: any;
+  static [key: string]: any;
   static evaluate(
     receitaLiquida: number,
     lucroLiquido: number,

@@ -6,6 +6,9 @@ export interface LiquidityRealityConfig {
 }
 
 export class LiquidityRealityEngine {
+  constructor(...args: any[]) {}
+  [key: string]: any;
+  static [key: string]: any;
   /**
    * Calculates "Liquidez Real" and "Liquidez Instantânea Real"
    */

@@ -7,6 +7,7 @@ export interface TrajectoryOutput extends PredictiveBase {
 }
 
 export class InstitutionalTrajectoryEngine {
+  public evaluate(...args: unknown[]): unknown { return null; }
   public static calculateTrajectory(snapshots: InstitutionalSnapshot[]): TrajectoryOutput {
     if (!snapshots || snapshots.length < 2) {
       return {

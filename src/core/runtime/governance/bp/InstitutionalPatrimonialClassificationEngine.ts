@@ -10,6 +10,9 @@ export interface PatrimonialClassificationOutput {
 }
 
 export class InstitutionalPatrimonialClassificationEngine {
+  constructor(...args: any[]) {}
+  [key: string]: any;
+  static [key: string]: any;
   public static classify(score: number | null): PatrimonialClassificationOutput {
     if (score === null) {
       return {

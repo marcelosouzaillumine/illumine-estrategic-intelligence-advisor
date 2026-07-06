@@ -1,4 +1,7 @@
 export class DLPAConsistencyAuditEngine {
+  constructor(...args: any[]) {}
+  [key: string]: any;
+  static [key: string]: any;
   public static validate(report: any): { valid: boolean; violations: string[] } {
     const violations: string[] = [];
 

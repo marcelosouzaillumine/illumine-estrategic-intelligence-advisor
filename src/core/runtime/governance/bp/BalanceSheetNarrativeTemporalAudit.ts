@@ -1,4 +1,7 @@
 export class BalanceSheetNarrativeTemporalAudit {
+  constructor(...args: any[]) {}
+  [key: string]: any;
+  static [key: string]: any;
   static audit(narrative: string, summary: any, indicators: any[]): { isDriftDetected: boolean; violations: string[] } {
     const violations: string[] = [];
     

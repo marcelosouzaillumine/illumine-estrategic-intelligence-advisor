@@ -1,4 +1,7 @@
 export class BalanceSheetHistoricalContaminationAudit {
+  constructor(...args: any[]) {}
+  [key: string]: any;
+  static [key: string]: any;
   static audit(selectedYear: number, rawData: any): { isContaminated: boolean; violations: string[] } {
     const violations: string[] = [];
     

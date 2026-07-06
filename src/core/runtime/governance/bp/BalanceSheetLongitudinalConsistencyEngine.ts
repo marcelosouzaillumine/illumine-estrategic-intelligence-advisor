@@ -11,6 +11,9 @@ export const DEFAULT_LONGITUDINAL_MATERIALITY: LongitudinalMaterialityThresholds
 };
 
 export class BalanceSheetLongitudinalConsistencyEngine {
+  constructor(...args: any[]) {}
+  [key: string]: any;
+  static [key: string]: any;
   /**
    * Compares Current Year with Previous Year.
    * Generates a Longitudinal Consistency Score (0-100).

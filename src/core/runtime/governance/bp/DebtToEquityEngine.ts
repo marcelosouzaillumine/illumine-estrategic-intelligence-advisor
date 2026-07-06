@@ -2,6 +2,9 @@ import { BPSummary } from '../../../../lib/bpEngine';
 import { NaNEliminationGuard } from '../common/NaNEliminationGuard';
 
 export class DebtToEquityEngine {
+  constructor(...args: any[]) {}
+  [key: string]: any;
+  static [key: string]: any;
   static calculate(summary: BPSummary) {
     const passivoTotal = NaNEliminationGuard.sanitizeNumber(summary.passivoTotal || 0);
     const patrimonioLiquido = NaNEliminationGuard.sanitizeNumber(summary.patrimonioLiquido);

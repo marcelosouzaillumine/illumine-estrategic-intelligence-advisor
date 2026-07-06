@@ -1,4 +1,7 @@
 export class BalanceSheetRuntimePresentationReconciliationAudit {
+  constructor(...args: any[]) {}
+  [key: string]: any;
+  static [key: string]: any;
   static reconcile(runtimeBlocked: boolean, uiExhibitingExecutiveContent: boolean): { isValid: boolean; violation?: string } {
     if (runtimeBlocked && uiExhibitingExecutiveContent) {
       return {

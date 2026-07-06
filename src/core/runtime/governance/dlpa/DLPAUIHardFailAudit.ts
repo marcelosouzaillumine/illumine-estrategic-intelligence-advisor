@@ -12,6 +12,9 @@ export interface DLPAUIHardFailAuditInput {
 }
 
 export class DLPAUIHardFailAudit {
+  constructor(...args: any[]) {}
+  [key: string]: any;
+  static [key: string]: any;
   public static validate(input: DLPAUIHardFailAuditInput): 'DLPA_UI_CONSISTENT' | 'DLPA_UI_HARD_FAIL' {
     const isHorizonNotEstimable = !input.horizonAvailable || input.horizonClassification === 'Não Estimável' || input.horizonFormatted === 'Sem histórico recorrente elegível';
 

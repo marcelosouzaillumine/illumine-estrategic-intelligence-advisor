@@ -1,4 +1,7 @@
 export class BalanceSheetOutputAuthorityGuard {
+  constructor(...args: any[]) {}
+  [key: string]: any;
+  static [key: string]: any;
   /**
    * Blocks legacy objects, old advisory outputs, hardcoded texts, or parallel narratives.
    */

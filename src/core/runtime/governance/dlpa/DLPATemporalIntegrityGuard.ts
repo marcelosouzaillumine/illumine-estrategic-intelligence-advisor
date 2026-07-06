@@ -1,6 +1,9 @@
 import { TemporalFiduciaryIntegrityEngine } from '../../temporal-governance/TemporalFiduciaryIntegrityEngine';
 
 export class DLPATemporalIntegrityGuard {
+  constructor(...args: any[]) {}
+  [key: string]: any;
+  static [key: string]: any;
   /**
    * Garante que análises do DLPA nunca utilizem ciclos/históricos futuros.
    */

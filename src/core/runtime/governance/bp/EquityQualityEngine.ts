@@ -4,6 +4,9 @@ import { NaNEliminationGuard } from '../common/NaNEliminationGuard';
 import { sanitize } from '../../executive-consolidation/ExecutiveSemanticBoundaryGuard';
 
 export class EquityQualityEngine {
+  constructor(...args: any[]) {}
+  [key: string]: any;
+  static [key: string]: any;
   /**
    * Evaluates the quality of the Equity (Patrimônio Líquido)
    */

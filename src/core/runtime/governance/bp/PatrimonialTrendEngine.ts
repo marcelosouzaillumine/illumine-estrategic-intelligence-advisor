@@ -18,6 +18,9 @@ export interface PatrimonialTrendOutput {
 }
 
 export class PatrimonialTrendEngine {
+  constructor(...args: any[]) {}
+  [key: string]: any;
+  static [key: string]: any;
   private static TARGET_METRICS = [
     'Liquidez Corrente',
     'Liquidez Seca',

@@ -2,6 +2,9 @@ import { BPSummary } from '../../../../lib/bpEngine';
 import { PatrimonialIndicator } from './BalanceSheetFinancialMetricsEngine';
 
 export class CapitalRecoveryIndexEngine {
+  constructor(...args: any[]) {}
+  [key: string]: any;
+  static [key: string]: any;
   public static evaluate(summary: BPSummary): PatrimonialIndicator | null {
     if (summary.capitalSocial === 0 || summary.patrimonioLiquido >= summary.capitalSocial) {
       return null;

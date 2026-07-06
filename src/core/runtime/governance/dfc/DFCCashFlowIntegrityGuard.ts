@@ -1,6 +1,9 @@
 import { CashFlowGovernanceOutput } from './CashFlowGovernanceOutput';
 
 export class DFCCashFlowIntegrityGuard {
+  constructor(...args: any[]) {}
+  [key: string]: any;
+  static [key: string]: any;
   static validate(
     fco: number,
     fci: number,

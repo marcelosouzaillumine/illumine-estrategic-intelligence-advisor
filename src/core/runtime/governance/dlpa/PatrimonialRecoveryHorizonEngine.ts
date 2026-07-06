@@ -9,6 +9,9 @@ export interface PatrimonialRecoveryHorizonInput {
 }
 
 export class PatrimonialRecoveryHorizonEngine {
+  constructor(...args: any[]) {}
+  [key: string]: any;
+  static [key: string]: any;
   static evaluate(
     inputOrLosses: any,
     currentNetIncome?: number,

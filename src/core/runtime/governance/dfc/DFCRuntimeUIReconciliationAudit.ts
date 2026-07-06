@@ -1,6 +1,9 @@
 import { CashFlowGovernanceOutput } from './CashFlowGovernanceOutput';
 
 export class DFCRuntimeUIReconciliationAudit {
+  constructor(...args: any[]) {}
+  [key: string]: any;
+  static [key: string]: any;
   static evaluate(
     runtimeOutput: CashFlowGovernanceOutput,
     uiRenderedValues: {

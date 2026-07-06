@@ -1,4 +1,7 @@
 export class BalanceSheetExecutivePresentationGuard {
+  constructor(...args: any[]) {}
+  [key: string]: any;
+  static [key: string]: any;
   static sanitize(value: string | number | undefined | null): string | number {
     if (value === undefined || value === null) {
       return 'Não calculável com os dados disponíveis';

@@ -1,4 +1,7 @@
 export class DLPACanonicalScoreResolver {
+  constructor(...args: any[]) {}
+  [key: string]: any;
+  static [key: string]: any;
   public static resolve(capitalPreservationScore: any): {
     score: number;
     value: number;

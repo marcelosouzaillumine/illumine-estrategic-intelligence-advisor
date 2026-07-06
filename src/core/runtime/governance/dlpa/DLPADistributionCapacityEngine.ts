@@ -1,4 +1,7 @@
 export class DLPADistributionCapacityEngine {
+  constructor(...args: any[]) {}
+  [key: string]: any;
+  static [key: string]: any;
   static evaluate(netIncome: number, accumulatedLosses: number) {
     let classification = 'Livre';
     let narrative = 'Capacidade distributiva preservada, com base em geração de resultados positivos consistentes.';

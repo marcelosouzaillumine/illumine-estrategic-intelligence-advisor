@@ -1,6 +1,9 @@
 import { StrategicOpinionConsistencyEngine, ExecutiveAnalysisContext } from '../../executive-consolidation/StrategicOpinionConsistencyEngine';
 
 export class DLPABoardAdvisoryEngine {
+  constructor(...args: any[]) {}
+  [key: string]: any;
+  static [key: string]: any;
   static evaluate(
     endingEquity: number,
     formationQuality: string,

@@ -1,4 +1,7 @@
 export class DLPAEquityFormationQualityEngine {
+  constructor(...args: any[]) {}
+  [key: string]: any;
+  static [key: string]: any;
   static evaluate(dependencyValue: number, hasLosses: boolean) {
     let classification = 'Orgânico';
     

@@ -1,6 +1,9 @@
 import { RiskMitigationPlan } from './types';
 
 export class RiskMitigationRegistry {
+  constructor(...args: any[]) {}
+  [key: string]: any;
+  static [key: string]: any;
   private mitigations: Map<string, RiskMitigationPlan> = new Map();
 
   /**

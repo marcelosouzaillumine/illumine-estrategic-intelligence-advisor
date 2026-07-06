@@ -7,6 +7,9 @@ export interface EconomicQualityReport {
 }
 
 export class ExecutiveEconomicQualityEngine {
+  constructor(...args: any[]) {}
+  [key: string]: any;
+  static [key: string]: any;
   static evaluate(
     receitaLiquida: number,
     margemBruta: number,

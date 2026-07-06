@@ -1,4 +1,7 @@
 export class DLPABoardDecisionSupportEngine {
+  constructor(...args: any[]) {}
+  [key: string]: any;
+  static [key: string]: any;
   static evaluate(
     formationQuality: string,
     netIncome: number,

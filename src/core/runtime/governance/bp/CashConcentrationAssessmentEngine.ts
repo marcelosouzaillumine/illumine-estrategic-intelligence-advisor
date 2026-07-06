@@ -1,6 +1,9 @@
 import { BPSummary } from '../../../../lib/bpEngine';
 
 export class CashConcentrationAssessmentEngine {
+  constructor(...args: any[]) {}
+  [key: string]: any;
+  static [key: string]: any;
   static assess(summary: BPSummary) {
     if (!summary.ativoTotal || summary.ativoTotal <= 0) return null;
     if (summary.caixaEquivalentes === undefined || summary.caixaEquivalentes === null) return null;

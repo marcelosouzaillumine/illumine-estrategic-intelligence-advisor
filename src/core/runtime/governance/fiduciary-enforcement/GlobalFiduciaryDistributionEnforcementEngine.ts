@@ -20,6 +20,9 @@ export interface FiduciaryEnforcementOutput {
 }
 
 export class GlobalFiduciaryDistributionEnforcementEngine {
+  constructor(...args: any[]) {}
+  [key: string]: any;
+  static [key: string]: any;
   public static evaluate(
     fiduciaryOutput: DLPAFiduciaryOutput | undefined
   ): FiduciaryEnforcementOutput {

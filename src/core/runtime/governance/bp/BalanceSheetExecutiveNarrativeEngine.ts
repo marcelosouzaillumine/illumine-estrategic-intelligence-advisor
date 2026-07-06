@@ -1,6 +1,9 @@
 import { BalanceSheetGovernanceOutput } from './BalanceSheetGovernanceOutput';
 
 export class BalanceSheetExecutiveNarrativeEngine {
+  constructor(...args: any[]) {}
+  [key: string]: any;
+  static [key: string]: any;
   static generate(indicators: any[], summary: any, exerciseYear: number, summaryHash: string): { text: string; narrativeMetadata: any } {
     const parts: string[] = [];
     

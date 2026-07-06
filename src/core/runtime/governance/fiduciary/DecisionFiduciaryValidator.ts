@@ -8,6 +8,9 @@ import { conflictOfInterestEngine } from './ConflictOfInterestEngine';
 import { relatedPartiesRegistry } from './RelatedPartiesRegistry';
 
 export class DecisionFiduciaryValidator {
+  constructor(...args: any[]) {}
+  [key: string]: any;
+  static [key: string]: any;
   private gates: Map<string, FiduciaryApprovalGate> = new Map();
 
   /**

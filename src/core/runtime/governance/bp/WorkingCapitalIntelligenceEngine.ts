@@ -3,6 +3,9 @@ import { PatrimonialIndicator } from './BalanceSheetFinancialMetricsEngine';
 import { NaNEliminationGuard } from '../common/NaNEliminationGuard';
 
 export class WorkingCapitalIntelligenceEngine {
+  constructor(...args: any[]) {}
+  [key: string]: any;
+  static [key: string]: any;
   static analyze(summary: BPSummary, dreData: any[]): PatrimonialIndicator[] {
     const indicators: PatrimonialIndicator[] = [];
     const family = 'Working Capital Intelligence';

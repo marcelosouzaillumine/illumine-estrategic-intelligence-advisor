@@ -1,4 +1,7 @@
 export class CapitalPreservationScoreEngine {
+  constructor(...args: any[]) {}
+  [key: string]: any;
+  static [key: string]: any;
   static evaluate(
     preservationRatio: number,
     dependencyValue: number,

@@ -13,6 +13,7 @@ export interface ScenarioOutput extends PredictiveBase {
 }
 
 export class InstitutionalScenarioEngine {
+  public evaluate(...args: unknown[]): unknown { return null; }
   public static projectScenarios(snapshots: InstitutionalSnapshot[], trajectory: TrajectoryOutput): ScenarioOutput {
     if (!snapshots || snapshots.length < 2) {
       return {

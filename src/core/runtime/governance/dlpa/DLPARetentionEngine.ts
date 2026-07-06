@@ -1,4 +1,7 @@
 export class DLPARetentionEngine {
+  constructor(...args: any[]) {}
+  [key: string]: any;
+  static [key: string]: any;
   static evaluate(netIncome: number, retainedEarnings: number, lucrosPrejuizos: number = 0) {
     if (lucrosPrejuizos < 0) {
       return {

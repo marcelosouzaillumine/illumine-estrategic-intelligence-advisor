@@ -3,6 +3,9 @@ import { PatrimonialIndicator } from './BalanceSheetFinancialMetricsEngine';
 import { CashConcentrationAssessmentEngine } from './CashConcentrationAssessmentEngine';
 
 export class BalanceSheetQualityEngine {
+  constructor(...args: any[]) {}
+  [key: string]: any;
+  static [key: string]: any;
   static analyze(summary: BPSummary): PatrimonialIndicator[] {
     const indicators: PatrimonialIndicator[] = [];
     const family = 'Qualidade do Ativo';

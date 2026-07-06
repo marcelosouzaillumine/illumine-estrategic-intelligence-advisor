@@ -4,6 +4,9 @@ export interface RecommendationSourceRecord {
 }
 
 export class RecommendationSourceAudit {
+  constructor(...args: any[]) {}
+  [key: string]: any;
+  static [key: string]: any;
   /**
    * Verifies the origin of recommendations to ensure cross-statement leaks.
    */

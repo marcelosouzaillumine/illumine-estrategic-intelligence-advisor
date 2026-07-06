@@ -6,6 +6,9 @@ export interface LegacyConsumptionRecord {
 }
 
 export class BalanceSheetLegacyConsumptionAudit {
+  constructor(...args: any[]) {}
+  [key: string]: any;
+  static [key: string]: any;
   /**
    * Maps exactly which components are consuming legacy fallbacks.
    */

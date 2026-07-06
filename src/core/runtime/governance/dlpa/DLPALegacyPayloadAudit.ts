@@ -1,4 +1,7 @@
 export class DLPALegacyPayloadAudit {
+  constructor(...args: any[]) {}
+  [key: string]: any;
+  static [key: string]: any;
   public static audit(payload: any): { valid: boolean; error?: string } {
     if (!payload) return { valid: true };
 

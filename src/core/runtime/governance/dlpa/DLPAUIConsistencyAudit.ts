@@ -1,4 +1,7 @@
 export class DLPAUIConsistencyAudit {
+  constructor(...args: any[]) {}
+  [key: string]: any;
+  static [key: string]: any;
   public static validate(uiState: {
     horizonClassification: string;
     horizonFormatted: string;

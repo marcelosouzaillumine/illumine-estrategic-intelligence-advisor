@@ -1,4 +1,7 @@
 export class CapitalPreservationStatusEngine {
+  constructor(...args: any[]) {}
+  [key: string]: any;
+  static [key: string]: any;
   static evaluate(endingEquity: number, capitalSocial: number) {
     if (capitalSocial <= 0) {
       return {

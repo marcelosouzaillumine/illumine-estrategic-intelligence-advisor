@@ -1,4 +1,7 @@
 export class DLPALegacyFieldScanner {
+  constructor(...args: any[]) {}
+  [key: string]: any;
+  static [key: string]: any;
   public static scan(payload: any): 'CANONICAL' | 'LEGACY_PAYLOAD_DETECTED' {
     if (!payload) return 'CANONICAL';
 

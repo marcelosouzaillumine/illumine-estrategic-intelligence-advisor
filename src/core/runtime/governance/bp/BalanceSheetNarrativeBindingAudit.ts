@@ -1,6 +1,9 @@
 import { PatrimonialIndicator } from './BalanceSheetFinancialMetricsEngine';
 
 export class BalanceSheetNarrativeBindingAudit {
+  constructor(...args: any[]) {}
+  [key: string]: any;
+  static [key: string]: any;
   /**
    * Audits texts to ensure they are bound to the actual metrics of the current exercise.
    * Tolerances:

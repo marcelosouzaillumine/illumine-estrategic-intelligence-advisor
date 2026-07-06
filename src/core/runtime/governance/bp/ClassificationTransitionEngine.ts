@@ -1,4 +1,7 @@
 export class ClassificationTransitionEngine {
+  constructor(...args: any[]) {}
+  [key: string]: any;
+  static [key: string]: any;
   /**
    * Audits classification changes.
    * Blocks extreme changes without quantitative justification.

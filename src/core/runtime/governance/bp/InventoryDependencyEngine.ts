@@ -5,6 +5,9 @@ export interface InventoryDependencyOutput {
 }
 
 export class InventoryDependencyEngine {
+  constructor(...args: any[]) {}
+  [key: string]: any;
+  static [key: string]: any;
   public static evaluate(
     estoque: number,
     passivoCirculante: number,

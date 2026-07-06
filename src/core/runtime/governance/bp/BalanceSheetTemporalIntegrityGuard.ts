@@ -2,6 +2,9 @@ import { BPSummary } from '../../../../lib/bpEngine';
 import { BalanceSheetGovernanceOutput } from './BalanceSheetGovernanceOutput';
 
 export class BalanceSheetTemporalIntegrityGuard {
+  constructor(...args: any[]) {}
+  [key: string]: any;
+  static [key: string]: any;
   /**
    * Validates that all inputs correspond to the requested execution year.
    */

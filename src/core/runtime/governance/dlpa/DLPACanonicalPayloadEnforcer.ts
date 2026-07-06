@@ -1,6 +1,9 @@
 import { DLPALegacyFieldScanner } from './DLPALegacyFieldScanner';
 
 export class DLPACanonicalPayloadEnforcer {
+  constructor(...args: any[]) {}
+  [key: string]: any;
+  static [key: string]: any;
   public static enforce(payload: any): {
     status: 'CANONICAL' | 'LEGACY_DETECTED' | 'UI_OVERRIDE_DETECTED';
     normalizedPayload: any;

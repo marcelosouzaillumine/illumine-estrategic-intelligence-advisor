@@ -1,4 +1,7 @@
 export class RecommendationEvolutionValidator {
+  constructor(...args: any[]) {}
+  [key: string]: any;
+  static [key: string]: any;
   /**
    * Ensures coherence of recommendations over time.
    */

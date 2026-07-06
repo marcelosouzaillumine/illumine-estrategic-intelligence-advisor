@@ -1,4 +1,7 @@
 export class DLPAGovernanceInterpretationEngine {
+  constructor(...args: any[]) {}
+  [key: string]: any;
+  static [key: string]: any;
   static evaluate(capitalDependency: number, formationQuality: string, distributionCapacity: string, lucrosPrejuizos: number = 0) {
     let classification = 'Capital Autossustentado';
     let narrative = 'O patrimônio é autossustentado pela geração interna de caixa e acumulação de resultados consistentes.';

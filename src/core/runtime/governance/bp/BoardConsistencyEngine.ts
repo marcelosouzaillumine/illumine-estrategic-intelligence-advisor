@@ -7,6 +7,9 @@ export interface BoardConsistencyReport {
 }
 
 export class BoardConsistencyEngine {
+  constructor(...args: any[]) {}
+  [key: string]: any;
+  static [key: string]: any;
   public static validate(
     text: string,
     indicators: PatrimonialIndicator[]

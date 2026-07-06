@@ -14,6 +14,9 @@ export interface FiduciaryOverride {
 }
 
 export class FiduciaryOverrideRegistry {
+  constructor(...args: any[]) {}
+  [key: string]: any;
+  static [key: string]: any;
   private static overrides: FiduciaryOverride[] = [];
 
   public static register(override: FiduciaryOverride) {

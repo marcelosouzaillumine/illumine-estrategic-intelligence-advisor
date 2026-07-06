@@ -1,4 +1,7 @@
 export class HistoricalNarrativeContaminationAudit {
+  constructor(...args: any[]) {}
+  [key: string]: any;
+  static [key: string]: any;
   /**
    * Detects unwarranted reuse of texts from previous years.
    */

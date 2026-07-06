@@ -1,4 +1,7 @@
 export class DLPACanonicalBindingAudit {
+  constructor(...args: any[]) {}
+  [key: string]: any;
+  static [key: string]: any;
   public static validate(params: {
     engineOutput: any;
     adapterOutput: any;

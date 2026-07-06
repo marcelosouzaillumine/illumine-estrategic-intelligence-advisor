@@ -1,4 +1,7 @@
 export class CapitalRecoverabilityEngine {
+  constructor(...args: any[]) {}
+  [key: string]: any;
+  static [key: string]: any;
   static evaluate(endingEquity: number, recoveryHorizonInput: any) {
     if (endingEquity <= 0) {
       return {

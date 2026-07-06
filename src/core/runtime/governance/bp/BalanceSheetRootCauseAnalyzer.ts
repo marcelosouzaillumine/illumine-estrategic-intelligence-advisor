@@ -1,4 +1,7 @@
 export class BalanceSheetRootCauseAnalyzer {
+  constructor(...args: any[]) {}
+  [key: string]: any;
+  static [key: string]: any;
   /**
    * Identifies the root cause of restrictions within the BP domain.
    * Prevents recommendations based on external issues.

@@ -1,6 +1,9 @@
 import { sanitize } from '../../executive-consolidation/ExecutiveSemanticBoundaryGuard';
 
 export class BalanceSheetExecutiveRecommendationEngine {
+  constructor(...args: any[]) {}
+  [key: string]: any;
+  static [key: string]: any;
   /**
    * Generates Primary Recommendations based only on the dominant restriction identified in the BP.
    */

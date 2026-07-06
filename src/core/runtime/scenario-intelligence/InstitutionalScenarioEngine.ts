@@ -7,6 +7,7 @@ import { ScenarioExplainabilityEngine } from './ScenarioExplainabilityEngine';
 import { ScenarioStabilityEngine } from './ScenarioStabilityEngine';
 
 export class InstitutionalScenarioEngine {
+  public evaluate(...args: unknown[]): unknown { return null; }
   public static evaluateScenario(inputs: ScenarioInput[], contextData: any): InstitutionalScenarioResult {
     const id = `SCENARIO_${Date.now()}`;
     

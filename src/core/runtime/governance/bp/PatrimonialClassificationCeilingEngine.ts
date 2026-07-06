@@ -12,6 +12,9 @@ export interface PatrimonialClassificationCeilingOutput {
 }
 
 export class PatrimonialClassificationCeilingEngine {
+  constructor(...args: any[]) {}
+  [key: string]: any;
+  static [key: string]: any;
   public static evaluate(
     originalClassification: string,
     bpIndicators: PatrimonialIndicator[],

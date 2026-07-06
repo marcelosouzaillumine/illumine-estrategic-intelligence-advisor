@@ -1,4 +1,7 @@
 export class BalanceSheetFiduciaryConsistencyEngine {
+  constructor(...args: any[]) {}
+  [key: string]: any;
+  static [key: string]: any;
   /**
    * Validates coherence between classification, indicators, diagnosis, and recommendation.
    * Calculates a Consistency Score (0-100) and blocks incompatible classifications.

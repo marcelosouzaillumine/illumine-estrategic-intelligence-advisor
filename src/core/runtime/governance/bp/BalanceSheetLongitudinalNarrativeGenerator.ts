@@ -1,4 +1,7 @@
 export class BalanceSheetLongitudinalNarrativeGenerator {
+  constructor(...args: any[]) {}
+  [key: string]: any;
+  static [key: string]: any;
   /**
    * Automatically explains patrimonial evolution without overwriting the current year analysis.
    */

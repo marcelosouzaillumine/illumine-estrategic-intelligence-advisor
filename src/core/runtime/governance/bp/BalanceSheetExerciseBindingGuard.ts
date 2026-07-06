@@ -1,4 +1,7 @@
 export class BalanceSheetExerciseBindingGuard {
+  constructor(...args: any[]) {}
+  [key: string]: any;
+  static [key: string]: any;
   static validate(selectedYear: number, summaryYear?: number): { isValid: boolean; violation?: string; severity?: 'BLOCKING'|'WARNING'; code?: string } {
     if (summaryYear == null && selectedYear != null) {
       return {

@@ -25,6 +25,9 @@ function generateHash(seed: string) {
 }
 
 export class BalanceSheetFinancialMetricsEngine {
+  constructor(...args: any[]) {}
+  [key: string]: any;
+  static [key: string]: any;
   static calculateIndicators(summary: BPSummary): PatrimonialIndicator[] {
     const indicators: PatrimonialIndicator[] = [];
 

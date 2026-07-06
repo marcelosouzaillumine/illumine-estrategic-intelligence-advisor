@@ -14,6 +14,9 @@ export interface PatrimonialScoreBreakdown {
 }
 
 export class PatrimonialScoreExplainabilityEngine {
+  constructor(...args: any[]) {}
+  [key: string]: any;
+  static [key: string]: any;
   private static WEIGHTS = {
     liquidity: 0.30,
     workingCapital: 0.25,

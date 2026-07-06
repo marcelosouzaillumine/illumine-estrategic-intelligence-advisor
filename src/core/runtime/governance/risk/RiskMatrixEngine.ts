@@ -1,6 +1,9 @@
 import { RiskMatrixInput, RiskMatrixOutput, RiskSeverity } from './types';
 
 export class RiskMatrixEngine {
+  constructor(...args: any[]) {}
+  [key: string]: any;
+  static [key: string]: any;
   /**
    * Calcula o risco inerente e residual baseado na matriz de probabilidade x impacto
    * e na efetividade dos controles.

@@ -3,6 +3,9 @@ import { NaNEliminationGuard } from '../common/NaNEliminationGuard';
 import { PatrimonialIndicator } from './BalanceSheetFinancialMetricsEngine';
 
 export class PatrimonialPreservationEngine {
+  constructor(...args: any[]) {}
+  [key: string]: any;
+  static [key: string]: any;
   static getConsumptionMetrics(summary: BPSummary) {
     const lucrosPrejuizos = summary.lucrosPrejuizos || 0;
     const base = summary.capitalSocial || 0;

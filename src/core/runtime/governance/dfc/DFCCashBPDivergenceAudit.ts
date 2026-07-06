@@ -1,6 +1,9 @@
 import { DFCDivergenceSeverity } from './CashFlowGovernanceOutput';
 
 export class DFCCashBPDivergenceAudit {
+  constructor(...args: any[]) {}
+  [key: string]: any;
+  static [key: string]: any;
   static evaluate(
     accountingProfit: number,
     fco: number,

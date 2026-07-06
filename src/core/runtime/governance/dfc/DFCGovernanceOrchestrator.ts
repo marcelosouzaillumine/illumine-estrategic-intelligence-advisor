@@ -8,6 +8,9 @@ import { DFCCashFlowExplainabilityEngine } from './DFCCashFlowExplainabilityEngi
 import { DFCRecommendationConsistencyAudit } from './DFCRecommendationConsistencyAudit';
 
 export class DFCGovernanceOrchestrator {
+  constructor(...args: any[]) {}
+  [key: string]: any;
+  static [key: string]: any;
   static orchestrate(
     exerciseYear: number,
     fco: number,

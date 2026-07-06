@@ -1,4 +1,7 @@
 export class NaNEliminationGuard {
+  constructor(...args: any[]) {}
+  [key: string]: any;
+  static [key: string]: any;
   static sanitizeNumber(value: any, fallback: string | number = 'INSUFFICIENT_DATA'): number | string {
     if (value === null || value === undefined) return fallback;
     

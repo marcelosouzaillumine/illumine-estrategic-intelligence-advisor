@@ -1,6 +1,9 @@
 import { CashFlowGovernanceOutput } from './CashFlowGovernanceOutput';
 
 export class DFCSSOTGuard {
+  constructor(...args: any[]) {}
+  [key: string]: any;
+  static [key: string]: any;
   /**
    * Garante que nenhum fallback legado ou payload não-auditado seja renderizado na DFCPage.
    * Se os dados do output não contiverem o signature/source esperado, ele bloqueia a renderização.

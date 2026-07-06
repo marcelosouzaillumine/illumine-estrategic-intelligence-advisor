@@ -6,6 +6,9 @@ export interface SummaryLineage {
 }
 
 export class BalanceSheetSummaryLineageAudit {
+  constructor(...args: any[]) {}
+  [key: string]: any;
+  static [key: string]: any;
   static generateLineage(bpSummary: any, exerciseYear: number, rawData: any): SummaryLineage {
     // Generate a simple deterministic hash based on summary keys and values
     const hashData = JSON.stringify(bpSummary || {});

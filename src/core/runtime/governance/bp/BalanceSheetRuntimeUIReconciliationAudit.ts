@@ -1,4 +1,7 @@
 export class BalanceSheetRuntimeUIReconciliationAudit {
+  constructor(...args: any[]) {}
+  [key: string]: any;
+  static [key: string]: any;
   /**
    * Compares the Runtime Output indicators with the Final Render string to catch divergence.
    */

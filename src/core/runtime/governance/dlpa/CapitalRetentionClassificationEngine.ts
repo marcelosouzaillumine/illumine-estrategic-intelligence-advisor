@@ -15,6 +15,9 @@ export type CapitalRetentionClassification =
   | 'RETENTION_NOT_ELIGIBLE';
 
 export class CapitalRetentionClassificationEngine {
+  constructor(...args: any[]) {}
+  [key: string]: any;
+  static [key: string]: any;
   public static classify(params: {
     netIncome: number;
     distributableBaseExists: boolean;

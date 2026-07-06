@@ -1,6 +1,9 @@
 import { ShareholderDependencyStatus } from './CashFlowGovernanceOutput';
 
 export class DFCShareholderDependencyEngine {
+  constructor(...args: any[]) {}
+  [key: string]: any;
+  static [key: string]: any;
   static evaluate(
     fco: number,
     shareholderContributions: number, // Positive amount

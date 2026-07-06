@@ -10,6 +10,9 @@ export interface BPStrategicDiagnosisDrivers {
 }
 
 export class BPStrategicDiagnosisDriverMapper {
+  constructor(...args: any[]) {}
+  [key: string]: any;
+  static [key: string]: any;
   /**
    * Mapeia as fontes brutas de UI/dados para o formato canônico exigido
    * pelo Fiduciary Framework, garantindo que nenhum valor seja nulo,

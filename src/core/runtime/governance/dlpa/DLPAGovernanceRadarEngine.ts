@@ -1,4 +1,7 @@
 export class DLPAGovernanceRadarEngine {
+  constructor(...args: any[]) {}
+  [key: string]: any;
+  static [key: string]: any;
   public static evaluate(capitalPreservedPercent: number): string {
     if (capitalPreservedPercent >= 100) {
       return 'Capital Expandido';

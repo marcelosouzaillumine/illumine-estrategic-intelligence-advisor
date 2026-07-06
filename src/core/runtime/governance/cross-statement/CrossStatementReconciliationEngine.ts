@@ -46,6 +46,9 @@ export interface ReconciliationEngineParams {
 }
 
 export class CrossStatementReconciliationEngine {
+  constructor(...args: any[]) {}
+  [key: string]: any;
+  static [key: string]: any;
   private static BASE_TOLERANCE = 10.0;
   private static RELATIVE_TOLERANCE_PCT = 0.0001; // 0.01%
 

@@ -3,6 +3,9 @@ import { PatrimonialIndicator } from './BalanceSheetFinancialMetricsEngine';
 import { sanitize, translate } from '../../executive-consolidation/ExecutiveSemanticBoundaryGuard';
 
 export class BalanceSheetPatrimonialIntelligenceEngine {
+  constructor(...args: any[]) {}
+  [key: string]: any;
+  static [key: string]: any;
   static generate(bpSummary: BPSummary | undefined, indicators: PatrimonialIndicator[]) {
     if (!bpSummary || indicators.length === 0) {
       return {

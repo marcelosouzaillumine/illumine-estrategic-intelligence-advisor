@@ -37,6 +37,9 @@ export interface DLPAFiduciaryOutput {
 
 
 export class DLPAFiduciaryInterpretationEngine {
+  constructor(...args: any[]) {}
+  [key: string]: any;
+  static [key: string]: any;
   public static evaluate(params: {
     context: FinancialRuntimeContext | undefined;
     dlpaData: any[];

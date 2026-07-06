@@ -10,6 +10,9 @@ export interface DistributionEligibilityResult {
 }
 
 export class DistributionEligibilityEngine {
+  constructor(...args: any[]) {}
+  [key: string]: any;
+  static [key: string]: any;
   private static NEAR_ZERO_THRESHOLD = 0.01;
 
   public static evaluate(params: {

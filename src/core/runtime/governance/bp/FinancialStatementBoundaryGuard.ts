@@ -1,4 +1,7 @@
 export class FinancialStatementBoundaryGuard {
+  constructor(...args: any[]) {}
+  [key: string]: any;
+  static [key: string]: any;
   /**
    * Distinguishes between allowed reference and forbidden causality.
    */

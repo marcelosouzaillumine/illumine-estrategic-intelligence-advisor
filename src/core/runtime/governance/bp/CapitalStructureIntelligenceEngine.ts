@@ -3,6 +3,9 @@ import { NaNEliminationGuard } from '../common/NaNEliminationGuard';
 import { PatrimonialIndicator } from './BalanceSheetFinancialMetricsEngine';
 
 export class CapitalStructureIntelligenceEngine {
+  constructor(...args: any[]) {}
+  [key: string]: any;
+  static [key: string]: any;
   static analyze(
     summary: BPSummary,
     liquidezReal: number | 'INSUFFICIENT_DATA',

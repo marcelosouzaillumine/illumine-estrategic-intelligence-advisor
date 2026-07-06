@@ -1,6 +1,9 @@
 import { ShareholderDependencyStatus } from './CashFlowGovernanceOutput';
 
 export class DFCRecommendationConsistencyAudit {
+  constructor(...args: any[]) {}
+  [key: string]: any;
+  static [key: string]: any;
   static evaluate(
     fco: number,
     dependencyStatus: ShareholderDependencyStatus,

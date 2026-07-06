@@ -3,6 +3,9 @@ import { riskMatrixEngine } from './RiskMatrixEngine';
 import { riskMitigationRegistry } from './RiskMitigationRegistry';
 
 export class EnterpriseRiskEngine {
+  constructor(...args: any[]) {}
+  [key: string]: any;
+  static [key: string]: any;
   private risks: Map<string, EnterpriseRisk> = new Map();
 
   /**

@@ -1,4 +1,7 @@
 export class MetricNarrativeDivergenceAudit {
+  constructor(...args: any[]) {}
+  [key: string]: any;
+  static [key: string]: any;
   /**
    * Verifies complete coherence between Indicators -> Classifications -> Diagnosis -> Recommendations -> Final Narrative.
    */

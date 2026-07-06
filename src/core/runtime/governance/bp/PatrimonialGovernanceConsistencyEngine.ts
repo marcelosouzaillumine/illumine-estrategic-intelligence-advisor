@@ -27,6 +27,9 @@ export interface ConsistencyEngineInputs {
 }
 
 export class PatrimonialGovernanceConsistencyEngine {
+  constructor(...args: any[]) {}
+  [key: string]: any;
+  static [key: string]: any;
   public static evaluate(inputs: ConsistencyEngineInputs): PatrimonialGovernanceConsistencyOutput {
     const issues: string[] = [];
     const warnings: string[] = [];

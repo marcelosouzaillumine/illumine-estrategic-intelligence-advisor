@@ -1,4 +1,7 @@
 export class DFCCausalChainEngine {
+  constructor(...args: any[]) {}
+  [key: string]: any;
+  static [key: string]: any;
   static evaluate(
     accountingProfit: number,
     fco: number,

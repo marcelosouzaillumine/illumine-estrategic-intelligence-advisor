@@ -8,6 +8,9 @@ export interface EarningsQualityAssessment {
 }
 
 export class EarningsCompositionEngine {
+  constructor(...args: any[]) {}
+  [key: string]: any;
+  static [key: string]: any;
   static evaluate(
     receitaLiquida: number,
     outrasReceitasDespesas: number,

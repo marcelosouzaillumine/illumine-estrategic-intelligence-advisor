@@ -1,6 +1,9 @@
 import { RiskCategory } from './types';
 
 export class RiskTaxonomy {
+  constructor(...args: any[]) {}
+  [key: string]: any;
+  static [key: string]: any;
   private static readonly baseCategories: RiskCategory[] = [
     'Estratégico',
     'Financeiro',

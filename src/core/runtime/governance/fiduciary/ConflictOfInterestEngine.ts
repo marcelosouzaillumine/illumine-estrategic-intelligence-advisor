@@ -1,6 +1,9 @@
 import { ConflictDisclosure, ConflictSeverity, FiduciaryDecisionContext, VotingRestriction } from './types';
 
 export class ConflictOfInterestEngine {
+  constructor(...args: any[]) {}
+  [key: string]: any;
+  static [key: string]: any;
   private disclosures: Map<string, ConflictDisclosure> = new Map();
 
   /**

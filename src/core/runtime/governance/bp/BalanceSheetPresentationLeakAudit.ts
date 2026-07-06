@@ -1,6 +1,9 @@
 import { BalanceSheetGovernanceOutput } from './BalanceSheetGovernanceOutput';
 
 export class BalanceSheetPresentationLeakAudit {
+  constructor(...args: any[]) {}
+  [key: string]: any;
+  static [key: string]: any;
   static audit(output: any): { hasLeak: boolean; leaks: string[] } {
     const leaks: string[] = [];
 

@@ -26,6 +26,9 @@ export interface PatrimonialIntegrityReport {
 }
 
 export class PatrimonialIntegrityEngine {
+  constructor(...args: any[]) {}
+  [key: string]: any;
+  static [key: string]: any;
   private static NEAR_ZERO_THRESHOLD = 1.0; // Block ratios if denominator is <= 1.0
 
   public static evaluate(params: {

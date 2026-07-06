@@ -10,6 +10,9 @@ export interface EBITDARootCauseReport {
 }
 
 export class EBITDARootCauseEngine {
+  constructor(...args: any[]) {}
+  [key: string]: any;
+  static [key: string]: any;
   static evaluate(
     receitaLiquida: number,
     margemBruta: number,

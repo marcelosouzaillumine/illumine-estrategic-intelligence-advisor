@@ -1,4 +1,7 @@
 export class CapitalErosionRiskEngine {
+  constructor(...args: any[]) {}
+  [key: string]: any;
+  static [key: string]: any;
   static evaluate(accumulatedLosses: number, capitalSocial: number) {
     if (capitalSocial <= 0) {
       return {

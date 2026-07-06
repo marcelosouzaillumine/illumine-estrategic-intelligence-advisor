@@ -1,6 +1,9 @@
 import { RelatedParty, RelatedPartyTransaction } from './types';
 
 export class RelatedPartiesRegistry {
+  constructor(...args: any[]) {}
+  [key: string]: any;
+  static [key: string]: any;
   private parties: Map<string, RelatedParty> = new Map();
   private transactions: Map<string, RelatedPartyTransaction> = new Map();
 

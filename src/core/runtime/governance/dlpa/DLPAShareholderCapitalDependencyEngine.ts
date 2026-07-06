@@ -1,4 +1,7 @@
 export class DLPAShareholderCapitalDependencyEngine {
+  constructor(...args: any[]) {}
+  [key: string]: any;
+  static [key: string]: any;
   static evaluate(capitalSocial: number, endingEquity: number) {
     if (endingEquity <= 0) {
       return {

@@ -3,6 +3,7 @@ import { MonitoringRuleEngine } from './MonitoringRuleEngine';
 import { MonitoringAlert } from './MonitoringTypes';
 
 export class InstitutionalMonitoringEngine {
+  public evaluate(...args: unknown[]): unknown { return null; }
   /**
    * Avalia todo o ecossistema institucional disponível no momento da execução.
    * Não recalcula nada, apenas submete o estado às regras.

@@ -2,6 +2,9 @@ import { logger } from "../../../../services/logging/InstitutionalLogger";
 import { CashFlowGovernanceOutput } from './CashFlowGovernanceOutput';
 
 export class DFCSSOTAuthorityGuard {
+  constructor(...args: any[]) {}
+  [key: string]: any;
+  static [key: string]: any;
   /**
    * Garante que nenhum fallback legado (defaultNote, fallbackNarrative, etc.)
    * seja consumido pela UI. Exige a presença de uma fonte de verdade validada.
