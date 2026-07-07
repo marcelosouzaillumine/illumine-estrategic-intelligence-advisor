@@ -1,8 +1,7 @@
-import React, { useState, useMemo } from 'react';
+import React from 'react';
 import { History, Activity, TrendingUp, TrendingDown, AlertTriangle, CheckCircle2, Info, ChevronDown, ChevronUp, Clock, Scale, ShieldCheck, Brain, Landmark, ShieldAlert, Percent, Sliders, DollarSign, Zap, ArrowRight } from 'lucide-react';
 import { ResponsiveContainer, RadarChart, PolarGrid, PolarAngleAxis, PolarRadiusAxis, Radar, Tooltip, LineChart, Line, XAxis, YAxis, CartesianGrid, Legend } from 'recharts';
-import { useAllFinancialData } from '../../../hooks/useFinancialData';
-import { useInstitutionalRuntime } from '../../../hooks/useInstitutionalRuntime';
+import { useCreditCommitteeViewModel } from '../../../viewmodels/governance/useCreditCommitteeViewModel';
 import { useLanguage } from '../../../contexts/LanguageContext';
 import { cn, formatCurrency } from '../../../lib/utils';
 import { PageHeader } from '../../Common';
@@ -14,132 +13,33 @@ interface CreditCommitteeCenterProps {
 }
 
 export function CreditCommitteeCenter({ selectedClient, selectedYear }: CreditCommitteeCenterProps) {
-  const filterYear = selectedYear || new Date().getFullYear();
-  const { t } = useLanguage();
-
-  // Fetch history data
-  const { dbData: allHistoryData, loading: loadingHistory } = useAllFinancialData(selectedClient || '');
-
-  // Run runtime engines
-  const { runtimeOutput, loading: runtimeLoading } = useInstitutionalRuntime({
-    input: {
-      clientId: selectedClient,
-      rawFinancialData: {
-        filterYear,
-        allHistoryData
-      }
-    }
-  });
-
-  const [expandedSection, setExpandedSection] = useState<string | null>(null);
-  const [selectedScenarioIndex, setSelectedScenarioIndex] = useState<number>(2); // Default to EBITDA Compression (Scenario 3)
-  const [showDeltaView, setShowDeltaView] = useState<boolean>(true);
-
-  const ccsInference = useMemo(() => {
-    return runtimeOutput?.inferences?.['CreditCommitteeSimulatorEngine'];
-  }, [runtimeOutput]);
-
-  const brmInference = useMemo(() => {
-    return runtimeOutput?.inferences?.['BoardRiskMatrixAdapter'];
-  }, [runtimeOutput]);
-
-  const metrics = ccsInference?.metrics || {};
-  const brmMetrics = brmInference?.metrics || {};
-
+  const { state, computed, actions } = useCreditCommitteeViewModel({ selectedClient, selectedYear });
+  const { expandedSection, selectedScenarioIndex, showDeltaView, loading } = state;
   const {
-    ccsScore = 70,
-    creditReadinessLevel = 'Transitional Credit Consistency',
-    suggestedCreditRating = 'BBB',
-    creditDecisionSimulation = 'CONDITIONAL_APPROVAL',
-    institutionalFundingGrade = 'B',
-    treasuryFundingGrade = 'B',
-    covenantResilienceGrade = 'B',
-    institutionalCreditConfidence = 'MODERATE_CONFIDENCE',
-    refinancingRiskLevel = 'LOW',
-    bankingExposureLevel = 'LOW',
-    covenantThresholds = {
-      maxNetDebtEbitda: 3.5,
-      minDscr: 1.2,
-      minLiquidityStDebt: 0.20,
-      minRunway: 6,
-      minEbitdaCoverage: 1.5
-    },
-    recoveryMomentum = 'STABILIZING_RECOVERY',
-    fundingGapTimeline = {
-      '30d': 0,
-      '90d': 0,
-      '180d': 0,
-      '360d': 0
-    },
-    fractures = [],
-    activeShields = {
-      capexExpansionActive: false,
-      restructuringActive: false,
-      acquisitionCycleActive: false,
-      industrialMaturationActive: false
-    },
-    domains = {
-      treasury: { score: 70 },
-      earnings: { score: 70 },
-      capital: { score: 70 },
-      governance: { score: 70 },
-      longitudinal: { score: 70 },
-      covenant: { score: 70 }
-    },
-    alerts = [],
-    stressScenarios = [],
-    heatmaps = {
-      covenantStress: [],
-      treasuryFunding: [],
-      refinancingDependency: [],
-      governanceReliability: [],
-      institutionalStability: []
-    },
-    auditability = {},
-    isEarlyStage = false
-  } = metrics;
+    recoveryMomentum,
+    suggestedCreditRating,
+    ccsScore,
+    creditReadinessLevel,
+    creditDecisionSimulation,
+    institutionalCreditConfidence,
+    refinancingRiskLevel,
+    radarData,
+    bankingReadinessScore,
+    bankingReadinessLevel,
+    stressScenarios,
+    activeScenario,
+    baseScenario,
+    chartData,
+    fundingGapTimeline,
+    hasAnyWaiver,
+    fractures,
+    narrative,
+    auditability,
+    isEarlyStage
+  } = computed;
+  const { toggleSection, setSelectedScenarioIndex, setShowDeltaView } = actions;
 
-  const bankingReadinessScore = brmMetrics.bankingReadinessScore ?? 70;
-  const bankingReadinessLevel = brmMetrics.bankingReadinessLevel ?? 'Restricted Credit Readiness';
-
-  const radarData = useMemo(() => {
-    return [
-      { subject: 'Tesouraria (25%)', value: domains.treasury?.score ?? 70 },
-      { subject: 'Lucratividade (20%)', value: domains.earnings?.score ?? 70 },
-      { subject: 'Estrutura Capital (20%)', value: domains.capital?.score ?? 70 },
-      { subject: 'Governança (15%)', value: domains.governance?.score ?? 70 },
-      { subject: 'Estabilidade Long. (10%)', value: domains.longitudinal?.score ?? 70 },
-      { subject: 'Covenants Stress (10%)', value: domains.covenant?.score ?? 70 }
-    ];
-  }, [domains]);
-
-  const activeScenario = useMemo(() => {
-    if (stressScenarios && stressScenarios.length > selectedScenarioIndex) {
-      return stressScenarios[selectedScenarioIndex];
-    }
-    return null;
-  }, [stressScenarios, selectedScenarioIndex]);
-
-  const baseScenario = useMemo(() => {
-    return stressScenarios.find((s: any) => s.name === 'Base Institutional Scenario');
-  }, [stressScenarios]);
-
-  // Merge Base and Selected scenario trajectories for charting
-  const chartData = useMemo(() => {
-    if (!baseScenario || !activeScenario) return [];
-    return baseScenario.trajectory.map((basePt: any, idx: number) => {
-      const activePt = activeScenario.trajectory[idx] || {};
-      return {
-        month: `Mês ${basePt.month}`,
-        'Caixa Base': basePt.cash,
-        'Caixa Estressado': activePt.cash,
-        'Liquidez Base': basePt.liquidityStDebt,
-        'Liquidez Estressada': activePt.liquidityStDebt
-      };
-    });
-  }, [baseScenario, activeScenario]);
-
-  if (loadingHistory || runtimeLoading) {
+  if (loading) {
     return (
       <div className="flex flex-col items-center justify-center min-h-[400px] gap-3 text-muted-foreground">
         <Activity className="w-8 h-8 animate-pulse text-primary" />
@@ -226,11 +126,7 @@ export function CreditCommitteeCenter({ selectedClient, selectedYear }: CreditCo
     return maps[recovery] || recovery;
   };
 
-  const toggleSection = (section: string) => {
-    setExpandedSection(expandedSection === section ? null : section);
-  };
 
-  const hasAnyWaiver = Object.values(activeShields).some(Boolean);
 
   return (
     <div className="max-w-[1440px] mx-auto px-6 lg:px-10 space-y-12 pb-32 animate-executive-fade">
@@ -317,14 +213,14 @@ export function CreditCommitteeCenter({ selectedClient, selectedYear }: CreditCo
           <div className="h-[280px] w-full flex items-center justify-center mt-4">
             <ResponsiveContainer width="100%" height="100%">
               <RadarChart cx="50%" cy="50%" outerRadius="80%" data={radarData}>
-                <PolarGrid stroke="#1e293b" />
-                <PolarAngleAxis dataKey="subject" stroke="#64748b" tick={{ fontSize: 10, fontWeight: 600 }} />
-                <PolarRadiusAxis angle={30} domain={[0, 100]} stroke="#334155" tick={{ fontSize: 8 }} />
-                <Radar name="Atratividade" dataKey="value" stroke="#6366f1" fill="#6366f1" fillOpacity={0.15} />
+                <PolarGrid stroke="currentColor" />
+                <PolarAngleAxis dataKey="subject" stroke="currentColor" tick={{ fontSize: 10, fontWeight: 600 }} />
+                <PolarRadiusAxis angle={30} domain={[0, 100]} stroke="currentColor" tick={{ fontSize: 8 }} />
+                <Radar name="Atratividade" dataKey="value" stroke="currentColor" fill="currentColor" fillOpacity={0.15} />
                 <Tooltip 
-                  contentStyle={{ backgroundColor: '#090d16', border: '1px solid #1e293b', borderRadius: '12px' }} 
-                  labelStyle={{ color: '#94a3b8', fontSize: '11px', fontWeight: 600 }}
-                  itemStyle={{ color: '#e2e8f0', fontSize: '12px' }}
+                  contentStyle={{ backgroundColor: 'var(--color-surface-container)', border: '1px solid var(--color-executive-primary)', borderRadius: '12px' }} 
+                  labelStyle={{ color: 'var(--color-executive-primary)', fontSize: '11px', fontWeight: 600 }}
+                  itemStyle={{ color: 'var(--color-executive-primary)', fontSize: '12px' }}
                 />
               </RadarChart>
             </ResponsiveContainer>
@@ -464,16 +360,16 @@ export function CreditCommitteeCenter({ selectedClient, selectedYear }: CreditCo
             <div className="lg:col-span-2 h-[280px]">
               <ResponsiveContainer width="100%" height="100%">
                 <LineChart data={chartData} margin={{ left: 10, right: 10, top: 10, bottom: 10 }}>
-                  <CartesianGrid strokeDasharray="3 3" stroke="#1e293b" />
-                  <XAxis dataKey="month" stroke="#64748b" tick={{ fontSize: 10 }} />
-                  <YAxis stroke="#64748b" tick={{ fontSize: 10 }} />
+                  <CartesianGrid strokeDasharray="3 3" stroke="currentColor" />
+                  <XAxis dataKey="month" stroke="currentColor" tick={{ fontSize: 10 }} />
+                  <YAxis stroke="currentColor" tick={{ fontSize: 10 }} />
                   <Tooltip 
-                    contentStyle={{ backgroundColor: '#090d16', border: '1px solid #1e293b', borderRadius: '12px' }} 
-                    labelStyle={{ color: '#94a3b8', fontSize: '11px', fontWeight: 600 }}
+                    contentStyle={{ backgroundColor: 'var(--color-surface-container)', border: '1px solid var(--color-executive-primary)', borderRadius: '12px' }} 
+                    labelStyle={{ color: 'var(--color-executive-primary)', fontSize: '11px', fontWeight: 600 }}
                   />
                   <Legend wrapperStyle={{ fontSize: 10 }} />
-                  <Line type="monotone" dataKey="Caixa Base" stroke="#64748b" strokeWidth={1.5} dot={false} strokeDasharray="5 5" />
-                  <Line type="monotone" dataKey="Caixa Estressado" stroke="#f43f5e" strokeWidth={2.5} dot={false} />
+                  <Line type="monotone" dataKey="Caixa Base" stroke="currentColor" strokeWidth={1.5} dot={false} strokeDasharray="5 5" />
+                  <Line type="monotone" dataKey="Caixa Estressado" stroke="currentColor" strokeWidth={2.5} dot={false} />
                 </LineChart>
               </ResponsiveContainer>
             </div>
@@ -640,26 +536,26 @@ export function CreditCommitteeCenter({ selectedClient, selectedYear }: CreditCo
               <div className="space-y-2">
                 <span className="font-bold text-muted-foreground">Diagnóstico Higienizado:</span>
                 <p className="p-3 bg-slate-950 rounded-xl border border-border text-muted-foreground font-mono italic">
-                  {metrics.narrative?.diagnostic}
+                  {narrative?.diagnostic}
                 </p>
               </div>
 
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4 pt-2">
                 <div className="space-y-1">
                   <span className="font-bold text-muted-foreground block">Vetor Causal:</span>
-                  <span className="text-muted-foreground">{metrics.narrative?.cause}</span>
+                  <span className="text-muted-foreground">{narrative?.cause}</span>
                 </div>
                 <div className="space-y-1">
                   <span className="font-bold text-muted-foreground block">Consequência Fiduciária:</span>
-                  <span className="text-muted-foreground">{metrics.narrative?.consequence}</span>
+                  <span className="text-muted-foreground">{narrative?.consequence}</span>
                 </div>
                 <div className="space-y-1">
                   <span className="font-bold text-muted-foreground block">Sensibilidade Cíclica:</span>
-                  <span className="text-muted-foreground">{metrics.narrative?.sensitivity}</span>
+                  <span className="text-muted-foreground">{narrative?.sensitivity}</span>
                 </div>
                 <div className="space-y-1">
                   <span className="font-bold text-muted-foreground block">Mitigador Recomendado:</span>
-                  <span className="text-muted-foreground">{metrics.narrative?.priority}</span>
+                  <span className="text-muted-foreground">{narrative?.priority}</span>
                 </div>
               </div>
             </div>

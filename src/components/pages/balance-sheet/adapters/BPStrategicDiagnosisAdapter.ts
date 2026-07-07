@@ -1,4 +1,4 @@
-import { BPStrategicDiagnosisDriverMapper, BPStrategicDiagnosisDrivers } from '../../../../core/runtime/governance/bp/BPStrategicDiagnosisDriverMapper';
+import { BPStrategicDiagnosisDriverMapper, BPStrategicDiagnosisDrivers } from '../../../../services/FiduciaryRuntimeAdapter';
 
 /**
  * Adapter to proxy access to runtime mappers from the Balance Sheet UI.

@@ -168,14 +168,14 @@ export function PurchasingPage({ clients, selectedClient }: { clients: any[], se
           <div className="h-[250px]">
             <ResponsiveContainer width="100%" height="100%">
               <BarChart layout="vertical" data={abcFornecedores}>
-                <CartesianGrid strokeDasharray="3 3" horizontal={false} stroke="#f1f5f9" />
+                <CartesianGrid strokeDasharray="3 3" horizontal={false} stroke="currentColor" />
                 <XAxis type="number" hide />
-                <YAxis dataKey="name" type="category" axisLine={false} tickLine={false} tick={{ fontSize: 10, fill: '#94a3b8', fontWeight: 600 }} />
+                <YAxis dataKey="name" type="category" axisLine={false} tickLine={false} tick={{ fontSize: 10, fill: 'var(--color-executive-primary)', fontWeight: 600 }} />
                 <Tooltip 
                    contentStyle={{ borderRadius: '16px', border: 'none', boxShadow: '0 10px 15px -3px rgb(0 0 0 / 0.1)' }}
                    formatter={(v: number) => formatCurrency(v)}
                 />
-                <Bar dataKey="value" fill="#0e1c2c" radius={[0, 4, 4, 0]} barSize={15} />
+                <Bar dataKey="value" fill="currentColor" radius={[0, 4, 4, 0]} barSize={15} />
               </BarChart>
             </ResponsiveContainer>
           </div>
@@ -202,7 +202,7 @@ export function PurchasingPage({ clients, selectedClient }: { clients: any[], se
                   dataKey="value"
                 >
                   {abcProdutos.map((entry, index) => (
-                    <Cell key={`cell-${index}`} fill={['#0e1c2c', '#004aad', '#ff8552', '#00bf63'][index % 4]} />
+                    <Cell key={`cell-${index}`} fill={['var(--color-executive-primary)', 'var(--color-executive-primary)', 'var(--color-executive-primary)', 'var(--color-executive-primary)'][index % 4]} />
                   ))}
                 </Pie>
                 <Tooltip 

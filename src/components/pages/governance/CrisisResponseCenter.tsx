@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react';
+import React from 'react';
 import { Workflow, ShieldAlert } from 'lucide-react';
 import { PageHeader } from '../../Common';
 import { GovernancePlaybookPanel } from '../../governance-orchestration/GovernancePlaybookPanel';
@@ -9,23 +9,15 @@ import { GovernanceRecommendationFeed } from '../../governance-orchestration/Gov
 import { RecoveryPathViewer } from '../../governance-orchestration/RecoveryPathViewer';
 import { EscalationOrchestrationPanel } from '../../governance-orchestration/EscalationOrchestrationPanel';
 import { PlaybookSimulationViewer } from '../../governance-orchestration/PlaybookSimulationViewer';
-
-// Simulating runtime injection - No local logic!
-const getRuntimeCrisisState = () => {
-  return {
-    escalationRequired: true,
-    severity: 'CRITICAL',
-    status: 'READY'
-  };
-};
+import { useCrisisResponseViewModel } from '../../../viewmodels/governance/useCrisisResponseViewModel';
 
 export function CrisisResponseCenter() {
-  const tenantId = 'TENANT-HQ'; 
-
-  const crisisState = useMemo(() => getRuntimeCrisisState(), []);
+  const { state, computed } = useCrisisResponseViewModel();
+  const { tenantId, crisisState } = state;
+  const { isCritical } = computed;
 
   // Zero-Logic-UI Fail-closed
-  if (!crisisState.escalationRequired || crisisState.severity !== 'CRITICAL' || crisisState.status !== 'READY') {
+  if (!isCritical) {
     return (
       <div className="flex flex-col items-center justify-center min-h-[400px] text-muted-foreground space-y-4">
         <ShieldAlert size={48} className="text-muted-foreground" />

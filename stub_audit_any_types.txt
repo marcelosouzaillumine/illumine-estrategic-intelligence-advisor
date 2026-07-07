@@ -1,0 +1,11 @@
+src/core/runtime/governance/temporal/InstitutionalTemporalTypes.ts:5:export type TemporalEvidence = any;
+src/core/runtime/governance/temporal-registry/InstitutionalEvidenceTypes.ts:5:export type ArbitrationEvidenceContext = any;
+src/core/runtime/governance/temporal-registry/InstitutionalEvidenceTypes.ts:6:export type InstitutionalEvidence = any;
+src/core/runtime/governance/temporal-registry/InstitutionalEvidenceTypes.ts:7:export type InstitutionalTimeHorizon = any;
+src/core/runtime/governance/economic-truth/EconomicContradictionEngine.ts:9:export type EconomicInputs = any;
+src/core/runtime/governance/arbitration/InstitutionalProportionalityEngine.ts:9:export type ProportionalityContext = any;
+src/core/runtime/governance/arbitration/ArbitrationPriorityMatrix.ts:9:export type ModuleOutcome = any;
+src/core/runtime/governance/arbitration/InstitutionalNarrativeArbitrationTypes.ts:5:export type InstitutionalNarrativeArbitrationInput = any;
+src/core/runtime/governance/arbitration/MasterRecommendationArbiter.ts:9:export type ArbiterInputs = any;
+src/core/governance/leadershipDNAData.ts:5:export type Role = any;
+src/core/leadership/leadershipProfileData.ts:5:export type Role = any;

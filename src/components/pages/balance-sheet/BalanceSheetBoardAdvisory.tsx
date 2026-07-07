@@ -25,7 +25,7 @@ export const BalanceSheetBoardAdvisory = ({
 
       {hasParecer && (
         <div className="w-full lg:w-[65%] min-w-0 mt-2 lg:mt-0 pt-0 lg:pt-6">
-          <ExecutiveNarrative variant="board-note" title="Parecer Estratégico">
+          <ExecutiveNarrative variant="board-note" title="Parecer Institucional">
             {boardAdvisoryFullText ? (
               <div className="space-y-4">
                 {boardAdvisoryFullText.includes('Recomendação:') ? (

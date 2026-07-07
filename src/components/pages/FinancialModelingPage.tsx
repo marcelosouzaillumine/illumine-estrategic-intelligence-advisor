@@ -498,14 +498,14 @@ export function FinancialModelingPage({ clients, selectedClient, setSelectedClie
                     <div className="h-[250px]">
                       <ResponsiveContainer width="100%" height="100%">
                         <BarChart data={projection.dreGerencial.rows[0].values.map((v: any, i: number) => ({ year: projection.years[i], value: v }))}>
-                          <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#E2E8F0" />
-                          <XAxis dataKey="year" axisLine={false} tickLine={false} tick={{ fontSize: 10, fontWeight: 700, fill: '#64748B' }} dy={10} />
-                          <YAxis axisLine={false} tickLine={false} tick={{ fontSize: 10, fontWeight: 700, fill: '#64748B' }} tickFormatter={(v) => `R$${(v/1000000).toFixed(1)}M`} />
+                          <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="currentColor" />
+                          <XAxis dataKey="year" axisLine={false} tickLine={false} tick={{ fontSize: 10, fontWeight: 700, fill: 'var(--color-executive-primary)' }} dy={10} />
+                          <YAxis axisLine={false} tickLine={false} tick={{ fontSize: 10, fontWeight: 700, fill: 'var(--color-executive-primary)' }} tickFormatter={(v) => `R$${(v/1000000).toFixed(1)}M`} />
                           <Tooltip 
                             contentStyle={{ borderRadius: '16px', border: 'none', boxShadow: '0 10px 15px -3px rgb(0 0 0 / 0.1)' }}
                             formatter={(v: any) => [formatCurrency(v), 'Receita Bruta']}
                           />
-                          <Bar dataKey="value" fill="#3B82F6" radius={[4, 4, 0, 0]} barSize={40} />
+                          <Bar dataKey="value" fill="currentColor" radius={[4, 4, 0, 0]} barSize={40} />
                         </BarChart>
                       </ResponsiveContainer>
                     </div>
@@ -519,18 +519,18 @@ export function FinancialModelingPage({ clients, selectedClient, setSelectedClie
                         <AreaChart data={projection.fluxoCaixa.rows[4].values.map((v: any, i: number) => ({ year: projection.years[i], fcff: v }))}>
                           <defs>
                             <linearGradient id="colorFcff" x1="0" y1="0" x2="0" y2="1">
-                              <stop offset="5%" stopColor="#8b5cf6" stopOpacity={0.1}/>
-                              <stop offset="95%" stopColor="#8b5cf6" stopOpacity={0}/>
+                              <stop offset="5%" stopColor="var(--color-executive-primary)" stopOpacity={0.1}/>
+                              <stop offset="95%" stopColor="var(--color-executive-primary)" stopOpacity={0}/>
                             </linearGradient>
                           </defs>
-                          <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#E2E8F0" />
-                          <XAxis dataKey="year" axisLine={false} tickLine={false} tick={{ fontSize: 10, fontWeight: 700, fill: '#64748B' }} dy={10} />
-                          <YAxis axisLine={false} tickLine={false} tick={{ fontSize: 10, fontWeight: 700, fill: '#64748B' }} tickFormatter={(v) => `R$${(v/1000).toFixed(0)}k`} />
+                          <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="currentColor" />
+                          <XAxis dataKey="year" axisLine={false} tickLine={false} tick={{ fontSize: 10, fontWeight: 700, fill: 'var(--color-executive-primary)' }} dy={10} />
+                          <YAxis axisLine={false} tickLine={false} tick={{ fontSize: 10, fontWeight: 700, fill: 'var(--color-executive-primary)' }} tickFormatter={(v) => `R$${(v/1000).toFixed(0)}k`} />
                           <Tooltip 
                             contentStyle={{ borderRadius: '16px', border: 'none', boxShadow: '0 10px 15px -3px rgb(0 0 0 / 0.1)' }}
                             formatter={(v: any) => [formatCurrency(v), 'FCFF']}
                           />
-                          <Area type="monotone" dataKey="fcff" stroke="#8b5cf6" strokeWidth={4} fillOpacity={1} fill="url(#colorFcff)" dot={{ r: 4, fill: '#8b5cf6' }} />
+                          <Area type="monotone" dataKey="fcff" stroke="currentColor" strokeWidth={4} fillOpacity={1} fill="url(#colorFcff)" dot={{ r: 4, fill: 'var(--color-executive-primary)' }} />
                         </AreaChart>
                       </ResponsiveContainer>
                     </div>

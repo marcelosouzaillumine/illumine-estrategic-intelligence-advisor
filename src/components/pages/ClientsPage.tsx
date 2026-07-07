@@ -2,8 +2,9 @@
 import React, { useState, useEffect, useMemo } from "react";
 import { Plus, Search, Filter, ChevronLeft, ChevronRight, MoreHorizontal, Edit3, Trash2, Building2, MapPin, Users, Activity, FileText, LayoutGrid, Loader2, X, ShieldCheck, Briefcase, History, DollarSign, Landmark, TrendingUp, AlertCircle, Sparkles, Link2, Image as ImageIcon, Upload, Key, Save, Calendar, Globe } from 'lucide-react';
 import { motion, AnimatePresence } from 'motion/react';
-import { collection, addDoc, updateDoc, deleteDoc, doc, serverTimestamp, query, where, getDocs, writeBatch, onSnapshot } from 'firebase/firestore';
 import { db, auth } from '../../lib/firebase';
+import { ClientsApplicationService } from './clients/ClientsApplicationService';
+import { ClientIntelligenceService } from './clients/ClientIntelligenceService';
 import { PageHeader, StatusBadge, MarkdownText } from '../Common';
 import { DATA } from '../../data';
 import { cn, formatCurrency, validateCNPJ, formatDoc } from '../../lib/utils';
@@ -19,437 +20,13 @@ import { Label } from '../ui/label';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '../ui/table';
 import { ExecutiveSurface } from '../ui/executive-surface';
 import { ExecutiveEmptyState } from '../ui/executive-empty-state';
+import { useClientsPageViewModel } from './useClientsPageViewModel';
 
 export function ClientsPage({ clients, setClients, setSelectedClient, isMaster, isPartner, userPartnerIds }: any) {
-  const [view, setView] = useState<"list" | "form">("list");
-  const [loading, setLoading] = useState(false);
-  const [cnpjQuery, setCnpjQuery] = useState("");
-  const [error, setError] = useState("");
-  const [editingId, setEditingId] = useState<string | null>(null);
-  const [clientToDelete, setClientToDelete] = useState<{ id: string, name: string } | null>(null);
-// isAIModalOpen removed
-  const [showSegmentSuggestions, setShowSegmentSuggestions] = useState(false);
-  const [fullClients, setFullClients] = useState<any[]>([]);
-
-  useEffect(() => {
-    if (isMaster) {
-      const unsubscribe = onSnapshot(query(collection(db, "clients")), (snapshot) => {
-        setFullClients(snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() })));
-      });
-      return () => unsubscribe();
-    } else if (clients && clients.length > 0) {
-      const clientIds = clients.map((c: any) => c.id);
-      if (clientIds.length <= 10) {
-        const unsubscribe = onSnapshot(query(collection(db, "clients"), where("__name__", "in", clientIds)), (snapshot) => {
-          setFullClients(snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() })));
-        });
-        return () => unsubscribe();
-      } else {
-        const unsubscribe = onSnapshot(query(collection(db, "clients")), (snapshot) => {
-          const all = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
-          setFullClients(all.filter(c => clientIds.includes(c.id)));
-        });
-        return () => unsubscribe();
-      }
-    } else {
-      setFullClients([]);
-    }
-  }, [isMaster, clients]);
-  
-  const allSegments = useMemo(() => {
-    const segments = new Set<string>();
-    fullClients.forEach((c: any) => {
-      if (c.segmentoAtuacao) segments.add(c.segmentoAtuacao);
-      if (c.segmento) segments.add(c.segmento);
-    });
-    return Array.from(segments).sort();
-  }, [fullClients]);
-  
-  const clientTemplate = {
-    razao: "",
-    fantasia: "",
-    cnpj: "",
-    segmento: "Serviços",
-    subsetor: "Consultoria",
-    regime: "Lucro Presumido",
-    regimeReal: "Não Cumulativo",
-    rbt12: 0,
-    faturamentoMensal: 0,
-    historicoFaturamento: Array(12).fill(null).map(() => ({ mes: "", ano: "", valor: 0 })),
-    porte: "Médio Porte",
-    cidade: "",
-    endereco: "",
-    cnae: "",
-    cnaeAnexo: "Anexo I",
-    cnaePresuncao: "Venda de produtos / Mercadorias",
-    cnaeRegimeReal: "Não Cumulativo",
-    cnaesSecundarios: [] as { 
-      codigo: string; 
-      descricao: string; 
-      anexo: string;
-      presuncao: string;
-      regimeReal: string;
-    }[],
-    contatosAdicionais: [] as { nome: string; email: string; tel: string; cargo: string }[],
-    dataFundacao: "",
-    capitalSocial: 0,
-    socios: [] as { nome: string; participacao: number }[],
-    filiais: [] as { nome: string; cidade: string; cnpj: string }[],
-    unidadesNegocio: [] as string[],
-    contato: {
-      nome: "",
-      funcao: "",
-      telefone: "",
-      email: ""
-    },
-    status: "Em Implantação",
-    notasAdicionais: "",
-    website: "",
-    socialMedia: [
-      { platform: "LinkedIn", url: "" },
-      { platform: "Instagram", url: "" }
-    ],
-    logo: "",
-    icon: "",
-    segmentoAtuacao: "",
-    centroCustosContabil: "",
-    folhaFgts: 8,
-    folhaInssPatronal: 20,
-    folhaInssRat: 2,
-    folhaInssTerceiros: 5.8,
-    folhaInssFuncionario: 11,
-    folhaMultaFgts: 40,
-    folhaTabelaIRRF: [
-      { base: 2259.20, aliquota: 0, deducao: 0 },
-      { base: 2826.65, aliquota: 7.5, deducao: 169.44 },
-      { base: 3751.05, aliquota: 15, deducao: 381.44 },
-      { base: 4664.68, aliquota: 22.5, deducao: 662.77 },
-      { base: 999999999, aliquota: 27.5, deducao: 896.00 }
-    ],
-    isModel: false,
-    modelAxisDescriptions: {
-      governanca: "",
-      cultura: "",
-      financeiro: "",
-      inovacao: "",
-      marketing: "",
-      comercial: "",
-      operacional: ""
-    },
-    partnerId: "",
-    approvalStatus: "Approved",
-    type: "for-profit", // "for-profit" | "third-sector"
-    origin: "nacional", // "nacional" | "internacional"
-    currency: "BRL",    // "BRL" | "USD" | "EUR" | "GBP"
-    projectBased: false
-  };
-
-  const [formData, setFormData] = useState(clientTemplate);
-  const [validationErrors, setValidationErrors] = useState<Record<string, string>>({});
-  const [tempUnit, setTempUnit] = useState("");
-
-  useEffect(() => {
-    const el = document.getElementById("debug-clientspage");
-    if (el) {
-      el.textContent = `ClientsPage State:
-view: ${view}
-activeFormTab: ${activeFormTab}
-editingId: ${editingId}
-loading: ${loading}
-`;
-    }
-  });
-
-  const validateField = (name: string, value: string) => {
-    let error = "";
-    if (name === "cnpj" && formData.origin === "nacional") {
-      const clean = value.replace(/\D/g, "");
-      if (clean && !validateCNPJ(clean)) {
-        error = "CNPJ inválido. Verifique os dígitos verificadores.";
-      }
-    } else if (name === "cnpj" && formData.origin === "internacional") {
-      if (!value.trim()) error = "ID Fiscal / Registration Number é obrigatório";
-    } else if (name === "razao") {
-      if (!value.trim()) error = "Razão Social é obrigatória";
-    } else if (name === "fantasia") {
-      if (!value.trim()) error = "Nome Fantasia é obrigatório";
-    } else if (name === "contatoNome") {
-      if (value.length > 0 && value.length < 3) {
-        error = "Nome muito curto";
-      }
-    } else if (name === "email") {
-      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-      if (value && !emailRegex.test(value)) {
-        error = "Formato de e-mail inválido";
-      }
-    }
-    setValidationErrors(prev => ({ ...prev, [name]: error }));
-  };
-
-  const [tempBranch, setTempBranch] = useState({ nome: "", cidade: "", cnpj: "" });
-  const [tempContact, setTempContact] = useState({ nome: "", email: "", tel: "", cargo: "" });
-  const [activeFormTab, setActiveFormTab] = useState<"dados" | "estrutura" | "fiscal" | "contato" | "usuarios" | "pessoal" | "relatorio_ia" | "importacao" | "acessos" | "auditoria">("dados");
-  const [showAllBranches, setShowAllBranches] = useState(false);
-  const [partners, setPartners] = useState<any[]>([]);
-
-  // Fetch partners
-  useEffect(() => {
-    const q = query(collection(db, "partners"));
-    const unsubscribe = onSnapshot(q, (snapshot) => {
-      setPartners(snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() })));
-    });
-    return () => unsubscribe();
-  }, []);
-
-  // Auto-fetch CNPJ when 14 digits are typed
-  useEffect(() => {
-    const cleanCnpj = cnpjQuery.replace(/\D/g, "");
-    if (cleanCnpj.length === 14 && !loading && !editingId) {
-      fetchCNPJ();
-    }
-  }, [cnpjQuery]);
-
-  const openAdd = () => {
-    setEditingId(null);
-    setFormData(clientTemplate);
-    setValidationErrors({});
-    setCnpjQuery("");
-    setError("");
-    setView("form");
-    setActiveFormTab("dados");
-  };
-
-  const openEdit = (client: any) => {
-    setEditingId(client.id);
-    const data = { ...clientTemplate, ...client };
-    setFormData(data);
-    setCnpjQuery(client.cnpj);
-    setError("");
-    setView("form");
-    setActiveFormTab("dados");
-    
-    // Initial validation for editing
-    validateField("cnpj", client.cnpj);
-    validateField("razao", data.razao);
-    validateField("fantasia", data.fantasia);
-    validateField("email", data.contato?.email || "");
-    validateField("contatoNome", data.contato?.nome || "");
-  };
-
-  const fetchCNPJ = async () => {
-    if (!cnpjQuery) return;
-    setLoading(true);
-    setError("");
-    try {
-      const cleanCnpj = cnpjQuery.replace(/\D/g, "");
-      const response = await fetch(`https://brasilapi.com.br/api/cnpj/v1/${cleanCnpj}`);
-      if (!response.ok) throw new Error("CNPJ não encontrado ou erro na busca.");
-      const data = await response.json();
-      
-      setFormData({
-        ...formData,
-        razao: data.razao_social || "",
-        fantasia: data.nome_fantasia || data.razao_social || "",
-        cnpj: data.cnpj || cleanCnpj,
-        cidade: `${data.municipio}/${data.uf}`,
-        endereco: `${data.logradouro}, ${data.numero} - ${data.bairro}, ${data.municipio} - ${data.uf}, ${data.cep}`,
-        cnae: `${data.cnae_fiscal} (${data.cnae_fiscal_descricao})`,
-        cnaeAnexo: "Anexo I",
-        cnaePresuncao: "Venda de produtos / Mercadorias",
-        cnaeRegimeReal: "Não Cumulativo",
-        cnaesSecundarios: (data.cnaes_secundarios || []).map((c: any) => ({
-          codigo: c.codigo,
-          descricao: c.descricao,
-          anexo: "Anexo I",
-          presuncao: "Venda de produtos / Mercadorias",
-          regimeReal: "Não Cumulativo"
-        })),
-        rbt12: 0,
-        faturamentoMensal: 0,
-        historicoFaturamento: Array(12).fill(null).map(() => ({ mes: "", ano: "", valor: 0 })),
-        contatosAdicionais: [],
-        dataFundacao: data.data_inicio_atividade ? new Date(data.data_inicio_atividade).toLocaleDateString("pt-BR") : "",
-        capitalSocial: data.capital_social || 0,
-        socios: (data.qsa || []).map((s: any, _: number, arr: any[]) => ({
-          nome: s.nome_socio || s.nome || s.nome_socio_pessoa_fisica || "Sócio não identificado",
-          participacao: s.percentual_capital || s.percentual_capital_social || s.participacao || s.percentual || (arr.length === 1 ? 100 : 0)
-        })),
-        porte: data.porte === "DEMAIS" ? "Médio Porte" : data.porte || "Médio Porte",
-        segmento: data.cnae_fiscal_descricao || "Serviços",
-        // Garantir que novos cadastros via CNPJ sempre iniciem em Implantação
-        status: editingId ? formData.status : "Em Implantação",
-      });
-      
-      // Clear validation errors for auto-populated fields
-      setValidationErrors(prev => ({
-        ...prev,
-        cnpj: "",
-        razao: "",
-        fantasia: ""
-      }));
-    } catch (err: any) {
-      setError(err.message);
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>, field: "logo" | "icon") => {
-    const file = e.target.files?.[0];
-    if (!file) return;
-
-    // Check file size (limit to 500KB for Base64 storage)
-    if (file.size > 512 * 1024) {
-      alert("A imagem é muito grande. Por favor, escolha uma imagem com menos de 500KB para melhor performance.");
-      return;
-    }
-
-    const reader = new FileReader();
-    reader.onload = (event) => {
-      const base64 = event.target?.result as string;
-      setFormData(prev => ({ ...prev, [field]: base64 }));
-    };
-    reader.readAsDataURL(file);
-  };
-
-  const handleSave = async () => {
-    if (!auth.currentUser) {
-      alert("Você precisa estar logado para salvar um cliente. Clique em 'Entrar com Google' na barra lateral.");
-      return;
-    }
-
-    setLoading(true);
-    try {
-      const clientData = {
-        ...formData,
-        ownerId: auth.currentUser.uid,
-        updatedAt: serverTimestamp()
-      };
-
-      let clientId = editingId;
-
-      if (editingId) {
-        await updateDoc(doc(db, "clients", editingId), clientData);
-      } else {
-        // Create new client in Firestore
-        const clientFinalData = {
-          ...clientData,
-          approvalStatus: isMaster ? "Approved" : "Pending",
-          // Force partnerId if user is a partner
-          partnerId: (!isMaster && isPartner && userPartnerIds?.length > 0) ? userPartnerIds[0] : clientData.partnerId,
-          createdAt: serverTimestamp()
-        };
-
-        const docRef = await addDoc(collection(db, "clients"), clientFinalData);
-        clientId = docRef.id;
-        
-        // Automate Account Plan creation for the new client from standard plan
-        console.log(`Creating default account plan for client ${clientId}...`);
-        const batch = DATA.accountPlanPadrão.map(acc => {
-           return addDoc(collection(db, "account_plans"), {
-            ...acc,
-            clientId: clientId,
-            planType: "accounting",
-            status: acc.status || "Ativa",
-            createdAt: serverTimestamp(),
-            updatedAt: serverTimestamp(),
-            createdBy: auth.currentUser?.uid
-          });
-        });
-        await Promise.all(batch);
-      }
-      
-      setView("list");
-      setEditingId(null);
-    } catch (error) {
-      console.error("Error saving client:", error);
-      alert("Erro ao salvar cliente: " + (error instanceof Error ? error.message : "Erro desconhecido"));
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  const handleDelete = async () => {
-    if (!clientToDelete) return;
-
-    setLoading(true);
-    try {
-      const clientId = clientToDelete.id;
-      
-      // Collections associated with a client
-      const collectionsToClean = [
-        "account_plans",
-        "financial_entries",
-        "client_assumptions",
-        "diretrizes",
-        "employees",
-        "precificacao",
-        "diagnostico",
-        "okrs",
-        "payables",
-        "receivables"
-      ];
-
-      // Clean up all related documents first
-      for (const coll of collectionsToClean) {
-        try {
-          const q = query(collection(db, coll), where("clientId", "==", clientId));
-          const snap = await getDocs(q);
-          if (!snap.empty) {
-            const deletePromises = snap.docs.map(d => deleteDoc(doc(db, coll, d.id)));
-            await Promise.all(deletePromises);
-          }
-        } catch (e) {
-          console.warn(`Erro ao limpar coleção ${coll} (pode não existir dados ou sem permissão):`, e);
-        }
-      }
-
-      // Finally, delete the client document
-      await deleteDoc(doc(db, "clients", clientId));
-      
-      setClientToDelete(null);
-    } catch (error) {
-      console.error("Error deleting client:", error);
-      alert("Erro ao excluir cliente. Verifique o console para mais detalhes.");
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  // handleGenerateModelCompany was replaced by the GenerateAICompanyModal.
-
-  const {
-    searchTerm,
-    setSearchTerm,
-    filters,
-    setFilters,
-    sort,
-    toggleSort,
-    currentPage,
-    setCurrentPage,
-    totalPages,
-    filteredData: filteredClients,
-    paginatedData: paginatedClients
-  } = useDataTable(fullClients, {
-    searchFields: ["razao", "fantasia", "cnpj", "segmento", "cidade"],
-    initialSort: { key: "fantasia", direction: "asc" },
-    itemsPerPage: 5,
-    customFilter: (item: any, currentFilters: any) => {
-      if (currentFilters.partnerId === "direto") {
-        return !item.partnerId;
-      }
-      if (currentFilters.partnerId && item.partnerId !== currentFilters.partnerId) {
-        return false;
-      }
-      return true;
-    }
-  });
-
-  const uniqueSegments = useMemo(() => {
-    const segments = fullClients.map((c: any) => c.segmento).filter(Boolean);
-    return ["Todos", ...(Array.from(new Set(segments)) as string[]).sort()];
-  }, [fullClients]);
-
+  const { state, computed, actions } = useClientsPageViewModel({ clients, setClients, setSelectedClient, isMaster, isPartner, userPartnerIds });
+  const { view, loading, cnpjQuery, error, editingId, clientToDelete, showSegmentSuggestions, fullClients, formData, validationErrors, tempUnit, tempBranch, tempContact, activeFormTab, showAllBranches, partners, searchTerm, filters, sort, currentPage, totalPages, filteredClients, paginatedClients, clientTemplate } = state;
+  const { allSegments, uniqueSegments } = computed;
+  const { setView, setLoading, setCnpjQuery, setError, setEditingId, setClientToDelete, setShowSegmentSuggestions, setFullClients, setFormData, setValidationErrors, setTempUnit, setTempBranch, setTempContact, setActiveFormTab, setShowAllBranches, setPartners, validateField, openAdd, openEdit, fetchCNPJ, handleImageUpload, handleSave, handleDelete, setSearchTerm, setFilters, toggleSort, setCurrentPage } = actions;
   if (view === "form") {
     return (
       <div className="space-y-6 max-w-5xl mx-auto">
@@ -483,7 +60,7 @@ loading: ${loading}
               <button 
                 onClick={handleSave}
                 disabled={loading}
-                className="group relative px-6 py-2.5 bg-gradient-to-r from-secondary to-[#ff6a33] text-white text-[10px] font-bold uppercase tracking-[0.15em] rounded-md transition-all duration-300 flex items-center gap-2 overflow-hidden shadow-[0_4px_15px_rgba(255,133,82,0.25)] hover:shadow-[0_6px_20px_rgba(255,133,82,0.4)] hover:-translate-y-0.5 disabled:opacity-70 disabled:cursor-not-allowed disabled:hover:transform-none"
+                className="group relative px-6 py-2.5 bg-gradient-to-r from-secondary to-[var(--color-executive-primary)] text-white text-[10px] font-bold uppercase tracking-[0.15em] rounded-md transition-all duration-300 flex items-center gap-2 overflow-hidden shadow-[0_4px_15px_rgba(255,133,82,0.25)] hover:shadow-[0_6px_20px_rgba(255,133,82,0.4)] hover:-translate-y-0.5 disabled:opacity-70 disabled:cursor-not-allowed disabled:hover:transform-none"
               >
                 <div className="absolute inset-0 bg-white/10 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
                 <span className="relative z-10 flex items-center gap-2">
@@ -1925,79 +1502,82 @@ loading: ${loading}
               </motion.div>
             )}
 
-            {activeFormTab === "relatorio_ia" && (
-              <motion.div initial={{ opacity: 0, x: 10 }} animate={{ opacity: 1, x: 0 }} className="space-y-8">
-                {(formData as any).aiAnalysis ? (
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-10">
-                    <div className="space-y-10">
-                      <div className="card-premium space-y-6">
-                        <h4 className="text-body-sm font-medium text-foreground uppercase tracking-widest flex items-center gap-3">
-                          <AlertCircle size={18} className="text-destructive" /> Desafios Estratégicos
-                        </h4>
-                        <div className="space-y-4">
-                          {((formData as any).aiAnalysis.challenges || []).map((c: string, i: number) => (
-                            <div key={i} className="text-body-sm text-muted-foreground font-medium leading-relaxed bg-surface-container p-4 rounded-md border border-border">
-                              <MarkdownText text={c} />
-                            </div>
-                          ))}
+            {activeFormTab === "relatorio_ia" && (() => {
+              const aiIntelligence = ClientIntelligenceService.normalizeAiAnalysis(formData);
+              return (
+                <motion.div initial={{ opacity: 0, x: 10 }} animate={{ opacity: 1, x: 0 }} className="space-y-8">
+                  {aiIntelligence.hasAnalysis ? (
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-10">
+                      <div className="space-y-10">
+                        <div className="card-premium space-y-6">
+                          <h4 className="text-body-sm font-medium text-foreground uppercase tracking-widest flex items-center gap-3">
+                            <AlertCircle size={18} className="text-destructive" /> Desafios Estratégicos
+                          </h4>
+                          <div className="space-y-4">
+                            {aiIntelligence.challenges.map((c: string, i: number) => (
+                              <div key={i} className="text-body-sm text-muted-foreground font-medium leading-relaxed bg-surface-container p-4 rounded-md border border-border">
+                                <MarkdownText text={c} />
+                              </div>
+                            ))}
+                          </div>
+                        </div>
+
+                        <div className="card-premium space-y-6">
+                          <h4 className="text-body-sm font-medium text-foreground uppercase tracking-widest flex items-center gap-3">
+                            <TrendingUp size={18} className="text-success" /> Oportunidades de Crescimento
+                          </h4>
+                          <div className="space-y-4">
+                            {aiIntelligence.growthSuggestions.map((c: string, i: number) => (
+                              <div key={i} className="text-body-sm text-muted-foreground font-medium leading-relaxed bg-surface-container p-4 rounded-md border border-border">
+                                <MarkdownText text={c} />
+                              </div>
+                            ))}
+                          </div>
                         </div>
                       </div>
 
-                      <div className="card-premium space-y-6">
-                        <h4 className="text-body-sm font-medium text-foreground uppercase tracking-widest flex items-center gap-3">
-                          <TrendingUp size={18} className="text-success" /> Oportunidades de Crescimento
-                        </h4>
-                        <div className="space-y-4">
-                          {((formData as any).aiAnalysis.growthSuggestions || []).map((c: string, i: number) => (
-                            <div key={i} className="text-body-sm text-muted-foreground font-medium leading-relaxed bg-surface-container p-4 rounded-md border border-border">
-                              <MarkdownText text={c} />
-                            </div>
-                          ))}
+                      <div className="space-y-10">
+                        <div className="bg-primary p-10 rounded-md text-primary-foreground space-y-6 shadow-md relative overflow-hidden">
+                          <div className="absolute top-0 right-0 w-32 h-32 bg-white/5 rounded-full -translate-y-1/2 translate-x-1/2 blur-3xl"></div>
+                          <h4 className="text-body-sm font-medium text-primary-foreground/50 uppercase tracking-widest flex items-center gap-2">
+                            <ShieldCheck size={14} /> Governança & Estrutura
+                          </h4>
+                          <div className="text-body-sm font-medium leading-relaxed text-primary-foreground/90 italic">
+                            "<MarkdownText text={aiIntelligence.governance} />"
+                          </div>
+                        </div>
+
+                        <div className="card-premium space-y-6">
+                          <h4 className="text-body-sm font-medium text-foreground uppercase tracking-widest">Fluxo Operacional</h4>
+                          <div className="text-body-sm text-muted-foreground font-medium leading-relaxed bg-surface-container p-5 rounded-md border border-border border-dashed italic">
+                            <MarkdownText text={aiIntelligence.operationalFlow} />
+                          </div>
+                        </div>
+
+                        <div className="card-premium space-y-6">
+                          <h4 className="text-body-sm font-medium text-foreground uppercase tracking-widest flex items-center gap-3">
+                            <LayoutGrid size={18} className="text-secondary" /> Dashboards Sugeridos
+                          </h4>
+                          <div className="flex flex-wrap gap-3">
+                            {aiIntelligence.dashboardIdeas.map((c: string, i: number) => (
+                              <span key={i} className="px-4 py-2 bg-secondary/10 text-secondary text-[10px] font-medium uppercase rounded-full border border-secondary/20">
+                                <MarkdownText text={c} />
+                              </span>
+                            ))}
+                          </div>
                         </div>
                       </div>
                     </div>
-
-                    <div className="space-y-10">
-                      <div className="bg-primary p-10 rounded-md text-primary-foreground space-y-6 shadow-md relative overflow-hidden">
-                        <div className="absolute top-0 right-0 w-32 h-32 bg-white/5 rounded-full -translate-y-1/2 translate-x-1/2 blur-3xl"></div>
-                        <h4 className="text-body-sm font-medium text-primary-foreground/50 uppercase tracking-widest flex items-center gap-2">
-                          <ShieldCheck size={14} /> Governança & Estrutura
-                        </h4>
-                        <div className="text-body-sm font-medium leading-relaxed text-primary-foreground/90 italic">
-                          "<MarkdownText text={((formData as any).aiAnalysis?.governance || "N/A")} />"
-                        </div>
-                      </div>
-
-                      <div className="card-premium space-y-6">
-                        <h4 className="text-body-sm font-medium text-foreground uppercase tracking-widest">Fluxo Operacional</h4>
-                        <div className="text-body-sm text-muted-foreground font-medium leading-relaxed bg-surface-container p-5 rounded-md border border-border border-dashed italic">
-                          <MarkdownText text={((formData as any).aiAnalysis?.operationalFlow || "N/A")} />
-                        </div>
-                      </div>
-
-                      <div className="card-premium space-y-6">
-                        <h4 className="text-body-sm font-medium text-foreground uppercase tracking-widest flex items-center gap-3">
-                          <LayoutGrid size={18} className="text-secondary" /> Dashboards Sugeridos
-                        </h4>
-                        <div className="flex flex-wrap gap-3">
-                          {((formData as any).aiAnalysis?.dashboardIdeas || []).map((c: string, i: number) => (
-                            <span key={i} className="px-4 py-2 bg-secondary/10 text-secondary text-[10px] font-medium uppercase rounded-full border border-secondary/20">
-                              <MarkdownText text={c} />
-                            </span>
-                          ))}
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                ) : (
-                  <ExecutiveEmptyState
-                    icon={<Sparkles />}
-                    title="Sem Análise de IA"
-                    description="Nenhum relatório gerencial automatizado foi gerado para esta empresa."
-                  />
-                )}
-              </motion.div>
-            )}
+                  ) : (
+                    <ExecutiveEmptyState
+                      icon={<Sparkles />}
+                      title="Sem Análise de IA"
+                      description="Nenhum relatório gerencial automatizado foi gerado para esta empresa."
+                    />
+                  )}
+                </motion.div>
+              );
+            })()}
 
             {["pessoal", "importacao", "acessos", "auditoria"].map(tab => (
               activeFormTab === tab && !editingId && (
@@ -2400,7 +1980,7 @@ loading: ${loading}
                         <button
                           onClick={async () => {
                             if (confirm("Aprovar este novo cliente?")) {
-                              await updateDoc(doc(db, "clients", client.id), { approvalStatus: "Approved" });
+                              await ClientsApplicationService.approveClient(client.id);
                             }
                           }}
                           className="flex items-center gap-1 px-2.5 py-1.5 bg-success-soft border border-success/20 hover:bg-success hover:text-white text-success text-[8px] font-semibold uppercase tracking-widest rounded-md transition-all whitespace-nowrap"

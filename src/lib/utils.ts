@@ -182,26 +182,26 @@ export function getThemeColors() {
 
   if (isDark) {
     return {
-      primary: '#FF8552',
-      secondary: '#BAB86C',
-      tertiary: '#BAB86C',
-      success: '#10b981', // high contrast green
-      border: 'rgba(255, 255, 255, 0.1)',
-      mutedForeground: '#E5E5E5',
-      cardBg: '#111F30',
-      cardFg: '#FFFFFF'
+      primary: 'var(--color-executive-primary)',
+      secondary: 'var(--color-executive-secondary)',
+      tertiary: 'var(--color-executive-tertiary, var(--color-executive-secondary))',
+      success: 'var(--color-success)', 
+      border: 'var(--color-border)',
+      mutedForeground: 'var(--color-executive-muted)',
+      cardBg: 'var(--color-surface-container)',
+      cardFg: 'var(--color-executive-primary)'
     };
   }
 
   // Light Mode (default)
   return {
-    primary: '#0E1C2C',
-    secondary: '#FF8552',
-    tertiary: '#BAB86C',
-    success: '#0C7A3A',
-    border: '#E2E8F0', // slate-200 for clean premium division lines
-    mutedForeground: '#64748B', // slate-500 for excellent contrast (meets WCAG AA)
-    cardBg: '#FFFFFF',
-    cardFg: '#0E1C2C'
+    primary: 'var(--color-executive-primary)',
+    secondary: 'var(--color-executive-secondary)',
+    tertiary: 'var(--color-executive-tertiary, var(--color-executive-secondary))',
+    success: 'var(--color-success)',
+    border: 'var(--color-border)', 
+    mutedForeground: 'var(--color-executive-muted)', 
+    cardBg: 'var(--color-surface-default)',
+    cardFg: 'var(--color-executive-primary)'
   };
 }

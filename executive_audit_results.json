@@ -1,0 +1,272 @@
+{
+  "components": [
+    {
+      "file": "src/components/executive/ExecutiveHomeWorkspace.tsx",
+      "driftScore": 0,
+      "runtimeScore": 0
+    },
+    {
+      "file": "src/components/executive/ExecutiveQuickActions.tsx",
+      "driftScore": 0,
+      "runtimeScore": 1
+    },
+    {
+      "file": "src/components/executive/GuidedInvestigationCard.tsx",
+      "driftScore": 0,
+      "runtimeScore": 1
+    },
+    {
+      "file": "src/components/executive/InstitutionalMemoryDashboard.tsx",
+      "driftScore": 0,
+      "runtimeScore": 0
+    },
+    {
+      "file": "src/components/executive/UniversalSearchHub.tsx",
+      "driftScore": 0,
+      "runtimeScore": 0
+    },
+    {
+      "file": "src/components/executive/WorkspaceHubNavigation.tsx",
+      "driftScore": 1,
+      "runtimeScore": 1
+    },
+    {
+      "file": "src/components/executive/board/BoardExperienceShell.tsx",
+      "driftScore": 0,
+      "runtimeScore": 2
+    },
+    {
+      "file": "src/components/executive/board/BoardNarrativeNavigator.tsx",
+      "driftScore": 3,
+      "runtimeScore": 2
+    },
+    {
+      "file": "src/components/executive/board/CausalDrilldownPanel.tsx",
+      "driftScore": 0,
+      "runtimeScore": 1
+    },
+    {
+      "file": "src/components/executive/board/ExecutionTrackingDashboard.tsx",
+      "driftScore": 2,
+      "runtimeScore": 0
+    },
+    {
+      "file": "src/components/executive/board/ExecutiveEvidenceExplorer.tsx",
+      "driftScore": 0,
+      "runtimeScore": 1
+    },
+    {
+      "file": "src/components/executive/board/InstitutionalTimelineViewer.tsx",
+      "driftScore": 0,
+      "runtimeScore": 1
+    },
+    {
+      "file": "src/components/executive/board/RuntimeDisclosureBanner.tsx",
+      "driftScore": 0,
+      "runtimeScore": 1
+    },
+    {
+      "file": "src/components/executive/copilot/BoardCopilotPanel.tsx",
+      "driftScore": 0,
+      "runtimeScore": 0
+    },
+    {
+      "file": "src/components/executive/demo/BoardPresentationMode.tsx",
+      "driftScore": 0,
+      "runtimeScore": 0
+    },
+    {
+      "file": "src/components/executive/demo/ExecutiveDemoShell.tsx",
+      "driftScore": 0,
+      "runtimeScore": 1
+    },
+    {
+      "file": "src/components/executive/demo/ExecutiveDisclosurePanel.tsx",
+      "driftScore": 0,
+      "runtimeScore": 2
+    },
+    {
+      "file": "src/components/executive/demo/ExecutiveScenarioSelector.tsx",
+      "driftScore": 0,
+      "runtimeScore": 1
+    },
+    {
+      "file": "src/components/executive/demo/GuidedBoardJourneyNavigator.tsx",
+      "driftScore": 0,
+      "runtimeScore": 2
+    },
+    {
+      "file": "src/components/executive/demo/InstitutionalScenarioTimeline.tsx",
+      "driftScore": 0,
+      "runtimeScore": 1
+    },
+    {
+      "file": "src/components/advisor/AdvisorCommandCenter.tsx",
+      "driftScore": 0,
+      "runtimeScore": 0
+    },
+    {
+      "file": "src/components/advisor/AdvisorHistoricalSurface.tsx",
+      "driftScore": 0,
+      "runtimeScore": 1
+    },
+    {
+      "file": "src/components/advisor/AdvisorInstitutionalOverview.tsx",
+      "driftScore": 0,
+      "runtimeScore": 1
+    },
+    {
+      "file": "src/components/advisor/AdvisorInvestigationSurface.tsx",
+      "driftScore": 0,
+      "runtimeScore": 1
+    },
+    {
+      "file": "src/components/advisor/AdvisorWorkspaceShell.tsx",
+      "driftScore": 0,
+      "runtimeScore": 2
+    },
+    {
+      "file": "src/components/advisor/ExecutiveAdvisorDashboard.tsx",
+      "driftScore": 0,
+      "runtimeScore": 0
+    },
+    {
+      "file": "src/components/advisor/OrganizationPortfolioPanel.tsx",
+      "driftScore": 0,
+      "runtimeScore": 0
+    },
+    {
+      "file": "src/components/advisor/PortfolioManagementPanel.tsx",
+      "driftScore": 0,
+      "runtimeScore": 0
+    },
+    {
+      "file": "src/components/cognitive/CausalPathPanel.tsx",
+      "driftScore": 0,
+      "runtimeScore": 0
+    },
+    {
+      "file": "src/components/cognitive/CognitiveSummaryCard.tsx",
+      "driftScore": 0,
+      "runtimeScore": 0
+    },
+    {
+      "file": "src/components/cognitive/DecisionCognitiveDrawer.tsx",
+      "driftScore": 0,
+      "runtimeScore": 0
+    },
+    {
+      "file": "src/components/cognitive/DecisionImpactPanel.tsx",
+      "driftScore": 0,
+      "runtimeScore": 0
+    },
+    {
+      "file": "src/components/cognitive/EvidenceDetailPanel.tsx",
+      "driftScore": 0,
+      "runtimeScore": 0
+    },
+    {
+      "file": "src/components/cognitive/EvidencePanel.tsx",
+      "driftScore": 0,
+      "runtimeScore": 0
+    },
+    {
+      "file": "src/components/cognitive/ExecutiveCognitiveDashboard.tsx",
+      "driftScore": 0,
+      "runtimeScore": 0
+    },
+    {
+      "file": "src/components/cognitive/ExplainabilityDetailPanel.tsx",
+      "driftScore": 0,
+      "runtimeScore": 0
+    },
+    {
+      "file": "src/components/cognitive/ExplainabilityPanel.tsx",
+      "driftScore": 0,
+      "runtimeScore": 0
+    },
+    {
+      "file": "src/components/cognitive/InstitutionalGraphViewer.tsx",
+      "driftScore": 0,
+      "runtimeScore": 0
+    },
+    {
+      "file": "src/components/war-room/EvidenceCorrelationPanel.tsx",
+      "driftScore": 0,
+      "runtimeScore": 0
+    },
+    {
+      "file": "src/components/war-room/ExecutiveScenarioDashboard.tsx",
+      "driftScore": 0,
+      "runtimeScore": 0
+    },
+    {
+      "file": "src/components/war-room/ImpactExplorer.tsx",
+      "driftScore": 0,
+      "runtimeScore": 0
+    },
+    {
+      "file": "src/components/war-room/RiskPropagationViewer.tsx",
+      "driftScore": 0,
+      "runtimeScore": 1
+    },
+    {
+      "file": "src/components/war-room/ScenarioCatalog.tsx",
+      "driftScore": 0,
+      "runtimeScore": 0
+    },
+    {
+      "file": "src/components/war-room/ScenarioCommandCenter.tsx",
+      "driftScore": 0,
+      "runtimeScore": 0
+    },
+    {
+      "file": "src/components/war-room/ScenarioImpactMap.tsx",
+      "driftScore": 0,
+      "runtimeScore": 0
+    },
+    {
+      "file": "src/components/war-room/WarRoomWorkspace.tsx",
+      "driftScore": 0,
+      "runtimeScore": 1
+    }
+  ],
+  "viewModels": [
+    {
+      "file": "src/capabilities/executive/presentation/view-models/useAdvisorCommandCenterViewModel.ts",
+      "contractCompliant": true
+    },
+    {
+      "file": "src/capabilities/executive/presentation/view-models/useAdvisorWorkspaceShellViewModel.ts",
+      "contractCompliant": true
+    },
+    {
+      "file": "src/capabilities/executive/presentation/view-models/useBoardExperienceShellViewModel.ts",
+      "contractCompliant": true
+    },
+    {
+      "file": "src/capabilities/executive/presentation/view-models/useExecutiveDemoShellViewModel.ts",
+      "contractCompliant": true
+    },
+    {
+      "file": "src/capabilities/executive/presentation/view-models/useScenarioCommandCenterViewModel.ts",
+      "contractCompliant": true
+    },
+    {
+      "file": "src/capabilities/executive/presentation/view-models/useUniversalSearchHubViewModel.ts",
+      "contractCompliant": true
+    },
+    {
+      "file": "src/capabilities/executive/presentation/view-models/useWarRoomWorkspaceViewModel.ts",
+      "contractCompliant": true
+    }
+  ],
+  "summary": {
+    "totalComponents": 46,
+    "totalViewModels": 7,
+    "totalAppServices": 7,
+    "reactivityDriftTotal": 6,
+    "runtimeImportsTotal": 25,
+    "contractCompliancePercent": 100
+  }
+}

@@ -1,13 +1,12 @@
-import React, { useState } from 'react';
-import { ExecutiveNarrative } from '../../../services/FiduciaryRuntimeAdapter';
-import { BoardModeGuard } from '../../../services/FiduciaryRuntimeAdapter';
-import { BoardFlowStep } from '../../../services/FiduciaryRuntimeAdapter';
+import React from 'react';
+import { ExecutiveNarrative, BoardModeGuard } from '../../../services/FiduciaryRuntimeAdapter';
 import { sanitizeExecutivePayload } from '../../../core/presentation/emergency-executive-sanitizer';
 import { RuntimeDisclosureBanner } from './RuntimeDisclosureBanner';
 import { BoardNarrativeNavigator } from './BoardNarrativeNavigator';
 import { CausalDrilldownPanel } from './CausalDrilldownPanel';
 import { ExecutiveEvidenceExplorer } from './ExecutiveEvidenceExplorer';
 import { InstitutionalTimelineViewer } from './InstitutionalTimelineViewer';
+import { useBoardExperienceShellViewModel } from '../../../capabilities/executive/presentation/view-models/useBoardExperienceShellViewModel';
 
 interface BoardExperienceShellProps {
   narrative: ExecutiveNarrative;
@@ -15,24 +14,27 @@ interface BoardExperienceShellProps {
 }
 
 export const BoardExperienceShell: React.FC<BoardExperienceShellProps> = ({ narrative, sessionId }) => {
-  const [currentStep, setCurrentStep] = useState<BoardFlowStep>('SUMMARY');
-  const [guardError, setGuardError] = useState<string | null>(null);
-
-  // Fail-closed enforcement on render
+  // Fail-closed enforcement on render - required by Tenancy Governance Audit
+  let guardErrorStatic: string | null = null;
   try {
     BoardModeGuard.assertSafeRendering(narrative, sessionId);
   } catch (err: any) {
-    if (guardError !== err.message) {
-      setGuardError(err.message);
-    }
+    guardErrorStatic = err.message;
   }
 
-  if (guardError) {
+  const { state, computed, actions } = useBoardExperienceShellViewModel({ narrative, sessionId });
+  const { currentStep, guardError: guardErrorVm } = state;
+  const { hasEvidence, hasLineage } = computed;
+  const { setCurrentStep } = actions;
+  
+  const finalGuardError = guardErrorStatic || guardErrorVm;
+
+  if (finalGuardError) {
     return (
       <div className="w-full h-screen bg-background flex flex-col items-center justify-center p-8">
         <div className="max-w-2xl w-full bg-red-950/50 border border-red-500/50 p-8 rounded-lg shadow-2xl">
           <h1 className="text-red-500 text-2xl font-bold mb-4 uppercase tracking-wider text-primary">Institutional Guard Block</h1>
-          <p className="text-red-200 font-mono mb-6">{guardError}</p>
+          <p className="text-red-200 font-mono mb-6">{finalGuardError}</p>
           <div className="p-4 bg-black/50 rounded text-sm text-muted-foreground">
             Render pipeline aborted. Graceful degradation is disabled in Board Mode to prevent fiduciary misalignment.
           </div>
@@ -40,9 +42,6 @@ export const BoardExperienceShell: React.FC<BoardExperienceShellProps> = ({ narr
       </div>
     );
   }
-
-  const hasEvidence = narrative.evidenceChain && narrative.evidenceChain.length > 0;
-  const hasLineage = narrative.lineage && narrative.lineage.length > 0;
 
   return (
     <div className="min-h-screen bg-background text-foreground font-sans flex flex-col">

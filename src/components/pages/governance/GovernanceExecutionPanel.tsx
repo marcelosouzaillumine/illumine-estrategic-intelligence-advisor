@@ -147,13 +147,13 @@ export function GovernanceExecutionPanel({ clientId, scenario, mode }: Governanc
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
         
         {/* GEI Weighted Dial Card */}
-        <div className="card-premium p-6 border border-white/5 bg-[#060D17] rounded-2xl flex flex-col justify-between space-y-4">
+        <div className="card-premium p-6 border border-white/5 bg-surface-container rounded-2xl flex flex-col justify-between space-y-4">
           <div className="flex justify-between items-start">
             <div>
               <span className="text-[10px] text-muted-foreground uppercase tracking-widest font-black block mb-1">GEI™ Weighted Score</span>
               <h4 className="text-xs font-bold text-primary">Ponderado por Risco/Prazo</h4>
             </div>
-            <div className="w-10 h-10 rounded-full border-2 border-[#FF8552]/20 flex items-center justify-center font-bold text-xs text-[#FF8552] bg-[#FF8552]/5">
+            <div className="w-10 h-10 rounded-full border-2 border-border/20 flex items-center justify-center font-bold text-xs text-executive-primary bg-surface-container/5">
               40%
             </div>
           </div>
@@ -162,18 +162,18 @@ export function GovernanceExecutionPanel({ clientId, scenario, mode }: Governanc
             <span className="text-muted-foreground text-sm">/100</span>
           </div>
           <div className="w-full bg-slate-950/60 rounded-full h-1.5 overflow-hidden border border-white/5">
-            <div className="bg-[#FF8552] h-full rounded-full" style={{ width: `${geiWeighted}%` }} />
+            <div className="bg-surface-container h-full rounded-full" style={{ width: `${geiWeighted}%` }} />
           </div>
         </div>
 
         {/* GEI Simple Score Card */}
-        <div className="card-premium p-6 border border-white/5 bg-[#060D17] rounded-2xl flex flex-col justify-between space-y-4">
+        <div className="card-premium p-6 border border-white/5 bg-surface-container rounded-2xl flex flex-col justify-between space-y-4">
           <div className="flex justify-between items-start">
             <div>
               <span className="text-[10px] text-muted-foreground uppercase tracking-widest font-black block mb-1">GEI™ Simple Score</span>
               <h4 className="text-xs font-bold text-primary">Concluídas / Total</h4>
             </div>
-            <div className="w-10 h-10 rounded-full border-2 border-[#BAB86C]/20 flex items-center justify-center font-bold text-xs text-[#BAB86C] bg-[#BAB86C]/5">
+            <div className="w-10 h-10 rounded-full border-2 border-border/20 flex items-center justify-center font-bold text-xs text-executive-primary bg-surface-container/5">
               GEI
             </div>
           </div>
@@ -182,12 +182,12 @@ export function GovernanceExecutionPanel({ clientId, scenario, mode }: Governanc
             <span className="text-muted-foreground text-sm">/100</span>
           </div>
           <div className="w-full bg-slate-950/60 rounded-full h-1.5 overflow-hidden border border-white/5">
-            <div className="bg-[#BAB86C] h-full rounded-full" style={{ width: `${geiSimple}%` }} />
+            <div className="bg-surface-container h-full rounded-full" style={{ width: `${geiSimple}%` }} />
           </div>
         </div>
 
         {/* GAI Accountability Card */}
-        <div className="card-premium p-6 border border-white/5 bg-[#060D17] rounded-2xl flex flex-col justify-between space-y-4">
+        <div className="card-premium p-6 border border-white/5 bg-surface-container rounded-2xl flex flex-col justify-between space-y-4">
           <div className="flex justify-between items-start">
             <div>
               <span className="text-[10px] text-muted-foreground uppercase tracking-widest font-black block mb-1">GAI™ Accountability</span>
@@ -207,7 +207,7 @@ export function GovernanceExecutionPanel({ clientId, scenario, mode }: Governanc
         </div>
 
         {/* Overdue Rate / Aging Card */}
-        <div className="card-premium p-6 border border-white/5 bg-[#060D17] rounded-2xl flex flex-col justify-between space-y-4">
+        <div className="card-premium p-6 border border-white/5 bg-surface-container rounded-2xl flex flex-col justify-between space-y-4">
           <div className="flex justify-between items-start">
             <div>
               <span className="text-[10px] text-muted-foreground uppercase tracking-widest font-black block mb-1">Atrasos & Pendências</span>
@@ -241,7 +241,7 @@ export function GovernanceExecutionPanel({ clientId, scenario, mode }: Governanc
         </div>
         <button
           onClick={() => setIsFormOpen(!isFormOpen)}
-          className="flex items-center gap-2 px-4 py-2 bg-[#FF8552] hover:bg-[#FF8552]/90 rounded-xl text-xs font-bold uppercase tracking-widest text-white shadow-lg transition-all"
+          className="flex items-center gap-2 px-4 py-2 bg-surface-container hover:bg-surface-container/90 rounded-xl text-xs font-bold uppercase tracking-widest text-white shadow-lg transition-all"
         >
           <Plus size={14} />
           Nova Decisão
@@ -250,8 +250,8 @@ export function GovernanceExecutionPanel({ clientId, scenario, mode }: Governanc
 
       {/* 3. New Decision Form Inline Card */}
       {isFormOpen && (
-        <form onSubmit={handleCreateDecision} className="card-premium p-6 border border-[#FF8552]/20 bg-[#060D17] rounded-2xl space-y-6 animate-fadeIn">
-          <h4 className="text-xs font-bold uppercase tracking-wider text-[#FF8552] flex items-center gap-2">
+        <form onSubmit={handleCreateDecision} className="card-premium p-6 border border-border/20 bg-surface-container rounded-2xl space-y-6 animate-fadeIn">
+          <h4 className="text-xs font-bold uppercase tracking-wider text-executive-primary flex items-center gap-2">
             <Bookmark size={14} />
             Cadastrar Nova Decisão Executiva (GDTL™)
           </h4>
@@ -400,7 +400,7 @@ export function GovernanceExecutionPanel({ clientId, scenario, mode }: Governanc
           decisions.map((dec) => (
             <div 
               key={dec.id} 
-              className={`p-6 border rounded-2xl bg-[#060D17] hover:bg-slate-950/30 transition-all space-y-4 ${
+              className={`p-6 border rounded-2xl bg-surface-container hover:bg-slate-950/30 transition-all space-y-4 ${
                 dec.status === 'COMPLETED' ? 'border-emerald-500/10' : 
                 dec.status === 'OVERDUE' ? 'border-rose-500/20 bg-rose-950/5' : 
                 'border-white/5'
@@ -417,7 +417,7 @@ export function GovernanceExecutionPanel({ clientId, scenario, mode }: Governanc
                     <span className={`px-1.5 py-0.5 rounded text-[8px] font-bold uppercase ${getRiskBadge(dec.executionRisk)}`}>
                       Risco: {dec.executionRisk}
                     </span>
-                    <span className="px-1.5 py-0.5 rounded text-[8px] font-black uppercase bg-[#BAB86C]/10 border border-[#BAB86C]/20 text-[#BAB86C]">
+                    <span className="px-1.5 py-0.5 rounded text-[8px] font-black uppercase bg-surface-container/10 border border-border/20 text-executive-primary">
                       {dec.category}
                     </span>
                   </div>
@@ -435,7 +435,7 @@ export function GovernanceExecutionPanel({ clientId, scenario, mode }: Governanc
                   ) : (
                     <button
                       onClick={() => handleApproveBoard(dec.id)}
-                      className="flex items-center gap-1 px-2.5 py-1 bg-[#BAB86C]/10 hover:bg-[#BAB86C]/20 border border-[#BAB86C]/30 text-[#BAB86C] rounded-lg text-[9px] font-black uppercase tracking-widest transition-all"
+                      className="flex items-center gap-1 px-2.5 py-1 bg-surface-container/10 hover:bg-surface-container/20 border border-border/30 text-executive-primary rounded-lg text-[9px] font-black uppercase tracking-widest transition-all"
                     >
                       <UserCheck size={10} />
                       Aprovar Board
@@ -491,7 +491,7 @@ export function GovernanceExecutionPanel({ clientId, scenario, mode }: Governanc
                   </div>
                   <div className="flex justify-between border-b border-white/5 pb-1">
                     <span className="text-muted-foreground">Origem Cognitiva:</span>
-                    <span className="font-bold text-[#BAB86C]">{dec.originEngine} Engine</span>
+                    <span className="font-bold text-executive-primary">{dec.originEngine} Engine</span>
                   </div>
                   <div className="flex justify-between border-b border-white/5 pb-1">
                     <span className="text-muted-foreground">Responsável:</span>

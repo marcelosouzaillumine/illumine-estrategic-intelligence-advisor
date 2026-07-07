@@ -150,7 +150,7 @@ export function BenchmarkComparativePanel({ clientId, scenario }: BenchmarkCompa
                     cx="72"
                     cy="72"
                     r="60"
-                    stroke="#1f2937"
+                    stroke="currentColor"
                     strokeWidth="8"
                     fill="transparent"
                   />
@@ -158,7 +158,7 @@ export function BenchmarkComparativePanel({ clientId, scenario }: BenchmarkCompa
                     cx="72"
                     cy="72"
                     r="60"
-                    stroke="#a855f7"
+                    stroke="currentColor"
                     strokeWidth="8"
                     fill="transparent"
                     strokeDasharray={377}

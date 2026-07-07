@@ -7,7 +7,7 @@ import { ExecutiveCallout } from '../../ui/executive-callout';
 import { ExecutiveHeading } from '../../ui/executive-heading';
 import { ExecutiveText } from '../../ui/executive-typography';
 import { ExecutiveBadge } from '../../ui/executive-badge';
-import { DreExecutiveViewModel } from '../../../core/runtime/dre/DreExecutiveViewModelBuilder';
+import { DreExecutiveViewModel } from '../../../services/FiduciaryRuntimeAdapter';
 
 interface Props {
   isVisibleStructure: boolean;

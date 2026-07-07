@@ -156,7 +156,7 @@ export function RelatorioDemonstracoes5Anos({ clientId, selectedYear }: Relatori
         <div className="relative z-10">
           <Button 
             onClick={() => setIsModalOpen(true)}
-            className="bg-[#FF8552] text-white hover:bg-[#FF8552]/90 font-bold uppercase tracking-widest flex items-center gap-2"
+            className="bg-surface-container text-white hover:bg-surface-container/90 font-bold uppercase tracking-widest flex items-center gap-2"
           >
             <FileText size={16} /> Gerar Advisory Board Report
           </Button>
@@ -182,7 +182,7 @@ export function RelatorioDemonstracoes5Anos({ clientId, selectedYear }: Relatori
           <div className="h-[300px] w-full">
             <ResponsiveContainer width="100%" height="100%">
               <BarChart data={chartData} margin={{ top: 20, right: 30, left: 20, bottom: 5 }}>
-                <CartesianGrid strokeDasharray="3 3" stroke="#333" vertical={false} opacity={0.2} />
+                <CartesianGrid strokeDasharray="3 3" stroke="currentColor" vertical={false} opacity={0.2} />
                 <XAxis dataKey="year" axisLine={false} tickLine={false} tick={{ fontSize: 10 }} />
                 <YAxis 
                   axisLine={false} 
@@ -192,12 +192,12 @@ export function RelatorioDemonstracoes5Anos({ clientId, selectedYear }: Relatori
                 />
                 <RechartsTooltip 
                   cursor={{ fill: 'rgba(255,255,255,0.05)' }}
-                  contentStyle={{ backgroundColor: '#1a1a1a', border: '1px solid #333', borderRadius: '4px', fontSize: '12px' }}
+                  contentStyle={{ backgroundColor: 'var(--color-surface-container)', border: '1px solid var(--color-executive-primary)', borderRadius: '4px', fontSize: '12px' }}
                   formatter={(value: number) => formatCurrency(value)}
                 />
                 <Legend iconType="circle" wrapperStyle={{ fontSize: '10px' }} />
-                <Bar dataKey="Receita" fill="#3b82f6" radius={[2, 2, 0, 0]} name="Receita" />
-                <Bar dataKey="Lucro" fill="#10b981" radius={[2, 2, 0, 0]} name="Lucro Líquido" />
+                <Bar dataKey="Receita" fill="currentColor" radius={[2, 2, 0, 0]} name="Receita" />
+                <Bar dataKey="Lucro" fill="currentColor" radius={[2, 2, 0, 0]} name="Lucro Líquido" />
               </BarChart>
             </ResponsiveContainer>
           </div>
@@ -211,7 +211,7 @@ export function RelatorioDemonstracoes5Anos({ clientId, selectedYear }: Relatori
           <div className="h-[300px] w-full">
             <ResponsiveContainer width="100%" height="100%">
               <LineChart data={chartData} margin={{ top: 20, right: 30, left: 20, bottom: 5 }}>
-                <CartesianGrid strokeDasharray="3 3" stroke="#333" vertical={false} opacity={0.2} />
+                <CartesianGrid strokeDasharray="3 3" stroke="currentColor" vertical={false} opacity={0.2} />
                 <XAxis dataKey="year" axisLine={false} tickLine={false} tick={{ fontSize: 10 }} />
                 <YAxis 
                   axisLine={false} 
@@ -220,12 +220,12 @@ export function RelatorioDemonstracoes5Anos({ clientId, selectedYear }: Relatori
                   tickFormatter={(val) => `R$ ${(val / 1000000).toFixed(1)}M`}
                 />
                 <RechartsTooltip 
-                  contentStyle={{ backgroundColor: '#1a1a1a', border: '1px solid #333', borderRadius: '4px', fontSize: '12px' }}
+                  contentStyle={{ backgroundColor: 'var(--color-surface-container)', border: '1px solid var(--color-executive-primary)', borderRadius: '4px', fontSize: '12px' }}
                   formatter={(value: number) => formatCurrency(value)}
                 />
                 <Legend iconType="circle" wrapperStyle={{ fontSize: '10px' }} />
-                <Line type="monotone" dataKey="Ativo" stroke="#6366f1" strokeWidth={2} dot={{ r: 4 }} name="Ativo Total" />
-                <Line type="monotone" dataKey="PL" stroke="#f43f5e" strokeWidth={2} dot={{ r: 4 }} name="Patrimônio Líquido" />
+                <Line type="monotone" dataKey="Ativo" stroke="currentColor" strokeWidth={2} dot={{ r: 4 }} name="Ativo Total" />
+                <Line type="monotone" dataKey="PL" stroke="currentColor" strokeWidth={2} dot={{ r: 4 }} name="Patrimônio Líquido" />
               </LineChart>
             </ResponsiveContainer>
           </div>

@@ -49,10 +49,10 @@ export function AdministrativaPage({ clientId }: AdministrativaPageProps) {
   ], [dbIndicators]);
 
   const departmentBreakdown = [
-    { name: 'Financeiro', value: getIndicatorValue('Gasto Fin', 0), color: '#3b82f6' },
-    { name: 'RH', value: getIndicatorValue('Gasto RH', 0), color: '#10b981' },
-    { name: 'Jurídico', value: getIndicatorValue('Gasto Jur', 0), color: '#f59e0b' },
-    { name: 'Facilities', value: getIndicatorValue('Gasto Fac', 0), color: '#ef4444' }
+    { name: 'Financeiro', value: getIndicatorValue('Gasto Fin', 0), color: 'var(--color-executive-primary)' },
+    { name: 'RH', value: getIndicatorValue('Gasto RH', 0), color: 'var(--color-executive-primary)' },
+    { name: 'Jurídico', value: getIndicatorValue('Gasto Jur', 0), color: 'var(--color-executive-primary)' },
+    { name: 'Facilities', value: getIndicatorValue('Gasto Fac', 0), color: 'var(--color-executive-primary)' }
   ].filter(d => d.value > 0);
 
   return (

@@ -153,7 +153,7 @@ export function BenchmarkAdvisoryPanel({ clientId, scenario }: BenchmarkAdvisory
                     cx="64"
                     cy="64"
                     r="52"
-                    stroke="#1f2937"
+                    stroke="currentColor"
                     strokeWidth="8"
                     fill="transparent"
                   />
@@ -161,7 +161,7 @@ export function BenchmarkAdvisoryPanel({ clientId, scenario }: BenchmarkAdvisory
                     cx="64"
                     cy="64"
                     r="52"
-                    stroke="#6366f1"
+                    stroke="currentColor"
                     strokeWidth="8"
                     fill="transparent"
                     strokeDasharray={326}

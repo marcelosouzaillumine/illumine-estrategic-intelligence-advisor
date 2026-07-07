@@ -100,7 +100,7 @@ describe('Canonical Enforcement Tests', () => {
     const bpSection = allFiles.find(f => f.endsWith('BalanceSheetCapitalPreservationSection.tsx'));
     if (bpSection) {
       const content = fs.readFileSync(bpSection, 'utf-8');
-      assert.ok(content.includes('ExecutiveMetricCard'));
+      assert.ok(content.includes('ExecutiveEvidenceGrid'));
       // Ensure NaN is stripped in formatting
       assert.ok(!content.includes('return NaN'));
     }

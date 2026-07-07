@@ -3,7 +3,7 @@ import { ExecutiveDecisionSummary } from '../../ui/executive-decision-summary';
 import { ExecutiveExecutionPlan } from '../../ui/executive-execution-plan';
 import { ExecutiveSectionHeader } from '../../ui/executive-section-header';
 import { ExecutiveText } from '../../ui/executive-typography';
-import { BalanceSheetExecutivePlanBuilder } from '../../../core/runtime/executive-consolidation/BalanceSheetExecutivePlanBuilder';
+import { BalanceSheetExecutivePlanBuilder } from '../../../services/FiduciaryRuntimeAdapter';
 
 export type ExecutivePlanAction = {
   prazo: string;
@@ -18,6 +18,7 @@ export type BalanceSheetExecutivePlanProps = {
   dominantRiskFamily?: string;
   strategicSeverity?: string;
   strategicSeverityReason?: string;
+  executiveAnalysisContext?: any;
 };
 
 export const BalanceSheetExecutivePlan = ({
@@ -26,7 +27,8 @@ export const BalanceSheetExecutivePlan = ({
   planGovernanca,
   dominantRiskFamily,
   strategicSeverity,
-  strategicSeverityReason
+  strategicSeverityReason,
+  executiveAnalysisContext
 }: BalanceSheetExecutivePlanProps) => {
   
   const getSeverityTone = (severity?: string) => {

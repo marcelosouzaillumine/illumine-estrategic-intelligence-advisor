@@ -697,7 +697,7 @@ export function LoanInvestmentSimPage({ clientId }: { clientId?: string }) {
                             {amount > 0 ? (
                                 <ResponsiveContainer width="100%" height="100%">
                                     <ComposedChart data={temporalData}>
-                                        <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#f1f5f9" />
+                                        <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="currentColor" />
                                         <XAxis dataKey="monthNum" fontSize={10} tickLine={false} axisLine={false} />
                                         <YAxis fontSize={10} tickLine={false} axisLine={false} tickFormatter={(v) => `R$${v/1000}k`} />
                                         <Tooltip 
@@ -708,12 +708,12 @@ export function LoanInvestmentSimPage({ clientId }: { clientId?: string }) {
                                         
                                         {banks.map((b, idx) => b.active && (
                                             <React.Fragment key={`bank_${idx}`}>
-                                                <Bar name={`${b.name} (PRICE)`} dataKey={`bank_${idx+1}_price`} fill={['#2563eb', '#3b82f6', '#60a5fa'][idx]} barSize={6} radius={[2,2,0,0]} />
-                                                <Bar name={`${b.name} (SAC)`} dataKey={`bank_${idx+1}_sac`} fill={['#059669', '#10b981', '#34d399'][idx]} barSize={6} radius={[2,2,0,0]} />
+                                                <Bar name={`${b.name} (PRICE)`} dataKey={`bank_${idx+1}_price`} fill={['var(--color-executive-primary)', 'var(--color-executive-primary)', 'var(--color-executive-primary)'][idx]} barSize={6} radius={[2,2,0,0]} />
+                                                <Bar name={`${b.name} (SAC)`} dataKey={`bank_${idx+1}_sac`} fill={['var(--color-executive-primary)', 'var(--color-executive-primary)', 'var(--color-executive-primary)'][idx]} barSize={6} radius={[2,2,0,0]} />
                                             </React.Fragment>
                                         ))}
                                         {consortia.map((c, idx) => c.active && (
-                                            <Line key={`cons_${idx}`} name={c.name} dataKey={`cons_${idx+1}`} stroke={['#f59e0b', '#fbbf24', '#fcd34d'][idx]} strokeWidth={3} dot={false} />
+                                            <Line key={`cons_${idx}`} name={c.name} dataKey={`cons_${idx+1}`} stroke={['var(--color-executive-primary)', 'var(--color-executive-primary)', 'var(--color-executive-primary)'][idx]} strokeWidth={3} dot={false} />
                                         ))}
                                     </ComposedChart>
                                 </ResponsiveContainer>

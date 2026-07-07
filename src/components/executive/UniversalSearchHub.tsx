@@ -1,99 +1,11 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import { Search, X, Network, Database, History, Target } from 'lucide-react';
-import { useNavigate } from 'react-router-dom';
-import { InstitutionalObservabilityRegistry } from '../../core/observability/InstitutionalObservabilityRegistry';
-import { useInstitutionalContext } from '../../hooks/useInstitutionalContext';
-import { InstitutionalNavigationService } from '../../core/navigation/InstitutionalNavigationService';
-import { InstitutionalNavigationReference } from '../../types/intelligence/InstitutionalNavigationReference';
-
-interface SearchResult {
-  id: string;
-  type: string;
-  title: string;
-  domain: string;
-  targetWorkspace: string;
-  path: string;
-}
+import { useUniversalSearchHubViewModel } from '../../capabilities/executive/presentation/view-models/useUniversalSearchHubViewModel';
 
 export const UniversalSearchHub: React.FC = () => {
-  const [isOpen, setIsOpen] = useState(false);
-  const [query, setQuery] = useState('');
-  const [results, setResults] = useState<SearchResult[]>([]);
-  const navigate = useNavigate();
-  const { tenantId: ctxTenantId } = useInstitutionalContext();
-  const tenantId = ctxTenantId || 'SYSTEM_TENANT';
-  const correlationId = `search-${Date.now()}`;
+  const { state, computed, actions } = useUniversalSearchHubViewModel();
 
-  useEffect(() => {
-    const handleKeyDown = (e: KeyboardEvent) => {
-      if ((e.metaKey || e.ctrlKey) && e.key === 'k') {
-        e.preventDefault();
-        setIsOpen(prev => {
-          if (!prev && tenantId) {
-            InstitutionalObservabilityRegistry.recordExecutiveEvent(
-              'UNIVERSAL_SEARCH_OPENED',
-              tenantId,
-              correlationId,
-              { sourceWorkspace: 'UNIVERSAL_SEARCH' }
-            );
-          }
-          return !prev;
-        });
-      }
-      if (e.key === 'Escape') {
-        setIsOpen(false);
-      }
-    };
-    window.addEventListener('keydown', handleKeyDown);
-    return () => window.removeEventListener('keydown', handleKeyDown);
-  }, []);
-
-  // Mock de Busca Institucional - Somente dados oficiais e estritos
-  useEffect(() => {
-    if (query.trim().length < 2) {
-      setResults([]);
-      return;
-    }
-
-    const mockData: SearchResult[] = [
-      { id: 'sc-123', type: 'SCENARIO', title: 'Macroeconomia Q3', domain: 'War Room', targetWorkspace: 'WAR_ROOM', path: '/war-room' },
-      { id: 'risk-456', type: 'RISK', title: 'Exposição Cambial', domain: 'Investigation', targetWorkspace: 'INVESTIGATION', path: '/investigation/risk-456' },
-      { id: 'kpi-789', type: 'KPI', title: 'Índice de Resiliência', domain: 'Digital Twin', targetWorkspace: 'DIGITAL_TWIN', path: '/digital-twin' }
-    ];
-
-    const filtered = mockData.filter(item => 
-      item.title.toLowerCase().includes(query.toLowerCase()) || 
-      item.type.toLowerCase().includes(query.toLowerCase())
-    );
-
-    setResults(filtered);
-  }, [query]);
-
-  const handleCrossNavigation = (result: SearchResult) => {
-    if (!tenantId) return;
-
-    const navRef: InstitutionalNavigationReference = {
-      tenantId: tenantId,
-      sourceWorkspace: 'UNIVERSAL_SEARCH',
-      targetWorkspace: result.targetWorkspace as any,
-      targetObjectId: result.id,
-      correlationId: `nav-${Date.now()}`
-    };
-    
-    InstitutionalObservabilityRegistry.recordObjectNavigated(
-      tenantId,
-      navRef.correlationId,
-      result.id,
-      'UNIVERSAL_SEARCH',
-      result.targetWorkspace
-    );
-    
-    setIsOpen(false);
-    setQuery('');
-    InstitutionalNavigationService.navigate(navigate, navRef);
-  };
-
-  if (!isOpen) return null;
+  if (!state.isOpen) return null;
 
   return (
     <div className="fixed inset-0 z-50 flex items-start justify-center pt-[10vh] bg-slate-950/80 backdrop-blur-sm">
@@ -105,12 +17,12 @@ export const UniversalSearchHub: React.FC = () => {
             type="text"
             autoFocus
             placeholder="Busca Institucional (Riscos, Cenários, Decisões)..."
-            value={query}
-            onChange={e => setQuery(e.target.value)}
+            value={state.query}
+            onChange={e => actions.setQuery(e.target.value)}
             className="flex-1 bg-transparent border-none outline-none text-muted-foreground placeholder:text-muted-foreground text-lg"
           />
           <button 
-            onClick={() => setIsOpen(false)}
+            onClick={() => actions.setIsOpen(false)}
             className="p-1 hover:bg-slate-800 rounded-lg text-muted-foreground transition-colors"
           >
             <X size={20} />
@@ -119,16 +31,16 @@ export const UniversalSearchHub: React.FC = () => {
 
         {/* Results */}
         <div className="max-h-[60vh] overflow-y-auto p-2">
-          {query.trim().length > 0 && results.length === 0 ? (
+          {!computed.isSearchQueryEmpty && !computed.hasResults ? (
             <div className="p-8 text-center text-muted-foreground">
               <p>Nenhum objeto encontrado.</p>
             </div>
           ) : (
             <div className="space-y-1">
-              {results.map(result => (
+              {state.results.map(result => (
                 <button
                   key={result.id}
-                  onClick={() => handleCrossNavigation(result)}
+                  onClick={() => actions.handleCrossNavigation(result)}
                   className="w-full flex items-center justify-between p-3 rounded-xl hover:bg-slate-800/50 transition-colors text-left group"
                 >
                   <div className="flex items-center gap-3">

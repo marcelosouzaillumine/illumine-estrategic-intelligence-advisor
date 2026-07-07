@@ -157,12 +157,12 @@ export class BalanceSheetExecutiveViewModelBuilder {
       auditLayer,
       institutionalScenario: policyResult.institutionalScenario ? {
         scenario: policyResult.institutionalScenario.scenario,
-        confidence: policyResult.institutionalScenario.confidence,
+        confidence: DisplaySemanticResolver.resolve('confidence', policyResult.institutionalScenario.confidence),
         primaryDriver: policyResult.institutionalScenario.primaryDriver,
         secondaryDriver: policyResult.institutionalScenario.secondaryDriver,
-        severity: policyResult.institutionalScenario.severity,
+        severity: DisplaySemanticResolver.resolve('severity', policyResult.institutionalScenario.severity),
         policyProfile: policyResult.institutionalScenario.policyProfile,
-        liquidityIntent: policyResult.institutionalScenario.liquidityIntent
+        liquidityIntent: DisplaySemanticResolver.resolve('liquidityIntent', policyResult.institutionalScenario.liquidityIntent)
       } : undefined,
       policyProfile: policyResult.institutionalScenario?.policyProfile,
       executiveOpinion,

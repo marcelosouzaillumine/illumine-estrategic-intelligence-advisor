@@ -9,9 +9,10 @@ export interface ExecutiveStatusBadgeProps {
   className?: string;
   showIcon?: boolean;
   variant?: 'summary' | 'metric' | 'technical';
+  label?: React.ReactNode | string;
 }
 
-export function ExecutiveStatusBadge({ status, className, showIcon, variant = 'summary' }: ExecutiveStatusBadgeProps) {
+export function ExecutiveStatusBadge({ status, className, showIcon, variant = 'summary', label: customLabel }: ExecutiveStatusBadgeProps) {
   const isExcellent = status === 'EXCELLENT';
   const isHealthy = status === 'HEALTHY';
   const isWarning = status === 'WARNING';
@@ -41,7 +42,7 @@ export function ExecutiveStatusBadge({ status, className, showIcon, variant = 's
                isCritical ? ShieldAlert :
                HelpCircle;
 
-  let label = isExcellent ? 'Excelente' :
+  let label: React.ReactNode | string = isExcellent ? 'Excelente' :
               isHealthy ? 'Saudável' :
               isWarning ? 'Atenção' :
               isCritical ? 'Crítico' :
@@ -50,7 +51,8 @@ export function ExecutiveStatusBadge({ status, className, showIcon, variant = 's
               String(status);
 
   // Mapeamentos de texto longo para versões compactas no badge KPI para evitar vazamento do card
-  if (isMetricOrTechnical) {
+  if (customLabel) label = customLabel;
+  if (isMetricOrTechnical && !customLabel) {
     if (isInsufficient) {
       label = 'Sem Dados';
     } else {

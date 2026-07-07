@@ -206,17 +206,17 @@ export function PlanoAcaoPage({ clientId }: { clientId: string }) {
 
   const chartData = useMemo(() => {
     const statusData = [
-      { name: 'Pendente', value: actions.filter(a => a.status === 'Pendente').length, color: '#94a3b8' },
-      { name: 'Em curso', value: actions.filter(a => a.status === 'Em curso').length, color: '#ff8552' },
-      { name: 'Concluído', value: actions.filter(a => a.status === 'Concluído').length, color: '#10b981' },
-      { name: 'Impedido', value: actions.filter(a => a.status === 'Impedido').length, color: '#ef4444' },
+      { name: 'Pendente', value: actions.filter(a => a.status === 'Pendente').length, color: 'var(--color-executive-primary)' },
+      { name: 'Em curso', value: actions.filter(a => a.status === 'Em curso').length, color: 'var(--color-executive-primary)' },
+      { name: 'Concluído', value: actions.filter(a => a.status === 'Concluído').length, color: 'var(--color-executive-primary)' },
+      { name: 'Impedido', value: actions.filter(a => a.status === 'Impedido').length, color: 'var(--color-executive-primary)' },
     ];
 
     const priorityData = [
-      { name: 'Crítica', value: actions.filter(a => a.priority === 'Crítica').length, color: '#ef4444' },
-      { name: 'Alta', value: actions.filter(a => a.priority === 'Alta').length, color: '#f59e0b' },
-      { name: 'Média', value: actions.filter(a => a.priority === 'Média').length, color: '#3b82f6' },
-      { name: 'Baixa', value: actions.filter(a => a.priority === 'Baixa').length, color: '#64748b' },
+      { name: 'Crítica', value: actions.filter(a => a.priority === 'Crítica').length, color: 'var(--color-executive-primary)' },
+      { name: 'Alta', value: actions.filter(a => a.priority === 'Alta').length, color: 'var(--color-executive-primary)' },
+      { name: 'Média', value: actions.filter(a => a.priority === 'Média').length, color: 'var(--color-executive-primary)' },
+      { name: 'Baixa', value: actions.filter(a => a.priority === 'Baixa').length, color: 'var(--color-executive-primary)' },
     ];
 
     return { statusData, priorityData };
@@ -675,7 +675,7 @@ export function PlanoAcaoPage({ clientId }: { clientId: string }) {
                       ))}
                     </Pie>
                     <RechartsTooltip 
-                      contentStyle={{ backgroundColor: '#fff', borderRadius: '12px', border: 'none', boxShadow: '0 10px 15px -3px rgb(0 0 0 / 0.1)' }}
+                      contentStyle={{ backgroundColor: 'var(--color-surface-container)', borderRadius: '12px', border: 'none', boxShadow: '0 10px 15px -3px rgb(0 0 0 / 0.1)' }}
                       itemStyle={{ fontSize: '12px', fontWeight: 'bold' }}
                     />
                     <Legend verticalAlign="bottom" height={36} iconType="circle" />
@@ -695,12 +695,12 @@ export function PlanoAcaoPage({ clientId }: { clientId: string }) {
               <div className="h-[300px] w-full">
                 <ResponsiveContainer width="100%" height="100%">
                   <BarChart data={chartData.priorityData}>
-                    <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#f1f5f9" />
+                    <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="currentColor" />
                     <XAxis dataKey="name" axisLine={false} tickLine={false} tick={{ fontSize: 10, fontWeight: 'bold' }} />
                     <YAxis axisLine={false} tickLine={false} tick={{ fontSize: 10, fontWeight: 'bold' }} />
                     <RechartsTooltip 
-                      cursor={{ fill: '#f8fafc' }}
-                      contentStyle={{ backgroundColor: '#fff', borderRadius: '12px', border: 'none', boxShadow: '0 10px 15px -3px rgb(0 0 0 / 0.1)' }}
+                      cursor={{ fill: 'var(--color-executive-primary)' }}
+                      contentStyle={{ backgroundColor: 'var(--color-surface-container)', borderRadius: '12px', border: 'none', boxShadow: '0 10px 15px -3px rgb(0 0 0 / 0.1)' }}
                     />
                     <Bar dataKey="value" radius={[4, 4, 0, 0]}>
                       {chartData.priorityData.map((entry, index) => (
@@ -732,18 +732,18 @@ export function PlanoAcaoPage({ clientId }: { clientId: string }) {
                 ]}>
                   <defs>
                     <linearGradient id="colorDone" x1="0" y1="0" x2="0" y2="1">
-                      <stop offset="5%" stopColor="#10b981" stopOpacity={0.1}/>
-                      <stop offset="95%" stopColor="#10b981" stopOpacity={0}/>
+                      <stop offset="5%" stopColor="var(--color-executive-primary)" stopOpacity={0.1}/>
+                      <stop offset="95%" stopColor="var(--color-executive-primary)" stopOpacity={0}/>
                     </linearGradient>
                   </defs>
-                  <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#f1f5f9" />
+                  <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="currentColor" />
                   <XAxis dataKey="month" axisLine={false} tickLine={false} tick={{ fontSize: 10, fontWeight: 'bold' }} />
                   <YAxis axisLine={false} tickLine={false} tick={{ fontSize: 10, fontWeight: 'bold' }} />
                   <RechartsTooltip 
-                    contentStyle={{ backgroundColor: '#fff', borderRadius: '12px', border: 'none', boxShadow: '0 10px 15px -3px rgb(0 0 0 / 0.1)' }}
+                    contentStyle={{ backgroundColor: 'var(--color-surface-container)', borderRadius: '12px', border: 'none', boxShadow: '0 10px 15px -3px rgb(0 0 0 / 0.1)' }}
                   />
-                  <Area type="monotone" dataKey="done" stroke="#10b981" fillOpacity={1} fill="url(#colorDone)" strokeWidth={3} />
-                  <Area type="monotone" dataKey="pending" stroke="#94a3b8" fill="transparent" strokeWidth={2} strokeDasharray="5 5" />
+                  <Area type="monotone" dataKey="done" stroke="currentColor" fillOpacity={1} fill="url(#colorDone)" strokeWidth={3} />
+                  <Area type="monotone" dataKey="pending" stroke="currentColor" fill="transparent" strokeWidth={2} strokeDasharray="5 5" />
                 </AreaChart>
               </ResponsiveContainer>
             </div>

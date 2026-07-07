@@ -250,14 +250,14 @@ export function RiskExposureCenter({ selectedClient, selectedYear }: RiskExposur
           <div className="w-full h-[320px] flex items-center justify-center">
             <ResponsiveContainer width="100%" height="100%">
               <RadarChart cx="50%" cy="50%" outerRadius="75%" data={radarData}>
-                <PolarGrid stroke="#334155" />
-                <PolarAngleAxis dataKey="subject" tick={{ fill: '#94a3b8', fontSize: 10, fontWeight: 600 }} />
-                <PolarRadiusAxis angle={30} domain={[0, 100]} tick={{ fill: '#64748b' }} />
+                <PolarGrid stroke="currentColor" />
+                <PolarAngleAxis dataKey="subject" tick={{ fill: 'var(--color-executive-primary)', fontSize: 10, fontWeight: 600 }} />
+                <PolarRadiusAxis angle={30} domain={[0, 100]} tick={{ fill: 'var(--color-executive-primary)' }} />
                 <Radar
                   name="Exposição"
                   dataKey="value"
-                  stroke="#818cf8"
-                  fill="#818cf8"
+                  stroke="currentColor"
+                  fill="currentColor"
                   fillOpacity={0.2}
                 />
               </RadarChart>

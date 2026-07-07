@@ -50,7 +50,7 @@ const CausalTopologyVisual = () => {
 
         {nodes.map((node) => (
           <g key={node.id}>
-            <circle cx={node.x} cy={node.y} r="2.5" fill="#FF8552" />
+            <circle cx={node.x} cy={node.y} r="2.5" fill="currentColor" />
             <text
               x={node.x}
               y={node.y + 18}
@@ -78,8 +78,8 @@ export function ReferralProgramPage() {
     document.documentElement.classList.add('dark');
     const originalHtmlBg = document.documentElement.style.backgroundColor;
     const originalBodyBg = document.body.style.backgroundColor;
-    document.documentElement.style.backgroundColor = '#03080F';
-    document.body.style.backgroundColor = '#03080F';
+    document.documentElement.style.backgroundColor = 'var(--color-executive-primary)';
+    document.body.style.backgroundColor = 'var(--color-executive-primary)';
 
     return () => {
       document.documentElement.classList.remove('dark');
@@ -100,14 +100,14 @@ export function ReferralProgramPage() {
   };
 
   return (
-    <main className="min-h-screen bg-[#03080F] text-white relative overflow-x-hidden font-sans selection:bg-secondary/20 selection:text-secondary antialiased">
+    <main className="min-h-screen bg-surface-container text-white relative overflow-x-hidden font-sans selection:bg-secondary/20 selection:text-secondary antialiased">
       
       {/* Background Ambient Lights - Softer, larger spread for premium feel */}
       <div className="fixed top-[-20%] left-[-10%] w-[60%] h-[60%] rounded-full bg-secondary/3 blur-[200px] pointer-events-none z-0" />
       <div className="fixed bottom-[-20%] right-[-10%] w-[60%] h-[60%] rounded-full bg-white/[0.015] blur-[200px] pointer-events-none z-0" />
 
       {/* Navbar Minimalist & Premium */}
-      <nav className="fixed top-0 inset-x-0 h-24 z-50 border-b border-white/5 backdrop-blur-xl bg-[#03080F]/60 transition-all duration-500">
+      <nav className="fixed top-0 inset-x-0 h-24 z-50 border-b border-white/5 backdrop-blur-xl bg-surface-container/60 transition-all duration-500">
         <div className="max-w-7xl mx-auto px-6 sm:px-8 h-full flex items-center justify-between gap-8">
           
           {/* Logo Signature */}
@@ -152,7 +152,7 @@ export function ReferralProgramPage() {
             </button>
             <button 
               onClick={handleWhatsApp} 
-              className="px-6 h-11 rounded-full bg-white text-[#03080F] font-bold text-[10px] uppercase tracking-[0.2em] hover:bg-white/90 hover:scale-105 transition-all duration-300 cursor-pointer flex items-center justify-center shadow-[0_0_20px_rgba(255,255,255,0.05)]"
+              className="px-6 h-11 rounded-full bg-white text-executive-primary font-bold text-[10px] uppercase tracking-[0.2em] hover:bg-white/90 hover:scale-105 transition-all duration-300 cursor-pointer flex items-center justify-center shadow-[0_0_20px_rgba(255,255,255,0.05)]"
             >
               Seja Parceiro
             </button>
@@ -183,7 +183,7 @@ export function ReferralProgramPage() {
         {/* Objetivo & Quem Pode Ser Parceiro */}
         <div id="objetivo" className="grid lg:grid-cols-2 gap-8">
           {/* Objetivo */}
-          <div className="p-12 bg-gradient-to-br from-[#060D17] to-[#03080F] border border-white/5 rounded-3xl hover:border-white/10 transition-colors group">
+          <div className="p-12 bg-gradient-to-br from-[var(--color-executive-primary)] to-[var(--color-executive-primary)] border border-white/5 rounded-3xl hover:border-white/10 transition-colors group">
             <div className="flex items-center gap-4 mb-8">
               <div className="w-10 h-10 rounded-full bg-secondary/5 flex items-center justify-center border border-secondary/10 group-hover:bg-secondary/10 transition-colors">
                 <Target className="w-5 h-5 text-secondary" strokeWidth={1.5} />
@@ -201,7 +201,7 @@ export function ReferralProgramPage() {
           </div>
 
           {/* Quem Pode Ser */}
-          <div className="p-12 bg-gradient-to-br from-[#060D17] to-[#03080F] border border-white/5 rounded-3xl hover:border-white/10 transition-colors group">
+          <div className="p-12 bg-gradient-to-br from-[var(--color-executive-primary)] to-[var(--color-executive-primary)] border border-white/5 rounded-3xl hover:border-white/10 transition-colors group">
             <div className="flex items-center gap-4 mb-8">
               <div className="w-10 h-10 rounded-full bg-secondary/5 flex items-center justify-center border border-secondary/10 group-hover:bg-secondary/10 transition-colors">
                 <Users className="w-5 h-5 text-secondary" strokeWidth={1.5} />
@@ -223,7 +223,7 @@ export function ReferralProgramPage() {
         </div>
 
         {/* Como Funciona */}
-        <div className="p-12 md:p-16 bg-gradient-to-br from-[#060D17] to-[#040911] border border-white/5 rounded-[2.5rem] relative overflow-hidden shadow-2xl">
+        <div className="p-12 md:p-16 bg-gradient-to-br from-[var(--color-executive-primary)] to-[var(--color-executive-primary)] border border-white/5 rounded-[2.5rem] relative overflow-hidden shadow-2xl">
           <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-secondary/[0.015] rounded-full blur-[100px] pointer-events-none" />
           
           <div className="text-center mb-16 relative z-10">
@@ -239,7 +239,7 @@ export function ReferralProgramPage() {
               { step: 4, text: 'O cliente contrata os serviços.' },
               { step: 5, text: 'Você recebe sua remuneração mensal.' }
             ].map((s) => (
-              <div key={s.step} className="bg-[#03080F]/50 border border-white/[0.03] hover:border-white/10 hover:-translate-y-1 transition-all duration-300 rounded-2xl p-6 flex flex-col items-center text-center gap-5">
+              <div key={s.step} className="bg-surface-container/50 border border-white/[0.03] hover:border-white/10 hover:-translate-y-1 transition-all duration-300 rounded-2xl p-6 flex flex-col items-center text-center gap-5">
                 <span className="w-10 h-10 rounded-full bg-secondary/5 border border-secondary/10 text-secondary text-[14px] font-mono flex items-center justify-center font-bold shadow-[0_0_15px_rgba(255,133,82,0.05)]">{s.step}</span>
                 <p className="text-[14px] text-white/60 font-sans leading-relaxed font-light">{s.text}</p>
               </div>
@@ -248,7 +248,7 @@ export function ReferralProgramPage() {
         </div>
 
         {/* Por que indicar */}
-        <div className="p-12 md:p-16 bg-[#040911]/80 border border-white/5 rounded-[2.5rem] relative overflow-hidden">
+        <div className="p-12 md:p-16 bg-surface-container/80 border border-white/5 rounded-[2.5rem] relative overflow-hidden">
           <div className="absolute bottom-0 left-0 w-[600px] h-[600px] bg-white/[0.01] rounded-full blur-[120px] pointer-events-none" />
           
           <div className="max-w-4xl mx-auto space-y-12 relative z-10 text-center md:text-left">
@@ -285,7 +285,7 @@ export function ReferralProgramPage() {
           </div>
           
           <div className="grid lg:grid-cols-2 gap-8">
-            <div className="p-12 md:p-14 bg-gradient-to-b from-[#040911] to-[#03080F] border border-white/5 rounded-[2.5rem] relative overflow-hidden group hover:border-white/10 transition-all duration-500">
+            <div className="p-12 md:p-14 bg-gradient-to-b from-[var(--color-executive-primary)] to-[var(--color-executive-primary)] border border-white/5 rounded-[2.5rem] relative overflow-hidden group hover:border-white/10 transition-all duration-500">
               <div className="absolute top-0 right-0 p-8 opacity-[0.02] group-hover:opacity-[0.04] group-hover:scale-110 transition-all duration-700">
                 <DollarSign className="w-48 h-48" strokeWidth={1} />
               </div>
@@ -313,7 +313,7 @@ export function ReferralProgramPage() {
               </div>
             </div>
 
-            <div className="p-12 md:p-14 bg-gradient-to-b from-[#040911] to-[#03080F] border border-white/5 rounded-[2.5rem] relative overflow-hidden group hover:border-white/10 transition-all duration-500">
+            <div className="p-12 md:p-14 bg-gradient-to-b from-[var(--color-executive-primary)] to-[var(--color-executive-primary)] border border-white/5 rounded-[2.5rem] relative overflow-hidden group hover:border-white/10 transition-all duration-500">
               <div className="absolute top-0 right-0 p-8 opacity-[0.02] group-hover:opacity-[0.04] group-hover:scale-110 transition-all duration-700">
                 <Activity className="w-48 h-48" strokeWidth={1} />
               </div>
@@ -352,7 +352,7 @@ export function ReferralProgramPage() {
             <p className="text-[14px] text-white/40 font-sans font-light italic">Cenário ilustrativo: Clientes do plano Growth.</p>
           </div>
           
-          <div className="max-w-3xl mx-auto bg-[#040911]/80 border border-white/5 rounded-3xl overflow-hidden shadow-2xl backdrop-blur-md">
+          <div className="max-w-3xl mx-auto bg-surface-container/80 border border-white/5 rounded-3xl overflow-hidden shadow-2xl backdrop-blur-md">
             <table className="w-full text-left border-collapse">
               <thead>
                 <tr className="border-b border-white/5 bg-white/[0.02]">
@@ -378,7 +378,7 @@ export function ReferralProgramPage() {
         </div>
 
         {/* Exemplo Prático Detalhado */}
-        <div className="relative p-12 md:p-16 bg-gradient-to-br from-[#060D17] to-[#040911] border border-white/5 rounded-[3rem] overflow-hidden shadow-2xl">
+        <div className="relative p-12 md:p-16 bg-gradient-to-br from-[var(--color-executive-primary)] to-[var(--color-executive-primary)] border border-white/5 rounded-[3rem] overflow-hidden shadow-2xl">
           <div className="absolute top-0 right-0 w-[800px] h-[800px] bg-secondary/[0.015] rounded-full blur-[120px] pointer-events-none translate-x-1/3 -translate-y-1/3" />
           
           <div className="flex flex-col md:flex-row items-start md:items-center justify-between mb-16 gap-6 relative z-10 border-b border-white/5 pb-8">
@@ -425,7 +425,7 @@ export function ReferralProgramPage() {
               <h4 className="text-[10px] font-mono uppercase tracking-[0.2em] text-white/40 mb-10 font-bold">Extrato do Parceiro</h4>
               
               <div className="space-y-8">
-                <div className="flex justify-between items-center bg-[#03080F]/50 p-6 rounded-2xl border border-white/5">
+                <div className="flex justify-between items-center bg-surface-container/50 p-6 rounded-2xl border border-white/5">
                   <div className="space-y-2">
                     <span className="text-[12px] uppercase tracking-wider text-white/60 block font-bold font-mono">Ativação (10%)</span>
                     <span className="text-[12px] text-white/30 block font-sans font-light">De R$ 15.000</span>
@@ -433,7 +433,7 @@ export function ReferralProgramPage() {
                   <span className="font-display text-3xl text-white">R$ 1.500</span>
                 </div>
                 
-                <div className="flex justify-between items-center bg-[#03080F]/50 p-6 rounded-2xl border border-white/5">
+                <div className="flex justify-between items-center bg-surface-container/50 p-6 rounded-2xl border border-white/5">
                   <div className="space-y-2">
                     <span className="text-[12px] uppercase tracking-wider text-white/60 block font-bold font-mono">Recorrente (3%)</span>
                     <span className="text-[12px] text-white/30 block font-sans font-light">De R$ 4.000 / mês</span>
@@ -458,7 +458,7 @@ export function ReferralProgramPage() {
 
         {/* Receitas Não Comissionáveis & Regras */}
         <div id="regras" className="grid lg:grid-cols-3 gap-8">
-          <div className="lg:col-span-1 p-10 bg-[#060D17] border border-white/5 rounded-3xl">
+          <div className="lg:col-span-1 p-10 bg-surface-container border border-white/5 rounded-3xl">
             <div className="flex items-center gap-4 mb-8">
               <Ban className="w-5 h-5 text-red-400/50" strokeWidth={1.5} />
               <h2 className="text-[11px] font-mono font-bold uppercase tracking-widest text-white/50">Não Comissionáveis</h2>
@@ -469,13 +469,13 @@ export function ReferralProgramPage() {
           </div>
 
           <div className="lg:col-span-2 grid sm:grid-cols-2 gap-8">
-            <div className="p-10 bg-[#03080F] border border-white/5 rounded-3xl">
+            <div className="p-10 bg-surface-container border border-white/5 rounded-3xl">
               <h3 className="text-[11px] font-mono font-bold uppercase tracking-widest text-white/50 mb-6">Validação</h3>
               <p className="text-[14px] text-white/50 font-sans font-light leading-relaxed">
                 A indicação deve ser registrada formalmente antes do envio da proposta. Se o cliente já estiver em negociação ativa com a Illumine, a indicação não será validada.
               </p>
             </div>
-            <div className="p-10 bg-[#03080F] border border-white/5 rounded-3xl">
+            <div className="p-10 bg-surface-container border border-white/5 rounded-3xl">
               <h3 className="text-[11px] font-mono font-bold uppercase tracking-widest text-white/50 mb-6">Pagamentos</h3>
               <p className="text-[14px] text-white/50 font-sans font-light leading-relaxed">
                 Apuração mensal. Pagamento até o dia 15 do mês subsequente ao recebimento do cliente, condicionado à adimplência e apresentação de NF pelo parceiro.
@@ -485,7 +485,7 @@ export function ReferralProgramPage() {
         </div>
 
         {/* Caminho de Evolução do Parceiro */}
-        <div className="p-16 md:p-20 bg-gradient-to-b from-[#040911] to-[#03080F] border border-white/5 rounded-[3rem] text-center space-y-16 relative overflow-hidden">
+        <div className="p-16 md:p-20 bg-gradient-to-b from-[var(--color-executive-primary)] to-[var(--color-executive-primary)] border border-white/5 rounded-[3rem] text-center space-y-16 relative overflow-hidden">
           <h2 className="text-3xl md:text-5xl font-display font-medium text-white relative z-10">Caminho de Evolução</h2>
           
           <div className="flex flex-col md:flex-row items-center justify-center gap-4 md:gap-6 relative z-10">
@@ -529,7 +529,7 @@ export function ReferralProgramPage() {
       </div>
 
       {/* CTA Final */}
-      <div className="py-40 relative z-10 border-t border-white/[0.03] bg-gradient-to-b from-[#02050A] to-[#010204]">
+      <div className="py-40 relative z-10 border-t border-white/[0.03] bg-gradient-to-b from-[var(--color-executive-primary)] to-[var(--color-executive-primary)]">
         <div className="max-w-4xl mx-auto px-6 text-center space-y-16">
           <h2 className="text-5xl md:text-7xl font-display font-medium text-white tracking-tight">Vamos construir<br/>valor juntos?</h2>
           <p className="text-xl text-white/50 font-sans max-w-2xl mx-auto leading-relaxed font-light">
@@ -538,7 +538,7 @@ export function ReferralProgramPage() {
           <div className="pt-4">
             <button
               onClick={handleWhatsApp}
-              className="px-12 h-16 rounded-full bg-white text-[#03080F] font-bold text-[12px] uppercase tracking-[0.2em] hover:bg-white/90 hover:scale-105 transition-all duration-300 cursor-pointer shadow-[0_0_40px_rgba(255,255,255,0.15)] flex items-center justify-center gap-4 mx-auto group"
+              className="px-12 h-16 rounded-full bg-white text-executive-primary font-bold text-[12px] uppercase tracking-[0.2em] hover:bg-white/90 hover:scale-105 transition-all duration-300 cursor-pointer shadow-[0_0_40px_rgba(255,255,255,0.15)] flex items-center justify-center gap-4 mx-auto group"
             >
               Quero ser um Parceiro
               <ArrowRight size={18} strokeWidth={2} className="group-hover:translate-x-1 transition-transform" />
@@ -548,7 +548,7 @@ export function ReferralProgramPage() {
       </div>
 
       {/* Minimal Footer */}
-      <footer className="border-t border-white/5 bg-[#010204] py-12 z-10 relative">
+      <footer className="border-t border-white/5 bg-surface-container py-12 z-10 relative">
         <div className="max-w-7xl mx-auto px-6 sm:px-8 flex flex-col md:flex-row items-center justify-between gap-6">
           <div className="text-[10px] font-bold uppercase tracking-[0.2em] text-white/30">
             © {new Date().getFullYear()} Illumine Governance™. Todos os direitos reservados.

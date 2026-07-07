@@ -1,617 +1,74 @@
-import { ExecutiveTable, ExecutiveTableHeader, ExecutiveTableBody, ExecutiveTableRow, ExecutiveTableHead, ExecutiveTableCell } from '../ui/executive-table';
-
-import React, { useState, useEffect, useMemo } from 'react';
+import React from 'react';
 import { createPortal } from 'react-dom';
-import { Calendar, Loader2, Upload, Trash2, Plus, FileText, Database, TrendingUp, TrendingDown, Info, BarChart3, AlertTriangle, ShieldAlert, Zap, Target, Activity, ShieldCheck, CheckCircle2, BookOpen, Percent, PieChart as PieChartIcon, ArrowUpRight, ArrowDownRight, Minus, BookMarked, Scale } from 'lucide-react';
-import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Line, ComposedChart, ResponsiveContainer } from 'recharts';
+import { Loader2, BookOpen, TrendingUp, ShieldAlert, ShieldCheck, FileText } from 'lucide-react';
+import { ResponsiveContainer } from 'recharts';
 
+import { ExecutiveTable, ExecutiveTableHeader, ExecutiveTableBody, ExecutiveTableRow, ExecutiveTableHead, ExecutiveTableCell } from '../ui/executive-table';
 import { ExecutiveHistoricalEvolutionCard } from '../ui/executive-historical-evolution-card';
-import { ExecutiveComposedChart, ExecutiveBar, ExecutiveLine, ExecutiveChartGrid, ExecutiveChartXAxis, ExecutiveChartYAxis, ExecutiveChartTooltip } from '../ui/executive-chart';
+import { ExecutiveComposedChart, ExecutiveBar, ExecutiveLine, ExecutiveChartGrid, ExecutiveChartXAxis, ExecutiveChartTooltip } from '../ui/executive-chart';
 import { ExecutiveChartSemanticPalette } from '../../core/theme/ExecutiveChartSemanticPalette';
-import { HistoricalInsightEngine } from '../../services/FiduciaryRuntimeAdapter';
-import type { HistoricalSeries } from '../../services/FiduciaryRuntimeAdapter';
 import { ExecutiveEmptyState } from '../ui/executive-empty-state';
 import { ExecutiveSurface } from '../ui/executive-surface';
 import { ExecutiveStrategicSemanticCards } from '../ui/executive-strategic-semantic-cards';
-import { ExecutiveDecisionSynthesisEngine } from '../../services/FiduciaryRuntimeAdapter';
-import { ExecutiveNarrative } from '../ui/executive-narrative';
 import { ExecutiveTechnicalLayer } from '../ui/executive-technical-layer';
 import { ExecutiveMetricCard } from '../ui/executive-metric-card';
 import { ExecutiveTechnicalMetricCard } from '../ui/executive-technical-metric-card';
-import { ExecutiveScore } from '../ui/executive-score';
 import { ExecutiveBadge } from '../ui/executive-badge';
 
-import { cn, formatCurrency, formatValue } from '../../lib/utils';
+import { cn, formatCurrency } from '../../lib/utils';
 import { PageHeader, StatusBadge } from '../Common';
-import { useAnnualFinancialData, useAllFinancialData } from '../../hooks/useFinancialData';
 import { ImportFinancialModal } from '../modals/ImportFinancialModal';
 import { DLPAActionToolbar } from './dlpa/DLPAActionToolbar';
 import { DLPADataSourceStatus } from './dlpa/DLPADataSourceStatus';
 import { DLPAYearFilter } from './dlpa/DLPAYearFilter';
 import { ManualFinancialModal } from '../modals/ManualFinancialModal';
-import { collection, deleteDoc, doc, query, where, getDocs } from 'firebase/firestore';
-import { db } from '../../lib/firebase';
-import { CapitalGovernanceAdapter } from '../../services/FiduciaryRuntimeAdapter';
-import { LifecycleContextBuilder } from '../../services/FiduciaryRuntimeAdapter';
-import { LifecycleSemanticAuthority } from '../../services/FiduciaryRuntimeAdapter';
-import { LifecycleRenderAudit } from '../../services/FiduciaryRuntimeAdapter';
-import { DLPAExecutiveRenderingGuard, DLPAViolation } from '../../services/FiduciaryRuntimeAdapter';
-import { DLPALegacyLabelScanner } from '../../services/FiduciaryRuntimeAdapter';
 
-type ToastType = { type: 'success' | 'error'; message: string } | null;
+import { useDLPAPageViewModel, normalizeDLPARow } from './dlpa/useDLPAPageViewModel';
 
-// ── Helpers ─────────────────────────────────────────────────────────────────
-
-export interface NormalizedDLPARow {
-  id: string | number;
-  description: string;
-  value: number;
-  isTotal: boolean;
-  nature: 'positive' | 'negative' | 'neutral';
-}
-
-export function normalizeDLPARow(row: any, index: number): NormalizedDLPARow {
-  const v = Number(row.val || row.valor || row.value || 0);
-  const desc = String(row.conta || row.category || row.nome || '—');
-  const lowerDesc = desc.toLowerCase();
-  const isTotal = lowerDesc.includes('total') ||
-    lowerDesc.includes('saldo') ||
-    lowerDesc.includes('lucro liquido') ||
-    lowerDesc.includes('resultado');
-  
-  return {
-    id: row.id || index,
-    description: desc,
-    value: v,
-    isTotal,
-    nature: v < 0 ? 'negative' : v > 0 ? 'positive' : 'neutral'
-  };
-}
-
-
-function resolveDisplayLabel(semanticSource: string, resolvedValue: string | undefined, rawValue: string, fallback: string) {
-  if (semanticSource === 'ELSA' && resolvedValue) return resolvedValue;
-  return rawValue ?? fallback;
-}
-
-function getRetentionLabel(status: string) {
-  const map: Record<string, { label: string; tone: 'success' | 'warning' | 'critical' | 'info' | 'neutral' }> = {
-    'ALTA_RETENÇÃO':              { label: 'Alta Retenção',             tone: 'success' },
-    'RETENÇÃO_MODERADA':          { label: 'Retenção Moderada',         tone: 'info' },
-    'DISTRIBUIÇÃO_EXCESSIVA':     { label: 'Distribuição Excessiva',    tone: 'warning' },
-    'DESCAPITALIZAÇÃO_DELIBERADA':{ label: 'Descapitalização Deliberada', tone: 'critical' },
-    'NÃO_APLICÁVEL_SEM_LUCRO':   { label: 'N/A — Sem Lucro',           tone: 'neutral' },
-    'NÃO_APLICÁVEL':              { label: 'N/A',                       tone: 'neutral' },
-    'AUSÊNCIA_DE_CAPACIDADE_DISTRIBUTIVA': { label: 'Sem Capacidade Distributiva', tone: 'neutral' },
-    'RETENÇÃO_COMPULSÓRIA_POR_PREJUÍZO':   { label: 'Retenção por Prejuízo', tone: 'critical' },
-    
-    // New fiduciaries
-    'STRATEGIC_RETENTION':        { label: 'Retenção Estratégica',      tone: 'success' },
-    'FORCED_RETENTION':           { label: 'Retenção Compulsória',      tone: 'neutral' },
-    'EMERGENCY_CAPITAL_PRESERVATION': { label: 'Preservação Emergencial', tone: 'warning' },
-    'SURVIVAL_STAGE_CAPITAL_STRUCTURE': { label: 'Estrutura de Sobrevivência', tone: 'critical' },
-    'UNSUSTAINABLE_PRESERVATION': { label: 'Preservação Insustentável', tone: 'warning' },
-    'GOVERNANCE_RETENTION':       { label: 'Retenção de Governança',    tone: 'info' },
-    'RETENTION_NOT_ELIGIBLE':     { label: 'Inelegível para Retenção',  tone: 'neutral' },
-  };
-  return map[status] || map['NÃO_APLICÁVEL'];
-}
-
-function getDistributionLabel(pressure: string) {
-  const map: Record<string, { label: string; tone: 'success' | 'warning' | 'critical' | 'info' | 'neutral' }> = {
-    'BAIXA':                   { label: 'Conservadora',              tone: 'success' },
-    'MODERADA':                { label: 'Equilibrada',               tone: 'info' },
-    'ALTA':                    { label: 'Agressiva',                  tone: 'warning' },
-    'CRÍTICA':                 { label: 'Predatória',                 tone: 'critical' },
-    'NÃO_APLICÁVEL_SEM_LUCRO': { label: 'Sem distribuição no período', tone: 'neutral' },
-    'NÃO_APLICÁVEL':           { label: 'N/A',                        tone: 'neutral' },
-  };
-  return map[pressure] || map['NÃO_APLICÁVEL'];
-}
-
-function getPreservationLabel(status: string) {
-  const map: Record<string, { label: string; tone: 'success' | 'warning' | 'critical' | 'info' | 'neutral' }> = {
-    'PRESERVAÇÃO_SAUDÁVEL':   { label: 'Preservação Saudável',       tone: 'success' },
-    'EROSÃO_MODERADA':        { label: 'Erosão Moderada',             tone: 'info' },
-    'EROSÃO_RELEVANTE':       { label: 'Erosão Relevante',            tone: 'warning' },
-    'FRAGILIDADE_PATRIMONIAL':{ label: 'Fragilidade Patrimonial',     tone: 'critical' },
-    'NEUTRO':                 { label: 'Patrimônio Preservado',       tone: 'neutral' },
-    'DEPENDÊNCIA_DE_CAPITALIZAÇÃO':{ label: 'Dependência de Capital', tone: 'critical' },
-    'SUSTENTAÇÃO_PATRIMONIAL_EXTERNA':{ label: 'Sustentação Externa', tone: 'warning' },
-    'EROSÃO_PATRIMONIAL_OPERACIONAL':{ label: 'Erosão Operacional', tone: 'critical' },
-    // legado
-    'PRESERVADO':             { label: 'Preservado',                  tone: 'success' },
-    'DRENADO':                { label: 'Erosão Relevante',             tone: 'warning' },
-    // fiduciários novos
-    'PRESERVED':              { label: 'Preservado',                  tone: 'success' },
-    'PRESSURED':              { label: 'Pressionado',                 tone: 'info' },
-    'SEVERELY_ERODED':        { label: 'Erosão Severa',               tone: 'warning' },
-    'CAPITAL_COLLAPSE_RISK':  { label: 'Risco de Colapso',            tone: 'critical' },
-    // CPI classifications
-    'CAPITAL_EXPANSION':      { label: 'Expansão de Capital',         tone: 'success' },
-    'CAPITAL_PRESERVED':      { label: 'Capital Preservado',          tone: 'success' },
-    'MODERATE_EROSION':       { label: 'Erosão Moderada',             tone: 'info' },
-    'HIGH_EROSION':           { label: 'High Capital Erosion',        tone: 'warning' },
-    'CRITICAL_EROSION':       { label: 'Erosão Crítica',              tone: 'critical' },
-    'CAPITAL_COLLAPSE':       { label: 'Colapso de Capital',          tone: 'critical' },
-    'Capitalização em Consolidação': { label: 'Capitalização em Consolidação', tone: 'info' },
-    'Estrutura de Capital em Formação': { label: 'Estrutura de Capital em Formação', tone: 'neutral' },
-    'Estrutura Patrimonial em Formação': { label: 'Estrutura Patrimonial em Formação', tone: 'neutral' }
-  };
-  return map[status] || map['NEUTRO'];
-}
-
-function getMaturityLabel(maturity: string) {
-  const map: Record<string, { label: string; color: string; bg: string; border: string; score: number }> = {
-    'MATURA':           { label: 'Governança Matura',           color: 'text-emerald-700', bg: 'bg-success-soft', border: 'border-emerald-200', score: 90 },
-    'EM_DESENVOLVIMENTO':{ label: 'Em Desenvolvimento',         color: 'text-blue-700',    bg: 'bg-blue-50',    border: 'border-blue-200',    score: 65 },
-    'FRAGILIZADA':      { label: 'Governança Fragilizada',      color: 'text-amber-700',   bg: 'bg-warning-soft',   border: 'border-amber-200',   score: 38 },
-    'EM_ESTRUTURAÇÃO':  { label: 'Em Estruturação',             color: 'text-muted-foreground',   bg: 'bg-surface-container/30',   border: 'border-border',   score: 28 },
-    'FRÁGIL':           { label: 'Governança Frágil',           color: 'text-amber-700',   bg: 'bg-warning-soft',   border: 'border-amber-200',   score: 40 },
-    'DESTRUTIVA':       { label: 'Governança Destrutiva',       color: 'text-rose-700',    bg: 'bg-critical-soft',    border: 'border-rose-200',    score: 10 },
-    
-    // Modern CGE statuses mapping
-    'Governança Estruturada': { label: 'Governança Estruturada', color: 'text-emerald-700', bg: 'bg-success-soft border-emerald-100', border: 'border-emerald-200', score: 90 },
-    'Governança Estruturada com Risco de Capital': { label: 'Governança Estruturada com Risco de Capital', color: 'text-emerald-700', bg: 'bg-success-soft border-emerald-100', border: 'border-emerald-200', score: 85 },
-    'Governança em Consolidação': { label: 'Governança em Consolidação', color: 'text-blue-700', bg: 'bg-blue-50 border-blue-100', border: 'border-blue-200', score: 70 },
-    'Governança Fragilizada': { label: 'Governança Fragilizada', color: 'text-amber-700', bg: 'bg-warning-soft border-amber-100', border: 'border-amber-200', score: 50 },
-    'Governança Crítica': { label: 'Governança Crítica', color: 'text-rose-700', bg: 'bg-critical-soft border-rose-100', border: 'border-rose-200', score: 30 },
-    'Governança em Estruturação': { label: 'Governança em Estruturação', color: 'text-blue-700', bg: 'bg-blue-50 border-blue-100', border: 'border-blue-200', score: 50 }
-  };
-  return map[maturity] || { label: maturity, color: 'text-muted-foreground', bg: 'bg-surface-container/30 border-border', border: 'border-border', score: 50 };
-}
-
-
-
-
-// ── Main Component ────────────────────────────────────────────────────────────
 export function DLPAPage({ clients, selectedClient, selectedYear }: any) {
-  const [filterYear, setFilterYear] = useState<number>(Number(selectedYear) || new Date().getFullYear());
-  const [toast, setToast] = useState<ToastType>(null);
-  const [deleting, setDeleting] = useState(false);
-  const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
-  const [showImportModal, setShowImportModal] = useState(false);
-  const [showManualModal, setShowManualModal] = useState(false);
-  const [showElsaPanel, setShowElsaPanel] = useState(false);
-  
-
-  useEffect(() => {
-    if (selectedYear) setFilterYear(Number(selectedYear));
-  }, [selectedYear]);
-
-  useEffect(() => {
-    const handleKeyDown = (e: KeyboardEvent) => {
-      if (e.ctrlKey && e.shiftKey && e.key.toLowerCase() === 'e') {
-        setShowElsaPanel(prev => !prev);
-      }
-    };
-    window.addEventListener('keydown', handleKeyDown);
-    return () => window.removeEventListener('keydown', handleKeyDown);
-  }, []);
-
-  // ── Data Fetching ──────────────────────────────────────────────────────────
-  const { dbData: dbDataDLPA, docIds: docIdsDLPA, loading: loadingDLPA, refetch: refetchDLPA } =
-    useAnnualFinancialData(selectedClient, filterYear, 'DLPA');
-
-  const { dbData: allHistoryData, loading: loadingHistory } = useAllFinancialData(selectedClient);
-
-  // ── Extrai valores reais da DLPA ──────────────────────────────────────────
-  const dlpaMetrics = useMemo(() => {
-    if (dbDataDLPA.length === 0) return null;
-
-    const normalize = (s: string) =>
-      (s || '').toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '');
-
-    // First, try to get the real PL values from the Balance Sheet (BP) for this year in allHistoryData
-    const bpEntries = allHistoryData.filter((d: any) =>
-      Number(d.year) === filterYear &&
-      ['bp', 'balanço patrimonial', 'balanco patrimonial', 'balanco'].includes(normalize(d.docType || d.type || ''))
-    );
-
-    let bpPlFim = 0;
-    if (bpEntries.length > 0) {
-      const plEntry = bpEntries.find((e: any) => {
-        const n = normalize(e.conta || e.category || '');
-        return (n === 'patrimonio liquido' || n === 'pl' || n === 'total do patrimonio liquido') && e.type === 'pl';
-      });
-      if (plEntry) {
-        bpPlFim = Number(plEntry.val || plEntry.valor || plEntry.value || 0);
-      }
+  const {
+    state: {
+      filterYear,
+      toast,
+      deleting,
+      showDeleteConfirm,
+      showImportModal,
+      showManualModal,
+      showElsaPanel,
+      renderingViolations,
+      featureFlags,
+      loading,
+      hasData,
+      capitalGov,
+      executiveLayer,
+      dlpaPayload,
+      dbDataDLPA,
+      chartData,
+      dlpaMetrics,
+      cpiStatus,
+      retentionStyle,
+      distributionStyle,
+      preservationStyle,
+      alignedMaturity,
+      maturityStyle,
+      lucrosPrejuizosFinal,
+      semanticSource,
+      lifecycleStage,
+      fiduciaryOutput,
+      distribution,
+      preservation,
+      narrative,
+      executiveNarrativeInsight
+    },
+    actions: {
+      setFilterYear,
+      setShowDeleteConfirm,
+      setShowImportModal,
+      setShowManualModal,
+      handleDeleteAll,
+      refetchDLPA
     }
-
-    // Also get the BP PL for the previous year (starting equity)
-    const bpEntriesPrev = allHistoryData.filter((d: any) =>
-      Number(d.year) === (filterYear - 1) &&
-      ['bp', 'balanço patrimonial', 'balanco patrimonial', 'balanco'].includes(normalize(d.docType || d.type || ''))
-    );
-
-    let bpPlInicio = 0;
-    if (bpEntriesPrev.length > 0) {
-      const plEntry = bpEntriesPrev.find((e: any) => {
-        const n = normalize(e.conta || e.category || '');
-        return (n === 'patrimonio liquido' || n === 'pl' || n === 'total do patrimonio liquido') && e.type === 'pl';
-      });
-      if (plEntry) {
-        bpPlInicio = Number(plEntry.val || plEntry.valor || plEntry.value || 0);
-      }
-    }
-
-    const findVal = (...terms: string[]) => {
-      const entry = dbDataDLPA.find((e: any) => {
-        const n = normalize(e.conta || e.category || '');
-        return terms.some(t => n.includes(normalize(t)));
-      });
-      return Number(entry?.val || entry?.valor || entry?.value || 0);
-    };
-
-    // Lucro Líquido extraction that also matches Prejuízo (excluding carryover/accumulated balances)
-    const getNetIncomeValue = () => {
-      const entry = dbDataDLPA.find((e: any) => {
-        const n = normalize(e.conta || e.category || '');
-        if (n.includes('acumulado') || n.includes('saldo inicial') || n.includes('saldo final') || n.includes('saldo anterior') || n.includes('periodo anterior') || n.includes('inicio') || n.includes('fim')) {
-          return false;
-        }
-        return [
-          'lucro liquido', 'lucro do exercicio', 'resultado liquido',
-          'prejuizo liquido', 'prejuizo do exercicio', 'prejuizo liquido do exercicio',
-          'resultado do exercicio', 'resultado liquido do exercicio', 'prejuizo do periodo', 'lucro do periodo',
-          'lucro/prejuizo do exercicio', 'lucro ou prejuizo do exercicio'
-        ].some(term => n.includes(normalize(term))) || (n.includes('lucro') || n.includes('prejuizo') || n.includes('resultado do exercicio'));
-      });
-      if (!entry) return 0;
-      let val = Number(entry.val ?? entry.valor ?? entry.value ?? 0);
-      const n = normalize(entry.conta || entry.category || '');
-      if ((n.includes('prejuizo') || n.includes('(-)')) && val > 0) {
-        val = -val;
-      }
-      return val;
-    };
-
-    const getPlInicioValue = () => {
-      if (bpPlInicio > 0) return bpPlInicio;
-      
-      const entry = dbDataDLPA.find((e: any) => {
-        const n = normalize(e.conta || e.category || '');
-        const isSubAccount = n.includes('lucro') || n.includes('prejuizo') || n.includes('reserva');
-        if (isSubAccount) return false;
-        
-        return [
-          'pl inicio', 'saldo inicial', 'patrimonio inicio',
-          'saldo no inicio', 'saldo anterior', 'saldo no inicio do periodo',
-          'saldo de abertura'
-        ].some(term => n.includes(normalize(term))) || (n.includes('saldo') && n.includes('inicio'));
-      });
-      return Number(entry?.val || entry?.valor || entry?.value || 0);
-    };
-
-    const getPlFimValue = () => {
-      if (bpPlFim > 0) return bpPlFim;
-
-      const entry = dbDataDLPA.find((e: any) => {
-        const n = normalize(e.conta || e.category || '');
-        const isSubAccount = n.includes('lucro') || n.includes('prejuizo') || n.includes('reserva');
-        if (isSubAccount) return false;
-
-        return [
-          'pl fim', 'saldo final', 'patrimonio fim', 'patrimonio liquido',
-          'saldo no fim', 'saldo atual', 'saldo no fim do periodo',
-          'saldo de encerramento'
-        ].some(term => n.includes(normalize(term))) || (n.includes('saldo') && n.includes('fim'));
-      });
-
-      return Number(entry?.val || entry?.valor || entry?.value || 0);
-    };
-
-    const getCapitalSocial = () => {
-      const bpEntries = allHistoryData.filter((d: any) =>
-        Number(d.year) === filterYear &&
-        ['bp', 'balanço patrimonial', 'balanco patrimonial', 'balanco'].includes(normalize(d.docType || d.type || ''))
-      );
-      const bpCapitalSocialEntry = bpEntries.find((e: any) => {
-        const n = normalize(e.conta || e.category || '');
-        return n === 'capital social' || n === 'capital social integralizado' || n === 'capital integralizado' || n === 'capital subscrito';
-      });
-      if (bpCapitalSocialEntry) {
-        return Math.abs(Number(bpCapitalSocialEntry.val || bpCapitalSocialEntry.valor || bpCapitalSocialEntry.value || 0));
-      }
-
-      const entry = dbDataDLPA.find((e: any) => {
-        const n = normalize(e.conta || e.category || '');
-        return n.includes('capital social') || n.includes('capital integralizado');
-      });
-      return Number(entry?.val || entry?.valor || entry?.value || bpPlFim || 0);
-    };
-
-    const getStartingLucrosPrejuizos = () => {
-      const entry = dbDataDLPA.find((e: any) => {
-        const n = normalize(e.conta || e.category || '');
-        return (n.includes('saldo anterior') || n.includes('saldo inicial') || n.includes('inicio') || n.includes('abertura') || n.includes('anterior')) && 
-               (n.includes('lucros') || n.includes('prejuizos') || n.includes('acumulados') || n.includes('lucros/prejuizos') || n.includes('lucros ou prejuizos'));
-      });
-      let val = Number(entry?.val ?? entry?.valor ?? entry?.value ?? 0);
-      if (entry) {
-        const nameNorm = normalize(entry.conta || entry.category || '');
-        if ((nameNorm.includes('prejuizo') || nameNorm.includes('(-)')) && val > 0) {
-          val = -val;
-        }
-      }
-      return val;
-    };
-
-    const lucroLiquido       = getNetIncomeValue();
-    const dividendos         = Math.abs(findVal('dividendo', 'distribuicao', 'jcp', 'juros sobre capital'));
-    const reservaLegal       = findVal('reserva legal');
-    const reservaEstatutaria = findVal('reserva estatutaria', 'outras reservas');
-    const plInicio           = getPlInicioValue();
-    const plFim              = getPlFimValue();
-    const aumentoCapital     = findVal('aumento de capital', 'integralizacao');
-    const lucrosPrejuizosInicio = getStartingLucrosPrejuizos();
-    const capitalSocial = getCapitalSocial();
-
-    return {
-      lucroLiquido,
-      dividendos,
-      reservaLegal,
-      reservaEstatutaria,
-      plInicio: plInicio || plFim,
-      plFim: plFim || plInicio,
-      aumentoCapital,
-      lucrosPrejuizosInicio,
-      capitalSocial
-    };
-  }, [dbDataDLPA, allHistoryData, filterYear]);
-
-  // ── Capital Governance Adapter (local, sem runtime completo) ──────────────
-  const capitalGov = useMemo(() => {
-    if (!dlpaMetrics || dbDataDLPA.length === 0) return null;
-    const { lucroLiquido, dividendos, plInicio, plFim, aumentoCapital, capitalSocial } = dlpaMetrics;
-    const retainedEarnings = plFim > 0 ? plFim - (plInicio || plFim) : lucroLiquido - dividendos;
-
-    const currentClient = clients?.find((c: any) => c.id === selectedClient);
-
-    let foundationYear: number | undefined = undefined;
-    if (currentClient?.dataFundacao) {
-      const parts = currentClient.dataFundacao.split('/');
-      if (parts.length === 3) {
-        const yearPart = Number(parts[2]);
-        if (!isNaN(yearPart)) foundationYear = yearPart;
-      } else {
-        const yearPart = Number(currentClient.dataFundacao);
-        if (!isNaN(yearPart)) {
-          foundationYear = yearPart;
-        } else {
-          const dateObj = new Date(currentClient.dataFundacao);
-          if (!isNaN(dateObj.getFullYear())) {
-            foundationYear = dateObj.getFullYear();
-          }
-        }
-      }
-    }
-    if (foundationYear === undefined && typeof currentClient?.foundationYear === 'number') {
-      foundationYear = currentClient.foundationYear;
-    }
-
-    const uniqueYears = Array.from(new Set((allHistoryData as any[]).map((d: any) => Number(d.year)).filter(Boolean))) as number[];
-    const historicalCycles = uniqueYears.filter(y => y <= filterYear).length;
-
-    const normalize = (s: string) =>
-      (s || '').toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '');
-    const dreEntries = allHistoryData.filter((d: any) =>
-      Number(d.year) === filterYear &&
-      ['dre', 'dre gerencial', 'resultado'].includes(normalize(d.docType || d.type || ''))
-    );
-    const revEntry = dreEntries.find((d: any) => {
-      const name = normalize(d.conta || d.category || d.item || '');
-      return name.includes('receita') || name.includes('faturamento') || name.includes('vendas');
-    });
-    const revenue = revEntry ? Number(revEntry.val ?? revEntry.valor ?? revEntry.value ?? 0) : 0;
-
-    const lContext = LifecycleContextBuilder.build({
-      foundationYear,
-      analysisYear: filterYear,
-      historicalCycles,
-      capitalSocial,
-      revenue,
-      netIncome: lucroLiquido
-    });
-    const lifecycleProfile = LifecycleSemanticAuthority.getSemanticProfile(lContext);
-
-    const financialRuntimeContext = {
-      lifecycle: lContext,
-      analysisYear: filterYear,
-      lifecycleProfile,
-      contextualConfidence: 'HIGH' as const,
-      interpretationWarnings: [] as string[],
-      requiredDisclosures: [] as string[],
-      auditTrail: [] as string[]
-    };
-
-    try {
-      return CapitalGovernanceAdapter.process(
-        dbDataDLPA,
-        lucroLiquido,
-        retainedEarnings,
-        dividendos,
-        plInicio || plFim,
-        plFim,
-        aumentoCapital,
-        financialRuntimeContext,
-        allHistoryData
-      );
-    } catch (e: any) {
-      console.error("DLPA Adapter Error:", e);
-      return { error: e.message };
-    }
-  }, [dbDataDLPA, dlpaMetrics, allHistoryData, clients, selectedClient, filterYear]);
-
-  // ── Dados históricos para gráfico ─────────────────────────────────────────
-  const chartData = useMemo(() => {
-    return [4, 3, 2, 1, 0].map(offset => {
-      const y = filterYear - offset;
-      const yearEntries = allHistoryData.filter((d: any) => Number(d.year) === y);
-
-      const normalize = (s: string) =>
-        (s || '').toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '');
-
-      const findYearVal = (docTypes: string[], terms: string[]) => {
-        const match = yearEntries
-          .filter((d: any) => docTypes.some(dt => normalize(d.docType || d.type || '') === normalize(dt)))
-          .find((d: any) => terms.some(t => normalize(d.conta || d.category || '').includes(normalize(t))));
-        return Number(match?.val || match?.valor || match?.value || 0);
-      };
-
-      const ll    = findYearVal(['dre', 'dre gerencial'], ['lucro liquido', 'lucro do exercicio']);
-      const divid = Math.abs(findYearVal(['dlpa'], ['dividendo', 'distribuicao', 'jcp']));
-      const rl    = findYearVal(['dlpa'], ['reserva legal']);
-
-      return { year: y.toString(), LucroLíquido: ll, Dividendos: divid, ReservaLegal: rl };
-    });
-  }, [allHistoryData, filterYear]);
-
-  // ── Toast ────────────────────────────────────────────────────────────────
-  const showToast = (type: 'success' | 'error', message: string) => {
-    setToast({ type, message });
-    setTimeout(() => setToast(null), 4000);
-  };
-
-  // ── Delete Handler ────────────────────────────────────────────────────────
-  const handleDeleteAll = async () => {
-    if (!selectedClient || docIdsDLPA.length === 0) return;
-    setDeleting(true);
-    try {
-      await Promise.all(docIdsDLPA.map(id => deleteDoc(doc(db, 'financial_entries', id))));
-      showToast('success', 'Dados DLPA excluídos com sucesso.');
-      refetchDLPA();
-    } catch {
-      showToast('error', 'Erro ao excluir dados.');
-    } finally {
-      setDeleting(false);
-      setShowDeleteConfirm(false);
-    }
-  };
-
-  const loading = loadingDLPA || loadingHistory;
-  const hasData = dbDataDLPA.length > 0 && !!dlpaMetrics && (dlpaMetrics.lucroLiquido !== 0 || dlpaMetrics.dividendos !== 0 || dlpaMetrics.plFim !== 0);
-  const retention    = (capitalGov as any)?.diagnostics?.retention;
-  const distribution = (capitalGov as any)?.diagnostics?.distribution;
-  const preservation = (capitalGov as any)?.diagnostics?.preservation;
-  const behavior     = (capitalGov as any)?.diagnostics?.behavior;
-  const fiduciaryOutput = (capitalGov as any)?.diagnostics?.fiduciaryOutput;
-  const narrative    = (capitalGov as any)?.narrative || '';
-  const lifecycleContext = (capitalGov as any)?.semantic?.semanticContext || {};
-  const isValidLifecycleContext = lifecycleContext?.semanticSource && lifecycleContext?.lifecycleStage;
-
-  const semanticSource = isValidLifecycleContext ? lifecycleContext.semanticSource : ((capitalGov as any)?.semanticSource || 'LEGACY');
-  const lifecycleStage = isValidLifecycleContext ? lifecycleContext.lifecycleStage : ((capitalGov as any)?.diagnostics?.fiduciaryOutput?.lifecycleStage || (capitalGov as any)?.lifecycleStage || 'ESTABLISHED_ANALYSIS');
-
-  const executiveLayer = (capitalGov as any)?.executiveLayer;
-
-  const dlpaPayload = useMemo(() => {
-    if (!executiveLayer) return null;
-    return ExecutiveDecisionSynthesisEngine.generateStrategicDiagnosisPayload({
-      analysisYear: selectedYear,
-      generatedAt: new Date().toISOString(),
-      moduleContext: 'DLPA',
-      activeFiduciaryRestrictions: [],
-      fiduciaryClassification: 'HEALTHY',
-      mathematicalClassification: '',
-      globalScore: 75,
-      primaryIndicators: {},
-      technicalDrivers: {
-        lucroLiquido: dlpaMetrics?.lucroLiquido || 0,
-        dividendosPagos: dlpaMetrics?.dividendos || 0,
-        payoutRatio: (dlpaMetrics?.lucroLiquido || 0) > 0 ? (dlpaMetrics?.dividendos || 0) / (dlpaMetrics?.lucroLiquido || 1) : 0,
-        lucroPrejuizoPeriodo: dlpaMetrics?.lucroLiquido || 0,
-        lucrosPrejuizosAcumulados: (dlpaMetrics?.lucrosPrejuizosInicio || 0) + (dlpaMetrics?.lucroLiquido || 0),
-        capitalSocial: dlpaMetrics?.capitalSocial || 0,
-        patrimonioLiquido: dlpaMetrics?.plFim || 0,
-        capacidadeDistribuicao: (dlpaMetrics?.lucroLiquido || 0) - (dlpaMetrics?.dividendos || 0)
-      },
-      contextualAlerts: []
-    });
-  }, [executiveLayer, dlpaMetrics, selectedYear]);
-
-
-  const capitalSocialValue = dlpaMetrics?.capitalSocial ?? 0;
-
-  const cpi = useMemo(() => {
-    if (!dlpaMetrics || capitalSocialValue === 0) return 1;
-    return (dlpaMetrics.plFim ?? 0) / capitalSocialValue;
-  }, [dlpaMetrics, capitalSocialValue]);
-
-  const cpiStatus = useMemo(() => {
-    const raw = preservation?.preservationStatus || 'NEUTRO';
-    const resolved = (capitalGov as any)?.semantic?.resolvedCapitalStatus || (capitalGov as any)?.resolvedCapitalStatus;
-    return resolveDisplayLabel(semanticSource, resolved, raw, 'NEUTRO');
-  }, [capitalGov, preservation, semanticSource]);
-
-  const retentionStyle    = getRetentionLabel(retention?.retentionStatus || 'NÃO_APLICÁVEL');
-  const distributionStyle = getDistributionLabel(distribution?.distributionPressure || 'NÃO_APLICÁVEL');
-  const preservationStyle = getPreservationLabel(cpiStatus || 'NEUTRO');
-
-  const alignedMaturity = useMemo(() => {
-    const raw = behavior?.governanceMaturity || 'Governança Crítica';
-    const resolved = (capitalGov as any)?.semantic?.resolvedGovernanceStatus || (capitalGov as any)?.resolvedGovernanceStatus;
-    return resolveDisplayLabel(semanticSource, resolved, raw, 'Governança Crítica');
-  }, [capitalGov, behavior, semanticSource]);
-
-  const [renderingViolations, setRenderingViolations] = useState<DLPAViolation[]>([]);
-  const featureFlags = useMemo(() => ({
-    showSemanticAudit: true
-  }), []);
-
-  // Execute UI Rendering Audit
-  useEffect(() => {
-    if (capitalGov && process.env.NODE_ENV !== 'production') {
-      LifecycleRenderAudit.validate({
-        governanceStatus: behavior?.governanceMaturity,
-        resolvedGovernanceStatus: (capitalGov as any)?.resolvedGovernanceStatus,
-        capitalStatus: preservation?.preservationStatus,
-        resolvedCapitalStatus: (capitalGov as any)?.resolvedCapitalStatus,
-        semanticSource: (capitalGov as any)?.semanticSource,
-        resolvedSemanticSource: (capitalGov as any)?.semanticSource
-      });
-    }
-  }, [capitalGov, behavior, preservation]);
-
-  const maturityStyle     = getMaturityLabel(alignedMaturity);
-
-  // Hook DLPAExecutiveRenderingGuard into DLPAPage.tsx via useEffect
-  useEffect(() => {
-    if (capitalGov) {
-      const renderedTerms = [
-        maturityStyle.label,
-        preservationStyle.label,
-        narrative,
-        cpiStatus
-      ];
-      
-      if (semanticSource === 'ELSA') {
-        try {
-          DLPALegacyLabelScanner.scanRenderedLabels(semanticSource, renderedTerms);
-        } catch (e) {
-          console.error(e);
-        }
-      }
-
-      const viols = DLPAExecutiveRenderingGuard.validateExecutiveDisplay(semanticSource, lifecycleStage, renderedTerms);
-      setRenderingViolations(viols);
-    }
-  }, [semanticSource, lifecycleStage, maturityStyle.label, preservationStyle.label, narrative, capitalGov, cpiStatus]);
-
-  const lucrosPrejuizosFinal = useMemo(() => {
-    if (!dlpaMetrics) return 0;
-    if (retention?.lucrosPrejuizos != null && retention.lucrosPrejuizos !== 0) {
-      return retention.lucrosPrejuizos;
-    }
-    return (dlpaMetrics.lucrosPrejuizosInicio || 0) + (dlpaMetrics.lucroLiquido || 0);
-  }, [dlpaMetrics, retention]);
-
-  const parsedTaxaRetencao = retention ? retention.retentionRatio * 100 : 0;
-  const parsedTaxaDistribuicao = distribution ? distribution.distributionRatio * 100 : 0;
-  const retentionValue = retention ? retention.retainedEarnings : 0;
-
-
+  } = useDLPAPageViewModel(clients, selectedClient, selectedYear);
 
   return (
     <div className="max-w-[1440px] mx-auto space-y-10 pb-32 animate-executive-fade">
@@ -631,11 +88,11 @@ export function DLPAPage({ clients, selectedClient, selectedYear }: any) {
           <div className="bg-card rounded-2xl p-8 shadow-2xl" style={{ width: '100%', maxWidth: '24rem' }}>
             <ShieldAlert size={32} className="text-critical mb-4" />
             <h3 className="text-lg font-black text-primary mb-2">Confirmar Exclusão</h3>
-      <p className="text-sm text-executive-secondary mb-6 leading-relaxed">
+            <p className="text-sm text-executive-secondary mb-6 leading-relaxed">
               Todos os registros DLPA de <strong>{filterYear}</strong> serão excluídos permanentemente.
             </p>
             <div className="flex gap-3">
-       <button onClick={() => setShowDeleteConfirm(false)} className="flex-1 px-4 py-2 border border-border rounded-xl text-sm font-medium text-executive-secondary hover:bg-surface-container/30">Cancelar</button>
+              <button onClick={() => setShowDeleteConfirm(false)} className="flex-1 px-4 py-2 border border-border rounded-xl text-sm font-medium text-executive-secondary hover:bg-surface-container/30">Cancelar</button>
               <button onClick={handleDeleteAll} disabled={deleting} className="flex-1 px-4 py-2 bg-critical-soft0 text-white rounded-xl text-sm font-bold hover:bg-rose-600 disabled:opacity-60">
                 {deleting ? <Loader2 size={16} className="animate-spin mx-auto" /> : 'Excluir'}
               </button>
@@ -676,7 +133,7 @@ export function DLPAPage({ clients, selectedClient, selectedYear }: any) {
             <div>
               <span className="block text-muted-foreground mb-1">Raw Governance Status:</span>
               <strong className="text-amber-400">
-                {behavior?.governanceMaturity || 'N/A'}
+                {(capitalGov as any)?.diagnostics?.behavior?.governanceMaturity || 'N/A'}
               </strong>
             </div>
             <div>
@@ -736,7 +193,7 @@ export function DLPAPage({ clients, selectedClient, selectedYear }: any) {
             {hasData && (
               <StatusBadge status="Ativo" />
             )}
-            <DLPADataSourceStatus hasRealData={hasData} loading={loadingDLPA} />
+            <DLPADataSourceStatus hasRealData={hasData} loading={loading} />
           </div>
           <DLPAYearFilter filterYear={filterYear} onChangeYear={setFilterYear} />
         </div>
@@ -772,7 +229,7 @@ export function DLPAPage({ clients, selectedClient, selectedYear }: any) {
                 <ShieldAlert size={28} />
               </div>
               <h3 className="text-lg font-black text-primary mb-2">Falha na Renderização Executiva</h3>
-       <p className="text-sm text-executive-secondary max-w-lg mb-4">
+              <p className="text-sm text-executive-secondary max-w-lg mb-4">
                 Houve um erro ao processar a governança de capital.
               </p>
               <div className="bg-card border border-border rounded-xl p-4 text-xs font-mono text-critical w-full max-w-2xl text-left overflow-auto">
@@ -931,8 +388,6 @@ export function DLPAPage({ clients, selectedClient, selectedYear }: any) {
                     );
                   })()}
                 </div>
-
-                {/* Narrativas Consolidadas foram movidas para a Camada Técnica no final da página */}
               </ExecutiveSurface>
 
               {/* 4. Proteção ao Capital dos Sócios */}
@@ -967,12 +422,9 @@ export function DLPAPage({ clients, selectedClient, selectedYear }: any) {
 
                 <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 pt-6 border-t border-border">
                   <div className="flex flex-col gap-4">
-                    {/* Salvaguarda Patrimonial movido para a Camada Técnica */}
                   </div>
 
                   <div className="flex flex-col gap-4">
-                    {/* Tese de Recuperação Patrimonial movido para a Camada Técnica */}
-
                     {executiveLayer.retention?.classification === 'Retenção Compulsória' && (
                       <div className="animate-executive-fade p-5 bg-amber-50 dark:bg-amber-500/10 border border-amber-200/60 dark:border-amber-500/20 rounded-2xl flex items-start gap-4 shadow-sm mt-2">
                         <ShieldAlert className="text-amber-500 shrink-0" size={24} />
@@ -1003,10 +455,7 @@ export function DLPAPage({ clients, selectedClient, selectedYear }: any) {
                 <ExecutiveHistoricalEvolutionCard 
                   title="Lucro vs Distribuição Histórica"
                   description="Evolução dos últimos 5 anos de destinação de resultados."
-                  insight={HistoricalInsightEngine.generateExecutiveNarrative(
-                    { module: 'DLPA', globalFiduciaryStatus: 'NEUTRAL' },
-                    { profit: { metricName: 'Lucro', data: chartData.map((d: any) => ({ year: d.year, value: d.LucroLíquido })) } }
-                  )}
+                  insight={executiveNarrativeInsight}
                   legendItems={[
                     { label: 'Lucro Líquido', colorKey: 'profit' },
                     { label: 'Dividendos', colorKey: 'liability' },
@@ -1025,7 +474,7 @@ export function DLPAPage({ clients, selectedClient, selectedYear }: any) {
                         <ExecutiveBar dataKey="LucroLíquido" name="Lucro Líquido" fill={ExecutiveChartSemanticPalette.profit} radius={[5, 5, 0, 0]} maxBarSize={40} />
                         <ExecutiveBar dataKey="Dividendos"   name="Dividendos"    fill={ExecutiveChartSemanticPalette.liability} radius={[5, 5, 0, 0]} maxBarSize={40} />
                         <ExecutiveLine type="monotone" dataKey="ReservaLegal" name="Reserva Legal" stroke={ExecutiveChartSemanticPalette.primary} strokeWidth={3}
-                          dot={{ r: 4, fill: ExecutiveChartSemanticPalette.primary, strokeWidth: 2, stroke: '#fff' }} />
+                          dot={{ r: 4, fill: ExecutiveChartSemanticPalette.primary, strokeWidth: 2, stroke: 'var(--color-executive-primary)' }} />
                       </ExecutiveComposedChart>
                     </ResponsiveContainer>
                   </div>
@@ -1189,7 +638,7 @@ export function DLPAPage({ clients, selectedClient, selectedYear }: any) {
           year={filterYear}
           clients={clients || []}
           onClose={() => setShowImportModal(false)}
-          onSuccess={() => { setShowImportModal(false); refetchDLPA(); showToast('success', 'DLPA importado com sucesso!'); }}
+          onSuccess={() => { setShowImportModal(false); refetchDLPA(); }}
         />
       )}
       {showManualModal && (
@@ -1198,7 +647,7 @@ export function DLPAPage({ clients, selectedClient, selectedYear }: any) {
           clientId={selectedClient}
           year={filterYear}
           onClose={() => setShowManualModal(false)}
-          onSuccess={() => { setShowManualModal(false); refetchDLPA(); showToast('success', 'DLPA lançado com sucesso!'); }}
+          onSuccess={() => { setShowManualModal(false); refetchDLPA(); }}
         />
       )}
     </div>

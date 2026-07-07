@@ -519,7 +519,7 @@ export function DFCPage({ clients, selectedClient, selectedYear }: any) {
                     !allowed 
                       ? "text-muted-foreground cursor-not-allowed opacity-50"
                       : densityLevel === lvl
-                      ? (lvl === 'TECHNICAL' ? "bg-[#BAB86C] text-foreground shadow-md scale-105" : "bg-foreground text-white shadow-md scale-105")
+                      ? (lvl === 'TECHNICAL' ? "bg-surface-container text-foreground shadow-md scale-105" : "bg-foreground text-white shadow-md scale-105")
                       : "text-foreground/60 hover:text-foreground hover:bg-card/60"
                   )}
                 >
@@ -809,7 +809,7 @@ export function DFCPage({ clients, selectedClient, selectedYear }: any) {
             {isSectionVisible('DFC_SNAPSHOT') && (() => {
               const snapshot = safeSnapshot;
               return (
-                <ExecutiveSurface className="bg-gradient-to-br from-foreground via-foreground to-[#07111C] p-8 rounded-[32px] shadow-2xl border border-white/10 space-y-6 text-left relative overflow-hidden">
+                <ExecutiveSurface className="bg-gradient-to-br from-foreground via-foreground to-[var(--color-executive-primary)] p-8 rounded-[32px] shadow-2xl border border-white/10 space-y-6 text-left relative overflow-hidden">
                   <div className="absolute top-0 right-0 w-64 h-64 bg-secondary/10 rounded-full blur-3xl -mr-32 -mt-32 pointer-events-none" />
                   <div className="flex items-center justify-between border-b border-white/10 pb-4">
                     <div>
@@ -903,7 +903,7 @@ export function DFCPage({ clients, selectedClient, selectedYear }: any) {
               <SemanticCard
                 title={getSectionHeader('DFC_EXECUTIVE_DIAGNOSIS', 'DFC_DIAGNOSIS_TITLE')}
               >
-                <div className="bg-gradient-to-br from-foreground via-foreground to-[#07111C] text-white rounded-3xl p-6 border border-white/10 shadow-lg relative overflow-hidden">
+                <div className="bg-gradient-to-br from-foreground via-foreground to-[var(--color-executive-primary)] text-white rounded-3xl p-6 border border-white/10 shadow-lg relative overflow-hidden">
                   <div className="absolute top-0 right-0 w-32 h-32 bg-secondary/5 rounded-full blur-2xl -mr-16 -mt-16 pointer-events-none" />
          <p className="text-executive-secondary">Questão Principal</p>
          <p className="text-executive-secondary">A operação é autossustentável?</p>
@@ -942,8 +942,8 @@ export function DFCPage({ clients, selectedClient, selectedYear }: any) {
                       {FiduciaryRuntimeAdapter.ExecutiveLanguageBoundaryGuard.translate(metrics.fiduciary?.cashBoardDecisionFramework?.boardOutlook, densityLevel)}
                     </p>
                   </div>
-                  <div className="border border-[#BAB86C]/30 bg-[#BAB86C]/10 rounded-2xl p-5 space-y-1 col-span-1 @3xl:col-span-2 shadow-sm hover:shadow-md transition-all duration-300">
-                    <span className="text-[9px] font-black uppercase text-[#BAB86C] tracking-wider">Ação imediata recomendada?</span>
+                  <div className="border border-border/30 bg-surface-container/10 rounded-2xl p-5 space-y-1 col-span-1 @3xl:col-span-2 shadow-sm hover:shadow-md transition-all duration-300">
+                    <span className="text-[9px] font-black uppercase text-executive-primary tracking-wider">Ação imediata recomendada?</span>
                     <p className="text-xs font-bold text-foreground leading-relaxed">
                       {FiduciaryRuntimeAdapter.ExecutiveLanguageBoundaryGuard.translate(metrics.fiduciary?.cashBoardDecisionFramework?.immediateAction, densityLevel)}
                     </p>
@@ -966,7 +966,7 @@ export function DFCPage({ clients, selectedClient, selectedYear }: any) {
                   </ExecutiveNarrative>
                   <div className="grid grid-cols-1 @2xl:grid-cols-2 gap-6 mt-4">
                      <div className="space-y-2">
-                        <span className="text-[10px] font-black uppercase tracking-widest text-[#0C7A3A]">Vetor de Geração</span>
+                        <span className="text-[10px] font-black uppercase tracking-widest text-executive-primary">Vetor de Geração</span>
                         {governanceOutput.explainability.generators.map((g: string, idx: number) => (
                           <div key={idx} className="p-3 bg-success-soft text-emerald-800 text-xs font-semibold rounded-lg border border-emerald-100">
                             {g}
@@ -1006,13 +1006,13 @@ export function DFCPage({ clients, selectedClient, selectedYear }: any) {
                       <div key={idx} className={cn(
                         "p-5 rounded-2xl border flex items-start gap-4 shadow-sm",
                         isCritical ? 'bg-destructive/5 border-destructive/25' :
-                        isWarning ? 'bg-[#BAB86C]/10 border-[#BAB86C]/30' :
+                        isWarning ? 'bg-surface-container/10 border-border/30' :
                         'bg-surface-container/30 border-border'
                       )}>
                         <div className={cn(
                           "w-8 h-8 rounded-full flex items-center justify-center shrink-0",
                           isCritical ? 'bg-critical-soft text-destructive' :
-                          isWarning ? 'bg-[#BAB86C]/20 text-[#BAB86C]' :
+                          isWarning ? 'bg-surface-container/20 text-executive-primary' :
                           'bg-surface-container 500/10 text-muted-foreground'
                         )}>
                           <AlertTriangle size={16} />
@@ -1025,7 +1025,7 @@ export function DFCPage({ clients, selectedClient, selectedYear }: any) {
                             <span className={cn(
                               "text-[8px] font-black uppercase px-2 py-0.5 rounded border tracking-wider",
                               isCritical ? 'bg-critical-soft text-destructive border-destructive/20' :
-                              isWarning ? 'bg-[#BAB86C]/25 text-foreground border-[#BAB86C]/30' :
+                              isWarning ? 'bg-surface-container/25 text-foreground border-border/30' :
                               'bg-surface-container 200 text-muted-foreground border-border'
                             )}>
                               {statusVal}
@@ -1078,13 +1078,13 @@ export function DFCPage({ clients, selectedClient, selectedYear }: any) {
                 title={getSectionHeader('DFC_SHAREHOLDER_DEPENDENCY', 'DFC_SHAREHOLDER_DEPENDENCY_TITLE')}
               >
                 <div className="grid grid-cols-1 @3xl:grid-cols-2 gap-6">
-                  <div className="border border-[#BAB86C]/30 rounded-2xl p-5 space-y-1 bg-[#BAB86C]/10 shadow-sm hover:shadow-md transition-all duration-300">
+                  <div className="border border-border/30 rounded-2xl p-5 space-y-1 bg-surface-container/10 shadow-sm hover:shadow-md transition-all duration-300">
                     <span className="text-[9px] font-black uppercase text-foreground/50 tracking-wider">Índice de Autossuficiência Financeira</span>
                     <p className="text-lg font-black text-foreground">
                       {metrics.fiduciary?.shareholderDependencyAnalysis?.autossuficienciaFinanceiraDisplay}
                     </p>
                   </div>
-                  <div className="border border-[#BAB86C]/30 rounded-2xl p-5 space-y-1 bg-[#BAB86C]/10 shadow-sm hover:shadow-md transition-all duration-300">
+                  <div className="border border-border/30 rounded-2xl p-5 space-y-1 bg-surface-container/10 shadow-sm hover:shadow-md transition-all duration-300">
                     <span className="text-[9px] font-black uppercase text-foreground/50 tracking-wider">Dependência de Capital Externo</span>
                     <p className="text-lg font-black text-foreground">
                       {metrics.fiduciary?.shareholderDependencyAnalysis?.dependenciaCapitalExternoLabel}
@@ -1102,7 +1102,7 @@ export function DFCPage({ clients, selectedClient, selectedYear }: any) {
               <SemanticCard
                 title={getSectionHeader('DFC_RUNWAY', 'DFC_RUNWAY_TITLE')}
               >
-                <div className="bg-gradient-to-br from-foreground to-[#07111C] text-white p-8 rounded-[24px] border border-white/10 shadow-xl relative overflow-hidden">
+                <div className="bg-gradient-to-br from-foreground to-[var(--color-executive-primary)] text-white p-8 rounded-[24px] border border-white/10 shadow-xl relative overflow-hidden">
                   <div className="absolute top-0 right-0 w-64 h-64 bg-secondary/10 rounded-full blur-3xl -mr-32 -mt-32 pointer-events-none" />
                   <div className="relative z-10 flex flex-col @3xl:flex-row @3xl:items-stretch justify-between gap-8">
                     <div className="space-y-2 flex-1 text-left flex flex-col justify-center">
@@ -1213,8 +1213,8 @@ export function DFCPage({ clients, selectedClient, selectedYear }: any) {
                   </div>
 
                   {consistency.hasConflict && (
-                    <div className="p-4 bg-[#BAB86C]/10 border border-[#BAB86C]/30 rounded-2xl flex items-start gap-3">
-                      <AlertTriangle className="text-[#BAB86C] shrink-0 mt-0.5" size={16} />
+                    <div className="p-4 bg-surface-container/10 border border-border/30 rounded-2xl flex items-start gap-3">
+                      <AlertTriangle className="text-executive-primary shrink-0 mt-0.5" size={16} />
                       <p className="text-xs font-semibold text-foreground leading-normal">
                         {densityLevel === 'TECHNICAL' ? consistency.narrative : consistency.executiveInterpretation}
                       </p>
@@ -1246,7 +1246,7 @@ export function DFCPage({ clients, selectedClient, selectedYear }: any) {
             {isSectionVisible('DFC_BOARD_ADVISORY') && (() => {
               const advisory = metrics.fiduciary?.compressedAdvisory || { situacaoAtual: '-', restricaoPrincipal: '-', prioridadeEstrategica: '-', outlook: '-' };
               return (
-                <ExecutiveSurface className="bg-gradient-to-br from-foreground via-foreground to-[#07111C] text-white p-8 rounded-[32px] shadow-2xl relative overflow-hidden space-y-6 text-left border border-white/10">
+                <ExecutiveSurface className="bg-gradient-to-br from-foreground via-foreground to-[var(--color-executive-primary)] text-white p-8 rounded-[32px] shadow-2xl relative overflow-hidden space-y-6 text-left border border-white/10">
                   <div className="absolute top-0 right-0 w-64 h-64 bg-secondary/10 rounded-full blur-3xl -mr-32 -mt-32 pointer-events-none" />
                   <div className="flex items-center justify-between border-b border-white/10 pb-4">
                     <div className="flex items-center gap-2">
@@ -1255,7 +1255,7 @@ export function DFCPage({ clients, selectedClient, selectedYear }: any) {
                       </h3>
                     </div>
                     {metrics.fiduciary?.isEarlyStage && (
-                      <span className="bg-[#BAB86C]/10 text-[#BAB86C] border border-[#BAB86C]/20 px-3.5 py-1.5 rounded-full text-[9px] font-black uppercase tracking-widest shrink-0 whitespace-normal break-words text-balance text-center inline-block">
+                      <span className="bg-surface-container/10 text-executive-primary border border-border/20 px-3.5 py-1.5 rounded-full text-[9px] font-black uppercase tracking-widest shrink-0 whitespace-normal break-words text-balance text-center inline-block">
                         Maturidade de Early-Stage
                       </span>
                     )}
@@ -1283,8 +1283,8 @@ export function DFCPage({ clients, selectedClient, selectedYear }: any) {
                         </p>
                       </div>
                       <div className="p-4 bg-card/5 rounded-2xl border border-white/10 mt-2">
-                        <p className="text-[9px] font-black uppercase tracking-widest text-[#BAB86C] mb-1">Outlook Fiduciário</p>
-                        <p className="text-xs font-semibold leading-relaxed text-[#BAB86C]/90">
+                        <p className="text-[9px] font-black uppercase tracking-widest text-executive-primary mb-1">Outlook Fiduciário</p>
+                        <p className="text-xs font-semibold leading-relaxed text-executive-primary/90">
                           {FiduciaryRuntimeAdapter.ExecutiveLanguageBoundaryGuard.translate(advisory.outlook, densityLevel)}
                         </p>
                       </div>
@@ -1295,7 +1295,7 @@ export function DFCPage({ clients, selectedClient, selectedYear }: any) {
                   <div className="border-t border-white/10 pt-6 mt-6 grid grid-cols-1 @3xl:grid-cols-2 gap-6 relative z-10">
                     <div className="space-y-4">
                       <div>
-                        <p className="text-[9px] font-black uppercase tracking-widest text-[#BAB86C] mb-1">Consequência da Ação</p>
+                        <p className="text-[9px] font-black uppercase tracking-widest text-executive-primary mb-1">Consequência da Ação</p>
             <p className="text-executive-secondary">
                           {FiduciaryRuntimeAdapter.ExecutiveLanguageBoundaryGuard.translate(consequence.consequenceOfAction, densityLevel)}
                         </p>
@@ -1403,10 +1403,10 @@ export function DFCPage({ clients, selectedClient, selectedYear }: any) {
                           cx="50" cy="50" r="40" 
                           fill="transparent" 
                           stroke={
-                            earningsQuality.score >= 85 ? '#10b981' :
-                            earningsQuality.score >= 70 ? '#FF8552' :
-                            earningsQuality.score >= 50 ? '#BAB86C' :
-                            '#D01D1C'
+                            earningsQuality.score >= 85 ? 'var(--color-executive-primary)' :
+                            earningsQuality.score >= 70 ? 'var(--color-executive-primary)' :
+                            earningsQuality.score >= 50 ? 'var(--color-executive-primary)' :
+                            'var(--color-executive-primary)'
                           } 
                           strokeWidth="8"
                           strokeDasharray="251.2"
@@ -1425,7 +1425,7 @@ export function DFCPage({ clients, selectedClient, selectedYear }: any) {
                         "px-4 py-1.5 rounded-full text-[9px] font-black uppercase tracking-widest shadow-sm text-center whitespace-normal break-words text-balance inline-block",
                         earningsQuality.score >= 85 ? "bg-success-soft0/10 text-emerald-600 border border-emerald-500/20" :
                         earningsQuality.score >= 70 ? "bg-secondary/10 text-secondary border border-secondary/20" :
-                        earningsQuality.score >= 50 ? "bg-[#BAB86C]/10 text-foreground border border-[#BAB86C]/20" :
+                        earningsQuality.score >= 50 ? "bg-surface-container/10 text-foreground border border-border/20" :
                         "bg-critical-soft0/10 text-rose-600 border border-rose-500/20"
                       )}>
                         {earningsQuality.semanticLabel || earningsQuality.level}
@@ -1461,8 +1461,8 @@ export function DFCPage({ clients, selectedClient, selectedYear }: any) {
                     ) : (
                       <div className="space-y-3 max-h-[250px] overflow-y-auto pr-1">
                         {earningsQuality.alerts.filter((alert: string) => !['LOSS_WITH_CASH_CONSUMPTION', 'PROFIT_WITHOUT_CASH', 'NET_INCOME_SOURCE_MISSING', 'PREJUIZO_OPERACIONAL'].includes(alert)).map((alert: string, idx: number) => (
-                          <div key={idx} className="bg-[#BAB86C]/10 border border-[#BAB86C]/25 p-4 rounded-2xl flex items-start gap-3">
-                            <div className="w-8 h-8 rounded-full bg-[#BAB86C]/20 flex items-center justify-center text-foreground shrink-0 mt-0.5">
+                          <div key={idx} className="bg-surface-container/10 border border-border/25 p-4 rounded-2xl flex items-start gap-3">
+                            <div className="w-8 h-8 rounded-full bg-surface-container/20 flex items-center justify-center text-foreground shrink-0 mt-0.5">
                               <AlertTriangle size={14} />
                             </div>
                             <div className="text-left">
@@ -1581,8 +1581,8 @@ export function DFCPage({ clients, selectedClient, selectedYear }: any) {
             </span>
           </div>
           {metrics.fiduciary?.tableRows?.some((r: any) => r.isReconstructed) && (
-            <div className="mx-5 md:mx-8 mt-6 p-4 bg-[#BAB86C]/10 border border-[#BAB86C]/30 rounded-2xl flex items-start gap-3">
-              <AlertTriangle className="text-[#BAB86C] shrink-0 mt-0.5" size={16} />
+            <div className="mx-5 md:mx-8 mt-6 p-4 bg-surface-container/10 border border-border/30 rounded-2xl flex items-start gap-3">
+              <AlertTriangle className="text-executive-primary shrink-0 mt-0.5" size={16} />
               <div>
                 <p className="text-xs font-bold text-foreground">Aviso de Conciliação</p>
                 <p className="text-xs text-foreground/80 mt-1">
@@ -1627,7 +1627,7 @@ export function DFCPage({ clients, selectedClient, selectedYear }: any) {
                            {hasBullet && <span className="w-1.5 h-1.5 rounded-full bg-secondary shrink-0" />}
                            <span>{displayItemName}</span>
                            {row.isReconstructed && (
-                             <span className="ml-2 px-1.5 py-0.5 rounded text-[8px] font-bold bg-[#BAB86C]/10 text-foreground border border-[#BAB86C]/30 select-none uppercase tracking-wide shrink-0">
+                             <span className="ml-2 px-1.5 py-0.5 rounded text-[8px] font-bold bg-surface-container/10 text-foreground border border-border/30 select-none uppercase tracking-wide shrink-0">
                                Reconstruído a partir do BP
                              </span>
                            )}

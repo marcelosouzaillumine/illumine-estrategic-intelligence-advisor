@@ -1,6 +1,6 @@
 import React from 'react';
 import { cn } from '../../lib/utils';
-import { StrategicTension } from '../../core/runtime/executive-consolidation/ExecutiveStrategicTensionEngine';
+import { StrategicTension } from '../../services/FiduciaryRuntimeAdapter';
 import { ExecutiveHeading } from './executive-heading';
 import { ExecutiveText } from './executive-typography';
 import { AlertCircle, Lightbulb, ShieldAlert } from 'lucide-react';

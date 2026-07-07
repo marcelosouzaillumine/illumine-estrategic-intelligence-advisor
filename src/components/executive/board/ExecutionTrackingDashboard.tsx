@@ -1,7 +1,8 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { motion } from 'motion/react';
 import { ShieldCheck, Activity, Target, Clock, AlertTriangle, CheckCircle2, ChevronRight, XCircle } from 'lucide-react';
-import { ExecutionGovernanceAdapter, ExecutionCommitment } from '../../../services/ExecutionGovernanceAdapter';
+import { ExecutionCommitment } from '../../../services/ExecutionGovernanceAdapter';
+import { useExecutionTrackingDashboardViewModel } from '../../../capabilities/executive/presentation/view-models/useExecutionTrackingDashboardViewModel';
 import { cn, formatCurrency } from '../../../lib/utils';
 
 interface ExecutionTrackingDashboardProps {
@@ -10,11 +11,8 @@ interface ExecutionTrackingDashboardProps {
 }
 
 export function ExecutionTrackingDashboard({ commitments, onUpdateStatus }: ExecutionTrackingDashboardProps) {
-  const [selectedCommitment, setSelectedCommitment] = useState<string | null>(null);
+  const { state, computed, actions } = useExecutionTrackingDashboardViewModel(commitments);
 
-  const pending = commitments.filter(c => c.status === 'PENDING' || c.status === 'IN_PROGRESS');
-  const completed = commitments.filter(c => c.status === 'EXECUTED' || c.status === 'DEVIATED');
-  
   const getStatusIcon = (status: string) => {
     switch (status) {
       case 'PENDING': return <Clock size={16} className="text-amber-500" />;
@@ -54,14 +52,14 @@ export function ExecutionTrackingDashboard({ commitments, onUpdateStatus }: Exec
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
         <div>
           <h3 className="text-sm font-black text-muted-foreground uppercase tracking-widest mb-4 flex items-center gap-2">
-            <Activity size={14} className="text-blue-400"/> Em Andamento / Pendentes ({pending.length})
+            <Activity size={14} className="text-blue-400"/> Em Andamento / Pendentes ({computed.pending.length})
           </h3>
           <div className="space-y-4">
-            {pending.map(item => (
+            {computed.pending.map(item => (
               <div 
                 key={item.id} 
                 className="bg-surface/50 border border-border rounded-2xl p-5 hover:bg-surface transition-colors cursor-pointer"
-                onClick={() => setSelectedCommitment(item.id)}
+                onClick={() => actions.setSelectedCommitment(item.id)}
               >
                 <div className="flex items-start justify-between mb-3">
                   <div className="flex items-center gap-2">
@@ -85,7 +83,7 @@ export function ExecutionTrackingDashboard({ commitments, onUpdateStatus }: Exec
                 </div>
               </div>
             ))}
-            {pending.length === 0 && (
+            {computed.pending.length === 0 && (
               <div className="text-center p-8 bg-surface/20 border border-border border-dashed rounded-2xl">
                 <p className="text-sm text-muted-foreground font-bold uppercase tracking-widest">Nenhuma ação pendente</p>
               </div>
@@ -95,11 +93,11 @@ export function ExecutionTrackingDashboard({ commitments, onUpdateStatus }: Exec
 
         <div>
           <h3 className="text-sm font-black text-muted-foreground uppercase tracking-widest mb-4 flex items-center gap-2">
-            <ShieldCheck size={14} className="text-emerald-400"/> Executados / Desviados ({completed.length})
+            <ShieldCheck size={14} className="text-emerald-400"/> Executados / Desviados ({computed.completed.length})
           </h3>
           <div className="space-y-4">
-            {completed.map(item => {
-              const validation = ExecutionGovernanceAdapter.validateExecutionImpact(item);
+            {computed.completed.map(item => {
+              const validation = actions.validateExecutionImpact(item);
               return (
                 <div key={item.id} className="bg-surface/30 border border-border rounded-2xl p-5">
                   <div className="flex items-start justify-between mb-3">
@@ -129,7 +127,7 @@ export function ExecutionTrackingDashboard({ commitments, onUpdateStatus }: Exec
                 </div>
               );
             })}
-             {completed.length === 0 && (
+             {computed.completed.length === 0 && (
               <div className="text-center p-8 bg-surface/20 border border-border border-dashed rounded-2xl">
                 <p className="text-sm text-muted-foreground font-bold uppercase tracking-widest">Nenhuma ação executada neste ciclo</p>
               </div>

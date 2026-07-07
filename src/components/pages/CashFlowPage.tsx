@@ -477,7 +477,7 @@ export function CashFlowPage({ clients, selectedClient, selectedMonth, selectedY
                       formatter={(val: number) => [formatCurrency(val), 'Saldo Projetado']}
                       labelFormatter={(label) => `Data: ${formatDate(label)}`}
                     />
-                    <ReferenceLine y={0} stroke="#ef4444" strokeDasharray="3 3" />
+                    <ReferenceLine y={0} stroke="currentColor" strokeDasharray="3 3" />
                     <Area 
                       type="monotone" 
                       dataKey="Saldo Final" 

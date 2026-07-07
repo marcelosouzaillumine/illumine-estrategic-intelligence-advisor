@@ -117,10 +117,10 @@ export function ClientExecutiveWorkspace({ selectedClient, selectedYear }: { sel
     const config: BrandingConfig = {
       logoUrl: '',
       colors: {
-        primary: '#FF8552',
-        secondary: '#4f46e5',
-        background: '#1a1a1a',
-        criticalAlertColor: '#ef4444' // Safe red color, not green
+        primary: 'var(--color-executive-primary)',
+        secondary: 'var(--color-executive-primary)',
+        background: 'var(--color-surface-container)',
+        criticalAlertColor: 'var(--color-executive-primary)' // Safe red color, not green
       },
       hideWarnings: false,
       disableLineage: false,
@@ -521,7 +521,7 @@ export function ClientExecutiveWorkspace({ selectedClient, selectedYear }: { sel
             </p>
             <button 
               onClick={handleStartPresentation}
-              className="w-full bg-[#FF8552] text-white hover:bg-[#FF8552]/90 font-bold uppercase tracking-widest py-3 rounded-button text-xs flex items-center justify-center gap-2"
+              className="w-full bg-surface-container text-white hover:bg-surface-container/90 font-bold uppercase tracking-widest py-3 rounded-button text-xs flex items-center justify-center gap-2"
             >
               <Presentation size={15} /> Iniciar Apresentação
             </button>
@@ -565,7 +565,7 @@ export function ClientExecutiveWorkspace({ selectedClient, selectedYear }: { sel
               <div className="flex flex-wrap gap-2 pt-2">
                 <button 
                   onClick={() => handleWorkflowApprove('CFO_APPROVAL')}
-                  className="px-3 py-1.5 bg-[#FF8552] text-white rounded text-[10px] font-bold uppercase tracking-wider hover:bg-[#FF8552]/80 transition-colors"
+                  className="px-3 py-1.5 bg-surface-container text-white rounded text-[10px] font-bold uppercase tracking-wider hover:bg-surface-container/80 transition-colors"
                 >
                   Enviar para CFO Approval
                 </button>
@@ -691,7 +691,7 @@ export function ClientExecutiveWorkspace({ selectedClient, selectedYear }: { sel
                 </select>
                 <button 
                   onClick={handlePostComment}
-                  className="flex items-center gap-1.5 bg-[#FF8552] text-white hover:bg-[#FF8552]/90 font-bold uppercase tracking-widest py-1.5 px-4 rounded-lg text-[10px]"
+                  className="flex items-center gap-1.5 bg-surface-container text-white hover:bg-surface-container/90 font-bold uppercase tracking-widest py-1.5 px-4 rounded-lg text-[10px]"
                 >
                   <Send size={10} /> Publicar Nota
                 </button>
@@ -705,12 +705,12 @@ export function ClientExecutiveWorkspace({ selectedClient, selectedYear }: { sel
 
       {/* FULLSCREEN BOARD PRESENTATION MODE CONTAINER */}
       {presentationMode && (
-        <div className="fixed inset-0 bg-[#0d0f14] z-[999] flex flex-col justify-between text-white p-8 lg:p-12 animate-fade-in select-none">
+        <div className="fixed inset-0 bg-surface-container z-[999] flex flex-col justify-between text-white p-8 lg:p-12 animate-fade-in select-none">
           
           {/* Top Bar Info */}
           <div className="flex justify-between items-center border-b border-border pb-6">
             <div className="space-y-1">
-              <span className="text-[9px] font-black uppercase tracking-widest text-[#FF8552]">Guided Presentation Slide</span>
+              <span className="text-[9px] font-black uppercase tracking-widest text-executive-primary">Guided Presentation Slide</span>
               <h2 className="text-3xl font-black text-white tracking-tight">{currentStep.title}</h2>
             </div>
             <button 

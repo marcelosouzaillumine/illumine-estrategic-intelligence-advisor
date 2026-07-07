@@ -272,21 +272,21 @@ export function ObservabilityConsolePage({ selectedClient }: ObservabilityConsol
                     <ComposedChart data={chartData}>
                       <defs>
                         <linearGradient id="totalGrad" x1="0" y1="0" x2="0" y2="1">
-                          <stop offset="5%" stopColor="#818cf8" stopOpacity={0.2}/>
-                          <stop offset="95%" stopColor="#818cf8" stopOpacity={0}/>
+                          <stop offset="5%" stopColor="var(--color-executive-primary)" stopOpacity={0.2}/>
+                          <stop offset="95%" stopColor="var(--color-executive-primary)" stopOpacity={0}/>
                         </linearGradient>
                       </defs>
-                      <CartesianGrid stroke="#1e293b" strokeDasharray="3 3" vertical={false} />
-                      <XAxis dataKey="time" stroke="#475569" fontSize={10} tickLine={false} />
-                      <YAxis stroke="#475569" fontSize={10} tickLine={false} />
+                      <CartesianGrid stroke="currentColor" strokeDasharray="3 3" vertical={false} />
+                      <XAxis dataKey="time" stroke="currentColor" fontSize={10} tickLine={false} />
+                      <YAxis stroke="currentColor" fontSize={10} tickLine={false} />
                       <ChartTooltip 
-                        contentStyle={{ backgroundColor: '#090d16', border: '1px solid rgba(255,255,255,0.08)', borderRadius: '8px' }}
-                        labelStyle={{ fontSize: '11px', fontWeight: 'bold', color: '#94a3b8' }}
+                        contentStyle={{ backgroundColor: 'var(--color-surface-container)', border: '1px solid rgba(255,255,255,0.08)', borderRadius: '8px' }}
+                        labelStyle={{ fontSize: '11px', fontWeight: 'bold', color: 'var(--color-executive-primary)' }}
                       />
-                      <Legend verticalAlign="top" height={36} iconType="circle" wrapperStyle={{ fontSize: '11px', color: '#94a3b8' }} />
-                      <Area type="monotone" name="Total Eventos" dataKey="total" stroke="#818cf8" strokeWidth={1.5} fillOpacity={1} fill="url(#totalGrad)" />
-                      <Bar name="Acessos Negados" dataKey="denials" fill="#f59e0b" barSize={10} radius={[2, 2, 0, 0]} />
-                      <Line type="monotone" name="Anomalias" dataKey="anomalies" stroke="#ef4444" strokeWidth={2} dot={{ r: 3 }} />
+                      <Legend verticalAlign="top" height={36} iconType="circle" wrapperStyle={{ fontSize: '11px', color: 'var(--color-executive-primary)' }} />
+                      <Area type="monotone" name="Total Eventos" dataKey="total" stroke="currentColor" strokeWidth={1.5} fillOpacity={1} fill="url(#totalGrad)" />
+                      <Bar name="Acessos Negados" dataKey="denials" fill="currentColor" barSize={10} radius={[2, 2, 0, 0]} />
+                      <Line type="monotone" name="Anomalias" dataKey="anomalies" stroke="currentColor" strokeWidth={2} dot={{ r: 3 }} />
                     </ComposedChart>
                   </ResponsiveContainer>
                 </div>

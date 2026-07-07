@@ -130,9 +130,9 @@ export const TicketChat: React.FC<TicketChatProps> = ({ ticket, isMaster, onClos
             
             <div className="px-3 py-1 rounded-sm border border-border flex items-center gap-2 bg-surface-container">
               <span className="w-2 h-2 rounded-full" style={{
-                 backgroundColor: ticket.status === 'resolved' ? '#10b981' :
-                                  ticket.status === 'pending' ? '#f59e0b' :
-                                  ticket.status === 'in_progress' ? '#3b82f6' : '#64748b'
+                 backgroundColor: ticket.status === 'resolved' ? 'var(--color-executive-primary)' :
+                                  ticket.status === 'pending' ? 'var(--color-executive-primary)' :
+                                  ticket.status === 'in_progress' ? 'var(--color-executive-primary)' : 'var(--color-executive-primary)'
               }} />
               {ticket.status === 'pending' ? 'Pendente' : 
                ticket.status === 'in_progress' ? 'Em Análise' : 

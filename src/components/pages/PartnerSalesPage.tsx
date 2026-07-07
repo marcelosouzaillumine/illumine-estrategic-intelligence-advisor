@@ -57,7 +57,7 @@ const CausalTopologyVisual = () => {
               cx={node.x}
               cy={node.y}
               r="2.5"
-              fill="#FF8552"
+              fill="currentColor"
             />
             <text
               x={node.x}
@@ -104,8 +104,8 @@ export function PartnerSalesPage() {
     document.documentElement.classList.add('dark');
     const originalHtmlBg = document.documentElement.style.backgroundColor;
     const originalBodyBg = document.body.style.backgroundColor;
-    document.documentElement.style.backgroundColor = '#03080F';
-    document.body.style.backgroundColor = '#03080F';
+    document.documentElement.style.backgroundColor = 'var(--color-executive-primary)';
+    document.body.style.backgroundColor = 'var(--color-executive-primary)';
 
     return () => {
       window.removeEventListener('scroll', handleScroll);
@@ -193,13 +193,13 @@ export function PartnerSalesPage() {
   ];
 
   return (
-    <main className="min-h-screen bg-[#03080F] text-white relative overflow-x-hidden font-sans selection:bg-secondary/20 selection:text-secondary antialiased">
+    <main className="min-h-screen bg-surface-container text-white relative overflow-x-hidden font-sans selection:bg-secondary/20 selection:text-secondary antialiased">
       {/* Background Ambient Effects */}
       <div className="fixed top-[-10%] left-[-5%] w-[45%] h-[45%] rounded-full bg-secondary/2 blur-[160px] pointer-events-none z-0" />
       <div className="fixed bottom-[-15%] right-[-5%] w-[50%] h-[50%] rounded-full bg-white/1 blur-[180px] pointer-events-none z-0" />
       
       {/* Navbar Premium */}
-      <nav className="fixed top-0 inset-x-0 h-20 z-50 border-b border-white/5 backdrop-blur-xl bg-[#03080F]/70 transition-all duration-300">
+      <nav className="fixed top-0 inset-x-0 h-20 z-50 border-b border-white/5 backdrop-blur-xl bg-surface-container/70 transition-all duration-300">
         <div className="max-w-7xl mx-auto px-6 sm:px-8 h-full flex items-center justify-between gap-8">
           
           {/* Logo Signature */}
@@ -317,7 +317,7 @@ export function PartnerSalesPage() {
                 O <span className="text-white font-semibold">Illumine Governance™</span> foi desenvolvido para ampliar a capacidade analítica, estratégica e fiduciária de advisors que desejam atuar em outro nível.
               </p>
               
-              <div className="py-4 px-6 bg-[#060D17]/40 border border-white/5 rounded-xl max-w-2xl mx-auto">
+              <div className="py-4 px-6 bg-surface-container/40 border border-white/5 rounded-xl max-w-2xl mx-auto">
         <p className="text-sm italic text-executive-secondary font-medium font-sans">
                   Sua experiência continua sendo essencial. Mas agora ela pode ser ampliada por uma camada de Governança Institucional Inteligente.
                 </p>
@@ -333,7 +333,7 @@ export function PartnerSalesPage() {
           >
             <button
               onClick={() => scrollToSection('cenario')}
-              className="w-full sm:w-auto h-14 px-8 rounded-md bg-white text-[#03080F] font-bold text-xs uppercase tracking-widest hover:bg-white/90 transition-all flex items-center justify-center gap-3 shadow-xl cursor-pointer"
+              className="w-full sm:w-auto h-14 px-8 rounded-md bg-white text-executive-primary font-bold text-xs uppercase tracking-widest hover:bg-white/90 transition-all flex items-center justify-center gap-3 shadow-xl cursor-pointer"
             >
               <span>Conhecer a Jornada de Advisors</span>
               <ArrowRight size={14} />
@@ -350,7 +350,7 @@ export function PartnerSalesPage() {
       </section>
 
       {/* 2. O NOVO CENÁRIO */}
-      <section id="cenario" className="py-28 px-6 relative z-10 border-b border-white/5 bg-[#02050A]">
+      <section id="cenario" className="py-28 px-6 relative z-10 border-b border-white/5 bg-surface-container">
         <div className="max-w-4xl mx-auto text-center space-y-10">
           <span className="text-[10px] font-bold uppercase tracking-widest text-secondary">
             O Novo Cenário
@@ -367,7 +367,7 @@ export function PartnerSalesPage() {
               { role: "Advogados", desc: "possuem conhecimento." },
               { role: "Conselheiros", desc: "possuem conhecimento." }
             ].map((item, idx) => (
-              <div key={idx} className="p-5 bg-[#060D17]/40 border border-white/5 rounded-lg text-center">
+              <div key={idx} className="p-5 bg-surface-container/40 border border-white/5 rounded-lg text-center">
                 <span className="block text-white font-bold uppercase tracking-wider text-sm sm:text-base mb-1.5">{item.role}</span>
                 <span className="text-xs sm:text-sm text-white/50 font-sans">{item.desc}</span>
               </div>
@@ -375,7 +375,7 @@ export function PartnerSalesPage() {
           </div>
 
           <div className="max-w-3xl mx-auto pt-10">
-            <div className="relative p-8 md:p-10 bg-[#060D17]/65 border border-secondary/20 rounded-2xl overflow-hidden shadow-2xl backdrop-blur-sm group">
+            <div className="relative p-8 md:p-10 bg-surface-container/65 border border-secondary/20 rounded-2xl overflow-hidden shadow-2xl backdrop-blur-sm group">
               <div className="absolute top-0 left-0 w-full h-[2px] bg-gradient-to-r from-transparent via-secondary/40 to-transparent" />
               <p className="text-xl md:text-2xl font-display font-medium text-white leading-relaxed max-w-2xl mx-auto text-center italic">
                 “O diferencial surge quando esse conhecimento é capaz de revelar aquilo que ainda não está visível para a liderança.”
@@ -386,7 +386,7 @@ export function PartnerSalesPage() {
       </section>
 
       {/* 3. A NOVA PERGUNTA DO ADVISOR */}
-      <section id="perguntas" className="py-28 px-6 relative z-10 border-b border-white/5 bg-[#03080F]">
+      <section id="perguntas" className="py-28 px-6 relative z-10 border-b border-white/5 bg-surface-container">
         <div className="max-w-5xl mx-auto space-y-16">
           <div className="text-center max-w-3xl mx-auto space-y-4">
             <span className="text-[10px] font-bold uppercase tracking-widest text-secondary">
@@ -411,7 +411,7 @@ export function PartnerSalesPage() {
               <motion.div 
                 key={card.id}
                 whileHover={{ y: -4 }}
-                className="p-6 bg-[#060D17] border border-white/5 rounded-xl flex flex-col justify-between min-h-[160px] hover:border-white/10 transition-all relative overflow-hidden group"
+                className="p-6 bg-surface-container border border-white/5 rounded-xl flex flex-col justify-between min-h-[160px] hover:border-white/10 transition-all relative overflow-hidden group"
               >
                 <div className="absolute top-0 right-0 p-3 text-[36px] font-display font-bold text-white/5 select-none leading-none group-hover:text-secondary/10 transition-colors">
                   0{card.id}
@@ -427,7 +427,7 @@ export function PartnerSalesPage() {
       </section>
 
       {/* 4. O PAPEL DO ILLUMINE GOVERNANCE™ */}
-      <section id="papel-illumine" className="py-28 px-6 relative z-10 border-b border-white/5 bg-[#02050A]">
+      <section id="papel-illumine" className="py-28 px-6 relative z-10 border-b border-white/5 bg-surface-container">
         <div className="max-w-5xl mx-auto">
           <div className="grid lg:grid-cols-12 gap-12 lg:gap-16 items-center">
             
@@ -438,7 +438,7 @@ export function PartnerSalesPage() {
               <h2 className="text-3xl md:text-4xl font-display font-medium tracking-tight text-white leading-tight">
                 Amplie sua capacidade diagnóstica sem substituir sua autoridade.
               </h2>
-              <div className="p-6 border-l-2 border-secondary bg-[#060D17]/35 rounded-r-xl">
+              <div className="p-6 border-l-2 border-secondary bg-surface-container/35 rounded-r-xl">
                 <p className="text-sm md:text-base italic text-white/90 leading-relaxed font-sans">
                   O desafio não é substituir a experiência do advisor. É ampliar sua capacidade de interpretação diante de organizações cada vez mais complexas.
                 </p>
@@ -462,7 +462,7 @@ export function PartnerSalesPage() {
       </section>
 
       {/* 5. O QUE VOCÊ PASSA A ENXERGAR */}
-      <section id="enxergar" className="py-28 px-6 relative z-10 border-b border-white/5 bg-[#03080F]">
+      <section id="enxergar" className="py-28 px-6 relative z-10 border-b border-white/5 bg-surface-container">
         <div className="max-w-4xl mx-auto space-y-12">
           
           <div className="text-center space-y-4">
@@ -477,7 +477,7 @@ export function PartnerSalesPage() {
             </p>
           </div>
 
-          <div className="bg-[#060D17] border border-white/10 rounded-2xl p-8 sm:p-12">
+          <div className="bg-surface-container border border-white/10 rounded-2xl p-8 sm:p-12">
             <div className="grid sm:grid-cols-2 gap-4 max-w-2xl mx-auto">
               {[
                 "riscos de continuidade institucional",
@@ -505,7 +505,7 @@ export function PartnerSalesPage() {
       </section>
 
       {/* 6. AS 7 INTELIGÊNCIAS (Accordion Premium) */}
-      <section id="inteligencias" className="py-28 px-6 relative z-10 border-b border-white/5 bg-[#03080F]">
+      <section id="inteligencias" className="py-28 px-6 relative z-10 border-b border-white/5 bg-surface-container">
         <div className="max-w-6xl mx-auto space-y-16">
           
           <div className="space-y-6 text-center">
@@ -529,7 +529,7 @@ export function PartnerSalesPage() {
                 Onde Observamos
               </div>
 
-              <div className="bg-[#050B13]/60 border border-white/5 rounded-2xl p-6 sm:p-8 backdrop-blur-sm relative overflow-hidden flex-1 flex flex-col justify-between">
+              <div className="bg-surface-container/60 border border-white/5 rounded-2xl p-6 sm:p-8 backdrop-blur-sm relative overflow-hidden flex-1 flex flex-col justify-between">
                 <div className="absolute -top-12 -left-12 w-24 h-24 bg-secondary/5 rounded-full blur-2xl pointer-events-none" />
                 
                 {/* Mobile / Tablet Eixos */}
@@ -542,8 +542,8 @@ export function PartnerSalesPage() {
                         onClick={() => setActiveTab(idx)}
                         className={`px-3 py-2 text-left border rounded-lg transition-all duration-300 ${
                           isSelected
-                            ? 'bg-[#081220] border-secondary/40 text-white shadow-md shadow-secondary/5'
-                            : 'bg-[#060D17]/40 border-white/5 text-white/50 hover:border-white/12 hover:text-white/80'
+                            ? 'bg-surface-container border-secondary/40 text-white shadow-md shadow-secondary/5'
+                            : 'bg-surface-container/40 border-white/5 text-white/50 hover:border-white/12 hover:text-white/80'
                         }`}
                       >
                         <div className="flex flex-col gap-1">
@@ -572,7 +572,7 @@ export function PartnerSalesPage() {
                         onClick={() => setActiveTab(idx)}
                         className={`relative pl-10 pr-4 py-2.5 rounded-xl border transition-all duration-300 cursor-pointer ${
                           isSelected
-                            ? 'bg-[#081220]/80 border-white/10 text-white shadow-lg'
+                            ? 'bg-surface-container/80 border-white/10 text-white shadow-lg'
                             : 'bg-transparent border-transparent text-white/40 hover:text-white/70'
                         }`}
                       >
@@ -580,7 +580,7 @@ export function PartnerSalesPage() {
                           <div className={`w-2.5 h-2.5 rounded-full border transition-all duration-300 ${
                             isSelected 
                               ? 'bg-secondary border-secondary scale-110 shadow-lg shadow-secondary/50' 
-                              : 'bg-[#03080F] border-white/20'
+                              : 'bg-surface-container border-white/20'
                           }`} />
                         </div>
 
@@ -622,8 +622,8 @@ export function PartnerSalesPage() {
                         key={idx}
                         className={`border transition-all duration-300 rounded-xl overflow-hidden ${
                           isOpen 
-                            ? 'bg-[#060D17]/90 border-white/10 shadow-2xl backdrop-blur-md' 
-                            : 'bg-[#040910]/45 border-white/5 hover:border-white/12 hover:bg-[#060D17]/25'
+                            ? 'bg-surface-container/90 border-white/10 shadow-2xl backdrop-blur-md' 
+                            : 'bg-surface-container/45 border-white/5 hover:border-white/12 hover:bg-surface-container/25'
                         }`}
                       >
                         {/* Header Trigger */}
@@ -681,7 +681,7 @@ export function PartnerSalesPage() {
                                     {intel.insights.map((insight, i) => (
                                       <div 
                                         key={i} 
-                                        className="px-3 py-2 bg-[#03080F]/60 border border-white/5 text-[10px] text-white/80 transition-all duration-200 rounded-lg flex items-center gap-2 cursor-default hover:bg-[#03080F]/95 hover:border-white/10"
+                                        className="px-3 py-2 bg-surface-container/60 border border-white/5 text-[10px] text-white/80 transition-all duration-200 rounded-lg flex items-center gap-2 cursor-default hover:bg-surface-container/95 hover:border-white/10"
                                       >
                                         <span className="w-1.5 h-1.5 rounded-full bg-secondary/80 flex-shrink-0 animate-pulse" />
                                         <span className="font-sans leading-tight">{insight}</span>
@@ -719,7 +719,7 @@ export function PartnerSalesPage() {
       </section>
 
       {/* 7. PARA QUEM FOI CRIADO */}
-      <section id="publico-alvo" className="py-28 px-6 relative z-10 border-b border-white/5 bg-[#02050A]">
+      <section id="publico-alvo" className="py-28 px-6 relative z-10 border-b border-white/5 bg-surface-container">
         <div className="max-w-5xl mx-auto space-y-12">
           
           <div className="text-center space-y-4">
@@ -748,7 +748,7 @@ export function PartnerSalesPage() {
             ].map((profile, idx) => (
               <div 
                 key={idx} 
-                className="p-5 bg-[#060D17] border border-white/5 rounded-xl hover:border-white/10 hover:bg-[#07111E] transition-all flex items-center gap-3"
+                className="p-5 bg-surface-container border border-white/5 rounded-xl hover:border-white/10 hover:bg-surface-container transition-all flex items-center gap-3"
               >
                 <div className="w-8 h-8 rounded-lg bg-white/5 flex items-center justify-center shrink-0">
                   <Sparkles size={14} className="text-secondary/80" />
@@ -764,7 +764,7 @@ export function PartnerSalesPage() {
       </section>
 
       {/* 8. FILOSOFIA DO PROGRAMA (JORNADA) */}
-      <section className="py-28 px-6 relative z-10 border-b border-white/5 bg-[#03080F]">
+      <section className="py-28 px-6 relative z-10 border-b border-white/5 bg-surface-container">
         <div className="max-w-4xl mx-auto text-center space-y-8">
           <span className="text-[10px] font-bold uppercase tracking-widest text-secondary">
             Filosofia da Jornada
@@ -785,9 +785,9 @@ export function PartnerSalesPage() {
       </section>
 
       {/* 9. DESENVOLVIDO PELA ILLUMINE (Assinatura Metodológica) */}
-      <section className="py-20 px-6 relative z-10 bg-[#02050A] border-b border-white/5">
+      <section className="py-20 px-6 relative z-10 bg-surface-container border-b border-white/5">
         <div className="max-w-5xl mx-auto">
-          <div className="relative p-8 md:p-12 bg-[#040911]/45 border border-white/5 rounded-2xl overflow-hidden shadow-2xl backdrop-blur-sm group">
+          <div className="relative p-8 md:p-12 bg-surface-container/45 border border-white/5 rounded-2xl overflow-hidden shadow-2xl backdrop-blur-sm group">
             {/* Glowing accents */}
             <div className="absolute -top-12 -right-12 w-64 h-64 bg-secondary/[0.02] rounded-full blur-3xl pointer-events-none group-hover:bg-secondary/[0.04] transition-colors duration-500" />
             <div className="absolute -bottom-12 -left-12 w-64 h-64 bg-white/[0.01] rounded-full blur-3xl pointer-events-none" />
@@ -829,7 +829,7 @@ export function PartnerSalesPage() {
       </section>
 
       {/* 10. CTA FINAL */}
-      <section className="py-24 px-6 relative overflow-hidden z-10 bg-[#03080F]">
+      <section className="py-24 px-6 relative overflow-hidden z-10 bg-surface-container">
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-secondary/5 via-transparent to-transparent pointer-events-none" />
         
         <div className="max-w-4xl mx-auto text-center space-y-8 relative z-10">
@@ -862,7 +862,7 @@ export function PartnerSalesPage() {
           <div className="pt-6 flex flex-col sm:flex-row items-center justify-center gap-4 max-w-2xl mx-auto">
             <button
               onClick={() => handleCTAClick('Olá! Acessei a página de Advisors e desejo iniciar a Jornada de Advisors Illumine.')}
-              className="w-full sm:w-auto h-14 px-8 rounded-md bg-white text-[#03080F] font-bold text-xs uppercase tracking-widest hover:bg-white/90 transition-all flex items-center justify-center gap-3 shadow-xl cursor-pointer"
+              className="w-full sm:w-auto h-14 px-8 rounded-md bg-white text-executive-primary font-bold text-xs uppercase tracking-widest hover:bg-white/90 transition-all flex items-center justify-center gap-3 shadow-xl cursor-pointer"
             >
               <span>Tornar-se Advisor Illumine</span>
             </button>
@@ -889,7 +889,7 @@ export function PartnerSalesPage() {
               href={`https://wa.me/554131514537?text=${encodeURIComponent("Olá! Desejo iniciar a Jornada de Advisors Illumine e conhecer a infraestrutura de Governança Institucional Inteligente.")}`}
               target="_blank"
               rel="noopener noreferrer"
-              className="flex items-center gap-3 px-6 h-14 bg-white text-[#03080F] font-bold text-[10px] uppercase tracking-widest rounded-full shadow-2xl hover:bg-white/90 transition-all cursor-pointer border border-white/10 no-underline font-sans"
+              className="flex items-center gap-3 px-6 h-14 bg-white text-executive-primary font-bold text-[10px] uppercase tracking-widest rounded-full shadow-2xl hover:bg-white/90 transition-all cursor-pointer border border-white/10 no-underline font-sans"
             >
               <Briefcase size={14} className="text-secondary" />
               <span>Jornada de Advisors</span>
@@ -899,7 +899,7 @@ export function PartnerSalesPage() {
       </AnimatePresence>
 
       {/* Footer Minimalist */}
-      <footer className="py-16 border-t border-white/5 bg-[#02050A] text-white/40 text-[10px] tracking-wider uppercase font-semibold">
+      <footer className="py-16 border-t border-white/5 bg-surface-container text-white/40 text-[10px] tracking-wider uppercase font-semibold">
         <div className="max-w-7xl mx-auto px-8">
           <div className="flex flex-col sm:flex-row justify-between items-center gap-8">
             <div className="flex items-center gap-2">

@@ -86,7 +86,7 @@ export function PortfolioPage({ clients, onSelectClient, isPartner, userPartnerI
         scale: 2,
         useCORS: true,
         logging: true, // Enable logging for debugging
-        backgroundColor: '#f8fafc',
+        backgroundColor: 'var(--color-surface-container)',
         windowWidth: containerRef.current.scrollWidth,
         windowHeight: containerRef.current.scrollHeight
       });
@@ -568,7 +568,7 @@ export function PortfolioPage({ clients, onSelectClient, isPartner, userPartnerI
                   <div className="h-[200px] w-full">
                     <ResponsiveContainer width="100%" height="100%">
                       <BarChart data={stats.partnerVolume.slice(0, 5)}>
-                        <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#f1f5f9" />
+                        <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="currentColor" />
                         <XAxis 
                           dataKey="name" 
                           axisLine={false} 
@@ -580,7 +580,7 @@ export function PortfolioPage({ clients, onSelectClient, isPartner, userPartnerI
                         <Tooltip 
                           contentStyle={{ borderRadius: '12px', border: '1px solid var(--color-border)', backgroundColor: 'var(--color-card)', color: 'var(--color-card-foreground)', boxShadow: '0 10px 15px -3px rgb(0 0 0 / 0.1)', fontSize: '10px' }}
                         />
-                        <Bar dataKey="value" fill="#ff8552" radius={[4, 4, 0, 0]} barSize={20} />
+                        <Bar dataKey="value" fill="currentColor" radius={[4, 4, 0, 0]} barSize={20} />
                       </BarChart>
                     </ResponsiveContainer>
                   </div>

@@ -280,15 +280,15 @@ export function ReceivablesPage({ clients, selectedClient, isMaster }: { clients
           <div className="h-[300px] w-full">
             <ResponsiveContainer width="100%" height="100%">
               <BarChart layout="vertical" data={abcData} margin={{ left: 40, right: 40 }}>
-                <CartesianGrid strokeDasharray="3 3" horizontal={false} stroke="#f1f5f9" />
+                <CartesianGrid strokeDasharray="3 3" horizontal={false} stroke="currentColor" />
                 <XAxis type="number" hide />
-                <YAxis dataKey="name" type="category" axisLine={false} tickLine={false} tick={{ fontSize: 10, fill: '#94a3b8', fontWeight: 600 }} />
+                <YAxis dataKey="name" type="category" axisLine={false} tickLine={false} tick={{ fontSize: 10, fill: 'var(--color-executive-primary)', fontWeight: 600 }} />
                 <Tooltip 
-                  cursor={{ fill: '#f8fafc' }}
+                  cursor={{ fill: 'var(--color-executive-primary)' }}
                   contentStyle={{ borderRadius: '16px', border: 'none', boxShadow: '0 10px 15px -3px rgb(0 0 0 / 0.1)' }}
                   formatter={(v: number) => formatCurrency(v)}
                 />
-                <Bar dataKey="value" fill="#0e1c2c" radius={[0, 4, 4, 0]} barSize={20} />
+                <Bar dataKey="value" fill="currentColor" radius={[0, 4, 4, 0]} barSize={20} />
               </BarChart>
             </ResponsiveContainer>
           </div>
@@ -309,18 +309,18 @@ export function ReceivablesPage({ clients, selectedClient, isMaster }: { clients
               <AreaChart data={weeklyFlow}>
                 <defs>
                   <linearGradient id="colorValRec2" x1="0" y1="0" x2="0" y2="1">
-                    <stop offset="5%" stopColor="#10b981" stopOpacity={0.1}/>
-                    <stop offset="95%" stopColor="#10b981" stopOpacity={0}/>
+                    <stop offset="5%" stopColor="var(--color-executive-primary)" stopOpacity={0.1}/>
+                    <stop offset="95%" stopColor="var(--color-executive-primary)" stopOpacity={0}/>
                   </linearGradient>
                 </defs>
-                <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#f1f5f9" />
-                <XAxis dataKey="name" axisLine={false} tickLine={false} tick={{ fontSize: 10, fill: '#94a3b8', fontWeight: 600 }} />
-                <YAxis axisLine={false} tickLine={false} tick={{ fontSize: 10, fill: '#94a3b8', fontWeight: 600 }} tickFormatter={v => `R$${v/1000}k`} />
+                <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="currentColor" />
+                <XAxis dataKey="name" axisLine={false} tickLine={false} tick={{ fontSize: 10, fill: 'var(--color-executive-primary)', fontWeight: 600 }} />
+                <YAxis axisLine={false} tickLine={false} tick={{ fontSize: 10, fill: 'var(--color-executive-primary)', fontWeight: 600 }} tickFormatter={v => `R$${v/1000}k`} />
                 <Tooltip 
                   contentStyle={{ borderRadius: '16px', border: 'none', boxShadow: '0 10px 15px -3px rgb(0 0 0 / 0.1)' }}
                   formatter={(v: number) => formatCurrency(v)}
                 />
-                <Area type="monotone" dataKey="valor" stroke="#10b981" strokeWidth={3} fillOpacity={1} fill="url(#colorValRec2)" />
+                <Area type="monotone" dataKey="valor" stroke="currentColor" strokeWidth={3} fillOpacity={1} fill="url(#colorValRec2)" />
               </AreaChart>
             </ResponsiveContainer>
           </div>

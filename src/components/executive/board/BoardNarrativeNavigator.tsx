@@ -1,6 +1,6 @@
-import React, { useState } from 'react';
-import { BoardFlowStep, InstitutionalBoardFlow } from '../../../services/FiduciaryRuntimeAdapter';
-import { ExecutiveSessionContext } from '../../../services/FiduciaryRuntimeAdapter';
+import React from 'react';
+import { BoardFlowStep } from '../../../services/FiduciaryRuntimeAdapter';
+import { useBoardNarrativeNavigatorViewModel } from '../../../capabilities/executive/presentation/view-models/useBoardNarrativeNavigatorViewModel';
 
 interface BoardNarrativeNavigatorProps {
   sessionId: string;
@@ -15,43 +15,29 @@ export const BoardNarrativeNavigator: React.FC<BoardNarrativeNavigatorProps> = (
   hasLineage,
   onStepChange
 }) => {
-  const [currentStep, setCurrentStep] = useState<BoardFlowStep>('SUMMARY');
-  const [error, setError] = useState<string | null>(null);
-
-  const handleTransition = (nextStep: BoardFlowStep) => {
-    try {
-      InstitutionalBoardFlow.assertValidTransition(currentStep, nextStep, hasEvidence, hasLineage);
-      ExecutiveSessionContext.appendAudit(sessionId, nextStep);
-      setCurrentStep(nextStep);
-      setError(null);
-      onStepChange(nextStep);
-    } catch (err: any) {
-      setError(err.message);
-    }
-  };
-
-  const steps: BoardFlowStep[] = ['SUMMARY', 'STRUCTURAL_TENSIONS', 'ROOT_CAUSE', 'PROPAGATION', 'INSTITUTIONAL_RISKS', 'RECOMMENDATIONS', 'EVIDENCE_CHAIN', 'TIMELINE', 'DRILLDOWN'];
+  const { state, computed, actions } = useBoardNarrativeNavigatorViewModel();
 
   return (
     <div className="w-full bg-primary/50 p-4 border-b border-border">
       <div className="flex gap-2 overflow-x-auto pb-2">
-        {steps.map(step => (
+        {computed.steps.map(step => (
           <button
             key={step}
-            onClick={() => handleTransition(step)}
+            onClick={() => actions.handleTransition(step, sessionId, hasEvidence, hasLineage, onStepChange)}
             className={`px-4 py-2 text-sm uppercase tracking-wider rounded whitespace-nowrap transition-colors
-              ${currentStep === step ? 'bg-accent text-white font-bold' : 'bg-surface text-muted-foreground hover:bg-surface-low'}
+              ${state.currentStep === step ? 'bg-accent text-white font-bold' : 'bg-surface text-muted-foreground hover:bg-surface-low'}
             `}
           >
             {step.replace('_', ' ')}
           </button>
         ))}
       </div>
-      {error && (
+      {state.error && (
         <div className="mt-2 text-red-400 text-sm font-mono bg-red-900/20 p-2 rounded border border-red-500/30">
-          [GOVERNANCE_BLOCK] {error}
+          [GOVERNANCE_BLOCK] {state.error}
         </div>
       )}
     </div>
   );
 };
+

@@ -19,7 +19,7 @@ export function BenchmarkReadinessPanel({ clientId, scenario }: BenchmarkReadine
       case 'CERTIFIED':
         return {
           text: 'text-emerald-400 bg-success-soft0/10 border-emerald-500/25',
-          progressColor: '#10b981',
+          progressColor: 'var(--color-executive-primary)',
           bgBar: 'bg-success-soft0',
           label: 'Certificado para Benchmark',
           description: 'A holding atende plenamente aos requisitos de maturidade e integridade.'
@@ -27,7 +27,7 @@ export function BenchmarkReadinessPanel({ clientId, scenario }: BenchmarkReadine
       case 'CONDITIONALLY_CERTIFIED':
         return {
           text: 'text-amber-400 bg-warning-soft0/10 border-amber-500/25',
-          progressColor: '#f59e0b',
+          progressColor: 'var(--color-executive-primary)',
           bgBar: 'bg-warning-soft0',
           label: 'Certificado Condicionalmente',
           description: 'Aprovado para rodadas de benchmark, sujeito a ajustes ou evidências adicionais.'
@@ -36,7 +36,7 @@ export function BenchmarkReadinessPanel({ clientId, scenario }: BenchmarkReadine
       default:
         return {
           text: 'text-red-400 bg-red-500/10 border-red-500/25',
-          progressColor: '#ef4444',
+          progressColor: 'var(--color-executive-primary)',
           bgBar: 'bg-red-500',
           label: 'Não Certificado',
           description: 'Bloqueado. A holding apresenta fragilidades severas em governança, dados ou liquidez.'
@@ -137,7 +137,7 @@ export function BenchmarkReadinessPanel({ clientId, scenario }: BenchmarkReadine
                 cx="72"
                 cy="72"
                 r="60"
-                stroke="#1f2937"
+                stroke="currentColor"
                 strokeWidth="8"
                 fill="transparent"
               />
@@ -196,7 +196,7 @@ export function BenchmarkReadinessPanel({ clientId, scenario }: BenchmarkReadine
 
           {/* Checklist requirement items */}
           {readiness.requiredBeforeBenchmark && readiness.requiredBeforeBenchmark.length > 0 && (
-            <div className="p-5 bg-[#0a0f1d] border border-border rounded-2xl space-y-3">
+            <div className="p-5 bg-surface-container border border-border rounded-2xl space-y-3">
               <span className="text-[10px] font-black uppercase tracking-widest text-primary flex items-center gap-1.5">
                 <Info className="w-3.5 h-3.5" />
                 Ações corretivas exigidas antes da liberação do benchmark setorial:
@@ -273,7 +273,7 @@ export function BenchmarkReadinessPanel({ clientId, scenario }: BenchmarkReadine
 
       {/* Future Comparative Benchmarking Locked Placeholder (BCI™) */}
       <div className="p-6 bg-slate-950/30 border border-dashed border-border rounded-3xl flex flex-col md:flex-row md:items-center justify-between gap-4 relative overflow-hidden">
-        <div className="absolute inset-0 bg-[#060d17]/50 backdrop-blur-[2px] z-10 flex items-center justify-center">
+        <div className="absolute inset-0 bg-surface-container/50 backdrop-blur-[2px] z-10 flex items-center justify-center">
           <div className="bg-gray-900 border border-border px-4 py-2 rounded-2xl shadow-xl flex items-center gap-2">
             <Lock className="w-4 h-4 text-teal-400" />
             <span className="text-[10.5px] font-black uppercase tracking-widest text-teal-400 font-mono">

@@ -203,14 +203,14 @@ export function InstitutionalMemoryCenter({ selectedClient, selectedYear }: Inst
           <div className="h-[280px] w-full flex items-center justify-center mt-4">
             <ResponsiveContainer width="100%" height="100%">
               <RadarChart cx="50%" cy="50%" outerRadius="80%" data={radarData}>
-                <PolarGrid stroke="#1e293b" />
-                <PolarAngleAxis dataKey="subject" stroke="#64748b" tick={{ fontSize: 10, fontWeight: 600 }} />
-                <PolarRadiusAxis angle={30} domain={[0, 100]} stroke="#334155" tick={{ fontSize: 8 }} />
-                <Radar name="Memory Score" dataKey="value" stroke="#818cf8" fill="#818cf8" fillOpacity={0.15} />
+                <PolarGrid stroke="currentColor" />
+                <PolarAngleAxis dataKey="subject" stroke="currentColor" tick={{ fontSize: 10, fontWeight: 600 }} />
+                <PolarRadiusAxis angle={30} domain={[0, 100]} stroke="currentColor" tick={{ fontSize: 8 }} />
+                <Radar name="Memory Score" dataKey="value" stroke="currentColor" fill="currentColor" fillOpacity={0.15} />
                 <Tooltip 
-                  contentStyle={{ backgroundColor: '#090d16', border: '1px solid #1e293b', borderRadius: '12px' }} 
-                  labelStyle={{ color: '#94a3b8', fontSize: '11px', fontWeight: 600 }}
-                  itemStyle={{ color: '#e2e8f0', fontSize: '12px' }}
+                  contentStyle={{ backgroundColor: 'var(--color-surface-container)', border: '1px solid var(--color-executive-primary)', borderRadius: '12px' }} 
+                  labelStyle={{ color: 'var(--color-executive-primary)', fontSize: '11px', fontWeight: 600 }}
+                  itemStyle={{ color: 'var(--color-executive-primary)', fontSize: '12px' }}
                 />
               </RadarChart>
             </ResponsiveContainer>

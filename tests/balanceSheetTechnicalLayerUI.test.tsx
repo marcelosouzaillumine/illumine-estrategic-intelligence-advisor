@@ -1,3 +1,4 @@
+import 'global-jsdom/register';
 import React from 'react';
 import { render, screen } from '@testing-library/react';
 import { describe, it } from 'node:test';
@@ -5,6 +6,8 @@ import assert from 'node:assert';
 import { BalanceSheetTechnicalLayerSection } from '../src/components/pages/balance-sheet/BalanceSheetTechnicalLayerSection';
 
 describe('BalanceSheetTechnicalLayerSection UI Contracts', () => {
+  
+
   it('Should render correctly without discarding data when families are present', () => {
     const mockViewModel = {
       families: [

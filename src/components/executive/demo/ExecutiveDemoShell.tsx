@@ -1,74 +1,18 @@
-import React, { useState, useEffect } from 'react';
-import { ExecutiveDemoScenarioRegistry, DemoScenario } from '../../../services/FiduciaryRuntimeAdapter';
-import { ExecutiveDemoSession, DemoSessionState } from '../../../services/FiduciaryRuntimeAdapter';
-import { ExecutiveStorySequenceResolver } from '../../../services/FiduciaryRuntimeAdapter';
-import { InstitutionalDemoDatasetGuard } from '../../../services/FiduciaryRuntimeAdapter';
-import { GuidedJourneyStep } from '../../../services/FiduciaryRuntimeAdapter';
+import React from 'react';
 import { ExecutiveDisclosurePanel } from './ExecutiveDisclosurePanel';
 import { GuidedBoardJourneyNavigator } from './GuidedBoardJourneyNavigator';
 import { ExecutiveScenarioSelector } from './ExecutiveScenarioSelector';
 import { InstitutionalScenarioTimeline } from './InstitutionalScenarioTimeline';
 import { BoardPresentationMode } from './BoardPresentationMode';
 import { RuntimeDisclosureBanner } from '../board/RuntimeDisclosureBanner';
+import { useExecutiveDemoShellViewModel } from '../../../capabilities/executive/presentation/view-models/useExecutiveDemoShellViewModel';
 
 export const ExecutiveDemoShell: React.FC = () => {
-  const [sessionId] = useState<string>(() => `demo-session-${Math.floor(1000 + Math.random() * 9000)}`);
-  const [session, setSession] = useState<DemoSessionState | null>(null);
-  const [selectedScenarioId, setSelectedScenarioId] = useState<string | null>(null);
-  const [currentStep, setCurrentStep] = useState<GuidedJourneyStep>('SUMMARY');
-  const [presentationActive, setPresentationActive] = useState<boolean>(false);
-  const [guardError, setGuardError] = useState<string | null>(null);
-
-  // Initialize Session
-  useEffect(() => {
-    const sess = ExecutiveDemoSession.createSession(sessionId, 'CFO', true);
-    setSession({ ...sess });
-  }, [sessionId]);
-
-  const handleSelectScenario = (scenarioId: string) => {
-    if (!session) return;
-    try {
-      const sc = ExecutiveDemoScenarioRegistry.getScenario(scenarioId);
-      if (!sc) throw new Error(`Scenario ${scenarioId} not found.`);
-      
-      ExecutiveDemoSession.loadScenario(sessionId, scenarioId, sc.runtimeSnapshotId);
-      setSelectedScenarioId(scenarioId);
-      setSession({ ...ExecutiveDemoSession.getSession(sessionId) });
-      setGuardError(null);
-    } catch (err: any) {
-      setGuardError(err.message);
-    }
-  };
-
-  const handleAcknowledgeDisclosure = () => {
-    if (!session) return;
-    try {
-      ExecutiveDemoSession.acknowledgeDisclosure(sessionId);
-      setSession({ ...ExecutiveDemoSession.getSession(sessionId) });
-      setGuardError(null);
-    } catch (err: any) {
-      setGuardError(err.message);
-    }
-  };
-
-  // Fail-Closed Validation
-  const activeScenario = selectedScenarioId ? ExecutiveDemoScenarioRegistry.getScenario(selectedScenarioId) : null;
-  
-  let isBlocked = false;
-  let validationError = guardError;
-
-  if (activeScenario && session) {
-    try {
-      InstitutionalDemoDatasetGuard.assertSafeDemonstration(activeScenario, session);
-    } catch (err: any) {
-      isBlocked = true;
-      validationError = err.message;
-    }
-  }
-
-  const allowedSteps = activeScenario && session 
-    ? ExecutiveStorySequenceResolver.resolveSteps(session.actorScope, activeScenario)
-    : [];
+  const { state, computed, actions } = useExecutiveDemoShellViewModel();
+  const { 
+    sessionId, session, selectedScenarioId, currentStep, presentationActive, guardError, isBlocked 
+  } = state;
+  const { activeScenario, allowedSteps } = computed;
 
   const renderStepContent = () => {
     if (!activeScenario) return null;
@@ -240,7 +184,7 @@ export const ExecutiveDemoShell: React.FC = () => {
             hasEvidence={true}
             hasLineage={true}
             hasRuntimeMemory={true}
-            onStepChange={setCurrentStep}
+            onStepChange={actions.setCurrentStep}
           />
           <div className="min-h-[200px]">
             {renderStepContent()}
@@ -263,16 +207,16 @@ export const ExecutiveDemoShell: React.FC = () => {
         </div>
       </div>
 
-      {validationError && (
+      {guardError && (
         <div className="p-4 bg-red-950/20 border border-red-500/30 rounded text-red-200 font-mono text-xs">
-          ❌ GUARD BLOCK: {validationError}
+          ❌ GUARD BLOCK: {guardError}
         </div>
       )}
 
       {/* Scenario Selector */}
       <ExecutiveScenarioSelector
         activeScenarioId={selectedScenarioId}
-        onSelectScenario={handleSelectScenario}
+        onSelectScenario={actions.handleSelectScenario}
       />
 
       {session && session.disclosureState === 'PENDING' && selectedScenarioId && (
@@ -283,7 +227,7 @@ export const ExecutiveDemoShell: React.FC = () => {
             Simulations, indicators, and timelines represent audited data from the core intelligence engine.
           </p>
           <button
-            onClick={handleAcknowledgeDisclosure}
+            onClick={actions.handleAcknowledgeDisclosure}
             className="px-4 py-2 bg-blue-600 text-white rounded text-xs font-mono font-bold hover:bg-blue-700"
           >
             Acknowledge & Start Journey
@@ -293,7 +237,7 @@ export const ExecutiveDemoShell: React.FC = () => {
 
       {session && session.disclosureState === 'ACKNOWLEDGED' && !isBlocked && (
         <>
-          <BoardPresentationMode active={presentationActive} onToggle={() => setPresentationActive(!presentationActive)}>
+          <BoardPresentationMode active={presentationActive} onToggle={() => actions.setPresentationActive(!presentationActive)}>
             {mainUiContent}
           </BoardPresentationMode>
           {!presentationActive && mainUiContent}

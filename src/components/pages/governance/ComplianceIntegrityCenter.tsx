@@ -1,12 +1,15 @@
 // Adjacent governance module.
 // Not part of GOVERNANCE_DOMAIN_BOUNDARIES.md core module registry.
 // Pending future migration to Integrity & Compliance axis.
-import React, { useState } from 'react';
+import React from 'react';
 import { ShieldAlert, Activity, FileText, Leaf, Scale, Lock, AlertOctagon, TrendingDown, TrendingUp, Minus, CheckCircle2 } from 'lucide-react';
 import { PageHeader } from '../../Common';
+import { useComplianceIntegrityViewModel } from '../../../viewmodels/governance/useComplianceIntegrityViewModel';
 
 export function ComplianceIntegrityCenter() {
-  const [activeTab, setActiveTab] = useState<'integridade' | 'denuncias' | 'politicas' | 'esg'>('integridade');
+  const { state, actions } = useComplianceIntegrityViewModel();
+  const { activeTab } = state;
+  const { setActiveTab } = actions;
 
   return (
     <div className="max-w-[1440px] mx-auto px-6 lg:px-10 space-y-12 pb-32 animate-executive-fade">

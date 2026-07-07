@@ -2,7 +2,7 @@ import React, { useMemo } from 'react';
 import { useLanguage } from '../../../contexts/LanguageContext';
 import { DREExecutiveAdvisorySectionViewModel } from './view-models';
 import { ExecutiveStrategicSemanticCards } from '../../ui/executive-strategic-semantic-cards';
-import { ExecutiveStrategicDiagnosisPayload } from '../../../core/runtime/executive-consolidation/ExecutiveSynthesisTypes';
+import { ExecutiveStrategicDiagnosisPayload } from '../../../services/FiduciaryRuntimeAdapter';
 
 interface Props {
   viewModel?: DREExecutiveAdvisorySectionViewModel;

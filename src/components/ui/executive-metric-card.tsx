@@ -4,7 +4,8 @@ import { ExecutiveSurface } from './executive-surface';
 import { ExecutiveMetric, ExecutiveText, ExecutiveSpacingRegistry } from './executive-typography';
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from './tooltip';
 import { ExecutiveLocalizationRegistry } from '@/core/i18n/executive-localization-registry';
-import { ExecutiveBadge } from './executive-badge';
+import { ExecutiveStatusBadge } from './executive-status-badge';
+import type { ExecutiveStatus } from './executive-status-badge';
 
 export interface ExecutiveMetricCardProps {
   /** @deprecated Use title instead to avoid ambiguity */
@@ -16,7 +17,7 @@ export interface ExecutiveMetricCardProps {
   /** @deprecated Use statusBadge instead */
   status?: string | 'positive' | 'negative' | 'neutral' | any;
   tone?: 'neutral' | 'success' | 'warning' | 'critical' | 'info';
-  variant?: 'default' | 'transparent' | 'highlight';
+  variant?: 'default' | 'transparent' | 'highlight' | 'technical';
   density?: 'compact' | 'standard' | 'analytical' | 'comfortable';
   layout?: 'standard' | 'hero' | 'summary';
   surface?: 'default' | 'transparent' | 'subtle';
@@ -79,9 +80,11 @@ export function ExecutiveMetricCard({
   }, [tone, effectiveTitle, effectiveBadge]);
 
   // Se a badge for string, envolvemos no ExecutiveBadge usando o tone atual
-  // Se for um Node React (ex: <ExecutiveBadge>), renderizamos como está.
+  // Se for um Node React (ex: <ExecutiveStatusBadge>), renderizamos como está.
+  const badgeVariant = variant === 'technical' ? 'technical' : 'metric';
+  const resolvedStatus = tone === 'success' ? 'EXCELLENT' : tone === 'warning' ? 'WARNING' : tone === 'critical' ? 'CRITICAL' : 'NEUTRAL';
   const renderedBadge = typeof effectiveBadge === 'string'
-    ? <ExecutiveBadge variant={tone}>{effectiveBadge}</ExecutiveBadge>
+    ? <ExecutiveStatusBadge variant={badgeVariant} status={resolvedStatus} label={effectiveBadge} />
     : effectiveBadge;
 
   const isCompact = density === 'compact';
@@ -116,9 +119,9 @@ export function ExecutiveMetricCard({
   const content = (
     <ExecutiveSurface 
       padding="none" 
-      variant={variant === 'highlight' ? 'default' : variant}
+      variant={variant === 'highlight' ? 'default' : (variant === 'technical' ? 'default' : variant)}
       className={cn(
-        "flex flex-col items-stretch justify-start w-full transition-all h-full",
+        "flex flex-col items-stretch justify-start w-full transition-all h-full overflow-hidden",
         layout !== 'hero' && "rounded-[24px]",
         layout === 'hero' ? heroTokens[density] : (isAnalytical ? ExecutiveSpacingRegistry.cardPadding : ExecutiveSpacingRegistry.cardPaddingCompact),
         surfaceVariants[surface],

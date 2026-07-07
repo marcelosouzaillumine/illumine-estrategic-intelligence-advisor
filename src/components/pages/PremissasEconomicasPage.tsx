@@ -214,12 +214,12 @@ export function PremissasEconomicasPage() {
                         <div className="h-48 w-full">
                           <ResponsiveContainer width="100%" height="100%">
                             <LineChart data={secao.historico}>
-                              <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#e2e8f0" />
+                              <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="currentColor" />
                               <XAxis dataKey="data" fontSize={9} tickLine={false} axisLine={false} />
                               <YAxis fontSize={9} tickLine={false} axisLine={false} domain={['auto', 'auto']} />
                               <Tooltip 
                                 contentStyle={{ borderRadius: '8px', border: 'none', boxShadow: '0 4px 6px -1px rgb(0 0 0 / 0.1)' }}
-                                labelStyle={{ fontWeight: 'bold', color: '#1e293b' }}
+                                labelStyle={{ fontWeight: 'bold', color: 'var(--color-executive-primary)' }}
                                 formatter={(v: number) => [
                                   secao.categoria.includes('Câmbio') ? `R$ ${v.toFixed(2)}` : `${v.toFixed(2)}%`, 
                                   secao.categoria.includes('Câmbio') ? 'USD' : 'Selic'
@@ -228,9 +228,9 @@ export function PremissasEconomicasPage() {
                               <Line 
                                 type="monotone" 
                                 dataKey="valor" 
-                                stroke="#2563eb" 
+                                stroke="currentColor" 
                                 strokeWidth={2} 
-                                dot={{ r: 4, fill: '#2563eb', strokeWidth: 2, stroke: '#fff' }}
+                                dot={{ r: 4, fill: 'var(--color-executive-primary)', strokeWidth: 2, stroke: 'var(--color-executive-primary)' }}
                                 activeDot={{ r: 6 }}
                               />
                             </LineChart>

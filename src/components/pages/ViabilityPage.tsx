@@ -165,45 +165,45 @@ export function ViabilityScenario({ project }: { project: any }) {
           <div className="h-[280px] w-full bg-slate-800/40 rounded-2xl p-6 border border-white/5">
             <ResponsiveContainer width="100%" height="100%">
               <BarChart data={chartData}>
-                <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#334155" opacity={0.5} />
+                <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="currentColor" opacity={0.5} />
                 <XAxis 
                   dataKey="name" 
                   axisLine={false} 
                   tickLine={false} 
-                  tick={{ fontSize: 10, fill: '#94a3b8', fontWeight: 600 }} 
+                  tick={{ fontSize: 10, fill: 'var(--color-executive-primary)', fontWeight: 600 }} 
                   dy={10}
                 />
                 <YAxis 
                   axisLine={false} 
                   tickLine={false} 
-                  tick={{ fontSize: 10, fill: '#94a3b8', fontWeight: 600 }}
+                  tick={{ fontSize: 10, fill: 'var(--color-executive-primary)', fontWeight: 600 }}
                   tickFormatter={(v) => `R$${(v/1000).toFixed(0)}k`}
                 />
                 <Tooltip 
-                  contentStyle={{ backgroundColor: '#0f172a', border: '1px solid #334155', borderRadius: '12px', fontSize: '12px' }}
-                  itemStyle={{ color: '#fff' }}
+                  contentStyle={{ backgroundColor: 'var(--color-surface-container)', border: '1px solid var(--color-executive-primary)', borderRadius: '12px', fontSize: '12px' }}
+                  itemStyle={{ color: 'var(--color-executive-primary)' }}
                   cursor={{ fill: 'rgba(255, 255, 255, 0.05)' }}
                   formatter={(value: number) => [formatCurrency(value), 'Fluxo Mensal']}
                 />
                 <Bar 
                   dataKey="valor" 
                   radius={[4, 4, 0, 0]}
-                  fill="#3b82f6"
+                  fill="currentColor"
                 >
                   {chartData.map((entry: any, index: number) => (
-                    <Cell key={`cell-${index}`} fill={entry.valor < 0 ? '#f43f5e' : '#3b82f6'} />
+                    <Cell key={`cell-${index}`} fill={entry.valor < 0 ? 'var(--color-executive-primary)' : 'var(--color-executive-primary)'} />
                   ))}
                 </Bar>
                 {paybackLabel && (
                   <ReferenceLine 
                     x={paybackLabel} 
-                    stroke="#fbbf24" 
+                    stroke="currentColor" 
                     strokeWidth={2}
                     strokeDasharray="4 4"
                     label={{ 
                       value: 'PAYBACK', 
                       position: 'top', 
-                      fill: '#fbbf24', 
+                      fill: 'var(--color-executive-primary)', 
                       fontSize: 10, 
                       fontWeight: 900,
                       letterSpacing: '0.1em'
@@ -497,29 +497,29 @@ export function ViabilityPage({ selectedClient, clients }: { selectedClient: str
                 <div className="h-[300px] w-full bg-slate-50/30 rounded-xl p-4 border border-border">
                   <ResponsiveContainer width="100%" height="100%">
                     <ComposedChart data={v.fluxo}>
-                      <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#e2e8f0" />
+                      <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="currentColor" />
                       <XAxis 
                         dataKey="mes" 
                         axisLine={false} 
                         tickLine={false} 
-                        tick={{ fontSize: 10, fill: '#94a3b8', fontWeight: 600 }}
-                        label={{ value: 'Meses', position: 'insideBottom', offset: -5, fontSize: 10, fill: '#94a3b8', fontWeight: 700 }}
+                        tick={{ fontSize: 10, fill: 'var(--color-executive-primary)', fontWeight: 600 }}
+                        label={{ value: 'Meses', position: 'insideBottom', offset: -5, fontSize: 10, fill: 'var(--color-executive-primary)', fontWeight: 700 }}
                       />
                       <YAxis 
                         axisLine={false} 
                         tickLine={false} 
-                        tick={{ fontSize: 10, fill: '#94a3b8', fontWeight: 600 }} 
+                        tick={{ fontSize: 10, fill: 'var(--color-executive-primary)', fontWeight: 600 }} 
                         tickFormatter={(v) => `R$${v / 1000}k`} 
                       />
                       <Tooltip 
-                        contentStyle={{ borderRadius: '12px', border: '1px solid #e2e8f0', boxShadow: '0 4px 6px -1px rgb(0 0 0 / 0.1)', fontSize: '12px' }}
+                        contentStyle={{ borderRadius: '12px', border: '1px solid var(--color-executive-primary)', boxShadow: '0 4px 6px -1px rgb(0 0 0 / 0.1)', fontSize: '12px' }}
                         formatter={(value: number) => formatCurrency(value)}
                         labelFormatter={(label) => `Mês ${label}`}
                       />
-                      <ReferenceLine y={0} stroke="#94a3b8" strokeWidth={1} strokeDasharray="3 3" />
+                      <ReferenceLine y={0} stroke="currentColor" strokeWidth={1} strokeDasharray="3 3" />
                       <Bar 
                         dataKey="valor" 
-                        fill="#dbeafe" 
+                        fill="currentColor" 
                         radius={[4, 4, 0, 0]} 
                         barSize={20} 
                         name="Fluxo Mensal"
@@ -527,22 +527,22 @@ export function ViabilityPage({ selectedClient, clients }: { selectedClient: str
                       <Line 
                         type="monotone" 
                         dataKey="acumulado" 
-                        stroke="#2563eb" 
+                        stroke="currentColor" 
                         strokeWidth={3} 
-                        dot={{ r: 4, fill: '#2563eb', strokeWidth: 2, stroke: '#fff' }}
+                        dot={{ r: 4, fill: 'var(--color-executive-primary)', strokeWidth: 2, stroke: 'var(--color-executive-primary)' }}
                         activeDot={{ r: 6, strokeWidth: 0 }}
                         name="Fluxo Acumulado"
                       />
                       {/* Highlight Payback point */}
                       <ReferenceLine 
                         x={v.paybackMesNum} 
-                        stroke="#10b981" 
+                        stroke="currentColor" 
                         strokeDasharray="4 4" 
                         strokeWidth={2}
                         label={{ 
                           value: 'Payback', 
                           position: 'top', 
-                          fill: '#10b981', 
+                          fill: 'var(--color-executive-primary)', 
                           fontSize: 10, 
                           fontWeight: 700
                         }} 

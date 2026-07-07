@@ -126,7 +126,7 @@ export function ESGIMAssessmentPage({ clientId }: { clientId: string }) {
   // Restricted Access View
   if (!hasAccess && session) {
     return (
-      <div className="flex flex-col items-center justify-center min-h-[60vh] text-center p-8 bg-[#03080F] text-white">
+      <div className="flex flex-col items-center justify-center min-h-[60vh] text-center p-8 bg-surface-container text-white">
         <div className="p-4 bg-critical-soft0/10 border border-rose-500/20 text-rose-700 rounded-2xl mb-4">
           <ShieldAlert className="w-12 h-12 mx-auto" />
         </div>
@@ -146,7 +146,7 @@ export function ESGIMAssessmentPage({ clientId }: { clientId: string }) {
           text: 'text-emerald-400',
           bg: 'bg-success-soft0/10',
           border: 'border-emerald-500/20',
-          fill: '#34d399',
+          fill: 'var(--color-executive-primary)',
           bgBar: 'bg-success-soft0'
         };
       case 'MATURE':
@@ -154,7 +154,7 @@ export function ESGIMAssessmentPage({ clientId }: { clientId: string }) {
           text: 'text-teal-400',
           bg: 'bg-teal-500/10',
           border: 'border-teal-500/20',
-          fill: '#2dd4bf',
+          fill: 'var(--color-executive-primary)',
           bgBar: 'bg-teal-500'
         };
       case 'DEVELOPING':
@@ -162,7 +162,7 @@ export function ESGIMAssessmentPage({ clientId }: { clientId: string }) {
           text: 'text-sky-400',
           bg: 'bg-sky-500/10',
           border: 'border-sky-500/20',
-          fill: '#38bdf8',
+          fill: 'var(--color-executive-primary)',
           bgBar: 'bg-sky-500'
         };
       case 'CONCERN':
@@ -170,7 +170,7 @@ export function ESGIMAssessmentPage({ clientId }: { clientId: string }) {
           text: 'text-amber-400',
           bg: 'bg-warning-soft0/10',
           border: 'border-amber-500/20',
-          fill: '#fbbf24',
+          fill: 'var(--color-executive-primary)',
           bgBar: 'bg-warning-soft0'
         };
       case 'CRITICAL':
@@ -179,7 +179,7 @@ export function ESGIMAssessmentPage({ clientId }: { clientId: string }) {
           text: 'text-rose-400',
           bg: 'bg-critical-soft0/10',
           border: 'border-rose-500/20',
-          fill: '#f87171',
+          fill: 'var(--color-executive-primary)',
           bgBar: 'bg-critical-soft0'
         };
     }
@@ -193,7 +193,7 @@ export function ESGIMAssessmentPage({ clientId }: { clientId: string }) {
           text: 'text-emerald-400',
           bg: 'bg-success-soft0/10',
           border: 'border-emerald-500/20',
-          fill: '#34d399',
+          fill: 'var(--color-executive-primary)',
           bgBar: 'bg-success-soft0'
         };
       case 'RESILIENT':
@@ -201,7 +201,7 @@ export function ESGIMAssessmentPage({ clientId }: { clientId: string }) {
           text: 'text-teal-400',
           bg: 'bg-teal-500/10',
           border: 'border-teal-500/20',
-          fill: '#2dd4bf',
+          fill: 'var(--color-executive-primary)',
           bgBar: 'bg-teal-500'
         };
       case 'MODERATE':
@@ -209,7 +209,7 @@ export function ESGIMAssessmentPage({ clientId }: { clientId: string }) {
           text: 'text-sky-400',
           bg: 'bg-sky-500/10',
           border: 'border-sky-500/20',
-          fill: '#38bdf8',
+          fill: 'var(--color-executive-primary)',
           bgBar: 'bg-sky-500'
         };
       case 'FRAGILE':
@@ -217,7 +217,7 @@ export function ESGIMAssessmentPage({ clientId }: { clientId: string }) {
           text: 'text-amber-400',
           bg: 'bg-warning-soft0/10',
           border: 'border-amber-500/20',
-          fill: '#fbbf24',
+          fill: 'var(--color-executive-primary)',
           bgBar: 'bg-warning-soft0'
         };
       case 'CRITICAL':
@@ -226,7 +226,7 @@ export function ESGIMAssessmentPage({ clientId }: { clientId: string }) {
           text: 'text-rose-400',
           bg: 'bg-critical-soft0/10',
           border: 'border-rose-500/20',
-          fill: '#f87171',
+          fill: 'var(--color-executive-primary)',
           bgBar: 'bg-critical-soft0'
         };
     }
@@ -302,7 +302,7 @@ export function ESGIMAssessmentPage({ clientId }: { clientId: string }) {
   };
 
   return (
-    <div className="max-w-[1440px] mx-auto px-6 lg:px-10 space-y-8 pb-32 animate-executive-fade bg-[#03080F] text-white">
+    <div className="max-w-[1440px] mx-auto px-6 lg:px-10 space-y-8 pb-32 animate-executive-fade bg-surface-container text-white">
       
       <PageHeader 
         title={activeView === 'EXECUTIVE_JOURNEY' ? "Jornada de Governança™" : "Cockpit de Governança Institucional"}
@@ -344,7 +344,7 @@ export function ESGIMAssessmentPage({ clientId }: { clientId: string }) {
       />
 
       {/* 2. Controls Section */}
-      <div className="card-premium p-6 border border-white/5 bg-[#060D17]/50 backdrop-blur-md rounded-2xl flex flex-col md:flex-row md:items-center justify-between gap-6">
+      <div className="card-premium p-6 border border-white/5 bg-surface-container/50 backdrop-blur-md rounded-2xl flex flex-col md:flex-row md:items-center justify-between gap-6">
         <div>
           <h3 className="text-sm font-bold uppercase tracking-wider text-primary">Filtro de Leitura Estrutural</h3>
      <p className="text-executive-secondary">Diferencie entre dados contábeis auditados (LIVE_DATA) e simulações cognitivas de estresse (DEMO_SCENARIO).</p>
@@ -402,7 +402,7 @@ export function ESGIMAssessmentPage({ clientId }: { clientId: string }) {
           {/* BPG Board Pack Button */}
           <button
             onClick={() => setIsBoardPackModalOpen(true)}
-            className="flex items-center gap-2 px-5 py-2.5 bg-[#BAB86C] hover:bg-[#BAB86C]/90 border border-transparent rounded-xl text-xs font-bold uppercase tracking-widest text-white shadow-lg shadow-[#BAB86C]/10 hover:shadow-[#BAB86C]/20 hover:-translate-y-0.5 transition-all duration-200"
+            className="flex items-center gap-2 px-5 py-2.5 bg-surface-container hover:bg-surface-container/90 border border-transparent rounded-xl text-xs font-bold uppercase tracking-widest text-white shadow-lg shadow-[var(--color-executive-primary)]/10 hover:shadow-[var(--color-executive-primary)]/20 hover:-translate-y-0.5 transition-all duration-200"
           >
             <Activity size={14} className="animate-pulse" />
             Gerar Board Pack
@@ -509,7 +509,7 @@ export function ESGIMAssessmentPage({ clientId }: { clientId: string }) {
         <div className="lg:col-span-8 grid grid-cols-1 md:grid-cols-2 gap-8">
           
           {/* Column A: ESGIM Heatmap */}
-          <div className="card-premium p-6 border border-white/5 bg-[#060D17] rounded-2xl space-y-6">
+          <div className="card-premium p-6 border border-white/5 bg-surface-container rounded-2xl space-y-6">
             <div className="flex justify-between items-center border-b border-white/5 pb-3">
               <h3 className="text-sm font-bold uppercase tracking-wider text-primary flex items-center gap-2">
                 <Activity className="w-4 h-4 text-primary" />
@@ -554,7 +554,7 @@ export function ESGIMAssessmentPage({ clientId }: { clientId: string }) {
           </div>
 
           {/* Column B: IRI Resilience Heatmap */}
-          <div className="card-premium p-6 border border-white/5 bg-[#060D17] rounded-2xl space-y-6">
+          <div className="card-premium p-6 border border-white/5 bg-surface-container rounded-2xl space-y-6">
             <div className="flex justify-between items-center border-b border-white/5 pb-3">
               <h3 className="text-sm font-bold uppercase tracking-wider text-primary flex items-center gap-2">
                 <Compass className="w-4 h-4 text-primary" />
@@ -659,7 +659,7 @@ export function ESGIMAssessmentPage({ clientId }: { clientId: string }) {
         </div>
 
         {/* Right Side: Circular Gauges (lg:col-span-4) */}
-        <div className="lg:col-span-4 card-premium p-6 border border-white/5 bg-[#060D17] rounded-2xl space-y-6 flex flex-col items-center justify-center">
+        <div className="lg:col-span-4 card-premium p-6 border border-white/5 bg-surface-container rounded-2xl space-y-6 flex flex-col items-center justify-center">
           
           <div className="text-center">
             <h4 className="text-xs font-bold uppercase tracking-wider text-primary">Gauges de Diagnóstico</h4>
@@ -725,7 +725,7 @@ export function ESGIMAssessmentPage({ clientId }: { clientId: string }) {
       </div>
 
       {/* 4. Board Executive Brief Card (Unified BPE™ Synthesis) */}
-      <div className="card-premium p-8 border border-amber-500/10 bg-[#060D17] rounded-2xl relative overflow-hidden space-y-6">
+      <div className="card-premium p-8 border border-amber-500/10 bg-surface-container rounded-2xl relative overflow-hidden space-y-6">
         <div className="absolute top-0 right-0 w-48 h-48 bg-warning-soft0/5 rounded-full blur-3xl pointer-events-none" />
         
         <div className="flex items-center gap-3 border-b border-white/5 pb-4">
@@ -791,7 +791,7 @@ export function ESGIMAssessmentPage({ clientId }: { clientId: string }) {
             return (
               <div 
                 key={priority.id}
-                className="card-premium border border-white/5 bg-[#060D17] hover:border-accent transition-all rounded-2xl overflow-hidden"
+                className="card-premium border border-white/5 bg-surface-container hover:border-accent transition-all rounded-2xl overflow-hidden"
               >
                 {/* Header row of priority card */}
                 <div 
@@ -944,7 +944,7 @@ export function ESGIMAssessmentPage({ clientId }: { clientId: string }) {
       </div>
 
       {/* 6. Governance Roadmap™ Dashboard Section (GRE™) */}
-      <div id="gre-roadmap" className="card-premium p-8 border border-white/5 bg-[#060D17] rounded-2xl space-y-8">
+      <div id="gre-roadmap" className="card-premium p-8 border border-white/5 bg-surface-container rounded-2xl space-y-8">
         
         {/* GRE Title & Progress / Risk Header */}
         <div className="flex flex-col md:flex-row md:items-center justify-between gap-6 border-b border-white/5 pb-5">
@@ -1143,7 +1143,7 @@ export function ESGIMAssessmentPage({ clientId }: { clientId: string }) {
       </div>
 
       {/* 6. Governance Monitoring™ Dashboard Row */}
-      <div id="gml-monitoring" className="card-premium p-8 border border-white/5 bg-[#060D17] rounded-2xl space-y-8 relative overflow-hidden">
+      <div id="gml-monitoring" className="card-premium p-8 border border-white/5 bg-surface-container rounded-2xl space-y-8 relative overflow-hidden">
         <div className="absolute top-0 right-0 w-64 h-64 bg-primary rounded-full blur-3xl pointer-events-none" />
 
         {/* Section Header */}
@@ -1495,7 +1495,7 @@ export function ESGIMAssessmentPage({ clientId }: { clientId: string }) {
       </div>
 
       {/* 7. Explainability & Traceability Panel */}
-      <div className="card-premium p-0 border border-white/5 bg-[#060D17] rounded-2xl overflow-hidden">
+      <div className="card-premium p-0 border border-white/5 bg-surface-container rounded-2xl overflow-hidden">
         <div className="flex border-b border-white/5 bg-surface-container 950/40">
           <button 
             onClick={() => setActiveExplainTab('evidences')}
@@ -1739,13 +1739,13 @@ export function ESGIMAssessmentPage({ clientId }: { clientId: string }) {
       )}
 
       {activeMainTab === 'execution' && (
-        <div className="card-premium p-6 border border-white/5 bg-[#060D17] rounded-2xl">
+        <div className="card-premium p-6 border border-white/5 bg-surface-container rounded-2xl">
           <GovernanceExecutionPanel clientId={clientId} scenario={demoScenario} mode={mode} />
         </div>
       )}
 
       {activeMainTab === 'meeting' && (
-        <div className="card-premium p-6 border border-white/5 bg-[#060D17] rounded-2xl">
+        <div className="card-premium p-6 border border-white/5 bg-surface-container rounded-2xl">
           <BoardMeetingMode clientId={clientId} scenario={demoScenario} />
         </div>
       )}

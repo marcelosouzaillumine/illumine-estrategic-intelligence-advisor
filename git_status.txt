@@ -1,0 +1,159 @@
+ M governance_self_audit_report.json
+ M src/components/advisor/AdvisorCommandCenter.tsx
+ M src/components/advisor/AdvisorWorkspaceShell.tsx
+ M src/components/executive/UniversalSearchHub.tsx
+ M src/components/executive/WorkspaceHubNavigation.tsx
+ M src/components/executive/board/BoardExperienceShell.tsx
+ M src/components/executive/board/BoardNarrativeNavigator.tsx
+ M src/components/executive/board/ExecutionTrackingDashboard.tsx
+ M src/components/executive/demo/ExecutiveDemoShell.tsx
+ M src/components/pages/AdministrativaPage.tsx
+ M src/components/pages/BalanceSheetPage.tsx
+ M src/components/pages/CashFlowPage.tsx
+ M src/components/pages/ClientExecutiveWorkspace.tsx
+ M src/components/pages/ClientsPage.tsx
+ M src/components/pages/DFCPage.tsx
+ M src/components/pages/DLPAPage.tsx
+ M src/components/pages/DREPage.tsx
+ M src/components/pages/FinancialModelingPage.tsx
+ M src/components/pages/LoanInvestmentSimPage.tsx
+ M src/components/pages/PartnerSalesPage.tsx
+ M src/components/pages/PlanoAcaoPage.tsx
+ M src/components/pages/PortfolioPage.tsx
+ M src/components/pages/PremissasEconomicasPage.tsx
+ M src/components/pages/ProfilePage.tsx
+ M src/components/pages/PurchasingPage.tsx
+ M src/components/pages/ReceivablesPage.tsx
+ M src/components/pages/RelatorioDemonstracoes5Anos.tsx
+ M src/components/pages/RelatorioExecutivoPage.tsx
+ M src/components/pages/SupportPage/TicketChat.tsx
+ M src/components/pages/ViabilityPage.tsx
+ M src/components/pages/balance-sheet/BalanceSheetBoardAdvisory.tsx
+ M src/components/pages/balance-sheet/BalanceSheetExecutivePlan.tsx
+ M src/components/pages/balance-sheet/adapters/BPStrategicDiagnosisAdapter.ts
+ M src/components/pages/dre/DREEconomicBreakdownSection.tsx
+ M src/components/pages/dre/DREExecutiveAdvisorySection.tsx
+ M src/components/pages/governance/BenchmarkAdvisoryPanel.tsx
+ M src/components/pages/governance/BenchmarkComparativePanel.tsx
+ M src/components/pages/governance/BenchmarkReadinessPanel.tsx
+ M src/components/pages/governance/BoardMeetingMode.tsx
+ M src/components/pages/governance/CapitalGovernanceCenter.tsx
+ M src/components/pages/governance/ComplianceIntegrityCenter.tsx
+ M src/components/pages/governance/CreditCommitteeCenter.tsx
+ M src/components/pages/governance/CrisisResponseCenter.tsx
+ M src/components/pages/governance/ESGIMAssessmentPage.tsx
+ M src/components/pages/governance/EconomicNormalizationCenter.tsx
+ M src/components/pages/governance/GovernanceExecutionPanel.tsx
+ M src/components/pages/governance/GovernanceJourneyPanel.tsx
+ M src/components/pages/governance/GovernanceKnowledgePanel.tsx
+ M src/components/pages/governance/GovernanceLearningPanel.tsx
+ M src/components/pages/governance/GovernanceMaturityCenter.tsx
+ M src/components/pages/governance/GovernanceRiskHeatmap.tsx
+ M src/components/pages/governance/InstitutionalMemoryCenter.tsx
+ M src/components/pages/governance/ObservabilityConsolePage.tsx
+ M src/components/pages/governance/RiskExposureCenter.tsx
+ M src/components/pages/public/EmpresasPage.tsx
+ M src/components/pages/public/LoginPage.tsx
+ M src/components/pages/public/ReferralProgramPage.tsx
+ M src/components/ui/executive-chart-series-registry.ts
+ M src/components/ui/executive-metric-card.tsx
+ M src/components/ui/executive-status-badge.tsx
+ M src/components/ui/executive-strategic-tensions.tsx
+ M src/components/war-room/ScenarioCommandCenter.tsx
+ M src/components/war-room/WarRoomWorkspace.tsx
+ M src/core/governance/leadershipDNAData.ts
+ M src/core/leadership/leadershipProfileData.ts
+ M src/core/runtime/executive-consolidation/BalanceSheetExecutiveViewModelBuilder.ts
+ M src/core/runtime/governance/agenda/InstitutionalRiskAgendaEngine.ts
+ M src/core/runtime/governance/arbitration/ArbitrationPriorityMatrix.ts
+ M src/core/runtime/governance/arbitration/InstitutionalNarrativeArbitrationEngine.ts
+ M src/core/runtime/governance/arbitration/InstitutionalNarrativeArbitrationTypes.ts
+ M src/core/runtime/governance/arbitration/InstitutionalProportionalityEngine.ts
+ M src/core/runtime/governance/arbitration/MasterRecommendationArbiter.ts
+ M src/core/runtime/governance/consensus/InstitutionalConsensusEngine.ts
+ M src/core/runtime/governance/copilot/InstitutionalCopilotEngine.ts
+ M src/core/runtime/governance/decision/InstitutionalDecisionEngine.ts
+ M src/core/runtime/governance/economic-truth/EconomicContradictionEngine.ts
+ M src/core/runtime/governance/economic-truth/EconomicTruthEngine.ts
+ M src/core/runtime/governance/economic-truth/ExecutiveEconomicRuntime.ts
+ M src/core/runtime/governance/monitoring/InstitutionalMonitoringEngine.ts
+ M src/core/runtime/governance/narrative/BoardNarrativeEngine.ts
+ M src/core/runtime/governance/outlook/InstitutionalOutlookEngine.ts
+ M src/core/runtime/governance/scenario/InstitutionalScenarioEngine.ts
+ M src/core/runtime/governance/telemetry/GovernanceTelemetry.ts
+ M src/core/runtime/governance/temporal-registry/DFCEvidenceFactory.ts
+ M src/core/runtime/governance/temporal-registry/InstitutionalEvidenceTypes.ts
+ M src/core/runtime/governance/temporal-registry/InstitutionalTimelineBuilder.ts
+ M src/core/runtime/governance/temporal-registry/TemporalEvidenceFactory.ts
+ M src/core/runtime/governance/temporal-registry/TemporalEvidenceIntegrityGuard.ts
+ M src/core/runtime/governance/temporal-registry/TemporalEvidenceQueryEngine.ts
+ M src/core/runtime/governance/temporal-registry/TemporalEvidenceRegistry.ts
+ M src/core/runtime/governance/temporal/InstitutionalTemporalOrchestrator.ts
+ M src/core/runtime/governance/temporal/InstitutionalTemporalTypes.ts
+ M src/core/runtime/governance/ter-certification/TERCertificationDecisionEngine.ts
+ M src/core/runtime/governance/ter-certification/TERCoverageAuditEngine.ts
+ M src/core/runtime/governance/trajectory/InstitutionalTrajectoryEngine.ts
+ M src/lib/utils.ts
+ M src/services/FiduciaryRuntimeAdapter.ts
+ M tests/BalanceSheetExecutivePlan.test.tsx
+ M tests/balanceSheetTechnicalLayerUI.test.tsx
+ M tests/canonical-enforcement.test.tsx
+ M tests/design-token-sovereignty.test.ts
+ M tests/dre-ui-passivity.test.ts
+?? all_fixes.cjs
+?? count_hex_violations.cjs
+?? docs/03-Implementation/
+?? docs/architecture/EXECUTIVE_ARCHITECTURE_CLOSING_PROGRAM.md
+?? docs/architecture/HCA_001_EXECUTIVE_CAPABILITY_CERTIFICATION.md
+?? docs/architecture/HCA_001_FINAL_CERTIFICATION.md
+?? docs/architecture/HCA_001_WAVE_04.md
+?? docs/architecture/HCA_001_WAVE_04_1_CERTIFICATION.md
+?? docs/architecture/HCA_001_WAVE_04_2_CERTIFICATION.md
+?? docs/architecture/HCA_001_WAVE_04_CERTIFICATION.md
+?? docs/architecture/HCA_001_WAVE_05A_CERTIFICATION.md
+?? docs/architecture/HCA_001_WAVE_05B_CERTIFICATION.md
+?? docs/architecture/HCA_001_WAVE_05B_DISCOVERY.md
+?? docs/architecture/HCA_001_WAVE_05C_CERTIFICATION.md
+?? docs/architecture/HCA_001_WAVE_05E_CERTIFICATION.md
+?? docs/architecture/HCA_001_WAVE_05_DISCOVERY.md
+?? docs/architecture/HCA_001_WAVE_06D_CERTIFICATION.md
+?? docs/architecture/HCA_001_WAVE_06_DISCOVERY.md
+?? docs/architecture/HCA_001_WAVE_06_DRE_DISCOVERY.md
+?? docs/architecture/HCA_001_WAVE_07A_2_CERTIFICATION.md
+?? docs/architecture/HCA_001_WAVE_07A_3_CERTIFICATION.md
+?? docs/architecture/HCA_001_WAVE_07_CLIENTS_DISCOVERY.md
+?? docs/architecture/HCA_002_BATCH_01_CERTIFICATION.md
+?? docs/architecture/HCA_002_GOVERNANCE_DISCOVERY.md
+?? docs/stories/HG_001_FINAL_TOKEN_CLEANUP.md
+?? docs/stories/HG_001_FINAL_TOKEN_CLEANUP_CERTIFICATION.md
+?? docs/stories/HG_001_FINAL_TOKEN_CLEANUP_WAVE_A.md
+?? docs/stories/HG_001_FINAL_TOKEN_CLEANUP_WAVE_B.md
+?? executive_audit_results.json
+?? fix_duplicates.cjs
+?? get_top_offenders.cjs
+?? git_status.txt
+?? gov_discovery.json
+?? hca_final_audit.json
+?? hca_final_audit2.json
+?? replace_logic.cjs
+?? replace_logic.js
+?? revert_test.cjs
+?? scratch_audit.cjs
+?? scratch_audit.js
+?? scratch_audit2.cjs
+?? scratch_gov_discovery.cjs
+?? scratch_validate_batch1.cjs
+?? src/capabilities/
+?? src/components/pages/clients/
+?? src/components/pages/dlpa/DLPAApplicationService.ts
+?? src/components/pages/dlpa/useDLPAPageViewModel.ts
+?? src/components/pages/dre/DREApplicationService.ts
+?? src/components/pages/dre/useDREPageViewModel.ts
+?? src/components/pages/governance/InstitutionalBenchmarkingPage.tsx
+?? src/components/pages/governance/InstitutionalMonitoringPage.tsx
+?? src/components/pages/useClientsPageViewModel.ts
+?? src/viewmodels/governance/
+?? stub_audit_any_types.txt
+?? stub_audit_key_string.txt
+?? stub_audit_recovery.txt
+?? token_replacer.cjs

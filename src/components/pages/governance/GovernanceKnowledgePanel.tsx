@@ -36,7 +36,7 @@ export function GovernanceKnowledgePanel({ clientId, scenario, executiveSummary 
           bg: 'bg-success-soft0/10',
           border: 'border-emerald-500/30',
           accent: 'bg-success-soft0',
-          progressColor: '#10b981',
+          progressColor: 'var(--color-executive-primary)',
           label: 'Excelente'
         };
       case 'MATURE':
@@ -45,7 +45,7 @@ export function GovernanceKnowledgePanel({ clientId, scenario, executiveSummary 
           bg: 'bg-teal-500/10',
           border: 'border-teal-500/30',
           accent: 'bg-teal-500',
-          progressColor: '#14b8a6',
+          progressColor: 'var(--color-executive-primary)',
           label: 'Maduro'
         };
       case 'DEVELOPING':
@@ -54,7 +54,7 @@ export function GovernanceKnowledgePanel({ clientId, scenario, executiveSummary 
           bg: 'bg-warning-soft0/10',
           border: 'border-amber-500/30',
           accent: 'bg-warning-soft0',
-          progressColor: '#f59e0b',
+          progressColor: 'var(--color-executive-primary)',
           label: 'Em Desenvolvimento'
         };
       case 'CONCERN':
@@ -63,7 +63,7 @@ export function GovernanceKnowledgePanel({ clientId, scenario, executiveSummary 
           bg: 'bg-orange-500/10',
           border: 'border-orange-500/30',
           accent: 'bg-orange-500',
-          progressColor: '#f97316',
+          progressColor: 'var(--color-executive-primary)',
           label: 'Preocupante'
         };
       case 'CRITICAL':
@@ -72,7 +72,7 @@ export function GovernanceKnowledgePanel({ clientId, scenario, executiveSummary 
           bg: 'bg-red-500/10',
           border: 'border-red-500/30',
           accent: 'bg-red-500',
-          progressColor: '#ef4444',
+          progressColor: 'var(--color-executive-primary)',
           label: 'Crítico'
         };
       default:
@@ -81,7 +81,7 @@ export function GovernanceKnowledgePanel({ clientId, scenario, executiveSummary 
           bg: 'bg-gray-500/10',
           border: 'border-border',
           accent: 'bg-gray-500',
-          progressColor: '#9ca3af',
+          progressColor: 'var(--color-executive-primary)',
           label: 'Indefinido'
         };
     }
@@ -110,7 +110,7 @@ export function GovernanceKnowledgePanel({ clientId, scenario, executiveSummary 
     <div className="bg-gray-900/60 backdrop-blur-md border border-border rounded-3xl p-6 md:p-8 space-y-8 shadow-2xl relative overflow-hidden">
       
       {/* Background radial accent */}
-      <div className={`absolute top-0 right-0 w-64 h-64 rounded-full filter blur-[120px] opacity-10 transition-colors duration-1000 ${theme.progressColor === '#ef4444' ? 'bg-red-500' : 'bg-success-soft0'}`} />
+      <div className={`absolute top-0 right-0 w-64 h-64 rounded-full filter blur-[120px] opacity-10 transition-colors duration-1000 ${theme.progressColor === 'var(--color-executive-primary)' ? 'bg-red-500' : 'bg-success-soft0'}`} />
 
       {/* Header */}
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 border-b border-border pb-6">
@@ -157,7 +157,7 @@ export function GovernanceKnowledgePanel({ clientId, scenario, executiveSummary 
                 cx="80"
                 cy="80"
                 r="68"
-                stroke="#1f2937"
+                stroke="currentColor"
                 strokeWidth="10"
                 fill="transparent"
               />

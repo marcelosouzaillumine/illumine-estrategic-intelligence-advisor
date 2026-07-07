@@ -80,7 +80,7 @@ export function GovernanceJourneyPanel({
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-stretch">
         
         {/* Dial Card */}
-        <div className="lg:col-span-4 card-premium p-6 border border-white/5 bg-[#060D17] rounded-2xl flex flex-col justify-between items-center text-center relative overflow-hidden group">
+        <div className="lg:col-span-4 card-premium p-6 border border-white/5 bg-surface-container rounded-2xl flex flex-col justify-between items-center text-center relative overflow-hidden group">
           <div className="absolute top-0 right-0 w-32 h-32 bg-accent rounded-full filter blur-2xl group-hover:bg-accent transition-all duration-700" />
           
           <div className="w-full flex justify-between items-center border-b border-white/5 pb-3">
@@ -141,12 +141,12 @@ export function GovernanceJourneyPanel({
         </div>
 
         {/* Board Narrative & Scenario Card */}
-        <div className="lg:col-span-8 card-premium p-6 border border-white/5 bg-[#060D17] rounded-2xl flex flex-col justify-between relative overflow-hidden group">
-          <div className="absolute top-0 left-0 w-48 h-48 bg-coral-500/5 rounded-full filter blur-2xl group-hover:bg-[#FF8552]/5 transition-all duration-700" />
+        <div className="lg:col-span-8 card-premium p-6 border border-white/5 bg-surface-container rounded-2xl flex flex-col justify-between relative overflow-hidden group">
+          <div className="absolute top-0 left-0 w-48 h-48 bg-coral-500/5 rounded-full filter blur-2xl group-hover:bg-surface-container/5 transition-all duration-700" />
           
           <div className="flex justify-between items-center border-b border-white/5 pb-3">
             <h3 className="text-xs font-bold uppercase tracking-widest text-muted-foreground flex items-center gap-2">
-              <FileText className="w-4 h-4 text-[#FF8552]" />
+              <FileText className="w-4 h-4 text-executive-primary" />
               Parecer Executivo da Governança (Board Narrative)
             </h3>
             <span className="text-[8px] bg-slate-900 border border-white/5 text-muted-foreground font-black px-2 py-0.5 rounded tracking-widest uppercase">
@@ -168,7 +168,7 @@ export function GovernanceJourneyPanel({
       </div>
 
       {/* TEMPORAL NAVIGATION TIMELINE */}
-      <div className="card-premium p-6 border border-white/5 bg-[#060D17] rounded-2xl">
+      <div className="card-premium p-6 border border-white/5 bg-surface-container rounded-2xl">
         <h3 className="text-xs font-bold uppercase tracking-widest text-muted-foreground mb-6 flex items-center gap-2">
           <Clock className="w-4 h-4 text-primary" />
           Linha do Tempo de Navegação Temporal (Passado, Presente, Futuro)
@@ -311,10 +311,10 @@ export function GovernanceJourneyPanel({
                   isStepLocked 
                     ? 'border-rose-950/20 bg-rose-950/5 opacity-75' 
                     : step.status === 'CRITICAL'
-                    ? 'border-rose-500/20 bg-[#0E0608] hover:border-rose-500/40'
+                    ? 'border-rose-500/20 bg-surface-container hover:border-rose-500/40'
                     : step.status === 'ATTENTION'
-                    ? 'border-amber-500/10 bg-[#0E0B06] hover:border-amber-500/30'
-                    : 'border-white/5 bg-[#060D17] hover:border-accent'
+                    ? 'border-amber-500/10 bg-surface-container hover:border-amber-500/30'
+                    : 'border-white/5 bg-surface-container hover:border-accent'
                 }`}
               >
                 {/* Attention Rank Badge */}

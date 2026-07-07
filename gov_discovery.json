@@ -1,0 +1,331 @@
+[
+  {
+    "file": "BenchmarkAdvisoryPanel.tsx",
+    "hooksCount": 0,
+    "directImports": "from '../../../services/FiduciaryRuntimeAdapter'",
+    "hasViewModel": false,
+    "status": "Pending"
+  },
+  {
+    "file": "BenchmarkComparativePanel.tsx",
+    "hooksCount": 0,
+    "directImports": "from '../../../services/FiduciaryRuntimeAdapter'",
+    "hasViewModel": false,
+    "status": "Pending"
+  },
+  {
+    "file": "BenchmarkReadinessPanel.tsx",
+    "hooksCount": 0,
+    "directImports": "from '../../../services/FiduciaryRuntimeAdapter'",
+    "hasViewModel": false,
+    "status": "Pending"
+  },
+  {
+    "file": "BoardDecisionSurface.tsx",
+    "hooksCount": 0,
+    "directImports": "from '../../../services/FiduciaryRuntimeAdapter'",
+    "hasViewModel": false,
+    "status": "Pending"
+  },
+  {
+    "file": "BoardDeckCenter.tsx",
+    "hooksCount": 0,
+    "directImports": "None",
+    "hasViewModel": false,
+    "status": "Pending"
+  },
+  {
+    "file": "BoardMeetingMode.tsx",
+    "hooksCount": 17,
+    "directImports": "from '../../../services/FiduciaryRuntimeAdapter', from '../../../services/FiduciaryRuntimeAdapter'",
+    "hasViewModel": false,
+    "status": "Pending"
+  },
+  {
+    "file": "CapitalGovernanceCenter.tsx",
+    "hooksCount": 6,
+    "directImports": "from '../../../hooks/useInstitutionalRuntime'",
+    "hasViewModel": false,
+    "status": "Pending"
+  },
+  {
+    "file": "CausalityExplorerPanel.tsx",
+    "hooksCount": 0,
+    "directImports": "from '../../../services/FiduciaryRuntimeAdapter'",
+    "hasViewModel": false,
+    "status": "Pending"
+  },
+  {
+    "file": "ComplianceIntegrityCenter.tsx",
+    "hooksCount": 2,
+    "directImports": "None",
+    "hasViewModel": false,
+    "status": "Pending"
+  },
+  {
+    "file": "ConfidenceDisclosurePanel.tsx",
+    "hooksCount": 0,
+    "directImports": "None",
+    "hasViewModel": false,
+    "status": "Pending"
+  },
+  {
+    "file": "ConstitutionalAxiomPanel.tsx",
+    "hooksCount": 0,
+    "directImports": "from '../../../services/FiduciaryRuntimeAdapter'",
+    "hasViewModel": false,
+    "status": "Pending"
+  },
+  {
+    "file": "ConstitutionalConfidencePanel.tsx",
+    "hooksCount": 0,
+    "directImports": "from '../../../services/FiduciaryRuntimeAdapter'",
+    "hasViewModel": false,
+    "status": "Pending"
+  },
+  {
+    "file": "ConstitutionalEnforcementPanel.tsx",
+    "hooksCount": 0,
+    "directImports": "from '../../../services/FiduciaryRuntimeAdapter'",
+    "hasViewModel": false,
+    "status": "Pending"
+  },
+  {
+    "file": "ConstitutionalGovernanceDashboardPanel.tsx",
+    "hooksCount": 0,
+    "directImports": "from '../../../services/FiduciaryRuntimeAdapter'",
+    "hasViewModel": false,
+    "status": "Pending"
+  },
+  {
+    "file": "ConstitutionalLineagePanel.tsx",
+    "hooksCount": 0,
+    "directImports": "from '../../../services/FiduciaryRuntimeAdapter'",
+    "hasViewModel": false,
+    "status": "Pending"
+  },
+  {
+    "file": "ConstitutionalRestrictionPanel.tsx",
+    "hooksCount": 0,
+    "directImports": "from '../../../services/FiduciaryRuntimeAdapter'",
+    "hasViewModel": false,
+    "status": "Pending"
+  },
+  {
+    "file": "ContinuityRiskPanel.tsx",
+    "hooksCount": 0,
+    "directImports": "from '../../../services/FiduciaryRuntimeAdapter'",
+    "hasViewModel": false,
+    "status": "Pending"
+  },
+  {
+    "file": "CreditCommitteeCenter.tsx",
+    "hooksCount": 11,
+    "directImports": "from '../../../hooks/useInstitutionalRuntime'",
+    "hasViewModel": false,
+    "status": "Pending"
+  },
+  {
+    "file": "CrisisResponseCenter.tsx",
+    "hooksCount": 2,
+    "directImports": "None",
+    "hasViewModel": false,
+    "status": "Pending"
+  },
+  {
+    "file": "DecisionLifecycleCenter.tsx",
+    "hooksCount": 8,
+    "directImports": "from '../../../services/FiduciaryRuntimeAdapter'",
+    "hasViewModel": false,
+    "status": "Pending"
+  },
+  {
+    "file": "ESGIMAssessmentPage.tsx",
+    "hooksCount": 16,
+    "directImports": "from '../../../services/FiduciaryRuntimeAdapter'",
+    "hasViewModel": false,
+    "status": "Pending"
+  },
+  {
+    "file": "EconomicNormalizationCenter.tsx",
+    "hooksCount": 6,
+    "directImports": "from '../../../hooks/useInstitutionalRuntime'",
+    "hasViewModel": false,
+    "status": "Pending"
+  },
+  {
+    "file": "ExecutiveExecutionCenter.tsx",
+    "hooksCount": 4,
+    "directImports": "from '../../../hooks/useInstitutionalRuntime'",
+    "hasViewModel": false,
+    "status": "Pending"
+  },
+  {
+    "file": "ExecutiveMonitoringCenter.tsx",
+    "hooksCount": 0,
+    "directImports": "None",
+    "hasViewModel": false,
+    "status": "Pending"
+  },
+  {
+    "file": "ExecutiveTimelinePanel.tsx",
+    "hooksCount": 0,
+    "directImports": "from '../../../services/FiduciaryRuntimeAdapter'",
+    "hasViewModel": false,
+    "status": "Pending"
+  },
+  {
+    "file": "FiduciaryGovernanceCenter.tsx",
+    "hooksCount": 4,
+    "directImports": "None",
+    "hasViewModel": false,
+    "status": "Pending"
+  },
+  {
+    "file": "FiduciaryRestrictionPanel.tsx",
+    "hooksCount": 0,
+    "directImports": "from '../../../services/FiduciaryRuntimeAdapter'",
+    "hasViewModel": false,
+    "status": "Pending"
+  },
+  {
+    "file": "FiduciaryValidationCenter.tsx",
+    "hooksCount": 4,
+    "directImports": "None",
+    "hasViewModel": false,
+    "status": "Pending"
+  },
+  {
+    "file": "FinancialLineageCenter.tsx",
+    "hooksCount": 5,
+    "directImports": "from '../../../hooks/useInstitutionalRuntime'",
+    "hasViewModel": false,
+    "status": "Pending"
+  },
+  {
+    "file": "GovernanceExecutionPanel.tsx",
+    "hooksCount": 15,
+    "directImports": "from '../../../services/FiduciaryRuntimeAdapter'",
+    "hasViewModel": false,
+    "status": "Pending"
+  },
+  {
+    "file": "GovernanceJourneyPanel.tsx",
+    "hooksCount": 4,
+    "directImports": "from '../../../services/FiduciaryRuntimeAdapter'",
+    "hasViewModel": false,
+    "status": "Pending"
+  },
+  {
+    "file": "GovernanceKnowledgePanel.tsx",
+    "hooksCount": 2,
+    "directImports": "from '../../../services/FiduciaryRuntimeAdapter'",
+    "hasViewModel": false,
+    "status": "Pending"
+  },
+  {
+    "file": "GovernanceLearningPanel.tsx",
+    "hooksCount": 0,
+    "directImports": "from '../../../services/FiduciaryRuntimeAdapter'",
+    "hasViewModel": false,
+    "status": "Pending"
+  },
+  {
+    "file": "GovernanceMaturityCenter.tsx",
+    "hooksCount": 14,
+    "directImports": "None",
+    "hasViewModel": false,
+    "status": "Pending"
+  },
+  {
+    "file": "GovernanceRiskHeatmap.tsx",
+    "hooksCount": 4,
+    "directImports": "from '../../../services/FiduciaryRuntimeAdapter', from '../../../services/FiduciaryRuntimeAdapter'",
+    "hasViewModel": false,
+    "status": "Pending"
+  },
+  {
+    "file": "InstitutionalBenchmarkingPage.tsx",
+    "hooksCount": 0,
+    "directImports": "None",
+    "hasViewModel": true,
+    "status": "Certified"
+  },
+  {
+    "file": "InstitutionalLineageExplorer.tsx",
+    "hooksCount": 0,
+    "directImports": "from '../../../services/FiduciaryRuntimeAdapter'",
+    "hasViewModel": false,
+    "status": "Pending"
+  },
+  {
+    "file": "InstitutionalMemoryCenter.tsx",
+    "hooksCount": 5,
+    "directImports": "from '../../../hooks/useInstitutionalRuntime'",
+    "hasViewModel": false,
+    "status": "Pending"
+  },
+  {
+    "file": "InstitutionalMonitoringPage.tsx",
+    "hooksCount": 0,
+    "directImports": "None",
+    "hasViewModel": true,
+    "status": "Certified"
+  },
+  {
+    "file": "InstitutionalObservabilityCenter.tsx",
+    "hooksCount": 0,
+    "directImports": "None",
+    "hasViewModel": false,
+    "status": "Pending"
+  },
+  {
+    "file": "InstitutionalStructureCenter.tsx",
+    "hooksCount": 0,
+    "directImports": "None",
+    "hasViewModel": false,
+    "status": "Pending"
+  },
+  {
+    "file": "LeadershipDNACenter.tsx",
+    "hooksCount": 22,
+    "directImports": "None",
+    "hasViewModel": false,
+    "status": "Pending"
+  },
+  {
+    "file": "MultiTenantGovernanceCenter.tsx",
+    "hooksCount": 0,
+    "directImports": "None",
+    "hasViewModel": false,
+    "status": "Pending"
+  },
+  {
+    "file": "ObservabilityConsolePage.tsx",
+    "hooksCount": 16,
+    "directImports": "from '../../../core/security/auth/RuntimeContextProvider', from '../../../services/FiduciaryRuntimeAdapter', from '../../../services/FiduciaryRuntimeAdapter', from '../../../services/FiduciaryRuntimeAdapter'",
+    "hasViewModel": false,
+    "status": "Pending"
+  },
+  {
+    "file": "RiskExposureCenter.tsx",
+    "hooksCount": 5,
+    "directImports": "from '../../../hooks/useInstitutionalRuntime'",
+    "hasViewModel": false,
+    "status": "Pending"
+  },
+  {
+    "file": "SovereignBoardPackPage.tsx",
+    "hooksCount": 8,
+    "directImports": "from '../../../services/FiduciaryRuntimeAdapter'",
+    "hasViewModel": false,
+    "status": "Pending"
+  },
+  {
+    "file": "SovereignDecisionCenter.tsx",
+    "hooksCount": 7,
+    "directImports": "from '../../../hooks/useInstitutionalRuntime'",
+    "hasViewModel": false,
+    "status": "Pending"
+  }
+]

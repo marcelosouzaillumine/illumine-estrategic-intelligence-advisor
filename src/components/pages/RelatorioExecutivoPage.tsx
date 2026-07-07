@@ -110,7 +110,7 @@ export function RelatorioExecutivoPage({ clientId, selectedMonth, selectedYear }
         scale: 2,
         useCORS: true,
         logging: false,
-        backgroundColor: '#ffffff'
+        backgroundColor: 'var(--color-surface-container)'
       });
       
       const imgData = canvas.toDataURL('image/png');

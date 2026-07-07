@@ -1,13 +1,11 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import { WarRoomRuntime } from '../../core/war-room/WarRoomRuntime';
-import { WarRoomViewModel, UIWarRoomScenario, UIWarRoomImpact } from '../../viewmodels/war-room/WarRoomViewModel';
-import { InstitutionalObservabilityRegistry } from '../../core/observability/InstitutionalObservabilityRegistry';
-import { PageHeader } from '../Common';
-import { Shield, Target } from 'lucide-react';
+import { Target } from 'lucide-react';
 import { ScenarioCatalog } from './ScenarioCatalog';
 import { ImpactExplorer } from './ImpactExplorer';
 import { RiskPropagationViewer } from './RiskPropagationViewer';
 import { EvidenceCorrelationPanel } from './EvidenceCorrelationPanel';
+import { useWarRoomWorkspaceViewModel } from '../../capabilities/executive/presentation/view-models/useWarRoomWorkspaceViewModel';
 
 interface WarRoomWorkspaceProps {
   runtime: WarRoomRuntime;
@@ -22,48 +20,14 @@ export const WarRoomWorkspace: React.FC<WarRoomWorkspaceProps> = ({
   organizationId,
   initialScenarioId
 }) => {
-  const [scenarios, setScenarios] = useState<UIWarRoomScenario[]>([]);
-  const [activeScenario, setActiveScenario] = useState<UIWarRoomScenario | null>(null);
-  const [impacts, setImpacts] = useState<UIWarRoomImpact[]>([]);
-  const [evidences, setEvidences] = useState<string[]>([]);
-  const [loading, setLoading] = useState(true);
+  const { state } = useWarRoomWorkspaceViewModel({
+    runtime,
+    tenantId,
+    organizationId,
+    initialScenarioId
+  });
 
-  useEffect(() => {
-    if (tenantId) {
-      InstitutionalObservabilityRegistry.recordWarRoomOpened(
-        tenantId,
-        `ctx-${Date.now()}`,
-        'CURRENT_USER',
-        activeScenario?.id
-      );
-    }
-  }, [tenantId, activeScenario]);
-
-  useEffect(() => {
-    let active = true;
-    const loadContext = async () => {
-      if (!tenantId || !organizationId) return;
-      setLoading(true);
-      try {
-        const data = await runtime.loadScenarioContext(tenantId, organizationId, initialScenarioId);
-        if (!active) return;
-
-        setScenarios(WarRoomViewModel.mapScenarios(data.availableScenarios));
-        
-        if (data.activeScenario) {
-          setActiveScenario(WarRoomViewModel.mapScenarios([data.activeScenario])[0]);
-          setImpacts(WarRoomViewModel.mapImpacts(data.impacts));
-          setEvidences(data.evidences);
-        }
-      } catch (e) {
-        console.error('Failed to load War Room context', e);
-      } finally {
-        if (active) setLoading(false);
-      }
-    };
-    loadContext();
-    return () => { active = false; };
-  }, [runtime, tenantId, organizationId, initialScenarioId]);
+  const { scenarios, activeScenario, impacts, evidences, loading } = state;
 
   if (!tenantId || !organizationId) {
     return (

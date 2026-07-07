@@ -1,19 +1,11 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import { ShieldAlert, AlertTriangle, TrendingUp, Activity, CheckCircle, Users } from 'lucide-react';
-import { FiduciaryRuntimeAdapter } from '../../../services/FiduciaryRuntimeAdapter';
 import { PageHeader } from '../../Common';
-import type { RiskHeatmap } from '../../../services/FiduciaryRuntimeAdapter';
+import { useGovernanceRiskHeatmapViewModel } from '../../../viewmodels/governance/useGovernanceRiskHeatmapViewModel';
 
 export function GovernanceRiskHeatmap() {
-  const [heatmapData, setHeatmapData] = useState<RiskHeatmap | null>(null);
-
-  useEffect(() => {
-    // Em produção, o tenantId viria do TenantExecutionContext do usuário logado.
-    // Estamos chamando a engine real que está vazia no momento, 
-    // mas pronta para receber dados reais (sem mocks soltos na engine).
-    const data = FiduciaryRuntimeAdapter.enterpriseRiskEngine.generateHeatmap('current-tenant-id');
-    setHeatmapData(data);
-  }, []);
+  const { state } = useGovernanceRiskHeatmapViewModel();
+  const { heatmapData } = state;
 
   if (!heatmapData) {
     return <div className="p-8 text-muted-foreground">Carregando telemetria de riscos institucionais...</div>;

@@ -151,7 +151,7 @@ export function GovernanceLearningPanel({ clientId, scenario }: GovernanceLearni
                     cx="64"
                     cy="64"
                     r="52"
-                    stroke="#1f2937"
+                    stroke="currentColor"
                     strokeWidth="8"
                     fill="transparent"
                   />
@@ -159,7 +159,7 @@ export function GovernanceLearningPanel({ clientId, scenario }: GovernanceLearni
                     cx="64"
                     cy="64"
                     r="52"
-                    stroke="#10b981"
+                    stroke="currentColor"
                     strokeWidth="8"
                     fill="transparent"
                     strokeDasharray={326}
@@ -197,7 +197,7 @@ export function GovernanceLearningPanel({ clientId, scenario }: GovernanceLearni
                     cx="64"
                     cy="64"
                     r="52"
-                    stroke="#1f2937"
+                    stroke="currentColor"
                     strokeWidth="8"
                     fill="transparent"
                   />
@@ -205,7 +205,7 @@ export function GovernanceLearningPanel({ clientId, scenario }: GovernanceLearni
                     cx="64"
                     cy="64"
                     r="52"
-                    stroke="#8b5cf6"
+                    stroke="currentColor"
                     strokeWidth="8"
                     fill="transparent"
                     strokeDasharray={326}

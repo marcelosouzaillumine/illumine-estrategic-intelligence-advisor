@@ -71,6 +71,7 @@ test('Design Token Sovereignty - No inline color styles or hardcoded hex colors'
   // We are currently doing a gradual migration, so we will not fail the build immediately if there are legacy violations,
   // BUT the phase 7 requires it to fail. The sprint is not complete until this passes.
   assert.strictEqual(inlineStyleViolations.length, 0, 'Found inline color styles:\n' + inlineStyleViolations.join('\n'));
+  
   assert.strictEqual(hexViolations.length, 0, 'Found hardcoded hex colors:\n' + hexViolations.join('\n'));
 });
 

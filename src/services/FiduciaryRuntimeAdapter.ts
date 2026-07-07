@@ -320,3 +320,15 @@ export { CapitalPreservationExecutiveAssessmentEngine } from '../core/runtime/ex
 export {
   CrossStatementExecutiveNarrativeEngine,
 } from '../core/runtime/executive-consolidation/CrossStatementExecutiveNarrativeEngine';
+
+
+export { ExecutiveStrategicTensionEngine } from '../core/runtime/executive-consolidation/ExecutiveStrategicTensionEngine';
+export type { StrategicTension } from '../core/runtime/executive-consolidation/ExecutiveStrategicTensionEngine';
+export { BalanceSheetExecutiveViewModelBuilder } from '../core/runtime/executive-consolidation/BalanceSheetExecutiveViewModelBuilder';
+export { FinancialAnalyticsBuilder } from '../core/runtime/executive-consolidation/builders/FinancialAnalyticsBuilder';
+export { BalanceSheetExecutivePlanBuilder } from '../core/runtime/executive-consolidation/BalanceSheetExecutivePlanBuilder';
+export { DreExecutiveViewModelBuilder } from '../core/runtime/dre/DreExecutiveViewModelBuilder';
+export { DreContractGuard } from '../core/runtime/dre/DreContractGuard';
+export type { DreExecutiveViewModel } from '../core/runtime/dre/DreExecutiveViewModelBuilder';
+export { BPStrategicDiagnosisDriverMapper } from '../core/runtime/governance/bp/BPStrategicDiagnosisDriverMapper';
+export type { BPStrategicDiagnosisDrivers } from '../core/runtime/governance/bp/BPStrategicDiagnosisDriverMapper';
