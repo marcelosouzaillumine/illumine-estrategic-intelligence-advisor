@@ -17,22 +17,11 @@ import {
   Target,
   DollarSign
 } from 'lucide-react';
-import { collection, query, where, onSnapshot, addDoc, deleteDoc, doc, serverTimestamp, writeBatch } from 'firebase/firestore';
-import { db } from '../lib/firebase';
+import { useSalesPipelineAdapter, SalesPipelineEntry } from '../adapters/ui/useSalesPipelineAdapter';
 import { cn, formatValue } from '../lib/utils';
 import { motion, AnimatePresence } from 'motion/react';
 
-interface SalesPipelineEntry {
-  id: string;
-  clientId: string;
-  vendedor: string;
-  unidade: string;
-  filial: string;
-  etapa: string;
-  valor: number;
-  data: any;
-  customerName: string;
-}
+
 
 interface SalesPipelineManagerProps {
   clientId: string;
@@ -47,8 +36,7 @@ const ETAPAS = [
 ];
 
 export function SalesPipelineManager({ clientId }: SalesPipelineManagerProps) {
-  const [entries, setEntries] = useState<SalesPipelineEntry[]>([]);
-  const [loading, setLoading] = useState(true);
+  const { entries, loading, handleAdd: addAdapter, handleDelete, handleImport: importAdapter } = useSalesPipelineAdapter(clientId);
   const [isAdding, setIsAdding] = useState(false);
   const [searchTerm, setSearchTerm] = useState('');
   
@@ -66,29 +54,9 @@ export function SalesPipelineManager({ clientId }: SalesPipelineManagerProps) {
     customerName: ''
   });
 
-  useEffect(() => {
-    if (!clientId) return;
-    setLoading(true);
-    const q = query(
-      collection(db, 'sales_pipeline'),
-      where('clientId', '==', clientId)
-    );
-
-    const unsubscribe = onSnapshot(q, (snapshot) => {
-      const data = snapshot.docs.map(doc => ({ 
-        id: doc.id, 
-        ...doc.data() 
-      } as SalesPipelineEntry));
-      setEntries(data);
-      setLoading(false);
-    });
-
-    return () => unsubscribe();
-  }, [clientId]);
-
-  const uniqueVendedores = useMemo(() => ['Todos', ...new Set(entries.map(e => e.vendedor))], [entries]);
-  const uniqueUnidades = useMemo(() => ['Todas', ...new Set(entries.map(e => e.unidade))], [entries]);
-  const uniqueFiliais = useMemo(() => ['Todas', ...new Set(entries.map(e => e.filial))], [entries]);
+  const uniqueVendedores = useMemo(() => ['Todos', ...new Set(entries.map(e => e.vendedor))] as string[], [entries]);
+  const uniqueUnidades = useMemo(() => ['Todas', ...new Set(entries.map(e => e.unidade))] as string[], [entries]);
+  const uniqueFiliais = useMemo(() => ['Todas', ...new Set(entries.map(e => e.filial))] as string[], [entries]);
 
   const filteredEntries = useMemo(() => {
     return entries.filter(e => {
@@ -101,17 +69,10 @@ export function SalesPipelineManager({ clientId }: SalesPipelineManagerProps) {
     });
   }, [entries, searchTerm, filterVendedor, filterUnidade, filterFilial]);
 
-  const handleAdd = async (e: React.FormEvent) => {
+  const handleAdd = (e: React.FormEvent) => {
     e.preventDefault();
     if (!formData.customerName || !formData.valor) return;
-
-    try {
-      await addDoc(collection(db, 'sales_pipeline'), {
-        ...formData,
-        valor: Number(formData.valor),
-        clientId,
-        createdAt: serverTimestamp()
-      });
+    addAdapter(formData, () => {
       setIsAdding(false);
       setFormData({
         vendedor: '',
@@ -121,49 +82,36 @@ export function SalesPipelineManager({ clientId }: SalesPipelineManagerProps) {
         valor: '',
         customerName: ''
       });
-    } catch (error) {
-      console.error("Error adding entry:", error);
-    }
+    });
   };
 
-  const handleDelete = async (id: string) => {
-    if (!window.confirm('Excluir esta oportunidade?')) return;
-    try {
-      await deleteDoc(doc(db, 'sales_pipeline', id));
-    } catch (error) {
-      console.error("Error deleting entry:", error);
-    }
-  };
-
-  const handleImport = async (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleImport = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (!file) return;
 
     const reader = new FileReader();
-    reader.onload = async (event) => {
+    reader.onload = (event) => {
       const text = event.target?.result as string;
       const rows = text.split('\n').slice(1); // Skip header
-      const batch = writeBatch(db);
-
+      
+      const parsedData = [];
       rows.forEach(row => {
         const [customerName, vendedor, unidade, filial, etapa, valor] = row.split(',').map(s => s.trim());
         if (customerName && valor) {
-          const newDocRef = doc(collection(db, 'sales_pipeline'));
-          batch.set(newDocRef, {
-            customerName,
-            vendedor,
-            unidade,
-            filial,
-            etapa: ETAPAS.includes(etapa) ? etapa : 'Prospecção',
-            valor: Number(valor),
-            clientId,
-            createdAt: serverTimestamp()
+          parsedData.push({
+            'Cliente/Prospect': customerName,
+            'Vendedor': vendedor,
+            'Unidade': unidade,
+            'Filial': filial,
+            'Etapa': etapa,
+            'Valor (R$)': valor
           });
         }
       });
-
-      await batch.commit();
-      alert('Importação concluída com sucesso!');
+      
+      importAdapter(parsedData, () => {
+        alert('Importação concluída com sucesso!');
+      });
     };
     reader.readAsText(file);
   };

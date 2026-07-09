@@ -1,8 +1,7 @@
 
 import React, { useState, useEffect, useMemo } from 'react';
 import { TrendingDown, Search, ChevronLeft, ChevronRight, Users, ShoppingBag, TrendingUp } from 'lucide-react';
-import { query, collection, where, onSnapshot } from 'firebase/firestore';
-import { db } from '../../lib/firebase';
+import { usePurchasingAdapter } from '../../adapters/ui/usePurchasingAdapter';
 import { PageHeader } from '../Common';
 import { SortableHeader } from '../SortableHeader';
 import { DATA } from '../../data';
@@ -47,30 +46,14 @@ export function PurchasingPage({ clients, selectedClient }: { clients: any[], se
     itemsPerPage: 10
   });
 
+  const { purchases, loading: loadingPurchases } = usePurchasingAdapter(selectedClient);
+
   useEffect(() => {
-    if (!selectedClient) {
-      setItems([]);
-      return;
+    setLoading(loadingPurchases);
+    if (!loadingPurchases && purchases) {
+      setItems(purchases);
     }
-
-    setLoading(true);
-    const q = query(
-      collection(db, 'purchases'),
-      where('clientId', '==', selectedClient)
-    );
-
-    const unsubscribe = onSnapshot(q, (snapshot) => {
-      const dbDocs = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
-      setItems(dbDocs);
-      setLoading(false);
-    }, (error) => {
-      console.error("Error fetching purchases:", error);
-      setItems([]);
-      setLoading(false);
-    });
-
-    return () => unsubscribe();
-  }, [selectedClient]);
+  }, [loadingPurchases, purchases]);
 
   const stats = useMemo(() => {
     let totalRealizedSpend = 0;

@@ -1,6 +1,16 @@
 import { CapitalGovernanceAdapter, LifecycleContextBuilder, LifecycleSemanticAuthority, ExecutiveDecisionSynthesisEngine, HistoricalInsightEngine } from '../../../services/FiduciaryRuntimeAdapter';
 
+import { FirestoreAuthAdapter } from '../../../adapters/persistence/FirestoreAuthAdapter';
+import { FirestoreFinancialAdapter } from '../../../adapters/persistence/FirestoreFinancialAdapter';
+
 export class DLPAApplicationService {
+  static async deleteDLPAData(clientId: string, year: number): Promise<void> {
+    if (!FirestoreAuthAdapter.isAuthenticated()) {
+      throw new Error('Você precisa estar logado para excluir dados.');
+    }
+    await FirestoreFinancialAdapter.deleteEntriesByClientAndYear(clientId, year, 'DLPA');
+  }
+
   static processGovernance(
     dbDataDLPA: any[],
     dlpaMetrics: any,

@@ -3,8 +3,7 @@ import { Users, Plus, Upload, GitFork, Layers, TrendingUp, CheckCircle2, AlertCi
 import { motion, AnimatePresence } from 'motion/react';
 import { PageHeader, SectionHeader, StatusBadge } from '../Common';
 import { cn } from '../../lib/utils';
-import { db } from '../../lib/firebase';
-import { collection, query, where, onSnapshot, doc, setDoc, serverTimestamp } from 'firebase/firestore';
+import { useAvaliacaoOrganogramaPageAdapter } from '../../adapters/ui/useAvaliacaoOrganogramaPageAdapter';
 
 interface OrgNode {
   id: string;
@@ -16,9 +15,7 @@ interface OrgNode {
 }
 
 export function AvaliacaoOrganogramaPage({ clientId }: { clientId: string }) {
-  const [nodes, setNodes] = useState<OrgNode[]>([]);
-  const [loading, setLoading] = useState(true);
-  const [isSaving, setIsSaving] = useState(false);
+  const { nodes, setNodes, loading, isSaving, handleSave } = useAvaliacaoOrganogramaPageAdapter(clientId);
   const [viewMode, setViewMode] = useState<'visual' | 'manual'>('visual');
   const [isAdding, setIsAdding] = useState(false);
   const [newNode, setNewNode] = useState<Partial<OrgNode>>({
@@ -29,42 +26,7 @@ export function AvaliacaoOrganogramaPage({ clientId }: { clientId: string }) {
     parentId: null
   });
 
-  // Load data from Firestore
-  React.useEffect(() => {
-    if (!clientId) return;
-    setLoading(true);
-    
-    const q = query(collection(db, 'org_charts'), where('clientId', '==', clientId));
-    const unsubscribe = onSnapshot(q, (snapshot) => {
-      if (!snapshot.empty) {
-        const data = snapshot.docs[0].data();
-        setNodes(data.nodes || []);
-      } else {
-        setNodes([]);
-      }
-      setLoading(false);
-    });
 
-    return () => unsubscribe();
-  }, [clientId]);
-
-  const handleSave = async () => {
-    if (!clientId) return;
-    setIsSaving(true);
-    try {
-      // Use a fixed doc ID based on clientId to avoid duplicates
-      const docRef = doc(db, 'org_charts', `org_${clientId}`);
-      await setDoc(docRef, {
-        clientId,
-        nodes,
-        updatedAt: serverTimestamp()
-      });
-    } catch (error) {
-      console.error('Error saving org chart:', error);
-    } finally {
-      setIsSaving(false);
-    }
-  };
 
   const handleAddNode = () => {
     if (newNode.name && newNode.role) {

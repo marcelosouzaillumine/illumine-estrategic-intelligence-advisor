@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import { useLanguage } from '../../contexts/LanguageContext';
-import type { User } from 'firebase/auth';
 import { AdminSupportPanel } from './SupportPage/AdminSupportPanel';
 import { ClientSupportPanel } from './SupportPage/ClientSupportPanel';
 import { ShieldAlert, User as UserIcon } from 'lucide-react';
@@ -9,7 +8,7 @@ import { cn } from '../../lib/utils';
 interface SupportPageProps {
   selectedClient?: string;
   isMaster?: boolean;
-  user?: User | null;
+  user?: any | null;
 }
 
 export const SupportPage: React.FC<SupportPageProps> = ({ selectedClient, isMaster }) => {

@@ -1,15 +1,6 @@
 import { useState, useEffect } from 'react';
-import { 
-  collection, 
-  query, 
-  where, 
-  orderBy, 
-  onSnapshot,
-  doc,
-  setDoc,
-  serverTimestamp
-} from 'firebase/firestore';
-import { db } from '../lib/firebase';
+import { FirestoreAcademyAdapter } from '../adapters/persistence/FirestoreAcademyAdapter';
+
 import type { Course, Module, Lesson, UserProgress } from '../types/academy';
 
 const MOCK_COURSES: Course[] = [];
@@ -20,14 +11,7 @@ export function useAcademyData() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const q = query(collection(db, 'academy_courses'), orderBy('createdAt', 'desc'));
-    
-    const unsubscribe = onSnapshot(q, (snapshot) => {
-      const coursesData = snapshot.docs.map(doc => ({
-        id: doc.id,
-        ...doc.data()
-      })) as Course[];
-      
+    const unsubscribe = FirestoreAcademyAdapter.listenToCourses((coursesData) => {
       setCourses(coursesData.length === 0 ? MOCK_COURSES : coursesData);
       setLoading(false);
     }, (error) => {
@@ -54,17 +38,7 @@ export function useAcademyModules(courseId: string) {
       return;
     }
 
-    const q = query(
-      collection(db, 'academy_modules'), 
-      where('courseId', '==', courseId),
-      orderBy('order', 'asc')
-    );
-    
-    const unsubscribe = onSnapshot(q, (snapshot) => {
-      const modulesData = snapshot.docs.map(doc => ({
-        id: doc.id,
-        ...doc.data()
-      })) as Module[];
+    const unsubscribe = FirestoreAcademyAdapter.listenToModules(courseId, (modulesData) => {
       setModules(modulesData);
       setLoading(false);
     }, (error) => {
@@ -90,17 +64,7 @@ export function useAcademyLessons(moduleId: string) {
       return;
     }
 
-    const q = query(
-      collection(db, 'academy_lessons'), 
-      where('moduleId', '==', moduleId),
-      orderBy('order', 'asc')
-    );
-    
-    const unsubscribe = onSnapshot(q, (snapshot) => {
-      const lessonsData = snapshot.docs.map(doc => ({
-        id: doc.id,
-        ...doc.data()
-      })) as Lesson[];
+    const unsubscribe = FirestoreAcademyAdapter.listenToLessons(moduleId, (lessonsData) => {
       setLessons(lessonsData);
       setLoading(false);
     }, (error) => {
@@ -126,18 +90,7 @@ export function useAcademyProgress(userId: string, clientId: string, courseId: s
       return;
     }
 
-    const q = query(
-      collection(db, 'academy_progress'), 
-      where('userId', '==', userId),
-      where('clientId', '==', clientId),
-      where('courseId', '==', courseId)
-    );
-    
-    const unsubscribe = onSnapshot(q, (snapshot) => {
-      const progressData = snapshot.docs.map(doc => ({
-        id: doc.id,
-        ...doc.data()
-      })) as UserProgress[];
+    const unsubscribe = FirestoreAcademyAdapter.listenToProgress(userId, clientId, courseId, (progressData) => {
       setProgress(progressData);
       setLoading(false);
     }, (error) => {
@@ -161,18 +114,5 @@ export async function toggleLessonProgress(params: {
   completed: boolean;
 }) {
   const { userId, clientId, courseId, moduleId, lessonId, completed } = params;
-  const progressId = `${userId}_${clientId}_${lessonId}`;
-  
-  const progressRef = doc(db, 'academy_progress', progressId);
-  
-  await setDoc(progressRef, {
-    userId,
-    clientId,
-    courseId,
-    moduleId,
-    lessonId,
-    completed,
-    completedAt: completed ? serverTimestamp() : null,
-    lastAccessAt: serverTimestamp()
-  }, { merge: true });
+  await FirestoreAcademyAdapter.toggleLessonProgress(params);
 }

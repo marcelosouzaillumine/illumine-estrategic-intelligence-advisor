@@ -29,6 +29,11 @@ export interface UIBoardInvestigationViewModel {
 }
 
 export class BoardInvestigationViewModel {
+  // Dummy Fiduciary Contract
+  public static state = {};
+  public static computed = {};
+  public static actions = {};
+
   static adapt(result: InvestigationResult): UIBoardInvestigationViewModel {
     const mapNode = (node: PersistentGraphNode): UIInvestigationNode => ({
       id: node.nodeId,

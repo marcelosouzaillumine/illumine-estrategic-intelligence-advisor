@@ -1,7 +1,6 @@
 import React, { useMemo, useState, useEffect } from 'react';
 import { Loader2, TrendingUp, BarChart3, AlertCircle, FileText } from 'lucide-react';
-import { doc, getDoc } from 'firebase/firestore';
-import { db } from '../../lib/firebase';
+import { useClientInfoAdapter } from '../../adapters/ui/useClientInfoAdapter';
 import { Button } from '../ui/button';
 import { GenerateBoardReportModal } from '../modals/GenerateBoardReportModal';
 import { useHistoricalDemonstracoes } from '../../hooks/useHistoricalDemonstracoes';
@@ -30,18 +29,7 @@ export function RelatorioDemonstracoes5Anos({ clientId, selectedYear }: Relatori
   const [clientName, setClientName] = useState<string>('Empresa');
   const [clientData, setClientData] = useState<any>(null);
 
-  useEffect(() => {
-    async function fetchClient() {
-      if (!clientId) return;
-      const snap = await getDoc(doc(db, 'clients', clientId));
-      if (snap.exists()) {
-        const data = snap.data();
-        setClientName(data.fantasia || data.razao || 'Empresa');
-        setClientData(data);
-      }
-    }
-    fetchClient();
-  }, [clientId]);
+
 
   const years = useMemo(() => {
     return [

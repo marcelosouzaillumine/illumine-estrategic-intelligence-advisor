@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
-import { query, collection, where, onSnapshot } from 'firebase/firestore';
-import { db } from '../lib/firebase';
+import { FirestoreRealIndicatorsAdapter } from '../adapters/persistence/FirestoreRealIndicatorsAdapter';
+
 import { FinancialEntryLike } from '../types/contracts';
 import { buildBPHierarchy } from '../lib/bpEngine';
 import { 
@@ -109,19 +109,7 @@ export function useRealIndicatorData(clientId: string, month: number, year: numb
 
     const rates = { USD: 5.10, EUR: 5.50, BRL: 1 };
 
-    // Set up all queries
-    const qAcc = query(collection(db, 'account_plans'), where('clientId', '==', clientId));
-    const entriesConstraints = [
-      where('clientId', '==', clientId),
-      where('year', '==', year)
-    ];
-    // Removed month from query constraint to allow fetching annual data (without month).
-    const qEntries = query(collection(db, 'financial_entries'), ...entriesConstraints);
-    const qAssets = query(collection(db, 'assets'), where('clientId', '==', clientId));
-    const qCashFlows = query(collection(db, 'cash_flows'), where('clientId', '==', clientId));
-    const qPositions = query(collection(db, 'financial_positions'), where('clientId', '==', clientId));
-    const qPayables = query(collection(db, 'payables'), where('clientId', '==', clientId));
-    const qReceivables = query(collection(db, 'receivables'), where('clientId', '==', clientId));
+    // Removed old setup queries
 
     // State for local aggregation
     let mappedAccounts: { name: string; kpiMapping: string; }[] = [];
@@ -243,12 +231,12 @@ export function useRealIndicatorData(clientId: string, month: number, year: numb
     };
 
     // Set up all listeners
-    const unsubs = [
-      onSnapshot(qAcc, snap => { mappedAccounts = snap.docs.map(d => d.data() as { name: string; kpiMapping: string; }).filter(d => d.kpiMapping); calculateAll(); }),
-      onSnapshot(qEntries, snap => {
+    const unsub = FirestoreRealIndicatorsAdapter.listenToIndicatorCollections(
+      clientId, year, month,
+      (docs) => { mappedAccounts = docs.filter(d => d.kpiMapping); calculateAll(); },
+      (docs) => {
         allEntries = [];
-        snap.docs.forEach(doc => {
-          const data = doc.data();
+        docs.forEach(data => {
           if (data.status === 'archived' || data.status === 'rejected') return;
           if (month > 0 && data.month !== undefined && data.month !== 0 && data.month !== month) return;
           if (Array.isArray(data.data)) {
@@ -266,15 +254,15 @@ export function useRealIndicatorData(clientId: string, month: number, year: numb
           }
         });
         calculateAll();
-      }),
-      onSnapshot(qAssets, snap => { currentAssets = snap.docs.map(d => d.data()); calculateAll(); }),
-      onSnapshot(qCashFlows, snap => { currentCashFlows = snap.docs.map(d => d.data()); calculateAll(); }),
-      onSnapshot(qPositions, snap => { currentPositions = snap.docs.map(d => d.data()); calculateAll(); }),
-      onSnapshot(qPayables, snap => { currentPayables = snap.docs.map(d => d.data()); calculateAll(); }),
-      onSnapshot(qReceivables, snap => { currentReceivables = snap.docs.map(d => d.data()); calculateAll(); }),
-    ];
+      },
+      (docs) => { currentAssets = docs; calculateAll(); },
+      (docs) => { currentCashFlows = docs; calculateAll(); },
+      (docs) => { currentPositions = docs; calculateAll(); },
+      (docs) => { currentPayables = docs; calculateAll(); },
+      (docs) => { currentReceivables = docs; calculateAll(); }
+    );
 
-    return () => unsubs.forEach(unsub => unsub());
+    return () => unsub();
   }, [clientId, year, month]);
 
   return { kpis };

@@ -4,9 +4,7 @@ import { motion } from 'motion/react';
 import { cn } from '../../lib/utils';
 import * as XLSX from 'xlsx';
 import * as pdfjsLib from 'pdfjs-dist';
-import { collection, query, where, getDocs, addDoc, serverTimestamp, deleteDoc, doc, orderBy, limit, updateDoc, writeBatch, onSnapshot } from 'firebase/firestore';
-import { ref, getDownloadURL, uploadBytesResumable } from 'firebase/storage';
-import { db, storage, login, auth, handleFirestoreError, OperationType } from '../../lib/firebase';
+import { useDadosHistoricosAdapter } from '../../adapters/ui/useDadosHistoricosAdapter';
 import { DOCUMENT_TYPES } from '../../constants/documents';
 import { notificationService } from '../../services/notificationService';
 import { PageHeader, MarkdownText } from '../Common/index';
@@ -31,16 +29,6 @@ export function DadosHistoricosPage({
   isApprovalMode?: boolean,
   hideHeader?: boolean
 }) {
-  const [loading, setLoading] = useState(false);
-  const [historyLoading, setHistoryLoading] = useState(false);
-  const [uploadStatus, setUploadStatus] = useState<{ type: 'success' | 'error' | 'idle', message?: string }>({ type: 'idle' });
-  const [progress, setProgress] = useState(0);
-  const [history, setHistory] = useState<any[]>([]);
-  
-  // Bulk selection states
-  const [selectedHistoryItems, setSelectedHistoryItems] = useState<string[]>([]);
-  const [selectedApprovals, setSelectedApprovals] = useState<string[]>([]);
-  
   // Selection States
   const [docType, setDocType] = useState('DRE');
   const [periodType, setPeriodType] = useState<'mensal' | 'anual'>('mensal');
@@ -56,19 +44,29 @@ export function DadosHistoricosPage({
   const governance = useGovernance();
   const role = governance?.role || 'cliente';
 
-  const [pendingCounts, setPendingCounts] = useState<Record<string, number>>({});
+  const {
+    history,
+    historyLoading,
+    loading,
+    uploadStatus,
+    setUploadStatus,
+    progress,
+    pendingCounts,
+    fetchHistory,
+    processUpload,
+    handleApprove,
+    handleReject,
+    handleDelete,
+    handleBulkDeleteHistory,
+    handleBulkApprove,
+    handleBulkRejectApprovals,
+    login
+  } = useDadosHistoricosAdapter({ user, role, selectedClient, isApprovalMode, clients: clients || [] });
+
+  // Bulk selection states
+  const [selectedHistoryItems, setSelectedHistoryItems] = useState<string[]>([]);
+  const [selectedApprovals, setSelectedApprovals] = useState<string[]>([]);
   
-  useEffect(() => {
-    if (role !== 'master' || !user) return;
-    const collectionsToMonitor = ['financial_entries', 'payables', 'receivables', 'budgets', 'account_plans', 'document_uploads'];
-    const unsubscribes = collectionsToMonitor.map(colName => {
-      const q = query(collection(db, colName), where('status', '==', 'pending'));
-      return onSnapshot(q, (snapshot) => {
-        setPendingCounts(prev => ({ ...prev, [colName]: snapshot.size }));
-      });
-    });
-    return () => unsubscribes.forEach(unsub => unsub());
-  }, [role, user]);
 
   const totalPending = Object.values(pendingCounts).reduce((acc, curr) => acc + curr, 0);
 
@@ -88,104 +86,6 @@ export function DadosHistoricosPage({
       pdfjsLib.GlobalWorkerOptions.workerSrc = `https://unpkg.com/pdfjs-dist@${pdfjsLib.version}/build/pdf.worker.min.mjs`;
     }
   }, []);
-
-  const fetchHistory = async () => {
-    if (!user) return;
-    setHistoryLoading(true);
-    try {
-      const collectionsToFetch = ['financial_staging', 'financial_entries', 'payables', 'receivables', 'budgets', 'account_plans', 'document_uploads'];
-      let allItems: any[] = [];
-
-      const promises = collectionsToFetch.map(async (colName) => {
-        try {
-          let q;
-          if (isApprovalMode) {
-            let conditions: any[] = [];
-            
-            if (colName === 'document_uploads') {
-              // Master Admin can see pending and approved (but not yet processed) documents
-              // This allows them to see their own auto-approved uploads for curation
-              if (role === 'master') {
-                conditions.push(where('status', 'in', ['pending', 'approved']));
-              } else {
-                conditions.push(where('status', '==', 'pending'));
-              }
-            } else {
-              conditions.push(where('status', '==', 'pending'));
-            }
-
-            if (selectedClient) {
-              conditions.push(where('clientId', '==', selectedClient));
-            }
-            
-            q = query(collection(db, colName), ...conditions, limit(100));
-          } else {
-            if (!selectedClient) return [];
-            q = query(collection(db, colName), where('clientId', '==', selectedClient), limit(50));
-          }
-          const snap = await getDocs(q);
-          return snap.docs.map(doc => ({ 
-            id: doc.id, 
-            sourceCollection: colName, 
-            ...(doc.data() as any) 
-          }));
-        } catch (err) {
-          console.error(`Error fetching from ${colName}:`, err);
-          return [];
-        }
-      });
-      const results = await Promise.all(promises);
-      const flatResults = results.flat();
-      const processedItems: any[] = [];
-      const batchMap = new Map<string, any>();
-
-      flatResults.forEach(item => {
-        // Only group in approval mode and if it has a batchId
-        if (isApprovalMode && item.batchId) {
-          if (!batchMap.has(item.batchId)) {
-            const batchEntry = { 
-              ...item, 
-              isBatch: true, 
-              itemCount: 0,
-              itemIds: [],
-              // Use the first item's creation time for sorting
-              sortDate: item.createdAt 
-            };
-            batchMap.set(item.batchId, batchEntry);
-            processedItems.push(batchEntry);
-          }
-          const batchEntry = batchMap.get(item.batchId);
-          batchEntry.itemCount++;
-          batchEntry.itemIds.push(item.id);
-        } else {
-          processedItems.push({ ...item, sortDate: item.createdAt });
-        }
-      });
-
-      allItems = processedItems.sort((a, b) => {
-        const getVal = (obj: any) => {
-          if (!obj?.sortDate) return 0;
-          if (typeof obj.sortDate.toMillis === 'function') return obj.sortDate.toMillis();
-          if (obj.sortDate.seconds) return obj.sortDate.seconds * 1000;
-          return 0;
-        };
-        return getVal(b) - getVal(a);
-      });
-
-      setHistory(allItems);
-    } catch (e) {
-      console.error("Critical error fetching history:", e);
-    } finally {
-      setHistoryLoading(false);
-    }
-  };
-
-  const cleanNumber = (val: any): number => {
-    if (typeof val === 'number') return val;
-    if (!val) return 0;
-    const cleaned = String(val).replace(/[R$\s.]/g, '').replace(',', '.');
-    return parseFloat(cleaned) || 0;
-  };
 
   const handleFileUpload = (e: React.ChangeEvent<HTMLInputElement> | React.DragEvent) => {
     e.preventDefault();
@@ -207,237 +107,11 @@ export function DadosHistoricosPage({
     setShowConfirmModal(true);
   };
 
-  const processUpload = async (file: File) => {
-    if (!user || !selectedClient) return;
-
-    setLoading(true);
-    setUploadStatus({ type: 'idle' });
-    setProgress(0);
-
-    try {
-      let fileUrl = '';
-      try {
-        setProgress(15);
-        console.log(`[DEBUG] Iniciando upload: ${file.name} (${file.size} bytes)`);
-        if (!storage) {
-          console.error("[DEBUG] Storage não inicializado!");
-          throw new Error("Sistema de armazenamento indisponível.");
-        }
-        const storagePath = `imports/${selectedClient}/${Date.now()}_${file.name.replace(/[^a-zA-Z0-9.]/g, '_')}`;
-        console.log(`[DEBUG] Caminho do storage: ${storagePath}`);
-        const storageRef = ref(storage, storagePath);
-        const uploadTask = uploadBytesResumable(storageRef, file);
-        console.log("[DEBUG] uploadTask criado com sucesso");
-
-        uploadTask.on('state_changed', 
-          (snapshot) => {
-            const bytesPer = snapshot.totalBytes > 0 ? (snapshot.bytesTransferred / snapshot.totalBytes) : 0;
-            const p = Math.round(bytesPer * 30);
-            console.log(`[DEBUG] Progresso Storage: ${Math.round(bytesPer * 100)}% (Snapshot: ${snapshot.bytesTransferred}/${snapshot.totalBytes})`);
-            setProgress(15 + p);
-          },
-          (error) => {
-            console.error("[DEBUG] Erro no callback do uploadTask:", error);
-          }
-        );
-
-        try {
-          const snapshot = await uploadTask;
-          setProgress(40);
-          fileUrl = await getDownloadURL(snapshot.ref);
-          setProgress(50);
-        } catch (uploadErr: any) {
-          console.error("[DEBUG] Erro no upload:", uploadErr);
-          throw new Error(`Falha de conexão com a Nuvem: ${uploadErr.message}`);
-        }
-      } catch (err: any) {
-        console.error("[DEBUG] Erro crítico no bloco de upload:", err);
-        setUploadStatus({ type: 'error', message: `Erro ao processar arquivo: ${err.message}` });
-        setLoading(false);
-        return;
-      }
-
-      const fileName = file.name.toLowerCase();
-      const clientData = (clients || []).find(c => c.id === selectedClient);
-
-      if (fileName.endsWith('.pdf')) {
-        const payload = {
-          clientId: selectedClient,
-          clientName: clientData?.fantasia || clientData?.razaoSocial || 'N/A',
-          fileName: file.name,
-          fileUrl,
-          fileType: 'pdf',
-          status: role === 'master' ? 'approved' : 'pending',
-          requiresApproval: role === 'master' ? false : true,
-          createdAt: serverTimestamp(),
-          createdBy: user.uid,
-          creatorEmail: user.email,
-          sourceCollection: 'document_uploads',
-          ...(role === 'master' ? { approvedAt: serverTimestamp() } : {})
-        };
-        await addDoc(collection(db, 'document_uploads'), payload);
-        setProgress(90);
-        setUploadStatus({ type: 'success', message: 'PDF enviado para curadoria estratégica!' });
-      } else {
-        const reader = new FileReader();
-        const dataEntries: any[] = await new Promise((resolve, reject) => {
-          reader.onload = (evt) => {
-            try {
-              const bstr = evt.target?.result;
-              const wb = XLSX.read(bstr, { type: 'binary' });
-              const ws = wb.Sheets[wb.SheetNames[0]];
-              const rawData = XLSX.utils.sheet_to_json(ws, { header: 1 }) as any[][];
-              const entries: any[] = [];
-              rawData.forEach(row => {
-                const cat = row[0]?.toString();
-                const val = cleanNumber(row[1]);
-                if (cat && !isNaN(val)) entries.push({ category: cat, value: val });
-              });
-              resolve(entries);
-            } catch (err) { reject(err); }
-          };
-          reader.readAsBinaryString(file);
-        });
-
-        if (dataEntries.length === 0) throw new Error('Nenhum dado válido encontrado.');
-
-        const payload = {
-          clientId: selectedClient,
-          clientName: clientData?.fantasia || clientData?.razaoSocial || 'N/A',
-          type: docType,
-          periodType,
-          month: periodType === 'mensal' ? month : null,
-          year,
-          data: dataEntries,
-          fileName: file.name,
-          fileUrl, 
-          createdAt: serverTimestamp(),
-          createdBy: user.uid,
-          creatorEmail: user.email,
-          status: role === 'master' ? 'approved' : 'pending',
-          requiresApproval: role === 'master' ? false : true,
-          sourceCollection: 'financial_entries',
-          ...(role === 'master' ? { approvedAt: serverTimestamp() } : {})
-        };
-        await addDoc(collection(db, 'financial_entries'), payload);
-        setProgress(90);
-        setUploadStatus({ type: 'success', message: 'Dados importados e aguardando aprovação.' });
-      }
-
-      await fetchHistory();
-      setProgress(100);
-      setTimeout(() => {
-        setShowConfirmModal(false);
-        setPendingFile(null);
-      }, 1500);
-    } catch (err: any) {
-      console.error("Process upload error:", err);
-      setUploadStatus({ type: 'error', message: err.message || 'Erro ao processar arquivo.' });
-    } finally {
-      setTimeout(() => setLoading(false), 800);
-    }
-  };
-
-  const handleApprove = async (id: string, collectionName: string, isBatch: boolean = false, ids: string[] = []) => {
-    try {
-      if (isBatch && ids.length > 0) {
-        // Approval for entire batch
-        const chunks = [];
-        for (let i = 0; i < ids.length; i += 450) {
-          chunks.push(ids.slice(i, i + 450));
-        }
-
-        for (const chunk of chunks) {
-          const batch = writeBatch(db);
-          for (const itemId of chunk) {
-            const item = history.find((h: any) => h.id === itemId) || (isBatch ? { sourceCollection: collectionName, id: itemId } : null);
-            if (item && item.sourceCollection === 'financial_staging') {
-              const targetDoc = doc(collection(db, item.targetCollection));
-              batch.set(targetDoc, {
-                 ...(item.payload || {}),
-                 status: 'approved',
-                 approvedAt: serverTimestamp(),
-                 requiresApproval: false
-              });
-              batch.update(doc(db, 'financial_staging', itemId), { status: 'migrated' });
-            } else if (item) {
-              batch.update(doc(db, item.sourceCollection, itemId), {
-                status: 'approved',
-                approvedAt: serverTimestamp(),
-                requiresApproval: false
-              });
-            }
-          }
-          await batch.commit();
-        }
-      } else {
-        // Single approval
-        const item = history.find((h: any) => h.id === id);
-        if (item && item.sourceCollection === 'financial_staging') {
-           const batch = writeBatch(db);
-           const targetDoc = doc(collection(db, item.targetCollection));
-           batch.set(targetDoc, {
-              ...item.payload,
-              status: 'approved',
-              approvedAt: serverTimestamp(),
-              requiresApproval: false
-           });
-           batch.update(doc(db, 'financial_staging', id), { status: 'migrated' });
-           await batch.commit();
-        } else {
-           await updateDoc(doc(db, collectionName, id), { 
-             status: 'approved', 
-             approvedAt: serverTimestamp(),
-             requiresApproval: false
-           });
-        }
-      }
-      fetchHistory();
-    } catch (e) {
-      console.error("Error approving:", e);
-    }
-  };
-
-  const handleReject = async (id: string, collectionName: string, isBatch: boolean = false, ids: string[] = []) => {
-    if (!confirm(isBatch ? `Rejeitar todo o lote com ${ids.length} itens?` : "Rejeitar este lançamento?")) return;
-    try {
-      if (isBatch && ids.length > 0) {
-        const chunks = [];
-        for (let i = 0; i < ids.length; i += 450) {
-          chunks.push(ids.slice(i, i + 450));
-        }
-
-        for (const chunk of chunks) {
-          const batch = writeBatch(db);
-          chunk.forEach(itemId => {
-            batch.update(doc(db, collectionName, itemId), {
-              status: 'rejected',
-              rejectedAt: serverTimestamp(),
-              requiresApproval: false
-            });
-          });
-          await batch.commit();
-        }
-      } else {
-        await updateDoc(doc(db, collectionName, id), { 
-          status: 'rejected', 
-          rejectedAt: serverTimestamp(),
-          requiresApproval: false
-        });
-      }
-      fetchHistory();
-    } catch (e) {
-      console.error("Error rejecting:", e);
-    }
-  };
-
-  const handleDelete = async (id: string, colName: string) => {
-    if (!confirm("Excluir este lançamento?")) return;
-    try {
-      await deleteDoc(doc(db, colName, id));
-      fetchHistory();
-    } catch (e) {
-      handleFirestoreError(e, OperationType.DELETE, `${colName}/${id}`);
+  const handleProcessUpload = async (file: File) => {
+    const success = await processUpload(file, docType, periodType, month, year);
+    if (success) {
+      setShowConfirmModal(false);
+      setPendingFile(null);
     }
   };
 
@@ -464,35 +138,13 @@ export function DadosHistoricosPage({
     );
   };
 
-  const handleBulkDeleteHistory = async () => {
+  const handleBulkDeleteHistoryClick = async () => {
     if (selectedHistoryItems.length === 0) return;
     if (!confirm(`Excluir os ${selectedHistoryItems.length} lançamentos selecionados?`)) return;
-    setLoading(true);
-    try {
-      const chunks = [];
-      for (let i = 0; i < selectedHistoryItems.length; i += 450) {
-        chunks.push(selectedHistoryItems.slice(i, i + 450));
-      }
-
-      for (const chunk of chunks) {
-        const batch = writeBatch(db);
-        chunk.forEach(id => {
-          const item = history.find(h => h.id === id);
-          if (item) {
-            batch.delete(doc(db, item.sourceCollection, id));
-          }
-        });
-        await batch.commit();
-      }
-
+    
+    const success = await handleBulkDeleteHistory(selectedHistoryItems);
+    if (success) {
       setSelectedHistoryItems([]);
-      fetchHistory();
-      setUploadStatus({ type: 'success', message: 'Lançamentos excluídos com sucesso!' });
-    } catch (e) {
-      console.error("Error bulk deleting:", e);
-      setUploadStatus({ type: 'error', message: 'Erro ao excluir lançamentos selecionados.' });
-    } finally {
-      setLoading(false);
     }
   };
 
@@ -513,122 +165,23 @@ export function DadosHistoricosPage({
     );
   };
 
-  const handleBulkApprove = async () => {
+  const handleBulkApproveClick = async () => {
     if (selectedApprovals.length === 0) return;
     if (!confirm(`Aprovar os ${selectedApprovals.length} lançamentos selecionados?`)) return;
-    setLoading(true);
-    try {
-      const chunks = [];
-      for (let i = 0; i < selectedApprovals.length; i += 450) {
-        chunks.push(selectedApprovals.slice(i, i + 450));
-      }
-
-      for (const chunk of chunks) {
-        const batch = writeBatch(db);
-        chunk.forEach(id => {
-          const item = history.find(h => h.id === id);
-          if (item) {
-            if (item.sourceCollection === 'document_uploads') {
-              batch.update(doc(db, item.sourceCollection, id), {
-                status: 'approved',
-                approvedAt: serverTimestamp(),
-                requiresApproval: false
-              });
-            } else if (item.sourceCollection === 'financial_staging') {
-              const targetDoc = doc(collection(db, item.targetCollection));
-              batch.set(targetDoc, {
-                 ...item.payload,
-                 status: 'approved',
-                 approvedAt: serverTimestamp(),
-                 requiresApproval: false
-              });
-              batch.update(doc(db, 'financial_staging', id), { status: 'migrated' });
-            } else if (item.isBatch && item.itemIds) {
-              item.itemIds.forEach((itemId: string) => {
-                const subItem = history.find((h: any) => h.id === itemId);
-                if (subItem && subItem.sourceCollection === 'financial_staging') {
-                   const targetDoc = doc(collection(db, subItem.targetCollection));
-                   batch.set(targetDoc, {
-                      ...subItem.payload,
-                      status: 'approved',
-                      approvedAt: serverTimestamp(),
-                      requiresApproval: false
-                   });
-                   batch.update(doc(db, 'financial_staging', itemId), { status: 'migrated' });
-                } else {
-                   batch.update(doc(db, item.sourceCollection, itemId), {
-                     status: 'approved',
-                     approvedAt: serverTimestamp(),
-                     requiresApproval: false
-                   });
-                }
-              });
-            } else {
-              batch.update(doc(db, item.sourceCollection, id), {
-                status: 'approved',
-                approvedAt: serverTimestamp(),
-                requiresApproval: false
-              });
-            }
-          }
-        });
-        await batch.commit();
-      }
-
+    
+    const success = await handleBulkApprove(selectedApprovals);
+    if (success) {
       setSelectedApprovals([]);
-      fetchHistory();
-      setUploadStatus({ type: 'success', message: 'Lançamentos aprovados com sucesso!' });
-    } catch (e) {
-      console.error("Error bulk approving:", e);
-      setUploadStatus({ type: 'error', message: 'Erro ao aprovar lançamentos selecionados.' });
-    } finally {
-      setLoading(false);
     }
   };
 
-  const handleBulkRejectApprovals = async () => {
+  const handleBulkRejectApprovalsClick = async () => {
     if (selectedApprovals.length === 0) return;
     if (!confirm(`Rejeitar os ${selectedApprovals.length} lançamentos selecionados?`)) return;
-    setLoading(true);
-    try {
-      const chunks = [];
-      for (let i = 0; i < selectedApprovals.length; i += 450) {
-        chunks.push(selectedApprovals.slice(i, i + 450));
-      }
-
-      for (const chunk of chunks) {
-        const batch = writeBatch(db);
-        chunk.forEach(id => {
-          const item = history.find(h => h.id === id);
-          if (item) {
-            if (item.isBatch && item.itemIds) {
-              item.itemIds.forEach((itemId: string) => {
-                batch.update(doc(db, item.sourceCollection, itemId), {
-                  status: 'rejected',
-                  rejectedAt: serverTimestamp(),
-                  requiresApproval: false
-                });
-              });
-            } else {
-              batch.update(doc(db, item.sourceCollection, id), {
-                status: 'rejected',
-                rejectedAt: serverTimestamp(),
-                requiresApproval: false
-              });
-            }
-          }
-        });
-        await batch.commit();
-      }
-
+    
+    const success = await handleBulkRejectApprovals(selectedApprovals);
+    if (success) {
       setSelectedApprovals([]);
-      fetchHistory();
-      setUploadStatus({ type: 'success', message: 'Lançamentos rejeitados com sucesso!' });
-    } catch (e) {
-      console.error("Error bulk rejecting:", e);
-      setUploadStatus({ type: 'error', message: 'Erro ao rejeitar lançamentos selecionados.' });
-    } finally {
-      setLoading(false);
     }
   };
 
@@ -721,8 +274,7 @@ export function DadosHistoricosPage({
           }}
           onConfirm={() => {
             if (pendingFile) {
-              setShowConfirmModal(false);
-              processUpload(pendingFile);
+              handleProcessUpload(pendingFile);
             }
           }}
           data={{
@@ -788,13 +340,13 @@ export function DadosHistoricosPage({
                     {selectedApprovals.length > 0 && (
                       <div className="flex gap-2">
                         <button 
-                          onClick={handleBulkApprove}
+                          onClick={handleBulkApproveClick}
                           className="px-4 py-2 bg-success hover:bg-success/95 text-white rounded-button text-[10px] font-black uppercase tracking-widest transition-all duration-300 hover:shadow-lg hover:shadow-success/20 active:scale-[0.98] cursor-pointer"
                         >
                           Aprovar Selecionados ({selectedApprovals.length})
                         </button>
                         <button 
-                          onClick={handleBulkRejectApprovals}
+                          onClick={handleBulkRejectApprovalsClick}
                           className="px-4 py-2 bg-critical-soft text-destructive border border-destructive/20 rounded-button hover:bg-destructive hover:text-white transition-all duration-300 text-[10px] font-black uppercase tracking-widest cursor-pointer"
                         >
                           Rejeitar Selecionados ({selectedApprovals.length})
@@ -1037,7 +589,7 @@ export function DadosHistoricosPage({
 
                     {selectedHistoryItems.length > 0 && (
                       <button 
-                        onClick={handleBulkDeleteHistory}
+                        onClick={handleBulkDeleteHistoryClick}
                         className="px-4 py-2 bg-critical-soft text-destructive border border-destructive/20 rounded-button hover:bg-destructive hover:text-white transition-all duration-300 text-[10px] font-black uppercase tracking-widest cursor-pointer"
                       >
                         Excluir Selecionados ({selectedHistoryItems.length})

@@ -20,8 +20,7 @@ import {
   ArrowRight,
   Copy
 } from 'lucide-react';
-import { collection, query, where, getDocs, addDoc, updateDoc, deleteDoc, doc, serverTimestamp, setDoc } from 'firebase/firestore';
-import { db, auth, createSecondaryUser } from '../lib/firebase';
+import { useClientUserAdapter } from '../adapters/ui/useClientUserAdapter';
 import { cn } from '../lib/utils';
 import { PermissaoModulo } from '../types/modules';
 import { ExecutiveTable, ExecutiveTableHeader, ExecutiveTableBody, ExecutiveTableRow, ExecutiveTableHead, ExecutiveTableCell } from './ui/executive-table';
@@ -86,6 +85,8 @@ function ClientUserManagerInner({ clientId }: { clientId: string }) {
   const [expandedGroups, setExpandedGroups] = useState<string[]>([]);
   const [createdCredentials, setCreatedCredentials] = useState<{email: string, pass: string} | null>(null);
 
+  const { fetchUsers: adapterFetchUsers, saveUser, linkExistingUser, deleteUser } = useClientUserAdapter(clientId);
+
   const initialForm = {
     nome: '',
     email: '',
@@ -110,12 +111,7 @@ function ClientUserManagerInner({ clientId }: { clientId: string }) {
     if (!clientId) return;
     setLoading(true);
     try {
-      const q = query(
-        collection(db, 'client_users'), 
-        where('clientId', '==', clientId)
-      );
-      const snap = await getDocs(q);
-      const data = snap.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+      const data = await adapterFetchUsers();
       setUsers(data);
     } catch (e: any) {
       console.error(e);
@@ -132,25 +128,7 @@ function ClientUserManagerInner({ clientId }: { clientId: string }) {
     
     setLoading(true);
     try {
-      const emailLower = formData.email.toLowerCase().trim();
-      let generatedPass = null;
-
-      const payload: any = {
-        ...formData,
-        email: emailLower,
-        clientId,
-        updatedAt: serverTimestamp(),
-      };
-
-      if (!editingId) {
-        // New user creation
-        generatedPass = Math.random().toString(36).substring(2, 8).toUpperCase() + '@123';
-        await createSecondaryUser(emailLower, generatedPass);
-        payload.requirePasswordChange = true;
-      }
-
-      const docId = `${emailLower}_${clientId}`;
-      await setDoc(doc(db, 'client_users', docId), payload, { merge: true });
+      const { generatedPass, emailLower } = await saveUser(formData, editingId);
       
       setIsAdding(false);
       setEditingId(null);
@@ -164,16 +142,7 @@ function ClientUserManagerInner({ clientId }: { clientId: string }) {
       console.error(e);
       if (e.code === 'auth/email-already-in-use') {
         alert('Este e-mail já possui uma conta. Apenas vinculamos ao cliente atual.');
-        // Still link the user to the client
-        const emailLower = formData.email.toLowerCase().trim();
-        const payload: any = {
-          ...formData,
-          email: emailLower,
-          clientId,
-          updatedAt: serverTimestamp(),
-        };
-        const docId = `${emailLower}_${clientId}`;
-        await setDoc(doc(db, 'client_users', docId), payload, { merge: true });
+        await linkExistingUser(formData);
         setIsAdding(false);
         setEditingId(null);
         setFormData(initialForm);
@@ -189,7 +158,7 @@ function ClientUserManagerInner({ clientId }: { clientId: string }) {
   const handleDelete = async (id: string) => {
     if (!window.confirm('Remover acesso deste usuário?')) return;
     try {
-      await deleteDoc(doc(db, 'client_users', id));
+      await deleteUser(id);
       fetchUsers();
     } catch (e) {
       console.error(e);

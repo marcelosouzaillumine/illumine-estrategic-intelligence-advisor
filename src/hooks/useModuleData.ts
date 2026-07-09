@@ -1,21 +1,25 @@
 import { useState, useEffect } from 'react';
-import { collection, query, where, onSnapshot, addDoc, updateDoc, deleteDoc, doc, serverTimestamp } from 'firebase/firestore';
-import { onAuthStateChanged, User } from 'firebase/auth';
-import { db, auth } from '../lib/firebase';
+import { FirestoreGenericCollectionAdapter } from '../adapters/persistence/FirestoreGenericCollectionAdapter';
+import { FirestoreAuthAdapter } from '../adapters/persistence/FirestoreAuthAdapter';
+
+
 
 export function useModuleData<T>(collectionName: string, clientId: string) {
   const [data, setData] = useState<T[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
-  const [currentUser, setCurrentUser] = useState<User | null>(auth.currentUser);
+  const [currentUser, setCurrentUser] = useState<any | null>(FirestoreAuthAdapter.getCurrentUser());
 
-  // Resolve the auth user reactively — auth.currentUser is null on the first tick
+  // Use interval to check auth state since we removed direct onAuthStateChanged
   useEffect(() => {
-    const unsubAuth = onAuthStateChanged(auth, (user) => {
-      setCurrentUser(user);
-    });
-    return () => unsubAuth();
-  }, []);
+    const interval = setInterval(() => {
+      const user = FirestoreAuthAdapter.getCurrentUser();
+      if (user && !currentUser) {
+        setCurrentUser(user);
+      }
+    }, 500);
+    return () => clearInterval(interval);
+  }, [currentUser]);
 
   // Subscribe to Firestore only once we have a confirmed user and clientId
   useEffect(() => {
@@ -26,27 +30,26 @@ export function useModuleData<T>(collectionName: string, clientId: string) {
     }
 
     setLoading(true);
-    const q = query(
-      collection(db, collectionName),
-      where('clientId', '==', clientId),
-      where('ownerId', '==', currentUser.uid)
+    const unsubSnapshot = FirestoreGenericCollectionAdapter.listenToCollection<T>(
+      collectionName,
+      clientId,
+      currentUser.uid,
+      (items) => {
+        setData(items);
+        setLoading(false);
+      },
+      (err) => {
+        console.error(`[useModuleData] Error fetching ${collectionName}:`, err);
+        setError(err.message);
+        setLoading(false);
+      }
     );
-
-    const unsubSnapshot = onSnapshot(q, (snapshot) => {
-      const items = snapshot.docs.map(d => ({ id: d.id, ...d.data() })) as T[];
-      setData(items);
-      setLoading(false);
-    }, (err) => {
-      console.error(`[useModuleData] Error fetching ${collectionName}:`, err);
-      setError(err.message);
-      setLoading(false);
-    });
 
     return () => unsubSnapshot();
   }, [collectionName, clientId, currentUser]);
 
   const add = async (item: any): Promise<string> => {
-    const user = auth.currentUser ?? currentUser;
+    const user = FirestoreAuthAdapter.getCurrentUser() ?? currentUser;
     if (!user) {
       const msg = `[useModuleData] Usuário não autenticado ao salvar em "${collectionName}". Faça login novamente.`;
       console.error(msg);
@@ -54,14 +57,7 @@ export function useModuleData<T>(collectionName: string, clientId: string) {
       throw new Error(msg);
     }
     try {
-      const docRef = await addDoc(collection(db, collectionName), {
-        ...item,
-        clientId,
-        ownerId: user.uid,
-        createdAt: serverTimestamp(),
-        updatedAt: serverTimestamp(),
-      });
-      return docRef.id;
+      return await FirestoreGenericCollectionAdapter.addDocument(collectionName, item, clientId, user.uid);
     } catch (err: any) {
       console.error(`[useModuleData] Error adding to ${collectionName}:`, err);
       setError(err.message);
@@ -70,7 +66,7 @@ export function useModuleData<T>(collectionName: string, clientId: string) {
   };
 
   const update = async (id: string, item: any) => {
-    const user = auth.currentUser ?? currentUser;
+    const user = FirestoreAuthAdapter.getCurrentUser() ?? currentUser;
     if (!user) {
       const msg = `[useModuleData] Usuário não autenticado ao atualizar em "${collectionName}".`;
       console.error(msg);
@@ -78,8 +74,7 @@ export function useModuleData<T>(collectionName: string, clientId: string) {
       throw new Error(msg);
     }
     try {
-      const docRef = doc(db, collectionName, id);
-      await updateDoc(docRef, { ...item, updatedAt: serverTimestamp() });
+      await FirestoreGenericCollectionAdapter.updateDocument(collectionName, id, item);
     } catch (err: any) {
       console.error(`[useModuleData] Error updating ${collectionName}:`, err);
       setError(err.message);
@@ -89,7 +84,7 @@ export function useModuleData<T>(collectionName: string, clientId: string) {
 
   const remove = async (id: string) => {
     try {
-      await deleteDoc(doc(db, collectionName, id));
+      await FirestoreGenericCollectionAdapter.deleteDocument(collectionName, id);
     } catch (err: any) {
       console.error(`[useModuleData] Error deleting from ${collectionName}:`, err);
       setError(err.message);

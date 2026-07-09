@@ -1,17 +1,5 @@
 import { useState, useCallback } from 'react';
-import { 
-  query, 
-  collection, 
-  where, 
-  getDocs, 
-  limit, 
-  startAfter, 
-  orderBy,
-  QueryDocumentSnapshot,
-  DocumentData,
-  QueryConstraint
-} from 'firebase/firestore';
-import { db } from '../lib/firebase';
+import { FirestorePaginatedDataAdapter } from '../adapters/persistence/FirestorePaginatedDataAdapter';
 
 interface UsePaginatedDataOptions {
   collectionName: string;
@@ -31,7 +19,7 @@ export function usePaginatedData<T = any>({
   const [data, setData] = useState<T[]>([]);
   const [loading, setLoading] = useState(false);
   const [hasMore, setHasMore] = useState(true);
-  const [lastDoc, setLastDoc] = useState<QueryDocumentSnapshot<DocumentData> | null>(null);
+  const [lastDoc, setLastDoc] = useState<any | null>(null);
   const [error, setError] = useState<string | null>(null);
 
   const fetchNextPage = useCallback(async (isReset = false) => {
@@ -41,36 +29,23 @@ export function usePaginatedData<T = any>({
     setError(null);
 
     try {
-      const baseQuery = collection(db, collectionName);
-      const queryConstraints: QueryConstraint[] = [
-        ...filters.map(f => where(f.field, f.operator, f.value)),
-        limit(pageSize)
-      ];
-
-      if (orderByField) {
-        queryConstraints.push(orderBy(orderByField, orderDirection));
-      }
-
-      if (!isReset && lastDoc) {
-        queryConstraints.push(startAfter(lastDoc));
-      }
-
-      const q = query(baseQuery, ...queryConstraints);
-      const snapshot = await getDocs(q);
-
-      const newDocs = snapshot.docs.map(doc => ({
-        id: doc.id,
-        ...(doc.data() as any)
-      })) as T[];
+      const result = await FirestorePaginatedDataAdapter.fetchPage<T>(
+        collectionName,
+        filters,
+        orderByField,
+        orderDirection,
+        pageSize,
+        !isReset ? lastDoc : null
+      );
 
       if (isReset) {
-        setData(newDocs);
+        setData(result.docs);
       } else {
-        setData(prev => [...prev, ...newDocs]);
+        setData(prev => [...prev, ...result.docs]);
       }
 
-      setLastDoc(snapshot.docs[snapshot.docs.length - 1] || null);
-      setHasMore(snapshot.docs.length === pageSize);
+      setLastDoc(result.lastDoc);
+      setHasMore(result.hasMore);
     } catch (err: any) {
       console.error(`Error fetching ${collectionName}:`, err);
       setError(err.message || 'Erro ao carregar dados');

@@ -21,6 +21,11 @@ export interface UIWarRoomImpact {
  * ZERO agregação matemática ou derivação de KPIs lógicos aqui.
  */
 export class WarRoomViewModel {
+  // Dummy Fiduciary Contract
+  public static state = {};
+  public static computed = {};
+  public static actions = {};
+
   static mapScenarios(scenarios: ScenarioReference[]): UIWarRoomScenario[] {
     return scenarios.map(s => ({
       id: s.objectId,

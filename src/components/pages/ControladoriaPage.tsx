@@ -1,8 +1,6 @@
 import React, { useMemo } from 'react';
 import { ShieldCheck, TrendingUp, BarChart3, Scale, WalletCards, AlertCircle, CheckCircle2, PieChart as PieIcon, Zap, MessageSquare, Landmark, Calendar, Target, ArrowUpRight, Activity, ShieldAlert, AlertTriangle } from 'lucide-react';
 import { motion } from 'motion/react';
-import { collection, query, where, onSnapshot } from 'firebase/firestore';
-import { db } from '../../lib/firebase';
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, Cell, Legend } from 'recharts';
 import { cn, formatValue, formatCurrency, getThemeColors } from '../../lib/utils';
 import { PageHeader, ControlBar } from '../Common';

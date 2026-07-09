@@ -2,8 +2,7 @@
 import React, { useState, useEffect } from 'react';
 import { Loader2, Save, CheckCircle2, Trash2, Plus, TrendingUp, TrendingDown, Zap, Calculator, Info } from 'lucide-react';
 import { motion } from 'motion/react';
-import { collection, query, where, getDocs, orderBy, addDoc, updateDoc, doc, serverTimestamp } from 'firebase/firestore';
-import { db, handleFirestoreError, OperationType } from '../../lib/firebase';
+import { usePremissasClienteAdapter } from '../../adapters/ui/usePremissasClienteAdapter';
 import { cn } from '../../lib/utils';
 import { DATA } from '../../data';
 import { DashboardSkeleton } from '../ui/skeletons';
@@ -31,95 +30,17 @@ function SectionHeader({ icon: Icon, title, subtitle, tone }: any) {
 }
 
 export function PremissasClientePage({ clients, selectedClient }: { clients: any[], selectedClient: string }) {
-  const [loading, setLoading] = useState(false);
-  const [saving, setSaving] = useState(false);
-  const [saveSuccess, setSaveSuccess] = useState(false);
-  const [accounts, setAccounts] = useState<any[]>([]);
-  const [assumptions, setAssumptions] = useState<any>({
-    receitas: [],
-    custos: [],
-    crescimento: 0
-  });
+  const {
+    loading,
+    saving,
+    saveSuccess,
+    accounts,
+    assumptions,
+    setAssumptions,
+    handleSave: adapterHandleSave
+  } = usePremissasClienteAdapter({ selectedClient: selectedClient || '' });
 
-  useEffect(() => {
-    if (!selectedClient) return;
-    
-    const fetchData = async () => {
-      setLoading(true);
-      try {
-        // Fetch Assumptions
-        const qAssumptions = query(
-          collection(db, 'client_assumptions'),
-          where('clientId', '==', selectedClient)
-        );
-        const snapAssumptions = await getDocs(qAssumptions);
-        if (!snapAssumptions.empty) {
-          const data = snapAssumptions.docs[0].data();
-          setAssumptions(data);
-        } else {
-          setAssumptions({
-            receitas: [],
-            custos: [],
-            crescimento: 0
-          });
-        }
-
-        // Fetch All Accounts for client to avoid composite index issues with planType
-        const qAccounts = query(
-          collection(db, 'account_plans'),
-          where('clientId', '==', selectedClient),
-          orderBy('code', 'asc')
-        );
-        const snapAccounts = await getDocs(qAccounts);
-        const allAccounts = snapAccounts.docs.map(doc => ({ id: doc.id, ...doc.data() as any }));
-
-        // Prioritize Managerial Plan
-        const managerial = allAccounts.filter(a => a.planType === 'managerial');
-        const accounting = allAccounts.filter(a => a.planType === 'accounting');
-        
-        let accountsData = managerial.length > 0 ? managerial : (accounting.length > 0 ? accounting : allAccounts);
-        
-        setAccounts(accountsData.length > 0 ? accountsData : DATA.accountPlanPadrão);
-        
-      } catch (e) {
-        console.error(e);
-      } finally {
-        setLoading(false);
-      }
-    };
-    
-    fetchData();
-  }, [selectedClient]);
-
-  const handleSave = async () => {
-    if (!selectedClient) return;
-    setSaving(true);
-    try {
-      const q = query(
-        collection(db, 'client_assumptions'),
-        where('clientId', '==', selectedClient)
-      );
-      const snap = await getDocs(q);
-      
-      const payload = {
-        ...assumptions,
-        clientId: selectedClient,
-        updatedAt: serverTimestamp()
-      };
-
-      if (!snap.empty) {
-        await updateDoc(doc(db, 'client_assumptions', snap.docs[0].id), payload);
-      } else {
-        await addDoc(collection(db, 'client_assumptions'), payload);
-      }
-      setSaveSuccess(true);
-      setTimeout(() => setSaveSuccess(false), 3000);
-    } catch (e) {
-      handleFirestoreError(e, OperationType.WRITE, 'client_assumptions');
-    } finally {
-      setSaving(false);
-    }
-  };
+  const handleSave = () => adapterHandleSave(assumptions);
 
   const [confirmDelete, setConfirmDelete] = useState<{ category: 'receitas' | 'custos', index: number } | null>(null);
 

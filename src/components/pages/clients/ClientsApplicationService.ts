@@ -1,16 +1,4 @@
-import { 
-  collection, 
-  addDoc, 
-  updateDoc, 
-  deleteDoc, 
-  doc, 
-  serverTimestamp, 
-  query, 
-  where, 
-  getDocs, 
-  onSnapshot 
-} from 'firebase/firestore';
-import { db } from '../../../lib/firebase';
+import { FirestoreClientsAdapter } from '../../../adapters/persistence/FirestoreClientsAdapter';
 import { DATA } from '../../../data';
 
 export class ClientsApplicationService {
@@ -22,29 +10,7 @@ export class ClientsApplicationService {
     clients: any[] | null | undefined,
     onUpdate: (clientsList: any[]) => void
   ): () => void {
-    if (isMaster) {
-      const q = query(collection(db, "clients"));
-      return onSnapshot(q, (snapshot) => {
-        onUpdate(snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() })));
-      });
-    } else if (clients && clients.length > 0) {
-      const clientIds = clients.map((c: any) => c.id);
-      if (clientIds.length <= 10) {
-        const q = query(collection(db, "clients"), where("__name__", "in", clientIds));
-        return onSnapshot(q, (snapshot) => {
-          onUpdate(snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() })));
-        });
-      } else {
-        const q = query(collection(db, "clients"));
-        return onSnapshot(q, (snapshot) => {
-          const all = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
-          onUpdate(all.filter(c => clientIds.includes(c.id)));
-        });
-      }
-    } else {
-      onUpdate([]);
-      return () => {}; // empty unsubscribe
-    }
+    return FirestoreClientsAdapter.subscribeToClients(isMaster, clients, onUpdate);
   }
 
   /**
@@ -78,11 +44,11 @@ export class ClientsApplicationService {
     const clientData = {
       ...formData,
       ownerId: currentUserUid,
-      updatedAt: serverTimestamp()
+      updatedAt: FirestoreClientsAdapter.getServerTimestamp()
     };
 
     if (editingId) {
-      await updateDoc(doc(db, "clients", editingId), clientData);
+      await FirestoreClientsAdapter.updateClient(editingId, clientData);
     } else {
       const clientFinalData = {
         ...clientData,
@@ -90,26 +56,25 @@ export class ClientsApplicationService {
         partnerId: (!isMaster && isPartner && userPartnerIds && userPartnerIds.length > 0) 
           ? userPartnerIds[0] 
           : clientData.partnerId,
-        createdAt: serverTimestamp()
+        createdAt: FirestoreClientsAdapter.getServerTimestamp()
       };
 
-      const docRef = await addDoc(collection(db, "clients"), clientFinalData);
-      const clientId = docRef.id;
+      const clientId = await FirestoreClientsAdapter.addClient(clientFinalData);
 
       // Cria o plano de contas padrão automaticamente para novos clientes
-      const batch = DATA.accountPlanPadrão.map(acc => {
-         return addDoc(collection(db, "account_plans"), {
+      const plans = DATA.accountPlanPadrão.map(acc => {
+         return {
           ...acc,
           clientId: clientId,
           planType: "accounting",
           status: acc.status || "Ativa",
-          createdAt: serverTimestamp(),
-          updatedAt: serverTimestamp(),
+          createdAt: FirestoreClientsAdapter.getServerTimestamp(),
+          updatedAt: FirestoreClientsAdapter.getServerTimestamp(),
           createdBy: currentUserUid
-        });
+        };
       });
       
-      await Promise.all(batch);
+      await FirestoreClientsAdapter.createAccountPlanBatch(plans);
     }
   }
 
@@ -130,35 +95,19 @@ export class ClientsApplicationService {
       "receivables"
     ];
 
-    for (const coll of collectionsToClean) {
-      try {
-        const q = query(collection(db, coll), where("clientId", "==", clientId));
-        const snap = await getDocs(q);
-        if (!snap.empty) {
-          const deletePromises = snap.docs.map(d => deleteDoc(doc(db, coll, d.id)));
-          await Promise.all(deletePromises);
-        }
-      } catch (e) {
-        console.warn(`Erro ao limpar coleção ${coll} (pode não existir dados ou sem permissão):`, e);
-      }
-    }
-
-    await deleteDoc(doc(db, "clients", clientId));
+    await FirestoreClientsAdapter.deleteClientCascade(clientId, collectionsToClean);
   }
   /**
    * Aprova um cliente.
    */
   static async approveClient(clientId: string): Promise<void> {
-    await updateDoc(doc(db, "clients", clientId), { approvalStatus: "Approved" });
+    await FirestoreClientsAdapter.approveClient(clientId);
   }
 
   /**
    * Assina as atualizações da coleção de partners.
    */
   static subscribeToPartners(onUpdate: (partnersList: any[]) => void): () => void {
-    const q = query(collection(db, "partners"));
-    return onSnapshot(q, (snapshot) => {
-      onUpdate(snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() })));
-    });
+    return FirestoreClientsAdapter.subscribeToPartners(onUpdate);
   }
 }

@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { ExecutiveNarrative } from '../../../../services/FiduciaryRuntimeAdapter';
 import { BoardModeGuard } from '../../../../services/FiduciaryRuntimeAdapter';
 import { BoardFlowStep } from '../../../../services/FiduciaryRuntimeAdapter';
+import { sanitizeExecutivePayload } from '../../../../core/presentation/emergency-executive-sanitizer';
 
 export interface UseBoardExperienceShellViewModelProps {
   narrative: ExecutiveNarrative;
@@ -26,6 +27,7 @@ export function useBoardExperienceShellViewModel({
 
   const hasEvidence = narrative.evidenceChain && narrative.evidenceChain.length > 0;
   const hasLineage = narrative.lineage && narrative.lineage.length > 0;
+  const safeViolations = narrative.violations?.map(sanitizeExecutivePayload) || [];
 
   return {
     state: {
@@ -35,6 +37,7 @@ export function useBoardExperienceShellViewModel({
     computed: {
       hasEvidence,
       hasLineage,
+      safeViolations,
     },
     actions: {
       setCurrentStep,

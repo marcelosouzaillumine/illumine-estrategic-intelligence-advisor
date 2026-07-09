@@ -10,6 +10,7 @@ import { SessionGovernanceLayer } from '../src/core/security/auth/SessionGoverna
 import { PermissionEvaluationInput } from '../src/core/security/types';
 import { DataAccessContext } from '../src/core/security/data-access-context';
 import { governanceService } from '../src/services/governanceService';
+import { FirestoreGovernanceAdapter } from '../src/adapters/persistence/FirestoreGovernanceAdapter';
 
 describe('Institutional Audit & Telemetry Layer Tests', () => {
   let savedEvents: any[] = [];
@@ -25,7 +26,8 @@ describe('Institutional Audit & Telemetry Layer Tests', () => {
   const originalSaveFailure = AuditEventBus.saveFailure;
   const originalSaveLedger = ImmutableLedger.saveLedger;
   const originalSaveAnomaly = AnomalyDetector.saveAnomaly;
-  const originalGetFirestoreDocs = governanceService.getFirestoreDocs;
+  const originalGetAuditEvents = FirestoreGovernanceAdapter.getAuditEvents;
+  (FirestoreGovernanceAdapter as any)._originalGetAuditEvents = originalGetAuditEvents;
 
   // Helper to wait for event bus fire-and-forget loops to settle
   const flush = (customTimeout?: any) => new Promise((resolve) => (customTimeout || setTimeout)(resolve, 15));
@@ -77,7 +79,7 @@ describe('Institutional Audit & Telemetry Layer Tests', () => {
     AuditEventBus.saveFailure = originalSaveFailure;
     ImmutableLedger.saveLedger = originalSaveLedger;
     AnomalyDetector.saveAnomaly = originalSaveAnomaly;
-    governanceService.getFirestoreDocs = originalGetFirestoreDocs;
+    FirestoreGovernanceAdapter.getAuditEvents = originalGetAuditEvents;
     DistributedAnomalyAggregator.setMockMode(false);
   });
 
@@ -432,22 +434,14 @@ describe('Institutional Audit & Telemetry Layer Tests', () => {
       sessionId: 'sess-cfo-obs'
     };
 
-    // Stub getFirestoreDocs
-    governanceService.getFirestoreDocs = async (q: any) => {
-      // Find constraints inside query
-      const filters = q?._query?.filters || [];
-      const tenantIdFilter = filters.find((f: any) => f.field?.segments?.join('.') === 'tenantId');
-      
-      // If it tries to fetch another tenant, return empty docs
-      const tenantVal = tenantIdFilter?.value?.internalValue;
-      if (tenantVal && tenantVal !== 'tenant-cfo') {
-        return { docs: [] };
+    // Stub FirestoreGovernanceAdapter
+    FirestoreGovernanceAdapter.getAuditEvents = async (tenantId: string, isGlobal: boolean) => {
+      if (!isGlobal && tenantId !== 'tenant-cfo') {
+        return [];
       }
-      return {
-        docs: [
-          { id: 'evt-1', data: () => ({ eventId: 'evt-1', tenantId: 'tenant-cfo', eventType: 'VIEW_DASHBOARD' }) }
-        ]
-      };
+      return [
+        { id: 'evt-1', eventId: 'evt-1', tenantId: 'tenant-cfo', eventType: 'VIEW_DASHBOARD' } as any
+      ];
     };
 
     // 13.1 Querying own tenant should succeed
@@ -488,15 +482,12 @@ describe('Institutional Audit & Telemetry Layer Tests', () => {
       sessionId: 'sess-super-obs'
     };
 
-    // Stub getFirestoreDocs
-    governanceService.getFirestoreDocs = async (q: any) => {
-      return {
-        docs: [
-          { id: 'evt-xyz-1', data: () => ({ eventId: 'evt-xyz-1', tenantId: 'tenant-xyz', eventType: 'EXPORT_REPORT' }) }
-        ]
-      };
+    // Stub FirestoreGovernanceAdapter
+    FirestoreGovernanceAdapter.getAuditEvents = async (tenantId: string, isGlobal: boolean) => {
+      return [
+        { id: 'evt-xyz-1', eventId: 'evt-xyz-1', tenantId: 'tenant-xyz', eventType: 'EXPORT_REPORT' } as any
+      ];
     };
-
     const logs = await governanceService.getAuditEvents(context, { tenantId: 'tenant-xyz' });
     assert.strictEqual(logs.length, 1);
     assert.strictEqual(logs[0].tenantId, 'tenant-xyz');

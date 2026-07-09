@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Users, Loader2, AlertCircle } from 'lucide-react';
-import { onSnapshot, doc } from 'firebase/firestore';
-import { db } from '../../lib/firebase';
+import { useQuadroPessoalAdapter } from '../../adapters/ui/useQuadroPessoalAdapter';
 import { PageHeader } from '../Common';
 import { EmployeeManager } from '../EmployeeManager';
 import { DashboardSkeleton } from '../ui/skeletons';
@@ -11,25 +10,7 @@ interface QuadroPessoalPageProps {
 }
 
 export function QuadroPessoalPage({ clientId }: QuadroPessoalPageProps) {
-  const [loading, setLoading] = useState(true);
-  const [clientData, setClientData] = useState<any>(null);
-
-  useEffect(() => {
-    if (!clientId) return;
-    setLoading(true);
-    
-    const unsub = onSnapshot(doc(db, 'clients', clientId), (snap) => {
-      if (snap.exists()) {
-        setClientData({ id: snap.id, ...snap.data() });
-      }
-      setLoading(false);
-    }, (err) => {
-      console.error("Error fetching client for quadro pessoal:", err);
-      setLoading(false);
-    });
-
-    return () => unsub();
-  }, [clientId]);
+  const { loading, clientData } = useQuadroPessoalAdapter(clientId);
 
   if (loading) {
     return <DashboardSkeleton />;

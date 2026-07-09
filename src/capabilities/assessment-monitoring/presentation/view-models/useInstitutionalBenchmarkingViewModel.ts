@@ -11,6 +11,10 @@ export function useInstitutionalBenchmarkingViewModel() {
   }, [sector]);
 
   return {
+    state: { execution, sector },
+    computed: {},
+    actions: { setSector },
+    // Legacy (mantido para não quebrar UI)
     execution,
     sector,
     setSector

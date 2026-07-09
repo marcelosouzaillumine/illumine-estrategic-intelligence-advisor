@@ -3,8 +3,7 @@ import { Globe, TrendingUp, BarChart3, ArrowUpRight, ArrowDownRight, Zap, Messag
 import { motion, AnimatePresence } from 'motion/react';
 import { cn, formatCurrency, formatValue } from '../../lib/utils';
 import { PageHeader, SectionHeader } from '../Common';
-import { db } from '../../lib/firebase';
-import { doc, onSnapshot } from 'firebase/firestore';
+import { useAnaliseMercadoPageAdapter } from '../../adapters/ui/useAnaliseMercadoPageAdapter';
 import { DATA } from '../../data';
 
 interface AnaliseMercadoPageProps {
@@ -15,17 +14,7 @@ type Scope = 'Local' | 'Nacional' | 'Global';
 
 export function AnaliseMercadoPage({ clientId }: AnaliseMercadoPageProps) {
   const [selectedScope, setSelectedScope] = useState<Scope>('Nacional');
-  const [econData, setEconData] = useState<any[]>(DATA.premissas.economicas);
-
-  useEffect(() => {
-    const unsub = onSnapshot(doc(db, 'system', 'economic_premises'), (snap) => {
-      if (snap.exists()) {
-        const data = snap.data();
-        if (data.econData) setEconData(data.econData);
-      }
-    });
-    return () => unsub();
-  }, []);
+  const { econData } = useAnaliseMercadoPageAdapter();
 
   const scopeIndicators = useMemo(() => {
     // Buscar valores das premissas

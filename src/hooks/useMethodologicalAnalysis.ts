@@ -1,6 +1,6 @@
 import { useState, useEffect, useCallback } from 'react';
-import { collection, query, where, getDocs, addDoc, updateDoc, doc, serverTimestamp } from 'firebase/firestore';
-import { db } from '../lib/firebase';
+import { FirestoreMethodologicalAnalysisAdapter } from '../adapters/persistence/FirestoreMethodologicalAnalysisAdapter';
+
 import { IntelligenceEngine, CURRENT_METHODOLOGY_VERSION } from '../services/intelligenceEngine';
 
 export function useMethodologicalAnalysis(clientId: string, year: number, month: number, dbDre: any[], dbBp: any[]) {
@@ -18,21 +18,13 @@ export function useMethodologicalAnalysis(clientId: string, year: number, month:
     setError(null);
 
     try {
-      const q = query(
-        collection(db, 'methodological_analyses'),
-        where('clientId', '==', clientId),
-        where('year', '==', year),
-        where('month', '==', month)
-      );
-      
-      const snap = await getDocs(q);
+      const existingDoc = await FirestoreMethodologicalAnalysisAdapter.getAnalysis(clientId, year, month);
       
       if (isCancelled.current) return;
 
-      if (!snap.empty) {
+      if (existingDoc) {
         // Documento já existe, carrega a versão histórica sem alterar
-        const docData = snap.docs[0].data();
-        setAnalysis({ id: snap.docs[0].id, ...docData });
+        setAnalysis({ id: existingDoc.id, ...existingDoc.docData });
       } else {
         // Primeira vez processando, utiliza a metodologia atual
         const newAnalysisData = IntelligenceEngine.processFinancialData(dbDre, dbBp, CURRENT_METHODOLOGY_VERSION);
@@ -42,13 +34,12 @@ export function useMethodologicalAnalysis(clientId: string, year: number, month:
           year,
           month,
           ...newAnalysisData,
-          createdAt: serverTimestamp(),
         };
 
-        const docRef = await addDoc(collection(db, 'methodological_analyses'), payload);
+        const newId = await FirestoreMethodologicalAnalysisAdapter.createAnalysis(payload);
         
         if (!isCancelled.current) {
-          setAnalysis({ id: docRef.id, ...payload });
+          setAnalysis({ id: newId, ...payload });
         }
       }
     } catch (err: any) {
@@ -75,12 +66,7 @@ export function useMethodologicalAnalysis(clientId: string, year: number, month:
     try {
       const reprocessedData = IntelligenceEngine.processFinancialData(dbDre, dbBp, CURRENT_METHODOLOGY_VERSION);
       
-      await updateDoc(doc(db, 'methodological_analyses', analysis.id), {
-        reprocessed: {
-          ...reprocessedData,
-          reprocessedAt: new Date().toISOString()
-        }
-      });
+      await FirestoreMethodologicalAnalysisAdapter.updateAnalysisReprocessed(analysis.id, reprocessedData);
       
       setAnalysis((prev: any) => ({
         ...prev,

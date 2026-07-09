@@ -6,7 +6,7 @@ import { GroupOnboardingRepository, EconomicGroupModel } from '../../services/Fi
 import { ExecutiveBoardPack } from '../../services/FiduciaryRuntimeAdapter';
 import { GovernedRepositoryWrapper } from '../../core/security/governed-repository';
 import { DataAccessContext } from '../../core/security/data-access-context';
-import { auth } from '../../lib/firebase';
+import { useAuthAdapter } from '../../adapters/ui/useAuthAdapter';
 import { useLanguage } from '../../contexts/LanguageContext';
 
 // Estilo auxiliar interno para lidar com CSS Print
@@ -71,8 +71,9 @@ export function InstitutionalReportsPage() {
     setPack(null);
   };
 
+  const { getCurrentUserId } = useAuthAdapter();
   const buildContext = (action: 'EXPORT_BOARD_PACK' | 'EXPORT_SNAPSHOT'): DataAccessContext => {
-    const currentUserId = auth.currentUser?.uid || 'guest';
+    const currentUserId = getCurrentUserId() || 'guest';
     const cleanId = pack?.groupId || selectedGroupId || 'guest';
     return {
       actorId: currentUserId,

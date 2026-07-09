@@ -9,6 +9,7 @@ import { AuditEventBus } from '../src/core/security/audit/AuditEventBus';
 import { AnomalyDetector } from '../src/core/security/audit/AnomalyDetector';
 import { DataAccessContext } from '../src/core/security/data-access-context';
 import { governanceService } from '../src/services/governanceService';
+import { FirestoreGovernanceAdapter } from '../src/adapters/persistence/FirestoreGovernanceAdapter';
 import { ImmutableLedger } from '../src/core/security/audit/ImmutableLedger';
 
 describe('Enterprise Scalability & Distributed Runtime Layer Tests', () => {
@@ -16,7 +17,8 @@ describe('Enterprise Scalability & Distributed Runtime Layer Tests', () => {
   let detectedAnomalies: any[] = [];
   const originalSaveEvent = AuditEventBus.saveEvent;
   const originalSaveAnomaly = AnomalyDetector.saveAnomaly;
-  const originalGetFirestoreDocs = governanceService.getFirestoreDocs;
+  const originalGetJobs = FirestoreGovernanceAdapter.getJobs;
+  (FirestoreGovernanceAdapter as any)._originalGetJobs = originalGetJobs;
   const originalSaveLedger = ImmutableLedger.saveLedger;
 
   beforeEach(() => {
@@ -48,7 +50,7 @@ describe('Enterprise Scalability & Distributed Runtime Layer Tests', () => {
   afterEach(() => {
     AuditEventBus.saveEvent = originalSaveEvent;
     AnomalyDetector.saveAnomaly = originalSaveAnomaly;
-    governanceService.getFirestoreDocs = originalGetFirestoreDocs;
+    FirestoreGovernanceAdapter.getJobs = originalGetJobs;
     ImmutableLedger.saveLedger = originalSaveLedger;
     AsyncJobQueue.setMockMode(false);
     RuntimePressureMonitor.setMockMode(false);
@@ -343,13 +345,10 @@ describe('Enterprise Scalability & Distributed Runtime Layer Tests', () => {
     const contextB = { ...validContext, tenantId: 'tenant-b', resourceTenantId: 'tenant-b' };
     await AsyncJobQueue.submitJob(contextB, 'Simulation', { name: 'job-b' });
 
-    governanceService.getFirestoreDocs = async () => {
+    FirestoreGovernanceAdapter.getJobs = async (tenantId: string, isGlobal: boolean) => {
       const allJobs = AsyncJobQueue.getLocalJobs();
-      // Simulate tenant query filter manually
-      const filtered = allJobs.filter(j => j.tenantId === 'tenant-a');
-      return {
-        docs: filtered.map(j => ({ id: j.jobId, data: () => j }))
-      };
+      const filtered = isGlobal ? allJobs : allJobs.filter((j: any) => j.tenantId === tenantId);
+      return filtered.map((j: any) => ({ id: j.jobId, ...j }));
     };
 
     const obsContext: DataAccessContext = {
@@ -360,6 +359,7 @@ describe('Enterprise Scalability & Distributed Runtime Layer Tests', () => {
     };
 
     const jobs = await governanceService.getJobs(obsContext, { tenantId: 'tenant-a' });
+    FirestoreGovernanceAdapter.getJobs = (FirestoreGovernanceAdapter as any)._originalGetJobs || FirestoreGovernanceAdapter.getJobs;
     assert.ok(jobs.every(j => j.tenantId === 'tenant-a'));
     assert.strictEqual(jobs.length, 1);
   });

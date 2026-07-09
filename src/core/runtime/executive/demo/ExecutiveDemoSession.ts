@@ -13,6 +13,10 @@ export interface DemoSessionState {
 
 const sessions: Record<string, DemoSessionState> = {};
 
+/**
+ * @deprecated This class is part of the legacy Demo suite.
+ * Do not use in production runtime. Scheduled for removal in HCA-003.
+ */
 export class ExecutiveDemoSession {
   public static createSession(
     sessionId: string,

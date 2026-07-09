@@ -2,23 +2,21 @@ import {
   FiduciaryRuntimeAdapter, 
   DreExecutiveViewModelBuilder 
 } from '../../../services/FiduciaryRuntimeAdapter';
-import { db, auth } from '../../../lib/firebase';
-import { collection, deleteDoc, doc, query, where, getDocs } from 'firebase/firestore';
+import { FirestoreAuthAdapter } from '../../../adapters/persistence/FirestoreAuthAdapter';
+import { FirestoreFinancialAdapter } from '../../../adapters/persistence/FirestoreFinancialAdapter';
+
 
 export class DREApplicationService {
   static async deleteDREData(clientId: string, year: number): Promise<number> {
-    if (!auth.currentUser) {
+    if (!FirestoreAuthAdapter.isAuthenticated()) {
       throw new Error('Você precisa estar logado para excluir dados.');
     }
-    const q = query(
-      collection(db, 'financial_entries'),
-      where('clientId', '==', clientId),
-      where('type', '==', 'DRE'),
-      where('year', '==', year)
-    );
-    const snap = await getDocs(q);
-    await Promise.all(snap.docs.map((d) => deleteDoc(doc(db, 'financial_entries', d.id))));
-    return snap.docs.length;
+    
+    // Contamos os registros antes de deletar apenas para retornar a quantidade
+    const entries = await FirestoreFinancialAdapter.getEntriesByClientAndYear(clientId, year, 'DRE');
+    await FirestoreFinancialAdapter.deleteEntriesByClientAndYear(clientId, year, 'DRE');
+    
+    return entries.length;
   }
 
   static buildExecutiveViewModel(params: {

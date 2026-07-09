@@ -1,7 +1,6 @@
 
 import React, { useMemo } from 'react';
-import { collection, query, where, onSnapshot } from 'firebase/firestore';
-import { db } from '../../lib/firebase';
+import { useAdministrativaPageAdapter } from '../../adapters/ui/useAdministrativaPageAdapter';
 import { FileText, Users, TrendingDown, BarChart3, Layout, ShieldCheck, Clock, DollarSign, PieChart as PieIcon, Zap, MessageSquare } from 'lucide-react';
 import { motion } from 'motion/react';
 import { cn, formatValue, formatCurrency } from '../../lib/utils';
@@ -13,26 +12,9 @@ interface AdministrativaPageProps {
 }
 
 export function AdministrativaPage({ clientId }: AdministrativaPageProps) {
-  const [dbIndicators, setDbIndicators] = React.useState<any[]>([]);
-  const [loading, setLoading] = React.useState(false);
   const [selectedYear, setSelectedYear] = React.useState(new Date().getFullYear());
   const [selectedMonth, setSelectedMonth] = React.useState(new Date().getMonth() + 1);
-
-  React.useEffect(() => {
-    if (!clientId) return;
-    setLoading(true);
-    const q = query(
-      collection(db, 'indicators'),
-      where('clientId', '==', clientId),
-      where('ano', '==', selectedYear),
-      where('mes', '==', selectedMonth)
-    );
-    const unsubscribe = onSnapshot(q, (snapshot) => {
-      setDbIndicators(snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() })));
-      setLoading(false);
-    });
-    return () => unsubscribe();
-  }, [clientId, selectedYear, selectedMonth]);
+  const { dbIndicators, loading } = useAdministrativaPageAdapter(clientId, selectedYear, selectedMonth);
 
   const getIndicatorValue = (name: string, fallback: number = 0) => {
     const ind = dbIndicators.find(i => i.ind === name || i.ind?.toLowerCase() === name.toLowerCase());

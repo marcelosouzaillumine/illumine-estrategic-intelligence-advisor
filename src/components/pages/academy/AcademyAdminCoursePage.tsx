@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { ChevronLeft, Save, Plus, Trash2, Layout, Video, FileText, Link as LinkIcon, Image as ImageIcon, Loader2 } from 'lucide-react';
-import { db } from '../../../lib/firebase';
-import { collection, doc, getDoc, setDoc, serverTimestamp, query, where, getDocs, deleteDoc, orderBy } from 'firebase/firestore';
+import { useAcademyAdminCourseAdapter } from '../../../adapters/ui/useAcademyAdminCourseAdapter';
 import type { Course, Module, Lesson } from '../../../types/academy';
 import { cn } from '../../../lib/utils';
 import { FormSkeleton } from '../../ui/skeletons';
@@ -12,58 +11,7 @@ interface AcademyAdminCoursePageProps {
 }
 
 export function AcademyAdminCoursePage({ courseId, onBack }: AcademyAdminCoursePageProps) {
-  const [loading, setLoading] = useState(false);
-  const [saving, setSaving] = useState(false);
-  const [course, setCourse] = useState<Partial<Course>>({
-    title: '',
-    description: '',
-    category: 'Gestão',
-    level: 'Iniciante',
-    instructor: '',
-    duration: '',
-    status: 'draft',
-    coverImage: ''
-  });
-
-  useEffect(() => {
-    if (courseId) {
-      fetchCourse();
-    }
-  }, [courseId]);
-
-  const fetchCourse = async () => {
-    if (!courseId) return;
-    setLoading(true);
-    try {
-      const docRef = doc(db, 'academy_courses', courseId);
-      const docSnap = await getDoc(docRef);
-      if (docSnap.exists()) {
-        setCourse({ id: docSnap.id, ...docSnap.data() } as Course);
-      }
-    } catch (error) {
-      console.error("Error fetching course:", error);
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  const handleSaveCourse = async () => {
-    setSaving(true);
-    try {
-      const id = courseId || doc(collection(db, 'academy_courses')).id;
-      const payload = {
-        ...course,
-        updatedAt: serverTimestamp(),
-        createdAt: course.createdAt || serverTimestamp()
-      };
-      await setDoc(doc(db, 'academy_courses', id), payload);
-      onBack();
-    } catch (error) {
-      console.error("Error saving course:", error);
-    } finally {
-      setSaving(false);
-    }
-  };
+  const { course, setCourse, loading, saving, handleSave: handleSaveCourse } = useAcademyAdminCourseAdapter(courseId, onBack);
 
   if (loading) {
     return <FormSkeleton />;

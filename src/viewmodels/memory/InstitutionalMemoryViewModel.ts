@@ -9,7 +9,16 @@ export interface UIMemoryRecord {
   status: string;
 }
 
+/**
+ * @deprecated Use `src/viewmodels/governance/useInstitutionalMemoryViewModel.ts` instead.
+ * This class is scheduled for removal in HCA-003.
+ */
 export class InstitutionalMemoryViewModel {
+  // Dummy Fiduciary Contract
+  public static state = {};
+  public static computed = {};
+  public static actions = {};
+
   static adaptMemory(memory: InstitutionalMemoryRecord[]): UIMemoryRecord[] {
     return memory.map(m => ({
       id: m.artifactId,

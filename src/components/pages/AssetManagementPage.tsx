@@ -3,8 +3,7 @@ import React, { useState, useEffect, useMemo } from 'react';
 import { WalletCards, TrendingUp, Sparkles, PieChart as PieChartIcon, BarChart3, ArrowUpRight, ArrowDownRight, Plus, Search, Filter, Calendar, ChevronRight, Activity, Briefcase, ShieldCheck, Target, Download, Trash2, Coins, Percent, TrendingDown, Info, Loader2 } from 'lucide-react';
 import { motion } from 'motion/react';
 import { AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, PieChart, Pie, Cell, Legend } from 'recharts';
-import { db } from '../../lib/firebase';
-import { collection, query, where, onSnapshot } from 'firebase/firestore';
+import { useAssetManagementPageAdapter } from '../../adapters/ui/useAssetManagementPageAdapter';
 
 import { cn, formatCurrency, getThemeColors } from '../../lib/utils';
 import { DATA } from '../../data';
@@ -24,8 +23,7 @@ const ASSETS: any[] = [];
 
 
 export function AssetManagementPage({ clientId, selectedYear, selectedMonth }: any) {
-  const [assets, setAssets] = useState<any[]>([]);
-  const [loading, setLoading] = useState(true);
+  const { assets, loading } = useAssetManagementPageAdapter(clientId);
 
   const [, setThemeTrigger] = useState(0);
   useEffect(() => {
@@ -47,22 +45,7 @@ export function AssetManagementPage({ clientId, selectedYear, selectedMonth }: a
     { name: 'Ibovespa', value: 1.20, color: 'text-emerald-500' }
   ]);
 
-  useEffect(() => {
-    if (!clientId) return;
-    setLoading(true);
-    const q = query(
-      collection(db, 'assets'),
-      where('clientId', '==', clientId)
-    );
 
-    const unsubscribe = onSnapshot(q, (snapshot) => {
-      const docs = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
-      setAssets(docs);
-      setLoading(false);
-    });
-
-    return () => unsubscribe();
-  }, [clientId]);
 
   useEffect(() => {
     if (selectedYear) setYear(selectedYear);

@@ -8,11 +8,9 @@ import {
   LogOut,
   Loader2,
 } from 'lucide-react';
-import { User } from 'firebase/auth';
-import { motion } from 'motion/react';
+import { useSidebarAuthAdapter, SidebarUser } from '../adapters/ui/SidebarAuthAdapter';
 import { cn } from '../lib/utils';
 import { NAVIGATION_GROUPS, type Page } from '../app/navigation';
-import { useInstitutionalAuth } from '../core/security/auth/InstitutionalAuthProvider';
 import {
   Sidebar,
   SidebarContent,
@@ -31,7 +29,6 @@ import {
   useSidebar,
 } from './ui/sidebar';
 import { ClientSelector } from './ClientSelector';
-import { login, logout } from '../lib/firebase';
 import { useLanguage } from '../contexts/LanguageContext';
 
 /* ──────────────────────────── Logo ──────────────────────────── */
@@ -62,7 +59,7 @@ function Logo({ collapsed }: { collapsed?: boolean }) {
 
 /* ──────────────────────────── AppSidebar ──────────────────────────── */
 interface AppSidebarProps {
-  user: User | null;
+  user: SidebarUser | null;
   authLoading: boolean;
   clients: any[];
   selectedClient: string;
@@ -99,7 +96,7 @@ export function AppSidebar({
   const { t, language } = useLanguage();
   const { state, isMobile, setOpenMobile, setOpen } = useSidebar();
   const isCollapsed = state === 'collapsed';
-  const { session } = useInstitutionalAuth();
+  const { session, login, logout } = useSidebarAuthAdapter();
 
   const sortNavItems = (items: any[]): any[] => {
     return [...items]

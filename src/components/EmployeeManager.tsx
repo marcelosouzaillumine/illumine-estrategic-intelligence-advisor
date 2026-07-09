@@ -12,16 +12,13 @@ import {
   X,
   CheckCircle2
 } from 'lucide-react';
-import { collection, query, where, getDocs, addDoc, updateDoc, deleteDoc, doc, serverTimestamp } from 'firebase/firestore';
-import { db, auth } from '../lib/firebase';
+import { useEmployeeManagerAdapter } from '../adapters/ui/useEmployeeManagerAdapter';
 import { formatCurrency } from '../lib/utils';
-import { calculatePayrollBurdens, calculateSeverance } from '../services/taxService';
+import { calculateSeverance } from '../services/taxService';
 import { ExecutiveTable, ExecutiveTableHeader, ExecutiveTableBody, ExecutiveTableRow, ExecutiveTableHead, ExecutiveTableCell } from './ui/executive-table';
 import { ExecutiveSurface } from './ui/executive-surface';
 
 export function EmployeeManager({ clientId, clientConfig }: { clientId: string, clientConfig: any }) {
-  const [employees, setEmployees] = useState<any[]>([]);
-  const [loading, setLoading] = useState(false);
   const [editingId, setEditingId] = useState<string | null>(null);
   const [isAdding, setIsAdding] = useState(false);
 
@@ -43,89 +40,14 @@ export function EmployeeManager({ clientId, clientConfig }: { clientId: string, 
   };
 
   const [formData, setFormData] = useState(initialForm);
+  const { employees, loading, handleSave: saveAdapter, handleDelete } = useEmployeeManagerAdapter(clientId, clientConfig);
 
-  useEffect(() => {
-    fetchEmployees();
-  }, [clientId, auth.currentUser]);
-
-  const fetchEmployees = async () => {
-    if (!clientId || !auth.currentUser) return;
-    setLoading(true);
-    try {
-      const q = query(
-        collection(db, 'employees'), 
-        where('clientId', '==', clientId),
-        where('ownerId', '==', auth.currentUser.uid)
-      );
-      const snap = await getDocs(q);
-      const data = snap.docs.map(doc => ({ id: doc.id, ...doc.data() }));
-      setEmployees(data);
-    } catch (e) {
-      console.error(e);
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  const handleSave = async () => {
-    if (!auth.currentUser) return;
-    
-    setLoading(true);
-    try {
-      // Calculate burdens using taxService
-      const baseSalario = typeof formData.salarioBase === 'string' ? parseFloat(formData.salarioBase) || 0 : formData.salarioBase;
-      const burdens = calculatePayrollBurdens(baseSalario, {
-        fgts: clientConfig.folhaFgts || 8,
-        inssPatronal: clientConfig.folhaInssPatronal || 20,
-        inssFuncionario: clientConfig.folhaInssFuncionario || 11,
-        multaFgts: clientConfig.folhaMultaFgts || 40,
-        tabelaIRRF: clientConfig.folhaTabelaIRRF || []
-      });
-
-      const severance = calculateSeverance(baseSalario, formData.admissao, {
-        multaFgts: clientConfig.folhaMultaFgts || 40
-      }, {
-        avisoIndenizado: formData.avisoIndenizado
-      });
-
-      const payload = {
-        ...formData,
-        salarioBase: baseSalario,
-        encargos: burdens.fgts + burdens.inssPatronal,
-        decimoTerceiroFerias: burdens.provisionFerias13,
-        custoMensal: burdens.custoTotal,
-        custoAnual: burdens.custoTotal * 12,
-        custoRescisaoEstimado: severance.totalRescisao,
-        clientId,
-        ownerId: auth.currentUser.uid,
-        updatedAt: serverTimestamp()
-      };
-
-      if (editingId) {
-        await updateDoc(doc(db, 'employees', editingId), payload);
-      } else {
-        await addDoc(collection(db, 'employees'), payload);
-      }
-      
+  const handleSave = () => {
+    saveAdapter(formData, editingId, () => {
       setIsAdding(false);
       setEditingId(null);
       setFormData(initialForm);
-      fetchEmployees();
-    } catch (e) {
-      console.error(e);
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  const handleDelete = async (id: string) => {
-    if (!window.confirm('Excluir colaborador?')) return;
-    try {
-      await deleteDoc(doc(db, 'employees', id));
-      fetchEmployees();
-    } catch (e) {
-      console.error(e);
-    }
+    });
   };
 
   return (

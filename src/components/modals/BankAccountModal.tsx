@@ -2,8 +2,7 @@ import React, { useState } from 'react';
 import { motion } from 'motion/react';
 import { X, Save, Landmark } from 'lucide-react';
 import { cn } from '../../lib/utils';
-import { collection, addDoc, serverTimestamp, updateDoc, doc } from 'firebase/firestore';
-import { db, auth } from '../../lib/firebase';
+import { useBankAccountModalAdapter } from '../../adapters/ui/useBankAccountModalAdapter';
 
 interface BankAccountModalProps {
   clientId: string;
@@ -12,7 +11,7 @@ interface BankAccountModalProps {
 }
 
 export function BankAccountModal({ clientId, onClose, account }: BankAccountModalProps) {
-  const [loading, setLoading] = useState(false);
+  const { saveAccount, loading } = useBankAccountModalAdapter(clientId, account, onClose);
   const [submitError, setSubmitError] = useState('');
   const [formData, setFormData] = useState({
     banco: account?.banco || '',
@@ -51,70 +50,9 @@ export function BankAccountModal({ clientId, onClose, account }: BankAccountModa
       return;
     }
 
-    setLoading(true);
-    try {
-      const parseValue = (val: any) => {
-        if (typeof val === 'number') return val;
-        if (!val || typeof val !== 'string') return 0;
-        return parseFloat(val.replace(/\./g, '').replace(',', '.')) || 0;
-      };
-
-      const initialValue = parseValue(formData.saldoInicial);
-      const currentValue = formData.saldoAtual ? parseValue(formData.saldoAtual) : initialValue;
-
-      const dateNow = new Date();
-      const monthStr = dateNow.toLocaleString('pt-BR', { month: 'short' });
-      // Normalize month: capitalize first letter, remove dot, take 3 chars
-      const formattedMonth = (monthStr.charAt(0).toUpperCase() + monthStr.slice(1)).replace(/\./g, '').substring(0, 3);
-
-      const dataToSave: any = {
-        banco: formData.banco,
-        agencia: formData.agencia,
-        conta: formData.conta,
-        tipoConta: formData.tipoConta,
-        moeda: formData.moeda,
-        saldoInicial: initialValue,
-        saldoAtual: currentValue,
-        dataAtualizacao: dateNow.toLocaleDateString('pt-BR'),
-        updatedAt: serverTimestamp()
-      };
-
-      if (account?.id) {
-        // Update history as well
-        let updatedHistorico = [...(account.historico || [])];
-        const monthIdx = updatedHistorico.findIndex(h => {
-          const m = (h.mes || '').replace(/\./g, '').trim();
-          const normalizedH = m.charAt(0).toUpperCase() + m.slice(1, 3).toLowerCase();
-          return normalizedH === formattedMonth;
-        });
-
-        if (monthIdx >= 0) {
-          updatedHistorico[monthIdx].saldo = currentValue;
-        } else {
-          updatedHistorico.push({ mes: formattedMonth, saldo: currentValue });
-        }
-        dataToSave.historico = updatedHistorico;
-
-        await updateDoc(doc(db, 'financial_positions', account.id), dataToSave);
-      } else {
-        const newData = {
-          ...dataToSave,
-          clientId,
-          createdBy: auth.currentUser?.uid,
-          createdAt: serverTimestamp(),
-          historico: [
-            { mes: formattedMonth, saldo: currentValue }
-          ],
-        };
-        await addDoc(collection(db, 'financial_positions'), newData);
-      }
-      
-      onClose();
-    } catch (error: any) {
-      console.error('Error saving bank account:', error);
-      setSubmitError('Erro ao salvar conta: ' + (error.message || 'Verifique as permissões.'));
-    } finally {
-      setLoading(false);
+    const res = await saveAccount(formData);
+    if (!res.success) {
+      setSubmitError(res.error || 'Erro ao salvar.');
     }
   };
 

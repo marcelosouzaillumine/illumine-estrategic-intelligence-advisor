@@ -1,79 +1,20 @@
 import { useState, useEffect } from 'react';
 import { motion } from 'motion/react';
 import { X, Loader2, Sparkles, ChevronRight, ArrowRightLeft, CheckCircle2 } from 'lucide-react';
-import { collection, query, where, getDocs, addDoc, serverTimestamp, limit } from 'firebase/firestore';
-import { db, auth } from '../../lib/firebase';
+import { useMappingWizardAdapter } from '../../adapters/ui/useMappingWizardAdapter';
 import { cn } from '../../lib/utils';
 import { SYSTEM_KPI_CATEGORIES } from '../../constants';
 
 export function MappingWizard({ selectedClient, onClose }: any) {
-  const [loading, setLoading] = useState(false);
-  const [unmappedEntries, setUnmappedEntries] = useState<string[]>([]);
-  const [selectedEntry, setSelectedEntry] = useState<string | null>(null);
-  const [mappingTo, setMappingTo] = useState('');
-
-  useEffect(() => {
-    async function fetchData() {
-      setLoading(true);
-      try {
-        const qAcc = query(collection(db, 'account_plans'), where('clientId', '==', selectedClient));
-        const accSnap = await getDocs(qAcc);
-        const accDocs = accSnap.docs.map(d => d.data());
-
-        const qEntries = query(
-          collection(db, 'financial_entries'), 
-          where('clientId', '==', selectedClient),
-          limit(10)
-        );
-        const entriesSnap = await getDocs(qEntries);
-        const allCategories = new Set<string>();
-        entriesSnap.docs.forEach(doc => {
-          (doc.data() as any).data?.forEach((entry: any) => {
-            allCategories.add(entry.category);
-          });
-        });
-
-        const unmapped = Array.from(allCategories).filter(cat => 
-          !accDocs.some(acc => acc.name.toLowerCase().trim() === cat.toLowerCase().trim())
-        );
-        setUnmappedEntries(unmapped);
-      } catch (err) {
-        console.error(err);
-      } finally {
-        setLoading(false);
-      }
-    }
-    fetchData();
-  }, [selectedClient]);
-
-  const handleSaveMapping = async () => {
-    if (!selectedEntry || !mappingTo) return;
-    setLoading(true);
-    try {
-      await addDoc(collection(db, 'account_plans'), {
-        clientId: selectedClient,
-        code: `AUTO.${Math.random().toString(36).substring(7).toUpperCase()}`,
-        name: selectedEntry,
-        type: 'Receita',
-        level: 1,
-        status: 'Ativa',
-        kpiMapping: mappingTo,
-        createdAt: serverTimestamp(),
-        updatedAt: serverTimestamp(),
-        createdBy: auth.currentUser?.uid
-      });
-      
-      setUnmappedEntries(unmappedEntries.filter(e => e !== selectedEntry));
-      setSelectedEntry(null);
-      setMappingTo('');
-      alert('Vínculo criado com sucesso!');
-    } catch (err) {
-      console.error(err);
-      alert('Erro ao salvar mapeamento.');
-    } finally {
-      setLoading(false);
-    }
-  };
+  const {
+    loading,
+    unmappedEntries,
+    selectedEntry,
+    setSelectedEntry,
+    mappingTo,
+    setMappingTo,
+    handleSaveMapping,
+  } = useMappingWizardAdapter(selectedClient);
 
   return (
     <div className="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-[60] flex items-center justify-center p-4">

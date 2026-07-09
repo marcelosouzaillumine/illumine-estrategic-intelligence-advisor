@@ -35,62 +35,16 @@ import { cn, formatCurrency } from '../lib/utils';
 import { useDataTable } from '../hooks/useDataTable';
 import { SortableHeader } from './SortableHeader';
 import { PageHeader } from './Common';
-import { collection, query, where, onSnapshot, doc } from 'firebase/firestore';
-import { db } from '../lib/firebase';
+import { usePayrollDashboardAdapter, PayrollEmployee } from '../adapters/ui/usePayrollDashboardAdapter';
 
 const CHART_COLORS = ['var(--color-primary)', 'var(--color-state-excellent)', 'var(--color-state-warning)', 'var(--color-state-critical)', 'var(--color-accent)', 'var(--color-primary)'];
 
-interface Employee {
-  id: string;
-  nome: string;
-  funcao: string;
-  area: string;
-  tipoContrato: string;
-  status: string;
-  admissao: string;
-  custoAnual: number;
-  custoMensal: number;
-  salarioBase: number;
-  encargos: number;
-  decimoTerceiroFerias: number;
-  verbasIndenizatorias: number;
-  custoRescisaoEstimado: number;
-}
+type Employee = PayrollEmployee;
 
 export default function PayrollDashboard({ clientId }: { clientId: string }) {
-  const [employees, setEmployees] = useState<Employee[]>([]);
-  const [loading, setLoading] = useState(true);
-  const [clientInfo, setClientInfo] = useState<any>(null);
+  const { employees, loading, clientInfo } = usePayrollDashboardAdapter(clientId);
   const [turnoverMensal, setTurnoverMensal] = useState<number>(0);
   const [selectedSimEmployeeId, setSelectedSimEmployeeId] = useState<string>('todos');
-
-  useEffect(() => {
-    if (!clientId) return;
-
-    setLoading(true);
-    
-    // Fetch Client basic info
-    const unsubClient = onSnapshot(doc(db, 'clients', clientId), (snap) => {
-      if (snap.exists()) {
-        setClientInfo(snap.data());
-      }
-    });
-
-    const q = query(collection(db, 'employees'), where('clientId', '==', clientId));
-    const unsub = onSnapshot(q, (snap) => {
-      const data = snap.docs.map(doc => ({ id: doc.id, ...doc.data() } as Employee));
-      setEmployees(data);
-      setLoading(false);
-    }, (err) => {
-      console.error(err);
-      setLoading(false);
-    });
-
-    return () => {
-      unsub();
-      unsubClient();
-    };
-  }, [clientId]);
 
   const {
     searchTerm,

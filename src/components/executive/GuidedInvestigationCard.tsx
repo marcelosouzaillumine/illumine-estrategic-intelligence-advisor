@@ -1,8 +1,7 @@
 import React from 'react';
 import { Target, History, Network, Compass, ChevronRight } from 'lucide-react';
-import { useNavigate } from 'react-router-dom';
-import { InstitutionalNavigationService } from '../../core/navigation/InstitutionalNavigationService';
-import { InstitutionalWorkspaceType, InstitutionalNavigationReference } from '../../types/intelligence/InstitutionalNavigationReference';
+import { InstitutionalWorkspaceType } from '../../types/intelligence/InstitutionalNavigationReference';
+import { useNavigationAdapter } from '../../adapters/ui/useNavigationAdapter';
 
 export interface GuidedJourney {
   id: string;
@@ -18,16 +17,10 @@ interface Props {
 }
 
 export const GuidedInvestigationCard: React.FC<Props> = ({ journey }) => {
-  const navigate = useNavigate();
+  const { navigateToWorkspace } = useNavigationAdapter();
 
   const handleStartJourney = () => {
-    const navRef: InstitutionalNavigationReference = {
-      tenantId: 'SYSTEM_TENANT',
-      sourceWorkspace: 'EXECUTIVE_HOME',
-      targetWorkspace: journey.targetWorkspace,
-      correlationId: `nav-${Date.now()}`
-    };
-    InstitutionalNavigationService.navigate(navigate, navRef);
+    navigateToWorkspace(journey.targetWorkspace);
   };
 
   const getIcon = () => {

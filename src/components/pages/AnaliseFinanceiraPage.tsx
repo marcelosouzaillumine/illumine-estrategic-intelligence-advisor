@@ -9,15 +9,13 @@ import { DATA } from '../../data';
 import { useAnnualFinancialData, useAllFinancialData } from '../../hooks/useFinancialData';
 import { useMethodologicalAnalysis } from '../../hooks/useMethodologicalAnalysis';
 import { PageHeader, Semaphore } from '../Common';
-import { collection, query, where, getDocs } from 'firebase/firestore';
-import { db } from '../../lib/firebase';
+import { useAnaliseFinanceiraPageAdapter } from '../../adapters/ui/useAnaliseFinanceiraPageAdapter';
 import { getComputedBPSummary, getComputedDreMetrics } from '../../core/orchestration/financial-math-adapter';
 import { executiveRuntime, ExecutiveIntelligenceReport } from '../../services/FiduciaryRuntimeAdapter';
 
 export function AnaliseFinanceiraPage({ clients, selectedClient, selectedYear }: any) {
   const [year, setYear] = useState(selectedYear || new Date().getFullYear());
-  const [cashFlowData, setCashFlowData] = useState<any[]>([]);
-  const [loadingCashFlow, setLoadingCashFlow] = useState(false);
+  const { cashFlowData, loadingCashFlow } = useAnaliseFinanceiraPageAdapter(selectedClient);
 
   // Sync year from parent
   useEffect(() => {
@@ -34,26 +32,7 @@ export function AnaliseFinanceiraPage({ clients, selectedClient, selectedYear }:
   const { dbData: dbDfc, loading: loadingDfc } = useAnnualFinancialData(selectedClient, year, 'DFC');
   const { dbData: allHistoryData, loading: loadingHistory } = useAllFinancialData(selectedClient);
 
-  // Load DFC/CashFlow data directly from firestore
-  useEffect(() => {
-    async function fetchCashFlow() {
-      if (!selectedClient) return;
-      setLoadingCashFlow(true);
-      try {
-        const q = query(
-          collection(db, 'cash_flows'),
-          where('clientId', '==', selectedClient)
-        );
-        const snap = await getDocs(q);
-        setCashFlowData(snap.docs.map(d => d.data()));
-      } catch (err) {
-        console.error('Error fetching cash flows in capital intelligence:', err);
-      } finally {
-        setLoadingCashFlow(false);
-      }
-    }
-    fetchCashFlow();
-  }, [selectedClient]);
+
 
   const currentDre = dbDre.length > 0 ? dbDre : [];
   const currentBp = dbBp.length > 0 ? dbBp : [];

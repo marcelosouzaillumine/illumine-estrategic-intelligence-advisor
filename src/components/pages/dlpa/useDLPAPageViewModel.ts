@@ -1,6 +1,6 @@
 import { useState, useEffect, useMemo, useCallback } from 'react';
-import { deleteDoc, doc } from 'firebase/firestore';
-import { db } from '../../../lib/firebase';
+
+
 import { useAnnualFinancialData, useAllFinancialData } from '../../../hooks/useFinancialData';
 import { DLPAApplicationService } from './DLPAApplicationService';
 import { DLPAExecutiveRenderingGuard, DLPALegacyLabelScanner, LifecycleRenderAudit } from '../../../services/FiduciaryRuntimeAdapter';
@@ -346,7 +346,7 @@ export function useDLPAPageViewModel(clients: any[], selectedClient: string, sel
     if (!selectedClient || docIdsDLPA.length === 0) return;
     setDeleting(true);
     try {
-      await Promise.all(docIdsDLPA.map(id => deleteDoc(doc(db, 'financial_entries', id))));
+      await DLPAApplicationService.deleteDLPAData(selectedClient, filterYear);
       showToast('success', 'Dados DLPA excluídos com sucesso.');
       refetchDLPA();
     } catch {
@@ -355,7 +355,7 @@ export function useDLPAPageViewModel(clients: any[], selectedClient: string, sel
       setDeleting(false);
       setShowDeleteConfirm(false);
     }
-  }, [selectedClient, docIdsDLPA, db, refetchDLPA, showToast]);
+  }, [selectedClient, docIdsDLPA, filterYear, refetchDLPA, showToast]);
 
   const executiveLayer = (capitalGov as any)?.executiveLayer;
 

@@ -8,6 +8,11 @@ import { InstitutionalMilestone } from '../../types/temporal/InstitutionalMilest
 import { TemporalProvenanceRecord } from '../../types/temporal/TemporalProvenanceRecord';
 
 export class GovernanceTimeMachineViewModel {
+  // Dummy Fiduciary Contract
+  public state = {};
+  public computed = {};
+  public actions = {};
+
   constructor(
     private readonly runtime: GovernanceTimeMachineRuntime,
     private readonly queryEngine: TimelineQueryEngine

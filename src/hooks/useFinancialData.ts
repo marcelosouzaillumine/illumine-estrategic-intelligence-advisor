@@ -1,8 +1,7 @@
 import { logger } from "../services/logging/InstitutionalLogger";
 import { useState, useEffect, useCallback } from 'react';
 import { FinancialStatementLike, FinancialEntryLike } from '../types/contracts';
-import { collection, query, where, getDocs } from 'firebase/firestore';
-import { db } from '../lib/firebase';
+import { FirestoreFinancialEntriesAdapter } from '../adapters/persistence/FirestoreFinancialEntriesAdapter';
 import { buildHistoricalSeries, HistoricalFinancialSeries } from '../core/adapters/historical-series-adapter';
 
 
@@ -25,19 +24,14 @@ export function useFinancialData(clientId: string, year: number, month: number, 
           ? ['DRE', 'DRE Gerencial']
           : [type];
 
-      const q = query(
-        collection(db, 'financial_entries'),
-        where('clientId', '==', clientId),
-        where('type', 'in', queryTypes),
-        where('year', '==', year)
-      );
-      const snap = await getDocs(q);
+      const { docs } = await FirestoreFinancialEntriesAdapter.getEntriesByTypesAndYear(clientId, queryTypes, year);
       
       if (isCancelled.current) return;
 
       const allEntries: FinancialEntryLike[] = [];
-      snap.docs.forEach(doc => {
-        const docData = doc.data() as FinancialStatementLike;
+      docs.forEach(docDataRaw => {
+        const docData = docDataRaw as FinancialStatementLike;
+        const docId = docDataRaw.id;
         
         // Exibe dados pendentes, aprovados ou legados. Apenas ignora rejeitados ou arquivados.
         if (docData.status === 'rejected' || docData.status === 'archived') return;
@@ -49,7 +43,7 @@ export function useFinancialData(clientId: string, year: number, month: number, 
           docData.data.forEach((entry: FinancialEntryLike) => {
             allEntries.push({
               ...entry,
-              id: entry.id ? entry.id : `${doc.id}_${entry.category}`,
+              id: entry.id ? entry.id : `${docId}_${entry.category}`,
               conta: entry.category,
               valor: entry.value,
               val: entry.value
@@ -58,7 +52,7 @@ export function useFinancialData(clientId: string, year: number, month: number, 
         } else {
            allEntries.push({
              ...docData,
-             id: doc.id,
+             id: docId,
              conta: docData.category,
              valor: docData.value,
              val: docData.value
@@ -103,17 +97,14 @@ export function useAllFinancialData(clientId: string) {
     setLoading(true);
     setError(null);
     try {
-      const q = query(
-        collection(db, 'financial_entries'),
-        where('clientId', '==', clientId)
-      );
-      const snap = await getDocs(q);
+      const { docs } = await FirestoreFinancialEntriesAdapter.getAllEntriesForClient(clientId);
       
       if (isCancelled.current) return;
 
       const allEntries: FinancialEntryLike[] = [];
-      snap.docs.forEach(doc => {
-        const docData = doc.data() as FinancialStatementLike;
+      docs.forEach(docDataRaw => {
+        const docData = docDataRaw as FinancialStatementLike;
+        const docId = docDataRaw.id;
 
         // Exibe dados pendentes, aprovados ou legados. Apenas ignora rejeitados ou arquivados.
         if (docData.status === 'rejected' || docData.status === 'archived') return;
@@ -125,7 +116,7 @@ export function useAllFinancialData(clientId: string) {
             lastType = innerType;
             allEntries.push({
               ...entry,
-              id: entry.id ? entry.id : `${doc.id}_${entry.category}`,
+              id: entry.id ? entry.id : `${docId}_${entry.category}`,
               clientId: docData.clientId,
               type: docData.type,
               docType: docData.type,
@@ -141,7 +132,7 @@ export function useAllFinancialData(clientId: string) {
           });
         } else {
           allEntries.push({
-            id: doc.id,
+            id: docId,
             ...docData,
             conta: docData.category,
             valor: docData.value,
@@ -198,27 +189,23 @@ export function useAnnualFinancialData(
     setLoading(true);
     setError(null);
     try {
-      const q = query(
-        collection(db, 'financial_entries'),
-        where('clientId', '==', clientId),
-        where('year', '==', year)
-      );
-      const snap = await getDocs(q);
+      const { docs } = await FirestoreFinancialEntriesAdapter.getEntriesByYear(clientId, year);
 
       if (isCancelled.current) return;
 
       const allEntries: FinancialEntryLike[] = [];
       const ids: string[] = [];
       
-      console.log(`[DEBUG USE_ANNUAL_DATA] Fetching ${type} for ${clientId} year ${year}. Found ${snap.docs.length} docs.`);
+      console.log(`[DEBUG USE_ANNUAL_DATA] Fetching ${type} for ${clientId} year ${year}. Found ${docs.length} docs.`);
 
-      snap.docs.forEach(docSnap => {
-        const docData = docSnap.data() as FinancialStatementLike;
+      docs.forEach(docDataRaw => {
+        const docData = docDataRaw as FinancialStatementLike;
+        const docId = docDataRaw.id;
 
         // Exibe dados pendentes, aprovados ou legados. Apenas ignora rejeitados ou arquivados.
         if (docData.status === 'rejected' || docData.status === 'archived') return;
 
-        ids.push(docSnap.id);
+        ids.push(docId);
         if (Array.isArray(docData.data)) {
           // Para Balanço Patrimonial, tentamos inferir o tipo se estiver faltando
           let lastType = 'ativo';
@@ -228,8 +215,8 @@ export function useAnnualFinancialData(
 
             allEntries.push({
               ...entry,
-              id: entry.id ? entry.id : `${docSnap.id}_${entry.category}`,
-              docId: docSnap.id,
+              id: entry.id ? entry.id : `${docId}_${entry.category}`,
+              docId: docId,
               docType: docData.type,
               createdAt: docData.createdAt,
               conta: entry.category,
@@ -244,8 +231,8 @@ export function useAnnualFinancialData(
         } else {
           allEntries.push({
             ...docData,
-            id: docSnap.id,
-            docId: docSnap.id,
+            id: docId,
+            docId: docId,
             docType: docData.type,
             createdAt: docData.createdAt,
             conta: docData.category || docData.conta,

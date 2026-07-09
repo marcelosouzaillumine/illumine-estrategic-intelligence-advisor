@@ -1,7 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import { Plus, Search, Filter, Save, UploadCloud, Link2, CheckCircle2, Loader2, Edit2, Trash2, BookOpen, ChevronRight, Sparkles, AlertTriangle, X, List, LayoutGrid } from 'lucide-react';
-import { collection, query, where, orderBy, onSnapshot, writeBatch, doc, serverTimestamp, addDoc, updateDoc, deleteDoc, getDocs } from 'firebase/firestore';
-import { db, auth, handleFirestoreError, OperationType } from '../../lib/firebase';
 import { DATA } from '../../data';
 import { SYSTEM_KPI_CATEGORIES } from '../../constants';
 import { cn } from '../../lib/utils';
@@ -10,6 +8,8 @@ import { AccountModal } from '../modals/AccountModal';
 import { ImportPlanoModal } from '../modals/ImportPlanoModal';
 import { MappingWizard } from '../modals/MappingWizard';
 import { motion, AnimatePresence } from 'motion/react';
+import { collection, query, where, onSnapshot, getDocs, writeBatch, doc, addDoc, updateDoc, deleteDoc, orderBy, serverTimestamp } from 'firebase/firestore';
+import { db, auth, handleFirestoreError, OperationType } from '../../lib/firebase';
 
 // ─── Delete Entire Plan Modal ─────────────────────────────────────────────────
 function DeletePlanModal({ 

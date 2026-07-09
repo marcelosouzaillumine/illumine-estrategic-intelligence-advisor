@@ -3,7 +3,7 @@ import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import { useNavigate } from 'react-router-dom';
 import { Mail, Lock, Eye, EyeOff, LogIn, Loader2, CheckCircle2, ShieldCheck } from 'lucide-react';
-import { login, loginWithEmail, sendPasswordResetEmail } from '../../../lib/firebase';
+import { useAuthAdapter } from '../../../adapters/ui/useAuthAdapter';
 import { Button } from '../../ui/button';
 import { Input } from '../../ui/input';
 import { Label } from '../../ui/label';
@@ -39,6 +39,7 @@ export function LoginPage() {
   const { t } = useLanguage();
   useDocumentTitle('Illumine | ' + t('auth.badge.protected_access'));
   const navigate = useNavigate();
+  const { login, loginWithEmail, sendPasswordResetEmail } = useAuthAdapter();
 
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');

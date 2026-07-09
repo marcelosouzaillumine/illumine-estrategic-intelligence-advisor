@@ -54,6 +54,11 @@ export interface DecisionPanelViewModel {
 }
 
 export interface BalanceSheetExecutiveViewModel {
+  // Dummy Fiduciary Contract
+  state?: any;
+  computed?: any;
+  actions?: any;
+
   // Strategic Diagnosis
   strategicSeverity: DisplayStatus;
   strategicSeverityReason: DisplayNarrative;

@@ -3,15 +3,13 @@ import { PageHeader } from '../Common';
 import { User, Mail, Shield, Key, Camera, Building, CheckCircle2, AlertCircle, ChevronRight, LogOut, Activity, Save, X, Loader2, RefreshCw, Sparkles, ArrowRight } from 'lucide-react';
 import { motion, AnimatePresence } from 'motion/react';
 import { cn, getThemeColors } from '../../lib/utils';
-import type { User as FirebaseUser } from 'firebase/auth';
-import { updateProfile, sendPasswordResetEmail } from 'firebase/auth';
-import { logout, MASTER_ADMINS, auth } from '../../lib/firebase';
+import { useProfileAdapter } from '../../adapters/ui/useProfileAdapter';
 import { Button } from '../ui/button';
 import { Input } from '../ui/input';
 import { Label } from '../ui/label';
 
 interface ProfilePageProps {
-  user: FirebaseUser | null;
+  user: any | null; // Using any to avoid direct Firebase import in UI, though the adapter handles it
   clients?: any[];
   selectedClient?: string;
 }
@@ -27,7 +25,8 @@ export function ProfilePage({ user, clients = [], selectedClient = '' }: Profile
   const [photoURL, setPhotoURL] = useState(user?.photoURL || '');
   const [resetEmail, setResetEmail] = useState('');
 
-  const isMaster = user?.email && MASTER_ADMINS.includes(user.email);
+  const { isMasterAdmin, updateProfileData, sendResetEmail, performLogout } = useProfileAdapter();
+  const isMaster = isMasterAdmin(user?.email);
   
   const currentClient = clients.find(c => c.id === selectedClient);
   const userRole = currentClient ? 'Usuário do Cliente' : 'Consultor Estratégico';
@@ -45,10 +44,7 @@ export function ProfilePage({ user, clients = [], selectedClient = '' }: Profile
     setIsLoading(true);
     setMessage(null);
     try {
-      await updateProfile(user, {
-        displayName: displayName,
-        photoURL: photoURL
-      });
+      await updateProfileData(user, displayName, photoURL);
       setMessage({ type: 'success', text: 'Perfil atualizado com sucesso!' });
       setIsEditing(false);
     } catch (error: any) {
@@ -64,7 +60,7 @@ export function ProfilePage({ user, clients = [], selectedClient = '' }: Profile
     setIsLoading(true);
     setMessage(null);
     try {
-      await sendPasswordResetEmail(auth, email);
+      await sendResetEmail(email);
       setMessage({ type: 'success', text: `E-mail de redefinição enviado para ${email}` });
       setResetEmail('');
     } catch (error: any) {
@@ -184,7 +180,7 @@ export function ProfilePage({ user, clients = [], selectedClient = '' }: Profile
             </div>
 
             <button 
-              onClick={logout}
+              onClick={performLogout}
               className="mt-8 w-full flex items-center justify-center gap-2 px-4 py-4 rounded-2xl text-[10px] font-black uppercase tracking-[0.2em] text-rose-400 border border-white/5 hover:bg-critical-soft0/10 hover:border-rose-500/20 transition-all relative z-10"
             >
               <LogOut size={16} />

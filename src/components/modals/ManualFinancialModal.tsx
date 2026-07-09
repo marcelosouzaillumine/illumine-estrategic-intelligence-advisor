@@ -2,8 +2,8 @@ import React, { useState, useEffect } from 'react';
 import { createPortal } from 'react-dom';
 import { motion } from 'motion/react';
 import { X, Plus, Trash2, Save, Loader2, AlertCircle, Database, ArrowUp, ArrowDown } from 'lucide-react';
-import { collection, addDoc, query, where, getDocs, updateDoc, doc, serverTimestamp } from 'firebase/firestore';
-import { db, auth } from '../../lib/firebase';
+import { useManualFinancialModalAdapter, Row } from '../../adapters/ui/useManualFinancialModalAdapter';
+import { auth } from '../../lib/firebase';
 import { notificationService } from '../../services/notificationService';
 import { useGovernance } from '../../lib/governanceContext';
 import { cn } from '../../lib/utils';
@@ -42,197 +42,19 @@ import {
   verticalListSortingStrategy
 } from '@dnd-kit/sortable';
 
-interface Row {
-  id: string;
-  category: string;
-  value: number;
-  type: string;
-  level: number;
-  // Novos campos exclusivos da DRE
-  dreTipo?: DreAccountType;
-  natureza?: DreNatureza;
-  parentId?: string | null;
-  aceitaLancamento?: boolean;
-  calculaAutomaticamente?: boolean;
-  formula?: string;
-  ordem?: number;
-}
 
 export function ManualFinancialModal({ type, clientId, year, onClose, onSuccess }: ManualFinancialModalProps) {
   const { translateLabel: t } = useLanguage();
   const [selectedType, setSelectedType] = useState<string>(type === 'BP' ? 'Balanço Patrimonial' : type);
-  const [rows, setRows] = useState<Row[]>([]);
-  const [loading, setLoading] = useState(false);
-  const [saving, setSaving] = useState(false);
   const [errorMsg, setErrorMsg] = useState<string | null>(null);
   const governance = useGovernance();
   const role = governance?.role || 'cliente';
+  const { rows, setRows, loading, saving, saveEntries } = useManualFinancialModalAdapter(clientId, year, selectedType, role);
 
 
 
   const [debugText, setDebugText] = useState('');
   
-  useEffect(() => {
-    // Load existing data if any
-    const loadData = async () => {
-      if (!clientId) return;
-      setLoading(true);
-      try {
-        const typesToQuery = (selectedType === 'BP' || selectedType === 'Balanço Patrimonial') 
-          ? ['Balanço Patrimonial', 'BP'] 
-          : [selectedType];
-        // Simplificamos a query para evitar a necessidade de composite index (clientId, year, type)
-        // O filtro de `type` será feito em memória (JavaScript) abaixo.
-        const q = query(
-          collection(db, 'financial_entries'),
-          where('clientId', '==', clientId),
-          where('year', '==', year)
-        );
-        const snap = await getDocs(q);
-        
-        let existingData: Row[] = [];
-        let debugStr = `Snap:${snap.docs.length}|`;
-        
-        // Vamos capturar o documento mais recente para evitar duplicação em caso de falha de arquivamento
-        let docsForType = snap.docs.filter(doc => {
-          const d = doc.data();
-          debugStr += `[id:${doc.id.slice(0,4)},t:${d.type},s:${d.status},y:${d.year},l:${(d.data||[]).length}]`;
-          if (d.status === 'archived') return false;
-          
-          const docType = (d.type || '').toLowerCase().trim();
-          const targetType = selectedType.toLowerCase().trim();
-          
-          // Verificação ampla (igual a tela principal)
-          const isBp = targetType === 'bp' || targetType === 'balanço patrimonial' || targetType.includes('balan');
-          const isDre = targetType === 'dre' || targetType === 'dre gerencial';
-          const isDfc = targetType === 'dfc';
-          const isDlpa = targetType === 'dlpa';
-          
-          if (isBp) {
-             const isDocBp = docType === 'bp' || docType.includes('balanç') || docType.includes('balanc');
-             const isDocOtherExplicit = docType === 'dre' || docType === 'dfc' || docType === 'dlpa' || docType.includes('dre');
-             if (isDocBp) return true;
-             if (isDocOtherExplicit) return false;
-             
-             const hasBpRows = Array.isArray(d.data) && d.data.some((r: any) => ['ativo', 'passivo', 'patrimônio líquido', 'pl'].includes((r.type || r.tipo || '').toLowerCase().trim()));
-             return hasBpRows;
-          }
-          
-          if (isDre) {
-             const isDocDre = docType === 'dre' || docType === 'dre gerencial';
-             const isDocOtherExplicit = docType === 'bp' || docType === 'dfc' || docType === 'dlpa' || docType.includes('balanç') || docType.includes('balanc');
-             if (isDocDre) return true;
-             if (isDocOtherExplicit) return false;
-
-             const hasDreRows = Array.isArray(d.data) && d.data.some((r: any) => ['receitas', 'despesas'].includes((r.type || r.tipo || '').toLowerCase().trim()));
-             return hasDreRows;
-          }
-          
-          return typesToQuery.some(t => t.toLowerCase().trim() === docType);
-        });
-        
-        debugStr += `|Matched:${docsForType.length}`;
-        setDebugText(debugStr);
-        
-        // Deduplicação: pegar apenas o mais recente
-        if (docsForType.length > 1) {
-           docsForType.sort((a, b) => {
-             const tA = a.data().createdAt?.toMillis?.() || 0;
-             const tB = b.data().createdAt?.toMillis?.() || 0;
-             return tB - tA;
-           });
-           docsForType = [docsForType[0]];
-        }
-        
-        if (docsForType.length > 0) {
-          docsForType.forEach(doc => {
-            const docData = doc.data();
-            const data = (docData.data || []).map((item: any) => ({
-              id: item.id || crypto.randomUUID(),
-              category: item.category || item.conta || item.name || '',
-              value: item.value || item.valor || item.val || 0,
-              type: (item.type || item.tipo || ((selectedType === 'DRE' || selectedType === 'DRE Gerencial') ? 'receitas' : 'ativo')).toLowerCase(),
-              level: item.level || 1,
-              dreTipo: item.dreTipo,
-              natureza: item.natureza,
-              parentId: item.parentId,
-              aceitaLancamento: item.aceitaLancamento,
-              calculaAutomaticamente: item.calculaAutomaticamente,
-              formula: item.formula,
-              ordem: item.ordem
-            }));
-            existingData = [...existingData, ...data];
-          });
-        }
-
-        if (selectedType === 'DRE' || selectedType === 'DRE Gerencial') {
-          const hasOfficialStructure = existingData.some(r => r.dreTipo === 'SINTETICA');
-          
-          if (!hasOfficialStructure && existingData.length > 0) {
-            // Map legacy/imported data to standard shape
-            const mappedEntries = existingData.map((d: any) => {
-              let parentId = d.parentId;
-              const cat = (d.category || '').toLowerCase();
-              
-              // Ignore totals from legacy data
-              if (!parentId && (cat.includes('receita líquida') || cat.includes('receita operacional líquida') || cat.includes('lucro bruto') || cat.includes('ebitda') || cat === 'ebit' || cat.includes('resultado operacional líquido') || cat.includes('lajida') || cat.includes('lucro líquido') || cat.includes('lair') || cat.includes('resultado antes'))) {
-                 return null; 
-              }
-              
-              if (!parentId) {
-                 if (cat.includes('receita operacional bruta') || cat === 'receita bruta' || cat.includes('faturamento') || (cat.includes('receita') && !cat.includes('líquida') && !cat.includes('financeir') && !cat.includes('outras'))) {
-                    parentId = 'ROB';
-                 } else if (cat.includes('deduç') || cat.includes('imposto sobre') || cat.includes('abatimento') || cat.includes('devoluç') || cat.includes('cancelamento')) {
-                    parentId = 'DED';
-                 } else if (cat.includes('custo') || cat.includes('cmv') || cat.includes('cpv') || cat.includes('csv') || cat.includes('csp')) {
-                    parentId = 'CUSTOS';
-                 } else if (cat.includes('deprecia') || cat.includes('amortiza')) {
-                    parentId = 'DEP_AMORT';
-                 } else if (cat.includes('financeir') || cat.includes('juros')) {
-                    parentId = 'RESULT_FIN';
-                 } else if (cat.includes('provisão') || cat.includes('irpj') || cat.includes('csll') || cat.includes('imposto de renda') || cat.includes('contribuição social')) {
-                    parentId = 'PROV_IR_CSLL';
-                 } else if (cat.includes('outras receitas') || cat.includes('outra receita') || cat.includes('outras despesas operacionais')) {
-                    parentId = 'OUTRAS_REC_DESP';
-                 } else {
-                    parentId = 'DESP_OPER'; // Default
-                 }
-              }
-
-              const parentInfo = DRE_OFFICIAL_STRUCTURE.find(p => p.id === parentId);
-              
-              return {
-                 ...d,
-                 parentId,
-                 dreTipo: 'ANALITICA',
-                 level: 2,
-                 natureza: parentInfo?.natureza || 'CREDORA',
-                 ordem: (parentInfo?.ordem || 0) + 0.1
-              };
-            }).filter(Boolean) as Row[];
-
-            const initialDreState = generateInitialDreState() as Row[];
-            existingData = calculateDreCascade([...initialDreState, ...mappedEntries]);
-
-          } else if (!hasOfficialStructure) {
-            existingData = generateInitialDreState() as Row[];
-          } else {
-             // Garante a reordenação e o cálculo em cascata, e recria sintéticas perdidas
-             const initialDreState = generateInitialDreState() as Row[];
-             const missingSynthetics = initialDreState.filter(s => !existingData.some(e => e.id === s.id));
-             existingData = calculateDreCascade([...existingData, ...missingSynthetics]);
-          }
-        }
-        
-        setRows(existingData);
-      } catch (err) {
-        console.error('Error loading data:', err);
-      } finally {
-        setLoading(false);
-      }
-    };
-    loadData();
-  }, [clientId, year, selectedType]);
 
   const addRow = () => {
     setRows([...rows, { 
@@ -375,108 +197,11 @@ export function ManualFinancialModal({ type, clientId, year, onClose, onSuccess 
       }
     }
 
-    setSaving(true);
-    try {
-      const typesToDelete = (selectedType === 'BP' || selectedType === 'Balanço Patrimonial')
-        ? ['Balanço Patrimonial', 'BP']
-        : [selectedType];
-      
-      // 1. Delete existing
-      const q = query(
-        collection(db, 'financial_entries'),
-        where('clientId', '==', clientId),
-        where('type', 'in', typesToDelete),
-        where('year', '==', year)
-      );
-      const snap = await getDocs(q);
-      
-      const docsToArchive = snap.docs.filter(d => d.data().status !== 'archived');
-      await Promise.all(docsToArchive.map(d => updateDoc(doc(db, 'financial_entries', d.id), {
-        status: 'archived',
-        archivedAt: serverTimestamp(),
-        archivedBy: auth.currentUser!.uid
-      })));
-
-      // 2. Add new
-      const targetPayload = {
-        clientId,
-        tenantId: clientId,
-        workspaceId: clientId,
-        companyId: clientId,
-        fiscalYear: year,
-        statementVersion: '1.0',
-        type: selectedType,
-        year,
-        data: computedRows.map((r, idx) => {
-          const isDre = selectedType === 'DRE' || selectedType === 'DRE Gerencial';
-          const finalValue = r.computedValue !== undefined ? r.computedValue : (r.value || 0);
-          const rowData: any = {
-            id: r.id || crypto.randomUUID(),
-            category: r.category || (r as any).nome || '',
-            value: finalValue,
-            type: r.type || '',
-            level: r.level || 1,
-            explainability: {
-              origin: 'manual',
-              transformation: 'raw_input',
-              dePara: r.type || '',
-              timestamp: new Date().toISOString(),
-              version: 1,
-              engine: 'ManualEntry'
-            }
-          };
-
-          rowData.ordem = r.ordem !== undefined ? r.ordem : idx;
-          if (r.parentId !== undefined) rowData.parentId = r.parentId;
-
-          if (isDre) {
-            if (r.dreTipo !== undefined) rowData.dreTipo = r.dreTipo;
-            if (r.natureza !== undefined) rowData.natureza = r.natureza;
-            if (r.aceitaLancamento !== undefined) rowData.aceitaLancamento = r.aceitaLancamento;
-            if (r.calculaAutomaticamente !== undefined) rowData.calculaAutomaticamente = r.calculaAutomaticamente;
-            if (r.formula !== undefined) rowData.formula = r.formula;
-          }
-          
-          return rowData;
-        }),
-        createdAt: serverTimestamp(),
-        createdBy: auth.currentUser!.uid,
-        creatorEmail: auth.currentUser!.email,
-        audit: {
-          createdAt: serverTimestamp(),
-          createdBy: auth.currentUser!.uid,
-          action: 'manual_entry',
-          source: 'manual'
-        }
-      };
-
-      const payload = {
-        ...targetPayload,
-        status: role === 'master' ? 'approved' : 'pending',
-        requiresApproval: role !== 'master',
-        sourceCollection: 'financial_entries',
-        updatedAt: serverTimestamp(),
-      };
-
-      await addDoc(collection(db, 'financial_entries'), payload);
-
-      if (role !== 'master') {
-        // Notify Admins only if it requires approval
-        await notificationService.createNotification({
-          userId: 'admin_group',
-          title: 'Novo Lançamento Manual para Aprovação',
-          message: `Dados manuais de ${selectedType} (${year}) foram enviados para aprovação.`,
-          type: 'approval_request',
-          link: 'maintenance',
-          metadata: { clientId, docType: selectedType }
-        });
-      }
-
+    const res = await saveEntries(computedRows);
+    if (!res.success) {
+      setErrorMsg(res.error || 'Erro ao salvar.');
+    } else {
       onSuccess();
-    } catch (err) {
-      console.error('Error saving data:', err);
-    } finally {
-      setSaving(false);
     }
   };
 

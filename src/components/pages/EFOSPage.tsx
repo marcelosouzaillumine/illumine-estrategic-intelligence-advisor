@@ -11,8 +11,7 @@ import { PageHeader } from '../Common';
 import { useAnnualFinancialData, useAllFinancialData } from '../../hooks/useFinancialData';
 import { getComputedBPSummary, getComputedDreMetrics } from '../../core/orchestration/financial-math-adapter';
 import { useLanguage } from '../../contexts/LanguageContext';
-import { collection, query, where, getDocs } from 'firebase/firestore';
-import { db } from '../../lib/firebase';
+import { useEFOSPageAdapter } from '../../adapters/ui/useEFOSPageAdapter';
 import { orchestrateExecutiveConsolidation, ExecutiveConsolidationResult } from '../../core/orchestration/executiveOrchestrationEngine';
 
 import { isDebugAllowed, ExecutivePresentationRegistry, languageSanitize, audit, fallbackInstitutionalView } from '../../services/efosGuard';
@@ -46,8 +45,6 @@ export function EFOSPage({
   const { session } = useInstitutionalAuth();
   const userRole = session?.role || 'BOARD_MEMBER';
   const [filterYear, setFilterYear] = useState<number>(Number(selectedYear) || new Date().getFullYear());
-  const [cashFlowData, setCashFlowData] = useState<any[]>([]);
-  const [loadingCashFlow, setLoadingCashFlow] = useState(false);
   const [showExplainability, setShowExplainability] = useState(false);
   const [executiveReport, setExecutiveReport] = useState<ExecutiveIntelligenceReport | null>(null);
   const [consolidationResult, setConsolidationResult] = useState<ExecutiveConsolidationResult | null>(null);
@@ -87,31 +84,7 @@ export function EFOSPage({
   const { dbData: dlpaEntries, loading: loadingDLPA } = useAnnualFinancialData(clientId, filterYear, 'DLPA');
   const { dbData: allHistoryData, loading: loadingHistory } = useAllFinancialData(clientId);
 
-  useEffect(() => {
-    async function fetchCashFlow() {
-      if (!selectedClient) return;
-      setLoadingCashFlow(true);
-      if (filterYear === 2024 || filterYear === 2023) {
-        setCashFlowData([
-          { operatingCashFlow: 150000, freeCashFlow: 120000 },
-          { operatingCashFlow: -50000, freeCashFlow: -70000 }
-        ]);
-      } else {
-        try {
-          const q = query(collection(db, 'financial_entries'), where('clientId', '==', selectedClient), where('year', '==', filterYear));
-          const snap = await getDocs(q);
-          const docs = snap.docs.map(d => d.data());
-          const filteredDocs = docs.filter(d => (d.type || '').toLowerCase() === 'dfc' || (d.docType || '').toLowerCase() === 'dfc');
-          setCashFlowData(filteredDocs);
-        } catch (err) {
-          console.error('Error fetching cash flows:', err);
-        } finally {
-          setLoadingCashFlow(false);
-        }
-      }
-    }
-    fetchCashFlow();
-  }, [selectedClient, filterYear]);
+  const { cashFlowData, loadingCashFlow } = useEFOSPageAdapter(selectedClient, filterYear);
 
   const bpSummary = useMemo(() => getComputedBPSummary(bpEntries), [bpEntries]);
   const { ebitda, lucroLiquido } = useMemo(() => getComputedDreMetrics(dreEntries), [dreEntries]);

@@ -5,8 +5,7 @@ import { Radar, RadarChart, PolarGrid, PolarAngleAxis, PolarRadiusAxis, Responsi
 import { PageHeader, MarkdownText } from '../../Common';
 import { cn } from '../../../lib/utils';
 import { GOVERNANCE_PRINCIPLES, calculateGovernanceMaturityScore, calculateAxisMaturity, getMaturityClassification, GOVERNANCE_ALIGNMENT_ASSESSMENT, getPrincipleById, crossValidateWithIndicators, calculateGovernanceAlignmentScore } from '../../../lib/governanceIntelligence';
-import { db } from '../../../lib/firebase';
-import { query, collection, where, onSnapshot, addDoc, serverTimestamp, orderBy, limit } from 'firebase/firestore';
+import { useGovernanceMaturityAdapter } from '../../../adapters/ui/useGovernanceMaturityAdapter';
 import { generateGovernanceDiagnosis } from '../../../services/aiService';
 
 export function GovernanceMaturityCenter({ clientId }: { clientId: string }) {
@@ -14,53 +13,25 @@ export function GovernanceMaturityCenter({ clientId }: { clientId: string }) {
   const [selectedAxis, setSelectedAxis] = useState<string>('Todos');
   const [responses, setResponses] = useState<Record<string, number>>({});
   const [showResults, setShowResults] = useState(false);
-  const [indicators, setIndicators] = useState<any[]>([]);
   const [aiDiagnosis, setAiDiagnosis] = useState<any>(null);
   const [loadingDiagnosis, setLoadingDiagnosis] = useState(false);
   const [saving, setSaving] = useState(false);
 
   const eixos = ['Todos', 'Governança Corporativa', 'Cultura Organizacional', 'Gestão Administrativa e Financeira', 'Gestão de Inovação', 'Gestão de Marketing', 'Gestão Comercial', 'Gestão Operacional'];
 
-  // Fetch real indicators
+  const {
+    indicators,
+    responses: adapterResponses,
+    aiDiagnosis: adapterAiDiagnosis,
+    hasDiagnosis,
+    saveDiagnosis
+  } = useGovernanceMaturityAdapter(clientId);
+  
   useEffect(() => {
-    if (!clientId) return;
-    const today = new Date();
-    const q = query(
-      collection(db, 'indicators'),
-      where('clientId', '==', clientId),
-      where('ano', '==', today.getFullYear()),
-      where('mes', '==', today.getMonth() + 1)
-    );
-
-    const unsubscribe = onSnapshot(q, (snapshot) => {
-      const docs = snapshot.docs.map(doc => doc.data());
-      setIndicators(docs);
-    });
-
-    return () => unsubscribe();
-  }, [clientId]);
-
-  // Load latest diagnosis
-  useEffect(() => {
-    if (!clientId) return;
-    const q = query(
-      collection(db, 'governance_diagnostics'),
-      where('clientId', '==', clientId),
-      orderBy('date', 'desc'),
-      limit(1)
-    );
-
-    const unsubscribe = onSnapshot(q, (snapshot) => {
-      if (!snapshot.empty) {
-        const latest = snapshot.docs[0].data();
-        setResponses(latest.responses || {});
-        setAiDiagnosis(latest.diagnosis);
-        setShowResults(true);
-      }
-    });
-
-    return () => unsubscribe();
-  }, [clientId]);
+    if (Object.keys(adapterResponses).length > 0) setResponses(adapterResponses);
+    if (adapterAiDiagnosis) setAiDiagnosis(adapterAiDiagnosis);
+    if (hasDiagnosis) setShowResults(true);
+  }, [adapterResponses, adapterAiDiagnosis, hasDiagnosis]);
 
   const filteredPrinciples = selectedAxis === 'Todos' 
     ? GOVERNANCE_PRINCIPLES 
@@ -105,23 +76,21 @@ export function GovernanceMaturityCenter({ clientId }: { clientId: string }) {
     if (!aiDiagnosis) return;
     setSaving(true);
     try {
-      await addDoc(collection(db, 'governance_diagnostics'), {
-        clientId,
-        date: serverTimestamp(),
+      const axisScores = eixos.filter(e => e !== 'Todos').reduce((acc, e) => ({
+        ...acc,
+        [e]: calculateAxisMaturity(finalResponses, e as any)
+      }), {});
+      await saveDiagnosis({
         maturityScore,
         alignmentScore,
         classification: classification.label,
         responses: finalResponses,
         diagnosis: aiDiagnosis,
-        axisScores: eixos.filter(e => e !== 'Todos').reduce((acc, e) => ({
-          ...acc,
-          [e]: calculateAxisMaturity(finalResponses, e as any)
-        }), {})
+        axisScores
       });
       console.log('Diagnóstico salvo com sucesso no histórico executivo.');
     } catch (error) {
       console.error('Erro ao salvar diagnóstico:', error);
-      console.error('Erro ao salvar diagnóstico.');
     } finally {
       setSaving(false);
     }

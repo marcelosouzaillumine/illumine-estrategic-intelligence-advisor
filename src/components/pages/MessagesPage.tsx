@@ -6,7 +6,7 @@ import { motion, AnimatePresence } from 'motion/react';
 import { cn } from '../../lib/utils';
 import { useNotifications } from '../../hooks/useNotifications';
 import { useGovernance } from '../../lib/governanceContext';
-import { auth } from '../../lib/firebase';
+import { useAuthAdapter } from '../../adapters/ui/useAuthAdapter';
 
 interface Message {
   id: string;
@@ -79,7 +79,8 @@ const CHANGELOG_DATA: ChangelogEntry[] = [
 export function MessagesPage() {
   const { translateLabel: t } = useLanguage();
   const [activeTab, setActiveTab] = useState<'messages' | 'changelog'>('messages');
-  const { notifications, markAsRead } = useNotifications(auth.currentUser?.uid || 'admin_group');
+  const { getCurrentUserId } = useAuthAdapter();
+  const { notifications, markAsRead } = useNotifications(getCurrentUserId() || 'admin_group');
   const { role } = useGovernance();
 
   const getNotificationIcon = (type: string) => {

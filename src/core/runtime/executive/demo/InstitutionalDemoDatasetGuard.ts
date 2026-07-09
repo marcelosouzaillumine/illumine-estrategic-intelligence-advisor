@@ -1,6 +1,10 @@
 import { DemoScenario, ExecutiveDemoScenarioRegistry } from './ExecutiveDemoScenarioRegistry';
 import { DemoSessionState } from './ExecutiveDemoSession';
 
+/**
+ * @deprecated This guard is part of the legacy Demo suite.
+ * Do not use in production runtime. Scheduled for removal in HCA-003.
+ */
 export class InstitutionalDemoDatasetGuard {
   public static assertSafeDemonstration(
     scenario: DemoScenario | null,

@@ -1,6 +1,6 @@
 import { useState, useEffect, useCallback } from 'react';
-import { collection, query, where, getDocs } from 'firebase/firestore';
-import { db } from '../lib/firebase';
+import { FirestoreFinancialEntriesAdapter } from '../adapters/persistence/FirestoreFinancialEntriesAdapter';
+
 
 export interface FinancialEntry {
   id: string;
@@ -36,21 +36,15 @@ export function useHistoricalDemonstracoes(clientId: string, currentYear: number
         currentYear - 5
       ];
 
-      const q = query(
-        collection(db, 'financial_entries'),
-        where('clientId', '==', clientId),
-        where('year', 'in', targetYears)
-      );
-      
-      const snap = await getDocs(q);
+      const { docs } = await FirestoreFinancialEntriesAdapter.getEntriesInYears(clientId, targetYears);
 
       if (isCancelled.current) return;
 
       const allEntries: FinancialEntry[] = [];
       const validTypes = ['DRE', 'BP', 'Balanço Patrimonial', 'DRE Contábil', 'DFC', 'DLPA', 'DRE Gerencial'];
 
-      snap.docs.forEach(docSnap => {
-        const docData = docSnap.data() as any;
+      docs.forEach(docData => {
+        const docId = docData.id;
 
         // Only show approved or legacy (without status)
         if (docData.status === 'pending' || docData.status === 'rejected') return;
@@ -66,8 +60,8 @@ export function useHistoricalDemonstracoes(clientId: string, currentYear: number
 
             allEntries.push({
               ...entry,
-              id: `${docSnap.id}_${entry.category || Math.random()}`,
-              docId: docSnap.id,
+              id: `${docId}_${entry.category || Math.random()}`,
+              docId: docId,
               docType: docData.type,
               year: docData.year,
               month: docData.month,
@@ -80,8 +74,8 @@ export function useHistoricalDemonstracoes(clientId: string, currentYear: number
         } else {
           allEntries.push({
             ...docData,
-            id: docSnap.id,
-            docId: docSnap.id,
+            id: docId,
+            docId: docId,
             docType: docData.type,
             year: docData.year,
             month: docData.month,

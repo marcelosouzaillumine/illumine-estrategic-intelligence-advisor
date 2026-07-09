@@ -1,6 +1,6 @@
 import React from 'react';
 import { cn } from '@/lib/utils';
-import { SemanticPaletteKey, ExecutiveChartSemanticPalette } from '@/core/theme/ExecutiveChartSemanticPalette';
+import { SemanticPaletteKey, ExecutiveChartSemanticPalette } from '../../adapters/ui/ThemeAdapter';
 
 export interface ExecutiveHistoricalLegendItem {
   label: string;

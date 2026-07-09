@@ -1,8 +1,7 @@
 import React, { useMemo } from 'react';
 import { Database, Activity, Truck, Box, Settings, TrendingUp, AlertCircle, CheckCircle2, Clock, BarChart3, Zap, MessageSquare, Layers, ShieldCheck } from 'lucide-react';
 import { motion } from 'motion/react';
-import { collection, query, where, onSnapshot } from 'firebase/firestore';
-import { db } from '../../lib/firebase';
+import { useIndicatorsAdapter } from '../../adapters/ui/useIndicatorsAdapter';
 import { StatusBadge, PageHeader } from '../Common';
 import { ExecutiveMetricCard } from '../ui/executive-metric-card';
 import { formatValue, formatCurrency, cn } from '../../lib/utils';
@@ -22,36 +21,16 @@ const getValueSizeClass = (maxLen: number) => {
 };
 
 export function OperacionalPage({ type, clientId }: OperacionalPageProps) {
-  const [dbIndicators, setDbIndicators] = React.useState<any[]>([]);
   const [loading, setLoading] = React.useState(false);
   const [selectedYear, setSelectedYear] = React.useState(new Date().getFullYear());
   const [selectedMonth, setSelectedMonth] = React.useState(new Date().getMonth() + 1);
+  const { dbIndicators, getIndicatorValue } = useIndicatorsAdapter(clientId, selectedYear, selectedMonth);
 
   React.useEffect(() => {
-    if (!clientId) {
-      setDbIndicators([]);
+    if (dbIndicators) {
       setLoading(false);
-      return;
     }
-    setLoading(true);
-    setDbIndicators([]); // Reset para evitar exibir dados do cliente anterior
-    const q = query(
-      collection(db, 'indicators'),
-      where('clientId', '==', clientId),
-      where('ano', '==', selectedYear),
-      where('mes', '==', selectedMonth)
-    );
-    const unsubscribe = onSnapshot(q, (snapshot) => {
-      setDbIndicators(snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() })));
-      setLoading(false);
-    });
-    return () => unsubscribe();
-  }, [clientId, selectedYear, selectedMonth]);
-
-  const getIndicatorValue = (name: string, fallback: number = 0) => {
-    const ind = dbIndicators.find(i => i.ind === name || i.ind?.toLowerCase() === name.toLowerCase());
-    return ind ? ind.val : fallback;
-  };
+  }, [dbIndicators]);
 
   const isLogistica = type === 'logistica';
   const hasData = dbIndicators.length > 0;

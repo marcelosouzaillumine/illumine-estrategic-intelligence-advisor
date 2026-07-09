@@ -1,5 +1,5 @@
 import { useState, useEffect, useMemo } from "react";
-import { auth } from '../../lib/firebase';
+import { FirestoreAuthAdapter } from '../../adapters/persistence/FirestoreAuthAdapter';
 import { ClientsApplicationService } from './clients/ClientsApplicationService';
 import { validateCNPJ, formatDoc } from '../../lib/utils';
 import { useDataTable } from '../../hooks/useDataTable';
@@ -271,7 +271,7 @@ loading: ${loading}
   };
 
   const handleSave = async () => {
-    if (!auth.currentUser) {
+    if (!FirestoreAuthAdapter.isAuthenticated()) {
       setError("Você precisa estar logado para salvar um cliente. Clique em 'Entrar com Google' na barra lateral.");
       return;
     }
@@ -281,7 +281,7 @@ loading: ${loading}
       await ClientsApplicationService.saveClient(
         formData,
         editingId,
-        auth.currentUser.uid,
+        FirestoreAuthAdapter.getCurrentUserId() as string,
         isMaster,
         isPartner,
         userPartnerIds

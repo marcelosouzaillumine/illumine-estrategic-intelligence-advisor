@@ -44,8 +44,8 @@ import { buildBPHierarchy } from '../../../../lib/bpEngine';
 import { calculateDreCascade, generateInitialDreState } from '../../../../lib/dreCascade';
 import { FiduciaryRuntimeAdapter, PresentationLayer, ExecutiveIntelligenceReport, ExecutiveLabelResolver } from '../../../../services/FiduciaryRuntimeAdapter';
 import { ExecutiveLocaleEnforcer } from '../../../../core/enforcement/ExecutiveLocaleEnforcer';
-import { collection, deleteDoc, doc, query, where, getDocs, getDoc, updateDoc } from 'firebase/firestore';
-import { db, auth } from '../../../../lib/firebase';
+
+import { FirestoreAuthAdapter } from '../../../../adapters/persistence/FirestoreAuthAdapter';
 import { useInstitutionalAuth } from '../../../../core/security/auth/InstitutionalAuthProvider';
 import { BalanceSheetApplicationService } from '../../application/BalanceSheetApplicationService';
 
@@ -448,7 +448,7 @@ export function useBalanceSheetPageViewModel({ clients, selectedClient, selected
   };
 
   const handleDelete = async () => {
-    if (!auth.currentUser) {
+    if (!FirestoreAuthAdapter.isAuthenticated()) {
       showToast('error', 'Você precisa estar logado para excluir dados.');
       return;
     }
@@ -456,19 +456,8 @@ export function useBalanceSheetPageViewModel({ clients, selectedClient, selected
     setDeleting(true);
     setShowDeleteConfirm(false);
     try {
-      const types = ['Balanço Patrimonial', 'BP'];
-      const docIds: string[] = [];
-      const q = query(
-        collection(db, 'financial_entries'),
-        where('clientId', '==', selectedClient),
-        where('type', 'in', types),
-        where('year', '==', filterYear)
-      );
-      const snap = await getDocs(q);
-      snap.docs.forEach((d) => docIds.push(d.id));
-
-      await Promise.all(docIds.map((id) => deleteDoc(doc(db, 'financial_entries', id))));
-      showToast('success', `${docIds.length} registro(s) excluído(s) com sucesso.`);
+      await BalanceSheetApplicationService.deleteFinancialData(selectedClient, filterYear);
+      showToast('success', `Registro(s) excluído(s) com sucesso.`);
       refetch();
       
     } catch (err: any) {

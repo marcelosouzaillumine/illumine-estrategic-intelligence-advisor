@@ -38,6 +38,10 @@ export function useInstitutionalMonitoringViewModel() {
   const lastExecution = MonitoringAlertRegistry.getExecutions().slice(-1)[0];
 
   return {
+    state: { alerts, isRunning },
+    computed: { lastExecution },
+    actions: { handleRunCycle },
+    // Legacy (mantido para não quebrar UI)
     alerts,
     isRunning,
     lastExecution,

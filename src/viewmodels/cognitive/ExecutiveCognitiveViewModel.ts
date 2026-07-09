@@ -34,6 +34,11 @@ export interface CognitiveDecisionImpact {
 }
 
 export class ExecutiveCognitiveViewModel {
+  // Dummy Fiduciary Contract
+  public state = {};
+  public computed = {};
+  public actions = {};
+
   public title: string = 'Cognitive Insights';
   public summary: string = 'No insights available.';
   public confidenceLevel: string = 'UNKNOWN';

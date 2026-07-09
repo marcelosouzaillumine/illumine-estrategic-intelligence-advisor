@@ -1,16 +1,6 @@
-import { 
-  collection, 
-  doc, 
-  getDocs, 
-  addDoc, 
-  updateDoc, 
-  serverTimestamp, 
-  query, 
-  where, 
-  orderBy, 
-  limit 
-} from 'firebase/firestore';
-import { db } from '../lib/firebase';
+import { serverTimestamp } from 'firebase/firestore';
+import { FirestoreGovernanceAdapter } from '../adapters/persistence/FirestoreGovernanceAdapter';
+
 import { GovernanceConfig, AuditLog } from '../types/governance';
 import { DataAccessContext } from '../core/security/data-access-context';
 import { GovernedRepositoryWrapper } from '../core/security/governed-repository';
@@ -20,18 +10,15 @@ const LOGS_COLLECTION = 'audit_logs';
 
 export const governanceService = {
   async getFirestoreDocs(q: any): Promise<any> {
-    return getDocs(q);
+    // Mock wrapper for tests, although we now use adapters.
+    // In the future tests should mock adapters.
+    return { docs: [] };
   },
 
   async getConfig(context: DataAccessContext): Promise<GovernanceConfig | null> {
     return GovernedRepositoryWrapper.execute(context, async () => {
       try {
-        const q = query(collection(db, CONFIG_COLLECTION), limit(1));
-        const snap = await this.getFirestoreDocs(q);
-        if (!snap.empty) {
-          return { id: snap.docs[0].id, ...snap.docs[0].data() } as GovernanceConfig;
-        }
-        return null;
+        return await FirestoreGovernanceAdapter.getConfig();
       } catch (error) {
         console.error('Error fetching governance config:', error);
         return null;
@@ -42,11 +29,7 @@ export const governanceService = {
   async updateConfig(context: DataAccessContext, id: string, config: Partial<GovernanceConfig>): Promise<void> {
     return GovernedRepositoryWrapper.execute(context, async () => {
       try {
-        const docRef = doc(db, CONFIG_COLLECTION, id);
-        await updateDoc(docRef, {
-          ...config,
-          updatedAt: serverTimestamp()
-        });
+        await FirestoreGovernanceAdapter.updateConfig(id, config);
       } catch (error) {
         console.error('Error updating governance config:', error);
         throw error;
@@ -67,7 +50,7 @@ export const governanceService = {
           timestamp: serverTimestamp() as any
         };
 
-        await addDoc(collection(db, LOGS_COLLECTION), payload);
+        await FirestoreGovernanceAdapter.logAction(payload);
         return protocol;
       } catch (error) {
         console.error('Error logging action:', error);
@@ -79,17 +62,7 @@ export const governanceService = {
   async getLogs(context: DataAccessContext, filters: { userId?: string, clienteId?: string } = {}): Promise<AuditLog[]> {
     return GovernedRepositoryWrapper.execute(context, async () => {
       try {
-        let q = query(collection(db, LOGS_COLLECTION), orderBy('timestamp', 'desc'), limit(100));
-        
-        if (filters.userId) {
-          q = query(q, where('user_id', '==', filters.userId));
-        }
-        if (filters.clienteId) {
-          q = query(q, where('cliente_ativo_id', '==', filters.clienteId));
-        }
-
-        const snap = await this.getFirestoreDocs(q);
-        return snap.docs.map(d => ({ id: d.id, ...d.data() } as AuditLog));
+        return await FirestoreGovernanceAdapter.getLogs(filters);
       } catch (error) {
         console.error('Error fetching audit logs:', error);
         return [];
@@ -103,12 +76,7 @@ export const governanceService = {
 
     return GovernedRepositoryWrapper.execute(context, async () => {
       try {
-        const q = query(
-          collection(db, 'indicators'),
-          where('clientId', '==', cleanId)
-        );
-        const snap = await this.getFirestoreDocs(q);
-        return snap.docs.map(d => ({ id: d.id, ...d.data() }));
+        return await FirestoreGovernanceAdapter.getDashboardIndicators(cleanId);
       } catch (error) {
         console.error('Error fetching indicators:', error);
         return [];
@@ -122,26 +90,9 @@ export const governanceService = {
         const activeTenant = context.tenantId;
         const isSuperAdmin = context.role === 'SUPER_ADMIN';
         const targetTenant = isSuperAdmin ? (filters.tenantId || activeTenant) : activeTenant;
+        const isGlobal = isSuperAdmin && !filters.tenantId;
 
-        let q;
-        if (isSuperAdmin && !filters.tenantId) {
-          // Super admin gets global view if no tenant filter is set
-          q = query(
-            collection(db, 'audit_events'),
-            orderBy('timestamp', 'desc'),
-            limit(100)
-          );
-        } else {
-          q = query(
-            collection(db, 'audit_events'),
-            where('tenantId', '==', targetTenant),
-            orderBy('timestamp', 'desc'),
-            limit(100)
-          );
-        }
-
-        const snap = await this.getFirestoreDocs(q);
-        return snap.docs.map(d => ({ id: d.id, ...(d.data() as any) }));
+        return await FirestoreGovernanceAdapter.getAuditEvents(targetTenant || '', !!isGlobal);
       } catch (error) {
         console.error('Error fetching audit events:', error);
         return [];
@@ -155,26 +106,9 @@ export const governanceService = {
         const activeTenant = context.tenantId;
         const isSuperAdmin = context.role === 'SUPER_ADMIN';
         const targetTenant = isSuperAdmin ? (filters.tenantId || activeTenant) : activeTenant;
+        const isGlobal = isSuperAdmin && !filters.tenantId;
 
-        let q;
-        if (isSuperAdmin && !filters.tenantId) {
-          // Super admin gets global view if no tenant filter is set
-          q = query(
-            collection(db, 'anomalies'),
-            orderBy('detectedAt', 'desc'),
-            limit(100)
-          );
-        } else {
-          q = query(
-            collection(db, 'anomalies'),
-            where('tenantId', '==', targetTenant),
-            orderBy('detectedAt', 'desc'),
-            limit(100)
-          );
-        }
-
-        const snap = await this.getFirestoreDocs(q);
-        return snap.docs.map(d => ({ id: d.id, ...(d.data() as any) }));
+        return await FirestoreGovernanceAdapter.getAnomalies(targetTenant || '', !!isGlobal);
       } catch (error) {
         console.error('Error fetching anomalies:', error);
         return [];
@@ -188,25 +122,9 @@ export const governanceService = {
         const activeTenant = context.tenantId;
         const isSuperAdmin = context.role === 'SUPER_ADMIN';
         const targetTenant = isSuperAdmin ? (filters.tenantId || activeTenant) : activeTenant;
+        const isGlobal = isSuperAdmin && !filters.tenantId;
 
-        let q;
-        if (isSuperAdmin && !filters.tenantId) {
-          q = query(
-            collection(db, 'institutional_jobs'),
-            orderBy('createdAt', 'desc'),
-            limit(100)
-          );
-        } else {
-          q = query(
-            collection(db, 'institutional_jobs'),
-            where('tenantId', '==', targetTenant),
-            orderBy('createdAt', 'desc'),
-            limit(100)
-          );
-        }
-
-        const snap = await this.getFirestoreDocs(q);
-        return snap.docs.map(d => ({ id: d.id, ...d.data() }));
+        return await FirestoreGovernanceAdapter.getJobs(targetTenant || '', !!isGlobal);
       } catch (error) {
         console.error('Error fetching jobs:', error);
         return [];
@@ -220,25 +138,9 @@ export const governanceService = {
         const activeTenant = context.tenantId;
         const isSuperAdmin = context.role === 'SUPER_ADMIN';
         const targetTenant = isSuperAdmin ? (filters.tenantId || activeTenant) : activeTenant;
+        const isGlobal = isSuperAdmin && !filters.tenantId;
 
-        let q;
-        if (isSuperAdmin && !filters.tenantId) {
-          q = query(
-            collection(db, 'runtime_pressure'),
-            orderBy('detectedAt', 'desc'),
-            limit(100)
-          );
-        } else {
-          q = query(
-            collection(db, 'runtime_pressure'),
-            where('tenantId', '==', targetTenant),
-            orderBy('detectedAt', 'desc'),
-            limit(100)
-          );
-        }
-
-        const snap = await this.getFirestoreDocs(q);
-        return snap.docs.map(d => ({ id: d.id, ...d.data() }));
+        return await FirestoreGovernanceAdapter.getPressureIncidents(targetTenant || '', !!isGlobal);
       } catch (error) {
         console.error('Error fetching pressure incidents:', error);
         return [];

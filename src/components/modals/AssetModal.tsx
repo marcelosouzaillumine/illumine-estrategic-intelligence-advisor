@@ -2,8 +2,7 @@ import React, { useState } from 'react';
 import { motion } from 'motion/react';
 import { X, Save, Briefcase, TrendingUp, DollarSign, PieChart, Activity } from 'lucide-react';
 import { cn } from '../../lib/utils';
-import { collection, addDoc, serverTimestamp, updateDoc, doc } from 'firebase/firestore';
-import { db, auth } from '../../lib/firebase';
+import { useAssetModalAdapter } from '../../adapters/ui/useAssetModalAdapter';
 
 interface AssetModalProps {
   clientId: string;
@@ -12,7 +11,7 @@ interface AssetModalProps {
 }
 
 export function AssetModal({ clientId, onClose, asset }: AssetModalProps) {
-  const [loading, setLoading] = useState(false);
+  const { saveAsset, loading } = useAssetModalAdapter(clientId, asset, onClose);
   const [submitError, setSubmitError] = useState('');
   const [formData, setFormData] = useState({
     name: asset?.name || '',
@@ -56,52 +55,9 @@ export function AssetModal({ clientId, onClose, asset }: AssetModalProps) {
       return;
     }
 
-    setLoading(true);
-    try {
-      const parseValue = (val: any) => {
-        if (typeof val === 'number') return val;
-        if (!val || typeof val !== 'string') return 0;
-        let cleaned = val.replace(/\s/g, '');
-        if (cleaned.includes(',') && cleaned.includes('.')) {
-          cleaned = cleaned.replace(/\./g, '').replace(',', '.');
-        } else if (cleaned.includes(',')) {
-          cleaned = cleaned.replace(',', '.');
-        }
-        return parseFloat(cleaned) || 0;
-      };
-
-      const dataToSave: any = {
-        name: formData.name,
-        category: formData.category,
-        value: parseValue(formData.value),
-        profit: parseValue(formData.profit),
-        change: parseValue(formData.change),
-        status: formData.status,
-        applicationDate: formData.applicationDate,
-        initialValue: parseValue(formData.initialValue),
-        yieldType: formData.yieldType,
-        composesCashFlow: formData.composesCashFlow,
-        updatedAt: serverTimestamp()
-      };
-
-      if (asset?.id) {
-        await updateDoc(doc(db, 'assets', asset.id), dataToSave);
-      } else {
-        const newData = {
-          ...dataToSave,
-          clientId,
-          ownerId: auth.currentUser?.uid,
-          createdAt: serverTimestamp()
-        };
-        await addDoc(collection(db, 'assets'), newData);
-      }
-      
-      onClose();
-    } catch (error: any) {
-      console.error('Error saving asset:', error);
-      setSubmitError('Erro ao salvar ativo: ' + (error.message || 'Verifique as permissões.'));
-    } finally {
-      setLoading(false);
+    const res = await saveAsset(formData);
+    if (!res.success) {
+      setSubmitError(res.error || 'Erro ao salvar.');
     }
   };
 

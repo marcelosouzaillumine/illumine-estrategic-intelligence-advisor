@@ -1,52 +1,24 @@
 import React, { useState, useEffect } from 'react';
 import { ShieldCheck, Landmark, TrendingUp, Activity, History, FileText, DollarSign, Users, Plus, X, Save, Loader2, AlertCircle } from 'lucide-react';
 import { motion } from 'motion/react';
-import { doc, onSnapshot, updateDoc, serverTimestamp } from 'firebase/firestore';
+import { useFiscalAdapter } from '../../adapters/ui/useFiscalAdapter';
 import { PageHeader } from '../Common';
 import { cn, formatCurrency } from '../../lib/utils';
 import { DashboardSkeleton } from '../ui/skeletons';
-import { db } from '../../lib/firebase';
 
 interface FiscalTributarioPageProps {
   clientId: string;
 }
 
 export function FiscalTributarioPage({ clientId }: FiscalTributarioPageProps) {
-  const [loading, setLoading] = useState(true);
-  const [saving, setSaving] = useState(false);
-  const [clientData, setClientData] = useState<any>(null);
-
-  useEffect(() => {
-    if (!clientId) return;
-    setLoading(true);
-    
-    const unsub = onSnapshot(doc(db, 'clients', clientId), (snap) => {
-      if (snap.exists()) {
-        setClientData(snap.data());
-      }
-      setLoading(false);
-    }, (err) => {
-      console.error("Error fetching client for fiscal data:", err);
-      setLoading(false);
-    });
-
-    return () => unsub();
-  }, [clientId]);
+  const { clientData, setClientData, loading, saving, saveFiscalData } = useFiscalAdapter(clientId);
 
   const handleSave = async () => {
-    if (!clientId || !clientData) return;
-    setSaving(true);
     try {
-      await updateDoc(doc(db, 'clients', clientId), {
-        ...clientData,
-        updatedAt: serverTimestamp()
-      });
+      await saveFiscalData(clientData);
       alert('Configurações fiscais salvas com sucesso!');
     } catch (error) {
-      console.error("Error saving fiscal data:", error);
       alert('Erro ao salvar configurações fiscais.');
-    } finally {
-      setSaving(false);
     }
   };
 

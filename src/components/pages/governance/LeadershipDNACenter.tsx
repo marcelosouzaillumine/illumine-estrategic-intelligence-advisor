@@ -1,8 +1,7 @@
 import React, { useState, useMemo, useEffect } from 'react';
 import { Users, Target, Brain, BarChart, ChevronRight, CheckCircle2, AlertCircle, TrendingUp, Award, ShieldCheck, Briefcase, Compass, Zap, Info, ArrowRight, BookOpen, PieChart, Lightbulb, Search } from 'lucide-react';
 import { motion, AnimatePresence } from 'motion/react';
-import { collection, addDoc, serverTimestamp, query, where, getDocs, orderBy } from 'firebase/firestore';
-import { db, auth } from '../../../lib/firebase';
+import { useLeadershipDNAAdapter } from '../../../adapters/ui/useLeadershipDNAAdapter';
 import { GOVERNANCE_PRINCIPLES } from '../../../lib/governanceIntelligence';
 import { PageHeader, SectionHeader, StatusBadge } from '../../Common';
 import { cn } from '../../../lib/utils';
@@ -217,60 +216,32 @@ export function LeadershipDNACenter({ clientId }: { clientId: string }) {
   const [selectedRole, setSelectedRole] = useState<Role | null>(null);
   const [assessmentStep, setAssessmentStep] = useState(0);
   const [assessmentType, setAssessmentType] = useState<'disc' | 'enneagram'>('disc');
+  const { assessments, loading, saveAssessment, teamProfiles: teamAssessments, saveProfile, currentUser } = useLeadershipDNAAdapter(clientId);
   const [answers, setAnswers] = useState<Record<string, number>>({});
   const [enneagramAnswers, setEnneagramAnswers] = useState<Record<string, number>>({});
   const [dilemmaAnswers, setDilemmaAnswers] = useState<Record<string, number>>({});
   const [dilemmaStep, setDilemmaStep] = useState(0);
   const [showResults, setShowResults] = useState(false);
   const [isSaving, setIsSaving] = useState(false);
-  const [teamAssessments, setTeamAssessments] = useState<any[]>([]);
-  const [hasConfirmedRole, setHasConfirmedRole] = useState(false);
+    const [hasConfirmedRole, setHasConfirmedRole] = useState(false);
 
-  useEffect(() => {
-    const fetchTeamData = async () => {
-      try {
-        const q = query(
-          collection(db, 'leadership_profiles'),
-          where('clientId', '==', clientId),
-          where('type', '==', 'governance_assessment'),
-          orderBy('createdAt', 'desc')
-        );
-        const snapshot = await getDocs(q);
-        setTeamAssessments(snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() })));
-      } catch (error) {
-        console.error("Error fetching team data:", error);
-      }
-    };
-    fetchTeamData();
-  }, [clientId]);
+
 
   const handleSaveResults = async () => {
-    if (!auth.currentUser) {
-      console.warn('Você precisa estar autenticado para salvar os resultados.');
-      return;
-    }
-
     setIsSaving(true);
     try {
       const resultsData = {
-        clientId,
-        userId: auth.currentUser.uid,
-        userName: auth.currentUser.displayName,
         roleId: selectedRole?.id || 'none',
         roleTitle: selectedRole?.title || 'Personalizado',
         disc: calculateUserDISC(),
         enneagram: calculateUserEnneagram(),
         adherenceScore: adherenceScore,
-        governançaAlignment: governançaAlignment.score,
-        createdAt: serverTimestamp(),
-        type: 'governance_assessment'
+        governançaAlignment: governançaAlignment.score
       };
-
-      await addDoc(collection(db, 'leadership_profiles'), resultsData);
+      await saveProfile(resultsData);
       console.log('Perfil de governança salvo com sucesso!');
     } catch (error) {
       console.error('Error saving governance profile:', error);
-      console.error('Erro ao salvar resultados.');
     } finally {
       setIsSaving(false);
     }
@@ -819,7 +790,7 @@ export function LeadershipDNACenter({ clientId }: { clientId: string }) {
                 <div className="relative z-10 space-y-2">
                   <div className="flex items-center gap-3 mb-4 py-2 px-4 bg-white/10 rounded-md w-fit border border-white/10">
                     <Users size={14} className="text-secondary" />
-                    <span className="text-[10px] font-medium tracking-widest uppercase">Avaliador: {auth.currentUser?.displayName || 'Convidado'}</span>
+                    <span className="text-[10px] font-medium tracking-widest uppercase">Avaliador: {currentUser?.displayName || 'Convidado'}</span>
                   </div>
                   <p className="text-[10px] font-medium uppercase tracking-[0.2em] opacity-60">Deep Profile Analysis</p>
                   <h2 className="text-h2 font-medium tracking-tight">

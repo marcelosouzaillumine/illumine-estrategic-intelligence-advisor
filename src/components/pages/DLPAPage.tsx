@@ -6,7 +6,7 @@ import { ResponsiveContainer } from 'recharts';
 import { ExecutiveTable, ExecutiveTableHeader, ExecutiveTableBody, ExecutiveTableRow, ExecutiveTableHead, ExecutiveTableCell } from '../ui/executive-table';
 import { ExecutiveHistoricalEvolutionCard } from '../ui/executive-historical-evolution-card';
 import { ExecutiveComposedChart, ExecutiveBar, ExecutiveLine, ExecutiveChartGrid, ExecutiveChartXAxis, ExecutiveChartTooltip } from '../ui/executive-chart';
-import { ExecutiveChartSemanticPalette } from '../../core/theme/ExecutiveChartSemanticPalette';
+import { ExecutiveChartSemanticPalette } from '../../adapters/ui/ThemeAdapter';
 import { ExecutiveEmptyState } from '../ui/executive-empty-state';
 import { ExecutiveSurface } from '../ui/executive-surface';
 import { ExecutiveStrategicSemanticCards } from '../ui/executive-strategic-semantic-cards';

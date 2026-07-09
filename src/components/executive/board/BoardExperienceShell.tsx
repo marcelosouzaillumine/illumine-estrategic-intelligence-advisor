@@ -1,6 +1,5 @@
 import React from 'react';
 import { ExecutiveNarrative, BoardModeGuard } from '../../../services/FiduciaryRuntimeAdapter';
-import { sanitizeExecutivePayload } from '../../../core/presentation/emergency-executive-sanitizer';
 import { RuntimeDisclosureBanner } from './RuntimeDisclosureBanner';
 import { BoardNarrativeNavigator } from './BoardNarrativeNavigator';
 import { CausalDrilldownPanel } from './CausalDrilldownPanel';
@@ -24,7 +23,7 @@ export const BoardExperienceShell: React.FC<BoardExperienceShellProps> = ({ narr
 
   const { state, computed, actions } = useBoardExperienceShellViewModel({ narrative, sessionId });
   const { currentStep, guardError: guardErrorVm } = state;
-  const { hasEvidence, hasLineage } = computed;
+  const { hasEvidence, hasLineage, safeViolations } = computed;
   const { setCurrentStep } = actions;
   
   const finalGuardError = guardErrorStatic || guardErrorVm;
@@ -75,11 +74,10 @@ export const BoardExperienceShell: React.FC<BoardExperienceShellProps> = ({ narr
 
           {currentStep === 'STRUCTURAL_TENSIONS' && (
             <div className="grid gap-4">
-              {narrative.violations.map(v => {
-                const safeV = sanitizeExecutivePayload(v);
+              {safeViolations.map((safeV: any) => {
                 return (
-                  <div key={safeV.violationId} className={`p-4 border rounded-lg ${v.severity === 'CRITICAL' ? 'bg-red-900/20 border-red-500/30' : 'bg-amber-900/20 border-amber-500/30'}`}>
-                    <span className={`text-sm font-bold uppercase ${v.severity === 'CRITICAL' ? 'text-red-400' : 'text-amber-400'}`}>{safeV.severity as string}</span>
+                  <div key={safeV.violationId} className={`p-4 border rounded-lg ${safeV.severity === 'CRITICAL' ? 'bg-red-900/20 border-red-500/30' : 'bg-amber-900/20 border-amber-500/30'}`}>
+                    <span className={`text-sm font-bold uppercase ${safeV.severity === 'CRITICAL' ? 'text-red-400' : 'text-amber-400'}`}>{safeV.severity as string}</span>
                     <p className="mt-1 text-muted-foreground">{safeV.message as string}</p>
                     <p className="mt-2 text-sm font-mono text-muted-foreground">Context: {safeV.sourceContext as string}</p>
                   </div>

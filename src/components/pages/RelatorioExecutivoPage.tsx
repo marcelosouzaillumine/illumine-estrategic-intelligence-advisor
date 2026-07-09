@@ -1,7 +1,6 @@
 
 import React, { useMemo, useRef, useState, useEffect } from 'react';
-import { collection, query, where, onSnapshot } from 'firebase/firestore';
-import { db } from '../../lib/firebase';
+import { useIndicatorsAdapter } from '../../adapters/ui/useIndicatorsAdapter';
 import { BarChart3, TrendingUp, ShieldCheck, Target, Activity, Zap, FileText, FileDown, MessageSquarePlus, Layout, CheckCircle2, ShieldAlert, Loader2 } from 'lucide-react';
 import { motion } from 'motion/react';
 import { formatCurrency, cn, formatValue } from '../../lib/utils';
@@ -63,25 +62,7 @@ export function RelatorioExecutivoPage({ clientId, selectedMonth, selectedYear }
   
   const sacerdotalRules = useMemo(() => evaluateFinancialRules(kpis), [kpis]);
   
-  const [dbIndicators, setDbIndicators] = useState<any[]>([]);
-  useEffect(() => {
-    if (!clientId) return;
-    const q = query(
-      collection(db, 'indicators'),
-      where('clientId', '==', clientId),
-      where('ano', '==', selectedYear),
-      where('mes', '==', selectedMonth)
-    );
-    const unsubscribe = onSnapshot(q, (snapshot) => {
-      setDbIndicators(snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() })));
-    });
-    return () => unsubscribe();
-  }, [clientId, selectedYear, selectedMonth]);
-
-  const getIndicatorValue = (name: string, fallback: number = 0) => {
-    const ind = dbIndicators.find(i => i.ind === name || i.ind?.toLowerCase() === name.toLowerCase());
-    return ind ? ind.val : fallback;
-  };
+  const { dbIndicators, getIndicatorValue } = useIndicatorsAdapter(clientId, selectedYear, selectedMonth);
 
   const actionStats = useMemo(() => {
     if (!actions || actions.length === 0) return { total: 0, completed: 0, pending: 0 };

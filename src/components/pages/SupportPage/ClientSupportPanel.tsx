@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { MessageSquare, Plus, CheckCircle2, ShieldAlert, Clock, Search, Filter, Loader2, ArrowRight, AlertCircle, Send } from 'lucide-react';
-import { auth } from '../../../lib/firebase';
-import { supportService } from '../../../services/supportService';
+import { useSupportAdapter } from '../../../adapters/ui/useSupportAdapter';
 import { SupportTicket, TicketType, TicketPriority } from '../../../types/support';
 import { PageHeader } from '../../Common';
 import { TicketChat } from './TicketChat';
@@ -12,8 +11,7 @@ import { useGovernance } from '../../../lib/governanceContext';
 
 export const ClientSupportPanel: React.FC<{ selectedClient?: string, headerAddon?: React.ReactNode }> = ({ selectedClient, headerAddon }) => {
   const { role } = useGovernance();
-  const [tickets, setTickets] = useState<SupportTicket[]>([]);
-  const [loading, setLoading] = useState(true);
+  const { tickets, loading, fetchTickets, submitTicket } = useSupportAdapter();
   const [showForm, setShowForm] = useState(false);
   const [submitting, setSubmitting] = useState(false);
   const [searchTerm, setSearchTerm] = useState('');
@@ -29,42 +27,21 @@ export const ClientSupportPanel: React.FC<{ selectedClient?: string, headerAddon
 
   const [successMessage, setSuccessMessage] = useState<{ protocol: string; followUp?: string } | null>(null);
 
-  const fetchTickets = async () => {
-    if (!auth.currentUser) return;
-    setLoading(true);
-    try {
-      const data = await supportService.getUserTickets(auth.currentUser.uid);
-      setTickets(data);
-    } catch (error) {
-      console.error('Error loading tickets:', error);
-    } finally {
-      setLoading(false);
-    }
-  };
-
   useEffect(() => {
     fetchTickets();
-  }, [auth.currentUser]);
+  }, []);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!auth.currentUser) return;
-
     setSubmitting(true);
     try {
-      const result = await supportService.createTicket({
-        userId: auth.currentUser.uid,
-        userName: auth.currentUser.displayName || 'Usuário',
-        userEmail: auth.currentUser.email || '',
-        userRole: role || 'cliente',
-        clienteId: selectedClient,
-        subject: formData.subject,
-        description: formData.description,
-        type: formData.type,
-        priority: formData.priority,
-        status: 'pending'
+      const result = await submitTicket({
+        ...formData,
+        clienteId: selectedClient
       });
-
+      
+      if (!result) throw new Error('Falha ao criar ticket');
+      
       setSuccessMessage({ protocol: result.protocolo, followUp: result.followUpProtocolNumber });
       setFormData({ subject: '', description: '', type: 'error', priority: 'medium' });
       setShowForm(false);

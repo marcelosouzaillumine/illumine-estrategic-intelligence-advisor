@@ -4,8 +4,8 @@ import { motion } from 'motion/react';
 import { PageHeader, StatusBadge, ControlBar } from '../Common';
 import { ExecutiveMetricCard } from '../ui/executive-metric-card';
 import { formatValue, cn } from '../../lib/utils';
-import { db } from '../../lib/firebase';
-import { collection, query, where, onSnapshot } from 'firebase/firestore';
+import { useSalesPipelineAdapter } from '../../adapters/ui/useSalesPipelineAdapter';
+import { useIndicatorsAdapter } from '../../adapters/ui/useIndicatorsAdapter';
 import { SalesPipelineManager } from '../SalesPipelineManager';
 
 interface MarketingComercialPageProps {
@@ -24,46 +24,21 @@ const getValueSizeClass = (maxLen: number) => {
 
 export function MarketingComercialPage({ type, clientId }: MarketingComercialPageProps) {
   const isMarketing = type === 'marketing';
-  const [dbIndicators, setDbIndicators] = useState<any[]>([]);
   const [loading, setLoading] = useState(false);
   const [selectedYear, setSelectedYear] = useState(new Date().getFullYear());
   const [selectedMonth, setSelectedMonth] = useState(new Date().getMonth() + 1);
   const [view, setView] = useState<'dashboard' | 'pipeline'>('dashboard');
-  const [pipelineEntries, setPipelineEntries] = useState<any[]>([]);
   const [periodMode, setPeriodMode] = useState<'mensal' | 'anual'>('mensal');
 
-  useEffect(() => {
-    if (!clientId || isMarketing) return;
-    const q = query(
-      collection(db, 'sales_pipeline'),
-      where('clientId', '==', clientId)
-    );
-    const unsubscribe = onSnapshot(q, (snapshot) => {
-      setPipelineEntries(snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() })));
-    });
-    return () => unsubscribe();
-  }, [clientId, isMarketing]);
+  const { pipelineEntries } = useSalesPipelineAdapter(clientId, isMarketing);
+
+  const { dbIndicators, getIndicatorValue } = useIndicatorsAdapter(clientId, selectedYear, selectedMonth);
 
   useEffect(() => {
-    if (!clientId) return;
-    setLoading(true);
-    const q = query(
-      collection(db, 'indicators'),
-      where('clientId', '==', clientId),
-      where('ano', '==', selectedYear),
-      where('mes', '==', selectedMonth)
-    );
-    const unsubscribe = onSnapshot(q, (snapshot) => {
-      setDbIndicators(snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() })));
+    if (dbIndicators) {
       setLoading(false);
-    });
-    return () => unsubscribe();
-  }, [clientId, selectedYear, selectedMonth]);
-
-  const getIndicatorValue = (name: string, fallback: number = 0) => {
-    const ind = dbIndicators.find(i => i.ind === name || i.ind?.toLowerCase() === name.toLowerCase());
-    return ind ? ind.val : fallback;
-  };
+    }
+  }, [dbIndicators]);
 
   const hasData = dbIndicators.length > 0;
 

@@ -19,7 +19,7 @@ import { ExecutiveDecisionSummaryCard } from '../ui/executive-decision-summary-c
 import { ExecutiveStrategicSemanticCards } from '../ui/executive-strategic-semantic-cards';
 import { ExecutiveDecisionSynthesisEngine } from '../../services/FiduciaryRuntimeAdapter';
 import { ExecutiveComposedChart, ExecutiveBar, ExecutiveLine, ExecutiveChartGrid, ExecutiveChartXAxis, ExecutiveChartYAxis, ExecutiveChartTooltip } from '../ui/executive-chart';
-import { ExecutiveChartSemanticPalette } from '../../core/theme/ExecutiveChartSemanticPalette';
+import { ExecutiveChartSemanticPalette } from '../../adapters/ui/ThemeAdapter';
 import { HistoricalInsightEngine, HistoricalSeries } from '../../services/FiduciaryRuntimeAdapter';
 import { useAnnualFinancialData, useAllFinancialData } from '../../hooks/useFinancialData';
 import { useInstitutionalRuntime } from '../../hooks/useInstitutionalRuntime';
@@ -30,8 +30,8 @@ import { ManualFinancialModal } from '../modals/ManualFinancialModal';
 import { useInstitutionalAuth } from '../../core/security/auth/InstitutionalAuthProvider';
 import { FiduciaryRuntimeAdapter } from '../../services/FiduciaryRuntimeAdapter';
 import type { PresentationLayer } from '../../services/FiduciaryRuntimeAdapter';
-import { collection, deleteDoc, doc, query, where, getDocs } from 'firebase/firestore';
-import { db, auth } from '../../lib/firebase';
+import { auth } from '../../lib/firebase';
+import { useDFCPageAdapter } from '../../adapters/ui/useDFCPageAdapter';
 
 type ToastType = { type: 'success' | 'error'; message: string } | null;
 
@@ -122,8 +122,6 @@ export function DFCPage({ clients, selectedClient, selectedYear }: any) {
   const { t } = useLanguage();
   const [filterYear, setFilterYear] = useState(selectedYear || new Date().getFullYear());
   const [toast, setToast] = useState<ToastType>(null);
-  const [deleting, setDeleting] = useState(false);
-  const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
   const [showImportModal, setShowImportModal] = useState(false);
   const [showManualModal, setShowManualModal] = useState(false);
   const [debugInfo, setDebugInfo] = useState<any>(null);
@@ -354,30 +352,7 @@ export function DFCPage({ clients, selectedClient, selectedYear }: any) {
     setTimeout(() => setToast(null), 4000);
   };
 
-  const handleDelete = async () => {
-    if (!auth.currentUser) {
-      showToast('error', 'Você precisa estar logado para excluir dados.');
-      return;
-    }
-    setDeleting(true);
-    setShowDeleteConfirm(false);
-    try {
-      const q = query(
-        collection(db, 'financial_entries'),
-        where('clientId', '==', selectedClient),
-        where('type',     '==', 'DFC'),
-        where('year',     '==', filterYear)
-      );
-      const snap = await getDocs(q);
-      await Promise.all(snap.docs.map((d) => deleteDoc(doc(db, 'financial_entries', d.id))));
-      showToast('success', `${snap.docs.length} registro(s) excluído(s) com sucesso.`);
-      refetchDFC();
-    } catch (err: any) {
-      showToast('error', err.message || 'Erro ao excluir dados.');
-    } finally {
-      setDeleting(false);
-    }
-  };
+  const { deleting, showDeleteConfirm, setShowDeleteConfirm, handleDelete } = useDFCPageAdapter(selectedClient, filterYear, refetchDFC, showToast, auth);
 
 
 

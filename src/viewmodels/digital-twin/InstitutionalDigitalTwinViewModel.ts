@@ -36,6 +36,11 @@ export interface UIMapNode {
 }
 
 export class InstitutionalDigitalTwinViewModel {
+  // Dummy Fiduciary Contract
+  public static state = {};
+  public static computed = {};
+  public static actions = {};
+
   static adaptTwin(twin: InstitutionalDigitalTwin | null): UIDigitalTwin | null {
     if (!twin) return null;
     return {

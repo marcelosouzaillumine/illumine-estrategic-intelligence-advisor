@@ -21,6 +21,10 @@ const STEP_ORDER: GuidedJourneyStep[] = [
   'FINAL_DISCLOSURE'
 ];
 
+/**
+ * @deprecated This engine is part of the legacy Demo suite.
+ * Do not use in production runtime. Scheduled for removal in HCA-003.
+ */
 export class GuidedBoardJourneyEngine {
   public static assertValidTransition(
     current: GuidedJourneyStep,

@@ -146,6 +146,10 @@ const REGISTRY: Record<string, DemoScenario> = {
   }
 };
 
+/**
+ * @deprecated This registry is part of the legacy Demo suite.
+ * Do not use in production runtime. Scheduled for removal in HCA-003.
+ */
 export class ExecutiveDemoScenarioRegistry {
   public static getScenario(scenarioId: string): DemoScenario | null {
     const scenario = REGISTRY[scenarioId];
