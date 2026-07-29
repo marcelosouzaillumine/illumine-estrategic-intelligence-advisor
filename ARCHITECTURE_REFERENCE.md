@@ -19,7 +19,7 @@ packages/
 │   ├── semantic-model/       # Enterprise Semantic System (kernel, taxonomy, ontology, catalogs, vocabulary, dimensions, relationships)
 │   ├── executive-contracts/  # Contratos Públicos Puros Imutáveis (capability, governance, decision, reasoning, versioning, events)
 │   └── executive-domain/     # Lógica de Domínio Interna (aggregates, factories, services, rules, policies, lifecycle, projectors)
-├── intelligence/             # Camada Estendida de Inteligência Executiva, EDOS & Copilot (Waves 13 a 17.12)
+├── intelligence/             # Camada Estendida de Inteligência Executiva, EDOS & Copilot (Waves 13 a 17.13)
 │   ├── intelligence-kernel/  # Núcleo Compartilhado de Cognição (IntelligenceIdentity, ProvenanceReference, Context, Trace, Signal)
 │   ├── organizational-memory/# Memória Imutável de Experiências Executivas & ExecutiveDecisionTimeline (Wave 16.5 Phase 5)
 │   ├── knowledge-graph/      # Grafo de Conhecimento Causal (Ontology vs Causal Model)
@@ -73,16 +73,16 @@ packages/
 
 ## 2. Architecture Decision Records (ADRs)
 
-### `ADR-001` a `ADR-065`: Core Foundation, Intelligence, EDOS, Product Experience, Page Activation, UI Runtime, Real Mounting & Native Composition
+### `ADR-001` a `ADR-066`: Core Foundation, Intelligence, EDOS, Product Experience, Page Activation, UI Runtime, Real Mounting, Native Composition & Decision Intelligence
 - ADRs normativas anteriores congeladas.
 
-### `ADR-066`: Executive Decision Intelligence Layer Standard (Wave 17.12)
-- **Decisão**: Instituir que os agentes executivos não são componentes visuais de página, mas sim motores cognitivos invisíveis que alimentam a experiência de decisão do executivo. (*"Agents provide intelligence; the executive experience provides decisions."*)
+### `ADR-067`: Executive Decision Intelligence Real Mount Standard (Wave 17.13)
+- **Decisão**: Instituir que a inteligência de decisão executiva é declarada em cada página através do componente montador canônico `<ExecutiveDecisionIntelligenceMount />`, posicionado diretamente abaixo do `PageHeader` e alimentado por dados financeiros reais.
 
 ---
 
 ## 3. Roteiro de Transição Arquitetural
 
-- **Wave 17.11**: Concluída (Executive Intelligence Canonical Integration Refactor v1.0).
-- **Wave 17.12**: Em Execução (Executive Decision Intelligence Layer Canonical Refactoring v1.0).
+- **Wave 17.12**: Concluída (Executive Decision Intelligence Layer Canonical Refactoring v1.0).
+- **Wave 17.13**: Em Execução (Executive Decision Intelligence Real Experience Activation).
 - **Wave 18**: Próximo marco (Enterprise Data Connectivity & Real-Time Intelligence).

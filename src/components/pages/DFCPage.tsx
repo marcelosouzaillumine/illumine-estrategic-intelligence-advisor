@@ -15,10 +15,7 @@ import { ManualFinancialModal } from '../modals/ManualFinancialModal';
 import { ImportFinancialModal } from '../modals/ImportFinancialModal';
 import { useDFCPageViewModel } from '../../viewmodels/useDFCPageViewModel';
 import { ExecutiveIntelligenceShell } from '../executive/ExecutiveIntelligenceShell';
-import { ExecutiveDecisionSurface } from '../executive/ExecutiveDecisionSurface';
-import { ExecutiveInsightsPanel } from '../executive/ExecutiveInsightsPanel';
-import { ExecutiveAgentActionSurface } from '../executive/ExecutiveAgentActionSurface';
-import { ExecutiveExperienceComposer } from '@illumine/executive-experience-composer';
+import { ExecutiveDecisionIntelligenceMount } from '../executive/ExecutiveDecisionIntelligenceMount';
 
 export interface DFCPageProps {
   clientId?: string;
@@ -50,25 +47,8 @@ export function DFCPage(props: DFCPageProps) {
   const formatCurrency = (val: number) =>
     new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(val);
 
-  const composedExp = React.useMemo(() => {
-    return ExecutiveExperienceComposer.compose({
-      companyId: String(activeClientId || 'comp-1'),
-      userId: 'user-c-level',
-      pageId: 'DFCPage',
-      period: String(filterYear || initialYear || 2026)
-    });
-  }, [activeClientId, filterYear, initialYear]);
-
   return (
     <ExecutiveIntelligenceShell pageTitle="Demonstração dos Fluxos de Caixa (DFC)" pageContext="DFCPage">
-      <ExecutiveDecisionSurface
-        pageTitle="DFC — Fluxo de Caixa Executivo"
-        opportunityTitle={composedExp.decisionView.opportunityTitle}
-        opportunityDetail={composedExp.decisionView.opportunityDetail}
-        agentName={composedExp.decisionView.anchorAgentName}
-      />
-      <ExecutiveInsightsPanel pageTitle="DFC — Fluxo de Caixa" />
-      <ExecutiveAgentActionSurface />
       <ExecutivePageTemplate
         header={{
         title: 'Demonstrativo de Fluxo de Caixa (DFC)',
@@ -76,6 +56,11 @@ export function DFCPage(props: DFCPageProps) {
         badge: 'EAA - DEMONSTRATIVO DE FLUXO DE CAIXA'
       }}
     >
+      <ExecutiveDecisionIntelligenceMount
+        pageId="DFCPage"
+        companyId={String(activeClientId || 'comp-1')}
+        period={String(filterYear || initialYear || 2026)}
+      />
       {/* Barra de Controle Temporal e Ações (Padrão do Balanço Patrimonial) */}
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-6 mb-10">
         <div className="flex flex-col md:flex-row md:items-center gap-4">

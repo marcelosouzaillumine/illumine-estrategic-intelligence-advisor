@@ -29,10 +29,7 @@ import { ManualFinancialModal } from '../modals/ManualFinancialModal';
 import { ExecutivePageTemplate } from '../ui/executive-page-template';
 import { useDLPAPageViewModel, normalizeDLPARow } from './dlpa/useDLPAPageViewModel';
 import { ExecutiveIntelligenceShell } from '../executive/ExecutiveIntelligenceShell';
-import { ExecutiveDecisionSurface } from '../executive/ExecutiveDecisionSurface';
-import { ExecutiveInsightsPanel } from '../executive/ExecutiveInsightsPanel';
-import { ExecutiveAgentActionSurface } from '../executive/ExecutiveAgentActionSurface';
-import { ExecutiveExperienceComposer } from '@illumine/executive-experience-composer';
+import { ExecutiveDecisionIntelligenceMount } from '../executive/ExecutiveDecisionIntelligenceMount';
 
 export function DLPAPage({ clients, selectedClient, selectedYear }: any) {
   // Adapter: useFinancialDomain e Firestore collection('dlpa') sincronizam os saldos iniciais e distribuição de lucros
@@ -81,29 +78,17 @@ export function DLPAPage({ clients, selectedClient, selectedYear }: any) {
     }
   } = useDLPAPageViewModel(clients, selectedClient, selectedYear);
 
-  const composedExp = React.useMemo(() => {
-    return ExecutiveExperienceComposer.compose({
-      companyId: String(selectedClient || 'comp-1'),
-      userId: 'user-c-level',
-      pageId: 'DLPAPage',
-      period: String(filterYear || selectedYear || 2026)
-    });
-  }, [selectedClient, filterYear, selectedYear]);
-
   return (
     <ExecutiveIntelligenceShell pageTitle="DLPA — Lucros e Prejuízos Acumulados" pageContext="DLPAPage">
-      <ExecutiveDecisionSurface
-        pageTitle="DLPA Contábil"
-        opportunityTitle={composedExp.decisionView.opportunityTitle}
-        opportunityDetail={composedExp.decisionView.opportunityDetail}
-        agentName={composedExp.decisionView.anchorAgentName}
-      />
-      <ExecutiveInsightsPanel pageTitle="DLPA Contábil" />
-      <ExecutiveAgentActionSurface />
       <ExecutivePageTemplate header={{
-      title: "DLPA — Demonstração de Lucros e Prejuízos Acumulados",
-      description: "Análise estrutural de distribuição de lucros, preservação patrimonial e maturidade de governança de capital.",
-    }}>
+        title: "DLPA — Demonstração de Lucros e Prejuízos Acumulados",
+        description: "Análise estrutural de distribuição de lucros, preservação patrimonial e maturidade de governança de capital.",
+      }}>
+        <ExecutiveDecisionIntelligenceMount
+          pageId="DLPAPage"
+          companyId={String(selectedClient || 'comp-1')}
+          period={String(filterYear || selectedYear || 2026)}
+        />
 
       {/* Control Bar (Context Controls & Actions) */}
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-6 mb-10">

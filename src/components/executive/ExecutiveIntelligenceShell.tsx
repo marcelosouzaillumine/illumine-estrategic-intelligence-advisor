@@ -1,8 +1,5 @@
 import React, { useState } from 'react';
-import { ExecutiveInsightsPanel } from './ExecutiveInsightsPanel';
 import { ExecutiveIntelligenceDrawer } from './ExecutiveIntelligenceDrawer';
-import { ExecutiveAgentActionMenu } from './ExecutiveAgentActionMenu';
-import { ExecutiveAgentActionRegistry } from '@illumine/executive-page-intelligence';
 import { Bot, Sparkles } from 'lucide-react';
 
 export interface ExecutiveIntelligenceShellProps {
@@ -22,32 +19,14 @@ export const ExecutiveIntelligenceShell: React.FC<ExecutiveIntelligenceShellProp
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
   const [isCopilotOpen, setIsCopilotOpen] = useState(false);
 
-  const actionMappings = ExecutiveAgentActionRegistry.getAllMappings();
-
   return (
-    <div className="relative min-h-screen bg-slate-950 text-slate-100">
-      {/* Top Insights Panel */}
-      <div className="px-6 pt-6">
-        <ExecutiveInsightsPanel
-          pageTitle={pageTitle}
-          onExplore={() => setIsDrawerOpen(true)}
-        />
-      </div>
-
+    <div className="relative min-h-screen text-foreground">
       {/* Main Page Content */}
-      <main className="px-6 pb-24">
+      <main className="px-6 py-6 pb-24">
         {children}
-
-        {/* Agent Action Surface */}
-        <div className="mt-8">
-          <ExecutiveAgentActionMenu
-            mappings={actionMappings}
-            onSelectAction={() => setIsDrawerOpen(true)}
-          />
-        </div>
       </main>
 
-      {/* Persistent Drawer */}
+      {/* Persistent Intelligence Drawer */}
       <ExecutiveIntelligenceDrawer
         isOpen={isDrawerOpen}
         pageContext={pageContext}
@@ -65,24 +44,24 @@ export const ExecutiveIntelligenceShell: React.FC<ExecutiveIntelligenceShellProp
             <span>Executive Copilot</span>
           </button>
         ) : (
-          <div className="w-80 rounded-2xl border border-slate-800 bg-slate-900/95 p-4 shadow-2xl backdrop-blur-md">
-            <div className="flex items-center justify-between border-b border-slate-800 pb-2 mb-3">
+          <div className="w-80 rounded-2xl border border-border bg-card p-4 shadow-2xl backdrop-blur-md">
+            <div className="flex items-center justify-between border-b border-border pb-2 mb-3">
               <div className="flex items-center gap-2">
-                <Bot className="h-4 w-4 text-blue-400" />
-                <h4 className="text-xs font-semibold text-slate-100">Executive Copilot</h4>
+                <Bot className="h-4 w-4 text-secondary" />
+                <h4 className="text-xs font-semibold text-primary">Executive Copilot</h4>
               </div>
-              <button onClick={() => setIsCopilotOpen(false)} className="text-slate-400 hover:text-white text-xs">✕</button>
+              <button onClick={() => setIsCopilotOpen(false)} className="text-executive-secondary hover:text-primary text-xs">✕</button>
             </div>
-            <div className="space-y-2 text-[11px] text-slate-300">
-              <p><strong>Empresa:</strong> {companyName}</p>
-              <p><strong>Página:</strong> {pageTitle}</p>
-              <p><strong>Período:</strong> 2026-YTD</p>
-              <div className="mt-3 rounded-lg bg-slate-950 p-2 border border-slate-800 space-y-1">
-                <p className="text-slate-400">Sugestões de análise:</p>
-                <button onClick={() => setIsDrawerOpen(true)} className="block text-blue-400 hover:underline">
+            <div className="space-y-2 text-[11px] text-executive-secondary">
+              <p><strong className="text-primary">Empresa:</strong> {companyName}</p>
+              <p><strong className="text-primary">Página:</strong> {pageTitle}</p>
+              <p><strong className="text-primary">Período:</strong> 2026-YTD</p>
+              <div className="mt-3 rounded-lg bg-surface-container p-2 border border-border space-y-1">
+                <p className="text-executive-secondary font-medium">Sugestões de análise:</p>
+                <button onClick={() => setIsDrawerOpen(true)} className="block text-secondary hover:underline text-left">
                   • Explicar variação dos indicadores
                 </button>
-                <button onClick={() => setIsDrawerOpen(true)} className="block text-blue-400 hover:underline">
+                <button onClick={() => setIsDrawerOpen(true)} className="block text-secondary hover:underline text-left">
                   • Analisar riscos financeiros
                 </button>
               </div>

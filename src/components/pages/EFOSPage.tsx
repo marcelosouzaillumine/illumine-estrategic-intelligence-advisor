@@ -30,10 +30,7 @@ import { ExecutiveStrategicTensions } from '../ui/executive-strategic-tensions';
 import { ExecutiveDecisionTrace } from '../ui/executive-decision-trace';
 import { useEFOSPageViewModel } from '../../viewmodels/useEFOSPageViewModel';
 import { ExecutiveIntelligenceShell } from '../executive/ExecutiveIntelligenceShell';
-import { ExecutiveDecisionSurface } from '../executive/ExecutiveDecisionSurface';
-import { ExecutiveInsightsPanel } from '../executive/ExecutiveInsightsPanel';
-import { ExecutiveAgentActionSurface } from '../executive/ExecutiveAgentActionSurface';
-import { ExecutiveExperienceComposer } from '@illumine/executive-experience-composer';
+import { ExecutiveDecisionIntelligenceMount } from '../executive/ExecutiveDecisionIntelligenceMount';
 
 interface OverviewPageProps {
   clients?: any[];
@@ -362,29 +359,17 @@ function sanitizeReport(obj: any): any {
   const propagationChains = executiveReport?.propagationChains || [];
   const fiduciaryRationale = executiveReport?.fiduciaryRationale;
 
-   const composedExp = React.useMemo(() => {
-     return ExecutiveExperienceComposer.compose({
-       companyId: String(selectedClient || 'comp-1'),
-       userId: 'user-c-level',
-       pageId: 'EFOSPage',
-       period: String(selectedYear || 2026)
-     });
-   }, [selectedClient, selectedYear]);
-
    return (
      <ExecutiveIntelligenceShell pageTitle="EFOS — Visão Executiva Integrada" pageContext="EFOSPage">
-       <ExecutiveDecisionSurface
-         pageTitle="EFOS — Visão Executiva"
-         opportunityTitle={composedExp.decisionView.opportunityTitle}
-         opportunityDetail={composedExp.decisionView.opportunityDetail}
-         agentName={composedExp.decisionView.anchorAgentName}
-       />
-       <ExecutiveInsightsPanel pageTitle="EFOS — Visão Executiva" />
-       <ExecutiveAgentActionSurface />
        <ExecutivePageTemplate header={{
          title: "EFOS — Executive Financial Operating System",
          description: "Infraestrutura integrada de interpretação do capital e governança fiduciária.",
        }}>
+         <ExecutiveDecisionIntelligenceMount
+           pageId="EFOSPage"
+           companyId={String(selectedClient || 'comp-1')}
+           period={String(selectedYear || 2026)}
+         />
         {/* --- CAMADA 1: NÍVEL CONSELHO (SÍNTESE DE INTELIGÊNCIA OPERACIONAL EFOS) --- */}
         <ExecutiveSummarySection 
           className="mb-8"

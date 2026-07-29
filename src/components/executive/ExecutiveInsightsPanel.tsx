@@ -9,6 +9,15 @@ export interface ExecutiveInsightsPanelProps {
   onExplore?: () => void;
 }
 
+const PAGE_TITLE_MAP: Record<string, string> = {
+  DashboardPage: 'Dashboard Executivo',
+  DREPage: 'Demonstração do Resultado (DRE)',
+  BalanceSheetPage: 'Balanço Patrimonial',
+  DFCPage: 'Fluxo de Caixa (DFC)',
+  DLPAPage: 'Lucros Acumulados (DLPA)',
+  EFOSPage: 'Executive Financial Operating System (EFOS)'
+};
+
 export const ExecutiveInsightsPanel: React.FC<ExecutiveInsightsPanelProps> = ({
   pageTitle,
   decisionsCount = 1,
@@ -16,6 +25,8 @@ export const ExecutiveInsightsPanel: React.FC<ExecutiveInsightsPanelProps> = ({
   opportunitiesCount = 2,
   onExplore
 }) => {
+  const displayTitle = PAGE_TITLE_MAP[pageTitle] || pageTitle;
+
   return (
     <div className="mb-6 rounded-xl border border-blue-900/40 bg-gradient-to-r from-slate-900 via-slate-900/95 to-slate-950 p-4 shadow-lg">
       <div className="flex flex-wrap items-center justify-between gap-4">
@@ -25,7 +36,7 @@ export const ExecutiveInsightsPanel: React.FC<ExecutiveInsightsPanelProps> = ({
           </div>
           <div>
             <h3 className="text-sm font-semibold text-slate-100 flex items-center gap-2">
-              Executive Insights — {pageTitle}
+              Executive Insights — {displayTitle}
             </h3>
             <p className="text-xs text-slate-400">Inteligência contextual ativa e diagnósticos operacionais</p>
           </div>

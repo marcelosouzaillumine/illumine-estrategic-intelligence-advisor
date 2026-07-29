@@ -45,10 +45,7 @@ import { useLanguage } from '../../contexts/LanguageContext';
 import { matchFinancialKey } from '../../utils/financialKeyNormalizer';
 import { DashboardEvolutionChart } from './dashboard/DashboardEvolutionChart';
 import { ExecutiveIntelligenceShell } from '../executive/ExecutiveIntelligenceShell';
-import { ExecutiveDecisionSurface } from '../executive/ExecutiveDecisionSurface';
-import { ExecutiveInsightsPanel } from '../executive/ExecutiveInsightsPanel';
-import { ExecutiveAgentActionSurface } from '../executive/ExecutiveAgentActionSurface';
-import { ExecutiveExperienceComposer } from '@illumine/executive-experience-composer';
+import { ExecutiveDecisionIntelligenceMount } from '../executive/ExecutiveDecisionIntelligenceMount';
 
 const AXIS_DATA = [
   { 
@@ -147,34 +144,22 @@ export function DashboardPage({
     }));
   }, [historicalData]);
 
-  const composedExp = useMemo(() => {
-    return ExecutiveExperienceComposer.compose({
-      companyId: String(selectedClient || 'comp-1'),
-      userId: 'user-c-level',
-      pageId: 'DashboardPage',
-      period: String(selectedYear),
-      activeFinancialMetrics: { EBITDA: getIndicatorValue('EBITDA') }
-    });
-  }, [selectedClient, selectedYear, getIndicatorValue]);
-
   if (isHistoricalLoading) {
     return <DashboardSkeleton />;
   }
 
   return (
     <ExecutiveIntelligenceShell pageTitle="Dashboard Executivo" pageContext="DashboardPage">
-      <ExecutiveDecisionSurface
-        pageTitle="Dashboard Executivo"
-        opportunityTitle={composedExp.decisionView.opportunityTitle}
-        opportunityDetail={composedExp.decisionView.opportunityDetail}
-        agentName={composedExp.decisionView.anchorAgentName}
-      />
-      <ExecutiveInsightsPanel pageTitle="Dashboard Executivo" />
-      <ExecutiveAgentActionSurface />
       <ExecutivePageTemplate header={{
-      title: t('dashboard.header.title', 'Visão Geral da Instituição'),
-      description: t('dashboard.header.subtitle', 'Síntese executiva dos eixos estratégicos, saúde financeira e governança patrimonial.'),
-    }}>
+        title: t('dashboard.header.title', 'Visão Geral da Instituição'),
+        description: t('dashboard.header.subtitle', 'Síntese executiva dos eixos estratégicos, saúde financeira e governança patrimonial.'),
+      }}>
+        <ExecutiveDecisionIntelligenceMount
+          pageId="DashboardPage"
+          companyId={String(selectedClient || 'comp-1')}
+          period={String(selectedYear)}
+          financialData={{ EBITDA: getIndicatorValue('EBITDA') }}
+        />
       {((runtimeOutput as any)?.isSandbox || (runtimeOutput as any)?.isDemonstrative) && (
         <SandboxWarningOverlay type={(runtimeOutput as any).isSandbox ? 'sandbox' : 'demonstrative'} />
       )}
