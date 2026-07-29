@@ -29,6 +29,11 @@ import { ExecutiveSummarySection } from '../ui/executive-summary-section';
 import { ExecutiveStrategicTensions } from '../ui/executive-strategic-tensions';
 import { ExecutiveDecisionTrace } from '../ui/executive-decision-trace';
 import { useEFOSPageViewModel } from '../../viewmodels/useEFOSPageViewModel';
+import { ExecutiveIntelligenceShell } from '../executive/ExecutiveIntelligenceShell';
+import { ExecutiveDecisionSurface } from '../executive/ExecutiveDecisionSurface';
+import { ExecutiveInsightsPanel } from '../executive/ExecutiveInsightsPanel';
+import { ExecutiveAgentActionSurface } from '../executive/ExecutiveAgentActionSurface';
+import { ExecutiveExperienceComposer } from '@illumine/executive-experience-composer';
 
 interface OverviewPageProps {
   clients?: any[];
@@ -99,10 +104,11 @@ export function EFOSPage({
   const { dbData: bpEntries, loading: loadingBP } = useAnnualFinancialData(clientId, filterYear, 'BP');
   const { dbData: dreEntries, loading: loadingDRE } = useAnnualFinancialData(clientId, filterYear, 'DRE');
   const { dbData: dlpaEntries, loading: loadingDLPA } = useAnnualFinancialData(clientId, filterYear, 'DLPA');
+  const { dbData: cashFlowDbData, loading: loadingDFC } = useAnnualFinancialData(clientId, filterYear, 'DFC');
   const { dbData: allHistoryData, loading: loadingHistory } = useAllFinancialData(clientId);
 
   const { efosData, loading: loadingCashFlow } = useEFOSPageAdapter(selectedClient);
-  const cashFlowData: any[] = [];
+  const cashFlowData: any[] = cashFlowDbData && cashFlowDbData.length > 0 ? cashFlowDbData : (efosData || []);
 
   const bpSummary = useMemo(() => getComputedBPSummary(bpEntries), [bpEntries]);
   const { ebitda, lucroLiquido } = useMemo(() => getComputedDreMetrics(dreEntries), [dreEntries]);
@@ -110,7 +116,7 @@ export function EFOSPage({
   const [generateError, setGenerateError] = useState<string | null>(null);
 
   useEffect(() => {
-    if (loadingBP || loadingDRE || loadingDLPA || loadingHistory || loadingCashFlow) return;
+    if (loadingBP || loadingDRE || loadingDLPA || loadingDFC || loadingHistory || loadingCashFlow) return;
 
     const clientObj = clients?.find((c: any) => c.id === selectedClient);
     const segment = clientObj?.segmento || 'Default';
@@ -140,7 +146,9 @@ export function EFOSPage({
           return cycles || 1;
         })(),
         filterYear: filterYear,
-        allHistoryData: allHistoryData
+        allHistoryData: allHistoryData,
+        cashFlowData: cashFlowData,
+        dlpaData: dlpaEntries
       },
       bpData: bpEntries,
       dreData: dreEntries,
@@ -150,7 +158,7 @@ export function EFOSPage({
         const cycles = Object.keys(allHistoryData.reduce((a, i) => { a[i.year] = true; return a; }, {} as any)).length;
         return cycles || 1;
       })(),
-      isMockData: bpEntries.length === 0 && dreEntries.length === 0
+      isMockData: (bpEntries.length === 0 && dreEntries.length === 0) || (cashFlowData.length === 0 && dlpaEntries.length === 0)
     };
 
     try {
@@ -354,8 +362,25 @@ function sanitizeReport(obj: any): any {
   const propagationChains = executiveReport?.propagationChains || [];
   const fiduciaryRationale = executiveReport?.fiduciaryRationale;
 
+   const composedExp = React.useMemo(() => {
+     return ExecutiveExperienceComposer.compose({
+       companyId: String(selectedClient || 'comp-1'),
+       userId: 'user-c-level',
+       pageId: 'EFOSPage',
+       period: String(selectedYear || 2026)
+     });
+   }, [selectedClient, selectedYear]);
+
    return (
-     <>
+     <ExecutiveIntelligenceShell pageTitle="EFOS — Visão Executiva Integrada" pageContext="EFOSPage">
+       <ExecutiveDecisionSurface
+         pageTitle="EFOS — Visão Executiva"
+         opportunityTitle={composedExp.decisionView.opportunityTitle}
+         opportunityDetail={composedExp.decisionView.opportunityDetail}
+         agentName={composedExp.decisionView.anchorAgentName}
+       />
+       <ExecutiveInsightsPanel pageTitle="EFOS — Visão Executiva" />
+       <ExecutiveAgentActionSurface />
        <ExecutivePageTemplate header={{
          title: "EFOS — Executive Financial Operating System",
          description: "Infraestrutura integrada de interpretação do capital e governança fiduciária.",
@@ -484,7 +509,7 @@ function sanitizeReport(obj: any): any {
           <ExecutiveDecisionTrace trace={[]} />
         </ExecutiveSummarySection>
       </ExecutivePageTemplate>
-    </>
+     </ExecutiveIntelligenceShell>
   );
 }
 

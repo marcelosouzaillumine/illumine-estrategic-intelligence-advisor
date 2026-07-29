@@ -1,0 +1,16 @@
+{
+  "name": "@illumine/executive-question-interface",
+  "version": "1.0.0",
+  "description": "Illumine OS Contextual Question Menu & Launcher for Pages (Wave 17.5 Phase 3)",
+  "main": "src/index.ts",
+  "types": "src/index.ts",
+  "scripts": {
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@illumine/core-primitives": "^1.0.0",
+    "@illumine/semantic-model": "^1.0.0",
+    "@illumine/executive-contracts": "^1.0.0",
+    "@illumine/executive-question-engine": "^1.0.0"
+  }
+}

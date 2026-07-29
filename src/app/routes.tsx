@@ -578,7 +578,9 @@ export function renderCurrentPage(ctx: RouteRenderContext) {
   }
 
   if (currentPage === 'board_deck_center') {
-    return <BoardDeckCenter onNavigate={setCurrentPage} />;
+    const activeClient = clients.find((c: any) => c.id === selectedClient);
+    const companyName = activeClient?.fantasia || activeClient?.razao || activeClient?.razaoSocial || activeClient?.name;
+    return <BoardDeckCenter onNavigate={setCurrentPage} selectedClient={selectedClient} selectedYear={selectedYear} companyName={companyName} />;
   }
   if (currentPage === 'institutional_observability_center') {
     return <InstitutionalObservabilityCenter />;

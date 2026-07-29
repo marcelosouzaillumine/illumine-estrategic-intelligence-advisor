@@ -20,6 +20,11 @@ import { DREBoardDecisionSupportSection } from './dre/DREBoardDecisionSupportSec
 import { DREExecutiveAdvisorySection } from './dre/DREExecutiveAdvisorySection';
 import { DRETechnicalLayerSection } from './dre/DRETechnicalLayerSection';
 import { useDREPageViewModel } from './dre/useDREPageViewModel';
+import { ExecutiveIntelligenceShell } from '../executive/ExecutiveIntelligenceShell';
+import { ExecutiveDecisionSurface } from '../executive/ExecutiveDecisionSurface';
+import { ExecutiveInsightsPanel } from '../executive/ExecutiveInsightsPanel';
+import { ExecutiveAgentActionSurface } from '../executive/ExecutiveAgentActionSurface';
+import { ExecutiveExperienceComposer } from '@illumine/executive-experience-composer';
 
 export function DREPage({ clients, selectedClient, selectedYear }: any) {
   const { state, computed, actions } = useDREPageViewModel(clients, selectedClient, selectedYear);
@@ -40,8 +45,26 @@ export function DREPage({ clients, selectedClient, selectedYear }: any) {
 
   const { isSectionVisible } = computed;
 
+  const composedExp = React.useMemo(() => {
+    return ExecutiveExperienceComposer.compose({
+      companyId: String(selectedClient || 'comp-1'),
+      userId: 'user-c-level',
+      pageId: 'DREPage',
+      period: String(filterYear || selectedYear || 2026)
+    });
+  }, [selectedClient, filterYear, selectedYear]);
+
   return (
-    <ExecutivePageTemplate header={{
+    <ExecutiveIntelligenceShell pageTitle="Demonstração do Resultado (DRE)" pageContext="DREPage">
+      <ExecutiveDecisionSurface
+        pageTitle="DRE Contábil e Gerencial"
+        opportunityTitle={composedExp.decisionView.opportunityTitle}
+        opportunityDetail={composedExp.decisionView.opportunityDetail}
+        agentName={composedExp.decisionView.anchorAgentName}
+      />
+      <ExecutiveInsightsPanel pageTitle="DRE Contábil" />
+      <ExecutiveAgentActionSurface />
+      <ExecutivePageTemplate header={{
       title: "Demonstração do Resultado (DRE)",
       description: "Análise de performance operacional, lucratividade e rentabilidade do exercício contábil.",
     }}>
@@ -225,5 +248,6 @@ export function DREPage({ clients, selectedClient, selectedYear }: any) {
         document.body
       )}
     </ExecutivePageTemplate>
+    </ExecutiveIntelligenceShell>
   );
 }

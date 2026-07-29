@@ -105,8 +105,63 @@
       ],
       "@illumine/executive-priority-engine": [
         "./packages/intelligence/executive-priority-engine/src/index.ts"
+      ],
+      "@illumine/executive-decision-workspace": [
+        "./packages/intelligence/executive-decision-workspace/src/index.ts"
+      ],
+      "@illumine/executive-narrative-engine": [
+        "./packages/intelligence/executive-narrative-engine/src/index.ts"
+      ],
+      "@illumine/agent-debate-engine": [
+        "./packages/intelligence/agent-debate-engine/src/index.ts"
+      ],
+      "@illumine/executive-explainability": [
+        "./packages/intelligence/executive-explainability/src/index.ts"
+      ],
+      "@illumine/executive-board": [
+        "./packages/intelligence/executive-board/src/index.ts"
+      ],
+      "@illumine/product-value-engine": [
+        "./packages/intelligence/product-value-engine/src/index.ts"
+      ],
+      "@illumine/executive-home": [
+        "./packages/intelligence/executive-home/src/index.ts"
+      ],
+      "@illumine/executive-copilot": [
+        "./packages/intelligence/executive-copilot/src/index.ts"
+      ],
+      "@illumine/executive-context-engine": [
+        "./packages/intelligence/executive-context-engine/src/index.ts"
+      ],
+      "@illumine/executive-question-engine": [
+        "./packages/intelligence/executive-question-engine/src/index.ts"
+      ],
+      "@illumine/executive-insights-layer": [
+        "./packages/intelligence/executive-insights-layer/src/index.ts"
+      ],
+      "@illumine/executive-intelligence-drawer": [
+        "./packages/intelligence/executive-intelligence-drawer/src/index.ts"
+      ],
+      "@illumine/executive-question-interface": [
+        "./packages/intelligence/executive-question-interface/src/index.ts"
+      ],
+      "@illumine/contextual-kpi-intelligence": [
+        "./packages/intelligence/contextual-kpi-intelligence/src/index.ts"
+      ],
+      "@illumine/executive-page-intelligence": [
+        "./packages/intelligence/executive-page-intelligence/src/index.ts"
+      ],
+      "@illumine/executive-experience-composer": [
+        "./packages/intelligence/executive-experience-composer/src/index.ts"
+      ],
+      "@illumine/executive-decision-intelligence": [
+        "./packages/intelligence/executive-decision-intelligence/src/index.ts"
+      ],
+      "@illumine/executive-intelligence-runtime": [
+        "./packages/platform/executive-intelligence-runtime/src/index.ts"
       ]
     },
+    "types": ["node"],
     "allowImportingTsExtensions": true,
     "noEmit": true
   },

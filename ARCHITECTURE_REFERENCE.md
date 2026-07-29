@@ -12,13 +12,14 @@
 packages/
 ├── foundation/               # Tenant, Security, Storage, Telemetry e Observabilidade
 ├── platform/
-│   └── architecture-registry/# Cartório Arquitetural (packages, dependency, contracts, capabilities, freeze registries)
+│   ├── architecture-registry/# Cartório Arquitetural (packages, dependency, contracts, capabilities, freeze registries)
+│   └── executive-intelligence-runtime/# Orquestrador de Tempo de Execução Visual por Página (Wave 17.7 Phase 1)
 ├── domain/                   # Domínio Executivo Canônico
 │   ├── core-primitives/      # Núcleo Atômico: Primitivas, Value Objects & Errors (0 dependências de negócio)
 │   ├── semantic-model/       # Enterprise Semantic System (kernel, taxonomy, ontology, catalogs, vocabulary, dimensions, relationships)
 │   ├── executive-contracts/  # Contratos Públicos Puros Imutáveis (capability, governance, decision, reasoning, versioning, events)
 │   └── executive-domain/     # Lógica de Domínio Interna (aggregates, factories, services, rules, policies, lifecycle, projectors)
-├── intelligence/             # Camada Estendida de Inteligência Executiva, Agent Runtime & EDOS (Waves 13 a 16.5)
+├── intelligence/             # Camada Estendida de Inteligência Executiva, EDOS & Copilot (Waves 13 a 17.12)
 │   ├── intelligence-kernel/  # Núcleo Compartilhado de Cognição (IntelligenceIdentity, ProvenanceReference, Context, Trace, Signal)
 │   ├── organizational-memory/# Memória Imutável de Experiências Executivas & ExecutiveDecisionTimeline (Wave 16.5 Phase 5)
 │   ├── knowledge-graph/      # Grafo de Conhecimento Causal (Ontology vs Causal Model)
@@ -39,16 +40,27 @@ packages/
 │   ├── executive-simulation-engine/# Motor de Simulação Executiva e Validação Pilot (Wave 15C Phase 1)
 │   ├── advisory-governance/  # Governança de Recomendação de Aconselhamento (Wave 15D Phase 2 & 3)
 │   ├── advisory-workflow-engine/# Motor de Ciclo de Vida e Casos de Aconselhamento (Wave 15D Phase 4 & 5)
-│   ├── continuous-intelligence-monitor/# Monitoramento Contínuo de Sinais Empresariais (Wave 16 Phase 1)
-│   ├── advisory-trigger-engine/# Motor de Gatilhos Proativos de Aconselhamento (Wave 16 Phase 2)
-│   ├── executive-insight-engine/# Motor de Geração de Insights Executivos (Wave 16 Phase 4)
-│   ├── executive-priority-engine/# Motor de Priorização Executiva (Wave 16 Phase 5)
-│   ├── executive-decision-workspace/# Workspace Executivo Unificado de Decisões (Wave 16.5 Phase 1)
-│   ├── executive-narrative-engine/# Motor de Narrativas e Pareceres Executivos (Wave 16.5 Phase 2)
-│   ├── agent-debate-engine/  # Motor de Debate e Convergência Multi-Agente (Wave 16.5 Phase 3)
-│   ├── executive-explainability/# Centro de Explicabilidade Executiva Total (Wave 16.5 Phase 4)
-│   ├── executive-board/      # Experiência e Operação do Conselho de Administração (Wave 16.5 Phase 6)
-│   └── product-value-engine/ # Medição Continuada de Valor e ROI do Produto (Wave 16.5 Phase 8)
+│   ├── continuous-intelligence-monitor/# Motor de Monitoramento Contínuo (Wave 16 Phase 1)
+│   ├── advisory-trigger-engine/# Motor de Gatilhos Proativos (Wave 16 Phase 2)
+│   ├── executive-insight-engine/# Motor de Insights (Wave 16 Phase 4)
+│   ├── executive-priority-engine/# Motor de Priorização (Wave 16 Phase 5)
+│   ├── executive-decision-workspace/# Workspace de Decisões (Wave 16.5 Phase 1)
+│   ├── executive-narrative-engine/# Motor de Narrativas (Wave 16.5 Phase 2)
+│   ├── agent-debate-engine/  # Motor de Debate (Wave 16.5 Phase 3)
+│   ├── executive-explainability/# Centro de Explicabilidade (Wave 16.5 Phase 4)
+│   ├── executive-board/      # Experiência do Conselho (Wave 16.5 Phase 6)
+│   ├── product-value-engine/ # Medição de ROI do Produto (Wave 16.5 Phase 8)
+│   ├── executive-home/       # Visão Inicial do Executivo (Wave 17 Phase 1)
+│   ├── executive-copilot/    # Copilot Conversacional Contextual & ExecutiveCopilotRouter (Wave 17.9 Phase 6)
+│   ├── executive-context-engine/# Motor Unificado de Resolver de Contexto Executivo (Wave 17 Phase 3)
+│   ├── executive-question-engine/# Gerador Proativo de Perguntas Inteligentes C-Level (Wave 17 Phase 5)
+│   ├── executive-insights-layer/# Camada Superior de Apresentação de Insights (Wave 17.5 Phase 1)
+│   ├── executive-intelligence-drawer/# Painel Lateral Persistente de Inteligência (Wave 17.5 Phase 2)
+│   ├── executive-question-interface/# Menu e Lançador Contextual de Perguntas (Wave 17.5 Phase 3)
+│   ├── contextual-kpi-intelligence/# Motor Contextual de Explicação de KPIs (Wave 17.5 Phase 4)
+│   ├── executive-page-intelligence/# Real Mount Verification & Experience Mount Gate (Wave 17.10.1 Phase 7)
+│   ├── executive-experience-composer/# Composição Canônica da Experiência Executiva (Wave 17.11 Phase 3)
+│   └── executive-decision-intelligence/# Motor de Decisão Executiva sem Agent Surface Visual (Wave 17.12 Phase 2)
 ├── runtime/                  # Kernel, Executive Bus, Scheduler, Queue, Projection Engine (@illumine/runtime)
 ├── capabilities/             # Capacidades cognitivas registradas (financial, governance, operational, strategic, risk, advisor)
 ├── applications/             # Visões do usuário (Board Report, Risk, Finance, ESG, Portfolio)
@@ -61,36 +73,16 @@ packages/
 
 ## 2. Architecture Decision Records (ADRs)
 
-### `ADR-001` a `ADR-040`: Core Foundation, Intelligence, Runtime, Advisory & Continuous Intelligence
+### `ADR-001` a `ADR-065`: Core Foundation, Intelligence, EDOS, Product Experience, Page Activation, UI Runtime, Real Mounting & Native Composition
 - ADRs normativas anteriores congeladas.
 
-### `ADR-041`: Executive Decision Workspace Architecture (Wave 16.5)
-- **Decisão**: Estabelecer o workspace unificado de decisão executiva em `@illumine/executive-decision-workspace`.
-
-### `ADR-042`: Executive Narrative Architecture (Wave 16.5)
-- **Decisão**: Padronizar o pipeline automatizado KPIs $\rightarrow$ Insights $\rightarrow$ Narrativa $\rightarrow$ Parecer em `@illumine/executive-narrative-engine`.
-
-### `ADR-043`: Multi-Agent Debate Standard (Wave 16.5)
-- **Decisão**: Instituir o motor de debate e resolução de divergências entre agentes em `@illumine/agent-debate-engine`.
-
-### `ADR-044`: Executive Explainability Framework (Wave 16.5)
-- **Decisão**: Definir o centro de explicabilidade estrita em `@illumine/executive-explainability`.
-
-### `ADR-045`: Institutional Decision Memory (Wave 16.5)
-- **Decisão**: Expandir `@illumine/organizational-memory` com a `ExecutiveDecisionTimeline` para pareamento de contextos e decisões passadas.
-
-### `ADR-046`: Executive Board Operating Model (Wave 16.5)
-- **Decisão**: Criar o ambiente operacional do Conselho de Administração em `@illumine/executive-board`.
-
-### `ADR-047`: Executive Product Experience Standard (Wave 16.5)
-- **Decisão**: Formalizar o padrão visual e de UX em `EXECUTIVE_PRODUCT_CONSTITUTION.md`.
-
-### `ADR-048`: Enterprise Decision Operating System (Wave 16.5)
-- **Decisão**: Declarar a homologação final da plataforma como um Enterprise Decision Operating System (EDOS).
+### `ADR-066`: Executive Decision Intelligence Layer Standard (Wave 17.12)
+- **Decisão**: Instituir que os agentes executivos não são componentes visuais de página, mas sim motores cognitivos invisíveis que alimentam a experiência de decisão do executivo. (*"Agents provide intelligence; the executive experience provides decisions."*)
 
 ---
 
 ## 3. Roteiro de Transição Arquitetural
 
-- **Wave 16**: Concluída (Controlled Autonomous Advisory).
-- **Wave 16.5**: Em Execução (Executive Product Hardening & Decision Experience).
+- **Wave 17.11**: Concluída (Executive Intelligence Canonical Integration Refactor v1.0).
+- **Wave 17.12**: Em Execução (Executive Decision Intelligence Layer Canonical Refactoring v1.0).
+- **Wave 18**: Próximo marco (Enterprise Data Connectivity & Real-Time Intelligence).

@@ -38,6 +38,11 @@ import { ImportFinancialModal } from '../modals/ImportFinancialModal';
 import { ManualFinancialModal } from '../modals/ManualFinancialModal';
 import { ExecutiveLocaleEnforcer } from '../../core/enforcement/ExecutiveLocaleEnforcer';
 import { useBalanceSheetPageViewModel } from '../../capabilities/financial/presentation/view-models/useBalanceSheetPageViewModel';
+import { ExecutiveIntelligenceShell } from '../executive/ExecutiveIntelligenceShell';
+import { ExecutiveDecisionSurface } from '../executive/ExecutiveDecisionSurface';
+import { ExecutiveInsightsPanel } from '../executive/ExecutiveInsightsPanel';
+import { ExecutiveAgentActionSurface } from '../executive/ExecutiveAgentActionSurface';
+import { ExecutiveExperienceComposer } from '@illumine/executive-experience-composer';
 import { SandboxWarningOverlay } from '../executive-interaction/SandboxWarningOverlay';
 import { BPStrategicDiagnosisAdapter } from './balance-sheet/adapters/BPStrategicDiagnosisAdapter';
 
@@ -73,8 +78,26 @@ ativoTotal, passivoTotal, plValue, ac, anc, pc, pnc, isBalanced, divergence, cx,
     contextualAlerts: []
   } : undefined;
 
+  const composedExp = React.useMemo(() => {
+    return ExecutiveExperienceComposer.compose({
+      companyId: String(selectedClient || 'comp-1'),
+      userId: 'user-c-level',
+      pageId: 'BalanceSheetPage',
+      period: String(filterYear || selectedYear || 2026)
+    });
+  }, [selectedClient, filterYear, selectedYear]);
+
   return (
-    <ExecutivePageTemplate header={{
+    <ExecutiveIntelligenceShell pageTitle="Balanço Patrimonial" pageContext="BalanceSheetPage">
+      <ExecutiveDecisionSurface
+        pageTitle="Balanço Patrimonial"
+        opportunityTitle={composedExp.decisionView.opportunityTitle}
+        opportunityDetail={composedExp.decisionView.opportunityDetail}
+        agentName={composedExp.decisionView.anchorAgentName}
+      />
+      <ExecutiveInsightsPanel pageTitle="Balanço Patrimonial" />
+      <ExecutiveAgentActionSurface />
+      <ExecutivePageTemplate header={{
       title: "Balanço Patrimonial",
       description: "Análise da posição financeira, estrutura de capital e solvência patrimonial.",
       icon: BookOpen,
@@ -410,6 +433,7 @@ ativoTotal, passivoTotal, plValue, ac, anc, pc, pnc, isBalanced, divergence, cx,
         document.body
       )}
     </ExecutivePageTemplate>
+    </ExecutiveIntelligenceShell>
   );
 }
 

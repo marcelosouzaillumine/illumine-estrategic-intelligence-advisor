@@ -1,5 +1,5 @@
 import { Identifier, Score } from '@illumine/core-primitives';
-import { DecisionRecord } from './DecisionRecord';
+import { ExperienceRecord } from './memory/ExperienceRecord';
 
 export interface HistoricalDecisionMatch {
   readonly recordId: Identifier;
@@ -10,19 +10,19 @@ export interface HistoricalDecisionMatch {
 }
 
 export class ExecutiveDecisionTimeline {
-  private readonly decisionRecords: DecisionRecord[] = [];
+  private readonly experienceRecords: ExperienceRecord[] = [];
 
-  public addRecord(record: DecisionRecord): void {
-    this.decisionRecords.push(record);
+  public addRecord(record: ExperienceRecord): void {
+    this.experienceRecords.push(record);
   }
 
   public findSimilarDecisions(currentContext: string): readonly HistoricalDecisionMatch[] {
-    return this.decisionRecords.map(rec => ({
+    return this.experienceRecords.map(rec => ({
       recordId: rec.recordId,
       similarityScore: Score.create(88),
-      contextSummary: rec.context,
-      outcomeResult: rec.chosenOption,
-      keyLearnings: rec.learnings
+      contextSummary: rec.context.summary,
+      outcomeResult: rec.appliedDecision,
+      keyLearnings: [rec.context.businessUnit]
     }));
   }
 }

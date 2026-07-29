@@ -13,9 +13,10 @@ export interface BoardDeckCenterProps {
   onNavigate?: (page: Page) => void;
   selectedClient?: string;
   selectedYear?: number;
+  companyName?: string;
 }
 
-export function BoardDeckCenter({ onNavigate, selectedClient = 'demo-client', selectedYear = 2026 }: BoardDeckCenterProps) {
+export function BoardDeckCenter({ onNavigate, selectedClient = 'demo-client', selectedYear = 2026, companyName }: BoardDeckCenterProps) {
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   // Mock data for metrics
@@ -51,7 +52,7 @@ export function BoardDeckCenter({ onNavigate, selectedClient = 'demo-client', se
         isOpen={isModalOpen}
         onClose={() => setIsModalOpen(false)}
         clientId={selectedClient}
-        companyName="Empresa Selecionada"
+        companyName={companyName || "Empresa Selecionada"}
         financialData={[]}
         selectedYear={selectedYear}
       />

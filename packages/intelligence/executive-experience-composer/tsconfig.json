@@ -1,0 +1,10 @@
+{
+  "extends": "../../../tsconfig.json",
+  "compilerOptions": {
+    "composite": true,
+    "moduleResolution": "bundler"
+  },
+  "include": [
+    "src/**/*"
+  ]
+}

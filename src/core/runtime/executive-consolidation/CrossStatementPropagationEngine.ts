@@ -52,8 +52,8 @@ export class CrossStatementPropagationEngine {
       ? input.capitalConsumedPercent 
       : (input.capitalConsumido > 0 ? 100 : 0);
 
-    // Regra obrigatória: DRE negativa + DFC operacional negativo + DLPA com capital consumido
-    if (input.lucroLiquido < 0 && input.fco < 0 && capitalConsumedPct > 0) {
+    // Regra obrigatória: DRE negativa + DFC operacional negativo ou nulo + DLPA com capital consumido
+    if (input.lucroLiquido < 0 && input.fco <= 0 && capitalConsumedPct > 0) {
       tensions.push({
         chain: 'DRE_DFC_DLPA',
         category: 'VALUE_DESTRUCTION_CHAIN',
@@ -68,7 +68,7 @@ export class CrossStatementPropagationEngine {
       });
     }
 
-    if (input.fco < 0 && input.runway < 6 && input.runway >= 0) {
+    if (input.fco <= 0 && input.runway < 6 && input.runway >= 0) {
       tensions.push({
         chain: 'DFC_CONTINUITY_PRESSURE',
         category: 'CONTINUITY_RISK',
@@ -110,7 +110,7 @@ export class CrossStatementPropagationEngine {
       });
     }
 
-    if (input.lucroLiquido > 0 && input.fco < 0) {
+    if (input.lucroLiquido > 0 && input.fco <= 0) {
       tensions.push({
         chain: 'DRE_DFC',
         category: 'OPERATIONAL_PRESSURE',
@@ -124,7 +124,7 @@ export class CrossStatementPropagationEngine {
       });
     }
 
-    if ((input.lucroLiquido < 0 || input.ebitda < 0) && input.fco < 0 && capitalConsumedPct <= 0) {
+    if ((input.lucroLiquido < 0 || input.ebitda < 0) && input.fco <= 0 && capitalConsumedPct <= 0) {
       tensions.push({
         chain: 'DRE_DFC',
         category: 'OPERATIONAL_PRESSURE',

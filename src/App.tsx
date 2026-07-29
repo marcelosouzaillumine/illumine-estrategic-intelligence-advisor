@@ -323,6 +323,8 @@ export default function App() {
         id: t.tenantId,
         fantasia: t.name,
         razao: t.name,
+        razaoSocial: t.name,
+        name: t.name,
         segmentoAtuacao: t.segmentoAtuacao,
         segmento: t.segmento,
         logo: t.logo,
@@ -819,7 +821,7 @@ function AppContent({
           isOpen={isGlobalReportModalOpen}
           onClose={() => setIsGlobalReportModalOpen(false)}
           clientId={selectedClient}
-          companyName={clients.find((c: any) => c.id === selectedClient)?.razaoSocial || clients.find((c: any) => c.id === selectedClient)?.name || 'Empório do Mármore'}
+          companyName={clients.find((c: any) => c.id === selectedClient)?.fantasia || clients.find((c: any) => c.id === selectedClient)?.razao || clients.find((c: any) => c.id === selectedClient)?.razaoSocial || clients.find((c: any) => c.id === selectedClient)?.name || 'Cliente Selecionado'}
           financialData={[]}
           selectedYear={selectedYear}
         />
