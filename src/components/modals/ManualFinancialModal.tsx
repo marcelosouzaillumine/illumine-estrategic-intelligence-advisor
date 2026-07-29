@@ -161,7 +161,10 @@ export function ManualFinancialModal({ type, clientId, year, onClose, onSuccess 
   }
 
   const handleSave = async () => {
-    if (!auth.currentUser || !clientId) return;
+    if (!clientId) {
+      setErrorMsg('Identificador do cliente não encontrado.');
+      return;
+    }
     setErrorMsg(null);
 
     if (selectedType === 'Balanço Patrimonial' || selectedType === 'BP') {
@@ -290,17 +293,17 @@ export function ManualFinancialModal({ type, clientId, year, onClose, onSuccess 
       <motion.div 
         initial={{ opacity: 0, scale: 0.95 }}
         animate={{ opacity: 1, scale: 1 }}
-        className="bg-white rounded-2xl sm:rounded-3xl w-full max-w-4xl shadow-2xl flex flex-col h-[95vh] sm:h-[90vh] md:max-h-[85vh] overflow-hidden"
+        className="bg-card border border-border text-foreground rounded-2xl sm:rounded-3xl w-full max-w-4xl shadow-2xl flex flex-col h-[95vh] sm:h-[90vh] md:max-h-[85vh] overflow-hidden"
       >
         {/* Header */}
-        <div className="p-6 border-b border-border flex justify-between items-center bg-slate-50/50">
+        <div className="p-6 border-b border-border flex justify-between items-center bg-surface-container/50">
           <div>
-            <h3 className="text-lg font-black text-muted-foreground">Lançamento Manual: {selectedType}</h3>
-            <p className="text-[10px] text-muted-foreground mt-0.5 uppercase tracking-widest font-bold">
+            <h3 className="text-lg font-bold text-foreground">Lançamento Manual: {selectedType}</h3>
+            <p className="text-[10px] text-executive-muted mt-0.5 uppercase tracking-widest font-bold">
               {year} · Cliente ID: {clientId.substring(0, 8)}...
             </p>
           </div>
-          <button onClick={onClose} className="p-2 hover:bg-slate-200 rounded-full transition-colors text-muted-foreground"><X size={20} /></button>
+          <button onClick={onClose} className="p-2 hover:bg-surface-container rounded-full transition-colors text-executive-secondary cursor-pointer"><X size={20} /></button>
         </div>
 
         {/* Content */}
@@ -313,11 +316,11 @@ export function ManualFinancialModal({ type, clientId, year, onClose, onSuccess 
           )}
 
           <div className="space-y-2">
-            <label className="text-[10px] font-black text-muted-foreground uppercase tracking-widest px-1">Tipo de Documento</label>
+            <label className="text-[10px] font-bold text-executive-muted uppercase tracking-widest px-1">Tipo de Documento</label>
             <select 
               value={selectedType}
               onChange={(e) => setSelectedType(e.target.value)}
-              className="w-full px-4 py-3 bg-slate-50 border border-border rounded-xl text-sm font-bold text-primary outline-none focus:ring-2 focus:ring-secondary/20 transition-all"
+              className="w-full px-4 py-3 bg-surface-container border border-border rounded-xl text-sm font-semibold text-foreground outline-none focus:ring-2 focus:ring-primary/20 transition-all cursor-pointer"
             >
               {DOCUMENT_TYPES.map(t => (
                 <option key={t} value={t}>{t}</option>
@@ -329,23 +332,23 @@ export function ManualFinancialModal({ type, clientId, year, onClose, onSuccess 
           {loading ? (
              <div className="flex flex-col items-center justify-center py-20 gap-4">
                 <Loader2 size={32} className="animate-spin text-primary" />
-                <p className="text-sm font-bold text-muted-foreground">Carregando dados existentes...</p>
+                <p className="text-sm font-bold text-executive-muted">Carregando dados existentes...</p>
              </div>
           ) : (
             <div className="space-y-4 w-full overflow-x-auto">
                 <DndContext sensors={sensors} collisionDetection={closestCenter} onDragEnd={handleDragEnd}>
                   <SortableContext items={computedRows.map(r => r.id)} strategy={verticalListSortingStrategy}>
               <table className="w-full text-sm min-w-[600px]">
-                <thead className="bg-slate-50/50 border-b border-border">
+                <thead className="bg-surface-container border-b border-border">
                   <tr>
-                    <th className="text-left py-3 px-4 text-[10px] font-bold text-muted-foreground uppercase w-20">Nível</th>
-                    <th className="text-left py-3 px-4 text-[10px] font-bold text-muted-foreground uppercase">Conta / Categoria</th>
-                    <th className="text-left py-3 px-4 text-[10px] font-bold text-muted-foreground uppercase w-40">Tipo</th>
-                    <th className="text-right py-3 px-4 text-[10px] font-bold text-muted-foreground uppercase w-40">Valor (R$)</th>
+                    <th className="text-left py-3 px-4 text-[10px] font-bold text-executive-muted uppercase tracking-wider w-20">Nível</th>
+                    <th className="text-left py-3 px-4 text-[10px] font-bold text-executive-muted uppercase tracking-wider">Conta / Categoria</th>
+                    <th className="text-left py-3 px-4 text-[10px] font-bold text-executive-muted uppercase tracking-wider w-40">Tipo</th>
+                    <th className="text-right py-3 px-4 text-[10px] font-bold text-executive-muted uppercase tracking-wider w-40">Valor (R$)</th>
                     <th className="w-20"></th>
                   </tr>
                 </thead>
-                    <tbody className="divide-y divide-slate-50">
+                    <tbody className="divide-y divide-border/50">
                       {computedRows.map((row, index) => {
                         const isDre = selectedType === 'DRE' || selectedType === 'DRE Gerencial';
                         const isSintetica = isDre && row.dreTipo === 'SINTETICA';
@@ -359,18 +362,18 @@ export function ManualFinancialModal({ type, clientId, year, onClose, onSuccess 
                             <SortableTableRow 
                               id={row.id} 
                               isDraggable={!isLocked} 
-                              className={cn(isLocked ? "bg-slate-50/30" : "")}
+                              className={cn(isLocked ? "bg-surface-container/30" : "")}
                             >
                           <td className="py-2 px-2">
                             {isDre ? (
-                              <div className="w-full bg-transparent text-center text-xs font-bold text-muted-foreground">
+                              <div className="w-full bg-transparent text-center text-xs font-bold text-executive-secondary">
                                 {isAnalitica ? '↳' : row.ordem}
                               </div>
                             ) : (
                               <select
                                 value={row.level}
                                 onChange={(e) => updateRow(row.id, 'level', Number(e.target.value))}
-                                className="w-full bg-slate-50 border border-border rounded-xl px-2 py-2 text-xs focus:bg-white focus:ring-2 focus:ring-primary/20 outline-none transition-all text-center"
+                                className="w-full bg-card border border-border text-foreground rounded-xl px-2 py-2 text-xs font-semibold focus:ring-2 focus:ring-primary/20 outline-none transition-all text-center cursor-pointer"
                               >
                                 {[1, 2, 3, 4, 5].map(l => (
                                   <option key={l} value={l}>{l}</option>
@@ -381,7 +384,7 @@ export function ManualFinancialModal({ type, clientId, year, onClose, onSuccess 
                           <td className="py-2 px-2">
                             {isLocked ? (
                               <div 
-                                className="w-full py-2 text-sm font-bold text-muted-foreground"
+                                className="w-full py-2 text-sm font-bold text-foreground"
                                 style={{ paddingLeft: '16px' }}
                               >
                                 {row.category}
@@ -394,15 +397,14 @@ export function ManualFinancialModal({ type, clientId, year, onClose, onSuccess 
                                 placeholder="Ex: Venda de Produtos"
                                 style={{ paddingLeft: isDre ? '40px' : `${(row.level - 1) * 12 + 16}px` }}
                                 className={cn(
-                                  "w-full bg-slate-50 border border-border rounded-xl py-2 text-sm focus:bg-white focus:ring-2 focus:ring-primary/20 outline-none transition-all",
-                                  isDre && "text-muted-foreground"
+                                  "w-full bg-card border border-border text-foreground rounded-xl py-2 px-3 text-sm placeholder:text-executive-muted/50 focus:ring-2 focus:ring-primary/20 outline-none transition-all"
                                 )}
                               />
                             )}
                           </td>
                           <td className="py-2 px-2">
                             {isDre ? (
-                              <div className="w-full py-2 text-xs font-bold text-muted-foreground uppercase tracking-widest text-center">
+                              <div className="w-full py-2 text-xs font-bold text-executive-secondary uppercase tracking-widest text-center">
                                 {row.natureza}
                               </div>
                             ) : (
@@ -411,8 +413,8 @@ export function ManualFinancialModal({ type, clientId, year, onClose, onSuccess 
                                 disabled={row.level > 1}
                                 onChange={(e) => updateRow(row.id, 'type', e.target.value)}
                                 className={cn(
-                                  "w-full border border-border rounded-xl px-4 py-2 text-sm focus:ring-2 focus:ring-primary/20 outline-none transition-all",
-                                  row.level > 1 ? "bg-slate-100/50 text-muted-foreground cursor-not-allowed" : "bg-slate-50 focus:bg-white"
+                                  "w-full border border-border rounded-xl px-3 py-2 text-sm text-foreground font-semibold focus:ring-2 focus:ring-primary/20 outline-none transition-all cursor-pointer",
+                                  row.level > 1 ? "bg-surface-container/50 text-executive-muted cursor-not-allowed" : "bg-card"
                                 )}
                               >
                                 {typeOptions.map(opt => (
@@ -440,16 +442,16 @@ export function ManualFinancialModal({ type, clientId, year, onClose, onSuccess 
                               disabled={row.hasChildren}
                               placeholder="0,00"
                               className={cn(
-                                "w-full border border-border rounded-xl px-4 py-2 text-sm text-right font-mono outline-none transition-all [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none",
+                                "w-full border border-border rounded-xl px-3 py-2 text-sm text-right font-mono text-foreground placeholder:text-executive-muted/50 outline-none transition-all [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none",
                                 row.hasChildren 
-                                  ? "bg-slate-100/50 text-muted-foreground font-bold cursor-not-allowed" 
-                                  : "bg-slate-50 focus:bg-white focus:ring-2 focus:ring-primary/20 text-muted-foreground"
+                                  ? "bg-surface-container/50 text-executive-muted font-bold cursor-not-allowed" 
+                                  : "bg-card focus:ring-2 focus:ring-primary/20"
                               )}
                             />
                           </td>
                           <td className="py-2 px-2 text-center flex items-center justify-center gap-1">
                             {(!isLocked) && (
-                              <button onClick={() => removeRow(row.id)} className="p-1 text-rose-400 hover:text-rose-600 hover:bg-critical-soft rounded transition-all">
+                              <button onClick={() => removeRow(row.id)} className="p-1.5 text-rose-500 hover:text-rose-600 hover:bg-critical-soft rounded-lg transition-all cursor-pointer">
                                 <Trash2 size={16} />
                               </button>
                             )}
@@ -480,7 +482,7 @@ export function ManualFinancialModal({ type, clientId, year, onClose, onSuccess 
                                         });
                                         setRows(newRows);
                                       }}
-                                      className="text-[10px] font-bold text-muted-foreground hover:text-primary flex items-center gap-1 py-1 px-2 rounded hover:bg-primary/5 transition-colors"
+                                      className="text-[10px] font-bold text-executive-secondary hover:text-primary flex items-center gap-1 py-1 px-2 rounded-lg hover:bg-surface-container transition-colors cursor-pointer"
                                     >
                                       <Plus size={12} /> Adicionar Sub-Conta
                                     </button>
@@ -497,18 +499,18 @@ export function ManualFinancialModal({ type, clientId, year, onClose, onSuccess 
                 </DndContext>
 
               {rows.length === 0 && (
-                <div className="text-center py-12 bg-slate-50/50 rounded-3xl border border-dashed border-border">
-                  <AlertCircle size={32} className="text-muted-foreground mx-auto mb-3" />
-                  <p className="text-sm font-bold text-muted-foreground">Nenhuma conta inserida ainda.</p>
+                <div className="text-center py-12 bg-surface-container/30 rounded-3xl border border-dashed border-border">
+                  <AlertCircle size={32} className="text-executive-muted mx-auto mb-3" />
+                  <p className="text-sm font-bold text-executive-muted">Nenhuma conta inserida ainda.</p>
                 </div>
               )}
 
               {!(selectedType === 'DRE' || selectedType === 'DRE Gerencial') && (
                 <button 
                   onClick={addRow}
-                  className="w-full py-4 border-2 border-dashed border-border rounded-2xl text-muted-foreground hover:border-primary hover:text-primary hover:bg-primary/5 transition-all flex items-center justify-center gap-2 font-bold text-sm mt-4"
+                  className="w-full py-3.5 border-2 border-dashed border-border rounded-2xl bg-surface-container/30 hover:bg-surface-container text-executive-secondary hover:text-primary transition-all flex items-center justify-center gap-2 font-bold text-xs mt-4 cursor-pointer"
                 >
-                  <Plus size={18} /> Adicionar Linha
+                  <Plus size={16} /> Adicionar Linha
                 </button>
               )}
             </div>
@@ -516,19 +518,19 @@ export function ManualFinancialModal({ type, clientId, year, onClose, onSuccess 
         </div>
       </div>
 
-        <div className="p-6 bg-slate-50 border-t border-border flex gap-3">
+        <div className="p-6 bg-surface-container border-t border-border flex gap-4">
           <button 
             onClick={onClose}
-            className="flex-1 py-3.5 text-muted-foreground font-bold text-sm hover:bg-slate-200 rounded-2xl transition-all"
+            className="flex-1 py-3.5 bg-card border border-border hover:bg-surface-container text-executive-secondary font-bold text-xs rounded-2xl transition-all cursor-pointer"
           >
             Cancelar
           </button>
           <button 
             onClick={handleSave}
             disabled={saving || rows.length === 0}
-            className="flex-1 py-3.5 bg-secondary hover:bg-secondary/90 text-white rounded-2xl text-xs font-black uppercase tracking-widest shadow-lg shadow-secondary/20 transition-all disabled:opacity-50 flex items-center justify-center gap-2"
+            className="flex-1 py-3.5 bg-primary hover:bg-primary/90 text-white rounded-2xl text-xs font-bold uppercase tracking-wider shadow-md transition-all disabled:opacity-50 flex items-center justify-center gap-2 cursor-pointer"
           >
-            {saving ? <Loader2 size={18} className="animate-spin" /> : <Database size={18} />}
+            {saving ? <Loader2 size={16} className="animate-spin text-white" /> : <Database size={16} />}
             {saving ? 'Salvando...' : 'Salvar Dados'}
           </button>
         </div>

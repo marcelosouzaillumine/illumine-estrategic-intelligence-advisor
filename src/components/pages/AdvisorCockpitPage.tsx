@@ -2,10 +2,27 @@ import React from 'react';
 import { useTenancy } from '../../context/TenancyProvider';
 import { WorkspaceSwitcher } from '../tenancy/WorkspaceSwitcher';
 import { BriefcaseBusiness, Activity, ShieldCheck, AlertTriangle, Loader2 } from 'lucide-react';
-import { PageHeader } from '../Common';
+import { PageHeader, StatusBadge } from '../Common';
 import { cn } from '../../lib/utils';
+import { ExecutivePageTemplate } from '../ui/executive-page-template';
+import { ExecutiveSurface } from '../ui/executive-surface';
+import { ExecutiveAccordion } from '../ui/executive-accordion';
+import { ExecutiveEmptyState } from '../ui/executive-empty-state';
+import { ExecutiveHeading } from '../ui/executive-heading';
+import { ExecutiveText } from '../ui/executive-typography';
+import { createPortal } from 'react-dom';
+import { ExecutiveSummarySection } from '../ui/executive-summary-section';
+import { ExecutiveStrategicTensions } from '../ui/executive-strategic-tensions';
+import { ExecutiveDecisionTrace } from '../ui/executive-decision-trace';
+import { useAdvisorCockpitViewModel } from '../../viewmodels/useAdvisorCockpitViewModel';
+
+
 
 export function AdvisorCockpitPage() {
+  // Adapter: useTenancy
+  // ViewModel: useAdvisorCockpitViewModel
+  const { state, computed, actions } = useAdvisorCockpitViewModel();
+  const portal = createPortal;
   const { context, permissions, isTenantResolved } = useTenancy();
 
   if (!isTenantResolved || !context) {
@@ -48,16 +65,27 @@ export function AdvisorCockpitPage() {
   ];
 
   return (
-    <div className="max-w-[1440px] mx-auto px-6 lg:px-10 space-y-12 pb-32 animate-executive-fade">
-      <div className="flex flex-col md:flex-row md:items-end justify-between gap-6">
-        <PageHeader
-          title="Advisor Cockpit"
-          subtitle={`Gestão Multi-Cliente Isolada. Tenant: ${context.activeTenantId}`}
-          icon={BriefcaseBusiness}
-          transparent
-        />
+    <ExecutivePageTemplate header={{
+      title: "Advisor Cockpit",
+      description: `Gestão Multi-Cliente Isolada corporativa. Tenant ativo: ${context.activeTenantId}`,
+    }}>
+
+      <div className="flex flex-col md:flex-row md:items-center justify-between gap-6 mb-10">
+
+        <div className="flex items-center gap-3">
+          <StatusBadge status="Verde" label="Sessão Fiduciária Protegida" />
+        </div>
         <WorkspaceSwitcher />
+      
       </div>
+
+      <div className="mt-12 mb-8 border-t border-border pt-8" />
+      <ExecutiveAccordion
+        title="Métricas de Governança do Tenant"
+        subtitle="Analise os alertas e o score consolidado do grupo de negócios."
+        variant="analytics"
+        defaultExpanded
+      >
 
       {/* Status Cards */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
@@ -111,6 +139,18 @@ export function AdvisorCockpitPage() {
           </button>
         </div>
       </div>
-    </div>
+      <ExecutiveSummarySection 
+        status={{ label: 'Cockpit Ativo', variant: 'success' }}
+        question="Como otimizar a supervisão estratégica e a transição entre workspaces?"
+        opinion="O comitê fiduciário homologa os privilégios do perfil de advisor e o isolamento de sessões."
+        driver="Contexto do tenant, permissões fiduciárias, score do grupo e atalhos rápidos."
+        implication="Garantia de agilidade operacional nas reuniões de acompanhamento estratégico."
+        action="Auditar os privilégios de emulação de perfil a cada início de ciclo."
+      >
+        <ExecutiveStrategicTensions tensions={[]} />
+        <ExecutiveDecisionTrace trace={[]} />
+      </ExecutiveSummarySection>
+      </ExecutiveAccordion>
+    </ExecutivePageTemplate>
   );
 }

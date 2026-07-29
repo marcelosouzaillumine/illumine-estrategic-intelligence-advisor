@@ -1,9 +1,9 @@
-// src/components/institutional-reporting/BoardPackExportPanel.tsx
-
 import React from 'react';
 import { Download, CloudUpload, ShieldCheck } from 'lucide-react';
 import { BoardPackMetadata } from '../../services/FiduciaryRuntimeAdapter';
 import { useLanguage } from '../../contexts/LanguageContext';
+// src/components/institutional-reporting/BoardPackExportPanel.tsx
+
 
 export function BoardPackExportPanel({ metadata }: { metadata: BoardPackMetadata }) {
   const { t } = useLanguage();

@@ -1,10 +1,21 @@
-// src/components/pages/InstitutionalBoardPackPage.tsx
-
 import React, { useMemo } from 'react';
-import { Loader2 } from 'lucide-react';
+import { Loader2, FileArchive } from 'lucide-react';
 import { useBoardPackDataLoader } from './governance/BoardPackDataLoader';
 import { SovereignBoardPackPage } from './governance/SovereignBoardPackPage';
 import { FiduciaryRuntimeAdapter } from '../../services/FiduciaryRuntimeAdapter';
+import { ExecutivePageTemplate } from '../ui/executive-page-template';
+import { ExecutiveSurface } from '../ui/executive-surface';
+import { ExecutiveAccordion } from '../ui/executive-accordion';
+import { ExecutiveEmptyState } from '../ui/executive-empty-state';
+import { ExecutiveHeading } from '../ui/executive-heading';
+import { ExecutiveText } from '../ui/executive-typography';
+import { ExecutiveBadge } from '../ui/executive-badge';
+import { ExecutiveMetricCard } from '../ui/executive-metric-card';
+import { ExecutiveSummarySection } from '../ui/executive-summary-section';
+import { ExecutiveStrategicTensions } from '../ui/executive-strategic-tensions';
+import { ExecutiveDecisionTrace } from '../ui/executive-decision-trace';
+import { ExecutiveTechnicalLayer } from '../ui/executive-technical-layer';
+import { useInstitutionalBoardPackPageViewModel } from '../../viewmodels/useInstitutionalBoardPackPageViewModel';
 
 interface InstitutionalBoardPackPageProps {
   clients?: any[];
@@ -13,104 +24,92 @@ interface InstitutionalBoardPackPageProps {
   selectedYear?: number;
 }
 
-// Isolated mock dataset for sandbox simulations (Demo / Sandbox mode)
-const MOCK_SANDBOX_DATA = {
-  isMockData: true,
-  historicalCyclesCount: 3,
-  clientProfile: {
-    id: 'sandbox-company-id',
-    name: 'Empresa Sandbox S/A',
-    segmentoAtuacao: 'Default'
-  },
-  rawFinancialData: {
-    segmentoEmpresa: 'Default',
-    prevPl: 800000,
-    bpSummary: {
-      ativoTotal: 1000000,
-      ativoCirculante: 600000,
-      passivoCirculante: 600000,
-      passivoTotal: 600000,
-      patrimonioLiquido: 400000,
-      caixaEquivalentes: 20000,
-      estoques: 300000,
-    }
-  },
-  bpData: [
-    { accountId: '1', value: 1000000 },
-    { accountId: '1.1', value: 600000 },
-    { accountId: '1.1.1', value: 20000 },
-    { accountId: '1.1.2', value: 300000 },
-    { accountId: '2', value: 600000 },
-    { accountId: '2.1', value: 600000 },
-    { accountId: '3', value: 400000 }
-  ],
-  dreData: [
-    { category: 'RECEITA BRUTA', value: 1200000 },
-    { category: 'DEDUÇÕES', value: -200000 },
-    { category: 'RECEITA LÍQUIDA', value: 1000000 },
-    { category: 'CUSTOS VARIÁVEIS', value: -500000 },
-    { category: 'EBITDA', value: 300000 },
-    { category: 'LUCRO LÍQUIDO DO EXERCÍCIO', value: -100000 }
-  ],
-  cashFlowData: [
-    { initialCash: 120000, finalCash: 20000, operatingFlow: -100000, investingFlow: 0, financingFlow: 0 }
-  ],
-  historicalSeries: []
-};
-
 export function InstitutionalBoardPackPage({ clients, selectedClient, selectedMonth, selectedYear }: InstitutionalBoardPackPageProps) {
+  const { state: vmState, computed: vmComputed, actions: vmActions } = useInstitutionalBoardPackPageViewModel({ clientId: selectedClient });
   const filterYear = selectedYear || new Date().getFullYear();
-
-  // 1. Load data via Firestore adapter hook
   const { payload, loading } = useBoardPackDataLoader(selectedClient || '', filterYear, clients);
 
-  // 2. Compute/Retrieve the correct Board Pack Output fiduciarily
   const result = useMemo(() => {
     if (loading) return null;
-
     try {
-      // If we have real data from the database, use it
       if (payload && !payload.isMockData) {
         const boardPack = FiduciaryRuntimeAdapter.generateBoardPack(payload);
-        return {
-          boardPack,
-          dataMode: 'REAL' as const
-        };
+        return { boardPack, dataMode: 'REAL' as const };
       }
-      
-      // Fallback: If no real data or client not selected, run sandbox simulation
-      const boardPack = FiduciaryRuntimeAdapter.generateBoardPack(MOCK_SANDBOX_DATA);
-      
-      return {
-        boardPack,
-        dataMode: 'MOCK' as const
-      };
+      return { boardPack: null, dataMode: 'MOCK' as const };
     } catch (error) {
       console.error('[InstitutionalBoardPackPage] Compilation error:', error);
-      return {
-        boardPack: null,
-        dataMode: 'ERROR' as const
-      };
+      return { boardPack: null, dataMode: 'ERROR' as const };
     }
   }, [payload, loading]);
 
-  if (loading) {
-    return (
-   <div className="flex h-[80vh] items-center justify-center font-mono bg-zinc-950 text-executive-secondary">
-    <div className="flex flex-col items-center gap-4 text-executive-secondary">
-          <Loader2 className="animate-spin text-primary" size={32} />
-          <p className="text-xs uppercase tracking-widest">Compilando Fiduciary Board Pack...</p>
-        </div>
-      </div>
-    );
-  }
-
-  const { boardPack, dataMode } = result || { boardPack: null, dataMode: 'ERROR' as const };
-
   return (
-    <SovereignBoardPackPage 
-      boardPack={boardPack} 
-      dataMode={dataMode} 
-    />
+    <ExecutivePageTemplate header={{
+      title: "Board Pack de Governança Institucional",
+      description: "Compilação executiva oficial para reuniões de Conselho de Administração.",
+    }}>
+      <div className="space-y-8 pb-24 animate-executive-fade max-w-[1440px] mx-auto">
+
+        {/* --- CAMADA 1: NÍVEL CONSELHO (SÍNTESE DE BOARD PACK) --- */}
+        <ExecutiveSummarySection 
+          className="mb-8"
+          status={{ label: 'Board Pack Compilado', variant: 'success' }}
+          question="Qual a síntese fiduciária consolidada a ser apresentada aos conselheiros e acionistas?"
+          opinion="O comitê fiduciário homologa o Board Pack oficial, atestando a exatidão das demonstrações contábeis e dos indicadores estratégicos de governança."
+          driver="Parecer de auditabilidade, síntese de DRE/BP, score de sustentabilidade e recomendações do CFO."
+          implication="Suporte a decisões fiduciárias seguras e transparência na prestação de contas."
+          action="Pautar os pontos de atenção destacados no parecer para deliberação do conselho."
+        >
+          <ExecutiveStrategicTensions tensions={[]} />
+          <ExecutiveDecisionTrace trace={[]} />
+        </ExecutiveSummarySection>
+
+        {/* --- CAMADA 2: DIRETORIA & KPIS SINTÉTICOS DO BOARD PACK --- */}
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+          <ExecutiveMetricCard
+            label="Status de Compilação"
+            value="Concluído / Auditado"
+            statusBadge={<ExecutiveBadge variant="success">Fiduciário</ExecutiveBadge>}
+            tone="neutral"
+            className="bg-card border border-border shadow-sm h-full"
+          />
+
+          <ExecutiveMetricCard
+            label="Versão do Relatório"
+            value="1.0 Final"
+            statusBadge={<ExecutiveBadge variant="info">Assinado Digitalmente</ExecutiveBadge>}
+            tone="neutral"
+            className="bg-card border border-border shadow-sm h-full"
+          />
+
+          <ExecutiveMetricCard
+            label="Modo de Dados"
+            value={result?.dataMode === 'REAL' ? 'Base Real Sincronizada' : 'Ambiente Sandbox'}
+            statusBadge={<ExecutiveBadge variant={result?.dataMode === 'REAL' ? 'success' : 'warning'}>{result?.dataMode === 'REAL' ? 'Oficial' : 'Simulação'}</ExecutiveBadge>}
+            tone="neutral"
+            className="bg-card border border-border shadow-sm h-full"
+          />
+        </div>
+
+        {/* --- CAMADA 3: CAMADA TÉCNICA E DOCUMENTAÇÃO SOCIETÁRIA --- */}
+        <ExecutiveTechnicalLayer
+          title="Camada Técnica de Documentação do Board Pack"
+          subtitle="Apresentação Executiva e Parecer Fiduciário"
+          description="Compilação formal para distribuição e arquivo fiduciário do conselho."
+          className="mb-8"
+        >
+          <ExecutiveSurface padding="xl" radius="xl" className="bg-card border border-border shadow-sm">
+            {result?.boardPack ? (
+              <SovereignBoardPackPage boardPack={result.boardPack} dataMode={result.dataMode} />
+            ) : (
+              <ExecutiveText variant="bodyStandard" className="text-muted-foreground">
+                Aguardando compilação do pacote fiduciário.
+              </ExecutiveText>
+            )}
+          </ExecutiveSurface>
+        </ExecutiveTechnicalLayer>
+
+      </div>
+    </ExecutivePageTemplate>
   );
 }

@@ -71,6 +71,7 @@ import { DadosHistoricosPage } from '../components/pages/DadosHistoricosPage';
 import { SupportPage } from '../components/pages/SupportPage';
 import { CleanupTool } from '../components/pages/CleanupTool';
 import { GestaoUsuariosPage } from '../components/pages/admin/GestaoUsuariosPage';
+import { PartnerBrandConfigurationPage } from '../pages/admin/PartnerBrandConfigurationPage';
 import { ExecutiveScenarioLabPage } from '../components/pages/ExecutiveScenarioLabPage';
 import { ConsolidatedGroupAdminPage } from '../components/pages/ConsolidatedGroupAdminPage';
 import { RuntimeObservabilityPage } from '../components/pages/RuntimeObservabilityPage';
@@ -389,6 +390,13 @@ export function renderCurrentPage(ctx: RouteRenderContext) {
     return <ControladoriaPage clientId={selectedClient} />;
   }
 
+  if (currentPage === 'okrs') {
+    return <OKRsPage clientId={selectedClient} />;
+  }
+  if (currentPage === 'war_room') {
+    return <InstitutionalWarRoomPage clientId={selectedClient} selectedYear={selectedYear} selectedMonth={selectedMonth} />;
+  }
+
   if (currentPage === 'perfil_lideranca') {
     return <LeadershipProfilePage clientId={selectedClient} />;
   }
@@ -596,6 +604,9 @@ export function renderCurrentPage(ctx: RouteRenderContext) {
   }
   if (currentPage === 'deployment_readiness') {
     return <InstitutionalDeploymentReadinessPage />;
+  }
+  if (currentPage === 'partner_brand_configuration') {
+    return <PartnerBrandConfigurationPage />;
   }
   if (currentPage === 'institutional_onboarding') {
     return <InstitutionalOnboardingControlCenterPage />;

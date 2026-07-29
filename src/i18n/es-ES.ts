@@ -171,7 +171,7 @@ const translations = {
   'landing.nav.decisions': 'Decisiones',
   'landing.nav.intelligence': 'Inteligencia',
   'landing.nav.architecture': 'Arquitectura',
-  'landing.nav.partners': 'Socios',
+  'landing.nav.partners': 'Executive Advisor Network™',
   'landing.nav.restricted_area': 'Área Restringida',
   'landing.button.talk_specialists': 'Conversar con Especialistas',
   'landing.hero.badge': 'INFRAESTRUCTURA DE GOBERNANZA EJECUTIVA',
@@ -1031,6 +1031,15 @@ const translations = {
   'modals.import_financial.and': 'y',
   'modals.import_financial.balance': 'Saldo / Valor',
   'modals.import_financial.importing': 'IMPORTANDO...',
+
+  // Governance Status & Audit Sanitization
+  'governance.status.independent': 'Independiente',
+  'governance.status.moderate_dependency': 'Dependencia Moderada',
+  'governance.status.high_dependency': 'Alta Dependencia',
+  'governance.status.not_applicable': 'No Aplicable',
+  'governance.audit.mismatch_detected': 'Discrepancia de Datos Auditada',
+  'governance.audit.consistent': 'Consistente',
+  'governance.audit.inconsistent': 'Inconsistente',
 };
 
 export default translations;

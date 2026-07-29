@@ -34,7 +34,7 @@ export function ExecutiveDecisionMemo({
         <div className="flex items-center gap-4">
           {icon && (
             <div className="text-white/80 [&>svg]:w-9 [&>svg]:h-9 md:[&>svg]:w-11 md:[&>svg]:h-11 shrink-0">
-              {icon}
+              {React.isValidElement(icon) ? icon : (typeof icon === 'function' || typeof icon === 'object' ? React.createElement(icon as any, { size: 40 }) : null)}
             </div>
           )}
           <div className="flex flex-col">

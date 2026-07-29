@@ -1,8 +1,8 @@
-// src/components/strategic-intelligence/StrategicPosturePanel.tsx
-
 import React from 'react';
 import { Target, Activity, ShieldCheck, TrendingUp, AlertTriangle } from 'lucide-react';
 import { StrategicPosture } from '../../services/FiduciaryRuntimeAdapter';
+// src/components/strategic-intelligence/StrategicPosturePanel.tsx
+
 
 interface StrategicPosturePanelProps {
   posture: StrategicPosture;

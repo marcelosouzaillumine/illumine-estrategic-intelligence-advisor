@@ -1,9 +1,9 @@
-// src/components/operating-pressure/FundingFragilityMap.tsx
-
 import React from 'react';
 import { AlertTriangle, CheckCircle } from 'lucide-react';
 import { cn } from '../../lib/utils';
 import { useLanguage } from '../../contexts/LanguageContext';
+// src/components/operating-pressure/FundingFragilityMap.tsx
+
 
 interface FundingFragilityProps {
   data: {

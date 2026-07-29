@@ -1,10 +1,12 @@
+import { ExecutiveText } from '@/components/ui/executive-typography';
+import { ExecutiveHeading } from '@/components/ui/executive-heading';
+import { ExecutivePageTemplate } from '@/components/ui/executive-page-template';
 import React, { useState, useMemo } from 'react';
 import { ShieldCheck, GitFork, AlertOctagon, CheckCircle, HelpCircle, Filter, RefreshCw, Layers, Activity, ArrowRight, TrendingUp, Cpu } from 'lucide-react';
-import { useAllFinancialData } from '../../../hooks/useFinancialData';
-import { useInstitutionalRuntime } from '../../../hooks/useInstitutionalRuntime';
-import { cn, formatCurrency } from '../../../lib/utils';
-import { PageHeader } from '../../Common';
-import { FinancialLineageIntegrityAdapter } from '../../../runtime/adapters/FinancialLineageIntegrityAdapter';
+import { useAllFinancialData } from '@/hooks/useFinancialData';
+import { useInstitutionalRuntime } from '@/hooks/useInstitutionalRuntime';
+import { cn, formatCurrency } from '@/lib/utils';
+import { FinancialLineageIntegrityAdapter } from '@/runtime/adapters/FinancialLineageIntegrityAdapter';
 
 interface FinancialLineageCenterProps {
   selectedClient?: string;
@@ -168,23 +170,7 @@ export function FinancialLineageCenter({ selectedClient, selectedYear }: Financi
   };
 
   return (
-    <div className="max-w-[1440px] mx-auto px-6 lg:px-10 space-y-12 pb-32 animate-executive-fade">
-      {/* Page Header */}
-      <PageHeader 
-        title="Lineagem Fiduciária (FLIF)"
-        subtitle="Rastreabilidade contínua de propagação econômica, assegurando que o dado de origem (BP/DRE/DFC) permaneça íntegro em toda a análise fiduciária."
-        icon={GitFork}
-        transparent
-        actions={
-          <div className="text-right">
-            <div className="text-[10px] text-muted-foreground uppercase tracking-widest font-black mb-1">Status da Linhagem</div>
-            <div className="flex items-center gap-2">
-              <span className="w-2.5 h-2.5 rounded-full bg-emerald-400 animate-ping"></span>
-              <span className="text-sm font-semibold text-emerald-400 uppercase tracking-wider">Monitoramento Ativo</span>
-            </div>
-          </div>
-        }
-      />
+    <ExecutivePageTemplate header={{ title: "Rastreabilidade contínua de propagação econômica, assegurando que o dado de origem (BP/DRE/DFC) permaneça íntegro em toda a análise fiduciária.", description: "Rastreabilidade contínua de propagação econômica, assegurando que o dado de origem (BP/DRE/DFC) permaneça íntegro em toda a análise fiduciária.", icon: GitFork }}>
 
       {/* Row 1: EDRS Gauge & Metric counters */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
@@ -196,7 +182,7 @@ export function FinancialLineageCenter({ selectedClient, selectedYear }: Financi
             <div className="flex justify-between items-start mb-6">
               <div>
                 <span className="text-[10px] font-black tracking-widest text-muted-foreground uppercase">Lineage Reliability Index</span>
-                <h3 className="text-lg font-medium text-muted-foreground mt-1">Executive Data Reliability Score</h3>
+                <ExecutiveHeading as="h3" className="text-muted-foreground mt-1">Executive Data Reliability Score</ExecutiveHeading>
               </div>
               <span className={cn("px-3 py-1 rounded-xl text-[10px] font-black tracking-widest uppercase border", getReliabilityBg(edrs))}>
                 {reliabilityClassification}
@@ -215,7 +201,7 @@ export function FinancialLineageCenter({ selectedClient, selectedYear }: Financi
             </p>
           </div>
 
-          <div className="pt-6 border-t border-border/10 flex justify-between items-center text-xs">
+          <div className="mt-12 pt-6 border-t border-border/10 flex justify-between items-center text-xs pt-8 mb-8">
             <span className="text-muted-foreground uppercase font-semibold">Classification:</span>
             <span className={cn("font-bold uppercase tracking-wide", getReliabilityColor(edrs))}>{reliabilityClassification}</span>
           </div>
@@ -274,8 +260,8 @@ export function FinancialLineageCenter({ selectedClient, selectedYear }: Financi
       <div className="space-y-6">
         <div className="flex flex-col sm:flex-row justify-between sm:items-center gap-4 border-b border-border/10 pb-4">
           <div>
-            <h2 className="text-lg font-medium text-muted-foreground">Matriz de Integridade de Linhagem (FLIF Matrix)</h2>
-            <p className="text-xs text-muted-foreground font-light mt-1">Comparação determinística de propagação fiduciária.</p>
+            <ExecutiveHeading as="h2" className="text-muted-foreground">Matriz de Integridade de Linhagem (FLIF Matrix)</ExecutiveHeading>
+            <ExecutiveText as="div" variant="caption" className="text-muted-foreground mt-1">Comparação determinística de propagação fiduciária.</ExecutiveText>
           </div>
           
           {/* Filters controls */}
@@ -361,7 +347,7 @@ export function FinancialLineageCenter({ selectedClient, selectedYear }: Financi
             </table>
           </div>
           {filteredMetrics.length === 0 && (
-            <div className="text-center py-12 text-muted-foreground border-t border-border/10">
+            <div className="mt-12 text-center py-12 text-muted-foreground border-t border-border/10 pt-8 mb-8">
               Nenhuma métrica fiduciária atende aos critérios do filtro.
             </div>
           )}
@@ -371,10 +357,10 @@ export function FinancialLineageCenter({ selectedClient, selectedYear }: Financi
       {/* Row 3: Active Lineage Violations Feed */}
       {violations.length > 0 && (
         <div className="card-premium p-6 space-y-4 border-rose-500/20">
-          <h3 className="text-xs font-bold uppercase tracking-wider text-rose-400 flex items-center gap-2">
+          <ExecutiveHeading as="h3" className="text-rose-400 flex items-center gap-2">
             <AlertOctagon className="w-5 h-5 text-rose-500" />
             Detalhes dos Alertas e Violações de Linhagem Fiduciária
-          </h3>
+          </ExecutiveHeading>
           <div className="space-y-3">
             {violations.map((v: any, idx: number) => {
               const isCritical = v.severity === 'CRITICAL';
@@ -383,7 +369,7 @@ export function FinancialLineageCenter({ selectedClient, selectedYear }: Financi
                   <AlertOctagon className="w-4 h-4 mt-0.5 flex-shrink-0" />
                   <div>
                     <div className="text-xs font-bold uppercase tracking-wide">{v.rule}</div>
-                    <p className="text-xs font-light mt-1 leading-normal">{v.message}</p>
+                    <ExecutiveText as="div" variant="caption" className="mt-1">{v.message}</ExecutiveText>
                   </div>
                 </div>
               );
@@ -395,8 +381,8 @@ export function FinancialLineageCenter({ selectedClient, selectedYear }: Financi
       {/* Row 4: Chronological Lineage Timeline flow */}
       <div className="space-y-6">
         <div>
-          <h2 className="text-lg font-medium text-muted-foreground">Rastro de Propagação Fiduciária (Lineage Timeline)</h2>
-          <p className="text-xs text-muted-foreground font-light mt-1">Fluxo cronológico de dados financeiros propagados entre as engines.</p>
+          <ExecutiveHeading as="h2" className="text-muted-foreground">Rastro de Propagação Fiduciária (Lineage Timeline)</ExecutiveHeading>
+          <ExecutiveText as="div" variant="caption" className="text-muted-foreground mt-1">Fluxo cronológico de dados financeiros propagados entre as engines.</ExecutiveText>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-4 lg:grid-cols-8 gap-4 relative">
@@ -410,10 +396,10 @@ export function FinancialLineageCenter({ selectedClient, selectedYear }: Financi
                     </span>
                     <span className="text-[9px] text-muted-foreground font-bold font-mono">Step {idx + 1}</span>
                   </div>
-                  <h4 className="text-xs font-bold text-muted-foreground tracking-wide uppercase leading-snug">{node.title}</h4>
-                  <p className="text-[10px] text-muted-foreground font-light mt-2">{node.metric}</p>
+                  <ExecutiveHeading as="h4" className="text-muted-foreground">{node.title}</ExecutiveHeading>
+                  <ExecutiveText as="div" variant="bodyStandard" className="text-muted-foreground mt-2">{node.metric}</ExecutiveText>
                 </div>
-                <div className="mt-6 pt-4 border-t border-border/10">
+                <div className="mt-6 pt-4 border-t border-border/10 pt-8 mb-8">
                   <div className="text-sm font-black tracking-tight truncate font-mono text-muted-foreground">
                     {formatDisplayVal(node.val)}
                   </div>
@@ -429,6 +415,6 @@ export function FinancialLineageCenter({ selectedClient, selectedYear }: Financi
           ))}
         </div>
       </div>
-    </div>
+    </ExecutivePageTemplate>
   );
 }

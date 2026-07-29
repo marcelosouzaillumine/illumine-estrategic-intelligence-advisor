@@ -1,12 +1,30 @@
+
+
+
 import React, { useState, useEffect } from 'react';
 import { Activity, Clock, BarChart2, Download, AlertCircle, Smile, User, MessageSquare, FileText, MousePointer, RefreshCw } from 'lucide-react';
-import { PageHeader } from '../Common';
+import { PageHeader, StatusBadge } from '../Common';
 import { CommercialPilotSessionManager } from '../../core/commercial/CommercialPilotSessionManager';
 import { PilotFeedbackEngine } from '../../core/commercial/PilotFeedbackEngine';
 import { PilotExperienceMetrics } from '../../core/commercial/PilotExperienceMetrics';
 import { ExecutiveAttentionTracking } from '../../core/commercial/ExecutiveAttentionTracking';
+import { ExecutivePageTemplate } from '../ui/executive-page-template';
+import { ExecutiveSurface } from '../ui/executive-surface';
+import { ExecutiveAccordion } from '../ui/executive-accordion';
+import { ExecutiveEmptyState } from '../ui/executive-empty-state';
+import { ExecutiveHeading } from '../ui/executive-heading';
+import { ExecutiveText } from '../ui/executive-typography';
+import { createPortal } from 'react-dom';
+import { ExecutiveSummarySection } from '../ui/executive-summary-section';
+import { ExecutiveStrategicTensions } from '../ui/executive-strategic-tensions';
+import { ExecutiveDecisionTrace } from '../ui/executive-decision-trace';
+import { usePilotExperienceDashboardViewModel } from '../../viewmodels/usePilotExperienceDashboardViewModel';
 
 export function PilotExperienceDashboard({ selectedClient }: { selectedClient: string }) {
+  // Adapter: usePilotExperienceDashboardAdapter
+  // ViewModel: usePilotExperienceDashboardViewModel
+  const { state, computed, actions } = usePilotExperienceDashboardViewModel({ selectedClient });
+  const portal = createPortal;
   const [selectedTenant, setSelectedTenant] = useState<string>('TENANT-1');
   const [refreshTrigger, setRefreshTrigger] = useState<number>(0);
 
@@ -90,27 +108,28 @@ export function PilotExperienceDashboard({ selectedClient }: { selectedClient: s
   const auditLogs = CommercialPilotSessionManager.getAuditTrail(selectedTenant);
 
   return (
-    <div className="max-w-[1440px] mx-auto px-6 lg:px-10 space-y-12 pb-32 animate-executive-fade text-foreground">
-      
-      {/* Page Header */}
-      <PageHeader
-        title="Pilot Experience Dashboard"
-        subtitle="Telemetria e Observabilidade de Engajamento, Feedback de Usuários e Métricas do Piloto Comercial."
-        icon={Activity}
-        transparent
-        actions={
-          <div className="flex items-center gap-4 bg-surface-container/60 p-2 rounded-button border border-border shadow-xs">
-            <span className="text-body-sm font-semibold uppercase tracking-wider text-muted-foreground pl-2">Tenant do Piloto:</span>
-            <select
-              value={selectedTenant}
-              onChange={(e) => setSelectedTenant(e.target.value)}
-              className="text-body-sm font-bold uppercase tracking-widest bg-transparent cursor-pointer border-none outline-none focus:ring-0 text-secondary"
-            >
-              <option value="TENANT-1" className="bg-card text-foreground">TENANT-1 (Pilot)</option>
-              <option value="TENANT-ALPHA" className="bg-card text-foreground">TENANT-ALPHA</option>
-              <option value="TENANT-BETA" className="bg-card text-foreground">TENANT-BETA</option>
-            </select>
-            <button
+    <ExecutivePageTemplate header={{
+      title: "Pilot Experience Dashboard",
+      description: "Telemetria e Observabilidade de Engajamento, Feedback de Usuários e Métricas do Piloto Comercial.",
+    }}>
+
+      <div className="flex flex-col md:flex-row md:items-center justify-between gap-6 mb-10">
+
+        <div className="flex items-center gap-3">
+          <StatusBadge status="Verde" label="Telemetria Ativa" />
+        </div>
+        <div className="flex items-center gap-4 bg-zinc-900 border border-zinc-800 p-2 rounded-xl text-white">
+          <span className="text-[10px] font-semibold uppercase tracking-wider text-muted-foreground pl-2">Tenant do Piloto:</span>
+          <select
+            value={selectedTenant}
+            onChange={(e) => setSelectedTenant(e.target.value)}
+            className="text-[10px] font-bold uppercase tracking-widest bg-transparent cursor-pointer border-none outline-none focus:ring-0 text-secondary"
+          >
+            <option value="TENANT-1" className="bg-card text-foreground">TENANT-1 (Pilot)</option>
+            <option value="TENANT-ALPHA" className="bg-card text-foreground">TENANT-ALPHA</option>
+            <option value="TENANT-BETA" className="bg-card text-foreground">TENANT-BETA</option>
+          </select>
+          <button
               onClick={handleRefresh}
               className="p-2 hover:bg-surface-container-high rounded-full transition-colors text-muted-foreground hover:text-secondary"
               title="Recarregar Telemetria"
@@ -118,8 +137,18 @@ export function PilotExperienceDashboard({ selectedClient }: { selectedClient: s
               <RefreshCw size={16} />
             </button>
           </div>
-        }
-      />
+      
+      </div>
+
+      <div className="mt-12 mb-8 border-t border-border pt-8" />
+      <ExecutiveAccordion
+        title="Painel de Experiência do Cliente"
+        subtitle="Analise os feedbacks qualitativos e métricas de satisfação da plataforma."
+        variant="analytics"
+        defaultExpanded
+      >
+
+      <div className="space-y-12">
 
       {/* Experience Metric Cards */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-6 gap-6">
@@ -131,8 +160,8 @@ export function PilotExperienceDashboard({ selectedClient }: { selectedClient: s
             <div className="p-2 bg-secondary/10 text-secondary rounded-lg"><Clock size={16} /></div>
           </div>
           <div>
-            <h4 className="text-h3 font-display font-medium tracking-tight">{metrics.averageOnboardingTimeSeconds}s</h4>
-            <p className="text-[9px] text-muted-foreground font-semibold mt-1">MÉDIA DE SUBMISSÃO</p>
+            <ExecutiveHeading as="h4" className="text-h3 font-display">{metrics.averageOnboardingTimeSeconds}s</ExecutiveHeading>
+            <ExecutiveText as="div" variant="bodyStandard" className="text-muted-foreground mt-1">MÉDIA DE SUBMISSÃO</ExecutiveText>
           </div>
         </div>
 
@@ -143,8 +172,8 @@ export function PilotExperienceDashboard({ selectedClient }: { selectedClient: s
             <div className="p-2 bg-secondary/10 text-secondary rounded-lg"><Activity size={16} /></div>
           </div>
           <div>
-            <h4 className="text-h3 font-display font-medium tracking-tight">{metrics.averageTimeToInsightSeconds}s</h4>
-            <p className="text-[9px] text-muted-foreground font-semibold mt-1">COMPREENSÃO DO REPORT</p>
+            <ExecutiveHeading as="h4" className="text-h3 font-display">{metrics.averageTimeToInsightSeconds}s</ExecutiveHeading>
+            <ExecutiveText as="div" variant="bodyStandard" className="text-muted-foreground mt-1">COMPREENSÃO DO REPORT</ExecutiveText>
           </div>
         </div>
 
@@ -155,8 +184,8 @@ export function PilotExperienceDashboard({ selectedClient }: { selectedClient: s
             <div className="p-2 bg-secondary/10 text-secondary rounded-lg"><BarChart2 size={16} /></div>
           </div>
           <div>
-            <h4 className="text-h3 font-display font-medium tracking-tight">{metrics.usageRateCount}</h4>
-            <p className="text-[9px] text-muted-foreground font-semibold mt-1">TOTAL DE SESSÕES</p>
+            <ExecutiveHeading as="h4" className="text-h3 font-display">{metrics.usageRateCount}</ExecutiveHeading>
+            <ExecutiveText as="div" variant="bodyStandard" className="text-muted-foreground mt-1">TOTAL DE SESSÕES</ExecutiveText>
           </div>
         </div>
 
@@ -167,8 +196,8 @@ export function PilotExperienceDashboard({ selectedClient }: { selectedClient: s
             <div className="p-2 bg-secondary/10 text-secondary rounded-lg"><Download size={16} /></div>
           </div>
           <div>
-            <h4 className="text-h3 font-display font-medium tracking-tight">{metrics.exportFrequencyCount}</h4>
-            <p className="text-[9px] text-muted-foreground font-semibold mt-1">DOWNLOADS DE RELATÓRIOS</p>
+            <ExecutiveHeading as="h4" className="text-h3 font-display">{metrics.exportFrequencyCount}</ExecutiveHeading>
+            <ExecutiveText as="div" variant="bodyStandard" className="text-muted-foreground mt-1">DOWNLOADS DE RELATÓRIOS</ExecutiveText>
           </div>
         </div>
 
@@ -179,8 +208,8 @@ export function PilotExperienceDashboard({ selectedClient }: { selectedClient: s
             <div className="p-2 bg-secondary/10 text-secondary rounded-lg"><AlertCircle size={16} /></div>
           </div>
           <div>
-            <h4 className="text-h3 font-display font-medium tracking-tight">{metrics.averageWarningDensity}</h4>
-            <p className="text-[9px] text-muted-foreground font-semibold mt-1">SINALIZAÇÕES MÉDIAS</p>
+            <ExecutiveHeading as="h4" className="text-h3 font-display">{metrics.averageWarningDensity}</ExecutiveHeading>
+            <ExecutiveText as="div" variant="bodyStandard" className="text-muted-foreground mt-1">SINALIZAÇÕES MÉDIAS</ExecutiveText>
           </div>
         </div>
 
@@ -191,8 +220,8 @@ export function PilotExperienceDashboard({ selectedClient }: { selectedClient: s
             <div className="p-2 bg-secondary/10 text-secondary rounded-lg"><Smile size={16} /></div>
           </div>
           <div>
-            <h4 className="text-h3 font-display font-medium tracking-tight">{metrics.averageSessionEngagementMinutes} min</h4>
-            <p className="text-[9px] text-muted-foreground font-semibold mt-1">DURAÇÃO DA SESSÃO</p>
+            <ExecutiveHeading as="h4" className="text-h3 font-display">{metrics.averageSessionEngagementMinutes} min</ExecutiveHeading>
+            <ExecutiveText as="div" variant="bodyStandard" className="text-muted-foreground mt-1">DURAÇÃO DA SESSÃO</ExecutiveText>
           </div>
         </div>
       </div>
@@ -207,8 +236,8 @@ export function PilotExperienceDashboard({ selectedClient }: { selectedClient: s
               <FileText size={16} />
             </div>
             <div>
-              <h3 className="text-h3 font-medium tracking-tight">Trilha de Sessões do Piloto</h3>
-              <p className="text-body-sm text-muted-foreground mt-0.5">Histórico imutável de sessões comerciais iniciadas e encerradas.</p>
+              <ExecutiveHeading as="h3" className="text-h3">Trilha de Sessões do Piloto</ExecutiveHeading>
+              <ExecutiveText as="div" variant="bodyStandard" className="text-body-sm text-muted-foreground mt-0.5">Histórico imutável de sessões comerciais iniciadas e encerradas.</ExecutiveText>
             </div>
           </div>
 
@@ -249,8 +278,8 @@ export function PilotExperienceDashboard({ selectedClient }: { selectedClient: s
               <MessageSquare size={16} />
             </div>
             <div>
-              <h3 className="text-h3 font-medium tracking-tight">Avaliações e Feedbacks do Piloto</h3>
-              <p className="text-body-sm text-muted-foreground mt-0.5">Pontuação de clareza, ruído e fricção relatada por tomadores de decisão.</p>
+              <ExecutiveHeading as="h3" className="text-h3">Avaliações e Feedbacks do Piloto</ExecutiveHeading>
+              <ExecutiveText as="div" variant="bodyStandard" className="text-body-sm text-muted-foreground mt-0.5">Pontuação de clareza, ruído e fricção relatada por tomadores de decisão.</ExecutiveText>
             </div>
           </div>
 
@@ -287,7 +316,7 @@ export function PilotExperienceDashboard({ selectedClient }: { selectedClient: s
 
                 <div className="space-y-1">
                   <span className="text-[8px] font-black text-muted-foreground uppercase tracking-wider">Pontos de Fricção/Confusão</span>
-                  <p className="text-xs text-muted-foreground italic">"{f.confusionPoints}"</p>
+                  <ExecutiveText as="div" variant="caption" className="text-muted-foreground italic">"{f.confusionPoints}"</ExecutiveText>
                 </div>
               </div>
             ))}
@@ -305,8 +334,8 @@ export function PilotExperienceDashboard({ selectedClient }: { selectedClient: s
               <MousePointer size={16} />
             </div>
             <div>
-              <h3 className="text-h3 font-medium tracking-tight">Rastreamento de Navegação (Privacy-Safe)</h3>
-              <p className="text-body-sm text-muted-foreground mt-0.5">Tempo agregado por seção e cliques de fluxo completamente anonimizados.</p>
+              <ExecutiveHeading as="h3" className="text-h3">Rastreamento de Navegação (Privacy-Safe)</ExecutiveHeading>
+              <ExecutiveText as="div" variant="bodyStandard" className="text-body-sm text-muted-foreground mt-0.5">Tempo agregado por seção e cliques de fluxo completamente anonimizados.</ExecutiveText>
             </div>
           </div>
 
@@ -347,8 +376,8 @@ export function PilotExperienceDashboard({ selectedClient }: { selectedClient: s
               <Activity size={16} />
             </div>
             <div>
-              <h3 className="text-h3 font-medium tracking-tight">Audit Trail Fiduciário Comercial</h3>
-              <p className="text-body-sm text-muted-foreground mt-0.5">Logs de auditoria imutáveis das conexões do piloto.</p>
+              <ExecutiveHeading as="h3" className="text-h3">Audit Trail Fiduciário Comercial</ExecutiveHeading>
+              <ExecutiveText as="div" variant="bodyStandard" className="text-body-sm text-muted-foreground mt-0.5">Logs de auditoria imutáveis das conexões do piloto.</ExecutiveText>
             </div>
           </div>
 
@@ -362,14 +391,26 @@ export function PilotExperienceDashboard({ selectedClient }: { selectedClient: s
                 <p className="text-xs font-bold text-muted-foreground">
                   Ação "{log.action}" executada por {log.actorId}
                 </p>
-                <p className="text-[10px] text-muted-foreground">Sessão: {log.sessionId}</p>
+                <ExecutiveText as="div" variant="bodyStandard" className="text-muted-foreground">Sessão: {log.sessionId}</ExecutiveText>
               </div>
             ))}
           </div>
         </div>
 
       </div>
-
-    </div>
+      </div>
+       <ExecutiveSummarySection 
+         status={{ label: 'Telemetria Auditada', variant: 'success' }}
+         question="Como a experiência e satisfação dos usuários durante a fase piloto apoia a adoção da plataforma?"
+         opinion="O comitê fiduciário chancela os feedbacks qualitativos e a telemetria de engajamento do piloto comercial."
+         driver="Score de satisfação, tempo de atenção dos executivos e logs de engajamento."
+         implication="Garantia de usabilidade fluida e aderência aos requisitos fiduciários dos tomadores de decisão."
+         action="Analisar semanalmente os pontos de atrito identificados na telemetria de navegação."
+       >
+         <ExecutiveStrategicTensions tensions={[]} />
+         <ExecutiveDecisionTrace trace={[]} />
+       </ExecutiveSummarySection>
+      </ExecutiveAccordion>
+    </ExecutivePageTemplate>
   );
 }

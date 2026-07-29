@@ -9,6 +9,9 @@ import type { Course } from '../../../types/academy';
 import { cn } from '../../../lib/utils';
 import { PageHeader } from '../../Common';
 import { DashboardSkeleton } from '../../ui/skeletons';
+import { ExecutiveSummarySection } from '../../ui/executive-summary-section';
+import { ExecutiveStrategicTensions } from '../../ui/executive-strategic-tensions';
+import { ExecutiveDecisionTrace } from '../../ui/executive-decision-trace';
 
 interface AcademyHomePageProps {
   onNavigate: (page: any, params?: any) => void;
@@ -59,6 +62,20 @@ export function AcademyHomePage({ onNavigate }: AcademyHomePageProps) {
           </div>
         }
       />
+
+      {/* --- CAMADA 1: NÍVEL CONSELHO (SÍNTESE DA TRILHA DE CONHECIMENTO) --- */}
+      <ExecutiveSummarySection 
+        className="mb-8"
+        status={{ label: 'Formação Continuada Ativa', variant: 'success' }}
+        question="Qual a aderência das equipes às trilhas de capacitação corporativa e desenvolvimento de liderança?"
+        opinion="O comitê fiduciário homologa os programas de treinamento corporativo para sustentabilidade das operações."
+        driver="Cursos publicados, horas de treinamento concluídas, engajamento por área e certificações."
+        implication="Mitigação de falhas operacionais via qualificação constante dos quadros da empresa."
+        action="Incentivar a conclusão dos módulos prioritários de governança e finanças corporativas."
+      >
+        <ExecutiveStrategicTensions tensions={[]} />
+        <ExecutiveDecisionTrace trace={[]} />
+      </ExecutiveSummarySection>
 
       {/* Hero Section */}
       {featuredCourse && (

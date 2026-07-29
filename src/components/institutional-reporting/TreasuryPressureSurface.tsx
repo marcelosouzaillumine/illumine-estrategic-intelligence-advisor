@@ -1,9 +1,9 @@
-// src/components/institutional-reporting/TreasuryPressureSurface.tsx
-
 import React from 'react';
 import { Landmark, AlertTriangle } from 'lucide-react';
 import { useLanguage } from '../../contexts/LanguageContext';
 import { TreasurySection } from '../../services/FiduciaryRuntimeAdapter';
+// src/components/institutional-reporting/TreasuryPressureSurface.tsx
+
 
 export function TreasuryPressureSurface({ data }: { data: TreasurySection }) {
   const { translateLabel: t } = useLanguage();

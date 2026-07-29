@@ -1,0 +1,1143 @@
+
+> illumine-strategic-intelligence-advisor@0.0.0 prebuild
+> npm run governance:audit
+
+
+> illumine-strategic-intelligence-advisor@0.0.0 governance:audit
+> npm run self-audit && npm run test -- tests/fiduciary-governance.test.ts && npm run war-gaming:audit && npm run operating-pressure:audit && npm run institutional-continuity:audit && npm run demo-isolation:audit && npm run design:audit:bp
+
+
+> illumine-strategic-intelligence-advisor@0.0.0 self-audit
+> tsx src/scripts/runActiveGovernance.ts
+
+Iniciando Active Governance Audit...
+
+======================================
+TEMPORAL CAUSALITY ENGINE - ADVERSARIAL TESTS
+======================================
+
+[TELEMETRY] Temporal Engine Execution Time: 0.01ms (LIMITED RUN)
+✅ Test 1 Passed: LIMITED_TEMPORAL_MODE (1 year defaults to LOW_CONFIDENCE)
+[TELEMETRY] Temporal Engine Execution Time: 0.03ms (FULL RUN, 3 years)
+✅ Test 2 Passed: TURNAROUND EMERGING (Losses reducing, margins improving)
+[TELEMETRY] Temporal Engine Execution Time: 0.01ms (FULL RUN, 3 years)
+✅ Test 3 Passed: DESTRUCTIVE GROWTH PATTERN (Inventory up, EBITDA down, Debt up, Blocked Modulation)
+[TELEMETRY] Temporal Engine Execution Time: 0.01ms (FULL RUN, 3 years)
+✅ Test 4 Passed: STABILIZING/VOLATILE (Stable low margins, stable cash)
+[TELEMETRY] Temporal Engine Execution Time: 0.01ms (FULL RUN, 3 years)
+✅ Test 5 Passed: FALSE TURNAROUND (Engine correctly blocked false turnaround and detected deterioration)
+
+Iniciando Access Governance Audit...
+Iniciando Access Governance Audit (Routing Security)...
+SUCCESS: Nenhuma violação de acesso (bypasses) detectada no roteamento.
+(node:23646) [DEP0205] DeprecationWarning: `module.register()` is deprecated. Use `module.registerHooks()` instead.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+
+Iniciando Topology Compliance Audit...
+Iniciando Topology Audit...
+
+======================================
+TOPOLOGY CONSOLIDATION TESTS
+======================================
+
+✅ Test 1 Passed: Receitas cruzadas e mútuos eliminados corretamente (500,000).
+✅ Test 2 Passed: Mútuo não reconciliado detectado corretamente e retido para revisão.
+✅ Test 3 Passed: Confidence consolidada degradou corretamente devido à subsidiária (LOW).
+✅ Test 4 Passed: Lineage multi-entidade preservado no output.
+✅ Test 5 Passed: Runtime single-entity legada continua funcionando perfeitamente.
+
+Topology Audit Finalizada. Status: COMPLIANT
+(node:23684) [DEP0205] DeprecationWarning: `module.register()` is deprecated. Use `module.registerHooks()` instead.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+[AUDIT] 2026-07-10T23:27:31.496Z - Iniciando Consolidated Financial Audit {}
+[AUDIT] 2026-07-10T23:27:32.065Z - Iniciando Consolidated Financial Audit {}
+======================================
+======================================
+
+✅ Test 1 Passed: Confidence degradada para LOW devido ao mútuo UNMATCHED material.
+✅ Test 2 Passed: Emissão do consolidado bloqueada devido à violation CRITICAL.
+[AUDIT] 2026-07-10T23:27:32.068Z - Test 3 Passed {}
+✅ Test 4 Passed: Receitas e Custos Intragrupo eliminados corretamente (valor líquido 0).
+✅ Test 5 Passed: Lineage de contas detalhado preservado (Receita originou-se de holding e sub-A).
+[AUDIT] 2026-07-10T23:27:32.068Z - Test 6 Passed {}
+[AUDIT] 2026-07-10T23:27:32.068Z - Consolidated Financial Audit Finalizada {}
+(node:23728) [DEP0205] DeprecationWarning: `module.register()` is deprecated. Use `module.registerHooks()` instead.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+[AUDIT] 2026-07-10T23:27:32.081Z - Iniciando Institutional Financial Audit {}
+[AUDIT] 2026-07-10T23:27:32.620Z - Iniciando Institutional Financial Audit {}
+[AUDIT] 2026-07-10T23:27:32.624Z - Institutional Financial Audit Success {}
+(node:23765) [DEP0205] DeprecationWarning: `module.register()` is deprecated. Use `module.registerHooks()` instead.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+
+Iniciando Consolidated Advisory Audit...
+Iniciando Consolidated Advisory Audit...
+
+======================================
+CONSOLIDATED ADVISORY TESTS
+======================================
+
+[AUDIT] 2026-07-10T23:27:33.209Z - Test 1 Passed: Operational Parasitism {}
+✅ Test 2 Passed: Treasury Collapse Propagation rastreado (risco de asfixia de liquidez na filial).
+✅ Test 3 Passed: Confidence recalibrada pela causalidade estrutural para LOW.
+✅ Test 4 Passed: Narrative Engine produziu texto executivo baseado em causalidade financeira verdadeira.
+✅ Test 5 Passed: Artificial Revenue Inflation detectada (>30% de receita intragrupo).
+✅ Test 6 Passed: Advisory bloqueado imediatamente devido à violação crítica herdada (Active Governance).
+
+Consolidated Advisory Audit Finalizada. Status: COMPLIANT
+(node:23807) [DEP0205] DeprecationWarning: `module.register()` is deprecated. Use `module.registerHooks()` instead.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+
+Iniciando Consolidated Presentation Audit...
+Iniciando Consolidated Presentation Audit (Active Governance)...
+
+✅ Todos os componentes testados são View Layers puros. Nenhuma dedução ou cálculo não autorizado encontrado.
+
+Consolidated Presentation Audit Finalizada. Status: COMPLIANT
+(node:23847) [DEP0205] DeprecationWarning: `module.register()` is deprecated. Use `module.registerHooks()` instead.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+
+Iniciando Consolidated Data Integration Audit...
+Iniciando Consolidated Data Integration Audit (Active Governance)...
+
+✅ Todas as Repositories e Loaders são condutores puros de dados. Nenhuma manipulação matemática ou narrativa encontrada.
+
+Consolidated Data Integration Audit Finalizada. Status: COMPLIANT
+(node:23884) [DEP0205] DeprecationWarning: `module.register()` is deprecated. Use `module.registerHooks()` instead.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+
+Iniciando Consolidated Data Model Audit...
+Iniciando Consolidated Data Model Audit (Active Governance)...
+
+✅ A tela administrativa e as Repositories estão isentas de lógicas financeiras e de cálculos não autorizados.
+
+Consolidated Data Model Audit Finalizada. Status: COMPLIANT
+(node:23921) [DEP0205] DeprecationWarning: `module.register()` is deprecated. Use `module.registerHooks()` instead.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+
+Iniciando Observability Governance Audit...
+Iniciando Observability Governance Audit (Active Governance)...
+
+✅ Observabilidade passiva e puramente forense. Orquestradores permanecem puros (Input -> Output). Nenhuma mutação de advisory detectada.
+
+Observability Governance Audit Finalizada. Status: COMPLIANT
+(node:23958) [DEP0205] DeprecationWarning: `module.register()` is deprecated. Use `module.registerHooks()` instead.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+
+Iniciando Scenario Governance Audit...
+
+Iniciando Reporting Governance Audit...
+Iniciando Reporting Governance Audit (Active Governance)...
+
+✅ Camada de Reporting opera em modo Fiduciário. Apenas outputs estão sendo formatados, preservando o Lineage.
+
+Reporting Governance Audit Finalizada. Status: COMPLIANT
+(node:23995) [DEP0205] DeprecationWarning: `module.register()` is deprecated. Use `module.registerHooks()` instead.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+
+Iniciando Tenancy Governance Audit...
+Iniciando Tenancy Governance Audit (Active Governance)...
+
+
+Board Experience Governance Check...
+  ✅ BoardExperienceShell inclui RuntimeDisclosureBanner.
+  ✅ BoardExperienceShell invoca BoardModeGuard (Fail-Closed ativo).
+  ✅ BoardModeGuard verifica disclosureState (Disclosure enforcement ativo).
+
+Executive Demonstrability Governance Check...
+  ✅ ExecutiveDemoShell inclui Banners e Painéis de Disclosure obrigatórios.
+  ✅ InstitutionalDemoDatasetGuard possui verificações completas de Lineage/Evidence/Disclosure.
+✅ Isolamento Multi-Tenant preservado. Orquestradores utilizam TenantExecutionContext. Zero Cross-Tenant Leakage detectado em código estático.
+✅ Board Experience Layer em conformidade: Banner obrigatório e Fail-Closed ativos.
+✅ Demonstrability Layer em conformidade: Guards e Banners obrigatórios em atividade.
+
+Tenancy Governance Audit Finalizada. Status: COMPLIANT
+(node:24034) [DEP0205] DeprecationWarning: `module.register()` is deprecated. Use `module.registerHooks()` instead.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+
+Iniciando Governance Command Center Audit...
+Iniciando Governance Command Center Audit (Active Governance)...
+
+Auditing types.ts configurations...
+Auditing UI Components for local overrides or calculations...
+Auditing operational engines...
+Auditing ExecutiveMonitoringCenter.tsx wrappers...
+✅ Todos os componentes consomem estado do Provider (sem recálculos locais).
+✅ Ações bloqueadas fisicamente em estado de FAIL_CLOSED.
+✅ Multi-tenant auditado e isolado.
+
+Governance Command Center Audit Finalizada. Status: COMPLIANT
+
+Iniciando Performance Governance Audit...
+Iniciando Performance Governance Audit (Active Governance)...
+
+✅ Profiling operando em modo passivo. Cache Restrito à RAM. Zero Overhead Detectado.
+
+Performance Governance Audit Finalizada. Status: COMPLIANT
+(node:24110) [DEP0205] DeprecationWarning: `module.register()` is deprecated. Use `module.registerHooks()` instead.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+
+Iniciando AI Governance Audit...
+Iniciando AI Governance Audit (Active Governance)...
+
+✅ UI está livre de chamadas LLM e chaves inseguras.
+✅ Sessão de IA operando em estado efêmero seguro.
+
+AI Governance Audit Finalizada. Status: COMPLIANT
+(node:24151) [DEP0205] DeprecationWarning: `module.register()` is deprecated. Use `module.registerHooks()` instead.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+
+Iniciando Monitoring Governance Audit...
+Iniciando Monitoring Governance Audit (Active Governance)...
+
+✅ UI está livre de schedulers auto-iniciados e poluição assíncrona.
+✅ MonitoringEngine operando passivamente (Truth Layer Preserved).
+✅ Execution Scheduler respeita arquitetura Manual/Serverless design.
+
+Monitoring Governance Audit Finalizada. Status: COMPLIANT
+(node:24191) [DEP0205] DeprecationWarning: `module.register()` is deprecated. Use `module.registerHooks()` instead.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+
+Iniciando Workflow Governance Audit...
+Iniciando Workflow Governance Audit (Active Governance)...
+
+✅ UI está livre de persistência insegura e recálculos indevidos.
+✅ WorkflowEngine operando passivamente (Truth Layer Preserved).
+
+Workflow Governance Audit Finalizada. Status: COMPLIANT
+(node:24229) [DEP0205] DeprecationWarning: `module.register()` is deprecated. Use `module.registerHooks()` instead.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+
+Iniciando Integration Governance Audit...
+Iniciando Integration Governance Audit (Active Governance)...
+
+✅ UI não processa payloads complexos nem persiste uploads localmente.
+✅ ConnectorEngine não faz injeções matemáticas (Truth Layer Preserved).
+✅ Pipeline de Ingestão segue fluxo obrigatório de Alfândega (Gateway -> Staging -> Publish).
+
+Integration Governance Audit Finalizada. Status: COMPLIANT
+(node:24266) [DEP0205] DeprecationWarning: `module.register()` is deprecated. Use `module.registerHooks()` instead.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+
+Iniciando Benchmark Governance Audit...
+Iniciando Benchmark Governance Audit (Active Governance)...
+
+✅ UI de Benchmarking isenta de TenantId e Lógicas de Agregação (Strict Consumption).
+✅ Engine de Benchmarking preservando k-anonymity e proibindo reidentificação (Truth Layer Preserved).
+
+Benchmark Governance Audit Finalizada. Status: COMPLIANT
+(node:24304) [DEP0205] DeprecationWarning: `module.register()` is deprecated. Use `module.registerHooks()` instead.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+
+Iniciando Product Governance Audit...
+Iniciando Product Governance Audit (Active Governance)...
+
+✅ UI operando estritamente em modo de leitura (Truth Layer Preserved).
+✅ Nenhuma chave de billing real detectada (Sandbox Preserved).
+✅ Mecanismos de Scope e Trial validados.
+
+Product Governance Audit Finalizada. Status: COMPLIANT
+(node:24341) [DEP0205] DeprecationWarning: `module.register()` is deprecated. Use `module.registerHooks()` instead.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+
+Iniciando Knowledge Graph Governance Audit...
+Iniciando Knowledge Graph Governance Audit (Active Governance)...
+
+✅ UI isenta de Graph Traversal, Mutation ou Persistência.
+✅ Cross-Tenant Isolation verificado e blindado.
+✅ Semantic Lineage Validation atestada.
+
+Knowledge Graph Governance Audit Finalizada. Status: COMPLIANT
+(node:24379) [DEP0205] DeprecationWarning: `module.register()` is deprecated. Use `module.registerHooks()` instead.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+
+Iniciando Early Warning Governance Audit...
+Iniciando Early Warning Governance Audit (Active Governance)...
+
+✅ UI está isenta de cálculos de forecast e mutações destrutivas.
+✅ Isolamento semântico validado (Lineage preserved).
+✅ Tenant Scope rigorosamente atestado na camada Preditiva.
+
+Early Warning Governance Audit Finalizada. Status: COMPLIANT
+(node:24417) [DEP0205] DeprecationWarning: `module.register()` is deprecated. Use `module.registerHooks()` instead.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+
+Iniciando Strategic Simulation Governance Audit...
+Iniciando Strategic Simulation Governance Audit (Active Governance)...
+
+✅ UI está isenta de simulações com matemática em client-side e vazamentos de persistência local.
+✅ StrategicDecisionEvidenceBinder garantindo o Lineage das projeções.
+✅ Propagação e Trade-offs operam isolados, protegendo a Truth Layer principal.
+
+Strategic Simulation Governance Audit Finalizada. Status: COMPLIANT
+(node:24454) [DEP0205] DeprecationWarning: `module.register()` is deprecated. Use `module.registerHooks()` instead.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+
+Iniciando Scenario Simulation & Predictive Governance Layer Audit...
+Iniciando Scenario Governance Audit (RC-1.6)...
+✅ Scenario Governance Audit FINALIZADA COM SUCESSO. Plataforma RC-1.6 Compliant.
+(node:24491) [DEP0205] DeprecationWarning: `module.register()` is deprecated. Use `module.registerHooks()` instead.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+
+Iniciando Governance Orchestration Audit...
+Iniciando Governance Orchestration Audit (Active Governance)...
+
+✅ UI atestada como passiva. Nenhuma execução autônoma ou automação externa detectada.
+✅ GovernanceRecommendationEvidenceBinder garantindo o Lineage das Recomendações e Playbooks.
+✅ Isolamento multi-tenant garantido. Nenhuma gravação persistente local identificada.
+
+Governance Orchestration Audit Finalizada. Status: COMPLIANT
+(node:24528) [DEP0205] DeprecationWarning: `module.register()` is deprecated. Use `module.registerHooks()` instead.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+
+Iniciando IOS Governance Audit...
+Iniciando IOS Governance Audit (Active Governance)...
+
+✅ UI atestada como agregadora passiva. Nenhuma execução autônoma detectada.
+✅ IOSGovernanceEngine garantindo o Tenant Isolation.
+✅ Isolamento fiduciário preservado. Nenhuma modificação no Runtime detectada.
+
+IOS Governance Audit Finalizada. Status: COMPLIANT
+(node:24565) [DEP0205] DeprecationWarning: `module.register()` is deprecated. Use `module.registerHooks()` instead.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+
+Iniciando Enterprise Validation Audit...
+Iniciando Enterprise Validation Audit (Active Governance)...
+
+✅ UI atestada como segura para exibição de validação. Sem injeção direta.
+✅ Isolamento entre Validation Environment e Production atestado.
+✅ Golden Datasets operando restritos ao escopo de sandbox.
+\nEnterprise Validation Audit Finalizada. Status: COMPLIANT
+(node:24602) [DEP0205] DeprecationWarning: `module.register()` is deprecated. Use `module.registerHooks()` instead.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+
+Iniciando Reality Validation Audit...
+Iniciando Reality Validation Audit (Active Governance)...
+
+UI atestada: Golden Datasets em sandbox isolado, sem contaminacao do Runtime.
+GoldenDatasetRegistry: 3 datasets enterprise validados (Holding, Healthcare, Advisor).
+GoldenDatasetIsolationEngine: Cross-tenant isolation verificado.
+UX: Nenhuma ocultacao de risco ou violacao detectada.
+
+Reality Validation Audit Finalizada. Status: COMPLIANT
+(node:24639) [DEP0205] DeprecationWarning: `module.register()` is deprecated. Use `module.registerHooks()` instead.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+
+Iniciando Executive Interaction Governance Audit...
+Iniciando Executive Interaction Governance Audit...
+
+✅ Camada de interação opera em modo passivo e determinístico. Zero inferência local detectada.
+
+Executive Interaction Governance Audit Finalizada. Status: COMPLIANT
+(node:24676) [DEP0205] DeprecationWarning: `module.register()` is deprecated. Use `module.registerHooks()` instead.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+
+Iniciando Executive Cognitive Orchestration Audit...
+Iniciando Executive Cognitive Orchestration Audit...
+
+✅ Camada cognitiva livre de ranqueamento manual e bypasses de prioridade.
+
+Executive Cognitive Orchestration Audit Finalizada. Status: COMPLIANT
+(node:24713) [DEP0205] DeprecationWarning: `module.register()` is deprecated. Use `module.registerHooks()` instead.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+
+Iniciando Institutional Memory & Adaptive Governance Layer Audit...
+Iniciando Institutional Memory & Adaptive Governance Layer Audit...
+
+✅ Camada de memória fiduciária longitudinal livre de ranqueamento manual e desvios de integridade.
+
+Institutional Memory & Adaptive Governance Layer Audit Finalizada. Status: COMPLIANT
+(node:24750) [DEP0205] DeprecationWarning: `module.register()` is deprecated. Use `module.registerHooks()` instead.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+
+Iniciando Institutional Causality & Longitudinal Governance Layer Audit...
+Iniciando Institutional Causality & Longitudinal Governance Layer Audit...
+
+✅ Camada de causalidade longitudinal livre de ranqueamento manual e desvios de integridade.
+
+Institutional Causality & Longitudinal Governance Layer Audit Finalizada. Status: COMPLIANT
+(node:24787) [DEP0205] DeprecationWarning: `module.register()` is deprecated. Use `module.registerHooks()` instead.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+
+Iniciando Production Hardening & Release Governance Audit...
+Iniciando Production Hardening & Release Governance Audit...
+
+✅ Hardening de produção verificado: chaves seguras, queries isoladas por inquilino e testes devidamente mockados.
+
+Production Hardening & Release Governance Audit Finalizada. Status: COMPLIANT
+(node:24824) [DEP0205] DeprecationWarning: `module.register()` is deprecated. Use `module.registerHooks()` instead.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+
+Iniciando Pilot Operations & Controlled Activation Audit...
+Running Pilot Operations & Controlled Activation Audit...
+✅ Pilot Operations Audit PASSED: Strict Tenant Isolation, Non-Invasiveness, and Telemetry Safety verified.
+
+Iniciando Executive Integrity Governance Audit...
+Iniciando Executive Integrity Validation Audit...
+- Testando Empty Cycle Fail-Closed...
+EVIDENCE ISSUES: [
+  'CRITICAL: Missing Income Statement (DRE) evidence.',
+  'CRITICAL: Reconciliation failed. Missing required core documents (BP, DRE).'
+]
+STRESS ENGINE INPUT: {
+  availableCash: 0,
+  normalizedMonthlyCashBurn: 0,
+  receivables: 0,
+  inventory: 0,
+  payables: 0,
+  shortTermDebt: 0
+}
+STRESS ENGINE OUTPUT: {
+  simulatedCash: 0,
+  dailySimulatedBurn: 233.33333333333334,
+  stressSeverity: 'CRITICAL',
+  cumulativeExhaustionDays: 0,
+  simulatedExhaustionProjected: true
+}
+RECOVERY ENGINE CALL 1 DEBUG: {
+  cashReportExists: true,
+  cashLineage: 'lineage_dfc_1eb1eb67',
+  cashHash: 'lineage_dfc_1eb1eb67'
+}
+RECOVERY ENGINE LINEAGE DEBUG: {
+  isLineageIncomplete: true,
+  fidOutHash: undefined,
+  treasuryHash1: 'lineage_treasury_bde958b',
+  treasuryHash2: undefined,
+  cashHash: 'lineage_dfc_1eb1eb67',
+  cashInputKeys: [
+    'isAvailable',
+    'contextSegment',
+    'universalIndicators',
+    'liquidityClassification',
+    'artificialLiquidityDetected',
+    'reconciliationAlerts',
+    'legacyOperationalSustainabilityAssessment',
+    'fiduciaryOperationalSustainabilityAssessment',
+    'continuityRisk',
+    'fiduciaryNarrative',
+    'cashConstraintDiagnosis',
+    'cashBurnAnalysis',
+    'shareholderDependencyAnalysis',
+    'cashSustainabilityAnalysis',
+    'cashConversionAnalysis',
+    'cashBoardDecisionFramework',
+    'cashExecutiveAdvisory',
+    'cashReinvestmentAnalysis',
+    'dfcExecutiveSnapshot',
+    'dfcPriorities',
+    'compressedAdvisory',
+    'consistencyAudit',
+    'causalIntelligence',
+    'scenarioIntelligence',
+    'earlyWarningSystem',
+    'treasurySustainability',
+    'blockedConclusions',
+    'allowedConclusions',
+    'confidenceLevel',
+    'auditTrail',
+    'lineageHash',
+    'cashIntelligenceLineageHash',
+    'causalReferences',
+    'score',
+    'runwayMonths'
+  ]
+}
+RECOVERY ENGINE LINEAGE DEBUG: {
+  isLineageIncomplete: true,
+  fidOutHash: undefined,
+  treasuryHash1: 'lineage_treasury_bde958b',
+  treasuryHash2: undefined,
+  cashHash: 'lineage_dfc_1eb1eb67',
+  cashInputKeys: [
+    'isAvailable',
+    'contextSegment',
+    'universalIndicators',
+    'liquidityClassification',
+    'artificialLiquidityDetected',
+    'reconciliationAlerts',
+    'legacyOperationalSustainabilityAssessment',
+    'fiduciaryOperationalSustainabilityAssessment',
+    'continuityRisk',
+    'fiduciaryNarrative',
+    'cashConstraintDiagnosis',
+    'cashBurnAnalysis',
+    'shareholderDependencyAnalysis',
+    'cashSustainabilityAnalysis',
+    'cashConversionAnalysis',
+    'cashBoardDecisionFramework',
+    'cashExecutiveAdvisory',
+    'cashReinvestmentAnalysis',
+    'dfcExecutiveSnapshot',
+    'dfcPriorities',
+    'compressedAdvisory',
+    'consistencyAudit',
+    'causalIntelligence',
+    'scenarioIntelligence',
+    'earlyWarningSystem',
+    'treasurySustainability',
+    'blockedConclusions',
+    'allowedConclusions',
+    'confidenceLevel',
+    'auditTrail',
+    'lineageHash',
+    'cashIntelligenceLineageHash',
+    'causalReferences',
+    'score',
+    'runwayMonths'
+  ]
+}
+EXECUTIVE DEBUG CASH REPORT: {
+  cashReportExists: true,
+  keys: [
+    'isAvailable',
+    'contextSegment',
+    'universalIndicators',
+    'liquidityClassification',
+    'artificialLiquidityDetected',
+    'reconciliationAlerts',
+    'legacyOperationalSustainabilityAssessment',
+    'fiduciaryOperationalSustainabilityAssessment',
+    'continuityRisk',
+    'fiduciaryNarrative',
+    'cashConstraintDiagnosis',
+    'cashBurnAnalysis',
+    'shareholderDependencyAnalysis',
+    'cashSustainabilityAnalysis',
+    'cashConversionAnalysis',
+    'cashBoardDecisionFramework',
+    'cashExecutiveAdvisory',
+    'cashReinvestmentAnalysis',
+    'dfcExecutiveSnapshot',
+    'dfcPriorities',
+    'compressedAdvisory',
+    'consistencyAudit',
+    'causalIntelligence',
+    'scenarioIntelligence',
+    'earlyWarningSystem',
+    'treasurySustainability',
+    'blockedConclusions',
+    'allowedConclusions',
+    'confidenceLevel',
+    'auditTrail',
+    'lineageHash',
+    'cashIntelligenceLineageHash',
+    'causalReferences',
+    'score',
+    'runwayMonths'
+  ],
+  lineageHash: 'lineage_dfc_1eb1eb67'
+}
+ISHE FAIL CLOSED: {
+  fiduciaryOutput: undefined,
+  treasuryRuntime: undefined,
+  cashIntelligenceRuntime: 'RESTRICTED',
+  patrimonialIntelligenceRuntime: 'RESTRICTED',
+  isLineageIncomplete: true
+}
+PAYLOAD VIOLATIONS DETECTED: [ 'Lineage inconsistente' ] for mode: render
+PAYLOAD VIOLATIONS DETECTED: [
+  'Metadata faltante',
+  'Lineage ausente',
+  'Output sem confidence',
+  'Output sem evidenceTrail',
+  'Narrativa sem Narrative Guard'
+] for mode: render
+[BoardDecisionGraphAdapter] Passive integration failed, ignoring to prevent runtime disruption: Error: Missing required fields to build InstitutionalNode
+    at InstitutionalNodeBuilder.build (/Users/marcelosouza/Documents/illumine-strategic-intelligence-advisor/src/core/knowledge-graph/InstitutionalNodeBuilder.ts:31:13)
+    at <anonymous> (/Users/marcelosouza/Documents/illumine-strategic-intelligence-advisor/src/core/knowledge-graph/adapters/BoardDecisionGraphAdapter.ts:70:12)
+    at Array.forEach (<anonymous>)
+    at BoardDecisionGraphAdapter.registerBoardDecisionGraph (/Users/marcelosouza/Documents/illumine-strategic-intelligence-advisor/src/core/knowledge-graph/adapters/BoardDecisionGraphAdapter.ts:65:24)
+    at InstitutionalBoardPackRuntime.generate (/Users/marcelosouza/Documents/illumine-strategic-intelligence-advisor/src/core/runtime/institutional-reporting/InstitutionalBoardPackRuntime.ts:403:31)
+    at ExecutiveIntelligenceRuntime.generateExecutiveReport (/Users/marcelosouza/Documents/illumine-strategic-intelligence-advisor/src/core/runtime/executive-intelligence-runtime.ts:2739:67)
+    at <anonymous> (/Users/marcelosouza/Documents/illumine-strategic-intelligence-advisor/src/scripts/runExecutiveIntegrityAudit.ts:28:38)
+    at ModuleJob.run (node:internal/modules/esm/module_job:437:25)
+    at async onImport.tracePromise.__proto__ (node:internal/modules/esm/loader:642:26)
+    at async asyncRunEntryPointWithESMLoader (node:internal/modules/run_main:101:5)
+[RuntimeLog] CONSTITUTIONAL_QUARANTINE_ACTIVATION {
+  id: 'e4e738ef-caca-4e45-9f4e-cc3ff5952279',
+  executionId: 'exec-d9a7bd20-c76d-46f6-9831-b19a2372928c',
+  eventName: 'CONSTITUTIONAL_QUARANTINE_ACTIVATION',
+  timestamp: '2026-07-10T23:27:49.833Z',
+  metadata: { reason: 'fail_closed' },
+  latencyMs: undefined
+}
+[ConstitutionalGraphAdapter] Successfully registered Knowledge Graph for execution exec-d9a7bd20-c76d-46f6-9831-b19a2372928c
+[DEBUG-CANONICAL] report.scores.composite: 0
+[DEBUG-CANONICAL] patClass: undefined
+- Testando Scale Efficiency Fail-Closed...
+[TELEMETRY] Temporal Engine Execution Time: 0.01ms (LIMITED RUN)
+[TELEMETRY] Temporal Engine Execution Time: 0.00ms (LIMITED RUN)
+STRESS ENGINE INPUT: {
+  availableCash: 0,
+  normalizedMonthlyCashBurn: 0,
+  receivables: 0,
+  inventory: 0,
+  payables: 0,
+  shortTermDebt: 0
+}
+STRESS ENGINE OUTPUT: {
+  simulatedCash: 0,
+  dailySimulatedBurn: 233.33333333333334,
+  stressSeverity: 'CRITICAL',
+  cumulativeExhaustionDays: 0,
+  simulatedExhaustionProjected: true
+}
+RECOVERY ENGINE CALL 1 DEBUG: {
+  cashReportExists: true,
+  cashLineage: 'lineage_dfc_ad5dc2c',
+  cashHash: 'lineage_dfc_ad5dc2c'
+}
+RECOVERY ENGINE LINEAGE DEBUG: {
+  isLineageIncomplete: true,
+  fidOutHash: undefined,
+  treasuryHash1: 'lineage_treasury_133d7e67',
+  treasuryHash2: undefined,
+  cashHash: 'lineage_dfc_ad5dc2c',
+  cashInputKeys: [
+    'isAvailable',
+    'contextSegment',
+    'universalIndicators',
+    'liquidityClassification',
+    'artificialLiquidityDetected',
+    'reconciliationAlerts',
+    'legacyOperationalSustainabilityAssessment',
+    'fiduciaryOperationalSustainabilityAssessment',
+    'continuityRisk',
+    'fiduciaryNarrative',
+    'cashConstraintDiagnosis',
+    'cashBurnAnalysis',
+    'shareholderDependencyAnalysis',
+    'cashSustainabilityAnalysis',
+    'cashConversionAnalysis',
+    'cashBoardDecisionFramework',
+    'cashExecutiveAdvisory',
+    'cashReinvestmentAnalysis',
+    'dfcExecutiveSnapshot',
+    'dfcPriorities',
+    'compressedAdvisory',
+    'consistencyAudit',
+    'causalIntelligence',
+    'scenarioIntelligence',
+    'earlyWarningSystem',
+    'treasurySustainability',
+    'blockedConclusions',
+    'allowedConclusions',
+    'confidenceLevel',
+    'auditTrail',
+    'lineageHash',
+    'cashIntelligenceLineageHash',
+    'causalReferences',
+    'score',
+    'runwayMonths'
+  ]
+}
+RECOVERY ENGINE LINEAGE DEBUG: {
+  isLineageIncomplete: true,
+  fidOutHash: undefined,
+  treasuryHash1: 'lineage_treasury_133d7e67',
+  treasuryHash2: undefined,
+  cashHash: 'lineage_dfc_ad5dc2c',
+  cashInputKeys: [
+    'isAvailable',
+    'contextSegment',
+    'universalIndicators',
+    'liquidityClassification',
+    'artificialLiquidityDetected',
+    'reconciliationAlerts',
+    'legacyOperationalSustainabilityAssessment',
+    'fiduciaryOperationalSustainabilityAssessment',
+    'continuityRisk',
+    'fiduciaryNarrative',
+    'cashConstraintDiagnosis',
+    'cashBurnAnalysis',
+    'shareholderDependencyAnalysis',
+    'cashSustainabilityAnalysis',
+    'cashConversionAnalysis',
+    'cashBoardDecisionFramework',
+    'cashExecutiveAdvisory',
+    'cashReinvestmentAnalysis',
+    'dfcExecutiveSnapshot',
+    'dfcPriorities',
+    'compressedAdvisory',
+    'consistencyAudit',
+    'causalIntelligence',
+    'scenarioIntelligence',
+    'earlyWarningSystem',
+    'treasurySustainability',
+    'blockedConclusions',
+    'allowedConclusions',
+    'confidenceLevel',
+    'auditTrail',
+    'lineageHash',
+    'cashIntelligenceLineageHash',
+    'causalReferences',
+    'score',
+    'runwayMonths'
+  ]
+}
+EXECUTIVE DEBUG CASH REPORT: {
+  cashReportExists: true,
+  keys: [
+    'isAvailable',
+    'contextSegment',
+    'universalIndicators',
+    'liquidityClassification',
+    'artificialLiquidityDetected',
+    'reconciliationAlerts',
+    'legacyOperationalSustainabilityAssessment',
+    'fiduciaryOperationalSustainabilityAssessment',
+    'continuityRisk',
+    'fiduciaryNarrative',
+    'cashConstraintDiagnosis',
+    'cashBurnAnalysis',
+    'shareholderDependencyAnalysis',
+    'cashSustainabilityAnalysis',
+    'cashConversionAnalysis',
+    'cashBoardDecisionFramework',
+    'cashExecutiveAdvisory',
+    'cashReinvestmentAnalysis',
+    'dfcExecutiveSnapshot',
+    'dfcPriorities',
+    'compressedAdvisory',
+    'consistencyAudit',
+    'causalIntelligence',
+    'scenarioIntelligence',
+    'earlyWarningSystem',
+    'treasurySustainability',
+    'blockedConclusions',
+    'allowedConclusions',
+    'confidenceLevel',
+    'auditTrail',
+    'lineageHash',
+    'cashIntelligenceLineageHash',
+    'causalReferences',
+    'score',
+    'runwayMonths'
+  ],
+  lineageHash: 'lineage_dfc_ad5dc2c'
+}
+ISHE FAIL CLOSED: {
+  fiduciaryOutput: undefined,
+  treasuryRuntime: undefined,
+  cashIntelligenceRuntime: 'RESTRICTED',
+  patrimonialIntelligenceRuntime: 'RESTRICTED',
+  isLineageIncomplete: true
+}
+PAYLOAD VIOLATIONS DETECTED: [ 'Lineage inconsistente' ] for mode: render
+PAYLOAD VIOLATIONS DETECTED: [
+  'Metadata faltante',
+  'Lineage ausente',
+  'Output sem confidence',
+  'Output sem evidenceTrail',
+  'Narrativa sem Narrative Guard'
+] for mode: render
+[BoardDecisionGraphAdapter] Passive integration failed, ignoring to prevent runtime disruption: Error: Missing required fields to build InstitutionalNode
+    at InstitutionalNodeBuilder.build (/Users/marcelosouza/Documents/illumine-strategic-intelligence-advisor/src/core/knowledge-graph/InstitutionalNodeBuilder.ts:31:13)
+    at <anonymous> (/Users/marcelosouza/Documents/illumine-strategic-intelligence-advisor/src/core/knowledge-graph/adapters/BoardDecisionGraphAdapter.ts:70:12)
+    at Array.forEach (<anonymous>)
+    at BoardDecisionGraphAdapter.registerBoardDecisionGraph (/Users/marcelosouza/Documents/illumine-strategic-intelligence-advisor/src/core/knowledge-graph/adapters/BoardDecisionGraphAdapter.ts:65:24)
+    at InstitutionalBoardPackRuntime.generate (/Users/marcelosouza/Documents/illumine-strategic-intelligence-advisor/src/core/runtime/institutional-reporting/InstitutionalBoardPackRuntime.ts:403:31)
+    at ExecutiveIntelligenceRuntime.generateExecutiveReport (/Users/marcelosouza/Documents/illumine-strategic-intelligence-advisor/src/core/runtime/executive-intelligence-runtime.ts:2739:67)
+    at <anonymous> (/Users/marcelosouza/Documents/illumine-strategic-intelligence-advisor/src/scripts/runExecutiveIntegrityAudit.ts:66:43)
+    at ModuleJob.run (node:internal/modules/esm/module_job:437:25)
+    at async onImport.tracePromise.__proto__ (node:internal/modules/esm/loader:642:26)
+    at async asyncRunEntryPointWithESMLoader (node:internal/modules/run_main:101:5)
+[RuntimeLog] CONSTITUTIONAL_QUARANTINE_ACTIVATION {
+  id: '6be0545f-8ed1-404d-b25a-1f128e907011',
+  executionId: 'exec-257e6545-af83-41b6-a965-99783a14105f',
+  eventName: 'CONSTITUTIONAL_QUARANTINE_ACTIVATION',
+  timestamp: '2026-07-10T23:27:49.845Z',
+  metadata: { reason: 'fail_closed' },
+  latencyMs: undefined
+}
+[ConstitutionalGraphAdapter] Successfully registered Knowledge Graph for execution exec-257e6545-af83-41b6-a965-99783a14105f
+[DEBUG-CANONICAL] report.scores.composite: 35
+[DEBUG-CANONICAL] patClass: undefined
+- Testando Divisão por Zero e Invalid Metric Guard...
+[TELEMETRY] Temporal Engine Execution Time: 0.00ms (LIMITED RUN)
+[TELEMETRY] Temporal Engine Execution Time: 0.00ms (LIMITED RUN)
+STRESS ENGINE INPUT: {
+  availableCash: 0,
+  normalizedMonthlyCashBurn: 0,
+  receivables: 0,
+  inventory: 0,
+  payables: 0,
+  shortTermDebt: 0
+}
+STRESS ENGINE OUTPUT: {
+  simulatedCash: 0,
+  dailySimulatedBurn: 233.33333333333334,
+  stressSeverity: 'CRITICAL',
+  cumulativeExhaustionDays: 0,
+  simulatedExhaustionProjected: true
+}
+RECOVERY ENGINE CALL 1 DEBUG: {
+  cashReportExists: true,
+  cashLineage: 'lineage_dfc_35701f0',
+  cashHash: 'lineage_dfc_35701f0'
+}
+RECOVERY ENGINE LINEAGE DEBUG: {
+  isLineageIncomplete: true,
+  fidOutHash: undefined,
+  treasuryHash1: 'lineage_treasury_1a9b45e1',
+  treasuryHash2: undefined,
+  cashHash: 'lineage_dfc_35701f0',
+  cashInputKeys: [
+    'isAvailable',
+    'contextSegment',
+    'universalIndicators',
+    'liquidityClassification',
+    'artificialLiquidityDetected',
+    'reconciliationAlerts',
+    'legacyOperationalSustainabilityAssessment',
+    'fiduciaryOperationalSustainabilityAssessment',
+    'continuityRisk',
+    'fiduciaryNarrative',
+    'cashConstraintDiagnosis',
+    'cashBurnAnalysis',
+    'shareholderDependencyAnalysis',
+    'cashSustainabilityAnalysis',
+    'cashConversionAnalysis',
+    'cashBoardDecisionFramework',
+    'cashExecutiveAdvisory',
+    'cashReinvestmentAnalysis',
+    'dfcExecutiveSnapshot',
+    'dfcPriorities',
+    'compressedAdvisory',
+    'consistencyAudit',
+    'causalIntelligence',
+    'scenarioIntelligence',
+    'earlyWarningSystem',
+    'treasurySustainability',
+    'blockedConclusions',
+    'allowedConclusions',
+    'confidenceLevel',
+    'auditTrail',
+    'lineageHash',
+    'cashIntelligenceLineageHash',
+    'causalReferences',
+    'score',
+    'runwayMonths'
+  ]
+}
+RECOVERY ENGINE LINEAGE DEBUG: {
+  isLineageIncomplete: true,
+  fidOutHash: undefined,
+  treasuryHash1: 'lineage_treasury_1a9b45e1',
+  treasuryHash2: undefined,
+  cashHash: 'lineage_dfc_35701f0',
+  cashInputKeys: [
+    'isAvailable',
+    'contextSegment',
+    'universalIndicators',
+    'liquidityClassification',
+    'artificialLiquidityDetected',
+    'reconciliationAlerts',
+    'legacyOperationalSustainabilityAssessment',
+    'fiduciaryOperationalSustainabilityAssessment',
+    'continuityRisk',
+    'fiduciaryNarrative',
+    'cashConstraintDiagnosis',
+    'cashBurnAnalysis',
+    'shareholderDependencyAnalysis',
+    'cashSustainabilityAnalysis',
+    'cashConversionAnalysis',
+    'cashBoardDecisionFramework',
+    'cashExecutiveAdvisory',
+    'cashReinvestmentAnalysis',
+    'dfcExecutiveSnapshot',
+    'dfcPriorities',
+    'compressedAdvisory',
+    'consistencyAudit',
+    'causalIntelligence',
+    'scenarioIntelligence',
+    'earlyWarningSystem',
+    'treasurySustainability',
+    'blockedConclusions',
+    'allowedConclusions',
+    'confidenceLevel',
+    'auditTrail',
+    'lineageHash',
+    'cashIntelligenceLineageHash',
+    'causalReferences',
+    'score',
+    'runwayMonths'
+  ]
+}
+EXECUTIVE DEBUG CASH REPORT: {
+  cashReportExists: true,
+  keys: [
+    'isAvailable',
+    'contextSegment',
+    'universalIndicators',
+    'liquidityClassification',
+    'artificialLiquidityDetected',
+    'reconciliationAlerts',
+    'legacyOperationalSustainabilityAssessment',
+    'fiduciaryOperationalSustainabilityAssessment',
+    'continuityRisk',
+    'fiduciaryNarrative',
+    'cashConstraintDiagnosis',
+    'cashBurnAnalysis',
+    'shareholderDependencyAnalysis',
+    'cashSustainabilityAnalysis',
+    'cashConversionAnalysis',
+    'cashBoardDecisionFramework',
+    'cashExecutiveAdvisory',
+    'cashReinvestmentAnalysis',
+    'dfcExecutiveSnapshot',
+    'dfcPriorities',
+    'compressedAdvisory',
+    'consistencyAudit',
+    'causalIntelligence',
+    'scenarioIntelligence',
+    'earlyWarningSystem',
+    'treasurySustainability',
+    'blockedConclusions',
+    'allowedConclusions',
+    'confidenceLevel',
+    'auditTrail',
+    'lineageHash',
+    'cashIntelligenceLineageHash',
+    'causalReferences',
+    'score',
+    'runwayMonths'
+  ],
+  lineageHash: 'lineage_dfc_35701f0'
+}
+ISHE FAIL CLOSED: {
+  fiduciaryOutput: undefined,
+  treasuryRuntime: undefined,
+  cashIntelligenceRuntime: 'RESTRICTED',
+  patrimonialIntelligenceRuntime: 'RESTRICTED',
+  isLineageIncomplete: true
+}
+PAYLOAD VIOLATIONS DETECTED: [ 'Lineage inconsistente' ] for mode: render
+PAYLOAD VIOLATIONS DETECTED: [
+  'Metadata faltante',
+  'Lineage ausente',
+  'Output sem confidence',
+  'Output sem evidenceTrail',
+  'Narrativa sem Narrative Guard'
+] for mode: render
+[BoardDecisionGraphAdapter] Passive integration failed, ignoring to prevent runtime disruption: Error: Missing required fields to build InstitutionalNode
+    at InstitutionalNodeBuilder.build (/Users/marcelosouza/Documents/illumine-strategic-intelligence-advisor/src/core/knowledge-graph/InstitutionalNodeBuilder.ts:31:13)
+    at <anonymous> (/Users/marcelosouza/Documents/illumine-strategic-intelligence-advisor/src/core/knowledge-graph/adapters/BoardDecisionGraphAdapter.ts:70:12)
+    at Array.forEach (<anonymous>)
+    at BoardDecisionGraphAdapter.registerBoardDecisionGraph (/Users/marcelosouza/Documents/illumine-strategic-intelligence-advisor/src/core/knowledge-graph/adapters/BoardDecisionGraphAdapter.ts:65:24)
+    at InstitutionalBoardPackRuntime.generate (/Users/marcelosouza/Documents/illumine-strategic-intelligence-advisor/src/core/runtime/institutional-reporting/InstitutionalBoardPackRuntime.ts:403:31)
+    at ExecutiveIntelligenceRuntime.generateExecutiveReport (/Users/marcelosouza/Documents/illumine-strategic-intelligence-advisor/src/core/runtime/executive-intelligence-runtime.ts:2739:67)
+    at <anonymous> (/Users/marcelosouza/Documents/illumine-strategic-intelligence-advisor/src/scripts/runExecutiveIntegrityAudit.ts:100:40)
+    at ModuleJob.run (node:internal/modules/esm/module_job:437:25)
+    at async onImport.tracePromise.__proto__ (node:internal/modules/esm/loader:642:26)
+    at async asyncRunEntryPointWithESMLoader (node:internal/modules/run_main:101:5)
+[RuntimeLog] CONSTITUTIONAL_QUARANTINE_ACTIVATION {
+  id: 'efa11940-01b2-4493-b5dd-9b29457a5c31',
+  executionId: 'exec-0827f4c6-0b20-4d88-ade2-891d41b2805b',
+  eventName: 'CONSTITUTIONAL_QUARANTINE_ACTIVATION',
+  timestamp: '2026-07-10T23:27:49.851Z',
+  metadata: { reason: 'fail_closed' },
+  latencyMs: undefined
+}
+[ConstitutionalGraphAdapter] Successfully registered Knowledge Graph for execution exec-0827f4c6-0b20-4d88-ade2-891d41b2805b
+[DEBUG-CANONICAL] report.scores.composite: 35
+[DEBUG-CANONICAL] patClass: undefined
+- Testando Enriquecimento e Evidência Fiduciária da Matriz...
+[TELEMETRY] Temporal Engine Execution Time: 0.00ms (LIMITED RUN)
+[TELEMETRY] Temporal Engine Execution Time: 0.00ms (LIMITED RUN)
+STRESS ENGINE INPUT: {
+  availableCash: 0,
+  normalizedMonthlyCashBurn: 0,
+  receivables: 0,
+  inventory: 0,
+  payables: 0,
+  shortTermDebt: 0
+}
+STRESS ENGINE OUTPUT: {
+  simulatedCash: 0,
+  dailySimulatedBurn: 233.33333333333334,
+  stressSeverity: 'CRITICAL',
+  cumulativeExhaustionDays: 0,
+  simulatedExhaustionProjected: true
+}
+RECOVERY ENGINE CALL 1 DEBUG: {
+  cashReportExists: true,
+  cashLineage: 'lineage_dfc_43846c09',
+  cashHash: 'lineage_dfc_43846c09'
+}
+RECOVERY ENGINE LINEAGE DEBUG: {
+  isLineageIncomplete: true,
+  fidOutHash: undefined,
+  treasuryHash1: 'lineage_treasury_ae3c5a7',
+  treasuryHash2: undefined,
+  cashHash: 'lineage_dfc_43846c09',
+  cashInputKeys: [
+    'isAvailable',
+    'contextSegment',
+    'universalIndicators',
+    'liquidityClassification',
+    'artificialLiquidityDetected',
+    'reconciliationAlerts',
+    'legacyOperationalSustainabilityAssessment',
+    'fiduciaryOperationalSustainabilityAssessment',
+    'continuityRisk',
+    'fiduciaryNarrative',
+    'cashConstraintDiagnosis',
+    'cashBurnAnalysis',
+    'shareholderDependencyAnalysis',
+    'cashSustainabilityAnalysis',
+    'cashConversionAnalysis',
+    'cashBoardDecisionFramework',
+    'cashExecutiveAdvisory',
+    'cashReinvestmentAnalysis',
+    'dfcExecutiveSnapshot',
+    'dfcPriorities',
+    'compressedAdvisory',
+    'consistencyAudit',
+    'causalIntelligence',
+    'scenarioIntelligence',
+    'earlyWarningSystem',
+    'treasurySustainability',
+    'blockedConclusions',
+    'allowedConclusions',
+    'confidenceLevel',
+    'auditTrail',
+    'lineageHash',
+    'cashIntelligenceLineageHash',
+    'causalReferences',
+    'score',
+    'runwayMonths'
+  ]
+}
+RECOVERY ENGINE LINEAGE DEBUG: {
+  isLineageIncomplete: true,
+  fidOutHash: undefined,
+  treasuryHash1: 'lineage_treasury_ae3c5a7',
+  treasuryHash2: undefined,
+  cashHash: 'lineage_dfc_43846c09',
+  cashInputKeys: [
+    'isAvailable',
+    'contextSegment',
+    'universalIndicators',
+    'liquidityClassification',
+    'artificialLiquidityDetected',
+    'reconciliationAlerts',
+    'legacyOperationalSustainabilityAssessment',
+    'fiduciaryOperationalSustainabilityAssessment',
+    'continuityRisk',
+    'fiduciaryNarrative',
+    'cashConstraintDiagnosis',
+    'cashBurnAnalysis',
+    'shareholderDependencyAnalysis',
+    'cashSustainabilityAnalysis',
+    'cashConversionAnalysis',
+    'cashBoardDecisionFramework',
+    'cashExecutiveAdvisory',
+    'cashReinvestmentAnalysis',
+    'dfcExecutiveSnapshot',
+    'dfcPriorities',
+    'compressedAdvisory',
+    'consistencyAudit',
+    'causalIntelligence',
+    'scenarioIntelligence',
+    'earlyWarningSystem',
+    'treasurySustainability',
+    'blockedConclusions',
+    'allowedConclusions',
+    'confidenceLevel',
+    'auditTrail',
+    'lineageHash',
+    'cashIntelligenceLineageHash',
+    'causalReferences',
+    'score',
+    'runwayMonths'
+  ]
+}
+EXECUTIVE DEBUG CASH REPORT: {
+  cashReportExists: true,
+  keys: [
+    'isAvailable',
+    'contextSegment',
+    'universalIndicators',
+    'liquidityClassification',
+    'artificialLiquidityDetected',
+    'reconciliationAlerts',
+    'legacyOperationalSustainabilityAssessment',
+    'fiduciaryOperationalSustainabilityAssessment',
+    'continuityRisk',
+    'fiduciaryNarrative',
+    'cashConstraintDiagnosis',
+    'cashBurnAnalysis',
+    'shareholderDependencyAnalysis',
+    'cashSustainabilityAnalysis',
+    'cashConversionAnalysis',
+    'cashBoardDecisionFramework',
+    'cashExecutiveAdvisory',
+    'cashReinvestmentAnalysis',
+    'dfcExecutiveSnapshot',
+    'dfcPriorities',
+    'compressedAdvisory',
+    'consistencyAudit',
+    'causalIntelligence',
+    'scenarioIntelligence',
+    'earlyWarningSystem',
+    'treasurySustainability',
+    'blockedConclusions',
+    'allowedConclusions',
+    'confidenceLevel',
+    'auditTrail',
+    'lineageHash',
+    'cashIntelligenceLineageHash',
+    'causalReferences',
+    'score',
+    'runwayMonths'
+  ],
+  lineageHash: 'lineage_dfc_43846c09'
+}
+ISHE FAIL CLOSED: {
+  fiduciaryOutput: undefined,
+  treasuryRuntime: undefined,
+  cashIntelligenceRuntime: 'RESTRICTED',
+  patrimonialIntelligenceRuntime: 'RESTRICTED',
+  isLineageIncomplete: true
+}
+PAYLOAD VIOLATIONS DETECTED: [ 'Lineage inconsistente' ] for mode: render
+PAYLOAD VIOLATIONS DETECTED: [
+  'Metadata faltante',
+  'Lineage ausente',
+  'Output sem confidence',
+  'Output sem evidenceTrail',
+  'Narrativa sem Narrative Guard'
+] for mode: render
+[BoardDecisionGraphAdapter] Passive integration failed, ignoring to prevent runtime disruption: Error: Missing required fields to build InstitutionalNode
+    at InstitutionalNodeBuilder.build (/Users/marcelosouza/Documents/illumine-strategic-intelligence-advisor/src/core/knowledge-graph/InstitutionalNodeBuilder.ts:31:13)
+    at <anonymous> (/Users/marcelosouza/Documents/illumine-strategic-intelligence-advisor/src/core/knowledge-graph/adapters/BoardDecisionGraphAdapter.ts:70:12)
+    at Array.forEach (<anonymous>)
+    at BoardDecisionGraphAdapter.registerBoardDecisionGraph (/Users/marcelosouza/Documents/illumine-strategic-intelligence-advisor/src/core/knowledge-graph/adapters/BoardDecisionGraphAdapter.ts:65:24)
+    at InstitutionalBoardPackRuntime.generate (/Users/marcelosouza/Documents/illumine-strategic-intelligence-advisor/src/core/runtime/institutional-reporting/InstitutionalBoardPackRuntime.ts:403:31)
+    at ExecutiveIntelligenceRuntime.generateExecutiveReport (/Users/marcelosouza/Documents/illumine-strategic-intelligence-advisor/src/core/runtime/executive-intelligence-runtime.ts:2739:67)
+    at <anonymous> (/Users/marcelosouza/Documents/illumine-strategic-intelligence-advisor/src/scripts/runExecutiveIntegrityAudit.ts:143:38)
+    at ModuleJob.run (node:internal/modules/esm/module_job:437:25)
+    at async onImport.tracePromise.__proto__ (node:internal/modules/esm/loader:642:26)
+    at async asyncRunEntryPointWithESMLoader (node:internal/modules/run_main:101:5)
+[RuntimeLog] CONSTITUTIONAL_QUARANTINE_ACTIVATION {
+  id: '49fad1fa-a9ba-4241-a0fd-2d0356d9c4f5',
+  executionId: 'exec-c4060ec7-ee16-4ad6-a29f-cda05d432803',
+  eventName: 'CONSTITUTIONAL_QUARANTINE_ACTIVATION',
+  timestamp: '2026-07-10T23:27:49.857Z',
+  metadata: { reason: 'fail_closed' },
+  latencyMs: undefined
+}
+[ConstitutionalGraphAdapter] Successfully registered Knowledge Graph for execution exec-c4060ec7-ee16-4ad6-a29f-cda05d432803
+[DEBUG-CANONICAL] report.scores.composite: 35
+[DEBUG-CANONICAL] patClass: undefined
+- Testando Mapeamento e Auditabilidade de Benchmarks...
+- Testando Hardening de Terminologia Executiva...
+SUCCESS: Executive Integrity Validation Audit COMPLETED. 100% compliant.
+
+Iniciando Self-Audit Core...
+[WARNING] Legacy Component ClientIntelligenceService.ts violou UI rule: UI não pode fazer análise por IA local.. Será consertado nas próximas etapas.
+Auditoria Finalizada. Status: NON_COMPLIANT
+Relatório salvo em: /Users/marcelosouza/Documents/illumine-strategic-intelligence-advisor/governance_self_audit_report.json
+CRITICAL: Regressão Arquitetural Detectada! Build bloqueado.
+- [/Users/marcelosouza/Documents/illumine-strategic-intelligence-advisor/src/services/intelligence/BoardReportIntelligenceService.ts]: EXPERIENCE BYPASS: Importação direta de motor matemático nas camadas de visualização ou experiência.

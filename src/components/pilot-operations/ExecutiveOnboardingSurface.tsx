@@ -1,9 +1,9 @@
-// src/components/pilot-operations/ExecutiveOnboardingSurface.tsx
-
 import React from 'react';
 import { usePilotOperations } from '../../context/pilot-operations/PilotOperationsProvider';
 import { CheckCircle2, Lock, ShieldAlert, Sparkles, Milestone } from 'lucide-react';
 import { ONBOARDING_STEPS } from '../../services/FiduciaryRuntimeAdapter';
+// src/components/pilot-operations/ExecutiveOnboardingSurface.tsx
+
 
 export const ExecutiveOnboardingSurface: React.FC = () => {
   const { onboardingState, onboardingProgress, completeOnboardingStep, pilotStatus } = usePilotOperations();

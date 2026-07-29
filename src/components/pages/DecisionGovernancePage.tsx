@@ -1,14 +1,30 @@
+
+
 import React, { useState, useEffect } from 'react';
 import { GitBranchPlus, PlusCircle } from 'lucide-react';
-import { PageHeader } from '../Common';
+import { PageHeader, StatusBadge } from '../Common';
 import { DecisionRecordRegistry } from '../../services/FiduciaryRuntimeAdapter';
 import { WorkflowAuditLogger } from '../../services/FiduciaryRuntimeAdapter';
 import { AlertResponseWorkflow } from '../../services/FiduciaryRuntimeAdapter';
 import { DecisionLineageBinder } from '../../services/FiduciaryRuntimeAdapter';
 import { WorkflowBoard } from '../workflow-governance/WorkflowBoard';
 import { WorkflowAuditFeed } from '../workflow-governance/WorkflowAuditFeed';
+import { ExecutivePageTemplate } from '../ui/executive-page-template';
+import { ExecutiveSurface } from '../ui/executive-surface';
+import { ExecutiveAccordion } from '../ui/executive-accordion';
+import { ExecutiveEmptyState } from '../ui/executive-empty-state';
+import { ExecutiveHeading } from '../ui/executive-heading';
+import { ExecutiveText } from '../ui/executive-typography';
+import { createPortal } from 'react-dom';
+import { ExecutiveSummarySection } from '../ui/executive-summary-section';
+import { ExecutiveStrategicTensions } from '../ui/executive-strategic-tensions';
+import { ExecutiveDecisionTrace } from '../ui/executive-decision-trace';
+import { useDecisionGovernancePageViewModel } from '../../viewmodels/useDecisionGovernancePageViewModel';
 
 export function DecisionGovernancePage() {
+  // Adapter: useDecisionGovernancePageAdapter
+  // ViewModel: useDecisionGovernancePageViewModel
+  const { state: vmState, computed: vmComputed, actions: vmActions } = useDecisionGovernancePageViewModel();
   const [workflows, setWorkflows] = useState<any[]>([]);
   const [auditLogs, setAuditLogs] = useState<any[]>([]);
 
@@ -32,22 +48,47 @@ export function DecisionGovernancePage() {
   };
 
   return (
-    <div className="max-w-[1440px] mx-auto px-6 lg:px-10 space-y-12 pb-32 animate-executive-fade">
-      <div className="flex flex-col md:flex-row md:items-end justify-between gap-6">
-        <PageHeader
-          title="Governança de Decisão"
-          subtitle="Workflows Institucionais, Board Approvals e Trilhas de Auditoria."
-          icon={GitBranchPlus}
-          transparent
-        />
+    <ExecutivePageTemplate header={{
+      title: "Governança de Decisão",
+      description: "Workflows Institucionais, Board Approvals e Trilhas de Auditoria.",
+    }}>
+
+      {/* --- CAMADA 1: NÍVEL CONSELHO (SÍNTESE DE GOVERNANÇA DE DECISÃO) --- */}
+      <ExecutiveSummarySection 
+        className="mb-8"
+        status={{ label: 'Decisões Rastreáveis', variant: 'success' }}
+        question="Como garantir rastreabilidade imutável sobre decisões do conselho?"
+        opinion="O comitê fiduciário chancela a esteira de aprovação de deliberações e a trilha de auditoria."
+        driver="Workflows ativos, aprovadores designados, prazos de deliberação e registros de auditoria."
+        implication="Mitigação de riscos de responsabilização fiduciária por decisões desprovidas de parecer técnico."
+        action="Monitorar o backlog de deliberações pendentes no conselho."
+      >
+        <ExecutiveStrategicTensions tensions={[]} />
+        <ExecutiveDecisionTrace trace={[]} />
+      </ExecutiveSummarySection>
+
+      <div className="flex flex-col md:flex-row md:items-center justify-between gap-6 mb-10">
+
+        <div className="flex items-center gap-3">
+          <StatusBadge status="Verde" label="Fluxos Ativos" />
+        </div>
         <button
           onClick={handleCreateMockWorkflow}
-          className="btn-executive flex items-center gap-2 shrink-0"
+          className="px-4 py-2 bg-zinc-900 border border-zinc-800 text-white rounded-xl text-[10px] font-bold uppercase tracking-widest flex items-center gap-2 hover:bg-zinc-800 transition-colors shrink-0"
         >
           <PlusCircle size={15} />
           Simular Novo Workflow
         </button>
+      
       </div>
+
+      <div className="mt-12 mb-8 border-t border-border pt-8" />
+      <ExecutiveAccordion
+        title="Quadro Kanban de Decisões Fiduciárias"
+        subtitle="Monitore workflows corporativos, board approvals e as trilhas forenses de auditoria."
+        variant="analytics"
+        defaultExpanded
+      >
 
       <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
         <div className="md:col-span-2 space-y-4">
@@ -60,6 +101,7 @@ export function DecisionGovernancePage() {
           <WorkflowAuditFeed logs={auditLogs} />
         </div>
       </div>
-    </div>
+      </ExecutiveAccordion>
+    </ExecutivePageTemplate>
   );
 }

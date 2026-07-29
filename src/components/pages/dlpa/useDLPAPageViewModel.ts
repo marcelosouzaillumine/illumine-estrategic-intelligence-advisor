@@ -1,9 +1,9 @@
 import { useState, useEffect, useMemo, useCallback } from 'react';
-
-
 import { useAnnualFinancialData, useAllFinancialData } from '../../../hooks/useFinancialData';
 import { DLPAApplicationService } from './DLPAApplicationService';
 import { DLPAExecutiveRenderingGuard, DLPALegacyLabelScanner, LifecycleRenderAudit } from '../../../services/FiduciaryRuntimeAdapter';
+
+
 import type { DLPAViolation } from '../../../services/FiduciaryRuntimeAdapter';
 
 export interface NormalizedDLPARow {

@@ -1,8 +1,8 @@
-// src/components/strategic-intelligence/ExpansionSustainabilityPanel.tsx
-
 import React from 'react';
 import { Expand, CheckCircle2, XCircle, AlertCircle } from 'lucide-react';
 import { ExpansionSustainability } from '../../services/FiduciaryRuntimeAdapter';
+// src/components/strategic-intelligence/ExpansionSustainabilityPanel.tsx
+
 
 interface ExpansionSustainabilityPanelProps {
   sustainability: ExpansionSustainability;

@@ -1,0 +1,11 @@
+[
+  {
+    "id": "EAC-DEBT-001",
+    "title": "BoardReportIntelligenceService — Low-Level Engine Bypass",
+    "description": "Legacy AI orchestration service directly consumes low-level scoring engines. Needs to be extracted to a proper Application Service port.",
+    "status": "OPEN",
+    "owner": "EXECUTIVE_INTELLIGENCE",
+    "remediationTarget": "BoardReportIntelligenceService -> BoardReportIntelligenceApplicationService -> ExecutiveScorePort / FinancialInsightPort -> Engine Adapter",
+    "governanceSource": "EAC_GLOBAL_GATE_REMEDIATION_001"
+  }
+]

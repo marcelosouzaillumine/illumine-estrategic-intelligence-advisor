@@ -1,10 +1,15 @@
+import { ExecutiveText } from '@/components/ui/executive-typography';
+import { ExecutiveHeading } from '@/components/ui/executive-heading';
+import { ExecutivePageTemplate } from '@/components/ui/executive-page-template';
+import { ExecutiveSurface } from '@/components/ui/executive-surface';
+import { ExecutiveMetricCard } from '@/components/ui/executive-metric-card';
+import { ExecutiveBadge } from '@/components/ui/executive-badge';
 import React, { useState, useMemo } from 'react';
 import { Scale, Activity, TrendingUp, TrendingDown, AlertTriangle, CheckCircle2, Info, ChevronDown, ChevronUp, Coins, Layers, Database, ArrowRightLeft, Briefcase } from 'lucide-react';
 import { ResponsiveContainer, RadarChart, PolarGrid, PolarAngleAxis, PolarRadiusAxis, Radar, BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend } from 'recharts';
-import { useAllFinancialData } from '../../../hooks/useFinancialData';
-import { useInstitutionalRuntime } from '../../../hooks/useInstitutionalRuntime';
-import { cn, formatCurrency } from '../../../lib/utils';
-import { PageHeader } from '../../Common';
+import { useAllFinancialData } from '@/hooks/useFinancialData';
+import { useInstitutionalRuntime } from '@/hooks/useInstitutionalRuntime';
+import { cn, formatCurrency } from '@/lib/utils';
 
 interface EconomicNormalizationCenterProps {
   clients?: any[];
@@ -132,35 +137,19 @@ export function EconomicNormalizationCenter({ selectedClient, selectedYear }: Ec
   const currentLabelKey = getLabelKey(ensScore);
 
   return (
-    <div className="max-w-[1440px] mx-auto px-6 lg:px-10 space-y-12 pb-32 animate-executive-fade">
-      {/* Page Header */}
-      <PageHeader 
-        title="Centro de Normalização Econômica (ENE)"
-        subtitle="Interpretação e conciliação de performance econômica real, expurgando distorções societárias e não recorrentes."
-        icon={Scale}
-        transparent
-        actions={
-          <div className="text-right">
-            <div className="text-[10px] text-muted-foreground uppercase tracking-widest font-black mb-1">Status do Runtime</div>
-            <div className="flex items-center gap-2">
-              <span className="w-2.5 h-2.5 rounded-full bg-primary animate-ping"></span>
-              <span className="text-sm font-semibold text-primary uppercase tracking-wider">ENE upstream ativo</span>
-            </div>
-          </div>
-        }
-      />
+    <ExecutivePageTemplate header={{ title: "Interpretação e conciliação de performance econômica real, expurgando distorções societárias e não recorrentes.", description: "Interpretação e conciliação de performance econômica real, expurgando distorções societárias e não recorrentes.", icon: Scale }}>
 
       {/* Row 1: ENS Score & Radar Chart */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
         
         {/* ENS score gauge and level card */}
-        <div className="card-premium p-8 flex flex-col justify-between relative overflow-hidden group hover:border-border transition-all duration-300">
+        <div className="bg-card border border-border rounded-2xl p-8 flex flex-col justify-between relative overflow-hidden group hover:border-border transition-all duration-300">
           <div className="absolute top-0 right-0 w-32 h-32 bg-accent rounded-full blur-3xl pointer-events-none group-hover:bg-accent transition-all"></div>
           <div>
             <div className="flex justify-between items-start mb-6">
               <div>
                 <span className="text-[10px] font-black tracking-widest text-muted-foreground uppercase">Fiduciary Intelligence</span>
-                <h3 className="text-lg font-medium text-muted-foreground mt-1">Economic Normalization Score</h3>
+                <ExecutiveHeading as="h3" className="text-muted-foreground mt-1">Economic Normalization Score</ExecutiveHeading>
               </div>
               <span className={cn("px-3 py-1 rounded-xl text-[10px] font-black tracking-widest uppercase border", scoreBgMap[currentLabelKey])}>
                 {getStatusText(ensScore)}
@@ -179,7 +168,7 @@ export function EconomicNormalizationCenter({ selectedClient, selectedYear }: Ec
             </p>
           </div>
 
-          <div className="pt-6 border-t border-border/10">
+          <div className="mt-12 pt-6 border-t border-border/10 pt-8 mb-8">
             <div className="flex justify-between text-xs">
               <span className="text-muted-foreground uppercase font-semibold">Classification:</span>
               <span className="text-muted-foreground font-bold uppercase tracking-wide">{ensLevel}</span>
@@ -188,10 +177,10 @@ export function EconomicNormalizationCenter({ selectedClient, selectedYear }: Ec
         </div>
 
         {/* Recharts Radar for the 6 ENE dimensions */}
-        <div className="card-premium p-6 lg:col-span-2 flex flex-col justify-between">
+        <div className="bg-card border border-border rounded-2xl p-6 lg:col-span-2 flex flex-col justify-between">
           <div>
-            <h3 className="text-xs font-bold uppercase tracking-wider text-muted-foreground mb-1">Radar de Normalização Econômica</h3>
-            <p className="text-[11px] text-muted-foreground font-light">Mapeamento de integridade e distorção estrutural em 6 eixos fiduciários.</p>
+            <ExecutiveHeading as="h3" className="text-muted-foreground mb-1">Radar de Normalização Econômica</ExecutiveHeading>
+            <ExecutiveText as="div" variant="caption" className="text-muted-foreground">Mapeamento de integridade e distorção estrutural em 6 eixos fiduciários.</ExecutiveText>
           </div>
           
           <div className="h-[280px] w-full mt-4 flex items-center justify-center">
@@ -218,8 +207,8 @@ export function EconomicNormalizationCenter({ selectedClient, selectedYear }: Ec
       <div className="space-y-6">
         <div className="flex justify-between items-end border-b border-border/10 pb-4">
           <div>
-            <h2 className="text-lg font-medium text-muted-foreground">Reconciliação e Expurgos Estruturais</h2>
-            <p className="text-xs text-muted-foreground font-light mt-1">Comparativo entre dados declarados contábeis e a realidade econômica ajustada fiduciariamente.</p>
+            <ExecutiveHeading as="h2" className="text-muted-foreground">Reconciliação e Expurgos Estruturais</ExecutiveHeading>
+            <ExecutiveText as="div" variant="caption" className="text-muted-foreground mt-1">Comparativo entre dados declarados contábeis e a realidade econômica ajustada fiduciariamente.</ExecutiveText>
           </div>
           {isEarlyStage && (
             <span className="bg-blue-500/10 border border-blue-500/20 text-blue-400 px-3 py-1 rounded-xl text-[10px] font-black tracking-widest uppercase">
@@ -231,7 +220,7 @@ export function EconomicNormalizationCenter({ selectedClient, selectedYear }: Ec
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
           
           {/* EBITDA Comparison */}
-          <div className="card-premium p-6 flex flex-col justify-between">
+          <div className="bg-card border border-border rounded-2xl p-6 flex flex-col justify-between">
             <div>
               <div className="flex justify-between items-start mb-4">
                 <span className="p-2 bg-slate-900 border border-border/5 rounded-xl text-primary">
@@ -241,7 +230,7 @@ export function EconomicNormalizationCenter({ selectedClient, selectedYear }: Ec
                   {ebitda.score}/100
                 </span>
               </div>
-              <h4 className="text-xs font-bold uppercase tracking-wider text-muted-foreground">EBITDA Normalizado</h4>
+              <ExecutiveHeading as="h4" className="text-muted-foreground">EBITDA Normalizado</ExecutiveHeading>
               
               <div className="space-y-3 mt-6">
                 <div className="flex justify-between items-baseline">
@@ -264,7 +253,7 @@ export function EconomicNormalizationCenter({ selectedClient, selectedYear }: Ec
           </div>
 
           {/* Working Capital Comparison */}
-          <div className="card-premium p-6 flex flex-col justify-between">
+          <div className="bg-card border border-border rounded-2xl p-6 flex flex-col justify-between">
             <div>
               <div className="flex justify-between items-start mb-4">
                 <span className="p-2 bg-slate-900 border border-border/5 rounded-xl text-amber-500">
@@ -274,7 +263,7 @@ export function EconomicNormalizationCenter({ selectedClient, selectedYear }: Ec
                   {workingCapital.score}/100
                 </span>
               </div>
-              <h4 className="text-xs font-bold uppercase tracking-wider text-muted-foreground">Capital de Giro Normalizado</h4>
+              <ExecutiveHeading as="h4" className="text-muted-foreground">Capital de Giro Normalizado</ExecutiveHeading>
               
               <div className="space-y-3 mt-6">
                 <div className="flex justify-between items-baseline">
@@ -297,7 +286,7 @@ export function EconomicNormalizationCenter({ selectedClient, selectedYear }: Ec
           </div>
 
           {/* ROIC Comparison */}
-          <div className="card-premium p-6 flex flex-col justify-between">
+          <div className="bg-card border border-border rounded-2xl p-6 flex flex-col justify-between">
             <div>
               <div className="flex justify-between items-start mb-4">
                 <span className="p-2 bg-slate-900 border border-border/5 rounded-xl text-emerald-400">
@@ -307,7 +296,7 @@ export function EconomicNormalizationCenter({ selectedClient, selectedYear }: Ec
                   {roic.score}/100
                 </span>
               </div>
-              <h4 className="text-xs font-bold uppercase tracking-wider text-muted-foreground">ROIC / EVA Normalizado</h4>
+              <ExecutiveHeading as="h4" className="text-muted-foreground">ROIC / EVA Normalizado</ExecutiveHeading>
               
               <div className="space-y-3 mt-6">
                 <div className="flex justify-between items-baseline">
@@ -343,10 +332,10 @@ export function EconomicNormalizationCenter({ selectedClient, selectedYear }: Ec
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
         
         {/* Distortion Heatmap Grid */}
-        <div className="card-premium p-6 lg:col-span-2 flex flex-col justify-between">
+        <div className="bg-card border border-border rounded-2xl p-6 lg:col-span-2 flex flex-col justify-between">
           <div>
-            <h3 className="text-xs font-bold uppercase tracking-wider text-muted-foreground mb-1">Distortion Heatmap</h3>
-            <p className="text-[11px] text-muted-foreground font-light mb-4">Grau de distorção de aparência contábil detectada por dimensão econômica.</p>
+            <ExecutiveHeading as="h3" className="text-muted-foreground mb-1">Distortion Heatmap</ExecutiveHeading>
+            <ExecutiveText as="div" variant="caption" className="text-muted-foreground mb-4">Grau de distorção de aparência contábil detectada por dimensão econômica.</ExecutiveText>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4 my-2">
@@ -360,22 +349,22 @@ export function EconomicNormalizationCenter({ selectedClient, selectedYear }: Ec
             ))}
           </div>
 
-          <div className="text-[10px] text-muted-foreground font-light mt-4 pt-4 border-t border-border/10">
+          <div className="text-[10px] text-muted-foreground font-light mt-4 pt-4 border-t border-border/10 pt-8 mb-8">
             Distorção CRÍTICA representa um gap de valor contábil vs real de alta severidade, enquanto distorção BAIXA valida a aderência da DRE/BP à realidade operacional.
           </div>
         </div>
 
         {/* ENE Active Alerts Log */}
-        <div className="card-premium p-6 flex flex-col justify-between">
+        <div className="bg-card border border-border rounded-2xl p-6 flex flex-col justify-between">
           <div>
-            <h3 className="text-xs font-bold uppercase tracking-wider text-muted-foreground mb-4">ENE Alerts Feed</h3>
+            <ExecutiveHeading as="h3" className="text-muted-foreground mb-4">ENE Alerts Feed</ExecutiveHeading>
             
             {alerts.length > 0 ? (
               <div className="space-y-4 max-h-[220px] overflow-y-auto pr-2 no-scrollbar">
                 {alerts.map((alert: string, idx: number) => (
                   <div key={idx} className="p-3 bg-critical-soft0/5 border border-rose-500/10 rounded-xl flex gap-3 items-start">
                     <AlertTriangle className="w-4 h-4 text-rose-500 flex-shrink-0 mt-0.5" />
-                    <p className="text-[11px] text-rose-400 font-light leading-normal">{alert}</p>
+                    <ExecutiveText as="div" variant="caption" className="text-rose-400">{alert}</ExecutiveText>
                   </div>
                 ))}
               </div>
@@ -387,7 +376,7 @@ export function EconomicNormalizationCenter({ selectedClient, selectedYear }: Ec
             )}
           </div>
 
-          <div className="text-[9px] font-mono text-muted-foreground uppercase pt-4 border-t border-border/10">
+          <div className="mt-12 text-[9px] font-mono text-muted-foreground uppercase pt-4 border-t border-border/10 pt-8 mb-8">
             ENE Signature Engine • v2.5.0
           </div>
         </div>
@@ -398,26 +387,26 @@ export function EconomicNormalizationCenter({ selectedClient, selectedYear }: Ec
       <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
         
         {/* Debt Structure normalizations */}
-        <div className="card-premium p-6 space-y-4">
-          <h3 className="text-xs font-bold uppercase tracking-wider text-muted-foreground border-b border-border/10 pb-2">
+        <div className="bg-card border border-border rounded-2xl p-6 space-y-4">
+          <ExecutiveHeading as="h3" className="text-muted-foreground border-b border-border/10 pb-2">
             Detalhamento da Dívida e Alavancagem ENE
-          </h3>
+          </ExecutiveHeading>
           <div className="grid grid-cols-2 gap-4">
             <div className="p-3 bg-slate-900 border border-border/5 rounded-xl">
               <span className="text-[10px] text-muted-foreground uppercase font-semibold">Dívida Financeira Real:</span>
-              <p className="text-sm font-bold text-muted-foreground mt-1">{formatCurrency(debt.dividaFinanceiraReal)}</p>
+              <ExecutiveText as="div" variant="bodyStandard" className="text-muted-foreground mt-1">{formatCurrency(debt.dividaFinanceiraReal)}</ExecutiveText>
             </div>
             <div className="p-3 bg-slate-900 border border-border/5 rounded-xl">
               <span className="text-[10px] text-muted-foreground uppercase font-semibold">Passivos Operacionais:</span>
-              <p className="text-sm font-bold text-muted-foreground mt-1">{formatCurrency(debt.passivosOperacionais)}</p>
+              <ExecutiveText as="div" variant="bodyStandard" className="text-muted-foreground mt-1">{formatCurrency(debt.passivosOperacionais)}</ExecutiveText>
             </div>
             <div className="p-3 bg-slate-900 border border-border/5 rounded-xl">
               <span className="text-[10px] text-muted-foreground uppercase font-semibold">Passivos Societários:</span>
-              <p className="text-sm font-bold text-muted-foreground mt-1">{formatCurrency(debt.passivosSocietarios)}</p>
+              <ExecutiveText as="div" variant="bodyStandard" className="text-muted-foreground mt-1">{formatCurrency(debt.passivosSocietarios)}</ExecutiveText>
             </div>
             <div className="p-3 bg-slate-900 border border-border/5 rounded-xl">
               <span className="text-[10px] text-muted-foreground uppercase font-semibold">Passivos Artificiais:</span>
-              <p className="text-sm font-bold text-muted-foreground mt-1">{formatCurrency(debt.passivosArtificiais)}</p>
+              <ExecutiveText as="div" variant="bodyStandard" className="text-muted-foreground mt-1">{formatCurrency(debt.passivosArtificiais)}</ExecutiveText>
             </div>
           </div>
           <div className="text-[11px] text-muted-foreground font-light flex items-center gap-2">
@@ -427,26 +416,26 @@ export function EconomicNormalizationCenter({ selectedClient, selectedYear }: Ec
         </div>
 
         {/* Margin Structure normalizations */}
-        <div className="card-premium p-6 space-y-4">
-          <h3 className="text-xs font-bold uppercase tracking-wider text-muted-foreground border-b border-border/10 pb-2">
+        <div className="bg-card border border-border rounded-2xl p-6 space-y-4">
+          <ExecutiveHeading as="h3" className="text-muted-foreground border-b border-border/10 pb-2">
             Detalhamento da Integridade de Margens
-          </h3>
+          </ExecutiveHeading>
           <div className="grid grid-cols-2 gap-4">
             <div className="p-3 bg-slate-900 border border-border/5 rounded-xl">
               <span className="text-[10px] text-muted-foreground uppercase font-semibold">Margem EBITDA Real:</span>
-              <p className="text-sm font-bold text-muted-foreground mt-1">{(margin.margemEbitdaReal * 100).toFixed(1)}%</p>
+              <ExecutiveText as="div" variant="bodyStandard" className="text-muted-foreground mt-1">{(margin.margemEbitdaReal * 100).toFixed(1)}%</ExecutiveText>
             </div>
             <div className="p-3 bg-slate-900 border border-border/5 rounded-xl">
               <span className="text-[10px] text-muted-foreground uppercase font-semibold">Margem Operacional Ajustada:</span>
-              <p className="text-sm font-bold text-muted-foreground mt-1">{(margin.margemOperacionalAjustada * 100).toFixed(1)}%</p>
+              <ExecutiveText as="div" variant="bodyStandard" className="text-muted-foreground mt-1">{(margin.margemOperacionalAjustada * 100).toFixed(1)}%</ExecutiveText>
             </div>
             <div className="p-3 bg-slate-900 border border-border/5 rounded-xl">
               <span className="text-[10px] text-muted-foreground uppercase font-semibold">Margem Recorrente:</span>
-              <p className="text-sm font-bold text-muted-foreground mt-1">{(margin.margemRecorrente * 100).toFixed(1)}%</p>
+              <ExecutiveText as="div" variant="bodyStandard" className="text-muted-foreground mt-1">{(margin.margemRecorrente * 100).toFixed(1)}%</ExecutiveText>
             </div>
             <div className="p-3 bg-slate-900 border border-border/5 rounded-xl">
               <span className="text-[10px] text-muted-foreground uppercase font-semibold">Pressão de OPEX / SG&A:</span>
-              <p className="text-sm font-bold text-muted-foreground mt-1">{(margin.pressaoEstruturalCustos * 100).toFixed(1)}%</p>
+              <ExecutiveText as="div" variant="bodyStandard" className="text-muted-foreground mt-1">{(margin.pressaoEstruturalCustos * 100).toFixed(1)}%</ExecutiveText>
             </div>
           </div>
           <div className="text-[11px] text-muted-foreground font-light flex items-center gap-2">
@@ -459,13 +448,13 @@ export function EconomicNormalizationCenter({ selectedClient, selectedYear }: Ec
 
       {/* Row 5: Explainability & Auditability Trace Accordions */}
       <div className="space-y-4">
-        <h3 className="text-xs font-bold uppercase tracking-wider text-muted-foreground border-b border-border/10 pb-2 flex items-center gap-2">
+        <ExecutiveHeading as="h3" className="text-muted-foreground border-b border-border/10 pb-2 flex items-center gap-2">
           <Database className="w-4 h-4 text-primary" />
           Rastreabilidade Fiduciária e Trilhas de Auditoria (No-Black-Box)
-        </h3>
+        </ExecutiveHeading>
 
         {/* EBITDA Accordion */}
-        <div className="card-premium overflow-hidden transition-all duration-300">
+        <div className="bg-card border border-border rounded-2xl overflow-hidden transition-all duration-300">
           <button 
             onClick={() => toggleSection('ebitda')}
             className="w-full px-6 py-4 flex justify-between items-center hover:bg-slate-950/20 transition-all"
@@ -478,15 +467,15 @@ export function EconomicNormalizationCenter({ selectedClient, selectedYear }: Ec
           </button>
           
           {expandedSection === 'ebitda' && (
-            <div className="px-6 pb-6 pt-2 border-t border-border/5 space-y-4 text-xs font-light text-muted-foreground animate-in slide-in-from-top duration-200">
+            <div className="mt-12 px-6 pb-6 pt-2 border-t border-border/5 space-y-4 text-xs font-light text-muted-foreground animate-in slide-in-from-top duration-200 pt-8 mb-8">
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div>
                   <span className="text-[10px] text-muted-foreground font-semibold uppercase">Base Contábil Declarada:</span>
-                  <p className="text-muted-foreground mt-1 font-mono">{formatCurrency(auditability.ebitda?.accountingBase ?? 0)}</p>
+                  <ExecutiveText as="div" variant="bodyStandard" className="text-muted-foreground mt-1 font-mono">{formatCurrency(auditability.ebitda?.accountingBase ?? 0)}</ExecutiveText>
                 </div>
                 <div>
                   <span className="text-[10px] text-muted-foreground font-semibold uppercase">Linha de Evidência e Contas Fonte:</span>
-                  <p className="text-muted-foreground mt-1 font-mono">{auditability.ebitda?.lineage ?? 'N/A'}</p>
+                  <ExecutiveText as="div" variant="bodyStandard" className="text-muted-foreground mt-1 font-mono">{auditability.ebitda?.lineage ?? 'N/A'}</ExecutiveText>
                 </div>
               </div>
               <div>
@@ -497,18 +486,18 @@ export function EconomicNormalizationCenter({ selectedClient, selectedYear }: Ec
               </div>
               <div>
                 <span className="text-[10px] text-muted-foreground font-semibold uppercase">Diretriz Fiduciária de Reconstrução:</span>
-                <p className="text-muted-foreground mt-1">{auditability.ebitda?.reconstructionLogic ?? 'N/A'}</p>
+                <ExecutiveText as="div" variant="bodyStandard" className="text-muted-foreground mt-1">{auditability.ebitda?.reconstructionLogic ?? 'N/A'}</ExecutiveText>
               </div>
               <div>
                 <span className="text-[10px] text-muted-foreground font-semibold uppercase">Racional Fiduciário:</span>
-                <p className="text-muted-foreground mt-1">{auditability.ebitda?.fiduciaryRationale ?? 'N/A'}</p>
+                <ExecutiveText as="div" variant="bodyStandard" className="text-muted-foreground mt-1">{auditability.ebitda?.fiduciaryRationale ?? 'N/A'}</ExecutiveText>
               </div>
             </div>
           )}
         </div>
 
         {/* Working Capital Accordion */}
-        <div className="card-premium overflow-hidden transition-all duration-300">
+        <div className="bg-card border border-border rounded-2xl overflow-hidden transition-all duration-300">
           <button 
             onClick={() => toggleSection('wc')}
             className="w-full px-6 py-4 flex justify-between items-center hover:bg-slate-950/20 transition-all"
@@ -521,15 +510,15 @@ export function EconomicNormalizationCenter({ selectedClient, selectedYear }: Ec
           </button>
           
           {expandedSection === 'wc' && (
-            <div className="px-6 pb-6 pt-2 border-t border-border/5 space-y-4 text-xs font-light text-muted-foreground animate-in slide-in-from-top duration-200">
+            <div className="mt-12 px-6 pb-6 pt-2 border-t border-border/5 space-y-4 text-xs font-light text-muted-foreground animate-in slide-in-from-top duration-200 pt-8 mb-8">
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div>
                   <span className="text-[10px] text-muted-foreground font-semibold uppercase">Base Contábil de Giro:</span>
-                  <p className="text-muted-foreground mt-1 font-mono">{formatCurrency(auditability.workingCapital?.accountingBase ?? 0)}</p>
+                  <ExecutiveText as="div" variant="bodyStandard" className="text-muted-foreground mt-1 font-mono">{formatCurrency(auditability.workingCapital?.accountingBase ?? 0)}</ExecutiveText>
                 </div>
                 <div>
                   <span className="text-[10px] text-muted-foreground font-semibold uppercase">Contas Patrimoniais e Linhas de Linhagem:</span>
-                  <p className="text-muted-foreground mt-1 font-mono">{auditability.workingCapital?.lineage ?? 'N/A'}</p>
+                  <ExecutiveText as="div" variant="bodyStandard" className="text-muted-foreground mt-1 font-mono">{auditability.workingCapital?.lineage ?? 'N/A'}</ExecutiveText>
                 </div>
               </div>
               <div>
@@ -540,18 +529,18 @@ export function EconomicNormalizationCenter({ selectedClient, selectedYear }: Ec
               </div>
               <div>
                 <span className="text-[10px] text-muted-foreground font-semibold uppercase">Diretriz Fiduciária de Reconstrução:</span>
-                <p className="text-muted-foreground mt-1">{auditability.workingCapital?.reconstructionLogic ?? 'N/A'}</p>
+                <ExecutiveText as="div" variant="bodyStandard" className="text-muted-foreground mt-1">{auditability.workingCapital?.reconstructionLogic ?? 'N/A'}</ExecutiveText>
               </div>
               <div>
                 <span className="text-[10px] text-muted-foreground font-semibold uppercase">Racional Fiduciário:</span>
-                <p className="text-muted-foreground mt-1">{auditability.workingCapital?.fiduciaryRationale ?? 'N/A'}</p>
+                <ExecutiveText as="div" variant="bodyStandard" className="text-muted-foreground mt-1">{auditability.workingCapital?.fiduciaryRationale ?? 'N/A'}</ExecutiveText>
               </div>
             </div>
           )}
         </div>
 
         {/* ROIC Accordion */}
-        <div className="card-premium overflow-hidden transition-all duration-300">
+        <div className="bg-card border border-border rounded-2xl overflow-hidden transition-all duration-300">
           <button 
             onClick={() => toggleSection('roic')}
             className="w-full px-6 py-4 flex justify-between items-center hover:bg-slate-950/20 transition-all"
@@ -564,7 +553,7 @@ export function EconomicNormalizationCenter({ selectedClient, selectedYear }: Ec
           </button>
           
           {expandedSection === 'roic' && (
-            <div className="px-6 pb-6 pt-2 border-t border-border/5 space-y-4 text-xs font-light text-muted-foreground animate-in slide-in-from-top duration-200">
+            <div className="mt-12 px-6 pb-6 pt-2 border-t border-border/5 space-y-4 text-xs font-light text-muted-foreground animate-in slide-in-from-top duration-200 pt-8 mb-8">
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div>
                   <span className="text-[10px] text-muted-foreground font-semibold uppercase">Base Contábil ROIC:</span>
@@ -574,7 +563,7 @@ export function EconomicNormalizationCenter({ selectedClient, selectedYear }: Ec
                 </div>
                 <div>
                   <span className="text-[10px] text-muted-foreground font-semibold uppercase">Linhagem de Evidências Multilaterais:</span>
-                  <p className="text-muted-foreground mt-1 font-mono">{auditability.roic?.lineage ?? 'N/A'}</p>
+                  <ExecutiveText as="div" variant="bodyStandard" className="text-muted-foreground mt-1 font-mono">{auditability.roic?.lineage ?? 'N/A'}</ExecutiveText>
                 </div>
               </div>
               <div>
@@ -585,11 +574,11 @@ export function EconomicNormalizationCenter({ selectedClient, selectedYear }: Ec
               </div>
               <div>
                 <span className="text-[10px] text-muted-foreground font-semibold uppercase">Diretriz Fiduciária de Reconstrução:</span>
-                <p className="text-muted-foreground mt-1">{auditability.roic?.reconstructionLogic ?? 'N/A'}</p>
+                <ExecutiveText as="div" variant="bodyStandard" className="text-muted-foreground mt-1">{auditability.roic?.reconstructionLogic ?? 'N/A'}</ExecutiveText>
               </div>
               <div>
                 <span className="text-[10px] text-muted-foreground font-semibold uppercase">Racional Fiduciário:</span>
-                <p className="text-muted-foreground mt-1">{auditability.roic?.fiduciaryRationale ?? 'N/A'}</p>
+                <ExecutiveText as="div" variant="bodyStandard" className="text-muted-foreground mt-1">{auditability.roic?.fiduciaryRationale ?? 'N/A'}</ExecutiveText>
               </div>
             </div>
           )}
@@ -597,6 +586,6 @@ export function EconomicNormalizationCenter({ selectedClient, selectedYear }: Ec
 
       </div>
 
-    </div>
+    </ExecutivePageTemplate>
   );
 }

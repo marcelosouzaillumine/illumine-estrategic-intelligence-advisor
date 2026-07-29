@@ -43,8 +43,8 @@ export function PageHeader({
       <div className="flex flex-col xl:flex-row justify-between items-start xl:items-center gap-6 xl:gap-8">
         <div className="space-y-2 flex-1 min-w-0 w-full">
           <div className="flex items-center gap-4">
-            <div className="w-12 h-12 rounded-button bg-surface-container flex items-center justify-center border border-border shrink-0 shadow-sm">
-              {renderIcon(22, "text-secondary")}
+            <div className="w-12 h-12 rounded-button bg-primary/10 flex items-center justify-center border border-primary/20 shrink-0 shadow-sm">
+              {renderIcon(22, "text-primary")}
             </div>
             <div className="flex flex-col sm:flex-row sm:items-center gap-3 min-w-0">
               <h1 className="text-4xl md:text-[44px] font-semibold tracking-tight text-foreground leading-tight truncate">
@@ -373,9 +373,77 @@ export function ControlBar({
 }
 
 // Polyfills for legacy cards to fix typecheck
-export function KpiCard({ title, value, suffix, icon, status, trend, ...props }: any) {
-  return <div {...props}>{title}</div>;
+export function KpiCard({ 
+  title, 
+  label,
+  value, 
+  suffix, 
+  icon: Icon, 
+  status, 
+  trend, 
+  tone = 'default',
+  helper,
+  description,
+  className,
+  ...props 
+}: any) {
+  const { translateLabel } = useLanguage();
+  const displayTitle = title || label;
+  const displayDescription = helper || description;
+
+  const toneClasses: Record<string, string> = {
+    default: 'border-border bg-card text-foreground',
+    success: 'border-emerald-200/80 bg-emerald-500/5 text-emerald-950 dark:text-emerald-100',
+    danger: 'border-rose-200/80 bg-rose-500/5 text-rose-950 dark:text-rose-100',
+    warning: 'border-amber-200/80 bg-amber-500/5 text-amber-950 dark:text-amber-100',
+    info: 'border-blue-200/80 bg-blue-500/5 text-blue-950 dark:text-blue-100',
+  };
+
+  return (
+    <div className={cn(
+      "p-6 rounded-[24px] border shadow-sm flex flex-col justify-between transition-all hover:shadow-md bg-card",
+      toneClasses[tone] || toneClasses.default,
+      className
+    )} {...props}>
+      <div className="flex items-start justify-between gap-3 mb-3">
+        <div className="flex items-center gap-2.5 min-w-0">
+          {Icon && (
+            <div className="w-8 h-8 rounded-xl bg-surface-container flex items-center justify-center border border-border shrink-0">
+              {React.isValidElement(Icon) ? Icon : <Icon size={16} className="text-secondary" />}
+            </div>
+          )}
+          <span className="text-xs font-semibold text-muted-foreground uppercase tracking-wider truncate">
+            {typeof displayTitle === 'string' ? translateLabel(displayTitle) : displayTitle}
+          </span>
+        </div>
+        {status && <StatusBadge status={status} />}
+      </div>
+
+      <div className="flex items-baseline justify-between gap-2 mt-1">
+        <div className="text-2xl md:text-3xl font-bold tracking-tight text-foreground font-display">
+          {value}{suffix && <span className="text-sm font-normal text-muted-foreground ml-1">{suffix}</span>}
+        </div>
+        {trend && (
+          <span className={cn(
+            "inline-flex items-center gap-1 text-[11px] font-bold px-2.5 py-0.5 rounded-full border shrink-0",
+            trend === 'up' || (typeof trend === 'object' && trend.direction === 'up') ? "text-emerald-600 bg-emerald-500/10 border-emerald-200/50" :
+            trend === 'down' || (typeof trend === 'object' && trend.direction === 'down') ? "text-rose-600 bg-rose-500/10 border-rose-200/50" :
+            "text-slate-600 bg-slate-500/10 border-slate-200/50"
+          )}>
+            {typeof trend === 'string' ? trend : trend.value || trend.direction}
+          </span>
+        )}
+      </div>
+
+      {displayDescription && (
+        <p className="text-xs text-muted-foreground mt-3 pt-3 border-t border-border/50 line-clamp-2">
+          {typeof displayDescription === 'string' ? translateLabel(displayDescription) : displayDescription}
+        </p>
+      )}
+    </div>
+  );
 }
+
 export function KpiValue({ value, suffix, ...props }: any) {
-  return <div {...props}>{value}</div>;
+  return <div className="text-2xl font-bold font-display" {...props}>{value}{suffix && <span className="text-sm font-normal text-muted-foreground ml-1">{suffix}</span>}</div>;
 }

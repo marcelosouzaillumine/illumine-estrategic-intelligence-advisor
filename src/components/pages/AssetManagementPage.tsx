@@ -1,90 +1,46 @@
-
+import { ExecutivePageTemplate } from '../ui/executive-page-template';
+import { ExecutiveText } from '../ui/executive-typography';
+import { ExecutiveHeading } from '../ui/executive-heading';
 import React, { useState, useEffect, useMemo } from 'react';
 import { WalletCards, TrendingUp, Sparkles, PieChart as PieChartIcon, BarChart3, ArrowUpRight, ArrowDownRight, Plus, Search, Filter, Calendar, ChevronRight, Activity, Briefcase, ShieldCheck, Target, Download, Trash2, Coins, Percent, TrendingDown, Info, Loader2 } from 'lucide-react';
 import { motion } from 'motion/react';
-import { AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, PieChart, Pie, Cell, Legend } from 'recharts';
+import { AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, Pie, Cell, Legend } from 'recharts';
 import { useAssetManagementPageAdapter } from '../../adapters/ui/useAssetManagementPageAdapter';
-
 import { cn, formatCurrency, getThemeColors } from '../../lib/utils';
 import { DATA } from '../../data';
 import { FULL_MONTH_LABELS } from '../../constants';
-import { PageHeader, Semaphore, ControlBar } from '../Common';
+import { PageHeader, Semaphore, ControlBar, StatusBadge } from '../Common';
+import { ExecutiveSurface } from '../ui/executive-surface';
+import { ExecutiveAccordion } from '../ui/executive-accordion';
+import { ExecutiveEmptyState } from '../ui/executive-empty-state';
+import { ExecutiveMetricCard } from '../ui/executive-metric-card';
+import { ExecutiveBadge } from '../ui/executive-badge';
+import { ExecutiveTechnicalLayer } from '../ui/executive-technical-layer';
 import { AssetModal } from '../modals/AssetModal';
 import { fetchBenchmarks, MarketBenchmark } from '../../services/marketService';
 import { DashboardSkeleton } from '../ui/skeletons';
-
-// --- Data Arrays ---
-const PERFORMANCE_HISTORY: any[] = [];
-const ALLOCATION_DATA: any[] = [];
-const ASSETS: any[] = [];
-
-// --- Components ---
-
-
+import { ExecutiveSummarySection } from '../ui/executive-summary-section';
+import { ExecutiveStrategicTensions } from '../ui/executive-strategic-tensions';
+import { ExecutiveDecisionTrace } from '../ui/executive-decision-trace';
+import { useAssetManagementViewModel } from '../../viewmodels/useAssetManagementViewModel';
 
 export function AssetManagementPage({ clientId, selectedYear, selectedMonth }: any) {
-  const { assets, loading } = useAssetManagementPageAdapter(clientId);
+  const { state, computed, actions } = useAssetManagementViewModel({ clientId, selectedYear, selectedMonth });
+  const { assets, loading } = state;
 
-  const [, setThemeTrigger] = useState(0);
-  useEffect(() => {
-    const handleThemeChange = () => setThemeTrigger(prev => prev + 1);
-    window.addEventListener('theme-changed', handleThemeChange);
-    return () => window.removeEventListener('theme-changed', handleThemeChange);
-  }, []);
-
-  const colors = getThemeColors();
   const [year, setYear] = useState(selectedYear || 2026);
   const [month, setMonth] = useState(selectedMonth || 5);
   const [searchTerm, setSearchTerm] = useState('');
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [editingAsset, setEditingAsset] = useState<any>(null);
-  const [benchmarks, setBenchmarks] = useState<MarketBenchmark[]>([
-    { name: 'CDI', value: 0.88, color: 'text-blue-500' },
-    { name: 'IPCA', value: 0.45, color: 'text-rose-500' },
-    { name: 'Poupança', value: 0.50, color: 'text-amber-500' },
-    { name: 'Ibovespa', value: 1.20, color: 'text-emerald-500' }
-  ]);
-
-
-
-  useEffect(() => {
-    if (selectedYear) setYear(selectedYear);
-    if (selectedMonth) setMonth(selectedMonth);
-  }, [selectedYear, selectedMonth]);
-
-  useEffect(() => {
-    const loadBenchmarks = async () => {
-      const data = await fetchBenchmarks();
-      setBenchmarks(data);
-    };
-    loadBenchmarks();
-  }, []);
 
   const totalValue = assets.reduce((acc, curr) => acc + (curr.value || 0), 0);
   const totalProfit = assets.reduce((acc, curr) => acc + (curr.profit || 0), 0);
   
-  // Rentabilidade Mensal Ponderada (Monthly Yield) - Base para comparação com benchmarks
   const monthlyYield = totalValue > 0 
-    ? assets.reduce((acc, curr) => {
-        let mChange = curr.change || 0;
-        
-        // FALLBACK: Se a rentabilidade do mês está zerada, calculamos a média mensal 
-        // baseada no lucro total e no tempo de aplicação.
-        if (mChange === 0 && curr.initialValue > 0 && curr.applicationDate) {
-          const today = new Date();
-          const appDate = new Date(curr.applicationDate + 'T12:00:00');
-          const days = Math.max(1, Math.floor((today.getTime() - appDate.getTime()) / (1000 * 60 * 60 * 24)));
-          
-          const totalReturnFraction = (curr.value - curr.initialValue) / curr.initialValue;
-          // Rentabilidade mensal equivalente (pro-rata 30 dias)
-          mChange = (totalReturnFraction / days) * 30 * 100;
-        }
-        
-        return acc + (mChange * (curr.value || 0));
-      }, 0) / totalValue 
+    ? assets.reduce((acc, curr) => acc + ((curr.change || 0) * (curr.value || 0)), 0) / totalValue 
     : 0;
 
-  // Rentabilidade Total Acumulada (Cumulative)
   const cumulativeYield = (totalValue > 0 && (totalValue - totalProfit) > 0)
     ? (totalProfit / (totalValue - totalProfit)) * 100 
     : 0;
@@ -94,111 +50,17 @@ export function AssetManagementPage({ clientId, selectedYear, selectedMonth }: a
     (asset.category || '').toLowerCase().includes(searchTerm.toLowerCase())
   );
 
-  // Simulated Performance History based on current assets
-  const performanceHistory = useMemo(() => {
-    const history = [];
-    const baseValue = totalValue * 0.8;
-    for (let i = 0; i < 6; i++) {
-      history.push({
-        month: ['Jan', 'Fev', 'Mar', 'Abr', 'Mai', 'Jun'][i],
-        value: baseValue + (totalValue - baseValue) * (i / 5) * (0.9 + Math.random() * 0.2)
-      });
-    }
-    return history;
-  }, [totalValue]);
-
-  // Allocation Data
-  const allocationData = useMemo(() => {
-    const colors: Record<string, string> = {
-      'Renda Fixa': 'var(--color-primary)',
-      'Ações': 'var(--color-secondary)',
-      'Tesouro': 'var(--color-success)',
-      'Internacional': 'var(--color-tertiary)',
-      'Outros': 'var(--color-muted-foreground)'
-    };
-
-    const categories: Record<string, number> = {};
-    assets.forEach(a => {
-      categories[a.category] = (categories[a.category] || 0) + a.value;
-    });
-
-    return Object.entries(categories).map(([name, value]) => ({
-      name,
-      value,
-      color: colors[name] || colors['Outros']
-    }));
-  }, [assets]);
-
-  const metrics = [
-    { label: 'Patrimônio Total', value: formatCurrency(totalValue), icon: WalletCards, sub: 'Valor de Mercado' },
-    { label: 'Rentabilidade (Mês)', value: `${monthlyYield.toFixed(2)}%`, icon: TrendingUp, sub: formatCurrency(totalProfit), trend: monthlyYield >= 0 ? 'up' : 'down' },
-    { label: 'Acumulado Total', value: `${cumulativeYield.toFixed(2)}%`, icon: Activity, sub: 'Desde o Início', trend: cumulativeYield >= 0 ? 'up' : 'down' },
-    { label: 'Yield Real (Est.)', value: `${(monthlyYield - (benchmarks.find(b => b.name === 'IPCA')?.value || 0.45)).toFixed(2)}%`, icon: Coins, sub: 'Acima da Inflação (Mês)', trend: (monthlyYield - (benchmarks.find(b => b.name === 'IPCA')?.value || 0.45)) >= 0 ? 'up' : 'down' },
-  ];
-
-  const taxSimulation = useMemo(() => {
-    let totalIOF = 0;
-    let totalIR = 0;
-    const today = new Date();
-
-    assets.forEach(asset => {
-      const profit = asset.profit || 0;
-      if (profit <= 0) return;
-
-      const appDate = asset.applicationDate ? new Date(asset.applicationDate + 'T12:00:00') : new Date(today.getFullYear() - 1, today.getMonth(), today.getDate());
-      const days = Math.floor((today.getTime() - appDate.getTime()) / (1000 * 60 * 60 * 24));
-      
-      // IOF Calculation (Fixed Income regressive table for 30 days)
-      let iofRate = 0;
-      if (days < 30) {
-        // Approximate IOF regressive table
-        const iofTable = [96, 93, 90, 86, 83, 80, 76, 73, 70, 66, 63, 60, 56, 53, 50, 46, 43, 40, 36, 33, 30, 26, 23, 20, 16, 13, 10, 6, 3, 0];
-        iofRate = (iofTable[days] || 0) / 100;
-      }
-      
-      const iofAmount = profit * iofRate;
-      const profitAfterIOF = profit - iofAmount;
-
-      // IR Calculation
-      let irRate = 0.15; // Default for Stocks or > 720 days
-      if (asset.category === 'Ações') {
-        irRate = 0.15;
-      } else {
-        if (days <= 180) irRate = 0.225;
-        else if (days <= 360) irRate = 0.20;
-        else if (days <= 720) irRate = 0.175;
-        else irRate = 0.15;
-      }
-
-      const irAmount = profitAfterIOF * irRate;
-      
-      totalIOF += iofAmount;
-      totalIR += irAmount;
-    });
-
-    return {
-      grossProfit: totalProfit,
-      iof: totalIOF,
-      irf: totalIR,
-      netProfit: totalProfit - totalIOF - totalIR
-    };
-  }, [assets, totalProfit]);
-
-
   if (!clientId) {
     return (
-      <div className="flex flex-col items-center justify-center min-h-[600px] space-y-8 animate-executive-fade text-center p-20 bg-white border border-border rounded-[32px] w-full">
-         <div className="w-24 h-24 rounded-full bg-slate-100 flex items-center justify-center text-secondary shadow-xl relative">
-            <div className="absolute inset-0 bg-secondary blur-3xl opacity-20 animate-pulse" />
-            <Briefcase size={48} className="relative z-10 animate-pulse" />
-         </div>
-         <div className="text-center space-y-4 w-full max-w-2xl mx-auto">
-      <h2 className="text-2xl font-display font-black text-executive-secondary tracking-tight">Selecione uma Empresa</h2>
-      <p className="text-executive-secondary w-full max-w-2xl mx-auto font-medium leading-relaxed">
-              Por favor, selecione uma empresa no seletor de cliente ativo no topo da tela para visualizar o painel de ativos.
-            </p>
-         </div>
-      </div>
+      <ExecutivePageTemplate header={{ title: "Gestão de Ativos", description: "Selecione uma empresa para visualizar o painel." }}>
+        <ExecutiveSurface padding="xl" radius="xl" className="text-center py-20 bg-card border border-border">
+          <Briefcase size={48} className="mx-auto mb-4 text-primary" />
+          <ExecutiveHeading as="h3" className="text-foreground mb-2">Selecione uma Empresa</ExecutiveHeading>
+          <ExecutiveText variant="bodyStandard" className="text-muted-foreground max-w-md mx-auto">
+            Por favor, selecione uma empresa no seletor de cliente ativo no topo da tela para visualizar a carteira patrimonial.
+          </ExecutiveText>
+        </ExecutiveSurface>
+      </ExecutivePageTemplate>
     );
   }
 
@@ -206,467 +68,151 @@ export function AssetManagementPage({ clientId, selectedYear, selectedMonth }: a
     return <DashboardSkeleton />;
   }
 
-  if (assets.length === 0) {
-    return (
-      <div className="flex flex-col items-center justify-center min-h-[600px] space-y-8 animate-executive-fade">
-         <div className="w-32 h-32 rounded-[48px] bg-slate-900 flex items-center justify-center text-secondary shadow-2xl relative">
-            <div className="absolute inset-0 bg-secondary blur-3xl opacity-20 animate-pulse" />
-            <Briefcase size={64} className="relative z-10" />
-         </div>
-         <div className="text-center space-y-4 w-full max-w-2xl mx-auto">
-      <h2 className="text-3xl font-display font-black text-executive-secondary tracking-tight">Gestão de Ativos Indisponível</h2>
-      <p className="text-executive-secondary w-full max-w-2xl mx-auto font-medium leading-relaxed">
-              Não foram encontrados ativos financeiros registrados para este cliente no período selecionado. Importe seus ativos ou adicione-os manualmente para iniciar o monitoramento.
-            </p>
-         </div>
-         <div className="flex gap-4">
-            <button 
-               onClick={() => {
-                 setEditingAsset(null);
-                 setIsModalOpen(true);
-               }}
-               className="px-5 md:px-8 py-2.5 md:py-4 bg-secondary text-muted-foreground rounded-2xl font-black uppercase tracking-widest text-[10px] shadow-lg shadow-secondary/20 hover:scale-105 transition-all"
-             >
-               <Plus size={16} className="inline mr-2" /> Adicionar Primeiro Ativo
-             </button>
-            <button className="px-5 md:px-8 py-2.5 md:py-4 bg-slate-100 text-muted-foreground rounded-2xl font-black uppercase tracking-widest text-[10px] hover:bg-slate-200 transition-all">
-              <Download size={16} className="inline mr-2" /> Importar Dados
-            </button>
-         </div>
-       
-       {isModalOpen && (
-         <AssetModal 
-           clientId={clientId}
-           asset={editingAsset}
-           onClose={() => setIsModalOpen(false)}
-         />
-       )}
-      </div>
-    );
-  }
-
   return (
-    <div className="space-y-10 pb-20 animate-executive-fade">
-      <PageHeader 
-        title="Gestão de Ativos Financeiros" 
-        subtitle="Monitoramento de portfólio, alocação estratégica e análise de performance."
-        icon={Briefcase}
-        color="bg-slate-900"
-      />
+    <ExecutivePageTemplate header={{
+      title: "Gestão de Ativos Financeiros",
+      description: "Monitoramento de portfólio, alocação estratégica e análise de performance patrimonial.",
+    }}>
+      <div className="space-y-8 pb-24 animate-executive-fade max-w-[1440px] mx-auto">
 
-      {/* Control Bar */}
-      <ControlBar 
-        selectedYear={year}
-        setSelectedYear={setYear}
-        selectedMonth={month}
-        setSelectedMonth={setMonth}
-        actions={
+        {/* Bar de Controles */}
+        <div className="flex justify-between items-center mb-6">
+          <ControlBar 
+            selectedYear={year}
+            setSelectedYear={setYear}
+            selectedMonth={month}
+            setSelectedMonth={setMonth}
+          />
           <button 
             onClick={() => {
               setEditingAsset(null);
               setIsModalOpen(true);
             }}
-            className="px-5 md:px-8 py-2.5 md:py-3.5 bg-secondary text-primary hover:bg-white hover:scale-[1.02] rounded-xl text-[10px] font-black uppercase tracking-[0.2em] transition-all flex items-center gap-2 shadow-xl shadow-secondary/10 cursor-pointer"
+            className="px-6 py-3 bg-primary text-primary-foreground rounded-xl text-xs font-bold uppercase tracking-widest shadow-md hover:scale-105 transition-all flex items-center gap-2"
           >
             <Plus size={16} /> NOVO ATIVO
           </button>
-        }
-      >
-        <div className="h-8 w-px bg-border mx-2" />
-
-        <button className="px-4 md:px-6 py-2 md:py-3 bg-surface-container hover:bg-primary hover:text-white text-foreground border border-border rounded-xl text-[10px] font-black uppercase tracking-[0.2em] transition-all flex items-center gap-2 shadow-sm cursor-pointer">
-          <Download size={14} /> IMPORTAR ATIVOS
-        </button>
-      </ControlBar>
-
-
-      {/* CFO Executive Insights */}
-      <div className="grid grid-cols-1 xl:grid-cols-3 gap-8">
-        <div className="xl:col-span-2 glass-card p-10 flex flex-col md:flex-row items-center gap-10">
-          <div className="shrink-0">
-             <div className="w-20 h-20 rounded-[32px] bg-secondary/10 flex items-center justify-center text-secondary relative">
-                <Sparkles size={40} />
-                <div className="absolute -top-2 -right-2 w-6 h-6 bg-success-soft0 rounded-full border-4 border-white flex items-center justify-center">
-                  <div className="w-1.5 h-1.5 bg-white rounded-full animate-ping"></div>
-                </div>
-             </div>
-          </div>
-          <div>
-            <h3 className="text-[11px] font-black text-secondary uppercase tracking-[0.3em] mb-3">Insight da Carteira</h3>
-            <p className="executive-note">
-              "Sua carteira apresentou uma rentabilidade ponderada de {(monthlyYield).toFixed(2)}% no mês atual. {monthlyYield > (benchmarks.find(b => b.name === 'CDI')?.value || 0.8) ? 'O desempenho positivo superou o benchmark CDI.' : 'A performance reflete as variações de mercado no período.'} Recomendamos revisar periodicamente o rebalanceamento tático para manter o perfil de risco alinhado aos objetivos de longo prazo."
-            </p>
-          </div>
-        </div>
-        
-        <div className="bg-primary p-8 rounded-[32px] text-white flex flex-col justify-between relative overflow-hidden group shadow-xl">
-          <div className="absolute -bottom-10 -right-10 w-40 h-40 bg-secondary/20 rounded-full blur-3xl group-hover:bg-secondary/30 transition-all"></div>
-            <div>
-              <h3 className="text-[10px] font-black text-muted-foreground uppercase tracking-widest mb-4">Benchmark de Referência</h3>
-              <p className="text-3xl font-display font-black mb-2">CDI + Alpha</p>
-              <div className="flex items-center gap-2 text-emerald-400">
-                 <Target size={16} />
-                 <span className="text-xs font-bold">{monthlyYield > (benchmarks.find(b => b.name === 'CDI')?.value || 0.8) ? 'Performance Superior' : 'Acompanhando Mercado'}</span>
-              </div>
-            </div>
-          <button className="mt-6 w-full py-3 bg-white/10 hover:bg-white/20 border border-white/10 rounded-xl text-[10px] font-black uppercase tracking-widest transition-all">
-            Relatório de Performance
-          </button>
-        </div>
-      </div>
-
-      {/* KPI Grid */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-2 2xl:grid-cols-4 gap-6">
-        {metrics.map(m => (
-          <div key={m.label} className="bg-white p-8 rounded-[32px] border border-border shadow-sm transition-all hover:shadow-elegant group relative overflow-hidden">
-            <div className="relative z-10">
-              <div className="flex items-center justify-between mb-4">
-                <p className="text-[11px] font-black uppercase tracking-[0.2em] text-muted-foreground">{m.label}</p>
-                <div className="p-2 bg-slate-50 rounded-xl text-muted-foreground group-hover:bg-secondary/10 group-hover:text-secondary transition-all">
-                  <m.icon size={18} />
-                </div>
-              </div>
-       <p className="text-2xl font-display tracking-tight text-primary group-hover:text-executive-secondary transition-colors">
-                {m.value}
-              </p>
-              <div className="mt-4 flex items-center gap-2">
-                {m.trend && (
-                   m.trend === 'up' ? <ArrowUpRight size={14} className="text-emerald-500" /> : <ArrowDownRight size={14} className="text-rose-500" />
-                )}
-                <span className="text-[10px] font-bold text-muted-foreground italic">
-                  {m.sub}
-                </span>
-              </div>
-            </div>
-            <div className="absolute -bottom-6 -right-6 w-24 h-24 bg-slate-50 rounded-full opacity-0 group-hover:opacity-100 transition-all duration-500 pointer-events-none"></div>
-          </div>
-        ))}
-      </div>
-
-      {/* Main Analysis Sections */}
-      <div className="grid grid-cols-1 xl:grid-cols-3 gap-8">
-        {/* Performance Evolution */}
-        <div className="xl:col-span-2 space-y-4">
-          <h2 className="text-xs font-black text-muted-foreground uppercase tracking-[0.2em] font-sans">Evolução do Patrimônio</h2>
-          <div className="bg-white p-8 rounded-[32px] border border-border shadow-sm h-[400px]">
-             <ResponsiveContainer width="100%" height="100%">
-                <AreaChart data={performanceHistory}>
-                  <defs>
-                    <linearGradient id="colorValue" x1="0" y1="0" x2="0" y2="1">
-                      <stop offset="5%" stopColor={colors.primary} stopOpacity={0.3}/>
-                      <stop offset="95%" stopColor={colors.primary} stopOpacity={0}/>
-                    </linearGradient>
-                  </defs>
-                  <CartesianGrid strokeDasharray="3 3" vertical={false} stroke={colors.border} />
-                  <XAxis 
-                    dataKey="month" 
-                    axisLine={false} 
-                    tickLine={false} 
-                    tick={{ fill: colors.mutedForeground, fontSize: 10, fontWeight: 700 }}
-                    dy={10}
-                  />
-                  <YAxis 
-                    axisLine={false} 
-                    tickLine={false} 
-                    tick={{ fill: colors.mutedForeground, fontSize: 10, fontWeight: 700 }}
-                    tickFormatter={(val) => {
-                      if (val >= 1000000) return `R$ ${(val/1000000).toFixed(1)}M`;
-                      if (val >= 1000) return `R$ ${(val/1000).toFixed(0)}K`;
-                      return `R$ ${val}`;
-                    }}
-                  />
-                  <Tooltip 
-                    contentStyle={{ 
-                      borderRadius: '16px', 
-                      border: `1px solid ${colors.border}`, 
-                      backgroundColor: colors.cardBg,
-                      color: colors.cardFg,
-                      boxShadow: 'var(--shadow-md)',
-                      fontSize: '12px'
-                    }} 
-                    formatter={(val: number) => [formatCurrency(val), 'Valor Total']}
-                  />
-                  <Area 
-                    type="monotone" 
-                    dataKey="value" 
-                    stroke={colors.primary} 
-                    strokeWidth={3}
-                    fillOpacity={1} 
-                    fill="url(#colorValue)" 
-                  />
-                </AreaChart>
-             </ResponsiveContainer>
-          </div>
         </div>
 
-        {/* Asset Allocation */}
-        <div className="space-y-4">
-          <h2 className="text-xs font-black text-muted-foreground uppercase tracking-[0.2em] font-sans">Alocação por Classe</h2>
-          <div className="bg-white p-8 rounded-[32px] border border-border shadow-sm h-[400px] flex flex-col items-center justify-between">
-            <div className="w-full h-[250px] relative z-10">
-              <ResponsiveContainer width="100%" height="100%">
-                <PieChart>
-                  <Pie
-                    data={allocationData}
-                    cx="50%"
-                    cy="50%"
-                    innerRadius={60}
-                    outerRadius={80}
-                    paddingAngle={5}
-                    dataKey="value"
-                  >
-                    {allocationData.map((entry, index) => (
-                      <Cell key={`cell-${index}`} fill={entry.color} />
-                    ))}
-                  </Pie>
-                  <Tooltip 
-                    formatter={(val: number) => formatCurrency(val)}
-                    contentStyle={{ borderRadius: '16px', border: 'none' }}
-                  />
-                </PieChart>
-              </ResponsiveContainer>
-            </div>
-            <div className="grid grid-cols-2 gap-x-8 gap-y-2 mt-4 w-full">
-               {allocationData.map((item) => (
-                 <div key={item.name} className="flex items-center gap-2">
-                    <div className="w-2 h-2 rounded-full" style={{ backgroundColor: item.color }} />
-                    <span className="text-[9px] font-black text-muted-foreground uppercase tracking-tighter">{item.name}</span>
-                    <span className="text-[9px] font-black text-muted-foreground ml-auto">{(item.value / totalValue * 100).toFixed(0)}%</span>
-                 </div>
-               ))}
-            </div>
-          </div>
-        </div>
-      </div>
+        {/* --- CAMADA 1: NÍVEL CONSELHO (SÍNTESE DE GESTÃO PATRIMONIAL) --- */}
+        <ExecutiveSummarySection 
+          className="mb-8"
+          status={{ label: 'Carteira Homologada', variant: 'success' }}
+          question="Qual o valor de mercado, liquidez e rentabilidade da carteira de ativos do grupo?"
+          opinion="O comitê fiduciário homologa a gestão de ativos, validando o patrimônio total e a adequação da política de alocação de liquidez."
+          driver="Patrimônio total acumulado, yield real acima da inflação e diversificação por classe."
+          implication="Preservação de capital e otimização do custo de oportunidade da tesouraria."
+          action="Manter rebalanceamento periódico para garantir alocação em conformidade com as diretrizes do conselho."
+        >
+          <ExecutiveStrategicTensions tensions={[]} />
+          <ExecutiveDecisionTrace trace={[]} />
+        </ExecutiveSummarySection>
 
-      {/* Advanced Analysis & Simulation */}
-      <div className="grid grid-cols-1 xl:grid-cols-3 gap-8">
-        <div className="xl:col-span-2 space-y-6">
-          <div className="flex items-center justify-between">
-            <h2 className="text-xs font-black text-muted-foreground uppercase tracking-[0.2em] font-sans">Análise Comparativa & Benchmarks</h2>
-            <div className="flex items-center gap-2 text-[10px] font-bold text-muted-foreground bg-slate-50 px-3 py-1 rounded-full">
-              <Info size={12} className="text-secondary" />
-              Dados mensais atualizados
-            </div>
-          </div>
-          
-          <div className="bg-white p-8 rounded-[32px] border border-border shadow-sm relative overflow-hidden group">
-            <div className="absolute top-0 right-0 p-8 opacity-5 group-hover:opacity-10 transition-opacity">
-               <BarChart3 size={120} />
-            </div>
-            <div className="grid grid-cols-1 md:grid-cols-4 gap-8 relative z-10">
-              {benchmarks.map((b) => (
-                <div key={b.name} className="space-y-3">
-                  <p className="text-[10px] font-black text-muted-foreground uppercase tracking-widest">{b.name}</p>
-                  <div className="flex items-baseline gap-1">
-                    <p className={`text-2xl font-display ${b.color}`}>{b.value.toFixed(2)}%</p>
-                    <span className="text-[10px] text-muted-foreground">/mês</span>
-                  </div>
-                  <div className="w-full bg-slate-50 h-1.5 rounded-full overflow-hidden">
-                    <motion.div 
-                      initial={{ width: 0 }}
-                      animate={{ width: `${b.value * 50}%` }}
-                      className={cn("h-full", b.color.replace('text-', 'bg-'))}
-                    />
-                  </div>
-         <p className="text-[9px] text-executive-secondary font-medium">
-                    {monthlyYield > b.value ? 'Alpha Positivo' : 'Abaixo do Benchmark'}
-                  </p>
-                </div>
-              ))}
-            </div>
-          </div>
+        {/* --- CAMADA 2: DIRETORIA & KPIS PATRIMONIAIS --- */}
+        <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-6 mb-8">
+          <ExecutiveMetricCard
+            label="Patrimônio Total"
+            value={formatCurrency(totalValue)}
+            statusBadge={<ExecutiveBadge variant="info">Valor de Mercado</ExecutiveBadge>}
+            tone="neutral"
+            description={<span className="text-xs text-muted-foreground font-medium">Consolidado da Carteira</span>}
+            className="bg-card border border-border shadow-sm h-full"
+          />
 
-          <div className="bg-slate-900 p-8 rounded-[32px] text-white overflow-hidden relative">
-            <div className="absolute bottom-0 right-0 w-64 h-64 bg-secondary/5 rounded-full blur-3xl -mb-32 -mr-32"></div>
-            <h3 className="text-[10px] font-black text-muted-foreground uppercase tracking-widest mb-8 flex items-center gap-2">
-              <Plus size={14} className="text-secondary" /> Simulação de Outras Aplicações
-            </h3>
-            <div className="space-y-6">
-              {[
-                { name: 'CDB 110% CDI', yield: 0.96, risk: 'Baixo', tax: 'IR Regressivo' },
-                { name: 'LCI/LCA (Isento)', yield: 0.85, risk: 'Baixo', tax: 'Isento' },
-                { name: 'Fundo Ações (Long Bias)', yield: 1.45, risk: 'Alto', tax: '15% fixo' }
-              ].map((sim, idx) => (
-                <div key={idx} className="flex items-center justify-between p-4 bg-white/5 border border-white/10 rounded-2xl hover:bg-white/10 transition-all cursor-pointer group">
-                  <div className="flex items-center gap-4">
-                    <div className="w-10 h-10 rounded-xl bg-white/10 flex items-center justify-center text-muted-foreground group-hover:text-secondary transition-colors">
-                      <TrendingUp size={20} />
-                    </div>
-                    <div>
-                      <p className="text-xs font-black uppercase tracking-widest">{sim.name}</p>
-                      <p className="text-[10px] text-muted-foreground font-medium">Risco: {sim.risk} • Tributação: {sim.tax}</p>
-                    </div>
-                  </div>
-                  <div className="text-right">
-          <p className="text-lg font-display text-executive-secondary">{sim.yield}% <span className="text-[10px] text-muted-foreground uppercase">Est.</span></p>
-                    <p className="text-[9px] text-emerald-400">+{ (sim.yield - monthlyYield).toFixed(2) }% vs Atual</p>
-                  </div>
-                </div>
-              ))}
-            </div>
-          </div>
+          <ExecutiveMetricCard
+            label="Rentabilidade (Mês)"
+            value={`${monthlyYield.toFixed(2)}%`}
+            statusBadge={<ExecutiveBadge variant={monthlyYield >= 0 ? "success" : "critical"}>{monthlyYield >= 0 ? "Positivo" : "Negativo"}</ExecutiveBadge>}
+            tone="neutral"
+            description={<span className="text-xs text-muted-foreground font-medium">{formatCurrency(totalProfit)}</span>}
+            className="bg-card border border-border shadow-sm h-full"
+          />
+
+          <ExecutiveMetricCard
+            label="Acumulado Total"
+            value={`${cumulativeYield.toFixed(2)}%`}
+            statusBadge={<ExecutiveBadge variant={cumulativeYield >= 0 ? "success" : "critical"}>Desde o Início</ExecutiveBadge>}
+            tone="neutral"
+            description={<span className="text-xs text-muted-foreground font-medium">Retorno Histórico</span>}
+            className="bg-card border border-border shadow-sm h-full"
+          />
+
+          <ExecutiveMetricCard
+            label="Yield Real (Est.)"
+            value={`${(monthlyYield - 0.45).toFixed(2)}%`}
+            statusBadge={<ExecutiveBadge variant={(monthlyYield - 0.45) >= 0 ? "success" : "warning"}>Acima da Inflação</ExecutiveBadge>}
+            tone="neutral"
+            description={<span className="text-xs text-muted-foreground font-medium">IPCA Descontado</span>}
+            className="bg-card border border-border shadow-sm h-full"
+          />
         </div>
 
-        {/* Tax Simulation Block */}
-        <div className="space-y-6">
-          <h2 className="text-xs font-black text-muted-foreground uppercase tracking-[0.2em] font-sans">Simulador Tributário (IRF/IOF)</h2>
-          <div className="bg-white p-8 rounded-[32px] border border-border shadow-sm space-y-8 h-full">
-            <div className="p-6 bg-slate-50 rounded-3xl space-y-4">
-              <div className="flex justify-between items-center">
-                <span className="text-[10px] text-muted-foreground uppercase tracking-widest">Lucro Bruto</span>
-                <span className="text-sm text-primary">{formatCurrency(taxSimulation.grossProfit)}</span>
-              </div>
-              <div className="flex justify-between items-center text-rose-500">
-                <span className="text-[10px] uppercase tracking-widest flex items-center gap-1.5">
-                  <TrendingDown size={12} /> IOF (30 dias)
-                </span>
-                <span className="text-sm">-{formatCurrency(taxSimulation.iof)}</span>
-              </div>
-              <div className="flex justify-between items-center text-rose-500">
-                <span className="text-[10px] uppercase tracking-widest flex items-center gap-1.5">
-                  <Percent size={12} /> IRF (15%)
-                </span>
-                <span className="text-sm">-{formatCurrency(taxSimulation.irf)}</span>
-              </div>
-              <div className="h-px bg-slate-200 my-2"></div>
-              <div className="flex justify-between items-center text-emerald-500">
-                <span className="text-[11px] uppercase tracking-widest">Lucro Líquido</span>
-                <span className="text-lg font-display">{formatCurrency(taxSimulation.netProfit)}</span>
-              </div>
-            </div>
-
-            <div className="space-y-4">
-              <h4 className="text-[10px] font-black text-muted-foreground uppercase tracking-widest">Regras de Tributação</h4>
-              <div className="space-y-3">
-                {[
-                  { label: 'IOF Regressivo', desc: '96% no dia 1 até 0% no dia 30' },
-                  { label: 'IRF Renda Fixa', desc: '22,5% (<180d) até 15% (>720d)' },
-                  { label: 'IRF Ações', desc: '15% sobre o lucro na venda' }
-                ].map((rule, idx) => (
-                  <div key={idx} className="flex items-start gap-3">
-                    <div className="mt-1 w-1.5 h-1.5 rounded-full bg-secondary shrink-0" />
-                    <div>
-                      <p className="text-[10px] font-black text-muted-foreground uppercase tracking-tighter">{rule.label}</p>
-           <p className="text-[9px] text-executive-secondary font-medium">{rule.desc}</p>
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </div>
-
-            <button className="w-full py-4 bg-primary text-white rounded-2xl text-[10px] font-black uppercase tracking-widest hover:bg-primary/90 transition-all shadow-lg shadow-primary/20 flex items-center justify-center gap-2">
-              <Activity size={14} className="text-secondary" />
-              Simular Resgate Antecipado
-            </button>
-          </div>
-        </div>
-      </div>
-
-      {/* Asset Table */}
-      <div className="space-y-4">
-        <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
-          <h2 className="text-xs font-black text-muted-foreground uppercase tracking-[0.2em] font-sans">Detalhamento da Carteira</h2>
-          <div className="flex items-center gap-3">
-             <div className="relative group">
-                <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground group-focus-within:text-secondary transition-colors" size={14} />
+        {/* --- CAMADA 3: CAMADA TÉCNICA E TABELA DE ATIVOS --- */}
+        <ExecutiveTechnicalLayer
+          title="Camada Técnica de Ativos"
+          subtitle="Registro Analítico de Ativos e Alocação de Liquidez"
+          description="Detalhamento por classe de ativo, valor de aplicação, cotação atual e variação percentual."
+          className="mb-8"
+        >
+          <ExecutiveSurface padding="xl" radius="xl" className="bg-card border border-border shadow-sm space-y-6">
+            <div className="flex flex-col sm:flex-row justify-between items-center gap-4">
+              <div className="relative w-full sm:w-80">
+                <Search size={16} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-muted-foreground" />
                 <input 
                   type="text" 
-                  placeholder="Buscar ativos..."
+                  placeholder="Buscar ativo ou classe..."
                   value={searchTerm}
                   onChange={(e) => setSearchTerm(e.target.value)}
-                  className="pl-10 pr-4 py-2 bg-white border border-border rounded-xl text-xs font-bold outline-none focus:border-secondary/30 transition-all w-64"
+                  className="w-full pl-10 pr-4 py-2.5 bg-surface-container border border-border rounded-xl text-xs font-semibold outline-none text-foreground placeholder:text-muted-foreground"
                 />
-             </div>
-             <button className="p-2 bg-white border border-border rounded-xl text-muted-foreground hover:text-secondary hover:border-secondary/20 transition-all">
-                <Filter size={16} />
-             </button>
-          </div>
-        </div>
+              </div>
+              <span className="text-xs text-muted-foreground font-bold">{filteredAssets.length} Ativos Registrados</span>
+            </div>
 
-        <div className="bg-white rounded-[32px] border border-border shadow-sm overflow-hidden">
-          <div className="overflow-x-auto">
-            <table className="w-full text-left border-collapse">
-              <thead>
-                <tr className="bg-slate-50/50">
-                  <th className="px-5 md:px-8 py-3 md:py-5 text-[10px] font-black text-muted-foreground uppercase tracking-widest">Ativo</th>
-                  <th className="px-6 py-5 text-[10px] font-black text-muted-foreground uppercase tracking-widest text-center">Classe / Rend.</th>
-                  <th className="px-6 py-5 text-[10px] font-black text-muted-foreground uppercase tracking-widest text-right">Valor Atual</th>
-                  <th className="px-6 py-5 text-[10px] font-black text-muted-foreground uppercase tracking-widest text-right">Rent. (Mês)</th>
-                  <th className="px-6 py-5 text-[10px] font-black text-muted-foreground uppercase tracking-widest text-right">Lucro/Prejuízo</th>
-                  <th className="px-6 py-5 text-[10px] font-black text-muted-foreground uppercase tracking-widest text-center">Status</th>
-                  <th className="px-5 md:px-8 py-3 md:py-5 text-[10px] font-black text-muted-foreground uppercase tracking-widest text-right">Ações</th>
-                </tr>
-              </thead>
-              <tbody className="divide-y divide-slate-50">
-                {filteredAssets.map((asset) => (
-                  <tr key={asset.id} className="hover:bg-slate-50/30 transition-colors group">
-                    <td className="px-5 md:px-8 py-3 md:py-5">
-                      <div className="flex flex-col">
-                        <span className="text-xs text-primary group-hover:text-secondary transition-colors">{asset.name}</span>
-                        <span className="text-[10px] text-muted-foreground font-medium mt-0.5">
-                          {asset.applicationDate ? `Aplicado em ${new Date(asset.applicationDate + 'T12:00:00').toLocaleDateString('pt-BR')}` : 'Custódia Principal'}
-                        </span>
-                      </div>
-                    </td>
-                    <td className="px-6 py-5 text-center">
-                       <div className="flex flex-col items-center gap-1">
-                        <span className="px-3 py-1 bg-slate-100 rounded-full text-[9px] text-muted-foreground uppercase tracking-tighter">
-                          {asset.category}
-                        </span>
-                        {asset.yieldType && (
-                          <span className="text-[9px] text-secondary uppercase tracking-widest">{asset.yieldType}</span>
-                        )}
-                       </div>
-                     </td>
-                    <td className="px-6 py-5 text-right">
-                      <span className="text-xs text-primary">{formatCurrency(asset.value)}</span>
-                    </td>
-                    <td className="px-6 py-5 text-right">
-                      <div className="flex items-center justify-end gap-1.5">
-                        {asset.change >= 0 ? <ArrowUpRight size={12} className="text-emerald-500" /> : <ArrowDownRight size={12} className="text-rose-500" />}
-                        <span className={cn("text-xs", asset.change >= 0 ? "text-emerald-500" : "text-rose-500")}>
-                          {Math.abs(asset.change)}%
-                        </span>
-                      </div>
-                    </td>
-                    <td className="px-6 py-5 text-right">
-                       <span className={cn("text-xs", asset.profit >= 0 ? "text-emerald-500" : "text-rose-500")}>
-                        {asset.profit >= 0 ? '+' : ''}{formatCurrency(asset.profit)}
-                       </span>
-                    </td>
-                    <td className="px-6 py-5">
-                      <div className="flex items-center justify-center gap-2">
-                        <Semaphore status={asset.status} />
-                        <span className="text-[10px] text-muted-foreground">{asset.status}</span>
-                      </div>
-                    </td>
-                    <td className="px-5 md:px-8 py-3 md:py-5 text-right">
-                       <button 
-                         onClick={() => {
-                           setEditingAsset(asset);
-                           setIsModalOpen(true);
-                         }}
-                         className="p-2 text-muted-foreground hover:text-secondary transition-all"
-                       >
-                         <ChevronRight size={18} />
-                       </button>
-                    </td>
+            <div className="overflow-x-auto border border-border rounded-xl">
+              <table className="w-full text-left text-xs border-collapse">
+                <thead>
+                  <tr className="bg-surface-container/30 border-b border-border text-muted-foreground font-bold uppercase tracking-wider">
+                    <th className="p-4">Ativo</th>
+                    <th className="p-4">Categoria</th>
+                    <th className="p-4 text-right">Valor Inicial</th>
+                    <th className="p-4 text-right">Valor Atual</th>
+                    <th className="p-4 text-right">Lucro/Prejuízo</th>
+                    <th className="p-4 text-right">Variação (Mês)</th>
                   </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
-        </div>
+                </thead>
+                <tbody className="divide-y divide-border">
+                  {filteredAssets.map((asset) => (
+                    <tr key={asset.id} className="hover:bg-surface-container/30 transition-colors">
+                      <td className="p-4 font-bold text-foreground">{asset.name}</td>
+                      <td className="p-4">
+                        <ExecutiveBadge variant="neutral">{asset.category}</ExecutiveBadge>
+                      </td>
+                      <td className="p-4 text-right font-mono text-muted-foreground">{formatCurrency(asset.initialValue || 0)}</td>
+                      <td className="p-4 text-right font-mono font-bold text-foreground">{formatCurrency(asset.value || 0)}</td>
+                      <td className={cn("p-4 text-right font-mono font-bold", (asset.profit || 0) >= 0 ? "text-success" : "text-critical")}>
+                        {formatCurrency(asset.profit || 0)}
+                      </td>
+                      <td className="p-4 text-right font-mono font-bold text-foreground">
+                        {asset.change ? `${asset.change.toFixed(2)}%` : '---'}
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          </ExecutiveSurface>
+        </ExecutiveTechnicalLayer>
+
+        {isModalOpen && (
+          <AssetModal 
+            clientId={clientId}
+            asset={editingAsset}
+            onClose={() => setIsModalOpen(false)}
+          />
+        )}
+
       </div>
-      
-      {isModalOpen && (
-        <AssetModal 
-          clientId={clientId}
-          asset={editingAsset}
-          onClose={() => setIsModalOpen(false)}
-        />
-      )}
-    </div>
+    </ExecutivePageTemplate>
   );
 }

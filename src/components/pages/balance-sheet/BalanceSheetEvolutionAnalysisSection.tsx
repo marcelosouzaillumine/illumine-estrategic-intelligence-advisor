@@ -7,8 +7,8 @@ import { ExecutiveAnalyticalHighlightItem } from '../../ui/executive-analytical-
 import { BalanceSheetEvolutionViewModel } from './view-models';
 import { ExecutiveEmptyState } from '../../ui/executive-empty-state';
 import { TrendingDown } from 'lucide-react';
-
 import { HistoricalInsightEngine } from '../../../services/FiduciaryRuntimeAdapter';
+
 import type { HistoricalSeries } from '../../../services/FiduciaryRuntimeAdapter';
 
 export function BalanceSheetEvolutionAnalysisSection({

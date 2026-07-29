@@ -1,9 +1,9 @@
-// src/components/institutional-reporting/ExplainabilityAppendixDrawer.tsx
-
 import React from 'react';
 import { Microscope, Activity } from 'lucide-react';
 import { useLanguage } from '../../contexts/LanguageContext';
 import { ExplainabilityAppendix } from '../../services/FiduciaryRuntimeAdapter';
+// src/components/institutional-reporting/ExplainabilityAppendixDrawer.tsx
+
 
 export function ExplainabilityAppendixDrawer({ data }: { data: ExplainabilityAppendix }) {
   const { translateLabel: t } = useLanguage();

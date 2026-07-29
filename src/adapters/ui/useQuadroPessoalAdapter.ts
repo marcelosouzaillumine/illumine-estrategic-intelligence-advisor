@@ -1,24 +1,8 @@
-import { useState, useEffect } from 'react';
-import { FirestoreClientsAdapter } from '../persistence/FirestoreClientsAdapter';
-
+import { useState } from 'react';
 
 export function useQuadroPessoalAdapter(clientId: string) {
-  const [loading, setLoading] = useState(true);
-  const [clientData, setClientData] = useState<any>(null);
+  const [loading, setLoading] = useState(false);
+  const [employees, setEmployees] = useState<any[]>([]);
 
-  useEffect(() => {
-    if (!clientId) return;
-    setLoading(true);
-    
-    const unsub = FirestoreClientsAdapter.subscribeToClientById(clientId, (data) => {
-      if (data) {
-        setClientData(data);
-      }
-      setLoading(false);
-    });
-
-    return () => unsub();
-  }, [clientId]);
-
-  return { loading, clientData };
+  return { employees, loading };
 }

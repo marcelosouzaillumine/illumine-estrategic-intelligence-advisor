@@ -1,0 +1,17 @@
+{
+  "name": "@illumine/organizational-intelligence-graph",
+  "version": "1.0.0",
+  "description": "Illumine OS Organizational Intelligence Graph (Wave 14 Phase 2 - Canonical Level B)",
+  "main": "src/index.ts",
+  "types": "src/index.ts",
+  "scripts": {
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@illumine/core-primitives": "^1.0.0",
+    "@illumine/semantic-model": "^1.0.0",
+    "@illumine/executive-contracts": "^1.0.0",
+    "@illumine/intelligence-kernel": "^1.0.0",
+    "@illumine/enterprise-knowledge-fabric": "^1.0.0"
+  }
+}

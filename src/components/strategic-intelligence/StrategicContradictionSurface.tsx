@@ -1,8 +1,8 @@
-// src/components/strategic-intelligence/StrategicContradictionSurface.tsx
-
 import React from 'react';
 import { AlertOctagon, Activity } from 'lucide-react';
 import { StrategicContradiction } from '../../services/FiduciaryRuntimeAdapter';
+// src/components/strategic-intelligence/StrategicContradictionSurface.tsx
+
 
 interface StrategicContradictionSurfaceProps {
   contradictions: StrategicContradiction[];

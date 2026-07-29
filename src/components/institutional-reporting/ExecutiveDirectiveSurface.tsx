@@ -1,9 +1,9 @@
-// src/components/institutional-reporting/ExecutiveDirectiveSurface.tsx
-
 import React from 'react';
 import { Megaphone, BookOpen } from 'lucide-react';
 import { useLanguage } from '../../contexts/LanguageContext';
 import { ExecutiveDirectiveSection } from '../../services/FiduciaryRuntimeAdapter';
+// src/components/institutional-reporting/ExecutiveDirectiveSurface.tsx
+
 
 export function ExecutiveDirectiveSurface({ data }: { data: ExecutiveDirectiveSection }) {
   const { translateLabel: t } = useLanguage();

@@ -1,0 +1,26 @@
+{
+  "version": "5.1.0",
+  "name": "Architecture Baseline v5.1 — Conclusão da Fase 1",
+  "createdAt": "2026-07-29T10:10:00.000Z",
+  "approvedBy": "Arquiteto-Chefe",
+  "phase1": {
+    "plannedPages": 7,
+    "completedPages": 7,
+    "completionPercentage": 100.0,
+    "status": "COMPLETED"
+  },
+  "metrics": {
+    "viewModelsTotal": 214,
+    "viewModelsCompliant": 214,
+    "boundaryViolationsCurrent": 134,
+    "boundaryViolationsThreshold": 297,
+    "commonComponentImports": 62,
+    "canonicalPagePercentage": 50.0,
+    "camiHealthScore": 93.1
+  },
+  "certification": {
+    "status": "Concluído",
+    "level": "Bronze",
+    "auditTimestamp": "2026-07-29T10:10:00.000Z"
+  }
+}

@@ -1,0 +1,17 @@
+{
+  "totalFilesScanned": 648,
+  "totalComponentsAnalyzed": 689,
+  "eligibleComponents": 396,
+  "certifiedBoundaries": 19,
+  "reviewedCandidates": 0,
+  "alreadyMigrated": 0,
+  "mixedBoundaries": 34,
+  "containerReviewRequired": 175,
+  "heuristicCandidates": 168,
+  "notApplicable": 293,
+  "excludedInfrastructure": 62,
+  "duplicateComponentClassifications": 0,
+  "previousTotal": 190,
+  "previousVsNew": "190 -> 689 (499 delta)",
+  "sumVerification": "PASS"
+}

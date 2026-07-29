@@ -1,8 +1,8 @@
-// src/components/executive-command/CommandExplainabilityDrawer.tsx
-
 import React from 'react';
 import { Fingerprint, GitMerge, FileCode2 } from 'lucide-react';
 import { ExecutiveCommandExplainability } from '../../services/FiduciaryRuntimeAdapter';
+// src/components/executive-command/CommandExplainabilityDrawer.tsx
+
 
 interface CommandExplainabilityDrawerProps {
   explainability: ExecutiveCommandExplainability;

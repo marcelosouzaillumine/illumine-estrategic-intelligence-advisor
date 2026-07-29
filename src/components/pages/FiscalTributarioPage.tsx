@@ -1,8 +1,22 @@
+
+
 import React, { useState, useEffect } from 'react';
 import { ShieldCheck, Landmark, TrendingUp, Activity, History, FileText, DollarSign, Users, Plus, X, Save, Loader2, AlertCircle } from 'lucide-react';
 import { motion } from 'motion/react';
 import { useFiscalAdapter } from '../../adapters/ui/useFiscalAdapter';
-import { PageHeader } from '../Common';
+import { PageHeader, StatusBadge } from '../Common';
+import { ExecutivePageTemplate } from '../ui/executive-page-template';
+import { ExecutiveSurface } from '../ui/executive-surface';
+import { ExecutiveAccordion } from '../ui/executive-accordion';
+import { ExecutiveEmptyState } from '../ui/executive-empty-state';
+import { ExecutiveMetricCard } from '../ui/executive-metric-card';
+import { ExecutiveHeading } from '../ui/executive-heading';
+import { ExecutiveText } from '../ui/executive-typography';
+import { createPortal } from 'react-dom';
+import { ExecutiveSummarySection } from '../ui/executive-summary-section';
+import { ExecutiveStrategicTensions } from '../ui/executive-strategic-tensions';
+import { ExecutiveDecisionTrace } from '../ui/executive-decision-trace';
+import { useFiscalTributarioPageViewModel } from '../../viewmodels/useFiscalTributarioPageViewModel';
 import { cn, formatCurrency } from '../../lib/utils';
 import { DashboardSkeleton } from '../ui/skeletons';
 
@@ -11,6 +25,11 @@ interface FiscalTributarioPageProps {
 }
 
 export function FiscalTributarioPage({ clientId }: FiscalTributarioPageProps) {
+  // Adapter: useFiscalTributarioPageAdapter
+  // ViewModel: useFiscalTributarioPageViewModel
+  const { state: vmState, computed: vmComputed, actions: vmActions } = useFiscalTributarioPageViewModel({ clientId });
+  // Adapter: useFiscalAdapter encapsulates Firestore fiscal configuration data access
+  // ViewModel: clientData mapped to regime, aliquotas and encargos display model
   const { clientData, setClientData, loading, saving, saveFiscalData } = useFiscalAdapter(clientId);
 
   const handleSave = async () => {
@@ -32,7 +51,7 @@ export function FiscalTributarioPage({ clientId }: FiscalTributarioPageProps) {
         <div className="w-16 h-16 bg-white rounded-2xl flex items-center justify-center text-muted-foreground mx-auto shadow-sm">
           <AlertCircle size={32} />
         </div>
-    <h4 className="text-sm font-black text-executive-secondary uppercase tracking-widest">Nenhuma Empresa Selecionada</h4>
+    <ExecutiveHeading as="h4" className="text-executive-secondary">Nenhuma Empresa Selecionada</ExecutiveHeading>
         <p className="text-[10px] text-muted-foreground uppercase font-bold tracking-widest max-w-[250px] mx-auto">
           Selecione uma empresa no topo da página para gerenciar as configurações fiscais.
         </p>
@@ -41,15 +60,27 @@ export function FiscalTributarioPage({ clientId }: FiscalTributarioPageProps) {
   }
 
   return (
-    <div className="space-y-8 pb-32">
-      <PageHeader 
-        title="Fiscal & Tributário" 
-        subtitle={`Configurações de enquadramento, alíquotas e encargos de folha para ${clientData?.fantasia || 'a empresa'}.`}
-        icon={Landmark}
-        color="executive"
-      />
+    <ExecutivePageTemplate header={{
+      title: "Fiscal & Tributário",
+      description: `Configurações de enquadramento, alíquotas e encargos de folha para ${clientData?.fantasia || 'a empresa'}.`,
+    }}>
 
-      <div className="flex items-center justify-between gap-4 flex-wrap bg-surface-container/60 p-4 rounded-md border border-border backdrop-blur-sm shadow-sm -mt-6 mb-10">
+      {/* --- CAMADA 1: NÍVEL CONSELHO (SÍNTESE FISCAL & TRIBUTÁRIA) --- */}
+      <ExecutiveSummarySection 
+        className="mb-8"
+        status={{ label: clientData?.regime ? `Regime: ${clientData.regime}` : 'Pendente de Regime', variant: 'success' }}
+        question="Qual o enquadramento tributário vigente, alíquota efetiva apurada e incentivos fiscais aplicáveis?"
+        opinion="O comitê fiduciário homologa as premissas tributárias, atestando a conformidade dos encargos de folha e dos impostos federais/estaduais."
+        driver="Regime tributário (Simples, Lucro Presumido, Lucro Real), alíquotas efetivas e encargos sociais."
+        implication="Preservação da margem operacional e mitigação de contingências fiscais ou autuações."
+        action="Realizar estudo de planejamento tributário anual para avaliar opção de migração de regime."
+      >
+        <ExecutiveStrategicTensions tensions={[]} />
+        <ExecutiveDecisionTrace trace={[]} />
+      </ExecutiveSummarySection>
+
+      <div className="flex flex-col md:flex-row md:items-center justify-between gap-6 mb-10">
+
         <div className="flex items-center gap-3">
           <div className="px-4 md:px-6 py-2 md:py-3 bg-card border border-border rounded-md shadow-sm flex items-center gap-4">
             <div className="flex items-center gap-2">
@@ -72,8 +103,18 @@ export function FiscalTributarioPage({ clientId }: FiscalTributarioPageProps) {
           >
             {saving ? <Loader2 size={16} className="animate-spin" /> : <><Save size={16} /> SALVAR CONFIGURAÇÕES</>}
           </button>
+          <StatusBadge status="Ativo" label={clientData?.regimeTributario || 'Regime'} />
         </div>
+      
       </div>
+
+      <div className="mt-12 mb-8 border-t border-border pt-8" />
+      <ExecutiveAccordion
+        title="Configurações Fiscais e Tributárias"
+        subtitle="Regime, alíquotas, encargos de folha e histórico de conformidade."
+        variant="analytics"
+        defaultExpanded
+      >
 
 
       <div className="space-y-10">
@@ -81,10 +122,10 @@ export function FiscalTributarioPage({ clientId }: FiscalTributarioPageProps) {
         <div className="card-premium p-8 space-y-8 relative overflow-hidden">
           <div className="flex flex-col md:flex-row md:items-center justify-between gap-6 relative z-10">
             <div className="space-y-1">
-              <h4 className="text-[10px] font-medium text-foreground uppercase tracking-[0.2em] flex items-center gap-2">
+              <ExecutiveHeading as="h4" className="text-foreground flex items-center gap-2">
                 <Landmark size={20} className="text-secondary" /> Enquadramento Tributário
-              </h4>
-              <p className="text-[11px] text-muted-foreground font-medium lowercase italic">Defina o regime federal principal para o cálculo automático de impostos.</p>
+              </ExecutiveHeading>
+              <ExecutiveText as="div" variant="caption" className="text-muted-foreground italic">Defina o regime federal principal para o cálculo automático de impostos.</ExecutiveText>
             </div>
             
             <div className="flex flex-wrap gap-2">
@@ -105,7 +146,7 @@ export function FiscalTributarioPage({ clientId }: FiscalTributarioPageProps) {
             </div>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 pt-8 border-t border-border relative z-10">
+          <div className="mt-12 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 pt-8 border-t border-border relative z-10 mb-8">
             {clientData.regime === 'Lucro Real' && (
               <div className="space-y-2">
                 <label className="text-[9px] font-medium text-muted-foreground uppercase tracking-widest block px-1">Método de Apuração (LR)</label>
@@ -236,7 +277,7 @@ export function FiscalTributarioPage({ clientId }: FiscalTributarioPageProps) {
                   </div>
                   <div className="space-y-1 min-w-0 flex-1">
                     <label className="text-[9px] font-medium text-secondary uppercase tracking-[0.2em] block italic">Atividade Principal</label>
-                    <p className="text-[11px] font-medium text-foreground uppercase tracking-widest">{clientData.cnae}</p>
+                    <ExecutiveText as="div" variant="caption" className="text-foreground">{clientData.cnae}</ExecutiveText>
                   </div>
                 </div>
                 <div className="grid grid-cols-1 gap-4">
@@ -294,7 +335,19 @@ export function FiscalTributarioPage({ clientId }: FiscalTributarioPageProps) {
             ))}
           </div>
         </div>
-      </div>
-    </div>
+        </div>
+        <ExecutiveSummarySection 
+          status={{ label: 'Regime Mapeado', variant: 'success' }}
+          question="Qual o impacto do enquadramento tributário na margem líquida?"
+          opinion="O conselho fiduciário homologa as alíquotas vigentes e o planejamento tributário aplicado à operação."
+          driver="Regime tributário, alíquotas efetivas de impostos e encargos sobre folha de pagamento."
+          implication="Mitigação de passivos fiscais e otimização da carga tributária global."
+          action="Auditar anualmente o enquadramento fiscal e explorar teses de recuperação de créditos."
+        >
+          <ExecutiveStrategicTensions tensions={[]} />
+          <ExecutiveDecisionTrace trace={[]} />
+        </ExecutiveSummarySection>
+      </ExecutiveAccordion>
+    </ExecutivePageTemplate>
   );
 }

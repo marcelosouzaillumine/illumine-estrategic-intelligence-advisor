@@ -1,8 +1,8 @@
-// src/components/pilot-operations/CognitiveLoadIndicator.tsx
-
 import React from 'react';
 import { usePilotOperations } from '../../context/pilot-operations/PilotOperationsProvider';
 import { Brain, ShieldAlert, Check } from 'lucide-react';
+// src/components/pilot-operations/CognitiveLoadIndicator.tsx
+
 
 export const CognitiveLoadIndicator: React.FC = () => {
   const { cognitiveLoadSignals, pilotStatus } = usePilotOperations();

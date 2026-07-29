@@ -1,0 +1,43 @@
+{
+  "version": "1.0.0",
+  "updatedAt": "2026-07-29T11:15:00.000Z",
+  "approvedBy": "Arquiteto-Chefe",
+  "entities": [
+    {
+      "entity": "financial_entries",
+      "source": "Firestore Collection ('dre_entries', 'financial_entries')",
+      "schema": "FinancialEntrySchema",
+      "owner": "FinancialDataFoundation",
+      "loader": "useAnnualFinancialData",
+      "normalizer": "normalizeFinancialRecord",
+      "version": "v1.0"
+    },
+    {
+      "entity": "balance_sheet_records",
+      "source": "Firestore Collection ('balance_sheet')",
+      "schema": "BalanceSheetSchema",
+      "owner": "FinancialDataFoundation",
+      "loader": "useAnnualFinancialData",
+      "normalizer": "normalizeBalanceSheetRecord",
+      "version": "v1.0"
+    },
+    {
+      "entity": "cash_flow_transactions",
+      "source": "Firestore Collection ('cash_flow')",
+      "schema": "CashFlowTransactionSchema",
+      "owner": "FinancialDataFoundation",
+      "loader": "useAnnualFinancialData",
+      "normalizer": "normalizeCashFlowRecord",
+      "version": "v1.0"
+    },
+    {
+      "entity": "plano_de_contas",
+      "source": "Firestore Collection ('plano_de_contas')",
+      "schema": "AccountPlanSchema",
+      "owner": "FinancialDataFoundation",
+      "loader": "usePlanoDeContasPageViewModel",
+      "normalizer": "normalizeAccountPlanRecord",
+      "version": "v1.0"
+    }
+  ]
+}

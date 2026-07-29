@@ -1,12 +1,27 @@
+
+
 import React, { useState, useEffect, useMemo } from 'react';
-import { Plus, Search, Target, Printer, CheckCircle2, ClipboardCheck, Clock, AlertCircle, Users, Calendar, ChevronRight, MoreHorizontal, Trash2, Edit3, Filter, CheckCircle, X, Save, Flag, LayoutGrid, List, MessageSquare, BarChart2, Zap, Bell, AlertTriangle, ArrowRight, TrendingUp, Activity, Filter as FilterIcon, ChevronDown } from 'lucide-react';
+import { Plus, Search, Target, Printer, CheckCircle2, ClipboardCheck, Clock, AlertCircle, Users, Calendar, ChevronRight, MoreHorizontal, Trash2, Edit3, Filter, CheckCircle, X, Save, Flag, LayoutGrid, List, MessageSquare, BarChart2, Zap, Bell, AlertTriangle, ArrowRight, TrendingUp, Activity, ChevronDown } from 'lucide-react';
 import { motion, AnimatePresence } from 'motion/react';
 import { PieChart, Pie, Cell, Legend, BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip as RechartsTooltip, ResponsiveContainer, LineChart, Line, AreaChart, Area } from 'recharts';
 import { collection, query, where, getDocs, addDoc, serverTimestamp, updateDoc, doc, deleteDoc, orderBy, onSnapshot } from 'firebase/firestore';
 import { db, auth } from '../../lib/firebase';
 import { PageHeader, StatusBadge } from '../Common';
+import { ExecutivePageTemplate } from '../ui/executive-page-template';
+import { ExecutiveSurface } from '../ui/executive-surface';
+import { ExecutiveAccordion } from '../ui/executive-accordion';
+import { ExecutiveEmptyState } from '../ui/executive-empty-state';
+import { ExecutiveMetricCard } from '../ui/executive-metric-card';
+import { ExecutiveHeading } from '../ui/executive-heading';
+import { ExecutiveText } from '../ui/executive-typography';
+import { createPortal } from 'react-dom';
+import { ExecutiveSummarySection } from '../ui/executive-summary-section';
+import { ExecutiveStrategicTensions } from '../ui/executive-strategic-tensions';
+import { ExecutiveDecisionTrace } from '../ui/executive-decision-trace';
+import { usePlanoAcaoPageViewModel } from '../../viewmodels/usePlanoAcaoPageViewModel';
 import { cn } from '../../lib/utils';
 import { useDataTable } from '../../hooks/useDataTable';
+import { usePlanoAcaoViewModel } from '../../viewmodels/usePlanoAcaoViewModel';
 
 interface ActionItem {
   id?: string;
@@ -28,13 +43,19 @@ interface ActionItem {
   updatedAt?: any;
 }
 
+
 export function PlanoAcaoPage({ clientId }: { clientId: string }) {
-  const [view, setView] = useState<'list' | 'board' | 'dashboard' | 'form'>('list');
+  // Adapter: usePlanoAcaoPageAdapter
+  // ViewModel: usePlanoAcaoPageViewModel
+  const { state: vmState, computed: vmComputed, actions: vmActions } = usePlanoAcaoPageViewModel({ clientId });
+  const portal = createPortal;
+  const [items, setItems] = useState<ActionItem[]>([]);
   const [loading, setLoading] = useState(true);
   const [actions, setActions] = useState<ActionItem[]>([]);
   const [editingId, setEditingId] = useState<string | null>(null);
   const [isFormOpen, setIsFormOpen] = useState(false);
   const [showAutomations, setShowAutomations] = useState(false);
+  const [view, setView] = useState<'list' | 'board' | 'dashboard'>('list');
   
   const [formData, setFormData] = useState<ActionItem>({
     clientId,
@@ -223,16 +244,28 @@ export function PlanoAcaoPage({ clientId }: { clientId: string }) {
   }, [actions]);
 
   return (
-    <div className="space-y-10 pb-20">
-      <PageHeader 
-        title="Roadmap de Execução" 
-        subtitle="Acompanhamento tático de metas e soluções consultivas."
-        icon={<Target className="text-secondary" size={24} />}
-        color="executive"
-      />
+    <ExecutivePageTemplate header={{
+      title: "Roadmap de Execução",
+      description: "Acompanhamento tático de metas e soluções consultivas.",
+    }}>
+      <div className="space-y-10 pb-20">
+        {/* --- CAMADA 1: NÍVEL CONSELHO (SÍNTESE DE PLANOS DE AÇÃO 5W2H) --- */}
+        <ExecutiveSummarySection 
+          className="mb-8"
+          status={{ label: actions.length > 0 ? `${stats.concluidos}/${stats.total} Concluídos` : 'Sem Planos Cadastrados', variant: stats.overdue === 0 ? 'success' : 'critical' }}
+          question="Qual a taxa de execução dos planos de ação 5W2H e os prazos em risco de atraso?"
+          opinion="O comitê fiduciário homologa a esteira de execução dos planos de ação, acompanhando a evolução dos gargalos operacionais."
+          driver="Status das tarefas, responsáveis, prazos limite, esforço em horas e prioridades."
+          implication="Garantia de que os apontamentos de auditoria e comitês sejam convertidos em entregas concretas."
+          action="Cobrar os responsáveis pelas tarefas em atraso e ajustar os prazos dos itens críticos."
+        >
+          <ExecutiveStrategicTensions tensions={[]} />
+          <ExecutiveDecisionTrace trace={[]} />
+        </ExecutiveSummarySection>
 
-      <div className="flex items-center justify-between gap-4 flex-wrap bg-surface-container/60 p-4 rounded-md border border-border backdrop-blur-sm shadow-sm -mt-6 mb-10">
-        <div className="flex items-center gap-3">
+       <div className="flex flex-col md:flex-row md:items-center justify-between gap-6 mb-10">
+
+         <div className="flex items-center gap-3">
           <div className="bg-surface-container p-1 rounded-sm flex gap-1 border border-border">
             <button 
               onClick={() => setView('list')}
@@ -277,9 +310,18 @@ export function PlanoAcaoPage({ clientId }: { clientId: string }) {
             className="btn-executive bg-primary shadow-xl shadow-primary/20"
           >
             <Plus size={16} /> NOVA TAREFA
-          </button>
-        </div>
+           </button>
+         </div>
+       
       </div>
+
+       <div className="mt-12 mb-8 border-t border-border pt-8" />
+       <ExecutiveAccordion
+         title="Roadmap de Execução"
+         subtitle="Acompanhamento tático de metas e soluções consultivas."
+         variant="analytics"
+         defaultExpanded
+       >
 
       {/* Monday-style Alerts & Automations Bar */}
       <AnimatePresence>
@@ -295,7 +337,7 @@ export function PlanoAcaoPage({ clientId }: { clientId: string }) {
               <div className="flex-1 space-y-4 relative z-10">
                 <div className="flex items-center gap-3 text-secondary">
                   <Zap size={20} className="fill-current" />
-                  <h3 className="text-[10px] font-medium uppercase tracking-[0.2em]">Automações Sugeridas</h3>
+                  <ExecutiveHeading as="h3">Automações Sugeridas</ExecutiveHeading>
                 </div>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   {[
@@ -305,7 +347,7 @@ export function PlanoAcaoPage({ clientId }: { clientId: string }) {
                     "Ao criar tarefa via Ata de Reunião, atribuir automaticamente ao consultor."
                   ].map((auto, idx) => (
                     <div key={idx} className="bg-card p-4 rounded-sm border border-border flex items-center justify-between group hover:border-secondary/30 transition-all cursor-pointer shadow-sm">
-                      <p className="text-[10px] font-medium text-muted-foreground uppercase tracking-widest italic">{auto}</p>
+                      <ExecutiveText as="div" variant="bodyStandard" className="text-muted-foreground italic">{auto}</ExecutiveText>
                       <div className="w-8 h-4 bg-surface-container rounded-full relative transition-all group-hover:bg-secondary/20">
                         <div className="absolute right-0.5 top-0.5 w-3 h-3 bg-card rounded-full shadow-sm" />
                       </div>
@@ -316,15 +358,15 @@ export function PlanoAcaoPage({ clientId }: { clientId: string }) {
               <div className="w-full md:w-80 space-y-4 relative z-10">
                 <div className="flex items-center gap-3 text-destructive">
                   <Bell size={20} />
-                  <h3 className="text-[10px] font-medium uppercase tracking-[0.2em]">Alertas do Sistema</h3>
+                  <ExecutiveHeading as="h3">Alertas do Sistema</ExecutiveHeading>
                 </div>
                 <div className="space-y-3">
                   {stats.overdue > 0 && (
                     <div className="bg-destructive/5 border border-destructive/10 p-4 rounded-sm flex items-center gap-4 shadow-sm">
                       <AlertTriangle size={18} className="text-destructive" />
                       <div>
-                        <p className="text-[10px] font-medium text-destructive uppercase tracking-widest">{stats.overdue} Tarefas Atrasadas</p>
-                        <p className="text-[9px] text-destructive/60 font-medium uppercase tracking-widest italic">Revisar prazos imediatamente.</p>
+                        <ExecutiveText as="div" variant="bodyStandard" className="text-destructive">{stats.overdue} Tarefas Atrasadas</ExecutiveText>
+                        <ExecutiveText as="div" variant="bodyStandard" className="text-destructive/60 italic">Revisar prazos imediatamente.</ExecutiveText>
                       </div>
                     </div>
                   )}
@@ -332,8 +374,8 @@ export function PlanoAcaoPage({ clientId }: { clientId: string }) {
                     <div className="bg-warning/5 border border-warning/10 p-4 rounded-sm flex items-center gap-4 shadow-sm">
                       <Activity size={18} className="text-warning" />
                       <div>
-                        <p className="text-[10px] font-medium text-warning uppercase tracking-widest">{stats.critical} Ações Críticas</p>
-                        <p className="text-[9px] text-warning/60 font-medium uppercase tracking-widest italic">Foco prioritário nesta semana.</p>
+                        <ExecutiveText as="div" variant="bodyStandard" className="text-warning">{stats.critical} Ações Críticas</ExecutiveText>
+                        <ExecutiveText as="div" variant="bodyStandard" className="text-warning/60 italic">Foco prioritário nesta semana.</ExecutiveText>
                       </div>
                     </div>
                   )}
@@ -357,7 +399,7 @@ export function PlanoAcaoPage({ clientId }: { clientId: string }) {
               <stat.icon size={20} className={stat.color} />
             </div>
             <div className="relative z-10">
-       <p className="text-[9px] font-medium text-executive-secondary uppercase tracking-[0.2em]">{stat.label}</p>
+       <ExecutiveText as="div" variant="bodyStandard" className="text-executive-secondary">{stat.label}</ExecutiveText>
               <p className={cn("text-2xl font-medium tracking-tighter tabular-nums", stat.color)}>{stat.value}</p>
             </div>
           </div>
@@ -381,7 +423,7 @@ export function PlanoAcaoPage({ clientId }: { clientId: string }) {
       {loading ? (
         <div className="py-32 flex flex-col items-center gap-4">
           <div className="w-10 h-10 border-4 border-secondary/20 border-t-secondary rounded-full animate-spin"></div>
-          <p className="text-[10px] font-black uppercase tracking-widest text-text-dim">Carregando Roadmap...</p>
+          <ExecutiveText as="div" variant="bodyStandard" className="text-text-dim">Carregando Roadmap...</ExecutiveText>
         </div>
       ) : actions.length === 0 ? (
         <div className="card-premium py-24 text-center space-y-6">
@@ -389,8 +431,8 @@ export function PlanoAcaoPage({ clientId }: { clientId: string }) {
             <Target size={32} strokeWidth={1} />
           </div>
           <div className="space-y-2">
-            <h3 className="text-xl font-medium text-foreground uppercase tracking-widest">Plano de Voo Vazio</h3>
-            <p className="text-[10px] text-muted-foreground font-medium uppercase tracking-[0.2em] max-w-2xl mx-auto leading-relaxed italic">Nenhuma ação estratégica definida. Crie tarefas ou registre uma ata de reunião para iniciar.</p>
+            <ExecutiveHeading as="h3" className="text-foreground">Plano de Voo Vazio</ExecutiveHeading>
+            <ExecutiveText as="div" variant="bodyStandard" className="text-muted-foreground max-w-2xl mx-auto italic">Nenhuma ação estratégica definida. Crie tarefas ou registre uma ata de reunião para iniciar.</ExecutiveText>
           </div>
           <button onClick={openAdd} className="btn-executive mx-auto mt-4 shadow-sm">
             <Plus size={16} />
@@ -416,12 +458,12 @@ export function PlanoAcaoPage({ clientId }: { clientId: string }) {
                       phase === 'Otimização' ? "bg-warning" : "bg-success"
                     )} />
                     <div>
-                      <h3 className="text-[10px] font-medium text-foreground uppercase tracking-[0.2em] flex items-center gap-3">
+                      <ExecutiveHeading as="h3" className="text-foreground flex items-center gap-3">
                         {phase}
                         <span className="text-[9px] text-muted-foreground font-medium bg-surface-container px-2 py-0.5 rounded-sm border border-border shadow-inner">
                           {items.length}
                         </span>
-                      </h3>
+                      </ExecutiveHeading>
                       <div className="flex items-center gap-3 mt-1">
                         <div className="w-32 h-1.5 bg-surface-container rounded-sm overflow-hidden border border-border shadow-inner">
                           <motion.div 
@@ -440,8 +482,8 @@ export function PlanoAcaoPage({ clientId }: { clientId: string }) {
                   </div>
                   <div className="flex items-center gap-6">
                      <div className="text-right">
-            <p className="text-[9px] font-medium text-executive-secondary uppercase tracking-widest italic">Esforço Total</p>
-                        <p className="text-[11px] font-medium text-foreground uppercase tracking-tighter tabular-nums">{items.reduce((acc, i) => acc + (i.effort || 0), 0)}h</p>
+            <ExecutiveText as="div" variant="bodyStandard" className="text-executive-secondary italic">Esforço Total</ExecutiveText>
+                        <ExecutiveText as="div" variant="caption" className="text-foreground tabular-nums">{items.reduce((acc, i) => acc + (i.effort || 0), 0)}h</ExecutiveText>
                      </div>
                   </div>
                 </div>
@@ -516,7 +558,7 @@ export function PlanoAcaoPage({ clientId }: { clientId: string }) {
                                  <p className={cn("text-[10px] font-medium uppercase tracking-widest tabular-nums", isOverdue ? "text-destructive" : "text-foreground")}>
                                    {new Date(action.deadline).toLocaleDateString('pt-BR', { day: '2-digit', month: 'short' })}
                                  </p>
-                 <p className="text-[8px] font-medium text-executive-secondary uppercase tracking-tighter italic tabular-nums">{action.effort || 0}h esforço</p>
+                 <ExecutiveText as="div" variant="bodyStandard" className="text-executive-secondary italic tabular-nums">{action.effort || 0}h esforço</ExecutiveText>
                               </div>
                             </td>
                             <td className="px-6 py-5 text-center">
@@ -572,7 +614,7 @@ export function PlanoAcaoPage({ clientId }: { clientId: string }) {
                     status === 'Em curso' ? "bg-secondary" :
                     status === 'Impedido' ? "bg-destructive" : "bg-muted-foreground/40"
                   )} />
-                  <h4 className="text-[10px] font-medium text-foreground uppercase tracking-[0.2em]">{status}</h4>
+                  <ExecutiveHeading as="h4" className="text-foreground">{status}</ExecutiveHeading>
                 </div>
                 <span className="text-[9px] font-medium text-muted-foreground bg-surface-container px-2 py-0.5 rounded-sm border border-border shadow-inner">
                   {actions.filter(a => a.status === status).length}
@@ -613,10 +655,10 @@ export function PlanoAcaoPage({ clientId }: { clientId: string }) {
                       
                       <div className="space-y-1">
                         <h5 className="text-[11px] font-medium text-foreground uppercase tracking-widest leading-tight group-hover:text-secondary transition-colors">{action.title}</h5>
-                        <p className="text-[10px] text-muted-foreground font-medium line-clamp-2 leading-relaxed italic">{action.desc}</p>
+                        <ExecutiveText as="div" variant="bodyStandard" className="text-muted-foreground line-clamp-2 italic">{action.desc}</ExecutiveText>
                       </div>
 
-                      <div className="pt-4 border-t border-border/50 flex items-center justify-between">
+                      <div className="mt-12 pt-4 border-t border-border/50 flex items-center justify-between pt-8 mb-8">
                          <div className="flex items-center gap-2">
                             <div className="w-5 h-5 rounded-sm bg-surface-container border border-border flex items-center justify-center text-[8px] font-medium text-muted-foreground uppercase shadow-inner">
                               {action.responsible[0]}
@@ -633,7 +675,7 @@ export function PlanoAcaoPage({ clientId }: { clientId: string }) {
                 })}
                 {actions.filter(a => a.status === status).length === 0 && (
                   <div className="py-10 text-center">
-          <p className="text-[9px] font-medium text-executive-secondary/40 uppercase tracking-widest italic">Nenhuma tarefa</p>
+          <ExecutiveText as="div" variant="bodyStandard" className="text-executive-secondary/40 italic">Nenhuma tarefa</ExecutiveText>
                   </div>
                 )}
                 <button 
@@ -653,8 +695,8 @@ export function PlanoAcaoPage({ clientId }: { clientId: string }) {
             <div className="card-premium p-8 space-y-6 relative overflow-hidden">
               <div className="flex items-center justify-between relative z-10">
                 <div>
-                  <h3 className="text-[10px] font-medium uppercase tracking-[0.2em] text-foreground">Distribuição por Status</h3>
-         <p className="text-[9px] text-executive-secondary font-medium uppercase tracking-widest mt-1 italic">Visão geral do progresso operacional</p>
+                  <ExecutiveHeading as="h3" className="text-foreground">Distribuição por Status</ExecutiveHeading>
+         <ExecutiveText as="div" variant="bodyStandard" className="text-executive-secondary mt-1 italic">Visão geral do progresso operacional</ExecutiveText>
                 </div>
                 <Activity size={20} className="text-secondary" />
               </div>
@@ -687,8 +729,8 @@ export function PlanoAcaoPage({ clientId }: { clientId: string }) {
             <div className="card-premium p-8 space-y-6 relative overflow-hidden">
               <div className="flex items-center justify-between relative z-10">
                 <div>
-                  <h3 className="text-[10px] font-medium uppercase tracking-[0.2em] text-foreground">Prioridades Estratégicas</h3>
-         <p className="text-[9px] text-executive-secondary font-medium uppercase tracking-widest mt-1 italic">Concentração de urgência e impacto</p>
+                  <ExecutiveHeading as="h3" className="text-foreground">Prioridades Estratégicas</ExecutiveHeading>
+         <ExecutiveText as="div" variant="bodyStandard" className="text-executive-secondary mt-1 italic">Concentração de urgência e impacto</ExecutiveText>
                 </div>
                 <Flag size={20} className="text-destructive" />
               </div>
@@ -716,8 +758,8 @@ export function PlanoAcaoPage({ clientId }: { clientId: string }) {
           <div className="card-premium p-8 space-y-6 relative overflow-hidden">
             <div className="flex items-center justify-between relative z-10">
               <div>
-                <h3 className="text-[10px] font-medium uppercase tracking-[0.2em] text-foreground">Linha do Tempo de Produtividade</h3>
-        <p className="text-[9px] text-executive-secondary font-medium uppercase tracking-widest mt-1 italic">Acompanhamento de entregas nos últimos meses</p>
+                <ExecutiveHeading as="h3" className="text-foreground">Linha do Tempo de Produtividade</ExecutiveHeading>
+        <ExecutiveText as="div" variant="bodyStandard" className="text-executive-secondary mt-1 italic">Acompanhamento de entregas nos últimos meses</ExecutiveText>
               </div>
               <TrendingUp size={20} className="text-success" />
             </div>
@@ -770,10 +812,10 @@ export function PlanoAcaoPage({ clientId }: { clientId: string }) {
             >
               <div className="px-10 py-8 bg-surface-container border-b border-border flex items-center justify-between shrink-0">
                 <div>
-                  <h3 className="text-[14px] font-medium text-foreground uppercase tracking-[0.2em]">
+                  <ExecutiveHeading as="h3" className="text-foreground">
                     {editingId ? 'Editar Prioridade' : 'Nova Ação Tática'}
-                  </h3>
-                  <p className="text-[10px] text-muted-foreground font-medium uppercase tracking-[0.2em] mt-1 italic">Definição de objetivos e responsáveis</p>
+                  </ExecutiveHeading>
+                  <ExecutiveText as="div" variant="bodyStandard" className="text-muted-foreground mt-1 italic">Definição de objetivos e responsáveis</ExecutiveText>
                 </div>
                 <button onClick={() => setIsFormOpen(false)} className="p-2 text-muted-foreground/60 hover:text-destructive rounded-sm transition-all">
                   <X size={20} />
@@ -876,18 +918,31 @@ export function PlanoAcaoPage({ clientId }: { clientId: string }) {
                   </div>
                 </div>
 
-                <div className="pt-6 border-t border-border/50 flex justify-end gap-4 shrink-0">
+                <div className="mt-12 pt-6 border-t border-border/50 flex justify-end gap-4 shrink-0 pt-8 mb-8">
                    <button onClick={() => setIsFormOpen(false)} className="px-5 md:px-8 py-2 md:py-3 text-[10px] font-medium uppercase tracking-widest text-muted-foreground hover:text-foreground transition-all">Cancelar</button>
                    <button onClick={handleSave} className="btn-executive bg-executive shadow-premium">
                      <Save size={18} />
                      Salvar Ação
                    </button>
                 </div>
-              </div>
-            </motion.div>
-          </div>
-        )}
-      </AnimatePresence>
-    </div>
-  );
-}
+               </div>
+             </motion.div>
+           </div>
+         )}
+       </AnimatePresence>
+        <ExecutiveSummarySection 
+          status={{ label: 'Plano em Execução', variant: 'success' }}
+          question="Qual o andamento e a eficácia da execução das ações estratégicas?"
+          opinion="O comitê fiduciário valida a evolução das tarefas táticas e o nível de engajamento dos responsáveis."
+          driver="Status das ações, prazos de entrega, esforço e responsáveis."
+          implication="Garantia do cumprimento do planejamento estratégico dentro do cronograma."
+          action="Realizar reuniões semanais de acompanhamento dos planos atrasados ou críticos."
+        >
+          <ExecutiveStrategicTensions tensions={[]} />
+          <ExecutiveDecisionTrace trace={[]} />
+        </ExecutiveSummarySection>
+       </ExecutiveAccordion>
+     </div>
+    </ExecutivePageTemplate>
+   );
+ }

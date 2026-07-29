@@ -1,9 +1,9 @@
-// src/components/pilot-operations/PilotOperationalHealthCard.tsx
-
 import React from 'react';
 import { usePilotOperations } from '../../context/pilot-operations/PilotOperationsProvider';
 import { ShieldCheck, AlertTriangle, Play, RotateCcw, Power } from 'lucide-react';
 import { PilotTenantStatus } from '../../services/FiduciaryRuntimeAdapter';
+// src/components/pilot-operations/PilotOperationalHealthCard.tsx
+
 
 export const PilotOperationalHealthCard: React.FC = () => {
   const { pilotStatus, operationalHealth, updatePilotStatus, resetPilot } = usePilotOperations();

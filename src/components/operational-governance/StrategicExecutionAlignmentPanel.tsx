@@ -1,8 +1,8 @@
-// src/components/operational-governance/StrategicExecutionAlignmentPanel.tsx
-
 import React from 'react';
 import { Compass, CheckCircle, XCircle } from 'lucide-react';
 import { StrategicExecutionAlignment, OperationalGovernanceThesis } from '../../services/FiduciaryRuntimeAdapter';
+// src/components/operational-governance/StrategicExecutionAlignmentPanel.tsx
+
 
 interface StrategicExecutionAlignmentPanelProps {
   alignment: StrategicExecutionAlignment;

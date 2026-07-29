@@ -1,9 +1,9 @@
-// src/components/pages/governance/ConfidenceDisclosurePanel.tsx
-
 import React from 'react';
 import { ShieldCheck, HelpCircle, AlertCircle, AlertTriangle } from 'lucide-react';
 import { EXECUTIVE_SEVERITY_THEME } from './ExecutiveSeverityTheme';
 import { useLanguage } from '../../../contexts/LanguageContext';
+// src/components/pages/governance/ConfidenceDisclosurePanel.tsx
+
 
 interface ConfidenceDisclosurePanelProps {
   confidence: 'HIGH' | 'MODERATE' | 'LOW' | 'BLOCKED' | undefined;
@@ -62,7 +62,7 @@ export function ConfidenceDisclosurePanel({ confidence, rationaleMap, confidence
     <div className={`p-6 rounded-[32px] border ${theme.border} ${theme.bg} ${theme.glow} space-y-4 shadow-xs`}>
       <div className="flex items-center justify-between border-b border-border dark:border-white/5 pb-3">
         <div className="flex items-center gap-3">
-          {icon}
+          {React.isValidElement(icon) ? icon : icon ? React.createElement(icon as any, { size: 18 }) : null}
           <h3 className={`text-xs font-black uppercase tracking-widest ${theme.text}`}>
             {t('snapshot.confidence_level') || 'Nível de Confiança da Análise'}
           </h3>

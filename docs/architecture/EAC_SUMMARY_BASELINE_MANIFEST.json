@@ -1,0 +1,112 @@
+{
+  "generatedAt": "2026-07-10T04:23:27.334Z",
+  "profileVersion": "v2.0",
+  "scannerVersion": "2.0.0",
+  "scannerHash": "08ea32aa92882c82268396d83af0ad7e0bd0dbebcc36623c5517e2f4bb303b4c",
+  "registryHash": "009e9e7c3ac5dfbf5d711bd14efe97cd9f8e3856137680b0ef7af373d319a5d1",
+  "profileHash": "62555f2159b14ef985791692e50707f3fab1ecad34d5a0f37b222f52fb0e24f5",
+  "stateAHash": "ee3713f2b6f9ddd6524309cac2050bd98b13a629c5bd635e6be3b14daa1c014d",
+  "stateBHash": "bafe23a5e72c1192cf8571c4129ef598e8bb768add175e6c34d7794f4aaccc91",
+  "stateCHash": "1dd541516a6b4298cd41058e2e7d3a2649b106246420a32ab603c41d6a88951a",
+  "environment": {
+    "nodeVersion": "v26.0.0",
+    "tscVersion": "Version 5.8.3",
+    "tsMorphVersion": "^28.0.0"
+  },
+  "states": [
+    {
+      "state": "A",
+      "description": "Original without decomposition and without wrapper",
+      "originType": "git-commit",
+      "commitSha": "4110a45766119e87051f60f17df5dbbbb6a10d05",
+      "filePath": "src/components/pages/DREPage.tsx",
+      "verifiedAsPreRefactor": true,
+      "verificationDiff": "Matches EXACT HEAD commit state before working tree mutations",
+      "sourceHash": "ee3713f2b6f9ddd6524309cac2050bd98b13a629c5bd635e6be3b14daa1c014d",
+      "score": 63,
+      "blocks": [
+        {
+          "component": "PageHeader",
+          "block": "Page Identity",
+          "method": "registry",
+          "confidence": "high",
+          "line": 40
+        },
+        {
+          "component": "DRETechnicalLayerSection",
+          "block": "Technical Layer",
+          "method": "regex",
+          "confidence": "medium",
+          "line": 136
+        }
+      ],
+      "penalties": [
+        "Missing Required Blocks: Executive Summary, KPIs, Narrative, Analytics"
+      ]
+    },
+    {
+      "state": "B",
+      "description": "Decomposed without wrapper",
+      "originType": "derived-script",
+      "commitSha": null,
+      "filePath": "docs/architecture/baselines/DREPage.state-b.decomposed.tsx",
+      "sourceHash": "bafe23a5e72c1192cf8571c4129ef598e8bb768add175e6c34d7794f4aaccc91",
+      "score": 63,
+      "blocks": [
+        {
+          "component": "PageHeader",
+          "block": "Page Identity",
+          "method": "registry",
+          "confidence": "high",
+          "line": 42
+        },
+        {
+          "component": "DRETechnicalLayerSection",
+          "block": "Technical Layer",
+          "method": "regex",
+          "confidence": "medium",
+          "line": 149
+        }
+      ],
+      "penalties": [
+        "Missing Required Blocks: Executive Summary, KPIs, Narrative, Analytics"
+      ]
+    },
+    {
+      "state": "C",
+      "description": "Decomposed with wrapper (Final)",
+      "originType": "working-tree",
+      "commitSha": null,
+      "filePath": "src/components/pages/DREPage.tsx",
+      "sourceHash": "1dd541516a6b4298cd41058e2e7d3a2649b106246420a32ab603c41d6a88951a",
+      "score": 75,
+      "blocks": [
+        {
+          "component": "PageHeader",
+          "block": "Page Identity",
+          "method": "registry",
+          "confidence": "high",
+          "line": 42
+        },
+        {
+          "component": "ExecutiveSummarySection",
+          "block": "Executive Summary",
+          "method": "registry",
+          "confidence": "high",
+          "line": 113
+        },
+        {
+          "component": "DRETechnicalLayerSection",
+          "block": "Technical Layer",
+          "method": "regex",
+          "confidence": "medium",
+          "line": 149
+        }
+      ],
+      "penalties": [
+        "Missing Required Blocks: KPIs, Narrative, Analytics"
+      ]
+    }
+  ],
+  "wrapperAddedValue": 12
+}

@@ -1,0 +1,10 @@
+{
+  "version": "1.0.0",
+  "updatedAt": "2026-07-28T23:54:00.000Z",
+  "fitnessFunctions": [
+    { "name": "Boundary Validation", "command": "node scripts/validate_architecture_boundaries.cjs", "frequency": "Commit/PR", "threshold": 297, "current": 134 },
+    { "name": "ViewModel Validation", "command": "node scripts/validate_viewmodels.cjs", "frequency": "Commit/PR", "threshold": 0, "current": 0 },
+    { "name": "CAMI Maturity Guardrail", "command": "node scripts/validate_cami_guardrail.cjs", "frequency": "Commit/PR", "threshold": 93.1, "current": 93.1 },
+    { "name": "TypeCheck", "command": "npm run typecheck", "frequency": "Commit/PR", "threshold": 0, "current": 0 }
+  ]
+}

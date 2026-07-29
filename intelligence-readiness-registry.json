@@ -1,0 +1,94 @@
+{
+  "assessment": "Enterprise Intelligence Readiness Assessment (EIRA)",
+  "version": "1.0.0",
+  "evaluatedAt": "2026-07-29T00:00:00Z",
+  "verdict": "GO",
+  "maxAutonomousLevel": "LEVEL_2_RECOMMENDATION",
+  "overallScore": 94.6,
+  "enisScore": 87.0,
+  "enisMaturityLevel": "Networked Enterprise",
+  "dimensions": [
+    {
+      "dimension": "Intelligence Foundation Readiness",
+      "score": 95.0,
+      "status": "READY",
+      "package": "@illumine/enterprise-knowledge-fabric",
+      "evidences": [
+        "8 Corporate Dimensions mapped",
+        "EnterpriseContext & BusinessUnitContext active",
+        "OrganizationalBoundary enforced"
+      ],
+      "blockers": []
+    },
+    {
+      "dimension": "Intelligence Traceability",
+      "score": 98.0,
+      "status": "READY",
+      "package": "@illumine/intelligence-kernel",
+      "evidences": [
+        "ReasoningTrace & PredictionExplanation compulsory",
+        "ProvenanceReference & lineageHash verified in 100% of artifacts"
+      ],
+      "blockers": []
+    },
+    {
+      "dimension": "Decision Intelligence Readiness",
+      "score": 96.0,
+      "status": "READY",
+      "package": "@illumine/organizational-memory",
+      "evidences": [
+        "ExperienceRecord event-sourced chain active",
+        "DecisionOutcomeStatus tracking EXPECTED to EXCEEDED",
+        "ModelImprovementRequest in @illumine/decision-learning"
+      ],
+      "blockers": []
+    },
+    {
+      "dimension": "Agent Governance Readiness",
+      "score": 94.0,
+      "status": "READY",
+      "package": "@illumine/executive-orchestrator",
+      "evidences": [
+        "Coordinator, Not Controller policy enforced",
+        "CapabilitySelectionPolicy active",
+        "ConflictResolver divergence auditing"
+      ],
+      "blockers": []
+    },
+    {
+      "dimension": "Intelligence Quality & Confidence",
+      "score": 95.0,
+      "status": "READY",
+      "package": "@illumine/predictive-engine",
+      "evidences": [
+        "Explainable-First mandatory in all forecasts",
+        "PredictionCalibration active",
+        "Value Objects Probability, Confidence, Score verified"
+      ],
+      "blockers": []
+    },
+    {
+      "dimension": "Platform Observability Readiness",
+      "score": 92.0,
+      "status": "READY",
+      "package": "@illumine/architecture-registry",
+      "evidences": [
+        "3 Freeze levels LOCKED",
+        "42/42 unit tests passing",
+        "0 typecheck errors across monorepo"
+      ],
+      "blockers": []
+    },
+    {
+      "dimension": "Enterprise Intelligence Certification Review",
+      "score": 87.0,
+      "status": "READY",
+      "package": "@illumine/enterprise-certification",
+      "evidences": [
+        "EnIS score calculated at 87/100",
+        "Classified as Networked Enterprise"
+      ],
+      "blockers": []
+    }
+  ]
+}

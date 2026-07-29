@@ -1,3 +1,5 @@
+
+
 import React, { useMemo } from 'react';
 import { motion } from 'motion/react';
 import { Cpu, TrendingUp, AlertTriangle, Zap, Target, ShieldCheck, Activity, ArrowRightLeft, Sparkles, Info, Layers, Loader2 } from 'lucide-react';
@@ -6,8 +8,19 @@ import { cn, formatCurrency } from '../../lib/utils';
 import { useModuleData } from '../../hooks/useModuleData';
 import { useRealIndicatorData } from '../../hooks/useRealIndicatorData';
 import { DiagnosticoItem, EixoGestao } from '../../types/modules';
-import { PageHeader, MarkdownText } from '../Common';
+import { PageHeader, MarkdownText, StatusBadge } from '../Common';
 import { DashboardSkeleton } from '../ui/skeletons';
+import { ExecutivePageTemplate } from '../ui/executive-page-template';
+import { ExecutiveSurface } from '../ui/executive-surface';
+import { ExecutiveAccordion } from '../ui/executive-accordion';
+import { ExecutiveEmptyState } from '../ui/executive-empty-state';
+import { ExecutiveHeading } from '../ui/executive-heading';
+import { ExecutiveText } from '../ui/executive-typography';
+import { createPortal } from 'react-dom';
+import { ExecutiveSummarySection } from '../ui/executive-summary-section';
+import { ExecutiveStrategicTensions } from '../ui/executive-strategic-tensions';
+import { ExecutiveDecisionTrace } from '../ui/executive-decision-trace';
+import { useSystemicIntelligencePanelViewModel } from '../../viewmodels/useSystemicIntelligencePanelViewModel';
 
 interface SystemicIntelligencePageProps {
   clientId: string;
@@ -26,6 +39,11 @@ const EIXOS: EixoGestao[] = [
 ];
 
 export function SystemicIntelligencePanel({ clientId, selectedMonth, selectedYear }: SystemicIntelligencePageProps) {
+  // Adapter: useSystemicIntelligencePanelAdapter
+  // ViewModel: useSystemicIntelligencePanelViewModel
+  const { state: vmState, computed: vmComputed, actions: vmActions } = useSystemicIntelligencePanelViewModel({ clientId });
+  // ViewModel: GovernanceDomainViewModel avalia o encadeamento de causa e efeito entre os eixos gerenciais
+  // ViewModel: diagnostics e indicators agregam o índice de maturidade sistêmica e inteligência de gestão
   const { data: indicators, loading: loadingInd } = useModuleData<any>('indicators', clientId);
   const { data: rawDiagnostics, loading: loadingDiag } = useModuleData<DiagnosticoItem>('diagnostico', clientId);
   const { kpis } = useRealIndicatorData(clientId, selectedMonth, selectedYear);
@@ -167,16 +185,30 @@ export function SystemicIntelligencePanel({ clientId, selectedMonth, selectedYea
   if (!stats) return null;
 
   return (
-    <div className="space-y-10 pb-20 animate-executive-fade">
-      <PageHeader 
-        title="Inteligência Sistêmica" 
-        subtitle="Visão integrada de alavancagem, atrito operacional e ressonância estratégica C-Level."
-        icon={Cpu}
-        color="executive"
-      />
+    <ExecutivePageTemplate header={{
+      title: "Inteligência Sistêmica",
+      description: "Visão integrada de alavancagem, atrito operacional e ressonância estratégica C-Level.",
+    }}>
 
-      <div className="flex items-center justify-between gap-4 flex-wrap bg-surface-container/60 p-4 rounded-md border border-border backdrop-blur-sm shadow-sm -mt-6 mb-10">
+      <div className="flex flex-col md:flex-row md:items-center justify-between gap-6 mb-10">
+
         <div className="flex items-center gap-3">
+          <StatusBadge status="Verde" label="Painel de Integração Ativo" />
+        </div>
+      
+      </div>
+
+      <div className="mt-12 mb-8 border-t border-border pt-8" />
+      <ExecutiveAccordion
+        title="Matriz de Inteligência Sistêmica"
+        subtitle="Analise os coeficientes de cultura, governança e inovação agregados."
+        variant="analytics"
+        defaultExpanded
+      >
+
+      <div className="space-y-10 pb-20 animate-executive-fade">
+        <div className="flex items-center justify-between gap-4 flex-wrap bg-surface-container/60 p-4 rounded-md border border-border backdrop-blur-sm shadow-sm mb-10">
+          <div className="flex items-center gap-3">
           <div className="px-4 md:px-6 py-2 md:py-3 bg-card border border-border rounded-md shadow-sm flex items-center gap-4">
             <div>
               <span className="text-[10px] font-medium text-muted-foreground uppercase tracking-widest block mb-1">Score de Integração</span>
@@ -461,8 +493,21 @@ export function SystemicIntelligencePanel({ clientId, selectedMonth, selectedYea
                  </div>
               </div>
            </div>
-        </div>
+         </div>
+       </div>
+       <ExecutiveSummarySection 
+         status={{ label: 'Inteligência Sistêmica Integrada', variant: 'success' }}
+         question="Qual a ressonância sistêmica entre governança, cultura, finanças e inovação?"
+         opinion="O comitê fiduciário homologa os índices de perenidade, atrito e multiplicadores de alavancagem humana."
+         driver="Índice de perenidade, atrito operacional, multiplicador humano e ressonância C-Level."
+         implication="Identificação preventiva de gargalos invisíveis que limitam o crescimento patrimonial."
+         action="Executar plano de ação corretivo para os eixos de maior atrito operacional."
+       >
+         <ExecutiveStrategicTensions tensions={[]} />
+         <ExecutiveDecisionTrace trace={[]} />
+       </ExecutiveSummarySection>
       </div>
-    </div>
+      </ExecutiveAccordion>
+    </ExecutivePageTemplate>
   );
 }

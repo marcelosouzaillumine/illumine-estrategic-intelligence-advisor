@@ -1,8 +1,8 @@
-// src/components/executive-command/ExecutiveDriftRadar.tsx
-
 import React from 'react';
 import { Compass, ShieldAlert, CheckCircle } from 'lucide-react';
 import { ExecutiveDriftEvent } from '../../services/FiduciaryRuntimeAdapter';
+// src/components/executive-command/ExecutiveDriftRadar.tsx
+
 
 interface ExecutiveDriftRadarProps {
   driftEvents: ExecutiveDriftEvent[];

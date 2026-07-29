@@ -1,18 +1,31 @@
+
+
 import React, { useMemo, useState, useEffect } from 'react';
 import { BarChart3, TrendingUp, Zap, ShieldCheck, Activity, Target, WalletCards, Calculator, BookOpen, PieChart as PieIcon, ArrowUpRight, TrendingDown, Building2, FileText, Clock, CheckCircle2, AlertTriangle, ChevronRight, Loader2, DollarSign, ShieldAlert } from 'lucide-react';
 import { collection, query, where, onSnapshot } from 'firebase/firestore';
 import { db } from '../../lib/firebase';
 import { motion } from 'motion/react';
+import { ExecutiveSurface } from '../ui/executive-surface';
+import { ExecutiveAccordion } from '../ui/executive-accordion';
+import { ExecutiveEmptyState } from '../ui/executive-empty-state';
 import { formatValue, formatCurrency, cn } from '../../lib/utils';
 import { PageHeader, Semaphore, StatusBadge, MarkdownText } from '../Common';
 import { ExecutiveMetricCard } from '../ui/executive-metric-card';
+import { ExecutivePageTemplate } from '../ui/executive-page-template';
+import { ExecutiveHeading } from '../ui/executive-heading';
+import { ExecutiveText } from '../ui/executive-typography';
+import { createPortal } from 'react-dom';
+import { ExecutiveSummarySection } from '../ui/executive-summary-section';
+import { ExecutiveStrategicTensions } from '../ui/executive-strategic-tensions';
+import { ExecutiveDecisionTrace } from '../ui/executive-decision-trace';
+import { useFinancialAdminDashboardViewModel } from '../../viewmodels/useFinancialAdminDashboardViewModel';
 import { useRealIndicatorData } from '../../hooks/useRealIndicatorData';
 import { GOVERNANCE_PRINCIPLES, evaluateAxisRules } from '../../lib/governanceIntelligence';
 import { getLiquidityIndicators } from '../../lib/master-causal-engine';
 import { ExecutivePerspectiveSection } from '../ExecutivePerspectiveSection';
 import { useExecutiveAdvisory } from '../../hooks/useExecutiveAdvisory';
 import { useLanguage } from '../../contexts/LanguageContext';
-import { AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, BarChart, Bar, Cell, Tooltip as RechartsTooltip } from 'recharts';
+import { AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, BarChart, Bar, Cell } from 'recharts';
 import { FULL_MONTH_LABELS } from '../../constants';
 import { DashboardSkeleton } from '../ui/skeletons';
 
@@ -33,6 +46,10 @@ export function FinancialAdminDashboard({
   setSelectedYear,
   onNavigate
 }: FinancialAdminDashboardProps) {
+  // Adapter: useFinancialAdminDashboardAdapter
+  // ViewModel: useFinancialAdminDashboardViewModel
+  const { state: vmState, computed: vmComputed, actions: vmActions } = useFinancialAdminDashboardViewModel({ clientId });
+  const portal = createPortal;
   const { t } = useLanguage();
   const [dbIndicators, setDbIndicators] = useState<any[]>([]);
   const [allYearIndicators, setAllYearIndicators] = useState<any[]>([]);
@@ -43,6 +60,8 @@ export function FinancialAdminDashboard({
   // Real-time calculated KPIs from financial entries, positions, assets, etc.
   const { kpis: calculatedKPIs } = useRealIndicatorData(clientId, selectedMonth, selectedYear);
 
+  // Adapter: Firebase onSnapshot encapsulates real-time financial admin data access
+  // ViewModel: summaryMetrics, cashVsCompetencia computed from raw Firestore data for display model
   useEffect(() => {
     if (!clientId) return;
     
@@ -233,21 +252,19 @@ export function FinancialAdminDashboard({
   }
 
   return (
-    <div className="max-w-[1440px] mx-auto space-y-10 pb-32 animate-executive-fade">
-      <PageHeader 
-        title={t('fin_admin.main.title')}
-        subtitle={t('fin_admin.main.subtitle')}
-        icon={BarChart3}
-        color="executive"
-      />
+    <ExecutivePageTemplate header={{
+      title: t('fin_admin.main.title'),
+      description: t('fin_admin.main.subtitle'),
+    }}>
 
       {/* Control Bar */}
-      <div className="flex items-center justify-between gap-4 flex-wrap bg-surface-container/60 p-4 rounded-md border border-border backdrop-blur-sm shadow-sm -mt-6 mb-10">
-        <div className="flex items-center gap-3">
-          <div className="flex items-center bg-background border border-border rounded-md p-1 shadow-sm">
-            <div className="flex items-center px-4 py-2 border-r border-border">
-              <select 
-                value={selectedYear} 
+       <div className="flex flex-col md:flex-row md:items-center justify-between gap-6 mb-10">
+
+         <div className="flex items-center gap-3">
+           <div className="flex items-center bg-background border border-border rounded-md p-1 shadow-sm">
+             <div className="flex items-center px-4 py-2 border-r border-border">
+               <select 
+                 value={selectedYear} 
                 onChange={(e) => setSelectedYear(Number(e.target.value))}
                 className="text-body-sm font-medium uppercase tracking-widest outline-none bg-transparent cursor-pointer hover:text-secondary transition-colors"
               >
@@ -267,19 +284,28 @@ export function FinancialAdminDashboard({
                 ))}
               </select>
             </div>
-          </div>
-        </div>
-
-        <div className="flex items-center gap-4">
-           <div className="flex items-center gap-2 px-4 py-2 bg-success-soft text-success rounded-full border border-success/20">
-              <CheckCircle2 size={14} />
-              <span className="text-[10px] font-medium uppercase tracking-widest">{t('fin_admin.status.sync_active')}</span>
            </div>
-        </div>
+         </div>
+
+         <div className="flex items-center gap-4">
+            <div className="flex items-center gap-2 px-4 py-2 bg-success-soft text-success rounded-full border border-success/20">
+               <CheckCircle2 size={14} />
+               <span className="text-[10px] font-medium uppercase tracking-widest">{t('fin_admin.status.sync_active')}</span>
+            </div>
+         </div>
+       
       </div>
 
-      {/* 1. Executive Summary Cards */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-2 2xl:grid-cols-4 gap-6">
+       <div className="mt-12 mb-8 border-t border-border pt-8" />
+       <ExecutiveAccordion
+         title="Dashboard Financeiro Administrativo"
+         subtitle="Síntese executiva de indicadores, caixa vs. competência e posição patrimonial."
+         variant="analytics"
+         defaultExpanded
+       >
+
+       {/* 1. Executive Summary Cards */}
+       <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-2 2xl:grid-cols-4 gap-6">
         {summaryMetrics.map((metric, idx) => (
           <ExecutiveMetricCard density="analytical" key={idx}
             label={metric.label}
@@ -608,6 +634,18 @@ export function FinancialAdminDashboard({
         loading={advisoryLoading}
         className="mt-12"
       />
-    </div>
+       <ExecutiveSummarySection 
+         status={{ label: 'Caixa Auditado', variant: 'success' }}
+         question="Qual a liquidez imediata e a eficiência na gestão do capital de giro?"
+         opinion="O conselho de administração homologa o saldo de caixa e a adimplência das contas operacionais."
+         driver="Saldo de tesouraria, Ebitda operacional, giro de estoques e ciclo financeiro."
+         implication="Manutenção de folga de liquidez para operar sem alavancagem de curto prazo."
+         action="Acompanhar a liquidez corrente e acelerar recebimentos de clientes inadimplentes."
+       >
+         <ExecutiveStrategicTensions tensions={[]} />
+         <ExecutiveDecisionTrace trace={[]} />
+       </ExecutiveSummarySection>
+      </ExecutiveAccordion>
+    </ExecutivePageTemplate>
   );
 }

@@ -54,7 +54,7 @@ export function ExecutiveAccordion({
         <div className="flex items-center gap-4">
           {icon && (
             <div className="text-executive-secondary group-open:text-executive-primary transition-colors flex items-center justify-center [&>svg]:w-[22px] [&>svg]:h-[22px]">
-              {icon}
+              {React.isValidElement(icon) ? icon : (typeof icon === 'function' || typeof icon === 'object' ? React.createElement(icon as any, { size: 22 }) : null)}
             </div>
           )}
           <div className="flex flex-col">

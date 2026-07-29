@@ -1,8 +1,8 @@
-// src/components/pages/governance/BenchmarkComparativePanel.tsx
-
 import React from 'react';
 import { Sparkles, Lock, AlertTriangle, TrendingUp, CheckCircle2, ShieldAlert, Scale, Info, ChevronRight, TrendingDown, Award, Activity } from 'lucide-react';
 import { FiduciaryRuntimeAdapter, ESGIMScenario, BenchmarkPosition } from '../../../services/FiduciaryRuntimeAdapter';
+// src/components/pages/governance/BenchmarkComparativePanel.tsx
+
 
 interface BenchmarkComparativePanelProps {
   clientId: string;

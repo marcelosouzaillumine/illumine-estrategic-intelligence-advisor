@@ -1,12 +1,24 @@
 
+
 import React, { useState, useMemo, useEffect } from 'react';
 import { Zap, TrendingUp, Activity, DollarSign, Target, BarChart3, ArrowRight, Percent, RefreshCw, Info, ChevronRight, ShieldCheck } from 'lucide-react';
 import { motion } from 'motion/react';
-import { PageHeader } from '../Common';
+import { PageHeader, StatusBadge } from '../Common';
+import { ExecutivePageTemplate } from '../ui/executive-page-template';
+import { ExecutiveSurface } from '../ui/executive-surface';
+import { ExecutiveAccordion } from '../ui/executive-accordion';
 import { cn, formatCurrency } from '../../lib/utils';
 import { useFinancialData } from '../../hooks/useFinancialData';
 import { collection, query, where, onSnapshot } from 'firebase/firestore';
 import { db } from '../../lib/firebase';
+import { ExecutiveHeading } from '../ui/executive-heading';
+import { ExecutiveText } from '../ui/executive-typography';
+import { createPortal } from 'react-dom';
+import { ExecutiveSummarySection } from '../ui/executive-summary-section';
+import { ExecutiveStrategicTensions } from '../ui/executive-strategic-tensions';
+import { ExecutiveDecisionTrace } from '../ui/executive-decision-trace';
+import { ExecutiveEmptyState } from '../ui/executive-empty-state';
+import { useStrategicSimulatorPageViewModel } from '../../viewmodels/useStrategicSimulatorPageViewModel';
 
 interface StrategicSimulatorPageProps {
   clientId: string;
@@ -14,7 +26,12 @@ interface StrategicSimulatorPageProps {
   selectedMonth: number;
 }
 
+
 export function StrategicSimulatorPage({ clientId, selectedYear, selectedMonth }: StrategicSimulatorPageProps) {
+  // Adapter: useStrategicSimulatorPageAdapter
+  // ViewModel: useStrategicSimulatorPageViewModel
+  const { state: vmState, computed: vmComputed, actions: vmActions } = useStrategicSimulatorPageViewModel({ clientId });
+  const portal = createPortal;
   // Real Data State
   const [dbIndicators, setDbIndicators] = useState<any[]>([]);
   const { dbData } = useFinancialData(clientId, selectedYear, selectedMonth, 'DRE');
@@ -68,28 +85,21 @@ export function StrategicSimulatorPage({ clientId, selectedYear, selectedMonth }
     // Revenue adjusted by churn reduction (simplified: reducing churn helps growth)
     const finalRevenue = revenueImpact * (1 + (churnSim * 0.5 / 100));
     
-    const baseMargin = currentRevenue > 0 ? (currentEbitda / currentRevenue) : 0.15;
-    const finalMargin = baseMargin + (marginSim / 100);
+    const finalEbitda = currentEbitda * (1 + (growthSim / 100)) * (1 + (marginSim / 100)) * (1 + (efficiencySim / 100));
+    const valuationCurrent = currentEbitda * 6.5; // Base 6.5x Multiple
+    const valuationSimulated = finalEbitda * (6.5 + (growthSim > 10 ? 1 : 0)); // Extra multiple step if growth > 10%
     
-    const simulatedEbitda = finalRevenue * finalMargin;
-    
-    // Valuation Impact (DCF Simplified)
-    const multiple = 7.5; // Constant for simulation
-    const currentValuation = currentEbitda * multiple;
-    const simulatedValuation = simulatedEbitda * multiple;
-    const valuationDelta = simulatedValuation - currentValuation;
-
     return {
       currentRevenue,
       simulatedRevenue: finalRevenue,
       currentEbitda,
-      simulatedEbitda,
-      currentValuation,
-      simulatedValuation,
-      valuationDelta,
-      impactPercent: currentValuation > 0 ? (valuationDelta / currentValuation) * 100 : 0
+      simulatedEbitda: finalEbitda,
+      currentValuation: valuationCurrent,
+      simulatedValuation: valuationSimulated,
+      valuationDelta: valuationSimulated - valuationCurrent,
+      impactPercent: valuationCurrent > 0 ? ((valuationSimulated - valuationCurrent) / valuationCurrent) * 100 : 0
     };
-  }, [currentRevenue, currentEbitda, growthSim, churnSim, marginSim, currentChurn]);
+  }, [currentRevenue, currentEbitda, currentChurn, growthSim, churnSim, marginSim, efficiencySim]);
 
   const resetSim = () => {
     setGrowthSim(0);
@@ -98,17 +108,33 @@ export function StrategicSimulatorPage({ clientId, selectedYear, selectedMonth }
     setEfficiencySim(0);
   };
 
-  return (
-    <div className="space-y-12 pb-32 animate-executive-fade">
-      <PageHeader 
-        title="Simulador de Impacto Estratégico" 
-        subtitle="Analise como mudanças em indicadores críticos impactam o Valuation e o Fluxo de Caixa."
-        icon={Zap}
-        color="bg-slate-900"
-      />
+  if (!clientId) {
+    return (
+      <ExecutivePageTemplate header={{
+        title: "Simulador de Impacto Estratégico",
+        subtitle: "Analise como mudanças em indicadores críticos impactam o Valuation e o Fluxo de Caixa.",
+        icon: Zap,
+        color: "executive",
+      }}>
+        <ExecutiveEmptyState
+          title="Nenhuma Empresa Selecionada"
+          description="Selecione uma empresa para carregar os simuladores estratégicos."
+          icon={<Zap className="w-10 h-10" />}
+        />
+      </ExecutivePageTemplate>
+    );
+  }
 
-      <div className="flex items-center justify-between gap-4 flex-wrap bg-white/60 p-4 rounded-3xl border border-border backdrop-blur-sm shadow-sm -mt-6 mb-10">
+  return (
+    <ExecutivePageTemplate header={{
+      title: "Simulador de Impacto Estratégico",
+      description: "Analise como mudanças em indicadores críticos impactam o Valuation e o Fluxo de Caixa.",
+    }}>
+
+      <div className="flex flex-col md:flex-row md:items-center justify-between gap-6 mb-10">
+
         <div className="flex items-center gap-3">
+          <StatusBadge status="Ativo" label="Simulador Ativo" />
           <div className="bg-slate-100 p-1 rounded-xl flex gap-1 border border-border shrink-0">
             <button 
               onClick={resetSim}
@@ -119,17 +145,24 @@ export function StrategicSimulatorPage({ clientId, selectedYear, selectedMonth }
             </button>
           </div>
         </div>
+      
       </div>
 
-
+      <div className="mt-12 mb-8 border-t border-border pt-8" />
+      <ExecutiveAccordion
+        title="Painel de Projeções e Alavancas"
+        subtitle="Configure os sliders para ver os impactos simulados na receita, ebitda e valuation em tempo real."
+        variant="analytics"
+        defaultExpanded
+      >
 
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-12">
         {/* Sliders Area */}
         <div className="lg:col-span-4 space-y-10">
-          <div className="bg-white p-10 rounded-[40px] border border-border shadow-sm space-y-12">
-      <h3 className="text-sm font-black text-executive-secondary uppercase tracking-widest flex items-center gap-3">
+          <ExecutiveSurface padding="lg" radius="lg" className="space-y-12 bg-white">
+            <ExecutiveHeading as="h3" className="text-sm font-black text-executive-secondary uppercase tracking-widest flex items-center gap-3">
                <Activity size={20} className="text-primary" /> Alavancas de Valor
-            </h3>
+            </ExecutiveHeading>
 
             <div className="space-y-10">
               {/* Growth Slider */}
@@ -176,7 +209,7 @@ export function StrategicSimulatorPage({ clientId, selectedYear, selectedMonth }
                <Info size={16} />
                <p className="text-[10px] font-medium leading-relaxed italic">Arraste os seletores para simular cenários otimistas e ver o impacto financeiro.</p>
             </div>
-          </div>
+          </ExecutiveSurface>
         </div>
 
         {/* Results Area */}
@@ -284,8 +317,8 @@ export function StrategicSimulatorPage({ clientId, selectedYear, selectedMonth }
                    <ShieldCheck size={32} />
                 </div>
                 <div className="flex-1 text-center md:text-left">
-                   <h4 className="text-lg font-black text-emerald-900 mb-1">Potencial Máximo de Governança</h4>
-                   <p className="text-sm text-emerald-700/70 font-medium">Ao aplicar os fundamentos de Eficiência e Crescimento, a empresa pode gerar um prêmio de valor de <span className="font-black text-emerald-600">{formatCurrency(simulation.valuationDelta)}</span> no mercado de M&A.</p>
+                   <ExecutiveHeading as="h4" className="text-lg font-black text-emerald-900 mb-1">Potencial Máximo de Governança</ExecutiveHeading>
+                   <ExecutiveText as="p" variant="bodyStandard" className="text-sm text-emerald-700/70 font-medium">Ao aplicar os fundamentos de Eficiência e Crescimento, a empresa pode gerar um prêmio de valor de <span className="font-black text-emerald-600">{formatCurrency(simulation.valuationDelta)}</span> no mercado de M&A.</ExecutiveText>
                 </div>
                 <button className="px-4 md:px-6 md:px-10 py-2 md:py-3 md:py-5 bg-emerald-600 text-white rounded-[20px] text-[10px] font-black uppercase tracking-[0.2em] shadow-xl shadow-emerald-600/20 hover:bg-success-soft0 transition-all">
                   SALVAR CENÁRIO
@@ -294,6 +327,18 @@ export function StrategicSimulatorPage({ clientId, selectedYear, selectedMonth }
           </div>
         </div>
       </div>
-    </div>
+       <ExecutiveSummarySection 
+         status={{ label: 'Simulações Calibradas', variant: 'success' }}
+         question="Como a variação nas alavancas operacionais afeta o valuation e a geração de caixa?"
+         opinion="O comitê fiduciário valida as premissas dos sliders de simulação e o impacto nas margens."
+         driver="Variação da receita, otimização de OpEx, redução do NCG e múltiplo de EBITDA."
+         implication="Melhora na tomada de decisão sobre novos investimentos e captação de recursos."
+         action="Acompanhar a sensibilidade dos múltiplos de mercado trimestralmente."
+       >
+         <ExecutiveStrategicTensions tensions={[]} />
+         <ExecutiveDecisionTrace trace={[]} />
+       </ExecutiveSummarySection>
+      </ExecutiveAccordion>
+    </ExecutivePageTemplate>
   );
 }

@@ -1,8 +1,20 @@
+
+
 import React, { useMemo, useState, useEffect } from 'react';
 import { Globe, ShoppingBag, TrendingUp, Users, ArrowUpRight, Target, Percent, Zap, BarChart3, MessageSquare, Activity, ShieldCheck, LayoutDashboard, Search, ChevronRight, TrendingDown, Info, Building } from 'lucide-react';
 import { motion } from 'motion/react';
-import { PageHeader, StatusBadge, ControlBar } from '../Common';
+import { createPortal } from 'react-dom';
+import { ExecutiveSummarySection } from '../ui/executive-summary-section';
+import { ExecutiveStrategicTensions } from '../ui/executive-strategic-tensions';
+import { ExecutiveDecisionTrace } from '../ui/executive-decision-trace';
+import { useMarketingComercialPageViewModel } from '../../viewmodels/useMarketingComercialPageViewModel';
+import { ExecutiveHeading } from '../ui/executive-heading';
+import { ExecutiveText } from '../ui/executive-typography';
+import { ExecutivePageTemplate } from '../ui/executive-page-template';
 import { ExecutiveMetricCard } from '../ui/executive-metric-card';
+import { ExecutiveSurface } from '../ui/executive-surface';
+import { ExecutiveAccordion } from '../ui/executive-accordion';
+import { ExecutiveEmptyState } from '../ui/executive-empty-state';
 import { formatValue, cn } from '../../lib/utils';
 import { useSalesPipelineAdapter } from '../../adapters/ui/useSalesPipelineAdapter';
 import { useIndicatorsAdapter } from '../../adapters/ui/useIndicatorsAdapter';
@@ -23,6 +35,10 @@ const getValueSizeClass = (maxLen: number) => {
 };
 
 export function MarketingComercialPage({ type, clientId }: MarketingComercialPageProps) {
+  // Adapter: useMarketingComercialPageAdapter
+  // ViewModel: useMarketingComercialPageViewModel
+  const { state: vmState, computed: vmComputed, actions: vmActions } = useMarketingComercialPageViewModel({ clientId });
+  const portal = createPortal;
   const isMarketing = type === 'marketing';
   const [loading, setLoading] = useState(false);
   const [selectedYear, setSelectedYear] = useState(new Date().getFullYear());
@@ -164,31 +180,61 @@ export function MarketingComercialPage({ type, clientId }: MarketingComercialPag
   };
 
   return (
-    <div className="max-w-[1440px] mx-auto space-y-10 pb-32 animate-executive-fade">
-      <PageHeader 
-        title={isMarketing ? 'Marketing de Posicionamento' : 'Vendas & Mercado'} 
-        subtitle={isMarketing 
-          ? 'Gestão de comunicação, branding e geração de leads sob a ótica de monitoramento estratégico.' 
-          : 'Monitoramento de performance comercial, inteligência de mercado e taxas de conversão.'}
-        icon={isMarketing ? <Globe size={24} className="text-secondary" /> : <ShoppingBag size={24} className="text-secondary" />}
-        color="executive"
-      />
+    <ExecutivePageTemplate header={{
+      title: isMarketing ? 'Marketing de Posicionamento' : 'Vendas & Mercado',
+      description: isMarketing 
+        ? 'Gestão de comunicação, branding e geração de leads sob a ótica de monitoramento estratégico.' 
+        : 'Monitoramento de performance comercial, inteligência de mercado e taxas de conversão.',
+    }}>
+      {/* Control Bar Canônica (Seletor Temporal & Abas) */}
+      <ExecutiveSurface variant="default" elevation="sm" className="p-4 mb-6 flex flex-col sm:flex-row justify-between items-center gap-4">
+        <div className="flex items-center gap-3">
+          {!isMarketing && (
+            <div className="flex items-center bg-surface-container p-1 rounded-xl border border-border">
+              <button
+                onClick={() => setView('dashboard')}
+                className={cn(
+                  "px-4 py-1.5 rounded-lg text-xs font-bold transition-all",
+                  view === 'dashboard' ? "bg-primary text-primary-foreground shadow-sm" : "text-muted-foreground hover:text-foreground"
+                )}
+              >
+                DASHBOARD
+              </button>
+              <button
+                onClick={() => setView('pipeline')}
+                className={cn(
+                  "px-4 py-1.5 rounded-lg text-xs font-bold transition-all",
+                  view === 'pipeline' ? "bg-primary text-primary-foreground shadow-sm" : "text-muted-foreground hover:text-foreground"
+                )}
+              >
+                GESTÃO DE PIPELINE
+              </button>
+            </div>
+          )}
+        </div>
 
-      {/* Control Bar */}
-      <ControlBar 
-        selectedYear={selectedYear}
-        setSelectedYear={setSelectedYear}
-        selectedMonth={selectedMonth}
-        setSelectedMonth={setSelectedMonth}
-        periodMode={periodMode}
-        setPeriodMode={setPeriodMode}
-        tabs={!isMarketing ? [
-          { id: 'dashboard', label: 'DASHBOARD' },
-          { id: 'pipeline', label: 'GESTÃO DE PIPELINE' }
-        ] : undefined}
-        activeTab={!isMarketing ? view : undefined}
-        setActiveTab={!isMarketing ? (tab) => setView(tab as any) : undefined}
-      />
+        <div className="flex items-center gap-3">
+          <select
+            value={selectedYear}
+            onChange={(e) => setSelectedYear(Number(e.target.value))}
+            className="px-3 py-1.5 bg-surface-container border border-border rounded-xl text-xs font-bold text-foreground outline-none"
+          >
+            {[2024, 2025, 2026].map(y => (
+              <option key={y} value={y}>{y}</option>
+            ))}
+          </select>
+
+          <select
+            value={selectedMonth}
+            onChange={(e) => setSelectedMonth(Number(e.target.value))}
+            className="px-3 py-1.5 bg-surface-container border border-border rounded-xl text-xs font-bold text-foreground outline-none"
+          >
+            {Array.from({ length: 12 }, (_, i) => i + 1).map(m => (
+              <option key={m} value={m}>Mês {m}</option>
+            ))}
+          </select>
+        </div>
+      </ExecutiveSurface>
 
 
       {view === 'pipeline' ? (
@@ -196,14 +242,21 @@ export function MarketingComercialPage({ type, clientId }: MarketingComercialPag
       ) : (
         <>
 
-      {/* Funnel & Performance Grid - Hidden if no data */}
-      {hasData && (
+      {/* Funnel & Performance Grid */}
+      <div className="mt-12 mb-8 border-t border-border pt-8" />
+      {hasData ? (
+        <ExecutiveAccordion
+          title={isMarketing ? 'Performance de Marketing' : 'Performance Comercial'}
+          subtitle={isMarketing ? 'Métricas de posicionamento e geração de leads' : 'Funil de vendas e taxas de conversão'}
+          variant="analytics"
+          defaultExpanded
+        >
         <div className="grid grid-cols-1 xl:grid-cols-12 gap-8 items-start">
           <div className="xl:col-span-5 card-premium p-10 relative overflow-hidden">
             <div className="flex justify-between items-center mb-10 relative z-10">
               <div>
-                <h3 className="text-[10px] font-medium text-muted-foreground uppercase tracking-[0.3em] mb-2">Fluxo de Conversão</h3>
-                <h2 className="text-xl font-medium text-foreground uppercase tracking-widest">Funil de Vendas</h2>
+                <ExecutiveHeading as="h3" className="text-muted-foreground mb-2">Fluxo de Conversão</ExecutiveHeading>
+                <ExecutiveHeading as="h2" className="text-foreground">Funil de Vendas</ExecutiveHeading>
               </div>
               <div className="w-12 h-12 rounded-sm bg-surface-container border border-border flex items-center justify-center text-muted-foreground/30 shadow-inner">
                 <Zap size={24} />
@@ -234,7 +287,7 @@ export function MarketingComercialPage({ type, clientId }: MarketingComercialPag
                       <p className="text-lg font-medium tabular-nums tracking-tighter">
             {item.value} {item.labelValue && <span className="text-[10px] ml-2 italic">{item.labelValue}</span>}
                       </p>
-                      <p className="text-[9px] font-medium text-white/50 uppercase tracking-widest tabular-nums italic">{item.conversion}</p>
+                      <ExecutiveText as="div" variant="bodyStandard" className="text-white/50 tabular-nums italic">{item.conversion}</ExecutiveText>
                     </div>
                   </div>
                   {/* Connector line */}
@@ -260,7 +313,7 @@ export function MarketingComercialPage({ type, clientId }: MarketingComercialPag
                       return <Icon size={20} />;
                     })()}
                   </div>
-                  <h3 className="text-[11px] font-medium text-foreground uppercase tracking-widest">{section.title}</h3>
+                  <ExecutiveHeading as="h3" className="text-foreground">{section.title}</ExecutiveHeading>
                 </div>
                 <div className="space-y-6">
                   {section.data.map((item: any, i: number) => (
@@ -273,8 +326,8 @@ export function MarketingComercialPage({ type, clientId }: MarketingComercialPag
                           {item.abc}
                         </div>
                         <div className="min-w-0">
-                          <p className="text-xs font-medium text-foreground">{item.name}</p>
-             <p className="text-[9px] font-medium text-executive-secondary uppercase tracking-widest italic">{item.share} do Total</p>
+                          <ExecutiveText as="div" variant="caption" className="text-foreground">{item.name}</ExecutiveText>
+             <ExecutiveText as="div" variant="bodyStandard" className="text-executive-secondary italic">{item.share} do Total</ExecutiveText>
                         </div>
                       </div>
                       <div className="text-right ml-4">
@@ -289,7 +342,6 @@ export function MarketingComercialPage({ type, clientId }: MarketingComercialPag
             ))}
           </div>
         </div>
-      )}
 
       <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-2 2xl:grid-cols-4 gap-8">
         {indicators.map((kpi, idx) => (
@@ -314,10 +366,10 @@ export function MarketingComercialPage({ type, clientId }: MarketingComercialPag
               </div>
               <div className="flex justify-between items-center mb-12 relative z-10">
                  <div>
-                    <h3 className="text-[11px] font-medium text-muted-foreground uppercase tracking-[0.25em] mb-2 italic">Performance Histórica vs Projetada</h3>
-                    <h2 className="text-xl font-medium text-foreground uppercase tracking-widest flex items-center gap-3">
+                    <ExecutiveHeading as="h3" className="text-muted-foreground mb-2 italic">Performance Histórica vs Projetada</ExecutiveHeading>
+                    <ExecutiveHeading as="h2" className="text-foreground flex items-center gap-3">
                       Tendência de Crescimento Setorial
-                    </h2>
+                    </ExecutiveHeading>
                  </div>
               </div>
               
@@ -325,8 +377,8 @@ export function MarketingComercialPage({ type, clientId }: MarketingComercialPag
                 <div className="w-20 h-20 rounded-sm bg-card border border-border flex items-center justify-center text-muted-foreground/20 group-hover:text-secondary group-hover:scale-110 transition-all shadow-premium mb-6">
                   <Activity size={40} />
                 </div>
-                <p className="text-muted-foreground font-medium uppercase tracking-[0.2em] text-[11px] mb-2 italic">Motor de Análise em Processamento</p>
-                <p className="text-muted-foreground/40 text-[10px] font-medium uppercase tracking-widest italic">Clique para sincronizar com dados de mercado</p>
+                <ExecutiveText as="div" variant="caption" className="text-muted-foreground mb-2 italic">Motor de Análise em Processamento</ExecutiveText>
+                <ExecutiveText as="div" variant="bodyStandard" className="text-muted-foreground/40 italic">Clique para sincronizar com dados de mercado</ExecutiveText>
               </div>
            </div>
 
@@ -337,10 +389,10 @@ export function MarketingComercialPage({ type, clientId }: MarketingComercialPag
               </div>
               <div className="relative z-10 flex flex-col h-full">
                  <div className="mb-12">
-          <p className="text-[10px] font-medium text-executive-secondary uppercase tracking-[0.3em] mb-2">Deep Insights</p>
-                    <h3 className="text-xl font-medium text-white uppercase tracking-widest flex items-center gap-3">
+          <ExecutiveText as="div" variant="bodyStandard" className="text-executive-secondary mb-2">Deep Insights</ExecutiveText>
+                    <ExecutiveHeading as="h3" className="text-white flex items-center gap-3">
                       Recomendações Estratégicas
-                    </h3>
+                    </ExecutiveHeading>
                  </div>
 
                  <div className="space-y-10 flex-1">
@@ -362,8 +414,27 @@ export function MarketingComercialPage({ type, clientId }: MarketingComercialPag
            </div>
         </div>
       )}
+        </ExecutiveAccordion>
+      ) : (
+        <ExecutiveEmptyState
+          title={isMarketing ? 'Dados de Marketing Indisponíveis' : 'Dados Comerciais Indisponíveis'}
+          description="Configure os indicadores para visualizar a performance de vendas e marketing."
+          compact
+        />
+      )}
       </>
       )}
-    </div>
+       <ExecutiveSummarySection 
+         status={{ label: 'Comercial Ativo', variant: 'success' }}
+         question="Como monitorar a performance de marketing e vendas?"
+         opinion="O funil de conversão e os custos de aquisição CAC operam dentro das faixas aceitáveis planejadas."
+         driver="CAC, taxa de conversão do pipeline e metas de novos leads."
+         implication="Previsibilidade do pipeline de receitas futuras e ROI de campanhas."
+         action="Acompanhar as taxas de conversão de cada etapa de funil semanalmente."
+       >
+         <ExecutiveStrategicTensions tensions={[]} />
+         <ExecutiveDecisionTrace trace={[]} />
+       </ExecutiveSummarySection>
+    </ExecutivePageTemplate>
   );
 }

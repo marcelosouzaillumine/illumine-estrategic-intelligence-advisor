@@ -14,11 +14,11 @@ export const ExecutiveTypographyRegistry = {
   submoduleTitle: "text-[16px] md:text-[18px] font-semibold leading-snug text-executive-primary",
   bodyLarge: "text-[15px] md:text-[16px] font-normal leading-relaxed text-executive-primary",
   bodyStandard: "text-[14px] font-normal leading-relaxed text-executive-secondary",
-  caption: "text-[12px] font-normal leading-normal text-executive-muted",
-  metricDescription: "text-[13px] md:text-[14px] font-normal leading-relaxed text-executive-secondary",
-  metricMeta: "text-[11px] font-medium uppercase tracking-wider text-executive-muted",
-  metricConfidence: "text-[11px] font-medium uppercase tracking-wider text-executive-muted",
-  microLabel: "text-[11px] font-medium leading-normal text-executive-muted uppercase tracking-wider",
+  caption: "text-[12px] font-medium leading-normal text-slate-700 dark:text-slate-200",
+  metricDescription: "text-[13px] md:text-[14px] font-medium leading-relaxed text-slate-700 dark:text-slate-200",
+  metricMeta: "text-[11px] font-semibold uppercase tracking-wider text-slate-700 dark:text-slate-300",
+  metricConfidence: "text-[11px] font-semibold uppercase tracking-wider text-slate-700 dark:text-slate-300",
+  microLabel: "text-[11px] font-semibold leading-normal text-slate-700 dark:text-slate-300 uppercase tracking-wider",
   
   // Legacy aliases for backward compatibility (will be phased out progressively)
   body: "text-[14px] font-normal leading-relaxed text-executive-secondary", 

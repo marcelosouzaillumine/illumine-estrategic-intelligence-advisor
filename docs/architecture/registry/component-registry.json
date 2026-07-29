@@ -1,0 +1,19 @@
+{
+  "version": "1.0.0",
+  "updatedAt": "2026-07-28T23:54:00.000Z",
+  "canonicalComponents": [
+    { "name": "ExecutiveSurface", "path": "src/components/ui/executive-surface.tsx", "status": "CANONICAL" },
+    { "name": "ExecutiveHeading", "path": "src/components/ui/executive-heading.tsx", "status": "CANONICAL" },
+    { "name": "ExecutiveText", "path": "src/components/ui/executive-typography.tsx", "status": "CANONICAL" },
+    { "name": "ExecutivePageTemplate", "path": "src/components/ui/executive-page-template.tsx", "status": "CANONICAL" },
+    { "name": "ExecutiveMetricCard", "path": "src/components/ui/executive-metric-card.tsx", "status": "CANONICAL" },
+    { "name": "ExecutiveBadge", "path": "src/components/ui/executive-badge.tsx", "status": "CANONICAL" },
+    { "name": "ExecutiveAccordion", "path": "src/components/ui/executive-accordion.tsx", "status": "CANONICAL" },
+    { "name": "ExecutiveTable", "path": "src/components/ui/executive-table.tsx", "status": "CANONICAL" }
+  ],
+  "deprecatedComponents": [
+    { "name": "PageHeader", "path": "src/components/Common.tsx", "status": "DEPRECATED", "successor": "ExecutivePageTemplate" },
+    { "name": "ControlBar", "path": "src/components/Common.tsx", "status": "DEPRECATED", "successor": "ExecutiveSurface + ActionToolbar" },
+    { "name": "StatusBadge", "path": "src/components/Common.tsx", "status": "DEPRECATED", "successor": "ExecutiveBadge" }
+  ]
+}

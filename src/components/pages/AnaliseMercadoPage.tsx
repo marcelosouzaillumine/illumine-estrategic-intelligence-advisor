@@ -1,10 +1,23 @@
+
+
 import React, { useMemo, useState, useEffect } from 'react';
 import { Globe, TrendingUp, BarChart3, ArrowUpRight, ArrowDownRight, Zap, MessageSquare, Search, RefreshCw, PieChart as PieIcon, Activity, Target, BarChart, Calendar, ChevronRight, Info, Layers } from 'lucide-react';
 import { motion, AnimatePresence } from 'motion/react';
 import { cn, formatCurrency, formatValue } from '../../lib/utils';
-import { PageHeader, SectionHeader } from '../Common';
+import { PageHeader, SectionHeader, StatusBadge } from '../Common';
+import { ExecutivePageTemplate } from '../ui/executive-page-template';
+import { ExecutiveSurface } from '../ui/executive-surface';
+import { ExecutiveAccordion } from '../ui/executive-accordion';
+import { ExecutiveEmptyState } from '../ui/executive-empty-state';
 import { useAnaliseMercadoPageAdapter } from '../../adapters/ui/useAnaliseMercadoPageAdapter';
 import { DATA } from '../../data';
+import { createPortal } from 'react-dom';
+import { ExecutiveSummarySection } from '../ui/executive-summary-section';
+import { ExecutiveStrategicTensions } from '../ui/executive-strategic-tensions';
+import { ExecutiveDecisionTrace } from '../ui/executive-decision-trace';
+import { useAnaliseMercadoViewModel } from '../../viewmodels/useAnaliseMercadoViewModel';
+import { ExecutiveHeading } from '../ui/executive-heading';
+import { ExecutiveText } from '../ui/executive-typography';
 
 interface AnaliseMercadoPageProps {
   clientId: string;
@@ -12,7 +25,12 @@ interface AnaliseMercadoPageProps {
 
 type Scope = 'Local' | 'Nacional' | 'Global';
 
+
 export function AnaliseMercadoPage({ clientId }: AnaliseMercadoPageProps) {
+  // Adapter: useAnaliseMercadoAdapter
+  // ViewModel: useAnaliseMercadoViewModel
+  const { state, computed, actions } = useAnaliseMercadoViewModel({ clientId });
+  const portal = createPortal;
   const [selectedScope, setSelectedScope] = useState<Scope>('Nacional');
   const { econData } = useAnaliseMercadoPageAdapter();
 
@@ -82,15 +100,27 @@ export function AnaliseMercadoPage({ clientId }: AnaliseMercadoPageProps) {
   }, [selectedScope, econData]);
 
   return (
-    <div className="space-y-12 pb-32 animate-executive-fade">
-      <PageHeader
-        title="Inteligência Competitiva"
-        subtitle="Monitoramento estratégico de indicadores setoriais reais e validados nos âmbitos Local, Nacional e Global."
-        icon={Globe}
-        color="executive"
-      />
+    <ExecutivePageTemplate header={{
+      title: "Inteligência Competitiva",
+      description: "Monitoramento estratégico de indicadores setoriais reais e validados nos âmbitos Local, Nacional e Global.",
+    }}>
 
-      <div className="flex items-center justify-between gap-4 flex-wrap bg-surface-container/60 p-4 rounded-md border border-border backdrop-blur-sm shadow-sm -mt-6 mb-10">
+      {/* --- CAMADA 1: NÍVEL CONSELHO (SÍNTESE DE INTELIGÊNCIA DE MERCADO) --- */}
+      <ExecutiveSummarySection 
+        className="mb-8"
+        status={{ label: 'Mercado Monitorado', variant: 'success' }}
+        question="Como as variáveis macroeconômicas (Selic, IPCA, Dólar) e tendências globais impactam o modelo de negócios?"
+        opinion="O comitê fiduciário homologa a análise de inteligência competitiva, orientando a mitigação de custos financeiros e proteção cambial."
+        driver="Selic, IPCA, PIB regional/nacional e índices de consumo."
+        implication="Impacto direto no custo de capital de giro e repasse de preços ao consumidor."
+        action="Adotar hedge cambial estratégico e renegociar contratos indexados ao IPCA/IGP-M."
+      >
+        <ExecutiveStrategicTensions tensions={[]} />
+        <ExecutiveDecisionTrace trace={[]} />
+      </ExecutiveSummarySection>
+
+      <div className="flex flex-col md:flex-row md:items-center justify-between gap-6 mb-10">
+
         <div className="flex items-center gap-3">
           <div className="flex bg-surface-container border border-border p-1 rounded-md shadow-inner">
             {(['Local', 'Nacional', 'Global'] as Scope[]).map(scope => (
@@ -114,64 +144,71 @@ export function AnaliseMercadoPage({ clientId }: AnaliseMercadoPageProps) {
             <span className="text-[10px] font-medium uppercase tracking-widest text-muted-foreground">Dados em Tempo Real</span>
           </div>
         </div>
+      
       </div>
 
-
-      {/* Scope Indicators Grid */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-        <AnimatePresence mode="wait">
-          {scopeIndicators.map((trend, idx) => (
-            <motion.div 
-              key={`${selectedScope}-${idx}`}
-              initial={{ opacity: 0, scale: 0.95, y: 10 }}
-              animate={{ opacity: 1, scale: 1, y: 0 }}
-              exit={{ opacity: 0, scale: 0.95, y: -10 }}
-              transition={{ delay: idx * 0.05 }}
-              className="card-premium p-8 group relative overflow-hidden h-full flex flex-col justify-between"
-            >
-              <div className="absolute top-0 right-0 w-24 h-24 bg-surface-container rounded-bl-[60px] -mr-12 -mt-12 pointer-events-none group-hover:bg-primary/5 transition-colors shadow-inner" />
-              
-              <div className="flex items-center justify-between mb-8 relative z-10">
-                <div className={cn(
-                  "w-12 h-12 rounded-md flex items-center justify-center shadow-inner group-hover:shadow-premium transition-all duration-500",
-                  trend.status === 'positive' ? "bg-success-soft text-success group-hover:bg-success group-hover:text-white" : 
-                  trend.status === 'warning' ? "bg-warning-soft text-warning group-hover:bg-warning group-hover:text-white" : 
-                  "bg-surface-container text-muted-foreground group-hover:bg-executive group-hover:text-white"
-                )}>
-                  {(() => {
-                    const Icon = trend.icon;
-                    return <Icon size={22} />;
-                  })()}
+      <div className="mt-12 mb-8 border-t border-border pt-8" />
+      <ExecutiveAccordion
+        title="Indicadores por Escopo"
+        subtitle={`Análise competitiva para o mercado ${selectedScope}`}
+        variant="analytics"
+        defaultExpanded
+      >
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+          <AnimatePresence mode="wait">
+            {scopeIndicators.map((trend, idx) => (
+              <motion.div 
+                key={`${selectedScope}-${idx}`}
+                initial={{ opacity: 0, scale: 0.95, y: 10 }}
+                animate={{ opacity: 1, scale: 1, y: 0 }}
+                exit={{ opacity: 0, scale: 0.95, y: -10 }}
+                transition={{ delay: idx * 0.05 }}
+                className="card-premium p-8 group relative overflow-hidden h-full flex flex-col justify-between"
+              >
+                <div className="absolute top-0 right-0 w-24 h-24 bg-surface-container rounded-bl-[60px] -mr-12 -mt-12 pointer-events-none group-hover:bg-primary/5 transition-colors shadow-inner" />
+                
+                <div className="flex items-center justify-between mb-8 relative z-10">
+                  <div className={cn(
+                    "w-12 h-12 rounded-md flex items-center justify-center shadow-inner group-hover:shadow-premium transition-all duration-500",
+                    trend.status === 'positive' ? "bg-success-soft text-success group-hover:bg-success group-hover:text-white" : 
+                    trend.status === 'warning' ? "bg-warning-soft text-warning group-hover:bg-warning group-hover:text-white" : 
+                    "bg-surface-container text-muted-foreground group-hover:bg-executive group-hover:text-white"
+                  )}>
+                    {(() => {
+                      const Icon = trend.icon;
+                      return <Icon size={22} />;
+                    })()}
+                  </div>
+                  <div className="flex flex-col items-end">
+                     <div className={cn(
+                       "px-3 py-1 rounded-sm text-[8px] font-medium uppercase tracking-widest border",
+                       trend.trend === 'up' ? "bg-success/5 text-success border-success/20 shadow-premium" : 
+                       trend.trend === 'down' ? "bg-destructive/5 text-destructive border-destructive/20 shadow-premium" : 
+                       "bg-surface-container text-muted-foreground border-border shadow-inner"
+                     )}>
+                        {trend.trend}
+                     </div>
+                  </div>
                 </div>
-                <div className="flex flex-col items-end">
-                   <div className={cn(
-                     "px-3 py-1 rounded-sm text-[8px] font-medium uppercase tracking-widest border",
-                     trend.trend === 'up' ? "bg-success/5 text-success border-success/20 shadow-premium" : 
-                     trend.trend === 'down' ? "bg-destructive/5 text-destructive border-destructive/20 shadow-premium" : 
-                     "bg-surface-container text-muted-foreground border-border shadow-inner"
-                   )}>
-                      {trend.trend}
-                   </div>
-                </div>
-              </div>
 
-              <div className="relative z-10">
-                <p className="text-[10px] font-medium text-muted-foreground uppercase tracking-widest mb-1">{trend.label}</p>
-                <p className="text-3xl font-medium text-foreground mb-4 tracking-tighter">
-                  {trend.value}
-                  {trend.suffix && <span className="text-[10px] text-muted-foreground ml-1 uppercase tracking-widest">{trend.suffix}</span>}
-                </p>
-                <div className="flex items-center gap-2 text-[9px] font-medium text-muted-foreground uppercase tracking-widest italic">
-                  <Info size={12} className="text-secondary" />
-                  <span className="break-words overflow-visible leading-normal">{trend.obs}</span>
+                <div className="relative z-10">
+                  <ExecutiveText as="div" variant="bodyStandard" className="text-muted-foreground mb-1">{trend.label}</ExecutiveText>
+                  <p className="text-3xl font-medium text-foreground mb-4 tracking-tighter">
+                    {trend.value}
+                    {trend.suffix && <span className="text-[10px] text-muted-foreground ml-1 uppercase tracking-widest">{trend.suffix}</span>}
+                  </p>
+                  <div className="flex items-center gap-2 text-[9px] font-medium text-muted-foreground uppercase tracking-widest italic">
+                    <Info size={12} className="text-secondary" />
+                    <span className="break-words overflow-visible leading-normal">{trend.obs}</span>
+                  </div>
                 </div>
-              </div>
-            </motion.div>
-          ))}
-        </AnimatePresence>
-      </div>
+              </motion.div>
+            ))}
+          </AnimatePresence>
+        </div>
+      </ExecutiveAccordion>
 
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 mt-8">
          {/* Sector Performance Chart */}
          <div className="lg:col-span-2 card-premium p-12 relative overflow-hidden flex flex-col h-full">
             <div className="absolute top-0 right-0 p-12 opacity-[0.03] pointer-events-none">
@@ -179,8 +216,8 @@ export function AnaliseMercadoPage({ clientId }: AnaliseMercadoPageProps) {
             </div>
             <div className="flex justify-between items-center mb-12 relative z-10">
                <div>
-                  <h3 className="text-[10px] font-medium text-muted-foreground uppercase tracking-[0.3em] mb-2">Análise Comparativa</h3>
-                  <h2 className="text-2xl font-medium text-foreground tracking-tight uppercase">Performance vs Benchmark {selectedScope}</h2>
+                  <ExecutiveHeading as="h3" className="text-muted-foreground mb-2">Análise Comparativa</ExecutiveHeading>
+                  <ExecutiveHeading as="h2" className="text-foreground">Performance vs Benchmark {selectedScope}</ExecutiveHeading>
                </div>
                <div className="flex bg-surface-container/50 p-1 rounded-md border border-border shadow-inner">
                   <button className="px-5 py-2 bg-card text-foreground rounded-md text-[10px] font-medium uppercase tracking-widest shadow-premium border border-border flex items-center gap-2">
@@ -193,8 +230,8 @@ export function AnaliseMercadoPage({ clientId }: AnaliseMercadoPageProps) {
                <div className="w-16 h-16 rounded-md bg-card flex items-center justify-center text-muted-foreground group-hover:text-secondary group-hover:scale-110 transition-all shadow-premium border border-border mb-6">
                  <Activity size={32} />
                </div>
-               <p className="text-muted-foreground font-medium uppercase tracking-widest text-[10px] mb-2 italic text-center">Integração de Dados em Tempo Real</p>
-        <p className="text-executive-secondary/40 text-[9px] font-medium uppercase tracking-widest text-center">Sincronizado via Premissas do Sistema</p>
+               <ExecutiveText as="div" variant="bodyStandard" className="text-muted-foreground mb-2 italic text-center">Integração de Dados em Tempo Real</ExecutiveText>
+        <ExecutiveText as="div" variant="bodyStandard" className="text-executive-secondary/40 text-center">Sincronizado via Premissas do Sistema</ExecutiveText>
             </div>
          </div>
 
@@ -204,10 +241,10 @@ export function AnaliseMercadoPage({ clientId }: AnaliseMercadoPageProps) {
             
             <div className="relative z-10 flex flex-col h-full">
                <div className="mb-12">
-         <p className="text-[10px] font-medium text-executive-secondary uppercase tracking-[0.3em] mb-2">Deep Insights</p>
-                  <h3 className="text-2xl font-medium text-white tracking-tight flex items-center gap-3 uppercase">
+         <ExecutiveText as="div" variant="bodyStandard" className="text-executive-secondary mb-2">Deep Insights</ExecutiveText>
+                  <ExecutiveHeading as="h3" className="text-white flex items-center gap-3">
                     Panorama de Oportunidades
-                  </h3>
+                  </ExecutiveHeading>
                </div>
 
                <div className="space-y-10 flex-1">
@@ -223,7 +260,7 @@ export function AnaliseMercadoPage({ clientId }: AnaliseMercadoPageProps) {
                           })()}
                        </div>
                        <div className="space-y-1">
-                          <h4 className="text-[10px] font-medium text-secondary uppercase tracking-widest mb-1">{insight.title}</h4>
+                          <ExecutiveHeading as="h4" className="text-secondary mb-1">{insight.title}</ExecutiveHeading>
                           <p className="text-[11px] font-medium text-white/60 leading-relaxed group-hover:text-white transition-colors uppercase tracking-widest italic">
                             {insight.desc}
                           </p>
@@ -238,9 +275,20 @@ export function AnaliseMercadoPage({ clientId }: AnaliseMercadoPageProps) {
                     <span className="break-words">Atualizar Inteligência</span>
                   </button>
                </div>
-            </div>
-         </div>
-      </div>
-    </div>
+          </div>
+       </div>
+       </div>
+       <ExecutiveSummarySection 
+         status={{ label: 'Mercado Mapeado', variant: 'success' }}
+         question="Como os fatores macroeconômicos afetam o planejamento setorial?"
+         opinion="A taxa Selic elevada impacta o custo de capital e o IPCA moderado estabiliza o poder de compra."
+         driver="Inflação (IPCA), taxa de juros (Selic) e PIB mundial."
+         implication="Necessidade de manter alta liquidez e controle rígido do capital de giro."
+         action="Adequar orçamentos a cenários de juros altos."
+       >
+         <ExecutiveStrategicTensions tensions={[]} />
+         <ExecutiveDecisionTrace trace={[]} />
+       </ExecutiveSummarySection>
+    </ExecutivePageTemplate>
   );
 }

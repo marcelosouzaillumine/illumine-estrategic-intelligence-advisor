@@ -1,8 +1,8 @@
-// src/components/executive-command/GovernanceRestrictionOverlay.tsx
-
 import React from 'react';
 import { Lock, FileSignature } from 'lucide-react';
 import { GovernanceExecutionTracking } from '../../services/FiduciaryRuntimeAdapter';
+// src/components/executive-command/GovernanceRestrictionOverlay.tsx
+
 
 interface GovernanceRestrictionOverlayProps {
   tracking: GovernanceExecutionTracking;

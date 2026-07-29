@@ -1,9 +1,13 @@
-// src/components/pages/governance/SovereignBoardPackPage.tsx
+import { ExecutiveText } from '@/components/ui/executive-typography';
+import { ExecutiveHeading } from '@/components/ui/executive-heading';
+import { ExecutiveSurface } from '@/components/ui/executive-surface';
+import { ExecutiveMetricCard } from '@/components/ui/executive-metric-card';
+import { ExecutiveBadge } from '@/components/ui/executive-badge';
 
 import React, { useState, useEffect, useMemo } from 'react';
 import { Compass, AlertTriangle, ShieldCheck, Lock, Activity, TrendingUp, AlertOctagon, RefreshCw } from 'lucide-react';
-import { PageHeader } from '../../Common';
-import { useLanguage } from '../../../contexts/LanguageContext';
+import { PageHeader } from '@/components/Common';
+import { useLanguage } from '@/contexts/LanguageContext';
 import { FiduciaryRestrictionPanel } from './FiduciaryRestrictionPanel';
 import { ConfidenceDisclosurePanel } from './ConfidenceDisclosurePanel';
 import { ContinuityRiskPanel } from './ContinuityRiskPanel';
@@ -13,11 +17,11 @@ import { EXECUTIVE_SEVERITY_THEME } from './ExecutiveSeverityTheme';
 import { ExecutiveTimelinePanel } from './ExecutiveTimelinePanel';
 import { CausalityExplorerPanel } from './CausalityExplorerPanel';
 import { ConstitutionalGovernanceDashboardPanel } from './ConstitutionalGovernanceDashboardPanel';
-import { useInstitutionalAuth } from '../../../core/security/auth/InstitutionalAuthProvider';
-import { cn } from '../../../lib/utils';
-import { FiduciaryRuntimeAdapter, PresentationLayer, InstitutionalBoardPackOutput } from '../../../services/FiduciaryRuntimeAdapter';
-import { CognitiveNavigationProvider } from '../../../context/cognitive-navigation/CognitiveNavigationContext';
-import { DecisionCognitiveDrawer } from '../../cognitive/DecisionCognitiveDrawer';
+import { useInstitutionalAuth } from '@/hooks/useInstitutionalAuth';
+import { cn } from '@/lib/utils';
+import { FiduciaryRuntimeAdapter, PresentationLayer, InstitutionalBoardPackOutput } from '@/services/FiduciaryRuntimeAdapter';
+import { CognitiveNavigationProvider } from '@/context/cognitive-navigation/CognitiveNavigationContext';
+import { DecisionCognitiveDrawer } from '@/components/cognitive/DecisionCognitiveDrawer';
 
 interface SovereignBoardPackPageProps {
   boardPack?: InstitutionalBoardPackOutput | null;
@@ -100,9 +104,9 @@ export function SovereignBoardPackPage({ boardPack, dataMode }: SovereignBoardPa
                   RESTRITIVA - FAIL CLOSED ATIVO
                 </span>
               </div>
-              <h2 className="text-xl md:text-2xl font-black uppercase tracking-wider text-red-700 dark:text-red-300 w-full text-center">
+              <ExecutiveHeading as="h2" className="md:text-2xl text-red-700 dark:text-red-300 w-full text-center">
                 {errorTitle}
-              </h2>
+              </ExecutiveHeading>
               <p 
     className="text-sm font-semibold text-executive-secondary dark:text-executive-secondary leading-relaxed text-center px-4"
                 style={{ width: '100%', maxWidth: '576px', display: 'block', margin: '0 auto', whiteSpace: 'normal', overflowWrap: 'break-word', wordBreak: 'normal' }}
@@ -171,7 +175,7 @@ export function SovereignBoardPackPage({ boardPack, dataMode }: SovereignBoardPa
         <div className="p-4 rounded-2xl bg-warning-soft0/10 border border-amber-500/20 flex items-start gap-3">
           <AlertTriangle className="w-5 h-5 text-amber-400 shrink-0 mt-0.5" />
           <div>
-            <h4 className="text-xs font-black uppercase tracking-wider text-amber-400">Demo dataset / No real financial data loaded</h4>
+            <ExecutiveHeading as="h4" className="text-amber-400">Demo dataset / No real financial data loaded</ExecutiveHeading>
             <p className="text-[10px] text-amber-655/70 mt-0.5 uppercase tracking-widest">
               Ambiente demonstrativo de simulação fiduciária. Os dados expostos não constituem auditoria ou parecer financeiro válido.
             </p>
@@ -233,9 +237,9 @@ export function SovereignBoardPackPage({ boardPack, dataMode }: SovereignBoardPa
       <span className="text-[9px] font-black uppercase tracking-widest text-muted-foreground dark:text-executive-secondary">
               Tese Fiduciária Consolidada
             </span>
-      <h2 className="text-sm font-bold text-primary dark:text-executive-secondary">
+      <ExecutiveHeading as="h2" className="text-primary dark:text-executive-secondary">
               {snapshot.unifiedThesisStatement}
-            </h2>
+            </ExecutiveHeading>
           </div>
           {snapshot.periodScore !== undefined && (
             <div className="px-4 py-2 bg-slate-100 dark:bg-zinc-900 border border-border dark:border-zinc-800 rounded-2xl flex flex-col items-center shadow-xs">
@@ -281,9 +285,9 @@ export function SovereignBoardPackPage({ boardPack, dataMode }: SovereignBoardPa
             <span className="text-[10px] font-black uppercase tracking-widest text-primary dark:text-primary">
               Página Zero — Executive Strategic Snapshot
             </span>
-      <h3 className="text-lg font-black text-primary dark:text-executive-secondary mt-1">
+      <ExecutiveHeading as="h3" className="text-primary dark:text-executive-secondary mt-1">
               Visão Soberana de Alta Direção
-            </h3>
+            </ExecutiveHeading>
           </div>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-6">
@@ -388,7 +392,7 @@ export function SovereignBoardPackPage({ boardPack, dataMode }: SovereignBoardPa
           <div className="p-6 md:p-8 rounded-[32px] border border-border dark:border-zinc-900 bg-slate-50/40 dark:bg-zinc-950/30 backdrop-blur-md space-y-6">
             <div>
               <span className="text-[9px] font-black uppercase tracking-widest text-primary dark:text-primary">Conselho de Administração</span>
-       <h3 className="text-base font-black text-primary dark:text-executive-secondary mt-0.5">Top 3 Decisões do Conselho</h3>
+       <ExecutiveHeading as="h3" className="text-primary dark:text-executive-secondary mt-0.5">Top 3 Decisões do Conselho</ExecutiveHeading>
             </div>
 
             <div className="space-y-6">
@@ -397,7 +401,7 @@ export function SovereignBoardPackPage({ boardPack, dataMode }: SovereignBoardPa
                   <div className="flex items-start justify-between gap-3">
                     <div className="flex gap-2.5 items-center">
                       <span className="w-6 h-6 flex items-center justify-center rounded-full bg-primary text-primary dark:text-primary font-bold text-xs shrink-0">{idx + 1}</span>
-           <h4 className="text-xs font-black text-primary dark:text-executive-secondary uppercase tracking-wide">{dec.titulo}</h4>
+           <ExecutiveHeading as="h4" className="text-primary dark:text-executive-secondary">{dec.titulo}</ExecutiveHeading>
                     </div>
                     <div className="flex flex-wrap gap-1.5 justify-end shrink-0">
                       <span className={cn(
@@ -426,11 +430,11 @@ export function SovereignBoardPackPage({ boardPack, dataMode }: SovereignBoardPa
          <p className="text-xs font-semibold text-muted-foreground dark:text-executive-secondary leading-relaxed">
           <strong className="text-muted-foreground dark:text-executive-secondary">Impacto Esperado: </strong>{dec.impactoEsperado}
                   </p>
-         <p className="text-xs font-semibold text-muted-foreground dark:text-executive-secondary leading-relaxed border-t border-border dark:border-white/5 pt-2 text-[10px]">
+         <p className="mt-12 text-xs font-semibold text-muted-foreground dark:text-executive-secondary leading-relaxed border-t border-border dark:border-white/5 pt-2 text-[10px] pt-8 mb-8">
                     <strong className="text-red-600 dark:text-red-400">Consequência da Inação: </strong>{dec.consequenciaInacao}
                   </p>
 
-         <div className="flex items-center gap-4 text-[9px] font-mono text-muted-foreground dark:text-executive-secondary border-t border-border dark:border-white/5 pt-2">
+         <div className="mt-12 flex items-center gap-4 text-[9px] font-mono text-muted-foreground dark:text-executive-secondary border-t border-border dark:border-white/5 pt-2 pt-8 mb-8">
           <span>Origem: <strong className="text-muted-foreground dark:text-executive-secondary">{dec.origin}</strong></span>
           <span className="truncate">Evidência: <strong className="text-muted-foreground dark:text-executive-secondary">{dec.evidence.join(' | ')}</strong></span>
                   </div>
@@ -443,7 +447,7 @@ export function SovereignBoardPackPage({ boardPack, dataMode }: SovereignBoardPa
           <div className="p-6 md:p-8 rounded-[32px] border border-border dark:border-zinc-900 bg-slate-50/40 dark:bg-zinc-950/30 backdrop-blur-md space-y-6">
             <div>
               <span className="text-[9px] font-black uppercase tracking-widest text-emerald-500 dark:text-emerald-400">Diretoria Executiva</span>
-       <h3 className="text-base font-black text-primary dark:text-executive-secondary mt-0.5">Top 5 Ações da Diretoria</h3>
+       <ExecutiveHeading as="h3" className="text-primary dark:text-executive-secondary mt-0.5">Top 5 Ações da Diretoria</ExecutiveHeading>
             </div>
 
             <div className="space-y-4">
@@ -452,7 +456,7 @@ export function SovereignBoardPackPage({ boardPack, dataMode }: SovereignBoardPa
                   <div className="flex items-center justify-between gap-3">
                     <div className="flex gap-2 items-center">
                       <span className="w-5 h-5 flex items-center justify-center rounded-full bg-success-soft0/10 text-emerald-600 dark:text-emerald-700 font-bold text-[10px] shrink-0">{idx + 1}</span>
-           <h4 className="text-[11px] font-black text-primary dark:text-executive-secondary uppercase tracking-wide">{act.acao}</h4>
+           <ExecutiveHeading as="h4" className="text-primary dark:text-executive-secondary">{act.acao}</ExecutiveHeading>
                     </div>
           <span className="px-2 py-0.5 rounded bg-slate-100 dark:bg-zinc-800 text-[8px] font-mono text-muted-foreground dark:text-executive-secondary uppercase shrink-0">
                       Prazo: {act.prazo}
@@ -468,7 +472,7 @@ export function SovereignBoardPackPage({ boardPack, dataMode }: SovereignBoardPa
                     </div>
                   </div>
 
-         <div className="flex items-center gap-4 text-[9px] font-mono text-muted-foreground dark:text-executive-secondary border-t border-border dark:border-white/5 pt-1.5">
+         <div className="mt-12 flex items-center gap-4 text-[9px] font-mono text-muted-foreground dark:text-executive-secondary border-t border-border dark:border-white/5 pt-1.5 pt-8 mb-8">
                     <span>Origem: {act.origin}</span>
                     <span className="truncate">Evidência: {act.evidence.join(' | ')}</span>
                   </div>
@@ -484,7 +488,7 @@ export function SovereignBoardPackPage({ boardPack, dataMode }: SovereignBoardPa
         <div className="p-6 md:p-8 rounded-[32px] border border-border dark:border-zinc-900 bg-slate-50/40 dark:bg-zinc-950/30 backdrop-blur-md space-y-6">
           <div className="border-b border-border dark:border-white/5 pb-4">
             <span className="text-[9px] font-black uppercase tracking-widest text-primary dark:text-primary">Criação de Valor Econômico</span>
-      <h3 className="text-base font-black text-primary dark:text-executive-secondary mt-0.5">Economic Value Creation Framework</h3>
+      <ExecutiveHeading as="h3" className="text-primary dark:text-executive-secondary mt-0.5">Economic Value Creation Framework</ExecutiveHeading>
           </div>
 
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
@@ -573,8 +577,8 @@ export function SovereignBoardPackPage({ boardPack, dataMode }: SovereignBoardPa
           <div className="p-6 md:p-8 rounded-[32px] border border-border dark:border-zinc-900 bg-slate-50/40 dark:bg-zinc-950/30 backdrop-blur-md space-y-6">
             <div>
               <span className="text-[9px] font-black uppercase tracking-widest text-primary dark:text-primary">BADI</span>
-       <h3 className="text-base font-black text-primary dark:text-executive-secondary mt-0.5">Board Attention Demand Index (Demanda de Atenção)</h3>
-       <p className="text-[10px] text-muted-foreground dark:text-executive-secondary uppercase tracking-widest mt-0.5">Notas maiores indicam maior urgência/prioridade fiduciária de atenção do Conselho.</p>
+       <ExecutiveHeading as="h3" className="text-primary dark:text-executive-secondary mt-0.5">Board Attention Demand Index (Demanda de Atenção)</ExecutiveHeading>
+       <ExecutiveText as="div" variant="bodyStandard" className="text-muted-foreground dark:text-executive-secondary mt-0.5">Notas maiores indicam maior urgência/prioridade fiduciária de atenção do Conselho.</ExecutiveText>
             </div>
 
             <div className="space-y-4">
@@ -617,8 +621,8 @@ export function SovereignBoardPackPage({ boardPack, dataMode }: SovereignBoardPa
           <div className="p-6 md:p-8 rounded-[32px] border border-border dark:border-zinc-900 bg-slate-50/40 dark:bg-zinc-950/30 backdrop-blur-md space-y-6">
             <div>
               <span className="text-[9px] font-black uppercase tracking-widest text-primary dark:text-primary">Matriz de Prioridades</span>
-       <h3 className="text-base font-black text-primary dark:text-executive-secondary mt-0.5">Matriz Institucional de Prioridades</h3>
-       <p className="text-[10px] text-muted-foreground dark:text-executive-secondary uppercase tracking-widest mt-0.5">Resumo executivo de impacto, urgência e esforço por domínio corporativo.</p>
+       <ExecutiveHeading as="h3" className="text-primary dark:text-executive-secondary mt-0.5">Matriz Institucional de Prioridades</ExecutiveHeading>
+       <ExecutiveText as="div" variant="bodyStandard" className="text-muted-foreground dark:text-executive-secondary mt-0.5">Resumo executivo de impacto, urgência e esforço por domínio corporativo.</ExecutiveText>
             </div>
 
             <div className="overflow-x-auto">
@@ -686,9 +690,9 @@ export function SovereignBoardPackPage({ boardPack, dataMode }: SovereignBoardPa
             <div className="flex items-center gap-3 text-left">
               <Lock className="w-5 h-5 text-primary dark:text-primary" />
               <div>
-        <h3 className="text-sm font-black uppercase tracking-wider text-primary dark:text-executive-secondary">
+        <ExecutiveHeading as="h3" className="text-primary dark:text-executive-secondary">
                   Apêndice Técnico de Auditoria (Technical Appendix)
-                </h3>
+                </ExecutiveHeading>
         <p className="text-[10px] text-muted-foreground dark:text-executive-secondary uppercase tracking-widest mt-0.5">
                   Fórmulas, linhagem criptográfica e rastreabilidade fiduciária completa.
                 </p>
@@ -700,7 +704,7 @@ export function SovereignBoardPackPage({ boardPack, dataMode }: SovereignBoardPa
           </button>
 
           {appendixExpanded && (
-            <div className="p-6 md:p-8 space-y-8 border-t border-border dark:border-zinc-900 animate-in fade-in slide-in-from-top-4 duration-300">
+            <div className="mt-12 p-6 md:p-8 space-y-8 border-t border-border dark:border-zinc-900 animate-in fade-in slide-in-from-top-4 duration-300 pt-8 mb-8">
               {/* Main Panels Grid */}
               <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
                 

@@ -1,8 +1,8 @@
-// src/components/war-gaming/CollapsePropagationGraph.tsx
-
 import React from 'react';
 import { CrisisPropagationNode } from '../../services/FiduciaryRuntimeAdapter';
 import { cn } from '../../lib/utils';
+// src/components/war-gaming/CollapsePropagationGraph.tsx
+
 
 export function CollapsePropagationGraph({ propagation }: { propagation: CrisisPropagationNode[] }) {
   if (!propagation || propagation.length === 0) return null;

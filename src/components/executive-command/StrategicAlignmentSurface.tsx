@@ -1,8 +1,8 @@
-// src/components/executive-command/StrategicAlignmentSurface.tsx
-
 import React from 'react';
 import { Network, Activity, Coins, TrendingUp } from 'lucide-react';
 import { InstitutionalAlignmentState } from '../../services/FiduciaryRuntimeAdapter';
+// src/components/executive-command/StrategicAlignmentSurface.tsx
+
 
 interface StrategicAlignmentSurfaceProps {
   alignment: InstitutionalAlignmentState;

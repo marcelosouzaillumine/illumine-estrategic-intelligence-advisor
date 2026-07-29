@@ -136,6 +136,7 @@ export type Page =
   | 'reality_validation'
   | 'institutional_reports'
 
+  | 'partner_brand_configuration'
   | 'runtime_observability'
   | 'admin_grupos'
   | 'consolidated_executive'
@@ -481,6 +482,7 @@ const RAW_NAVIGATION_GROUPS: NavigationGroup[] = [
     group: 'Configurações', groupKey: 'navigation.group.settings',
     icon: Settings,
     items: [
+      { id: 'partner_brand_configuration', label: 'Identidade Institucional (EBIL)', labelKey: 'navigation.page.partner_brand_configuration', icon: Building2 },
       { id: 'suporte', label: 'Suporte', labelKey: 'navigation.page.suporte', icon: LifeBuoy },
       { id: 'mensagens', label: 'Mensagens e Comunicados', labelKey: 'navigation.page.mensagens', icon: Bell },
       { id: 'perfil_usuario', label: 'Gestão de Perfil', labelKey: 'navigation.page.perfil_usuario', icon: UserCog },

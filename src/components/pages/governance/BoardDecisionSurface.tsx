@@ -1,13 +1,14 @@
-// src/components/pages/governance/BoardDecisionSurface.tsx
-
+import { ExecutiveText } from '../../ui/executive-typography';
+import { ExecutiveHeading } from '../../ui/executive-heading';
 import React from 'react';
-import { Gavel, Scale, AlertTriangle, FileText, CheckCircle2, Shield } from 'lucide-react';
+import { Gavel, Scale, AlertTriangle, FileText, CheckCircle2, Shield, BrainCircuit, Search } from 'lucide-react';
 import { ExecutiveDirectiveSection, BoardResolutionAppendix } from '../../../services/FiduciaryRuntimeAdapter';
 import { useLanguage } from '../../../contexts/LanguageContext';
 import { useCognitiveNavigation } from '../../../context/cognitive-navigation/CognitiveNavigationContext';
-import { BrainCircuit, Search } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import { InvestigationLauncherWrapper } from '../../investigation/InvestigationLauncherWrapper';
+// src/components/pages/governance/BoardDecisionSurface.tsx
+
 
 interface BoardDecisionSurfaceProps {
   executiveDirectives?: ExecutiveDirectiveSection;
@@ -53,9 +54,9 @@ export function BoardDecisionSurface({ executiveDirectives, boardResolutionAppen
       <div className="flex items-center gap-3 border-b border-border dark:border-white/5 pb-3 justify-between">
         <div className="flex items-center gap-3">
           <Gavel className="w-5 h-5 text-amber-500 dark:text-amber-400" />
-          <h3 className="text-xs font-black uppercase tracking-widest text-muted-foreground dark:text-zinc-300">
+          <ExecutiveHeading as="h3" className="text-muted-foreground dark:text-zinc-300">
             Painel de Diretivas e Deliberações do Conselho (Board Decision Surface)
-          </h3>
+          </ExecutiveHeading>
         </div>
         <div className="flex items-center gap-2">
           <span className="text-[9px] font-mono font-bold uppercase tracking-widest px-2.5 py-1 bg-slate-100 dark:bg-zinc-900 border border-border dark:border-zinc-800 text-muted-foreground dark:text-zinc-400 rounded flex items-center gap-1.5 shadow-xs">
@@ -114,9 +115,9 @@ export function BoardDecisionSurface({ executiveDirectives, boardResolutionAppen
                   </div>
 
                   <div>
-                    <h4 className="text-xs font-bold text-muted-foreground dark:text-zinc-200 uppercase tracking-wide mb-1">
+                    <ExecutiveHeading as="h4" className="text-muted-foreground dark:text-zinc-200 mb-1">
                       {dir.title}
-                    </h4>
+                    </ExecutiveHeading>
                     <p className="text-xs font-semibold text-muted-foreground dark:text-zinc-400 leading-relaxed">
                       {dir.statement}
                     </p>
@@ -135,12 +136,12 @@ export function BoardDecisionSurface({ executiveDirectives, boardResolutionAppen
                     </div>
                   )}
 
-                  <div className="flex items-center justify-between border-t border-border dark:border-white/5 pt-2 text-[9px] font-mono text-muted-foreground dark:text-zinc-500">
+                  <div className="mt-12 flex items-center justify-between border-t border-border dark:border-white/5 pt-2 text-[9px] font-mono text-muted-foreground dark:text-zinc-500 pt-8 mb-8">
                     <span>Linhagem: <span className="text-muted-foreground dark:text-zinc-400 select-all">{dir.lineageHash}</span></span>
                     <span className="font-bold uppercase text-amber-600 dark:text-amber-500/80">{dir.status}</span>
                   </div>
 
-                  <div className="flex items-center gap-2 pt-2 border-t border-border dark:border-white/5">
+                  <div className="mt-12 flex items-center gap-2 pt-2 border-t border-border dark:border-white/5 pt-8 mb-8">
                     <InvestigationLauncherWrapper 
                       tenantId="SYSTEM_TENANT" 
                       nodeId={dir.id} 
@@ -191,8 +192,8 @@ export function BoardDecisionSurface({ executiveDirectives, boardResolutionAppen
             {resolutions.length === 0 ? (
               <div className="text-center py-6 text-muted-foreground dark:text-zinc-500 space-y-1">
                 <FileText className="w-5 h-5 mx-auto text-muted-foreground dark:text-zinc-700" />
-                <p className="text-[10px] font-bold uppercase tracking-wider">Sem deliberações registradas</p>
-                <p className="text-[9px] text-muted-foreground dark:text-zinc-600">Nenhum evento requereu intervenção humana formal neste ciclo.</p>
+                <ExecutiveText as="div" variant="bodyStandard">Sem deliberações registradas</ExecutiveText>
+                <ExecutiveText as="div" variant="bodyStandard" className="text-muted-foreground dark:text-zinc-600">Nenhum evento requereu intervenção humana formal neste ciclo.</ExecutiveText>
               </div>
             ) : (
               <div className="space-y-3">

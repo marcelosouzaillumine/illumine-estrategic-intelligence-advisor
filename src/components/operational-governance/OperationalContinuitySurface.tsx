@@ -1,8 +1,8 @@
-// src/components/operational-governance/OperationalContinuitySurface.tsx
-
 import React from 'react';
 import { Shield, ShieldAlert, HeartPulse } from 'lucide-react';
 import { OperationalContinuityState } from '../../services/FiduciaryRuntimeAdapter';
+// src/components/operational-governance/OperationalContinuitySurface.tsx
+
 
 interface OperationalContinuitySurfaceProps {
   continuity: OperationalContinuityState;

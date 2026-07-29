@@ -1,8 +1,8 @@
-// src/components/strategic-intelligence/TrajectoryContinuityTimeline.tsx
-
 import React from 'react';
 import { Route } from 'lucide-react';
 import { LongitudinalTrajectoryStatus } from '../../services/FiduciaryRuntimeAdapter';
+// src/components/strategic-intelligence/TrajectoryContinuityTimeline.tsx
+
 
 interface TrajectoryContinuityTimelineProps {
   status: LongitudinalTrajectoryStatus;

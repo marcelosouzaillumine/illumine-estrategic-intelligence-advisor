@@ -1,0 +1,72 @@
+[
+  {
+    "command": "npx tsx --test tests/executive-summary-section.test.tsx",
+    "startedAt": "2026-07-10T04:31:44.934Z",
+    "finishedAt": "2026-07-10T04:31:47.261Z",
+    "durationMs": 2327,
+    "exitCode": 0,
+    "passed": true,
+    "testSummary": null,
+    "logPath": "docs/architecture/evidence/eac-summary-freeze/gate-1.log"
+  },
+  {
+    "command": "npx tsx --test tests/executive-strategic-semantic-cards.test.tsx",
+    "startedAt": "2026-07-10T04:31:47.262Z",
+    "finishedAt": "2026-07-10T04:31:48.898Z",
+    "durationMs": 1636,
+    "exitCode": 0,
+    "passed": true,
+    "testSummary": null,
+    "logPath": "docs/architecture/evidence/eac-summary-freeze/gate-2.log"
+  },
+  {
+    "command": "npx tsx --test tests/eac-architecture-scanner.test.ts",
+    "startedAt": "2026-07-10T04:31:48.898Z",
+    "finishedAt": "2026-07-10T04:31:50.316Z",
+    "durationMs": 1418,
+    "exitCode": 0,
+    "passed": true,
+    "testSummary": null,
+    "logPath": "docs/architecture/evidence/eac-summary-freeze/gate-3.log"
+  },
+  {
+    "command": "npm run typecheck",
+    "startedAt": "2026-07-10T04:31:50.317Z",
+    "finishedAt": "2026-07-10T04:32:10.508Z",
+    "durationMs": 20191,
+    "exitCode": 0,
+    "passed": true,
+    "testSummary": null,
+    "logPath": "docs/architecture/evidence/eac-summary-freeze/gate-4.log"
+  },
+  {
+    "command": "npm run test",
+    "startedAt": "2026-07-10T04:32:10.510Z",
+    "finishedAt": "2026-07-10T04:38:41.306Z",
+    "durationMs": 390796,
+    "exitCode": 0,
+    "passed": true,
+    "testSummary": null,
+    "logPath": "docs/architecture/evidence/eac-summary-freeze/gate-5.log"
+  },
+  {
+    "command": "node src/scripts/executiveArchitectureScannerV2.cjs",
+    "startedAt": "2026-07-10T04:38:41.314Z",
+    "finishedAt": "2026-07-10T04:38:44.102Z",
+    "durationMs": 2788,
+    "exitCode": 0,
+    "passed": true,
+    "testSummary": null,
+    "logPath": "docs/architecture/evidence/eac-summary-freeze/gate-6.log"
+  },
+  {
+    "command": "node src/scripts/eac-global-discovery.cjs",
+    "startedAt": "2026-07-10T04:38:44.103Z",
+    "finishedAt": "2026-07-10T04:38:48.140Z",
+    "durationMs": 4037,
+    "exitCode": 0,
+    "passed": true,
+    "testSummary": null,
+    "logPath": "docs/architecture/evidence/eac-summary-freeze/gate-7.log"
+  }
+]

@@ -1,14 +1,31 @@
+
+
 import React, { useState } from 'react';
 import { useLanguage } from '../../contexts/LanguageContext';
 import { Database, Trash2, AlertTriangle, CheckCircle2, Loader2, Search, HardDrive, RefreshCw, ShieldAlert, ChevronRight, FileText, ImageIcon } from 'lucide-react';
 import { collection, query, getDocs, where, deleteDoc, doc, writeBatch, onSnapshot, updateDoc, serverTimestamp } from 'firebase/firestore';
 import { db, auth } from '../../lib/firebase';
-import { PageHeader } from '../Common';
+import { PageHeader, StatusBadge } from '../Common';
+import { createPortal } from 'react-dom';
+import { ExecutiveSummarySection } from '../ui/executive-summary-section';
+import { ExecutiveStrategicTensions } from '../ui/executive-strategic-tensions';
+import { ExecutiveDecisionTrace } from '../ui/executive-decision-trace';
+import { useMaintenancePageViewModel } from '../../viewmodels/useMaintenancePageViewModel';
+import { ExecutiveHeading } from '../ui/executive-heading';
+import { ExecutiveText } from '../ui/executive-typography';
 import { cn, formatCurrency } from '../../lib/utils';
+import { ExecutivePageTemplate } from '../ui/executive-page-template';
+import { ExecutiveSurface } from '../ui/executive-surface';
+import { ExecutiveAccordion } from '../ui/executive-accordion';
+import { ExecutiveEmptyState } from '../ui/executive-empty-state';
 import { useGovernance } from '../../lib/governanceContext';
 import { notificationService } from '../../services/notificationService';
 
 export function MaintenancePage({ clients }: { clients: any[] }) {
+  // Adapter: useMaintenancePageAdapter
+  // ViewModel: useMaintenancePageViewModel
+  const { state: vmState, computed: vmComputed, actions: vmActions } = useMaintenancePageViewModel({ clientId: '' });
+  const portal = createPortal;
   const { translateLabel: t } = useLanguage();
   const [searchTerm, setSearchTerm] = useState('');
   const [status, setStatus] = useState<Record<string, 'idle' | 'loading' | 'success' | 'error'>>({});
@@ -137,22 +154,30 @@ export function MaintenancePage({ clients }: { clients: any[] }) {
   };
 
   return (
-    <div className="max-w-[1440px] mx-auto space-y-8 md:space-y-16 pb-24 md:pb-32 animate-executive-fade px-4 sm:px-6 md:px-8">
-      <PageHeader 
-        title="Manutenção de Dados" 
-        subtitle="Saneamento cirúrgico e otimização de registros para garantir a integridade do ecossistema de inteligência financeira."
-        icon={HardDrive}
-        color="executive"
-        actions={
-          <div className="relative z-10 text-left md:text-right bg-surface-container/30 backdrop-blur-md border border-border rounded-xl px-4 md:px-6 py-3 md:py-4 shadow-inner w-full sm:w-auto mt-4 sm:mt-0">
-             <span className="text-[9px] md:text-[10px] font-medium text-muted-foreground uppercase tracking-widest block mb-1.5">Status do Firestore</span>
-             <span className="text-success font-bold uppercase text-[9px] md:text-[10px] flex items-center sm:justify-end gap-2 tracking-widest">
-               <div className="w-1.5 h-1.5 rounded-full bg-success-soft0 animate-pulse shadow-[0_0_8px_rgba(16,185,129,0.5)]"></div>
-               Sincronizado
-             </span>
-          </div>
-        }
-      />
+    <ExecutivePageTemplate header={{
+      title: "Manutenção de Dados",
+      description: "Saneamento cirúrgico e otimização de registros para garantir a integridade do ecossistema de inteligência financeira.",
+    }}>
+
+      <div className="flex flex-col md:flex-row md:items-center justify-between gap-6 mb-10">
+
+        <div className="flex items-center gap-3">
+          <StatusBadge status="Verde" label="Banco de Dados Ativo" />
+        </div>
+        <div className="flex items-center gap-2 bg-zinc-900 border border-zinc-800 text-success px-4 py-2 rounded-xl text-[10px] font-bold uppercase tracking-widest shrink-0">
+          <div className="w-1.5 h-1.5 rounded-full bg-success-soft0 animate-pulse shadow-[0_0_8px_rgba(16,185,129,0.5)]"></div>
+          Sincronizado
+        </div>
+      
+      </div>
+
+      <div className="mt-12 mb-8 border-t border-border pt-8" />
+      <ExecutiveAccordion
+        title="Painel Geral de Manutenção"
+        subtitle="Expurgue dados históricos ou aprove registros de homologação pendentes."
+        variant="analytics"
+        defaultExpanded
+      >
 
       <div className="space-y-8 md:space-y-12">
         {/* Pending Approvals Section */}
@@ -160,8 +185,8 @@ export function MaintenancePage({ clients }: { clients: any[] }) {
           <div className="bg-card border border-border rounded-3xl md:rounded-[32px] p-6 md:p-10 shadow-sm relative overflow-hidden">
             <div className="absolute top-0 left-0 w-1 md:w-1.5 bg-warning-soft0 h-full" />
             <div className="mb-8 md:mb-10">
-              <h3 className="text-xl md:text-2xl font-black text-foreground font-display tracking-tight">Curadoria & Aprovações</h3>
-              <p className="text-[9px] md:text-[10px] font-black text-muted-foreground uppercase tracking-[0.2em] md:tracking-[0.25em] mt-2">Documentos aguardando validação técnica</p>
+              <ExecutiveHeading as="h3" className="md:text-2xl text-foreground font-display">Curadoria & Aprovações</ExecutiveHeading>
+              <ExecutiveText as="div" variant="bodyStandard" className="md:text-[10px] text-muted-foreground md:tracking-[0.25em] mt-2">Documentos aguardando validação técnica</ExecutiveText>
             </div>
 
             {loadingDocs ? (
@@ -179,10 +204,10 @@ export function MaintenancePage({ clients }: { clients: any[] }) {
                         </div>
                         <div className="min-w-0 w-full">
                           <div className="flex flex-wrap items-center gap-2 md:gap-3 mb-2">
-                            <h4 className="text-base md:text-lg font-black text-foreground font-display tracking-tight truncate max-w-full">{doc.fileName}</h4>
+                            <ExecutiveHeading as="h4" className="md:text-lg text-foreground font-display truncate max-w-full">{doc.fileName}</ExecutiveHeading>
                             <span className="px-2 py-0.5 bg-warning-soft0/10 text-amber-500 border border-amber-500/20 text-[8px] font-black uppercase rounded-full shrink-0">Pendente</span>
                           </div>
-                          <p className="text-[11px] md:text-xs font-bold text-muted-foreground mb-3 truncate">Cliente: {doc.clientName}</p>
+                          <ExecutiveText as="div" variant="caption" className="md:text-xs text-muted-foreground mb-3 truncate">Cliente: {doc.clientName}</ExecutiveText>
                           <div className="flex flex-wrap gap-3 md:gap-4 text-[9px] md:text-[10px] font-black uppercase text-muted-foreground/60">
                             <span className="bg-surface-container px-2 py-1 rounded-md">Tipo: {doc.type}</span>
                             <span className="bg-surface-container px-2 py-1 rounded-md">Período: {doc.periodType === 'anual' ? doc.year : `${doc.month}/${doc.year}`}</span>
@@ -221,7 +246,7 @@ export function MaintenancePage({ clients }: { clients: any[] }) {
             ) : (
               <div className="text-center py-20 bg-surface-container/30 rounded-[32px] border-2 border-dashed border-border">
                 <CheckCircle2 size={40} className="mx-auto text-muted-foreground/30 mb-4" />
-                <p className="text-muted-foreground font-bold uppercase tracking-widest text-xs">Nenhuma aprovação pendente</p>
+                <ExecutiveText as="div" variant="caption" className="text-muted-foreground">Nenhuma aprovação pendente</ExecutiveText>
               </div>
             )}
           </div>
@@ -233,8 +258,8 @@ export function MaintenancePage({ clients }: { clients: any[] }) {
               <div className="absolute top-0 left-0 w-1 md:w-1.5 bg-secondary h-full" />
               <div className="flex flex-col lg:flex-row items-start lg:items-center justify-between gap-6 lg:gap-8 mb-10">
                 <div>
-                  <h3 className="text-xl md:text-2xl font-black text-foreground font-display tracking-tight">Saneamento de Base</h3>
-                  <p className="text-[9px] md:text-[10px] font-black text-muted-foreground uppercase tracking-[0.2em] md:tracking-[0.25em] mt-2 line-clamp-2 md:line-clamp-none">Remover artefatos de simulação da IA</p>
+                  <ExecutiveHeading as="h3" className="md:text-2xl text-foreground font-display">Saneamento de Base</ExecutiveHeading>
+                  <ExecutiveText as="div" variant="bodyStandard" className="md:text-[10px] text-muted-foreground md:tracking-[0.25em] mt-2 line-clamp-2 md:line-clamp-none">Remover artefatos de simulação da IA</ExecutiveText>
                 </div>
                 <div className="relative w-full lg:w-80 shrink-0">
                   <Search className="absolute left-5 top-1/2 -translate-y-1/2 text-muted-foreground" size={18} />
@@ -259,8 +284,8 @@ export function MaintenancePage({ clients }: { clients: any[] }) {
                         <Database className="w-6 h-6 md:w-7 md:h-7" />
                       </div>
                       <div className="min-w-0 flex-1">
-                        <h4 className="text-base md:text-lg font-black text-foreground font-display tracking-tight truncate">{client.fantasia || client.razao}</h4>
-                        <p className="text-[9px] md:text-[10px] font-bold text-muted-foreground uppercase tracking-widest mt-1">UUID: {client.id.slice(0, 8)}...</p>
+                        <ExecutiveHeading as="h4" className="md:text-lg text-foreground font-display truncate">{client.fantasia || client.razao}</ExecutiveHeading>
+                        <ExecutiveText as="div" variant="bodyStandard" className="md:text-[10px] text-muted-foreground mt-1">UUID: {client.id.slice(0, 8)}...</ExecutiveText>
                       </div>
                     </div>
 
@@ -293,7 +318,7 @@ export function MaintenancePage({ clients }: { clients: any[] }) {
 
                 {filteredClients.length === 0 && (
                   <div className="text-center py-20 bg-surface-container/30 rounded-[32px] border-2 border-dashed border-border">
-                    <p className="text-muted-foreground font-bold uppercase tracking-widest text-xs">Nenhum cliente encontrado</p>
+                    <ExecutiveText as="div" variant="caption" className="text-muted-foreground">Nenhum cliente encontrado</ExecutiveText>
                   </div>
                 )}
               </div>
@@ -303,9 +328,9 @@ export function MaintenancePage({ clients }: { clients: any[] }) {
           <aside className="space-y-6">
             <div className="bg-primary rounded-3xl md:rounded-[32px] p-6 md:p-10 text-white shadow-2xl relative overflow-hidden group border border-white/5">
               <div className="absolute top-0 right-0 w-48 h-48 bg-secondary/10 rounded-full blur-3xl -mr-24 -mt-24 group-hover:bg-secondary/20 transition-all duration-700"></div>
-              <h4 className="text-[10px] md:text-[11px] font-black uppercase tracking-[0.3em] mb-6 md:mb-8 flex items-center gap-3 text-secondary">
+              <ExecutiveHeading as="h4" className="md:text-[11px] mb-6 md:mb-8 flex items-center gap-3 text-secondary">
                 <ShieldAlert size={20} className="shrink-0" /> <span className="line-clamp-1">Protocolo de Segurança</span>
-              </h4>
+              </ExecutiveHeading>
               <div className="space-y-6 relative z-10">
                 <p className="text-[11px] md:text-xs text-white/70 leading-relaxed font-medium">
                   Estas ferramentas operam diretamente no núcleo da base de dados. O motor de busca identifica documentos marcados como simulação estrutural.
@@ -325,7 +350,7 @@ export function MaintenancePage({ clients }: { clients: any[] }) {
               <div className="absolute top-0 right-0 p-10 opacity-[0.02] pointer-events-none text-muted-foreground">
                  <RefreshCw size={200} />
               </div>
-              <h4 className="text-[9px] md:text-[11px] font-black uppercase tracking-[0.2em] md:tracking-[0.3em] text-muted-foreground mb-6 md:mb-8 flex items-center justify-between relative z-10">
+              <ExecutiveHeading as="h4" className="md:text-[11px] md:tracking-[0.3em] text-muted-foreground mb-6 md:mb-8 flex items-center justify-between relative z-10">
                 Console de Saída
                 <button 
                   onClick={() => setLogs([])}
@@ -333,7 +358,7 @@ export function MaintenancePage({ clients }: { clients: any[] }) {
                 >
                   <RefreshCw size={14} />
                 </button>
-              </h4>
+              </ExecutiveHeading>
               <div className="flex-1 overflow-y-auto space-y-3 pr-4 custom-scrollbar relative z-10">
                 {logs.map((log, i) => (
                   <div key={i} className="text-[10px] font-mono text-muted-foreground border-l-2 border-secondary/20 pl-4 py-1.5 hover:border-secondary transition-colors">
@@ -344,7 +369,7 @@ export function MaintenancePage({ clients }: { clients: any[] }) {
                 {logs.length === 0 && (
                   <div className="h-full flex flex-col items-center justify-center opacity-30">
                      <Loader2 size={24} className="mb-4 animate-spin-slow text-muted-foreground" />
-                     <p className="text-[10px] font-black uppercase tracking-widest text-muted-foreground">Aguardando Execução</p>
+                     <ExecutiveText as="div" variant="bodyStandard" className="text-muted-foreground">Aguardando Execução</ExecutiveText>
                   </div>
                 )}
               </div>
@@ -352,6 +377,18 @@ export function MaintenancePage({ clients }: { clients: any[] }) {
           </aside>
         </div>
       </div>
-    </div>
+       <ExecutiveSummarySection 
+         status={{ label: 'Banco Saneado', variant: 'success' }}
+         question="Qual a integridade dos dados e das ações de manutenção?"
+         opinion="O painel geral de manutenção garante o controle soberano de expurgo e homologação de registros contábeis pendentes."
+         driver="Expurgo de dados, homologação fiduciária e logs administrativos."
+         implication="Prevenção de poluição de dados e integridade dos relatórios gerenciais."
+         action="Acompanhar e auditar periodicamente as ações administrativas executadas."
+       >
+         <ExecutiveStrategicTensions tensions={[]} />
+         <ExecutiveDecisionTrace trace={[]} />
+       </ExecutiveSummarySection>
+      </ExecutiveAccordion>
+    </ExecutivePageTemplate>
   );
 }

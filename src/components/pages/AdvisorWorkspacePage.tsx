@@ -1,3 +1,5 @@
+
+
 import React, { useState, useEffect } from 'react';
 import { Briefcase, Users, FileCheck, Activity, Sliders, AlertTriangle, CheckCircle, ExternalLink, ShieldCheck, CheckSquare, RefreshCw, FileText, Target, Network, Layers, Presentation, BarChart } from 'lucide-react';
 import { PageHeader, StatusBadge } from '../Common';
@@ -7,8 +9,23 @@ import { governanceService } from '../../services/governanceService';
 import { DataAccessContext } from '../../core/security/data-access-context';
 import { OnboardingEngine } from '../../core/onboarding/OnboardingEngine';
 import { InstitutionalObservabilityRegistry } from '../../core/observability/InstitutionalObservabilityRegistry';
+import { ExecutivePageTemplate } from '../ui/executive-page-template';
+import { ExecutiveSurface } from '../ui/executive-surface';
+import { ExecutiveAccordion } from '../ui/executive-accordion';
+import { ExecutiveEmptyState } from '../ui/executive-empty-state';
+import { ExecutiveHeading } from '../ui/executive-heading';
+import { ExecutiveText } from '../ui/executive-typography';
+import { createPortal } from 'react-dom';
+import { ExecutiveSummarySection } from '../ui/executive-summary-section';
+import { ExecutiveStrategicTensions } from '../ui/executive-strategic-tensions';
+import { ExecutiveDecisionTrace } from '../ui/executive-decision-trace';
+import { useAdvisorWorkspaceViewModel } from '../../viewmodels/useAdvisorWorkspaceViewModel';
 
 export function AdvisorWorkspacePage({ selectedClient }: { selectedClient: string }) {
+  // Adapter: useAdvisorWorkspaceAdapter
+  // ViewModel: useAdvisorWorkspaceViewModel
+  const { state, computed, actions } = useAdvisorWorkspaceViewModel({ selectedClient });
+  const portal = createPortal;
   const [activeProfile, setActiveProfile] = useState<string>('balanced');
   const [activeVersion, setActiveVersion] = useState<string>('v1.0.0');
   const [stagingQueue, setStagingQueue] = useState<any[]>([]);
@@ -142,20 +159,32 @@ export function AdvisorWorkspacePage({ selectedClient }: { selectedClient: strin
   };
 
   return (
-    <div className="max-w-[1440px] mx-auto px-6 lg:px-10 space-y-10 pb-32 animate-executive-fade text-foreground">
-      {/* Header */}
-      <PageHeader
-        title="Advisor Workspace"
-        subtitle="Painel Consolidado de Calibração, Fila de Validação Contábil e Diagnóstico Multi-Cliente."
-        icon={Briefcase}
-        transparent
-        actions={
-          <div className="flex items-center gap-3 bg-accent text-accent px-4 py-2 border border-accent rounded-button">
-            <ShieldCheck size={16} />
-            <span className="text-[10px] font-black uppercase tracking-wider">Advisor Mode</span>
-          </div>
-        }
-      />
+    <ExecutivePageTemplate header={{
+      title: "Advisor Workspace",
+      description: "Painel Consolidado de Calibração, Fila de Validação Contábil e Diagnóstico Multi-Cliente.",
+    }}>
+
+      <div className="flex flex-col md:flex-row md:items-center justify-between gap-6 mb-10">
+
+        <div className="flex items-center gap-3">
+          <StatusBadge status="Verde" label="Modo Advisor Ativo" />
+        </div>
+        <div className="flex items-center gap-3 bg-zinc-900 border border-zinc-800 px-4 py-2 rounded-xl text-white">
+          <ShieldCheck size={16} className="text-emerald-500" />
+          <span className="text-[10px] font-black uppercase tracking-wider">Sessão Fiduciária Segura</span>
+        </div>
+      
+      </div>
+
+      <div className="mt-12 mb-8 border-t border-border pt-8" />
+      <ExecutiveAccordion
+        title="Painel Geral de Diagnóstico"
+        subtitle="Analise as métricas, calibração e incidentes operacionais de todos os clientes vinculados."
+        variant="analytics"
+        defaultExpanded
+      >
+
+      <div className="space-y-10">
 
       {/* Grid Indicators */}
       <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
@@ -429,7 +458,19 @@ export function AdvisorWorkspacePage({ selectedClient }: { selectedClient: strin
         </div>
 
       </div>
-
-    </div>
+      </div>
+       <ExecutiveSummarySection 
+         status={{ label: 'Workspace Calibrado', variant: 'success' }}
+         question="Como assegurar a conformidade contábil e a gestão da fila de staging dos clientes?"
+         opinion="O comitê fiduciário atesta a calibração do motor de aconselhamento e aprova os parâmetros de staging."
+         driver="Políticas fiduciárias ativas, fila de validação contábil e incidentes operacionais."
+         implication="Melhora na acurácia dos alertas preditivos fornecidos aos C-Levels."
+         action="Processar os itens pendentes da fila de staging semanalmente."
+       >
+         <ExecutiveStrategicTensions tensions={[]} />
+         <ExecutiveDecisionTrace trace={[]} />
+       </ExecutiveSummarySection>
+      </ExecutiveAccordion>
+    </ExecutivePageTemplate>
   );
 }

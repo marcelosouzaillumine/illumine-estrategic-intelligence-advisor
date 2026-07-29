@@ -1,0 +1,1015 @@
+src/components/temporal/TemporalCollaborationPanel.tsx:6:  temporalEvidence: string[];
+src/components/temporal/TemporalCollaborationPanel.tsx:9:  onPostComment: (comment: string, auditData: any) => void;
+src/components/temporal/TemporalCollaborationPanel.tsx:14:  temporalEvidence,
+src/components/temporal/TemporalCollaborationPanel.tsx:22:  // Regra 4: Permitir comentários somente se houver lineage, evidence, actorId, tenantId, visibilityPolicy
+src/components/temporal/TemporalCollaborationPanel.tsx:23:  if (!lineageReference || !temporalEvidence || temporalEvidence.length === 0 || !context.actorId || !context.tenantId || !visibilityPolicy) {
+src/components/temporal/TemporalCollaborationPanel.tsx:37:    const auditData = {
+src/components/temporal/TemporalCollaborationPanel.tsx:39:      temporalEvidence,
+src/components/temporal/TemporalCollaborationPanel.tsx:46:    onPostComment(commentText, auditData);
+src/components/temporal/TemporalCollaborationPanel.tsx:56:          <p className="text-xs text-muted-foreground mt-1">Audited discussion tied to temporal evidence</p>
+src/components/temporal/TemporalCollaborationPanel.tsx:66:        Attached Evidence: {temporalEvidence.join(', ')}
+src/components/temporal/HistoricalEvidencePanel.tsx:3:import { TemporalProvenanceRecord } from '../../types/temporal/TemporalProvenanceRecord';
+src/components/temporal/HistoricalEvidencePanel.tsx:5:interface HistoricalEvidencePanelProps {
+src/components/temporal/HistoricalEvidencePanel.tsx:6:  provenance: TemporalProvenanceRecord | null;
+src/components/temporal/HistoricalEvidencePanel.tsx:9:export const HistoricalEvidencePanel: React.FC<HistoricalEvidencePanelProps> = ({ provenance }) => {
+src/components/temporal/HistoricalEvidencePanel.tsx:10:  if (!provenance) {
+src/components/temporal/HistoricalEvidencePanel.tsx:14:        <p className="text-xs text-muted-foreground">Nenhum registro de proveniência (Provenance) carregado para este evento.</p>
+src/components/temporal/HistoricalEvidencePanel.tsx:27:          <span className="text-eyebrow text-muted-foreground block mb-1">Provenance ID</span>
+src/components/temporal/HistoricalEvidencePanel.tsx:29:            {provenance.provenanceId}
+src/components/temporal/HistoricalEvidencePanel.tsx:35:            <span className="text-[9px] font-bold text-muted-foreground uppercase tracking-widest block mb-1">Evidence Bundle ID</span>
+src/components/temporal/HistoricalEvidencePanel.tsx:37:              {provenance.evidenceBundleId}
+src/components/temporal/HistoricalEvidencePanel.tsx:43:              {provenance.explainabilityChainId}
+src/components/temporal/HistoricalEvidencePanel.tsx:49:              {provenance.lineageId}
+src/components/temporal/TemporalBoardWorkflowPanel.tsx:6:  auditReference: string;
+src/components/temporal/TemporalBoardWorkflowPanel.tsx:13:  auditReference, 
+src/components/temporal/TemporalBoardWorkflowPanel.tsx:17:  if (!currentState || !auditReference || !lineageHash) {
+src/components/temporal/TemporalBoardWorkflowPanel.tsx:37:          <div className="text-xs font-mono text-muted-foreground">Audit Ref: {auditReference}</div>
+src/components/temporal/TemporalExecutiveScoreboard.tsx:17:    auditReference
+src/components/temporal/TemporalExecutiveScoreboard.tsx:25:          <div>Ref: {auditReference}</div>
+src/components/temporal/TemporalEarlyWarningBanner.tsx:32:            <div className="text-xs font-mono">Ref: {warning.auditReference}</div>
+src/components/temporal/TemporalAdvisoryCard.tsx:60:            <div className="text-xs text-muted-foreground mt-1">No execution evidence</div>
+src/components/temporal/GovernanceTrajectoryGraph.tsx:20:  // Extrair o lineage mais recente para o Audit Reference
+src/components/temporal/InstitutionalResilienceTimeline.tsx:53:                <span>{t('summary.ref')} {event.auditReference}</span>
+src/components/scenario-simulation/SimulationLineageViewer.tsx:45:          <span className="text-[9px] font-bold tracking-widest text-muted-foreground">{t('scenario.lineage.auditHash')}</span>
+src/components/scenario-simulation/SimulationLineageViewer.tsx:59:          <span className="text-muted-foreground font-bold tracking-wider block mb-1.5 uppercase text-[9px]">{t('scenario.lineage.sourceRuntimeTraces')}</span>
+src/components/ui/executive-technical-score.tsx:5:export interface ExecutiveTechnicalScoreProps {
+src/components/ui/executive-technical-score.tsx:11:export function ExecutiveTechnicalScore({
+src/components/ui/executive-technical-score.tsx:15:}: ExecutiveTechnicalScoreProps) {
+src/components/ui/executive-decision-trace.tsx:8:export interface DecisionTraceNode {
+src/components/ui/executive-decision-trace.tsx:14:export interface ExecutiveDecisionTraceProps {
+src/components/ui/executive-decision-trace.tsx:15:  trace: DecisionTraceNode[];
+src/components/ui/executive-decision-trace.tsx:19:export function ExecutiveDecisionTrace({ trace, className }: ExecutiveDecisionTraceProps) {
+src/components/ui/executive-decision-trace.tsx:20:  if (!trace || trace.length === 0) return null;
+src/components/ui/executive-decision-trace.tsx:26:      title="Rastreabilidade da Decisão (Decision Trace)"
+src/components/ui/executive-decision-trace.tsx:31:        {trace.map((node, idx) => (
+src/components/ui/executive-technical-layer.tsx:6:export interface ExecutiveTechnicalLayerProps {
+src/components/ui/executive-technical-layer.tsx:15:export function ExecutiveTechnicalLayer({
+src/components/ui/executive-technical-layer.tsx:22:}: ExecutiveTechnicalLayerProps) {
+src/components/ui/executive-technical-layer.tsx:25:      variant="technical"
+src/components/ui/executive-decision-panel.tsx:13:  technicalIndex?: string | number;
+src/components/ui/executive-decision-panel.tsx:34:  technicalIndex,
+src/components/ui/executive-decision-panel.tsx:54:          {(confidence || technicalIndex) && (
+src/components/ui/executive-decision-panel.tsx:59:              {confidence && technicalIndex && (
+src/components/ui/executive-decision-panel.tsx:62:              {technicalIndex && (
+src/components/ui/executive-decision-panel.tsx:63:                <span>Índice Técnico: <span className="text-executive-primary">{technicalIndex}</span></span>
+src/components/ui/executive-summary-section.tsx:5:import { ExecutiveTechnicalScore } from './executive-technical-score';
+src/components/ui/executive-summary-section.tsx:25:  technicalScore?: {
+src/components/ui/executive-summary-section.tsx:40:  technicalScore,
+src/components/ui/executive-summary-section.tsx:56:          confidence={technicalScore?.confidence}
+src/components/ui/executive-summary-section.tsx:57:          technicalIndex={technicalScore?.value ?? undefined}
+src/components/ui/executive-summary-section.tsx:61:      {/* 2. Evidence Grid */}
+src/components/ui/executive-accordion.tsx:7:export type ExecutiveAccordionVariant = 'default' | 'technical' | 'risk' | 'analytics';
+src/components/ui/executive-accordion.tsx:37:    technical: "bg-card border-border",
+src/components/ui/executive-technical-metric-card.tsx:8:export interface ExecutiveTechnicalMetricCardProps {
+src/components/ui/executive-technical-metric-card.tsx:21:export function ExecutiveTechnicalMetricCard({
+src/components/ui/executive-technical-metric-card.tsx:31:}: ExecutiveTechnicalMetricCardProps) {
+src/components/ui/executive-metric-card.tsx:20:  variant?: 'default' | 'transparent' | 'highlight' | 'technical';
+src/components/ui/executive-metric-card.tsx:84:  const badgeVariant = variant === 'technical' ? 'technical' : 'metric';
+src/components/ui/executive-metric-card.tsx:122:      variant={variant === 'highlight' ? 'default' : (variant === 'technical' ? 'default' : variant)}
+src/components/ui/executive-status-badge.tsx:11:  variant?: 'summary' | 'metric' | 'technical';
+src/components/ui/executive-status-badge.tsx:23:  const isMetricOrTechnical = variant === 'metric' || variant === 'technical';
+src/components/ui/executive-status-badge.tsx:24:  const actuallyShowIcon = showIcon !== undefined ? showIcon : !isMetricOrTechnical;
+src/components/ui/executive-status-badge.tsx:55:  if (isMetricOrTechnical && !customLabel) {
+src/components/ui/executive-evidence-grid.tsx:5:export interface EvidenceMetric {
+src/components/ui/executive-evidence-grid.tsx:15:export interface ExecutiveEvidenceGridProps {
+src/components/ui/executive-evidence-grid.tsx:16:  metrics: EvidenceMetric[];
+src/components/ui/executive-evidence-grid.tsx:20:export function ExecutiveEvidenceGrid({ metrics, className }: ExecutiveEvidenceGridProps) {
+src/components/institutional-memory/GovernanceRecurrencePanel.tsx:2:import { useInstitutionalMemory } from '../../context/institutional-memory/InstitutionalMemoryProvider';
+src/components/institutional-memory/GovernanceRecurrencePanel.tsx:7:  const { recurrenceSignals, lineageIntegrity } = useInstitutionalMemory();
+src/components/institutional-memory/InstitutionalPatternMap.tsx:2:import { useInstitutionalMemory } from '../../context/institutional-memory/InstitutionalMemoryProvider';
+src/components/institutional-memory/InstitutionalPatternMap.tsx:8:  const { recurrenceSignals, lineageIntegrity } = useInstitutionalMemory();
+src/components/institutional-memory/ExecutiveContinuityCard.tsx:2:import { useInstitutionalMemory } from '../../context/institutional-memory/InstitutionalMemoryProvider';
+src/components/institutional-memory/ExecutiveContinuityCard.tsx:7:  const { records, historicalConfidence, lineageIntegrity } = useInstitutionalMemory();
+src/components/institutional-memory/AdvisoryContinuitySurface.tsx:2:import { useInstitutionalMemory } from '../../context/institutional-memory/InstitutionalMemoryProvider';
+src/components/institutional-memory/AdvisoryContinuitySurface.tsx:7:  const { advisoryContinuity, lineageIntegrity } = useInstitutionalMemory();
+src/components/institutional-memory/InstitutionalMemoryTimeline.tsx:2:import { useInstitutionalMemory } from '../../context/institutional-memory/InstitutionalMemoryProvider';
+src/components/institutional-memory/InstitutionalMemoryTimeline.tsx:6:export function InstitutionalMemoryTimeline() {
+src/components/institutional-memory/InstitutionalMemoryTimeline.tsx:7:  const { memoryTimeline, lineageIntegrity } = useInstitutionalMemory();
+src/components/institutional-memory/InstitutionalMemoryTimeline.tsx:21:  if (memoryTimeline.length === 0) {
+src/components/institutional-memory/InstitutionalMemoryTimeline.tsx:40:        {memoryTimeline.map((phase, idx) => (
+src/components/institutional-memory/GovernanceHistoryExplorer.tsx:2:import { useInstitutionalMemory } from '../../context/institutional-memory/InstitutionalMemoryProvider';
+src/components/institutional-memory/GovernanceHistoryExplorer.tsx:7:  const { records, lineageIntegrity } = useInstitutionalMemory();
+src/components/institutional-memory/GovernanceHistoryExplorer.tsx:21:  const selectedRecord = records.find(r => r.memoryId === selectedRecordId);
+src/components/institutional-memory/GovernanceHistoryExplorer.tsx:30:            <p className="text-[10px] text-muted-foreground uppercase tracking-widest mt-0.5">Exploração e auditoria de registros passados</p>
+src/components/institutional-memory/GovernanceHistoryExplorer.tsx:53:              key={r.memoryId}
+src/components/institutional-memory/GovernanceHistoryExplorer.tsx:54:              onClick={() => setSelectedRecordId(r.memoryId)}
+src/components/institutional-memory/GovernanceHistoryExplorer.tsx:57:                selectedRecordId === r.memoryId
+src/components/institutional-memory/GovernanceHistoryExplorer.tsx:78:                  Snapshot: {selectedRecord.memorySource}
+src/components/institutional-memory/HistoricalLineageViewer.tsx:2:import { useInstitutionalMemory } from '../../context/institutional-memory/InstitutionalMemoryProvider';
+src/components/institutional-memory/HistoricalLineageViewer.tsx:6:  const { records, lineageIntegrity } = useInstitutionalMemory();
+src/components/institutional-memory/HistoricalGovernanceNavigator.tsx:2:import { useInstitutionalMemory } from '../../context/institutional-memory/InstitutionalMemoryProvider';
+src/components/institutional-memory/HistoricalGovernanceNavigator.tsx:7:  const { records, lineageIntegrity } = useInstitutionalMemory();
+src/components/institutional-memory/HistoricalGovernanceNavigator.tsx:27:            key={r.memoryId}
+src/components/institutional-memory/MemoryIntegrityBadge.tsx:2:import { useInstitutionalMemory } from '../../context/institutional-memory/InstitutionalMemoryProvider';
+src/components/institutional-memory/MemoryIntegrityBadge.tsx:6:export function MemoryIntegrityBadge() {
+src/components/institutional-memory/MemoryIntegrityBadge.tsx:7:  const { lineageIntegrity } = useInstitutionalMemory();
+src/components/institutional-memory/index.ts:1:export { InstitutionalMemoryTimeline } from './InstitutionalMemoryTimeline';
+src/components/institutional-memory/index.ts:8:export { MemoryIntegrityBadge } from './MemoryIntegrityBadge';
+src/components/institutional-memory/index.ts:10:export { HistoricalEvidenceCoverage } from './HistoricalEvidenceCoverage';
+src/components/institutional-memory/HistoricalEvidenceCoverage.tsx:2:import { useInstitutionalMemory } from '../../context/institutional-memory/InstitutionalMemoryProvider';
+src/components/institutional-memory/HistoricalEvidenceCoverage.tsx:5:export function HistoricalEvidenceCoverage() {
+src/components/institutional-memory/HistoricalEvidenceCoverage.tsx:6:  const { records, lineageIntegrity } = useInstitutionalMemory();
+src/components/institutional-memory/HistoricalEvidenceCoverage.tsx:27:            <span className="text-muted-foreground uppercase tracking-wider">Registros Auditados</span>
+src/components/advisor/AdvisorHistoricalSurface.tsx:29:            Navegue pela evolução fiduciária deste tenant visualizando as decisões auditadas pela governança.
+src/components/advisor/AdvisorWorkspaceShell.tsx:69:            onClick={() => handleCrossNavigation('MEMORY', '/memory')}
+src/components/cognitive/DecisionCognitiveDrawer.tsx:4:import { EvidenceDetailPanel } from './EvidenceDetailPanel';
+src/components/cognitive/DecisionCognitiveDrawer.tsx:107:                <EvidenceDetailPanel evidences={viewModel.evidences} />
+src/components/cognitive/ExecutiveCognitiveDashboard.tsx:6:    totalEvidences: number;
+src/components/cognitive/ExecutiveCognitiveDashboard.tsx:11:    evidenceCoverage: string;
+src/components/cognitive/ExecutiveCognitiveDashboard.tsx:34:          <div className="text-2xl font-light text-foreground">{metrics.totalEvidences}</div>
+src/components/cognitive/ExecutiveCognitiveDashboard.tsx:35:          <div className="text-[10px] text-muted-foreground font-mono uppercase">Cobertura: {metrics.evidenceCoverage}</div>
+src/components/cognitive/ExecutiveCognitiveDashboard.tsx:62:          <div className="text-[10px] text-muted-foreground font-mono uppercase">Traceabilidade garantida</div>
+src/components/cognitive/EvidencePanel.tsx:2:import { CognitiveEvidenceItem } from '../../viewmodels/cognitive/ExecutiveCognitiveViewModel';
+src/components/cognitive/EvidencePanel.tsx:4:interface EvidencePanelProps {
+src/components/cognitive/EvidencePanel.tsx:5:  evidences: CognitiveEvidenceItem[];
+src/components/cognitive/EvidencePanel.tsx:8:export const EvidencePanel: React.FC<EvidencePanelProps> = ({ evidences }) => {
+src/components/cognitive/EvidencePanel.tsx:9:  if (!evidences || evidences.length === 0) {
+src/components/cognitive/EvidencePanel.tsx:38:          {evidences.map((ev) => (
+src/components/cognitive/CognitiveSummaryCard.tsx:7:  evidenceCount: number;
+src/components/cognitive/CognitiveSummaryCard.tsx:14:  evidenceCount
+src/components/cognitive/CognitiveSummaryCard.tsx:54:              {evidenceCount} Evidências Indexadas
+src/components/cognitive/EvidenceDetailPanel.tsx:2:import { CognitiveEvidenceItem } from '../../viewmodels/cognitive/ExecutiveCognitiveViewModel';
+src/components/cognitive/EvidenceDetailPanel.tsx:6:interface EvidenceDetailPanelProps {
+src/components/cognitive/EvidenceDetailPanel.tsx:7:  evidences: CognitiveEvidenceItem[];
+src/components/cognitive/EvidenceDetailPanel.tsx:10:export const EvidenceDetailPanel: React.FC<EvidenceDetailPanelProps> = ({ evidences }) => {
+src/components/cognitive/EvidenceDetailPanel.tsx:11:  if (!evidences || evidences.length === 0) {
+src/components/cognitive/EvidenceDetailPanel.tsx:26:        {evidences.map((ev) => (
+src/components/executive-delivery/RuntimeHealthPanel.tsx:108:              Trace ID: {((runtimeMetadata as any)?.importId || runtimeMetadata?.executionId) ? String((runtimeMetadata as any)?.importId || runtimeMetadata?.executionId).slice(0, 12) + '...' : 'EXEC-N/A'}
+src/components/executive-delivery/BoardJourneyNavigator.tsx:12:  onToggleEvidence: () => void;
+src/components/executive-delivery/BoardJourneyNavigator.tsx:13:  evidenceModeActive: boolean;
+src/components/executive-delivery/BoardJourneyNavigator.tsx:24:  onToggleEvidence,
+src/components/executive-delivery/BoardJourneyNavigator.tsx:25:  evidenceModeActive,
+src/components/executive-delivery/BoardJourneyNavigator.tsx:67:        {/* Toggle Evidence Mode */}
+src/components/executive-delivery/BoardJourneyNavigator.tsx:69:          onClick={onToggleEvidence}
+src/components/executive-delivery/BoardJourneyNavigator.tsx:72:            evidenceModeActive 
+src/components/executive-delivery/ExecutiveEvidenceViewer.tsx:3:import { BoardEvidenceData } from '../../core/executive-delivery/GuidedBoardJourneyRuntime';
+src/components/executive-delivery/ExecutiveEvidenceViewer.tsx:6:interface ExecutiveEvidenceViewerProps {
+src/components/executive-delivery/ExecutiveEvidenceViewer.tsx:7:  evidence: BoardEvidenceData;
+src/components/executive-delivery/ExecutiveEvidenceViewer.tsx:11:export function ExecutiveEvidenceViewer({ evidence, className }: ExecutiveEvidenceViewerProps) {
+src/components/executive-delivery/ExecutiveEvidenceViewer.tsx:12:  if (!evidence) return null;
+src/components/executive-delivery/ExecutiveEvidenceViewer.tsx:20:            BOARD_EVIDENCE_MODE
+src/components/executive-delivery/ExecutiveEvidenceViewer.tsx:24:          Auditoria Ativa
+src/components/executive-delivery/ExecutiveEvidenceViewer.tsx:39:              {evidence.datasetHash}
+src/components/executive-delivery/ExecutiveEvidenceViewer.tsx:51:                {evidence.calibrationProfile}
+src/components/executive-delivery/ExecutiveEvidenceViewer.tsx:61:                {evidence.confidenceLevel}
+src/components/executive-delivery/ExecutiveEvidenceViewer.tsx:74:                {evidence.executionId.slice(0, 14)}...
+src/components/executive-delivery/ExecutiveEvidenceViewer.tsx:84:                {new Date(evidence.timestamp).toLocaleDateString('pt-BR')}
+src/components/executive-delivery/ExecutiveEvidenceViewer.tsx:90:        {/* Audit Flags */}
+src/components/executive-delivery/ExecutiveEvidenceViewer.tsx:91:        {evidence.auditFlags && evidence.auditFlags.length > 0 && (
+src/components/executive-delivery/ExecutiveEvidenceViewer.tsx:93:            <span className="text-[9px] font-bold text-amber-400/60 uppercase tracking-wider block mb-2">Audit Flags Detectadas</span>
+src/components/executive-delivery/ExecutiveEvidenceViewer.tsx:95:              {evidence.auditFlags.map((flag, idx) => (
+src/components/consolidated/RiskPropagationPanel.tsx:34:            {causal.financialEvidence && (
+src/components/consolidated/RiskPropagationPanel.tsx:36:                <strong>Evidência:</strong> {causal.financialEvidence.metric} ({causal.financialEvidence.context})
+src/components/evidence-ingestion/InstitutionalEvidenceControlCenterPage.tsx:4:import { InstitutionalEvidenceValidationOutput } from '../../services/FiduciaryRuntimeAdapter';
+src/components/evidence-ingestion/InstitutionalEvidenceControlCenterPage.tsx:6:interface InstitutionalEvidenceControlCenterPageProps {
+src/components/evidence-ingestion/InstitutionalEvidenceControlCenterPage.tsx:7:  evidenceReport?: InstitutionalEvidenceValidationOutput;
+src/components/evidence-ingestion/InstitutionalEvidenceControlCenterPage.tsx:10:export function InstitutionalEvidenceControlCenterPage({ evidenceReport }: InstitutionalEvidenceControlCenterPageProps) {
+src/components/evidence-ingestion/InstitutionalEvidenceControlCenterPage.tsx:11:  if (!evidenceReport) {
+src/components/evidence-ingestion/InstitutionalEvidenceControlCenterPage.tsx:24:    evidenceStatus,
+src/components/evidence-ingestion/InstitutionalEvidenceControlCenterPage.tsx:26:    evidenceIntegrityStatus,
+src/components/evidence-ingestion/InstitutionalEvidenceControlCenterPage.tsx:27:    reconciliationStatus,
+src/components/evidence-ingestion/InstitutionalEvidenceControlCenterPage.tsx:29:    unresolvedEvidenceIssues,
+src/components/evidence-ingestion/InstitutionalEvidenceControlCenterPage.tsx:30:    evidenceNarrative,
+src/components/evidence-ingestion/InstitutionalEvidenceControlCenterPage.tsx:31:    uploadAuditTrail,
+src/components/evidence-ingestion/InstitutionalEvidenceControlCenterPage.tsx:34:  } = evidenceReport;
+src/components/evidence-ingestion/InstitutionalEvidenceControlCenterPage.tsx:73:            <p className={`text-2xl font-bold ${getStatusColor(evidenceStatus)}`}>
+src/components/evidence-ingestion/InstitutionalEvidenceControlCenterPage.tsx:74:              {evidenceStatus.replace(/_/g, ' ')}
+src/components/evidence-ingestion/InstitutionalEvidenceControlCenterPage.tsx:84:            <p className={`text-2xl font-bold ${getStatusColor(evidenceIntegrityStatus)}`}>
+src/components/evidence-ingestion/InstitutionalEvidenceControlCenterPage.tsx:85:              {evidenceIntegrityStatus}
+src/components/evidence-ingestion/InstitutionalEvidenceControlCenterPage.tsx:95:            <p className={`text-2xl font-bold ${getStatusColor(reconciliationStatus)}`}>
+src/components/evidence-ingestion/InstitutionalEvidenceControlCenterPage.tsx:96:              {reconciliationStatus}
+src/components/evidence-ingestion/InstitutionalEvidenceControlCenterPage.tsx:118:     <p className="text-executive-secondary">{evidenceNarrative}</p>
+src/components/evidence-ingestion/InstitutionalEvidenceControlCenterPage.tsx:122:      {unresolvedEvidenceIssues.length > 0 && (
+src/components/evidence-ingestion/InstitutionalEvidenceControlCenterPage.tsx:132:              {unresolvedEvidenceIssues.map((issue, idx) => (
+src/components/evidence-ingestion/InstitutionalEvidenceControlCenterPage.tsx:147:            Trilha de Auditoria (Lineage Hash: {lineageHash})
+src/components/evidence-ingestion/InstitutionalEvidenceControlCenterPage.tsx:152:            {uploadAuditTrail.map((log, idx) => (
+src/components/memory/MemoryLineageViewer.tsx:5:  memoryId: string | null;
+src/components/memory/MemoryLineageViewer.tsx:8:export const MemoryLineageViewer: React.FC<Props> = ({ memoryId }) => {
+src/components/memory/MemoryLineageViewer.tsx:9:  if (!memoryId) {
+src/components/memory/MemoryLineageViewer.tsx:21:        <h3 className="text-sm font-bold text-muted-foreground">Memory Lineage</h3>
+src/components/memory/RecurrenceExplorer.tsx:2:import { InstitutionalLearningQueryEngine } from '../../core/memory/InstitutionalLearningQueryEngine';
+src/components/memory/RecurrenceExplorer.tsx:5:  memoryId: string | null;
+src/components/memory/RecurrenceExplorer.tsx:9:export const RecurrenceExplorer: React.FC<Props> = ({ memoryId, queryEngine }) => {
+src/components/memory/RecurrenceExplorer.tsx:13:    if (!memoryId) return;
+src/components/memory/RecurrenceExplorer.tsx:14:    queryEngine.countRecurrences('tenant_1', memoryId).then(setCount);
+src/components/memory/RecurrenceExplorer.tsx:15:  }, [memoryId, queryEngine]);
+src/components/memory/RecurrenceExplorer.tsx:17:  if (!memoryId) {
+src/components/memory/InstitutionalMemoryWorkspace.tsx:5:import { MemoryLineageViewer } from './MemoryLineageViewer';
+src/components/memory/InstitutionalMemoryWorkspace.tsx:6:import { InstitutionalMemoryRuntime } from '../../core/memory/InstitutionalMemoryRuntime';
+src/components/memory/InstitutionalMemoryWorkspace.tsx:7:import { MockInstitutionalMemoryRepository } from '../../core/memory/InstitutionalMemoryRepository';
+src/components/memory/InstitutionalMemoryWorkspace.tsx:8:import { InstitutionalLearningQueryEngine } from '../../core/memory/InstitutionalLearningQueryEngine';
+src/components/memory/InstitutionalMemoryWorkspace.tsx:11:export const InstitutionalMemoryWorkspace: React.FC = () => {
+src/components/memory/InstitutionalMemoryWorkspace.tsx:13:  const [activeMemoryId, setActiveMemoryId] = useState<string | null>(null);
+src/components/memory/InstitutionalMemoryWorkspace.tsx:15:  const runtime = new InstitutionalMemoryRuntime(new MockInstitutionalMemoryRepository());
+src/components/memory/InstitutionalMemoryWorkspace.tsx:22:          title="Institutional Memory & Data Fabric"
+src/components/memory/InstitutionalMemoryWorkspace.tsx:31:              sourceWorkspace: 'MEMORY_WORKSPACE',
+src/components/memory/InstitutionalMemoryWorkspace.tsx:53:          <RecurrenceExplorer memoryId={activeMemoryId} queryEngine={queryEngine} />
+src/components/memory/InstitutionalMemoryWorkspace.tsx:57:          <MemoryLineageViewer memoryId={activeMemoryId} />
+src/components/workflow-governance/WorkflowAuditFeed.tsx:2:import { WorkflowAuditRecord } from '../../services/FiduciaryRuntimeAdapter';
+src/components/workflow-governance/WorkflowAuditFeed.tsx:4:export function WorkflowAuditFeed({ logs }: { logs: WorkflowAuditRecord[] }) {
+src/components/workflow-governance/WorkflowAuditFeed.tsx:6:    return <div className="text-xs text-muted-foreground">Nenhuma trilha de auditoria disponível.</div>;
+src/components/workflow-governance/WorkflowAuditFeed.tsx:12:        <div key={log.auditId} className="flex flex-col p-2 bg-surface-container border border-border rounded text-[10px]">
+src/components/intelligence/InstitutionalObjectCard.tsx:19:  const { object, provenance, state, history, evidence, causality, impacts } = context;
+src/components/intelligence/InstitutionalObjectCard.tsx:31:        {provenance ? (
+src/components/intelligence/InstitutionalObjectCard.tsx:34:            <p>Origem: {provenance.origin}</p>
+src/components/intelligence/InstitutionalObjectCard.tsx:35:            <p>Runtime: {provenance.runtimeProducer}</p>
+src/components/intelligence/InstitutionalObjectCard.tsx:81:        {evidence.length > 0 ? (
+src/components/intelligence/InstitutionalObjectCard.tsx:83:            {evidence.map((e, i) => (
+src/components/intelligence/ExecutiveInstitutionalIntelligenceDashboard.tsx:31:            {summary ? summary.evidenceCount : 'N/A'}
+src/components/knowledge-graph/KnowledgeGraphExplorer.tsx:3:import { InstitutionalMemoryEngine } from '../../services/FiduciaryRuntimeAdapter';
+src/components/knowledge-graph/KnowledgeGraphExplorer.tsx:12:    InstitutionalMemoryEngine.injectMockFixture(tenantId);
+src/components/knowledge-graph/SemanticLineageViewer.tsx:20:        <h3 className="text-sm font-semibold text-foreground">Semantic Lineage Hashes (Audit)</h3>
+src/components/knowledge-graph/GovernanceRelationshipViewer.tsx:21:        <h3 className="text-sm font-semibold text-foreground">Governance Traceability</h3>
+src/components/institutional-continuity/RecoveryRegressionTimeline.tsx:6:  type: 'RECOVERY_TRANSITION' | 'REGRESSION_TRIGGER' | 'VETO_ACTIVATION' | 'RESTRICTION_REACTIVATION' | 'SURVIVAL_ACTIVATION' | 'AUDIT_EVENT';
+src/components/institutional-continuity/RecoveryRegressionTimeline.tsx:17:  auditTrail: string[];
+src/components/institutional-continuity/RecoveryRegressionTimeline.tsx:25:  auditTrail
+src/components/institutional-continuity/RecoveryRegressionTimeline.tsx:48:    AUDIT_EVENT: <Clock size={14} className="text-zinc-400" />
+src/components/institutional-continuity/RecoveryRegressionTimeline.tsx:51:  // Build events from auditTrail if no explicit events provided
+src/components/institutional-continuity/RecoveryRegressionTimeline.tsx:52:  const displayEvents: TimelineEvent[] = events.length > 0 ? events : auditTrail.map((entry, idx) => {
+src/components/institutional-continuity/RecoveryRegressionTimeline.tsx:53:    let type: TimelineEvent['type'] = 'AUDIT_EVENT';
+src/components/institutional-continuity/RecoveryRegressionTimeline.tsx:66:      type = 'AUDIT_EVENT';
+src/components/operational-governance/OperationalExplainabilityDrawer.tsx:17:          <Search size={14} /> Operational Explainability Trace
+src/components/operational-governance/OperationalExplainabilityDrawer.tsx:45:              {explainability.evidence?.[0] || 'N/A'}
+src/components/ExecutivePerspectiveSection.tsx:226:        fiduciaryEvidence: action.fiduciaryEvidence
+src/components/ExecutivePerspectiveSection.tsx:242:        fiduciaryEvidence: undefined
+src/components/ExecutivePerspectiveSection.tsx:550:                    {action.fiduciaryEvidence && (
+src/components/ExecutivePerspectiveSection.tsx:552:                        <div><strong className="text-muted-foreground">Evidência:</strong> {action.fiduciaryEvidence}</div>
+src/components/pdf/TemporalBoardPackSection.tsx:52:  auditBlock: {
+src/components/pdf/TemporalBoardPackSection.tsx:57:  auditText: {
+src/components/pdf/TemporalBoardPackSection.tsx:112:      <View style={styles.auditBlock}>
+src/components/pdf/TemporalBoardPackSection.tsx:113:        <Text style={styles.auditText}>Lineage Hash: {temporalData.lineageHash}</Text>
+src/components/pdf/TemporalBoardPackSection.tsx:114:        <Text style={styles.auditText}>Audit Ref: {temporalData.auditReference}</Text>
+src/components/pdf/TemporalBoardPackSection.tsx:115:        <Text style={styles.auditText}>Correlation: {temporalData.correlationId}</Text>
+src/components/pdf/BoardReportPDF.tsx:234:            <h2 className="text-2xl font-bold text-[var(--color-primary)] uppercase tracking-tight">{translate('boardpack.pdf.appendix_title')}</h2>
+src/components/institutional-reporting/ConstitutionalIntegrityPanel.tsx:32:    { name: 'audit reconstructability', desc: 'Todos os logs e execuções devem permitir reprodução histórica exata em ambiente seco (dry-run replay).' }
+src/components/institutional-reporting/ConstitutionalIntegrityPanel.tsx:156:        {/* Override Attempts Audit Trail */}
+src/components/institutional-reporting/ConstitutionalIntegrityPanel.tsx:161:              Auditoria de Bypasses e Overrides
+src/components/institutional-reporting/InstitutionalBoardPackCenter.tsx:15:import { ExplainabilityAppendixDrawer } from './ExplainabilityAppendixDrawer';
+src/components/institutional-reporting/InstitutionalBoardPackCenter.tsx:16:import { LineageAppendixDrawer } from './LineageAppendixDrawer';
+src/components/institutional-reporting/InstitutionalBoardPackCenter.tsx:50:          <span className="text-[10px] text-zinc-500 uppercase tracking-widest font-bold flex items-center gap-2 mb-2"><Fingerprint size={12}/> {t('snapshot.audit_trail')}</span>
+src/components/institutional-reporting/InstitutionalBoardPackCenter.tsx:145:          <ExplainabilityAppendixDrawer data={boardPack.explainabilityAppendix} />
+src/components/institutional-reporting/InstitutionalBoardPackCenter.tsx:146:          <LineageAppendixDrawer data={boardPack.lineageAppendix} />
+src/components/institutional-reporting/AccountingIntegrityPanel.tsx:6:  reconciliationStatus: 'PASSED' | 'FAILED' | 'WARNING';
+src/components/institutional-reporting/AccountingIntegrityPanel.tsx:13:  auditTrail?: string[];
+src/components/institutional-reporting/AccountingIntegrityPanel.tsx:17:  reconciliationStatus,
+src/components/institutional-reporting/AccountingIntegrityPanel.tsx:24:  auditTrail = []
+src/components/institutional-reporting/AccountingIntegrityPanel.tsx:28:  const isFailed = reconciliationStatus === 'FAILED';
+src/components/institutional-reporting/AccountingIntegrityPanel.tsx:29:  const isWarning = reconciliationStatus === 'WARNING';
+src/components/institutional-reporting/AccountingIntegrityPanel.tsx:50:          {reconciliationStatus}
+src/components/institutional-reporting/AccountingIntegrityPanel.tsx:118:          {auditTrail.length > 0 && (
+src/components/institutional-reporting/AccountingIntegrityPanel.tsx:121:                {t('snapshot.audit_trail') || 'Trilha de Auditoria'}
+src/components/institutional-reporting/AccountingIntegrityPanel.tsx:124:                {auditTrail.map((log, i) => (
+src/components/institutional-reporting/LineageAppendixDrawer.tsx:1:// src/components/institutional-reporting/LineageAppendixDrawer.tsx
+src/components/institutional-reporting/LineageAppendixDrawer.tsx:5:import { LineageAppendix } from '../../services/FiduciaryRuntimeAdapter';
+src/components/institutional-reporting/LineageAppendixDrawer.tsx:8:export function LineageAppendixDrawer({ data }: { data: LineageAppendix }) {
+src/components/institutional-reporting/LineageAppendixDrawer.tsx:35:          <span className="text-[9px] text-zinc-500 uppercase font-bold tracking-widest block mb-4">{t('lineage.audit_trail_propagation')}</span>
+src/components/institutional-reporting/ExecutiveSnapshotSurface.tsx:44:            reconciliationStatus="FAILED" 
+src/components/institutional-reporting/ExecutiveSnapshotSurface.tsx:130:        {data.evidenceTrail && data.evidenceTrail.length > 0 && (
+src/components/institutional-reporting/ExecutiveSnapshotSurface.tsx:132:            <span className="text-[9px] text-zinc-500 uppercase font-bold tracking-widest block mb-2">{t('snapshot.evidence_trail')}</span>
+src/components/institutional-reporting/ExecutiveSnapshotSurface.tsx:134:              {data.evidenceTrail.map((ev, i) => (
+src/components/institutional-reporting/ExplainabilityAppendixDrawer.tsx:1:// src/components/institutional-reporting/ExplainabilityAppendixDrawer.tsx
+src/components/institutional-reporting/ExplainabilityAppendixDrawer.tsx:6:import { ExplainabilityAppendix } from '../../services/FiduciaryRuntimeAdapter';
+src/components/institutional-reporting/ExplainabilityAppendixDrawer.tsx:8:export function ExplainabilityAppendixDrawer({ data }: { data: ExplainabilityAppendix }) {
+src/components/institutional-reporting/ExplainabilityAppendixDrawer.tsx:13:        <Microscope size={14} /> Fiduciary Explainability Appendix
+src/components/modals/BoardPackPreviewModal.tsx:256:                      <div className="truncate">{isAnnex ? 'Anexo: Traceability' : slide.title.replace(/^\d+\.\s*/, '')}</div>
+src/components/modals/ExecutiveBoardReportModal.tsx:244:          {/* Section 5: Explainability Appendix */}
+src/components/modals/DocumentCurationModal.tsx:7:import { auditService } from '../../services/auditService';
+src/components/modals/DocumentCurationModal.tsx:288:                As edições e o mapeamento De-Para serão rastreados no log de auditoria do sistema. 
+src/components/workspaces/GovernanceTimeMachineWorkspace.tsx:7:import { HistoricalEvidencePanel } from '../temporal/HistoricalEvidencePanel';
+src/components/workspaces/GovernanceTimeMachineWorkspace.tsx:14:import { TemporalProvenanceRecord } from '../../types/temporal/TemporalProvenanceRecord';
+src/components/workspaces/GovernanceTimeMachineWorkspace.tsx:55:  const [activeProvenance, setActiveProvenance] = useState<TemporalProvenanceRecord | null>(null);
+src/components/workspaces/GovernanceTimeMachineWorkspace.tsx:100:    const provenance = await viewModel.fetchProvenance(tenantId, `prov-${eventId}`);
+src/components/workspaces/GovernanceTimeMachineWorkspace.tsx:101:    setActiveProvenance(provenance);
+src/components/workspaces/GovernanceTimeMachineWorkspace.tsx:136:          subtitle="Navegação Histórica e Auditabilidade Institucional"
+src/components/workspaces/GovernanceTimeMachineWorkspace.tsx:169:            onClick={() => handleCrossNavigation('MEMORY', `/memory`)}
+src/components/workspaces/GovernanceTimeMachineWorkspace.tsx:204:            <HistoricalEvidencePanel provenance={activeProvenance} />
+src/components/product-governance/ProductAccessAuditFeed.tsx:2:import { ProductAccessAuditLogger } from '../../services/FiduciaryRuntimeAdapter';
+src/components/product-governance/ProductAccessAuditFeed.tsx:6:export function ProductAccessAuditFeed({ tenantId }: { tenantId: string }) {
+src/components/product-governance/ProductAccessAuditFeed.tsx:10:    setLogs(ProductAccessAuditLogger.getLogsByTenant(tenantId).slice(0, 5)); // Mostra os 5 últimos
+src/components/product-governance/ProductAccessAuditFeed.tsx:31:        <h3 className="text-sm font-semibold text-foreground">Product Governance Audit Log</h3>
+src/components/investigation/ExecutiveInvestigationDashboard.tsx:27:            {metrics ? metrics.totalEvidences : <span className="text-sm italic">não disponível</span>}
+src/components/investigation/BoardInvestigationWorkspace.tsx:170:              onClick={() => handleCrossNavigation('MEMORY', `/memory`)}
+src/components/investigation/BoardInvestigationWorkspace.tsx:210:            <RelationshipExplorer title="Evidências" nodes={data.evidences} />
+src/components/reality-validation/RuntimeStabilityPanel.tsx:17:          { label: 'Memory Leak Free', ok: !report.memoryLeakDetected },
+src/components/governance-orchestration/GovernanceRecommendationFeed.tsx:20:          <div className="text-muted-foreground mb-4">{rec.evidence.rationale}</div>
+src/components/governance-orchestration/GovernanceRecommendationFeed.tsx:22:            <div><span className="text-foreground">Governance Context:</span> <br/>{rec.evidence.lineage.governanceContext}</div>
+src/components/governance-orchestration/GovernanceRecommendationFeed.tsx:23:            <div><span className="text-foreground">Execution ID:</span> <br/>{rec.evidence.lineage.executionId}</div>
+src/components/governance-orchestration/GovernanceRecommendationFeed.tsx:24:            <div><span className="text-foreground">Linked Workflows:</span> <br/>{rec.evidence.lineage.workflowIds?.join(', ') || 'N/A'}</div>
+src/components/governance-orchestration/GovernanceRecommendationFeed.tsx:25:            <div><span className="text-foreground">Linked Simulations:</span> <br/>{rec.evidence.lineage.simulationIds?.join(', ') || 'N/A'}</div>
+src/components/governance-orchestration/GovernanceRecommendationFeed.tsx:30:              {rec.evidence.lineage.lineageHash}
+src/components/governance-orchestration/GovernancePlaybookPanel.tsx:12:    const evidence = FiduciaryRuntimeAdapter.GovernanceRecommendationEvidenceBinder.bindEvidence(
+src/components/governance-orchestration/GovernancePlaybookPanel.tsx:22:    const coordination = FiduciaryRuntimeAdapter.InstitutionalOrchestrationEngine.coordinate(tenantId, 'PB-LIQUIDITY-CRISIS-01', evidence);
+src/components/strategic-simulation/StrategicSimulationFeed.tsx:4:import { StrategicDecisionEvidenceBinder } from '../../services/FiduciaryRuntimeAdapter';
+src/components/strategic-simulation/StrategicSimulationFeed.tsx:14:    const evidence = StrategicDecisionEvidenceBinder.bindEvidence(
+src/components/strategic-simulation/StrategicSimulationFeed.tsx:34:        evidence
+src/components/strategic-simulation/DecisionEvidenceViewer.tsx:5:export function DecisionEvidenceViewer({ tenantId }: { tenantId: string }) {
+src/components/strategic-simulation/DecisionEvidenceViewer.tsx:9:  const evidence = sims[0].input.decision.evidence;
+src/components/strategic-simulation/DecisionEvidenceViewer.tsx:15:        <h3 className="text-sm font-semibold text-foreground">Fiduciary Lineage & Evidence</h3>
+src/components/strategic-simulation/DecisionEvidenceViewer.tsx:21:            <div><span className="text-foreground">Execution ID:</span> <br/>{evidence.lineage.executionId}</div>
+src/components/strategic-simulation/DecisionEvidenceViewer.tsx:22:            <div><span className="text-foreground">Timestamp:</span> <br/>{new Date(evidence.lineage.timestamp).toLocaleString()}</div>
+src/components/strategic-simulation/DecisionEvidenceViewer.tsx:23:            <div><span className="text-foreground">Linked Workflows:</span> <br/>{evidence.lineage.workflowIds?.join(', ') || 'N/A'}</div>
+src/components/strategic-simulation/DecisionEvidenceViewer.tsx:24:            <div><span className="text-foreground">Knowledge Graph Patterns:</span> <br/>{evidence.lineage.graphPatternRefs?.join(', ') || 'N/A'}</div>
+src/components/strategic-simulation/DecisionEvidenceViewer.tsx:29:              {evidence.lineage.lineageHash}
+src/components/war-gaming/InstitutionalPressureHeatmap.tsx:42:        {thesis.structuralDeteriorationEvidence.length > 0 && (
+src/components/war-gaming/InstitutionalPressureHeatmap.tsx:44:            {thesis.structuralDeteriorationEvidence.map((e, i) => (
+src/components/ai-governance/CopilotChatPanel.tsx:10:import { CopilotTracePanel } from './CopilotTracePanel';
+src/components/ai-governance/CopilotChatPanel.tsx:79:                <CopilotTracePanel traceId={m.responseMeta.aiTraceId} riskLevel={m.responseMeta.riskLevel} />
+src/components/ai-governance/CopilotTracePanel.tsx:4:export function CopilotTracePanel({ traceId, riskLevel }: { traceId: string; riskLevel: string }) {
+src/components/ai-governance/CopilotTracePanel.tsx:9:        {traceId}
+src/components/early-warning/WarningEvidenceViewer.tsx:5:export function WarningEvidenceViewer({ tenantId }: { tenantId: string }) {
+src/components/early-warning/WarningEvidenceViewer.tsx:14:        <h3 className="text-sm font-semibold text-foreground">Fiduciary Evidence Ledger</h3>
+src/components/early-warning/WarningEvidenceViewer.tsx:18:          const ev = signal.evidence;
+src/components/early-warning/WarningEvidenceViewer.tsx:21:            <div key={ev.evidenceId} className="bg-background border border-border/50 rounded p-3 text-xs">
+src/components/war-room/WarRoomWorkspace.tsx:7:import { EvidenceCorrelationPanel } from './EvidenceCorrelationPanel';
+src/components/war-room/WarRoomWorkspace.tsx:30:  const { scenarios, activeScenario, impacts, evidences, loading } = state;
+src/components/war-room/WarRoomWorkspace.tsx:73:          <EvidenceCorrelationPanel evidences={evidences} />
+src/components/war-room/ExecutiveScenarioDashboard.tsx:8:  totalEvidences: number;
+src/components/war-room/ExecutiveScenarioDashboard.tsx:15:  totalEvidences
+src/components/war-room/ExecutiveScenarioDashboard.tsx:55:          <span className="text-h2 font-display font-black text-foreground tabular-nums">{totalEvidences || "—"}</span>
+src/components/war-room/ScenarioCommandCenter.tsx:32:        totalEvidences={0} 
+src/components/war-room/EvidenceCorrelationPanel.tsx:4:interface EvidenceCorrelationPanelProps {
+src/components/war-room/EvidenceCorrelationPanel.tsx:5:  evidences: string[];
+src/components/war-room/EvidenceCorrelationPanel.tsx:8:export const EvidenceCorrelationPanel: React.FC<EvidenceCorrelationPanelProps> = ({ evidences }) => {
+src/components/war-room/EvidenceCorrelationPanel.tsx:9:  if (evidences.length === 0) {
+src/components/war-room/EvidenceCorrelationPanel.tsx:28:        <span className="text-[10px] font-mono text-muted-foreground tabular-nums">{evidences.length} refs</span>
+src/components/war-room/EvidenceCorrelationPanel.tsx:32:        {evidences.map((ev, idx) => (
+src/components/ClientLoginAudit.tsx:18:export function ClientLoginAudit({ clientId }: { clientId: string }) {
+src/components/ClientLoginAudit.tsx:19:  // Mock data for login audit
+src/components/ClientLoginAudit.tsx:20:  const audits = [
+src/components/ClientLoginAudit.tsx:32:          <ShieldAlert size={14} className="text-rose-500" /> Auditoria de Logins e Segurança
+src/components/ClientLoginAudit.tsx:36:          {audits.map((audit) => (
+src/components/ClientLoginAudit.tsx:37:            <div key={audit.id} className={cn(
+src/components/ClientLoginAudit.tsx:39:              audit.status === 'success' ? "bg-white border-border" : "bg-critical-soft/50 border-rose-100"
+src/components/ClientLoginAudit.tsx:44:                  audit.type === 'login' ? "bg-success-soft text-emerald-500" : 
+src/components/ClientLoginAudit.tsx:45:                  audit.type === 'logout' ? "bg-slate-100 text-muted-foreground" : "bg-rose-100 text-rose-500"
+src/components/ClientLoginAudit.tsx:47:                  {audit.type === 'login' ? <LogIn size={18} /> : 
+src/components/ClientLoginAudit.tsx:48:                   audit.type === 'logout' ? <LogOut size={18} /> : <AlertCircle size={18} />}
+src/components/ClientLoginAudit.tsx:52:                    {audit.user} 
+src/components/ClientLoginAudit.tsx:55:                      audit.type === 'login' ? "bg-success-soft text-emerald-600 border-emerald-100" : 
+src/components/ClientLoginAudit.tsx:56:                      audit.type === 'logout' ? "bg-slate-50 text-muted-foreground border-border" : "bg-critical-soft text-rose-600 border-rose-100"
+src/components/ClientLoginAudit.tsx:58:                      {audit.type === 'login' ? 'Login' : audit.type === 'logout' ? 'Logout' : 'Falha'}
+src/components/ClientLoginAudit.tsx:63:                      <Clock size={10} /> {audit.time}
+src/components/ClientLoginAudit.tsx:66:                      <Globe size={10} /> IP: {audit.ip}
+src/components/ClientLoginAudit.tsx:73:                <p className="text-[11px] font-bold text-muted-foreground">{audit.method}</p>
+src/components/executive-cognitive/ExecutivePriorityStack.tsx:75:      {/* Deferred Items Traceability Section */}
+src/components/executive-cognitive/CriticalDecisionSurface.tsx:60:            Auditoria Obrigatória
+src/components/pilot-operations/GovernanceReadabilityPanel.tsx:67:        {/* Audit criteria summary */}
+src/components/pilot-operations/ExecutiveAdoptionTimeline.tsx:24:          <h3 className="text-h3 font-medium tracking-tight">Registro de Auditoria de Telemetria</h3>
+src/components/pilot-operations/PilotOperationsCenter.tsx:71:      {/* Main Grid: Checklist & Auditing (Left) vs Adoption & Feedback (Right) */}
+src/components/pilot-operations/PilotFeedbackSurface.tsx:112:            <ShieldCheck size={12} /> Feedback registrado e auditado com sucesso!
+src/components/governance-command-center/IncidentLifecyclePanel.tsx:31:          Audit Trail
+src/components/governance-command-center/RuntimeHealthPanel.tsx:37:          <span className="text-[10px] font-mono font-bold tracking-wider text-muted-foreground uppercase">GCC TRACER TELEMETRY</span>
+src/components/governance-command-center/RuntimeHealthPanel.tsx:65:            {telemetryContinuous ? 'Tracer heartbeats active.' : 'Continuous sync lost.'}
+src/components/governance-command-center/RuntimeHealthPanel.tsx:86:      {/* Controles de Trigger (Auditoria e Resiliência) */}
+src/components/governance-command-center/RuntimeIntegritySurface.tsx:11:    { time: '12:02:21', level: 'TRACE', msg: 'Tenant context synchronized: tenantId=default-tenant, activeGroupId=GROUP-DEMO-01' },
+src/components/governance-command-center/RuntimeIntegritySurface.tsx:16:        ? 'FAIL_CLOSED TRIGGERED: Vital audit trace parameters missing or compromised.'
+src/components/governance-command-center/RuntimeIntegritySurface.tsx:25:          Runtime Trace Console
+src/components/governance-command-center/RuntimeIntegritySurface.tsx:37:          else if (log.level === 'TRACE') levelColor = 'text-emerald-400';
+src/components/governance-command-center/RuntimeIntegritySurface.tsx:51:          <span>Last Trace Time: {runtimeHealth.lastTraceTime}</span>
+src/components/governance-command-center/IncidentLineageViewer.tsx:11:        SELECIONE UM INCIDENTE PARA AUDITAR LINHAGEM...
+src/components/governance-command-center/IncidentLineageViewer.tsx:27:        <h4 className="text-muted-foreground font-bold tracking-wider uppercase text-[10px]">Fiduciary Trace Lineage</h4>
+src/components/governance-command-center/IncidentLineageViewer.tsx:45:          <span className="text-muted-foreground block mb-1">AUDIT LINEAGE HASH</span>
+src/components/governance-command-center/GovernanceAuditCorrelationPanel.tsx:4:export const GovernanceAuditCorrelationPanel: React.FC = () => {
+src/components/governance-command-center/GovernanceAuditCorrelationPanel.tsx:64:            <span className="text-rose-400 font-bold">Ledger Suspended</span>: O sistema está em modo FAIL-CLOSED. Gravações de novos logs de auditoria estão bloqueadas.
+src/components/governance-command-center/GovernanceCommandCenterSurface.tsx:15:import { GovernanceAuditCorrelationPanel } from './GovernanceAuditCorrelationPanel';
+src/components/governance-command-center/GovernanceCommandCenterSurface.tsx:69:        {/* Coluna 3: Ciclo de Vida, Console de Logs e Audit Correlation */}
+src/components/governance-command-center/GovernanceCommandCenterSurface.tsx:74:          <GovernanceAuditCorrelationPanel />
+src/components/pages/RealityValidationPage.tsx:53:          subtitle="Validação operacional enterprise com Golden Datasets isolados. Sandbox in-memory. Produção intocada."
+src/components/pages/PilotMonitoringDashboard.tsx:7:import { ConnectorAuditLogger } from '../../services/FiduciaryRuntimeAdapter';
+src/components/pages/PilotMonitoringDashboard.tsx:8:import { ImportedDataset, RollbackAuditEntry } from '../../services/FiduciaryRuntimeAdapter';
+src/components/pages/PilotMonitoringDashboard.tsx:36:  const auditLogs = ConnectorAuditLogger.getLogsForTenant(selectedTenant);
+src/components/pages/PilotMonitoringDashboard.tsx:37:  const rollbackLogs = PilotRollbackProtocol.getRollbackAuditTrail().filter(r => r.tenantId === selectedTenant);
+src/components/pages/PilotMonitoringDashboard.tsx:58:      let result: RollbackAuditEntry;
+src/components/pages/PilotMonitoringDashboard.tsx:88:      setSuccessMessage(`Reversão Governada registrada com sucesso! ID de Auditoria: ${result.rollbackId}`);
+src/components/pages/PilotMonitoringDashboard.tsx:281:          {/* Failed Ingestion / Audit Logs */}
+src/components/pages/PilotMonitoringDashboard.tsx:293:            {auditLogs.filter(l => l.event === 'IMPORT_FAILED').length === 0 ? (
+src/components/pages/PilotMonitoringDashboard.tsx:295:                Nenhuma falha de ingestão auditada para este tenant.
+src/components/pages/PilotMonitoringDashboard.tsx:299:                {auditLogs.filter(l => l.event === 'IMPORT_FAILED').map((log) => (
+src/components/pages/PilotMonitoringDashboard.tsx:300:                  <div key={log.auditId} className="p-4 bg-destructive/5 border border-destructive/10 rounded-xl flex gap-3">
+src/components/pages/PilotMonitoringDashboard.tsx:335:                <p className="text-warning/80">Esta operação reverte estados de staging e despromove publicações de runtime sem apagar a linhagem fiduciária e logs de auditoria.</p>
+src/components/pages/PilotMonitoringDashboard.tsx:422:                    placeholder="actorId do auditor fiduciário"
+src/components/pages/PilotMonitoringDashboard.tsx:434:                  placeholder="Justificativa fiduciária para a auditoria de reversão contábil..."
+src/components/pages/PilotMonitoringDashboard.tsx:455:      {/* Reversion History Audit Log (Audit Trail) */}
+src/components/pages/PilotMonitoringDashboard.tsx:463:            <p className="text-body-sm text-muted-foreground mt-0.5">Logs auditáveis e permanentes de todas as intervenções de governança fiduciária executadas.</p>
+src/components/pages/PilotMonitoringDashboard.tsx:476:                  <th className="px-4 py-3 font-bold text-muted-foreground uppercase tracking-widest text-[9px]">Audit ID</th>
+src/components/pages/PilotMonitoringDashboard.tsx:479:                  <th className="px-4 py-3 font-bold text-muted-foreground uppercase tracking-widest text-[9px]">Auditado por</th>
+src/components/pages/ProductGovernancePage.tsx:12:import { ProductAccessAuditFeed } from '../product-governance/ProductAccessAuditFeed';
+src/components/pages/ProductGovernancePage.tsx:65:          <ProductAccessAuditFeed tenantId={tenantId} />
+src/components/pages/DREPage.tsx:14:import { DRETechnicalLayerSection } from './dre/DRETechnicalLayerSection';
+src/components/pages/DREPage.tsx:147:          {isSectionVisible('DRE_TECHNICAL_LAYER') && dreViewModel?.technicalLayer?.rows && dreViewModel.technicalLayer.rows.length > 0 && (
+src/components/pages/DREPage.tsx:149:              <DRETechnicalLayerSection viewModel={dreViewModel.technicalLayer} />
+src/components/pages/TenantGovernancePage.tsx:14:  const auditLog = [
+src/components/pages/TenantGovernancePage.tsx:41:      {/* Audit Timeline */}
+src/components/pages/TenantGovernancePage.tsx:48:            <h3 className="text-h3 font-medium text-foreground tracking-tight">Tenant Audit Timeline</h3>
+src/components/pages/TenantGovernancePage.tsx:54:          {auditLog.map((entry, i) => (
+src/components/pages/dre/view-models.ts:61:export type DRETechnicalRowViewModel = {
+src/components/pages/dre/view-models.ts:72:export type DRETechnicalLayerViewModel = {
+src/components/pages/dre/view-models.ts:73:  rows: DRETechnicalRowViewModel[];
+src/components/pages/dre/DRETechnicalLayerSection.tsx:5:import { DRETechnicalLayerViewModel } from './view-models';
+src/components/pages/dre/DRETechnicalLayerSection.tsx:14:  viewModel: DRETechnicalLayerViewModel;
+src/components/pages/dre/DRETechnicalLayerSection.tsx:17:export function DRETechnicalLayerSection({ viewModel }: Props) {
+src/components/pages/dre/DRETechnicalLayerSection.tsx:20:  const mockMemory = [
+src/components/pages/dre/DRETechnicalLayerSection.tsx:73:          {mockMemory.map((mem, i) => (
+src/components/pages/dre/types.ts:80:export type DRETechnicalRowInput = {
+src/components/pages/InstitutionalKnowledgeGraphPage.tsx:19:        subtitle="Semantic Intelligence Layer. Explorador auditável de correlações fiduciárias e memória institucional."
+src/components/pages/DecisionGovernancePage.tsx:5:import { WorkflowAuditLogger } from '../../services/FiduciaryRuntimeAdapter';
+src/components/pages/DecisionGovernancePage.tsx:9:import { WorkflowAuditFeed } from '../workflow-governance/WorkflowAuditFeed';
+src/components/pages/DecisionGovernancePage.tsx:13:  const [auditLogs, setAuditLogs] = useState<any[]>([]);
+src/components/pages/DecisionGovernancePage.tsx:21:    setAuditLogs(WorkflowAuditLogger.getLogsForTenant(mockTenant));
+src/components/pages/DecisionGovernancePage.tsx:39:          subtitle="Workflows Institucionais, Board Approvals e Trilhas de Auditoria."
+src/components/pages/DecisionGovernancePage.tsx:59:          <h3 className="text-h3 font-medium text-foreground tracking-tight">Trilha de Auditoria</h3>
+src/components/pages/DecisionGovernancePage.tsx:60:          <WorkflowAuditFeed logs={auditLogs} />
+src/components/pages/useClientsPageViewModel.ts:155:  const [activeFormTab, setActiveFormTab] = useState<"dados" | "estrutura" | "fiscal" | "contato" | "usuarios" | "pessoal" | "relatorio_ia" | "importacao" | "acessos" | "auditoria">("dados");
+src/components/pages/InstitutionalContinuityCockpitPage.tsx:14:import { InstitutionalEvidenceControlCenterPage } from '../evidence-ingestion/InstitutionalEvidenceControlCenterPage';
+src/components/pages/InstitutionalContinuityCockpitPage.tsx:116:  const auditTrail = rep?.deploymentReadiness?.auditTrail || [];
+src/components/pages/InstitutionalContinuityCockpitPage.tsx:119:  const evidenceReport = rep?.institutionalEvidence;
+src/components/pages/InstitutionalContinuityCockpitPage.tsx:121:  if (evidenceReport?.fiduciaryInterpretationBlocked) {
+src/components/pages/InstitutionalContinuityCockpitPage.tsx:134:          <InstitutionalEvidenceControlCenterPage evidenceReport={evidenceReport} />
+src/components/pages/InstitutionalContinuityCockpitPage.tsx:223:            auditTrail={auditTrail}
+src/components/pages/InstitutionalContinuityCockpitPage.tsx:251:          <Server size={14} className="text-executive-secondary" /> Production Readiness (Technical)
+src/components/pages/InstitutionalContinuityCockpitPage.tsx:324:         <span className="text-[9px] text-executive-secondary uppercase tracking-widest">Auditability</span>
+src/components/pages/InstitutionalContinuityCockpitPage.tsx:325:                  <span className={`text-[10px] font-bold block ${readinessMatrix.auditabilityReadiness.status === 'VALIDATED' ? 'text-emerald-400' : 'text-red-400'}`}>
+src/components/pages/InstitutionalContinuityCockpitPage.tsx:326:                    {readinessMatrix.auditabilityReadiness.status}
+src/components/pages/ExecutiveCognitivePage.tsx:4:import { EvidencePanel } from '../cognitive/EvidencePanel';
+src/components/pages/ExecutiveCognitivePage.tsx:74:            evidenceCount={viewModel.evidenceCount}
+src/components/pages/ExecutiveCognitivePage.tsx:78:            <EvidencePanel evidences={viewModel.evidences} />
+src/components/pages/PartnersPage.tsx:11:import { ClientLoginAudit } from '../ClientLoginAudit';
+src/components/pages/PartnersPage.tsx:121:  const [activeFormTab, setActiveFormTab] = useState<'dados' | 'clientes' | 'estrutura' | 'contato' | 'usuarios' | 'importacao' | 'acessos' | 'auditoria'>('dados');
+src/components/pages/PartnersPage.tsx:215:              { id: 'auditoria', label: 'Auditoria', icon: Activity },
+src/components/pages/PartnersPage.tsx:512:            {activeFormTab === 'auditoria' && editingId && (
+src/components/pages/PartnersPage.tsx:514:                <ClientLoginAudit clientId={editingId} />
+src/components/pages/RuntimeObservabilityPage.tsx:10:function ExecutionTraceTree({ trace }: { trace: any }) {
+src/components/pages/RuntimeObservabilityPage.tsx:11:  if (!trace) return null;
+src/components/pages/RuntimeObservabilityPage.tsx:14:      <h3 className="text-sm font-medium text-foreground flex items-center gap-2"><Network size={16}/> Execution Trace Tree</h3>
+src/components/pages/RuntimeObservabilityPage.tsx:16:        {trace.stages.map((s: any, i: number) => (
+src/components/pages/RuntimeObservabilityPage.tsx:24:          <span className="text-secondary font-mono">{trace.totalDurationMs}ms</span>
+src/components/pages/RuntimeObservabilityPage.tsx:70:      <ExecutionTraceTree trace={replay.trace} />
+src/components/pages/ExecutiveScenarioLabPage.tsx:38:            {/* Direita: Diagnóstico de Confiança e Linha de Auditoria */}
+src/components/pages/SupportPage/ClientSupportPanel.tsx:322:          <p className="text-[11px] text-muted-foreground font-medium uppercase tracking-widest leading-relaxed italic opacity-80">Toda inconsistência reportada é tratada sob protocolos rígidos de sigilo e auditoria por nossos curadores.</p>
+src/components/pages/BalanceSheetPage.tsx:22:import { BalanceSheetTechnicalLayerSection } from './balance-sheet/BalanceSheetTechnicalLayerSection';
+src/components/pages/BalanceSheetPage.tsx:23:import { BalanceSheetAuditLayerSection } from './balance-sheet/BalanceSheetAuditLayerSection';
+src/components/pages/BalanceSheetPage.tsx:26:import { ExecutiveDecisionTrace } from '../ui/executive-decision-trace';
+src/components/pages/BalanceSheetPage.tsx:68:    technicalDrivers: BPStrategicDiagnosisAdapter.mapDrivers(financialIndicators, bpSummary),
+src/components/pages/BalanceSheetPage.tsx:218:                    <BalanceSheetAuditLayerSection 
+src/components/pages/BalanceSheetPage.tsx:219:                      viewModel={executiveViewModel.auditLayer!}
+src/components/pages/BalanceSheetPage.tsx:220:                      decisionTrace={executiveViewModel.decisionTrace!}
+src/components/pages/BalanceSheetPage.tsx:309:              <BalanceSheetTechnicalLayerSection 
+src/components/pages/BalanceSheetPage.tsx:310:                viewModel={executiveViewModel.technicalLayer!}
+src/components/pages/InstitutionalReportsPage.tsx:95:      auditRequirement: true
+src/components/pages/InstitutionalReportsPage.tsx:214:              {/* Seção 2: Governance Audit */}
+src/components/pages/InstitutionalReportsPage.tsx:216:                <h2 className="text-xl font-bold border-b border-border pb-2 mb-4 text-black">2. Auditoria de Governança</h2>
+src/components/pages/AnaliseFinanceiraPage.tsx:132:  const methodologyUsed = displayData?.methodologyVersion || 'Pendente';
+src/components/pages/AnaliseFinanceiraPage.tsx:133:  const hasMethodologyUpdate = analysis && analysis.methodologyVersion !== currentVersion && !analysis.reprocessed;
+src/components/pages/AnaliseFinanceiraPage.tsx:174:              Análise processada com: <span className="text-muted-foreground">{methodologyUsed}</span>
+src/components/pages/AnaliseFinanceiraPage.tsx:195:          {hasMethodologyUpdate && (
+src/components/pages/AdvisoryInsightsPage.tsx:66:                 <span className="px-4 py-1.5 text-[9px] font-medium text-muted-foreground uppercase tracking-widest">{t("advisory.real_time_audit")}</span>
+src/components/pages/ClientsPage.tsx:14:import { ClientLoginAudit } from '../ClientLoginAudit';
+src/components/pages/ClientsPage.tsx:86:                { id: "auditoria", label: "Auditoria", icon: Activity },
+src/components/pages/ClientsPage.tsx:1581:            {["pessoal", "importacao", "acessos", "auditoria"].map(tab => (
+src/components/pages/EarlyWarningPage.tsx:10:import { WarningEvidenceViewer } from '../early-warning/WarningEvidenceViewer';
+src/components/pages/EarlyWarningPage.tsx:43:          <WarningEvidenceViewer tenantId={tenantId} />
+src/components/pages/ClientExecutiveWorkspace.tsx:25:import { ExecutiveEvidenceViewer } from '../executive-delivery/ExecutiveEvidenceViewer';
+src/components/pages/ClientExecutiveWorkspace.tsx:28:import { GuidedBoardJourneyRuntime, BoardEvidenceData } from '../../core/executive-delivery/GuidedBoardJourneyRuntime';
+src/components/pages/ClientExecutiveWorkspace.tsx:43:  const [evidenceMode, setEvidenceMode] = useState<boolean>(false);
+src/components/pages/ClientExecutiveWorkspace.tsx:66:      setEvidenceMode(runtimeInstance.getState().evidenceModeActive);
+src/components/pages/ClientExecutiveWorkspace.tsx:100:      setEvidenceMode(state.evidenceModeActive);
+src/components/pages/ClientExecutiveWorkspace.tsx:132:      hideVisualAuditTrail: false
+src/components/pages/ClientExecutiveWorkspace.tsx:257:  const toggleEvidenceMode = () => {
+src/components/pages/ClientExecutiveWorkspace.tsx:259:      journeyRuntime.toggleEvidenceMode();
+src/components/pages/ClientExecutiveWorkspace.tsx:402:  const evidenceData = journeyRuntime?.getBoardEvidence();
+src/components/pages/ClientExecutiveWorkspace.tsx:415:            Esta área de trabalho opera sob supervisão de integridade fiduciária. Mutações e ocultação de riscos de severidade contábil são estritamente proibidas e auditadas pelo ledger imutável.
+src/components/pages/ClientExecutiveWorkspace.tsx:884:                      A auditoria do conselho foi inicializada com sucesso. Todos os lineage hashes, calibradores e perfis de thresholds estão em conformidade com o regimento interno de governança corporativa.
+src/components/pages/ClientExecutiveWorkspace.tsx:892:            {/* BOARD_EVIDENCE_MODE Panel (1 col) */}
+src/components/pages/ClientExecutiveWorkspace.tsx:895:                {evidenceMode && evidenceData && (
+src/components/pages/ClientExecutiveWorkspace.tsx:896:                  <ExecutiveEvidenceViewer evidence={evidenceData} />
+src/components/pages/ClientExecutiveWorkspace.tsx:898:                {!evidenceMode && (
+src/components/pages/ClientExecutiveWorkspace.tsx:920:              onToggleEvidence={toggleEvidenceMode}
+src/components/pages/ClientExecutiveWorkspace.tsx:921:              evidenceModeActive={evidenceMode}
+src/components/pages/PartnerSalesPage.tsx:175:      insights: ['Aderência a Acordos de Sócios', 'Auditoria Ativa de Alçadas Decisórias', 'Conformidade com Princípios Fiduciários']
+src/components/pages/DFCPage.tsx:16:import { ExecutiveTechnicalLayer } from '../ui/executive-technical-layer';
+src/components/pages/DFCPage.tsx:145:  const [technicalTableOpen, setTechnicalTableOpen] = useState(false);
+src/components/pages/DFCPage.tsx:161:    'DFC_RECONCILIATION_SUMMARY',
+src/components/pages/DFCPage.tsx:162:    'DFC_TECHNICAL_LAYER',
+src/components/pages/DFCPage.tsx:178:    const labelKey = isSectionVisible('DFC_EQE_LINEAGE') ? 'DFC_EQE_SUMMARY_TECHNICAL' : 'DFC_EQE_SUMMARY_EXECUTIVE';
+src/components/pages/DFCPage.tsx:247:  const semanticAudit = dfcInference?.semanticAudit;
+src/components/pages/DFCPage.tsx:248:  const semanticSource = semanticAudit?.canonicalRoot ?? dfcInference?.semanticSource ?? 'LEGACY';
+src/components/pages/DFCPage.tsx:249:  const lifecycleStage = semanticAudit?.lifecycleStage ?? semanticContext?.lifecycleStage ?? outputAny?.institutionalContext?.lifecycleStage ?? 'ESTABLISHED_ANALYSIS';
+src/components/pages/DFCPage.tsx:250:  const lifecycleLabel = semanticAudit?.lifecycleLabel ?? semanticContext?.lifecycleLabel ?? (lifecycleStage === 'INITIAL_CAPITALIZATION' ? 'Fase Inicial de Capitalização' : lifecycleStage);
+src/components/pages/DFCPage.tsx:265:      technicalDrivers: {
+src/components/pages/DFCPage.tsx:278:  const featureFlags = { showSemanticAudit: process.env.NODE_ENV !== 'production' };
+src/components/pages/DFCPage.tsx:281:    if (featureFlags.showSemanticAudit && semanticAudit) {
+src/components/pages/DFCPage.tsx:282:      const violation = FiduciaryRuntimeAdapter.DFCSemanticRenderingGuard.auditSemanticRoot(semanticAudit, semanticSource);
+src/components/pages/DFCPage.tsx:286:      console.table(semanticAudit);
+src/components/pages/DFCPage.tsx:288:  }, [semanticAudit, semanticSource]);
+src/components/pages/DFCPage.tsx:311:    : (earningsQuality?.netIncomeTrace?.consumedByEQE !== undefined && earningsQuality?.netIncomeTrace?.consumedByEQE !== null
+src/components/pages/DFCPage.tsx:312:        ? earningsQuality.netIncomeTrace.consumedByEQE
+src/components/pages/DFCPage.tsx:485:            {['BOARD', 'EXECUTIVE', 'TECHNICAL'].map((lvl) => {
+src/components/pages/DFCPage.tsx:497:                      ? (lvl === 'TECHNICAL' ? "bg-surface-container text-foreground shadow-md scale-105" : "bg-foreground text-white shadow-md scale-105")
+src/components/pages/DFCPage.tsx:504:                    'Técnico (TECHNICAL)',
+src/components/pages/DFCPage.tsx:634:        // 1. Audit and assign fallbacks for the snapshot
+src/components/pages/DFCPage.tsx:643:        const reconciliation = FiduciaryRuntimeAdapter.DFCRuntimeUIReconciliationAudit?.evaluate?.(
+src/components/pages/DFCPage.tsx:648:        if (!reconciliation.isReconciled) {
+src/components/pages/DFCPage.tsx:650:          governanceOutput.validation.blockReason = reconciliation.divergenceReason;
+src/components/pages/DFCPage.tsx:681:              : alert.message.replace(/CRITICAL/g, 'Crítico').replace(/WARNING/g, 'Atenção').replace(/NORMAL/g, 'Saudável').replace(/TECHNICAL/g, 'Técnico'),
+src/components/pages/DFCPage.tsx:698:        const auditData = {
+src/components/pages/DFCPage.tsx:719:        const presentationAudit = FiduciaryRuntimeAdapter.ExecutivePresentationAuditEngine.audit(auditData, densityLevel);
+src/components/pages/DFCPage.tsx:721:        if (densityLevel !== 'TECHNICAL' && (presentationAudit.status === 'DFC_EXECUTIVE_PRESENTATION_VIOLATION' || presentationAudit.status === 'EXECUTIVE_LANGUAGE_LEAK')) {
+src/components/pages/DFCPage.tsx:722:          console.error('Presentation/Language Violation detected:', presentationAudit.violations);
+src/components/pages/DFCPage.tsx:723:          const blockMsg = presentationAudit.status === 'EXECUTIVE_LANGUAGE_LEAK'
+src/components/pages/DFCPage.tsx:735:                  {presentationAudit.violations.map((v: string, i: number) => (
+src/components/pages/DFCPage.tsx:744:        // 5. Execute EIDF Density compliance audit
+src/components/pages/DFCPage.tsx:745:        const densityAudit = FiduciaryRuntimeAdapter.DFCDensityComplianceAudit.audit(
+src/components/pages/DFCPage.tsx:750:        if (densityAudit.status === 'DFC_DENSITY_VIOLATION') {
+src/components/pages/DFCPage.tsx:751:          console.error('EIDF Density Violation detected:', densityAudit.details);
+src/components/pages/DFCPage.tsx:856:                            {/* Collapse debug section for technical profile */}
+src/components/pages/DFCPage.tsx:857:                            {densityLevel === 'TECHNICAL' && (
+src/components/pages/DFCPage.tsx:859:                                <summary className="hover:text-muted-foreground font-bold uppercase tracking-wider">Auditoria Técnica (Debug)</summary>
+src/components/pages/DFCPage.tsx:970:                  {((densityLevel === 'TECHNICAL' ? rawEarlyWarning.alerts : earlyWarningViewModels) || []).map((item: any, idx: number) => {
+src/components/pages/DFCPage.tsx:971:                    const isTech = densityLevel === 'TECHNICAL';
+src/components/pages/DFCPage.tsx:1194:                        {densityLevel === 'TECHNICAL' ? consistency.narrative : consistency.executiveInterpretation}
+src/components/pages/DFCPage.tsx:1313:            {/* DFC_RECONCILIATION_SUMMARY Section */}
+src/components/pages/DFCPage.tsx:1314:            {isSectionVisible('DFC_RECONCILIATION_SUMMARY') && (
+src/components/pages/DFCPage.tsx:1316:                title={getSectionHeader('DFC_RECONCILIATION_SUMMARY', 'DFC_RECONCILIATION_SUMMARY_TITLE')}
+src/components/pages/DFCPage.tsx:1320:                    metrics.fiduciary?.reconciliationMismatch 
+src/components/pages/DFCPage.tsx:1324:                    {metrics.fiduciary?.reconciliationMismatch ? "Divergência Detectada" : "Conciliado (Diferença R$ 0)"}
+src/components/pages/DFCPage.tsx:1463:                    {earningsQuality?.netIncomeTrace && (
+src/components/pages/DFCPage.tsx:1466:                          <h5 className="text-[10px] font-black uppercase tracking-widest text-foreground/50">Auditoria de Linhagem do Lucro Líquido</h5>
+src/components/pages/DFCPage.tsx:1471:                            <span className="text-foreground">{earningsQuality.netIncomeTrace.source}</span>
+src/components/pages/DFCPage.tsx:1476:                              {earningsQuality.netIncomeTrace.sourceValue !== null 
+src/components/pages/DFCPage.tsx:1477:                                ? formatCurrency(earningsQuality.netIncomeTrace.sourceValue) 
+src/components/pages/DFCPage.tsx:1485:                            <span className="text-foreground">{formatCurrency(earningsQuality.netIncomeTrace.consumedByEQE)}</span>
+src/components/pages/DFCPage.tsx:1564:                  Potential omitted related-party movement detected from Balance Sheet reconciliation.
+src/components/pages/DFCPage.tsx:1636:      {isSectionVisible('DFC_TECHNICAL_LAYER') && (
+src/components/pages/DFCPage.tsx:1637:        <ExecutiveTechnicalLayer
+src/components/pages/DFCPage.tsx:1639:          subtitle="Fundamentação e Auditoria Fiduciária"
+src/components/pages/DFCPage.tsx:1640:          description="Fórmulas, proxies, memórias de cálculo e auditoria de linhagem para os indicadores de DFC."
+src/components/pages/DFCPage.tsx:1754:                {earningsQuality?.netIncomeTrace && (
+src/components/pages/DFCPage.tsx:1757:                      <h5 className="text-[10px] font-black uppercase tracking-widest text-foreground/50">Auditoria de Linhagem do Lucro Líquido</h5>
+src/components/pages/DFCPage.tsx:1762:                        <span className="text-foreground">{earningsQuality.netIncomeTrace.source}</span>
+src/components/pages/DFCPage.tsx:1767:                          {earningsQuality.netIncomeTrace.sourceValue !== null 
+src/components/pages/DFCPage.tsx:1768:                            ? formatCurrency(earningsQuality.netIncomeTrace.sourceValue) 
+src/components/pages/DFCPage.tsx:1776:                        <span className="text-foreground">{formatCurrency(earningsQuality.netIncomeTrace.consumedByEQE)}</span>
+src/components/pages/DFCPage.tsx:1819:        </ExecutiveTechnicalLayer>
+src/components/pages/public/EmpresasPage.tsx:133:    { name: 'Governança', desc: 'Auditoria de alçadas, governança de dados e acordos corporativos.', impact: 'Decisório' },
+src/components/pages/public/EmpresasPage.tsx:177:      insights: ['Aderência a Acordos de Sócios', 'Auditoria Ativa de Alçadas Decisórias', 'Conformidade com Princípios Jurídicos']
+src/components/pages/public/EmpresasPage.tsx:613:              { letter: 'G', name: 'Governance', desc: 'Sucessão, clareza decisória, auditoria ativa e conformidade societária.' },
+src/components/pages/__tests__/eac-scanner-fixtures/analytical-technical-before-summary.tsx:3:    const BalanceSheetTechnicalLayerSection = () => <div/>;
+src/components/pages/__tests__/eac-scanner-fixtures/analytical-technical-before-summary.tsx:11:          <BalanceSheetTechnicalLayerSection />
+src/components/pages/__tests__/eac-scanner-fixtures/page-with-modal.tsx:5:    const BalanceSheetTechnicalLayerSection = () => <div/>;
+src/components/pages/__tests__/eac-scanner-fixtures/page-with-modal.tsx:8:      return <BalanceSheetTechnicalLayerSection />;
+src/components/pages/__tests__/eac-scanner-fixtures/analytical-perfect.tsx:10:    const BalanceSheetTechnicalLayerSection = () => <div/>;
+src/components/pages/__tests__/eac-scanner-fixtures/analytical-perfect.tsx:23:          <BalanceSheetTechnicalLayerSection />
+src/components/pages/__tests__/eac-scanner-fixtures/page-with-loading-state.tsx:5:    const BalanceSheetTechnicalLayerSection = () => <div/>;
+src/components/pages/__tests__/eac-scanner-fixtures/page-with-loading-state.tsx:8:      if (loading) return <BalanceSheetTechnicalLayerSection />;
+src/components/pages/__tests__/eac-scanner-fixtures/governance-with-decision-summary.tsx:7:const EvidencePanel = () => <div />;
+src/components/pages/__tests__/eac-scanner-fixtures/governance-with-decision-summary.tsx:15:      <EvidencePanel />
+src/components/pages/__tests__/eac-scanner-fixtures/page-with-repeated-blocks.tsx:6:    const BalanceSheetTechnicalLayerSection = () => <div/>;
+src/components/pages/__tests__/eac-scanner-fixtures/page-with-repeated-blocks.tsx:17:          <BalanceSheetTechnicalLayerSection />
+src/components/pages/InstitutionalOnboardingControlCenterPage.tsx:128:            <span>{t("onboarding.audit_lineage")}</span>
+src/components/pages/InstitutionalOnboardingControlCenterPage.tsx:243:            <Fingerprint size={14} /> {t("onboarding.audit_trail")}
+src/components/pages/PremissasTributariasPage.tsx:291:      {/* Technical Layer */}
+src/components/pages/PremissasTributariasPage.tsx:296:            <ExecutiveHeading as="h3">Technical Layer (Detalhes de Memória de Cálculo)</ExecutiveHeading>
+src/components/pages/PremissasTributariasPage.tsx:303:          variant="technical"
+src/components/pages/PremissasTributariasPage.tsx:350:          variant="technical"
+src/components/pages/AdvisorWorkspacePage.tsx:27:  const [customRationale, setCustomRationale] = useState<string>('Calibração padrão do comitê de auditoria fiduciária.');
+src/components/pages/AdvisorWorkspacePage.tsx:40:    auditRequirement: false
+src/components/pages/AdvisorWorkspacePage.tsx:46:    setCalibrationLogs(CalibrationEngine.getAuditTrail());
+src/components/pages/AdvisorWorkspacePage.tsx:139:      importId: 'EXEC-TRACE-101',
+src/components/pages/AdvisorWorkspacePage.tsx:380:          {/* Audit calibration history */}
+src/components/pages/governance/SovereignDecisionCenter.tsx:63:    auditability = {}
+src/components/pages/governance/SovereignDecisionCenter.tsx:307:                            <span>Audit Lineage ID:</span>
+src/components/pages/governance/RiskExposureCenter.tsx:45:    auditability = {},
+src/components/pages/governance/RiskExposureCenter.tsx:117:            <div className="text-[10px] text-muted-foreground uppercase tracking-widest font-black mb-1">Status de Auditoria</div>
+src/components/pages/governance/RiskExposureCenter.tsx:365:      {/* Row 4: Explainability & Auditability Accordions */}
+src/components/pages/governance/RiskExposureCenter.tsx:409:        {/* Auditability Trace */}
+src/components/pages/governance/RiskExposureCenter.tsx:412:            onClick={() => toggleSection('auditability')}
+src/components/pages/governance/RiskExposureCenter.tsx:418:                <h4 className="text-sm font-semibold text-muted-foreground">Trilha de Auditoria e Reconstrução Fiduciária</h4>
+src/components/pages/governance/RiskExposureCenter.tsx:422:            {expandedSection === 'auditability' ? <ChevronUp className="w-5 h-5 text-muted-foreground" /> : <ChevronDown className="w-5 h-5 text-muted-foreground" />}
+src/components/pages/governance/RiskExposureCenter.tsx:425:          {expandedSection === 'auditability' && (
+src/components/pages/governance/RiskExposureCenter.tsx:427:              <p><span className="font-bold text-muted-foreground">Lógica de Reconciliação:</span> {auditability.reconciliationLogic}</p>
+src/components/pages/governance/RiskExposureCenter.tsx:428:              <p><span className="font-bold text-muted-foreground">Rastro de Reconstrução:</span> {auditability.reconstructionTrace}</p>
+src/components/pages/governance/RiskExposureCenter.tsx:429:              <p><span className="font-bold text-muted-foreground">Verificação Causal:</span> {auditability.lineageTrace}</p>
+src/components/pages/governance/RiskExposureCenter.tsx:431:                Lineage-Certified Trace ID: {(brmInference as any)?.lineageHash || 'No tracing hash generated'}
+src/components/pages/governance/FinancialLineageCenter.tsx:33:  // Perform dynamic full-context lineage audit
+src/components/pages/governance/FinancialLineageCenter.tsx:34:  const flifAuditResult = useMemo(() => {
+src/components/pages/governance/FinancialLineageCenter.tsx:36:    return FinancialLineageIntegrityAdapter.audit(runtimeOutput.context);
+src/components/pages/governance/FinancialLineageCenter.tsx:47:        <span className="text-sm font-medium tracking-wide uppercase">Executando Auditoria Fiduciária de Linhagem (FLIF)...</span>
+src/components/pages/governance/FinancialLineageCenter.tsx:53:    auditedMetrics = [],
+src/components/pages/governance/FinancialLineageCenter.tsx:61:  } = flifAuditResult || flifInference?.metrics || {};
+src/components/pages/governance/FinancialLineageCenter.tsx:63:  const filteredMetrics = auditedMetrics.filter((m: any) => {
+src/components/pages/governance/FinancialLineageCenter.tsx:228:              <span className="text-xs font-bold uppercase tracking-wider text-muted-foreground">Total Auditado</span>
+src/components/pages/governance/FinancialLineageCenter.tsx:232:              <div className="text-4xl font-light text-muted-foreground">{auditedMetrics.length}</div>
+src/components/pages/governance/DecisionLifecycleCenter.tsx:6:import { WorkflowAuditFeed } from '../../workflow-governance/WorkflowAuditFeed';
+src/components/pages/governance/DecisionLifecycleCenter.tsx:10:  const [auditLogs, setAuditLogs] = useState<any[]>([]);
+src/components/pages/governance/DecisionLifecycleCenter.tsx:11:  const [activeTab, setActiveTab] = useState<'EXECUTIVE' | 'MASTER_AUDIT'>('EXECUTIVE');
+src/components/pages/governance/DecisionLifecycleCenter.tsx:23:    setAuditLogs(FiduciaryRuntimeAdapter.WorkflowAuditLogger.getLogsForTenant(mockTenant));
+src/components/pages/governance/DecisionLifecycleCenter.tsx:49:            onClick={() => setActiveTab('MASTER_AUDIT')}
+src/components/pages/governance/DecisionLifecycleCenter.tsx:51:              activeTab === 'MASTER_AUDIT' ? 'bg-white text-muted-foreground shadow-sm' : 'text-muted-foreground hover:text-muted-foreground'
+src/components/pages/governance/DecisionLifecycleCenter.tsx:54:            <div className="flex items-center gap-2"><ShieldCheck size={14} /> Admin Master (Audit)</div>
+src/components/pages/governance/DecisionLifecycleCenter.tsx:62:            {activeTab === 'EXECUTIVE' ? 'Decisões Causalmente Vinculadas' : 'Registro de Auditoria de Workflows'}
+src/components/pages/governance/DecisionLifecycleCenter.tsx:69:          <WorkflowAuditFeed logs={auditLogs} />
+src/components/pages/governance/GovernanceMaturityCenter.tsx:382:                                    {principle.expectedEvidences.map((ev, i) => (
+src/components/pages/governance/BenchmarkComparativePanel.tsx:94:              De acordo com a cláusula constitucional de auditoria comparativa, o benchmark setorial permanece suspenso até que a holding atinja a prontidão fiduciária mínima (BRL™).
+src/components/pages/governance/ExecutiveTimelinePanel.tsx:50:      case 'INSUFFICIENT_EVIDENCE':
+src/components/pages/governance/ObservabilityConsolePage.tsx:23:  const [auditEvents, setAuditEvents] = useState<any[]>([]);
+src/components/pages/governance/ObservabilityConsolePage.tsx:58:        governanceService.getAuditEvents(context, { 
+src/components/pages/governance/ObservabilityConsolePage.tsx:72:      setAuditEvents(eventsData);
+src/components/pages/governance/ObservabilityConsolePage.tsx:98:    const total = auditEvents.length;
+src/components/pages/governance/ObservabilityConsolePage.tsx:100:    const deniedAccessCount = auditEvents.filter(e => e.eventType.startsWith('DENY_') || e.eventType === 'PERMISSION_DENIED').length;
+src/components/pages/governance/ObservabilityConsolePage.tsx:101:    const tenantSwitches = auditEvents.filter(e => e.eventType === 'TENANT_SWITCH' || e.eventType === 'TENANT_SELECTION').length;
+src/components/pages/governance/ObservabilityConsolePage.tsx:109:  }, [auditEvents, anomalies]);
+src/components/pages/governance/ObservabilityConsolePage.tsx:113:    if (auditEvents.length === 0) {
+src/components/pages/governance/ObservabilityConsolePage.tsx:127:    auditEvents.slice(0, 50).reverse().forEach(event => {
+src/components/pages/governance/ObservabilityConsolePage.tsx:151:  }, [auditEvents, anomalies]);
+src/components/pages/governance/ObservabilityConsolePage.tsx:159:          Você não possui privilégios de auditoria (`VIEW_OBSERVABILITY`) para visualizar o console de observabilidade institucional.
+src/components/pages/governance/ObservabilityConsolePage.tsx:172:          subtitle="Telemetria e Auditoria Fiduciária Multi-Tenant em Tempo Real."
+src/components/pages/governance/ObservabilityConsolePage.tsx:246:        <TabButton active={activeTab === 'history'} onClick={() => setActiveTab('history')} icon={<Terminal className="w-4 h-4"/>} label="Ledger de Auditoria" />
+src/components/pages/governance/ObservabilityConsolePage.tsx:255:          <p className="text-xs font-bold uppercase tracking-widest mt-4">Auditando Ledger de Governança...</p>
+src/components/pages/governance/ObservabilityConsolePage.tsx:299:                  <ProgressIndicator label="Visualização Financeira" value={auditEvents.filter(e => e.eventType === 'VIEW_FINANCIALS').length} total={stats.total} color="bg-primary" />
+src/components/pages/governance/ObservabilityConsolePage.tsx:300:                  <ProgressIndicator label="Consultas de Causalidade" value={auditEvents.filter(e => e.eventType === 'VIEW_CAUSALITY').length} total={stats.total} color="bg-teal-500" />
+src/components/pages/governance/ObservabilityConsolePage.tsx:301:                  <ProgressIndicator label="Geração de Snapshots" value={auditEvents.filter(e => e.eventType === 'CREATE_SNAPSHOT').length} total={stats.total} color="bg-success-soft0" />
+src/components/pages/governance/ObservabilityConsolePage.tsx:302:                  <ProgressIndicator label="Geração de Simulations" value={auditEvents.filter(e => e.eventType === 'CREATE_SIMULATION').length} total={stats.total} color="bg-warning-soft0" />
+src/components/pages/governance/ObservabilityConsolePage.tsx:303:                  <ProgressIndicator label="Exportações Gerais" value={stats.total - auditEvents.filter(e => !e.eventType.includes('EXPORT')).length} total={stats.total} color="bg-critical-soft0" />
+src/components/pages/governance/ObservabilityConsolePage.tsx:374:          {/* 3. AUDIT HISTORY LEDGER TAB */}
+src/components/pages/governance/ObservabilityConsolePage.tsx:380:                  Histórico Imutável de Auditoria (Ledger)
+src/components/pages/governance/ObservabilityConsolePage.tsx:384:              {auditEvents.length === 0 ? (
+src/components/pages/governance/ObservabilityConsolePage.tsx:402:                      {auditEvents.map((evt) => (
+src/components/pages/governance/ObservabilityConsolePage.tsx:436:              {auditEvents.filter(e => e.resourceType === 'Session').length === 0 ? (
+src/components/pages/governance/ObservabilityConsolePage.tsx:442:                  {auditEvents.filter(e => e.resourceType === 'Session').map((evt) => (
+src/components/pages/governance/ObservabilityConsolePage.tsx:485:                    A verificação de conexão com a infraestrutura do Firestore e o barramento `audit_events` retornou sucesso. Toda escrita está sendo envelopada e direcionada sob o princípio "Deny by Default".
+src/components/pages/governance/ObservabilityConsolePage.tsx:509:                  <Checkline label="Auditoria de Acesso SUPER_ADMIN Cross-Tenant Habilitada" checked={true} />
+src/components/pages/governance/GovernanceExecutionPanel.tsx:79:      evidence: ['Inserção manual pelo usuário'],
+src/components/pages/governance/GovernanceExecutionPanel.tsx:473:                  {/* Evidence Trails */}
+src/components/pages/governance/GovernanceExecutionPanel.tsx:474:                  {dec.evidence && dec.evidence.length > 0 && (
+src/components/pages/governance/GovernanceExecutionPanel.tsx:476:                      <span className="text-[9px] font-bold uppercase tracking-widest text-muted-foreground block">Linhas de Evidência Auditáveis</span>
+src/components/pages/governance/GovernanceExecutionPanel.tsx:478:                        {dec.evidence.map((ev, idx) => (
+src/components/pages/governance/ESGIMAssessmentPage.tsx:42:  const [activeExplainTab, setActiveExplainTab] = useState<'evidences' | 'rules' | 'lineage'>('evidences');
+src/components/pages/governance/ESGIMAssessmentPage.tsx:85:      evidence: priority.evidence,
+src/components/pages/governance/ESGIMAssessmentPage.tsx:350:     <p className="text-executive-secondary">Diferencie entre dados contábeis auditados (LIVE_DATA) e simulações cognitivas de estresse (DEMO_SCENARIO).</p>
+src/components/pages/governance/ESGIMAssessmentPage.tsx:894:                          {/* Evidences list */}
+src/components/pages/governance/ESGIMAssessmentPage.tsx:898:                              {priority.evidence.map((ev, idx) => (
+src/components/pages/governance/ESGIMAssessmentPage.tsx:1497:      {/* 7. Explainability & Traceability Panel */}
+src/components/pages/governance/ESGIMAssessmentPage.tsx:1501:            onClick={() => setActiveExplainTab('evidences')}
+src/components/pages/governance/ESGIMAssessmentPage.tsx:1503:              activeExplainTab === 'evidences' 
+src/components/pages/governance/ESGIMAssessmentPage.tsx:1534:            {activeExplainTab === 'evidences' && (
+src/components/pages/governance/ESGIMAssessmentPage.tsx:1536:                key="evidences"
+src/components/pages/governance/ESGIMAssessmentPage.tsx:1549:                  {/* ESGIM Evidences */}
+src/components/pages/governance/ESGIMAssessmentPage.tsx:1553:                      {assessment.auditTrail.evidenceTrail.map((ev, idx) => (
+src/components/pages/governance/ESGIMAssessmentPage.tsx:1562:                  {/* IRI Evidences */}
+src/components/pages/governance/ESGIMAssessmentPage.tsx:1567:                        .filter(ex => ex.type === 'evidence')
+src/components/pages/governance/ESGIMAssessmentPage.tsx:1580:                  {/* GML Evidences / Snapshots */}
+src/components/pages/governance/ESGIMAssessmentPage.tsx:1621:                      {assessment.auditTrail.rulesApplied.map((rule, idx) => (
+src/components/pages/governance/EconomicNormalizationCenter.tsx:51:    auditability = {},
+src/components/pages/governance/EconomicNormalizationCenter.tsx:460:      {/* Row 5: Explainability & Auditability Trace Accordions */}
+src/components/pages/governance/EconomicNormalizationCenter.tsx:464:          Rastreabilidade Fiduciária e Trilhas de Auditoria (No-Black-Box)
+src/components/pages/governance/EconomicNormalizationCenter.tsx:485:                  <p className="text-muted-foreground mt-1 font-mono">{formatCurrency(auditability.ebitda?.accountingBase ?? 0)}</p>
+src/components/pages/governance/EconomicNormalizationCenter.tsx:489:                  <p className="text-muted-foreground mt-1 font-mono">{auditability.ebitda?.lineage ?? 'N/A'}</p>
+src/components/pages/governance/EconomicNormalizationCenter.tsx:495:                  {auditability.ebitda?.reconciliationTrace ?? 'N/A'}
+src/components/pages/governance/EconomicNormalizationCenter.tsx:500:                <p className="text-muted-foreground mt-1">{auditability.ebitda?.reconstructionLogic ?? 'N/A'}</p>
+src/components/pages/governance/EconomicNormalizationCenter.tsx:504:                <p className="text-muted-foreground mt-1">{auditability.ebitda?.fiduciaryRationale ?? 'N/A'}</p>
+src/components/pages/governance/EconomicNormalizationCenter.tsx:528:                  <p className="text-muted-foreground mt-1 font-mono">{formatCurrency(auditability.workingCapital?.accountingBase ?? 0)}</p>
+src/components/pages/governance/EconomicNormalizationCenter.tsx:532:                  <p className="text-muted-foreground mt-1 font-mono">{auditability.workingCapital?.lineage ?? 'N/A'}</p>
+src/components/pages/governance/EconomicNormalizationCenter.tsx:538:                  {auditability.workingCapital?.reconciliationTrace ?? 'N/A'}
+src/components/pages/governance/EconomicNormalizationCenter.tsx:543:                <p className="text-muted-foreground mt-1">{auditability.workingCapital?.reconstructionLogic ?? 'N/A'}</p>
+src/components/pages/governance/EconomicNormalizationCenter.tsx:547:                <p className="text-muted-foreground mt-1">{auditability.workingCapital?.fiduciaryRationale ?? 'N/A'}</p>
+src/components/pages/governance/EconomicNormalizationCenter.tsx:572:                    {auditability.roic?.accountingBase !== undefined ? `${((auditability.roic.accountingBase as number) * 100).toFixed(1)}%` : 'N/A'}
+src/components/pages/governance/EconomicNormalizationCenter.tsx:577:                  <p className="text-muted-foreground mt-1 font-mono">{auditability.roic?.lineage ?? 'N/A'}</p>
+src/components/pages/governance/EconomicNormalizationCenter.tsx:583:                  {auditability.roic?.reconciliationTrace ?? 'N/A'}
+src/components/pages/governance/EconomicNormalizationCenter.tsx:588:                <p className="text-muted-foreground mt-1">{auditability.roic?.reconstructionLogic ?? 'N/A'}</p>
+src/components/pages/governance/EconomicNormalizationCenter.tsx:592:                <p className="text-muted-foreground mt-1">{auditability.roic?.fiduciaryRationale ?? 'N/A'}</p>
+src/components/pages/governance/BenchmarkReadinessPanel.tsx:168:              O **BRI™** calcula a pontuação ponderada das dimensões de prontidão para auditoria fiduciária comparativa.
+src/components/pages/governance/BenchmarkReadinessPanel.tsx:226:          {renderDimension('Dados & Auditoria', readiness.dataReadiness, readiness.dataReadinessStatus, <Compass className="w-4 h-4 text-teal-400" />)}
+src/components/pages/governance/InstitutionalStructureCenter.tsx:47:              {['Comitê de Auditoria e Riscos', 'Comitê de Pessoas e Cultura', 'Comitê de Inovação', 'Comitê ESG e Ética'].map((comite, idx) => (
+src/components/pages/governance/MultiTenantGovernanceCenter.tsx:14:  const auditLog = [
+src/components/pages/governance/MultiTenantGovernanceCenter.tsx:41:      {/* Audit Timeline */}
+src/components/pages/governance/MultiTenantGovernanceCenter.tsx:48:            <h3 className="text-h3 font-medium text-foreground tracking-tight">Tenant Audit Timeline</h3>
+src/components/pages/governance/MultiTenantGovernanceCenter.tsx:54:          {auditLog.map((entry, i) => (
+src/components/pages/governance/BoardMeetingMode.tsx:34:  const [showTraceability, setShowTraceability] = useState(false);
+src/components/pages/governance/BoardMeetingMode.tsx:651:                onClick={() => setShowTraceability(!showTraceability)}
+src/components/pages/governance/BoardMeetingMode.tsx:654:                {showTraceability ? 'Ocultar rastreabilidade técnica' : 'Exibir assinaturas e rastreabilidade fiduciária'}
+src/components/pages/governance/BoardMeetingMode.tsx:657:              {showTraceability && (
+src/components/pages/governance/InstitutionalLineageExplorer.tsx:5:import { LineageAppendix, InstitutionalDisclosure } from '../../../services/FiduciaryRuntimeAdapter';
+src/components/pages/governance/InstitutionalLineageExplorer.tsx:8:  lineageAppendix?: LineageAppendix;
+src/components/pages/governance/InstitutionalLineageExplorer.tsx:13:export function InstitutionalLineageExplorer({ lineageAppendix, disclosureSet, dataMode }: InstitutionalLineageExplorerProps) {
+src/components/pages/governance/InstitutionalLineageExplorer.tsx:17:  const mainHash = isMock ? 'MOCK_LINEAGE' : (lineageAppendix?.boardPackLineageHash || 'N/A');
+src/components/pages/governance/InstitutionalLineageExplorer.tsx:26:    : (lineageAppendix?.runtimeHashes || {});
+src/components/pages/governance/InstitutionalLineageExplorer.tsx:30:    : (lineageAppendix?.propagationHashes || []);
+src/components/pages/governance/InstitutionalLineageExplorer.tsx:43:              Linhagem e chaves de auditoria marcadas como simuladas. Nenhuma conclusão ou parecer fiduciário real deve ser inferido deste painel.
+src/components/pages/governance/InstitutionalLineageExplorer.tsx:53:            Explorer de Linhagem e Auditoria Fiduciária
+src/components/pages/governance/InstitutionalLineageExplorer.tsx:96:      {/* Propagation / Evidence hashes */}
+src/components/pages/governance/InstitutionalLineageExplorer.tsx:113:      {/* Disclosure / Auditable Footnote set */}
+src/components/pages/governance/InstitutionalLineageExplorer.tsx:117:            Divulgações Fiduciárias & Ressalvas de Auditoria
+src/components/pages/governance/InstitutionalMemoryCenter.tsx:4:import { useInstitutionalMemoryViewModel } from '../../../viewmodels/governance/useInstitutionalMemoryViewModel';
+src/components/pages/governance/InstitutionalMemoryCenter.tsx:8:interface InstitutionalMemoryCenterProps {
+src/components/pages/governance/InstitutionalMemoryCenter.tsx:14:export function InstitutionalMemoryCenter({ selectedClient, selectedYear }: InstitutionalMemoryCenterProps) {
+src/components/pages/governance/InstitutionalMemoryCenter.tsx:15:  const { state, computed, actions } = useInstitutionalMemoryViewModel({ selectedClient, selectedYear });
+src/components/pages/governance/InstitutionalMemoryCenter.tsx:25:    auditability,
+src/components/pages/governance/InstitutionalMemoryCenter.tsx:74:                <span className="text-[10px] font-black tracking-widest text-muted-foreground uppercase">Longitudinal Memory</span>
+src/components/pages/governance/InstitutionalMemoryCenter.tsx:75:                <h3 className="text-lg font-medium text-muted-foreground mt-1">Institutional Memory Score</h3>
+src/components/pages/governance/InstitutionalMemoryCenter.tsx:116:                <Radar name="Memory Score" dataKey="value" stroke="currentColor" fill="currentColor" fillOpacity={0.15} />
+src/components/pages/governance/InstitutionalMemoryCenter.tsx:323:      {/* Row 5: Reconciliation Accordions */}
+src/components/pages/governance/InstitutionalMemoryCenter.tsx:325:        <h4 className="text-xs font-bold text-muted-foreground uppercase tracking-widest">Rastreabilidade Fiduciária e Auditoria</h4>
+src/components/pages/governance/InstitutionalMemoryCenter.tsx:327:        {/* Trace 1 */}
+src/components/pages/governance/InstitutionalMemoryCenter.tsx:335:              Rastreabilidade de Linhagem Contábil (Lineage Trace)
+src/components/pages/governance/InstitutionalMemoryCenter.tsx:346:                {auditability.lineage || 'BP.PL, BP.NetDebt, BP.AtivoCirculante, BP.PassivoCirculante, DFC.FCO, DRE.EBITDA'}
+src/components/pages/governance/InstitutionalMemoryCenter.tsx:355:        {/* Trace 2 */}
+src/components/pages/governance/InstitutionalMemoryCenter.tsx:374:                {auditability.reconstructionLogic || 'IMS = (Treasury * 0.20) + (Earnings * 0.20) + (Governance * 0.15) + (Advisory * 0.15) + (Drift * 0.15) + (Strategic * 0.15)'}
+src/components/pages/governance/BoardDeckCenter.tsx:26:          subtitle="Board Packs auditáveis com rastreabilidade (Lineage Hash) e validade fiduciária garantida por sistema."
+src/components/pages/governance/BoardDeckCenter.tsx:71:                { name: 'Histórico de Auditoria', page: 'observability_console', active: false },
+src/components/pages/governance/FiduciaryGovernanceCenter.tsx:7:import { useInstitutionalMemory } from '../../../context/institutional-memory/InstitutionalMemoryProvider';
+src/components/pages/governance/FiduciaryGovernanceCenter.tsx:8:import { GovernanceHistoryExplorer, GovernanceRecurrencePanel, AdvisoryContinuitySurface, MemoryIntegrityBadge } from '../../institutional-memory';
+src/components/pages/governance/FiduciaryGovernanceCenter.tsx:161:              <MemoryIntegrityBadge />
+src/components/pages/governance/FiduciaryGovernanceCenter.tsx:248:          Audit Hash: {hash}
+src/components/pages/governance/FiduciaryValidationCenter.tsx:6:import { useInstitutionalMemory } from '../../../context/institutional-memory/InstitutionalMemoryProvider';
+src/components/pages/governance/FiduciaryValidationCenter.tsx:7:import { GovernanceHistoryExplorer, GovernanceRecurrencePanel, AdvisoryContinuitySurface, MemoryIntegrityBadge } from '../../institutional-memory';
+src/components/pages/governance/FiduciaryValidationCenter.tsx:160:              <MemoryIntegrityBadge />
+src/components/pages/governance/FiduciaryValidationCenter.tsx:247:          Audit Hash: {hash}
+src/components/pages/governance/CapitalGovernanceCenter.tsx:117:        subtitle="Auditoria fiduciária da base societária, políticas de dividendos, retenção de lucros e sustentabilidade patrimonial."
+src/components/pages/governance/CapitalGovernanceCenter.tsx:280:                <span className="font-bold text-muted-foreground">Auditoria do Índice de Capitalização:</span><br />
+src/components/pages/governance/CapitalGovernanceCenter.tsx:333:      {/* Auditoria de Linhagem da Governança de Capital */}
+src/components/pages/governance/CapitalGovernanceCenter.tsx:338:            Auditoria de Linhagem da Governança de Capital
+src/components/pages/governance/ExecutiveExecutionCenter.tsx:337:          <span>Executive Evidence & Accountability Register</span>
+src/components/pages/governance/ExecutiveExecutionCenter.tsx:356:                const evTypes = dec.evidence?.map((e: any) => e.type).join(', ') || 'Nenhuma';
+src/components/pages/governance/ExecutiveExecutionCenter.tsx:406:                              <p className="font-bold text-muted-foreground border-b border-border pb-1.5">Evidências Anexadas ({dec.evidence?.length || 0})</p>
+src/components/pages/governance/ExecutiveExecutionCenter.tsx:407:                              {dec.evidence?.length > 0 ? (
+src/components/pages/governance/ExecutiveExecutionCenter.tsx:408:                                dec.evidence.map((ev: any, idx: number) => (
+src/components/pages/governance/BoardDecisionSurface.tsx:5:import { ExecutiveDirectiveSection, BoardResolutionAppendix } from '../../../services/FiduciaryRuntimeAdapter';
+src/components/pages/governance/BoardDecisionSurface.tsx:14:  boardResolutionAppendix?: BoardResolutionAppendix;
+src/components/pages/governance/BoardDecisionSurface.tsx:17:export function BoardDecisionSurface({ executiveDirectives, boardResolutionAppendix }: BoardDecisionSurfaceProps) {
+src/components/pages/governance/BoardDecisionSurface.tsx:34:  const resolutions = boardResolutionAppendix?.resolutionIds || [];
+src/components/pages/governance/BoardDecisionSurface.tsx:35:  const approvals = boardResolutionAppendix?.approvals || [];
+src/components/pages/governance/BoardDecisionSurface.tsx:74:      {/* Grid: Directives List & Historical Memory */}
+src/components/pages/governance/BoardDecisionSurface.tsx:175:        {/* Resolutions & Memory - occupies 1 column */}
+src/components/pages/governance/BoardDecisionSurface.tsx:187:                {boardResolutionAppendix?.readOnlyHistoricalMemory ? 'READ_ONLY_LOCK' : 'MUTABLE'}
+src/components/pages/governance/CausalityExplorerPanel.tsx:33:    supportingEvidence = [],
+src/components/pages/governance/CausalityExplorerPanel.tsx:269:      {/* Supporting Evidence Grid */}
+src/components/pages/governance/CausalityExplorerPanel.tsx:270:      {!isRestricted && supportingEvidence.length > 0 && (
+src/components/pages/governance/CausalityExplorerPanel.tsx:273:            {t('runtime.ice.panel.evidence_label') || 'Evidências de Suporte'}
+src/components/pages/governance/CausalityExplorerPanel.tsx:276:            {supportingEvidence.map((ev, i) => {
+src/components/pages/governance/InstitutionalObservabilityCenter.tsx:100:              O ambiente institucional opera em strict isolation mode. Todos os acessos auditados.
+src/components/pages/governance/SovereignBoardPackPage.tsx:34:  const [appendixExpanded, setAppendixExpanded] = useState(false);
+src/components/pages/governance/SovereignBoardPackPage.tsx:46:  const isConfidenceBlocked = boardPack?.explainabilityAppendix?.confidenceDecomposition?.confidence === 'BLOCKED' ||
+src/components/pages/governance/SovereignBoardPackPage.tsx:63:      : 'Dados de auditoria corrompidos ou inconsistentes. Acesso suspenso sob protocolo fail-closed.';
+src/components/pages/governance/SovereignBoardPackPage.tsx:114:            {/* Collapsible Technical Details (hidden from standard executive view) */}
+src/components/pages/governance/SovereignBoardPackPage.tsx:162:  const showTechnicalAudit = densityLevel === 'TECHNICAL' || 
+src/components/pages/governance/SovereignBoardPackPage.tsx:163:                             !!(boardPack as any).featureFlags?.showTechnicalAudit || 
+src/components/pages/governance/SovereignBoardPackPage.tsx:164:                             (window as any).showTechnicalAudit === true;
+src/components/pages/governance/SovereignBoardPackPage.tsx:176:              Ambiente demonstrativo de simulação fiduciária. Os dados expostos não constituem auditoria ou parecer financeiro válido.
+src/components/pages/governance/SovereignBoardPackPage.tsx:204:          {['BOARD', 'EXECUTIVE', 'TECHNICAL'].map((lvl) => {
+src/components/pages/governance/SovereignBoardPackPage.tsx:222:                 'Técnico (TECHNICAL)'}
+src/components/pages/governance/SovereignBoardPackPage.tsx:435:          <span className="truncate">Evidência: <strong className="text-muted-foreground dark:text-executive-secondary">{dec.evidence.join(' | ')}</strong></span>
+src/components/pages/governance/SovereignBoardPackPage.tsx:473:                    <span className="truncate">Evidência: {act.evidence.join(' | ')}</span>
+src/components/pages/governance/SovereignBoardPackPage.tsx:679:      {/* Technical Appendix Section (Collapsible container, rendered conditionally) */}
+src/components/pages/governance/SovereignBoardPackPage.tsx:680:      {showTechnicalAudit && (
+src/components/pages/governance/SovereignBoardPackPage.tsx:683:            onClick={() => setAppendixExpanded(!appendixExpanded)}
+src/components/pages/governance/SovereignBoardPackPage.tsx:690:                  Apêndice Técnico de Auditoria (Technical Appendix)
+src/components/pages/governance/SovereignBoardPackPage.tsx:698:              {appendixExpanded ? 'Ocultar Detalhes' : 'Visualizar Detalhes'}
+src/components/pages/governance/SovereignBoardPackPage.tsx:702:          {appendixExpanded && (
+src/components/pages/governance/SovereignBoardPackPage.tsx:716:                    confidence={boardPack.explainabilityAppendix?.confidenceDecomposition?.confidence as any}
+src/components/pages/governance/SovereignBoardPackPage.tsx:717:                    rationaleMap={boardPack.explainabilityAppendix?.rationaleMap}
+src/components/pages/governance/SovereignBoardPackPage.tsx:718:                    confidenceDecomposition={boardPack.explainabilityAppendix?.confidenceDecomposition}
+src/components/pages/governance/SovereignBoardPackPage.tsx:743:                  boardResolutionAppendix={boardPack.boardResolutionAppendix}
+src/components/pages/governance/SovereignBoardPackPage.tsx:748:              {/* Lineage & Auditor Cryptographic Hashes */}
+src/components/pages/governance/SovereignBoardPackPage.tsx:750:                lineageAppendix={boardPack.lineageAppendix}
+src/components/pages/governance/CreditCommitteeCenter.tsx:37:    auditability,
+src/components/pages/governance/CreditCommitteeCenter.tsx:517:      {/* Rastreabilidade Fiduciária e Auditoria */}
+src/components/pages/governance/CreditCommitteeCenter.tsx:519:        <h4 className="text-xs font-bold text-muted-foreground uppercase tracking-widest">Rastreabilidade Fiduciária e Auditoria</h4>
+src/components/pages/governance/CreditCommitteeCenter.tsx:521:        {/* Accordion 1: Trace */}
+src/components/pages/governance/CreditCommitteeCenter.tsx:524:            onClick={() => toggleSection('trace')}
+src/components/pages/governance/CreditCommitteeCenter.tsx:529:              Diagnóstico e Salvaguardas Narrativas (Narrative Trace)
+src/components/pages/governance/CreditCommitteeCenter.tsx:531:            {expandedSection === 'trace' ? <ChevronUp className="w-4 h-4" /> : <ChevronDown className="w-4 h-4" />}
+src/components/pages/governance/CreditCommitteeCenter.tsx:534:          {expandedSection === 'trace' && (
+src/components/pages/governance/CreditCommitteeCenter.tsx:584:                {auditability.reconstructionLogic || 'CCS = (Treasury * 0.25) + (Earnings * 0.20) + (Capital * 0.20) + (Governance * 0.15) + (Longitudinal * 0.10) + (Covenant * 0.10)'}
+src/components/pages/governance/CreditCommitteeCenter.tsx:587:                Racional de Conectividade: {auditability.fiduciaryRationale}
+src/components/pages/governance/ConstitutionalLineagePanel.tsx:36:              <div className="text-sm text-muted-foreground">{t('cgd.lineage.traceability')}</div>
+src/components/pages/governance/ConstitutionalLineagePanel.tsx:37:              <div className="text-xs text-muted-foreground font-mono mt-0.5">{lineage.traceabilityStatus}</div>
+src/components/pages/governance/ConstitutionalLineagePanel.tsx:41:            <div className="text-sm text-white font-medium">{lineage.evidenceCount}</div>
+src/components/pages/governance/ConstitutionalLineagePanel.tsx:42:            <div className="text-xs text-muted-foreground">{t('cgd.lineage.evidenceCount')}</div>
+src/components/pages/RelatorioDemonstracoes5Anos.tsx:25:  const memoryInference = runtimeOutput?.inferences['InstitutionalMemoryEngine'];
+src/components/pages/RelatorioDemonstracoes5Anos.tsx:26:  const isMemoryBlocked = memoryInference?.metrics?.memoryType === 'STRUCTURAL_SNAPSHOT' || memoryInference?.metrics?.memoryType === 'LIMITED_COMPARISON' || memoryInference?.metrics?.memoryType === 'BLOCKED_INSUFFICIENT_HISTORY';
+src/components/pages/RelatorioDemonstracoes5Anos.tsx:154:      {isMemoryBlocked && (
+src/components/pages/EFOSPage.tsx:17:import { isDebugAllowed, ExecutivePresentationRegistry, languageSanitize, audit, fallbackInstitutionalView } from '../../services/efosGuard';
+src/components/pages/EFOSPage.tsx:52:  const [semanticAudit, setSemanticAudit] = useState<{pass:boolean; violations:string[]} | null>(null);
+src/components/pages/EFOSPage.tsx:177:      const auditResult = audit(cleanReport);
+src/components/pages/EFOSPage.tsx:178:      // Override audit result if forceFallback is enabled
+src/components/pages/EFOSPage.tsx:180:        setSemanticAudit({ pass: false, violations: ['forced fallback'] });
+src/components/pages/EFOSPage.tsx:182:        setSemanticAudit(auditResult);
+src/components/pages/EFOSPage.tsx:284:          <span className="text-xl font-black text-muted-foreground text-center">Auditoria Fiduciária</span>
+src/components/pages/EFOSPage.tsx:319:  if (semanticAudit && (!semanticAudit.pass || forceFallback)) {
+src/components/pages/DLPAPage.tsx:13:import { ExecutiveTechnicalLayer } from '../ui/executive-technical-layer';
+src/components/pages/DLPAPage.tsx:15:import { ExecutiveTechnicalMetricCard } from '../ui/executive-technical-metric-card';
+src/components/pages/DLPAPage.tsx:121:      {/* Temporário: Auditoria de Propagação ELSA (Atalho: Ctrl+Shift+E) */}
+src/components/pages/DLPAPage.tsx:122:      {showElsaPanel && (featureFlags.showSemanticAudit || process.env.NODE_ENV !== 'production') && (capitalGov as any)?.lifecycleAudit && (
+src/components/pages/DLPAPage.tsx:125:            <ShieldCheck size={14} className="text-emerald-400" /> Auditoria de Propagação ELSA (Painel Técnico)
+src/components/pages/DLPAPage.tsx:130:              <strong className={(capitalGov as any).lifecycleAudit.semanticSource === 'ELSA' ? 'text-emerald-400' : 'text-amber-400'}>
+src/components/pages/DLPAPage.tsx:131:                {(capitalGov as any).lifecycleAudit.semanticSource}
+src/components/pages/DLPAPage.tsx:160:              <strong className={(capitalGov as any).lifecycleAudit.fallbackActivated ? 'text-rose-400' : 'text-emerald-400'}>
+src/components/pages/DLPAPage.tsx:161:                {(capitalGov as any).lifecycleAudit.fallbackActivated ? 'YES' : 'NO'}
+src/components/pages/DLPAPage.tsx:167:                {(capitalGov as any).lifecycleAudit.fallbackReason || 'N/A'}
+src/components/pages/DLPAPage.tsx:452:          <ExecutiveTechnicalLayer
+src/components/pages/DLPAPage.tsx:507:                          <ExecutiveTechnicalMetricCard
+src/components/pages/DLPAPage.tsx:591:          </ExecutiveTechnicalLayer>
+src/components/pages/DLPAPage.tsx:593:          <ExecutiveTechnicalLayer
+src/components/pages/DLPAPage.tsx:633:          </ExecutiveTechnicalLayer>
+src/components/pages/PilotExperienceDashboard.tsx:90:  const auditLogs = CommercialPilotSessionManager.getAuditTrail(selectedTenant);
+src/components/pages/PilotExperienceDashboard.tsx:203:        {/* Sessions Audit Trail */}
+src/components/pages/PilotExperienceDashboard.tsx:298:      {/* Privacy-Safe Attention Logs & Session Audits */}
+src/components/pages/PilotExperienceDashboard.tsx:343:        {/* Session Audit trail */}
+src/components/pages/PilotExperienceDashboard.tsx:350:              <h3 className="text-h3 font-medium tracking-tight">Audit Trail Fiduciário Comercial</h3>
+src/components/pages/PilotExperienceDashboard.tsx:351:              <p className="text-body-sm text-muted-foreground mt-0.5">Logs de auditoria imutáveis das conexões do piloto.</p>
+src/components/pages/PilotExperienceDashboard.tsx:356:            {auditLogs.map((log) => (
+src/components/pages/PilotExperienceDashboard.tsx:357:              <div key={log.auditId} className="p-3 bg-slate-50 border border-border rounded-xl space-y-1">
+src/components/pages/PilotExperienceDashboard.tsx:359:                  <span>ID Auditoria: {log.auditId.substring(0, 15)}...</span>
+src/components/pages/CalibrationPlayground.tsx:73:      setActorId('AUDITOR-MOCK');
+src/components/pages/CalibrationPlayground.tsx:133:      submittedBy: 'sandbox-auditor',
+src/components/pages/CalibrationPlayground.tsx:150:  const auditTrail = CalibrationEngine.getAuditTrail();
+src/components/pages/CalibrationPlayground.tsx:289:                    placeholder="actorId do auditor fiduciário"
+src/components/pages/CalibrationPlayground.tsx:569:      {/* Calibration Audit Trail Timeline */}
+src/components/pages/CalibrationPlayground.tsx:576:            <h3 className="text-h3 font-medium tracking-tight">Timeline de Auditoria de Calibração</h3>
+src/components/pages/CalibrationPlayground.tsx:577:            <p className="text-body-sm text-muted-foreground mt-0.5">Logs permanentes e auditáveis de modificações de variáveis contábeis no Runtime.</p>
+src/components/pages/CalibrationPlayground.tsx:581:        {auditTrail.length === 0 ? (
+src/components/pages/CalibrationPlayground.tsx:587:            {auditTrail.map((log) => (
+src/components/pages/ControladoriaPage.tsx:67:          auditRequirement: false
+src/components/pages/ControladoriaPage.tsx:175:        subtitle="Auditoria de processos e monitoramento de aderência orçamentária para máxima eficiência operacional."
+src/components/pages/ControladoriaPage.tsx:187:        statusBadgeLabel="Auditoria & Compliance Ativo"
+src/components/pages/ControladoriaPage.tsx:295:                          "Auditar processos de compras críticos para garantir conformidade de processos."
+src/components/pages/ControladoriaPage.tsx:309:                     <Activity size={14} /> Gerar Relatório de Auditoria
+src/components/pages/RuntimePerformancePage.tsx:37:            <h3 className="text-h3 font-medium text-foreground tracking-tight">Memory Spikes (RAM)</h3>
+src/components/pages/DashboardPage.tsx:134:  const memoryInference = runtimeOutput?.inferences['InstitutionalMemoryEngine'];
+src/components/pages/DashboardPage.tsx:135:  const isMemoryBlocked = (runtimeOutput as any)?.canonicalState?.restrictions?.length > 0;
+src/components/pages/DashboardPage.tsx:162:          auditRequirement: false
+src/components/pages/DashboardPage.tsx:270:    if (isMemoryBlocked) return 'Pendente'; // Bloqueado pelo Institutional Memory
+src/components/pages/DashboardPage.tsx:274:  }, [dbIndicators, allYearIndicators, selectedMonth, selectedYear, getIndicatorValue, isMemoryBlocked]);
+src/components/pages/DashboardPage.tsx:452:      {isMemoryBlocked && (
+src/components/pages/balance-sheet/BalanceSheetCapitalEfficiencySection.tsx:2:import { ExecutiveEvidenceGrid } from '../../ui/executive-evidence-grid';
+src/components/pages/balance-sheet/BalanceSheetCapitalEfficiencySection.tsx:46:          technicalIndex={panel.score}
+src/components/pages/balance-sheet/BalanceSheetCapitalEfficiencySection.tsx:49:      {panel.evidences.length > 0 && (
+src/components/pages/balance-sheet/BalanceSheetCapitalEfficiencySection.tsx:50:        <ExecutiveEvidenceGrid metrics={panel.evidences as any} />
+src/components/pages/balance-sheet/view-models.ts:39:export type BalanceSheetTechnicalIndicatorTone = 'critical' | 'warning' | 'success' | 'neutral';
+src/components/pages/balance-sheet/view-models.ts:41:export type BalanceSheetTechnicalIndicatorViewModel = {
+src/components/pages/balance-sheet/view-models.ts:44:  classificationTone: BalanceSheetTechnicalIndicatorTone;
+src/components/pages/balance-sheet/view-models.ts:50:export type BalanceSheetTechnicalFamilyViewModel = {
+src/components/pages/balance-sheet/view-models.ts:52:  indicators: BalanceSheetTechnicalIndicatorViewModel[];
+src/components/pages/balance-sheet/view-models.ts:55:export type BalanceSheetTechnicalLayerViewModel = {
+src/components/pages/balance-sheet/view-models.ts:56:  families: BalanceSheetTechnicalFamilyViewModel[];
+src/components/pages/balance-sheet/view-models.ts:59:export type BalanceSheetAuditOverrideViewModel = {
+src/components/pages/balance-sheet/view-models.ts:64:export type BalanceSheetAuditStructuralRestrictionsViewModel = {
+src/components/pages/balance-sheet/view-models.ts:65:  overrides: BalanceSheetAuditOverrideViewModel[];
+src/components/pages/balance-sheet/view-models.ts:70:export type BalanceSheetAuditConsistencyIssueViewModel = {
+src/components/pages/balance-sheet/view-models.ts:78:export type BalanceSheetAuditConsistencyViewModel = {
+src/components/pages/balance-sheet/view-models.ts:82:  issues: BalanceSheetAuditConsistencyIssueViewModel[];
+src/components/pages/balance-sheet/view-models.ts:85:export type BalanceSheetAuditLayerViewModel = {
+src/components/pages/balance-sheet/view-models.ts:86:  structuralRestrictions?: BalanceSheetAuditStructuralRestrictionsViewModel;
+src/components/pages/balance-sheet/view-models.ts:87:  governanceConsistency?: BalanceSheetAuditConsistencyViewModel;
+src/components/pages/balance-sheet/BalanceSheetWorkingCapitalSection.tsx:2:import { ExecutiveEvidenceGrid } from '../../ui/executive-evidence-grid';
+src/components/pages/balance-sheet/BalanceSheetWorkingCapitalSection.tsx:46:          technicalIndex={panel.score}
+src/components/pages/balance-sheet/BalanceSheetWorkingCapitalSection.tsx:49:      {panel.evidences.length > 0 && (
+src/components/pages/balance-sheet/BalanceSheetWorkingCapitalSection.tsx:50:        <ExecutiveEvidenceGrid metrics={panel.evidences as any} />
+src/components/pages/balance-sheet/types.ts:19:export type BalanceSheetAuditOverrideInput = {
+src/components/pages/balance-sheet/types.ts:25:  appliedOverrides?: BalanceSheetAuditOverrideInput[];
+src/components/pages/balance-sheet/BalanceSheetTechnicalLayerSection.tsx:2:import { TechnicalIndicatorViewModel } from '../../../types/executive/BalanceSheetExecutiveViewModel';
+src/components/pages/balance-sheet/BalanceSheetTechnicalLayerSection.tsx:3:import { ExecutiveTechnicalLayer } from '../../ui/executive-technical-layer';
+src/components/pages/balance-sheet/BalanceSheetTechnicalLayerSection.tsx:7:export function normalizeTechnicalLayer(viewModel: any) {
+src/components/pages/balance-sheet/BalanceSheetTechnicalLayerSection.tsx:13:export function BalanceSheetTechnicalLayerSection({
+src/components/pages/balance-sheet/BalanceSheetTechnicalLayerSection.tsx:24:  const families = normalizeTechnicalLayer(viewModel);
+src/components/pages/balance-sheet/BalanceSheetTechnicalLayerSection.tsx:28:      <ExecutiveTechnicalLayer
+src/components/pages/balance-sheet/BalanceSheetTechnicalLayerSection.tsx:38:      </ExecutiveTechnicalLayer>
+src/components/pages/balance-sheet/BalanceSheetTechnicalLayerSection.tsx:43:    <ExecutiveTechnicalLayer
+src/components/pages/balance-sheet/BalanceSheetTechnicalLayerSection.tsx:129:    </ExecutiveTechnicalLayer>
+src/components/pages/balance-sheet/BalanceSheetCapitalStructureSection.tsx:2:import { ExecutiveEvidenceGrid } from '../../ui/executive-evidence-grid';
+src/components/pages/balance-sheet/BalanceSheetCapitalStructureSection.tsx:46:          technicalIndex={panel.score}
+src/components/pages/balance-sheet/BalanceSheetCapitalStructureSection.tsx:49:      {panel.evidences.length > 0 && (
+src/components/pages/balance-sheet/BalanceSheetCapitalStructureSection.tsx:50:        <ExecutiveEvidenceGrid metrics={panel.evidences as any} />
+src/components/pages/balance-sheet/BalanceSheetAuditLayerSection.tsx:3:import { BalanceSheetAuditLayerViewModel } from './view-models';
+src/components/pages/balance-sheet/BalanceSheetAuditLayerSection.tsx:12:import { ExecutiveDecisionTrace } from '../../ui/executive-decision-trace';
+src/components/pages/balance-sheet/BalanceSheetAuditLayerSection.tsx:14:export function BalanceSheetAuditLayerSection({
+src/components/pages/balance-sheet/BalanceSheetAuditLayerSection.tsx:16:  decisionTrace
+src/components/pages/balance-sheet/BalanceSheetAuditLayerSection.tsx:18:  viewModel: BalanceSheetAuditLayerViewModel;
+src/components/pages/balance-sheet/BalanceSheetAuditLayerSection.tsx:19:  decisionTrace?: any;
+src/components/pages/balance-sheet/BalanceSheetAuditLayerSection.tsx:28:      subtitle="Auditoria de conformidade, ofensores críticos e consistência da base de dados."
+src/components/pages/balance-sheet/BalanceSheetAuditLayerSection.tsx:166:      {/* RASTREABILIDADE (DECISION TRACE) */}
+src/components/pages/balance-sheet/BalanceSheetAuditLayerSection.tsx:167:      {decisionTrace && (
+src/components/pages/balance-sheet/BalanceSheetAuditLayerSection.tsx:169:          <ExecutiveDecisionTrace trace={decisionTrace} />
+src/components/pages/balance-sheet/BalanceSheetCapitalPreservationSection.tsx:2:import { ExecutiveEvidenceGrid } from '../../ui/executive-evidence-grid';
+src/components/pages/balance-sheet/BalanceSheetCapitalPreservationSection.tsx:46:          technicalIndex={panel.score}
+src/components/pages/balance-sheet/BalanceSheetCapitalPreservationSection.tsx:49:      {panel.evidences.length > 0 && (
+src/components/pages/balance-sheet/BalanceSheetCapitalPreservationSection.tsx:50:        <ExecutiveEvidenceGrid metrics={panel.evidences as any} />
+src/components/pages/balance-sheet/BalanceSheetAssetQualitySection.tsx:3:import { ExecutiveEvidenceGrid } from '../../ui/executive-evidence-grid';
+src/components/pages/balance-sheet/BalanceSheetAssetQualitySection.tsx:46:          technicalIndex={panel.score}
+src/components/pages/balance-sheet/BalanceSheetAssetQualitySection.tsx:49:      {panel.evidences && panel.evidences.length > 0 && (
+src/components/pages/balance-sheet/BalanceSheetAssetQualitySection.tsx:50:        <ExecutiveEvidenceGrid metrics={panel.evidences as any} />
+src/components/pages/balance-sheet/BalanceSheetLiquiditySection.tsx:2:import { ExecutiveEvidenceGrid } from '../../ui/executive-evidence-grid';
+src/components/pages/balance-sheet/BalanceSheetLiquiditySection.tsx:46:          technicalIndex={panel.score}
+src/components/pages/balance-sheet/BalanceSheetLiquiditySection.tsx:49:      {panel.evidences.length > 0 && (
+src/components/pages/balance-sheet/BalanceSheetLiquiditySection.tsx:50:        <ExecutiveEvidenceGrid metrics={panel.evidences as any} />
+src/components/pages/dlpa/useDLPAPageViewModel.ts:6:import { DLPAExecutiveRenderingGuard, DLPALegacyLabelScanner, LifecycleRenderAudit } from '../../../services/FiduciaryRuntimeAdapter';
+src/components/pages/dlpa/useDLPAPageViewModel.ts:400:  const featureFlags = useMemo(() => ({ showSemanticAudit: true }), []);
+src/components/pages/dlpa/useDLPAPageViewModel.ts:404:      LifecycleRenderAudit.validate({
+src/components/pages/dlpa/DLPAApplicationService.ts:81:      auditTrail: [] as string[]
+src/components/pages/dlpa/DLPAApplicationService.ts:113:      technicalDrivers: {
+src/components/pages/StrategicSimulationPage.tsx:10:import { DecisionEvidenceViewer } from '../strategic-simulation/DecisionEvidenceViewer';
+src/components/pages/StrategicSimulationPage.tsx:43:          <DecisionEvidenceViewer tenantId={tenantId} />
+src/components/executive-interaction/RuntimeLineageViewer.tsx:8:  auditTrail?: { action: string; timestamp: string; hash: string }[];
+src/components/executive-interaction/RuntimeLineageViewer.tsx:14:  auditTrail = [
+src/components/executive-interaction/RuntimeLineageViewer.tsx:46:        <h5 className="text-[10px] uppercase tracking-widest font-black text-muted-foreground">Histórico de Transformação (Audit Trail)</h5>
+src/components/executive-interaction/RuntimeLineageViewer.tsx:48:          {auditTrail.map((item, idx) => (
+src/components/executive-interaction/FiduciaryModalShell.tsx:107:                <span className="font-bold uppercase tracking-wider block">{t("overlays.audit_legal_notice")}</span>
+src/components/executive-interaction/FiduciaryModalShell.tsx:108:                Esta deliberação fiduciária é registrada no audit trail com criptografia irreversível. Ação irrevogável.
+src/components/executive-interaction/FiduciaryModalShell.tsx:120:              Audit Trail Hash: {lineageHash}
+src/components/executive-interaction/ExecutiveEvidenceExplorer.tsx:6:interface Evidence {
+src/components/executive-interaction/ExecutiveEvidenceExplorer.tsx:14:interface ExecutiveEvidenceExplorerProps {
+src/components/executive-interaction/ExecutiveEvidenceExplorer.tsx:15:  evidences?: Evidence[];
+src/components/executive-interaction/ExecutiveEvidenceExplorer.tsx:18:export const ExecutiveEvidenceExplorer: React.FC<ExecutiveEvidenceExplorerProps> = ({
+src/components/executive-interaction/ExecutiveEvidenceExplorer.tsx:19:  evidences = []
+src/components/executive-interaction/ExecutiveEvidenceExplorer.tsx:22:  const { evidenceVisibility, setEvidenceVisibility } = useExecutiveInteraction();
+src/components/executive-interaction/ExecutiveEvidenceExplorer.tsx:26:  const defaultEvidences: Evidence[] = [
+src/components/executive-interaction/ExecutiveEvidenceExplorer.tsx:32:  const activeEvidences = evidences.length > 0 ? evidences : defaultEvidences;
+src/components/executive-interaction/ExecutiveEvidenceExplorer.tsx:34:  const filtered = activeEvidences.filter(ev => 
+src/components/executive-interaction/ExecutiveEvidenceExplorer.tsx:49:            Consulte as fontes originadoras e auditoria dos fatos relatados.
+src/components/executive-interaction/ExecutiveEvidenceExplorer.tsx:55:          {(['SUMMARY', 'EXPANDED', 'FULL_TRACE'] as const).map(mode => (
+src/components/executive-interaction/ExecutiveEvidenceExplorer.tsx:58:              onClick={() => setEvidenceVisibility(mode)}
+src/components/executive-interaction/ExecutiveEvidenceExplorer.tsx:60:                evidenceVisibility === mode
+src/components/executive-interaction/ExecutiveEvidenceExplorer.tsx:87:          const isExpanded = expandedId === ev.id || evidenceVisibility === 'FULL_TRACE';
+src/components/executive-interaction/ExecutiveEvidenceExplorer.tsx:106:                {evidenceVisibility !== 'SUMMARY' && (
+src/components/executive-interaction/GovernanceConfirmationLayer.tsx:50:          Declaro estar ciente de que esta deliberação será auditada de forma irreversível nos registros de governança da instituição.
+src/components/executive-interaction/CausalChainSurface.tsx:77:                      Traceability Active
+src/components/executive-interaction/EvidenceCoveragePanel.tsx:6:export const EvidenceCoveragePanel: React.FC = () => {
+src/components/executive-interaction/EvidenceCoveragePanel.tsx:9:  const { evidenceCoverage } = confidenceDisclosure;
+src/components/executive-interaction/EvidenceCoveragePanel.tsx:14:    { name: 'Histórico Causal de 36 Meses', weight: 0.2, status: evidenceCoverage >= 0.9 ? 'fully_validated' : 'partial' },
+src/components/executive-interaction/EvidenceCoveragePanel.tsx:15:    { name: 'Mitigações e Exposição de Riscos', weight: 0.1, status: evidenceCoverage >= 0.8 ? 'fully_validated' : 'partial' }
+src/components/executive-interaction/SandboxWarningOverlay.tsx:8:  type?: 'demonstrative' | 'sandbox' | 'insufficient_evidence';
+src/components/executive-interaction/SandboxWarningOverlay.tsx:25:          {type === 'insufficient_evidence' ? <Info size={24} /> : <ShieldAlert size={24} />}
+src/components/executive-interaction/SandboxWarningOverlay.tsx:30:             type === 'insufficient_evidence' ? t('overlays.insufficient.title') : 
+src/components/executive-interaction/SandboxWarningOverlay.tsx:36:              type === 'insufficient_evidence' ? t('overlays.insufficient.desc') : 
+src/components/executive-interaction/InsufficientEvidenceState.tsx:5:interface InsufficientEvidenceStateProps {
+src/components/executive-interaction/InsufficientEvidenceState.tsx:10:export const InsufficientEvidenceState: React.FC<InsufficientEvidenceStateProps> = ({
+src/components/executive-interaction/CrossTenantRestrictionState.tsx:36:          * Todas as tentativas de violação de limite de tenant são criptografadas e registradas nos logs de auditoria globais do Master Admin.
+src/components/executive-interaction/InstitutionalTimelineNavigator.tsx:20:    { id: 'ev-2', date: '14 Mai 2026', title: 'Auditoria de Segregação de Funções (SoD) Executada', category: 'Compliance', author: 'Comitê de Auditoria', hash: 'SHA256-ff771a33' },
+src/components/executive-interaction/index.ts:11:export * from './EvidenceCoveragePanel';
+src/components/executive-interaction/index.ts:17:export * from './ExecutiveEvidenceExplorer';
+src/components/executive-interaction/index.ts:23:export * from './InsufficientEvidenceState';
+src/components/executive-interaction/ConfidenceDisclosureCard.tsx:13:    evidenceCoverage,
+src/components/executive-interaction/ConfidenceDisclosureCard.tsx:46:            <span className="font-bold">{(evidenceCoverage * 100).toFixed(0)}%</span>
+src/components/executive-interaction/ConfidenceDisclosureCard.tsx:51:              style={{ width: `${evidenceCoverage * 100}%` }}
+src/components/digital-twin/InstitutionalDigitalTwinWorkspace.tsx:242:                to="/memory"
+src/components/digital-twin/InstitutionalDigitalTwinWorkspace.tsx:245:                Memory Workspace
+src/components/executive/demo/ExecutiveDisclosurePanel.tsx:20:          Active Trace Verified
+src/components/executive/demo/ExecutiveDisclosurePanel.tsx:52:          <ExecutiveText as="span" variant="caption" className="block">Evidence Integrity</ExecutiveText>
+src/components/executive/demo/ExecutiveDisclosurePanel.tsx:53:          <ExecutiveText as="span" variant="caption" className="truncate block max-w-[200px]" title={scenario.evidenceIntegrityHash}>
+src/components/executive/demo/ExecutiveDisclosurePanel.tsx:54:            {scenario.evidenceIntegrityHash}
+src/components/executive/demo/ExecutiveScenarioSelector.tsx:19:    return !sc.scenarioId || !sc.lineageIntegrityHash || !sc.evidenceIntegrityHash || !sc.runtimeSnapshotId;
+src/components/executive/demo/GuidedBoardJourneyNavigator.tsx:7:  hasEvidence: boolean;
+src/components/executive/demo/GuidedBoardJourneyNavigator.tsx:9:  hasRuntimeMemory: boolean;
+src/components/executive/demo/GuidedBoardJourneyNavigator.tsx:16:  hasEvidence,
+src/components/executive/demo/GuidedBoardJourneyNavigator.tsx:18:  hasRuntimeMemory,
+src/components/executive/demo/GuidedBoardJourneyNavigator.tsx:27:        hasEvidence,
+src/components/executive/demo/GuidedBoardJourneyNavigator.tsx:29:        hasRuntimeMemory
+src/components/executive/demo/ExecutiveDemoShell.tsx:55:                <ExecutiveText as="span" variant="caption" className="text-emerald-400">Status: Audited & Verified</ExecutiveText>
+src/components/executive/demo/ExecutiveDemoShell.tsx:124:      case 'EVIDENCE_CHAIN':
+src/components/executive/demo/ExecutiveDemoShell.tsx:127:            <ExecutiveHeading as="h4" variant="submoduleTitle" className="">Evidence Chain & Ledger Validation</ExecutiveHeading>
+src/components/executive/demo/ExecutiveDemoShell.tsx:131:                  <ExecutiveText as="span" variant="caption" className="block">Evidence Integrity Hash</ExecutiveText>
+src/components/executive/demo/ExecutiveDemoShell.tsx:132:                  <ExecutiveText as="span" variant="caption" className="block truncate">{activeScenario.evidenceIntegrityHash}</ExecutiveText>
+src/components/executive/demo/ExecutiveDemoShell.tsx:154:                This presentation operates on deterministic, audited snapshots. Any attempt to modify,
+src/components/executive/demo/ExecutiveDemoShell.tsx:178:              evidenceChain: [],
+src/components/executive/demo/ExecutiveDemoShell.tsx:186:            hasEvidence={true}
+src/components/executive/demo/ExecutiveDemoShell.tsx:188:            hasRuntimeMemory={true}
+src/components/executive/demo/ExecutiveDemoShell.tsx:229:            Simulations, indicators, and timelines represent audited data from the core intelligence engine.
+src/components/executive/demo/InstitutionalScenarioTimeline.tsx:12:  // Dummy Renderer Principle: No local timeline reconstruction. Read directly from the audited scenario timeline.
+src/components/executive/board/ExecutiveEvidenceExplorer.tsx:7:interface ExecutiveEvidenceExplorerProps {
+src/components/executive/board/ExecutiveEvidenceExplorer.tsx:11:export const ExecutiveEvidenceExplorer: React.FC<ExecutiveEvidenceExplorerProps> = ({ narrative }) => {
+src/components/executive/board/ExecutiveEvidenceExplorer.tsx:12:  if (!narrative.evidenceChain || narrative.evidenceChain.length === 0) {
+src/components/executive/board/ExecutiveEvidenceExplorer.tsx:15:        <ExecutiveText as="p" variant="bodyStandard" className="text-red-400">[BLOCK] EVIDENCE_MISSING: Cannot render unevidenced narrative.</ExecutiveText>
+src/components/executive/board/ExecutiveEvidenceExplorer.tsx:22:      <ExecutiveHeading as="h3" variant="moduleTitle" className="text-white mb-4">Evidence Chain</ExecutiveHeading>
+src/components/executive/board/ExecutiveEvidenceExplorer.tsx:24:        {narrative.evidenceChain.map(evidence => (
+src/components/executive/board/ExecutiveEvidenceExplorer.tsx:25:          <ExecutiveSurface key={evidence.evidenceId} variant="default" padding="sm" radius="sm" elevation="none" className="bg-surface/50">
+src/components/executive/board/ExecutiveEvidenceExplorer.tsx:27:              <ExecutiveText as="span" variant="bodyStandard" className="text-primary">{evidence.evidenceId}</ExecutiveText>
+src/components/executive/board/ExecutiveEvidenceExplorer.tsx:28:              <ExecutiveText as="span" variant="caption" >{new Date(evidence.timestamp).toISOString()}</ExecutiveText>
+src/components/executive/board/ExecutiveEvidenceExplorer.tsx:31:              <ExecutiveText as="span" variant="microLabel" >Provenance Nodes</ExecutiveText>
+src/components/executive/board/ExecutiveEvidenceExplorer.tsx:33:                {evidence.sourceNodes.map(node => (
+src/components/executive/board/ExecutiveEvidenceExplorer.tsx:43:                {JSON.stringify(evidence.metrics, null, 2)}
+src/components/executive/board/InstitutionalTimelineViewer.tsx:12:  // We extract a timeline only from the runtime execution metrics/evidence. No local sorting of ad-hoc dates.
+src/components/executive/board/InstitutionalTimelineViewer.tsx:13:  const timelineEvents = narrative.evidenceChain.map(evidence => ({
+src/components/executive/board/InstitutionalTimelineViewer.tsx:14:    id: evidence.evidenceId,
+src/components/executive/board/InstitutionalTimelineViewer.tsx:15:    timestamp: evidence.timestamp,
+src/components/executive/board/InstitutionalTimelineViewer.tsx:16:    nodes: evidence.sourceNodes,
+src/components/executive/board/InstitutionalTimelineViewer.tsx:17:    critical: narrative.violations.some(v => evidence.sourceNodes.includes(v.sourceContext) && v.severity === 'CRITICAL')
+src/components/executive/board/BoardNarrativeNavigator.tsx:7:  hasEvidence: boolean;
+src/components/executive/board/BoardNarrativeNavigator.tsx:14:  hasEvidence,
+src/components/executive/board/BoardNarrativeNavigator.tsx:26:            onClick={() => actions.handleTransition(step, sessionId, hasEvidence, hasLineage, onStepChange)}
+src/components/executive/board/BoardExperienceShell.tsx:6:import { ExecutiveEvidenceExplorer } from './ExecutiveEvidenceExplorer';
+src/components/executive/board/BoardExperienceShell.tsx:18:  // Fail-closed enforcement on render - required by Tenancy Governance Audit
+src/components/executive/board/BoardExperienceShell.tsx:28:  const { hasEvidence, hasLineage, safeViolations } = computed;
+src/components/executive/board/BoardExperienceShell.tsx:55:        hasEvidence={hasEvidence}
+src/components/executive/board/BoardExperienceShell.tsx:91:          {currentStep === 'EVIDENCE_CHAIN' && (
+src/components/executive/board/BoardExperienceShell.tsx:92:            <ExecutiveEvidenceExplorer narrative={narrative} />
+src/components/executive/copilot/BoardCopilotPanel.tsx:129:                            {/* Traceability Footer */}
+src/components/executive/copilot/BoardCopilotPanel.tsx:133:                                <ExecutiveText as="span" variant="microLabel" >{msg.result.traceability.evidenceCount} Evidências</ExecutiveText>
+src/components/executive/copilot/BoardCopilotPanel.tsx:136:                                <AlertTriangle size={12} className={msg.result.traceability.conflictCount > 0 ? "text-amber-500" : "text-muted-foreground"} />
+src/components/executive/copilot/BoardCopilotPanel.tsx:137:                                <ExecutiveText as="span" variant="microLabel" >{msg.result.traceability.conflictCount} Conflitos</ExecutiveText>
+src/components/executive/copilot/BoardCopilotPanel.tsx:142:                                  msg.result.traceability.confidenceLevel === 'HIGH' || msg.result.traceability.confidenceLevel === 'VERY_HIGH' 
+src/components/executive/copilot/BoardCopilotPanel.tsx:144:                                  : msg.result.traceability.confidenceLevel === 'MODERATE'
+src/components/executive/copilot/BoardCopilotPanel.tsx:148:                                  {msg.result.traceability.confidenceLevel}
+src/components/executive/InstitutionalMemoryDashboard.tsx:5:export const InstitutionalMemoryDashboard: React.FC = () => {
+src/components/executive/ExecutiveHomeWorkspace.tsx:40:      id: 'journey-audit',
+src/components/executive/ExecutiveHomeWorkspace.tsx:41:      title: 'Auditoria de Decisões Prévias',
+src/components/executive/ExecutiveHomeWorkspace.tsx:50:    { id: 'ev-991', title: 'Relatório Trimestral Q3', type: 'EVIDENCE' },

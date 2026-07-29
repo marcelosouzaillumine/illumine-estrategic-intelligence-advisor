@@ -1,0 +1,40 @@
+{
+  "page": "src/components/pages/DLPAPage.tsx",
+  "scoreBefore": 50,
+  "scoreAfter": 60,
+  "blocksRecognizedBefore": [
+    "Page Identity",
+    "Context Controls and Actions",
+    "Technical Layer",
+    "Analytics",
+    "Technical Layer",
+    "Page Identity",
+    "Technical Layer"
+  ],
+  "blocksRecognizedAfter": [
+    "Page Identity",
+    "Context Controls and Actions",
+    "Executive Summary",
+    "Technical Layer",
+    "Analytics",
+    "Technical Layer",
+    "Page Identity",
+    "Technical Layer"
+  ],
+  "newBlockDetection": {
+    "block": "Executive Summary",
+    "method": "registry",
+    "confidence": "high"
+  },
+  "filesModified": [
+    "src/components/pages/DLPAPage.tsx",
+    "src/components/executive-architecture/executive-summary-section.tsx",
+    "src/components/executive-architecture/index.ts",
+    "docs/architecture/EAC_COMPONENT_ARCHITECTURE_REGISTRY.json"
+  ],
+  "certification": {
+    "zeroLogicalChange": true,
+    "zeroVisualChange": true,
+    "noDoubleCounting": true
+  }
+}

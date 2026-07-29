@@ -1,7 +1,13 @@
+import { ExecutiveText } from '../../ui/executive-typography';
+import { ExecutiveHeading } from '../../ui/executive-heading';
+import { ExecutivePageTemplate } from '../../ui/executive-page-template';
 import React from 'react';
 import { ShieldAlert, AlertTriangle, TrendingUp, Activity, CheckCircle, Users } from 'lucide-react';
-import { PageHeader } from '../../Common';
 import { useGovernanceRiskHeatmapViewModel } from '../../../viewmodels/governance/useGovernanceRiskHeatmapViewModel';
+
+import { ExecutiveSummarySection } from '../../ui/executive-summary-section';
+import { ExecutiveStrategicTensions } from '../../ui/executive-strategic-tensions';
+import { ExecutiveDecisionTrace } from '../../ui/executive-decision-trace';
 
 export function GovernanceRiskHeatmap() {
   const { state } = useGovernanceRiskHeatmapViewModel();
@@ -12,20 +18,21 @@ export function GovernanceRiskHeatmap() {
   }
 
   return (
-    <div className="max-w-[1440px] mx-auto px-6 lg:px-10 space-y-12 pb-32 animate-executive-fade">
-      {/* Cabeçalho Executivo */}
-      <PageHeader 
-        title="Matriz de Risco Corporativo"
-        subtitle="Visão consolidada da exposição a riscos e integridade operacional."
-        icon={ShieldAlert}
-        transparent
-        actions={
-          <div className="text-right">
-            <div className="text-[10px] text-muted-foreground uppercase tracking-widest font-black mb-1">Exposição Residual</div>
-            <div className="text-4xl font-light text-emerald-400">{heatmapData.consolidatedResidualRisk.toLocaleString()}</div>
-          </div>
-        }
-      />
+    <ExecutivePageTemplate header={{ title: "Visão consolidada da exposição a riscos e integridade operacional.", description: "Visão consolidada da exposição a riscos e integridade operacional.", icon: ShieldAlert }}>
+
+      {/* --- CAMADA 1: NÍVEL CONSELHO (SÍNTESE DE HEATMAP DE RISCOS) --- */}
+      <ExecutiveSummarySection 
+        className="mb-8"
+        status={{ label: 'Matriz de Riscos Ativa', variant: 'success' }}
+        question="Qual o nível global de exposição aos riscos operacionais, financeiros e regulatórios?"
+        opinion="O comitê fiduciário atesta a matriz de riscos e o andamento dos planos de mitigação."
+        driver="Riscos críticos, mitigações em atraso, proprietários alocados e curva de severidade."
+        implication="Prevenção de incidentes materiais e preservação da liquidez e operação."
+        action="Cobrar a execução dos planos de mitigação em atraso e nomear responsáveis para os riscos orfãos."
+      >
+        <ExecutiveStrategicTensions tensions={[]} />
+        <ExecutiveDecisionTrace trace={[]} />
+      </ExecutiveSummarySection>
 
       {/* Cards de Status (Executive Summary) */}
       <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
@@ -60,10 +67,10 @@ export function GovernanceRiskHeatmap() {
         
         {/* Painel da Matriz Visual (Placeholder para gráfico real) */}
         <div className="lg:col-span-2 card-premium p-8">
-          <h2 className="text-lg font-medium text-muted-foreground mb-6 flex items-center gap-2">
+          <ExecutiveHeading as="h2" className="text-muted-foreground mb-6 flex items-center gap-2">
             <Activity className="w-5 h-5 text-muted-foreground" />
             Impacto vs Probabilidade
-          </h2>
+          </ExecutiveHeading>
           
           <div className="aspect-video bg-slate-950/60 rounded-xl border border-border/10 flex items-center justify-center relative overflow-hidden shadow-inner">
             {/* Aqui entraria a renderização do grid 5x5 do heatmap real baseado em heatmapData.matrix */}
@@ -79,10 +86,10 @@ export function GovernanceRiskHeatmap() {
 
         {/* Top Riscos */}
         <div className="card-premium p-8">
-          <h2 className="text-lg font-medium text-muted-foreground mb-6 flex items-center gap-2">
+          <ExecutiveHeading as="h2" className="text-muted-foreground mb-6 flex items-center gap-2">
             <AlertTriangle className="w-5 h-5 text-red-400" />
             Top Riscos Críticos
-          </h2>
+          </ExecutiveHeading>
           <div className="space-y-4">
             {heatmapData.topCriticalRisks.length === 0 ? (
               <div className="text-muted-foreground text-xs font-bold uppercase tracking-wider py-8 text-center">Nenhum risco crítico identificado no período.</div>
@@ -90,12 +97,12 @@ export function GovernanceRiskHeatmap() {
               heatmapData.topCriticalRisks.map(risk => (
                 <div key={risk.riskId} className="p-4 bg-slate-950/40 border border-border/10 rounded-xl">
                   <div className="flex justify-between items-start mb-2">
-                    <h3 className="text-muted-foreground font-medium text-sm">{risk.title}</h3>
+                    <ExecutiveHeading as="h3" className="text-muted-foreground">{risk.title}</ExecutiveHeading>
                     <span className="px-2.5 py-0.5 text-[10px] uppercase font-bold tracking-wider rounded-full bg-red-500/10 text-red-400 border border-red-500/20">
                       Crítico
                     </span>
                   </div>
-                  <p className="text-xs text-muted-foreground mt-1">{risk.category}</p>
+                  <ExecutiveText as="div" variant="caption" className="text-muted-foreground mt-1">{risk.category}</ExecutiveText>
                 </div>
               ))
             )}
@@ -103,7 +110,7 @@ export function GovernanceRiskHeatmap() {
         </div>
 
       </div>
-    </div>
+    </ExecutivePageTemplate>
   );
 }
 
@@ -111,9 +118,9 @@ function StatusCard({ title, value, icon, trend }: { title: string, value: numbe
   return (
     <div className="card-premium p-6 flex flex-col justify-between hover:border-border transition-all">
       <div className="flex justify-between items-start mb-4">
-        <h3 className="text-xs font-bold uppercase tracking-wider text-muted-foreground">{title}</h3>
+        <ExecutiveHeading as="h3" className="text-muted-foreground">{title}</ExecutiveHeading>
         <div className="p-2 bg-slate-950/40 rounded-xl border border-border/10">
-          {icon}
+          {React.isValidElement(icon) ? icon : icon ? React.createElement(icon as any, { size: 18 }) : null}
         </div>
       </div>
       <div>

@@ -1,0 +1,14 @@
+{
+  "date": "2026-07-10T22:07:46.027Z",
+  "commitSha": "4110a45766119e87051f60f17df5dbbbb6a10d05",
+  "engineHash": "ts-morph-v2",
+  "inventoryHash": "v2-current",
+  "totalExpected": 34,
+  "totalAnalyzed": 34,
+  "omitted": 0,
+  "duplicates": 0,
+  "completenessFailures": 0,
+  "sourceMutations": 0,
+  "registryMutations": 0,
+  "scannerMutations": 0
+}

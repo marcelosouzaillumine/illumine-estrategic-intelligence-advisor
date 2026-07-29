@@ -1,10 +1,23 @@
 
+
 import React, { useState } from 'react';
 import { Target, Flag, Rocket, Plus, Trash2, Edit2, Save, X, Eye, FileText, Heart, BookOpen } from 'lucide-react';
 import { motion, AnimatePresence } from 'motion/react';
 import { useModuleData } from '../../hooks/useModuleData';
 import { Diretriz } from '../../types/modules';
-import { PageHeader, SectionHeader } from '../Common';
+import { PageHeader, SectionHeader, StatusBadge } from '../Common';
+import { ExecutiveSurface } from '../ui/executive-surface';
+import { ExecutiveAccordion } from '../ui/executive-accordion';
+import { ExecutiveEmptyState } from '../ui/executive-empty-state';
+import { ExecutiveMetricCard } from '../ui/executive-metric-card';
+import { ExecutivePageTemplate } from '../ui/executive-page-template';
+import { ExecutiveHeading } from '../ui/executive-heading';
+import { ExecutiveText } from '../ui/executive-typography';
+import { createPortal } from 'react-dom';
+import { ExecutiveSummarySection } from '../ui/executive-summary-section';
+import { ExecutiveStrategicTensions } from '../ui/executive-strategic-tensions';
+import { ExecutiveDecisionTrace } from '../ui/executive-decision-trace';
+import { useDiretrizesPageViewModel } from '../../viewmodels/useDiretrizesPageViewModel';
 import { cn } from '../../lib/utils';
 import { DashboardSkeleton } from '../ui/skeletons';
 
@@ -13,6 +26,9 @@ interface DiretrizesPageProps {
 }
 
 export function DiretrizesPage({ clientId }: DiretrizesPageProps) {
+  // Adapter: useDiretrizesPageAdapter
+  // ViewModel: useDiretrizesPageViewModel
+  const { state: vmState, computed: vmComputed, actions: vmActions } = useDiretrizesPageViewModel({ clientId });
   const { data, add, update, loading } = useModuleData<Diretriz>('diretrizes', clientId);
   const [isEditing, setIsEditing] = useState(false);
   const [formData, setFormData] = useState<Partial<Diretriz>>({
@@ -71,39 +87,57 @@ export function DiretrizesPage({ clientId }: DiretrizesPageProps) {
 
   if (loading) return <DashboardSkeleton />;
 
+  // Adapter: useModuleData encapsulates Firestore data access for strategic directives
+  // ViewModel: diretriz, isEditing computed from raw module data for display model;
+
   return (
-    <div className="space-y-8 pb-32">
-      <PageHeader 
-        title="Identidade & Diretrizes" 
-        subtitle="O DNA e o norte estratégico da organização — Propósito, Missão, Visão e Valores."
-        icon={Flag}
-        color="executive"
-      />
+    <ExecutivePageTemplate header={{
+      title: "Identidade & Diretrizes",
+      description: "O DNA e o norte estratégico da organização — Propósito, Missão, Visão e Valores.",
+    }}>
 
-      <div className="flex items-center justify-between gap-4 flex-wrap bg-surface-container/60 p-4 rounded-md border border-border backdrop-blur-sm shadow-sm -mt-6 mb-10">
-        <div className="flex items-center gap-3">
-          <div className="px-4 md:px-6 py-2 md:py-3 bg-card border border-border rounded-md shadow-sm flex items-center gap-4">
-            <div className="flex items-center gap-2">
-              <Rocket size={14} className="text-secondary" />
-              <span className="text-[10px] font-medium text-muted-foreground uppercase tracking-widest">DNA Corporativo Ativo</span>
-            </div>
-          </div>
-        </div>
+       {/* --- CAMADA 1: NÍVEL CONSELHO (SÍNTESE DE DIRETRIZES E IDENTIDADE) --- */}
+       <ExecutiveSummarySection 
+         className="mb-8"
+         status={{ label: currentDiretriz ? 'DNA Homologado' : 'Diretrizes Pendentes', variant: currentDiretriz ? 'success' : 'warning' }}
+         question="Como a missão, visão e valores orientam a cultura corporativa e os objetivos estratégicos?"
+         opinion="O comitê fiduciário homologa a declaração de diretrizes estratégicas, atestando o alinhamento cultural e o propósito corporativo."
+         driver="Propósito existencial, visão de longo prazo, código de conduta e valores fundamentais."
+         implication="Coesão organizacional e orientação clara das equipes rumo aos objetivos globais da empresa."
+         action="Promover workshops de aculturamento para engajar 100% dos liderados nas diretrizes aprovadas."
+       >
+         <ExecutiveStrategicTensions tensions={[]} />
+         <ExecutiveDecisionTrace trace={[]} />
+       </ExecutiveSummarySection>
 
-        <div className="flex items-center gap-3">
-          <button
-            onClick={() => setIsEditing(!isEditing)}
-            className={cn(
-              "btn-executive",
-              isEditing 
-                ? "bg-surface-container text-foreground border border-border" 
-                : "bg-secondary text-white shadow-xl shadow-secondary/20"
-            )}
-          >
-            {isEditing ? <><X size={14} /> CANCELAR</> : <><Edit2 size={14} /> EDITAR DIRETRIZES</>}
-          </button>
-        </div>
+       <div className="flex flex-col md:flex-row md:items-center justify-between gap-6 mb-10">
+
+         <div className="flex items-center gap-3">
+           <StatusBadge status="Ativo" label="DNA Corporativo Ativo" />
+         </div>
+         <div className="flex items-center gap-3">
+           <button
+             onClick={() => setIsEditing(!isEditing)}
+             className={cn(
+               "btn-executive",
+               isEditing 
+                 ? "bg-surface-container text-foreground border border-border" 
+                 : "bg-secondary text-white shadow-xl shadow-secondary/20"
+             )}
+           >
+             {isEditing ? <><X size={14} /> CANCELAR</> : <><Edit2 size={14} /> EDITAR DIRETRIZES</>}
+           </button>
+         </div>
+       
       </div>
+
+       <div className="mt-12 mb-8 border-t border-border pt-8" />
+       <ExecutiveAccordion
+         title="Identidade &amp; Diretrizes"
+         subtitle="O DNA e o norte estratégico da organização."
+         variant="analytics"
+         defaultExpanded
+       >
 
 
       {/* Propósito */}
@@ -120,7 +154,7 @@ export function DiretrizesPage({ clientId }: DiretrizesPageProps) {
               <div className="w-12 h-12 rounded-md bg-critical-soft flex items-center justify-center text-destructive shadow-inner">
                 <Heart size={24} />
               </div>
-              <h3 className="text-xl font-medium text-foreground tracking-tight uppercase">Propósito</h3>
+              <ExecutiveHeading as="h3" className="text-foreground">Propósito</ExecutiveHeading>
             </div>
             {isEditing ? (
               <textarea
@@ -152,7 +186,7 @@ export function DiretrizesPage({ clientId }: DiretrizesPageProps) {
             <div className="w-12 h-12 rounded-md bg-surface-container flex items-center justify-center text-muted-foreground shadow-inner">
               <BookOpen size={24} />
             </div>
-            <h3 className="text-xl font-medium text-foreground tracking-tight uppercase">Nossa História & Origem</h3>
+            <ExecutiveHeading as="h3" className="text-foreground">Nossa História & Origem</ExecutiveHeading>
           </div>
           {isEditing ? (
             <textarea
@@ -168,7 +202,7 @@ export function DiretrizesPage({ clientId }: DiretrizesPageProps) {
                   <p key={i}>{paragraph}</p>
                 ))
               ) : (
-        <p className="italic text-executive-secondary/40">A história da empresa ainda não foi registrada. O storytelling é fundamental para criar conexão e confiança.</p>
+        <ExecutiveText as="div" variant="bodyStandard" className="italic text-executive-secondary/40">A história da empresa ainda não foi registrada. O storytelling é fundamental para criar conexão e confiança.</ExecutiveText>
               )}
             </div>
           )}
@@ -191,7 +225,7 @@ export function DiretrizesPage({ clientId }: DiretrizesPageProps) {
               <div className="w-12 h-12 rounded-md bg-primary/10 flex items-center justify-center text-primary shadow-inner">
                 <Target size={24} />
               </div>
-              <h3 className="text-xl font-medium text-foreground tracking-tight uppercase">Missão</h3>
+              <ExecutiveHeading as="h3" className="text-foreground">Missão</ExecutiveHeading>
             </div>
             {isEditing ? (
               <textarea
@@ -223,7 +257,7 @@ export function DiretrizesPage({ clientId }: DiretrizesPageProps) {
               <div className="w-12 h-12 rounded-md bg-secondary/10 flex items-center justify-center text-secondary shadow-inner">
                 <Rocket size={24} />
               </div>
-              <h3 className="text-xl font-medium text-foreground tracking-tight uppercase">Visão</h3>
+              <ExecutiveHeading as="h3" className="text-foreground">Visão</ExecutiveHeading>
             </div>
             {isEditing ? (
               <textarea
@@ -255,7 +289,7 @@ export function DiretrizesPage({ clientId }: DiretrizesPageProps) {
               <div className="w-12 h-12 rounded-md bg-white/10 flex items-center justify-center text-secondary shadow-inner">
                 <Flag size={24} />
               </div>
-              <h3 className="text-2xl font-medium text-white tracking-tight uppercase">Nossos Valores</h3>
+              <ExecutiveHeading as="h3" className="text-white">Nossos Valores</ExecutiveHeading>
             </div>
             {isEditing && (
               <button
@@ -300,7 +334,7 @@ export function DiretrizesPage({ clientId }: DiretrizesPageProps) {
                     </div>
                   ) : (
                     <>
-                      <h4 className="text-xl font-medium text-secondary mb-3 tracking-tight uppercase">{valor.nome}</h4>
+                      <ExecutiveHeading as="h4" className="text-secondary mb-3">{valor.nome}</ExecutiveHeading>
                       <p className="text-white/60 text-[11px] leading-relaxed font-medium uppercase tracking-widest italic">
                         {valor.definicao}
                       </p>
@@ -328,6 +362,18 @@ export function DiretrizesPage({ clientId }: DiretrizesPageProps) {
           )}
         </div>
       </motion.div>
-    </div>
+      <ExecutiveSummarySection 
+        status={{ label: 'DNA Institucional', variant: 'success' }}
+        question="Qual o alinhamento da cultura e diretrizes com a estratégia de longo prazo?"
+        opinion="O comitê fiduciário chancela as diretrizes institucionais como pilar de governança e alinhamento missional."
+        driver="Propósito, missão, visão de futuro e valores fundamentais homologados."
+        implication="Engajamento das lideranças executivas e consistência nas tomadas de decisão."
+        action="Revisar anualmente no planejamento estratégico as diretrizes institucionais."
+      >
+        <ExecutiveStrategicTensions tensions={[]} />
+        <ExecutiveDecisionTrace trace={[]} />
+      </ExecutiveSummarySection>
+      </ExecutiveAccordion>
+    </ExecutivePageTemplate>
   );
 }

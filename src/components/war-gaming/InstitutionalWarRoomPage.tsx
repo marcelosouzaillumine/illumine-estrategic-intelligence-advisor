@@ -13,7 +13,14 @@ import { CrisisExplainabilityDrawer } from './CrisisExplainabilityDrawer';
 import { LiquidityStressTimeline } from './LiquidityStressTimeline';
 import { InstitutionalPressureHeatmap } from './InstitutionalPressureHeatmap';
 
-export function InstitutionalWarRoomPage({ rawData }: { rawData: any }) {
+interface InstitutionalWarRoomPageProps {
+  rawData?: any;
+  clientId?: string;
+  selectedYear?: number;
+  selectedMonth?: number;
+}
+
+export function InstitutionalWarRoomPage({ rawData }: InstitutionalWarRoomPageProps) {
   const [activeScenario, setActiveScenario] = useState<WarGameResult | null>(null);
   const [error, setError] = useState<string | null>(null);
 

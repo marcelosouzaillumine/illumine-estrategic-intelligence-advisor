@@ -1,3 +1,5 @@
+
+
 import React, { useState, useMemo } from 'react';
 import { 
   Activity, 
@@ -16,21 +18,30 @@ import {
 import { motion } from 'motion/react';
 import { cn, formatCurrency, formatValue } from '../../lib/utils';
 import { ExecutiveCommentary } from '../ExecutiveCommentary';
-import { PageHeader } from '../Common';
+import { PageHeader, StatusBadge } from '../Common';
 import { ExecutiveMetricCard } from '../ui/executive-metric-card';
-import { useAllFinancialData } from '../../hooks/useFinancialData';
+import { ExecutivePageTemplate } from '../ui/executive-page-template';
+import { ExecutiveSurface } from '../ui/executive-surface';
+import { ExecutiveAccordion } from '../ui/executive-accordion';
+import { ExecutiveEmptyState } from '../ui/executive-empty-state';
+import { ExecutiveHeading } from '../ui/executive-heading';
+import { ExecutiveText } from '../ui/executive-typography';
+import { createPortal } from 'react-dom';
+import { ExecutiveSummarySection } from '../ui/executive-summary-section';
+import { ExecutiveStrategicTensions } from '../ui/executive-strategic-tensions';
+import { ExecutiveDecisionTrace } from '../ui/executive-decision-trace';
+import { useDreGerencialPageViewModel } from '../../viewmodels/useDreGerencialPageViewModel';
+import { useDreGerencial } from '../../adapters/ui/DreGerencialAdapter';
+import { DRE_STRUCTURE } from '../../viewmodels/DreGerencialViewModel';
 import { FULL_MONTH_LABELS, MONTH_LABELS } from '../../constants';
 import { DashboardSkeleton } from '../ui/skeletons';
-import { calculateDreCascade } from '../../lib/dreCascade';
-import { DRE_OFFICIAL_STRUCTURE } from '../../constants/dreStructure';
-
-interface PeriodInfo {
-  year: number;
-  month?: number;
-  label: string;
-}
 
 export function DreGerencialPage({ selectedClient, selectedYear: initialYear, selectedMonth: initialMonth }: any) {
+  // Adapter: useDreGerencialPageAdapter
+  // ViewModel: useDreGerencialPageViewModel
+  const { state: vmState, computed: vmComputed, actions: vmActions } = useDreGerencialPageViewModel({ clientId: selectedClient });
+  const { state, computed, actions } = useDreGerencialPageViewModel({ selectedClient });
+  const portal = createPortal;
   const [selectedYear, setSelectedYear] = useState(initialYear || new Date().getFullYear());
   const [selectedMonth, setSelectedMonth] = useState(initialMonth || new Date().getMonth() + 1);
   const [periodType, setPeriodType] = useState<'mensal' | 'anual'>('anual');
@@ -40,175 +51,36 @@ export function DreGerencialPage({ selectedClient, selectedYear: initialYear, se
   const [filterCentroCusto, setFilterCentroCusto] = useState('Todos');
   const [viewMode, setViewMode] = useState<'historical' | 'projection'>('historical');
 
-  const { dbData, loading } = useAllFinancialData(selectedClient);
-
-  const periods = useMemo(() => {
-    if (periodType === 'anual') {
-      const historical: PeriodInfo[] = Array.from({ length: 5 }, (_, i) => {
-        const y = selectedYear - 5 + i;
-        return { year: y, label: y.toString() };
-      });
-      return { 
-        historical, 
-        current: { year: selectedYear, label: selectedYear.toString() } as PeriodInfo
-      };
-    } else {
-      const historical: PeriodInfo[] = Array.from({ length: 12 }, (_, i) => {
-        const d = new Date(selectedYear, selectedMonth - 1 - (12 - i), 1);
-        const m = d.getMonth() + 1;
-        const y = d.getFullYear();
-        return { month: m, year: y, label: `${MONTH_LABELS[m]}/${y.toString().slice(-2)}` };
-      });
-      return { 
-        historical, 
-        current: { month: selectedMonth, year: selectedYear, label: `${MONTH_LABELS[selectedMonth]}/${selectedYear.toString().slice(-2)}` } as PeriodInfo
-      };
-    }
-  }, [selectedYear, selectedMonth, periodType]);
-
-  const dimensions = useMemo(() => {
-    const filiais = new Set<string>(['Todas']);
-    const unidades = new Set<string>(['Todas']);
-    const centros = new Set<string>(['Todos']);
-
-    dbData.forEach((d: any) => {
-      if (d.filial) filiais.add(d.filial);
-      if (d.unidade) unidades.add(d.unidade);
-      if (d.centro_custo || d.centroCusto) centros.add(d.centro_custo || d.centroCusto);
-    });
-
-    return {
-      filiais: Array.from(filiais),
-      unidades: Array.from(unidades),
-      centros: Array.from(centros)
-    };
-  }, [dbData]);
-
-  const reportData = useMemo(() => {
-    if (loading) return null;
-
-    const structure = [
-      { id: 'rb', label: 'Receita Operacional Bruta', level: 0 },
-      { id: 'ded', label: '(-) Deduções e Impostos', level: 1 },
-      { id: 'rl', label: 'Receita Líquida', level: 0, isTotal: true },
-      { id: 'custos', label: '(-) Custos (CPV/CSP)', level: 1 },
-      { id: 'lb', label: 'Lucro Bruto', level: 0, isTotal: true },
-      { id: 'desp', label: '(-) Despesas Operacionais', level: 1 },
-      { id: 'ebitda', label: 'EBITDA Gerencial', level: 0, isTotal: true },
-      { id: 'dep', label: '(-) Depreciação e Amortização', level: 1 },
-      { id: 'ebit', label: 'EBIT', level: 0, isTotal: true },
-      { id: 'fin', label: '(+/-) Resultado Financeiro', level: 1 },
-      { id: 'lair', label: 'LAIR', level: 0, isTotal: true },
-      { id: 'ir', label: '(-) Provisão IR/CSLL', level: 1 },
-      { id: 'll', label: 'Lucro Líquido', level: 0, isTotal: true },
-    ];
-
-    const valuesByPeriod: Record<string, Record<string, number>> = {};
-    const allPeriods = [...periods.historical, periods.current];
-    
-    const getPeriodKey = (p: PeriodInfo) => periodType === 'anual' ? p.year.toString() : `${p.year}-${p.month}`;
-
-    allPeriods.forEach(p => {
-      valuesByPeriod[getPeriodKey(p)] = { rb: 0, ded: 0, rl: 0, custos: 0, lb: 0, desp: 0, ebitda: 0, dep: 0, ebit: 0, fin: 0, lair: 0, ir: 0, ll: 0 };
-    });
-
-    const rawDataByPeriod: Record<string, any[]> = {};
-
-    dbData.forEach((d: any) => {
-      if (d.type !== 'DRE' && d.type !== 'DRE Gerencial') return;
-
-      const y = d.year || d.ano;
-      const m = d.month || d.mes;
-      const periodKey = periodType === 'anual' ? y.toString() : `${y}-${m}`;
-      
-      if (!valuesByPeriod[periodKey]) return;
-
-      if (filterFilial !== 'Todas' && d.filial !== filterFilial) return;
-      if (filterUnidade !== 'Todas' && d.unidade !== filterUnidade) return;
-      if (filterCentroCusto !== 'Todos' && (d.centro_custo || d.centroCusto) !== filterCentroCusto) return;
-
-      let parentId = d.parentId;
-      const cat = (d.conta || d.category || '').toLowerCase();
-
-      // Ignore totals from legacy data
-      if (!parentId && (cat.includes('receita líquida') || cat.includes('receita operacional líquida') || cat.includes('lucro bruto') || cat.includes('ebitda') || cat === 'ebit' || cat.includes('resultado operacional líquido') || cat.includes('lajida') || cat.includes('lucro líquido') || cat.includes('lair') || cat.includes('resultado antes'))) {
-         return; 
-      }
-      
-      if (!parentId) {
-         if (cat.includes('receita operacional bruta') || cat === 'receita bruta' || cat.includes('faturamento') || (cat.includes('receita') && !cat.includes('líquida') && !cat.includes('financeir') && !cat.includes('outras'))) {
-            parentId = 'ROB';
-         } else if (cat.includes('deduç') || cat.includes('imposto sobre') || cat.includes('abatimento') || cat.includes('devoluç') || cat.includes('cancelamento')) {
-            parentId = 'DED';
-         } else if (cat.includes('custo') || cat.includes('cmv') || cat.includes('cpv') || cat.includes('csv') || cat.includes('csp')) {
-            parentId = 'CUSTOS';
-         } else if (cat.includes('deprecia') || cat.includes('amortiza')) {
-            parentId = 'DEP_AMORT';
-         } else if (cat.includes('financeir') || cat.includes('juros')) {
-            parentId = 'RESULT_FIN';
-         } else if (cat.includes('provisão') || cat.includes('irpj') || cat.includes('csll') || cat.includes('imposto de renda') || cat.includes('contribuição social')) {
-            parentId = 'PROV_IR_CSLL';
-         } else if (cat.includes('outras receitas') || cat.includes('outra receita') || cat.includes('outras despesas operacionais')) {
-            parentId = 'OUTRAS_REC_DESP';
-         } else {
-            parentId = 'DESP_OPER'; // Default for generic expenses
-         }
-      }
-
-      if (!rawDataByPeriod[periodKey]) rawDataByPeriod[periodKey] = [];
-      rawDataByPeriod[periodKey].push({
-         ...d,
-         parentId,
-         value: d.val || d.valor || d.value || 0
-      });
-    });
-
-    [...periods.historical, periods.current].forEach(p => {
-      const key = getPeriodKey(p);
-      const periodEntries = rawDataByPeriod[key] || [];
-      const rowsToCalc = [
-        ...DRE_OFFICIAL_STRUCTURE.map(account => ({ ...account, value: 0 })),
-        ...periodEntries
-      ];
-      const calculatedRows = calculateDreCascade(rowsToCalc);
-
-      const getVal = (id: string) => {
-         const match = calculatedRows.find(r => r.id === id);
-         return match ? (match.computedValue !== undefined ? match.computedValue : match.value || 0) : 0;
-      };
-
-      const v = valuesByPeriod[key];
-      v.rb = getVal('ROB');
-      v.ded = getVal('DED'); // Deductions are processed by calculateDreCascade.
-      v.rl = getVal('ROL');
-      v.custos = getVal('CUSTOS');
-      v.lb = getVal('LUCRO_BRUTO');
-      v.desp = getVal('DESP_OPER');
-      v.ebitda = getVal('EBITDA');
-      v.dep = getVal('DEP_AMORT');
-      v.ebit = getVal('EBIT');
-      v.fin = getVal('RESULT_FIN');
-      v.lair = getVal('RAIR_CSLL');
-      v.ir = getVal('PROV_IR_CSLL');
-      v.ll = getVal('LUCRO_LIQ');
-    });
-
-    return { structure, valuesByPeriod };
-  }, [dbData, loading, periods, filterFilial, filterUnidade, filterCentroCusto, periodType]);
+  const { 
+    loading, 
+    periods, 
+    valuesByPeriod, 
+    dimensions, 
+    getVerticalAnalysis, 
+    getHorizontalAnalysis 
+  } = useDreGerencial({
+    selectedClient,
+    selectedYear,
+    selectedMonth,
+    periodType,
+    filterFilial,
+    filterUnidade,
+    filterCentroCusto
+  });
 
   const currentKey = periodType === 'anual' ? periods.current.year.toString() : `${periods.current.year}-${periods.current.month}`;
 
   const renderAccountRow = (row: any) => {
-    if (!reportData) return null;
-    const currentVal = reportData.valuesByPeriod[currentKey]?.[row.id] || 0;
-    const netRevenue = reportData.valuesByPeriod[currentKey]?.rl || 1;
-    const grossRevenue = reportData.valuesByPeriod[currentKey]?.rb || 1;
+    if (loading) return null;
+    const currentVal = valuesByPeriod[currentKey]?.[row.id] || 0;
+    const netRevenue = valuesByPeriod[currentKey]?.rl || 1;
+    const grossRevenue = valuesByPeriod[currentKey]?.rb || 1;
     
     let baseRevenue = netRevenue;
     if (row.id === 'rb' || row.id === 'ded') {
       baseRevenue = grossRevenue;
     }
-    const av = (currentVal / baseRevenue) * 100;
+    const av = getVerticalAnalysis(baseRevenue, currentVal);
 
     let prevKey = '';
     if (periodType === 'anual') {
@@ -217,8 +89,8 @@ export function DreGerencialPage({ selectedClient, selectedYear: initialYear, se
       const d = new Date(selectedYear, selectedMonth - 2, 1);
       prevKey = `${d.getFullYear()}-${d.getMonth() + 1}`;
     }
-    const prevVal = reportData.valuesByPeriod[prevKey]?.[row.id] || 0;
-    const ah = prevVal !== 0 ? ((currentVal / prevVal) - 1) * 100 : 0;
+    const prevVal = valuesByPeriod[prevKey]?.[row.id] || 0;
+    const ah = getHorizontalAnalysis(prevVal, currentVal);
 
     const visiblePeriods = [...periods.historical, periods.current];
 
@@ -241,7 +113,7 @@ export function DreGerencialPage({ selectedClient, selectedYear: initialYear, se
         {visiblePeriods.map(p => {
           const key = periodType === 'anual' ? p.year.toString() : `${p.year}-${p.month}`;
           const isCurrent = periodType === 'anual' ? p.year === selectedYear : (p.year === selectedYear && p.month === selectedMonth);
-          let val = reportData.valuesByPeriod[key]?.[row.id] || 0;
+          let val = valuesByPeriod[key]?.[row.id] || 0;
           
           if (['ded', 'custos', 'desp', 'dep', 'ir'].includes(row.id)) {
             val = -Math.abs(val);
@@ -250,7 +122,7 @@ export function DreGerencialPage({ selectedClient, selectedYear: initialYear, se
           return (
             <td key={key} className={cn(
               "px-4 md:px-6 py-2.5 md:py-4 text-right text-[11px] font-mono",
-              val < 0 ? "text-rose-500" : "text-foreground",
+              val < 0 ? "text-critical" : "text-foreground",
               isCurrent && "bg-secondary/5 font-bold"
             )}>
               {formatCurrency(val)}
@@ -261,7 +133,7 @@ export function DreGerencialPage({ selectedClient, selectedYear: initialYear, se
         <td className="px-4 md:px-6 py-2.5 md:py-4 text-right">
           <span className={cn(
             "text-[10px] font-bold px-2 py-0.5 rounded-full",
-            av > 0 ? "bg-secondary/10 text-secondary" : "bg-surface-container text-muted-foreground border border-border"
+            av > 0 ? "bg-accent-soft text-accent" : "bg-surface-container text-muted-foreground border border-border"
           )}>
             {av.toFixed(2)}%
           </span>
@@ -269,10 +141,10 @@ export function DreGerencialPage({ selectedClient, selectedYear: initialYear, se
 
         <td className="px-4 md:px-6 py-2.5 md:py-4 text-right">
           <div className="flex items-center justify-end gap-1">
-            {ah !== 0 && (ah > 0 ? <ArrowUpRight size={10} className="text-success" /> : <ArrowDownRight size={10} className="text-destructive" />)}
+            {ah !== 0 && (ah > 0 ? <ArrowUpRight size={10} className="text-success" /> : <ArrowDownRight size={10} className="text-critical" />)}
             <span className={cn(
               "text-[10px] font-bold",
-              ah > 0 ? "text-success" : ah < 0 ? "text-destructive" : "text-muted-foreground"
+              ah > 0 ? "text-success" : ah < 0 ? "text-critical" : "text-muted-foreground"
             )}>
               {ah.toFixed(2)}%
             </span>
@@ -285,14 +157,43 @@ export function DreGerencialPage({ selectedClient, selectedYear: initialYear, se
   if (loading) return <DashboardSkeleton />;
 
   return (
-    <div className="max-w-[1440px] mx-auto space-y-10 pb-32 animate-executive-fade">
-      <PageHeader 
-        title="DRE Gerencial Estratégica" 
-        subtitle="Demonstrativo multidimensional de resultados operacionais com série histórica e análise preditiva."
-        icon={Activity}
-      />
+    <ExecutivePageTemplate header={{
+      title: "DRE Gerencial Estratégica",
+      description: "Demonstrativo multidimensional de resultados operacionais com série histórica e análise preditiva.",
+    }}>
 
-      <div className="flex items-center justify-start gap-4 flex-wrap bg-surface-container/60 p-4 rounded-md border border-border backdrop-blur-sm shadow-sm -mt-6 mb-10">
+       {/* --- CAMADA 1: NÍVEL CONSELHO (SÍNTESE DE DRE GERENCIAL) --- */}
+       <ExecutiveSummarySection 
+         className="mb-8"
+         status={{ label: (valuesByPeriod[currentKey]?.ebitda || 0) >= 0 ? 'Resultado Positivo' : 'EBITDA Negativo', variant: (valuesByPeriod[currentKey]?.ebitda || 0) >= 0 ? 'success' : 'critical' }}
+         question="Qual o resultado operacional gerencial, margem de contribuição e eficiência da estrutura de custos?"
+         opinion="O comitê fiduciário homologa a DRE Gerencial, validando a margem de contribuição e a disciplina no controle das despesas fixas."
+         driver="Receita líquida, custos variáveis, margem de contribuição, despesas operacionais e EBITDA gerencial."
+         implication="Garantia de rentabilidade operacional suficiente para cobrir investimentos e serviço da dívida."
+         action="Acompanhar a análise vertical e horizontal para identificar desvios em contas operacionais críticas."
+       >
+         <ExecutiveStrategicTensions tensions={[]} />
+         <ExecutiveDecisionTrace trace={[]} />
+       </ExecutiveSummarySection>
+
+      <div className="flex flex-col md:flex-row md:items-center justify-between gap-6 mb-10">
+
+        <div className="flex items-center gap-3">
+          <StatusBadge status="Verde" label="Painel Gerencial Conectado" />
+        </div>
+      
+      </div>
+
+      <div className="mt-12 mb-8 border-t border-border pt-8" />
+      <ExecutiveAccordion
+        title="Demonstração do Resultado do Exercício"
+        subtitle="Analise receitas, margens, EBITDA e lucros de forma vertical e horizontal."
+        variant="analytics"
+        defaultExpanded
+      >
+
+      <div className="space-y-10 pb-20 animate-executive-fade">
+        <div className="flex items-center justify-start gap-4 flex-wrap bg-surface-container/60 p-4 rounded-md border border-border backdrop-blur-sm shadow-sm mb-10">
         <div className="flex items-center gap-3 flex-wrap">
           <div className="flex items-center gap-3 bg-card border border-border rounded-md px-4 py-1.5 shadow-sm h-[40px]">
             <span className={cn(
@@ -352,10 +253,10 @@ export function DreGerencialPage({ selectedClient, selectedYear: initialYear, se
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-        <ExecutiveMetricCard density="analytical" label="Receita (Período)" value={`R$ ${formatValue(reportData?.valuesByPeriod[currentKey]?.rl || 0, '')}`} icon={TrendingUp} tone="success" description="Estável" />
-        <ExecutiveMetricCard density="analytical" label="EBITDA (Período)" value={`R$ ${formatValue(reportData?.valuesByPeriod[currentKey]?.ebitda || 0, '')}`} icon={CircleDollarSign} tone={(reportData?.valuesByPeriod[currentKey]?.ebitda || 0) >= 0 ? "success" : "critical"} description={(reportData?.valuesByPeriod[currentKey]?.ebitda || 0) >= 0 ? "Bullish" : "Bearish"} />
-        <ExecutiveMetricCard density="analytical" label="Margem EBITDA" value={`${((reportData?.valuesByPeriod[currentKey]?.ebitda || 0) / (reportData?.valuesByPeriod[currentKey]?.rl || 1) * 100).toFixed(2)}%`} icon={Target} tone={((reportData?.valuesByPeriod[currentKey]?.ebitda || 0) / (reportData?.valuesByPeriod[currentKey]?.rl || 1) * 100) >= 20 ? "success" : "warning"} description="Estável" />
-        <ExecutiveMetricCard density="analytical" label="Lucro Líquido" value={`R$ ${formatValue(reportData?.valuesByPeriod[currentKey]?.ll || 0, '')}`} icon={Activity} tone={(reportData?.valuesByPeriod[currentKey]?.ll || 0) >= 0 ? "success" : "critical"} description="Consolidado" />
+        <ExecutiveMetricCard density="analytical" label="Receita (Período)" value={`R$ ${formatValue(valuesByPeriod[currentKey]?.rl || 0, '')}`} icon={TrendingUp} tone="success" description="Estável" />
+        <ExecutiveMetricCard density="analytical" label="EBITDA (Período)" value={`R$ ${formatValue(valuesByPeriod[currentKey]?.ebitda || 0, '')}`} icon={CircleDollarSign} tone={(valuesByPeriod[currentKey]?.ebitda || 0) >= 0 ? "success" : "critical"} description={(valuesByPeriod[currentKey]?.ebitda || 0) >= 0 ? "Bullish" : "Bearish"} />
+        <ExecutiveMetricCard density="analytical" label="Margem EBITDA" value={`${((valuesByPeriod[currentKey]?.ebitda || 0) / (valuesByPeriod[currentKey]?.rl || 1) * 100).toFixed(2)}%`} icon={Target} tone={((valuesByPeriod[currentKey]?.ebitda || 0) / (valuesByPeriod[currentKey]?.rl || 1) * 100) >= 20 ? "success" : "warning"} description="Estável" />
+        <ExecutiveMetricCard density="analytical" label="Lucro Líquido" value={`R$ ${formatValue(valuesByPeriod[currentKey]?.ll || 0, '')}`} icon={Activity} tone={(valuesByPeriod[currentKey]?.ll || 0) >= 0 ? "success" : "critical"} description="Consolidado" />
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-4 bg-card p-6 rounded-md border border-border shadow-sm items-end">
@@ -425,7 +326,7 @@ export function DreGerencialPage({ selectedClient, selectedYear: initialYear, se
       <div className="bg-card rounded-md border border-border shadow-sm overflow-hidden">
         <div className="px-8 py-6 border-b border-border flex items-center justify-between bg-surface-container/30">
           <div>
-            <h2 className="text-lg font-black text-foreground">Análise de Resultados Multi-Dimensional</h2>
+            <ExecutiveHeading as="h2" className="text-foreground">Análise de Resultados Multi-Dimensional</ExecutiveHeading>
             <p className="text-[10px] text-muted-foreground font-bold uppercase tracking-[0.2em] mt-0.5">
               Série Histórica · {periodType === 'anual' ? 'Visão de 5 Anos' : 'Visão de 12 Meses'}
             </p>
@@ -462,9 +363,7 @@ export function DreGerencialPage({ selectedClient, selectedYear: initialYear, se
               </tr>
             </thead>
             <tbody className="divide-y divide-border/40">
-              {reportData ? (
-                reportData.structure.map(row => renderAccountRow(row))
-              ) : null}
+              {!loading && DRE_STRUCTURE.map(row => renderAccountRow(row))}
             </tbody>
           </table>
         </div>
@@ -486,8 +385,8 @@ export function DreGerencialPage({ selectedClient, selectedYear: initialYear, se
                       <Target size={22} strokeWidth={1.5} />
                    </div>
                    <div>
-                      <h3 className="text-h3 font-display font-medium text-foreground">Meta EBITDA {selectedYear}</h3>
-                      <p className="text-[10px] text-muted-foreground uppercase font-black tracking-widest mt-0.5">Performance Desejada</p>
+                      <ExecutiveHeading as="h3" className="text-h3 font-display text-foreground">Meta EBITDA {selectedYear}</ExecutiveHeading>
+                      <ExecutiveText as="div" variant="bodyStandard" className="text-muted-foreground mt-0.5">Performance Desejada</ExecutiveText>
                    </div>
                 </div>
                 
@@ -504,18 +403,31 @@ export function DreGerencialPage({ selectedClient, selectedYear: initialYear, se
                    
                    <div className="grid grid-cols-2 gap-4">
                       <div className="p-4 bg-surface-container rounded-md border border-border">
-             <p className="text-[9px] font-black text-executive-secondary uppercase tracking-widest mb-1">Margem Alvo</p>
-                         <p className="text-xl font-bold text-foreground">0.0%</p>
+             <ExecutiveText as="div" variant="bodyStandard" className="text-executive-secondary mb-1">Margem Alvo</ExecutiveText>
+                         <ExecutiveText as="div" variant="bodyStandard" className="text-foreground">0.0%</ExecutiveText>
                       </div>
                       <div className="p-4 bg-surface-container rounded-md border border-border">
-             <p className="text-[9px] font-black text-executive-secondary uppercase tracking-widest mb-1">Gap de Resultado</p>
-                         <p className="text-xl font-bold text-foreground">R$ 0</p>
+             <ExecutiveText as="div" variant="bodyStandard" className="text-executive-secondary mb-1">Gap de Resultado</ExecutiveText>
+                         <ExecutiveText as="div" variant="bodyStandard" className="text-foreground">R$ 0</ExecutiveText>
                       </div>
                    </div>
                 </div>
              </div>
           </div>
       </div>
-    </div>
+      </div>
+       <ExecutiveSummarySection 
+         status={{ label: 'DRE Consolidado', variant: 'success' }}
+         question="Qual a performance de margens operacionais e lucratividade da empresa?"
+         opinion="O conselho fiduciário homologa a apuração da margem de contribuição e o atingimento do EBITDA planejado."
+         driver="Receita líquida, custos operacionais, margem bruta e EBITDA."
+         implication="Garantia de eficiência financeira e preservação da margem operacional."
+         action="Acompanhar o comportamento dos custos variáveis em relação ao crescimento das vendas."
+       >
+         <ExecutiveStrategicTensions tensions={[]} />
+         <ExecutiveDecisionTrace trace={[]} />
+       </ExecutiveSummarySection>
+      </ExecutiveAccordion>
+    </ExecutivePageTemplate>
   );
 }

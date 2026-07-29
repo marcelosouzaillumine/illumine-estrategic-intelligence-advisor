@@ -1,8 +1,8 @@
-// src/components/strategic-intelligence/CapitalStrategyAlignmentSurface.tsx
-
 import React from 'react';
 import { Columns, CheckCircle2, XOctagon } from 'lucide-react';
 import { CapitalStrategyAlignment } from '../../services/FiduciaryRuntimeAdapter';
+// src/components/strategic-intelligence/CapitalStrategyAlignmentSurface.tsx
+
 
 interface CapitalStrategyAlignmentSurfaceProps {
   alignment: CapitalStrategyAlignment;

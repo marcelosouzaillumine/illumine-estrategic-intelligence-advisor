@@ -1,6 +1,5 @@
 import React from 'react';
-import { DemoScenario } from '../../../services/FiduciaryRuntimeAdapter';
-import { DemoSessionState } from '../../../services/FiduciaryRuntimeAdapter';
+import { DemoScenario, DemoSessionState } from '../../../services/FiduciaryRuntimeAdapter';
 
 interface ExecutiveDisclosurePanelProps {
   scenario: DemoScenario;

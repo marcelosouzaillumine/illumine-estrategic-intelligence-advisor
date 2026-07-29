@@ -1,0 +1,136 @@
+[
+  {
+    "path": "memory.tsx",
+    "profile": "Executive Analytical Page",
+    "score": 63,
+    "blocksFound": [
+      {
+        "component": "PageHeader",
+        "block": "Page Identity",
+        "method": "registry",
+        "confidence": "high",
+        "line": 41
+      },
+      {
+        "component": "DRETechnicalLayerSection",
+        "block": "Technical Layer",
+        "method": "regex",
+        "confidence": "medium",
+        "line": 139
+      }
+    ],
+    "structuralFlow": [
+      "Page Identity",
+      "Technical Layer"
+    ],
+    "penalties": [
+      "Missing Required Blocks: Executive Summary, KPIs, Narrative, Analytics"
+    ]
+  },
+  {
+    "path": "memory.tsx",
+    "profile": "Executive Analytical Page",
+    "score": 55,
+    "blocksFound": [
+      {
+        "component": "PageHeader",
+        "block": "Page Identity",
+        "method": "registry",
+        "confidence": "high",
+        "line": 106
+      },
+      {
+        "component": "StatusBadge",
+        "block": "Context Controls and Actions",
+        "method": "registry",
+        "confidence": "high",
+        "line": 195
+      },
+      {
+        "component": "ExecutiveTechnicalLayer",
+        "block": "Technical Layer",
+        "method": "regex",
+        "confidence": "medium",
+        "line": 449
+      },
+      {
+        "component": "ExecutiveComposedChart",
+        "block": "Analytics",
+        "method": "regex",
+        "confidence": "medium",
+        "line": 470
+      },
+      {
+        "component": "ExecutiveTechnicalMetricCard",
+        "block": "Technical Layer",
+        "method": "regex",
+        "confidence": "medium",
+        "line": 504
+      },
+      {
+        "component": "ExecutiveTableHeader",
+        "block": "Page Identity",
+        "method": "regex",
+        "confidence": "medium",
+        "line": 537
+      },
+      {
+        "component": "ExecutiveTechnicalLayer",
+        "block": "Technical Layer",
+        "method": "regex",
+        "confidence": "medium",
+        "line": 590
+      }
+    ],
+    "structuralFlow": [
+      "Page Identity",
+      "Context Controls and Actions",
+      "Technical Layer",
+      "Analytics",
+      "Technical Layer",
+      "Page Identity",
+      "Technical Layer"
+    ],
+    "penalties": [
+      "Missing Required Blocks: Executive Summary, KPIs, Narrative",
+      "Ordem Incorreta: 'Analytics' fora de posição cognitiva.",
+      "Ordem Incorreta: 'Page Identity' fora de posição cognitiva."
+    ]
+  },
+  {
+    "path": "memory.tsx",
+    "profile": "Executive Governance Page",
+    "score": 75,
+    "blocksFound": [
+      {
+        "component": "InstitutionalPrioritySurface",
+        "block": "Page Identity",
+        "method": "registry",
+        "confidence": "high",
+        "line": 43
+      },
+      {
+        "component": "CriticalDecisionSurface",
+        "block": "Decision Summary",
+        "method": "registry",
+        "confidence": "high",
+        "line": 51
+      },
+      {
+        "component": "ExecutivePriorityStack",
+        "block": "Recommendations",
+        "method": "registry",
+        "confidence": "high",
+        "line": 55
+      }
+    ],
+    "structuralFlow": [
+      "Page Identity",
+      "Decision Summary",
+      "Recommendations"
+    ],
+    "penalties": [
+      "Missing Required Blocks: Context & Status, Evidence"
+    ]
+  }
+]

@@ -1,11 +1,7 @@
-// src/components/pilot-operations/PilotOperationsCenter.tsx
-
 import React from 'react';
 import { PageHeader } from '../Common';
 import { ShieldCheck, RefreshCw } from 'lucide-react';
 import { usePilotOperations } from '../../context/pilot-operations/PilotOperationsProvider';
-
-// Import sub-components
 import { PilotOperationalHealthCard } from './PilotOperationalHealthCard';
 import { CognitiveLoadIndicator } from './CognitiveLoadIndicator';
 import { RuntimeStabilitySurface } from './RuntimeStabilitySurface';
@@ -15,6 +11,10 @@ import { ExecutiveAdoptionTimeline } from './ExecutiveAdoptionTimeline';
 import { GovernanceReadabilityPanel } from './GovernanceReadabilityPanel';
 import { PilotFeedbackSurface } from './PilotFeedbackSurface';
 import { GovernanceWorkflowGuide } from './GovernanceWorkflowGuide';
+// src/components/pilot-operations/PilotOperationsCenter.tsx
+
+
+// Import sub-components
 
 export const PilotOperationsCenter: React.FC = () => {
   const { logTelemetry, pilotStatus } = usePilotOperations();

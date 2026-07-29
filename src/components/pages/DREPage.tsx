@@ -1,10 +1,18 @@
+import { ExecutiveText } from '../ui/executive-typography';
+import { ExecutiveHeading } from '../ui/executive-heading';
 import React from 'react';
 import { createPortal } from 'react-dom';
 import { Calendar, Loader2, Upload, Trash2, Plus, BarChart3, Database } from 'lucide-react';
 import { cn } from '../../lib/utils';
 import { SandboxWarningOverlay } from '../executive-interaction/SandboxWarningOverlay';
-import { PageHeader } from '../Common';
+import { PageHeader, StatusBadge } from '../Common';
+import { ExecutivePageTemplate } from '../ui/executive-page-template';
+import { ExecutiveSurface } from '../ui/executive-surface';
+import { ExecutiveAccordion } from '../ui/executive-accordion';
 import { ExecutiveEmptyState } from '../ui/executive-empty-state';
+import { ExecutiveSummarySection } from '../ui/executive-summary-section';
+import { ExecutiveStrategicTensions } from '../ui/executive-strategic-tensions';
+import { ExecutiveDecisionTrace } from '../ui/executive-decision-trace';
 import { ImportFinancialModal } from '../modals/ImportFinancialModal';
 import { ManualFinancialModal } from '../modals/ManualFinancialModal';
 import { DREEconomicBreakdownSection } from './dre/DREEconomicBreakdownSection';
@@ -33,26 +41,20 @@ export function DREPage({ clients, selectedClient, selectedYear }: any) {
   const { isSectionVisible } = computed;
 
   return (
-    <div className="max-w-[1440px] mx-auto space-y-10 pb-32 animate-executive-fade">
+    <ExecutivePageTemplate header={{
+      title: "Demonstração do Resultado (DRE)",
+      description: "Análise de performance operacional, lucratividade e rentabilidade do exercício contábil.",
+    }}>
       {(executiveReport?.isSandbox || executiveReport?.isDemonstrative) && (
         <SandboxWarningOverlay type={executiveReport.isSandbox ? 'sandbox' : 'demonstrative'} />
       )}
-      <PageHeader 
-        title="Demonstração do Resultado (DRE)" 
-        subtitle="Análise de performance operacional, lucratividade e rentabilidade do exercício contábil."
-        icon={BarChart3}
-        color="executive"
-      />
 
-      <div className="flex items-center justify-between gap-4 flex-wrap bg-surface-container/60 p-4 rounded-md border border-border backdrop-blur-sm shadow-sm -mt-6 mb-10">
+      <ExecutiveSurface className="flex items-center justify-between gap-4 flex-wrap mb-10 bg-card border border-border shadow-sm">
         <div className="flex items-center gap-3">
-          <div className="bg-card border border-border/50 shadow-sm rounded-md px-4 py-2 flex items-center gap-3 shadow-sm">
-            {(loading || loadingHistory) && <Loader2 size={14} className="animate-spin text-secondary" />}
-            <Database size={14} className={hasDreData ? 'text-success' : 'text-muted-foreground/30'} />
-            <span className={cn('text-[10px] font-medium uppercase tracking-[0.2em]', hasDreData ? 'text-success' : 'text-muted-foreground')}>
-              {hasDreData ? 'Dados Reais' : 'Amostra'}
-            </span>
-          </div>
+          <StatusBadge 
+            label={hasDreData ? 'Dados Reais' : 'Amostra'}
+            status={hasDreData ? 'Verde' : 'Cinza'}
+          />
 
           <div className="flex bg-card border border-border p-1 rounded-md shadow-sm items-center">
             <Calendar size={12} className="ml-2 text-muted-foreground" />
@@ -90,7 +92,7 @@ export function DREPage({ clients, selectedClient, selectedYear }: any) {
             </button>
           </div>
         )}
-      </div>
+      </ExecutiveSurface>
 
       {!hasDreData ? (
         <div className="mb-12">
@@ -104,8 +106,22 @@ export function DREPage({ clients, selectedClient, selectedYear }: any) {
           />
         </div>
       ) : (
-        <>
-          {/* 2. DIAGNÓSTICO ECONÔMICO (EXECUTIVE ADVISORY) */}
+        <div className="space-y-10 mb-12">
+          {/* --- CAMADA 1: NÍVEL CONSELHO (SÍNTESE SOBERANA DA DRE) --- */}
+          <ExecutiveSummarySection 
+            className="mb-8"
+            status={{ label: 'DRE Auditada', variant: 'success' }}
+            question="Qual a eficiência operacional e a margem de contribuição do exercício?"
+            opinion="O comitê fiduciário homologa a DRE, destacando a evolução da margem EBITDA, controle de custos e rentabilidade líquida."
+            driver="Receita bruta, deduções fiscais, CPV, despesas operacionais e resultado financeiro."
+            implication="Geração de valor operacional sustentável para suportar o plano de crescimento e reinvestimento."
+            action="Otimizar estrutura de custos variáveis e despesas operacionais para expandir a margem operacional."
+          >
+            <ExecutiveStrategicTensions tensions={[]} />
+            <ExecutiveDecisionTrace trace={[]} />
+          </ExecutiveSummarySection>
+
+          {/* --- CAMADA 2: DIRETORIA & DRE ESTRUTURAL --- */}
           {isSectionVisible('DRE_ADVISORY') && dreViewModel?.policy?.executiveDiagnosis && (
             <DREExecutiveAdvisorySection 
               viewModel={dreViewModel.policy.executiveDiagnosis}
@@ -113,7 +129,6 @@ export function DREPage({ clients, selectedClient, selectedYear }: any) {
             />
           )}
 
-          {/* 3 & 4. ESTRUTURA ECONÔMICA E CONSUMO */}
           <DREEconomicBreakdownSection
             isVisibleStructure={isSectionVisible('DRE_ESTRUTURA_ECONOMICA')}
             isVisibleBurnRate={isSectionVisible('DRE_CONSUMO_ECONOMICO')}
@@ -121,7 +136,6 @@ export function DREPage({ clients, selectedClient, selectedYear }: any) {
             viewModel={dreViewModel}
           />
 
-          {/* 5. BOARD DECISION SUPPORT FRAMEWORK (PAINÉIS DIMENSIONAIS) */}
           {isSectionVisible('DRE_DECISION_SUPPORT') && dreViewModel?.policy?.boardQuestions && (
             <DREBoardDecisionSupportSection viewModel={{
               ...dreViewModel.policy.boardQuestions,
@@ -130,13 +144,20 @@ export function DREPage({ clients, selectedClient, selectedYear }: any) {
             }} />
           )}
 
-          {/* 7. CAMADA TÉCNICA (COLAPSADA) */}
+          {/* --- CAMADA 3: CAMADA TÉCNICA E DETALHAMENTO CONTÁBIL --- */}
           {isSectionVisible('DRE_TECHNICAL_LAYER') && dreViewModel?.technicalLayer?.rows && dreViewModel.technicalLayer.rows.length > 0 && (
-            <div className="mb-10">
-              <DRETechnicalLayerSection viewModel={dreViewModel.technicalLayer} />
+            <div className="mt-12 mb-8 border-t border-border pt-8">
+              <ExecutiveAccordion
+                title="Camada Técnica Contábil"
+                subtitle="Detalhamento das linhas da DRE com rastreabilidade contábil."
+                variant="analytics"
+                defaultExpanded
+              >
+                <DRETechnicalLayerSection viewModel={dreViewModel.technicalLayer} />
+              </ExecutiveAccordion>
             </div>
           )}
-        </>
+        </div>
       )}
 
       {showImportModal && (
@@ -170,8 +191,8 @@ export function DREPage({ clients, selectedClient, selectedYear }: any) {
 
       {showDeleteConfirm && typeof document !== 'undefined' && createPortal(
         <div className="fixed inset-0 bg-foreground/60 backdrop-blur-sm z-[100] flex items-center justify-center p-4">
-          <div className="bg-card rounded-[32px] p-8 w-full max-w-md min-w-[300px] md:min-w-[400px] shadow-2xl shrink-0">
-            <h3 className="text-xl font-black text-primary mb-2">Excluir Dados?</h3>
+          <div className="bg-card rounded-[32px] p-8 w-full max-w-md min-w-[300px] md:min-w-[400px] shadow-2xl shrink-0 border border-border">
+            <ExecutiveHeading as="h3" className="text-primary mb-2">Excluir Dados?</ExecutiveHeading>
             <p className="text-sm text-executive-secondary mb-8 font-medium">
               Esta ação removerá todos os registros da DRE para o ano <strong>{filterYear}</strong> deste cliente. Esta ação não pode ser desfeita.
             </p>
@@ -199,10 +220,10 @@ export function DREPage({ clients, selectedClient, selectedYear }: any) {
           'fixed bottom-8 right-8 px-5 md:px-8 py-2.5 md:py-4 rounded-2xl shadow-2xl z-[100] animate-in fade-in slide-in-from-bottom-4 transition-all',
           toast.type === 'success' ? 'bg-success-soft0 text-white' : 'bg-critical-soft0 text-white'
         )}>
-          <p className="text-xs font-black uppercase tracking-widest">{toast.message}</p>
+          <ExecutiveText as="div" variant="caption">{toast.message}</ExecutiveText>
         </div>,
         document.body
       )}
-    </div>
+    </ExecutivePageTemplate>
   );
 }

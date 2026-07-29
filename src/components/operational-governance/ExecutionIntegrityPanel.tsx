@@ -1,8 +1,8 @@
-// src/components/operational-governance/ExecutionIntegrityPanel.tsx
-
 import React from 'react';
 import { Activity, ShieldAlert, CheckCircle2, AlertCircle } from 'lucide-react';
 import { ExecutionIntegrityState } from '../../services/FiduciaryRuntimeAdapter';
+// src/components/operational-governance/ExecutionIntegrityPanel.tsx
+
 
 interface ExecutionIntegrityPanelProps {
   integrity: ExecutionIntegrityState;

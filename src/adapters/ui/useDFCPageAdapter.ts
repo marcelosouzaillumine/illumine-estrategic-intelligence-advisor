@@ -1,35 +1,45 @@
 import { useState } from 'react';
-import { FirestoreAuthAdapter } from '../persistence/FirestoreAuthAdapter';
-import { FirestoreFinancialAdapter } from '../persistence/FirestoreFinancialAdapter';
+import { FirestoreFinancialAdapter } from '../../adapters/persistence/FirestoreFinancialAdapter';
+import { useAnnualFinancialData } from '../../hooks/useFinancialData';
 
-
-export function useDFCPageAdapter(selectedClient: string, filterYear: number, refetchDFC: () => void, showToast: (type: 'success' | 'error', message: string) => void, auth: any) {
+export function useDFCPageAdapter(
+  clientId: string, 
+  filterYear: number, 
+  showToast?: (type: string, message: string) => void
+) {
   const [deleting, setDeleting] = useState(false);
   const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
 
+  const { dbData, loading, error, refetch: refetchDFC } = useAnnualFinancialData(
+    clientId,
+    filterYear,
+    'DFC'
+  );
+
   const handleDelete = async () => {
-    if (!FirestoreAuthAdapter.isAuthenticated()) {
-      showToast('error', 'Você precisa estar logado para excluir dados.');
-      return;
-    }
+    if (!clientId || !filterYear) return;
     setDeleting(true);
-    setShowDeleteConfirm(false);
     try {
-      const entries = await FirestoreFinancialAdapter.getEntriesByClientAndYear(selectedClient, filterYear, 'DFC');
-      await FirestoreFinancialAdapter.deleteEntriesByClientAndYear(selectedClient, filterYear, 'DFC');
-      showToast('success', `${entries.length} registro(s) excluído(s) com sucesso.`);
+      await FirestoreFinancialAdapter.deleteEntriesByClientAndYear(clientId, Number(filterYear), 'DFC');
+      setShowDeleteConfirm(false);
       refetchDFC();
+      if (showToast) showToast('success', `Registros de DFC do ano ${filterYear} excluídos com sucesso!`);
     } catch (err: any) {
-      showToast('error', err.message || 'Erro ao excluir dados.');
+      console.error('Erro ao excluir registros da DFC:', err);
+      if (showToast) showToast('error', 'Falha ao excluir registros da DFC.');
     } finally {
       setDeleting(false);
     }
   };
 
   return {
+    dbData,
+    loading,
+    error,
+    refetchDFC,
     deleting,
     showDeleteConfirm,
     setShowDeleteConfirm,
-    handleDelete,
+    handleDelete
   };
 }

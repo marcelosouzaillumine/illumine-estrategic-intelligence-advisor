@@ -1,4 +1,4 @@
-import { useState, useEffect, useMemo } from "react";
+import { useState, useEffect, useMemo } from 'react';
 import { FirestoreAuthAdapter } from '../../adapters/persistence/FirestoreAuthAdapter';
 import { ClientsApplicationService } from './clients/ClientsApplicationService';
 import { validateCNPJ, formatDoc } from '../../lib/utils';

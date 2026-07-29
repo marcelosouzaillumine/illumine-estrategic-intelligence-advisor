@@ -1,0 +1,13 @@
+{
+  "version": "1.0.0",
+  "updatedAt": "2026-07-28T23:54:00.000Z",
+  "officialEngines": [
+    { "domain": "Causality", "name": "CrossStatementCausalityEngine", "path": "src/core/fiduciary/CrossStatementCausalityEngine.ts", "status": "CANONICAL" },
+    { "domain": "MetricCanonicalization", "name": "MetricCanonicalizationEngine", "path": "src/core/fiduciary/MetricCanonicalizationEngine.ts", "status": "CANONICAL" },
+    { "domain": "DFCIndirect", "name": "DFCIndirectMethodEngine", "path": "src/core/fiduciary/DFCIndirectMethodEngine.ts", "status": "CANONICAL" }
+  ],
+  "underReviewEngines": [
+    { "domain": "Causality", "name": "DFCCausalChainEngine", "path": "src/core/fiduciary/DFCCausalChainEngine.ts", "status": "UNDER_REVIEW", "successor": "CrossStatementCausalityEngine" },
+    { "domain": "MetricNormalizer", "name": "financialKeyNormalizer", "path": "src/utils/financialKeyNormalizer.ts", "status": "UNDER_REVIEW", "successor": "MetricCanonicalizationEngine" }
+  ]
+}

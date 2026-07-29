@@ -1,0 +1,390 @@
+[
+  {
+    "component": "ExecutivePerspectiveSection",
+    "filePath": "/Users/marcelosouza/Documents/illumine-strategic-intelligence-advisor/src/components/ExecutivePerspectiveSection.tsx",
+    "consumerResolution": {
+      "status": "PARTIAL",
+      "directConsumers": [],
+      "pages": [],
+      "reExports": [],
+      "unresolvedReferences": []
+    },
+    "coupling": {
+      "stateCouplingScore": 0.12,
+      "complexityScore": 1,
+      "consumerImpact": 0.5
+    },
+    "metrics": {
+      "opportunityScore": 0.798,
+      "riskScore": 0.567,
+      "priorityIndex": 34.55340000000001
+    },
+    "roles": [
+      {
+        "role": "narrative",
+        "startLine": 35,
+        "endLine": 80,
+        "rootNode": "NarrativeBlock",
+        "purity": 0.92,
+        "evidence": {
+          "confidence": "MEDIUM",
+          "detectionSources": [
+            "AST structural analysis",
+            "Props analysis"
+          ],
+          "matchingNodes": 12,
+          "conflictingNodes": 1,
+          "positiveSignals": [
+            {
+              "nodeType": "JsxElement",
+              "tag": "ExecutiveNarrative",
+              "line": 46,
+              "source": "resolved-import",
+              "weight": 4
+            }
+          ],
+          "conflictingSignals": [
+            {
+              "nodeType": "JsxElement",
+              "tag": "MetricCard",
+              "line": 55,
+              "source": "visual-container",
+              "weight": 1,
+              "reason": "Inline metrics"
+            }
+          ],
+          "purityScore": 0.9230769230769231,
+          "separabilityScore": 0.8,
+          "requiresHumanReview": true
+        }
+      },
+      {
+        "role": "recommendation",
+        "startLine": 82,
+        "endLine": 120,
+        "rootNode": "ActionMatrix",
+        "purity": 1,
+        "evidence": {
+          "confidence": "HIGH",
+          "detectionSources": [
+            "AST structural analysis"
+          ],
+          "matchingNodes": 15,
+          "conflictingNodes": 0,
+          "positiveSignals": [
+            {
+              "nodeType": "JsxElement",
+              "tag": "RecommendationList",
+              "line": 85,
+              "source": "resolved-import",
+              "weight": 4
+            }
+          ],
+          "conflictingSignals": [],
+          "purityScore": 1,
+          "separabilityScore": 0.9,
+          "requiresHumanReview": true
+        }
+      }
+    ],
+    "visualContainers": [],
+    "separationStrategy": "SUBTREE_EXTRACTION",
+    "justification": "Clear cognitive subtrees detected; separation is feasible via extraction.",
+    "requiresHumanReview": true,
+    "completenessGate": {
+      "allDetectedRolesSerialized": true,
+      "allReportRolesExistInJson": true,
+      "allBoundariesHaveLines": true,
+      "allScoresExplainable": true
+    }
+  },
+  {
+    "component": "ConsolidatedExecutiveSummaryCard",
+    "filePath": "/Users/marcelosouza/Documents/illumine-strategic-intelligence-advisor/src/components/consolidated/ConsolidatedExecutiveSummaryCard.tsx",
+    "consumerResolution": {
+      "status": "PARTIAL",
+      "directConsumers": [],
+      "pages": [],
+      "reExports": [],
+      "unresolvedReferences": []
+    },
+    "coupling": {
+      "stateCouplingScore": 0,
+      "complexityScore": 0.1,
+      "consumerImpact": 0.5
+    },
+    "metrics": {
+      "opportunityScore": 0.68,
+      "riskScore": 0.165,
+      "priorityIndex": 56.78
+    },
+    "roles": [
+      {
+        "role": "summary",
+        "startLine": 12,
+        "endLine": 65,
+        "rootNode": "ExecutiveCard",
+        "purity": 0.8,
+        "evidence": {
+          "confidence": "MEDIUM",
+          "detectionSources": [
+            "JSX Tree",
+            "Imports"
+          ],
+          "matchingNodes": 20,
+          "conflictingNodes": 5,
+          "positiveSignals": [
+            {
+              "nodeType": "JsxText",
+              "line": 20,
+              "source": "textual-fallback",
+              "weight": 1
+            }
+          ],
+          "conflictingSignals": [
+            {
+              "nodeType": "JsxElement",
+              "tag": "Chart",
+              "line": 50,
+              "source": "visual-container",
+              "weight": 2,
+              "reason": "Embedded metric charts"
+            }
+          ],
+          "purityScore": 0.8,
+          "separabilityScore": 0.6,
+          "requiresHumanReview": true
+        }
+      }
+    ],
+    "visualContainers": [],
+    "separationStrategy": "INTERNAL_WRAP",
+    "justification": "Summary logic strongly embedded inside the card; recommend wrapping internals.",
+    "requiresHumanReview": true,
+    "completenessGate": {
+      "allDetectedRolesSerialized": true,
+      "allReportRolesExistInJson": true,
+      "allBoundariesHaveLines": true,
+      "allScoresExplainable": true
+    }
+  },
+  {
+    "component": "GovernanceReadabilityPanel",
+    "filePath": "/Users/marcelosouza/Documents/illumine-strategic-intelligence-advisor/src/components/pilot-operations/GovernanceReadabilityPanel.tsx",
+    "consumerResolution": {
+      "status": "PARTIAL",
+      "directConsumers": [],
+      "pages": [],
+      "reExports": [],
+      "unresolvedReferences": []
+    },
+    "coupling": {
+      "stateCouplingScore": 0,
+      "complexityScore": 0.35833333333333334,
+      "consumerImpact": 0.5
+    },
+    "metrics": {
+      "opportunityScore": 0.8250000000000001,
+      "riskScore": 0.2683333333333333,
+      "priorityIndex": 60.362500000000004
+    },
+    "roles": [
+      {
+        "role": "technical-evidence",
+        "startLine": 40,
+        "endLine": 90,
+        "rootNode": "EvidenceList",
+        "purity": 0.9,
+        "evidence": {
+          "confidence": "MEDIUM",
+          "detectionSources": [
+            "AST"
+          ],
+          "matchingNodes": 18,
+          "conflictingNodes": 2,
+          "positiveSignals": [
+            {
+              "nodeType": "JsxElement",
+              "tag": "EvidenceList",
+              "line": 42,
+              "source": "resolved-import",
+              "weight": 4
+            }
+          ],
+          "conflictingSignals": [],
+          "purityScore": 0.9,
+          "separabilityScore": 0.9,
+          "requiresHumanReview": true
+        }
+      },
+      {
+        "role": "disclosure",
+        "startLine": 92,
+        "endLine": 150,
+        "rootNode": "DisclosureBox",
+        "purity": 1,
+        "evidence": {
+          "confidence": "HIGH",
+          "detectionSources": [
+            "AST"
+          ],
+          "matchingNodes": 10,
+          "conflictingNodes": 0,
+          "positiveSignals": [
+            {
+              "nodeType": "JsxElement",
+              "tag": "DisclosureBox",
+              "line": 95,
+              "source": "resolved-import",
+              "weight": 4
+            }
+          ],
+          "conflictingSignals": [],
+          "purityScore": 1,
+          "separabilityScore": 0.9,
+          "requiresHumanReview": true
+        }
+      }
+    ],
+    "visualContainers": [],
+    "separationStrategy": "INTERNAL_WRAP",
+    "justification": "Contiguous pure subtrees; wrapper is best.",
+    "requiresHumanReview": true,
+    "completenessGate": {
+      "allDetectedRolesSerialized": true,
+      "allReportRolesExistInJson": true,
+      "allBoundariesHaveLines": true,
+      "allScoresExplainable": true
+    }
+  },
+  {
+    "component": "BenchmarkComparativePanel",
+    "filePath": "/Users/marcelosouza/Documents/illumine-strategic-intelligence-advisor/src/components/pages/governance/BenchmarkComparativePanel.tsx",
+    "consumerResolution": {
+      "status": "PARTIAL",
+      "directConsumers": [],
+      "pages": [],
+      "reExports": [],
+      "unresolvedReferences": []
+    },
+    "coupling": {
+      "stateCouplingScore": 0.4,
+      "complexityScore": 0.9583333333333334,
+      "consumerImpact": 0.5
+    },
+    "metrics": {
+      "opportunityScore": 0.34500000000000003,
+      "riskScore": 0.6483333333333333,
+      "priorityIndex": 12.1325
+    },
+    "roles": [
+      {
+        "role": "technical-evidence",
+        "startLine": 20,
+        "endLine": 200,
+        "rootNode": "PanelBody",
+        "purity": 0.5,
+        "evidence": {
+          "confidence": "LOW",
+          "detectionSources": [
+            "JSX Tree (Textual fallback)"
+          ],
+          "matchingNodes": 10,
+          "conflictingNodes": 10,
+          "positiveSignals": [
+            {
+              "nodeType": "JsxText",
+              "line": 30,
+              "source": "textual-fallback",
+              "weight": 1
+            }
+          ],
+          "conflictingSignals": [
+            {
+              "nodeType": "JsxExpression",
+              "line": 50,
+              "source": "state-coupling",
+              "weight": 4,
+              "reason": "Heavy UI state interleaving"
+            }
+          ],
+          "purityScore": 0.5,
+          "separabilityScore": 0.2,
+          "requiresHumanReview": true
+        }
+      }
+    ],
+    "visualContainers": [],
+    "separationStrategy": "REQUIRES_COMPONENT_SPLIT",
+    "justification": "Complex state intertwining prevents simple wrapper or extraction; physical split required.",
+    "requiresHumanReview": true,
+    "completenessGate": {
+      "allDetectedRolesSerialized": true,
+      "allReportRolesExistInJson": true,
+      "allBoundariesHaveLines": true,
+      "allScoresExplainable": true
+    }
+  },
+  {
+    "component": "BoardDecisionSurface",
+    "filePath": "/Users/marcelosouza/Documents/illumine-strategic-intelligence-advisor/src/components/pages/governance/BoardDecisionSurface.tsx",
+    "consumerResolution": {
+      "status": "PARTIAL",
+      "directConsumers": [],
+      "pages": [],
+      "reExports": [],
+      "unresolvedReferences": []
+    },
+    "coupling": {
+      "stateCouplingScore": 0,
+      "complexityScore": 0.5916666666666667,
+      "consumerImpact": 0.5
+    },
+    "metrics": {
+      "opportunityScore": 0.8099999999999999,
+      "riskScore": 0.3616666666666667,
+      "priorityIndex": 51.705
+    },
+    "roles": [
+      {
+        "role": "decision-trace",
+        "startLine": 15,
+        "endLine": 75,
+        "rootNode": "DecisionHeader",
+        "purity": 0.95,
+        "evidence": {
+          "confidence": "MEDIUM",
+          "detectionSources": [
+            "AST",
+            "Imports"
+          ],
+          "matchingNodes": 19,
+          "conflictingNodes": 1,
+          "positiveSignals": [
+            {
+              "nodeType": "JsxElement",
+              "tag": "DecisionContext",
+              "line": 20,
+              "source": "resolved-import",
+              "weight": 4
+            }
+          ],
+          "conflictingSignals": [],
+          "purityScore": 0.95,
+          "separabilityScore": 0.8,
+          "requiresHumanReview": true
+        }
+      }
+    ],
+    "visualContainers": [],
+    "separationStrategy": "NO_ACTION_REQUIRED",
+    "justification": "Decision, context, and consequences form a legitimate cognitive unit. Intentional mixing.",
+    "requiresHumanReview": true,
+    "completenessGate": {
+      "allDetectedRolesSerialized": true,
+      "allReportRolesExistInJson": true,
+      "allBoundariesHaveLines": true,
+      "allScoresExplainable": true
+    }
+  }
+]

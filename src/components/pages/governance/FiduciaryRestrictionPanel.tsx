@@ -1,10 +1,10 @@
-// src/components/pages/governance/FiduciaryRestrictionPanel.tsx
-
 import React from 'react';
 import { AlertOctagon, ShieldAlert, KeyRound, Lock } from 'lucide-react';
 import { FiduciaryRestriction, ReportGenerationStatus } from '../../../services/FiduciaryRuntimeAdapter';
 import { EXECUTIVE_SEVERITY_THEME } from './ExecutiveSeverityTheme';
 import { useLanguage } from '../../../contexts/LanguageContext';
+// src/components/pages/governance/FiduciaryRestrictionPanel.tsx
+
 
 interface FiduciaryRestrictionPanelProps {
   restrictions: FiduciaryRestriction[];

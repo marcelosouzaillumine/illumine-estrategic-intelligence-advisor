@@ -1,17 +1,34 @@
 
+
+
 import React, { useMemo } from 'react';
 import { useAdministrativaPageAdapter } from '../../adapters/ui/useAdministrativaPageAdapter';
 import { FileText, Users, TrendingDown, BarChart3, Layout, ShieldCheck, Clock, DollarSign, PieChart as PieIcon, Zap, MessageSquare } from 'lucide-react';
 import { motion } from 'motion/react';
 import { cn, formatValue, formatCurrency } from '../../lib/utils';
-import { PageHeader } from '../Common';
+import { ExecutivePageTemplate } from '../ui/executive-page-template';
+import { ExecutiveSurface } from '../ui/executive-surface';
+import { ExecutiveAccordion } from '../ui/executive-accordion';
+import { ExecutiveEmptyState } from '../ui/executive-empty-state';
 import { ExecutiveMetricCard } from '../ui/executive-metric-card';
+import { createPortal } from 'react-dom';
+import { ExecutiveSummarySection } from '../ui/executive-summary-section';
+import { ExecutiveStrategicTensions } from '../ui/executive-strategic-tensions';
+import { ExecutiveDecisionTrace } from '../ui/executive-decision-trace';
+import { ExecutiveHeading } from '../ui/executive-heading';
+import { ExecutiveText } from '../ui/executive-typography';
+import { useAdministrativaViewModel } from '../../viewmodels/useAdministrativaViewModel';
 
 interface AdministrativaPageProps {
   clientId: string;
 }
 
+
 export function AdministrativaPage({ clientId }: AdministrativaPageProps) {
+  // Adapter: useAdministrativaAdapter
+  // ViewModel: useAdministrativaViewModel
+  const { state, computed, actions } = useAdministrativaViewModel({ clientId });
+  const portal = createPortal;
   const [selectedYear, setSelectedYear] = React.useState(new Date().getFullYear());
   const [selectedMonth, setSelectedMonth] = React.useState(new Date().getMonth() + 1);
   const { dbIndicators, loading } = useAdministrativaPageAdapter(clientId, selectedYear, selectedMonth);
@@ -38,15 +55,13 @@ export function AdministrativaPage({ clientId }: AdministrativaPageProps) {
   ].filter(d => d.value > 0);
 
   return (
-    <div className="max-w-[1440px] mx-auto space-y-10 pb-32 animate-executive-fade">
-      <PageHeader 
-        title="Indicadores Administrativos"
-        subtitle="Monitoramento de eficiência de back-office, gestão de despesas fixas e otimização de processos de suporte."
-        icon={FileText}
-        color="executive"
-      />
+    <ExecutivePageTemplate header={{
+       title: "Administrativa e Back-office",
+       description: "Monitoramento de eficiência de back-office, gestão de despesas fixas e otimização de processos de suporte.",
+     }}>
 
-      <div className="flex items-center justify-between gap-4 flex-wrap bg-surface-container/60 p-4 rounded-md border border-border backdrop-blur-sm shadow-sm -mt-6 mb-10">
+      <div className="flex flex-col md:flex-row md:items-center justify-between gap-6 mb-10">
+
         <div className="flex items-center gap-3">
           <div className="px-4 md:px-6 py-2 md:py-3 bg-card border border-border rounded-md shadow-sm flex items-center gap-4">
             <div className="flex items-center gap-2">
@@ -82,6 +97,7 @@ export function AdministrativaPage({ clientId }: AdministrativaPageProps) {
             </div>
           </div>
         </div>
+      
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
@@ -96,13 +112,20 @@ export function AdministrativaPage({ clientId }: AdministrativaPageProps) {
         ))}
       </div>
 
-      {hasData && (
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+       <div className="mt-12 mb-8 border-t border-border pt-8" />
+       {hasData ? (
+         <ExecutiveAccordion
+           title="Distribuição e Otimização Administrativa"
+           subtitle="Análise detalhada de gastos por departamento e recomendações estratégicas."
+           variant="analytics"
+           defaultExpanded
+         >
+         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
            {/* Department Breakdown */}
            <div className="lg:col-span-2 card-premium p-10 relative overflow-hidden">
-              <h3 className="text-[10px] font-medium text-foreground uppercase tracking-[0.2em] mb-8 flex items-center gap-3">
+              <ExecutiveHeading as="h3" className="text-foreground mb-8 flex items-center gap-3">
                  <PieIcon size={20} className="text-secondary" /> Distribuição de Gastos Administrativos
-              </h3>
+              </ExecutiveHeading>
               <div className="space-y-6">
                  {departmentBreakdown.map((dept, i) => {
                     const total = departmentBreakdown.reduce((acc, d) => acc + d.value, 0);
@@ -128,7 +151,7 @@ export function AdministrativaPage({ clientId }: AdministrativaPageProps) {
                     );
                  })}
                  {departmentBreakdown.length === 0 && (
-                   <p className="text-center text-muted-foreground/40 py-10 font-medium italic uppercase tracking-widest text-[10px]">Dados de distribuição não disponíveis</p>
+                   <ExecutiveText as="div" variant="bodyStandard" className="text-center text-muted-foreground/40 py-10 italic">Dados de distribuição não disponíveis</ExecutiveText>
                  )}
               </div>
            </div>
@@ -139,9 +162,9 @@ export function AdministrativaPage({ clientId }: AdministrativaPageProps) {
                  <Zap size={120} strokeWidth={1} />
               </div>
               <div className="relative z-10 space-y-8">
-                 <h3 className="text-[10px] font-medium text-secondary uppercase tracking-[0.2em] flex items-center gap-3 shadow-sm">
+                 <ExecutiveHeading as="h3" className="text-secondary flex items-center gap-3 shadow-sm">
                     <MessageSquare size={20} /> Otimização Administrativa
-                 </h3>
+                 </ExecutiveHeading>
                  <div className="space-y-6">
                     {[
                       "Digitalizar processos de aprovação de despesas para reduzir lead time em 40%.",
@@ -161,7 +184,25 @@ export function AdministrativaPage({ clientId }: AdministrativaPageProps) {
               </div>
            </div>
         </div>
-      )}
-    </div>
+         </ExecutiveAccordion>
+       ) : (
+         <ExecutiveEmptyState
+           title="Dados Administrativos Indisponíveis"
+           description="Configure os indicadores de back-office para visualizar a análise de gastos e eficiência."
+           compact
+         />
+       )}
+         <ExecutiveSummarySection 
+           status={{ label: 'Monitoramento Backoffice', variant: 'neutral' }}
+           question="Como reduzir as despesas de overhead administrativo?"
+           opinion="Os custos de overhead estão no patamar saudável, mas há oportunidades de otimização de facilities."
+           driver="Despesas com G&A e processos de otimização."
+           implication="Maior margem líquida por meio de ganhos de escala."
+           action="Digitalização e consolidação de facilities."
+         >
+           <ExecutiveStrategicTensions tensions={[]} />
+           <ExecutiveDecisionTrace trace={[]} />
+         </ExecutiveSummarySection>
+    </ExecutivePageTemplate>
   );
 }

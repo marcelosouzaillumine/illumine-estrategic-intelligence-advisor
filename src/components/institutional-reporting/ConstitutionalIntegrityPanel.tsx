@@ -1,8 +1,8 @@
-// src/components/institutional-reporting/ConstitutionalIntegrityPanel.tsx
-
 import React from 'react';
 import { Shield, ShieldAlert, Key, ClipboardList, AlertTriangle, Layers, GitBranch } from 'lucide-react';
 import { ConstitutionalSection } from '../../services/FiduciaryRuntimeAdapter';
+// src/components/institutional-reporting/ConstitutionalIntegrityPanel.tsx
+
 
 interface ConstitutionalIntegrityPanelProps {
   section?: ConstitutionalSection;

@@ -1,10 +1,12 @@
+import { ExecutiveText } from '@/components/ui/executive-typography';
+import { ExecutiveHeading } from '@/components/ui/executive-heading';
 import React, { useState, useMemo } from 'react';
 import { Activity, AlertTriangle, CheckCircle2, Info, ChevronDown, ChevronUp, Clock, Scale, ShieldCheck, Brain, Sliders, DollarSign, Zap, ArrowRight, TrendingUp, History, AlertCircle, FileText, User, CheckCircle, XCircle, RefreshCw, FolderLock } from 'lucide-react';
-import { useAllFinancialData } from '../../../hooks/useFinancialData';
-import { useInstitutionalRuntime } from '../../../hooks/useInstitutionalRuntime';
-import { useLanguage } from '../../../contexts/LanguageContext';
-import { cn, formatCurrency } from '../../../lib/utils';
-import { PageHeader } from '../../Common';
+import { useAllFinancialData } from '@/hooks/useFinancialData';
+import { useInstitutionalRuntime } from '@/hooks/useInstitutionalRuntime';
+import { useLanguage } from '@/contexts/LanguageContext';
+import { cn, formatCurrency } from '@/lib/utils';
+import { PageHeader } from '@/components/Common';
 
 interface ExecutiveExecutionCenterProps {
   clients?: any[];
@@ -68,7 +70,7 @@ export function ExecutiveExecutionCenter({ selectedClient, selectedYear }: Execu
     return (
       <div className="flex flex-col items-center justify-center min-h-[400px] space-y-4">
         <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary"></div>
-        <p className="text-sm text-muted-foreground font-medium">Orquestrando Indicadores do Executive Execution Engine (E3)...</p>
+        <ExecutiveText as="div" variant="bodyStandard" className="text-muted-foreground">Orquestrando Indicadores do Executive Execution Engine (E3)...</ExecutiveText>
       </div>
     );
   }
@@ -148,7 +150,7 @@ export function ExecutiveExecutionCenter({ selectedClient, selectedYear }: Execu
           <div className="absolute top-0 right-0 p-8 opacity-10">
             <Activity size={120} className="text-white" />
           </div>
-          <p className="text-xs font-bold text-muted-foreground uppercase tracking-widest">Executive Execution Score (EES)</p>
+          <ExecutiveText as="div" variant="caption" className="text-muted-foreground">Executive Execution Score (EES)</ExecutiveText>
           <div className="mt-4 flex items-baseline gap-2">
             <span className="text-5xl font-extrabold tracking-tight">{eesScore}</span>
             <span className="text-muted-foreground font-bold">/ 100</span>
@@ -180,7 +182,7 @@ export function ExecutiveExecutionCenter({ selectedClient, selectedYear }: Execu
           <div className="absolute top-0 right-0 p-8 opacity-10">
             <Zap size={120} className="text-white" />
           </div>
-          <p className="text-xs font-bold text-muted-foreground uppercase tracking-widest">Portfolio Health (DPHS)</p>
+          <ExecutiveText as="div" variant="caption" className="text-muted-foreground">Portfolio Health (DPHS)</ExecutiveText>
           <div className="mt-4 flex items-baseline gap-2">
             <span className="text-5xl font-extrabold tracking-tight">{dphs}</span>
             <span className="text-muted-foreground font-bold">/ 100</span>
@@ -204,7 +206,7 @@ export function ExecutiveExecutionCenter({ selectedClient, selectedYear }: Execu
           <div className="absolute top-0 right-0 p-8 opacity-10">
             <Clock size={120} className="text-white" />
           </div>
-          <p className="text-xs font-bold text-muted-foreground uppercase tracking-widest">Decision Debt (IDDS)</p>
+          <ExecutiveText as="div" variant="caption" className="text-muted-foreground">Decision Debt (IDDS)</ExecutiveText>
           <div className="mt-4 flex items-baseline gap-2">
             <span className="text-5xl font-extrabold tracking-tight">{iddsScore}</span>
             <span className="text-muted-foreground font-bold">/ 100</span>
@@ -228,7 +230,7 @@ export function ExecutiveExecutionCenter({ selectedClient, selectedYear }: Execu
           <div className="absolute top-0 right-0 p-8 opacity-10">
             <Brain size={120} className="text-white" />
           </div>
-          <p className="text-xs font-bold text-muted-foreground uppercase tracking-widest">Capacity Forecast</p>
+          <ExecutiveText as="div" variant="caption" className="text-muted-foreground">Capacity Forecast</ExecutiveText>
           <div className="mt-4 flex items-baseline gap-2">
             <span className="text-4xl font-extrabold tracking-tight">{capacityForecast}</span>
           </div>
@@ -265,9 +267,9 @@ export function ExecutiveExecutionCenter({ selectedClient, selectedYear }: Execu
                 <span className="text-xs font-semibold text-muted-foreground">Pilar {index+1}</span>
               </div>
               <div>
-                <p className="text-2xl font-bold text-muted-foreground">{item.score}%</p>
-                <p className="text-xs font-bold text-muted-foreground truncate">{item.label}</p>
-                <p className="text-[9px] text-muted-foreground truncate mt-0.5">{item.desc}</p>
+                <ExecutiveText as="div" variant="bodyStandard" className="text-muted-foreground">{item.score}%</ExecutiveText>
+                <ExecutiveText as="div" variant="caption" className="text-muted-foreground truncate">{item.label}</ExecutiveText>
+                <ExecutiveText as="div" variant="bodyStandard" className="text-muted-foreground truncate mt-0.5">{item.desc}</ExecutiveText>
               </div>
             </div>
           );
@@ -278,10 +280,10 @@ export function ExecutiveExecutionCenter({ selectedClient, selectedYear }: Execu
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
         {/* Kanban pipeline summary */}
         <div className="lg:col-span-2 bg-white border border-border rounded-3xl p-6 shadow-sm space-y-4">
-          <h3 className="text-sm font-bold text-muted-foreground flex items-center gap-2">
+          <ExecutiveHeading as="h3" className="text-muted-foreground flex items-center gap-2">
             <Sliders size={16} />
             <span>Fiduciary Kanban Pipeline</span>
-          </h3>
+          </ExecutiveHeading>
           <div className="grid grid-cols-1 md:grid-cols-5 gap-3 mt-4">
             {['PROPOSED', 'APPROVED', 'IN_PROGRESS', 'BLOCKED', 'COMPLETED'].map(col => {
               const matches = decisions.filter((d: any) => d.status === col);
@@ -294,12 +296,12 @@ export function ExecutiveExecutionCenter({ selectedClient, selectedYear }: Execu
                   <div className="space-y-1.5 max-h-[250px] overflow-y-auto">
                     {matches.map((dec: any) => (
                       <div key={dec.decisionId} className="bg-white border border-border p-2 rounded-xl text-[10px] shadow-xs space-y-1">
-                        <p className="font-bold text-muted-foreground truncate">{dec.title}</p>
-                        <p className="text-[9px] text-muted-foreground truncate">{dec.owner || 'Sem owner'}</p>
+                        <ExecutiveText as="div" variant="bodyStandard" className="text-muted-foreground truncate">{dec.title}</ExecutiveText>
+                        <ExecutiveText as="div" variant="bodyStandard" className="text-muted-foreground truncate">{dec.owner || 'Sem owner'}</ExecutiveText>
                       </div>
                     ))}
                     {matches.length === 0 && (
-                      <p className="text-[9px] text-muted-foreground text-center py-4 italic">Nenhum</p>
+                      <ExecutiveText as="div" variant="bodyStandard" className="text-muted-foreground text-center py-4 italic">Nenhum</ExecutiveText>
                     )}
                   </div>
                 </div>
@@ -310,11 +312,11 @@ export function ExecutiveExecutionCenter({ selectedClient, selectedYear }: Execu
 
         {/* Friction Category Counts */}
         <div className="bg-white border border-border rounded-3xl p-6 shadow-sm space-y-4">
-          <h3 className="text-sm font-bold text-muted-foreground flex items-center gap-2">
+          <ExecutiveHeading as="h3" className="text-muted-foreground flex items-center gap-2">
             <AlertCircle size={16} />
             <span>Friction Root Causes</span>
-          </h3>
-          <p className="text-xs text-muted-foreground mt-1">Gargalos operacionais detectados que causam atrasos ou bloqueios:</p>
+          </ExecutiveHeading>
+          <ExecutiveText as="div" variant="caption" className="text-muted-foreground mt-1">Gargalos operacionais detectados que causam atrasos ou bloqueios:</ExecutiveText>
           <div className="space-y-2.5 mt-4">
             {Object.keys(frictionCounts).length > 0 ? (
               Object.entries(frictionCounts).map(([friction, count]: [string, any]) => (
@@ -324,7 +326,7 @@ export function ExecutiveExecutionCenter({ selectedClient, selectedYear }: Execu
                 </div>
               ))
             ) : (
-              <p className="text-xs text-muted-foreground italic py-8 text-center">Nenhum atrito registrado no ciclo atual.</p>
+              <ExecutiveText as="div" variant="caption" className="text-muted-foreground italic py-8 text-center">Nenhum atrito registrado no ciclo atual.</ExecutiveText>
             )}
           </div>
         </div>
@@ -332,10 +334,10 @@ export function ExecutiveExecutionCenter({ selectedClient, selectedYear }: Execu
 
       {/* ── REGISTER TABLE ── */}
       <div className="bg-white border border-border rounded-3xl p-6 shadow-sm space-y-4">
-        <h3 className="text-sm font-bold text-muted-foreground flex items-center gap-2">
+        <ExecutiveHeading as="h3" className="text-muted-foreground flex items-center gap-2">
           <FileText size={16} />
           <span>Executive Evidence & Accountability Register</span>
-        </h3>
+        </ExecutiveHeading>
         <div className="overflow-x-auto mt-4">
           <table className="min-w-full divide-y divide-slate-100 text-xs">
             <thead>
@@ -388,38 +390,38 @@ export function ExecutiveExecutionCenter({ selectedClient, selectedYear }: Execu
                     </tr>
                     {isExpanded && (
                       <tr className="bg-slate-50/30">
-                        <td colSpan={8} className="p-4 border-t border-border text-xs">
+                        <td colSpan={8} className="mt-12 p-4 border-t border-border text-xs pt-8 mb-8">
                           <div className="grid grid-cols-1 md:grid-cols-2 gap-6 p-2">
                             <div className="space-y-2">
-                              <p className="font-bold text-muted-foreground">Descrição do Escopo:</p>
-                              <p className="text-muted-foreground leading-relaxed">{dec.description}</p>
-                              <p className="font-bold text-muted-foreground mt-3">Metas esperadas:</p>
-                              <p className="text-muted-foreground italic">"{dec.expectedOutcome || 'Não especificado'}"</p>
+                              <ExecutiveText as="div" variant="bodyStandard" className="text-muted-foreground">Descrição do Escopo:</ExecutiveText>
+                              <ExecutiveText as="div" variant="bodyStandard" className="text-muted-foreground">{dec.description}</ExecutiveText>
+                              <ExecutiveText as="div" variant="bodyStandard" className="text-muted-foreground mt-3">Metas esperadas:</ExecutiveText>
+                              <ExecutiveText as="div" variant="bodyStandard" className="text-muted-foreground italic">"{dec.expectedOutcome || 'Não especificado'}"</ExecutiveText>
                               {dec.actualOutcome && (
                                 <>
-                                  <p className="font-bold text-muted-foreground mt-2">Resultado Realizado:</p>
-                                  <p className="text-muted-foreground italic">"{dec.actualOutcome}"</p>
+                                  <ExecutiveText as="div" variant="bodyStandard" className="text-muted-foreground mt-2">Resultado Realizado:</ExecutiveText>
+                                  <ExecutiveText as="div" variant="bodyStandard" className="text-muted-foreground italic">"{dec.actualOutcome}"</ExecutiveText>
                                 </>
                               )}
                             </div>
                             <div className="space-y-3 bg-white p-4 rounded-2xl border border-border">
-                              <p className="font-bold text-muted-foreground border-b border-border pb-1.5">Evidências Anexadas ({dec.evidence?.length || 0})</p>
+                              <ExecutiveText as="div" variant="bodyStandard" className="text-muted-foreground border-b border-border pb-1.5">Evidências Anexadas ({dec.evidence?.length || 0})</ExecutiveText>
                               {dec.evidence?.length > 0 ? (
                                 dec.evidence.map((ev: any, idx: number) => (
                                   <div key={idx} className="p-2 bg-slate-50 rounded-xl space-y-1">
-                                    <p className="font-bold text-[10px] text-muted-foreground uppercase">{ev.type}</p>
-                                    <p className="text-muted-foreground text-[11px]">{ev.description}</p>
+                                    <ExecutiveText as="div" variant="bodyStandard" className="text-muted-foreground">{ev.type}</ExecutiveText>
+                                    <ExecutiveText as="div" variant="caption" className="text-muted-foreground">{ev.description}</ExecutiveText>
                                   </div>
                                 ))
                               ) : (
-                                <p className="text-muted-foreground italic text-[11px]">Nenhuma evidência fiduciária fornecida.</p>
+                                <ExecutiveText as="div" variant="caption" className="text-muted-foreground italic">Nenhuma evidência fiduciária fornecida.</ExecutiveText>
                               )}
 
                               {dec.abandonmentJustification && (
                                 <div className="p-3 bg-warning-soft border border-amber-100 rounded-xl space-y-1.5 mt-2">
-                                  <p className="font-bold text-amber-900">Justificativa de Cancelamento/Superação:</p>
-                                  <p className="text-amber-800 text-[11px]">"{dec.abandonmentJustification.reason}"</p>
-                                  <p className="text-[10px] text-amber-700">Autoridade de aprovação: <b>{dec.abandonmentJustification.approvingAuthority}</b></p>
+                                  <ExecutiveText as="div" variant="bodyStandard" className="text-amber-900">Justificativa de Cancelamento/Superação:</ExecutiveText>
+                                  <ExecutiveText as="div" variant="caption" className="text-amber-800">"{dec.abandonmentJustification.reason}"</ExecutiveText>
+                                  <ExecutiveText as="div" variant="bodyStandard" className="text-amber-700">Autoridade de aprovação: <b>{dec.abandonmentJustification.approvingAuthority}</b></ExecutiveText>
                                 </div>
                               )}
                             </div>

@@ -1,10 +1,22 @@
+
+
 import React, { useMemo } from 'react';
 import { Database, Activity, Truck, Box, Settings, TrendingUp, AlertCircle, CheckCircle2, Clock, BarChart3, Zap, MessageSquare, Layers, ShieldCheck } from 'lucide-react';
 import { motion } from 'motion/react';
 import { useIndicatorsAdapter } from '../../adapters/ui/useIndicatorsAdapter';
+import { useOperacionalPageViewModel } from '../../viewmodels/useOperacionalPageViewModel';
+import { ExecutiveHeading } from '../ui/executive-heading';
+import { ExecutiveText } from '../ui/executive-typography';
 import { StatusBadge, PageHeader } from '../Common';
+import { ExecutivePageTemplate } from '../ui/executive-page-template';
+import { ExecutiveSurface } from '../ui/executive-surface';
+import { ExecutiveAccordion } from '../ui/executive-accordion';
 import { ExecutiveMetricCard } from '../ui/executive-metric-card';
 import { formatValue, formatCurrency, cn } from '../../lib/utils';
+import { createPortal } from 'react-dom';
+import { ExecutiveSummarySection } from '../ui/executive-summary-section';
+import { ExecutiveStrategicTensions } from '../ui/executive-strategic-tensions';
+import { ExecutiveDecisionTrace } from '../ui/executive-decision-trace';
 
 interface OperacionalPageProps {
   type: 'logistica' | 'producao';
@@ -20,7 +32,12 @@ const getValueSizeClass = (maxLen: number) => {
   return "text-[clamp(1.6rem,2.5vw,2.3rem)]";
 };
 
+
 export function OperacionalPage({ type, clientId }: OperacionalPageProps) {
+  // Adapter: useOperacionalPageAdapter
+  // ViewModel: useOperacionalPageViewModel
+  const { state: vmState, computed: vmComputed, actions: vmActions } = useOperacionalPageViewModel({ clientId });
+  const portal = createPortal;
   const [loading, setLoading] = React.useState(false);
   const [selectedYear, setSelectedYear] = React.useState(new Date().getFullYear());
   const [selectedMonth, setSelectedMonth] = React.useState(new Date().getMonth() + 1);
@@ -73,15 +90,27 @@ export function OperacionalPage({ type, clientId }: OperacionalPageProps) {
   }, [isLogistica, hasData]);
 
   return (
-    <div className="max-w-[1440px] mx-auto space-y-10 pb-32 animate-executive-fade">
-      <PageHeader 
-        title={isLogistica ? 'Eficiência em Logística' : 'Produção & Processos'} 
-        subtitle={isLogistica ? 'Monitoramento estratégico de entregas, fretes e cadeia de suprimentos.' : 'Otimização de processos, produtividade e controle de qualidade.'}
-        icon={isLogistica ? Truck : Activity}
-        color="executive"
-      />
+    <ExecutivePageTemplate header={{
+      title: isLogistica ? 'Eficiência em Logística' : 'Produção & Processos',
+      description: isLogistica ? 'Monitoramento estratégico de entregas, fretes e cadeia de suprimentos.' : 'Otimização de processos, produtividade e controle de qualidade.',
+    }}>
 
-      <div className="flex items-center justify-between gap-4 flex-wrap bg-surface-container/60 p-4 rounded-md border border-border backdrop-blur-sm shadow-sm -mt-6 mb-10">
+      {/* --- CAMADA 1: NÍVEL CONSELHO (SÍNTESE OPERACIONAL) --- */}
+      <ExecutiveSummarySection 
+        className="mb-8"
+        status={{ label: hasData ? 'Operação Monitorada' : 'Aguardando Dados', variant: hasData ? 'success' : 'warning' }}
+        question="Qual a eficiência operacional (OEE/OTIF), nível de qualidade e gargalos de produção/logística?"
+        opinion="O comitê fiduciário homologa os indicadores operacionais, acompanhando o cumprimento das metas de produtividade e nível de serviço."
+        driver="OTIF, giro de estoque, lead time, OEE, produtividade e taxa de refugo."
+        implication="Preservação da margem bruta e satisfação do cliente final com entregas no prazo."
+        action="Implementar planos de manutenção preditiva e otimizar rotas logísticas."
+      >
+        <ExecutiveStrategicTensions tensions={[]} />
+        <ExecutiveDecisionTrace trace={[]} />
+      </ExecutiveSummarySection>
+
+      <div className="flex flex-col md:flex-row md:items-center justify-between gap-6 mb-10">
+
         <div className="flex items-center gap-3">
           <div className="px-4 md:px-6 py-2 md:py-3 bg-card border border-border rounded-md shadow-sm flex items-center gap-4">
             <div className="flex items-center gap-2">
@@ -99,9 +128,8 @@ export function OperacionalPage({ type, clientId }: OperacionalPageProps) {
             <span className="text-[10px] font-medium uppercase tracking-widest text-muted-foreground">Visão de Cadeia de Valor</span>
           </div>
         </div>
+      
       </div>
-
-
 
       <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-2 2xl:grid-cols-4 gap-6">
         {indicators.map((kpi, idx) => (
@@ -115,58 +143,73 @@ export function OperacionalPage({ type, clientId }: OperacionalPageProps) {
         ))}
       </div>
 
-      <div className="grid grid-cols-1 xl:grid-cols-3 gap-8">
-         {/* Chart Placeholder */}
-         {/* Chart Placeholder */}
-         <div className="xl:col-span-2 card-premium p-10 relative overflow-hidden">
-            <div className="flex justify-between items-center mb-10 relative z-10">
-               <h3 className="text-[10px] font-medium text-foreground uppercase tracking-[0.2em] flex items-center gap-3">
-                  <BarChart3 size={20} className="text-secondary" /> Histórico de Eficiência
-               </h3>
-               <div className="flex gap-2">
-                  <button className="px-4 py-2 bg-surface-container text-muted-foreground rounded-sm text-[9px] font-medium uppercase tracking-widest border border-border shadow-sm">Diário</button>
-                  <button className="btn-executive bg-primary shadow-sm">Semanal</button>
-               </div>
-            </div>
-            <div className="h-[300px] bg-surface-container/50 rounded-sm flex items-center justify-center border border-dashed border-border relative z-10 shadow-inner">
-        <p className="text-executive-secondary/40 font-medium uppercase tracking-widest text-[9px] italic">Monitoramento em Tempo Real</p>
-            </div>
-         </div>
-
-         {/* Recommendations */}
-         {/* Recommendations */}
-         <div className="bg-executive p-10 rounded-md text-white shadow-premium relative overflow-hidden group border border-white/5">
-            <div className="absolute right-0 top-0 p-8 text-secondary/5 group-hover:text-secondary/10 transition-colors opacity-10 shadow-inner">
-               <Zap size={120} strokeWidth={1} />
-            </div>
-            <div className="relative z-10 space-y-8 h-full flex flex-col justify-between">
-               <div className="space-y-8">
-                 <h3 className="text-[10px] font-medium text-secondary uppercase tracking-[0.2em] flex items-center gap-3 shadow-sm">
-                    <MessageSquare size={20} /> Insights do Eixo Operacional
-                 </h3>
-                 <div className="space-y-6">
-                    {hasData ? recommendations.map((rec, i) => (
-                      <div key={i} className="flex gap-4 group cursor-default">
-                         <div className="w-8 h-8 rounded-sm bg-white/10 border border-white/10 flex items-center justify-center text-secondary font-medium text-[10px] shrink-0 group-hover:bg-secondary group-hover:text-white transition-all shadow-inner">
-                            {i + 1}
-                         </div>
-                         <p className="text-[11px] font-medium text-white/60 uppercase tracking-widest italic leading-relaxed group-hover:text-white transition-colors">
-                            {rec}
-                         </p>
-                      </div>
-                    )) : (
-                      <p className="text-[11px] font-medium text-white/40 uppercase tracking-widest italic leading-relaxed">
-                         Aguardando inserção de dados operacionais para gerar insights e recomendações de eficiência.
-                      </p>
-                    )}
+      <div className="mt-12 mb-8 border-t border-border pt-8" />
+      <ExecutiveAccordion
+        title={isLogistica ? 'Análise de Logística' : 'Análise Operacional'}
+        subtitle="Histórico de eficiência e insights estratégicos"
+        variant="analytics"
+        defaultExpanded
+      >
+        <div className="grid grid-cols-1 xl:grid-cols-3 gap-8">
+           <div className="xl:col-span-2 card-premium p-10 relative overflow-hidden">
+              <div className="flex justify-between items-center mb-10 relative z-10">
+                 <ExecutiveHeading as="h3" className="text-foreground flex items-center gap-3">
+                    <BarChart3 size={20} className="text-secondary" /> Histórico de Eficiência
+                 </ExecutiveHeading>
+                 <div className="flex gap-2">
+                    <button className="px-4 py-2 bg-surface-container text-muted-foreground rounded-sm text-[9px] font-medium uppercase tracking-widest border border-border shadow-sm">Diário</button>
+                    <button className="btn-executive bg-primary shadow-sm">Semanal</button>
                  </div>
-               </div>
-               <button className="btn-executive w-full bg-white/5 hover:bg-white/10 border border-white/10 uppercase shadow-sm">
-                  Otimizar Processos
-               </button>
-            </div>
-         </div>
-      </div>
-    </div>
+              </div>
+              <div className="h-[300px] bg-surface-container/50 rounded-sm flex items-center justify-center border border-dashed border-border relative z-10 shadow-inner">
+          <ExecutiveText as="div" variant="bodyStandard" className="text-executive-secondary/40 italic">Monitoramento em Tempo Real</ExecutiveText>
+              </div>
+           </div>
+
+           <div className="bg-executive p-10 rounded-md text-white shadow-premium relative overflow-hidden group border border-white/5">
+              <div className="absolute right-0 top-0 p-8 text-secondary/5 group-hover:text-secondary/10 transition-colors opacity-10 shadow-inner">
+                 <Zap size={120} strokeWidth={1} />
+              </div>
+              <div className="relative z-10 space-y-8 h-full flex flex-col justify-between">
+                 <div className="space-y-8">
+                   <ExecutiveHeading as="h3" className="text-secondary flex items-center gap-3 shadow-sm">
+                      <MessageSquare size={20} /> Insights do Eixo Operacional
+                   </ExecutiveHeading>
+                   <div className="space-y-6">
+                      {hasData ? recommendations.map((rec, i) => (
+                        <div key={i} className="flex gap-4 group cursor-default">
+                           <div className="w-8 h-8 rounded-sm bg-white/10 border border-white/10 flex items-center justify-center text-secondary font-medium text-[10px] shrink-0 group-hover:bg-secondary group-hover:text-white transition-all shadow-inner">
+                              {i + 1}
+                           </div>
+                           <p className="text-[11px] font-medium text-white/60 uppercase tracking-widest italic leading-relaxed group-hover:text-white transition-colors">
+                              {rec}
+                           </p>
+                        </div>
+                      )) : (
+                        <p className="text-[11px] font-medium text-white/40 uppercase tracking-widest italic leading-relaxed">
+                           Aguardando inserção de dados operacionais para gerar insights e recomendações de eficiência.
+                        </p>
+                      )}
+                   </div>
+                 </div>
+                 <button className="btn-executive w-full bg-white/5 hover:bg-white/10 border border-white/10 uppercase shadow-sm">
+                    Otimizar Processos
+                 </button>
+              </div>
+           </div>
+        </div>
+       <ExecutiveSummarySection 
+         status={{ label: 'Operações Ativas', variant: 'success' }}
+         question="Como está a eficiência operacional e produtividade do negócio?"
+         opinion="O monitor de processos aponta estabilidade nas linhas de produção e conformidade logística satisfatória."
+         driver="Eficiência operacional, produtividade física e controle de insumos."
+         implication="Melhor aproveitamento de recursos e redução de desperdício na cadeia logística."
+         action="Acompanhar e implementar as recomendações de Lean Manufacturing sugeridas."
+       >
+         <ExecutiveStrategicTensions tensions={[]} />
+         <ExecutiveDecisionTrace trace={[]} />
+       </ExecutiveSummarySection>
+      </ExecutiveAccordion>
+    </ExecutivePageTemplate>
   );
 }

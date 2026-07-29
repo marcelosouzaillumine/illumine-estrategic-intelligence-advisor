@@ -1,7 +1,7 @@
 import { CapitalGovernanceAdapter, LifecycleContextBuilder, LifecycleSemanticAuthority, ExecutiveDecisionSynthesisEngine, HistoricalInsightEngine } from '../../../services/FiduciaryRuntimeAdapter';
-
 import { FirestoreAuthAdapter } from '../../../adapters/persistence/FirestoreAuthAdapter';
 import { FirestoreFinancialAdapter } from '../../../adapters/persistence/FirestoreFinancialAdapter';
+
 
 export class DLPAApplicationService {
   static async deleteDLPAData(clientId: string, year: number): Promise<void> {

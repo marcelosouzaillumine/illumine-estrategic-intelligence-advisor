@@ -22,7 +22,7 @@ export const WorkspaceHubNavigation: React.FC = () => {
               className={`w-full flex items-center justify-between p-3 rounded-xl transition-colors ${isActive ? 'bg-insight text-insight border border-insight' : 'text-muted-foreground hover:bg-surface-container-high hover:text-foreground border border-transparent'}`}
             >
               <div className="flex items-center gap-3">
-                {action.icon}
+                {React.isValidElement(action.icon) ? action.icon : action.icon ? React.createElement(action.icon as any, { size: 18 }) : null}
                 <span className="font-display font-medium text-sm">{action.label}</span>
               </div>
               {isActive && <ArrowRight size={14} className="opacity-50" />}

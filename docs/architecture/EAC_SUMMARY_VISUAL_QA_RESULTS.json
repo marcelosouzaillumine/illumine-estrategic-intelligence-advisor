@@ -1,0 +1,206 @@
+[
+  {
+    "targetType": "HARNESS",
+    "page": "HARNESS",
+    "scenario": "healthy",
+    "viewport": {
+      "width": 1440,
+      "height": 1000
+    },
+    "browser": "chromium",
+    "screenshotPath": "/Users/marcelosouza/Documents/illumine-strategic-intelligence-advisor/docs/architecture/evidence/eac-summary-freeze/screenshots/harness-healthy-1440.png",
+    "horizontalOverflow": false,
+    "overlapDetected": false,
+    "accessibleRegionFound": true,
+    "recommendationOutsideSummaryRegion": true,
+    "visualInspection": "PASS",
+    "observations": []
+  },
+  {
+    "targetType": "HARNESS",
+    "page": "HARNESS",
+    "scenario": "healthy",
+    "viewport": {
+      "width": 1024,
+      "height": 900
+    },
+    "browser": "chromium",
+    "screenshotPath": "/Users/marcelosouza/Documents/illumine-strategic-intelligence-advisor/docs/architecture/evidence/eac-summary-freeze/screenshots/harness-healthy-1024.png",
+    "horizontalOverflow": false,
+    "overlapDetected": false,
+    "accessibleRegionFound": true,
+    "recommendationOutsideSummaryRegion": true,
+    "visualInspection": "PASS",
+    "observations": []
+  },
+  {
+    "targetType": "HARNESS",
+    "page": "HARNESS",
+    "scenario": "healthy",
+    "viewport": {
+      "width": 768,
+      "height": 1024
+    },
+    "browser": "chromium",
+    "screenshotPath": "/Users/marcelosouza/Documents/illumine-strategic-intelligence-advisor/docs/architecture/evidence/eac-summary-freeze/screenshots/harness-healthy-768.png",
+    "horizontalOverflow": false,
+    "overlapDetected": false,
+    "accessibleRegionFound": true,
+    "recommendationOutsideSummaryRegion": true,
+    "visualInspection": "PASS",
+    "observations": []
+  },
+  {
+    "targetType": "HARNESS",
+    "page": "HARNESS",
+    "scenario": "healthy",
+    "viewport": {
+      "width": 390,
+      "height": 844
+    },
+    "browser": "chromium",
+    "screenshotPath": "/Users/marcelosouza/Documents/illumine-strategic-intelligence-advisor/docs/architecture/evidence/eac-summary-freeze/screenshots/harness-healthy-390.png",
+    "horizontalOverflow": false,
+    "overlapDetected": false,
+    "accessibleRegionFound": true,
+    "recommendationOutsideSummaryRegion": true,
+    "visualInspection": "PASS",
+    "observations": []
+  },
+  {
+    "targetType": "HARNESS",
+    "page": "HARNESS",
+    "scenario": "critical",
+    "viewport": {
+      "width": 1440,
+      "height": 1000
+    },
+    "browser": "chromium",
+    "screenshotPath": "/Users/marcelosouza/Documents/illumine-strategic-intelligence-advisor/docs/architecture/evidence/eac-summary-freeze/screenshots/harness-critical-1440.png",
+    "horizontalOverflow": false,
+    "overlapDetected": false,
+    "accessibleRegionFound": true,
+    "recommendationOutsideSummaryRegion": true,
+    "visualInspection": "PASS",
+    "observations": []
+  },
+  {
+    "targetType": "HARNESS",
+    "page": "HARNESS",
+    "scenario": "critical",
+    "viewport": {
+      "width": 1024,
+      "height": 900
+    },
+    "browser": "chromium",
+    "screenshotPath": "/Users/marcelosouza/Documents/illumine-strategic-intelligence-advisor/docs/architecture/evidence/eac-summary-freeze/screenshots/harness-critical-1024.png",
+    "horizontalOverflow": false,
+    "overlapDetected": false,
+    "accessibleRegionFound": true,
+    "recommendationOutsideSummaryRegion": true,
+    "visualInspection": "PASS",
+    "observations": []
+  },
+  {
+    "targetType": "HARNESS",
+    "page": "HARNESS",
+    "scenario": "critical",
+    "viewport": {
+      "width": 768,
+      "height": 1024
+    },
+    "browser": "chromium",
+    "screenshotPath": "/Users/marcelosouza/Documents/illumine-strategic-intelligence-advisor/docs/architecture/evidence/eac-summary-freeze/screenshots/harness-critical-768.png",
+    "horizontalOverflow": false,
+    "overlapDetected": false,
+    "accessibleRegionFound": true,
+    "recommendationOutsideSummaryRegion": true,
+    "visualInspection": "PASS",
+    "observations": []
+  },
+  {
+    "targetType": "HARNESS",
+    "page": "HARNESS",
+    "scenario": "critical",
+    "viewport": {
+      "width": 390,
+      "height": 844
+    },
+    "browser": "chromium",
+    "screenshotPath": "/Users/marcelosouza/Documents/illumine-strategic-intelligence-advisor/docs/architecture/evidence/eac-summary-freeze/screenshots/harness-critical-390.png",
+    "horizontalOverflow": false,
+    "overlapDetected": false,
+    "accessibleRegionFound": true,
+    "recommendationOutsideSummaryRegion": true,
+    "visualInspection": "PASS",
+    "observations": []
+  },
+  {
+    "targetType": "HARNESS",
+    "page": "HARNESS",
+    "scenario": "long-text",
+    "viewport": {
+      "width": 1440,
+      "height": 1000
+    },
+    "browser": "chromium",
+    "screenshotPath": "/Users/marcelosouza/Documents/illumine-strategic-intelligence-advisor/docs/architecture/evidence/eac-summary-freeze/screenshots/harness-long-text-1440.png",
+    "horizontalOverflow": false,
+    "overlapDetected": false,
+    "accessibleRegionFound": true,
+    "recommendationOutsideSummaryRegion": true,
+    "visualInspection": "PASS",
+    "observations": []
+  },
+  {
+    "targetType": "HARNESS",
+    "page": "HARNESS",
+    "scenario": "long-text",
+    "viewport": {
+      "width": 1024,
+      "height": 900
+    },
+    "browser": "chromium",
+    "screenshotPath": "/Users/marcelosouza/Documents/illumine-strategic-intelligence-advisor/docs/architecture/evidence/eac-summary-freeze/screenshots/harness-long-text-1024.png",
+    "horizontalOverflow": false,
+    "overlapDetected": false,
+    "accessibleRegionFound": true,
+    "recommendationOutsideSummaryRegion": true,
+    "visualInspection": "PASS",
+    "observations": []
+  },
+  {
+    "targetType": "HARNESS",
+    "page": "HARNESS",
+    "scenario": "long-text",
+    "viewport": {
+      "width": 768,
+      "height": 1024
+    },
+    "browser": "chromium",
+    "screenshotPath": "/Users/marcelosouza/Documents/illumine-strategic-intelligence-advisor/docs/architecture/evidence/eac-summary-freeze/screenshots/harness-long-text-768.png",
+    "horizontalOverflow": false,
+    "overlapDetected": false,
+    "accessibleRegionFound": true,
+    "recommendationOutsideSummaryRegion": true,
+    "visualInspection": "PASS",
+    "observations": []
+  },
+  {
+    "targetType": "HARNESS",
+    "page": "HARNESS",
+    "scenario": "long-text",
+    "viewport": {
+      "width": 390,
+      "height": 844
+    },
+    "browser": "chromium",
+    "screenshotPath": "/Users/marcelosouza/Documents/illumine-strategic-intelligence-advisor/docs/architecture/evidence/eac-summary-freeze/screenshots/harness-long-text-390.png",
+    "horizontalOverflow": false,
+    "overlapDetected": false,
+    "accessibleRegionFound": true,
+    "recommendationOutsideSummaryRegion": true,
+    "visualInspection": "PASS",
+    "observations": []
+  }
+]

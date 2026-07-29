@@ -1,0 +1,61 @@
+{
+  "version": "1.0.0",
+  "updatedAt": "2026-07-29T11:15:00.000Z",
+  "approvedBy": "Arquiteto-Chefe",
+  "kpis": [
+    {
+      "metric": "Receita Bruta",
+      "engine": "DREEngine",
+      "canonicalSource": "DRECanonicalDataset.receitaBruta",
+      "consumers": ["DREPage.tsx", "DreGerencialPage.tsx", "ValuationPage.tsx", "MarketingComercialPage.tsx"]
+    },
+    {
+      "metric": "EBITDA",
+      "engine": "DREEngine",
+      "canonicalSource": "DRECanonicalDataset.ebitda",
+      "consumers": ["DREPage.tsx", "DreGerencialPage.tsx", "ValuationPage.tsx", "ViabilityPage.tsx"]
+    },
+    {
+      "metric": "Margem EBITDA",
+      "engine": "DREEngine",
+      "canonicalSource": "DRECanonicalDataset.ebitdaMargin",
+      "consumers": ["DREPage.tsx", "DreGerencialPage.tsx", "ValuationPage.tsx", "ExecutiveDashboard.tsx"]
+    },
+    {
+      "metric": "Lucro Líquido",
+      "engine": "DREEngine",
+      "canonicalSource": "DRECanonicalDataset.lucroLiquido",
+      "consumers": ["DREPage.tsx", "DFCPage.tsx", "BalanceSheetPage.tsx"]
+    },
+    {
+      "metric": "Ativo Total",
+      "engine": "BalanceSheetEngine",
+      "canonicalSource": "BalanceSheetCanonicalDataset.ativoTotal",
+      "consumers": ["BalanceSheetPage.tsx", "FinancialPositionPage.tsx"]
+    },
+    {
+      "metric": "Patrimônio Líquido",
+      "engine": "BalanceSheetEngine",
+      "canonicalSource": "BalanceSheetCanonicalDataset.patrimonioLiquido",
+      "consumers": ["BalanceSheetPage.tsx", "FinancialPositionPage.tsx", "ValuationPage.tsx"]
+    },
+    {
+      "metric": "Fluxo de Caixa Operacional (FCO)",
+      "engine": "DFCIndirectMethodEngine",
+      "canonicalSource": "DFCCanonicalDataset.fco",
+      "consumers": ["DFCPage.tsx", "CashFlowPage.tsx"]
+    },
+    {
+      "metric": "Enterprise Value (EV)",
+      "engine": "ValuationEngine",
+      "canonicalSource": "ValuationCanonicalDataset.enterpriseValue",
+      "consumers": ["ValuationPage.tsx", "ExecutiveDashboard.tsx"]
+    },
+    {
+      "metric": "VPL (Valor Presente Líquido)",
+      "engine": "ViabilityEngine",
+      "canonicalSource": "ViabilityCanonicalDataset.vpl",
+      "consumers": ["ViabilityPage.tsx"]
+    }
+  ]
+}

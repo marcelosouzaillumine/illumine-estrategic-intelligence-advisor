@@ -1,0 +1,28 @@
+{
+  "candidates": [
+    {
+      "page": "src/components/pages/DLPAPage.tsx",
+      "profile": "Executive Analytical Page",
+      "currentSummaryComponent": "DLPAExecutiveSynthesisSection (or similar local inline)",
+      "coupling": "Low",
+      "recommendation": "PRIMARY_PILOT",
+      "reasoning": "DLPAPage é altamente representativa do modelo analítico, mas possui densidade menor e acoplamento mais baixo que a DRE e DFC. A síntese é direta e permite validar o orquestrador isoladamente sem quebrar integrações profundas."
+    },
+    {
+      "page": "src/components/pages/DREPage.tsx",
+      "profile": "Executive Analytical Page",
+      "currentSummaryComponent": "DreGerencialPage / DREExecutiveSummary (or similar)",
+      "coupling": "Medium",
+      "recommendation": "SECONDARY_PILOT",
+      "reasoning": "A DRE é a página analítica mais importante após a BP. É o candidato natural para a Onda 2 após homologação na DLPA."
+    },
+    {
+      "page": "src/components/pages/DFCPage.tsx",
+      "profile": "Executive Analytical Page",
+      "currentSummaryComponent": "DFCExecutiveSynthesisSection (or similar)",
+      "coupling": "Medium",
+      "recommendation": "SECONDARY_PILOT",
+      "reasoning": "Mesmo grau de complexidade que a DRE."
+    }
+  ]
+}

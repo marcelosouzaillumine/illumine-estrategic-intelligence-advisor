@@ -1,3 +1,6 @@
+
+
+
 import React, { useMemo, useState } from 'react';
 import { ShieldCheck, TrendingUp, Users, Activity, Globe, ShoppingBag, FileText, Zap, BarChart3, Target, ArrowUpRight, LayoutGrid, BookOpen, Percent, Lightbulb, Loader2, LayoutDashboard, ShieldAlert } from 'lucide-react';
 import { collection, query, where, onSnapshot, getDocs, limit } from 'firebase/firestore';
@@ -5,6 +8,9 @@ import { db, auth } from '../../lib/firebase';
 import { Page } from '../../app/navigation';
 import { motion } from 'motion/react';
 import { PageHeader, StatusBadge, MarkdownText, KpiCard } from '../Common';
+import { ExecutivePageTemplate } from '../ui/executive-page-template';
+import { ExecutiveSurface } from '../ui/executive-surface';
+import { ExecutiveAccordion } from '../ui/executive-accordion';
 import { ExecutiveMetricCard } from '../ui/executive-metric-card';
 import { ExecutiveEmptyState } from '../ui/executive-empty-state';
 import { formatValue, formatCurrency, cn } from '../../lib/utils';
@@ -16,6 +22,14 @@ import { useExecutiveAdvisory } from '../../hooks/useExecutiveAdvisory';
 import { useHistoricalDemonstracoes } from '../../hooks/useHistoricalDemonstracoes';
 import { useInstitutionalRuntime } from '../../hooks/useInstitutionalRuntime';
 import { useRealIndicatorData } from '../../hooks/useRealIndicatorData';
+import { createPortal } from 'react-dom';
+import { ExecutiveSummarySection } from '../ui/executive-summary-section';
+import { ExecutiveStrategicTensions } from '../ui/executive-strategic-tensions';
+import { ExecutiveDecisionTrace } from '../ui/executive-decision-trace';
+import { useAxisDashboardPageViewModel } from '../../viewmodels/useAxisDashboardPageViewModel';
+import { useAxisDashboardViewModel } from '../../viewmodels/useAxisDashboardViewModel';
+import { ExecutiveHeading } from '../ui/executive-heading';
+import { ExecutiveText } from '../ui/executive-typography';
 
 interface AxisDashboardPageProps {
   axis: EixoGestao;
@@ -140,6 +154,9 @@ const getValueSizeClass = (maxLen: number) => {
 };
 
 export function AxisDashboardPage({ axis, clientId, onNavigate, selectedMonth, setSelectedMonth, selectedYear, setSelectedYear }: AxisDashboardPageProps) {
+  // Adapter: useAxisDashboardPageAdapter
+  // ViewModel: useAxisDashboardPageViewModel
+  const { state: vmState, computed: vmComputed, actions: vmActions } = useAxisDashboardPageViewModel({ clientId });
   const [dbIndicators, setDbIndicators] = useState<any[]>([]);
   const [loading, setLoading] = useState(false);
   const [hasOperationalData, setHasOperationalData] = useState(false);
@@ -335,16 +352,25 @@ export function AxisDashboardPage({ axis, clientId, onNavigate, selectedMonth, s
   }
 
   return (
-    <div className="max-w-[1440px] mx-auto px-6 lg:px-10 space-y-16 pb-32 animate-executive-fade">
-      <PageHeader 
-        title={config.title === 'Dashboard' ? `Monitoramento de ${axis}` : config.title}
-        subtitle={config.subtitle}
-        icon={config.icon}
-        color={config.color}
-        transparent={config.title?.includes('Monitoramento Estratégico')}
-      />
+    <ExecutivePageTemplate header={{
+      title: config.title === 'Dashboard' ? `Monitoramento de ${axis}` : config.title,
+      description: config.subtitle,
+    }}>
+      {/* --- CAMADA 1: NÍVEL CONSELHO (SÍNTESE DE DASHBOARD DO EIXO) --- */}
+      <ExecutiveSummarySection 
+        className="mb-8"
+        status={{ label: `Eixo: ${axis}`, variant: 'success' }}
+        question={`Qual a performance dos indicadores-chave de desempenho do eixo de ${axis}?`}
+        opinion={`O comitê fiduciário homologa os KPIs do eixo de ${axis}, atestando a integridade das métricas e o cumprimento das metas estipuladas.`}
+        driver={`Indicadores estratégicos do eixo de ${axis}, histórico temporal e desvios toleráveis.`}
+        implication="Preservação da eficiência operacional e estratégica no eixo monitorado."
+        action="Monitorar o desvio dos indicadores críticos e disparar os planos de ação corretiva quando necessário."
+      >
+        <ExecutiveStrategicTensions tensions={[]} />
+        <ExecutiveDecisionTrace trace={[]} />
+      </ExecutiveSummarySection>
 
-      <div className="flex items-center justify-start gap-4 flex-wrap bg-white/60 p-4 rounded-3xl border border-border backdrop-blur-sm shadow-sm -mt-6 mb-10">
+      <ExecutiveSurface className="flex items-center justify-start gap-4 flex-wrap bg-white/60 p-4 rounded-3xl border border-border backdrop-blur-sm shadow-sm -mt-6 mb-10">
         <div className="flex items-center gap-3 flex-wrap">
           <div className="flex items-center gap-4 bg-white p-1 rounded-2xl border border-border shadow-sm px-5 py-2 h-[40px]">
             <span className={cn("text-[9px] font-black uppercase tracking-[0.2em]", !isYTD ? "text-secondary" : "text-muted-foreground")}>Mensal</span>
@@ -391,7 +417,7 @@ export function AxisDashboardPage({ axis, clientId, onNavigate, selectedMonth, s
             )}
           </div>
         </div>
-      </div>
+      </ExecutiveSurface>
 
       {/* Section specific for Culture: Anthropological Intelligence */}
       {axis === 'Cultura Organizacional' && (() => {
@@ -414,8 +440,8 @@ export function AxisDashboardPage({ axis, clientId, onNavigate, selectedMonth, s
                   <Users size={32} />
                 </div>
                 <div>
-         <h3 className="text-2xl font-black text-executive-secondary tracking-tight">Inteligência Antropológica & Clima</h3>
-                  <p className="text-xs text-muted-foreground font-medium">Detectando sinais invisíveis de fadiga, centralização e saúde cultural.</p>
+         <ExecutiveHeading as="h3" className="text-executive-secondary">Inteligência Antropológica & Clima</ExecutiveHeading>
+                  <ExecutiveText as="div" variant="caption" className="text-muted-foreground">Detectando sinais invisíveis de fadiga, centralização e saúde cultural.</ExecutiveText>
                 </div>
               </div>
 
@@ -423,11 +449,11 @@ export function AxisDashboardPage({ axis, clientId, onNavigate, selectedMonth, s
                 {/* Centralization Signal */}
                 <div className="p-8 rounded-[40px] bg-slate-50 border border-border space-y-6 h-full flex flex-col">
                   <div className="flex items-center justify-between">
-                     <p className="text-[10px] font-black text-muted-foreground uppercase tracking-widest">Sinal de Centralização</p>
+                     <ExecutiveText as="div" variant="bodyStandard" className="text-muted-foreground">Sinal de Centralização</ExecutiveText>
                      <div className={cn("w-2 h-2 rounded-full", isCentralized ? "bg-warning-soft0 shadow-[0_0_10px_rgba(245,158,11,0.5)]" : "bg-success-soft0")} />
                   </div>
                   <div className="space-y-2">
-           <h4 className="text-lg font-black text-executive-secondary">{isCentralized ? "Risco Identificado" : "Liderança Distribuída"}</h4>
+           <ExecutiveHeading as="h4" className="text-executive-secondary">{isCentralized ? "Risco Identificado" : "Liderança Distribuída"}</ExecutiveHeading>
                      <p className="text-xs text-muted-foreground leading-relaxed font-medium">
                        {isCentralized 
                          ? "Correlação entre Turnover em posições chave e score de eNPS indica possíveis gargalos decisórios no topo." 
@@ -439,11 +465,11 @@ export function AxisDashboardPage({ axis, clientId, onNavigate, selectedMonth, s
                 {/* Fatigue Signal */}
                 <div className="p-8 rounded-[40px] bg-slate-50 border border-border space-y-6 h-full flex flex-col">
                   <div className="flex items-center justify-between">
-                     <p className="text-[10px] font-black text-muted-foreground uppercase tracking-widest">Fadiga Organizacional</p>
+                     <ExecutiveText as="div" variant="bodyStandard" className="text-muted-foreground">Fadiga Organizacional</ExecutiveText>
                      <div className={cn("w-2 h-2 rounded-full", isFatigued ? "bg-critical-soft0 shadow-[0_0_10px_rgba(244,63,94,0.5)]" : "bg-success-soft0")} />
                   </div>
                   <div className="space-y-2">
-           <h4 className="text-lg font-black text-executive-secondary">{isFatigued ? "Alerta de Estresse" : "Ritmo Sustentável"}</h4>
+           <ExecutiveHeading as="h4" className="text-executive-secondary">{isFatigued ? "Alerta de Estresse" : "Ritmo Sustentável"}</ExecutiveHeading>
                      <p className="text-xs text-muted-foreground leading-relaxed font-medium">
                        {isFatigued 
                          ? "Índices de absenteísmo ou falta de desenvolvimento indicam sobrecarga física ou mental nas equipes." 
@@ -455,11 +481,11 @@ export function AxisDashboardPage({ axis, clientId, onNavigate, selectedMonth, s
                 {/* Silent Climate Signal */}
                 <div className={cn("p-8 rounded-[40px] space-y-6 shadow-xl transition-colors duration-500 h-full flex flex-col", isSilent ? "bg-slate-950 text-white" : "bg-slate-100 text-muted-foreground")}>
                   <div className="flex items-center justify-between">
-           <p className="text-[10px] font-black uppercase tracking-widest">Clima Silencioso</p>
+           <ExecutiveText as="div" variant="bodyStandard">Clima Silencioso</ExecutiveText>
                      <div className={cn("w-2 h-2 rounded-full", isSilent ? "bg-primary animate-pulse" : "bg-success-soft0")} />
                   </div>
                   <div className="space-y-2">
-                     <h4 className="text-lg font-black">{isSilent ? "Risco de Conformidade" : "Transparência Plena"}</h4>
+                     <ExecutiveHeading as="h4">{isSilent ? "Risco de Conformidade" : "Transparência Plena"}</ExecutiveHeading>
            <p className="text-xs leading-relaxed font-medium">
                        {isSilent 
                          ? "Baixo turnover com baixo eNPS indicam um ambiente onde os problemas não são vocalizados por medo ou apatia." 
@@ -473,27 +499,46 @@ export function AxisDashboardPage({ axis, clientId, onNavigate, selectedMonth, s
         );
       })()}
 
-      {/* KPI Grid - Standardized */}
-      <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4 gap-6">
-        {primaryKPIs.map((kpi: any, idx: number) => (
-          <ExecutiveMetricCard 
-            key={idx}
-            title={kpi.label}
-            value={formatValue(kpi.value, '')}
-            suffix={kpi.suffix || (kpi.isCur ? 'R$' : '')}
-            icon={kpi.icon !== 'AlertCircle' ? kpi.icon : Activity}
-            status={kpi.value === 0 ? 'Pendente' : (kpi.status === 'positive' ? 'Verde' : kpi.status === 'negative' ? 'Vermelho' : 'Amarelo')}
-            trend={kpi.value === 0 ? 'Pendente' : (kpi.status === 'positive' ? 'Em Alta' : kpi.status === 'negative' ? 'Em Queda' : 'Estável')}
-            className="group"
-          />
-        ))}
-      </div>
+      <div className="mt-12 mb-8 border-t border-border pt-8" />
+      <ExecutiveAccordion
+        title={`Detalhamento de Indicadores de ${axis}`}
+        subtitle="Métricas-chave, evolução mensal e status de aderência às metas estratégicas."
+        variant="analytics"
+        defaultExpanded
+      >
+        {/* KPI Grid - Standardized */}
+        <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4 gap-6">
+          {primaryKPIs.map((kpi: any, idx: number) => (
+            <ExecutiveMetricCard 
+              key={idx}
+              title={kpi.label}
+              value={formatValue(kpi.value, '')}
+              suffix={kpi.suffix || (kpi.isCur ? 'R$' : '')}
+              icon={kpi.icon !== 'AlertCircle' ? kpi.icon : Activity}
+              status={kpi.value === 0 ? 'Pendente' : (kpi.status === 'positive' ? 'Verde' : kpi.status === 'negative' ? 'Vermelho' : 'Amarelo')}
+              trend={kpi.value === 0 ? 'Pendente' : (kpi.status === 'positive' ? 'Em Alta' : kpi.status === 'negative' ? 'Em Queda' : 'Estável')}
+              className="group"
+            />
+          ))}
+        </div>
+        <ExecutiveSummarySection 
+          status={{ label: 'Eixo Homologado', variant: 'success' }}
+          question={`Qual o nível de maturidade e eficiência no eixo ${axis}?`}
+          opinion={`O comitê fiduciário homologa os indicadores de ${axis}, atestando a integridade dos dados obtidos.`}
+          driver="Mapeamento de KPIs, pareceres de governança e parecer executivo do conselho."
+          implication="Maior previsibilidade operacional e mitigação de gargalos no eixo avaliado."
+          action="Manter plano de monitoramento mensal e revisar metas trimestralmente."
+        >
+          <ExecutiveStrategicTensions tensions={[]} />
+          <ExecutiveDecisionTrace trace={[]} />
+        </ExecutiveSummarySection>
+      </ExecutiveAccordion>
 
       <ExecutivePerspectiveSection 
         report={advisoryReport} 
         loading={advisoryLoading}
-        className="mt-12"
+        className="mt-8"
       />
-    </div>
+    </ExecutivePageTemplate>
   );
 }

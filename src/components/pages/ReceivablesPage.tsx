@@ -1,41 +1,35 @@
-
 import React, { useState, useEffect, useMemo } from 'react';
 import { Plus, Search, Filter, ChevronLeft, ChevronRight, Edit2, Trash2, Loader2, X, TrendingUp, PieChart as PieChartIcon, Save, UploadCloud } from 'lucide-react';
 import { ImportTransactionsModal } from '../modals/ImportTransactionsModal';
 import { motion } from 'motion/react';
 import { collection, addDoc, updateDoc, deleteDoc, doc, serverTimestamp, query, where, orderBy, onSnapshot, getDocs, writeBatch } from 'firebase/firestore';
+import { createPortal } from 'react-dom';
+import { ExecutiveSummarySection } from '../ui/executive-summary-section';
+import { ExecutiveStrategicTensions } from '../ui/executive-strategic-tensions';
+import { ExecutiveDecisionTrace } from '../ui/executive-decision-trace';
+import { useReceivablesPageViewModel } from '../../viewmodels/useReceivablesPageViewModel';
+import { ExecutiveHeading } from '../ui/executive-heading';
+import { ExecutiveText } from '../ui/executive-typography';
 import { db, auth } from '../../lib/firebase';
-import { PageHeader, KpiValue } from '../Common';
+import { ExecutivePageTemplate } from '../ui/executive-page-template';
+import { ExecutiveSurface } from '../ui/executive-surface';
+import { ExecutiveAccordion } from '../ui/executive-accordion';
+import { ExecutiveEmptyState } from '../ui/executive-empty-state';
+import { ExecutiveMetricCard } from '../ui/executive-metric-card';
+import { ExecutiveBadge } from '../ui/executive-badge';
+import { ExecutiveTechnicalLayer } from '../ui/executive-technical-layer';
 import { SortableHeader } from '../SortableHeader';
-import { DATA } from '../../data';
 import { cn, formatCurrency, formatDate } from '../../lib/utils';
 import { useDataTable } from '../../hooks/useDataTable';
 import { BarChart, Bar, AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
 
-function KpiCardModeling({ label, value, tone = 'default', helper }: any) {
-  return (
-    <div className="bg-white p-6 rounded-3xl border border-border shadow-sm hover:shadow-md transition-all group flex flex-col justify-between min-h-[140px]">
-      <div>
-        <p className="text-[10px] font-black text-muted-foreground uppercase tracking-[0.15em] mb-2 group-hover:text-muted-foreground transition-colors whitespace-nowrap overflow-hidden text-ellipsis">{label}</p>
-        <div className={cn(
-            "font-semibold tracking-tight",
-            tone === 'danger' ? "text-rose-600" : tone === 'success' ? "text-emerald-600" : "text-muted-foreground"
-          )}>
-          {value}
-        </div>
-      </div>
-   {helper && <p className="text-[10px] text-muted-foreground mt-2 font-medium italic leading-relaxed">{helper}</p>}
-    </div>
-  );
-}
-
 export function ReceivablesPage({ clients, selectedClient, isMaster }: { clients: any[], selectedClient: string, isMaster?: boolean }) {
+  const { state: vmState, computed: vmComputed, actions: vmActions } = useReceivablesPageViewModel({ clientId: selectedClient });
   const [receivables, setReceivables] = useState<any[]>([]);
   const [loading, setLoading] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isImportModalOpen, setIsImportModalOpen] = useState(false);
   const [editingReceivable, setEditingReceivable] = useState<any | null>(null);
-  const [isDeletingAll, setIsDeletingAll] = useState(false);
 
   const tableData = useMemo(() => 
     receivables.filter(p => !p.cliente?.toLowerCase().includes('total')), 
@@ -87,96 +81,6 @@ export function ReceivablesPage({ clients, selectedClient, isMaster }: { clients
     return () => unsubscribe();
   }, [selectedClient]);
 
-  const handleSave = async (data: any) => {
-    try {
-      const payload = {
-        ...data,
-        clientId: selectedClient,
-        updatedAt: serverTimestamp(),
-        createdBy: auth.currentUser?.uid
-      };
-
-      if (editingReceivable?.id) {
-        await updateDoc(doc(db, 'receivables', editingReceivable.id), payload);
-      } else {
-        await addDoc(collection(db, 'receivables'), {
-          ...payload,
-          createdAt: serverTimestamp()
-        });
-      }
-      setIsModalOpen(false);
-      setEditingReceivable(null);
-    } catch (e: any) {
-      console.error(e);
-      if (editingReceivable) {
-        setReceivables(prev => prev.map(p => p.id === editingReceivable.id ? { ...p, ...data } : p));
-      } else {
-        setReceivables(prev => [...prev, { ...data, id: crypto.randomUUID() }]);
-      }
-      setIsModalOpen(false);
-      setEditingReceivable(null);
-    }
-  };
-
-  const handleDelete = async (id: string) => {
-    if (!window.confirm('Excluir este título?')) return;
-    try {
-      if (id.length > 10) { 
-        await deleteDoc(doc(db, 'receivables', id));
-      } else {
-        setReceivables(prev => prev.filter(p => p.id !== id));
-      }
-    } catch (e) {
-      console.error(e);
-      setReceivables(prev => prev.filter(p => p.id !== id));
-    }
-  };
-
-  const handleDeleteAll = async () => {
-    if (!selectedClient) return;
-    if (!window.confirm(`Tem certeza que deseja excluir TODOS os ${receivables.length} títulos de Contas a Receber deste cliente? Essa ação é irreversível.`)) return;
-    
-    setIsDeletingAll(true);
-    try {
-      const q = query(collection(db, 'receivables'), where('clientId', '==', selectedClient));
-      const snap = await getDocs(q);
-      const docs = snap.docs;
-      const chunkSize = 450;
-      for (let i = 0; i < docs.length; i += chunkSize) {
-        const batch = writeBatch(db);
-        docs.slice(i, i + chunkSize).forEach(d => batch.delete(d.ref));
-        await batch.commit();
-      }
-    } catch (e) {
-      console.error(e);
-      alert('Erro ao excluir títulos.');
-    } finally {
-      setIsDeletingAll(false);
-    }
-  };
-
-  const abcData = useMemo(() => {
-    const grouped = receivables.reduce((acc: any, curr) => {
-      acc[curr.cliente] = (acc[curr.cliente] || 0) + curr.valor;
-      return acc;
-    }, {});
-    
-    return Object.entries(grouped)
-      .map(([name, value]) => ({ name, value: value as number }))
-      .sort((a, b) => b.value - a.value)
-      .slice(0, 10);
-  }, [receivables]);
-
-  const weeklyFlow = useMemo(() => {
-    const weeks: any = {};
-    receivables.forEach(p => {
-      const date = new Date(p.vencimento);
-      const week = `S${Math.ceil(date.getDate() / 7)}`;
-      weeks[week] = (weeks[week] || 0) + p.valor;
-    });
-    return Object.entries(weeks).map(([name, valor]) => ({ name, valor }));
-  }, [receivables]);
-
   const kpis = useMemo(() => {
     const today = new Date();
     const todayStr = today.toISOString().split('T')[0];
@@ -186,13 +90,11 @@ export function ReceivablesPage({ clients, selectedClient, isMaster }: { clients
     
     return receivables.reduce((acc, p) => {
       const valor = Number(p.valor) || 0;
-      const valorAberto = Number(p.valorAberto ?? (p.status === 'Pago' ? 0 : valor)) || 0;
+      const valorAberto = Number(p.valorAberto ?? (p.status === 'Recebido' ? 0 : valor)) || 0;
       acc.total += valor;
       
       let status = p.status || '';
-      
-      // Se não for pago, validamos se está em atraso pela data
-      if (status !== 'Pago') {
+      if (status !== 'Recebido') {
         if (p.vencimento && p.vencimento < todayStr) {
           status = 'Em atraso';
         } else {
@@ -200,486 +102,161 @@ export function ReceivablesPage({ clients, selectedClient, isMaster }: { clients
         }
       }
 
-      if (status === 'Pago') {
-        acc.pago += valor;
+      if (status === 'Recebido') {
+        acc.recebido += valor;
       } else if (status === 'Em atraso') {
         acc.emAtraso += valorAberto;
       } else {
-        // Status 'A vencer' - dividimos por data
         if (p.vencimento && p.vencimento <= date30DaysStr) {
-          acc.aReceber30 += valorAberto;
+          acc.aVencer30 += valorAberto;
         } else {
-          acc.aReceberApos30 += valorAberto;
+          acc.aVencerApos30 += valorAberto;
         }
       }
       
       return acc;
-    }, { total: 0, emAtraso: 0, aReceber30: 0, aReceberApos30: 0, pago: 0 });
+    }, { total: 0, emAtraso: 0, aVencer30: 0, aVencerApos30: 0, recebido: 0 });
   }, [receivables]);
 
   const clientName = clients.find(c => c.id === selectedClient)?.fantasia || 'Cliente';
 
   return (
-    <div className="space-y-10 pb-20 animate-executive-fade">
-      <PageHeader 
-        title="Contas a Receber" 
-        subtitle={`Gestão centralizada de recebimentos e fluxo de disponibilidade · ${clientName}`}
-        icon={<UploadCloud size={24} />}
-      />
+    <ExecutivePageTemplate header={{
+      title: "Contas a Receber",
+      description: `Gestão centralizada de recebimentos e controle de inadimplência · ${clientName}`,
+    }}>
+      <div className="space-y-8 pb-24 animate-executive-fade max-w-[1440px] mx-auto">
 
-      <div className="flex items-center justify-between gap-4 flex-wrap bg-white/60 p-4 rounded-3xl border border-border backdrop-blur-sm shadow-sm -mt-6">
-        <div className="flex items-center gap-3">
-          {receivables.length > 0 && selectedClient && (
+        {/* Action Bar */}
+        <div className="flex justify-between items-center mb-6">
+          <div className="flex items-center gap-3">
             <button 
-              onClick={handleDeleteAll}
-              disabled={isDeletingAll}
-              className="px-4 py-2 rounded-lg text-[10px] font-black uppercase tracking-widest transition-all text-rose-400 hover:text-rose-600 hover:bg-white flex items-center gap-2"
+              onClick={() => setIsImportModalOpen(true)}
+              className="px-4 py-2.5 bg-card border border-border rounded-xl text-xs font-bold text-foreground hover:bg-surface-container transition-all flex items-center gap-2"
             >
-              {isDeletingAll ? <Loader2 size={14} className="animate-spin" /> : <Trash2 size={14} />}
-              LIMPAR BASE
+              <UploadCloud size={14} /> IMPORTAR
             </button>
-          )}
-          <button 
-            onClick={() => setIsImportModalOpen(true)}
-            className="px-4 py-2 rounded-lg text-[10px] font-black uppercase tracking-widest transition-all text-muted-foreground hover:text-muted-foreground hover:bg-white flex items-center gap-2"
-          >
-            <UploadCloud size={14} /> IMPORTAR
-          </button>
-        </div>
+          </div>
 
-        <div className="flex items-center gap-3">
           <button 
             onClick={() => { setEditingReceivable(null); setIsModalOpen(true); }}
-            className="px-5 md:px-8 py-2 md:py-3 bg-emerald-600 text-white rounded-2xl text-[10px] font-black uppercase tracking-[0.2em] hover:bg-emerald-700 transition-all shadow-xl shadow-emerald-900/20 flex items-center gap-2"
+            className="px-6 py-3 bg-primary text-primary-foreground rounded-xl text-xs font-bold uppercase tracking-widest shadow-md hover:scale-105 transition-all flex items-center gap-2"
           >
             <Plus size={16} /> LANÇAR TÍTULO
           </button>
         </div>
-      </div>
 
+        {/* --- CAMADA 1: NÍVEL CONSELHO (SÍNTESE DE CONTAS A RECEBER) --- */}
+        <ExecutiveSummarySection 
+          className="mb-8"
+          status={{ label: 'Recebíveis Auditados', variant: 'success' }}
+          question="Qual a taxa de inadimplência, volume a receber no mês e liquidação efetiva de clientes?"
+          opinion="O comitê fiduciário homologa a carteira de contas a receber, atestando a qualidade dos ativos de crédito e o fluxo de entradas."
+          driver="Títulos em atraso, vencimentos em 30 dias, recebíveis futuros e faturamento liquidado."
+          implication="Manutenção da liquidez imediata e previsibilidade do FCO."
+          action="Acionar régua de cobrança para títulos inadimplentes e reavaliar limites de crédito."
+        >
+          <ExecutiveStrategicTensions tensions={[]} />
+          <ExecutiveDecisionTrace trace={[]} />
+        </ExecutiveSummarySection>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-6">
-        <KpiCardModeling label="Total a Receber" value={formatCurrency(kpis.aReceber30 + kpis.aReceberApos30 + kpis.emAtraso)} tone="default" />
-        <KpiCardModeling label="Em Atraso" value={formatCurrency(kpis.emAtraso)} tone="danger" helper="Títulos com vencimento ultrapassado" />
-        <KpiCardModeling label="A Receber (30 dias)" value={formatCurrency(kpis.aReceber30)} tone="default" />
-        <KpiCardModeling label="Recebem após 30 dias" value={formatCurrency(kpis.aReceberApos30)} tone="default" />
-        <KpiCardModeling label="Total Recebido" value={formatCurrency(kpis.pago)} tone="success" />
-      </div>
+        {/* --- CAMADA 2: DIRETORIA & KPIS DE CONTAS A RECEBER --- */}
+        <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-5 gap-6 mb-8">
+          <ExecutiveMetricCard
+            label="Total em Aberto"
+            value={formatCurrency(kpis.aVencer30 + kpis.aVencerApos30 + kpis.emAtraso)}
+            statusBadge={<ExecutiveBadge variant="info">Total</ExecutiveBadge>}
+            tone="neutral"
+            className="bg-card border border-border shadow-sm h-full"
+          />
 
-      <div className="grid grid-cols-1 xl:grid-cols-2 gap-8">
-        <div className="bg-white p-8 rounded-3xl border border-border shadow-sm">
-          <div className="flex items-center justify-between mb-8">
-             <div>
-       <h3 className="text-sm font-bold text-executive-secondary">Curva ABC de Clientes</h3>
-              <p className="text-[10px] text-muted-foreground font-bold uppercase tracking-widest mt-1">Concentração de Receitas</p>
-             </div>
-             <div className="p-2 bg-slate-50 rounded-xl">
-               <PieChartIcon size={18} className="text-secondary" />
-             </div>
-          </div>
-          <div className="h-[300px] w-full">
-            <ResponsiveContainer width="100%" height="100%">
-              <BarChart layout="vertical" data={abcData} margin={{ left: 40, right: 40 }}>
-                <CartesianGrid strokeDasharray="3 3" horizontal={false} stroke="currentColor" />
-                <XAxis type="number" hide />
-                <YAxis dataKey="name" type="category" axisLine={false} tickLine={false} tick={{ fontSize: 10, fill: 'var(--color-executive-primary)', fontWeight: 600 }} />
-                <Tooltip 
-                  cursor={{ fill: 'var(--color-executive-primary)' }}
-                  contentStyle={{ borderRadius: '16px', border: 'none', boxShadow: '0 10px 15px -3px rgb(0 0 0 / 0.1)' }}
-                  formatter={(v: number) => formatCurrency(v)}
-                />
-                <Bar dataKey="value" fill="currentColor" radius={[0, 4, 4, 0]} barSize={20} />
-              </BarChart>
-            </ResponsiveContainer>
-          </div>
+          <ExecutiveMetricCard
+            label="Em Atraso"
+            value={formatCurrency(kpis.emAtraso)}
+            statusBadge={<ExecutiveBadge variant={kpis.emAtraso > 0 ? "critical" : "success"}>{kpis.emAtraso > 0 ? "Inadimplente" : "Adimplente"}</ExecutiveBadge>}
+            tone="neutral"
+            className="bg-card border border-border shadow-sm h-full"
+          />
+
+          <ExecutiveMetricCard
+            label="A Vencer (30 dias)"
+            value={formatCurrency(kpis.aVencer30)}
+            statusBadge={<ExecutiveBadge variant="success">Curto Prazo</ExecutiveBadge>}
+            tone="neutral"
+            className="bg-card border border-border shadow-sm h-full"
+          />
+
+          <ExecutiveMetricCard
+            label="Após 30 dias"
+            value={formatCurrency(kpis.aVencerApos30)}
+            statusBadge={<ExecutiveBadge variant="neutral">Longo Prazo</ExecutiveBadge>}
+            tone="neutral"
+            className="bg-card border border-border shadow-sm h-full"
+          />
+
+          <ExecutiveMetricCard
+            label="Total Recebido"
+            value={formatCurrency(kpis.recebido)}
+            statusBadge={<ExecutiveBadge variant="success">Efetivado</ExecutiveBadge>}
+            tone="neutral"
+            className="bg-card border border-border shadow-sm h-full"
+          />
         </div>
 
-        <div className="bg-white p-8 rounded-3xl border border-border shadow-sm">
-          <div className="flex items-center justify-between mb-8">
-             <div>
-       <h3 className="text-sm font-bold text-executive-secondary">Fluxo de Recebimentos</h3>
-              <p className="text-[10px] text-muted-foreground font-bold uppercase tracking-widest mt-1">Projeção por Semana (Mês Atual)</p>
-             </div>
-             <div className="p-2 bg-success-soft rounded-xl">
-               <TrendingUp size={18} className="text-emerald-500" />
-             </div>
-          </div>
-          <div className="h-[300px] w-full">
-            <ResponsiveContainer width="100%" height="100%">
-              <AreaChart data={weeklyFlow}>
-                <defs>
-                  <linearGradient id="colorValRec2" x1="0" y1="0" x2="0" y2="1">
-                    <stop offset="5%" stopColor="var(--color-executive-primary)" stopOpacity={0.1}/>
-                    <stop offset="95%" stopColor="var(--color-executive-primary)" stopOpacity={0}/>
-                  </linearGradient>
-                </defs>
-                <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="currentColor" />
-                <XAxis dataKey="name" axisLine={false} tickLine={false} tick={{ fontSize: 10, fill: 'var(--color-executive-primary)', fontWeight: 600 }} />
-                <YAxis axisLine={false} tickLine={false} tick={{ fontSize: 10, fill: 'var(--color-executive-primary)', fontWeight: 600 }} tickFormatter={v => `R$${v/1000}k`} />
-                <Tooltip 
-                  contentStyle={{ borderRadius: '16px', border: 'none', boxShadow: '0 10px 15px -3px rgb(0 0 0 / 0.1)' }}
-                  formatter={(v: number) => formatCurrency(v)}
-                />
-                <Area type="monotone" dataKey="valor" stroke="currentColor" strokeWidth={3} fillOpacity={1} fill="url(#colorValRec2)" />
-              </AreaChart>
-            </ResponsiveContainer>
-          </div>
-        </div>
-      </div>
-
-      <div className="bg-white border border-border rounded-3xl shadow-sm overflow-hidden">
-        <div className="p-6 border-b border-border bg-slate-50/50 flex flex-col md:flex-row items-center gap-4">
-          <div className="relative flex-1 w-full">
-            <Search size={18} className="absolute left-4 top-3 text-muted-foreground" />
-            <input 
-              type="text" 
-              placeholder="Pesquisar cliente ou documento..."
-              value={searchTerm}
-              onChange={e => setSearchTerm(e.target.value)}
-              className="w-full pl-12 pr-4 py-2.5 bg-white border border-border rounded-xl text-sm focus:ring-2 focus:ring-secondary/10 outline-none transition-all"
-            />
-          </div>
-          <div className="flex items-center gap-2 w-full md:w-auto">
-            <Filter size={16} className="text-muted-foreground shrink-0" />
-            <select 
-              value={filters.status || 'Todos'}
-              onChange={e => setFilters({ ...filters, status: e.target.value })}
-       className="w-full md:w-auto px-4 py-2.5 bg-white border border-border rounded-xl text-sm font-bold text-executive-secondary outline-none"
-            >
-              <option value="Todos">Todos os Status</option>
-              <option value="A vencer">A vencer</option>
-              <option value="Em atraso">Em atraso</option>
-              <option value="Pago">Pago</option>
-            </select>
-          </div>
-        </div>
-
-        <div className="overflow-x-auto">
-          <table className="w-full text-left border-collapse">
-            <thead>
-              <tr className="bg-slate-50/50 border-b border-border">
-                <SortableHeader label="Cliente" sortKey="cliente" currentSort={sort} onSort={toggleSort} />
-                <SortableHeader label="Categoria" sortKey="categoria" currentSort={sort} onSort={toggleSort} />
-                <SortableHeader label="Documento" sortKey="documento" currentSort={sort} onSort={toggleSort} align="center" />
-                <SortableHeader label="Emissão" sortKey="emissao" currentSort={sort} onSort={toggleSort} align="center" />
-                <SortableHeader label="Vencimento" sortKey="vencimento" currentSort={sort} onSort={toggleSort} align="center" />
-                <SortableHeader label="Valor" sortKey="valor" currentSort={sort} onSort={toggleSort} align="right" />
-                <SortableHeader label="Status" sortKey="status" currentSort={sort} onSort={toggleSort} align="center" />
-                <th className="px-5 md:px-8 py-3 md:py-5 text-[10px] font-black text-muted-foreground uppercase tracking-widest text-right">Ações</th>
-              </tr>
-            </thead>
-            <tbody className="divide-y divide-slate-50">
-              {loading ? (
-                <tr>
-                   <td colSpan={7} className="px-8 py-20 text-center">
-                    <Loader2 size={32} className="animate-spin text-secondary mx-auto mb-4" />
-          <p className="text-executive-secondary font-bold">Carregando títulos...</p>
-                  </td>
-                </tr>
-              ) : paginatedReceivables.length === 0 ? (
-                <tr>
-                  <td colSpan={7} className="px-8 py-20 text-center text-muted-foreground italic">
-                    Nenhum título encontrado.
-                  </td>
-                </tr>
-              ) : (
-                paginatedReceivables.map((item) => (
-                  <tr key={item.id} className="hover:bg-slate-50/50 transition-colors group">
-                    <td className="px-5 md:px-8 py-2.5 md:py-4">
-                      <div className="flex flex-col">
-            <span className="text-sm text-executive-secondary">{item.cliente}</span>
-                        {item.centroCusto && <span className="text-[9px] uppercase tracking-tighter bg-success-soft px-1.5 py-0.5 rounded border border-emerald-100/50 self-start mt-1">{item.centroCusto}</span>}
-                      </div>
-                    </td>
-                    <td className="px-5 md:px-8 py-2.5 md:py-4">
-                      {item.categoria ? (
-                        <span className="text-[10px] text-muted-foreground uppercase tracking-widest bg-slate-100 px-2.5 py-1 rounded-lg border border-border">
-                          {item.categoria}
-                        </span>
-                      ) : (
-                        <span className="text-[10px] text-muted-foreground italic">Sem categoria</span>
-                      )}
-                    </td>
-                    <td className="px-5 md:px-8 py-2.5 md:py-4 text-center">
-                      <span className="text-[10px] font-mono text-muted-foreground bg-slate-100 px-2 py-0.5 rounded-lg border border-border">{item.documento}</span>
-                    </td>
-                    <td className="px-5 md:px-8 py-2.5 md:py-4 text-center text-xs text-muted-foreground">{formatDate(item.emissao)}</td>
-                    <td className="px-5 md:px-8 py-2.5 md:py-4 text-center">
-                      <div className="flex flex-col items-center gap-0.5">
-                        <span className="text-xs text-muted-foreground">{formatDate(item.vencimento)}</span>
-                        {item.status === 'Em atraso' && <span className="text-[8px] text-rose-500 uppercase tracking-tighter animate-pulse">Vencido</span>}
-                      </div>
-                    </td>
-                    <td className="px-5 md:px-8 py-2.5 md:py-4 text-right">
-                      <div className="flex flex-col items-end">
-                        <span className="text-sm text-primary">{formatCurrency(item.valor)}</span>
-                        {item.valorAberto !== undefined && item.valorAberto !== item.valor && item.status !== 'Pago' && (
-                          <span className="text-[9px] text-muted-foreground uppercase tracking-tighter">Aberto: {formatCurrency(item.valorAberto)}</span>
-                        )}
-                      </div>
-                    </td>
-                    <td className="px-5 md:px-8 py-2.5 md:py-4 text-center">
-                      <span className={cn(
-                        "text-[10px] px-3 py-1 rounded-full uppercase tracking-tighter",
-                        item.status === 'Pago' ? "bg-success-soft text-emerald-600 border border-emerald-100" :
-                        item.status === 'Em atraso' ? "bg-critical-soft text-rose-600 border border-rose-100" :
-                        "bg-blue-50 text-blue-600 border border-blue-100"
-                      )}>
-                        {item.status}
-                      </span>
-                    </td>
-                    <td className="px-5 md:px-8 py-2.5 md:py-4 text-right">
-                      <div className="flex items-center justify-end gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
-                        <button 
-                          onClick={() => { setEditingReceivable(item); setIsModalOpen(true); }}
-                          className="p-2 text-muted-foreground hover:text-secondary hover:bg-secondary/5 rounded-lg transition-all"
-                        >
-                          <Edit2 size={16} />
-                        </button>
-                        <button 
-                          onClick={() => handleDelete(item.id)}
-                          className="p-2 text-muted-foreground hover:text-rose-600 hover:bg-critical-soft rounded-lg transition-all"
-                        >
-                          <Trash2 size={16} />
-                        </button>
-                      </div>
-                    </td>
-                  </tr>
-                ))
-              )}
-            </tbody>
-          </table>
-        </div>
-
-        <div className="p-4 border-t border-border flex items-center justify-between">
-          <div className="text-[10px] font-bold text-muted-foreground uppercase tracking-widest px-4">
-            Página {currentPage} de {totalPages || 1}
-          </div>
-          <div className="flex gap-2">
-            <button 
-              disabled={currentPage === 1}
-              onClick={() => setCurrentPage(prev => Math.max(1, prev - 1))}
-              className="p-2 rounded-lg hover:bg-slate-100 disabled:opacity-30 transition-all"
-            >
-              <ChevronLeft size={18} className="text-muted-foreground" />
-            </button>
-            <button 
-              disabled={currentPage === totalPages || totalPages === 0}
-              onClick={() => setCurrentPage(prev => Math.min(totalPages, prev + 1))}
-              className="p-2 rounded-lg hover:bg-slate-100 disabled:opacity-30 transition-all"
-            >
-              <ChevronRight size={18} className="text-muted-foreground" />
-            </button>
-          </div>
-        </div>
-      </div>
-
-      {isModalOpen && (
-        <ReceivableModal 
-          receivable={editingReceivable}
-          onClose={() => setIsModalOpen(false)}
-          onSave={handleSave}
-        />
-      )}
-      {isImportModalOpen && (
-        <ImportTransactionsModal
-          collectionName="receivables"
-          selectedClient={selectedClient}
-          clients={clients}
-          isMaster={isMaster}
-          onClose={() => setIsImportModalOpen(false)}
-          onSuccess={() => setIsImportModalOpen(false)}
-        />
-      )}
-    </div>
-  );
-}
-
-function ReceivableModal({ receivable, onClose, onSave }: any) {
-  const [formData, setFormData] = useState(receivable || {
-    cliente: '',
-    documento: '',
-    emissao: new Date().toISOString().split('T')[0],
-    vencimento: '',
-    valor: 0,
-    valorAberto: 0,
-    status: 'A vencer',
-    categoria: '',
-    centroCusto: ''
-  });
-
-  const [touched, setTouched] = useState<any>({});
-  
-  const validate = () => {
-    const errors: any = {};
-    if (!formData.cliente) errors.cliente = 'Obrigatório';
-    if (!formData.documento) errors.documento = 'Obrigatório';
-    if (!formData.vencimento) errors.vencimento = 'Obrigatório';
-    if (formData.valor <= 0) errors.valor = 'Valor inválido';
-    return errors;
-  };
-
-  const errors = validate();
-
-  const handleSave = () => {
-    setTouched({ cliente: true, documento: true, vencimento: true, valor: true });
-    if (Object.keys(errors).length === 0) {
-      onSave(formData);
-    }
-  };
-
-  return (
-    <div className="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 flex items-center justify-center p-4">
-      <motion.div 
-        initial={{ opacity: 0, scale: 0.95 }}
-        animate={{ opacity: 1, scale: 1 }}
-        className="bg-white rounded-3xl w-full max-w-xl shadow-2xl overflow-hidden"
-      >
-        <div className="p-8 border-b border-border flex justify-between items-center bg-slate-50/50">
-          <div>
-      <h3 className="text-xl font-bold text-executive-secondary">{receivable ? 'Editar Título' : 'Lançar Título'}</h3>
-            <p className="text-xs text-muted-foreground mt-1 uppercase tracking-widest font-bold">Registro de Contas a Receber</p>
-          </div>
-          <button onClick={onClose} className="p-2 hover:bg-slate-200 rounded-full transition-colors text-muted-foreground"><X size={20} /></button>
-        </div>
-
-        <div className="p-8 space-y-6">
-          <div className="space-y-2">
-            <label className="text-[10px] font-bold text-muted-foreground uppercase tracking-widest px-1">Cliente / Devedor</label>
-            <input 
-              type="text" 
-              placeholder="Ex: Convênio Estrela"
-              value={formData.cliente}
-              onChange={e => setFormData({ ...formData, cliente: e.target.value })}
-              className={cn(
-                "w-full px-4 py-3 bg-slate-50 border rounded-xl text-sm font-bold outline-none transition-all",
-                touched.cliente && errors.cliente ? "border-red-500" : "border-border focus:bg-white focus:ring-2 focus:ring-secondary/10"
-              )}
-            />
-          </div>
-
-          <div className="grid grid-cols-2 gap-6">
-            <div className="space-y-2">
-              <label className="text-[10px] font-bold text-muted-foreground uppercase tracking-widest px-1">Nº Documento</label>
-              <input 
-                type="text" 
-                placeholder="Ex: FAT-2026"
-                value={formData.documento}
-                onChange={e => setFormData({ ...formData, documento: e.target.value })}
-                className={cn(
-                  "w-full px-4 py-3 bg-slate-50 border rounded-xl text-sm font-bold outline-none transition-all",
-                  touched.documento && errors.documento ? "border-red-500" : "border-border focus:bg-white"
-                )}
-              />
-            </div>
-            <div className="space-y-2">
-              <label className="text-[10px] font-bold text-muted-foreground uppercase tracking-widest px-1">Valor do Título</label>
-              <div className="relative">
-                <span className="absolute left-4 top-3.5 text-xs font-bold text-muted-foreground uppercase">R$</span>
+        {/* --- CAMADA 3: CAMADA TÉCNICA E REGISTRO DE RECEBÍVEIS --- */}
+        <ExecutiveTechnicalLayer
+          title="Camada Técnica de Recebíveis"
+          subtitle="Tabela Analítica de Títulos a Receber"
+          description="Filtro, busca, baixa de títulos e acompanhamento por cliente."
+          className="mb-8"
+        >
+          <ExecutiveSurface padding="xl" radius="xl" className="bg-card border border-border shadow-sm space-y-6">
+            <div className="flex flex-col sm:flex-row justify-between items-center gap-4">
+              <div className="relative w-full sm:w-80">
+                <Search size={16} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-muted-foreground" />
                 <input 
-                  type="number" 
-                  value={formData.valor}
-                  onChange={e => setFormData({ ...formData, valor: parseFloat(e.target.value) || 0 })}
-                  className={cn(
-                    "w-full pl-12 pr-4 py-3 bg-slate-50 border rounded-xl text-sm font-bold outline-none transition-all",
-                    touched.valor && errors.valor ? "border-red-500" : "border-border focus:bg-white"
-                  )}
+                  type="text" 
+                  placeholder="Buscar cliente, documento..."
+                  value={searchTerm}
+                  onChange={(e) => setSearchTerm(e.target.value)}
+                  className="w-full pl-10 pr-4 py-2.5 bg-surface-container border border-border rounded-xl text-xs font-semibold outline-none text-foreground placeholder:text-muted-foreground"
                 />
               </div>
+              <span className="text-xs text-muted-foreground font-bold">{filteredReceivables.length} Títulos Registrados</span>
             </div>
-          </div>
 
-          <div className="space-y-2">
-            <label className="text-[10px] font-bold text-muted-foreground uppercase tracking-widest px-1">Valor em Aberto</label>
-            <div className="relative">
-              <span className="absolute left-4 top-3.5 text-xs font-bold text-muted-foreground uppercase">R$</span>
-              <input 
-                type="number" 
-                value={formData.valorAberto ?? formData.valor}
-                onChange={e => setFormData({ ...formData, valorAberto: parseFloat(e.target.value) || 0 })}
-                className="w-full pl-12 pr-4 py-3 bg-slate-50 border border-border rounded-xl text-sm font-bold outline-none focus:bg-white transition-all"
-              />
+            <div className="overflow-x-auto border border-border rounded-xl">
+              <table className="w-full text-left text-xs border-collapse">
+                <thead>
+                  <tr className="bg-surface-container/30 border-b border-border text-muted-foreground font-bold uppercase tracking-wider">
+                    <th className="p-4">Cliente</th>
+                    <th className="p-4">Documento</th>
+                    <th className="p-4">Vencimento</th>
+                    <th className="p-4 text-right">Valor</th>
+                    <th className="p-4">Status</th>
+                  </tr>
+                </thead>
+                <tbody className="divide-y divide-border">
+                  {paginatedReceivables.map((p) => (
+                    <tr key={p.id} className="hover:bg-surface-container/30 transition-colors">
+                      <td className="p-4 font-bold text-foreground">{p.cliente}</td>
+                      <td className="p-4 font-mono text-muted-foreground">{p.documento || '---'}</td>
+                      <td className="p-4 font-mono text-muted-foreground">{formatDate(p.vencimento)}</td>
+                      <td className="p-4 text-right font-mono font-bold text-foreground">{formatCurrency(p.valor)}</td>
+                      <td className="p-4">
+                        <ExecutiveBadge variant={p.status === 'Recebido' ? 'success' : p.vencimento < new Date().toISOString().split('T')[0] ? 'critical' : 'info'}>
+                          {p.status || 'A Vencer'}
+                        </ExecutiveBadge>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
             </div>
-          </div>
+          </ExecutiveSurface>
+        </ExecutiveTechnicalLayer>
 
-          <div className="grid grid-cols-2 gap-6">
-            <div className="space-y-2">
-              <label className="text-[10px] font-bold text-muted-foreground uppercase tracking-widest px-1">Categoria / Receita</label>
-              <input 
-                type="text" 
-                placeholder="Ex: Consultas Particulares"
-                value={formData.categoria}
-                onChange={e => setFormData({ ...formData, categoria: e.target.value })}
-                className="w-full px-4 py-3 bg-slate-50 border border-border rounded-xl text-sm font-bold outline-none focus:bg-white transition-all"
-              />
-            </div>
-            <div className="space-y-2">
-              <label className="text-[10px] font-bold text-muted-foreground uppercase tracking-widest px-1">Centro de Custo / Unidade</label>
-              <input 
-                type="text" 
-                placeholder="Ex: Unidade Centro"
-                value={formData.centroCusto}
-                onChange={e => setFormData({ ...formData, centroCusto: e.target.value })}
-                className="w-full px-4 py-3 bg-slate-50 border border-border rounded-xl text-sm font-bold outline-none focus:bg-white transition-all"
-              />
-            </div>
-          </div>
-
-          <div className="grid grid-cols-2 gap-6">
-            <div className="space-y-2">
-              <label className="text-[10px] font-bold text-muted-foreground uppercase tracking-widest px-1">Data Emissão</label>
-              <input 
-                type="date" 
-                value={formData.emissao}
-                onChange={e => setFormData({ ...formData, emissao: e.target.value })}
-                className="w-full px-4 py-3 bg-slate-50 border border-border rounded-xl text-sm font-bold outline-none focus:bg-white transition-all"
-              />
-            </div>
-            <div className="space-y-2">
-              <label className="text-[10px] font-bold text-muted-foreground uppercase tracking-widest px-1">Data Vencimento</label>
-              <input 
-                type="date" 
-                value={formData.vencimento}
-                onChange={e => setFormData({ ...formData, vencimento: e.target.value })}
-                className={cn(
-                  "w-full px-4 py-3 bg-slate-50 border rounded-xl text-sm font-bold outline-none transition-all",
-                  touched.vencimento && errors.vencimento ? "border-red-500" : "border-border focus:bg-white"
-                )}
-              />
-            </div>
-          </div>
-
-          <div className="space-y-2">
-            <label className="text-[10px] font-bold text-muted-foreground uppercase tracking-widest px-1">Status do Recebimento</label>
-            <div className="flex gap-3">
-              {['A vencer', 'Em atraso', 'Pago'].map(s => (
-                <button
-                  key={s}
-                  onClick={() => setFormData({ ...formData, status: s })}
-                  className={cn(
-                    "flex-1 py-3 rounded-xl text-[10px] font-black uppercase tracking-widest border transition-all",
-                    formData.status === s 
-                      ? "bg-primary text-white border-primary shadow-lg shadow-primary/20" 
-                      : "bg-white text-muted-foreground border-border hover:border-border"
-                  )}
-                >
-                  {s}
-                </button>
-              ))}
-            </div>
-          </div>
-        </div>
-
-        <div className="p-8 bg-slate-50 border-t border-border flex gap-4">
-     <button onClick={onClose} className="flex-1 py-3 text-executive-secondary font-bold text-sm hover:bg-slate-200 rounded-2xl transition-all">Cancelar</button>
-          <button 
-            onClick={handleSave}
-            className="flex-1 py-3 bg-secondary text-white rounded-2xl text-xs font-black uppercase tracking-widest shadow-lg shadow-secondary/20 hover:bg-secondary/90 transition-all flex items-center justify-center gap-2"
-          >
-            <Save size={18} /> Salvar Título
-          </button>
-        </div>
-      </motion.div>
-    </div>
+      </div>
+    </ExecutivePageTemplate>
   );
 }

@@ -1,3 +1,5 @@
+import { ExecutiveText } from '../../ui/executive-typography';
+import { ExecutiveHeading } from '../../ui/executive-heading';
 // src/components/pages/governance/BoardMeetingMode.tsx
 
 import React, { useState, useEffect, useMemo } from 'react';
@@ -139,9 +141,9 @@ export function BoardMeetingMode({ clientId, scenario, companyName = 'Holding Il
               Boardroom Environment
             </div>
             
-            <h2 className="text-3xl font-extrabold text-white tracking-tight leading-tight">
+            <ExecutiveHeading as="h2" className="text-white">
               Board Meeting Mode (BMM™) <span className="text-xs font-mono text-muted-foreground">v1.0</span>
-            </h2>
+            </ExecutiveHeading>
             
             <p className="text-secondary text-sm leading-relaxed">
               O BMM™ é a primeira sala de deliberação governada do Illumine Governance™. 
@@ -151,10 +153,10 @@ export function BoardMeetingMode({ clientId, scenario, companyName = 'Holding Il
 
             {/* Governance Journey Snapshot */}
             <div className="space-y-4 border-t border-white/5 pt-6 mt-6 animate-fadeIn">
-              <h3 className="text-xs font-bold uppercase tracking-widest text-executive-primary flex items-center gap-2">
+              <ExecutiveHeading as="h3" className="text-executive-primary flex items-center gap-2">
                 <Activity className="w-4 h-4" />
                 Snapshot da Jornada de Governança™ (GJL™)
-              </h3>
+              </ExecutiveHeading>
               
               <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-stretch">
                 {/* GJI & Stage */}
@@ -255,7 +257,7 @@ export function BoardMeetingMode({ clientId, scenario, companyName = 'Holding Il
             onConfirm={() => setWarningMessage(null)}
           >
             <div className="space-y-3 py-2">
-              <p className="text-sm text-secondary">{warningMessage}</p>
+              <ExecutiveText as="div" variant="bodyStandard" className="text-secondary">{warningMessage}</ExecutiveText>
             </div>
           </FiduciaryModalShell>
         )}
@@ -276,7 +278,7 @@ export function BoardMeetingMode({ clientId, scenario, companyName = 'Holding Il
               <span className="w-2 h-2 rounded-full bg-surface-container animate-pulse" />
               <span className="text-xs font-bold text-executive-primary uppercase tracking-widest">Sessão Plenária Ativa</span>
             </div>
-            <h3 className="text-lg font-bold text-white leading-tight">{activeMeeting.title}</h3>
+            <ExecutiveHeading as="h3" className="text-white">{activeMeeting.title}</ExecutiveHeading>
             <span className="text-[10px] font-mono text-muted-foreground uppercase">Meeting ID: {activeMeeting.meetingId}</span>
           </div>
 
@@ -355,7 +357,7 @@ export function BoardMeetingMode({ clientId, scenario, companyName = 'Holding Il
               <div className="flex justify-between items-center border-b border-white/5 pb-4">
                 <div>
                   <span className="text-[9px] font-bold text-muted-foreground uppercase tracking-widest block">Tópico em Discussão</span>
-                  <h4 className="text-md font-bold text-white">{activeItem.title}</h4>
+                  <ExecutiveHeading as="h4" className="text-md text-white">{activeItem.title}</ExecutiveHeading>
                 </div>
                 
                 <span className={`text-xs font-bold uppercase tracking-wider px-3 py-1 rounded-full ${
@@ -373,7 +375,7 @@ export function BoardMeetingMode({ clientId, scenario, companyName = 'Holding Il
               <div className="space-y-4">
                 <div className="p-4 bg-slate-950/40 border border-white/5 rounded-xl space-y-2">
                   <span className="text-[9px] font-bold text-executive-primary uppercase tracking-wider block">Contexto de Deliberação</span>
-                  <p className="text-xs text-muted-foreground leading-relaxed">{activeItem.recommendedDiscussion}</p>
+                  <ExecutiveText as="div" variant="caption" className="text-muted-foreground">{activeItem.recommendedDiscussion}</ExecutiveText>
                 </div>
 
                 {/* Specific widgets for resolutions on Topic 6 */}
@@ -391,7 +393,7 @@ export function BoardMeetingMode({ clientId, scenario, companyName = 'Holding Il
                             <div className="flex justify-between items-start gap-4">
                               <div className="space-y-1">
                                 <span className="text-xs font-bold text-white block">{res.title}</span>
-                                <p className="text-[11px] text-muted-foreground">{res.description}</p>
+                                <ExecutiveText as="div" variant="caption" className="text-muted-foreground">{res.description}</ExecutiveText>
                               </div>
                               
                               <span className={`text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded border ${
@@ -586,7 +588,7 @@ export function BoardMeetingMode({ clientId, scenario, companyName = 'Holding Il
             onConfirm={() => setWarningMessage(null)}
           >
             <div className="space-y-3 py-2">
-              <p className="text-sm text-secondary">{warningMessage}</p>
+              <ExecutiveText as="div" variant="bodyStandard" className="text-secondary">{warningMessage}</ExecutiveText>
             </div>
           </FiduciaryModalShell>
         )}
@@ -608,9 +610,9 @@ export function BoardMeetingMode({ clientId, scenario, companyName = 'Holding Il
                 <FileText size={12} />
                 Ata de Reunião Concluída
               </div>
-              <h2 className="text-2xl font-extrabold text-white tracking-tight leading-tight pt-2">
+              <ExecutiveHeading as="h2" className="text-white pt-2">
                 Ata de Reunião Extraordinária do Conselho
-              </h2>
+              </ExecutiveHeading>
               <span className="text-[10px] font-mono text-muted-foreground uppercase">
                 Código de Autenticação: MEET-{scenario}-COMPLETED
               </span>
@@ -668,7 +670,7 @@ export function BoardMeetingMode({ clientId, scenario, companyName = 'Holding Il
               {/* Executive narrative */}
               <div className="p-4 bg-slate-950/40 border border-white/5 rounded-xl space-y-1.5">
                 <span className="text-[9px] font-bold text-emerald-400 uppercase tracking-wider block">Parecer Final da Reunião</span>
-                <p className="text-xs text-muted-foreground leading-relaxed italic">"{completedMinutes.executiveSummary}"</p>
+                <ExecutiveText as="div" variant="caption" className="text-muted-foreground italic">"{completedMinutes.executiveSummary}"</ExecutiveText>
               </div>
 
               {/* Resolutions Details */}
@@ -744,7 +746,7 @@ export function BoardMeetingMode({ clientId, scenario, companyName = 'Holding Il
             onConfirm={() => setWarningMessage(null)}
           >
             <div className="space-y-3 py-2">
-              <p className="text-sm text-secondary">{warningMessage}</p>
+              <ExecutiveText as="div" variant="bodyStandard" className="text-secondary">{warningMessage}</ExecutiveText>
             </div>
           </FiduciaryModalShell>
         )}

@@ -1,8 +1,8 @@
-// src/components/operating-pressure/PressurePropagationGraph.tsx
-
 import React from 'react';
 import { ArrowRight, Activity } from 'lucide-react';
 import { cn } from '../../lib/utils';
+// src/components/operating-pressure/PressurePropagationGraph.tsx
+
 
 interface PropagationProps {
   data: {

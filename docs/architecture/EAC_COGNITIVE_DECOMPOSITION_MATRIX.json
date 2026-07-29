@@ -1,0 +1,706 @@
+[
+  {
+    "component": "ExecutivePerspectiveSection",
+    "roles": [
+      {
+        "type": "summary",
+        "startLine": 256,
+        "endLine": 611,
+        "purity": 0.9
+      },
+      {
+        "type": "recommendation",
+        "startLine": 256,
+        "endLine": 611,
+        "purity": 1
+      },
+      {
+        "type": "narrative",
+        "startLine": 256,
+        "endLine": 611,
+        "purity": 0.9285714285714286
+      },
+      {
+        "type": "technical-evidence",
+        "startLine": 256,
+        "endLine": 611,
+        "purity": 0.8888888888888888
+      },
+      {
+        "type": "disclosure",
+        "startLine": 256,
+        "endLine": 611,
+        "purity": 0.9375
+      }
+    ],
+    "complexity": 1,
+    "risk": 0.442,
+    "priority": 44.082
+  },
+  {
+    "component": "ConsolidatedExecutiveSummaryCard",
+    "roles": [
+      {
+        "type": "summary",
+        "startLine": 8,
+        "endLine": 26,
+        "purity": 0.8095238095238095
+      },
+      {
+        "type": "narrative",
+        "startLine": 8,
+        "endLine": 26,
+        "purity": 0.9166666666666666
+      }
+    ],
+    "complexity": 0.1,
+    "risk": 0.04000000000000001,
+    "priority": 72.36571428571428
+  },
+  {
+    "component": "ExecutiveEvidenceExplorer",
+    "roles": [
+      {
+        "type": "summary",
+        "startLine": 41,
+        "endLine": 123,
+        "purity": 1
+      },
+      {
+        "type": "technical-evidence",
+        "startLine": 41,
+        "endLine": 123,
+        "purity": 0.9285714285714286
+      },
+      {
+        "type": "decision-trace",
+        "startLine": 41,
+        "endLine": 123,
+        "purity": 0.8181818181818182
+      }
+    ],
+    "complexity": 0.3416666666666667,
+    "risk": 0.22066666666666668,
+    "priority": 64.68466666666667
+  },
+  {
+    "component": "InstitutionalTimelineNavigator",
+    "roles": [],
+    "complexity": 0.19166666666666668,
+    "risk": 0.11866666666666667,
+    "priority": null
+  },
+  {
+    "component": "RuntimeResolutionIndicator",
+    "roles": [],
+    "complexity": 0.1,
+    "risk": 0.04000000000000001,
+    "priority": null
+  },
+  {
+    "component": "ExecutiveContinuityCard",
+    "roles": [],
+    "complexity": 0.175,
+    "risk": 0.06999999999999999,
+    "priority": null
+  },
+  {
+    "component": "GovernanceHistoryExplorer",
+    "roles": [
+      {
+        "type": "summary",
+        "startLine": 24,
+        "endLine": 134,
+        "purity": 0.8571428571428571
+      },
+      {
+        "type": "recommendation",
+        "startLine": 24,
+        "endLine": 134,
+        "purity": 0.8
+      },
+      {
+        "type": "narrative",
+        "startLine": 24,
+        "endLine": 134,
+        "purity": 1
+      },
+      {
+        "type": "decision-trace",
+        "startLine": 24,
+        "endLine": 134,
+        "purity": 0.7692307692307693
+      }
+    ],
+    "complexity": 0.49166666666666664,
+    "risk": 0.2806666666666666,
+    "priority": 55.59419047619048
+  },
+  {
+    "component": "HistoricalGovernanceNavigator",
+    "roles": [
+      {
+        "type": "decision-trace",
+        "startLine": 19,
+        "endLine": 35,
+        "purity": 1
+      }
+    ],
+    "complexity": 0.09166666666666666,
+    "risk": 0.03666666666666667,
+    "priority": 79.95666666666666
+  },
+  {
+    "component": "InstitutionalMemoryTimeline",
+    "roles": [
+      {
+        "type": "technical-evidence",
+        "startLine": 11,
+        "endLine": 17,
+        "purity": 1
+      },
+      {
+        "type": "summary",
+        "startLine": 30,
+        "endLine": 72,
+        "purity": 0.8823529411764706
+      }
+    ],
+    "complexity": 0.3,
+    "risk": 0.12,
+    "priority": 73.04
+  },
+  {
+    "component": "ConstitutionalIntegrityPanel",
+    "roles": [
+      {
+        "type": "decision-trace",
+        "startLine": 36,
+        "endLine": 195,
+        "purity": 0.8666666666666667
+      }
+    ],
+    "complexity": 0.65,
+    "risk": 0.26,
+    "priority": 57.473333333333336
+  },
+  {
+    "component": "ExecutiveBoardReportModal",
+    "roles": [
+      {
+        "type": "summary",
+        "startLine": 54,
+        "endLine": 298,
+        "purity": 0.8333333333333334
+      },
+      {
+        "type": "recommendation",
+        "startLine": 54,
+        "endLine": 298,
+        "purity": 1
+      },
+      {
+        "type": "decision-trace",
+        "startLine": 54,
+        "endLine": 298,
+        "purity": 0.8823529411764706
+      }
+    ],
+    "complexity": 0.9416666666666667,
+    "risk": 0.5586666666666666,
+    "priority": 33.68844444444444
+  },
+  {
+    "component": "ImportFinancialModal",
+    "roles": [],
+    "complexity": 1,
+    "risk": 0.75,
+    "priority": null
+  },
+  {
+    "component": "ImportPlanoModal",
+    "roles": [
+      {
+        "type": "summary",
+        "startLine": 190,
+        "endLine": 521,
+        "purity": 1
+      },
+      {
+        "type": "recommendation",
+        "startLine": 190,
+        "endLine": 521,
+        "purity": 0.7894736842105263
+      }
+    ],
+    "complexity": 1,
+    "risk": 0.75,
+    "priority": 20.75
+  },
+  {
+    "component": "ImportTransactionsModal",
+    "roles": [],
+    "complexity": 1,
+    "risk": 0.75,
+    "priority": null
+  },
+  {
+    "component": "ManualFinancialModal",
+    "roles": [],
+    "complexity": 1,
+    "risk": 0.5960000000000001,
+    "priority": null
+  },
+  {
+    "component": "GovernanceReadabilityPanel",
+    "roles": [
+      {
+        "type": "summary",
+        "startLine": 17,
+        "endLine": 80,
+        "purity": 0.8947368421052632
+      },
+      {
+        "type": "technical-evidence",
+        "startLine": 17,
+        "endLine": 80,
+        "purity": 0.8636363636363636
+      },
+      {
+        "type": "decision-trace",
+        "startLine": 17,
+        "endLine": 80,
+        "purity": 0.9444444444444444
+      },
+      {
+        "type": "disclosure",
+        "startLine": 17,
+        "endLine": 80,
+        "purity": 0.875
+      }
+    ],
+    "complexity": 0.35833333333333334,
+    "risk": 0.14333333333333334,
+    "priority": 67.4963157894737
+  },
+  {
+    "component": "DecisionEvidenceViewer",
+    "roles": [
+      {
+        "type": "technical-evidence",
+        "startLine": 12,
+        "endLine": 34,
+        "purity": 0.7777777777777778
+      },
+      {
+        "type": "decision-trace",
+        "startLine": 12,
+        "endLine": 34,
+        "purity": 0.9230769230769231
+      }
+    ],
+    "complexity": 0.16666666666666666,
+    "risk": 0.06666666666666667,
+    "priority": 69.17037037037038
+  },
+  {
+    "component": "InstitutionalResilienceTimeline",
+    "roles": [
+      {
+        "type": "summary",
+        "startLine": 31,
+        "endLine": 60,
+        "purity": 0.7777777777777778
+      },
+      {
+        "type": "decision-trace",
+        "startLine": 31,
+        "endLine": 60,
+        "purity": 0.85
+      }
+    ],
+    "complexity": 0.175,
+    "risk": 0.06999999999999999,
+    "priority": 68.92333333333335
+  },
+  {
+    "component": "executive-decision-memo",
+    "roles": [
+      {
+        "type": "summary",
+        "startLine": 29,
+        "endLine": 83,
+        "purity": 0.7692307692307693
+      },
+      {
+        "type": "recommendation",
+        "startLine": 29,
+        "endLine": 83,
+        "purity": 0.8421052631578947
+      },
+      {
+        "type": "narrative",
+        "startLine": 29,
+        "endLine": 83,
+        "purity": 0.8181818181818182
+      }
+    ],
+    "complexity": 0.125,
+    "risk": 0.05,
+    "priority": 70.08076923076923
+  },
+  {
+    "component": "executive-decision-summary-card",
+    "roles": [
+      {
+        "type": "summary",
+        "startLine": 31,
+        "endLine": 33,
+        "purity": 0.8125
+      }
+    ],
+    "complexity": 0.041666666666666664,
+    "risk": 0.016666666666666666,
+    "priority": 74.24166666666666
+  },
+  {
+    "component": "executive-strategic-semantic-cards",
+    "roles": [
+      {
+        "type": "summary",
+        "startLine": 18,
+        "endLine": 32,
+        "purity": 0.8947368421052632
+      },
+      {
+        "type": "decision-trace",
+        "startLine": 18,
+        "endLine": 32,
+        "purity": 0.7777777777777778
+      },
+      {
+        "type": "narrative",
+        "startLine": 59,
+        "endLine": 67,
+        "purity": 0.7333333333333333
+      },
+      {
+        "type": "recommendation",
+        "startLine": 96,
+        "endLine": 116,
+        "purity": 0.7777777777777778
+      }
+    ],
+    "complexity": 0.36666666666666664,
+    "risk": 0.14666666666666667,
+    "priority": 67.23368421052632
+  },
+  {
+    "component": "CausalDrilldownPanel",
+    "roles": [
+      {
+        "type": "summary",
+        "startLine": 14,
+        "endLine": 16,
+        "purity": 0.7692307692307693
+      },
+      {
+        "type": "narrative",
+        "startLine": 14,
+        "endLine": 16,
+        "purity": 0.8333333333333334
+      }
+    ],
+    "complexity": 0.11666666666666667,
+    "risk": 0.04666666666666667,
+    "priority": 70.32666666666667
+  },
+  {
+    "component": "BalanceSheetBoardAdvisory",
+    "roles": [
+      {
+        "type": "summary",
+        "startLine": 18,
+        "endLine": 48,
+        "purity": 0.7777777777777778
+      },
+      {
+        "type": "recommendation",
+        "startLine": 18,
+        "endLine": 48,
+        "purity": 0.8571428571428571
+      },
+      {
+        "type": "narrative",
+        "startLine": 18,
+        "endLine": 48,
+        "purity": 0.7647058823529411
+      }
+    ],
+    "complexity": 0.10833333333333334,
+    "risk": 0.043333333333333335,
+    "priority": 70.89962962962963
+  },
+  {
+    "component": "DREExecutiveAdvisorySection",
+    "roles": [
+      {
+        "type": "summary",
+        "startLine": 38,
+        "endLine": 38,
+        "purity": 0.9411764705882353
+      }
+    ],
+    "complexity": 0.11666666666666667,
+    "risk": 0.06066666666666667,
+    "priority": 75.7544705882353
+  },
+  {
+    "component": "DRERecommendationSection",
+    "roles": [
+      {
+        "type": "summary",
+        "startLine": 34,
+        "endLine": 34,
+        "purity": 0.8947368421052632
+      },
+      {
+        "type": "recommendation",
+        "startLine": 34,
+        "endLine": 34,
+        "purity": 0.7647058823529411
+      }
+    ],
+    "complexity": 0.08333333333333333,
+    "risk": 0.04733333333333333,
+    "priority": 75.06010526315791
+  },
+  {
+    "component": "BenchmarkComparativePanel",
+    "roles": [
+      {
+        "type": "summary",
+        "startLine": 50,
+        "endLine": 338,
+        "purity": 0.8
+      },
+      {
+        "type": "decision-trace",
+        "startLine": 50,
+        "endLine": 338,
+        "purity": 1
+      }
+    ],
+    "complexity": 0.9583333333333334,
+    "risk": 0.5233333333333333,
+    "priority": 35.75000000000001
+  },
+  {
+    "component": "BenchmarkReadinessPanel",
+    "roles": [
+      {
+        "type": "summary",
+        "startLine": 82,
+        "endLine": 300,
+        "purity": 0.8181818181818182
+      },
+      {
+        "type": "decision-trace",
+        "startLine": 82,
+        "endLine": 300,
+        "purity": 0.9375
+      }
+    ],
+    "complexity": 0.6833333333333333,
+    "risk": 0.3433333333333334,
+    "priority": 49.72757575757576
+  },
+  {
+    "component": "BoardDecisionSurface",
+    "roles": [
+      {
+        "type": "technical-evidence",
+        "startLine": 52,
+        "endLine": 234,
+        "purity": 0.8
+      },
+      {
+        "type": "decision-trace",
+        "startLine": 52,
+        "endLine": 234,
+        "purity": 0.9230769230769231
+      }
+    ],
+    "complexity": 0.5916666666666667,
+    "risk": 0.2366666666666667,
+    "priority": null
+  },
+  {
+    "component": "CausalityExplorerPanel",
+    "roles": [
+      {
+        "type": "summary",
+        "startLine": 75,
+        "endLine": 305,
+        "purity": 0.8333333333333334
+      },
+      {
+        "type": "narrative",
+        "startLine": 75,
+        "endLine": 305,
+        "purity": 0.8333333333333334
+      },
+      {
+        "type": "technical-evidence",
+        "startLine": 75,
+        "endLine": 305,
+        "purity": 0.9333333333333333
+      }
+    ],
+    "complexity": 0.7666666666666667,
+    "risk": 0.3066666666666667,
+    "priority": 52.92444444444444
+  },
+  {
+    "component": "ExecutiveTimelinePanel",
+    "roles": [
+      {
+        "type": "summary",
+        "startLine": 74,
+        "endLine": 210,
+        "purity": 0.9473684210526315
+      },
+      {
+        "type": "recommendation",
+        "startLine": 74,
+        "endLine": 210,
+        "purity": 1
+      },
+      {
+        "type": "narrative",
+        "startLine": 74,
+        "endLine": 210,
+        "purity": 0.8666666666666667
+      }
+    ],
+    "complexity": 0.525,
+    "risk": 0.21000000000000002,
+    "priority": 63.90684210526316
+  },
+  {
+    "component": "GovernanceExecutionPanel",
+    "roles": [
+      {
+        "type": "summary",
+        "startLine": 145,
+        "endLine": 541,
+        "purity": 1
+      },
+      {
+        "type": "recommendation",
+        "startLine": 145,
+        "endLine": 541,
+        "purity": 0.8
+      },
+      {
+        "type": "technical-evidence",
+        "startLine": 145,
+        "endLine": 541,
+        "purity": 0.8095238095238095
+      },
+      {
+        "type": "decision-trace",
+        "startLine": 145,
+        "endLine": 541,
+        "purity": 1
+      }
+    ],
+    "complexity": 1,
+    "risk": 0.75,
+    "priority": 20.75
+  },
+  {
+    "component": "GovernanceJourneyPanel",
+    "roles": [
+      {
+        "type": "summary",
+        "startLine": 78,
+        "endLine": 403,
+        "purity": 0.8260869565217391
+      },
+      {
+        "type": "recommendation",
+        "startLine": 78,
+        "endLine": 403,
+        "purity": 0.8333333333333334
+      },
+      {
+        "type": "narrative",
+        "startLine": 78,
+        "endLine": 403,
+        "purity": 1
+      },
+      {
+        "type": "decision-trace",
+        "startLine": 78,
+        "endLine": 403,
+        "purity": 1
+      }
+    ],
+    "complexity": 0.9583333333333334,
+    "risk": 0.6353333333333333,
+    "priority": 27.730521739130435
+  },
+  {
+    "component": "GovernanceKnowledgePanel",
+    "roles": [
+      {
+        "type": "summary",
+        "startLine": 110,
+        "endLine": 348,
+        "purity": 0.85
+      },
+      {
+        "type": "technical-evidence",
+        "startLine": 110,
+        "endLine": 348,
+        "purity": 0.8571428571428571
+      },
+      {
+        "type": "decision-trace",
+        "startLine": 110,
+        "endLine": 348,
+        "purity": 1
+      }
+    ],
+    "complexity": 0.9083333333333333,
+    "risk": 0.5453333333333333,
+    "priority": 35.00933333333333
+  },
+  {
+    "component": "GovernanceLearningPanel",
+    "roles": [
+      {
+        "type": "summary",
+        "startLine": 51,
+        "endLine": 367,
+        "purity": 0.8888888888888888
+      },
+      {
+        "type": "technical-evidence",
+        "startLine": 51,
+        "endLine": 367,
+        "purity": 0.8571428571428571
+      },
+      {
+        "type": "decision-trace",
+        "startLine": 51,
+        "endLine": 367,
+        "purity": 0.9
+      }
+    ],
+    "complexity": 0.975,
+    "risk": 0.53,
+    "priority": 36.92111111111111
+  }
+]

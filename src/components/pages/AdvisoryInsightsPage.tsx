@@ -1,10 +1,23 @@
+
+
 import React, { useState } from 'react';
 import { Activity, Zap, Target, Sparkles, AlertTriangle, ShieldCheck, Presentation, BookOpen } from 'lucide-react';
 import { motion, AnimatePresence } from 'motion/react';
-import { PageHeader } from '../Common';
+import { PageHeader, StatusBadge } from '../Common';
 import { cn } from '../../lib/utils';
 import { useExecutiveAdvisory } from '../../hooks/useExecutiveAdvisory';
 import { useLanguage } from '../../contexts/LanguageContext';
+import { ExecutivePageTemplate } from '../ui/executive-page-template';
+import { ExecutiveSurface } from '../ui/executive-surface';
+import { ExecutiveAccordion } from '../ui/executive-accordion';
+import { ExecutiveEmptyState } from '../ui/executive-empty-state';
+import { ExecutiveHeading } from '../ui/executive-heading';
+import { ExecutiveText } from '../ui/executive-typography';
+import { createPortal } from 'react-dom';
+import { ExecutiveSummarySection } from '../ui/executive-summary-section';
+import { ExecutiveStrategicTensions } from '../ui/executive-strategic-tensions';
+import { ExecutiveDecisionTrace } from '../ui/executive-decision-trace';
+import { useAdvisoryInsightsViewModel } from '../../viewmodels/useAdvisoryInsightsViewModel';
 
 function SectionHeader({ icon: Icon, title, subtitle, tone }: any) {
   const tones: any = {
@@ -20,14 +33,18 @@ function SectionHeader({ icon: Icon, title, subtitle, tone }: any) {
         <Icon size={24} strokeWidth={2.5} />
       </div>
       <div>
-        <h3 className="text-h3 font-medium text-foreground tracking-tight leading-none mb-1">{title}</h3>
-        <p className="text-[10px] text-muted-foreground font-medium uppercase tracking-widest">{subtitle}</p>
+        <ExecutiveHeading as="h3" className="text-h3 text-foreground mb-1">{title}</ExecutiveHeading>
+        <ExecutiveText as="div" variant="bodyStandard" className="text-muted-foreground">{subtitle}</ExecutiveText>
       </div>
     </div>
   );
 }
 
 export function AdvisoryInsightsPage({ clients, selectedClient, selectedYear, selectedMonth }: any) {
+  // Adapter: useExecutiveAdvisory
+  // ViewModel: useAdvisoryInsightsViewModel
+  const { state, computed, actions } = useAdvisoryInsightsViewModel({ clientId: selectedClient });
+  const portal = createPortal;
   const month = selectedMonth || 3;
   const year = selectedYear || 2026;
   const client = clients.find((c: any) => c.id === selectedClient);
@@ -36,20 +53,28 @@ export function AdvisoryInsightsPage({ clients, selectedClient, selectedYear, se
   const { translateLabel: t } = useLanguage();
 
   return (
-    <div className="space-y-12 pb-32 animate-executive-fade">
-      <PageHeader 
-        title={t("advisory.title")}
-        subtitle={t("advisory.subtitle")}
-        icon={Presentation}
-        color="executive"
-      />
+    <ExecutivePageTemplate header={{
+      title: t("advisory.title"),
+      description: t("advisory.subtitle"),
+    }}>
+      <div className="flex flex-col md:flex-row md:items-center justify-between gap-6 mb-10">
 
-      <div className="mb-10 -mt-6"></div>
+        <StatusBadge status="Ativo" label="Painel de Insights C-Level" />
+      
+      </div>
+
+      <div className="mt-12 mb-8 border-t border-border pt-8" />
+      <ExecutiveAccordion
+        title="Síntese Advisory & Insights Estratégicos"
+        subtitle="Analise as leituras e direcionadores do conselho para a tomada de decisão."
+        variant="analytics"
+        defaultExpanded
+      >
 
       {loading ? (
         <div className="flex flex-col items-center justify-center py-20">
           <div className="w-16 h-16 rounded-full border-4 border-secondary/20 border-t-secondary animate-spin" />
-          <p className="text-[10px] font-medium uppercase tracking-widest mt-6 text-muted-foreground animate-pulse">{t("advisory.loading_synthesis")}</p>
+          <ExecutiveText as="div" variant="bodyStandard" className="mt-6 text-muted-foreground animate-pulse">{t("advisory.loading_synthesis")}</ExecutiveText>
         </div>
       ) : advisoryReport ? (
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-12">
@@ -69,24 +94,24 @@ export function AdvisoryInsightsPage({ clients, selectedClient, selectedYear, se
             
             <div className="card-premium p-8 space-y-8">
               <div className="space-y-4">
-                <h4 className="text-[10px] font-medium text-primary uppercase tracking-widest mb-2 flex items-center gap-2">
+                <ExecutiveHeading as="h4" className="text-primary mb-2 flex items-center gap-2">
                   <BookOpen size={14} /> {t("advisory.executive_summary")}
-                </h4>
-                <p className="text-body-lg text-foreground font-medium italic">"{advisoryReport.executiveSummary}"</p>
+                </ExecutiveHeading>
+                <ExecutiveText as="div" variant="bodyStandard" className="text-body-lg text-foreground italic">"{advisoryReport.executiveSummary}"</ExecutiveText>
               </div>
 
-              <div className="space-y-4 border-t border-border pt-6">
-                <h4 className="text-[10px] font-medium text-secondary uppercase tracking-widest mb-2 flex items-center gap-2">
+              <div className="mt-12 space-y-4 border-t border-border pt-6 pt-8 mb-8">
+                <ExecutiveHeading as="h4" className="text-secondary mb-2 flex items-center gap-2">
                   <Activity size={14} /> {t("advisory.institutional_diagnosis")}
-                </h4>
-        <p className="text-body text-executive-secondary leading-relaxed">{advisoryReport.institutionalDiagnosis}</p>
+                </ExecutiveHeading>
+        <ExecutiveText as="div" variant="bodyStandard" className="text-body text-executive-secondary">{advisoryReport.institutionalDiagnosis}</ExecutiveText>
               </div>
 
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-8 border-t border-border pt-6">
+              <div className="mt-12 grid grid-cols-1 md:grid-cols-2 gap-8 border-t border-border pt-6 pt-8 mb-8">
                 <div className="space-y-4">
-                  <h4 className="text-[10px] font-medium text-destructive uppercase tracking-widest flex items-center gap-2">
+                  <ExecutiveHeading as="h4" className="text-destructive flex items-center gap-2">
                     <AlertTriangle size={14} /> {t("advisory.dominant_risks")}
-                  </h4>
+                  </ExecutiveHeading>
                   <ul className="space-y-2">
                     {advisoryReport.dominantRisks.map((risk, i) => (
                       <li key={i} className="flex items-start gap-2 text-sm text-foreground">
@@ -96,9 +121,9 @@ export function AdvisoryInsightsPage({ clients, selectedClient, selectedYear, se
                   </ul>
                 </div>
                 <div className="space-y-4">
-                  <h4 className="text-[10px] font-medium text-success uppercase tracking-widest flex items-center gap-2">
+                  <ExecutiveHeading as="h4" className="text-success flex items-center gap-2">
                     <Target size={14} /> {t("advisory.strategic_priorities")}
-                  </h4>
+                  </ExecutiveHeading>
                   <ul className="space-y-2">
                     {advisoryReport.strategicPriorities.map((p, i) => (
                       <li key={i} className="flex items-start gap-2 text-sm text-foreground">
@@ -130,7 +155,7 @@ export function AdvisoryInsightsPage({ clients, selectedClient, selectedYear, se
                     className="card-premium p-6 border-l-4 border-l-secondary flex flex-col md:flex-row gap-6 items-center justify-between"
                   >
                     <div>
-                      <h4 className="text-h5 font-medium text-foreground">{action.acao}</h4>
+                      <ExecutiveHeading as="h4" className="text-h5 text-foreground">{action.acao}</ExecutiveHeading>
                       <div className="flex gap-4 mt-2">
                         <span className="text-[10px] font-medium uppercase text-muted-foreground tracking-widest">{t("advisory.impact")}: {action.impacto}</span>
                         <span className="text-[10px] font-medium uppercase text-muted-foreground tracking-widest">{t("advisory.time")}: {action.velocidade}</span>
@@ -156,9 +181,9 @@ export function AdvisoryInsightsPage({ clients, selectedClient, selectedYear, se
               </div>
 
               <div className="flex items-end gap-3 relative z-10">
-                <h2 className="text-5xl font-medium tracking-tighter leading-none">
+                <ExecutiveHeading as="h2">
                   {advisoryReport.confidenceLevel}
-                </h2>
+                </ExecutiveHeading>
               </div>
 
               <div className="space-y-3 relative z-10">
@@ -166,23 +191,23 @@ export function AdvisoryInsightsPage({ clients, selectedClient, selectedYear, se
                   <span>{t("advisory.recommended_posture")}</span>
                 </p>
                 <div className="p-3 bg-white/10 rounded-md border border-white/20">
-                  <p className="text-sm font-medium text-white">{advisoryReport.executivePosture}</p>
+                  <ExecutiveText as="div" variant="bodyStandard" className="text-white">{advisoryReport.executivePosture}</ExecutiveText>
                 </div>
               </div>
             </div>
 
             <div className="card-premium p-6 space-y-4">
-              <h4 className="text-[10px] font-medium text-warning uppercase tracking-widest mb-2">
+              <ExecutiveHeading as="h4" className="text-warning mb-2">
                  {t("advisory.board_decision")}
-              </h4>
-              <p className="text-body-sm text-foreground font-medium italic border-l-2 border-warning pl-3">{advisoryReport.recommendedBoardDecision}</p>
+              </ExecutiveHeading>
+              <ExecutiveText as="div" variant="bodyStandard" className="text-body-sm text-foreground italic border-l-2 border-warning pl-3">{advisoryReport.recommendedBoardDecision}</ExecutiveText>
             </div>
 
             {advisoryReport.blockedFalsePositives.length > 0 && (
               <div className="bg-critical-soft border border-destructive/20 p-6 rounded-md space-y-4">
-                <h4 className="text-[10px] font-medium text-destructive uppercase tracking-widest flex items-center gap-2">
+                <ExecutiveHeading as="h4" className="text-destructive flex items-center gap-2">
                   <AlertTriangle size={14} /> {t("advisory.causal_moderation_title")}
-                </h4>
+                </ExecutiveHeading>
                 <ul className="space-y-2">
                   {advisoryReport.blockedFalsePositives.map((fp, i) => (
                     <li key={i} className="text-xs text-destructive font-medium leading-relaxed">• {fp}</li>
@@ -193,9 +218,9 @@ export function AdvisoryInsightsPage({ clients, selectedClient, selectedYear, se
             
             {advisoryReport.narrativeModeration.length > 0 && (
               <div className="bg-primary/5 border border-primary/10 p-6 rounded-md space-y-4">
-                <h4 className="text-[10px] font-medium text-primary uppercase tracking-widest">
+                <ExecutiveHeading as="h4" className="text-primary">
                   {t("advisory.moderation_context_title")}
-                </h4>
+                </ExecutiveHeading>
                 <ul className="space-y-2">
                   {advisoryReport.narrativeModeration.map((nm, i) => (
                     <li key={i} className="text-xs text-muted-foreground font-medium leading-relaxed">• {nm}</li>
@@ -208,10 +233,22 @@ export function AdvisoryInsightsPage({ clients, selectedClient, selectedYear, se
       ) : (
         <div className="card-premium bg-surface-container p-20 text-center">
           <Sparkles size={64} className="mx-auto mb-6 text-muted-foreground/20" />
-          <h4 className="text-h4 font-medium text-foreground mb-2 tracking-tight">{t("advisory.waiting_data_title")}</h4>
-     <p className="text-executive-secondary font-medium">{t("advisory.waiting_data_subtitle")}</p>
+          <ExecutiveHeading as="h4" className="text-h4 text-foreground mb-2">{t("advisory.waiting_data_title")}</ExecutiveHeading>
+     <ExecutiveText as="div" variant="bodyStandard" className="text-executive-secondary">{t("advisory.waiting_data_subtitle")}</ExecutiveText>
         </div>
       )}
-    </div>
+       <ExecutiveSummarySection 
+         status={{ label: 'Insights Homologados', variant: 'success' }}
+         question="Quais as principais recomendações estratégicas e leituras do conselho fiduciário?"
+         opinion="O conselho homologa a síntese de pareceres, destacando os direcionadores operacionais prioritários."
+         driver="Painel de insights C-Level, síntese de advisory, alertas operacionais e moderação narrativa."
+         implication="Alinhamento estratégico contínuo entre a assessoria fiduciária e o conselho de administração."
+         action="Acompanhar a implementação dos insights priorizados no roadmap de governança."
+       >
+         <ExecutiveStrategicTensions tensions={[]} />
+         <ExecutiveDecisionTrace trace={[]} />
+       </ExecutiveSummarySection>
+      </ExecutiveAccordion>
+    </ExecutivePageTemplate>
   );
 }

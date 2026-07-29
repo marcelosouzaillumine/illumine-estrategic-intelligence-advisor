@@ -1,8 +1,8 @@
-// src/components/operational-governance/InstitutionalDependencyRadar.tsx
-
 import React from 'react';
 import { Target, AlertTriangle } from 'lucide-react';
 import { InstitutionalDependencyRisk } from '../../services/FiduciaryRuntimeAdapter';
+// src/components/operational-governance/InstitutionalDependencyRadar.tsx
+
 
 interface InstitutionalDependencyRadarProps {
   dependencies: InstitutionalDependencyRisk[];

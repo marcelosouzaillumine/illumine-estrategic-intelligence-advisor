@@ -1,9 +1,6 @@
-// src/components/strategic-intelligence/InstitutionalStrategicIntelligenceCenter.tsx
-
 import React from 'react';
 import { Network } from 'lucide-react';
 import { InstitutionalStrategicIntelligenceOutput } from '../../services/FiduciaryRuntimeAdapter';
-
 import { StrategicPosturePanel } from './StrategicPosturePanel';
 import { InstitutionalVectorMap } from './InstitutionalVectorMap';
 import { StrategicContradictionSurface } from './StrategicContradictionSurface';
@@ -13,6 +10,9 @@ import { CapitalStrategyAlignmentSurface } from './CapitalStrategyAlignmentSurfa
 import { StrategicExplainabilityDrawer } from './StrategicExplainabilityDrawer';
 import { StrategicRestrictionOverlay } from './StrategicRestrictionOverlay';
 import { InstitutionalDirectionHeatmap } from './InstitutionalDirectionHeatmap';
+// src/components/strategic-intelligence/InstitutionalStrategicIntelligenceCenter.tsx
+
+
 
 interface InstitutionalStrategicIntelligenceCenterProps {
   data: InstitutionalStrategicIntelligenceOutput;

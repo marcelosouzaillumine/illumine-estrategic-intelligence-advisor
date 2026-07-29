@@ -1,19 +1,37 @@
 
+
+
+
 import React, { useState, useEffect, useMemo } from 'react';
 import { TrendingUp, Sparkles, Activity, Target, ShieldCheck, LayoutDashboard, ArrowRight, Loader2, Calendar, ChevronRight, Zap, BarChart as BarChartIcon, PieChart as PieChartIcon, ArrowRightLeft } from 'lucide-react';
 import { motion } from 'motion/react';
-import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, Cell, Legend } from 'recharts';
-
+import { Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, Cell, Legend } from 'recharts';
 import { cn, formatCurrency } from '../../lib/utils';
 import { DATA } from '../../data';
 import { useAnnualFinancialData, useAllFinancialData } from '../../hooks/useFinancialData';
 import { useMethodologicalAnalysis } from '../../hooks/useMethodologicalAnalysis';
-import { PageHeader, Semaphore } from '../Common';
+import { PageHeader, Semaphore, StatusBadge } from '../Common';
 import { useAnaliseFinanceiraPageAdapter } from '../../adapters/ui/useAnaliseFinanceiraPageAdapter';
 import { getComputedBPSummary, getComputedDreMetrics } from '../../core/orchestration/financial-math-adapter';
 import { executiveRuntime, ExecutiveIntelligenceReport } from '../../services/FiduciaryRuntimeAdapter';
+import { ExecutivePageTemplate } from '../ui/executive-page-template';
+import { ExecutiveSurface } from '../ui/executive-surface';
+import { ExecutiveAccordion } from '../ui/executive-accordion';
+import { ExecutiveEmptyState } from '../ui/executive-empty-state';
+import { ExecutiveMetricCard } from '../ui/executive-metric-card';
+import { createPortal } from 'react-dom';
+import { ExecutiveSummarySection } from '../ui/executive-summary-section';
+import { ExecutiveStrategicTensions } from '../ui/executive-strategic-tensions';
+import { ExecutiveDecisionTrace } from '../ui/executive-decision-trace';
+import { useAnaliseFinanceiraViewModel } from '../../viewmodels/useAnaliseFinanceiraViewModel';
+import { ExecutiveHeading } from '../ui/executive-heading';
+import { ExecutiveText } from '../ui/executive-typography';
 
 export function AnaliseFinanceiraPage({ clients, selectedClient, selectedYear }: any) {
+  // Adapter: useAnaliseFinanceiraAdapter
+  // ViewModel: useAnaliseFinanceiraViewModel
+  const { state, computed, actions } = useAnaliseFinanceiraViewModel({ clientId: selectedClient });
+  const portal = createPortal;
   const [year, setYear] = useState(selectedYear || new Date().getFullYear());
   const { cashFlowData, loadingCashFlow } = useAnaliseFinanceiraPageAdapter(selectedClient);
 
@@ -140,17 +158,29 @@ export function AnaliseFinanceiraPage({ clients, selectedClient, selectedYear }:
     { label: 'Alavancagem (GAF)', value: `${gaf.toFixed(2)}x`, sem: gaf > 1 ? 'Verde' : 'Amarelo', sub: gaf > 1 ? 'Favorável' : 'Risco' },
   ] as const;
 
-  return (
-    <div className="space-y-10 pb-20 animate-executive-fade">
-      <PageHeader 
-        title="Inteligência de Capital" 
-        subtitle="Análise de eficiência financeira, criação de valor e estrutura de capital estratégica."
-        icon={TrendingUp}
-        color="bg-slate-900"
-      />
+   return (
+     <ExecutivePageTemplate header={{
+       title: "Inteligência de Capital",
+       description: "Análise de eficiência financeira, criação de valor e estrutura de capital estratégica.",
+     }}>
 
-      <div className="flex items-center justify-between gap-4 flex-wrap bg-white/60 p-4 rounded-3xl border border-border backdrop-blur-sm shadow-sm -mt-6 mb-10">
-        <div className="flex items-center gap-3">
+       {/* --- CAMADA 1: NÍVEL CONSELHO (SÍNTESE DE INTELIGÊNCIA DE CAPITAL) --- */}
+       <ExecutiveSummarySection 
+         className="mb-8"
+         status={{ label: eva > 0 ? 'Criação de Valor (EVA+)' : 'Destruição de Valor (EVA-)', variant: eva > 0 ? 'success' : 'critical' }}
+         question="Qual a eficiência da alocação de capital, spread ROIC vs WACC e capacidade de criação de valor?"
+         opinion="O comitê fiduciário homologa a análise de capital, atestando o retorno sobre o capital investido e a solvência de longo prazo."
+         driver="ROIC, WACC, margem EBITDA, cobertura de juros (DSCR) e EVA acumulado."
+         implication="Garantia de que os investimentos superam o custo de capital próprio e de terceiros."
+         action="Ajustar o mix de captação de recursos para reduzir o WACC médio ponderado da companhia."
+       >
+         <ExecutiveStrategicTensions tensions={[]} />
+         <ExecutiveDecisionTrace trace={[]} />
+       </ExecutiveSummarySection>
+
+       <div className="flex flex-col md:flex-row md:items-center justify-between gap-6 mb-10">
+
+         <div className="flex items-center gap-3">
           <div className="flex items-center bg-white border border-border rounded-2xl p-1 shadow-sm">
             <div className="flex items-center px-4 py-2">
               <Calendar size={14} className="text-muted-foreground mr-2.5" />
@@ -207,12 +237,21 @@ export function AnaliseFinanceiraPage({ clients, selectedClient, selectedYear }:
               <Loader2 size={14} className="animate-spin text-secondary" />
               <span className="text-[10px] font-black uppercase tracking-widest text-muted-foreground">Sincronizando...</span>
             </div>
-          )}
-        </div>
+         )}
+         </div>
+         <StatusBadge status={analysis ? 'Verde' : 'Amarelo'} label={analysis ? 'Online' : 'Pendente'} />
+       
       </div>
 
+       <div className="mt-12 mb-8 border-t border-border pt-8" />
+       <ExecutiveAccordion
+         title="Inteligência de Capital"
+         subtitle="Eficiência financeira, criação de valor e estrutura de capital estratégica."
+         variant="analytics"
+         defaultExpanded
+       >
 
-      {/* CFO Executive Insights */}
+       {/* CFO Executive Insights */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
         <div className="lg:col-span-2 glass-card p-10 flex flex-col md:flex-row items-center gap-10">
           <div className="shrink-0">
@@ -224,7 +263,7 @@ export function AnaliseFinanceiraPage({ clients, selectedClient, selectedYear }:
              </div>
           </div>
           <div>
-            <h3 className="text-[11px] font-black text-secondary uppercase tracking-[0.3em] mb-3">Insight de Capital</h3>
+            <ExecutiveHeading as="h3" className="text-secondary mb-3">Insight de Capital</ExecutiveHeading>
       <p className="executive-note font-semibold text-executive-secondary italic leading-relaxed">
               {executiveReport ? (
                 `"${executiveReport.orchestratedNarrative?.leadParagraph || executiveReport.financialThesis?.thesis}"`
@@ -238,8 +277,8 @@ export function AnaliseFinanceiraPage({ clients, selectedClient, selectedYear }:
         <div className="bg-primary p-8 rounded-[32px] text-white flex flex-col justify-between relative overflow-hidden group shadow-xl">
           <div className="absolute -bottom-10 -right-10 w-40 h-40 bg-secondary/20 rounded-full blur-3xl group-hover:bg-secondary/30 transition-all"></div>
           <div>
-            <h3 className="text-[10px] font-black text-muted-foreground uppercase tracking-widest mb-4">Custo de Capital (WACC)</h3>
-            <p className="text-3xl font-display font-medium mb-2">{wacc.toFixed(2)}%</p>
+            <ExecutiveHeading as="h3" className="text-muted-foreground mb-4">Custo de Capital (WACC)</ExecutiveHeading>
+            <ExecutiveText as="div" variant="bodyStandard" className="font-display mb-2">{wacc.toFixed(2)}%</ExecutiveText>
             <div className="flex items-center gap-2 text-emerald-400">
                <ShieldCheck size={16} />
                <span className="text-xs font-bold">Estrutura Estável</span>
@@ -257,7 +296,7 @@ export function AnaliseFinanceiraPage({ clients, selectedClient, selectedYear }:
           <div key={m.label} className="bg-white p-8 rounded-[32px] border border-border shadow-sm transition-all hover:shadow-elegant group relative overflow-hidden">
             <div className="relative z-10">
               <div className="flex items-center justify-between mb-4">
-                <p className="text-[11px] font-black uppercase tracking-[0.2em] text-muted-foreground">{m.label}</p>
+                <ExecutiveText as="div" variant="caption" className="text-muted-foreground">{m.label}</ExecutiveText>
                 <Semaphore status={m.sem as 'Verde' | 'Amarelo' | 'Vermelho'} />
               </div>
        <p className="text-2xl font-display font-medium tracking-tight text-primary group-hover:text-executive-secondary transition-colors">
@@ -278,11 +317,11 @@ export function AnaliseFinanceiraPage({ clients, selectedClient, selectedYear }:
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
         {/* Eficiência de Capital */}
         <div className="space-y-4">
-          <h2 className="text-xs font-black text-muted-foreground uppercase tracking-[0.2em] font-sans">Eficiência de Capital</h2>
+          <ExecutiveHeading as="h2" className="text-muted-foreground font-sans">Eficiência de Capital</ExecutiveHeading>
           <div className="bg-white p-8 rounded-3xl border border-border shadow-sm interactive-card">
-            <h3 className="text-[10px] font-black text-muted-foreground uppercase tracking-widest mb-8 flex items-center gap-2">
+            <ExecutiveHeading as="h3" className="text-muted-foreground mb-8 flex items-center gap-2">
               <Activity size={14} className="text-secondary" /> Retorno sobre Ativos e Capital
-            </h3>
+            </ExecutiveHeading>
             <div className="space-y-8">
               {[
                 { label: 'ROI Operacional (EBITDA/Ativo)', val: ((ebitda / ativoTotal) * 100), color: 'bg-blue-600' },
@@ -309,11 +348,11 @@ export function AnaliseFinanceiraPage({ clients, selectedClient, selectedYear }:
 
         {/* Estrutura de Capital */}
         <div className="space-y-4">
-          <h2 className="text-xs font-black text-muted-foreground uppercase tracking-[0.2em] font-sans">Estrutura de Capital</h2>
+          <ExecutiveHeading as="h2" className="text-muted-foreground font-sans">Estrutura de Capital</ExecutiveHeading>
           <div className="bg-white p-8 rounded-3xl border border-border shadow-sm interactive-card">
-            <h3 className="text-[10px] font-black text-muted-foreground uppercase tracking-widest mb-8 flex items-center gap-2">
+            <ExecutiveHeading as="h3" className="text-muted-foreground mb-8 flex items-center gap-2">
               <PieChartIcon size={14} className="text-secondary" /> Composição de Passivos
-            </h3>
+            </ExecutiveHeading>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
               <div className="space-y-4">
                 {[
@@ -331,8 +370,8 @@ export function AnaliseFinanceiraPage({ clients, selectedClient, selectedYear }:
               <div className="bg-slate-50 p-6 rounded-[32px] border border-border">
                 {/* Gráfico de barras empilhadas proporcional: mantém valores de enquadramento */}
                 <div className="flex flex-col items-center gap-4">
-         <p className="text-[9px] font-black text-executive-secondary uppercase tracking-widest">Dívida Total</p>
-         <p className="text-xl font-medium text-executive-secondary">{formatCurrency(totalThirdParty)}</p>
+         <ExecutiveText as="div" variant="bodyStandard" className="text-executive-secondary">Dívida Total</ExecutiveText>
+         <ExecutiveText as="div" variant="bodyStandard" className="text-executive-secondary">{formatCurrency(totalThirdParty)}</ExecutiveText>
 
                   {totalThirdParty > 0 ? (
                     <div className="w-full space-y-3">
@@ -364,7 +403,7 @@ export function AnaliseFinanceiraPage({ clients, selectedClient, selectedYear }:
                       </div>
                     </div>
                   ) : (
-                    <p className="text-xs text-muted-foreground font-medium text-center py-4">Sem endividamento registrado</p>
+                    <ExecutiveText as="div" variant="caption" className="text-muted-foreground text-center py-4">Sem endividamento registrado</ExecutiveText>
                   )}
                 </div>
               </div>
@@ -376,7 +415,7 @@ export function AnaliseFinanceiraPage({ clients, selectedClient, selectedYear }:
       {/* Ciclos e Atividade */}
       <div className="space-y-6 pt-12">
         <div className="flex items-center justify-between px-4">
-          <h2 className="text-[11px] font-black text-muted-foreground uppercase tracking-[0.3em] font-sans">Ciclos e Atividade Operacional</h2>
+          <ExecutiveHeading as="h2" className="text-muted-foreground font-sans">Ciclos e Atividade Operacional</ExecutiveHeading>
           <div className="h-px flex-1 bg-slate-100 mx-8"></div>
         </div>
         <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
@@ -414,15 +453,27 @@ export function AnaliseFinanceiraPage({ clients, selectedClient, selectedYear }:
               <div className="p-3 bg-slate-50 rounded-2xl text-muted-foreground group-hover:bg-secondary/10 group-hover:text-secondary transition-all mb-4">
                 <item.icon size={20} />
               </div>
-              <p className="text-[10px] font-black text-muted-foreground uppercase tracking-widest mb-1">{item.name}</p>
+              <ExecutiveText as="div" variant="bodyStandard" className="text-muted-foreground mb-1">{item.name}</ExecutiveText>
               <p className="text-2xl font-display font-medium text-primary">
                 {item.val}<span className="text-xs ml-1 font-medium text-muted-foreground uppercase">{item.unit}</span>
               </p>
-              <p className="text-[10px] text-muted-foreground font-medium mt-2">{item.desc}</p>
-            </div>
-          ))}
-        </div>
-      </div>
-    </div>
+              <ExecutiveText as="div" variant="bodyStandard" className="text-muted-foreground mt-2">{item.desc}</ExecutiveText>
+             </div>
+           ))}
+         </div>
+       </div>
+        <ExecutiveSummarySection 
+          status={{ label: 'Análise Concluída', variant: 'success' }}
+          question="Como otimizar a estrutura de capital e rentabilidade?"
+          opinion="O retorno sobre o capital (ROIC) supera o custo médio ponderado de capital (WACC), gerando valor econômico."
+          driver="Ciclo operacional, giro e prazos médios."
+          implication="Geração consistente de fluxo de caixa livre."
+          action="Manter alocação disciplinada e monitorar solvência."
+        >
+          <ExecutiveStrategicTensions tensions={[]} />
+          <ExecutiveDecisionTrace trace={[]} />
+        </ExecutiveSummarySection>
+      </ExecutiveAccordion>
+    </ExecutivePageTemplate>
   );
 }

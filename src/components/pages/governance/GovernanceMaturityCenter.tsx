@@ -1,12 +1,19 @@
+import { ExecutiveText } from '@/components/ui/executive-typography';
+import { ExecutiveHeading } from '@/components/ui/executive-heading';
+import { ExecutiveSurface } from '@/components/ui/executive-surface';
+import { ExecutiveMetricCard } from '@/components/ui/executive-metric-card';
+import { ExecutiveBadge } from '@/components/ui/executive-badge';
+import { ExecutiveSummarySection } from '@/components/ui/executive-summary-section';
+import { ExecutiveTechnicalEvidenceSection } from '@/components/executive-architecture/executive-technical-evidence-section';
 import React, { useState, useEffect, useMemo } from 'react';
 import { BookOpen, Target, ShieldCheck, CheckCircle2, TrendingUp, AlertTriangle, Zap, ChevronRight, Brain, Activity, Download, Share2, Loader2, Star } from 'lucide-react';
 import { motion, AnimatePresence } from 'motion/react';
 import { Radar, RadarChart, PolarGrid, PolarAngleAxis, PolarRadiusAxis, ResponsiveContainer } from 'recharts';
-import { PageHeader, MarkdownText } from '../../Common';
-import { cn } from '../../../lib/utils';
-import { GOVERNANCE_PRINCIPLES, calculateGovernanceMaturityScore, calculateAxisMaturity, getMaturityClassification, GOVERNANCE_ALIGNMENT_ASSESSMENT, getPrincipleById, crossValidateWithIndicators, calculateGovernanceAlignmentScore } from '../../../lib/governanceIntelligence';
-import { useGovernanceMaturityAdapter } from '../../../adapters/ui/useGovernanceMaturityAdapter';
-import { generateGovernanceDiagnosis } from '../../../services/aiService';
+import { PageHeader, MarkdownText } from '@/components/Common';
+import { cn } from '@/lib/utils';
+import { GOVERNANCE_PRINCIPLES, calculateGovernanceMaturityScore, calculateAxisMaturity, getMaturityClassification, GOVERNANCE_ALIGNMENT_ASSESSMENT, getPrincipleById, crossValidateWithIndicators, calculateGovernanceAlignmentScore } from '@/lib/governanceIntelligence';
+import { useGovernanceMaturityAdapter } from '@/adapters/ui/useGovernanceMaturityAdapter';
+import { generateGovernanceDiagnosis } from '@/services/aiService';
 
 export function GovernanceMaturityCenter({ clientId }: { clientId: string }) {
   const [activeTab, setActiveTab] = useState<'principios' | 'score'>('score');
@@ -113,8 +120,8 @@ export function GovernanceMaturityCenter({ clientId }: { clientId: string }) {
                 <Target size={18} />
               </div>
               <div>
-                <p className="text-[8px] font-medium uppercase tracking-widest text-muted-foreground">Maturidade</p>
-                <p className="text-sm font-medium text-foreground">{hasData ? maturityScore : '---'}<span className="text-[10px] text-muted-foreground">/100</span></p>
+                <ExecutiveText as="div" variant="bodyStandard" className="text-muted-foreground">Maturidade</ExecutiveText>
+                <ExecutiveText as="div" variant="bodyStandard" className="text-foreground">{hasData ? maturityScore : '---'}<span className="text-[10px] text-muted-foreground">/100</span></ExecutiveText>
               </div>
             </div>
 
@@ -125,8 +132,8 @@ export function GovernanceMaturityCenter({ clientId }: { clientId: string }) {
                 <Activity size={18} />
               </div>
               <div>
-                <p className="text-[8px] font-medium uppercase tracking-widest text-muted-foreground">Alinhamento</p>
-                <p className="text-sm font-medium text-foreground">{hasData ? alignmentScore : '---'}<span className="text-[10px] text-muted-foreground">/100</span></p>
+                <ExecutiveText as="div" variant="bodyStandard" className="text-muted-foreground">Alinhamento</ExecutiveText>
+                <ExecutiveText as="div" variant="bodyStandard" className="text-foreground">{hasData ? alignmentScore : '---'}<span className="text-[10px] text-muted-foreground">/100</span></ExecutiveText>
               </div>
             </div>
           </div>
@@ -199,7 +206,7 @@ export function GovernanceMaturityCenter({ clientId }: { clientId: string }) {
                   initial={{ opacity: 0, scale: 0.95 }}
                   animate={{ opacity: 1, scale: 1 }}
                   exit={{ opacity: 0, scale: 0.95 }}
-                  className="card-premium p-8 hover:border-warning/20 transition-all flex flex-col h-full group"
+                  className="bg-card border border-border rounded-2xl p-8 hover:border-warning/20 transition-all flex flex-col h-full group"
                 >
                   <div className="mb-6">
                     <div className="flex justify-between items-start mb-4">
@@ -211,17 +218,17 @@ export function GovernanceMaturityCenter({ clientId }: { clientId: string }) {
                       </span>
                     </div>
                     <div className="space-y-1">
-                       <p className="text-[10px] font-medium text-warning uppercase tracking-widest">{principle.axis}</p>
-                       <h3 className="text-h3 font-medium text-foreground tracking-tight">{principle.name}</h3>
+                       <ExecutiveText as="div" variant="bodyStandard" className="text-warning">{principle.axis}</ExecutiveText>
+                       <ExecutiveHeading as="h3" className="text-h3 text-foreground">{principle.name}</ExecutiveHeading>
                     </div>
                   </div>
                   
-                  <p className="text-body-sm font-medium text-muted-foreground italic mb-8 leading-relaxed">"{principle.description}"</p>
+                  <ExecutiveText as="div" variant="bodyStandard" className="text-body-sm text-muted-foreground italic mb-8">"{principle.description}"</ExecutiveText>
                   
-                  <div className="mt-auto space-y-6 pt-6 border-t border-border">
+                  <div className="mt-auto space-y-6 pt-6 border-t border-border pt-8 mb-8">
                     <div className="grid grid-cols-2 gap-6">
                       <div className="space-y-1">
-                        <p className="text-[9px] font-medium text-muted-foreground uppercase tracking-widest">Impacto Estratégico</p>
+                        <ExecutiveText as="div" variant="bodyStandard" className="text-muted-foreground">Impacto Estratégico</ExecutiveText>
                         <div className="flex gap-0.5">
                           {[1, 2, 3, 4, 5].map((star) => (
                             <Star 
@@ -235,13 +242,13 @@ export function GovernanceMaturityCenter({ clientId }: { clientId: string }) {
                         </div>
                       </div>
                       <div className="space-y-1">
-                        <p className="text-[9px] font-medium text-muted-foreground uppercase tracking-widest">Cross-Impact</p>
-                        <p className="text-[10px] font-medium text-foreground leading-tight uppercase tracking-widest">{principle.crossAxisImpact}</p>
+                        <ExecutiveText as="div" variant="bodyStandard" className="text-muted-foreground">Cross-Impact</ExecutiveText>
+                        <ExecutiveText as="div" variant="bodyStandard" className="text-foreground">{principle.crossAxisImpact}</ExecutiveText>
                       </div>
                     </div>
 
                     <div className="space-y-3">
-                       <p className="text-[9px] font-medium text-muted-foreground uppercase tracking-widest">Plano de Ação Executivo (50 Sugestões Práticas)</p>
+                       <ExecutiveText as="div" variant="bodyStandard" className="text-muted-foreground">Plano de Ação Executivo (50 Sugestões Práticas)</ExecutiveText>
                        <div className="space-y-3 max-h-60 overflow-y-auto pr-2 custom-scrollbar">
                           {principle.executiveRecommendations.map((rec, i) => (
                             <div key={i} className="flex gap-3 items-start group/item">
@@ -267,7 +274,7 @@ export function GovernanceMaturityCenter({ clientId }: { clientId: string }) {
         <div className="space-y-12 animate-in fade-in slide-in-from-bottom-8 duration-700">
           {!showResults ? (
             <div className="space-y-16">
-              <div className="card-premium p-12 md:p-16 relative overflow-hidden group">
+              <div className="bg-card border border-border rounded-2xl p-12 md:p-16 relative overflow-hidden group">
                  <div className="absolute top-0 right-0 w-96 h-96 bg-warning/5 rounded-full -mr-32 -mt-32 blur-[100px]" />
                  <div className="absolute bottom-0 left-0 w-64 h-64 bg-secondary/5 rounded-full -ml-20 -mb-20 blur-[80px]" />
                  
@@ -283,9 +290,9 @@ export function GovernanceMaturityCenter({ clientId }: { clientId: string }) {
                      <div className="inline-flex items-center gap-2 px-4 py-1.5 bg-warning-soft text-warning rounded-md border border-warning/10 text-[10px] font-medium uppercase tracking-widest mb-2">
                         <Activity size={12} /> Avaliação Inteligente
                      </div>
-                     <h2 className="text-h1 font-medium text-foreground tracking-tight leading-[1.1]">
+                     <ExecutiveHeading as="h2" className="text-h1 text-foreground">
                        Checklist de Maturidade Sistêmica
-                     </h2>
+                     </ExecutiveHeading>
                      <p className="text-body-md text-muted-foreground leading-relaxed max-w-2xl font-medium">
                        Esta jornada cruzará sua percepção qualitativa com os indicadores reais da organização, gerando uma camada semântica de análise sobre a integridade e maturidade da sua gestão.
                      </p>
@@ -294,7 +301,7 @@ export function GovernanceMaturityCenter({ clientId }: { clientId: string }) {
                    <div className="hidden xl:block w-px h-24 bg-border" />
                    
                    <div className="hidden xl:flex flex-col items-center gap-2 px-8">
-                     <p className="text-[10px] font-medium text-muted-foreground uppercase tracking-widest">Progresso</p>
+                     <ExecutiveText as="div" variant="bodyStandard" className="text-muted-foreground">Progresso</ExecutiveText>
                      <div className="relative w-20 h-20 flex items-center justify-center">
                         <svg className="w-20 h-20 rotate-[-90deg]">
                           <circle cx="40" cy="40" r="36" fill="none" stroke="var(--color-surface-container)" strokeWidth="8" />
@@ -311,7 +318,7 @@ export function GovernanceMaturityCenter({ clientId }: { clientId: string }) {
                 {GOVERNANCE_ALIGNMENT_ASSESSMENT.map((axisGroup) => (
                   <div key={axisGroup.axis} className="space-y-8">
                     <div className="flex items-center gap-6">
-                       <h3 className="text-[10px] font-medium text-muted-foreground uppercase tracking-[0.4em] whitespace-nowrap">{axisGroup.axis}</h3>
+                       <ExecutiveHeading as="h3" className="text-muted-foreground whitespace-nowrap">{axisGroup.axis}</ExecutiveHeading>
                        <div className="h-px w-full bg-border" />
                     </div>
 
@@ -324,14 +331,14 @@ export function GovernanceMaturityCenter({ clientId }: { clientId: string }) {
                           <motion.div 
                             key={q.id}
                             className={cn(
-                              "card-premium p-10 transition-all space-y-8 relative overflow-hidden group hover:border-warning/20",
+                              "bg-card border border-border rounded-2xl p-10 transition-all space-y-8 relative overflow-hidden group hover:border-warning/20",
                               responses[principle.id] !== undefined && "border-warning/20 bg-warning/5"
                             )}
                           >
                             <div className="flex justify-between items-start gap-6">
                               <div className="space-y-2 flex-1">
                                 <span className="text-[10px] font-medium text-warning uppercase tracking-widest">{principle.name}</span>
-                                <h4 className="text-body-md font-medium text-foreground tracking-tight leading-relaxed">{principle.maturityQuestion}</h4>
+                                <ExecutiveHeading as="h4" className="text-body-md text-foreground">{principle.maturityQuestion}</ExecutiveHeading>
                               </div>
                               <div className="shrink-0 bg-surface-container px-4 py-2 rounded-md border border-border text-[10px] font-medium text-muted-foreground group-hover:bg-warning-soft group-hover:text-warning group-hover:border-warning/20 transition-colors flex items-center gap-2">
                                 <span className="uppercase tracking-widest">Impacto</span>
@@ -372,7 +379,7 @@ export function GovernanceMaturityCenter({ clientId }: { clientId: string }) {
                               </div>
                             </div>
 
-                            <div className="grid grid-cols-2 gap-8 pt-8 border-t border-border">
+                            <div className="mt-12 grid grid-cols-2 gap-8 pt-8 border-t border-border mb-8">
                                <div className="space-y-2">
                                   <p className="text-[9px] font-medium text-muted-foreground uppercase tracking-widest flex items-center gap-2">
                                     <CheckCircle2 size={12} className="text-success" />
@@ -408,7 +415,7 @@ export function GovernanceMaturityCenter({ clientId }: { clientId: string }) {
                       <Zap size={48} />
                     </div>
                     <div className="space-y-4">
-                      <h3 className="text-h1 font-medium tracking-tight">Finalizar Diagnóstico Sistêmico</h3>
+                      <ExecutiveHeading as="h3" className="text-h1">Finalizar Diagnóstico Sistêmico</ExecutiveHeading>
                       <p className="text-white/60 text-body-md max-w-2xl mx-auto font-medium">
                         O motor de IA consolidará {Object.keys(responses).length} respostas com os indicadores reais da empresa para gerar o Índice de Maturidade Governança Organizacional.
                       </p>
@@ -429,11 +436,11 @@ export function GovernanceMaturityCenter({ clientId }: { clientId: string }) {
                  {/* Dashboard de Resultados */}
                  <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
                     {/* Radar Chart Section */}
-                    <div className="lg:col-span-8 card-premium p-12 flex flex-col">
+                    <div className="lg:col-span-8 bg-card border border-border rounded-2xl p-12 flex flex-col">
                       <div className="flex justify-between items-start mb-12">
                         <div>
-                          <h3 className="text-h2 font-medium text-foreground tracking-tight">Mapa de Maturidade Organizacional</h3>
-                          <p className="text-muted-foreground text-[10px] font-medium uppercase tracking-widest mt-1">Análise por Pilares de Gestão</p>
+                          <ExecutiveHeading as="h3" className="text-h2 text-foreground">Mapa de Maturidade Organizacional</ExecutiveHeading>
+                          <ExecutiveText as="div" variant="bodyStandard" className="text-muted-foreground mt-1">Análise por Pilares de Gestão</ExecutiveText>
                         </div>
                         <div className="flex gap-2">
                            <button 
@@ -473,11 +480,11 @@ export function GovernanceMaturityCenter({ clientId }: { clientId: string }) {
                           </RadarChart>
                         </ResponsiveContainer>
                       </div>
-                       <div className="grid grid-cols-2 md:grid-cols-4 gap-6 pt-10 border-t border-border">
+                       <div className="mt-12 grid grid-cols-2 md:grid-cols-4 gap-6 pt-10 border-t border-border pt-8 mb-8">
                           {radarData.map(d => (
                             <div key={d.subject} className="space-y-2 text-center">
-                              <p className="text-[9px] font-medium text-muted-foreground uppercase tracking-widest">{d.subject}</p>
-                              <p className="text-xl font-medium text-foreground">{d.A}%</p>
+                              <ExecutiveText as="div" variant="bodyStandard" className="text-muted-foreground">{d.subject}</ExecutiveText>
+                              <ExecutiveText as="div" variant="bodyStandard" className="text-foreground">{d.A}%</ExecutiveText>
                               <div className="h-1.5 w-full bg-surface-container rounded-full overflow-hidden">
                                 <motion.div 
                                   initial={{ width: 0 }}
@@ -497,7 +504,7 @@ export function GovernanceMaturityCenter({ clientId }: { clientId: string }) {
                             <ShieldCheck size={40} className={classification.color} />
                           </div>
                           <div className="space-y-2">
-                             <p className="text-[10px] font-medium uppercase tracking-widest text-muted-foreground">Classificação Atual</p>
+                             <ExecutiveText as="div" variant="bodyStandard" className="text-muted-foreground">Classificação Atual</ExecutiveText>
                              <h3 className={cn("text-3xl font-medium", classification.color)}>{classification.label}</h3>
                           </div>
                           <div className="text-6xl font-medium text-foreground tracking-tighter">
@@ -513,35 +520,35 @@ export function GovernanceMaturityCenter({ clientId }: { clientId: string }) {
                             <div className="w-10 h-10 bg-warning rounded-md flex items-center justify-center text-primary">
                                <Zap size={20} />
                             </div>
-                            <h4 className="text-h3 font-medium tracking-tight">Parecer Executivo</h4>
+                            <ExecutiveHeading as="h4" className="text-h3">Parecer Executivo</ExecutiveHeading>
                          </div>
                          
                          <div className="space-y-6">
                            {loadingDiagnosis ? (
                              <div className="space-y-4 py-8 flex flex-col items-center">
                                <Loader2 size={32} className="text-amber-500 animate-spin" />
-                               <p className="text-xs font-black uppercase tracking-widest text-muted-foreground">IA Consolidando Diagnóstico...</p>
+                               <ExecutiveText as="div" variant="caption" className="text-muted-foreground">IA Consolidando Diagnóstico...</ExecutiveText>
                              </div>
                            ) : (
                              <>
                                <div className="p-6 bg-white/5 rounded-md border border-white/10 space-y-3">
-                                 <p className="text-warning text-[10px] font-medium uppercase tracking-widest">Resumo Estratégico</p>
+                                 <ExecutiveText as="div" variant="bodyStandard" className="text-warning">Resumo Estratégico</ExecutiveText>
                                  <p className="text-body-sm text-white/80 leading-relaxed italic font-medium">
                                    {aiDiagnosis?.resumoExecutivo || "Aguardando geração do diagnóstico para exibir o resumo estratégico..."}
                                  </p>
                                </div>
 
                                <div className="space-y-4">
-                                  <p className="text-white font-medium text-[10px] uppercase tracking-widest">Ações Prioritárias</p>
+                                  <ExecutiveText as="div" variant="bodyStandard" className="text-white">Ações Prioritárias</ExecutiveText>
                                   <ul className="space-y-4">
                                     {(aiDiagnosis?.recomendacoesPrioritarias || []).map((item: string, i: number) => (
                                       <li key={i} className="flex gap-4 items-start">
                                         <div className="w-6 h-6 rounded-full bg-warning/20 text-warning flex items-center justify-center shrink-0 text-[10px] font-medium">{i+1}</div>
-                                        <p className="text-[11px] text-white/60 font-medium leading-snug italic">{item}</p>
+                                        <ExecutiveText as="div" variant="caption" className="text-white/60 italic">{item}</ExecutiveText>
                                       </li>
                                     ))}
                                     {!aiDiagnosis?.recomendacoesPrioritarias && (
-                                      <p className="text-[10px] text-white/40 italic">Gere o diagnóstico para visualizar as ações prioritárias.</p>
+                                      <ExecutiveText as="div" variant="bodyStandard" className="text-white/40 italic">Gere o diagnóstico para visualizar as ações prioritárias.</ExecutiveText>
                                     )}
                                   </ul>
                                </div>
@@ -562,44 +569,44 @@ export function GovernanceMaturityCenter({ clientId }: { clientId: string }) {
                  {/* AI Intelligence Detailed Report */}
                  {!loadingDiagnosis && aiDiagnosis && (
                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mt-8">
-                      <div className="card-premium p-10 space-y-6">
-                         <h4 className="text-body-md font-medium text-foreground flex items-center gap-3 uppercase tracking-widest">
+                      <div className="bg-card border border-border rounded-2xl p-10 space-y-6">
+                         <ExecutiveHeading as="h4" className="text-body-md text-foreground flex items-center gap-3">
                             <AlertTriangle className="text-destructive" size={20} />
                             Riscos e Gargalos
-                         </h4>
+                         </ExecutiveHeading>
                          <div className="space-y-3">
                             {aiDiagnosis.principaisRiscos.map((r: string, i: number) => (
                                <div key={i} className="p-4 bg-destructive/5 border border-destructive/10 rounded-md">
-                                  <p className="text-body-sm font-medium text-destructive leading-tight italic">{r}</p>
+                                  <ExecutiveText as="div" variant="bodyStandard" className="text-body-sm text-destructive italic">{r}</ExecutiveText>
                                </div>
                             ))}
                          </div>
                       </div>
 
-                      <div className="card-premium p-10 space-y-6">
-                         <h4 className="text-body-md font-medium text-foreground flex items-center gap-3 uppercase tracking-widest">
+                      <div className="bg-card border border-border rounded-2xl p-10 space-y-6">
+                         <ExecutiveHeading as="h4" className="text-body-md text-foreground flex items-center gap-3">
                             <Activity className="text-secondary" size={20} />
                             Potenciais Ocultos
-                         </h4>
+                         </ExecutiveHeading>
                          <div className="space-y-3">
                             {aiDiagnosis.potenciaisOcultos.map((p: string, i: number) => (
                                <div key={i} className="p-4 bg-secondary/5 border border-secondary/10 rounded-md">
-                                  <p className="text-body-sm font-medium text-secondary leading-tight italic">{p}</p>
+                                  <ExecutiveText as="div" variant="bodyStandard" className="text-body-sm text-secondary italic">{p}</ExecutiveText>
                                </div>
                             ))}
                          </div>
                       </div>
 
-                      <div className="card-premium p-10 space-y-6">
-                         <h4 className="text-body-md font-medium text-foreground flex items-center gap-3 uppercase tracking-widest">
+                      <div className="bg-card border border-border rounded-2xl p-10 space-y-6">
+                         <ExecutiveHeading as="h4" className="text-body-md text-foreground flex items-center gap-3">
                             <TrendingUp className="text-success" size={20} />
                             Plano de Ação
-                         </h4>
+                         </ExecutiveHeading>
                          <div className="space-y-3">
                             {aiDiagnosis.planoAcaoSugerido.map((a: string, i: number) => (
                                <div key={i} className="p-4 bg-success/5 border border-success/10 rounded-md flex gap-3">
                                   <CheckCircle2 size={16} className="text-success shrink-0" />
-                                  <p className="text-body-sm font-medium text-success leading-tight italic">{a}</p>
+                                  <ExecutiveText as="div" variant="bodyStandard" className="text-body-sm text-success italic">{a}</ExecutiveText>
                                </div>
                             ))}
                          </div>
@@ -608,11 +615,11 @@ export function GovernanceMaturityCenter({ clientId }: { clientId: string }) {
                  )}
 
                  {/* Heatmap Section */}
-                 <div className="card-premium p-12 mt-8">
+                 <div className="bg-card border border-border rounded-2xl p-12 mt-8">
                     <div className="flex justify-between items-center mb-10">
                       <div>
-                        <h4 className="text-h2 font-medium text-foreground tracking-tight">Mapa de Calor: Princípios Críticos</h4>
-                        <p className="text-muted-foreground text-[10px] font-medium uppercase tracking-widest mt-1">Visão 360º de Riscos e Oportunidades</p>
+                        <ExecutiveHeading as="h4" className="text-h2 text-foreground">Mapa de Calor: Princípios Críticos</ExecutiveHeading>
+                        <ExecutiveText as="div" variant="bodyStandard" className="text-muted-foreground mt-1">Visão 360º de Riscos e Oportunidades</ExecutiveText>
                       </div>
                       <div className="flex gap-4">
                          <div className="flex items-center gap-2">
@@ -646,8 +653,8 @@ export function GovernanceMaturityCenter({ clientId }: { clientId: string }) {
                                  <AlertTriangle size={12} className="text-destructive" />
                               </div>
                             )}
-                            <p className="text-[8px] font-medium uppercase tracking-tighter opacity-60">{p.name}</p>
-                            <p className="text-2xl font-medium">{score}</p>
+                            <ExecutiveText as="div" variant="bodyStandard" className="opacity-60">{p.name}</ExecutiveText>
+                            <ExecutiveText as="div" variant="bodyStandard">{score}</ExecutiveText>
                             <div className="h-1 bg-current opacity-20 rounded-full w-1/2 mx-auto" />
                           </div>
                         );

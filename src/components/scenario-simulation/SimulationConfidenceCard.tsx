@@ -1,7 +1,7 @@
 import React from 'react';
 import { useScenarioSimulation } from '../../context/scenario-simulation/ScenarioSimulationProvider';
-
 import { useLanguage } from '../../contexts/LanguageContext';
+
 
 export const SimulationConfidenceCard: React.FC = () => {
   const { t } = useLanguage();

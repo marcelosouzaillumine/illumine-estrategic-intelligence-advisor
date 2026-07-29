@@ -1,3 +1,4 @@
+import { ExecutiveHeading } from '../../ui/executive-heading';
 import { logger } from '../../../services/logging/InstitutionalLogger';
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
@@ -171,9 +172,9 @@ export function LoginPage() {
             </div>
           </div>
 
-          <h2 className="text-[clamp(1.25rem,4vh,1.5rem)] font-medium tracking-tight text-foreground leading-tight">
+          <ExecutiveHeading as="h2" className="text-foreground">
             {t('auth.title.login')}
-          </h2>
+          </ExecutiveHeading>
      <p className="mt-[clamp(0.25rem,1vh,0.375rem)] text-[clamp(0.75rem,2vh,0.875rem)] leading-snug text-executive-secondary font-medium font-sans">
             {t('auth.subtitle.login')}
           </p>

@@ -1,0 +1,59 @@
+{
+  "productCapabilities": [
+    {
+      "capabilityId": "cap-exec-workspace",
+      "name": "Executive Decision Workspace",
+      "package": "@illumine/executive-decision-workspace",
+      "agents": ["executive-decision-agent", "cfo-intelligence-agent"],
+      "engines": ["ExecutiveDecisionWorkspace"],
+      "kpis": ["decision_velocity", "approval_rate"],
+      "adr": "ADR-041",
+      "personas": ["CEO", "Diretor", "Controller"],
+      "page": "ClientExecutiveWorkspace"
+    },
+    {
+      "capabilityId": "cap-exec-narrative",
+      "name": "Executive Narrative Engine",
+      "package": "@illumine/executive-narrative-engine",
+      "agents": ["board-executive-advisor"],
+      "engines": ["ExecutiveNarrativeEngine"],
+      "kpis": ["narrative_clarity", "brief_confidence"],
+      "adr": "ADR-042",
+      "personas": ["CEO", "Board", "Advisor"],
+      "page": "RelatorioExecutivoPage"
+    },
+    {
+      "capabilityId": "cap-agent-debate",
+      "name": "Multi-Agent Debate Engine",
+      "package": "@illumine/agent-debate-engine",
+      "agents": ["cfo-agent", "risk-agent", "operations-agent"],
+      "engines": ["AgentDebateEngine"],
+      "kpis": ["convergence_score", "tradeoff_clarity"],
+      "adr": "ADR-043",
+      "personas": ["CEO", "Diretor"],
+      "page": "ExecutiveDecisionCenter"
+    },
+    {
+      "capabilityId": "cap-explainability",
+      "name": "Executive Explainability Center",
+      "package": "@illumine/executive-explainability",
+      "agents": ["executive-decision-agent"],
+      "engines": ["ExecutiveExplainabilityCenter"],
+      "kpis": ["explanation_depth", "audit_traceability"],
+      "adr": "ADR-044",
+      "personas": ["Controller", "Investidor", "Board"],
+      "page": "ExecutiveDecisionCenter"
+    },
+    {
+      "capabilityId": "cap-board-exp",
+      "name": "Executive Board Experience",
+      "package": "@illumine/executive-board",
+      "agents": ["board-executive-advisor"],
+      "engines": ["ExecutiveBoardExperience"],
+      "kpis": ["board_pack_completeness", "minutes_automation"],
+      "adr": "ADR-046",
+      "personas": ["Board", "CEO"],
+      "page": "EstruturaGovernancaPage"
+    }
+  ]
+}

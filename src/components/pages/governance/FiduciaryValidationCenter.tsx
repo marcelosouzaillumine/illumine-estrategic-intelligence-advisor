@@ -1,252 +1,252 @@
-import React, { useState, useEffect } from 'react';
-import { ShieldCheck, UserX, Network, FileWarning, AlertTriangle, Scale, BookOpen, Clock } from 'lucide-react';
-import { PageHeader } from '../../Common';
-import { useExecutiveCognitive } from '../../../context/executive-cognitive/ExecutiveCognitiveProvider';
-import { InstitutionalPrioritySurface, CriticalDecisionSurface, ExecutivePriorityStack } from '../../executive-cognitive';
-import { useInstitutionalMemory } from '../../../context/institutional-memory/InstitutionalMemoryProvider';
+import React from 'react';
+import { ShieldCheck, UserX, Network, FileWarning, BookOpen, Clock, Layers, Lock } from 'lucide-react';
+import { ExecutiveText } from '../../ui/executive-typography';
+import { ExecutiveHeading } from '../../ui/executive-heading';
+import { ExecutiveSurface } from '../../ui/executive-surface';
+import { ExecutiveMetricCard } from '../../ui/executive-metric-card';
+import { ExecutiveBadge } from '../../ui/executive-badge';
+import { Button } from '../../ui/button';
+import { Tabs, TabsList, TabsTrigger, TabsContent } from '../../ui/tabs';
+import { PageHeader } from '../../ui/page-header';
+import { ExecutiveDecisionIntegrityBadge } from '../../ui/executive-decision-integrity-badge';
+import { ExecutiveConflictCard } from '../../ui/executive-conflict-card';
+import { ExecutiveDecisionCard } from '../../ui/executive-decision-card';
+import { SemanticGovernanceFilterBar } from '../../ui/semantic-governance-filter-bar';
+import { useFiduciaryValidationPageViewModel } from '../../../viewmodels/useFiduciaryValidationPageViewModel';
+import { CriticalDecisionSurface, ExecutivePriorityStack } from '../../executive-cognitive';
 import { GovernanceHistoryExplorer, GovernanceRecurrencePanel, AdvisoryContinuitySurface, MemoryIntegrityBadge } from '../../institutional-memory';
 
 export function FiduciaryValidationCenter() {
-  const [activeTab, setActiveTab] = useState<'conflitos' | 'relacionadas' | 'decisoes' | 'memoria'>('conflitos');
-  const { setSignals } = useExecutiveCognitive();
+  const {
+    projection,
+    activeSection,
+    setActiveSection,
+    filters,
+    setSearchQuery,
+    setSeverityFilter,
+    setStatusFilter,
+    filteredConflicts,
+    filteredDecisions
+  } = useFiduciaryValidationPageViewModel();
 
-  useEffect(() => {
-    // Populate active cognitive context for the page fiduciarily
-    setSignals([
-      {
-        id: 'fid-1',
-        sourceModule: 'Fiduciary',
-        title: 'Declaração de Conflito Pendente',
-        description: 'João Silva (CFO) possui impedimento societário registrado sob a pauta atual.',
-        timestamp: new Date().toISOString(),
-        rawSeverity: 'WARNING',
-        fiduciaryEscalation: true
-      },
-      {
-        id: 'fid-2',
-        sourceModule: 'Fiduciary',
-        title: 'Impedimento Estatutário de Fornecedor',
-        description: 'Contratação de consultoria externa TechCorp bloqueada devido ao conflito de interesses com o aprovisionador.',
-        timestamp: new Date().toISOString(),
-        rawSeverity: 'CRITICAL',
-        fiduciaryEscalation: true,
-        lineageHash: 'LIN-100234-Y'
-      }
-    ]);
-    return () => {
-      setSignals([]);
-    };
-  }, [setSignals]);
+  const { fiduciaryHealth, decisionIntegrityIndex, provenance } = projection;
 
   return (
-    <InstitutionalPrioritySurface 
-      title="Governança Fiduciária"
-      subtitle="Gestão de conflitos de interesse, partes relacionadas e integridade de aprovações."
-    >
-      {/* Critical Decision Focus and Attention Queue */}
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-        <div className="lg:col-span-2">
+    <div className="w-full max-w-full space-y-6 sm:space-y-8 min-w-0 overflow-hidden text-foreground leading-relaxed">
+      {/* 1. Sovereign Page Header */}
+      <PageHeader
+        title="Governança Fiduciária — Reference Page L4"
+        description="Validação de impedimentos, rastreabilidade de decisões e monitoramento contínuo sob a Wave 12 Architecture."
+        actions={
+          <Button variant="default" size="sm">
+            <ShieldCheck className="w-4 h-4 mr-1.5" /> Exportar Dossiê Fiduciário L4
+          </Button>
+        }
+      />
+
+      {/* 2. Executive Integrity & Decision Quality Surface */}
+      <div className="flex flex-col xl:flex-row items-stretch xl:items-center justify-between gap-4 sm:gap-6 w-full min-w-0">
+        <ExecutiveDecisionIntegrityBadge 
+          score={decisionIntegrityIndex}
+          className="flex-1 w-full min-w-0"
+        />
+        <ExecutiveSurface padding="sm" radius="lg" className="flex flex-wrap items-center justify-between gap-3 w-full xl:w-auto min-w-0">
+          <div className="flex items-center gap-2 text-xs font-mono text-muted-foreground truncate">
+            <Lock className="w-4 h-4 text-success shrink-0" />
+            <span>Caso Executivo: <strong className="text-foreground">{projection.executiveCaseId}</strong></span>
+          </div>
+          <ExecutiveBadge variant="neutral" className="font-mono text-[10px] truncate">
+            Hash: {provenance.lineageHash}
+          </ExecutiveBadge>
+        </ExecutiveSurface>
+      </div>
+
+      {/* 3. Critical Decision Surface & Priority Queue */}
+      <div className="grid grid-cols-1 xl:grid-cols-3 gap-6 sm:gap-8 w-full min-w-0">
+        <div className="xl:col-span-2 w-full min-w-0">
           <CriticalDecisionSurface />
         </div>
-        <div className="lg:col-span-1">
+        <div className="xl:col-span-1 w-full min-w-0">
           <ExecutivePriorityStack />
         </div>
       </div>
 
-      {/* Cards Executivos (KRI Summary) */}
-      <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
-        <StatusCard 
-          title="Conflitos Declarados" 
-          value="3" 
-          icon={<FileWarning className="w-5 h-5 text-amber-500" />} 
+      {/* 4. Executive KRI Metrics Summary Grid (Reactive Projection Binding) */}
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 w-full min-w-0">
+        <ExecutiveMetricCard 
+          label="Conflitos Declarados" 
+          value={fiduciaryHealth.declaredConflictsCount.toString()} 
+          icon={FileWarning} 
           trend="Período Vigente"
+          tone="warning"
         />
-        <StatusCard 
-          title="Partes Relacionadas" 
-          value="12" 
-          icon={<Network className="w-5 h-5 text-primary" />} 
-          trend="Monitoradas"
+        <ExecutiveMetricCard 
+          label="Partes Relacionadas" 
+          value={fiduciaryHealth.monitoredPartiesCount.toString()} 
+          icon={Network} 
+          trend="Arm's Length Ativo"
+          tone="info"
         />
-        <StatusCard 
-          title="Decisões Bloqueadas" 
-          value="1" 
-          icon={<UserX className="w-5 h-5 text-red-500" />} 
+        <ExecutiveMetricCard 
+          label="Decisões Bloqueadas" 
+          value={fiduciaryHealth.blockedDecisionsCount.toString()} 
+          icon={UserX} 
           trend="Nos últimos 30 dias"
+          tone="critical"
         />
-        <StatusCard 
-          title="Pendências de Disclosure" 
-          value="2" 
-          icon={<Clock className="w-5 h-5 text-muted-foreground" />} 
+        <ExecutiveMetricCard 
+          label="Pendências de Disclosure" 
+          value={fiduciaryHealth.pendingDisclosuresCount.toString()} 
+          icon={Clock} 
           trend="Diretores com atraso"
+          tone="neutral"
         />
       </div>
 
-      {/* Abas */}
-      <div className="flex gap-4 border-b border-border/10 pb-px overflow-x-auto no-scrollbar">
-        <TabButton active={activeTab === 'conflitos'} onClick={() => setActiveTab('conflitos')} icon={<FileWarning className="w-4 h-4"/>} label="Conflitos de Interesse" />
-        <TabButton active={activeTab === 'relacionadas'} onClick={() => setActiveTab('relacionadas')} icon={<Network className="w-4 h-4"/>} label="Partes Relacionadas" />
-        <TabButton active={activeTab === 'decisoes'} onClick={() => setActiveTab('decisoes')} icon={<ShieldCheck className="w-4 h-4"/>} label="Gateway de Decisões" />
-        <TabButton active={activeTab === 'memoria'} onClick={() => setActiveTab('memoria')} icon={<Clock className="w-4 h-4"/>} label="Memória Fiduciária" />
-      </div>
+      {/* 5. Radix UI Native Canonical Navigation Tabs */}
+      <Tabs 
+        value={activeSection} 
+        onValueChange={(val: any) => setActiveSection(val)}
+        className="w-full flex flex-col space-y-6 min-w-0"
+      >
+        <TabsList variant="line" className="w-full justify-start overflow-x-auto no-scrollbar flex-nowrap min-w-0">
+          <TabsTrigger value="overview" className="gap-2 whitespace-nowrap shrink-0">
+            <Layers className="w-4 h-4" /> Visão Geral (4)
+          </TabsTrigger>
+          <TabsTrigger value="conflicts" className="gap-2 whitespace-nowrap shrink-0">
+            <FileWarning className="w-4 h-4 text-warning" /> Conflitos de Interesse ({projection.conflicts.length})
+          </TabsTrigger>
+          <TabsTrigger value="decisions" className="gap-2 whitespace-nowrap shrink-0">
+            <ShieldCheck className="w-4 h-4 text-success" /> Gateway de Decisões ({projection.decisions.length})
+          </TabsTrigger>
+          <TabsTrigger value="related_parties" className="gap-2 whitespace-nowrap shrink-0">
+            <Network className="w-4 h-4" /> Partes Relacionadas (0)
+          </TabsTrigger>
+          <TabsTrigger value="audit_trail" className="gap-2 whitespace-nowrap shrink-0">
+            <Clock className="w-4 h-4" /> Memória Fiduciária (100%)
+          </TabsTrigger>
+        </TabsList>
 
-      {/* Conteúdo das Abas (Mock UI integrado com conceitos fiduciários) */}
-      
-      {activeTab === 'conflitos' && (
-        <div className="card-premium p-8 animate-in fade-in duration-300">
-          <h2 className="text-lg font-medium text-muted-foreground mb-6 flex items-center gap-2">
-            <BookOpen className="w-5 h-5 text-muted-foreground" />
-            Declarações e Impedimentos
-          </h2>
-          <div className="space-y-4">
-            <ConflictItem 
-              director="João Silva" 
-              role="CFO" 
-              type="Atuação em Concorrente" 
-              severity="Alta" 
-              status="Conflito Declarado"
-            />
-            <ConflictItem 
-              director="Maria Costa" 
-              role="Conselheira Independente" 
-              type="Vínculo Familiar" 
-              severity="Média" 
-              status="Declarado sem Conflito"
-            />
+        {/* 6. Semantic Governance Filter Toolbar */}
+        <SemanticGovernanceFilterBar 
+          searchQuery={filters.searchQuery}
+          onSearchChange={setSearchQuery}
+          severityFilter={filters.severity}
+          onSeverityChange={setSeverityFilter}
+          statusFilter={filters.status}
+          onStatusChange={setStatusFilter}
+          onReset={() => {
+            setSearchQuery('');
+            setSeverityFilter('ALL');
+            setStatusFilter('ALL');
+          }}
+          className="w-full min-w-0"
+        />
+
+        {/* 7. Section Content Views */}
+        <TabsContent value="overview" className="space-y-6 w-full min-w-0">
+          <ExecutiveHeading as="h2" variant="sectionTitle" className="flex items-center gap-2">
+            <BookOpen className="w-5 h-5 text-primary shrink-0" />
+            Declarações de Impedimento & Conflitos Identificados
+          </ExecutiveHeading>
+          <div className="space-y-6 w-full min-w-0">
+            {filteredConflicts.map(c => (
+              <ExecutiveConflictCard 
+                key={c.id} 
+                conflict={c}
+                onReview={id => console.log('Review conflict', id)}
+                onEscalate={id => console.log('Escalate conflict', id)}
+              />
+            ))}
           </div>
-        </div>
-      )}
+        </TabsContent>
 
-      {activeTab === 'relacionadas' && (
-        <div className="card-premium p-8 animate-in fade-in duration-300">
-          <h2 className="text-lg font-medium text-muted-foreground mb-6 flex items-center gap-2">
-            <Network className="w-5 h-5 text-muted-foreground" />
-            Transações Sensíveis e Vínculos
-          </h2>
-          <div className="text-center py-12 text-muted-foreground">
-            <Network className="w-12 h-12 text-muted-foreground mx-auto mb-4" />
-            <p className="text-xs font-bold uppercase tracking-wider">Monitoramento ativo. Nenhuma transação material detectada com partes relacionadas nos últimos 30 dias.</p>
+        <TabsContent value="conflicts" className="space-y-6 w-full min-w-0">
+          <ExecutiveHeading as="h2" variant="sectionTitle" className="flex items-center gap-2">
+            <FileWarning className="w-5 h-5 text-warning shrink-0" />
+            Central de Conflitos & Matriz de Impedimentos
+          </ExecutiveHeading>
+          <div className="space-y-6 w-full min-w-0">
+            {filteredConflicts.map(c => (
+              <ExecutiveConflictCard 
+                key={c.id} 
+                conflict={c}
+                onReview={id => console.log('Review conflict', id)}
+                onEscalate={id => console.log('Escalate conflict', id)}
+              />
+            ))}
           </div>
-        </div>
-      )}
+        </TabsContent>
 
-      {activeTab === 'decisoes' && (
-        <div className="card-premium p-8 animate-in fade-in duration-300">
-          <h2 className="text-lg font-medium text-muted-foreground mb-6 flex items-center gap-2">
-            <ShieldCheck className="w-5 h-5 text-muted-foreground" />
-            Validação Fiduciária de Pautas
-          </h2>
-          <div className="space-y-4">
-            <DecisionItem 
-              title="Aprovação de Orçamento Anual de Marketing" 
-              status="Liberada com Ressalva" 
-              reason="Aviso: Recomendada abstenção voluntária devido a vínculo societário menor."
-              hash="LIN-902342-X"
-            />
-            <DecisionItem 
-              title="Contratação de Consultoria Externa (TechCorp)" 
-              status="Bloqueada" 
-              reason="Impedimento Estatutário: Aprovador é acionista majoritário da fornecedora."
-              hash="LIN-100234-Y"
-            />
+        <TabsContent value="decisions" className="space-y-6 w-full min-w-0">
+          <ExecutiveHeading as="h2" variant="sectionTitle" className="flex items-center gap-2">
+            <ShieldCheck className="w-5 h-5 text-success shrink-0" />
+            Gateway de Validação de Decisões Executivas
+          </ExecutiveHeading>
+          <div className="space-y-6 w-full min-w-0">
+            {filteredDecisions.map(d => (
+              <ExecutiveDecisionCard key={d.id} decision={d} />
+            ))}
           </div>
-        </div>
-      )}
+        </TabsContent>
 
-      {activeTab === 'memoria' && (
-        <div className="space-y-8 animate-in fade-in duration-300">
-          <div className="flex justify-between items-center bg-slate-950/20 p-4 rounded-xl border border-border/10">
-            <span className="text-xs text-muted-foreground uppercase tracking-widest font-semibold flex items-center gap-2">
-              Status da Linhagem Histórica:
+        <TabsContent value="related_parties" className="w-full min-w-0">
+          <ExecutiveSurface padding="xl" radius="xl" className="text-center py-12 sm:py-16 space-y-6 w-full min-w-0">
+            <div className="w-16 h-16 rounded-2xl bg-primary/10 border border-primary/20 mx-auto flex items-center justify-center text-primary shadow-sm">
+              <Network className="w-8 h-8" />
+            </div>
+            <div className="max-w-xl mx-auto space-y-2 px-4">
+              <ExecutiveHeading as="h3" variant="moduleTitle">
+                Arm's Length Monitoring Active
+              </ExecutiveHeading>
+              <ExecutiveText as="p" variant="bodyStandard" className="text-muted-foreground">
+                Nenhuma transação atípica ou não alinhada a condições de mercado detectada com partes relacionadas nos últimos 30 dias. O monitoramento fiduciário permanece ativo através das políticas de governança vigentes.
+              </ExecutiveText>
+            </div>
+
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 max-w-2xl mx-auto pt-4 text-left px-4">
+              <ExecutiveSurface padding="sm" radius="xl">
+                <ExecutiveText as="span" variant="caption" className="text-muted-foreground uppercase font-bold tracking-wider">
+                  Última Verificação
+                </ExecutiveText>
+                <ExecutiveText as="p" variant="bodyStandard" className="font-mono font-semibold text-foreground mt-1">
+                  Hoje, 09:30 BRT
+                </ExecutiveText>
+              </ExecutiveSurface>
+              <ExecutiveSurface padding="sm" radius="xl">
+                <ExecutiveText as="span" variant="caption" className="text-muted-foreground uppercase font-bold tracking-wider">
+                  Política Aplicada
+                </ExecutiveText>
+                <ExecutiveText as="p" variant="bodyStandard" className="font-mono font-semibold text-foreground mt-1">
+                  POL-ARMS-LENGTH-v4
+                </ExecutiveText>
+              </ExecutiveSurface>
+              <ExecutiveSurface padding="sm" radius="xl">
+                <ExecutiveText as="span" variant="caption" className="text-muted-foreground uppercase font-bold tracking-wider">
+                  Nível de Confiança
+                </ExecutiveText>
+                <ExecutiveText as="p" variant="bodyStandard" className="font-mono font-semibold text-success mt-1">
+                  99.4% Verificado
+                </ExecutiveText>
+              </ExecutiveSurface>
+            </div>
+          </ExecutiveSurface>
+        </TabsContent>
+
+        <TabsContent value="audit_trail" className="space-y-8 w-full min-w-0">
+          <ExecutiveSurface variant="default" padding="sm" radius="xl" className="flex flex-wrap justify-between items-center gap-4">
+            <ExecutiveText as="span" variant="caption" className="text-muted-foreground uppercase tracking-widest font-semibold flex items-center gap-2">
+              Status da Linhagem Histórica & Rastreabilidade Soberana:
               <MemoryIntegrityBadge />
-            </span>
-          </div>
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+            </ExecutiveText>
+          </ExecutiveSurface>
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 sm:gap-8 w-full min-w-0">
             <GovernanceRecurrencePanel />
             <AdvisoryContinuitySurface />
           </div>
           <GovernanceHistoryExplorer />
-        </div>
-      )}
-
-    </InstitutionalPrioritySurface>
-  );
-}
-
-function StatusCard({ title, value, icon, trend }: { title: string, value: string, icon: React.ReactNode, trend: string }) {
-  return (
-    <div className="card-premium p-6 flex flex-col justify-between hover:border-border transition-all">
-      <div className="flex justify-between items-start mb-4">
-        <h3 className="text-xs font-bold uppercase tracking-wider text-muted-foreground">{title}</h3>
-        <div className="p-2 bg-slate-950/40 rounded-xl border border-border/10">
-          {icon}
-        </div>
-      </div>
-      <div>
-        <div className="text-2xl font-light text-muted-foreground">{value}</div>
-        <div className="text-xs text-muted-foreground mt-1 uppercase tracking-wider font-bold">{trend}</div>
-      </div>
-    </div>
-  );
-}
-
-function TabButton({ active, onClick, icon, label }: { active: boolean, onClick: () => void, icon: React.ReactNode, label: string }) {
-  return (
-    <button 
-      onClick={onClick}
-      className={`flex items-center gap-2 px-6 py-3.5 text-xs font-bold uppercase tracking-wider transition-all border-b-2 ${
-        active 
-          ? 'text-primary border-primary bg-primary' 
-          : 'text-muted-foreground border-transparent hover:text-muted-foreground hover:bg-slate-900/40'
-      }`}
-    >
-      {icon}
-      {label}
-    </button>
-  );
-}
-
-function ConflictItem({ director, role, type, severity, status }: any) {
-  return (
-    <div className="p-4 bg-slate-950/40 border border-border/10 rounded-xl flex justify-between items-center">
-      <div>
-        <div className="flex items-center gap-3">
-          <h3 className="text-muted-foreground font-medium text-sm">{director}</h3>
-          <span className="text-xs text-muted-foreground px-2.5 py-1 bg-slate-900 border border-border/5 rounded-xl font-medium">{role}</span>
-        </div>
-        <div className="flex items-center gap-3 mt-2">
-          <p className="text-xs text-muted-foreground">{type}</p>
-          <span className={`text-[10px] uppercase font-black tracking-widest px-2.5 py-1 rounded-xl ${severity === 'Alta' ? 'text-amber-400 bg-warning-soft0/10 border border-amber-500/20' : 'text-muted-foreground bg-slate-800 border border-border'}`}>
-            Severidade {severity}
-          </span>
-        </div>
-      </div>
-      <div className="text-right">
-        <span className="text-xs font-semibold text-muted-foreground">{status}</span>
-      </div>
-    </div>
-  );
-}
-
-function DecisionItem({ title, status, reason, hash }: any) {
-  const isBlocked = status === 'Bloqueada';
-  return (
-    <div className={`p-5 bg-slate-950/40 border rounded-xl ${isBlocked ? 'border-red-500/20' : 'border-border/10'}`}>
-      <div className="flex justify-between items-start mb-2">
-        <h3 className="text-muted-foreground font-medium text-sm md:text-base">{title}</h3>
-        <span className={`px-3 py-1 text-[10px] uppercase font-black tracking-widest rounded-xl border ${isBlocked ? 'bg-red-500/10 text-red-400 border-red-500/20' : 'bg-warning-soft0/10 text-amber-400 border-amber-500/20'}`}>
-          {status}
-        </span>
-      </div>
-      <p className={`text-xs mt-3 flex items-center gap-1.5 ${isBlocked ? 'text-red-455' : 'text-amber-450'}`}>
-        <AlertTriangle className="w-3.5 h-3.5 flex-shrink-0" />
-        {reason}
-      </p>
-      <div className="mt-4 pt-4 border-t border-border/10 flex justify-end">
-        <span className="text-[10px] text-muted-foreground font-mono flex items-center gap-1">
-          <ShieldCheck className="w-3.5 h-3.5" />
-          Audit Hash: {hash}
-        </span>
-      </div>
+        </TabsContent>
+      </Tabs>
     </div>
   );
 }

@@ -1,6 +1,6 @@
 import { useState, useEffect, useMemo, useCallback } from 'react';
 import { useAnnualFinancialData, useAllFinancialData } from '../../../hooks/useFinancialData';
-import { useInstitutionalAuth } from '../../../core/security/auth/InstitutionalAuthProvider';
+import { useInstitutionalAuth } from '../../../hooks/useInstitutionalAuth';
 import { FiduciaryRuntimeAdapter, PresentationLayer } from '../../../services/FiduciaryRuntimeAdapter';
 import { DREApplicationService } from './DREApplicationService';
 

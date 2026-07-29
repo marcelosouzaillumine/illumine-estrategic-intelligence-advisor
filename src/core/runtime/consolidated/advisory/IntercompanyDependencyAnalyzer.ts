@@ -1,5 +1,6 @@
 import { ConsolidatedFinancialOutput } from '../types';
 import { DependencyAnalysis } from './advisoryTypes';
+import { formatEntityName } from '../../../../components/consolidated/ConsolidatedLanguageFormatter';
 
 export class IntercompanyDependencyAnalyzer {
   static analyze(financialOutput: ConsolidatedFinancialOutput): DependencyAnalysis[] {
@@ -16,8 +17,6 @@ export class IntercompanyDependencyAnalyzer {
 
     for (const elim of eliminations) {
       if (elim.type === 'RECEITA_DESPESA') {
-        // Source vendeu para Target. Target depende da Source para fornecimento, ou Source depende do Target para receita.
-        // Vamos focar na dependência de receita
         const materiality = totalRevenue > 0 ? (elim.amount / totalRevenue) * 100 : 0;
         if (materiality > 5) {
           dependencies.push({
@@ -25,19 +24,18 @@ export class IntercompanyDependencyAnalyzer {
             targetEntityId: elim.targetEntityId,
             dependencyType: 'REVENUE',
             materialityPercentage: materiality,
-            description: `A entidade ${elim.sourceEntityId} concentra ${materiality.toFixed(1)}% do faturamento consolidado vendendo para ${elim.targetEntityId}.`
+            description: `A entidade ${formatEntityName(elim.sourceEntityId)} concentra ${materiality.toFixed(1)}% do faturamento consolidado vendendo para ${formatEntityName(elim.targetEntityId)}.`
           });
         }
       }
 
       if (elim.type === 'MUTUO') {
-        // Source emprestou para Target. Target tem dependência de Funding.
         dependencies.push({
           sourceEntityId: elim.sourceEntityId,
           targetEntityId: elim.targetEntityId,
           dependencyType: 'FUNDING',
-          materialityPercentage: 100, // Não temos base de passivo aqui fácil, mas é material.
-          description: `A entidade ${elim.targetEntityId} é sustentada por operações estruturais de mútuo providas por ${elim.sourceEntityId}.`
+          materialityPercentage: 100,
+          description: `A entidade ${formatEntityName(elim.targetEntityId)} é sustentada por operações estruturais de mútuo providas por ${formatEntityName(elim.sourceEntityId)}.`
         });
       }
     }

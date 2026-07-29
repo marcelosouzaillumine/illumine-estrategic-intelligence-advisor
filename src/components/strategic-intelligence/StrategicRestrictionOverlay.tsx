@@ -1,8 +1,8 @@
-// src/components/strategic-intelligence/StrategicRestrictionOverlay.tsx
-
 import React from 'react';
 import { Lock } from 'lucide-react';
 import { InstitutionalStrategicIntelligenceOutput } from '../../services/FiduciaryRuntimeAdapter';
+// src/components/strategic-intelligence/StrategicRestrictionOverlay.tsx
+
 
 interface StrategicRestrictionOverlayProps {
   strategicOutput: InstitutionalStrategicIntelligenceOutput;

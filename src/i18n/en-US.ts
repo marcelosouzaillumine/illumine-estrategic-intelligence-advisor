@@ -171,7 +171,7 @@ const translations = {
   'landing.nav.decisions': 'Decisions',
   'landing.nav.intelligence': 'Intelligence',
   'landing.nav.architecture': 'Architecture',
-  'landing.nav.partners': 'Partners',
+  'landing.nav.partners': 'Executive Advisor Network™',
   'landing.nav.restricted_area': 'Restricted Area',
   'landing.button.talk_specialists': 'Talk to Specialists',
   'landing.hero.badge': 'EXECUTIVE GOVERNANCE INFRASTRUCTURE',
@@ -1031,6 +1031,15 @@ const translations = {
   'modals.import_financial.and': 'and',
   'modals.import_financial.balance': 'Balance / Value',
   'modals.import_financial.importing': 'IMPORTING...',
+
+  // Governance Status & Audit Sanitization
+  'governance.status.independent': 'Independent',
+  'governance.status.moderate_dependency': 'Moderate Dependency',
+  'governance.status.high_dependency': 'High Dependency',
+  'governance.status.not_applicable': 'Not Applicable',
+  'governance.audit.mismatch_detected': 'Audited Data Mismatch',
+  'governance.audit.consistent': 'Consistent',
+  'governance.audit.inconsistent': 'Inconsistent',
 };
 
 export default translations;

@@ -1,5 +1,6 @@
 import { ConsolidatedFinancialOutput } from '../types';
 import { CrossEntityCausality, DependencyAnalysis, HoldingRoleAnalysis } from './advisoryTypes';
+import { formatEntityName } from '../../../../components/consolidated/ConsolidatedLanguageFormatter';
 
 export class CrossEntityCausalityEngine {
   static analyze(
@@ -18,7 +19,7 @@ export class CrossEntityCausalityEngine {
           primaryEntityId: dep.sourceEntityId,
           secondaryEntityId: dep.targetEntityId,
           impactScale: 'CRITICAL',
-          description: `O crescimento/volume da entidade ${dep.sourceEntityId} possui distorção estrutural, sendo artificialmente sustentado pela matriz/filial ${dep.targetEntityId}.`,
+          description: `O crescimento/volume da entidade ${formatEntityName(dep.sourceEntityId)} possui distorção estrutural, sendo artificialmente sustentado pela matriz/filial ${formatEntityName(dep.targetEntityId)}.`,
           financialEvidence: {
             metric: 'Intercompany Revenue Concentration',
             value: dep.materialityPercentage,
@@ -41,7 +42,7 @@ export class CrossEntityCausalityEngine {
           primaryEntityId: dep.targetEntityId,
           secondaryEntityId: dep.sourceEntityId,
           impactScale: 'HIGH',
-          description: `A entidade Holding (${dep.targetEntityId}) atua como absorvedora do caixa gerado pela unidade operacional ${dep.sourceEntityId}, criando pressão sobre o ciclo de liquidez da subsidiária.`,
+          description: `A entidade Holding (${formatEntityName(dep.targetEntityId)}) atua como absorvedora do caixa gerado pela unidade operacional ${formatEntityName(dep.sourceEntityId)}, criando pressão sobre o ciclo de liquidez da subsidiária.`,
           financialEvidence: {
             metric: 'Upstream Funding',
             value: 1,
@@ -55,7 +56,7 @@ export class CrossEntityCausalityEngine {
           primaryEntityId: dep.targetEntityId,
           secondaryEntityId: dep.sourceEntityId,
           impactScale: 'HIGH',
-          description: `A subsidiária ${dep.targetEntityId} apresenta dependência estrutural de capital intragrupo para sustentar sua operação (subsidiação fornecida por ${dep.sourceEntityId}).`,
+          description: `A subsidiária ${formatEntityName(dep.targetEntityId)} apresenta dependência estrutural de capital intragrupo para sustentar sua operação (subsidiação fornecida por ${formatEntityName(dep.sourceEntityId)}).`,
           financialEvidence: {
             metric: 'Downstream Funding',
             value: 1,

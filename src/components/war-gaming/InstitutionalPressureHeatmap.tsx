@@ -1,8 +1,8 @@
-// src/components/war-gaming/InstitutionalPressureHeatmap.tsx
-
 import React from 'react';
 import { InstitutionalSurvivalThesis } from '../../services/FiduciaryRuntimeAdapter';
 import { cn } from '../../lib/utils';
+// src/components/war-gaming/InstitutionalPressureHeatmap.tsx
+
 
 export function InstitutionalPressureHeatmap({ thesis }: { thesis: InstitutionalSurvivalThesis }) {
   if (!thesis) return null;

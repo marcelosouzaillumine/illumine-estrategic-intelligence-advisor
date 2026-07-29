@@ -1,9 +1,9 @@
-// src/components/pages/governance/BoardPackDataLoader.ts
-
 import { useMemo } from 'react';
 import { useAnnualFinancialData, useAllFinancialData } from '../../../hooks/useFinancialData';
 import { buildBPHierarchy } from '../../../lib/bpEngine';
 import { calculateDreCascade, generateInitialDreState } from '../../../lib/dreCascade';
+// src/components/pages/governance/BoardPackDataLoader.ts
+
 
 export function useBoardPackDataLoader(clientId: string, filterYear: number, clients?: any[]) {
   const { dbData: financialEntries, loading: loadingBP, refetch: refetchBP } = useAnnualFinancialData(clientId, filterYear, 'BP');

@@ -1,8 +1,8 @@
-// src/components/strategic-intelligence/StrategicExplainabilityDrawer.tsx
-
 import React from 'react';
 import { Microscope, Code2 } from 'lucide-react';
 import { StrategicExplainability } from '../../services/FiduciaryRuntimeAdapter';
+// src/components/strategic-intelligence/StrategicExplainabilityDrawer.tsx
+
 
 interface StrategicExplainabilityDrawerProps {
   explainability: StrategicExplainability;

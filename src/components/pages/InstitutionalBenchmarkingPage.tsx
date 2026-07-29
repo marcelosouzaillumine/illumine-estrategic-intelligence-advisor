@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { ChartNoAxesCombined, AlertOctagon, ShieldAlert } from 'lucide-react';
-import { PageHeader } from '../Common';
+import { PageHeader, StatusBadge } from '../Common';
 import { cn } from '../../lib/utils';
 import { InstitutionalBenchmarkEngine } from '../../services/FiduciaryRuntimeAdapter';
 import { BenchmarkExecutionRecord } from '../../services/FiduciaryRuntimeAdapter';
@@ -8,6 +8,18 @@ import { PrivacyProtectionBadge } from '../benchmarking/PrivacyProtectionBadge';
 import { BenchmarkComparisonChart } from '../benchmarking/BenchmarkComparisonChart';
 import { ConfidenceBenchmarkPanel } from '../benchmarking/ConfidenceBenchmarkPanel';
 import { SectorRiskPatternPanel } from '../benchmarking/SectorRiskPatternPanel';
+import { ExecutivePageTemplate } from '../ui/executive-page-template';
+import { ExecutiveSurface } from '../ui/executive-surface';
+import { ExecutiveAccordion } from '../ui/executive-accordion';
+import { ExecutiveEmptyState } from '../ui/executive-empty-state';
+import { ExecutiveHeading } from '../ui/executive-heading';
+import { ExecutiveText } from '../ui/executive-typography';
+import { ExecutiveBadge } from '../ui/executive-badge';
+import { ExecutiveSummarySection } from '../ui/executive-summary-section';
+import { ExecutiveStrategicTensions } from '../ui/executive-strategic-tensions';
+import { ExecutiveDecisionTrace } from '../ui/executive-decision-trace';
+import { ExecutiveTechnicalLayer } from '../ui/executive-technical-layer';
+import { useInstitutionalBenchmarkingPageViewModel } from '../../viewmodels/useInstitutionalBenchmarkingPageViewModel';
 
 const SECTORS = [
   { id: 'VAREJO', label: 'Varejo', tag: 'Seguro' },
@@ -15,6 +27,7 @@ const SECTORS = [
 ];
 
 export function InstitutionalBenchmarkingPage() {
+  const { state: vmState, computed: vmComputed, actions: vmActions } = useInstitutionalBenchmarkingPageViewModel({ clientId: '' });
   const [execution, setExecution] = useState<BenchmarkExecutionRecord | null>(null);
   const [sector, setSector] = useState('VAREJO');
 
@@ -24,76 +37,91 @@ export function InstitutionalBenchmarkingPage() {
   }, [sector]);
 
   return (
-    <div className="max-w-[1440px] mx-auto px-6 lg:px-10 space-y-12 pb-32 animate-executive-fade">
-      <div className="flex flex-col md:flex-row md:items-end justify-between gap-6">
-        <PageHeader
-          title="Benchmarking Institucional"
-          subtitle="Rede de Inteligência Comparativa. Outputs fiduciários estritamente anonimizados."
-          icon={ChartNoAxesCombined}
-          transparent
-        />
-        <PrivacyProtectionBadge />
+    <ExecutivePageTemplate header={{
+      title: "Benchmarking Institucional Setorial",
+      description: "Rede de Inteligência Comparativa. Outputs fiduciários estritamente anonimizados via K-Anonymity.",
+    }}>
+      <div className="space-y-8 pb-24 animate-executive-fade max-w-[1440px] mx-auto">
+
+        {/* --- CAMADA 1: NÍVEL CONSELHO (SÍNTESE DE BENCHMARKING SETORIAL) --- */}
+        <ExecutiveSummarySection 
+          className="mb-8"
+          status={{ label: 'Métricas Comparadas', variant: 'success' }}
+          question="Como a performance da empresa se posiciona frente aos concorrentes do mesmo segmento (peers)?"
+          opinion="O comitê fiduciário homologa a análise comparativa setorial, validando a posição competitiva e a garantia de privacidade K-Anonymity."
+          driver="Percentil setorial de margem EBITDA, giro de ativos, prazo médio de estoque e rating de liquidez."
+          implication="Identificação clara de gargalos operacionais e oportunidades de otimização frente aos melhores do setor."
+          action="Definir plano de ação para alinhar as métricas de capital de giro aos benchmarks da faixa de topo."
+        >
+          <ExecutiveStrategicTensions tensions={[]} />
+          <ExecutiveDecisionTrace trace={[]} />
+        </ExecutiveSummarySection>
+
+        {/* --- CAMADA 2: DIRETORIA & SELETOR DE SETOR E PAINEL COMPARATIVO --- */}
+        <ExecutiveSurface padding="xl" radius="xl" className="bg-card border border-border shadow-sm mb-8 space-y-6">
+          <div className="flex flex-col sm:flex-row items-center justify-between gap-4 border-b border-border pb-4">
+            <div>
+              <ExecutiveHeading as="h3" className="text-foreground">Painel Comparativo de pares (Peers)</ExecutiveHeading>
+              <ExecutiveText variant="caption" className="text-muted-foreground">Selecione o setor para visualizar as estatísticas anonimizadas.</ExecutiveText>
+            </div>
+            <PrivacyProtectionBadge />
+          </div>
+
+          <div className="flex items-center gap-3">
+            {SECTORS.map((s) => (
+              <button
+                key={s.id}
+                onClick={() => setSector(s.id)}
+                className={cn(
+                  "px-5 py-2.5 text-xs font-bold uppercase tracking-wider rounded-xl border transition-all flex items-center gap-2",
+                  sector === s.id
+                    ? "bg-primary text-primary-foreground border-primary shadow-sm"
+                    : "bg-surface-container/30 border-border text-muted-foreground hover:bg-surface-container"
+                )}
+              >
+                Setor: {s.label}
+                <ExecutiveBadge variant={sector === s.id ? "info" : "neutral"}>
+                  {s.tag}
+                </ExecutiveBadge>
+              </button>
+            ))}
+          </div>
+
+          {execution?.anonymizedComparison && (
+            <div className="space-y-6 pt-4">
+              <ConfidenceBenchmarkPanel distribution={execution.anonymizedComparison.confidenceDistribution} />
+              
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div className="p-6 bg-surface-container/30 border border-border rounded-2xl">
+                  <ExecutiveHeading as="h4" className="text-foreground mb-4">Padrões de Risco Setorial ({sector})</ExecutiveHeading>
+                  <SectorRiskPatternPanel sector={sector} />
+                </div>
+
+                <div className="p-6 bg-surface-container/30 border border-border rounded-2xl">
+                  <ExecutiveHeading as="h4" className="text-foreground mb-4">Métricas Operacionais Comparadas</ExecutiveHeading>
+                  <BenchmarkComparisonChart metrics={execution.anonymizedComparison.metrics} />
+                </div>
+              </div>
+            </div>
+          )}
+        </ExecutiveSurface>
+
+        {/* --- CAMADA 3: CAMADA TÉCNICA E PRIVACIDADE DE DADOS --- */}
+        <ExecutiveTechnicalLayer
+          title="Camada Técnica — Algoritmo K-Anonymity"
+          subtitle="Isolamento de Privacidade Criptográfica"
+          description="Garantia estatística de impossibilidade de reidentificação de dados individuais."
+          className="mb-8"
+        >
+          <ExecutiveSurface padding="xl" radius="xl" className="bg-card border border-border shadow-sm">
+            <ExecutiveHeading as="h4" className="text-foreground mb-2">Protocolo de Privacidade Fiduciária</ExecutiveHeading>
+            <ExecutiveText variant="bodyStandard" className="text-muted-foreground">
+              Apenas coortes com no mínimo N organizações são liberadas para exibição comparativa.
+            </ExecutiveText>
+          </ExecutiveSurface>
+        </ExecutiveTechnicalLayer>
+
       </div>
-
-      {/* Sector Selector */}
-      <div className="flex items-center gap-2">
-        {SECTORS.map((s) => (
-          <button
-            key={s.id}
-            onClick={() => setSector(s.id)}
-            className={cn(
-              'flex items-center gap-2 px-5 py-2.5 text-[10px] font-bold uppercase tracking-[0.15em] rounded-button border transition-all',
-              sector === s.id
-                ? 'bg-primary text-primary-foreground border-primary shadow-sm'
-                : 'bg-surface-container border-border text-muted-foreground hover:text-foreground hover:bg-surface-container-high'
-            )}
-          >
-            Setor: {s.label}
-            <span className={cn(
-              'px-1.5 py-0.5 rounded text-[8px] font-black',
-              sector === s.id ? 'bg-white/20' : 'bg-surface-container-high'
-            )}>
-              {s.tag}
-            </span>
-          </button>
-        ))}
-      </div>
-
-      {execution?.status === 'BLOCKED_BY_PRIVACY' ? (
-        <div className="card-premium p-12 flex flex-col items-center justify-center text-center space-y-6">
-          <div className="w-20 h-20 rounded-xl bg-critical-soft flex items-center justify-center text-destructive">
-            <AlertOctagon size={40} />
-          </div>
-          <div>
-            <h2 className="text-h3 font-medium text-destructive uppercase tracking-widest mb-3">Privacy Blocked</h2>
-      <p className="text-body-sm text-executive-secondary max-w-md leading-relaxed font-medium">
-              A amostra de dados institucionais solicitada não possui o tamanho mínimo exigido (k-anonymity) para garantir o anonimato estatístico.
-            </p>
-          </div>
-          <div className="text-[10px] font-mono bg-surface-container px-4 py-2 rounded-md text-muted-foreground border border-border">
-            Cohort: {execution.cohortSignature}
-          </div>
-        </div>
-      ) : execution?.anonymizedComparison ? (
-        <div className="space-y-8">
-          <section className="space-y-4">
-            <h3 className="text-h3 font-medium text-foreground tracking-tight">Distribuição de Confiança na Rede</h3>
-            <ConfidenceBenchmarkPanel distribution={execution.anonymizedComparison.confidenceDistribution} />
-          </section>
-
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            <section className="card-premium p-8 space-y-4">
-              <h3 className="text-h3 font-medium text-foreground tracking-tight">Padrões de Risco Setorial ({sector})</h3>
-              <SectorRiskPatternPanel sector={sector} />
-            </section>
-            
-            <section className="card-premium p-8 space-y-4">
-              <h3 className="text-h3 font-medium text-foreground tracking-tight">Métricas Operacionais</h3>
-              <BenchmarkComparisonChart metrics={execution.anonymizedComparison.metrics} />
-            </section>
-          </div>
-        </div>
-      ) : null}
-    </div>
+    </ExecutivePageTemplate>
   );
 }

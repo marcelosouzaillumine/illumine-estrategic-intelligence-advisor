@@ -64,7 +64,16 @@ export const useExecutiveCognitive = () => useContext(ExecutiveCognitiveContext)
 export function ExecutiveCognitiveProvider({ children }: { children: React.ReactNode }) {
   const [compressionMode, setCompressionMode] = useState<'board' | 'cfo' | 'advisor' | 'operational'>('board');
   const [activeReport, setActiveReport] = useState<ExecutiveIntelligenceReport | null>(null);
-  const [signals, setSignals] = useState<CognitiveSignal[]>([]);
+  const [signals, setSignalsState] = useState<CognitiveSignal[]>([]);
+  const setSignals = React.useCallback((newSignals: CognitiveSignal[]) => {
+    setSignalsState(prev => {
+      if (prev === newSignals) return prev;
+      if (prev.length === newSignals.length && JSON.stringify(prev) === JSON.stringify(newSignals)) {
+        return prev;
+      }
+      return newSignals;
+    });
+  }, []);
   const [prioritizedItems, setPrioritizedItems] = useState<PrioritizedAttentionItem[]>([]);
 
   const [attentionPriority, setAttentionPriority] = useState<ExecutiveAttentionPriority>('LOW');

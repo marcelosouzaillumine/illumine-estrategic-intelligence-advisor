@@ -1,0 +1,419 @@
+# EAC Technical Layer Discovery V2
+
+**Date:** 2026-07-10
+**Engine:** ts-morph AST with 7-level precedence hierarchy
+
+## Inventory Summary
+- **CERTIFIED_BOUNDARY**: 19
+- **CONTAINER_REVIEW_REQUIRED**: 175
+- **HEURISTIC_CANDIDATE**: 168
+- **MIXED_BOUNDARY**: 34
+- **NOT_APPLICABLE**: 293
+
+**Total Components:** 689
+**Duplicate Classifications:** 0
+
+## Certified Boundaries (19)
+- `ClientAccessLogs` (decision-trace) — `src/components/ClientAccessLogs.tsx` — CONTROLLED_EXPANSION_WAVE_02A2
+- `ClientImportHistory` (decision-trace) — `src/components/ClientImportHistory.tsx` — CONTROLLED_EXPANSION_WAVE_02A2
+- `ClientLoginAudit` (decision-trace) — `src/components/ClientLoginAudit.tsx` — CONTROLLED_EXPANSION_WAVE_01
+- `AdvisorHistoricalSurface` (decision-trace) — `src/components/advisor/AdvisorHistoricalSurface.tsx` — CONTRACT_BOUNDARY_PILOT
+- `CopilotTracePanel` (decision-trace) — `src/components/ai-governance/CopilotTracePanel.tsx` — CONTRACT_BOUNDARY_PILOT
+- `EvidenceDetailPanel` (technical-evidence) — `src/components/cognitive/EvidenceDetailPanel.tsx` — CONTROLLED_EXPANSION_WAVE_02A1
+- `WarningEvidenceViewer` (technical-evidence) — `src/components/early-warning/WarningEvidenceViewer.tsx` — CONTROLLED_EXPANSION_WAVE_01
+- `ExecutiveEvidenceViewer` (technical-evidence) — `src/components/executive-delivery/ExecutiveEvidenceViewer.tsx` — CONTROLLED_EXPANSION_WAVE_02A1
+- `ExportHistoryPanel` (decision-trace) — `src/components/executive-delivery/ExportHistoryPanel.tsx` — CONTROLLED_EXPANSION_WAVE_02A2
+- `RuntimeLineageViewer` (technical-evidence) — `src/components/executive-interaction/RuntimeLineageViewer.tsx` — CONTROLLED_EXPANSION_WAVE_01
+- `GovernanceAuditCorrelationPanel` (decision-trace) — `src/components/governance-command-center/GovernanceAuditCorrelationPanel.tsx` — CONTROLLED_EXPANSION_WAVE_01
+- `HistoricalEvidenceCoverage` (technical-evidence) — `src/components/institutional-memory/HistoricalEvidenceCoverage.tsx` — CONTROLLED_EXPANSION_WAVE_02A1
+- `InstitutionalPatternMap` (technical-evidence) — `src/components/institutional-memory/InstitutionalPatternMap.tsx` — CONTRACT_BOUNDARY_PILOT
+- `ProductAccessAuditFeed` (decision-trace) — `src/components/product-governance/ProductAccessAuditFeed.tsx` — CONTROLLED_EXPANSION_WAVE_01
+- `HistoricalEvidencePanel` (technical-evidence) — `src/components/temporal/HistoricalEvidencePanel.tsx` — CONTROLLED_EXPANSION_WAVE_02A1
+- `EvidenceCorrelationPanel` (technical-evidence) — `src/components/war-room/EvidenceCorrelationPanel.tsx` — CONTROLLED_EXPANSION_WAVE_02A1
+- `WorkflowAuditFeed` (decision-trace) — `src/components/workflow-governance/WorkflowAuditFeed.tsx` — CONTROLLED_EXPANSION_WAVE_02A2
+- `BalanceSheetTechnicalLayerSection` (technical-evidence) — `src/components/pages/balance-sheet/BalanceSheetTechnicalLayerSection.tsx` — CONTROLLED_EXPANSION_WAVE_01
+- `DRETechnicalLayerSection` (technical-evidence) — `src/components/pages/dre/DRETechnicalLayerSection.tsx` — CONTRACT_BOUNDARY_PILOT
+
+## Heuristic Candidates (168)
+- `EmployeeManager` (ambiguous) — `src/components/EmployeeManager.tsx` — Weak structural signal (evidence=1, trace=1).
+- `ExecutiveCommentary` (decision-trace) — `src/components/ExecutiveCommentary.tsx` — 2 decision trace structural markers found.
+- `SalesPipelineManager` (ambiguous) — `src/components/SalesPipelineManager.tsx` — Weak structural signal (evidence=0, trace=1).
+- `CopilotChatPanel` (ambiguous) — `src/components/ai-governance/CopilotChatPanel.tsx` — Weak structural signal (evidence=0, trace=1).
+- `CopilotSessionHistory` (ambiguous) — `src/components/ai-governance/CopilotSessionHistory.tsx` — Weak structural signal (evidence=0, trace=1).
+- `CopilotSourceReferences` (technical-evidence) — `src/components/ai-governance/CopilotSourceReferences.tsx` — 2 evidence structural markers found.
+- `DecisionCognitiveDrawer` (decision-trace) — `src/components/cognitive/DecisionCognitiveDrawer.tsx` — 2 decision trace structural markers found.
+- `DecisionImpactPanel` (ambiguous) — `src/components/cognitive/DecisionImpactPanel.tsx` — Weak structural signal (evidence=0, trace=1).
+- `ExplainabilityPanel` (ambiguous) — `src/components/cognitive/ExplainabilityPanel.tsx` — Weak structural signal (evidence=0, trace=1).
+- `ConsolidatedLineagePanel` (technical-evidence) — `src/components/consolidated/ConsolidatedLineagePanel.tsx` — 2 evidence structural markers found.
+- `CriticalEmissionBlocker` (ambiguous) — `src/components/consolidated/CriticalEmissionBlocker.tsx` — Weak structural signal (evidence=1, trace=1).
+- `EntityRoleInterpretationTable` (ambiguous) — `src/components/consolidated/EntityRoleInterpretationTable.tsx` — Weak structural signal (evidence=0, trace=1).
+- `DomainHealthExplorer` (ambiguous) — `src/components/digital-twin/DomainHealthExplorer.tsx` — Weak structural signal (evidence=0, trace=1).
+- `EarlyWarningFeed` (ambiguous) — `src/components/early-warning/EarlyWarningFeed.tsx` — Weak structural signal (evidence=0, trace=1).
+- `ScenarioDeteriorationPanel` (ambiguous) — `src/components/early-warning/ScenarioDeteriorationPanel.tsx` — Weak structural signal (evidence=0, trace=1).
+- `InstitutionalUXInsights` (ambiguous) — `src/components/enterprise-validation/InstitutionalUXInsights.tsx` — Weak structural signal (evidence=0, trace=1).
+- `RuntimeIntegrityStatus` (ambiguous) — `src/components/enterprise-validation/RuntimeIntegrityStatus.tsx` — Weak structural signal (evidence=1, trace=0).
+- `ExecutiveQuickActions` (ambiguous) — `src/components/executive/ExecutiveQuickActions.tsx` — Weak structural signal (evidence=0, trace=1).
+- `GuidedInvestigationCard` (ambiguous) — `src/components/executive/GuidedInvestigationCard.tsx` — Weak structural signal (evidence=0, trace=1).
+- `CriticalDecisionSurface` (technical-evidence) — `src/components/executive-cognitive/CriticalDecisionSurface.tsx` — 2 evidence structural markers found.
+- `ExecutivePriorityNavigator` (ambiguous) — `src/components/executive-cognitive/ExecutivePriorityNavigator.tsx` — Weak structural signal (evidence=0, trace=1).
+- `InstitutionalAttentionQueue` (decision-trace) — `src/components/executive-cognitive/InstitutionalAttentionQueue.tsx` — 2 decision trace structural markers found.
+- `InstitutionalPrioritySurface` (ambiguous) — `src/components/executive-cognitive/InstitutionalPrioritySurface.tsx` — Weak structural signal (evidence=0, trace=1).
+- `NarrativeCompressionIndicator` (ambiguous) — `src/components/executive-cognitive/NarrativeCompressionIndicator.tsx` — Weak structural signal (evidence=0, trace=1).
+- `CommandExplainabilityDrawer` (technical-evidence) — `src/components/executive-command/CommandExplainabilityDrawer.tsx` — 2 evidence structural markers found.
+- `ExecutiveDriftRadar` (decision-trace) — `src/components/executive-command/ExecutiveDriftRadar.tsx` — 2 decision trace structural markers found.
+- `BoardJourneyNavigator` (ambiguous) — `src/components/executive-delivery/BoardJourneyNavigator.tsx` — Weak structural signal (evidence=0, trace=1).
+- `CalibrationStatusPanel` (technical-evidence) — `src/components/executive-delivery/CalibrationStatusPanel.tsx` — 2 evidence structural markers found.
+- `DeliveryTimelinePanel` (decision-trace) — `src/components/executive-delivery/DeliveryTimelinePanel.tsx` — 2 decision trace structural markers found.
+- `ExecutiveHeroPanel` (ambiguous) — `src/components/executive-delivery/ExecutiveHeroPanel.tsx` — Weak structural signal (evidence=0, trace=1).
+- `RuntimeHealthPanel` (ambiguous) — `src/components/executive-delivery/RuntimeHealthPanel.tsx` — Weak structural signal (evidence=1, trace=0).
+- `CausalChainSurface` (decision-trace) — `src/components/executive-interaction/CausalChainSurface.tsx` — 2 decision trace structural markers found.
+- `ConfidenceDisclosureCard` (technical-evidence) — `src/components/executive-interaction/ConfidenceDisclosureCard.tsx` — 4 evidence structural markers found.
+- `EvidenceCoveragePanel` (ambiguous) — `src/components/executive-interaction/EvidenceCoveragePanel.tsx` — Weak structural signal (evidence=0, trace=1).
+- `ExecutiveLoadingSurface` (technical-evidence) — `src/components/executive-interaction/ExecutiveLoadingSurface.tsx` — 4 evidence structural markers found.
+- `ExecutiveModalOrchestrator` (technical-evidence) — `src/components/executive-interaction/ExecutiveModalOrchestrator.tsx` — 2 evidence structural markers found.
+- `GovernanceDataDependencyPanel` (technical-evidence) — `src/components/executive-interaction/GovernanceDataDependencyPanel.tsx` — 3 evidence structural markers found.
+- `ExecutiveCommandNavigator` (ambiguous) — `src/components/governance-command-center/ExecutiveCommandNavigator.tsx` — Weak structural signal (evidence=0, trace=1).
+- `GovernanceCommandCenterSurface` (technical-evidence) — `src/components/governance-command-center/GovernanceCommandCenterSurface.tsx` — 2 evidence structural markers found.
+- `GovernanceIncidentQueue` (ambiguous) — `src/components/governance-command-center/GovernanceIncidentQueue.tsx` — Weak structural signal (evidence=1, trace=0).
+- `GovernanceSupervisionTimeline` (ambiguous) — `src/components/governance-command-center/GovernanceSupervisionTimeline.tsx` — Weak structural signal (evidence=0, trace=1).
+- `IncidentLifecyclePanel` (decision-trace) — `src/components/governance-command-center/IncidentLifecyclePanel.tsx` — 5 decision trace structural markers found.
+- `IncidentLineageViewer` (technical-evidence) — `src/components/governance-command-center/IncidentLineageViewer.tsx` — 2 evidence structural markers found.
+- `RuntimeHealthPanel` (technical-evidence) — `src/components/governance-command-center/RuntimeHealthPanel.tsx` — 3 evidence structural markers found.
+- `RuntimeIntegritySurface` (technical-evidence) — `src/components/governance-command-center/RuntimeIntegritySurface.tsx` — 3 evidence structural markers found.
+- `GovernancePlaybookPanel` (ambiguous) — `src/components/governance-orchestration/GovernancePlaybookPanel.tsx` — Weak structural signal (evidence=0, trace=1).
+- `GovernanceRecommendationFeed` (technical-evidence) — `src/components/governance-orchestration/GovernanceRecommendationFeed.tsx` — 2 evidence structural markers found.
+- `InstitutionalPriorityBoard` (ambiguous) — `src/components/governance-orchestration/InstitutionalPriorityBoard.tsx` — Weak structural signal (evidence=0, trace=1).
+- `InstitutionalTrajectoryGraph` (ambiguous) — `src/components/institutional-continuity/InstitutionalTrajectoryGraph.tsx` — Weak structural signal (evidence=1, trace=1).
+- `RecoveryRegressionTimeline` (decision-trace) — `src/components/institutional-continuity/RecoveryRegressionTimeline.tsx` — 2 decision trace structural markers found.
+- `AdvisoryContinuitySurface` (technical-evidence) — `src/components/institutional-memory/AdvisoryContinuitySurface.tsx` — 2 evidence structural markers found.
+- `GovernanceRecurrencePanel` (technical-evidence) — `src/components/institutional-memory/GovernanceRecurrencePanel.tsx` — 2 evidence structural markers found.
+- `HistoricalLineageViewer` (technical-evidence) — `src/components/institutional-memory/HistoricalLineageViewer.tsx` — 3 evidence structural markers found.
+- `AccountingIntegrityPanel` (technical-evidence) — `src/components/institutional-reporting/AccountingIntegrityPanel.tsx` — 3 evidence structural markers found.
+- `BoardPackExportPanel` (technical-evidence) — `src/components/institutional-reporting/BoardPackExportPanel.tsx` — 2 evidence structural markers found.
+- `ExecutiveSnapshotSurface` (technical-evidence) — `src/components/institutional-reporting/ExecutiveSnapshotSurface.tsx` — 4 evidence structural markers found.
+- `ExplainabilityAppendixDrawer` (ambiguous) — `src/components/institutional-reporting/ExplainabilityAppendixDrawer.tsx` — Weak structural signal (evidence=0, trace=1).
+- `FiduciaryTimelineSurface` (technical-evidence) — `src/components/institutional-reporting/FiduciaryTimelineSurface.tsx` — 2 evidence structural markers found.
+- `GovernanceReportingSurface` (ambiguous) — `src/components/institutional-reporting/GovernanceReportingSurface.tsx` — Weak structural signal (evidence=1, trace=0).
+- `LineageAppendixDrawer` (technical-evidence) — `src/components/institutional-reporting/LineageAppendixDrawer.tsx` — 2 evidence structural markers found.
+- `QuarantineModeSurface` (technical-evidence) — `src/components/institutional-reporting/QuarantineModeSurface.tsx` — 3 evidence structural markers found.
+- `ImportReviewQueueTable` (technical-evidence) — `src/components/integrations/ImportReviewQueueTable.tsx` — 3 evidence structural markers found.
+- `InstitutionalObjectCard` (decision-trace) — `src/components/intelligence/InstitutionalObjectCard.tsx` — 3 decision trace structural markers found.
+- `InvestigationLauncher` (ambiguous) — `src/components/investigation/InvestigationLauncher.tsx` — Weak structural signal (evidence=0, trace=1).
+- `InvestigationTimeline` (ambiguous) — `src/components/investigation/InvestigationTimeline.tsx` — Weak structural signal (evidence=0, trace=1).
+- `RelationshipExplorer` (ambiguous) — `src/components/investigation/RelationshipExplorer.tsx` — Weak structural signal (evidence=0, trace=1).
+- `InstitutionalPulsePanel` (technical-evidence) — `src/components/ios/InstitutionalPulsePanel.tsx` — 2 evidence structural markers found.
+- `UnifiedGovernanceTimelinePanel` (decision-trace) — `src/components/ios/UnifiedGovernanceTimelinePanel.tsx` — 2 decision trace structural markers found.
+- `GovernanceRelationshipViewer` (ambiguous) — `src/components/knowledge-graph/GovernanceRelationshipViewer.tsx` — Weak structural signal (evidence=0, trace=1).
+- `GraphQueryConsole` (ambiguous) — `src/components/knowledge-graph/GraphQueryConsole.tsx` — Weak structural signal (evidence=0, trace=1).
+- `SemanticLineageViewer` (technical-evidence) — `src/components/knowledge-graph/SemanticLineageViewer.tsx` — 2 evidence structural markers found.
+- `WorkflowPatternPanel` (decision-trace) — `src/components/knowledge-graph/WorkflowPatternPanel.tsx` — 2 decision trace structural markers found.
+- `MemoryLineageViewer` (ambiguous) — `src/components/memory/MemoryLineageViewer.tsx` — Weak structural signal (evidence=1, trace=0).
+- `BoardPackPreviewModal` (decision-trace) — `src/components/modals/BoardPackPreviewModal.tsx` — 2 decision trace structural markers found.
+- `ContractModal` (decision-trace) — `src/components/modals/ContractModal.tsx` — 2 decision trace structural markers found.
+- `ForcePasswordChangeModal` (ambiguous) — `src/components/modals/ForcePasswordChangeModal.tsx` — Weak structural signal (evidence=0, trace=1).
+- `GenerateBoardReportModal` (ambiguous) — `src/components/modals/GenerateBoardReportModal.tsx` — Weak structural signal (evidence=0, trace=1).
+- `LGPDModal` (decision-trace) — `src/components/modals/GovernanceModals.tsx` — 2 decision trace structural markers found.
+- `MandatoryClientModal` (ambiguous) — `src/components/modals/GovernanceModals.tsx` — Weak structural signal (evidence=0, trace=1).
+- `ImportBankStatementModal` (ambiguous) — `src/components/modals/ImportBankStatementModal.tsx` — Weak structural signal (evidence=0, trace=1).
+- `MonitoringAlertFeed` (technical-evidence) — `src/components/monitoring/MonitoringAlertFeed.tsx` — 2 evidence structural markers found.
+- `LiquidityCompressionGraph` (ambiguous) — `src/components/operating-pressure/LiquidityCompressionGraph.tsx` — Weak structural signal (evidence=0, trace=1).
+- `PressureExplainabilityDrawer` (technical-evidence) — `src/components/operating-pressure/PressureExplainabilityDrawer.tsx` — 3 evidence structural markers found.
+- `ExecutionIntegrityPanel` (ambiguous) — `src/components/operational-governance/ExecutionIntegrityPanel.tsx` — Weak structural signal (evidence=1, trace=1).
+- `OperationalContinuitySurface` (decision-trace) — `src/components/operational-governance/OperationalContinuitySurface.tsx` — 2 decision trace structural markers found.
+- `OperationalExplainabilityDrawer` (ambiguous) — `src/components/operational-governance/OperationalExplainabilityDrawer.tsx` — Weak structural signal (evidence=1, trace=1).
+- `RelatorioDemonstracoes5Anos` (decision-trace) — `src/components/pages/RelatorioDemonstracoes5Anos.tsx` — 4 decision trace structural markers found.
+- `SystemicIntelligencePanel` (technical-evidence) — `src/components/pages/SystemicIntelligencePanel.tsx` — 2 evidence structural markers found.
+- `ViabilityScenario` (ambiguous) — `src/components/pages/ViabilityPage.tsx` — Weak structural signal (evidence=1, trace=0).
+- `TemporalBoardPackSection` (technical-evidence) — `src/components/pdf/TemporalBoardPackSection.tsx` — 2 evidence structural markers found.
+- `CognitiveLoadIndicator` (ambiguous) — `src/components/pilot-operations/CognitiveLoadIndicator.tsx` — Weak structural signal (evidence=0, trace=1).
+- `ExecutiveAdoptionTimeline` (decision-trace) — `src/components/pilot-operations/ExecutiveAdoptionTimeline.tsx` — 5 decision trace structural markers found.
+- `GovernanceWorkflowGuide` (ambiguous) — `src/components/pilot-operations/GovernanceWorkflowGuide.tsx` — Weak structural signal (evidence=1, trace=0).
+- `PilotFeedbackSurface` (technical-evidence) — `src/components/pilot-operations/PilotFeedbackSurface.tsx` — 2 evidence structural markers found.
+- `RuntimeStabilitySurface` (ambiguous) — `src/components/pilot-operations/RuntimeStabilitySurface.tsx` — Weak structural signal (evidence=0, trace=1).
+- `CrossTenantStressViewer` (ambiguous) — `src/components/reality-validation/CrossTenantStressViewer.tsx` — Weak structural signal (evidence=0, trace=1).
+- `InstitutionalComplexityViewer` (ambiguous) — `src/components/reality-validation/InstitutionalComplexityViewer.tsx` — Weak structural signal (evidence=0, trace=1).
+- `OperationalScalePanel` (ambiguous) — `src/components/reality-validation/OperationalScalePanel.tsx` — Weak structural signal (evidence=0, trace=1).
+- `RealityValidationTimeline` (technical-evidence) — `src/components/reality-validation/RealityValidationTimeline.tsx` — 2 evidence structural markers found.
+- `ExecutiveScenarioNavigator` (decision-trace) — `src/components/scenario-simulation/ExecutiveScenarioNavigator.tsx` — 2 decision trace structural markers found.
+- `GovernanceForecastSurface` (ambiguous) — `src/components/scenario-simulation/GovernanceForecastSurface.tsx` — Weak structural signal (evidence=0, trace=1).
+- `ScenarioSimulationPanel` (decision-trace) — `src/components/scenario-simulation/ScenarioSimulationPanel.tsx` — 4 decision trace structural markers found.
+- `SimulationConfidenceCard` (ambiguous) — `src/components/scenario-simulation/SimulationConfidenceCard.tsx` — Weak structural signal (evidence=1, trace=1).
+- `SimulationLineageViewer` (technical-evidence) — `src/components/scenario-simulation/SimulationLineageViewer.tsx` — 2 evidence structural markers found.
+- `StrategicStressMap` (ambiguous) — `src/components/scenario-simulation/StrategicStressMap.tsx` — Weak structural signal (evidence=0, trace=1).
+- `CapitalStrategyAlignmentSurface` (ambiguous) — `src/components/strategic-intelligence/CapitalStrategyAlignmentSurface.tsx` — Weak structural signal (evidence=0, trace=1).
+- `ExpansionSustainabilityPanel` (ambiguous) — `src/components/strategic-intelligence/ExpansionSustainabilityPanel.tsx` — Weak structural signal (evidence=0, trace=1).
+- `StrategicExplainabilityDrawer` (technical-evidence) — `src/components/strategic-intelligence/StrategicExplainabilityDrawer.tsx` — 2 evidence structural markers found.
+- `DecisionImpactPanel` (decision-trace) — `src/components/strategic-simulation/DecisionImpactPanel.tsx` — 2 decision trace structural markers found.
+- `GovernanceTradeoffPanel` (decision-trace) — `src/components/strategic-simulation/GovernanceTradeoffPanel.tsx` — 2 decision trace structural markers found.
+- `InstitutionalResiliencePanel` (decision-trace) — `src/components/strategic-simulation/InstitutionalResiliencePanel.tsx` — 3 decision trace structural markers found.
+- `ScenarioComparisonViewer` (decision-trace) — `src/components/strategic-simulation/ScenarioComparisonViewer.tsx` — 3 decision trace structural markers found.
+- `StrategicSimulationFeed` (decision-trace) — `src/components/strategic-simulation/StrategicSimulationFeed.tsx` — 3 decision trace structural markers found.
+- `StrategicSimulationTimeline` (decision-trace) — `src/components/strategic-simulation/StrategicSimulationTimeline.tsx` — 3 decision trace structural markers found.
+- `StrategicStressCascadePanel` (decision-trace) — `src/components/strategic-simulation/StrategicStressCascadePanel.tsx` — 2 decision trace structural markers found.
+- `GovernanceTrajectoryGraph` (technical-evidence) — `src/components/temporal/GovernanceTrajectoryGraph.tsx` — 2 evidence structural markers found.
+- `InstitutionalChangePanel` (ambiguous) — `src/components/temporal/InstitutionalChangePanel.tsx` — Weak structural signal (evidence=1, trace=0).
+- `SnapshotComparisonPanel` (ambiguous) — `src/components/temporal/SnapshotComparisonPanel.tsx` — Weak structural signal (evidence=1, trace=0).
+- `TemporalAdvisoryCard` (technical-evidence) — `src/components/temporal/TemporalAdvisoryCard.tsx` — 2 evidence structural markers found.
+- `TemporalBoardWorkflowPanel` (technical-evidence) — `src/components/temporal/TemporalBoardWorkflowPanel.tsx` — 2 evidence structural markers found.
+- `TemporalCollaborationPanel` (decision-trace) — `src/components/temporal/TemporalCollaborationPanel.tsx` — 3 decision trace structural markers found.
+- `TemporalEarlyWarningBanner` (technical-evidence) — `src/components/temporal/TemporalEarlyWarningBanner.tsx` — 2 evidence structural markers found.
+- `TemporalExecutiveScoreboard` (technical-evidence) — `src/components/temporal/TemporalExecutiveScoreboard.tsx` — 2 evidence structural markers found.
+- `TemporalHeatmapPanel` (ambiguous) — `src/components/temporal/TemporalHeatmapPanel.tsx` — Weak structural signal (evidence=0, trace=1).
+- `TimelineExplorer` (decision-trace) — `src/components/temporal/TimelineExplorer.tsx` — 3 decision trace structural markers found.
+- `ExecutiveDecisionPanel` (ambiguous) — `src/components/ui/executive-decision-panel.tsx` — Weak structural signal (evidence=0, trace=1).
+- `ExecutiveDecisionSummary` (decision-trace) — `src/components/ui/executive-decision-summary.tsx` — 3 decision trace structural markers found.
+- `ExecutiveDecisionTrace` (decision-trace) — `src/components/ui/executive-decision-trace.tsx` — 2 decision trace structural markers found.
+- `ExecutiveDistributionCard` (ambiguous) — `src/components/ui/executive-distribution-card.tsx` — Weak structural signal (evidence=0, trace=1).
+- `ExecutiveOpinion` (ambiguous) — `src/components/ui/executive-opinion.tsx` — Weak structural signal (evidence=0, trace=1).
+- `ExecutiveTechnicalLayer` (technical-evidence) — `src/components/ui/executive-technical-layer.tsx` — 2 evidence structural markers found.
+- `ExecutiveDecisionSummary` (ambiguous) — `src/components/ui/legacy-executive-decision-summary.tsx` — Weak structural signal (evidence=0, trace=1).
+- `CollapsePropagationGraph` (ambiguous) — `src/components/war-gaming/CollapsePropagationGraph.tsx` — Weak structural signal (evidence=0, trace=1).
+- `CrisisExplainabilityDrawer` (technical-evidence) — `src/components/war-gaming/CrisisExplainabilityDrawer.tsx` — 2 evidence structural markers found.
+- `StrategicResponseComparator` (ambiguous) — `src/components/war-gaming/StrategicResponseComparator.tsx` — Weak structural signal (evidence=0, trace=1).
+- `ScenarioImpactMap` (ambiguous) — `src/components/war-room/ScenarioImpactMap.tsx` — Weak structural signal (evidence=0, trace=1).
+- `WorkflowBoard` (ambiguous) — `src/components/workflow-governance/WorkflowBoard.tsx` — Weak structural signal (evidence=0, trace=1).
+- `BoardNarrativeNavigator` (ambiguous) — `src/components/executive/board/BoardNarrativeNavigator.tsx` — Weak structural signal (evidence=1, trace=1).
+- `ExecutiveEvidenceExplorer` (ambiguous) — `src/components/executive/board/ExecutiveEvidenceExplorer.tsx` — Weak structural signal (evidence=1, trace=1).
+- `InstitutionalTimelineViewer` (decision-trace) — `src/components/executive/board/InstitutionalTimelineViewer.tsx` — 2 decision trace structural markers found.
+- `ExecutiveDisclosurePanel` (technical-evidence) — `src/components/executive/demo/ExecutiveDisclosurePanel.tsx` — 3 evidence structural markers found.
+- `GuidedBoardJourneyNavigator` (ambiguous) — `src/components/executive/demo/GuidedBoardJourneyNavigator.tsx` — Weak structural signal (evidence=1, trace=1).
+- `InstitutionalScenarioTimeline` (ambiguous) — `src/components/executive/demo/InstitutionalScenarioTimeline.tsx` — Weak structural signal (evidence=0, trace=1).
+- `BalanceSheetAssetQualitySection` (ambiguous) — `src/components/pages/balance-sheet/BalanceSheetAssetQualitySection.tsx` — Weak structural signal (evidence=0, trace=1).
+- `BalanceSheetAuditLayerSection` (ambiguous) — `src/components/pages/balance-sheet/BalanceSheetAuditLayerSection.tsx` — Weak structural signal (evidence=0, trace=1).
+- `BalanceSheetCapitalEfficiencySection` (ambiguous) — `src/components/pages/balance-sheet/BalanceSheetCapitalEfficiencySection.tsx` — Weak structural signal (evidence=0, trace=1).
+- `BalanceSheetCapitalPreservationSection` (ambiguous) — `src/components/pages/balance-sheet/BalanceSheetCapitalPreservationSection.tsx` — Weak structural signal (evidence=0, trace=1).
+- `BalanceSheetCapitalStructureSection` (ambiguous) — `src/components/pages/balance-sheet/BalanceSheetCapitalStructureSection.tsx` — Weak structural signal (evidence=0, trace=1).
+- `BalanceSheetExecutivePlan` (ambiguous) — `src/components/pages/balance-sheet/BalanceSheetExecutivePlan.tsx` — Weak structural signal (evidence=0, trace=1).
+- `BalanceSheetExecutiveSynthesisSection` (ambiguous) — `src/components/pages/balance-sheet/BalanceSheetExecutiveSynthesisSection.tsx` — Weak structural signal (evidence=0, trace=1).
+- `BalanceSheetLiquiditySection` (ambiguous) — `src/components/pages/balance-sheet/BalanceSheetLiquiditySection.tsx` — Weak structural signal (evidence=0, trace=1).
+- `BalanceSheetWorkingCapitalSection` (ambiguous) — `src/components/pages/balance-sheet/BalanceSheetWorkingCapitalSection.tsx` — Weak structural signal (evidence=0, trace=1).
+- `DREBoardDecisionSupportSection` (decision-trace) — `src/components/pages/dre/DREBoardDecisionSupportSection.tsx` — 2 decision trace structural markers found.
+- `DREExecutivePlanSection` (ambiguous) — `src/components/pages/dre/DREExecutivePlanSection.tsx` — Weak structural signal (evidence=0, trace=1).
+- `BenchmarkAdvisoryPanel` (decision-trace) — `src/components/pages/governance/BenchmarkAdvisoryPanel.tsx` — 2 decision trace structural markers found.
+- `ConfidenceDisclosurePanel` (decision-trace) — `src/components/pages/governance/ConfidenceDisclosurePanel.tsx` — 4 decision trace structural markers found.
+- `ConstitutionalConfidencePanel` (ambiguous) — `src/components/pages/governance/ConstitutionalConfidencePanel.tsx` — Weak structural signal (evidence=1, trace=0).
+- `ConstitutionalEnforcementPanel` (ambiguous) — `src/components/pages/governance/ConstitutionalEnforcementPanel.tsx` — Weak structural signal (evidence=0, trace=1).
+- `ConstitutionalGovernanceDashboardPanel` (ambiguous) — `src/components/pages/governance/ConstitutionalGovernanceDashboardPanel.tsx` — Weak structural signal (evidence=1, trace=0).
+- `ConstitutionalLineagePanel` (technical-evidence) — `src/components/pages/governance/ConstitutionalLineagePanel.tsx` — 2 evidence structural markers found.
+- `ContinuityRiskPanel` (ambiguous) — `src/components/pages/governance/ContinuityRiskPanel.tsx` — Weak structural signal (evidence=1, trace=0).
+- `FiduciaryRestrictionPanel` (ambiguous) — `src/components/pages/governance/FiduciaryRestrictionPanel.tsx` — Weak structural signal (evidence=1, trace=0).
+- `GovernanceRiskHeatmap` (ambiguous) — `src/components/pages/governance/GovernanceRiskHeatmap.tsx` — Weak structural signal (evidence=1, trace=0).
+- `InstitutionalLineageExplorer` (technical-evidence) — `src/components/pages/governance/InstitutionalLineageExplorer.tsx` — 3 evidence structural markers found.
+- `ClientSupportPanel` (ambiguous) — `src/components/pages/SupportPage/ClientSupportPanel.tsx` — Weak structural signal (evidence=0, trace=1).
+- `TicketChat` (ambiguous) — `src/components/pages/SupportPage/TicketChat.tsx` — Weak structural signal (evidence=0, trace=1).
+- `InstitutionalCausalRootCausesPanel` (decision-trace) — `src/components/panels/causal-intelligence/InstitutionalCausalRootCausesPanel.tsx` — 2 decision trace structural markers found.
+- `SurvivabilityDependencyGraphPanel` (ambiguous) — `src/components/panels/causal-intelligence/SurvivabilityDependencyGraphPanel.tsx` — Weak structural signal (evidence=1, trace=1).
+
+## Mixed Boundaries (34)
+- `ExecutivePerspectiveSection` — `src/components/ExecutivePerspectiveSection.tsx` — Mixed text signals (3) with evidence(0)/trace(1).
+- `ConsolidatedExecutiveSummaryCard` — `src/components/consolidated/ConsolidatedExecutiveSummaryCard.tsx` — Mixed text signals (2) with evidence(0)/trace(1).
+- `ExecutiveEvidenceExplorer` — `src/components/executive-interaction/ExecutiveEvidenceExplorer.tsx` — Mixed text signals (2) with evidence(1)/trace(3).
+- `InstitutionalTimelineNavigator` — `src/components/executive-interaction/InstitutionalTimelineNavigator.tsx` — Both evidence(2) and trace(3) markers coexist.
+- `RuntimeResolutionIndicator` — `src/components/executive-interaction/RuntimeResolutionIndicator.tsx` — Both evidence(3) and trace(2) markers coexist.
+- `ExecutiveContinuityCard` — `src/components/institutional-memory/ExecutiveContinuityCard.tsx` — Both evidence(3) and trace(2) markers coexist.
+- `GovernanceHistoryExplorer` — `src/components/institutional-memory/GovernanceHistoryExplorer.tsx` — Mixed text signals (2) with evidence(3)/trace(3).
+- `HistoricalGovernanceNavigator` — `src/components/institutional-memory/HistoricalGovernanceNavigator.tsx` — Both evidence(2) and trace(2) markers coexist.
+- `InstitutionalMemoryTimeline` — `src/components/institutional-memory/InstitutionalMemoryTimeline.tsx` — Both evidence(4) and trace(4) markers coexist.
+- `ConstitutionalIntegrityPanel` — `src/components/institutional-reporting/ConstitutionalIntegrityPanel.tsx` — Both evidence(4) and trace(4) markers coexist.
+- `ExecutiveBoardReportModal` — `src/components/modals/ExecutiveBoardReportModal.tsx` — Both evidence(2) and trace(4) markers coexist.
+- `ImportFinancialModal` — `src/components/modals/ImportFinancialModal.tsx` — Mixed text signals (2) with evidence(0)/trace(2).
+- `ImportPlanoModal` — `src/components/modals/ImportPlanoModal.tsx` — Mixed text signals (2) with evidence(1)/trace(1).
+- `ImportTransactionsModal` — `src/components/modals/ImportTransactionsModal.tsx` — Both evidence(3) and trace(2) markers coexist.
+- `ManualFinancialModal` — `src/components/modals/ManualFinancialModal.tsx` — Mixed text signals (2) with evidence(1)/trace(1).
+- `GovernanceReadabilityPanel` — `src/components/pilot-operations/GovernanceReadabilityPanel.tsx` — Mixed text signals (2) with evidence(0)/trace(1).
+- `DecisionEvidenceViewer` — `src/components/strategic-simulation/DecisionEvidenceViewer.tsx` — Both evidence(2) and trace(3) markers coexist.
+- `InstitutionalResilienceTimeline` — `src/components/temporal/InstitutionalResilienceTimeline.tsx` — Both evidence(2) and trace(2) markers coexist.
+- `ExecutiveDecisionMemo` — `src/components/ui/executive-decision-memo.tsx` — Mixed text signals (2) with evidence(0)/trace(1).
+- `ExecutiveDecisionSummaryCard` — `src/components/ui/executive-decision-summary-card.tsx` — Mixed text signals (2) with evidence(0)/trace(1).
+- `ExecutiveStrategicSemanticCards` — `src/components/ui/executive-strategic-semantic-cards.tsx` — Contains mixed JSX tags: ExecutiveStrategicRecommendationCard.
+- `CausalDrilldownPanel` — `src/components/executive/board/CausalDrilldownPanel.tsx` — Mixed text signals (2) with evidence(1)/trace(0).
+- `BalanceSheetBoardAdvisory` — `src/components/pages/balance-sheet/BalanceSheetBoardAdvisory.tsx` — Contains mixed JSX tags: ExecutiveRecommendationBlock, ExecutiveNarrative.
+- `DREExecutiveAdvisorySection` — `src/components/pages/dre/DREExecutiveAdvisorySection.tsx` — Contains mixed JSX tags: ExecutiveStrategicSynthesisCards.
+- `DRERecommendationSection` — `src/components/pages/dre/DRERecommendationSection.tsx` — Contains mixed JSX tags: ExecutiveStrategicRecommendationCard.
+- `BenchmarkComparativePanel` — `src/components/pages/governance/BenchmarkComparativePanel.tsx` — Mixed text signals (2) with evidence(1)/trace(2).
+- `BenchmarkReadinessPanel` — `src/components/pages/governance/BenchmarkReadinessPanel.tsx` — Mixed text signals (2) with evidence(3)/trace(2).
+- `BoardDecisionSurface` — `src/components/pages/governance/BoardDecisionSurface.tsx` — Both evidence(2) and trace(4) markers coexist.
+- `CausalityExplorerPanel` — `src/components/pages/governance/CausalityExplorerPanel.tsx` — Mixed text signals (2) with evidence(2)/trace(1).
+- `ExecutiveTimelinePanel` — `src/components/pages/governance/ExecutiveTimelinePanel.tsx` — Mixed text signals (2) with evidence(2)/trace(4).
+- `GovernanceExecutionPanel` — `src/components/pages/governance/GovernanceExecutionPanel.tsx` — Both evidence(2) and trace(5) markers coexist.
+- `GovernanceJourneyPanel` — `src/components/pages/governance/GovernanceJourneyPanel.tsx` — Mixed text signals (3) with evidence(0)/trace(2).
+- `GovernanceKnowledgePanel` — `src/components/pages/governance/GovernanceKnowledgePanel.tsx` — Both evidence(3) and trace(2) markers coexist.
+- `GovernanceLearningPanel` — `src/components/pages/governance/GovernanceLearningPanel.tsx` — Mixed text signals (2) with evidence(2)/trace(0).
+
+## Containers Requiring Review (175)
+- `PayrollDashboard` — `src/components/PayrollDashboard.tsx` — Container (matches pattern). Internal evidence=0, trace=2, mixed=3.
+- `AdvisorCommandCenter` — `src/components/advisor/AdvisorCommandCenter.tsx` — Container (matches pattern). Internal evidence=0, trace=0, mixed=0.
+- `AdvisorWorkspaceShell` — `src/components/advisor/AdvisorWorkspaceShell.tsx` — Container (matches pattern). Internal evidence=0, trace=1, mixed=0.
+- `ExecutiveAdvisorDashboard` — `src/components/advisor/ExecutiveAdvisorDashboard.tsx` — Container (matches pattern). Internal evidence=0, trace=0, mixed=0.
+- `ExecutiveCognitiveDashboard` — `src/components/cognitive/ExecutiveCognitiveDashboard.tsx` — Container (matches pattern). Internal evidence=0, trace=1, mixed=0.
+- `ExecutiveDigitalTwinDashboard` — `src/components/digital-twin/ExecutiveDigitalTwinDashboard.tsx` — Container (matches pattern). Internal evidence=0, trace=1, mixed=1.
+- `InstitutionalDigitalTwinWorkspace` — `src/components/digital-twin/InstitutionalDigitalTwinWorkspace.tsx` — Container (matches pattern). Internal evidence=1, trace=1, mixed=0.
+- `EnterpriseReadinessDashboard` — `src/components/enterprise-validation/EnterpriseReadinessDashboard.tsx` — Container (matches pattern). Internal evidence=0, trace=0, mixed=0.
+- `InstitutionalEvidenceControlCenterPage` — `src/components/evidence-ingestion/InstitutionalEvidenceControlCenterPage.tsx` — Container (matches pattern). Internal evidence=6, trace=0, mixed=0.
+- `ExecutiveHomeWorkspace` — `src/components/executive/ExecutiveHomeWorkspace.tsx` — Container (matches pattern). Internal evidence=1, trace=5, mixed=0.
+- `InstitutionalMemoryDashboard` — `src/components/executive/InstitutionalMemoryDashboard.tsx` — Container (matches pattern). Internal evidence=0, trace=0, mixed=0.
+- `UniversalSearchHub` — `src/components/executive/UniversalSearchHub.tsx` — Container (matches pattern). Internal evidence=0, trace=0, mixed=1.
+- `GovernanceRestrictionOverlay` — `src/components/executive-command/GovernanceRestrictionOverlay.tsx` — Container (matches pattern). Internal evidence=0, trace=0, mixed=0.
+- `InstitutionalExecutiveCommandCenter` — `src/components/executive-command/InstitutionalExecutiveCommandCenter.tsx` — Container (matches pattern). Internal evidence=2, trace=2, mixed=0.
+- `FiduciaryModalShell` — `src/components/executive-interaction/FiduciaryModalShell.tsx` — Container (matches pattern). Internal evidence=2, trace=2, mixed=0.
+- `SandboxWarningOverlay` — `src/components/executive-interaction/SandboxWarningOverlay.tsx` — Container (matches pattern). Internal evidence=0, trace=1, mixed=0.
+- `FiduciaryRestrictionOverlay` — `src/components/institutional-continuity/FiduciaryRestrictionOverlay.tsx` — Container (matches pattern). Internal evidence=0, trace=0, mixed=0.
+- `InstitutionalBoardPackCenter` — `src/components/institutional-reporting/InstitutionalBoardPackCenter.tsx` — Container (matches pattern). Internal evidence=3, trace=0, mixed=1.
+- `ExecutiveInstitutionalIntelligenceDashboard` — `src/components/intelligence/ExecutiveInstitutionalIntelligenceDashboard.tsx` — Container (matches pattern). Internal evidence=0, trace=3, mixed=1.
+- `InstitutionalIntelligenceWorkspace` — `src/components/intelligence/InstitutionalIntelligenceWorkspace.tsx` — Container (matches pattern). Internal evidence=0, trace=1, mixed=1.
+- `BoardInvestigationWorkspace` — `src/components/investigation/BoardInvestigationWorkspace.tsx` — Container (matches pattern). Internal evidence=1, trace=3, mixed=0.
+- `ExecutiveInvestigationDashboard` — `src/components/investigation/ExecutiveInvestigationDashboard.tsx` — Container (matches pattern). Internal evidence=0, trace=1, mixed=0.
+- `GovernanceCoordinationCenter` — `src/components/ios/GovernanceCoordinationCenter.tsx` — Container (matches pattern). Internal evidence=0, trace=0, mixed=0.
+- `InstitutionalMemoryWorkspace` — `src/components/memory/InstitutionalMemoryWorkspace.tsx` — Container (matches pattern). Internal evidence=1, trace=0, mixed=0.
+- `InstitutionalPressureDashboard` — `src/components/operating-pressure/InstitutionalPressureDashboard.tsx` — Container (matches pattern). Internal evidence=2, trace=3, mixed=4.
+- `AdministrativaPage` — `src/components/pages/AdministrativaPage.tsx` — Container (matches pattern). Internal evidence=0, trace=2, mixed=2.
+- `AdvisorCockpitPage` — `src/components/pages/AdvisorCockpitPage.tsx` — Container (matches pattern). Internal evidence=0, trace=0, mixed=0.
+- `AdvisorWorkspacePage` — `src/components/pages/AdvisorWorkspacePage.tsx` — Container (matches pattern). Internal evidence=1, trace=9, mixed=2.
+- `AdvisoryInsightsPage` — `src/components/pages/AdvisoryInsightsPage.tsx` — Container (matches pattern). Internal evidence=0, trace=1, mixed=0.
+- `AnaliseFinanceiraPage` — `src/components/pages/AnaliseFinanceiraPage.tsx` — Container (matches pattern). Internal evidence=1, trace=3, mixed=2.
+- `AnaliseMercadoPage` — `src/components/pages/AnaliseMercadoPage.tsx` — Container (matches pattern). Internal evidence=0, trace=2, mixed=1.
+- `AssetManagementPage` — `src/components/pages/AssetManagementPage.tsx` — Container (matches pattern). Internal evidence=1, trace=2, mixed=2.
+- `AvaliacaoOrganogramaPage` — `src/components/pages/AvaliacaoOrganogramaPage.tsx` — Container (matches pattern). Internal evidence=0, trace=0, mixed=2.
+- `AxisDashboardPage` — `src/components/pages/AxisDashboardPage.tsx` — Container (matches pattern). Internal evidence=1, trace=4, mixed=2.
+- `BalanceSheetPage` — `src/components/pages/BalanceSheetPage.tsx` — Container (matches pattern). Internal evidence=0, trace=3, mixed=0.
+- `CalibrationPlayground` — `src/components/pages/CalibrationPlayground.tsx` — Container (matches pattern). Internal evidence=2, trace=8, mixed=1.
+- `CashFlowPage` — `src/components/pages/CashFlowPage.tsx` — Container (matches pattern). Internal evidence=0, trace=2, mixed=3.
+- `ClientExecutiveWorkspace` — `src/components/pages/ClientExecutiveWorkspace.tsx` — Container (matches pattern). Internal evidence=3, trace=7, mixed=1.
+- `ClientsPage` — `src/components/pages/ClientsPage.tsx` — Container (matches pattern). Internal evidence=1, trace=5, mixed=2.
+- `ConsolidatedExecutivePage` — `src/components/pages/ConsolidatedExecutivePage.tsx` — Container (matches pattern). Internal evidence=1, trace=0, mixed=1.
+- `ConsolidatedGroupAdminPage` — `src/components/pages/ConsolidatedGroupAdminPage.tsx` — Container (matches pattern). Internal evidence=0, trace=1, mixed=1.
+- `ControladoriaPage` — `src/components/pages/ControladoriaPage.tsx` — Container (matches pattern). Internal evidence=0, trace=3, mixed=3.
+- `DadosHistoricosPage` — `src/components/pages/DadosHistoricosPage.tsx` — Container (matches pattern). Internal evidence=1, trace=6, mixed=1.
+- `DashboardPage` — `src/components/pages/DashboardPage.tsx` — Container (matches pattern). Internal evidence=0, trace=3, mixed=3.
+- `DecisionGovernancePage` — `src/components/pages/DecisionGovernancePage.tsx` — Container (matches pattern). Internal evidence=1, trace=4, mixed=0.
+- `DFCPage` — `src/components/pages/DFCPage.tsx` — Container (matches pattern). Internal evidence=5, trace=6, mixed=5.
+- `DiagnosticoPage` — `src/components/pages/DiagnosticoPage.tsx` — Container (matches pattern). Internal evidence=0, trace=1, mixed=2.
+- `DiretrizesPage` — `src/components/pages/DiretrizesPage.tsx` — Container (matches pattern). Internal evidence=0, trace=0, mixed=1.
+- `DLPAPage` — `src/components/pages/DLPAPage.tsx` — Container (matches pattern). Internal evidence=4, trace=3, mixed=4.
+- `DreGerencialPage` — `src/components/pages/DreGerencialPage.tsx` — Container (matches pattern). Internal evidence=0, trace=2, mixed=0.
+- `DREPage` — `src/components/pages/DREPage.tsx` — Container (matches pattern). Internal evidence=0, trace=2, mixed=2.
+- `EarlyWarningPage` — `src/components/pages/EarlyWarningPage.tsx` — Container (matches pattern). Internal evidence=0, trace=0, mixed=0.
+- `EFOSPage` — `src/components/pages/EFOSPage.tsx` — Container (matches pattern). Internal evidence=0, trace=4, mixed=2.
+- `EnterpriseValidationPage` — `src/components/pages/EnterpriseValidationPage.tsx` — Container (matches pattern). Internal evidence=1, trace=0, mixed=0.
+- `EstruturaGovernancaPage` — `src/components/pages/EstruturaGovernancaPage.tsx` — Container (matches pattern). Internal evidence=0, trace=2, mixed=1.
+- `ExecutiveCognitivePage` — `src/components/pages/ExecutiveCognitivePage.tsx` — Container (matches pattern). Internal evidence=0, trace=3, mixed=1.
+- `ExecutiveDecisionCenter` — `src/components/pages/ExecutiveDecisionCenter.tsx` — Container (matches pattern). Internal evidence=0, trace=1, mixed=0.
+- `ExecutiveScenarioLabPage` — `src/components/pages/ExecutiveScenarioLabPage.tsx` — Container (matches pattern). Internal evidence=1, trace=1, mixed=0.
+- `FinancialAdminDashboard` — `src/components/pages/FinancialAdminDashboard.tsx` — Container (matches pattern). Internal evidence=0, trace=2, mixed=3.
+- `FinancialModelingPage` — `src/components/pages/FinancialModelingPage.tsx` — Container (matches pattern). Internal evidence=0, trace=0, mixed=0.
+- `FinancialPositionPage` — `src/components/pages/FinancialPositionPage.tsx` — Container (matches pattern). Internal evidence=0, trace=3, mixed=0.
+- `FiscalTributarioPage` — `src/components/pages/FiscalTributarioPage.tsx` — Container (matches pattern). Internal evidence=1, trace=2, mixed=0.
+- `GovernanceDashboardPage` — `src/components/pages/GovernanceDashboardPage.tsx` — Container (matches pattern). Internal evidence=0, trace=2, mixed=3.
+- `GovernanceOrchestrationPage` — `src/components/pages/GovernanceOrchestrationPage.tsx` — Container (matches pattern). Internal evidence=0, trace=0, mixed=1.
+- `GovernanceTimeMachinePage` — `src/components/pages/GovernanceTimeMachinePage.tsx` — Container (matches pattern). Internal evidence=0, trace=0, mixed=0.
+- `IndicatorsPage` — `src/components/pages/IndicatorsPage.tsx` — Container (matches pattern). Internal evidence=0, trace=2, mixed=3.
+- `InstitutionalBenchmarkingPage` — `src/components/pages/InstitutionalBenchmarkingPage.tsx` — Container (matches pattern). Internal evidence=0, trace=0, mixed=0.
+- `InstitutionalBoardPackPage` — `src/components/pages/InstitutionalBoardPackPage.tsx` — Container (matches pattern). Internal evidence=0, trace=0, mixed=0.
+- `InstitutionalContinuityCockpitPage` — `src/components/pages/InstitutionalContinuityCockpitPage.tsx` — Container (matches pattern). Internal evidence=2, trace=3, mixed=1.
+- `InstitutionalCopilotPage` — `src/components/pages/InstitutionalCopilotPage.tsx` — Container (matches pattern). Internal evidence=0, trace=0, mixed=1.
+- `InstitutionalDeploymentReadinessPage` — `src/components/pages/InstitutionalDeploymentReadinessPage.tsx` — Container (matches pattern). Internal evidence=3, trace=1, mixed=1.
+- `InstitutionalDigitalTwinPage` — `src/components/pages/InstitutionalDigitalTwinPage.tsx` — Container (matches pattern). Internal evidence=1, trace=2, mixed=0.
+- `InstitutionalIntegrationsPage` — `src/components/pages/InstitutionalIntegrationsPage.tsx` — Container (matches pattern). Internal evidence=0, trace=1, mixed=0.
+- `InstitutionalIOSPage` — `src/components/pages/InstitutionalIOSPage.tsx` — Container (matches pattern). Internal evidence=0, trace=0, mixed=0.
+- `InstitutionalKnowledgeGraphPage` — `src/components/pages/InstitutionalKnowledgeGraphPage.tsx` — Container (matches pattern). Internal evidence=1, trace=0, mixed=0.
+- `InstitutionalMonitoringPage` — `src/components/pages/InstitutionalMonitoringPage.tsx` — Container (matches pattern). Internal evidence=2, trace=1, mixed=0.
+- `InstitutionalOnboardingControlCenterPage` — `src/components/pages/InstitutionalOnboardingControlCenterPage.tsx` — Container (matches pattern). Internal evidence=2, trace=1, mixed=0.
+- `InstitutionalReportsPage` — `src/components/pages/InstitutionalReportsPage.tsx` — Container (matches pattern). Internal evidence=2, trace=3, mixed=1.
+- `InstitutionalStrategicIntelligencePage` — `src/components/pages/InstitutionalStrategicIntelligencePage.tsx` — Container (matches pattern). Internal evidence=3, trace=0, mixed=0.
+- `LeadershipProfilePage` — `src/components/pages/LeadershipProfilePage.tsx` — Container (matches pattern). Internal evidence=0, trace=1, mixed=1.
+- `LoanInvestmentSimPage` — `src/components/pages/LoanInvestmentSimPage.tsx` — Container (matches pattern). Internal evidence=1, trace=3, mixed=1.
+- `LoansPage` — `src/components/pages/LoansPage.tsx` — Container (matches pattern). Internal evidence=0, trace=2, mixed=2.
+- `MaintenancePage` — `src/components/pages/MaintenancePage.tsx` — Container (matches pattern). Internal evidence=1, trace=3, mixed=1.
+- `MarketingComercialPage` — `src/components/pages/MarketingComercialPage.tsx` — Container (matches pattern). Internal evidence=0, trace=2, mixed=3.
+- `MeetingMinutesPage` — `src/components/pages/MeetingMinutesPage.tsx` — Container (matches pattern). Internal evidence=0, trace=5, mixed=1.
+- `MessagesPage` — `src/components/pages/MessagesPage.tsx` — Container (matches pattern). Internal evidence=0, trace=2, mixed=0.
+- `OKRsPage` — `src/components/pages/OKRsPage.tsx` — Container (matches pattern). Internal evidence=0, trace=1, mixed=2.
+- `OperacionalPage` — `src/components/pages/OperacionalPage.tsx` — Container (matches pattern). Internal evidence=0, trace=3, mixed=2.
+- `OrcamentoPage` — `src/components/pages/OrcamentoPage.tsx` — Container (matches pattern). Internal evidence=0, trace=3, mixed=2.
+- `PartnerSalesPage` — `src/components/pages/PartnerSalesPage.tsx` — Container (matches pattern). Internal evidence=0, trace=2, mixed=0.
+- `PartnersPage` — `src/components/pages/PartnersPage.tsx` — Container (matches pattern). Internal evidence=0, trace=1, mixed=1.
+- `PayablesPage` — `src/components/pages/PayablesPage.tsx` — Container (matches pattern). Internal evidence=0, trace=0, mixed=1.
+- `PilotExperienceDashboard` — `src/components/pages/PilotExperienceDashboard.tsx` — Container (matches pattern). Internal evidence=1, trace=6, mixed=1.
+- `PilotMonitoringDashboard` — `src/components/pages/PilotMonitoringDashboard.tsx` — Container (matches pattern). Internal evidence=0, trace=12, mixed=1.
+- `PlanoAcaoPage` — `src/components/pages/PlanoAcaoPage.tsx` — Container (matches pattern). Internal evidence=0, trace=1, mixed=1.
+- `PlanoDeContasPage` — `src/components/pages/PlanoDeContasPage.tsx` — Container (matches pattern). Internal evidence=0, trace=0, mixed=2.
+- `PlanoEstrategicoGlobalPage` — `src/components/pages/PlanoEstrategicoGlobalPage.tsx` — Container (matches pattern). Internal evidence=0, trace=0, mixed=3.
+- `PortfolioPage` — `src/components/pages/PortfolioPage.tsx` — Container (matches pattern). Internal evidence=0, trace=1, mixed=1.
+- `PrecificacaoPage` — `src/components/pages/PrecificacaoPage.tsx` — Container (matches pattern). Internal evidence=1, trace=2, mixed=3.
+- `PreferencesPage` — `src/components/pages/PreferencesPage.tsx` — Container (matches pattern). Internal evidence=0, trace=1, mixed=1.
+- `PremissasClientePage` — `src/components/pages/PremissasClientePage.tsx` — Container (matches pattern). Internal evidence=1, trace=2, mixed=2.
+- `PremissasEconomicasPage` — `src/components/pages/PremissasEconomicasPage.tsx` — Container (matches pattern). Internal evidence=0, trace=3, mixed=0.
+- `PremissasTributariasPage` — `src/components/pages/PremissasTributariasPage.tsx` — Container (matches pattern). Internal evidence=2, trace=1, mixed=1.
+- `ProductGovernancePage` — `src/components/pages/ProductGovernancePage.tsx` — Container (matches pattern). Internal evidence=0, trace=0, mixed=0.
+- `ProfilePage` — `src/components/pages/ProfilePage.tsx` — Container (matches pattern). Internal evidence=0, trace=1, mixed=0.
+- `PurchasingPage` — `src/components/pages/PurchasingPage.tsx` — Container (matches pattern). Internal evidence=0, trace=1, mixed=0.
+- `QuadroPessoalPage` — `src/components/pages/QuadroPessoalPage.tsx` — Container (matches pattern). Internal evidence=0, trace=0, mixed=0.
+- `RealityValidationPage` — `src/components/pages/RealityValidationPage.tsx` — Container (matches pattern). Internal evidence=0, trace=0, mixed=0.
+- `ReceivablesPage` — `src/components/pages/ReceivablesPage.tsx` — Container (matches pattern). Internal evidence=0, trace=0, mixed=1.
+- `RelatorioExecutivoPage` — `src/components/pages/RelatorioExecutivoPage.tsx` — Container (matches pattern). Internal evidence=0, trace=1, mixed=3.
+- `RuntimeObservabilityPage` — `src/components/pages/RuntimeObservabilityPage.tsx` — Container (matches pattern). Internal evidence=0, trace=1, mixed=0.
+- `RuntimePerformancePage` — `src/components/pages/RuntimePerformancePage.tsx` — Container (matches pattern). Internal evidence=0, trace=0, mixed=0.
+- `StrategicSimulationPage` — `src/components/pages/StrategicSimulationPage.tsx` — Container (matches pattern). Internal evidence=0, trace=1, mixed=0.
+- `StrategicSimulatorPage` — `src/components/pages/StrategicSimulatorPage.tsx` — Container (matches pattern). Internal evidence=1, trace=1, mixed=0.
+- `SupportPage` — `src/components/pages/SupportPage.tsx` — Container (matches pattern). Internal evidence=0, trace=0, mixed=0.
+- `TaxReformImpactPage` — `src/components/pages/TaxReformImpactPage.tsx` — Container (matches pattern). Internal evidence=0, trace=2, mixed=2.
+- `TenantGovernancePage` — `src/components/pages/TenantGovernancePage.tsx` — Container (matches pattern). Internal evidence=0, trace=0, mixed=1.
+- `ValuationPage` — `src/components/pages/ValuationPage.tsx` — Container (matches pattern). Internal evidence=1, trace=1, mixed=0.
+- `ViabilityPage` — `src/components/pages/ViabilityPage.tsx` — Container (matches pattern). Internal evidence=0, trace=0, mixed=0.
+- `PilotOperationsCenter` — `src/components/pilot-operations/PilotOperationsCenter.tsx` — Container (matches pattern). Internal evidence=1, trace=1, mixed=0.
+- `PilotValidationDashboard` — `src/components/pilot-operations/PilotValidationDashboard.tsx` — Container (matches pattern). Internal evidence=2, trace=1, mixed=1.
+- `UsageQuotaDashboard` — `src/components/product-governance/UsageQuotaDashboard.tsx` — Container (matches pattern). Internal evidence=0, trace=0, mixed=0.
+- `OperationalStressDashboard` — `src/components/reality-validation/OperationalStressDashboard.tsx` — Container (matches pattern). Internal evidence=0, trace=1, mixed=0.
+- `InstitutionalStrategicIntelligenceCenter` — `src/components/strategic-intelligence/InstitutionalStrategicIntelligenceCenter.tsx` — Container (matches pattern). Internal evidence=0, trace=0, mixed=0.
+- `StrategicRestrictionOverlay` — `src/components/strategic-intelligence/StrategicRestrictionOverlay.tsx` — Container (matches pattern). Internal evidence=0, trace=0, mixed=0.
+- `ExecutiveTimeMachineDashboard` — `src/components/temporal/ExecutiveTimeMachineDashboard.tsx` — Container (matches pattern). Internal evidence=0, trace=4, mixed=0.
+- `WorkspaceSwitcher` — `src/components/tenancy/WorkspaceSwitcher.tsx` — Container (matches pattern). Internal evidence=0, trace=0, mixed=0.
+- `ExecutivePageTemplate` — `src/components/ui/executive-page-template.tsx` — Container (matches pattern). Internal evidence=0, trace=0, mixed=0.
+- `InstitutionalWarRoomPage` — `src/components/war-gaming/InstitutionalWarRoomPage.tsx` — Container (matches pattern). Internal evidence=0, trace=1, mixed=0.
+- `ExecutiveScenarioDashboard` — `src/components/war-room/ExecutiveScenarioDashboard.tsx` — Container (matches pattern). Internal evidence=0, trace=0, mixed=0.
+- `ScenarioCommandCenter` — `src/components/war-room/ScenarioCommandCenter.tsx` — Container (matches pattern). Internal evidence=0, trace=0, mixed=0.
+- `WarRoomWorkspace` — `src/components/war-room/WarRoomWorkspace.tsx` — Container (matches pattern). Internal evidence=0, trace=0, mixed=0.
+- `GovernanceTimeMachineWorkspace` — `src/components/workspaces/GovernanceTimeMachineWorkspace.tsx` — Container (matches pattern). Internal evidence=2, trace=3, mixed=0.
+- `BoardExperienceShell` — `src/components/executive/board/BoardExperienceShell.tsx` — Container (matches pattern). Internal evidence=1, trace=2, mixed=3.
+- `ExecutionTrackingDashboard` — `src/components/executive/board/ExecutionTrackingDashboard.tsx` — Container (matches pattern). Internal evidence=0, trace=0, mixed=0.
+- `BoardPresentationMode` — `src/components/executive/demo/BoardPresentationMode.tsx` — Container (matches pattern). Internal evidence=0, trace=0, mixed=0.
+- `ExecutiveDemoShell` — `src/components/executive/demo/ExecutiveDemoShell.tsx` — Container (matches pattern). Internal evidence=3, trace=4, mixed=3.
+- `AcademyAdminCoursePage` — `src/components/pages/academy/AcademyAdminCoursePage.tsx` — Container (matches pattern). Internal evidence=0, trace=0, mixed=0.
+- `AcademyHomePage` — `src/components/pages/academy/AcademyHomePage.tsx` — Container (matches pattern). Internal evidence=0, trace=0, mixed=1.
+- `AdminAcademyDashboard` — `src/components/pages/academy/AdminAcademyDashboard.tsx` — Container (matches pattern). Internal evidence=0, trace=0, mixed=1.
+- `CourseDetailsPage` — `src/components/pages/academy/CourseDetailsPage.tsx` — Container (matches pattern). Internal evidence=0, trace=0, mixed=0.
+- `LessonPlayerPage` — `src/components/pages/academy/LessonPlayerPage.tsx` — Container (matches pattern). Internal evidence=0, trace=1, mixed=1.
+- `GestaoUsuariosPage` — `src/components/pages/admin/GestaoUsuariosPage.tsx` — Container (matches pattern). Internal evidence=0, trace=1, mixed=1.
+- `BoardModeDashboard` — `src/components/pages/board/BoardModeDashboard.tsx` — Container (matches pattern). Internal evidence=0, trace=2, mixed=0.
+- `BoardDeckCenter` — `src/components/pages/governance/BoardDeckCenter.tsx` — Container (matches pattern). Internal evidence=2, trace=6, mixed=2.
+- `BoardMeetingMode` — `src/components/pages/governance/BoardMeetingMode.tsx` — Container (matches pattern). Internal evidence=0, trace=6, mixed=3.
+- `CapitalGovernanceCenter` — `src/components/pages/governance/CapitalGovernanceCenter.tsx` — Container (matches pattern). Internal evidence=2, trace=3, mixed=1.
+- `ComplianceIntegrityCenter` — `src/components/pages/governance/ComplianceIntegrityCenter.tsx` — Container (matches pattern). Internal evidence=2, trace=0, mixed=0.
+- `CreditCommitteeCenter` — `src/components/pages/governance/CreditCommitteeCenter.tsx` — Container (matches pattern). Internal evidence=1, trace=8, mixed=1.
+- `CrisisResponseCenter` — `src/components/pages/governance/CrisisResponseCenter.tsx` — Container (matches pattern). Internal evidence=0, trace=0, mixed=1.
+- `DecisionLifecycleCenter` — `src/components/pages/governance/DecisionLifecycleCenter.tsx` — Container (matches pattern). Internal evidence=1, trace=3, mixed=0.
+- `EconomicNormalizationCenter` — `src/components/pages/governance/EconomicNormalizationCenter.tsx` — Container (matches pattern). Internal evidence=5, trace=3, mixed=1.
+- `ESGIMAssessmentPage` — `src/components/pages/governance/ESGIMAssessmentPage.tsx` — Container (matches pattern). Internal evidence=3, trace=8, mixed=4.
+- `ExecutiveExecutionCenter` — `src/components/pages/governance/ExecutiveExecutionCenter.tsx` — Container (matches pattern). Internal evidence=0, trace=5, mixed=2.
+- `ExecutiveMonitoringCenter` — `src/components/pages/governance/ExecutiveMonitoringCenter.tsx` — Container (matches pattern). Internal evidence=0, trace=0, mixed=0.
+- `FiduciaryGovernanceCenter` — `src/components/pages/governance/FiduciaryGovernanceCenter.tsx` — Container (matches pattern). Internal evidence=4, trace=4, mixed=1.
+- `FiduciaryValidationCenter` — `src/components/pages/governance/FiduciaryValidationCenter.tsx` — Container (matches pattern). Internal evidence=4, trace=4, mixed=1.
+- `FinancialLineageCenter` — `src/components/pages/governance/FinancialLineageCenter.tsx` — Container (matches pattern). Internal evidence=4, trace=4, mixed=1.
+- `GovernanceMaturityCenter` — `src/components/pages/governance/GovernanceMaturityCenter.tsx` — Container (matches pattern). Internal evidence=1, trace=2, mixed=2.
+- `InstitutionalBenchmarkingPage` — `src/components/pages/governance/InstitutionalBenchmarkingPage.tsx` — Container (matches pattern). Internal evidence=0, trace=0, mixed=0.
+- `InstitutionalMemoryCenter` — `src/components/pages/governance/InstitutionalMemoryCenter.tsx` — Container (matches pattern). Internal evidence=3, trace=4, mixed=0.
+- `InstitutionalMonitoringPage` — `src/components/pages/governance/InstitutionalMonitoringPage.tsx` — Container (matches pattern). Internal evidence=0, trace=1, mixed=0.
+- `InstitutionalObservabilityCenter` — `src/components/pages/governance/InstitutionalObservabilityCenter.tsx` — Container (matches pattern). Internal evidence=2, trace=0, mixed=0.
+- `InstitutionalStructureCenter` — `src/components/pages/governance/InstitutionalStructureCenter.tsx` — Container (matches pattern). Internal evidence=0, trace=1, mixed=0.
+- `LeadershipDNACenter` — `src/components/pages/governance/LeadershipDNACenter.tsx` — Container (matches pattern). Internal evidence=0, trace=2, mixed=1.
+- `MultiTenantGovernanceCenter` — `src/components/pages/governance/MultiTenantGovernanceCenter.tsx` — Container (matches pattern). Internal evidence=0, trace=0, mixed=1.
+- `ObservabilityConsolePage` — `src/components/pages/governance/ObservabilityConsolePage.tsx` — Container (matches pattern). Internal evidence=2, trace=7, mixed=2.
+- `RiskExposureCenter` — `src/components/pages/governance/RiskExposureCenter.tsx` — Container (matches pattern). Internal evidence=6, trace=3, mixed=0.
+- `SovereignBoardPackPage` — `src/components/pages/governance/SovereignBoardPackPage.tsx` — Container (matches pattern). Internal evidence=3, trace=5, mixed=2.
+- `SovereignDecisionCenter` — `src/components/pages/governance/SovereignDecisionCenter.tsx` — Container (matches pattern). Internal evidence=2, trace=5, mixed=0.
+- `DiagnosticoPage` — `src/components/pages/public/DiagnosticoPage.tsx` — Container (matches pattern). Internal evidence=0, trace=1, mixed=0.
+- `EmpresasPage` — `src/components/pages/public/EmpresasPage.tsx` — Container (matches pattern). Internal evidence=2, trace=3, mixed=0.
+- `HomePage` — `src/components/pages/public/HomePage.tsx` — Container (matches pattern). Internal evidence=0, trace=0, mixed=0.
+- `LoginPage` — `src/components/pages/public/LoginPage.tsx` — Container (matches pattern). Internal evidence=0, trace=2, mixed=0.
+- `ReferralProgramPage` — `src/components/pages/public/ReferralProgramPage.tsx` — Container (matches pattern). Internal evidence=1, trace=2, mixed=0.
+

@@ -1,10 +1,7 @@
-// src/components/institutional-reporting/InstitutionalBoardPackCenter.tsx
-
 import React from 'react';
 import { FileText, AlertTriangle, Fingerprint, Activity, ShieldCheck, FileKey } from 'lucide-react';
 import { InstitutionalBoardPackOutput } from '../../services/FiduciaryRuntimeAdapter';
 import { useLanguage } from '../../contexts/LanguageContext';
-
 import { ExecutiveSnapshotSurface } from './ExecutiveSnapshotSurface';
 import { GovernanceReportingSurface } from './GovernanceReportingSurface';
 import { StrategicDirectionSurface } from './StrategicDirectionSurface';
@@ -17,6 +14,9 @@ import { LineageAppendixDrawer } from './LineageAppendixDrawer';
 import { BoardPackExportPanel } from './BoardPackExportPanel';
 import { FiduciaryTimelineSurface } from './FiduciaryTimelineSurface';
 import { QuarantineModeSurface } from './QuarantineModeSurface';
+// src/components/institutional-reporting/InstitutionalBoardPackCenter.tsx
+
+
 
 export function InstitutionalBoardPackCenter({ boardPack }: { boardPack: InstitutionalBoardPackOutput }) {
   const { t } = useLanguage();

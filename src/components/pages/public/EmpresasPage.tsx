@@ -3,6 +3,8 @@ import { useNavigate } from 'react-router-dom';
 import { motion, AnimatePresence } from 'motion/react';
 import { ShieldCheck, BrainCircuit, Target, Activity, Layers, AlertCircle, Briefcase, Network, CheckCircle2, BarChart3, ArrowRight, ChevronRight, Scale, Building, Users, HeartHandshake, ArrowUpRight, Sparkles } from 'lucide-react';
 import { useDocumentTitle } from '../../../hooks/useDocumentTitle';
+import { useEmpresasPageViewModel } from '../../../viewmodels/useEmpresasPageViewModel';
+import { CanonicalBrandSignature } from '../../brand/BrandLogo';
 
 // Editorial Causal Mesh backdrop (Static & Extremely Understated)
 const CausalTopologyVisual = () => {
@@ -71,6 +73,9 @@ const CausalTopologyVisual = () => {
 };
 
 export function EmpresasPage() {
+  // Adapter: useEmpresasPageAdapter
+  // ViewModel: useEmpresasPageViewModel
+  const { state, computed, actions } = useEmpresasPageViewModel();
   useDocumentTitle('Illumine | Governança Institucional Inteligente');
   const navigate = useNavigate();
   const [showSticky, setShowSticky] = useState(false);
@@ -94,18 +99,8 @@ export function EmpresasPage() {
     }
     metaDesc.setAttribute('content', 'Illumine Governance™ é a plataforma e infraestrutura de inteligência institucional para decisões executivas de empresas complexas.');
 
-    // Enable dark theme and matching body/html background to prevent white borders/scrollbar tracks
-    document.documentElement.classList.add('dark');
-    const originalHtmlBg = document.documentElement.style.backgroundColor;
-    const originalBodyBg = document.body.style.backgroundColor;
-    document.documentElement.style.backgroundColor = 'var(--color-executive-primary)';
-    document.body.style.backgroundColor = 'var(--color-executive-primary)';
-
     return () => {
       window.removeEventListener('scroll', handleScroll);
-      document.documentElement.classList.remove('dark');
-      document.documentElement.style.backgroundColor = originalHtmlBg;
-      document.body.style.backgroundColor = originalBodyBg;
     };
   }, []);
 
@@ -195,37 +190,19 @@ export function EmpresasPage() {
   ];
 
   return (
-    <main className="min-h-screen bg-surface-container text-white relative overflow-x-hidden font-sans selection:bg-secondary/20 selection:text-secondary antialiased">
+    <main className="min-h-screen bg-[#04070C] text-white relative overflow-x-hidden font-sans selection:bg-[#FF8A57]/20 selection:text-[#FF8A57] antialiased">
       
       {/* Background Ambient Lights */}
-      <div className="fixed top-[-10%] left-[-5%] w-[45%] h-[45%] rounded-full bg-secondary/2 blur-[160px] pointer-events-none z-0" />
+      <div className="fixed top-[-10%] left-[-5%] w-[45%] h-[45%] rounded-full bg-[#FF8A57]/2 blur-[160px] pointer-events-none z-0" />
       <div className="fixed bottom-[-15%] right-[-5%] w-[50%] h-[50%] rounded-full bg-white/1 blur-[180px] pointer-events-none z-0" />
 
       {/* Navbar Minimalist & Premium */}
-      <nav className="fixed top-0 inset-x-0 h-20 z-50 border-b border-white/5 backdrop-blur-xl bg-surface-container/70 transition-all duration-300">
+      <nav className="fixed top-0 inset-x-0 h-20 z-50 border-b border-[#202733] backdrop-blur-xl bg-[#050911]/90 transition-all duration-300">
         <div className="max-w-7xl mx-auto px-6 sm:px-8 h-full flex items-center justify-between gap-8">
           
           {/* Logo Signature */}
-          <div id="nav-logo-link" className="flex items-center gap-0 cursor-pointer group" onClick={() => scrollToSection('hero')}>
-            <div className="w-[48px] h-[48px] flex items-center justify-center relative -translate-y-[2px]">
-              <img src="/logo.png" alt="Illumine Icon" className="relative z-10 w-full h-full object-contain" />
-            </div>
-            <div className="flex flex-col items-start w-fit">
-              <span 
-                className="text-[38px] tracking-[-0.06em] text-white leading-[0.8] block" 
-                style={{ fontFamily: '"Tilt Warp", sans-serif' }}
-              >
-                illumine
-              </span>
-              <div 
-                className="flex justify-between w-full text-[7px] text-white uppercase mt-[2px] whitespace-nowrap font-semibold" 
-                style={{ fontFamily: '"Work Sans", sans-serif', paddingLeft: '2px', paddingRight: '0.5px' }}
-              >
-                {"Governance".split('').map((char, i) => (
-                  <span key={i}>{char === ' ' ? '\u00A0' : char}</span>
-                ))}
-              </div>
-            </div>
+          <div id="nav-logo-link">
+            <CanonicalBrandSignature categoryBadge="Governance™" onClick={() => scrollToSection('hero')} />
           </div>
 
           {/* Nav Links */}
@@ -286,14 +263,14 @@ export function EmpresasPage() {
             <button 
               id="nav-btn-entrar"
               onClick={() => navigate('/login')} 
-              className="hidden sm:block text-[11px] font-bold uppercase tracking-widest text-white/50 hover:text-secondary transition-colors cursor-pointer"
+              className="hidden sm:block text-[11px] font-bold uppercase tracking-widest text-[#B9BEC7] hover:text-[#FF8A57] transition-colors cursor-pointer"
             >
               Entrar
             </button>
             <button 
               id="nav-btn-avaliar-continuidade"
               onClick={() => handleCTAClick("Olá! Acessei a página de Empresas e gostaria de realizar a avaliação de robustez institucional pelo Illumine Governance™.")}
-              className="h-10 px-5 rounded-md border border-white/20 hover:border-white text-white font-bold text-[9px] uppercase tracking-widest hover:bg-white/5 transition-all flex items-center gap-2 cursor-pointer"
+              className="h-11 px-6 rounded-full bg-[#050911] border border-[#202733] hover:border-[#FF8A57]/50 hover:bg-[#0B101A] text-white font-bold text-[10px] uppercase tracking-widest transition-all flex items-center justify-center gap-2 cursor-pointer"
             >
               <span>Avaliar Robustez</span>
             </button>
@@ -303,7 +280,7 @@ export function EmpresasPage() {
       </nav>
 
       {/* 1. HERO SECTION */}
-      <section id="hero" className="pt-44 pb-24 px-6 relative overflow-hidden z-10 border-b border-white/5 min-h-[90vh] flex items-center">
+      <section id="hero" className="pt-44 pb-24 px-6 relative overflow-hidden z-10 border-b border-[#202733] min-h-[90vh] flex items-center">
         <CausalTopologyVisual />
         <div className="max-w-7xl mx-auto px-6 sm:px-8 text-center space-y-12 relative z-10">
           
@@ -313,17 +290,17 @@ export function EmpresasPage() {
             transition={{ duration: 0.8 }}
             className="space-y-6"
           >
-            <span className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white/5 border border-white/10 text-white/70 text-[9px] font-bold uppercase tracking-widest mb-2 backdrop-blur-md">
-              <span className="w-1.5 h-1.5 rounded-full bg-secondary animate-pulse" />
+            <span className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-[#0B101A] border border-[#202733] text-[#FF8A57] text-[9px] font-bold uppercase tracking-widest mb-2 backdrop-blur-md">
+              <span className="w-1.5 h-1.5 rounded-full bg-[#FF8A57] animate-pulse" />
               Governança Institucional Inteligente
             </span>
             
-            <h1 className="text-4xl sm:text-5xl md:text-6xl font-display font-medium tracking-tight text-white leading-[1.1] max-w-5xl mx-auto text-primary">
+            <h1 className="text-3xl sm:text-5xl md:text-6xl font-display text-white max-w-5xl mx-auto font-medium tracking-tight leading-[1.15]">
               Sua organização está preparada para continuar saudável quando as condições deixarem de ser favoráveis?
             </h1>
             
             <div className="max-w-3xl mx-auto pt-4">
-              <p className="text-lg md:text-xl text-white/75 font-sans leading-relaxed">
+              <p className="text-lg md:text-xl text-[#B9BEC7] font-sans leading-relaxed">
                 Muitas organizações crescem em receita enquanto acumulam fragilidades invisíveis. 
                 O <span className="text-white font-semibold">Illumine Governance™</span> ajuda lideranças a identificar riscos ocultos, proteger valor e fortalecer a resiliência organizacional antes que problemas silenciosos se transformem em crises.
               </p>
@@ -339,15 +316,15 @@ export function EmpresasPage() {
             <button
               id="hero-btn-avaliar-continuidade"
               onClick={() => handleCTAClick("Olá, gostaria de agendar uma avaliação inicial de robustez institucional com o Illumine Governance™.")}
-              className="w-full sm:w-auto h-14 px-8 rounded-md bg-white text-executive-primary font-bold text-xs uppercase tracking-widest hover:bg-white/90 transition-all flex items-center justify-center gap-3 shadow-xl cursor-pointer"
+              className="w-full sm:w-auto h-14 px-8 rounded-md bg-[#F9F9F9] text-[#111111] font-bold text-xs uppercase tracking-widest hover:bg-white transition-all flex items-center justify-center gap-3 shadow-[0_0_30px_rgba(255,138,87,0.25)] cursor-pointer"
             >
               <span>Avaliar Robustez Institucional</span>
-              <ArrowRight size={14} />
+              <ArrowRight size={14} className="text-[#FF8A57]" />
             </button>
             <button
               id="hero-btn-receber-diagnostico"
               onClick={() => scrollToSection('inteligencias')}
-              className="w-full sm:w-auto h-14 px-8 rounded-md bg-transparent border border-white/20 text-white font-bold text-xs uppercase tracking-widest hover:bg-white/5 hover:border-white transition-all flex items-center justify-center gap-3 cursor-pointer"
+              className="w-full sm:w-auto h-14 px-8 rounded-md bg-[#0A0F18] border border-[#2E3642] text-white font-bold text-xs uppercase tracking-widest hover:bg-white/5 hover:border-[#FF8A57]/50 transition-all flex items-center justify-center gap-3 cursor-pointer"
             >
               <span>Conhecer a Metodologia</span>
             </button>
@@ -357,18 +334,18 @@ export function EmpresasPage() {
       </section>
 
       {/* 2. O LIMIAR DA CRISE (Problema) */}
-      <section id="problema" className="py-28 px-6 relative z-10 border-b border-white/5 bg-surface-container">
+      <section id="problema" className="py-28 px-6 relative z-10 border-b border-[#202733] bg-[#070B12]">
         <div className="max-w-7xl mx-auto px-6 sm:px-8 text-center space-y-10">
-          <span className="text-[10px] font-bold uppercase tracking-widest text-secondary">
+          <span className="text-[10px] font-bold uppercase tracking-widest text-[#FF8A57]">
             O Limiar da Crise
           </span>
-          <h2 className="text-3xl md:text-5xl font-display font-medium tracking-tight text-white leading-tight">
+          <h2 className="text-3xl md:text-5xl font-display text-white font-medium tracking-tight">
             O que normalmente destrói organizações não é a falta de vendas.
           </h2>
-          <div className="w-12 h-[1px] bg-secondary/60 mx-auto" />
+          <div className="w-12 h-[1px] bg-[#FF8A57]/60 mx-auto" />
           <p className="text-xl md:text-2xl text-white/95 leading-relaxed font-sans max-w-3xl mx-auto">
             Não é falta de clientes. Não é falta de tecnologia. 
-            É a <span className="text-secondary font-medium">incapacidade de interpretar a realidade</span> antes que ela se transforme em crise.
+            É a <span className="text-[#FF8A57] font-medium">incapacidade de interpretar a realidade</span> antes que ela se transforme em crise.
           </p>
           <div className="pt-2 max-w-2xl mx-auto">
             <p className="text-sm text-white/50 leading-relaxed">
@@ -379,13 +356,13 @@ export function EmpresasPage() {
       </section>
 
       {/* 3. O QUE O GOVERNANCE CONSEGUE ENXERGAR (Dores Reais) */}
-      <section id="diagnosticos" className="py-28 px-6 relative z-10 border-b border-white/5 bg-surface-container">
+      <section id="diagnosticos" className="py-28 px-6 relative z-10 border-b border-[#202733] bg-[#04070C]">
         <div className="max-w-7xl mx-auto space-y-16">
           <div className="text-center max-w-3xl mx-auto space-y-4">
-            <span className="text-[10px] font-bold uppercase tracking-widest text-secondary">
+            <span className="text-[10px] font-bold uppercase tracking-widest text-[#FF8A57]">
               Diagnósticos Reais
             </span>
-            <h2 className="text-3xl md:text-4xl font-display font-medium tracking-tight text-white">
+            <h2 className="text-2xl md:text-4xl font-display text-white font-medium tracking-tight">
               O que o Illumine Governance™ consegue enxergar
             </h2>
             <p className="text-sm text-white/60">
@@ -436,12 +413,12 @@ export function EmpresasPage() {
                 <motion.div 
                   key={idx}
                   whileHover={{ y: -4 }}
-                  className={`p-6 bg-surface-container border border-white/5 rounded-xl hover:border-white/10 transition-all ${
+                  className={`p-6 bg-[#0B101A] border border-[#202733] rounded-xl hover:border-[#2B3443] transition-all ${
                     isLast ? "lg:col-span-3 md:col-span-2" : ""
                   }`}
                 >
                   <div className="space-y-4">
-                    <div className="inline-block px-2.5 py-0.5 rounded bg-white/5 border border-white/10 text-[9px] uppercase tracking-widest font-semibold text-secondary">
+                    <div className="inline-block px-2.5 py-0.5 rounded bg-white/5 border border-white/10 text-[9px] uppercase tracking-widest font-semibold text-[#FF8A57]">
                       {item.intel}
                     </div>
                     <h5 className={`font-display font-medium text-white ${isLast ? "text-lg sm:text-xl" : "text-base sm:text-lg"}`}>
@@ -459,18 +436,18 @@ export function EmpresasPage() {
       </section>
 
       {/* 4. A GRANDE PERGUNTA DE NEGÓCIO (Manifesto Principal) */}
-      <section id="manifesto" className="py-44 px-6 relative z-10 border-b border-white/5 bg-surface-container overflow-hidden">
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[85%] h-[70%] rounded-full bg-secondary/5 blur-[180px] pointer-events-none" />
+      <section id="manifesto" className="py-44 px-6 relative z-10 border-b border-[#202733] bg-[#070B12] overflow-hidden">
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[85%] h-[70%] rounded-full bg-[#FF8A57]/5 blur-[180px] pointer-events-none" />
 
         <div className="max-w-7xl mx-auto px-6 sm:px-8 text-center space-y-16 relative z-10">
           
-          <span className="text-[10px] font-bold uppercase tracking-widest text-secondary flex items-center justify-center gap-2">
+          <span className="text-[10px] font-bold uppercase tracking-widest text-[#FF8A57] flex items-center justify-center gap-2">
             <Sparkles size={12} />
             Manifesto Institucional
           </span>
           
           <div className="space-y-6">
-            <h2 className="text-xs font-mono uppercase tracking-widest text-white/45">
+            <h2 className="text-lg md:text-xl font-mono text-[#8E95A3] uppercase tracking-wider font-semibold">
               A Pergunta que Toda Liderança Deveria Responder
             </h2>
             <p className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-display font-medium text-white leading-[1.1] max-w-6xl mx-auto italic tracking-tight">
@@ -478,7 +455,7 @@ export function EmpresasPage() {
             </p>
           </div>
 
-          <div className="w-24 h-[1px] bg-secondary/50 mx-auto" />
+          <div className="w-24 h-[1px] bg-[#FF8A57]/50 mx-auto" />
 
           <div className="max-w-5xl mx-auto space-y-6 text-white/80 text-base md:text-lg leading-relaxed">
             <p className="font-sans">
@@ -496,7 +473,7 @@ export function EmpresasPage() {
             <button
               id="manifesto-btn-responder"
               onClick={() => handleCTAClick("Olá! Desejo responder à grande pergunta do manifesto: 'Esta organização continuará saudável quando as condições deixarem de ser favoráveis?'")}
-              className="px-10 h-16 rounded-md bg-secondary text-white font-bold text-xs uppercase tracking-widest hover:bg-secondary/90 transition-all cursor-pointer shadow-xl shadow-secondary/15"
+              className="px-10 h-16 rounded-full bg-[#FF8A57] text-white font-bold text-xs uppercase tracking-widest hover:bg-[#FF9D72] transition-all cursor-pointer shadow-[0_0_30px_rgba(255,138,87,0.30)]"
             >
               Responder esta Pergunta
             </button>
@@ -506,15 +483,15 @@ export function EmpresasPage() {
       </section>
 
       {/* 5. GOVERNANÇA INSTITUCIONAL INTELIGENTE (Definição de Valor & Categoria) */}
-      <section id="categoria" className="py-28 px-6 relative z-10 border-b border-white/5 bg-surface-container">
+      <section id="categoria" className="py-28 px-6 relative z-10 border-b border-[#202733] bg-[#04070C]">
         <div className="max-w-7xl mx-auto px-6 sm:px-8 space-y-16">
           
           <div className="grid lg:grid-cols-12 gap-12 lg:gap-16 items-center">
             <div className="lg:col-span-5 space-y-6">
-              <span className="text-[10px] font-bold uppercase tracking-widest text-secondary">
+              <span className="text-[10px] font-bold uppercase tracking-widest text-[#FF8A57]">
                 Governança Institucional Inteligente
               </span>
-              <h2 className="text-3xl md:text-4xl font-display font-medium tracking-tight text-white leading-tight">
+              <h2 className="text-2xl md:text-4xl font-display text-white font-medium tracking-tight">
                 Uma nova categoria de infraestrutura de inteligência
               </h2>
               <p className="text-base text-white/80 font-sans leading-relaxed">
@@ -531,9 +508,9 @@ export function EmpresasPage() {
             </div>
           </div>
 
-          <div className="bg-surface-container/40 border border-white/10 rounded-2xl p-8 sm:p-12 space-y-10">
+          <div className="bg-[#0B101A] border border-[#202733] rounded-2xl p-8 sm:p-12 space-y-10">
             <div className="text-center max-w-[576px] mx-auto space-y-2">
-              <span className="text-[9px] font-mono uppercase tracking-[0.2em] text-secondary block">
+              <span className="text-[9px] font-mono uppercase tracking-[0.2em] text-[#FF8A57] block">
                 Escopo de Cobertura
               </span>
               <h5 className="text-xl sm:text-2xl font-display font-medium text-white tracking-tight mt-1">
@@ -558,7 +535,7 @@ export function EmpresasPage() {
                 return (
                   <div 
                     key={idx} 
-                    className={`group relative p-5 bg-surface-container border border-white/5 hover:border-white/15 rounded-xl transition-all duration-300 flex flex-col justify-between min-h-[120px] ${
+                    className={`group relative p-5 bg-[#070B12] border border-[#202733] hover:border-[#2B3443] rounded-xl transition-all duration-300 flex flex-col justify-between min-h-[120px] ${
                       isLast 
                         ? "sm:col-span-2 lg:col-span-2" 
                         : ""
@@ -569,7 +546,7 @@ export function EmpresasPage() {
                         <span className="text-[10px] font-mono text-white/30 tracking-wider">
                           0{idx + 1}
                         </span>
-                        <div className="w-1.5 h-1.5 rounded-full bg-secondary/80 group-hover:scale-125 transition-transform" />
+                        <div className="w-1.5 h-1.5 rounded-full bg-[#FF8A57] group-hover:scale-125 transition-transform" />
                       </div>
                       <div className="space-y-1">
                         <h5 className="text-xs font-bold uppercase tracking-wider text-white">
@@ -590,17 +567,17 @@ export function EmpresasPage() {
       </section>
 
       {/* 7. ESGIM™ */}
-      <section id="esgim" className="py-28 px-6 relative z-10 border-b border-white/5 bg-surface-container">
+      <section id="esgim" className="py-28 px-6 relative z-10 border-b border-[#202733] bg-[#070B12]">
         <div className="max-w-7xl mx-auto px-6 sm:px-8 space-y-12">
           
           <div className="text-center max-w-3xl mx-auto space-y-6">
-            <span className="text-[10px] font-bold uppercase tracking-widest text-secondary">
+            <span className="text-[10px] font-bold uppercase tracking-widest text-[#FF8A57]">
               Framework Proprietário
             </span>
-            <h2 className="text-3xl md:text-4xl font-display font-medium tracking-tight text-white">
+            <h2 className="text-2xl md:text-4xl font-display text-white font-medium tracking-tight">
               ESGIM™: O framework de mensuração do Illumine Governance™
             </h2>
-            <div className="w-12 h-[1px] bg-secondary/50 mx-auto" />
+            <div className="w-12 h-[1px] bg-[#FF8A57]/50 mx-auto" />
             <p className="text-sm text-white/70 max-w-2xl mx-auto leading-relaxed font-sans">
               O ESGIM™ organiza a realidade institucional em cinco dimensões fundamentais que sustentam continuidade, integridade e crescimento sustentável.
             </p>
@@ -614,13 +591,13 @@ export function EmpresasPage() {
               { letter: 'I', name: 'Institutional', desc: 'Salvaguarda de marca, resiliência organizacional e preservação do legado.' },
               { letter: 'M', name: 'Mission', desc: 'Alinhamento dos processos e decisões estratégicas com a missão fundadora.' }
             ].map((dim, i) => (
-              <div key={i} className={`group relative p-6 bg-surface-container border border-white/5 rounded-xl flex flex-col items-center justify-center text-center hover:border-white/20 transition-all duration-300 min-h-[155px] overflow-hidden cursor-help ${i === 4 ? 'sm:col-span-2 lg:col-span-1' : ''}`}>
-        <span className="text-4xl font-display font-bold text-secondary transition-all duration-300 group-hover:scale-95 group-hover:">{dim.letter}</span>
+              <div key={i} className={`group relative p-6 bg-[#0B101A] border border-[#202733] rounded-xl flex flex-col items-center justify-center text-center hover:border-[#2B3443] transition-all duration-300 min-h-[155px] overflow-hidden cursor-help ${i === 4 ? 'sm:col-span-2 lg:col-span-1' : ''}`}>
+        <span className="text-4xl font-display font-bold text-[#FF8A57] transition-all duration-300 group-hover:scale-95 group-hover:">{dim.letter}</span>
         <h5 className="text-xs font-bold uppercase tracking-wider text-white mt-2 transition-all duration-300 group-hover:">{dim.name}</h5>
                 
                 {/* Hover overlay description */}
-                <div className="absolute inset-0 bg-surface-container/98 p-4 flex flex-col items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none">
-                  <p className="text-[10px] text-white/90 leading-relaxed font-sans">{dim.desc}</p>
+                <div className="absolute inset-0 bg-[#050911]/98 p-4 flex flex-col items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none">
+                  <p className="text-xs text-white/90 font-sans">{dim.desc}</p>
                 </div>
               </div>
             ))}
@@ -629,11 +606,11 @@ export function EmpresasPage() {
       </section>
 
       {/* AUTORIDADE INSTITUCIONAL: Assinatura Metodológica (Reposicionamento Premium) */}
-      <section className="py-20 px-6 relative z-10 bg-surface-container border-b border-white/5">
+      <section className="py-20 px-6 relative z-10 bg-[#04070C] border-b border-[#202733]">
         <div className="max-w-7xl mx-auto px-6 sm:px-8">
-          <div className="relative p-8 md:p-12 bg-surface-container/45 border border-white/5 rounded-2xl overflow-hidden shadow-2xl backdrop-blur-sm group">
+          <div className="relative p-8 md:p-12 bg-[#0B101A] border border-[#202733] rounded-2xl overflow-hidden shadow-2xl backdrop-blur-sm group">
             {/* Glowing accents */}
-            <div className="absolute -top-12 -right-12 w-64 h-64 bg-secondary/[0.02] rounded-full blur-3xl pointer-events-none group-hover:bg-secondary/[0.04] transition-colors duration-500" />
+            <div className="absolute -top-12 -right-12 w-64 h-64 bg-[#FF8A57]/[0.02] rounded-full blur-3xl pointer-events-none group-hover:bg-[#FF8A57]/[0.04] transition-colors duration-500" />
             <div className="absolute -bottom-12 -left-12 w-64 h-64 bg-white/[0.01] rounded-full blur-3xl pointer-events-none" />
             
             <div className="grid grid-cols-1 md:grid-cols-12 gap-8 md:gap-12 items-center">
@@ -642,10 +619,10 @@ export function EmpresasPage() {
               <div className="md:col-span-4 flex flex-col items-center md:items-start gap-4">
                 <div className="w-16 h-16 rounded-2xl bg-white/5 border border-white/10 flex items-center justify-center relative shadow-xl hover:border-white/20 transition-all duration-300">
                   <img src="/logo.png" alt="Illumine Signature Logo" className="w-10 h-10 object-contain" />
-                  <div className="absolute -inset-0.5 rounded-2xl border border-secondary/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none" />
+                  <div className="absolute -inset-0.5 rounded-2xl border border-[#FF8A57]/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none" />
                 </div>
                 <div className="space-y-1 text-center md:text-left">
-                  <span className="text-[9px] font-mono font-bold tracking-[0.2em] text-secondary uppercase block">
+                  <span className="text-[9px] font-mono font-bold tracking-[0.2em] text-[#FF8A57] uppercase block">
                     Assinatura Metodológica
                   </span>
                   <h5 className="text-xl font-display font-medium text-white tracking-tight">
@@ -672,18 +649,18 @@ export function EmpresasPage() {
         </div>
       </section>
 
-      <section id="inteligencias" className="py-28 px-6 relative z-10 border-b border-white/5 bg-surface-container">
+      <section id="inteligencias" className="py-28 px-6 relative z-10 border-b border-[#202733] bg-[#070B12]">
         <div className="max-w-7xl mx-auto px-6 sm:px-8 space-y-16">
           
           {/* Eixos Section Header */}
           <div className="space-y-6 text-center">
-            <span className="text-[10px] font-bold uppercase tracking-widest text-secondary">
+            <span className="text-[10px] font-bold uppercase tracking-widest text-[#FF8A57]">
               Escopo de Análise & Interpretação
             </span>
-            <h2 className="text-3xl md:text-4xl font-display font-medium tracking-tight text-white">
+            <h2 className="text-2xl md:text-4xl font-display text-white font-medium tracking-tight">
               Onde observamos e como interpretamos
             </h2>
-            <p className="text-sm text-white/60 max-w-2xl mx-auto leading-relaxed">
+            <p className="text-sm text-[#B9BEC7] max-w-2xl mx-auto leading-relaxed">
               Toda organização deixa sinais. Buscamos evidências em 7 Eixos críticos e aplicamos 7 Inteligências para interpretar o que esses dados significam para o futuro do negócio.
             </p>
           </div>
@@ -693,17 +670,17 @@ export function EmpresasPage() {
             {/* ONDE OBSERVAMOS: 7 Eixos (Esquerda) */}
             <div className="lg:col-span-5 flex flex-col h-full space-y-4">
               {/* Header aligned on desktop */}
-              <div className="hidden lg:flex items-center gap-2 text-[10px] font-mono font-bold uppercase text-secondary tracking-widest">
-                <span className="w-1.5 h-1.5 rounded-full bg-secondary animate-pulse" />
+              <div className="hidden lg:flex items-center gap-2 text-[10px] font-mono font-bold uppercase text-[#FF8A57] tracking-widest">
+                <span className="w-1.5 h-1.5 rounded-full bg-[#FF8A57] animate-pulse" />
                 Onde Observamos
               </div>
 
-              <div className="bg-surface-container/60 border border-white/5 rounded-2xl p-6 sm:p-8 backdrop-blur-sm relative overflow-hidden flex-1 flex flex-col justify-between">
-                <div className="absolute -top-12 -left-12 w-24 h-24 bg-secondary/5 rounded-full blur-2xl pointer-events-none" />
+              <div className="bg-[#0B101A] border border-[#202733] rounded-2xl p-6 sm:p-8 backdrop-blur-sm relative overflow-hidden flex-1 flex flex-col justify-between">
+                <div className="absolute -top-12 -left-12 w-24 h-24 bg-[#FF8A57]/5 rounded-full blur-2xl pointer-events-none" />
                 
                 {/* Mobile Title */}
-                <div className="lg:hidden flex items-center gap-2 text-[10px] font-mono font-bold uppercase text-secondary tracking-widest mb-4">
-                  <span className="w-1.5 h-1.5 rounded-full bg-secondary animate-pulse" />
+                <div className="lg:hidden flex items-center gap-2 text-[10px] font-mono font-bold uppercase text-[#FF8A57] tracking-widest mb-4">
+                  <span className="w-1.5 h-1.5 rounded-full bg-[#FF8A57] animate-pulse" />
                   Onde Observamos
                 </div>
                 
@@ -717,13 +694,13 @@ export function EmpresasPage() {
                         onClick={() => setActiveTab(idx)}
                         className={`px-3 py-2 text-left border rounded-lg transition-all duration-300 ${
                           isSelected
-                            ? 'bg-surface-container border-secondary/40 text-white shadow-md shadow-secondary/5'
-                            : 'bg-surface-container/40 border-white/5 text-white/50 hover:border-white/12 hover:text-white/80'
+                            ? 'bg-[#FF8A57]/10 border-[#FF8A57]/40 text-white shadow-md shadow-[#FF8A57]/5'
+                            : 'bg-[#070B12] border-[#202733] text-[#B9BEC7] hover:border-[#2B3443] hover:text-white'
                         }`}
                       >
                         <div className="flex flex-col gap-1">
                           <div className="flex items-center gap-1.5">
-                            <span className={`w-1 h-1 rounded-full ${isSelected ? 'bg-secondary animate-pulse' : 'bg-white/20'}`} />
+                            <span className={`w-1 h-1 rounded-full ${isSelected ? 'bg-[#FF8A57] animate-pulse' : 'bg-white/20'}`} />
                             <span className="text-[9px] font-mono uppercase tracking-wider font-semibold">{eixo.name}</span>
                           </div>
                           <span className="text-[7px] font-mono text-white/40 uppercase tracking-widest pl-2.5">
@@ -747,31 +724,31 @@ export function EmpresasPage() {
                         onClick={() => setActiveTab(idx)}
                         className={`relative pl-10 pr-4 py-2.5 rounded-xl border transition-all duration-300 cursor-pointer ${
                           isSelected
-                            ? 'bg-surface-container/80 border-white/10 text-white shadow-lg'
-                            : 'bg-transparent border-transparent text-white/40 hover:text-white/70'
+                            ? 'bg-[#FF8A57]/10 border-[#FF8A57]/30 text-white shadow-lg'
+                            : 'bg-transparent border-transparent text-[#8E95A3] hover:text-[#B9BEC7]'
                         }`}
                       >
                         {/* Dot indicator over timeline */}
                         <div className="absolute left-[17px] top-1/2 -translate-y-1/2 -translate-x-1/2 flex items-center justify-center z-10">
                           <div className={`w-2.5 h-2.5 rounded-full border transition-all duration-300 ${
                             isSelected 
-                              ? 'bg-secondary border-secondary scale-110 shadow-lg shadow-secondary/50' 
-                              : 'bg-surface-container border-white/20 hover:border-white/45'
+                              ? 'bg-[#FF8A57] border-[#FF8A57] scale-110 shadow-lg shadow-[#FF8A57]/50' 
+                              : 'bg-white/5 border-white/20 hover:border-white/45'
                           }`} />
                         </div>
 
-                        <div className="space-y-0.5">
-                          <div className="flex flex-wrap items-center gap-2">
-                            <h5 className={`text-xs font-bold uppercase tracking-wider ${isSelected ? 'text-white font-semibold' : 'text-white/60'}`}>
+                        <div className="space-y-1">
+                          <div className="flex flex-wrap items-center gap-2.5">
+                            <h5 className={`text-xs font-bold uppercase tracking-wider ${isSelected ? 'text-white' : 'text-[#B9BEC7]'}`}>
                               {eixo.name}
                             </h5>
-                            <span className={`px-1.5 py-0.5 rounded text-[8px] font-mono uppercase tracking-wider ${
-                              isSelected ? 'bg-secondary/15 text-secondary font-medium' : 'bg-white/5 text-white/30'
+                            <span className={`px-2 py-0.5 rounded-full text-[8px] font-mono uppercase tracking-wider ${
+                              isSelected ? 'bg-[#FF8A57]/15 border border-[#FF8A57]/30 text-[#FF8A57] font-semibold' : 'bg-[#070B12] border border-[#202733] text-[#8E95A3]'
                             }`}>
                               Impacto: {eixo.impact}
                             </span>
                           </div>
-                          <p className={`text-[11px] leading-normal transition-opacity duration-300 font-sans ${isSelected ? 'text-white/75' : 'text-white/35'}`}>
+                          <p className={`text-[11px] leading-normal transition-opacity duration-300 font-sans ${isSelected ? 'text-[#B9BEC7]' : 'text-[#8E95A3]'}`}>
                             {eixo.desc}
                           </p>
                         </div>
@@ -803,34 +780,34 @@ export function EmpresasPage() {
                     return (
                       <div 
                         key={idx}
-                        className={`border transition-all duration-300 rounded-xl overflow-hidden ${
+                        className={`border transition-all duration-300 rounded-[28px] overflow-hidden ${
                           isOpen 
-                            ? 'bg-surface-container/90 border-white/10 shadow-2xl backdrop-blur-md' 
-                            : 'bg-surface-container/40 border-white/5 hover:border-white/12 hover:bg-surface-container/20'
+                            ? 'bg-[#0B101A] border-[#2B3443] shadow-2xl backdrop-blur-md' 
+                            : 'bg-[#0B101A] border-[#202733] hover:border-[#2B3443]'
                         }`}
                       >
                         {/* Header/Trigger */}
                         <button
                           id={`intel-tab-btn-${idx}`}
                           onClick={() => setActiveTab(isOpen ? -1 : idx)}
-                          className="w-full text-left p-5 flex items-center justify-between gap-4 cursor-pointer"
+                          className="w-full text-left px-6 py-4 flex items-center justify-between gap-4 cursor-pointer"
                         >
                           <div className="flex items-center gap-4">
-                            <span className={`p-3 rounded-xl transition-all duration-300 ${
+                            <div className={`w-11 h-11 rounded-full border transition-all duration-300 flex items-center justify-center shrink-0 ${
                               isOpen 
-                                ? 'bg-secondary/10 text-secondary scale-110 shadow-lg shadow-secondary/5' 
-                                : 'bg-white/5 text-white/70'
+                                ? 'bg-[#FF8A57]/15 border-[#FF8A57]/40 text-[#FF8A57] shadow-lg shadow-[#FF8A57]/10' 
+                                : 'bg-[#FF8A57]/10 border-[#FF8A57]/20 text-[#FF8A57]'
                             }`}>
                               {intel.icon}
-                            </span>
+                            </div>
                             <div>
                               <h5 className={`text-sm sm:text-base font-bold uppercase tracking-wider transition-colors duration-300 ${
-                                isOpen ? 'text-white' : 'text-white/75'
+                                isOpen ? 'text-white' : 'text-white'
                               }`}>
                                 {intel.title}
                               </h5>
-                              <p className={`text-[10px] font-mono mt-0.5 transition-colors duration-300 ${
-                                isOpen ? 'text-secondary/90' : 'text-white/40'
+                              <p className={`text-[11px] font-sans mt-0.5 transition-colors duration-300 ${
+                                isOpen ? 'text-[#FF8A57]' : 'text-[#8E95A3]'
                               }`}>
                                 {intel.question}
                               </p>
@@ -838,7 +815,7 @@ export function EmpresasPage() {
                           </div>
                           <ChevronRight 
                             size={16} 
-                            className={`text-white/35 transition-transform duration-300 ${isOpen ? 'rotate-90 text-secondary' : ''}`} 
+                            className={`text-[#8E95A3] transition-transform duration-300 ${isOpen ? 'rotate-90 text-[#FF8A57]' : ''}`} 
                           />
                         </button>
 
@@ -858,16 +835,16 @@ export function EmpresasPage() {
                                 </p>
 
                                 <div className="space-y-3">
-                                  <span className="text-[9px] font-mono uppercase text-secondary/80 tracking-wider block font-semibold">
+                                  <span className="text-[9px] font-mono uppercase text-[#FF8A57] tracking-wider block font-semibold">
                                     Mapeamento de Sinais:
                                   </span>
                                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
                                     {intel.insights.map((insight, i) => (
                                       <div 
                                         key={i} 
-                                        className="px-3 py-2 bg-surface-container/60 border border-white/5 text-[10px] text-white/80 transition-all duration-200 rounded-lg flex items-center gap-2 cursor-default hover:bg-surface-container/95 hover:border-white/10"
+                                        className="px-3 py-2 bg-[#070B12] border border-[#202733] text-[10px] text-[#B9BEC7] transition-all duration-200 rounded-lg flex items-center gap-2 cursor-default hover:bg-[#0B101A] hover:border-[#2B3443]"
                                       >
-                                        <span className="w-1.5 h-1.5 rounded-full bg-secondary/80 flex-shrink-0 animate-pulse" />
+                                        <span className="w-1.5 h-1.5 rounded-full bg-[#FF8A57] flex-shrink-0 animate-pulse" />
                                         <span className="font-sans leading-tight">{insight}</span>
                                       </div>
                                     ))}
@@ -895,28 +872,28 @@ export function EmpresasPage() {
           {/* Compact Architecture Flow */}
           <div className="pt-8 border-t border-white/5 mt-12 max-w-3xl mx-auto flex flex-wrap items-center justify-center gap-x-3 gap-y-2 text-[9px] font-mono tracking-widest text-white/30 uppercase">
             <span className="text-white/70 hover:text-white transition-colors">Dados</span>
-            <ArrowRight size={10} className="text-secondary/70" />
+            <ArrowRight size={10} className="text-[#FF8A57]" />
             <span className="text-white/70 hover:text-white transition-colors">ESGIM™</span>
-            <ArrowRight size={10} className="text-secondary/70" />
+            <ArrowRight size={10} className="text-[#FF8A57]" />
             <span className="text-white/70 hover:text-white transition-colors">7 Eixos</span>
-            <ArrowRight size={10} className="text-secondary/70" />
+            <ArrowRight size={10} className="text-[#FF8A57]" />
             <span className="text-white/70 hover:text-white transition-colors">7 Inteligências</span>
-            <ArrowRight size={10} className="text-secondary/70" />
-            <span className="text-secondary font-semibold">Decisão Executiva</span>
+            <ArrowRight size={10} className="text-[#FF8A57]" />
+            <span className="text-[#FF8A57] font-semibold">Decisão Executiva</span>
           </div>
 
         </div>
       </section>
 
       {/* 8. O QUE SUA LIDERANÇA PASSA A ENXERGAR */}
-      <section id="lideranca" className="py-28 px-6 relative z-10 border-b border-white/5 bg-surface-container">
+      <section id="lideranca" className="py-28 px-6 relative z-10 border-b border-[#202733] bg-[#04070C]">
         <div className="max-w-7xl mx-auto px-6 sm:px-8 space-y-12">
           
           <div className="text-center space-y-4">
-            <span className="text-[10px] font-bold uppercase tracking-widest text-secondary">
+            <span className="text-[10px] font-bold uppercase tracking-widest text-[#FF8A57]">
               Clareza Decisória
             </span>
-            <h2 className="text-3xl md:text-4xl font-display font-medium tracking-tight text-white">
+            <h2 className="text-2xl md:text-4xl font-display text-white font-medium tracking-tight">
               O que sua liderança passa a enxergar
             </h2>
             <p className="text-base text-white/70 max-w-2xl mx-auto">
@@ -924,7 +901,7 @@ export function EmpresasPage() {
             </p>
           </div>
 
-          <div className="bg-surface-container border border-white/10 rounded-2xl p-8 sm:p-12">
+          <div className="bg-[#0B101A] border border-[#202733] rounded-2xl p-8 sm:p-12">
             <div className="grid sm:grid-cols-2 gap-4 max-w-5xl mx-auto">
               {[
                 "riscos de continuidade institucional",
@@ -939,7 +916,7 @@ export function EmpresasPage() {
                 "alertas sobre o próximo ciclo organizacional"
               ].map((item, idx) => (
                 <div key={idx} className="flex items-start gap-3">
-                  <div className="text-secondary flex-shrink-0 mt-[3px]">
+                  <div className="text-[#FF8A57] flex-shrink-0 mt-[3px]">
                     <CheckCircle2 size={12} className="stroke-[3]" />
                   </div>
                   <span className="text-xs sm:text-sm text-white/80">{item}</span>
@@ -950,13 +927,13 @@ export function EmpresasPage() {
 
         </div>
       </section>      {/* 9. PÚBLICOS ATENDIDOS (Público-Alvo) */}
-      <section id="publico" className="py-24 px-6 relative z-10 border-b border-white/5 bg-surface-container">
+      <section id="publico" className="py-24 px-6 relative z-10 border-b border-[#202733] bg-[#070B12]">
         <div className="max-w-7xl mx-auto px-6 sm:px-8 space-y-12">
           <div className="text-center space-y-4">
-            <span className="text-[10px] font-bold uppercase tracking-widest text-secondary">
+            <span className="text-[10px] font-bold uppercase tracking-widest text-[#FF8A57]">
               Públicos Atendidos
             </span>
-            <h2 className="text-3xl md:text-4xl font-display font-medium tracking-tight text-white">
+            <h2 className="text-2xl md:text-4xl font-display text-white font-medium tracking-tight">
               Desenvolvido para organizações complexas
             </h2>
             <p className="text-sm text-white/50 max-w-[576px] mx-auto">
@@ -973,7 +950,7 @@ export function EmpresasPage() {
               { title: "Terceiro Setor", desc: "Proteção contra desvios de missão e preservação da sustentabilidade." },
               { title: "Organizações orientadas por propósito", desc: "Alinhamento de princípios fundadores à realidade de mercado." }
             ].map((target, idx) => (
-              <div key={idx} className="p-5 bg-surface-container border border-white/5 rounded-xl flex flex-col justify-center">
+              <div key={idx} className="p-5 bg-[#0B101A] border border-[#202733] rounded-xl flex flex-col justify-center">
                 <h5 className="text-sm font-semibold text-white uppercase tracking-wider mb-1">
                   {target.title}
                 </h5>
@@ -988,11 +965,11 @@ export function EmpresasPage() {
       </section>
 
       {/* 11. CTA FINAL */}
-      <section className="py-24 px-6 relative overflow-hidden z-10 bg-surface-container border-t border-white/5">
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-secondary/5 via-transparent to-transparent pointer-events-none" />
+      <section className="py-24 px-6 relative overflow-hidden z-10 bg-[#04070C] border-t border-[#202733]">
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-[#FF8A57]/5 via-transparent to-transparent pointer-events-none" />
         
         <div className="max-w-7xl mx-auto px-6 sm:px-8 text-center space-y-8 relative z-10">
-          <span className="text-[10px] font-bold uppercase tracking-widest text-secondary">
+          <span className="text-[10px] font-bold uppercase tracking-widest text-[#FF8A57]">
             Perpetuidade e Legado
           </span>
           <div className="space-y-4">
@@ -1011,14 +988,14 @@ export function EmpresasPage() {
             <button
               id="final-cta-btn-avaliar"
               onClick={() => handleCTAClick("Olá! Desejo realizar a avaliação de robustez institucional da minha organização no Illumine Governance™.")}
-              className="w-full sm:w-auto h-14 px-8 rounded-md bg-white text-executive-primary font-bold text-xs uppercase tracking-widest hover:bg-white/90 transition-all flex items-center justify-center gap-3 cursor-pointer shadow-xl"
+              className="w-full sm:w-auto h-14 px-8 rounded-full bg-[#F9F9F9] text-[#111111] font-bold text-xs uppercase tracking-widest hover:bg-white transition-all flex items-center justify-center gap-3 cursor-pointer shadow-[0_0_30px_rgba(255,138,87,0.25)]"
             >
               <span>Avaliar Robustez Institucional</span>
             </button>
             <button
               id="final-cta-btn-advisor"
               onClick={() => handleCTAClick("Olá! Desejo agendar uma reunião estratégica com a Illumine Consultoria.")}
-              className="w-full sm:w-auto h-14 px-8 rounded-md bg-transparent border border-white/20 text-white font-bold text-xs uppercase tracking-widest hover:bg-white/5 hover:border-white transition-all flex items-center justify-center gap-3 cursor-pointer"
+              className="w-full sm:w-auto h-14 px-8 rounded-full bg-[#0A0F18] border border-[#2E3642] text-white font-bold text-xs uppercase tracking-widest hover:bg-white/5 hover:border-[#FF8A57]/50 transition-all flex items-center justify-center gap-3 cursor-pointer"
             >
               <span>Falar com um Advisor</span>
             </button>
@@ -1040,9 +1017,11 @@ export function EmpresasPage() {
               href={`https://wa.me/554131514537?text=${encodeURIComponent("Olá! Gostaria de agendar a avaliação de robustez institucional pelo Illumine Governance™.")}`}
               target="_blank"
               rel="noopener noreferrer"
-              className="flex items-center gap-3 px-6 h-14 bg-white text-executive-primary font-bold text-[10px] uppercase tracking-widest rounded-full shadow-2xl hover:bg-white/90 transition-all cursor-pointer border border-white/10 no-underline"
+              className="flex items-center gap-3 px-6 h-14 bg-[#F9F9F9] text-[#111111] font-bold text-[10px] uppercase tracking-widest rounded-full shadow-[0_0_30px_rgba(255,138,87,0.30)] hover:bg-white transition-all cursor-pointer border border-white/20 no-underline"
             >
-              <Briefcase size={14} className="text-secondary" />
+              <div className="w-7 h-7 rounded-full bg-[#FF8A57]/15 border border-[#FF8A57]/30 flex items-center justify-center text-[#FF8A57]">
+                <Briefcase size={13} />
+              </div>
               <span>Avaliar Robustez</span>
             </a>
           </motion.div>
@@ -1050,17 +1029,17 @@ export function EmpresasPage() {
       </AnimatePresence>
 
       {/* Footer Minimalist */}
-      <footer className="py-16 border-t border-white/5 bg-surface-container text-white/40 text-[10px] tracking-wider uppercase font-semibold">
+      <footer className="py-16 border-t border-[#202733] bg-[#050911] text-[#8E95A3] text-[10px] tracking-wider uppercase font-semibold">
         <div className="max-w-7xl mx-auto px-8">
           <div className="flex flex-col sm:flex-row justify-between items-center gap-8">
             <div className="flex items-center gap-2">
               <span className="font-display font-medium text-white/80 text-sm tracking-tight" style={{ fontFamily: '"Tilt Warp", sans-serif' }}>illumine</span>
-              <span className="text-[8px] text-white/30">|</span>
+              <span className="text-[8px] text-[#8E95A3]">|</span>
               <span>© 2026 Illumine Governance™. Todos os direitos reservados.</span>
             </div>
             <div className="flex gap-6">
               <button id="footer-btn-topo" onClick={() => scrollToSection('hero')} className="hover:text-white transition-colors">Voltar ao Topo</button>
-              <button id="footer-btn-parceiros" onClick={() => navigate('/parceiros')} className="hover:text-white transition-colors">Portal de Parceiros</button>
+              <button id="footer-btn-parceiros" onClick={() => navigate('/executive-advisor-network')} className="hover:text-white transition-colors">Executive Advisor Network™</button>
               <button id="footer-btn-login" onClick={() => navigate('/login')} className="hover:text-white transition-colors">Acesso Restrito</button>
             </div>
           </div>

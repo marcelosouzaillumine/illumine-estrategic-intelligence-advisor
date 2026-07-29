@@ -1,6 +1,5 @@
 import React from 'react';
 import { Siren } from 'lucide-react';
-import { PageHeader } from '../Common';
 import { EarlyWarningFeed } from '../early-warning/EarlyWarningFeed';
 import { PredictiveRiskPanel } from '../early-warning/PredictiveRiskPanel';
 import { GovernanceTrendPanel } from '../early-warning/GovernanceTrendPanel';
@@ -9,18 +8,64 @@ import { ScenarioDeteriorationPanel } from '../early-warning/ScenarioDeteriorati
 import { GraphPatternAlertPanel } from '../early-warning/GraphPatternAlertPanel';
 import { WarningEvidenceViewer } from '../early-warning/WarningEvidenceViewer';
 import { EarlyWarningTimeline } from '../early-warning/EarlyWarningTimeline';
+import { ExecutivePageTemplate } from '../ui/executive-page-template';
+import { ExecutiveSurface } from '../ui/executive-surface';
+import { ExecutiveAccordion } from '../ui/executive-accordion';
+import { ExecutiveEmptyState } from '../ui/executive-empty-state';
+import { ExecutiveHeading } from '../ui/executive-heading';
+import { ExecutiveText } from '../ui/executive-typography';
+import { StatusBadge } from '../Common';
+import { createPortal } from 'react-dom';
+import { ExecutiveSummarySection } from '../ui/executive-summary-section';
+import { ExecutiveStrategicTensions } from '../ui/executive-strategic-tensions';
+import { ExecutiveDecisionTrace } from '../ui/executive-decision-trace';
+import { useEarlyWarningPageViewModel } from '../../viewmodels/useEarlyWarningPageViewModel';
+
+
+
 
 export function EarlyWarningPage() {
+  // Adapter: useEarlyWarningPageAdapter
+  // ViewModel: useEarlyWarningPageViewModel
+  const { state: vmState, computed: vmComputed, actions: vmActions } = useEarlyWarningPageViewModel({ clientId: '' });
+  const portal = createPortal;
   const tenantId = 'TENANT-HQ'; // Mock MVP Tenant
 
   return (
-    <div className="max-w-[1440px] mx-auto px-6 lg:px-10 space-y-12 pb-32 animate-executive-fade">
-      <PageHeader
-        title="Predictive Governance & Early Warning"
-        subtitle="Detecção antecipada de deterioração baseada em evidências do Knowledge Graph, Benchmarking e Workflows."
-        icon={Siren}
-        transparent
-      />
+    <ExecutivePageTemplate header={{
+      title: "Early Warning System (Radar de Riscos)",
+      description: "Detecção antecipada de deterioração financeira baseada no Knowledge Graph, Benchmarking e Workflows.",
+    }}>
+
+      {/* --- CAMADA 1: NÍVEL CONSELHO (SÍNTESE DE ALERTAS PRECOCES) --- */}
+      <ExecutiveSummarySection 
+        className="mb-8"
+        status={{ label: 'Radar Preditivo Ativo', variant: 'success' }}
+        question="Quais os alertas precoces de deterioração financeira e operacional detectados?"
+        opinion="O comitê fiduciário homologa os sinais de alerta e recomenda ações preventivas antes da consumação do risco."
+        driver="Padrões do Knowledge Graph, desvios de benchmark e tendências de solvência."
+        implication="Prevenção de crises de liquidez e preservação da continuidade operacional."
+        action="Executar os planos de contingência associados aos alertas de maior severidade."
+      >
+        <ExecutiveStrategicTensions tensions={[]} />
+        <ExecutiveDecisionTrace trace={[]} />
+      </ExecutiveSummarySection>
+
+      <div className="flex flex-col md:flex-row md:items-center justify-between gap-6 mb-10">
+
+        <div className="flex items-center gap-3">
+          <StatusBadge status="Verde" label="Radar Ativo" />
+        </div>
+      
+      </div>
+
+      <div className="mt-12 mb-8 border-t border-border pt-8" />
+      <ExecutiveAccordion
+        title="Painel Geral de Alertas e Sinais"
+        subtitle="Analise tendências de governança, riscos preditivos e desvios de benchmark."
+        variant="analytics"
+        defaultExpanded
+      >
 
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
         <div className="md:col-span-2 space-y-6">
@@ -44,6 +89,7 @@ export function EarlyWarningPage() {
           <EarlyWarningTimeline tenantId={tenantId} />
         </div>
       </div>
-    </div>
+      </ExecutiveAccordion>
+    </ExecutivePageTemplate>
   );
 }

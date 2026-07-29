@@ -1,0 +1,37 @@
+[
+  {
+    "arquivo": "src/components/ui/executive-empty-state.tsx",
+    "linhas": "55-65",
+    "descricao": "Primary e Secondary Actions",
+    "migracao": "Substituído <button> e wrap de <ExecutiveText> por <ExecutiveAction variant='primary' size='lg'>",
+    "status": "CONCLUIDO"
+  },
+  {
+    "arquivo": "src/components/pages/balance-sheet/BalanceSheetActionToolbar.tsx",
+    "linhas": "15-32",
+    "descricao": "Toolbar da verdadeira BP",
+    "migracao": "Lançar (success), Importar (subtle), Excluir (destructive). Uso nativo da prop iconLeft.",
+    "status": "CONCLUIDO"
+  },
+  {
+    "arquivo": "src/components/executive/UniversalSearchHub.tsx",
+    "linhas": "27-32",
+    "descricao": "Close X Icon",
+    "migracao": "Adoção de variant='ghost' e size='icon' e iconOnly=true. aria-label adicionado obrigatoriamente.",
+    "status": "CONCLUIDO"
+  },
+  {
+    "arquivo": "src/components/executive/copilot/BoardCopilotPanel.tsx",
+    "linhas": "58-70",
+    "descricao": "Botão onAskQuestion (substituto do submit form icon-only)",
+    "migracao": "Uso de loading={isProcessing} (aciona disabled automaticamente e substitui ícone). Variant secondary, size md.",
+    "status": "CONCLUIDO"
+  },
+  {
+    "arquivo": "src/components/ui/__tests__/executive-action.test.tsx",
+    "linhas": "69-79",
+    "descricao": "Teste isolado de asChild com Link",
+    "migracao": "Validação funcional e tipográfica para ancoragem (<ExecutiveAction asChild> <a>).",
+    "status": "CONCLUIDO"
+  }
+]

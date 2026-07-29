@@ -1,8 +1,8 @@
-// src/components/operating-pressure/InstitutionalStrainHeatmap.tsx
-
 import React from 'react';
 import { motion } from 'motion/react';
 import { cn } from '../../lib/utils';
+// src/components/operating-pressure/InstitutionalStrainHeatmap.tsx
+
 
 interface HeatmapProps {
   scores: {

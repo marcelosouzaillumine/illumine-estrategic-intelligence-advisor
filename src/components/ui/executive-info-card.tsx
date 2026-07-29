@@ -44,11 +44,9 @@ export function ExecutiveInfoCard({
       )}
     >
       <div className={cn("flex items-center", ExecutiveSpacingRegistry.elementGap, "mb-3")}>
-        {icon && (
           <div className={cn("flex items-center justify-center shrink-0 w-10 h-10 rounded-full border border-border/50", bgClasses[tone], toneClasses[tone])}>
-            {icon}
+            {React.isValidElement(icon) ? icon : (typeof icon === 'function' || typeof icon === 'object' ? React.createElement(icon as any, { size: 20 }) : null)}
           </div>
-        )}
         <ExecutiveText variant="caption" as="span">
           {label}
         </ExecutiveText>

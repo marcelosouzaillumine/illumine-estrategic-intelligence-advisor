@@ -1,26 +1,62 @@
-
 import React from 'react';
-import { BookOpen, TrendingUp, Activity, Info, Users } from 'lucide-react';
-import { PageHeader } from '../Common';
+import { BookOpen, TrendingUp, Activity, Info, Users, ShieldAlert } from 'lucide-react';
+import { PageHeader, StatusBadge } from '../Common';
 import { formatCurrency } from '../../lib/utils';
 import { DATA } from '../../data';
+import { ExecutivePageTemplate } from '../ui/executive-page-template';
+import { ExecutiveSurface } from '../ui/executive-surface';
+import { ExecutiveAccordion } from '../ui/executive-accordion';
+import { ExecutiveEmptyState } from '../ui/executive-empty-state';
+import { ExecutiveHeading } from '../ui/executive-heading';
+import { ExecutiveText } from '../ui/executive-typography';
+import { createPortal } from 'react-dom';
+import { ExecutiveSummarySection } from '../ui/executive-summary-section';
+import { ExecutiveStrategicTensions } from '../ui/executive-strategic-tensions';
+import { ExecutiveDecisionTrace } from '../ui/executive-decision-trace';
+import { usePremissasTributariasPageViewModel } from '../../viewmodels/usePremissasTributariasPageViewModel';
 
-export function PremissasTributariasPage({ clients }: any) {
+
+
+
+
+export function PremissasTributariasPage({ clients: propClients }: any = {}) {
+  // Adapter: usePremissasTributariasPageAdapter
+  // ViewModel: usePremissasTributariasPageViewModel
+  const { state: vmState, computed: vmComputed, actions: vmActions } = usePremissasTributariasPageViewModel({ clientId: '' });
+  const portal = createPortal;
   const p = DATA.premissas.tributarias;
+  const clients = propClients || DATA.clients || [];
   
   return (
-    <div className="space-y-12">
-      <PageHeader 
-        title="Premissas Tributárias 2026" 
-        subtitle="Parâmetros legais e alíquotas vigentes para Simples Nacional, Lucro Presumido e Lucro Real."
-      />
+    <ExecutivePageTemplate header={{
+      title: "Premissas Tributárias 2026",
+      description: "Parâmetros legais e alíquotas vigentes para Simples Nacional, Lucro Presumido e Lucro Real.",
+    }}>
+
+      <div className="flex flex-col md:flex-row md:items-center justify-between gap-6 mb-10">
+
+        <div className="flex items-center gap-3">
+          <StatusBadge status="Verde" label="Premissas Vigentes" />
+        </div>
+      
+      </div>
+
+      <div className="mt-12 mb-8 border-t border-border pt-8" />
+      <ExecutiveAccordion
+        title="Visualizador de Regimes Fiscais"
+        subtitle="Analise as tabelas fiscais de alíquotas do Simples, Lucro Presumido, Lucro Real e encargos sociais."
+        variant="analytics"
+        defaultExpanded
+      >
+
+      <div className="space-y-12">
 
       {/* Regimes Summary */}
       <div className="grid grid-cols-1 lg:grid-cols-4 gap-8">
         <div className="lg:col-span-3 bg-white border border-border p-8 rounded-2xl shadow-sm flex items-center justify-between">
           <div>
-      <h4 className="text-xl font-bold text-executive-secondary">Cenário Tributário</h4>
-      <p className="text-sm text-executive-secondary mt-1">Visão geral dos regimes adotados pela carteira de clientes atual.</p>
+      <ExecutiveHeading as="h4" className="text-executive-secondary">Cenário Tributário</ExecutiveHeading>
+      <ExecutiveText as="div" variant="bodyStandard" className="text-executive-secondary mt-1">Visão geral dos regimes adotados pela carteira de clientes atual.</ExecutiveText>
           </div>
           <div className="flex gap-8">
              <div className="text-center">
@@ -38,7 +74,7 @@ export function PremissasTributariasPage({ clients }: any) {
           <div className="relative z-10">
             <div className="flex items-center gap-2 mb-4">
               <div className="w-2 h-2 rounded-full bg-blue-500 animate-pulse" />
-              <h4 className="text-[10px] font-bold text-muted-foreground uppercase tracking-widest">Distribuição</h4>
+              <ExecutiveHeading as="h4" className="text-muted-foreground">Distribuição</ExecutiveHeading>
             </div>
             
             <div className="space-y-3">
@@ -75,14 +111,14 @@ export function PremissasTributariasPage({ clients }: any) {
             <TrendingUp size={20} />
           </div>
           <div>
-      <h3 className="text-lg font-bold text-executive-secondary">Simples Nacional</h3>
-            <p className="text-xs text-muted-foreground font-medium uppercase tracking-wider">Tabelas Progressivas (Anexos 2026)</p>
+      <ExecutiveHeading as="h3" className="text-executive-secondary">Simples Nacional</ExecutiveHeading>
+            <ExecutiveText as="div" variant="caption" className="text-muted-foreground">Tabelas Progressivas (Anexos 2026)</ExecutiveText>
           </div>
         </div>
 
         <div className="mb-8 p-6 bg-slate-50 border border-border rounded-2xl flex gap-6 items-center">
           <div className="flex-1">
-      <h4 className="text-sm font-bold text-executive-secondary mb-1">Cálculo da Alíquota Efetiva</h4>
+      <ExecutiveHeading as="h4" className="text-executive-secondary mb-1">Cálculo da Alíquota Efetiva</ExecutiveHeading>
             <p className="text-xs text-muted-foreground leading-relaxed">
               A alíquota exibida nas tabelas é a <strong>Nominal</strong>. Para encontrar a taxa real paga sobre o faturamento do mês, utilize a fórmula:
             </p>
@@ -100,7 +136,7 @@ export function PremissasTributariasPage({ clients }: any) {
               <div className="bg-slate-50 px-4 md:px-6 py-2.5 md:py-4 border-b border-border flex justify-between items-center">
                 <div>
                   <span className="text-xs font-bold text-muted-foreground tracking-widest uppercase">Anexo {anexo.anexo}</span>
-                  <p className="text-[10px] text-muted-foreground font-medium mt-0.5">{anexo.descricao}</p>
+                  <ExecutiveText as="div" variant="bodyStandard" className="text-muted-foreground mt-0.5">{anexo.descricao}</ExecutiveText>
                 </div>
                 {anexo.fatorR && (
                   <div className="flex items-center gap-1.5 bg-warning-soft text-amber-700 px-2.5 py-1 rounded-lg border border-amber-100">
@@ -121,7 +157,7 @@ export function PremissasTributariasPage({ clients }: any) {
 
               {anexo.obs && (
                 <div className="px-4 md:px-6 py-1.5 md:py-2 bg-slate-50/50 border-b border-border">
-         <p className="text-[9px] text-executive-secondary font-medium italic">Nota: {anexo.obs}</p>
+         <ExecutiveText as="div" variant="bodyStandard" className="text-executive-secondary italic">Nota: {anexo.obs}</ExecutiveText>
                 </div>
               )}
 
@@ -159,8 +195,8 @@ export function PremissasTributariasPage({ clients }: any) {
               <BookOpen size={20} />
             </div>
             <div>
-       <h3 className="text-lg font-bold text-executive-secondary">Lucro Presumido</h3>
-              <p className="text-xs text-muted-foreground font-medium uppercase tracking-wider">Carga Tributária Federal e Municipal</p>
+       <ExecutiveHeading as="h3" className="text-executive-secondary">Lucro Presumido</ExecutiveHeading>
+              <ExecutiveText as="div" variant="caption" className="text-muted-foreground">Carga Tributária Federal e Municipal</ExecutiveText>
             </div>
           </div>
           
@@ -168,7 +204,7 @@ export function PremissasTributariasPage({ clients }: any) {
             <div className="bg-white rounded-xl border border-border overflow-hidden shadow-sm">
               <div className="bg-slate-50 px-4 md:px-6 py-2.5 md:py-4 border-b border-border">
                 <span className="text-xs font-bold text-muted-foreground tracking-widest uppercase">Percentuais de Presunção</span>
-                <p className="text-[10px] text-muted-foreground font-medium mt-0.5">Base de cálculo aplicada sobre a Receita Bruta</p>
+                <ExecutiveText as="div" variant="bodyStandard" className="text-muted-foreground mt-0.5">Base de cálculo aplicada sobre a Receita Bruta</ExecutiveText>
               </div>
               <div className="overflow-x-auto">
                 <table className="w-full text-left text-sm min-w-[500px]">
@@ -194,7 +230,7 @@ export function PremissasTributariasPage({ clients }: any) {
 
             <div className="bg-white rounded-xl border border-border overflow-hidden shadow-sm">
               <div className="p-6 border-b border-border">
-        <h4 className="text-sm font-bold text-executive-secondary">Tributos Federais</h4>
+        <ExecutiveHeading as="h4" className="text-executive-secondary">Tributos Federais</ExecutiveHeading>
               </div>
               <div className="grid grid-cols-1 divide-y divide-slate-100">
                 {p.lucroPresumido.federal.map((imp: any, idx: number) => (
@@ -209,11 +245,11 @@ export function PremissasTributariasPage({ clients }: any) {
                   </div>
                 ))}
               </div>
-              <div className="p-6 bg-slate-50 border-t border-border">
+              <div className="mt-12 p-6 bg-slate-50 border-t border-border pt-8 mb-8">
                 <div className="flex items-center justify-between">
                   <div>
           <span className="text-sm font-bold text-executive-secondary">ISS (Municipal)</span>
-                    <p className="text-[10px] text-muted-foreground font-medium uppercase tracking-widest mt-1">Variável por município</p>
+                    <ExecutiveText as="div" variant="bodyStandard" className="text-muted-foreground mt-1">Variável por município</ExecutiveText>
                   </div>
          <span className="text-sm font-bold text-executive-secondary">{(p.lucroPresumido.municipal.aliq_min * 100).toFixed(2)}% ~ {(p.lucroPresumido.municipal.aliq_max * 100).toFixed(2)}%</span>
                 </div>
@@ -229,8 +265,8 @@ export function PremissasTributariasPage({ clients }: any) {
               <Activity size={20} />
             </div>
             <div>
-       <h3 className="text-lg font-bold text-executive-secondary">Lucro Real</h3>
-              <p className="text-xs text-muted-foreground font-medium uppercase tracking-wider">Regime Especial e Não-Cumulativo</p>
+       <ExecutiveHeading as="h3" className="text-executive-secondary">Lucro Real</ExecutiveHeading>
+              <ExecutiveText as="div" variant="caption" className="text-muted-foreground">Regime Especial e Não-Cumulativo</ExecutiveText>
             </div>
           </div>
 
@@ -238,7 +274,7 @@ export function PremissasTributariasPage({ clients }: any) {
             <div className="bg-white rounded-xl border border-border overflow-hidden shadow-sm">
               <div className="bg-slate-50 px-4 md:px-6 py-2.5 md:py-4 border-b border-border">
                 <span className="text-xs font-bold text-muted-foreground tracking-widest uppercase">Modelos PIS/COFINS (Lucro Real)</span>
-                <p className="text-[10px] text-muted-foreground font-medium mt-0.5">Enquadramento conforme atividade e legislação</p>
+                <ExecutiveText as="div" variant="bodyStandard" className="text-muted-foreground mt-0.5">Enquadramento conforme atividade e legislação</ExecutiveText>
               </div>
               <div className="overflow-x-auto">
                 <table className="w-full text-left text-sm min-w-[600px]">
@@ -274,7 +310,7 @@ export function PremissasTributariasPage({ clients }: any) {
           
           <div className="bg-white rounded-xl border border-border overflow-hidden shadow-sm">
             <div className="p-6 border-b border-border">
-       <h4 className="text-sm font-bold text-executive-secondary">Tributos Federais</h4>
+       <ExecutiveHeading as="h4" className="text-executive-secondary">Tributos Federais</ExecutiveHeading>
             </div>
             <div className="grid grid-cols-1 divide-y divide-slate-100">
               {p.lucroReal.federal.map((imp: any, idx: number) => (
@@ -301,14 +337,14 @@ export function PremissasTributariasPage({ clients }: any) {
       </div>
 
       {/* Encargos de Folha de Pagamento */}
-      <section className="pt-12 border-t border-border">
+      <section className="mt-12 pt-12 border-t border-border pt-8 mb-8">
         <div className="flex items-center gap-3 mb-8">
           <div className="w-12 h-12 rounded-2xl bg-orange-100 flex items-center justify-center text-orange-600 shadow-sm">
             <Users size={24} />
           </div>
           <div>
-      <h3 className="text-xl font-display text-executive-secondary">Encargos Sociais & Trabalhistas</h3>
-            <p className="text-xs text-muted-foreground font-medium uppercase tracking-widest">Parâmetros para cálculo de custo de pessoal 2026</p>
+      <ExecutiveHeading as="h3" className="font-display text-executive-secondary">Encargos Sociais & Trabalhistas</ExecutiveHeading>
+            <ExecutiveText as="div" variant="caption" className="text-muted-foreground">Parâmetros para cálculo de custo de pessoal 2026</ExecutiveText>
           </div>
         </div>
 
@@ -316,35 +352,35 @@ export function PremissasTributariasPage({ clients }: any) {
           {/* Encargos Patronais */}
           <div className="bg-white rounded-[32px] border border-border shadow-sm overflow-hidden flex flex-col">
             <div className="bg-slate-50 px-5 md:px-8 py-3 md:py-5 border-b border-border">
-       <h4 className="text-sm font-black text-executive-secondary uppercase tracking-widest">Encargos Patronais (Empresa)</h4>
-              <p className="text-[10px] text-muted-foreground font-medium">Aplicado sobre a folha bruta mensal</p>
+       <ExecutiveHeading as="h4" className="text-executive-secondary">Encargos Patronais (Empresa)</ExecutiveHeading>
+              <ExecutiveText as="div" variant="bodyStandard" className="text-muted-foreground">Aplicado sobre a folha bruta mensal</ExecutiveText>
             </div>
             <div className="flex-1 p-6 space-y-4">
               <div className="flex items-center justify-between p-4 bg-slate-50 rounded-2xl border border-border">
                 <div>
-                  <p className="text-xs font-bold text-muted-foreground">FGTS</p>
-                  <p className="text-[10px] text-muted-foreground uppercase font-black tracking-tighter">Fundo de Garantia</p>
+                  <ExecutiveText as="div" variant="caption" className="text-muted-foreground">FGTS</ExecutiveText>
+                  <ExecutiveText as="div" variant="bodyStandard" className="text-muted-foreground">Fundo de Garantia</ExecutiveText>
                 </div>
                 <span className="text-lg font-display text-primary">8.00%</span>
               </div>
               <div className="flex items-center justify-between p-4 bg-slate-50 rounded-2xl border border-border">
                 <div>
-                  <p className="text-xs font-bold text-muted-foreground">INSS Patronal</p>
-                  <p className="text-[10px] text-muted-foreground uppercase font-black tracking-tighter">Regime Geral (Varia p/ Regime)</p>
+                  <ExecutiveText as="div" variant="caption" className="text-muted-foreground">INSS Patronal</ExecutiveText>
+                  <ExecutiveText as="div" variant="bodyStandard" className="text-muted-foreground">Regime Geral (Varia p/ Regime)</ExecutiveText>
                 </div>
                 <span className="text-lg font-display text-primary">20.00%</span>
               </div>
               <div className="flex items-center justify-between p-4 bg-slate-50 rounded-2xl border border-border">
                 <div>
-                  <p className="text-xs font-bold text-muted-foreground">RAT / FAP</p>
-                  <p className="text-[10px] text-muted-foreground uppercase font-black tracking-tighter">Acid. Trabalho (Médio)</p>
+                  <ExecutiveText as="div" variant="caption" className="text-muted-foreground">RAT / FAP</ExecutiveText>
+                  <ExecutiveText as="div" variant="bodyStandard" className="text-muted-foreground">Acid. Trabalho (Médio)</ExecutiveText>
                 </div>
                 <span className="text-lg font-display text-primary">2.00%</span>
               </div>
                <div className="flex items-center justify-between p-4 bg-slate-50 rounded-2xl border border-border">
                 <div>
-                  <p className="text-xs font-bold text-muted-foreground">Outras Entidades</p>
-                  <p className="text-[10px] text-muted-foreground uppercase font-black tracking-tighter">Sistema S (Médio)</p>
+                  <ExecutiveText as="div" variant="caption" className="text-muted-foreground">Outras Entidades</ExecutiveText>
+                  <ExecutiveText as="div" variant="bodyStandard" className="text-muted-foreground">Sistema S (Médio)</ExecutiveText>
                 </div>
                 <span className="text-lg font-display text-primary">5.80%</span>
               </div>
@@ -359,28 +395,28 @@ export function PremissasTributariasPage({ clients }: any) {
           {/* Provisões e Multas */}
           <div className="bg-white rounded-[32px] border border-border shadow-sm overflow-hidden flex flex-col">
             <div className="bg-slate-50 px-5 md:px-8 py-3 md:py-5 border-b border-border">
-       <h4 className="text-sm font-black text-executive-secondary uppercase tracking-widest">Provisões & Riscos</h4>
-              <p className="text-[10px] text-muted-foreground font-medium">Reservas financeiras obrigatórias</p>
+       <ExecutiveHeading as="h4" className="text-executive-secondary">Provisões & Riscos</ExecutiveHeading>
+              <ExecutiveText as="div" variant="bodyStandard" className="text-muted-foreground">Reservas financeiras obrigatórias</ExecutiveText>
             </div>
             <div className="flex-1 p-6 space-y-4">
               <div className="flex items-center justify-between p-4 bg-slate-50 rounded-2xl border border-border">
                 <div>
-                  <p className="text-xs font-bold text-muted-foreground">13º Salário</p>
-                  <p className="text-[10px] text-muted-foreground uppercase font-black tracking-tighter">Provisão Mensal (1/12)</p>
+                  <ExecutiveText as="div" variant="caption" className="text-muted-foreground">13º Salário</ExecutiveText>
+                  <ExecutiveText as="div" variant="bodyStandard" className="text-muted-foreground">Provisão Mensal (1/12)</ExecutiveText>
                 </div>
                 <span className="text-lg font-display text-emerald-600">8.33%</span>
               </div>
               <div className="flex items-center justify-between p-4 bg-slate-50 rounded-2xl border border-border">
                 <div>
-                  <p className="text-xs font-bold text-muted-foreground">Férias + 1/3</p>
-                  <p className="text-[10px] text-muted-foreground uppercase font-black tracking-tighter">Provisão Mensal (1/12 + 1/3)</p>
+                  <ExecutiveText as="div" variant="caption" className="text-muted-foreground">Férias + 1/3</ExecutiveText>
+                  <ExecutiveText as="div" variant="bodyStandard" className="text-muted-foreground">Provisão Mensal (1/12 + 1/3)</ExecutiveText>
                 </div>
                 <span className="text-lg font-display text-emerald-600">11.11%</span>
               </div>
               <div className="flex items-center justify-between p-4 bg-slate-50 rounded-2xl border border-border">
                 <div>
-                  <p className="text-xs font-bold text-muted-foreground">Multa FGTS</p>
-                  <p className="text-[10px] text-muted-foreground uppercase font-black tracking-tighter">Rescisão s/ Justa Causa</p>
+                  <ExecutiveText as="div" variant="caption" className="text-muted-foreground">Multa FGTS</ExecutiveText>
+                  <ExecutiveText as="div" variant="bodyStandard" className="text-muted-foreground">Rescisão s/ Justa Causa</ExecutiveText>
                 </div>
                 <span className="text-lg font-display text-rose-600">40.00%</span>
               </div>
@@ -390,8 +426,8 @@ export function PremissasTributariasPage({ clients }: any) {
           {/* IRRF Tabela */}
           <div className="bg-white rounded-[32px] border border-border shadow-sm overflow-hidden flex flex-col">
             <div className="bg-slate-50 px-5 md:px-8 py-3 md:py-5 border-b border-border">
-       <h4 className="text-sm font-black text-executive-secondary uppercase tracking-widest">IRRF - Folha (Retenção)</h4>
-              <p className="text-[10px] text-muted-foreground font-medium">Tabela Progressiva Mensal</p>
+       <ExecutiveHeading as="h4" className="text-executive-secondary">IRRF - Folha (Retenção)</ExecutiveHeading>
+              <ExecutiveText as="div" variant="bodyStandard" className="text-muted-foreground">Tabela Progressiva Mensal</ExecutiveText>
             </div>
             <div className="flex-1">
               <table className="w-full text-left text-xs">
@@ -431,7 +467,7 @@ export function PremissasTributariasPage({ clients }: any) {
                 </tbody>
               </table>
             </div>
-            <div className="p-6 bg-slate-50 border-t border-border">
+            <div className="mt-12 p-6 bg-slate-50 border-t border-border pt-8 mb-8">
                <div className="flex items-center justify-between text-[10px] font-black text-muted-foreground uppercase tracking-widest italic">
                   <span>Dedução p/ Dependente:</span>
                   <span>R$ 189,59</span>
@@ -440,6 +476,19 @@ export function PremissasTributariasPage({ clients }: any) {
           </div>
         </div>
       </section>
-    </div>
+       <ExecutiveSummarySection 
+         status={{ label: 'Premissas Fiscais Vigentes', variant: 'success' }}
+         question="Quais as alíquotas de referência aplicáveis ao exercício corrente?"
+         opinion="O comitê fiduciário homologa as tabelas de incidência tributária vigentes para Simples, Presumido e Real."
+         driver="Alíquotas de IRPJ, CSLL, PIS, COFINS, ISS e INSS patronal."
+         implication="Garantia de apuração fiscal em conformidade com a legislação tributária."
+         action="Acompanhar a publicação de novas normativas da Receita Federal trimestralmente."
+       >
+         <ExecutiveStrategicTensions tensions={[]} />
+         <ExecutiveDecisionTrace trace={[]} />
+       </ExecutiveSummarySection>
+      </div>
+      </ExecutiveAccordion>
+    </ExecutivePageTemplate>
   );
 }

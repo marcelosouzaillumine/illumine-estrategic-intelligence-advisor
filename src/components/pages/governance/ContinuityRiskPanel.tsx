@@ -1,9 +1,9 @@
-// src/components/pages/governance/ContinuityRiskPanel.tsx
-
 import React from 'react';
 import { Activity, ShieldAlert, DollarSign, Calendar, RefreshCw, AlertCircle } from 'lucide-react';
 import { ContinuitySection, TreasurySection, FiduciaryTimelineSection } from '../../../services/FiduciaryRuntimeAdapter';
 import { useLanguage } from '../../../contexts/LanguageContext';
+// src/components/pages/governance/ContinuityRiskPanel.tsx
+
 
 interface ContinuityRiskPanelProps {
   continuityReport?: ContinuitySection;

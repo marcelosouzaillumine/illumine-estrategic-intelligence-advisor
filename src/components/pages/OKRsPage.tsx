@@ -1,4 +1,6 @@
 
+
+
 import React, { useState, useMemo } from "react";
 import { Target, TrendingUp, Plus, Trash2, Edit2, ChevronRight, MoreVertical, CheckCircle2, Clock, AlertCircle, Users, LayoutGrid, BarChart3 } from 'lucide-react';
 import { motion, AnimatePresence } from 'motion/react';
@@ -6,7 +8,19 @@ import { useModuleData } from '../../hooks/useModuleData';
 import { useAllFinancialData } from '../../hooks/useFinancialData';
 import { ObjetivoOKR, KR, EixoGestao } from '../../types/modules';
 import { cn, formatValue, formatCurrency } from '../../lib/utils';
-import { PageHeader, SectionHeader } from '../Common';
+import { PageHeader, SectionHeader, StatusBadge } from '../Common';
+import { createPortal } from 'react-dom';
+import { ExecutiveSummarySection } from '../ui/executive-summary-section';
+import { ExecutiveStrategicTensions } from '../ui/executive-strategic-tensions';
+import { ExecutiveDecisionTrace } from '../ui/executive-decision-trace';
+import { useOKRsPageViewModel } from '../../viewmodels/useOKRsPageViewModel';
+import { ExecutiveHeading } from '../ui/executive-heading';
+import { ExecutiveText } from '../ui/executive-typography';
+import { ExecutivePageTemplate } from '../ui/executive-page-template';
+import { ExecutiveSurface } from '../ui/executive-surface';
+import { ExecutiveAccordion } from '../ui/executive-accordion';
+import { ExecutiveEmptyState } from '../ui/executive-empty-state';
+import { ExecutiveMetricCard } from '../ui/executive-metric-card';
 import { DashboardSkeleton } from '../ui/skeletons';
 
 const EIXOS: EixoGestao[] = [
@@ -18,6 +32,10 @@ interface OKRsPageProps {
 }
 
 export function OKRsPage({ clientId }: OKRsPageProps) {
+  // Adapter: useOKRsPageAdapter
+  // ViewModel: useOKRsPageViewModel
+  const { state: vmState, computed: vmComputed, actions: vmActions } = useOKRsPageViewModel({ clientId });
+  const portal = createPortal;
   const { data, add, update, remove, loading } = useModuleData<ObjetivoOKR>("okrs", clientId);
   const { dbData: financialEntries } = useAllFinancialData(clientId);
   const [showForm, setShowForm] = useState(false);
@@ -108,23 +126,30 @@ export function OKRsPage({ clientId }: OKRsPageProps) {
   if (loading) return <DashboardSkeleton />;
 
   return (
-    <div className="space-y-8 pb-32">
-      <PageHeader 
-        title="OKRs e Metas" 
-        subtitle="Planejamento estratégico de alto impacto focado em resultados mensuráveis."
-        icon={<Target size={24} className="text-secondary" />}
-        color="executive"
-      />
+    <ExecutivePageTemplate header={{
+      title: "OKRs e Metas",
+      description: "Planejamento estratégico de alto impacto focado em resultados mensuráveis.",
+    }}>
+      <div className="space-y-8 pb-32">
+        {/* --- CAMADA 1: NÍVEL CONSELHO (SÍNTESE DE OKRS E METAS) --- */}
+        <ExecutiveSummarySection 
+          className="mb-8"
+          status={{ label: enrichedData.length > 0 ? 'OKRs Alinhados' : 'Sem OKRs Definidos', variant: enrichedData.length > 0 ? 'success' : 'warning' }}
+          question="Qual o grau de atingimento dos Objetivos e Resultados-Chave (KRs) do trimestre?"
+          opinion="O comitê fiduciário homologa o acompanhamento dos OKRs, atestando o progresso dos indicadores de performance e metas."
+          driver="Objetivos por eixo, KRs financeiros/operacionais, taxa de conclusão e responsáveis."
+          implication="Alinhamento estratégico contínuo entre a visão do conselho e a execução operacional das equipes."
+          action="Revisar os KRs em atraso ou em risco para realocar recursos e acelerar entregas."
+        >
+          <ExecutiveStrategicTensions tensions={[]} />
+          <ExecutiveDecisionTrace trace={[]} />
+        </ExecutiveSummarySection>
 
-      <div className="flex items-center justify-between gap-4 flex-wrap bg-surface-container/60 p-4 rounded-md border border-border backdrop-blur-sm shadow-sm -mt-6 mb-10">
-        <div className="flex items-center gap-3">
-          <div className="px-4 md:px-6 py-2 md:py-3 bg-card border border-border rounded-sm shadow-inner shadow-black/5 flex items-center gap-4">
-            <div className="flex items-center gap-2">
-              <TrendingUp size={14} className="text-secondary" />
-              <span className="text-[10px] font-medium text-muted-foreground uppercase tracking-widest italic">Monitoramento de Performance Ativo</span>
-            </div>
-          </div>
-        </div>
+       <div className="flex flex-col md:flex-row md:items-center justify-between gap-6 mb-10">
+
+         <div className="flex items-center gap-3">
+           <StatusBadge status="Ativo" label="Monitoramento de Performance Ativo" />
+         </div>
 
         <div className="flex items-center gap-3">
           <button
@@ -139,6 +164,7 @@ export function OKRsPage({ clientId }: OKRsPageProps) {
             {showForm ? "CANCELAR" : <><Plus size={16} /> ADICIONAR OBJETIVO</>}
           </button>
         </div>
+      
       </div>
 
 
@@ -189,7 +215,7 @@ export function OKRsPage({ clientId }: OKRsPageProps) {
 
                <div className="space-y-4">
                  <div className="flex justify-between items-center px-1">
-                   <h4 className="text-[10px] font-medium text-primary uppercase tracking-[0.2em]">Resultados-Chave (Key Results)</h4>
+                   <h4 className="text-primary text-[11px] font-bold uppercase tracking-widest">Resultados-Chave (Key Results)</h4>
                    <button type="button" onClick={addKR} className="text-[10px] font-medium uppercase tracking-widest text-secondary hover:text-secondary/80 flex items-center gap-2 italic">
                      <Plus size={14} /> Adicionar KR
                    </button>
@@ -244,8 +270,8 @@ export function OKRsPage({ clientId }: OKRsPageProps) {
                  </div>
                </div>
 
-               <div className="flex justify-end pt-6 border-t border-border/50">
-                 <button type="submit" className="btn-executive bg-primary shadow-xl shadow-primary/20">
+               <div className="mt-12 flex justify-end pt-6 border-t border-border/50 pt-8 mb-8">
+                 <button type="submit" className="btn-executive bg-primary shadow-xl shadow-primary/20 text-white">
                    Salvar Planejamento OKR
                  </button>
                </div>
@@ -254,7 +280,14 @@ export function OKRsPage({ clientId }: OKRsPageProps) {
         )}
       </AnimatePresence>
 
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+       <div className="mt-12 mb-8 border-t border-border pt-8" />
+       <ExecutiveAccordion
+         title="OKRs e Metas"
+         subtitle="Planejamento estratégico de alto impacto focado em resultados mensuráveis."
+         variant="analytics"
+         defaultExpanded
+       >
+       <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
         {enrichedData.map((obj, idx) => (
           <motion.div 
             key={obj.id}
@@ -266,7 +299,7 @@ export function OKRsPage({ clientId }: OKRsPageProps) {
                <div className="flex justify-between items-start">
                   <div className="space-y-1">
                     <span className="text-[10px] font-medium text-muted-foreground uppercase tracking-widest italic">{obj.eixo}</span>
-                    <h3 className="text-[14px] font-medium text-foreground leading-tight uppercase tracking-widest">{obj.titulo}</h3>
+                    <ExecutiveHeading as="h3" className="text-foreground">{obj.titulo}</ExecutiveHeading>
                   </div>
                   <div className="flex items-center gap-2">
                      <button onClick={() => { setFormData(obj); setEditingId(obj.id!); setShowForm(true); }} className="p-2 text-muted-foreground/40 hover:text-secondary hover:bg-surface-container rounded-sm transition-all">
@@ -309,7 +342,7 @@ export function OKRsPage({ clientId }: OKRsPageProps) {
                              <Clock size={14} className="text-warning" />}
                             <span className="text-[11px] font-medium text-foreground uppercase tracking-widest line-clamp-1 italic">{kr.descricao}</span>
                          </div>
-       <p className="text-[9px] font-medium text-executive-secondary uppercase tracking-tight italic ">KPI: {kr.kpi}</p>
+       <ExecutiveText as="div" variant="bodyStandard" className="text-executive-secondary italic">KPI: {kr.kpi}</ExecutiveText>
                       </div>
                       <div className="text-right">
                          <p className="text-[11px] font-medium text-foreground uppercase tracking-tighter tabular-nums">
@@ -317,7 +350,7 @@ export function OKRsPage({ clientId }: OKRsPageProps) {
                            <span className="text-muted-foreground/40 text-[9px] mx-1">/</span>
                            {kr.tipo === "Monetário" ? formatCurrency(kr.meta) : kr.meta}
                          </p>
-             <p className="text-[10px] font-medium text-executive-secondary tabular-nums italic">{kr.progresso.toFixed(0)}%</p>
+             <ExecutiveText as="div" variant="bodyStandard" className="text-executive-secondary tabular-nums italic">{kr.progresso.toFixed(0)}%</ExecutiveText>
                       </div>
                    </div>
                    <div className="h-1 bg-surface-container rounded-sm overflow-hidden border border-border/50">
@@ -330,7 +363,7 @@ export function OKRsPage({ clientId }: OKRsPageProps) {
                ))}
             </div>
             
-            <div className="mt-auto px-10 py-6 bg-surface-container/30 border-t border-border flex justify-between items-center relative z-10 shadow-inner">
+            <div className="mt-auto px-10 py-6 bg-surface-container/30 border-t border-border flex justify-between items-center relative z-10 shadow-inner pt-8 mb-8">
                <div className="flex items-center gap-2 text-[9px] font-medium text-muted-foreground uppercase tracking-widest italic">
                   <Users size={14} /> {obj.responsavel || "Sem Responsável"}
                </div>
@@ -347,12 +380,25 @@ export function OKRsPage({ clientId }: OKRsPageProps) {
                 <Target size={48} strokeWidth={1} className="text-muted-foreground/20" />
              </div>
              <div className="relative z-10 space-y-2">
-                <h3 className="text-xl font-medium text-foreground uppercase tracking-widest">Nenhum Objetivo Definido</h3>
-                <p className="text-[10px] text-muted-foreground font-medium uppercase tracking-[0.2em] italic max-w-2xl">Comece definindo seus OKRs para o período para habilitar o monitoramento de performance.</p>
+                <ExecutiveHeading as="h3" className="text-foreground">Nenhum Objetivo Definido</ExecutiveHeading>
+                <ExecutiveText as="div" variant="bodyStandard" className="text-muted-foreground italic max-w-2xl">Comece definindo seus OKRs para o período para habilitar o monitoramento de performance.</ExecutiveText>
              </div>
           </div>
         )}
       </div>
-    </div>
+       <ExecutiveSummarySection 
+         status={{ label: 'OKRs Ativos', variant: 'success' }}
+         question="Como monitorar o progresso dos OKRs cadastrados?"
+         opinion="O conselho fiduciário valida a aderência dos resultados-chave aos eixos de gestão estratégica estabelecidos."
+         driver="Objetivos de gestão, key results e progresso de metas."
+         implication="Melhoria no alinhamento tático de todas as unidades de negócio."
+         action="Acompanhar o atingimento de cada KR semanalmente."
+       >
+         <ExecutiveStrategicTensions tensions={[]} />
+         <ExecutiveDecisionTrace trace={[]} />
+       </ExecutiveSummarySection>
+      </ExecutiveAccordion>
+     </div>
+    </ExecutivePageTemplate>
   );
 }

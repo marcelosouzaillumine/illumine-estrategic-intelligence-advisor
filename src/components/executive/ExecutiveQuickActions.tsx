@@ -66,7 +66,7 @@ export const ExecutiveQuickActions: React.FC = () => {
             onClick={() => handleAction(action)}
             className={`flex flex-col items-start gap-3 p-4 rounded-[20px] border transition-colors text-left ${action.color}`}
           >
-            {action.icon}
+            {React.isValidElement(action.icon) ? action.icon : action.icon ? React.createElement(action.icon as any, { size: 20 }) : null}
             <span className="font-display font-medium text-sm text-foreground">{action.label}</span>
           </button>
         ))}

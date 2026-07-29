@@ -1,5 +1,6 @@
 import { ConsolidatedFinancialOutput } from '../types';
 import { CrossEntityCausality, DependencyAnalysis, SystemicRisk } from './advisoryTypes';
+import { formatEntityName } from '../../../../components/consolidated/ConsolidatedLanguageFormatter';
 
 export class GroupRiskPropagationEngine {
   static analyze(
@@ -14,10 +15,10 @@ export class GroupRiskPropagationEngine {
     for (const p of parasitism) {
       risks.push({
         riskType: 'TREASURY_CONTAMINATION',
-        triggerEntityId: p.primaryEntityId, // Holding
-        impactedEntities: [p.secondaryEntityId!], // Filial
+        triggerEntityId: p.primaryEntityId,
+        impactedEntities: [p.secondaryEntityId!],
         severity: 'SEVERE',
-        description: `O dreno estrutural de caixa gerado por ${p.primaryEntityId} pode causar asfixia de liquidez em ${p.secondaryEntityId}, afetando a operação que gera o resultado do grupo.`,
+        description: `O dreno estrutural de caixa gerado por ${formatEntityName(p.primaryEntityId)} pode causar asfixia de liquidez em ${formatEntityName(p.secondaryEntityId!)}, afetando a operação que gera o resultado do grupo.`,
         potentialDominoEffect: true
       });
     }
@@ -27,10 +28,10 @@ export class GroupRiskPropagationEngine {
     for (const sub of subsidizations) {
       risks.push({
         riskType: 'LIQUIDITY_CHAIN_COLLAPSE',
-        triggerEntityId: sub.secondaryEntityId!, // Holding que financia
-        impactedEntities: [sub.primaryEntityId], // Filial subsidiada
+        triggerEntityId: sub.secondaryEntityId!,
+        impactedEntities: [sub.primaryEntityId],
         severity: 'ELEVATED',
-        description: `Se a capacidade de funding de ${sub.secondaryEntityId} for comprometida, a entidade ${sub.primaryEntityId} sofrerá colapso imediato devido à alta dependência intragrupo.`,
+        description: `Se a capacidade de funding de ${formatEntityName(sub.secondaryEntityId!)} for comprometida, a entidade ${formatEntityName(sub.primaryEntityId)} sofrerá colapso imediato devido à alta dependência intragrupo.`,
         potentialDominoEffect: false
       });
     }
@@ -40,10 +41,10 @@ export class GroupRiskPropagationEngine {
     for (const rev of revInflation) {
       risks.push({
         riskType: 'DOMINO_EFFECT',
-        triggerEntityId: rev.secondaryEntityId!, // Entidade que compra
-        impactedEntities: [rev.primaryEntityId], // Entidade que vende
+        triggerEntityId: rev.secondaryEntityId!,
+        impactedEntities: [rev.primaryEntityId],
         severity: 'CRITICAL',
-        description: `Falha nas obrigações ou queda na demanda de ${rev.secondaryEntityId} reduzirá artificialmente e materialmente o faturamento de ${rev.primaryEntityId}.`,
+        description: `Falha nas obrigações ou queda na demanda de ${formatEntityName(rev.secondaryEntityId!)} reduzirá artificialmente e materialmente o faturamento de ${formatEntityName(rev.primaryEntityId)}.`,
         potentialDominoEffect: true
       });
     }

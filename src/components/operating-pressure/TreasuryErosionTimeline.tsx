@@ -1,9 +1,9 @@
-// src/components/operating-pressure/TreasuryErosionTimeline.tsx
-
 import React from 'react';
 import { AlertCircle, CheckCircle } from 'lucide-react';
 import { cn } from '../../lib/utils';
 import { useLanguage } from '../../contexts/LanguageContext';
+// src/components/operating-pressure/TreasuryErosionTimeline.tsx
+
 
 interface TreasuryErosionProps {
   data: {

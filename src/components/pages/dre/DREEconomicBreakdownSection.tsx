@@ -1,13 +1,12 @@
 import React from 'react';
 import { Layers, AlertTriangle, Target } from 'lucide-react';
 import { cn } from '../../../lib/utils';
-import { FiduciaryRuntimeAdapter } from '../../../services/FiduciaryRuntimeAdapter';
+import { FiduciaryRuntimeAdapter, DreExecutiveViewModel } from '../../../services/FiduciaryRuntimeAdapter';
 import { ExecutiveSurface } from '../../ui/executive-surface';
 import { ExecutiveCallout } from '../../ui/executive-callout';
 import { ExecutiveHeading } from '../../ui/executive-heading';
 import { ExecutiveText } from '../../ui/executive-typography';
 import { ExecutiveBadge } from '../../ui/executive-badge';
-import { DreExecutiveViewModel } from '../../../services/FiduciaryRuntimeAdapter';
 
 interface Props {
   isVisibleStructure: boolean;

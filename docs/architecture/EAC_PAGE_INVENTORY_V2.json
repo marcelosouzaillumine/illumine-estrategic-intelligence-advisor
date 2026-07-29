@@ -1,0 +1,357 @@
+[
+  {
+    "path": "/Users/marcelosouza/Documents/illumine-strategic-intelligence-advisor/src/components/pages/BalanceSheetPage.tsx",
+    "profile": "Executive Analytical Page",
+    "score": 80,
+    "blocksFound": [
+      {
+        "component": "PageHeader",
+        "block": "Page Identity",
+        "method": "registry",
+        "confidence": "high",
+        "line": 77
+      },
+      {
+        "component": "StatusBadge",
+        "block": "Context Controls and Actions",
+        "method": "registry",
+        "confidence": "high",
+        "line": 88
+      },
+      {
+        "component": "BalanceSheetInstitutionalContextSection",
+        "block": "Executive Summary",
+        "method": "registry",
+        "confidence": "high",
+        "line": 135
+      },
+      {
+        "component": "BalanceSheetExecutivePlan",
+        "block": "KPIs",
+        "method": "registry",
+        "confidence": "high",
+        "line": 154
+      },
+      {
+        "component": "BalanceSheetCapitalPreservationSection",
+        "block": "Narrative",
+        "method": "regex",
+        "confidence": "medium",
+        "line": 169
+      },
+      {
+        "component": "ExecutiveStrategicTensions",
+        "block": "Restrictions",
+        "method": "registry",
+        "confidence": "high",
+        "line": 210
+      },
+      {
+        "component": "BalanceSheetAuditLayerSection",
+        "block": "Technical Layer",
+        "method": "registry",
+        "confidence": "high",
+        "line": 218
+      },
+      {
+        "component": "BarChart3",
+        "block": "Analytics",
+        "method": "regex",
+        "confidence": "medium",
+        "line": 231
+      },
+      {
+        "component": "ExecutiveExposureCard",
+        "block": "KPIs",
+        "method": "registry",
+        "confidence": "high",
+        "line": 256
+      },
+      {
+        "component": "BalanceSheetCompositionChartsSection",
+        "block": "Analytics",
+        "method": "regex",
+        "confidence": "medium",
+        "line": 279
+      },
+      {
+        "component": "BalanceSheetEvolutionAnalysisSection",
+        "block": "KPIs",
+        "method": "regex",
+        "confidence": "medium",
+        "line": 290
+      },
+      {
+        "component": "BalanceSheetStructuralTablesSection",
+        "block": "Analytics",
+        "method": "regex",
+        "confidence": "medium",
+        "line": 300
+      },
+      {
+        "component": "BalanceSheetTechnicalLayerSection",
+        "block": "Technical Layer",
+        "method": "registry",
+        "confidence": "high",
+        "line": 309
+      }
+    ],
+    "structuralFlow": [
+      "Page Identity",
+      "Context Controls and Actions",
+      "Executive Summary",
+      "KPIs",
+      "Narrative",
+      "Restrictions",
+      "Technical Layer",
+      "Analytics",
+      "KPIs",
+      "Analytics",
+      "KPIs",
+      "Analytics",
+      "Technical Layer"
+    ],
+    "penalties": [
+      "Ordem Incorreta: 'Analytics' fora de posição cognitiva.",
+      "Ordem Incorreta: 'KPIs' fora de posição cognitiva.",
+      "Ordem Incorreta: 'Analytics' fora de posição cognitiva.",
+      "Ordem Incorreta: 'KPIs' fora de posição cognitiva.",
+      "Ordem Incorreta: 'Analytics' fora de posição cognitiva."
+    ]
+  },
+  {
+    "path": "/Users/marcelosouza/Documents/illumine-strategic-intelligence-advisor/src/components/pages/DREPage.tsx",
+    "profile": "Executive Analytical Page",
+    "score": 75,
+    "blocksFound": [
+      {
+        "component": "PageHeader",
+        "block": "Page Identity",
+        "method": "registry",
+        "confidence": "high",
+        "line": 42
+      },
+      {
+        "component": "ExecutiveSummarySection",
+        "block": "Executive Summary",
+        "method": "registry",
+        "confidence": "high",
+        "line": 113
+      },
+      {
+        "component": "DRETechnicalLayerSection",
+        "block": "Technical Layer",
+        "method": "regex",
+        "confidence": "medium",
+        "line": 149
+      }
+    ],
+    "structuralFlow": [
+      "Page Identity",
+      "Executive Summary",
+      "Technical Layer"
+    ],
+    "penalties": [
+      "Missing Required Blocks: KPIs, Narrative, Analytics"
+    ]
+  },
+  {
+    "path": "/Users/marcelosouza/Documents/illumine-strategic-intelligence-advisor/src/components/pages/governance/SovereignBoardPackPage.tsx",
+    "profile": "Board Mode",
+    "score": 20,
+    "blocksFound": [
+      {
+        "component": "PageHeader",
+        "block": "Page Identity",
+        "method": "registry",
+        "confidence": "high",
+        "line": 72
+      }
+    ],
+    "structuralFlow": [
+      "Page Identity"
+    ],
+    "penalties": [
+      "Missing Required Blocks: Session Identity, Fiduciary Context, Decision Agenda, Evidence, Deliberation, Traceability"
+    ]
+  },
+  {
+    "path": "/Users/marcelosouza/Documents/illumine-strategic-intelligence-advisor/src/components/pages/PayablesPage.tsx",
+    "profile": "Operational Management Page",
+    "score": 65,
+    "blocksFound": [
+      {
+        "component": "PageHeader",
+        "block": "Page Identity",
+        "method": "registry",
+        "confidence": "high",
+        "line": 144
+      },
+      {
+        "component": "PieChartIcon",
+        "block": "Analytics",
+        "method": "regex",
+        "confidence": "medium",
+        "line": 197
+      },
+      {
+        "component": "Filter",
+        "block": "Context Controls and Actions",
+        "method": "regex",
+        "confidence": "medium",
+        "line": 263
+      },
+      {
+        "component": "SortableHeader",
+        "block": "Page Identity",
+        "method": "regex",
+        "confidence": "medium",
+        "line": 281
+      }
+    ],
+    "structuralFlow": [
+      "Page Identity",
+      "Analytics",
+      "Context Controls and Actions",
+      "Page Identity"
+    ],
+    "penalties": [
+      "Missing Required Blocks: Operational KPIs, Working Area",
+      "Ordem Incorreta: 'Page Identity' fora de posição cognitiva."
+    ]
+  },
+  {
+    "path": "/Users/marcelosouza/Documents/illumine-strategic-intelligence-advisor/src/components/pages/ConsolidatedGroupAdminPage.tsx",
+    "profile": "Administrative/Form Page",
+    "score": 20,
+    "blocksFound": [
+      {
+        "component": "PageHeader",
+        "block": "Page Identity",
+        "method": "registry",
+        "confidence": "high",
+        "line": 96
+      }
+    ],
+    "structuralFlow": [
+      "Page Identity"
+    ],
+    "penalties": [
+      "Missing Required Blocks: Guidance, Form or Workflow, Validation, Actions"
+    ]
+  },
+  {
+    "path": "/Users/marcelosouza/Documents/illumine-strategic-intelligence-advisor/src/components/pages/DLPAPage.tsx",
+    "profile": "Executive Analytical Page",
+    "score": 68,
+    "blocksFound": [
+      {
+        "component": "PageHeader",
+        "block": "Page Identity",
+        "method": "registry",
+        "confidence": "high",
+        "line": 106
+      },
+      {
+        "component": "StatusBadge",
+        "block": "Context Controls and Actions",
+        "method": "registry",
+        "confidence": "high",
+        "line": 195
+      },
+      {
+        "component": "ExecutiveSummarySection",
+        "block": "Executive Summary",
+        "method": "registry",
+        "confidence": "high",
+        "line": 290
+      },
+      {
+        "component": "ExecutiveTechnicalLayer",
+        "block": "Technical Layer",
+        "method": "regex",
+        "confidence": "medium",
+        "line": 452
+      },
+      {
+        "component": "ExecutiveComposedChart",
+        "block": "Analytics",
+        "method": "regex",
+        "confidence": "medium",
+        "line": 473
+      },
+      {
+        "component": "ExecutiveTechnicalMetricCard",
+        "block": "Technical Layer",
+        "method": "regex",
+        "confidence": "medium",
+        "line": 507
+      },
+      {
+        "component": "ExecutiveTableHeader",
+        "block": "Page Identity",
+        "method": "regex",
+        "confidence": "medium",
+        "line": 540
+      },
+      {
+        "component": "ExecutiveTechnicalLayer",
+        "block": "Technical Layer",
+        "method": "regex",
+        "confidence": "medium",
+        "line": 593
+      }
+    ],
+    "structuralFlow": [
+      "Page Identity",
+      "Context Controls and Actions",
+      "Executive Summary",
+      "Technical Layer",
+      "Analytics",
+      "Technical Layer",
+      "Page Identity",
+      "Technical Layer"
+    ],
+    "penalties": [
+      "Missing Required Blocks: KPIs, Narrative",
+      "Ordem Incorreta: 'Analytics' fora de posição cognitiva.",
+      "Ordem Incorreta: 'Page Identity' fora de posição cognitiva."
+    ]
+  },
+  {
+    "path": "/Users/marcelosouza/Documents/illumine-strategic-intelligence-advisor/src/components/pages/governance/FiduciaryGovernanceCenter.tsx",
+    "profile": "Executive Governance",
+    "score": 63,
+    "blocksFound": [
+      {
+        "component": "InstitutionalPrioritySurface",
+        "block": "Page Identity",
+        "method": "registry",
+        "confidence": "high",
+        "line": 43
+      },
+      {
+        "component": "CriticalDecisionSurface",
+        "block": "Decision Summary",
+        "method": "registry",
+        "confidence": "high",
+        "line": 50
+      },
+      {
+        "component": "ExecutivePriorityStack",
+        "block": "Recommendations",
+        "method": "registry",
+        "confidence": "high",
+        "line": 53
+      }
+    ],
+    "structuralFlow": [
+      "Page Identity",
+      "Decision Summary",
+      "Recommendations"
+    ],
+    "penalties": [
+      "Missing Required Blocks: Executive Summary, KPIs, Narrative, Analytics"
+    ]
+  }
+]

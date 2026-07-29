@@ -1,0 +1,82 @@
+{
+  "before": {
+    "path": "/Users/marcelosouza/Documents/illumine-strategic-intelligence-advisor/src/components/pages/governance/FiduciaryGovernanceCenter.tsx",
+    "profile": "Executive Governance",
+    "score": 60,
+    "blocksFound": [
+      {
+        "component": "InstitutionalPrioritySurface",
+        "block": "Page Identity",
+        "method": "registry",
+        "confidence": "high",
+        "line": 42
+      },
+      {
+        "component": "CriticalDecisionSurface",
+        "block": "Decision Summary",
+        "method": "registry",
+        "confidence": "high",
+        "line": 49
+      },
+      {
+        "component": "ExecutivePriorityStack",
+        "block": "Recommendations",
+        "method": "registry",
+        "confidence": "high",
+        "line": 52
+      }
+    ],
+    "structuralFlow": [
+      "Page Identity",
+      "Decision Summary",
+      "Recommendations"
+    ],
+    "penalties": [
+      "Missing Required Blocks: Executive Summary, KPIs, Narrative, Analytics"
+    ]
+  },
+  "after": {
+    "path": "/Users/marcelosouza/Documents/illumine-strategic-intelligence-advisor/src/components/pages/governance/FiduciaryGovernanceCenter.tsx",
+    "profile": "Executive Governance",
+    "score": 75,
+    "blocksFound": [
+      {
+        "component": "InstitutionalPrioritySurface",
+        "block": "Page Identity",
+        "method": "registry",
+        "confidence": "high",
+        "line": 43
+      },
+      {
+        "component": "ExecutiveSummarySection",
+        "block": "Executive Summary",
+        "method": "registry",
+        "confidence": "high",
+        "line": 50
+      },
+      {
+        "component": "CriticalDecisionSurface",
+        "block": "Decision Summary",
+        "method": "registry",
+        "confidence": "high",
+        "line": 51
+      },
+      {
+        "component": "ExecutivePriorityStack",
+        "block": "Recommendations",
+        "method": "registry",
+        "confidence": "high",
+        "line": 55
+      }
+    ],
+    "structuralFlow": [
+      "Page Identity",
+      "Executive Summary",
+      "Decision Summary",
+      "Recommendations"
+    ],
+    "penalties": [
+      "Missing Required Blocks: KPIs, Narrative, Analytics"
+    ]
+  }
+}

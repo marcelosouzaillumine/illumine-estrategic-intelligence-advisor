@@ -1,6 +1,5 @@
 import React from 'react';
 import { Workflow } from 'lucide-react';
-import { PageHeader } from '../Common';
 import { GovernancePlaybookPanel } from '../governance-orchestration/GovernancePlaybookPanel';
 import { StrategicResponseTimeline } from '../governance-orchestration/StrategicResponseTimeline';
 import { InstitutionalPriorityBoard } from '../governance-orchestration/InstitutionalPriorityBoard';
@@ -9,18 +8,49 @@ import { GovernanceRecommendationFeed } from '../governance-orchestration/Govern
 import { RecoveryPathViewer } from '../governance-orchestration/RecoveryPathViewer';
 import { EscalationOrchestrationPanel } from '../governance-orchestration/EscalationOrchestrationPanel';
 import { PlaybookSimulationViewer } from '../governance-orchestration/PlaybookSimulationViewer';
+import { ExecutivePageTemplate } from '../ui/executive-page-template';
+import { ExecutiveSurface } from '../ui/executive-surface';
+import { ExecutiveAccordion } from '../ui/executive-accordion';
+import { ExecutiveEmptyState } from '../ui/executive-empty-state';
+import { ExecutiveHeading } from '../ui/executive-heading';
+import { ExecutiveText } from '../ui/executive-typography';
+import { StatusBadge } from '../Common';
+import { createPortal } from 'react-dom';
+import { ExecutiveSummarySection } from '../ui/executive-summary-section';
+import { ExecutiveStrategicTensions } from '../ui/executive-strategic-tensions';
+import { ExecutiveDecisionTrace } from '../ui/executive-decision-trace';
+import { useGovernanceOrchestrationPageViewModel } from '../../viewmodels/useGovernanceOrchestrationPageViewModel';
+
+
+
 
 export function GovernanceOrchestrationPage() {
+  // Adapter: useGovernanceOrchestrationPageAdapter
+  // ViewModel: useGovernanceOrchestrationPageViewModel
+  const { state: vmState, computed: vmComputed, actions: vmActions } = useGovernanceOrchestrationPageViewModel({ clientId: '' });
   const tenantId = 'TENANT-HQ'; // Mock MVP Tenant
 
   return (
-    <div className="max-w-[1440px] mx-auto px-6 lg:px-10 space-y-12 pb-32 animate-executive-fade">
-      <PageHeader
-        title="Governance Orchestration & Playbooks"
-        subtitle="Autonomous Governance Coordination: Acionamento supervisionado de playbooks institucionais e orquestração de contingência."
-        icon={Workflow}
-        transparent
-      />
+    <ExecutivePageTemplate header={{
+      title: "Orquestração de Governança",
+      description: "Acionamento supervisionado de playbooks institucionais e orquestração de contingência corporativa.",
+    }}>
+
+      <div className="flex flex-col md:flex-row md:items-center justify-between gap-6 mb-10">
+
+        <div className="flex items-center gap-3">
+          <StatusBadge status="Verde" label="Orquestrador Conectado" />
+        </div>
+      
+      </div>
+
+      <div className="mt-12 mb-8 border-t border-border pt-8" />
+      <ExecutiveAccordion
+        title="Painel de Playbooks e Resposta Estratégica"
+        subtitle="Monitore as prioridades institucionais, escalonamentos e planos de recuperação de desvios."
+        variant="analytics"
+        defaultExpanded
+      >
 
       <GovernancePlaybookPanel tenantId={tenantId} />
 
@@ -41,6 +71,18 @@ export function GovernanceOrchestrationPage() {
           <StrategicResponseTimeline tenantId={tenantId} />
         </div>
       </div>
-    </div>
+      <ExecutiveSummarySection 
+        status={{ label: 'Orquestração Ativa', variant: 'success' }}
+        question="Como os playbooks institucionais garantem resposta rápida a desvios?"
+        opinion="O comitê fiduciário homologa os playbooks e matrizes de escalonamento para mitigação coordenada de riscos."
+        driver="Playbooks de crise, trilhas de recuperação, coordenação cross-domain e timeline de resposta."
+        implication="Prontidão operacional e eliminação de pontos céticos na execução contingencial."
+        action="Realizar simulados trimestrais dos playbooks de maior impacto."
+      >
+        <ExecutiveStrategicTensions tensions={[]} />
+        <ExecutiveDecisionTrace trace={[]} />
+      </ExecutiveSummarySection>
+      </ExecutiveAccordion>
+    </ExecutivePageTemplate>
   );
 }

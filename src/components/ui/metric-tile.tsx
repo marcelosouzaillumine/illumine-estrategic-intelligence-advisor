@@ -1,11 +1,10 @@
 import React from 'react';
 import { cn } from '@/lib/utils';
 import { ExecutiveSurface } from './executive-surface';
-import { Loader2 } from 'lucide-react';
-
+import { Loader2, AlertCircle, FileX } from 'lucide-react';
 import { Skeleton } from './skeleton';
 import { ExecutiveCallout } from './executive-callout';
-import { AlertCircle, FileX } from 'lucide-react';
+
 
 export interface MetricTileProps extends React.HTMLAttributes<HTMLDivElement> {
   label: React.ReactNode;
@@ -54,13 +53,15 @@ export function MetricTile({
     switch (direction) {
       case 'up': return 'text-success';
       case 'down': return 'text-critical';
-      default: return 'text-muted-foreground';
+      default: return 'text-executive-muted';
     }
   };
 
+  const effectiveVariant = (empty || value === undefined) ? 'default' : variant;
+
   return (
     <ExecutiveSurface 
-      variant={variant}
+      variant={effectiveVariant}
       padding="md"
       radius="md"
       interactive={!!onClick}
@@ -69,8 +70,8 @@ export function MetricTile({
       {...props}
     >
       <div className="flex items-center justify-between gap-4">
-        <span className="text-[10px] font-black uppercase tracking-widest text-muted-foreground">{label}</span>
-        {Icon && <Icon className="w-5 h-5 text-secondary shrink-0" strokeWidth={2} />}
+        <span className="text-[10px] font-black uppercase tracking-widest text-executive-muted">{label}</span>
+        {Icon && <Icon className="w-5 h-5 text-executive-muted shrink-0" strokeWidth={2} />}
       </div>
       
       {loading ? (
@@ -79,14 +80,14 @@ export function MetricTile({
           <Skeleton className="h-3 w-[40%]" />
         </div>
       ) : empty || value === undefined ? (
-        <div className="flex flex-col items-start gap-2 py-2 flex-1 justify-center opacity-60">
-          <FileX className="w-6 h-6 text-muted-foreground mb-1" />
-          <span className="text-sm font-medium italic text-muted-foreground">{emptyMessage}</span>
+        <div className="flex flex-col items-start gap-2 py-2 flex-1 justify-center">
+          <FileX className="w-6 h-6 text-executive-muted mb-1" />
+          <span className="text-sm font-medium italic text-executive-muted">{emptyMessage}</span>
         </div>
       ) : (
         <div className="flex flex-col justify-end flex-1">
           <div className="flex items-baseline gap-3">
-            <span className="text-primary font-medium tabular-nums text-4xl tracking-tighter leading-none">{value}</span>
+            <span className={cn("font-medium tabular-nums text-3xl md:text-4xl tracking-tighter leading-none", variant === 'success' ? 'text-success' : variant === 'critical' ? 'text-critical' : 'text-primary')}>{value}</span>
           </div>
           
           {trend && (
@@ -95,7 +96,7 @@ export function MetricTile({
                 {trend.direction === 'up' ? '↗' : trend.direction === 'down' ? '↘' : '→'}
                 {trend.value}
               </span>
-              {trend.label && <span className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground/60">{trend.label}</span>}
+              {trend.label && <span className="text-[10px] font-bold uppercase tracking-widest text-executive-muted/60">{trend.label}</span>}
             </div>
           )}
         </div>

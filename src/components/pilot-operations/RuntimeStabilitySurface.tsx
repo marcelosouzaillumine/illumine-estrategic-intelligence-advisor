@@ -1,8 +1,8 @@
-// src/components/pilot-operations/RuntimeStabilitySurface.tsx
-
 import React from 'react';
 import { usePilotOperations } from '../../context/pilot-operations/PilotOperationsProvider';
 import { Activity, ShieldAlert, Cpu } from 'lucide-react';
+// src/components/pilot-operations/RuntimeStabilitySurface.tsx
+
 
 export const RuntimeStabilitySurface: React.FC = () => {
   const { runtimeStability, telemetryEvents, pilotStatus } = usePilotOperations();

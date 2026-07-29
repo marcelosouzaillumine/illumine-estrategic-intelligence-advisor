@@ -1,0 +1,3446 @@
+[
+  {
+    "component": "ExecutivePerspectiveSection",
+    "filePath": "/Users/marcelosouza/Documents/illumine-strategic-intelligence-advisor/src/components/ExecutivePerspectiveSection.tsx",
+    "consumerResolution": {
+      "status": "ORPHAN_CONFIRMED",
+      "directConsumers": [],
+      "pages": [],
+      "reExports": [],
+      "unresolvedReferences": []
+    },
+    "coupling": {
+      "stateCouplingScore": 0.12,
+      "complexityScore": 1,
+      "consumerImpact": 0
+    },
+    "metrics": {
+      "opportunityScore": 0.79,
+      "riskScore": 0.442,
+      "priorityIndex": 44.082
+    },
+    "roles": [
+      {
+        "role": "summary",
+        "startLine": 256,
+        "endLine": 611,
+        "rootNode": "div",
+        "purity": 0.9,
+        "evidence": {
+          "confidence": "MEDIUM",
+          "detectionSources": [
+            "AST structural analysis",
+            "Heuristics"
+          ],
+          "matchingNodes": 18,
+          "conflictingNodes": 2,
+          "positiveSignals": [
+            {
+              "nodeType": "JsxElement",
+              "tag": "div",
+              "line": 256,
+              "source": "AST",
+              "weight": 4
+            }
+          ],
+          "conflictingSignals": [],
+          "purityScore": 0.9,
+          "separabilityScore": 0.8,
+          "requiresHumanReview": true
+        }
+      },
+      {
+        "role": "recommendation",
+        "startLine": 256,
+        "endLine": 611,
+        "rootNode": "div",
+        "purity": 1,
+        "evidence": {
+          "confidence": "MEDIUM",
+          "detectionSources": [
+            "AST structural analysis",
+            "Heuristics"
+          ],
+          "matchingNodes": 18,
+          "conflictingNodes": 0,
+          "positiveSignals": [
+            {
+              "nodeType": "JsxElement",
+              "tag": "div",
+              "line": 256,
+              "source": "AST",
+              "weight": 4
+            }
+          ],
+          "conflictingSignals": [],
+          "purityScore": 1,
+          "separabilityScore": 0.8,
+          "requiresHumanReview": true
+        }
+      },
+      {
+        "role": "narrative",
+        "startLine": 256,
+        "endLine": 611,
+        "rootNode": "div",
+        "purity": 0.9285714285714286,
+        "evidence": {
+          "confidence": "MEDIUM",
+          "detectionSources": [
+            "AST structural analysis",
+            "Heuristics"
+          ],
+          "matchingNodes": 13,
+          "conflictingNodes": 1,
+          "positiveSignals": [
+            {
+              "nodeType": "JsxElement",
+              "tag": "div",
+              "line": 256,
+              "source": "AST",
+              "weight": 4
+            }
+          ],
+          "conflictingSignals": [],
+          "purityScore": 0.9285714285714286,
+          "separabilityScore": 0.8,
+          "requiresHumanReview": true
+        }
+      },
+      {
+        "role": "technical-evidence",
+        "startLine": 256,
+        "endLine": 611,
+        "rootNode": "div",
+        "purity": 0.8888888888888888,
+        "evidence": {
+          "confidence": "MEDIUM",
+          "detectionSources": [
+            "AST structural analysis",
+            "Heuristics"
+          ],
+          "matchingNodes": 16,
+          "conflictingNodes": 2,
+          "positiveSignals": [
+            {
+              "nodeType": "JsxElement",
+              "tag": "div",
+              "line": 256,
+              "source": "AST",
+              "weight": 4
+            }
+          ],
+          "conflictingSignals": [],
+          "purityScore": 0.8888888888888888,
+          "separabilityScore": 0.8,
+          "requiresHumanReview": true
+        }
+      },
+      {
+        "role": "disclosure",
+        "startLine": 256,
+        "endLine": 611,
+        "rootNode": "div",
+        "purity": 0.9375,
+        "evidence": {
+          "confidence": "MEDIUM",
+          "detectionSources": [
+            "AST structural analysis",
+            "Heuristics"
+          ],
+          "matchingNodes": 15,
+          "conflictingNodes": 1,
+          "positiveSignals": [
+            {
+              "nodeType": "JsxElement",
+              "tag": "div",
+              "line": 256,
+              "source": "AST",
+              "weight": 4
+            }
+          ],
+          "conflictingSignals": [],
+          "purityScore": 0.9375,
+          "separabilityScore": 0.8,
+          "requiresHumanReview": true
+        }
+      }
+    ],
+    "visualContainers": [],
+    "separationStrategy": "REQUIRES_COMPONENT_SPLIT",
+    "justification": "Multiple independent cognitive surfaces and local data inference are combined in a single presentation component.",
+    "requiresHumanReview": true,
+    "completenessGate": {
+      "allDetectedRolesSerialized": true,
+      "allReportRolesExistInJson": true,
+      "allBoundariesHaveLines": true,
+      "allScoresExplainable": true
+    },
+    "implementationStatus": "SEMANTIC_REVIEW_COMPLETED",
+    "migrationRequired": true,
+    "eligibleForWave02B2": false
+  },
+  {
+    "component": "ConsolidatedExecutiveSummaryCard",
+    "filePath": "/Users/marcelosouza/Documents/illumine-strategic-intelligence-advisor/src/components/consolidated/ConsolidatedExecutiveSummaryCard.tsx",
+    "consumerResolution": {
+      "status": "ORPHAN_CONFIRMED",
+      "directConsumers": [],
+      "pages": [],
+      "reExports": [],
+      "unresolvedReferences": []
+    },
+    "coupling": {
+      "stateCouplingScore": 0,
+      "complexityScore": 0.1,
+      "consumerImpact": 0
+    },
+    "metrics": {
+      "opportunityScore": 0.7538095238095238,
+      "riskScore": 0.04000000000000001,
+      "priorityIndex": 72.36571428571428
+    },
+    "roles": [
+      {
+        "role": "summary",
+        "startLine": 8,
+        "endLine": 26,
+        "rootNode": "div",
+        "purity": 0.8095238095238095,
+        "evidence": {
+          "confidence": "MEDIUM",
+          "detectionSources": [
+            "AST structural analysis",
+            "Heuristics"
+          ],
+          "matchingNodes": 17,
+          "conflictingNodes": 4,
+          "positiveSignals": [
+            {
+              "nodeType": "JsxElement",
+              "tag": "div",
+              "line": 8,
+              "source": "AST",
+              "weight": 4
+            }
+          ],
+          "conflictingSignals": [],
+          "purityScore": 0.8095238095238095,
+          "separabilityScore": 0.8,
+          "requiresHumanReview": true
+        }
+      },
+      {
+        "role": "narrative",
+        "startLine": 8,
+        "endLine": 26,
+        "rootNode": "div",
+        "purity": 0.9166666666666666,
+        "evidence": {
+          "confidence": "MEDIUM",
+          "detectionSources": [
+            "AST structural analysis",
+            "Heuristics"
+          ],
+          "matchingNodes": 11,
+          "conflictingNodes": 1,
+          "positiveSignals": [
+            {
+              "nodeType": "JsxElement",
+              "tag": "div",
+              "line": 8,
+              "source": "AST",
+              "weight": 4
+            }
+          ],
+          "conflictingSignals": [],
+          "purityScore": 0.9166666666666666,
+          "separabilityScore": 0.8,
+          "requiresHumanReview": true
+        }
+      }
+    ],
+    "visualContainers": [],
+    "separationStrategy": "NO_ACTION_REQUIRED",
+    "justification": "Distinct, highly pure roles detected; wrapper recommended.",
+    "requiresHumanReview": true,
+    "completenessGate": {
+      "allDetectedRolesSerialized": true,
+      "allReportRolesExistInJson": true,
+      "allBoundariesHaveLines": true,
+      "allScoresExplainable": true
+    },
+    "implementationStatus": "NOT_REQUIRED",
+    "structuralCertification": "PASSED",
+    "reason": "Component already operates as a passive renderer with prepared input.",
+    "reviewTriggers": [
+      "new_context_dependency",
+      "new_engine_import",
+      "new_interaction",
+      "local_data_preparation",
+      "semantic_scope_change"
+    ]
+  },
+  {
+    "component": "ExecutiveEvidenceExplorer",
+    "filePath": "/Users/marcelosouza/Documents/illumine-strategic-intelligence-advisor/src/components/executive-interaction/ExecutiveEvidenceExplorer.tsx",
+    "consumerResolution": {
+      "status": "ORPHAN_CONFIRMED",
+      "directConsumers": [],
+      "pages": [],
+      "reExports": [],
+      "unresolvedReferences": []
+    },
+    "coupling": {
+      "stateCouplingScore": 0.24,
+      "complexityScore": 0.3416666666666667,
+      "consumerImpact": 0
+    },
+    "metrics": {
+      "opportunityScore": 0.83,
+      "riskScore": 0.22066666666666668,
+      "priorityIndex": 64.68466666666667
+    },
+    "roles": [
+      {
+        "role": "summary",
+        "startLine": 41,
+        "endLine": 123,
+        "rootNode": "div",
+        "purity": 1,
+        "evidence": {
+          "confidence": "MEDIUM",
+          "detectionSources": [
+            "AST structural analysis",
+            "Heuristics"
+          ],
+          "matchingNodes": 18,
+          "conflictingNodes": 0,
+          "positiveSignals": [
+            {
+              "nodeType": "JsxElement",
+              "tag": "div",
+              "line": 41,
+              "source": "AST",
+              "weight": 4
+            }
+          ],
+          "conflictingSignals": [],
+          "purityScore": 1,
+          "separabilityScore": 0.8,
+          "requiresHumanReview": true
+        }
+      },
+      {
+        "role": "technical-evidence",
+        "startLine": 41,
+        "endLine": 123,
+        "rootNode": "div",
+        "purity": 0.9285714285714286,
+        "evidence": {
+          "confidence": "MEDIUM",
+          "detectionSources": [
+            "AST structural analysis",
+            "Heuristics"
+          ],
+          "matchingNodes": 13,
+          "conflictingNodes": 1,
+          "positiveSignals": [
+            {
+              "nodeType": "JsxElement",
+              "tag": "div",
+              "line": 41,
+              "source": "AST",
+              "weight": 4
+            }
+          ],
+          "conflictingSignals": [],
+          "purityScore": 0.9285714285714286,
+          "separabilityScore": 0.8,
+          "requiresHumanReview": true
+        }
+      },
+      {
+        "role": "decision-trace",
+        "startLine": 41,
+        "endLine": 123,
+        "rootNode": "div",
+        "purity": 0.8181818181818182,
+        "evidence": {
+          "confidence": "MEDIUM",
+          "detectionSources": [
+            "AST structural analysis",
+            "Heuristics"
+          ],
+          "matchingNodes": 18,
+          "conflictingNodes": 4,
+          "positiveSignals": [
+            {
+              "nodeType": "JsxElement",
+              "tag": "div",
+              "line": 41,
+              "source": "AST",
+              "weight": 4
+            }
+          ],
+          "conflictingSignals": [],
+          "purityScore": 0.8181818181818182,
+          "separabilityScore": 0.8,
+          "requiresHumanReview": true
+        }
+      }
+    ],
+    "visualContainers": [],
+    "separationStrategy": "INTERNAL_WRAP",
+    "justification": "Distinct, highly pure roles detected; wrapper recommended.",
+    "requiresHumanReview": true,
+    "completenessGate": {
+      "allDetectedRolesSerialized": true,
+      "allReportRolesExistInJson": true,
+      "allBoundariesHaveLines": true,
+      "allScoresExplainable": true
+    },
+    "migrationMode": "NON_DESTRUCTIVE",
+    "behaviorChange": "FORBIDDEN",
+    "visualChange": "FORBIDDEN",
+    "copyChange": "FORBIDDEN",
+    "contextConsumption": "WRAPPER_ONLY",
+    "implementationStatus": "COMPLETED",
+    "structuralCertification": "PASSED"
+  },
+  {
+    "component": "InstitutionalTimelineNavigator",
+    "filePath": "/Users/marcelosouza/Documents/illumine-strategic-intelligence-advisor/src/components/executive-interaction/InstitutionalTimelineNavigator.tsx",
+    "consumerResolution": {
+      "status": "ORPHAN_CONFIRMED",
+      "directConsumers": [],
+      "pages": [],
+      "reExports": [],
+      "unresolvedReferences": []
+    },
+    "coupling": {
+      "stateCouplingScore": 0.12,
+      "complexityScore": 0.19166666666666668,
+      "consumerImpact": 0
+    },
+    "metrics": {
+      "opportunityScore": 0.075,
+      "riskScore": 0.11866666666666667,
+      "priorityIndex": null
+    },
+    "roles": [],
+    "visualContainers": [],
+    "separationStrategy": "NOT_RECOMMENDED",
+    "justification": "No clear executive cognitive roles detected.",
+    "requiresHumanReview": true,
+    "completenessGate": {
+      "allDetectedRolesSerialized": true,
+      "allReportRolesExistInJson": true,
+      "allBoundariesHaveLines": true,
+      "allScoresExplainable": true
+    }
+  },
+  {
+    "component": "RuntimeResolutionIndicator",
+    "filePath": "/Users/marcelosouza/Documents/illumine-strategic-intelligence-advisor/src/components/executive-interaction/RuntimeResolutionIndicator.tsx",
+    "consumerResolution": {
+      "status": "ORPHAN_CONFIRMED",
+      "directConsumers": [],
+      "pages": [],
+      "reExports": [],
+      "unresolvedReferences": []
+    },
+    "coupling": {
+      "stateCouplingScore": 0,
+      "complexityScore": 0.1,
+      "consumerImpact": 0
+    },
+    "metrics": {
+      "opportunityScore": 0.075,
+      "riskScore": 0.04000000000000001,
+      "priorityIndex": null
+    },
+    "roles": [],
+    "visualContainers": [],
+    "separationStrategy": "NOT_RECOMMENDED",
+    "justification": "No clear executive cognitive roles detected.",
+    "requiresHumanReview": true,
+    "completenessGate": {
+      "allDetectedRolesSerialized": true,
+      "allReportRolesExistInJson": true,
+      "allBoundariesHaveLines": true,
+      "allScoresExplainable": true
+    }
+  },
+  {
+    "component": "ExecutiveContinuityCard",
+    "filePath": "/Users/marcelosouza/Documents/illumine-strategic-intelligence-advisor/src/components/institutional-memory/ExecutiveContinuityCard.tsx",
+    "consumerResolution": {
+      "status": "ORPHAN_CONFIRMED",
+      "directConsumers": [],
+      "pages": [],
+      "reExports": [],
+      "unresolvedReferences": []
+    },
+    "coupling": {
+      "stateCouplingScore": 0,
+      "complexityScore": 0.175,
+      "consumerImpact": 0
+    },
+    "metrics": {
+      "opportunityScore": 0.075,
+      "riskScore": 0.06999999999999999,
+      "priorityIndex": null
+    },
+    "roles": [],
+    "visualContainers": [],
+    "separationStrategy": "NOT_RECOMMENDED",
+    "justification": "No clear executive cognitive roles detected.",
+    "requiresHumanReview": true,
+    "completenessGate": {
+      "allDetectedRolesSerialized": true,
+      "allReportRolesExistInJson": true,
+      "allBoundariesHaveLines": true,
+      "allScoresExplainable": true
+    }
+  },
+  {
+    "component": "GovernanceHistoryExplorer",
+    "filePath": "/Users/marcelosouza/Documents/illumine-strategic-intelligence-advisor/src/components/institutional-memory/GovernanceHistoryExplorer.tsx",
+    "consumerResolution": {
+      "status": "ORPHAN_CONFIRMED",
+      "directConsumers": [],
+      "pages": [],
+      "reExports": [],
+      "unresolvedReferences": []
+    },
+    "coupling": {
+      "stateCouplingScore": 0.24,
+      "complexityScore": 0.49166666666666664,
+      "consumerImpact": 0
+    },
+    "metrics": {
+      "opportunityScore": 0.7728571428571428,
+      "riskScore": 0.2806666666666666,
+      "priorityIndex": 55.59419047619048
+    },
+    "roles": [
+      {
+        "role": "summary",
+        "startLine": 24,
+        "endLine": 134,
+        "rootNode": "div",
+        "purity": 0.8571428571428571,
+        "evidence": {
+          "confidence": "MEDIUM",
+          "detectionSources": [
+            "AST structural analysis",
+            "Heuristics"
+          ],
+          "matchingNodes": 18,
+          "conflictingNodes": 3,
+          "positiveSignals": [
+            {
+              "nodeType": "JsxElement",
+              "tag": "div",
+              "line": 24,
+              "source": "AST",
+              "weight": 4
+            }
+          ],
+          "conflictingSignals": [],
+          "purityScore": 0.8571428571428571,
+          "separabilityScore": 0.8,
+          "requiresHumanReview": true
+        }
+      },
+      {
+        "role": "recommendation",
+        "startLine": 24,
+        "endLine": 134,
+        "rootNode": "div",
+        "purity": 0.8,
+        "evidence": {
+          "confidence": "MEDIUM",
+          "detectionSources": [
+            "AST structural analysis",
+            "Heuristics"
+          ],
+          "matchingNodes": 12,
+          "conflictingNodes": 3,
+          "positiveSignals": [
+            {
+              "nodeType": "JsxElement",
+              "tag": "div",
+              "line": 24,
+              "source": "AST",
+              "weight": 4
+            }
+          ],
+          "conflictingSignals": [],
+          "purityScore": 0.8,
+          "separabilityScore": 0.8,
+          "requiresHumanReview": true
+        }
+      },
+      {
+        "role": "narrative",
+        "startLine": 24,
+        "endLine": 134,
+        "rootNode": "div",
+        "purity": 1,
+        "evidence": {
+          "confidence": "MEDIUM",
+          "detectionSources": [
+            "AST structural analysis",
+            "Heuristics"
+          ],
+          "matchingNodes": 19,
+          "conflictingNodes": 0,
+          "positiveSignals": [
+            {
+              "nodeType": "JsxElement",
+              "tag": "div",
+              "line": 24,
+              "source": "AST",
+              "weight": 4
+            }
+          ],
+          "conflictingSignals": [],
+          "purityScore": 1,
+          "separabilityScore": 0.8,
+          "requiresHumanReview": true
+        }
+      },
+      {
+        "role": "decision-trace",
+        "startLine": 24,
+        "endLine": 134,
+        "rootNode": "div",
+        "purity": 0.7692307692307693,
+        "evidence": {
+          "confidence": "MEDIUM",
+          "detectionSources": [
+            "AST structural analysis",
+            "Heuristics"
+          ],
+          "matchingNodes": 10,
+          "conflictingNodes": 3,
+          "positiveSignals": [
+            {
+              "nodeType": "JsxElement",
+              "tag": "div",
+              "line": 24,
+              "source": "AST",
+              "weight": 4
+            }
+          ],
+          "conflictingSignals": [],
+          "purityScore": 0.7692307692307693,
+          "separabilityScore": 0.8,
+          "requiresHumanReview": true
+        }
+      }
+    ],
+    "visualContainers": [],
+    "separationStrategy": "REQUIRES_COMPONENT_SPLIT",
+    "justification": "Multiple roles heavily intertwined.",
+    "requiresHumanReview": true,
+    "completenessGate": {
+      "allDetectedRolesSerialized": true,
+      "allReportRolesExistInJson": true,
+      "allBoundariesHaveLines": true,
+      "allScoresExplainable": true
+    }
+  },
+  {
+    "component": "HistoricalGovernanceNavigator",
+    "filePath": "/Users/marcelosouza/Documents/illumine-strategic-intelligence-advisor/src/components/institutional-memory/HistoricalGovernanceNavigator.tsx",
+    "consumerResolution": {
+      "status": "ORPHAN_CONFIRMED",
+      "directConsumers": [],
+      "pages": [],
+      "reExports": [],
+      "unresolvedReferences": []
+    },
+    "coupling": {
+      "stateCouplingScore": 0,
+      "complexityScore": 0.09166666666666666,
+      "consumerImpact": 0
+    },
+    "metrics": {
+      "opportunityScore": 0.83,
+      "riskScore": 0.03666666666666667,
+      "priorityIndex": 79.95666666666666
+    },
+    "roles": [
+      {
+        "role": "decision-trace",
+        "startLine": 19,
+        "endLine": 35,
+        "rootNode": "div",
+        "purity": 1,
+        "evidence": {
+          "confidence": "MEDIUM",
+          "detectionSources": [
+            "AST structural analysis",
+            "Heuristics"
+          ],
+          "matchingNodes": 10,
+          "conflictingNodes": 0,
+          "positiveSignals": [
+            {
+              "nodeType": "JsxElement",
+              "tag": "div",
+              "line": 19,
+              "source": "AST",
+              "weight": 4
+            }
+          ],
+          "conflictingSignals": [],
+          "purityScore": 1,
+          "separabilityScore": 0.8,
+          "requiresHumanReview": true
+        }
+      }
+    ],
+    "visualContainers": [],
+    "separationStrategy": "ROOT_REPLACEMENT",
+    "justification": "Single dominant pure role detected.",
+    "requiresHumanReview": true,
+    "completenessGate": {
+      "allDetectedRolesSerialized": true,
+      "allReportRolesExistInJson": true,
+      "allBoundariesHaveLines": true,
+      "allScoresExplainable": true
+    }
+  },
+  {
+    "component": "InstitutionalMemoryTimeline",
+    "filePath": "/Users/marcelosouza/Documents/illumine-strategic-intelligence-advisor/src/components/institutional-memory/InstitutionalMemoryTimeline.tsx",
+    "consumerResolution": {
+      "status": "ORPHAN_CONFIRMED",
+      "directConsumers": [],
+      "pages": [],
+      "reExports": [],
+      "unresolvedReferences": []
+    },
+    "coupling": {
+      "stateCouplingScore": 0,
+      "complexityScore": 0.3,
+      "consumerImpact": 0
+    },
+    "metrics": {
+      "opportunityScore": 0.83,
+      "riskScore": 0.12,
+      "priorityIndex": 73.04
+    },
+    "roles": [
+      {
+        "role": "technical-evidence",
+        "startLine": 11,
+        "endLine": 17,
+        "rootNode": "div",
+        "purity": 1,
+        "evidence": {
+          "confidence": "MEDIUM",
+          "detectionSources": [
+            "AST structural analysis",
+            "Heuristics"
+          ],
+          "matchingNodes": 13,
+          "conflictingNodes": 0,
+          "positiveSignals": [
+            {
+              "nodeType": "JsxElement",
+              "tag": "div",
+              "line": 11,
+              "source": "AST",
+              "weight": 4
+            }
+          ],
+          "conflictingSignals": [],
+          "purityScore": 1,
+          "separabilityScore": 0.8,
+          "requiresHumanReview": true
+        }
+      },
+      {
+        "role": "summary",
+        "startLine": 30,
+        "endLine": 72,
+        "rootNode": "div",
+        "purity": 0.8823529411764706,
+        "evidence": {
+          "confidence": "MEDIUM",
+          "detectionSources": [
+            "AST structural analysis",
+            "Heuristics"
+          ],
+          "matchingNodes": 15,
+          "conflictingNodes": 2,
+          "positiveSignals": [
+            {
+              "nodeType": "JsxElement",
+              "tag": "div",
+              "line": 30,
+              "source": "AST",
+              "weight": 4
+            }
+          ],
+          "conflictingSignals": [],
+          "purityScore": 0.8823529411764706,
+          "separabilityScore": 0.8,
+          "requiresHumanReview": true
+        }
+      }
+    ],
+    "visualContainers": [],
+    "separationStrategy": "INTERNAL_WRAP",
+    "justification": "Distinct, highly pure roles detected; wrapper recommended.",
+    "requiresHumanReview": true,
+    "completenessGate": {
+      "allDetectedRolesSerialized": true,
+      "allReportRolesExistInJson": true,
+      "allBoundariesHaveLines": true,
+      "allScoresExplainable": true
+    },
+    "implementationStatus": "COMPLETED",
+    "structuralCertification": "PASSED",
+    "globalCertification": "PASSED",
+    "behaviorChange": false,
+    "visualChange": false,
+    "copyChange": false,
+    "certificationHistory": [
+      {
+        "status": "BLOCKED",
+        "reason": "PREEXISTING_GLOBAL_GATE_FAILURE",
+        "source": "BoardReportIntelligenceService.ts",
+        "rule": "EXPERIENCE_BYPASS"
+      },
+      {
+        "status": "PASSED",
+        "resolution": "GOVERNED_TEMPORARY_EXCEPTION",
+        "governanceSource": "EAC_GLOBAL_GATE_REMEDIATION_001"
+      }
+    ]
+  },
+  {
+    "component": "ConstitutionalIntegrityPanel",
+    "filePath": "/Users/marcelosouza/Documents/illumine-strategic-intelligence-advisor/src/components/institutional-reporting/ConstitutionalIntegrityPanel.tsx",
+    "consumerResolution": {
+      "status": "ORPHAN_CONFIRMED",
+      "directConsumers": [],
+      "pages": [],
+      "reExports": [],
+      "unresolvedReferences": []
+    },
+    "coupling": {
+      "stateCouplingScore": 0,
+      "complexityScore": 0.65,
+      "consumerImpact": 0
+    },
+    "metrics": {
+      "opportunityScore": 0.7766666666666667,
+      "riskScore": 0.26,
+      "priorityIndex": 57.473333333333336
+    },
+    "roles": [
+      {
+        "role": "decision-trace",
+        "startLine": 36,
+        "endLine": 195,
+        "rootNode": "div",
+        "purity": 0.8666666666666667,
+        "evidence": {
+          "confidence": "MEDIUM",
+          "detectionSources": [
+            "AST structural analysis",
+            "Heuristics"
+          ],
+          "matchingNodes": 13,
+          "conflictingNodes": 2,
+          "positiveSignals": [
+            {
+              "nodeType": "JsxElement",
+              "tag": "div",
+              "line": 36,
+              "source": "AST",
+              "weight": 4
+            }
+          ],
+          "conflictingSignals": [],
+          "purityScore": 0.8666666666666667,
+          "separabilityScore": 0.8,
+          "requiresHumanReview": true
+        }
+      }
+    ],
+    "visualContainers": [],
+    "separationStrategy": "REQUIRES_COMPONENT_SPLIT",
+    "justification": "Multiple roles heavily intertwined.",
+    "requiresHumanReview": true,
+    "completenessGate": {
+      "allDetectedRolesSerialized": true,
+      "allReportRolesExistInJson": true,
+      "allBoundariesHaveLines": true,
+      "allScoresExplainable": true
+    }
+  },
+  {
+    "component": "ExecutiveBoardReportModal",
+    "filePath": "/Users/marcelosouza/Documents/illumine-strategic-intelligence-advisor/src/components/modals/ExecutiveBoardReportModal.tsx",
+    "consumerResolution": {
+      "status": "ORPHAN_CONFIRMED",
+      "directConsumers": [],
+      "pages": [],
+      "reExports": [],
+      "unresolvedReferences": []
+    },
+    "coupling": {
+      "stateCouplingScore": 0.52,
+      "complexityScore": 0.9416666666666667,
+      "consumerImpact": 0
+    },
+    "metrics": {
+      "opportunityScore": 0.7633333333333333,
+      "riskScore": 0.5586666666666666,
+      "priorityIndex": 33.68844444444444
+    },
+    "roles": [
+      {
+        "role": "summary",
+        "startLine": 54,
+        "endLine": 298,
+        "rootNode": "div",
+        "purity": 0.8333333333333334,
+        "evidence": {
+          "confidence": "MEDIUM",
+          "detectionSources": [
+            "AST structural analysis",
+            "Heuristics"
+          ],
+          "matchingNodes": 15,
+          "conflictingNodes": 3,
+          "positiveSignals": [
+            {
+              "nodeType": "JsxElement",
+              "tag": "div",
+              "line": 54,
+              "source": "AST",
+              "weight": 4
+            }
+          ],
+          "conflictingSignals": [],
+          "purityScore": 0.8333333333333334,
+          "separabilityScore": 0.8,
+          "requiresHumanReview": true
+        }
+      },
+      {
+        "role": "recommendation",
+        "startLine": 54,
+        "endLine": 298,
+        "rootNode": "div",
+        "purity": 1,
+        "evidence": {
+          "confidence": "MEDIUM",
+          "detectionSources": [
+            "AST structural analysis",
+            "Heuristics"
+          ],
+          "matchingNodes": 13,
+          "conflictingNodes": 0,
+          "positiveSignals": [
+            {
+              "nodeType": "JsxElement",
+              "tag": "div",
+              "line": 54,
+              "source": "AST",
+              "weight": 4
+            }
+          ],
+          "conflictingSignals": [],
+          "purityScore": 1,
+          "separabilityScore": 0.8,
+          "requiresHumanReview": true
+        }
+      },
+      {
+        "role": "decision-trace",
+        "startLine": 54,
+        "endLine": 298,
+        "rootNode": "div",
+        "purity": 0.8823529411764706,
+        "evidence": {
+          "confidence": "MEDIUM",
+          "detectionSources": [
+            "AST structural analysis",
+            "Heuristics"
+          ],
+          "matchingNodes": 15,
+          "conflictingNodes": 2,
+          "positiveSignals": [
+            {
+              "nodeType": "JsxElement",
+              "tag": "div",
+              "line": 54,
+              "source": "AST",
+              "weight": 4
+            }
+          ],
+          "conflictingSignals": [],
+          "purityScore": 0.8823529411764706,
+          "separabilityScore": 0.8,
+          "requiresHumanReview": true
+        }
+      }
+    ],
+    "visualContainers": [],
+    "separationStrategy": "INTERNAL_WRAP",
+    "justification": "Distinct, highly pure roles detected; wrapper recommended.",
+    "requiresHumanReview": true,
+    "completenessGate": {
+      "allDetectedRolesSerialized": true,
+      "allReportRolesExistInJson": true,
+      "allBoundariesHaveLines": true,
+      "allScoresExplainable": true
+    }
+  },
+  {
+    "component": "ImportFinancialModal",
+    "filePath": "/Users/marcelosouza/Documents/illumine-strategic-intelligence-advisor/src/components/modals/ImportFinancialModal.tsx",
+    "consumerResolution": {
+      "status": "ORPHAN_CONFIRMED",
+      "directConsumers": [],
+      "pages": [],
+      "reExports": [],
+      "unresolvedReferences": []
+    },
+    "coupling": {
+      "stateCouplingScore": 1,
+      "complexityScore": 1,
+      "consumerImpact": 0
+    },
+    "metrics": {
+      "opportunityScore": 0.075,
+      "riskScore": 0.75,
+      "priorityIndex": null
+    },
+    "roles": [],
+    "visualContainers": [],
+    "separationStrategy": "NOT_RECOMMENDED",
+    "justification": "No clear executive cognitive roles detected.",
+    "requiresHumanReview": true,
+    "completenessGate": {
+      "allDetectedRolesSerialized": true,
+      "allReportRolesExistInJson": true,
+      "allBoundariesHaveLines": true,
+      "allScoresExplainable": true
+    }
+  },
+  {
+    "component": "ImportPlanoModal",
+    "filePath": "/Users/marcelosouza/Documents/illumine-strategic-intelligence-advisor/src/components/modals/ImportPlanoModal.tsx",
+    "consumerResolution": {
+      "status": "ORPHAN_CONFIRMED",
+      "directConsumers": [],
+      "pages": [],
+      "reExports": [],
+      "unresolvedReferences": []
+    },
+    "coupling": {
+      "stateCouplingScore": 1,
+      "complexityScore": 1,
+      "consumerImpact": 0
+    },
+    "metrics": {
+      "opportunityScore": 0.83,
+      "riskScore": 0.75,
+      "priorityIndex": 20.75
+    },
+    "roles": [
+      {
+        "role": "summary",
+        "startLine": 190,
+        "endLine": 521,
+        "rootNode": "div",
+        "purity": 1,
+        "evidence": {
+          "confidence": "MEDIUM",
+          "detectionSources": [
+            "AST structural analysis",
+            "Heuristics"
+          ],
+          "matchingNodes": 14,
+          "conflictingNodes": 0,
+          "positiveSignals": [
+            {
+              "nodeType": "JsxElement",
+              "tag": "div",
+              "line": 190,
+              "source": "AST",
+              "weight": 4
+            }
+          ],
+          "conflictingSignals": [],
+          "purityScore": 1,
+          "separabilityScore": 0.8,
+          "requiresHumanReview": true
+        }
+      },
+      {
+        "role": "recommendation",
+        "startLine": 190,
+        "endLine": 521,
+        "rootNode": "div",
+        "purity": 0.7894736842105263,
+        "evidence": {
+          "confidence": "MEDIUM",
+          "detectionSources": [
+            "AST structural analysis",
+            "Heuristics"
+          ],
+          "matchingNodes": 15,
+          "conflictingNodes": 4,
+          "positiveSignals": [
+            {
+              "nodeType": "JsxElement",
+              "tag": "div",
+              "line": 190,
+              "source": "AST",
+              "weight": 4
+            }
+          ],
+          "conflictingSignals": [],
+          "purityScore": 0.7894736842105263,
+          "separabilityScore": 0.8,
+          "requiresHumanReview": true
+        }
+      }
+    ],
+    "visualContainers": [],
+    "separationStrategy": "REQUIRES_COMPONENT_SPLIT",
+    "justification": "Multiple roles heavily intertwined.",
+    "requiresHumanReview": true,
+    "completenessGate": {
+      "allDetectedRolesSerialized": true,
+      "allReportRolesExistInJson": true,
+      "allBoundariesHaveLines": true,
+      "allScoresExplainable": true
+    }
+  },
+  {
+    "component": "ImportTransactionsModal",
+    "filePath": "/Users/marcelosouza/Documents/illumine-strategic-intelligence-advisor/src/components/modals/ImportTransactionsModal.tsx",
+    "consumerResolution": {
+      "status": "ORPHAN_CONFIRMED",
+      "directConsumers": [],
+      "pages": [],
+      "reExports": [],
+      "unresolvedReferences": []
+    },
+    "coupling": {
+      "stateCouplingScore": 1,
+      "complexityScore": 1,
+      "consumerImpact": 0
+    },
+    "metrics": {
+      "opportunityScore": 0.075,
+      "riskScore": 0.75,
+      "priorityIndex": null
+    },
+    "roles": [],
+    "visualContainers": [],
+    "separationStrategy": "NOT_RECOMMENDED",
+    "justification": "No clear executive cognitive roles detected.",
+    "requiresHumanReview": true,
+    "completenessGate": {
+      "allDetectedRolesSerialized": true,
+      "allReportRolesExistInJson": true,
+      "allBoundariesHaveLines": true,
+      "allScoresExplainable": true
+    }
+  },
+  {
+    "component": "ManualFinancialModal",
+    "filePath": "/Users/marcelosouza/Documents/illumine-strategic-intelligence-advisor/src/components/modals/ManualFinancialModal.tsx",
+    "consumerResolution": {
+      "status": "ORPHAN_CONFIRMED",
+      "directConsumers": [],
+      "pages": [],
+      "reExports": [],
+      "unresolvedReferences": []
+    },
+    "coupling": {
+      "stateCouplingScore": 0.56,
+      "complexityScore": 1,
+      "consumerImpact": 0
+    },
+    "metrics": {
+      "opportunityScore": 0.075,
+      "riskScore": 0.5960000000000001,
+      "priorityIndex": null
+    },
+    "roles": [],
+    "visualContainers": [
+      {
+        "type": "table",
+        "tag": "SortableTableRow",
+        "startLine": 358,
+        "endLine": 456,
+        "depth": 10
+      }
+    ],
+    "separationStrategy": "NOT_RECOMMENDED",
+    "justification": "No clear executive cognitive roles detected.",
+    "requiresHumanReview": true,
+    "completenessGate": {
+      "allDetectedRolesSerialized": true,
+      "allReportRolesExistInJson": true,
+      "allBoundariesHaveLines": true,
+      "allScoresExplainable": true
+    }
+  },
+  {
+    "component": "GovernanceReadabilityPanel",
+    "filePath": "/Users/marcelosouza/Documents/illumine-strategic-intelligence-advisor/src/components/pilot-operations/GovernanceReadabilityPanel.tsx",
+    "consumerResolution": {
+      "status": "ORPHAN_CONFIRMED",
+      "directConsumers": [],
+      "pages": [],
+      "reExports": [],
+      "unresolvedReferences": []
+    },
+    "coupling": {
+      "stateCouplingScore": 0,
+      "complexityScore": 0.35833333333333334,
+      "consumerImpact": 0
+    },
+    "metrics": {
+      "opportunityScore": 0.7878947368421053,
+      "riskScore": 0.14333333333333334,
+      "priorityIndex": 67.4963157894737
+    },
+    "roles": [
+      {
+        "role": "summary",
+        "startLine": 17,
+        "endLine": 80,
+        "rootNode": "div",
+        "purity": 0.8947368421052632,
+        "evidence": {
+          "confidence": "MEDIUM",
+          "detectionSources": [
+            "AST structural analysis",
+            "Heuristics"
+          ],
+          "matchingNodes": 17,
+          "conflictingNodes": 2,
+          "positiveSignals": [
+            {
+              "nodeType": "JsxElement",
+              "tag": "div",
+              "line": 17,
+              "source": "AST",
+              "weight": 4
+            }
+          ],
+          "conflictingSignals": [],
+          "purityScore": 0.8947368421052632,
+          "separabilityScore": 0.8,
+          "requiresHumanReview": true
+        }
+      },
+      {
+        "role": "technical-evidence",
+        "startLine": 17,
+        "endLine": 80,
+        "rootNode": "div",
+        "purity": 0.8636363636363636,
+        "evidence": {
+          "confidence": "MEDIUM",
+          "detectionSources": [
+            "AST structural analysis",
+            "Heuristics"
+          ],
+          "matchingNodes": 19,
+          "conflictingNodes": 3,
+          "positiveSignals": [
+            {
+              "nodeType": "JsxElement",
+              "tag": "div",
+              "line": 17,
+              "source": "AST",
+              "weight": 4
+            }
+          ],
+          "conflictingSignals": [],
+          "purityScore": 0.8636363636363636,
+          "separabilityScore": 0.8,
+          "requiresHumanReview": true
+        }
+      },
+      {
+        "role": "decision-trace",
+        "startLine": 17,
+        "endLine": 80,
+        "rootNode": "div",
+        "purity": 0.9444444444444444,
+        "evidence": {
+          "confidence": "MEDIUM",
+          "detectionSources": [
+            "AST structural analysis",
+            "Heuristics"
+          ],
+          "matchingNodes": 17,
+          "conflictingNodes": 1,
+          "positiveSignals": [
+            {
+              "nodeType": "JsxElement",
+              "tag": "div",
+              "line": 17,
+              "source": "AST",
+              "weight": 4
+            }
+          ],
+          "conflictingSignals": [],
+          "purityScore": 0.9444444444444444,
+          "separabilityScore": 0.8,
+          "requiresHumanReview": true
+        }
+      },
+      {
+        "role": "disclosure",
+        "startLine": 17,
+        "endLine": 80,
+        "rootNode": "div",
+        "purity": 0.875,
+        "evidence": {
+          "confidence": "MEDIUM",
+          "detectionSources": [
+            "AST structural analysis",
+            "Heuristics"
+          ],
+          "matchingNodes": 14,
+          "conflictingNodes": 2,
+          "positiveSignals": [
+            {
+              "nodeType": "JsxElement",
+              "tag": "div",
+              "line": 17,
+              "source": "AST",
+              "weight": 4
+            }
+          ],
+          "conflictingSignals": [],
+          "purityScore": 0.875,
+          "separabilityScore": 0.8,
+          "requiresHumanReview": true
+        }
+      }
+    ],
+    "visualContainers": [],
+    "separationStrategy": "INTERNAL_WRAP",
+    "justification": "Distinct, highly pure roles detected; wrapper recommended.",
+    "requiresHumanReview": true,
+    "completenessGate": {
+      "allDetectedRolesSerialized": true,
+      "allReportRolesExistInJson": true,
+      "allBoundariesHaveLines": true,
+      "allScoresExplainable": true
+    },
+    "implementationStatus": "COMPLETED",
+    "structuralCertification": "PASSED",
+    "globalCertification": "PASSED",
+    "behaviorChange": false,
+    "visualChange": false,
+    "copyChange": false,
+    "certificationHistory": [
+      {
+        "status": "BLOCKED",
+        "reason": "PREEXISTING_GLOBAL_GATE_FAILURE",
+        "source": "BoardReportIntelligenceService.ts",
+        "rule": "EXPERIENCE_BYPASS"
+      },
+      {
+        "status": "PASSED",
+        "resolution": "GOVERNED_TEMPORARY_EXCEPTION",
+        "governanceSource": "EAC_GLOBAL_GATE_REMEDIATION_001"
+      }
+    ]
+  },
+  {
+    "component": "DecisionEvidenceViewer",
+    "filePath": "/Users/marcelosouza/Documents/illumine-strategic-intelligence-advisor/src/components/strategic-simulation/DecisionEvidenceViewer.tsx",
+    "consumerResolution": {
+      "status": "ORPHAN_CONFIRMED",
+      "directConsumers": [],
+      "pages": [],
+      "reExports": [],
+      "unresolvedReferences": []
+    },
+    "coupling": {
+      "stateCouplingScore": 0,
+      "complexityScore": 0.16666666666666666,
+      "consumerImpact": 0
+    },
+    "metrics": {
+      "opportunityScore": 0.7411111111111112,
+      "riskScore": 0.06666666666666667,
+      "priorityIndex": 69.17037037037038
+    },
+    "roles": [
+      {
+        "role": "technical-evidence",
+        "startLine": 12,
+        "endLine": 34,
+        "rootNode": "div",
+        "purity": 0.7777777777777778,
+        "evidence": {
+          "confidence": "MEDIUM",
+          "detectionSources": [
+            "AST structural analysis",
+            "Heuristics"
+          ],
+          "matchingNodes": 14,
+          "conflictingNodes": 4,
+          "positiveSignals": [
+            {
+              "nodeType": "JsxElement",
+              "tag": "div",
+              "line": 12,
+              "source": "AST",
+              "weight": 4
+            }
+          ],
+          "conflictingSignals": [],
+          "purityScore": 0.7777777777777778,
+          "separabilityScore": 0.8,
+          "requiresHumanReview": true
+        }
+      },
+      {
+        "role": "decision-trace",
+        "startLine": 12,
+        "endLine": 34,
+        "rootNode": "div",
+        "purity": 0.9230769230769231,
+        "evidence": {
+          "confidence": "MEDIUM",
+          "detectionSources": [
+            "AST structural analysis",
+            "Heuristics"
+          ],
+          "matchingNodes": 12,
+          "conflictingNodes": 1,
+          "positiveSignals": [
+            {
+              "nodeType": "JsxElement",
+              "tag": "div",
+              "line": 12,
+              "source": "AST",
+              "weight": 4
+            }
+          ],
+          "conflictingSignals": [],
+          "purityScore": 0.9230769230769231,
+          "separabilityScore": 0.8,
+          "requiresHumanReview": true
+        }
+      }
+    ],
+    "visualContainers": [],
+    "separationStrategy": "REQUIRES_COMPONENT_SPLIT",
+    "justification": "Multiple roles heavily intertwined.",
+    "requiresHumanReview": true,
+    "completenessGate": {
+      "allDetectedRolesSerialized": true,
+      "allReportRolesExistInJson": true,
+      "allBoundariesHaveLines": true,
+      "allScoresExplainable": true
+    }
+  },
+  {
+    "component": "InstitutionalResilienceTimeline",
+    "filePath": "/Users/marcelosouza/Documents/illumine-strategic-intelligence-advisor/src/components/temporal/InstitutionalResilienceTimeline.tsx",
+    "consumerResolution": {
+      "status": "ORPHAN_CONFIRMED",
+      "directConsumers": [],
+      "pages": [],
+      "reExports": [],
+      "unresolvedReferences": []
+    },
+    "coupling": {
+      "stateCouplingScore": 0,
+      "complexityScore": 0.175,
+      "consumerImpact": 0
+    },
+    "metrics": {
+      "opportunityScore": 0.7411111111111112,
+      "riskScore": 0.06999999999999999,
+      "priorityIndex": 68.92333333333335
+    },
+    "roles": [
+      {
+        "role": "summary",
+        "startLine": 31,
+        "endLine": 60,
+        "rootNode": "div",
+        "purity": 0.7777777777777778,
+        "evidence": {
+          "confidence": "MEDIUM",
+          "detectionSources": [
+            "AST structural analysis",
+            "Heuristics"
+          ],
+          "matchingNodes": 14,
+          "conflictingNodes": 4,
+          "positiveSignals": [
+            {
+              "nodeType": "JsxElement",
+              "tag": "div",
+              "line": 31,
+              "source": "AST",
+              "weight": 4
+            }
+          ],
+          "conflictingSignals": [],
+          "purityScore": 0.7777777777777778,
+          "separabilityScore": 0.8,
+          "requiresHumanReview": true
+        }
+      },
+      {
+        "role": "decision-trace",
+        "startLine": 31,
+        "endLine": 60,
+        "rootNode": "div",
+        "purity": 0.85,
+        "evidence": {
+          "confidence": "MEDIUM",
+          "detectionSources": [
+            "AST structural analysis",
+            "Heuristics"
+          ],
+          "matchingNodes": 17,
+          "conflictingNodes": 3,
+          "positiveSignals": [
+            {
+              "nodeType": "JsxElement",
+              "tag": "div",
+              "line": 31,
+              "source": "AST",
+              "weight": 4
+            }
+          ],
+          "conflictingSignals": [],
+          "purityScore": 0.85,
+          "separabilityScore": 0.8,
+          "requiresHumanReview": true
+        }
+      }
+    ],
+    "visualContainers": [],
+    "separationStrategy": "REQUIRES_COMPONENT_SPLIT",
+    "justification": "Multiple roles heavily intertwined.",
+    "requiresHumanReview": true,
+    "completenessGate": {
+      "allDetectedRolesSerialized": true,
+      "allReportRolesExistInJson": true,
+      "allBoundariesHaveLines": true,
+      "allScoresExplainable": true
+    }
+  },
+  {
+    "component": "executive-decision-memo",
+    "filePath": "/Users/marcelosouza/Documents/illumine-strategic-intelligence-advisor/src/components/ui/executive-decision-memo.tsx",
+    "consumerResolution": {
+      "status": "ORPHAN_CONFIRMED",
+      "directConsumers": [],
+      "pages": [],
+      "reExports": [],
+      "unresolvedReferences": []
+    },
+    "coupling": {
+      "stateCouplingScore": 0,
+      "complexityScore": 0.125,
+      "consumerImpact": 0
+    },
+    "metrics": {
+      "opportunityScore": 0.7376923076923078,
+      "riskScore": 0.05,
+      "priorityIndex": 70.08076923076923
+    },
+    "roles": [
+      {
+        "role": "summary",
+        "startLine": 29,
+        "endLine": 83,
+        "rootNode": "ExecutiveSurface",
+        "purity": 0.7692307692307693,
+        "evidence": {
+          "confidence": "MEDIUM",
+          "detectionSources": [
+            "AST structural analysis",
+            "Heuristics"
+          ],
+          "matchingNodes": 10,
+          "conflictingNodes": 3,
+          "positiveSignals": [
+            {
+              "nodeType": "JsxElement",
+              "tag": "ExecutiveSurface",
+              "line": 29,
+              "source": "AST",
+              "weight": 4
+            }
+          ],
+          "conflictingSignals": [],
+          "purityScore": 0.7692307692307693,
+          "separabilityScore": 0.8,
+          "requiresHumanReview": true
+        }
+      },
+      {
+        "role": "recommendation",
+        "startLine": 29,
+        "endLine": 83,
+        "rootNode": "ExecutiveSurface",
+        "purity": 0.8421052631578947,
+        "evidence": {
+          "confidence": "MEDIUM",
+          "detectionSources": [
+            "AST structural analysis",
+            "Heuristics"
+          ],
+          "matchingNodes": 16,
+          "conflictingNodes": 3,
+          "positiveSignals": [
+            {
+              "nodeType": "JsxElement",
+              "tag": "ExecutiveSurface",
+              "line": 29,
+              "source": "AST",
+              "weight": 4
+            }
+          ],
+          "conflictingSignals": [],
+          "purityScore": 0.8421052631578947,
+          "separabilityScore": 0.8,
+          "requiresHumanReview": true
+        }
+      },
+      {
+        "role": "narrative",
+        "startLine": 29,
+        "endLine": 83,
+        "rootNode": "ExecutiveSurface",
+        "purity": 0.8181818181818182,
+        "evidence": {
+          "confidence": "MEDIUM",
+          "detectionSources": [
+            "AST structural analysis",
+            "Heuristics"
+          ],
+          "matchingNodes": 18,
+          "conflictingNodes": 4,
+          "positiveSignals": [
+            {
+              "nodeType": "JsxElement",
+              "tag": "ExecutiveSurface",
+              "line": 29,
+              "source": "AST",
+              "weight": 4
+            }
+          ],
+          "conflictingSignals": [],
+          "purityScore": 0.8181818181818182,
+          "separabilityScore": 0.8,
+          "requiresHumanReview": true
+        }
+      }
+    ],
+    "visualContainers": [
+      {
+        "type": "surface",
+        "tag": "ExecutiveSurface",
+        "startLine": 29,
+        "endLine": 83,
+        "depth": 0
+      }
+    ],
+    "separationStrategy": "REQUIRES_COMPONENT_SPLIT",
+    "justification": "Multiple roles heavily intertwined.",
+    "requiresHumanReview": true,
+    "completenessGate": {
+      "allDetectedRolesSerialized": true,
+      "allReportRolesExistInJson": true,
+      "allBoundariesHaveLines": true,
+      "allScoresExplainable": true
+    }
+  },
+  {
+    "component": "executive-decision-summary-card",
+    "filePath": "/Users/marcelosouza/Documents/illumine-strategic-intelligence-advisor/src/components/ui/executive-decision-summary-card.tsx",
+    "consumerResolution": {
+      "status": "ORPHAN_CONFIRMED",
+      "directConsumers": [],
+      "pages": [],
+      "reExports": [],
+      "unresolvedReferences": []
+    },
+    "coupling": {
+      "stateCouplingScore": 0,
+      "complexityScore": 0.041666666666666664,
+      "consumerImpact": 0
+    },
+    "metrics": {
+      "opportunityScore": 0.755,
+      "riskScore": 0.016666666666666666,
+      "priorityIndex": 74.24166666666666
+    },
+    "roles": [
+      {
+        "role": "summary",
+        "startLine": 31,
+        "endLine": 33,
+        "rootNode": "div",
+        "purity": 0.8125,
+        "evidence": {
+          "confidence": "MEDIUM",
+          "detectionSources": [
+            "AST structural analysis",
+            "Heuristics"
+          ],
+          "matchingNodes": 13,
+          "conflictingNodes": 3,
+          "positiveSignals": [
+            {
+              "nodeType": "JsxElement",
+              "tag": "div",
+              "line": 31,
+              "source": "AST",
+              "weight": 4
+            }
+          ],
+          "conflictingSignals": [],
+          "purityScore": 0.8125,
+          "separabilityScore": 0.8,
+          "requiresHumanReview": true
+        }
+      }
+    ],
+    "visualContainers": [
+      {
+        "type": "card",
+        "tag": "ExecutiveStrategicSemanticCards",
+        "startLine": 32,
+        "endLine": 32,
+        "depth": 1
+      }
+    ],
+    "separationStrategy": "REQUIRES_COMPONENT_SPLIT",
+    "justification": "Multiple roles heavily intertwined.",
+    "requiresHumanReview": true,
+    "completenessGate": {
+      "allDetectedRolesSerialized": true,
+      "allReportRolesExistInJson": true,
+      "allBoundariesHaveLines": true,
+      "allScoresExplainable": true
+    }
+  },
+  {
+    "component": "executive-strategic-semantic-cards",
+    "filePath": "/Users/marcelosouza/Documents/illumine-strategic-intelligence-advisor/src/components/ui/executive-strategic-semantic-cards.tsx",
+    "consumerResolution": {
+      "status": "ORPHAN_CONFIRMED",
+      "directConsumers": [],
+      "pages": [],
+      "reExports": [],
+      "unresolvedReferences": []
+    },
+    "coupling": {
+      "stateCouplingScore": 0,
+      "complexityScore": 0.36666666666666664,
+      "consumerImpact": 0
+    },
+    "metrics": {
+      "opportunityScore": 0.7878947368421053,
+      "riskScore": 0.14666666666666667,
+      "priorityIndex": 67.23368421052632
+    },
+    "roles": [
+      {
+        "role": "summary",
+        "startLine": 18,
+        "endLine": 32,
+        "rootNode": "div",
+        "purity": 0.8947368421052632,
+        "evidence": {
+          "confidence": "MEDIUM",
+          "detectionSources": [
+            "AST structural analysis",
+            "Heuristics"
+          ],
+          "matchingNodes": 17,
+          "conflictingNodes": 2,
+          "positiveSignals": [
+            {
+              "nodeType": "JsxElement",
+              "tag": "div",
+              "line": 18,
+              "source": "AST",
+              "weight": 4
+            }
+          ],
+          "conflictingSignals": [],
+          "purityScore": 0.8947368421052632,
+          "separabilityScore": 0.8,
+          "requiresHumanReview": true
+        }
+      },
+      {
+        "role": "decision-trace",
+        "startLine": 18,
+        "endLine": 32,
+        "rootNode": "div",
+        "purity": 0.7777777777777778,
+        "evidence": {
+          "confidence": "MEDIUM",
+          "detectionSources": [
+            "AST structural analysis",
+            "Heuristics"
+          ],
+          "matchingNodes": 14,
+          "conflictingNodes": 4,
+          "positiveSignals": [
+            {
+              "nodeType": "JsxElement",
+              "tag": "div",
+              "line": 18,
+              "source": "AST",
+              "weight": 4
+            }
+          ],
+          "conflictingSignals": [],
+          "purityScore": 0.7777777777777778,
+          "separabilityScore": 0.8,
+          "requiresHumanReview": true
+        }
+      },
+      {
+        "role": "narrative",
+        "startLine": 59,
+        "endLine": 67,
+        "rootNode": "ExecutiveSurface",
+        "purity": 0.7333333333333333,
+        "evidence": {
+          "confidence": "MEDIUM",
+          "detectionSources": [
+            "AST structural analysis",
+            "Heuristics"
+          ],
+          "matchingNodes": 11,
+          "conflictingNodes": 4,
+          "positiveSignals": [
+            {
+              "nodeType": "JsxElement",
+              "tag": "ExecutiveSurface",
+              "line": 59,
+              "source": "AST",
+              "weight": 4
+            }
+          ],
+          "conflictingSignals": [],
+          "purityScore": 0.7333333333333333,
+          "separabilityScore": 0.8,
+          "requiresHumanReview": true
+        }
+      },
+      {
+        "role": "recommendation",
+        "startLine": 96,
+        "endLine": 116,
+        "rootNode": "ExecutiveSurface",
+        "purity": 0.7777777777777778,
+        "evidence": {
+          "confidence": "MEDIUM",
+          "detectionSources": [
+            "AST structural analysis",
+            "Heuristics"
+          ],
+          "matchingNodes": 14,
+          "conflictingNodes": 4,
+          "positiveSignals": [
+            {
+              "nodeType": "JsxElement",
+              "tag": "ExecutiveSurface",
+              "line": 96,
+              "source": "AST",
+              "weight": 4
+            }
+          ],
+          "conflictingSignals": [],
+          "purityScore": 0.7777777777777778,
+          "separabilityScore": 0.8,
+          "requiresHumanReview": true
+        }
+      }
+    ],
+    "visualContainers": [
+      {
+        "type": "surface",
+        "tag": "ExecutiveSurface",
+        "startLine": 39,
+        "endLine": 47,
+        "depth": 0
+      },
+      {
+        "type": "surface",
+        "tag": "ExecutiveSurface",
+        "startLine": 49,
+        "endLine": 57,
+        "depth": 0
+      },
+      {
+        "type": "surface",
+        "tag": "ExecutiveSurface",
+        "startLine": 59,
+        "endLine": 67,
+        "depth": 0
+      },
+      {
+        "type": "chart",
+        "tag": "LineChart",
+        "startLine": 61,
+        "endLine": 61,
+        "depth": 2
+      },
+      {
+        "type": "surface",
+        "tag": "ExecutiveSurface",
+        "startLine": 96,
+        "endLine": 116,
+        "depth": 0
+      },
+      {
+        "type": "card",
+        "tag": "ExecutiveStrategicRecommendationCard",
+        "startLine": 171,
+        "endLine": 171,
+        "depth": 2
+      }
+    ],
+    "separationStrategy": "REQUIRES_COMPONENT_SPLIT",
+    "justification": "Multiple roles heavily intertwined.",
+    "requiresHumanReview": true,
+    "completenessGate": {
+      "allDetectedRolesSerialized": true,
+      "allReportRolesExistInJson": true,
+      "allBoundariesHaveLines": true,
+      "allScoresExplainable": true
+    }
+  },
+  {
+    "component": "CausalDrilldownPanel",
+    "filePath": "/Users/marcelosouza/Documents/illumine-strategic-intelligence-advisor/src/components/executive/board/CausalDrilldownPanel.tsx",
+    "consumerResolution": {
+      "status": "ORPHAN_CONFIRMED",
+      "directConsumers": [],
+      "pages": [],
+      "reExports": [],
+      "unresolvedReferences": []
+    },
+    "coupling": {
+      "stateCouplingScore": 0,
+      "complexityScore": 0.11666666666666667,
+      "consumerImpact": 0
+    },
+    "metrics": {
+      "opportunityScore": 0.7376923076923078,
+      "riskScore": 0.04666666666666667,
+      "priorityIndex": 70.32666666666667
+    },
+    "roles": [
+      {
+        "role": "summary",
+        "startLine": 14,
+        "endLine": 16,
+        "rootNode": "ExecutiveSurface",
+        "purity": 0.7692307692307693,
+        "evidence": {
+          "confidence": "MEDIUM",
+          "detectionSources": [
+            "AST structural analysis",
+            "Heuristics"
+          ],
+          "matchingNodes": 10,
+          "conflictingNodes": 3,
+          "positiveSignals": [
+            {
+              "nodeType": "JsxElement",
+              "tag": "ExecutiveSurface",
+              "line": 14,
+              "source": "AST",
+              "weight": 4
+            }
+          ],
+          "conflictingSignals": [],
+          "purityScore": 0.7692307692307693,
+          "separabilityScore": 0.8,
+          "requiresHumanReview": true
+        }
+      },
+      {
+        "role": "narrative",
+        "startLine": 14,
+        "endLine": 16,
+        "rootNode": "ExecutiveSurface",
+        "purity": 0.8333333333333334,
+        "evidence": {
+          "confidence": "MEDIUM",
+          "detectionSources": [
+            "AST structural analysis",
+            "Heuristics"
+          ],
+          "matchingNodes": 10,
+          "conflictingNodes": 2,
+          "positiveSignals": [
+            {
+              "nodeType": "JsxElement",
+              "tag": "ExecutiveSurface",
+              "line": 14,
+              "source": "AST",
+              "weight": 4
+            }
+          ],
+          "conflictingSignals": [],
+          "purityScore": 0.8333333333333334,
+          "separabilityScore": 0.8,
+          "requiresHumanReview": true
+        }
+      }
+    ],
+    "visualContainers": [
+      {
+        "type": "surface",
+        "tag": "ExecutiveSurface",
+        "startLine": 14,
+        "endLine": 16,
+        "depth": 0
+      },
+      {
+        "type": "surface",
+        "tag": "ExecutiveSurface",
+        "startLine": 21,
+        "endLine": 48,
+        "depth": 0
+      },
+      {
+        "type": "surface",
+        "tag": "ExecutiveSurface",
+        "startLine": 32,
+        "endLine": 40,
+        "depth": 4
+      }
+    ],
+    "separationStrategy": "REQUIRES_COMPONENT_SPLIT",
+    "justification": "Multiple roles heavily intertwined.",
+    "requiresHumanReview": true,
+    "completenessGate": {
+      "allDetectedRolesSerialized": true,
+      "allReportRolesExistInJson": true,
+      "allBoundariesHaveLines": true,
+      "allScoresExplainable": true
+    }
+  },
+  {
+    "component": "BalanceSheetBoardAdvisory",
+    "filePath": "/Users/marcelosouza/Documents/illumine-strategic-intelligence-advisor/src/components/pages/balance-sheet/BalanceSheetBoardAdvisory.tsx",
+    "consumerResolution": {
+      "status": "ORPHAN_CONFIRMED",
+      "directConsumers": [],
+      "pages": [],
+      "reExports": [],
+      "unresolvedReferences": []
+    },
+    "coupling": {
+      "stateCouplingScore": 0,
+      "complexityScore": 0.10833333333333334,
+      "consumerImpact": 0
+    },
+    "metrics": {
+      "opportunityScore": 0.7411111111111112,
+      "riskScore": 0.043333333333333335,
+      "priorityIndex": 70.89962962962963
+    },
+    "roles": [
+      {
+        "role": "summary",
+        "startLine": 18,
+        "endLine": 48,
+        "rootNode": "div",
+        "purity": 0.7777777777777778,
+        "evidence": {
+          "confidence": "MEDIUM",
+          "detectionSources": [
+            "AST structural analysis",
+            "Heuristics"
+          ],
+          "matchingNodes": 14,
+          "conflictingNodes": 4,
+          "positiveSignals": [
+            {
+              "nodeType": "JsxElement",
+              "tag": "div",
+              "line": 18,
+              "source": "AST",
+              "weight": 4
+            }
+          ],
+          "conflictingSignals": [],
+          "purityScore": 0.7777777777777778,
+          "separabilityScore": 0.8,
+          "requiresHumanReview": true
+        }
+      },
+      {
+        "role": "recommendation",
+        "startLine": 18,
+        "endLine": 48,
+        "rootNode": "div",
+        "purity": 0.8571428571428571,
+        "evidence": {
+          "confidence": "MEDIUM",
+          "detectionSources": [
+            "AST structural analysis",
+            "Heuristics"
+          ],
+          "matchingNodes": 12,
+          "conflictingNodes": 2,
+          "positiveSignals": [
+            {
+              "nodeType": "JsxElement",
+              "tag": "div",
+              "line": 18,
+              "source": "AST",
+              "weight": 4
+            }
+          ],
+          "conflictingSignals": [],
+          "purityScore": 0.8571428571428571,
+          "separabilityScore": 0.8,
+          "requiresHumanReview": true
+        }
+      },
+      {
+        "role": "narrative",
+        "startLine": 18,
+        "endLine": 48,
+        "rootNode": "div",
+        "purity": 0.7647058823529411,
+        "evidence": {
+          "confidence": "MEDIUM",
+          "detectionSources": [
+            "AST structural analysis",
+            "Heuristics"
+          ],
+          "matchingNodes": 13,
+          "conflictingNodes": 4,
+          "positiveSignals": [
+            {
+              "nodeType": "JsxElement",
+              "tag": "div",
+              "line": 18,
+              "source": "AST",
+              "weight": 4
+            }
+          ],
+          "conflictingSignals": [],
+          "purityScore": 0.7647058823529411,
+          "separabilityScore": 0.8,
+          "requiresHumanReview": true
+        }
+      }
+    ],
+    "visualContainers": [
+      {
+        "type": "card",
+        "tag": "ExecutiveInsightCard",
+        "startLine": 20,
+        "endLine": 23,
+        "depth": 2
+      }
+    ],
+    "separationStrategy": "REQUIRES_COMPONENT_SPLIT",
+    "justification": "Multiple roles heavily intertwined.",
+    "requiresHumanReview": true,
+    "completenessGate": {
+      "allDetectedRolesSerialized": true,
+      "allReportRolesExistInJson": true,
+      "allBoundariesHaveLines": true,
+      "allScoresExplainable": true
+    }
+  },
+  {
+    "component": "DREExecutiveAdvisorySection",
+    "filePath": "/Users/marcelosouza/Documents/illumine-strategic-intelligence-advisor/src/components/pages/dre/DREExecutiveAdvisorySection.tsx",
+    "consumerResolution": {
+      "status": "ORPHAN_CONFIRMED",
+      "directConsumers": [],
+      "pages": [],
+      "reExports": [],
+      "unresolvedReferences": []
+    },
+    "coupling": {
+      "stateCouplingScore": 0.04,
+      "complexityScore": 0.11666666666666667,
+      "consumerImpact": 0
+    },
+    "metrics": {
+      "opportunityScore": 0.8064705882352942,
+      "riskScore": 0.06066666666666667,
+      "priorityIndex": 75.7544705882353
+    },
+    "roles": [
+      {
+        "role": "summary",
+        "startLine": 38,
+        "endLine": 38,
+        "rootNode": "ExecutiveStrategicSynthesisCards",
+        "purity": 0.9411764705882353,
+        "evidence": {
+          "confidence": "MEDIUM",
+          "detectionSources": [
+            "AST structural analysis",
+            "Heuristics"
+          ],
+          "matchingNodes": 16,
+          "conflictingNodes": 1,
+          "positiveSignals": [
+            {
+              "nodeType": "JsxSelfClosingElement",
+              "tag": "ExecutiveStrategicSynthesisCards",
+              "line": 38,
+              "source": "AST",
+              "weight": 4
+            }
+          ],
+          "conflictingSignals": [],
+          "purityScore": 0.9411764705882353,
+          "separabilityScore": 0.8,
+          "requiresHumanReview": true
+        }
+      }
+    ],
+    "visualContainers": [
+      {
+        "type": "card",
+        "tag": "ExecutiveStrategicSynthesisCards",
+        "startLine": 38,
+        "endLine": 38,
+        "depth": 0
+      }
+    ],
+    "separationStrategy": "ROOT_REPLACEMENT",
+    "justification": "Single dominant pure role detected.",
+    "requiresHumanReview": true,
+    "completenessGate": {
+      "allDetectedRolesSerialized": true,
+      "allReportRolesExistInJson": true,
+      "allBoundariesHaveLines": true,
+      "allScoresExplainable": true
+    }
+  },
+  {
+    "component": "DRERecommendationSection",
+    "filePath": "/Users/marcelosouza/Documents/illumine-strategic-intelligence-advisor/src/components/pages/dre/DRERecommendationSection.tsx",
+    "consumerResolution": {
+      "status": "ORPHAN_CONFIRMED",
+      "directConsumers": [],
+      "pages": [],
+      "reExports": [],
+      "unresolvedReferences": []
+    },
+    "coupling": {
+      "stateCouplingScore": 0.04,
+      "complexityScore": 0.08333333333333333,
+      "consumerImpact": 0
+    },
+    "metrics": {
+      "opportunityScore": 0.7878947368421053,
+      "riskScore": 0.04733333333333333,
+      "priorityIndex": 75.06010526315791
+    },
+    "roles": [
+      {
+        "role": "summary",
+        "startLine": 34,
+        "endLine": 34,
+        "rootNode": "ExecutiveStrategicRecommendationCard",
+        "purity": 0.8947368421052632,
+        "evidence": {
+          "confidence": "MEDIUM",
+          "detectionSources": [
+            "AST structural analysis",
+            "Heuristics"
+          ],
+          "matchingNodes": 17,
+          "conflictingNodes": 2,
+          "positiveSignals": [
+            {
+              "nodeType": "JsxSelfClosingElement",
+              "tag": "ExecutiveStrategicRecommendationCard",
+              "line": 34,
+              "source": "AST",
+              "weight": 4
+            }
+          ],
+          "conflictingSignals": [],
+          "purityScore": 0.8947368421052632,
+          "separabilityScore": 0.8,
+          "requiresHumanReview": true
+        }
+      },
+      {
+        "role": "recommendation",
+        "startLine": 34,
+        "endLine": 34,
+        "rootNode": "ExecutiveStrategicRecommendationCard",
+        "purity": 0.7647058823529411,
+        "evidence": {
+          "confidence": "MEDIUM",
+          "detectionSources": [
+            "AST structural analysis",
+            "Heuristics"
+          ],
+          "matchingNodes": 13,
+          "conflictingNodes": 4,
+          "positiveSignals": [
+            {
+              "nodeType": "JsxSelfClosingElement",
+              "tag": "ExecutiveStrategicRecommendationCard",
+              "line": 34,
+              "source": "AST",
+              "weight": 4
+            }
+          ],
+          "conflictingSignals": [],
+          "purityScore": 0.7647058823529411,
+          "separabilityScore": 0.8,
+          "requiresHumanReview": true
+        }
+      }
+    ],
+    "visualContainers": [
+      {
+        "type": "card",
+        "tag": "ExecutiveStrategicRecommendationCard",
+        "startLine": 34,
+        "endLine": 34,
+        "depth": 0
+      }
+    ],
+    "separationStrategy": "REQUIRES_COMPONENT_SPLIT",
+    "justification": "Multiple roles heavily intertwined.",
+    "requiresHumanReview": true,
+    "completenessGate": {
+      "allDetectedRolesSerialized": true,
+      "allReportRolesExistInJson": true,
+      "allBoundariesHaveLines": true,
+      "allScoresExplainable": true
+    }
+  },
+  {
+    "component": "BenchmarkComparativePanel",
+    "filePath": "/Users/marcelosouza/Documents/illumine-strategic-intelligence-advisor/src/components/pages/governance/BenchmarkComparativePanel.tsx",
+    "consumerResolution": {
+      "status": "ORPHAN_CONFIRMED",
+      "directConsumers": [],
+      "pages": [],
+      "reExports": [],
+      "unresolvedReferences": []
+    },
+    "coupling": {
+      "stateCouplingScore": 0.4,
+      "complexityScore": 0.9583333333333334,
+      "consumerImpact": 0
+    },
+    "metrics": {
+      "opportunityScore": 0.7500000000000001,
+      "riskScore": 0.5233333333333333,
+      "priorityIndex": 35.75000000000001
+    },
+    "roles": [
+      {
+        "role": "summary",
+        "startLine": 50,
+        "endLine": 338,
+        "rootNode": "div",
+        "purity": 0.8,
+        "evidence": {
+          "confidence": "MEDIUM",
+          "detectionSources": [
+            "AST structural analysis",
+            "Heuristics"
+          ],
+          "matchingNodes": 16,
+          "conflictingNodes": 4,
+          "positiveSignals": [
+            {
+              "nodeType": "JsxElement",
+              "tag": "div",
+              "line": 50,
+              "source": "AST",
+              "weight": 4
+            }
+          ],
+          "conflictingSignals": [],
+          "purityScore": 0.8,
+          "separabilityScore": 0.8,
+          "requiresHumanReview": true
+        }
+      },
+      {
+        "role": "decision-trace",
+        "startLine": 50,
+        "endLine": 338,
+        "rootNode": "div",
+        "purity": 1,
+        "evidence": {
+          "confidence": "MEDIUM",
+          "detectionSources": [
+            "AST structural analysis",
+            "Heuristics"
+          ],
+          "matchingNodes": 16,
+          "conflictingNodes": 0,
+          "positiveSignals": [
+            {
+              "nodeType": "JsxElement",
+              "tag": "div",
+              "line": 50,
+              "source": "AST",
+              "weight": 4
+            }
+          ],
+          "conflictingSignals": [],
+          "purityScore": 1,
+          "separabilityScore": 0.8,
+          "requiresHumanReview": true
+        }
+      }
+    ],
+    "visualContainers": [],
+    "separationStrategy": "REQUIRES_COMPONENT_SPLIT",
+    "justification": "Multiple roles heavily intertwined.",
+    "requiresHumanReview": true,
+    "completenessGate": {
+      "allDetectedRolesSerialized": true,
+      "allReportRolesExistInJson": true,
+      "allBoundariesHaveLines": true,
+      "allScoresExplainable": true
+    }
+  },
+  {
+    "component": "BenchmarkReadinessPanel",
+    "filePath": "/Users/marcelosouza/Documents/illumine-strategic-intelligence-advisor/src/components/pages/governance/BenchmarkReadinessPanel.tsx",
+    "consumerResolution": {
+      "status": "ORPHAN_CONFIRMED",
+      "directConsumers": [],
+      "pages": [],
+      "reExports": [],
+      "unresolvedReferences": []
+    },
+    "coupling": {
+      "stateCouplingScore": 0.2,
+      "complexityScore": 0.6833333333333333,
+      "consumerImpact": 0
+    },
+    "metrics": {
+      "opportunityScore": 0.7572727272727273,
+      "riskScore": 0.3433333333333334,
+      "priorityIndex": 49.72757575757576
+    },
+    "roles": [
+      {
+        "role": "summary",
+        "startLine": 82,
+        "endLine": 300,
+        "rootNode": "div",
+        "purity": 0.8181818181818182,
+        "evidence": {
+          "confidence": "MEDIUM",
+          "detectionSources": [
+            "AST structural analysis",
+            "Heuristics"
+          ],
+          "matchingNodes": 18,
+          "conflictingNodes": 4,
+          "positiveSignals": [
+            {
+              "nodeType": "JsxElement",
+              "tag": "div",
+              "line": 82,
+              "source": "AST",
+              "weight": 4
+            }
+          ],
+          "conflictingSignals": [],
+          "purityScore": 0.8181818181818182,
+          "separabilityScore": 0.8,
+          "requiresHumanReview": true
+        }
+      },
+      {
+        "role": "decision-trace",
+        "startLine": 82,
+        "endLine": 300,
+        "rootNode": "div",
+        "purity": 0.9375,
+        "evidence": {
+          "confidence": "MEDIUM",
+          "detectionSources": [
+            "AST structural analysis",
+            "Heuristics"
+          ],
+          "matchingNodes": 15,
+          "conflictingNodes": 1,
+          "positiveSignals": [
+            {
+              "nodeType": "JsxElement",
+              "tag": "div",
+              "line": 82,
+              "source": "AST",
+              "weight": 4
+            }
+          ],
+          "conflictingSignals": [],
+          "purityScore": 0.9375,
+          "separabilityScore": 0.8,
+          "requiresHumanReview": true
+        }
+      }
+    ],
+    "visualContainers": [],
+    "separationStrategy": "INTERNAL_WRAP",
+    "justification": "Distinct, highly pure roles detected; wrapper recommended.",
+    "requiresHumanReview": true,
+    "completenessGate": {
+      "allDetectedRolesSerialized": true,
+      "allReportRolesExistInJson": true,
+      "allBoundariesHaveLines": true,
+      "allScoresExplainable": true
+    },
+    "migrationMode": "NON_DESTRUCTIVE",
+    "behaviorChange": "FORBIDDEN",
+    "visualChange": "FORBIDDEN",
+    "copyChange": "FORBIDDEN",
+    "contextConsumption": "WRAPPER_ONLY",
+    "implementationStatus": "COMPLETED",
+    "structuralCertification": "PASSED"
+  },
+  {
+    "component": "BoardDecisionSurface",
+    "filePath": "/Users/marcelosouza/Documents/illumine-strategic-intelligence-advisor/src/components/pages/governance/BoardDecisionSurface.tsx",
+    "consumerResolution": {
+      "status": "ORPHAN_CONFIRMED",
+      "directConsumers": [],
+      "pages": [],
+      "reExports": [],
+      "unresolvedReferences": []
+    },
+    "coupling": {
+      "stateCouplingScore": 0,
+      "complexityScore": 0.5916666666666667,
+      "consumerImpact": 0
+    },
+    "metrics": {
+      "opportunityScore": 0.7500000000000001,
+      "riskScore": 0.2366666666666667,
+      "priorityIndex": null
+    },
+    "roles": [
+      {
+        "role": "technical-evidence",
+        "startLine": 52,
+        "endLine": 234,
+        "rootNode": "div",
+        "purity": 0.8,
+        "evidence": {
+          "confidence": "MEDIUM",
+          "detectionSources": [
+            "AST structural analysis",
+            "Heuristics"
+          ],
+          "matchingNodes": 12,
+          "conflictingNodes": 3,
+          "positiveSignals": [
+            {
+              "nodeType": "JsxElement",
+              "tag": "div",
+              "line": 52,
+              "source": "AST",
+              "weight": 4
+            }
+          ],
+          "conflictingSignals": [],
+          "purityScore": 0.8,
+          "separabilityScore": 0.8,
+          "requiresHumanReview": true
+        }
+      },
+      {
+        "role": "decision-trace",
+        "startLine": 52,
+        "endLine": 234,
+        "rootNode": "div",
+        "purity": 0.9230769230769231,
+        "evidence": {
+          "confidence": "MEDIUM",
+          "detectionSources": [
+            "AST structural analysis",
+            "Heuristics"
+          ],
+          "matchingNodes": 12,
+          "conflictingNodes": 1,
+          "positiveSignals": [
+            {
+              "nodeType": "JsxElement",
+              "tag": "div",
+              "line": 52,
+              "source": "AST",
+              "weight": 4
+            }
+          ],
+          "conflictingSignals": [],
+          "purityScore": 0.9230769230769231,
+          "separabilityScore": 0.8,
+          "requiresHumanReview": true
+        }
+      }
+    ],
+    "visualContainers": [],
+    "separationStrategy": "NO_ACTION_REQUIRED",
+    "justification": "Intentional legitimate cognitive unit detected by component type (Surface).",
+    "requiresHumanReview": true,
+    "completenessGate": {
+      "allDetectedRolesSerialized": true,
+      "allReportRolesExistInJson": true,
+      "allBoundariesHaveLines": true,
+      "allScoresExplainable": true
+    }
+  },
+  {
+    "component": "CausalityExplorerPanel",
+    "filePath": "/Users/marcelosouza/Documents/illumine-strategic-intelligence-advisor/src/components/pages/governance/CausalityExplorerPanel.tsx",
+    "consumerResolution": {
+      "status": "ORPHAN_CONFIRMED",
+      "directConsumers": [],
+      "pages": [],
+      "reExports": [],
+      "unresolvedReferences": []
+    },
+    "coupling": {
+      "stateCouplingScore": 0,
+      "complexityScore": 0.7666666666666667,
+      "consumerImpact": 0
+    },
+    "metrics": {
+      "opportunityScore": 0.7633333333333333,
+      "riskScore": 0.3066666666666667,
+      "priorityIndex": 52.92444444444444
+    },
+    "roles": [
+      {
+        "role": "summary",
+        "startLine": 75,
+        "endLine": 305,
+        "rootNode": "div",
+        "purity": 0.8333333333333334,
+        "evidence": {
+          "confidence": "MEDIUM",
+          "detectionSources": [
+            "AST structural analysis",
+            "Heuristics"
+          ],
+          "matchingNodes": 10,
+          "conflictingNodes": 2,
+          "positiveSignals": [
+            {
+              "nodeType": "JsxElement",
+              "tag": "div",
+              "line": 75,
+              "source": "AST",
+              "weight": 4
+            }
+          ],
+          "conflictingSignals": [],
+          "purityScore": 0.8333333333333334,
+          "separabilityScore": 0.8,
+          "requiresHumanReview": true
+        }
+      },
+      {
+        "role": "narrative",
+        "startLine": 75,
+        "endLine": 305,
+        "rootNode": "div",
+        "purity": 0.8333333333333334,
+        "evidence": {
+          "confidence": "MEDIUM",
+          "detectionSources": [
+            "AST structural analysis",
+            "Heuristics"
+          ],
+          "matchingNodes": 15,
+          "conflictingNodes": 3,
+          "positiveSignals": [
+            {
+              "nodeType": "JsxElement",
+              "tag": "div",
+              "line": 75,
+              "source": "AST",
+              "weight": 4
+            }
+          ],
+          "conflictingSignals": [],
+          "purityScore": 0.8333333333333334,
+          "separabilityScore": 0.8,
+          "requiresHumanReview": true
+        }
+      },
+      {
+        "role": "technical-evidence",
+        "startLine": 75,
+        "endLine": 305,
+        "rootNode": "div",
+        "purity": 0.9333333333333333,
+        "evidence": {
+          "confidence": "MEDIUM",
+          "detectionSources": [
+            "AST structural analysis",
+            "Heuristics"
+          ],
+          "matchingNodes": 14,
+          "conflictingNodes": 1,
+          "positiveSignals": [
+            {
+              "nodeType": "JsxElement",
+              "tag": "div",
+              "line": 75,
+              "source": "AST",
+              "weight": 4
+            }
+          ],
+          "conflictingSignals": [],
+          "purityScore": 0.9333333333333333,
+          "separabilityScore": 0.8,
+          "requiresHumanReview": true
+        }
+      }
+    ],
+    "visualContainers": [],
+    "separationStrategy": "INTERNAL_WRAP",
+    "justification": "Distinct, highly pure roles detected; wrapper recommended.",
+    "requiresHumanReview": true,
+    "completenessGate": {
+      "allDetectedRolesSerialized": true,
+      "allReportRolesExistInJson": true,
+      "allBoundariesHaveLines": true,
+      "allScoresExplainable": true
+    },
+    "migrationMode": "NON_DESTRUCTIVE",
+    "behaviorChange": "FORBIDDEN",
+    "visualChange": "FORBIDDEN",
+    "copyChange": "FORBIDDEN",
+    "contextConsumption": "WRAPPER_ONLY",
+    "implementationStatus": "COMPLETED",
+    "structuralCertification": "PASSED"
+  },
+  {
+    "component": "ExecutiveTimelinePanel",
+    "filePath": "/Users/marcelosouza/Documents/illumine-strategic-intelligence-advisor/src/components/pages/governance/ExecutiveTimelinePanel.tsx",
+    "consumerResolution": {
+      "status": "ORPHAN_CONFIRMED",
+      "directConsumers": [],
+      "pages": [],
+      "reExports": [],
+      "unresolvedReferences": []
+    },
+    "coupling": {
+      "stateCouplingScore": 0,
+      "complexityScore": 0.525,
+      "consumerImpact": 0
+    },
+    "metrics": {
+      "opportunityScore": 0.8089473684210526,
+      "riskScore": 0.21000000000000002,
+      "priorityIndex": 63.90684210526316
+    },
+    "roles": [
+      {
+        "role": "summary",
+        "startLine": 74,
+        "endLine": 210,
+        "rootNode": "div",
+        "purity": 0.9473684210526315,
+        "evidence": {
+          "confidence": "MEDIUM",
+          "detectionSources": [
+            "AST structural analysis",
+            "Heuristics"
+          ],
+          "matchingNodes": 18,
+          "conflictingNodes": 1,
+          "positiveSignals": [
+            {
+              "nodeType": "JsxElement",
+              "tag": "div",
+              "line": 74,
+              "source": "AST",
+              "weight": 4
+            }
+          ],
+          "conflictingSignals": [],
+          "purityScore": 0.9473684210526315,
+          "separabilityScore": 0.8,
+          "requiresHumanReview": true
+        }
+      },
+      {
+        "role": "recommendation",
+        "startLine": 74,
+        "endLine": 210,
+        "rootNode": "div",
+        "purity": 1,
+        "evidence": {
+          "confidence": "MEDIUM",
+          "detectionSources": [
+            "AST structural analysis",
+            "Heuristics"
+          ],
+          "matchingNodes": 13,
+          "conflictingNodes": 0,
+          "positiveSignals": [
+            {
+              "nodeType": "JsxElement",
+              "tag": "div",
+              "line": 74,
+              "source": "AST",
+              "weight": 4
+            }
+          ],
+          "conflictingSignals": [],
+          "purityScore": 1,
+          "separabilityScore": 0.8,
+          "requiresHumanReview": true
+        }
+      },
+      {
+        "role": "narrative",
+        "startLine": 74,
+        "endLine": 210,
+        "rootNode": "div",
+        "purity": 0.8666666666666667,
+        "evidence": {
+          "confidence": "MEDIUM",
+          "detectionSources": [
+            "AST structural analysis",
+            "Heuristics"
+          ],
+          "matchingNodes": 13,
+          "conflictingNodes": 2,
+          "positiveSignals": [
+            {
+              "nodeType": "JsxElement",
+              "tag": "div",
+              "line": 74,
+              "source": "AST",
+              "weight": 4
+            }
+          ],
+          "conflictingSignals": [],
+          "purityScore": 0.8666666666666667,
+          "separabilityScore": 0.8,
+          "requiresHumanReview": true
+        }
+      }
+    ],
+    "visualContainers": [],
+    "separationStrategy": "INTERNAL_WRAP",
+    "justification": "Distinct, highly pure roles detected; wrapper recommended.",
+    "requiresHumanReview": true,
+    "completenessGate": {
+      "allDetectedRolesSerialized": true,
+      "allReportRolesExistInJson": true,
+      "allBoundariesHaveLines": true,
+      "allScoresExplainable": true
+    },
+    "implementationStatus": "COMPLETED",
+    "structuralCertification": "PASSED",
+    "globalCertification": "PASSED",
+    "behaviorChange": false,
+    "visualChange": false,
+    "copyChange": false,
+    "certificationHistory": [
+      {
+        "status": "BLOCKED",
+        "reason": "PREEXISTING_GLOBAL_GATE_FAILURE",
+        "source": "BoardReportIntelligenceService.ts",
+        "rule": "EXPERIENCE_BYPASS"
+      },
+      {
+        "status": "PASSED",
+        "resolution": "GOVERNED_TEMPORARY_EXCEPTION",
+        "governanceSource": "EAC_GLOBAL_GATE_REMEDIATION_001"
+      }
+    ]
+  },
+  {
+    "component": "GovernanceExecutionPanel",
+    "filePath": "/Users/marcelosouza/Documents/illumine-strategic-intelligence-advisor/src/components/pages/governance/GovernanceExecutionPanel.tsx",
+    "consumerResolution": {
+      "status": "ORPHAN_CONFIRMED",
+      "directConsumers": [],
+      "pages": [],
+      "reExports": [],
+      "unresolvedReferences": []
+    },
+    "coupling": {
+      "stateCouplingScore": 1,
+      "complexityScore": 1,
+      "consumerImpact": 0
+    },
+    "metrics": {
+      "opportunityScore": 0.83,
+      "riskScore": 0.75,
+      "priorityIndex": 20.75
+    },
+    "roles": [
+      {
+        "role": "summary",
+        "startLine": 145,
+        "endLine": 541,
+        "rootNode": "div",
+        "purity": 1,
+        "evidence": {
+          "confidence": "MEDIUM",
+          "detectionSources": [
+            "AST structural analysis",
+            "Heuristics"
+          ],
+          "matchingNodes": 18,
+          "conflictingNodes": 0,
+          "positiveSignals": [
+            {
+              "nodeType": "JsxElement",
+              "tag": "div",
+              "line": 145,
+              "source": "AST",
+              "weight": 4
+            }
+          ],
+          "conflictingSignals": [],
+          "purityScore": 1,
+          "separabilityScore": 0.8,
+          "requiresHumanReview": true
+        }
+      },
+      {
+        "role": "recommendation",
+        "startLine": 145,
+        "endLine": 541,
+        "rootNode": "div",
+        "purity": 0.8,
+        "evidence": {
+          "confidence": "MEDIUM",
+          "detectionSources": [
+            "AST structural analysis",
+            "Heuristics"
+          ],
+          "matchingNodes": 16,
+          "conflictingNodes": 4,
+          "positiveSignals": [
+            {
+              "nodeType": "JsxElement",
+              "tag": "div",
+              "line": 145,
+              "source": "AST",
+              "weight": 4
+            }
+          ],
+          "conflictingSignals": [],
+          "purityScore": 0.8,
+          "separabilityScore": 0.8,
+          "requiresHumanReview": true
+        }
+      },
+      {
+        "role": "technical-evidence",
+        "startLine": 145,
+        "endLine": 541,
+        "rootNode": "div",
+        "purity": 0.8095238095238095,
+        "evidence": {
+          "confidence": "MEDIUM",
+          "detectionSources": [
+            "AST structural analysis",
+            "Heuristics"
+          ],
+          "matchingNodes": 17,
+          "conflictingNodes": 4,
+          "positiveSignals": [
+            {
+              "nodeType": "JsxElement",
+              "tag": "div",
+              "line": 145,
+              "source": "AST",
+              "weight": 4
+            }
+          ],
+          "conflictingSignals": [],
+          "purityScore": 0.8095238095238095,
+          "separabilityScore": 0.8,
+          "requiresHumanReview": true
+        }
+      },
+      {
+        "role": "decision-trace",
+        "startLine": 145,
+        "endLine": 541,
+        "rootNode": "div",
+        "purity": 1,
+        "evidence": {
+          "confidence": "MEDIUM",
+          "detectionSources": [
+            "AST structural analysis",
+            "Heuristics"
+          ],
+          "matchingNodes": 14,
+          "conflictingNodes": 0,
+          "positiveSignals": [
+            {
+              "nodeType": "JsxElement",
+              "tag": "div",
+              "line": 145,
+              "source": "AST",
+              "weight": 4
+            }
+          ],
+          "conflictingSignals": [],
+          "purityScore": 1,
+          "separabilityScore": 0.8,
+          "requiresHumanReview": true
+        }
+      }
+    ],
+    "visualContainers": [],
+    "separationStrategy": "REQUIRES_COMPONENT_SPLIT",
+    "justification": "Multiple roles heavily intertwined.",
+    "requiresHumanReview": true,
+    "completenessGate": {
+      "allDetectedRolesSerialized": true,
+      "allReportRolesExistInJson": true,
+      "allBoundariesHaveLines": true,
+      "allScoresExplainable": true
+    }
+  },
+  {
+    "component": "GovernanceJourneyPanel",
+    "filePath": "/Users/marcelosouza/Documents/illumine-strategic-intelligence-advisor/src/components/pages/governance/GovernanceJourneyPanel.tsx",
+    "consumerResolution": {
+      "status": "ORPHAN_CONFIRMED",
+      "directConsumers": [],
+      "pages": [],
+      "reExports": [],
+      "unresolvedReferences": []
+    },
+    "coupling": {
+      "stateCouplingScore": 0.72,
+      "complexityScore": 0.9583333333333334,
+      "consumerImpact": 0
+    },
+    "metrics": {
+      "opportunityScore": 0.7604347826086957,
+      "riskScore": 0.6353333333333333,
+      "priorityIndex": 27.730521739130435
+    },
+    "roles": [
+      {
+        "role": "summary",
+        "startLine": 78,
+        "endLine": 403,
+        "rootNode": "div",
+        "purity": 0.8260869565217391,
+        "evidence": {
+          "confidence": "MEDIUM",
+          "detectionSources": [
+            "AST structural analysis",
+            "Heuristics"
+          ],
+          "matchingNodes": 19,
+          "conflictingNodes": 4,
+          "positiveSignals": [
+            {
+              "nodeType": "JsxElement",
+              "tag": "div",
+              "line": 78,
+              "source": "AST",
+              "weight": 4
+            }
+          ],
+          "conflictingSignals": [],
+          "purityScore": 0.8260869565217391,
+          "separabilityScore": 0.8,
+          "requiresHumanReview": true
+        }
+      },
+      {
+        "role": "recommendation",
+        "startLine": 78,
+        "endLine": 403,
+        "rootNode": "div",
+        "purity": 0.8333333333333334,
+        "evidence": {
+          "confidence": "MEDIUM",
+          "detectionSources": [
+            "AST structural analysis",
+            "Heuristics"
+          ],
+          "matchingNodes": 10,
+          "conflictingNodes": 2,
+          "positiveSignals": [
+            {
+              "nodeType": "JsxElement",
+              "tag": "div",
+              "line": 78,
+              "source": "AST",
+              "weight": 4
+            }
+          ],
+          "conflictingSignals": [],
+          "purityScore": 0.8333333333333334,
+          "separabilityScore": 0.8,
+          "requiresHumanReview": true
+        }
+      },
+      {
+        "role": "narrative",
+        "startLine": 78,
+        "endLine": 403,
+        "rootNode": "div",
+        "purity": 1,
+        "evidence": {
+          "confidence": "MEDIUM",
+          "detectionSources": [
+            "AST structural analysis",
+            "Heuristics"
+          ],
+          "matchingNodes": 16,
+          "conflictingNodes": 0,
+          "positiveSignals": [
+            {
+              "nodeType": "JsxElement",
+              "tag": "div",
+              "line": 78,
+              "source": "AST",
+              "weight": 4
+            }
+          ],
+          "conflictingSignals": [],
+          "purityScore": 1,
+          "separabilityScore": 0.8,
+          "requiresHumanReview": true
+        }
+      },
+      {
+        "role": "decision-trace",
+        "startLine": 78,
+        "endLine": 403,
+        "rootNode": "div",
+        "purity": 1,
+        "evidence": {
+          "confidence": "MEDIUM",
+          "detectionSources": [
+            "AST structural analysis",
+            "Heuristics"
+          ],
+          "matchingNodes": 19,
+          "conflictingNodes": 0,
+          "positiveSignals": [
+            {
+              "nodeType": "JsxElement",
+              "tag": "div",
+              "line": 78,
+              "source": "AST",
+              "weight": 4
+            }
+          ],
+          "conflictingSignals": [],
+          "purityScore": 1,
+          "separabilityScore": 0.8,
+          "requiresHumanReview": true
+        }
+      }
+    ],
+    "visualContainers": [],
+    "separationStrategy": "INTERNAL_WRAP",
+    "justification": "Distinct, highly pure roles detected; wrapper recommended.",
+    "requiresHumanReview": true,
+    "completenessGate": {
+      "allDetectedRolesSerialized": true,
+      "allReportRolesExistInJson": true,
+      "allBoundariesHaveLines": true,
+      "allScoresExplainable": true
+    }
+  },
+  {
+    "component": "GovernanceKnowledgePanel",
+    "filePath": "/Users/marcelosouza/Documents/illumine-strategic-intelligence-advisor/src/components/pages/governance/GovernanceKnowledgePanel.tsx",
+    "consumerResolution": {
+      "status": "ORPHAN_CONFIRMED",
+      "directConsumers": [],
+      "pages": [],
+      "reExports": [],
+      "unresolvedReferences": []
+    },
+    "coupling": {
+      "stateCouplingScore": 0.52,
+      "complexityScore": 0.9083333333333333,
+      "consumerImpact": 0
+    },
+    "metrics": {
+      "opportunityScore": 0.77,
+      "riskScore": 0.5453333333333333,
+      "priorityIndex": 35.00933333333333
+    },
+    "roles": [
+      {
+        "role": "summary",
+        "startLine": 110,
+        "endLine": 348,
+        "rootNode": "div",
+        "purity": 0.85,
+        "evidence": {
+          "confidence": "MEDIUM",
+          "detectionSources": [
+            "AST structural analysis",
+            "Heuristics"
+          ],
+          "matchingNodes": 17,
+          "conflictingNodes": 3,
+          "positiveSignals": [
+            {
+              "nodeType": "JsxElement",
+              "tag": "div",
+              "line": 110,
+              "source": "AST",
+              "weight": 4
+            }
+          ],
+          "conflictingSignals": [],
+          "purityScore": 0.85,
+          "separabilityScore": 0.8,
+          "requiresHumanReview": true
+        }
+      },
+      {
+        "role": "technical-evidence",
+        "startLine": 110,
+        "endLine": 348,
+        "rootNode": "div",
+        "purity": 0.8571428571428571,
+        "evidence": {
+          "confidence": "MEDIUM",
+          "detectionSources": [
+            "AST structural analysis",
+            "Heuristics"
+          ],
+          "matchingNodes": 18,
+          "conflictingNodes": 3,
+          "positiveSignals": [
+            {
+              "nodeType": "JsxElement",
+              "tag": "div",
+              "line": 110,
+              "source": "AST",
+              "weight": 4
+            }
+          ],
+          "conflictingSignals": [],
+          "purityScore": 0.8571428571428571,
+          "separabilityScore": 0.8,
+          "requiresHumanReview": true
+        }
+      },
+      {
+        "role": "decision-trace",
+        "startLine": 110,
+        "endLine": 348,
+        "rootNode": "div",
+        "purity": 1,
+        "evidence": {
+          "confidence": "MEDIUM",
+          "detectionSources": [
+            "AST structural analysis",
+            "Heuristics"
+          ],
+          "matchingNodes": 16,
+          "conflictingNodes": 0,
+          "positiveSignals": [
+            {
+              "nodeType": "JsxElement",
+              "tag": "div",
+              "line": 110,
+              "source": "AST",
+              "weight": 4
+            }
+          ],
+          "conflictingSignals": [],
+          "purityScore": 1,
+          "separabilityScore": 0.8,
+          "requiresHumanReview": true
+        }
+      }
+    ],
+    "visualContainers": [],
+    "separationStrategy": "INTERNAL_WRAP",
+    "justification": "Distinct, highly pure roles detected; wrapper recommended.",
+    "requiresHumanReview": true,
+    "completenessGate": {
+      "allDetectedRolesSerialized": true,
+      "allReportRolesExistInJson": true,
+      "allBoundariesHaveLines": true,
+      "allScoresExplainable": true
+    }
+  },
+  {
+    "component": "GovernanceLearningPanel",
+    "filePath": "/Users/marcelosouza/Documents/illumine-strategic-intelligence-advisor/src/components/pages/governance/GovernanceLearningPanel.tsx",
+    "consumerResolution": {
+      "status": "ORPHAN_CONFIRMED",
+      "directConsumers": [],
+      "pages": [],
+      "reExports": [],
+      "unresolvedReferences": []
+    },
+    "coupling": {
+      "stateCouplingScore": 0.4,
+      "complexityScore": 0.975,
+      "consumerImpact": 0
+    },
+    "metrics": {
+      "opportunityScore": 0.7855555555555556,
+      "riskScore": 0.53,
+      "priorityIndex": 36.92111111111111
+    },
+    "roles": [
+      {
+        "role": "summary",
+        "startLine": 51,
+        "endLine": 367,
+        "rootNode": "div",
+        "purity": 0.8888888888888888,
+        "evidence": {
+          "confidence": "MEDIUM",
+          "detectionSources": [
+            "AST structural analysis",
+            "Heuristics"
+          ],
+          "matchingNodes": 16,
+          "conflictingNodes": 2,
+          "positiveSignals": [
+            {
+              "nodeType": "JsxElement",
+              "tag": "div",
+              "line": 51,
+              "source": "AST",
+              "weight": 4
+            }
+          ],
+          "conflictingSignals": [],
+          "purityScore": 0.8888888888888888,
+          "separabilityScore": 0.8,
+          "requiresHumanReview": true
+        }
+      },
+      {
+        "role": "technical-evidence",
+        "startLine": 51,
+        "endLine": 367,
+        "rootNode": "div",
+        "purity": 0.8571428571428571,
+        "evidence": {
+          "confidence": "MEDIUM",
+          "detectionSources": [
+            "AST structural analysis",
+            "Heuristics"
+          ],
+          "matchingNodes": 18,
+          "conflictingNodes": 3,
+          "positiveSignals": [
+            {
+              "nodeType": "JsxElement",
+              "tag": "div",
+              "line": 51,
+              "source": "AST",
+              "weight": 4
+            }
+          ],
+          "conflictingSignals": [],
+          "purityScore": 0.8571428571428571,
+          "separabilityScore": 0.8,
+          "requiresHumanReview": true
+        }
+      },
+      {
+        "role": "decision-trace",
+        "startLine": 51,
+        "endLine": 367,
+        "rootNode": "div",
+        "purity": 0.9,
+        "evidence": {
+          "confidence": "MEDIUM",
+          "detectionSources": [
+            "AST structural analysis",
+            "Heuristics"
+          ],
+          "matchingNodes": 18,
+          "conflictingNodes": 2,
+          "positiveSignals": [
+            {
+              "nodeType": "JsxElement",
+              "tag": "div",
+              "line": 51,
+              "source": "AST",
+              "weight": 4
+            }
+          ],
+          "conflictingSignals": [],
+          "purityScore": 0.9,
+          "separabilityScore": 0.8,
+          "requiresHumanReview": true
+        }
+      }
+    ],
+    "visualContainers": [],
+    "separationStrategy": "INTERNAL_WRAP",
+    "justification": "Distinct, highly pure roles detected; wrapper recommended.",
+    "requiresHumanReview": true,
+    "completenessGate": {
+      "allDetectedRolesSerialized": true,
+      "allReportRolesExistInJson": true,
+      "allBoundariesHaveLines": true,
+      "allScoresExplainable": true
+    },
+    "migrationMode": "NON_DESTRUCTIVE",
+    "behaviorChange": "FORBIDDEN",
+    "visualChange": "FORBIDDEN",
+    "copyChange": "FORBIDDEN",
+    "contextConsumption": "WRAPPER_ONLY",
+    "implementationStatus": "COMPLETED",
+    "structuralCertification": "PASSED"
+  }
+]

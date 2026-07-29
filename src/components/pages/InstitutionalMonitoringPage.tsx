@@ -1,12 +1,29 @@
+
+
 import React, { useState, useEffect } from 'react';
 import { Radar, Play, Loader2, AlertCircle, Clock } from 'lucide-react';
-import { PageHeader } from '../Common';
+import { PageHeader, StatusBadge } from '../Common';
 import { MonitoringExecutionScheduler } from '../../services/FiduciaryRuntimeAdapter';
 import { MonitoringAlertRegistry } from '../../services/FiduciaryRuntimeAdapter';
 import { MonitoringAlert } from '../../services/FiduciaryRuntimeAdapter';
 import { MonitoringAlertFeed } from '../monitoring/MonitoringAlertFeed';
+import { ExecutivePageTemplate } from '../ui/executive-page-template';
+import { ExecutiveSurface } from '../ui/executive-surface';
+import { ExecutiveAccordion } from '../ui/executive-accordion';
+import { ExecutiveEmptyState } from '../ui/executive-empty-state';
+import { ExecutiveHeading } from '../ui/executive-heading';
+import { ExecutiveText } from '../ui/executive-typography';
+import { createPortal } from 'react-dom';
+import { ExecutiveSummarySection } from '../ui/executive-summary-section';
+import { ExecutiveStrategicTensions } from '../ui/executive-strategic-tensions';
+import { ExecutiveDecisionTrace } from '../ui/executive-decision-trace';
+import { useInstitutionalMonitoringPageViewModel } from '../../viewmodels/useInstitutionalMonitoringPageViewModel';
 
 export function InstitutionalMonitoringPage() {
+  // Adapter: useInstitutionalMonitoringPageAdapter
+  // ViewModel: useInstitutionalMonitoringPageViewModel
+  const { state: vmState, computed: vmComputed, actions: vmActions } = useInstitutionalMonitoringPageViewModel({ clientId: '' });
+  const portal = createPortal;
   const [alerts, setAlerts] = useState<MonitoringAlert[]>([]);
   const [isRunning, setIsRunning] = useState(false);
 
@@ -43,18 +60,20 @@ export function InstitutionalMonitoringPage() {
   const lastExecution = MonitoringAlertRegistry.getExecutions().slice(-1)[0];
 
   return (
-    <div className="max-w-[1440px] mx-auto px-6 lg:px-10 space-y-12 pb-32 animate-executive-fade">
-      <div className="flex flex-col md:flex-row md:items-end justify-between gap-6">
-        <PageHeader
-          title="Monitoramento Institucional"
-          subtitle="Vigilância contínua de Risco Sistêmico, Liquidez e Confidence."
-          icon={Radar}
-          transparent
-        />
+    <ExecutivePageTemplate header={{
+      title: "Monitoramento Institucional",
+      description: "Vigilância contínua de Risco Sistêmico, Liquidez e Confidence.",
+    }}>
+
+      <div className="flex flex-col md:flex-row md:items-center justify-between gap-6 mb-10">
+
+        <div className="flex items-center gap-3">
+          <StatusBadge status="Verde" label="Monitor de Alertas Ativo" />
+        </div>
         <button
           onClick={handleRunCycle}
           disabled={isRunning}
-          className="btn-executive flex items-center gap-2 shrink-0 disabled:opacity-50"
+          className="px-4 py-2 bg-zinc-900 border border-zinc-800 text-white rounded-xl text-[10px] font-bold uppercase tracking-widest flex items-center gap-2 hover:bg-zinc-800 transition-colors shrink-0 disabled:opacity-50"
         >
           {isRunning ? (
             <>
@@ -63,12 +82,21 @@ export function InstitutionalMonitoringPage() {
             </>
           ) : (
             <>
-              <Play size={15} fill="currentColor" />
+              <Play size={15} fill="currentColor" className="text-secondary" />
               Run Monitoring Cycle
             </>
           )}
         </button>
+      
       </div>
+
+      <div className="mt-12 mb-8 border-t border-border pt-8" />
+      <ExecutiveAccordion
+        title="Painel de Monitoramento de Risco e Incidentes"
+        subtitle="Analise os alertas fiduciários ativos e métricas de execução."
+        variant="analytics"
+        defaultExpanded
+      >
 
       <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
         {/* Métricas Sidebar */}
@@ -105,7 +133,19 @@ export function InstitutionalMonitoringPage() {
           <h3 className="text-h3 font-medium text-foreground tracking-tight">Alertas Fiduciários</h3>
           <MonitoringAlertFeed alerts={alerts} />
         </div>
+       <ExecutiveSummarySection 
+         status={{ label: 'Monitoramento Ativo', variant: 'success' }}
+         question="Qual a telemetria de risco sistêmico e estabilidade dos alertas?"
+         opinion="O comitê fiduciário homologa os motores de vigilância contínua para contenção antecipada de anomalias."
+         driver="Vigilância de liquidez, incidentes mapeados, score de confidence e logs de auditoria."
+         implication="Resposta em tempo real a discrepâncias operacionais ou financeiras."
+         action="Acompanhar os feeds de alertas críticos diariamente no dashboard executivo."
+       >
+         <ExecutiveStrategicTensions tensions={[]} />
+         <ExecutiveDecisionTrace trace={[]} />
+       </ExecutiveSummarySection>
       </div>
-    </div>
+      </ExecutiveAccordion>
+    </ExecutivePageTemplate>
   );
 }

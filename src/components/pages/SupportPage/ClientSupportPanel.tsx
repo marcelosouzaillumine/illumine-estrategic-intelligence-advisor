@@ -11,7 +11,7 @@ import { useGovernance } from '../../../lib/governanceContext';
 
 export const ClientSupportPanel: React.FC<{ selectedClient?: string, headerAddon?: React.ReactNode }> = ({ selectedClient, headerAddon }) => {
   const { role } = useGovernance();
-  const { tickets, loading, fetchTickets, submitTicket } = useSupportAdapter();
+  const { tickets, loading, fetchTickets, submitTicket } = useSupportAdapter(selectedClient);
   const [showForm, setShowForm] = useState(false);
   const [submitting, setSubmitting] = useState(false);
   const [searchTerm, setSearchTerm] = useState('');

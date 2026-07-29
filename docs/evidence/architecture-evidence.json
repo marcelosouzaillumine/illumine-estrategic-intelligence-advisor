@@ -1,0 +1,10 @@
+{
+  "platformVersion": "v21.1",
+  "ahsScore": 99.0,
+  "gciIndex": 99.5,
+  "e2eStatus": "CERTIFIED",
+  "level": "L4",
+  "evidenceBundleHash": "sha256-a8f5f167f44f4964e6c998dee827110c",
+  "generatedAt": "2026-07-28T03:45:26.000Z",
+  "auditor": "AGF Enterprise Hardening Audit Pipeline v21.1"
+}

@@ -1,0 +1,187 @@
+[
+  {
+    "path": "src/components/pages/BalanceSheetPage.tsx",
+    "profile": "Executive Analytical Page",
+    "score": 0,
+    "blocksFound": [
+      "Page Identity",
+      "Context Controls and Actions",
+      "Executive Summary",
+      "Recommendations",
+      "Narrative",
+      "Restrictions",
+      "Technical Layer",
+      "Analytics",
+      "KPIs",
+      "Analytics",
+      "KPIs",
+      "Analytics",
+      "Technical Layer"
+    ],
+    "structuralFlow": [
+      "Page Identity",
+      "Context Controls and Actions",
+      "Executive Summary",
+      "Recommendations",
+      "Narrative",
+      "Restrictions",
+      "Technical Layer",
+      "Analytics",
+      "KPIs",
+      "Analytics",
+      "KPIs",
+      "Analytics",
+      "Technical Layer"
+    ],
+    "penalties": [
+      "Ordem Incorreta: 'Narrative' apareceu depois de blocos que deveriam sucedê-lo.",
+      "Ordem Incorreta: 'Restrictions' apareceu depois de blocos que deveriam sucedê-lo.",
+      "Ordem Incorreta: 'Analytics' apareceu depois de blocos que deveriam sucedê-lo.",
+      "Ordem Incorreta: 'KPIs' apareceu depois de blocos que deveriam sucedê-lo.",
+      "Ordem Incorreta: 'Analytics' apareceu depois de blocos que deveriam sucedê-lo.",
+      "Ordem Incorreta: 'KPIs' apareceu depois de blocos que deveriam sucedê-lo.",
+      "Ordem Incorreta: 'Analytics' apareceu depois de blocos que deveriam sucedê-lo."
+    ]
+  },
+  {
+    "path": "src/components/pages/DREPage.tsx",
+    "profile": "Executive Analytical Page",
+    "score": 80,
+    "blocksFound": [
+      "Page Identity",
+      "Technical Layer"
+    ],
+    "structuralFlow": [
+      "Page Identity",
+      "Technical Layer"
+    ],
+    "penalties": [
+      "Ausente: Nenhuma seção de Summary ou KPIs localizada."
+    ]
+  },
+  {
+    "path": "src/components/pages/DFCPage.tsx",
+    "profile": "Executive Analytical Page",
+    "score": 20,
+    "blocksFound": [
+      "Narrative",
+      "Analytics",
+      "Narrative",
+      "Analytics",
+      "Page Identity",
+      "Technical Layer",
+      "Page Identity"
+    ],
+    "structuralFlow": [
+      "Narrative",
+      "Analytics",
+      "Narrative",
+      "Analytics",
+      "Page Identity",
+      "Technical Layer",
+      "Page Identity"
+    ],
+    "penalties": [
+      "Ordem Incorreta: 'Narrative' apareceu depois de blocos que deveriam sucedê-lo.",
+      "Ordem Incorreta: 'Page Identity' apareceu depois de blocos que deveriam sucedê-lo.",
+      "Ordem Incorreta: 'Page Identity' apareceu depois de blocos que deveriam sucedê-lo.",
+      "Ausente: Nenhuma seção de Summary ou KPIs localizada."
+    ]
+  },
+  {
+    "path": "src/components/pages/DLPAPage.tsx",
+    "profile": "Executive Analytical Page",
+    "score": 40,
+    "blocksFound": [
+      "Page Identity",
+      "Context Controls and Actions",
+      "Technical Layer",
+      "Analytics",
+      "Technical Layer",
+      "Page Identity",
+      "Technical Layer"
+    ],
+    "structuralFlow": [
+      "Page Identity",
+      "Context Controls and Actions",
+      "Technical Layer",
+      "Analytics",
+      "Technical Layer",
+      "Page Identity",
+      "Technical Layer"
+    ],
+    "penalties": [
+      "Ordem Incorreta: 'Analytics' apareceu depois de blocos que deveriam sucedê-lo.",
+      "Ordem Incorreta: 'Page Identity' apareceu depois de blocos que deveriam sucedê-lo.",
+      "Ausente: Nenhuma seção de Summary ou KPIs localizada."
+    ]
+  },
+  {
+    "path": "src/components/pages/DashboardPage.tsx",
+    "profile": "Executive Governance Page",
+    "score": 50,
+    "blocksFound": [
+      "Context Controls and Actions",
+      "KPIs",
+      "Analytics",
+      "Narrative",
+      "KPIs"
+    ],
+    "structuralFlow": [
+      "Context Controls and Actions",
+      "KPIs",
+      "Analytics",
+      "Narrative",
+      "KPIs"
+    ],
+    "penalties": [
+      "Ordem Incorreta: 'KPIs' apareceu depois de blocos que deveriam sucedê-lo.",
+      "Ausente: Page Identity (Header/Title)"
+    ]
+  },
+  {
+    "path": "src/components/pages/governance/SovereignBoardPackPage.tsx",
+    "profile": "Board Mode",
+    "score": 100,
+    "blocksFound": [
+      "Page Identity"
+    ],
+    "structuralFlow": [
+      "Page Identity"
+    ],
+    "penalties": []
+  },
+  {
+    "path": "src/components/pages/PayablesPage.tsx",
+    "profile": "Operational Management Page",
+    "score": 60,
+    "blocksFound": [
+      "Page Identity",
+      "Analytics",
+      "Context Controls and Actions",
+      "Page Identity"
+    ],
+    "structuralFlow": [
+      "Page Identity",
+      "Analytics",
+      "Context Controls and Actions",
+      "Page Identity"
+    ],
+    "penalties": [
+      "Ordem Incorreta: 'Context Controls and Actions' apareceu depois de blocos que deveriam sucedê-lo.",
+      "Ordem Incorreta: 'Page Identity' apareceu depois de blocos que deveriam sucedê-lo."
+    ]
+  },
+  {
+    "path": "src/components/pages/ConsolidatedGroupAdminPage.tsx",
+    "profile": "Administrative/Form Page",
+    "score": 100,
+    "blocksFound": [
+      "Page Identity"
+    ],
+    "structuralFlow": [
+      "Page Identity"
+    ],
+    "penalties": []
+  }
+]

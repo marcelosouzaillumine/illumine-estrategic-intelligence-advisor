@@ -1,0 +1,8 @@
+{
+  "version": "1.0.0",
+  "updatedAt": "2026-07-28T23:54:00.000Z",
+  "officialPipelines": [
+    { "name": "AnnualFinancialDataPipeline", "hook": "useAnnualFinancialData", "path": "src/hooks/useFinancialData.ts", "status": "CANONICAL" },
+    { "name": "FiduciaryRuntimePipeline", "adapter": "FiduciaryRuntimeAdapter", "path": "src/services/FiduciaryRuntimeAdapter.ts", "status": "CANONICAL" }
+  ]
+}

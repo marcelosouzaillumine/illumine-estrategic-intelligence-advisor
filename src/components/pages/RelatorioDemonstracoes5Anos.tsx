@@ -1,3 +1,5 @@
+
+
 import React, { useMemo, useState, useEffect } from 'react';
 import { Loader2, TrendingUp, BarChart3, AlertCircle, FileText } from 'lucide-react';
 import { useClientInfoAdapter } from '../../adapters/ui/useClientInfoAdapter';
@@ -7,13 +9,29 @@ import { useHistoricalDemonstracoes } from '../../hooks/useHistoricalDemonstraco
 import { formatCurrency, formatValue } from '../../lib/utils';
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip as RechartsTooltip, Legend, ResponsiveContainer, LineChart, Line } from 'recharts';
 import { useInstitutionalRuntime } from '../../hooks/useInstitutionalRuntime';
+import { ExecutivePageTemplate } from '../ui/executive-page-template';
+import { ExecutiveAccordion } from '../ui/executive-accordion';
+import { ExecutiveSurface } from '../ui/executive-surface';
+import { ExecutiveEmptyState } from '../ui/executive-empty-state';
+import { ExecutiveMetricCard } from '../ui/executive-metric-card';
+import { StatusBadge } from '../Common';
+import { createPortal } from 'react-dom';
+import { ExecutiveSummarySection } from '../ui/executive-summary-section';
+import { ExecutiveStrategicTensions } from '../ui/executive-strategic-tensions';
+import { ExecutiveDecisionTrace } from '../ui/executive-decision-trace';
+import { useRelatorioDemonstracoes5AnosViewModel } from '../../viewmodels/useRelatorioDemonstracoes5AnosViewModel';
 
 interface RelatorioDemonstracoes5AnosProps {
   clientId: string;
   selectedYear: number;
 }
 
+
 export function RelatorioDemonstracoes5Anos({ clientId, selectedYear }: RelatorioDemonstracoes5AnosProps) {
+  // Adapter: useRelatorioDemonstracoes5AnosAdapter
+  // ViewModel: useRelatorioDemonstracoes5AnosViewModel
+  const { state: vmState, computed: vmComputed, actions: vmActions } = useRelatorioDemonstracoes5AnosViewModel({ clientId });
+  const portal = createPortal;
   const { dbData, loading, error } = useHistoricalDemonstracoes(clientId, selectedYear);
   const yearsWithData = new Set(dbData.map((d: any) => d.year)).size;
   const runtimeInput = {
@@ -130,7 +148,25 @@ export function RelatorioDemonstracoes5Anos({ clientId, selectedYear }: Relatori
   }
 
   return (
-    <div className="space-y-12">
+    <ExecutivePageTemplate header={{
+      title: "Demonstrações Históricas 5 Anos",
+      description: "Análise de tendências financeiras baseada nas Demonstrações Contábeis importadas.",
+    }}>
+      <div className="flex flex-col md:flex-row md:items-center justify-between gap-6 mb-10">
+
+        <div className="flex items-center gap-3">
+          <StatusBadge status="Verde" label="Série Histórica Consolidada" />
+        </div>
+      
+      </div>
+
+      <div className="mt-12 mb-8 border-t border-border pt-8" />
+      <ExecutiveAccordion
+        title="Demonstrações Históricas 5 Anos"
+        subtitle="Análise de tendências financeiras baseada nas Demonstrações Contábeis importadas."
+        variant="analytics"
+        defaultExpanded
+      >
       <div className="bg-executive text-white rounded-md p-8 shadow-premium border border-white/5 relative overflow-hidden flex justify-between items-center">
         <div className="absolute right-0 top-0 opacity-5 p-8 pointer-events-none">
           <TrendingUp size={150} />
@@ -180,12 +216,12 @@ export function RelatorioDemonstracoes5Anos({ clientId, selectedYear }: Relatori
                 />
                 <RechartsTooltip 
                   cursor={{ fill: 'rgba(255,255,255,0.05)' }}
-                  contentStyle={{ backgroundColor: 'var(--color-surface-container)', border: '1px solid var(--color-executive-primary)', borderRadius: '4px', fontSize: '12px' }}
+                  contentStyle={{ backgroundColor: 'var(--color-surface-container)', border: '1px solid var(--color-border)', borderRadius: '4px', fontSize: '12px' }}
                   formatter={(value: number) => formatCurrency(value)}
                 />
                 <Legend iconType="circle" wrapperStyle={{ fontSize: '10px' }} />
-                <Bar dataKey="Receita" fill="currentColor" radius={[2, 2, 0, 0]} name="Receita" />
-                <Bar dataKey="Lucro" fill="currentColor" radius={[2, 2, 0, 0]} name="Lucro Líquido" />
+                <Bar dataKey="Receita" fill="var(--chart-revenue)" radius={[2, 2, 0, 0]} name="Receita" />
+                <Bar dataKey="Lucro" fill="var(--chart-profit)" radius={[2, 2, 0, 0]} name="Lucro Líquido" />
               </BarChart>
             </ResponsiveContainer>
           </div>
@@ -208,12 +244,12 @@ export function RelatorioDemonstracoes5Anos({ clientId, selectedYear }: Relatori
                   tickFormatter={(val) => `R$ ${(val / 1000000).toFixed(1)}M`}
                 />
                 <RechartsTooltip 
-                  contentStyle={{ backgroundColor: 'var(--color-surface-container)', border: '1px solid var(--color-executive-primary)', borderRadius: '4px', fontSize: '12px' }}
+                  contentStyle={{ backgroundColor: 'var(--color-surface-container)', border: '1px solid var(--color-border)', borderRadius: '4px', fontSize: '12px' }}
                   formatter={(value: number) => formatCurrency(value)}
                 />
                 <Legend iconType="circle" wrapperStyle={{ fontSize: '10px' }} />
-                <Line type="monotone" dataKey="Ativo" stroke="currentColor" strokeWidth={2} dot={{ r: 4 }} name="Ativo Total" />
-                <Line type="monotone" dataKey="PL" stroke="currentColor" strokeWidth={2} dot={{ r: 4 }} name="Patrimônio Líquido" />
+                <Line type="monotone" dataKey="Ativo" stroke="var(--chart-asset)" strokeWidth={2} dot={{ r: 4 }} name="Ativo Total" />
+                <Line type="monotone" dataKey="PL" stroke="var(--chart-equity)" strokeWidth={2} dot={{ r: 4 }} name="Patrimônio Líquido" />
               </LineChart>
             </ResponsiveContainer>
           </div>
@@ -272,6 +308,18 @@ export function RelatorioDemonstracoes5Anos({ clientId, selectedYear }: Relatori
         clientData={clientData}
         selectedYear={selectedYear}
       />
-    </div>
+       <ExecutiveSummarySection 
+         status={{ label: 'Demonstrações Auditadas', variant: 'success' }}
+         question="Qual a trajetória histórica de receitas, margens e patrimônio dos últimos 5 anos?"
+         opinion="O comitê fiduciário atesta a consistência da evolução quinquenal dos demonstrativos financeiros."
+         driver="Receita bruta, EBITDA acumulado, lucro líquido e Patrimônio Líquido."
+         implication="Previsibilidade na identificação de ciclos econômicos e tendências de crescimento."
+         action="Acompanhar a evolução anual das taxas compostas de crescimento (CAGR)."
+       >
+         <ExecutiveStrategicTensions tensions={[]} />
+         <ExecutiveDecisionTrace trace={[]} />
+       </ExecutiveSummarySection>
+      </ExecutiveAccordion>
+    </ExecutivePageTemplate>
   );
 }

@@ -1,9 +1,9 @@
-// src/components/institutional-reporting/LineageAppendixDrawer.tsx
-
 import React from 'react';
 import { Fingerprint, Network } from 'lucide-react';
 import { LineageAppendix } from '../../services/FiduciaryRuntimeAdapter';
 import { useLanguage } from '../../contexts/LanguageContext';
+// src/components/institutional-reporting/LineageAppendixDrawer.tsx
+
 
 export function LineageAppendixDrawer({ data }: { data: LineageAppendix }) {
   const { t } = useLanguage();

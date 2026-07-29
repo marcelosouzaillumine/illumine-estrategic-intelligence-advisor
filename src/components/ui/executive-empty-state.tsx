@@ -42,7 +42,7 @@ export function ExecutiveEmptyState({
     >
       {icon && (
         <div className="text-executive-muted flex items-center justify-center [&>svg]:w-10 [&>svg]:h-10">
-          {icon}
+          {React.isValidElement(icon) ? icon : (typeof icon === 'function' || typeof icon === 'object' ? React.createElement(icon as any, { size: 40 }) : null)}
         </div>
       )}
       <div className="flex flex-col items-center gap-3">

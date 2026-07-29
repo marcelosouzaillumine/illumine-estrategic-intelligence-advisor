@@ -1,3 +1,5 @@
+
+
 import React, { useState, useEffect } from 'react';
 import { Activity, ArrowLeftRight, CheckCircle2, AlertTriangle, ShieldCheck, RefreshCw, User, FileText, Database, History, HelpCircle, Clock, Ban, Archive, ChevronRight } from 'lucide-react';
 import { PageHeader, StatusBadge } from '../Common';
@@ -7,8 +9,23 @@ import { ConnectorAuditLogger } from '../../services/FiduciaryRuntimeAdapter';
 import { auth } from '../../lib/firebase';
 import { ImportedDataset, RollbackAuditEntry } from '../../services/FiduciaryRuntimeAdapter';
 import { cn } from '../../lib/utils';
+import { ExecutivePageTemplate } from '../ui/executive-page-template';
+import { ExecutiveSurface } from '../ui/executive-surface';
+import { ExecutiveAccordion } from '../ui/executive-accordion';
+import { ExecutiveEmptyState } from '../ui/executive-empty-state';
+import { ExecutiveHeading } from '../ui/executive-heading';
+import { ExecutiveText } from '../ui/executive-typography';
+import { createPortal } from 'react-dom';
+import { ExecutiveSummarySection } from '../ui/executive-summary-section';
+import { ExecutiveStrategicTensions } from '../ui/executive-strategic-tensions';
+import { ExecutiveDecisionTrace } from '../ui/executive-decision-trace';
+import { usePilotMonitoringDashboardViewModel } from '../../viewmodels/usePilotMonitoringDashboardViewModel';
 
 export function PilotMonitoringDashboard() {
+  // Adapter: usePilotMonitoringDashboardAdapter
+  // ViewModel: usePilotMonitoringDashboardViewModel
+  const { state: vmState, computed: vmComputed, actions: vmActions } = usePilotMonitoringDashboardViewModel({ clientId: '' });
+  const portal = createPortal;
   const [selectedTenant, setSelectedTenant] = useState<string>('TENANT-HQ');
   const [actorId, setActorId] = useState<string>('');
   const [justification, setJustification] = useState<string>('');
@@ -106,35 +123,45 @@ export function PilotMonitoringDashboard() {
   });
 
   return (
-    <div className="max-w-[1440px] mx-auto px-6 lg:px-10 space-y-12 pb-32 animate-executive-fade text-foreground">
-      {/* Page Header */}
-      <PageHeader
-        title="Painel Operacional Piloto"
-        subtitle="Observabilidade de Ingestão Fiduciária, Histórico de Validação de Staging e Console de Rollback Governado."
-        icon={Activity}
-        transparent
-        actions={
-          <div className="flex items-center gap-4 bg-surface-container/60 p-2 rounded-button border border-border shadow-xs">
-            <span className="text-body-sm font-semibold uppercase tracking-wider text-muted-foreground pl-2">Tenant Piloto:</span>
-            <select
-              value={selectedTenant}
-              onChange={(e) => setSelectedTenant(e.target.value)}
-              className="text-body-sm font-bold uppercase tracking-widest bg-transparent cursor-pointer border-none outline-none focus:ring-0 text-secondary"
-            >
-              {availableTenants.map(t => (
-                <option key={t} value={t} className="bg-card text-foreground">{t}</option>
-              ))}
-            </select>
-            <button
-              onClick={handleRefresh}
-              className="p-2 hover:bg-surface-container-high rounded-full transition-colors text-muted-foreground hover:text-secondary"
-              title="Recarregar Dados"
-            >
-              <RefreshCw size={16} />
-            </button>
-          </div>
-        }
-      />
+    <ExecutivePageTemplate header={{
+      title: "Painel Operacional Piloto",
+      description: "Observabilidade de Ingestão Fiduciária, Histórico de Validação de Staging e Console de Rollback Governado.",
+    }}>
+
+      <div className="flex flex-col md:flex-row md:items-center justify-between gap-6 mb-10">
+
+        <div className="flex items-center gap-3">
+          <StatusBadge status="Ativo" label="Ingestão Fiduciária Online" />
+        </div>
+        <div className="flex items-center gap-4 bg-surface-container/60 p-2 rounded-button border border-border shadow-xs shrink-0">
+          <span className="text-body-sm font-semibold uppercase tracking-wider text-muted-foreground pl-2">Tenant Piloto:</span>
+          <select
+            value={selectedTenant}
+            onChange={(e) => setSelectedTenant(e.target.value)}
+            className="text-body-sm font-bold uppercase tracking-widest bg-transparent cursor-pointer border-none outline-none focus:ring-0 text-secondary"
+          >
+            {availableTenants.map(t => (
+              <option key={t} value={t} className="bg-card text-foreground">{t}</option>
+            ))}
+          </select>
+          <button
+            onClick={handleRefresh}
+            className="p-2 hover:bg-surface-container-high rounded-full transition-colors text-muted-foreground hover:text-secondary"
+            title="Recarregar Dados"
+          >
+            <RefreshCw size={16} />
+          </button>
+        </div>
+      
+      </div>
+
+      <div className="mt-12 mb-8 border-t border-border pt-8" />
+      <ExecutiveAccordion
+        title="Monitoramento e Auditoria do Piloto"
+        subtitle="Métricas de integridade, fila de homologação e histórico de rollbacks."
+        variant="analytics"
+        defaultExpanded
+      >
 
       {/* Operational Metrics Cards (Loaded from PilotRollbackProtocol.calculateMetrics, strictly passive) */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-6">
@@ -207,7 +234,7 @@ export function PilotMonitoringDashboard() {
                 <Database size={16} />
               </div>
               <div>
-                <h3 className="text-h3 font-medium tracking-tight">Alfândega de Staging</h3>
+                <ExecutiveHeading as="h3" className="text-h3 font-medium tracking-tight">Alfândega de Staging</ExecutiveHeading>
                 <p className="text-body-sm text-muted-foreground mt-0.5">Fila de datasets ingeridos para {selectedTenant} aguardando governança fiduciária.</p>
               </div>
             </div>
@@ -285,7 +312,7 @@ export function PilotMonitoringDashboard() {
                 <AlertTriangle size={16} />
               </div>
               <div>
-                <h3 className="text-h3 font-medium tracking-tight">Falhas de Ingestão & Bloqueios</h3>
+                <ExecutiveHeading as="h3" className="text-h3 font-medium tracking-tight">Falhas de Ingestão & Bloqueios</ExecutiveHeading>
                 <p className="text-body-sm text-muted-foreground mt-0.5">Logs de tentativas bloqueadas pelas regras rígidas da governança fiduciária.</p>
               </div>
             </div>
@@ -322,7 +349,7 @@ export function PilotMonitoringDashboard() {
                 <History size={16} />
               </div>
               <div>
-                <h3 className="text-h3 font-medium tracking-tight">Rollback Console</h3>
+                <ExecutiveHeading as="h3" className="text-h3 font-medium tracking-tight">Rollback Console</ExecutiveHeading>
                 <p className="text-body-sm text-muted-foreground mt-0.5">Reversão de transações e estado do runtime.</p>
               </div>
             </div>
@@ -459,7 +486,7 @@ export function PilotMonitoringDashboard() {
             <History size={16} />
           </div>
           <div>
-            <h3 className="text-h3 font-medium tracking-tight">Histórico de Reversões (Rollback History)</h3>
+            <ExecutiveHeading as="h3" className="text-h3 font-medium tracking-tight">Histórico de Reversões (Rollback History)</ExecutiveHeading>
             <p className="text-body-sm text-muted-foreground mt-0.5">Logs auditáveis e permanentes de todas as intervenções de governança fiduciária executadas.</p>
           </div>
         </div>
@@ -504,7 +531,19 @@ export function PilotMonitoringDashboard() {
             </table>
           </div>
         )}
+       <ExecutiveSummarySection 
+         status={{ label: 'Piloto Monitorado', variant: 'success' }}
+         question="Como a observabilidade e a telemetria garantem a estabilidade das operações do piloto?"
+         opinion="O comitê fiduciário homologa os protocolos de rollback e a governança de ingestão de dados em staging."
+         driver="Métricas de latência, taxa de erro de ingestão e fila de homologação."
+         implication="Prevenção de regressões e garantia de integridade nas bases operacionais."
+         action="Acompanhar diariamente os alertas de inconsistência para execução proativa de rollback se necessário."
+       >
+         <ExecutiveStrategicTensions tensions={[]} />
+         <ExecutiveDecisionTrace trace={[]} />
+       </ExecutiveSummarySection>
       </div>
-    </div>
+      </ExecutiveAccordion>
+    </ExecutivePageTemplate>
   );
 }

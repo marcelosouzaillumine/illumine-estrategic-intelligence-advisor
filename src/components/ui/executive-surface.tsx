@@ -14,10 +14,10 @@ const variantStyles = {
   primary: 'bg-primary text-primary-foreground border-transparent',
   secondary: 'bg-secondary text-secondary-foreground border-transparent',
   info: 'bg-surface-high text-foreground border border-border',
-  insight: 'bg-insight/10 text-insight-foreground border-transparent',
-  success: 'bg-success/10 text-success-foreground border-transparent',
-  warning: 'bg-warning/10 text-warning-foreground border-transparent',
-  critical: 'bg-critical/10 text-critical-foreground border-transparent',
+  insight: 'bg-insight-soft text-foreground border border-insight/20',
+  success: 'bg-success-soft text-emerald-800 dark:text-emerald-300 border border-success/20',
+  warning: 'bg-warning-soft text-amber-900 dark:text-amber-200 border border-warning/20',
+  critical: 'bg-critical-soft text-rose-900 dark:text-rose-200 border border-critical/20',
   transparent: 'bg-transparent text-foreground border-transparent',
 };
 

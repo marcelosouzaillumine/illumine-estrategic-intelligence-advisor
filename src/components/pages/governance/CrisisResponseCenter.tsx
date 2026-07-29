@@ -1,6 +1,7 @@
+import { ExecutiveHeading } from '../../ui/executive-heading';
+import { ExecutivePageTemplate } from '../../ui/executive-page-template';
 import React from 'react';
 import { Workflow, ShieldAlert } from 'lucide-react';
-import { PageHeader } from '../../Common';
 import { GovernancePlaybookPanel } from '../../governance-orchestration/GovernancePlaybookPanel';
 import { StrategicResponseTimeline } from '../../governance-orchestration/StrategicResponseTimeline';
 import { InstitutionalPriorityBoard } from '../../governance-orchestration/InstitutionalPriorityBoard';
@@ -21,7 +22,7 @@ export function CrisisResponseCenter() {
     return (
       <div className="flex flex-col items-center justify-center min-h-[400px] text-muted-foreground space-y-4">
         <ShieldAlert size={48} className="text-muted-foreground" />
-        <h3 className="text-lg font-bold text-muted-foreground">Monitoramento Nominal</h3>
+        <ExecutiveHeading as="h3" className="text-muted-foreground">Monitoramento Nominal</ExecutiveHeading>
         <p className="text-sm max-w-md text-center">
           Nenhum sinal crítico escalado no momento. A orquestração de resposta a crises (playbooks) permanece em fail-closed.
         </p>
@@ -30,13 +31,7 @@ export function CrisisResponseCenter() {
   }
 
   return (
-    <div className="max-w-[1440px] mx-auto px-6 lg:px-10 space-y-12 pb-32 animate-executive-fade">
-      <PageHeader
-        title="Governance Orchestration & Playbooks"
-        subtitle="Autonomous Governance Coordination: Acionamento supervisionado de playbooks institucionais e orquestração de contingência."
-        icon={Workflow}
-        transparent
-      />
+    <ExecutivePageTemplate header={{ title: "Autonomous Governance Coordination: Acionamento supervisionado de playbooks institucionais e orquestração de contingência.", description: "Autonomous Governance Coordination: Acionamento supervisionado de playbooks institucionais e orquestração de contingência.", icon: Workflow }}>
 
       <GovernancePlaybookPanel tenantId={tenantId} />
 
@@ -57,7 +52,7 @@ export function CrisisResponseCenter() {
           <StrategicResponseTimeline tenantId={tenantId} />
         </div>
       </div>
-    </div>
+    </ExecutivePageTemplate>
   );
 }
 

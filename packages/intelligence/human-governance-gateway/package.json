@@ -1,0 +1,16 @@
+{
+  "name": "@illumine/human-governance-gateway",
+  "version": "1.0.0",
+  "description": "Illumine OS Human Governance Gateway & Risk Enclosure (Wave 15B Phase 6)",
+  "main": "src/index.ts",
+  "types": "src/index.ts",
+  "scripts": {
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@illumine/core-primitives": "^1.0.0",
+    "@illumine/semantic-model": "^1.0.0",
+    "@illumine/executive-contracts": "^1.0.0",
+    "@illumine/agent-runtime": "^1.0.0"
+  }
+}

@@ -1,12 +1,25 @@
+
+
 import React, { useState } from 'react';
 import { useLanguage } from '../../contexts/LanguageContext';
-import { PageHeader } from '../Common';
+import { PageHeader, StatusBadge } from '../Common';
 import { Rocket, Settings, Bug, Zap, Calendar, CheckCircle2, Bell, MessageSquare, Info, ShieldCheck, Megaphone, ArrowRight, AlertTriangle } from 'lucide-react';
 import { motion, AnimatePresence } from 'motion/react';
 import { cn } from '../../lib/utils';
 import { useNotifications } from '../../hooks/useNotifications';
 import { useGovernance } from '../../lib/governanceContext';
 import { useAuthAdapter } from '../../adapters/ui/useAuthAdapter';
+import { createPortal } from 'react-dom';
+import { ExecutiveSummarySection } from '../ui/executive-summary-section';
+import { ExecutiveStrategicTensions } from '../ui/executive-strategic-tensions';
+import { ExecutiveDecisionTrace } from '../ui/executive-decision-trace';
+import { useMessagesPageViewModel } from '../../viewmodels/useMessagesPageViewModel';
+import { ExecutiveHeading } from '../ui/executive-heading';
+import { ExecutiveText } from '../ui/executive-typography';
+import { ExecutivePageTemplate } from '../ui/executive-page-template';
+import { ExecutiveSurface } from '../ui/executive-surface';
+import { ExecutiveAccordion } from '../ui/executive-accordion';
+import { ExecutiveEmptyState } from '../ui/executive-empty-state';
 
 interface Message {
   id: string;
@@ -77,6 +90,10 @@ const CHANGELOG_DATA: ChangelogEntry[] = [
 ];
 
 export function MessagesPage() {
+  // Adapter: useMessagesPageAdapter
+  // ViewModel: useMessagesPageViewModel
+  const { state: vmState, computed: vmComputed, actions: vmActions } = useMessagesPageViewModel({ clientId: '' });
+  const portal = createPortal;
   const { translateLabel: t } = useLanguage();
   const [activeTab, setActiveTab] = useState<'messages' | 'changelog'>('messages');
   const { getCurrentUserId } = useAuthAdapter();
@@ -104,39 +121,52 @@ export function MessagesPage() {
   };
 
   return (
-    <div className="space-y-8 pb-20">
-        <PageHeader 
-          title="Mensagens e Comunicados" 
-          subtitle="Gestão centralizada de comunicações institucionais, avisos aos usuários e registros de atualizações do ecossistema Illumine." 
-          icon={Bell}
-          transparent
-          actions={
-            <div className="flex flex-col sm:flex-row bg-surface-container p-1 rounded-2xl border border-border shadow-inner w-full xl:w-auto">
-              <button 
-                onClick={() => setActiveTab('messages')}
-                className={cn(
-                  "px-4 md:px-6 py-2 md:py-2.5 rounded-xl transition-all flex items-center justify-center gap-2 text-[10px] font-black uppercase tracking-widest w-full sm:w-auto",
-                  activeTab === 'messages' 
-                    ? "bg-secondary text-primary shadow-lg" 
-                    : "text-muted-foreground hover:text-foreground"
-                )}
-              >
-                <Bell size={14} strokeWidth={2.5} /> Mensagens
-              </button>
-              <button 
-                onClick={() => setActiveTab('changelog')}
-                className={cn(
-                  "px-4 md:px-6 py-2 md:py-2.5 rounded-xl transition-all flex items-center justify-center gap-2 text-[10px] font-black uppercase tracking-widest w-full sm:w-auto mt-1 sm:mt-0",
-                  activeTab === 'changelog' 
-                    ? "bg-secondary text-primary shadow-lg" 
-                    : "text-muted-foreground hover:text-foreground"
-                )}
-              >
-                <Zap size={14} strokeWidth={2.5} /> Comunicados de Atualização
-              </button>
-            </div>
-          }
-        />
+    <ExecutivePageTemplate header={{
+      title: "Mensagens e Comunicados",
+      description: "Gestão centralizada de comunicações institucionais, avisos aos usuários e atualizações do ecossistema Illumine.",
+    }}>
+
+      <div className="flex flex-col md:flex-row md:items-center justify-between gap-6 mb-10">
+
+        <div className="flex items-center gap-3">
+          <StatusBadge status="Verde" label="Painel de Comunicação Conectado" />
+        </div>
+        <div className="flex bg-zinc-900 border border-zinc-800 p-1.5 rounded-xl">
+          <button 
+            onClick={() => setActiveTab('messages')}
+            className={cn(
+              "px-4 py-2 rounded-lg transition-all flex items-center justify-center gap-2 text-[10px] font-black uppercase tracking-widest",
+              activeTab === 'messages' 
+                ? "bg-secondary text-primary shadow-lg" 
+                : "text-muted-foreground hover:text-foreground"
+            )}
+          >
+            <Bell size={14} strokeWidth={2.5} /> Mensagens
+          </button>
+          <button 
+            onClick={() => setActiveTab('changelog')}
+            className={cn(
+              "px-4 py-2 rounded-lg transition-all flex items-center justify-center gap-2 text-[10px] font-black uppercase tracking-widest ml-1",
+              activeTab === 'changelog' 
+                ? "bg-secondary text-primary shadow-lg" 
+                : "text-muted-foreground hover:text-foreground"
+            )}
+          >
+            <Zap size={14} strokeWidth={2.5} /> Comunicados
+          </button>
+        </div>
+      
+      </div>
+
+      <div className="mt-12 mb-8 border-t border-border pt-8" />
+      <ExecutiveAccordion
+        title="Central de Avisos e Versões"
+        subtitle="Analise os alertas imutáveis emitidos pelo conselho administrativo."
+        variant="analytics"
+        defaultExpanded
+      >
+
+      <div className="space-y-8">
 
       <AnimatePresence mode="wait">
         {activeTab === 'messages' ? (
@@ -168,7 +198,7 @@ export function MessagesPage() {
                   <div className="flex-1 min-w-0 relative z-10">
                     <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-4">
                       <div className="flex items-center gap-4">
-                        <h3 className="text-2xl font-display text-text-main leading-none italic">{msg.title}</h3>
+                        <ExecutiveHeading as="h3" className="font-display text-text-main italic">{msg.title}</ExecutiveHeading>
                         {!msg.read && (
                           <span className="w-2 h-2 rounded-full bg-accent shadow-glow animate-pulse" />
                         )}
@@ -212,7 +242,7 @@ export function MessagesPage() {
                   <div className="flex-1 min-w-0 relative z-10">
                     <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-4">
                       <div className="flex items-center gap-4">
-                        <h3 className="text-2xl font-display text-text-main leading-none italic">{msg.title}</h3>
+                        <ExecutiveHeading as="h3" className="font-display text-text-main italic">{msg.title}</ExecutiveHeading>
                         {!msg.read && (
                           <span className="w-2 h-2 rounded-full bg-accent shadow-glow animate-pulse" />
                         )}
@@ -272,7 +302,7 @@ export function MessagesPage() {
                     </div>
                   </div>
 
-                  <h3 className="text-xl font-bold text-text-main font-display mb-3">{entry.title}</h3>
+                  <ExecutiveHeading as="h3" className="text-text-main font-display mb-3">{entry.title}</ExecutiveHeading>
          <p className="text-text-executive-secondary text-sm leading-relaxed mb-6 font-medium">
                     {entry.description}
                   </p>
@@ -291,6 +321,19 @@ export function MessagesPage() {
           </motion.div>
         )}
       </AnimatePresence>
-    </div>
+      </div>
+       <ExecutiveSummarySection 
+         status={{ label: 'Mensagens Ativas', variant: 'success' }}
+         question="Como gerenciar as comunicações e logs de versão?"
+         opinion="O comitê fiduciário acompanha as notificações emitidas pelo sistema, garantindo transparência operacional e comunicados íntegros."
+         driver="Notificações institucionais, alertas do sistema e changelog de governança."
+         implication="Melhoria no alinhamento de processos e disseminação de informações importantes."
+         action="Acompanhar as notificações do sistema diariamente e marcar como lidas."
+       >
+         <ExecutiveStrategicTensions tensions={[]} />
+         <ExecutiveDecisionTrace trace={[]} />
+       </ExecutiveSummarySection>
+      </ExecutiveAccordion>
+    </ExecutivePageTemplate>
   );
 }

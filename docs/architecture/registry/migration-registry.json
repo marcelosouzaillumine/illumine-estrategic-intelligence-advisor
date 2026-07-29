@@ -1,0 +1,101 @@
+{
+  "version": "1.1.0",
+  "updatedAt": "2026-07-29T10:10:00.000Z",
+  "migratedPages": [
+    {
+      "page": "PayablesPage.tsx",
+      "status": "Migrated",
+      "phase": "Fase 1",
+      "canonical": true,
+      "commonImports": 0,
+      "boundaryDelta": 0,
+      "typecheck": "passed",
+      "tests": "passed",
+      "cami": 93.1,
+      "migrationDate": "2026-07-28"
+    },
+    {
+      "page": "ReceivablesPage.tsx",
+      "status": "Migrated",
+      "phase": "Fase 1",
+      "canonical": true,
+      "commonImports": 0,
+      "boundaryDelta": 0,
+      "typecheck": "passed",
+      "tests": "passed",
+      "cami": 93.1,
+      "migrationDate": "2026-07-28"
+    },
+    {
+      "page": "EFOSPage.tsx",
+      "status": "Migrated",
+      "phase": "Fase 1",
+      "canonical": true,
+      "commonImports": 0,
+      "boundaryDelta": 0,
+      "typecheck": "passed",
+      "tests": "passed",
+      "cami": 93.1,
+      "migrationDate": "2026-07-28"
+    },
+    {
+      "page": "MarketingComercialPage.tsx",
+      "status": "Migrated",
+      "phase": "Fase 1",
+      "canonical": true,
+      "commonImports": 0,
+      "boundaryDelta": 0,
+      "typecheck": "passed",
+      "tests": "passed",
+      "cami": 93.1,
+      "migrationDate": "2026-07-28"
+    },
+    {
+      "page": "PlanoDeContasPage.tsx",
+      "status": "Migrated",
+      "phase": "Fase 1",
+      "canonical": true,
+      "commonImports": 0,
+      "boundaryDelta": 0,
+      "typecheck": "passed",
+      "tests": "passed",
+      "cami": 93.1,
+      "migrationDate": "2026-07-28"
+    },
+    {
+      "page": "TaxReformImpactPage.tsx",
+      "status": "Migrated",
+      "phase": "Fase 1",
+      "canonical": true,
+      "commonImports": 0,
+      "boundaryDelta": 0,
+      "typecheck": "passed",
+      "tests": "passed",
+      "cami": 93.1,
+      "domainAnalysis": {
+        "engine": "taxIntelligence.ts",
+        "adapter": "TaxReformAdapter.ts",
+        "viewModel": "useTaxReformImpactPageViewModel.ts",
+        "sharedDependencies": ["DRE", "BP"]
+      },
+      "migrationDate": "2026-07-29"
+    },
+    {
+      "page": "ViabilityPage.tsx",
+      "status": "Migrated",
+      "phase": "Fase 1",
+      "canonical": true,
+      "commonImports": 0,
+      "boundaryDelta": 0,
+      "typecheck": "passed",
+      "tests": "passed",
+      "cami": 93.1,
+      "domainAnalysis": {
+        "engine": "utils.ts (VPL/TIR/Payback)",
+        "viewModel": "useViabilityPageViewModel.ts",
+        "sharedDependencies": ["CAPEX", "Projeções Financeiras"]
+      },
+      "migrationDate": "2026-07-29"
+    }
+  ]
+}

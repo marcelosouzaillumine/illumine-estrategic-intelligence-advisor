@@ -1,30 +1,33 @@
+import { ExecutiveText } from '../ui/executive-typography';
+import { ExecutiveHeading } from '../ui/executive-heading';
 import React, { useMemo } from 'react';
 import { ShieldCheck, TrendingUp, BarChart3, Scale, WalletCards, AlertCircle, CheckCircle2, PieChart as PieIcon, Zap, MessageSquare, Landmark, Calendar, Target, ArrowUpRight, Activity, ShieldAlert, AlertTriangle } from 'lucide-react';
 import { motion } from 'motion/react';
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, Cell, Legend } from 'recharts';
 import { cn, formatValue, formatCurrency, getThemeColors } from '../../lib/utils';
 import { PageHeader, ControlBar } from '../Common';
+import { ExecutivePageTemplate } from '../ui/executive-page-template';
+import { ExecutiveSurface } from '../ui/executive-surface';
+import { ExecutiveAccordion } from '../ui/executive-accordion';
 import { ExecutiveMetricCard } from '../ui/executive-metric-card';
-
+import { ExecutiveBadge } from '../ui/executive-badge';
+import { ExecutiveTechnicalLayer } from '../ui/executive-technical-layer';
 import { useInstitutionalContext } from '../../hooks/useInstitutionalContext';
 import { DataAccessContext } from '../../core/security/data-access-context';
 import { governanceService } from '../../services/governanceService';
 import { getFinancialEntries, getBudgets } from '../../services/cashFlowService';
+import { createPortal } from 'react-dom';
+import { ExecutiveSummarySection } from '../ui/executive-summary-section';
+import { ExecutiveStrategicTensions } from '../ui/executive-strategic-tensions';
+import { ExecutiveDecisionTrace } from '../ui/executive-decision-trace';
+import { useControladoriaViewModel } from '../../viewmodels/useControladoriaViewModel';
 
 interface ControladoriaPageProps {
   clientId: string;
 }
 
-const getValueSizeClass = (maxLen: number) => {
-  if (maxLen > 22) return "text-[clamp(0.6rem,1vw,0.75rem)]";
-  if (maxLen > 18) return "text-[clamp(0.7rem,1.2vw,0.9rem)]";
-  if (maxLen > 15) return "text-[clamp(0.85rem,1.4vw,1.1rem)]";
-  if (maxLen > 12) return "text-[clamp(1rem,1.7vw,1.35rem)]";
-  if (maxLen > 10) return "text-[clamp(1.2rem,2vw,1.7rem)]";
-  return "text-[clamp(1.6rem,2.5vw,2.3rem)]";
-};
-
 export function ControladoriaPage({ clientId }: ControladoriaPageProps) {
+  const { state, computed, actions } = useControladoriaViewModel({ clientId });
   const [dbIndicators, setDbIndicators] = React.useState<any[]>([]);
   const [budgets, setBudgets] = React.useState<any[]>([]);
   const [actuals, setActuals] = React.useState<any[]>([]);
@@ -32,15 +35,7 @@ export function ControladoriaPage({ clientId }: ControladoriaPageProps) {
   const [selectedYear, setSelectedYear] = React.useState(new Date().getFullYear());
   const [selectedMonth, setSelectedMonth] = React.useState(new Date().getMonth() + 1);
 
-  const [, setThemeTrigger] = React.useState(0);
-  React.useEffect(() => {
-    const handleThemeChange = () => setThemeTrigger(prev => prev + 1);
-    window.addEventListener('theme-changed', handleThemeChange);
-    return () => window.removeEventListener('theme-changed', handleThemeChange);
-  }, []);
-
   const colors = getThemeColors();
-
   const institutionalContext = useInstitutionalContext();
   const [accessDenied, setAccessDenied] = React.useState(false);
   const [denialReason, setDenialReason] = React.useState('');
@@ -114,7 +109,6 @@ export function ControladoriaPage({ clientId }: ControladoriaPageProps) {
 
   const hasData = dbIndicators.length > 0 || budgets.length > 0;
 
-  // Comparison Logic
   const deviationRows = useMemo(() => {
     const rows: any[] = [];
     budgets.forEach(b => {
@@ -136,46 +130,40 @@ export function ControladoriaPage({ clientId }: ControladoriaPageProps) {
   const totalPlanned = budgets.reduce((acc, curr) => acc + curr.valor, 0);
   const totalRealized = actuals.reduce((acc, curr) => acc + curr.value, 0);
   const adherenceScore = totalPlanned > 0 ? Math.max(0, 100 - Math.abs(Math.round(((totalRealized - totalPlanned) / totalPlanned) * 100))) : 0;
-  const complianceScore = 95; // Indicador de conformidade de processos corporativos
+  const complianceScore = 95;
 
   const bvaData = useMemo(() => {
-    // Current month comparison
     return [
       { name: 'Mês Ref.', planejado: totalPlanned, realizado: totalRealized }
     ];
   }, [totalPlanned, totalRealized]);
 
   const indicators = useMemo(() => [
-    { label: 'Aderência Orçamentária', value: adherenceScore, suffix: '%', status: 'neutral', target: 98.0, icon: Scale, trend: 'Calculado' },
-    { label: 'Margem EBITDA Realizada', value: getIndicatorValue('Margem EBITDA', 0), suffix: '%', status: 'positive', target: 20.0, icon: TrendingUp, trend: 'Real' },
-    { label: 'Burn Rate Mensal', value: getIndicatorValue('Burn Rate', 0), isCur: true, status: 'positive', target: 150000, icon: WalletCards, trend: 'Mensal' },
-    { label: 'Índice de Alavancagem', value: getIndicatorValue('Alavancagem', 0), suffix: 'x', status: 'positive', target: 2.5, icon: Landmark, trend: 'Estável' }
+    { label: 'Aderência Orçamentária', value: `${adherenceScore}%`, statusBadge: <ExecutiveBadge variant={adherenceScore >= 90 ? "success" : "warning"}>{adherenceScore >= 90 ? "Eficiente" : "Atenção"}</ExecutiveBadge>, trend: 'Calculado' },
+    { label: 'Margem EBITDA Realizada', value: `${getIndicatorValue('Margem EBITDA', 0)}%`, statusBadge: <ExecutiveBadge variant="success">Real</ExecutiveBadge>, trend: 'Realizado' },
+    { label: 'Burn Rate Mensal', value: formatCurrency(getIndicatorValue('Burn Rate', 0)), statusBadge: <ExecutiveBadge variant="info">Mensal</ExecutiveBadge>, trend: 'Gasto Mensal' },
+    { label: 'Índice de Alavancagem', value: `${getIndicatorValue('Alavancagem', 0)}x`, statusBadge: <ExecutiveBadge variant="neutral">Estável</ExecutiveBadge>, trend: 'Solvência' }
   ], [dbIndicators, adherenceScore]);
 
   if (accessDenied) {
     return (
-      <div className="flex flex-col items-center justify-center min-h-[600px] space-y-8 animate-executive-fade bg-background border border-destructive/20 rounded-md p-20 text-center w-full">
-         <div className="w-24 h-24 rounded-full bg-critical-soft flex items-center justify-center text-destructive shadow-xl relative">
-            <AlertTriangle size={48} className="relative z-10" />
+      <ExecutiveSurface padding="xl" radius="xl" className="flex flex-col items-center justify-center min-h-[400px] text-center w-full border-critical/20">
+         <div className="w-20 h-20 rounded-full bg-critical-soft flex items-center justify-center text-critical mb-4">
+            <AlertTriangle size={40} />
          </div>
-         <div className="text-center space-y-4 w-full max-w-2xl mx-auto">
-            <h2 className="text-h2 font-medium text-destructive tracking-tight">Acesso Institucional Negado</h2>
-      <p className="text-executive-secondary w-full max-w-2xl mx-auto font-medium leading-relaxed">
-              {denialReason}
-            </p>
-         </div>
-      </div>
+         <ExecutiveHeading as="h3" className="text-critical mb-2">Acesso Institucional Negado</ExecutiveHeading>
+         <p className="text-sm text-executive-secondary max-w-lg mb-4">
+           {denialReason}
+         </p>
+      </ExecutiveSurface>
     );
   }
 
   return (
-    <div className="max-w-[1440px] mx-auto space-y-10 pb-32">
-      <PageHeader 
-        title="Controladoria Estratégica" 
-        subtitle="Auditoria de processos e monitoramento de aderência orçamentária para máxima eficiência operacional."
-        icon={Scale}
-        color="executive"
-      />
+    <ExecutivePageTemplate header={{
+      title: "Controladoria Estratégica",
+      description: "Auditoria de processos e monitoramento de aderência orçamentária para máxima eficiência operacional.",
+    }}>
 
       {/* Control Bar */}
       <ControlBar 
@@ -187,218 +175,174 @@ export function ControladoriaPage({ clientId }: ControladoriaPageProps) {
         statusBadgeLabel="Auditoria & Compliance Ativo"
       />
 
+      {/* --- CAMADA 1: NÍVEL CONSELHO (SÍNTESE DE CONTROLADORIA E COMPLIANCE) --- */}
+      <ExecutiveSummarySection 
+        className="mt-8 mb-8"
+        status={{ label: 'Orçamento Monitorado', variant: 'success' }}
+        question="Como garantir o cumprimento do orçamento aprovado e evitar desvios operacionais?"
+        opinion="O comitê fiduciário homologa a análise de desvios orçamentários, atestando a integridade dos controles de conciliação e compliance."
+        driver="Orçamento vs. Realizado, índice de conformidade e desvios por centro de custo."
+        implication="Preservação da margem EBITDA projetada e contenção de vazamentos operacionais."
+        action="Exigir justificativa da diretoria para variações acima de 5% em despesas de overhead e alinhar contingências."
+      >
+        <ExecutiveStrategicTensions tensions={[]} />
+        <ExecutiveDecisionTrace trace={[]} />
+      </ExecutiveSummarySection>
 
-      {/* Corporate Health Mini-Header - Hidden if no data */}
+      {/* --- CAMADA 2: DIRETORIA & SCORE DE ADERÊNCIA --- */}
       {hasData && (
-        <div className="card-premium p-10 flex flex-col md:flex-row items-center justify-between gap-10 relative overflow-hidden group">
-          <div className="absolute top-0 left-0 w-1 bg-secondary h-full shadow-sm" />
-          <div className="flex items-center gap-8 relative z-10">
-            <div className="w-20 h-20 rounded-md bg-secondary/5 flex items-center justify-center text-secondary shadow-inner group-hover:scale-105 transition-transform">
-              <Scale size={40} />
-            </div>
-            <div>
-              <h3 className="text-[10px] font-medium text-muted-foreground uppercase tracking-[0.2em] mb-2">Score de Aderência Orçamentária</h3>
-              <div className="flex items-center gap-4 whitespace-nowrap overflow-visible">
-                <span className="text-5xl font-medium text-foreground tracking-tighter tabular-nums">{adherenceScore}%</span>
-                <span className={cn(
-                  "text-[9px] font-medium uppercase tracking-widest px-4 py-1.5 rounded-sm border shadow-sm",
-                  adherenceScore >= 90 ? "text-success bg-success-soft border-success/20" : "text-warning bg-warning-soft border-warning/20"
-                )}>
-                  {adherenceScore >= 90 ? 'Eficiente' : 'Atenção'}
-                </span>
+        <div className="space-y-8 mb-10">
+          <ExecutiveSurface padding="xl" radius="xl" className="bg-card border border-border shadow-sm">
+            <div className="flex flex-col md:flex-row items-center justify-between gap-8">
+              <div className="flex items-center gap-6">
+                <div className="w-16 h-16 rounded-2xl bg-primary/10 border border-primary/20 flex items-center justify-center text-primary">
+                  <Scale size={32} />
+                </div>
+                <div>
+                  <ExecutiveHeading as="h3" className="text-foreground mb-1">Score de Aderência Orçamentária</ExecutiveHeading>
+                  <div className="flex items-center gap-4">
+                    <span className="text-4xl font-black text-foreground font-mono">{adherenceScore}%</span>
+                    <ExecutiveBadge variant={adherenceScore >= 90 ? "success" : "warning"}>
+                      {adherenceScore >= 90 ? 'Eficiente' : 'Atenção'}
+                    </ExecutiveBadge>
+                  </div>
+                </div>
+              </div>
+
+              <div className="flex-1 max-w-lg w-full">
+                <div className="flex justify-between text-xs font-bold text-muted-foreground mb-2">
+                  <span>Conformidade de Processos</span>
+                  <span className="text-primary">{complianceScore}%</span>
+                </div>
+                <div className="h-3 bg-surface-container rounded-full overflow-hidden border border-border">
+                  <motion.div 
+                    initial={{ width: 0 }}
+                    animate={{ width: `${complianceScore}%` }}
+                    transition={{ duration: 1.5, ease: "circOut" }}
+                    className="h-full bg-primary"
+                  />
+                </div>
               </div>
             </div>
-          </div>
-          <div className="flex-1 max-w-lg w-full relative z-10">
-            <div className="flex justify-between text-[9px] font-medium uppercase tracking-[0.2em] text-muted-foreground mb-3">
-              <span>Conformidade de Processos</span>
-              <span className="text-secondary">{complianceScore}%</span>
-            </div>
-            <div className="h-3 bg-surface-container rounded-sm overflow-hidden shadow-inner border border-border">
-              <motion.div 
-                initial={{ width: 0 }}
-                animate={{ width: `${complianceScore}%` }}
-                transition={{ duration: 1.5, ease: "circOut" }}
-                className="h-full bg-secondary shadow-premium"
+          </ExecutiveSurface>
+
+          {/* Cards de Métricas */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-6">
+            {indicators.map((kpi, idx) => (
+              <ExecutiveMetricCard 
+                key={idx}
+                label={kpi.label}
+                value={kpi.value}
+                statusBadge={kpi.statusBadge}
+                tone="neutral"
+                description={<span className="text-xs text-muted-foreground font-medium">{kpi.trend}</span>}
+                className="bg-card border border-border shadow-sm h-full"
               />
-            </div>
+            ))}
+          </div>
+
+          {/* Chart & Insights */}
+          <div className="grid grid-cols-1 xl:grid-cols-3 gap-8">
+            <ExecutiveSurface padding="xl" radius="xl" className="xl:col-span-2 bg-card border border-border shadow-sm">
+              <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-8 gap-4">
+                <div>
+                  <ExecutiveHeading as="h3" className="text-foreground flex items-center gap-2">
+                    <BarChart3 size={20} className="text-primary" /> Budget vs Realizado
+                  </ExecutiveHeading>
+                  <ExecutiveText as="div" variant="caption" className="text-muted-foreground mt-1">Análise de desvios orçamentários (YTD)</ExecutiveText>
+                </div>
+              </div>
+              <div className="h-[280px] w-full">
+                <ResponsiveContainer width="100%" height="100%">
+                  <BarChart data={bvaData}>
+                    <CartesianGrid strokeDasharray="3 3" vertical={false} stroke={colors.border} opacity={0.3} />
+                    <XAxis dataKey="name" axisLine={false} tickLine={false} tick={{ fontSize: 10, fill: colors.mutedForeground }} />
+                    <YAxis axisLine={false} tickLine={false} tick={{ fontSize: 10, fill: colors.mutedForeground }} tickFormatter={(v) => `R$${v / 1000}k`} />
+                    <Tooltip 
+                      contentStyle={{ backgroundColor: colors.cardBg, borderRadius: '8px', border: `1px solid ${colors.border}`, color: colors.cardFg, fontSize: '11px' }}
+                      formatter={(value: number) => formatCurrency(value)}
+                    />
+                    <Legend wrapperStyle={{ paddingTop: '16px', fontSize: '10px' }} />
+                    <Bar name="Planejado" dataKey="planejado" fill={colors.primary} radius={[4, 4, 0, 0]} barSize={28} opacity={0.65} />
+                    <Bar name="Realizado" dataKey="realizado" fill={colors.secondary} radius={[4, 4, 0, 0]} barSize={28} />
+                  </BarChart>
+                </ResponsiveContainer>
+              </div>
+            </ExecutiveSurface>
+
+            <ExecutiveSurface padding="xl" radius="xl" className="bg-card border border-border shadow-sm flex flex-col justify-between">
+              <div>
+                <ExecutiveHeading as="h3" className="text-foreground mb-4 flex items-center gap-2">
+                  <MessageSquare size={18} className="text-primary" /> Insights de Controladoria
+                </ExecutiveHeading>
+                <div className="space-y-4">
+                  {[
+                    "Investigar desvios orçamentários significativos em relação ao budget planejado.",
+                    "Antecipar revisão orçamentária do semestre considerando as novas premissas.",
+                    "Auditar processos de compras críticos para garantir conformidade de processos."
+                  ].map((rec, i) => (
+                    <div key={i} className="flex gap-3">
+                      <span className="w-6 h-6 rounded-full bg-surface-container flex items-center justify-center text-xs font-bold text-primary shrink-0 border border-border">
+                        {i + 1}
+                      </span>
+                      <ExecutiveText as="div" variant="bodyStandard" className="text-foreground/80 text-xs">
+                        {rec}
+                      </ExecutiveText>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </ExecutiveSurface>
           </div>
         </div>
       )}
 
-      <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-2 2xl:grid-cols-4 gap-6">
-        {indicators.map((kpi, idx) => (
-          <ExecutiveMetricCard density="analytical" key={idx}
-            label={kpi.label}
-            value={formatValue(kpi.value, '')}
-            suffix={kpi.isCur ? 'R$' : kpi.suffix || ''}
-            icon={kpi.icon}
-            tone={kpi.status === "positive" ? "success" : kpi.status === "negative" ? "critical" : "warning"}
-            description={kpi.trend}
-          />
-        ))}
-      </div>
-
-      <div className="grid grid-cols-1 xl:grid-cols-3 gap-8">
-         {/* BvA Chart */}
-         <div className="xl:col-span-2 card-premium p-10 relative overflow-hidden">
-            <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-10 gap-6 relative z-10">
-               <div>
-                 <h3 className="text-[10px] font-medium text-foreground uppercase tracking-[0.2em] flex items-center gap-3">
-                    <BarChart3 size={20} className="text-secondary" /> Budget vs Realizado
-                 </h3>
-         <p className="text-[9px] font-medium text-executive-secondary uppercase tracking-widest mt-1 italic">Análise de desvios orçamentários (YTD)</p>
-               </div>
-               <div className="flex items-center gap-6 text-[9px] font-medium uppercase tracking-widest">
-                  <div className="flex items-center gap-2 text-muted-foreground/40">
-                     <div className="w-2.5 h-2.5 bg-surface-container rounded-sm border border-border shadow-inner" /> Planejado
-                  </div>
-                  <div className="flex items-center gap-2 text-secondary">
-                     <div className="w-2.5 h-2.5 bg-secondary rounded-sm shadow-premium" /> Realizado
-                  </div>
-               </div>
-            </div>
-            <div className="h-[300px] w-full relative z-10">
-               <ResponsiveContainer width="100%" height="100%">
-                  <BarChart data={bvaData}>
-                    <CartesianGrid strokeDasharray="3 3" vertical={false} stroke={colors.border} opacity={0.3} />
-                    <XAxis dataKey="name" axisLine={false} tickLine={false} tick={{ fontSize: 9, fill: colors.mutedForeground, fontWeight: 500, letterSpacing: '0.1em' }} />
-                    <YAxis axisLine={false} tickLine={false} tick={{ fontSize: 9, fill: colors.mutedForeground, fontWeight: 500 }} tickFormatter={(v) => `R$${v / 1000}k`} />
-                    <Tooltip 
-                      contentStyle={{ backgroundColor: colors.cardBg, borderRadius: '4px', border: `1px solid ${colors.border}`, color: colors.cardFg, boxShadow: 'var(--shadow-premium)', fontSize: '10px', textTransform: 'uppercase', letterSpacing: '0.1em' }}
-                      itemStyle={{ fontWeight: 600 }}
-                      formatter={(value: number) => formatCurrency(value)}
-                    />
-                    <Legend iconType="rect" wrapperStyle={{ paddingTop: '20px', fontSize: '9px', fontWeight: 500, textTransform: 'uppercase', letterSpacing: '0.1em', opacity: 0.6 }} />
-                    <Bar name="Planejado" dataKey="planejado" fill={colors.primary} radius={[2, 2, 0, 0]} barSize={32} opacity={0.65} />
-                    <Bar name="Realizado" dataKey="realizado" fill={colors.secondary} radius={[2, 2, 0, 0]} barSize={32} />
-                  </BarChart>
-               </ResponsiveContainer>
-            </div>
-         </div>
-
-         {/* Recommendations - Hidden if no data */}
-         {hasData && (
-            <div className="bg-executive p-10 rounded-md text-white shadow-premium relative overflow-hidden group border border-white/5">
-               <div className="absolute right-0 top-0 p-8 text-secondary/5 group-hover:text-secondary/10 transition-colors opacity-10 shadow-inner">
-                  <Zap size={160} strokeWidth={1} />
-               </div>
-               <div className="relative z-10 flex flex-col h-full justify-between gap-12">
-                  <div className="space-y-8">
-                     <h3 className="text-[10px] font-medium text-secondary uppercase tracking-[0.2em] flex items-center gap-3 shadow-sm">
-                        <MessageSquare size={20} /> Insights de Controladoria
-                     </h3>
-                     <div className="space-y-6">
-                        {[
-                          "Investigar desvios orçamentários significativos em relação ao budget planejado.",
-                          "Antecipar revisão orçamentária do semestre considerando as novas premissas.",
-                          "Auditar processos de compras críticos para garantir conformidade de processos."
-                        ].map((rec, i) => (
-                          <div key={i} className="flex gap-5 group cursor-default">
-                             <div className="w-10 h-10 rounded-sm bg-white/10 border border-white/10 flex items-center justify-center text-secondary font-medium text-[10px] shrink-0 group-hover:bg-secondary group-hover:text-white transition-all shadow-inner">
-                                {i + 1}
-                             </div>
-                             <p className="text-[11px] font-medium text-white/60 uppercase tracking-widest italic leading-relaxed group-hover:text-white transition-colors py-2">
-                                {rec}
-                             </p>
-                          </div>
-                        ))}
-                     </div>
-                  </div>
-                  <button className="btn-executive w-full bg-white/5 hover:bg-white/10 border border-white/10 uppercase shadow-sm">
-                     <Activity size={14} /> Gerar Relatório de Auditoria
-                  </button>
-               </div>
-            </div>
-         )}
-      </div>
-
-      {/* Budget Deviation Table - Hidden if no data */}
+      {/* --- CAMADA 3: CAMADA TÉCNICA E DETALHAMENTO CONTÁBIL --- */}
       {hasData && deviationRows.length > 0 && (
-        <div className="space-y-6">
-          <div className="flex items-center justify-between px-4">
-            <div className="flex items-center gap-4">
-              <div className="w-12 h-12 rounded-md bg-surface-container flex items-center justify-center text-secondary shadow-inner border border-border">
-                <ShieldAlert size={24} />
-              </div>
-              <div>
-                <h2 className="text-xl font-medium text-foreground tracking-tight uppercase">Monitoramento de Desvios Orçamentários</h2>
-        <p className="text-[9px] font-medium text-executive-secondary uppercase tracking-widest italic mt-1">Relação de itens com maior variação vs. budget</p>
-              </div>
-            </div>
-            <div className="flex items-center gap-4">
-              <div className="flex items-center gap-2 text-[8px] font-medium uppercase tracking-widest text-muted-foreground/60 shadow-sm">
-                 <div className="w-2.5 h-2.5 rounded-sm bg-warning" /> Alerta ({'>'}90%)
-              </div>
-              <div className="flex items-center gap-2 text-[8px] font-medium uppercase tracking-widest text-muted-foreground/60 shadow-sm">
-                 <div className="w-2.5 h-2.5 rounded-sm bg-destructive" /> Crítico ({'>'}100%)
-              </div>
-            </div>
-          </div>
-
-          <div className="card-premium overflow-hidden">
+        <ExecutiveTechnicalLayer
+          title="Camada Técnica de Desvios Orçamentários"
+          subtitle="Monitoramento Analítico de Itens com Maior Variação"
+          description="Detalhamento contábil dos desvios entre valores planejados e realizados por centro de custo."
+          className="mb-8"
+        >
+          <ExecutiveSurface padding="none" radius="xl" className="overflow-hidden border-border bg-card shadow-sm">
             <div className="overflow-x-auto">
-              <table className="w-full text-sm min-w-[800px]">
+              <table className="w-full text-sm">
                 <thead>
-                  <tr className="bg-surface-container/50 border-b border-border">
-                    <th className="text-left py-6 px-10 text-[9px] font-medium text-muted-foreground uppercase tracking-[0.2em]">Item de Custo</th>
-                    <th className="text-right py-6 px-10 text-[9px] font-medium text-muted-foreground uppercase tracking-[0.2em]">Budget Planejado</th>
-                    <th className="text-right py-6 px-10 text-[9px] font-medium text-muted-foreground uppercase tracking-[0.2em]">Valor Realizado</th>
-                    <th className="text-right py-6 px-10 text-[9px] font-medium text-muted-foreground uppercase tracking-[0.2em]">Índice de Uso</th>
-                    <th className="text-center py-6 px-10 text-[9px] font-medium text-muted-foreground uppercase tracking-[0.2em]">Status</th>
+                  <tr className="bg-surface-container/30 border-b border-border">
+                    <th className="text-left py-4 px-6 text-xs font-bold text-muted-foreground uppercase tracking-widest">Item de Custo</th>
+                    <th className="text-right py-4 px-6 text-xs font-bold text-muted-foreground uppercase tracking-widest">Budget Planejado</th>
+                    <th className="text-right py-4 px-6 text-xs font-bold text-muted-foreground uppercase tracking-widest">Valor Realizado</th>
+                    <th className="text-right py-4 px-6 text-xs font-bold text-muted-foreground uppercase tracking-widest">Índice de Uso</th>
+                    <th className="text-center py-4 px-6 text-xs font-bold text-muted-foreground uppercase tracking-widest">Status</th>
                   </tr>
                 </thead>
                 <tbody className="divide-y divide-border">
                   {deviationRows.map((row: any, i: number) => (
-                    <tr key={i} className="hover:bg-surface-container/30 transition-colors group">
-                      <td className="py-6 px-10">
-                        <div className="flex items-center gap-4">
-                          <div className={cn(
-                            "w-1 h-8 rounded-sm shadow-sm",
-                            row.indice > 100 ? "bg-destructive" : row.indice > 90 ? "bg-warning" : "bg-success"
-                          )} />
-                          <span className="font-medium text-foreground group-hover:text-secondary transition-colors uppercase tracking-tighter">{row.item}</span>
-                        </div>
+                    <tr key={i} className="hover:bg-surface-container/30 transition-colors">
+                      <td className="py-4 px-6">
+                        <span className="font-bold text-foreground">{row.item}</span>
                       </td>
-                      <td className="py-6 px-10 text-right text-muted-foreground/60 font-medium tabular-nums">{formatCurrency(row.planejado)}</td>
-                      <td className="py-6 px-10 text-right font-medium text-foreground tabular-nums tracking-tighter">{formatCurrency(row.realizado)}</td>
-                      <td className="py-6 px-10 text-right">
-                        <div className="flex items-center justify-end gap-3">
-                           <span className={cn(
-                             "text-lg font-medium tabular-nums tracking-tighter",
-                             row.indice > 100 ? "text-destructive" : row.indice > 90 ? "text-warning" : "text-success"
-                           )}>{row.indice}%</span>
-                        </div>
+                      <td className="py-4 px-6 text-right text-muted-foreground font-mono">{formatCurrency(row.planejado)}</td>
+                      <td className="py-4 px-6 text-right font-bold font-mono text-foreground">{formatCurrency(row.realizado)}</td>
+                      <td className="py-4 px-6 text-right font-mono font-bold">
+                        <span className={cn(
+                          row.indice > 100 ? "text-critical" : row.indice > 90 ? "text-warning" : "text-success"
+                        )}>{row.indice}%</span>
                       </td>
-                      <td className="py-6 px-10">
-                        <div className="flex justify-center">
-                          {row.realizado === 0 ? (
-                            <div className="flex items-center gap-2 px-4 py-1.5 rounded-sm bg-surface-container text-muted-foreground border border-border text-[8px] font-medium uppercase tracking-widest shadow-sm">
-                              Pendente
-                            </div>
-                          ) : row.indice > 100 ? (
-                            <div className="flex items-center gap-2 px-4 py-1.5 rounded-sm bg-critical-soft text-destructive border border-destructive/20 text-[8px] font-medium uppercase tracking-widest animate-pulse shadow-sm">
-                              <ShieldAlert size={12} /> Crítico
-                            </div>
-                          ) : row.indice > 90 ? (
-                            <div className="flex items-center gap-2 px-4 py-1.5 rounded-sm bg-warning-soft text-warning border border-warning/20 text-[8px] font-medium uppercase tracking-widest shadow-sm">
-                              <AlertCircle size={12} /> Alerta
-                            </div>
-                          ) : (
-                            <div className="flex items-center gap-2 px-4 py-1.5 rounded-sm bg-success-soft text-success border border-success/20 text-[8px] font-medium uppercase tracking-widest shadow-sm">
-                              <CheckCircle2 size={12} /> Saudável
-                            </div>
-                          )}
-                        </div>
+                      <td className="py-4 px-6 text-center">
+                        <ExecutiveBadge variant={row.realizado === 0 ? "neutral" : row.indice > 100 ? "critical" : row.indice > 90 ? "warning" : "success"}>
+                          {row.realizado === 0 ? "Pendente" : row.indice > 100 ? "Crítico" : row.indice > 90 ? "Alerta" : "Saudável"}
+                        </ExecutiveBadge>
                       </td>
                     </tr>
                   ))}
                 </tbody>
               </table>
             </div>
-          </div>
-        </div>
+          </ExecutiveSurface>
+        </ExecutiveTechnicalLayer>
       )}
-    </div>
+    </ExecutivePageTemplate>
   );
 }

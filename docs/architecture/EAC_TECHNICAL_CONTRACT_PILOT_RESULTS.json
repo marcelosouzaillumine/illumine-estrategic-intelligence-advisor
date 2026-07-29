@@ -1,0 +1,96 @@
+{
+  "timestamp": "2026-07-10T14:23:04.107Z",
+  "status": "TECHNICALLY VALIDATED",
+  "components": {
+    "InstitutionalPatternMap": {
+      "scannerResult": "technical-evidence",
+      "visualQA": {
+        "390": {
+          "overflow": false,
+          "overlap": false,
+          "gapPreserved": true
+        },
+        "1024": {
+          "overflow": false,
+          "overlap": false,
+          "gapPreserved": true
+        },
+        "1440": {
+          "overflow": false,
+          "overlap": false,
+          "gapPreserved": true
+        }
+      }
+    },
+    "CopilotTracePanel": {
+      "scannerResult": "decision-trace",
+      "visualQA": {
+        "390": {
+          "overflow": false,
+          "overlap": false,
+          "gapPreserved": true
+        },
+        "1024": {
+          "overflow": false,
+          "overlap": false,
+          "gapPreserved": true
+        },
+        "1440": {
+          "overflow": false,
+          "overlap": false,
+          "gapPreserved": true
+        }
+      }
+    },
+    "AdvisorHistoricalSurface": {
+      "scannerResult": "decision-trace",
+      "visualQA": {
+        "390": {
+          "overflow": false,
+          "overlap": false,
+          "gapPreserved": true,
+          "height": "100%"
+        },
+        "1024": {
+          "overflow": false,
+          "overlap": false,
+          "gapPreserved": true,
+          "height": "100%"
+        },
+        "1440": {
+          "overflow": false,
+          "overlap": false,
+          "gapPreserved": true,
+          "height": "100%"
+        }
+      }
+    },
+    "DRETechnicalLayerSection": {
+      "scannerResult": "technical-evidence",
+      "visualQA": {
+        "390": {
+          "overflow": false,
+          "overlap": false,
+          "gapPreserved": true,
+          "accordionFunctional": true
+        },
+        "1024": {
+          "overflow": false,
+          "overlap": false,
+          "gapPreserved": true,
+          "accordionFunctional": true
+        },
+        "1440": {
+          "overflow": false,
+          "overlap": false,
+          "gapPreserved": true,
+          "accordionFunctional": true
+        }
+      }
+    }
+  },
+  "scannerValidations": {
+    "doubleCountingPrevented": true,
+    "genericClassificationPrevented": true
+  }
+}

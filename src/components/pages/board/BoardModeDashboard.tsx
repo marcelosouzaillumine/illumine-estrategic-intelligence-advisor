@@ -2,8 +2,7 @@ import React from 'react';
 import { useBoardMode, BoardModeViewModel } from '../../../hooks/useBoardMode';
 import { BoardIntelligenceInput } from '../../../services/BoardRuntimeAdapter';
 import { AlertTriangle, ShieldCheck, Activity, Target, Presentation, Scale, Eye } from 'lucide-react';
-import { cn } from '../../../lib/utils';
-import { formatCurrency } from '../../../lib/utils';
+import { cn, formatCurrency } from '../../../lib/utils';
 
 interface BoardModeDashboardProps {
   input: BoardIntelligenceInput;

@@ -36,7 +36,11 @@ export function ExecutiveChartInsight({
   return (
     <div className={cn("flex flex-col gap-2 p-4 rounded-xl border", getSeverityBg(), className)}>
       <div className="flex items-center gap-2">
-        {icon && <div className="text-foreground/70 shrink-0">{icon}</div>}
+        {icon && (
+          <div className="text-foreground/70 shrink-0">
+            {React.isValidElement(icon) ? icon : (typeof icon === 'function' || typeof icon === 'object' ? React.createElement(icon as any, { size: 18 }) : null)}
+          </div>
+        )}
         <ExecutiveHeading as="h5" variant="cardTitle" className="flex-1">
           {title}
         </ExecutiveHeading>

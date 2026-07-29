@@ -1,3 +1,6 @@
+
+// Isolated mock dataset for sandbox simulations
+
 import React, { useState, useEffect } from 'react';
 import { Sparkles, ShieldCheck, RotateCcw, History, Sliders, Activity, FileText, CheckCircle2, AlertTriangle, User, Layers, HelpCircle, Eye, Settings, ChevronRight } from 'lucide-react';
 import { PageHeader, StatusBadge } from '../Common';
@@ -9,8 +12,18 @@ import { StagingValidationEngine } from '../../services/FiduciaryRuntimeAdapter'
 import { IngestionLineageReference, ImportedDataset } from '../../services/FiduciaryRuntimeAdapter';
 import { auth } from '../../lib/firebase';
 import { cn } from '../../lib/utils';
+import { ExecutivePageTemplate } from '../ui/executive-page-template';
+import { ExecutiveSurface } from '../ui/executive-surface';
+import { ExecutiveAccordion } from '../ui/executive-accordion';
+import { ExecutiveEmptyState } from '../ui/executive-empty-state';
+import { ExecutiveHeading } from '../ui/executive-heading';
+import { ExecutiveText } from '../ui/executive-typography';
+import { createPortal } from 'react-dom';
+import { ExecutiveSummarySection } from '../ui/executive-summary-section';
+import { ExecutiveStrategicTensions } from '../ui/executive-strategic-tensions';
+import { ExecutiveDecisionTrace } from '../ui/executive-decision-trace';
+import { useCalibrationPlaygroundViewModel } from '../../viewmodels/useCalibrationPlaygroundViewModel';
 
-// Isolated mock dataset for sandbox simulations
 const MOCK_SANDBOX_DATA = {
   isMockData: false,
   historicalCyclesCount: 3,
@@ -52,7 +65,12 @@ const MOCK_SANDBOX_DATA = {
   ]
 };
 
+
 export function CalibrationPlayground() {
+  // Adapter: useCalibrationPlaygroundAdapter
+  // ViewModel: useCalibrationPlaygroundViewModel
+  const { state, computed, actions } = useCalibrationPlaygroundViewModel();
+  const portal = createPortal;
   const [activeTab, setActiveTab] = useState<'profile' | 'manual'>('profile');
   const [actorId, setActorId] = useState<string>('');
   const [rationale, setRationale] = useState<string>('');
@@ -151,20 +169,46 @@ export function CalibrationPlayground() {
   const stagingWarnings = simulateStagingWarnings();
 
   return (
-    <div className="max-w-[1440px] mx-auto px-6 lg:px-10 space-y-12 pb-32 animate-executive-fade text-foreground">
-      {/* Page Header */}
-      <PageHeader
-        title="Calibration Playground"
-        subtitle="Ambiente de Simulação de Parâmetros Contábeis, Sensibilidades e Materialidade de Pareceres Executivos."
-        icon={Sparkles}
-        transparent
-        actions={
-          <div className="flex items-center gap-4 bg-success-soft text-success px-4 py-2 border border-success/20 rounded-button shadow-xs">
-            <ShieldCheck size={16} className="shrink-0" />
-            <span className="text-[10px] font-black uppercase tracking-widest">Sandbox Mode Active</span>
-          </div>
-        }
-      />
+    <ExecutivePageTemplate header={{
+      title: "Calibration Playground",
+      description: "Ambiente de Simulação de Parâmetros Contábeis, Sensibilidades e Materialidade de Pareceres Executivos.",
+    }}>
+
+      {/* --- CAMADA 1: NÍVEL CONSELHO (SÍNTESE DE CALIBRAÇÃO DO MOTOR) --- */}
+      <ExecutiveSummarySection 
+        className="mb-8"
+        status={{ label: `Perfil: ${activeProfileId} (v${activeVersion})`, variant: 'success' }}
+        question="Quais as sensibilidades, limiares de tolerância e perfis de calibração ativos no motor fiduciário?"
+        opinion="O comitê fiduciário valida as alterações nos limiares de sensibilidade contábil e calibração de riscos."
+        driver="Perfis de calibração, limiares de tolerância, rastro de auditoria e staging warnings."
+        implication="Ajuste fino da sensibilidade dos pareceres automáticos sem perda de integridade conceitual."
+        action="Testar cenários de estresse antes de homologar novas versões de calibração para produção."
+      >
+        <ExecutiveStrategicTensions tensions={[]} />
+        <ExecutiveDecisionTrace trace={[]} />
+      </ExecutiveSummarySection>
+
+      <div className="flex flex-col md:flex-row md:items-center justify-between gap-6 mb-10">
+
+        <div className="flex items-center gap-3">
+          <StatusBadge status="Verde" label="Sandbox Conectada" />
+        </div>
+        <div className="flex items-center gap-4 bg-zinc-900 border border-zinc-800 text-success px-4 py-2 rounded-xl">
+          <ShieldCheck size={16} className="shrink-0 text-emerald-500" />
+          <span className="text-[10px] font-black uppercase tracking-widest text-white">Sandbox Mode Active</span>
+        </div>
+      
+      </div>
+
+      <div className="mt-12 mb-8 border-t border-border pt-8" />
+      <ExecutiveAccordion
+        title="Controles de Calibração Fiduciária"
+        subtitle="Configure limites de materialidade e perfis de sensibilidade do motor executivo."
+        variant="analytics"
+        defaultExpanded
+      >
+
+      <div className="space-y-12">
 
       {/* Top Overview: Active Calibration State */}
       <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
@@ -617,7 +661,19 @@ export function CalibrationPlayground() {
           </div>
         )}
       </div>
-
-    </div>
+        <ExecutiveSummarySection 
+          status={{ label: 'Motor Calibrado', variant: 'success' }}
+          question="Como ajustar os limites de sensibilidade do motor fiduciário?"
+          opinion="A calibração do comitê de auditoria reflete o apetite de risco da governança atual."
+          driver="Materialidade de pareceres, margens de tolerância e perfis de inferência."
+          implication="Maior assertividade na geração automatizada de relatórios executivos."
+          action="Revisar parâmetros semestralmente conforme volatilidade do mercado."
+        >
+          <ExecutiveStrategicTensions tensions={[]} />
+          <ExecutiveDecisionTrace trace={[]} />
+        </ExecutiveSummarySection>
+      </div>
+      </ExecutiveAccordion>
+    </ExecutivePageTemplate>
   );
 }

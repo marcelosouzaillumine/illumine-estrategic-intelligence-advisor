@@ -1,7 +1,6 @@
 import React from 'react';
 import { Zap, AlertOctagon } from 'lucide-react';
-import { GoldenDatasetProfile } from '../../services/FiduciaryRuntimeAdapter';
-import { OperationalStressDatasetBuilder } from '../../services/FiduciaryRuntimeAdapter';
+import { GoldenDatasetProfile, OperationalStressDatasetBuilder } from '../../services/FiduciaryRuntimeAdapter';
 
 interface Props { tenantId: string; dataset: GoldenDatasetProfile }
 

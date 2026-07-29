@@ -1,7 +1,7 @@
-// src/components/pilot-operations/GovernanceWorkflowGuide.tsx
-
 import React from 'react';
 import { Compass, ShieldCheck, Scale, ZapOff } from 'lucide-react';
+// src/components/pilot-operations/GovernanceWorkflowGuide.tsx
+
 
 export const GovernanceWorkflowGuide: React.FC = () => {
   const principles = [

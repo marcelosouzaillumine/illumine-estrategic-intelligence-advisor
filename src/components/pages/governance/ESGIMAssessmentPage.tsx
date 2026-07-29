@@ -1,14 +1,18 @@
-// src/components/pages/governance/ESGIMAssessmentPage.tsx
+import { ExecutiveText } from '@/components/ui/executive-typography';
+import { ExecutiveHeading } from '@/components/ui/executive-heading';
+import { ExecutiveSurface } from '@/components/ui/executive-surface';
+import { ExecutiveMetricCard } from '@/components/ui/executive-metric-card';
+import { ExecutiveBadge } from '@/components/ui/executive-badge';
 
 import React, { useState, useMemo } from 'react';
 import { Brain, Target, Activity, Scale, Building, Users, ShieldCheck, ShieldAlert, ChevronRight, ChevronDown, Info, AlertCircle, CheckCircle2, Clock, TrendingUp, Dna, Lock, Compass, Coins, HeartPulse, Workflow, Sparkles, ArrowRight, TrendingDown, Calendar, Layers, MapPin } from 'lucide-react';
 import { motion, AnimatePresence } from 'motion/react';
-import { PageHeader } from '../../Common';
-import { useLanguage } from '../../../contexts/LanguageContext';
-import { useInstitutionalAuth } from '../../../core/security/auth/InstitutionalAuthProvider';
-import { FiduciaryRuntimeAdapter, ESGIMDimension, ESGIMMode, ESGIMScenario, IRILevel, BoardPriority, BoardExecutiveBrief, GovernanceMonitoringSnapshot, GovernanceMonitoringResult, DecisionExecutionRisk } from '../../../services/FiduciaryRuntimeAdapter';
-import { ExecutiveBoardReportModal } from '../../modals/ExecutiveBoardReportModal';
-import { BoardPackPreviewModal } from '../../modals/BoardPackPreviewModal';
+import { PageHeader } from '@/components/Common';
+import { useLanguage } from '@/contexts/LanguageContext';
+import { useInstitutionalAuth } from '@/hooks/useInstitutionalAuth';
+import { FiduciaryRuntimeAdapter, ESGIMDimension, ESGIMMode, ESGIMScenario, IRILevel, BoardPriority, BoardExecutiveBrief, GovernanceMonitoringSnapshot, GovernanceMonitoringResult, DecisionExecutionRisk } from '@/services/FiduciaryRuntimeAdapter';
+import { ExecutiveBoardReportModal } from '@/components/modals/ExecutiveBoardReportModal';
+import { BoardPackPreviewModal } from '@/components/modals/BoardPackPreviewModal';
 import { GovernanceExecutionPanel } from './GovernanceExecutionPanel';
 import { BoardMeetingMode } from './BoardMeetingMode';
 import { GovernanceKnowledgePanel } from './GovernanceKnowledgePanel';
@@ -130,7 +134,7 @@ export function ESGIMAssessmentPage({ clientId }: { clientId: string }) {
         <div className="p-4 bg-critical-soft0/10 border border-rose-500/20 text-rose-700 rounded-2xl mb-4">
           <ShieldAlert className="w-12 h-12 mx-auto" />
         </div>
-        <h2 className="text-xl font-bold uppercase tracking-wider text-primary mb-2">Acesso Restrito</h2>
+        <ExecutiveHeading as="h2" className="text-primary mb-2">Acesso Restrito</ExecutiveHeading>
     <p className="text-executive-secondary text-sm max-w-md">
           Esta área é restrita a Conselheiros (Board), Assessores (Advisor), Executivos e Administradores da holding.
         </p>
@@ -344,10 +348,10 @@ export function ESGIMAssessmentPage({ clientId }: { clientId: string }) {
       />
 
       {/* 2. Controls Section */}
-      <div className="card-premium p-6 border border-white/5 bg-surface-container/50 backdrop-blur-md rounded-2xl flex flex-col md:flex-row md:items-center justify-between gap-6">
+      <div className="bg-card border border-border rounded-2xl p-6 border border-white/5 bg-surface-container/50 backdrop-blur-md rounded-2xl flex flex-col md:flex-row md:items-center justify-between gap-6">
         <div>
-          <h3 className="text-sm font-bold uppercase tracking-wider text-primary">Filtro de Leitura Estrutural</h3>
-     <p className="text-executive-secondary">Diferencie entre dados contábeis auditados (LIVE_DATA) e simulações cognitivas de estresse (DEMO_SCENARIO).</p>
+          <ExecutiveHeading as="h3" className="text-primary">Filtro de Leitura Estrutural</ExecutiveHeading>
+     <ExecutiveText as="div" variant="bodyStandard" className="text-executive-secondary">Diferencie entre dados contábeis auditados (LIVE_DATA) e simulações cognitivas de estresse (DEMO_SCENARIO).</ExecutiveText>
         </div>
 
         <div className="flex flex-wrap items-center gap-4">
@@ -509,12 +513,12 @@ export function ESGIMAssessmentPage({ clientId }: { clientId: string }) {
         <div className="lg:col-span-8 grid grid-cols-1 md:grid-cols-2 gap-8">
           
           {/* Column A: ESGIM Heatmap */}
-          <div className="card-premium p-6 border border-white/5 bg-surface-container rounded-2xl space-y-6">
+          <div className="bg-card border border-border rounded-2xl p-6 border border-white/5 bg-surface-container rounded-2xl space-y-6">
             <div className="flex justify-between items-center border-b border-white/5 pb-3">
-              <h3 className="text-sm font-bold uppercase tracking-wider text-primary flex items-center gap-2">
+              <ExecutiveHeading as="h3" className="text-primary flex items-center gap-2">
                 <Activity className="w-4 h-4 text-primary" />
                 Eixos de Maturidade (ESGIM™)
-              </h3>
+              </ExecutiveHeading>
               <span className="text-[9px] text-muted-foreground font-bold uppercase tracking-widest">Estado Atual</span>
             </div>
 
@@ -554,12 +558,12 @@ export function ESGIMAssessmentPage({ clientId }: { clientId: string }) {
           </div>
 
           {/* Column B: IRI Resilience Heatmap */}
-          <div className="card-premium p-6 border border-white/5 bg-surface-container rounded-2xl space-y-6">
+          <div className="bg-card border border-border rounded-2xl p-6 border border-white/5 bg-surface-container rounded-2xl space-y-6">
             <div className="flex justify-between items-center border-b border-white/5 pb-3">
-              <h3 className="text-sm font-bold uppercase tracking-wider text-primary flex items-center gap-2">
+              <ExecutiveHeading as="h3" className="text-primary flex items-center gap-2">
                 <Compass className="w-4 h-4 text-primary" />
                 Dimensões de Resiliência (IRI™)
-              </h3>
+              </ExecutiveHeading>
               <span className="text-[9px] text-muted-foreground font-bold uppercase tracking-widest">Continuidade</span>
             </div>
 
@@ -659,11 +663,11 @@ export function ESGIMAssessmentPage({ clientId }: { clientId: string }) {
         </div>
 
         {/* Right Side: Circular Gauges (lg:col-span-4) */}
-        <div className="lg:col-span-4 card-premium p-6 border border-white/5 bg-surface-container rounded-2xl space-y-6 flex flex-col items-center justify-center">
+        <div className="lg:col-span-4 bg-card border border-border rounded-2xl p-6 border border-white/5 bg-surface-container rounded-2xl space-y-6 flex flex-col items-center justify-center">
           
           <div className="text-center">
-            <h4 className="text-xs font-bold uppercase tracking-wider text-primary">Gauges de Diagnóstico</h4>
-      <p className="text-executive-secondary">Maturidade operacional versus capacidade de sobrevivência.</p>
+            <ExecutiveHeading as="h4" className="text-primary">Gauges de Diagnóstico</ExecutiveHeading>
+      <ExecutiveText as="div" variant="bodyStandard" className="text-executive-secondary">Maturidade operacional versus capacidade de sobrevivência.</ExecutiveText>
           </div>
 
           <div className="grid grid-cols-2 gap-6 w-full">
@@ -725,7 +729,7 @@ export function ESGIMAssessmentPage({ clientId }: { clientId: string }) {
       </div>
 
       {/* 4. Board Executive Brief Card (Unified BPE™ Synthesis) */}
-      <div className="card-premium p-8 border border-amber-500/10 bg-surface-container rounded-2xl relative overflow-hidden space-y-6">
+      <div className="bg-card border border-border rounded-2xl p-8 border border-amber-500/10 bg-surface-container rounded-2xl relative overflow-hidden space-y-6">
         <div className="absolute top-0 right-0 w-48 h-48 bg-warning-soft0/5 rounded-full blur-3xl pointer-events-none" />
         
         <div className="flex items-center gap-3 border-b border-white/5 pb-4">
@@ -734,7 +738,7 @@ export function ESGIMAssessmentPage({ clientId }: { clientId: string }) {
           </div>
           <div>
             <span className="text-[9px] text-muted-foreground uppercase tracking-widest font-black block">Board Priorities Engine (BPE™)</span>
-            <h3 className="text-lg font-display font-medium text-primary">Board Executive Brief</h3>
+            <ExecutiveHeading as="h3" className="font-display text-primary">Board Executive Brief</ExecutiveHeading>
           </div>
         </div>
 
@@ -742,9 +746,9 @@ export function ESGIMAssessmentPage({ clientId }: { clientId: string }) {
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
           
           <div className="lg:col-span-7 space-y-4">
-            <h4 className="text-2xl font-light leading-snug tracking-tight text-amber-300 font-sans italic">
+            <ExecutiveHeading as="h4" className="text-amber-300 font-sans italic">
               "{brief.headline}"
-            </h4>
+            </ExecutiveHeading>
       <p className="text-sm text-executive-secondary leading-relaxed font-sans font-normal border-l-2 border-amber-500/30 pl-4">
               {brief.summary}
             </p>
@@ -779,7 +783,7 @@ export function ESGIMAssessmentPage({ clientId }: { clientId: string }) {
       <div id="bpe-priorities" className="space-y-6">
         <div>
           <span className="text-[10px] text-muted-foreground uppercase tracking-widest font-black block">Plano de Direcionamento Executivo</span>
-          <h3 className="text-xl font-display font-medium text-primary">Top 5 Recomendações Prioritárias do Conselho</h3>
+          <ExecutiveHeading as="h3" className="font-display text-primary">Top 5 Recomendações Prioritárias do Conselho</ExecutiveHeading>
         </div>
 
         <div className="space-y-4">
@@ -791,7 +795,7 @@ export function ESGIMAssessmentPage({ clientId }: { clientId: string }) {
             return (
               <div 
                 key={priority.id}
-                className="card-premium border border-white/5 bg-surface-container hover:border-accent transition-all rounded-2xl overflow-hidden"
+                className="bg-card border border-border rounded-2xl border border-white/5 bg-surface-container hover:border-accent transition-all rounded-2xl overflow-hidden"
               >
                 {/* Header row of priority card */}
                 <div 
@@ -809,9 +813,9 @@ export function ESGIMAssessmentPage({ clientId }: { clientId: string }) {
                     {/* Title & description summary */}
                     <div className="space-y-1 flex-1 min-w-0">
                       <div className="flex flex-wrap items-center gap-3">
-                        <h4 className="text-sm font-bold uppercase tracking-wider text-primary truncate">
+                        <ExecutiveHeading as="h4" className="text-primary truncate">
                           {priority.title}
-                        </h4>
+                        </ExecutiveHeading>
                         <span className="text-[10px] font-mono text-muted-foreground">
                           Priority Score: <strong className="text-primary font-black">{priority.priorityScore}</strong>
                         </span>
@@ -944,7 +948,7 @@ export function ESGIMAssessmentPage({ clientId }: { clientId: string }) {
       </div>
 
       {/* 6. Governance Roadmap™ Dashboard Section (GRE™) */}
-      <div id="gre-roadmap" className="card-premium p-8 border border-white/5 bg-surface-container rounded-2xl space-y-8">
+      <div id="gre-roadmap" className="bg-card border border-border rounded-2xl p-8 border border-white/5 bg-surface-container rounded-2xl space-y-8">
         
         {/* GRE Title & Progress / Risk Header */}
         <div className="flex flex-col md:flex-row md:items-center justify-between gap-6 border-b border-white/5 pb-5">
@@ -954,7 +958,7 @@ export function ESGIMAssessmentPage({ clientId }: { clientId: string }) {
             </div>
             <div>
               <span className="text-[9px] text-muted-foreground uppercase tracking-widest font-black block">Governance Roadmap Engine (GRE™)</span>
-              <h3 className="text-xl font-display font-medium text-primary">Plano de Evolução Institucional</h3>
+              <ExecutiveHeading as="h3" className="font-display text-primary">Plano de Evolução Institucional</ExecutiveHeading>
             </div>
           </div>
 
@@ -1092,10 +1096,10 @@ export function ESGIMAssessmentPage({ clientId }: { clientId: string }) {
           
           {/* Quick Wins */}
           <div className="p-4 bg-success-soft0/5 border border-emerald-500/10 rounded-xl space-y-3">
-            <h4 className="text-xs font-bold uppercase tracking-wider text-emerald-400 flex items-center gap-2">
+            <ExecutiveHeading as="h4" className="text-emerald-400 flex items-center gap-2">
               <CheckCircle2 className="w-4 h-4" />
               Quick Wins (Até 90 dias)
-            </h4>
+            </ExecutiveHeading>
             <ul className="text-xs text-muted-foreground space-y-2">
               {roadmap.quickWins.map((win, idx) => (
                 <li key={idx} className="flex items-start gap-2 leading-relaxed">
@@ -1108,10 +1112,10 @@ export function ESGIMAssessmentPage({ clientId }: { clientId: string }) {
 
           {/* Foundational Initiatives */}
           <div className="p-4 bg-primary border border-primary rounded-xl space-y-3">
-            <h4 className="text-xs font-bold uppercase tracking-wider text-primary flex items-center gap-2">
+            <ExecutiveHeading as="h4" className="text-primary flex items-center gap-2">
               <Workflow className="w-4 h-4" />
               Foundational Initiatives (90–365 dias)
-            </h4>
+            </ExecutiveHeading>
             <ul className="text-xs text-muted-foreground space-y-2">
               {roadmap.foundationalInitiatives.map((init, idx) => (
                 <li key={idx} className="flex items-start gap-2 leading-relaxed">
@@ -1124,10 +1128,10 @@ export function ESGIMAssessmentPage({ clientId }: { clientId: string }) {
 
           {/* Strategic Initiatives */}
           <div className="p-4 bg-primary border border-primary rounded-xl space-y-3">
-            <h4 className="text-xs font-bold uppercase tracking-wider text-primary flex items-center gap-2">
+            <ExecutiveHeading as="h4" className="text-primary flex items-center gap-2">
               <Target className="w-4 h-4" />
               Strategic Initiatives (12–36 meses)
-            </h4>
+            </ExecutiveHeading>
             <ul className="text-xs text-muted-foreground space-y-2">
               {roadmap.strategicInitiatives.map((init, idx) => (
                 <li key={idx} className="flex items-start gap-2 leading-relaxed">
@@ -1143,7 +1147,7 @@ export function ESGIMAssessmentPage({ clientId }: { clientId: string }) {
       </div>
 
       {/* 6. Governance Monitoring™ Dashboard Row */}
-      <div id="gml-monitoring" className="card-premium p-8 border border-white/5 bg-surface-container rounded-2xl space-y-8 relative overflow-hidden">
+      <div id="gml-monitoring" className="bg-card border border-border rounded-2xl p-8 border border-white/5 bg-surface-container rounded-2xl space-y-8 relative overflow-hidden">
         <div className="absolute top-0 right-0 w-64 h-64 bg-primary rounded-full blur-3xl pointer-events-none" />
 
         {/* Section Header */}
@@ -1154,7 +1158,7 @@ export function ESGIMAssessmentPage({ clientId }: { clientId: string }) {
             </div>
             <div>
               <span className="text-[9px] text-muted-foreground uppercase tracking-widest font-black block">Governance Monitoring Layer (GML™)</span>
-              <h3 className="text-lg font-display font-medium text-primary">Governance Monitoring™</h3>
+              <ExecutiveHeading as="h3" className="font-display text-primary">Governance Monitoring™</ExecutiveHeading>
             </div>
           </div>
 
@@ -1275,10 +1279,10 @@ export function ESGIMAssessmentPage({ clientId }: { clientId: string }) {
           <div className="p-5 bg-surface-container 950/40 border border-white/5 rounded-xl space-y-3">
             <div>
               <span className="text-[9px] text-muted-foreground uppercase tracking-widest font-mono block">Indicador Proprietário</span>
-              <h4 className="text-xs font-bold uppercase tracking-wider text-primary flex items-center gap-1.5">
+              <ExecutiveHeading as="h4" className="text-primary flex items-center gap-1.5">
                 <Target className="w-4 h-4 text-amber-400" />
                 Priority Execution (PEI)
-              </h4>
+              </ExecutiveHeading>
             </div>
 
             <div className="flex items-baseline gap-2">
@@ -1321,10 +1325,10 @@ export function ESGIMAssessmentPage({ clientId }: { clientId: string }) {
           <div className="p-5 bg-surface-container 950/40 border border-white/5 rounded-xl space-y-3">
             <div>
               <span className="text-[9px] text-muted-foreground uppercase tracking-widest font-mono block">Progresso do Plano</span>
-              <h4 className="text-xs font-bold uppercase tracking-wider text-primary flex items-center gap-1.5">
+              <ExecutiveHeading as="h4" className="text-primary flex items-center gap-1.5">
                 <Workflow className="w-4 h-4 text-primary" />
                 Roadmap Progress (RPI)
-              </h4>
+              </ExecutiveHeading>
             </div>
 
             <div className="flex items-baseline gap-2">
@@ -1348,10 +1352,10 @@ export function ESGIMAssessmentPage({ clientId }: { clientId: string }) {
           <div className="p-5 bg-surface-container 950/40 border border-white/5 rounded-xl space-y-3">
             <div>
               <span className="text-[9px] text-muted-foreground uppercase tracking-widest font-mono block">Índice Geral de Risco</span>
-              <h4 className="text-xs font-bold uppercase tracking-wider text-primary flex items-center gap-1.5">
+              <ExecutiveHeading as="h4" className="text-primary flex items-center gap-1.5">
                 <ShieldAlert className="w-4 h-4 text-rose-400" />
                 Risk Index Trend
-              </h4>
+              </ExecutiveHeading>
             </div>
 
             <div className="flex items-baseline gap-2">
@@ -1399,10 +1403,10 @@ export function ESGIMAssessmentPage({ clientId }: { clientId: string }) {
         {/* Monitoring Alerts Feed */}
         <div className="space-y-4 pt-4 border-t border-white/5">
           <div className="flex items-center justify-between">
-            <h4 className="text-xs font-bold uppercase tracking-wider text-primary flex items-center gap-1.5">
+            <ExecutiveHeading as="h4" className="text-primary flex items-center gap-1.5">
               <AlertCircle className="w-4 h-4 text-primary" />
               Alertas Automáticos de Monitoramento ({monitoring.alerts.length})
-            </h4>
+            </ExecutiveHeading>
             <span className="text-[8px] text-muted-foreground uppercase tracking-widest font-mono">Detecção Contínua</span>
           </div>
 
@@ -1437,7 +1441,7 @@ export function ESGIMAssessmentPage({ clientId }: { clientId: string }) {
                           {alert.severity}
                         </span>
                       </div>
-           <p className="text-[11px] leading-relaxed">{alert.description}</p>
+           <ExecutiveText as="div" variant="caption">{alert.description}</ExecutiveText>
                     </div>
 
                     <div className="text-[10px] border-t border-white/5 pt-2 flex items-start gap-1">
@@ -1495,7 +1499,7 @@ export function ESGIMAssessmentPage({ clientId }: { clientId: string }) {
       </div>
 
       {/* 7. Explainability & Traceability Panel */}
-      <div className="card-premium p-0 border border-white/5 bg-surface-container rounded-2xl overflow-hidden">
+      <div className="bg-card border border-border rounded-2xl p-0 border border-white/5 bg-surface-container rounded-2xl overflow-hidden">
         <div className="flex border-b border-white/5 bg-surface-container 950/40">
           <button 
             onClick={() => setActiveExplainTab('evidences')}
@@ -1541,7 +1545,7 @@ export function ESGIMAssessmentPage({ clientId }: { clientId: string }) {
               >
         <div className="flex items-center gap-2 text-sm font-bold uppercase tracking-wider text-executive-secondary">
                   <ShieldCheck className="w-5 h-5 text-primary" />
-                  <h4>Trilha de Sinais e Evidências Associadas</h4>
+                  <ExecutiveHeading as="h4">Trilha de Sinais e Evidências Associadas</ExecutiveHeading>
                 </div>
 
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -1609,7 +1613,7 @@ export function ESGIMAssessmentPage({ clientId }: { clientId: string }) {
               >
         <div className="flex items-center gap-2 text-sm font-bold uppercase tracking-wider text-executive-secondary">
                   <Scale className="w-5 h-5 text-primary" />
-                  <h4>Regras da Constituição Cognitiva & Overrides Aplicados</h4>
+                  <ExecutiveHeading as="h4">Regras da Constituição Cognitiva & Overrides Aplicados</ExecutiveHeading>
                 </div>
 
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -1698,7 +1702,7 @@ export function ESGIMAssessmentPage({ clientId }: { clientId: string }) {
               >
         <div className="flex items-center gap-2 text-sm font-bold uppercase tracking-wider text-executive-secondary">
                   <Dna className="w-5 h-5 text-primary" />
-                  <h4>Rastreabilidade Fiduciária e Assinatura Criptográfica</h4>
+                  <ExecutiveHeading as="h4">Rastreabilidade Fiduciária e Assinatura Criptográfica</ExecutiveHeading>
                 </div>
 
                 <div className="space-y-4 font-mono text-xs">
@@ -1739,13 +1743,13 @@ export function ESGIMAssessmentPage({ clientId }: { clientId: string }) {
       )}
 
       {activeMainTab === 'execution' && (
-        <div className="card-premium p-6 border border-white/5 bg-surface-container rounded-2xl">
+        <div className="bg-card border border-border rounded-2xl p-6 border border-white/5 bg-surface-container rounded-2xl">
           <GovernanceExecutionPanel clientId={clientId} scenario={demoScenario} mode={mode} />
         </div>
       )}
 
       {activeMainTab === 'meeting' && (
-        <div className="card-premium p-6 border border-white/5 bg-surface-container rounded-2xl">
+        <div className="bg-card border border-border rounded-2xl p-6 border border-white/5 bg-surface-container rounded-2xl">
           <BoardMeetingMode clientId={clientId} scenario={demoScenario} />
         </div>
       )}

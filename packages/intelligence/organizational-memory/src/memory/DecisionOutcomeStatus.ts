@@ -1,0 +1,6 @@
+export enum DecisionOutcomeStatus {
+  EXPECTED = 'EXPECTED',
+  PARTIALLY_ACHIEVED = 'PARTIALLY_ACHIEVED',
+  FAILED = 'FAILED',
+  EXCEEDED = 'EXCEEDED'
+}

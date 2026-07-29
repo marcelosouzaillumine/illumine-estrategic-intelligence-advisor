@@ -1,7 +1,7 @@
-// src/components/war-gaming/LiquidityStressTimeline.tsx
-
 import React from 'react';
 import { TreasurySurvivalProfile } from '../../services/FiduciaryRuntimeAdapter';
+// src/components/war-gaming/LiquidityStressTimeline.tsx
+
 
 export function LiquidityStressTimeline({ treasury }: { treasury: TreasurySurvivalProfile }) {
   if (!treasury) return null;

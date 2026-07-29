@@ -1,8 +1,8 @@
-// src/components/pilot-operations/PilotValidationDashboard.tsx
-
 import React from 'react';
 import { usePilotOperations } from '../../context/pilot-operations/PilotOperationsProvider';
 import { ShieldCheck, AlertOctagon, CheckCircle2, AlertTriangle, Cpu } from 'lucide-react';
+// src/components/pilot-operations/PilotValidationDashboard.tsx
+
 
 export const PilotValidationDashboard: React.FC = () => {
   const { readinessReport, pilotStatus } = usePilotOperations();

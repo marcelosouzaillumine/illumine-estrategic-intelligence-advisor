@@ -1,4 +1,6 @@
 
+
+
 import React, { useMemo, useState } from 'react';
 import { ShieldCheck, TrendingUp, TrendingDown, Users, Activity, Globe, ShoppingBag, FileText, Zap, BarChart3, Target, ArrowUpRight, LayoutGrid, BookOpen, Lightbulb, Loader2, PieChart as PieIcon, MessageSquare, Scale, ChevronRight, ShieldAlert } from 'lucide-react';
 import { collection, query, where, onSnapshot } from 'firebase/firestore';
@@ -13,6 +15,7 @@ import { GovernanceInsightPanel } from '../GovernanceInsightPanel';
 import { orchestrateGovernanceNarrative } from '../../core/orchestration/executiveOrchestrationEngine';
 import { DashboardSkeleton } from '../ui/skeletons';
 import { ExecutiveEmptyState } from '../ui/executive-empty-state';
+import { ExecutiveAccordion } from '../ui/executive-accordion';
 import { ExecutiveMetricCard } from '../ui/executive-metric-card';
 import { ExecutiveSurface } from '../ui/executive-surface';
 import { ExecutiveDecisionMemo } from '../ui/executive-decision-memo';
@@ -30,6 +33,15 @@ import { InstitutionalResilienceTimeline } from '../temporal/InstitutionalResili
 import { TemporalHeatmapPanel } from '../temporal/TemporalHeatmapPanel';
 import { SandboxWarningOverlay } from '../executive-interaction/SandboxWarningOverlay';
 import { useLanguage } from '../../contexts/LanguageContext';
+import { ExecutivePageTemplate } from '../ui/executive-page-template';
+import { ExecutiveHeading } from '../ui/executive-heading';
+import { ExecutiveText } from '../ui/executive-typography';
+import { createPortal } from 'react-dom';
+import { ExecutiveSummarySection } from '../ui/executive-summary-section';
+import { ExecutiveStrategicTensions } from '../ui/executive-strategic-tensions';
+import { ExecutiveDecisionTrace } from '../ui/executive-decision-trace';
+import { useGovernanceDashboardPageViewModel } from '../../viewmodels/useGovernanceDashboardPageViewModel';
+
 interface GovernanceDashboardPageProps {
   clientId: string;
   onNavigate: (page: Page) => void;
@@ -56,6 +68,10 @@ export function GovernanceDashboardPage({
   selectedYear,
   setSelectedYear
 }: GovernanceDashboardPageProps) {
+  // Adapter: useGovernanceDashboardPageAdapter
+  // ViewModel: useGovernanceDashboardPageViewModel
+  const { state: vmState, computed: vmComputed, actions: vmActions } = useGovernanceDashboardPageViewModel({ clientId });
+  const portal = createPortal;
   // Strategic KPIs - Dynamic
   const [dbIndicators, setDbIndicators] = useState<any[]>([]);
   const [loading, setLoading] = useState(false);
@@ -291,16 +307,27 @@ export function GovernanceDashboardPage({
   }
 
   return (
-    <div className="max-w-[1440px] mx-auto px-6 lg:px-10 space-y-16 pb-32 animate-executive-fade">
-      {((runtimeOutput as any)?.isSandbox || (runtimeOutput as any)?.isDemonstrative) && (
-        <SandboxWarningOverlay type={(runtimeOutput as any).isSandbox ? 'sandbox' : 'demonstrative'} />
-      )}
-      <PageHeader 
-        title={t('gov.dashboard.title')}
-        subtitle={t('gov.dashboard.subtitle')}
-        icon={ShieldCheck}
-        transparent
-      />
+    <ExecutivePageTemplate header={{
+      title: t('gov.dashboard.title'),
+      description: t('gov.dashboard.subtitle'),
+    }}>
+      {/* --- CAMADA 1: NÍVEL CONSELHO (SÍNTESE DE GOVERNANÇA GLOBAL) --- */}
+      <ExecutiveSummarySection 
+        className="mb-8"
+        status={{ label: hasData ? 'Governança Ativa' : 'Sem Dados', variant: hasData ? 'success' : 'warning' }}
+        question="Qual o índice de maturidade de governança corporativa e a integridade fiduciária entre os eixos de gestão?"
+        opinion="O comitê fiduciário homologa o painel de governança corporativa, atestando o cumprimento dos princípios institucionais."
+        driver="Índice de maturidade, compliance index, eficácia decisória, gestão de riscos e mitigação."
+        implication="Preservação da perpetuidade do negócio, transparência com acionistas e prontidão regulatória."
+        action="Monitorar os desvios apontados na matriz de riscos e executar os planos de adequação fiduciária."
+      >
+        <ExecutiveStrategicTensions tensions={[]} />
+        <ExecutiveDecisionTrace trace={[]} />
+      </ExecutiveSummarySection>
+
+        {((runtimeOutput as any)?.isSandbox || (runtimeOutput as any)?.isDemonstrative) && (
+          <SandboxWarningOverlay type={(runtimeOutput as any).isSandbox ? 'sandbox' : 'demonstrative'} />
+        )}
 
       {temporalData && (
         <div className="mb-10 flex flex-col gap-8">
@@ -448,8 +475,8 @@ export function GovernanceDashboardPage({
                     <MessageSquare size={24} />
                  </div>
                  <div>
-                    <h3 className="text-h3 font-medium text-foreground tracking-tight">{t('gov.insights.title')}</h3>
-                    <p className="text-muted-foreground text-[10px] font-medium uppercase tracking-widest mt-1">{t('gov.insights.subtitle')}</p>
+                    <ExecutiveHeading as="h3" className="text-h3 text-foreground">{t('gov.insights.title')}</ExecutiveHeading>
+                    <ExecutiveText as="div" variant="bodyStandard" className="text-muted-foreground mt-1">{t('gov.insights.subtitle')}</ExecutiveText>
                  </div>
               </div>
 
@@ -474,16 +501,14 @@ export function GovernanceDashboardPage({
       </div>
 
       {/* Area Snapshots Grid */}
-      <div className="space-y-6 mt-10">
-        <div className="flex justify-between items-end mb-6">
-           <div>
-              <h3 className="text-h3 font-medium text-foreground tracking-tight">{t('gov.health.title')}</h3>
-              <p className="text-muted-foreground text-[10px] font-medium uppercase tracking-widest mt-1">{t('gov.health.subtitle')}</p>
-           </div>
-           <button className="btn-ghost flex items-center gap-2 text-xs font-semibold text-primary">
-              {t('gov.btn.view_all')} <ChevronRight size={14} />
-           </button>
-        </div>
+      <div className="mt-12 mb-8 border-t border-border pt-8" />
+      <ExecutiveAccordion
+        title={t('gov.health.title')}
+        subtitle={t('gov.health.subtitle')}
+        variant="analytics"
+        defaultExpanded
+      >
+        <div className="space-y-6">
 
         <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-2 2xl:grid-cols-4 gap-6">
            {areaSnapshots.map((area, idx) => (
@@ -512,7 +537,8 @@ export function GovernanceDashboardPage({
              </div>
            ))}
         </div>
-      </div>
+        </div>
+      </ExecutiveAccordion>
 
       {/* Perspectiva Governança Aplicada ao Eixo de Governança */}
       <ExecutiveSurface padding="xl" className="overflow-hidden relative shadow-sm border-border flex flex-col gap-8 w-full">
@@ -522,8 +548,8 @@ export function GovernanceDashboardPage({
               <ShieldCheck size={24} />
             </div>
             <div>
-              <h3 className="text-xl font-semibold tracking-tight text-foreground leading-none">{t('gov.perspective.title')}</h3>
-              <p className="text-xs text-muted-foreground font-medium uppercase tracking-wider mt-1">{t('gov.perspective.subtitle')}</p>
+              <ExecutiveHeading as="h3" className="text-foreground">{t('gov.perspective.title')}</ExecutiveHeading>
+              <ExecutiveText as="div" variant="caption" className="text-muted-foreground mt-1">{t('gov.perspective.subtitle')}</ExecutiveText>
             </div>
           </div>
         </div>
@@ -533,7 +559,7 @@ export function GovernanceDashboardPage({
             variant="critical"
             title={t('gov.ai.blocked_title')}
           >
-            <p>{t('gov.ai.blocked_desc')}</p>
+            <ExecutiveText as="div" variant="bodyStandard">{t('gov.ai.blocked_desc')}</ExecutiveText>
             {runtimeWarnings?.length > 0 && (
               <ul className="mt-2 list-disc list-inside opacity-90 text-sm">
                 {runtimeWarnings.map((w: any, i: number) => (
@@ -561,7 +587,7 @@ export function GovernanceDashboardPage({
           </ExecutiveNarrative>
         ) : (
           <ExecutiveCallout variant="info" title="Aguardando Validação do Runtime Institucional">
-      <p className="text-sm mt-1">A perspectiva executiva será gerada automaticamente assim que os dados estruturais passarem pelos checks de governança e causalidade.</p>
+      <ExecutiveText as="div" variant="bodyStandard" className="mt-1">A perspectiva executiva será gerada automaticamente assim que os dados estruturais passarem pelos checks de governança e causalidade.</ExecutiveText>
           </ExecutiveCallout>
         )}
 
@@ -578,12 +604,23 @@ export function GovernanceDashboardPage({
             {triggeredRules.length === 0 && (
               <div className="col-span-1 xl:col-span-2 flex flex-col items-center justify-center p-12 bg-success/5 border border-success/20 rounded-md text-success">
                 <ShieldCheck size={48} className="mb-4 opacity-50" />
-                <h4 className="text-body-md font-medium tracking-tight mb-1 uppercase">{t('gov.ai.healthy_axis')}</h4>
-        <p className="text-[10px] font-medium text-center w-full max-w-2xl uppercase tracking-widest">{t('gov.ai.healthy_desc')}</p>
+                <ExecutiveHeading as="h4" className="text-body-md mb-1">{t('gov.ai.healthy_axis')}</ExecutiveHeading>
+        <ExecutiveText as="div" variant="bodyStandard" className="text-center w-full max-w-2xl">{t('gov.ai.healthy_desc')}</ExecutiveText>
               </div>
             )}
           </div>
       </ExecutiveSurface>
-    </div>
+       <ExecutiveSummarySection 
+         status={{ label: 'Governança Ativa', variant: 'success' }}
+         question="Como está o nível de conformidade e maturidade da governança corporativa?"
+         opinion="O comitê fiduciário avalia que os princípios de governança estão bem estruturados, com baixo desalinhamento operacional."
+         driver="Maturidade corporativa, regras fiduciárias e checks de governança."
+         implication="Maior transparência organizacional e segurança jurídica."
+         action="Acompanhar as recomendações de mitigação de risco e reportar trimestralmente."
+       >
+         <ExecutiveStrategicTensions tensions={[]} />
+         <ExecutiveDecisionTrace trace={[]} />
+        </ExecutiveSummarySection>
+    </ExecutivePageTemplate>
   );
 }

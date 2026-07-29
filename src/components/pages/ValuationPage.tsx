@@ -1,10 +1,30 @@
+
+
+
 import React, { useState, useEffect } from 'react';
 import { Calculator, Loader2, TrendingUp, Zap, BarChart3, Calendar } from 'lucide-react';
-import { PageHeader } from '../Common';
+import { PageHeader, StatusBadge } from '../Common';
+import { createPortal } from 'react-dom';
+import { ExecutiveSummarySection } from '../ui/executive-summary-section';
+import { ExecutiveStrategicTensions } from '../ui/executive-strategic-tensions';
+import { ExecutiveDecisionTrace } from '../ui/executive-decision-trace';
+import { useValuationViewModel } from '../../viewmodels/useValuationViewModel';
+import { ExecutiveHeading } from '../ui/executive-heading';
+import { ExecutiveText } from '../ui/executive-typography';
+import { ExecutivePageTemplate } from '../ui/executive-page-template';
+import { ExecutiveSurface } from '../ui/executive-surface';
+import { ExecutiveAccordion } from '../ui/executive-accordion';
+import { ExecutiveEmptyState } from '../ui/executive-empty-state';
+import { ExecutiveMetricCard } from '../ui/executive-metric-card';
 import { cn, formatCurrency } from '../../lib/utils';
 import { useFinancialData } from '../../hooks/useFinancialData';
+import { useValuationPageViewModel } from '../../viewmodels/useValuationPageViewModel';
 
 export function ValuationPage({ clients, selectedClient, selectedYear, selectedMonth }: any) {
+  // Adapter: useValuationPageAdapter
+  // ViewModel: useValuationPageViewModel
+  const { state: vmState, computed: vmComputed, actions: vmActions } = useValuationPageViewModel({ clientId: selectedClient });
+  const portal = createPortal;
   const [multiple, setMultiple] = useState(6.5);
   const [wacc, setWacc] = useState(12.5);
   const [growth, setGrowth] = useState(3.0);
@@ -54,17 +74,29 @@ export function ValuationPage({ clients, selectedClient, selectedYear, selectedM
   // Enterprise Value = Terminal Value (Single Stage Perpetuity)
   const enterpriseValueDCF = terminalValue;
 
-  return (
-    <div className="space-y-10 pb-32 animate-executive-fade">
-      <PageHeader 
-        title="Valuation Business" 
-        subtitle="Avaliação estratégica de valor de mercado utilizando múltiplos setoriais e fluxo de caixa descontado (DCF)."
-        icon={BarChart3}
-        color="bg-slate-900"
-      />
+   return (
+     <ExecutivePageTemplate header={{
+       title: "Valuation Business",
+       description: "Avaliação estratégica de valor de mercado utilizando múltiplos setoriais e fluxo de caixa descontado (DCF).",
+     }}>
 
-      <div className="flex items-center justify-between gap-4 flex-wrap bg-white/60 p-4 rounded-3xl border border-border backdrop-blur-sm shadow-sm -mt-6 mb-10">
-        <div className="flex items-center gap-3">
+       {/* --- CAMADA 1: NÍVEL CONSELHO (SÍNTESE DE VALUATION) --- */}
+       <ExecutiveSummarySection 
+         className="mb-8"
+         status={{ label: hasDbData ? 'Valuation Calculado' : 'Premissas Incompletas', variant: hasDbData ? 'success' : 'warning' }}
+         question="Qual a estimativa de valor de mercado (Enterprise Value) por múltiplos e Fluxo de Caixa Descontado (DCF)?"
+         opinion="O comitê fiduciário homologa a avaliação de valuation, atestando a razoabilidade do múltiplos de EBITDA e da taxa de desconto (WACC)."
+         driver="EBITDA anualizado, múltiplos EV/EBITDA, taxa WACC e taxa de crescimento perpétuo."
+         implication="Definição do piso de negociação para rodadas de investimento ou processos M&A."
+         action="Acompanhar a sensibilidade do valuation em relação a variações de WACC e EBITDA."
+       >
+         <ExecutiveStrategicTensions tensions={[]} />
+         <ExecutiveDecisionTrace trace={[]} />
+       </ExecutiveSummarySection>
+
+       <div className="flex flex-col md:flex-row md:items-center justify-between gap-6 mb-10">
+
+         <div className="flex items-center gap-3">
           <div className="bg-slate-100 p-1 rounded-xl flex gap-1 border border-border shrink-0">
             <div className="flex items-center px-4 py-2 border-r border-border">
               <Calendar size={14} className="text-muted-foreground mr-2" />
@@ -107,18 +139,26 @@ export function ValuationPage({ clients, selectedClient, selectedYear, selectedM
             <span className="text-[10px] font-black uppercase tracking-[0.2em] text-muted-foreground">
               {hasDbData ? 'Dados Reais' : 'Sem Dados'}
             </span>
-          </div>
-        </div>
+           </div>
+           <StatusBadge status={hasDbData ? 'Verde' : 'Amarelo'} label={hasDbData ? 'Dados Reais' : 'Sem Dados'} />
+         </div>
+       
       </div>
 
-
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+       <div className="mt-12 mb-8 border-t border-border pt-8" />
+       <ExecutiveAccordion
+         title="Valuation Business"
+         subtitle="Múltiplos setoriais, DCF e análise de valor."
+         variant="analytics"
+         defaultExpanded
+       >
+       <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
         <div className="lg:col-span-1 space-y-6">
           <div className="bg-white p-6 rounded-3xl border border-border">
-      <h3 className="text-sm font-bold text-executive-secondary mb-6 flex items-center gap-2">
+      <ExecutiveHeading as="h3" className="text-executive-secondary mb-6 flex items-center gap-2">
               <Calculator size={18} className="text-secondary" />
               Premissas de Avaliação
-            </h3>
+            </ExecutiveHeading>
             
             <div className="space-y-6">
               <div className="space-y-2">
@@ -149,21 +189,21 @@ export function ValuationPage({ clients, selectedClient, selectedYear, selectedM
 
           <div className="bg-slate-900 p-8 rounded-3xl text-white shadow-xl relative overflow-hidden group">
             <div className="absolute -bottom-10 -right-10 w-32 h-32 bg-secondary/10 rounded-full blur-2xl group-hover:bg-secondary/20 transition-all"></div>
-            <h4 className="text-[10px] font-black uppercase tracking-widest text-muted-foreground mb-2">Resumo Operacional (Anualizado)</h4>
+            <ExecutiveHeading as="h4" className="text-muted-foreground mb-2">Resumo Operacional (Anualizado)</ExecutiveHeading>
             <div className="space-y-4">
               <div>
-                <p className="text-4xl font-black whitespace-nowrap">{formatCurrency(anualizedEbitda)}</p>
-        <p className="text-[10px] font-bold uppercase tracking-tighter">EBITDA Estimado</p>
+                <ExecutiveText as="div" variant="bodyStandard" className="whitespace-nowrap">{formatCurrency(anualizedEbitda)}</ExecutiveText>
+        <ExecutiveText as="div" variant="bodyStandard">EBITDA Estimado</ExecutiveText>
               </div>
               <div className="h-px bg-white/20" />
               <div className="flex justify-between items-end">
                 <div>
-                  <p className="text-xl font-bold whitespace-nowrap">{formatCurrency(anualizedRevenue)}</p>
-         <p className="text-[9px] font-medium ">Receita Líquida Est.</p>
+                  <ExecutiveText as="div" variant="bodyStandard" className="whitespace-nowrap">{formatCurrency(anualizedRevenue)}</ExecutiveText>
+         <ExecutiveText as="div" variant="bodyStandard">Receita Líquida Est.</ExecutiveText>
                 </div>
                 <div className="text-right">
-                  <p className="text-xl font-bold">{anualizedRevenue > 0 ? ((anualizedEbitda / anualizedRevenue) * 100).toFixed(2) : 0}%</p>
-         <p className="text-[9px] font-medium ">Margem EBITDA</p>
+                  <ExecutiveText as="div" variant="bodyStandard">{anualizedRevenue > 0 ? ((anualizedEbitda / anualizedRevenue) * 100).toFixed(2) : 0}%</ExecutiveText>
+         <ExecutiveText as="div" variant="bodyStandard">Margem EBITDA</ExecutiveText>
                 </div>
               </div>
             </div>
@@ -176,8 +216,8 @@ export function ValuationPage({ clients, selectedClient, selectedYear, selectedM
               <div className="w-12 h-12 bg-success-soft text-emerald-600 rounded-2xl flex items-center justify-center mb-4">
                 <TrendingUp size={24} />
               </div>
-              <h4 className="text-[10px] font-black text-muted-foreground uppercase tracking-widest mb-1">Múltiplo de EBITDA</h4>
-       <p className="text-3xl font-black text-executive-secondary mb-2 whitespace-nowrap">{formatCurrency(valuationEbitda)}</p>
+              <ExecutiveHeading as="h4" className="text-muted-foreground mb-1">Múltiplo de EBITDA</ExecutiveHeading>
+       <ExecutiveText as="div" variant="bodyStandard" className="text-executive-secondary mb-2 whitespace-nowrap">{formatCurrency(valuationEbitda)}</ExecutiveText>
               <div className="px-3 py-1 bg-emerald-100 text-emerald-700 text-[10px] font-black rounded-lg">
                 MÉTODO COMPARATIVO
               </div>
@@ -190,8 +230,8 @@ export function ValuationPage({ clients, selectedClient, selectedYear, selectedM
               <div className="w-12 h-12 bg-secondary/10 text-secondary rounded-2xl flex items-center justify-center mb-4">
                 <Zap size={24} />
               </div>
-              <h4 className="text-[10px] font-black text-muted-foreground uppercase tracking-widest mb-1">Valor Presente (DCF)</h4>
-       <p className="text-3xl font-black text-executive-secondary mb-2 whitespace-nowrap">{formatCurrency(enterpriseValueDCF)}</p>
+              <ExecutiveHeading as="h4" className="text-muted-foreground mb-1">Valor Presente (DCF)</ExecutiveHeading>
+       <ExecutiveText as="div" variant="bodyStandard" className="text-executive-secondary mb-2 whitespace-nowrap">{formatCurrency(enterpriseValueDCF)}</ExecutiveText>
               <div className="px-3 py-1 bg-secondary/20 text-secondary text-[10px] font-black rounded-lg">
                 MÉTODO INTRÍNSECO
               </div>
@@ -202,7 +242,7 @@ export function ValuationPage({ clients, selectedClient, selectedYear, selectedM
           </div>
 
           <div className="bg-slate-50 p-8 rounded-3xl border border-border">
-            <h4 className="text-[11px] font-black text-muted-foreground uppercase tracking-widest mb-6">Detalhamento dos Cálculos</h4>
+            <ExecutiveHeading as="h4" className="text-muted-foreground mb-6">Detalhamento dos Cálculos</ExecutiveHeading>
             <div className="space-y-4">
               <div className="flex justify-between items-center py-3 border-b border-border">
                 <span className="text-xs font-bold text-muted-foreground">Fluxo de Caixa Livre (Ano 1)</span>
@@ -220,6 +260,18 @@ export function ValuationPage({ clients, selectedClient, selectedYear, selectedM
           </div>
         </div>
       </div>
-    </div>
+       <ExecutiveSummarySection 
+         status={{ label: 'Valuation Calculado', variant: 'success' }}
+         question="Qual a avaliação de valor de mercado e premissas aplicadas?"
+         opinion="O comitê fiduciário homologa os cálculos de valuation com base nos múltiplos e no fluxo de caixa descontado."
+         driver="Múltiplos setoriais, WACC e taxa de crescimento na perpetuidade."
+         implication="Definição de preço de referência para captações de equity ou transações societárias."
+         action="Atualizar as premissas macroeconômicas trimestralmente."
+       >
+         <ExecutiveStrategicTensions tensions={[]} />
+         <ExecutiveDecisionTrace trace={[]} />
+       </ExecutiveSummarySection>
+      </ExecutiveAccordion>
+    </ExecutivePageTemplate>
   );
 }

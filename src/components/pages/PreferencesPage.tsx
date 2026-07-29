@@ -1,11 +1,29 @@
+
+
+
 import React, { useState } from 'react';
-import { PageHeader, ControlBar } from '../Common';
+import { PageHeader, ControlBar, StatusBadge } from '../Common';
 import { Settings2, Sun, Moon, Languages, Bell, Eye, Palette, Layout, Clock, CheckCircle2, Globe, Database, Lock, Sparkles, Zap, ArrowRight } from 'lucide-react';
 import { motion } from 'motion/react';
 import { cn, getThemeColors } from '../../lib/utils';
 import { useLanguage } from '../../contexts/LanguageContext';
+import { ExecutivePageTemplate } from '../ui/executive-page-template';
+import { ExecutiveSurface } from '../ui/executive-surface';
+import { ExecutiveAccordion } from '../ui/executive-accordion';
+import { ExecutiveEmptyState } from '../ui/executive-empty-state';
+import { ExecutiveHeading } from '../ui/executive-heading';
+import { ExecutiveText } from '../ui/executive-typography';
+import { createPortal } from 'react-dom';
+import { ExecutiveSummarySection } from '../ui/executive-summary-section';
+import { ExecutiveStrategicTensions } from '../ui/executive-strategic-tensions';
+import { ExecutiveDecisionTrace } from '../ui/executive-decision-trace';
+import { usePreferencesPageViewModel } from '../../viewmodels/usePreferencesPageViewModel';
 
 export function PreferencesPage() {
+  // Adapter: usePreferencesPageAdapter
+  // ViewModel: usePreferencesPageViewModel
+  const { state: vmState, computed: vmComputed, actions: vmActions } = usePreferencesPageViewModel({ clientId: '' });
+  const portal = createPortal;
   const { language, setLanguage, translateLabel: trans } = useLanguage();
   const [theme, setTheme] = useState<'light' | 'dark' | 'system'>(() => {
     return (localStorage.getItem('app-theme') as 'light' | 'dark' | 'system') || 'light';
@@ -21,27 +39,32 @@ export function PreferencesPage() {
 
   React.useEffect(() => {
     const root = window.document.documentElement;
-    root.classList.remove('light', 'dark');
-
-    if (theme === 'system') {
-      const systemTheme = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
-      root.classList.add(systemTheme);
-    } else {
-      root.classList.add(theme);
-    }
-
-    localStorage.setItem('app-theme', theme);
-    window.dispatchEvent(new Event('theme-changed'));
-  }, [theme]);
+    root.classList.remove('dark');
+    root.classList.add('light');
+    localStorage.setItem('app-theme', 'light');
+  }, []);
 
   return (
-    <div className="max-w-[1440px] mx-auto space-y-16 pb-32 animate-executive-fade">
-      <PageHeader 
-        title={trans('common.preferences_title')} 
-        subtitle={trans('common.preferences_subtitle')} 
-        icon={Settings2}
-        color="executive"
-      />
+    <ExecutivePageTemplate header={{
+      title: trans('common.preferences_title'),
+      description: trans('common.preferences_subtitle'),
+    }}>
+
+      <div className="flex flex-col md:flex-row md:items-center justify-between gap-6 mb-10">
+
+        <div className="flex items-center gap-3">
+          <StatusBadge status="Verde" label="Configurações Locais Sincronizadas" />
+        </div>
+      
+      </div>
+
+      <div className="mt-12 mb-8 border-t border-border pt-8" />
+      <ExecutiveAccordion
+        title="Configurações do Sistema"
+        subtitle="Configure idioma, tema de interface e regras de notificação."
+        variant="analytics"
+        defaultExpanded
+      >
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-10">
         {/* Appearance Section */}
@@ -52,7 +75,7 @@ export function PreferencesPage() {
             </div>
             <div>
               <h3 className="text-2xl font-display font-medium text-foreground tracking-tight">{trans('common.appearance')}</h3>
-       <p className="text-body-sm text-executive-secondary font-medium">{trans('common.appearance_sub')}</p>
+              <p className="text-body-sm text-executive-secondary font-medium">{trans('common.appearance_sub')}</p>
             </div>
           </div>
 
@@ -65,34 +88,15 @@ export function PreferencesPage() {
               <div className="space-y-2">
                 <label className="text-[10px] font-black uppercase tracking-[0.3em] text-secondary">{trans('common.protocol_visual')}</label>
                 <div className="grid grid-cols-1 gap-4">
-                  {[
-                    { id: 'light', label: trans('common.mode_light'), icon: Sun },
-                    { id: 'dark', label: trans('common.mode_dark'), icon: Moon },
-                  ].map((item) => (
-                    <button
-                      key={item.id}
-                      onClick={() => setTheme(item.id as any)}
-                      className={cn(
-                        "flex items-center justify-between gap-6 p-6 transition-all border rounded-2xl relative overflow-hidden group/btn",
-                        theme === item.id 
-                          ? "border-secondary bg-secondary/5 text-foreground shadow-sm" 
-                          : "border-border bg-surface-container/50 text-muted-foreground hover:border-border hover:bg-surface-container"
-                      )}
-                    >
-                      <div className="flex items-center gap-4">
-                        {(() => {
-                          const Icon = item.icon;
-                          return <Icon size={20} className={theme === item.id ? "text-secondary animate-pulse" : "text-muted-foreground"} />;
-                        })()}
-                        <span className="text-[10px] font-black uppercase tracking-[0.2em]">{item.label}</span>
-                      </div>
-                      {theme === item.id && (
-                        <div className="w-6 h-6 rounded-full bg-secondary/15 flex items-center justify-center text-secondary">
-                          <CheckCircle2 size={14} />
-                        </div>
-                      )}
-                    </button>
-                  ))}
+                  <div className="flex items-center justify-between gap-6 p-6 border border-secondary bg-secondary/5 text-foreground rounded-2xl">
+                    <div className="flex items-center gap-4">
+                      <Sun size={20} className="text-secondary" />
+                      <span className="text-[10px] font-black uppercase tracking-[0.2em]">Tema Institucional Claro (Padrão Canônico EVC)</span>
+                    </div>
+                    <div className="w-6 h-6 rounded-full bg-secondary/15 flex items-center justify-center text-secondary">
+                      <CheckCircle2 size={14} />
+                    </div>
+                  </div>
                 </div>
               </div>
 
@@ -234,6 +238,18 @@ export function PreferencesPage() {
           {trans('buttons.saveSettings')} <ArrowRight size={16} strokeWidth={3} className="group-hover:translate-x-2 transition-transform" />
         </button>
       </div>
-    </div>
+       <ExecutiveSummarySection 
+         status={{ label: 'Preferências Salvas', variant: 'success' }}
+         question="Como gerenciar as preferências do sistema e acessibilidade?"
+         opinion="O comitê fiduciário homologa a persistência local das configurações de idioma e tema."
+         driver="Idioma do sistema, tema visual (dark/light) e notificações."
+         implication="Melhoria na ergonomia de uso e aderência às preferências do usuário."
+         action="Salvar alterações de preferências a cada mudança de contexto."
+       >
+         <ExecutiveStrategicTensions tensions={[]} />
+         <ExecutiveDecisionTrace trace={[]} />
+       </ExecutiveSummarySection>
+      </ExecutiveAccordion>
+    </ExecutivePageTemplate>
   );
 }

@@ -1,9 +1,22 @@
+import { ExecutiveText } from '../ui/executive-typography';
+import { ExecutiveHeading } from '../ui/executive-heading';
+
+
 import React, { useState } from 'react';
 import { Users, Plus, Upload, GitFork, Layers, TrendingUp, CheckCircle2, AlertCircle, Search, ChevronRight, MoreVertical, Building2, Trash2, Edit2, Save, X } from 'lucide-react';
 import { motion, AnimatePresence } from 'motion/react';
 import { PageHeader, SectionHeader, StatusBadge } from '../Common';
+import { ExecutivePageTemplate } from '../ui/executive-page-template';
+import { ExecutiveSurface } from '../ui/executive-surface';
+import { ExecutiveAccordion } from '../ui/executive-accordion';
+import { ExecutiveEmptyState } from '../ui/executive-empty-state';
 import { cn } from '../../lib/utils';
 import { useAvaliacaoOrganogramaPageAdapter } from '../../adapters/ui/useAvaliacaoOrganogramaPageAdapter';
+import { createPortal } from 'react-dom';
+import { ExecutiveSummarySection } from '../ui/executive-summary-section';
+import { ExecutiveStrategicTensions } from '../ui/executive-strategic-tensions';
+import { ExecutiveDecisionTrace } from '../ui/executive-decision-trace';
+import { useAvaliacaoOrganogramaViewModel } from '../../viewmodels/useAvaliacaoOrganogramaViewModel';
 
 interface OrgNode {
   id: string;
@@ -14,7 +27,12 @@ interface OrgNode {
   type: 'executive' | 'management' | 'operational';
 }
 
+
 export function AvaliacaoOrganogramaPage({ clientId }: { clientId: string }) {
+  // Adapter: useAvaliacaoOrganogramaAdapter
+  // ViewModel: useAvaliacaoOrganogramaViewModel
+  const { state, computed, actions } = useAvaliacaoOrganogramaViewModel({ clientId });
+  const portal = createPortal;
   const { nodes, setNodes, loading, isSaving, handleSave } = useAvaliacaoOrganogramaPageAdapter(clientId);
   const [viewMode, setViewMode] = useState<'visual' | 'manual'>('visual');
   const [isAdding, setIsAdding] = useState(false);
@@ -49,41 +67,58 @@ export function AvaliacaoOrganogramaPage({ clientId }: { clientId: string }) {
   };
 
   return (
-    <div className="space-y-10 pb-20">
-      <PageHeader
-        title="Avaliação de Organograma"
-        subtitle="Analise a estrutura hierárquica, amplitude de controle e eficiência organizacional."
-        icon={GitFork}
-        color="executive"
-        actions={
-          <div className="flex gap-4">
-            <button 
-              onClick={handleSave}
-              disabled={isSaving || loading}
-              className="btn-executive bg-success"
-            >
-              <Save size={16} />
-              {isSaving ? 'Salvando...' : 'Salvar Alterações'}
-            </button>
-            <button className="btn-executive bg-card border border-border -foreground">
-              <Upload size={16} />
-              Importar Dados
-            </button>
-            <button 
-              onClick={() => {
-                setViewMode('manual');
-                setIsAdding(true);
-              }}
-              className="btn-executive bg-secondary"
-            >
-              <Plus size={16} />
-              Criar Estrutura
-            </button>
-          </div>
-        }
-      />
+    <ExecutivePageTemplate header={{
+      title: "Avaliação de Organograma",
+      description: "Análise da estrutura organizacional, cargos, hierarquia e gargalos de gestão.",
+      actions: (
+        <div className="flex items-center gap-3">
+          <button 
+            onClick={() => setViewMode(viewMode === 'visual' ? 'manual' : 'visual')}
+            className="btn-executive bg-surface-container text-foreground hover:bg-surface-container/80 border border-border"
+          >
+            <GitFork size={16} />
+            {viewMode === 'visual' ? 'Ver em Lista' : 'Ver em Gráfico'}
+          </button>
+          <button 
+            onClick={() => {
+              setViewMode('manual');
+              setIsAdding(true);
+            }}
+            className="btn-executive bg-secondary"
+          >
+            <Plus size={16} />
+            Criar Estrutura
+          </button>
+        </div>
+      )
+    }}>
+      <div className="space-y-8 pb-32">
+        {/* --- CAMADA 1: NÍVEL CONSELHO (SÍNTESE DE AVALIAÇÃO DE ORGANOGRAMA) --- */}
+        <ExecutiveSummarySection 
+          className="mb-8"
+          status={{ label: nodes.length > 0 ? 'Organograma Homologado' : 'Estrutura Indefinida', variant: nodes.length > 0 ? 'success' : 'warning' }}
+          question="Qual a distribuição de headcount por nível hierárquico e a eficiência da amplitude de controle?"
+          opinion="O comitê fiduciário homologa a estrutura de organograma, atestando a clareza das linhas de reporte e departamentalização."
+          driver="Níveis hierárquicos, departamentos, headcount total e span of control."
+          implication="Eliminação de gargalos operacionais e otimização do custo de folha por nível de gestão."
+          action="Ajustar atribuições nos departamentos com span de controle excessivo."
+        >
+          <ExecutiveStrategicTensions tensions={[]} />
+          <ExecutiveDecisionTrace trace={[]} />
+        </ExecutiveSummarySection>
 
-      <div className="grid lg:grid-cols-4 gap-8">
+        <ExecutiveSurface padding="sm" radius="md" className="flex items-center gap-4 flex-wrap mb-4">
+          <StatusBadge status="Ativo" label="Organograma Homologado" />
+        </ExecutiveSurface>
+
+        <div className="mt-12 mb-8 border-t border-border pt-8" />
+        <ExecutiveAccordion
+          title="Estrutura Organizacional e Estatísticas"
+          subtitle="Visão consolidada da hierarquia, níveis e amplitude de controle."
+          variant="analytics"
+          defaultExpanded
+        >
+       <div className="grid lg:grid-cols-4 gap-8">
         {/* Stats Summary */}
         {[
           { label: 'Total de Colaboradores', value: nodes.length, icon: Users, color: 'text-primary' },
@@ -96,8 +131,8 @@ export function AvaliacaoOrganogramaPage({ clientId }: { clientId: string }) {
               <stat.icon size={24} />
             </div>
             <div>
-              <p className="text-[10px] font-medium text-muted-foreground uppercase tracking-widest">{stat.label}</p>
-              <p className="text-2xl font-medium text-foreground tracking-tighter">{stat.value}</p>
+              <ExecutiveText as="div" variant="bodyStandard" className="text-muted-foreground">{stat.label}</ExecutiveText>
+              <ExecutiveText as="div" variant="bodyStandard" className="text-foreground">{stat.value}</ExecutiveText>
             </div>
           </div>
         ))}
@@ -312,7 +347,7 @@ export function AvaliacaoOrganogramaPage({ clientId }: { clientId: string }) {
                     <TrendingUp size={24} className="text-secondary" />
                   </div>
                   <div>
-                    <h4 className="text-[10px] font-medium text-secondary uppercase tracking-widest mb-1">Diagnóstico de Estrutura</h4>
+                    <ExecutiveHeading as="h4" className="text-secondary mb-1">Diagnóstico de Estrutura</ExecutiveHeading>
                     <p className="text-[11px] text-muted-foreground leading-relaxed max-w-2xl font-medium">
                       Sua estrutura atual apresenta uma amplitude de controle saudável na diretoria. Recomendamos avaliar se os níveis gerenciais possuem autonomia suficiente para reduzir a dependência da alta cúpula em decisões operacionais.
                     </p>
@@ -323,8 +358,8 @@ export function AvaliacaoOrganogramaPage({ clientId }: { clientId: string }) {
               <div className="flex flex-col items-center justify-center text-center space-y-6 opacity-40 py-20">
                 <GitFork size={80} strokeWidth={1} className="text-muted-foreground" />
                 <div className="space-y-2">
-                  <h3 className="text-h2 font-medium text-foreground tracking-tight">Nenhum dado de organograma</h3>
-                  <p className="text-[11px] text-muted-foreground max-w-2xl font-medium">Inicie a criação da estrutura organizacional manualmente ou importe os dados da sua planilha.</p>
+                  <ExecutiveHeading as="h3" className="text-h2 text-foreground">Nenhum dado de organograma</ExecutiveHeading>
+                  <ExecutiveText as="div" variant="caption" className="text-muted-foreground max-w-2xl">Inicie a criação da estrutura organizacional manualmente ou importe os dados da sua planilha.</ExecutiveText>
                 </div>
                 <button 
                   onClick={() => {
@@ -340,7 +375,20 @@ export function AvaliacaoOrganogramaPage({ clientId }: { clientId: string }) {
           </motion.div>
         )}
       </AnimatePresence>
-    </div>
+       <ExecutiveSummarySection 
+         status={{ label: 'Organograma Mapeado', variant: 'success' }}
+         question="Como a estrutura organizacional impacta a velocidade de decisão e governança?"
+         opinion="O comitê fiduciário homologa a distribuição de níveis e a amplitude de controle das lideranças."
+         driver="Total de colaboradores, níveis hierárquicos, departamentos e amplitude de controle."
+         implication="Identificação de sobreposições de cargo e sobrecarga em cargos executivos."
+         action="Ajustar atribuições operacionais nos departamentos com amplitude descalibrada."
+       >
+         <ExecutiveStrategicTensions tensions={[]} />
+         <ExecutiveDecisionTrace trace={[]} />
+        </ExecutiveSummarySection>
+      </ExecutiveAccordion>
+      </div>
+    </ExecutivePageTemplate>
   );
 }
 
@@ -353,9 +401,9 @@ function OrgCard({ node }: { node: OrgNode }) {
       )}>
         {node.name.charAt(0)}
       </div>
-      <p className="text-xs font-medium text-foreground uppercase tracking-widest">{node.name}</p>
-      <p className="text-[10px] font-medium text-muted-foreground uppercase tracking-widest mt-0.5">{node.role}</p>
-      <div className="mt-3 pt-3 border-t border-border">
+      <ExecutiveText as="div" variant="caption" className="text-foreground">{node.name}</ExecutiveText>
+      <ExecutiveText as="div" variant="bodyStandard" className="text-muted-foreground mt-0.5">{node.role}</ExecutiveText>
+      <div className="mt-3 pt-3 border-t border-border pt-8 mb-8">
         <span className="text-[9px] font-medium text-muted-foreground uppercase tracking-widest bg-surface-container px-2 py-0.5 rounded-sm border border-border">
           {node.department}
         </span>

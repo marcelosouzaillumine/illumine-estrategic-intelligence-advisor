@@ -1,0 +1,13 @@
+{
+  "name": "@illumine/semantic-model",
+  "version": "1.0.0",
+  "description": "Illumine OS Enterprise Semantic System (Canonical Level A)",
+  "main": "src/index.ts",
+  "types": "src/index.ts",
+  "scripts": {
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@illumine/core-primitives": "^1.0.0"
+  }
+}

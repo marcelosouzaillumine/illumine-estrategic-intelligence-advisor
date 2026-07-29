@@ -1,8 +1,8 @@
-// src/components/operating-pressure/LiquidityCompressionGraph.tsx
-
 import React from 'react';
 import { ArrowDownCircle, CheckCircle } from 'lucide-react';
 import { cn } from '../../lib/utils';
+// src/components/operating-pressure/LiquidityCompressionGraph.tsx
+
 
 interface LiquidityCompressionProps {
   data: {

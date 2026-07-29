@@ -1,29 +1,42 @@
 import React from 'react';
 import { AlertOctagon } from 'lucide-react';
 import { RuntimeViolation } from '../../runtime/types';
+import { ExecutiveSurface } from '../ui/executive-surface';
+import { ExecutiveHeading } from '../ui/executive-heading';
+import { ExecutiveText } from '../ui/executive-typography';
+import { formatSeverityLabel } from './ConsolidatedLanguageFormatter';
 
 export function GovernanceViolationsPanel({ violations }: { violations: RuntimeViolation[] }) {
   if (!violations || violations.length === 0) return null;
 
   return (
-    <div className="bg-white rounded-2xl p-6 border border-rose-200 shadow-sm mt-8">
-      <h3 className="text-sm font-black text-rose-700 uppercase tracking-widest mb-4 flex items-center gap-2">
-        <AlertOctagon size={16} />
-        Violações de Governança
-      </h3>
+    <ExecutiveSurface variant="critical" className="p-6">
+      <div className="flex items-center gap-2 mb-4">
+        <AlertOctagon size={16} className="text-critical shrink-0" />
+        <ExecutiveHeading as="h3" variant="submoduleTitle" className="uppercase tracking-widest text-critical">
+          Violações de Governança
+        </ExecutiveHeading>
+      </div>
       <div className="space-y-3">
         {violations.map((v, idx) => (
-          <div key={idx} className="p-4 rounded-xl bg-critical-soft border border-rose-100">
+          <div key={idx} className="p-4 rounded-xl bg-critical-soft border border-critical/20">
             <div className="flex items-center gap-3 mb-2">
-              <span className="text-[10px] font-black uppercase px-2 py-0.5 rounded bg-rose-200 text-rose-800">
-                {v.severity}
+              <span className="inline-flex items-center px-2 py-0.5 rounded bg-critical/10 border border-critical/20">
+                <ExecutiveText variant="caption" className="font-bold uppercase text-critical">
+                  {formatSeverityLabel(v.severity)}
+                </ExecutiveText>
               </span>
-              <span className="text-xs font-bold text-muted-foreground">{v.rule}</span>
+              <ExecutiveText variant="bodyStandard" className="font-bold text-foreground">
+                {v.rule}
+              </ExecutiveText>
             </div>
-            <p className="text-xs text-rose-600 font-medium">{v.message}</p>
+            <ExecutiveText variant="bodyStandard" className="text-critical font-medium">
+              {v.message}
+            </ExecutiveText>
           </div>
         ))}
       </div>
-    </div>
+    </ExecutiveSurface>
   );
 }
+

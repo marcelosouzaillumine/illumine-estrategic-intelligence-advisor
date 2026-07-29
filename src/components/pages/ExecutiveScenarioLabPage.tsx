@@ -1,5 +1,5 @@
 import React from 'react';
-import { PageHeader } from '../Common';
+import { PageHeader, StatusBadge } from '../Common';
 import { FlaskConical } from 'lucide-react';
 import { ScenarioSimulationProvider } from '../../context/scenario-simulation/ScenarioSimulationProvider';
 import { ScenarioSimulationPanel } from '../scenario-simulation/ScenarioSimulationPanel';
@@ -10,46 +10,82 @@ import { StrategicStressMap } from '../scenario-simulation/StrategicStressMap';
 import { SimulationConfidenceCard } from '../scenario-simulation/SimulationConfidenceCard';
 import { SimulationLineageViewer } from '../scenario-simulation/SimulationLineageViewer';
 import { useLanguage } from '../../contexts/LanguageContext';
+import { ExecutivePageTemplate } from '../ui/executive-page-template';
+import { ExecutiveSurface } from '../ui/executive-surface';
+import { ExecutiveBadge } from '../ui/executive-badge';
+import { ExecutiveHeading } from '../ui/executive-heading';
+import { ExecutiveText } from '../ui/executive-typography';
+import { ExecutiveSummarySection } from '../ui/executive-summary-section';
+import { ExecutiveStrategicTensions } from '../ui/executive-strategic-tensions';
+import { ExecutiveDecisionTrace } from '../ui/executive-decision-trace';
+import { ExecutiveTechnicalLayer } from '../ui/executive-technical-layer';
+import { useExecutiveScenarioLabPageViewModel } from '../../viewmodels/useExecutiveScenarioLabPageViewModel';
 
 export function ExecutiveScenarioLabPage() {
+  const { state: vmState, computed: vmComputed, actions: vmActions } = useExecutiveScenarioLabPageViewModel({ clientId: '' });
   const { t } = useLanguage();
   return (
     <ScenarioSimulationProvider>
-      <div className="max-w-[1440px] mx-auto px-6 lg:px-10 space-y-12 pb-32 animate-executive-fade">
-        <PageHeader 
-          title={t('scenario.title')} 
-          subtitle={t('scenario.subtitle')} 
-          icon={FlaskConical} 
-          transparent
-        />
-        
-        <div className="space-y-8">
-          {/* Seletor do Cenário de Base */}
-          <ScenarioSimulationPanel />
+      <ExecutivePageTemplate header={{
+        title: t('scenario.title') || "Laboratório Executivo de Cenários",
+        description: t('scenario.subtitle') || "Projete cenários alternativos e simule elasticidades e estresse de governança.",
+      }}>
+        <div className="max-w-[1440px] mx-auto space-y-8 pb-24 animate-executive-fade">
 
-          {/* Grid Principal: Sandbox e Linha do tempo (Esquerda) vs Confiança e Trilha (Direita) */}
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 lg:gap-8 xl:gap-10">
-            {/* Esquerda: Decisões de Sandbox e Linha do Tempo de Projeção */}
-            <div className="lg:col-span-2 space-y-6 lg:space-y-8 xl:space-y-10">
+          {/* --- CAMADA 1: NÍVEL CONSELHO (SÍNTESE DE LABORATÓRIO DE CENÁRIOS) --- */}
+          <ExecutiveSummarySection 
+            className="mb-8"
+            status={{ label: 'Simulação Homologada', variant: 'success' }}
+            question="Qual o impacto e resiliência financeira diante dos cenários simulados de estresse e variação de margem?"
+            opinion="O comitê fiduciário homologa os testes de estresse e projeções de sensibilidade para suporte à tomada de decisão executiva."
+            driver="Simulações de receita, variação de custos, projeções de caixa e testes de sensibilidade de mercado."
+            implication="Mitigação de exposição a choques macroeconômicos ou desvios operacionais não planejados."
+            action="Definir gatilhos operacionais para ativação automática do plano de mitigação de liquidez."
+          >
+            <ExecutiveStrategicTensions tensions={[]} />
+            <ExecutiveDecisionTrace trace={[]} />
+          </ExecutiveSummarySection>
+
+          {/* --- CAMADA 2: DIRETORIA & SANDBOX E NAVEGADOR --- */}
+          <ExecutiveSurface padding="xl" radius="xl" className="bg-card border border-border shadow-sm mb-8 space-y-6">
+            <div className="flex items-center justify-between border-b border-border pb-4">
+              <div>
+                <ExecutiveHeading as="h3" className="text-foreground">Sandbox de Simulação de Impactos</ExecutiveHeading>
+                <ExecutiveText variant="caption" className="text-muted-foreground">Parâmetros de elasticidade e projeção de sensibilidade.</ExecutiveText>
+              </div>
+              <ExecutiveBadge variant="info">Laboratório Ativo</ExecutiveBadge>
+            </div>
+
+            <ScenarioSimulationPanel />
+
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
               <ExecutiveScenarioNavigator />
               <GovernanceProjectionTimeline />
             </div>
 
-            {/* Direita: Diagnóstico de Confiança e Linha de Auditoria */}
-            <div className="space-y-6 lg:space-y-8 xl:space-y-10">
-              <SimulationConfidenceCard />
-              <SimulationLineageViewer />
+            <GovernanceForecastSurface />
+          </ExecutiveSurface>
+
+          {/* --- CAMADA 3: CAMADA TÉCNICA E AUDITORIA DE CENÁRIOS --- */}
+          <ExecutiveTechnicalLayer
+            title="Camada Técnica de Confiança e Linhagem"
+            subtitle="Diagnóstico de Confiança, Rastro de Linhagem e Mapa de Estresse"
+            description="Métricas estatísticas de intervalo de confiança, hash de linhagem e níveis de severidade de estresse."
+            className="mb-8"
+          >
+            <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-6">
+              <div className="lg:col-span-2">
+                <StrategicStressMap />
+              </div>
+              <div className="space-y-6">
+                <SimulationConfidenceCard />
+                <SimulationLineageViewer />
+              </div>
             </div>
-          </div>
+          </ExecutiveTechnicalLayer>
 
-          {/* Diagnóstico de Forecast (100% de largura para dar espaço de leitura premium) */}
-          <GovernanceForecastSurface />
-
-          {/* Classificação de Estresse (100% de largura para os 4 níveis brilharem) */}
-          <StrategicStressMap />
         </div>
-      </div>
+      </ExecutivePageTemplate>
     </ScenarioSimulationProvider>
   );
 }
-

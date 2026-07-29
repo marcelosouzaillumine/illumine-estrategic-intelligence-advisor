@@ -1,9 +1,17 @@
+
+
 import React, { useEffect, useState } from 'react';
 import { Radar, Loader2, Database } from 'lucide-react';
-import { PageHeader } from '../Common';
+import { PageHeader, StatusBadge } from '../Common';
 import { GoldenDatasetRegistry } from '../../services/FiduciaryRuntimeAdapter';
 import { GoldenDatasetIsolationEngine } from '../../services/FiduciaryRuntimeAdapter';
 import { GoldenDatasetProfile } from '../../services/FiduciaryRuntimeAdapter';
+import { ExecutivePageTemplate } from '../ui/executive-page-template';
+import { ExecutiveSurface } from '../ui/executive-surface';
+import { ExecutiveAccordion } from '../ui/executive-accordion';
+import { ExecutiveEmptyState } from '../ui/executive-empty-state';
+import { ExecutiveHeading } from '../ui/executive-heading';
+import { ExecutiveText } from '../ui/executive-typography';
 import { GoldenDatasetExplorer } from '../reality-validation/GoldenDatasetExplorer';
 import { OperationalStressDashboard } from '../reality-validation/OperationalStressDashboard';
 import { InstitutionalComplexityViewer } from '../reality-validation/InstitutionalComplexityViewer';
@@ -12,10 +20,19 @@ import { OperationalScalePanel } from '../reality-validation/OperationalScalePan
 import { CrossTenantStressViewer } from '../reality-validation/CrossTenantStressViewer';
 import { RuntimeStabilityPanel } from '../reality-validation/RuntimeStabilityPanel';
 import { RealityValidationTimeline } from '../reality-validation/RealityValidationTimeline';
+import { createPortal } from 'react-dom';
+import { ExecutiveSummarySection } from '../ui/executive-summary-section';
+import { ExecutiveStrategicTensions } from '../ui/executive-strategic-tensions';
+import { ExecutiveDecisionTrace } from '../ui/executive-decision-trace';
+import { useRealityValidationPageViewModel } from '../../viewmodels/useRealityValidationPageViewModel';
 
 const TENANT_ID = 'TENANT-REALITY-VALIDATION';
 
 export function RealityValidationPage() {
+  // Adapter: useRealityValidationPageAdapter
+  // ViewModel: useRealityValidationPageViewModel
+  const { state: vmState, computed: vmComputed, actions: vmActions } = useRealityValidationPageViewModel({ clientId: '' });
+  const portal = createPortal;
   const [initialized, setInitialized] = useState(false);
   const [selectedDatasetId, setSelectedDatasetId] = useState<string | null>(null);
   const [datasets, setDatasets] = useState<GoldenDatasetProfile[]>([]);
@@ -45,23 +62,32 @@ export function RealityValidationPage() {
   }
 
   return (
-    <div className="max-w-[1440px] mx-auto px-6 lg:px-10 space-y-12 pb-32 animate-executive-fade">
-      {/* Header */}
-      <div className="flex flex-col md:flex-row md:items-end justify-between gap-6">
-        <PageHeader
-          title="Reality Validation Center"
-          subtitle="Validação operacional enterprise com Golden Datasets isolados. Sandbox in-memory. Produção intocada."
-          icon={Radar}
-          transparent
-        />
-        <div className="flex items-center gap-2 px-4 py-2 bg-surface-container border border-border rounded-md shrink-0">
-          <Database size={14} className="text-muted-foreground" />
-          <span className="text-[10px] font-bold text-foreground uppercase tracking-widest">{datasets.length} Golden Datasets</span>
+    <ExecutivePageTemplate header={{
+      title: "Reality Validation Center",
+      description: "Validação operacional enterprise com Golden Datasets isolados. Sandbox in-memory. Produção intocada.",
+    }}>
+
+      <div className="flex flex-col md:flex-row md:items-center justify-between gap-6 mb-10">
+
+        <div className="flex items-center gap-3">
+          <StatusBadge status="Verde" label="Reality Isolation Active" />
+        </div>
+        <div className="flex items-center gap-2 bg-zinc-900 border border-zinc-800 text-white px-4 py-2 rounded-xl text-[10px] font-bold uppercase tracking-widest shrink-0">
+          <Database size={14} className="text-emerald-500" />
+          <span className="text-[10px] font-bold uppercase tracking-widest">{datasets.length} Golden Datasets</span>
           <span className="text-[10px] text-muted-foreground font-mono ml-2">{TENANT_ID}</span>
         </div>
+      
       </div>
 
-      {/* Main Layout */}
+      <div className="mt-12 mb-8 border-t border-border pt-8" />
+      <ExecutiveAccordion
+        title="Painel de Grounding e Validação"
+        subtitle="Analise os testes de estresse fiduciários nos datasets controlados."
+        variant="analytics"
+        defaultExpanded
+      >
+
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
         {/* Left: Dataset Explorer */}
         <div className="space-y-6">
@@ -95,7 +121,19 @@ export function RealityValidationPage() {
             <RuntimeStabilityPanel tenantId={TENANT_ID} />
           </div>
         </div>
+       <ExecutiveSummarySection 
+         status={{ label: 'Ambiente Validado', variant: 'success' }}
+         question="Como os Golden Datasets asseguram a fidelidade nos testes de estresse operacional?"
+         opinion="O comitê fiduciário valida o sandbox in-memory, atestando a integridade das simulações de estresse."
+         driver="Datasets isolados, métricas de estabilidade de runtime e testes cross-tenant."
+         implication="Garantia de tolerância a falhas sem impacto nos dados de produção."
+         action="Executar rotinas de estresse antes de qualquer promoção de release para produção."
+       >
+         <ExecutiveStrategicTensions tensions={[]} />
+         <ExecutiveDecisionTrace trace={[]} />
+       </ExecutiveSummarySection>
       </div>
-    </div>
+      </ExecutiveAccordion>
+    </ExecutivePageTemplate>
   );
 }

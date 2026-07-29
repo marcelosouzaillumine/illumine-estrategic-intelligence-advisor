@@ -1,9 +1,9 @@
-// src/components/institutional-reporting/StrategicDirectionSurface.tsx
-
 import React from 'react';
 import { Compass, Route, AlertOctagon } from 'lucide-react';
 import { useLanguage } from '../../contexts/LanguageContext';
 import { StrategicDirectionSection } from '../../services/FiduciaryRuntimeAdapter';
+// src/components/institutional-reporting/StrategicDirectionSurface.tsx
+
 
 export function StrategicDirectionSurface({ data }: { data: StrategicDirectionSection }) {
   const { translateLabel: t } = useLanguage();

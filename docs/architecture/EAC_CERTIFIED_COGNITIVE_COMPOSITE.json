@@ -1,0 +1,11 @@
+[
+  {
+    "component": "BoardDecisionSurface",
+    "status": "CERTIFIED_COGNITIVE_COMPOSITE",
+    "classification": "NO_ACTION_REQUIRED",
+    "reason": "Decision, context, rationale and consequences form one legitimate cognitive unit.",
+    "migrationRequired": false,
+    "certificationSource": "ECDP_STAGE_2",
+    "requiresPeriodicReview": true
+  }
+]

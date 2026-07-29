@@ -1,0 +1,5123 @@
+[
+  {
+    "component": "AppSidebar",
+    "filePath": "src/components/AppSidebar.tsx",
+    "status": "NOT_APPLICABLE",
+    "confidence": "high",
+    "rationale": "No technical evidence or decision trace markers found."
+  },
+  {
+    "component": "ClientAccessLogs",
+    "filePath": "src/components/ClientAccessLogs.tsx",
+    "architecturalBlock": "decision-trace",
+    "cognitiveSubtype": "audit-trail",
+    "status": "CERTIFIED_BOUNDARY",
+    "certificationSource": "CONTROLLED_EXPANSION_WAVE_02A2",
+    "confidence": "high",
+    "rootStrategy": "INTERNAL_WRAP",
+    "certifiedAt": "2026-07-10",
+    "boundaryEvidence": {
+      "regionCount": 1,
+      "accessibleName": "Histórico de acessos do cliente",
+      "historicalItemsRendered": 5,
+      "controlsOutsideBoundary": "KPI cards (bg-blue-50, bg-success-soft) confirmed NOT inside section[data-eac-block]"
+    },
+    "visualQA": "24/24 passed",
+    "typecheckResult": "PASS",
+    "lintResult": "PASS",
+    "testResult": "1469/1469 pass"
+  },
+  {
+    "component": "ClientImportHistory",
+    "filePath": "src/components/ClientImportHistory.tsx",
+    "architecturalBlock": "decision-trace",
+    "cognitiveSubtype": "audit-trail",
+    "status": "CERTIFIED_BOUNDARY",
+    "certificationSource": "CONTROLLED_EXPANSION_WAVE_02A2",
+    "confidence": "high",
+    "rootStrategy": "INTERNAL_WRAP",
+    "certifiedAt": "2026-07-10",
+    "boundaryEvidence": {
+      "regionCount": 1,
+      "accessibleName": "Histórico de importações do cliente",
+      "historicalItemsRendered": 2,
+      "controlsOutsideBoundary": "upload form (input[type=file]) confirmed NOT inside section[data-eac-block]"
+    },
+    "visualQA": "24/24 passed",
+    "typecheckResult": "PASS",
+    "lintResult": "PASS",
+    "testResult": "1469/1469 pass"
+  },
+  {
+    "component": "ClientLoginAudit",
+    "filePath": "src/components/ClientLoginAudit.tsx",
+    "architecturalBlock": "decision-trace",
+    "cognitiveSubtype": "audit-trail",
+    "status": "CERTIFIED_BOUNDARY",
+    "certificationSource": "CONTROLLED_EXPANSION_WAVE_01",
+    "confidence": "high",
+    "rootStrategy": "ROOT_REPLACEMENT",
+    "certifiedAt": "2026-07-10"
+  },
+  {
+    "component": "ClientSelector",
+    "filePath": "src/components/ClientSelector.tsx",
+    "status": "NOT_APPLICABLE",
+    "confidence": "high",
+    "rationale": "Primitive UI component."
+  },
+  {
+    "component": "ClientUserManager",
+    "filePath": "src/components/ClientUserManager.tsx",
+    "status": "NOT_APPLICABLE",
+    "confidence": "high",
+    "rationale": "No technical evidence or decision trace markers found."
+  },
+  {
+    "component": "EmployeeManager",
+    "filePath": "src/components/EmployeeManager.tsx",
+    "status": "HEURISTIC_CANDIDATE",
+    "architecturalBlock": "ambiguous",
+    "confidence": "low",
+    "rationale": "Weak structural signal (evidence=1, trace=1)."
+  },
+  {
+    "component": "ExecutiveCommentary",
+    "filePath": "src/components/ExecutiveCommentary.tsx",
+    "status": "HEURISTIC_CANDIDATE",
+    "architecturalBlock": "decision-trace",
+    "confidence": "medium",
+    "rationale": "2 decision trace structural markers found."
+  },
+  {
+    "component": "ExecutivePerspectiveSection",
+    "filePath": "src/components/ExecutivePerspectiveSection.tsx",
+    "status": "MIXED_BOUNDARY",
+    "confidence": "medium",
+    "rationale": "Mixed text signals (3) with evidence(0)/trace(1)."
+  },
+  {
+    "component": "GovernanceInsightPanel",
+    "filePath": "src/components/GovernanceInsightPanel.tsx",
+    "status": "NOT_APPLICABLE",
+    "confidence": "high",
+    "rationale": "No technical evidence or decision trace markers found."
+  },
+  {
+    "component": "PayrollDashboard",
+    "filePath": "src/components/PayrollDashboard.tsx",
+    "status": "CONTAINER_REVIEW_REQUIRED",
+    "confidence": "medium",
+    "rationale": "Container (matches pattern). Internal evidence=0, trace=2, mixed=3."
+  },
+  {
+    "component": "SalesPipelineManager",
+    "filePath": "src/components/SalesPipelineManager.tsx",
+    "status": "HEURISTIC_CANDIDATE",
+    "architecturalBlock": "ambiguous",
+    "confidence": "low",
+    "rationale": "Weak structural signal (evidence=0, trace=1)."
+  },
+  {
+    "component": "SortableHeader",
+    "filePath": "src/components/SortableHeader.tsx",
+    "status": "NOT_APPLICABLE",
+    "confidence": "high",
+    "rationale": "No technical evidence or decision trace markers found."
+  },
+  {
+    "component": "CourseCard",
+    "filePath": "src/components/academy/CourseCard.tsx",
+    "status": "NOT_APPLICABLE",
+    "confidence": "high",
+    "rationale": "No technical evidence or decision trace markers found."
+  },
+  {
+    "component": "CourseCarousel",
+    "filePath": "src/components/academy/CourseCarousel.tsx",
+    "status": "NOT_APPLICABLE",
+    "confidence": "high",
+    "rationale": "No technical evidence or decision trace markers found."
+  },
+  {
+    "component": "HeroBanner",
+    "filePath": "src/components/academy/HeroBanner.tsx",
+    "status": "NOT_APPLICABLE",
+    "confidence": "high",
+    "rationale": "No technical evidence or decision trace markers found."
+  },
+  {
+    "component": "VerticalCourseCard",
+    "filePath": "src/components/academy/VerticalCourseCard.tsx",
+    "status": "NOT_APPLICABLE",
+    "confidence": "high",
+    "rationale": "No technical evidence or decision trace markers found."
+  },
+  {
+    "component": "AdvisorCommandCenter",
+    "filePath": "src/components/advisor/AdvisorCommandCenter.tsx",
+    "status": "CONTAINER_REVIEW_REQUIRED",
+    "confidence": "medium",
+    "rationale": "Container (matches pattern). Internal evidence=0, trace=0, mixed=0."
+  },
+  {
+    "component": "AdvisorHistoricalSurface",
+    "filePath": "src/components/advisor/AdvisorHistoricalSurface.tsx",
+    "architecturalBlock": "decision-trace",
+    "cognitiveSubtype": "audit-trail",
+    "status": "CERTIFIED_BOUNDARY",
+    "certificationSource": "CONTRACT_BOUNDARY_PILOT",
+    "confidence": "high",
+    "rootStrategy": "ROOT_REPLACEMENT",
+    "certifiedAt": "2026-07-10"
+  },
+  {
+    "component": "AdvisorInstitutionalOverview",
+    "filePath": "src/components/advisor/AdvisorInstitutionalOverview.tsx",
+    "status": "NOT_APPLICABLE",
+    "confidence": "high",
+    "rationale": "No technical evidence or decision trace markers found."
+  },
+  {
+    "component": "AdvisorInvestigationSurface",
+    "filePath": "src/components/advisor/AdvisorInvestigationSurface.tsx",
+    "status": "NOT_APPLICABLE",
+    "confidence": "high",
+    "rationale": "No technical evidence or decision trace markers found."
+  },
+  {
+    "component": "AdvisorWorkspaceShell",
+    "filePath": "src/components/advisor/AdvisorWorkspaceShell.tsx",
+    "status": "CONTAINER_REVIEW_REQUIRED",
+    "confidence": "medium",
+    "rationale": "Container (matches pattern). Internal evidence=0, trace=1, mixed=0."
+  },
+  {
+    "component": "ExecutiveAdvisorDashboard",
+    "filePath": "src/components/advisor/ExecutiveAdvisorDashboard.tsx",
+    "status": "CONTAINER_REVIEW_REQUIRED",
+    "confidence": "medium",
+    "rationale": "Container (matches pattern). Internal evidence=0, trace=0, mixed=0."
+  },
+  {
+    "component": "OrganizationPortfolioPanel",
+    "filePath": "src/components/advisor/OrganizationPortfolioPanel.tsx",
+    "status": "NOT_APPLICABLE",
+    "confidence": "high",
+    "rationale": "No technical evidence or decision trace markers found."
+  },
+  {
+    "component": "PortfolioManagementPanel",
+    "filePath": "src/components/advisor/PortfolioManagementPanel.tsx",
+    "status": "NOT_APPLICABLE",
+    "confidence": "high",
+    "rationale": "No technical evidence or decision trace markers found."
+  },
+  {
+    "component": "CopilotChatPanel",
+    "filePath": "src/components/ai-governance/CopilotChatPanel.tsx",
+    "status": "HEURISTIC_CANDIDATE",
+    "architecturalBlock": "ambiguous",
+    "confidence": "low",
+    "rationale": "Weak structural signal (evidence=0, trace=1)."
+  },
+  {
+    "component": "CopilotContextSelector",
+    "filePath": "src/components/ai-governance/CopilotContextSelector.tsx",
+    "status": "NOT_APPLICABLE",
+    "confidence": "high",
+    "rationale": "Primitive UI component."
+  },
+  {
+    "component": "CopilotGroundingBadge",
+    "filePath": "src/components/ai-governance/CopilotGroundingBadge.tsx",
+    "status": "NOT_APPLICABLE",
+    "confidence": "high",
+    "rationale": "Primitive UI component."
+  },
+  {
+    "component": "CopilotPolicyWarning",
+    "filePath": "src/components/ai-governance/CopilotPolicyWarning.tsx",
+    "status": "NOT_APPLICABLE",
+    "confidence": "high",
+    "rationale": "No technical evidence or decision trace markers found."
+  },
+  {
+    "component": "CopilotSessionHistory",
+    "filePath": "src/components/ai-governance/CopilotSessionHistory.tsx",
+    "status": "HEURISTIC_CANDIDATE",
+    "architecturalBlock": "ambiguous",
+    "confidence": "low",
+    "rationale": "Weak structural signal (evidence=0, trace=1)."
+  },
+  {
+    "component": "CopilotSourceReferences",
+    "filePath": "src/components/ai-governance/CopilotSourceReferences.tsx",
+    "status": "HEURISTIC_CANDIDATE",
+    "architecturalBlock": "technical-evidence",
+    "confidence": "medium",
+    "rationale": "2 evidence structural markers found."
+  },
+  {
+    "component": "CopilotTracePanel",
+    "filePath": "src/components/ai-governance/CopilotTracePanel.tsx",
+    "architecturalBlock": "decision-trace",
+    "cognitiveSubtype": "audit-trail",
+    "status": "CERTIFIED_BOUNDARY",
+    "certificationSource": "CONTRACT_BOUNDARY_PILOT",
+    "confidence": "high",
+    "rootStrategy": "ROOT_REPLACEMENT",
+    "certifiedAt": "2026-07-10"
+  },
+  {
+    "component": "BenchmarkComparisonChart",
+    "filePath": "src/components/benchmarking/BenchmarkComparisonChart.tsx",
+    "status": "NOT_APPLICABLE",
+    "confidence": "high",
+    "rationale": "No technical evidence or decision trace markers found."
+  },
+  {
+    "component": "ConfidenceBenchmarkPanel",
+    "filePath": "src/components/benchmarking/ConfidenceBenchmarkPanel.tsx",
+    "status": "NOT_APPLICABLE",
+    "confidence": "high",
+    "rationale": "No technical evidence or decision trace markers found."
+  },
+  {
+    "component": "PrivacyProtectionBadge",
+    "filePath": "src/components/benchmarking/PrivacyProtectionBadge.tsx",
+    "status": "NOT_APPLICABLE",
+    "confidence": "high",
+    "rationale": "Primitive UI component."
+  },
+  {
+    "component": "SectorRiskPatternPanel",
+    "filePath": "src/components/benchmarking/SectorRiskPatternPanel.tsx",
+    "status": "NOT_APPLICABLE",
+    "confidence": "high",
+    "rationale": "No technical evidence or decision trace markers found."
+  },
+  {
+    "component": "CausalPathPanel",
+    "filePath": "src/components/cognitive/CausalPathPanel.tsx",
+    "status": "NOT_APPLICABLE",
+    "confidence": "high",
+    "rationale": "No technical evidence or decision trace markers found."
+  },
+  {
+    "component": "CognitiveSummaryCard",
+    "filePath": "src/components/cognitive/CognitiveSummaryCard.tsx",
+    "status": "NOT_APPLICABLE",
+    "confidence": "high",
+    "rationale": "No technical evidence or decision trace markers found."
+  },
+  {
+    "component": "DecisionCognitiveDrawer",
+    "filePath": "src/components/cognitive/DecisionCognitiveDrawer.tsx",
+    "status": "HEURISTIC_CANDIDATE",
+    "architecturalBlock": "decision-trace",
+    "confidence": "medium",
+    "rationale": "2 decision trace structural markers found."
+  },
+  {
+    "component": "DecisionImpactPanel",
+    "filePath": "src/components/cognitive/DecisionImpactPanel.tsx",
+    "status": "HEURISTIC_CANDIDATE",
+    "architecturalBlock": "ambiguous",
+    "confidence": "low",
+    "rationale": "Weak structural signal (evidence=0, trace=1)."
+  },
+  {
+    "component": "EvidenceDetailPanel",
+    "filePath": "src/components/cognitive/EvidenceDetailPanel.tsx",
+    "architecturalBlock": "technical-evidence",
+    "cognitiveSubtype": "data-provenance",
+    "status": "CERTIFIED_BOUNDARY",
+    "certificationSource": "CONTROLLED_EXPANSION_WAVE_02A1",
+    "confidence": "high",
+    "rootStrategy": "ROOT_REPLACEMENT",
+    "certifiedAt": "2026-07-10",
+    "visualQA": "15/15 passed",
+    "typecheckResult": "PASS",
+    "lintResult": "PASS"
+  },
+  {
+    "component": "EvidencePanel",
+    "filePath": "src/components/cognitive/EvidencePanel.tsx",
+    "status": "NOT_APPLICABLE",
+    "confidence": "high",
+    "rationale": "No technical evidence or decision trace markers found."
+  },
+  {
+    "component": "ExecutiveCognitiveDashboard",
+    "filePath": "src/components/cognitive/ExecutiveCognitiveDashboard.tsx",
+    "status": "CONTAINER_REVIEW_REQUIRED",
+    "confidence": "medium",
+    "rationale": "Container (matches pattern). Internal evidence=0, trace=1, mixed=0."
+  },
+  {
+    "component": "ExplainabilityDetailPanel",
+    "filePath": "src/components/cognitive/ExplainabilityDetailPanel.tsx",
+    "status": "NOT_APPLICABLE",
+    "confidence": "high",
+    "rationale": "No technical evidence or decision trace markers found."
+  },
+  {
+    "component": "ExplainabilityPanel",
+    "filePath": "src/components/cognitive/ExplainabilityPanel.tsx",
+    "status": "HEURISTIC_CANDIDATE",
+    "architecturalBlock": "ambiguous",
+    "confidence": "low",
+    "rationale": "Weak structural signal (evidence=0, trace=1)."
+  },
+  {
+    "component": "InstitutionalGraphViewer",
+    "filePath": "src/components/cognitive/InstitutionalGraphViewer.tsx",
+    "status": "NOT_APPLICABLE",
+    "confidence": "high",
+    "rationale": "No technical evidence or decision trace markers found."
+  },
+  {
+    "component": "PageHeader",
+    "filePath": "src/components/Common/Base.tsx",
+    "status": "NOT_APPLICABLE",
+    "confidence": "high",
+    "rationale": "Primitive UI component."
+  },
+  {
+    "component": "Semaphore",
+    "filePath": "src/components/Common/Base.tsx",
+    "status": "NOT_APPLICABLE",
+    "confidence": "high",
+    "rationale": "No technical evidence or decision trace markers found."
+  },
+  {
+    "component": "StatusBadge",
+    "filePath": "src/components/Common/Base.tsx",
+    "status": "NOT_APPLICABLE",
+    "confidence": "high",
+    "rationale": "Primitive UI component."
+  },
+  {
+    "component": "SectionHeader",
+    "filePath": "src/components/Common/Base.tsx",
+    "status": "NOT_APPLICABLE",
+    "confidence": "high",
+    "rationale": "Primitive UI component."
+  },
+  {
+    "component": "MarkdownText",
+    "filePath": "src/components/Common/Base.tsx",
+    "status": "NOT_APPLICABLE",
+    "confidence": "high",
+    "rationale": "No technical evidence or decision trace markers found."
+  },
+  {
+    "component": "ControlBar",
+    "filePath": "src/components/Common/Base.tsx",
+    "status": "NOT_APPLICABLE",
+    "confidence": "high",
+    "rationale": "No technical evidence or decision trace markers found."
+  },
+  {
+    "component": "KpiCard",
+    "filePath": "src/components/Common/Base.tsx",
+    "status": "NOT_APPLICABLE",
+    "confidence": "high",
+    "rationale": "No technical evidence or decision trace markers found."
+  },
+  {
+    "component": "KpiValue",
+    "filePath": "src/components/Common/Base.tsx",
+    "status": "NOT_APPLICABLE",
+    "confidence": "high",
+    "rationale": "No technical evidence or decision trace markers found."
+  },
+  {
+    "component": "CurrencySelector",
+    "filePath": "src/components/Common/CurrencySelector.tsx",
+    "status": "NOT_APPLICABLE",
+    "confidence": "high",
+    "rationale": "Primitive UI component."
+  },
+  {
+    "component": "SortableTableRow",
+    "filePath": "src/components/Common/SortableTableRow.tsx",
+    "status": "NOT_APPLICABLE",
+    "confidence": "high",
+    "rationale": "No technical evidence or decision trace markers found."
+  },
+  {
+    "component": "WelcomeMessage",
+    "filePath": "src/components/Common/WelcomeMessage.tsx",
+    "status": "NOT_APPLICABLE",
+    "confidence": "high",
+    "rationale": "No technical evidence or decision trace markers found."
+  },
+  {
+    "component": "ConsolidatedConfidenceBadge",
+    "filePath": "src/components/consolidated/ConsolidatedConfidenceBadge.tsx",
+    "status": "NOT_APPLICABLE",
+    "confidence": "high",
+    "rationale": "Primitive UI component."
+  },
+  {
+    "component": "ConsolidatedExecutiveSummaryCard",
+    "filePath": "src/components/consolidated/ConsolidatedExecutiveSummaryCard.tsx",
+    "status": "MIXED_BOUNDARY",
+    "confidence": "medium",
+    "rationale": "Mixed text signals (2) with evidence(0)/trace(1)."
+  },
+  {
+    "component": "ConsolidatedLineagePanel",
+    "filePath": "src/components/consolidated/ConsolidatedLineagePanel.tsx",
+    "status": "HEURISTIC_CANDIDATE",
+    "architecturalBlock": "technical-evidence",
+    "confidence": "medium",
+    "rationale": "2 evidence structural markers found."
+  },
+  {
+    "component": "CriticalEmissionBlocker",
+    "filePath": "src/components/consolidated/CriticalEmissionBlocker.tsx",
+    "status": "HEURISTIC_CANDIDATE",
+    "architecturalBlock": "ambiguous",
+    "confidence": "low",
+    "rationale": "Weak structural signal (evidence=1, trace=1)."
+  },
+  {
+    "component": "EntityRoleInterpretationTable",
+    "filePath": "src/components/consolidated/EntityRoleInterpretationTable.tsx",
+    "status": "HEURISTIC_CANDIDATE",
+    "architecturalBlock": "ambiguous",
+    "confidence": "low",
+    "rationale": "Weak structural signal (evidence=0, trace=1)."
+  },
+  {
+    "component": "GovernanceViolationsPanel",
+    "filePath": "src/components/consolidated/GovernanceViolationsPanel.tsx",
+    "status": "NOT_APPLICABLE",
+    "confidence": "high",
+    "rationale": "No technical evidence or decision trace markers found."
+  },
+  {
+    "component": "IntercompanyDependencyMap",
+    "filePath": "src/components/consolidated/IntercompanyDependencyMap.tsx",
+    "status": "NOT_APPLICABLE",
+    "confidence": "high",
+    "rationale": "No technical evidence or decision trace markers found."
+  },
+  {
+    "component": "RiskPropagationPanel",
+    "filePath": "src/components/consolidated/RiskPropagationPanel.tsx",
+    "status": "NOT_APPLICABLE",
+    "confidence": "high",
+    "rationale": "No technical evidence or decision trace markers found."
+  },
+  {
+    "component": "StrategicGroupAlertsPanel",
+    "filePath": "src/components/consolidated/StrategicGroupAlertsPanel.tsx",
+    "status": "NOT_APPLICABLE",
+    "confidence": "high",
+    "rationale": "No technical evidence or decision trace markers found."
+  },
+  {
+    "component": "SystemicRisksPanel",
+    "filePath": "src/components/consolidated/SystemicRisksPanel.tsx",
+    "status": "NOT_APPLICABLE",
+    "confidence": "high",
+    "rationale": "No technical evidence or decision trace markers found."
+  },
+  {
+    "component": "DomainHealthExplorer",
+    "filePath": "src/components/digital-twin/DomainHealthExplorer.tsx",
+    "status": "HEURISTIC_CANDIDATE",
+    "architecturalBlock": "ambiguous",
+    "confidence": "low",
+    "rationale": "Weak structural signal (evidence=0, trace=1)."
+  },
+  {
+    "component": "ExecutiveDigitalTwinDashboard",
+    "filePath": "src/components/digital-twin/ExecutiveDigitalTwinDashboard.tsx",
+    "status": "CONTAINER_REVIEW_REQUIRED",
+    "confidence": "medium",
+    "rationale": "Container (matches pattern). Internal evidence=0, trace=1, mixed=1."
+  },
+  {
+    "component": "InstitutionalDigitalTwinWorkspace",
+    "filePath": "src/components/digital-twin/InstitutionalDigitalTwinWorkspace.tsx",
+    "status": "CONTAINER_REVIEW_REQUIRED",
+    "confidence": "medium",
+    "rationale": "Container (matches pattern). Internal evidence=1, trace=1, mixed=0."
+  },
+  {
+    "component": "InstitutionalMapViewer",
+    "filePath": "src/components/digital-twin/InstitutionalMapViewer.tsx",
+    "status": "NOT_APPLICABLE",
+    "confidence": "high",
+    "rationale": "No technical evidence or decision trace markers found."
+  },
+  {
+    "component": "BenchmarkDeviationPanel",
+    "filePath": "src/components/early-warning/BenchmarkDeviationPanel.tsx",
+    "status": "NOT_APPLICABLE",
+    "confidence": "high",
+    "rationale": "No technical evidence or decision trace markers found."
+  },
+  {
+    "component": "EarlyWarningFeed",
+    "filePath": "src/components/early-warning/EarlyWarningFeed.tsx",
+    "status": "HEURISTIC_CANDIDATE",
+    "architecturalBlock": "ambiguous",
+    "confidence": "low",
+    "rationale": "Weak structural signal (evidence=0, trace=1)."
+  },
+  {
+    "component": "EarlyWarningTimeline",
+    "filePath": "src/components/early-warning/EarlyWarningTimeline.tsx",
+    "status": "NOT_APPLICABLE",
+    "confidence": "high",
+    "rationale": "No technical evidence or decision trace markers found."
+  },
+  {
+    "component": "GovernanceTrendPanel",
+    "filePath": "src/components/early-warning/GovernanceTrendPanel.tsx",
+    "status": "NOT_APPLICABLE",
+    "confidence": "high",
+    "rationale": "No technical evidence or decision trace markers found."
+  },
+  {
+    "component": "GraphPatternAlertPanel",
+    "filePath": "src/components/early-warning/GraphPatternAlertPanel.tsx",
+    "status": "NOT_APPLICABLE",
+    "confidence": "high",
+    "rationale": "No technical evidence or decision trace markers found."
+  },
+  {
+    "component": "PredictiveRiskPanel",
+    "filePath": "src/components/early-warning/PredictiveRiskPanel.tsx",
+    "status": "NOT_APPLICABLE",
+    "confidence": "high",
+    "rationale": "No technical evidence or decision trace markers found."
+  },
+  {
+    "component": "ScenarioDeteriorationPanel",
+    "filePath": "src/components/early-warning/ScenarioDeteriorationPanel.tsx",
+    "status": "HEURISTIC_CANDIDATE",
+    "architecturalBlock": "ambiguous",
+    "confidence": "low",
+    "rationale": "Weak structural signal (evidence=0, trace=1)."
+  },
+  {
+    "component": "WarningEvidenceViewer",
+    "filePath": "src/components/early-warning/WarningEvidenceViewer.tsx",
+    "architecturalBlock": "technical-evidence",
+    "cognitiveSubtype": "warning-evidence",
+    "status": "CERTIFIED_BOUNDARY",
+    "certificationSource": "CONTROLLED_EXPANSION_WAVE_01",
+    "confidence": "high",
+    "rootStrategy": "ROOT_REPLACEMENT",
+    "certifiedAt": "2026-07-10"
+  },
+  {
+    "component": "CommercialPackagingViewer",
+    "filePath": "src/components/enterprise-validation/CommercialPackagingViewer.tsx",
+    "status": "NOT_APPLICABLE",
+    "confidence": "high",
+    "rationale": "No technical evidence or decision trace markers found."
+  },
+  {
+    "component": "EnterpriseReadinessDashboard",
+    "filePath": "src/components/enterprise-validation/EnterpriseReadinessDashboard.tsx",
+    "status": "CONTAINER_REVIEW_REQUIRED",
+    "confidence": "medium",
+    "rationale": "Container (matches pattern). Internal evidence=0, trace=0, mixed=0."
+  },
+  {
+    "component": "InstitutionalDeploymentMap",
+    "filePath": "src/components/enterprise-validation/InstitutionalDeploymentMap.tsx",
+    "status": "NOT_APPLICABLE",
+    "confidence": "high",
+    "rationale": "No technical evidence or decision trace markers found."
+  },
+  {
+    "component": "InstitutionalUXInsights",
+    "filePath": "src/components/enterprise-validation/InstitutionalUXInsights.tsx",
+    "status": "HEURISTIC_CANDIDATE",
+    "architecturalBlock": "ambiguous",
+    "confidence": "low",
+    "rationale": "Weak structural signal (evidence=0, trace=1)."
+  },
+  {
+    "component": "OperationalPlaybookViewer",
+    "filePath": "src/components/enterprise-validation/OperationalPlaybookViewer.tsx",
+    "status": "NOT_APPLICABLE",
+    "confidence": "high",
+    "rationale": "No technical evidence or decision trace markers found."
+  },
+  {
+    "component": "PilotReadinessPanel",
+    "filePath": "src/components/enterprise-validation/PilotReadinessPanel.tsx",
+    "status": "NOT_APPLICABLE",
+    "confidence": "high",
+    "rationale": "No technical evidence or decision trace markers found."
+  },
+  {
+    "component": "RealDataValidationPanel",
+    "filePath": "src/components/enterprise-validation/RealDataValidationPanel.tsx",
+    "status": "NOT_APPLICABLE",
+    "confidence": "high",
+    "rationale": "No technical evidence or decision trace markers found."
+  },
+  {
+    "component": "RuntimeIntegrityStatus",
+    "filePath": "src/components/enterprise-validation/RuntimeIntegrityStatus.tsx",
+    "status": "HEURISTIC_CANDIDATE",
+    "architecturalBlock": "ambiguous",
+    "confidence": "low",
+    "rationale": "Weak structural signal (evidence=1, trace=0)."
+  },
+  {
+    "component": "InstitutionalEvidenceControlCenterPage",
+    "filePath": "src/components/evidence-ingestion/InstitutionalEvidenceControlCenterPage.tsx",
+    "status": "CONTAINER_REVIEW_REQUIRED",
+    "confidence": "medium",
+    "rationale": "Container (matches pattern). Internal evidence=6, trace=0, mixed=0."
+  },
+  {
+    "component": "ExecutiveHomeWorkspace",
+    "filePath": "src/components/executive/ExecutiveHomeWorkspace.tsx",
+    "status": "CONTAINER_REVIEW_REQUIRED",
+    "confidence": "medium",
+    "rationale": "Container (matches pattern). Internal evidence=1, trace=5, mixed=0."
+  },
+  {
+    "component": "ExecutiveQuickActions",
+    "filePath": "src/components/executive/ExecutiveQuickActions.tsx",
+    "status": "HEURISTIC_CANDIDATE",
+    "architecturalBlock": "ambiguous",
+    "confidence": "low",
+    "rationale": "Weak structural signal (evidence=0, trace=1)."
+  },
+  {
+    "component": "GuidedInvestigationCard",
+    "filePath": "src/components/executive/GuidedInvestigationCard.tsx",
+    "status": "HEURISTIC_CANDIDATE",
+    "architecturalBlock": "ambiguous",
+    "confidence": "low",
+    "rationale": "Weak structural signal (evidence=0, trace=1)."
+  },
+  {
+    "component": "InstitutionalMemoryDashboard",
+    "filePath": "src/components/executive/InstitutionalMemoryDashboard.tsx",
+    "status": "CONTAINER_REVIEW_REQUIRED",
+    "confidence": "medium",
+    "rationale": "Container (matches pattern). Internal evidence=0, trace=0, mixed=0."
+  },
+  {
+    "component": "UniversalSearchHub",
+    "filePath": "src/components/executive/UniversalSearchHub.tsx",
+    "status": "CONTAINER_REVIEW_REQUIRED",
+    "confidence": "medium",
+    "rationale": "Container (matches pattern). Internal evidence=0, trace=0, mixed=1."
+  },
+  {
+    "component": "WorkspaceHubNavigation",
+    "filePath": "src/components/executive/WorkspaceHubNavigation.tsx",
+    "status": "NOT_APPLICABLE",
+    "confidence": "high",
+    "rationale": "No technical evidence or decision trace markers found."
+  },
+  {
+    "component": "CognitiveOverloadState",
+    "filePath": "src/components/executive-cognitive/CognitiveOverloadState.tsx",
+    "status": "NOT_APPLICABLE",
+    "confidence": "high",
+    "rationale": "Primitive UI component."
+  },
+  {
+    "component": "CriticalDecisionSurface",
+    "filePath": "src/components/executive-cognitive/CriticalDecisionSurface.tsx",
+    "status": "HEURISTIC_CANDIDATE",
+    "architecturalBlock": "technical-evidence",
+    "confidence": "medium",
+    "rationale": "2 evidence structural markers found."
+  },
+  {
+    "component": "ExecutiveAttentionMap",
+    "filePath": "src/components/executive-cognitive/ExecutiveAttentionMap.tsx",
+    "status": "NOT_APPLICABLE",
+    "confidence": "high",
+    "rationale": "No technical evidence or decision trace markers found."
+  },
+  {
+    "component": "ExecutiveFocusPanel",
+    "filePath": "src/components/executive-cognitive/ExecutiveFocusPanel.tsx",
+    "status": "NOT_APPLICABLE",
+    "confidence": "high",
+    "rationale": "No technical evidence or decision trace markers found."
+  },
+  {
+    "component": "ExecutivePriorityNavigator",
+    "filePath": "src/components/executive-cognitive/ExecutivePriorityNavigator.tsx",
+    "status": "HEURISTIC_CANDIDATE",
+    "architecturalBlock": "ambiguous",
+    "confidence": "low",
+    "rationale": "Weak structural signal (evidence=0, trace=1)."
+  },
+  {
+    "component": "ExecutivePriorityStack",
+    "filePath": "src/components/executive-cognitive/ExecutivePriorityStack.tsx",
+    "status": "NOT_APPLICABLE",
+    "confidence": "high",
+    "rationale": "No technical evidence or decision trace markers found."
+  },
+  {
+    "component": "InstitutionalAttentionQueue",
+    "filePath": "src/components/executive-cognitive/InstitutionalAttentionQueue.tsx",
+    "status": "HEURISTIC_CANDIDATE",
+    "architecturalBlock": "decision-trace",
+    "confidence": "medium",
+    "rationale": "2 decision trace structural markers found."
+  },
+  {
+    "component": "InstitutionalPrioritySurface",
+    "filePath": "src/components/executive-cognitive/InstitutionalPrioritySurface.tsx",
+    "status": "HEURISTIC_CANDIDATE",
+    "architecturalBlock": "ambiguous",
+    "confidence": "low",
+    "rationale": "Weak structural signal (evidence=0, trace=1)."
+  },
+  {
+    "component": "NarrativeCompressionIndicator",
+    "filePath": "src/components/executive-cognitive/NarrativeCompressionIndicator.tsx",
+    "status": "HEURISTIC_CANDIDATE",
+    "architecturalBlock": "ambiguous",
+    "confidence": "low",
+    "rationale": "Weak structural signal (evidence=0, trace=1)."
+  },
+  {
+    "component": "SignalSaturationWarning",
+    "filePath": "src/components/executive-cognitive/SignalSaturationWarning.tsx",
+    "status": "NOT_APPLICABLE",
+    "confidence": "high",
+    "rationale": "No technical evidence or decision trace markers found."
+  },
+  {
+    "component": "CommandExplainabilityDrawer",
+    "filePath": "src/components/executive-command/CommandExplainabilityDrawer.tsx",
+    "status": "HEURISTIC_CANDIDATE",
+    "architecturalBlock": "technical-evidence",
+    "confidence": "medium",
+    "rationale": "2 evidence structural markers found."
+  },
+  {
+    "component": "ExecutiveDirectivePanel",
+    "filePath": "src/components/executive-command/ExecutiveDirectivePanel.tsx",
+    "status": "NOT_APPLICABLE",
+    "confidence": "high",
+    "rationale": "No technical evidence or decision trace markers found."
+  },
+  {
+    "component": "ExecutiveDriftRadar",
+    "filePath": "src/components/executive-command/ExecutiveDriftRadar.tsx",
+    "status": "HEURISTIC_CANDIDATE",
+    "architecturalBlock": "decision-trace",
+    "confidence": "medium",
+    "rationale": "2 decision trace structural markers found."
+  },
+  {
+    "component": "GovernanceRestrictionOverlay",
+    "filePath": "src/components/executive-command/GovernanceRestrictionOverlay.tsx",
+    "status": "CONTAINER_REVIEW_REQUIRED",
+    "confidence": "medium",
+    "rationale": "Container (matches pattern). Internal evidence=0, trace=0, mixed=0."
+  },
+  {
+    "component": "InstitutionalExecutiveCommandCenter",
+    "filePath": "src/components/executive-command/InstitutionalExecutiveCommandCenter.tsx",
+    "status": "CONTAINER_REVIEW_REQUIRED",
+    "confidence": "medium",
+    "rationale": "Container (matches pattern). Internal evidence=2, trace=2, mixed=0."
+  },
+  {
+    "component": "InstitutionalPrioritySurface",
+    "filePath": "src/components/executive-command/InstitutionalPrioritySurface.tsx",
+    "status": "NOT_APPLICABLE",
+    "confidence": "high",
+    "rationale": "No technical evidence or decision trace markers found."
+  },
+  {
+    "component": "StrategicAlignmentSurface",
+    "filePath": "src/components/executive-command/StrategicAlignmentSurface.tsx",
+    "status": "NOT_APPLICABLE",
+    "confidence": "high",
+    "rationale": "No technical evidence or decision trace markers found."
+  },
+  {
+    "component": "BoardJourneyNavigator",
+    "filePath": "src/components/executive-delivery/BoardJourneyNavigator.tsx",
+    "status": "HEURISTIC_CANDIDATE",
+    "architecturalBlock": "ambiguous",
+    "confidence": "low",
+    "rationale": "Weak structural signal (evidence=0, trace=1)."
+  },
+  {
+    "component": "CalibrationStatusPanel",
+    "filePath": "src/components/executive-delivery/CalibrationStatusPanel.tsx",
+    "status": "HEURISTIC_CANDIDATE",
+    "architecturalBlock": "technical-evidence",
+    "confidence": "medium",
+    "rationale": "2 evidence structural markers found."
+  },
+  {
+    "component": "DeliveryTimelinePanel",
+    "filePath": "src/components/executive-delivery/DeliveryTimelinePanel.tsx",
+    "status": "HEURISTIC_CANDIDATE",
+    "architecturalBlock": "decision-trace",
+    "confidence": "medium",
+    "rationale": "2 decision trace structural markers found."
+  },
+  {
+    "component": "ExecutiveEvidenceViewer",
+    "filePath": "src/components/executive-delivery/ExecutiveEvidenceViewer.tsx",
+    "architecturalBlock": "technical-evidence",
+    "cognitiveSubtype": "data-provenance",
+    "status": "CERTIFIED_BOUNDARY",
+    "certificationSource": "CONTROLLED_EXPANSION_WAVE_02A1",
+    "confidence": "high",
+    "rootStrategy": "ROOT_REPLACEMENT",
+    "certifiedAt": "2026-07-10",
+    "visualQA": "15/15 passed",
+    "typecheckResult": "PASS",
+    "lintResult": "PASS"
+  },
+  {
+    "component": "ExecutiveHeroPanel",
+    "filePath": "src/components/executive-delivery/ExecutiveHeroPanel.tsx",
+    "status": "HEURISTIC_CANDIDATE",
+    "architecturalBlock": "ambiguous",
+    "confidence": "low",
+    "rationale": "Weak structural signal (evidence=0, trace=1)."
+  },
+  {
+    "component": "ExportHistoryPanel",
+    "filePath": "src/components/executive-delivery/ExportHistoryPanel.tsx",
+    "architecturalBlock": "decision-trace",
+    "cognitiveSubtype": "audit-trail",
+    "status": "CERTIFIED_BOUNDARY",
+    "certificationSource": "CONTROLLED_EXPANSION_WAVE_02A2",
+    "confidence": "high",
+    "rootStrategy": "ROOT_REPLACEMENT",
+    "certifiedAt": "2026-07-10",
+    "boundaryEvidence": {
+      "regionCount": 1,
+      "accessibleName": "Histórico de exportações executivas",
+      "historicalItemsRendered": 2,
+      "controlsInsideBoundary": "download past export (justified: audit record retrieval)"
+    },
+    "visualQA": "24/24 passed",
+    "typecheckResult": "PASS",
+    "lintResult": "PASS",
+    "testResult": "1469/1469 pass"
+  },
+  {
+    "component": "RuntimeHealthPanel",
+    "filePath": "src/components/executive-delivery/RuntimeHealthPanel.tsx",
+    "status": "HEURISTIC_CANDIDATE",
+    "architecturalBlock": "ambiguous",
+    "confidence": "low",
+    "rationale": "Weak structural signal (evidence=1, trace=0)."
+  },
+  {
+    "component": "StrategicHighlightsPanel",
+    "filePath": "src/components/executive-delivery/StrategicHighlightsPanel.tsx",
+    "status": "NOT_APPLICABLE",
+    "confidence": "high",
+    "rationale": "No technical evidence or decision trace markers found."
+  },
+  {
+    "component": "CausalChainSurface",
+    "filePath": "src/components/executive-interaction/CausalChainSurface.tsx",
+    "status": "HEURISTIC_CANDIDATE",
+    "architecturalBlock": "decision-trace",
+    "confidence": "medium",
+    "rationale": "2 decision trace structural markers found."
+  },
+  {
+    "component": "ConfidenceDisclosureCard",
+    "filePath": "src/components/executive-interaction/ConfidenceDisclosureCard.tsx",
+    "status": "HEURISTIC_CANDIDATE",
+    "architecturalBlock": "technical-evidence",
+    "confidence": "medium",
+    "rationale": "4 evidence structural markers found."
+  },
+  {
+    "component": "CriticalAttentionSurface",
+    "filePath": "src/components/executive-interaction/CriticalAttentionSurface.tsx",
+    "status": "NOT_APPLICABLE",
+    "confidence": "high",
+    "rationale": "No technical evidence or decision trace markers found."
+  },
+  {
+    "component": "CrossTenantRestrictionState",
+    "filePath": "src/components/executive-interaction/CrossTenantRestrictionState.tsx",
+    "status": "NOT_APPLICABLE",
+    "confidence": "high",
+    "rationale": "Primitive UI component."
+  },
+  {
+    "component": "EvidenceCoveragePanel",
+    "filePath": "src/components/executive-interaction/EvidenceCoveragePanel.tsx",
+    "status": "HEURISTIC_CANDIDATE",
+    "architecturalBlock": "ambiguous",
+    "confidence": "low",
+    "rationale": "Weak structural signal (evidence=0, trace=1)."
+  },
+  {
+    "component": "ExecutiveEvidenceExplorer",
+    "filePath": "src/components/executive-interaction/ExecutiveEvidenceExplorer.tsx",
+    "status": "MIXED_BOUNDARY",
+    "confidence": "medium",
+    "rationale": "Mixed text signals (2) with evidence(1)/trace(3)."
+  },
+  {
+    "component": "ExecutiveLoadingSurface",
+    "filePath": "src/components/executive-interaction/ExecutiveLoadingSurface.tsx",
+    "status": "HEURISTIC_CANDIDATE",
+    "architecturalBlock": "technical-evidence",
+    "confidence": "medium",
+    "rationale": "4 evidence structural markers found."
+  },
+  {
+    "component": "ExecutiveModalOrchestrator",
+    "filePath": "src/components/executive-interaction/ExecutiveModalOrchestrator.tsx",
+    "status": "HEURISTIC_CANDIDATE",
+    "architecturalBlock": "technical-evidence",
+    "confidence": "medium",
+    "rationale": "2 evidence structural markers found."
+  },
+  {
+    "component": "ExecutiveSeverityBadge",
+    "filePath": "src/components/executive-interaction/ExecutiveSeverityBadge.tsx",
+    "status": "NOT_APPLICABLE",
+    "confidence": "high",
+    "rationale": "Primitive UI component."
+  },
+  {
+    "component": "FiduciaryModalShell",
+    "filePath": "src/components/executive-interaction/FiduciaryModalShell.tsx",
+    "status": "CONTAINER_REVIEW_REQUIRED",
+    "confidence": "medium",
+    "rationale": "Container (matches pattern). Internal evidence=2, trace=2, mixed=0."
+  },
+  {
+    "component": "GovernanceConfirmationLayer",
+    "filePath": "src/components/executive-interaction/GovernanceConfirmationLayer.tsx",
+    "status": "NOT_APPLICABLE",
+    "confidence": "high",
+    "rationale": "No technical evidence or decision trace markers found."
+  },
+  {
+    "component": "GovernanceDataDependencyPanel",
+    "filePath": "src/components/executive-interaction/GovernanceDataDependencyPanel.tsx",
+    "status": "HEURISTIC_CANDIDATE",
+    "architecturalBlock": "technical-evidence",
+    "confidence": "medium",
+    "rationale": "3 evidence structural markers found."
+  },
+  {
+    "component": "GovernanceEscalationBanner",
+    "filePath": "src/components/executive-interaction/GovernanceEscalationBanner.tsx",
+    "status": "NOT_APPLICABLE",
+    "confidence": "high",
+    "rationale": "No technical evidence or decision trace markers found."
+  },
+  {
+    "component": "InstitutionalBlockingDialog",
+    "filePath": "src/components/executive-interaction/InstitutionalBlockingDialog.tsx",
+    "status": "NOT_APPLICABLE",
+    "confidence": "high",
+    "rationale": "No technical evidence or decision trace markers found."
+  },
+  {
+    "component": "InstitutionalSkeletonSurface",
+    "filePath": "src/components/executive-interaction/InstitutionalSkeletonSurface.tsx",
+    "status": "NOT_APPLICABLE",
+    "confidence": "high",
+    "rationale": "No technical evidence or decision trace markers found."
+  },
+  {
+    "component": "InstitutionalTimelineNavigator",
+    "filePath": "src/components/executive-interaction/InstitutionalTimelineNavigator.tsx",
+    "status": "MIXED_BOUNDARY",
+    "confidence": "medium",
+    "rationale": "Both evidence(2) and trace(3) markers coexist."
+  },
+  {
+    "component": "InstitutionalUnavailableState",
+    "filePath": "src/components/executive-interaction/InstitutionalUnavailableState.tsx",
+    "status": "NOT_APPLICABLE",
+    "confidence": "high",
+    "rationale": "Primitive UI component."
+  },
+  {
+    "component": "InsufficientEvidenceState",
+    "filePath": "src/components/executive-interaction/InsufficientEvidenceState.tsx",
+    "status": "NOT_APPLICABLE",
+    "confidence": "high",
+    "rationale": "Primitive UI component."
+  },
+  {
+    "component": "MissingDependencyAlert",
+    "filePath": "src/components/executive-interaction/MissingDependencyAlert.tsx",
+    "status": "NOT_APPLICABLE",
+    "confidence": "high",
+    "rationale": "No technical evidence or decision trace markers found."
+  },
+  {
+    "component": "RuntimeDegradedState",
+    "filePath": "src/components/executive-interaction/RuntimeDegradedState.tsx",
+    "status": "NOT_APPLICABLE",
+    "confidence": "high",
+    "rationale": "Primitive UI component."
+  },
+  {
+    "component": "RuntimeIntegrityBadge",
+    "filePath": "src/components/executive-interaction/RuntimeIntegrityBadge.tsx",
+    "status": "NOT_APPLICABLE",
+    "confidence": "high",
+    "rationale": "Primitive UI component."
+  },
+  {
+    "component": "RuntimeLineageViewer",
+    "filePath": "src/components/executive-interaction/RuntimeLineageViewer.tsx",
+    "architecturalBlock": "technical-evidence",
+    "cognitiveSubtype": "data-provenance",
+    "status": "CERTIFIED_BOUNDARY",
+    "certificationSource": "CONTROLLED_EXPANSION_WAVE_01",
+    "confidence": "high",
+    "rootStrategy": "ROOT_REPLACEMENT",
+    "certifiedAt": "2026-07-10"
+  },
+  {
+    "component": "RuntimeResolutionIndicator",
+    "filePath": "src/components/executive-interaction/RuntimeResolutionIndicator.tsx",
+    "status": "MIXED_BOUNDARY",
+    "confidence": "medium",
+    "rationale": "Both evidence(3) and trace(2) markers coexist."
+  },
+  {
+    "component": "SandboxWarningOverlay",
+    "filePath": "src/components/executive-interaction/SandboxWarningOverlay.tsx",
+    "status": "CONTAINER_REVIEW_REQUIRED",
+    "confidence": "medium",
+    "rationale": "Container (matches pattern). Internal evidence=0, trace=1, mixed=0."
+  },
+  {
+    "component": "CommandIntegrityBadge",
+    "filePath": "src/components/governance-command-center/CommandIntegrityBadge.tsx",
+    "status": "NOT_APPLICABLE",
+    "confidence": "high",
+    "rationale": "Primitive UI component."
+  },
+  {
+    "component": "EscalationTopologyMap",
+    "filePath": "src/components/governance-command-center/EscalationTopologyMap.tsx",
+    "status": "NOT_APPLICABLE",
+    "confidence": "high",
+    "rationale": "No technical evidence or decision trace markers found."
+  },
+  {
+    "component": "ExecutiveCommandNavigator",
+    "filePath": "src/components/governance-command-center/ExecutiveCommandNavigator.tsx",
+    "status": "HEURISTIC_CANDIDATE",
+    "architecturalBlock": "ambiguous",
+    "confidence": "low",
+    "rationale": "Weak structural signal (evidence=0, trace=1)."
+  },
+  {
+    "component": "ExecutiveIncidentRadar",
+    "filePath": "src/components/governance-command-center/ExecutiveIncidentRadar.tsx",
+    "status": "NOT_APPLICABLE",
+    "confidence": "high",
+    "rationale": "No technical evidence or decision trace markers found."
+  },
+  {
+    "component": "GovernanceAuditCorrelationPanel",
+    "filePath": "src/components/governance-command-center/GovernanceAuditCorrelationPanel.tsx",
+    "architecturalBlock": "decision-trace",
+    "cognitiveSubtype": "audit-trail",
+    "status": "CERTIFIED_BOUNDARY",
+    "certificationSource": "CONTROLLED_EXPANSION_WAVE_01",
+    "confidence": "high",
+    "rootStrategy": "ROOT_REPLACEMENT",
+    "certifiedAt": "2026-07-10"
+  },
+  {
+    "component": "GovernanceCommandCenterSurface",
+    "filePath": "src/components/governance-command-center/GovernanceCommandCenterSurface.tsx",
+    "status": "HEURISTIC_CANDIDATE",
+    "architecturalBlock": "technical-evidence",
+    "confidence": "medium",
+    "rationale": "2 evidence structural markers found."
+  },
+  {
+    "component": "GovernanceIncidentQueue",
+    "filePath": "src/components/governance-command-center/GovernanceIncidentQueue.tsx",
+    "status": "HEURISTIC_CANDIDATE",
+    "architecturalBlock": "ambiguous",
+    "confidence": "low",
+    "rationale": "Weak structural signal (evidence=1, trace=0)."
+  },
+  {
+    "component": "GovernanceSupervisionTimeline",
+    "filePath": "src/components/governance-command-center/GovernanceSupervisionTimeline.tsx",
+    "status": "HEURISTIC_CANDIDATE",
+    "architecturalBlock": "ambiguous",
+    "confidence": "low",
+    "rationale": "Weak structural signal (evidence=0, trace=1)."
+  },
+  {
+    "component": "IncidentLifecyclePanel",
+    "filePath": "src/components/governance-command-center/IncidentLifecyclePanel.tsx",
+    "status": "HEURISTIC_CANDIDATE",
+    "architecturalBlock": "decision-trace",
+    "confidence": "medium",
+    "rationale": "5 decision trace structural markers found."
+  },
+  {
+    "component": "IncidentLineageViewer",
+    "filePath": "src/components/governance-command-center/IncidentLineageViewer.tsx",
+    "status": "HEURISTIC_CANDIDATE",
+    "architecturalBlock": "technical-evidence",
+    "confidence": "medium",
+    "rationale": "2 evidence structural markers found."
+  },
+  {
+    "component": "MultiTenantOperationsGrid",
+    "filePath": "src/components/governance-command-center/MultiTenantOperationsGrid.tsx",
+    "status": "NOT_APPLICABLE",
+    "confidence": "high",
+    "rationale": "No technical evidence or decision trace markers found."
+  },
+  {
+    "component": "RuntimeHealthPanel",
+    "filePath": "src/components/governance-command-center/RuntimeHealthPanel.tsx",
+    "status": "HEURISTIC_CANDIDATE",
+    "architecturalBlock": "technical-evidence",
+    "confidence": "medium",
+    "rationale": "3 evidence structural markers found."
+  },
+  {
+    "component": "RuntimeIntegritySurface",
+    "filePath": "src/components/governance-command-center/RuntimeIntegritySurface.tsx",
+    "status": "HEURISTIC_CANDIDATE",
+    "architecturalBlock": "technical-evidence",
+    "confidence": "medium",
+    "rationale": "3 evidence structural markers found."
+  },
+  {
+    "component": "SystemicPropagationSurface",
+    "filePath": "src/components/governance-command-center/SystemicPropagationSurface.tsx",
+    "status": "NOT_APPLICABLE",
+    "confidence": "high",
+    "rationale": "No technical evidence or decision trace markers found."
+  },
+  {
+    "component": "CrossDomainCoordinationPanel",
+    "filePath": "src/components/governance-orchestration/CrossDomainCoordinationPanel.tsx",
+    "status": "NOT_APPLICABLE",
+    "confidence": "high",
+    "rationale": "No technical evidence or decision trace markers found."
+  },
+  {
+    "component": "EscalationOrchestrationPanel",
+    "filePath": "src/components/governance-orchestration/EscalationOrchestrationPanel.tsx",
+    "status": "NOT_APPLICABLE",
+    "confidence": "high",
+    "rationale": "No technical evidence or decision trace markers found."
+  },
+  {
+    "component": "GovernancePlaybookPanel",
+    "filePath": "src/components/governance-orchestration/GovernancePlaybookPanel.tsx",
+    "status": "HEURISTIC_CANDIDATE",
+    "architecturalBlock": "ambiguous",
+    "confidence": "low",
+    "rationale": "Weak structural signal (evidence=0, trace=1)."
+  },
+  {
+    "component": "GovernanceRecommendationFeed",
+    "filePath": "src/components/governance-orchestration/GovernanceRecommendationFeed.tsx",
+    "status": "HEURISTIC_CANDIDATE",
+    "architecturalBlock": "technical-evidence",
+    "confidence": "medium",
+    "rationale": "2 evidence structural markers found."
+  },
+  {
+    "component": "InstitutionalPriorityBoard",
+    "filePath": "src/components/governance-orchestration/InstitutionalPriorityBoard.tsx",
+    "status": "HEURISTIC_CANDIDATE",
+    "architecturalBlock": "ambiguous",
+    "confidence": "low",
+    "rationale": "Weak structural signal (evidence=0, trace=1)."
+  },
+  {
+    "component": "PlaybookSimulationViewer",
+    "filePath": "src/components/governance-orchestration/PlaybookSimulationViewer.tsx",
+    "status": "NOT_APPLICABLE",
+    "confidence": "high",
+    "rationale": "No technical evidence or decision trace markers found."
+  },
+  {
+    "component": "RecoveryPathViewer",
+    "filePath": "src/components/governance-orchestration/RecoveryPathViewer.tsx",
+    "status": "NOT_APPLICABLE",
+    "confidence": "high",
+    "rationale": "No technical evidence or decision trace markers found."
+  },
+  {
+    "component": "StrategicResponseTimeline",
+    "filePath": "src/components/governance-orchestration/StrategicResponseTimeline.tsx",
+    "status": "NOT_APPLICABLE",
+    "confidence": "high",
+    "rationale": "No technical evidence or decision trace markers found."
+  },
+  {
+    "component": "ExecutiveContinuityNarrativePanel",
+    "filePath": "src/components/institutional-continuity/ExecutiveContinuityNarrativePanel.tsx",
+    "status": "NOT_APPLICABLE",
+    "confidence": "high",
+    "rationale": "No technical evidence or decision trace markers found."
+  },
+  {
+    "component": "FiduciaryContinuityPanel",
+    "filePath": "src/components/institutional-continuity/FiduciaryContinuityPanel.tsx",
+    "status": "NOT_APPLICABLE",
+    "confidence": "high",
+    "rationale": "No technical evidence or decision trace markers found."
+  },
+  {
+    "component": "FiduciaryRestrictionOverlay",
+    "filePath": "src/components/institutional-continuity/FiduciaryRestrictionOverlay.tsx",
+    "status": "CONTAINER_REVIEW_REQUIRED",
+    "confidence": "medium",
+    "rationale": "Container (matches pattern). Internal evidence=0, trace=0, mixed=0."
+  },
+  {
+    "component": "InstitutionalLifecycleSurface",
+    "filePath": "src/components/institutional-continuity/InstitutionalLifecycleSurface.tsx",
+    "status": "NOT_APPLICABLE",
+    "confidence": "high",
+    "rationale": "No technical evidence or decision trace markers found."
+  },
+  {
+    "component": "InstitutionalTrajectoryGraph",
+    "filePath": "src/components/institutional-continuity/InstitutionalTrajectoryGraph.tsx",
+    "status": "HEURISTIC_CANDIDATE",
+    "architecturalBlock": "ambiguous",
+    "confidence": "low",
+    "rationale": "Weak structural signal (evidence=1, trace=1)."
+  },
+  {
+    "component": "RecoveryRegressionTimeline",
+    "filePath": "src/components/institutional-continuity/RecoveryRegressionTimeline.tsx",
+    "status": "HEURISTIC_CANDIDATE",
+    "architecturalBlock": "decision-trace",
+    "confidence": "medium",
+    "rationale": "2 decision trace structural markers found."
+  },
+  {
+    "component": "ResilienceAntifragilityRadar",
+    "filePath": "src/components/institutional-continuity/ResilienceAntifragilityRadar.tsx",
+    "status": "NOT_APPLICABLE",
+    "confidence": "high",
+    "rationale": "No technical evidence or decision trace markers found."
+  },
+  {
+    "component": "AdvisoryContinuitySurface",
+    "filePath": "src/components/institutional-memory/AdvisoryContinuitySurface.tsx",
+    "status": "HEURISTIC_CANDIDATE",
+    "architecturalBlock": "technical-evidence",
+    "confidence": "medium",
+    "rationale": "2 evidence structural markers found."
+  },
+  {
+    "component": "ExecutiveContinuityCard",
+    "filePath": "src/components/institutional-memory/ExecutiveContinuityCard.tsx",
+    "status": "MIXED_BOUNDARY",
+    "confidence": "medium",
+    "rationale": "Both evidence(3) and trace(2) markers coexist."
+  },
+  {
+    "component": "GovernanceHistoryExplorer",
+    "filePath": "src/components/institutional-memory/GovernanceHistoryExplorer.tsx",
+    "status": "MIXED_BOUNDARY",
+    "confidence": "medium",
+    "rationale": "Mixed text signals (2) with evidence(3)/trace(3)."
+  },
+  {
+    "component": "GovernanceRecurrencePanel",
+    "filePath": "src/components/institutional-memory/GovernanceRecurrencePanel.tsx",
+    "status": "HEURISTIC_CANDIDATE",
+    "architecturalBlock": "technical-evidence",
+    "confidence": "medium",
+    "rationale": "2 evidence structural markers found."
+  },
+  {
+    "component": "HistoricalEvidenceCoverage",
+    "filePath": "src/components/institutional-memory/HistoricalEvidenceCoverage.tsx",
+    "architecturalBlock": "technical-evidence",
+    "cognitiveSubtype": "audit-trail",
+    "status": "CERTIFIED_BOUNDARY",
+    "certificationSource": "CONTROLLED_EXPANSION_WAVE_02A1",
+    "confidence": "high",
+    "rootStrategy": "ROOT_REPLACEMENT",
+    "certifiedAt": "2026-07-10",
+    "visualQA": "15/15 passed",
+    "typecheckResult": "PASS",
+    "lintResult": "PASS"
+  },
+  {
+    "component": "HistoricalGovernanceNavigator",
+    "filePath": "src/components/institutional-memory/HistoricalGovernanceNavigator.tsx",
+    "status": "MIXED_BOUNDARY",
+    "confidence": "medium",
+    "rationale": "Both evidence(2) and trace(2) markers coexist."
+  },
+  {
+    "component": "HistoricalLineageViewer",
+    "filePath": "src/components/institutional-memory/HistoricalLineageViewer.tsx",
+    "status": "HEURISTIC_CANDIDATE",
+    "architecturalBlock": "technical-evidence",
+    "confidence": "medium",
+    "rationale": "3 evidence structural markers found."
+  },
+  {
+    "component": "InstitutionalMemoryTimeline",
+    "filePath": "src/components/institutional-memory/InstitutionalMemoryTimeline.tsx",
+    "status": "MIXED_BOUNDARY",
+    "confidence": "medium",
+    "rationale": "Both evidence(4) and trace(4) markers coexist."
+  },
+  {
+    "component": "InstitutionalPatternMap",
+    "filePath": "src/components/institutional-memory/InstitutionalPatternMap.tsx",
+    "architecturalBlock": "technical-evidence",
+    "cognitiveSubtype": "data-provenance",
+    "status": "CERTIFIED_BOUNDARY",
+    "certificationSource": "CONTRACT_BOUNDARY_PILOT",
+    "confidence": "high",
+    "rootStrategy": "ROOT_REPLACEMENT",
+    "certifiedAt": "2026-07-10"
+  },
+  {
+    "component": "MemoryIntegrityBadge",
+    "filePath": "src/components/institutional-memory/MemoryIntegrityBadge.tsx",
+    "status": "NOT_APPLICABLE",
+    "confidence": "high",
+    "rationale": "Primitive UI component."
+  },
+  {
+    "component": "AccountingIntegrityPanel",
+    "filePath": "src/components/institutional-reporting/AccountingIntegrityPanel.tsx",
+    "status": "HEURISTIC_CANDIDATE",
+    "architecturalBlock": "technical-evidence",
+    "confidence": "medium",
+    "rationale": "3 evidence structural markers found."
+  },
+  {
+    "component": "BoardPackExportPanel",
+    "filePath": "src/components/institutional-reporting/BoardPackExportPanel.tsx",
+    "status": "HEURISTIC_CANDIDATE",
+    "architecturalBlock": "technical-evidence",
+    "confidence": "medium",
+    "rationale": "2 evidence structural markers found."
+  },
+  {
+    "component": "ConstitutionalIntegrityPanel",
+    "filePath": "src/components/institutional-reporting/ConstitutionalIntegrityPanel.tsx",
+    "status": "MIXED_BOUNDARY",
+    "confidence": "medium",
+    "rationale": "Both evidence(4) and trace(4) markers coexist."
+  },
+  {
+    "component": "ContinuityReportingSurface",
+    "filePath": "src/components/institutional-reporting/ContinuityReportingSurface.tsx",
+    "status": "NOT_APPLICABLE",
+    "confidence": "high",
+    "rationale": "No technical evidence or decision trace markers found."
+  },
+  {
+    "component": "ExecutiveDirectiveSurface",
+    "filePath": "src/components/institutional-reporting/ExecutiveDirectiveSurface.tsx",
+    "status": "NOT_APPLICABLE",
+    "confidence": "high",
+    "rationale": "No technical evidence or decision trace markers found."
+  },
+  {
+    "component": "ExecutiveSnapshotSurface",
+    "filePath": "src/components/institutional-reporting/ExecutiveSnapshotSurface.tsx",
+    "status": "HEURISTIC_CANDIDATE",
+    "architecturalBlock": "technical-evidence",
+    "confidence": "medium",
+    "rationale": "4 evidence structural markers found."
+  },
+  {
+    "component": "ExplainabilityAppendixDrawer",
+    "filePath": "src/components/institutional-reporting/ExplainabilityAppendixDrawer.tsx",
+    "status": "HEURISTIC_CANDIDATE",
+    "architecturalBlock": "ambiguous",
+    "confidence": "low",
+    "rationale": "Weak structural signal (evidence=0, trace=1)."
+  },
+  {
+    "component": "FiduciaryTimelineSurface",
+    "filePath": "src/components/institutional-reporting/FiduciaryTimelineSurface.tsx",
+    "status": "HEURISTIC_CANDIDATE",
+    "architecturalBlock": "technical-evidence",
+    "confidence": "medium",
+    "rationale": "2 evidence structural markers found."
+  },
+  {
+    "component": "GovernanceReportingSurface",
+    "filePath": "src/components/institutional-reporting/GovernanceReportingSurface.tsx",
+    "status": "HEURISTIC_CANDIDATE",
+    "architecturalBlock": "ambiguous",
+    "confidence": "low",
+    "rationale": "Weak structural signal (evidence=1, trace=0)."
+  },
+  {
+    "component": "InstitutionalBoardPackCenter",
+    "filePath": "src/components/institutional-reporting/InstitutionalBoardPackCenter.tsx",
+    "status": "CONTAINER_REVIEW_REQUIRED",
+    "confidence": "medium",
+    "rationale": "Container (matches pattern). Internal evidence=3, trace=0, mixed=1."
+  },
+  {
+    "component": "LineageAppendixDrawer",
+    "filePath": "src/components/institutional-reporting/LineageAppendixDrawer.tsx",
+    "status": "HEURISTIC_CANDIDATE",
+    "architecturalBlock": "technical-evidence",
+    "confidence": "medium",
+    "rationale": "2 evidence structural markers found."
+  },
+  {
+    "component": "OperationalGovernanceSurface",
+    "filePath": "src/components/institutional-reporting/OperationalGovernanceSurface.tsx",
+    "status": "NOT_APPLICABLE",
+    "confidence": "high",
+    "rationale": "No technical evidence or decision trace markers found."
+  },
+  {
+    "component": "QuarantineModeSurface",
+    "filePath": "src/components/institutional-reporting/QuarantineModeSurface.tsx",
+    "status": "HEURISTIC_CANDIDATE",
+    "architecturalBlock": "technical-evidence",
+    "confidence": "medium",
+    "rationale": "3 evidence structural markers found."
+  },
+  {
+    "component": "RestrictionBanner",
+    "filePath": "src/components/institutional-reporting/RestrictionBanner.tsx",
+    "status": "NOT_APPLICABLE",
+    "confidence": "high",
+    "rationale": "No technical evidence or decision trace markers found."
+  },
+  {
+    "component": "StrategicDirectionSurface",
+    "filePath": "src/components/institutional-reporting/StrategicDirectionSurface.tsx",
+    "status": "NOT_APPLICABLE",
+    "confidence": "high",
+    "rationale": "No technical evidence or decision trace markers found."
+  },
+  {
+    "component": "TreasuryPressureSurface",
+    "filePath": "src/components/institutional-reporting/TreasuryPressureSurface.tsx",
+    "status": "NOT_APPLICABLE",
+    "confidence": "high",
+    "rationale": "No technical evidence or decision trace markers found."
+  },
+  {
+    "component": "ConnectorRegistryPanel",
+    "filePath": "src/components/integrations/ConnectorRegistryPanel.tsx",
+    "status": "NOT_APPLICABLE",
+    "confidence": "high",
+    "rationale": "No technical evidence or decision trace markers found."
+  },
+  {
+    "component": "ImportReviewQueueTable",
+    "filePath": "src/components/integrations/ImportReviewQueueTable.tsx",
+    "status": "HEURISTIC_CANDIDATE",
+    "architecturalBlock": "technical-evidence",
+    "confidence": "medium",
+    "rationale": "3 evidence structural markers found."
+  },
+  {
+    "component": "SourceTrustBadge",
+    "filePath": "src/components/integrations/SourceTrustBadge.tsx",
+    "status": "NOT_APPLICABLE",
+    "confidence": "high",
+    "rationale": "Primitive UI component."
+  },
+  {
+    "component": "ExecutiveInstitutionalIntelligenceDashboard",
+    "filePath": "src/components/intelligence/ExecutiveInstitutionalIntelligenceDashboard.tsx",
+    "status": "CONTAINER_REVIEW_REQUIRED",
+    "confidence": "medium",
+    "rationale": "Container (matches pattern). Internal evidence=0, trace=3, mixed=1."
+  },
+  {
+    "component": "InstitutionalIntelligenceWorkspace",
+    "filePath": "src/components/intelligence/InstitutionalIntelligenceWorkspace.tsx",
+    "status": "CONTAINER_REVIEW_REQUIRED",
+    "confidence": "medium",
+    "rationale": "Container (matches pattern). Internal evidence=0, trace=1, mixed=1."
+  },
+  {
+    "component": "InstitutionalObjectCard",
+    "filePath": "src/components/intelligence/InstitutionalObjectCard.tsx",
+    "status": "HEURISTIC_CANDIDATE",
+    "architecturalBlock": "decision-trace",
+    "confidence": "medium",
+    "rationale": "3 decision trace structural markers found."
+  },
+  {
+    "component": "BoardInvestigationWorkspace",
+    "filePath": "src/components/investigation/BoardInvestigationWorkspace.tsx",
+    "status": "CONTAINER_REVIEW_REQUIRED",
+    "confidence": "medium",
+    "rationale": "Container (matches pattern). Internal evidence=1, trace=3, mixed=0."
+  },
+  {
+    "component": "ExecutiveInvestigationDashboard",
+    "filePath": "src/components/investigation/ExecutiveInvestigationDashboard.tsx",
+    "status": "CONTAINER_REVIEW_REQUIRED",
+    "confidence": "medium",
+    "rationale": "Container (matches pattern). Internal evidence=0, trace=1, mixed=0."
+  },
+  {
+    "component": "InvestigationLauncher",
+    "filePath": "src/components/investigation/InvestigationLauncher.tsx",
+    "status": "HEURISTIC_CANDIDATE",
+    "architecturalBlock": "ambiguous",
+    "confidence": "low",
+    "rationale": "Weak structural signal (evidence=0, trace=1)."
+  },
+  {
+    "component": "InvestigationLauncherWrapper",
+    "filePath": "src/components/investigation/InvestigationLauncherWrapper.tsx",
+    "status": "NOT_APPLICABLE",
+    "confidence": "high",
+    "rationale": "No technical evidence or decision trace markers found."
+  },
+  {
+    "component": "InvestigationTimeline",
+    "filePath": "src/components/investigation/InvestigationTimeline.tsx",
+    "status": "HEURISTIC_CANDIDATE",
+    "architecturalBlock": "ambiguous",
+    "confidence": "low",
+    "rationale": "Weak structural signal (evidence=0, trace=1)."
+  },
+  {
+    "component": "RelationshipExplorer",
+    "filePath": "src/components/investigation/RelationshipExplorer.tsx",
+    "status": "HEURISTIC_CANDIDATE",
+    "architecturalBlock": "ambiguous",
+    "confidence": "low",
+    "rationale": "Weak structural signal (evidence=0, trace=1)."
+  },
+  {
+    "component": "CrossDomainStateBoard",
+    "filePath": "src/components/ios/CrossDomainStateBoard.tsx",
+    "status": "NOT_APPLICABLE",
+    "confidence": "high",
+    "rationale": "No technical evidence or decision trace markers found."
+  },
+  {
+    "component": "GovernanceCoordinationCenter",
+    "filePath": "src/components/ios/GovernanceCoordinationCenter.tsx",
+    "status": "CONTAINER_REVIEW_REQUIRED",
+    "confidence": "medium",
+    "rationale": "Container (matches pattern). Internal evidence=0, trace=0, mixed=0."
+  },
+  {
+    "component": "InstitutionalContextViewer",
+    "filePath": "src/components/ios/InstitutionalContextViewer.tsx",
+    "status": "NOT_APPLICABLE",
+    "confidence": "high",
+    "rationale": "No technical evidence or decision trace markers found."
+  },
+  {
+    "component": "InstitutionalDependencyGraph",
+    "filePath": "src/components/ios/InstitutionalDependencyGraph.tsx",
+    "status": "NOT_APPLICABLE",
+    "confidence": "high",
+    "rationale": "No technical evidence or decision trace markers found."
+  },
+  {
+    "component": "InstitutionalPulsePanel",
+    "filePath": "src/components/ios/InstitutionalPulsePanel.tsx",
+    "status": "HEURISTIC_CANDIDATE",
+    "architecturalBlock": "technical-evidence",
+    "confidence": "medium",
+    "rationale": "2 evidence structural markers found."
+  },
+  {
+    "component": "InstitutionalStateMap",
+    "filePath": "src/components/ios/InstitutionalStateMap.tsx",
+    "status": "NOT_APPLICABLE",
+    "confidence": "high",
+    "rationale": "No technical evidence or decision trace markers found."
+  },
+  {
+    "component": "OperationalSynchronizationViewer",
+    "filePath": "src/components/ios/OperationalSynchronizationViewer.tsx",
+    "status": "NOT_APPLICABLE",
+    "confidence": "high",
+    "rationale": "No technical evidence or decision trace markers found."
+  },
+  {
+    "component": "UnifiedGovernanceTimelinePanel",
+    "filePath": "src/components/ios/UnifiedGovernanceTimelinePanel.tsx",
+    "status": "HEURISTIC_CANDIDATE",
+    "architecturalBlock": "decision-trace",
+    "confidence": "medium",
+    "rationale": "2 decision trace structural markers found."
+  },
+  {
+    "component": "GovernanceRelationshipViewer",
+    "filePath": "src/components/knowledge-graph/GovernanceRelationshipViewer.tsx",
+    "status": "HEURISTIC_CANDIDATE",
+    "architecturalBlock": "ambiguous",
+    "confidence": "low",
+    "rationale": "Weak structural signal (evidence=0, trace=1)."
+  },
+  {
+    "component": "GraphQueryConsole",
+    "filePath": "src/components/knowledge-graph/GraphQueryConsole.tsx",
+    "status": "HEURISTIC_CANDIDATE",
+    "architecturalBlock": "ambiguous",
+    "confidence": "low",
+    "rationale": "Weak structural signal (evidence=0, trace=1)."
+  },
+  {
+    "component": "KnowledgeGraphExplorer",
+    "filePath": "src/components/knowledge-graph/KnowledgeGraphExplorer.tsx",
+    "status": "NOT_APPLICABLE",
+    "confidence": "high",
+    "rationale": "No technical evidence or decision trace markers found."
+  },
+  {
+    "component": "OntologyRegistryViewer",
+    "filePath": "src/components/knowledge-graph/OntologyRegistryViewer.tsx",
+    "status": "NOT_APPLICABLE",
+    "confidence": "high",
+    "rationale": "No technical evidence or decision trace markers found."
+  },
+  {
+    "component": "RiskCorrelationPanel",
+    "filePath": "src/components/knowledge-graph/RiskCorrelationPanel.tsx",
+    "status": "NOT_APPLICABLE",
+    "confidence": "high",
+    "rationale": "No technical evidence or decision trace markers found."
+  },
+  {
+    "component": "SemanticLineageViewer",
+    "filePath": "src/components/knowledge-graph/SemanticLineageViewer.tsx",
+    "status": "HEURISTIC_CANDIDATE",
+    "architecturalBlock": "technical-evidence",
+    "confidence": "medium",
+    "rationale": "2 evidence structural markers found."
+  },
+  {
+    "component": "SemanticRelationshipPanel",
+    "filePath": "src/components/knowledge-graph/SemanticRelationshipPanel.tsx",
+    "status": "NOT_APPLICABLE",
+    "confidence": "high",
+    "rationale": "No technical evidence or decision trace markers found."
+  },
+  {
+    "component": "WorkflowPatternPanel",
+    "filePath": "src/components/knowledge-graph/WorkflowPatternPanel.tsx",
+    "status": "HEURISTIC_CANDIDATE",
+    "architecturalBlock": "decision-trace",
+    "confidence": "medium",
+    "rationale": "2 decision trace structural markers found."
+  },
+  {
+    "component": "InstitutionalMemoryWorkspace",
+    "filePath": "src/components/memory/InstitutionalMemoryWorkspace.tsx",
+    "status": "CONTAINER_REVIEW_REQUIRED",
+    "confidence": "medium",
+    "rationale": "Container (matches pattern). Internal evidence=1, trace=0, mixed=0."
+  },
+  {
+    "component": "MemoryLineageViewer",
+    "filePath": "src/components/memory/MemoryLineageViewer.tsx",
+    "status": "HEURISTIC_CANDIDATE",
+    "architecturalBlock": "ambiguous",
+    "confidence": "low",
+    "rationale": "Weak structural signal (evidence=1, trace=0)."
+  },
+  {
+    "component": "RecurrenceExplorer",
+    "filePath": "src/components/memory/RecurrenceExplorer.tsx",
+    "status": "NOT_APPLICABLE",
+    "confidence": "high",
+    "rationale": "No technical evidence or decision trace markers found."
+  },
+  {
+    "component": "AccountModal",
+    "filePath": "src/components/modals/AccountModal.tsx",
+    "status": "NOT_APPLICABLE",
+    "confidence": "high",
+    "rationale": "No technical evidence or decision trace markers found."
+  },
+  {
+    "component": "AssetModal",
+    "filePath": "src/components/modals/AssetModal.tsx",
+    "status": "NOT_APPLICABLE",
+    "confidence": "high",
+    "rationale": "No technical evidence or decision trace markers found."
+  },
+  {
+    "component": "BankAccountModal",
+    "filePath": "src/components/modals/BankAccountModal.tsx",
+    "status": "NOT_APPLICABLE",
+    "confidence": "high",
+    "rationale": "No technical evidence or decision trace markers found."
+  },
+  {
+    "component": "BankTransactionsModal",
+    "filePath": "src/components/modals/BankTransactionsModal.tsx",
+    "status": "NOT_APPLICABLE",
+    "confidence": "high",
+    "rationale": "No technical evidence or decision trace markers found."
+  },
+  {
+    "component": "BoardPackPreviewModal",
+    "filePath": "src/components/modals/BoardPackPreviewModal.tsx",
+    "status": "HEURISTIC_CANDIDATE",
+    "architecturalBlock": "decision-trace",
+    "confidence": "medium",
+    "rationale": "2 decision trace structural markers found."
+  },
+  {
+    "component": "ContractModal",
+    "filePath": "src/components/modals/ContractModal.tsx",
+    "status": "HEURISTIC_CANDIDATE",
+    "architecturalBlock": "decision-trace",
+    "confidence": "medium",
+    "rationale": "2 decision trace structural markers found."
+  },
+  {
+    "component": "DocumentCurationModal",
+    "filePath": "src/components/modals/DocumentCurationModal.tsx",
+    "status": "NOT_APPLICABLE",
+    "confidence": "high",
+    "rationale": "No technical evidence or decision trace markers found."
+  },
+  {
+    "component": "ExecutiveBoardReportModal",
+    "filePath": "src/components/modals/ExecutiveBoardReportModal.tsx",
+    "status": "MIXED_BOUNDARY",
+    "confidence": "medium",
+    "rationale": "Both evidence(2) and trace(4) markers coexist."
+  },
+  {
+    "component": "ForcePasswordChangeModal",
+    "filePath": "src/components/modals/ForcePasswordChangeModal.tsx",
+    "status": "HEURISTIC_CANDIDATE",
+    "architecturalBlock": "ambiguous",
+    "confidence": "low",
+    "rationale": "Weak structural signal (evidence=0, trace=1)."
+  },
+  {
+    "component": "GenerateBoardReportModal",
+    "filePath": "src/components/modals/GenerateBoardReportModal.tsx",
+    "status": "HEURISTIC_CANDIDATE",
+    "architecturalBlock": "ambiguous",
+    "confidence": "low",
+    "rationale": "Weak structural signal (evidence=0, trace=1)."
+  },
+  {
+    "component": "LGPDModal",
+    "filePath": "src/components/modals/GovernanceModals.tsx",
+    "status": "HEURISTIC_CANDIDATE",
+    "architecturalBlock": "decision-trace",
+    "confidence": "medium",
+    "rationale": "2 decision trace structural markers found."
+  },
+  {
+    "component": "DocConfirmationModal",
+    "filePath": "src/components/modals/GovernanceModals.tsx",
+    "status": "NOT_APPLICABLE",
+    "confidence": "high",
+    "rationale": "No technical evidence or decision trace markers found."
+  },
+  {
+    "component": "MandatoryClientModal",
+    "filePath": "src/components/modals/GovernanceModals.tsx",
+    "status": "HEURISTIC_CANDIDATE",
+    "architecturalBlock": "ambiguous",
+    "confidence": "low",
+    "rationale": "Weak structural signal (evidence=0, trace=1)."
+  },
+  {
+    "component": "ImportBankStatementModal",
+    "filePath": "src/components/modals/ImportBankStatementModal.tsx",
+    "status": "HEURISTIC_CANDIDATE",
+    "architecturalBlock": "ambiguous",
+    "confidence": "low",
+    "rationale": "Weak structural signal (evidence=0, trace=1)."
+  },
+  {
+    "component": "ImportFinancialModal",
+    "filePath": "src/components/modals/ImportFinancialModal.tsx",
+    "status": "MIXED_BOUNDARY",
+    "confidence": "medium",
+    "rationale": "Mixed text signals (2) with evidence(0)/trace(2)."
+  },
+  {
+    "component": "ImportPlanoModal",
+    "filePath": "src/components/modals/ImportPlanoModal.tsx",
+    "status": "MIXED_BOUNDARY",
+    "confidence": "medium",
+    "rationale": "Mixed text signals (2) with evidence(1)/trace(1)."
+  },
+  {
+    "component": "ImportTransactionsModal",
+    "filePath": "src/components/modals/ImportTransactionsModal.tsx",
+    "status": "MIXED_BOUNDARY",
+    "confidence": "medium",
+    "rationale": "Both evidence(3) and trace(2) markers coexist."
+  },
+  {
+    "component": "ManualFinancialModal",
+    "filePath": "src/components/modals/ManualFinancialModal.tsx",
+    "status": "MIXED_BOUNDARY",
+    "confidence": "medium",
+    "rationale": "Mixed text signals (2) with evidence(1)/trace(1)."
+  },
+  {
+    "component": "MappingWizard",
+    "filePath": "src/components/modals/MappingWizard.tsx",
+    "status": "NOT_APPLICABLE",
+    "confidence": "high",
+    "rationale": "No technical evidence or decision trace markers found."
+  },
+  {
+    "component": "AlertSeverityBadge",
+    "filePath": "src/components/monitoring/AlertSeverityBadge.tsx",
+    "status": "NOT_APPLICABLE",
+    "confidence": "high",
+    "rationale": "Primitive UI component."
+  },
+  {
+    "component": "MonitoringAlertFeed",
+    "filePath": "src/components/monitoring/MonitoringAlertFeed.tsx",
+    "status": "HEURISTIC_CANDIDATE",
+    "architecturalBlock": "technical-evidence",
+    "confidence": "medium",
+    "rationale": "2 evidence structural markers found."
+  },
+  {
+    "component": "FundingFragilityMap",
+    "filePath": "src/components/operating-pressure/FundingFragilityMap.tsx",
+    "status": "NOT_APPLICABLE",
+    "confidence": "high",
+    "rationale": "No technical evidence or decision trace markers found."
+  },
+  {
+    "component": "InstitutionalPressureDashboard",
+    "filePath": "src/components/operating-pressure/InstitutionalPressureDashboard.tsx",
+    "status": "CONTAINER_REVIEW_REQUIRED",
+    "confidence": "medium",
+    "rationale": "Container (matches pattern). Internal evidence=2, trace=3, mixed=4."
+  },
+  {
+    "component": "InstitutionalStrainHeatmap",
+    "filePath": "src/components/operating-pressure/InstitutionalStrainHeatmap.tsx",
+    "status": "NOT_APPLICABLE",
+    "confidence": "high",
+    "rationale": "No technical evidence or decision trace markers found."
+  },
+  {
+    "component": "LiquidityCompressionGraph",
+    "filePath": "src/components/operating-pressure/LiquidityCompressionGraph.tsx",
+    "status": "HEURISTIC_CANDIDATE",
+    "architecturalBlock": "ambiguous",
+    "confidence": "low",
+    "rationale": "Weak structural signal (evidence=0, trace=1)."
+  },
+  {
+    "component": "OperationalFatiguePanel",
+    "filePath": "src/components/operating-pressure/OperationalFatiguePanel.tsx",
+    "status": "NOT_APPLICABLE",
+    "confidence": "high",
+    "rationale": "No technical evidence or decision trace markers found."
+  },
+  {
+    "component": "PressureExplainabilityDrawer",
+    "filePath": "src/components/operating-pressure/PressureExplainabilityDrawer.tsx",
+    "status": "HEURISTIC_CANDIDATE",
+    "architecturalBlock": "technical-evidence",
+    "confidence": "medium",
+    "rationale": "3 evidence structural markers found."
+  },
+  {
+    "component": "PressurePropagationGraph",
+    "filePath": "src/components/operating-pressure/PressurePropagationGraph.tsx",
+    "status": "NOT_APPLICABLE",
+    "confidence": "high",
+    "rationale": "No technical evidence or decision trace markers found."
+  },
+  {
+    "component": "TreasuryErosionTimeline",
+    "filePath": "src/components/operating-pressure/TreasuryErosionTimeline.tsx",
+    "status": "NOT_APPLICABLE",
+    "confidence": "high",
+    "rationale": "No technical evidence or decision trace markers found."
+  },
+  {
+    "component": "ExecutionIntegrityPanel",
+    "filePath": "src/components/operational-governance/ExecutionIntegrityPanel.tsx",
+    "status": "HEURISTIC_CANDIDATE",
+    "architecturalBlock": "ambiguous",
+    "confidence": "low",
+    "rationale": "Weak structural signal (evidence=1, trace=1)."
+  },
+  {
+    "component": "InstitutionalDependencyRadar",
+    "filePath": "src/components/operational-governance/InstitutionalDependencyRadar.tsx",
+    "status": "NOT_APPLICABLE",
+    "confidence": "high",
+    "rationale": "No technical evidence or decision trace markers found."
+  },
+  {
+    "component": "OperationalContinuitySurface",
+    "filePath": "src/components/operational-governance/OperationalContinuitySurface.tsx",
+    "status": "HEURISTIC_CANDIDATE",
+    "architecturalBlock": "decision-trace",
+    "confidence": "medium",
+    "rationale": "2 decision trace structural markers found."
+  },
+  {
+    "component": "OperationalExplainabilityDrawer",
+    "filePath": "src/components/operational-governance/OperationalExplainabilityDrawer.tsx",
+    "status": "HEURISTIC_CANDIDATE",
+    "architecturalBlock": "ambiguous",
+    "confidence": "low",
+    "rationale": "Weak structural signal (evidence=1, trace=1)."
+  },
+  {
+    "component": "OperationalFrictionMap",
+    "filePath": "src/components/operational-governance/OperationalFrictionMap.tsx",
+    "status": "NOT_APPLICABLE",
+    "confidence": "high",
+    "rationale": "No technical evidence or decision trace markers found."
+  },
+  {
+    "component": "StrategicExecutionAlignmentPanel",
+    "filePath": "src/components/operational-governance/StrategicExecutionAlignmentPanel.tsx",
+    "status": "NOT_APPLICABLE",
+    "confidence": "high",
+    "rationale": "No technical evidence or decision trace markers found."
+  },
+  {
+    "component": "AdministrativaPage",
+    "filePath": "src/components/pages/AdministrativaPage.tsx",
+    "status": "CONTAINER_REVIEW_REQUIRED",
+    "confidence": "medium",
+    "rationale": "Container (matches pattern). Internal evidence=0, trace=2, mixed=2."
+  },
+  {
+    "component": "AdvisorCockpitPage",
+    "filePath": "src/components/pages/AdvisorCockpitPage.tsx",
+    "status": "CONTAINER_REVIEW_REQUIRED",
+    "confidence": "medium",
+    "rationale": "Container (matches pattern). Internal evidence=0, trace=0, mixed=0."
+  },
+  {
+    "component": "AdvisorWorkspacePage",
+    "filePath": "src/components/pages/AdvisorWorkspacePage.tsx",
+    "status": "CONTAINER_REVIEW_REQUIRED",
+    "confidence": "medium",
+    "rationale": "Container (matches pattern). Internal evidence=1, trace=9, mixed=2."
+  },
+  {
+    "component": "AdvisoryInsightsPage",
+    "filePath": "src/components/pages/AdvisoryInsightsPage.tsx",
+    "status": "CONTAINER_REVIEW_REQUIRED",
+    "confidence": "medium",
+    "rationale": "Container (matches pattern). Internal evidence=0, trace=1, mixed=0."
+  },
+  {
+    "component": "AnaliseFinanceiraPage",
+    "filePath": "src/components/pages/AnaliseFinanceiraPage.tsx",
+    "status": "CONTAINER_REVIEW_REQUIRED",
+    "confidence": "medium",
+    "rationale": "Container (matches pattern). Internal evidence=1, trace=3, mixed=2."
+  },
+  {
+    "component": "AnaliseMercadoPage",
+    "filePath": "src/components/pages/AnaliseMercadoPage.tsx",
+    "status": "CONTAINER_REVIEW_REQUIRED",
+    "confidence": "medium",
+    "rationale": "Container (matches pattern). Internal evidence=0, trace=2, mixed=1."
+  },
+  {
+    "component": "AssetManagementPage",
+    "filePath": "src/components/pages/AssetManagementPage.tsx",
+    "status": "CONTAINER_REVIEW_REQUIRED",
+    "confidence": "medium",
+    "rationale": "Container (matches pattern). Internal evidence=1, trace=2, mixed=2."
+  },
+  {
+    "component": "AvaliacaoOrganogramaPage",
+    "filePath": "src/components/pages/AvaliacaoOrganogramaPage.tsx",
+    "status": "CONTAINER_REVIEW_REQUIRED",
+    "confidence": "medium",
+    "rationale": "Container (matches pattern). Internal evidence=0, trace=0, mixed=2."
+  },
+  {
+    "component": "AxisDashboardPage",
+    "filePath": "src/components/pages/AxisDashboardPage.tsx",
+    "status": "CONTAINER_REVIEW_REQUIRED",
+    "confidence": "medium",
+    "rationale": "Container (matches pattern). Internal evidence=1, trace=4, mixed=2."
+  },
+  {
+    "component": "BalanceSheetPage",
+    "filePath": "src/components/pages/BalanceSheetPage.tsx",
+    "status": "CONTAINER_REVIEW_REQUIRED",
+    "confidence": "medium",
+    "rationale": "Container (matches pattern). Internal evidence=0, trace=3, mixed=0."
+  },
+  {
+    "component": "CalibrationPlayground",
+    "filePath": "src/components/pages/CalibrationPlayground.tsx",
+    "status": "CONTAINER_REVIEW_REQUIRED",
+    "confidence": "medium",
+    "rationale": "Container (matches pattern). Internal evidence=2, trace=8, mixed=1."
+  },
+  {
+    "component": "CashFlowPage",
+    "filePath": "src/components/pages/CashFlowPage.tsx",
+    "status": "CONTAINER_REVIEW_REQUIRED",
+    "confidence": "medium",
+    "rationale": "Container (matches pattern). Internal evidence=0, trace=2, mixed=3."
+  },
+  {
+    "component": "CleanupTool",
+    "filePath": "src/components/pages/CleanupTool.tsx",
+    "status": "NOT_APPLICABLE",
+    "confidence": "high",
+    "rationale": "No technical evidence or decision trace markers found."
+  },
+  {
+    "component": "ClientExecutiveWorkspace",
+    "filePath": "src/components/pages/ClientExecutiveWorkspace.tsx",
+    "status": "CONTAINER_REVIEW_REQUIRED",
+    "confidence": "medium",
+    "rationale": "Container (matches pattern). Internal evidence=3, trace=7, mixed=1."
+  },
+  {
+    "component": "ClientsPage",
+    "filePath": "src/components/pages/ClientsPage.tsx",
+    "status": "CONTAINER_REVIEW_REQUIRED",
+    "confidence": "medium",
+    "rationale": "Container (matches pattern). Internal evidence=1, trace=5, mixed=2."
+  },
+  {
+    "component": "ConsolidatedExecutivePage",
+    "filePath": "src/components/pages/ConsolidatedExecutivePage.tsx",
+    "status": "CONTAINER_REVIEW_REQUIRED",
+    "confidence": "medium",
+    "rationale": "Container (matches pattern). Internal evidence=1, trace=0, mixed=1."
+  },
+  {
+    "component": "ConsolidatedGroupAdminPage",
+    "filePath": "src/components/pages/ConsolidatedGroupAdminPage.tsx",
+    "status": "CONTAINER_REVIEW_REQUIRED",
+    "confidence": "medium",
+    "rationale": "Container (matches pattern). Internal evidence=0, trace=1, mixed=1."
+  },
+  {
+    "component": "ControladoriaPage",
+    "filePath": "src/components/pages/ControladoriaPage.tsx",
+    "status": "CONTAINER_REVIEW_REQUIRED",
+    "confidence": "medium",
+    "rationale": "Container (matches pattern). Internal evidence=0, trace=3, mixed=3."
+  },
+  {
+    "component": "DadosHistoricosPage",
+    "filePath": "src/components/pages/DadosHistoricosPage.tsx",
+    "status": "CONTAINER_REVIEW_REQUIRED",
+    "confidence": "medium",
+    "rationale": "Container (matches pattern). Internal evidence=1, trace=6, mixed=1."
+  },
+  {
+    "component": "DashboardPage",
+    "filePath": "src/components/pages/DashboardPage.tsx",
+    "status": "CONTAINER_REVIEW_REQUIRED",
+    "confidence": "medium",
+    "rationale": "Container (matches pattern). Internal evidence=0, trace=3, mixed=3."
+  },
+  {
+    "component": "DecisionGovernancePage",
+    "filePath": "src/components/pages/DecisionGovernancePage.tsx",
+    "status": "CONTAINER_REVIEW_REQUIRED",
+    "confidence": "medium",
+    "rationale": "Container (matches pattern). Internal evidence=1, trace=4, mixed=0."
+  },
+  {
+    "component": "DFCPage",
+    "filePath": "src/components/pages/DFCPage.tsx",
+    "status": "CONTAINER_REVIEW_REQUIRED",
+    "confidence": "medium",
+    "rationale": "Container (matches pattern). Internal evidence=5, trace=6, mixed=5."
+  },
+  {
+    "component": "DiagnosticoPage",
+    "filePath": "src/components/pages/DiagnosticoPage.tsx",
+    "status": "CONTAINER_REVIEW_REQUIRED",
+    "confidence": "medium",
+    "rationale": "Container (matches pattern). Internal evidence=0, trace=1, mixed=2."
+  },
+  {
+    "component": "DiretrizesPage",
+    "filePath": "src/components/pages/DiretrizesPage.tsx",
+    "status": "CONTAINER_REVIEW_REQUIRED",
+    "confidence": "medium",
+    "rationale": "Container (matches pattern). Internal evidence=0, trace=0, mixed=1."
+  },
+  {
+    "component": "DLPAPage",
+    "filePath": "src/components/pages/DLPAPage.tsx",
+    "status": "CONTAINER_REVIEW_REQUIRED",
+    "confidence": "medium",
+    "rationale": "Container (matches pattern). Internal evidence=4, trace=3, mixed=4."
+  },
+  {
+    "component": "DreGerencialPage",
+    "filePath": "src/components/pages/DreGerencialPage.tsx",
+    "status": "CONTAINER_REVIEW_REQUIRED",
+    "confidence": "medium",
+    "rationale": "Container (matches pattern). Internal evidence=0, trace=2, mixed=0."
+  },
+  {
+    "component": "DREPage",
+    "filePath": "src/components/pages/DREPage.tsx",
+    "status": "CONTAINER_REVIEW_REQUIRED",
+    "confidence": "medium",
+    "rationale": "Container (matches pattern). Internal evidence=0, trace=2, mixed=2."
+  },
+  {
+    "component": "EarlyWarningPage",
+    "filePath": "src/components/pages/EarlyWarningPage.tsx",
+    "status": "CONTAINER_REVIEW_REQUIRED",
+    "confidence": "medium",
+    "rationale": "Container (matches pattern). Internal evidence=0, trace=0, mixed=0."
+  },
+  {
+    "component": "EFOSPage",
+    "filePath": "src/components/pages/EFOSPage.tsx",
+    "status": "CONTAINER_REVIEW_REQUIRED",
+    "confidence": "medium",
+    "rationale": "Container (matches pattern). Internal evidence=0, trace=4, mixed=2."
+  },
+  {
+    "component": "EnterpriseValidationPage",
+    "filePath": "src/components/pages/EnterpriseValidationPage.tsx",
+    "status": "CONTAINER_REVIEW_REQUIRED",
+    "confidence": "medium",
+    "rationale": "Container (matches pattern). Internal evidence=1, trace=0, mixed=0."
+  },
+  {
+    "component": "EstruturaGovernancaPage",
+    "filePath": "src/components/pages/EstruturaGovernancaPage.tsx",
+    "status": "CONTAINER_REVIEW_REQUIRED",
+    "confidence": "medium",
+    "rationale": "Container (matches pattern). Internal evidence=0, trace=2, mixed=1."
+  },
+  {
+    "component": "ExecutiveCognitivePage",
+    "filePath": "src/components/pages/ExecutiveCognitivePage.tsx",
+    "status": "CONTAINER_REVIEW_REQUIRED",
+    "confidence": "medium",
+    "rationale": "Container (matches pattern). Internal evidence=0, trace=3, mixed=1."
+  },
+  {
+    "component": "ExecutiveDecisionCenter",
+    "filePath": "src/components/pages/ExecutiveDecisionCenter.tsx",
+    "status": "CONTAINER_REVIEW_REQUIRED",
+    "confidence": "medium",
+    "rationale": "Container (matches pattern). Internal evidence=0, trace=1, mixed=0."
+  },
+  {
+    "component": "ExecutiveScenarioLabPage",
+    "filePath": "src/components/pages/ExecutiveScenarioLabPage.tsx",
+    "status": "CONTAINER_REVIEW_REQUIRED",
+    "confidence": "medium",
+    "rationale": "Container (matches pattern). Internal evidence=1, trace=1, mixed=0."
+  },
+  {
+    "component": "FinancialAdminDashboard",
+    "filePath": "src/components/pages/FinancialAdminDashboard.tsx",
+    "status": "CONTAINER_REVIEW_REQUIRED",
+    "confidence": "medium",
+    "rationale": "Container (matches pattern). Internal evidence=0, trace=2, mixed=3."
+  },
+  {
+    "component": "FinancialModelingPage",
+    "filePath": "src/components/pages/FinancialModelingPage.tsx",
+    "status": "CONTAINER_REVIEW_REQUIRED",
+    "confidence": "medium",
+    "rationale": "Container (matches pattern). Internal evidence=0, trace=0, mixed=0."
+  },
+  {
+    "component": "FinancialPositionPage",
+    "filePath": "src/components/pages/FinancialPositionPage.tsx",
+    "status": "CONTAINER_REVIEW_REQUIRED",
+    "confidence": "medium",
+    "rationale": "Container (matches pattern). Internal evidence=0, trace=3, mixed=0."
+  },
+  {
+    "component": "FiscalTributarioPage",
+    "filePath": "src/components/pages/FiscalTributarioPage.tsx",
+    "status": "CONTAINER_REVIEW_REQUIRED",
+    "confidence": "medium",
+    "rationale": "Container (matches pattern). Internal evidence=1, trace=2, mixed=0."
+  },
+  {
+    "component": "GovernanceDashboardPage",
+    "filePath": "src/components/pages/GovernanceDashboardPage.tsx",
+    "status": "CONTAINER_REVIEW_REQUIRED",
+    "confidence": "medium",
+    "rationale": "Container (matches pattern). Internal evidence=0, trace=2, mixed=3."
+  },
+  {
+    "component": "GovernanceOrchestrationPage",
+    "filePath": "src/components/pages/GovernanceOrchestrationPage.tsx",
+    "status": "CONTAINER_REVIEW_REQUIRED",
+    "confidence": "medium",
+    "rationale": "Container (matches pattern). Internal evidence=0, trace=0, mixed=1."
+  },
+  {
+    "component": "GovernanceTimeMachinePage",
+    "filePath": "src/components/pages/GovernanceTimeMachinePage.tsx",
+    "status": "CONTAINER_REVIEW_REQUIRED",
+    "confidence": "medium",
+    "rationale": "Container (matches pattern). Internal evidence=0, trace=0, mixed=0."
+  },
+  {
+    "component": "IndicatorsPage",
+    "filePath": "src/components/pages/IndicatorsPage.tsx",
+    "status": "CONTAINER_REVIEW_REQUIRED",
+    "confidence": "medium",
+    "rationale": "Container (matches pattern). Internal evidence=0, trace=2, mixed=3."
+  },
+  {
+    "component": "InstitutionalBenchmarkingPage",
+    "filePath": "src/components/pages/InstitutionalBenchmarkingPage.tsx",
+    "status": "CONTAINER_REVIEW_REQUIRED",
+    "confidence": "medium",
+    "rationale": "Container (matches pattern). Internal evidence=0, trace=0, mixed=0."
+  },
+  {
+    "component": "InstitutionalBoardPackPage",
+    "filePath": "src/components/pages/InstitutionalBoardPackPage.tsx",
+    "status": "CONTAINER_REVIEW_REQUIRED",
+    "confidence": "medium",
+    "rationale": "Container (matches pattern). Internal evidence=0, trace=0, mixed=0."
+  },
+  {
+    "component": "InstitutionalContinuityCockpitPage",
+    "filePath": "src/components/pages/InstitutionalContinuityCockpitPage.tsx",
+    "status": "CONTAINER_REVIEW_REQUIRED",
+    "confidence": "medium",
+    "rationale": "Container (matches pattern). Internal evidence=2, trace=3, mixed=1."
+  },
+  {
+    "component": "InstitutionalCopilotPage",
+    "filePath": "src/components/pages/InstitutionalCopilotPage.tsx",
+    "status": "CONTAINER_REVIEW_REQUIRED",
+    "confidence": "medium",
+    "rationale": "Container (matches pattern). Internal evidence=0, trace=0, mixed=1."
+  },
+  {
+    "component": "InstitutionalDeploymentReadinessPage",
+    "filePath": "src/components/pages/InstitutionalDeploymentReadinessPage.tsx",
+    "status": "CONTAINER_REVIEW_REQUIRED",
+    "confidence": "medium",
+    "rationale": "Container (matches pattern). Internal evidence=3, trace=1, mixed=1."
+  },
+  {
+    "component": "InstitutionalDigitalTwinPage",
+    "filePath": "src/components/pages/InstitutionalDigitalTwinPage.tsx",
+    "status": "CONTAINER_REVIEW_REQUIRED",
+    "confidence": "medium",
+    "rationale": "Container (matches pattern). Internal evidence=1, trace=2, mixed=0."
+  },
+  {
+    "component": "InstitutionalIntegrationsPage",
+    "filePath": "src/components/pages/InstitutionalIntegrationsPage.tsx",
+    "status": "CONTAINER_REVIEW_REQUIRED",
+    "confidence": "medium",
+    "rationale": "Container (matches pattern). Internal evidence=0, trace=1, mixed=0."
+  },
+  {
+    "component": "InstitutionalIOSPage",
+    "filePath": "src/components/pages/InstitutionalIOSPage.tsx",
+    "status": "CONTAINER_REVIEW_REQUIRED",
+    "confidence": "medium",
+    "rationale": "Container (matches pattern). Internal evidence=0, trace=0, mixed=0."
+  },
+  {
+    "component": "InstitutionalKnowledgeGraphPage",
+    "filePath": "src/components/pages/InstitutionalKnowledgeGraphPage.tsx",
+    "status": "CONTAINER_REVIEW_REQUIRED",
+    "confidence": "medium",
+    "rationale": "Container (matches pattern). Internal evidence=1, trace=0, mixed=0."
+  },
+  {
+    "component": "InstitutionalMonitoringPage",
+    "filePath": "src/components/pages/InstitutionalMonitoringPage.tsx",
+    "status": "CONTAINER_REVIEW_REQUIRED",
+    "confidence": "medium",
+    "rationale": "Container (matches pattern). Internal evidence=2, trace=1, mixed=0."
+  },
+  {
+    "component": "InstitutionalOnboardingControlCenterPage",
+    "filePath": "src/components/pages/InstitutionalOnboardingControlCenterPage.tsx",
+    "status": "CONTAINER_REVIEW_REQUIRED",
+    "confidence": "medium",
+    "rationale": "Container (matches pattern). Internal evidence=2, trace=1, mixed=0."
+  },
+  {
+    "component": "InstitutionalReportsPage",
+    "filePath": "src/components/pages/InstitutionalReportsPage.tsx",
+    "status": "CONTAINER_REVIEW_REQUIRED",
+    "confidence": "medium",
+    "rationale": "Container (matches pattern). Internal evidence=2, trace=3, mixed=1."
+  },
+  {
+    "component": "InstitutionalStrategicIntelligencePage",
+    "filePath": "src/components/pages/InstitutionalStrategicIntelligencePage.tsx",
+    "status": "CONTAINER_REVIEW_REQUIRED",
+    "confidence": "medium",
+    "rationale": "Container (matches pattern). Internal evidence=3, trace=0, mixed=0."
+  },
+  {
+    "component": "LeadershipProfilePage",
+    "filePath": "src/components/pages/LeadershipProfilePage.tsx",
+    "status": "CONTAINER_REVIEW_REQUIRED",
+    "confidence": "medium",
+    "rationale": "Container (matches pattern). Internal evidence=0, trace=1, mixed=1."
+  },
+  {
+    "component": "LoanInvestmentSimPage",
+    "filePath": "src/components/pages/LoanInvestmentSimPage.tsx",
+    "status": "CONTAINER_REVIEW_REQUIRED",
+    "confidence": "medium",
+    "rationale": "Container (matches pattern). Internal evidence=1, trace=3, mixed=1."
+  },
+  {
+    "component": "LoansPage",
+    "filePath": "src/components/pages/LoansPage.tsx",
+    "status": "CONTAINER_REVIEW_REQUIRED",
+    "confidence": "medium",
+    "rationale": "Container (matches pattern). Internal evidence=0, trace=2, mixed=2."
+  },
+  {
+    "component": "MaintenancePage",
+    "filePath": "src/components/pages/MaintenancePage.tsx",
+    "status": "CONTAINER_REVIEW_REQUIRED",
+    "confidence": "medium",
+    "rationale": "Container (matches pattern). Internal evidence=1, trace=3, mixed=1."
+  },
+  {
+    "component": "MarketingComercialPage",
+    "filePath": "src/components/pages/MarketingComercialPage.tsx",
+    "status": "CONTAINER_REVIEW_REQUIRED",
+    "confidence": "medium",
+    "rationale": "Container (matches pattern). Internal evidence=0, trace=2, mixed=3."
+  },
+  {
+    "component": "MeetingMinutesPage",
+    "filePath": "src/components/pages/MeetingMinutesPage.tsx",
+    "status": "CONTAINER_REVIEW_REQUIRED",
+    "confidence": "medium",
+    "rationale": "Container (matches pattern). Internal evidence=0, trace=5, mixed=1."
+  },
+  {
+    "component": "MessagesPage",
+    "filePath": "src/components/pages/MessagesPage.tsx",
+    "status": "CONTAINER_REVIEW_REQUIRED",
+    "confidence": "medium",
+    "rationale": "Container (matches pattern). Internal evidence=0, trace=2, mixed=0."
+  },
+  {
+    "component": "OKRsPage",
+    "filePath": "src/components/pages/OKRsPage.tsx",
+    "status": "CONTAINER_REVIEW_REQUIRED",
+    "confidence": "medium",
+    "rationale": "Container (matches pattern). Internal evidence=0, trace=1, mixed=2."
+  },
+  {
+    "component": "OperacionalPage",
+    "filePath": "src/components/pages/OperacionalPage.tsx",
+    "status": "CONTAINER_REVIEW_REQUIRED",
+    "confidence": "medium",
+    "rationale": "Container (matches pattern). Internal evidence=0, trace=3, mixed=2."
+  },
+  {
+    "component": "OrcamentoPage",
+    "filePath": "src/components/pages/OrcamentoPage.tsx",
+    "status": "CONTAINER_REVIEW_REQUIRED",
+    "confidence": "medium",
+    "rationale": "Container (matches pattern). Internal evidence=0, trace=3, mixed=2."
+  },
+  {
+    "component": "PartnerSalesPage",
+    "filePath": "src/components/pages/PartnerSalesPage.tsx",
+    "status": "CONTAINER_REVIEW_REQUIRED",
+    "confidence": "medium",
+    "rationale": "Container (matches pattern). Internal evidence=0, trace=2, mixed=0."
+  },
+  {
+    "component": "PartnersPage",
+    "filePath": "src/components/pages/PartnersPage.tsx",
+    "status": "CONTAINER_REVIEW_REQUIRED",
+    "confidence": "medium",
+    "rationale": "Container (matches pattern). Internal evidence=0, trace=1, mixed=1."
+  },
+  {
+    "component": "PayablesPage",
+    "filePath": "src/components/pages/PayablesPage.tsx",
+    "status": "CONTAINER_REVIEW_REQUIRED",
+    "confidence": "medium",
+    "rationale": "Container (matches pattern). Internal evidence=0, trace=0, mixed=1."
+  },
+  {
+    "component": "PilotExperienceDashboard",
+    "filePath": "src/components/pages/PilotExperienceDashboard.tsx",
+    "status": "CONTAINER_REVIEW_REQUIRED",
+    "confidence": "medium",
+    "rationale": "Container (matches pattern). Internal evidence=1, trace=6, mixed=1."
+  },
+  {
+    "component": "PilotMonitoringDashboard",
+    "filePath": "src/components/pages/PilotMonitoringDashboard.tsx",
+    "status": "CONTAINER_REVIEW_REQUIRED",
+    "confidence": "medium",
+    "rationale": "Container (matches pattern). Internal evidence=0, trace=12, mixed=1."
+  },
+  {
+    "component": "PlanoAcaoPage",
+    "filePath": "src/components/pages/PlanoAcaoPage.tsx",
+    "status": "CONTAINER_REVIEW_REQUIRED",
+    "confidence": "medium",
+    "rationale": "Container (matches pattern). Internal evidence=0, trace=1, mixed=1."
+  },
+  {
+    "component": "PlanoDeContasPage",
+    "filePath": "src/components/pages/PlanoDeContasPage.tsx",
+    "status": "CONTAINER_REVIEW_REQUIRED",
+    "confidence": "medium",
+    "rationale": "Container (matches pattern). Internal evidence=0, trace=0, mixed=2."
+  },
+  {
+    "component": "PlanoEstrategicoGlobalPage",
+    "filePath": "src/components/pages/PlanoEstrategicoGlobalPage.tsx",
+    "status": "CONTAINER_REVIEW_REQUIRED",
+    "confidence": "medium",
+    "rationale": "Container (matches pattern). Internal evidence=0, trace=0, mixed=3."
+  },
+  {
+    "component": "PortfolioPage",
+    "filePath": "src/components/pages/PortfolioPage.tsx",
+    "status": "CONTAINER_REVIEW_REQUIRED",
+    "confidence": "medium",
+    "rationale": "Container (matches pattern). Internal evidence=0, trace=1, mixed=1."
+  },
+  {
+    "component": "PrecificacaoPage",
+    "filePath": "src/components/pages/PrecificacaoPage.tsx",
+    "status": "CONTAINER_REVIEW_REQUIRED",
+    "confidence": "medium",
+    "rationale": "Container (matches pattern). Internal evidence=1, trace=2, mixed=3."
+  },
+  {
+    "component": "PreferencesPage",
+    "filePath": "src/components/pages/PreferencesPage.tsx",
+    "status": "CONTAINER_REVIEW_REQUIRED",
+    "confidence": "medium",
+    "rationale": "Container (matches pattern). Internal evidence=0, trace=1, mixed=1."
+  },
+  {
+    "component": "PremissasClientePage",
+    "filePath": "src/components/pages/PremissasClientePage.tsx",
+    "status": "CONTAINER_REVIEW_REQUIRED",
+    "confidence": "medium",
+    "rationale": "Container (matches pattern). Internal evidence=1, trace=2, mixed=2."
+  },
+  {
+    "component": "PremissasEconomicasPage",
+    "filePath": "src/components/pages/PremissasEconomicasPage.tsx",
+    "status": "CONTAINER_REVIEW_REQUIRED",
+    "confidence": "medium",
+    "rationale": "Container (matches pattern). Internal evidence=0, trace=3, mixed=0."
+  },
+  {
+    "component": "PremissasTributariasPage",
+    "filePath": "src/components/pages/PremissasTributariasPage.tsx",
+    "status": "CONTAINER_REVIEW_REQUIRED",
+    "confidence": "medium",
+    "rationale": "Container (matches pattern). Internal evidence=2, trace=1, mixed=1."
+  },
+  {
+    "component": "ProductGovernancePage",
+    "filePath": "src/components/pages/ProductGovernancePage.tsx",
+    "status": "CONTAINER_REVIEW_REQUIRED",
+    "confidence": "medium",
+    "rationale": "Container (matches pattern). Internal evidence=0, trace=0, mixed=0."
+  },
+  {
+    "component": "ProfilePage",
+    "filePath": "src/components/pages/ProfilePage.tsx",
+    "status": "CONTAINER_REVIEW_REQUIRED",
+    "confidence": "medium",
+    "rationale": "Container (matches pattern). Internal evidence=0, trace=1, mixed=0."
+  },
+  {
+    "component": "PurchasingPage",
+    "filePath": "src/components/pages/PurchasingPage.tsx",
+    "status": "CONTAINER_REVIEW_REQUIRED",
+    "confidence": "medium",
+    "rationale": "Container (matches pattern). Internal evidence=0, trace=1, mixed=0."
+  },
+  {
+    "component": "QuadroPessoalPage",
+    "filePath": "src/components/pages/QuadroPessoalPage.tsx",
+    "status": "CONTAINER_REVIEW_REQUIRED",
+    "confidence": "medium",
+    "rationale": "Container (matches pattern). Internal evidence=0, trace=0, mixed=0."
+  },
+  {
+    "component": "RealityValidationPage",
+    "filePath": "src/components/pages/RealityValidationPage.tsx",
+    "status": "CONTAINER_REVIEW_REQUIRED",
+    "confidence": "medium",
+    "rationale": "Container (matches pattern). Internal evidence=0, trace=0, mixed=0."
+  },
+  {
+    "component": "ReceivablesPage",
+    "filePath": "src/components/pages/ReceivablesPage.tsx",
+    "status": "CONTAINER_REVIEW_REQUIRED",
+    "confidence": "medium",
+    "rationale": "Container (matches pattern). Internal evidence=0, trace=0, mixed=1."
+  },
+  {
+    "component": "RelatorioDemonstracoes5Anos",
+    "filePath": "src/components/pages/RelatorioDemonstracoes5Anos.tsx",
+    "status": "HEURISTIC_CANDIDATE",
+    "architecturalBlock": "decision-trace",
+    "confidence": "medium",
+    "rationale": "4 decision trace structural markers found."
+  },
+  {
+    "component": "RelatorioExecutivoPage",
+    "filePath": "src/components/pages/RelatorioExecutivoPage.tsx",
+    "status": "CONTAINER_REVIEW_REQUIRED",
+    "confidence": "medium",
+    "rationale": "Container (matches pattern). Internal evidence=0, trace=1, mixed=3."
+  },
+  {
+    "component": "RuntimeObservabilityPage",
+    "filePath": "src/components/pages/RuntimeObservabilityPage.tsx",
+    "status": "CONTAINER_REVIEW_REQUIRED",
+    "confidence": "medium",
+    "rationale": "Container (matches pattern). Internal evidence=0, trace=1, mixed=0."
+  },
+  {
+    "component": "RuntimePerformancePage",
+    "filePath": "src/components/pages/RuntimePerformancePage.tsx",
+    "status": "CONTAINER_REVIEW_REQUIRED",
+    "confidence": "medium",
+    "rationale": "Container (matches pattern). Internal evidence=0, trace=0, mixed=0."
+  },
+  {
+    "component": "StrategicSimulationPage",
+    "filePath": "src/components/pages/StrategicSimulationPage.tsx",
+    "status": "CONTAINER_REVIEW_REQUIRED",
+    "confidence": "medium",
+    "rationale": "Container (matches pattern). Internal evidence=0, trace=1, mixed=0."
+  },
+  {
+    "component": "StrategicSimulatorPage",
+    "filePath": "src/components/pages/StrategicSimulatorPage.tsx",
+    "status": "CONTAINER_REVIEW_REQUIRED",
+    "confidence": "medium",
+    "rationale": "Container (matches pattern). Internal evidence=1, trace=1, mixed=0."
+  },
+  {
+    "component": "SupportPage",
+    "filePath": "src/components/pages/SupportPage.tsx",
+    "status": "CONTAINER_REVIEW_REQUIRED",
+    "confidence": "medium",
+    "rationale": "Container (matches pattern). Internal evidence=0, trace=0, mixed=0."
+  },
+  {
+    "component": "SystemicIntelligencePanel",
+    "filePath": "src/components/pages/SystemicIntelligencePanel.tsx",
+    "status": "HEURISTIC_CANDIDATE",
+    "architecturalBlock": "technical-evidence",
+    "confidence": "medium",
+    "rationale": "2 evidence structural markers found."
+  },
+  {
+    "component": "TaxReformImpactPage",
+    "filePath": "src/components/pages/TaxReformImpactPage.tsx",
+    "status": "CONTAINER_REVIEW_REQUIRED",
+    "confidence": "medium",
+    "rationale": "Container (matches pattern). Internal evidence=0, trace=2, mixed=2."
+  },
+  {
+    "component": "TenantGovernancePage",
+    "filePath": "src/components/pages/TenantGovernancePage.tsx",
+    "status": "CONTAINER_REVIEW_REQUIRED",
+    "confidence": "medium",
+    "rationale": "Container (matches pattern). Internal evidence=0, trace=0, mixed=1."
+  },
+  {
+    "component": "ValuationPage",
+    "filePath": "src/components/pages/ValuationPage.tsx",
+    "status": "CONTAINER_REVIEW_REQUIRED",
+    "confidence": "medium",
+    "rationale": "Container (matches pattern). Internal evidence=1, trace=1, mixed=0."
+  },
+  {
+    "component": "ViabilityScenario",
+    "filePath": "src/components/pages/ViabilityPage.tsx",
+    "status": "HEURISTIC_CANDIDATE",
+    "architecturalBlock": "ambiguous",
+    "confidence": "low",
+    "rationale": "Weak structural signal (evidence=1, trace=0)."
+  },
+  {
+    "component": "ViabilityPage",
+    "filePath": "src/components/pages/ViabilityPage.tsx",
+    "status": "CONTAINER_REVIEW_REQUIRED",
+    "confidence": "medium",
+    "rationale": "Container (matches pattern). Internal evidence=0, trace=0, mixed=0."
+  },
+  {
+    "component": "A4Page",
+    "filePath": "src/components/pdf/BoardReportPDF.tsx",
+    "status": "NOT_APPLICABLE",
+    "confidence": "high",
+    "rationale": "Primitive UI component."
+  },
+  {
+    "component": "TemporalBoardPackSection",
+    "filePath": "src/components/pdf/TemporalBoardPackSection.tsx",
+    "status": "HEURISTIC_CANDIDATE",
+    "architecturalBlock": "technical-evidence",
+    "confidence": "medium",
+    "rationale": "2 evidence structural markers found."
+  },
+  {
+    "component": "RuntimeLatencyPanel",
+    "filePath": "src/components/performance/RuntimeLatencyPanel.tsx",
+    "status": "NOT_APPLICABLE",
+    "confidence": "high",
+    "rationale": "No technical evidence or decision trace markers found."
+  },
+  {
+    "component": "CognitiveLoadIndicator",
+    "filePath": "src/components/pilot-operations/CognitiveLoadIndicator.tsx",
+    "status": "HEURISTIC_CANDIDATE",
+    "architecturalBlock": "ambiguous",
+    "confidence": "low",
+    "rationale": "Weak structural signal (evidence=0, trace=1)."
+  },
+  {
+    "component": "ExecutiveAdoptionTimeline",
+    "filePath": "src/components/pilot-operations/ExecutiveAdoptionTimeline.tsx",
+    "status": "HEURISTIC_CANDIDATE",
+    "architecturalBlock": "decision-trace",
+    "confidence": "medium",
+    "rationale": "5 decision trace structural markers found."
+  },
+  {
+    "component": "ExecutiveOnboardingSurface",
+    "filePath": "src/components/pilot-operations/ExecutiveOnboardingSurface.tsx",
+    "status": "NOT_APPLICABLE",
+    "confidence": "high",
+    "rationale": "No technical evidence or decision trace markers found."
+  },
+  {
+    "component": "GovernanceReadabilityPanel",
+    "filePath": "src/components/pilot-operations/GovernanceReadabilityPanel.tsx",
+    "status": "MIXED_BOUNDARY",
+    "confidence": "medium",
+    "rationale": "Mixed text signals (2) with evidence(0)/trace(1)."
+  },
+  {
+    "component": "GovernanceWorkflowGuide",
+    "filePath": "src/components/pilot-operations/GovernanceWorkflowGuide.tsx",
+    "status": "HEURISTIC_CANDIDATE",
+    "architecturalBlock": "ambiguous",
+    "confidence": "low",
+    "rationale": "Weak structural signal (evidence=1, trace=0)."
+  },
+  {
+    "component": "PilotFeedbackSurface",
+    "filePath": "src/components/pilot-operations/PilotFeedbackSurface.tsx",
+    "status": "HEURISTIC_CANDIDATE",
+    "architecturalBlock": "technical-evidence",
+    "confidence": "medium",
+    "rationale": "2 evidence structural markers found."
+  },
+  {
+    "component": "PilotOperationalHealthCard",
+    "filePath": "src/components/pilot-operations/PilotOperationalHealthCard.tsx",
+    "status": "NOT_APPLICABLE",
+    "confidence": "high",
+    "rationale": "No technical evidence or decision trace markers found."
+  },
+  {
+    "component": "PilotOperationsCenter",
+    "filePath": "src/components/pilot-operations/PilotOperationsCenter.tsx",
+    "status": "CONTAINER_REVIEW_REQUIRED",
+    "confidence": "medium",
+    "rationale": "Container (matches pattern). Internal evidence=1, trace=1, mixed=0."
+  },
+  {
+    "component": "PilotValidationDashboard",
+    "filePath": "src/components/pilot-operations/PilotValidationDashboard.tsx",
+    "status": "CONTAINER_REVIEW_REQUIRED",
+    "confidence": "medium",
+    "rationale": "Container (matches pattern). Internal evidence=2, trace=1, mixed=1."
+  },
+  {
+    "component": "RuntimeStabilitySurface",
+    "filePath": "src/components/pilot-operations/RuntimeStabilitySurface.tsx",
+    "status": "HEURISTIC_CANDIDATE",
+    "architecturalBlock": "ambiguous",
+    "confidence": "low",
+    "rationale": "Weak structural signal (evidence=0, trace=1)."
+  },
+  {
+    "component": "DemoWorkspacePanel",
+    "filePath": "src/components/product-governance/DemoWorkspacePanel.tsx",
+    "status": "NOT_APPLICABLE",
+    "confidence": "high",
+    "rationale": "No technical evidence or decision trace markers found."
+  },
+  {
+    "component": "FeatureEntitlementTable",
+    "filePath": "src/components/product-governance/FeatureEntitlementTable.tsx",
+    "status": "NOT_APPLICABLE",
+    "confidence": "high",
+    "rationale": "No technical evidence or decision trace markers found."
+  },
+  {
+    "component": "FeatureFlagViewer",
+    "filePath": "src/components/product-governance/FeatureFlagViewer.tsx",
+    "status": "NOT_APPLICABLE",
+    "confidence": "high",
+    "rationale": "No technical evidence or decision trace markers found."
+  },
+  {
+    "component": "ProductAccessAuditFeed",
+    "filePath": "src/components/product-governance/ProductAccessAuditFeed.tsx",
+    "architecturalBlock": "decision-trace",
+    "cognitiveSubtype": "audit-trail",
+    "status": "CERTIFIED_BOUNDARY",
+    "certificationSource": "CONTROLLED_EXPANSION_WAVE_01",
+    "confidence": "high",
+    "rootStrategy": "ROOT_REPLACEMENT",
+    "certifiedAt": "2026-07-10"
+  },
+  {
+    "component": "ProductPlanRegistryPanel",
+    "filePath": "src/components/product-governance/ProductPlanRegistryPanel.tsx",
+    "status": "NOT_APPLICABLE",
+    "confidence": "high",
+    "rationale": "No technical evidence or decision trace markers found."
+  },
+  {
+    "component": "SubscriptionStatusCard",
+    "filePath": "src/components/product-governance/SubscriptionStatusCard.tsx",
+    "status": "NOT_APPLICABLE",
+    "confidence": "high",
+    "rationale": "No technical evidence or decision trace markers found."
+  },
+  {
+    "component": "TrialModePanel",
+    "filePath": "src/components/product-governance/TrialModePanel.tsx",
+    "status": "NOT_APPLICABLE",
+    "confidence": "high",
+    "rationale": "No technical evidence or decision trace markers found."
+  },
+  {
+    "component": "UsageQuotaDashboard",
+    "filePath": "src/components/product-governance/UsageQuotaDashboard.tsx",
+    "status": "CONTAINER_REVIEW_REQUIRED",
+    "confidence": "medium",
+    "rationale": "Container (matches pattern). Internal evidence=0, trace=0, mixed=0."
+  },
+  {
+    "component": "CrossTenantStressViewer",
+    "filePath": "src/components/reality-validation/CrossTenantStressViewer.tsx",
+    "status": "HEURISTIC_CANDIDATE",
+    "architecturalBlock": "ambiguous",
+    "confidence": "low",
+    "rationale": "Weak structural signal (evidence=0, trace=1)."
+  },
+  {
+    "component": "ExecutiveUXHeatmap",
+    "filePath": "src/components/reality-validation/ExecutiveUXHeatmap.tsx",
+    "status": "NOT_APPLICABLE",
+    "confidence": "high",
+    "rationale": "No technical evidence or decision trace markers found."
+  },
+  {
+    "component": "GoldenDatasetExplorer",
+    "filePath": "src/components/reality-validation/GoldenDatasetExplorer.tsx",
+    "status": "NOT_APPLICABLE",
+    "confidence": "high",
+    "rationale": "No technical evidence or decision trace markers found."
+  },
+  {
+    "component": "InstitutionalComplexityViewer",
+    "filePath": "src/components/reality-validation/InstitutionalComplexityViewer.tsx",
+    "status": "HEURISTIC_CANDIDATE",
+    "architecturalBlock": "ambiguous",
+    "confidence": "low",
+    "rationale": "Weak structural signal (evidence=0, trace=1)."
+  },
+  {
+    "component": "OperationalScalePanel",
+    "filePath": "src/components/reality-validation/OperationalScalePanel.tsx",
+    "status": "HEURISTIC_CANDIDATE",
+    "architecturalBlock": "ambiguous",
+    "confidence": "low",
+    "rationale": "Weak structural signal (evidence=0, trace=1)."
+  },
+  {
+    "component": "OperationalStressDashboard",
+    "filePath": "src/components/reality-validation/OperationalStressDashboard.tsx",
+    "status": "CONTAINER_REVIEW_REQUIRED",
+    "confidence": "medium",
+    "rationale": "Container (matches pattern). Internal evidence=0, trace=1, mixed=0."
+  },
+  {
+    "component": "RealityValidationTimeline",
+    "filePath": "src/components/reality-validation/RealityValidationTimeline.tsx",
+    "status": "HEURISTIC_CANDIDATE",
+    "architecturalBlock": "technical-evidence",
+    "confidence": "medium",
+    "rationale": "2 evidence structural markers found."
+  },
+  {
+    "component": "RuntimeStabilityPanel",
+    "filePath": "src/components/reality-validation/RuntimeStabilityPanel.tsx",
+    "status": "NOT_APPLICABLE",
+    "confidence": "high",
+    "rationale": "No technical evidence or decision trace markers found."
+  },
+  {
+    "component": "ExecutiveScenarioNavigator",
+    "filePath": "src/components/scenario-simulation/ExecutiveScenarioNavigator.tsx",
+    "status": "HEURISTIC_CANDIDATE",
+    "architecturalBlock": "decision-trace",
+    "confidence": "medium",
+    "rationale": "2 decision trace structural markers found."
+  },
+  {
+    "component": "ForecastIntegrityBadge",
+    "filePath": "src/components/scenario-simulation/ForecastIntegrityBadge.tsx",
+    "status": "NOT_APPLICABLE",
+    "confidence": "high",
+    "rationale": "Primitive UI component."
+  },
+  {
+    "component": "GovernanceForecastSurface",
+    "filePath": "src/components/scenario-simulation/GovernanceForecastSurface.tsx",
+    "status": "HEURISTIC_CANDIDATE",
+    "architecturalBlock": "ambiguous",
+    "confidence": "low",
+    "rationale": "Weak structural signal (evidence=0, trace=1)."
+  },
+  {
+    "component": "GovernanceProjectionTimeline",
+    "filePath": "src/components/scenario-simulation/GovernanceProjectionTimeline.tsx",
+    "status": "NOT_APPLICABLE",
+    "confidence": "high",
+    "rationale": "No technical evidence or decision trace markers found."
+  },
+  {
+    "component": "ScenarioSimulationPanel",
+    "filePath": "src/components/scenario-simulation/ScenarioSimulationPanel.tsx",
+    "status": "HEURISTIC_CANDIDATE",
+    "architecturalBlock": "decision-trace",
+    "confidence": "medium",
+    "rationale": "4 decision trace structural markers found."
+  },
+  {
+    "component": "SimulationConfidenceCard",
+    "filePath": "src/components/scenario-simulation/SimulationConfidenceCard.tsx",
+    "status": "HEURISTIC_CANDIDATE",
+    "architecturalBlock": "ambiguous",
+    "confidence": "low",
+    "rationale": "Weak structural signal (evidence=1, trace=1)."
+  },
+  {
+    "component": "SimulationLineageViewer",
+    "filePath": "src/components/scenario-simulation/SimulationLineageViewer.tsx",
+    "status": "HEURISTIC_CANDIDATE",
+    "architecturalBlock": "technical-evidence",
+    "confidence": "medium",
+    "rationale": "2 evidence structural markers found."
+  },
+  {
+    "component": "StrategicStressMap",
+    "filePath": "src/components/scenario-simulation/StrategicStressMap.tsx",
+    "status": "HEURISTIC_CANDIDATE",
+    "architecturalBlock": "ambiguous",
+    "confidence": "low",
+    "rationale": "Weak structural signal (evidence=0, trace=1)."
+  },
+  {
+    "component": "AdvisoryDeltaPanel",
+    "filePath": "src/components/ScenarioLab/AdvisoryDeltaPanel.tsx",
+    "status": "NOT_APPLICABLE",
+    "confidence": "high",
+    "rationale": "No technical evidence or decision trace markers found."
+  },
+  {
+    "component": "InstitutionalProjectionPanel",
+    "filePath": "src/components/ScenarioLab/InstitutionalProjectionPanel.tsx",
+    "status": "NOT_APPLICABLE",
+    "confidence": "high",
+    "rationale": "No technical evidence or decision trace markers found."
+  },
+  {
+    "component": "RiskPropagationMap",
+    "filePath": "src/components/ScenarioLab/RiskPropagationMap.tsx",
+    "status": "NOT_APPLICABLE",
+    "confidence": "high",
+    "rationale": "No technical evidence or decision trace markers found."
+  },
+  {
+    "component": "ScenarioControlPanel",
+    "filePath": "src/components/ScenarioLab/ScenarioControlPanel.tsx",
+    "status": "NOT_APPLICABLE",
+    "confidence": "high",
+    "rationale": "No technical evidence or decision trace markers found."
+  },
+  {
+    "component": "LanguageSelector",
+    "filePath": "src/components/shared/LanguageSelector.tsx",
+    "status": "NOT_APPLICABLE",
+    "confidence": "high",
+    "rationale": "Primitive UI component."
+  },
+  {
+    "component": "LocalizedEnum",
+    "filePath": "src/components/shared/LocalizedEnum.tsx",
+    "status": "NOT_APPLICABLE",
+    "confidence": "high",
+    "rationale": "No technical evidence or decision trace markers found."
+  },
+  {
+    "component": "CapitalStrategyAlignmentSurface",
+    "filePath": "src/components/strategic-intelligence/CapitalStrategyAlignmentSurface.tsx",
+    "status": "HEURISTIC_CANDIDATE",
+    "architecturalBlock": "ambiguous",
+    "confidence": "low",
+    "rationale": "Weak structural signal (evidence=0, trace=1)."
+  },
+  {
+    "component": "ExpansionSustainabilityPanel",
+    "filePath": "src/components/strategic-intelligence/ExpansionSustainabilityPanel.tsx",
+    "status": "HEURISTIC_CANDIDATE",
+    "architecturalBlock": "ambiguous",
+    "confidence": "low",
+    "rationale": "Weak structural signal (evidence=0, trace=1)."
+  },
+  {
+    "component": "InstitutionalDirectionHeatmap",
+    "filePath": "src/components/strategic-intelligence/InstitutionalDirectionHeatmap.tsx",
+    "status": "NOT_APPLICABLE",
+    "confidence": "high",
+    "rationale": "No technical evidence or decision trace markers found."
+  },
+  {
+    "component": "InstitutionalStrategicIntelligenceCenter",
+    "filePath": "src/components/strategic-intelligence/InstitutionalStrategicIntelligenceCenter.tsx",
+    "status": "CONTAINER_REVIEW_REQUIRED",
+    "confidence": "medium",
+    "rationale": "Container (matches pattern). Internal evidence=0, trace=0, mixed=0."
+  },
+  {
+    "component": "InstitutionalVectorMap",
+    "filePath": "src/components/strategic-intelligence/InstitutionalVectorMap.tsx",
+    "status": "NOT_APPLICABLE",
+    "confidence": "high",
+    "rationale": "No technical evidence or decision trace markers found."
+  },
+  {
+    "component": "StrategicContradictionSurface",
+    "filePath": "src/components/strategic-intelligence/StrategicContradictionSurface.tsx",
+    "status": "NOT_APPLICABLE",
+    "confidence": "high",
+    "rationale": "No technical evidence or decision trace markers found."
+  },
+  {
+    "component": "StrategicExplainabilityDrawer",
+    "filePath": "src/components/strategic-intelligence/StrategicExplainabilityDrawer.tsx",
+    "status": "HEURISTIC_CANDIDATE",
+    "architecturalBlock": "technical-evidence",
+    "confidence": "medium",
+    "rationale": "2 evidence structural markers found."
+  },
+  {
+    "component": "StrategicPosturePanel",
+    "filePath": "src/components/strategic-intelligence/StrategicPosturePanel.tsx",
+    "status": "NOT_APPLICABLE",
+    "confidence": "high",
+    "rationale": "No technical evidence or decision trace markers found."
+  },
+  {
+    "component": "StrategicRestrictionOverlay",
+    "filePath": "src/components/strategic-intelligence/StrategicRestrictionOverlay.tsx",
+    "status": "CONTAINER_REVIEW_REQUIRED",
+    "confidence": "medium",
+    "rationale": "Container (matches pattern). Internal evidence=0, trace=0, mixed=0."
+  },
+  {
+    "component": "TrajectoryContinuityTimeline",
+    "filePath": "src/components/strategic-intelligence/TrajectoryContinuityTimeline.tsx",
+    "status": "NOT_APPLICABLE",
+    "confidence": "high",
+    "rationale": "No technical evidence or decision trace markers found."
+  },
+  {
+    "component": "DecisionEvidenceViewer",
+    "filePath": "src/components/strategic-simulation/DecisionEvidenceViewer.tsx",
+    "status": "MIXED_BOUNDARY",
+    "confidence": "medium",
+    "rationale": "Both evidence(2) and trace(3) markers coexist."
+  },
+  {
+    "component": "DecisionImpactPanel",
+    "filePath": "src/components/strategic-simulation/DecisionImpactPanel.tsx",
+    "status": "HEURISTIC_CANDIDATE",
+    "architecturalBlock": "decision-trace",
+    "confidence": "medium",
+    "rationale": "2 decision trace structural markers found."
+  },
+  {
+    "component": "GovernanceTradeoffPanel",
+    "filePath": "src/components/strategic-simulation/GovernanceTradeoffPanel.tsx",
+    "status": "HEURISTIC_CANDIDATE",
+    "architecturalBlock": "decision-trace",
+    "confidence": "medium",
+    "rationale": "2 decision trace structural markers found."
+  },
+  {
+    "component": "InstitutionalResiliencePanel",
+    "filePath": "src/components/strategic-simulation/InstitutionalResiliencePanel.tsx",
+    "status": "HEURISTIC_CANDIDATE",
+    "architecturalBlock": "decision-trace",
+    "confidence": "medium",
+    "rationale": "3 decision trace structural markers found."
+  },
+  {
+    "component": "ScenarioComparisonViewer",
+    "filePath": "src/components/strategic-simulation/ScenarioComparisonViewer.tsx",
+    "status": "HEURISTIC_CANDIDATE",
+    "architecturalBlock": "decision-trace",
+    "confidence": "medium",
+    "rationale": "3 decision trace structural markers found."
+  },
+  {
+    "component": "StrategicSimulationFeed",
+    "filePath": "src/components/strategic-simulation/StrategicSimulationFeed.tsx",
+    "status": "HEURISTIC_CANDIDATE",
+    "architecturalBlock": "decision-trace",
+    "confidence": "medium",
+    "rationale": "3 decision trace structural markers found."
+  },
+  {
+    "component": "StrategicSimulationTimeline",
+    "filePath": "src/components/strategic-simulation/StrategicSimulationTimeline.tsx",
+    "status": "HEURISTIC_CANDIDATE",
+    "architecturalBlock": "decision-trace",
+    "confidence": "medium",
+    "rationale": "3 decision trace structural markers found."
+  },
+  {
+    "component": "StrategicStressCascadePanel",
+    "filePath": "src/components/strategic-simulation/StrategicStressCascadePanel.tsx",
+    "status": "HEURISTIC_CANDIDATE",
+    "architecturalBlock": "decision-trace",
+    "confidence": "medium",
+    "rationale": "2 decision trace structural markers found."
+  },
+  {
+    "component": "ExecutiveTimeMachineDashboard",
+    "filePath": "src/components/temporal/ExecutiveTimeMachineDashboard.tsx",
+    "status": "CONTAINER_REVIEW_REQUIRED",
+    "confidence": "medium",
+    "rationale": "Container (matches pattern). Internal evidence=0, trace=4, mixed=0."
+  },
+  {
+    "component": "GovernanceTrajectoryGraph",
+    "filePath": "src/components/temporal/GovernanceTrajectoryGraph.tsx",
+    "status": "HEURISTIC_CANDIDATE",
+    "architecturalBlock": "technical-evidence",
+    "confidence": "medium",
+    "rationale": "2 evidence structural markers found."
+  },
+  {
+    "component": "HistoricalEvidencePanel",
+    "filePath": "src/components/temporal/HistoricalEvidencePanel.tsx",
+    "architecturalBlock": "technical-evidence",
+    "cognitiveSubtype": "data-provenance",
+    "status": "CERTIFIED_BOUNDARY",
+    "certificationSource": "CONTROLLED_EXPANSION_WAVE_02A1",
+    "confidence": "high",
+    "rootStrategy": "ROOT_REPLACEMENT",
+    "certifiedAt": "2026-07-10",
+    "visualQA": "15/15 passed",
+    "typecheckResult": "PASS",
+    "lintResult": "PASS"
+  },
+  {
+    "component": "InstitutionalChangePanel",
+    "filePath": "src/components/temporal/InstitutionalChangePanel.tsx",
+    "status": "HEURISTIC_CANDIDATE",
+    "architecturalBlock": "ambiguous",
+    "confidence": "low",
+    "rationale": "Weak structural signal (evidence=1, trace=0)."
+  },
+  {
+    "component": "InstitutionalResilienceTimeline",
+    "filePath": "src/components/temporal/InstitutionalResilienceTimeline.tsx",
+    "status": "MIXED_BOUNDARY",
+    "confidence": "medium",
+    "rationale": "Both evidence(2) and trace(2) markers coexist."
+  },
+  {
+    "component": "SnapshotComparisonPanel",
+    "filePath": "src/components/temporal/SnapshotComparisonPanel.tsx",
+    "status": "HEURISTIC_CANDIDATE",
+    "architecturalBlock": "ambiguous",
+    "confidence": "low",
+    "rationale": "Weak structural signal (evidence=1, trace=0)."
+  },
+  {
+    "component": "TemporalAdvisoryCard",
+    "filePath": "src/components/temporal/TemporalAdvisoryCard.tsx",
+    "status": "HEURISTIC_CANDIDATE",
+    "architecturalBlock": "technical-evidence",
+    "confidence": "medium",
+    "rationale": "2 evidence structural markers found."
+  },
+  {
+    "component": "TemporalBoardWorkflowPanel",
+    "filePath": "src/components/temporal/TemporalBoardWorkflowPanel.tsx",
+    "status": "HEURISTIC_CANDIDATE",
+    "architecturalBlock": "technical-evidence",
+    "confidence": "medium",
+    "rationale": "2 evidence structural markers found."
+  },
+  {
+    "component": "TemporalCollaborationPanel",
+    "filePath": "src/components/temporal/TemporalCollaborationPanel.tsx",
+    "status": "HEURISTIC_CANDIDATE",
+    "architecturalBlock": "decision-trace",
+    "confidence": "medium",
+    "rationale": "3 decision trace structural markers found."
+  },
+  {
+    "component": "TemporalEarlyWarningBanner",
+    "filePath": "src/components/temporal/TemporalEarlyWarningBanner.tsx",
+    "status": "HEURISTIC_CANDIDATE",
+    "architecturalBlock": "technical-evidence",
+    "confidence": "medium",
+    "rationale": "2 evidence structural markers found."
+  },
+  {
+    "component": "TemporalExecutiveScoreboard",
+    "filePath": "src/components/temporal/TemporalExecutiveScoreboard.tsx",
+    "status": "HEURISTIC_CANDIDATE",
+    "architecturalBlock": "technical-evidence",
+    "confidence": "medium",
+    "rationale": "2 evidence structural markers found."
+  },
+  {
+    "component": "TemporalHeatmapPanel",
+    "filePath": "src/components/temporal/TemporalHeatmapPanel.tsx",
+    "status": "HEURISTIC_CANDIDATE",
+    "architecturalBlock": "ambiguous",
+    "confidence": "low",
+    "rationale": "Weak structural signal (evidence=0, trace=1)."
+  },
+  {
+    "component": "TimelineExplorer",
+    "filePath": "src/components/temporal/TimelineExplorer.tsx",
+    "status": "HEURISTIC_CANDIDATE",
+    "architecturalBlock": "decision-trace",
+    "confidence": "medium",
+    "rationale": "3 decision trace structural markers found."
+  },
+  {
+    "component": "WorkspaceSwitcher",
+    "filePath": "src/components/tenancy/WorkspaceSwitcher.tsx",
+    "status": "CONTAINER_REVIEW_REQUIRED",
+    "confidence": "medium",
+    "rationale": "Container (matches pattern). Internal evidence=0, trace=0, mixed=0."
+  },
+  {
+    "component": "ActionToolbar",
+    "filePath": "src/components/ui/action-toolbar.tsx",
+    "status": "NOT_APPLICABLE",
+    "confidence": "high",
+    "rationale": "No technical evidence or decision trace markers found."
+  },
+  {
+    "component": "ActionToolbarGroup",
+    "filePath": "src/components/ui/action-toolbar.tsx",
+    "status": "NOT_APPLICABLE",
+    "confidence": "high",
+    "rationale": "No technical evidence or decision trace markers found."
+  },
+  {
+    "component": "Button",
+    "filePath": "src/components/ui/button.tsx",
+    "status": "NOT_APPLICABLE",
+    "confidence": "high",
+    "rationale": "Primitive UI component."
+  },
+  {
+    "component": "Card",
+    "filePath": "src/components/ui/card.tsx",
+    "status": "NOT_APPLICABLE",
+    "confidence": "high",
+    "rationale": "Primitive UI component."
+  },
+  {
+    "component": "CardHeader",
+    "filePath": "src/components/ui/card.tsx",
+    "status": "NOT_APPLICABLE",
+    "confidence": "high",
+    "rationale": "No technical evidence or decision trace markers found."
+  },
+  {
+    "component": "CardTitle",
+    "filePath": "src/components/ui/card.tsx",
+    "status": "NOT_APPLICABLE",
+    "confidence": "high",
+    "rationale": "No technical evidence or decision trace markers found."
+  },
+  {
+    "component": "CardDescription",
+    "filePath": "src/components/ui/card.tsx",
+    "status": "NOT_APPLICABLE",
+    "confidence": "high",
+    "rationale": "No technical evidence or decision trace markers found."
+  },
+  {
+    "component": "CardAction",
+    "filePath": "src/components/ui/card.tsx",
+    "status": "NOT_APPLICABLE",
+    "confidence": "high",
+    "rationale": "No technical evidence or decision trace markers found."
+  },
+  {
+    "component": "CardContent",
+    "filePath": "src/components/ui/card.tsx",
+    "status": "NOT_APPLICABLE",
+    "confidence": "high",
+    "rationale": "No technical evidence or decision trace markers found."
+  },
+  {
+    "component": "CardFooter",
+    "filePath": "src/components/ui/card.tsx",
+    "status": "NOT_APPLICABLE",
+    "confidence": "high",
+    "rationale": "No technical evidence or decision trace markers found."
+  },
+  {
+    "component": "Dialog",
+    "filePath": "src/components/ui/dialog.tsx",
+    "status": "NOT_APPLICABLE",
+    "confidence": "high",
+    "rationale": "Primitive UI component."
+  },
+  {
+    "component": "DialogTrigger",
+    "filePath": "src/components/ui/dialog.tsx",
+    "status": "NOT_APPLICABLE",
+    "confidence": "high",
+    "rationale": "Primitive UI component."
+  },
+  {
+    "component": "DialogPortal",
+    "filePath": "src/components/ui/dialog.tsx",
+    "status": "NOT_APPLICABLE",
+    "confidence": "high",
+    "rationale": "No technical evidence or decision trace markers found."
+  },
+  {
+    "component": "DialogClose",
+    "filePath": "src/components/ui/dialog.tsx",
+    "status": "NOT_APPLICABLE",
+    "confidence": "high",
+    "rationale": "No technical evidence or decision trace markers found."
+  },
+  {
+    "component": "DialogOverlay",
+    "filePath": "src/components/ui/dialog.tsx",
+    "status": "NOT_APPLICABLE",
+    "confidence": "high",
+    "rationale": "Primitive UI component."
+  },
+  {
+    "component": "DialogContent",
+    "filePath": "src/components/ui/dialog.tsx",
+    "status": "NOT_APPLICABLE",
+    "confidence": "high",
+    "rationale": "Primitive UI component."
+  },
+  {
+    "component": "DialogHeader",
+    "filePath": "src/components/ui/dialog.tsx",
+    "status": "NOT_APPLICABLE",
+    "confidence": "high",
+    "rationale": "No technical evidence or decision trace markers found."
+  },
+  {
+    "component": "DialogFooter",
+    "filePath": "src/components/ui/dialog.tsx",
+    "status": "NOT_APPLICABLE",
+    "confidence": "high",
+    "rationale": "No technical evidence or decision trace markers found."
+  },
+  {
+    "component": "DialogTitle",
+    "filePath": "src/components/ui/dialog.tsx",
+    "status": "NOT_APPLICABLE",
+    "confidence": "high",
+    "rationale": "No technical evidence or decision trace markers found."
+  },
+  {
+    "component": "DialogDescription",
+    "filePath": "src/components/ui/dialog.tsx",
+    "status": "NOT_APPLICABLE",
+    "confidence": "high",
+    "rationale": "No technical evidence or decision trace markers found."
+  },
+  {
+    "component": "ExecutiveAccordion",
+    "filePath": "src/components/ui/executive-accordion.tsx",
+    "status": "NOT_APPLICABLE",
+    "confidence": "high",
+    "rationale": "No technical evidence or decision trace markers found."
+  },
+  {
+    "component": "ExecutiveActionCard",
+    "filePath": "src/components/ui/executive-action-card.tsx",
+    "status": "NOT_APPLICABLE",
+    "confidence": "high",
+    "rationale": "No technical evidence or decision trace markers found."
+  },
+  {
+    "component": "ExecutiveActionGrid",
+    "filePath": "src/components/ui/executive-action-grid.tsx",
+    "status": "NOT_APPLICABLE",
+    "confidence": "high",
+    "rationale": "No technical evidence or decision trace markers found."
+  },
+  {
+    "component": "ExecutiveAnalyticalHighlightItem",
+    "filePath": "src/components/ui/executive-analytical-highlights.tsx",
+    "status": "NOT_APPLICABLE",
+    "confidence": "high",
+    "rationale": "No technical evidence or decision trace markers found."
+  },
+  {
+    "component": "ExecutiveAnalyticalHighlightsCard",
+    "filePath": "src/components/ui/executive-analytical-highlights.tsx",
+    "status": "NOT_APPLICABLE",
+    "confidence": "high",
+    "rationale": "No technical evidence or decision trace markers found."
+  },
+  {
+    "component": "ExecutiveExecutiveInsightPanel",
+    "filePath": "src/components/ui/executive-analytical-highlights.tsx",
+    "status": "NOT_APPLICABLE",
+    "confidence": "high",
+    "rationale": "No technical evidence or decision trace markers found."
+  },
+  {
+    "component": "ExecutiveCallout",
+    "filePath": "src/components/ui/executive-callout.tsx",
+    "status": "NOT_APPLICABLE",
+    "confidence": "high",
+    "rationale": "No technical evidence or decision trace markers found."
+  },
+  {
+    "component": "ExecutiveChartInsight",
+    "filePath": "src/components/ui/executive-chart-insight.tsx",
+    "status": "NOT_APPLICABLE",
+    "confidence": "high",
+    "rationale": "No technical evidence or decision trace markers found."
+  },
+  {
+    "component": "ExecutiveChartLegend",
+    "filePath": "src/components/ui/executive-chart-legend.tsx",
+    "status": "NOT_APPLICABLE",
+    "confidence": "high",
+    "rationale": "No technical evidence or decision trace markers found."
+  },
+  {
+    "component": "ExecutiveChartGrid",
+    "filePath": "src/components/ui/executive-chart.tsx",
+    "status": "NOT_APPLICABLE",
+    "confidence": "high",
+    "rationale": "No technical evidence or decision trace markers found."
+  },
+  {
+    "component": "ExecutiveChartXAxis",
+    "filePath": "src/components/ui/executive-chart.tsx",
+    "status": "NOT_APPLICABLE",
+    "confidence": "high",
+    "rationale": "No technical evidence or decision trace markers found."
+  },
+  {
+    "component": "ExecutiveChartYAxis",
+    "filePath": "src/components/ui/executive-chart.tsx",
+    "status": "NOT_APPLICABLE",
+    "confidence": "high",
+    "rationale": "No technical evidence or decision trace markers found."
+  },
+  {
+    "component": "ExecutiveChartTooltip",
+    "filePath": "src/components/ui/executive-chart.tsx",
+    "status": "NOT_APPLICABLE",
+    "confidence": "high",
+    "rationale": "No technical evidence or decision trace markers found."
+  },
+  {
+    "component": "ExecutiveChart",
+    "filePath": "src/components/ui/executive-chart.tsx",
+    "status": "NOT_APPLICABLE",
+    "confidence": "high",
+    "rationale": "No technical evidence or decision trace markers found."
+  },
+  {
+    "component": "ExecutiveClassificationFlow",
+    "filePath": "src/components/ui/executive-classification-flow.tsx",
+    "status": "NOT_APPLICABLE",
+    "confidence": "high",
+    "rationale": "No technical evidence or decision trace markers found."
+  },
+  {
+    "component": "ExecutiveDecisionMemo",
+    "filePath": "src/components/ui/executive-decision-memo.tsx",
+    "status": "MIXED_BOUNDARY",
+    "confidence": "medium",
+    "rationale": "Mixed text signals (2) with evidence(0)/trace(1)."
+  },
+  {
+    "component": "ExecutiveDecisionPanel",
+    "filePath": "src/components/ui/executive-decision-panel.tsx",
+    "status": "HEURISTIC_CANDIDATE",
+    "architecturalBlock": "ambiguous",
+    "confidence": "low",
+    "rationale": "Weak structural signal (evidence=0, trace=1)."
+  },
+  {
+    "component": "ExecutiveDecisionSummaryCard",
+    "filePath": "src/components/ui/executive-decision-summary-card.tsx",
+    "status": "MIXED_BOUNDARY",
+    "confidence": "medium",
+    "rationale": "Mixed text signals (2) with evidence(0)/trace(1)."
+  },
+  {
+    "component": "ExecutiveDecisionSummary",
+    "filePath": "src/components/ui/executive-decision-summary.tsx",
+    "status": "HEURISTIC_CANDIDATE",
+    "architecturalBlock": "decision-trace",
+    "confidence": "medium",
+    "rationale": "3 decision trace structural markers found."
+  },
+  {
+    "component": "ExecutiveDecisionTrace",
+    "filePath": "src/components/ui/executive-decision-trace.tsx",
+    "status": "HEURISTIC_CANDIDATE",
+    "architecturalBlock": "decision-trace",
+    "confidence": "medium",
+    "rationale": "2 decision trace structural markers found."
+  },
+  {
+    "component": "ExecutiveDistributionCard",
+    "filePath": "src/components/ui/executive-distribution-card.tsx",
+    "status": "HEURISTIC_CANDIDATE",
+    "architecturalBlock": "ambiguous",
+    "confidence": "low",
+    "rationale": "Weak structural signal (evidence=0, trace=1)."
+  },
+  {
+    "component": "ExecutiveDriverPanel",
+    "filePath": "src/components/ui/executive-driver-panel.tsx",
+    "status": "NOT_APPLICABLE",
+    "confidence": "high",
+    "rationale": "No technical evidence or decision trace markers found."
+  },
+  {
+    "component": "ExecutiveEmptyState",
+    "filePath": "src/components/ui/executive-empty-state.tsx",
+    "status": "NOT_APPLICABLE",
+    "confidence": "high",
+    "rationale": "Primitive UI component."
+  },
+  {
+    "component": "ExecutiveEvidenceGrid",
+    "filePath": "src/components/ui/executive-evidence-grid.tsx",
+    "status": "NOT_APPLICABLE",
+    "confidence": "high",
+    "rationale": "No technical evidence or decision trace markers found."
+  },
+  {
+    "component": "ExecutiveExecutionPlan",
+    "filePath": "src/components/ui/executive-execution-plan.tsx",
+    "status": "NOT_APPLICABLE",
+    "confidence": "high",
+    "rationale": "No technical evidence or decision trace markers found."
+  },
+  {
+    "component": "ExecutiveExposureCard",
+    "filePath": "src/components/ui/executive-exposure-card.tsx",
+    "status": "NOT_APPLICABLE",
+    "confidence": "high",
+    "rationale": "No technical evidence or decision trace markers found."
+  },
+  {
+    "component": "ExecutiveHealthSummaryCard",
+    "filePath": "src/components/ui/executive-health-summary-card.tsx",
+    "status": "NOT_APPLICABLE",
+    "confidence": "high",
+    "rationale": "No technical evidence or decision trace markers found."
+  },
+  {
+    "component": "ExecutiveHeroMetricPanel",
+    "filePath": "src/components/ui/executive-hero-metric-panel.tsx",
+    "status": "NOT_APPLICABLE",
+    "confidence": "high",
+    "rationale": "No technical evidence or decision trace markers found."
+  },
+  {
+    "component": "ExecutiveHistoricalEvolutionCard",
+    "filePath": "src/components/ui/executive-historical-evolution-card.tsx",
+    "status": "NOT_APPLICABLE",
+    "confidence": "high",
+    "rationale": "No technical evidence or decision trace markers found."
+  },
+  {
+    "component": "ExecutiveHistoricalInsightCard",
+    "filePath": "src/components/ui/executive-historical-insight-card.tsx",
+    "status": "NOT_APPLICABLE",
+    "confidence": "high",
+    "rationale": "No technical evidence or decision trace markers found."
+  },
+  {
+    "component": "ExecutiveHistoricalLegend",
+    "filePath": "src/components/ui/executive-historical-legend.tsx",
+    "status": "NOT_APPLICABLE",
+    "confidence": "high",
+    "rationale": "No technical evidence or decision trace markers found."
+  },
+  {
+    "component": "ExecutiveInfoCard",
+    "filePath": "src/components/ui/executive-info-card.tsx",
+    "status": "NOT_APPLICABLE",
+    "confidence": "high",
+    "rationale": "No technical evidence or decision trace markers found."
+  },
+  {
+    "component": "ExecutiveInsightCard",
+    "filePath": "src/components/ui/executive-insight-card.tsx",
+    "status": "NOT_APPLICABLE",
+    "confidence": "high",
+    "rationale": "No technical evidence or decision trace markers found."
+  },
+  {
+    "component": "ExecutiveMetricCard",
+    "filePath": "src/components/ui/executive-metric-card.tsx",
+    "status": "NOT_APPLICABLE",
+    "confidence": "high",
+    "rationale": "No technical evidence or decision trace markers found."
+  },
+  {
+    "component": "ExecutiveNarrative",
+    "filePath": "src/components/ui/executive-narrative.tsx",
+    "status": "NOT_APPLICABLE",
+    "confidence": "high",
+    "rationale": "No technical evidence or decision trace markers found."
+  },
+  {
+    "component": "ExecutiveOpinion",
+    "filePath": "src/components/ui/executive-opinion.tsx",
+    "status": "HEURISTIC_CANDIDATE",
+    "architecturalBlock": "ambiguous",
+    "confidence": "low",
+    "rationale": "Weak structural signal (evidence=0, trace=1)."
+  },
+  {
+    "component": "ExecutivePageTemplate",
+    "filePath": "src/components/ui/executive-page-template.tsx",
+    "status": "CONTAINER_REVIEW_REQUIRED",
+    "confidence": "medium",
+    "rationale": "Container (matches pattern). Internal evidence=0, trace=0, mixed=0."
+  },
+  {
+    "component": "ExecutiveRecommendationBlock",
+    "filePath": "src/components/ui/executive-recommendation-block.tsx",
+    "status": "NOT_APPLICABLE",
+    "confidence": "high",
+    "rationale": "No technical evidence or decision trace markers found."
+  },
+  {
+    "component": "ExecutiveRiskCard",
+    "filePath": "src/components/ui/executive-risk-card.tsx",
+    "status": "NOT_APPLICABLE",
+    "confidence": "high",
+    "rationale": "No technical evidence or decision trace markers found."
+  },
+  {
+    "component": "ExecutiveRiskRow",
+    "filePath": "src/components/ui/executive-risk-row.tsx",
+    "status": "NOT_APPLICABLE",
+    "confidence": "high",
+    "rationale": "No technical evidence or decision trace markers found."
+  },
+  {
+    "component": "ExecutiveScore",
+    "filePath": "src/components/ui/executive-score.tsx",
+    "status": "NOT_APPLICABLE",
+    "confidence": "high",
+    "rationale": "No technical evidence or decision trace markers found."
+  },
+  {
+    "component": "ExecutiveSectionHeader",
+    "filePath": "src/components/ui/executive-section-header.tsx",
+    "status": "NOT_APPLICABLE",
+    "confidence": "high",
+    "rationale": "No technical evidence or decision trace markers found."
+  },
+  {
+    "component": "ExecutiveStat",
+    "filePath": "src/components/ui/executive-stat.tsx",
+    "status": "NOT_APPLICABLE",
+    "confidence": "high",
+    "rationale": "No technical evidence or decision trace markers found."
+  },
+  {
+    "component": "ExecutiveStatusBadge",
+    "filePath": "src/components/ui/executive-status-badge.tsx",
+    "status": "NOT_APPLICABLE",
+    "confidence": "high",
+    "rationale": "Primitive UI component."
+  },
+  {
+    "component": "ExecutiveStrategicRecommendationCard",
+    "filePath": "src/components/ui/executive-strategic-semantic-cards.tsx",
+    "status": "NOT_APPLICABLE",
+    "confidence": "high",
+    "rationale": "No technical evidence or decision trace markers found."
+  },
+  {
+    "component": "ExecutiveStrategicSynthesisCards",
+    "filePath": "src/components/ui/executive-strategic-semantic-cards.tsx",
+    "status": "NOT_APPLICABLE",
+    "confidence": "high",
+    "rationale": "No technical evidence or decision trace markers found."
+  },
+  {
+    "component": "ExecutiveStrategicSemanticCards",
+    "filePath": "src/components/ui/executive-strategic-semantic-cards.tsx",
+    "status": "MIXED_BOUNDARY",
+    "confidence": "high",
+    "rationale": "Contains mixed JSX tags: ExecutiveStrategicRecommendationCard."
+  },
+  {
+    "component": "ExecutiveStrategicTensions",
+    "filePath": "src/components/ui/executive-strategic-tensions.tsx",
+    "status": "NOT_APPLICABLE",
+    "confidence": "high",
+    "rationale": "No technical evidence or decision trace markers found."
+  },
+  {
+    "component": "ExecutiveSummaryCard",
+    "filePath": "src/components/ui/executive-summary-card.tsx",
+    "status": "NOT_APPLICABLE",
+    "confidence": "high",
+    "rationale": "No technical evidence or decision trace markers found."
+  },
+  {
+    "component": "ExecutiveSummarySection",
+    "filePath": "src/components/ui/executive-summary-section.tsx",
+    "status": "NOT_APPLICABLE",
+    "confidence": "high",
+    "rationale": "EAC contract definition, not a consumer."
+  },
+  {
+    "component": "ExecutiveTable",
+    "filePath": "src/components/ui/executive-table.tsx",
+    "status": "NOT_APPLICABLE",
+    "confidence": "high",
+    "rationale": "No technical evidence or decision trace markers found."
+  },
+  {
+    "component": "ExecutiveTableHeader",
+    "filePath": "src/components/ui/executive-table.tsx",
+    "status": "NOT_APPLICABLE",
+    "confidence": "high",
+    "rationale": "No technical evidence or decision trace markers found."
+  },
+  {
+    "component": "ExecutiveTableBody",
+    "filePath": "src/components/ui/executive-table.tsx",
+    "status": "NOT_APPLICABLE",
+    "confidence": "high",
+    "rationale": "No technical evidence or decision trace markers found."
+  },
+  {
+    "component": "ExecutiveTableRow",
+    "filePath": "src/components/ui/executive-table.tsx",
+    "status": "NOT_APPLICABLE",
+    "confidence": "high",
+    "rationale": "No technical evidence or decision trace markers found."
+  },
+  {
+    "component": "ExecutiveTableHead",
+    "filePath": "src/components/ui/executive-table.tsx",
+    "status": "NOT_APPLICABLE",
+    "confidence": "high",
+    "rationale": "No technical evidence or decision trace markers found."
+  },
+  {
+    "component": "ExecutiveTableCell",
+    "filePath": "src/components/ui/executive-table.tsx",
+    "status": "NOT_APPLICABLE",
+    "confidence": "high",
+    "rationale": "No technical evidence or decision trace markers found."
+  },
+  {
+    "component": "ExecutiveTechnicalLayer",
+    "filePath": "src/components/ui/executive-technical-layer.tsx",
+    "status": "HEURISTIC_CANDIDATE",
+    "architecturalBlock": "technical-evidence",
+    "confidence": "medium",
+    "rationale": "2 evidence structural markers found."
+  },
+  {
+    "component": "ExecutiveTechnicalMetricCard",
+    "filePath": "src/components/ui/executive-technical-metric-card.tsx",
+    "status": "NOT_APPLICABLE",
+    "confidence": "high",
+    "rationale": "No technical evidence or decision trace markers found."
+  },
+  {
+    "component": "ExecutiveTechnicalScore",
+    "filePath": "src/components/ui/executive-technical-score.tsx",
+    "status": "NOT_APPLICABLE",
+    "confidence": "high",
+    "rationale": "No technical evidence or decision trace markers found."
+  },
+  {
+    "component": "Input",
+    "filePath": "src/components/ui/input.tsx",
+    "status": "NOT_APPLICABLE",
+    "confidence": "high",
+    "rationale": "Primitive UI component."
+  },
+  {
+    "component": "InsightPanel",
+    "filePath": "src/components/ui/insight-panel.tsx",
+    "status": "NOT_APPLICABLE",
+    "confidence": "high",
+    "rationale": "No technical evidence or decision trace markers found."
+  },
+  {
+    "component": "Label",
+    "filePath": "src/components/ui/label.tsx",
+    "status": "NOT_APPLICABLE",
+    "confidence": "high",
+    "rationale": "Primitive UI component."
+  },
+  {
+    "component": "ExecutiveDecisionSummary",
+    "filePath": "src/components/ui/legacy-executive-decision-summary.tsx",
+    "status": "HEURISTIC_CANDIDATE",
+    "architecturalBlock": "ambiguous",
+    "confidence": "low",
+    "rationale": "Weak structural signal (evidence=0, trace=1)."
+  },
+  {
+    "component": "MetricTile",
+    "filePath": "src/components/ui/metric-tile.tsx",
+    "status": "NOT_APPLICABLE",
+    "confidence": "high",
+    "rationale": "No technical evidence or decision trace markers found."
+  },
+  {
+    "component": "MetricGrid",
+    "filePath": "src/components/ui/metric-tile.tsx",
+    "status": "NOT_APPLICABLE",
+    "confidence": "high",
+    "rationale": "No technical evidence or decision trace markers found."
+  },
+  {
+    "component": "NarrativeStack",
+    "filePath": "src/components/ui/narrative-stack.tsx",
+    "status": "NOT_APPLICABLE",
+    "confidence": "high",
+    "rationale": "No technical evidence or decision trace markers found."
+  },
+  {
+    "component": "PageHeader",
+    "filePath": "src/components/ui/page-header.tsx",
+    "status": "NOT_APPLICABLE",
+    "confidence": "high",
+    "rationale": "Primitive UI component."
+  },
+  {
+    "component": "PageSection",
+    "filePath": "src/components/ui/page-section.tsx",
+    "status": "NOT_APPLICABLE",
+    "confidence": "high",
+    "rationale": "Primitive UI component."
+  },
+  {
+    "component": "RecommendationPanel",
+    "filePath": "src/components/ui/recommendation-panel.tsx",
+    "status": "NOT_APPLICABLE",
+    "confidence": "high",
+    "rationale": "No technical evidence or decision trace markers found."
+  },
+  {
+    "component": "RiskPanel",
+    "filePath": "src/components/ui/risk-panel.tsx",
+    "status": "NOT_APPLICABLE",
+    "confidence": "high",
+    "rationale": "No technical evidence or decision trace markers found."
+  },
+  {
+    "component": "SectionHeader",
+    "filePath": "src/components/ui/section-header.tsx",
+    "status": "NOT_APPLICABLE",
+    "confidence": "high",
+    "rationale": "Primitive UI component."
+  },
+  {
+    "component": "Select",
+    "filePath": "src/components/ui/select.tsx",
+    "status": "NOT_APPLICABLE",
+    "confidence": "high",
+    "rationale": "No technical evidence or decision trace markers found."
+  },
+  {
+    "component": "SelectGroup",
+    "filePath": "src/components/ui/select.tsx",
+    "status": "NOT_APPLICABLE",
+    "confidence": "high",
+    "rationale": "Primitive UI component."
+  },
+  {
+    "component": "SelectValue",
+    "filePath": "src/components/ui/select.tsx",
+    "status": "NOT_APPLICABLE",
+    "confidence": "high",
+    "rationale": "Primitive UI component."
+  },
+  {
+    "component": "SelectTrigger",
+    "filePath": "src/components/ui/select.tsx",
+    "status": "NOT_APPLICABLE",
+    "confidence": "high",
+    "rationale": "Primitive UI component."
+  },
+  {
+    "component": "SelectContent",
+    "filePath": "src/components/ui/select.tsx",
+    "status": "NOT_APPLICABLE",
+    "confidence": "high",
+    "rationale": "Primitive UI component."
+  },
+  {
+    "component": "SelectLabel",
+    "filePath": "src/components/ui/select.tsx",
+    "status": "NOT_APPLICABLE",
+    "confidence": "high",
+    "rationale": "Primitive UI component."
+  },
+  {
+    "component": "SelectItem",
+    "filePath": "src/components/ui/select.tsx",
+    "status": "NOT_APPLICABLE",
+    "confidence": "high",
+    "rationale": "Primitive UI component."
+  },
+  {
+    "component": "SelectSeparator",
+    "filePath": "src/components/ui/select.tsx",
+    "status": "NOT_APPLICABLE",
+    "confidence": "high",
+    "rationale": "Primitive UI component."
+  },
+  {
+    "component": "SelectScrollUpButton",
+    "filePath": "src/components/ui/select.tsx",
+    "status": "NOT_APPLICABLE",
+    "confidence": "high",
+    "rationale": "Primitive UI component."
+  },
+  {
+    "component": "SelectScrollDownButton",
+    "filePath": "src/components/ui/select.tsx",
+    "status": "NOT_APPLICABLE",
+    "confidence": "high",
+    "rationale": "Primitive UI component."
+  },
+  {
+    "component": "SemanticCard",
+    "filePath": "src/components/ui/semantic-card.tsx",
+    "status": "NOT_APPLICABLE",
+    "confidence": "high",
+    "rationale": "No technical evidence or decision trace markers found."
+  },
+  {
+    "component": "Skeleton",
+    "filePath": "src/components/ui/skeleton.tsx",
+    "status": "NOT_APPLICABLE",
+    "confidence": "high",
+    "rationale": "Primitive UI component."
+  },
+  {
+    "component": "CardSkeleton",
+    "filePath": "src/components/ui/skeletons.tsx",
+    "status": "NOT_APPLICABLE",
+    "confidence": "high",
+    "rationale": "Primitive UI component."
+  },
+  {
+    "component": "TableSkeleton",
+    "filePath": "src/components/ui/skeletons.tsx",
+    "status": "NOT_APPLICABLE",
+    "confidence": "high",
+    "rationale": "Primitive UI component."
+  },
+  {
+    "component": "DashboardSkeleton",
+    "filePath": "src/components/ui/skeletons.tsx",
+    "status": "NOT_APPLICABLE",
+    "confidence": "high",
+    "rationale": "Primitive UI component."
+  },
+  {
+    "component": "FormSkeleton",
+    "filePath": "src/components/ui/skeletons.tsx",
+    "status": "NOT_APPLICABLE",
+    "confidence": "high",
+    "rationale": "Primitive UI component."
+  },
+  {
+    "component": "ChartSkeleton",
+    "filePath": "src/components/ui/skeletons.tsx",
+    "status": "NOT_APPLICABLE",
+    "confidence": "high",
+    "rationale": "Primitive UI component."
+  },
+  {
+    "component": "Table",
+    "filePath": "src/components/ui/table.tsx",
+    "status": "NOT_APPLICABLE",
+    "confidence": "high",
+    "rationale": "Primitive UI component."
+  },
+  {
+    "component": "TableHeader",
+    "filePath": "src/components/ui/table.tsx",
+    "status": "NOT_APPLICABLE",
+    "confidence": "high",
+    "rationale": "No technical evidence or decision trace markers found."
+  },
+  {
+    "component": "TableBody",
+    "filePath": "src/components/ui/table.tsx",
+    "status": "NOT_APPLICABLE",
+    "confidence": "high",
+    "rationale": "No technical evidence or decision trace markers found."
+  },
+  {
+    "component": "TableFooter",
+    "filePath": "src/components/ui/table.tsx",
+    "status": "NOT_APPLICABLE",
+    "confidence": "high",
+    "rationale": "No technical evidence or decision trace markers found."
+  },
+  {
+    "component": "TableRow",
+    "filePath": "src/components/ui/table.tsx",
+    "status": "NOT_APPLICABLE",
+    "confidence": "high",
+    "rationale": "No technical evidence or decision trace markers found."
+  },
+  {
+    "component": "TableHead",
+    "filePath": "src/components/ui/table.tsx",
+    "status": "NOT_APPLICABLE",
+    "confidence": "high",
+    "rationale": "No technical evidence or decision trace markers found."
+  },
+  {
+    "component": "TableCell",
+    "filePath": "src/components/ui/table.tsx",
+    "status": "NOT_APPLICABLE",
+    "confidence": "high",
+    "rationale": "No technical evidence or decision trace markers found."
+  },
+  {
+    "component": "TableCaption",
+    "filePath": "src/components/ui/table.tsx",
+    "status": "NOT_APPLICABLE",
+    "confidence": "high",
+    "rationale": "No technical evidence or decision trace markers found."
+  },
+  {
+    "component": "Tabs",
+    "filePath": "src/components/ui/tabs.tsx",
+    "status": "NOT_APPLICABLE",
+    "confidence": "high",
+    "rationale": "Primitive UI component."
+  },
+  {
+    "component": "TabsList",
+    "filePath": "src/components/ui/tabs.tsx",
+    "status": "NOT_APPLICABLE",
+    "confidence": "high",
+    "rationale": "Primitive UI component."
+  },
+  {
+    "component": "TabsTrigger",
+    "filePath": "src/components/ui/tabs.tsx",
+    "status": "NOT_APPLICABLE",
+    "confidence": "high",
+    "rationale": "Primitive UI component."
+  },
+  {
+    "component": "TabsContent",
+    "filePath": "src/components/ui/tabs.tsx",
+    "status": "NOT_APPLICABLE",
+    "confidence": "high",
+    "rationale": "Primitive UI component."
+  },
+  {
+    "component": "TooltipProvider",
+    "filePath": "src/components/ui/tooltip.tsx",
+    "status": "NOT_APPLICABLE",
+    "confidence": "high",
+    "rationale": "Primitive UI component."
+  },
+  {
+    "component": "Tooltip",
+    "filePath": "src/components/ui/tooltip.tsx",
+    "status": "NOT_APPLICABLE",
+    "confidence": "high",
+    "rationale": "Primitive UI component."
+  },
+  {
+    "component": "TooltipTrigger",
+    "filePath": "src/components/ui/tooltip.tsx",
+    "status": "NOT_APPLICABLE",
+    "confidence": "high",
+    "rationale": "Primitive UI component."
+  },
+  {
+    "component": "TooltipContent",
+    "filePath": "src/components/ui/tooltip.tsx",
+    "status": "NOT_APPLICABLE",
+    "confidence": "high",
+    "rationale": "Primitive UI component."
+  },
+  {
+    "component": "CollapsePropagationGraph",
+    "filePath": "src/components/war-gaming/CollapsePropagationGraph.tsx",
+    "status": "HEURISTIC_CANDIDATE",
+    "architecturalBlock": "ambiguous",
+    "confidence": "low",
+    "rationale": "Weak structural signal (evidence=0, trace=1)."
+  },
+  {
+    "component": "CrisisExplainabilityDrawer",
+    "filePath": "src/components/war-gaming/CrisisExplainabilityDrawer.tsx",
+    "status": "HEURISTIC_CANDIDATE",
+    "architecturalBlock": "technical-evidence",
+    "confidence": "medium",
+    "rationale": "2 evidence structural markers found."
+  },
+  {
+    "component": "CrisisScenarioPanel",
+    "filePath": "src/components/war-gaming/CrisisScenarioPanel.tsx",
+    "status": "NOT_APPLICABLE",
+    "confidence": "high",
+    "rationale": "No technical evidence or decision trace markers found."
+  },
+  {
+    "component": "InstitutionalPressureHeatmap",
+    "filePath": "src/components/war-gaming/InstitutionalPressureHeatmap.tsx",
+    "status": "NOT_APPLICABLE",
+    "confidence": "high",
+    "rationale": "No technical evidence or decision trace markers found."
+  },
+  {
+    "component": "InstitutionalWarRoomPage",
+    "filePath": "src/components/war-gaming/InstitutionalWarRoomPage.tsx",
+    "status": "CONTAINER_REVIEW_REQUIRED",
+    "confidence": "medium",
+    "rationale": "Container (matches pattern). Internal evidence=0, trace=1, mixed=0."
+  },
+  {
+    "component": "LiquidityStressTimeline",
+    "filePath": "src/components/war-gaming/LiquidityStressTimeline.tsx",
+    "status": "NOT_APPLICABLE",
+    "confidence": "high",
+    "rationale": "No technical evidence or decision trace markers found."
+  },
+  {
+    "component": "StrategicResponseComparator",
+    "filePath": "src/components/war-gaming/StrategicResponseComparator.tsx",
+    "status": "HEURISTIC_CANDIDATE",
+    "architecturalBlock": "ambiguous",
+    "confidence": "low",
+    "rationale": "Weak structural signal (evidence=0, trace=1)."
+  },
+  {
+    "component": "TreasurySurvivalMap",
+    "filePath": "src/components/war-gaming/TreasurySurvivalMap.tsx",
+    "status": "NOT_APPLICABLE",
+    "confidence": "high",
+    "rationale": "No technical evidence or decision trace markers found."
+  },
+  {
+    "component": "EvidenceCorrelationPanel",
+    "filePath": "src/components/war-room/EvidenceCorrelationPanel.tsx",
+    "architecturalBlock": "technical-evidence",
+    "cognitiveSubtype": "data-provenance",
+    "status": "CERTIFIED_BOUNDARY",
+    "certificationSource": "CONTROLLED_EXPANSION_WAVE_02A1",
+    "confidence": "high",
+    "rootStrategy": "ROOT_REPLACEMENT",
+    "certifiedAt": "2026-07-10",
+    "visualQA": "15/15 passed",
+    "typecheckResult": "PASS",
+    "lintResult": "PASS"
+  },
+  {
+    "component": "ExecutiveScenarioDashboard",
+    "filePath": "src/components/war-room/ExecutiveScenarioDashboard.tsx",
+    "status": "CONTAINER_REVIEW_REQUIRED",
+    "confidence": "medium",
+    "rationale": "Container (matches pattern). Internal evidence=0, trace=0, mixed=0."
+  },
+  {
+    "component": "ImpactExplorer",
+    "filePath": "src/components/war-room/ImpactExplorer.tsx",
+    "status": "NOT_APPLICABLE",
+    "confidence": "high",
+    "rationale": "No technical evidence or decision trace markers found."
+  },
+  {
+    "component": "RiskPropagationViewer",
+    "filePath": "src/components/war-room/RiskPropagationViewer.tsx",
+    "status": "NOT_APPLICABLE",
+    "confidence": "high",
+    "rationale": "No technical evidence or decision trace markers found."
+  },
+  {
+    "component": "ScenarioCatalog",
+    "filePath": "src/components/war-room/ScenarioCatalog.tsx",
+    "status": "NOT_APPLICABLE",
+    "confidence": "high",
+    "rationale": "No technical evidence or decision trace markers found."
+  },
+  {
+    "component": "ScenarioCommandCenter",
+    "filePath": "src/components/war-room/ScenarioCommandCenter.tsx",
+    "status": "CONTAINER_REVIEW_REQUIRED",
+    "confidence": "medium",
+    "rationale": "Container (matches pattern). Internal evidence=0, trace=0, mixed=0."
+  },
+  {
+    "component": "ScenarioImpactMap",
+    "filePath": "src/components/war-room/ScenarioImpactMap.tsx",
+    "status": "HEURISTIC_CANDIDATE",
+    "architecturalBlock": "ambiguous",
+    "confidence": "low",
+    "rationale": "Weak structural signal (evidence=0, trace=1)."
+  },
+  {
+    "component": "WarRoomWorkspace",
+    "filePath": "src/components/war-room/WarRoomWorkspace.tsx",
+    "status": "CONTAINER_REVIEW_REQUIRED",
+    "confidence": "medium",
+    "rationale": "Container (matches pattern). Internal evidence=0, trace=0, mixed=0."
+  },
+  {
+    "component": "WorkflowAuditFeed",
+    "filePath": "src/components/workflow-governance/WorkflowAuditFeed.tsx",
+    "architecturalBlock": "decision-trace",
+    "cognitiveSubtype": "audit-trail",
+    "status": "CERTIFIED_BOUNDARY",
+    "certificationSource": "CONTROLLED_EXPANSION_WAVE_02A2",
+    "confidence": "high",
+    "rootStrategy": "ROOT_REPLACEMENT",
+    "certifiedAt": "2026-07-10",
+    "boundaryEvidence": {
+      "regionCount": 1,
+      "accessibleName": "Histórico de eventos e aprovações do workflow",
+      "historicalItemsRendered": 3
+    },
+    "visualQA": "24/24 passed",
+    "typecheckResult": "PASS",
+    "lintResult": "PASS",
+    "testResult": "1469/1469 pass"
+  },
+  {
+    "component": "WorkflowBoard",
+    "filePath": "src/components/workflow-governance/WorkflowBoard.tsx",
+    "status": "HEURISTIC_CANDIDATE",
+    "architecturalBlock": "ambiguous",
+    "confidence": "low",
+    "rationale": "Weak structural signal (evidence=0, trace=1)."
+  },
+  {
+    "component": "WorkflowStatusBadge",
+    "filePath": "src/components/workflow-governance/WorkflowStatusBadge.tsx",
+    "status": "NOT_APPLICABLE",
+    "confidence": "high",
+    "rationale": "Primitive UI component."
+  },
+  {
+    "component": "GovernanceTimeMachineWorkspace",
+    "filePath": "src/components/workspaces/GovernanceTimeMachineWorkspace.tsx",
+    "status": "CONTAINER_REVIEW_REQUIRED",
+    "confidence": "medium",
+    "rationale": "Container (matches pattern). Internal evidence=2, trace=3, mixed=0."
+  },
+  {
+    "component": "BoardExperienceShell",
+    "filePath": "src/components/executive/board/BoardExperienceShell.tsx",
+    "status": "CONTAINER_REVIEW_REQUIRED",
+    "confidence": "medium",
+    "rationale": "Container (matches pattern). Internal evidence=1, trace=2, mixed=3."
+  },
+  {
+    "component": "BoardNarrativeNavigator",
+    "filePath": "src/components/executive/board/BoardNarrativeNavigator.tsx",
+    "status": "HEURISTIC_CANDIDATE",
+    "architecturalBlock": "ambiguous",
+    "confidence": "low",
+    "rationale": "Weak structural signal (evidence=1, trace=1)."
+  },
+  {
+    "component": "CausalDrilldownPanel",
+    "filePath": "src/components/executive/board/CausalDrilldownPanel.tsx",
+    "status": "MIXED_BOUNDARY",
+    "confidence": "medium",
+    "rationale": "Mixed text signals (2) with evidence(1)/trace(0)."
+  },
+  {
+    "component": "ExecutionTrackingDashboard",
+    "filePath": "src/components/executive/board/ExecutionTrackingDashboard.tsx",
+    "status": "CONTAINER_REVIEW_REQUIRED",
+    "confidence": "medium",
+    "rationale": "Container (matches pattern). Internal evidence=0, trace=0, mixed=0."
+  },
+  {
+    "component": "ExecutiveEvidenceExplorer",
+    "filePath": "src/components/executive/board/ExecutiveEvidenceExplorer.tsx",
+    "status": "HEURISTIC_CANDIDATE",
+    "architecturalBlock": "ambiguous",
+    "confidence": "low",
+    "rationale": "Weak structural signal (evidence=1, trace=1)."
+  },
+  {
+    "component": "InstitutionalTimelineViewer",
+    "filePath": "src/components/executive/board/InstitutionalTimelineViewer.tsx",
+    "status": "HEURISTIC_CANDIDATE",
+    "architecturalBlock": "decision-trace",
+    "confidence": "medium",
+    "rationale": "2 decision trace structural markers found."
+  },
+  {
+    "component": "RuntimeDisclosureBanner",
+    "filePath": "src/components/executive/board/RuntimeDisclosureBanner.tsx",
+    "status": "NOT_APPLICABLE",
+    "confidence": "high",
+    "rationale": "No technical evidence or decision trace markers found."
+  },
+  {
+    "component": "BoardCopilotPanel",
+    "filePath": "src/components/executive/copilot/BoardCopilotPanel.tsx",
+    "status": "NOT_APPLICABLE",
+    "confidence": "high",
+    "rationale": "No technical evidence or decision trace markers found."
+  },
+  {
+    "component": "BoardPresentationMode",
+    "filePath": "src/components/executive/demo/BoardPresentationMode.tsx",
+    "status": "CONTAINER_REVIEW_REQUIRED",
+    "confidence": "medium",
+    "rationale": "Container (matches pattern). Internal evidence=0, trace=0, mixed=0."
+  },
+  {
+    "component": "ExecutiveDemoShell",
+    "filePath": "src/components/executive/demo/ExecutiveDemoShell.tsx",
+    "status": "CONTAINER_REVIEW_REQUIRED",
+    "confidence": "medium",
+    "rationale": "Container (matches pattern). Internal evidence=3, trace=4, mixed=3."
+  },
+  {
+    "component": "ExecutiveDisclosurePanel",
+    "filePath": "src/components/executive/demo/ExecutiveDisclosurePanel.tsx",
+    "status": "HEURISTIC_CANDIDATE",
+    "architecturalBlock": "technical-evidence",
+    "confidence": "medium",
+    "rationale": "3 evidence structural markers found."
+  },
+  {
+    "component": "ExecutiveScenarioSelector",
+    "filePath": "src/components/executive/demo/ExecutiveScenarioSelector.tsx",
+    "status": "NOT_APPLICABLE",
+    "confidence": "high",
+    "rationale": "Primitive UI component."
+  },
+  {
+    "component": "GuidedBoardJourneyNavigator",
+    "filePath": "src/components/executive/demo/GuidedBoardJourneyNavigator.tsx",
+    "status": "HEURISTIC_CANDIDATE",
+    "architecturalBlock": "ambiguous",
+    "confidence": "low",
+    "rationale": "Weak structural signal (evidence=1, trace=1)."
+  },
+  {
+    "component": "InstitutionalScenarioTimeline",
+    "filePath": "src/components/executive/demo/InstitutionalScenarioTimeline.tsx",
+    "status": "HEURISTIC_CANDIDATE",
+    "architecturalBlock": "ambiguous",
+    "confidence": "low",
+    "rationale": "Weak structural signal (evidence=0, trace=1)."
+  },
+  {
+    "component": "AcademyAdminCoursePage",
+    "filePath": "src/components/pages/academy/AcademyAdminCoursePage.tsx",
+    "status": "CONTAINER_REVIEW_REQUIRED",
+    "confidence": "medium",
+    "rationale": "Container (matches pattern). Internal evidence=0, trace=0, mixed=0."
+  },
+  {
+    "component": "AcademyHomePage",
+    "filePath": "src/components/pages/academy/AcademyHomePage.tsx",
+    "status": "CONTAINER_REVIEW_REQUIRED",
+    "confidence": "medium",
+    "rationale": "Container (matches pattern). Internal evidence=0, trace=0, mixed=1."
+  },
+  {
+    "component": "AdminAcademyDashboard",
+    "filePath": "src/components/pages/academy/AdminAcademyDashboard.tsx",
+    "status": "CONTAINER_REVIEW_REQUIRED",
+    "confidence": "medium",
+    "rationale": "Container (matches pattern). Internal evidence=0, trace=0, mixed=1."
+  },
+  {
+    "component": "CourseDetailsPage",
+    "filePath": "src/components/pages/academy/CourseDetailsPage.tsx",
+    "status": "CONTAINER_REVIEW_REQUIRED",
+    "confidence": "medium",
+    "rationale": "Container (matches pattern). Internal evidence=0, trace=0, mixed=0."
+  },
+  {
+    "component": "LessonPlayerPage",
+    "filePath": "src/components/pages/academy/LessonPlayerPage.tsx",
+    "status": "CONTAINER_REVIEW_REQUIRED",
+    "confidence": "medium",
+    "rationale": "Container (matches pattern). Internal evidence=0, trace=1, mixed=1."
+  },
+  {
+    "component": "GestaoUsuariosPage",
+    "filePath": "src/components/pages/admin/GestaoUsuariosPage.tsx",
+    "status": "CONTAINER_REVIEW_REQUIRED",
+    "confidence": "medium",
+    "rationale": "Container (matches pattern). Internal evidence=0, trace=1, mixed=1."
+  },
+  {
+    "component": "BalanceSheetActionToolbar",
+    "filePath": "src/components/pages/balance-sheet/BalanceSheetActionToolbar.tsx",
+    "status": "NOT_APPLICABLE",
+    "confidence": "high",
+    "rationale": "No technical evidence or decision trace markers found."
+  },
+  {
+    "component": "BalanceSheetAssetQualitySection",
+    "filePath": "src/components/pages/balance-sheet/BalanceSheetAssetQualitySection.tsx",
+    "status": "HEURISTIC_CANDIDATE",
+    "architecturalBlock": "ambiguous",
+    "confidence": "low",
+    "rationale": "Weak structural signal (evidence=0, trace=1)."
+  },
+  {
+    "component": "BalanceSheetAuditLayerSection",
+    "filePath": "src/components/pages/balance-sheet/BalanceSheetAuditLayerSection.tsx",
+    "status": "HEURISTIC_CANDIDATE",
+    "architecturalBlock": "ambiguous",
+    "confidence": "low",
+    "rationale": "Weak structural signal (evidence=0, trace=1)."
+  },
+  {
+    "component": "BalanceSheetBoardAdvisory",
+    "filePath": "src/components/pages/balance-sheet/BalanceSheetBoardAdvisory.tsx",
+    "status": "MIXED_BOUNDARY",
+    "confidence": "high",
+    "rationale": "Contains mixed JSX tags: ExecutiveRecommendationBlock, ExecutiveNarrative."
+  },
+  {
+    "component": "BalanceSheetCapitalEfficiencySection",
+    "filePath": "src/components/pages/balance-sheet/BalanceSheetCapitalEfficiencySection.tsx",
+    "status": "HEURISTIC_CANDIDATE",
+    "architecturalBlock": "ambiguous",
+    "confidence": "low",
+    "rationale": "Weak structural signal (evidence=0, trace=1)."
+  },
+  {
+    "component": "BalanceSheetCapitalPreservationSection",
+    "filePath": "src/components/pages/balance-sheet/BalanceSheetCapitalPreservationSection.tsx",
+    "status": "HEURISTIC_CANDIDATE",
+    "architecturalBlock": "ambiguous",
+    "confidence": "low",
+    "rationale": "Weak structural signal (evidence=0, trace=1)."
+  },
+  {
+    "component": "BalanceSheetCapitalStructureSection",
+    "filePath": "src/components/pages/balance-sheet/BalanceSheetCapitalStructureSection.tsx",
+    "status": "HEURISTIC_CANDIDATE",
+    "architecturalBlock": "ambiguous",
+    "confidence": "low",
+    "rationale": "Weak structural signal (evidence=0, trace=1)."
+  },
+  {
+    "component": "BalanceSheetCompositionChartsSection",
+    "filePath": "src/components/pages/balance-sheet/BalanceSheetCompositionChartsSection.tsx",
+    "status": "NOT_APPLICABLE",
+    "confidence": "high",
+    "rationale": "No technical evidence or decision trace markers found."
+  },
+  {
+    "component": "BalanceSheetDataSourceStatus",
+    "filePath": "src/components/pages/balance-sheet/BalanceSheetDataSourceStatus.tsx",
+    "status": "NOT_APPLICABLE",
+    "confidence": "high",
+    "rationale": "No technical evidence or decision trace markers found."
+  },
+  {
+    "component": "BalanceSheetEvolutionAnalysisSection",
+    "filePath": "src/components/pages/balance-sheet/BalanceSheetEvolutionAnalysisSection.tsx",
+    "status": "NOT_APPLICABLE",
+    "confidence": "high",
+    "rationale": "No technical evidence or decision trace markers found."
+  },
+  {
+    "component": "BalanceSheetExecutivePlan",
+    "filePath": "src/components/pages/balance-sheet/BalanceSheetExecutivePlan.tsx",
+    "status": "HEURISTIC_CANDIDATE",
+    "architecturalBlock": "ambiguous",
+    "confidence": "low",
+    "rationale": "Weak structural signal (evidence=0, trace=1)."
+  },
+  {
+    "component": "BalanceSheetExecutiveSynthesisSection",
+    "filePath": "src/components/pages/balance-sheet/BalanceSheetExecutiveSynthesisSection.tsx",
+    "status": "HEURISTIC_CANDIDATE",
+    "architecturalBlock": "ambiguous",
+    "confidence": "low",
+    "rationale": "Weak structural signal (evidence=0, trace=1)."
+  },
+  {
+    "component": "BalanceSheetInstitutionalContextSection",
+    "filePath": "src/components/pages/balance-sheet/BalanceSheetInstitutionalContextSection.tsx",
+    "status": "NOT_APPLICABLE",
+    "confidence": "high",
+    "rationale": "No technical evidence or decision trace markers found."
+  },
+  {
+    "component": "BalanceSheetLiquiditySection",
+    "filePath": "src/components/pages/balance-sheet/BalanceSheetLiquiditySection.tsx",
+    "status": "HEURISTIC_CANDIDATE",
+    "architecturalBlock": "ambiguous",
+    "confidence": "low",
+    "rationale": "Weak structural signal (evidence=0, trace=1)."
+  },
+  {
+    "component": "BalanceSheetStructuralTablesSection",
+    "filePath": "src/components/pages/balance-sheet/BalanceSheetStructuralTablesSection.tsx",
+    "status": "NOT_APPLICABLE",
+    "confidence": "high",
+    "rationale": "No technical evidence or decision trace markers found."
+  },
+  {
+    "component": "BalanceSheetTechnicalLayerSection",
+    "filePath": "src/components/pages/balance-sheet/BalanceSheetTechnicalLayerSection.tsx",
+    "architecturalBlock": "technical-evidence",
+    "cognitiveSubtype": "data-provenance",
+    "status": "CERTIFIED_BOUNDARY",
+    "certificationSource": "CONTROLLED_EXPANSION_WAVE_01",
+    "confidence": "high",
+    "rootStrategy": "EXPLICIT_ENCAPSULATION",
+    "certifiedAt": "2026-07-10"
+  },
+  {
+    "component": "BalanceSheetWaterfallChartSection",
+    "filePath": "src/components/pages/balance-sheet/BalanceSheetWaterfallChartSection.tsx",
+    "status": "NOT_APPLICABLE",
+    "confidence": "high",
+    "rationale": "No technical evidence or decision trace markers found."
+  },
+  {
+    "component": "BalanceSheetWorkingCapitalSection",
+    "filePath": "src/components/pages/balance-sheet/BalanceSheetWorkingCapitalSection.tsx",
+    "status": "HEURISTIC_CANDIDATE",
+    "architecturalBlock": "ambiguous",
+    "confidence": "low",
+    "rationale": "Weak structural signal (evidence=0, trace=1)."
+  },
+  {
+    "component": "BalanceSheetYearFilter",
+    "filePath": "src/components/pages/balance-sheet/BalanceSheetYearFilter.tsx",
+    "status": "NOT_APPLICABLE",
+    "confidence": "high",
+    "rationale": "No technical evidence or decision trace markers found."
+  },
+  {
+    "component": "BoardModeDashboard",
+    "filePath": "src/components/pages/board/BoardModeDashboard.tsx",
+    "status": "CONTAINER_REVIEW_REQUIRED",
+    "confidence": "medium",
+    "rationale": "Container (matches pattern). Internal evidence=0, trace=2, mixed=0."
+  },
+  {
+    "component": "DashboardEvolutionChart",
+    "filePath": "src/components/pages/dashboard/DashboardEvolutionChart.tsx",
+    "status": "NOT_APPLICABLE",
+    "confidence": "high",
+    "rationale": "No technical evidence or decision trace markers found."
+  },
+  {
+    "component": "DLPAActionToolbar",
+    "filePath": "src/components/pages/dlpa/DLPAActionToolbar.tsx",
+    "status": "NOT_APPLICABLE",
+    "confidence": "high",
+    "rationale": "No technical evidence or decision trace markers found."
+  },
+  {
+    "component": "DLPADataSourceStatus",
+    "filePath": "src/components/pages/dlpa/DLPADataSourceStatus.tsx",
+    "status": "NOT_APPLICABLE",
+    "confidence": "high",
+    "rationale": "No technical evidence or decision trace markers found."
+  },
+  {
+    "component": "DLPAYearFilter",
+    "filePath": "src/components/pages/dlpa/DLPAYearFilter.tsx",
+    "status": "NOT_APPLICABLE",
+    "confidence": "high",
+    "rationale": "No technical evidence or decision trace markers found."
+  },
+  {
+    "component": "DREBoardDecisionSupportSection",
+    "filePath": "src/components/pages/dre/DREBoardDecisionSupportSection.tsx",
+    "status": "HEURISTIC_CANDIDATE",
+    "architecturalBlock": "decision-trace",
+    "confidence": "medium",
+    "rationale": "2 decision trace structural markers found."
+  },
+  {
+    "component": "DREEconomicBreakdownSection",
+    "filePath": "src/components/pages/dre/DREEconomicBreakdownSection.tsx",
+    "status": "NOT_APPLICABLE",
+    "confidence": "high",
+    "rationale": "No technical evidence or decision trace markers found."
+  },
+  {
+    "component": "DREExecutiveAdvisorySection",
+    "filePath": "src/components/pages/dre/DREExecutiveAdvisorySection.tsx",
+    "status": "MIXED_BOUNDARY",
+    "confidence": "high",
+    "rationale": "Contains mixed JSX tags: ExecutiveStrategicSynthesisCards."
+  },
+  {
+    "component": "DREExecutivePlanSection",
+    "filePath": "src/components/pages/dre/DREExecutivePlanSection.tsx",
+    "status": "HEURISTIC_CANDIDATE",
+    "architecturalBlock": "ambiguous",
+    "confidence": "low",
+    "rationale": "Weak structural signal (evidence=0, trace=1)."
+  },
+  {
+    "component": "DREHealthScoreSection",
+    "filePath": "src/components/pages/dre/DREHealthScoreSection.tsx",
+    "status": "NOT_APPLICABLE",
+    "confidence": "high",
+    "rationale": "No technical evidence or decision trace markers found."
+  },
+  {
+    "component": "DRERecommendationSection",
+    "filePath": "src/components/pages/dre/DRERecommendationSection.tsx",
+    "status": "MIXED_BOUNDARY",
+    "confidence": "high",
+    "rationale": "Contains mixed JSX tags: ExecutiveStrategicRecommendationCard."
+  },
+  {
+    "component": "DRETechnicalLayerSection",
+    "filePath": "src/components/pages/dre/DRETechnicalLayerSection.tsx",
+    "architecturalBlock": "technical-evidence",
+    "cognitiveSubtype": "data-provenance",
+    "status": "CERTIFIED_BOUNDARY",
+    "certificationSource": "CONTRACT_BOUNDARY_PILOT",
+    "confidence": "high",
+    "rootStrategy": "EXPLICIT_ENCAPSULATION",
+    "certifiedAt": "2026-07-10"
+  },
+  {
+    "component": "BenchmarkAdvisoryPanel",
+    "filePath": "src/components/pages/governance/BenchmarkAdvisoryPanel.tsx",
+    "status": "HEURISTIC_CANDIDATE",
+    "architecturalBlock": "decision-trace",
+    "confidence": "medium",
+    "rationale": "2 decision trace structural markers found."
+  },
+  {
+    "component": "BenchmarkComparativePanel",
+    "filePath": "src/components/pages/governance/BenchmarkComparativePanel.tsx",
+    "status": "MIXED_BOUNDARY",
+    "confidence": "medium",
+    "rationale": "Mixed text signals (2) with evidence(1)/trace(2)."
+  },
+  {
+    "component": "BenchmarkReadinessPanel",
+    "filePath": "src/components/pages/governance/BenchmarkReadinessPanel.tsx",
+    "status": "MIXED_BOUNDARY",
+    "confidence": "medium",
+    "rationale": "Mixed text signals (2) with evidence(3)/trace(2)."
+  },
+  {
+    "component": "BoardDecisionSurface",
+    "filePath": "src/components/pages/governance/BoardDecisionSurface.tsx",
+    "status": "MIXED_BOUNDARY",
+    "confidence": "medium",
+    "rationale": "Both evidence(2) and trace(4) markers coexist."
+  },
+  {
+    "component": "BoardDeckCenter",
+    "filePath": "src/components/pages/governance/BoardDeckCenter.tsx",
+    "status": "CONTAINER_REVIEW_REQUIRED",
+    "confidence": "medium",
+    "rationale": "Container (matches pattern). Internal evidence=2, trace=6, mixed=2."
+  },
+  {
+    "component": "BoardMeetingMode",
+    "filePath": "src/components/pages/governance/BoardMeetingMode.tsx",
+    "status": "CONTAINER_REVIEW_REQUIRED",
+    "confidence": "medium",
+    "rationale": "Container (matches pattern). Internal evidence=0, trace=6, mixed=3."
+  },
+  {
+    "component": "CapitalGovernanceCenter",
+    "filePath": "src/components/pages/governance/CapitalGovernanceCenter.tsx",
+    "status": "CONTAINER_REVIEW_REQUIRED",
+    "confidence": "medium",
+    "rationale": "Container (matches pattern). Internal evidence=2, trace=3, mixed=1."
+  },
+  {
+    "component": "CausalityExplorerPanel",
+    "filePath": "src/components/pages/governance/CausalityExplorerPanel.tsx",
+    "status": "MIXED_BOUNDARY",
+    "confidence": "medium",
+    "rationale": "Mixed text signals (2) with evidence(2)/trace(1)."
+  },
+  {
+    "component": "ComplianceIntegrityCenter",
+    "filePath": "src/components/pages/governance/ComplianceIntegrityCenter.tsx",
+    "status": "CONTAINER_REVIEW_REQUIRED",
+    "confidence": "medium",
+    "rationale": "Container (matches pattern). Internal evidence=2, trace=0, mixed=0."
+  },
+  {
+    "component": "ConfidenceDisclosurePanel",
+    "filePath": "src/components/pages/governance/ConfidenceDisclosurePanel.tsx",
+    "status": "HEURISTIC_CANDIDATE",
+    "architecturalBlock": "decision-trace",
+    "confidence": "medium",
+    "rationale": "4 decision trace structural markers found."
+  },
+  {
+    "component": "ConstitutionalAxiomPanel",
+    "filePath": "src/components/pages/governance/ConstitutionalAxiomPanel.tsx",
+    "status": "NOT_APPLICABLE",
+    "confidence": "high",
+    "rationale": "No technical evidence or decision trace markers found."
+  },
+  {
+    "component": "ConstitutionalConfidencePanel",
+    "filePath": "src/components/pages/governance/ConstitutionalConfidencePanel.tsx",
+    "status": "HEURISTIC_CANDIDATE",
+    "architecturalBlock": "ambiguous",
+    "confidence": "low",
+    "rationale": "Weak structural signal (evidence=1, trace=0)."
+  },
+  {
+    "component": "ConstitutionalEnforcementPanel",
+    "filePath": "src/components/pages/governance/ConstitutionalEnforcementPanel.tsx",
+    "status": "HEURISTIC_CANDIDATE",
+    "architecturalBlock": "ambiguous",
+    "confidence": "low",
+    "rationale": "Weak structural signal (evidence=0, trace=1)."
+  },
+  {
+    "component": "ConstitutionalGovernanceDashboardPanel",
+    "filePath": "src/components/pages/governance/ConstitutionalGovernanceDashboardPanel.tsx",
+    "status": "HEURISTIC_CANDIDATE",
+    "architecturalBlock": "ambiguous",
+    "confidence": "low",
+    "rationale": "Weak structural signal (evidence=1, trace=0)."
+  },
+  {
+    "component": "ConstitutionalLineagePanel",
+    "filePath": "src/components/pages/governance/ConstitutionalLineagePanel.tsx",
+    "status": "HEURISTIC_CANDIDATE",
+    "architecturalBlock": "technical-evidence",
+    "confidence": "medium",
+    "rationale": "2 evidence structural markers found."
+  },
+  {
+    "component": "ConstitutionalRestrictionPanel",
+    "filePath": "src/components/pages/governance/ConstitutionalRestrictionPanel.tsx",
+    "status": "NOT_APPLICABLE",
+    "confidence": "high",
+    "rationale": "No technical evidence or decision trace markers found."
+  },
+  {
+    "component": "ContinuityRiskPanel",
+    "filePath": "src/components/pages/governance/ContinuityRiskPanel.tsx",
+    "status": "HEURISTIC_CANDIDATE",
+    "architecturalBlock": "ambiguous",
+    "confidence": "low",
+    "rationale": "Weak structural signal (evidence=1, trace=0)."
+  },
+  {
+    "component": "CreditCommitteeCenter",
+    "filePath": "src/components/pages/governance/CreditCommitteeCenter.tsx",
+    "status": "CONTAINER_REVIEW_REQUIRED",
+    "confidence": "medium",
+    "rationale": "Container (matches pattern). Internal evidence=1, trace=8, mixed=1."
+  },
+  {
+    "component": "CrisisResponseCenter",
+    "filePath": "src/components/pages/governance/CrisisResponseCenter.tsx",
+    "status": "CONTAINER_REVIEW_REQUIRED",
+    "confidence": "medium",
+    "rationale": "Container (matches pattern). Internal evidence=0, trace=0, mixed=1."
+  },
+  {
+    "component": "DecisionLifecycleCenter",
+    "filePath": "src/components/pages/governance/DecisionLifecycleCenter.tsx",
+    "status": "CONTAINER_REVIEW_REQUIRED",
+    "confidence": "medium",
+    "rationale": "Container (matches pattern). Internal evidence=1, trace=3, mixed=0."
+  },
+  {
+    "component": "EconomicNormalizationCenter",
+    "filePath": "src/components/pages/governance/EconomicNormalizationCenter.tsx",
+    "status": "CONTAINER_REVIEW_REQUIRED",
+    "confidence": "medium",
+    "rationale": "Container (matches pattern). Internal evidence=5, trace=3, mixed=1."
+  },
+  {
+    "component": "ESGIMAssessmentPage",
+    "filePath": "src/components/pages/governance/ESGIMAssessmentPage.tsx",
+    "status": "CONTAINER_REVIEW_REQUIRED",
+    "confidence": "medium",
+    "rationale": "Container (matches pattern). Internal evidence=3, trace=8, mixed=4."
+  },
+  {
+    "component": "ExecutiveExecutionCenter",
+    "filePath": "src/components/pages/governance/ExecutiveExecutionCenter.tsx",
+    "status": "CONTAINER_REVIEW_REQUIRED",
+    "confidence": "medium",
+    "rationale": "Container (matches pattern). Internal evidence=0, trace=5, mixed=2."
+  },
+  {
+    "component": "ExecutiveMonitoringCenter",
+    "filePath": "src/components/pages/governance/ExecutiveMonitoringCenter.tsx",
+    "status": "CONTAINER_REVIEW_REQUIRED",
+    "confidence": "medium",
+    "rationale": "Container (matches pattern). Internal evidence=0, trace=0, mixed=0."
+  },
+  {
+    "component": "ExecutiveTimelinePanel",
+    "filePath": "src/components/pages/governance/ExecutiveTimelinePanel.tsx",
+    "status": "MIXED_BOUNDARY",
+    "confidence": "medium",
+    "rationale": "Mixed text signals (2) with evidence(2)/trace(4)."
+  },
+  {
+    "component": "FiduciaryGovernanceCenter",
+    "filePath": "src/components/pages/governance/FiduciaryGovernanceCenter.tsx",
+    "status": "CONTAINER_REVIEW_REQUIRED",
+    "confidence": "medium",
+    "rationale": "Container (matches pattern). Internal evidence=4, trace=4, mixed=1."
+  },
+  {
+    "component": "FiduciaryRestrictionPanel",
+    "filePath": "src/components/pages/governance/FiduciaryRestrictionPanel.tsx",
+    "status": "HEURISTIC_CANDIDATE",
+    "architecturalBlock": "ambiguous",
+    "confidence": "low",
+    "rationale": "Weak structural signal (evidence=1, trace=0)."
+  },
+  {
+    "component": "FiduciaryValidationCenter",
+    "filePath": "src/components/pages/governance/FiduciaryValidationCenter.tsx",
+    "status": "CONTAINER_REVIEW_REQUIRED",
+    "confidence": "medium",
+    "rationale": "Container (matches pattern). Internal evidence=4, trace=4, mixed=1."
+  },
+  {
+    "component": "FinancialLineageCenter",
+    "filePath": "src/components/pages/governance/FinancialLineageCenter.tsx",
+    "status": "CONTAINER_REVIEW_REQUIRED",
+    "confidence": "medium",
+    "rationale": "Container (matches pattern). Internal evidence=4, trace=4, mixed=1."
+  },
+  {
+    "component": "GovernanceExecutionPanel",
+    "filePath": "src/components/pages/governance/GovernanceExecutionPanel.tsx",
+    "status": "MIXED_BOUNDARY",
+    "confidence": "medium",
+    "rationale": "Both evidence(2) and trace(5) markers coexist."
+  },
+  {
+    "component": "GovernanceJourneyPanel",
+    "filePath": "src/components/pages/governance/GovernanceJourneyPanel.tsx",
+    "status": "MIXED_BOUNDARY",
+    "confidence": "medium",
+    "rationale": "Mixed text signals (3) with evidence(0)/trace(2)."
+  },
+  {
+    "component": "GovernanceKnowledgePanel",
+    "filePath": "src/components/pages/governance/GovernanceKnowledgePanel.tsx",
+    "status": "MIXED_BOUNDARY",
+    "confidence": "medium",
+    "rationale": "Both evidence(3) and trace(2) markers coexist."
+  },
+  {
+    "component": "GovernanceLearningPanel",
+    "filePath": "src/components/pages/governance/GovernanceLearningPanel.tsx",
+    "status": "MIXED_BOUNDARY",
+    "confidence": "medium",
+    "rationale": "Mixed text signals (2) with evidence(2)/trace(0)."
+  },
+  {
+    "component": "GovernanceMaturityCenter",
+    "filePath": "src/components/pages/governance/GovernanceMaturityCenter.tsx",
+    "status": "CONTAINER_REVIEW_REQUIRED",
+    "confidence": "medium",
+    "rationale": "Container (matches pattern). Internal evidence=1, trace=2, mixed=2."
+  },
+  {
+    "component": "GovernanceRiskHeatmap",
+    "filePath": "src/components/pages/governance/GovernanceRiskHeatmap.tsx",
+    "status": "HEURISTIC_CANDIDATE",
+    "architecturalBlock": "ambiguous",
+    "confidence": "low",
+    "rationale": "Weak structural signal (evidence=1, trace=0)."
+  },
+  {
+    "component": "InstitutionalBenchmarkingPage",
+    "filePath": "src/components/pages/governance/InstitutionalBenchmarkingPage.tsx",
+    "status": "CONTAINER_REVIEW_REQUIRED",
+    "confidence": "medium",
+    "rationale": "Container (matches pattern). Internal evidence=0, trace=0, mixed=0."
+  },
+  {
+    "component": "InstitutionalLineageExplorer",
+    "filePath": "src/components/pages/governance/InstitutionalLineageExplorer.tsx",
+    "status": "HEURISTIC_CANDIDATE",
+    "architecturalBlock": "technical-evidence",
+    "confidence": "medium",
+    "rationale": "3 evidence structural markers found."
+  },
+  {
+    "component": "InstitutionalMemoryCenter",
+    "filePath": "src/components/pages/governance/InstitutionalMemoryCenter.tsx",
+    "status": "CONTAINER_REVIEW_REQUIRED",
+    "confidence": "medium",
+    "rationale": "Container (matches pattern). Internal evidence=3, trace=4, mixed=0."
+  },
+  {
+    "component": "InstitutionalMonitoringPage",
+    "filePath": "src/components/pages/governance/InstitutionalMonitoringPage.tsx",
+    "status": "CONTAINER_REVIEW_REQUIRED",
+    "confidence": "medium",
+    "rationale": "Container (matches pattern). Internal evidence=0, trace=1, mixed=0."
+  },
+  {
+    "component": "InstitutionalObservabilityCenter",
+    "filePath": "src/components/pages/governance/InstitutionalObservabilityCenter.tsx",
+    "status": "CONTAINER_REVIEW_REQUIRED",
+    "confidence": "medium",
+    "rationale": "Container (matches pattern). Internal evidence=2, trace=0, mixed=0."
+  },
+  {
+    "component": "InstitutionalStructureCenter",
+    "filePath": "src/components/pages/governance/InstitutionalStructureCenter.tsx",
+    "status": "CONTAINER_REVIEW_REQUIRED",
+    "confidence": "medium",
+    "rationale": "Container (matches pattern). Internal evidence=0, trace=1, mixed=0."
+  },
+  {
+    "component": "LeadershipDNACenter",
+    "filePath": "src/components/pages/governance/LeadershipDNACenter.tsx",
+    "status": "CONTAINER_REVIEW_REQUIRED",
+    "confidence": "medium",
+    "rationale": "Container (matches pattern). Internal evidence=0, trace=2, mixed=1."
+  },
+  {
+    "component": "MultiTenantGovernanceCenter",
+    "filePath": "src/components/pages/governance/MultiTenantGovernanceCenter.tsx",
+    "status": "CONTAINER_REVIEW_REQUIRED",
+    "confidence": "medium",
+    "rationale": "Container (matches pattern). Internal evidence=0, trace=0, mixed=1."
+  },
+  {
+    "component": "ObservabilityConsolePage",
+    "filePath": "src/components/pages/governance/ObservabilityConsolePage.tsx",
+    "status": "CONTAINER_REVIEW_REQUIRED",
+    "confidence": "medium",
+    "rationale": "Container (matches pattern). Internal evidence=2, trace=7, mixed=2."
+  },
+  {
+    "component": "RiskExposureCenter",
+    "filePath": "src/components/pages/governance/RiskExposureCenter.tsx",
+    "status": "CONTAINER_REVIEW_REQUIRED",
+    "confidence": "medium",
+    "rationale": "Container (matches pattern). Internal evidence=6, trace=3, mixed=0."
+  },
+  {
+    "component": "SovereignBoardPackPage",
+    "filePath": "src/components/pages/governance/SovereignBoardPackPage.tsx",
+    "status": "CONTAINER_REVIEW_REQUIRED",
+    "confidence": "medium",
+    "rationale": "Container (matches pattern). Internal evidence=3, trace=5, mixed=2."
+  },
+  {
+    "component": "SovereignDecisionCenter",
+    "filePath": "src/components/pages/governance/SovereignDecisionCenter.tsx",
+    "status": "CONTAINER_REVIEW_REQUIRED",
+    "confidence": "medium",
+    "rationale": "Container (matches pattern). Internal evidence=2, trace=5, mixed=0."
+  },
+  {
+    "component": "DiagnosticoPage",
+    "filePath": "src/components/pages/public/DiagnosticoPage.tsx",
+    "status": "CONTAINER_REVIEW_REQUIRED",
+    "confidence": "medium",
+    "rationale": "Container (matches pattern). Internal evidence=0, trace=1, mixed=0."
+  },
+  {
+    "component": "EmpresasPage",
+    "filePath": "src/components/pages/public/EmpresasPage.tsx",
+    "status": "CONTAINER_REVIEW_REQUIRED",
+    "confidence": "medium",
+    "rationale": "Container (matches pattern). Internal evidence=2, trace=3, mixed=0."
+  },
+  {
+    "component": "HomePage",
+    "filePath": "src/components/pages/public/HomePage.tsx",
+    "status": "CONTAINER_REVIEW_REQUIRED",
+    "confidence": "medium",
+    "rationale": "Container (matches pattern). Internal evidence=0, trace=0, mixed=0."
+  },
+  {
+    "component": "LoginPage",
+    "filePath": "src/components/pages/public/LoginPage.tsx",
+    "status": "CONTAINER_REVIEW_REQUIRED",
+    "confidence": "medium",
+    "rationale": "Container (matches pattern). Internal evidence=0, trace=2, mixed=0."
+  },
+  {
+    "component": "ReferralProgramPage",
+    "filePath": "src/components/pages/public/ReferralProgramPage.tsx",
+    "status": "CONTAINER_REVIEW_REQUIRED",
+    "confidence": "medium",
+    "rationale": "Container (matches pattern). Internal evidence=1, trace=2, mixed=0."
+  },
+  {
+    "component": "AdminSupportPanel",
+    "filePath": "src/components/pages/SupportPage/AdminSupportPanel.tsx",
+    "status": "NOT_APPLICABLE",
+    "confidence": "high",
+    "rationale": "No technical evidence or decision trace markers found."
+  },
+  {
+    "component": "ClientSupportPanel",
+    "filePath": "src/components/pages/SupportPage/ClientSupportPanel.tsx",
+    "status": "HEURISTIC_CANDIDATE",
+    "architecturalBlock": "ambiguous",
+    "confidence": "low",
+    "rationale": "Weak structural signal (evidence=0, trace=1)."
+  },
+  {
+    "component": "TicketChat",
+    "filePath": "src/components/pages/SupportPage/TicketChat.tsx",
+    "status": "HEURISTIC_CANDIDATE",
+    "architecturalBlock": "ambiguous",
+    "confidence": "low",
+    "rationale": "Weak structural signal (evidence=0, trace=1)."
+  },
+  {
+    "component": "InstitutionalCausalRootCausesPanel",
+    "filePath": "src/components/panels/causal-intelligence/InstitutionalCausalRootCausesPanel.tsx",
+    "status": "HEURISTIC_CANDIDATE",
+    "architecturalBlock": "decision-trace",
+    "confidence": "medium",
+    "rationale": "2 decision trace structural markers found."
+  },
+  {
+    "component": "SurvivabilityDependencyGraphPanel",
+    "filePath": "src/components/panels/causal-intelligence/SurvivabilityDependencyGraphPanel.tsx",
+    "status": "HEURISTIC_CANDIDATE",
+    "architecturalBlock": "ambiguous",
+    "confidence": "low",
+    "rationale": "Weak structural signal (evidence=1, trace=1)."
+  }
+]

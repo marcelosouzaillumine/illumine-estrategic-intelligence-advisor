@@ -1,0 +1,132 @@
+{
+  "registry": [
+    {
+      "componentName": "PageHeader",
+      "sourcePath": "src/components/Common/Base.tsx",
+      "architecturalBlock": "Page Identity",
+      "profileApplicability": ["ALL"],
+      "confidence": "high",
+      "canonicalStatus": "legacy_promotable"
+    },
+    {
+      "componentName": "ControlBar",
+      "sourcePath": "src/components/Common/Base.tsx",
+      "architecturalBlock": "Context Controls and Actions",
+      "profileApplicability": ["ALL"],
+      "confidence": "high",
+      "canonicalStatus": "legacy_fragmented"
+    },
+    {
+      "componentName": "BalanceSheetYearFilter",
+      "sourcePath": "src/components/pages/balance-sheet/BalanceSheetYearFilter.tsx",
+      "architecturalBlock": "Context Controls and Actions",
+      "profileApplicability": ["Executive Analytical Page"],
+      "confidence": "high",
+      "canonicalStatus": "domain_specific"
+    },
+    {
+      "componentName": "BalanceSheetActionToolbar",
+      "sourcePath": "src/components/pages/balance-sheet/BalanceSheetActionToolbar.tsx",
+      "architecturalBlock": "Context Controls and Actions",
+      "profileApplicability": ["Executive Analytical Page"],
+      "confidence": "high",
+      "canonicalStatus": "domain_specific"
+    },
+    {
+      "componentName": "StatusBadge",
+      "sourcePath": "src/components/Common/Base.tsx",
+      "architecturalBlock": "Context Controls and Actions",
+      "profileApplicability": ["ALL"],
+      "confidence": "high",
+      "canonicalStatus": "legacy_promotable"
+    },
+    {
+      "componentName": "BalanceSheetExecutiveSynthesisSection",
+      "sourcePath": "src/components/pages/balance-sheet/BalanceSheetExecutiveSynthesisSection.tsx",
+      "architecturalBlock": "Executive Summary",
+      "profileApplicability": ["Executive Analytical Page"],
+      "confidence": "high",
+      "canonicalStatus": "domain_specific"
+    },
+    {
+      "componentName": "BalanceSheetInstitutionalContextSection",
+      "sourcePath": "src/components/pages/balance-sheet/BalanceSheetInstitutionalContextSection.tsx",
+      "architecturalBlock": "Executive Summary",
+      "profileApplicability": ["Executive Analytical Page"],
+      "confidence": "high",
+      "canonicalStatus": "domain_specific"
+    },
+    {
+      "componentName": "BalanceSheetExecutivePlan",
+      "sourcePath": "src/components/pages/balance-sheet/BalanceSheetExecutivePlan.tsx",
+      "architecturalBlock": "KPIs",
+      "profileApplicability": ["Executive Analytical Page"],
+      "confidence": "high",
+      "canonicalStatus": "domain_specific"
+    },
+    {
+      "componentName": "ExecutiveExposureCard",
+      "sourcePath": "src/components/pages/balance-sheet/ExecutiveExposureCard.tsx",
+      "architecturalBlock": "KPIs",
+      "profileApplicability": ["Executive Analytical Page"],
+      "confidence": "high",
+      "canonicalStatus": "legacy_promotable"
+    },
+    {
+      "componentName": "ExecutiveStrategicTensions",
+      "sourcePath": "src/components/pages/balance-sheet/ExecutiveStrategicTensions.tsx",
+      "architecturalBlock": "Restrictions",
+      "profileApplicability": ["Executive Analytical Page", "Executive Governance Page"],
+      "confidence": "high",
+      "canonicalStatus": "legacy_promotable"
+    },
+    {
+      "componentName": "BalanceSheetTechnicalLayerSection",
+      "sourcePath": "src/components/pages/balance-sheet/BalanceSheetTechnicalLayerSection.tsx",
+      "architecturalBlock": "Technical Layer",
+      "profileApplicability": ["Executive Analytical Page"],
+      "confidence": "high",
+      "canonicalStatus": "domain_specific"
+    },
+    {
+      "componentName": "BalanceSheetAuditLayerSection",
+      "sourcePath": "src/components/pages/balance-sheet/BalanceSheetAuditLayerSection.tsx",
+      "architecturalBlock": "Technical Layer",
+      "profileApplicability": ["Executive Analytical Page"],
+      "confidence": "high",
+      "canonicalStatus": "domain_specific"
+    },
+    {
+      "componentName": "ExecutiveSummarySection",
+      "sourcePath": "src/components/executive-architecture/executive-summary-section.tsx",
+      "architecturalBlock": "Executive Summary",
+      "profileApplicability": ["ALL"],
+      "confidence": "high",
+      "canonicalStatus": "canonical"
+    },
+    {
+      "componentName": "InstitutionalPrioritySurface",
+      "sourcePath": "src/components/executive-cognitive/InstitutionalPrioritySurface.tsx",
+      "architecturalBlock": "Page Identity",
+      "profileApplicability": ["Executive Governance", "ALL"],
+      "confidence": "high",
+      "canonicalStatus": "canonical"
+    },
+    {
+      "componentName": "CriticalDecisionSurface",
+      "sourcePath": "src/components/executive-cognitive/CriticalDecisionSurface.tsx",
+      "architecturalBlock": "Decision Summary",
+      "profileApplicability": ["Executive Governance"],
+      "confidence": "high",
+      "canonicalStatus": "canonical"
+    },
+    {
+      "componentName": "ExecutivePriorityStack",
+      "sourcePath": "src/components/executive-cognitive/ExecutivePriorityStack.tsx",
+      "architecturalBlock": "Recommendations",
+      "profileApplicability": ["Executive Governance"],
+      "confidence": "high",
+      "canonicalStatus": "canonical"
+    }
+  ]
+}

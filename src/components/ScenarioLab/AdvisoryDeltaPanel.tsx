@@ -1,7 +1,7 @@
 import React from 'react';
-
 import { ExecutiveAdvisoryReport } from '../../lib/executive-advisory-engine';
 import { Target, AlertTriangle } from 'lucide-react';
+
 
 interface Props {
   baseAdvisory: ExecutiveAdvisoryReport;

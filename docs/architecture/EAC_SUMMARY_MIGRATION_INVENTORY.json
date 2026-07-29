@@ -1,0 +1,382 @@
+[
+  {
+    "filePath": "src/components/pages/BalanceSheetPage.tsx",
+    "page": "BalanceSheetPage.tsx",
+    "profile": "Unknown (Requires runtime check)",
+    "component": "BalanceSheetExecutiveSynthesisSection",
+    "line": 146,
+    "category": "SEMANTIC_REVIEW",
+    "confidence": "medium",
+    "detectionMethod": "ast",
+    "semanticBoundary": {
+      "containsSummary": true,
+      "containsKpi": false,
+      "containsRecommendation": false,
+      "containsTechnical": false
+    },
+    "sharedConsumers": null,
+    "autoFixEligibility": false,
+    "reviewRequired": true,
+    "rationale": "Requer revisão semântica manual por causa de lógica ou KPIs acoplados."
+  },
+  {
+    "filePath": "src/components/pages/ConsolidatedExecutivePage.tsx",
+    "page": "ConsolidatedExecutivePage.tsx",
+    "profile": "Unknown (Requires runtime check)",
+    "component": "ConsolidatedExecutiveSummaryCard",
+    "line": 61,
+    "category": "SEMANTIC_REVIEW",
+    "confidence": "medium",
+    "detectionMethod": "ast",
+    "semanticBoundary": {
+      "containsSummary": true,
+      "containsKpi": false,
+      "containsRecommendation": false,
+      "containsTechnical": false
+    },
+    "sharedConsumers": null,
+    "autoFixEligibility": false,
+    "reviewRequired": true,
+    "rationale": "Requer revisão semântica manual por causa de lógica ou KPIs acoplados."
+  },
+  {
+    "filePath": "src/components/pages/DFCPage.tsx",
+    "page": "DFCPage.tsx",
+    "profile": "Unknown (Requires runtime check)",
+    "component": "ExecutiveStrategicSemanticCards",
+    "line": 1631,
+    "category": "SEMANTIC_REVIEW",
+    "confidence": "high",
+    "detectionMethod": "ast",
+    "semanticBoundary": {
+      "containsSummary": true,
+      "containsKpi": false,
+      "containsRecommendation": true,
+      "containsTechnical": false
+    },
+    "sharedConsumers": null,
+    "autoFixEligibility": false,
+    "reviewRequired": true,
+    "rationale": "Utiliza a fachada legada, que embute síntese e recomendação juntas. Deve ser revisado manualmente para separação semântica correta antes da migração."
+  },
+  {
+    "filePath": "src/components/pages/DLPAPage.tsx",
+    "page": "DLPAPage.tsx",
+    "profile": "Unknown (Requires runtime check)",
+    "component": "ExecutiveSummarySection",
+    "line": 290,
+    "category": "ALREADY_COMPLIANT",
+    "confidence": "high",
+    "detectionMethod": "ast",
+    "semanticBoundary": {
+      "containsSummary": true,
+      "containsKpi": false,
+      "containsRecommendation": false,
+      "containsTechnical": false
+    },
+    "sharedConsumers": null,
+    "autoFixEligibility": false,
+    "reviewRequired": false,
+    "rationale": "Já utiliza o container semântico do EAC v2."
+  },
+  {
+    "filePath": "src/components/pages/DLPAPage.tsx",
+    "page": "DLPAPage.tsx",
+    "profile": "Unknown (Requires runtime check)",
+    "component": "ExecutiveStrategicSynthesisCards",
+    "line": 291,
+    "category": "SEMANTIC_REVIEW",
+    "confidence": "medium",
+    "detectionMethod": "ast",
+    "semanticBoundary": {
+      "containsSummary": true,
+      "containsKpi": false,
+      "containsRecommendation": false,
+      "containsTechnical": false
+    },
+    "sharedConsumers": null,
+    "autoFixEligibility": false,
+    "reviewRequired": true,
+    "rationale": "Requer revisão semântica manual por causa de lógica ou KPIs acoplados."
+  },
+  {
+    "filePath": "src/components/pages/DREPage.tsx",
+    "page": "DREPage.tsx",
+    "profile": "Unknown (Requires runtime check)",
+    "component": "ExecutiveSummarySection",
+    "line": 113,
+    "category": "ALREADY_COMPLIANT",
+    "confidence": "high",
+    "detectionMethod": "ast",
+    "semanticBoundary": {
+      "containsSummary": true,
+      "containsKpi": false,
+      "containsRecommendation": false,
+      "containsTechnical": false
+    },
+    "sharedConsumers": null,
+    "autoFixEligibility": false,
+    "reviewRequired": false,
+    "rationale": "Já utiliza o container semântico do EAC v2."
+  },
+  {
+    "filePath": "src/components/pages/ExecutiveCognitivePage.tsx",
+    "page": "ExecutiveCognitivePage.tsx",
+    "profile": "Unknown (Requires runtime check)",
+    "component": "CognitiveSummaryCard",
+    "line": 70,
+    "category": "SEMANTIC_REVIEW",
+    "confidence": "medium",
+    "detectionMethod": "ast",
+    "semanticBoundary": {
+      "containsSummary": true,
+      "containsKpi": false,
+      "containsRecommendation": false,
+      "containsTechnical": false
+    },
+    "sharedConsumers": null,
+    "autoFixEligibility": false,
+    "reviewRequired": true,
+    "rationale": "Requer revisão semântica manual por causa de lógica ou KPIs acoplados."
+  },
+  {
+    "filePath": "src/components/pages/IndicatorsPage.tsx",
+    "page": "IndicatorsPage.tsx",
+    "profile": "Unknown (Requires runtime check)",
+    "component": "SummaryCard",
+    "line": 543,
+    "category": "SEMANTIC_REVIEW",
+    "confidence": "medium",
+    "detectionMethod": "ast",
+    "semanticBoundary": {
+      "containsSummary": true,
+      "containsKpi": false,
+      "containsRecommendation": false,
+      "containsTechnical": false
+    },
+    "sharedConsumers": null,
+    "autoFixEligibility": false,
+    "reviewRequired": true,
+    "rationale": "Requer revisão semântica manual por causa de lógica ou KPIs acoplados."
+  },
+  {
+    "filePath": "src/components/pages/balance-sheet/BalanceSheetExecutivePlan.tsx",
+    "page": "BalanceSheetExecutivePlan.tsx",
+    "profile": "Unknown (Requires runtime check)",
+    "component": "ExecutiveDecisionSummary",
+    "line": 92,
+    "category": "SEMANTIC_REVIEW",
+    "confidence": "medium",
+    "detectionMethod": "ast",
+    "semanticBoundary": {
+      "containsSummary": true,
+      "containsKpi": false,
+      "containsRecommendation": false,
+      "containsTechnical": false
+    },
+    "sharedConsumers": null,
+    "autoFixEligibility": false,
+    "reviewRequired": true,
+    "rationale": "Requer revisão semântica manual por causa de lógica ou KPIs acoplados."
+  },
+  {
+    "filePath": "src/components/pages/balance-sheet/BalanceSheetExecutiveSynthesisSection.tsx",
+    "page": "BalanceSheetExecutiveSynthesisSection.tsx",
+    "profile": "Unknown (Requires runtime check)",
+    "component": "ExecutiveStrategicSemanticCards",
+    "line": 37,
+    "category": "SEMANTIC_REVIEW",
+    "confidence": "high",
+    "detectionMethod": "ast",
+    "semanticBoundary": {
+      "containsSummary": true,
+      "containsKpi": false,
+      "containsRecommendation": true,
+      "containsTechnical": false
+    },
+    "sharedConsumers": null,
+    "autoFixEligibility": false,
+    "reviewRequired": true,
+    "rationale": "Utiliza a fachada legada, que embute síntese e recomendação juntas. Deve ser revisado manualmente para separação semântica correta antes da migração."
+  },
+  {
+    "filePath": "src/components/pages/dre/DREExecutiveAdvisorySection.tsx",
+    "page": "DREExecutiveAdvisorySection.tsx",
+    "profile": "Unknown (Requires runtime check)",
+    "component": "ExecutiveStrategicSynthesisCards",
+    "line": 38,
+    "category": "SEMANTIC_REVIEW",
+    "confidence": "medium",
+    "detectionMethod": "ast",
+    "semanticBoundary": {
+      "containsSummary": true,
+      "containsKpi": false,
+      "containsRecommendation": false,
+      "containsTechnical": false
+    },
+    "sharedConsumers": null,
+    "autoFixEligibility": false,
+    "reviewRequired": true,
+    "rationale": "Requer revisão semântica manual por causa de lógica ou KPIs acoplados."
+  },
+  {
+    "filePath": "src/components/pages/dre/DREExecutivePlanSection.tsx",
+    "page": "DREExecutivePlanSection.tsx",
+    "profile": "Unknown (Requires runtime check)",
+    "component": "ExecutiveDecisionSummary",
+    "line": 46,
+    "category": "SEMANTIC_REVIEW",
+    "confidence": "medium",
+    "detectionMethod": "ast",
+    "semanticBoundary": {
+      "containsSummary": true,
+      "containsKpi": false,
+      "containsRecommendation": false,
+      "containsTechnical": false
+    },
+    "sharedConsumers": null,
+    "autoFixEligibility": false,
+    "reviewRequired": true,
+    "rationale": "Requer revisão semântica manual por causa de lógica ou KPIs acoplados."
+  },
+  {
+    "filePath": "src/components/pages/__tests__/eac-scanner-fixtures/analytical-perfect.tsx",
+    "page": "analytical-perfect.tsx",
+    "profile": "Unknown (Requires runtime check)",
+    "component": "BalanceSheetExecutiveSynthesisSection",
+    "line": 17,
+    "category": "SEMANTIC_REVIEW",
+    "confidence": "medium",
+    "detectionMethod": "ast",
+    "semanticBoundary": {
+      "containsSummary": true,
+      "containsKpi": false,
+      "containsRecommendation": false,
+      "containsTechnical": false
+    },
+    "sharedConsumers": null,
+    "autoFixEligibility": false,
+    "reviewRequired": true,
+    "rationale": "Requer revisão semântica manual por causa de lógica ou KPIs acoplados."
+  },
+  {
+    "filePath": "src/components/pages/__tests__/eac-scanner-fixtures/analytical-technical-before-summary.tsx",
+    "page": "analytical-technical-before-summary.tsx",
+    "profile": "Unknown (Requires runtime check)",
+    "component": "BalanceSheetExecutiveSynthesisSection",
+    "line": 12,
+    "category": "SEMANTIC_REVIEW",
+    "confidence": "medium",
+    "detectionMethod": "ast",
+    "semanticBoundary": {
+      "containsSummary": true,
+      "containsKpi": false,
+      "containsRecommendation": false,
+      "containsTechnical": false
+    },
+    "sharedConsumers": null,
+    "autoFixEligibility": false,
+    "reviewRequired": true,
+    "rationale": "Requer revisão semântica manual por causa de lógica ou KPIs acoplados."
+  },
+  {
+    "filePath": "src/components/pages/__tests__/eac-scanner-fixtures/page-with-alias.tsx",
+    "page": "page-with-alias.tsx",
+    "profile": "Unknown (Requires runtime check)",
+    "component": "BalanceSheetExecutiveSynthesisSection",
+    "line": 10,
+    "category": "SEMANTIC_REVIEW",
+    "confidence": "medium",
+    "detectionMethod": "ast",
+    "semanticBoundary": {
+      "containsSummary": true,
+      "containsKpi": false,
+      "containsRecommendation": false,
+      "containsTechnical": false
+    },
+    "sharedConsumers": null,
+    "autoFixEligibility": false,
+    "reviewRequired": true,
+    "rationale": "Requer revisão semântica manual por causa de lógica ou KPIs acoplados."
+  },
+  {
+    "filePath": "src/components/pages/__tests__/eac-scanner-fixtures/page-with-imported-section.tsx",
+    "page": "page-with-imported-section.tsx",
+    "profile": "Unknown (Requires runtime check)",
+    "component": "BalanceSheetExecutiveSynthesisSection",
+    "line": 10,
+    "category": "SEMANTIC_REVIEW",
+    "confidence": "medium",
+    "detectionMethod": "ast",
+    "semanticBoundary": {
+      "containsSummary": true,
+      "containsKpi": false,
+      "containsRecommendation": false,
+      "containsTechnical": false
+    },
+    "sharedConsumers": null,
+    "autoFixEligibility": false,
+    "reviewRequired": true,
+    "rationale": "Requer revisão semântica manual por causa de lógica ou KPIs acoplados."
+  },
+  {
+    "filePath": "src/components/pages/__tests__/eac-scanner-fixtures/page-with-loading-state.tsx",
+    "page": "page-with-loading-state.tsx",
+    "profile": "Unknown (Requires runtime check)",
+    "component": "BalanceSheetExecutiveSynthesisSection",
+    "line": 12,
+    "category": "SEMANTIC_REVIEW",
+    "confidence": "medium",
+    "detectionMethod": "ast",
+    "semanticBoundary": {
+      "containsSummary": true,
+      "containsKpi": false,
+      "containsRecommendation": false,
+      "containsTechnical": false
+    },
+    "sharedConsumers": null,
+    "autoFixEligibility": false,
+    "reviewRequired": true,
+    "rationale": "Requer revisão semântica manual por causa de lógica ou KPIs acoplados."
+  },
+  {
+    "filePath": "src/components/pages/__tests__/eac-scanner-fixtures/page-with-modal.tsx",
+    "page": "page-with-modal.tsx",
+    "profile": "Unknown (Requires runtime check)",
+    "component": "BalanceSheetExecutiveSynthesisSection",
+    "line": 14,
+    "category": "SEMANTIC_REVIEW",
+    "confidence": "medium",
+    "detectionMethod": "ast",
+    "semanticBoundary": {
+      "containsSummary": true,
+      "containsKpi": false,
+      "containsRecommendation": false,
+      "containsTechnical": false
+    },
+    "sharedConsumers": null,
+    "autoFixEligibility": false,
+    "reviewRequired": true,
+    "rationale": "Requer revisão semântica manual por causa de lógica ou KPIs acoplados."
+  },
+  {
+    "filePath": "src/components/pages/__tests__/eac-scanner-fixtures/page-with-repeated-blocks.tsx",
+    "page": "page-with-repeated-blocks.tsx",
+    "profile": "Unknown (Requires runtime check)",
+    "component": "BalanceSheetExecutiveSynthesisSection",
+    "line": 12,
+    "category": "SEMANTIC_REVIEW",
+    "confidence": "medium",
+    "detectionMethod": "ast",
+    "semanticBoundary": {
+      "containsSummary": true,
+      "containsKpi": false,
+      "containsRecommendation": false,
+      "containsTechnical": false
+    },
+    "sharedConsumers": null,
+    "autoFixEligibility": false,
+    "reviewRequired": true,
+    "rationale": "Requer revisão semântica manual por causa de lógica ou KPIs acoplados."
+  }
+]

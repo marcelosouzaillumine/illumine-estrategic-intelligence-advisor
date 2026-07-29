@@ -1,9 +1,9 @@
-// src/components/institutional-reporting/OperationalGovernanceSurface.tsx
-
 import React from 'react';
 import { Activity, AlertOctagon } from 'lucide-react';
 import { useLanguage } from '../../contexts/LanguageContext';
 import { OperationalGovernanceSection } from '../../services/FiduciaryRuntimeAdapter';
+// src/components/institutional-reporting/OperationalGovernanceSurface.tsx
+
 
 export function OperationalGovernanceSurface({ data }: { data: OperationalGovernanceSection }) {
   const { translateLabel: t } = useLanguage();

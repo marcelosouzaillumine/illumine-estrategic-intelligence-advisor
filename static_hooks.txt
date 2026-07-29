@@ -1,0 +1,7 @@
+src/components/institutional-memory/InstitutionalMemoryTimeline.tsx:2:import { useInstitutionalMemory } from '../../context/institutional-memory/InstitutionalMemoryProvider';
+src/components/institutional-memory/InstitutionalMemoryTimeline.tsx:7:  const { memoryTimeline, lineageIntegrity } = useInstitutionalMemory();
+src/components/institutional-memory/InstitutionalMemoryTimeline.tsx:33:          A integridade de lineage histórico de governança falhou ou está ausente. O sistema bloqueou a exibição da linha do tempo para preservar a soberania das evidências.
+src/components/pilot-operations/GovernanceReadabilityPanel.tsx:4:import { usePilotOperations } from '../../context/pilot-operations/PilotOperationsProvider';
+src/components/pilot-operations/GovernanceReadabilityPanel.tsx:8:  const { governanceReadability, supervisionClarity, feedbackList, pilotStatus } = usePilotOperations();
+src/components/pages/governance/ExecutiveTimelinePanel.tsx:7:import { useLanguage } from '../../../contexts/LanguageContext';
+src/components/pages/governance/ExecutiveTimelinePanel.tsx:14:  const { t } = useLanguage();

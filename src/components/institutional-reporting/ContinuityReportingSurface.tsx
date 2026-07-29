@@ -1,9 +1,9 @@
-// src/components/institutional-reporting/ContinuityReportingSurface.tsx
-
 import React from 'react';
 import { HeartPulse, ShieldAlert } from 'lucide-react';
 import { useLanguage } from '../../contexts/LanguageContext';
 import { ContinuitySection } from '../../services/FiduciaryRuntimeAdapter';
+// src/components/institutional-reporting/ContinuityReportingSurface.tsx
+
 
 export function ContinuityReportingSurface({ data }: { data: ContinuitySection }) {
   const { translateLabel: t } = useLanguage();

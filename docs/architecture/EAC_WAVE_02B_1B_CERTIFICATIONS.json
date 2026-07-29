@@ -1,0 +1,38 @@
+[
+  {
+    "component": "ConsolidatedExecutiveSummaryCard",
+    "separationStrategy": "NO_ACTION_REQUIRED",
+    "implementationStatus": "NOT_REQUIRED",
+    "structuralCertification": "PASSED",
+    "globalCertification": "PASSED",
+    "reason": "Component already operates as a passive renderer with prepared input.",
+    "certificationSource": "EAC_WAVE_02B_1B",
+    "reviewTriggers": [
+      "new_context_dependency",
+      "new_engine_import",
+      "new_interaction",
+      "local_data_preparation",
+      "semantic_scope_change"
+    ]
+  },
+  {
+    "component": "ExecutiveEvidenceExplorer",
+    "separationStrategy": "INTERNAL_WRAP",
+    "implementationStatus": "COMPLETED",
+    "structuralCertification": "PASSED",
+    "globalCertification": "PASSED",
+    "migrationMode": "NON_DESTRUCTIVE",
+    "behaviorChange": "FORBIDDEN",
+    "visualChange": "FORBIDDEN",
+    "copyChange": "FORBIDDEN",
+    "contextConsumption": "WRAPPER_ONLY",
+    "certificationSource": "EAC_WAVE_02B_1B",
+    "reviewTriggers": [
+      "new_context_dependency",
+      "new_interaction",
+      "new_control_surface",
+      "semantic_scope_change",
+      "consumer_change"
+    ]
+  }
+]

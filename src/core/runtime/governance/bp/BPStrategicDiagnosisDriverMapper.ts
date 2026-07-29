@@ -35,10 +35,7 @@ export class BPStrategicDiagnosisDriverMapper {
 
     const parseValue = (name: string, isSummary: boolean = false) => {
       const val = isSummary ? bpSummary?.[name] : findIndicator(name);
-      if (val === undefined || val === null || Number.isNaN(Number(val))) {
-        throw new Error(`[BPStrategicDiagnosisDriverMapper] Missing or invalid driver: ${name}`);
-      }
-      return Number(val);
+      return safeNum(val);
     };
 
     return {

@@ -1,0 +1,98 @@
+{
+  "version": "1.0.0",
+  "updatedAt": "2026-07-29T11:15:00.000Z",
+  "approvedBy": "Arquiteto-Chefe",
+  "engines": [
+    {
+      "engine": "DREEngine",
+      "implementation": "dreCascade.ts",
+      "canonicalModel": "DRECanonicalDataset",
+      "responsibilities": [
+        "Cálculo de Receita Bruta, Receita Líquida e Margem Bruta",
+        "Apuração de OPEX, EBITDA, EBIT e Lucro Líquido",
+        "Agregação por centro de custo e margem de contribuição"
+      ],
+      "consumers": [
+        "DREPage.tsx",
+        "DreGerencialPage.tsx",
+        "MarketingComercialPage.tsx",
+        "ViabilityPage.tsx",
+        "ValuationPage.tsx"
+      ],
+      "status": "CANONICAL_SSOT"
+    },
+    {
+      "engine": "BalanceSheetEngine",
+      "implementation": "FinancialDomainViewModel.ts",
+      "canonicalModel": "BalanceSheetCanonicalDataset",
+      "responsibilities": [
+        "Consolidação de Ativo Circulante e Não-Circulante",
+        "Consolidação de Passivo Circulante, Não-Circulante e Patrimônio Líquido",
+        "Apuração de Capital de Giro e Índices de Liquidez"
+      ],
+      "consumers": [
+        "BalanceSheetPage.tsx",
+        "FinancialPositionPage.tsx",
+        "ValuationPage.tsx"
+      ],
+      "status": "CANONICAL_SSOT"
+    },
+    {
+      "engine": "DFCIndirectMethodEngine",
+      "implementation": "DFCIndirectMethodEngine.ts",
+      "canonicalModel": "DFCCanonicalDataset",
+      "responsibilities": [
+        "Reconciliação do Lucro Líquido com o Fluxo de Caixa Operacional",
+        "Apuração de Atividades de Investimento e Financiamento",
+        "Demonstração Fiduciária oficial de Variação de Caixa"
+      ],
+      "consumers": [
+        "DFCPage.tsx",
+        "ExecutiveDecisionCenter.tsx"
+      ],
+      "status": "CANONICAL_SSOT"
+    },
+    {
+      "engine": "CashFlowEngine",
+      "implementation": "useAnnualFinancialData.ts",
+      "canonicalModel": "CashFlowOperationalDataset",
+      "responsibilities": [
+        "Acompanhamento diário e mensal de entradas e saídas de caixa",
+        "Monitoramento de saldo operacional bancário"
+      ],
+      "consumers": [
+        "CashFlowPage.tsx"
+      ],
+      "status": "OPERATIONAL_VIEW_ENGINE"
+    },
+    {
+      "engine": "ValuationEngine",
+      "implementation": "ValuationEngine.ts",
+      "canonicalModel": "ValuationCanonicalDataset",
+      "responsibilities": [
+        "Cálculo de Fluxo de Caixa Livre da Empresa (FCFF)",
+        "Aplicação de WACC e Taxa de Desconto",
+        "Apuração de Enterprise Value e Equity Value via DCF e Múltiplos"
+      ],
+      "consumers": [
+        "ValuationPage.tsx"
+      ],
+      "status": "CANONICAL_SSOT"
+    },
+    {
+      "engine": "ViabilityEngine",
+      "implementation": "utils.ts (calculateVPL, calculateTIR, calculatePayback)",
+      "canonicalModel": "ViabilityCanonicalDataset",
+      "responsibilities": [
+        "Cálculo de VPL (Valor Presente Líquido)",
+        "Cálculo de TIR (Taxa Interna de Retorno)",
+        "Cálculo de Payback Simples e Descontado",
+        "Análise de sensibilidade de projetos"
+      ],
+      "consumers": [
+        "ViabilityPage.tsx"
+      ],
+      "status": "CANONICAL_SSOT"
+    }
+  ]
+}

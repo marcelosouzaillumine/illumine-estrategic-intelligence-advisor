@@ -1,0 +1,127 @@
+{
+  "registry": "Illumine OS Executive Agent Capability Registry",
+  "version": "1.0.0",
+  "updatedAt": "2026-07-29T00:00:00Z",
+  "agents": [
+    {
+      "agentId": "cfo-intelligence-agent",
+      "name": "CFO Executive Agent",
+      "domain": "finance",
+      "capabilities": ["financial-analysis", "cash-flow-analysis", "margin-analysis", "debt-restructuring"],
+      "engines": ["DREEngine", "DFCEngine", "FinancialIntelligenceEngine"],
+      "output": ["recommendation", "risk-alert", "scenario"],
+      "impactKpis": ["EBITDA", "FreeCashFlow", "ROIC", "DebtToEBITDA"],
+      "autonomyLevel": 2
+    },
+    {
+      "agentId": "controller-intelligence-agent",
+      "name": "Controller Executive Agent",
+      "domain": "controladoria",
+      "capabilities": ["budget-variance-analysis", "cost-center-audit", "margin-optimization"],
+      "engines": ["BudgetEngine", "CostAccountingEngine"],
+      "output": ["cost-alert", "budget-reallocation-proposal"],
+      "impactKpis": ["GrossMargin", "OPEX_CostRatio", "BudgetVariance"],
+      "autonomyLevel": 2
+    },
+    {
+      "agentId": "governance-intelligence-agent",
+      "name": "Governance Executive Agent",
+      "domain": "governance",
+      "capabilities": ["fiduciary-audit", "policy-compliance-verification", "board-resolution-drafting"],
+      "engines": ["FiduciaryAuditEngine", "ComplianceCheckerEngine"],
+      "output": ["fiduciary-opinion", "resolution-draft"],
+      "impactKpis": ["ComplianceScore", "AuditFindingCount", "FiduciaryRiskIndex"],
+      "autonomyLevel": 2
+    },
+    {
+      "agentId": "strategy-intelligence-agent",
+      "name": "Strategy Executive Agent",
+      "domain": "strategy",
+      "capabilities": ["market-expansion-analysis", "ma-opportunity-scoring", "okr-alignment"],
+      "engines": ["StrategicDiagnosisEngine", "MAEvaluatorEngine"],
+      "output": ["strategic-proposal", "ma-scorecard"],
+      "impactKpis": ["RevenueGrowthRate", "MarketShare", "OKRCompletionRate"],
+      "autonomyLevel": 2
+    },
+    {
+      "agentId": "commercial-intelligence-agent",
+      "name": "Commercial Executive Agent",
+      "domain": "commercial",
+      "capabilities": ["revenue-forecast", "pricing-optimization", "funnel-conversion-analysis"],
+      "engines": ["SalesFunnelEngine", "PricingOptimizerEngine"],
+      "output": ["pricing-recommendation", "revenue-alert"],
+      "impactKpis": ["GrossRevenue", "ConversionRate", "CAC", "AverageTicket"],
+      "autonomyLevel": 2
+    },
+    {
+      "agentId": "customer-intelligence-agent",
+      "name": "Customer Success Executive Agent",
+      "domain": "customer",
+      "capabilities": ["churn-prediction", "nps-sentiment-analysis", "ltv-maximization"],
+      "engines": ["ChurnPredictorEngine", "CustomerLTVEngine"],
+      "output": ["churn-warning", "retention-strategy"],
+      "impactKpis": ["ChurnRate", "NPS", "CustomerLTV", "RetentionRate"],
+      "autonomyLevel": 2
+    },
+    {
+      "agentId": "operations-intelligence-agent",
+      "name": "Operations Executive Agent",
+      "domain": "operations",
+      "capabilities": ["supply-chain-bottleneck-detection", "sla-tracking", "cycle-time-reduction"],
+      "engines": ["SupplyChainEngine", "ProcessEfficiencyEngine"],
+      "output": ["workflow-binding", "bottleneck-alert"],
+      "impactKpis": ["OperationalProductivity", "DeliverySLA", "UnitCost"],
+      "autonomyLevel": 2
+    },
+    {
+      "agentId": "people-intelligence-agent",
+      "name": "People & HR Executive Agent",
+      "domain": "people",
+      "capabilities": ["key-talent-retention-risk", "workforce-productivity-analysis"],
+      "engines": ["TurnoverPredictorEngine", "WorkforceAnalyticsEngine"],
+      "output": ["retention-alert", "workforce-plan"],
+      "impactKpis": ["KeyTalentTurnover", "EmployeeNPS", "ProductivityPerFTE"],
+      "autonomyLevel": 2
+    },
+    {
+      "agentId": "risk-intelligence-agent",
+      "name": "Risk & Compliance Executive Agent",
+      "domain": "risk",
+      "capabilities": ["cyber-risk-mapping", "fx-hedging-analysis", "institutional-risk-tracking"],
+      "engines": ["RiskEngine", "FXHedgingEngine"],
+      "output": ["risk-mitigation-plan", "hedge-proposal"],
+      "impactKpis": ["AvoidedLossAmount", "CyberRiskIndex", "FXHedgingRatio"],
+      "autonomyLevel": 2
+    },
+    {
+      "agentId": "innovation-intelligence-agent",
+      "name": "Innovation & R&D Executive Agent",
+      "domain": "innovation",
+      "capabilities": ["tech-trend-mapping", "rd-portfolio-scoring"],
+      "engines": ["RDEvaluatorEngine", "TechTrendTracker"],
+      "output": ["rd-investment-proposal", "trend-report"],
+      "impactKpis": ["NewProductRevenueRatio", "R_D_ROI", "Time-to-Market"],
+      "autonomyLevel": 2
+    },
+    {
+      "agentId": "executive-decision-agent",
+      "name": "Executive Decision Master Agent",
+      "domain": "decision",
+      "capabilities": ["opinion-synthesis", "tradeoff-resolution", "decision-package-generation"],
+      "engines": ["DecisionIntegrityEngine", "ConsensusCalculatorEngine"],
+      "output": ["board-report-projection", "resolution-recommendation"],
+      "impactKpis": ["DecisionIntegrityScore", "ExecutiveConsensusIndex", "DecisionLatency"],
+      "autonomyLevel": 2
+    },
+    {
+      "agentId": "enterprise-orchestrator-agent",
+      "name": "Enterprise Network Orchestrator Agent",
+      "domain": "orchestration",
+      "capabilities": ["agent-coordination", "cross-domain-alignment", "enis-monitoring"],
+      "engines": ["CapabilitySelectionEngine", "NetworkTopologyEngine"],
+      "output": ["orchestration-plan", "network-insight"],
+      "impactKpis": ["EnterpriseIntelligenceScore (EnIS)", "NetworkConnectivityIndex"],
+      "autonomyLevel": 2
+    }
+  ]
+}

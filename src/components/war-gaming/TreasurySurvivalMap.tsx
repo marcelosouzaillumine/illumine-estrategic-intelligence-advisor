@@ -1,8 +1,8 @@
-// src/components/war-gaming/TreasurySurvivalMap.tsx
-
 import React from 'react';
 import { TreasurySurvivalProfile } from '../../services/FiduciaryRuntimeAdapter';
 import { cn } from '../../lib/utils';
+// src/components/war-gaming/TreasurySurvivalMap.tsx
+
 
 export function TreasurySurvivalMap({ treasury }: { treasury: TreasurySurvivalProfile }) {
   const isCritical = treasury.exhaustionPointReached;

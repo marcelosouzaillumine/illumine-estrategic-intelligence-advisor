@@ -48,74 +48,74 @@ export const BoardReportPDF = forwardRef(({ data, companyName, reportDate, tempo
       
       {/* PAGE 1: CAPA EXECUTIVA */}
       <A4Page isCover>
-        <div className="w-full h-full bg-[var(--color-primary)] text-white flex flex-col relative p-12">
+        <div className="w-full h-full bg-[#0f172a] text-white flex flex-col relative p-12">
           {/* Decorative background element */}
-          <div className="absolute top-0 right-0 w-96 h-96 bg-[var(--color-accent)] opacity-10 rounded-bl-full blur-3xl" />
+          <div className="absolute top-0 right-0 w-96 h-96 bg-[#3b82f6] opacity-20 rounded-bl-full blur-2xl" />
           
           <div className="flex-1 flex flex-col justify-center space-y-8 z-10">
-            <div className="w-20 h-20 bg-[var(--color-state-healthy)] rounded flex items-center justify-center text-[var(--color-primary)] mb-8">
+            <div className="w-20 h-20 bg-[#10b981] rounded-2xl flex items-center justify-center text-[#0f172a] mb-8 shadow-lg">
                <ShieldCheck size={40} />
             </div>
             
-            <h3 className="text-sm font-medium text-[var(--color-accent)] tracking-widest uppercase mb-2">{translate('boardpack.title')}</h3>
-            <h1 className="text-5xl font-bold tracking-tighter leading-tight text-primary">{companyName}</h1>
+            <h3 className="text-sm font-medium text-[#3b82f6] tracking-widest uppercase mb-2">{translate('boardpack.title')}</h3>
+            <h1 className="text-5xl font-bold tracking-tighter leading-tight text-white">{companyName}</h1>
             
-            <div className="mt-12 space-y-2 border-l-2 border-[var(--color-state-healthy)] pl-6">
-              <p className="text-xs text-muted-foreground font-medium uppercase tracking-widest">{translate('boardpack.pdf.issue_date')}: <span className="text-white">{reportDate}</span></p>
-              <p className="text-xs text-muted-foreground font-medium uppercase tracking-widest">{translate('boardpack.pdf.temporal_scope')}: <span className="text-[var(--color-state-healthy)]">{translate('boardpack.pdf.active_isolation')}</span></p>
-              <p className="text-xs text-muted-foreground font-medium uppercase tracking-widest">{translate('boardpack.pdf.inference_confidence')}: <span className="text-white">{data.confidenceLevel}</span></p>
-              <p className="text-xs text-muted-foreground font-medium uppercase tracking-widest">{translate('boardpack.pdf.executive_posture')}: <span className="text-white">{data.executivePosture}</span></p>
+            <div className="mt-12 space-y-2 border-l-2 border-[#10b981] pl-6">
+              <p className="text-xs text-slate-300 font-medium uppercase tracking-widest">{translate('boardpack.pdf.issue_date')}: <span className="text-white">{reportDate}</span></p>
+              <p className="text-xs text-slate-300 font-medium uppercase tracking-widest">{translate('boardpack.pdf.temporal_scope')}: <span className="text-[#10b981]">{translate('boardpack.pdf.active_isolation')}</span></p>
+              <p className="text-xs text-slate-300 font-medium uppercase tracking-widest">{translate('boardpack.pdf.inference_confidence')}: <span className="text-white">{data.confidenceLevel}</span></p>
+              <p className="text-xs text-slate-300 font-medium uppercase tracking-widest">{translate('boardpack.pdf.executive_posture')}: <span className="text-white">{data.executivePosture}</span></p>
             </div>
           </div>
 
           <div className="z-10 pt-10 border-t border-white/10">
-             <h2 className="text-2xl font-bold tracking-tight">Illumine Corporate Intelligence</h2>
-             <p className="text-xs text-muted-foreground font-medium mt-1">{translate('boardpack.pdf.powered_by')}</p>
+             <h2 className="text-2xl font-bold tracking-tight text-white">Illumine Corporate Intelligence</h2>
+             <p className="text-xs text-slate-400 font-medium mt-1">{translate('boardpack.pdf.powered_by')}</p>
           </div>
         </div>
       </A4Page>
 
       {/* PAGE 2: SUMÁRIO EXECUTIVO & DIAGNÓSTICO */}
       <A4Page>
-        <div className="mb-8 border-b-2 border-[var(--color-primary)] pb-2">
-           <h2 className="text-2xl font-bold text-[var(--color-primary)] uppercase tracking-tight">{translate('boardpack.pdf.executive_synthesis')}</h2>
+        <div className="mb-8 border-b-2 border-[#0f172a] pb-2">
+           <h2 className="text-2xl font-bold text-[#0f172a] uppercase tracking-tight">{translate('boardpack.pdf.executive_synthesis')}</h2>
         </div>
 
         <div className="space-y-6 mb-8">
-           <div className="bg-[#f8f9fa] p-5 rounded-md border border-border">
-              <h3 className="text-[10px] font-bold text-[var(--color-accent)] uppercase tracking-widest mb-3">{translate('boardpack.pdf.executive_summary')}</h3>
-              <p className="text-xs text-muted-foreground leading-relaxed text-justify font-medium">{data.executiveSummary}</p>
+           <div className="bg-[#f8fafc] p-5 rounded-xl border border-[#e2e8f0] shadow-xs">
+              <h3 className="text-[10px] font-bold text-[#3b82f6] uppercase tracking-widest mb-3">{translate('boardpack.pdf.executive_summary')}</h3>
+              <p className="text-xs text-[#334155] leading-relaxed text-justify font-medium">{data.executiveSummary}</p>
            </div>
         </div>
 
         <div className="space-y-4">
             <div>
-                <h3 className="text-[10px] font-bold text-[var(--color-primary)] uppercase tracking-widest mb-1 border-b border-border pb-1">{translate('boardpack.pdf.institutional_diagnosis')}</h3>
-                <p className="text-xs text-muted-foreground leading-relaxed text-justify mt-2">{data.institutionalDiagnosis}</p>
+                <h3 className="text-[10px] font-bold text-[#0f172a] uppercase tracking-widest mb-1 border-b border-[#e2e8f0] pb-1">{translate('boardpack.pdf.institutional_diagnosis')}</h3>
+                <p className="text-xs text-[#334155] leading-relaxed text-justify mt-2">{data.institutionalDiagnosis}</p>
             </div>
         </div>
         
         <div className="grid grid-cols-2 gap-8 mt-8">
            <div>
-              <h3 className="text-[10px] font-bold text-[var(--color-primary)] uppercase tracking-widest mb-3 border-b border-border pb-1 flex items-center gap-2">
-                 <Target size={12} className="text-[var(--color-state-healthy)]"/> {translate('boardpack.pdf.strategic_priorities')}
+              <h3 className="text-[10px] font-bold text-[#0f172a] uppercase tracking-widest mb-3 border-b border-[#e2e8f0] pb-1 flex items-center gap-2">
+                 <Target size={12} className="text-[#10b981]"/> {translate('boardpack.pdf.strategic_priorities')}
               </h3>
               <ul className="space-y-2">
                  {data.strategicPriorities.map((item, i) => (
-                    <li key={i} className="text-[10px] text-muted-foreground flex gap-2">
-                       <span className="text-[var(--color-state-healthy)] font-bold">•</span> {ExecutiveLabelResolver.resolve(item, t)}
+                    <li key={i} className="text-[10px] text-[#334155] flex gap-2">
+                       <span className="text-[#10b981] font-bold">•</span> {ExecutiveLabelResolver.resolve(item, t)}
                     </li>
                  ))}
               </ul>
            </div>
            <div>
-              <h3 className="text-[10px] font-bold text-[var(--color-primary)] uppercase tracking-widest mb-3 border-b border-border pb-1 flex items-center gap-2">
-                 <Activity size={12} className="text-[var(--color-accent)]"/> {translate('boardpack.pdf.dominant_risks')}
+              <h3 className="text-[10px] font-bold text-[#0f172a] uppercase tracking-widest mb-3 border-b border-[#e2e8f0] pb-1 flex items-center gap-2">
+                 <Activity size={12} className="text-[#3b82f6]"/> {translate('boardpack.pdf.dominant_risks')}
               </h3>
               <ul className="space-y-2">
                  {data.dominantRisks.map((item, i) => (
-                    <li key={i} className="text-[10px] text-muted-foreground flex gap-2">
-                       <span className="text-[var(--color-accent)] font-bold">!</span> {ExecutiveDisclosureResolver.resolve(item)}
+                    <li key={i} className="text-[10px] text-[#334155] flex gap-2">
+                       <span className="text-[#3b82f6] font-bold">!</span> {ExecutiveDisclosureResolver.resolve(item)}
                     </li>
                  ))}
               </ul>
@@ -125,34 +125,34 @@ export const BoardReportPDF = forwardRef(({ data, companyName, reportDate, tempo
 
       {/* PAGE 3: ACTION MATRIX */}
       <A4Page>
-        <div className="mb-8 border-b-2 border-[var(--color-primary)] pb-2">
-           <h2 className="text-2xl font-bold text-[var(--color-primary)] uppercase tracking-tight">{translate('boardpack.pdf.action_matrix')}</h2>
+        <div className="mb-8 border-b-2 border-[#0f172a] pb-2">
+           <h2 className="text-2xl font-bold text-[#0f172a] uppercase tracking-tight">{translate('boardpack.pdf.action_matrix')}</h2>
         </div>
 
         <div className="space-y-6">
            <div>
-              <h3 className="text-[11px] font-bold text-[var(--color-primary)] uppercase tracking-widest mb-4">{translate('boardpack.pdf.executive_action_plan')}</h3>
+              <h3 className="text-[11px] font-bold text-[#0f172a] uppercase tracking-widest mb-4">{translate('boardpack.pdf.executive_action_plan')}</h3>
               <div className="space-y-3">
                   {data.actionMatrix.map((action, i) => (
-                    <div key={i} className="flex flex-col border border-border rounded overflow-hidden">
-                       <div className="bg-[var(--color-primary)] text-white px-4 py-2 flex justify-between items-center">
+                    <div key={i} className="flex flex-col border border-[#e2e8f0] rounded-xl overflow-hidden shadow-xs">
+                       <div className="bg-[#0f172a] text-white px-4 py-2 flex justify-between items-center">
                           <h4 className="text-[10px] font-bold uppercase">{ExecutiveLabelResolver.resolve(action.acao, t)}</h4>
                           <span className="text-[8px] font-bold tracking-widest bg-white/20 px-2 py-0.5 rounded">
                               {action.prioridade}
                           </span>
                        </div>
-                       <div className="grid grid-cols-3 p-3 gap-4 bg-gray-50">
+                       <div className="grid grid-cols-3 p-3 gap-4 bg-[#f8fafc]">
                           <div>
-                             <p className="text-[8px] font-bold text-muted-foreground uppercase tracking-widest mb-1">{translate('boardpack.pdf.impact')}</p>
-                             <p className="text-[9px] text-muted-foreground font-bold">{action.impacto}</p>
+                             <p className="text-[8px] font-bold text-[#64748b] uppercase tracking-widest mb-1">{translate('boardpack.pdf.impact')}</p>
+                             <p className="text-[9px] text-[#0f172a] font-bold">{action.impacto}</p>
                           </div>
                           <div>
-                             <p className="text-[8px] font-bold text-muted-foreground uppercase tracking-widest mb-1">{translate('boardpack.pdf.speed')}</p>
-                             <p className="text-[9px] text-muted-foreground font-bold">{action.velocidade}</p>
+                             <p className="text-[8px] font-bold text-[#64748b] uppercase tracking-widest mb-1">{translate('boardpack.pdf.speed')}</p>
+                             <p className="text-[9px] text-[#0f172a] font-bold">{action.velocidade}</p>
                           </div>
                           <div>
-                             <p className="text-[8px] font-bold text-muted-foreground uppercase tracking-widest mb-1">{translate('boardpack.pdf.complexity')}</p>
-                             <p className="text-[9px] text-muted-foreground font-bold">{action.complexidade}</p>
+                             <p className="text-[8px] font-bold text-[#64748b] uppercase tracking-widest mb-1">{translate('boardpack.pdf.complexity')}</p>
+                             <p className="text-[9px] text-[#0f172a] font-bold">{action.complexidade}</p>
                           </div>
                        </div>
                     </div>
@@ -164,39 +164,39 @@ export const BoardReportPDF = forwardRef(({ data, companyName, reportDate, tempo
 
       {/* PAGE 4: GOVERNANÇA & MODERAÇÃO */}
       <A4Page>
-        <div className="mb-8 border-b-2 border-[var(--color-primary)] pb-2">
-           <h2 className="text-2xl font-bold text-[var(--color-primary)] uppercase tracking-tight">{translate('boardpack.pdf.institutional_governance')}</h2>
+        <div className="mb-8 border-b-2 border-[#0f172a] pb-2">
+           <h2 className="text-2xl font-bold text-[#0f172a] uppercase tracking-tight">{translate('boardpack.pdf.institutional_governance')}</h2>
         </div>
 
         <div className="space-y-6">
-           <div className="bg-[var(--color-primary)] p-6 rounded-md text-white shadow-xl">
-              <h3 className="text-[12px] font-bold text-[var(--color-state-healthy)] uppercase tracking-widest mb-4 flex items-center gap-2">
+           <div className="bg-[#0f172a] p-6 rounded-xl text-white shadow-xl">
+              <h3 className="text-[12px] font-bold text-[#10b981] uppercase tracking-widest mb-4 flex items-center gap-2">
                  <ShieldCheck size={16}/> {translate('boardpack.pdf.final_board_decision')}
               </h3>
               
-              <div className="bg-white/5 p-4 rounded border border-white/10 mb-4">
-                 <p className="text-[11px] font-medium leading-relaxed italic text-center">"{data.recommendedBoardDecision}"</p>
+              <div className="bg-white/10 p-4 rounded-lg border border-white/15 mb-4">
+                 <p className="text-[11px] font-medium leading-relaxed italic text-center text-white">"{data.recommendedBoardDecision}"</p>
               </div>
            </div>
 
            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-             <div className="bg-gray-50 border border-border p-4 rounded">
-                <h3 className="text-[10px] font-bold text-[var(--color-primary)] uppercase tracking-widest mb-3 border-b border-border pb-1">{translate('boardpack.pdf.narrative_moderation')}</h3>
+             <div className="bg-[#f8fafc] border border-[#e2e8f0] p-4 rounded-xl">
+                <h3 className="text-[10px] font-bold text-[#0f172a] uppercase tracking-widest mb-3 border-b border-[#e2e8f0] pb-1">{translate('boardpack.pdf.narrative_moderation')}</h3>
                 <ul className="space-y-2">
                    {data.narrativeModeration.map((item, i) => (
-                      <li key={i} className="text-[10px] text-muted-foreground flex items-start gap-2">
-                         <span className="text-[var(--color-state-healthy)] font-bold mt-0.5">■</span> {item}
+                      <li key={i} className="text-[10px] text-[#334155] flex items-start gap-2">
+                         <span className="text-[#10b981] font-bold mt-0.5">■</span> {item}
                       </li>
                    ))}
                 </ul>
              </div>
              
-             <div className="bg-gray-50 border border-border p-4 rounded">
-                <h3 className="text-[10px] font-bold text-[var(--color-primary)] uppercase tracking-widest mb-3 border-b border-border pb-1">{translate('boardpack.pdf.source_signals')}</h3>
+             <div className="bg-[#f8fafc] border border-[#e2e8f0] p-4 rounded-xl">
+                <h3 className="text-[10px] font-bold text-[#0f172a] uppercase tracking-widest mb-3 border-b border-[#e2e8f0] pb-1">{translate('boardpack.pdf.source_signals')}</h3>
                 <ul className="space-y-2">
                    {data.sourceSignals.map((item, i) => (
-                      <li key={i} className="text-[9px] text-muted-foreground font-mono flex items-start gap-2">
-                         <span className="text-blue-500 font-bold mt-0.5">&gt;</span> {item}
+                      <li key={i} className="text-[9px] text-[#334155] font-mono flex items-start gap-2">
+                         <span className="text-[#3b82f6] font-bold mt-0.5">&gt;</span> {item}
                       </li>
                    ))}
                 </ul>
@@ -204,34 +204,34 @@ export const BoardReportPDF = forwardRef(({ data, companyName, reportDate, tempo
            </div>
 
            {data.blockedFalsePositives.length > 0 && (
-             <div className="bg-critical-soft border border-rose-200 p-4 rounded">
-                <h3 className="text-[10px] font-bold text-rose-800 uppercase tracking-widest mb-3 border-b border-rose-200 pb-1 flex items-center gap-2">
+             <div className="bg-[#fff1f2] border border-[#fecdd3] p-4 rounded-xl">
+                <h3 className="text-[10px] font-bold text-[#9f1239] uppercase tracking-widest mb-3 border-b border-[#fecdd3] pb-1 flex items-center gap-2">
                    <Zap size={12}/> {translate('boardpack.pdf.blocked_false_positives')}
                 </h3>
                 <ul className="space-y-2">
                    {data.blockedFalsePositives.map((item, i) => (
-                      <li key={i} className="text-[10px] text-rose-700 flex items-start gap-2">
-                         <span className="text-rose-500 font-bold mt-0.5">✖</span> {item}
+                      <li key={i} className="text-[10px] text-[#be123c] flex items-start gap-2">
+                         <span className="text-[#e11d48] font-bold mt-0.5">✖</span> {item}
                       </li>
                    ))}
                 </ul>
              </div>
            )}
 
-            <div className="pt-8 border-t border-border text-center">
-             <div className="inline-flex items-center justify-center w-12 h-12 bg-gray-100 rounded-full text-muted-foreground mb-4">
+            <div className="pt-8 border-t border-[#e2e8f0] text-center">
+             <div className="inline-flex items-center justify-center w-12 h-12 bg-[#f1f5f9] rounded-full text-[#64748b] mb-4">
                 <Target size={20} />
              </div>
-             <p className="text-[9px] text-muted-foreground font-bold uppercase tracking-widest">{translate('boardpack.pdf.end_of_report')}</p>
-             <p className="text-[8px] text-muted-foreground uppercase tracking-widest mt-1">{translate('boardpack.pdf.produced_by')}</p>
+             <p className="text-[9px] text-[#64748b] font-bold uppercase tracking-widest">{translate('boardpack.pdf.end_of_report')}</p>
+             <p className="text-[8px] text-[#94a3b8] uppercase tracking-widest mt-1">{translate('boardpack.pdf.produced_by')}</p>
            </div>
         </div>
       </A4Page>
 
       {temporalData && (
         <A4Page>
-          <div className="mb-8 border-b-2 border-[var(--color-primary)] pb-2">
-            <h2 className="text-2xl font-bold text-[var(--color-primary)] uppercase tracking-tight">{translate('boardpack.pdf.appendix_title')}</h2>
+          <div className="mb-8 border-b-2 border-[#0f172a] pb-2">
+            <h2 className="text-2xl font-bold text-[#0f172a] uppercase tracking-tight">{translate('boardpack.pdf.appendix_title')}</h2>
           </div>
           <div className="space-y-6">
             <TemporalBoardPackSection temporalData={temporalData} />

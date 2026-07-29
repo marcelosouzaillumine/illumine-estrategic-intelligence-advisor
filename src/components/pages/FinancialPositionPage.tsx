@@ -1,4 +1,7 @@
 
+
+
+
 import React, { useState, useEffect, useMemo } from 'react';
 import { useFinancialMath } from '../../hooks/useFinancialMath';
 import { 
@@ -27,10 +30,20 @@ import {
   onSnapshot
 } from 'firebase/firestore';
 import { db } from '../../lib/firebase';
+import { ExecutivePageTemplate } from '../ui/executive-page-template';
+import { ExecutiveSurface } from '../ui/executive-surface';
+import { ExecutiveAccordion } from '../ui/executive-accordion';
+import { ExecutiveEmptyState } from '../ui/executive-empty-state';
+import { ExecutiveMetricCard } from '../ui/executive-metric-card';
+import { ExecutiveHeading } from '../ui/executive-heading';
+import { ExecutiveText } from '../ui/executive-typography';
+import { createPortal } from 'react-dom';
+import { ExecutiveSummarySection } from '../ui/executive-summary-section';
+import { ExecutiveStrategicTensions } from '../ui/executive-strategic-tensions';
+import { ExecutiveDecisionTrace } from '../ui/executive-decision-trace';
+import { useFinancialPositionPageViewModel } from '../../viewmodels/useFinancialPositionPageViewModel';
 import { DATA } from '../../data';
 import { cn, formatCurrency, formatValue, getThemeColors } from '../../lib/utils';
-import { PageHeader } from '../Common';
-import { ExecutiveMetricCard } from '../ui/executive-metric-card';
 import { 
   AreaChart, 
   Area, 
@@ -47,9 +60,17 @@ import {
 import { BankAccountModal } from '../modals/BankAccountModal';
 import { ImportBankStatementModal } from '../modals/ImportBankStatementModal';
 import { BankTransactionsModal } from '../modals/BankTransactionsModal';
-
+import { StatusBadge } from '../Common';
+import { useFinancialPositionViewModel } from '../../viewmodels/useFinancialPositionViewModel';
 
 export function FinancialPositionPage({ clients, selectedClient }: { clients: any[], selectedClient: string }) {
+  // Adapter: useFinancialPositionPageAdapter
+  // ViewModel: useFinancialPositionPageViewModel
+  const { state: vmState, computed: vmComputed, actions: vmActions } = useFinancialPositionPageViewModel({ clientId: selectedClient });
+  // Adapter: useFinancialPositionAdapter
+  // ViewModel: useFinancialPositionViewModel
+  const { state, computed, actions } = useFinancialPositionViewModel({ clientId: selectedClient });
+  const portal = createPortal;
   const [positions, setPositions] = useState<any[]>([]);
   const [loading, setLoading] = useState(false);
 
@@ -138,16 +159,15 @@ export function FinancialPositionPage({ clients, selectedClient }: { clients: an
   const clientName = clients.find(c => c.id === selectedClient)?.fantasia || 'Cliente';
 
   return (
-    <div className="max-w-[1440px] mx-auto space-y-10 pb-32 animate-executive-fade">
-      <PageHeader 
-        title="Posição Financeira" 
-        subtitle="Monitoramento de disponibilidades, saldos bancários e evolução patrimonial"
-        icon={Landmark}
-        color="executive"
-      />
+    <ExecutivePageTemplate header={{
+      title: "Posição Financeira",
+      description: "Monitoramento de disponibilidades, saldos bancários e evolução patrimonial.",
+    }}>
 
-      <div className="flex items-center justify-between gap-4 flex-wrap bg-surface-container/60 p-4 rounded-md border border-border backdrop-blur-sm shadow-sm -mt-6">
+      {/* Control Bar (Context Controls & Actions) */}
+      <div className="flex flex-col md:flex-row md:items-center justify-between gap-6 mb-10">
         <div className="flex items-center gap-3">
+          <StatusBadge status="Ativo" label={`${positions.length} conta(s)`} />
           <div className="px-4 py-2.5 bg-card text-muted-foreground border border-border rounded-md flex items-center gap-2 shadow-sm">
             <Clock size={12} />
             <span className="text-[10px] font-medium uppercase tracking-widest">
@@ -174,19 +194,40 @@ export function FinancialPositionPage({ clients, selectedClient }: { clients: an
         </div>
       </div>
 
+       {/* --- CAMADA 1: NÍVEL CONSELHO (SÍNTESE DE POSIÇÃO FINANCEIRA) --- */}
+       <ExecutiveSummarySection 
+         className="mb-8"
+         status={{ label: positions.length > 0 ? 'Saldos Sincronizados' : 'Sem Contas Cadastradas', variant: positions.length > 0 ? 'success' : 'warning' }}
+         question="Qual a disponibilidade total imediata de tesouraria e a distribuição de saldos bancários por instituição?"
+         opinion="O comitê fiduciário homologa o extrato de posições financeiras, atestando a integridade dos saldos e a liquidez imediata."
+         driver="Saldos bancários em moeda nacional e estrangeira, variação mensal e extratos conciliados."
+         implication="Garantia de solidez e capacidade de liquidação de obrigações de curtíssimo prazo."
+         action="Manter rotina diária de conciliação bancária e diversificação de risco de contraparte financeira."
+       >
+         <ExecutiveStrategicTensions tensions={[]} />
+         <ExecutiveDecisionTrace trace={[]} />
+       </ExecutiveSummarySection>
 
+      <div className="mt-12 mb-8 border-t border-border pt-8" />
+      <ExecutiveAccordion
+         title="Saldos e Evolução Patrimonial"
+         subtitle="Disponibilidades, KPIs consolidados e histórico de saldo bancário."
+         variant="analytics"
+         defaultExpanded
+       >
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
         <ExecutiveMetricCard density="analytical" label="Saldo Total Atual" value={`R$ ${formatValue(kpis.totalCurrent, '')}`} icon={Landmark} />
         <ExecutiveMetricCard density="analytical" label="Saldos no Início do Mês" value={`R$ ${formatValue(kpis.totalInitial, '')}`} icon={Clock} />
         <ExecutiveMetricCard density="analytical" label="Evolução no Mês" value={`${kpis.variation.toFixed(2)}%`} icon={TrendingUp} tone={kpis.variation >= 0 ? "success" : "critical"} />
       </div>
+      </ExecutiveAccordion>
 
       <div className="grid grid-cols-1 xl:grid-cols-3 gap-8">
         <div className="xl:col-span-2 bg-white p-8 rounded-3xl border border-border shadow-sm">
           <div className="flex items-center justify-between mb-8">
              <div>
-       <h3 className="text-sm font-bold text-executive-secondary">Evolução do Saldo Consolidado</h3>
-              <p className="text-[10px] text-muted-foreground font-bold uppercase tracking-widest mt-1">Histórico dos últimos 5 meses</p>
+       <ExecutiveHeading as="h3" className="text-executive-secondary">Evolução do Saldo Consolidado</ExecutiveHeading>
+              <ExecutiveText as="div" variant="bodyStandard" className="text-muted-foreground mt-1">Histórico dos últimos 5 meses</ExecutiveText>
              </div>
              <div className="p-2 bg-primary/5 rounded-xl">
                <TrendingUp size={18} className="text-primary" />
@@ -217,8 +258,8 @@ export function FinancialPositionPage({ clients, selectedClient }: { clients: an
         <div className="bg-white p-8 rounded-3xl border border-border shadow-sm">
           <div className="flex items-center justify-between mb-8">
              <div>
-       <h3 className="text-sm font-bold text-executive-secondary">Composição por Banco</h3>
-              <p className="text-[10px] text-muted-foreground font-bold uppercase tracking-widest mt-1">Distribuição de Disponibilidades</p>
+       <ExecutiveHeading as="h3" className="text-executive-secondary">Composição por Banco</ExecutiveHeading>
+              <ExecutiveText as="div" variant="bodyStandard" className="text-muted-foreground mt-1">Distribuição de Disponibilidades</ExecutiveText>
              </div>
              <div className="p-2 bg-slate-50 rounded-xl">
                <PieChartIcon size={18} className="text-secondary" />
@@ -271,7 +312,7 @@ export function FinancialPositionPage({ clients, selectedClient }: { clients: an
                 <tr>
                    <td colSpan={7} className="px-8 py-20 text-center">
                     <Loader2 size={32} className="animate-spin text-secondary mx-auto mb-4" />
-          <p className="text-executive-secondary font-bold">Carregando posições...</p>
+          <ExecutiveText as="div" variant="bodyStandard" className="text-executive-secondary">Carregando posições...</ExecutiveText>
                   </td>
                 </tr>
               ) : positions.length === 0 ? (
@@ -292,8 +333,8 @@ export function FinancialPositionPage({ clients, selectedClient }: { clients: an
                             <Landmark size={18} className="text-muted-foreground" />
                           </div>
                           <div>
-              <p className="text-sm font-bold text-executive-secondary">{p.banco}</p>
-                            <p className="text-[10px] text-muted-foreground font-bold uppercase tracking-widest">ID: {(id || '').padStart(3, '0')}</p>
+              <ExecutiveText as="div" variant="bodyStandard" className="text-executive-secondary">{p.banco}</ExecutiveText>
+                            <ExecutiveText as="div" variant="bodyStandard" className="text-muted-foreground">ID: {(id || '').padStart(3, '0')}</ExecutiveText>
                           </div>
                         </div>
                       </td>
@@ -410,6 +451,17 @@ export function FinancialPositionPage({ clients, selectedClient }: { clients: an
           }}
         />
       )}
-    </div>
+       <ExecutiveSummarySection 
+         status={{ label: 'Posição Consolidada', variant: 'success' }}
+         question="Como monitorar a evolução patrimonial e disponibilidades?"
+         opinion="O monitoramento diário de saldos bancários e o fluxo histórico garantem a acurácia da conciliação fiduciária de curto prazo."
+         driver="Disponibilidades imediatas, contas cadastradas e conciliação de extratos."
+         implication="Prevenção de estouros de caixa e maior controle sobre a liquidez corrente."
+         action="Acompanhar as conciliações pendentes e atualizar a tesouraria diariamente."
+       >
+         <ExecutiveStrategicTensions tensions={[]} />
+         <ExecutiveDecisionTrace trace={[]} />
+       </ExecutiveSummarySection>
+    </ExecutivePageTemplate>
   );
 }

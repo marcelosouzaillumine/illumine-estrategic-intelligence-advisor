@@ -1,8 +1,9 @@
-// src/components/pages/governance/InstitutionalLineageExplorer.tsx
-
+import { ExecutiveHeading } from '../../ui/executive-heading';
 import React from 'react';
 import { Database, Hash, FileText, CheckCircle2, AlertTriangle, ShieldCheck } from 'lucide-react';
 import { LineageAppendix, InstitutionalDisclosure } from '../../../services/FiduciaryRuntimeAdapter';
+// src/components/pages/governance/InstitutionalLineageExplorer.tsx
+
 
 interface InstitutionalLineageExplorerProps {
   lineageAppendix?: LineageAppendix;
@@ -38,7 +39,7 @@ export function InstitutionalLineageExplorer({ lineageAppendix, disclosureSet, d
         <div className="p-4 rounded-2xl bg-warning-soft0/10 border border-amber-500/20 flex items-start gap-3">
           <AlertTriangle className="w-5 h-5 text-amber-500 dark:text-amber-400 shrink-0 mt-0.5" />
           <div>
-            <h4 className="text-xs font-black uppercase tracking-wider text-amber-600 dark:text-amber-400">Demo dataset / No real financial data loaded</h4>
+            <ExecutiveHeading as="h4" className="text-amber-600 dark:text-amber-400">Demo dataset / No real financial data loaded</ExecutiveHeading>
             <p className="text-[10px] text-amber-655/70 mt-0.5 uppercase tracking-widest font-medium">
               Linhagem e chaves de auditoria marcadas como simuladas. Nenhuma conclusão ou parecer fiduciário real deve ser inferido deste painel.
             </p>
@@ -49,9 +50,9 @@ export function InstitutionalLineageExplorer({ lineageAppendix, disclosureSet, d
       <div className="flex items-center gap-3 border-b border-border dark:border-white/5 pb-3 justify-between">
         <div className="flex items-center gap-3">
           <Database className="w-5 h-5 text-muted-foreground dark:text-zinc-400" />
-          <h3 className="text-xs font-black uppercase tracking-widest text-muted-foreground dark:text-zinc-300">
+          <ExecutiveHeading as="h3" className="text-muted-foreground dark:text-zinc-300">
             Explorer de Linhagem e Auditoria Fiduciária
-          </h3>
+          </ExecutiveHeading>
         </div>
         <span className="text-[9px] font-mono font-bold uppercase tracking-widest px-2.5 py-1 bg-slate-100 dark:bg-zinc-900 border border-border dark:border-zinc-800 text-muted-foreground dark:text-zinc-400 rounded shadow-xs">
           {isMock ? 'SANDBOX MODE' : 'REAL DATA VERIFIED'}
@@ -112,7 +113,7 @@ export function InstitutionalLineageExplorer({ lineageAppendix, disclosureSet, d
 
       {/* Disclosure / Auditable Footnote set */}
       {activeDisclosures.length > 0 && (
-        <div className="space-y-3.5 pt-4 border-t border-border dark:border-white/5">
+        <div className="mt-12 space-y-3.5 pt-4 border-t border-border dark:border-white/5 pt-8 mb-8">
           <span className="block text-[10px] font-black uppercase tracking-widest text-muted-foreground dark:text-zinc-500">
             Divulgações Fiduciárias & Ressalvas de Auditoria
           </span>

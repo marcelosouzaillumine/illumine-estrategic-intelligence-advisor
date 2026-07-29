@@ -1,12 +1,26 @@
+
+// Simple fallback components inside the file for the MVP
+
 import React, { useState, useEffect } from 'react';
 import { Activity, Play, ShieldAlert, History, TrendingUp, Network, RefreshCw } from 'lucide-react';
-import { PageHeader } from '../Common';
+import { PageHeader, StatusBadge } from '../Common';
 import { cn } from '../../lib/utils';
 import { FiduciaryRuntimeAdapter } from '../../services/FiduciaryRuntimeAdapter';
 import { RuntimeExecutionRecord, RuntimeHealthSnapshot, ReplayExecutionResult } from '../../services/FiduciaryRuntimeAdapter';
 import { ConsolidatedExecutiveAdvisoryReport } from '../../services/FiduciaryRuntimeAdapter';
+import { ExecutivePageTemplate } from '../ui/executive-page-template';
+import { ExecutiveSurface } from '../ui/executive-surface';
+import { ExecutiveAccordion } from '../ui/executive-accordion';
+import { ExecutiveEmptyState } from '../ui/executive-empty-state';
+import { ExecutiveHeading } from '../ui/executive-heading';
+import { ExecutiveText } from '../ui/executive-typography';
+import { createPortal } from 'react-dom';
+import { ExecutiveSummarySection } from '../ui/executive-summary-section';
+import { ExecutiveStrategicTensions } from '../ui/executive-strategic-tensions';
+import { ExecutiveDecisionTrace } from '../ui/executive-decision-trace';
+import { useRuntimeObservabilityPageViewModel } from '../../viewmodels/useRuntimeObservabilityPageViewModel';
+import { useRuntimeObservabilityViewModel } from '../../viewmodels/useRuntimeObservabilityViewModel';
 
-// Simple fallback components inside the file for the MVP
 function ExecutionTraceTree({ trace }: { trace: any }) {
   if (!trace) return null;
   return (
@@ -72,7 +86,12 @@ function ExecutionReplayPanel({ replay }: { replay: ReplayExecutionResult | null
   );
 }
 
+
 export function RuntimeObservabilityPage() {
+  // Adapter: useRuntimeObservabilityPageAdapter
+  // ViewModel: useRuntimeObservabilityPageViewModel
+  const { state: vmState, computed: vmComputed, actions: vmActions } = useRuntimeObservabilityPageViewModel({ clientId: '' });
+  const portal = createPortal;
   const [executions, setExecutions] = useState<RuntimeExecutionRecord[]>([]);
   const [health, setHealth] = useState<RuntimeHealthSnapshot | null>(null);
   const [selectedExecution, setSelectedExecution] = useState<string | null>(null);
@@ -96,18 +115,31 @@ export function RuntimeObservabilityPage() {
   };
 
   return (
-    <div className="max-w-[1440px] mx-auto px-6 lg:px-10 space-y-12 pb-32 animate-executive-fade">
-      <div className="flex flex-col md:flex-row md:items-end justify-between gap-6">
-        <PageHeader
-          title="Observabilidade Institucional"
-          subtitle="Monitoramento operacional, telemetria e Explainability Forense do Motor de Inteligência Consolidada."
-          icon={Activity}
-          transparent
-        />
-        <button onClick={loadData} className="btn-ghost flex items-center gap-2 shrink-0">
+    <ExecutivePageTemplate header={{
+      title: "Observabilidade Institucional",
+      description: "Monitoramento operacional, telemetria e Explainability Forense do Motor de Inteligência Consolidada.",
+    }}>
+
+      <div className="flex flex-col md:flex-row md:items-center justify-between gap-6 mb-10">
+
+        <div className="flex items-center gap-3">
+          <StatusBadge status="Verde" label="Telemetry Connected" />
+        </div>
+        <button onClick={loadData} className="px-4 py-2 bg-zinc-900 border border-zinc-800 text-white rounded-xl text-[10px] font-bold uppercase tracking-widest flex items-center gap-2 hover:bg-zinc-800 transition-colors shrink-0">
           <RefreshCw size={14} /> Refresh Telemetry
         </button>
+      
       </div>
+
+      <div className="mt-12 mb-8 border-t border-border pt-8" />
+      <ExecutiveAccordion
+        title="Painel de Monitoramento de Execuções"
+        subtitle="Analise a integridade, velocidade e rastreabilidade forense do sistema."
+        variant="analytics"
+        defaultExpanded
+      >
+
+      <div className="space-y-12">
 
       {health && (
         <div className="grid grid-cols-2 lg:grid-cols-4 gap-6">
@@ -172,6 +204,19 @@ export function RuntimeObservabilityPage() {
           </div>
         </div>
       </div>
-    </div>
+       <ExecutiveSummarySection 
+         status={{ label: 'Runtime Saudável', variant: 'success' }}
+         question="Como garantir a auditoria e rastreabilidade forense das execuções do sistema?"
+         opinion="O comitê fiduciário homologa a telemetria do motor de inteligência e o log determinístico de decisões."
+         driver="Uptime do sistema, latência de execução e árvore de rastreamento forense."
+         implication="Garantia de auditabilidade integral e ausência de alucinações nos pareceres automáticos."
+         action="Manter a retenção contínua dos logs de observabilidade por 5 anos."
+       >
+         <ExecutiveStrategicTensions tensions={[]} />
+         <ExecutiveDecisionTrace trace={[]} />
+       </ExecutiveSummarySection>
+      </div>
+      </ExecutiveAccordion>
+    </ExecutivePageTemplate>
   );
 }

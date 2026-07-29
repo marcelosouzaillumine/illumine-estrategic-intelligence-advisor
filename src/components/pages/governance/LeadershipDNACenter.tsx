@@ -1,10 +1,15 @@
+import { ExecutiveText } from '@/components/ui/executive-typography';
+import { ExecutiveHeading } from '@/components/ui/executive-heading';
+import { ExecutiveSurface } from '@/components/ui/executive-surface';
+import { ExecutiveMetricCard } from '@/components/ui/executive-metric-card';
+import { ExecutiveBadge } from '@/components/ui/executive-badge';
 import React, { useState, useMemo, useEffect } from 'react';
 import { Users, Target, Brain, BarChart, ChevronRight, CheckCircle2, AlertCircle, TrendingUp, Award, ShieldCheck, Briefcase, Compass, Zap, Info, ArrowRight, BookOpen, PieChart, Lightbulb, Search } from 'lucide-react';
 import { motion, AnimatePresence } from 'motion/react';
-import { useLeadershipDNAAdapter } from '../../../adapters/ui/useLeadershipDNAAdapter';
-import { GOVERNANCE_PRINCIPLES } from '../../../lib/governanceIntelligence';
-import { PageHeader, SectionHeader, StatusBadge } from '../../Common';
-import { cn } from '../../../lib/utils';
+import { useLeadershipDNAAdapter } from '@/adapters/ui/useLeadershipDNAAdapter';
+import { GOVERNANCE_PRINCIPLES } from '@/lib/governanceIntelligence';
+import { PageHeader, SectionHeader, StatusBadge } from '@/components/Common';
+import { cn } from '@/lib/utils';
 
 interface Role {
   id: string;
@@ -521,7 +526,7 @@ export function LeadershipDNACenter({ clientId }: { clientId: string }) {
               <div className="space-y-4">
                 {['Direção', 'Conselho'].map(cat => (
                   <div key={cat} className="space-y-2">
-                    <p className="text-[10px] font-black text-muted-foreground uppercase tracking-widest ml-2">{cat}</p>
+                    <ExecutiveText as="div" variant="bodyStandard" className="text-muted-foreground ml-2">{cat}</ExecutiveText>
                     <div className="space-y-2">
                       {GOVERNANCE_ROLES.filter(r => r.category === cat).map(role => (
                         <button
@@ -542,7 +547,7 @@ export function LeadershipDNACenter({ clientId }: { clientId: string }) {
                               {cat === 'Direção' ? <Zap size={18} className={selectedRole?.id === role.id ? "text-white" : "text-primary"} /> : <ShieldCheck size={18} className={selectedRole?.id === role.id ? "text-white" : "text-secondary"} />}
                             </div>
                             <div>
-                              <p className="text-body-sm font-medium">{role.title}</p>
+                              <ExecutiveText as="div" variant="bodyStandard" className="text-body-sm">{role.title}</ExecutiveText>
                               <p className={cn("text-[10px] font-medium uppercase tracking-widest", selectedRole?.id === role.id ? "text-white/60" : "text-muted-foreground")}>Clique para ver detalhes</p>
                             </div>
                           </div>
@@ -558,14 +563,14 @@ export function LeadershipDNACenter({ clientId }: { clientId: string }) {
             {/* Right Col: Details */}
             <div className="lg:col-span-2">
               {selectedRole ? (
-                <div className="card-premium p-8 sticky top-32 space-y-10">
+                <div className="bg-card border border-border rounded-2xl p-8 sticky top-32 space-y-10">
                   <div className="flex justify-between items-start">
                     <div className="space-y-2">
                       <div className="flex items-center gap-3">
                         <StatusBadge status={selectedRole.category === 'Direção' ? 'Verde' : 'Amarelo'} />
-                        <h2 className="text-h2 font-medium text-foreground tracking-tight">{selectedRole.title}</h2>
+                        <ExecutiveHeading as="h2" className="text-h2 text-foreground">{selectedRole.title}</ExecutiveHeading>
                       </div>
-                      <p className="text-body-sm text-muted-foreground font-medium max-w-2xl">{selectedRole.description}</p>
+                      <ExecutiveText as="div" variant="bodyStandard" className="text-body-sm text-muted-foreground max-w-2xl">{selectedRole.description}</ExecutiveText>
                     </div>
                     <div className="w-16 h-16 bg-surface-container rounded-md flex items-center justify-center text-primary border border-border">
                       <Compass size={32} strokeWidth={1.5} />
@@ -574,15 +579,15 @@ export function LeadershipDNACenter({ clientId }: { clientId: string }) {
 
                   <div className="grid md:grid-cols-2 gap-8">
                     <div className="space-y-6">
-                      <h3 className="text-body-sm font-medium uppercase tracking-widest text-muted-foreground flex items-center gap-2">
+                      <ExecutiveHeading as="h3" className="text-body-sm text-muted-foreground flex items-center gap-2">
                         <Target size={14} className="text-secondary" />
                         Soft Skills Essenciais
-                      </h3>
+                      </ExecutiveHeading>
                       <div className="space-y-4">
                         {selectedRole.essentialSoftSkills.map(skill => (
                           <div key={skill.name} className="p-4 bg-surface-container/40 rounded-md border border-border group hover:bg-card hover:shadow-md transition-all">
                             <div className="flex justify-between items-center mb-2">
-                              <p className="text-body-sm font-medium text-foreground">{skill.name}</p>
+                              <ExecutiveText as="div" variant="bodyStandard" className="text-body-sm text-foreground">{skill.name}</ExecutiveText>
                               <div className="flex gap-1">
                                 {[1, 2, 3, 4, 5].map(i => (
                                   <div 
@@ -595,17 +600,17 @@ export function LeadershipDNACenter({ clientId }: { clientId: string }) {
                                 ))}
                               </div>
                             </div>
-                            <p className="text-[11px] leading-relaxed text-muted-foreground font-medium">{skill.description}</p>
+                            <ExecutiveText as="div" variant="caption" className="text-muted-foreground">{skill.description}</ExecutiveText>
                           </div>
                         ))}
                       </div>
                     </div>
 
                     <div className="space-y-6">
-                      <h3 className="text-body-sm font-medium uppercase tracking-widest text-muted-foreground flex items-center gap-2">
+                      <ExecutiveHeading as="h3" className="text-body-sm text-muted-foreground flex items-center gap-2">
                         <PieChart size={14} className="text-primary" />
                         Perfil Comportamental Ideal (DISC)
-                      </h3>
+                      </ExecutiveHeading>
                       <div className="p-6 bg-primary rounded-md text-white space-y-6 shadow-premium">
                         <div className="grid grid-cols-4 gap-2">
                           {Object.entries(selectedRole.idealProfile.disc).map(([trait, val]) => (
@@ -623,7 +628,7 @@ export function LeadershipDNACenter({ clientId }: { clientId: string }) {
                           ))}
                         </div>
                         <div className="pt-4 border-t border-white/10">
-                          <p className="text-[10px] font-medium uppercase tracking-widest opacity-60 mb-2">Arquétipos de Eneagrama</p>
+                          <ExecutiveText as="div" variant="bodyStandard" className="opacity-60 mb-2">Arquétipos de Eneagrama</ExecutiveText>
                           <div className="flex gap-2">
                             {selectedRole.idealProfile.enneagram.map(type => (
                               <div key={type} className="px-3 py-1 bg-white/10 rounded-md text-[10px] font-medium uppercase tracking-widest">
@@ -639,7 +644,7 @@ export function LeadershipDNACenter({ clientId }: { clientId: string }) {
                           <Lightbulb size={20} className="text-secondary" />
                         </div>
                         <div>
-                          <p className="text-[10px] font-medium text-secondary uppercase tracking-widest mb-1">Insight do Advisor</p>
+                          <ExecutiveText as="div" variant="bodyStandard" className="text-secondary mb-1">Insight do Advisor</ExecutiveText>
                           <p className="text-[11px] text-muted-foreground leading-relaxed italic font-medium">
                             "Para este cargo, buscamos um equilíbrio entre a {selectedRole.category === 'Direção' ? 'agilidade executiva e a visão estratégica' : 'imparcialidade e a profundidade analítica'}. O perfil deve inspirar confiança imediata."
                           </p>
@@ -653,8 +658,8 @@ export function LeadershipDNACenter({ clientId }: { clientId: string }) {
                   <div className="w-20 h-20 bg-card rounded-md shadow-premium flex items-center justify-center text-muted-foreground/30 mb-6">
                     <Users size={40} strokeWidth={1} />
                   </div>
-                  <h3 className="text-body-md font-medium text-foreground uppercase tracking-widest">Nenhum cargo selecionado</h3>
-                  <p className="mt-2 text-body-sm text-muted-foreground font-medium max-w-2xl">Escolha uma função na lista ao lado para explorar as competências e o perfil ideal de governança.</p>
+                  <ExecutiveHeading as="h3" className="text-body-md text-foreground">Nenhum cargo selecionado</ExecutiveHeading>
+                  <ExecutiveText as="div" variant="bodyStandard" className="mt-2 text-body-sm text-muted-foreground max-w-2xl">Escolha uma função na lista ao lado para explorar as competências e o perfil ideal de governança.</ExecutiveText>
                 </div>
               )}
             </div>
@@ -672,8 +677,8 @@ export function LeadershipDNACenter({ clientId }: { clientId: string }) {
             <div className="flex justify-between items-end">
               <SectionHeader title="Prudência Decisória" subtitle="Avaliação de tomada de decisão para Diretores e Conselheiros." icon={ShieldCheck} />
               <div className="text-right pb-2">
-                <p className="text-[10px] font-medium text-muted-foreground uppercase tracking-widest">Progresso do Diagnóstico</p>
-                <p className="text-h2 font-medium text-primary">{dilemmaStep + 1} <span className="text-muted-foreground/30">/ {ETHICAL_DILEMMAS.length}</span></p>
+                <ExecutiveText as="div" variant="bodyStandard" className="text-muted-foreground">Progresso do Diagnóstico</ExecutiveText>
+                <ExecutiveText as="div" variant="bodyStandard" className="text-h2 text-primary">{dilemmaStep + 1} <span className="text-muted-foreground/30">/ {ETHICAL_DILEMMAS.length}</span></ExecutiveText>
               </div>
             </div>
 
@@ -691,7 +696,7 @@ export function LeadershipDNACenter({ clientId }: { clientId: string }) {
                 initial={{ opacity: 0, x: 20 }}
                 animate={{ opacity: 1, x: 0 }}
                 exit={{ opacity: 0, x: -20 }}
-                className="card-premium p-10 lg:p-16 space-y-10"
+                className="bg-card border border-border rounded-2xl p-10 lg:p-16 space-y-10"
               >
                 <div className="space-y-6">
                   <div className="flex items-center gap-4">
@@ -702,7 +707,7 @@ export function LeadershipDNACenter({ clientId }: { clientId: string }) {
                       <p className="text-[10px] font-medium text-secondary uppercase tracking-widest mb-1">
                         {GOVERNANCE_PRINCIPLES.find(p => p.id === ETHICAL_DILEMMAS[dilemmaStep].principleId)?.axis}
                       </p>
-                      <h4 className="text-h2 font-medium text-foreground tracking-tight">{ETHICAL_DILEMMAS[dilemmaStep].title}</h4>
+                      <ExecutiveHeading as="h4" className="text-h2 text-foreground">{ETHICAL_DILEMMAS[dilemmaStep].title}</ExecutiveHeading>
                     </div>
                   </div>
                   <div className="relative">
@@ -741,7 +746,7 @@ export function LeadershipDNACenter({ clientId }: { clientId: string }) {
                   ))}
                 </div>
 
-                <div className="flex justify-between items-center pt-10 border-t border-border">
+                <div className="mt-12 flex justify-between items-center pt-10 border-t border-border pt-8 mb-8">
                   <button
                     disabled={dilemmaStep === 0}
                     onClick={() => setDilemmaStep(s => s - 1)}
@@ -782,7 +787,7 @@ export function LeadershipDNACenter({ clientId }: { clientId: string }) {
             exit={{ opacity: 0, scale: 0.98 }}
             className="max-w-4xl mx-auto"
           >
-            <div className="card-premium p-0 overflow-hidden">
+            <div className="bg-card border border-border rounded-2xl p-0 overflow-hidden">
               <div className="bg-executive p-10 text-white relative">
                 <div className="absolute top-0 right-0 p-10 opacity-10">
                   <Brain size={120} strokeWidth={1} />
@@ -792,10 +797,10 @@ export function LeadershipDNACenter({ clientId }: { clientId: string }) {
                     <Users size={14} className="text-secondary" />
                     <span className="text-[10px] font-medium tracking-widest uppercase">Avaliador: {currentUser?.displayName || 'Convidado'}</span>
                   </div>
-                  <p className="text-[10px] font-medium uppercase tracking-[0.2em] opacity-60">Deep Profile Analysis</p>
-                  <h2 className="text-h2 font-medium tracking-tight">
+                  <ExecutiveText as="div" variant="bodyStandard" className="opacity-60">Deep Profile Analysis</ExecutiveText>
+                  <ExecutiveHeading as="h2" className="text-h2">
                     {!hasConfirmedRole ? 'Confirme seu Cargo' : assessmentType === 'disc' ? 'DNA Comportamental' : 'Arquétipo de Eneagrama'}
-                  </h2>
+                  </ExecutiveHeading>
                 </div>
 
                 <div className="mt-10 flex gap-2">
@@ -822,8 +827,8 @@ export function LeadershipDNACenter({ clientId }: { clientId: string }) {
                           <Users size={24} />
                         </div>
                         <div>
-                          <h3 className="text-body-md font-medium text-foreground">Confirme sua posição de Governança</h3>
-                          <p className="text-body-sm text-muted-foreground font-medium">Isso garante que sua análise seja comparada ao perfil ideal correto do cargo.</p>
+                          <ExecutiveHeading as="h3" className="text-body-md text-foreground">Confirme sua posição de Governança</ExecutiveHeading>
+                          <ExecutiveText as="div" variant="bodyStandard" className="text-body-sm text-muted-foreground">Isso garante que sua análise seja comparada ao perfil ideal correto do cargo.</ExecutiveText>
                         </div>
                       </div>
                       
@@ -839,8 +844,8 @@ export function LeadershipDNACenter({ clientId }: { clientId: string }) {
                                 : "bg-card border-border hover:border-primary/20"
                             )}
                           >
-                            <p className="text-body-sm font-medium text-foreground uppercase tracking-widest">{role.title}</p>
-                            <p className="text-[10px] text-muted-foreground font-medium uppercase tracking-widest">{role.category}</p>
+                            <ExecutiveText as="div" variant="bodyStandard" className="text-body-sm text-foreground">{role.title}</ExecutiveText>
+                            <ExecutiveText as="div" variant="bodyStandard" className="text-muted-foreground">{role.category}</ExecutiveText>
                           </button>
                         ))}
                       </div>
@@ -866,7 +871,7 @@ export function LeadershipDNACenter({ clientId }: { clientId: string }) {
                           <CheckCircle2 size={12} />
                           {assessmentType === 'disc' ? 'Comportamento' : 'Motivação'}
                         </span>
-                        <h4 className="text-h3 font-medium text-foreground tracking-tight leading-tight">{q.text}</h4>
+                        <ExecutiveHeading as="h4" className="text-h3 text-foreground">{q.text}</ExecutiveHeading>
                       </div>
                       
                       <div className="flex flex-col gap-4">
@@ -901,7 +906,7 @@ export function LeadershipDNACenter({ clientId }: { clientId: string }) {
                   ))}
                 </div>
 
-                <div className="flex justify-between pt-8 border-t border-border">
+                <div className="mt-12 flex justify-between pt-8 border-t border-border mb-8">
                   <button
                     disabled={assessmentStep === 0 && assessmentType === 'disc'}
                     onClick={() => {
@@ -968,7 +973,7 @@ export function LeadershipDNACenter({ clientId }: { clientId: string }) {
               <>
                 {/* Result Hero */}
                 <div className="grid lg:grid-cols-2 gap-8">
-                  <div className="card-premium p-10 flex flex-col justify-between">
+                  <div className="bg-card border border-border rounded-2xl p-10 flex flex-col justify-between">
                     <div className="space-y-6">
                       <SectionHeader title="Seu Perfil Atual" subtitle="Baseado na autoavaliação DISC." icon={Brain} />
                       <div className="grid grid-cols-4 gap-4 h-48 items-end pt-4">
@@ -991,7 +996,7 @@ export function LeadershipDNACenter({ clientId }: { clientId: string }) {
                               </div>
                             </div>
                             <div>
-                              <p className="text-body-sm font-medium text-foreground">{trait}</p>
+                              <ExecutiveText as="div" variant="bodyStandard" className="text-body-sm text-foreground">{trait}</ExecutiveText>
                               <p className="text-[9px] font-medium text-muted-foreground uppercase tracking-widest">
                                 {trait === 'D' ? 'Domínio' : 
                                  trait === 'I' ? 'Influência' : 
@@ -1003,7 +1008,7 @@ export function LeadershipDNACenter({ clientId }: { clientId: string }) {
                       </div>
                     </div>
                     <div className="mt-10 p-6 bg-surface-container/50 rounded-md border border-border">
-                      <p className="text-[10px] font-medium text-foreground uppercase tracking-widest mb-2">Resumo Comportamental</p>
+                      <ExecutiveText as="div" variant="bodyStandard" className="text-foreground mb-2">Resumo Comportamental</ExecutiveText>
                       <p className="text-body-sm text-muted-foreground font-medium leading-relaxed italic">
                         Seu perfil demonstra uma forte orientação para {userProfile.D > 40 ? 'resultados e tomada de decisão assertiva' : userProfile.I > 40 ? 'comunicação e influência interpessoal' : userProfile.S > 40 ? 'estabilidade e trabalho em equipe' : 'precisão e conformidade técnica'}.
                       </p>
@@ -1017,8 +1022,8 @@ export function LeadershipDNACenter({ clientId }: { clientId: string }) {
                     <div className="p-6 bg-white/5 rounded-md border border-white/10 backdrop-blur-md mb-8">
                       <div className="flex justify-between items-center mb-6">
                         <div>
-                          <p className="text-[10px] font-medium uppercase tracking-widest text-secondary">Aderência ao Cargo</p>
-                          <h4 className="text-h3 font-medium tracking-tight">Gráfico de Aderência (DISC + Eneagrama)</h4>
+                          <ExecutiveText as="div" variant="bodyStandard" className="text-secondary">Aderência ao Cargo</ExecutiveText>
+                          <ExecutiveHeading as="h4" className="text-h3">Gráfico de Aderência (DISC + Eneagrama)</ExecutiveHeading>
                         </div>
                         <div className="text-right">
                           <span className="text-4xl font-medium text-secondary">{adherenceScore}%</span>
@@ -1030,7 +1035,7 @@ export function LeadershipDNACenter({ clientId }: { clientId: string }) {
                         <div className="grid grid-cols-2 gap-8">
                            {/* DISC Alignment */}
                            <div className="space-y-3">
-                              <p className="text-[10px] font-black uppercase tracking-widest opacity-60">Aderência DISC</p>
+                              <ExecutiveText as="div" variant="bodyStandard" className="opacity-60">Aderência DISC</ExecutiveText>
                               <div className="space-y-2">
                                 {['D', 'I', 'S', 'C'].map((t) => {
                                   const trait = t as keyof typeof userProfile;
@@ -1054,7 +1059,7 @@ export function LeadershipDNACenter({ clientId }: { clientId: string }) {
 
                            {/* Enneagram Alignment */}
                            <div className="space-y-3">
-                              <p className="text-[10px] font-black uppercase tracking-widest opacity-60">Aderência Eneagrama</p>
+                              <ExecutiveText as="div" variant="bodyStandard" className="opacity-60">Aderência Eneagrama</ExecutiveText>
                               <div className="flex flex-wrap gap-2 pt-2">
                                 {selectedRole.idealProfile.enneagram.map(type => (
                                   <div key={type} className={cn(
@@ -1074,8 +1079,8 @@ export function LeadershipDNACenter({ clientId }: { clientId: string }) {
                       <div className="mt-8 pt-8 border-t border-white/10">
                         <div className="flex justify-between items-center mb-6">
                           <div>
-                            <p className="text-[10px] font-medium uppercase tracking-widest text-secondary">Inteligência Governança</p>
-                            <h4 className="text-h3 font-medium tracking-tight">Alinhamento de Princípios</h4>
+                            <ExecutiveText as="div" variant="bodyStandard" className="text-secondary">Inteligência Governança</ExecutiveText>
+                            <ExecutiveHeading as="h4" className="text-h3">Alinhamento de Princípios</ExecutiveHeading>
                           </div>
                           <div className="text-right">
                             <span className="text-3xl font-medium text-secondary">{governançaAlignment.score}%</span>
@@ -1095,7 +1100,7 @@ export function LeadershipDNACenter({ clientId }: { clientId: string }) {
                           "w-2 h-2 rounded-full",
                           governançaAlignment.score > 80 ? "bg-emerald-400" : governançaAlignment.score > 50 ? "bg-amber-400" : "bg-rose-400"
                         )} />
-                        <p className="text-xs font-bold opacity-80">{governançaAlignment.status}</p>
+                        <ExecutiveText as="div" variant="caption" className="opacity-80">{governançaAlignment.status}</ExecutiveText>
                       </div>
 
                       <p className="mt-4 text-[11px] opacity-60 leading-relaxed italic font-medium">
@@ -1111,8 +1116,8 @@ export function LeadershipDNACenter({ clientId }: { clientId: string }) {
                             <Compass size={24} />
                           </div>
                           <div>
-                            <p className="text-[10px] font-medium uppercase tracking-widest opacity-60">Cargo Alvo</p>
-                            <p className="text-body-md font-medium tracking-tight">{selectedRole.title}</p>
+                            <ExecutiveText as="div" variant="bodyStandard" className="opacity-60">Cargo Alvo</ExecutiveText>
+                            <ExecutiveText as="div" variant="bodyStandard" className="text-body-md">{selectedRole.title}</ExecutiveText>
                           </div>
                         </div>
 
@@ -1125,13 +1130,13 @@ export function LeadershipDNACenter({ clientId }: { clientId: string }) {
                                   gap.severity === 'high' ? "bg-critical-soft0 animate-pulse" : "bg-warning-soft0"
                                 )} />
                                 <div>
-                                  <p className="text-xs font-black">Traço: {gap.trait === 'D' ? 'Domínio' : gap.trait === 'I' ? 'Influência' : gap.trait === 'S' ? 'Estabilidade' : 'Cautela'}</p>
-                                  <p className="text-[10px] opacity-60">Sinal de {gap.direction === 'excess' ? 'excesso' : 'necessidade de desenvolvimento'}</p>
+                                  <ExecutiveText as="div" variant="caption">Traço: {gap.trait === 'D' ? 'Domínio' : gap.trait === 'I' ? 'Influência' : gap.trait === 'S' ? 'Estabilidade' : 'Cautela'}</ExecutiveText>
+                                  <ExecutiveText as="div" variant="bodyStandard" className="opacity-60">Sinal de {gap.direction === 'excess' ? 'excesso' : 'necessidade de desenvolvimento'}</ExecutiveText>
                                 </div>
                               </div>
                               <div className="text-right">
-                                <p className="text-xs font-black text-secondary">{gap.actual}% vs {gap.ideal}%</p>
-                                <p className="text-[9px] opacity-40 uppercase font-black">Gap de {Math.abs(gap.actual - gap.ideal)}%</p>
+                                <ExecutiveText as="div" variant="caption" className="text-secondary">{gap.actual}% vs {gap.ideal}%</ExecutiveText>
+                                <ExecutiveText as="div" variant="bodyStandard" className="opacity-40">Gap de {Math.abs(gap.actual - gap.ideal)}%</ExecutiveText>
                               </div>
                             </div>
                           ))}
@@ -1140,8 +1145,8 @@ export function LeadershipDNACenter({ clientId }: { clientId: string }) {
                               <div className="w-16 h-16 bg-success-soft0/20 rounded-full flex items-center justify-center text-emerald-400">
                                 <CheckCircle2 size={32} />
                               </div>
-                              <p className="text-sm font-bold">Perfil Altamente Alinhado</p>
-                              <p className="text-xs opacity-60 max-w-xs">Não foram identificados gaps críticos entre seu perfil e as exigências do cargo.</p>
+                              <ExecutiveText as="div" variant="bodyStandard">Perfil Altamente Alinhado</ExecutiveText>
+                              <ExecutiveText as="div" variant="caption" className="opacity-60 max-w-xs">Não foram identificados gaps críticos entre seu perfil e as exigências do cargo.</ExecutiveText>
                             </div>
                           )}
                         </div>
@@ -1149,7 +1154,7 @@ export function LeadershipDNACenter({ clientId }: { clientId: string }) {
                     ) : (
                       <div className="flex flex-col items-center justify-center py-20 text-center opacity-40">
                         <Info size={40} strokeWidth={1} />
-                        <p className="mt-4 text-sm font-bold uppercase tracking-widest">Selecione um cargo na aba "Papéis" para comparar.</p>
+                        <ExecutiveText as="div" variant="bodyStandard" className="mt-4">Selecione um cargo na aba "Papéis" para comparar.</ExecutiveText>
                       </div>
                     )}
                   </div>
@@ -1171,8 +1176,8 @@ export function LeadershipDNACenter({ clientId }: { clientId: string }) {
                         <div className="w-12 h-12 rounded-md bg-secondary/10 flex items-center justify-center text-secondary mb-6 group-hover:scale-110 transition-transform">
                           <Award size={24} />
                         </div>
-                        <h4 className="text-body-md font-medium text-foreground mb-2 uppercase tracking-widest">{trail.title}</h4>
-                        <p className="text-body-sm text-muted-foreground font-medium leading-relaxed mb-6">{trail.description}</p>
+                        <ExecutiveHeading as="h4" className="text-body-md text-foreground mb-2">{trail.title}</ExecutiveHeading>
+                        <ExecutiveText as="div" variant="bodyStandard" className="text-body-sm text-muted-foreground mb-6">{trail.description}</ExecutiveText>
                         
                         <div className="space-y-3">
                           {trail.items.map((item, i) => (
@@ -1198,7 +1203,7 @@ export function LeadershipDNACenter({ clientId }: { clientId: string }) {
                 <div className="w-24 h-24 bg-card rounded-md shadow-premium flex items-center justify-center text-primary mb-8 animate-bounce">
                   <Brain size={48} strokeWidth={1} />
                 </div>
-                <h3 className="text-h3 font-medium text-foreground uppercase tracking-widest">Aguardando Avaliação</h3>
+                <ExecutiveHeading as="h3" className="text-h3 text-foreground">Aguardando Avaliação</ExecutiveHeading>
                 <p className="mt-4 text-body-sm text-muted-foreground max-w-md mx-auto leading-relaxed font-medium">
                   Para visualizar a análise de gaps e receber suas trilhas de desenvolvimento, primeiro complete o questionário de autoavaliação comportamental.
                 </p>
@@ -1225,10 +1230,10 @@ export function LeadershipDNACenter({ clientId }: { clientId: string }) {
                 <SectionHeader title="Visão Consolidada" subtitle="Sobreposição do perfil real do time vs. estrutura ideal de cargos." icon={Users} />
                 
                 {teamMetrics ? (
-                  <div className="card-premium p-8 space-y-8">
+                  <div className="bg-card border border-border rounded-2xl p-8 space-y-8">
                     <div className="space-y-6">
                       <div className="space-y-2">
-                        <p className="text-[10px] font-medium text-muted-foreground uppercase tracking-widest">Aderência Média do Time</p>
+                        <ExecutiveText as="div" variant="bodyStandard" className="text-muted-foreground">Aderência Média do Time</ExecutiveText>
                         <div className="flex items-end gap-3">
                           <span className="text-5xl font-medium text-foreground">{teamMetrics.avgAdherence}%</span>
                           <StatusBadge status={teamMetrics.avgAdherence > 80 ? 'Verde' : teamMetrics.avgAdherence > 60 ? 'Amarelo' : 'Vermelho'} />
@@ -1236,14 +1241,14 @@ export function LeadershipDNACenter({ clientId }: { clientId: string }) {
                       </div>
                       
                       <div className="space-y-2">
-                        <p className="text-[10px] font-medium text-muted-foreground uppercase tracking-widest">Maturidade de Governança</p>
+                        <ExecutiveText as="div" variant="bodyStandard" className="text-muted-foreground">Maturidade de Governança</ExecutiveText>
                         <div className="flex items-end gap-3">
                           <span className="text-3xl font-medium text-secondary">{teamMetrics.avgGov}%</span>
                         </div>
                       </div>
                     </div>
 
-                    <div className="space-y-6 pt-6 border-t border-border">
+                    <div className="mt-12 space-y-6 pt-6 border-t border-border pt-8 mb-8">
                       <p className="text-[10px] font-medium text-muted-foreground uppercase tracking-widest flex items-center gap-2">
                         <Users size={14} />
                         Participantes ({teamMetrics.totalParticipants})
@@ -1252,8 +1257,8 @@ export function LeadershipDNACenter({ clientId }: { clientId: string }) {
                         {teamAssessments.map(ass => (
                           <div key={ass.id} className="flex items-center justify-between p-3 bg-surface-container rounded-md border border-border">
                             <div>
-                              <p className="text-[10px] font-medium text-foreground uppercase tracking-widest">{ass.userName}</p>
-                              <p className="text-[10px] text-muted-foreground font-medium uppercase tracking-widest">{ass.roleTitle}</p>
+                              <ExecutiveText as="div" variant="bodyStandard" className="text-foreground">{ass.userName}</ExecutiveText>
+                              <ExecutiveText as="div" variant="bodyStandard" className="text-muted-foreground">{ass.roleTitle}</ExecutiveText>
                             </div>
                             <span className="text-xs font-medium text-secondary">{ass.adherenceScore}%</span>
                           </div>
@@ -1263,7 +1268,7 @@ export function LeadershipDNACenter({ clientId }: { clientId: string }) {
                   </div>
                 ) : (
                   <div className="p-8 bg-slate-50 rounded-3xl border-2 border-dashed border-border text-center">
-                    <p className="text-sm text-muted-foreground">Nenhum dado de time disponível ainda.</p>
+                    <ExecutiveText as="div" variant="bodyStandard" className="text-muted-foreground">Nenhum dado de time disponível ainda.</ExecutiveText>
                   </div>
                 )}
               </div>
@@ -1273,8 +1278,8 @@ export function LeadershipDNACenter({ clientId }: { clientId: string }) {
                   <div className="bg-executive rounded-md p-10 text-white space-y-12 shadow-premium">
                     <div className="flex justify-between items-start">
                       <div>
-                        <h3 className="text-h3 font-medium tracking-tight">Sinergia de Governança do Time</h3>
-                        <p className="text-white/60 text-body-sm font-medium">Comparativo entre a média real da equipe e o perfil ideal dos cargos ocupados.</p>
+                        <ExecutiveHeading as="h3" className="text-h3">Sinergia de Governança do Time</ExecutiveHeading>
+                        <ExecutiveText as="div" variant="bodyStandard" className="text-white/60 text-body-sm">Comparativo entre a média real da equipe e o perfil ideal dos cargos ocupados.</ExecutiveText>
                       </div>
                       <div className="flex gap-4">
                         <div className="flex items-center gap-2">
@@ -1310,7 +1315,7 @@ export function LeadershipDNACenter({ clientId }: { clientId: string }) {
                             </motion.div>
                           </div>
                           <div className="text-center space-y-1">
-                            <p className="text-body-md font-medium">{trait}</p>
+                            <ExecutiveText as="div" variant="bodyStandard" className="text-body-md">{trait}</ExecutiveText>
                             <p className="text-[10px] font-medium text-white/40 uppercase tracking-widest">
                               Ideal: {teamMetrics.ideal[trait as keyof typeof teamMetrics.ideal]}%
                             </p>

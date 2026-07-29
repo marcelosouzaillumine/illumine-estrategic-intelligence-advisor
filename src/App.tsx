@@ -4,6 +4,7 @@
  */
 
 import React, { useState, useEffect, useMemo, useRef } from 'react';
+import { useInstitutionalAuth } from './core/security/auth/InstitutionalAuthProvider';
 import { 
   Plus,
   TrendingDown,
@@ -58,6 +59,7 @@ import { LanguageSelector } from './components/shared/LanguageSelector';
 import { SidebarProvider, SidebarTrigger } from './components/ui/sidebar';
 import { TooltipProvider } from './components/ui/tooltip';
 import { AppSidebar } from './components/AppSidebar';
+import { GenerateBoardReportModal } from './components/modals/GenerateBoardReportModal';
 import { onAuthStateChanged, User, deleteUser } from 'firebase/auth';
 import { collection, query, where, getDocs, addDoc, serverTimestamp, updateDoc, doc, deleteDoc, orderBy, onSnapshot, limit, writeBatch, or, setDoc, documentId } from 'firebase/firestore';
 import { auth, login, loginWithEmail, registerWithEmail, logout, db, handleFirestoreError, OperationType, MASTER_ADMINS } from './lib/firebase';
@@ -83,7 +85,9 @@ import { HomePage } from './components/pages/public/HomePage';
 import { EmpresasPage } from './components/pages/public/EmpresasPage';
 import { PartnerSalesPage } from './components/pages/PartnerSalesPage';
 import { ReferralProgramPage } from './components/pages/public/ReferralProgramPage';
+import { ExecutiveAdvisorNetworkLandingPage } from './components/pages/public/ExecutiveAdvisorNetworkLandingPage';
 import { DiagnosticoPage } from './components/pages/public/DiagnosticoPage';
+import { ExecutivePlatformLandingPage } from './components/pages/public/ExecutivePlatformLandingPage';
 import { LoginPage } from './components/pages/public/LoginPage';
 import { ForcePasswordChangeModal } from './components/modals/ForcePasswordChangeModal';
 import { ConsolidatedExecutiveProvider } from './context/ConsolidatedExecutiveContext';
@@ -266,7 +270,7 @@ function AccessDeniedScreen({ onLogout }: { onLogout: () => void }) {
 
 
 
-import { useInstitutionalAuth } from './core/security/auth/InstitutionalAuthProvider';
+
 
 export default function App() {
   const location = useLocation();
@@ -338,19 +342,13 @@ export default function App() {
     setSelectedClient(clientId);
   };
 
-  // Initialize and listen for theme changesnges
+  // Initialize canonical light theme
   useEffect(() => {
     const applyTheme = () => {
-      const savedTheme = (localStorage.getItem('app-theme') as 'light' | 'dark' | 'system') || 'light';
       const root = window.document.documentElement;
-      root.classList.remove('light', 'dark');
-      
-      if (savedTheme === 'system') {
-        const systemTheme = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
-        root.classList.add(systemTheme);
-      } else {
-        root.classList.add(savedTheme);
-      }
+      root.classList.remove('dark');
+      root.classList.add('light');
+      localStorage.setItem('app-theme', 'light');
     };
 
     applyTheme();
@@ -477,8 +475,11 @@ export default function App() {
                 <Routes>
                   <Route path="/" element={<HomePage />} />
                   <Route path="/empresas" element={<EmpresasPage />} />
+                  <Route path="/v2" element={<ExecutivePlatformLandingPage />} />
+                  <Route path="/plataforma-executiva" element={<ExecutivePlatformLandingPage />} />
                   <Route path="/parceiros" element={<PartnerSalesPage />} />
-                  <Route path="/programa-parceiros" element={<ReferralProgramPage />} />
+                  <Route path="/programa-parceiros" element={<ExecutiveAdvisorNetworkLandingPage />} />
+                  <Route path="/executive-advisor-network" element={<ExecutiveAdvisorNetworkLandingPage />} />
                   <Route path="/diagnostico" element={<DiagnosticoPage />} />
                   <Route path="/login" element={user ? <Navigate to={isMaster || isPartner ? "/dashboard/portfolio" : "/dashboard/efos"} replace /> : <LoginPage />} />
                   <Route path="/executive-home" element={<ExecutiveHomeWorkspace />} />
@@ -584,6 +585,7 @@ function AppContent({
   const { isAccepted, setAccepted, role, loading: governanceLoading } = useGovernance();
   const { loadMemoryForTenant } = useInstitutionalMemory();
   const [showUniversalImport, setShowUniversalImport] = useState(false);
+  const [isGlobalReportModalOpen, setIsGlobalReportModalOpen] = useState(false);
   const [pendingCounts, setPendingCounts] = useState<Record<string, number>>({});
 
   useEffect(() => {
@@ -744,7 +746,8 @@ function AppContent({
             </div>
 
             <button 
-              className="relative px-2.5 sm:px-4 md:px-6 py-1.5 sm:py-2 md:py-2.5 rounded-full overflow-hidden group bg-primary text-primary-foreground shadow-sm hover:shadow-lg hover:-translate-y-0.5 transition-all duration-500 active:scale-95 flex items-center gap-1.5 sm:gap-2 md:gap-3 whitespace-nowrap shrink-0"
+              onClick={() => setIsGlobalReportModalOpen(true)}
+              className="relative px-2.5 sm:px-4 md:px-6 py-1.5 sm:py-2 md:py-2.5 rounded-full overflow-hidden group bg-primary text-primary-foreground shadow-sm hover:shadow-lg hover:-translate-y-0.5 transition-all duration-500 active:scale-95 flex items-center gap-1.5 sm:gap-2 md:gap-3 whitespace-nowrap shrink-0 cursor-pointer"
             >
               <div className="absolute inset-0 bg-gradient-to-r from-white/0 via-white/20 to-white/0 -translate-x-full group-hover:translate-x-full transition-transform duration-1000 ease-in-out" />
               <Zap strokeWidth={2.5} className="relative z-10 group-hover:scale-110 group-hover:rotate-12 transition-transform duration-300 w-3 h-3 sm:w-3.5 sm:h-3.5" />
@@ -812,12 +815,14 @@ function AppContent({
           </div>
         )}
 
-        {/* TEMPORARILY DISABLED
-        <LGPDModal 
-          isOpen={!governanceLoading && !isAccepted} 
-          onAccept={() => setAccepted(true)} 
+        <GenerateBoardReportModal
+          isOpen={isGlobalReportModalOpen}
+          onClose={() => setIsGlobalReportModalOpen(false)}
+          clientId={selectedClient}
+          companyName={clients.find((c: any) => c.id === selectedClient)?.razaoSocial || clients.find((c: any) => c.id === selectedClient)?.name || 'Empório do Mármore'}
+          financialData={[]}
+          selectedYear={selectedYear}
         />
-        */}
       </main>
       </SidebarProvider>
       {/* Global Governance Interaction Overlays */}

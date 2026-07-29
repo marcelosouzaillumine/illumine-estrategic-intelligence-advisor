@@ -1,0 +1,27 @@
+{
+  "version": "5.0.0",
+  "name": "Architecture Baseline v5.0 Initial Transformation",
+  "createdAt": "2026-07-28T23:52:00.000Z",
+  "approvedBy": "Arquiteto-Chefe",
+  "metrics": {
+    "viewModelsTotal": 214,
+    "viewModelsCompliant": 214,
+    "boundaryViolationsCurrent": 134,
+    "boundaryViolationsThreshold": 297,
+    "commonComponentImports": 74,
+    "canonicalPagePercentage": 32.0,
+    "camiHealthScore": 93.1
+  },
+  "targets": {
+    "commonComponentImports": 0,
+    "directFirestoreInPages": 0,
+    "canonicalPagePercentage": 100.0,
+    "cyclicDependencies": 0,
+    "criticalEngineCoverage": 95.0
+  },
+  "certification": {
+    "status": "Em Progresso",
+    "level": "Bronze (Fase 1 em andamento)",
+    "auditTimestamp": "2026-07-28T23:52:00.000Z"
+  }
+}

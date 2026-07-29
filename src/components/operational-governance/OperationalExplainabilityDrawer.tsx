@@ -1,8 +1,8 @@
-// src/components/operational-governance/OperationalExplainabilityDrawer.tsx
-
 import React from 'react';
 import { Fingerprint, Search } from 'lucide-react';
 import { ExplainabilityOutput } from '../../services/FiduciaryRuntimeAdapter';
+// src/components/operational-governance/OperationalExplainabilityDrawer.tsx
+
 
 interface OperationalExplainabilityDrawerProps {
   explainability: ExplainabilityOutput;

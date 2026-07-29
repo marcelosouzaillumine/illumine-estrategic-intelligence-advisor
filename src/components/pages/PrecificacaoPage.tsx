@@ -1,4 +1,5 @@
 
+
 import React, { useState, useMemo } from 'react';
 import { DollarSign, Plus, Trash2, TrendingUp, TrendingDown, Percent, Calculator, ArrowRightLeft, AlertCircle, BarChart2, Package, ArrowUpRight, ChevronRight, Target } from 'lucide-react';
 import { motion, AnimatePresence } from 'motion/react';
@@ -7,14 +8,31 @@ import { useModuleData } from '../../hooks/useModuleData';
 import { useFinancialData } from '../../hooks/useFinancialData';
 import { ProdutoServico } from '../../types/modules';
 import { cn, formatCurrency, formatValue } from '../../lib/utils';
-import { SectionHeader, PageHeader } from '../Common';
+import { SectionHeader, PageHeader, StatusBadge } from '../Common';
+import { ExecutiveHeading } from '../ui/executive-heading';
+import { ExecutiveText } from '../ui/executive-typography';
+import { ExecutivePageTemplate } from '../ui/executive-page-template';
+import { ExecutiveSurface } from '../ui/executive-surface';
+import { ExecutiveAccordion } from '../ui/executive-accordion';
+import { ExecutiveEmptyState } from '../ui/executive-empty-state';
+import { ExecutiveMetricCard } from '../ui/executive-metric-card';
 import { DashboardSkeleton } from '../ui/skeletons';
+import { createPortal } from 'react-dom';
+import { ExecutiveSummarySection } from '../ui/executive-summary-section';
+import { ExecutiveStrategicTensions } from '../ui/executive-strategic-tensions';
+import { ExecutiveDecisionTrace } from '../ui/executive-decision-trace';
+import { usePrecificacaoPageViewModel } from '../../viewmodels/usePrecificacaoPageViewModel';
 
 interface PrecificacaoPageProps {
   clientId: string;
 }
 
+
 export function PrecificacaoPage({ clientId }: PrecificacaoPageProps) {
+  // Adapter: usePrecificacaoPageAdapter
+  // ViewModel: usePrecificacaoPageViewModel
+  const { state: vmState, computed: vmComputed, actions: vmActions } = usePrecificacaoPageViewModel({ clientId });
+  const portal = createPortal;
   const { data: produtos, add, remove, loading } = useModuleData<ProdutoServico>('precificacao', clientId);
   const { dbData: dreGerencial } = useFinancialData(clientId, 2026, 3, 'DRE Gerencial');
   
@@ -118,22 +136,27 @@ export function PrecificacaoPage({ clientId }: PrecificacaoPageProps) {
   if (loading) return <DashboardSkeleton />;
 
   return (
-    <div className="space-y-12 pb-32 animate-executive-fade">
-      <PageHeader
-        title="Precificação & Margem"
-        subtitle="Engenharia de Preços, Margem de Contribuição e Ponto de Equilíbrio estratégico."
-        icon={Percent}
-        color="bg-slate-900"
-        actions={
-          <button
-            onClick={() => setShowAddForm(!showAddForm)}
-            className="flex items-center gap-2 px-5 md:px-8 py-2.5 md:py-4 bg-secondary text-primary rounded-3xl font-black uppercase tracking-widest text-[10px] hover:shadow-xl hover:shadow-secondary/20 transition-all font-display"
-          >
-            {showAddForm ? 'Cancelar' : <><Plus size={16} /> Adicionar Produto/Serviço</>}
-          </button>
-        }
-      />
+    <ExecutivePageTemplate header={{
+      title: "Precificação & Margem",
+      description: "Engenharia de Preços, Margem de Contribuição e Ponto de Equilíbrio estratégico.",
+      actions: (
+        <button
+          onClick={() => setShowAddForm(!showAddForm)}
+          className="flex items-center gap-2 px-5 md:px-8 py-2.5 md:py-4 bg-secondary text-primary rounded-3xl font-black uppercase tracking-widest text-[10px] hover:shadow-xl hover:shadow-secondary/20 transition-all font-display"
+        >
+          {showAddForm ? 'Cancelar' : <><Plus size={16} /> Adicionar Produto/Serviço</>}
+        </button>
+      )
+    }}>
+      <div className="space-y-12 pb-32 animate-executive-fade">
 
+       <div className="mt-12 mb-8 border-t border-border pt-8" />
+       <ExecutiveAccordion
+         title="KPIs de Precificação e Margem"
+         subtitle="Engenharia de preços, contribuição e ponto de equilíbrio estratégico."
+         variant="analytics"
+         defaultExpanded
+       >
       {/* Summary KPIs */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
         {summaryKPIs.map((kpi, idx) => (
@@ -160,10 +183,10 @@ export function PrecificacaoPage({ clientId }: PrecificacaoPageProps) {
             </div>
 
             <div>
-       <h4 className="text-[clamp(1rem,1.3vw,1.25rem)] font-display font-black text-executive-secondary leading-tight group-hover:text-secondary transition-colors mb-1.5">
+       <ExecutiveHeading as="h4" className="font-display text-executive-secondary group-hover:text-secondary transition-colors mb-1.5">
                 {kpi.label}
-              </h4>
-       <p className="text-[9px] font-black text-executive-secondary uppercase tracking-[0.2em] mb-4">Métrica de Performance</p>
+              </ExecutiveHeading>
+       <ExecutiveText as="div" variant="bodyStandard" className="text-executive-secondary mb-4">Métrica de Performance</ExecutiveText>
               <div className="flex items-baseline gap-2">
         <p className="text-3xl font-black text-executive-secondary tabular-nums tracking-tighter whitespace-nowrap">
                   {kpi.isText ? kpi.value : formatValue(kpi.value as number, kpi.isCur ? 'R$' : kpi.suffix || '')}
@@ -191,8 +214,8 @@ export function PrecificacaoPage({ clientId }: PrecificacaoPageProps) {
                     <Plus size={24} />
                   </div>
                   <div>
-          <h3 className="text-2xl font-black text-executive-secondary tracking-tight">Novo Item para Precificação</h3>
-                    <p className="text-xs font-bold text-muted-foreground uppercase tracking-widest">Defina os parâmetros unitários de venda e custo</p>
+          <ExecutiveHeading as="h3" className="text-executive-secondary">Novo Item para Precificação</ExecutiveHeading>
+                    <ExecutiveText as="div" variant="caption" className="text-muted-foreground">Defina os parâmetros unitários de venda e custo</ExecutiveText>
                   </div>
                </div>
 
@@ -228,7 +251,7 @@ export function PrecificacaoPage({ clientId }: PrecificacaoPageProps) {
                   <div className="bg-slate-50/50 p-10 rounded-[40px] border border-border space-y-6">
                     <div className="flex items-center gap-3 mb-2">
                        <DollarSign size={18} className="text-emerald-600" />
-                       <h4 className="text-[10px] font-black text-emerald-600 uppercase tracking-[0.2em]">Custos Variáveis Unitários</h4>
+                       <ExecutiveHeading as="h4" className="text-emerald-600">Custos Variáveis Unitários</ExecutiveHeading>
                     </div>
                     {[
                       { label: 'Matéria-Prima / Insumo', field: 'custoMP' },
@@ -250,7 +273,7 @@ export function PrecificacaoPage({ clientId }: PrecificacaoPageProps) {
                   </div>
                </div>
 
-               <div className="flex justify-end pt-6 border-t border-border">
+               <div className="mt-12 flex justify-end pt-6 border-t border-border pt-8 mb-8">
                  <button type="submit" className="px-4 md:px-6 md:px-12 py-2 md:py-3.5 md:py-5 bg-emerald-600 text-white rounded-3xl font-black uppercase tracking-[0.2em] text-xs hover:shadow-2xl hover:shadow-emerald-600/30 transition-all active:scale-95">
                    Salvar Inteligência de Preço
                  </button>
@@ -288,10 +311,10 @@ export function PrecificacaoPage({ clientId }: PrecificacaoPageProps) {
                           <div className="w-12 h-12 rounded-2xl bg-slate-50 flex items-center justify-center text-muted-foreground group-hover:bg-primary group-hover:text-white transition-all duration-500">
                              <Package size={24} />
                           </div>
-             <h4 className="text-2xl font-display font-black text-executive-secondary tracking-tight">
+             <ExecutiveHeading as="h4" className="font-display text-executive-secondary">
                              {item.nome}
-                          </h4>
-                          <p className="text-[10px] font-black text-muted-foreground uppercase tracking-[0.2em]">Preço Praticado: <span className="text-muted-foreground">{formatCurrency(item.precoVenda)}</span></p>
+                          </ExecutiveHeading>
+                          <ExecutiveText as="div" variant="bodyStandard" className="text-muted-foreground">Preço Praticado: <span className="text-muted-foreground">{formatCurrency(item.precoVenda)}</span></ExecutiveText>
                        </div>
 
                        <div className="grid grid-cols-2 gap-6">
@@ -305,10 +328,10 @@ export function PrecificacaoPage({ clientId }: PrecificacaoPageProps) {
                           </div>
                        </div>
 
-                       <div className="pt-8 border-t border-border flex justify-between items-center">
+                       <div className="mt-12 pt-8 border-t border-border flex justify-between items-center mb-8">
                           <div>
-                            <p className="text-[10px] font-black text-muted-foreground uppercase tracking-widest mb-1">P.E. Financeiro Empresa</p>
-                            <p className="text-lg font-black text-emerald-600 font-display">{formatCurrency(item.pontoEquilibrioFin)}</p>
+                            <ExecutiveText as="div" variant="bodyStandard" className="text-muted-foreground mb-1">P.E. Financeiro Empresa</ExecutiveText>
+                            <ExecutiveText as="div" variant="bodyStandard" className="text-emerald-600 font-display">{formatCurrency(item.pontoEquilibrioFin)}</ExecutiveText>
                           </div>
                           <button 
                             onClick={() => remove(item.id!)} 
@@ -407,7 +430,7 @@ export function PrecificacaoPage({ clientId }: PrecificacaoPageProps) {
                   <div className="w-10 h-10 rounded-xl bg-warning-soft flex items-center justify-center text-amber-600">
                     <AlertCircle size={20} />
                   </div>
-                  <h4 className="text-sm font-black uppercase tracking-[0.2em] font-display">Insights Estratégicos</h4>
+                  <ExecutiveHeading as="h4" className="font-display">Insights Estratégicos</ExecutiveHeading>
                </div>
                <div className="space-y-4 relative z-10">
                   <div className="p-6 bg-slate-50 rounded-3xl border border-border text-xs font-medium text-muted-foreground leading-relaxed">
@@ -420,10 +443,23 @@ export function PrecificacaoPage({ clientId }: PrecificacaoPageProps) {
                        Detectamos produtos com margem inferior a <span className="font-black">25%</span>. Itens com margem baixa exigem alto volume para compensar ou renegociação de custos de insumos.
                     </div>
                   )}
-               </div>
-            </div>
-         </div>
-      </div>
-    </div>
-  );
-}
+                 </div>
+              </div>
+           </div>
+       </div>
+        <ExecutiveSummarySection 
+          status={{ label: 'Precificação Validada', variant: 'success' }}
+          question="Como otimizar o markup e a margem de contribuição dos produtos?"
+          opinion="O comitê fiduciário homologa a estrutura de preços e o ponto de equilíbrio calculado por produto e serviço."
+          driver="Margem de contribuição unitária, custos variáveis, despesas fixas e volume de vendas."
+          implication="Proteção contra erosão de margens e maximização do lucro operacional."
+          action="Revisar os markups vigentes frente ao repasse da inflação de custos bimensalmente."
+        >
+          <ExecutiveStrategicTensions tensions={[]} />
+          <ExecutiveDecisionTrace trace={[]} />
+        </ExecutiveSummarySection>
+       </ExecutiveAccordion>
+     </div>
+    </ExecutivePageTemplate>
+   );
+ }

@@ -1,9 +1,11 @@
+import { ExecutiveText } from '@/components/ui/executive-typography';
+import { ExecutiveHeading } from '@/components/ui/executive-heading';
+import { ExecutivePageTemplate } from '@/components/ui/executive-page-template';
 import React from 'react';
 import { History, Activity, TrendingUp, TrendingDown, AlertTriangle, CheckCircle2, Info, ChevronDown, ChevronUp, Clock, Scale, ShieldCheck, Brain } from 'lucide-react';
 import { ResponsiveContainer, RadarChart, PolarGrid, PolarAngleAxis, PolarRadiusAxis, Radar, Tooltip } from 'recharts';
-import { useInstitutionalMemoryViewModel } from '../../../viewmodels/governance/useInstitutionalMemoryViewModel';
-import { cn, formatCurrency } from '../../../lib/utils';
-import { PageHeader } from '../../Common';
+import { useInstitutionalMemoryViewModel } from '@/viewmodels/governance/useInstitutionalMemoryViewModel';
+import { cn, formatCurrency } from '@/lib/utils';
 
 interface InstitutionalMemoryCenterProps {
   clients?: any[];
@@ -44,23 +46,7 @@ export function InstitutionalMemoryCenter({ selectedClient, selectedYear }: Inst
   }
 
   return (
-    <div className="max-w-[1440px] mx-auto px-6 lg:px-10 space-y-12 pb-32 animate-executive-fade">
-      {/* Page Header */}
-      <PageHeader 
-        title="Centro de Memória Institucional"
-        subtitle="Rastreabilidade e memória de governança fiduciária, consistência temporal e classificação longitudinal de trajetória."
-        icon={History}
-        transparent
-        actions={
-          <div className="text-right">
-            <div className="text-[10px] text-muted-foreground uppercase tracking-widest font-black mb-1">Status da Linhagem</div>
-            <div className="flex items-center gap-2">
-              <span className="w-2.5 h-2.5 rounded-full bg-primary animate-ping"></span>
-              <span className="text-sm font-semibold text-primary uppercase tracking-wider">IME downstream ativo</span>
-            </div>
-          </div>
-        }
-      />
+    <ExecutivePageTemplate header={{ title: "Rastreabilidade e memória de governança fiduciária, consistência temporal e classificação longitudinal de trajetória.", description: "Rastreabilidade e memória de governança fiduciária, consistência temporal e classificação longitudinal de trajetória.", icon: History }}>
 
       {/* Row 1: IMS Score & Radar Chart */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
@@ -72,7 +58,7 @@ export function InstitutionalMemoryCenter({ selectedClient, selectedYear }: Inst
             <div className="flex justify-between items-start mb-6">
               <div>
                 <span className="text-[10px] font-black tracking-widest text-muted-foreground uppercase">Longitudinal Memory</span>
-                <h3 className="text-lg font-medium text-muted-foreground mt-1">Institutional Memory Score</h3>
+                <ExecutiveHeading as="h3" className="text-muted-foreground mt-1">Institutional Memory Score</ExecutiveHeading>
               </div>
               <span className={cn("px-3 py-1 rounded-xl text-[10px] font-black tracking-widest uppercase border", scoreBgMap[currentLabelKey])}>
                 {getStatusText(imsScore)}
@@ -95,7 +81,7 @@ export function InstitutionalMemoryCenter({ selectedClient, selectedYear }: Inst
             </div>
           </div>
 
-          <div className="pt-6 border-t border-border mt-6 flex justify-between items-center text-xs text-muted-foreground font-mono">
+          <div className="pt-6 border-t border-border mt-6 flex justify-between items-center text-xs text-muted-foreground font-mono pt-8 mb-8">
             <span>Trajetória:</span>
             <span className="font-bold text-muted-foreground uppercase">{trajectoryClassification}</span>
           </div>
@@ -105,7 +91,7 @@ export function InstitutionalMemoryCenter({ selectedClient, selectedYear }: Inst
         <div className="lg:col-span-2 card-premium p-8 flex flex-col justify-between hover:border-border transition-all duration-300">
           <div>
             <span className="text-[10px] font-black tracking-widest text-muted-foreground uppercase">Análise Radar</span>
-            <h3 className="text-lg font-medium text-muted-foreground mt-1">Desempenho por Eixo de Memória</h3>
+            <ExecutiveHeading as="h3" className="text-muted-foreground mt-1">Desempenho por Eixo de Memória</ExecutiveHeading>
           </div>
           <div className="h-[280px] w-full flex items-center justify-center mt-4">
             <ResponsiveContainer width="100%" height="100%">
@@ -131,7 +117,7 @@ export function InstitutionalMemoryCenter({ selectedClient, selectedYear }: Inst
         <div className="card-premium p-6 border-l-4 border-l-amber-500/70 bg-warning-soft0/5 space-y-4">
           <div className="flex items-center gap-3">
             <AlertTriangle className="w-5 h-5 text-amber-500" />
-            <h4 className="text-sm font-bold uppercase tracking-wider text-amber-400">Alertas de Risco Longitudinal Ativos</h4>
+            <ExecutiveHeading as="h4" className="text-amber-400">Alertas de Risco Longitudinal Ativos</ExecutiveHeading>
           </div>
           <ul className="space-y-2.5">
             {alerts.map((alert: string, idx: number) => (
@@ -148,17 +134,17 @@ export function InstitutionalMemoryCenter({ selectedClient, selectedYear }: Inst
       <div className="card-premium p-8 space-y-6">
         <div>
           <span className="text-[10px] font-black tracking-widest text-muted-foreground uppercase">Matrizes Cíclicas</span>
-          <h3 className="text-lg font-medium text-muted-foreground mt-1">Série Temporal de Integridade (Heatmaps)</h3>
-          <p className="text-xs text-muted-foreground mt-1">Evolução anual das dimensões reguladoras e do momento de recuperação.</p>
+          <ExecutiveHeading as="h3" className="text-muted-foreground mt-1">Série Temporal de Integridade (Heatmaps)</ExecutiveHeading>
+          <ExecutiveText as="div" variant="caption" className="text-muted-foreground mt-1">Evolução anual das dimensões reguladoras e do momento de recuperação.</ExecutiveText>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {/* Heatmap 1: Treasury Recurrence */}
           <div className="space-y-3 bg-slate-950/20 p-4 border border-border rounded-xl">
-            <h4 className="text-xs font-bold text-muted-foreground uppercase tracking-wider flex justify-between">
+            <ExecutiveHeading as="h4" className="text-muted-foreground flex justify-between">
               <span>Treasury Recurrence</span>
               <span className="text-[10px] text-muted-foreground">Score</span>
-            </h4>
+            </ExecutiveHeading>
             <div className="grid grid-cols-5 gap-2">
               {heatmaps.treasury?.map((h: any) => (
                 <div key={h.year} className={cn("p-2 text-center rounded border flex flex-col justify-center gap-1", getHeatmapBg(h.score))}>
@@ -174,10 +160,10 @@ export function InstitutionalMemoryCenter({ selectedClient, selectedYear }: Inst
 
           {/* Heatmap 2: Governance Dependency */}
           <div className="space-y-3 bg-slate-950/20 p-4 border border-border rounded-xl">
-            <h4 className="text-xs font-bold text-muted-foreground uppercase tracking-wider flex justify-between">
+            <ExecutiveHeading as="h4" className="text-muted-foreground flex justify-between">
               <span>Governance Dependency</span>
               <span className="text-[10px] text-muted-foreground">Score</span>
-            </h4>
+            </ExecutiveHeading>
             <div className="grid grid-cols-5 gap-2">
               {heatmaps.governance?.map((h: any) => (
                 <div key={h.year} className={cn("p-2 text-center rounded border flex flex-col justify-center gap-1", getHeatmapBg(h.score))}>
@@ -193,10 +179,10 @@ export function InstitutionalMemoryCenter({ selectedClient, selectedYear }: Inst
 
           {/* Heatmap 3: Advisory Neglect */}
           <div className="space-y-3 bg-slate-950/20 p-4 border border-border rounded-xl">
-            <h4 className="text-xs font-bold text-muted-foreground uppercase tracking-wider flex justify-between">
+            <ExecutiveHeading as="h4" className="text-muted-foreground flex justify-between">
               <span>Advisory Neglect</span>
               <span className="text-[10px] text-muted-foreground">Score</span>
-            </h4>
+            </ExecutiveHeading>
             <div className="grid grid-cols-5 gap-2">
               {heatmaps.advisory?.map((h: any) => (
                 <div key={h.year} className={cn("p-2 text-center rounded border flex flex-col justify-center gap-1", getHeatmapBg(h.score))}>
@@ -212,10 +198,10 @@ export function InstitutionalMemoryCenter({ selectedClient, selectedYear }: Inst
 
           {/* Heatmap 4: Institutional Drift */}
           <div className="space-y-3 bg-slate-950/20 p-4 border border-border rounded-xl">
-            <h4 className="text-xs font-bold text-muted-foreground uppercase tracking-wider flex justify-between">
+            <ExecutiveHeading as="h4" className="text-muted-foreground flex justify-between">
               <span>Institutional Drift</span>
               <span className="text-[10px] text-muted-foreground">Score</span>
-            </h4>
+            </ExecutiveHeading>
             <div className="grid grid-cols-5 gap-2">
               {heatmaps.drift?.map((h: any) => (
                 <div key={h.year} className={cn("p-2 text-center rounded border flex flex-col justify-center gap-1", getHeatmapBg(h.score))}>
@@ -231,10 +217,10 @@ export function InstitutionalMemoryCenter({ selectedClient, selectedYear }: Inst
 
           {/* Heatmap 5: Strategic Stability */}
           <div className="space-y-3 bg-slate-950/20 p-4 border border-border rounded-xl">
-            <h4 className="text-xs font-bold text-muted-foreground uppercase tracking-wider flex justify-between">
+            <ExecutiveHeading as="h4" className="text-muted-foreground flex justify-between">
               <span>Strategic Stability</span>
               <span className="text-[10px] text-muted-foreground">Score</span>
-            </h4>
+            </ExecutiveHeading>
             <div className="grid grid-cols-5 gap-2">
               {heatmaps.strategic?.map((h: any) => (
                 <div key={h.year} className={cn("p-2 text-center rounded border flex flex-col justify-center gap-1", getHeatmapBg(h.score))}>
@@ -250,10 +236,10 @@ export function InstitutionalMemoryCenter({ selectedClient, selectedYear }: Inst
 
           {/* Heatmap 6: Recovery Momentum */}
           <div className="space-y-3 bg-slate-950/20 p-4 border border-border rounded-xl">
-            <h4 className="text-xs font-bold text-muted-foreground uppercase tracking-wider flex justify-between">
+            <ExecutiveHeading as="h4" className="text-muted-foreground flex justify-between">
               <span>Recovery Momentum</span>
               <span className="text-[10px] text-muted-foreground">Momentum</span>
-            </h4>
+            </ExecutiveHeading>
             <div className="grid grid-cols-5 gap-2">
               {heatmaps.recoveryMomentum?.map((h: any) => (
                 <div key={h.year} className={cn("p-2 text-center rounded border flex flex-col justify-center gap-0.5", getMomentumBg(h.momentum))}>
@@ -274,8 +260,8 @@ export function InstitutionalMemoryCenter({ selectedClient, selectedYear }: Inst
         <div className="flex items-center gap-3 pb-4 border-b border-border">
           <Clock className="w-5 h-5 text-primary" />
           <div>
-            <h3 className="text-lg font-medium text-muted-foreground">Linha do Tempo Fiduciária Explicável</h3>
-            <p className="text-[10px] text-muted-foreground uppercase tracking-widest mt-0.5">Mapeamento sequencial de desvios e resoluções</p>
+            <ExecutiveHeading as="h3" className="text-muted-foreground">Linha do Tempo Fiduciária Explicável</ExecutiveHeading>
+            <ExecutiveText as="div" variant="bodyStandard" className="text-muted-foreground mt-0.5">Mapeamento sequencial de desvios e resoluções</ExecutiveText>
           </div>
         </div>
 
@@ -295,7 +281,7 @@ export function InstitutionalMemoryCenter({ selectedClient, selectedYear }: Inst
               </div>
 
               <div className="flex justify-between items-start">
-                <h4 className="text-xs font-semibold text-muted-foreground">{phase.advisory}</h4>
+                <ExecutiveHeading as="h4" className="text-muted-foreground">{phase.advisory}</ExecutiveHeading>
                 <span className={cn("px-2.5 py-0.5 rounded-xl text-[9px] font-black tracking-widest uppercase border", getStatusBadge(phase.status))}>
                   {phase.status}
                 </span>
@@ -322,7 +308,7 @@ export function InstitutionalMemoryCenter({ selectedClient, selectedYear }: Inst
 
       {/* Row 5: Reconciliation Accordions */}
       <div className="space-y-4">
-        <h4 className="text-xs font-bold text-muted-foreground uppercase tracking-widest">Rastreabilidade Fiduciária e Auditoria</h4>
+        <ExecutiveHeading as="h4" className="text-muted-foreground">Rastreabilidade Fiduciária e Auditoria</ExecutiveHeading>
         
         {/* Trace 1 */}
         <div className="border border-border rounded-xl overflow-hidden">
@@ -338,7 +324,7 @@ export function InstitutionalMemoryCenter({ selectedClient, selectedYear }: Inst
           </button>
           
           {expandedSection === 'lineage' && (
-            <div className="p-6 bg-slate-950/40 border-t border-border space-y-4 text-xs leading-relaxed text-muted-foreground">
+            <div className="mt-12 p-6 bg-slate-950/40 border-t border-border space-y-4 text-xs leading-relaxed text-muted-foreground pt-8 mb-8">
               <p>
                 Os seguintes eixos de dados contábeis foram normalizados e reconciliados sequencialmente para alimentar a memória fiduciária:
               </p>
@@ -366,7 +352,7 @@ export function InstitutionalMemoryCenter({ selectedClient, selectedYear }: Inst
           </button>
           
           {expandedSection === 'logic' && (
-            <div className="p-6 bg-slate-950/40 border-t border-border space-y-4 text-xs leading-relaxed text-muted-foreground">
+            <div className="mt-12 p-6 bg-slate-950/40 border-t border-border space-y-4 text-xs leading-relaxed text-muted-foreground pt-8 mb-8">
               <p>
                 A nota compostada final de Memória Institucional pondera as vulnerabilidades longitudinais:
               </p>
@@ -380,6 +366,6 @@ export function InstitutionalMemoryCenter({ selectedClient, selectedYear }: Inst
           )}
         </div>
       </div>
-    </div>
+    </ExecutivePageTemplate>
   );
 }

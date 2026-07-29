@@ -31,13 +31,39 @@
   --text-body-sm: clamp(12px, 1vw, 15px);
   
   /* Colors - Core Palette (v4.0 Premium) */
-  --color-primary: #0E1C2C;
-  --color-primary-foreground: #FFFFFF;
+  --color-primary: var(--color-brand-primary, #0E1C2C);
+  --color-primary-foreground: var(--color-brand-on-primary, #FFFFFF);
   --color-executive: #0E1C2C;
   --color-executive-foreground: #FFFFFF;
   
+  /* EVCA-EBIL-001 — Executive Brand Identity Layer (EBIL) Tokens */
+  --color-brand-primary: #0E1C2C;
+  --color-brand-primary-hover: #0A1420;
+  --color-brand-primary-active: #060D15;
+  --color-brand-primary-subtle: rgba(14, 28, 44, 0.12);
+  --color-brand-primary-border: rgba(14, 28, 44, 0.25);
+  --color-brand-on-primary: #FFFFFF;
+  
   --color-accent: #FF8552;
   --color-accent-foreground: #0E1C2C;
+
+  /* Executive Dark Premium - Canonical Landpage Palette Tokens */
+  --color-landpage-bg-main: #04070C;
+  --color-landpage-bg-header: #050911;
+  --color-landpage-bg-section: #070B12;
+  --color-landpage-bg-card: #0B101A;
+  --color-landpage-border-main: #202733;
+  --color-landpage-border-subtle: #2B3443;
+  --color-landpage-text-primary: #FFFFFF;
+  --color-landpage-text-secondary: #B9BEC7;
+  --color-landpage-text-tertiary: #8E95A3;
+  --color-landpage-accent: #FF8A57;
+  --color-landpage-accent-hover: #FF9D72;
+  --color-landpage-accent-dark: #F36F41;
+  --color-landpage-btn-white-bg: #F9F9F9;
+  --color-landpage-btn-white-text: #111111;
+  --color-landpage-btn-dark-bg: #0A0F18;
+  --color-landpage-btn-dark-border: #2E3642;
   --color-secondary: var(--text-secondary); /* DEPRECATED */
   --color-secondary-foreground: #0E1C2C;
   
@@ -90,7 +116,7 @@
   --color-popover-foreground: #0F172A;
   
   --color-muted: #E2E8F0;
-  --color-muted-foreground: #64748B;
+  --color-muted-foreground: #334155;
   
   --color-destructive: #B91C1C;
   --color-destructive-foreground: #FFFFFF;
@@ -244,8 +270,8 @@
   --color-foreground: #0F172A;
   --color-primary: #0E1C2C;
   --color-primary-foreground: #FFFFFF;
-  --color-secondary: #FF8552;
-  --color-secondary-foreground: #0E1C2C;
+  --color-secondary: #475569;
+  --color-secondary-foreground: #FFFFFF;
   --color-accent: #FF8552;
   --color-accent-foreground: #0E1C2C;
   --color-tertiary: #BAB86C;
@@ -305,7 +331,7 @@
   --color-foreground: #FFFFFF;
   --color-primary: #FFFFFF;
   --color-primary-foreground: #0E1C2C;
-  --color-secondary: #FF8552;
+  --color-secondary: #CBD5E1;
   --color-secondary-foreground: #0E1C2C;
   --color-accent: #FF8552;
   --color-tertiary: #BAB86C;
@@ -425,18 +451,18 @@ html, body {
 
   /* Landing pages: proportional heading hierarchy (h1 = 56px desktop) */
   main.min-h-screen h1 {
-    font-size: clamp(32px, 4.4vw, 56px) !important;
-    line-height: 1.15 !important;
-    letter-spacing: -0.01em !important;
+    font-size: clamp(32px, 4.4vw, 56px);
+    line-height: 1.15;
+    letter-spacing: -0.01em;
   }
-  main.min-h-screen h3 {
-    font-size: clamp(24px, 3.2vw, 40px) !important;
-    line-height: 1.2 !important;
-    letter-spacing: -0.01em !important;
+  main.min-h-screen h3:not([class*="text-"]) {
+    font-size: clamp(24px, 3.2vw, 40px);
+    line-height: 1.2;
+    letter-spacing: -0.01em;
   }
-  main.min-h-screen h4 {
-    font-size: clamp(20px, 2.7vw, 34px) !important;
-    line-height: 1.25 !important;
+  main.min-h-screen h4:not([class*="text-"]) {
+    font-size: clamp(20px, 2.7vw, 34px);
+    line-height: 1.25;
   }
   h2 {
     font-size: clamp(24px, 4vw, 40px);
@@ -935,26 +961,8 @@ div[class*="bg-white"][class*="border-slate-"],
 
 /* Standardize card titles and texts text-slate-X colors globally in all themes */
 .text-muted-foreground,
-[class*="text-muted-foreground"],
-.text-muted-foreground,
-[class*="text-muted-foreground"] {
-  color: var(--color-foreground) !important;
-}
-.text-muted-foreground,
-[class*="text-muted-foreground"],
-.text-muted-foreground,
 [class*="text-muted-foreground"] {
   color: var(--color-muted-foreground) !important;
-}
-.text-muted-foreground,
-[class*="text-muted-foreground"],
-.text-muted-foreground,
-[class*="text-muted-foreground"] {
-  color: var(--color-neutral) !important;
-}
-.text-muted-foreground,
-[class*="text-muted-foreground"] {
-  color: var(--color-muted) !important;
 }
 
 /* Standardize backgrounds of slate items globally in all themes */
@@ -1054,15 +1062,10 @@ td {
   animation: executive-pulse 3s ease-in-out infinite;
 }
 
-/* Ensure public landing pages preserve their brand colors (orange secondary/accent) even under dark class */
-.dark main.min-h-screen,
-main.min-h-screen,
-body main.min-h-screen {
-  --color-secondary: #FF8552 !important;
-  --color-secondary-foreground: #0E1C2C !important;
-  --color-accent: #FF8552 !important;
-  --color-accent-foreground: #0E1C2C !important;
-  --color-ring: #FF8552 !important;
+/* Public landing page brand accents (scoped to landing pages only) */
+.public-landing-page {
+  --color-accent: #FF8552;
+  --color-ring: #FF8552;
 }
 
 /* ==========================================================================
@@ -1118,6 +1121,13 @@ body main.min-h-screen {
     flex-direction: column !important;
     align-items: stretch !important;
   }
+}
+
+/* Executive Typography - Keep Whole Words Clean & Prevent Mid-Word Splits */
+.keep-whole-words {
+  word-break: normal !important;
+  overflow-wrap: break-word !important;
+  hyphens: none !important;
 }
 
 

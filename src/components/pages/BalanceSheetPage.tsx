@@ -1,3 +1,5 @@
+
+
 import React, { useRef, useEffect } from 'react';
 import { createPortal } from 'react-dom';
 import { Calendar, Loader2, Upload, Trash2, Plus, BookOpen, Database, TrendingUp, TrendingDown, Info, BarChart3, PieChart as PieChartIcon, AlertCircle, Activity, Target, AlertTriangle, Lightbulb, Zap, ShieldCheck, Gem, Crosshair, Layers, PiggyBank, ShieldAlert, ChevronDown, ChevronUp } from 'lucide-react';
@@ -28,6 +30,8 @@ import { BalanceSheetEvolutionAnalysisSection } from './balance-sheet/BalanceShe
 import { BalanceSheetCompositionChartsSection } from './balance-sheet/BalanceSheetCompositionChartsSection';
 import { ExecutiveExposureCard } from '../ui/executive-exposure-card';
 import { BalanceSheetExecutiveSynthesisSection } from './balance-sheet/BalanceSheetExecutiveSynthesisSection';
+import { ExecutivePageTemplate } from '../ui/executive-page-template';
+import { ExecutiveSummarySection } from '../ui/executive-summary-section';
 import { BalanceSheetStructuralTablesSection } from './balance-sheet/BalanceSheetStructuralTablesSection';
 import { BalanceSheetCapitalPreservationSection } from './balance-sheet/BalanceSheetCapitalPreservationSection';
 import { ImportFinancialModal } from '../modals/ImportFinancialModal';
@@ -70,16 +74,14 @@ ativoTotal, passivoTotal, plValue, ac, anc, pc, pnc, isBalanced, divergence, cx,
   } : undefined;
 
   return (
-    <div className="max-w-[1440px] mx-auto space-y-10 pb-32 animate-executive-fade">
+    <ExecutivePageTemplate header={{
+      title: "Balanço Patrimonial",
+      description: "Análise da posição financeira, estrutura de capital e solvência patrimonial.",
+      icon: BookOpen,
+    }}>
       {(executiveReport?.isSandbox || executiveReport?.isDemonstrative) && (
         <SandboxWarningOverlay type={executiveReport.isSandbox ? 'sandbox' : 'demonstrative'} />
       )}
-      <PageHeader 
-        title="Balanço Patrimonial" 
-        subtitle="Análise da posição financeira, estrutura de capital e solvência patrimonial."
-        icon={BookOpen}
-        color="executive"
-      />
 
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-6 mb-10">
         <div className="flex flex-col md:flex-row md:items-center gap-4">
@@ -130,6 +132,20 @@ ativoTotal, passivoTotal, plValue, ac, anc, pc, pnc, isBalanced, divergence, cx,
           <div className="space-y-6 mb-12">
             {executiveViewModel && patrimonialIntelligenceReport && (
               <>
+
+                {/* --- 0. SÍNTESE DO CONSELHO (CAMADA 1 SOBERANA) --- */}
+                <ExecutiveSummarySection 
+                  className="mb-8"
+                  status={{ label: 'Balanço Auditado', variant: 'success' }}
+                  question="Qual a solidez da estrutura patrimonial, nível de liquidez e alavancagem de capital?"
+                  opinion={executiveViewModel.executiveOpinion || "O comitê fiduciário homologa o balanço patrimonial, atestando a solidez da estrutura de ativos e a integridade da posição financeira."}
+                  driver="Ativo total, passivo oneroso, patrimônio líquido e liquidez corrente."
+                  implication="Preservação da capacidade de solvência e mitigação de risco de refinanciamento."
+                  action="Otimizar a estrutura de capital mantendo índice de cobertura de juros adequado."
+                >
+                  <ExecutiveStrategicTensions tensions={[]} />
+                  <ExecutiveDecisionTrace trace={[]} />
+                </ExecutiveSummarySection>
 
                 {/* --- 0. INSTITUTIONAL CONTEXT --- */}
                 <BalanceSheetInstitutionalContextSection 
@@ -228,6 +244,7 @@ ativoTotal, passivoTotal, plValue, ac, anc, pc, pnc, isBalanced, divergence, cx,
 
           <ExecutiveAccordion
             variant="analytics"
+            defaultExpanded
             icon={<BarChart3 />}
             title={ExecutiveLocaleEnforcer.normalize('Executive Financial Analytics')}
             subtitle="Evidências Quantitativas e Distribuições."
@@ -372,7 +389,7 @@ ativoTotal, passivoTotal, plValue, ac, anc, pc, pnc, isBalanced, divergence, cx,
               </button>
               <button
                 onClick={handleDelete}
-                className="flex-1 py-3 bg-critical-soft0 text-white rounded-2xl shadow-lg shadow-rose-500/20 hover:scale-105 transition-all"
+                className="flex-1 py-3 bg-critical text-white rounded-2xl shadow-md hover:bg-critical/90 transition-all"
               >
                 <ExecutiveText as="span" variant="label" className="text-white">{deleting ? 'Excluindo...' : 'Sim, Excluir'}</ExecutiveText>
               </button>
@@ -386,14 +403,14 @@ ativoTotal, passivoTotal, plValue, ac, anc, pc, pnc, isBalanced, divergence, cx,
       {toast && typeof document !== 'undefined' && createPortal(
         <div className={cn(
           'fixed bottom-8 right-8 px-5 md:px-8 py-2.5 md:py-4 rounded-2xl shadow-2xl z-[100] animate-in fade-in slide-in-from-bottom-4 transition-all',
-          toast.type === 'success' ? 'bg-success-soft0 text-white' : 'bg-critical-soft0 text-white'
+          toast.type === 'success' ? 'bg-success text-white' : 'bg-critical text-white'
         )}>
           <ExecutiveText as="div" variant="microLabel" className="text-white">{toast.message}</ExecutiveText>
         </div>,
         document.body
       )}
-    </div>
+    </ExecutivePageTemplate>
   );
-
 }
+
 

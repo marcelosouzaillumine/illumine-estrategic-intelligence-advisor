@@ -1,0 +1,8 @@
+{
+  "version": "1.0.0",
+  "updatedAt": "2026-07-28T23:54:00.000Z",
+  "totalViewModels": 214,
+  "compliantCount": 214,
+  "contract": "{ state, computed, actions }",
+  "guardrailScript": "scripts/validate_viewmodels.cjs"
+}

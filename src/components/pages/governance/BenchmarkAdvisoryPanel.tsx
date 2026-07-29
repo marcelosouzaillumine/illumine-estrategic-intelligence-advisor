@@ -1,8 +1,8 @@
-// src/components/pages/governance/BenchmarkAdvisoryPanel.tsx
-
 import React from 'react';
 import { Sparkles, Lock, AlertTriangle, TrendingUp, CheckCircle2, ShieldAlert, Scale, Info, ChevronRight, Award, Activity, Zap, ShieldCheck, Layers } from 'lucide-react';
 import { FiduciaryRuntimeAdapter, ESGIMScenario, BenchmarkPosition, BenchmarkTargetTier } from '../../../services/FiduciaryRuntimeAdapter';
+// src/components/pages/governance/BenchmarkAdvisoryPanel.tsx
+
 
 interface BenchmarkAdvisoryPanelProps {
   clientId: string;

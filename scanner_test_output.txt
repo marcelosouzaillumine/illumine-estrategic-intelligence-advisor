@@ -1,0 +1,8 @@
+Scenario 1 (Valid Path & Valid Import): FAILED [
+  '[/Users/marcelosouza/Documents/illumine-strategic-intelligence-advisor/.temp_scanner_tests/test_runner.ts]: EXPERIENCE BYPASS: Importação direta de motor matemático nas camadas de visualização ou experiência.'
+]
+Scenario 2 (Fake Path): FAILED [
+  '[/Users/marcelosouza/Documents/illumine-strategic-intelligence-advisor/.temp_scanner_tests/test_runner.ts]: EXPERIENCE BYPASS: Importação direta de motor matemático nas camadas de visualização ou experiência.'
+]
+(node:28020) [DEP0205] DeprecationWarning: `module.register()` is deprecated. Use `module.registerHooks()` instead.
+(Use `node --trace-deprecation ...` to show where the warning was created)

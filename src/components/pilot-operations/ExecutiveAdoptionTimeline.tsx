@@ -1,8 +1,8 @@
-// src/components/pilot-operations/ExecutiveAdoptionTimeline.tsx
-
 import React from 'react';
 import { usePilotOperations } from '../../context/pilot-operations/PilotOperationsProvider';
 import { Clock, ShieldAlert, CheckCircle2, ChevronRight } from 'lucide-react';
+// src/components/pilot-operations/ExecutiveAdoptionTimeline.tsx
+
 
 export const ExecutiveAdoptionTimeline: React.FC = () => {
   const { telemetryEvents, pilotStatus } = usePilotOperations();

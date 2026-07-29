@@ -1,8 +1,8 @@
-// src/components/pages/governance/BenchmarkReadinessPanel.tsx
-
 import React from 'react';
 import { Gauge, AlertTriangle, CheckCircle, ShieldAlert, Lock, Activity, Sparkles, Info, CheckCircle2, XCircle, HelpCircle, TrendingUp, Compass } from 'lucide-react';
 import { FiduciaryRuntimeAdapter, ESGIMScenario } from '../../../services/FiduciaryRuntimeAdapter';
+// src/components/pages/governance/BenchmarkReadinessPanel.tsx
+
 
 interface BenchmarkReadinessPanelProps {
   clientId: string;
@@ -62,7 +62,7 @@ export function BenchmarkReadinessPanel({ clientId, scenario }: BenchmarkReadine
       <div className="p-4 bg-slate-950/40 border border-border rounded-2xl space-y-3">
         <div className="flex justify-between items-center text-xs">
           <div className="flex items-center gap-2 font-bold uppercase tracking-wider text-muted-foreground">
-            {icon}
+            {React.isValidElement(icon) ? icon : icon ? React.createElement(icon as any, { size: 18 }) : null}
             <span>{label}</span>
           </div>
           <span className={`font-bold font-mono text-sm ${scoreColor}`}>{score}/100</span>

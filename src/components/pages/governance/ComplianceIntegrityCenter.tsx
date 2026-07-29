@@ -1,10 +1,15 @@
-// Adjacent governance module.
-// Not part of GOVERNANCE_DOMAIN_BOUNDARIES.md core module registry.
-// Pending future migration to Integrity & Compliance axis.
 import React from 'react';
 import { ShieldAlert, Activity, FileText, Leaf, Scale, Lock, AlertOctagon, TrendingDown, TrendingUp, Minus, CheckCircle2 } from 'lucide-react';
-import { PageHeader } from '../../Common';
-import { useComplianceIntegrityViewModel } from '../../../viewmodels/governance/useComplianceIntegrityViewModel';
+import { ExecutiveText } from '@/components/ui/executive-typography';
+import { ExecutiveHeading } from '@/components/ui/executive-heading';
+import { ExecutivePageTemplate } from '@/components/ui/executive-page-template';
+import { ExecutiveSurface } from '@/components/ui/executive-surface';
+import { ExecutiveMetricCard } from '@/components/ui/executive-metric-card';
+import { ExecutiveBadge } from '@/components/ui/executive-badge';
+import { useComplianceIntegrityViewModel } from '@/viewmodels/governance/useComplianceIntegrityViewModel';
+import { ExecutiveSummarySection } from '@/components/ui/executive-summary-section';
+import { ExecutiveStrategicTensions } from '@/components/ui/executive-strategic-tensions';
+import { ExecutiveDecisionTrace } from '@/components/ui/executive-decision-trace';
 
 export function ComplianceIntegrityCenter() {
   const { state, actions } = useComplianceIntegrityViewModel();
@@ -12,53 +17,56 @@ export function ComplianceIntegrityCenter() {
   const { setActiveTab } = actions;
 
   return (
-    <div className="max-w-[1440px] mx-auto px-6 lg:px-10 space-y-12 pb-32 animate-executive-fade">
-      {/* Cabeçalho */}
-      <PageHeader 
-        title="Integridade & Compliance"
-        subtitle="Governança ética, monitoramento de conduta, canal de relatos e indicadores ESG."
-        icon={ShieldAlert}
-        transparent
-        actions={
-          <div className="text-right">
-            <div className="text-[10px] text-muted-foreground uppercase tracking-widest font-black mb-1">Score de Integridade</div>
-            <div className="text-4xl font-light text-primary flex items-center justify-end gap-2">
-              85<span className="text-xl text-muted-foreground">/100</span>
-            </div>
-          </div>
-        }
-      />
+    <ExecutivePageTemplate header={{ title: "Governança Ética & Integridade Corporativa", description: "Monitoramento de conduta, canal de relatos fiduciários e indicadores ESG.", icon: ShieldAlert }}>
 
-      {/* Cards Executivos */}
+      {/* --- CAMADA 1: NÍVEL CONSELHO (SÍNTESE DE COMPLIANCE E INTEGRIDADE) --- */}
+      <ExecutiveSummarySection 
+        className="mb-8"
+        status={{ label: 'Integridade Monitorada', variant: 'success' }}
+        question="Qual a aderência ao Código de Conduta, canal de denúncias e métricas ESG?"
+        opinion="O comitê fiduciário homologa a esteira de compliance e integridade corporativa."
+        driver="Canal de relatos, código de conduta, políticas anticorrupção e indicadores ESG."
+        implication="Preservação da reputação institucional e imunização contra riscos de conformidade."
+        action="Tratar imediatamente as denúncias abertas e mitigar os gaps de compliance."
+      >
+        <ExecutiveStrategicTensions tensions={[]} />
+        <ExecutiveDecisionTrace trace={[]} />
+      </ExecutiveSummarySection>
+
+      {/* Cards Executivos (KRI Summary Canônico EVC) */}
       <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
-        <StatusCard 
-          title="Denúncias Abertas" 
+        <ExecutiveMetricCard 
+          label="Denúncias Abertas" 
           value="2" 
-          icon={<AlertOctagon className="w-5 h-5 text-amber-500" />} 
-          trend="1 Crítica, 1 Moderada"
+          description="1 Crítica, 1 Moderada"
+          icon={AlertOctagon}
+          tone="warning"
         />
-        <StatusCard 
-          title="Gaps de Compliance" 
+        <ExecutiveMetricCard 
+          label="Gaps de Compliance" 
           value="14" 
-          icon={<FileText className="w-5 h-5 text-red-400" />} 
-          trend="Colaboradores pendentes"
+          description="Colaboradores pendentes"
+          icon={FileText}
+          tone="critical"
         />
-        <StatusCard 
-          title="Sanções Ativas" 
+        <ExecutiveMetricCard 
+          label="Sanções Ativas" 
           value="0" 
-          icon={<Scale className="w-5 h-5 text-muted-foreground" />} 
-          trend="Últimos 12 meses"
+          description="Últimos 12 meses"
+          icon={Scale}
+          tone="neutral"
         />
-        <StatusCard 
-          title="Alinhamento ESG" 
+        <ExecutiveMetricCard 
+          label="Alinhamento ESG" 
           value="92%" 
-          icon={<Leaf className="w-5 h-5 text-emerald-500" />} 
-          trend="Crescimento de 5%"
+          description="Crescimento de 5%"
+          icon={Leaf}
+          tone="success"
         />
       </div>
 
       {/* Abas */}
-      <div className="flex gap-4 border-b border-border/10 pb-px mt-8 overflow-x-auto no-scrollbar">
+      <div className="flex gap-4 border-b border-border/40 pb-px mt-8 overflow-x-auto no-scrollbar">
         <TabButton active={activeTab === 'integridade'} onClick={() => setActiveTab('integridade')} icon={<Activity className="w-4 h-4"/>} label="Visão Geral" />
         <TabButton active={activeTab === 'denuncias'} onClick={() => setActiveTab('denuncias')} icon={<Lock className="w-4 h-4"/>} label="Canal de Relatos" />
         <TabButton active={activeTab === 'politicas'} onClick={() => setActiveTab('politicas')} icon={<FileText className="w-4 h-4"/>} label="Políticas & Conduta" />
@@ -68,122 +76,75 @@ export function ComplianceIntegrityCenter() {
       {/* Conteúdo das Abas */}
       
       {activeTab === 'integridade' && (
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 animate-in fade-in duration-300">
-          <div className="card-premium p-8">
-            <h2 className="text-lg font-medium text-muted-foreground mb-6 flex items-center gap-2">
-              <Activity className="w-5 h-5 text-muted-foreground" />
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 animate-in fade-in duration-300 mt-6">
+          <ExecutiveSurface variant="default" padding="lg">
+            <ExecutiveHeading as="h2" className="text-foreground mb-6 flex items-center gap-2">
+              <Activity className="w-5 h-5 text-primary" />
               Tendências Institucionais
-            </h2>
+            </ExecutiveHeading>
             <div className="space-y-4">
               <TrendItem label="Aderência ao Código de Conduta" value="Deteriorando" type="negative" />
               <TrendItem label="Resolução de Conflitos Éticos" value="Estável" type="neutral" />
               <TrendItem label="Métricas de Diversidade (ESG)" value="Melhorando" type="positive" />
             </div>
-          </div>
+          </ExecutiveSurface>
 
-          <div className="card-premium p-8">
-            <h2 className="text-lg font-medium text-muted-foreground mb-6 flex items-center gap-2">
-              <AlertOctagon className="w-5 h-5 text-muted-foreground" />
+          <ExecutiveSurface variant="default" padding="lg">
+            <ExecutiveHeading as="h2" className="text-foreground mb-6 flex items-center gap-2">
+              <AlertOctagon className="w-5 h-5 text-amber-500" />
               Riscos Éticos Iminentes
-            </h2>
+            </ExecutiveHeading>
             <div className="space-y-4">
               <RiskItem title="Atraso na renovação da Política Anticorrupção" severity="Alta" />
               <RiskItem title="Aumento de denúncias de assédio no setor logístico" severity="Crítica" />
             </div>
-          </div>
+          </ExecutiveSurface>
         </div>
       )}
 
       {activeTab === 'denuncias' && (
-        <div className="card-premium p-8 animate-in fade-in duration-300">
-          <div className="flex justify-between items-center mb-6">
-            <h2 className="text-lg font-medium text-muted-foreground flex items-center gap-2">
-              <Lock className="w-5 h-5 text-muted-foreground" />
-              Protocolos de Investigação
-            </h2>
-            <span className="text-xs text-primary flex items-center gap-1 bg-primary px-2.5 py-1 rounded-xl border border-primary font-bold uppercase tracking-wider">
-              <Lock className="w-3.5 h-3.5" /> Identidade Blindada
-            </span>
-          </div>
-          <div className="space-y-4">
-            <ReportItem 
-              protocol="WB-202309-001" 
-              category="Fraude Financeira" 
-              severity="Crítica" 
-              status="Investigação Ativa"
-              date="Há 5 dias"
-            />
-            <ReportItem 
-              protocol="WB-202309-002" 
-              category="Conflito Ético" 
-              severity="Média" 
-              status="Em Triagem"
-              date="Há 12 dias"
-            />
-          </div>
-        </div>
+        <ExecutiveSurface variant="default" padding="lg" className="animate-in fade-in duration-300 mt-6 space-y-4">
+          <ExecutiveHeading as="h2" className="text-foreground mb-4">Relatos Registrados (Canal Confidencial)</ExecutiveHeading>
+          <ReportItem protocol="REL-2026-089" category="Fraude Financeira" severity="Crítica" status="Em Investigação" date="Há 2 dias" />
+          <ReportItem protocol="REL-2026-074" category="Conflito de Interesses" severity="Moderada" status="Triagem" date="Há 5 dias" />
+        </ExecutiveSurface>
       )}
 
       {activeTab === 'politicas' && (
-        <div className="card-premium p-8 animate-in fade-in duration-300">
-          <h2 className="text-lg font-medium text-muted-foreground mb-6 flex items-center gap-2">
-            <FileText className="w-5 h-5 text-muted-foreground" />
-            Controle de Aceite Digital
-          </h2>
-          <div className="space-y-4">
-            <PolicyItem title="Código de Ética e Conduta" compliance="95%" status="Vigente" />
-            <PolicyItem title="Política Anticorrupção" compliance="78%" status="Atenção" />
-            <PolicyItem title="Política de Segurança da Informação" compliance="99%" status="Vigente" />
-          </div>
-        </div>
+        <ExecutiveSurface variant="default" padding="lg" className="animate-in fade-in duration-300 mt-6 space-y-4">
+          <ExecutiveHeading as="h2" className="text-foreground mb-4">Aderência às Políticas Institucionais</ExecutiveHeading>
+          <PolicyItem title="Código de Conduta Ética" compliance="94%" status="Ok" />
+          <PolicyItem title="Política de Segurança da Informação" compliance="78%" status="Atenção" />
+          <PolicyItem title="Diretriz Anticorrupção & Bribery" compliance="99%" status="Ok" />
+        </ExecutiveSurface>
       )}
 
       {activeTab === 'esg' && (
-        <div className="card-premium p-8 animate-in fade-in duration-300">
-          <h2 className="text-lg font-medium text-muted-foreground mb-6 flex items-center gap-2">
-            <Leaf className="w-5 h-5 text-muted-foreground" />
-            Score ESG Desdobrado
-          </h2>
-          <div className="grid grid-cols-3 gap-6">
-            <ESGPillarCard title="Ambiental (E)" score={88} />
-            <ESGPillarCard title="Social (S)" score={94} />
-            <ESGPillarCard title="Governança (G)" score={95} />
+        <ExecutiveSurface variant="default" padding="lg" className="animate-in fade-in duration-300 mt-6 space-y-6">
+          <ExecutiveHeading as="h2" className="text-foreground">Métricas de Governança ESG</ExecutiveHeading>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <ESGPillarCard title="Environmental (Ambiental)" score={88} />
+            <ESGPillarCard title="Social (Pessoas & Comunidade)" score={94} />
+            <ESGPillarCard title="Governance (Governança)" score={95} />
           </div>
-        </div>
+        </ExecutiveSurface>
       )}
 
-    </div>
+    </ExecutivePageTemplate>
   );
 }
 
-function StatusCard({ title, value, icon, trend }: { title: string, value: string, icon: React.ReactNode, trend: string }) {
-  return (
-    <div className="card-premium p-6 flex flex-col justify-between hover:border-border transition-all">
-      <div className="flex justify-between items-start mb-4">
-        <h3 className="text-xs font-bold uppercase tracking-wider text-muted-foreground">{title}</h3>
-        <div className="p-2 bg-slate-950/40 rounded-xl border border-border/10">
-          {icon}
-        </div>
-      </div>
-      <div>
-        <div className="text-3xl font-light text-muted-foreground">{value}</div>
-        <div className="text-xs text-muted-foreground mt-1 uppercase tracking-wider font-bold">{trend}</div>
-      </div>
-    </div>
-  );
-}
-
-function TabButton({ active, onClick, icon, label }: { active: boolean, onClick: () => void, icon: React.ReactNode, label: string }) {
+function TabButton({ active, onClick, icon, label }: any) {
   return (
     <button 
       onClick={onClick}
-      className={`flex items-center gap-2 px-6 py-3.5 text-xs font-bold uppercase tracking-wider transition-all border-b-2 ${
+      className={`flex items-center gap-2 px-4 py-2.5 rounded-xl text-xs font-bold uppercase tracking-wider transition-all border ${
         active 
-          ? 'text-primary border-primary bg-primary' 
-          : 'text-muted-foreground border-transparent hover:text-muted-foreground hover:bg-slate-900/40'
+          ? 'text-primary border-primary/30 bg-primary/10 shadow-sm' 
+          : 'text-slate-700 dark:text-slate-300 border-transparent hover:text-foreground hover:bg-muted/10'
       }`}
     >
-      {icon}
+      {React.isValidElement(icon) ? icon : icon ? React.createElement(icon as any, { size: 18 }) : null}
       {label}
     </button>
   );
@@ -191,12 +152,12 @@ function TabButton({ active, onClick, icon, label }: { active: boolean, onClick:
 
 function TrendItem({ label, value, type }: { label: string, value: string, type: 'positive' | 'negative' | 'neutral' }) {
   const Icon = type === 'positive' ? TrendingUp : type === 'negative' ? TrendingDown : Minus;
-  const color = type === 'positive' ? 'text-emerald-400' : type === 'negative' ? 'text-red-400' : 'text-muted-foreground';
+  const color = type === 'positive' ? 'text-emerald-500' : type === 'negative' ? 'text-rose-500' : 'text-slate-700 dark:text-slate-300';
   
   return (
-    <div className="flex justify-between items-center p-3 border-b border-border/10 last:border-0">
-      <span className="text-sm text-muted-foreground">{label}</span>
-      <span className={`text-sm flex items-center gap-1 ${color}`}>
+    <div className="flex justify-between items-center p-3 border-b border-border/40 last:border-0">
+      <ExecutiveText as="span" variant="bodyStandard" className="text-foreground font-medium">{label}</ExecutiveText>
+      <span className={`text-sm font-bold flex items-center gap-1 ${color}`}>
         {value} <Icon className="w-4 h-4" />
       </span>
     </div>
@@ -206,12 +167,12 @@ function TrendItem({ label, value, type }: { label: string, value: string, type:
 function RiskItem({ title, severity }: { title: string, severity: string }) {
   const isCritical = severity === 'Crítica';
   return (
-    <div className={`p-4 rounded-xl border ${isCritical ? 'bg-red-500/5 border-red-500/20 text-red-300' : 'bg-warning-soft0/5 border-amber-500/20 text-amber-300'}`}>
+    <div className={`p-4 rounded-xl border ${isCritical ? 'bg-critical/10 border-critical/30' : 'bg-warning/10 border-warning/30'}`}>
       <div className="flex justify-between items-center">
-        <span className="text-sm font-medium">{title}</span>
-        <span className={`text-[10px] uppercase font-black tracking-widest px-2.5 py-1 rounded-xl ${isCritical ? 'bg-red-500/20 text-red-400' : 'bg-warning-soft0/20 text-amber-400'}`}>
+        <ExecutiveText as="span" variant="bodyStandard" className="text-foreground font-semibold">{title}</ExecutiveText>
+        <ExecutiveBadge variant={isCritical ? 'critical' : 'warning'}>
           {severity}
-        </span>
+        </ExecutiveBadge>
       </div>
     </div>
   );
@@ -220,21 +181,21 @@ function RiskItem({ title, severity }: { title: string, severity: string }) {
 function ReportItem({ protocol, category, severity, status, date }: any) {
   const isCritical = severity === 'Crítica';
   return (
-    <div className="p-4 bg-slate-950/40 border border-border/10 rounded-xl flex justify-between items-center hover:border-border transition-colors">
+    <div className="p-4 bg-muted/20 border border-border/40 rounded-xl flex justify-between items-center">
       <div>
         <div className="flex items-center gap-3">
-          <h3 className="text-muted-foreground font-mono text-sm font-bold">{protocol}</h3>
-          <span className="text-xs text-muted-foreground px-2 py-0.5 bg-slate-900 border border-border/5 rounded-lg">{date}</span>
+          <ExecutiveHeading as="h3" className="text-foreground font-mono">{protocol}</ExecutiveHeading>
+          <span className="text-xs text-slate-700 dark:text-slate-300 px-2 py-0.5 bg-card border border-border rounded-lg font-semibold">{date}</span>
         </div>
         <div className="flex items-center gap-3 mt-2">
-          <p className="text-xs text-muted-foreground">{category}</p>
-          <span className={`text-[10px] uppercase font-bold tracking-wider px-2 py-0.5 rounded ${isCritical ? 'text-red-400 bg-red-500/10 border border-red-500/20' : 'text-amber-400 bg-warning-soft0/10 border border-amber-500/20'}`}>
+          <ExecutiveText as="div" variant="caption" className="text-slate-700 dark:text-slate-300 font-medium">{category}</ExecutiveText>
+          <ExecutiveBadge variant={isCritical ? 'critical' : 'warning'}>
             Severidade {severity}
-          </span>
+          </ExecutiveBadge>
         </div>
       </div>
       <div className="text-right">
-        <span className="text-xs font-semibold text-primary bg-primary px-3 py-1 rounded-full border border-primary">{status}</span>
+        <ExecutiveBadge variant="info">{status}</ExecutiveBadge>
       </div>
     </div>
   );
@@ -243,15 +204,15 @@ function ReportItem({ protocol, category, severity, status, date }: any) {
 function PolicyItem({ title, compliance, status }: { title: string, compliance: string, status: string }) {
   const isAttention = status === 'Atenção';
   return (
-    <div className="p-4 bg-slate-950/40 border border-border/10 rounded-xl flex justify-between items-center">
+    <div className="p-4 bg-muted/20 border border-border/40 rounded-xl flex justify-between items-center">
       <div className="flex items-center gap-3">
         {isAttention ? <AlertOctagon className="w-5 h-5 text-amber-500" /> : <CheckCircle2 className="w-5 h-5 text-emerald-500" />}
-        <span className="text-muted-foreground text-sm font-medium">{title}</span>
+        <ExecutiveText as="span" variant="bodyStandard" className="text-foreground font-semibold">{title}</ExecutiveText>
       </div>
       <div className="flex items-center gap-6">
         <div className="text-right">
-          <div className="text-[10px] text-muted-foreground uppercase tracking-widest mb-1">Aderência</div>
-          <div className={`text-sm font-medium ${isAttention ? 'text-amber-400' : 'text-emerald-400'}`}>{compliance}</div>
+          <ExecutiveText as="div" variant="caption" className="text-slate-700 dark:text-slate-300 uppercase font-bold text-[10px]">Aderência</ExecutiveText>
+          <div className={`text-sm font-bold ${isAttention ? 'text-amber-500' : 'text-emerald-500'}`}>{compliance}</div>
         </div>
       </div>
     </div>
@@ -260,10 +221,10 @@ function PolicyItem({ title, compliance, status }: { title: string, compliance: 
 
 function ESGPillarCard({ title, score }: { title: string, score: number }) {
   return (
-    <div className="bg-slate-950/40 border border-border/10 rounded-xl p-6 text-center shadow-inner">
-      <h3 className="text-sm font-medium text-muted-foreground mb-4">{title}</h3>
-      <div className="text-4xl font-light text-emerald-400">{score}</div>
-      <div className="text-xs text-muted-foreground mt-2">Score de 0 a 100</div>
+    <div className="bg-muted/20 border border-border/40 rounded-xl p-6 text-center">
+      <ExecutiveHeading as="h3" className="text-foreground mb-4">{title}</ExecutiveHeading>
+      <div className="text-4xl font-bold text-emerald-500">{score}</div>
+      <ExecutiveText as="div" variant="caption" className="text-slate-700 dark:text-slate-300 mt-2 font-medium">Score de 0 a 100</ExecutiveText>
     </div>
   );
 }

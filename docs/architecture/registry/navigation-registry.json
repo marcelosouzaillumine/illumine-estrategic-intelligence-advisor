@@ -1,0 +1,3332 @@
+{
+  "version": "2.0.0",
+  "updatedAt": "2026-07-29T12:16:10.462Z",
+  "governanceConstitution": "ARCHITECTURE_CONSTITUTION.md v5.0",
+  "taxonomy": {
+    "PRIMARY": "A. Navegação Primária (Módulo de negócio principal acessível pelo menu lateral)",
+    "CONTEXTUAL": "B. Navegação Contextual (Página-filha acessada apenas por fluxo interno/drill-down/wizard)",
+    "ADMINISTRATION": "C. Administração (Plataforma, engenharia e operações restritas a Master Admin)",
+    "REAL_ORPHAN": "D. Órfã Real (Sem menu, sem fluxo ativo e sem consumidor - candidata à descontinuação)",
+    "CONDITIONAL": "E. Navegação Condicional (Disponível ao usuário final sob condições de licença/role/feature flag)"
+  },
+  "routes": [
+    {
+      "id": "executive_monitoring_center",
+      "component": "ExecutiveMonitoringCenter.tsx",
+      "route": "executive_monitoring_center",
+      "domain": "Governança Corporativa",
+      "navigation": {
+        "category": "PRIMARY",
+        "visibleInSidebar": true,
+        "visibilityType": "SIDEBAR_MENU",
+        "parentGroup": "AppSidebar"
+      },
+      "conditions": {
+        "masterOnly": false,
+        "requiredRole": "CLIENT_EXECUTIVE",
+        "featureFlag": null,
+        "requiredLicense": null
+      },
+      "lifecycle": {
+        "status": "CANONICAL",
+        "owner": "Governance Domain",
+        "since": "v5.0"
+      }
+    },
+    {
+      "id": "esgim_assessment",
+      "component": "ESGIMAssessmentPage.tsx",
+      "route": "esgim_assessment",
+      "domain": "Governança Corporativa",
+      "navigation": {
+        "category": "PRIMARY",
+        "visibleInSidebar": true,
+        "visibilityType": "SIDEBAR_MENU",
+        "parentGroup": "AppSidebar"
+      },
+      "conditions": {
+        "masterOnly": false,
+        "requiredRole": "CLIENT_EXECUTIVE",
+        "featureFlag": null,
+        "requiredLicense": null
+      },
+      "lifecycle": {
+        "status": "CANONICAL",
+        "owner": "Governance Domain",
+        "since": "v5.0"
+      }
+    },
+    {
+      "id": "governance_maturity_center",
+      "component": "GovernanceMaturityCenter.tsx",
+      "route": "governance_maturity_center",
+      "domain": "Governança Corporativa",
+      "navigation": {
+        "category": "PRIMARY",
+        "visibleInSidebar": true,
+        "visibilityType": "SIDEBAR_MENU",
+        "parentGroup": "AppSidebar"
+      },
+      "conditions": {
+        "masterOnly": false,
+        "requiredRole": "CLIENT_EXECUTIVE",
+        "featureFlag": null,
+        "requiredLicense": null
+      },
+      "lifecycle": {
+        "status": "CANONICAL",
+        "owner": "Governance Domain",
+        "since": "v5.0"
+      }
+    },
+    {
+      "id": "fiduciary_validation_center",
+      "component": "FiduciaryValidationCenter.tsx",
+      "route": "fiduciary_validation_center",
+      "domain": "Governança Corporativa",
+      "navigation": {
+        "category": "PRIMARY",
+        "visibleInSidebar": true,
+        "visibilityType": "SIDEBAR_MENU",
+        "parentGroup": "AppSidebar"
+      },
+      "conditions": {
+        "masterOnly": false,
+        "requiredRole": "CLIENT_EXECUTIVE",
+        "featureFlag": null,
+        "requiredLicense": null
+      },
+      "lifecycle": {
+        "status": "CANONICAL",
+        "owner": "Governance Domain",
+        "since": "v5.0"
+      }
+    },
+    {
+      "id": "economic_normalization_center",
+      "component": "EconomicNormalizationCenter.tsx",
+      "route": "economic_normalization_center",
+      "domain": "Governança Corporativa",
+      "navigation": {
+        "category": "PRIMARY",
+        "visibleInSidebar": true,
+        "visibilityType": "SIDEBAR_MENU",
+        "parentGroup": "AppSidebar"
+      },
+      "conditions": {
+        "masterOnly": false,
+        "requiredRole": "CLIENT_EXECUTIVE",
+        "featureFlag": null,
+        "requiredLicense": null
+      },
+      "lifecycle": {
+        "status": "CANONICAL",
+        "owner": "Governance Domain",
+        "since": "v5.0"
+      }
+    },
+    {
+      "id": "capital_governance_center",
+      "component": "CapitalGovernanceCenter.tsx",
+      "route": "capital_governance_center",
+      "domain": "Governança Corporativa",
+      "navigation": {
+        "category": "PRIMARY",
+        "visibleInSidebar": true,
+        "visibilityType": "SIDEBAR_MENU",
+        "parentGroup": "AppSidebar"
+      },
+      "conditions": {
+        "masterOnly": false,
+        "requiredRole": "CLIENT_EXECUTIVE",
+        "featureFlag": null,
+        "requiredLicense": null
+      },
+      "lifecycle": {
+        "status": "CANONICAL",
+        "owner": "Governance Domain",
+        "since": "v5.0"
+      }
+    },
+    {
+      "id": "financial_lineage_center",
+      "component": "FinancialLineageCenter.tsx",
+      "route": "financial_lineage_center",
+      "domain": "Governança Corporativa",
+      "navigation": {
+        "category": "PRIMARY",
+        "visibleInSidebar": true,
+        "visibilityType": "SIDEBAR_MENU",
+        "parentGroup": "AppSidebar"
+      },
+      "conditions": {
+        "masterOnly": false,
+        "requiredRole": "CLIENT_EXECUTIVE",
+        "featureFlag": null,
+        "requiredLicense": null
+      },
+      "lifecycle": {
+        "status": "CANONICAL",
+        "owner": "Governance Domain",
+        "since": "v5.0"
+      }
+    },
+    {
+      "id": "credit_committee_center",
+      "component": "CreditCommitteeCenter.tsx",
+      "route": "credit_committee_center",
+      "domain": "Governança Corporativa",
+      "navigation": {
+        "category": "PRIMARY",
+        "visibleInSidebar": true,
+        "visibilityType": "SIDEBAR_MENU",
+        "parentGroup": "AppSidebar"
+      },
+      "conditions": {
+        "masterOnly": false,
+        "requiredRole": "CLIENT_EXECUTIVE",
+        "featureFlag": null,
+        "requiredLicense": null
+      },
+      "lifecycle": {
+        "status": "CANONICAL",
+        "owner": "Governance Domain",
+        "since": "v5.0"
+      }
+    },
+    {
+      "id": "institutional_memory_center",
+      "component": "InstitutionalMemoryCenter.tsx",
+      "route": "institutional_memory_center",
+      "domain": "Governança Corporativa",
+      "navigation": {
+        "category": "PRIMARY",
+        "visibleInSidebar": true,
+        "visibilityType": "SIDEBAR_MENU",
+        "parentGroup": "AppSidebar"
+      },
+      "conditions": {
+        "masterOnly": false,
+        "requiredRole": "CLIENT_EXECUTIVE",
+        "featureFlag": null,
+        "requiredLicense": null
+      },
+      "lifecycle": {
+        "status": "CANONICAL",
+        "owner": "Governance Domain",
+        "since": "v5.0"
+      }
+    },
+    {
+      "id": "leadership_dna_center",
+      "component": "LeadershipDNACenter.tsx",
+      "route": "leadership_dna_center",
+      "domain": "Governança Corporativa",
+      "navigation": {
+        "category": "PRIMARY",
+        "visibleInSidebar": true,
+        "visibilityType": "SIDEBAR_MENU",
+        "parentGroup": "AppSidebar"
+      },
+      "conditions": {
+        "masterOnly": false,
+        "requiredRole": "CLIENT_EXECUTIVE",
+        "featureFlag": null,
+        "requiredLicense": null
+      },
+      "lifecycle": {
+        "status": "CANONICAL",
+        "owner": "Governance Domain",
+        "since": "v5.0"
+      }
+    },
+    {
+      "id": "institutional_structure_center",
+      "component": "InstitutionalStructureCenter.tsx",
+      "route": "institutional_structure_center",
+      "domain": "Governança Corporativa",
+      "navigation": {
+        "category": "PRIMARY",
+        "visibleInSidebar": true,
+        "visibilityType": "SIDEBAR_MENU",
+        "parentGroup": "AppSidebar"
+      },
+      "conditions": {
+        "masterOnly": false,
+        "requiredRole": "CLIENT_EXECUTIVE",
+        "featureFlag": null,
+        "requiredLicense": null
+      },
+      "lifecycle": {
+        "status": "CANONICAL",
+        "owner": "Governance Domain",
+        "since": "v5.0"
+      }
+    },
+    {
+      "id": "risk_exposure_center",
+      "component": "RiskExposureCenter.tsx",
+      "route": "risk_exposure_center",
+      "domain": "Governança Corporativa",
+      "navigation": {
+        "category": "PRIMARY",
+        "visibleInSidebar": true,
+        "visibilityType": "SIDEBAR_MENU",
+        "parentGroup": "AppSidebar"
+      },
+      "conditions": {
+        "masterOnly": false,
+        "requiredRole": "CLIENT_EXECUTIVE",
+        "featureFlag": null,
+        "requiredLicense": null
+      },
+      "lifecycle": {
+        "status": "CANONICAL",
+        "owner": "Governance Domain",
+        "since": "v5.0"
+      }
+    },
+    {
+      "id": "decision_lifecycle_center",
+      "component": "DecisionLifecycleCenter.tsx",
+      "route": "decision_lifecycle_center",
+      "domain": "Governança Corporativa",
+      "navigation": {
+        "category": "PRIMARY",
+        "visibleInSidebar": true,
+        "visibilityType": "SIDEBAR_MENU",
+        "parentGroup": "AppSidebar"
+      },
+      "conditions": {
+        "masterOnly": false,
+        "requiredRole": "CLIENT_EXECUTIVE",
+        "featureFlag": null,
+        "requiredLicense": null
+      },
+      "lifecycle": {
+        "status": "CANONICAL",
+        "owner": "Governance Domain",
+        "since": "v5.0"
+      }
+    },
+    {
+      "id": "sovereign_decision_center",
+      "component": "SovereignDecisionCenter.tsx",
+      "route": "sovereign_decision_center",
+      "domain": "Governança Corporativa",
+      "navigation": {
+        "category": "PRIMARY",
+        "visibleInSidebar": true,
+        "visibilityType": "SIDEBAR_MENU",
+        "parentGroup": "AppSidebar"
+      },
+      "conditions": {
+        "masterOnly": false,
+        "requiredRole": "CLIENT_EXECUTIVE",
+        "featureFlag": null,
+        "requiredLicense": null
+      },
+      "lifecycle": {
+        "status": "CANONICAL",
+        "owner": "Governance Domain",
+        "since": "v5.0"
+      }
+    },
+    {
+      "id": "executive_execution_center",
+      "component": "ExecutiveExecutionCenter.tsx",
+      "route": "executive_execution_center",
+      "domain": "Governança Corporativa",
+      "navigation": {
+        "category": "PRIMARY",
+        "visibleInSidebar": true,
+        "visibilityType": "SIDEBAR_MENU",
+        "parentGroup": "AppSidebar"
+      },
+      "conditions": {
+        "masterOnly": false,
+        "requiredRole": "CLIENT_EXECUTIVE",
+        "featureFlag": null,
+        "requiredLicense": null
+      },
+      "lifecycle": {
+        "status": "CANONICAL",
+        "owner": "Governance Domain",
+        "since": "v5.0"
+      }
+    },
+    {
+      "id": "crisis_response_center",
+      "component": "CrisisResponseCenter.tsx",
+      "route": "crisis_response_center",
+      "domain": "Platform Operations",
+      "navigation": {
+        "category": "ADMINISTRATION",
+        "visibleInSidebar": true,
+        "visibilityType": "SIDEBAR_MENU",
+        "parentGroup": "AppSidebar"
+      },
+      "conditions": {
+        "masterOnly": true,
+        "requiredRole": "MASTER_ADMIN",
+        "featureFlag": null,
+        "requiredLicense": null
+      },
+      "lifecycle": {
+        "status": "CANONICAL",
+        "owner": "Platform Engineering",
+        "since": "v5.0"
+      }
+    },
+    {
+      "id": "runtime_observability_center",
+      "component": null,
+      "route": "runtime_observability_center",
+      "domain": "Platform Operations",
+      "navigation": {
+        "category": "ADMINISTRATION",
+        "visibleInSidebar": true,
+        "visibilityType": "SIDEBAR_MENU",
+        "parentGroup": "AppSidebar"
+      },
+      "conditions": {
+        "masterOnly": true,
+        "requiredRole": "MASTER_ADMIN",
+        "featureFlag": null,
+        "requiredLicense": null
+      },
+      "lifecycle": {
+        "status": "DEPRECATION_CANDIDATE",
+        "owner": "Platform Engineering",
+        "since": "v5.0"
+      }
+    },
+    {
+      "id": "product_governance_center",
+      "component": null,
+      "route": "product_governance_center",
+      "domain": "Platform Operations",
+      "navigation": {
+        "category": "ADMINISTRATION",
+        "visibleInSidebar": true,
+        "visibilityType": "SIDEBAR_MENU",
+        "parentGroup": "AppSidebar"
+      },
+      "conditions": {
+        "masterOnly": true,
+        "requiredRole": "MASTER_ADMIN",
+        "featureFlag": null,
+        "requiredLicense": null
+      },
+      "lifecycle": {
+        "status": "DEPRECATION_CANDIDATE",
+        "owner": "Platform Engineering",
+        "since": "v5.0"
+      }
+    },
+    {
+      "id": "multi_tenant_governance_center",
+      "component": "MultiTenantGovernanceCenter.tsx",
+      "route": "multi_tenant_governance_center",
+      "domain": "Platform Operations",
+      "navigation": {
+        "category": "ADMINISTRATION",
+        "visibleInSidebar": true,
+        "visibilityType": "SIDEBAR_MENU",
+        "parentGroup": "AppSidebar"
+      },
+      "conditions": {
+        "masterOnly": true,
+        "requiredRole": "MASTER_ADMIN",
+        "featureFlag": null,
+        "requiredLicense": null
+      },
+      "lifecycle": {
+        "status": "CANONICAL",
+        "owner": "Platform Engineering",
+        "since": "v5.0"
+      }
+    },
+    {
+      "id": "advisor_cockpit",
+      "route": "advisor_cockpit",
+      "domain": "Governança Corporativa",
+      "navigation": {
+        "category": "PRIMARY",
+        "visibleInSidebar": false,
+        "visibilityType": "DIRECT_ROUTE",
+        "parentGroup": null
+      },
+      "conditions": {
+        "masterOnly": false,
+        "requiredRole": "CLIENT_EXECUTIVE",
+        "featureFlag": null,
+        "requiredLicense": null
+      },
+      "lifecycle": {
+        "status": "CANONICAL",
+        "owner": "Governance Domain",
+        "since": "v5.0"
+      }
+    },
+    {
+      "id": "tenant_governance",
+      "component": "TenantGovernancePage.tsx",
+      "route": "tenant_governance",
+      "domain": "Platform Operations",
+      "navigation": {
+        "category": "ADMINISTRATION",
+        "visibleInSidebar": false,
+        "visibilityType": "DIRECT_ROUTE",
+        "parentGroup": null
+      },
+      "conditions": {
+        "masterOnly": true,
+        "requiredRole": "MASTER_ADMIN",
+        "featureFlag": null,
+        "requiredLicense": null
+      },
+      "lifecycle": {
+        "status": "CANONICAL",
+        "owner": "Platform Engineering",
+        "since": "v5.0"
+      }
+    },
+    {
+      "id": "runtime_performance",
+      "component": "RuntimePerformancePage.tsx",
+      "route": "runtime_performance",
+      "domain": "Platform Operations",
+      "navigation": {
+        "category": "ADMINISTRATION",
+        "visibleInSidebar": false,
+        "visibilityType": "DIRECT_ROUTE",
+        "parentGroup": null
+      },
+      "conditions": {
+        "masterOnly": true,
+        "requiredRole": "MASTER_ADMIN",
+        "featureFlag": null,
+        "requiredLicense": null
+      },
+      "lifecycle": {
+        "status": "CANONICAL",
+        "owner": "Platform Engineering",
+        "since": "v5.0"
+      }
+    },
+    {
+      "id": "institutional_copilot",
+      "route": "institutional_copilot",
+      "domain": "Governança Corporativa",
+      "navigation": {
+        "category": "PRIMARY",
+        "visibleInSidebar": false,
+        "visibilityType": "DIRECT_ROUTE",
+        "parentGroup": null
+      },
+      "conditions": {
+        "masterOnly": false,
+        "requiredRole": "CLIENT_EXECUTIVE",
+        "featureFlag": null,
+        "requiredLicense": null
+      },
+      "lifecycle": {
+        "status": "CANONICAL",
+        "owner": "Governance Domain",
+        "since": "v5.0"
+      }
+    },
+    {
+      "id": "institutional_monitoring",
+      "route": "institutional_monitoring",
+      "domain": "Governança Corporativa",
+      "navigation": {
+        "category": "PRIMARY",
+        "visibleInSidebar": false,
+        "visibilityType": "DIRECT_ROUTE",
+        "parentGroup": null
+      },
+      "conditions": {
+        "masterOnly": false,
+        "requiredRole": "CLIENT_EXECUTIVE",
+        "featureFlag": null,
+        "requiredLicense": null
+      },
+      "lifecycle": {
+        "status": "CANONICAL",
+        "owner": "Governance Domain",
+        "since": "v5.0"
+      }
+    },
+    {
+      "id": "decision_governance",
+      "route": "decision_governance",
+      "domain": "Governança Corporativa",
+      "navigation": {
+        "category": "CONDITIONAL",
+        "visibleInSidebar": false,
+        "visibilityType": "CONDITIONAL_FEATURE",
+        "parentGroup": null
+      },
+      "conditions": {
+        "masterOnly": false,
+        "requiredRole": "CLIENT_EXECUTIVE",
+        "featureFlag": "FEATURE_DECISION_GOVERNANCE",
+        "requiredLicense": "ENTERPRISE"
+      },
+      "lifecycle": {
+        "status": "EXPERIMENTAL",
+        "owner": "Governance Domain",
+        "since": "v5.0"
+      }
+    },
+    {
+      "id": "institutional_integrations",
+      "route": "institutional_integrations",
+      "domain": "Governança Corporativa",
+      "navigation": {
+        "category": "PRIMARY",
+        "visibleInSidebar": false,
+        "visibilityType": "DIRECT_ROUTE",
+        "parentGroup": null
+      },
+      "conditions": {
+        "masterOnly": false,
+        "requiredRole": "CLIENT_EXECUTIVE",
+        "featureFlag": null,
+        "requiredLicense": null
+      },
+      "lifecycle": {
+        "status": "CANONICAL",
+        "owner": "Governance Domain",
+        "since": "v5.0"
+      }
+    },
+    {
+      "id": "institutional_benchmarking",
+      "route": "institutional_benchmarking",
+      "domain": "Governança Corporativa",
+      "navigation": {
+        "category": "CONDITIONAL",
+        "visibleInSidebar": false,
+        "visibilityType": "CONDITIONAL_FEATURE",
+        "parentGroup": null
+      },
+      "conditions": {
+        "masterOnly": false,
+        "requiredRole": "CLIENT_EXECUTIVE",
+        "featureFlag": "FEATURE_INSTITUTIONAL_BENCHMARKING",
+        "requiredLicense": "ENTERPRISE"
+      },
+      "lifecycle": {
+        "status": "EXPERIMENTAL",
+        "owner": "Governance Domain",
+        "since": "v5.0"
+      }
+    },
+    {
+      "id": "product_governance",
+      "route": "product_governance",
+      "domain": "Governança Corporativa",
+      "navigation": {
+        "category": "PRIMARY",
+        "visibleInSidebar": false,
+        "visibilityType": "DIRECT_ROUTE",
+        "parentGroup": null
+      },
+      "conditions": {
+        "masterOnly": false,
+        "requiredRole": "CLIENT_EXECUTIVE",
+        "featureFlag": null,
+        "requiredLicense": null
+      },
+      "lifecycle": {
+        "status": "CANONICAL",
+        "owner": "Governance Domain",
+        "since": "v5.0"
+      }
+    },
+    {
+      "id": "institutional_knowledge_graph",
+      "route": "institutional_knowledge_graph",
+      "domain": "Governança Corporativa",
+      "navigation": {
+        "category": "CONDITIONAL",
+        "visibleInSidebar": false,
+        "visibilityType": "CONDITIONAL_FEATURE",
+        "parentGroup": null
+      },
+      "conditions": {
+        "masterOnly": false,
+        "requiredRole": "CLIENT_EXECUTIVE",
+        "featureFlag": "FEATURE_INSTITUTIONAL_KNOWLEDGE_GRAPH",
+        "requiredLicense": "ENTERPRISE"
+      },
+      "lifecycle": {
+        "status": "EXPERIMENTAL",
+        "owner": "Governance Domain",
+        "since": "v5.0"
+      }
+    },
+    {
+      "id": "early_warning",
+      "route": "early_warning",
+      "domain": "Governança Corporativa",
+      "navigation": {
+        "category": "CONDITIONAL",
+        "visibleInSidebar": false,
+        "visibilityType": "CONDITIONAL_FEATURE",
+        "parentGroup": null
+      },
+      "conditions": {
+        "masterOnly": false,
+        "requiredRole": "CLIENT_EXECUTIVE",
+        "featureFlag": "FEATURE_EARLY_WARNING",
+        "requiredLicense": "ENTERPRISE"
+      },
+      "lifecycle": {
+        "status": "EXPERIMENTAL",
+        "owner": "Governance Domain",
+        "since": "v5.0"
+      }
+    },
+    {
+      "id": "strategic_simulation",
+      "route": "strategic_simulation",
+      "domain": "Governança Corporativa",
+      "navigation": {
+        "category": "PRIMARY",
+        "visibleInSidebar": false,
+        "visibilityType": "DIRECT_ROUTE",
+        "parentGroup": null
+      },
+      "conditions": {
+        "masterOnly": false,
+        "requiredRole": "CLIENT_EXECUTIVE",
+        "featureFlag": null,
+        "requiredLicense": null
+      },
+      "lifecycle": {
+        "status": "CANONICAL",
+        "owner": "Governance Domain",
+        "since": "v5.0"
+      }
+    },
+    {
+      "id": "governance_orchestration",
+      "component": "GovernanceOrchestrationPage.tsx",
+      "route": "governance_orchestration",
+      "domain": "Platform Operations",
+      "navigation": {
+        "category": "ADMINISTRATION",
+        "visibleInSidebar": true,
+        "visibilityType": "SIDEBAR_MENU",
+        "parentGroup": "AppSidebar"
+      },
+      "conditions": {
+        "masterOnly": true,
+        "requiredRole": "MASTER_ADMIN",
+        "featureFlag": null,
+        "requiredLicense": null
+      },
+      "lifecycle": {
+        "status": "CANONICAL",
+        "owner": "Platform Engineering",
+        "since": "v5.0"
+      }
+    },
+    {
+      "id": "institutional_ios",
+      "component": "InstitutionalIOSPage.tsx",
+      "route": "institutional_ios",
+      "domain": "Platform Operations",
+      "navigation": {
+        "category": "ADMINISTRATION",
+        "visibleInSidebar": true,
+        "visibilityType": "SIDEBAR_MENU",
+        "parentGroup": "AppSidebar"
+      },
+      "conditions": {
+        "masterOnly": true,
+        "requiredRole": "MASTER_ADMIN",
+        "featureFlag": null,
+        "requiredLicense": null
+      },
+      "lifecycle": {
+        "status": "CANONICAL",
+        "owner": "Platform Engineering",
+        "since": "v5.0"
+      }
+    },
+    {
+      "id": "executive_command",
+      "component": "InstitutionalExecutiveCommandCenter.tsx",
+      "route": "executive_command",
+      "domain": "Platform Operations",
+      "navigation": {
+        "category": "ADMINISTRATION",
+        "visibleInSidebar": true,
+        "visibilityType": "SIDEBAR_MENU",
+        "parentGroup": "AppSidebar"
+      },
+      "conditions": {
+        "masterOnly": true,
+        "requiredRole": "MASTER_ADMIN",
+        "featureFlag": null,
+        "requiredLicense": null
+      },
+      "lifecycle": {
+        "status": "CANONICAL",
+        "owner": "Platform Engineering",
+        "since": "v5.0"
+      }
+    },
+    {
+      "id": "operational_governance",
+      "component": null,
+      "route": "operational_governance",
+      "domain": "Governança Corporativa",
+      "navigation": {
+        "category": "PRIMARY",
+        "visibleInSidebar": true,
+        "visibilityType": "SIDEBAR_MENU",
+        "parentGroup": "AppSidebar"
+      },
+      "conditions": {
+        "masterOnly": false,
+        "requiredRole": "CLIENT_EXECUTIVE",
+        "featureFlag": null,
+        "requiredLicense": null
+      },
+      "lifecycle": {
+        "status": "DEPRECATION_CANDIDATE",
+        "owner": "Governance Domain",
+        "since": "v5.0"
+      }
+    },
+    {
+      "id": "strategic_intelligence",
+      "component": "InstitutionalStrategicIntelligencePage.tsx",
+      "route": "strategic_intelligence",
+      "domain": "Governança Corporativa",
+      "navigation": {
+        "category": "PRIMARY",
+        "visibleInSidebar": true,
+        "visibilityType": "SIDEBAR_MENU",
+        "parentGroup": "AppSidebar"
+      },
+      "conditions": {
+        "masterOnly": false,
+        "requiredRole": "CLIENT_EXECUTIVE",
+        "featureFlag": null,
+        "requiredLicense": null
+      },
+      "lifecycle": {
+        "status": "CANONICAL",
+        "owner": "Governance Domain",
+        "since": "v5.0"
+      }
+    },
+    {
+      "id": "institutional_board_pack",
+      "component": "InstitutionalBoardPackPage.tsx",
+      "route": "institutional_board_pack",
+      "domain": "Governança Corporativa",
+      "navigation": {
+        "category": "PRIMARY",
+        "visibleInSidebar": true,
+        "visibilityType": "SIDEBAR_MENU",
+        "parentGroup": "AppSidebar"
+      },
+      "conditions": {
+        "masterOnly": false,
+        "requiredRole": "CLIENT_EXECUTIVE",
+        "featureFlag": null,
+        "requiredLicense": null
+      },
+      "lifecycle": {
+        "status": "CANONICAL",
+        "owner": "Governance Domain",
+        "since": "v5.0"
+      }
+    },
+    {
+      "id": "institutional_continuity",
+      "component": "InstitutionalContinuityCockpitPage.tsx",
+      "route": "institutional_continuity",
+      "domain": "Governança Corporativa",
+      "navigation": {
+        "category": "PRIMARY",
+        "visibleInSidebar": true,
+        "visibilityType": "SIDEBAR_MENU",
+        "parentGroup": "AppSidebar"
+      },
+      "conditions": {
+        "masterOnly": false,
+        "requiredRole": "CLIENT_EXECUTIVE",
+        "featureFlag": null,
+        "requiredLicense": null
+      },
+      "lifecycle": {
+        "status": "CANONICAL",
+        "owner": "Governance Domain",
+        "since": "v5.0"
+      }
+    },
+    {
+      "id": "deployment_readiness",
+      "component": "InstitutionalDeploymentReadinessPage.tsx",
+      "route": "deployment_readiness",
+      "domain": "Platform Operations",
+      "navigation": {
+        "category": "ADMINISTRATION",
+        "visibleInSidebar": true,
+        "visibilityType": "SIDEBAR_MENU",
+        "parentGroup": "AppSidebar"
+      },
+      "conditions": {
+        "masterOnly": true,
+        "requiredRole": "MASTER_ADMIN",
+        "featureFlag": null,
+        "requiredLicense": null
+      },
+      "lifecycle": {
+        "status": "CANONICAL",
+        "owner": "Platform Engineering",
+        "since": "v5.0"
+      }
+    },
+    {
+      "id": "institutional_onboarding",
+      "component": "InstitutionalOnboardingControlCenterPage.tsx",
+      "route": "institutional_onboarding",
+      "domain": "Platform Operations",
+      "navigation": {
+        "category": "ADMINISTRATION",
+        "visibleInSidebar": true,
+        "visibilityType": "SIDEBAR_MENU",
+        "parentGroup": "AppSidebar"
+      },
+      "conditions": {
+        "masterOnly": true,
+        "requiredRole": "MASTER_ADMIN",
+        "featureFlag": null,
+        "requiredLicense": null
+      },
+      "lifecycle": {
+        "status": "CANONICAL",
+        "owner": "Platform Engineering",
+        "since": "v5.0"
+      }
+    },
+    {
+      "id": "enterprise_validation",
+      "route": "enterprise_validation",
+      "domain": "Governança Corporativa",
+      "navigation": {
+        "category": "PRIMARY",
+        "visibleInSidebar": false,
+        "visibilityType": "DIRECT_ROUTE",
+        "parentGroup": null
+      },
+      "conditions": {
+        "masterOnly": false,
+        "requiredRole": "CLIENT_EXECUTIVE",
+        "featureFlag": null,
+        "requiredLicense": null
+      },
+      "lifecycle": {
+        "status": "CANONICAL",
+        "owner": "Governance Domain",
+        "since": "v5.0"
+      }
+    },
+    {
+      "id": "reality_validation",
+      "route": "reality_validation",
+      "domain": "Governança Corporativa",
+      "navigation": {
+        "category": "PRIMARY",
+        "visibleInSidebar": false,
+        "visibilityType": "DIRECT_ROUTE",
+        "parentGroup": null
+      },
+      "conditions": {
+        "masterOnly": false,
+        "requiredRole": "CLIENT_EXECUTIVE",
+        "featureFlag": null,
+        "requiredLicense": null
+      },
+      "lifecycle": {
+        "status": "CANONICAL",
+        "owner": "Governance Domain",
+        "since": "v5.0"
+      }
+    },
+    {
+      "id": "institutional_reports",
+      "route": "institutional_reports",
+      "domain": "Governança Corporativa",
+      "navigation": {
+        "category": "PRIMARY",
+        "visibleInSidebar": false,
+        "visibilityType": "DIRECT_ROUTE",
+        "parentGroup": null
+      },
+      "conditions": {
+        "masterOnly": false,
+        "requiredRole": "CLIENT_EXECUTIVE",
+        "featureFlag": null,
+        "requiredLicense": null
+      },
+      "lifecycle": {
+        "status": "CANONICAL",
+        "owner": "Governance Domain",
+        "since": "v5.0"
+      }
+    },
+    {
+      "id": "partner_brand_configuration",
+      "component": "PartnerBrandConfigurationPage.tsx",
+      "route": "partner_brand_configuration",
+      "domain": "Governança Corporativa",
+      "navigation": {
+        "category": "PRIMARY",
+        "visibleInSidebar": true,
+        "visibilityType": "SIDEBAR_MENU",
+        "parentGroup": "AppSidebar"
+      },
+      "conditions": {
+        "masterOnly": false,
+        "requiredRole": "CLIENT_EXECUTIVE",
+        "featureFlag": null,
+        "requiredLicense": null
+      },
+      "lifecycle": {
+        "status": "CANONICAL",
+        "owner": "Governance Domain",
+        "since": "v5.0"
+      }
+    },
+    {
+      "id": "runtime_observability",
+      "component": "RuntimeObservabilityPage.tsx",
+      "route": "runtime_observability",
+      "domain": "Platform Operations",
+      "navigation": {
+        "category": "ADMINISTRATION",
+        "visibleInSidebar": false,
+        "visibilityType": "DIRECT_ROUTE",
+        "parentGroup": null
+      },
+      "conditions": {
+        "masterOnly": true,
+        "requiredRole": "MASTER_ADMIN",
+        "featureFlag": null,
+        "requiredLicense": null
+      },
+      "lifecycle": {
+        "status": "CANONICAL",
+        "owner": "Platform Engineering",
+        "since": "v5.0"
+      }
+    },
+    {
+      "id": "admin_grupos",
+      "component": "ConsolidatedGroupAdminPage.tsx",
+      "route": "admin_grupos",
+      "domain": "Platform Operations",
+      "navigation": {
+        "category": "ADMINISTRATION",
+        "visibleInSidebar": false,
+        "visibilityType": "DIRECT_ROUTE",
+        "parentGroup": null
+      },
+      "conditions": {
+        "masterOnly": true,
+        "requiredRole": "MASTER_ADMIN",
+        "featureFlag": null,
+        "requiredLicense": null
+      },
+      "lifecycle": {
+        "status": "CANONICAL",
+        "owner": "Platform Engineering",
+        "since": "v5.0"
+      }
+    },
+    {
+      "id": "consolidated_executive",
+      "component": "ConsolidatedExecutivePage.tsx",
+      "route": "consolidated_executive",
+      "domain": "Governança Corporativa",
+      "navigation": {
+        "category": "PRIMARY",
+        "visibleInSidebar": true,
+        "visibilityType": "SIDEBAR_MENU",
+        "parentGroup": "AppSidebar"
+      },
+      "conditions": {
+        "masterOnly": false,
+        "requiredRole": "CLIENT_EXECUTIVE",
+        "featureFlag": null,
+        "requiredLicense": null
+      },
+      "lifecycle": {
+        "status": "CANONICAL",
+        "owner": "Governance Domain",
+        "since": "v5.0"
+      }
+    },
+    {
+      "id": "board_governance",
+      "component": null,
+      "route": "board_governance",
+      "domain": "Governança Corporativa",
+      "navigation": {
+        "category": "REAL_ORPHAN",
+        "visibleInSidebar": false,
+        "visibilityType": "DIRECT_ROUTE",
+        "parentGroup": null
+      },
+      "conditions": {
+        "masterOnly": false,
+        "requiredRole": "CLIENT_EXECUTIVE",
+        "featureFlag": null,
+        "requiredLicense": null
+      },
+      "lifecycle": {
+        "status": "DEPRECATION_CANDIDATE",
+        "owner": "Governance Domain",
+        "since": "v5.0"
+      }
+    },
+    {
+      "id": "war_room",
+      "component": "InstitutionalWarRoomPage.tsx",
+      "route": "war_room",
+      "domain": "Platform Operations",
+      "navigation": {
+        "category": "ADMINISTRATION",
+        "visibleInSidebar": false,
+        "visibilityType": "DIRECT_ROUTE",
+        "parentGroup": null
+      },
+      "conditions": {
+        "masterOnly": true,
+        "requiredRole": "MASTER_ADMIN",
+        "featureFlag": null,
+        "requiredLicense": null
+      },
+      "lifecycle": {
+        "status": "CANONICAL",
+        "owner": "Platform Engineering",
+        "since": "v5.0"
+      }
+    },
+    {
+      "id": "admin",
+      "component": null,
+      "route": "admin",
+      "domain": "Governança Corporativa",
+      "navigation": {
+        "category": "REAL_ORPHAN",
+        "visibleInSidebar": false,
+        "visibilityType": "DIRECT_ROUTE",
+        "parentGroup": null
+      },
+      "conditions": {
+        "masterOnly": false,
+        "requiredRole": "CLIENT_EXECUTIVE",
+        "featureFlag": null,
+        "requiredLicense": null
+      },
+      "lifecycle": {
+        "status": "DEPRECATION_CANDIDATE",
+        "owner": "Governance Domain",
+        "since": "v5.0"
+      }
+    },
+    {
+      "id": "upload",
+      "component": null,
+      "route": "upload",
+      "domain": "Governança Corporativa",
+      "navigation": {
+        "category": "REAL_ORPHAN",
+        "visibleInSidebar": false,
+        "visibilityType": "DIRECT_ROUTE",
+        "parentGroup": null
+      },
+      "conditions": {
+        "masterOnly": false,
+        "requiredRole": "CLIENT_EXECUTIVE",
+        "featureFlag": null,
+        "requiredLicense": null
+      },
+      "lifecycle": {
+        "status": "DEPRECATION_CANDIDATE",
+        "owner": "Governance Domain",
+        "since": "v5.0"
+      }
+    },
+    {
+      "id": "cleanup",
+      "component": "CleanupTool.tsx",
+      "route": "cleanup",
+      "domain": "Governança Corporativa",
+      "navigation": {
+        "category": "REAL_ORPHAN",
+        "visibleInSidebar": false,
+        "visibilityType": "DIRECT_ROUTE",
+        "parentGroup": null
+      },
+      "conditions": {
+        "masterOnly": false,
+        "requiredRole": "CLIENT_EXECUTIVE",
+        "featureFlag": null,
+        "requiredLicense": null
+      },
+      "lifecycle": {
+        "status": "DEPRECATION_CANDIDATE",
+        "owner": "Governance Domain",
+        "since": "v5.0"
+      }
+    },
+    {
+      "id": "portfolio",
+      "component": "PortfolioPage.tsx",
+      "route": "portfolio",
+      "domain": "Governança Corporativa",
+      "navigation": {
+        "category": "PRIMARY",
+        "visibleInSidebar": true,
+        "visibilityType": "SIDEBAR_MENU",
+        "parentGroup": "AppSidebar"
+      },
+      "conditions": {
+        "masterOnly": false,
+        "requiredRole": "CLIENT_EXECUTIVE",
+        "featureFlag": null,
+        "requiredLicense": null
+      },
+      "lifecycle": {
+        "status": "CANONICAL",
+        "owner": "Governance Domain",
+        "since": "v5.0"
+      }
+    },
+    {
+      "id": "efos",
+      "component": "EFOSPage.tsx",
+      "route": "efos",
+      "domain": "Governança Corporativa",
+      "navigation": {
+        "category": "PRIMARY",
+        "visibleInSidebar": true,
+        "visibilityType": "SIDEBAR_MENU",
+        "parentGroup": "AppSidebar"
+      },
+      "conditions": {
+        "masterOnly": false,
+        "requiredRole": "CLIENT_EXECUTIVE",
+        "featureFlag": null,
+        "requiredLicense": null
+      },
+      "lifecycle": {
+        "status": "CANONICAL",
+        "owner": "Governance Domain",
+        "since": "v5.0"
+      }
+    },
+    {
+      "id": "indicadores",
+      "component": "IndicatorsPage.tsx",
+      "route": "indicadores",
+      "domain": "Governança Corporativa",
+      "navigation": {
+        "category": "PRIMARY",
+        "visibleInSidebar": true,
+        "visibilityType": "SIDEBAR_MENU",
+        "parentGroup": "AppSidebar"
+      },
+      "conditions": {
+        "masterOnly": false,
+        "requiredRole": "CLIENT_EXECUTIVE",
+        "featureFlag": null,
+        "requiredLicense": null
+      },
+      "lifecycle": {
+        "status": "CANONICAL",
+        "owner": "Governance Domain",
+        "since": "v5.0"
+      }
+    },
+    {
+      "id": "dre",
+      "component": "DREPage.tsx",
+      "route": "dre",
+      "domain": "Finanças & Contabilidade",
+      "navigation": {
+        "category": "PRIMARY",
+        "visibleInSidebar": true,
+        "visibilityType": "SIDEBAR_MENU",
+        "parentGroup": "AppSidebar"
+      },
+      "conditions": {
+        "masterOnly": false,
+        "requiredRole": "CLIENT_EXECUTIVE",
+        "featureFlag": null,
+        "requiredLicense": null
+      },
+      "lifecycle": {
+        "status": "CANONICAL",
+        "owner": "Finance Domain",
+        "since": "v5.0"
+      }
+    },
+    {
+      "id": "bp",
+      "component": "BalanceSheetPage.tsx",
+      "route": "bp",
+      "domain": "Finanças & Contabilidade",
+      "navigation": {
+        "category": "PRIMARY",
+        "visibleInSidebar": false,
+        "visibilityType": "DIRECT_ROUTE",
+        "parentGroup": null
+      },
+      "conditions": {
+        "masterOnly": false,
+        "requiredRole": "CLIENT_EXECUTIVE",
+        "featureFlag": null,
+        "requiredLicense": null
+      },
+      "lifecycle": {
+        "status": "CANONICAL",
+        "owner": "Finance Domain",
+        "since": "v5.0"
+      }
+    },
+    {
+      "id": "caixa",
+      "component": "CashFlowPage.tsx",
+      "route": "caixa",
+      "domain": "Finanças & Contabilidade",
+      "navigation": {
+        "category": "PRIMARY",
+        "visibleInSidebar": true,
+        "visibilityType": "SIDEBAR_MENU",
+        "parentGroup": "AppSidebar"
+      },
+      "conditions": {
+        "masterOnly": false,
+        "requiredRole": "CLIENT_EXECUTIVE",
+        "featureFlag": null,
+        "requiredLicense": null
+      },
+      "lifecycle": {
+        "status": "CANONICAL",
+        "owner": "Finance Domain",
+        "since": "v5.0"
+      }
+    },
+    {
+      "id": "viabilidade",
+      "component": "ViabilityPage.tsx",
+      "route": "viabilidade",
+      "domain": "Gestão de Inovação",
+      "navigation": {
+        "category": "PRIMARY",
+        "visibleInSidebar": true,
+        "visibilityType": "SIDEBAR_MENU",
+        "parentGroup": "AppSidebar"
+      },
+      "conditions": {
+        "masterOnly": false,
+        "requiredRole": "CLIENT_EXECUTIVE",
+        "featureFlag": null,
+        "requiredLicense": null
+      },
+      "lifecycle": {
+        "status": "CANONICAL",
+        "owner": "Operations Domain",
+        "since": "v5.0"
+      }
+    },
+    {
+      "id": "clientes",
+      "component": "ClientsPage.tsx",
+      "route": "clientes",
+      "domain": "Governança Corporativa",
+      "navigation": {
+        "category": "PRIMARY",
+        "visibleInSidebar": true,
+        "visibilityType": "SIDEBAR_MENU",
+        "parentGroup": "AppSidebar"
+      },
+      "conditions": {
+        "masterOnly": false,
+        "requiredRole": "CLIENT_EXECUTIVE",
+        "featureFlag": null,
+        "requiredLicense": null
+      },
+      "lifecycle": {
+        "status": "CANONICAL",
+        "owner": "Governance Domain",
+        "since": "v5.0"
+      }
+    },
+    {
+      "id": "premissas_cliente",
+      "component": "PremissasClientePage.tsx",
+      "route": "premissas_cliente",
+      "domain": "Governança Corporativa",
+      "navigation": {
+        "category": "CONTEXTUAL",
+        "visibleInSidebar": false,
+        "visibilityType": "INTERNAL_FLOW",
+        "parentGroup": null
+      },
+      "conditions": {
+        "masterOnly": false,
+        "requiredRole": "CLIENT_EXECUTIVE",
+        "featureFlag": null,
+        "requiredLicense": null
+      },
+      "lifecycle": {
+        "status": "CANONICAL",
+        "owner": "Governance Domain",
+        "since": "v5.0"
+      }
+    },
+    {
+      "id": "premissas_tributarias",
+      "component": "PremissasTributariasPage.tsx",
+      "route": "premissas_tributarias",
+      "domain": "Governança Corporativa",
+      "navigation": {
+        "category": "CONTEXTUAL",
+        "visibleInSidebar": false,
+        "visibilityType": "INTERNAL_FLOW",
+        "parentGroup": null
+      },
+      "conditions": {
+        "masterOnly": false,
+        "requiredRole": "CLIENT_EXECUTIVE",
+        "featureFlag": null,
+        "requiredLicense": null
+      },
+      "lifecycle": {
+        "status": "CANONICAL",
+        "owner": "Governance Domain",
+        "since": "v5.0"
+      }
+    },
+    {
+      "id": "premissas_economicas",
+      "component": "PremissasEconomicasPage.tsx",
+      "route": "premissas_economicas",
+      "domain": "Governança Corporativa",
+      "navigation": {
+        "category": "PRIMARY",
+        "visibleInSidebar": true,
+        "visibilityType": "SIDEBAR_MENU",
+        "parentGroup": "AppSidebar"
+      },
+      "conditions": {
+        "masterOnly": false,
+        "requiredRole": "CLIENT_EXECUTIVE",
+        "featureFlag": null,
+        "requiredLicense": null
+      },
+      "lifecycle": {
+        "status": "CANONICAL",
+        "owner": "Governance Domain",
+        "since": "v5.0"
+      }
+    },
+    {
+      "id": "emprestimos",
+      "component": "LoansPage.tsx",
+      "route": "emprestimos",
+      "domain": "Finanças & Contabilidade",
+      "navigation": {
+        "category": "PRIMARY",
+        "visibleInSidebar": true,
+        "visibilityType": "SIDEBAR_MENU",
+        "parentGroup": "AppSidebar"
+      },
+      "conditions": {
+        "masterOnly": false,
+        "requiredRole": "CLIENT_EXECUTIVE",
+        "featureFlag": null,
+        "requiredLicense": null
+      },
+      "lifecycle": {
+        "status": "CANONICAL",
+        "owner": "Finance Domain",
+        "since": "v5.0"
+      }
+    },
+    {
+      "id": "analise_financeira",
+      "component": "AnaliseFinanceiraPage.tsx",
+      "route": "analise_financeira",
+      "domain": "Finanças & Contabilidade",
+      "navigation": {
+        "category": "PRIMARY",
+        "visibleInSidebar": true,
+        "visibilityType": "SIDEBAR_MENU",
+        "parentGroup": "AppSidebar"
+      },
+      "conditions": {
+        "masterOnly": false,
+        "requiredRole": "CLIENT_EXECUTIVE",
+        "featureFlag": null,
+        "requiredLicense": null
+      },
+      "lifecycle": {
+        "status": "CANONICAL",
+        "owner": "Finance Domain",
+        "since": "v5.0"
+      }
+    },
+    {
+      "id": "valuation",
+      "component": "ValuationPage.tsx",
+      "route": "valuation",
+      "domain": "Finanças & Contabilidade",
+      "navigation": {
+        "category": "CONDITIONAL",
+        "visibleInSidebar": false,
+        "visibilityType": "CONDITIONAL_FEATURE",
+        "parentGroup": null
+      },
+      "conditions": {
+        "masterOnly": false,
+        "requiredRole": "CLIENT_EXECUTIVE",
+        "featureFlag": "FEATURE_VALUATION",
+        "requiredLicense": "ENTERPRISE"
+      },
+      "lifecycle": {
+        "status": "EXPERIMENTAL",
+        "owner": "Finance Domain",
+        "since": "v5.0"
+      }
+    },
+    {
+      "id": "modelagem",
+      "component": "FinancialModelingPage.tsx",
+      "route": "modelagem",
+      "domain": "Finanças & Contabilidade",
+      "navigation": {
+        "category": "PRIMARY",
+        "visibleInSidebar": true,
+        "visibilityType": "SIDEBAR_MENU",
+        "parentGroup": "AppSidebar"
+      },
+      "conditions": {
+        "masterOnly": false,
+        "requiredRole": "CLIENT_EXECUTIVE",
+        "featureFlag": null,
+        "requiredLicense": null
+      },
+      "lifecycle": {
+        "status": "CANONICAL",
+        "owner": "Finance Domain",
+        "since": "v5.0"
+      }
+    },
+    {
+      "id": "dre_gerencial",
+      "component": "DreGerencialPage.tsx",
+      "route": "dre_gerencial",
+      "domain": "Finanças & Contabilidade",
+      "navigation": {
+        "category": "PRIMARY",
+        "visibleInSidebar": true,
+        "visibilityType": "SIDEBAR_MENU",
+        "parentGroup": "AppSidebar"
+      },
+      "conditions": {
+        "masterOnly": false,
+        "requiredRole": "CLIENT_EXECUTIVE",
+        "featureFlag": null,
+        "requiredLicense": null
+      },
+      "lifecycle": {
+        "status": "CANONICAL",
+        "owner": "Finance Domain",
+        "since": "v5.0"
+      }
+    },
+    {
+      "id": "dlpa",
+      "component": "DLPAPage.tsx",
+      "route": "dlpa",
+      "domain": "Finanças & Contabilidade",
+      "navigation": {
+        "category": "PRIMARY",
+        "visibleInSidebar": true,
+        "visibilityType": "SIDEBAR_MENU",
+        "parentGroup": "AppSidebar"
+      },
+      "conditions": {
+        "masterOnly": false,
+        "requiredRole": "CLIENT_EXECUTIVE",
+        "featureFlag": null,
+        "requiredLicense": null
+      },
+      "lifecycle": {
+        "status": "CANONICAL",
+        "owner": "Finance Domain",
+        "since": "v5.0"
+      }
+    },
+    {
+      "id": "dfc",
+      "component": "DFCPage.tsx",
+      "route": "dfc",
+      "domain": "Finanças & Contabilidade",
+      "navigation": {
+        "category": "PRIMARY",
+        "visibleInSidebar": true,
+        "visibilityType": "SIDEBAR_MENU",
+        "parentGroup": "AppSidebar"
+      },
+      "conditions": {
+        "masterOnly": false,
+        "requiredRole": "CLIENT_EXECUTIVE",
+        "featureFlag": null,
+        "requiredLicense": null
+      },
+      "lifecycle": {
+        "status": "CANONICAL",
+        "owner": "Finance Domain",
+        "since": "v5.0"
+      }
+    },
+    {
+      "id": "pessoal",
+      "component": "PayrollDashboard.tsx",
+      "route": "pessoal",
+      "domain": "Governança Corporativa",
+      "navigation": {
+        "category": "REAL_ORPHAN",
+        "visibleInSidebar": false,
+        "visibilityType": "DIRECT_ROUTE",
+        "parentGroup": null
+      },
+      "conditions": {
+        "masterOnly": false,
+        "requiredRole": "CLIENT_EXECUTIVE",
+        "featureFlag": null,
+        "requiredLicense": null
+      },
+      "lifecycle": {
+        "status": "COMPATIBILITY",
+        "owner": "Governance Domain",
+        "since": "v5.0"
+      }
+    },
+    {
+      "id": "contas_pagar",
+      "component": "PayablesPage.tsx",
+      "route": "contas_pagar",
+      "domain": "Finanças & Contabilidade",
+      "navigation": {
+        "category": "PRIMARY",
+        "visibleInSidebar": true,
+        "visibilityType": "SIDEBAR_MENU",
+        "parentGroup": "AppSidebar"
+      },
+      "conditions": {
+        "masterOnly": false,
+        "requiredRole": "CLIENT_EXECUTIVE",
+        "featureFlag": null,
+        "requiredLicense": null
+      },
+      "lifecycle": {
+        "status": "CANONICAL",
+        "owner": "Finance Domain",
+        "since": "v5.0"
+      }
+    },
+    {
+      "id": "contas_receber",
+      "component": "ReceivablesPage.tsx",
+      "route": "contas_receber",
+      "domain": "Finanças & Contabilidade",
+      "navigation": {
+        "category": "PRIMARY",
+        "visibleInSidebar": true,
+        "visibilityType": "SIDEBAR_MENU",
+        "parentGroup": "AppSidebar"
+      },
+      "conditions": {
+        "masterOnly": false,
+        "requiredRole": "CLIENT_EXECUTIVE",
+        "featureFlag": null,
+        "requiredLicense": null
+      },
+      "lifecycle": {
+        "status": "CANONICAL",
+        "owner": "Finance Domain",
+        "since": "v5.0"
+      }
+    },
+    {
+      "id": "plano_contas",
+      "component": "PlanoDeContasPage.tsx",
+      "route": "plano_contas",
+      "domain": "Finanças & Contabilidade",
+      "navigation": {
+        "category": "PRIMARY",
+        "visibleInSidebar": true,
+        "visibilityType": "SIDEBAR_MENU",
+        "parentGroup": "AppSidebar"
+      },
+      "conditions": {
+        "masterOnly": false,
+        "requiredRole": "CLIENT_EXECUTIVE",
+        "featureFlag": null,
+        "requiredLicense": null
+      },
+      "lifecycle": {
+        "status": "CANONICAL",
+        "owner": "Finance Domain",
+        "since": "v5.0"
+      }
+    },
+    {
+      "id": "plano_contas_gerencial",
+      "component": "PlanoDeContasPage.tsx",
+      "route": "plano_contas_gerencial",
+      "domain": "Finanças & Contabilidade",
+      "navigation": {
+        "category": "PRIMARY",
+        "visibleInSidebar": true,
+        "visibilityType": "SIDEBAR_MENU",
+        "parentGroup": "AppSidebar"
+      },
+      "conditions": {
+        "masterOnly": false,
+        "requiredRole": "CLIENT_EXECUTIVE",
+        "featureFlag": null,
+        "requiredLicense": null
+      },
+      "lifecycle": {
+        "status": "CANONICAL",
+        "owner": "Finance Domain",
+        "since": "v5.0"
+      }
+    },
+    {
+      "id": "compras",
+      "component": "PurchasingPage.tsx",
+      "route": "compras",
+      "domain": "Gestão Operacional",
+      "navigation": {
+        "category": "PRIMARY",
+        "visibleInSidebar": true,
+        "visibilityType": "SIDEBAR_MENU",
+        "parentGroup": "AppSidebar"
+      },
+      "conditions": {
+        "masterOnly": false,
+        "requiredRole": "CLIENT_EXECUTIVE",
+        "featureFlag": null,
+        "requiredLicense": null
+      },
+      "lifecycle": {
+        "status": "CANONICAL",
+        "owner": "Core Architecture",
+        "since": "v5.0"
+      }
+    },
+    {
+      "id": "posicao_financeira",
+      "component": "FinancialPositionPage.tsx",
+      "route": "posicao_financeira",
+      "domain": "Finanças & Contabilidade",
+      "navigation": {
+        "category": "PRIMARY",
+        "visibleInSidebar": true,
+        "visibilityType": "SIDEBAR_MENU",
+        "parentGroup": "AppSidebar"
+      },
+      "conditions": {
+        "masterOnly": false,
+        "requiredRole": "CLIENT_EXECUTIVE",
+        "featureFlag": null,
+        "requiredLicense": null
+      },
+      "lifecycle": {
+        "status": "CANONICAL",
+        "owner": "Finance Domain",
+        "since": "v5.0"
+      }
+    },
+    {
+      "id": "ativos_financeiros",
+      "component": "AssetManagementPage.tsx",
+      "route": "ativos_financeiros",
+      "domain": "Finanças & Contabilidade",
+      "navigation": {
+        "category": "PRIMARY",
+        "visibleInSidebar": true,
+        "visibilityType": "SIDEBAR_MENU",
+        "parentGroup": "AppSidebar"
+      },
+      "conditions": {
+        "masterOnly": false,
+        "requiredRole": "CLIENT_EXECUTIVE",
+        "featureFlag": null,
+        "requiredLicense": null
+      },
+      "lifecycle": {
+        "status": "CANONICAL",
+        "owner": "Finance Domain",
+        "since": "v5.0"
+      }
+    },
+    {
+      "id": "advisory_insights",
+      "component": "AdvisoryInsightsPage.tsx",
+      "route": "advisory_insights",
+      "domain": "Governança Corporativa",
+      "navigation": {
+        "category": "CONDITIONAL",
+        "visibleInSidebar": false,
+        "visibilityType": "CONDITIONAL_FEATURE",
+        "parentGroup": null
+      },
+      "conditions": {
+        "masterOnly": false,
+        "requiredRole": "CLIENT_EXECUTIVE",
+        "featureFlag": "FEATURE_ADVISORY_INSIGHTS",
+        "requiredLicense": "ENTERPRISE"
+      },
+      "lifecycle": {
+        "status": "EXPERIMENTAL",
+        "owner": "Governance Domain",
+        "since": "v5.0"
+      }
+    },
+    {
+      "id": "plano_acao",
+      "component": "PlanoAcaoPage.tsx",
+      "route": "plano_acao",
+      "domain": "Governança Corporativa",
+      "navigation": {
+        "category": "PRIMARY",
+        "visibleInSidebar": true,
+        "visibilityType": "SIDEBAR_MENU",
+        "parentGroup": "AppSidebar"
+      },
+      "conditions": {
+        "masterOnly": false,
+        "requiredRole": "CLIENT_EXECUTIVE",
+        "featureFlag": null,
+        "requiredLicense": null
+      },
+      "lifecycle": {
+        "status": "CANONICAL",
+        "owner": "Governance Domain",
+        "since": "v5.0"
+      }
+    },
+    {
+      "id": "tax_reform_impact",
+      "component": "TaxReformImpactPage.tsx",
+      "route": "tax_reform_impact",
+      "domain": "Finanças & Contabilidade",
+      "navigation": {
+        "category": "PRIMARY",
+        "visibleInSidebar": true,
+        "visibilityType": "SIDEBAR_MENU",
+        "parentGroup": "AppSidebar"
+      },
+      "conditions": {
+        "masterOnly": false,
+        "requiredRole": "CLIENT_EXECUTIVE",
+        "featureFlag": null,
+        "requiredLicense": null
+      },
+      "lifecycle": {
+        "status": "CANONICAL",
+        "owner": "Finance Domain",
+        "since": "v5.0"
+      }
+    },
+    {
+      "id": "simulador_capital",
+      "component": "LoanInvestmentSimPage.tsx",
+      "route": "simulador_capital",
+      "domain": "Finanças & Contabilidade",
+      "navigation": {
+        "category": "PRIMARY",
+        "visibleInSidebar": true,
+        "visibilityType": "SIDEBAR_MENU",
+        "parentGroup": "AppSidebar"
+      },
+      "conditions": {
+        "masterOnly": false,
+        "requiredRole": "CLIENT_EXECUTIVE",
+        "featureFlag": null,
+        "requiredLicense": null
+      },
+      "lifecycle": {
+        "status": "CANONICAL",
+        "owner": "Finance Domain",
+        "since": "v5.0"
+      }
+    },
+    {
+      "id": "diretrizes",
+      "component": "DiretrizesPage.tsx",
+      "route": "diretrizes",
+      "domain": "Governança Corporativa",
+      "navigation": {
+        "category": "CONDITIONAL",
+        "visibleInSidebar": false,
+        "visibilityType": "CONDITIONAL_FEATURE",
+        "parentGroup": null
+      },
+      "conditions": {
+        "masterOnly": false,
+        "requiredRole": "CLIENT_EXECUTIVE",
+        "featureFlag": "FEATURE_DIRETRIZES",
+        "requiredLicense": "ENTERPRISE"
+      },
+      "lifecycle": {
+        "status": "EXPERIMENTAL",
+        "owner": "Governance Domain",
+        "since": "v5.0"
+      }
+    },
+    {
+      "id": "diagnostico",
+      "component": "DiagnosticoPage.tsx",
+      "route": "diagnostico",
+      "domain": "Governança Corporativa",
+      "navigation": {
+        "category": "CONDITIONAL",
+        "visibleInSidebar": false,
+        "visibilityType": "CONDITIONAL_FEATURE",
+        "parentGroup": null
+      },
+      "conditions": {
+        "masterOnly": false,
+        "requiredRole": "CLIENT_EXECUTIVE",
+        "featureFlag": "FEATURE_DIAGNOSTICO",
+        "requiredLicense": "ENTERPRISE"
+      },
+      "lifecycle": {
+        "status": "EXPERIMENTAL",
+        "owner": "Governance Domain",
+        "since": "v5.0"
+      }
+    },
+    {
+      "id": "okrs",
+      "component": "OKRsPage.tsx",
+      "route": "okrs",
+      "domain": "Governança Corporativa",
+      "navigation": {
+        "category": "PRIMARY",
+        "visibleInSidebar": false,
+        "visibilityType": "DIRECT_ROUTE",
+        "parentGroup": null
+      },
+      "conditions": {
+        "masterOnly": false,
+        "requiredRole": "CLIENT_EXECUTIVE",
+        "featureFlag": null,
+        "requiredLicense": null
+      },
+      "lifecycle": {
+        "status": "CANONICAL",
+        "owner": "Governance Domain",
+        "since": "v5.0"
+      }
+    },
+    {
+      "id": "precificacao",
+      "component": "PrecificacaoPage.tsx",
+      "route": "precificacao",
+      "domain": "Gestão Comercial",
+      "navigation": {
+        "category": "PRIMARY",
+        "visibleInSidebar": true,
+        "visibilityType": "SIDEBAR_MENU",
+        "parentGroup": "AppSidebar"
+      },
+      "conditions": {
+        "masterOnly": false,
+        "requiredRole": "CLIENT_EXECUTIVE",
+        "featureFlag": null,
+        "requiredLicense": null
+      },
+      "lifecycle": {
+        "status": "CANONICAL",
+        "owner": "Growth & Market Domain",
+        "since": "v5.0"
+      }
+    },
+    {
+      "id": "fiscal_tributario",
+      "component": "FiscalTributarioPage.tsx",
+      "route": "fiscal_tributario",
+      "domain": "Governança Corporativa",
+      "navigation": {
+        "category": "CONTEXTUAL",
+        "visibleInSidebar": false,
+        "visibilityType": "INTERNAL_FLOW",
+        "parentGroup": null
+      },
+      "conditions": {
+        "masterOnly": false,
+        "requiredRole": "CLIENT_EXECUTIVE",
+        "featureFlag": null,
+        "requiredLicense": null
+      },
+      "lifecycle": {
+        "status": "CANONICAL",
+        "owner": "Governance Domain",
+        "since": "v5.0"
+      }
+    },
+    {
+      "id": "quadro_pessoal",
+      "component": "QuadroPessoalPage.tsx",
+      "route": "quadro_pessoal",
+      "domain": "Cultura Organizacional",
+      "navigation": {
+        "category": "PRIMARY",
+        "visibleInSidebar": true,
+        "visibilityType": "SIDEBAR_MENU",
+        "parentGroup": "AppSidebar"
+      },
+      "conditions": {
+        "masterOnly": false,
+        "requiredRole": "CLIENT_EXECUTIVE",
+        "featureFlag": null,
+        "requiredLicense": null
+      },
+      "lifecycle": {
+        "status": "CANONICAL",
+        "owner": "Organizational Culture Domain",
+        "since": "v5.0"
+      }
+    },
+    {
+      "id": "custos_pessoal",
+      "component": "PayrollDashboard.tsx",
+      "route": "custos_pessoal",
+      "domain": "Finanças & Contabilidade",
+      "navigation": {
+        "category": "PRIMARY",
+        "visibleInSidebar": false,
+        "visibilityType": "DIRECT_ROUTE",
+        "parentGroup": null
+      },
+      "conditions": {
+        "masterOnly": false,
+        "requiredRole": "CLIENT_EXECUTIVE",
+        "featureFlag": null,
+        "requiredLicense": null
+      },
+      "lifecycle": {
+        "status": "CANONICAL",
+        "owner": "Finance Domain",
+        "since": "v5.0"
+      }
+    },
+    {
+      "id": "marketing_estrategico",
+      "component": "MarketingComercialPage.tsx",
+      "route": "marketing_estrategico",
+      "domain": "Gestão de Marketing",
+      "navigation": {
+        "category": "PRIMARY",
+        "visibleInSidebar": true,
+        "visibilityType": "SIDEBAR_MENU",
+        "parentGroup": "AppSidebar"
+      },
+      "conditions": {
+        "masterOnly": false,
+        "requiredRole": "CLIENT_EXECUTIVE",
+        "featureFlag": null,
+        "requiredLicense": null
+      },
+      "lifecycle": {
+        "status": "CANONICAL",
+        "owner": "Growth & Market Domain",
+        "since": "v5.0"
+      }
+    },
+    {
+      "id": "comercial_estrategico",
+      "component": "MarketingComercialPage.tsx",
+      "route": "comercial_estrategico",
+      "domain": "Gestão Comercial",
+      "navigation": {
+        "category": "PRIMARY",
+        "visibleInSidebar": true,
+        "visibilityType": "SIDEBAR_MENU",
+        "parentGroup": "AppSidebar"
+      },
+      "conditions": {
+        "masterOnly": false,
+        "requiredRole": "CLIENT_EXECUTIVE",
+        "featureFlag": null,
+        "requiredLicense": null
+      },
+      "lifecycle": {
+        "status": "CANONICAL",
+        "owner": "Growth & Market Domain",
+        "since": "v5.0"
+      }
+    },
+    {
+      "id": "logistica",
+      "component": "OperacionalPage.tsx",
+      "route": "logistica",
+      "domain": "Gestão Operacional",
+      "navigation": {
+        "category": "PRIMARY",
+        "visibleInSidebar": true,
+        "visibilityType": "SIDEBAR_MENU",
+        "parentGroup": "AppSidebar"
+      },
+      "conditions": {
+        "masterOnly": false,
+        "requiredRole": "CLIENT_EXECUTIVE",
+        "featureFlag": null,
+        "requiredLicense": null
+      },
+      "lifecycle": {
+        "status": "CANONICAL",
+        "owner": "Core Architecture",
+        "since": "v5.0"
+      }
+    },
+    {
+      "id": "producao",
+      "component": "OperacionalPage.tsx",
+      "route": "producao",
+      "domain": "Gestão Operacional",
+      "navigation": {
+        "category": "PRIMARY",
+        "visibleInSidebar": true,
+        "visibilityType": "SIDEBAR_MENU",
+        "parentGroup": "AppSidebar"
+      },
+      "conditions": {
+        "masterOnly": false,
+        "requiredRole": "CLIENT_EXECUTIVE",
+        "featureFlag": null,
+        "requiredLicense": null
+      },
+      "lifecycle": {
+        "status": "CANONICAL",
+        "owner": "Core Architecture",
+        "since": "v5.0"
+      }
+    },
+    {
+      "id": "administrativa_indicadores",
+      "component": "AdministrativaPage.tsx",
+      "route": "administrativa_indicadores",
+      "domain": "Governança Corporativa",
+      "navigation": {
+        "category": "PRIMARY",
+        "visibleInSidebar": false,
+        "visibilityType": "DIRECT_ROUTE",
+        "parentGroup": null
+      },
+      "conditions": {
+        "masterOnly": false,
+        "requiredRole": "CLIENT_EXECUTIVE",
+        "featureFlag": null,
+        "requiredLicense": null
+      },
+      "lifecycle": {
+        "status": "CANONICAL",
+        "owner": "Governance Domain",
+        "since": "v5.0"
+      }
+    },
+    {
+      "id": "controladoria_estrategica",
+      "component": "ControladoriaPage.tsx",
+      "route": "controladoria_estrategica",
+      "domain": "Finanças & Contabilidade",
+      "navigation": {
+        "category": "CONDITIONAL",
+        "visibleInSidebar": false,
+        "visibilityType": "CONDITIONAL_FEATURE",
+        "parentGroup": null
+      },
+      "conditions": {
+        "masterOnly": false,
+        "requiredRole": "CLIENT_EXECUTIVE",
+        "featureFlag": "FEATURE_CONTROLADORIA_ESTRATEGICA",
+        "requiredLicense": "ENTERPRISE"
+      },
+      "lifecycle": {
+        "status": "EXPERIMENTAL",
+        "owner": "Finance Domain",
+        "since": "v5.0"
+      }
+    },
+    {
+      "id": "analise_mercado",
+      "component": "AnaliseMercadoPage.tsx",
+      "route": "analise_mercado",
+      "domain": "Gestão de Marketing",
+      "navigation": {
+        "category": "PRIMARY",
+        "visibleInSidebar": true,
+        "visibilityType": "SIDEBAR_MENU",
+        "parentGroup": "AppSidebar"
+      },
+      "conditions": {
+        "masterOnly": false,
+        "requiredRole": "CLIENT_EXECUTIVE",
+        "featureFlag": null,
+        "requiredLicense": null
+      },
+      "lifecycle": {
+        "status": "CANONICAL",
+        "owner": "Growth & Market Domain",
+        "since": "v5.0"
+      }
+    },
+    {
+      "id": "governanca_estrategica",
+      "component": "GovernanceDashboardPage.tsx",
+      "route": "governanca_estrategica",
+      "domain": "Governança Corporativa",
+      "navigation": {
+        "category": "CONDITIONAL",
+        "visibleInSidebar": false,
+        "visibilityType": "CONDITIONAL_FEATURE",
+        "parentGroup": null
+      },
+      "conditions": {
+        "masterOnly": false,
+        "requiredRole": "CLIENT_EXECUTIVE",
+        "featureFlag": "FEATURE_GOVERNANCA_ESTRATEGICA",
+        "requiredLicense": "ENTERPRISE"
+      },
+      "lifecycle": {
+        "status": "EXPERIMENTAL",
+        "owner": "Governance Domain",
+        "since": "v5.0"
+      }
+    },
+    {
+      "id": "planejamento_estrategico",
+      "component": "PlanoEstrategicoGlobalPage.tsx",
+      "route": "planejamento_estrategico",
+      "domain": "Governança Corporativa",
+      "navigation": {
+        "category": "CONDITIONAL",
+        "visibleInSidebar": false,
+        "visibilityType": "CONDITIONAL_FEATURE",
+        "parentGroup": null
+      },
+      "conditions": {
+        "masterOnly": false,
+        "requiredRole": "CLIENT_EXECUTIVE",
+        "featureFlag": "FEATURE_PLANEJAMENTO_ESTRATEGICO",
+        "requiredLicense": "ENTERPRISE"
+      },
+      "lifecycle": {
+        "status": "EXPERIMENTAL",
+        "owner": "Governance Domain",
+        "since": "v5.0"
+      }
+    },
+    {
+      "id": "relatorio_executivo",
+      "component": "RelatorioExecutivoPage.tsx",
+      "route": "relatorio_executivo",
+      "domain": "Governança Corporativa",
+      "navigation": {
+        "category": "CONDITIONAL",
+        "visibleInSidebar": false,
+        "visibilityType": "CONDITIONAL_FEATURE",
+        "parentGroup": null
+      },
+      "conditions": {
+        "masterOnly": false,
+        "requiredRole": "CLIENT_EXECUTIVE",
+        "featureFlag": "FEATURE_RELATORIO_EXECUTIVO",
+        "requiredLicense": "ENTERPRISE"
+      },
+      "lifecycle": {
+        "status": "EXPERIMENTAL",
+        "owner": "Governance Domain",
+        "since": "v5.0"
+      }
+    },
+    {
+      "id": "dashboard_marketing",
+      "component": "AxisDashboardPage.tsx",
+      "route": "dashboard_marketing",
+      "domain": "Gestão de Marketing",
+      "navigation": {
+        "category": "PRIMARY",
+        "visibleInSidebar": true,
+        "visibilityType": "SIDEBAR_MENU",
+        "parentGroup": "AppSidebar"
+      },
+      "conditions": {
+        "masterOnly": false,
+        "requiredRole": "CLIENT_EXECUTIVE",
+        "featureFlag": null,
+        "requiredLicense": null
+      },
+      "lifecycle": {
+        "status": "CANONICAL",
+        "owner": "Growth & Market Domain",
+        "since": "v5.0"
+      }
+    },
+    {
+      "id": "dashboard_comercial",
+      "component": "AxisDashboardPage.tsx",
+      "route": "dashboard_comercial",
+      "domain": "Gestão Comercial",
+      "navigation": {
+        "category": "PRIMARY",
+        "visibleInSidebar": true,
+        "visibilityType": "SIDEBAR_MENU",
+        "parentGroup": "AppSidebar"
+      },
+      "conditions": {
+        "masterOnly": false,
+        "requiredRole": "CLIENT_EXECUTIVE",
+        "featureFlag": null,
+        "requiredLicense": null
+      },
+      "lifecycle": {
+        "status": "CANONICAL",
+        "owner": "Growth & Market Domain",
+        "since": "v5.0"
+      }
+    },
+    {
+      "id": "dashboard_cultura",
+      "component": "AxisDashboardPage.tsx",
+      "route": "dashboard_cultura",
+      "domain": "Cultura Organizacional",
+      "navigation": {
+        "category": "PRIMARY",
+        "visibleInSidebar": true,
+        "visibilityType": "SIDEBAR_MENU",
+        "parentGroup": "AppSidebar"
+      },
+      "conditions": {
+        "masterOnly": false,
+        "requiredRole": "CLIENT_EXECUTIVE",
+        "featureFlag": null,
+        "requiredLicense": null
+      },
+      "lifecycle": {
+        "status": "CANONICAL",
+        "owner": "Organizational Culture Domain",
+        "since": "v5.0"
+      }
+    },
+    {
+      "id": "dashboard_inovacao",
+      "component": "AxisDashboardPage.tsx",
+      "route": "dashboard_inovacao",
+      "domain": "Gestão de Inovação",
+      "navigation": {
+        "category": "PRIMARY",
+        "visibleInSidebar": true,
+        "visibilityType": "SIDEBAR_MENU",
+        "parentGroup": "AppSidebar"
+      },
+      "conditions": {
+        "masterOnly": false,
+        "requiredRole": "CLIENT_EXECUTIVE",
+        "featureFlag": null,
+        "requiredLicense": null
+      },
+      "lifecycle": {
+        "status": "CANONICAL",
+        "owner": "Operations Domain",
+        "since": "v5.0"
+      }
+    },
+    {
+      "id": "dashboard_operacional",
+      "component": "AxisDashboardPage.tsx",
+      "route": "dashboard_operacional",
+      "domain": "Gestão Operacional",
+      "navigation": {
+        "category": "PRIMARY",
+        "visibleInSidebar": true,
+        "visibilityType": "SIDEBAR_MENU",
+        "parentGroup": "AppSidebar"
+      },
+      "conditions": {
+        "masterOnly": false,
+        "requiredRole": "CLIENT_EXECUTIVE",
+        "featureFlag": null,
+        "requiredLicense": null
+      },
+      "lifecycle": {
+        "status": "CANONICAL",
+        "owner": "Core Architecture",
+        "since": "v5.0"
+      }
+    },
+    {
+      "id": "dashboard_gestao",
+      "component": "FinancialAdminDashboard.tsx",
+      "route": "dashboard_gestao",
+      "domain": "Governança Corporativa",
+      "navigation": {
+        "category": "PRIMARY",
+        "visibleInSidebar": true,
+        "visibilityType": "SIDEBAR_MENU",
+        "parentGroup": "AppSidebar"
+      },
+      "conditions": {
+        "masterOnly": false,
+        "requiredRole": "CLIENT_EXECUTIVE",
+        "featureFlag": null,
+        "requiredLicense": null
+      },
+      "lifecycle": {
+        "status": "CANONICAL",
+        "owner": "Governance Domain",
+        "since": "v5.0"
+      }
+    },
+    {
+      "id": "perfil_usuario",
+      "component": "ProfilePage.tsx",
+      "route": "perfil_usuario",
+      "domain": "Governança Corporativa",
+      "navigation": {
+        "category": "PRIMARY",
+        "visibleInSidebar": true,
+        "visibilityType": "SIDEBAR_MENU",
+        "parentGroup": "AppSidebar"
+      },
+      "conditions": {
+        "masterOnly": false,
+        "requiredRole": "CLIENT_EXECUTIVE",
+        "featureFlag": null,
+        "requiredLicense": null
+      },
+      "lifecycle": {
+        "status": "CANONICAL",
+        "owner": "Governance Domain",
+        "since": "v5.0"
+      }
+    },
+    {
+      "id": "configuracoes_sistema",
+      "component": "PreferencesPage.tsx",
+      "route": "configuracoes_sistema",
+      "domain": "Governança Corporativa",
+      "navigation": {
+        "category": "PRIMARY",
+        "visibleInSidebar": true,
+        "visibilityType": "SIDEBAR_MENU",
+        "parentGroup": "AppSidebar"
+      },
+      "conditions": {
+        "masterOnly": false,
+        "requiredRole": "CLIENT_EXECUTIVE",
+        "featureFlag": null,
+        "requiredLicense": null
+      },
+      "lifecycle": {
+        "status": "CANONICAL",
+        "owner": "Governance Domain",
+        "since": "v5.0"
+      }
+    },
+    {
+      "id": "mensagens",
+      "component": "MessagesPage.tsx",
+      "route": "mensagens",
+      "domain": "Governança Corporativa",
+      "navigation": {
+        "category": "PRIMARY",
+        "visibleInSidebar": true,
+        "visibilityType": "SIDEBAR_MENU",
+        "parentGroup": "AppSidebar"
+      },
+      "conditions": {
+        "masterOnly": false,
+        "requiredRole": "CLIENT_EXECUTIVE",
+        "featureFlag": null,
+        "requiredLicense": null
+      },
+      "lifecycle": {
+        "status": "CANONICAL",
+        "owner": "Governance Domain",
+        "since": "v5.0"
+      }
+    },
+    {
+      "id": "academy_home",
+      "component": "AcademyHomePage.tsx",
+      "route": "academy_home",
+      "domain": "Academia Illumine",
+      "navigation": {
+        "category": "PRIMARY",
+        "visibleInSidebar": true,
+        "visibilityType": "SIDEBAR_MENU",
+        "parentGroup": "AppSidebar"
+      },
+      "conditions": {
+        "masterOnly": false,
+        "requiredRole": "CLIENT_EXECUTIVE",
+        "featureFlag": null,
+        "requiredLicense": null
+      },
+      "lifecycle": {
+        "status": "CANONICAL",
+        "owner": "Core Architecture",
+        "since": "v5.0"
+      }
+    },
+    {
+      "id": "academy_course",
+      "component": "CourseDetailsPage.tsx",
+      "route": "academy_course",
+      "domain": "Academia Illumine",
+      "navigation": {
+        "category": "CONTEXTUAL",
+        "visibleInSidebar": false,
+        "visibilityType": "INTERNAL_FLOW",
+        "parentGroup": null
+      },
+      "conditions": {
+        "masterOnly": false,
+        "requiredRole": "CLIENT_EXECUTIVE",
+        "featureFlag": null,
+        "requiredLicense": null
+      },
+      "lifecycle": {
+        "status": "CANONICAL",
+        "owner": "Core Architecture",
+        "since": "v5.0"
+      }
+    },
+    {
+      "id": "academy_player",
+      "component": "LessonPlayerPage.tsx",
+      "route": "academy_player",
+      "domain": "Academia Illumine",
+      "navigation": {
+        "category": "CONTEXTUAL",
+        "visibleInSidebar": false,
+        "visibilityType": "INTERNAL_FLOW",
+        "parentGroup": null
+      },
+      "conditions": {
+        "masterOnly": false,
+        "requiredRole": "CLIENT_EXECUTIVE",
+        "featureFlag": null,
+        "requiredLicense": null
+      },
+      "lifecycle": {
+        "status": "CANONICAL",
+        "owner": "Core Architecture",
+        "since": "v5.0"
+      }
+    },
+    {
+      "id": "academy_admin",
+      "component": "AdminAcademyDashboard.tsx",
+      "route": "academy_admin",
+      "domain": "Academia Illumine",
+      "navigation": {
+        "category": "ADMINISTRATION",
+        "visibleInSidebar": true,
+        "visibilityType": "SIDEBAR_MENU",
+        "parentGroup": "AppSidebar"
+      },
+      "conditions": {
+        "masterOnly": true,
+        "requiredRole": "MASTER_ADMIN",
+        "featureFlag": null,
+        "requiredLicense": null
+      },
+      "lifecycle": {
+        "status": "CANONICAL",
+        "owner": "Core Architecture",
+        "since": "v5.0"
+      }
+    },
+    {
+      "id": "academy_admin_course",
+      "component": "AcademyAdminCoursePage.tsx",
+      "route": "academy_admin_course",
+      "domain": "Academia Illumine",
+      "navigation": {
+        "category": "CONTEXTUAL",
+        "visibleInSidebar": false,
+        "visibilityType": "INTERNAL_FLOW",
+        "parentGroup": null
+      },
+      "conditions": {
+        "masterOnly": false,
+        "requiredRole": "CLIENT_EXECUTIVE",
+        "featureFlag": null,
+        "requiredLicense": null
+      },
+      "lifecycle": {
+        "status": "CANONICAL",
+        "owner": "Core Architecture",
+        "since": "v5.0"
+      }
+    },
+    {
+      "id": "maintenance",
+      "component": "MaintenancePage.tsx",
+      "route": "maintenance",
+      "domain": "Governança Corporativa",
+      "navigation": {
+        "category": "PRIMARY",
+        "visibleInSidebar": true,
+        "visibilityType": "SIDEBAR_MENU",
+        "parentGroup": "AppSidebar"
+      },
+      "conditions": {
+        "masterOnly": false,
+        "requiredRole": "CLIENT_EXECUTIVE",
+        "featureFlag": null,
+        "requiredLicense": null
+      },
+      "lifecycle": {
+        "status": "CANONICAL",
+        "owner": "Governance Domain",
+        "since": "v5.0"
+      }
+    },
+    {
+      "id": "adm_root",
+      "component": null,
+      "route": "adm_root",
+      "domain": "Finanças & Contabilidade",
+      "navigation": {
+        "category": "PRIMARY",
+        "visibleInSidebar": true,
+        "visibilityType": "SIDEBAR_MENU",
+        "parentGroup": "AppSidebar"
+      },
+      "conditions": {
+        "masterOnly": false,
+        "requiredRole": "CLIENT_EXECUTIVE",
+        "featureFlag": null,
+        "requiredLicense": null
+      },
+      "lifecycle": {
+        "status": "NAV_GROUP_HEADER",
+        "owner": "Finance Domain",
+        "since": "v5.0"
+      }
+    },
+    {
+      "id": "contabil_root",
+      "component": null,
+      "route": "contabil_root",
+      "domain": "Finanças & Contabilidade",
+      "navigation": {
+        "category": "PRIMARY",
+        "visibleInSidebar": true,
+        "visibilityType": "SIDEBAR_MENU",
+        "parentGroup": "AppSidebar"
+      },
+      "conditions": {
+        "masterOnly": false,
+        "requiredRole": "CLIENT_EXECUTIVE",
+        "featureFlag": null,
+        "requiredLicense": null
+      },
+      "lifecycle": {
+        "status": "NAV_GROUP_HEADER",
+        "owner": "Finance Domain",
+        "since": "v5.0"
+      }
+    },
+    {
+      "id": "financeira_root",
+      "component": null,
+      "route": "financeira_root",
+      "domain": "Finanças & Contabilidade",
+      "navigation": {
+        "category": "PRIMARY",
+        "visibleInSidebar": true,
+        "visibilityType": "SIDEBAR_MENU",
+        "parentGroup": "AppSidebar"
+      },
+      "conditions": {
+        "masterOnly": false,
+        "requiredRole": "CLIENT_EXECUTIVE",
+        "featureFlag": null,
+        "requiredLicense": null
+      },
+      "lifecycle": {
+        "status": "NAV_GROUP_HEADER",
+        "owner": "Finance Domain",
+        "since": "v5.0"
+      }
+    },
+    {
+      "id": "perfil_lideranca",
+      "component": "LeadershipProfilePage.tsx",
+      "route": "perfil_lideranca",
+      "domain": "Cultura Organizacional",
+      "navigation": {
+        "category": "PRIMARY",
+        "visibleInSidebar": true,
+        "visibilityType": "SIDEBAR_MENU",
+        "parentGroup": "AppSidebar"
+      },
+      "conditions": {
+        "masterOnly": false,
+        "requiredRole": "CLIENT_EXECUTIVE",
+        "featureFlag": null,
+        "requiredLicense": null
+      },
+      "lifecycle": {
+        "status": "CANONICAL",
+        "owner": "Organizational Culture Domain",
+        "since": "v5.0"
+      }
+    },
+    {
+      "id": "estrutura_governanca",
+      "component": "EstruturaGovernancaPage.tsx",
+      "route": "estrutura_governanca",
+      "domain": "Governança Corporativa",
+      "navigation": {
+        "category": "CONTEXTUAL",
+        "visibleInSidebar": false,
+        "visibilityType": "INTERNAL_FLOW",
+        "parentGroup": null
+      },
+      "conditions": {
+        "masterOnly": false,
+        "requiredRole": "CLIENT_EXECUTIVE",
+        "featureFlag": null,
+        "requiredLicense": null
+      },
+      "lifecycle": {
+        "status": "CANONICAL",
+        "owner": "Governance Domain",
+        "since": "v5.0"
+      }
+    },
+    {
+      "id": "avaliacao_organograma",
+      "component": "AvaliacaoOrganogramaPage.tsx",
+      "route": "avaliacao_organograma",
+      "domain": "Cultura Organizacional",
+      "navigation": {
+        "category": "PRIMARY",
+        "visibleInSidebar": true,
+        "visibilityType": "SIDEBAR_MENU",
+        "parentGroup": "AppSidebar"
+      },
+      "conditions": {
+        "masterOnly": false,
+        "requiredRole": "CLIENT_EXECUTIVE",
+        "featureFlag": null,
+        "requiredLicense": null
+      },
+      "lifecycle": {
+        "status": "CANONICAL",
+        "owner": "Organizational Culture Domain",
+        "since": "v5.0"
+      }
+    },
+    {
+      "id": "atas_reuniao",
+      "component": "MeetingMinutesPage.tsx",
+      "route": "atas_reuniao",
+      "domain": "Governança Corporativa",
+      "navigation": {
+        "category": "CONTEXTUAL",
+        "visibleInSidebar": false,
+        "visibilityType": "INTERNAL_FLOW",
+        "parentGroup": null
+      },
+      "conditions": {
+        "masterOnly": false,
+        "requiredRole": "CLIENT_EXECUTIVE",
+        "featureFlag": null,
+        "requiredLicense": null
+      },
+      "lifecycle": {
+        "status": "CANONICAL",
+        "owner": "Governance Domain",
+        "since": "v5.0"
+      }
+    },
+    {
+      "id": "simulador_estrategico",
+      "component": "StrategicSimulatorPage.tsx",
+      "route": "simulador_estrategico",
+      "domain": "Gestão de Inovação",
+      "navigation": {
+        "category": "CONTEXTUAL",
+        "visibleInSidebar": false,
+        "visibilityType": "INTERNAL_FLOW",
+        "parentGroup": null
+      },
+      "conditions": {
+        "masterOnly": false,
+        "requiredRole": "CLIENT_EXECUTIVE",
+        "featureFlag": null,
+        "requiredLicense": null
+      },
+      "lifecycle": {
+        "status": "CANONICAL",
+        "owner": "Operations Domain",
+        "since": "v5.0"
+      }
+    },
+    {
+      "id": "parceiros",
+      "component": "PartnersPage.tsx",
+      "route": "parceiros",
+      "domain": "Platform Operations",
+      "navigation": {
+        "category": "ADMINISTRATION",
+        "visibleInSidebar": true,
+        "visibilityType": "SIDEBAR_MENU",
+        "parentGroup": "AppSidebar"
+      },
+      "conditions": {
+        "masterOnly": true,
+        "requiredRole": "MASTER_ADMIN",
+        "featureFlag": null,
+        "requiredLicense": null
+      },
+      "lifecycle": {
+        "status": "CANONICAL",
+        "owner": "Platform Engineering",
+        "since": "v5.0"
+      }
+    },
+    {
+      "id": "orcamento",
+      "component": "OrcamentoPage.tsx",
+      "route": "orcamento",
+      "domain": "Finanças & Contabilidade",
+      "navigation": {
+        "category": "PRIMARY",
+        "visibleInSidebar": true,
+        "visibilityType": "SIDEBAR_MENU",
+        "parentGroup": "AppSidebar"
+      },
+      "conditions": {
+        "masterOnly": false,
+        "requiredRole": "CLIENT_EXECUTIVE",
+        "featureFlag": null,
+        "requiredLicense": null
+      },
+      "lifecycle": {
+        "status": "CANONICAL",
+        "owner": "Finance Domain",
+        "since": "v5.0"
+      }
+    },
+    {
+      "id": "aprovacoes",
+      "component": "DadosHistoricosPage.tsx",
+      "route": "aprovacoes",
+      "domain": "Platform Operations",
+      "navigation": {
+        "category": "ADMINISTRATION",
+        "visibleInSidebar": true,
+        "visibilityType": "SIDEBAR_MENU",
+        "parentGroup": "AppSidebar"
+      },
+      "conditions": {
+        "masterOnly": true,
+        "requiredRole": "MASTER_ADMIN",
+        "featureFlag": null,
+        "requiredLicense": null
+      },
+      "lifecycle": {
+        "status": "CANONICAL",
+        "owner": "Platform Engineering",
+        "since": "v5.0"
+      }
+    },
+    {
+      "id": "suporte",
+      "component": "SupportPage.tsx",
+      "route": "suporte",
+      "domain": "Governança Corporativa",
+      "navigation": {
+        "category": "PRIMARY",
+        "visibleInSidebar": true,
+        "visibilityType": "SIDEBAR_MENU",
+        "parentGroup": "AppSidebar"
+      },
+      "conditions": {
+        "masterOnly": false,
+        "requiredRole": "CLIENT_EXECUTIVE",
+        "featureFlag": null,
+        "requiredLicense": null
+      },
+      "lifecycle": {
+        "status": "CANONICAL",
+        "owner": "Governance Domain",
+        "since": "v5.0"
+      }
+    },
+    {
+      "id": "dados_historicos",
+      "component": "DadosHistoricosPage.tsx",
+      "route": "dados_historicos",
+      "domain": "Governança Corporativa",
+      "navigation": {
+        "category": "PRIMARY",
+        "visibleInSidebar": true,
+        "visibilityType": "SIDEBAR_MENU",
+        "parentGroup": "AppSidebar"
+      },
+      "conditions": {
+        "masterOnly": false,
+        "requiredRole": "CLIENT_EXECUTIVE",
+        "featureFlag": null,
+        "requiredLicense": null
+      },
+      "lifecycle": {
+        "status": "CANONICAL",
+        "owner": "Governance Domain",
+        "since": "v5.0"
+      }
+    },
+    {
+      "id": "gestao_usuarios",
+      "component": "GestaoUsuariosPage.tsx",
+      "route": "gestao_usuarios",
+      "domain": "Platform Operations",
+      "navigation": {
+        "category": "ADMINISTRATION",
+        "visibleInSidebar": true,
+        "visibilityType": "SIDEBAR_MENU",
+        "parentGroup": "AppSidebar"
+      },
+      "conditions": {
+        "masterOnly": true,
+        "requiredRole": "MASTER_ADMIN",
+        "featureFlag": null,
+        "requiredLicense": null
+      },
+      "lifecycle": {
+        "status": "CANONICAL",
+        "owner": "Platform Engineering",
+        "since": "v5.0"
+      }
+    },
+    {
+      "id": "executive_scenario_lab",
+      "component": "ExecutiveScenarioLabPage.tsx",
+      "route": "executive_scenario_lab",
+      "domain": "Gestão de Inovação",
+      "navigation": {
+        "category": "REAL_ORPHAN",
+        "visibleInSidebar": false,
+        "visibilityType": "DIRECT_ROUTE",
+        "parentGroup": null
+      },
+      "conditions": {
+        "masterOnly": false,
+        "requiredRole": "CLIENT_EXECUTIVE",
+        "featureFlag": null,
+        "requiredLicense": null
+      },
+      "lifecycle": {
+        "status": "DEPRECATION_CANDIDATE",
+        "owner": "Operations Domain",
+        "since": "v5.0"
+      }
+    },
+    {
+      "id": "lab",
+      "component": "ExecutiveScenarioLabPage.tsx",
+      "route": "lab",
+      "domain": "Gestão de Inovação",
+      "navigation": {
+        "category": "PRIMARY",
+        "visibleInSidebar": true,
+        "visibilityType": "SIDEBAR_MENU",
+        "parentGroup": "AppSidebar"
+      },
+      "conditions": {
+        "masterOnly": false,
+        "requiredRole": "CLIENT_EXECUTIVE",
+        "featureFlag": null,
+        "requiredLicense": null
+      },
+      "lifecycle": {
+        "status": "CANONICAL",
+        "owner": "Operations Domain",
+        "since": "v5.0"
+      }
+    },
+    {
+      "id": "pilot_operations_center",
+      "component": "PilotOperationsCenter.tsx",
+      "route": "pilot_operations_center",
+      "domain": "Platform Operations",
+      "navigation": {
+        "category": "ADMINISTRATION",
+        "visibleInSidebar": true,
+        "visibilityType": "SIDEBAR_MENU",
+        "parentGroup": "AppSidebar"
+      },
+      "conditions": {
+        "masterOnly": true,
+        "requiredRole": "MASTER_ADMIN",
+        "featureFlag": null,
+        "requiredLicense": null
+      },
+      "lifecycle": {
+        "status": "CANONICAL",
+        "owner": "Platform Engineering",
+        "since": "v5.0"
+      }
+    },
+    {
+      "id": "board_deck_center",
+      "component": "BoardDeckCenter.tsx",
+      "route": "board_deck_center",
+      "domain": "Governança Corporativa",
+      "navigation": {
+        "category": "PRIMARY",
+        "visibleInSidebar": true,
+        "visibilityType": "SIDEBAR_MENU",
+        "parentGroup": "AppSidebar"
+      },
+      "conditions": {
+        "masterOnly": false,
+        "requiredRole": "CLIENT_EXECUTIVE",
+        "featureFlag": null,
+        "requiredLicense": null
+      },
+      "lifecycle": {
+        "status": "CANONICAL",
+        "owner": "Governance Domain",
+        "since": "v5.0"
+      }
+    },
+    {
+      "id": "institutional_observability_center",
+      "route": "institutional_observability_center",
+      "domain": "Governança Corporativa",
+      "navigation": {
+        "category": "CONDITIONAL",
+        "visibleInSidebar": false,
+        "visibilityType": "CONDITIONAL_FEATURE",
+        "parentGroup": null
+      },
+      "conditions": {
+        "masterOnly": false,
+        "requiredRole": "CLIENT_EXECUTIVE",
+        "featureFlag": "FEATURE_INSTITUTIONAL_OBSERVABILITY_CENTER",
+        "requiredLicense": "ENTERPRISE"
+      },
+      "lifecycle": {
+        "status": "EXPERIMENTAL",
+        "owner": "Governance Domain",
+        "since": "v5.0"
+      }
+    },
+    {
+      "id": "governance_structure_center",
+      "component": null,
+      "route": "governance_structure_center",
+      "domain": "Governança Corporativa",
+      "navigation": {
+        "category": "PRIMARY",
+        "visibleInSidebar": false,
+        "visibilityType": "DIRECT_ROUTE",
+        "parentGroup": null
+      },
+      "conditions": {
+        "masterOnly": false,
+        "requiredRole": "CLIENT_EXECUTIVE",
+        "featureFlag": null,
+        "requiredLicense": null
+      },
+      "lifecycle": {
+        "status": "DEPRECATION_CANDIDATE",
+        "owner": "Governance Domain",
+        "since": "v5.0"
+      }
+    },
+    {
+      "id": "governance_risk_heatmap",
+      "route": "governance_risk_heatmap",
+      "domain": "Governança Corporativa",
+      "navigation": {
+        "category": "PRIMARY",
+        "visibleInSidebar": false,
+        "visibilityType": "DIRECT_ROUTE",
+        "parentGroup": null
+      },
+      "conditions": {
+        "masterOnly": false,
+        "requiredRole": "CLIENT_EXECUTIVE",
+        "featureFlag": null,
+        "requiredLicense": null
+      },
+      "lifecycle": {
+        "status": "CANONICAL",
+        "owner": "Governance Domain",
+        "since": "v5.0"
+      }
+    },
+    {
+      "id": "fiduciary_governance_center",
+      "route": "fiduciary_governance_center",
+      "domain": "Governança Corporativa",
+      "navigation": {
+        "category": "PRIMARY",
+        "visibleInSidebar": false,
+        "visibilityType": "DIRECT_ROUTE",
+        "parentGroup": null
+      },
+      "conditions": {
+        "masterOnly": false,
+        "requiredRole": "CLIENT_EXECUTIVE",
+        "featureFlag": null,
+        "requiredLicense": null
+      },
+      "lifecycle": {
+        "status": "CANONICAL",
+        "owner": "Governance Domain",
+        "since": "v5.0"
+      }
+    },
+    {
+      "id": "compliance_integrity_center",
+      "component": "ComplianceIntegrityCenter.tsx",
+      "route": "compliance_integrity_center",
+      "domain": "Governança Corporativa",
+      "navigation": {
+        "category": "PRIMARY",
+        "visibleInSidebar": true,
+        "visibilityType": "SIDEBAR_MENU",
+        "parentGroup": "AppSidebar"
+      },
+      "conditions": {
+        "masterOnly": false,
+        "requiredRole": "CLIENT_EXECUTIVE",
+        "featureFlag": null,
+        "requiredLicense": null
+      },
+      "lifecycle": {
+        "status": "CANONICAL",
+        "owner": "Governance Domain",
+        "since": "v5.0"
+      }
+    },
+    {
+      "id": "pilot_monitoring",
+      "component": "PilotMonitoringDashboard.tsx",
+      "route": "pilot_monitoring",
+      "domain": "Platform Operations",
+      "navigation": {
+        "category": "ADMINISTRATION",
+        "visibleInSidebar": true,
+        "visibilityType": "SIDEBAR_MENU",
+        "parentGroup": "AppSidebar"
+      },
+      "conditions": {
+        "masterOnly": true,
+        "requiredRole": "MASTER_ADMIN",
+        "featureFlag": null,
+        "requiredLicense": null
+      },
+      "lifecycle": {
+        "status": "CANONICAL",
+        "owner": "Platform Engineering",
+        "since": "v5.0"
+      }
+    },
+    {
+      "id": "calibration_playground",
+      "component": "CalibrationPlayground.tsx",
+      "route": "calibration_playground",
+      "domain": "Platform Operations",
+      "navigation": {
+        "category": "ADMINISTRATION",
+        "visibleInSidebar": true,
+        "visibilityType": "SIDEBAR_MENU",
+        "parentGroup": "AppSidebar"
+      },
+      "conditions": {
+        "masterOnly": true,
+        "requiredRole": "MASTER_ADMIN",
+        "featureFlag": null,
+        "requiredLicense": null
+      },
+      "lifecycle": {
+        "status": "CANONICAL",
+        "owner": "Platform Engineering",
+        "since": "v5.0"
+      }
+    },
+    {
+      "id": "observability_console",
+      "component": "RuntimeObservabilityPage.tsx",
+      "route": "observability_console",
+      "domain": "Platform Operations",
+      "navigation": {
+        "category": "ADMINISTRATION",
+        "visibleInSidebar": false,
+        "visibilityType": "DIRECT_ROUTE",
+        "parentGroup": null
+      },
+      "conditions": {
+        "masterOnly": true,
+        "requiredRole": "MASTER_ADMIN",
+        "featureFlag": null,
+        "requiredLicense": null
+      },
+      "lifecycle": {
+        "status": "CANONICAL",
+        "owner": "Platform Engineering",
+        "since": "v5.0"
+      }
+    },
+    {
+      "id": "advisor_workspace",
+      "component": "AdvisorWorkspacePage.tsx",
+      "route": "advisor_workspace",
+      "domain": "Platform Operations",
+      "navigation": {
+        "category": "ADMINISTRATION",
+        "visibleInSidebar": true,
+        "visibilityType": "SIDEBAR_MENU",
+        "parentGroup": "AppSidebar"
+      },
+      "conditions": {
+        "masterOnly": true,
+        "requiredRole": "MASTER_ADMIN",
+        "featureFlag": null,
+        "requiredLicense": null
+      },
+      "lifecycle": {
+        "status": "CANONICAL",
+        "owner": "Platform Engineering",
+        "since": "v5.0"
+      }
+    },
+    {
+      "id": "client_workspace",
+      "route": "client_workspace",
+      "domain": "Governança Corporativa",
+      "navigation": {
+        "category": "PRIMARY",
+        "visibleInSidebar": true,
+        "visibilityType": "SIDEBAR_MENU",
+        "parentGroup": "AppSidebar"
+      },
+      "conditions": {
+        "masterOnly": false,
+        "requiredRole": "CLIENT_EXECUTIVE",
+        "featureFlag": null,
+        "requiredLicense": null
+      },
+      "lifecycle": {
+        "status": "CANONICAL",
+        "owner": "Governance Domain",
+        "since": "v5.0"
+      }
+    },
+    {
+      "id": "operating_pressure",
+      "component": "InstitutionalPressureDashboard.tsx",
+      "route": "operating_pressure",
+      "domain": "Governança Corporativa",
+      "navigation": {
+        "category": "PRIMARY",
+        "visibleInSidebar": true,
+        "visibilityType": "SIDEBAR_MENU",
+        "parentGroup": "AppSidebar"
+      },
+      "conditions": {
+        "masterOnly": false,
+        "requiredRole": "CLIENT_EXECUTIVE",
+        "featureFlag": null,
+        "requiredLicense": null
+      },
+      "lifecycle": {
+        "status": "CANONICAL",
+        "owner": "Governance Domain",
+        "since": "v5.0"
+      }
+    },
+    {
+      "id": "pilot_experience",
+      "component": "PilotExperienceDashboard.tsx",
+      "route": "pilot_experience",
+      "domain": "Platform Operations",
+      "navigation": {
+        "category": "ADMINISTRATION",
+        "visibleInSidebar": true,
+        "visibilityType": "SIDEBAR_MENU",
+        "parentGroup": "AppSidebar"
+      },
+      "conditions": {
+        "masterOnly": true,
+        "requiredRole": "MASTER_ADMIN",
+        "featureFlag": null,
+        "requiredLicense": null
+      },
+      "lifecycle": {
+        "status": "CANONICAL",
+        "owner": "Platform Engineering",
+        "since": "v5.0"
+      }
+    },
+    {
+      "id": "referral_program",
+      "component": "ReferralProgramPage.tsx",
+      "route": "referral_program",
+      "domain": "Governança Corporativa",
+      "navigation": {
+        "category": "REAL_ORPHAN",
+        "visibleInSidebar": false,
+        "visibilityType": "DIRECT_ROUTE",
+        "parentGroup": null
+      },
+      "conditions": {
+        "masterOnly": false,
+        "requiredRole": "CLIENT_EXECUTIVE",
+        "featureFlag": null,
+        "requiredLicense": null
+      },
+      "lifecycle": {
+        "status": "COMPATIBILITY",
+        "owner": "Governance Domain",
+        "since": "v5.0"
+      }
+    }
+  ]
+}

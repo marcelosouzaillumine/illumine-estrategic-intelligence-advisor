@@ -4,23 +4,33 @@ import { GroupEntityMappingRepository, EconomicGroupEntityModel } from '../../se
 import { IntercompanyRelationRepository, IntercompanyRelationModel } from '../../services/FiduciaryRuntimeAdapter';
 import { ConsolidatedDataModelValidator } from '../../services/FiduciaryRuntimeAdapter';
 import { Building2, Plus, AlertTriangle, Play, Users } from 'lucide-react';
-import { PageHeader } from '../Common';
+import { PageHeader, StatusBadge } from '../Common';
 import { cn } from '../../lib/utils';
 import { getDocs, collection } from 'firebase/firestore';
 import { db } from '../../lib/firebase';
 import { useNavigate } from 'react-router-dom';
 import { useLanguage } from '../../contexts/LanguageContext';
+import { ExecutivePageTemplate } from '../ui/executive-page-template';
+import { ExecutiveSurface } from '../ui/executive-surface';
+import { ExecutiveBadge } from '../ui/executive-badge';
+import { ExecutiveHeading } from '../ui/executive-heading';
+import { ExecutiveText } from '../ui/executive-typography';
+import { ExecutiveSummarySection } from '../ui/executive-summary-section';
+import { ExecutiveStrategicTensions } from '../ui/executive-strategic-tensions';
+import { ExecutiveDecisionTrace } from '../ui/executive-decision-trace';
+import { ExecutiveTechnicalLayer } from '../ui/executive-technical-layer';
+import { useConsolidatedGroupAdminViewModel } from '../../viewmodels/useConsolidatedGroupAdminViewModel';
 
 export function ConsolidatedGroupAdminPage() {
+  const { state: vmState, computed: vmComputed, actions: vmActions } = useConsolidatedGroupAdminViewModel();
   const { t } = useLanguage();
   const [groups, setGroups] = useState<EconomicGroupModel[]>([]);
   const [selectedGroup, setSelectedGroup] = useState<EconomicGroupModel | null>(null);
   const [entities, setEntities] = useState<EconomicGroupEntityModel[]>([]);
   const [relations, setRelations] = useState<IntercompanyRelationModel[]>([]);
-  const [availableClients, setAvailableClients] = useState<any[]>([]); // DTOs brutos de clients legados
+  const [availableClients, setAvailableClients] = useState<any[]>([]);
   const navigate = useNavigate();
 
-  // Estados de erro
   const [validationErrors, setValidationErrors] = useState<string[]>([]);
   const [validationWarnings, setValidationWarnings] = useState<string[]>([]);
 
@@ -46,7 +56,6 @@ export function ConsolidatedGroupAdminPage() {
     setEntities(ents);
     setRelations(rels);
     
-    // Auto-validate ao carregar
     const validation = ConsolidatedDataModelValidator.validate(group, ents, rels);
     setValidationErrors(validation.errors);
     setValidationWarnings(validation.warnings);
@@ -65,159 +74,115 @@ export function ConsolidatedGroupAdminPage() {
     loadGroups();
   };
 
-  const handleLinkEntity = async (legacyClientId: string) => {
-    if (!selectedGroup) return;
-    const client = availableClients.find(c => c.id === legacyClientId);
-    if (!client) return;
-
-    await GroupEntityMappingRepository.linkEntity({
-      groupId: selectedGroup.id,
-      legacyClientId: legacyClientId,
-      entityName: client.nome || client.razaoSocial || 'Unnamed Client',
-      cnpj: client.cnpj,
-      institutionalRole: 'SUBSIDIARY',
-      ownershipPercentage: 100,
-      consolidationMethod: 'FULL',
-      isControllingEntity: false,
-      includeInConsolidation: true
-    });
-
-    loadGroupDetails(selectedGroup);
-  };
-
-  const handleExecuteConsolidated = () => {
-    if (validationErrors.length > 0) {
-      alert('Não é possível iniciar motor com falhas estruturais.');
-      return;
-    }
-    // Roteamento puro, não injeta dados. A tela /consolidated-executive buscará os dados.
-    // Nota: Como não estamos conectando o DB ao Contexto hoje, apenas preparamos a rota.
-    // No futuro, passaremos ?groupId=XYZ
-    navigate('/consolidated-executive');
-  };
-
   return (
-    <div className="max-w-[1440px] mx-auto px-6 lg:px-10 space-y-12 pb-32 animate-executive-fade">
-      <div className="flex flex-col md:flex-row md:items-end justify-between gap-6">
-        <PageHeader
-          title="Gestão de Grupos Econômicos"
-          subtitle="Ferramenta administrativa restrita. Modelagem institucional topológica. Nenhuma inferência financeira executada localmente."
-          icon={Building2}
-          transparent
-        />
-        <button onClick={handleCreateGroup} className="btn-executive flex items-center gap-2 shrink-0">
-          <Plus size={15} />
-          Novo Grupo
-        </button>
-      </div>
+    <ExecutivePageTemplate header={{
+      title: "Gestão de Grupos Econômicos",
+      description: "Modelagem de topologia de consolidação, holdings e mapeamento de relações intercompany.",
+    }}>
+      <div className="space-y-8 pb-24 animate-executive-fade max-w-[1440px] mx-auto">
 
-      <div className="grid grid-cols-12 gap-8">
-        {/* Left Col: Groups */}
-        <div className="col-span-4 space-y-4">
-          <h3 className="text-h3 font-medium text-foreground tracking-tight">Grupos Cadastrados</h3>
-          {groups.map(g => (
-            <div 
-              key={g.id} 
-              onClick={() => loadGroupDetails(g)}
-              className={cn(
-                "p-5 rounded-md border cursor-pointer transition-all",
-                selectedGroup?.id === g.id ? "bg-surface-container shadow-sm border-secondary" : "border-border hover:border-secondary/30"
-              )}
+        {/* --- CAMADA 1: NÍVEL CONSELHO (SÍNTESE DE GRUPOS ECONÔMICOS) --- */}
+        <ExecutiveSummarySection 
+          className="mb-8"
+          status={{ label: 'Topologia Homologada', variant: 'success' }}
+          question="Como está estruturada a topologia societária, consolidação fiduciária e eliminações intercompany?"
+          opinion="O comitê fiduciário homologa a estrutura de consolidação do grupo econômico, assegurando a correta eliminação de saldos e transações cruzadas."
+          driver="Holdings controladoras, subsidiárias coligadas, percentual de participação e eliminações."
+          implication="Demonstrações financeiras consolidadas fiéis à realidade fiduciária do grupo econômico."
+          action="Validar periodicamente o mapeamento de entidades coligadas e regras de consolidação integral."
+        >
+          <ExecutiveStrategicTensions tensions={[]} />
+          <ExecutiveDecisionTrace trace={[]} />
+        </ExecutiveSummarySection>
+
+        {/* --- CAMADA 2: DIRETORIA & MAPEAMENTO DE GRUPOS --- */}
+        <ExecutiveSurface padding="xl" radius="xl" className="bg-card border border-border shadow-sm mb-8 space-y-6">
+          <div className="flex items-center justify-between border-b border-border pb-4">
+            <div>
+              <ExecutiveHeading as="h3" className="text-foreground">Grupos Econômicos Mapeados</ExecutiveHeading>
+              <ExecutiveText variant="caption" className="text-muted-foreground">Topologia e estrutura de participações societárias.</ExecutiveText>
+            </div>
+            <button 
+              onClick={handleCreateGroup}
+              className="px-6 py-3 bg-primary text-primary-foreground rounded-xl text-xs font-bold uppercase tracking-widest shadow-md hover:scale-105 transition-all flex items-center gap-2"
             >
-              <h4 className="text-body-sm font-medium text-foreground">{g.groupName}</h4>
-              <p className="text-[10px] text-muted-foreground font-mono uppercase tracking-widest mt-1">Ano Fiscal: {g.fiscalYear}</p>
-            </div>
-          ))}
-        </div>
+              <Plus size={16} /> NOVO GRUPO
+            </button>
+          </div>
 
-        {/* Right Col: Details */}
-        <div className="col-span-8 space-y-6">
-          {selectedGroup ? (
-            <>
-              {/* Validation Panel */}
-              {(validationErrors.length > 0 || validationWarnings.length > 0) && (
-                <div className="p-4 rounded-xl bg-surface-container border border-border">
-                  <h3 className="text-sm font-medium text-foreground flex items-center gap-2 mb-3">
-                    <AlertTriangle size={16} className={validationErrors.length > 0 ? "text-rose-500" : "text-amber-500"} />
-                    Pre-Flight Structural Check
-                  </h3>
-                  {validationErrors.map((e: any, i) => (
-                    <p key={i} className="text-xs text-rose-500 mt-1">• [ERROR] {typeof e === 'string' ? e : t(e.labelKey, e.args)}</p>
-                  ))}
-                  {validationWarnings.map((w: any, i) => (
-                    <p key={i} className="text-xs text-amber-500 mt-1">• [WARN] {typeof w === 'string' ? w : t(w.labelKey, w.args)}</p>
-                  ))}
-                </div>
-              )}
-
-              {/* Entities */}
-              <div className="card-premium p-8 space-y-6">
-                <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
-                  <h3 className="text-h3 font-medium text-foreground tracking-tight flex items-center gap-2">
-                    <div className="w-8 h-8 rounded-md bg-secondary/10 flex items-center justify-center text-secondary">
-                      <Users size={16} />
-                    </div>
-                    Entidades Vinculadas
-                  </h3>
-                  <div className="flex items-center gap-2">
-                    <select 
-                      className="bg-surface-container text-body-sm font-medium border border-border rounded-md px-3 py-2 outline-none text-foreground focus:border-secondary transition-all"
-                      onChange={(e) => {
-                        if(e.target.value) {
-                          handleLinkEntity(e.target.value);
-                          e.target.value = '';
-                        }
-                      }}
-                    >
-                      <option value="">+ Vincular Legado...</option>
-                      {availableClients.filter(c => !entities.some(e => e.legacyClientId === c.id)).map(c => (
-                        <option key={c.id} value={c.id}>{c.nome || c.razaoSocial}</option>
-                      ))}
-                    </select>
-                  </div>
-                </div>
-
-                <div className="space-y-3">
-                  {entities.map(ent => (
-                    <div key={ent.id} className="flex items-center justify-between p-4 rounded-md bg-surface-container border border-border">
-                      <div>
-                        <p className="text-body-sm font-medium text-foreground">{ent.entityName}</p>
-                        <p className="text-[10px] text-muted-foreground font-mono mt-1">ID: {ent.id} | Bridge: {ent.legacyClientId}</p>
-                      </div>
-                      <div className="flex flex-col items-end gap-1">
-                        <span className="text-[10px] font-bold text-muted-foreground uppercase tracking-widest">{ent.institutionalRole}</span>
-                        <span className="text-body-sm font-medium text-secondary">{ent.ownershipPercentage}%</span>
-                      </div>
-                    </div>
-                  ))}
-                  {entities.length === 0 && (
-          <p className="text-body-sm text-executive-secondary italic text-center py-6">Nenhuma entidade vinculada.</p>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            {groups.length === 0 ? (
+              <div className="col-span-3 text-center py-12 border border-dashed border-border rounded-xl">
+                <Building2 size={40} className="mx-auto mb-3 text-primary/40" />
+                <ExecutiveHeading as="h4" className="text-foreground mb-1">Nenhum Grupo Econômico Cadastrado</ExecutiveHeading>
+                <ExecutiveText variant="caption" className="text-muted-foreground">Clique em "Novo Grupo" para criar a estrutura da holding.</ExecutiveText>
+              </div>
+            ) : (
+              groups.map((g) => (
+                <div 
+                  key={g.id} 
+                  onClick={() => loadGroupDetails(g)}
+                  className={cn(
+                    "p-5 border rounded-2xl cursor-pointer transition-all space-y-3",
+                    selectedGroup?.id === g.id ? "bg-surface-container border-primary shadow-sm" : "bg-surface-container/20 border-border hover:border-primary/40"
                   )}
+                >
+                  <div className="flex justify-between items-start">
+                    <ExecutiveHeading as="h4" className="text-foreground font-bold">{g.groupName}</ExecutiveHeading>
+                    <ExecutiveBadge variant="info">Ano Fiscal: {g.fiscalYear}</ExecutiveBadge>
+                  </div>
+                  <ExecutiveText variant="caption" className="text-muted-foreground font-mono">ID: {g.id}</ExecutiveText>
                 </div>
+              ))
+            )}
+          </div>
+        </ExecutiveSurface>
+
+        {/* --- CAMADA 3: CAMADA TÉCNICA E VALIDAÇÃO ESTRUTURAL --- */}
+        {selectedGroup && (
+          <ExecutiveTechnicalLayer
+            title={`Camada Técnica — Detalhamento de ${selectedGroup.groupName}`}
+            subtitle="Validação de Entidades e Eliminações Intercompany"
+            description="Checagem automatizada de regras fiduciárias de consolidação."
+            className="mb-8"
+          >
+            <ExecutiveSurface padding="xl" radius="xl" className="bg-card border border-border shadow-sm space-y-6">
+              <div className="flex items-center justify-between">
+                <ExecutiveHeading as="h4" className="text-foreground">Entidades Integrantes</ExecutiveHeading>
+                <ExecutiveBadge variant={validationErrors.length > 0 ? "critical" : "success"}>
+                  {validationErrors.length > 0 ? `${validationErrors.length} Erros` : "Consolidação Válida"}
+                </ExecutiveBadge>
               </div>
 
-              {/* Execute Button */}
-              <div className="flex justify-end">
-                <button 
-                  onClick={handleExecuteConsolidated}
-                  disabled={validationErrors.length > 0}
-                  className="btn-executive flex items-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed"
-                >
-                  <Play size={15} />
-                  Executar Motor Consolidado
-                </button>
+              <div className="overflow-x-auto border border-border rounded-xl">
+                <table className="w-full text-left text-xs border-collapse">
+                  <thead>
+                    <tr className="bg-surface-container/30 border-b border-border text-muted-foreground font-bold uppercase tracking-wider">
+                      <th className="p-4">Entidade</th>
+                      <th className="p-4">CNPJ</th>
+                      <th className="p-4">Papel Institucional</th>
+                      <th className="p-4 text-right">Participação</th>
+                    </tr>
+                  </thead>
+                  <tbody className="divide-y divide-border">
+                    {entities.map((e) => (
+                      <tr key={e.id} className="hover:bg-surface-container/30 transition-colors">
+                        <td className="p-4 font-bold text-foreground">{e.entityName}</td>
+                        <td className="p-4 font-mono text-muted-foreground">{e.cnpj || '---'}</td>
+                        <td className="p-4">
+                          <ExecutiveBadge variant="neutral">{e.institutionalRole}</ExecutiveBadge>
+                        </td>
+                        <td className="p-4 text-right font-mono font-bold text-foreground">{e.ownershipPercentage}%</td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
               </div>
-            </>
-          ) : (
-            <div className="flex flex-col items-center justify-center h-full text-muted-foreground border-2 border-dashed border-border rounded-md py-20 gap-4">
-              <div className="w-16 h-16 rounded-xl bg-surface-container flex items-center justify-center">
-                <Building2 size={32} className="opacity-30" />
-              </div>
-       <p className="text-body-sm font-medium text-executive-secondary/60 uppercase tracking-widest">Selecione um grupo ao lado ou crie um novo.</p>
-            </div>
-          )}
-        </div>
+            </ExecutiveSurface>
+          </ExecutiveTechnicalLayer>
+        )}
+
       </div>
-    </div>
+    </ExecutivePageTemplate>
   );
 }

@@ -1,8 +1,8 @@
-// src/components/pilot-operations/GovernanceReadabilityPanel.tsx
-
 import React from 'react';
 import { usePilotOperations } from '../../context/pilot-operations/PilotOperationsProvider';
 import { ShieldCheck, AlignLeft, BarChart } from 'lucide-react';
+// src/components/pilot-operations/GovernanceReadabilityPanel.tsx
+
 
 export const GovernanceReadabilityPanel: React.FC = () => {
   const { governanceReadability, supervisionClarity, feedbackList, pilotStatus } = usePilotOperations();

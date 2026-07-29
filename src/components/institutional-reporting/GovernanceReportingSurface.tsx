@@ -1,9 +1,9 @@
-// src/components/institutional-reporting/GovernanceReportingSurface.tsx
-
 import React from 'react';
 import { ShieldCheck, Lock } from 'lucide-react';
 import { useLanguage } from '../../contexts/LanguageContext';
 import { GovernanceReportingSection } from '../../services/FiduciaryRuntimeAdapter';
+// src/components/institutional-reporting/GovernanceReportingSurface.tsx
+
 
 export function GovernanceReportingSurface({ data }: { data: GovernanceReportingSection }) {
   const { translateLabel: t } = useLanguage();

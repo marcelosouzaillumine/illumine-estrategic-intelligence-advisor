@@ -1,0 +1,133 @@
+# EAC Technical Layer Discovery
+
+## Overview
+Found 190 candidate components containing technical terminology.
+
+## Inventory Summary
+- **AMBIGUOUS**: 52
+- **DATA_PROVENANCE**: 14
+- **DECISION_TRACE**: 62
+- **EVIDENCE**: 40
+- **METHODOLOGY**: 19
+- **TECHNICAL_LAYER**: 3
+
+## High Confidence Candidates
+- `ClientLoginAudit` (DECISION_TRACE): Focused primarily on audit trails and logs without mixing strategic recommendation.
+- `AdvisorHistoricalSurface` (DECISION_TRACE): Focused primarily on audit trails and logs without mixing strategic recommendation.
+- `CopilotChatPanel` (DECISION_TRACE): Focused primarily on audit trails and logs without mixing strategic recommendation.
+- `DecisionCognitiveDrawer` (DECISION_TRACE): Focused primarily on audit trails and logs without mixing strategic recommendation.
+- `InstitutionalDigitalTwinWorkspace` (DECISION_TRACE): Focused primarily on audit trails and logs without mixing strategic recommendation.
+- `InstitutionalEvidenceControlCenterPage` (DECISION_TRACE): Focused primarily on audit trails and logs without mixing strategic recommendation.
+- `ExecutiveScenarioSelector` (DECISION_TRACE): Focused primarily on audit trails and logs without mixing strategic recommendation.
+- `InstitutionalScenarioTimeline` (DECISION_TRACE): Focused primarily on audit trails and logs without mixing strategic recommendation.
+- `CriticalDecisionSurface` (DECISION_TRACE): Focused primarily on audit trails and logs without mixing strategic recommendation.
+- `ExecutiveEvidenceViewer` (DECISION_TRACE): Focused primarily on audit trails and logs without mixing strategic recommendation.
+- `CrossTenantRestrictionState` (DECISION_TRACE): Focused primarily on audit trails and logs without mixing strategic recommendation.
+- `FiduciaryModalShell` (DECISION_TRACE): Focused primarily on audit trails and logs without mixing strategic recommendation.
+- `InstitutionalTimelineNavigator` (DECISION_TRACE): Focused primarily on audit trails and logs without mixing strategic recommendation.
+- `GovernanceCommandCenterSurface` (DECISION_TRACE): Focused primarily on audit trails and logs without mixing strategic recommendation.
+- `IncidentLineageViewer` (DECISION_TRACE): Focused primarily on audit trails and logs without mixing strategic recommendation.
+- `RuntimeHealthPanel` (DECISION_TRACE): Focused primarily on audit trails and logs without mixing strategic recommendation.
+- `RuntimeIntegritySurface` (DECISION_TRACE): Focused primarily on audit trails and logs without mixing strategic recommendation.
+- `RecoveryRegressionTimeline` (DECISION_TRACE): Focused primarily on audit trails and logs without mixing strategic recommendation.
+- `ExecutiveContinuityCard` (DECISION_TRACE): Focused primarily on audit trails and logs without mixing strategic recommendation.
+- `HistoricalEvidenceCoverage` (DECISION_TRACE): Focused primarily on audit trails and logs without mixing strategic recommendation.
+- `HistoricalGovernanceNavigator` (DECISION_TRACE): Focused primarily on audit trails and logs without mixing strategic recommendation.
+- `InstitutionalMemoryTimeline` (DECISION_TRACE): Focused primarily on audit trails and logs without mixing strategic recommendation.
+- `AccountingIntegrityPanel` (DECISION_TRACE): Focused primarily on audit trails and logs without mixing strategic recommendation.
+- `ConstitutionalIntegrityPanel` (DECISION_TRACE): Focused primarily on audit trails and logs without mixing strategic recommendation.
+- `ExecutiveSnapshotSurface` (DECISION_TRACE): Focused primarily on audit trails and logs without mixing strategic recommendation.
+- `InstitutionalBoardPackCenter` (DECISION_TRACE): Focused primarily on audit trails and logs without mixing strategic recommendation.
+- `LineageAppendixDrawer` (DECISION_TRACE): Focused primarily on audit trails and logs without mixing strategic recommendation.
+- `InstitutionalObjectCard` (DECISION_TRACE): Focused primarily on audit trails and logs without mixing strategic recommendation.
+- `BoardInvestigationWorkspace` (DECISION_TRACE): Focused primarily on audit trails and logs without mixing strategic recommendation.
+- `SemanticLineageViewer` (DECISION_TRACE): Focused primarily on audit trails and logs without mixing strategic recommendation.
+- `DocumentCurationModal` (DECISION_TRACE): Focused primarily on audit trails and logs without mixing strategic recommendation.
+- `DecisionGovernancePage` (DECISION_TRACE): Focused primarily on audit trails and logs without mixing strategic recommendation.
+- `ExecutiveScenarioLabPage` (DECISION_TRACE): Focused primarily on audit trails and logs without mixing strategic recommendation.
+- `InstitutionalKnowledgeGraphPage` (DECISION_TRACE): Focused primarily on audit trails and logs without mixing strategic recommendation.
+- `InstitutionalOnboardingControlCenterPage` (DECISION_TRACE): Focused primarily on audit trails and logs without mixing strategic recommendation.
+- `PartnersPage` (DECISION_TRACE): Focused primarily on audit trails and logs without mixing strategic recommendation.
+- `ProductGovernancePage` (DECISION_TRACE): Focused primarily on audit trails and logs without mixing strategic recommendation.
+- `RelatorioDemonstracoes5Anos` (DECISION_TRACE): Focused primarily on audit trails and logs without mixing strategic recommendation.
+- `RuntimeObservabilityPage` (DECISION_TRACE): Focused primarily on audit trails and logs without mixing strategic recommendation.
+- `TenantGovernancePage` (DECISION_TRACE): Focused primarily on audit trails and logs without mixing strategic recommendation.
+- `BenchmarkReadinessPanel` (DECISION_TRACE): Focused primarily on audit trails and logs without mixing strategic recommendation.
+- `DecisionLifecycleCenter` (DECISION_TRACE): Focused primarily on audit trails and logs without mixing strategic recommendation.
+- `FiduciaryGovernanceCenter` (DECISION_TRACE): Focused primarily on audit trails and logs without mixing strategic recommendation.
+- `FiduciaryValidationCenter` (DECISION_TRACE): Focused primarily on audit trails and logs without mixing strategic recommendation.
+- `InstitutionalLineageExplorer` (DECISION_TRACE): Focused primarily on audit trails and logs without mixing strategic recommendation.
+- `InstitutionalObservabilityCenter` (DECISION_TRACE): Focused primarily on audit trails and logs without mixing strategic recommendation.
+- `InstitutionalStructureCenter` (DECISION_TRACE): Focused primarily on audit trails and logs without mixing strategic recommendation.
+- `MultiTenantGovernanceCenter` (DECISION_TRACE): Focused primarily on audit trails and logs without mixing strategic recommendation.
+- `TemporalBoardPackSection` (DECISION_TRACE): Focused primarily on audit trails and logs without mixing strategic recommendation.
+- `GovernanceReadabilityPanel` (DECISION_TRACE): Focused primarily on audit trails and logs without mixing strategic recommendation.
+- `ProductAccessAuditFeed` (DECISION_TRACE): Focused primarily on audit trails and logs without mixing strategic recommendation.
+- `SimulationLineageViewer` (DECISION_TRACE): Focused primarily on audit trails and logs without mixing strategic recommendation.
+- `GovernanceTrajectoryGraph` (DECISION_TRACE): Focused primarily on audit trails and logs without mixing strategic recommendation.
+- `InstitutionalResilienceTimeline` (DECISION_TRACE): Focused primarily on audit trails and logs without mixing strategic recommendation.
+- `TemporalBoardWorkflowPanel` (DECISION_TRACE): Focused primarily on audit trails and logs without mixing strategic recommendation.
+- `TemporalCollaborationPanel` (DECISION_TRACE): Focused primarily on audit trails and logs without mixing strategic recommendation.
+- `TemporalEarlyWarningBanner` (DECISION_TRACE): Focused primarily on audit trails and logs without mixing strategic recommendation.
+- `TemporalExecutiveScoreboard` (DECISION_TRACE): Focused primarily on audit trails and logs without mixing strategic recommendation.
+- `ExecutiveAccordion` (DECISION_TRACE): Focused primarily on audit trails and logs without mixing strategic recommendation.
+- `WarRoomWorkspace` (DECISION_TRACE): Focused primarily on audit trails and logs without mixing strategic recommendation.
+- `WorkflowAuditFeed` (DECISION_TRACE): Focused primarily on audit trails and logs without mixing strategic recommendation.
+- `GovernanceTimeMachineWorkspace` (DECISION_TRACE): Focused primarily on audit trails and logs without mixing strategic recommendation.
+- `DLPAPage` (TECHNICAL_LAYER): Explicitly named as a Technical Layer or Section.
+- `DREPage` (TECHNICAL_LAYER): Explicitly named as a Technical Layer or Section.
+- `ExecutiveTechnicalLayer` (TECHNICAL_LAYER): Explicitly named as a Technical Layer or Section.
+
+## Mixed Boundary Candidates (Ambiguous)
+- `AdvisorWorkspaceShell`: Contains technical terms but lacks clear single cognitive purpose.
+- `CopilotTracePanel`: Contains technical terms but lacks clear single cognitive purpose.
+- `CognitiveSummaryCard`: Contains technical terms but lacks clear single cognitive purpose.
+- `ExecutiveHomeWorkspace`: Contains technical terms but lacks clear single cognitive purpose.
+- `InstitutionalTimelineViewer`: Contains technical terms but lacks clear single cognitive purpose.
+- `BoardCopilotPanel`: Contains technical terms but lacks clear single cognitive purpose.
+- `ExecutivePriorityStack`: Contains technical terms but lacks clear single cognitive purpose.
+- `RuntimeHealthPanel`: Contains technical terms but lacks clear single cognitive purpose.
+- `CausalChainSurface`: Contains technical terms but lacks clear single cognitive purpose.
+- `ConfidenceDisclosureCard`: Contains technical terms but lacks clear single cognitive purpose.
+- `GovernanceConfirmationLayer`: Contains technical terms but lacks clear single cognitive purpose.
+- `RuntimeLineageViewer`: Contains technical terms but lacks clear single cognitive purpose.
+- `SandboxWarningOverlay`: Contains technical terms but lacks clear single cognitive purpose.
+- `GovernanceAuditCorrelationPanel`: Contains technical terms but lacks clear single cognitive purpose.
+- `IncidentLifecyclePanel`: Contains technical terms but lacks clear single cognitive purpose.
+- `GovernanceRecommendationFeed`: Contains technical terms but lacks clear single cognitive purpose.
+- `ExplainabilityAppendixDrawer`: Contains technical terms but lacks clear single cognitive purpose.
+- `ExecutiveInstitutionalIntelligenceDashboard`: Contains technical terms but lacks clear single cognitive purpose.
+- `GovernanceRelationshipViewer`: Contains technical terms but lacks clear single cognitive purpose.
+- `RecurrenceExplorer`: Contains technical terms but lacks clear single cognitive purpose.
+- `BoardPackPreviewModal`: Contains technical terms but lacks clear single cognitive purpose.
+- `ExecutiveBoardReportModal`: Contains technical terms but lacks clear single cognitive purpose.
+- `OperationalExplainabilityDrawer`: Contains technical terms but lacks clear single cognitive purpose.
+- `AdvisorWorkspacePage`: Mixes executive/strategic content with raw technical data/methodologies.
+- `AdvisoryInsightsPage`: Contains technical terms but lacks clear single cognitive purpose.
+- `CalibrationPlayground`: Contains technical terms but lacks clear single cognitive purpose.
+- `InstitutionalReportsPage`: Mixes executive/strategic content with raw technical data/methodologies.
+- `PartnerSalesPage`: Mixes executive/strategic content with raw technical data/methodologies.
+- `PilotExperienceDashboard`: Mixes executive/strategic content with raw technical data/methodologies.
+- `PilotMonitoringDashboard`: Mixes executive/strategic content with raw technical data/methodologies.
+- `PremissasTributariasPage`: Mixes executive/strategic content with raw technical data/methodologies.
+- `RealityValidationPage`: Contains technical terms but lacks clear single cognitive purpose.
+- `ClientSupportPanel`: Contains technical terms but lacks clear single cognitive purpose.
+- `BoardDeckCenter`: Contains technical terms but lacks clear single cognitive purpose.
+- `BoardMeetingMode`: Contains technical terms but lacks clear single cognitive purpose.
+- `ConstitutionalLineagePanel`: Contains technical terms but lacks clear single cognitive purpose.
+- `ExecutiveTimelinePanel`: Mixes executive/strategic content with raw technical data/methodologies.
+- `FinancialLineageCenter`: Mixes executive/strategic content with raw technical data/methodologies.
+- `SovereignBoardPackPage`: Mixes executive/strategic content with raw technical data/methodologies.
+- `SovereignDecisionCenter`: Contains technical terms but lacks clear single cognitive purpose.
+- `EmpresasPage`: Mixes executive/strategic content with raw technical data/methodologies.
+- `A4Page`: Contains technical terms but lacks clear single cognitive purpose.
+- `ExecutiveAdoptionTimeline`: Contains technical terms but lacks clear single cognitive purpose.
+- `PilotFeedbackSurface`: Contains technical terms but lacks clear single cognitive purpose.
+- `PilotOperationsCenter`: Contains technical terms but lacks clear single cognitive purpose.
+- `TemporalAdvisoryCard`: Contains technical terms but lacks clear single cognitive purpose.
+- `ExecutiveDecisionRhythm`: Contains technical terms but lacks clear single cognitive purpose.
+- `ExecutiveDecisionTrace`: Contains technical terms but lacks clear single cognitive purpose.
+- `ExecutiveMetricCard`: Mixes executive/strategic content with raw technical data/methodologies.
+- `ExecutiveStatusBadge`: Contains technical terms but lacks clear single cognitive purpose.
+- `ExecutiveTechnicalMetricCard`: Contains technical terms but lacks clear single cognitive purpose.
+- `ExecutiveTechnicalScore`: Contains technical terms but lacks clear single cognitive purpose.

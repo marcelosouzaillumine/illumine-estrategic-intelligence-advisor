@@ -1,8 +1,8 @@
-// src/components/executive-command/ExecutiveDirectivePanel.tsx
-
 import React from 'react';
 import { ShieldCheck, AlertTriangle, ChevronRight, Anchor } from 'lucide-react';
 import { ExecutiveDirective } from '../../services/FiduciaryRuntimeAdapter';
+// src/components/executive-command/ExecutiveDirectivePanel.tsx
+
 
 interface ExecutiveDirectivePanelProps {
   directives: ExecutiveDirective[];

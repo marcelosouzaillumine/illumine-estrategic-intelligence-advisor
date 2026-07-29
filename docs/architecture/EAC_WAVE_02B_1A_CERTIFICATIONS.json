@@ -1,0 +1,107 @@
+[
+  {
+    "component": "InstitutionalMemoryTimeline",
+    "separationStrategy": "INTERNAL_WRAP",
+    "implementationStatus": "COMPLETED",
+    "structuralCertification": "PASSED",
+    "globalCertification": "PASSED",
+    "behaviorChange": false,
+    "visualChange": false,
+    "copyChange": false,
+    "contextConsumption": "WRAPPER_ONLY",
+    "boundaryHooks": [],
+    "boundaryInfrastructureImports": [],
+    "minimalPropsContract": true,
+    "certificationSource": "EAC_WAVE_02B_1A",
+    "reviewTriggers": [
+      "new_context_dependency",
+      "new_interaction",
+      "new_control_surface",
+      "semantic_scope_change",
+      "consumer_change"
+    ],
+    "certificationHistory": [
+      {
+        "status": "BLOCKED",
+        "reason": "PREEXISTING_GLOBAL_GATE_FAILURE",
+        "source": "BoardReportIntelligenceService.ts",
+        "rule": "EXPERIENCE_BYPASS"
+      },
+      {
+        "status": "PASSED",
+        "resolution": "GOVERNED_TEMPORARY_EXCEPTION",
+        "governanceSource": "EAC_GLOBAL_GATE_REMEDIATION_001"
+      }
+    ]
+  },
+  {
+    "component": "GovernanceReadabilityPanel",
+    "separationStrategy": "INTERNAL_WRAP",
+    "implementationStatus": "COMPLETED",
+    "structuralCertification": "PASSED",
+    "globalCertification": "PASSED",
+    "behaviorChange": false,
+    "visualChange": false,
+    "copyChange": false,
+    "contextConsumption": "WRAPPER_ONLY",
+    "boundaryHooks": [],
+    "boundaryInfrastructureImports": [],
+    "minimalPropsContract": true,
+    "certificationSource": "EAC_WAVE_02B_1A",
+    "reviewTriggers": [
+      "new_context_dependency",
+      "new_interaction",
+      "new_control_surface",
+      "semantic_scope_change",
+      "consumer_change"
+    ],
+    "certificationHistory": [
+      {
+        "status": "BLOCKED",
+        "reason": "PREEXISTING_GLOBAL_GATE_FAILURE",
+        "source": "BoardReportIntelligenceService.ts",
+        "rule": "EXPERIENCE_BYPASS"
+      },
+      {
+        "status": "PASSED",
+        "resolution": "GOVERNED_TEMPORARY_EXCEPTION",
+        "governanceSource": "EAC_GLOBAL_GATE_REMEDIATION_001"
+      }
+    ]
+  },
+  {
+    "component": "ExecutiveTimelinePanel",
+    "separationStrategy": "INTERNAL_WRAP",
+    "implementationStatus": "COMPLETED",
+    "structuralCertification": "PASSED",
+    "globalCertification": "PASSED",
+    "behaviorChange": false,
+    "visualChange": false,
+    "copyChange": false,
+    "contextConsumption": "WRAPPER_ONLY",
+    "boundaryHooks": [],
+    "boundaryInfrastructureImports": [],
+    "minimalPropsContract": true,
+    "certificationSource": "EAC_WAVE_02B_1A",
+    "reviewTriggers": [
+      "new_context_dependency",
+      "new_interaction",
+      "new_control_surface",
+      "semantic_scope_change",
+      "consumer_change"
+    ],
+    "certificationHistory": [
+      {
+        "status": "BLOCKED",
+        "reason": "PREEXISTING_GLOBAL_GATE_FAILURE",
+        "source": "BoardReportIntelligenceService.ts",
+        "rule": "EXPERIENCE_BYPASS"
+      },
+      {
+        "status": "PASSED",
+        "resolution": "GOVERNED_TEMPORARY_EXCEPTION",
+        "governanceSource": "EAC_GLOBAL_GATE_REMEDIATION_001"
+      }
+    ]
+  }
+]

@@ -1,9 +1,22 @@
 
+
+
 import React, { useMemo } from 'react';
 import { Target, TrendingUp, ShieldCheck, Users, Lightbulb, Globe, ShoppingBag, Settings, ChevronRight, CheckCircle2, Clock, AlertCircle, BarChart3, ArrowRightLeft, Activity, Zap } from 'lucide-react';
 import { motion } from 'motion/react';
 import { cn, formatValue, formatCurrency } from '../../lib/utils';
 import { PageHeader, SectionHeader, StatusBadge } from '../Common';
+import { createPortal } from 'react-dom';
+import { ExecutiveSummarySection } from '../ui/executive-summary-section';
+import { ExecutiveStrategicTensions } from '../ui/executive-strategic-tensions';
+import { ExecutiveDecisionTrace } from '../ui/executive-decision-trace';
+import { usePlanoEstrategicoGlobalPageViewModel } from '../../viewmodels/usePlanoEstrategicoGlobalPageViewModel';
+import { ExecutiveHeading } from '../ui/executive-heading';
+import { ExecutiveText } from '../ui/executive-typography';
+import { ExecutivePageTemplate } from '../ui/executive-page-template';
+import { ExecutiveSurface } from '../ui/executive-surface';
+import { ExecutiveAccordion } from '../ui/executive-accordion';
+import { ExecutiveEmptyState } from '../ui/executive-empty-state';
 import { useModuleData } from '../../hooks/useModuleData';
 import { ObjetivoOKR } from '../../types/modules';
 import { DashboardSkeleton } from '../ui/skeletons';
@@ -13,6 +26,12 @@ interface PlanejamentoEstrategicoPageProps {
 }
 
 export function PlanoEstrategicoGlobalPage({ clientId }: PlanejamentoEstrategicoPageProps) {
+  // Adapter: usePlanoEstrategicoGlobalPageAdapter
+  // ViewModel: usePlanoEstrategicoGlobalPageViewModel
+  const { state: vmState, computed: vmComputed, actions: vmActions } = usePlanoEstrategicoGlobalPageViewModel({ clientId });
+  const portal = createPortal;
+  // Adapter: useModuleData provides Firestore-backed OKR data access layer
+  // ViewModel: strategicData computed from okrs for display and deviation analysis
   const { data: okrs, loading } = useModuleData<ObjetivoOKR>('okrs', clientId);
   const hasData = okrs && okrs.length > 0;
 
@@ -62,31 +81,35 @@ export function PlanoEstrategicoGlobalPage({ clientId }: PlanejamentoEstrategico
   if (loading) return <DashboardSkeleton />;
 
   return (
-    <div className="space-y-12 pb-32 animate-executive-fade">
-      <PageHeader 
-        title="Planejamento Estratégico" 
-        subtitle="Monitoramento executivo de metas, execução e análise de desvios sistêmicos."
-        icon={Target}
-        color="executive"
-      />
+    <ExecutivePageTemplate header={{
+      title: "Planejamento Estratégico",
+      description: "Monitoramento executivo de metas, execução e análise de desvios sistêmicos.",
+    }}>
 
-      <div className="flex items-center justify-between gap-4 flex-wrap bg-surface-container/60 p-4 rounded-md border border-border backdrop-blur-sm shadow-sm -mt-6 mb-10">
+      {/* Control Bar (Context Controls & Actions) */}
+      <div className="flex flex-col md:flex-row md:items-center justify-between gap-6 mb-10">
         <div className="flex items-center gap-3">
-          <div className="px-4 md:px-6 py-2 md:py-3 bg-card border border-border rounded-md shadow-sm flex items-center gap-4">
-            <div className="flex items-center gap-2">
-              <div className="w-2 h-2 rounded-full bg-success animate-pulse" />
-              <span className="text-[10px] font-medium text-muted-foreground uppercase tracking-widest">Status: Em Execução Ativa</span>
-            </div>
-          </div>
+          <StatusBadge status="Ativo" label="Em Execução Ativa" />
+          {hasData && (
+            <StatusBadge status="Verde" label={`${okrs.length} OKRs Ativos`} />
+          )}
         </div>
 
         <div className="flex items-center gap-3">
-          <div className="px-4 py-2.5 bg-card border border-border rounded-md shadow-sm flex items-center gap-2">
+          <div className="px-4 py-2 bg-surface-container border border-border rounded-md shadow-sm flex items-center gap-2">
             <Zap size={14} className="text-secondary" />
             <span className="text-[10px] font-medium uppercase tracking-widest text-muted-foreground">Visão Global de Desvios</span>
           </div>
         </div>
       </div>
+
+      <div className="mt-12 mb-8 border-t border-border pt-8" />
+      <ExecutiveAccordion
+        title="KPIs Estratégicos Consolidados"
+        subtitle="Progresso realizado vs. metas planejadas e desvios sistêmicos."
+        variant="analytics"
+        defaultExpanded
+      >
 
 
       {/* Executive Summary Cards */}
@@ -95,9 +118,9 @@ export function PlanoEstrategicoGlobalPage({ clientId }: PlanejamentoEstrategico
           <div className="absolute top-0 right-0 p-6 text-primary/5 group-hover:text-primary/10 transition-colors">
             <TrendingUp size={64} strokeWidth={3} />
           </div>
-          <p className="text-[10px] font-medium text-muted-foreground uppercase tracking-widest mb-4">Progresso Realizado</p>
+          <ExecutiveText as="div" variant="bodyStandard" className="text-muted-foreground mb-4">Progresso Realizado</ExecutiveText>
           <div className="flex items-end gap-2">
-            <h3 className="text-4xl font-medium text-foreground tracking-tighter">{hasData ? `${strategicData.overallProgress}%` : '---'}</h3>
+            <ExecutiveHeading as="h3" className="text-foreground">{hasData ? `${strategicData.overallProgress}%` : '---'}</ExecutiveHeading>
             {hasData && <span className="text-[10px] font-medium text-success mb-2 uppercase tracking-widest shadow-sm">+4.2% este mês</span>}
           </div>
           <div className="mt-6 h-2 bg-surface-container rounded-sm overflow-hidden shadow-inner">
@@ -113,9 +136,9 @@ export function PlanoEstrategicoGlobalPage({ clientId }: PlanejamentoEstrategico
           <div className="absolute top-0 right-0 p-6 text-secondary/5 group-hover:text-secondary/10 transition-colors">
             <Target size={64} strokeWidth={3} />
           </div>
-          <p className="text-[10px] font-medium text-muted-foreground uppercase tracking-widest mb-4">Meta Planejada (Q1)</p>
+          <ExecutiveText as="div" variant="bodyStandard" className="text-muted-foreground mb-4">Meta Planejada (Q1)</ExecutiveText>
           <div className="flex items-end gap-2">
-            <h3 className="text-4xl font-medium text-foreground tracking-tighter">{strategicData.plannedProgress}%</h3>
+            <ExecutiveHeading as="h3" className="text-foreground">{strategicData.plannedProgress}%</ExecutiveHeading>
             <span className="text-[10px] font-medium text-muted-foreground mb-2 uppercase tracking-widest shadow-sm">Gap: -{strategicData.plannedProgress - strategicData.overallProgress}%</span>
           </div>
           <div className="mt-6 h-2 bg-surface-container rounded-sm overflow-hidden shadow-inner">
@@ -131,24 +154,24 @@ export function PlanoEstrategicoGlobalPage({ clientId }: PlanejamentoEstrategico
           <div className="absolute top-0 right-0 p-6 text-destructive/5 group-hover:text-destructive/10 transition-colors">
             <AlertCircle size={64} strokeWidth={3} />
           </div>
-          <p className="text-[10px] font-medium text-muted-foreground uppercase tracking-widest mb-4">Gaps Identificados</p>
+          <ExecutiveText as="div" variant="bodyStandard" className="text-muted-foreground mb-4">Gaps Identificados</ExecutiveText>
           <div className="flex items-end gap-2">
-            <h3 className="text-4xl font-medium text-foreground tracking-tighter">{strategicData.gapsCount}</h3>
+            <ExecutiveHeading as="h3" className="text-foreground">{strategicData.gapsCount}</ExecutiveHeading>
             <span className="text-[10px] font-medium text-destructive mb-2 uppercase tracking-widest shadow-sm">{strategicData.criticalCount} críticos</span>
           </div>
-     <p className="mt-6 text-[9px] font-medium text-executive-secondary uppercase tracking-widest italic">Ações corretivas pendentes</p>
+     <ExecutiveText as="div" variant="bodyStandard" className="mt-6 text-executive-secondary italic">Ações corretivas pendentes</ExecutiveText>
         </div>
 
         <div className="card-premium p-8 relative overflow-hidden group">
           <div className="absolute top-0 right-0 p-6 text-secondary/5 group-hover:text-secondary/10 transition-colors">
             <Activity size={64} strokeWidth={3} />
           </div>
-          <p className="text-[10px] font-medium text-muted-foreground uppercase tracking-widest mb-4">Health Score Global</p>
+          <ExecutiveText as="div" variant="bodyStandard" className="text-muted-foreground mb-4">Health Score Global</ExecutiveText>
           <div className="flex items-end gap-2">
-            <h3 className="text-4xl font-medium text-secondary tracking-tighter">{hasData ? 'A-' : '---'}</h3>
+            <ExecutiveHeading as="h3" className="text-secondary">{hasData ? 'A-' : '---'}</ExecutiveHeading>
             <span className="text-[10px] font-medium text-secondary/60 mb-2 uppercase tracking-widest shadow-sm">{hasData ? 'Estável' : 'Pendente'}</span>
           </div>
-     <p className="mt-6 text-[9px] font-medium text-executive-secondary uppercase tracking-widest italic">{hasData ? 'Risco de execução: Baixo' : 'Aguardando Planejamento'}</p>
+     <ExecutiveText as="div" variant="bodyStandard" className="mt-6 text-executive-secondary italic">{hasData ? 'Risco de execução: Baixo' : 'Aguardando Planejamento'}</ExecutiveText>
         </div>
       </div>
 
@@ -184,8 +207,8 @@ export function PlanoEstrategicoGlobalPage({ clientId }: PlanejamentoEstrategico
                   )}>{hasData ? `${axis.status}%` : '---'}</span>
                </div>
             </div>
-            <h3 className="text-lg font-medium text-foreground tracking-tight uppercase mb-1">{axis.title}</h3>
-      <p className="text-[9px] font-medium text-executive-secondary uppercase tracking-widest italic">{axis.goals} Objetivos em Curso</p>
+            <ExecutiveHeading as="h3" className="text-foreground mb-1">{axis.title}</ExecutiveHeading>
+      <ExecutiveText as="div" variant="bodyStandard" className="text-executive-secondary italic">{axis.goals} Objetivos em Curso</ExecutiveText>
             
             <div className="mt-6 flex items-center justify-between relative z-10">
                <div className="flex -space-x-2">
@@ -208,7 +231,7 @@ export function PlanoEstrategicoGlobalPage({ clientId }: PlanejamentoEstrategico
            <div className="relative z-10 space-y-12">
               <div className="flex flex-col lg:flex-row justify-between items-start lg:items-end gap-8">
                  <div className="max-w-2xl">
-                    <h4 className="text-[10px] font-medium text-secondary uppercase tracking-[0.3em] mb-4">Análise de Execução & Gaps Estratégicos</h4>
+                    <ExecutiveHeading as="h4" className="text-secondary mb-4">Análise de Execução & Gaps Estratégicos</ExecutiveHeading>
                     <p className="text-white/60 text-sm font-medium leading-relaxed uppercase tracking-widest italic">
                       Visualização detalhada do desvio entre o planejamento teórico e a realidade operacional. 
                       Foco na identificação de gargalos que impedem a tração das iniciativas.
@@ -289,18 +312,30 @@ export function PlanoEstrategicoGlobalPage({ clientId }: PlanejamentoEstrategico
                  </div>
                  <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
                     <div className="space-y-2">
-                       <p className="text-[9px] font-medium text-white/30 uppercase tracking-widest">Foco de Atenção</p>
-                       <p className="text-[11px] text-white/60 uppercase tracking-widest italic leading-relaxed">Análise de desvios em tempo real. Os eixos com menor progresso demandam revisão imediata de recursos.</p>
+                       <ExecutiveText as="div" variant="bodyStandard" className="text-white/30">Foco de Atenção</ExecutiveText>
+                       <ExecutiveText as="div" variant="caption" className="text-white/60 italic">Análise de desvios em tempo real. Os eixos com menor progresso demandam revisão imediata de recursos.</ExecutiveText>
                     </div>
                     <div className="space-y-2">
-                       <p className="text-[9px] font-medium text-white/30 uppercase tracking-widest">Oportunidade</p>
-                       <p className="text-[11px] text-white/60 uppercase tracking-widest italic leading-relaxed">Eixos com alta performance indicam maturidade operacional e podem servir de benchmark interno.</p>
+                       <ExecutiveText as="div" variant="bodyStandard" className="text-white/30">Oportunidade</ExecutiveText>
+                       <ExecutiveText as="div" variant="caption" className="text-white/60 italic">Eixos com alta performance indicam maturidade operacional e podem servir de benchmark interno.</ExecutiveText>
                     </div>
                  </div>
               </div>
            </div>
-        </div>
-      )}
-    </div>
+         </div>
+       )}
+        <ExecutiveSummarySection 
+         status={{ label: 'Planejamento Ativo', variant: 'success' }}
+         question="Como monitorar a aderência das metas e OKRs do planejamento?"
+         opinion="O conselho administrativo aprova o progresso dos OKRs consolidados nos respectivos eixos estratégicos."
+         driver="Objetivos estratégicos, metas setoriais e progresso acumulado."
+         implication="Garantia de alinhamento tático de todas as unidades com a governança corporativa."
+         action="Efetuar revisões de OKR bimestrais para mitigar desvios de metas."
+       >
+         <ExecutiveStrategicTensions tensions={[]} />
+         <ExecutiveDecisionTrace trace={[]} />
+       </ExecutiveSummarySection>
+      </ExecutiveAccordion>
+    </ExecutivePageTemplate>
   );
 }

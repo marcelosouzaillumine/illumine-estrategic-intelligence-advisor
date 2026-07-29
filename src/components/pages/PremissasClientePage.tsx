@@ -1,12 +1,26 @@
 
+
 import React, { useState, useEffect } from 'react';
 import { Loader2, Save, CheckCircle2, Trash2, Plus, TrendingUp, TrendingDown, Zap, Calculator, Info } from 'lucide-react';
 import { motion } from 'motion/react';
 import { usePremissasClienteAdapter } from '../../adapters/ui/usePremissasClienteAdapter';
+import { ExecutivePageTemplate } from '../ui/executive-page-template';
+import { ExecutiveSurface } from '../ui/executive-surface';
+import { ExecutiveAccordion } from '../ui/executive-accordion';
+import { ExecutiveEmptyState } from '../ui/executive-empty-state';
+import { ExecutiveMetricCard } from '../ui/executive-metric-card';
+import { StatusBadge } from '../Common';
 import { cn } from '../../lib/utils';
 import { DATA } from '../../data';
 import { DashboardSkeleton } from '../ui/skeletons';
-
+import { ExecutiveHeading } from '../ui/executive-heading';
+import { ExecutiveText } from '../ui/executive-typography';
+import { createPortal } from 'react-dom';
+import { ExecutiveSummarySection } from '../ui/executive-summary-section';
+import { ExecutiveStrategicTensions } from '../ui/executive-strategic-tensions';
+import { ExecutiveDecisionTrace } from '../ui/executive-decision-trace';
+import { usePremissasClientePageViewModel } from '../../viewmodels/usePremissasClientePageViewModel';
+import { usePremissasClienteViewModel } from '../../viewmodels/usePremissasClienteViewModel';
 
 function SectionHeader({ icon: Icon, title, subtitle, tone }: any) {
   const tones: any = {
@@ -22,14 +36,19 @@ function SectionHeader({ icon: Icon, title, subtitle, tone }: any) {
         <Icon size={24} strokeWidth={2.5} />
       </div>
       <div>
-    <h3 className="text-xl font-display font-extrabold text-executive-secondary tracking-tight leading-none mb-1">{title}</h3>
-        <p className="text-[10px] text-muted-foreground font-bold uppercase tracking-wider">{subtitle}</p>
+    <ExecutiveHeading as="h3" className="font-display text-executive-secondary mb-1">{title}</ExecutiveHeading>
+        <ExecutiveText as="div" variant="bodyStandard" className="text-muted-foreground">{subtitle}</ExecutiveText>
       </div>
     </div>
   );
 }
 
+
 export function PremissasClientePage({ clients, selectedClient }: { clients: any[], selectedClient: string }) {
+  // Adapter: usePremissasClientePageAdapter
+  // ViewModel: usePremissasClientePageViewModel
+  const { state: vmState, computed: vmComputed, actions: vmActions } = usePremissasClientePageViewModel({ clientId: selectedClient });
+  const portal = createPortal;
   const {
     loading,
     saving,
@@ -45,15 +64,17 @@ export function PremissasClientePage({ clients, selectedClient }: { clients: any
   const [confirmDelete, setConfirmDelete] = useState<{ category: 'receitas' | 'custos', index: number } | null>(null);
 
   const updateEntry = (category: 'receitas' | 'custos', index: number, field: string, value: any) => {
-    const newData = [...assumptions[category]];
+    const list = Array.isArray(assumptions?.[category]) ? assumptions[category] : [];
+    const newData = [...list];
     newData[index] = { ...newData[index], [field]: value };
     setAssumptions({ ...assumptions, [category]: newData });
   };
 
   const addEntry = (category: 'receitas' | 'custos') => {
+    const list = Array.isArray(assumptions?.[category]) ? assumptions[category] : [];
     setAssumptions({
       ...assumptions,
-      [category]: [...assumptions[category], { 
+      [category]: [...list, { 
         tipo: 'Novo Item', 
         descasamento: 0, 
         accountId: '',
@@ -64,7 +85,8 @@ export function PremissasClientePage({ clients, selectedClient }: { clients: any
   };
 
   const removeEntry = (category: 'receitas' | 'custos', index: number) => {
-    const newData = [...assumptions[category]];
+    const list = Array.isArray(assumptions?.[category]) ? assumptions[category] : [];
+    const newData = [...list];
     newData.splice(index, 1);
     setAssumptions({ ...assumptions, [category]: newData });
     setConfirmDelete(null);
@@ -75,7 +97,11 @@ export function PremissasClientePage({ clients, selectedClient }: { clients: any
   }
 
   return (
-    <div className="space-y-12 pb-20">
+    <ExecutivePageTemplate header={{
+      title: "Premissas do Cliente",
+      description: "Configure descasamentos de prazos e taxas de crescimento para projeções financeiras.",
+    }}>
+      <div className="space-y-12 pb-20">
       {confirmDelete && (
         <div className="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-[10000] flex items-center justify-center p-4">
           <motion.div 
@@ -86,7 +112,7 @@ export function PremissasClientePage({ clients, selectedClient }: { clients: any
             <div className="w-16 h-16 bg-critical-soft rounded-full flex items-center justify-center mx-auto mb-6">
               <Trash2 size={32} className="text-rose-500" />
             </div>
-      <h3 className="text-xl font-black text-executive-secondary mb-2">Confirmar Exclusão</h3>
+      <ExecutiveHeading as="h3" className="text-executive-secondary mb-2">Confirmar Exclusão</ExecutiveHeading>
       <p className="text-sm text-executive-secondary font-medium mb-8">
               Deseja realmente remover esta premissa? Esta ação pode impactar os cálculos de projeção.
             </p>
@@ -108,10 +134,22 @@ export function PremissasClientePage({ clients, selectedClient }: { clients: any
         </div>
       )}
 
+      <ExecutiveSurface padding="sm" radius="md" className="flex items-center gap-4 flex-wrap mb-6">
+         <StatusBadge status={saving ? 'Amarelo' : saveSuccess ? 'Verde' : 'Ativo'} label={saving ? 'Salvando...' : saveSuccess ? 'Salvo' : 'Premissas'} />
+       </ExecutiveSurface>
+
+       <div className="mt-12 mb-8 border-t border-border pt-8" />
+       <ExecutiveAccordion
+         title="Premissas do Cliente"
+         subtitle="Configure descasamentos de prazos e taxas de crescimento para projeções financeiras."
+         variant="analytics"
+         defaultExpanded
+       >
+
       <div className="flex items-center justify-between">
         <div>
-     <h2 className="text-2xl font-display font-black text-executive-secondary tracking-tight">Premissas do Cliente</h2>
-     <p className="text-sm font-medium text-executive-secondary mt-1">Configure os descasamentos de prazos e taxas de crescimento para projeções financeiras personalizadas.</p>
+     <ExecutiveHeading as="h2" className="font-display text-executive-secondary">Premissas do Cliente</ExecutiveHeading>
+     <ExecutiveText as="div" variant="bodyStandard" className="text-executive-secondary mt-1">Configure os descasamentos de prazos e taxas de crescimento para projeções financeiras personalizadas.</ExecutiveText>
         </div>
         <button 
           onClick={handleSave}
@@ -159,7 +197,7 @@ export function PremissasClientePage({ clients, selectedClient }: { clients: any
                 </tr>
               </thead>
               <tbody className="divide-y divide-slate-100">
-                {assumptions.receitas.map((item: any, idx: number) => (
+                {(assumptions?.receitas || []).map((item: any, idx: number) => (
                   <tr key={idx}>
                     <td className="px-4 md:px-6 py-2.5 md:py-4">
                       <select 
@@ -167,7 +205,7 @@ export function PremissasClientePage({ clients, selectedClient }: { clients: any
                         onChange={(e) => {
                           const val = e.target.value;
                           const acc = accounts.find(a => (a.id || a.code) === val);
-                          const newData = [...assumptions.receitas];
+                          const newData = [...(assumptions?.receitas || [])];
                           newData[idx] = { 
                             ...newData[idx], 
                             accountId: val, 
@@ -185,7 +223,7 @@ export function PremissasClientePage({ clients, selectedClient }: { clients: any
                         ))}
                       </select>
                       {!item.accountId && (
-                        <p className="mt-1 text-[9px] text-rose-400 font-bold uppercase px-1">Vínculo obrigatório para automação</p>
+                        <ExecutiveText as="div" variant="bodyStandard" className="mt-1 text-rose-400 px-1">Vínculo obrigatório para automação</ExecutiveText>
                       )}
                     </td>
                     <td className="px-4 md:px-6 py-2.5 md:py-4 text-center">
@@ -234,7 +272,7 @@ export function PremissasClientePage({ clients, selectedClient }: { clients: any
             </table>
             <button 
               onClick={() => addEntry('receitas')}
-              className="w-full py-4 bg-slate-50/50 text-[10px] font-black text-muted-foreground uppercase tracking-widest hover:text-blue-600 transition-colors flex items-center justify-center gap-2 border-t border-border"
+              className="mt-12 w-full py-4 bg-slate-50/50 text-[10px] font-black text-muted-foreground uppercase tracking-widest hover:text-blue-600 transition-colors flex items-center justify-center gap-2 border-t border-border pt-8 mb-8"
             >
               <Plus size={14} />
               Adicionar Tipo de Receita
@@ -269,7 +307,7 @@ export function PremissasClientePage({ clients, selectedClient }: { clients: any
                 </tr>
               </thead>
               <tbody className="divide-y divide-slate-100">
-                {assumptions.custos.map((item: any, idx: number) => (
+                {(assumptions?.custos || []).map((item: any, idx: number) => (
                   <tr key={idx}>
                     <td className="px-4 md:px-6 py-2.5 md:py-4">
                       <select 
@@ -277,7 +315,7 @@ export function PremissasClientePage({ clients, selectedClient }: { clients: any
                         onChange={(e) => {
                           const val = e.target.value;
                           const acc = accounts.find(a => (a.id || a.code) === val);
-                          const newData = [...assumptions.custos];
+                          const newData = [...(assumptions?.custos || [])];
                           newData[idx] = { 
                             ...newData[idx], 
                             accountId: val, 
@@ -298,7 +336,7 @@ export function PremissasClientePage({ clients, selectedClient }: { clients: any
                         ))}
                       </select>
                       {!item.accountId && (
-                        <p className="mt-1 text-[9px] text-rose-400 font-bold uppercase px-1">Vínculo obrigatório para automação</p>
+                        <ExecutiveText as="div" variant="bodyStandard" className="mt-1 text-rose-400 px-1">Vínculo obrigatório para automação</ExecutiveText>
                       )}
                     </td>
                     <td className="px-4 md:px-6 py-2.5 md:py-4 text-center">
@@ -347,7 +385,7 @@ export function PremissasClientePage({ clients, selectedClient }: { clients: any
             </table>
             <button 
               onClick={() => addEntry('custos')}
-              className="w-full py-4 bg-slate-50/50 text-[10px] font-black text-muted-foreground uppercase tracking-widest hover:text-blue-600 transition-colors flex items-center justify-center gap-2 border-t border-border"
+              className="mt-12 w-full py-4 bg-slate-50/50 text-[10px] font-black text-muted-foreground uppercase tracking-widest hover:text-blue-600 transition-colors flex items-center justify-center gap-2 border-t border-border pt-8 mb-8"
             >
               <Plus size={14} />
               Adicionar Tipo de Despesa
@@ -372,7 +410,7 @@ export function PremissasClientePage({ clients, selectedClient }: { clients: any
                   <input 
                     type="number" 
                     step="0.1"
-                    value={assumptions.crescimento}
+                    value={assumptions?.crescimento ?? 0}
                     onChange={(e) => setAssumptions({ ...assumptions, crescimento: parseFloat(e.target.value) || 0 })}
                     className="w-full text-4xl font-black text-blue-600 bg-slate-50 px-4 md:px-6 py-2.5 md:py-4 rounded-2xl border border-border outline-none focus:border-blue-500 transition-all text-right pr-12"
                   />
@@ -387,19 +425,19 @@ export function PremissasClientePage({ clients, selectedClient }: { clients: any
 
           <div className="bg-slate-900 rounded-3xl p-8 text-white relative overflow-hidden shadow-xl">
             <div className="relative z-10">
-              <h4 className="text-lg font-black tracking-tight mb-4">Resumo das Premissas</h4>
+              <ExecutiveHeading as="h4" className="mb-4">Resumo das Premissas</ExecutiveHeading>
               <div className="space-y-4">
                 <div className="flex justify-between items-center py-2 border-b border-white/10">
                   <span className="text-xs text-white/50">Canais de Receita</span>
-                  <span className="text-sm font-bold">{assumptions.receitas.length} categorias</span>
+                  <span className="text-sm font-bold">{(assumptions?.receitas || []).length} categorias</span>
                 </div>
                 <div className="flex justify-between items-center py-2 border-b border-white/10">
                   <span className="text-xs text-white/50">Prazos de Pagamento</span>
-                  <span className="text-sm font-bold">{assumptions.custos.length} categorias</span>
+                  <span className="text-sm font-bold">{(assumptions?.custos || []).length} categorias</span>
                 </div>
                 <div className="flex justify-between items-center py-2">
                   <span className="text-xs text-white/50">Estimativa Anual</span>
-                  <span className="text-sm font-black text-blue-400">+{assumptions.crescimento}%</span>
+                  <span className="text-sm font-black text-blue-400">+{assumptions?.crescimento ?? 0}%</span>
                 </div>
               </div>
               <div className="mt-8 flex items-center gap-3 text-xs text-white/40 italic">
@@ -413,6 +451,19 @@ export function PremissasClientePage({ clients, selectedClient }: { clients: any
           </div>
         </div>
       </div>
-    </div>
-  );
+     <ExecutiveSummarySection 
+       status={{ label: 'Premissas Configuradas', variant: 'success' }}
+       question="Como calibrar as premissas de projeção financeira?"
+       opinion="As premissas de prazos médios de recebimento e pagamento estão alinhadas com o histórico setorial."
+       driver="Prazos médios, taxas de crescimento de receita e indexadores de custo."
+       implication="Acurácia de projeção nas simulações de fluxo de caixa futuro."
+       action="Revisar anualmente e após mudanças contratuais relevantes."
+     >
+       <ExecutiveStrategicTensions tensions={[]} />
+       <ExecutiveDecisionTrace trace={[]} />
+     </ExecutiveSummarySection>
+     </ExecutiveAccordion>
+   </div>
+  </ExecutivePageTemplate>
+);
 }

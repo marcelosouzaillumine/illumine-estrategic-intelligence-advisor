@@ -1,9 +1,16 @@
 import React from 'react';
-import { Scale, Activity, TrendingUp, TrendingDown, AlertTriangle, CheckCircle2, Info, ChevronDown, ChevronUp, Coins, Layers, Database, ArrowRightLeft, Briefcase, ShieldCheck, Calendar, Zap, Percent, Clock } from 'lucide-react';
-import { ResponsiveContainer, RadarChart, PolarGrid, PolarAngleAxis, PolarRadiusAxis, Radar, Tooltip } from 'recharts';
-import { useCapitalGovernanceViewModel } from '../../../viewmodels/governance/useCapitalGovernanceViewModel';
-import { cn, formatCurrency } from '../../../lib/utils';
-import { PageHeader } from '../../Common';
+import { Scale, Activity, CheckCircle2, ShieldCheck, Clock } from 'lucide-react';
+import { ResponsiveContainer, RadarChart, PolarGrid, PolarAngleAxis, PolarRadiusAxis, Radar } from 'recharts';
+import { ExecutiveText } from '@/components/ui/executive-typography';
+import { ExecutiveHeading } from '@/components/ui/executive-heading';
+import { ExecutivePageTemplate } from '@/components/ui/executive-page-template';
+import { ExecutiveSummarySection } from '@/components/ui/executive-summary-section';
+import { ExecutiveTechnicalEvidenceSection } from '@/components/executive-architecture/executive-technical-evidence-section';
+import { ExecutiveSurface } from '@/components/ui/executive-surface';
+import { ExecutiveMetricCard } from '@/components/ui/executive-metric-card';
+import { ExecutiveBadge } from '@/components/ui/executive-badge';
+import { useCapitalGovernanceViewModel } from '@/viewmodels/governance/useCapitalGovernanceViewModel';
+import { cn, formatCurrency } from '@/lib/utils';
 
 interface CapitalGovernanceCenterProps {
   clients?: any[];
@@ -11,46 +18,39 @@ interface CapitalGovernanceCenterProps {
   selectedYear?: number;
 }
 
-// ── Score Ring Component ──
+// ── Score Ring Component (Refatorado para Design System Tokens Canônicos) ──
 function CgsScoreRing({ value, label, status }: { value: number; label: string; status: string }) {
   const r = 50, c = 2 * Math.PI * r;
   const offset = c - (value / 100) * c;
   
-  const getColors = (v: number) => {
-    if (v >= 85) return { stroke: 'var(--color-executive-primary)', text: 'text-emerald-400', bg: 'bg-success-soft0/10' };
-    if (v >= 70) return { stroke: 'var(--color-executive-primary)', text: 'text-blue-400', bg: 'bg-blue-500/10' };
-    if (v >= 50) return { stroke: 'var(--color-executive-primary)', text: 'text-amber-400', bg: 'bg-warning-soft0/10' };
-    return { stroke: 'var(--color-executive-primary)', text: 'text-rose-400', bg: 'bg-critical-soft0/10' };
+  const getBadgeVariant = (v: number) => {
+    if (v >= 85) return 'success';
+    if (v >= 70) return 'info';
+    if (v >= 50) return 'warning';
+    return 'critical';
   };
-
-  const colors = getColors(value);
 
   return (
     <div className="flex flex-col items-center gap-3">
       <div className="relative flex items-center justify-center">
         <svg width="120" height="120" viewBox="0 0 120 120">
-          <circle cx="60" cy="60" r={r} fill="none" stroke="currentColor" strokeWidth="8" />
-          <circle cx="60" cy="60" r={r} fill="none" stroke={colors.stroke} strokeWidth="8"
+          <circle cx="60" cy="60" r={r} fill="none" stroke="currentColor" strokeWidth="8" className="text-muted/20" />
+          <circle cx="60" cy="60" r={r} fill="none" stroke="var(--color-primary)" strokeWidth="8"
             strokeDasharray={`${c} ${c}`} strokeDashoffset={offset}
             strokeLinecap="round" transform="rotate(-90 60 60)" style={{ transition: 'stroke-dashoffset 0.8s ease' }} />
         </svg>
         <div className="absolute flex flex-col items-center">
-          <span className={cn("text-3xl font-light tracking-tight", colors.text)}>
+          <ExecutiveHeading as="h3" className="text-3xl text-foreground">
             {Math.round(value)}
-          </span>
-          <span className="text-[9px] text-muted-foreground font-bold uppercase tracking-wider">Score</span>
+          </ExecutiveHeading>
+          <ExecutiveText as="span" variant="caption" className="text-muted-foreground uppercase font-bold text-[9px]">Score</ExecutiveText>
         </div>
       </div>
-      <div className="text-center">
-        <p className="text-xs font-bold text-muted-foreground uppercase tracking-widest">{label}</p>
-        <span className={cn("mt-1 inline-block text-[9px] font-black uppercase px-2.5 py-0.5 rounded-full border", 
-          value >= 85 ? 'bg-success-soft0/10 border-emerald-500/20 text-emerald-400' :
-          value >= 70 ? 'bg-blue-500/10 border-blue-500/20 text-blue-400' :
-          value >= 50 ? 'bg-warning-soft0/10 border-amber-500/20 text-amber-400' :
-          'bg-critical-soft0/10 border-rose-500/20 text-rose-400'
-        )}>
+      <div className="text-center flex flex-col items-center gap-1">
+        <ExecutiveText as="div" variant="caption" className="text-muted-foreground">{label}</ExecutiveText>
+        <ExecutiveBadge variant={getBadgeVariant(value)}>
           {status}
-        </span>
+        </ExecutiveBadge>
       </div>
     </div>
   );
@@ -67,22 +67,15 @@ export function CapitalGovernanceCenter({ selectedClient, selectedYear }: Capita
     cpi,
     cpiStatus,
     cdi,
-    cdiStatus,
     ddi,
     ddiStatus,
     eri,
     eriStatus,
-    erir,
-    erirStatus,
-    cmi,
     trajectory,
     capitalSocial,
     patrimonioLiquido,
-    plInicio,
     netIncome,
     dividendos,
-    capitalInjections,
-    capitalizacoesAcumuladas,
     renderedNetIncome,
     renderedCapitalSocial,
     renderedPreservation,
@@ -104,41 +97,41 @@ export function CapitalGovernanceCenter({ selectedClient, selectedYear }: Capita
     return (
       <div className="flex flex-col items-center justify-center min-h-[400px] gap-3 text-muted-foreground">
         <Activity className="w-8 h-8 animate-pulse text-primary" />
-        <span className="text-sm font-medium tracking-wide uppercase">Instanciando Fiduciary Capital Governance Runtime...</span>
+        <ExecutiveText as="span" variant="caption" className="font-medium tracking-wide uppercase">Instanciando Fiduciary Capital Governance Runtime...</ExecutiveText>
       </div>
     );
   }
 
   return (
-    <div className="max-w-[1440px] mx-auto px-6 lg:px-10 space-y-12 pb-32 animate-executive-fade">
-      {/* Page Header */}
-      <PageHeader 
-        title="Centro de Governança de Capital (CGE)"
-        subtitle="Auditoria fiduciária da base societária, políticas de dividendos, retenção de lucros e sustentabilidade patrimonial."
-        icon={Scale}
-        transparent
-        actions={
-          <div className="text-right">
-            <div className="text-[10px] text-muted-foreground uppercase tracking-widest font-black mb-1">Status da Camada CGE</div>
-            <div className="flex items-center gap-2 justify-end">
-              <span className="w-2.5 h-2.5 rounded-full bg-emerald-400 animate-ping"></span>
-              <span className="text-sm font-semibold text-emerald-400 uppercase tracking-wider">Ativo</span>
-            </div>
-          </div>
-        }
+    <ExecutivePageTemplate header={{ title: "Centro de Governança de Capital (CGE)", description: "Auditoria fiduciária da base societária, políticas de dividendos, retenção de lucros e sustentabilidade patrimonial.", icon: Scale }}>
+
+      {/* BLOCO 1 (EAC): Executive Summary Section */}
+      <ExecutiveSummarySection
+        status={{
+          label: cgsStatus,
+          variant: cgs >= 85 ? 'success' : cgs >= 70 ? 'info' : cgs >= 50 ? 'warning' : 'critical'
+        }}
+        question="Qual é a saúde fiduciária da estrutura societária e capacidade de sustentação patrimonial?"
+        opinion={cgeInference?.narrative?.diagnostic || `O Capital Governance Score atual é de ${Math.round(cgs)}/100 (${cgsStatus}). A trajetória patrimonial está classificada como ${trajectory}.`}
+        driver={cgeInference?.narrative?.driver || `Preservação patrimonial calculada em ${cgeMetrics.capitalPreservation !== undefined ? `${Number(cgeMetrics.capitalPreservation).toFixed(2)}%` : `${(cpi * 100).toFixed(2)}%`}.`}
+        implication={cgeInference?.narrative?.impact || "Inconsistências entre distribuição de dividendos e necessidade de aporte societário podem gerar fragilidade de liquidez."}
+        action={cgeInference?.narrative?.recommendation || "Fortalecer retenção de lucros operacionais e calibrar a política de dividendos para preservar o Patrimônio Líquido."}
+        technicalScore={{
+          value: Math.round(cgs),
+          confidence: 'Alta'
+        }}
       />
 
-      {/* Row 1: CGS Gauge & Radar */}
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+      {/* BLOCO 2 (EAC): Score Gauge & Radar Section */}
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 mt-6">
         
         {/* CGS Gauge Card */}
-        <div className="card-premium p-8 flex flex-col justify-between relative overflow-hidden group hover:border-border transition-all duration-300">
-          <div className="absolute top-0 right-0 w-32 h-32 bg-success-soft0/5 rounded-full blur-3xl pointer-events-none"></div>
+        <ExecutiveSurface variant="default" padding="lg" className="flex flex-col justify-between relative overflow-hidden">
           <div>
             <div className="flex justify-between items-start mb-6">
               <div>
-                <span className="text-[10px] font-black tracking-widest text-muted-foreground uppercase">Capital Governance Engine</span>
-                <h3 className="text-lg font-medium text-muted-foreground mt-1">Capital Governance Score</h3>
+                <ExecutiveText as="span" variant="caption" className="text-muted-foreground uppercase font-bold tracking-widest text-[10px]">Capital Governance Engine</ExecutiveText>
+                <ExecutiveHeading as="h3" className="text-foreground mt-1">Capital Governance Score</ExecutiveHeading>
               </div>
             </div>
             
@@ -150,317 +143,304 @@ export function CapitalGovernanceCenter({ selectedClient, selectedYear }: Capita
               />
             </div>
 
-            <p className="text-muted-foreground text-sm leading-relaxed mb-6 font-light text-center">
+            <ExecutiveText as="p" variant="bodyStandard" className="text-muted-foreground text-center">
               {cgeInference?.narrative?.diagnostic || 'Parecer de governança estruturado upstream.'}
-            </p>
+            </ExecutiveText>
           </div>
 
-          <div className="pt-6 border-t border-border/10">
-            <div className="flex justify-between text-xs">
-              <span className="text-muted-foreground uppercase font-semibold">Trajetória Atual:</span>
-              <span className="text-muted-foreground font-bold uppercase tracking-wide">{trajectory}</span>
-            </div>
+          <div className="mt-8 pt-4 border-t border-border/40 flex justify-between items-center">
+            <ExecutiveText as="span" variant="caption" className="text-muted-foreground uppercase font-semibold">Trajetória Atual:</ExecutiveText>
+            <ExecutiveBadge variant="info">{trajectory}</ExecutiveBadge>
           </div>
-        </div>
+        </ExecutiveSurface>
 
         {/* Capital Structure Radar Chart */}
-        <div className="card-premium p-6 lg:col-span-2 flex flex-col justify-between">
+        <ExecutiveSurface variant="default" padding="lg" className="lg:col-span-2 flex flex-col justify-between">
           <div>
-            <h3 className="text-xs font-bold uppercase tracking-wider text-muted-foreground mb-1">Radar de Governança de Capital</h3>
-            <p className="text-[11px] text-muted-foreground font-light">Evolução e conformidade em 6 eixos fiduciários estruturais.</p>
+            <ExecutiveHeading as="h3" className="text-foreground mb-1">Radar de Governança de Capital</ExecutiveHeading>
+            <ExecutiveText as="div" variant="caption" className="text-muted-foreground">Evolução e conformidade em 6 eixos fiduciários estruturais.</ExecutiveText>
           </div>
           
           <div className="h-[280px] w-full mt-4 flex items-center justify-center">
             <ResponsiveContainer width="100%" height="100%">
               <RadarChart cx="50%" cy="50%" outerRadius="80%" data={radarData}>
-                <PolarGrid stroke="currentColor" />
-                <PolarAngleAxis dataKey="subject" tick={{ fill: 'var(--color-executive-primary)', fontSize: 10, fontWeight: 'medium' }} />
-                <PolarRadiusAxis angle={30} domain={[0, 100]} tick={{ fill: 'var(--color-executive-primary)', fontSize: 8 }} />
+                <PolarGrid stroke="currentColor" className="text-border/60" />
+                <PolarAngleAxis dataKey="subject" tick={{ fill: 'var(--color-text-secondary, #475569)', fontSize: 10, fontWeight: '600' }} />
+                <PolarRadiusAxis angle={30} domain={[0, 100]} tick={{ fill: 'var(--color-text-muted, #64748B)', fontSize: 8 }} />
                 <Radar
                   name="Maturidade Patrimonial"
                   dataKey="value"
-                  stroke="currentColor"
-                  fill="currentColor"
+                  stroke="var(--color-primary)"
+                  fill="var(--color-primary)"
                   fillOpacity={0.15}
                 />
               </RadarChart>
             </ResponsiveContainer>
           </div>
-        </div>
+        </ExecutiveSurface>
 
       </div>
 
-      {/* Row 2: Capital Preservation Panel */}
-      <div className="space-y-6">
-        <div className="border-b border-border/10 pb-4">
-          <h2 className="text-lg font-medium text-muted-foreground">Painel de Preservação Patrimonial</h2>
-          <p className="text-xs text-muted-foreground font-light mt-1">Soberania do Capital Social e integridade do Patrimônio Líquido frente a prejuízos ou capitalizações.</p>
+      {/* BLOCO 3 (EAC): Capital Preservation Panel */}
+      <div className="space-y-4 mt-8">
+        <div className="border-b border-border/40 pb-3">
+          <ExecutiveHeading as="h2" className="text-foreground">Painel de Preservação Patrimonial</ExecutiveHeading>
+          <ExecutiveText as="div" variant="caption" className="text-slate-700 dark:text-slate-300 mt-1 font-medium">Soberania do Capital Social e integridade do Patrimônio Líquido frente a prejuízos ou capitalizações.</ExecutiveText>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-5 gap-6">
-          <div className="card-premium p-6">
-            <span className="text-[10px] text-muted-foreground uppercase font-semibold">Lucro Líquido do Exercício</span>
-            <p className="text-xl font-bold text-muted-foreground mt-2">
-              {netIncome !== null && netIncome !== undefined ? formatCurrency(netIncome) : 'Não identificado na DRE'}
-            </p>
-            <span className="text-[9px] text-muted-foreground mt-1 block">Base para distribuição</span>
-          </div>
+        <div className="grid grid-cols-1 md:grid-cols-5 gap-4 items-stretch">
+          <ExecutiveMetricCard
+            label="Lucro Líquido do Exercício"
+            value={netIncome !== null && netIncome !== undefined ? formatCurrency(netIncome) : <span className="text-lg font-bold tracking-tight text-foreground truncate block">Não identificado</span>}
+            description="Base para distribuição"
+            tone="neutral"
+            className="h-full"
+          />
 
-          <div className="card-premium p-6">
-            <span className="text-[10px] text-muted-foreground uppercase font-semibold">Capital Social Integralizado</span>
-            <p className="text-xl font-bold text-muted-foreground mt-2">{formatCurrency(capitalSocial)}</p>
-            <span className="text-[9px] text-muted-foreground mt-1 block">Base de captação societária</span>
-          </div>
+          <ExecutiveMetricCard
+            label="Capital Social Integralizado"
+            value={formatCurrency(capitalSocial)}
+            description="Base de captação societária"
+            tone="info"
+            className="h-full"
+          />
 
-          <div className="card-premium p-6">
-            <span className="text-[10px] text-muted-foreground uppercase font-semibold">Patrimônio Líquido Final</span>
-            <p className="text-xl font-bold text-emerald-400 mt-2">{formatCurrency(patrimonioLiquido)}</p>
-            <span className={cn("text-[9px] mt-1 block font-bold",
-              cpiStatus.includes('Erosion') || cpiStatus.includes('Collapse') ? 'text-rose-400' : 'text-emerald-400'
-            )}>
-              {translateCpiStatus(cpiStatus)}
-            </span>
-          </div>
+          <ExecutiveMetricCard
+            label="Patrimônio Líquido Final"
+            value={formatCurrency(patrimonioLiquido)}
+            description={translateCpiStatus(cpiStatus)}
+            tone={cpiStatus.includes('Erosion') || cpiStatus.includes('Collapse') ? 'critical' : 'success'}
+            className="h-full"
+          />
 
-          <div className="card-premium p-6">
-            <span className="text-[10px] text-muted-foreground uppercase font-semibold">Preservação Patrimonial</span>
-            <p className="text-xl font-bold text-primary mt-2">
-              {cgeMetrics.capitalPreservation !== undefined ? `${Number(cgeMetrics.capitalPreservation).toFixed(2)}%` : `${(cpi * 100).toFixed(2)}%`}
-            </p>
-            <span className="text-[9px] text-muted-foreground mt-1 block">PL Fim / Capital Social</span>
-          </div>
+          <ExecutiveMetricCard
+            label="Preservação Patrimonial"
+            value={cgeMetrics.capitalPreservation !== undefined ? `${Number(cgeMetrics.capitalPreservation).toFixed(2)}%` : `${(cpi * 100).toFixed(2)}%`}
+            description="PL Fim / Capital Social"
+            tone="success"
+            className="h-full"
+          />
 
-          <div className="card-premium p-6">
-            <span className="text-[10px] text-muted-foreground uppercase font-semibold">Erosão Patrimonial</span>
-            <p className="text-xl font-bold text-rose-400 mt-2">
-              {cgeMetrics.capitalErosion !== undefined ? `${Number(cgeMetrics.capitalErosion).toFixed(2)}%` : `${((1 - cpi) * 100).toFixed(2)}%`}
-            </p>
-            <span className="text-[9px] text-muted-foreground mt-1 block">1 - Preservação</span>
-          </div>
+          <ExecutiveMetricCard
+            label="Erosão Patrimonial"
+            value={cgeMetrics.capitalErosion !== undefined ? `${Number(cgeMetrics.capitalErosion).toFixed(2)}%` : `${((1 - cpi) * 100).toFixed(2)}%`}
+            description="1 - Preservação"
+            tone="critical"
+            className="h-full"
+          />
         </div>
       </div>
 
-      {/* Row 3: Capital Dependency Heatmap */}
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+      {/* BLOCO 4 (EAC): Heatmap & Retention Policy */}
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 mt-8">
         
         {/* Heatmap Section */}
-        <div className="card-premium p-6 lg:col-span-2 flex flex-col justify-between">
+        <ExecutiveSurface variant="default" padding="lg" className="lg:col-span-2 flex flex-col justify-between">
           <div>
-            <h3 className="text-xs font-bold uppercase tracking-wider text-muted-foreground mb-1">Histórico de Dependência de Aporte dos Sócios</h3>
-            <p className="text-[11px] text-muted-foreground font-light mb-4">Análise longitudinal da necessidade de reinjeção de capital próprio para sustentação operacional.</p>
+            <ExecutiveHeading as="h3" className="text-foreground mb-1">Histórico de Dependência de Aporte dos Sócios</ExecutiveHeading>
+            <ExecutiveText as="div" variant="caption" className="text-slate-700 dark:text-slate-200 mb-4 font-medium">Análise longitudinal da necessidade de reinjeção de capital próprio para sustentação operacional.</ExecutiveText>
           </div>
 
           <div className="space-y-3">
             {historicalDependencyList.map(item => (
-              <div key={item.year} className="flex justify-between items-center p-3 bg-slate-950/20 border border-border/5 rounded-xl">
+              <div key={item.year} className="flex justify-between items-center p-3 bg-muted/20 border border-border/40 rounded-xl">
                 <div className="flex items-center gap-3">
-                  <span className="text-xs font-bold text-muted-foreground">{item.year}</span>
-                  <div className="text-[10px] text-muted-foreground">
-                    Aportes: <span className="text-muted-foreground font-bold">{formatCurrency(item.injections)}</span>
-                  </div>
+                  <ExecutiveText as="span" variant="caption" className="font-bold text-foreground">{item.year}</ExecutiveText>
+                  <ExecutiveText as="div" variant="caption" className="text-slate-700 dark:text-slate-300 font-semibold">
+                    Aportes: <span className="text-foreground font-bold">{formatCurrency(item.injections)}</span>
+                  </ExecutiveText>
                 </div>
                 <div className="flex items-center gap-4">
-                  <span className="text-[10px] text-muted-foreground">CDI: {(item.cdi * 100).toFixed(1)}%</span>
-                  <span className={cn("px-2.5 py-0.5 rounded-full text-[9px] font-black tracking-wider border",
-                    item.status === 'Independent' ? 'bg-success-soft0/10 border-emerald-500/20 text-emerald-400' :
-                    item.status === 'Moderate Dependency' ? 'bg-yellow-500/10 border-yellow-500/20 text-yellow-400' :
-                    'bg-critical-soft0/10 border-rose-500/20 text-rose-400'
-                  )}>
-                    {item.status}
-                  </span>
+                  <ExecutiveText as="span" variant="caption" className="text-slate-700 dark:text-slate-300 font-semibold">CDI: {(item.cdi * 100).toFixed(1)}%</ExecutiveText>
+                  <ExecutiveBadge variant={
+                    item.status === 'Independent' ? 'success' :
+                    item.status === 'Moderate Dependency' ? 'warning' : 'critical'
+                  }>
+                    {item.status === 'Independent' ? 'Independente' : item.status === 'Moderate Dependency' ? 'Dependência Moderada' : 'Alta Dependência'}
+                  </ExecutiveBadge>
                 </div>
               </div>
             ))}
           </div>
 
-          <div className="text-[10px] text-muted-foreground font-light mt-4 pt-4 border-t border-border/10 space-y-2">
-            <p>Fidelidade societária elevada reduz o risco de colapso, contudo, a dependência recorrente de capitalização indica ineficiência na geração de caixa operacional.</p>
+          <div className="mt-6 pt-4 border-t border-border/40 space-y-2">
+            <ExecutiveText as="div" variant="bodyStandard" className="text-slate-800 dark:text-slate-200 font-medium">
+              Fidelidade societária elevada reduz o risco de colapso, contudo, a dependência recorrente de capitalização indica ineficiência na geração de caixa operacional.
+            </ExecutiveText>
             {cgeMetrics.capitalizationDependency && (
-              <div className="bg-slate-950/40 p-2.5 rounded-xl border border-border/5 text-[9px] font-mono text-muted-foreground">
-                <span className="font-bold text-muted-foreground">Auditoria do Índice de Capitalização:</span><br />
+              <div className="bg-muted/30 p-2.5 rounded-xl border border-border/40 text-[10px] font-mono text-slate-700 dark:text-slate-300">
+                <span className="font-bold text-foreground">Auditoria do Índice de Capitalização:</span><br />
                 Fórmula: {cgeMetrics.capitalizationDependency.formula} ({formatCurrency(cgeMetrics.capitalizationDependency.numerator)} ÷ {formatCurrency(cgeMetrics.capitalizationDependency.denominator)}) = <span className="text-primary font-bold">{cgeMetrics.capitalizationDependency.value}%</span> ({cgeMetrics.capitalizationDependency.classification})
               </div>
             )}
           </div>
-        </div>
+        </ExecutiveSurface>
 
         {/* Retention & Distribution Board */}
-        <div className="card-premium p-6 flex flex-col justify-between">
+        <ExecutiveSurface variant="default" padding="lg" className="flex flex-col justify-between">
           <div>
-            <h3 className="text-xs font-bold uppercase tracking-wider text-muted-foreground mb-4">Política de Retenção & Dividendos</h3>
+            <ExecutiveHeading as="h3" className="text-foreground mb-4">Política de Retenção & Dividendos</ExecutiveHeading>
             
             <div className="space-y-4">
-              <div className="p-3 bg-slate-900 border border-border/5 rounded-xl">
+              <div className="p-3 bg-muted/20 border border-border/40 rounded-xl">
                 <div className="flex justify-between items-center">
-                  <span className="text-[10px] text-muted-foreground uppercase font-semibold">Taxa de Retenção (ERI)</span>
-                  <span className="text-[9px] font-bold text-primary border border-primary px-2 py-0.5 rounded bg-primary">
-                    {eriStatus}
-                  </span>
+                  <ExecutiveText as="span" variant="caption" className="text-slate-700 dark:text-slate-300 uppercase font-bold text-[10px]">Taxa de Retenção (ERI)</ExecutiveText>
+                  <ExecutiveBadge variant="info">{eriStatus === 'NOT_APPLICABLE' ? 'Não Aplicável' : eriStatus}</ExecutiveBadge>
                 </div>
-                <p className="text-lg font-bold text-muted-foreground mt-1">
+                <ExecutiveHeading as="h4" className="text-foreground mt-1">
                   {eri === 'NOT_APPLICABLE' ? 'Não Aplicável' : `${((eri as number) * 100).toFixed(1)}%`}
-                </p>
+                </ExecutiveHeading>
               </div>
 
-              <div className="p-3 bg-slate-900 border border-border/5 rounded-xl">
+              <div className="p-3 bg-muted/20 border border-border/40 rounded-xl">
                 <div className="flex justify-between items-center">
-                  <span className="text-[10px] text-muted-foreground uppercase font-semibold">Taxa de Distribuição (DDI)</span>
-                  <span className="text-[9px] font-bold text-primary border border-primary px-2 py-0.5 rounded bg-primary">
-                    {ddiStatus}
-                  </span>
+                  <ExecutiveText as="span" variant="caption" className="text-slate-700 dark:text-slate-300 uppercase font-bold text-[10px]">Taxa de Distribuição (DDI)</ExecutiveText>
+                  <ExecutiveBadge variant="info">{ddiStatus === 'NOT_APPLICABLE' ? 'Não Aplicável' : ddiStatus}</ExecutiveBadge>
                 </div>
-                <p className="text-lg font-bold text-muted-foreground mt-1">
+                <ExecutiveHeading as="h4" className="text-foreground mt-1">
                   {ddi === 'NOT_APPLICABLE' ? 'Não Aplicável' : `${((ddi as number) * 100).toFixed(1)}%`}
-                </p>
+                </ExecutiveHeading>
               </div>
 
-              <div className="p-3 bg-slate-900 border border-border/5 rounded-xl">
-                <span className="text-[10px] text-muted-foreground uppercase font-semibold">Dividendos / Lucro Líquido</span>
-                <p className="text-sm font-medium text-muted-foreground mt-1">
-                  R$ {formatCurrency(dividendos)} / R$ {netIncome !== null && netIncome !== undefined ? formatCurrency(netIncome) : 'Não identificado na DRE'}
-                </p>
+              <div className="p-3 bg-muted/20 border border-border/40 rounded-xl">
+                <ExecutiveText as="span" variant="caption" className="text-slate-700 dark:text-slate-300 uppercase font-bold text-[10px]">Dividendos / Lucro Líquido</ExecutiveText>
+                <ExecutiveText as="p" variant="bodyStandard" className="font-semibold text-foreground mt-1">
+                  {formatCurrency(dividendos)} / {netIncome !== null && netIncome !== undefined ? formatCurrency(netIncome) : 'Não identificado'}
+                </ExecutiveText>
               </div>
             </div>
           </div>
 
-          <div className="text-[9px] font-mono text-muted-foreground uppercase pt-4 border-t border-border/10 mt-4">
+          <div className="text-[10px] font-mono text-slate-700 dark:text-slate-300 font-bold uppercase pt-4 border-t border-border/40 mt-4">
             CGE Fiduciary Rules • v1.0
           </div>
-        </div>
+        </ExecutiveSurface>
 
       </div>
 
-      {/* Auditoria de Linhagem da Governança de Capital */}
-      <div className="card-premium p-6">
-        <div className="flex justify-between items-center mb-4">
-          <h3 className="text-xs font-bold uppercase tracking-wider text-muted-foreground flex items-center gap-2">
-            <ShieldCheck className="w-4 h-4 text-emerald-400" />
-            Auditoria de Linhagem da Governança de Capital
-          </h3>
-          {hasMismatches && (
-            <span className="px-2.5 py-0.5 rounded bg-critical-soft0/10 border border-rose-500/20 text-rose-400 text-[10px] font-black uppercase tracking-wider animate-pulse">
-              UI_RENDER_MISMATCH
-            </span>
-          )}
-        </div>
-        
-        <div className="overflow-x-auto">
-          <table className="w-full text-left text-xs text-muted-foreground border-collapse">
-            <thead>
-              <tr className="border-b border-border/10 text-[10px] text-muted-foreground uppercase font-black">
-                <th className="py-3 px-4">Métrica</th>
-                <th className="py-3 px-4">Fonte</th>
-                <th className="py-3 px-4">Consumido (Runtime)</th>
-                <th className="py-3 px-4">Renderizado (UI)</th>
-                <th className="py-3 px-4">Status</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr className="border-b border-border/5">
-                <td className="py-3 px-4 font-semibold text-muted-foreground">Lucro Líquido</td>
-                <td className="py-3 px-4">DRE</td>
-                <td className="py-3 px-4">{runtimeNetIncome !== null && runtimeNetIncome !== undefined ? formatCurrency(runtimeNetIncome) : 'N/A'}</td>
-                <td className="py-3 px-4">{renderedNetIncome !== null && renderedNetIncome !== undefined ? formatCurrency(renderedNetIncome) : 'N/A'}</td>
-                <td className="py-3 px-4">
-                  <span className={cn("px-2.5 py-0.5 rounded text-[10px] font-black uppercase border",
-                    renderedNetIncome === runtimeNetIncome ? "bg-success-soft0/10 border-emerald-500/20 text-emerald-400" : "bg-critical-soft0/10 border-rose-500/20 text-rose-400"
-                  )}>
-                    {renderedNetIncome === runtimeNetIncome ? 'Consistente' : 'Inconsistente'}
-                  </span>
-                </td>
-              </tr>
-              <tr className="border-b border-border/5">
-                <td className="py-3 px-4 font-semibold text-muted-foreground">Capital Social</td>
-                <td className="py-3 px-4">BP</td>
-                <td className="py-3 px-4">{runtimeCapitalSocial !== null && runtimeCapitalSocial !== undefined ? formatCurrency(runtimeCapitalSocial) : 'N/A'}</td>
-                <td className="py-3 px-4">{renderedCapitalSocial !== null && renderedCapitalSocial !== undefined ? formatCurrency(renderedCapitalSocial) : 'N/A'}</td>
-                <td className="py-3 px-4">
-                  <span className={cn("px-2.5 py-0.5 rounded text-[10px] font-black uppercase border",
-                    renderedCapitalSocial === runtimeCapitalSocial ? "bg-success-soft0/10 border-emerald-500/20 text-emerald-400" : "bg-critical-soft0/10 border-rose-500/20 text-rose-400"
-                  )}>
-                    {renderedCapitalSocial === runtimeCapitalSocial ? 'Consistente' : 'Inconsistente'}
-                  </span>
-                </td>
-              </tr>
-              <tr className="border-b border-border/5">
-                <td className="py-3 px-4 font-semibold text-muted-foreground">Preservação Patrimonial</td>
-                <td className="py-3 px-4">CGE</td>
-                <td className="py-3 px-4">{runtimePreservation !== null && runtimePreservation !== undefined ? `${runtimePreservation.toFixed(2)}%` : 'N/A'}</td>
-                <td className="py-3 px-4">{renderedPreservation !== null && renderedPreservation !== undefined ? `${renderedPreservation.toFixed(2)}%` : 'N/A'}</td>
-                <td className="py-3 px-4">
-                  <span className={cn("px-2.5 py-0.5 rounded text-[10px] font-black uppercase border",
-                    renderedPreservation === runtimePreservation ? "bg-success-soft0/10 border-emerald-500/20 text-emerald-400" : "bg-critical-soft0/10 border-rose-500/20 text-rose-400"
-                  )}>
-                    {renderedPreservation === runtimePreservation ? 'Consistente' : 'Inconsistente'}
-                  </span>
-                </td>
-              </tr>
-              <tr className="border-b border-border/5">
-                <td className="py-3 px-4 font-semibold text-muted-foreground">Integridade Patrimonial</td>
-                <td className="py-3 px-4">CGE</td>
-                <td className="py-3 px-4">{runtimeIntegrity !== null && runtimeIntegrity !== undefined ? `${runtimeIntegrity.toFixed(0)}` : 'N/A'}</td>
-                <td className="py-3 px-4">{renderedIntegrity !== null && renderedIntegrity !== undefined ? `${renderedIntegrity.toFixed(0)}` : 'N/A'}</td>
-                <td className="py-3 px-4">
-                  <span className={cn("px-2.5 py-0.5 rounded text-[10px] font-black uppercase border",
-                    renderedIntegrity === runtimeIntegrity ? "bg-success-soft0/10 border-emerald-500/20 text-emerald-400" : "bg-critical-soft0/10 border-rose-500/20 text-rose-400"
-                  )}>
-                    {renderedIntegrity === runtimeIntegrity ? 'Consistente' : 'Inconsistente'}
-                  </span>
-                </td>
-              </tr>
-              <tr>
-                <td className="py-3 px-4 font-semibold text-muted-foreground">Resiliência de Capital</td>
-                <td className="py-3 px-4">CGE</td>
-                <td className="py-3 px-4">{runtimeResilience !== null && runtimeResilience !== undefined ? `${runtimeResilience.toFixed(0)}` : 'N/A'}</td>
-                <td className="py-3 px-4">{renderedResilience !== null && renderedResilience !== undefined ? `${renderedResilience.toFixed(0)}` : 'N/A'}</td>
-                <td className="py-3 px-4">
-                  <span className={cn("px-2.5 py-0.5 rounded text-[10px] font-black uppercase border",
-                    renderedResilience === runtimeResilience ? "bg-success-soft0/10 border-emerald-500/20 text-emerald-400" : "bg-critical-soft0/10 border-rose-500/20 text-rose-400"
-                  )}>
-                    {renderedResilience === runtimeResilience ? 'Consistente' : 'Inconsistente'}
-                  </span>
-                </td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-      </div>
+      {/* BLOCO 5 (EAC): Technical Layer (ExecutiveTechnicalEvidenceSection) */}
+      <ExecutiveTechnicalEvidenceSection aria-label="Auditoria de Linhagem da Governança de Capital" className="mt-8">
+        <ExecutiveSurface variant="default" padding="lg">
+          <div className="flex justify-between items-center mb-4">
+            <ExecutiveHeading as="h3" className="text-foreground flex items-center gap-2">
+              <ShieldCheck className="w-4 h-4 text-emerald-500" />
+              Auditoria de Linhagem da Governança de Capital
+            </ExecutiveHeading>
+            {hasMismatches && (
+              <ExecutiveBadge variant="critical">
+                Divergência de Dados Auditada
+              </ExecutiveBadge>
+            )}
+          </div>
+          
+          <div className="overflow-x-auto">
+            <table className="w-full text-left text-xs text-muted-foreground border-collapse">
+              <thead>
+                <tr className="border-b border-border/40 text-[10px] text-muted-foreground uppercase font-black">
+                  <th className="py-3 px-4">Métrica</th>
+                  <th className="py-3 px-4">Fonte</th>
+                  <th className="py-3 px-4">Consumido (Runtime)</th>
+                  <th className="py-3 px-4">Renderizado (UI)</th>
+                  <th className="py-3 px-4">Status</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr className="border-b border-border/20">
+                  <td className="py-3 px-4 font-semibold text-foreground">Lucro Líquido</td>
+                  <td className="py-3 px-4">DRE</td>
+                  <td className="py-3 px-4">{runtimeNetIncome !== null && runtimeNetIncome !== undefined ? formatCurrency(runtimeNetIncome) : 'N/A'}</td>
+                  <td className="py-3 px-4">{renderedNetIncome !== null && renderedNetIncome !== undefined ? formatCurrency(renderedNetIncome) : 'N/A'}</td>
+                  <td className="py-3 px-4">
+                    <ExecutiveBadge variant={renderedNetIncome === runtimeNetIncome ? 'success' : 'critical'}>
+                      {renderedNetIncome === runtimeNetIncome ? 'Consistente' : 'Inconsistente'}
+                    </ExecutiveBadge>
+                  </td>
+                </tr>
+                <tr className="border-b border-border/20">
+                  <td className="py-3 px-4 font-semibold text-foreground">Capital Social</td>
+                  <td className="py-3 px-4">BP</td>
+                  <td className="py-3 px-4">{runtimeCapitalSocial !== null && runtimeCapitalSocial !== undefined ? formatCurrency(runtimeCapitalSocial) : 'N/A'}</td>
+                  <td className="py-3 px-4">{renderedCapitalSocial !== null && renderedCapitalSocial !== undefined ? formatCurrency(renderedCapitalSocial) : 'N/A'}</td>
+                  <td className="py-3 px-4">
+                    <ExecutiveBadge variant={renderedCapitalSocial === runtimeCapitalSocial ? 'success' : 'critical'}>
+                      {renderedCapitalSocial === runtimeCapitalSocial ? 'Consistente' : 'Inconsistente'}
+                    </ExecutiveBadge>
+                  </td>
+                </tr>
+                <tr className="border-b border-border/20">
+                  <td className="py-3 px-4 font-semibold text-foreground">Preservação Patrimonial</td>
+                  <td className="py-3 px-4">CGE</td>
+                  <td className="py-3 px-4">{runtimePreservation !== null && runtimePreservation !== undefined ? `${runtimePreservation.toFixed(2)}%` : 'N/A'}</td>
+                  <td className="py-3 px-4">{renderedPreservation !== null && renderedPreservation !== undefined ? `${renderedPreservation.toFixed(2)}%` : 'N/A'}</td>
+                  <td className="py-3 px-4">
+                    <ExecutiveBadge variant={renderedPreservation === runtimePreservation ? 'success' : 'critical'}>
+                      {renderedPreservation === runtimePreservation ? 'Consistente' : 'Inconsistente'}
+                    </ExecutiveBadge>
+                  </td>
+                </tr>
+                <tr className="border-b border-border/20">
+                  <td className="py-3 px-4 font-semibold text-foreground">Integridade Patrimonial</td>
+                  <td className="py-3 px-4">CGE</td>
+                  <td className="py-3 px-4">{runtimeIntegrity !== null && runtimeIntegrity !== undefined ? `${runtimeIntegrity.toFixed(0)}` : 'N/A'}</td>
+                  <td className="py-3 px-4">{renderedIntegrity !== null && renderedIntegrity !== undefined ? `${renderedIntegrity.toFixed(0)}` : 'N/A'}</td>
+                  <td className="py-3 px-4">
+                    <ExecutiveBadge variant={renderedIntegrity === runtimeIntegrity ? 'success' : 'critical'}>
+                      {renderedIntegrity === runtimeIntegrity ? 'Consistente' : 'Inconsistente'}
+                    </ExecutiveBadge>
+                  </td>
+                </tr>
+                <tr>
+                  <td className="py-3 px-4 font-semibold text-foreground">Resiliência de Capital</td>
+                  <td className="py-3 px-4">CGE</td>
+                  <td className="py-3 px-4">{runtimeResilience !== null && runtimeResilience !== undefined ? `${runtimeResilience.toFixed(0)}` : 'N/A'}</td>
+                  <td className="py-3 px-4">{renderedResilience !== null && renderedResilience !== undefined ? `${renderedResilience.toFixed(0)}` : 'N/A'}</td>
+                  <td className="py-3 px-4">
+                    <ExecutiveBadge variant={renderedResilience === runtimeResilience ? 'success' : 'critical'}>
+                      {renderedResilience === runtimeResilience ? 'Consistente' : 'Inconsistente'}
+                    </ExecutiveBadge>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </ExecutiveSurface>
+      </ExecutiveTechnicalEvidenceSection>
 
-      {/* Row 5: Capital Trajectory Timeline */}
-      <div className="card-premium p-6">
-        <h3 className="text-xs font-bold uppercase tracking-wider text-muted-foreground mb-6 flex items-center gap-2">
+      {/* Linha de Trajetória Patrimonial Timeline */}
+      <ExecutiveSurface variant="default" padding="lg" className="mt-8">
+        <ExecutiveHeading as="h3" className="text-foreground mb-6 flex items-center gap-2">
           <Clock className="w-4 h-4 text-primary" />
           Linha de Trajetória Patrimonial
-        </h3>
+        </ExecutiveHeading>
 
-        <div className="relative pl-6 border-l border-border space-y-8 my-4">
+        <div className="relative pl-6 border-l border-border/40 space-y-6 my-4">
           {trajectoryTimeline.map(item => {
             const isActive = trajectory.toUpperCase() === item.state;
             return (
               <div key={item.state} className="relative">
                 {/* Timeline Dot */}
                 <div className={cn("absolute -left-[31px] top-1.5 w-4.5 h-4.5 rounded-full border flex items-center justify-center transition-all",
-                  isActive ? "bg-primary border-primary ring-4 ring-indigo-500/20" : "bg-slate-900 border-border"
+                  isActive ? "bg-primary border-primary ring-4 ring-primary/20" : "bg-card border-border"
                 )}>
-                  {isActive && <CheckCircle2 className="w-3 h-3 text-muted-foreground" />}
+                  {isActive && <CheckCircle2 className="w-3 h-3 text-primary-foreground" />}
                 </div>
                 
                 {/* Content */}
                 <div className={cn("p-4 border rounded-2xl transition-all duration-300",
-                  isActive ? item.color : "border-border/5 text-muted-foreground bg-slate-900/10"
+                  isActive ? item.color : "border-border/40 text-muted-foreground bg-muted/10"
                 )}>
                   <div className="flex justify-between items-center">
-                    <span className="text-xs font-bold uppercase tracking-widest">{item.state}</span>
-                    {isActive && <span className="text-[9px] font-black uppercase px-2 py-0.5 rounded bg-primary text-primary border border-primary">Estado Atual</span>}
+                    <ExecutiveText as="span" variant="caption" className="font-bold uppercase tracking-widest">{item.state}</ExecutiveText>
+                    {isActive && <ExecutiveBadge variant="info">Estado Atual</ExecutiveBadge>}
                   </div>
-                  <p className="text-sm font-medium mt-1">{item.label}</p>
+                  <ExecutiveText as="div" variant="bodyStandard" className="mt-1">{item.label}</ExecutiveText>
                 </div>
               </div>
             );
           })}
         </div>
-      </div>
+      </ExecutiveSurface>
 
-    </div>
+    </ExecutivePageTemplate>
   );
 }

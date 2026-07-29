@@ -1,6 +1,8 @@
+import { ExecutiveText } from '../../ui/executive-typography';
+import { ExecutiveHeading } from '../../ui/executive-heading';
+import { ExecutivePageTemplate } from '../../ui/executive-page-template';
 import React from 'react';
 import { ShieldCheck, Activity, Users, Database } from 'lucide-react';
-import { PageHeader } from '../../Common';
 import { ExecutiveMetricCard } from '../../ui/executive-metric-card';
 
 export function MultiTenantGovernanceCenter() {
@@ -17,13 +19,7 @@ export function MultiTenantGovernanceCenter() {
   ];
 
   return (
-    <div className="max-w-[1440px] mx-auto px-6 lg:px-10 space-y-12 pb-32 animate-executive-fade">
-      <PageHeader
-        title="Governança Multi-Tenant"
-        subtitle="Visão de Master Admin: Rastreabilidade Cross-Tenant, Isolamento Fiduciário e Permissões."
-        icon={ShieldCheck}
-        transparent
-      />
+    <ExecutivePageTemplate header={{ title: "Visão de Master Admin: Rastreabilidade Cross-Tenant, Isolamento Fiduciário e Permissões.", description: "Visão de Master Admin: Rastreabilidade Cross-Tenant, Isolamento Fiduciário e Permissões.", icon: ShieldCheck }}>
 
       {/* KPIs */}
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-6">
@@ -45,8 +41,8 @@ export function MultiTenantGovernanceCenter() {
             <Activity size={20} />
           </div>
           <div>
-            <h3 className="text-h3 font-medium text-foreground tracking-tight">Tenant Audit Timeline</h3>
-            <p className="text-[10px] font-medium text-muted-foreground uppercase tracking-widest mt-0.5">Log de Acesso Imutável</p>
+            <ExecutiveHeading as="h3" className="text-h3 text-foreground">Tenant Audit Timeline</ExecutiveHeading>
+            <ExecutiveText as="div" variant="bodyStandard" className="text-muted-foreground mt-0.5">Log de Acesso Imutável</ExecutiveText>
           </div>
         </div>
 
@@ -64,6 +60,6 @@ export function MultiTenantGovernanceCenter() {
           ))}
         </div>
       </div>
-    </div>
+    </ExecutivePageTemplate>
   );
 }

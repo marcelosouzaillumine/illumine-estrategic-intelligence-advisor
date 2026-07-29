@@ -1,10 +1,10 @@
-// src/components/pages/governance/ExecutiveTimelinePanel.tsx
-
 import React from 'react';
 import { History, TrendingUp, AlertTriangle, HelpCircle, CheckCircle2, ChevronRight, Hash } from 'lucide-react';
 import { ExecutiveTimelineOutput } from '../../../services/FiduciaryRuntimeAdapter';
 import { EXECUTIVE_SEVERITY_THEME } from './ExecutiveSeverityTheme';
 import { useLanguage } from '../../../contexts/LanguageContext';
+// src/components/pages/governance/ExecutiveTimelinePanel.tsx
+
 
 interface ExecutiveTimelinePanelProps {
   timeline?: ExecutiveTimelineOutput;

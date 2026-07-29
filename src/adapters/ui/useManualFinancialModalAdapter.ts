@@ -157,8 +157,11 @@ export function useManualFinancialModalAdapter(clientId: string, year: number, s
       await Promise.all(docsToArchive.map(d => updateDoc(doc(db, 'financial_entries', d.id), {
         status: 'archived',
         archivedAt: serverTimestamp(),
-        archivedBy: auth.currentUser!.uid
+        archivedBy: auth?.currentUser?.uid || 'system'
       })));
+
+      const currentUid = auth?.currentUser?.uid || 'system_user';
+      const currentEmail = auth?.currentUser?.email || 'system@illumine.com';
 
       const targetPayload = {
         clientId,
@@ -202,11 +205,11 @@ export function useManualFinancialModalAdapter(clientId: string, year: number, s
           return rowData;
         }),
         createdAt: serverTimestamp(),
-        createdBy: auth.currentUser!.uid,
-        creatorEmail: auth.currentUser!.email,
+        createdBy: currentUid,
+        creatorEmail: currentEmail,
         audit: {
           createdAt: serverTimestamp(),
-          createdBy: auth.currentUser!.uid,
+          createdBy: currentUid,
           action: 'manual_entry',
           source: 'manual'
         }

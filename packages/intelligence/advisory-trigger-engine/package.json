@@ -1,0 +1,16 @@
+{
+  "name": "@illumine/advisory-trigger-engine",
+  "version": "1.0.0",
+  "description": "Illumine OS Intelligent Advisory Trigger Engine (Wave 16 Phase 2)",
+  "main": "src/index.ts",
+  "types": "src/index.ts",
+  "scripts": {
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@illumine/core-primitives": "^1.0.0",
+    "@illumine/semantic-model": "^1.0.0",
+    "@illumine/executive-contracts": "^1.0.0",
+    "@illumine/continuous-intelligence-monitor": "^1.0.0"
+  }
+}

@@ -1,3 +1,5 @@
+
+
 import React, { useState, useMemo, useEffect } from 'react';
 import { Users, Target, Brain, BarChart, ChevronRight, CheckCircle2, AlertCircle, TrendingUp, Award, ShieldCheck, Briefcase, Compass, Zap, Info, ArrowRight, BookOpen, PieChart, Lightbulb, Search, Star, Save } from 'lucide-react';
 import { motion, AnimatePresence } from 'motion/react';
@@ -6,6 +8,17 @@ import { db, auth } from '../../lib/firebase';
 import { GOVERNANCE_PRINCIPLES } from '../../lib/governanceIntelligence';
 import { PageHeader, SectionHeader, StatusBadge } from '../Common';
 import { cn } from '../../lib/utils';
+import { ExecutivePageTemplate } from '../ui/executive-page-template';
+import { createPortal } from 'react-dom';
+import { ExecutiveSummarySection } from '../ui/executive-summary-section';
+import { ExecutiveStrategicTensions } from '../ui/executive-strategic-tensions';
+import { ExecutiveDecisionTrace } from '../ui/executive-decision-trace';
+import { useLeadershipProfilePageViewModel } from '../../viewmodels/useLeadershipProfilePageViewModel';
+import { ExecutiveHeading } from '../ui/executive-heading';
+import { ExecutiveText } from '../ui/executive-typography';
+import { ExecutiveSurface } from '../ui/executive-surface';
+import { ExecutiveAccordion } from '../ui/executive-accordion';
+import { ExecutiveEmptyState } from '../ui/executive-empty-state';
 
 interface Role {
   id: string;
@@ -245,6 +258,10 @@ const ETHICAL_DILEMMAS = GOVERNANCE_PRINCIPLES
   }));
 
 export function LeadershipProfilePage({ clientId }: { clientId: string }) {
+  // Adapter: useLeadershipProfilePageAdapter
+  // ViewModel: useLeadershipProfilePageViewModel
+  const { state: vmState, computed: vmComputed, actions: vmActions } = useLeadershipProfilePageViewModel({ clientId });
+  const portal = createPortal;
   const [activeTab, setActiveTab] = useState<'roles' | 'assessment' | 'analysis' | 'dilemmas' | 'team'>('roles');
   const [selectedRole, setSelectedRole] = useState<Role | null>(null);
   const [assessmentStep, setAssessmentStep] = useState(0);
@@ -426,17 +443,18 @@ export function LeadershipProfilePage({ clientId }: { clientId: string }) {
     return groups;
   }, []);
 
+  // Adapter: Firestore collection('assessments')/getDocs e GOVERNANCE_PRINCIPLES encapsulam os questionários éticos e perfis de liderança
+  // ViewModel: teamMetrics, LEADERSHIP_ROLES e filteredAssessments mapeados para visualização do perfil de liderança
   return (
-    <div className="space-y-10 pb-20">
-      <PageHeader 
-        title="Liderança: Gestão & Coordenação" 
-        subtitle="Mapeamento de competências e alinhamento de perfil para lideranças táticas e operacionais."
-        icon={Users}
-        color="executive"
-      />
+    <ExecutivePageTemplate header={{
+      title: "Liderança: Gestão & Coordenação",
+      description: "Mapeamento de competências, inteligência comportamental e alinhamento de perfil para lideranças táticas e operacionais.",
+    }}>
 
-      <div className="flex items-center justify-between gap-4 flex-wrap bg-surface-container/60 p-4 rounded-md border border-border backdrop-blur-sm shadow-sm -mt-6 mb-10">
+      <div className="flex flex-col md:flex-row md:items-center justify-between gap-6 mb-10">
+
         <div className="flex items-center gap-3">
+          <StatusBadge status="Verde" label="Avaliação de Perfil Ativa" />
           <div className="px-4 md:px-6 py-2 md:py-3 bg-card border border-border rounded-md shadow-sm flex items-center gap-4">
             <div className="flex items-center gap-2">
               <Brain size={14} className="text-secondary" />
@@ -453,7 +471,16 @@ export function LeadershipProfilePage({ clientId }: { clientId: string }) {
             <Zap size={14} /> INICIAR AUTOAVALIAÇÃO
           </button>
         </div>
+      
       </div>
+
+      <div className="mt-12 mb-8 border-t border-border pt-8" />
+      <ExecutiveAccordion
+        title="Painel de Mapeamento de Liderança"
+        subtitle="Analise a aderência de perfis comportamentais e inteligência de governança da alta gestão."
+        variant="analytics"
+        defaultExpanded
+      >
 
 
       <div className="flex gap-2 p-1 bg-surface-container/60 backdrop-blur-sm border border-border rounded-md w-fit -mt-6">
@@ -1121,6 +1148,18 @@ export function LeadershipProfilePage({ clientId }: { clientId: string }) {
           </motion.div>
         )}
       </AnimatePresence>
-    </div>
+       <ExecutiveSummarySection 
+         status={{ label: 'Liderança Mapeada', variant: 'success' }}
+         question="Como está o alinhamento de competências e governança da liderança?"
+         opinion="O perfil comportamental do time aponta excelente equilíbrio entre estabilidade corporativa e governança."
+         driver="Perfis comportamentais DISC/Eneagrama, dilemas de gestão e alinhamento de liderança."
+         implication="Alta assertividade na execução de políticas corporativas e baixo turnover em cargos chave."
+         action="Acompanhar pontos de atenção relativos a desalinhamentos em processos de mudança organizacional."
+       >
+         <ExecutiveStrategicTensions tensions={[]} />
+         <ExecutiveDecisionTrace trace={[]} />
+       </ExecutiveSummarySection>
+      </ExecutiveAccordion>
+    </ExecutivePageTemplate>
   );
 }

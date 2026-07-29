@@ -1,10 +1,25 @@
+
+
 import React, { useState } from 'react';
 import { Bot, ShieldCheck } from 'lucide-react';
-import { PageHeader } from '../Common';
+import { PageHeader, StatusBadge } from '../Common';
 import { CopilotChatPanel } from '../ai-governance/CopilotChatPanel';
 import { CopilotContextSelector } from '../ai-governance/CopilotContextSelector';
+import { ExecutivePageTemplate } from '../ui/executive-page-template';
+import { ExecutiveSurface } from '../ui/executive-surface';
+import { ExecutiveAccordion } from '../ui/executive-accordion';
+import { ExecutiveEmptyState } from '../ui/executive-empty-state';
+import { ExecutiveHeading } from '../ui/executive-heading';
+import { createPortal } from 'react-dom';
+import { ExecutiveSummarySection } from '../ui/executive-summary-section';
+import { ExecutiveStrategicTensions } from '../ui/executive-strategic-tensions';
+import { ExecutiveDecisionTrace } from '../ui/executive-decision-trace';
+import { useInstitutionalCopilotPageViewModel } from '../../viewmodels/useInstitutionalCopilotPageViewModel';
 
 export function InstitutionalCopilotPage() {
+  // Adapter: useInstitutionalCopilotPageAdapter
+  // ViewModel: useInstitutionalCopilotPageViewModel
+  const { state: vmState, computed: vmComputed, actions: vmActions } = useInstitutionalCopilotPageViewModel({ clientId: '' });
   const [contexts, setContexts] = useState<string[]>(['REPORT']);
 
   const toggleContext = (ctx: string) => {
@@ -12,18 +27,31 @@ export function InstitutionalCopilotPage() {
   };
 
   return (
-    <div className="max-w-[1440px] mx-auto px-6 lg:px-10 space-y-12 pb-32 animate-executive-fade">
-      <div className="flex flex-col md:flex-row md:items-end justify-between gap-6">
-        <PageHeader
-          title="Copiloto Institucional"
-          subtitle="Inteligência Artificial Governeada. Respostas com grounding criptográfico e rastreabilidade fiduciária."
-          icon={Bot}
-          transparent
-        />
-        <div className="flex items-center gap-2 px-4 py-2 bg-success-soft text-success border border-success/20 rounded-button text-[10px] font-bold uppercase tracking-widest shrink-0">
-          <ShieldCheck size={14} /> AI Governance Active
+    <ExecutivePageTemplate header={{
+      title: "Copiloto Institucional",
+      description: "Inteligência Artificial Governeada. Respostas com grounding criptográfico e rastreabilidade fiduciária.",
+    }}>
+
+      <div className="flex flex-col md:flex-row md:items-center justify-between gap-6 mb-10">
+
+        <div className="flex items-center gap-3">
+          <StatusBadge status="Verde" label="IA Governeada Ativa" />
         </div>
+        <div className="flex items-center gap-2 px-4 py-2 bg-zinc-900 border border-zinc-800 text-white rounded-xl text-[10px] font-bold uppercase tracking-widest shrink-0">
+          <ShieldCheck size={14} className="text-emerald-500" /> AI Governance Active
+        </div>
+      
       </div>
+
+      <div className="mt-12 mb-8 border-t border-border pt-8" />
+      <ExecutiveAccordion
+        title="Painel de Grounding e Chat"
+        subtitle="Interaja com a inteligência artificial dentro das diretrizes de governança."
+        variant="analytics"
+        defaultExpanded
+      >
+
+      <div className="space-y-12">
 
       <div className="card-premium p-8 space-y-6">
         <div className="space-y-2">
@@ -36,6 +64,19 @@ export function InstitutionalCopilotPage() {
       </div>
 
       <CopilotChatPanel />
-    </div>
+      </div>
+      <ExecutiveSummarySection 
+        status={{ label: 'Grounding Validade', variant: 'success' }}
+        question="Como o copiloto garante a precisão fiduciária nas respostas institucionais?"
+        opinion="O comitê fiduciário homologa o motor de grounding criptográfico garantindo zero alucinações nas respostas."
+        driver="Base fiduciária de conhecimento, checagem de alçadas e restrição de contexto."
+        implication="Consultas rápidas com suporte documental auditável."
+        action="Manter atualizados os contextos e arquivos de alçada fiduciária."
+      >
+        <ExecutiveStrategicTensions tensions={[]} />
+        <ExecutiveDecisionTrace trace={[]} />
+      </ExecutiveSummarySection>
+      </ExecutiveAccordion>
+    </ExecutivePageTemplate>
   );
 }

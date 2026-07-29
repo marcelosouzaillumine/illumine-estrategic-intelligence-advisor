@@ -1,22 +1,34 @@
 // src/components/pages/EFOSPage.tsx
 
+
+
+
 import React, { useState, useEffect, useMemo } from 'react';
 import { ShieldCheck, Target, Activity, DollarSign, ArrowRightLeft, BookOpen, TrendingUp, Layers, AlertTriangle, Loader2, Calendar, Layers3, Briefcase, Users, Compass, FileText, ArrowLeft, ChevronDown, CheckCircle, Info } from 'lucide-react';
 import { FiduciaryRuntimeAdapter, ExecutiveIntelligenceReport, ExecutiveRecommendation } from '../../services/FiduciaryRuntimeAdapter';
 import { PresentationLayer } from '../../services/EFOSTypes';
-import { useInstitutionalAuth } from '../../core/security/auth/InstitutionalAuthProvider';
+import { useInstitutionalAuth } from '../../hooks/useInstitutionalAuth';
 import { cn, formatCurrency } from '../../lib/utils';
 import { useLocation } from 'react-router-dom';
-import { PageHeader } from '../Common';
 import { useAnnualFinancialData, useAllFinancialData } from '../../hooks/useFinancialData';
 import { getComputedBPSummary, getComputedDreMetrics } from '../../core/orchestration/financial-math-adapter';
 import { useLanguage } from '../../contexts/LanguageContext';
 import { useEFOSPageAdapter } from '../../adapters/ui/useEFOSPageAdapter';
 import { orchestrateExecutiveConsolidation, ExecutiveConsolidationResult } from '../../core/orchestration/executiveOrchestrationEngine';
-
 import { isDebugAllowed, ExecutivePresentationRegistry, languageSanitize, audit, fallbackInstitutionalView } from '../../services/efosGuard';
 import { ExecutiveSemanticRegistry } from '../../lib/executive-semantic-registry';
 import type { AudienceProfile } from '../../services/EFOSTypes';
+import { ExecutivePageTemplate } from '../ui/executive-page-template';
+import { ExecutiveSurface } from '../ui/executive-surface';
+import { ExecutiveAccordion } from '../ui/executive-accordion';
+import { ExecutiveMetricCard } from '../ui/executive-metric-card';
+import { ExecutiveEmptyState } from '../ui/executive-empty-state';
+import { ExecutiveHeading } from '../ui/executive-heading';
+import { ExecutiveText } from '../ui/executive-typography';
+import { ExecutiveSummarySection } from '../ui/executive-summary-section';
+import { ExecutiveStrategicTensions } from '../ui/executive-strategic-tensions';
+import { ExecutiveDecisionTrace } from '../ui/executive-decision-trace';
+import { useEFOSPageViewModel } from '../../viewmodels/useEFOSPageViewModel';
 
 interface OverviewPageProps {
   clients?: any[];
@@ -32,10 +44,11 @@ interface OverviewPageProps {
 }
 
 export function EFOSPage({
-  clients,
+  clients = [],
   selectedClient,
   setSelectedClient,
-  selectedYear,
+  selectedMonth = new Date().getMonth() + 1,
+  selectedYear = new Date().getFullYear(),
   setSelectedYear,
   onNavigate,
   profile: propProfile,
@@ -43,6 +56,10 @@ export function EFOSPage({
 }: OverviewPageProps) {
   const { t } = useLanguage();
   const { session } = useInstitutionalAuth();
+  
+  // ViewModel: useEFOSPageViewModel
+  const { state: vmState, computed: vmComputed, actions: vmActions } = useEFOSPageViewModel({ clientId: selectedClient });
+
   const userRole = session?.role || 'BOARD_MEMBER';
   const [filterYear, setFilterYear] = useState<number>(Number(selectedYear) || new Date().getFullYear());
   const [showExplainability, setShowExplainability] = useState(false);
@@ -84,7 +101,8 @@ export function EFOSPage({
   const { dbData: dlpaEntries, loading: loadingDLPA } = useAnnualFinancialData(clientId, filterYear, 'DLPA');
   const { dbData: allHistoryData, loading: loadingHistory } = useAllFinancialData(clientId);
 
-  const { cashFlowData, loadingCashFlow } = useEFOSPageAdapter(selectedClient, filterYear);
+  const { efosData, loading: loadingCashFlow } = useEFOSPageAdapter(selectedClient);
+  const cashFlowData: any[] = [];
 
   const bpSummary = useMemo(() => getComputedBPSummary(bpEntries), [bpEntries]);
   const { ebitda, lucroLiquido } = useMemo(() => getComputedDreMetrics(dreEntries), [dreEntries]);
@@ -282,7 +300,7 @@ function sanitizeReport(obj: any): any {
         <div className="flex flex-col items-center justify-center min-h-[500px] gap-4">
           <AlertTriangle size={40} className="text-amber-500" />
           <span className="text-xl font-black text-muted-foreground text-center">Auditoria Fiduciária</span>
-     <p className="text-sm text-executive-secondary font-medium max-w-lg text-center">A análise de tensões foi bloqueada por inconsistência de vinculação fiduciária. Reprocessar o relatório antes de deliberação.</p>
+     <ExecutiveText as="div" variant="bodyStandard" className="text-executive-secondary max-w-lg text-center">A análise de tensões foi bloqueada por inconsistência de vinculação fiduciária. Reprocessar o relatório antes de deliberação.</ExecutiveText>
         </div>
       );
     }
@@ -320,8 +338,8 @@ function sanitizeReport(obj: any): any {
     return (
       <div className="flex flex-col items-center justify-center min-h-[500px] gap-4">
         <AlertTriangle size={40} className="text-rose-500" />
-        <h2 className="text-xl font-bold text-rose-600">{fallbackInstitutionalView.title}</h2>
-        <p className="text-base text-rose-500">{fallbackInstitutionalView.message}</p>
+        <ExecutiveHeading as="h2" className="text-rose-600">{fallbackInstitutionalView.title}</ExecutiveHeading>
+        <ExecutiveText as="div" variant="bodyStandard" className="text-rose-500">{fallbackInstitutionalView.message}</ExecutiveText>
       </div>
     );
   }
@@ -336,19 +354,30 @@ function sanitizeReport(obj: any): any {
   const propagationChains = executiveReport?.propagationChains || [];
   const fiduciaryRationale = executiveReport?.fiduciaryRationale;
 
-  return (
-    <>
-      <div className="max-w-[1440px] mx-auto space-y-10 pb-32 animate-executive-fade">
-        {/* Header */}
-        <PageHeader 
-          title="EFOS — Executive Financial Operating System" 
-          subtitle="Infraestrutura integrada de interpretação do capital e governança fiduciária."
-          icon={Layers3}
-          color="executive"
-        />
+   return (
+     <>
+       <ExecutivePageTemplate header={{
+         title: "EFOS — Executive Financial Operating System",
+         description: "Infraestrutura integrada de interpretação do capital e governança fiduciária.",
+       }}>
+        {/* --- CAMADA 1: NÍVEL CONSELHO (SÍNTESE DE INTELIGÊNCIA OPERACIONAL EFOS) --- */}
+        <ExecutiveSummarySection 
+          className="mb-8"
+          status={{ label: scores?.composite > 70 ? 'EFOS Saudável' : 'Atenção Fiduciária', variant: scores?.composite > 70 ? 'success' : 'warning' }}
+          question="Qual a pontuação sintética de saúde financeira (EFOS Score), nível de resiliência e principais tensões cruzadas?"
+          opinion="O comitê fiduciário homologa a análise EFOS, atestando a infraestrutura de dados e a interpretação sistêmica do capital."
+          driver="Score composto, resiliência financeira, sustentabilidade da margem e encadeamento causal."
+          implication="Visão unificada das demonstrações contábeis e mitigação proativa de riscos de insolvência."
+          action="Executar as ações estratégicas recomendadas pelo painel de inteligência operacional."
+        >
+          <ExecutiveStrategicTensions tensions={[]} />
+          <ExecutiveDecisionTrace trace={[]} />
+        </ExecutiveSummarySection>
+
         {/* Selectors Bar */}
-        <div className="flex items-center justify-between gap-4 flex-wrap bg-white/50 p-4 rounded-2xl border border-border backdrop-blur-md shadow-sm -mt-6">
-          <div className="flex items-center gap-4">
+        <div className="flex flex-col md:flex-row md:items-center justify-between gap-6 mb-10">
+
+           <div className="flex items-center gap-4">
             <div className="px-4 py-2.5 bg-white border border-border rounded-xl shadow-sm flex items-center gap-3">
               <Calendar size={14} className="text-muted-foreground" />
               <select
@@ -370,19 +399,29 @@ function sanitizeReport(obj: any): any {
             <span className="text-[10px] font-black uppercase tracking-wider text-muted-foreground bg-slate-100 px-3 py-1.5 rounded-md border border-border">
               Modo: {t(`runtime.${executiveReport?.compliance?.runtimeMode}`)}
             </span>
-            {/* Additional UI omitted for brevity */}
           </div>
-        </div>
+        
+      </div>
+
+         {/* EFOS KPI Cards */}
+         <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
+           <ExecutiveMetricCard density="analytical" label="Modo Runtime" value={executiveReport?.compliance?.runtimeMode || '—'} trend="neutral" />
+           <ExecutiveMetricCard density="analytical" label="Ano Fiscal" value={String(filterYear)} trend="neutral" />
+           <ExecutiveMetricCard density="analytical" label="Recomendações" value={String(actionMatrix?.length || 0)} trend="up" />
+           <ExecutiveMetricCard density="analytical" label="Chains" value={String(propagationChains?.length || 0)} trend="neutral" />
+         </div>
+
+         <div className="mt-12 mb-8 border-t border-border pt-8" />
         {/* Board Top 3 */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
           <div className="bg-white rounded-3xl p-6 border border-border shadow-sm space-y-6">
             <div className="flex items-center gap-2">
               <Briefcase size={18} className="text-primary-500" />
-       <h3 className="text-sm font-black text-executive-secondary uppercase tracking-wider">Top 3 Decisões do Conselho</h3>
+       <ExecutiveHeading as="h3" className="text-executive-secondary">Top 3 Decisões do Conselho</ExecutiveHeading>
             </div>
             <div className="space-y-4">
               {consolidationResult?.boardTop3?.length === 0 ? (
-                <p className="text-xs text-muted-foreground italic">Sem decisões pendentes para o Conselho.</p>
+                <ExecutiveText as="div" variant="caption" className="text-muted-foreground italic">Sem decisões pendentes para o Conselho.</ExecutiveText>
               ) : (
                 consolidationResult?.boardTop3?.map((rec, i) => {
                   const title = languageSanitize(FiduciaryRuntimeAdapter.EFOSPresentationLeakGuard.guard(rec.titulo || rec.text || rec.problema) || 'Decisão fiduciária requerida para mitigação de risco institucional.');
@@ -391,10 +430,10 @@ function sanitizeReport(obj: any): any {
                   const consequence = languageSanitize(FiduciaryRuntimeAdapter.EFOSPresentationLeakGuard.guard(rec.consequenciaInacao));
                   return (
                     <div key={i} className="p-4 border border-border bg-slate-50 rounded-2xl flex flex-col gap-2">
-                      <h4 className="text-xs font-bold text-muted-foreground">{title}</h4>
-                      {problem && <p className="text-[11px] text-muted-foreground mt-1 leading-relaxed"><span className="font-semibold text-muted-foreground">Problema:</span> {problem}</p>}
-                      {expectedImpact && <p className="text-[11px] text-muted-foreground mt-1 leading-relaxed"><span className="font-semibold text-muted-foreground">Impacto Esperado:</span> {expectedImpact}</p>}
-                      {consequence && <p className="text-[11px] text-rose-600 mt-1 leading-relaxed"><span className="font-semibold text-rose-700">Consequência da Inação:</span> {consequence}</p>}
+                      <ExecutiveHeading as="h4" className="text-muted-foreground">{title}</ExecutiveHeading>
+                      {problem && <ExecutiveText as="div" variant="caption" className="text-muted-foreground mt-1"><span className="font-semibold text-muted-foreground">Problema:</span> {problem}</ExecutiveText>}
+                      {expectedImpact && <ExecutiveText as="div" variant="caption" className="text-muted-foreground mt-1"><span className="font-semibold text-muted-foreground">Impacto Esperado:</span> {expectedImpact}</ExecutiveText>}
+                      {consequence && <ExecutiveText as="div" variant="caption" className="text-rose-600 mt-1"><span className="font-semibold text-rose-700">Consequência da Inação:</span> {consequence}</ExecutiveText>}
                       <div className="flex items-center gap-2 mt-2 flex-wrap">
                         {(rec.prazoRecomendadoLabel || rec.prazoRecomendado) && <span className="text-[10px] font-bold text-muted-foreground bg-white border border-border px-2 py-1 rounded">Prazo: {rec.prazoRecomendadoLabel || rec.prazoRecomendado}</span>}
                         {rec.impactLabel && <span className="text-[10px] font-bold text-muted-foreground bg-white border border-border px-2 py-1 rounded">Impacto: {rec.impactLabel}</span>}
@@ -411,17 +450,17 @@ function sanitizeReport(obj: any): any {
           <div className="bg-white rounded-3xl p-6 border border-border shadow-sm space-y-6">
             <div className="flex items-center gap-2">
               <Activity size={18} className="text-blue-500" />
-       <h3 className="text-sm font-black text-executive-secondary uppercase tracking-wider">{consolidationResult?.executiveTop5Title || 'Top 5 Ações da Diretoria'}</h3>
+       <ExecutiveHeading as="h3" className="text-executive-secondary">{consolidationResult?.executiveTop5Title || 'Top 5 Ações da Diretoria'}</ExecutiveHeading>
             </div>
             <div className="space-y-4">
               {consolidationResult?.executiveTop5?.length === 0 ? (
-                <p className="text-xs text-muted-foreground italic">Sem ações pendentes para a Diretoria.</p>
+                <ExecutiveText as="div" variant="caption" className="text-muted-foreground italic">Sem ações pendentes para a Diretoria.</ExecutiveText>
               ) : (
                 consolidationResult?.executiveTop5?.map((rec, i) => {
                   const text = FiduciaryRuntimeAdapter.EFOSPresentationLeakGuard.guard(rec.text);
                   return (
                     <div key={i} className="p-4 border border-border bg-slate-50 rounded-2xl flex flex-col gap-2">
-                      <h4 className="text-xs font-bold text-muted-foreground">{text}</h4>
+                      <ExecutiveHeading as="h4" className="text-muted-foreground">{text}</ExecutiveHeading>
                       <div className="flex items-center gap-2 mt-1">
                         <span className="text-[10px] font-bold text-muted-foreground bg-white border border-border px-2 py-1 rounded">Impacto: {rec.impact}</span>
                         {rec.domain && <span className="text-[10px] font-bold text-blue-600 bg-blue-50 border border-blue-100 px-2 py-1 rounded">Domínio: {rec.domain}</span>}
@@ -433,8 +472,18 @@ function sanitizeReport(obj: any): any {
             </div>
           </div>
         </div>
-        {/* Additional sections omitted for brevity */}
-      </div>
+        <ExecutiveSummarySection 
+          status={{ label: 'Sistema Operacional Fiduciário', variant: 'success' }}
+          question="Como o EFOS consolida os motores de inteligência e governança fiduciária?"
+          opinion="O comitê fiduciário chancela o EFOS como sistema central de orquestração do capital e pareceres executivos."
+          driver="Síntese financeira, alinhamento C-Level, governança topológica e motor de recomendação."
+          implication="Trilha unificada de governança para tomada de decisão em tempo real."
+          action="Manter a calibração mensal dos motores preditivos e regras fiduciárias."
+        >
+          <ExecutiveStrategicTensions tensions={[]} />
+          <ExecutiveDecisionTrace trace={[]} />
+        </ExecutiveSummarySection>
+      </ExecutivePageTemplate>
     </>
   );
 }

@@ -1,7 +1,7 @@
 import React from 'react';
-
 import { Sparkles, X, Rocket, TrendingUp, ShieldCheck, Zap } from 'lucide-react';
 import { cn } from '../../lib/utils';
+
 
 interface WelcomeMessageProps {
   isOpen: boolean;
