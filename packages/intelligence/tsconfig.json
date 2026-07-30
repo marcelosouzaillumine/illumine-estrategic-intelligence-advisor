@@ -2,8 +2,7 @@
   "extends": "../../tsconfig.json",
   "compilerOptions": {
     "composite": true,
-    "moduleResolution": "bundler",
-    "types": ["vitest", "node"]
+    "moduleResolution": "bundler"
   },
   "include": [
     "src/**/*",

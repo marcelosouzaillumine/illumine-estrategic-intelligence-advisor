@@ -51,3 +51,5 @@ export interface DecisionPackageContract {
   readonly recommendations: Recommendation[];
   readonly consensusScore: number;
 }
+
+export * from './ExecutiveDecisionContext';

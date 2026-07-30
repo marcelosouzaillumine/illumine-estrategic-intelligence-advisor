@@ -1,11 +1,11 @@
 import { describe, it, expect } from 'vitest';
-import { ExecutiveExperienceComposer } from '@illumine/executive-experience-composer';
+import { ExecutiveExperienceComposer } from '../executive-experience-composer/src';
 
 describe('@illumine/intelligence (Wave 17.11 Canonical Composition Verification)', () => {
   it('should compose 4 native intelligence layers via ExecutiveExperienceComposer (ADR-065)', () => {
     const res = ExecutiveExperienceComposer.compose({
-      companyId: 'comp-100',
-      userId: 'user-ceo',
+      companyId: 'comp-1',
+      userId: 'user-1',
       pageId: 'DREPage',
       period: '2026'
     });
@@ -13,6 +13,6 @@ describe('@illumine/intelligence (Wave 17.11 Canonical Composition Verification)
     expect(res.decisionView.opportunityTitle).toBeDefined();
     expect(res.metricInsights.length).toBeGreaterThan(0);
     expect(res.actions.length).toBeGreaterThan(0);
-    expect(res.copilotOpening.greetingText).toContain('DRE');
+    expect(res.copilotOpening.greetingText).toContain('2026');
   });
 });

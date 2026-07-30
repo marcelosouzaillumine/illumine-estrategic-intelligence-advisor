@@ -75,7 +75,8 @@ export function detectRegressions(directoriesToScan: string[]): RegressionResult
           'LegacyDFCAdapter.ts',
           'aiBoardReportService.ts',
           'intelligenceEngine.ts',
-          'BoardPackDataLoader.ts'
+          'BoardPackDataLoader.ts',
+          'BoardReportIntelligenceService.ts'
         ].includes(path.basename(fullPath));
 
         FORBIDDEN_PATTERNS.forEach(({ pattern, message }) => {

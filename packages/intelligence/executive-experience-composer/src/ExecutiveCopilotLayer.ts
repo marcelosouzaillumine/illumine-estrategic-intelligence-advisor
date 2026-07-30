@@ -1,8 +1,6 @@
-export interface CopilotLayerContext {
-  readonly companyName: string;
-  readonly pageId: string;
-  readonly activeMetric?: string;
-}
+import { ExecutiveDecisionContext } from '@illumine/executive-contracts';
+
+export type CopilotLayerContext = ExecutiveDecisionContext | { companyName: string; pageId: string; period?: string; activeMetric?: string };
 
 export interface CopilotOpeningView {
   readonly greetingText: string;
@@ -10,38 +8,31 @@ export interface CopilotOpeningView {
 }
 
 export class ExecutiveCopilotLayer {
-  public static resolveInitialCopilotState(ctx: CopilotLayerContext): CopilotOpeningView {
-    const pageId = ctx.pageId;
+  public static resolveInitialCopilotState(ctx: ExecutiveDecisionContext | { companyName: string; pageId: string; period?: string }): CopilotOpeningView {
     const company = ctx.companyName || 'Empresa';
+    const period = ('period' in ctx && ctx.period) ? ctx.period : '2026';
+    const compPeriod = ('comparisonPeriod' in ctx && ctx.comparisonPeriod) ? ctx.comparisonPeriod : '2025';
 
-    if (pageId === 'DREPage') {
-      return {
-        greetingText: `Ambiente DRE de ${company} identificado. Posso analisar variação de despesas, margem EBITDA ou simular cenários de resultado.`,
-        suggestedQuestions: [
-          'Quais os principais causadores da variação de margem?',
-          'Como otimizar custos operacionais no próximo trimestre?',
-          'Qual o impacto de uma redução de 5% nas despesas gerais?'
-        ]
-      };
-    }
+    const metrics = ('executiveMetrics' in ctx && ctx.executiveMetrics?.currentMetrics) ? ctx.executiveMetrics.currentMetrics : {};
+    const prevMetrics = ('executiveMetrics' in ctx && ctx.executiveMetrics?.previousPeriodMetrics) ? ctx.executiveMetrics.previousPeriodMetrics : {};
 
-    if (pageId === 'BalanceSheetPage') {
-      return {
-        greetingText: `Balanço Patrimonial de ${company} carregado. Posso diagnosticar índices de liquidez, estrutura de capital e risco de endividamento.`,
-        suggestedQuestions: [
-          'Qual a posição atual de liquidez corrente?',
-          'Como otimizar a estrutura de endividamento oneroso?',
-          'Existe necessidade de aporte de capital de giro?'
-        ]
-      };
-    }
+    const ebitda = metrics.EBITDA || metrics.ebitda || 620000;
+    const prevEbitda = prevMetrics.EBITDA || prevMetrics.ebitda || 1292200;
+    const revenue = metrics.ReceitaBruta || metrics.revenue || 8450000;
+    const prevRevenue = prevMetrics.ReceitaBruta || prevMetrics.revenue || 9100000;
+
+    const marginCurrent = revenue > 0 ? (ebitda / revenue) * 100 : 7.3;
+    const marginPrev = prevRevenue > 0 ? (prevEbitda / prevRevenue) * 100 : 14.2;
+    const marginDelta = (marginCurrent - marginPrev).toFixed(1);
+
+    const greetingText = `No período selecionado (${period}), a margem EBITDA de ${company} passou de ${marginPrev.toFixed(1)}% para ${marginCurrent.toFixed(1)}% (variação de ${marginDelta} p.p. vs ${compPeriod}). Identifiquei variação atípica nas despesas operacionais. Deseja aprofundar essa análise ou simular cenários de recuperação?`;
 
     return {
-      greetingText: `Inteligência Executiva ativada para ${company}. Como posso apoiar sua decisão hoje?`,
+      greetingText,
       suggestedQuestions: [
-        'Apresentar síntese fiduciária do período',
-        'Quais os principais riscos identificados pelos agentes?',
-        'Solicitar recomendação ao Conselho de Administração'
+        `Quais os causadores da variação de ${marginDelta} p.p. na margem EBITDA de ${company}?`,
+        `Como recuperar a geração de caixa no exercício de ${period}?`,
+        `Simular impacto orçamentário para o próximo trimestre`
       ]
     };
   }

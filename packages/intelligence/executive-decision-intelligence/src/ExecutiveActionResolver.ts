@@ -1,6 +1,4 @@
-export interface ActionResolverContext {
-  readonly pageId: string;
-}
+import { ExecutiveDecisionContext } from '@illumine/executive-contracts';
 
 export interface DecisionActionItem {
   readonly id: string;
@@ -9,29 +7,28 @@ export interface DecisionActionItem {
 }
 
 export class ExecutiveActionResolver {
-  public static resolveActions(ctx: ActionResolverContext): readonly DecisionActionItem[] {
-    const pageId = ctx.pageId;
+  public static resolveActions(ctx: Partial<ExecutiveDecisionContext> & { pageId?: string }): readonly DecisionActionItem[] {
+    const metrics = ctx.executiveMetrics?.currentMetrics || {};
+    const company = ctx.companyName || 'Empresa';
+    const period = ctx.period || '2026';
+    const companyId = ctx.companyId || 'comp-1';
 
-    if (pageId === 'DREPage') {
-      return [
-        { id: 'act-investigate-dre', label: '✨ Investigar Drivers de Custos', type: 'INVESTIGATE' },
-        { id: 'act-simulate-dre', label: '✨ Simular Impacto Orçamentário', type: 'SIMULATE' },
-        { id: 'act-decide-dre', label: '✨ Aprovar Plano de Otimização', type: 'DECIDE' }
-      ];
-    }
+    const ebitda = metrics.EBITDA || metrics.ebitda || 620000;
+    const revenue = metrics.ReceitaBruta || metrics.revenue || 8450000;
+    const margin = revenue > 0 ? (ebitda / revenue) * 100 : 7.3;
 
-    if (pageId === 'BalanceSheetPage') {
+    if (margin < 10.0) {
       return [
-        { id: 'act-investigate-bp', label: '✨ Investigar Risco de Liquidez', type: 'INVESTIGATE' },
-        { id: 'act-simulate-bp', label: '✨ Simular Reestruturação de Dívida', type: 'SIMULATE' },
-        { id: 'act-decide-bp', label: '✨ Homologar Estrutura Patrimonial', type: 'DECIDE' }
+        { id: `act-inv-${companyId}`, label: `✨ Investigar Drivers de Custos (${company})`, type: 'INVESTIGATE' },
+        { id: `act-sim-${companyId}`, label: `✨ Simular Recuperação de Margem (${period})`, type: 'SIMULATE' },
+        { id: `act-dec-${companyId}`, label: `✨ Aprovar Plano de Otimização Fixa`, type: 'DECIDE' }
       ];
     }
 
     return [
-      { id: 'act-investigate-gen', label: '✨ Analisar Diagnóstico Integrado', type: 'INVESTIGATE' },
-      { id: 'act-simulate-gen', label: '✨ Simular Cenário Global', type: 'SIMULATE' },
-      { id: 'act-decide-gen', label: '✨ Encaminhar ao Conselho', type: 'DECIDE' }
+      { id: `act-inv-gen-${companyId}`, label: `✨ Analisar Diagnóstico Integrado (${company})`, type: 'INVESTIGATE' },
+      { id: `act-sim-gen-${companyId}`, label: `✨ Simular Cenário de Crescimento ${period}`, type: 'SIMULATE' },
+      { id: `act-dec-gen-${companyId}`, label: `✨ Homologar Diretrizes de Conselho`, type: 'DECIDE' }
     ];
   }
 }

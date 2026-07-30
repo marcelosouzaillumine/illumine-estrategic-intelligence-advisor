@@ -19,7 +19,7 @@ packages/
 │   ├── semantic-model/       # Enterprise Semantic System (kernel, taxonomy, ontology, catalogs, vocabulary, dimensions, relationships)
 │   ├── executive-contracts/  # Contratos Públicos Puros Imutáveis (capability, governance, decision, reasoning, versioning, events)
 │   └── executive-domain/     # Lógica de Domínio Interna (aggregates, factories, services, rules, policies, lifecycle, projectors)
-├── intelligence/             # Camada Estendida de Inteligência Executiva, EDOS & Copilot (Waves 13 a 17.13)
+├── intelligence/             # Camada Estendida de Inteligência Executiva, EDOS & Copilot (Waves 13 a 18.1)
 │   ├── intelligence-kernel/  # Núcleo Compartilhado de Cognição (IntelligenceIdentity, ProvenanceReference, Context, Trace, Signal)
 │   ├── organizational-memory/# Memória Imutável de Experiências Executivas & ExecutiveDecisionTimeline (Wave 16.5 Phase 5)
 │   ├── knowledge-graph/      # Grafo de Conhecimento Causal (Ontology vs Causal Model)
@@ -52,7 +52,7 @@ packages/
 │   ├── product-value-engine/ # Medição de ROI do Produto (Wave 16.5 Phase 8)
 │   ├── executive-home/       # Visão Inicial do Executivo (Wave 17 Phase 1)
 │   ├── executive-copilot/    # Copilot Conversacional Contextual & ExecutiveCopilotRouter (Wave 17.9 Phase 6)
-│   ├── executive-context-engine/# Motor Unificado de Resolver de Contexto Executivo (Wave 17 Phase 3)
+│   ├── executive-context-engine/# Motor Unificado de Resolver de Contexto Executivo (Wave 18.1 Phase 1 & 2)
 │   ├── executive-question-engine/# Gerador Proativo de Perguntas Inteligentes C-Level (Wave 17 Phase 5)
 │   ├── executive-insights-layer/# Camada Superior de Apresentação de Insights (Wave 17.5 Phase 1)
 │   ├── executive-intelligence-drawer/# Painel Lateral Persistente de Inteligência (Wave 17.5 Phase 2)
@@ -73,16 +73,16 @@ packages/
 
 ## 2. Architecture Decision Records (ADRs)
 
-### `ADR-001` a `ADR-066`: Core Foundation, Intelligence, EDOS, Product Experience, Page Activation, UI Runtime, Real Mounting, Native Composition & Decision Intelligence
+### `ADR-001` a `ADR-067`: Core Foundation, Intelligence, EDOS, Product Experience, Page Activation, UI Runtime, Real Mounting & Decision Intelligence Standard
 - ADRs normativas anteriores congeladas.
 
-### `ADR-067`: Executive Decision Intelligence Real Mount Standard (Wave 17.13)
-- **Decisão**: Instituir que a inteligência de decisão executiva é declarada em cada página através do componente montador canônico `<ExecutiveDecisionIntelligenceMount />`, posicionado diretamente abaixo do `PageHeader` e alimentado por dados financeiros reais.
+### `ADR-068`: Executive Context-Aware Intelligence Standard (Wave 18.1)
+- **Decisão**: Instituir que a inteligência executiva jamais produz conclusões a partir da identidade da página. Toda conclusão, recomendação e narrativa deve ser inferida dinamicamente do contexto do negócio (`ExecutiveDecisionContext`), variando por empresa, período, KPI e dados financeiros reais. (*"Executive Intelligence never produces conclusions from page identity. Every conclusion must be inferred from the current business context."*)
 
 ---
 
 ## 3. Roteiro de Transição Arquitetural
 
-- **Wave 17.12**: Concluída (Executive Decision Intelligence Layer Canonical Refactoring v1.0).
-- **Wave 17.13**: Em Execução (Executive Decision Intelligence Real Experience Activation).
-- **Wave 18**: Próximo marco (Enterprise Data Connectivity & Real-Time Intelligence).
+- **Wave 17.13**: Concluída (Executive Decision Intelligence Real Experience Activation).
+- **Wave 18.1**: Em Execução (Executive Context-Aware Intelligence Engine).
+- **Wave 18.2**: Próximo marco (Real-Time Enterprise Connector Pipeline).
