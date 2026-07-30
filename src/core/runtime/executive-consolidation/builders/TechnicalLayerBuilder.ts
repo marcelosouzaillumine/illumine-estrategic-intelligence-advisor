@@ -158,7 +158,7 @@ export class TechnicalLayerBuilder {
         const translateConfidence = (c: any) => c === 'HIGH' || c === 100 ? 'Alta' : c === 'MEDIUM' ? 'Média' : c === 'LOW' ? 'Baixa' : c;
 
         const resolvedName = resolveLabel(ind.metricName);
-        const registryMeta = BalanceSheetTechnicalIndicatorRegistry[resolvedName] || BalanceSheetTechnicalIndicatorRegistry[ind.metricName];
+        const registryMeta = (BalanceSheetTechnicalIndicatorCanonicalRegistry as any)[resolvedName] || (BalanceSheetTechnicalIndicatorCanonicalRegistry as any)[ind.metricName];
 
         return {
           familyName: family,

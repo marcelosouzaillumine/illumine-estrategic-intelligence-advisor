@@ -17,9 +17,9 @@ packages/
 ├── domain/                   # Domínio Executivo Canônico
 │   ├── core-primitives/      # Núcleo Atômico: Primitivas, Value Objects & Errors (0 dependências de negócio)
 │   ├── semantic-model/       # Enterprise Semantic System (kernel, taxonomy, ontology, catalogs, vocabulary, dimensions, relationships)
-│   ├── executive-contracts/  # Contratos Públicos Puros Imutáveis (capability, governance, decision, reasoning, versioning, events, data-fabric)
+│   ├── executive-contracts/  # Contratos Públicos Puros Imutáveis (capability, governance, decision, reasoning, versioning, events, data-fabric, knowledge)
 │   └── executive-domain/     # Lógica de Domínio Interna (aggregates, factories, services, rules, policies, lifecycle, projectors)
-├── intelligence/             # Camada Estendida de Inteligência Executiva, EDOS & Copilot (Waves 13 a 18.4)
+├── intelligence/             # Camada Estendida de Inteligência Executiva, EDOS & Copilot (Waves 13 a 18.5)
 │   ├── intelligence-kernel/  # Núcleo Compartilhado de Cognição (IntelligenceIdentity, ProvenanceReference, Context, Trace, Signal)
 │   ├── organizational-memory/# Memória Imutável de Experiências Executivas & ExecutiveDecisionTimeline (Wave 16.5 Phase 5)
 │   ├── knowledge-graph/      # Grafo de Conhecimento Causal (Ontology vs Causal Model)
@@ -73,17 +73,17 @@ packages/
 
 ## 2. Architecture Decision Records (ADRs)
 
-### `ADR-001` a `ADR-077`: Core Foundation, Intelligence, EDOS, Context-Aware Engine, Executive & Platform Workspaces
+### `ADR-001` a `ADR-080`: Core Foundation, Intelligence, EDOS, Context-Aware Engine, Workspaces & Data Fabric Architecture
 - ADRs normativas anteriores congeladas.
 
-### `ADR-078`: Enterprise Data Fabric Architecture (Wave 18.4)
-- **Decisão**: Instituir a arquitetura do Enterprise Data Fabric integrando conectores de ERP, CRM, Bancos e Planilhas à camada semântica e ao Executive Digital Twin.
+### `ADR-081`: Organizational Knowledge Graph Architecture (Wave 18.5)
+- **Decisão**: Instituir a arquitetura do Grafo de Conhecimento Organizacional conectando empresas, decisões passadas, evidências, ações executadas, resultados reais e aprendizado acumulado.
 
-### `ADR-079`: Data Lineage Governance Standard (Wave 18.4)
-- **Decisão**: Instituir a obrigatoriedade de rastreabilidade completa (Data Lineage Trace) desde a fonte de dados bruta até o insight e recomendação executiva.
+### `ADR-082`: Decision Memory Governance Standard (Wave 18.5)
+- **Decisão**: Instituir a governança de memória decisória (`DecisionMemoryContract`), registrando a comparação entre impactos previstos e resultados reais para calibrar o Digital Twin.
 
-### `ADR-080`: Real-Time Intelligence Event-Driven Runtime Standard (Wave 18.4)
-- **Decisão**: Instituir o modelo orientado a eventos de negócios para recalcular a inteligência executiva em tempo real com a chegada de novos eventos operacionais.
+### `ADR-083`: Executive Learning Runtime Standard (Wave 18.5)
+- **Decisão**: Instituir o modelo de execução do aprendizado executivo em tempo real (`LearningRecordContract` & `OrganizationalPatternContract`) para aprimorar recomendações futuras.
 
 ---
 
@@ -92,5 +92,6 @@ packages/
 - **Wave 18.1**: Concluída (Executive Context-Aware Intelligence Engine).
 - **Wave 18.2**: Concluída (Executive Experience Realization — EER v1.0).
 - **Wave 18.3**: Concluída (Platform Workspace Realization & Governance Experience — PWGE v1.0).
-- **Wave 18.4**: Em Execução (Enterprise Intelligence Data Fabric — EIDF v1.0 Foundation).
-- **Wave 18.5**: Próximo marco (Intelligence Experience & Knowledge Graph Enrichment).
+- **Wave 18.4**: Concluída (Enterprise Intelligence Data Fabric — EIDF v1.0).
+- **Wave 18.5**: Em Execução (Organizational Intelligence & Knowledge Graph Evolution — OIKE v1.0 Foundation).
+- **Wave 18.6**: Próximo marco (Predictive Decision Intelligence & Scenario Simulation Engine).
