@@ -5,6 +5,7 @@ import { cn } from '@/lib/utils';
 export interface ExecutiveHeadingProps extends React.HTMLAttributes<HTMLHeadingElement> {
   variant?: ExecutiveTypographyRole;
   as?: 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6';
+  level?: number | string;
 }
 
 /**
@@ -13,7 +14,8 @@ export interface ExecutiveHeadingProps extends React.HTMLAttributes<HTMLHeadingE
  * garantindo consistência com a Constituição Visual v6.0.
  */
 export const ExecutiveHeading = React.forwardRef<HTMLHeadingElement, ExecutiveHeadingProps>(
-  ({ variant, className, as: Component = 'h2', children, ...props }, ref) => {
+  ({ variant, className, as: ComponentProp, level, children, ...props }, ref) => {
+    const Component = ComponentProp || (level ? (`h${level}` as any) : 'h2');
     
     // Mapeamento padrão caso a variante não seja explicitamente informada
     const defaultVariantMap: Record<string, ExecutiveTypographyRole> = {

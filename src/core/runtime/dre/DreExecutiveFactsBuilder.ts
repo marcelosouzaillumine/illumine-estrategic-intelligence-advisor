@@ -104,7 +104,9 @@ export class DreExecutiveFactsBuilder {
     const breakEvenRevenue = payload.pontoEquilibrio || (contributionMarginRate > 0 ? (fixedExpenses / contributionMarginRate) : 0);
     const breakEvenDistance = netRevenue - breakEvenRevenue;
     const safetyMargin = netRevenue > 0 ? (breakEvenDistance / netRevenue) : 0;
-    const breakEvenCoverage = breakEvenRevenue > 0 ? (netRevenue / breakEvenRevenue) : 0;
+    const breakEvenCoverage = breakEvenRevenue > 0 
+      ? (netRevenue / breakEvenRevenue) 
+      : (fixedExpenses === 0 && netRevenue > 0 ? 1.0 : 0);
 
     // Advanced Metrics
     // Qualidade do Resultado: % do EBITDA que se converte em Lucro Líquido

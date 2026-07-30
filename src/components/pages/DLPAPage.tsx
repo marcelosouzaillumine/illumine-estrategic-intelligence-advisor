@@ -84,37 +84,37 @@ export function DLPAPage({ clients, selectedClient, selectedYear }: any) {
         title: "DLPA — Demonstração de Lucros e Prejuízos Acumulados",
         description: "Análise estrutural de distribuição de lucros, preservação patrimonial e maturidade de governança de capital.",
       }}>
+        {/* Control Bar (Context Controls & Actions) */}
+        <div className="flex flex-col md:flex-row md:items-center justify-between gap-6 mb-6">
+          <div className="flex flex-col md:flex-row md:items-center gap-4">
+            <div className="flex items-center gap-4">
+              {hasData && (
+                <StatusBadge status="Ativo" />
+              )}
+              <DLPADataSourceStatus hasRealData={hasData} loading={loading} />
+              {lifecycleStage === 'INITIAL_CAPITALIZATION' && (
+                <span className="px-3 py-1 rounded-full text-[9px] font-black uppercase tracking-widest bg-insight-soft text-insight border border-insight/20 shadow-sm">
+                  Fase Inicial de Capitalização
+                </span>
+              )}
+            </div>
+            <DLPAYearFilter filterYear={filterYear} onChangeYear={setFilterYear} />
+          </div>
+
+          {hasData && (
+            <DLPAActionToolbar 
+              onLaunchData={() => setShowManualModal(true)} 
+              onImport={() => setShowImportModal(true)} 
+              onDelete={() => setShowDeleteConfirm(true)} 
+            />
+          )}
+        </div>
+
         <ExecutiveDecisionIntelligenceMount
           pageId="DLPAPage"
           companyId={String(selectedClient || 'comp-1')}
           period={String(filterYear || selectedYear || 2026)}
         />
-
-      {/* Control Bar (Context Controls & Actions) */}
-      <div className="flex flex-col md:flex-row md:items-center justify-between gap-6 mb-10">
-        <div className="flex flex-col md:flex-row md:items-center gap-4">
-          <div className="flex items-center gap-4">
-            {hasData && (
-              <StatusBadge status="Ativo" />
-            )}
-            <DLPADataSourceStatus hasRealData={hasData} loading={loading} />
-            {lifecycleStage === 'INITIAL_CAPITALIZATION' && (
-              <span className="px-3 py-1 rounded-full text-[9px] font-black uppercase tracking-widest bg-insight-soft text-insight border border-insight/20 shadow-sm">
-                Fase Inicial de Capitalização
-              </span>
-            )}
-          </div>
-          <DLPAYearFilter filterYear={filterYear} onChangeYear={setFilterYear} />
-        </div>
-
-        {hasData && (
-          <DLPAActionToolbar 
-            onLaunchData={() => setShowManualModal(true)} 
-            onImport={() => setShowImportModal(true)} 
-            onDelete={() => setShowDeleteConfirm(true)} 
-          />
-        )}
-      </div>
 
       {/* Temporário: Auditoria de Propagação ELSA (Atalho: Ctrl+Shift+E) */}
       {showElsaPanel && (featureFlags.showSemanticAudit || process.env.NODE_ENV !== 'production') && (capitalGov as any)?.lifecycleAudit && (

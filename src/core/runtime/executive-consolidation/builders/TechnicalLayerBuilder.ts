@@ -157,15 +157,18 @@ export class TechnicalLayerBuilder {
         
         const translateConfidence = (c: any) => c === 'HIGH' || c === 100 ? 'Alta' : c === 'MEDIUM' ? 'Média' : c === 'LOW' ? 'Baixa' : c;
 
+        const resolvedName = resolveLabel(ind.metricName);
+        const registryMeta = BalanceSheetTechnicalIndicatorRegistry[resolvedName] || BalanceSheetTechnicalIndicatorRegistry[ind.metricName];
+
         return {
           familyName: family,
-          label: resolveLabel(ind.metricName),
-          formula: 'Fórmula estática do motor consolidado',
+          label: resolvedName,
+          formula: registryMeta?.formula || 'Cálculo analítico derivado do balanço patrimonial',
           value: ind.value === 'INSUFFICIENT_DATA' ? '—' : ind.value,
           classificationLabel,
-          purpose,
-          limitations: '',
-          referenceRange: '',
+          purpose: registryMeta?.purpose || purpose,
+          limitations: registryMeta?.limitations || '',
+          referenceRange: registryMeta?.referenceRange || '',
           methodologicalNotes: finalMethodologicalNotes,
           origin: {
             sourceEngine: 'TechnicalLayerBuilder',

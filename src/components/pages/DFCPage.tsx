@@ -56,13 +56,8 @@ export function DFCPage(props: DFCPageProps) {
         badge: 'EAA - DEMONSTRATIVO DE FLUXO DE CAIXA'
       }}
     >
-      <ExecutiveDecisionIntelligenceMount
-        pageId="DFCPage"
-        companyId={String(activeClientId || 'comp-1')}
-        period={String(filterYear || initialYear || 2026)}
-      />
-      {/* Barra de Controle Temporal e Ações (Padrão do Balanço Patrimonial) */}
-      <div className="flex flex-col md:flex-row md:items-center justify-between gap-6 mb-10">
+      {/* Barra de Controle Temporal e Ações (Padrão do Balanço Patrimonial e DRE) */}
+      <div className="flex flex-col md:flex-row md:items-center justify-between gap-6 mb-6">
         <div className="flex flex-col md:flex-row md:items-center gap-4">
           <div className="flex items-center gap-4">
             {hasDfcData && <ExecutiveBadge variant="success">Ativo</ExecutiveBadge>}
@@ -79,6 +74,12 @@ export function DFCPage(props: DFCPageProps) {
           />
         )}
       </div>
+
+      <ExecutiveDecisionIntelligenceMount
+        pageId="DFCPage"
+        companyId={String(activeClientId || 'comp-1')}
+        period={String(filterYear || initialYear || 2026)}
+      />
 
       {/* Padrão de Tela para Anos sem Lançamentos (Padrão Balanço Patrimonial) */}
       {!hasDfcData ? (

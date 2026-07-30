@@ -1,6 +1,8 @@
 import React from 'react';
 import { cn } from '../../lib/utils';
 import { ExecutiveText } from './executive-typography';
+import { ExecutiveHeading } from './executive-heading';
+import { ExecutiveCallout } from './executive-callout';
 
 export interface ExecutiveDecisionPanelProps {
   question: string;
@@ -69,9 +71,9 @@ export function ExecutiveDecisionPanel({
 
       {/* 1. Parecer Executivo */}
       <div className={cn("flex flex-col items-start w-full", ExecutiveDecisionRhythm.badgeToOpinion)}>
-        <ExecutiveText variant="moduleTitle" as="h3" className="max-w-[65ch]">
+        <ExecutiveHeading as="h3" variant="moduleTitle" className="max-w-[65ch]">
           {opinion}
-        </ExecutiveText>
+        </ExecutiveHeading>
       </div>
 
       {/* 2. Driver & Implicação */}
@@ -79,9 +81,9 @@ export function ExecutiveDecisionPanel({
         <ExecutiveText variant="microLabel" className="text-executive-muted">
           Principal Driver
         </ExecutiveText>
-        <ExecutiveText variant="submoduleTitle" as="h4">
+        <ExecutiveHeading as="h4" variant="submoduleTitle">
           {driver}
-        </ExecutiveText>
+        </ExecutiveHeading>
         <ExecutiveText variant="bodyLarge" as="p" className="max-w-[70ch] mt-1 text-executive-secondary">
           {implication}
         </ExecutiveText>
@@ -89,14 +91,14 @@ export function ExecutiveDecisionPanel({
 
       {/* 3. Ação Tática */}
       <div className={cn("flex flex-col items-start w-full", ExecutiveDecisionRhythm.implicationToAction, ExecutiveDecisionRhythm.actionLabelToAction)}>
-        <ExecutiveText variant="microLabel" className="text-executive-muted">
+        <ExecutiveText variant="microLabel" className="text-executive-muted mb-1">
           Ação Tática
         </ExecutiveText>
-        <div className="bg-executive-primary/5 px-4 py-3 rounded-md border-l-2 border-executive-primary mt-1">
-          <ExecutiveText variant="bodyStrong" as="p" className="text-executive-primary">
+        <ExecutiveCallout variant="info" className="w-full">
+          <ExecutiveText variant="bodyStrong" as="p" className="text-foreground font-medium">
             {action}
           </ExecutiveText>
-        </div>
+        </ExecutiveCallout>
       </div>
 
     </div>

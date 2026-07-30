@@ -4,6 +4,9 @@ import type { ExecutiveStrategicDiagnosisPayload } from '../../services/Fiduciar
 import { Compass, AlertTriangle, Target, LineChart, ShieldCheck, MapPin, Loader2 } from 'lucide-react';
 import { ExecutiveSurface } from './executive-surface';
 
+import { ExecutiveHeading } from './executive-heading';
+import { ExecutiveText } from './executive-typography';
+
 export interface ExecutiveStrategicSemanticCardsProps {
   payload: ExecutiveStrategicDiagnosisPayload;
   selectedYear?: number;
@@ -40,18 +43,18 @@ export function ExecutiveStrategicRecommendationCard({ payload, className }: { p
       getSeverityColors(payload.severityState),
       className
     )}>
-      <h4 className="text-sm font-semibold text-foreground flex items-center gap-2 z-10">
+      <ExecutiveHeading as="h4" variant="submoduleTitle" className="flex items-center gap-2 z-10 text-foreground">
         {getSeverityIcon(payload.severityState)}
         Recomendação Prioritária
-      </h4>
-      <p className="text-sm text-foreground leading-relaxed text-pretty flex-1 z-10 font-medium">
+      </ExecutiveHeading>
+      <ExecutiveText variant="bodyStandard" className="text-foreground leading-relaxed text-pretty flex-1 z-10 font-medium">
         {payload.priorityRecommendation}
-      </p>
+      </ExecutiveText>
       {payload.primaryDriver && (
         <div className="mt-2 pt-2 border-t border-border z-10">
-          <p className="text-xs text-executive-secondary font-medium">
+          <ExecutiveText variant="microLabel" className="text-executive-secondary font-medium">
             <span className="font-bold text-foreground">Principal driver institucional:</span> {payload.primaryDriver}
-          </p>
+          </ExecutiveText>
         </div>
       )}
     </ExecutiveSurface>
@@ -69,12 +72,12 @@ export function ExecutiveStrategicSynthesisCards({ payload, selectedYear = paylo
             <Compass className="w-5 h-5" />
           </div>
           <div>
-            <h2 className="text-lg font-semibold text-foreground leading-tight tracking-tight">
+            <ExecutiveHeading as="h2" variant="moduleTitle" className="text-foreground leading-tight tracking-tight">
               Diagnóstico Estratégico
-            </h2>
-            <p className="text-sm text-executive-secondary flex items-center gap-2 mt-1">
+            </ExecutiveHeading>
+            <ExecutiveText variant="bodyStandard" className="text-executive-secondary flex items-center gap-2 mt-1">
               <Loader2 className="w-3 h-3 animate-spin" /> Recalculando inteligência executiva para {selectedYear}...
-            </p>
+            </ExecutiveText>
           </div>
         </div>
       </div>
@@ -89,47 +92,47 @@ export function ExecutiveStrategicSynthesisCards({ payload, selectedYear = paylo
             <Compass className="w-5 h-5" />
           </div>
           <div>
-            <h2 className="text-lg font-semibold text-foreground leading-tight tracking-tight">
+            <ExecutiveHeading as="h2" variant="moduleTitle" className="text-foreground leading-tight tracking-tight">
               Diagnóstico Estratégico
-            </h2>
-            <p className="text-sm text-executive-secondary mt-1">
+            </ExecutiveHeading>
+            <ExecutiveText variant="bodyStandard" className="text-executive-secondary mt-1">
               {payload.moduleContext === 'BP' 
                 ? "Visão consolidada da posição patrimonial, liquidez, estrutura de capital e capacidade de sustentação financeira para suporte à tomada de decisão."
                 : "Visão consolidada do desempenho econômico, da formação do resultado e das prioridades operacionais para suporte à tomada de decisão."}
-            </p>
+            </ExecutiveText>
           </div>
         </div>
       )}
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
-        <ExecutiveSurface padding="md" radius="md" className="bg-white border border-border shadow-md flex flex-col gap-2">
-          <h4 className="text-sm font-semibold text-foreground flex items-center gap-2">
+        <ExecutiveSurface padding="md" radius="md" className="bg-card border border-border shadow-md flex flex-col gap-2">
+          <ExecutiveHeading as="h4" variant="submoduleTitle" className="flex items-center gap-2 text-foreground">
             <MapPin className="w-4 h-4 text-primary" />
             Situação Atual
-          </h4>
-          <p className="text-sm text-executive-secondary leading-relaxed text-pretty flex-1 font-medium">
+          </ExecutiveHeading>
+          <ExecutiveText variant="bodyStandard" className="text-executive-secondary leading-relaxed text-pretty flex-1 font-medium">
             {payload.currentSituation}
-          </p>
+          </ExecutiveText>
         </ExecutiveSurface>
 
-        <ExecutiveSurface padding="md" radius="md" className="bg-white border border-border shadow-md flex flex-col gap-2">
-          <h4 className="text-sm font-semibold text-foreground flex items-center gap-2">
+        <ExecutiveSurface padding="md" radius="md" className="bg-card border border-border shadow-md flex flex-col gap-2">
+          <ExecutiveHeading as="h4" variant="submoduleTitle" className="flex items-center gap-2 text-foreground">
             <Target className="w-4 h-4 text-primary" />
             Prioridade Estratégica
-          </h4>
-          <p className="text-sm text-executive-secondary leading-relaxed text-pretty flex-1 font-medium">
+          </ExecutiveHeading>
+          <ExecutiveText variant="bodyStandard" className="text-executive-secondary leading-relaxed text-pretty flex-1 font-medium">
             {payload.strategicPriority}
-          </p>
+          </ExecutiveText>
         </ExecutiveSurface>
 
-        <ExecutiveSurface padding="md" radius="md" className="bg-white border border-border shadow-md flex flex-col gap-2">
-          <h4 className="text-sm font-semibold text-foreground flex items-center gap-2">
+        <ExecutiveSurface padding="md" radius="md" className="bg-card border border-border shadow-md flex flex-col gap-2">
+          <ExecutiveHeading as="h4" variant="submoduleTitle" className="flex items-center gap-2 text-foreground">
             <LineChart className="w-4 h-4 text-primary" />
             Perspectiva
-          </h4>
-          <p className="text-sm text-executive-secondary leading-relaxed text-pretty flex-1 font-medium">
+          </ExecutiveHeading>
+          <ExecutiveText variant="bodyStandard" className="text-executive-secondary leading-relaxed text-pretty flex-1 font-medium">
             {payload.outlook}
-          </p>
+          </ExecutiveText>
         </ExecutiveSurface>
       </div>
     </div>

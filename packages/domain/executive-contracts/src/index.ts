@@ -5,3 +5,4 @@ export * from './reasoning/reasoning-contracts';
 export * from './decision/decision-contracts';
 export * from './versioning/versioning-contracts';
 export * from './projection/projection-contracts';
+export * from './data-fabric/DataFabricContracts';

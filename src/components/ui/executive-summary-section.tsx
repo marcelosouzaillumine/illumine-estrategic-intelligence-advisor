@@ -4,6 +4,7 @@ import { ExecutiveBadge, ExecutiveBadgeVariant } from './executive-badge';
 import { ExecutiveDecisionPanel } from './executive-decision-panel';
 import { ExecutiveTechnicalScore } from './executive-technical-score';
 import { ExecutiveSpacingRegistry } from './executive-typography';
+import { ExecutiveSurface } from './executive-surface';
 
 export type ExecutiveSummaryDensity = 'comfortable' | 'compact' | 'analytical';
 
@@ -45,7 +46,7 @@ export function ExecutiveSummarySection({
   return (
     <div className={cn("flex flex-col w-full", ExecutiveSpacingRegistry.blockGap, className)}>
       
-      <div className="flex flex-col w-full p-6 md:p-8 rounded-[24px] border border-border shadow-sm bg-white">
+      <ExecutiveSurface variant="default" padding="lg" radius="lg" className="flex flex-col w-full">
         <ExecutiveDecisionPanel 
           question={question}
           statusBadge={<ExecutiveBadge variant={status.variant}>{status.label}</ExecutiveBadge>}
@@ -56,7 +57,7 @@ export function ExecutiveSummarySection({
           confidence={technicalScore?.confidence}
           technicalIndex={technicalScore?.value ?? undefined}
         />
-      </div>
+      </ExecutiveSurface>
 
       {/* 2. Evidence Grid */}
       {children && (

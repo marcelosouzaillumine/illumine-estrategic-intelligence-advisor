@@ -1,6 +1,10 @@
 import React, { useState } from 'react';
 import { ExecutiveIntelligenceDrawer } from './ExecutiveIntelligenceDrawer';
-import { Bot, Sparkles } from 'lucide-react';
+import { Bot, Sparkles, X } from 'lucide-react';
+import { ExecutiveSurface } from '../ui/executive-surface';
+import { ExecutiveHeading } from '../ui/executive-heading';
+import { ExecutiveText } from '../ui/executive-typography';
+import { ExecutiveBadge } from '../ui/executive-badge';
 
 export interface ExecutiveIntelligenceShellProps {
   children: React.ReactNode;
@@ -38,35 +42,61 @@ export const ExecutiveIntelligenceShell: React.FC<ExecutiveIntelligenceShellProp
         {!isCopilotOpen ? (
           <button
             onClick={() => setIsCopilotOpen(true)}
-            className="flex items-center gap-2.5 rounded-full bg-gradient-to-r from-blue-600 to-indigo-600 px-4 py-3 text-xs font-semibold text-white shadow-xl hover:from-blue-500 hover:to-indigo-500 transition-all border border-blue-400/30"
+            className="flex items-center gap-2 px-4 py-2.5 rounded-full bg-primary text-primary-foreground shadow-xl hover:bg-primary/90 transition-all border border-border/50 cursor-pointer"
           >
-            <Sparkles className="h-4 w-4 text-blue-200 animate-pulse" />
-            <span>Executive Copilot</span>
+            <Sparkles className="h-4 w-4 text-primary-foreground animate-pulse" />
+            <ExecutiveText variant="microLabel" className="text-primary-foreground font-semibold">
+              Executive Copilot
+            </ExecutiveText>
           </button>
         ) : (
-          <div className="w-80 rounded-2xl border border-border bg-card p-4 shadow-2xl backdrop-blur-md">
+          <ExecutiveSurface variant="default" radius="md" padding="md" elevation="lg" className="w-80 shadow-2xl backdrop-blur-md border border-border">
             <div className="flex items-center justify-between border-b border-border pb-2 mb-3">
               <div className="flex items-center gap-2">
                 <Bot className="h-4 w-4 text-secondary" />
-                <h4 className="text-xs font-semibold text-primary">Executive Copilot</h4>
+                <ExecutiveHeading as="h4" variant="submoduleTitle" className="text-foreground">
+                  Executive Copilot
+                </ExecutiveHeading>
               </div>
-              <button onClick={() => setIsCopilotOpen(false)} className="text-executive-secondary hover:text-primary text-xs">✕</button>
+              <button 
+                onClick={() => setIsCopilotOpen(false)} 
+                className="text-muted-foreground hover:text-foreground transition-colors cursor-pointer p-1 rounded-md"
+              >
+                <X size={14} />
+              </button>
             </div>
-            <div className="space-y-2 text-[11px] text-executive-secondary">
-              <p><strong className="text-primary">Empresa:</strong> {companyName}</p>
-              <p><strong className="text-primary">Página:</strong> {pageTitle}</p>
-              <p><strong className="text-primary">Período:</strong> 2026-YTD</p>
-              <div className="mt-3 rounded-lg bg-surface-container p-2 border border-border space-y-1">
-                <p className="text-executive-secondary font-medium">Sugestões de análise:</p>
-                <button onClick={() => setIsDrawerOpen(true)} className="block text-secondary hover:underline text-left">
+            
+            <div className="space-y-2">
+              <div className="flex justify-between items-center text-xs">
+                <ExecutiveText variant="microLabel" className="text-muted-foreground">Empresa</ExecutiveText>
+                <ExecutiveText variant="bodyStandard" className="font-medium text-foreground">{companyName}</ExecutiveText>
+              </div>
+              <div className="flex justify-between items-center text-xs">
+                <ExecutiveText variant="microLabel" className="text-muted-foreground">Página</ExecutiveText>
+                <ExecutiveText variant="bodyStandard" className="font-medium text-foreground">{pageTitle}</ExecutiveText>
+              </div>
+              <div className="flex justify-between items-center text-xs">
+                <ExecutiveText variant="microLabel" className="text-muted-foreground">Período</ExecutiveText>
+                <ExecutiveBadge variant="neutral">2026-YTD</ExecutiveBadge>
+              </div>
+
+              <ExecutiveSurface variant="transparent" padding="sm" className="mt-3 bg-muted/20 border border-border/40 rounded-lg space-y-1.5">
+                <ExecutiveText variant="microLabel" className="text-muted-foreground mb-1 block">Sugestões de análise:</ExecutiveText>
+                <button 
+                  onClick={() => setIsDrawerOpen(true)} 
+                  className="block text-xs text-secondary hover:underline text-left font-medium cursor-pointer w-full"
+                >
                   • Explicar variação dos indicadores
                 </button>
-                <button onClick={() => setIsDrawerOpen(true)} className="block text-secondary hover:underline text-left">
+                <button 
+                  onClick={() => setIsDrawerOpen(true)} 
+                  className="block text-xs text-secondary hover:underline text-left font-medium cursor-pointer w-full"
+                >
                   • Analisar riscos financeiros
                 </button>
-              </div>
+              </ExecutiveSurface>
             </div>
-          </div>
+          </ExecutiveSurface>
         )}
       </div>
     </div>

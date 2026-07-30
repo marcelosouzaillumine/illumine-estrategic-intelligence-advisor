@@ -27,9 +27,18 @@ import { ExecutiveEmptyState } from '../ui/executive-empty-state';
 import { ExecutiveHeading } from '../ui/executive-heading';
 import { ExecutiveText } from '../ui/executive-typography';
 import { createPortal } from 'react-dom';
+import { ExecutiveBadge } from '../ui/executive-badge';
 import { ExecutiveSummarySection } from '../ui/executive-summary-section';
 import { ExecutiveStrategicTensions } from '../ui/executive-strategic-tensions';
 import { ExecutiveDecisionTrace } from '../ui/executive-decision-trace';
+import { 
+  ExecutiveTable, 
+  ExecutiveTableHeader, 
+  ExecutiveTableBody, 
+  ExecutiveTableRow, 
+  ExecutiveTableHead, 
+  ExecutiveTableCell 
+} from '../ui/executive-table';
 import { useDreGerencialPageViewModel } from '../../viewmodels/useDreGerencialPageViewModel';
 import { useDreGerencial } from '../../adapters/ui/DreGerencialAdapter';
 import { DRE_STRUCTURE } from '../../viewmodels/DreGerencialViewModel';
@@ -37,9 +46,7 @@ import { FULL_MONTH_LABELS, MONTH_LABELS } from '../../constants';
 import { DashboardSkeleton } from '../ui/skeletons';
 
 export function DreGerencialPage({ selectedClient, selectedYear: initialYear, selectedMonth: initialMonth }: any) {
-  // Adapter: useDreGerencialPageAdapter
-  // ViewModel: useDreGerencialPageViewModel
-  const { state: vmState, computed: vmComputed, actions: vmActions } = useDreGerencialPageViewModel({ clientId: selectedClient });
+  // ViewModel & Adapter
   const { state, computed, actions } = useDreGerencialPageViewModel({ selectedClient });
   const portal = createPortal;
   const [selectedYear, setSelectedYear] = useState(initialYear || new Date().getFullYear());
@@ -95,20 +102,23 @@ export function DreGerencialPage({ selectedClient, selectedYear: initialYear, se
     const visiblePeriods = [...periods.historical, periods.current];
 
     return (
-      <tr key={row.id} className={cn(
-        "hover:bg-surface-container/30 transition-colors group",
-        row.isTotal && "bg-surface-container/50 font-black text-foreground"
+      <ExecutiveTableRow key={row.id} className={cn(
+        "transition-colors group",
+        row.isTotal && "bg-surface-container/50 font-bold text-foreground"
       )}>
-        <td className="px-5 md:px-8 py-2.5 md:py-4 sticky left-0 bg-card z-10 shadow-[2px_0_5px_rgba(0,0,0,0.02)]">
+        <ExecutiveTableCell className="sticky left-0 bg-card z-10 shadow-[2px_0_5px_rgba(0,0,0,0.02)]">
            <div className="flex items-center gap-2" style={{ paddingLeft: `${row.level * 20}px` }}>
-              <span className={cn(
-                "text-[11px] break-words overflow-visible",
-                row.isTotal ? "uppercase tracking-wider text-foreground font-black" : "text-muted-foreground font-medium"
-              )}>
+              <ExecutiveText
+                variant={row.isTotal ? "bodyStandard" : "microLabel"}
+                className={cn(
+                  "break-words overflow-visible",
+                  row.isTotal ? "uppercase tracking-wider text-foreground font-black" : "text-muted-foreground font-medium"
+                )}
+              >
                 {row.label}
-              </span>
+              </ExecutiveText>
            </div>
-        </td>
+        </ExecutiveTableCell>
         
         {visiblePeriods.map(p => {
           const key = periodType === 'anual' ? p.year.toString() : `${p.year}-${p.month}`;
@@ -120,37 +130,37 @@ export function DreGerencialPage({ selectedClient, selectedYear: initialYear, se
           }
           
           return (
-            <td key={key} className={cn(
-              "px-4 md:px-6 py-2.5 md:py-4 text-right text-[11px] font-mono",
+            <ExecutiveTableCell key={key} className={cn(
+              "text-right font-mono text-xs",
               val < 0 ? "text-critical" : "text-foreground",
               isCurrent && "bg-secondary/5 font-bold"
             )}>
               {formatCurrency(val)}
-            </td>
+            </ExecutiveTableCell>
           );
         })}
 
-        <td className="px-4 md:px-6 py-2.5 md:py-4 text-right">
-          <span className={cn(
-            "text-[10px] font-bold px-2 py-0.5 rounded-full",
-            av > 0 ? "bg-accent-soft text-accent" : "bg-surface-container text-muted-foreground border border-border"
-          )}>
+        <ExecutiveTableCell className="text-right">
+          <ExecutiveBadge variant={av > 0 ? "info" : "neutral"}>
             {av.toFixed(2)}%
-          </span>
-        </td>
+          </ExecutiveBadge>
+        </ExecutiveTableCell>
 
-        <td className="px-4 md:px-6 py-2.5 md:py-4 text-right">
+        <ExecutiveTableCell className="text-right">
           <div className="flex items-center justify-end gap-1">
             {ah !== 0 && (ah > 0 ? <ArrowUpRight size={10} className="text-success" /> : <ArrowDownRight size={10} className="text-critical" />)}
-            <span className={cn(
-              "text-[10px] font-bold",
-              ah > 0 ? "text-success" : ah < 0 ? "text-critical" : "text-muted-foreground"
-            )}>
+            <ExecutiveText
+              variant="microLabel"
+              className={cn(
+                "font-bold",
+                ah > 0 ? "text-success" : ah < 0 ? "text-critical" : "text-muted-foreground"
+              )}
+            >
               {ah.toFixed(2)}%
-            </span>
+            </ExecutiveText>
           </div>
-        </td>
-      </tr>
+        </ExecutiveTableCell>
+      </ExecutiveTableRow>
     );
   };
 
@@ -323,13 +333,13 @@ export function DreGerencialPage({ selectedClient, selectedYear: initialYear, se
         </div>
       </div>
 
-      <div className="bg-card rounded-md border border-border shadow-sm overflow-hidden">
+      <ExecutiveSurface variant="default" padding="none" className="overflow-hidden">
         <div className="px-8 py-6 border-b border-border flex items-center justify-between bg-surface-container/30">
           <div>
-            <ExecutiveHeading as="h2" className="text-foreground">Análise de Resultados Multi-Dimensional</ExecutiveHeading>
-            <p className="text-[10px] text-muted-foreground font-bold uppercase tracking-[0.2em] mt-0.5">
+            <ExecutiveHeading as="h2" variant="moduleTitle" className="text-foreground">Análise de Resultados Multi-Dimensional</ExecutiveHeading>
+            <ExecutiveText variant="microLabel" className="text-muted-foreground uppercase tracking-[0.2em] mt-0.5">
               Série Histórica · {periodType === 'anual' ? 'Visão de 5 Anos' : 'Visão de 12 Meses'}
-            </p>
+            </ExecutiveText>
           </div>
           <div className="flex gap-2">
             <button className="p-2.5 bg-surface-container hover:bg-surface-container/80 text-foreground border border-border rounded-md transition-all" title="Exportar Excel">
@@ -341,33 +351,31 @@ export function DreGerencialPage({ selectedClient, selectedYear: initialYear, se
           </div>
         </div>
 
-        <div className="overflow-x-auto custom-scrollbar">
-          <table className="w-full min-w-[1200px]">
-            <thead>
-              <tr className="bg-surface-container border-b border-border">
-                <th className="px-5 md:px-8 py-2.5 md:py-4 text-left text-[10px] font-black text-muted-foreground uppercase tracking-widest sticky left-0 bg-surface-container z-20 shadow-[2px_0_5px_rgba(0,0,0,0.02)]">Estrutura DRE</th>
-                {[...periods.historical, periods.current].map(p => {
-                  const key = periodType === 'anual' ? p.year.toString() : `${p.year}-${p.month}`;
-                  const isCurrent = periodType === 'anual' ? p.year === selectedYear : (p.year === selectedYear && p.month === selectedMonth);
-                  return (
-                    <th key={key} className={cn(
-                      "px-4 md:px-6 py-2.5 md:py-4 text-right text-[10px] font-black uppercase tracking-widest",
-                      isCurrent ? "text-secondary bg-secondary/5" : "text-muted-foreground"
-                    )}>
-                      {p.label}
-                    </th>
-                  );
-                })}
-                <th className="px-4 md:px-6 py-2.5 md:py-4 text-right text-[10px] font-black text-muted-foreground uppercase tracking-widest">AV %</th>
-                <th className="px-4 md:px-6 py-2.5 md:py-4 text-right text-[10px] font-black text-muted-foreground uppercase tracking-widest">AH %</th>
-              </tr>
-            </thead>
-            <tbody className="divide-y divide-border/40">
-              {!loading && DRE_STRUCTURE.map(row => renderAccountRow(row))}
-            </tbody>
-          </table>
-        </div>
-      </div>
+        <ExecutiveTable className="min-w-[1200px]">
+          <ExecutiveTableHeader>
+            <ExecutiveTableRow>
+              <ExecutiveTableHead className="sticky left-0 bg-surface-container z-20 shadow-[2px_0_5px_rgba(0,0,0,0.02)]">Estrutura DRE</ExecutiveTableHead>
+              {[...periods.historical, periods.current].map(p => {
+                const key = periodType === 'anual' ? p.year.toString() : `${p.year}-${p.month}`;
+                const isCurrent = periodType === 'anual' ? p.year === selectedYear : (p.year === selectedYear && p.month === selectedMonth);
+                return (
+                  <ExecutiveTableHead key={key} className={cn(
+                    "text-right tracking-widest",
+                    isCurrent ? "text-secondary bg-secondary/5" : "text-muted-foreground"
+                  )}>
+                    {p.label}
+                  </ExecutiveTableHead>
+                );
+              })}
+              <ExecutiveTableHead className="text-right tracking-widest">AV %</ExecutiveTableHead>
+              <ExecutiveTableHead className="text-right tracking-widest">AH %</ExecutiveTableHead>
+            </ExecutiveTableRow>
+          </ExecutiveTableHeader>
+          <ExecutiveTableBody>
+            {!loading && DRE_STRUCTURE.map(row => renderAccountRow(row))}
+          </ExecutiveTableBody>
+        </ExecutiveTable>
+      </ExecutiveSurface>
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
          <ExecutiveCommentary 
@@ -385,7 +393,7 @@ export function DreGerencialPage({ selectedClient, selectedYear: initialYear, se
                       <Target size={22} strokeWidth={1.5} />
                    </div>
                    <div>
-                      <ExecutiveHeading as="h3" className="text-h3 font-display text-foreground">Meta EBITDA {selectedYear}</ExecutiveHeading>
+                      <ExecutiveHeading as="h3" variant="submoduleTitle" className="text-foreground">Meta EBITDA {selectedYear}</ExecutiveHeading>
                       <ExecutiveText as="div" variant="bodyStandard" className="text-muted-foreground mt-0.5">Performance Desejada</ExecutiveText>
                    </div>
                 </div>
@@ -397,7 +405,7 @@ export function DreGerencialPage({ selectedClient, selectedYear: initialYear, se
                          <span className="text-lg font-black text-secondary">0.0%</span>
                       </div>
                       <div className="h-3 w-full bg-surface-container rounded-full overflow-hidden border border-border">
-                          <div className="h-full bg-secondary w-0 shadow-[0_0_20px_rgba(255,133,82,0.2)]" />
+                          <div className="h-full bg-secondary w-0 shadow-sm" />
                       </div>
                    </div>
                    
@@ -416,17 +424,6 @@ export function DreGerencialPage({ selectedClient, selectedYear: initialYear, se
           </div>
       </div>
       </div>
-       <ExecutiveSummarySection 
-         status={{ label: 'DRE Consolidado', variant: 'success' }}
-         question="Qual a performance de margens operacionais e lucratividade da empresa?"
-         opinion="O conselho fiduciário homologa a apuração da margem de contribuição e o atingimento do EBITDA planejado."
-         driver="Receita líquida, custos operacionais, margem bruta e EBITDA."
-         implication="Garantia de eficiência financeira e preservação da margem operacional."
-         action="Acompanhar o comportamento dos custos variáveis em relação ao crescimento das vendas."
-       >
-         <ExecutiveStrategicTensions tensions={[]} />
-         <ExecutiveDecisionTrace trace={[]} />
-       </ExecutiveSummarySection>
       </ExecutiveAccordion>
     </ExecutivePageTemplate>
   );

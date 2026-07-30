@@ -17,9 +17,9 @@ packages/
 ├── domain/                   # Domínio Executivo Canônico
 │   ├── core-primitives/      # Núcleo Atômico: Primitivas, Value Objects & Errors (0 dependências de negócio)
 │   ├── semantic-model/       # Enterprise Semantic System (kernel, taxonomy, ontology, catalogs, vocabulary, dimensions, relationships)
-│   ├── executive-contracts/  # Contratos Públicos Puros Imutáveis (capability, governance, decision, reasoning, versioning, events)
+│   ├── executive-contracts/  # Contratos Públicos Puros Imutáveis (capability, governance, decision, reasoning, versioning, events, data-fabric)
 │   └── executive-domain/     # Lógica de Domínio Interna (aggregates, factories, services, rules, policies, lifecycle, projectors)
-├── intelligence/             # Camada Estendida de Inteligência Executiva, EDOS & Copilot (Waves 13 a 18.1)
+├── intelligence/             # Camada Estendida de Inteligência Executiva, EDOS & Copilot (Waves 13 a 18.4)
 │   ├── intelligence-kernel/  # Núcleo Compartilhado de Cognição (IntelligenceIdentity, ProvenanceReference, Context, Trace, Signal)
 │   ├── organizational-memory/# Memória Imutável de Experiências Executivas & ExecutiveDecisionTimeline (Wave 16.5 Phase 5)
 │   ├── knowledge-graph/      # Grafo de Conhecimento Causal (Ontology vs Causal Model)
@@ -64,7 +64,7 @@ packages/
 ├── runtime/                  # Kernel, Executive Bus, Scheduler, Queue, Projection Engine (@illumine/runtime)
 ├── capabilities/             # Capacidades cognitivas registradas (financial, governance, operational, strategic, risk, advisor)
 ├── applications/             # Visões do usuário (Board Report, Risk, Finance, ESG, Portfolio)
-├── integrations/             # Inference Gateway (LLMs, Solvers, Monte Carlo, MCP) & Connectors (ERP, CRM)
+├── integrations/             # Inference Gateway (LLMs, Solvers, Monte Carlo, MCP) & Connectors (ERP, CRM, Banking)
 ├── extensions/               # Extensões e plugins de terceiros
 └── tooling/                  # CLI, geradores de código, linters e utilitários
 ```
@@ -73,16 +73,24 @@ packages/
 
 ## 2. Architecture Decision Records (ADRs)
 
-### `ADR-001` a `ADR-067`: Core Foundation, Intelligence, EDOS, Product Experience, Page Activation, UI Runtime, Real Mounting & Decision Intelligence Standard
+### `ADR-001` a `ADR-077`: Core Foundation, Intelligence, EDOS, Context-Aware Engine, Executive & Platform Workspaces
 - ADRs normativas anteriores congeladas.
 
-### `ADR-068`: Executive Context-Aware Intelligence Standard (Wave 18.1)
-- **Decisão**: Instituir que a inteligência executiva jamais produz conclusões a partir da identidade da página. Toda conclusão, recomendação e narrativa deve ser inferida dinamicamente do contexto do negócio (`ExecutiveDecisionContext`), variando por empresa, período, KPI e dados financeiros reais. (*"Executive Intelligence never produces conclusions from page identity. Every conclusion must be inferred from the current business context."*)
+### `ADR-078`: Enterprise Data Fabric Architecture (Wave 18.4)
+- **Decisão**: Instituir a arquitetura do Enterprise Data Fabric integrando conectores de ERP, CRM, Bancos e Planilhas à camada semântica e ao Executive Digital Twin.
+
+### `ADR-079`: Data Lineage Governance Standard (Wave 18.4)
+- **Decisão**: Instituir a obrigatoriedade de rastreabilidade completa (Data Lineage Trace) desde a fonte de dados bruta até o insight e recomendação executiva.
+
+### `ADR-080`: Real-Time Intelligence Event-Driven Runtime Standard (Wave 18.4)
+- **Decisão**: Instituir o modelo orientado a eventos de negócios para recalcular a inteligência executiva em tempo real com a chegada de novos eventos operacionais.
 
 ---
 
 ## 3. Roteiro de Transição Arquitetural
 
-- **Wave 17.13**: Concluída (Executive Decision Intelligence Real Experience Activation).
-- **Wave 18.1**: Em Execução (Executive Context-Aware Intelligence Engine).
-- **Wave 18.2**: Próximo marco (Real-Time Enterprise Connector Pipeline).
+- **Wave 18.1**: Concluída (Executive Context-Aware Intelligence Engine).
+- **Wave 18.2**: Concluída (Executive Experience Realization — EER v1.0).
+- **Wave 18.3**: Concluída (Platform Workspace Realization & Governance Experience — PWGE v1.0).
+- **Wave 18.4**: Em Execução (Enterprise Intelligence Data Fabric — EIDF v1.0 Foundation).
+- **Wave 18.5**: Próximo marco (Intelligence Experience & Knowledge Graph Enrichment).

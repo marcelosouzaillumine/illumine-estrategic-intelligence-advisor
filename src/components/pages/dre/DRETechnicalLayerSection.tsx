@@ -62,6 +62,7 @@ export function DRETechnicalLayerSection({ viewModel }: Props) {
       icon={<Database />}
       title="Memória Analítica e Evidências Técnicas"
       subtitle="Métricas contábeis, fórmulas aplicadas e rastreabilidade metodológica."
+      defaultExpanded
     >
       <ExecutiveSurface variant="transparent" padding="none" className="border-b border-border pb-6 mb-6">
         <ExecutiveHeading as="h4" variant="submoduleTitle">Memória Analítica Premium</ExecutiveHeading>
@@ -78,10 +79,10 @@ export function DRETechnicalLayerSection({ viewModel }: Props) {
               </div>
               
               <div className="flex flex-col gap-3 flex-1">
-                <div className="p-3 bg-muted/20 border border-border/30 rounded-sm mb-2">
+                <ExecutiveSurface variant="transparent" padding="sm" className="bg-muted/20 border border-border/30 rounded-md mb-2 flex flex-col">
                   <ExecutiveText variant="microLabel" className="text-muted-foreground mb-1 block">Fórmula Canônica</ExecutiveText>
                   <ExecutiveText variant="microLabel" className="font-mono text-foreground font-medium">{mem.formula}</ExecutiveText>
-                </div>
+                </ExecutiveSurface>
                 
                 <div>
                   <ExecutiveText variant="microLabel">Objetivo Gerencial</ExecutiveText>
@@ -149,7 +150,7 @@ export function DRETechnicalLayerSection({ viewModel }: Props) {
                         {row.label}
                       </ExecutiveText>
                     </ExecutiveTableCell>
-                    <ExecutiveTableCell className={cn("text-right font-mono", row.val < 0 ? "text-rose-600" : "text-foreground/80")}>
+                    <ExecutiveTableCell className={cn("text-right font-mono", row.val < 0 ? "text-critical" : "text-foreground/80")}>
                       {formatCurrency(row.val)}
                     </ExecutiveTableCell>
                     <ExecutiveTableCell className="text-right text-foreground/70">
@@ -157,7 +158,7 @@ export function DRETechnicalLayerSection({ viewModel }: Props) {
                     </ExecutiveTableCell>
                     <ExecutiveTableCell className={cn(
                       "text-right",
-                      row.ah1 === null ? "text-foreground/50" : row.ah1 > 0 ? "text-emerald-600" : row.ah1 < 0 ? "text-rose-600" : "text-foreground/70"
+                      row.ah1 === null ? "text-foreground/50" : row.ah1 > 0 ? "text-success" : row.ah1 < 0 ? "text-critical" : "text-foreground/70"
                     )}>
                       {row.ah1 !== null ? (
                         <div className="flex items-center justify-end gap-1">
@@ -168,7 +169,7 @@ export function DRETechnicalLayerSection({ viewModel }: Props) {
                     </ExecutiveTableCell>
                     <ExecutiveTableCell className={cn(
                       "text-right",
-                      row.ah2 === null ? "text-foreground/50" : row.ah2 > 0 ? "text-emerald-600" : row.ah2 < 0 ? "text-rose-600" : "text-foreground/70"
+                      row.ah2 === null ? "text-foreground/50" : row.ah2 > 0 ? "text-success" : row.ah2 < 0 ? "text-critical" : "text-foreground/70"
                     )}>
                       {row.ah2 !== null ? (
                         <div className="flex items-center justify-end gap-1">
@@ -179,7 +180,7 @@ export function DRETechnicalLayerSection({ viewModel }: Props) {
                     </ExecutiveTableCell>
                     <ExecutiveTableCell className={cn(
                       "text-right",
-                      row.ah3 === null ? "text-foreground/50" : row.ah3 > 0 ? "text-emerald-600" : row.ah3 < 0 ? "text-rose-600" : "text-foreground/70"
+                      row.ah3 === null ? "text-foreground/50" : row.ah3 > 0 ? "text-success" : row.ah3 < 0 ? "text-critical" : "text-foreground/70"
                     )}>
                       {row.ah3 !== null ? (
                         <div className="flex items-center justify-end gap-1">

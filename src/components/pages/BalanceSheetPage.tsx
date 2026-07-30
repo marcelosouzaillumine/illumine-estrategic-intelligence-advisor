@@ -82,6 +82,23 @@ ativoTotal, passivoTotal, plValue, ac, anc, pc, pnc, isBalanced, divergence, cx,
         description: "Análise da posição financeira, estrutura de capital e solvência patrimonial.",
         icon: BookOpen,
       }}>
+        {/* Barra de Controle de Contexto e Ações (Define o escopo que alimenta a inteligência) */}
+        <div className="flex flex-col md:flex-row md:items-center justify-between gap-6 mb-6">
+          <div className="flex flex-col md:flex-row md:items-center gap-4">
+            <div className="flex items-center gap-4">
+              {hasBalanceSheetData && (
+                <StatusBadge status={executiveReport?.isSandbox || executiveReport?.isDemonstrative ? 'SANDBOX' : (executiveReport?.canonicalState?.status || 'Ativo')} />
+              )}
+              <BalanceSheetDataSourceStatus hasRealData={hasBalanceSheetData} loading={loadingBP} />
+            </div>
+            <BalanceSheetYearFilter filterYear={filterYear} onChangeYear={setFilterYear} />
+          </div>
+
+          {hasBalanceSheetData && (
+            <BalanceSheetActionToolbar onLaunchData={() => setShowManualModal(true)} onImport={() => setShowImportModal(true)} onDelete={() => setShowDeleteConfirm(true)} />
+          )}
+        </div>
+
         <ExecutiveDecisionIntelligenceMount
           pageId="BalanceSheetPage"
           companyId={String(selectedClient || 'comp-1')}
@@ -90,22 +107,6 @@ ativoTotal, passivoTotal, plValue, ac, anc, pc, pnc, isBalanced, divergence, cx,
       {(executiveReport?.isSandbox || executiveReport?.isDemonstrative) && (
         <SandboxWarningOverlay type={executiveReport.isSandbox ? 'sandbox' : 'demonstrative'} />
       )}
-
-      <div className="flex flex-col md:flex-row md:items-center justify-between gap-6 mb-10">
-        <div className="flex flex-col md:flex-row md:items-center gap-4">
-          <div className="flex items-center gap-4">
-            {hasBalanceSheetData && (
-              <StatusBadge status={executiveReport?.isSandbox || executiveReport?.isDemonstrative ? 'SANDBOX' : (executiveReport?.canonicalState?.status || 'Ativo')} />
-            )}
-            <BalanceSheetDataSourceStatus hasRealData={hasBalanceSheetData} loading={loadingBP} />
-          </div>
-          <BalanceSheetYearFilter filterYear={filterYear} onChangeYear={setFilterYear} />
-        </div>
-
-        {hasBalanceSheetData && (
-          <BalanceSheetActionToolbar onLaunchData={() => setShowManualModal(true)} onImport={() => setShowImportModal(true)} onDelete={() => setShowDeleteConfirm(true)} />
-        )}
-      </div>
 
       {!hasBalanceSheetData ? (
         <div className="mb-12">

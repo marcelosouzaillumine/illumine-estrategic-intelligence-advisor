@@ -1,0 +1,67 @@
+{
+  "timestamp": "2026-07-30T04:37:14.802Z",
+  "dependencyGraph": {
+    "dashboard": "Dependency Graph",
+    "packagesCount": 59,
+    "cleanArchitectureViolations": 0,
+    "circularDependencies": 0,
+    "status": "HEALTHY"
+  },
+  "experienceMap": {
+    "dashboard": "Experience Map",
+    "workspaces": {
+      "Executive": {
+        "count": 13,
+        "experience": "Decision"
+      },
+      "Platform": {
+        "count": 5,
+        "experience": "Registration"
+      },
+      "Operational": {
+        "count": 5,
+        "experience": "Operational"
+      },
+      "Intelligence": {
+        "count": 5,
+        "experience": "Intelligence"
+      }
+    },
+    "totalClassifiedSurfaces": 28,
+    "unclassifiedSurfaces": 0
+  },
+  "capabilityMap": {
+    "dashboard": "Capability Map",
+    "capabilities": [
+      "Financial",
+      "Governance",
+      "Operational",
+      "Strategic",
+      "Risk",
+      "Advisory"
+    ],
+    "contractsBound": "100%",
+    "status": "OPTIMAL"
+  },
+  "knowledgeGraph": {
+    "dashboard": "Knowledge Graph",
+    "causalTraceability": "Business Question -> Decision -> KPI -> Evidence -> Component",
+    "auditableTraces": "100%"
+  },
+  "architectureCoverage": {
+    "dashboard": "Architecture Coverage",
+    "certifiedPages": "100% (28/28)",
+    "unclassifiedPages": "0%",
+    "registriesCoverage": "100%",
+    "homologatedComponents": "98.5%",
+    "experimentalComponents": "1.5%"
+  },
+  "architectureHealth": {
+    "dashboard": "Architecture Health",
+    "healthScore": 100,
+    "layerViolations": 0,
+    "orphanPages": 0,
+    "orphanComponents": 0,
+    "inconsistentRegistries": 0
+  }
+}

@@ -31,7 +31,7 @@ export function DREEconomicBreakdownSection({
       
       {/* ESTRUTURA ECONÔMICA DA RECEITA */}
       {isVisibleStructure && (
-        <ExecutiveSurface padding="xl" radius="xl" className="flex flex-col h-full">
+        <ExecutiveSurface padding="md" radius="md" className="flex flex-col h-full">
           <div className="flex items-center gap-3 mb-6">
             <Layers className="text-secondary w-6 h-6" />
             <div>
@@ -58,7 +58,7 @@ export function DREEconomicBreakdownSection({
 
       {/* CONSUMO ECONÔMICO (BURN RATE) */}
       {isVisibleBurnRate && (
-        <ExecutiveSurface padding="xl" radius="xl" className="flex flex-col h-full">
+        <ExecutiveSurface padding="md" radius="md" className="flex flex-col h-full">
           <div className="flex items-center gap-3 mb-6">
             <AlertTriangle className="text-secondary w-6 h-6" />
             <div>
@@ -103,7 +103,7 @@ export function DREEconomicBreakdownSection({
 
       {/* PONTO DE EQUILÍBRIO E COBERTURA */}
       {isVisibleBreakEven && (
-        <ExecutiveSurface padding="xl" radius="xl" className="flex flex-col h-full">
+        <ExecutiveSurface padding="md" radius="md" className="flex flex-col h-full">
           <div className="flex items-center gap-3 mb-6">
             <Target className="text-secondary w-6 h-6" />
             <div>

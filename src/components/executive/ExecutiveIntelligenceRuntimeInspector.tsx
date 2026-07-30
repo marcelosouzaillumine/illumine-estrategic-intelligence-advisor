@@ -15,11 +15,9 @@ const PAGE_TITLE_MAP: Record<string, string> = {
   EFOSPage: 'Executive Financial Operating System (EFOS)'
 };
 
-export const ExecutiveIntelligenceRuntimeInspector: React.FC<ExecutiveIntelligenceRuntimeInspectorProps> = ({
-  pageId,
-  hasRealData = true
-}) => {
-  if (process.env.NODE_ENV === 'production') return null;
+export const ExecutiveIntelligenceRuntimeInspector: React.FC<ExecutiveIntelligenceRuntimeInspectorProps> = () => {
+  // Ocultar barras de depuração interna do ambiente executivo do cliente
+  return null;
 
   const displayTitle = PAGE_TITLE_MAP[pageId] || pageId;
 

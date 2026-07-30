@@ -14,6 +14,6 @@ describe('@illumine/intelligence (Wave 17.12 Agent Runtime Integration)', () => 
     const rec = ExecutiveRecommendationResolver.resolveRecommendation(ctx);
 
     expect(rec.providingAgent).toBe('Risk Agent Engine');
-    expect(rec.recommendationText).toContain('Empresa');
+    expect(rec.recommendationText).toContain('Granatum S.A.');
   });
 });

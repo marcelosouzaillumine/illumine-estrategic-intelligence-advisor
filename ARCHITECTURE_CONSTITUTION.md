@@ -21,6 +21,22 @@
 
 ---
 
+> [!IMPORTANT]
+> **Os 8 Princípios Canônicos da Experience Architecture & Governança (EAF v1.0 / AGC v1.0 / ADR-069 / ADR-070):**
+
+7. **Experience First Principle**: Toda experiência DEVE nascer do seu propósito cognitivo de negócio antes de qualquer decisão de interface gráfica.
+8. **One Experience Rule**: Cada página da plataforma pertence a exatamente UMA categoria de Experience (`Decision`, `Registration`, `Operational` ou `Intelligence`).
+9. **Render Is Implementation Principle**: Os *Render Protocols* implementam visualmente as experiências; eles NUNCA definem as experiências.
+10. **Workspace Separation Principle**: Os *Workspaces* possuem responsabilidades e perfis cognitivos distintos. É estritamente proibido misturar padrões de decisão do Conselho com padrões administrativos ou operacionais.
+11. **Canonical Experience Registry Principle**: Toda *Experience* válida DEVE obrigatoriamente figurar no Cartório Oficial ([`docs/CANONICAL_EXPERIENCE_REGISTRY.md`](file:///Users/marcelosouza/Documents/illumine-strategic-intelligence-advisor/docs/CANONICAL_EXPERIENCE_REGISTRY.md)). É vedada a criação de experiências implícitas.
+12. **Experience Certification Principle**: Nenhuma superfície ou página pode ser homologada para produção sem certificação formal e declaração de metadados ([`docs/EXPERIENCE_CERTIFICATION_FRAMEWORK.md`](file:///Users/marcelosouza/Documents/illumine-strategic-intelligence-advisor/docs/EXPERIENCE_CERTIFICATION_FRAMEWORK.md)).
+13. **Pipeline Equivalence Principle**: A *Experience Architecture* e o *Pipeline Cognitivo da IERA* DEVEM permanecer semanticamente e funcionalmente equivalentes ([`docs/COGNITIVE_MAPPING.md`](file:///Users/marcelosouza/Documents/illumine-strategic-intelligence-advisor/docs/COGNITIVE_MAPPING.md)).
+14. **Governed Specialization Principle**: Os *Render Protocols* especializam *Experiences*, e as *Experiences* especializam a *Cognitive Architecture*. É expressamente proibida qualquer especialização direta de *Render Protocols* sem uma *Experience* intermediária registrada.
+
+
+
+---
+
 ## Parte II — Modelo Conceitual & Executive Digital Twin Core
 
 O **Executive Digital Twin** é o modelo computacional vivo da empresa, sobre o qual operam todas as capacidades, motores, inteligências e aplicações da plataforma:

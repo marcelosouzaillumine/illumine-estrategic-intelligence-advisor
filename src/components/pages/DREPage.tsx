@@ -6,6 +6,7 @@ import { Calendar, Loader2, Upload, Trash2, Plus, BarChart3, Database } from 'lu
 import { cn } from '../../lib/utils';
 import { SandboxWarningOverlay } from '../executive-interaction/SandboxWarningOverlay';
 import { PageHeader, StatusBadge } from '../Common';
+import { ExecutiveBadge } from '../ui/executive-badge';
 import { ExecutivePageTemplate } from '../ui/executive-page-template';
 import { ExecutiveSurface } from '../ui/executive-surface';
 import { ExecutiveAccordion } from '../ui/executive-accordion';
@@ -48,6 +49,55 @@ export function DREPage({ clients, selectedClient, selectedYear }: any) {
         title: "Demonstração do Resultado (DRE)",
         description: "Análise de performance operacional, lucratividade e rentabilidade do exercício contábil.",
       }}>
+        {/* 1. BARRA DE CONTROLE DE CONTEXTO E AÇÕES (Define o escopo/ano que alimenta toda a inteligência da página) */}
+        <ExecutiveSurface className="flex items-center justify-between gap-4 flex-wrap mb-6 bg-card border border-border shadow-sm">
+          <div className="flex items-center gap-3">
+            <ExecutiveBadge variant={hasDreData ? 'success' : 'neutral'}>
+              {hasDreData ? 'Dados Reais' : 'Amostra'}
+            </ExecutiveBadge>
+
+            <div className="flex bg-card border border-border p-1 rounded-md shadow-sm items-center">
+              <Calendar size={12} className="ml-2 text-muted-foreground" />
+              <select
+                onChange={(e) => actions.setFilterYear(Number(e.target.value))}
+                value={filterYear}
+                className="bg-transparent px-3 py-1.5 text-[10px] font-medium uppercase tracking-widest outline-none cursor-pointer text-foreground"
+              >
+                {Array.from({ length: 11 }, (_, i) => new Date().getFullYear() - 5 + i).map((y) => (
+                  <option key={y} value={y}>{y}</option>
+                ))}
+              </select>
+            </div>
+          </div>
+
+          {hasDreData && (
+            <div className="flex items-center gap-3">
+              <button
+                onClick={() => actions.setShowManualModal(true)}
+                className="px-4 py-2.5 bg-surface-container hover:bg-success hover:text-white text-success border border-border rounded-md transition-all flex items-center gap-2"
+              >
+                <Plus size={14} />
+                <ExecutiveText variant="microLabel" className="text-inherit">Lançar Dados</ExecutiveText>
+              </button>
+              <button
+                onClick={() => actions.setShowImportModal(true)}
+                className="px-4 py-2.5 bg-surface-container hover:bg-secondary hover:text-white text-secondary border border-border rounded-md transition-all flex items-center gap-2"
+              >
+                <Upload size={14} />
+                <ExecutiveText variant="microLabel" className="text-inherit">Importar</ExecutiveText>
+              </button>
+              <button
+                onClick={() => actions.setShowDeleteConfirm(true)}
+                className="px-4 py-2.5 bg-surface-container hover:bg-critical hover:text-white text-critical border border-border rounded-md transition-all flex items-center gap-2"
+              >
+                <Trash2 size={14} />
+                <ExecutiveText variant="microLabel" className="text-inherit">Excluir</ExecutiveText>
+              </button>
+            </div>
+          )}
+        </ExecutiveSurface>
+
+        {/* 2. CENTRO DE DECISÃO EXECUTIVA & INTELIGÊNCIA ATIVA (Avalia os dados do contexto definido acima) */}
         <ExecutiveDecisionIntelligenceMount
           pageId="DREPage"
           companyId={String(selectedClient || 'comp-1')}
@@ -57,51 +107,6 @@ export function DREPage({ clients, selectedClient, selectedYear }: any) {
       {(executiveReport?.isSandbox || executiveReport?.isDemonstrative) && (
         <SandboxWarningOverlay type={executiveReport.isSandbox ? 'sandbox' : 'demonstrative'} />
       )}
-
-      <ExecutiveSurface className="flex items-center justify-between gap-4 flex-wrap mb-10 bg-card border border-border shadow-sm">
-        <div className="flex items-center gap-3">
-          <StatusBadge 
-            label={hasDreData ? 'Dados Reais' : 'Amostra'}
-            status={hasDreData ? 'Verde' : 'Cinza'}
-          />
-
-          <div className="flex bg-card border border-border p-1 rounded-md shadow-sm items-center">
-            <Calendar size={12} className="ml-2 text-muted-foreground" />
-            <select
-              onChange={(e) => actions.setFilterYear(Number(e.target.value))}
-              value={filterYear}
-              className="bg-transparent px-3 py-1.5 text-[10px] font-medium uppercase tracking-widest outline-none cursor-pointer text-foreground"
-            >
-              {Array.from({ length: 11 }, (_, i) => new Date().getFullYear() - 5 + i).map((y) => (
-                <option key={y} value={y}>{y}</option>
-              ))}
-            </select>
-          </div>
-        </div>
-
-        {hasDreData && (
-          <div className="flex items-center gap-3">
-            <button
-              onClick={() => actions.setShowManualModal(true)}
-              className="px-4 py-3 bg-surface-container hover:bg-success hover:text-white text-success border border-border rounded-md text-[10px] font-medium uppercase tracking-widest transition-all flex items-center gap-2"
-            >
-              <Plus size={14} /> Lançar Dados
-            </button>
-            <button
-              onClick={() => actions.setShowImportModal(true)}
-              className="px-4 py-3 bg-surface-container hover:bg-secondary hover:text-white text-secondary border border-border rounded-md text-[10px] font-medium uppercase tracking-widest transition-all flex items-center gap-2"
-            >
-              <Upload size={14} /> Importar
-            </button>
-            <button
-              onClick={() => actions.setShowDeleteConfirm(true)}
-              className="px-4 py-3 bg-surface-container hover:bg-destructive hover:text-white text-destructive border border-border rounded-md text-[10px] font-medium uppercase tracking-widest transition-all flex items-center gap-2"
-            >
-              <Trash2 size={14} /> Excluir
-            </button>
-          </div>
-        )}
-      </ExecutiveSurface>
 
       {!hasDreData ? (
         <div className="mb-12">
@@ -156,14 +161,7 @@ export function DREPage({ clients, selectedClient, selectedYear }: any) {
           {/* --- CAMADA 3: CAMADA TÉCNICA E DETALHAMENTO CONTÁBIL --- */}
           {isSectionVisible('DRE_TECHNICAL_LAYER') && dreViewModel?.technicalLayer?.rows && dreViewModel.technicalLayer.rows.length > 0 && (
             <div className="mt-12 mb-8 border-t border-border pt-8">
-              <ExecutiveAccordion
-                title="Camada Técnica Contábil"
-                subtitle="Detalhamento das linhas da DRE com rastreabilidade contábil."
-                variant="analytics"
-                defaultExpanded
-              >
-                <DRETechnicalLayerSection viewModel={dreViewModel.technicalLayer} />
-              </ExecutiveAccordion>
+              <DRETechnicalLayerSection viewModel={dreViewModel.technicalLayer} />
             </div>
           )}
         </div>

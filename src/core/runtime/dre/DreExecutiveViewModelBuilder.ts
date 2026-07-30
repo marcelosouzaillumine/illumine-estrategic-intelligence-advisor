@@ -150,23 +150,29 @@ export class DreExecutiveViewModelBuilder {
     const cogsMargin = facts.netRevenue > 0 ? (facts.cogs / facts.netRevenue) : 0;
     const fixedExpensesMargin = facts.netRevenue > 0 ? (facts.fixedExpenses / facts.netRevenue) : 0;
 
+    const hasNoFixedExpenses = facts.fixedExpenses === 0;
+
     return {
       structureVM: {
-        available: true,
-        narrative: `Para cada R$ 100 de Receita, a operação absorve ${formatPct(cogsMargin)} em Custos e ${formatPct(fixedExpensesMargin)} em Despesas Fixas, convertendo ${formatPct(facts.netMargin)} de Margem Líquida.`,
+        available: facts.netRevenue > 0,
+        narrative: facts.netRevenue > 0 
+          ? `Para cada R$ 100 de Receita, a operação absorve ${formatPct(cogsMargin)} em Custos e ${formatPct(fixedExpensesMargin)} em Despesas Fixas, convertendo ${formatPct(facts.netMargin)} de Margem Líquida.`
+          : 'Aguardando dados de receita para análise de estrutura econômica.',
       },
       burnRateVM: {
-        available: true,
+        available: facts.netRevenue > 0 || facts.netIncome !== 0,
         hasBurn: facts.netIncome < 0,
         narrative: facts.netIncome < 0 ? "A empresa opera com déficit econômico recorrente." : "Operação sustentável, sem risco de continuidade econômica no exercício.",
         monthlyEconomicBurnFormatted: facts.netIncome < 0 ? formatCurrency(Math.abs(facts.netIncome) / 12) : undefined,
         annualEconomicBurnFormatted: facts.netIncome < 0 ? formatCurrency(Math.abs(facts.netIncome)) : undefined,
       },
       breakEvenVM: {
-        available: true,
-        narrative: `O Ponto de Equilíbrio é ${formatCurrency(facts.breakEvenRevenue)}. A receita atual cobre ${formatPct(facts.breakEvenCoverage)} da necessidade.`,
-        absorptionClassification: facts.breakEvenCoverage >= 1.2 ? "Plena" : facts.breakEvenCoverage >= 1 ? "Adequada" : "Parcial",
-        absorptionTone: (facts.breakEvenCoverage >= 1.2 ? "success" : facts.breakEvenCoverage >= 1 ? "success" : "critical") as any
+        available: facts.netRevenue > 0,
+        narrative: hasNoFixedExpenses && facts.netRevenue > 0
+          ? `Operação sem despesas fixas a cobrir no período. O Ponto de Equilíbrio é R$ 0,00 com absorção plena.`
+          : `O Ponto de Equilíbrio é ${formatCurrency(facts.breakEvenRevenue)}. A receita atual cobre ${formatPct(facts.breakEvenCoverage)} da necessidade.`,
+        absorptionClassification: (hasNoFixedExpenses && facts.netRevenue > 0) || facts.breakEvenCoverage >= 1.2 ? "Plena" : facts.breakEvenCoverage >= 1 ? "Adequada" : "Parcial",
+        absorptionTone: (((hasNoFixedExpenses && facts.netRevenue > 0) || facts.breakEvenCoverage >= 1) ? "success" : "critical") as "success" | "warning" | "critical"
       }
     };
   }
