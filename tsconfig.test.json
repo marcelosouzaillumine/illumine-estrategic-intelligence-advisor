@@ -3,7 +3,8 @@
   "compilerOptions": {},
   "include": [
     "src/**/*",
-    "tests/**/*"
+    "tests/**/*",
+    "packages/**/__tests__/**/*"
   ],
   "exclude": [
     "node_modules",
