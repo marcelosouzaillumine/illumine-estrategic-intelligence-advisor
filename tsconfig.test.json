@@ -8,6 +8,8 @@
   "exclude": [
     "node_modules",
     "dist",
+    "tests/visual",
+    "tests/visual/**/*",
     "src/core/governance/__tests__",
     "tests/temporal-ui.test.tsx",
     "tests/temporal-workflow-collaboration.test.tsx",

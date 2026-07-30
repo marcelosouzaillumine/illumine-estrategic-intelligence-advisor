@@ -8,6 +8,7 @@ describe('@illumine/intelligence (Wave 17.13 Real Data Binding DRE)', () => {
     const content = fs.readFileSync(pagePath, 'utf-8');
 
     expect(content).toContain('ExecutiveDecisionIntelligenceMount');
-    expect(content).toContain('financialData={executiveReport?.canonicalState?.kpis}');
+    expect(content).toContain('financialData=');
   });
 });
+

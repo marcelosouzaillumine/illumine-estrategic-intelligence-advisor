@@ -17,20 +17,27 @@ packages/
 ├── domain/                   # Domínio Executivo Canônico
 │   ├── core-primitives/      # Núcleo Atômico: Primitivas, Value Objects & Errors (0 dependências de negócio)
 │   ├── semantic-model/       # Enterprise Semantic System (kernel, taxonomy, ontology, catalogs, vocabulary, dimensions, relationships)
-│   ├── executive-contracts/  # Contratos Públicos Puros Imutáveis (capability, governance, decision, reasoning, versioning, events, data-fabric, knowledge)
+│   ├── executive-contracts/  # Contratos Públicos Puros Imutáveis (capability, governance, decision, reasoning, versioning, events, data-fabric, knowledge, advisory, readiness, benchmark, predictive, council, trust, partner, saas, distribution, knowledge-foundation)
 │   └── executive-domain/     # Lógica de Domínio Interna (aggregates, factories, services, rules, policies, lifecycle, projectors)
-├── intelligence/             # Camada Estendida de Inteligência Executiva, EDOS & Copilot (Waves 13 a 18.5)
+├── intelligence/             # Camada Estendida de Inteligência Executiva, EDOS & Copilot (Waves 13 a 19.2.5)
 │   ├── intelligence-kernel/  # Núcleo Compartilhado de Cognição (IntelligenceIdentity, ProvenanceReference, Context, Trace, Signal)
 │   ├── organizational-memory/# Memória Imutável de Experiências Executivas & ExecutiveDecisionTimeline (Wave 16.5 Phase 5)
 │   ├── knowledge-graph/      # Grafo de Conhecimento Causal (Ontology vs Causal Model)
 │   ├── executive-orchestrator/# Orquestrador Multi-Agente & ExecutiveAdvisoryCouncil (Wave 16 Phase 3)
 │   ├── predictive-engine/    # Motor Preditivo Explainable-First (PredictionExplanation & PredictionCalibration)
+│   ├── predictive-decision-engine/# Motor de Inteligência Preditiva Empresarial & Projeção Temporal (Wave 18.9 PDI v1.0)
+│   ├── agent-council/        # AI Agent Council & Specialized Multi-Agent Deliberation Framework (Wave 18.10 AAC v1.0)
+│   ├── decision-trust-governance/# Trust, Explainability & Decision Governance (Wave 18.10.5 TEDG v1.0)
+│   ├── partner-ecosystem/    # External Advisory Ecosystem & Partner Operating Model (Wave 18.11 EAE v1.0)
+│   ├── saas-foundation/      # SaaS Foundation & Enterprise Productization (Wave 19.1 SFP v1.0)
+│   ├── platform-distribution/# Platform Distribution Network (Wave 19.2 PDN v1.0)
+│   ├── enterprise-knowledge-foundation/# Enterprise Knowledge Foundation Hardening (Wave 19.2.5 EKFH v1.0)
 │   ├── decision-learning/    # Loop de Aprendizado Decisório por Feedback de Resultado (ModelImprovementRequest)
 │   ├── intelligence-certification/# Certificação do EIS Framework (IntelligenceMaturityLevel & IntelligenceTrajectory)
 │   ├── enterprise-knowledge-fabric/# Tecido de Conhecimento Empresarial Unificado (Wave 14 Phase 1)
 │   ├── organizational-intelligence-graph/# Grafo Organizacional de Estratégia, Capacidades, Processos e Decisões (Wave 14 Phase 2)
 │   ├── cross-domain-intelligence/# Motor de Inteligência Transversal entre Domínios Corporativos (Wave 14 Phase 3)
-│   ├── benchmark-intelligence/# Camada de Inteligência Comparativa e Baselines (Wave 14 Phase 4)
+│   ├── benchmark-intelligence/# Camada de Inteligência Comparativa e Baselines Multi-Tenant (Wave 18.8 MBAI v2.0)
 │   ├── executive-network/    # Rede Executiva Integrada de Conselho, CEO e Consultores Cognitivos (Wave 14 Phase 5)
 │   ├── enterprise-certification/# Certificação do Enterprise Intelligence Score - EnIS (Wave 14 Phase 6)
 │   ├── agent-runtime/        # Foundation & Ciclo de Vida dos Agentes Executivos (Wave 15B Phase 1 & 2)
@@ -60,7 +67,8 @@ packages/
 │   ├── contextual-kpi-intelligence/# Motor Contextual de Explicação de KPIs (Wave 17.5 Phase 4)
 │   ├── executive-page-intelligence/# Real Mount Verification & Experience Mount Gate (Wave 17.10.1 Phase 7)
 │   ├── executive-experience-composer/# Composição Canônica da Experiência Executiva (Wave 17.11 Phase 3)
-│   └── executive-decision-intelligence/# Motor de Decisão Executiva sem Agent Surface Visual (Wave 17.12 Phase 2)
+│   ├── executive-decision-intelligence/# Motor de Decisão Executiva sem Agent Surface Visual (Wave 17.12 Phase 2)
+│   └── executive-advisory-engine/# Motor de Orquestração de Aconselhamento Executivo (Wave 18.6 Phase 2)
 ├── runtime/                  # Kernel, Executive Bus, Scheduler, Queue, Projection Engine (@illumine/runtime)
 ├── capabilities/             # Capacidades cognitivas registradas (financial, governance, operational, strategic, risk, advisor)
 ├── applications/             # Visões do usuário (Board Report, Risk, Finance, ESG, Portfolio)
@@ -71,27 +79,11 @@ packages/
 
 ---
 
-## 2. Architecture Decision Records (ADRs)
+## 2. Roteiro de Transição Arquitetural & Fundação de Conhecimento
 
-### `ADR-001` a `ADR-080`: Core Foundation, Intelligence, EDOS, Context-Aware Engine, Workspaces & Data Fabric Architecture
-- ADRs normativas anteriores congeladas.
-
-### `ADR-081`: Organizational Knowledge Graph Architecture (Wave 18.5)
-- **Decisão**: Instituir a arquitetura do Grafo de Conhecimento Organizacional conectando empresas, decisões passadas, evidências, ações executadas, resultados reais e aprendizado acumulado.
-
-### `ADR-082`: Decision Memory Governance Standard (Wave 18.5)
-- **Decisão**: Instituir a governança de memória decisória (`DecisionMemoryContract`), registrando a comparação entre impactos previstos e resultados reais para calibrar o Digital Twin.
-
-### `ADR-083`: Executive Learning Runtime Standard (Wave 18.5)
-- **Decisão**: Instituir o modelo de execução do aprendizado executivo em tempo real (`LearningRecordContract` & `OrganizationalPatternContract`) para aprimorar recomendações futuras.
-
----
-
-## 3. Roteiro de Transição Arquitetural
-
-- **Wave 18.1**: Concluída (Executive Context-Aware Intelligence Engine).
-- **Wave 18.2**: Concluída (Executive Experience Realization — EER v1.0).
-- **Wave 18.3**: Concluída (Platform Workspace Realization & Governance Experience — PWGE v1.0).
-- **Wave 18.4**: Concluída (Enterprise Intelligence Data Fabric — EIDF v1.0).
-- **Wave 18.5**: Em Execução (Organizational Intelligence & Knowledge Graph Evolution — OIKE v1.0 Foundation).
-- **Wave 18.6**: Próximo marco (Predictive Decision Intelligence & Scenario Simulation Engine).
+- **Wave 18.1 a 19.2**: Concluídas & Certificadas com Louvor.
+- **Wave 19.2.5**: Em Execução (Enterprise Knowledge Foundation Hardening — EKFH v1.0).
+- **Wave 19.3**: Próximo marco (Enterprise Data Integration Fabric — EDIF v1.0: ERP, CRM, Banking, HR, Tax, BI).
+- **Wave 19.4**: Próximo marco (Executive Workflow Intelligence — EWI v1.0: Insight → Decision → Approval → Execution → Learning).
+- **Wave 19.5**: Próximo marco (Organizational Learning Intelligence — OLI v1.0: Aprendizado Institucional Acumulado).
+- **Wave 20**: Grand Finale (Illumine Intelligence Network™ — IIN v1.0: Rede de Inteligência Global & Governança).

@@ -43,8 +43,11 @@ export function DREPage({ clients, selectedClient, selectedYear }: any) {
 
   const { isSectionVisible } = computed;
 
+  const activeClientObj = clients?.find((c: any) => c.id === selectedClient);
+  const activeClientName = activeClientObj?.nomeFantasia || activeClientObj?.razaoSocial || activeClientObj?.nome || 'Empresa Ativa';
+
   return (
-    <ExecutiveIntelligenceShell pageTitle="Demonstração do Resultado (DRE)" pageContext="DREPage">
+    <ExecutiveIntelligenceShell pageTitle="Demonstração do Resultado (DRE)" pageContext="DREPage" companyName={activeClientName}>
       <ExecutivePageTemplate header={{
         title: "Demonstração do Resultado (DRE)",
         description: "Análise de performance operacional, lucratividade e rentabilidade do exercício contábil.",
@@ -97,17 +100,6 @@ export function DREPage({ clients, selectedClient, selectedYear }: any) {
           )}
         </ExecutiveSurface>
 
-        {/* 2. CENTRO DE DECISÃO EXECUTIVA & INTELIGÊNCIA ATIVA (Avalia os dados do contexto definido acima) */}
-        <ExecutiveDecisionIntelligenceMount
-          pageId="DREPage"
-          companyId={String(selectedClient || 'comp-1')}
-          period={String(filterYear || selectedYear || 2026)}
-          financialData={executiveReport?.canonicalState?.kpis}
-        />
-      {(executiveReport?.isSandbox || executiveReport?.isDemonstrative) && (
-        <SandboxWarningOverlay type={executiveReport.isSandbox ? 'sandbox' : 'demonstrative'} />
-      )}
-
       {!hasDreData ? (
         <div className="mb-12">
           <ExecutiveEmptyState
@@ -121,15 +113,29 @@ export function DREPage({ clients, selectedClient, selectedYear }: any) {
         </div>
       ) : (
         <div className="space-y-10 mb-12">
+          {/* 2. CENTRO DE DECISÃO EXECUTIVA & INTELIGÊNCIA ATIVA (Avalia os dados do contexto definido acima) */}
+          <ExecutiveDecisionIntelligenceMount
+            pageId="DREPage"
+            companyId={String(selectedClient || 'comp-1')}
+            companyName={activeClientName}
+            period={String(filterYear || selectedYear || 2026)}
+            financialData={dreViewModel?.executiveMetrics || executiveReport?.canonicalState?.kpis}
+          />
+          {(executiveReport?.isSandbox || executiveReport?.isDemonstrative) && (
+            <SandboxWarningOverlay type={executiveReport.isSandbox ? 'sandbox' : 'demonstrative'} />
+          )}
           {/* --- CAMADA 1: NÍVEL CONSELHO (SÍNTESE SOBERANA DA DRE) --- */}
           <ExecutiveSummarySection 
             className="mb-8"
-            status={{ label: 'DRE Auditada', variant: 'success' }}
+            status={{ 
+              label: dreViewModel?.policy?.economicPositioning || 'DRE Auditada', 
+              variant: dreViewModel?.policy?.executiveDiagnosis?.severityState === 'critical' ? 'critical' : dreViewModel?.policy?.executiveDiagnosis?.severityState === 'warning' ? 'warning' : 'success' 
+            }}
             question="Qual a eficiência operacional e a margem de contribuição do exercício?"
-            opinion="O comitê fiduciário homologa a DRE, destacando a evolução da margem EBITDA, controle de custos e rentabilidade líquida."
-            driver="Receita bruta, deduções fiscais, CPV, despesas operacionais e resultado financeiro."
-            implication="Geração de valor operacional sustentável para suportar o plano de crescimento e reinvestimento."
-            action="Otimizar estrutura de custos variáveis e despesas operacionais para expandir a margem operacional."
+            opinion={dreViewModel?.policy?.executiveDiagnosis?.currentSituation || "O comitê fiduciário homologa a DRE, analisando a evolução da margem EBITDA, controle de custos e rentabilidade líquida."}
+            driver={dreViewModel?.policy?.executiveDiagnosis?.primaryEconomicDriver || "Receita líquida, custos variáveis, despesas operacionais e resultado financeiro."}
+            implication={dreViewModel?.policy?.executiveDiagnosis?.operationalOutlook || "Geração de valor operacional para suportar o plano de crescimento e sustentabilidade."}
+            action={dreViewModel?.policy?.executiveDiagnosis?.primaryRecommendation || "Otimizar estrutura de custos variáveis e despesas operacionais para expandir a margem operacional."}
           >
             <ExecutiveStrategicTensions tensions={[]} />
             <ExecutiveDecisionTrace trace={[]} />

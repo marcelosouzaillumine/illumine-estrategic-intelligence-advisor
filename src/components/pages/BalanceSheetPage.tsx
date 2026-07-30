@@ -1,6 +1,6 @@
 
 
-import React, { useRef, useEffect } from 'react';
+import React, { useRef, useEffect, useMemo } from 'react';
 import { createPortal } from 'react-dom';
 import { Calendar, Loader2, Upload, Trash2, Plus, BookOpen, Database, TrendingUp, TrendingDown, Info, BarChart3, PieChart as PieChartIcon, AlertCircle, Activity, Target, AlertTriangle, Lightbulb, Zap, ShieldCheck, Gem, Crosshair, Layers, PiggyBank, ShieldAlert, ChevronDown, ChevronUp } from 'lucide-react';
 import { ExecutiveSurface } from '../ui/executive-surface';
@@ -75,6 +75,22 @@ ativoTotal, passivoTotal, plValue, ac, anc, pc, pnc, isBalanced, divergence, cx,
     contextualAlerts: []
   } : undefined;
 
+  const activeClientObj = clients?.find((c: any) => c.id === selectedClient);
+  const activeClientName = activeClientObj?.nomeFantasia || activeClientObj?.razaoSocial || activeClientObj?.nome || 'Empresa Ativa';
+
+  const bpFinancialMetrics = useMemo(() => {
+    return {
+      ativoTotal: ativoTotal || 0,
+      passivoTotal: passivoTotal || 0,
+      patrimonioLiquido: plValue || 0,
+      liquidezCorrente: pc > 0 ? (ac / pc) : 0,
+      ebitda: ebitda || 0,
+      lucroLiquido: lucroLiquido || 0,
+      ...((executiveReport?.canonicalState as any)?.kpis || {})
+
+    };
+  }, [ativoTotal, passivoTotal, plValue, pc, ac, ebitda, lucroLiquido, executiveReport]);
+
   return (
     <ExecutiveIntelligenceShell pageTitle="Balanço Patrimonial" pageContext="BalanceSheetPage">
       <ExecutivePageTemplate header={{
@@ -99,19 +115,9 @@ ativoTotal, passivoTotal, plValue, ac, anc, pc, pnc, isBalanced, divergence, cx,
           )}
         </div>
 
-        <ExecutiveDecisionIntelligenceMount
-          pageId="BalanceSheetPage"
-          companyId={String(selectedClient || 'comp-1')}
-          period={String(filterYear || selectedYear || 2026)}
-        />
-      {(executiveReport?.isSandbox || executiveReport?.isDemonstrative) && (
-        <SandboxWarningOverlay type={executiveReport.isSandbox ? 'sandbox' : 'demonstrative'} />
-      )}
-
       {!hasBalanceSheetData ? (
         <div className="mb-12">
           <ExecutiveEmptyState
-            
             title="Inteligência Patrimonial"
             description="Ainda não existem dados patrimoniais suficientes para gerar inteligência executiva deste exercício. O lançamento do Balanço Patrimonial permitirá calcular liquidez, solvência, estrutura de capital, capacidade de absorção de perdas e demais indicadores."
             actionLabel="Lançar Dados do Balanço"
@@ -129,7 +135,6 @@ ativoTotal, passivoTotal, plValue, ac, anc, pc, pnc, isBalanced, divergence, cx,
       ) : hasBalanceSheetData && !executiveReport && engineError ? (
         <div className="mb-12">
           <ExecutiveEmptyState
-            
             title="Falha na Geração Executiva"
             description={`Os dados contábeis de ${filterYear} existem, mas a inteligência executiva encontrou um erro: ${engineError}`}
             actionLabel="Tentar Novamente (Gerar Análise)"
@@ -138,6 +143,16 @@ ativoTotal, passivoTotal, plValue, ac, anc, pc, pnc, isBalanced, divergence, cx,
         </div>
       ) : (
         <>
+          <ExecutiveDecisionIntelligenceMount
+            pageId="BalanceSheetPage"
+            companyId={String(selectedClient || 'comp-1')}
+            companyName={activeClientName}
+            period={String(filterYear || selectedYear || 2026)}
+            financialData={bpFinancialMetrics}
+          />
+          {(executiveReport?.isSandbox || executiveReport?.isDemonstrative) && (
+            <SandboxWarningOverlay type={executiveReport.isSandbox ? 'sandbox' : 'demonstrative'} />
+          )}
           <div className="space-y-6 mb-12">
             {executiveViewModel && patrimonialIntelligenceReport && (
               <>

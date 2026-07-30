@@ -78,8 +78,12 @@ export function DLPAPage({ clients, selectedClient, selectedYear }: any) {
     }
   } = useDLPAPageViewModel(clients, selectedClient, selectedYear);
 
+  const activeClientObj = clients?.find((c: any) => c.id === selectedClient);
+  const activeClientName = activeClientObj?.nomeFantasia || activeClientObj?.razaoSocial || activeClientObj?.nome || 'Empresa Ativa';
+
+
   return (
-    <ExecutiveIntelligenceShell pageTitle="DLPA — Lucros e Prejuízos Acumulados" pageContext="DLPAPage">
+    <ExecutiveIntelligenceShell pageTitle="DLPA — Lucros e Prejuízos Acumulados" pageContext="DLPAPage" companyName={activeClientName}>
       <ExecutivePageTemplate header={{
         title: "DLPA — Demonstração de Lucros e Prejuízos Acumulados",
         description: "Análise estrutural de distribuição de lucros, preservação patrimonial e maturidade de governança de capital.",
@@ -110,81 +114,6 @@ export function DLPAPage({ clients, selectedClient, selectedYear }: any) {
           )}
         </div>
 
-        <ExecutiveDecisionIntelligenceMount
-          pageId="DLPAPage"
-          companyId={String(selectedClient || 'comp-1')}
-          period={String(filterYear || selectedYear || 2026)}
-        />
-
-      {/* Temporário: Auditoria de Propagação ELSA (Atalho: Ctrl+Shift+E) */}
-      {showElsaPanel && (featureFlags.showSemanticAudit || process.env.NODE_ENV !== 'production') && (capitalGov as any)?.lifecycleAudit && (
-        <div className="bg-foreground border border-border p-4 rounded-xl mb-6 flex flex-col gap-2">
-          <ExecutiveHeading as="h4" className="text-white mb-2 flex items-center gap-2">
-            <ShieldCheck size={14} className="text-emerald-400" /> Auditoria de Propagação ELSA (Painel Técnico)
-          </ExecutiveHeading>
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-4 text-[10px] uppercase font-mono text-muted-foreground">
-            <div>
-              <span className="block text-muted-foreground mb-1">Semantic Source:</span>
-              <strong className={(capitalGov as any).lifecycleAudit.semanticSource === 'ELSA' ? 'text-emerald-400' : 'text-amber-400'}>
-                {(capitalGov as any).lifecycleAudit.semanticSource}
-              </strong>
-            </div>
-            <div>
-              <span className="block text-muted-foreground mb-1">Raw Governance Status:</span>
-              <strong className="text-amber-400">
-                {(capitalGov as any)?.diagnostics?.behavior?.governanceMaturity || 'N/A'}
-              </strong>
-            </div>
-            <div>
-              <span className="block text-muted-foreground mb-1">Resolved Governance:</span>
-              <strong className="text-emerald-400">
-                {(capitalGov as any)?.resolvedGovernanceStatus || 'N/A'}
-              </strong>
-            </div>
-            <div>
-              <span className="block text-muted-foreground mb-1">Raw Capital Status:</span>
-              <strong className="text-amber-400">
-                {preservation?.preservationStatus || 'N/A'}
-              </strong>
-            </div>
-            <div>
-              <span className="block text-muted-foreground mb-1">Resolved Capital:</span>
-              <strong className="text-emerald-400">
-                {(capitalGov as any)?.resolvedCapitalStatus || 'N/A'}
-              </strong>
-            </div>
-            <div>
-              <span className="block text-muted-foreground mb-1">Fallback Activated:</span>
-              <strong className={(capitalGov as any).lifecycleAudit.fallbackActivated ? 'text-rose-400' : 'text-emerald-400'}>
-                {(capitalGov as any).lifecycleAudit.fallbackActivated ? 'YES' : 'NO'}
-              </strong>
-            </div>
-            <div>
-              <span className="block text-muted-foreground mb-1">Fallback Reason:</span>
-              <strong className="text-rose-400">
-                {(capitalGov as any).lifecycleAudit.fallbackReason || 'N/A'}
-              </strong>
-            </div>
-            <div>
-              <span className="block text-muted-foreground mb-1">UI Rendering Match:</span>
-              <strong className={alignedMaturity === (capitalGov as any)?.resolvedGovernanceStatus ? 'text-emerald-400' : 'text-rose-400'}>
-                {alignedMaturity === (capitalGov as any)?.resolvedGovernanceStatus ? 'VALID' : 'LEGACY_FIELD_RENDERED'}
-              </strong>
-            </div>
-          </div>
-          {renderingViolations.length > 0 && (
-            <div className="mt-2 pt-2 border-t border-border pt-8 mb-8">
-              <span className="block text-rose-400 font-bold text-[9px] mb-1">Controlled Rendering Violations:</span>
-              {renderingViolations.map((v: any, i: number) => (
-                <div key={i} className="text-[9px] text-rose-300 font-mono">
-                  [{v.code}] {v.message}
-                </div>
-              ))}
-            </div>
-          )}
-        </div>
-      )}
-
       {!loading && !hasData && (
         <div className="flex flex-col gap-6 w-full mb-12">
           <ExecutiveEmptyState
@@ -201,6 +130,13 @@ export function DLPAPage({ clients, selectedClient, selectedYear }: any) {
 
       {hasData && (
         <div className="space-y-10 mb-12">
+          <ExecutiveDecisionIntelligenceMount
+            pageId="DLPAPage"
+            companyId={String(selectedClient || 'comp-1')}
+            companyName={activeClientName}
+            period={String(filterYear || selectedYear || 2026)}
+            financialData={dlpaMetrics}
+          />
           {(capitalGov as any)?.error && (
             <ExecutiveSurface variant="critical" padding="xl" radius="xl" className="flex flex-col items-center justify-center text-center">
               <div className="w-16 h-16 bg-critical-soft text-critical rounded-full flex items-center justify-center mb-4">

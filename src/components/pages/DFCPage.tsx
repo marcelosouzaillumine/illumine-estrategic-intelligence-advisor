@@ -47,8 +47,19 @@ export function DFCPage(props: DFCPageProps) {
   const formatCurrency = (val: number) =>
     new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(val);
 
+  const clientList = props.clients || [];
+  const activeClientObj = clientList.find((c: any) => c.id === activeClientId);
+  const activeClientName = activeClientObj?.nomeFantasia || activeClientObj?.razaoSocial || activeClientObj?.nome || 'Empresa Ativa';
+
+  const dfcMetrics = {
+    fco: computed.netOperatingCashFlow || 0,
+    fci: computed.fci || 0,
+    fcf: computed.fcf || 0,
+    variacaoLiquida: computed.netVariation || 0
+  };
+
   return (
-    <ExecutiveIntelligenceShell pageTitle="Demonstração dos Fluxos de Caixa (DFC)" pageContext="DFCPage">
+    <ExecutiveIntelligenceShell pageTitle="Demonstração dos Fluxos de Caixa (DFC)" pageContext="DFCPage" companyName={activeClientName}>
       <ExecutivePageTemplate
         header={{
         title: 'Demonstrativo de Fluxo de Caixa (DFC)',
@@ -75,12 +86,6 @@ export function DFCPage(props: DFCPageProps) {
         )}
       </div>
 
-      <ExecutiveDecisionIntelligenceMount
-        pageId="DFCPage"
-        companyId={String(activeClientId || 'comp-1')}
-        period={String(filterYear || initialYear || 2026)}
-      />
-
       {/* Padrão de Tela para Anos sem Lançamentos (Padrão Balanço Patrimonial) */}
       {!hasDfcData ? (
         <div className="mb-12">
@@ -94,7 +99,14 @@ export function DFCPage(props: DFCPageProps) {
           />
         </div>
       ) : (
-        <div className="space-y-8 mb-12">
+        <div className="space-y-6 mb-12">
+          <ExecutiveDecisionIntelligenceMount
+            pageId="DFCPage"
+            companyId={String(activeClientId || 'comp-1')}
+            companyName={activeClientName}
+            period={String(filterYear || initialYear || 2026)}
+            financialData={dfcMetrics}
+          />
           {/* Síntese de Caixa (Conselho & C-Suite) */}
           <CashPositionSummary
             netOperatingCashFlow={computed.netOperatingCashFlow}

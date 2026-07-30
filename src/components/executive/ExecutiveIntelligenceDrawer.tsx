@@ -42,7 +42,7 @@ export const ExecutiveIntelligenceDrawer: React.FC<ExecutiveIntelligenceDrawerPr
             <ExecutiveHeading as="h4" variant="submoduleTitle" className="text-foreground">Resumo Executivo</ExecutiveHeading>
           </div>
           <ExecutiveText variant="bodyStandard" className="text-muted-foreground">
-            Detecção de variação em {pageContext}: desvio operacional em despesas comerciais e oportunidade de recuperação de margem.
+            Análise institucional ativa para {pageContext}: monitoramento contínuo de variações operacionais, estrutura de custos e integridade fiduciária do exercício.
           </ExecutiveText>
         </ExecutiveSurface>
 
@@ -52,9 +52,9 @@ export const ExecutiveIntelligenceDrawer: React.FC<ExecutiveIntelligenceDrawerPr
             <ExecutiveHeading as="h4" variant="submoduleTitle" className="text-foreground">Evidências Auditadas</ExecutiveHeading>
           </div>
           <ul className="list-disc list-inside space-y-1 text-muted-foreground text-xs">
-            <li>CMV +8% em relação ao trimestre anterior</li>
-            <li>Despesas logísticas +12% acima da meta</li>
-            <li>Volume de vendas -4% em relação ao orçamento</li>
+            <li>Consolidação e aderência aos padrões contábeis</li>
+            <li>Conformidade com a estrutura de capital e governança</li>
+            <li>Rastreabilidade fiduciária dos lançamentos do exercício</li>
           </ul>
         </ExecutiveSurface>
 
