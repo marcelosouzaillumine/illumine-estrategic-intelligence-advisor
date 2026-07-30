@@ -7,23 +7,25 @@ import { DreExecutiveFactsBuilder } from '../../core/runtime/dre/DreExecutiveFac
 
 describe('DRE Canonical Pipeline Isolation Contract', () => {
   it('Deve garantir que o DREPage.tsx não consuma report.metrics.financialMetrics para o DreExecutiveViewModelBuilder', () => {
-    const filePath = path.join(process.cwd(), 'src/components/pages/DREPage.tsx');
-    const content = fs.readFileSync(filePath, 'utf-8');
+    const pagePath = path.join(process.cwd(), 'src/components/pages/DREPage.tsx');
+    const servicePath = path.join(process.cwd(), 'src/components/pages/dre/DREApplicationService.ts');
+    const pageContent = fs.readFileSync(pagePath, 'utf-8');
+    const serviceContent = fs.readFileSync(servicePath, 'utf-8');
 
     // DREPage should not use report.metrics.financialMetrics inside DreExecutiveViewModelBuilder
     assert.ok(
-      !content.includes('DreExecutiveViewModelBuilder.build(report.metrics.financialMetrics'),
+      !pageContent.includes('DreExecutiveViewModelBuilder.build(report.metrics.financialMetrics'),
       'VIOLAÇÃO DE ARQUITETURA: DREPage.tsx não pode usar report.metrics.financialMetrics como fonte primária do ViewModel.'
     );
     
-    // DREPage deve passar dreData diretamente
+    // DREApplicationService deve passar dreData diretamente
     assert.ok(
-      content.includes('DreExecutiveViewModelBuilder.build({'),
-      'VIOLAÇÃO DE ARQUITETURA: DREPage.tsx deve passar um objeto estruturado (dreData, historicalDreData) para o builder.'
+      serviceContent.includes('DreExecutiveViewModelBuilder.build({'),
+      'VIOLAÇÃO DE ARQUITETURA: DREApplicationService.ts deve passar um objeto estruturado (dreData, historicalDreData) para o builder.'
     );
     assert.ok(
-      content.includes('dreData: dbData'),
-      'VIOLAÇÃO DE ARQUITETURA: DREPage.tsx deve passar dreData diretamente do Firestore.'
+      serviceContent.includes('dreData: params.dbData'),
+      'VIOLAÇÃO DE ARQUITETURA: DREApplicationService.ts deve passar dreData diretamente do Firestore.'
     );
   });
 

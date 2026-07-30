@@ -4,6 +4,10 @@
   "outputDirectory": "dist",
   "rewrites": [
     {
+      "source": "/__/auth/:path*",
+      "destination": "https://gen-lang-client-0196971385.firebaseapp.com/__/auth/:path*"
+    },
+    {
       "source": "/((?!assets/|.*\\..*).*)",
       "destination": "/index.html"
     }

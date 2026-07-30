@@ -1,6 +1,6 @@
 # IERA v1.0 Architecture Observatory Snapshot
 
-> **Data de Geração:** 2026-07-30T12:55:19.813Z  
+> **Data de Geração:** 2026-07-30T13:03:34.159Z  
 > **Status:** IERA Certified (Health Score: 100/100)
 
 ## Resumo dos Dashboards

@@ -821,59 +821,41 @@ export function ExecutiveAdvisorNetworkLandingPage() {
       <div className="fixed top-[-10%] left-[-5%] w-[45%] h-[45%] rounded-full bg-[#FF8A57]/3 blur-[160px] pointer-events-none z-0" />
       <div className="fixed bottom-[-15%] right-[-5%] w-[50%] h-[50%] rounded-full bg-white/[0.015] blur-[180px] pointer-events-none z-0" />
 
-      {/* 0. PRE-HERO EYEBROW BAR (Enterprise Header Banner) */}
-      <div className="w-full bg-[#050911] border-b border-[#202733] py-2.5 px-4 sm:px-6 text-center relative z-50 overflow-hidden">
-        <div className="max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-2 text-[10px] font-mono tracking-widest text-[#8E95A3] uppercase font-semibold">
-          <div className="flex items-center gap-2 shrink-0">
-            <span className="w-1.5 h-1.5 rounded-full bg-[#FF8A57] animate-pulse" />
-            <span className="text-white font-bold tracking-wider">ILLUMINE EXECUTIVE ADVISOR NETWORK™</span>
-          </div>
-          <div className="hidden md:flex items-center gap-3 text-white/50 text-[9px] truncate">
-            <span>Executive Intelligence Platform</span>
-            <span>•</span>
-            <span>Advisor Network™</span>
-            <span>•</span>
-            <span>Governance</span>
-            <span>•</span>
-            <span>Institutional Trust</span>
-          </div>
-          <div className="hidden lg:block text-[9px] text-[#FF8A57] font-bold shrink-0">
-            {dict.headerVersion}
-          </div>
-        </div>
-      </div>
-
       {/* Navbar Minimalist & Premium */}
       <nav className="sticky top-0 inset-x-0 h-20 z-50 border-b border-[#202733] backdrop-blur-xl bg-[#050911]/90 transition-all duration-300">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-full flex items-center justify-between gap-4">
+        <div className="max-w-[1536px] mx-auto px-4 sm:px-6 lg:px-8 xl:px-12 h-full flex items-center justify-between gap-3 lg:gap-6">
           
           {/* Official Illumine Brand Logo Signature with Encapsulated Category Pill */}
-          <CanonicalBrandSignature categoryBadge="Advisor Network™" onClick={() => scrollToSection('hero')} />
-
-          {/* Strategic Navbar Links Only */}
-          <div className="hidden lg:flex items-center gap-6 xl:gap-8 text-xs font-mono tracking-wider text-[#8E95A3] uppercase">
-            <button onClick={() => navigate('/v2')} className="hover:text-white transition-colors cursor-pointer">{dict.navPlatform}</button>
-            <button onClick={() => scrollToSection('tese')} className="hover:text-white transition-colors cursor-pointer">Tese & Manifesto</button>
-            <button onClick={() => scrollToSection('stack')} className="hover:text-white transition-colors cursor-pointer">Intelligence Stack™</button>
-            <button onClick={() => scrollToSection('dominios')} className="hover:text-white transition-colors cursor-pointer">{dict.navDomains}</button>
-            <button onClick={() => scrollToSection('jornada')} className="hover:text-white transition-colors cursor-pointer">{dict.navJourney}</button>
+          <div className="shrink-0">
+            <CanonicalBrandSignature categoryBadge="Advisor Network™" onClick={() => scrollToSection('hero')} />
           </div>
 
-          <div className="flex items-center gap-3 shrink-0">
+          {/* Strategic Navbar Links Only */}
+          <div className="hidden lg:flex items-center gap-5 xl:gap-8 text-xs xl:text-sm font-sans font-medium tracking-wide text-[#9CA3AF] normal-case whitespace-nowrap">
+            <a 
+              href="https://illumineconsultoria.com.br" 
+              target="_blank" 
+              rel="noopener noreferrer" 
+              className="hover:text-white transition-colors cursor-pointer whitespace-nowrap"
+            >
+              Institucional
+            </a>
+            <button onClick={() => navigate('/')} className="hover:text-white transition-colors cursor-pointer whitespace-nowrap">{dict.navPlatform}</button>
+            <button onClick={() => scrollToSection('tese')} className="hover:text-white transition-colors cursor-pointer whitespace-nowrap">Tese & Manifesto</button>
+            <button onClick={() => scrollToSection('stack')} className="hover:text-white transition-colors cursor-pointer whitespace-nowrap">Intelligence Stack™</button>
+            <button onClick={() => scrollToSection('dominios')} className="hover:text-white transition-colors cursor-pointer whitespace-nowrap">{dict.navDomains}</button>
+            <button onClick={() => scrollToSection('jornada')} className="hover:text-white transition-colors cursor-pointer whitespace-nowrap">{dict.navJourney}</button>
+          </div>
+
+          <div className="flex items-center gap-3 sm:gap-4 shrink-0 whitespace-nowrap">
             <LanguageSelector className="bg-[#0B101A] border-[#202733] text-xs text-white" />
 
             <button
               onClick={() => navigate('/login')}
-              className="text-xs font-mono text-[#8E95A3] hover:text-white transition-colors uppercase tracking-wider hidden sm:block cursor-pointer"
+              className="flex items-center gap-2 px-3.5 py-2 rounded-lg border border-[#202733] bg-[#0B101A] hover:bg-[#0B101A]/80 hover:border-[#FF8A57]/50 text-xs font-mono text-[#9CA3AF] hover:text-white transition-all cursor-pointer whitespace-nowrap"
             >
-              {dict.navRestricted}
-            </button>
-
-            <button
-              onClick={() => setIsModalOpen(true)}
-              className="px-4 sm:px-5 py-2.5 rounded-full bg-[#F9F9F9] text-[#111111] font-bold text-[10px] uppercase tracking-widest hover:bg-white transition-all shadow-[0_0_20px_rgba(255,138,87,0.20)] cursor-pointer shrink-0 whitespace-nowrap"
-            >
-              {dict.navCta}
+              <ShieldCheck size={14} className="text-[#FF8A57] shrink-0" />
+              <span>{dict.navRestricted}</span>
             </button>
           </div>
         </div>

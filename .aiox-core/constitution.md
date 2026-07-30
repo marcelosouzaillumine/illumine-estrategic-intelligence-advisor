@@ -125,7 +125,22 @@ import { useStore } from '../../../stores/feature/store'
 
 ---
 
+### VII. Platform Stability Principle (NON-NEGOTIABLE)
+
+Nenhuma nova funcionalidade poderá alterar a arquitetura horizontal estável da Illumine OS™ sem justificativa excepcional, aprovação formal do Architecture Review Board e demonstração de incompatibilidade técnica com a plataforma existente.
+
+**Regras:**
+- MUST: Congelar a infraestrutura horizontal de plataforma por 12 meses
+- MUST: Toda evolução deve ocorrer via Capability Roadmap vertical (Risk, People, Decision, etc.)
+- MUST: Modificações na plataforma estável (v1.0) exigem aprovação conjunta do ARB & PRB
+- MUST: Experimentos de agente/LLM/pesquisa devem residir estritamente no Innovation Lab
+
+**Gate:** `validate:architecture` - BLOCK se PR alterar contratos horizontais sem parecer ARB
+
+---
+
 ## Governance
+
 
 ### Amendment Process
 

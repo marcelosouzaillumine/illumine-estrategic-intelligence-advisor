@@ -42,3 +42,8 @@ export interface DataEventContract {
   readonly payload: Record<string, unknown>;
   readonly timestamp: string;
 }
+
+export * from './ConnectorManifestContract';
+export * from './RawDataIsolationContract';
+export * from './CertifiedEnterpriseDatasetContract';
+

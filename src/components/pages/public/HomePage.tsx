@@ -1,8 +1,9 @@
 import React from 'react';
-import { EmpresasPage } from './EmpresasPage';
+import { ExecutivePlatformLandingPage } from './ExecutivePlatformLandingPage';
 
 export function HomePage() {
   return (
-    <EmpresasPage />
+    <ExecutivePlatformLandingPage />
   );
 }
+

@@ -52,6 +52,8 @@
     "operating-pressure:audit": "tsx src/scripts/runOperatingPressureGovernanceAudit.ts",
     "production:hardening:audit": "tsx src/scripts/runProductionHardeningAudit.ts",
     "pilot:operations:audit": "tsx src/scripts/runPilotOperationsAudit.ts",
+    "architecture:certification": "npm run architecture:lint && npm run architecture:observatory && npm run validate:architecture",
+    "financial:certification": "npx tsx src/governance/financial-governance.guard.ts && npx tsx --test src/tests/financial-integrity/*.test.ts",
     "release:check": "npm run typecheck && npm run test && npm run governance:audit && npm run governance:command:center:audit && npm run executive:cognitive:audit && npm run institutional:memory:audit && npm run institutional:causality:audit && npm run scenario:simulation:audit && npm run production:hardening:audit && npm run pilot:operations:audit && npm run architecture:audit && npm run imports:audit && npm run mocks:audit && npm run docs:audit && npm run build"
   },
   "dependencies": {

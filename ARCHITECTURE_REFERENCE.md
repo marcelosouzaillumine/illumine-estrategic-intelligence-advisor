@@ -2,7 +2,7 @@
 
 > **Manual de Referência Física e Implementação Monorepo**  
 > *Documento Complementar à [`ARCHITECTURE_CONSTITUTION.md`](file:///Users/marcelosouza/Documents/illumine-strategic-intelligence-advisor/ARCHITECTURE_CONSTITUTION.md)*  
-> *Status: Homologado*
+> *Status: Homologado & Declarado Estável (Illumine OS™ Platform v1.0)*
 
 ---
 
@@ -13,13 +13,18 @@ packages/
 ├── foundation/               # Tenant, Security, Storage, Telemetry e Observabilidade
 ├── platform/
 │   ├── architecture-registry/# Cartório Arquitetural (packages, dependency, contracts, capabilities, freeze registries)
-│   └── executive-intelligence-runtime/# Orquestrador de Tempo de Execução Visual por Página (Wave 17.7 Phase 1)
+│   ├── executive-intelligence-runtime/# Orquestrador de Tempo de Execução Visual por Página (Wave 17.7 Phase 1)
+│   ├── executive-product-experience/# Executive Product Experience & Commercial GTM Framework (Wave 21 EPX v1.0)
+│   ├── executive-revenue/    # Executive Revenue System & Growth Engine (Wave 22 ERS/ERL v1.0)
+│   ├── executive-welcome/    # Executive Welcome Intelligence Vertical Capability (EWIX v1.2 Executive Identity Experience™)
+│   ├── executive-companion/  # Executive Companion Intelligence Vertical Capability (ECI v2.0 Executive Companion™)
+│   └── executive-living/     # Executive Living Intelligence Vertical Capability (ELI v1.0 Executive Living Intelligence System™)
 ├── domain/                   # Domínio Executivo Canônico
 │   ├── core-primitives/      # Núcleo Atômico: Primitivas, Value Objects & Errors (0 dependências de negócio)
 │   ├── semantic-model/       # Enterprise Semantic System (kernel, taxonomy, ontology, catalogs, vocabulary, dimensions, relationships)
-│   ├── executive-contracts/  # Contratos Públicos Puros Imutáveis (capability, governance, decision, reasoning, versioning, events, data-fabric, knowledge, advisory, readiness, benchmark, predictive, council, trust, partner, saas, distribution, knowledge-foundation)
+│   ├── executive-contracts/  # Contratos Públicos Puros Imutáveis (capability, governance, decision, reasoning, versioning, events, data-fabric, knowledge, advisory, readiness, benchmark, predictive, council, trust, partner, saas, distribution, knowledge-foundation, workflow, learning, network, product-experience, revenue, welcome, companion, living)
 │   └── executive-domain/     # Lógica de Domínio Interna (aggregates, factories, services, rules, policies, lifecycle, projectors)
-├── intelligence/             # Camada Estendida de Inteligência Executiva, EDOS & Copilot (Waves 13 a 19.2.5)
+├── intelligence/             # Camada Estendida de Inteligência Executiva, EDOS & Copilot (Waves 13 a 22)
 │   ├── intelligence-kernel/  # Núcleo Compartilhado de Cognição (IntelligenceIdentity, ProvenanceReference, Context, Trace, Signal)
 │   ├── organizational-memory/# Memória Imutável de Experiências Executivas & ExecutiveDecisionTimeline (Wave 16.5 Phase 5)
 │   ├── knowledge-graph/      # Grafo de Conhecimento Causal (Ontology vs Causal Model)
@@ -32,6 +37,11 @@ packages/
 │   ├── saas-foundation/      # SaaS Foundation & Enterprise Productization (Wave 19.1 SFP v1.0)
 │   ├── platform-distribution/# Platform Distribution Network (Wave 19.2 PDN v1.0)
 │   ├── enterprise-knowledge-foundation/# Enterprise Knowledge Foundation Hardening (Wave 19.2.5 EKFH v1.0)
+│   ├── enterprise-data-integration-fabric/# Enterprise Data Integration Fabric (Wave 19.3 EDIF v1.0)
+│   ├── executive-workflow-intelligence/# Executive Workflow Intelligence (Wave 19.4 EWI v1.0)
+│   ├── institutional-learning-intelligence/# Institutional Learning Intelligence Layer (Wave 19.5 ILI v1.0)
+│   ├── executive-advisory-intelligence/# Executive Advisory Intelligence Layer (Wave 19.6 EAIL v1.0)
+│   ├── intelligence-network/ # Illumine Intelligence Network & Intelligence Coordination Layer (Wave 20 IIN/ICL v1.0)
 │   ├── decision-learning/    # Loop de Aprendizado Decisório por Feedback de Resultado (ModelImprovementRequest)
 │   ├── intelligence-certification/# Certificação do EIS Framework (IntelligenceMaturityLevel & IntelligenceTrajectory)
 │   ├── enterprise-knowledge-fabric/# Tecido de Conhecimento Empresarial Unificado (Wave 14 Phase 1)
@@ -79,11 +89,29 @@ packages/
 
 ---
 
-## 2. Roteiro de Transição Arquitetural & Fundação de Conhecimento
+## 2. Domain Governance Boundary Pattern v1.0 & Standards
 
-- **Wave 18.1 a 19.2**: Concluídas & Certificadas com Louvor.
-- **Wave 19.2.5**: Em Execução (Enterprise Knowledge Foundation Hardening — EKFH v1.0).
-- **Wave 19.3**: Próximo marco (Enterprise Data Integration Fabric — EDIF v1.0: ERP, CRM, Banking, HR, Tax, BI).
-- **Wave 19.4**: Próximo marco (Executive Workflow Intelligence — EWI v1.0: Insight → Decision → Approval → Execution → Learning).
-- **Wave 19.5**: Próximo marco (Organizational Learning Intelligence — OLI v1.0: Aprendizado Institucional Acumulado).
-- **Wave 20**: Grand Finale (Illumine Intelligence Network™ — IIN v1.0: Rede de Inteligência Global & Governança).
+> **Regra Constitutiva de Domínio Certificado**:  
+> *"Todo domínio empresarial da Illumine OS™ deve obrigatoriamente expor um Certified Dataset (`CertifiedFinancialDataset`, `CertifiedCommercialDataset`, `CertifiedOperationalDataset`, etc.) submetido à validação de integridade e regras de proteção graduada (`ALLOW`, `RESTRICT`, `BLOCK`) antes de ser consumido pela camada de inteligência cognitiva."*
+>
+> **Normas Institucionais Registradas**:
+> 1. [`DOMAIN_CERTIFIED_DATASET_STANDARD_v1.0.md`](file:///Users/marcelosouza/Documents/illumine-strategic-intelligence-advisor/docs/architecture/standards/DOMAIN_CERTIFIED_DATASET_STANDARD_v1.0.md)
+> 2. [`DOMAIN_GOVERNANCE_REGISTRY_v1.0.md`](file:///Users/marcelosouza/Documents/illumine-strategic-intelligence-advisor/docs/architecture/standards/DOMAIN_GOVERNANCE_REGISTRY_v1.0.md)
+> 3. [`EXECUTIVE_EXECUTION_GOVERNANCE_CERTIFICATION.md`](file:///Users/marcelosouza/Documents/illumine-strategic-intelligence-advisor/docs/architecture/standards/EXECUTIVE_EXECUTION_GOVERNANCE_CERTIFICATION.md)
+> 4. [`EXECUTIVE_INTELLIGENCE_CONSOLIDATION_GATE.md`](file:///Users/marcelosouza/Documents/illumine-strategic-intelligence-advisor/docs/architecture/standards/EXECUTIVE_INTELLIGENCE_CONSOLIDATION_GATE.md)
+> 5. [`ILLUMINE_PLATFORM_V1.0_DECLARATION.md`](file:///Users/marcelosouza/Documents/illumine-strategic-intelligence-advisor/ILLUMINE_PLATFORM_V1.0_DECLARATION.md)
+> 6. [`ILLUMINE_PLATFORM_RELEASE_POLICY_v1.0.md`](file:///Users/marcelosouza/Documents/illumine-strategic-intelligence-advisor/ILLUMINE_PLATFORM_RELEASE_POLICY_v1.0.md)
+
+---
+
+## 3. Consolidação Definitiva da Plataforma & Roadmap Vertical
+
+- **Ciclo 1: Fundação (Waves 1-12)**: Concluído & Homologado.
+- **Ciclo 2: Inteligência (Waves 13-20)**: Concluído & Homologado.
+- **Ciclo 3: Produto (Wave 21)**: Concluído & Homologado (`EPX v1.0`).
+- **Ciclo 4: Receita (Wave 22)**: Concluído & Homologado (`ERS v1.0`).
+- **Status Atual**: **Plataforma Estável (Illumine OS™ Platform v1.0)**.
+- **Vertical Capability Roadmap**:
+  - **Capability 1**: **Executive Welcome Intelligence™ v1.2 (Executive Identity Experience™)** — ✅ Concluída & Certificada.
+  - **Capability 2**: **Executive Companion Intelligence™ (ECI v2.0)** — ✅ Concluída & Certificada.
+  - **Capability 3**: **Executive Living Intelligence™ (ELI v1.0)** — ✅ Concluída & Certificada com [`EXECUTIVE_LIVING_INTELLIGENCE_CERTIFICATION.md`](file:///Users/marcelosouza/Documents/illumine-strategic-intelligence-advisor/EXECUTIVE_LIVING_INTELLIGENCE_CERTIFICATION.md).

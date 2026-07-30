@@ -32,3 +32,6 @@ export interface AgentDomainContext {
   readonly agendaItem: BoardAgendaItem;
   readonly rawDomainData: Record<string, unknown>;
 }
+
+export * from './CertifiedDomainDatasetContract';
+

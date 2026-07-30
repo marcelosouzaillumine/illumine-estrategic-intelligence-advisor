@@ -5,3 +5,5 @@ export * from './strategic-analysis/strategic-analysis-capability';
 export * from './risk-intelligence/risk-intelligence-capability';
 export * from './executive-advisor/executive-advisor-capability';
 export * from './registry/capability-registry';
+export * from './domain-governance';
+

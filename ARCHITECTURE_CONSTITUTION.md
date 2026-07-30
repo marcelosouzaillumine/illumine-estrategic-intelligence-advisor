@@ -91,6 +91,8 @@ $$\text{Executive Digital Twin} \supset \{ \text{Strategy}, \text{Governance}, \
 9. **Invariante 9 (Determinismo do Domínio)**: Toda mesma entrada no domínio DEVE produzir exatamente o mesmo estado determinístico. Apenas Provedores de Inferência podem gerar respostas probabilísticas.
 10. **Invariante 10 (Compatibilidade Retroativa)**: Nenhum contrato publicado e congelado pode ser quebrado. A evolução de contratos ocorre exclusivamente por aditamento versionado (`v1` $\rightarrow$ `v2` $\rightarrow$ `v3`).
 11. **Invariante 11 (Comunicação via Contratos entre Capabilities)**: Nenhuma capability pode importar diretamente outra capability. A comunicação entre capacidades DEVE ocorrer exclusivamente via `Executive Contracts`.
+12. **Invariante 12 (Platform Stability Principle & 12-Month Architecture Freeze)**: Nenhuma funcionalidade poderá alterar a arquitetura horizontal estável da Illumine OS™ (v1.0) sem justificativa excepcional, aprovação formal conjunta do Architecture Review Board (ARB) e do Product Review Board (PRB) e demonstração de incompatibilidade técnica. A infraestrutura horizontal de plataforma permanece congelada por 12 meses, concentrando 100% da engenharia na evolução por capacidades verticais (Risk, People, Decision, etc.).
+
 
 ---
 

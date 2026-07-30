@@ -475,13 +475,14 @@ export default function App() {
             <ExecutiveInteractionProvider>
               <InstitutionalMemoryProvider initialTenantId={selectedClient}>
                 <Routes>
-                  <Route path="/" element={<HomePage />} />
+                  <Route path="/" element={<ExecutivePlatformLandingPage />} />
                   <Route path="/empresas" element={<EmpresasPage />} />
                   <Route path="/v2" element={<ExecutivePlatformLandingPage />} />
                   <Route path="/plataforma-executiva" element={<ExecutivePlatformLandingPage />} />
                   <Route path="/parceiros" element={<PartnerSalesPage />} />
                   <Route path="/programa-parceiros" element={<ExecutiveAdvisorNetworkLandingPage />} />
                   <Route path="/executive-advisor-network" element={<ExecutiveAdvisorNetworkLandingPage />} />
+                  <Route path="/executiveadvisornetwork" element={<ExecutiveAdvisorNetworkLandingPage />} />
                   <Route path="/diagnostico" element={<DiagnosticoPage />} />
                   <Route path="/login" element={user ? <Navigate to={isMaster || isPartner ? "/dashboard/portfolio" : "/dashboard/efos"} replace /> : <LoginPage />} />
                   <Route path="/executive-home" element={<ExecutiveHomeWorkspace />} />
