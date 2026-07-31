@@ -19,16 +19,14 @@ export const ExecutiveRiskCard = ({ title, severity, description }: { title: str
 
 export interface ExplainabilityMetadata {
   why: string;
-  data: string;
+  evidences: string;
   historical: string;
-  learning: string;
   scenarios: string;
   agents: string;
   risks: string;
-  impact: string;
-  origin: string;
+  counterpoints: string;
+  governance: string;
   confidence: number;
-  evidenceCount: number;
 }
 
 export const ExecutiveRecommendationCard = ({ 
@@ -56,8 +54,7 @@ export const ExecutiveRecommendationCard = ({
         <div className="mt-3 pt-3 border-t border-border/50">
           <div className="flex gap-4 mb-3 text-xs text-muted-foreground">
             <span><strong>Confiança:</strong> {explainability.confidence}%</span>
-            <span><strong>Evidências:</strong> {explainability.evidenceCount}</span>
-            <span><strong>Histórico:</strong> {explainability.historical}</span>
+            <span><strong>Risco:</strong> Moderado</span>
           </div>
           
           <button 
@@ -70,13 +67,13 @@ export const ExecutiveRecommendationCard = ({
           {isExpanded && (
             <div className="mt-3 p-3 bg-surface-container rounded-md text-xs text-foreground space-y-2 border border-border">
               <p><strong>Por que?</strong> {explainability.why}</p>
-              <p><strong>Dados:</strong> {explainability.data}</p>
-              <p><strong>Aprendizado:</strong> {explainability.learning}</p>
-              <p><strong>Cenários:</strong> {explainability.scenarios}</p>
-              <p><strong>Agentes participantes:</strong> {explainability.agents}</p>
-              <p><strong>Riscos:</strong> {explainability.risks}</p>
-              <p><strong>Impacto:</strong> {explainability.impact}</p>
-              <p><strong>Origem:</strong> {explainability.origin}</p>
+              <p><strong>1. Evidências analisadas:</strong> {explainability.evidences}</p>
+              <p><strong>2. Histórico semelhante:</strong> {explainability.historical}</p>
+              <p><strong>3. Cenários avaliados:</strong> {explainability.scenarios}</p>
+              <p><strong>4. Agentes consultados:</strong> {explainability.agents}</p>
+              <p><strong>5. Riscos encontrados:</strong> {explainability.risks}</p>
+              <p><strong>6. Contrapontos considerados:</strong> {explainability.counterpoints}</p>
+              <p><strong>7. Governança aplicada:</strong> {explainability.governance}</p>
             </div>
           )}
         </div>

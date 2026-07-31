@@ -9,18 +9,15 @@ import { CopilotSourceReferences } from './CopilotSourceReferences';
 import { CopilotPolicyWarning } from './CopilotPolicyWarning';
 import { CopilotTracePanel } from './CopilotTracePanel';
 
+import { TenantIsolationContext } from '../../../packages/security/tenant-isolation-kernel/src';
+
 const provider = new MockLLMProvider(500);
 const runtime = new InstitutionalCopilotRuntime(provider);
 
-export function CopilotChatPanel() {
+export function CopilotChatPanel({ tenantIsolationContext }: { tenantIsolationContext: TenantIsolationContext }) {
   const [messages, setMessages] = useState<{ role: string; content: string; responseMeta?: AIQueryResponse }[]>([]);
   const [input, setInput] = useState('');
   const [isLoading, setIsLoading] = useState(false);
-
-  // Hardcoded for demonstration. In production, this comes from TenancyProvider Context.
-  const mockTenant = 'TENANT-HQ';
-  const mockWorkspace = 'WS-1';
-  const mockRole = 'MASTER_ADMIN';
 
   const handleSend = async () => {
     if (!input.trim() || isLoading) return;
@@ -32,10 +29,7 @@ export function CopilotChatPanel() {
 
     const request: AIQueryRequest = {
       query: userMessage,
-      tenantId: mockTenant,
-      workspaceId: mockWorkspace,
-      userId: 'USER-1',
-      role: mockRole,
+      tenantIsolationContext,
       requestedContexts: ['REPORT'] // Padrão
     };
 

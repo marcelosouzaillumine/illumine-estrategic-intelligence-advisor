@@ -8,12 +8,11 @@ export interface AIGroundingReference {
   timestamp: string;
 }
 
+import { TenantIsolationContext } from '../../../../packages/security/tenant-isolation-kernel/src';
+
 export interface AIQueryRequest {
   query: string;
-  tenantId: string;
-  workspaceId: string;
-  userId: string;
-  role: string;
+  tenantIsolationContext: TenantIsolationContext;
   requestedContexts: string[];
 }
 

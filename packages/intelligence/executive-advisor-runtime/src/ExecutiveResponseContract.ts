@@ -14,6 +14,7 @@ export interface ExecutiveRecommendation {
   readonly title: string;
   readonly description: string;
   readonly urgency: 'NORMAL' | 'URGENT' | 'IMMEDIATE';
+  readonly explainability?: any;
 }
 
 export interface ExecutiveRisk {

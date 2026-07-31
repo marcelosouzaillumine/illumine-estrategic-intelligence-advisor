@@ -6,6 +6,8 @@ import { AIHallucinationGuard } from './AIHallucinationGuard';
 import { AITraceBinder } from './AITraceBinder';
 import { AIUsageAuditLogger } from './AIUsageAuditLogger';
 import { LLMProvider } from './providers/LLMProvider';
+import { TenantIsolationKernel } from '../../../../packages/security/tenant-isolation-kernel/src';
+import { CognitiveTrustGate } from '../../../../packages/security/cognitive-trust-gate/src';
 
 export class InstitutionalCopilotRuntime {
   private provider: LLMProvider;
@@ -16,12 +18,17 @@ export class InstitutionalCopilotRuntime {
 
   async processQuery(request: AIQueryRequest): Promise<AIQueryResponse> {
     const traceId = `AITRACE-TEMP-${Date.now()}`;
-    AIUsageAuditLogger.logEvent('AI_QUERY_STARTED', traceId, request.tenantId);
+    const ctx = request.tenantIsolationContext;
+
+    // 0. Kernel Validation
+    TenantIsolationKernel.validateContext(ctx);
+
+    AIUsageAuditLogger.logEvent('AI_QUERY_STARTED', traceId, ctx.tenantId);
 
     // 1. Policy Evaluation
     const policy = AIPromptPolicyEngine.evaluate(request.query);
     if (!policy.actionAllowed) {
-      AIUsageAuditLogger.logEvent('AI_POLICY_BLOCKED', traceId, request.tenantId, { reason: policy.violationReason });
+      AIUsageAuditLogger.logEvent('AI_POLICY_BLOCKED', traceId, ctx.tenantId, { reason: policy.violationReason });
       return {
         answer: '',
         groundingReferences: [],
@@ -34,14 +41,14 @@ export class InstitutionalCopilotRuntime {
 
     // 2. Resolve Context
     const allowedContexts = await AIContextResolver.resolveContext(request);
-    AIUsageAuditLogger.logEvent('AI_CONTEXT_RESOLVED', traceId, request.tenantId, { count: allowedContexts.length });
+    AIUsageAuditLogger.logEvent('AI_CONTEXT_RESOLVED', traceId, ctx.tenantId, { count: allowedContexts.length });
 
     // 3. Grounding Extraction
     let groundings: AIGroundingReference[];
     try {
       groundings = AIResponseGroundingEngine.extractGrounding(allowedContexts);
     } catch (e: unknown) {
-      AIUsageAuditLogger.logEvent('AI_GROUNDING_FAILED', traceId, request.tenantId);
+      AIUsageAuditLogger.logEvent('AI_GROUNDING_FAILED', traceId, ctx.tenantId);
       return {
         answer: 'INSUFFICIENT_GROUNDED_CONTEXT: Não possuo base institucional suficiente para responder.',
         groundingReferences: [],
@@ -60,9 +67,9 @@ export class InstitutionalCopilotRuntime {
     
     // 6. Trace Binding
     const finalTrace = AITraceBinder.bind(
-      request.tenantId,
-      request.workspaceId,
-      request.userId,
+      ctx.tenantId,
+      ctx.organizationId, // Fallback to organizationId for workspaceId compatibility
+      ctx.userId,
       request.query,
       allowedContexts.map(c => c.contextId),
       groundings,
@@ -70,7 +77,14 @@ export class InstitutionalCopilotRuntime {
       guardedResponse.riskLevel
     );
 
-    AIUsageAuditLogger.logEvent('AI_RESPONSE_GENERATED', finalTrace.aiTraceId, request.tenantId);
+    // 6.5 Cognitive Trust Gate Enforcement
+    CognitiveTrustGate.enforceRelease(ctx, {
+      content: guardedResponse.answer,
+      evidenceUsed: groundings,
+      generationTraceId: finalTrace.aiTraceId
+    });
+
+    AIUsageAuditLogger.logEvent('AI_RESPONSE_GENERATED', finalTrace.aiTraceId, ctx.tenantId);
 
     return {
       answer: guardedResponse.answer,

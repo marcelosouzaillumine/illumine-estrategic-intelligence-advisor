@@ -4,6 +4,7 @@ import { ExecutiveDecisionContext } from '@illumine/executive-decision-intellige
 import { ExecutiveAdvisorRuntimeContext } from '@illumine/executive-advisor-runtime';
 import { ExecutiveSituation } from './ExecutiveSituation';
 import { ExecutiveNarrativeBlock } from './ExecutiveNarrativeBlock';
+import { ExecutiveDecisionForensicsPackage } from '@illumine/executive-decision-forensics';
 
 export interface RecommendationConfidence {
   readonly overallConfidence: number;
@@ -42,6 +43,17 @@ export interface IntelligenceDensity {
   readonly findings: readonly string[];
 }
 
+export interface ExecutiveWorkspaceCertificationMetadata {
+  readonly snapshotId: string;
+  readonly certificationStatus: 'CERTIFIED' | 'UNCERTIFIED';
+  readonly eahiScore: number;
+  readonly cognitiveGovernanceScore: number;
+  readonly tenantIsolationValidated: boolean;
+  readonly explainabilityValidated: boolean;
+  readonly generatedBy: string;
+  readonly validationTimestamp: string;
+}
+
 export interface ExecutiveWorkspaceSnapshot {
   readonly snapshotId: string;
   readonly version: string;
@@ -60,4 +72,7 @@ export interface ExecutiveWorkspaceSnapshot {
   readonly recommendationConfidence: RecommendationConfidence;
   readonly executiveTrustIndex: ExecutiveTrustIndex;
   readonly intelligenceDensity: IntelligenceDensity;
+  
+  readonly forensicsPackage?: ExecutiveDecisionForensicsPackage;
+  readonly certificationMetadata?: ExecutiveWorkspaceCertificationMetadata;
 }

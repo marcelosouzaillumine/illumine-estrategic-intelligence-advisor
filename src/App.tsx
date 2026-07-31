@@ -89,9 +89,17 @@ import { ExecutiveAdvisorNetworkLandingPage } from './components/pages/public/Ex
 import { DiagnosticoPage } from './components/pages/public/DiagnosticoPage';
 import { ExecutivePlatformLandingPage } from './components/pages/public/ExecutivePlatformLandingPage';
 import { LoginPage } from './components/pages/public/LoginPage';
+import { InstitutionalLayout } from './components/pages/public/v2/InstitutionalLayout';
+import { InstitutionalHomePage } from './components/pages/public/v2/InstitutionalHomePage';
+import { InstitutionalPlatformPage } from './components/pages/public/v2/InstitutionalPlatformPage';
+import { InstitutionalThesisPage } from './components/pages/public/v2/InstitutionalThesisPage';
+import { InstitutionalManifestoPage } from './components/pages/public/v2/InstitutionalManifestoPage';
+import { InstitutionalWhyPage } from './components/pages/public/v2/InstitutionalWhyPage';
+import { ExecutiveAssessmentPage } from './components/pages/public/v2/ExecutiveAssessmentPage';
 import { ForcePasswordChangeModal } from './components/modals/ForcePasswordChangeModal';
 import { ConsolidatedExecutiveProvider } from './context/ConsolidatedExecutiveContext';
 import { ConsolidatedExecutivePage } from './components/pages/ConsolidatedExecutivePage';
+import { AnalyticsHealthCenterPage } from './components/pages/governance/AnalyticsHealthCenterPage';
 import { ExecutiveCognitivePage } from './components/pages/ExecutiveCognitivePage';
 import { ExecutiveInteractionProvider } from './context/executive-interaction/ExecutiveInteractionProvider';
 import { ExecutiveCognitiveProvider } from './context/executive-cognitive/ExecutiveCognitiveProvider';
@@ -479,10 +487,33 @@ export default function App() {
             <ExecutiveInteractionProvider>
               <InstitutionalMemoryProvider initialTenantId={selectedClient}>
                 <Routes>
-                  <Route path="/" element={<ExecutivePlatformLandingPage />} />
+                  {/* Institutional V2 Routes */}
+                  <Route element={<InstitutionalLayout />}>
+                    <Route path="/" element={<InstitutionalHomePage />} />
+                    <Route path="/tese" element={<InstitutionalThesisPage />} />
+                    <Route path="/manifesto" element={<InstitutionalManifestoPage />} />
+                    <Route path="/por-que-illumine" element={<InstitutionalWhyPage />} />
+                    <Route path="/plataforma" element={<InstitutionalPlatformPage />} />
+                    <Route path="/assessment" element={<ExecutiveAssessmentPage />} />
+                    <Route path="/contato" element={
+                        <div className="min-h-screen bg-[#0A0A0B] flex flex-col items-center justify-center p-6 text-center">
+                            <div className="max-w-md w-full bg-white/5 border border-white/10 p-8 rounded-3xl backdrop-blur-sm">
+                                <h3 className="text-2xl font-bold text-white mb-4">Contato Institucional</h3>
+                                <p className="text-slate-400 mb-8">A primeira etapa para conhecer a Illumine é realizar um Executive Assessment™.</p>
+                                <a href="/assessment" className="w-full py-4 bg-primary text-primary-foreground font-semibold rounded-full hover:bg-primary/90 transition-colors flex items-center justify-center gap-2">
+                                    Iniciar Assessment
+                                </a>
+                            </div>
+                        </div>
+                    } />
+                    {/* Fallbacks temporários para as páginas de apoio antigas dentro do novo layout */}
+                    <Route path="/advisory" element={<ExecutiveAdvisorNetworkLandingPage />} />
+                    <Route path="/network" element={<ExecutiveAdvisorNetworkLandingPage />} />
+                    <Route path="/insights" element={<ExecutivePlatformLandingPage />} />
+                  </Route>
+
+                  {/* Legacy Routes */}
                   <Route path="/empresas" element={<EmpresasPage />} />
-                  <Route path="/v2" element={<ExecutivePlatformLandingPage />} />
-                  <Route path="/plataforma-executiva" element={<ExecutivePlatformLandingPage />} />
                   <Route path="/parceiros" element={<PartnerSalesPage />} />
                   <Route path="/programa-parceiros" element={<ExecutiveAdvisorNetworkLandingPage />} />
                   <Route path="/executive-advisor-network" element={<ExecutiveAdvisorNetworkLandingPage />} />
@@ -504,6 +535,13 @@ export default function App() {
                   <Route path="/intelligence" element={<InstitutionalIntelligenceWorkspace />} />
                   <Route path="/intelligence/:objectId" element={<InstitutionalIntelligenceWorkspace />} />
                   <Route path="/architecture-governance/explorer" element={<ArchitectureExplorer />} />
+                  <Route path="/governance/analytics-health" element={
+                    isMaster || isPartner ? (
+                      <AnalyticsHealthCenterPage />
+                    ) : (
+                      <Navigate to="/" replace />
+                    )
+                  } />
                   
                   <Route 
                     path="/dashboard/*" 

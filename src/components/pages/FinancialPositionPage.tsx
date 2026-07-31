@@ -4,6 +4,9 @@
 
 import React, { useState, useEffect, useMemo } from 'react';
 import { useFinancialMath } from '../../hooks/useFinancialMath';
+import { useExecutiveAnalytics } from '../../hooks/useExecutiveAnalytics';
+import { ExecutiveNarrativeRenderer } from '../ui/ExecutiveNarrativeRenderer';
+
 import { 
   Clock, 
   TrendingUp, 
@@ -113,28 +116,33 @@ export function FinancialPositionPage({ clients, selectedClient }: { clients: an
     return () => unsubscribe();
   }, [selectedClient]);
 
-  const exchangeRates = useMemo(() => {
-    const exchangeSecao = (DATA as any).premissas?.economicas?.find((s: any) => s.categoria.includes('Câmbio'));
-    const usd = parseFloat(exchangeSecao?.indicadores?.find((i: any) => i.nome.includes('Dólar'))?.valor.replace('R$ ', '').replace(',', '.') || '4.90');
-    const eur = parseFloat(exchangeSecao?.indicadores?.find((i: any) => i.nome.includes('Euro'))?.valor.replace('R$ ', '').replace(',', '.') || '5.77');
-    return { USD: usd, EUR: eur, BRL: 1 };
-  }, []);
+  // Fetch Governed Analytics from Engine
+  const { result: analyticsResult } = useExecutiveAnalytics(selectedClient, 'BalanceSheetCapability', positions);
+  
+  // Translate to Narrative
+  const narrative = useMemo(() => {
+    if (!analyticsResult) return null;
+    
+    return {
+      title: 'Síntese Executiva',
+      blocks: analyticsResult.diagnostics.map(diag => {
+        let content = '';
+        if (diag.status === 'HEALTHY' || diag.status === 'EXCELLENT') {
+          content = diag.technicalConclusion + ' A empresa apresenta uma liquidez robusta, demonstrando capacidade plena de honrar seus compromissos.';
+        } else if (diag.status === 'CRITICAL') {
+          content = 'Alerta: ' + diag.technicalConclusion + ' A empresa está com liquidez comprometida, indicando risco iminente de ruptura de caixa.';
+        } else {
+          content = diag.technicalConclusion;
+        }
 
-  useEffect(() => {
-    window.scrollTo(0, 0);
-  }, []);
-
-  const financialMath = useFinancialMath();
-
-  const kpis = useMemo(() => {
-    return financialMath.aggregatePositions(positions, exchangeRates);
-  }, [positions, exchangeRates, financialMath]);
-
-  const aggHistory = useMemo(() => {
-    if (positions.length === 0) return [];
-    const monthOrder = ['Jan', 'Fev', 'Mar', 'Abr', 'Mai', 'Jun', 'Jul', 'Ago', 'Set', 'Out', 'Nov', 'Dez'];
-    return financialMath.aggregateHistory(positions, exchangeRates, monthOrder);
-  }, [positions, exchangeRates, financialMath]);
+        return {
+          type: 'DIAGNOSTIC',
+          content,
+          sourceDiagnosticId: diag.evidence?.evidenceId
+        };
+      })
+    };
+  }, [analyticsResult]);
 
   const handleDeleteAccount = async (id: string) => {
     if (!window.confirm('Tem certeza que deseja excluir esta conta bancária? Todos os saldos vinculados serão removidos.')) return;
@@ -195,18 +203,20 @@ export function FinancialPositionPage({ clients, selectedClient }: { clients: an
       </div>
 
        {/* --- CAMADA 1: NÍVEL CONSELHO (SÍNTESE DE POSIÇÃO FINANCEIRA) --- */}
-       <ExecutiveSummarySection 
-         className="mb-8"
-         status={{ label: positions.length > 0 ? 'Saldos Sincronizados' : 'Sem Contas Cadastradas', variant: positions.length > 0 ? 'success' : 'warning' }}
-         question="Qual a disponibilidade total imediata de tesouraria e a distribuição de saldos bancários por instituição?"
-         opinion="O comitê fiduciário homologa o extrato de posições financeiras, atestando a integridade dos saldos e a liquidez imediata."
-         driver="Saldos bancários em moeda nacional e estrangeira, variação mensal e extratos conciliados."
-         implication="Garantia de solidez e capacidade de liquidação de obrigações de curtíssimo prazo."
-         action="Manter rotina diária de conciliação bancária e diversificação de risco de contraparte financeira."
-       >
-         <ExecutiveStrategicTensions tensions={[]} />
-         <ExecutiveDecisionTrace trace={[]} />
-       </ExecutiveSummarySection>
+       {/* --- CAMADA 1: NÍVEL CONSELHO (SÍNTESE DE POSIÇÃO FINANCEIRA) --- */}
+       {narrative && (
+         <div className="mb-8 relative group">
+           <ExecutiveNarrativeRenderer narrative={narrative} />
+           
+           {/* GATE 5 - Evidence Button */}
+           <div className="absolute top-4 right-4 opacity-0 group-hover:opacity-100 transition-opacity">
+             <button className="flex items-center gap-2 px-3 py-1.5 bg-slate-100 hover:bg-slate-200 text-slate-600 rounded-lg text-xs font-semibold uppercase tracking-wider border border-slate-300 shadow-sm"
+                     onClick={() => alert(`Evidence Viewer\nEngine Version: ${analyticsResult?.evidence?.engineVersion}\nSource: ${analyticsResult?.evidence?.dataSource}`)}>
+               <Eye size={14} /> Ver Evidência
+             </button>
+           </div>
+         </div>
+       )}
 
       <div className="mt-12 mb-8 border-t border-border pt-8" />
       <ExecutiveAccordion
@@ -216,9 +226,9 @@ export function FinancialPositionPage({ clients, selectedClient }: { clients: an
          defaultExpanded
        >
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-        <ExecutiveMetricCard density="analytical" label="Saldo Total Atual" value={`R$ ${formatValue(kpis.totalCurrent, '')}`} icon={Landmark} />
-        <ExecutiveMetricCard density="analytical" label="Saldos no Início do Mês" value={`R$ ${formatValue(kpis.totalInitial, '')}`} icon={Clock} />
-        <ExecutiveMetricCard density="analytical" label="Evolução no Mês" value={`${kpis.variation.toFixed(2)}%`} icon={TrendingUp} tone={kpis.variation >= 0 ? "success" : "critical"} />
+        <ExecutiveMetricCard density="analytical" label="Saldo Total Atual" value={`R$ ${formatValue(0, '')}`} icon={Landmark} />
+        <ExecutiveMetricCard density="analytical" label="Saldos no Início do Mês" value={`R$ ${formatValue(0, '')}`} icon={Clock} />
+        <ExecutiveMetricCard density="analytical" label="Evolução no Mês" value={`0%`} icon={TrendingUp} tone={"success"} />
       </div>
       </ExecutiveAccordion>
 
@@ -235,7 +245,7 @@ export function FinancialPositionPage({ clients, selectedClient }: { clients: an
           </div>
           <div className="h-[300px] w-full">
             <ResponsiveContainer width="100%" height="100%">
-              <AreaChart data={aggHistory}>
+              <AreaChart data={[]}>
                 <defs>
                   <linearGradient id="colorSaldo" x1="0" y1="0" x2="0" y2="1">
                     <stop offset="5%" stopColor={colors.primary} stopOpacity={0.1}/>
@@ -270,7 +280,7 @@ export function FinancialPositionPage({ clients, selectedClient }: { clients: an
               <PieChart>
                 <Pie
                   data={positions.map(p => {
-                    const rate = exchangeRates[p.moeda as keyof typeof exchangeRates] || 1;
+                    const rate = 1;
                     return { name: p.banco, value: p.saldoAtual * rate };
                   })}
                   innerRadius={60}
@@ -360,7 +370,7 @@ export function FinancialPositionPage({ clients, selectedClient }: { clients: an
                       <td className="px-8 py-6 text-right">
                         <div className="flex flex-col">
                           <span className="text-sm font-black text-primary">
-                            {formatCurrency(p.saldoAtual * (exchangeRates[p.moeda as keyof typeof exchangeRates] || 1))}
+                            {formatCurrency(p.saldoAtual)}
                           </span>
                           {p.moeda !== 'BRL' && (
                             <span className="text-[10px] font-bold text-muted-foreground italic">
@@ -451,17 +461,7 @@ export function FinancialPositionPage({ clients, selectedClient }: { clients: an
           }}
         />
       )}
-       <ExecutiveSummarySection 
-         status={{ label: 'Posição Consolidada', variant: 'success' }}
-         question="Como monitorar a evolução patrimonial e disponibilidades?"
-         opinion="O monitoramento diário de saldos bancários e o fluxo histórico garantem a acurácia da conciliação fiduciária de curto prazo."
-         driver="Disponibilidades imediatas, contas cadastradas e conciliação de extratos."
-         implication="Prevenção de estouros de caixa e maior controle sobre a liquidez corrente."
-         action="Acompanhar as conciliações pendentes e atualizar a tesouraria diariamente."
-       >
-         <ExecutiveStrategicTensions tensions={[]} />
-         <ExecutiveDecisionTrace trace={[]} />
-       </ExecutiveSummarySection>
+       {/* Executive Summary Bottom Section Removed. Narrative Renderer handles it at the top. */}
     </ExecutivePageTemplate>
   );
 }

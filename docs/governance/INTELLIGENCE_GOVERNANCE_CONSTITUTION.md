@@ -19,3 +19,27 @@ Uma decisão recomendada que passa pela ponte executiva (Decision Bridge) e entr
 
 ## 6. Learning Feedback Governance (The Institutional Loop)
 Decisões não morrem após a execução. Todo resultado real observado deve ser devolvido ao ciclo de Memória Institucional, comparado aos efeitos inicialmente projetados e convertido em aprendizado de longo prazo, retroalimentando as próximas recomendações (Institutional Decision Memory).
+
+---
+
+## Principle: Cognitive Sovereignty™
+
+### Definition
+Nenhuma inteligência institucional pode existir fora de uma cadeia verificável de identidade, evidência, contexto, raciocínio e confiança.
+
+### Constitutional Laws
+
+**Law 1 — Identity Before Intelligence™**
+A identidade institucional sempre precede a geração cognitiva.
+
+**Law 2 — Evidence Before Recommendation™**
+Nenhuma recomendação pode existir sem evidência rastreável.
+
+**Law 3 — Trust Before Delivery™**
+Nenhuma inteligência não certificada pode alcançar o executivo.
+
+**Law 4 — Memory Ownership™**
+Toda memória possui proprietário institucional.
+
+**Law 5 — Cognitive Accountability™**
+Toda decisão da IA deve possuir genealogia auditável.

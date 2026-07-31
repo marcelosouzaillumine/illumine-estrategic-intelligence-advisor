@@ -12,14 +12,14 @@ export class AIContextResolver {
       // Mock Data fetched from Data Layer / Firebase based on requestedContexts
       {
         contextId: 'REP-2024.1',
-        payload: { type: 'REPORT', tenantId: request.tenantId, workspaceId: request.workspaceId, data: 'Mock Report Data' },
+        payload: { type: 'REPORT', tenantId: request.tenantIsolationContext.tenantId, workspaceId: request.tenantIsolationContext.organizationId, data: 'Mock Report Data' },
         lineageHash: 'HASH-123'
       }
     ];
 
     // Filter by Role
     const roleFiltered = rawContexts.filter(ctx => 
-      AIPermissionResolver.canAccessContext(request.role as TenantRole, ctx.payload.type)
+      AIPermissionResolver.canAccessContext(request.tenantIsolationContext.authorizationScope as TenantRole, ctx.payload.type)
     );
 
     // Filter by Tenant Isolation

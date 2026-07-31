@@ -1,5 +1,5 @@
 import { Identifier, Score } from '@illumine/core-primitives';
-import { ReasoningTrace, PredictionExplanation } from '@illumine/intelligence-kernel';
+import { ReasoningTrace } from '@illumine/intelligence-kernel';
 
 export type AgentRiskLevel = 'LOW' | 'MEDIUM' | 'HIGH';
 
@@ -18,7 +18,7 @@ export interface AgentRecommendation {
   readonly executiveSummary: string;
   readonly reasoningTrace: ReasoningTrace;
   readonly evidenceBundle: AgentEvidenceBundle;
-  readonly predictionExplanation: PredictionExplanation;
+  readonly predictionExplanation: any;
   readonly confidenceScore: Score;
   readonly riskLevel: AgentRiskLevel;
   readonly timestamp: Date;

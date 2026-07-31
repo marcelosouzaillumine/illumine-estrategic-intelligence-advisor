@@ -15,12 +15,24 @@ import { ExecutiveSummarySection } from '../ui/executive-summary-section';
 import { ExecutiveStrategicTensions } from '../ui/executive-strategic-tensions';
 import { ExecutiveDecisionTrace } from '../ui/executive-decision-trace';
 import { useInstitutionalCopilotPageViewModel } from '../../viewmodels/useInstitutionalCopilotPageViewModel';
+import { TenantIsolationContext } from '../../../packages/security/tenant-isolation-kernel/src';
 
 export function InstitutionalCopilotPage() {
   // Adapter: useInstitutionalCopilotPageAdapter
   // ViewModel: useInstitutionalCopilotPageViewModel
   const { state: vmState, computed: vmComputed, actions: vmActions } = useInstitutionalCopilotPageViewModel({ clientId: '' });
   const [contexts, setContexts] = useState<string[]>(['REPORT']);
+
+  // Representa o contexto extraído do Authentication/Governance Layer (nunca criado pela UI em prod)
+  const certifiedContext: TenantIsolationContext = {
+    tenantId: 'ACME-001',
+    organizationId: 'ORG-ACME',
+    userId: 'EXEC-001',
+    authorizationScope: 'EXECUTIVE_BOARD',
+    isolationBoundaryId: 'BOUNDARY-ACME-001',
+    traceId: `AUTH-TRACE-${Date.now()}`,
+    createdAt: new Date()
+  };
 
   const toggleContext = (ctx: string) => {
     setContexts(prev => prev.includes(ctx) ? prev.filter(c => c !== ctx) : [...prev, ctx]);
@@ -63,7 +75,7 @@ export function InstitutionalCopilotPage() {
         <CopilotContextSelector selectedContexts={contexts} onToggle={toggleContext} />
       </div>
 
-      <CopilotChatPanel />
+      <CopilotChatPanel tenantIsolationContext={certifiedContext} />
       </div>
       <ExecutiveSummarySection 
         status={{ label: 'Grounding Validade', variant: 'success' }}

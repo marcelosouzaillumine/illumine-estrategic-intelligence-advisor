@@ -69,6 +69,7 @@ export class ExecutiveIntelligenceRenderingEngine {
             title={rec.title}
             urgency={rec.urgency}
             description={rec.description}
+            explainability={rec.explainability}
           />
         );
       });

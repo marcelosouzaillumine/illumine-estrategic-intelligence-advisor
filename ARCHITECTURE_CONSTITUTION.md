@@ -125,23 +125,29 @@ Todo conteúdo textual produzido por agentes deve passar por um componente insti
 
 As seguintes regras garantem a qualidade e a integridade da Camada de Experiência Executiva (Executive Workspace):
 
-1. **AR-GFC-EXP-009 (Workspace Single Source of Truth):**
-   Bloqueia a UI de acessar Engines diretamente. A interface de usuário DEVE consumir exclusivamente um `ExecutiveWorkspaceSnapshot` consolidado, impedindo múltiplos estados concorrentes e cálculos fragmentados.
+### Experiência Executiva (EXP)
 
-2. **AR-GFC-EXP-010 (Snapshot Completeness):**
-   Nenhum `ExecutiveWorkspaceSnapshot` pode ser entregue à UI sem os seguintes componentes vitais:
-   - Situação (`ExecutiveSituation`)
-   - Contexto (`ExecutiveAdvisorRuntimeContext`)
-   - Confiança (`RecommendationConfidence`)
-   - Narrativa (`ExecutiveNarrativeBlock`)
-   - Evidência (Justificativas explícitas)
+**[AR-GFC-EXP-009] Canonical Workspace Isolation™**
+- A interface de Copilot UI está terminantemente proibida de importar, instanciar ou interagir diretamente com `WorkspaceAdvisoryEngine` ou `ExecutiveIntelligenceContextAssembler`. Todo o fluxo deve passar pelo `ExecutiveWorkspaceOrchestrator` que fornecerá um `ExecutiveWorkspaceSnapshot` imutável.
+- **Justificativa:** UI "Burra". A inteligência deve ser separada da apresentação para possibilitar uma auditoria cognitiva precisa.
 
-3. **AR-GFC-EXP-011 (Explainability Surface):**
-   Toda recomendação exibida na experiência executiva DEVE possuir acesso imediato e transparente à sua explicabilidade completa (Por que, Dados, Período, Histórico, Aprendizado, Engine, Domínio, Evidência e Confiança). A explicabilidade nunca pode ficar invisível.
+**[AR-GFC-EXP-010] Intelligence Density Requirement™**
+- O Snapshot orquestrado deve possuir indicadores mínimos de densidade (Confiança, Risco) gerados pelos *Engines*. 
+- O orquestrador atua bloqueando e negando a geração do Snapshot caso a densidade de inteligência seja nula.
 
-4. **AR-GFC-EXP-012 (Executive Identity Binding):**
-   O `ExecutiveWorkspaceSnapshot` deve estar obrigatoriamente vinculado a:
-   - Usuário (`userId`)
-   - Papel Executivo (`executivePersona` / `role`)
-   - Tenant (`tenantId`)
-   - Contexto Organizacional/Página
+**[AR-GFC-EXP-011] Mandatory Explainability Protocol™**
+- Toda recomendação estratégica exibida ao executivo deve apresentar o acesso imediato à sua cadeia de explicabilidade completa (Evidência, Histórico, Cenários, Aprendizados, Riscos) seguindo a diretriz de *Progressive Disclosure* na interface.
+
+**[AR-GFC-EXP-012] Identity Boundary Verification™**
+- O Snapshot é de caráter isolado por Tenant e Papel. A fábrica de *Snapshots* (`WorkspaceSnapshotFactory`) impõe assinaturas rígidas antes do empacotamento, impedindo que o estado executivo transborde o limite constitucional.
+
+### Cognição Forense (COG)
+
+**[AR-GFC-COG-013] Decision Forensics Completeness™**
+- Nenhuma recomendação estratégica pode ser liberada para consumo da UI ou ECR sem apresentar uma Cadeia Forense completa e validada (*ExecutiveDecisionForensicsPackage*).
+- **Regra Exata:** A trilha deve conter obrigatoriamente *Observation*, *Evidence*, *Reasoning*, *Confidence*, e *Governance Review*. Todas devem ter Rastreabilidade Lógica (*Parent ID*) referenciando a anterior.
+- **Violação:** `RECOMMENDATION BLOCKED - STATUS: OPAQUE INTELLIGENCE`. O motor bloqueia a sugestão se a Inteligência não puder justificar legal ou logicamente sua própria origem.
+
+---
+
+> "Na Illumine OS™, a confiança não é cega. Ela é validada, enraizada na malha corporativa e matematicamente provada através do Canonical Assurance Engine."

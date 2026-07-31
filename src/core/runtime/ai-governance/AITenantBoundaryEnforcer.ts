@@ -10,11 +10,11 @@ export class AITenantBoundaryEnforcer {
       const payloadTenant = ctx.payload.tenantId;
       const payloadWorkspace = ctx.payload.workspaceId;
 
-      if (payloadTenant && payloadTenant !== request.tenantId) {
+      if (payloadTenant && payloadTenant !== request.tenantIsolationContext.tenantId) {
         console.error(`[AITenantBoundaryEnforcer] Cross-Tenant Context Detectado e Removido! Context: ${ctx.contextId}`);
         return false;
       }
-      if (payloadWorkspace && payloadWorkspace !== request.workspaceId) {
+      if (payloadWorkspace && payloadWorkspace !== request.tenantIsolationContext.organizationId) {
         console.error(`[AITenantBoundaryEnforcer] Cross-Workspace Context Detectado e Removido! Context: ${ctx.contextId}`);
         return false;
       }

@@ -55,6 +55,8 @@ export default defineConfig(() => {
         '@illumine/executive-narrative-engine': path.resolve(__dirname, './packages/intelligence/executive-narrative-engine/src'),
         '@illumine/agent-debate-engine': path.resolve(__dirname, './packages/intelligence/agent-debate-engine/src'),
         '@illumine/executive-explainability': path.resolve(__dirname, './packages/intelligence/executive-explainability/src'),
+        '@illumine/executive-decision-forensics': path.resolve(__dirname, './packages/intelligence/executive-decision-forensics/src'),
+        '@illumine/executive-advisor-runtime': path.resolve(__dirname, './packages/intelligence/executive-advisor-runtime/src'),
         '@illumine/executive-board': path.resolve(__dirname, './packages/intelligence/executive-board/src'),
         '@illumine/product-value-engine': path.resolve(__dirname, './packages/intelligence/product-value-engine/src'),
         '@illumine/executive-home': path.resolve(__dirname, './packages/intelligence/executive-home/src'),
