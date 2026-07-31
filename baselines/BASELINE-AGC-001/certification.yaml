@@ -1,0 +1,24 @@
+CertificationFingerprint:
+  gitCommit: cbce8fa70577ab117b0c43f64437203e712aef72
+  branch: pilot/balance-sheet-canonical-migration
+  timestamp: 2026-07-31T05:21:41.829Z
+  nodeVersion: v26.0.0
+  npmVersion: 11.12.1
+  typescriptVersion: Version 5.8.3
+  auditedPackages:
+    - architecture-governance-types
+    - architecture-governance-contracts
+    - architecture-governance-domain
+
+Certification:
+  name: Governance Foundation Certification
+  version: GFC-2026.3
+Result:
+  status: PASS
+Gates:
+  passed: 156
+  failed: 0
+Risk:
+  LOW
+Approved:
+  Wave G0.5

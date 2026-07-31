@@ -25,6 +25,8 @@ import { cn } from '../lib/utils';
 import { PermissaoModulo } from '../types/modules';
 import { ExecutiveTable, ExecutiveTableHeader, ExecutiveTableBody, ExecutiveTableRow, ExecutiveTableHead, ExecutiveTableCell } from './ui/executive-table';
 import { ExecutiveSurface } from './ui/executive-surface';
+import { Button } from './ui/button';
+import { ExecutiveHeading } from './ui/executive-heading';
 
 import { NAVIGATION_GROUPS } from '../app/navigation';
 
@@ -275,23 +277,23 @@ function ClientUserManagerInner({ clientId }: { clientId: string }) {
           document.body
         )}
 
-      <div className="flex items-center justify-between pb-8 border-b border-border-soft">
-        <div className="flex items-center gap-5">
-          <div className="w-12 h-12 bg-bg-surface rounded-2xl flex items-center justify-center text-secondary border border-border-main shadow-sm">
-            <Key size={24} />
+      <div className="flex items-center justify-between pb-8 border-b border-border">
+        <div className="flex items-center gap-3">
+          <div className="w-8 h-8 bg-secondary/10 rounded-md flex items-center justify-center text-secondary">
+            <Key size={16} />
           </div>
           <div>
-            <h4 className="text-sm font-black text-text-main uppercase tracking-[0.2em]">Gestão de Acessos Externos</h4>
-            <p className="text-[11px] text-text-dim font-medium uppercase tracking-widest mt-1">Configure quem tem autorização para visualizar ou editar dados desta organização.</p>
+            <ExecutiveHeading as="h3">Gestão de Acessos Externos</ExecutiveHeading>
+            <p className="text-[9px] text-muted-foreground font-medium uppercase tracking-widest">Configure quem tem autorização para visualizar ou editar dados desta organização.</p>
           </div>
         </div>
         {!isAdding && (
-          <button 
+          <Button 
             onClick={() => setIsAdding(true)}
-            className="btn-executive shadow-floating-primary"
+            size="sm"
           >
-            <Plus size={16} /> Adicionar Usuário
-          </button>
+            <Plus size={16} className="mr-2" /> Adicionar Usuário
+          </Button>
         )}
       </div>
 
@@ -476,35 +478,35 @@ function ClientUserManagerInner({ clientId }: { clientId: string }) {
                 </div>
              </div>
 
-             <div className="flex justify-end gap-5 pt-8 border-t border-border-soft">
-                <button 
+              <div className="flex justify-end gap-3 pt-8 border-t border-border">
+                <Button 
+                  variant="outline"
+                  size="sm"
                   onClick={() => { setIsAdding(false); setEditingId(null); }}
-                  className="px-5 md:px-8 py-2 md:py-3 text-[10px] font-black uppercase text-text-dim hover:text-text-main tracking-widest transition-all"
                 >
                   Cancelar
-                </button>
-                <button 
+                </Button>
+                <Button 
+                  size="sm"
                   onClick={handleSave}
                   disabled={loading || !formData.nome || !formData.email || !formData.cpf}
-                  className="btn-executive shadow-floating-primary"
                 >
-                  {loading ? <Loader2 size={16} className="animate-spin" /> : editingId ? <Save size={16} /> : <CheckCircle2 size={16} />}
+                  {loading ? <Loader2 size={16} className="animate-spin mr-2" /> : editingId ? <Save size={16} className="mr-2" /> : <CheckCircle2 size={16} className="mr-2" />}
                   {editingId ? 'Confirmar Alterações' : 'Liberar Acesso'}
-                </button>
+                </Button>
              </div>
           </ExecutiveSurface>
         )}
 
-      <ExecutiveSurface padding="none" className="overflow-hidden">
-         <div className="overflow-x-auto">
+      <div className="bg-card shadow-sm rounded-xl">
            <ExecutiveTable className="w-full text-left">
              <ExecutiveTableHeader className="bg-bg-surface border-b border-border-main">
                <ExecutiveTableRow>
-                 <ExecutiveTableHead className="px-5 md:px-8 py-3 md:py-5 text-[10px] font-black text-text-dim uppercase tracking-widest">Identificação / Função</ExecutiveTableHead>
-                 <ExecutiveTableHead className="px-5 md:px-8 py-3 md:py-5 text-[10px] font-black text-text-dim uppercase tracking-widest">Nível Global</ExecutiveTableHead>
-                 <ExecutiveTableHead className="px-5 md:px-8 py-3 md:py-5 text-[10px] font-black text-text-dim uppercase tracking-widest">Módulos</ExecutiveTableHead>
-                 <ExecutiveTableHead className="px-5 md:px-8 py-3 md:py-5 text-[10px] font-black text-text-dim uppercase tracking-widest">Status</ExecutiveTableHead>
-                 <ExecutiveTableHead className="px-5 md:px-8 py-3 md:py-5 text-right text-[10px] font-black text-text-dim uppercase tracking-widest">Ações</ExecutiveTableHead>
+                 <ExecutiveTableHead className="px-3 lg:px-6 py-3 md:py-5 text-[10px] font-black text-text-dim uppercase tracking-widest">Identificação / Função</ExecutiveTableHead>
+                 <ExecutiveTableHead className="px-3 lg:px-6 py-3 md:py-5 text-[10px] font-black text-text-dim uppercase tracking-widest">Nível Global</ExecutiveTableHead>
+                 <ExecutiveTableHead className="px-3 lg:px-6 py-3 md:py-5 text-[10px] font-black text-text-dim uppercase tracking-widest">Módulos</ExecutiveTableHead>
+                 <ExecutiveTableHead className="px-3 lg:px-6 py-3 md:py-5 text-[10px] font-black text-text-dim uppercase tracking-widest">Status</ExecutiveTableHead>
+                 <ExecutiveTableHead className="px-3 lg:px-6 py-3 md:py-5 text-right text-[10px] font-black text-text-dim uppercase tracking-widest">Ações</ExecutiveTableHead>
                </ExecutiveTableRow>
              </ExecutiveTableHeader>
              <ExecutiveTableBody className="divide-y divide-border-soft">
@@ -525,43 +527,43 @@ function ClientUserManagerInner({ clientId }: { clientId: string }) {
                   ) : (
                     users.map(u => (
                       <ExecutiveTableRow key={u.id} className="hover:bg-bg-surface/30 transition-colors group">
-                        <ExecutiveTableCell className="px-8 py-6">
-                           <div className="flex items-center gap-5">
-                             <div className="w-10 h-10 rounded-xl bg-secondary/5 border border-secondary/10 flex items-center justify-center text-secondary font-black text-sm group-hover:bg-secondary group-hover:text-white transition-all">
+                        <ExecutiveTableCell className="px-4 lg:px-6 py-4 md:py-6">
+                           <div className="flex items-center gap-4">
+                             <div className="w-10 h-10 rounded-xl bg-secondary/5 border border-secondary/10 flex items-center justify-center text-secondary font-black text-sm group-hover:bg-secondary group-hover:text-white transition-all shrink-0">
                                {u.nome.substring(0, 1).toUpperCase()}
                              </div>
-                             <div>
-                               <p className="text-sm font-black text-text-main group-hover:text-secondary transition-colors">{u.nome}</p>
-                               <p className="text-[11px] text-text-dim font-medium italic mt-0.5">{u.email} • {u.cpf || 'Sem CPF'}</p>
-                               <p className="text-[10px] text-text-muted font-bold uppercase tracking-widest mt-1 opacity-60">{u.cargo}</p>
+                             <div className="min-w-0">
+                               <p className="text-sm font-black text-text-main group-hover:text-secondary transition-colors truncate">{u.nome}</p>
+                               <p className="text-[11px] text-text-dim font-medium italic mt-0.5 truncate">{u.email} • {u.cpf || 'Sem CPF'}</p>
+                               <p className="text-[10px] text-text-muted font-bold uppercase tracking-widest mt-1 opacity-60 truncate">{u.cargo}</p>
                              </div>
                            </div>
                         </ExecutiveTableCell>
-                        <ExecutiveTableCell className="px-8 py-6">
+                        <ExecutiveTableCell className="px-4 lg:px-6 py-4 md:py-6">
                            <span className={cn(
-                             "px-3 py-1 rounded-lg text-[9px] font-black uppercase tracking-widest border shadow-inner-soft",
+                             "px-3 py-1 rounded-lg text-[9px] font-black uppercase tracking-widest border shadow-inner-soft whitespace-nowrap",
                              u.nivelAcesso === 'Admin' ? "bg-primary/10 text-primary border-primary/20" : 
                              u.nivelAcesso === 'Gerente' ? "bg-secondary/10 text-secondary border-secondary/20" : "bg-bg-surface text-text-dim border-border-main"
                            )}>
                              {u.nivelAcesso}
                            </span>
                         </ExecutiveTableCell>
-                        <ExecutiveTableCell className="px-8 py-6">
-                           <div className="flex flex-wrap gap-2 max-w-[240px]">
+                        <ExecutiveTableCell className="px-4 lg:px-6 py-4 md:py-6">
+                           <div className="flex flex-wrap gap-2 max-w-[200px]">
                              {(() => {
                                const safePerms = Array.isArray(u.permissoes) ? u.permissoes : [];
                                const selectedGroups = [...new Set(safePerms.map((p: string) => p.split(':')[0]))];
-                               if (selectedGroups.length === PERMISSION_GROUPS.length) return <span className="text-[10px] font-black text-emerald-600 uppercase tracking-widest flex items-center gap-1"><UserCheck size={14} /> Full Access</span>;
+                               if (selectedGroups.length === PERMISSION_GROUPS.length) return <span className="text-[10px] font-black text-emerald-600 uppercase tracking-widest flex items-center gap-1 whitespace-nowrap"><UserCheck size={14} /> Full Access</span>;
                                return selectedGroups.map((g: any, idx: number) => (
-                                 <span key={idx} className="px-2 py-1 bg-bg-surface border border-border-main rounded text-[9px] font-bold text-text-muted uppercase tracking-widest">{g}</span>
+                                 <span key={idx} className="px-2 py-1 bg-bg-surface border border-border-main rounded text-[9px] font-bold text-text-muted uppercase tracking-widest whitespace-nowrap">{g}</span>
                                ));
                              })()}
                            </div>
                         </ExecutiveTableCell>
-                        <ExecutiveTableCell className="px-8 py-6">
+                        <ExecutiveTableCell className="px-4 lg:px-6 py-4 md:py-6">
                            <div className="flex items-center gap-2">
-                             <div className={cn("w-2 h-2 rounded-full shadow-sm", u.status === 'Ativo' ? "bg-success-soft0" : "bg-critical-soft0")} />
-                             <span className="text-[10px] font-black text-text-main uppercase tracking-widest">{u.status}</span>
+                             <div className={cn("w-2 h-2 rounded-full shadow-sm shrink-0", u.status === 'Ativo' ? "bg-success-soft0" : "bg-critical-soft0")} />
+                             <span className="text-[10px] font-black text-text-main uppercase tracking-widest whitespace-nowrap">{u.status}</span>
                            </div>
                         </ExecutiveTableCell>
                         <ExecutiveTableCell className="px-8 py-6 text-right">
@@ -590,7 +592,6 @@ function ClientUserManagerInner({ clientId }: { clientId: string }) {
              </ExecutiveTableBody>
            </ExecutiveTable>
          </div>
-      </ExecutiveSurface>
 
       <ExecutiveSurface className="bg-bg-surface/30 border-dashed flex flex-col md:flex-row items-center gap-8 group">
          <div className="w-16 h-16 rounded-[1.5rem] bg-bg-card border border-border-main flex items-center justify-center text-text-dim group-hover:text-secondary transition-all shadow-premium shrink-0">

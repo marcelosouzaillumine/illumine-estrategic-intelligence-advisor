@@ -17,6 +17,11 @@ import { formatCurrency } from '../lib/utils';
 import { calculateSeverance } from '../services/taxService';
 import { ExecutiveTable, ExecutiveTableHeader, ExecutiveTableBody, ExecutiveTableRow, ExecutiveTableHead, ExecutiveTableCell } from './ui/executive-table';
 import { ExecutiveSurface } from './ui/executive-surface';
+import { ExecutiveHeading } from './ui/executive-heading';
+import { Input } from './ui/input';
+import { Label } from './ui/label';
+import { Button } from './ui/button';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from './ui/select';
 
 export function EmployeeManager({ clientId, clientConfig }: { clientId: string, clientConfig: any }) {
   const [editingId, setEditingId] = useState<string | null>(null);
@@ -54,113 +59,121 @@ export function EmployeeManager({ clientId, clientConfig }: { clientId: string, 
     <div className="space-y-6">
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-3">
-          <div className="w-10 h-10 bg-blue-50 rounded-xl flex items-center justify-center text-blue-600 border border-blue-100">
+          <div className="w-10 h-10 bg-surface-container rounded-xl flex items-center justify-center text-primary border border-border shadow-sm">
             <Users size={20} />
           </div>
           <div>
-            <h4 className="text-sm font-black text-muted-foreground uppercase tracking-widest">Colaboradores</h4>
+            <ExecutiveHeading as="h4" className="text-sm">Colaboradores</ExecutiveHeading>
             <p className="text-[10px] text-muted-foreground font-bold uppercase tracking-widest">Gerencie o quadro de pessoal para cálculos de custos.</p>
           </div>
         </div>
         {!isAdding && (
-          <button 
+          <Button 
             onClick={() => setIsAdding(true)}
-            className="flex items-center gap-2 px-4 py-2 bg-blue-600 text-white rounded-xl text-[10px] font-black uppercase tracking-widest hover:bg-blue-700 transition-all shadow-lg shadow-blue-500/20"
+            className="flex items-center gap-2 shadow-lg"
           >
             <Plus size={14} /> Adicionar Colaborador
-          </button>
+          </Button>
         )}
       </div>
 
       {isAdding && (
         <ExecutiveSurface className="space-y-8">
            <div className="flex items-center justify-between">
-              <h5 className="text-[10px] font-black text-muted-foreground uppercase tracking-widest flex items-center gap-2">
+              <ExecutiveHeading as="h5" className="flex items-center gap-2">
                  {editingId ? <Edit3 size={16} /> : <Plus size={16} />} 
                  {editingId ? 'Editar Colaborador' : 'Adicionar Colaborador'}
-              </h5>
-              <button onClick={() => { setIsAdding(false); setEditingId(null); }} className="text-muted-foreground hover:text-rose-500 transition-colors">
+              </ExecutiveHeading>
+              <Button variant="ghost" size="icon" onClick={() => { setIsAdding(false); setEditingId(null); }} className="text-muted-foreground hover:bg-destructive/10 hover:text-destructive transition-colors rounded-full">
                  <X size={20} />
-              </button>
+              </Button>
            </div>
 
            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
               <div className="space-y-2">
-                <label className="text-[9px] font-black text-muted-foreground uppercase tracking-widest block px-1">Nome Completo</label>
-                <input 
+                <Label>Nome Completo</Label>
+                <Input 
                   type="text" 
                   value={formData.nome}
                   onChange={e => setFormData({...formData, nome: e.target.value})}
-                  className="w-full px-4 py-2.5 bg-white border border-border rounded-xl text-xs font-bold outline-none focus:border-blue-500"
+                  className="w-full h-12 bg-background shadow-sm font-bold"
                 />
               </div>
               <div className="space-y-2">
-                <label className="text-[9px] font-black text-muted-foreground uppercase tracking-widest block px-1">Função / Cargo</label>
-                <input 
+                <Label>Função / Cargo</Label>
+                <Input 
                   type="text" 
                   value={formData.funcao}
                   onChange={e => setFormData({...formData, funcao: e.target.value})}
-                  className="w-full px-4 py-2.5 bg-white border border-border rounded-xl text-xs font-bold outline-none focus:border-blue-500"
+                  className="w-full h-12 bg-background shadow-sm font-bold"
                 />
               </div>
               <div className="space-y-2">
-                <label className="text-[9px] font-black text-muted-foreground uppercase tracking-widest block px-1">Área / Depto</label>
-                <input 
+                <Label>Área / Depto</Label>
+                <Input 
                   type="text" 
                   value={formData.area}
                   onChange={e => setFormData({...formData, area: e.target.value})}
-                  className="w-full px-4 py-2.5 bg-white border border-border rounded-xl text-xs font-bold outline-none focus:border-blue-500"
+                  className="w-full h-12 bg-background shadow-sm font-bold"
                 />
               </div>
            </div>
 
            <div className="grid grid-cols-1 md:grid-cols-4 gap-6 pt-4 border-t border-border">
               <div className="space-y-2">
-                <label className="text-[9px] font-black text-muted-foreground uppercase tracking-widest block px-1">Vínculo</label>
-                <select 
+                <Label>Vínculo</Label>
+                <Select 
                   value={formData.tipoContrato}
-                  onChange={e => setFormData({...formData, tipoContrato: e.target.value})}
-                  className="w-full px-4 py-3 bg-white border border-border rounded-xl text-xs font-bold outline-none focus:border-blue-500"
+                  onValueChange={val => setFormData({...formData, tipoContrato: val})}
                 >
-                  <option value="CLT">CLT</option>
-                  <option value="PJ">PJ / Terceirizado</option>
-                  <option value="Estagiário">Estagiário</option>
-                  <option value="Temporário">Temporário</option>
-                </select>
+                  <SelectTrigger className="w-full h-12 bg-background shadow-sm">
+                    <SelectValue />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="CLT">CLT</SelectItem>
+                    <SelectItem value="PJ">PJ / Terceirizado</SelectItem>
+                    <SelectItem value="Estagiário">Estagiário</SelectItem>
+                    <SelectItem value="Temporário">Temporário</SelectItem>
+                  </SelectContent>
+                </Select>
               </div>
               <div className="space-y-2">
-                <label className="text-[9px] font-black text-muted-foreground uppercase tracking-widest block px-1">Status</label>
-                <select 
+                <Label>Status</Label>
+                <Select 
                   value={formData.status}
-                  onChange={e => setFormData({...formData, status: e.target.value})}
-                  className="w-full px-4 py-3 bg-white border border-border rounded-xl text-xs font-bold outline-none focus:border-blue-500"
+                  onValueChange={val => setFormData({...formData, status: val})}
                 >
-                  <option value="Ativo">Ativo</option>
-                  <option value="Afastado">Afastado</option>
-                  <option value="Desligado">Desligado</option>
-                </select>
+                  <SelectTrigger className="w-full h-12 bg-background shadow-sm">
+                    <SelectValue />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="Ativo">Ativo</SelectItem>
+                    <SelectItem value="Afastado">Afastado</SelectItem>
+                    <SelectItem value="Desligado">Desligado</SelectItem>
+                  </SelectContent>
+                </Select>
               </div>
               <div className="space-y-2">
-                <label className="text-[9px] font-black text-muted-foreground uppercase tracking-widest block px-1">Data Admissão</label>
-                <input 
+                <Label>Data Admissão</Label>
+                <Input 
                   type="date" 
                   value={formData.admissao}
                   onChange={e => setFormData({...formData, admissao: e.target.value})}
-                  className="w-full px-4 py-2.5 bg-white border border-border rounded-xl text-xs font-bold outline-none focus:border-blue-500"
+                  className="w-full h-12 bg-background shadow-sm font-bold"
                 />
               </div>
               <div className="space-y-2">
-                <label className="text-[9px] font-black text-muted-foreground uppercase tracking-widest block px-1">Salário Base (R$)</label>
-                <input 
+                <Label>Salário Base (R$)</Label>
+                <Input 
                   type="number" 
                   value={formData.salarioBase}
                   onChange={e => setFormData({...formData, salarioBase: e.target.value})}
-                  className="w-full px-4 py-2.5 bg-white border border-border rounded-xl text-xs font-black outline-none focus:border-blue-500 [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
+                  className="w-full h-12 bg-background shadow-sm font-bold [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
                 />
               </div>
            </div>
 
-           <div className="bg-white p-6 rounded-2xl border border-border space-y-4">
+           <div className="bg-background p-6 rounded-2xl border border-border space-y-4 shadow-sm">
               <div className="flex items-center justify-between border-b border-border pb-4">
                 <div>
                   <h6 className="text-[10px] font-black text-muted-foreground uppercase tracking-widest">Premissas de Rescisão</h6>
@@ -175,7 +188,7 @@ export function EmployeeManager({ clientId, clientConfig }: { clientId: string, 
                       onChange={e => setFormData({...formData, avisoIndenizado: e.target.checked})}
                       className="sr-only peer" 
                     />
-                    <div className="w-8 h-4 bg-slate-200 rounded-full peer peer-checked:bg-blue-600 transition-colors"></div>
+                    <div className="w-8 h-4 bg-slate-200 rounded-full peer peer-checked:bg-primary transition-colors"></div>
                     <div className="absolute left-0.5 top-0.5 w-3 h-3 bg-white rounded-full transition-transform peer-checked:translate-x-4"></div>
                   </div>
                 </label>
@@ -199,20 +212,20 @@ export function EmployeeManager({ clientId, clientConfig }: { clientId: string, 
            </div>
 
            <div className="flex justify-end gap-3 pt-6">
-              <button 
+              <Button 
+                variant="ghost"
                 onClick={() => { setIsAdding(false); setEditingId(null); }}
-                className="px-4 md:px-6 py-2 md:py-2.5 text-[10px] font-black uppercase text-muted-foreground hover:text-muted-foreground underline transition-all"
               >
                 Cancelar
-              </button>
-              <button 
+              </Button>
+              <Button 
                 onClick={handleSave}
                 disabled={loading}
-                className="px-10 py-3 bg-blue-600 text-white rounded-xl text-[10px] font-black uppercase tracking-widest hover:bg-blue-700 transition-all shadow-lg flex items-center gap-2"
+                className="flex items-center gap-2 shadow-lg"
               >
                 {loading ? <Loader2 size={16} className="animate-spin" /> : editingId ? <Save size={16} /> : <CheckCircle2 size={16} />}
                 {editingId ? 'Salvar Edição' : 'Cadastrar Colaborador'}
-              </button>
+              </Button>
            </div>
         </ExecutiveSurface>
       )}
@@ -253,24 +266,28 @@ export function EmployeeManager({ clientId, clientConfig }: { clientId: string, 
                           {formatCurrency(emp.salarioBase)}
                        </ExecutiveTableCell>
                        <ExecutiveTableCell className="px-4 md:px-6 py-2.5 md:py-4 text-right">
-                          <div className="flex items-center justify-end gap-2">
-                             <button 
-                               onClick={() => {
-                                  setEditingId(emp.id);
-                                  setFormData({ ...initialForm, ...emp });
-                                  setIsAdding(true);
-                               }}
-                               className="p-1.5 text-muted-foreground hover:text-blue-600 transition-colors"
-                             >
-                                <Edit3 size={14} />
-                             </button>
-                             <button 
-                               onClick={() => handleDelete(emp.id)}
-                               className="p-1.5 text-muted-foreground hover:text-rose-500 transition-colors"
-                             >
-                                <Trash2 size={14} />
-                             </button>
-                          </div>
+                           <div className="flex items-center justify-end gap-2">
+                              <Button 
+                                variant="ghost"
+                                size="icon"
+                                onClick={() => {
+                                   setEditingId(emp.id);
+                                   setFormData({ ...initialForm, ...emp });
+                                   setIsAdding(true);
+                                }}
+                                className="text-muted-foreground hover:bg-secondary/10 hover:text-secondary transition-colors rounded-full"
+                              >
+                                 <Edit3 size={14} />
+                              </Button>
+                              <Button 
+                                variant="ghost"
+                                size="icon"
+                                onClick={() => handleDelete(emp.id)}
+                                className="text-muted-foreground hover:bg-destructive/10 hover:text-destructive transition-colors rounded-full"
+                              >
+                                 <Trash2 size={14} />
+                              </Button>
+                           </div>
                        </ExecutiveTableCell>
                      </ExecutiveTableRow>
                    ))

@@ -1,0 +1,12 @@
+Baseline:
+  name: AGC Foundation Baseline
+  version: 2026.3
+Certified:
+  Wave: G0
+  Status: PASS
+Metrics:
+  RulesEvaluated: 156
+  Failures: 0
+  Risk: LOW
+NextAllowedWave:
+  G0.5

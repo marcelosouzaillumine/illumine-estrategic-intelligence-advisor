@@ -1,0 +1,105 @@
+{
+  "version": "G4.0",
+  "targetSubject": "Financial Intelligence",
+  "periodStart": "2026-01-01",
+  "periodEnd": "2026-03-01",
+  "signals": [
+    {
+      "id": "SIG-DEP-1785463231638",
+      "category": "DEPENDENCY",
+      "subject": "Financial Intelligence",
+      "type": "DEPENDENCY_EXPANSION",
+      "confidence": "HIGH",
+      "evidenceGraph": {
+        "nodes": [
+          {
+            "id": "OBS-1",
+            "type": "EVALUATION",
+            "referenceId": "OBS-1"
+          }
+        ],
+        "edges": []
+      }
+    },
+    {
+      "id": "SIG-BND-1785463231638",
+      "category": "BOUNDARY",
+      "subject": "Financial Intelligence",
+      "type": "BOUNDARY_EXPANSION",
+      "confidence": "HIGH",
+      "evidenceGraph": {
+        "nodes": [
+          {
+            "id": "OBS-3",
+            "type": "EVOLUTION",
+            "referenceId": "OBS-3"
+          }
+        ],
+        "edges": []
+      }
+    },
+    {
+      "id": "SIG-CHG-1785463231638",
+      "category": "EVOLUTION",
+      "subject": "Financial Intelligence",
+      "type": "CHANGE_CONCENTRATION",
+      "confidence": "HIGH",
+      "evidenceGraph": {
+        "nodes": [
+          {
+            "id": "OBS-2",
+            "type": "EVOLUTION",
+            "referenceId": "OBS-2"
+          }
+        ],
+        "edges": []
+      }
+    }
+  ],
+  "narratives": [
+    {
+      "id": "NARR-1785463231638",
+      "subject": "Financial Intelligence",
+      "statements": [
+        {
+          "text": "A subject Financial Intelligence exibiu o padrão estrutural DEPENDENCY_EXPANSION na categoria DEPENDENCY.",
+          "derivedFromSignalId": "SIG-DEP-1785463231638"
+        },
+        {
+          "text": "A subject Financial Intelligence exibiu o padrão estrutural BOUNDARY_EXPANSION na categoria BOUNDARY.",
+          "derivedFromSignalId": "SIG-BND-1785463231638"
+        },
+        {
+          "text": "A subject Financial Intelligence exibiu o padrão estrutural CHANGE_CONCENTRATION na categoria EVOLUTION.",
+          "derivedFromSignalId": "SIG-CHG-1785463231638"
+        }
+      ],
+      "evidenceGraph": {
+        "nodes": [
+          {
+            "id": "OBS-1",
+            "type": "EVALUATION",
+            "referenceId": "OBS-1"
+          },
+          {
+            "id": "OBS-3",
+            "type": "EVOLUTION",
+            "referenceId": "OBS-3"
+          },
+          {
+            "id": "OBS-2",
+            "type": "EVOLUTION",
+            "referenceId": "OBS-2"
+          }
+        ],
+        "edges": []
+      },
+      "generatedBy": "ADVISORY_ENGINE",
+      "deterministicHash": "b8c03ec5d203b8b81f1634cd3e8514047fb2ef69a8dc3b6d247d6afebf1c5ec9"
+    }
+  ],
+  "generatedBy": {
+    "engineVersion": "G4.0",
+    "timestamp": "2026-07-31T02:00:31.638Z"
+  }
+}

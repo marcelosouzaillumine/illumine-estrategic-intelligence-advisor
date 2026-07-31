@@ -115,3 +115,6 @@ $$\text{EBITDA} \longrightarrow \text{Cash Flow} \longrightarrow \text{Liquidity
 1. Mudanças nos contratos de **CANONICAL / FROZEN** exigem homologação por unanimidade e emissão de ADR.
 2. A inclusão de novos termos na Linguagem Ubíqua exige a criação de uma nova **Architecture Decision Record (ADR)**.
 3. O pipeline de CI/CD aplicará validação automática do **`ArchitectureComplianceIndex`** (definido em [`ARCHITECTURE_COMPLIANCE.md`](file:///Users/marcelosouza/Documents/illumine-strategic-intelligence-advisor/ARCHITECTURE_COMPLIANCE.md)).
+
+## Executive Narrative Rendering Principle™
+Todo conteúdo textual produzido por agentes deve passar por um componente institucional de interpretação antes de alcançar a experiência executiva. Nenhum motor externo de renderização pode controlar diretamente a apresentação cognitiva ao usuário.

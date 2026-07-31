@@ -1,0 +1,562 @@
+[
+  {
+    "audit": "GFC-2026.3",
+    "rule": "AR-GFC-001",
+    "finding": "Types package has no external dependencies",
+    "severity": "LOW",
+    "file": "/Users/marcelosouza/Documents/illumine-strategic-intelligence-advisor/packages/architecture-governance-types/src/enums/CapabilityType.ts",
+    "result": "PASS"
+  },
+  {
+    "audit": "GFC-2026.3",
+    "rule": "AR-GFC-001",
+    "finding": "Types package has no external dependencies",
+    "severity": "LOW",
+    "file": "/Users/marcelosouza/Documents/illumine-strategic-intelligence-advisor/packages/architecture-governance-types/src/enums/CertificationStatus.ts",
+    "result": "PASS"
+  },
+  {
+    "audit": "GFC-2026.3",
+    "rule": "AR-GFC-001",
+    "finding": "Types package has no external dependencies",
+    "severity": "LOW",
+    "file": "/Users/marcelosouza/Documents/illumine-strategic-intelligence-advisor/packages/architecture-governance-types/src/enums/EvidenceSource.ts",
+    "result": "PASS"
+  },
+  {
+    "audit": "GFC-2026.3",
+    "rule": "AR-GFC-001",
+    "finding": "Types package has no external dependencies",
+    "severity": "LOW",
+    "file": "/Users/marcelosouza/Documents/illumine-strategic-intelligence-advisor/packages/architecture-governance-types/src/enums/GateResult.ts",
+    "result": "PASS"
+  },
+  {
+    "audit": "GFC-2026.3",
+    "rule": "AR-GFC-001",
+    "finding": "Types package has no external dependencies",
+    "severity": "LOW",
+    "file": "/Users/marcelosouza/Documents/illumine-strategic-intelligence-advisor/packages/architecture-governance-types/src/enums/Lifecycle.ts",
+    "result": "PASS"
+  },
+  {
+    "audit": "GFC-2026.3",
+    "rule": "AR-GFC-001",
+    "finding": "Types package has no external dependencies",
+    "severity": "LOW",
+    "file": "/Users/marcelosouza/Documents/illumine-strategic-intelligence-advisor/packages/architecture-governance-types/src/enums/Risk.ts",
+    "result": "PASS"
+  },
+  {
+    "audit": "GFC-2026.3",
+    "rule": "AR-GFC-001",
+    "finding": "Types package has no external dependencies",
+    "severity": "LOW",
+    "file": "/Users/marcelosouza/Documents/illumine-strategic-intelligence-advisor/packages/architecture-governance-types/src/enums/RuleCategory.ts",
+    "result": "PASS"
+  },
+  {
+    "audit": "GFC-2026.3",
+    "rule": "AR-GFC-001",
+    "finding": "Types package has no external dependencies",
+    "severity": "LOW",
+    "file": "/Users/marcelosouza/Documents/illumine-strategic-intelligence-advisor/packages/architecture-governance-types/src/enums/Severity.ts",
+    "result": "PASS"
+  },
+  {
+    "audit": "GFC-2026.3",
+    "rule": "AR-GFC-001",
+    "finding": "Types package has no external dependencies",
+    "severity": "LOW",
+    "file": "/Users/marcelosouza/Documents/illumine-strategic-intelligence-advisor/packages/architecture-governance-types/src/enums/index.ts",
+    "result": "PASS"
+  },
+  {
+    "audit": "GFC-2026.3",
+    "rule": "AR-GFC-001",
+    "finding": "Types package has no external dependencies",
+    "severity": "LOW",
+    "file": "/Users/marcelosouza/Documents/illumine-strategic-intelligence-advisor/packages/architecture-governance-types/src/index.ts",
+    "result": "PASS"
+  },
+  {
+    "audit": "GFC-2026.3",
+    "rule": "AR-GFC-001",
+    "finding": "Types package has no external dependencies",
+    "severity": "LOW",
+    "file": "/Users/marcelosouza/Documents/illumine-strategic-intelligence-advisor/packages/architecture-governance-types/src/value-objects/BaselineId.ts",
+    "result": "PASS"
+  },
+  {
+    "audit": "GFC-2026.3",
+    "rule": "AR-GFC-001",
+    "finding": "Types package has no external dependencies",
+    "severity": "LOW",
+    "file": "/Users/marcelosouza/Documents/illumine-strategic-intelligence-advisor/packages/architecture-governance-types/src/value-objects/CapabilityId.ts",
+    "result": "PASS"
+  },
+  {
+    "audit": "GFC-2026.3",
+    "rule": "AR-GFC-001",
+    "finding": "Types package has no external dependencies",
+    "severity": "LOW",
+    "file": "/Users/marcelosouza/Documents/illumine-strategic-intelligence-advisor/packages/architecture-governance-types/src/value-objects/CertificationId.ts",
+    "result": "PASS"
+  },
+  {
+    "audit": "GFC-2026.3",
+    "rule": "AR-GFC-001",
+    "finding": "Types package has no external dependencies",
+    "severity": "LOW",
+    "file": "/Users/marcelosouza/Documents/illumine-strategic-intelligence-advisor/packages/architecture-governance-types/src/value-objects/EvidenceId.ts",
+    "result": "PASS"
+  },
+  {
+    "audit": "GFC-2026.3",
+    "rule": "AR-GFC-001",
+    "finding": "Types package has no external dependencies",
+    "severity": "LOW",
+    "file": "/Users/marcelosouza/Documents/illumine-strategic-intelligence-advisor/packages/architecture-governance-types/src/value-objects/ReleaseId.ts",
+    "result": "PASS"
+  },
+  {
+    "audit": "GFC-2026.3",
+    "rule": "AR-GFC-001",
+    "finding": "Types package has no external dependencies",
+    "severity": "LOW",
+    "file": "/Users/marcelosouza/Documents/illumine-strategic-intelligence-advisor/packages/architecture-governance-types/src/value-objects/RuleId.ts",
+    "result": "PASS"
+  },
+  {
+    "audit": "GFC-2026.3",
+    "rule": "AR-GFC-001",
+    "finding": "Types package has no external dependencies",
+    "severity": "LOW",
+    "file": "/Users/marcelosouza/Documents/illumine-strategic-intelligence-advisor/packages/architecture-governance-types/src/value-objects/SemanticVersion.ts",
+    "result": "PASS"
+  },
+  {
+    "audit": "GFC-2026.3",
+    "rule": "AR-GFC-001",
+    "finding": "Types package has no external dependencies",
+    "severity": "LOW",
+    "file": "/Users/marcelosouza/Documents/illumine-strategic-intelligence-advisor/packages/architecture-governance-types/src/value-objects/WaveId.ts",
+    "result": "PASS"
+  },
+  {
+    "audit": "GFC-2026.3",
+    "rule": "AR-GFC-001",
+    "finding": "Types package has no external dependencies",
+    "severity": "LOW",
+    "file": "/Users/marcelosouza/Documents/illumine-strategic-intelligence-advisor/packages/architecture-governance-types/src/value-objects/WaveReference.ts",
+    "result": "PASS"
+  },
+  {
+    "audit": "GFC-2026.3",
+    "rule": "AR-GFC-001",
+    "finding": "Types package has no external dependencies",
+    "severity": "LOW",
+    "file": "/Users/marcelosouza/Documents/illumine-strategic-intelligence-advisor/packages/architecture-governance-types/src/value-objects/index.ts",
+    "result": "PASS"
+  },
+  {
+    "audit": "GFC-2026.3",
+    "rule": "AR-GFC-001",
+    "finding": "Contracts dependency direction correct",
+    "severity": "LOW",
+    "file": "/Users/marcelosouza/Documents/illumine-strategic-intelligence-advisor/packages/architecture-governance-contracts/src/BaselineContract.ts",
+    "result": "PASS"
+  },
+  {
+    "audit": "GFC-2026.3",
+    "rule": "AR-GFC-001",
+    "finding": "Contracts dependency direction correct",
+    "severity": "LOW",
+    "file": "/Users/marcelosouza/Documents/illumine-strategic-intelligence-advisor/packages/architecture-governance-contracts/src/CapabilityContract.ts",
+    "result": "PASS"
+  },
+  {
+    "audit": "GFC-2026.3",
+    "rule": "AR-GFC-001",
+    "finding": "Contracts dependency direction correct",
+    "severity": "LOW",
+    "file": "/Users/marcelosouza/Documents/illumine-strategic-intelligence-advisor/packages/architecture-governance-contracts/src/CertificationContract.ts",
+    "result": "PASS"
+  },
+  {
+    "audit": "GFC-2026.3",
+    "rule": "AR-GFC-001",
+    "finding": "Contracts dependency direction correct",
+    "severity": "LOW",
+    "file": "/Users/marcelosouza/Documents/illumine-strategic-intelligence-advisor/packages/architecture-governance-contracts/src/EventsContract.ts",
+    "result": "PASS"
+  },
+  {
+    "audit": "GFC-2026.3",
+    "rule": "AR-GFC-001",
+    "finding": "Contracts dependency direction correct",
+    "severity": "LOW",
+    "file": "/Users/marcelosouza/Documents/illumine-strategic-intelligence-advisor/packages/architecture-governance-contracts/src/EvidenceContract.ts",
+    "result": "PASS"
+  },
+  {
+    "audit": "GFC-2026.3",
+    "rule": "AR-GFC-001",
+    "finding": "Contracts dependency direction correct",
+    "severity": "LOW",
+    "file": "/Users/marcelosouza/Documents/illumine-strategic-intelligence-advisor/packages/architecture-governance-contracts/src/FindingContract.ts",
+    "result": "PASS"
+  },
+  {
+    "audit": "GFC-2026.3",
+    "rule": "AR-GFC-001",
+    "finding": "Contracts dependency direction correct",
+    "severity": "LOW",
+    "file": "/Users/marcelosouza/Documents/illumine-strategic-intelligence-advisor/packages/architecture-governance-contracts/src/HistoryContract.ts",
+    "result": "PASS"
+  },
+  {
+    "audit": "GFC-2026.3",
+    "rule": "AR-GFC-001",
+    "finding": "Contracts dependency direction correct",
+    "severity": "LOW",
+    "file": "/Users/marcelosouza/Documents/illumine-strategic-intelligence-advisor/packages/architecture-governance-contracts/src/ReleaseContract.ts",
+    "result": "PASS"
+  },
+  {
+    "audit": "GFC-2026.3",
+    "rule": "AR-GFC-001",
+    "finding": "Contracts dependency direction correct",
+    "severity": "LOW",
+    "file": "/Users/marcelosouza/Documents/illumine-strategic-intelligence-advisor/packages/architecture-governance-contracts/src/RuleContract.ts",
+    "result": "PASS"
+  },
+  {
+    "audit": "GFC-2026.3",
+    "rule": "AR-GFC-001",
+    "finding": "Contracts dependency direction correct",
+    "severity": "LOW",
+    "file": "/Users/marcelosouza/Documents/illumine-strategic-intelligence-advisor/packages/architecture-governance-contracts/src/SharedContracts.ts",
+    "result": "PASS"
+  },
+  {
+    "audit": "GFC-2026.3",
+    "rule": "AR-GFC-001",
+    "finding": "Contracts dependency direction correct",
+    "severity": "LOW",
+    "file": "/Users/marcelosouza/Documents/illumine-strategic-intelligence-advisor/packages/architecture-governance-contracts/src/index.ts",
+    "result": "PASS"
+  },
+  {
+    "audit": "GFC-2026.3",
+    "rule": "AR-GFC-001",
+    "finding": "Domain dependency direction correct",
+    "severity": "LOW",
+    "file": "/Users/marcelosouza/Documents/illumine-strategic-intelligence-advisor/packages/architecture-governance-domain/src/entities/BaselineEntity.ts",
+    "result": "PASS"
+  },
+  {
+    "audit": "GFC-2026.3",
+    "rule": "AR-GFC-009",
+    "finding": "Deep Immutability verified",
+    "severity": "LOW",
+    "file": "/Users/marcelosouza/Documents/illumine-strategic-intelligence-advisor/packages/architecture-governance-domain/src/entities/BaselineEntity.ts",
+    "result": "PASS"
+  },
+  {
+    "audit": "GFC-2026.3",
+    "rule": "AR-GFC-010",
+    "finding": "Entity constructor is pure",
+    "severity": "LOW",
+    "file": "/Users/marcelosouza/Documents/illumine-strategic-intelligence-advisor/packages/architecture-governance-domain/src/entities/BaselineEntity.ts",
+    "result": "PASS"
+  },
+  {
+    "audit": "GFC-2026.3",
+    "rule": "AR-GFC-001",
+    "finding": "Domain dependency direction correct",
+    "severity": "LOW",
+    "file": "/Users/marcelosouza/Documents/illumine-strategic-intelligence-advisor/packages/architecture-governance-domain/src/entities/CapabilityEntity.ts",
+    "result": "PASS"
+  },
+  {
+    "audit": "GFC-2026.3",
+    "rule": "AR-GFC-009",
+    "finding": "Deep Immutability verified",
+    "severity": "LOW",
+    "file": "/Users/marcelosouza/Documents/illumine-strategic-intelligence-advisor/packages/architecture-governance-domain/src/entities/CapabilityEntity.ts",
+    "result": "PASS"
+  },
+  {
+    "audit": "GFC-2026.3",
+    "rule": "AR-GFC-010",
+    "finding": "Entity constructor is pure",
+    "severity": "LOW",
+    "file": "/Users/marcelosouza/Documents/illumine-strategic-intelligence-advisor/packages/architecture-governance-domain/src/entities/CapabilityEntity.ts",
+    "result": "PASS"
+  },
+  {
+    "audit": "GFC-2026.3",
+    "rule": "AR-GFC-001",
+    "finding": "Domain dependency direction correct",
+    "severity": "LOW",
+    "file": "/Users/marcelosouza/Documents/illumine-strategic-intelligence-advisor/packages/architecture-governance-domain/src/entities/CertificationEntity.ts",
+    "result": "PASS"
+  },
+  {
+    "audit": "GFC-2026.3",
+    "rule": "AR-GFC-009",
+    "finding": "Deep Immutability verified",
+    "severity": "LOW",
+    "file": "/Users/marcelosouza/Documents/illumine-strategic-intelligence-advisor/packages/architecture-governance-domain/src/entities/CertificationEntity.ts",
+    "result": "PASS"
+  },
+  {
+    "audit": "GFC-2026.3",
+    "rule": "AR-GFC-010",
+    "finding": "Entity constructor is pure",
+    "severity": "LOW",
+    "file": "/Users/marcelosouza/Documents/illumine-strategic-intelligence-advisor/packages/architecture-governance-domain/src/entities/CertificationEntity.ts",
+    "result": "PASS"
+  },
+  {
+    "audit": "GFC-2026.3",
+    "rule": "AR-GFC-001",
+    "finding": "Domain dependency direction correct",
+    "severity": "LOW",
+    "file": "/Users/marcelosouza/Documents/illumine-strategic-intelligence-advisor/packages/architecture-governance-domain/src/entities/EvidenceEntity.ts",
+    "result": "PASS"
+  },
+  {
+    "audit": "GFC-2026.3",
+    "rule": "AR-GFC-009",
+    "finding": "Deep Immutability verified",
+    "severity": "LOW",
+    "file": "/Users/marcelosouza/Documents/illumine-strategic-intelligence-advisor/packages/architecture-governance-domain/src/entities/EvidenceEntity.ts",
+    "result": "PASS"
+  },
+  {
+    "audit": "GFC-2026.3",
+    "rule": "AR-GFC-010",
+    "finding": "Entity constructor is pure",
+    "severity": "LOW",
+    "file": "/Users/marcelosouza/Documents/illumine-strategic-intelligence-advisor/packages/architecture-governance-domain/src/entities/EvidenceEntity.ts",
+    "result": "PASS"
+  },
+  {
+    "audit": "GFC-2026.3",
+    "rule": "AR-GFC-001",
+    "finding": "Domain dependency direction correct",
+    "severity": "LOW",
+    "file": "/Users/marcelosouza/Documents/illumine-strategic-intelligence-advisor/packages/architecture-governance-domain/src/entities/FindingEntity.ts",
+    "result": "PASS"
+  },
+  {
+    "audit": "GFC-2026.3",
+    "rule": "AR-GFC-009",
+    "finding": "Deep Immutability verified",
+    "severity": "LOW",
+    "file": "/Users/marcelosouza/Documents/illumine-strategic-intelligence-advisor/packages/architecture-governance-domain/src/entities/FindingEntity.ts",
+    "result": "PASS"
+  },
+  {
+    "audit": "GFC-2026.3",
+    "rule": "AR-GFC-010",
+    "finding": "Entity constructor is pure",
+    "severity": "LOW",
+    "file": "/Users/marcelosouza/Documents/illumine-strategic-intelligence-advisor/packages/architecture-governance-domain/src/entities/FindingEntity.ts",
+    "result": "PASS"
+  },
+  {
+    "audit": "GFC-2026.3",
+    "rule": "AR-GFC-001",
+    "finding": "Domain dependency direction correct",
+    "severity": "LOW",
+    "file": "/Users/marcelosouza/Documents/illumine-strategic-intelligence-advisor/packages/architecture-governance-domain/src/entities/HistoryEntity.ts",
+    "result": "PASS"
+  },
+  {
+    "audit": "GFC-2026.3",
+    "rule": "AR-GFC-009",
+    "finding": "Deep Immutability verified",
+    "severity": "LOW",
+    "file": "/Users/marcelosouza/Documents/illumine-strategic-intelligence-advisor/packages/architecture-governance-domain/src/entities/HistoryEntity.ts",
+    "result": "PASS"
+  },
+  {
+    "audit": "GFC-2026.3",
+    "rule": "AR-GFC-010",
+    "finding": "Entity constructor is pure",
+    "severity": "LOW",
+    "file": "/Users/marcelosouza/Documents/illumine-strategic-intelligence-advisor/packages/architecture-governance-domain/src/entities/HistoryEntity.ts",
+    "result": "PASS"
+  },
+  {
+    "audit": "GFC-2026.3",
+    "rule": "AR-GFC-001",
+    "finding": "Domain dependency direction correct",
+    "severity": "LOW",
+    "file": "/Users/marcelosouza/Documents/illumine-strategic-intelligence-advisor/packages/architecture-governance-domain/src/entities/ReleaseEntity.ts",
+    "result": "PASS"
+  },
+  {
+    "audit": "GFC-2026.3",
+    "rule": "AR-GFC-009",
+    "finding": "Deep Immutability verified",
+    "severity": "LOW",
+    "file": "/Users/marcelosouza/Documents/illumine-strategic-intelligence-advisor/packages/architecture-governance-domain/src/entities/ReleaseEntity.ts",
+    "result": "PASS"
+  },
+  {
+    "audit": "GFC-2026.3",
+    "rule": "AR-GFC-010",
+    "finding": "Entity constructor is pure",
+    "severity": "LOW",
+    "file": "/Users/marcelosouza/Documents/illumine-strategic-intelligence-advisor/packages/architecture-governance-domain/src/entities/ReleaseEntity.ts",
+    "result": "PASS"
+  },
+  {
+    "audit": "GFC-2026.3",
+    "rule": "AR-GFC-001",
+    "finding": "Domain dependency direction correct",
+    "severity": "LOW",
+    "file": "/Users/marcelosouza/Documents/illumine-strategic-intelligence-advisor/packages/architecture-governance-domain/src/entities/RuleEntity.ts",
+    "result": "PASS"
+  },
+  {
+    "audit": "GFC-2026.3",
+    "rule": "AR-GFC-009",
+    "finding": "Deep Immutability verified",
+    "severity": "LOW",
+    "file": "/Users/marcelosouza/Documents/illumine-strategic-intelligence-advisor/packages/architecture-governance-domain/src/entities/RuleEntity.ts",
+    "result": "PASS"
+  },
+  {
+    "audit": "GFC-2026.3",
+    "rule": "AR-GFC-010",
+    "finding": "Entity constructor is pure",
+    "severity": "LOW",
+    "file": "/Users/marcelosouza/Documents/illumine-strategic-intelligence-advisor/packages/architecture-governance-domain/src/entities/RuleEntity.ts",
+    "result": "PASS"
+  },
+  {
+    "audit": "GFC-2026.3",
+    "rule": "AR-GFC-001",
+    "finding": "Domain dependency direction correct",
+    "severity": "LOW",
+    "file": "/Users/marcelosouza/Documents/illumine-strategic-intelligence-advisor/packages/architecture-governance-domain/src/index.ts",
+    "result": "PASS"
+  },
+  {
+    "audit": "GFC-2026.3",
+    "rule": "AR-GFC-009",
+    "finding": "Deep Immutability verified",
+    "severity": "LOW",
+    "file": "/Users/marcelosouza/Documents/illumine-strategic-intelligence-advisor/packages/architecture-governance-domain/src/index.ts",
+    "result": "PASS"
+  },
+  {
+    "audit": "GFC-2026.3",
+    "rule": "AR-GFC-010",
+    "finding": "Entity constructor is pure",
+    "severity": "LOW",
+    "file": "/Users/marcelosouza/Documents/illumine-strategic-intelligence-advisor/packages/architecture-governance-domain/src/index.ts",
+    "result": "PASS"
+  },
+  {
+    "audit": "GFC-2026.3",
+    "rule": "AR-GFC-003",
+    "finding": "Value Object has opaque brand",
+    "severity": "LOW",
+    "file": "/Users/marcelosouza/Documents/illumine-strategic-intelligence-advisor/packages/architecture-governance-types/src/value-objects/BaselineId.ts",
+    "result": "PASS"
+  },
+  {
+    "audit": "GFC-2026.3",
+    "rule": "AR-GFC-003",
+    "finding": "Value Object has opaque brand",
+    "severity": "LOW",
+    "file": "/Users/marcelosouza/Documents/illumine-strategic-intelligence-advisor/packages/architecture-governance-types/src/value-objects/CapabilityId.ts",
+    "result": "PASS"
+  },
+  {
+    "audit": "GFC-2026.3",
+    "rule": "AR-GFC-003",
+    "finding": "Value Object has opaque brand",
+    "severity": "LOW",
+    "file": "/Users/marcelosouza/Documents/illumine-strategic-intelligence-advisor/packages/architecture-governance-types/src/value-objects/CertificationId.ts",
+    "result": "PASS"
+  },
+  {
+    "audit": "GFC-2026.3",
+    "rule": "AR-GFC-003",
+    "finding": "Value Object has opaque brand",
+    "severity": "LOW",
+    "file": "/Users/marcelosouza/Documents/illumine-strategic-intelligence-advisor/packages/architecture-governance-types/src/value-objects/EvidenceId.ts",
+    "result": "PASS"
+  },
+  {
+    "audit": "GFC-2026.3",
+    "rule": "AR-GFC-003",
+    "finding": "Value Object has opaque brand",
+    "severity": "LOW",
+    "file": "/Users/marcelosouza/Documents/illumine-strategic-intelligence-advisor/packages/architecture-governance-types/src/value-objects/ReleaseId.ts",
+    "result": "PASS"
+  },
+  {
+    "audit": "GFC-2026.3",
+    "rule": "AR-GFC-003",
+    "finding": "Value Object has opaque brand",
+    "severity": "LOW",
+    "file": "/Users/marcelosouza/Documents/illumine-strategic-intelligence-advisor/packages/architecture-governance-types/src/value-objects/RuleId.ts",
+    "result": "PASS"
+  },
+  {
+    "audit": "GFC-2026.3",
+    "rule": "AR-GFC-003",
+    "finding": "Value Object has opaque brand",
+    "severity": "LOW",
+    "file": "/Users/marcelosouza/Documents/illumine-strategic-intelligence-advisor/packages/architecture-governance-types/src/value-objects/SemanticVersion.ts",
+    "result": "PASS"
+  },
+  {
+    "audit": "GFC-2026.3",
+    "rule": "AR-GFC-003",
+    "finding": "Value Object has opaque brand",
+    "severity": "LOW",
+    "file": "/Users/marcelosouza/Documents/illumine-strategic-intelligence-advisor/packages/architecture-governance-types/src/value-objects/WaveId.ts",
+    "result": "PASS"
+  },
+  {
+    "audit": "GFC-2026.3",
+    "rule": "AR-GFC-003",
+    "finding": "Value Object has opaque brand",
+    "severity": "LOW",
+    "file": "/Users/marcelosouza/Documents/illumine-strategic-intelligence-advisor/packages/architecture-governance-types/src/value-objects/WaveReference.ts",
+    "result": "PASS"
+  },
+  {
+    "audit": "GFC-2026.3",
+    "rule": "AR-GFC-006",
+    "finding": "Public surface index.ts exists for types",
+    "severity": "LOW",
+    "file": "/Users/marcelosouza/Documents/illumine-strategic-intelligence-advisor/packages/architecture-governance-types/src/index.ts",
+    "result": "PASS"
+  },
+  {
+    "audit": "GFC-2026.3",
+    "rule": "AR-GFC-006",
+    "finding": "Public surface index.ts exists for contracts",
+    "severity": "LOW",
+    "file": "/Users/marcelosouza/Documents/illumine-strategic-intelligence-advisor/packages/architecture-governance-contracts/src/index.ts",
+    "result": "PASS"
+  },
+  {
+    "audit": "GFC-2026.3",
+    "rule": "AR-GFC-006",
+    "finding": "Public surface index.ts exists for domain",
+    "severity": "LOW",
+    "file": "/Users/marcelosouza/Documents/illumine-strategic-intelligence-advisor/packages/architecture-governance-domain/src/index.ts",
+    "result": "PASS"
+  }
+]

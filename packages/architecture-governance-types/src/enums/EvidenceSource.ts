@@ -1,0 +1,8 @@
+export enum EvidenceSource {
+  STATIC_ANALYSIS = 'STATIC_ANALYSIS',
+  AST = 'AST',
+  HUMAN_REVIEW = 'HUMAN_REVIEW',
+  RUNTIME = 'RUNTIME',
+  CI = 'CI',
+  INFERENCE = 'INFERENCE'
+}

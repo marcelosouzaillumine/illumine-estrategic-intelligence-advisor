@@ -103,6 +103,9 @@ import {
 } from './components/executive-interaction';
 import { ExecutiveHomeWorkspace } from './components/executive/ExecutiveHomeWorkspace';
 import { InstitutionalMemoryProvider, useInstitutionalMemory } from './context/institutional-memory/InstitutionalMemoryProvider';
+import { ExecutiveCopilotPanel } from './components/executive-copilot/ExecutiveCopilotPanel';
+import { useExecutiveUIStore } from '../packages/intelligence/executive-copilot/src/store/ExecutiveUIStore';
+import { useExecutiveConversationStore } from '../packages/intelligence/executive-copilot/src/store/ExecutiveConversationStore';
 
 import { useDataTable } from './hooks/useDataTable';
 import { SortableHeader } from './components/SortableHeader';
@@ -137,6 +140,7 @@ import { ScenarioCommandCenter } from './components/war-room/ScenarioCommandCent
 import { governanceService } from './services/governanceService';
 import { DataAccessContext } from './core/security/data-access-context';
 import { DadosHistoricosPage } from './components/pages/DadosHistoricosPage';
+import { ExplorerContainer as ArchitectureExplorer } from '@illumine/architecture-governance-ui';
 
 
 function Logo({ collapsed }: { collapsed?: boolean }) {
@@ -499,6 +503,7 @@ export default function App() {
                   <Route path="/war-room/:scenarioId" element={<ScenarioCommandCenter />} />
                   <Route path="/intelligence" element={<InstitutionalIntelligenceWorkspace />} />
                   <Route path="/intelligence/:objectId" element={<InstitutionalIntelligenceWorkspace />} />
+                  <Route path="/architecture-governance/explorer" element={<ArchitectureExplorer />} />
                   
                   <Route 
                     path="/dashboard/*" 
@@ -587,6 +592,8 @@ function AppContent({
   const { t } = useLanguage();
   const { isAccepted, setAccepted, role, loading: governanceLoading } = useGovernance();
   const { loadMemoryForTenant } = useInstitutionalMemory();
+  const { isOpen } = useExecutiveUIStore();
+  const { clearConversation } = useExecutiveConversationStore();
   const [showUniversalImport, setShowUniversalImport] = useState(false);
   const [isGlobalReportModalOpen, setIsGlobalReportModalOpen] = useState(false);
   const [pendingCounts, setPendingCounts] = useState<Record<string, number>>({});
@@ -632,6 +639,7 @@ function AppContent({
 
   const handleSelectClient = async (id: string) => {
     setSelectedClient(id);
+    clearConversation();
     if (user) {
       localStorage.setItem(`last_client_${user.uid}`, id);
     }
@@ -701,8 +709,10 @@ function AppContent({
         totalPending={totalPending}
       />
 
-      {/* Main Content */}
-      <main className="flex-1 flex flex-col min-w-0 relative h-full overflow-hidden">
+      <main className="flex-1 flex flex-row min-w-0 relative h-full overflow-hidden">
+        
+        {/* Main Content Column */}
+        <div className="flex-1 flex flex-col min-w-0 relative h-full overflow-hidden">
         <header className="h-14 sm:h-16 bg-background flex items-center justify-between px-2 sm:px-4 md:px-8 sticky top-0 z-50 transition-all duration-700 border-b border-border/40">
           <div className="flex items-center gap-1 sm:gap-2 md:gap-8 min-w-0">
             <SidebarTrigger className="text-foreground/70 hover:text-foreground hover:bg-surface-elevated transition-all duration-300 rounded-full p-2 shrink-0" />
@@ -716,11 +726,11 @@ function AppContent({
               />
             </div>
  
-            <div className="relative group hidden lg:block">
+            <div className="relative group hidden xl:block shrink-0">
               <input 
                 type="text" 
                 placeholder={t('buttons.search_placeholder')} 
-                className="pl-11 pr-5 py-3 bg-surface-elevated border border-border rounded-full focus:ring-4 focus:ring-primary/5 focus:border-primary/20 transition-all duration-300 outline-none w-48 xl:w-80 text-xs font-sans text-foreground placeholder:text-muted-foreground hover:border-border/80" 
+                className="pl-11 pr-5 py-3 bg-surface-elevated border border-border rounded-full focus:ring-4 focus:ring-primary/5 focus:border-primary/20 transition-all duration-300 outline-none w-48 xl:w-64 text-xs font-sans text-foreground placeholder:text-muted-foreground hover:border-border/80" 
               />
               <Search size={15} strokeWidth={1.5} className="text-foreground/70 absolute left-4 top-1/2 -translate-y-1/2 group-focus-within:text-primary transition-colors duration-300" />
             </div>
@@ -747,6 +757,8 @@ function AppContent({
                  )}
               </button>
             </div>
+
+
 
             <button 
               onClick={() => setIsGlobalReportModalOpen(true)}
@@ -826,6 +838,10 @@ function AppContent({
           financialData={[]}
           selectedYear={selectedYear}
         />
+        </div>
+
+        {/* Right-side AI Panel (Inline flex item) */}
+        <ExecutiveCopilotPanel />
       </main>
       </SidebarProvider>
       {/* Global Governance Interaction Overlays */}

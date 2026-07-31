@@ -38,3 +38,6 @@
 - **Biblioteca**: Exclusivamente `lucide-react`.
 - **Containers**: `w-12 h-12 rounded-2xl bg-primary/10 border border-primary/20` (Página/Hero) e `w-10 h-10 rounded-xl` (Módulo).
 - **Anti-Achatamento**: Classe `shrink-0` compulsória em todo ícone Flexbox.
+
+## Executive Advisor Experience Principle™
+"Toda interação com inteligência artificial deve ser percebida como uma sessão de aconselhamento executivo contextualizado, nunca como uma conversa genérica com um assistente digital."

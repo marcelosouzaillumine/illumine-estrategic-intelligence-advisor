@@ -1,0 +1,33 @@
+{
+  "id": "CERTIFICATION-0001",
+  "decision": {
+    "status": "CERTIFIED",
+    "policyId": "POL-ENT-001",
+    "policyVersion": "1.0.0",
+    "evidenceReferences": [
+      {
+        "type": "evaluation-observation",
+        "sourceId": "EVALUATION-SNAPSHOT-v1",
+        "targetId": "OBS-001",
+        "discoveryMethod": "Architecture Certification Engine",
+        "confidence": 1
+      },
+      {
+        "type": "evaluation-observation",
+        "sourceId": "EVALUATION-SNAPSHOT-v1",
+        "targetId": "OBS-002",
+        "discoveryMethod": "Architecture Certification Engine",
+        "confidence": 1
+      }
+    ],
+    "evaluatedAt": "2026-07-31T00:59:27.982Z"
+  },
+  "fingerprint": {
+    "gitCommit": "mock-commit-hash",
+    "nodeVersion": "v26.0.0",
+    "timestamp": "2026-07-31T00:59:27.983Z"
+  },
+  "issuedAt": "2026-07-31T00:59:27.983Z",
+  "status": "ACTIVE",
+  "immutable": true
+}

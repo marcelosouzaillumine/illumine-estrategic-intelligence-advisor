@@ -1,0 +1,38 @@
+{
+  "version": "G3.0",
+  "source": {
+    "discoverySnapshotId": "DISCOVERY-SNAPSHOT-v1",
+    "evaluationSnapshotId": "EVALUATION-SNAPSHOT-v1",
+    "certificationSnapshotId": "CERTIFICATION-0001"
+  },
+  "insights": [
+    {
+      "id": "INSIGHT-BND-2026-07-31T01:12:44.166Z-0",
+      "category": "BOUNDARY",
+      "subject": "engine-payment-001",
+      "observation": "Metric BOUNDARY-COHESION recorded value 0.9",
+      "interpretation": "BOUNDARY_CHANGE",
+      "evidence": [
+        "snapshot:EVALUATION-SNAPSHOT-v1:obs:OBS-1"
+      ],
+      "confidence": "HIGH",
+      "generatedAt": "2026-07-31T01:12:44.166Z"
+    }
+  ],
+  "impacts": [
+    {
+      "target": "engine-payment-001",
+      "affectedArtifacts": [
+        "engine-billing-001"
+      ],
+      "impactDepth": 1,
+      "evidence": [
+        "snapshot:DISCOVERY-SNAPSHOT-v1:relations",
+        "target:engine-payment-001"
+      ]
+    }
+  ],
+  "generatedBy": {
+    "engineVersion": "G3.0"
+  }
+}

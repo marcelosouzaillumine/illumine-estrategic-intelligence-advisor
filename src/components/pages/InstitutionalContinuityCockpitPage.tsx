@@ -22,6 +22,7 @@ import { ExecutiveStrategicTensions } from '../ui/executive-strategic-tensions';
 import { ExecutiveDecisionTrace } from '../ui/executive-decision-trace';
 import { ExecutiveTechnicalLayer } from '../ui/executive-technical-layer';
 import { useInstitutionalContinuityCockpitPageViewModel } from '../../viewmodels/useInstitutionalContinuityCockpitPageViewModel';
+import { useExecutivePage } from '../../hooks/useExecutivePage';
 
 interface CockpitProps {
   clientId?: string;
@@ -38,6 +39,18 @@ export function InstitutionalContinuityCockpitPage({ clientId, selectedYear, sel
   const { dbData: allHistoryData, loading: loadingHistory } = useAllFinancialData(clientId || '');
 
   const loading = loadingDRE || loadingBP || loadingHistory;
+
+  useExecutivePage({
+    domain: 'Governance',
+    module: 'Institutional Continuity',
+    capability: 'Cockpit de Continuidade de Negócios & Resiliência',
+    title: 'Cockpit de Continuidade de Negócios & Resiliência',
+    description: 'Monitoramento de ciclos de vida institucional, antifragilidade e proteção contra interrupções.',
+    breadcrumbs: ['Governance', 'Institutional Continuity', 'Cockpit'],
+    companyId: clientId,
+    period: filterYear.toString(),
+    filters: { year: filterYear }
+  });
 
   if (!clientId) {
     return (

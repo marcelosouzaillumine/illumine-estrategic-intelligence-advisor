@@ -1,0 +1,32 @@
+{
+  "id": "ASSESS-1785464895427",
+  "subject": "Financial Intelligence",
+  "exposureLevel": "HIGH",
+  "factors": [
+    {
+      "id": "FCT-RISK-SIG-DEP-SIG-DEP-1",
+      "name": "Dependency Concentration Exposure",
+      "description": "Exposure driven by DEPENDENCY architecture signal",
+      "magnitude": 3
+    },
+    {
+      "id": "FCT-RISK-SIG-BND-SIG-BND-2",
+      "name": "Boundary Volatility Exposure",
+      "description": "Exposure driven by BOUNDARY architecture signal",
+      "magnitude": 2
+    },
+    {
+      "id": "FCT-RISK-SIG-EVO-SIG-EVO-3",
+      "name": "Evolution Acceleration Exposure",
+      "description": "Exposure driven by EVOLUTION architecture signal",
+      "magnitude": 1
+    }
+  ],
+  "evidence": [
+    "Advisory Signal SIG-DEP-1 categorized as Dependency Concentration Exposure",
+    "Advisory Signal SIG-BND-2 categorized as Boundary Volatility Exposure",
+    "Advisory Signal SIG-EVO-3 categorized as Evolution Acceleration Exposure"
+  ],
+  "policyVersion": "1.0.0",
+  "generatedAt": "2026-07-31T02:28:15.427Z"
+}

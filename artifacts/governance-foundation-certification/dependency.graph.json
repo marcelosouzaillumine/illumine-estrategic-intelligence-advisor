@@ -1,0 +1,9 @@
+{
+  "contracts": [
+    "types"
+  ],
+  "domain": [
+    "contracts",
+    "types"
+  ]
+}

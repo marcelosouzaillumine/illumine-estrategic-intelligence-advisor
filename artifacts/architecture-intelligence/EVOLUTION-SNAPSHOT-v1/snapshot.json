@@ -1,0 +1,84 @@
+{
+  "version": "G3.5",
+  "period": {
+    "fromSnapshotId": "INTELLIGENCE-SNAPSHOT-v1",
+    "toSnapshotId": "INTELLIGENCE-SNAPSHOT-v2"
+  },
+  "events": [
+    {
+      "id": "EVO-EVENT-0",
+      "sourceSnapshot": "INTELLIGENCE-SNAPSHOT-v1",
+      "targetSnapshot": "INTELLIGENCE-SNAPSHOT-v2",
+      "artifact": "FinancialReportContract",
+      "changeType": "CAPABILITY_GROWTH",
+      "before": {},
+      "after": {
+        "state": "CREATED"
+      },
+      "evidence": [
+        {
+          "id": "EVI-0",
+          "sourceSnapshotId": "INTELLIGENCE-SNAPSHOT-v1",
+          "targetSnapshotId": "INTELLIGENCE-SNAPSHOT-v2",
+          "artifactId": "FinancialReportContract",
+          "detectedBy": "AST_COMPARISON",
+          "references": [
+            "diff:INTELLIGENCE-SNAPSHOT-v1:INTELLIGENCE-SNAPSHOT-v2"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "EVO-EVENT-1",
+      "sourceSnapshot": "INTELLIGENCE-SNAPSHOT-v1",
+      "targetSnapshot": "INTELLIGENCE-SNAPSHOT-v2",
+      "artifact": "engine-payment-001",
+      "changeType": "DEPENDENCY_EXPANSION",
+      "before": {},
+      "after": {
+        "state": "MODIFIED"
+      },
+      "evidence": [
+        {
+          "id": "EVI-1",
+          "sourceSnapshotId": "INTELLIGENCE-SNAPSHOT-v1",
+          "targetSnapshotId": "INTELLIGENCE-SNAPSHOT-v2",
+          "artifactId": "engine-payment-001",
+          "detectedBy": "AST_COMPARISON",
+          "references": [
+            "diff:INTELLIGENCE-SNAPSHOT-v1:INTELLIGENCE-SNAPSHOT-v2"
+          ]
+        }
+      ]
+    }
+  ],
+  "patterns": [
+    "CAPABILITY_GROWTH",
+    "DEPENDENCY_EXPANSION"
+  ],
+  "evidence": [
+    {
+      "id": "EVI-0",
+      "sourceSnapshotId": "INTELLIGENCE-SNAPSHOT-v1",
+      "targetSnapshotId": "INTELLIGENCE-SNAPSHOT-v2",
+      "artifactId": "FinancialReportContract",
+      "detectedBy": "AST_COMPARISON",
+      "references": [
+        "diff:INTELLIGENCE-SNAPSHOT-v1:INTELLIGENCE-SNAPSHOT-v2"
+      ]
+    },
+    {
+      "id": "EVI-1",
+      "sourceSnapshotId": "INTELLIGENCE-SNAPSHOT-v1",
+      "targetSnapshotId": "INTELLIGENCE-SNAPSHOT-v2",
+      "artifactId": "engine-payment-001",
+      "detectedBy": "AST_COMPARISON",
+      "references": [
+        "diff:INTELLIGENCE-SNAPSHOT-v1:INTELLIGENCE-SNAPSHOT-v2"
+      ]
+    }
+  ],
+  "generatedBy": {
+    "engineVersion": "G3.5"
+  }
+}

@@ -37,11 +37,12 @@ import { BalanceSheetCapitalPreservationSection } from './balance-sheet/BalanceS
 import { ImportFinancialModal } from '../modals/ImportFinancialModal';
 import { ManualFinancialModal } from '../modals/ManualFinancialModal';
 import { ExecutiveLocaleEnforcer } from '../../core/enforcement/ExecutiveLocaleEnforcer';
-import { useBalanceSheetPageViewModel } from '../../capabilities/financial/presentation/view-models/useBalanceSheetPageViewModel';
 import { ExecutiveIntelligenceShell } from '../executive/ExecutiveIntelligenceShell';
 import { ExecutiveDecisionIntelligenceMount } from '../executive/ExecutiveDecisionIntelligenceMount';
 import { SandboxWarningOverlay } from '../executive-interaction/SandboxWarningOverlay';
 import { BPStrategicDiagnosisAdapter } from './balance-sheet/adapters/BPStrategicDiagnosisAdapter';
+import { useExecutivePage } from '../../hooks/useExecutivePage';
+import { useBalanceSheetPageViewModel } from '../../capabilities/financial/presentation/view-models/useBalanceSheetPageViewModel';
 
 export function BalanceSheetPage(props: any) {
   const { state, computed, actions } = useBalanceSheetPageViewModel(props);
@@ -62,6 +63,21 @@ ativoTotal, passivoTotal, plValue, ac, anc, pc, pnc, isBalanced, divergence, cx,
   });
   // -----------------
 
+  const activeClientObj = clients?.find((c: any) => c.id === selectedClient);
+  const activeClientName = activeClientObj?.nomeFantasia || activeClientObj?.razaoSocial || activeClientObj?.nome || 'Empresa Ativa';
+
+  useExecutivePage({
+    domain: 'Financial',
+    module: 'Balance Sheet',
+    capability: 'Patrimonial Analysis',
+    title: 'Balanço Patrimonial',
+    description: 'Análise da posição financeira, estrutura de capital e solvência patrimonial.',
+    breadcrumbs: ['Financial', 'Balance Sheet'],
+    companyId: activeClientObj?.id,
+    period: filterYear.toString(),
+    filters: { year: filterYear, densityLevel }
+  });
+
   const bpExecutiveAnalysisContext = executiveReport ? {
     analysisYear: filterYear,
     generatedAt: new Date().toISOString(),
@@ -75,8 +91,6 @@ ativoTotal, passivoTotal, plValue, ac, anc, pc, pnc, isBalanced, divergence, cx,
     contextualAlerts: []
   } : undefined;
 
-  const activeClientObj = clients?.find((c: any) => c.id === selectedClient);
-  const activeClientName = activeClientObj?.nomeFantasia || activeClientObj?.razaoSocial || activeClientObj?.nome || 'Empresa Ativa';
 
   const bpFinancialMetrics = useMemo(() => {
     return {
