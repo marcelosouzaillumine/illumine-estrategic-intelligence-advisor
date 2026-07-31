@@ -1,113 +1,70 @@
-# Canonical Assurance Engine™ (CAE™) v1.0
-**Enterprise Governance Infrastructure**
+# CANONICAL ASSURANCE ENGINE™ v1.0
+**Enterprise Governance Infrastructure Baseline**
 
-## 1. Posicionamento Arquitetural
-A Illumine OS™ transcende o conceito de auditorias episódicas (Waves). O **Canonical Assurance Engine™ (CAE™)** consolida-se como um Sistema Operacional de Governança Arquitetural permanente.
+The **Canonical Assurance Engine™ (CAE™)** is the sovereign immune system of the Illumine OS™. It is the transversal governance layer sitting between the Constitutional Layer and the Product Evolution Waves.
 
-**A Hierarquia Canônica de Governança:**
-1. **Constituição Canônica**: Define os princípios absolutos.
-2. **Canonical Assurance Engine™ (CAE™)**: O motor contínuo que assegura o cumprimento da Constituição.
-**As Duas Trilhas Paralelas de Evolução**
-A Illumine OS™ organiza seu roadmap em duas faixas estritamente independentes:
-
-1. **Product Evolution Waves™**: Constroem valor, criam capacidades funcionais, motores, IA e experiências de usuário (ex: Wave 14 a Wave 20).
-2. **Platform Governance Waves™**: Constroem infraestrutura e mecanismos de qualidade (ex: CAE, GFC, Constitution, Regression).
-
-O CAE é transversal à Trilha 1. Ele nunca termina, atuando inexoravelmente sobre todas as evoluções de produto.
-
-**O Novo Ciclo Oficial de Entrega:**
-`Planejamento` → `Implementação` → **`CAE`** → `Remediação` → `Certificação` → `Release`
-
-*Nota: O CAE atua como o processo obrigatório de saída de qualquer Wave funcional. Ele não é mais uma etapa da implementação, mas sim a instância independente de fiscalização pós-implementação.*
-
----
-
-## 2. Constitutional Authority™
-O Canonical Assurance Engine™ é a **autoridade máxima de certificação arquitetural** da Illumine OS™. Nenhuma Wave, componente, domínio, agente, serviço ou experiência executiva poderá ser considerada certificada sem aprovação explícita do CAE™.
-
-O CAE™ possui autoridade deliberativa, e não apenas consultiva, para:
-- Bloquear releases.
-- Bloquear merges.
-- Rebaixar níveis de maturidade.
-- Revogar certificações ativas.
-- Exigir planos de remediação.
-- Criar novos mecanismos preventivos automatizados.
-
----
-
-## 3. Assurance Principles™
-As 6 leis basilares que orientam qualquer validação do CAE™:
-
-1. **Evidence over Assumption™**: Nenhuma conclusão sem evidência.
-2. **Constitution over Implementation™**: O código não prevalece sobre a Constituição.
-3. **Trust before Intelligence™**: Uma recomendação não explicável não é certificável.
-4. **Transformation over Observation™**: Toda auditoria deve gerar um caminho de evolução, não apenas constatação.
-5. **Never Fix the Same Problem Twice™**: Toda falha recorrente deve resultar em um novo mecanismo preventivo.
-6. **Executive Value First™**: Toda funcionalidade deve necessariamente aumentar a capacidade de decisão do executivo.
-
----
-
-## 4. O Modelo de Execução: Pipelines de Responsabilidade
-
-A execução da governança (incluindo a implementação inaugural) está dividida pelo prisma de valor executivo e mitigação de risco:
-
-### Pipeline A — Constitutional Assurance
-- *Pergunta-chave: "Estamos obedecendo a Constituição?"*
-- Valida o **Executive Mission Alignment™** (Phase -1) e os princípios fundamentais do *Executive Advisory*.
-
-### Pipeline B — Executive Experience Assurance
-- *Pergunta-chave: "O executivo consegue decidir melhor?"*
-- Audita se o Copilot aparece na hora certa, não interrompe fluxos, e agrega inteligência contextual autêntica.
-
-### Pipeline C — Intelligence Assurance
-- *Pergunta-chave: "A inteligência é confiável, explicável e consistente?"*
-- Mede a **Intelligence Density™** da tela e audita a capacidade de explicabilidade profunda (Por que estou dizendo isso? → Origens dos Dados → Aprendizado Institucional).
-
-### Pipeline D — Platform Assurance
-- *Pergunta-chave: "A plataforma é segura, performática e sustentável?"*
-- Analisa isolamento de tenants, saúde técnica, dívida estrutural e performance.
-
-### Pipeline E — Continuous Governance
-- *Pergunta-chave: "Como impedir que esse problema volte a acontecer?"*
-- Transformação de riscos encontrados em novos *Quality Gates* contínuos.
-
----
-
-## 5. Ecossistema de Saída e Governança
-
-### 5.1. Ciclo de Vida da Certificação
-A certificação não é permanente; ela reflete o estado auditado contínuo:
-`Candidate` → `Observed` → `Audited` → `Certified` → `Continuously Assured` → `Regression Detected` → `Certification Suspended` → `Reassurance` → `Certified`.
-
-### 5.2. Executive Architecture Health Index™ (EAHI)
-Métrica hierárquica única gerada para o Board:
-```text
-EAHI (Overall): 96.8
- ├── Constitutional Compliance: 97
- ├── Executive Experience: 95
- ├── Intelligence Trust: 98
- ├── Security & Tenant Isolation: 100
- ├── Governance: 96
- └── Technical Health: 94
+```
+                    CONSTITUTIONAL LAYER
+                           │
+        ┌──────────────────┴──────────────────┐
+        │                                     │
+ Executive Mission Constitution™     Visual Constitution™
+        │                                     │
+        └──────────────────┬──────────────────┘
+                           │
+              CANONICAL ASSURANCE ENGINE™
+                           │
+        ┌──────────────────┼──────────────────┐
+        │                  │                  │
+       GFC™              CAE™             ADR/RFC
+ (Preventive)       (Assurance)       (Evolution Control)
+        │                  │
+        └──────────────────┼──────────────────┘
+                           │
+                  PRODUCT EVOLUTION WAVES
+              G5.3 → 15 → 16 → 18 → 20...
 ```
 
-### 5.3. Canonical Risk Register™ (`CANONICAL_RISK_REGISTER.md`)
-O mapeamento perene de ameaças:
-`[Risco] | [Probabilidade] | [Impacto] | [Domínio] | [Componente] | [Mitigação] | [Responsável] | [Status]`
+## The 5 Sovereign Pipelines
 
-### 5.4. Canonical Knowledge Base™
-O cérebro evolutivo da própria arquitetura. Para cada risco remediado, um registro vivo detalha:
-`Problema Encontrado → Resolução → Regra GFC Criada → Componentes Alterados → Waves Impactadas`.
+- **Pipeline A — Structural & Visual Integrity**: Includes Phase -1 (Executive Mission Alignment™).
+- **Pipeline B — Executive Experience & Intelligence**: Incorporates Wave 15 requirements (Decision Forensics Certification, ECR™).
+- **Pipeline C — Security, Tenant Isolation & Copilot Trust**: Focuses on **Cognitive Tenant Isolation™**.
+- **Pipeline D — Technical Health & Observability**
+- **Pipeline E — Transformation & Continuous Governance**: Features **Constitutional Ratchet Enforcement**.
 
-### 5.5. Constitutional Change Protocol™
-A Constituição é soberana, mas pode evoluir mediante um protocolo rigoroso que impede mudanças *ad hoc*:
-`RFC` → `ARB Review` → `Impact Analysis` → `Simulation` → `Approval` → `Constitution Update` → `CAE Update` → `GFC Update` → `Migration Plan` → `Certification`.
+## Super Prompt — CANONICAL ASSURANCE ENGINE™ v1.0
 
-### 5.6. Constitutional Ratchet™ (Efeito Catraca)
-**Mecanismo de Proteção**: Nenhuma regressão **permanente** é permitida. Uma vez que um domínio atinge um nível no EAHI, o sistema atua como uma catraca.
-*Regressões temporárias* (ex: refatorações profundas, migrações de arquitetura, redesigns) somente poderão ocorrer mediante aprovação explícita do Architecture Review Board (ARB), com prazo definido para recuperação dos indicadores.
+Você é o Chief Architecture Auditor (CAA) do Architecture Review Board (ARB) da Illumine OS™.
+Sua missão não é revisar código.
+Sua missão é determinar se a plataforma implementada representa fielmente a Constituição, a visão institucional e a promessa de Executive Intelligence Platform™.
+A Constituição é soberana.
 
----
+Execute o Canonical Assurance Engine™ através dos 5 pipelines:
+- Pipeline A — Structural & Visual Integrity
+- Pipeline B — Executive Experience & Intelligence
+- Pipeline C — Security, Tenant Isolation & Copilot Trust
+- Pipeline D — Technical Health & Observability
+- Pipeline E — Transformation & Continuous Governance
 
-## 6. Declaração Institucional
-> *O Canonical Assurance Engine™ existe para preservar a integridade arquitetural da Illumine OS™. Seu propósito não é impedir mudanças, mas garantir que toda evolução aumente, e nunca diminua, a capacidade da plataforma de entregar inteligência executiva confiável, explicável, segura e alinhada à Constituição Canônica.*
+Princípios obrigatórios:
+1. **Evidence Over Assumption™**: Nenhuma conclusão sem evidência técnica.
+2. **Constitution Over Implementation™**: Se o código divergir da Constituição, o código está errado.
+3. **Trust Before Intelligence™**: Nenhuma inteligência é certificável sem explicabilidade.
+4. **Transformation Over Observation™**: Toda falha deve gerar caminho de evolução.
+5. **Never Fix The Same Problem Twice™**: Toda falha recorrente deve criar novo Quality Gate.
+6. **Executive Value First™**: Toda avaliação deve responder: "Isso aumenta a capacidade decisória do executivo?"
+
+Para cada descoberta gerar: Finding ID, Categoria, Regra Constitucional Violada, Evidência, Arquivo, Impacto, Severidade, Tipo de Transformação (T1, T2, T3).
+
+Calcular: **Executive Architecture Health Index™ (EAHI)**
+
+Emitir:
+- CANONICAL_CERTIFICATION_REPORT.md
+- CANONICAL_DEBT_MAP.md
+- CANONICAL_RISK_REGISTER.md
+- MIGRATION_BACKLOG.md
+- ROAD_TO_CERTIFICATION.md
+
+Nenhuma correção deve ser aplicada automaticamente. Primeiro observar. Depois compreender. Depois recomendar. Depois transformar.
+Inicie pelo Phase -1: Executive Mission Alignment™.

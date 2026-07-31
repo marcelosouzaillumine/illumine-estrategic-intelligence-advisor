@@ -19,8 +19,9 @@ import { ExecutiveIntelligenceRenderingEngine } from '../../../packages/intellig
 import { ExecutiveLearningCard } from './ExecutiveLearningCard';
 import { ExecutivePatternCard } from './ExecutivePatternCard';
 import { ExecutiveDecisionHistoryCard } from './ExecutiveDecisionHistoryCard';
+import { ExecutiveCognitiveGovernanceCard } from './ExecutiveCognitiveGovernanceCard';
 import { ExecutiveDecisionTimeline } from './ExecutiveDecisionTimeline';
-import { ExecutiveIntelligenceContextAssembler } from '../../../packages/intelligence/executive-intelligence-integration/src';
+import { ExecutiveWorkspaceOrchestrator, ExecutiveWorkspaceSnapshot } from '../../../packages/intelligence/executive-workspace-orchestrator/src';
 
 /**
  * Canonical Experience Name: Executive Advisor Workspace™
@@ -40,6 +41,7 @@ export function ExecutiveCopilotPanel() {
   };
   const [input, setInput] = useState('');
   const [briefing, setBriefing] = useState<string | null>(null);
+  const [snapshot, setSnapshot] = useState<ExecutiveWorkspaceSnapshot | null>(null);
   const messagesEndRef = useRef<HTMLDivElement>(null);
 
   const scrollToBottom = () => {
@@ -140,17 +142,23 @@ export function ExecutiveCopilotPanel() {
         contextVersion: "1.0"
       };
 
-      const engine = new WorkspaceAdvisoryEngine();
+      const orchestrator = new ExecutiveWorkspaceOrchestrator();
       
-      setTimeout(() => setLoadingState('Identificando padrões estratégicos...'), 800);
+      setTimeout(() => setLoadingState('Sintetizando Snapshot Canônico...'), 800);
 
-      // Executa Pipeline (Sem texto cru, apenas JSON Contract)
-      const contract = await ExecutiveIntelligencePipeline.execute(runtimeContext, engine, userMessage);
+      // Executa Pipeline via Orchestrator, garantindo zero acoplamento
+      const wsSnapshot = await orchestrator.orchestrate(runtimeContext, userMessage);
+      
+      setSnapshot(wsSnapshot);
       
       addMessage({ 
         role: 'assistant', 
-        content: '', // Conteúdo vazio pois renderizaremos o contrato
-        metadata: { contract } 
+        content: wsSnapshot.narrative.interpretation, 
+        metadata: { contract: { 
+           schemaVersion: '1.0', 
+           executiveSummary: wsSnapshot.narrative.interpretation,
+           currentSituation: { title: 'Situação', content: wsSnapshot.situation.whatChanged }
+        }} 
       });
     } catch (error) {
       addMessage({ role: 'assistant', content: 'Desculpe, o isolamento do tenant impediu a operação.' });
@@ -282,30 +290,56 @@ export function ExecutiveCopilotPanel() {
           {/* Integration Area */}
           {activeTab === 'actions' && (
             <div className="flex-1 overflow-y-auto p-4 flex flex-col gap-4">
+              
+              {snapshot && (
+                 <div className="bg-surface-container p-4 rounded-lg border border-border">
+                   <h3 className="text-xs font-bold uppercase tracking-widest text-primary mb-2">Executive Situation</h3>
+                   <div className="space-y-2 text-sm text-foreground">
+                      <p><strong>Domínio:</strong> {snapshot.situation.whereAmI}</p>
+                      <p><strong>Cenário:</strong> {snapshot.situation.whatChanged}</p>
+                      <p><strong>Atenção:</strong> {snapshot.situation.whatNeedsAttention}</p>
+                      <p><strong>Risco:</strong> <span className="text-destructive">{snapshot.situation.highestRisk}</span></p>
+                      <p><strong>Oportunidade:</strong> <span className="text-green-600">{snapshot.situation.highestOpportunity}</span></p>
+                   </div>
+                   
+                   <div className="mt-4">
+                     {(() => {
+                        const testScore = {
+                          overallScore: 87,
+                          evidenceQuality: 18,
+                          reasoningCompleteness: 18,
+                          contradictionAnalysis: 12,
+                          agentDiversity: 14,
+                          historicalValidation: 12,
+                          reflectionQuality: 13,
+                          strengths: ['Historical consistency', 'Sufficient evidence', 'Consensus approved'],
+                          warnings: ['Financial Agent diverged', 'Pessimistic scenario under-explored']
+                        };
+                        return <ExecutiveCognitiveGovernanceCard score={testScore} />;
+                     })()}
+                   </div>
+                 </div>
+              )}
+
               <ExecutiveDecisionTimeline />
-              <div className="text-xs font-bold text-slate-500 uppercase tracking-widest mt-2">Historical Insights</div>
-              <ExecutivePatternCard pattern={{
-                patternId: 'PAT-001',
-                description: 'Expansões comerciais realizadas sem validação operacional geraram necessidade posterior de correção.',
-                maturity: 'VALIDATED_PATTERN',
-                supportingLessons: [],
-                causalEvidenceAssessment: {
-                  correlationStrength: 'STRONG',
-                  evidenceBase: 'Based on 4 historical decisions',
-                  validationCriteria: []
-                }
-              }} />
-              <ExecutiveLearningCard lesson={{
-                lessonId: 'LES-001',
-                sourceDecisionId: 'DEC-123',
-                observation: { expectedOutcome: '20% margin', actualOutcome: '15% margin', variance: 'Underperformed by 5%' },
-                learning: { whatWorked: ['Market entry'], whatFailed: ['Operational capacity'], principleGenerated: 'Prioritize operational capacity over rapid expansion' },
-                applicability: { domains: [], futureContexts: [] },
-                confidence: { level: 'validated', evidenceCount: 4 },
-                temporalContext: { createdAt: new Date().toISOString() },
-                scope: { domains: [] },
-                tenantId: 'tenant-1'
-              }} />
+              
+              {snapshot && (
+                <>
+                  <div className="text-xs font-bold text-slate-500 uppercase tracking-widest mt-2">Historical Insights</div>
+                  {snapshot.institutionalPatterns.map(pattern => (
+                     <ExecutivePatternCard key={pattern.patternId} pattern={pattern} />
+                  ))}
+                  {snapshot.institutionalLearning.map(lesson => (
+                     <ExecutiveLearningCard key={lesson.lessonId} lesson={lesson} />
+                  ))}
+                </>
+              )}
+              
+              {!snapshot && (
+                 <div className="text-center text-muted-foreground p-4 text-sm border border-dashed border-border rounded-md mt-4">
+                    Interaja com a Conversa Estratégica para gerar o Snapshot Canônico.
+                 </div>
+              )}
             </div>
           )}
 

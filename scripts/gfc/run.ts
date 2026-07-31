@@ -78,7 +78,22 @@ import {
   ExpIntelligenceTraceabilityRule,
   ExpLearningEvidenceVisibilityRule,
   ExpDecisionBoundaryProtectionRule,
-  ExpCrossTenantIntelligenceIsolationRule
+  ExpCrossTenantIntelligenceIsolationRule,
+  CogReasoningChainValidationRule,
+  CogDebateEnforcementRule,
+  CogConfidenceIntegrityRule,
+  CogExplainabilityCompletenessRule,
+  CogScenarioCoverageRule,
+  CogForecastPresenceRule,
+  CogPriorityOrderingRule,
+  CogEvidenceTraceabilityRule,
+  CogImmutableDecisionLineageRule,
+  CogReflectionMandatoryRule,
+  CogCognitiveContradictionExposureRule,
+  CogHumanAuthorityBoundaryRule,
+  CogCognitiveServiceAccountabilityRule,
+  CogGovernanceDecisionMandatoryRule,
+  CogReflectionIntegrityRule
 } from './rules';
 
 const project = new Project();
@@ -183,6 +198,21 @@ engine.registerRule(new ExpIntelligenceTraceabilityRule());
 engine.registerRule(new ExpLearningEvidenceVisibilityRule());
 engine.registerRule(new ExpDecisionBoundaryProtectionRule());
 engine.registerRule(new ExpCrossTenantIntelligenceIsolationRule());
+engine.registerRule(new CogReasoningChainValidationRule());
+engine.registerRule(new CogDebateEnforcementRule());
+engine.registerRule(new CogConfidenceIntegrityRule());
+engine.registerRule(new CogExplainabilityCompletenessRule());
+engine.registerRule(new CogScenarioCoverageRule());
+engine.registerRule(new CogForecastPresenceRule());
+engine.registerRule(new CogPriorityOrderingRule());
+engine.registerRule(new CogEvidenceTraceabilityRule());
+engine.registerRule(new CogImmutableDecisionLineageRule());
+engine.registerRule(new CogReflectionMandatoryRule());
+engine.registerRule(new CogCognitiveContradictionExposureRule());
+engine.registerRule(new CogHumanAuthorityBoundaryRule());
+engine.registerRule(new CogCognitiveServiceAccountabilityRule());
+engine.registerRule(new CogGovernanceDecisionMandatoryRule());
+engine.registerRule(new CogReflectionIntegrityRule());
 
 const evidences = engine.evaluateAll();
 

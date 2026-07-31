@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 
 export const ExecutiveInsightCard = ({ title, content }: { title: string, content: string }) => (
   <div className="bg-surface-elevated border border-border p-4 rounded-lg mb-4">
@@ -17,15 +17,73 @@ export const ExecutiveRiskCard = ({ title, severity, description }: { title: str
   </div>
 );
 
-export const ExecutiveRecommendationCard = ({ title, urgency, description }: { title: string, urgency: string, description: string }) => (
-  <div className="bg-surface-elevated border border-border p-4 rounded-lg mb-4">
-    <div className="flex justify-between items-center mb-2">
-      <h4 className="text-sm font-bold text-foreground">{title}</h4>
-      <span className="text-xs font-bold uppercase tracking-widest text-primary">{urgency}</span>
+export interface ExplainabilityMetadata {
+  why: string;
+  data: string;
+  historical: string;
+  learning: string;
+  scenarios: string;
+  agents: string;
+  risks: string;
+  impact: string;
+  origin: string;
+  confidence: number;
+  evidenceCount: number;
+}
+
+export const ExecutiveRecommendationCard = ({ 
+  title, 
+  urgency, 
+  description,
+  explainability 
+}: { 
+  title: string, 
+  urgency: string, 
+  description: string,
+  explainability?: ExplainabilityMetadata
+}) => {
+  const [isExpanded, setIsExpanded] = useState(false);
+
+  return (
+    <div className="bg-surface-elevated border border-border p-4 rounded-lg mb-4">
+      <div className="flex justify-between items-center mb-2">
+        <h4 className="text-sm font-bold text-foreground">{title}</h4>
+        <span className="text-xs font-bold uppercase tracking-widest text-primary">{urgency}</span>
+      </div>
+      <p className="text-sm text-muted-foreground leading-relaxed mb-3">{description}</p>
+      
+      {explainability && (
+        <div className="mt-3 pt-3 border-t border-border/50">
+          <div className="flex gap-4 mb-3 text-xs text-muted-foreground">
+            <span><strong>Confiança:</strong> {explainability.confidence}%</span>
+            <span><strong>Evidências:</strong> {explainability.evidenceCount}</span>
+            <span><strong>Histórico:</strong> {explainability.historical}</span>
+          </div>
+          
+          <button 
+            onClick={() => setIsExpanded(!isExpanded)}
+            className="text-xs font-bold text-primary hover:text-primary/80 transition-colors flex items-center gap-1"
+          >
+            {isExpanded ? '▲ Ocultar raciocínio executivo' : '▼ Ver raciocínio executivo'}
+          </button>
+          
+          {isExpanded && (
+            <div className="mt-3 p-3 bg-surface-container rounded-md text-xs text-foreground space-y-2 border border-border">
+              <p><strong>Por que?</strong> {explainability.why}</p>
+              <p><strong>Dados:</strong> {explainability.data}</p>
+              <p><strong>Aprendizado:</strong> {explainability.learning}</p>
+              <p><strong>Cenários:</strong> {explainability.scenarios}</p>
+              <p><strong>Agentes participantes:</strong> {explainability.agents}</p>
+              <p><strong>Riscos:</strong> {explainability.risks}</p>
+              <p><strong>Impacto:</strong> {explainability.impact}</p>
+              <p><strong>Origem:</strong> {explainability.origin}</p>
+            </div>
+          )}
+        </div>
+      )}
     </div>
-    <p className="text-sm text-muted-foreground leading-relaxed">{description}</p>
-  </div>
-);
+  );
+};
 
 export const ExecutiveDecisionCard = ({ question, context, options }: { question: string, context: string, options: string[] }) => (
   <div className="bg-surface-container border border-primary/20 p-4 rounded-lg mb-4">

@@ -118,3 +118,30 @@ $$\text{EBITDA} \longrightarrow \text{Cash Flow} \longrightarrow \text{Liquidity
 
 ## Executive Narrative Rendering Principle™
 Todo conteúdo textual produzido por agentes deve passar por um componente institucional de interpretação antes de alcançar a experiência executiva. Nenhum motor externo de renderização pode controlar diretamente a apresentação cognitiva ao usuário.
+
+---
+
+## Parte IX — Executive Workspace Architecture & Quality Gates (GFC-EXP)
+
+As seguintes regras garantem a qualidade e a integridade da Camada de Experiência Executiva (Executive Workspace):
+
+1. **AR-GFC-EXP-009 (Workspace Single Source of Truth):**
+   Bloqueia a UI de acessar Engines diretamente. A interface de usuário DEVE consumir exclusivamente um `ExecutiveWorkspaceSnapshot` consolidado, impedindo múltiplos estados concorrentes e cálculos fragmentados.
+
+2. **AR-GFC-EXP-010 (Snapshot Completeness):**
+   Nenhum `ExecutiveWorkspaceSnapshot` pode ser entregue à UI sem os seguintes componentes vitais:
+   - Situação (`ExecutiveSituation`)
+   - Contexto (`ExecutiveAdvisorRuntimeContext`)
+   - Confiança (`RecommendationConfidence`)
+   - Narrativa (`ExecutiveNarrativeBlock`)
+   - Evidência (Justificativas explícitas)
+
+3. **AR-GFC-EXP-011 (Explainability Surface):**
+   Toda recomendação exibida na experiência executiva DEVE possuir acesso imediato e transparente à sua explicabilidade completa (Por que, Dados, Período, Histórico, Aprendizado, Engine, Domínio, Evidência e Confiança). A explicabilidade nunca pode ficar invisível.
+
+4. **AR-GFC-EXP-012 (Executive Identity Binding):**
+   O `ExecutiveWorkspaceSnapshot` deve estar obrigatoriamente vinculado a:
+   - Usuário (`userId`)
+   - Papel Executivo (`executivePersona` / `role`)
+   - Tenant (`tenantId`)
+   - Contexto Organizacional/Página

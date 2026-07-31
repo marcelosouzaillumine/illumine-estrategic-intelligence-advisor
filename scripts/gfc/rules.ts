@@ -1778,3 +1778,333 @@ export class ExpCrossTenantIntelligenceIsolationRule implements ArchitectureRule
     return evidences;
   }
 }
+
+export class CogReasoningChainValidationRule implements ArchitectureRuleEvaluator {
+  ruleId = 'AR-GFC-COG-001';
+  name = 'Reasoning Chain Validation';
+
+  evaluate(context: AuditContext): GFCEvidence[] {
+    const evidences: GFCEvidence[] = [];
+    if (!context.domainFiles) return evidences;
+
+    context.domainFiles.forEach(file => {
+      if (file.getFilePath().includes('ExecutiveReasoningService.ts')) {
+        const text = file.getText();
+        if (!text.includes('Observation') || !text.includes('Hypothesis') || !text.includes('Evidence')) {
+          evidences.push(createEvidence(this.ruleId, `Reasoning chain must include Observation, Hypothesis, Evidence`, 'CRITICAL', file.getFilePath(), 'FAIL'));
+        } else {
+          evidences.push(createEvidence(this.ruleId, `Reasoning chain is complete`, 'LOW', file.getFilePath(), 'PASS'));
+        }
+      }
+    });
+    return evidences;
+  }
+}
+
+export class CogDebateEnforcementRule implements ArchitectureRuleEvaluator {
+  ruleId = 'AR-GFC-COG-002';
+  name = 'Debate Enforcement';
+
+  evaluate(context: AuditContext): GFCEvidence[] {
+    const evidences: GFCEvidence[] = [];
+    if (!context.domainFiles) return evidences;
+
+    context.domainFiles.forEach(file => {
+      if (file.getFilePath().includes('ExecutiveDebateService.ts')) {
+        const text = file.getText();
+        if (!text.includes('agents.length >= 2')) {
+          evidences.push(createEvidence(this.ruleId, `Debate must require at least 2 agents`, 'CRITICAL', file.getFilePath(), 'FAIL'));
+        } else {
+          evidences.push(createEvidence(this.ruleId, `Debate enforces multi-agent perspective`, 'LOW', file.getFilePath(), 'PASS'));
+        }
+      }
+    });
+    return evidences;
+  }
+}
+
+export class CogConfidenceIntegrityRule implements ArchitectureRuleEvaluator {
+  ruleId = 'AR-GFC-COG-003';
+  name = 'Confidence Object Integrity';
+
+  evaluate(context: AuditContext): GFCEvidence[] {
+    const evidences: GFCEvidence[] = [];
+    if (!context.domainFiles) return evidences;
+
+    context.domainFiles.forEach(file => {
+      if (file.getFilePath().includes('ExecutiveConfidenceService.ts')) {
+        const text = file.getText();
+        if (!text.includes('evidenceCount') || !text.includes('historicalPatterns')) {
+          evidences.push(createEvidence(this.ruleId, `Confidence must not be an isolated percentage`, 'CRITICAL', file.getFilePath(), 'FAIL'));
+        } else {
+          evidences.push(createEvidence(this.ruleId, `Confidence object is robust`, 'LOW', file.getFilePath(), 'PASS'));
+        }
+      }
+    });
+    return evidences;
+  }
+}
+
+export class CogExplainabilityCompletenessRule implements ArchitectureRuleEvaluator {
+  ruleId = 'AR-GFC-COG-004';
+  name = 'Explainability Completeness';
+
+  evaluate(context: AuditContext): GFCEvidence[] {
+    const evidences: GFCEvidence[] = [];
+    if (!context.domainFiles) return evidences;
+
+    context.domainFiles.forEach(file => {
+      if (file.getFilePath().includes('ExecutiveDecisionPackage.ts')) {
+        const text = file.getText();
+        if (!text.includes('explainability') || !text.includes('reasoningVersion')) {
+          evidences.push(createEvidence(this.ruleId, `Decision package must enforce explainability tree`, 'CRITICAL', file.getFilePath(), 'FAIL'));
+        } else {
+          evidences.push(createEvidence(this.ruleId, `Explainability is complete`, 'LOW', file.getFilePath(), 'PASS'));
+        }
+      }
+    });
+    return evidences;
+  }
+}
+
+export class CogScenarioCoverageRule implements ArchitectureRuleEvaluator {
+  ruleId = 'AR-GFC-COG-005';
+  name = 'Scenario Coverage';
+
+  evaluate(context: AuditContext): GFCEvidence[] {
+    const evidences: GFCEvidence[] = [];
+    if (!context.domainFiles) return evidences;
+
+    context.domainFiles.forEach(file => {
+      if (file.getFilePath().includes('ExecutiveScenarioService.ts')) {
+        const text = file.getText();
+        if (!text.includes('scenarios.length >= 2')) {
+          evidences.push(createEvidence(this.ruleId, `Critical decisions require at least 2 scenarios`, 'CRITICAL', file.getFilePath(), 'FAIL'));
+        } else {
+          evidences.push(createEvidence(this.ruleId, `Scenario coverage is sufficient`, 'LOW', file.getFilePath(), 'PASS'));
+        }
+      }
+    });
+    return evidences;
+  }
+}
+
+export class CogForecastPresenceRule implements ArchitectureRuleEvaluator {
+  ruleId = 'AR-GFC-COG-006';
+  name = 'Forecast Presence';
+
+  evaluate(context: AuditContext): GFCEvidence[] {
+    const evidences: GFCEvidence[] = [];
+    if (!context.domainFiles) return evidences;
+
+    context.domainFiles.forEach(file => {
+      if (file.getFilePath().includes('ExecutiveDecisionPackage.ts')) {
+        const text = file.getText();
+        if (!text.includes('forecast')) {
+          evidences.push(createEvidence(this.ruleId, `Strategic decisions must contain explicit forecast`, 'CRITICAL', file.getFilePath(), 'FAIL'));
+        } else {
+          evidences.push(createEvidence(this.ruleId, `Forecast is present`, 'LOW', file.getFilePath(), 'PASS'));
+        }
+      }
+    });
+    return evidences;
+  }
+}
+
+export class CogPriorityOrderingRule implements ArchitectureRuleEvaluator {
+  ruleId = 'AR-GFC-COG-007';
+  name = 'Priority Ordering';
+
+  evaluate(context: AuditContext): GFCEvidence[] {
+    const evidences: GFCEvidence[] = [];
+    if (!context.domainFiles) return evidences;
+
+    context.domainFiles.forEach(file => {
+      if (file.getFilePath().includes('ExecutivePrioritizationService.ts')) {
+        const text = file.getText();
+        if (!text.includes('impact') || !text.includes('urgency') || !text.includes('effort')) {
+          evidences.push(createEvidence(this.ruleId, `Recommendation must possess justified execution ordering`, 'CRITICAL', file.getFilePath(), 'FAIL'));
+        } else {
+          evidences.push(createEvidence(this.ruleId, `Priority ordering is justified`, 'LOW', file.getFilePath(), 'PASS'));
+        }
+      }
+    });
+    return evidences;
+  }
+}
+
+export class CogEvidenceTraceabilityRule implements ArchitectureRuleEvaluator {
+  ruleId = 'AR-GFC-COG-008';
+  name = 'Evidence Traceability';
+
+  evaluate(context: AuditContext): GFCEvidence[] {
+    const evidences: GFCEvidence[] = [];
+    if (!context.domainFiles) return evidences;
+
+    context.domainFiles.forEach(file => {
+      if (file.getFilePath().includes('ExecutiveDecisionPackage.ts')) {
+        const text = file.getText();
+        if (!text.includes('evidenceIds')) {
+          evidences.push(createEvidence(this.ruleId, `Every statement must point to its data origin`, 'CRITICAL', file.getFilePath(), 'FAIL'));
+        } else {
+          evidences.push(createEvidence(this.ruleId, `Evidence traceability enforced`, 'LOW', file.getFilePath(), 'PASS'));
+        }
+      }
+    });
+    return evidences;
+  }
+}
+
+export class CogImmutableDecisionLineageRule implements ArchitectureRuleEvaluator {
+  ruleId = 'AR-GFC-COG-009';
+  name = 'Immutable Decision Lineage';
+
+  evaluate(context: AuditContext): GFCEvidence[] {
+    const evidences: GFCEvidence[] = [];
+    if (!context.domainFiles) return evidences;
+
+    context.domainFiles.forEach(file => {
+      if (file.getFilePath().includes('ExecutiveDecisionPackage.ts')) {
+        const text = file.getText();
+        if (!text.includes('previousVersionId')) {
+          evidences.push(createEvidence(this.ruleId, `Blocks alteration of intermediate versions`, 'CRITICAL', file.getFilePath(), 'FAIL'));
+        } else {
+          evidences.push(createEvidence(this.ruleId, `Decision lineage is immutable`, 'LOW', file.getFilePath(), 'PASS'));
+        }
+      }
+    });
+    return evidences;
+  }
+}
+
+export class CogReflectionMandatoryRule implements ArchitectureRuleEvaluator {
+  ruleId = 'AR-GFC-COG-010';
+  name = 'Reflection Mandatory';
+
+  evaluate(context: AuditContext): GFCEvidence[] {
+    const evidences: GFCEvidence[] = [];
+    if (!context.domainFiles) return evidences;
+
+    context.domainFiles.forEach(file => {
+      if (file.getFilePath().includes('ExecutiveDecisionPackage.ts')) {
+        const text = file.getText();
+        if (!text.includes('reflection')) {
+          evidences.push(createEvidence(this.ruleId, `Strategic decisions cannot ignore Reflection Service`, 'CRITICAL', file.getFilePath(), 'FAIL'));
+        } else {
+          evidences.push(createEvidence(this.ruleId, `Reflection is mandatory`, 'LOW', file.getFilePath(), 'PASS'));
+        }
+      }
+    });
+    return evidences;
+  }
+}
+
+export class CogCognitiveContradictionExposureRule implements ArchitectureRuleEvaluator {
+  ruleId = 'AR-GFC-COG-011';
+  name = 'Cognitive Contradiction Exposure';
+
+  evaluate(context: AuditContext): GFCEvidence[] {
+    const evidences: GFCEvidence[] = [];
+    if (!context.domainFiles) return evidences;
+
+    context.domainFiles.forEach(file => {
+      if (file.getFilePath().includes('ExecutiveDebateService.ts') || file.getFilePath().includes('ExecutiveCognitiveGovernance.ts')) {
+        const text = file.getText();
+        if (!text.includes('divergence') && !text.includes('contradiction')) {
+          evidences.push(createEvidence(this.ruleId, `Divergences must be presented to the executive`, 'CRITICAL', file.getFilePath(), 'FAIL'));
+        } else {
+          evidences.push(createEvidence(this.ruleId, `Contradictions are explicitly exposed`, 'LOW', file.getFilePath(), 'PASS'));
+        }
+      }
+    });
+    return evidences;
+  }
+}
+
+export class CogHumanAuthorityBoundaryRule implements ArchitectureRuleEvaluator {
+  ruleId = 'AR-GFC-COG-012';
+  name = 'Human Authority Boundary';
+
+  evaluate(context: AuditContext): GFCEvidence[] {
+    const evidences: GFCEvidence[] = [];
+    if (!context.domainFiles) return evidences;
+
+    context.domainFiles.forEach(file => {
+      if (file.getFilePath().includes('ExecutiveDecisionPackage.ts')) {
+        const text = file.getText();
+        if (!text.includes('EXECUTED') && !text.includes('executeDecision')) {
+          evidences.push(createEvidence(this.ruleId, `The AI recommends. The executive decides.`, 'CRITICAL', file.getFilePath(), 'FAIL'));
+        } else {
+          evidences.push(createEvidence(this.ruleId, `Human authority boundary is maintained`, 'LOW', file.getFilePath(), 'PASS'));
+        }
+      }
+    });
+    return evidences;
+  }
+}
+
+export class CogCognitiveServiceAccountabilityRule implements ArchitectureRuleEvaluator {
+  ruleId = 'AR-GFC-COG-013';
+  name = 'Cognitive Service Accountability';
+
+  evaluate(context: AuditContext): GFCEvidence[] {
+    const evidences: GFCEvidence[] = [];
+    if (!context.domainFiles) return evidences;
+
+    context.domainFiles.forEach(file => {
+      const text = file.getText();
+      if (text.includes('class Executive') && text.includes('Service') && !text.includes('ExecutiveCopilot')) {
+        if (!text.includes('CognitiveServiceResult') && !text.includes('CognitiveGovernanceDecision') && !text.includes('ExecutiveReflectionResult') && !text.includes('ExecutiveScenario')) {
+          evidences.push(createEvidence(this.ruleId, `Service must register its contribution (CognitiveServiceResult)`, 'CRITICAL', file.getFilePath(), 'FAIL'));
+        } else {
+          evidences.push(createEvidence(this.ruleId, `Service accountability enforced`, 'LOW', file.getFilePath(), 'PASS'));
+        }
+      }
+    });
+    return evidences;
+  }
+}
+
+export class CogGovernanceDecisionMandatoryRule implements ArchitectureRuleEvaluator {
+  ruleId = 'AR-GFC-COG-014';
+  name = 'Governance Decision Mandatory';
+
+  evaluate(context: AuditContext): GFCEvidence[] {
+    const evidences: GFCEvidence[] = [];
+    if (!context.domainFiles) return evidences;
+
+    context.domainFiles.forEach(file => {
+      if (file.getFilePath().includes('ExecutiveCognitiveGovernance.ts')) {
+        const text = file.getText();
+        if (!text.includes('CognitiveGovernanceDecision')) {
+          evidences.push(createEvidence(this.ruleId, `Strategic recommendation must have an explicit governance decision`, 'CRITICAL', file.getFilePath(), 'FAIL'));
+        } else {
+          evidences.push(createEvidence(this.ruleId, `Governance decision is mandatory`, 'LOW', file.getFilePath(), 'PASS'));
+        }
+      }
+    });
+    return evidences;
+  }
+}
+
+export class CogReflectionIntegrityRule implements ArchitectureRuleEvaluator {
+  ruleId = 'AR-GFC-COG-015';
+  name = 'Reflection Integrity';
+
+  evaluate(context: AuditContext): GFCEvidence[] {
+    const evidences: GFCEvidence[] = [];
+    if (!context.domainFiles) return evidences;
+
+    context.domainFiles.forEach(file => {
+      if (file.getFilePath().includes('ExecutiveReflectionService.ts')) {
+        const text = file.getText();
+        if (!text.includes('ReflectionSeverity')) {
+          evidences.push(createEvidence(this.ruleId, `Reflection must demonstrate adversarial challenge severity`, 'CRITICAL', file.getFilePath(), 'FAIL'));
+        } else {
+          evidences.push(createEvidence(this.ruleId, `Reflection integrity maintained`, 'LOW', file.getFilePath(), 'PASS'));
+        }
+      }
+    });
+    return evidences;
+  }
+}

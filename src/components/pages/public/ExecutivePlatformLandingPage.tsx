@@ -837,17 +837,17 @@ export function ExecutivePlatformLandingPage() {
             <button
               id="hero-cta-avaliar"
               onClick={() => handleCTAClick("Olá! Desejo solicitar a avaliação de robustez institucional da minha organização na Illumine Executive Intelligence Platform.")}
-              className="w-full sm:w-auto h-14 px-9 rounded-full bg-[#F9F9F9] text-[#111111] font-bold text-xs uppercase tracking-widest hover:bg-white transition-all flex items-center justify-center gap-3 cursor-pointer shadow-[0_0_30px_rgba(255,138,87,0.30)]"
+              className="w-full sm:w-auto min-h-[3.5rem] h-auto py-3 px-6 sm:px-9 rounded-full bg-[#F9F9F9] text-[#111111] font-bold text-xs uppercase tracking-widest hover:bg-white transition-all flex items-center justify-center gap-3 cursor-pointer shadow-[0_0_30px_rgba(255,138,87,0.30)] text-center"
             >
-              <span>{dict.heroCtaPrimary}</span>
-              <ArrowRight size={14} />
+              <span className="leading-snug">{dict.heroCtaPrimary}</span>
+              <ArrowRight size={14} className="shrink-0" />
             </button>
             <button
               id="hero-cta-conhecer"
               onClick={() => scrollToSection('stack')}
-              className="w-full sm:w-auto h-14 px-8 rounded-full bg-[#0A0F18] border border-[#2E3642] text-white font-bold text-xs uppercase tracking-widest hover:bg-white/5 hover:border-[#FF8A57]/50 transition-all flex items-center justify-center gap-3 cursor-pointer"
+              className="w-full sm:w-auto min-h-[3.5rem] h-auto py-3 px-6 sm:px-8 rounded-full bg-[#0A0F18] border border-[#2E3642] text-white font-bold text-xs uppercase tracking-widest hover:bg-white/5 hover:border-[#FF8A57]/50 transition-all flex items-center justify-center gap-3 cursor-pointer text-center"
             >
-              <span>{dict.heroCtaSecondary}</span>
+              <span className="leading-snug">{dict.heroCtaSecondary}</span>
             </button>
           </div>
 
@@ -1391,17 +1391,17 @@ export function ExecutivePlatformLandingPage() {
             <button
               id="final-cta-diagnostico"
               onClick={() => handleCTAClick("Olá! Desejo solicitar o Diagnóstico Executivo da minha organização na Illumine Executive Intelligence Platform.")}
-              className="w-full sm:w-auto h-14 px-9 rounded-full bg-[#F9F9F9] text-[#111111] font-bold text-xs uppercase tracking-widest hover:bg-white transition-all flex items-center justify-center gap-3 cursor-pointer shadow-[0_0_30px_rgba(255,138,87,0.30)]"
+              className="w-full sm:w-auto min-h-[3.5rem] h-auto py-3 px-6 sm:px-9 rounded-full bg-[#F9F9F9] text-[#111111] font-bold text-xs uppercase tracking-widest hover:bg-white transition-all flex items-center justify-center gap-3 cursor-pointer shadow-[0_0_30px_rgba(255,138,87,0.30)] text-center"
             >
-              <span>{dict.closingCtaPrimary}</span>
-              <ArrowRight size={14} />
+              <span className="leading-snug">{dict.closingCtaPrimary}</span>
+              <ArrowRight size={14} className="shrink-0" />
             </button>
             <button
               id="final-cta-advisor"
               onClick={() => handleCTAClick("Olá! Desejo agendar uma conversa com um Executive Advisor da Illumine.")}
-              className="w-full sm:w-auto h-14 px-8 rounded-full bg-[#0A0F18] border border-[#2E3642] text-white font-bold text-xs uppercase tracking-widest hover:bg-white/5 hover:border-[#FF8A57]/50 transition-all flex items-center justify-center gap-3 cursor-pointer"
+              className="w-full sm:w-auto min-h-[3.5rem] h-auto py-3 px-6 sm:px-8 rounded-full bg-[#0A0F18] border border-[#2E3642] text-white font-bold text-xs uppercase tracking-widest hover:bg-white/5 hover:border-[#FF8A57]/50 transition-all flex items-center justify-center gap-3 cursor-pointer text-center"
             >
-              <span>{dict.closingCtaSecondary}</span>
+              <span className="leading-snug">{dict.closingCtaSecondary}</span>
             </button>
           </div>
 
@@ -1420,12 +1420,12 @@ export function ExecutivePlatformLandingPage() {
             <button
               id="sticky-cta-btn"
               onClick={() => handleCTAClick("Olá! Desejo solicitar a avaliação de robustez na Illumine Executive Intelligence Platform.")}
-              className="flex items-center gap-3 px-6 h-14 bg-[#F9F9F9] text-[#111111] font-bold text-[10px] uppercase tracking-widest rounded-full shadow-[0_0_30px_rgba(255,138,87,0.30)] hover:bg-white transition-all cursor-pointer border border-white/20"
+              className="flex items-center gap-3 px-6 min-h-[3.5rem] h-auto py-3 bg-[#F9F9F9] text-[#111111] font-bold text-[10px] uppercase tracking-widest rounded-full shadow-[0_0_30px_rgba(255,138,87,0.30)] hover:bg-white transition-all cursor-pointer border border-white/20 text-center"
             >
-              <div className="w-7 h-7 rounded-full bg-[#FF8A57]/15 border border-[#FF8A57]/30 flex items-center justify-center text-[#FF8A57]">
+              <div className="w-7 h-7 rounded-full bg-[#FF8A57]/15 border border-[#FF8A57]/30 flex items-center justify-center text-[#FF8A57] shrink-0">
                 <Briefcase size={13} />
               </div>
-              <span>{dict.navEvaluate}</span>
+              <span className="leading-snug">{dict.navEvaluate}</span>
             </button>
           </motion.div>
         )}
