@@ -70,6 +70,12 @@
       "@illumine/executive-orchestrator": [
         "./packages/intelligence/executive-orchestrator/src/index.ts"
       ],
+      "@illumine/executive-advisor-runtime": [
+        "./packages/intelligence/executive-advisor-runtime/src/index.ts"
+      ],
+      "@illumine/executive-workspace-orchestrator": [
+        "./packages/intelligence/executive-workspace-orchestrator/src/index.ts"
+      ],
       "@illumine/predictive-engine": [
         "./packages/intelligence/predictive-engine/src/index.ts"
       ],
