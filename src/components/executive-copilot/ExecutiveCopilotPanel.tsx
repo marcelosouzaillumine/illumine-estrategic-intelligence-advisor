@@ -4,6 +4,7 @@ import { X, Send, Sparkles, MessageSquare, Lightbulb, Zap, FileText } from 'luci
 import { useExecutiveUIStore } from '../../../packages/intelligence/executive-copilot/src/store/ExecutiveUIStore';
 import { useExecutiveConversationStore } from '../../../packages/intelligence/executive-copilot/src/store/ExecutiveConversationStore';
 import { useExecutiveKnowledgeStore } from '../../../packages/intelligence/executive-copilot/src/store/ExecutiveKnowledgeStore';
+import { useGovernance } from '../../lib/governanceContext';
 
 import { ExecutiveIdentityContext } from '../../../packages/intelligence/executive-identity-context/src/ExecutiveIdentityContext';
 import { ExecutiveRelationshipEngine } from '../../../packages/intelligence/executive-relationship-intelligence/src/ExecutiveRelationshipEngine';
@@ -15,6 +16,11 @@ import { ExecutiveIntelligencePipeline } from '../../../packages/intelligence/ex
 import { ExecutiveAdvisorRuntimeContext } from '../../../packages/intelligence/executive-advisor-runtime/src/ExecutiveAdvisorRuntimeContext';
 import { WorkspaceAdvisoryEngine } from '../../../packages/intelligence/executive-advisor-runtime/src/WorkspaceAdvisoryEngine';
 import { ExecutiveIntelligenceRenderingEngine } from '../../../packages/intelligence/executive-rendering-engine/src/ExecutiveIntelligenceRenderingEngine';
+import { ExecutiveLearningCard } from './ExecutiveLearningCard';
+import { ExecutivePatternCard } from './ExecutivePatternCard';
+import { ExecutiveDecisionHistoryCard } from './ExecutiveDecisionHistoryCard';
+import { ExecutiveDecisionTimeline } from './ExecutiveDecisionTimeline';
+import { ExecutiveIntelligenceContextAssembler } from '../../../packages/intelligence/executive-intelligence-integration/src';
 
 /**
  * Canonical Experience Name: Executive Advisor Workspace™
@@ -23,6 +29,15 @@ export function ExecutiveCopilotPanel() {
   const { isOpen, activeTab, isMinimized, setOpen, setActiveTab, setMinimized } = useExecutiveUIStore();
   const { messages, addMessage, isTyping, setTyping } = useExecutiveConversationStore();
   const { page } = useExecutiveKnowledgeStore();
+  const { role } = useGovernance();
+
+  const getGreetingRole = () => {
+     const r = role as string;
+     if (r === 'MASTER' || r === 'SUPER_ADMIN' || r === 'ADMIN') return 'Administrador';
+     if (r === 'ADVISOR') return 'Conselheiro';
+     if (r === 'EXECUTIVE') return 'Executivo';
+     return 'Cliente';
+  };
   const [input, setInput] = useState('');
   const [briefing, setBriefing] = useState<string | null>(null);
   const messagesEndRef = useRef<HTMLDivElement>(null);
@@ -225,7 +240,7 @@ export function ExecutiveCopilotPanel() {
               {messages.length === 0 ? (
                 <div className="flex-1 flex flex-col items-center justify-center text-center text-muted-foreground p-4">
                   <Sparkles size={32} className="mb-2 opacity-50" />
-                  <p className="text-sm">Conselheiro Executivo Digital ativo.</p>
+                  <p className="text-sm">Olá, {getGreetingRole()}! Conselheiro Executivo Digital ativo.</p>
                   <p className="text-xs mt-2 opacity-70">Contextualizado em {page?.title || 'nível corporativo'}.</p>
                 </div>
               ) : (
@@ -261,6 +276,36 @@ export function ExecutiveCopilotPanel() {
                 </div>
               )}
               <div ref={messagesEndRef} />
+            </div>
+          )}
+
+          {/* Integration Area */}
+          {activeTab === 'actions' && (
+            <div className="flex-1 overflow-y-auto p-4 flex flex-col gap-4">
+              <ExecutiveDecisionTimeline />
+              <div className="text-xs font-bold text-slate-500 uppercase tracking-widest mt-2">Historical Insights</div>
+              <ExecutivePatternCard pattern={{
+                patternId: 'PAT-001',
+                description: 'Expansões comerciais realizadas sem validação operacional geraram necessidade posterior de correção.',
+                maturity: 'VALIDATED_PATTERN',
+                supportingLessons: [],
+                causalEvidenceAssessment: {
+                  correlationStrength: 'STRONG',
+                  evidenceBase: 'Based on 4 historical decisions',
+                  validationCriteria: []
+                }
+              }} />
+              <ExecutiveLearningCard lesson={{
+                lessonId: 'LES-001',
+                sourceDecisionId: 'DEC-123',
+                observation: { expectedOutcome: '20% margin', actualOutcome: '15% margin', variance: 'Underperformed by 5%' },
+                learning: { whatWorked: ['Market entry'], whatFailed: ['Operational capacity'], principleGenerated: 'Prioritize operational capacity over rapid expansion' },
+                applicability: { domains: [], futureContexts: [] },
+                confidence: { level: 'validated', evidenceCount: 4 },
+                temporalContext: { createdAt: new Date().toISOString() },
+                scope: { domains: [] },
+                tenantId: 'tenant-1'
+              }} />
             </div>
           )}
 

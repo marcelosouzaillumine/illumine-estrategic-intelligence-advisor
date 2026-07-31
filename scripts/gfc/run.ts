@@ -73,7 +73,12 @@ import {
   LrnPatternEmpiricalBaseRule,
   LrnPrincipleGenerationRule,
   LrnLearningTenantIsolationRule,
-  LrnHumanValidationBoundaryRule
+  LrnHumanValidationBoundaryRule,
+  ExpExecutiveContextIntegrityRule,
+  ExpIntelligenceTraceabilityRule,
+  ExpLearningEvidenceVisibilityRule,
+  ExpDecisionBoundaryProtectionRule,
+  ExpCrossTenantIntelligenceIsolationRule
 } from './rules';
 
 const project = new Project();
@@ -173,6 +178,11 @@ engine.registerRule(new LrnPatternEmpiricalBaseRule());
 engine.registerRule(new LrnPrincipleGenerationRule());
 engine.registerRule(new LrnLearningTenantIsolationRule());
 engine.registerRule(new LrnHumanValidationBoundaryRule());
+engine.registerRule(new ExpExecutiveContextIntegrityRule());
+engine.registerRule(new ExpIntelligenceTraceabilityRule());
+engine.registerRule(new ExpLearningEvidenceVisibilityRule());
+engine.registerRule(new ExpDecisionBoundaryProtectionRule());
+engine.registerRule(new ExpCrossTenantIntelligenceIsolationRule());
 
 const evidences = engine.evaluateAll();
 

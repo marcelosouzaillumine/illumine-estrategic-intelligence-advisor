@@ -1,7 +1,7 @@
 CertificationFingerprint:
-  gitCommit: cbce8fa70577ab117b0c43f64437203e712aef72
+  gitCommit: ad61405ef901ff30e3926297c51dfdc94c926b52
   branch: pilot/balance-sheet-canonical-migration
-  timestamp: 2026-07-31T05:21:41.829Z
+  timestamp: 2026-07-31T11:48:59.166Z
   nodeVersion: v26.0.0
   npmVersion: 11.12.1
   typescriptVersion: Version 5.8.3

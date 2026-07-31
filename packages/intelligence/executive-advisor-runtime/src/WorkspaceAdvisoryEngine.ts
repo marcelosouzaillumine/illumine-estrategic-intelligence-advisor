@@ -10,11 +10,11 @@ export class WorkspaceAdvisoryEngine implements ExecutiveIntelligenceEngine {
     // Exemplo de resposta inteligente conectada ao contexto da página e identidade
     const isQuestionAboutAction = query.toLowerCase().includes('fazer') || query.toLowerCase().includes('ação') || query.toLowerCase().includes('recomenda');
     
-    const domainName = context.page.title || context.page.domain || 'da organização';
+    const domainName = (context.page as any).title || context.page.domain || 'da organização';
 
     return {
       schemaVersion: "1.0",
-      executiveSummary: `Análise solicitada por ${context.identity.executiveName || 'você'} sobre o contexto de ${domainName}.`,
+      executiveSummary: `Análise solicitada por ${(context.identity as any).executiveName || (context.identity as any).name || (context.identity as any).userId || 'você'} sobre o contexto de ${domainName}.`,
       currentSituation: {
         title: "Contexto Atual",
         content: `Identificamos que você está avaliando a área de ${domainName}. Os indicadores atuais mostram estabilidade, mas exigem atenção em pontos de alavancagem.`

@@ -23,8 +23,8 @@ export function ClientsPage(props: any) {
   };
 
   const formHeader = {
-    title: formData.id ? (formData.fantasia || formData.razao || "Alterar Cadastro") : "Cadastrar Empresa",
-    description: formData.id ? "Alterar Cadastro da Empresa" : "Configure as informações estratégicas e estrutura da organização",
+    title: (formData as any).id ? ((formData as any).fantasia || (formData as any).razao || "Alterar Cadastro") : "Cadastrar Empresa",
+    description: (formData as any).id ? "Alterar Cadastro da Empresa" : "Configure as informações estratégicas e estrutura da organização",
     icon: Building2,
     breadcrumbs: (
       <button onClick={() => setView('list')} className="flex items-center gap-2 hover:text-foreground transition-colors">
@@ -36,7 +36,7 @@ export function ClientsPage(props: any) {
         <Button variant="outline" size="sm" onClick={() => setView('list')}>Cancelar</Button>
         <Button onClick={handleSave} disabled={loading} size="sm">
           {loading ? <Loader2 size={16} className="animate-spin mr-2" /> : <Save size={16} className="mr-2" />}
-          {formData.id ? "Salvar Alterações" : "Confirmar Cadastro"}
+          {(formData as any).id ? "Salvar Alterações" : "Confirmar Cadastro"}
         </Button>
       </div>
     )
@@ -57,6 +57,7 @@ export function ClientsPage(props: any) {
         <ClientListPanel
           clients={filteredClients || []}
           onSelectClient={(client) => openEdit(client)}
+          onOpenAdd={openAdd}
           searchTerm={searchTerm}
           setSearchTerm={setSearchTerm}
         />

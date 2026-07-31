@@ -27,7 +27,7 @@ function ClientListItemImage({ src, alt, fallback }: { src: string; alt: string;
 interface ClientListPanelProps {
   clients: any[];
   onSelectClient: (client: any) => void;
-  onOpenAdd: () => void;
+  onOpenAdd?: () => void;
   searchTerm: string;
   setSearchTerm: (term: string) => void;
 }

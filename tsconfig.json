@@ -25,6 +25,12 @@
       "@illumine/architecture-governance-decision": [
         "./packages/architecture-governance-decision/src/index.ts"
       ],
+      "@illumine/architecture-governance-discovery": [
+        "./packages/architecture-governance-discovery/src/index.ts"
+      ],
+      "@illumine/architecture-governance-evaluation": [
+        "./packages/architecture-governance-evaluation/src/index.ts"
+      ],
       "@illumine/architecture-governance-knowledge": [
         "./packages/architecture-governance-knowledge/src/index.ts"
       ],
@@ -171,6 +177,9 @@
       ],
       "@illumine/executive-decision-intelligence": [
         "./packages/intelligence/executive-decision-intelligence/src/index.ts"
+      ],
+      "@illumine/executive-intelligence-integration": [
+        "./packages/intelligence/executive-intelligence-integration/src/index.ts"
       ],
       "@illumine/institutional-learning-intelligence": [
         "./packages/intelligence/institutional-learning-intelligence/src/index.ts"

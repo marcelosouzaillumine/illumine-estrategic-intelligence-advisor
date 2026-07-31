@@ -118,5 +118,12 @@ export const AGC_MATURITY_MODEL: readonly MaturityLevelDefinition[] = [
     capabilities: ['Strategic Self-Correction', 'Adaptive Governance', 'Institutional Reflex'],
     description: 'A organização aprende sistematicamente com suas decisões históricas, aprimorando continuamente seus modelos estratégicos e sua capacidade adaptativa.',
     status: 'IMPLEMENTADO'
+  },
+  {
+    level: 'LEVEL_13_INTEGRATION',
+    name: 'Executive Intelligence Experience Integration',
+    capabilities: ['Contextual Executive UI', 'Holistic Narrative Orchestration', 'Traceable Copilot'],
+    description: 'A organização acessa inteligência executiva contextualizada no momento da decisão, conectando recomendações, decisões e aprendizados em uma experiência contínua.',
+    status: 'IMPLEMENTADO'
   }
 ];

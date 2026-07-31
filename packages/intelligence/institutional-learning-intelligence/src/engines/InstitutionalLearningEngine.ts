@@ -22,6 +22,7 @@ export class InstitutionalLearningEngine {
   validateLessonCandidate(candidate: Partial<InstitutionalLesson>, validationData: any): InstitutionalLesson {
     // In a real scenario, this involves human validation (AR-GFC-LRN-005)
     return {
+      tenantId: validationData.tenantId || (candidate as any).tenantId || 'tenant_default',
       lessonId: `LES-${Date.now()}`,
       sourceDecisionId: candidate.sourceDecisionId!,
       observation: candidate.observation!,
@@ -34,6 +35,6 @@ export class InstitutionalLearningEngine {
       confidence: validationData.confidence || candidate.confidence,
       temporalContext: candidate.temporalContext!,
       scope: validationData.scope || { domains: [] }
-    };
+    } as InstitutionalLesson;
   }
 }

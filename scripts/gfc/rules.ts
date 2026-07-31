@@ -1668,3 +1668,113 @@ export class LrnHumanValidationBoundaryRule implements ArchitectureRuleEvaluator
     return evidences;
   }
 }
+
+export class ExpExecutiveContextIntegrityRule implements ArchitectureRuleEvaluator {
+  ruleId = 'AR-GFC-EXP-001';
+  name = 'Executive Context Integrity';
+
+  evaluate(context: AuditContext): GFCEvidence[] {
+    const evidences: GFCEvidence[] = [];
+    if (!context.domainFiles) return evidences;
+
+    context.domainFiles.forEach(file => {
+      if (file.getFilePath().includes('ExecutiveIntelligenceContextAssembler.ts')) {
+        const text = file.getText();
+        if (!text.includes('ExecutiveIntelligenceContext')) {
+          evidences.push(createEvidence(this.ruleId, `Assembler must produce ExecutiveIntelligenceContext`, 'CRITICAL', file.getFilePath(), 'FAIL'));
+        } else {
+          evidences.push(createEvidence(this.ruleId, `Assembler produces ExecutiveIntelligenceContext`, 'LOW', file.getFilePath(), 'PASS'));
+        }
+      }
+    });
+    return evidences;
+  }
+}
+
+export class ExpIntelligenceTraceabilityRule implements ArchitectureRuleEvaluator {
+  ruleId = 'AR-GFC-EXP-002';
+  name = 'Intelligence Traceability';
+
+  evaluate(context: AuditContext): GFCEvidence[] {
+    const evidences: GFCEvidence[] = [];
+    if (!context.domainFiles) return evidences;
+
+    context.domainFiles.forEach(file => {
+      if (file.getFilePath().includes('LearningFeedbackConnector.ts')) {
+        const text = file.getText();
+        if (!text.includes('evidenceBase')) {
+          evidences.push(createEvidence(this.ruleId, `Feedback must trace back to evidenceBase`, 'CRITICAL', file.getFilePath(), 'FAIL'));
+        } else {
+          evidences.push(createEvidence(this.ruleId, `Feedback traces to evidenceBase`, 'LOW', file.getFilePath(), 'PASS'));
+        }
+      }
+    });
+    return evidences;
+  }
+}
+
+export class ExpLearningEvidenceVisibilityRule implements ArchitectureRuleEvaluator {
+  ruleId = 'AR-GFC-EXP-003';
+  name = 'Learning Evidence Visibility';
+
+  evaluate(context: AuditContext): GFCEvidence[] {
+    const evidences: GFCEvidence[] = [];
+    if (!context.domainFiles) return evidences;
+
+    context.domainFiles.forEach(file => {
+      if (file.getFilePath().includes('ExecutiveLearningCard.tsx')) {
+        const text = file.getText();
+        if (!text.includes('evidenceCount')) {
+          evidences.push(createEvidence(this.ruleId, `Card must display evidence count to executive`, 'CRITICAL', file.getFilePath(), 'FAIL'));
+        } else {
+          evidences.push(createEvidence(this.ruleId, `Card displays evidence count`, 'LOW', file.getFilePath(), 'PASS'));
+        }
+      }
+    });
+    return evidences;
+  }
+}
+
+export class ExpDecisionBoundaryProtectionRule implements ArchitectureRuleEvaluator {
+  ruleId = 'AR-GFC-EXP-004';
+  name = 'Decision Boundary Protection';
+
+  evaluate(context: AuditContext): GFCEvidence[] {
+    const evidences: GFCEvidence[] = [];
+    if (!context.domainFiles) return evidences;
+
+    context.domainFiles.forEach(file => {
+      if (file.getFilePath().includes('ExecutiveCopilotPanel.tsx') || file.getFilePath().includes('ExecutiveIntelligenceNarrativeEngine.ts')) {
+        const text = file.getText();
+        if (text.includes('autoApprove') || text.includes('decideForUser')) {
+          evidences.push(createEvidence(this.ruleId, `Copilot must not automate executive decisions`, 'CRITICAL', file.getFilePath(), 'FAIL'));
+        } else {
+          evidences.push(createEvidence(this.ruleId, `Copilot protects human decision boundary`, 'LOW', file.getFilePath(), 'PASS'));
+        }
+      }
+    });
+    return evidences;
+  }
+}
+
+export class ExpCrossTenantIntelligenceIsolationRule implements ArchitectureRuleEvaluator {
+  ruleId = 'AR-GFC-EXP-005';
+  name = 'Cross Tenant Intelligence Isolation';
+
+  evaluate(context: AuditContext): GFCEvidence[] {
+    const evidences: GFCEvidence[] = [];
+    if (!context.domainFiles) return evidences;
+
+    context.domainFiles.forEach(file => {
+      if (file.getFilePath().includes('ExecutiveIntelligenceContextAssembler.ts') || file.getFilePath().includes('ExecutiveIntelligenceNarrativeEngine.ts')) {
+        const text = file.getText();
+        if (!text.includes('tenantId') && !text.includes('activeTenantId')) {
+          evidences.push(createEvidence(this.ruleId, `Assembler/Narrative must respect activeTenantId`, 'CRITICAL', file.getFilePath(), 'FAIL'));
+        } else {
+          evidences.push(createEvidence(this.ruleId, `Assembler/Narrative respects tenant boundaries`, 'LOW', file.getFilePath(), 'PASS'));
+        }
+      }
+    });
+    return evidences;
+  }
+}

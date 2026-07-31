@@ -1,0 +1,6158 @@
+{
+  "pages": [
+    {
+      "file": "/src/components/pages/AdministrativaPage.tsx",
+      "name": "AdministrativaPage",
+      "legacyComponentsUsed": [],
+      "canonicalComponentsUsed": [
+        "ExecutivePageTemplate",
+        "ExecutiveSurface",
+        "ExecutiveAccordion",
+        "ExecutiveEmptyState",
+        "ExecutiveMetricCard",
+        "ExecutiveSummarySection",
+        "ExecutiveStrategicTensions",
+        "ExecutiveDecisionTrace",
+        "ExecutiveHeading",
+        "ExecutiveText"
+      ],
+      "score": 57,
+      "metrics": {
+        "structural": 25,
+        "visual": 20,
+        "intelligence": 12,
+        "decision": 0,
+        "governance": 0
+      },
+      "gaps": {
+        "hasInterpretation": true,
+        "hasRecommendation": false,
+        "hasRisk": false,
+        "hasTenant": false
+      }
+    },
+    {
+      "file": "/src/components/pages/AdvisorCockpitPage.tsx",
+      "name": "AdvisorCockpitPage",
+      "legacyComponentsUsed": [],
+      "canonicalComponentsUsed": [
+        "ExecutivePageTemplate",
+        "ExecutiveSurface",
+        "ExecutiveAccordion",
+        "ExecutiveEmptyState",
+        "ExecutiveHeading",
+        "ExecutiveText",
+        "ExecutiveSummarySection",
+        "ExecutiveStrategicTensions",
+        "ExecutiveDecisionTrace"
+      ],
+      "score": 57,
+      "metrics": {
+        "structural": 25,
+        "visual": 20,
+        "intelligence": 12,
+        "decision": 0,
+        "governance": 0
+      },
+      "gaps": {
+        "hasInterpretation": true,
+        "hasRecommendation": false,
+        "hasRisk": false,
+        "hasTenant": false
+      }
+    },
+    {
+      "file": "/src/components/pages/AdvisorWorkspacePage.tsx",
+      "name": "AdvisorWorkspacePage",
+      "legacyComponentsUsed": [],
+      "canonicalComponentsUsed": [
+        "InstitutionalObservabilityRegistry",
+        "ExecutivePageTemplate",
+        "ExecutiveSurface",
+        "ExecutiveAccordion",
+        "ExecutiveEmptyState",
+        "ExecutiveHeading",
+        "ExecutiveText",
+        "ExecutiveSummarySection",
+        "ExecutiveStrategicTensions",
+        "ExecutiveDecisionTrace"
+      ],
+      "score": 62,
+      "metrics": {
+        "structural": 25,
+        "visual": 20,
+        "intelligence": 12,
+        "decision": 0,
+        "governance": 5
+      },
+      "gaps": {
+        "hasInterpretation": true,
+        "hasRecommendation": false,
+        "hasRisk": false,
+        "hasTenant": true
+      }
+    },
+    {
+      "file": "/src/components/pages/AdvisoryInsightsPage.tsx",
+      "name": "AdvisoryInsightsPage",
+      "legacyComponentsUsed": [],
+      "canonicalComponentsUsed": [
+        "ExecutivePageTemplate",
+        "ExecutiveSurface",
+        "ExecutiveAccordion",
+        "ExecutiveEmptyState",
+        "ExecutiveHeading",
+        "ExecutiveText",
+        "ExecutiveSummarySection",
+        "ExecutiveStrategicTensions",
+        "ExecutiveDecisionTrace"
+      ],
+      "score": 63,
+      "metrics": {
+        "structural": 25,
+        "visual": 20,
+        "intelligence": 18,
+        "decision": 0,
+        "governance": 0
+      },
+      "gaps": {
+        "hasInterpretation": true,
+        "hasRecommendation": false,
+        "hasRisk": true,
+        "hasTenant": false
+      }
+    },
+    {
+      "file": "/src/components/pages/AnaliseFinanceiraPage.tsx",
+      "name": "AnaliseFinanceiraPage",
+      "legacyComponentsUsed": [],
+      "canonicalComponentsUsed": [
+        "ExecutiveIntelligenceReport",
+        "ExecutivePageTemplate",
+        "ExecutiveSurface",
+        "ExecutiveAccordion",
+        "ExecutiveEmptyState",
+        "ExecutiveMetricCard",
+        "ExecutiveSummarySection",
+        "ExecutiveStrategicTensions",
+        "ExecutiveDecisionTrace",
+        "ExecutiveHeading",
+        "ExecutiveText"
+      ],
+      "score": 57,
+      "metrics": {
+        "structural": 25,
+        "visual": 20,
+        "intelligence": 12,
+        "decision": 0,
+        "governance": 0
+      },
+      "gaps": {
+        "hasInterpretation": true,
+        "hasRecommendation": false,
+        "hasRisk": false,
+        "hasTenant": false
+      }
+    },
+    {
+      "file": "/src/components/pages/AnaliseMercadoPage.tsx",
+      "name": "AnaliseMercadoPage",
+      "legacyComponentsUsed": [],
+      "canonicalComponentsUsed": [
+        "ExecutivePageTemplate",
+        "ExecutiveSurface",
+        "ExecutiveAccordion",
+        "ExecutiveEmptyState",
+        "ExecutiveSummarySection",
+        "ExecutiveStrategicTensions",
+        "ExecutiveDecisionTrace",
+        "ExecutiveHeading",
+        "ExecutiveText"
+      ],
+      "score": 57,
+      "metrics": {
+        "structural": 25,
+        "visual": 20,
+        "intelligence": 12,
+        "decision": 0,
+        "governance": 0
+      },
+      "gaps": {
+        "hasInterpretation": true,
+        "hasRecommendation": false,
+        "hasRisk": false,
+        "hasTenant": false
+      }
+    },
+    {
+      "file": "/src/components/pages/AssetManagementPage.tsx",
+      "name": "AssetManagementPage",
+      "legacyComponentsUsed": [],
+      "canonicalComponentsUsed": [
+        "ExecutivePageTemplate",
+        "ExecutiveText",
+        "ExecutiveHeading",
+        "ExecutiveSurface",
+        "ExecutiveAccordion",
+        "ExecutiveEmptyState",
+        "ExecutiveMetricCard",
+        "ExecutiveBadge",
+        "ExecutiveTechnicalLayer",
+        "ExecutiveSummarySection",
+        "ExecutiveStrategicTensions",
+        "ExecutiveDecisionTrace"
+      ],
+      "score": 51,
+      "metrics": {
+        "structural": 25,
+        "visual": 20,
+        "intelligence": 6,
+        "decision": 0,
+        "governance": 0
+      },
+      "gaps": {
+        "hasInterpretation": true,
+        "hasRecommendation": false,
+        "hasRisk": false,
+        "hasTenant": false
+      }
+    },
+    {
+      "file": "/src/components/pages/AvaliacaoOrganogramaPage.tsx",
+      "name": "AvaliacaoOrganogramaPage",
+      "legacyComponentsUsed": [],
+      "canonicalComponentsUsed": [
+        "ExecutiveText",
+        "ExecutiveHeading",
+        "ExecutivePageTemplate",
+        "ExecutiveSurface",
+        "ExecutiveAccordion",
+        "ExecutiveEmptyState",
+        "ExecutiveSummarySection",
+        "ExecutiveStrategicTensions",
+        "ExecutiveDecisionTrace"
+      ],
+      "score": 51,
+      "metrics": {
+        "structural": 25,
+        "visual": 20,
+        "intelligence": 6,
+        "decision": 0,
+        "governance": 0
+      },
+      "gaps": {
+        "hasInterpretation": true,
+        "hasRecommendation": false,
+        "hasRisk": false,
+        "hasTenant": false
+      }
+    },
+    {
+      "file": "/src/components/pages/AxisDashboardPage.tsx",
+      "name": "AxisDashboardPage",
+      "legacyComponentsUsed": [
+        "KpiCard"
+      ],
+      "canonicalComponentsUsed": [
+        "ExecutivePageTemplate",
+        "ExecutiveSurface",
+        "ExecutiveAccordion",
+        "ExecutiveMetricCard",
+        "ExecutiveEmptyState",
+        "GovernanceInsightPanel",
+        "ExecutivePerspectiveSection",
+        "ExecutiveSummarySection",
+        "ExecutiveStrategicTensions",
+        "ExecutiveDecisionTrace",
+        "ExecutiveHeading",
+        "ExecutiveText"
+      ],
+      "score": 58,
+      "metrics": {
+        "structural": 25,
+        "visual": 15,
+        "intelligence": 18,
+        "decision": 0,
+        "governance": 0
+      },
+      "gaps": {
+        "hasInterpretation": true,
+        "hasRecommendation": false,
+        "hasRisk": false,
+        "hasTenant": false
+      }
+    },
+    {
+      "file": "/src/components/pages/BalanceSheetPage.tsx",
+      "name": "BalanceSheetPage",
+      "legacyComponentsUsed": [],
+      "canonicalComponentsUsed": [
+        "ExecutiveSurface",
+        "ExecutiveHeading",
+        "ExecutiveAccordion",
+        "ExecutiveText",
+        "ExecutiveEmptyState",
+        "ExecutiveStrategicTensions",
+        "ExecutiveDecisionTrace",
+        "ExecutiveExposureCard",
+        "ExecutivePageTemplate",
+        "ExecutiveSummarySection",
+        "ExecutiveLocaleEnforcer",
+        "ExecutiveIntelligenceShell",
+        "ExecutiveDecisionIntelligenceMount"
+      ],
+      "score": 69,
+      "metrics": {
+        "structural": 25,
+        "visual": 20,
+        "intelligence": 24,
+        "decision": 0,
+        "governance": 0
+      },
+      "gaps": {
+        "hasInterpretation": true,
+        "hasRecommendation": false,
+        "hasRisk": true,
+        "hasTenant": false
+      }
+    },
+    {
+      "file": "/src/components/pages/CalibrationPlayground.tsx",
+      "name": "CalibrationPlayground",
+      "legacyComponentsUsed": [],
+      "canonicalComponentsUsed": [
+        "ExecutivePageTemplate",
+        "ExecutiveSurface",
+        "ExecutiveAccordion",
+        "ExecutiveEmptyState",
+        "ExecutiveHeading",
+        "ExecutiveText",
+        "ExecutiveSummarySection",
+        "ExecutiveStrategicTensions",
+        "ExecutiveDecisionTrace"
+      ],
+      "score": 73,
+      "metrics": {
+        "structural": 25,
+        "visual": 20,
+        "intelligence": 18,
+        "decision": 0,
+        "governance": 10
+      },
+      "gaps": {
+        "hasInterpretation": true,
+        "hasRecommendation": false,
+        "hasRisk": false,
+        "hasTenant": true
+      }
+    },
+    {
+      "file": "/src/components/pages/CashFlowPage.tsx",
+      "name": "CashFlowPage",
+      "legacyComponentsUsed": [],
+      "canonicalComponentsUsed": [
+        "ExecutivePageTemplate"
+      ],
+      "score": 31,
+      "metrics": {
+        "structural": 5,
+        "visual": 20,
+        "intelligence": 6,
+        "decision": 0,
+        "governance": 0
+      },
+      "gaps": {
+        "hasInterpretation": true,
+        "hasRecommendation": false,
+        "hasRisk": false,
+        "hasTenant": false
+      }
+    },
+    {
+      "file": "/src/components/pages/CleanupTool.tsx",
+      "name": "CleanupTool",
+      "legacyComponentsUsed": [],
+      "canonicalComponentsUsed": [
+        "ExecutivePageTemplate",
+        "ExecutiveSurface",
+        "ExecutiveAccordion",
+        "ExecutiveEmptyState",
+        "ExecutiveHeading",
+        "ExecutiveText",
+        "ExecutiveSummarySection",
+        "ExecutiveStrategicTensions",
+        "ExecutiveDecisionTrace"
+      ],
+      "score": 57,
+      "metrics": {
+        "structural": 25,
+        "visual": 20,
+        "intelligence": 12,
+        "decision": 0,
+        "governance": 0
+      },
+      "gaps": {
+        "hasInterpretation": true,
+        "hasRecommendation": false,
+        "hasRisk": false,
+        "hasTenant": false
+      }
+    },
+    {
+      "file": "/src/components/pages/ClientExecutiveWorkspace.tsx",
+      "name": "ClientExecutiveWorkspace",
+      "legacyComponentsUsed": [],
+      "canonicalComponentsUsed": [
+        "ExecutivePageTemplate"
+      ],
+      "score": 31,
+      "metrics": {
+        "structural": 5,
+        "visual": 20,
+        "intelligence": 6,
+        "decision": 0,
+        "governance": 0
+      },
+      "gaps": {
+        "hasInterpretation": true,
+        "hasRecommendation": false,
+        "hasRisk": false,
+        "hasTenant": false
+      }
+    },
+    {
+      "file": "/src/components/pages/ClientsPage.tsx",
+      "name": "ClientsPage",
+      "legacyComponentsUsed": [
+        "Button"
+      ],
+      "canonicalComponentsUsed": [
+        "ExecutivePageTemplate"
+      ],
+      "score": 20,
+      "metrics": {
+        "structural": 5,
+        "visual": 15,
+        "intelligence": 0,
+        "decision": 0,
+        "governance": 0
+      },
+      "gaps": {
+        "hasInterpretation": false,
+        "hasRecommendation": false,
+        "hasRisk": false,
+        "hasTenant": false
+      }
+    },
+    {
+      "file": "/src/components/pages/ConsolidatedExecutivePage.tsx",
+      "name": "ConsolidatedExecutivePage",
+      "legacyComponentsUsed": [
+        "ConsolidatedExecutiveSummaryCard"
+      ],
+      "canonicalComponentsUsed": [
+        "GovernanceViolationsPanel",
+        "ExecutivePageTemplate",
+        "ExecutiveSurface",
+        "ExecutiveAccordion",
+        "ExecutiveEmptyState",
+        "ExecutiveHeading",
+        "ExecutiveText",
+        "ExecutiveSummarySection",
+        "ExecutiveStrategicTensions",
+        "ExecutiveDecisionTrace"
+      ],
+      "score": 57,
+      "metrics": {
+        "structural": 25,
+        "visual": 15,
+        "intelligence": 12,
+        "decision": 0,
+        "governance": 5
+      },
+      "gaps": {
+        "hasInterpretation": true,
+        "hasRecommendation": false,
+        "hasRisk": true,
+        "hasTenant": false
+      }
+    },
+    {
+      "file": "/src/components/pages/ConsolidatedGroupAdminPage.tsx",
+      "name": "ConsolidatedGroupAdminPage",
+      "legacyComponentsUsed": [],
+      "canonicalComponentsUsed": [
+        "ExecutivePageTemplate",
+        "ExecutiveSurface",
+        "ExecutiveBadge",
+        "ExecutiveHeading",
+        "ExecutiveText",
+        "ExecutiveSummarySection",
+        "ExecutiveStrategicTensions",
+        "ExecutiveDecisionTrace",
+        "ExecutiveTechnicalLayer"
+      ],
+      "score": 57,
+      "metrics": {
+        "structural": 25,
+        "visual": 20,
+        "intelligence": 12,
+        "decision": 0,
+        "governance": 0
+      },
+      "gaps": {
+        "hasInterpretation": true,
+        "hasRecommendation": false,
+        "hasRisk": false,
+        "hasTenant": false
+      }
+    },
+    {
+      "file": "/src/components/pages/ControladoriaPage.tsx",
+      "name": "ControladoriaPage",
+      "legacyComponentsUsed": [],
+      "canonicalComponentsUsed": [
+        "ExecutiveText",
+        "ExecutiveHeading",
+        "ExecutivePageTemplate",
+        "ExecutiveSurface",
+        "ExecutiveAccordion",
+        "ExecutiveMetricCard",
+        "ExecutiveBadge",
+        "ExecutiveTechnicalLayer",
+        "ExecutiveSummarySection",
+        "ExecutiveStrategicTensions",
+        "ExecutiveDecisionTrace"
+      ],
+      "score": 68,
+      "metrics": {
+        "structural": 25,
+        "visual": 20,
+        "intelligence": 18,
+        "decision": 0,
+        "governance": 5
+      },
+      "gaps": {
+        "hasInterpretation": true,
+        "hasRecommendation": false,
+        "hasRisk": false,
+        "hasTenant": true
+      }
+    },
+    {
+      "file": "/src/components/pages/DFCPage.tsx",
+      "name": "DFCPage",
+      "legacyComponentsUsed": [],
+      "canonicalComponentsUsed": [
+        "ExecutivePageTemplate",
+        "ExecutiveEmptyState",
+        "ExecutiveBadge",
+        "ExecutiveSurface",
+        "ExecutiveHeading",
+        "ExecutiveText",
+        "ExecutiveIntelligenceShell",
+        "ExecutiveDecisionIntelligenceMount"
+      ],
+      "score": 63,
+      "metrics": {
+        "structural": 25,
+        "visual": 20,
+        "intelligence": 18,
+        "decision": 0,
+        "governance": 0
+      },
+      "gaps": {
+        "hasInterpretation": true,
+        "hasRecommendation": false,
+        "hasRisk": false,
+        "hasTenant": false
+      }
+    },
+    {
+      "file": "/src/components/pages/DLPAPage.tsx",
+      "name": "DLPAPage",
+      "legacyComponentsUsed": [],
+      "canonicalComponentsUsed": [
+        "ExecutiveText",
+        "ExecutiveHeading",
+        "ExecutiveTable",
+        "ExecutiveTableHeader",
+        "ExecutiveTableBody",
+        "ExecutiveTableRow",
+        "ExecutiveTableHead",
+        "ExecutiveTableCell",
+        "ExecutiveHistoricalEvolutionCard",
+        "ExecutiveComposedChart",
+        "ExecutiveBar",
+        "ExecutiveLine",
+        "ExecutiveChartGrid",
+        "ExecutiveChartXAxis",
+        "ExecutiveChartTooltip",
+        "ExecutiveChartSemanticPalette",
+        "ExecutiveEmptyState",
+        "ExecutiveSummarySection",
+        "ExecutiveStrategicTensions",
+        "ExecutiveDecisionTrace",
+        "ExecutiveSurface",
+        "ExecutiveStrategicSemanticCards",
+        "ExecutiveTechnicalLayer",
+        "ExecutiveMetricCard",
+        "ExecutiveTechnicalMetricCard",
+        "ExecutiveBadge",
+        "ExecutiveCallout",
+        "ExecutivePageTemplate",
+        "ExecutiveIntelligenceShell",
+        "ExecutiveDecisionIntelligenceMount"
+      ],
+      "score": 69,
+      "metrics": {
+        "structural": 25,
+        "visual": 20,
+        "intelligence": 24,
+        "decision": 0,
+        "governance": 0
+      },
+      "gaps": {
+        "hasInterpretation": true,
+        "hasRecommendation": false,
+        "hasRisk": true,
+        "hasTenant": false
+      }
+    },
+    {
+      "file": "/src/components/pages/DREPage.tsx",
+      "name": "DREPage",
+      "legacyComponentsUsed": [],
+      "canonicalComponentsUsed": [
+        "ExecutiveText",
+        "ExecutiveHeading",
+        "ExecutiveBadge",
+        "ExecutivePageTemplate",
+        "ExecutiveSurface",
+        "ExecutiveAccordion",
+        "ExecutiveEmptyState",
+        "ExecutiveSummarySection",
+        "ExecutiveStrategicTensions",
+        "ExecutiveDecisionTrace",
+        "ExecutiveIntelligenceShell",
+        "ExecutiveDecisionIntelligenceMount"
+      ],
+      "score": 77,
+      "metrics": {
+        "structural": 25,
+        "visual": 20,
+        "intelligence": 12,
+        "decision": 20,
+        "governance": 0
+      },
+      "gaps": {
+        "hasInterpretation": true,
+        "hasRecommendation": true,
+        "hasRisk": false,
+        "hasTenant": false
+      }
+    },
+    {
+      "file": "/src/components/pages/DadosHistoricosPage.tsx",
+      "name": "DadosHistoricosPage",
+      "legacyComponentsUsed": [],
+      "canonicalComponentsUsed": [],
+      "score": 30,
+      "metrics": {
+        "structural": 10,
+        "visual": 20,
+        "intelligence": 0,
+        "decision": 0,
+        "governance": 0
+      },
+      "gaps": {
+        "hasInterpretation": false,
+        "hasRecommendation": false,
+        "hasRisk": false,
+        "hasTenant": false
+      }
+    },
+    {
+      "file": "/src/components/pages/DashboardPage.tsx",
+      "name": "DashboardPage",
+      "legacyComponentsUsed": [
+        "SemanticCard",
+        "Button"
+      ],
+      "canonicalComponentsUsed": [
+        "ExecutiveChart",
+        "ExecutiveChartGrid",
+        "ExecutiveChartXAxis",
+        "ExecutiveChartYAxis",
+        "ExecutiveChartTooltip",
+        "ExecutiveSurface",
+        "ExecutiveEmptyState",
+        "ExecutiveMetricCard",
+        "ExecutiveBadge",
+        "SemanticCard",
+        "ExecutivePageTemplate",
+        "ExecutiveAccordion",
+        "ExecutiveHeading",
+        "ExecutiveCallout",
+        "ExecutiveNarrative",
+        "ExecutiveSummarySection",
+        "ExecutiveStrategicTensions",
+        "ExecutiveDecisionTrace",
+        "ExecutiveText",
+        "ExecutiveIntelligenceShell",
+        "ExecutiveDecisionIntelligenceMount"
+      ],
+      "score": 47,
+      "metrics": {
+        "structural": 25,
+        "visual": 10,
+        "intelligence": 12,
+        "decision": 0,
+        "governance": 0
+      },
+      "gaps": {
+        "hasInterpretation": true,
+        "hasRecommendation": false,
+        "hasRisk": false,
+        "hasTenant": false
+      }
+    },
+    {
+      "file": "/src/components/pages/DecisionGovernancePage.tsx",
+      "name": "DecisionGovernancePage",
+      "legacyComponentsUsed": [],
+      "canonicalComponentsUsed": [
+        "DecisionRecordRegistry",
+        "DecisionLineageBinder",
+        "ExecutivePageTemplate",
+        "ExecutiveSurface",
+        "ExecutiveAccordion",
+        "ExecutiveEmptyState",
+        "ExecutiveHeading",
+        "ExecutiveText",
+        "ExecutiveSummarySection",
+        "ExecutiveStrategicTensions",
+        "ExecutiveDecisionTrace"
+      ],
+      "score": 62,
+      "metrics": {
+        "structural": 25,
+        "visual": 20,
+        "intelligence": 12,
+        "decision": 0,
+        "governance": 5
+      },
+      "gaps": {
+        "hasInterpretation": true,
+        "hasRecommendation": false,
+        "hasRisk": false,
+        "hasTenant": false
+      }
+    },
+    {
+      "file": "/src/components/pages/DiagnosticoPage.tsx",
+      "name": "DiagnosticoPage",
+      "legacyComponentsUsed": [],
+      "canonicalComponentsUsed": [
+        "ExecutivePageTemplate"
+      ],
+      "score": 37,
+      "metrics": {
+        "structural": 5,
+        "visual": 20,
+        "intelligence": 12,
+        "decision": 0,
+        "governance": 0
+      },
+      "gaps": {
+        "hasInterpretation": true,
+        "hasRecommendation": false,
+        "hasRisk": false,
+        "hasTenant": false
+      }
+    },
+    {
+      "file": "/src/components/pages/DiretrizesPage.tsx",
+      "name": "DiretrizesPage",
+      "legacyComponentsUsed": [],
+      "canonicalComponentsUsed": [
+        "ExecutiveSurface",
+        "ExecutiveAccordion",
+        "ExecutiveEmptyState",
+        "ExecutiveMetricCard",
+        "ExecutivePageTemplate",
+        "ExecutiveHeading",
+        "ExecutiveText",
+        "ExecutiveSummarySection",
+        "ExecutiveStrategicTensions",
+        "ExecutiveDecisionTrace"
+      ],
+      "score": 57,
+      "metrics": {
+        "structural": 25,
+        "visual": 20,
+        "intelligence": 12,
+        "decision": 0,
+        "governance": 0
+      },
+      "gaps": {
+        "hasInterpretation": true,
+        "hasRecommendation": false,
+        "hasRisk": false,
+        "hasTenant": false
+      }
+    },
+    {
+      "file": "/src/components/pages/DreGerencialPage.tsx",
+      "name": "DreGerencialPage",
+      "legacyComponentsUsed": [],
+      "canonicalComponentsUsed": [
+        "ExecutiveCommentary",
+        "ExecutiveMetricCard",
+        "ExecutivePageTemplate",
+        "ExecutiveSurface",
+        "ExecutiveAccordion",
+        "ExecutiveEmptyState",
+        "ExecutiveHeading",
+        "ExecutiveText",
+        "ExecutiveBadge",
+        "ExecutiveSummarySection",
+        "ExecutiveStrategicTensions",
+        "ExecutiveDecisionTrace",
+        "ExecutiveTable",
+        "ExecutiveTableHeader",
+        "ExecutiveTableBody",
+        "ExecutiveTableRow",
+        "ExecutiveTableHead",
+        "ExecutiveTableCell"
+      ],
+      "score": 51,
+      "metrics": {
+        "structural": 25,
+        "visual": 20,
+        "intelligence": 6,
+        "decision": 0,
+        "governance": 0
+      },
+      "gaps": {
+        "hasInterpretation": true,
+        "hasRecommendation": false,
+        "hasRisk": false,
+        "hasTenant": false
+      }
+    },
+    {
+      "file": "/src/components/pages/EFOSPage.tsx",
+      "name": "EFOSPage",
+      "legacyComponentsUsed": [],
+      "canonicalComponentsUsed": [
+        "ExecutiveIntelligenceReport",
+        "ExecutiveRecommendation",
+        "ExecutiveConsolidationResult",
+        "ExecutivePresentationRegistry",
+        "ExecutiveSemanticRegistry",
+        "ExecutivePageTemplate",
+        "ExecutiveSurface",
+        "ExecutiveAccordion",
+        "ExecutiveMetricCard",
+        "ExecutiveEmptyState",
+        "ExecutiveHeading",
+        "ExecutiveText",
+        "ExecutiveSummarySection",
+        "ExecutiveStrategicTensions",
+        "ExecutiveDecisionTrace",
+        "ExecutiveIntelligenceShell",
+        "ExecutiveDecisionIntelligenceMount"
+      ],
+      "score": 89,
+      "metrics": {
+        "structural": 25,
+        "visual": 20,
+        "intelligence": 24,
+        "decision": 20,
+        "governance": 0
+      },
+      "gaps": {
+        "hasInterpretation": true,
+        "hasRecommendation": true,
+        "hasRisk": true,
+        "hasTenant": false
+      }
+    },
+    {
+      "file": "/src/components/pages/EarlyWarningPage.tsx",
+      "name": "EarlyWarningPage",
+      "legacyComponentsUsed": [],
+      "canonicalComponentsUsed": [
+        "GovernanceTrendPanel",
+        "ExecutivePageTemplate",
+        "ExecutiveSurface",
+        "ExecutiveAccordion",
+        "ExecutiveEmptyState",
+        "ExecutiveHeading",
+        "ExecutiveText",
+        "ExecutiveSummarySection",
+        "ExecutiveStrategicTensions",
+        "ExecutiveDecisionTrace"
+      ],
+      "score": 68,
+      "metrics": {
+        "structural": 25,
+        "visual": 20,
+        "intelligence": 18,
+        "decision": 0,
+        "governance": 5
+      },
+      "gaps": {
+        "hasInterpretation": true,
+        "hasRecommendation": false,
+        "hasRisk": true,
+        "hasTenant": true
+      }
+    },
+    {
+      "file": "/src/components/pages/EnterpriseValidationPage.tsx",
+      "name": "EnterpriseValidationPage",
+      "legacyComponentsUsed": [],
+      "canonicalComponentsUsed": [
+        "InstitutionalUXInsights",
+        "InstitutionalDeploymentMap",
+        "ExecutivePageTemplate",
+        "ExecutiveSurface",
+        "ExecutiveAccordion",
+        "ExecutiveEmptyState",
+        "ExecutiveHeading",
+        "ExecutiveText",
+        "ExecutiveSummarySection",
+        "ExecutiveStrategicTensions",
+        "ExecutiveDecisionTrace"
+      ],
+      "score": 68,
+      "metrics": {
+        "structural": 25,
+        "visual": 20,
+        "intelligence": 18,
+        "decision": 0,
+        "governance": 5
+      },
+      "gaps": {
+        "hasInterpretation": true,
+        "hasRecommendation": false,
+        "hasRisk": false,
+        "hasTenant": true
+      }
+    },
+    {
+      "file": "/src/components/pages/EstruturaGovernancaPage.tsx",
+      "name": "EstruturaGovernancaPage",
+      "legacyComponentsUsed": [],
+      "canonicalComponentsUsed": [
+        "ExecutivePageTemplate",
+        "GovernanceRolesPanel"
+      ],
+      "score": 36,
+      "metrics": {
+        "structural": 10,
+        "visual": 20,
+        "intelligence": 6,
+        "decision": 0,
+        "governance": 0
+      },
+      "gaps": {
+        "hasInterpretation": true,
+        "hasRecommendation": false,
+        "hasRisk": false,
+        "hasTenant": false
+      }
+    },
+    {
+      "file": "/src/components/pages/ExecutiveCognitivePage.tsx",
+      "name": "ExecutiveCognitivePage",
+      "legacyComponentsUsed": [
+        "CognitiveSummaryCard"
+      ],
+      "canonicalComponentsUsed": [
+        "DecisionImpactPanel",
+        "ExecutivePageTemplate",
+        "ExecutiveSurface",
+        "ExecutiveAccordion",
+        "ExecutiveEmptyState",
+        "ExecutiveHeading",
+        "ExecutiveText",
+        "ExecutiveSummarySection",
+        "ExecutiveStrategicTensions",
+        "ExecutiveDecisionTrace"
+      ],
+      "score": 58,
+      "metrics": {
+        "structural": 25,
+        "visual": 15,
+        "intelligence": 18,
+        "decision": 0,
+        "governance": 0
+      },
+      "gaps": {
+        "hasInterpretation": true,
+        "hasRecommendation": false,
+        "hasRisk": false,
+        "hasTenant": false
+      }
+    },
+    {
+      "file": "/src/components/pages/ExecutiveDecisionCenter.tsx",
+      "name": "ExecutiveDecisionCenter",
+      "legacyComponentsUsed": [],
+      "canonicalComponentsUsed": [
+        "ExecutiveDecisionOutput",
+        "ExecutiveSurface",
+        "ExecutiveAccordion",
+        "ExecutiveEmptyState",
+        "ExecutiveMetricCard",
+        "ExecutiveBadge",
+        "ExecutiveSummarySection",
+        "ExecutiveStrategicTensions",
+        "ExecutiveDecisionTrace",
+        "ExecutiveTechnicalLayer",
+        "ExecutivePageTemplate",
+        "ExecutiveHeading",
+        "ExecutiveText"
+      ],
+      "score": 51,
+      "metrics": {
+        "structural": 25,
+        "visual": 20,
+        "intelligence": 6,
+        "decision": 0,
+        "governance": 0
+      },
+      "gaps": {
+        "hasInterpretation": true,
+        "hasRecommendation": false,
+        "hasRisk": false,
+        "hasTenant": false
+      }
+    },
+    {
+      "file": "/src/components/pages/ExecutiveScenarioLabPage.tsx",
+      "name": "ExecutiveScenarioLabPage",
+      "legacyComponentsUsed": [
+        "SimulationConfidenceCard"
+      ],
+      "canonicalComponentsUsed": [
+        "ExecutiveScenarioNavigator",
+        "GovernanceProjectionTimeline",
+        "GovernanceForecastSurface",
+        "ExecutivePageTemplate",
+        "ExecutiveSurface",
+        "ExecutiveBadge",
+        "ExecutiveHeading",
+        "ExecutiveText",
+        "ExecutiveSummarySection",
+        "ExecutiveStrategicTensions",
+        "ExecutiveDecisionTrace",
+        "ExecutiveTechnicalLayer"
+      ],
+      "score": 57,
+      "metrics": {
+        "structural": 25,
+        "visual": 15,
+        "intelligence": 12,
+        "decision": 0,
+        "governance": 5
+      },
+      "gaps": {
+        "hasInterpretation": true,
+        "hasRecommendation": false,
+        "hasRisk": false,
+        "hasTenant": false
+      }
+    },
+    {
+      "file": "/src/components/pages/FinancialAdminDashboard.tsx",
+      "name": "FinancialAdminDashboard",
+      "legacyComponentsUsed": [],
+      "canonicalComponentsUsed": [
+        "ExecutiveSurface",
+        "ExecutiveAccordion",
+        "ExecutiveEmptyState",
+        "ExecutiveMetricCard",
+        "ExecutivePageTemplate",
+        "ExecutiveHeading",
+        "ExecutiveText",
+        "ExecutiveSummarySection",
+        "ExecutiveStrategicTensions",
+        "ExecutiveDecisionTrace",
+        "ExecutivePerspectiveSection"
+      ],
+      "score": 63,
+      "metrics": {
+        "structural": 25,
+        "visual": 20,
+        "intelligence": 18,
+        "decision": 0,
+        "governance": 0
+      },
+      "gaps": {
+        "hasInterpretation": true,
+        "hasRecommendation": false,
+        "hasRisk": false,
+        "hasTenant": false
+      }
+    },
+    {
+      "file": "/src/components/pages/FinancialModelingPage.tsx",
+      "name": "FinancialModelingPage",
+      "legacyComponentsUsed": [
+        "CreditCard"
+      ],
+      "canonicalComponentsUsed": [
+        "ExecutiveSurface",
+        "ExecutiveAccordion",
+        "ExecutiveEmptyState",
+        "ExecutiveMetricCard",
+        "ExecutiveBadge",
+        "ExecutiveHeading",
+        "ExecutiveText",
+        "ExecutiveSummarySection",
+        "ExecutiveStrategicTensions",
+        "ExecutiveDecisionTrace",
+        "ExecutiveTechnicalLayer",
+        "ExecutivePageTemplate"
+      ],
+      "score": 52,
+      "metrics": {
+        "structural": 25,
+        "visual": 15,
+        "intelligence": 12,
+        "decision": 0,
+        "governance": 0
+      },
+      "gaps": {
+        "hasInterpretation": true,
+        "hasRecommendation": false,
+        "hasRisk": false,
+        "hasTenant": false
+      }
+    },
+    {
+      "file": "/src/components/pages/FinancialPositionPage.tsx",
+      "name": "FinancialPositionPage",
+      "legacyComponentsUsed": [],
+      "canonicalComponentsUsed": [
+        "ExecutivePageTemplate",
+        "ExecutiveSurface",
+        "ExecutiveAccordion",
+        "ExecutiveEmptyState",
+        "ExecutiveMetricCard",
+        "ExecutiveHeading",
+        "ExecutiveText",
+        "ExecutiveSummarySection",
+        "ExecutiveStrategicTensions",
+        "ExecutiveDecisionTrace"
+      ],
+      "score": 57,
+      "metrics": {
+        "structural": 25,
+        "visual": 20,
+        "intelligence": 12,
+        "decision": 0,
+        "governance": 0
+      },
+      "gaps": {
+        "hasInterpretation": true,
+        "hasRecommendation": false,
+        "hasRisk": false,
+        "hasTenant": false
+      }
+    },
+    {
+      "file": "/src/components/pages/FiscalTributarioPage.tsx",
+      "name": "FiscalTributarioPage",
+      "legacyComponentsUsed": [],
+      "canonicalComponentsUsed": [
+        "ExecutivePageTemplate",
+        "ExecutiveSurface",
+        "ExecutiveAccordion",
+        "ExecutiveEmptyState",
+        "ExecutiveMetricCard",
+        "ExecutiveHeading",
+        "ExecutiveText",
+        "ExecutiveSummarySection",
+        "ExecutiveStrategicTensions",
+        "ExecutiveDecisionTrace"
+      ],
+      "score": 57,
+      "metrics": {
+        "structural": 25,
+        "visual": 20,
+        "intelligence": 12,
+        "decision": 0,
+        "governance": 0
+      },
+      "gaps": {
+        "hasInterpretation": true,
+        "hasRecommendation": false,
+        "hasRisk": false,
+        "hasTenant": false
+      }
+    },
+    {
+      "file": "/src/components/pages/GovernanceDashboardPage.tsx",
+      "name": "GovernanceDashboardPage",
+      "legacyComponentsUsed": [
+        "KpiCard",
+        "TemporalAdvisoryCard"
+      ],
+      "canonicalComponentsUsed": [
+        "GovernanceInsightPanel",
+        "ExecutiveEmptyState",
+        "ExecutiveAccordion",
+        "ExecutiveMetricCard",
+        "ExecutiveSurface",
+        "ExecutiveDecisionMemo",
+        "ExecutiveNarrative",
+        "ExecutiveCallout",
+        "ExecutiveChart",
+        "ExecutiveChartTooltip",
+        "GovernanceTrajectoryGraph",
+        "InstitutionalResilienceTimeline",
+        "ExecutivePageTemplate",
+        "ExecutiveHeading",
+        "ExecutiveText",
+        "ExecutiveSummarySection",
+        "ExecutiveStrategicTensions",
+        "ExecutiveDecisionTrace"
+      ],
+      "score": 58,
+      "metrics": {
+        "structural": 25,
+        "visual": 10,
+        "intelligence": 18,
+        "decision": 0,
+        "governance": 5
+      },
+      "gaps": {
+        "hasInterpretation": true,
+        "hasRecommendation": false,
+        "hasRisk": false,
+        "hasTenant": true
+      }
+    },
+    {
+      "file": "/src/components/pages/GovernanceOrchestrationPage.tsx",
+      "name": "GovernanceOrchestrationPage",
+      "legacyComponentsUsed": [],
+      "canonicalComponentsUsed": [
+        "GovernancePlaybookPanel",
+        "InstitutionalPriorityBoard",
+        "GovernanceRecommendationFeed",
+        "ExecutivePageTemplate",
+        "ExecutiveSurface",
+        "ExecutiveAccordion",
+        "ExecutiveEmptyState",
+        "ExecutiveHeading",
+        "ExecutiveText",
+        "ExecutiveSummarySection",
+        "ExecutiveStrategicTensions",
+        "ExecutiveDecisionTrace"
+      ],
+      "score": 82,
+      "metrics": {
+        "structural": 25,
+        "visual": 20,
+        "intelligence": 12,
+        "decision": 20,
+        "governance": 5
+      },
+      "gaps": {
+        "hasInterpretation": true,
+        "hasRecommendation": true,
+        "hasRisk": false,
+        "hasTenant": true
+      }
+    },
+    {
+      "file": "/src/components/pages/GovernanceTimeMachinePage.tsx",
+      "name": "GovernanceTimeMachinePage",
+      "legacyComponentsUsed": [],
+      "canonicalComponentsUsed": [
+        "GovernanceTimeMachineWorkspace",
+        "GovernanceTimeMachineViewModel",
+        "GovernanceTimeMachineRuntime",
+        "InstitutionalDriftEngine",
+        "ExecutivePageTemplate",
+        "ExecutiveSurface",
+        "ExecutiveAccordion",
+        "ExecutiveEmptyState",
+        "ExecutiveHeading",
+        "ExecutiveText",
+        "ExecutiveBadge",
+        "ExecutiveMetricCard",
+        "ExecutiveSummarySection",
+        "ExecutiveStrategicTensions",
+        "ExecutiveDecisionTrace",
+        "ExecutiveTechnicalLayer"
+      ],
+      "score": 62,
+      "metrics": {
+        "structural": 25,
+        "visual": 20,
+        "intelligence": 12,
+        "decision": 0,
+        "governance": 5
+      },
+      "gaps": {
+        "hasInterpretation": true,
+        "hasRecommendation": false,
+        "hasRisk": false,
+        "hasTenant": true
+      }
+    },
+    {
+      "file": "/src/components/pages/IndicatorsPage.tsx",
+      "name": "IndicatorsPage",
+      "legacyComponentsUsed": [],
+      "canonicalComponentsUsed": [
+        "ExecutiveSurface",
+        "ExecutiveAccordion",
+        "ExecutiveEmptyState",
+        "ExecutiveMetricCard",
+        "ExecutiveBadge",
+        "ExecutiveTechnicalLayer",
+        "ExecutiveSummarySection",
+        "ExecutiveStrategicTensions",
+        "ExecutiveDecisionTrace",
+        "ExecutivePageTemplate",
+        "ExecutiveHeading",
+        "ExecutiveText"
+      ],
+      "score": 57,
+      "metrics": {
+        "structural": 25,
+        "visual": 20,
+        "intelligence": 12,
+        "decision": 0,
+        "governance": 0
+      },
+      "gaps": {
+        "hasInterpretation": true,
+        "hasRecommendation": false,
+        "hasRisk": false,
+        "hasTenant": false
+      }
+    },
+    {
+      "file": "/src/components/pages/InstitutionalBenchmarkingPage.tsx",
+      "name": "InstitutionalBenchmarkingPage",
+      "legacyComponentsUsed": [],
+      "canonicalComponentsUsed": [
+        "InstitutionalBenchmarkEngine",
+        "ExecutivePageTemplate",
+        "ExecutiveSurface",
+        "ExecutiveAccordion",
+        "ExecutiveEmptyState",
+        "ExecutiveHeading",
+        "ExecutiveText",
+        "ExecutiveBadge",
+        "ExecutiveSummarySection",
+        "ExecutiveStrategicTensions",
+        "ExecutiveDecisionTrace",
+        "ExecutiveTechnicalLayer"
+      ],
+      "score": 63,
+      "metrics": {
+        "structural": 25,
+        "visual": 20,
+        "intelligence": 18,
+        "decision": 0,
+        "governance": 0
+      },
+      "gaps": {
+        "hasInterpretation": true,
+        "hasRecommendation": false,
+        "hasRisk": true,
+        "hasTenant": false
+      }
+    },
+    {
+      "file": "/src/components/pages/InstitutionalBoardPackPage.tsx",
+      "name": "InstitutionalBoardPackPage",
+      "legacyComponentsUsed": [],
+      "canonicalComponentsUsed": [
+        "ExecutivePageTemplate",
+        "ExecutiveSurface",
+        "ExecutiveAccordion",
+        "ExecutiveEmptyState",
+        "ExecutiveHeading",
+        "ExecutiveText",
+        "ExecutiveBadge",
+        "ExecutiveMetricCard",
+        "ExecutiveSummarySection",
+        "ExecutiveStrategicTensions",
+        "ExecutiveDecisionTrace",
+        "ExecutiveTechnicalLayer"
+      ],
+      "score": 57,
+      "metrics": {
+        "structural": 25,
+        "visual": 20,
+        "intelligence": 12,
+        "decision": 0,
+        "governance": 0
+      },
+      "gaps": {
+        "hasInterpretation": true,
+        "hasRecommendation": false,
+        "hasRisk": false,
+        "hasTenant": false
+      }
+    },
+    {
+      "file": "/src/components/pages/InstitutionalContinuityCockpitPage.tsx",
+      "name": "InstitutionalContinuityCockpitPage",
+      "legacyComponentsUsed": [],
+      "canonicalComponentsUsed": [
+        "InstitutionalLifecycleSurface",
+        "InstitutionalTrajectoryGraph",
+        "ExecutiveContinuityNarrativePanel",
+        "ExecutivePageTemplate",
+        "ExecutiveSurface",
+        "ExecutiveAccordion",
+        "ExecutiveEmptyState",
+        "ExecutiveHeading",
+        "ExecutiveText",
+        "ExecutiveBadge",
+        "ExecutiveMetricCard",
+        "ExecutiveSummarySection",
+        "ExecutiveStrategicTensions",
+        "ExecutiveDecisionTrace",
+        "ExecutiveTechnicalLayer"
+      ],
+      "score": 63,
+      "metrics": {
+        "structural": 25,
+        "visual": 20,
+        "intelligence": 18,
+        "decision": 0,
+        "governance": 0
+      },
+      "gaps": {
+        "hasInterpretation": true,
+        "hasRecommendation": false,
+        "hasRisk": false,
+        "hasTenant": false
+      }
+    },
+    {
+      "file": "/src/components/pages/InstitutionalCopilotPage.tsx",
+      "name": "InstitutionalCopilotPage",
+      "legacyComponentsUsed": [],
+      "canonicalComponentsUsed": [
+        "ExecutivePageTemplate",
+        "ExecutiveSurface",
+        "ExecutiveAccordion",
+        "ExecutiveEmptyState",
+        "ExecutiveHeading",
+        "ExecutiveSummarySection",
+        "ExecutiveStrategicTensions",
+        "ExecutiveDecisionTrace"
+      ],
+      "score": 57,
+      "metrics": {
+        "structural": 25,
+        "visual": 20,
+        "intelligence": 12,
+        "decision": 0,
+        "governance": 0
+      },
+      "gaps": {
+        "hasInterpretation": true,
+        "hasRecommendation": false,
+        "hasRisk": false,
+        "hasTenant": false
+      }
+    },
+    {
+      "file": "/src/components/pages/InstitutionalDeploymentReadinessPage.tsx",
+      "name": "InstitutionalDeploymentReadinessPage",
+      "legacyComponentsUsed": [],
+      "canonicalComponentsUsed": [
+        "InstitutionalDeploymentReadinessOutput",
+        "ExecutivePageTemplate",
+        "ExecutiveSurface",
+        "ExecutiveAccordion",
+        "ExecutiveEmptyState",
+        "ExecutiveHeading",
+        "ExecutiveText",
+        "ExecutiveBadge",
+        "ExecutiveMetricCard",
+        "ExecutiveSummarySection",
+        "ExecutiveStrategicTensions",
+        "ExecutiveDecisionTrace",
+        "ExecutiveTechnicalLayer"
+      ],
+      "score": 57,
+      "metrics": {
+        "structural": 25,
+        "visual": 20,
+        "intelligence": 12,
+        "decision": 0,
+        "governance": 0
+      },
+      "gaps": {
+        "hasInterpretation": true,
+        "hasRecommendation": false,
+        "hasRisk": false,
+        "hasTenant": false
+      }
+    },
+    {
+      "file": "/src/components/pages/InstitutionalDigitalTwinPage.tsx",
+      "name": "InstitutionalDigitalTwinPage",
+      "legacyComponentsUsed": [],
+      "canonicalComponentsUsed": [
+        "InstitutionalDigitalTwinWorkspace",
+        "InstitutionalDigitalTwinRuntime",
+        "InstitutionalObservabilityRegistry",
+        "ExecutivePageTemplate",
+        "ExecutiveSurface",
+        "ExecutiveAccordion",
+        "ExecutiveEmptyState",
+        "ExecutiveHeading",
+        "ExecutiveText",
+        "ExecutiveBadge",
+        "ExecutiveMetricCard",
+        "ExecutiveSummarySection",
+        "ExecutiveStrategicTensions",
+        "ExecutiveDecisionTrace",
+        "ExecutiveTechnicalLayer"
+      ],
+      "score": 62,
+      "metrics": {
+        "structural": 25,
+        "visual": 20,
+        "intelligence": 12,
+        "decision": 0,
+        "governance": 5
+      },
+      "gaps": {
+        "hasInterpretation": true,
+        "hasRecommendation": false,
+        "hasRisk": false,
+        "hasTenant": true
+      }
+    },
+    {
+      "file": "/src/components/pages/InstitutionalIOSPage.tsx",
+      "name": "InstitutionalIOSPage",
+      "legacyComponentsUsed": [],
+      "canonicalComponentsUsed": [
+        "InstitutionalOperatingSystem",
+        "InstitutionalPulsePanel",
+        "InstitutionalContextViewer",
+        "InstitutionalDependencyGraph",
+        "GovernanceCoordinationCenter",
+        "InstitutionalStateMap",
+        "ExecutiveSummarySection",
+        "ExecutiveStrategicTensions",
+        "ExecutiveDecisionTrace",
+        "ExecutiveHeading",
+        "ExecutiveText",
+        "ExecutivePageTemplate",
+        "ExecutiveSurface",
+        "ExecutiveAccordion",
+        "ExecutiveEmptyState",
+        "ExecutiveMetricCard"
+      ],
+      "score": 62,
+      "metrics": {
+        "structural": 25,
+        "visual": 20,
+        "intelligence": 12,
+        "decision": 0,
+        "governance": 5
+      },
+      "gaps": {
+        "hasInterpretation": true,
+        "hasRecommendation": false,
+        "hasRisk": false,
+        "hasTenant": true
+      }
+    },
+    {
+      "file": "/src/components/pages/InstitutionalIntegrationsPage.tsx",
+      "name": "InstitutionalIntegrationsPage",
+      "legacyComponentsUsed": [],
+      "canonicalComponentsUsed": [
+        "ExecutivePageTemplate",
+        "ExecutiveAccordion",
+        "ExecutiveEmptyState",
+        "ExecutiveSurface",
+        "ExecutiveMetricCard",
+        "ExecutiveHeading",
+        "ExecutiveText",
+        "ExecutiveSummarySection",
+        "ExecutiveStrategicTensions",
+        "ExecutiveDecisionTrace"
+      ],
+      "score": 62,
+      "metrics": {
+        "structural": 25,
+        "visual": 20,
+        "intelligence": 12,
+        "decision": 0,
+        "governance": 5
+      },
+      "gaps": {
+        "hasInterpretation": true,
+        "hasRecommendation": false,
+        "hasRisk": false,
+        "hasTenant": true
+      }
+    },
+    {
+      "file": "/src/components/pages/InstitutionalKnowledgeGraphPage.tsx",
+      "name": "InstitutionalKnowledgeGraphPage",
+      "legacyComponentsUsed": [],
+      "canonicalComponentsUsed": [
+        "SemanticLineageViewer",
+        "GovernanceRelationshipViewer",
+        "ExecutivePageTemplate",
+        "ExecutiveSurface",
+        "ExecutiveAccordion",
+        "ExecutiveEmptyState",
+        "ExecutiveHeading",
+        "ExecutiveText",
+        "ExecutiveSummarySection",
+        "ExecutiveStrategicTensions",
+        "ExecutiveDecisionTrace"
+      ],
+      "score": 73,
+      "metrics": {
+        "structural": 25,
+        "visual": 20,
+        "intelligence": 18,
+        "decision": 0,
+        "governance": 10
+      },
+      "gaps": {
+        "hasInterpretation": true,
+        "hasRecommendation": false,
+        "hasRisk": true,
+        "hasTenant": true
+      }
+    },
+    {
+      "file": "/src/components/pages/InstitutionalMonitoringPage.tsx",
+      "name": "InstitutionalMonitoringPage",
+      "legacyComponentsUsed": [],
+      "canonicalComponentsUsed": [
+        "ExecutivePageTemplate",
+        "ExecutiveSurface",
+        "ExecutiveAccordion",
+        "ExecutiveEmptyState",
+        "ExecutiveHeading",
+        "ExecutiveText",
+        "ExecutiveSummarySection",
+        "ExecutiveStrategicTensions",
+        "ExecutiveDecisionTrace"
+      ],
+      "score": 62,
+      "metrics": {
+        "structural": 25,
+        "visual": 20,
+        "intelligence": 12,
+        "decision": 0,
+        "governance": 5
+      },
+      "gaps": {
+        "hasInterpretation": true,
+        "hasRecommendation": false,
+        "hasRisk": false,
+        "hasTenant": true
+      }
+    },
+    {
+      "file": "/src/components/pages/InstitutionalOnboardingControlCenterPage.tsx",
+      "name": "InstitutionalOnboardingControlCenterPage",
+      "legacyComponentsUsed": [],
+      "canonicalComponentsUsed": [
+        "InstitutionalOnboardingOutput",
+        "ExecutivePageTemplate",
+        "ExecutiveSurface",
+        "ExecutiveAccordion",
+        "ExecutiveEmptyState",
+        "ExecutiveHeading",
+        "ExecutiveText",
+        "ExecutiveBadge",
+        "ExecutiveMetricCard",
+        "ExecutiveSummarySection",
+        "ExecutiveStrategicTensions",
+        "ExecutiveDecisionTrace",
+        "ExecutiveTechnicalLayer"
+      ],
+      "score": 57,
+      "metrics": {
+        "structural": 25,
+        "visual": 20,
+        "intelligence": 12,
+        "decision": 0,
+        "governance": 0
+      },
+      "gaps": {
+        "hasInterpretation": true,
+        "hasRecommendation": false,
+        "hasRisk": false,
+        "hasTenant": false
+      }
+    },
+    {
+      "file": "/src/components/pages/InstitutionalReportsPage.tsx",
+      "name": "InstitutionalReportsPage",
+      "legacyComponentsUsed": [],
+      "canonicalComponentsUsed": [
+        "ExecutiveBoardPack",
+        "ExecutiveSummarySection",
+        "ExecutiveStrategicTensions",
+        "ExecutiveDecisionTrace",
+        "ExecutiveHeading",
+        "ExecutiveText",
+        "ExecutivePageTemplate",
+        "ExecutiveSurface",
+        "ExecutiveBadge",
+        "ExecutiveMetricCard",
+        "ExecutiveTechnicalLayer"
+      ],
+      "score": 62,
+      "metrics": {
+        "structural": 25,
+        "visual": 20,
+        "intelligence": 12,
+        "decision": 0,
+        "governance": 5
+      },
+      "gaps": {
+        "hasInterpretation": true,
+        "hasRecommendation": false,
+        "hasRisk": false,
+        "hasTenant": false
+      }
+    },
+    {
+      "file": "/src/components/pages/InstitutionalStrategicIntelligencePage.tsx",
+      "name": "InstitutionalStrategicIntelligencePage",
+      "legacyComponentsUsed": [],
+      "canonicalComponentsUsed": [
+        "InstitutionalStrategicIntelligenceCenter",
+        "InstitutionalExecutiveCommandRuntime",
+        "InstitutionalOperationalGovernanceRuntime",
+        "InstitutionalStrategicIntelligenceRuntime",
+        "ExecutivePageTemplate",
+        "ExecutiveSurface",
+        "ExecutiveBadge",
+        "ExecutiveHeading",
+        "ExecutiveText",
+        "ExecutiveSummarySection",
+        "ExecutiveStrategicTensions",
+        "ExecutiveDecisionTrace",
+        "ExecutiveTechnicalLayer"
+      ],
+      "score": 68,
+      "metrics": {
+        "structural": 25,
+        "visual": 20,
+        "intelligence": 18,
+        "decision": 0,
+        "governance": 5
+      },
+      "gaps": {
+        "hasInterpretation": true,
+        "hasRecommendation": false,
+        "hasRisk": true,
+        "hasTenant": true
+      }
+    },
+    {
+      "file": "/src/components/pages/LeadershipProfilePage.tsx",
+      "name": "LeadershipProfilePage",
+      "legacyComponentsUsed": [],
+      "canonicalComponentsUsed": [
+        "ExecutivePageTemplate",
+        "ExecutiveSummarySection",
+        "ExecutiveStrategicTensions",
+        "ExecutiveDecisionTrace",
+        "ExecutiveHeading",
+        "ExecutiveText",
+        "ExecutiveSurface",
+        "ExecutiveAccordion",
+        "ExecutiveEmptyState"
+      ],
+      "score": 57,
+      "metrics": {
+        "structural": 25,
+        "visual": 20,
+        "intelligence": 12,
+        "decision": 0,
+        "governance": 0
+      },
+      "gaps": {
+        "hasInterpretation": true,
+        "hasRecommendation": false,
+        "hasRisk": false,
+        "hasTenant": false
+      }
+    },
+    {
+      "file": "/src/components/pages/LoanInvestmentSimPage.tsx",
+      "name": "LoanInvestmentSimPage",
+      "legacyComponentsUsed": [],
+      "canonicalComponentsUsed": [
+        "ExecutivePageTemplate"
+      ],
+      "score": 31,
+      "metrics": {
+        "structural": 5,
+        "visual": 20,
+        "intelligence": 6,
+        "decision": 0,
+        "governance": 0
+      },
+      "gaps": {
+        "hasInterpretation": true,
+        "hasRecommendation": false,
+        "hasRisk": false,
+        "hasTenant": false
+      }
+    },
+    {
+      "file": "/src/components/pages/LoansPage.tsx",
+      "name": "LoansPage",
+      "legacyComponentsUsed": [],
+      "canonicalComponentsUsed": [
+        "ExecutivePageTemplate",
+        "ExecutiveSurface",
+        "ExecutiveAccordion",
+        "ExecutiveEmptyState",
+        "ExecutiveMetricCard",
+        "ExecutiveBadge",
+        "ExecutiveHeading",
+        "ExecutiveText",
+        "ExecutiveSummarySection",
+        "ExecutiveStrategicTensions",
+        "ExecutiveDecisionTrace",
+        "ExecutiveTechnicalLayer"
+      ],
+      "score": 57,
+      "metrics": {
+        "structural": 25,
+        "visual": 20,
+        "intelligence": 12,
+        "decision": 0,
+        "governance": 0
+      },
+      "gaps": {
+        "hasInterpretation": true,
+        "hasRecommendation": false,
+        "hasRisk": false,
+        "hasTenant": false
+      }
+    },
+    {
+      "file": "/src/components/pages/MaintenancePage.tsx",
+      "name": "MaintenancePage",
+      "legacyComponentsUsed": [],
+      "canonicalComponentsUsed": [
+        "ExecutiveSummarySection",
+        "ExecutiveStrategicTensions",
+        "ExecutiveDecisionTrace",
+        "ExecutiveHeading",
+        "ExecutiveText",
+        "ExecutivePageTemplate",
+        "ExecutiveSurface",
+        "ExecutiveAccordion",
+        "ExecutiveEmptyState"
+      ],
+      "score": 57,
+      "metrics": {
+        "structural": 25,
+        "visual": 20,
+        "intelligence": 12,
+        "decision": 0,
+        "governance": 0
+      },
+      "gaps": {
+        "hasInterpretation": true,
+        "hasRecommendation": false,
+        "hasRisk": false,
+        "hasTenant": false
+      }
+    },
+    {
+      "file": "/src/components/pages/MarketingComercialPage.tsx",
+      "name": "MarketingComercialPage",
+      "legacyComponentsUsed": [],
+      "canonicalComponentsUsed": [
+        "ExecutiveSummarySection",
+        "ExecutiveStrategicTensions",
+        "ExecutiveDecisionTrace",
+        "ExecutiveHeading",
+        "ExecutiveText",
+        "ExecutivePageTemplate",
+        "ExecutiveMetricCard",
+        "ExecutiveSurface",
+        "ExecutiveAccordion",
+        "ExecutiveEmptyState"
+      ],
+      "score": 83,
+      "metrics": {
+        "structural": 25,
+        "visual": 20,
+        "intelligence": 18,
+        "decision": 20,
+        "governance": 0
+      },
+      "gaps": {
+        "hasInterpretation": true,
+        "hasRecommendation": true,
+        "hasRisk": false,
+        "hasTenant": false
+      }
+    },
+    {
+      "file": "/src/components/pages/MeetingMinutesPage.tsx",
+      "name": "MeetingMinutesPage",
+      "legacyComponentsUsed": [],
+      "canonicalComponentsUsed": [
+        "ExecutiveSummarySection",
+        "ExecutiveStrategicTensions",
+        "ExecutiveDecisionTrace",
+        "ExecutiveHeading",
+        "ExecutiveText",
+        "ExecutivePageTemplate",
+        "ExecutiveAccordion",
+        "ExecutiveEmptyState",
+        "ExecutiveSurface",
+        "ExecutiveMetricCard",
+        "ExecutiveBadge",
+        "ExecutiveTechnicalLayer"
+      ],
+      "score": 57,
+      "metrics": {
+        "structural": 25,
+        "visual": 20,
+        "intelligence": 12,
+        "decision": 0,
+        "governance": 0
+      },
+      "gaps": {
+        "hasInterpretation": true,
+        "hasRecommendation": false,
+        "hasRisk": false,
+        "hasTenant": false
+      }
+    },
+    {
+      "file": "/src/components/pages/MessagesPage.tsx",
+      "name": "MessagesPage",
+      "legacyComponentsUsed": [],
+      "canonicalComponentsUsed": [
+        "ExecutiveSummarySection",
+        "ExecutiveStrategicTensions",
+        "ExecutiveDecisionTrace",
+        "ExecutiveHeading",
+        "ExecutiveText",
+        "ExecutivePageTemplate",
+        "ExecutiveSurface",
+        "ExecutiveAccordion",
+        "ExecutiveEmptyState"
+      ],
+      "score": 57,
+      "metrics": {
+        "structural": 25,
+        "visual": 20,
+        "intelligence": 12,
+        "decision": 0,
+        "governance": 0
+      },
+      "gaps": {
+        "hasInterpretation": true,
+        "hasRecommendation": false,
+        "hasRisk": false,
+        "hasTenant": false
+      }
+    },
+    {
+      "file": "/src/components/pages/OKRsPage.tsx",
+      "name": "OKRsPage",
+      "legacyComponentsUsed": [],
+      "canonicalComponentsUsed": [
+        "ExecutiveSummarySection",
+        "ExecutiveStrategicTensions",
+        "ExecutiveDecisionTrace",
+        "ExecutiveHeading",
+        "ExecutiveText",
+        "ExecutivePageTemplate",
+        "ExecutiveSurface",
+        "ExecutiveAccordion",
+        "ExecutiveEmptyState",
+        "ExecutiveMetricCard"
+      ],
+      "score": 63,
+      "metrics": {
+        "structural": 25,
+        "visual": 20,
+        "intelligence": 18,
+        "decision": 0,
+        "governance": 0
+      },
+      "gaps": {
+        "hasInterpretation": true,
+        "hasRecommendation": false,
+        "hasRisk": true,
+        "hasTenant": false
+      }
+    },
+    {
+      "file": "/src/components/pages/OperacionalPage.tsx",
+      "name": "OperacionalPage",
+      "legacyComponentsUsed": [],
+      "canonicalComponentsUsed": [
+        "ExecutiveHeading",
+        "ExecutiveText",
+        "ExecutivePageTemplate",
+        "ExecutiveSurface",
+        "ExecutiveAccordion",
+        "ExecutiveMetricCard",
+        "ExecutiveSummarySection",
+        "ExecutiveStrategicTensions",
+        "ExecutiveDecisionTrace"
+      ],
+      "score": 63,
+      "metrics": {
+        "structural": 25,
+        "visual": 20,
+        "intelligence": 18,
+        "decision": 0,
+        "governance": 0
+      },
+      "gaps": {
+        "hasInterpretation": true,
+        "hasRecommendation": false,
+        "hasRisk": false,
+        "hasTenant": false
+      }
+    },
+    {
+      "file": "/src/components/pages/OrcamentoPage.tsx",
+      "name": "OrcamentoPage",
+      "legacyComponentsUsed": [],
+      "canonicalComponentsUsed": [
+        "ExecutivePageTemplate",
+        "ExecutiveSurface",
+        "ExecutiveAccordion",
+        "ExecutiveEmptyState",
+        "ExecutiveHeading",
+        "ExecutiveText",
+        "ExecutiveMetricCard",
+        "ExecutiveTechnicalMetricCard",
+        "ExecutiveBadge",
+        "ExecutiveTechnicalLayer",
+        "ExecutiveSummarySection",
+        "ExecutiveStrategicTensions",
+        "ExecutiveDecisionTrace"
+      ],
+      "score": 57,
+      "metrics": {
+        "structural": 25,
+        "visual": 20,
+        "intelligence": 12,
+        "decision": 0,
+        "governance": 0
+      },
+      "gaps": {
+        "hasInterpretation": true,
+        "hasRecommendation": false,
+        "hasRisk": false,
+        "hasTenant": false
+      }
+    },
+    {
+      "file": "/src/components/pages/PartnerSalesPage.tsx",
+      "name": "PartnerSalesPage",
+      "legacyComponentsUsed": [],
+      "canonicalComponentsUsed": [],
+      "score": 30,
+      "metrics": {
+        "structural": 10,
+        "visual": 20,
+        "intelligence": 0,
+        "decision": 0,
+        "governance": 0
+      },
+      "gaps": {
+        "hasInterpretation": false,
+        "hasRecommendation": false,
+        "hasRisk": false,
+        "hasTenant": false
+      }
+    },
+    {
+      "file": "/src/components/pages/PartnersPage.tsx",
+      "name": "PartnersPage",
+      "legacyComponentsUsed": [],
+      "canonicalComponentsUsed": [
+        "ExecutiveSummarySection",
+        "ExecutiveStrategicTensions",
+        "ExecutiveDecisionTrace",
+        "ExecutiveHeading",
+        "ExecutiveText",
+        "ExecutivePageTemplate",
+        "ExecutiveSurface",
+        "ExecutiveBadge",
+        "ExecutiveMetricCard",
+        "ExecutiveTechnicalLayer"
+      ],
+      "score": 57,
+      "metrics": {
+        "structural": 25,
+        "visual": 20,
+        "intelligence": 12,
+        "decision": 0,
+        "governance": 0
+      },
+      "gaps": {
+        "hasInterpretation": true,
+        "hasRecommendation": false,
+        "hasRisk": false,
+        "hasTenant": false
+      }
+    },
+    {
+      "file": "/src/components/pages/PayablesPage.tsx",
+      "name": "PayablesPage",
+      "legacyComponentsUsed": [],
+      "canonicalComponentsUsed": [
+        "ExecutiveSummarySection",
+        "ExecutiveStrategicTensions",
+        "ExecutiveDecisionTrace",
+        "ExecutiveHeading",
+        "ExecutiveText",
+        "ExecutivePageTemplate",
+        "ExecutiveSurface",
+        "ExecutiveAccordion",
+        "ExecutiveEmptyState",
+        "ExecutiveMetricCard",
+        "ExecutiveBadge",
+        "ExecutiveTechnicalLayer"
+      ],
+      "score": 57,
+      "metrics": {
+        "structural": 25,
+        "visual": 20,
+        "intelligence": 12,
+        "decision": 0,
+        "governance": 0
+      },
+      "gaps": {
+        "hasInterpretation": true,
+        "hasRecommendation": false,
+        "hasRisk": false,
+        "hasTenant": false
+      }
+    },
+    {
+      "file": "/src/components/pages/PilotExperienceDashboard.tsx",
+      "name": "PilotExperienceDashboard",
+      "legacyComponentsUsed": [],
+      "canonicalComponentsUsed": [
+        "ExecutiveAttentionTracking",
+        "ExecutivePageTemplate",
+        "ExecutiveSurface",
+        "ExecutiveAccordion",
+        "ExecutiveEmptyState",
+        "ExecutiveHeading",
+        "ExecutiveText",
+        "ExecutiveSummarySection",
+        "ExecutiveStrategicTensions",
+        "ExecutiveDecisionTrace"
+      ],
+      "score": 62,
+      "metrics": {
+        "structural": 25,
+        "visual": 20,
+        "intelligence": 12,
+        "decision": 0,
+        "governance": 5
+      },
+      "gaps": {
+        "hasInterpretation": true,
+        "hasRecommendation": false,
+        "hasRisk": false,
+        "hasTenant": true
+      }
+    },
+    {
+      "file": "/src/components/pages/PilotMonitoringDashboard.tsx",
+      "name": "PilotMonitoringDashboard",
+      "legacyComponentsUsed": [],
+      "canonicalComponentsUsed": [
+        "ExecutivePageTemplate",
+        "ExecutiveSurface",
+        "ExecutiveAccordion",
+        "ExecutiveEmptyState",
+        "ExecutiveHeading",
+        "ExecutiveText",
+        "ExecutiveSummarySection",
+        "ExecutiveStrategicTensions",
+        "ExecutiveDecisionTrace"
+      ],
+      "score": 62,
+      "metrics": {
+        "structural": 25,
+        "visual": 20,
+        "intelligence": 12,
+        "decision": 0,
+        "governance": 5
+      },
+      "gaps": {
+        "hasInterpretation": true,
+        "hasRecommendation": false,
+        "hasRisk": false,
+        "hasTenant": true
+      }
+    },
+    {
+      "file": "/src/components/pages/PlanoAcaoPage.tsx",
+      "name": "PlanoAcaoPage",
+      "legacyComponentsUsed": [],
+      "canonicalComponentsUsed": [
+        "ExecutivePageTemplate",
+        "ExecutiveSurface",
+        "ExecutiveAccordion",
+        "ExecutiveEmptyState",
+        "ExecutiveMetricCard",
+        "ExecutiveHeading",
+        "ExecutiveText",
+        "ExecutiveSummarySection",
+        "ExecutiveStrategicTensions",
+        "ExecutiveDecisionTrace"
+      ],
+      "score": 63,
+      "metrics": {
+        "structural": 25,
+        "visual": 20,
+        "intelligence": 18,
+        "decision": 0,
+        "governance": 0
+      },
+      "gaps": {
+        "hasInterpretation": true,
+        "hasRecommendation": false,
+        "hasRisk": false,
+        "hasTenant": false
+      }
+    },
+    {
+      "file": "/src/components/pages/PlanoDeContasPage.tsx",
+      "name": "PlanoDeContasPage",
+      "legacyComponentsUsed": [],
+      "canonicalComponentsUsed": [
+        "ExecutivePageTemplate",
+        "ExecutiveSurface",
+        "ExecutiveAccordion",
+        "ExecutiveEmptyState",
+        "ExecutiveHeading",
+        "ExecutiveText",
+        "ExecutiveBadge",
+        "ExecutiveTechnicalLayer",
+        "ExecutiveSummarySection",
+        "ExecutiveStrategicTensions",
+        "ExecutiveDecisionTrace"
+      ],
+      "score": 57,
+      "metrics": {
+        "structural": 25,
+        "visual": 20,
+        "intelligence": 12,
+        "decision": 0,
+        "governance": 0
+      },
+      "gaps": {
+        "hasInterpretation": true,
+        "hasRecommendation": false,
+        "hasRisk": false,
+        "hasTenant": false
+      }
+    },
+    {
+      "file": "/src/components/pages/PlanoEstrategicoGlobalPage.tsx",
+      "name": "PlanoEstrategicoGlobalPage",
+      "legacyComponentsUsed": [],
+      "canonicalComponentsUsed": [
+        "ExecutiveSummarySection",
+        "ExecutiveStrategicTensions",
+        "ExecutiveDecisionTrace",
+        "ExecutiveHeading",
+        "ExecutiveText",
+        "ExecutivePageTemplate",
+        "ExecutiveSurface",
+        "ExecutiveAccordion",
+        "ExecutiveEmptyState"
+      ],
+      "score": 77,
+      "metrics": {
+        "structural": 25,
+        "visual": 20,
+        "intelligence": 12,
+        "decision": 20,
+        "governance": 0
+      },
+      "gaps": {
+        "hasInterpretation": true,
+        "hasRecommendation": true,
+        "hasRisk": false,
+        "hasTenant": false
+      }
+    },
+    {
+      "file": "/src/components/pages/PortfolioPage.tsx",
+      "name": "PortfolioPage",
+      "legacyComponentsUsed": [],
+      "canonicalComponentsUsed": [
+        "ExecutivePageTemplate"
+      ],
+      "score": 31,
+      "metrics": {
+        "structural": 5,
+        "visual": 20,
+        "intelligence": 6,
+        "decision": 0,
+        "governance": 0
+      },
+      "gaps": {
+        "hasInterpretation": true,
+        "hasRecommendation": false,
+        "hasRisk": false,
+        "hasTenant": false
+      }
+    },
+    {
+      "file": "/src/components/pages/PrecificacaoPage.tsx",
+      "name": "PrecificacaoPage",
+      "legacyComponentsUsed": [],
+      "canonicalComponentsUsed": [
+        "ExecutiveHeading",
+        "ExecutiveText",
+        "ExecutivePageTemplate",
+        "ExecutiveSurface",
+        "ExecutiveAccordion",
+        "ExecutiveEmptyState",
+        "ExecutiveMetricCard",
+        "ExecutiveSummarySection",
+        "ExecutiveStrategicTensions",
+        "ExecutiveDecisionTrace"
+      ],
+      "score": 63,
+      "metrics": {
+        "structural": 25,
+        "visual": 20,
+        "intelligence": 18,
+        "decision": 0,
+        "governance": 0
+      },
+      "gaps": {
+        "hasInterpretation": true,
+        "hasRecommendation": false,
+        "hasRisk": false,
+        "hasTenant": false
+      }
+    },
+    {
+      "file": "/src/components/pages/PreferencesPage.tsx",
+      "name": "PreferencesPage",
+      "legacyComponentsUsed": [],
+      "canonicalComponentsUsed": [
+        "ExecutivePageTemplate",
+        "ExecutiveSurface",
+        "ExecutiveAccordion",
+        "ExecutiveEmptyState",
+        "ExecutiveHeading",
+        "ExecutiveText",
+        "ExecutiveSummarySection",
+        "ExecutiveStrategicTensions",
+        "ExecutiveDecisionTrace"
+      ],
+      "score": 57,
+      "metrics": {
+        "structural": 25,
+        "visual": 20,
+        "intelligence": 12,
+        "decision": 0,
+        "governance": 0
+      },
+      "gaps": {
+        "hasInterpretation": true,
+        "hasRecommendation": false,
+        "hasRisk": false,
+        "hasTenant": false
+      }
+    },
+    {
+      "file": "/src/components/pages/PremissasClientePage.tsx",
+      "name": "PremissasClientePage",
+      "legacyComponentsUsed": [],
+      "canonicalComponentsUsed": [
+        "ExecutivePageTemplate",
+        "ExecutiveSurface",
+        "ExecutiveAccordion",
+        "ExecutiveEmptyState",
+        "ExecutiveMetricCard",
+        "ExecutiveHeading",
+        "ExecutiveText",
+        "ExecutiveSummarySection",
+        "ExecutiveStrategicTensions",
+        "ExecutiveDecisionTrace"
+      ],
+      "score": 57,
+      "metrics": {
+        "structural": 25,
+        "visual": 20,
+        "intelligence": 12,
+        "decision": 0,
+        "governance": 0
+      },
+      "gaps": {
+        "hasInterpretation": true,
+        "hasRecommendation": false,
+        "hasRisk": false,
+        "hasTenant": false
+      }
+    },
+    {
+      "file": "/src/components/pages/PremissasEconomicasPage.tsx",
+      "name": "PremissasEconomicasPage",
+      "legacyComponentsUsed": [],
+      "canonicalComponentsUsed": [
+        "ExecutivePageTemplate",
+        "ExecutiveSurface",
+        "ExecutiveAccordion",
+        "ExecutiveEmptyState",
+        "ExecutiveMetricCard",
+        "ExecutiveBadge",
+        "ExecutiveHeading",
+        "ExecutiveText",
+        "ExecutiveTechnicalLayer",
+        "ExecutiveSummarySection",
+        "ExecutiveStrategicTensions",
+        "ExecutiveDecisionTrace"
+      ],
+      "score": 57,
+      "metrics": {
+        "structural": 25,
+        "visual": 20,
+        "intelligence": 12,
+        "decision": 0,
+        "governance": 0
+      },
+      "gaps": {
+        "hasInterpretation": true,
+        "hasRecommendation": false,
+        "hasRisk": false,
+        "hasTenant": false
+      }
+    },
+    {
+      "file": "/src/components/pages/PremissasTributariasPage.tsx",
+      "name": "PremissasTributariasPage",
+      "legacyComponentsUsed": [],
+      "canonicalComponentsUsed": [
+        "ExecutivePageTemplate",
+        "ExecutiveSurface",
+        "ExecutiveAccordion",
+        "ExecutiveEmptyState",
+        "ExecutiveHeading",
+        "ExecutiveText",
+        "ExecutiveSummarySection",
+        "ExecutiveStrategicTensions",
+        "ExecutiveDecisionTrace"
+      ],
+      "score": 57,
+      "metrics": {
+        "structural": 25,
+        "visual": 20,
+        "intelligence": 12,
+        "decision": 0,
+        "governance": 0
+      },
+      "gaps": {
+        "hasInterpretation": true,
+        "hasRecommendation": false,
+        "hasRisk": false,
+        "hasTenant": false
+      }
+    },
+    {
+      "file": "/src/components/pages/ProductGovernancePage.tsx",
+      "name": "ProductGovernancePage",
+      "legacyComponentsUsed": [
+        "SubscriptionStatusCard"
+      ],
+      "canonicalComponentsUsed": [
+        "ExecutivePageTemplate",
+        "ExecutiveAccordion",
+        "ExecutiveEmptyState",
+        "ExecutiveSurface",
+        "ExecutiveMetricCard",
+        "ExecutiveHeading",
+        "ExecutiveText",
+        "ExecutiveSummarySection",
+        "ExecutiveStrategicTensions",
+        "ExecutiveDecisionTrace"
+      ],
+      "score": 57,
+      "metrics": {
+        "structural": 25,
+        "visual": 15,
+        "intelligence": 12,
+        "decision": 0,
+        "governance": 5
+      },
+      "gaps": {
+        "hasInterpretation": true,
+        "hasRecommendation": false,
+        "hasRisk": false,
+        "hasTenant": true
+      }
+    },
+    {
+      "file": "/src/components/pages/ProfilePage.tsx",
+      "name": "ProfilePage",
+      "legacyComponentsUsed": [],
+      "canonicalComponentsUsed": [
+        "ExecutivePageTemplate",
+        "ExecutiveSurface",
+        "ExecutiveAccordion",
+        "ExecutiveEmptyState",
+        "ExecutiveHeading",
+        "ExecutiveText",
+        "ExecutiveBadge",
+        "ExecutiveMetricCard",
+        "ExecutiveSummarySection",
+        "ExecutiveStrategicTensions",
+        "ExecutiveDecisionTrace",
+        "ExecutiveTechnicalLayer"
+      ],
+      "score": 57,
+      "metrics": {
+        "structural": 25,
+        "visual": 20,
+        "intelligence": 12,
+        "decision": 0,
+        "governance": 0
+      },
+      "gaps": {
+        "hasInterpretation": true,
+        "hasRecommendation": false,
+        "hasRisk": false,
+        "hasTenant": false
+      }
+    },
+    {
+      "file": "/src/components/pages/PurchasingPage.tsx",
+      "name": "PurchasingPage",
+      "legacyComponentsUsed": [],
+      "canonicalComponentsUsed": [
+        "ExecutiveAccordion",
+        "ExecutiveEmptyState",
+        "ExecutivePageTemplate",
+        "ExecutiveSurface",
+        "ExecutiveHeading",
+        "ExecutiveText",
+        "ExecutiveMetricCard",
+        "ExecutiveBadge",
+        "ExecutiveSummarySection",
+        "ExecutiveStrategicTensions",
+        "ExecutiveDecisionTrace",
+        "ExecutiveTechnicalLayer"
+      ],
+      "score": 57,
+      "metrics": {
+        "structural": 25,
+        "visual": 20,
+        "intelligence": 12,
+        "decision": 0,
+        "governance": 0
+      },
+      "gaps": {
+        "hasInterpretation": true,
+        "hasRecommendation": false,
+        "hasRisk": false,
+        "hasTenant": false
+      }
+    },
+    {
+      "file": "/src/components/pages/QuadroPessoalPage.tsx",
+      "name": "QuadroPessoalPage",
+      "legacyComponentsUsed": [],
+      "canonicalComponentsUsed": [
+        "ExecutivePageTemplate",
+        "ExecutiveSurface",
+        "ExecutiveAccordion",
+        "ExecutiveEmptyState",
+        "ExecutiveMetricCard",
+        "ExecutiveBadge",
+        "ExecutiveHeading",
+        "ExecutiveText",
+        "ExecutiveSummarySection",
+        "ExecutiveStrategicTensions",
+        "ExecutiveDecisionTrace",
+        "ExecutiveTechnicalLayer"
+      ],
+      "score": 57,
+      "metrics": {
+        "structural": 25,
+        "visual": 20,
+        "intelligence": 12,
+        "decision": 0,
+        "governance": 0
+      },
+      "gaps": {
+        "hasInterpretation": true,
+        "hasRecommendation": false,
+        "hasRisk": false,
+        "hasTenant": false
+      }
+    },
+    {
+      "file": "/src/components/pages/RealityValidationPage.tsx",
+      "name": "RealityValidationPage",
+      "legacyComponentsUsed": [],
+      "canonicalComponentsUsed": [
+        "ExecutivePageTemplate",
+        "ExecutiveSurface",
+        "ExecutiveAccordion",
+        "ExecutiveEmptyState",
+        "ExecutiveHeading",
+        "ExecutiveText",
+        "InstitutionalComplexityViewer",
+        "ExecutiveUXHeatmap",
+        "ExecutiveSummarySection",
+        "ExecutiveStrategicTensions",
+        "ExecutiveDecisionTrace"
+      ],
+      "score": 62,
+      "metrics": {
+        "structural": 25,
+        "visual": 20,
+        "intelligence": 12,
+        "decision": 0,
+        "governance": 5
+      },
+      "gaps": {
+        "hasInterpretation": true,
+        "hasRecommendation": false,
+        "hasRisk": false,
+        "hasTenant": true
+      }
+    },
+    {
+      "file": "/src/components/pages/ReceivablesPage.tsx",
+      "name": "ReceivablesPage",
+      "legacyComponentsUsed": [],
+      "canonicalComponentsUsed": [
+        "ExecutiveSummarySection",
+        "ExecutiveStrategicTensions",
+        "ExecutiveDecisionTrace",
+        "ExecutiveHeading",
+        "ExecutiveText",
+        "ExecutivePageTemplate",
+        "ExecutiveSurface",
+        "ExecutiveAccordion",
+        "ExecutiveEmptyState",
+        "ExecutiveMetricCard",
+        "ExecutiveBadge",
+        "ExecutiveTechnicalLayer"
+      ],
+      "score": 57,
+      "metrics": {
+        "structural": 25,
+        "visual": 20,
+        "intelligence": 12,
+        "decision": 0,
+        "governance": 0
+      },
+      "gaps": {
+        "hasInterpretation": true,
+        "hasRecommendation": false,
+        "hasRisk": false,
+        "hasTenant": false
+      }
+    },
+    {
+      "file": "/src/components/pages/RelatorioDemonstracoes5Anos.tsx",
+      "name": "RelatorioDemonstracoes5Anos",
+      "legacyComponentsUsed": [
+        "Button"
+      ],
+      "canonicalComponentsUsed": [
+        "ExecutivePageTemplate",
+        "ExecutiveAccordion",
+        "ExecutiveSurface",
+        "ExecutiveEmptyState",
+        "ExecutiveMetricCard",
+        "ExecutiveSummarySection",
+        "ExecutiveStrategicTensions",
+        "ExecutiveDecisionTrace"
+      ],
+      "score": 52,
+      "metrics": {
+        "structural": 25,
+        "visual": 15,
+        "intelligence": 12,
+        "decision": 0,
+        "governance": 0
+      },
+      "gaps": {
+        "hasInterpretation": true,
+        "hasRecommendation": false,
+        "hasRisk": false,
+        "hasTenant": false
+      }
+    },
+    {
+      "file": "/src/components/pages/RelatorioExecutivoPage.tsx",
+      "name": "RelatorioExecutivoPage",
+      "legacyComponentsUsed": [
+        "Button"
+      ],
+      "canonicalComponentsUsed": [
+        "GovernanceInsightPanel",
+        "ExecutivePageTemplate",
+        "ExecutiveSurface",
+        "ExecutiveAccordion",
+        "ExecutiveEmptyState",
+        "ExecutiveMetricCard",
+        "ExecutiveHeading",
+        "ExecutiveText",
+        "ExecutiveBadge",
+        "ExecutiveTechnicalLayer",
+        "ExecutiveSummarySection",
+        "ExecutiveStrategicTensions",
+        "ExecutiveDecisionTrace"
+      ],
+      "score": 58,
+      "metrics": {
+        "structural": 25,
+        "visual": 15,
+        "intelligence": 18,
+        "decision": 0,
+        "governance": 0
+      },
+      "gaps": {
+        "hasInterpretation": true,
+        "hasRecommendation": false,
+        "hasRisk": false,
+        "hasTenant": false
+      }
+    },
+    {
+      "file": "/src/components/pages/RuntimeObservabilityPage.tsx",
+      "name": "RuntimeObservabilityPage",
+      "legacyComponentsUsed": [],
+      "canonicalComponentsUsed": [
+        "ExecutivePageTemplate",
+        "ExecutiveSurface",
+        "ExecutiveAccordion",
+        "ExecutiveEmptyState",
+        "ExecutiveHeading",
+        "ExecutiveText",
+        "ExecutiveSummarySection",
+        "ExecutiveStrategicTensions",
+        "ExecutiveDecisionTrace"
+      ],
+      "score": 63,
+      "metrics": {
+        "structural": 25,
+        "visual": 20,
+        "intelligence": 18,
+        "decision": 0,
+        "governance": 0
+      },
+      "gaps": {
+        "hasInterpretation": true,
+        "hasRecommendation": false,
+        "hasRisk": false,
+        "hasTenant": false
+      }
+    },
+    {
+      "file": "/src/components/pages/RuntimePerformancePage.tsx",
+      "name": "RuntimePerformancePage",
+      "legacyComponentsUsed": [],
+      "canonicalComponentsUsed": [
+        "ExecutiveText",
+        "ExecutiveHeading",
+        "ExecutivePageTemplate",
+        "ExecutiveSurface",
+        "ExecutiveAccordion",
+        "ExecutiveEmptyState",
+        "ExecutiveMetricCard",
+        "ExecutiveBadge",
+        "ExecutiveTechnicalLayer",
+        "ExecutiveSummarySection",
+        "ExecutiveStrategicTensions",
+        "ExecutiveDecisionTrace"
+      ],
+      "score": 57,
+      "metrics": {
+        "structural": 25,
+        "visual": 20,
+        "intelligence": 12,
+        "decision": 0,
+        "governance": 0
+      },
+      "gaps": {
+        "hasInterpretation": true,
+        "hasRecommendation": false,
+        "hasRisk": false,
+        "hasTenant": false
+      }
+    },
+    {
+      "file": "/src/components/pages/StrategicSimulationPage.tsx",
+      "name": "StrategicSimulationPage",
+      "legacyComponentsUsed": [],
+      "canonicalComponentsUsed": [
+        "DecisionImpactPanel",
+        "GovernanceTradeoffPanel",
+        "InstitutionalResiliencePanel",
+        "DecisionEvidenceViewer",
+        "ExecutivePageTemplate",
+        "ExecutiveSurface",
+        "ExecutiveBadge",
+        "ExecutiveHeading",
+        "ExecutiveText",
+        "ExecutiveSummarySection",
+        "ExecutiveStrategicTensions",
+        "ExecutiveDecisionTrace",
+        "ExecutiveTechnicalLayer"
+      ],
+      "score": 62,
+      "metrics": {
+        "structural": 25,
+        "visual": 20,
+        "intelligence": 12,
+        "decision": 0,
+        "governance": 5
+      },
+      "gaps": {
+        "hasInterpretation": true,
+        "hasRecommendation": false,
+        "hasRisk": false,
+        "hasTenant": true
+      }
+    },
+    {
+      "file": "/src/components/pages/StrategicSimulatorPage.tsx",
+      "name": "StrategicSimulatorPage",
+      "legacyComponentsUsed": [],
+      "canonicalComponentsUsed": [
+        "ExecutivePageTemplate",
+        "ExecutiveSurface",
+        "ExecutiveAccordion",
+        "ExecutiveHeading",
+        "ExecutiveText",
+        "ExecutiveSummarySection",
+        "ExecutiveStrategicTensions",
+        "ExecutiveDecisionTrace",
+        "ExecutiveEmptyState"
+      ],
+      "score": 57,
+      "metrics": {
+        "structural": 25,
+        "visual": 20,
+        "intelligence": 12,
+        "decision": 0,
+        "governance": 0
+      },
+      "gaps": {
+        "hasInterpretation": true,
+        "hasRecommendation": false,
+        "hasRisk": false,
+        "hasTenant": false
+      }
+    },
+    {
+      "file": "/src/components/pages/SupportPage/AdminSupportPanel.tsx",
+      "name": "AdminSupportPanel",
+      "legacyComponentsUsed": [],
+      "canonicalComponentsUsed": [],
+      "score": 30,
+      "metrics": {
+        "structural": 10,
+        "visual": 20,
+        "intelligence": 0,
+        "decision": 0,
+        "governance": 0
+      },
+      "gaps": {
+        "hasInterpretation": false,
+        "hasRecommendation": false,
+        "hasRisk": false,
+        "hasTenant": false
+      }
+    },
+    {
+      "file": "/src/components/pages/SupportPage/ClientSupportPanel.tsx",
+      "name": "ClientSupportPanel",
+      "legacyComponentsUsed": [],
+      "canonicalComponentsUsed": [],
+      "score": 30,
+      "metrics": {
+        "structural": 10,
+        "visual": 20,
+        "intelligence": 0,
+        "decision": 0,
+        "governance": 0
+      },
+      "gaps": {
+        "hasInterpretation": false,
+        "hasRecommendation": false,
+        "hasRisk": false,
+        "hasTenant": false
+      }
+    },
+    {
+      "file": "/src/components/pages/SupportPage/TicketChat.tsx",
+      "name": "TicketChat",
+      "legacyComponentsUsed": [],
+      "canonicalComponentsUsed": [],
+      "score": 30,
+      "metrics": {
+        "structural": 10,
+        "visual": 20,
+        "intelligence": 0,
+        "decision": 0,
+        "governance": 0
+      },
+      "gaps": {
+        "hasInterpretation": false,
+        "hasRecommendation": false,
+        "hasRisk": false,
+        "hasTenant": false
+      }
+    },
+    {
+      "file": "/src/components/pages/SupportPage.tsx",
+      "name": "SupportPage",
+      "legacyComponentsUsed": [],
+      "canonicalComponentsUsed": [
+        "ExecutivePageTemplate",
+        "ExecutiveSurface",
+        "ExecutiveAccordion",
+        "ExecutiveEmptyState",
+        "ExecutiveHeading",
+        "ExecutiveText",
+        "ExecutiveSummarySection",
+        "ExecutiveStrategicTensions",
+        "ExecutiveDecisionTrace"
+      ],
+      "score": 57,
+      "metrics": {
+        "structural": 25,
+        "visual": 20,
+        "intelligence": 12,
+        "decision": 0,
+        "governance": 0
+      },
+      "gaps": {
+        "hasInterpretation": true,
+        "hasRecommendation": false,
+        "hasRisk": false,
+        "hasTenant": false
+      }
+    },
+    {
+      "file": "/src/components/pages/SystemicIntelligencePanel.tsx",
+      "name": "SystemicIntelligencePanel",
+      "legacyComponentsUsed": [],
+      "canonicalComponentsUsed": [
+        "ExecutivePageTemplate",
+        "ExecutiveSurface",
+        "ExecutiveAccordion",
+        "ExecutiveEmptyState",
+        "ExecutiveHeading",
+        "ExecutiveText",
+        "ExecutiveSummarySection",
+        "ExecutiveStrategicTensions",
+        "ExecutiveDecisionTrace"
+      ],
+      "score": 63,
+      "metrics": {
+        "structural": 25,
+        "visual": 20,
+        "intelligence": 18,
+        "decision": 0,
+        "governance": 0
+      },
+      "gaps": {
+        "hasInterpretation": true,
+        "hasRecommendation": false,
+        "hasRisk": false,
+        "hasTenant": false
+      }
+    },
+    {
+      "file": "/src/components/pages/TaxReformImpactPage.tsx",
+      "name": "TaxReformImpactPage",
+      "legacyComponentsUsed": [],
+      "canonicalComponentsUsed": [
+        "ExecutiveCommentary",
+        "ExecutivePageTemplate",
+        "ExecutiveSurface",
+        "ExecutiveAccordion",
+        "ExecutiveEmptyState",
+        "ExecutiveHeading",
+        "ExecutiveText",
+        "ExecutiveBadge",
+        "ExecutiveMetricCard",
+        "ExecutiveTechnicalLayer",
+        "ExecutiveSummarySection",
+        "ExecutiveStrategicTensions",
+        "ExecutiveDecisionTrace"
+      ],
+      "score": 83,
+      "metrics": {
+        "structural": 25,
+        "visual": 20,
+        "intelligence": 18,
+        "decision": 20,
+        "governance": 0
+      },
+      "gaps": {
+        "hasInterpretation": true,
+        "hasRecommendation": true,
+        "hasRisk": false,
+        "hasTenant": false
+      }
+    },
+    {
+      "file": "/src/components/pages/TenantGovernancePage.tsx",
+      "name": "TenantGovernancePage",
+      "legacyComponentsUsed": [],
+      "canonicalComponentsUsed": [
+        "ExecutivePageTemplate",
+        "ExecutiveSurface",
+        "ExecutiveAccordion",
+        "ExecutiveEmptyState",
+        "ExecutiveMetricCard",
+        "ExecutiveHeading",
+        "ExecutiveText",
+        "ExecutiveSummarySection",
+        "ExecutiveStrategicTensions",
+        "ExecutiveDecisionTrace"
+      ],
+      "score": 62,
+      "metrics": {
+        "structural": 25,
+        "visual": 20,
+        "intelligence": 12,
+        "decision": 0,
+        "governance": 5
+      },
+      "gaps": {
+        "hasInterpretation": true,
+        "hasRecommendation": false,
+        "hasRisk": false,
+        "hasTenant": true
+      }
+    },
+    {
+      "file": "/src/components/pages/ValuationPage.tsx",
+      "name": "ValuationPage",
+      "legacyComponentsUsed": [],
+      "canonicalComponentsUsed": [
+        "ExecutiveSummarySection",
+        "ExecutiveStrategicTensions",
+        "ExecutiveDecisionTrace",
+        "ExecutiveHeading",
+        "ExecutiveText",
+        "ExecutivePageTemplate",
+        "ExecutiveSurface",
+        "ExecutiveAccordion",
+        "ExecutiveEmptyState",
+        "ExecutiveMetricCard"
+      ],
+      "score": 57,
+      "metrics": {
+        "structural": 25,
+        "visual": 20,
+        "intelligence": 12,
+        "decision": 0,
+        "governance": 0
+      },
+      "gaps": {
+        "hasInterpretation": true,
+        "hasRecommendation": false,
+        "hasRisk": false,
+        "hasTenant": false
+      }
+    },
+    {
+      "file": "/src/components/pages/ViabilityPage.tsx",
+      "name": "ViabilityPage",
+      "legacyComponentsUsed": [],
+      "canonicalComponentsUsed": [
+        "ExecutivePageTemplate",
+        "ExecutiveSurface",
+        "ExecutiveAccordion",
+        "ExecutiveHeading",
+        "ExecutiveText",
+        "ExecutiveMetricCard",
+        "ExecutiveBadge",
+        "ExecutiveTechnicalLayer",
+        "ExecutiveSummarySection",
+        "ExecutiveStrategicTensions",
+        "ExecutiveDecisionTrace"
+      ],
+      "score": 57,
+      "metrics": {
+        "structural": 25,
+        "visual": 20,
+        "intelligence": 12,
+        "decision": 0,
+        "governance": 0
+      },
+      "gaps": {
+        "hasInterpretation": true,
+        "hasRecommendation": false,
+        "hasRisk": false,
+        "hasTenant": false
+      }
+    },
+    {
+      "file": "/src/components/pages/__tests__/eac-scanner-fixtures/admin-without-actions.tsx",
+      "name": "admin-without-actions",
+      "legacyComponentsUsed": [],
+      "canonicalComponentsUsed": [],
+      "score": 36,
+      "metrics": {
+        "structural": 10,
+        "visual": 20,
+        "intelligence": 6,
+        "decision": 0,
+        "governance": 0
+      },
+      "gaps": {
+        "hasInterpretation": true,
+        "hasRecommendation": false,
+        "hasRisk": false,
+        "hasTenant": false
+      }
+    },
+    {
+      "file": "/src/components/pages/__tests__/eac-scanner-fixtures/analytical-perfect.tsx",
+      "name": "analytical-perfect",
+      "legacyComponentsUsed": [],
+      "canonicalComponentsUsed": [],
+      "score": 56,
+      "metrics": {
+        "structural": 10,
+        "visual": 20,
+        "intelligence": 6,
+        "decision": 20,
+        "governance": 0
+      },
+      "gaps": {
+        "hasInterpretation": true,
+        "hasRecommendation": true,
+        "hasRisk": false,
+        "hasTenant": false
+      }
+    },
+    {
+      "file": "/src/components/pages/__tests__/eac-scanner-fixtures/analytical-technical-before-summary.tsx",
+      "name": "analytical-technical-before-summary",
+      "legacyComponentsUsed": [],
+      "canonicalComponentsUsed": [],
+      "score": 30,
+      "metrics": {
+        "structural": 10,
+        "visual": 20,
+        "intelligence": 0,
+        "decision": 0,
+        "governance": 0
+      },
+      "gaps": {
+        "hasInterpretation": false,
+        "hasRecommendation": false,
+        "hasRisk": false,
+        "hasTenant": false
+      }
+    },
+    {
+      "file": "/src/components/pages/__tests__/eac-scanner-fixtures/board-incomplete.tsx",
+      "name": "board-incomplete",
+      "legacyComponentsUsed": [],
+      "canonicalComponentsUsed": [],
+      "score": 30,
+      "metrics": {
+        "structural": 10,
+        "visual": 20,
+        "intelligence": 0,
+        "decision": 0,
+        "governance": 0
+      },
+      "gaps": {
+        "hasInterpretation": false,
+        "hasRecommendation": false,
+        "hasRisk": false,
+        "hasTenant": false
+      }
+    },
+    {
+      "file": "/src/components/pages/__tests__/eac-scanner-fixtures/governance-with-decision-summary.tsx",
+      "name": "governance-with-decision-summary",
+      "legacyComponentsUsed": [],
+      "canonicalComponentsUsed": [],
+      "score": 36,
+      "metrics": {
+        "structural": 10,
+        "visual": 20,
+        "intelligence": 6,
+        "decision": 0,
+        "governance": 0
+      },
+      "gaps": {
+        "hasInterpretation": true,
+        "hasRecommendation": false,
+        "hasRisk": false,
+        "hasTenant": false
+      }
+    },
+    {
+      "file": "/src/components/pages/__tests__/eac-scanner-fixtures/operational-without-working-area.tsx",
+      "name": "operational-without-working-area",
+      "legacyComponentsUsed": [],
+      "canonicalComponentsUsed": [],
+      "score": 30,
+      "metrics": {
+        "structural": 10,
+        "visual": 20,
+        "intelligence": 0,
+        "decision": 0,
+        "governance": 0
+      },
+      "gaps": {
+        "hasInterpretation": false,
+        "hasRecommendation": false,
+        "hasRisk": false,
+        "hasTenant": false
+      }
+    },
+    {
+      "file": "/src/components/pages/__tests__/eac-scanner-fixtures/page-with-alias.tsx",
+      "name": "page-with-alias",
+      "legacyComponentsUsed": [],
+      "canonicalComponentsUsed": [],
+      "score": 30,
+      "metrics": {
+        "structural": 10,
+        "visual": 20,
+        "intelligence": 0,
+        "decision": 0,
+        "governance": 0
+      },
+      "gaps": {
+        "hasInterpretation": false,
+        "hasRecommendation": false,
+        "hasRisk": false,
+        "hasTenant": false
+      }
+    },
+    {
+      "file": "/src/components/pages/__tests__/eac-scanner-fixtures/page-with-imported-section.tsx",
+      "name": "page-with-imported-section",
+      "legacyComponentsUsed": [],
+      "canonicalComponentsUsed": [],
+      "score": 30,
+      "metrics": {
+        "structural": 10,
+        "visual": 20,
+        "intelligence": 0,
+        "decision": 0,
+        "governance": 0
+      },
+      "gaps": {
+        "hasInterpretation": false,
+        "hasRecommendation": false,
+        "hasRisk": false,
+        "hasTenant": false
+      }
+    },
+    {
+      "file": "/src/components/pages/__tests__/eac-scanner-fixtures/page-with-loading-state.tsx",
+      "name": "page-with-loading-state",
+      "legacyComponentsUsed": [],
+      "canonicalComponentsUsed": [],
+      "score": 30,
+      "metrics": {
+        "structural": 10,
+        "visual": 20,
+        "intelligence": 0,
+        "decision": 0,
+        "governance": 0
+      },
+      "gaps": {
+        "hasInterpretation": false,
+        "hasRecommendation": false,
+        "hasRisk": false,
+        "hasTenant": false
+      }
+    },
+    {
+      "file": "/src/components/pages/__tests__/eac-scanner-fixtures/page-with-modal.tsx",
+      "name": "page-with-modal",
+      "legacyComponentsUsed": [],
+      "canonicalComponentsUsed": [],
+      "score": 30,
+      "metrics": {
+        "structural": 10,
+        "visual": 20,
+        "intelligence": 0,
+        "decision": 0,
+        "governance": 0
+      },
+      "gaps": {
+        "hasInterpretation": false,
+        "hasRecommendation": false,
+        "hasRisk": false,
+        "hasTenant": false
+      }
+    },
+    {
+      "file": "/src/components/pages/__tests__/eac-scanner-fixtures/page-with-repeated-blocks.tsx",
+      "name": "page-with-repeated-blocks",
+      "legacyComponentsUsed": [],
+      "canonicalComponentsUsed": [],
+      "score": 30,
+      "metrics": {
+        "structural": 10,
+        "visual": 20,
+        "intelligence": 0,
+        "decision": 0,
+        "governance": 0
+      },
+      "gaps": {
+        "hasInterpretation": false,
+        "hasRecommendation": false,
+        "hasRisk": false,
+        "hasTenant": false
+      }
+    },
+    {
+      "file": "/src/components/pages/academy/AcademyAdminCoursePage.tsx",
+      "name": "AcademyAdminCoursePage",
+      "legacyComponentsUsed": [],
+      "canonicalComponentsUsed": [],
+      "score": 30,
+      "metrics": {
+        "structural": 10,
+        "visual": 20,
+        "intelligence": 0,
+        "decision": 0,
+        "governance": 0
+      },
+      "gaps": {
+        "hasInterpretation": false,
+        "hasRecommendation": false,
+        "hasRisk": false,
+        "hasTenant": false
+      }
+    },
+    {
+      "file": "/src/components/pages/academy/AcademyHomePage.tsx",
+      "name": "AcademyHomePage",
+      "legacyComponentsUsed": [
+        "VerticalCourseCard"
+      ],
+      "canonicalComponentsUsed": [
+        "ExecutiveSummarySection",
+        "ExecutiveStrategicTensions",
+        "ExecutiveDecisionTrace"
+      ],
+      "score": 36,
+      "metrics": {
+        "structural": 15,
+        "visual": 15,
+        "intelligence": 6,
+        "decision": 0,
+        "governance": 0
+      },
+      "gaps": {
+        "hasInterpretation": true,
+        "hasRecommendation": false,
+        "hasRisk": false,
+        "hasTenant": false
+      }
+    },
+    {
+      "file": "/src/components/pages/academy/AdminAcademyDashboard.tsx",
+      "name": "AdminAcademyDashboard",
+      "legacyComponentsUsed": [],
+      "canonicalComponentsUsed": [],
+      "score": 30,
+      "metrics": {
+        "structural": 10,
+        "visual": 20,
+        "intelligence": 0,
+        "decision": 0,
+        "governance": 0
+      },
+      "gaps": {
+        "hasInterpretation": false,
+        "hasRecommendation": false,
+        "hasRisk": false,
+        "hasTenant": false
+      }
+    },
+    {
+      "file": "/src/components/pages/academy/CourseDetailsPage.tsx",
+      "name": "CourseDetailsPage",
+      "legacyComponentsUsed": [],
+      "canonicalComponentsUsed": [],
+      "score": 30,
+      "metrics": {
+        "structural": 10,
+        "visual": 20,
+        "intelligence": 0,
+        "decision": 0,
+        "governance": 0
+      },
+      "gaps": {
+        "hasInterpretation": false,
+        "hasRecommendation": false,
+        "hasRisk": false,
+        "hasTenant": false
+      }
+    },
+    {
+      "file": "/src/components/pages/academy/LessonPlayerPage.tsx",
+      "name": "LessonPlayerPage",
+      "legacyComponentsUsed": [],
+      "canonicalComponentsUsed": [],
+      "score": 30,
+      "metrics": {
+        "structural": 10,
+        "visual": 20,
+        "intelligence": 0,
+        "decision": 0,
+        "governance": 0
+      },
+      "gaps": {
+        "hasInterpretation": false,
+        "hasRecommendation": false,
+        "hasRisk": false,
+        "hasTenant": false
+      }
+    },
+    {
+      "file": "/src/components/pages/admin/GestaoUsuariosPage.tsx",
+      "name": "GestaoUsuariosPage",
+      "legacyComponentsUsed": [],
+      "canonicalComponentsUsed": [],
+      "score": 30,
+      "metrics": {
+        "structural": 10,
+        "visual": 20,
+        "intelligence": 0,
+        "decision": 0,
+        "governance": 0
+      },
+      "gaps": {
+        "hasInterpretation": false,
+        "hasRecommendation": false,
+        "hasRisk": false,
+        "hasTenant": false
+      }
+    },
+    {
+      "file": "/src/components/pages/balance-sheet/BalanceSheetActionToolbar.tsx",
+      "name": "BalanceSheetActionToolbar",
+      "legacyComponentsUsed": [],
+      "canonicalComponentsUsed": [],
+      "score": 36,
+      "metrics": {
+        "structural": 10,
+        "visual": 20,
+        "intelligence": 6,
+        "decision": 0,
+        "governance": 0
+      },
+      "gaps": {
+        "hasInterpretation": true,
+        "hasRecommendation": false,
+        "hasRisk": false,
+        "hasTenant": false
+      }
+    },
+    {
+      "file": "/src/components/pages/balance-sheet/BalanceSheetAssetQualitySection.tsx",
+      "name": "BalanceSheetAssetQualitySection",
+      "legacyComponentsUsed": [],
+      "canonicalComponentsUsed": [
+        "DecisionPanelViewModel",
+        "ExecutiveEvidenceGrid",
+        "ExecutiveBadge",
+        "ExecutiveDecisionPanel",
+        "ExecutiveSurface"
+      ],
+      "score": 51,
+      "metrics": {
+        "structural": 25,
+        "visual": 20,
+        "intelligence": 6,
+        "decision": 0,
+        "governance": 0
+      },
+      "gaps": {
+        "hasInterpretation": true,
+        "hasRecommendation": false,
+        "hasRisk": false,
+        "hasTenant": false
+      }
+    },
+    {
+      "file": "/src/components/pages/balance-sheet/BalanceSheetAuditLayerSection.tsx",
+      "name": "BalanceSheetAuditLayerSection",
+      "legacyComponentsUsed": [],
+      "canonicalComponentsUsed": [
+        "ExecutiveRiskCard",
+        "ExecutiveClassificationFlow",
+        "ExecutiveHeading",
+        "ExecutiveText",
+        "ExecutiveMetric",
+        "ExecutiveBadge",
+        "ExecutiveAccordion",
+        "ExecutiveDecisionTrace"
+      ],
+      "score": 57,
+      "metrics": {
+        "structural": 25,
+        "visual": 20,
+        "intelligence": 12,
+        "decision": 0,
+        "governance": 0
+      },
+      "gaps": {
+        "hasInterpretation": true,
+        "hasRecommendation": false,
+        "hasRisk": true,
+        "hasTenant": false
+      }
+    },
+    {
+      "file": "/src/components/pages/balance-sheet/BalanceSheetBoardAdvisory.tsx",
+      "name": "BalanceSheetBoardAdvisory",
+      "legacyComponentsUsed": [],
+      "canonicalComponentsUsed": [
+        "ExecutiveInsightCard",
+        "ExecutiveNarrative",
+        "ExecutiveRecommendationBlock"
+      ],
+      "score": 67,
+      "metrics": {
+        "structural": 15,
+        "visual": 20,
+        "intelligence": 12,
+        "decision": 20,
+        "governance": 0
+      },
+      "gaps": {
+        "hasInterpretation": true,
+        "hasRecommendation": true,
+        "hasRisk": false,
+        "hasTenant": false
+      }
+    },
+    {
+      "file": "/src/components/pages/balance-sheet/BalanceSheetCapitalEfficiencySection.tsx",
+      "name": "BalanceSheetCapitalEfficiencySection",
+      "legacyComponentsUsed": [],
+      "canonicalComponentsUsed": [
+        "ExecutiveEvidenceGrid",
+        "ExecutiveBadge",
+        "ExecutiveDecisionPanel",
+        "ExecutiveSurface",
+        "DecisionPanelViewModel"
+      ],
+      "score": 51,
+      "metrics": {
+        "structural": 25,
+        "visual": 20,
+        "intelligence": 6,
+        "decision": 0,
+        "governance": 0
+      },
+      "gaps": {
+        "hasInterpretation": true,
+        "hasRecommendation": false,
+        "hasRisk": false,
+        "hasTenant": false
+      }
+    },
+    {
+      "file": "/src/components/pages/balance-sheet/BalanceSheetCapitalPreservationSection.tsx",
+      "name": "BalanceSheetCapitalPreservationSection",
+      "legacyComponentsUsed": [],
+      "canonicalComponentsUsed": [
+        "ExecutiveEvidenceGrid",
+        "ExecutiveBadge",
+        "ExecutiveDecisionPanel",
+        "ExecutiveSurface",
+        "DecisionPanelViewModel"
+      ],
+      "score": 51,
+      "metrics": {
+        "structural": 25,
+        "visual": 20,
+        "intelligence": 6,
+        "decision": 0,
+        "governance": 0
+      },
+      "gaps": {
+        "hasInterpretation": true,
+        "hasRecommendation": false,
+        "hasRisk": false,
+        "hasTenant": false
+      }
+    },
+    {
+      "file": "/src/components/pages/balance-sheet/BalanceSheetCapitalStructureSection.tsx",
+      "name": "BalanceSheetCapitalStructureSection",
+      "legacyComponentsUsed": [],
+      "canonicalComponentsUsed": [
+        "ExecutiveEvidenceGrid",
+        "ExecutiveBadge",
+        "ExecutiveDecisionPanel",
+        "ExecutiveSurface",
+        "DecisionPanelViewModel"
+      ],
+      "score": 51,
+      "metrics": {
+        "structural": 25,
+        "visual": 20,
+        "intelligence": 6,
+        "decision": 0,
+        "governance": 0
+      },
+      "gaps": {
+        "hasInterpretation": true,
+        "hasRecommendation": false,
+        "hasRisk": false,
+        "hasTenant": false
+      }
+    },
+    {
+      "file": "/src/components/pages/balance-sheet/BalanceSheetCompositionChartsSection.tsx",
+      "name": "BalanceSheetCompositionChartsSection",
+      "legacyComponentsUsed": [],
+      "canonicalComponentsUsed": [
+        "ExecutiveDistributionCard"
+      ],
+      "score": 25,
+      "metrics": {
+        "structural": 5,
+        "visual": 20,
+        "intelligence": 0,
+        "decision": 0,
+        "governance": 0
+      },
+      "gaps": {
+        "hasInterpretation": false,
+        "hasRecommendation": false,
+        "hasRisk": false,
+        "hasTenant": false
+      }
+    },
+    {
+      "file": "/src/components/pages/balance-sheet/BalanceSheetDataSourceStatus.tsx",
+      "name": "BalanceSheetDataSourceStatus",
+      "legacyComponentsUsed": [],
+      "canonicalComponentsUsed": [
+        "ExecutiveSurface",
+        "ExecutiveBadge"
+      ],
+      "score": 30,
+      "metrics": {
+        "structural": 10,
+        "visual": 20,
+        "intelligence": 0,
+        "decision": 0,
+        "governance": 0
+      },
+      "gaps": {
+        "hasInterpretation": false,
+        "hasRecommendation": false,
+        "hasRisk": false,
+        "hasTenant": false
+      }
+    },
+    {
+      "file": "/src/components/pages/balance-sheet/BalanceSheetEvolutionAnalysisSection.tsx",
+      "name": "BalanceSheetEvolutionAnalysisSection",
+      "legacyComponentsUsed": [],
+      "canonicalComponentsUsed": [
+        "ExecutiveChart",
+        "ExecutiveChartSeries",
+        "ExecutiveChartLegend",
+        "ExecutiveChartInsight",
+        "ExecutiveHistoricalEvolutionCard",
+        "ExecutiveAnalyticalHighlightItem",
+        "ExecutiveEmptyState"
+      ],
+      "score": 51,
+      "metrics": {
+        "structural": 25,
+        "visual": 20,
+        "intelligence": 6,
+        "decision": 0,
+        "governance": 0
+      },
+      "gaps": {
+        "hasInterpretation": true,
+        "hasRecommendation": false,
+        "hasRisk": false,
+        "hasTenant": false
+      }
+    },
+    {
+      "file": "/src/components/pages/balance-sheet/BalanceSheetExecutivePlan.tsx",
+      "name": "BalanceSheetExecutivePlan",
+      "legacyComponentsUsed": [],
+      "canonicalComponentsUsed": [
+        "ExecutiveDecisionSummary",
+        "ExecutiveExecutionPlan",
+        "ExecutiveSectionHeader",
+        "ExecutiveText"
+      ],
+      "score": 58,
+      "metrics": {
+        "structural": 20,
+        "visual": 20,
+        "intelligence": 18,
+        "decision": 0,
+        "governance": 0
+      },
+      "gaps": {
+        "hasInterpretation": true,
+        "hasRecommendation": false,
+        "hasRisk": true,
+        "hasTenant": false
+      }
+    },
+    {
+      "file": "/src/components/pages/balance-sheet/BalanceSheetExecutiveSynthesisSection.tsx",
+      "name": "BalanceSheetExecutiveSynthesisSection",
+      "legacyComponentsUsed": [],
+      "canonicalComponentsUsed": [
+        "ExecutiveStrategicSemanticCards",
+        "ExecutiveHeading",
+        "ExecutiveText",
+        "ExecutiveDecisionSynthesisEngine",
+        "ExecutiveAnalysisContext"
+      ],
+      "score": 57,
+      "metrics": {
+        "structural": 25,
+        "visual": 20,
+        "intelligence": 12,
+        "decision": 0,
+        "governance": 0
+      },
+      "gaps": {
+        "hasInterpretation": true,
+        "hasRecommendation": false,
+        "hasRisk": false,
+        "hasTenant": false
+      }
+    },
+    {
+      "file": "/src/components/pages/balance-sheet/BalanceSheetInstitutionalContextSection.tsx",
+      "name": "BalanceSheetInstitutionalContextSection",
+      "legacyComponentsUsed": [],
+      "canonicalComponentsUsed": [
+        "ExecutiveSurface",
+        "ExecutiveInfoCard",
+        "ExecutiveHeading"
+      ],
+      "score": 35,
+      "metrics": {
+        "structural": 15,
+        "visual": 20,
+        "intelligence": 0,
+        "decision": 0,
+        "governance": 0
+      },
+      "gaps": {
+        "hasInterpretation": false,
+        "hasRecommendation": false,
+        "hasRisk": false,
+        "hasTenant": false
+      }
+    },
+    {
+      "file": "/src/components/pages/balance-sheet/BalanceSheetLiquiditySection.tsx",
+      "name": "BalanceSheetLiquiditySection",
+      "legacyComponentsUsed": [],
+      "canonicalComponentsUsed": [
+        "ExecutiveEvidenceGrid",
+        "ExecutiveBadge",
+        "ExecutiveDecisionPanel",
+        "ExecutiveSurface",
+        "DecisionPanelViewModel"
+      ],
+      "score": 51,
+      "metrics": {
+        "structural": 25,
+        "visual": 20,
+        "intelligence": 6,
+        "decision": 0,
+        "governance": 0
+      },
+      "gaps": {
+        "hasInterpretation": true,
+        "hasRecommendation": false,
+        "hasRisk": false,
+        "hasTenant": false
+      }
+    },
+    {
+      "file": "/src/components/pages/balance-sheet/BalanceSheetStructuralTablesSection.tsx",
+      "name": "BalanceSheetStructuralTablesSection",
+      "legacyComponentsUsed": [],
+      "canonicalComponentsUsed": [
+        "ExecutiveSurface",
+        "ExecutiveHeading",
+        "ExecutiveText",
+        "ExecutiveBadge"
+      ],
+      "score": 40,
+      "metrics": {
+        "structural": 20,
+        "visual": 20,
+        "intelligence": 0,
+        "decision": 0,
+        "governance": 0
+      },
+      "gaps": {
+        "hasInterpretation": false,
+        "hasRecommendation": false,
+        "hasRisk": false,
+        "hasTenant": false
+      }
+    },
+    {
+      "file": "/src/components/pages/balance-sheet/BalanceSheetTechnicalLayerSection.tsx",
+      "name": "BalanceSheetTechnicalLayerSection",
+      "legacyComponentsUsed": [],
+      "canonicalComponentsUsed": [
+        "ExecutiveTechnicalLayer",
+        "ExecutiveText",
+        "ExecutiveEmptyState"
+      ],
+      "score": 35,
+      "metrics": {
+        "structural": 15,
+        "visual": 20,
+        "intelligence": 0,
+        "decision": 0,
+        "governance": 0
+      },
+      "gaps": {
+        "hasInterpretation": false,
+        "hasRecommendation": false,
+        "hasRisk": false,
+        "hasTenant": false
+      }
+    },
+    {
+      "file": "/src/components/pages/balance-sheet/BalanceSheetWaterfallChartSection.tsx",
+      "name": "BalanceSheetWaterfallChartSection",
+      "legacyComponentsUsed": [],
+      "canonicalComponentsUsed": [
+        "ExecutiveChart",
+        "ExecutiveSurface",
+        "ExecutiveHeading",
+        "ExecutiveText"
+      ],
+      "score": 40,
+      "metrics": {
+        "structural": 20,
+        "visual": 20,
+        "intelligence": 0,
+        "decision": 0,
+        "governance": 0
+      },
+      "gaps": {
+        "hasInterpretation": false,
+        "hasRecommendation": false,
+        "hasRisk": false,
+        "hasTenant": false
+      }
+    },
+    {
+      "file": "/src/components/pages/balance-sheet/BalanceSheetWorkingCapitalSection.tsx",
+      "name": "BalanceSheetWorkingCapitalSection",
+      "legacyComponentsUsed": [],
+      "canonicalComponentsUsed": [
+        "ExecutiveEvidenceGrid",
+        "ExecutiveBadge",
+        "ExecutiveDecisionPanel",
+        "ExecutiveSurface",
+        "DecisionPanelViewModel"
+      ],
+      "score": 51,
+      "metrics": {
+        "structural": 25,
+        "visual": 20,
+        "intelligence": 6,
+        "decision": 0,
+        "governance": 0
+      },
+      "gaps": {
+        "hasInterpretation": true,
+        "hasRecommendation": false,
+        "hasRisk": false,
+        "hasTenant": false
+      }
+    },
+    {
+      "file": "/src/components/pages/balance-sheet/BalanceSheetYearFilter.tsx",
+      "name": "BalanceSheetYearFilter",
+      "legacyComponentsUsed": [],
+      "canonicalComponentsUsed": [
+        "ExecutiveSurface",
+        "ExecutiveTypographyRegistry"
+      ],
+      "score": 30,
+      "metrics": {
+        "structural": 10,
+        "visual": 20,
+        "intelligence": 0,
+        "decision": 0,
+        "governance": 0
+      },
+      "gaps": {
+        "hasInterpretation": false,
+        "hasRecommendation": false,
+        "hasRisk": false,
+        "hasTenant": false
+      }
+    },
+    {
+      "file": "/src/components/pages/board/BoardModeDashboard.tsx",
+      "name": "BoardModeDashboard",
+      "legacyComponentsUsed": [],
+      "canonicalComponentsUsed": [
+        "BoardModeViewModel",
+        "BoardIntelligenceInput"
+      ],
+      "score": 36,
+      "metrics": {
+        "structural": 10,
+        "visual": 20,
+        "intelligence": 6,
+        "decision": 0,
+        "governance": 0
+      },
+      "gaps": {
+        "hasInterpretation": true,
+        "hasRecommendation": false,
+        "hasRisk": true,
+        "hasTenant": false
+      }
+    },
+    {
+      "file": "/src/components/pages/cashflow/CashFlowExecutiveSummary.tsx",
+      "name": "CashFlowExecutiveSummary",
+      "legacyComponentsUsed": [],
+      "canonicalComponentsUsed": [
+        "ExecutiveNarrative",
+        "ExecutiveMetricCard"
+      ],
+      "score": 36,
+      "metrics": {
+        "structural": 10,
+        "visual": 20,
+        "intelligence": 6,
+        "decision": 0,
+        "governance": 0
+      },
+      "gaps": {
+        "hasInterpretation": true,
+        "hasRecommendation": false,
+        "hasRisk": false,
+        "hasTenant": false
+      }
+    },
+    {
+      "file": "/src/components/pages/clients/ClientGeneralForm.tsx",
+      "name": "ClientGeneralForm",
+      "legacyComponentsUsed": [
+        "Button",
+        "Input",
+        "Table",
+        "Select"
+      ],
+      "canonicalComponentsUsed": [
+        "ExecutiveSurface",
+        "ExecutiveHeading"
+      ],
+      "score": 16,
+      "metrics": {
+        "structural": 10,
+        "visual": 0,
+        "intelligence": 6,
+        "decision": 0,
+        "governance": 0
+      },
+      "gaps": {
+        "hasInterpretation": true,
+        "hasRecommendation": false,
+        "hasRisk": false,
+        "hasTenant": false
+      }
+    },
+    {
+      "file": "/src/components/pages/clients/ClientListPanel.tsx",
+      "name": "ClientListPanel",
+      "legacyComponentsUsed": [
+        "Button",
+        "Input",
+        "Table"
+      ],
+      "canonicalComponentsUsed": [
+        "ExecutiveSurface"
+      ],
+      "score": 10,
+      "metrics": {
+        "structural": 5,
+        "visual": 5,
+        "intelligence": 0,
+        "decision": 0,
+        "governance": 0
+      },
+      "gaps": {
+        "hasInterpretation": false,
+        "hasRecommendation": false,
+        "hasRisk": false,
+        "hasTenant": false
+      }
+    },
+    {
+      "file": "/src/components/pages/dashboard/DashboardEvolutionChart.tsx",
+      "name": "DashboardEvolutionChart",
+      "legacyComponentsUsed": [],
+      "canonicalComponentsUsed": [
+        "ExecutiveChartGrid",
+        "ExecutiveChartXAxis",
+        "ExecutiveChartYAxis",
+        "ExecutiveChartTooltip"
+      ],
+      "score": 40,
+      "metrics": {
+        "structural": 20,
+        "visual": 20,
+        "intelligence": 0,
+        "decision": 0,
+        "governance": 0
+      },
+      "gaps": {
+        "hasInterpretation": false,
+        "hasRecommendation": false,
+        "hasRisk": false,
+        "hasTenant": false
+      }
+    },
+    {
+      "file": "/src/components/pages/dfc/CashPositionSummary.tsx",
+      "name": "CashPositionSummary",
+      "legacyComponentsUsed": [],
+      "canonicalComponentsUsed": [
+        "ExecutiveSurface",
+        "ExecutiveHeading",
+        "ExecutiveText",
+        "ExecutiveMetricCard",
+        "ExecutiveBadge"
+      ],
+      "score": 45,
+      "metrics": {
+        "structural": 25,
+        "visual": 20,
+        "intelligence": 0,
+        "decision": 0,
+        "governance": 0
+      },
+      "gaps": {
+        "hasInterpretation": false,
+        "hasRecommendation": false,
+        "hasRisk": false,
+        "hasTenant": false
+      }
+    },
+    {
+      "file": "/src/components/pages/dfc/DFCActionToolbar.tsx",
+      "name": "DFCActionToolbar",
+      "legacyComponentsUsed": [],
+      "canonicalComponentsUsed": [],
+      "score": 36,
+      "metrics": {
+        "structural": 10,
+        "visual": 20,
+        "intelligence": 6,
+        "decision": 0,
+        "governance": 0
+      },
+      "gaps": {
+        "hasInterpretation": true,
+        "hasRecommendation": false,
+        "hasRisk": false,
+        "hasTenant": false
+      }
+    },
+    {
+      "file": "/src/components/pages/dfc/DFCDataSourceStatus.tsx",
+      "name": "DFCDataSourceStatus",
+      "legacyComponentsUsed": [],
+      "canonicalComponentsUsed": [
+        "ExecutiveSurface",
+        "ExecutiveBadge"
+      ],
+      "score": 30,
+      "metrics": {
+        "structural": 10,
+        "visual": 20,
+        "intelligence": 0,
+        "decision": 0,
+        "governance": 0
+      },
+      "gaps": {
+        "hasInterpretation": false,
+        "hasRecommendation": false,
+        "hasRisk": false,
+        "hasTenant": false
+      }
+    },
+    {
+      "file": "/src/components/pages/dfc/DFCDetailTable.tsx",
+      "name": "DFCDetailTable",
+      "legacyComponentsUsed": [],
+      "canonicalComponentsUsed": [
+        "ExecutiveTable",
+        "ExecutiveTableHeader",
+        "ExecutiveTableBody",
+        "ExecutiveTableRow",
+        "ExecutiveTableHead",
+        "ExecutiveTableCell",
+        "ExecutiveSurface",
+        "ExecutiveHeading"
+      ],
+      "score": 45,
+      "metrics": {
+        "structural": 25,
+        "visual": 20,
+        "intelligence": 0,
+        "decision": 0,
+        "governance": 0
+      },
+      "gaps": {
+        "hasInterpretation": false,
+        "hasRecommendation": false,
+        "hasRisk": false,
+        "hasTenant": false
+      }
+    },
+    {
+      "file": "/src/components/pages/dfc/DFCYearFilter.tsx",
+      "name": "DFCYearFilter",
+      "legacyComponentsUsed": [],
+      "canonicalComponentsUsed": [
+        "ExecutiveSurface",
+        "ExecutiveTypographyRegistry"
+      ],
+      "score": 30,
+      "metrics": {
+        "structural": 10,
+        "visual": 20,
+        "intelligence": 0,
+        "decision": 0,
+        "governance": 0
+      },
+      "gaps": {
+        "hasInterpretation": false,
+        "hasRecommendation": false,
+        "hasRisk": false,
+        "hasTenant": false
+      }
+    },
+    {
+      "file": "/src/components/pages/dfc/OperationalCashFlowChart.tsx",
+      "name": "OperationalCashFlowChart",
+      "legacyComponentsUsed": [],
+      "canonicalComponentsUsed": [
+        "ExecutiveSurface",
+        "ExecutiveHeading",
+        "ExecutiveAccordion"
+      ],
+      "score": 35,
+      "metrics": {
+        "structural": 15,
+        "visual": 20,
+        "intelligence": 0,
+        "decision": 0,
+        "governance": 0
+      },
+      "gaps": {
+        "hasInterpretation": false,
+        "hasRecommendation": false,
+        "hasRisk": false,
+        "hasTenant": false
+      }
+    },
+    {
+      "file": "/src/components/pages/diagnosis/DiagnosticNarrative.tsx",
+      "name": "DiagnosticNarrative",
+      "legacyComponentsUsed": [],
+      "canonicalComponentsUsed": [
+        "ExecutiveNarrative",
+        "ExecutiveMetricCard"
+      ],
+      "score": 36,
+      "metrics": {
+        "structural": 10,
+        "visual": 20,
+        "intelligence": 6,
+        "decision": 0,
+        "governance": 0
+      },
+      "gaps": {
+        "hasInterpretation": true,
+        "hasRecommendation": false,
+        "hasRisk": false,
+        "hasTenant": false
+      }
+    },
+    {
+      "file": "/src/components/pages/dlpa/DLPAActionToolbar.tsx",
+      "name": "DLPAActionToolbar",
+      "legacyComponentsUsed": [],
+      "canonicalComponentsUsed": [],
+      "score": 36,
+      "metrics": {
+        "structural": 10,
+        "visual": 20,
+        "intelligence": 6,
+        "decision": 0,
+        "governance": 0
+      },
+      "gaps": {
+        "hasInterpretation": true,
+        "hasRecommendation": false,
+        "hasRisk": false,
+        "hasTenant": false
+      }
+    },
+    {
+      "file": "/src/components/pages/dlpa/DLPADataSourceStatus.tsx",
+      "name": "DLPADataSourceStatus",
+      "legacyComponentsUsed": [],
+      "canonicalComponentsUsed": [
+        "ExecutiveSurface"
+      ],
+      "score": 25,
+      "metrics": {
+        "structural": 5,
+        "visual": 20,
+        "intelligence": 0,
+        "decision": 0,
+        "governance": 0
+      },
+      "gaps": {
+        "hasInterpretation": false,
+        "hasRecommendation": false,
+        "hasRisk": false,
+        "hasTenant": false
+      }
+    },
+    {
+      "file": "/src/components/pages/dlpa/DLPAYearFilter.tsx",
+      "name": "DLPAYearFilter",
+      "legacyComponentsUsed": [],
+      "canonicalComponentsUsed": [
+        "ExecutiveSurface"
+      ],
+      "score": 25,
+      "metrics": {
+        "structural": 5,
+        "visual": 20,
+        "intelligence": 0,
+        "decision": 0,
+        "governance": 0
+      },
+      "gaps": {
+        "hasInterpretation": false,
+        "hasRecommendation": false,
+        "hasRisk": false,
+        "hasTenant": false
+      }
+    },
+    {
+      "file": "/src/components/pages/dre/DREBoardDecisionSupportSection.tsx",
+      "name": "DREBoardDecisionSupportSection",
+      "legacyComponentsUsed": [],
+      "canonicalComponentsUsed": [
+        "ExecutiveDecisionPanel",
+        "ExecutiveSurface",
+        "ExecutiveHeading",
+        "ExecutiveText",
+        "BoardQuestionVM",
+        "ExecutiveBadge"
+      ],
+      "score": 57,
+      "metrics": {
+        "structural": 25,
+        "visual": 20,
+        "intelligence": 12,
+        "decision": 0,
+        "governance": 0
+      },
+      "gaps": {
+        "hasInterpretation": true,
+        "hasRecommendation": false,
+        "hasRisk": true,
+        "hasTenant": false
+      }
+    },
+    {
+      "file": "/src/components/pages/dre/DREEconomicBreakdownSection.tsx",
+      "name": "DREEconomicBreakdownSection",
+      "legacyComponentsUsed": [],
+      "canonicalComponentsUsed": [
+        "ExecutiveSurface",
+        "ExecutiveCallout",
+        "ExecutiveHeading",
+        "ExecutiveText",
+        "ExecutiveBadge"
+      ],
+      "score": 45,
+      "metrics": {
+        "structural": 25,
+        "visual": 20,
+        "intelligence": 0,
+        "decision": 0,
+        "governance": 0
+      },
+      "gaps": {
+        "hasInterpretation": false,
+        "hasRecommendation": false,
+        "hasRisk": false,
+        "hasTenant": false
+      }
+    },
+    {
+      "file": "/src/components/pages/dre/DREExecutiveAdvisorySection.tsx",
+      "name": "DREExecutiveAdvisorySection",
+      "legacyComponentsUsed": [],
+      "canonicalComponentsUsed": [
+        "ExecutiveStrategicSemanticCards",
+        "ExecutiveStrategicDiagnosisPayload"
+      ],
+      "score": 56,
+      "metrics": {
+        "structural": 10,
+        "visual": 20,
+        "intelligence": 6,
+        "decision": 20,
+        "governance": 0
+      },
+      "gaps": {
+        "hasInterpretation": true,
+        "hasRecommendation": true,
+        "hasRisk": false,
+        "hasTenant": false
+      }
+    },
+    {
+      "file": "/src/components/pages/dre/DREExecutivePlanSection.tsx",
+      "name": "DREExecutivePlanSection",
+      "legacyComponentsUsed": [],
+      "canonicalComponentsUsed": [
+        "ExecutiveDecisionSummary",
+        "ExecutiveExecutionPlan",
+        "ExecutiveHeading",
+        "ExecutiveText",
+        "ExecutiveSurface"
+      ],
+      "score": 71,
+      "metrics": {
+        "structural": 25,
+        "visual": 20,
+        "intelligence": 6,
+        "decision": 20,
+        "governance": 0
+      },
+      "gaps": {
+        "hasInterpretation": true,
+        "hasRecommendation": true,
+        "hasRisk": false,
+        "hasTenant": false
+      }
+    },
+    {
+      "file": "/src/components/pages/dre/DREHealthScoreSection.tsx",
+      "name": "DREHealthScoreSection",
+      "legacyComponentsUsed": [],
+      "canonicalComponentsUsed": [
+        "ExecutiveHeading",
+        "ExecutiveText",
+        "ExecutiveMetric",
+        "ExecutiveBadge",
+        "ExecutiveSurface"
+      ],
+      "score": 45,
+      "metrics": {
+        "structural": 25,
+        "visual": 20,
+        "intelligence": 0,
+        "decision": 0,
+        "governance": 0
+      },
+      "gaps": {
+        "hasInterpretation": false,
+        "hasRecommendation": false,
+        "hasRisk": false,
+        "hasTenant": false
+      }
+    },
+    {
+      "file": "/src/components/pages/dre/DRERecommendationSection.tsx",
+      "name": "DRERecommendationSection",
+      "legacyComponentsUsed": [],
+      "canonicalComponentsUsed": [
+        "ExecutiveStrategicSemanticCards",
+        "ExecutiveStrategicDiagnosisPayload"
+      ],
+      "score": 56,
+      "metrics": {
+        "structural": 10,
+        "visual": 20,
+        "intelligence": 6,
+        "decision": 20,
+        "governance": 0
+      },
+      "gaps": {
+        "hasInterpretation": true,
+        "hasRecommendation": true,
+        "hasRisk": false,
+        "hasTenant": false
+      }
+    },
+    {
+      "file": "/src/components/pages/dre/DRETechnicalLayerSection.tsx",
+      "name": "DRETechnicalLayerSection",
+      "legacyComponentsUsed": [],
+      "canonicalComponentsUsed": [
+        "ExecutiveSurface",
+        "ExecutiveTable",
+        "ExecutiveTableHeader",
+        "ExecutiveTableBody",
+        "ExecutiveTableRow",
+        "ExecutiveTableHead",
+        "ExecutiveTableCell",
+        "ExecutiveAccordion",
+        "ExecutiveHeading",
+        "ExecutiveText",
+        "ExecutiveBadge"
+      ],
+      "score": 45,
+      "metrics": {
+        "structural": 25,
+        "visual": 20,
+        "intelligence": 0,
+        "decision": 0,
+        "governance": 0
+      },
+      "gaps": {
+        "hasInterpretation": false,
+        "hasRecommendation": false,
+        "hasRisk": false,
+        "hasTenant": false
+      }
+    },
+    {
+      "file": "/src/components/pages/governance/BenchmarkAdvisoryPanel.tsx",
+      "name": "BenchmarkAdvisoryPanel",
+      "legacyComponentsUsed": [],
+      "canonicalComponentsUsed": [],
+      "score": 30,
+      "metrics": {
+        "structural": 10,
+        "visual": 20,
+        "intelligence": 0,
+        "decision": 0,
+        "governance": 0
+      },
+      "gaps": {
+        "hasInterpretation": false,
+        "hasRecommendation": false,
+        "hasRisk": false,
+        "hasTenant": false
+      }
+    },
+    {
+      "file": "/src/components/pages/governance/BenchmarkComparativePanel.tsx",
+      "name": "BenchmarkComparativePanel",
+      "legacyComponentsUsed": [],
+      "canonicalComponentsUsed": [],
+      "score": 30,
+      "metrics": {
+        "structural": 10,
+        "visual": 20,
+        "intelligence": 0,
+        "decision": 0,
+        "governance": 0
+      },
+      "gaps": {
+        "hasInterpretation": false,
+        "hasRecommendation": false,
+        "hasRisk": false,
+        "hasTenant": false
+      }
+    },
+    {
+      "file": "/src/components/pages/governance/BenchmarkReadinessPanel.tsx",
+      "name": "BenchmarkReadinessPanel",
+      "legacyComponentsUsed": [],
+      "canonicalComponentsUsed": [],
+      "score": 30,
+      "metrics": {
+        "structural": 10,
+        "visual": 20,
+        "intelligence": 0,
+        "decision": 0,
+        "governance": 0
+      },
+      "gaps": {
+        "hasInterpretation": false,
+        "hasRecommendation": false,
+        "hasRisk": false,
+        "hasTenant": false
+      }
+    },
+    {
+      "file": "/src/components/pages/governance/BoardDecisionSurface.tsx",
+      "name": "BoardDecisionSurface",
+      "legacyComponentsUsed": [],
+      "canonicalComponentsUsed": [
+        "ExecutiveText",
+        "ExecutiveHeading",
+        "ExecutiveDirectiveSection",
+        "BoardResolutionAppendix"
+      ],
+      "score": 57,
+      "metrics": {
+        "structural": 20,
+        "visual": 20,
+        "intelligence": 12,
+        "decision": 0,
+        "governance": 5
+      },
+      "gaps": {
+        "hasInterpretation": true,
+        "hasRecommendation": false,
+        "hasRisk": false,
+        "hasTenant": true
+      }
+    },
+    {
+      "file": "/src/components/pages/governance/BoardDeckCenter.tsx",
+      "name": "BoardDeckCenter",
+      "legacyComponentsUsed": [],
+      "canonicalComponentsUsed": [
+        "ExecutiveText",
+        "ExecutiveHeading",
+        "ExecutiveSurface",
+        "ExecutiveMetricCard",
+        "ExecutiveBadge"
+      ],
+      "score": 62,
+      "metrics": {
+        "structural": 25,
+        "visual": 20,
+        "intelligence": 12,
+        "decision": 0,
+        "governance": 5
+      },
+      "gaps": {
+        "hasInterpretation": true,
+        "hasRecommendation": false,
+        "hasRisk": false,
+        "hasTenant": false
+      }
+    },
+    {
+      "file": "/src/components/pages/governance/BoardMeetingMode.tsx",
+      "name": "BoardMeetingMode",
+      "legacyComponentsUsed": [],
+      "canonicalComponentsUsed": [
+        "ExecutiveText",
+        "ExecutiveHeading",
+        "BoardMeeting"
+      ],
+      "score": 47,
+      "metrics": {
+        "structural": 15,
+        "visual": 20,
+        "intelligence": 12,
+        "decision": 0,
+        "governance": 0
+      },
+      "gaps": {
+        "hasInterpretation": true,
+        "hasRecommendation": false,
+        "hasRisk": false,
+        "hasTenant": false
+      }
+    },
+    {
+      "file": "/src/components/pages/governance/CapitalGovernanceCenter.tsx",
+      "name": "CapitalGovernanceCenter",
+      "legacyComponentsUsed": [],
+      "canonicalComponentsUsed": [
+        "ExecutiveText",
+        "ExecutiveHeading",
+        "ExecutivePageTemplate",
+        "ExecutiveSummarySection",
+        "ExecutiveTechnicalEvidenceSection",
+        "ExecutiveSurface",
+        "ExecutiveMetricCard",
+        "ExecutiveBadge"
+      ],
+      "score": 45,
+      "metrics": {
+        "structural": 25,
+        "visual": 20,
+        "intelligence": 0,
+        "decision": 0,
+        "governance": 0
+      },
+      "gaps": {
+        "hasInterpretation": false,
+        "hasRecommendation": false,
+        "hasRisk": false,
+        "hasTenant": false
+      }
+    },
+    {
+      "file": "/src/components/pages/governance/CausalityExplorerPanel.tsx",
+      "name": "CausalityExplorerPanel",
+      "legacyComponentsUsed": [],
+      "canonicalComponentsUsed": [
+        "InstitutionalCausalityOutput"
+      ],
+      "score": 42,
+      "metrics": {
+        "structural": 5,
+        "visual": 20,
+        "intelligence": 12,
+        "decision": 0,
+        "governance": 5
+      },
+      "gaps": {
+        "hasInterpretation": true,
+        "hasRecommendation": false,
+        "hasRisk": false,
+        "hasTenant": false
+      }
+    },
+    {
+      "file": "/src/components/pages/governance/ComplianceIntegrityCenter.tsx",
+      "name": "ComplianceIntegrityCenter",
+      "legacyComponentsUsed": [],
+      "canonicalComponentsUsed": [
+        "ExecutiveText",
+        "ExecutiveHeading",
+        "ExecutivePageTemplate",
+        "ExecutiveSurface",
+        "ExecutiveMetricCard",
+        "ExecutiveBadge",
+        "ExecutiveSummarySection",
+        "ExecutiveStrategicTensions",
+        "ExecutiveDecisionTrace"
+      ],
+      "score": 57,
+      "metrics": {
+        "structural": 25,
+        "visual": 20,
+        "intelligence": 12,
+        "decision": 0,
+        "governance": 0
+      },
+      "gaps": {
+        "hasInterpretation": true,
+        "hasRecommendation": false,
+        "hasRisk": true,
+        "hasTenant": false
+      }
+    },
+    {
+      "file": "/src/components/pages/governance/ConfidenceDisclosurePanel.tsx",
+      "name": "ConfidenceDisclosurePanel",
+      "legacyComponentsUsed": [],
+      "canonicalComponentsUsed": [],
+      "score": 36,
+      "metrics": {
+        "structural": 10,
+        "visual": 20,
+        "intelligence": 6,
+        "decision": 0,
+        "governance": 0
+      },
+      "gaps": {
+        "hasInterpretation": true,
+        "hasRecommendation": false,
+        "hasRisk": false,
+        "hasTenant": false
+      }
+    },
+    {
+      "file": "/src/components/pages/governance/ConstitutionalAxiomPanel.tsx",
+      "name": "ConstitutionalAxiomPanel",
+      "legacyComponentsUsed": [],
+      "canonicalComponentsUsed": [],
+      "score": 30,
+      "metrics": {
+        "structural": 10,
+        "visual": 20,
+        "intelligence": 0,
+        "decision": 0,
+        "governance": 0
+      },
+      "gaps": {
+        "hasInterpretation": false,
+        "hasRecommendation": false,
+        "hasRisk": false,
+        "hasTenant": false
+      }
+    },
+    {
+      "file": "/src/components/pages/governance/ConstitutionalConfidencePanel.tsx",
+      "name": "ConstitutionalConfidencePanel",
+      "legacyComponentsUsed": [],
+      "canonicalComponentsUsed": [],
+      "score": 30,
+      "metrics": {
+        "structural": 10,
+        "visual": 20,
+        "intelligence": 0,
+        "decision": 0,
+        "governance": 0
+      },
+      "gaps": {
+        "hasInterpretation": false,
+        "hasRecommendation": false,
+        "hasRisk": false,
+        "hasTenant": false
+      }
+    },
+    {
+      "file": "/src/components/pages/governance/ConstitutionalEnforcementPanel.tsx",
+      "name": "ConstitutionalEnforcementPanel",
+      "legacyComponentsUsed": [],
+      "canonicalComponentsUsed": [],
+      "score": 42,
+      "metrics": {
+        "structural": 10,
+        "visual": 20,
+        "intelligence": 12,
+        "decision": 0,
+        "governance": 0
+      },
+      "gaps": {
+        "hasInterpretation": true,
+        "hasRecommendation": false,
+        "hasRisk": false,
+        "hasTenant": false
+      }
+    },
+    {
+      "file": "/src/components/pages/governance/ConstitutionalGovernanceDashboardPanel.tsx",
+      "name": "ConstitutionalGovernanceDashboardPanel",
+      "legacyComponentsUsed": [],
+      "canonicalComponentsUsed": [],
+      "score": 41,
+      "metrics": {
+        "structural": 10,
+        "visual": 20,
+        "intelligence": 6,
+        "decision": 0,
+        "governance": 5
+      },
+      "gaps": {
+        "hasInterpretation": true,
+        "hasRecommendation": false,
+        "hasRisk": false,
+        "hasTenant": false
+      }
+    },
+    {
+      "file": "/src/components/pages/governance/ConstitutionalLineagePanel.tsx",
+      "name": "ConstitutionalLineagePanel",
+      "legacyComponentsUsed": [],
+      "canonicalComponentsUsed": [],
+      "score": 35,
+      "metrics": {
+        "structural": 10,
+        "visual": 20,
+        "intelligence": 0,
+        "decision": 0,
+        "governance": 5
+      },
+      "gaps": {
+        "hasInterpretation": false,
+        "hasRecommendation": false,
+        "hasRisk": false,
+        "hasTenant": false
+      }
+    },
+    {
+      "file": "/src/components/pages/governance/ConstitutionalRestrictionPanel.tsx",
+      "name": "ConstitutionalRestrictionPanel",
+      "legacyComponentsUsed": [],
+      "canonicalComponentsUsed": [],
+      "score": 30,
+      "metrics": {
+        "structural": 10,
+        "visual": 20,
+        "intelligence": 0,
+        "decision": 0,
+        "governance": 0
+      },
+      "gaps": {
+        "hasInterpretation": false,
+        "hasRecommendation": false,
+        "hasRisk": false,
+        "hasTenant": false
+      }
+    },
+    {
+      "file": "/src/components/pages/governance/ContinuityRiskPanel.tsx",
+      "name": "ContinuityRiskPanel",
+      "legacyComponentsUsed": [],
+      "canonicalComponentsUsed": [],
+      "score": 36,
+      "metrics": {
+        "structural": 10,
+        "visual": 20,
+        "intelligence": 6,
+        "decision": 0,
+        "governance": 0
+      },
+      "gaps": {
+        "hasInterpretation": true,
+        "hasRecommendation": false,
+        "hasRisk": true,
+        "hasTenant": false
+      }
+    },
+    {
+      "file": "/src/components/pages/governance/CreditCommitteeCenter.tsx",
+      "name": "CreditCommitteeCenter",
+      "legacyComponentsUsed": [],
+      "canonicalComponentsUsed": [
+        "ExecutiveText",
+        "ExecutiveHeading",
+        "ExecutiveSurface",
+        "ExecutiveMetricCard",
+        "ExecutiveBadge",
+        "ExecutiveSummarySection",
+        "ExecutiveTechnicalEvidenceSection"
+      ],
+      "score": 63,
+      "metrics": {
+        "structural": 25,
+        "visual": 20,
+        "intelligence": 18,
+        "decision": 0,
+        "governance": 0
+      },
+      "gaps": {
+        "hasInterpretation": true,
+        "hasRecommendation": false,
+        "hasRisk": true,
+        "hasTenant": false
+      }
+    },
+    {
+      "file": "/src/components/pages/governance/CrisisResponseCenter.tsx",
+      "name": "CrisisResponseCenter",
+      "legacyComponentsUsed": [],
+      "canonicalComponentsUsed": [
+        "ExecutiveHeading",
+        "ExecutivePageTemplate",
+        "GovernancePlaybookPanel",
+        "InstitutionalPriorityBoard",
+        "GovernanceRecommendationFeed"
+      ],
+      "score": 76,
+      "metrics": {
+        "structural": 25,
+        "visual": 20,
+        "intelligence": 6,
+        "decision": 20,
+        "governance": 5
+      },
+      "gaps": {
+        "hasInterpretation": true,
+        "hasRecommendation": true,
+        "hasRisk": false,
+        "hasTenant": true
+      }
+    },
+    {
+      "file": "/src/components/pages/governance/DecisionLifecycleCenter.tsx",
+      "name": "DecisionLifecycleCenter",
+      "legacyComponentsUsed": [],
+      "canonicalComponentsUsed": [],
+      "score": 41,
+      "metrics": {
+        "structural": 10,
+        "visual": 20,
+        "intelligence": 6,
+        "decision": 0,
+        "governance": 5
+      },
+      "gaps": {
+        "hasInterpretation": true,
+        "hasRecommendation": false,
+        "hasRisk": false,
+        "hasTenant": false
+      }
+    },
+    {
+      "file": "/src/components/pages/governance/ESGIMAssessmentPage.tsx",
+      "name": "ESGIMAssessmentPage",
+      "legacyComponentsUsed": [],
+      "canonicalComponentsUsed": [
+        "ExecutiveText",
+        "ExecutiveHeading",
+        "ExecutiveSurface",
+        "ExecutiveMetricCard",
+        "ExecutiveBadge",
+        "BoardPriority",
+        "BoardExecutiveBrief",
+        "GovernanceMonitoringSnapshot",
+        "GovernanceMonitoringResult",
+        "DecisionExecutionRisk",
+        "ExecutiveBoardReportModal",
+        "BoardPackPreviewModal",
+        "GovernanceExecutionPanel",
+        "BoardMeetingMode",
+        "GovernanceKnowledgePanel",
+        "GovernanceLearningPanel",
+        "GovernanceJourneyPanel"
+      ],
+      "score": 79,
+      "metrics": {
+        "structural": 25,
+        "visual": 20,
+        "intelligence": 24,
+        "decision": 0,
+        "governance": 10
+      },
+      "gaps": {
+        "hasInterpretation": true,
+        "hasRecommendation": false,
+        "hasRisk": true,
+        "hasTenant": true
+      }
+    },
+    {
+      "file": "/src/components/pages/governance/EconomicNormalizationCenter.tsx",
+      "name": "EconomicNormalizationCenter",
+      "legacyComponentsUsed": [],
+      "canonicalComponentsUsed": [
+        "ExecutiveText",
+        "ExecutiveHeading",
+        "ExecutivePageTemplate",
+        "ExecutiveSurface",
+        "ExecutiveMetricCard",
+        "ExecutiveBadge"
+      ],
+      "score": 45,
+      "metrics": {
+        "structural": 25,
+        "visual": 20,
+        "intelligence": 0,
+        "decision": 0,
+        "governance": 0
+      },
+      "gaps": {
+        "hasInterpretation": false,
+        "hasRecommendation": false,
+        "hasRisk": false,
+        "hasTenant": false
+      }
+    },
+    {
+      "file": "/src/components/pages/governance/ExecutiveExecutionCenter.tsx",
+      "name": "ExecutiveExecutionCenter",
+      "legacyComponentsUsed": [],
+      "canonicalComponentsUsed": [
+        "ExecutiveText",
+        "ExecutiveHeading"
+      ],
+      "score": 36,
+      "metrics": {
+        "structural": 10,
+        "visual": 20,
+        "intelligence": 6,
+        "decision": 0,
+        "governance": 0
+      },
+      "gaps": {
+        "hasInterpretation": true,
+        "hasRecommendation": false,
+        "hasRisk": false,
+        "hasTenant": false
+      }
+    },
+    {
+      "file": "/src/components/pages/governance/ExecutiveMonitoringCenter.tsx",
+      "name": "ExecutiveMonitoringCenter",
+      "legacyComponentsUsed": [],
+      "canonicalComponentsUsed": [
+        "GovernanceCommandCenterProvider",
+        "GovernanceCommandCenterSurface"
+      ],
+      "score": 30,
+      "metrics": {
+        "structural": 10,
+        "visual": 20,
+        "intelligence": 0,
+        "decision": 0,
+        "governance": 0
+      },
+      "gaps": {
+        "hasInterpretation": false,
+        "hasRecommendation": false,
+        "hasRisk": false,
+        "hasTenant": false
+      }
+    },
+    {
+      "file": "/src/components/pages/governance/ExecutiveTimelinePanel.tsx",
+      "name": "ExecutiveTimelinePanel",
+      "legacyComponentsUsed": [],
+      "canonicalComponentsUsed": [
+        "ExecutiveTimelineOutput"
+      ],
+      "score": 37,
+      "metrics": {
+        "structural": 5,
+        "visual": 20,
+        "intelligence": 12,
+        "decision": 0,
+        "governance": 0
+      },
+      "gaps": {
+        "hasInterpretation": true,
+        "hasRecommendation": false,
+        "hasRisk": false,
+        "hasTenant": false
+      }
+    },
+    {
+      "file": "/src/components/pages/governance/FiduciaryGovernanceCenter.tsx",
+      "name": "FiduciaryGovernanceCenter",
+      "legacyComponentsUsed": [],
+      "canonicalComponentsUsed": [],
+      "score": 30,
+      "metrics": {
+        "structural": 10,
+        "visual": 20,
+        "intelligence": 0,
+        "decision": 0,
+        "governance": 0
+      },
+      "gaps": {
+        "hasInterpretation": false,
+        "hasRecommendation": false,
+        "hasRisk": false,
+        "hasTenant": false
+      }
+    },
+    {
+      "file": "/src/components/pages/governance/FiduciaryRestrictionPanel.tsx",
+      "name": "FiduciaryRestrictionPanel",
+      "legacyComponentsUsed": [],
+      "canonicalComponentsUsed": [],
+      "score": 36,
+      "metrics": {
+        "structural": 10,
+        "visual": 20,
+        "intelligence": 6,
+        "decision": 0,
+        "governance": 0
+      },
+      "gaps": {
+        "hasInterpretation": true,
+        "hasRecommendation": false,
+        "hasRisk": false,
+        "hasTenant": false
+      }
+    },
+    {
+      "file": "/src/components/pages/governance/FiduciaryValidationCenter.tsx",
+      "name": "FiduciaryValidationCenter",
+      "legacyComponentsUsed": [
+        "Button"
+      ],
+      "canonicalComponentsUsed": [
+        "ExecutiveText",
+        "ExecutiveHeading",
+        "ExecutiveSurface",
+        "ExecutiveMetricCard",
+        "ExecutiveBadge",
+        "ExecutiveDecisionIntegrityBadge",
+        "ExecutiveConflictCard",
+        "ExecutiveDecisionCard",
+        "SemanticGovernanceFilterBar",
+        "ExecutivePriorityStack",
+        "GovernanceHistoryExplorer",
+        "GovernanceRecurrencePanel"
+      ],
+      "score": 52,
+      "metrics": {
+        "structural": 25,
+        "visual": 15,
+        "intelligence": 12,
+        "decision": 0,
+        "governance": 0
+      },
+      "gaps": {
+        "hasInterpretation": true,
+        "hasRecommendation": false,
+        "hasRisk": false,
+        "hasTenant": false
+      }
+    },
+    {
+      "file": "/src/components/pages/governance/FinancialLineageCenter.tsx",
+      "name": "FinancialLineageCenter",
+      "legacyComponentsUsed": [],
+      "canonicalComponentsUsed": [
+        "ExecutiveText",
+        "ExecutiveHeading",
+        "ExecutivePageTemplate"
+      ],
+      "score": 46,
+      "metrics": {
+        "structural": 15,
+        "visual": 20,
+        "intelligence": 6,
+        "decision": 0,
+        "governance": 5
+      },
+      "gaps": {
+        "hasInterpretation": true,
+        "hasRecommendation": false,
+        "hasRisk": false,
+        "hasTenant": false
+      }
+    },
+    {
+      "file": "/src/components/pages/governance/GovernanceExecutionPanel.tsx",
+      "name": "GovernanceExecutionPanel",
+      "legacyComponentsUsed": [],
+      "canonicalComponentsUsed": [
+        "GovernanceDecision",
+        "GovernanceDecisionType",
+        "DecisionExecutionRisk"
+      ],
+      "score": 58,
+      "metrics": {
+        "structural": 15,
+        "visual": 20,
+        "intelligence": 18,
+        "decision": 0,
+        "governance": 5
+      },
+      "gaps": {
+        "hasInterpretation": true,
+        "hasRecommendation": false,
+        "hasRisk": true,
+        "hasTenant": false
+      }
+    },
+    {
+      "file": "/src/components/pages/governance/GovernanceJourneyPanel.tsx",
+      "name": "GovernanceJourneyPanel",
+      "legacyComponentsUsed": [],
+      "canonicalComponentsUsed": [
+        "GovernanceJourneyStep"
+      ],
+      "score": 42,
+      "metrics": {
+        "structural": 5,
+        "visual": 20,
+        "intelligence": 12,
+        "decision": 0,
+        "governance": 5
+      },
+      "gaps": {
+        "hasInterpretation": true,
+        "hasRecommendation": false,
+        "hasRisk": false,
+        "hasTenant": true
+      }
+    },
+    {
+      "file": "/src/components/pages/governance/GovernanceKnowledgePanel.tsx",
+      "name": "GovernanceKnowledgePanel",
+      "legacyComponentsUsed": [],
+      "canonicalComponentsUsed": [],
+      "score": 30,
+      "metrics": {
+        "structural": 10,
+        "visual": 20,
+        "intelligence": 0,
+        "decision": 0,
+        "governance": 0
+      },
+      "gaps": {
+        "hasInterpretation": false,
+        "hasRecommendation": false,
+        "hasRisk": false,
+        "hasTenant": false
+      }
+    },
+    {
+      "file": "/src/components/pages/governance/GovernanceLearningPanel.tsx",
+      "name": "GovernanceLearningPanel",
+      "legacyComponentsUsed": [],
+      "canonicalComponentsUsed": [],
+      "score": 30,
+      "metrics": {
+        "structural": 10,
+        "visual": 20,
+        "intelligence": 0,
+        "decision": 0,
+        "governance": 0
+      },
+      "gaps": {
+        "hasInterpretation": false,
+        "hasRecommendation": false,
+        "hasRisk": false,
+        "hasTenant": false
+      }
+    },
+    {
+      "file": "/src/components/pages/governance/GovernanceMaturityCenter.tsx",
+      "name": "GovernanceMaturityCenter",
+      "legacyComponentsUsed": [],
+      "canonicalComponentsUsed": [
+        "ExecutiveText",
+        "ExecutiveHeading",
+        "ExecutiveSurface",
+        "ExecutiveMetricCard",
+        "ExecutiveBadge",
+        "ExecutiveSummarySection",
+        "ExecutiveTechnicalEvidenceSection"
+      ],
+      "score": 71,
+      "metrics": {
+        "structural": 25,
+        "visual": 20,
+        "intelligence": 6,
+        "decision": 20,
+        "governance": 0
+      },
+      "gaps": {
+        "hasInterpretation": true,
+        "hasRecommendation": true,
+        "hasRisk": false,
+        "hasTenant": false
+      }
+    },
+    {
+      "file": "/src/components/pages/governance/GovernanceRiskHeatmap.tsx",
+      "name": "GovernanceRiskHeatmap",
+      "legacyComponentsUsed": [],
+      "canonicalComponentsUsed": [
+        "ExecutiveText",
+        "ExecutiveHeading",
+        "ExecutivePageTemplate",
+        "ExecutiveSummarySection",
+        "ExecutiveStrategicTensions",
+        "ExecutiveDecisionTrace"
+      ],
+      "score": 57,
+      "metrics": {
+        "structural": 25,
+        "visual": 20,
+        "intelligence": 12,
+        "decision": 0,
+        "governance": 0
+      },
+      "gaps": {
+        "hasInterpretation": true,
+        "hasRecommendation": false,
+        "hasRisk": true,
+        "hasTenant": false
+      }
+    },
+    {
+      "file": "/src/components/pages/governance/GovernanceRolesPanel.tsx",
+      "name": "GovernanceRolesPanel",
+      "legacyComponentsUsed": [],
+      "canonicalComponentsUsed": [
+        "ExecutiveAccordion",
+        "ExecutiveSurface",
+        "ExecutiveHeading"
+      ],
+      "score": 35,
+      "metrics": {
+        "structural": 15,
+        "visual": 20,
+        "intelligence": 0,
+        "decision": 0,
+        "governance": 0
+      },
+      "gaps": {
+        "hasInterpretation": false,
+        "hasRecommendation": false,
+        "hasRisk": false,
+        "hasTenant": false
+      }
+    },
+    {
+      "file": "/src/components/pages/governance/InstitutionalBenchmarkingPage.tsx",
+      "name": "InstitutionalBenchmarkingPage",
+      "legacyComponentsUsed": [],
+      "canonicalComponentsUsed": [],
+      "score": 36,
+      "metrics": {
+        "structural": 10,
+        "visual": 20,
+        "intelligence": 6,
+        "decision": 0,
+        "governance": 0
+      },
+      "gaps": {
+        "hasInterpretation": true,
+        "hasRecommendation": false,
+        "hasRisk": true,
+        "hasTenant": false
+      }
+    },
+    {
+      "file": "/src/components/pages/governance/InstitutionalLineageExplorer.tsx",
+      "name": "InstitutionalLineageExplorer",
+      "legacyComponentsUsed": [],
+      "canonicalComponentsUsed": [
+        "ExecutiveHeading",
+        "InstitutionalDisclosure"
+      ],
+      "score": 35,
+      "metrics": {
+        "structural": 10,
+        "visual": 20,
+        "intelligence": 0,
+        "decision": 0,
+        "governance": 5
+      },
+      "gaps": {
+        "hasInterpretation": false,
+        "hasRecommendation": false,
+        "hasRisk": false,
+        "hasTenant": false
+      }
+    },
+    {
+      "file": "/src/components/pages/governance/InstitutionalMemoryCenter.tsx",
+      "name": "InstitutionalMemoryCenter",
+      "legacyComponentsUsed": [],
+      "canonicalComponentsUsed": [
+        "ExecutiveText",
+        "ExecutiveHeading",
+        "ExecutivePageTemplate"
+      ],
+      "score": 40,
+      "metrics": {
+        "structural": 15,
+        "visual": 20,
+        "intelligence": 0,
+        "decision": 0,
+        "governance": 5
+      },
+      "gaps": {
+        "hasInterpretation": false,
+        "hasRecommendation": false,
+        "hasRisk": false,
+        "hasTenant": false
+      }
+    },
+    {
+      "file": "/src/components/pages/governance/InstitutionalMonitoringPage.tsx",
+      "name": "InstitutionalMonitoringPage",
+      "legacyComponentsUsed": [],
+      "canonicalComponentsUsed": [],
+      "score": 30,
+      "metrics": {
+        "structural": 10,
+        "visual": 20,
+        "intelligence": 0,
+        "decision": 0,
+        "governance": 0
+      },
+      "gaps": {
+        "hasInterpretation": false,
+        "hasRecommendation": false,
+        "hasRisk": false,
+        "hasTenant": false
+      }
+    },
+    {
+      "file": "/src/components/pages/governance/InstitutionalObservabilityCenter.tsx",
+      "name": "InstitutionalObservabilityCenter",
+      "legacyComponentsUsed": [],
+      "canonicalComponentsUsed": [
+        "ExecutiveHeading",
+        "ExecutivePageTemplate",
+        "ExecutiveSurface",
+        "ExecutiveMetricCard",
+        "ExecutiveBadge",
+        "ExecutiveText"
+      ],
+      "score": 50,
+      "metrics": {
+        "structural": 25,
+        "visual": 20,
+        "intelligence": 0,
+        "decision": 0,
+        "governance": 5
+      },
+      "gaps": {
+        "hasInterpretation": false,
+        "hasRecommendation": false,
+        "hasRisk": false,
+        "hasTenant": false
+      }
+    },
+    {
+      "file": "/src/components/pages/governance/InstitutionalStructureCenter.tsx",
+      "name": "InstitutionalStructureCenter",
+      "legacyComponentsUsed": [],
+      "canonicalComponentsUsed": [
+        "ExecutiveText",
+        "ExecutiveHeading",
+        "ExecutivePageTemplate",
+        "ExecutiveSurface",
+        "ExecutiveBadge"
+      ],
+      "score": 45,
+      "metrics": {
+        "structural": 25,
+        "visual": 20,
+        "intelligence": 0,
+        "decision": 0,
+        "governance": 0
+      },
+      "gaps": {
+        "hasInterpretation": false,
+        "hasRecommendation": false,
+        "hasRisk": false,
+        "hasTenant": false
+      }
+    },
+    {
+      "file": "/src/components/pages/governance/LeadershipDNACenter.tsx",
+      "name": "LeadershipDNACenter",
+      "legacyComponentsUsed": [],
+      "canonicalComponentsUsed": [
+        "ExecutiveText",
+        "ExecutiveHeading",
+        "ExecutiveSurface",
+        "ExecutiveMetricCard",
+        "ExecutiveBadge"
+      ],
+      "score": 51,
+      "metrics": {
+        "structural": 25,
+        "visual": 20,
+        "intelligence": 6,
+        "decision": 0,
+        "governance": 0
+      },
+      "gaps": {
+        "hasInterpretation": true,
+        "hasRecommendation": false,
+        "hasRisk": false,
+        "hasTenant": false
+      }
+    },
+    {
+      "file": "/src/components/pages/governance/MultiTenantGovernanceCenter.tsx",
+      "name": "MultiTenantGovernanceCenter",
+      "legacyComponentsUsed": [],
+      "canonicalComponentsUsed": [
+        "ExecutiveText",
+        "ExecutiveHeading",
+        "ExecutivePageTemplate",
+        "ExecutiveMetricCard"
+      ],
+      "score": 40,
+      "metrics": {
+        "structural": 20,
+        "visual": 20,
+        "intelligence": 0,
+        "decision": 0,
+        "governance": 0
+      },
+      "gaps": {
+        "hasInterpretation": false,
+        "hasRecommendation": false,
+        "hasRisk": false,
+        "hasTenant": false
+      }
+    },
+    {
+      "file": "/src/components/pages/governance/ObservabilityConsolePage.tsx",
+      "name": "ObservabilityConsolePage",
+      "legacyComponentsUsed": [],
+      "canonicalComponentsUsed": [
+        "ExecutiveText",
+        "ExecutiveHeading",
+        "ExecutivePageTemplate",
+        "ExecutiveSurface",
+        "ExecutiveMetricCard",
+        "ExecutiveBadge",
+        "ExecutiveSummarySection",
+        "ExecutiveStrategicTensions",
+        "ExecutiveDecisionTrace",
+        "ExecutiveTechnicalLayer"
+      ],
+      "score": 62,
+      "metrics": {
+        "structural": 25,
+        "visual": 20,
+        "intelligence": 12,
+        "decision": 0,
+        "governance": 5
+      },
+      "gaps": {
+        "hasInterpretation": true,
+        "hasRecommendation": false,
+        "hasRisk": false,
+        "hasTenant": true
+      }
+    },
+    {
+      "file": "/src/components/pages/governance/ResponsibilityMatrixPanel.tsx",
+      "name": "ResponsibilityMatrixPanel",
+      "legacyComponentsUsed": [],
+      "canonicalComponentsUsed": [
+        "ExecutiveTable",
+        "ExecutiveTableHeader",
+        "ExecutiveTableBody",
+        "ExecutiveTableRow",
+        "ExecutiveTableHead",
+        "ExecutiveTableCell",
+        "ExecutiveSurface",
+        "ExecutiveHeading"
+      ],
+      "score": 45,
+      "metrics": {
+        "structural": 25,
+        "visual": 20,
+        "intelligence": 0,
+        "decision": 0,
+        "governance": 0
+      },
+      "gaps": {
+        "hasInterpretation": false,
+        "hasRecommendation": false,
+        "hasRisk": false,
+        "hasTenant": false
+      }
+    },
+    {
+      "file": "/src/components/pages/governance/RiskExposureCenter.tsx",
+      "name": "RiskExposureCenter",
+      "legacyComponentsUsed": [],
+      "canonicalComponentsUsed": [
+        "ExecutiveText",
+        "ExecutiveHeading",
+        "ExecutivePageTemplate",
+        "ExecutiveSurface",
+        "ExecutiveMetricCard",
+        "ExecutiveBadge",
+        "ExecutiveSummarySection",
+        "ExecutiveStrategicTensions",
+        "ExecutiveDecisionTrace",
+        "ExecutiveTechnicalLayer"
+      ],
+      "score": 62,
+      "metrics": {
+        "structural": 25,
+        "visual": 20,
+        "intelligence": 12,
+        "decision": 0,
+        "governance": 5
+      },
+      "gaps": {
+        "hasInterpretation": true,
+        "hasRecommendation": false,
+        "hasRisk": true,
+        "hasTenant": false
+      }
+    },
+    {
+      "file": "/src/components/pages/governance/SovereignBoardPackPage.tsx",
+      "name": "SovereignBoardPackPage",
+      "legacyComponentsUsed": [],
+      "canonicalComponentsUsed": [
+        "ExecutiveText",
+        "ExecutiveHeading",
+        "ExecutiveSurface",
+        "ExecutiveMetricCard",
+        "ExecutiveBadge",
+        "BoardDecisionSurface",
+        "InstitutionalLineageExplorer",
+        "ExecutiveTimelinePanel",
+        "InstitutionalBoardPackOutput",
+        "DecisionCognitiveDrawer"
+      ],
+      "score": 94,
+      "metrics": {
+        "structural": 25,
+        "visual": 20,
+        "intelligence": 24,
+        "decision": 20,
+        "governance": 5
+      },
+      "gaps": {
+        "hasInterpretation": true,
+        "hasRecommendation": true,
+        "hasRisk": true,
+        "hasTenant": false
+      }
+    },
+    {
+      "file": "/src/components/pages/governance/SovereignDecisionCenter.tsx",
+      "name": "SovereignDecisionCenter",
+      "legacyComponentsUsed": [],
+      "canonicalComponentsUsed": [
+        "ExecutiveText",
+        "ExecutiveHeading"
+      ],
+      "score": 52,
+      "metrics": {
+        "structural": 10,
+        "visual": 20,
+        "intelligence": 12,
+        "decision": 0,
+        "governance": 10
+      },
+      "gaps": {
+        "hasInterpretation": true,
+        "hasRecommendation": false,
+        "hasRisk": false,
+        "hasTenant": true
+      }
+    },
+    {
+      "file": "/src/components/pages/historical/HistoricalDataUpload.tsx",
+      "name": "HistoricalDataUpload",
+      "legacyComponentsUsed": [
+        "Button"
+      ],
+      "canonicalComponentsUsed": [
+        "ExecutiveSurface",
+        "ExecutiveHeading"
+      ],
+      "score": 25,
+      "metrics": {
+        "structural": 10,
+        "visual": 15,
+        "intelligence": 0,
+        "decision": 0,
+        "governance": 0
+      },
+      "gaps": {
+        "hasInterpretation": false,
+        "hasRecommendation": false,
+        "hasRisk": false,
+        "hasTenant": false
+      }
+    },
+    {
+      "file": "/src/components/pages/partners/PartnerPipelineBoard.tsx",
+      "name": "PartnerPipelineBoard",
+      "legacyComponentsUsed": [],
+      "canonicalComponentsUsed": [
+        "ExecutiveSurface",
+        "ExecutiveHeading"
+      ],
+      "score": 30,
+      "metrics": {
+        "structural": 10,
+        "visual": 20,
+        "intelligence": 0,
+        "decision": 0,
+        "governance": 0
+      },
+      "gaps": {
+        "hasInterpretation": false,
+        "hasRecommendation": false,
+        "hasRisk": false,
+        "hasTenant": false
+      }
+    },
+    {
+      "file": "/src/components/pages/portfolio/PortfolioExecutiveSummary.tsx",
+      "name": "PortfolioExecutiveSummary",
+      "legacyComponentsUsed": [],
+      "canonicalComponentsUsed": [
+        "ExecutiveNarrative",
+        "ExecutiveMetricCard"
+      ],
+      "score": 36,
+      "metrics": {
+        "structural": 10,
+        "visual": 20,
+        "intelligence": 6,
+        "decision": 0,
+        "governance": 0
+      },
+      "gaps": {
+        "hasInterpretation": true,
+        "hasRecommendation": false,
+        "hasRisk": false,
+        "hasTenant": false
+      }
+    },
+    {
+      "file": "/src/components/pages/public/DiagnosticoPage.tsx",
+      "name": "DiagnosticoPage",
+      "legacyComponentsUsed": [
+        "Button"
+      ],
+      "canonicalComponentsUsed": [],
+      "score": 20,
+      "metrics": {
+        "structural": 5,
+        "visual": 15,
+        "intelligence": 0,
+        "decision": 0,
+        "governance": 0
+      },
+      "gaps": {
+        "hasInterpretation": false,
+        "hasRecommendation": false,
+        "hasRisk": false,
+        "hasTenant": false
+      }
+    },
+    {
+      "file": "/src/components/pages/public/EmpresasPage.tsx",
+      "name": "EmpresasPage",
+      "legacyComponentsUsed": [],
+      "canonicalComponentsUsed": [],
+      "score": 36,
+      "metrics": {
+        "structural": 10,
+        "visual": 20,
+        "intelligence": 6,
+        "decision": 0,
+        "governance": 0
+      },
+      "gaps": {
+        "hasInterpretation": true,
+        "hasRecommendation": false,
+        "hasRisk": false,
+        "hasTenant": false
+      }
+    },
+    {
+      "file": "/src/components/pages/public/ExecutiveAdvisorNetworkLandingPage.tsx",
+      "name": "ExecutiveAdvisorNetworkLandingPage",
+      "legacyComponentsUsed": [],
+      "canonicalComponentsUsed": [],
+      "score": 42,
+      "metrics": {
+        "structural": 10,
+        "visual": 20,
+        "intelligence": 12,
+        "decision": 0,
+        "governance": 0
+      },
+      "gaps": {
+        "hasInterpretation": true,
+        "hasRecommendation": false,
+        "hasRisk": true,
+        "hasTenant": false
+      }
+    },
+    {
+      "file": "/src/components/pages/public/ExecutivePlatformLandingPage.tsx",
+      "name": "ExecutivePlatformLandingPage",
+      "legacyComponentsUsed": [],
+      "canonicalComponentsUsed": [],
+      "score": 68,
+      "metrics": {
+        "structural": 10,
+        "visual": 20,
+        "intelligence": 18,
+        "decision": 20,
+        "governance": 0
+      },
+      "gaps": {
+        "hasInterpretation": true,
+        "hasRecommendation": true,
+        "hasRisk": true,
+        "hasTenant": false
+      }
+    },
+    {
+      "file": "/src/components/pages/public/HomePage.tsx",
+      "name": "HomePage",
+      "legacyComponentsUsed": [],
+      "canonicalComponentsUsed": [
+        "ExecutivePlatformLandingPage"
+      ],
+      "score": 25,
+      "metrics": {
+        "structural": 5,
+        "visual": 20,
+        "intelligence": 0,
+        "decision": 0,
+        "governance": 0
+      },
+      "gaps": {
+        "hasInterpretation": false,
+        "hasRecommendation": false,
+        "hasRisk": false,
+        "hasTenant": false
+      }
+    },
+    {
+      "file": "/src/components/pages/public/LoginPage.tsx",
+      "name": "LoginPage",
+      "legacyComponentsUsed": [
+        "Button",
+        "Input"
+      ],
+      "canonicalComponentsUsed": [
+        "ExecutiveHeading"
+      ],
+      "score": 15,
+      "metrics": {
+        "structural": 5,
+        "visual": 10,
+        "intelligence": 0,
+        "decision": 0,
+        "governance": 0
+      },
+      "gaps": {
+        "hasInterpretation": false,
+        "hasRecommendation": false,
+        "hasRisk": false,
+        "hasTenant": false
+      }
+    },
+    {
+      "file": "/src/components/pages/public/ReferralProgramPage.tsx",
+      "name": "ReferralProgramPage",
+      "legacyComponentsUsed": [],
+      "canonicalComponentsUsed": [
+        "ExecutiveAdvisorNetworkLandingPage"
+      ],
+      "score": 25,
+      "metrics": {
+        "structural": 5,
+        "visual": 20,
+        "intelligence": 0,
+        "decision": 0,
+        "governance": 0
+      },
+      "gaps": {
+        "hasInterpretation": false,
+        "hasRecommendation": false,
+        "hasRisk": false,
+        "hasTenant": false
+      }
+    },
+    {
+      "file": "/src/components/pages/simulation/SimulationExecutiveSummary.tsx",
+      "name": "SimulationExecutiveSummary",
+      "legacyComponentsUsed": [],
+      "canonicalComponentsUsed": [
+        "ExecutiveNarrative",
+        "ExecutiveMetricCard"
+      ],
+      "score": 36,
+      "metrics": {
+        "structural": 10,
+        "visual": 20,
+        "intelligence": 6,
+        "decision": 0,
+        "governance": 0
+      },
+      "gaps": {
+        "hasInterpretation": true,
+        "hasRecommendation": false,
+        "hasRisk": false,
+        "hasTenant": false
+      }
+    },
+    {
+      "file": "/src/components/pages/simulation/SimulationResultTable.tsx",
+      "name": "SimulationResultTable",
+      "legacyComponentsUsed": [],
+      "canonicalComponentsUsed": [
+        "ExecutiveTable",
+        "ExecutiveTableHeader",
+        "ExecutiveTableBody",
+        "ExecutiveTableRow",
+        "ExecutiveTableHead",
+        "ExecutiveTableCell",
+        "ExecutiveSurface",
+        "ExecutiveHeading"
+      ],
+      "score": 45,
+      "metrics": {
+        "structural": 25,
+        "visual": 20,
+        "intelligence": 0,
+        "decision": 0,
+        "governance": 0
+      },
+      "gaps": {
+        "hasInterpretation": false,
+        "hasRecommendation": false,
+        "hasRisk": false,
+        "hasTenant": false
+      }
+    },
+    {
+      "file": "/src/components/pages/workspace/WorkspaceHeader.tsx",
+      "name": "WorkspaceHeader",
+      "legacyComponentsUsed": [],
+      "canonicalComponentsUsed": [
+        "ExecutiveNarrative",
+        "ExecutiveMetricCard"
+      ],
+      "score": 36,
+      "metrics": {
+        "structural": 10,
+        "visual": 20,
+        "intelligence": 6,
+        "decision": 0,
+        "governance": 0
+      },
+      "gaps": {
+        "hasInterpretation": true,
+        "hasRecommendation": false,
+        "hasRisk": false,
+        "hasTenant": false
+      }
+    }
+  ],
+  "legacyComponents": {
+    "KpiCard": 2,
+    "Button": 10,
+    "ConsolidatedExecutiveSummaryCard": 1,
+    "SemanticCard": 1,
+    "CognitiveSummaryCard": 1,
+    "SimulationConfidenceCard": 1,
+    "CreditCard": 1,
+    "TemporalAdvisoryCard": 1,
+    "SubscriptionStatusCard": 1,
+    "VerticalCourseCard": 1,
+    "Input": 3,
+    "Table": 2,
+    "Select": 1
+  },
+  "canonicalComponents": {
+    "ExecutivePageTemplate": 107,
+    "ExecutiveSurface": 132,
+    "ExecutiveAccordion": 84,
+    "ExecutiveEmptyState": 81,
+    "ExecutiveMetricCard": 70,
+    "ExecutiveSummarySection": 95,
+    "ExecutiveStrategicTensions": 92,
+    "ExecutiveDecisionTrace": 93,
+    "ExecutiveHeading": 131,
+    "ExecutiveText": 120,
+    "InstitutionalObservabilityRegistry": 2,
+    "ExecutiveIntelligenceReport": 2,
+    "ExecutiveBadge": 66,
+    "ExecutiveTechnicalLayer": 36,
+    "GovernanceInsightPanel": 3,
+    "ExecutivePerspectiveSection": 2,
+    "ExecutiveExposureCard": 1,
+    "ExecutiveLocaleEnforcer": 1,
+    "ExecutiveIntelligenceShell": 6,
+    "ExecutiveDecisionIntelligenceMount": 6,
+    "GovernanceViolationsPanel": 1,
+    "ExecutiveTable": 6,
+    "ExecutiveTableHeader": 6,
+    "ExecutiveTableBody": 6,
+    "ExecutiveTableRow": 6,
+    "ExecutiveTableHead": 6,
+    "ExecutiveTableCell": 6,
+    "ExecutiveHistoricalEvolutionCard": 2,
+    "ExecutiveComposedChart": 1,
+    "ExecutiveBar": 1,
+    "ExecutiveLine": 1,
+    "ExecutiveChartGrid": 3,
+    "ExecutiveChartXAxis": 3,
+    "ExecutiveChartTooltip": 4,
+    "ExecutiveChartSemanticPalette": 1,
+    "ExecutiveStrategicSemanticCards": 4,
+    "ExecutiveTechnicalMetricCard": 2,
+    "ExecutiveCallout": 4,
+    "ExecutiveChart": 4,
+    "ExecutiveChartYAxis": 2,
+    "SemanticCard": 1,
+    "ExecutiveNarrative": 8,
+    "DecisionRecordRegistry": 1,
+    "DecisionLineageBinder": 1,
+    "ExecutiveCommentary": 2,
+    "ExecutiveRecommendation": 1,
+    "ExecutiveConsolidationResult": 1,
+    "ExecutivePresentationRegistry": 1,
+    "ExecutiveSemanticRegistry": 1,
+    "GovernanceTrendPanel": 1,
+    "InstitutionalUXInsights": 1,
+    "InstitutionalDeploymentMap": 1,
+    "GovernanceRolesPanel": 1,
+    "DecisionImpactPanel": 2,
+    "ExecutiveDecisionOutput": 1,
+    "ExecutiveScenarioNavigator": 1,
+    "GovernanceProjectionTimeline": 1,
+    "GovernanceForecastSurface": 1,
+    "ExecutiveDecisionMemo": 1,
+    "GovernanceTrajectoryGraph": 1,
+    "InstitutionalResilienceTimeline": 1,
+    "GovernancePlaybookPanel": 2,
+    "InstitutionalPriorityBoard": 2,
+    "GovernanceRecommendationFeed": 2,
+    "GovernanceTimeMachineWorkspace": 1,
+    "GovernanceTimeMachineViewModel": 1,
+    "GovernanceTimeMachineRuntime": 1,
+    "InstitutionalDriftEngine": 1,
+    "InstitutionalBenchmarkEngine": 1,
+    "InstitutionalLifecycleSurface": 1,
+    "InstitutionalTrajectoryGraph": 1,
+    "ExecutiveContinuityNarrativePanel": 1,
+    "InstitutionalDeploymentReadinessOutput": 1,
+    "InstitutionalDigitalTwinWorkspace": 1,
+    "InstitutionalDigitalTwinRuntime": 1,
+    "InstitutionalOperatingSystem": 1,
+    "InstitutionalPulsePanel": 1,
+    "InstitutionalContextViewer": 1,
+    "InstitutionalDependencyGraph": 1,
+    "GovernanceCoordinationCenter": 1,
+    "InstitutionalStateMap": 1,
+    "SemanticLineageViewer": 1,
+    "GovernanceRelationshipViewer": 1,
+    "InstitutionalOnboardingOutput": 1,
+    "ExecutiveBoardPack": 1,
+    "InstitutionalStrategicIntelligenceCenter": 1,
+    "InstitutionalExecutiveCommandRuntime": 1,
+    "InstitutionalOperationalGovernanceRuntime": 1,
+    "InstitutionalStrategicIntelligenceRuntime": 1,
+    "ExecutiveAttentionTracking": 1,
+    "InstitutionalComplexityViewer": 1,
+    "ExecutiveUXHeatmap": 1,
+    "GovernanceTradeoffPanel": 1,
+    "InstitutionalResiliencePanel": 1,
+    "DecisionEvidenceViewer": 1,
+    "DecisionPanelViewModel": 6,
+    "ExecutiveEvidenceGrid": 6,
+    "ExecutiveDecisionPanel": 7,
+    "ExecutiveRiskCard": 1,
+    "ExecutiveClassificationFlow": 1,
+    "ExecutiveMetric": 2,
+    "ExecutiveInsightCard": 1,
+    "ExecutiveRecommendationBlock": 1,
+    "ExecutiveDistributionCard": 1,
+    "ExecutiveChartSeries": 1,
+    "ExecutiveChartLegend": 1,
+    "ExecutiveChartInsight": 1,
+    "ExecutiveAnalyticalHighlightItem": 1,
+    "ExecutiveDecisionSummary": 2,
+    "ExecutiveExecutionPlan": 2,
+    "ExecutiveSectionHeader": 1,
+    "ExecutiveDecisionSynthesisEngine": 1,
+    "ExecutiveAnalysisContext": 1,
+    "ExecutiveInfoCard": 1,
+    "ExecutiveTypographyRegistry": 2,
+    "BoardModeViewModel": 1,
+    "BoardIntelligenceInput": 1,
+    "BoardQuestionVM": 1,
+    "ExecutiveStrategicDiagnosisPayload": 2,
+    "ExecutiveDirectiveSection": 1,
+    "BoardResolutionAppendix": 1,
+    "BoardMeeting": 1,
+    "ExecutiveTechnicalEvidenceSection": 3,
+    "InstitutionalCausalityOutput": 1,
+    "BoardPriority": 1,
+    "BoardExecutiveBrief": 1,
+    "GovernanceMonitoringSnapshot": 1,
+    "GovernanceMonitoringResult": 1,
+    "DecisionExecutionRisk": 2,
+    "ExecutiveBoardReportModal": 1,
+    "BoardPackPreviewModal": 1,
+    "GovernanceExecutionPanel": 1,
+    "BoardMeetingMode": 1,
+    "GovernanceKnowledgePanel": 1,
+    "GovernanceLearningPanel": 1,
+    "GovernanceJourneyPanel": 1,
+    "GovernanceCommandCenterProvider": 1,
+    "GovernanceCommandCenterSurface": 1,
+    "ExecutiveTimelineOutput": 1,
+    "ExecutiveDecisionIntegrityBadge": 1,
+    "ExecutiveConflictCard": 1,
+    "ExecutiveDecisionCard": 1,
+    "SemanticGovernanceFilterBar": 1,
+    "ExecutivePriorityStack": 1,
+    "GovernanceHistoryExplorer": 1,
+    "GovernanceRecurrencePanel": 1,
+    "GovernanceDecision": 1,
+    "GovernanceDecisionType": 1,
+    "GovernanceJourneyStep": 1,
+    "InstitutionalDisclosure": 1,
+    "BoardDecisionSurface": 1,
+    "InstitutionalLineageExplorer": 1,
+    "ExecutiveTimelinePanel": 1,
+    "InstitutionalBoardPackOutput": 1,
+    "DecisionCognitiveDrawer": 1,
+    "ExecutivePlatformLandingPage": 1,
+    "ExecutiveAdvisorNetworkLandingPage": 1
+  },
+  "copilotIssues": [
+    {
+      "file": "InstitutionalCopilotPage",
+      "issue": "Missing Relationship/Historical Memory"
+    },
+    {
+      "file": "InstitutionalCopilotPage",
+      "issue": "Possible Tenant Leak (No tenantId context)"
+    }
+  ]
+}

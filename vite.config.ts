@@ -68,6 +68,7 @@ export default defineConfig(() => {
         '@illumine/executive-page-intelligence': path.resolve(__dirname, './packages/intelligence/executive-page-intelligence/src'),
         '@illumine/executive-experience-composer': path.resolve(__dirname, './packages/intelligence/executive-experience-composer/src'),
         '@illumine/executive-decision-intelligence': path.resolve(__dirname, './packages/intelligence/executive-decision-intelligence/src'),
+        '@illumine/executive-intelligence-integration': path.resolve(__dirname, './packages/intelligence/executive-intelligence-integration/src'),
         '@illumine/institutional-learning-intelligence': path.resolve(__dirname, './packages/intelligence/institutional-learning-intelligence/src'),
         '@illumine/executive-intelligence-runtime': path.resolve(__dirname, './packages/platform/executive-intelligence-runtime/src'),
         '@illumine/architecture-governance-types': path.resolve(__dirname, './packages/architecture-governance-types/src'),
