@@ -30,7 +30,6 @@ import { ExecutiveStrategicTensions } from '../ui/executive-strategic-tensions';
 import { ExecutiveDecisionTrace } from '../ui/executive-decision-trace';
 import { useEFOSPageViewModel } from '../../viewmodels/useEFOSPageViewModel';
 import { ExecutiveIntelligenceShell } from '../executive/ExecutiveIntelligenceShell';
-import { ExecutiveDecisionIntelligenceMount } from '../executive/ExecutiveDecisionIntelligenceMount';
 
 interface OverviewPageProps {
   clients?: any[];
@@ -365,11 +364,6 @@ function sanitizeReport(obj: any): any {
          title: "EFOS — Executive Financial Operating System",
          description: "Infraestrutura integrada de interpretação do capital e governança fiduciária.",
        }}>
-         <ExecutiveDecisionIntelligenceMount
-           pageId="EFOSPage"
-           companyId={String(selectedClient || 'comp-1')}
-           period={String(selectedYear || 2026)}
-         />
         {/* --- CAMADA 1: NÍVEL CONSELHO (SÍNTESE DE INTELIGÊNCIA OPERACIONAL EFOS) --- */}
         <ExecutiveSummarySection 
           className="mb-8"

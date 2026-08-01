@@ -1,5 +1,6 @@
 import React from 'react';
 import { ShieldCheck } from 'lucide-react';
+import { useTranslation } from 'react-i18next';
 import { InstitutionalShowcase } from './InstitutionalShowcase';
 
 import { InstitutionalPrioritySurface } from '../../../../executive-command/InstitutionalPrioritySurface';
@@ -12,27 +13,28 @@ import { CommandExplainabilityDrawer } from '../../../../executive-command/Comma
 import { InstitutionalExecutiveCommandOutput } from '../../../../../core/runtime/executive-command/executive-command-types';
 
 export function ExecutiveCommandShowcase() {
+  const { t } = useTranslation('showcases/executive-command');
+
   const mockCommand: InstitutionalExecutiveCommandOutput = {
     commandThesis: {
-      thesisStatement: "O Grupo Atlas Participações enfrenta uma severa compressão de margem logística. A prioridade imediata é a preservação de caixa e suspensão de expansão inorgânica.",
+      thesisStatement: t('commandThesis.thesisStatement'),
       structuralPosture: "DEFENSIVE",
       confidenceLevel: "HIGH",
       lineageHash: "abc123def456ghi789jkl012mno345pq"
     },
     strategicOrchestration: {
-      primaryFocus: "Estabilização de Liquidez e Redução de Alavancagem",
-      immediateActionsRetained: [
-        "Travar orçamento de M&A do H2",
-        "Renegociação de covenants da dívida de curto prazo"
-      ],
-      orchestrationNarrative: "A correlação entre o aumento de custos logísticos e o custo da dívida indica ruptura iminente se a expansão for mantida."
+      primaryFocus: t('commandThesis.primaryFocus'),
+      immediateActionsRetained: Array.isArray(t('commandThesis.actions', { returnObjects: true })) 
+        ? t('commandThesis.actions', { returnObjects: true }) as string[]
+        : [],
+      orchestrationNarrative: t('commandThesis.orchestrationNarrative')
     },
     activeDirectives: [
       {
         id: "dir-1",
         category: "CAPITAL_PRESERVATION",
-        title: "Suspensão de Expansão Inorgânica",
-        statement: "Bloqueio imediato de todas as aquisições planejadas para o próximo semestre devido à pressão de liquidez.",
+        title: t('directives.0.title'),
+        statement: t('directives.0.statement'),
         severity: "CRITICAL",
         causalDrivers: ["Custo de Dívida", "Margem EBITDA"],
         lineageHash: "xpt123456",
@@ -42,8 +44,8 @@ export function ExecutiveCommandShowcase() {
       {
         id: "dir-2",
         category: "LIQUIDITY_STABILIZATION",
-        title: "Retenção de Dividendos",
-        statement: "Limitar a distribuição de dividendos ao mínimo legal obrigatório neste exercício.",
+        title: t('directives.1.title'),
+        statement: t('directives.1.statement'),
         severity: "ELEVATED",
         causalDrivers: ["Fluxo de Caixa Livre"],
         lineageHash: "xpt987654",
@@ -56,7 +58,7 @@ export function ExecutiveCommandShowcase() {
       treasuryAlignment: "CRITICAL_TENSION",
       growthAlignment: "DIVERGENT",
       continuityAlignment: "ALIGNED",
-      alignmentNarrative: "A postura de crescimento comercial diverge da necessidade atual de tesouraria de proteger o caixa."
+      alignmentNarrative: t('alignment.narrative')
     },
     governanceTracking: {
       pendingDirectivesCount: 3,
@@ -67,7 +69,7 @@ export function ExecutiveCommandShowcase() {
     driftEvents: [
       {
         id: "drift-1",
-        description: "Contratação de crédito pontual pela filial Norte não alinhada com a diretriz de desavancagem.",
+        description: t('drift.description'),
         severity: "HIGH",
         conflictingDirective: "Diretriz de Congelamento de Captação",
         observedMetric: "Aumento de Dívida Curto Prazo",
@@ -76,7 +78,7 @@ export function ExecutiveCommandShowcase() {
       }
     ],
     explainability: {
-      rationale: "O motor cognitivo detectou que o custo do serviço da dívida ultrapassará a geração de caixa operacional em 4 meses caso a margem logística mantenha a degradação atual.",
+      rationale: t('explainability.rationale'),
       dominantEngine: "Liquidity Risk Predictor",
       supportingLineageHashes: ["abc123def456ghi789jkl012mno345pq"],
       governanceConstraintsApplied: ["Politica de Endividamento Máximo (3.5x)"]
@@ -92,13 +94,13 @@ export function ExecutiveCommandShowcase() {
           <div>
             <div className="flex items-center gap-2 text-zinc-400 mb-1">
               <ShieldCheck size={16} />
-              <span className="text-[10px] uppercase font-bold tracking-widest font-mono">Governança Corporativa</span>
+              <span className="text-[10px] uppercase font-bold tracking-widest font-mono">{t('ui.tag')}</span>
             </div>
-            <h1 className="text-2xl font-bold tracking-tight text-amber-500">Diretrizes Institucionais</h1>
-            <p className="text-xs text-zinc-500 font-mono mt-1 uppercase tracking-widest">Recomendação Fiduciária Baseada em IA</p>
+            <h1 className="text-2xl font-bold tracking-tight text-amber-500">{t('ui.title')}</h1>
+            <p className="text-xs text-zinc-500 font-mono mt-1 uppercase tracking-widest">{t('ui.subtitle')}</p>
           </div>
           <div className="text-[10px] text-zinc-400 bg-zinc-900 border border-zinc-800 px-3 py-1.5 rounded-lg flex items-center gap-2">
-            <span>HASH GERADOR</span>
+            <span>{t('ui.hash_label')}</span>
             <span className="font-bold text-zinc-300">abc123def456...</span>
           </div>
         </div>

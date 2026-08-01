@@ -1,0 +1,44 @@
+{
+  "home": {
+    "title": "Illumine | Executive Intelligence Platform™",
+    "description": "La plataforma de inteligencia que conecta gobernanza, estrategia y operaciones para crear la memoria institucional de su empresa.",
+    "keywords": "Executive Intelligence, Decision Intelligence, Board Intelligence, Enterprise Intelligence, Executive Analytics",
+    "ogTitle": "Illumine | Executive Intelligence Platform™",
+    "ogDescription": "Transforme los datos corporativos fragmentados en la memoria institucional de su organización."
+  },
+  "manifesto": {
+    "title": "Manifiesto Illumine | La Era del Contexto",
+    "description": "La Era de la Información ha llegado a su límite. Lea el Manifiesto Illumine y descubra por qué el contexto será la próxima ventaja competitiva.",
+    "keywords": "Manifiesto, Illumine, Era del Contexto, Memoria Institucional, Strategic Performance Management, Executive Decision Support",
+    "ogTitle": "Manifiesto Illumine | La Era del Contexto",
+    "ogDescription": "El problema no es la información, es la interpretación. Lea el Manifiesto de Illumine."
+  },
+  "platform": {
+    "title": "La Plataforma | Illumine Executive Intelligence™",
+    "description": "Conozca la arquitectura detrás de la primera Executive Intelligence Platform™ para grandes corporaciones.",
+    "keywords": "Plataforma, Arquitectura, Inteligencia Ejecutiva, Enterprise Intelligence, Business Intelligence Platform, Executive Dashboards",
+    "ogTitle": "Illumine Platform | Arquitectura de Inteligencia",
+    "ogDescription": "Cómo construimos el sistema nervioso central para la estrategia corporativa."
+  },
+  "domains": {
+    "title": "Dominios Sistémicos | Illumine",
+    "description": "Descubra cómo Illumine conecta los 9 dominios de gobernanza para anticipar impactos en su flujo de caja.",
+    "keywords": "Dominios, Gobernanza, Finanzas, Riesgo, Operacional, Executive KPI Dashboard, Corporate Performance",
+    "ogTitle": "Illumine | 9 Dominios de Inteligencia™",
+    "ogDescription": "Comprenda la fricción organizacional antes de que afecte su resultado financiero."
+  },
+  "governance": {
+    "title": "Gobernanza y Confianza | Trust Architecture™",
+    "description": "Auditoría impecable, trazabilidad completa y aislamiento extremo. Conozca la Gobernanza de Illumine.",
+    "keywords": "Gobernanza de IA, Seguridad, Trust Architecture, Decision Auditing, Board Reporting",
+    "ogTitle": "Illumine | Trust Architecture™",
+    "ogDescription": "La tecnología amplía el análisis. La decisión sigue siendo puramente humana y auditable."
+  },
+  "why": {
+    "title": "¿Por qué Illumine? | Inteligencia Sistémica",
+    "description": "Comprenda por qué las empresas abandonan los dashboards estáticos por la inteligencia sistémica y predictiva de Illumine.",
+    "keywords": "Por qué Illumine, Diferencial, Inteligencia Artificial, BI vs IA, Decision Intelligence",
+    "ogTitle": "¿Por qué Illumine?",
+    "ogDescription": "Del BI tradicional a la Executive Intelligence Platform™."
+  }
+}

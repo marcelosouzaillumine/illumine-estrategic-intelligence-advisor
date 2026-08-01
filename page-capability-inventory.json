@@ -1,0 +1,243 @@
+[
+  {
+    "page": "consolidated_executive",
+    "currentRoute": "/dashboard/consolidated_executive",
+    "newGroup": "CEO Domain",
+    "intelligenceDomain": "Governance Intelligence",
+    "decisionLayer": "Strategic",
+    "intelligenceEngine": "ConsolidatedIntelligenceEngine",
+    "executiveOutcome": "Holistic view of company health to drive strategic pivots",
+    "visibility": ["CEO", "BOARD", "ADVISOR"],
+    "canonicalStatus": "CORE",
+    "decisionTraceability": {
+      "indicator": "Overall Health Score / Strategic KPIs",
+      "insight": "Divergence between financial performance and strategic goals",
+      "decision": "Realign resources to critical growth areas",
+      "action": "Trigger executive committee alignment meeting",
+      "expectedResult": "Strategic coherence and goal attainment"
+    },
+    "migrationAction": "MOVE"
+  },
+  {
+    "page": "efos",
+    "currentRoute": "/dashboard/efos",
+    "newGroup": "My Executive Workspace",
+    "intelligenceDomain": "Transversal",
+    "decisionLayer": "Tactical",
+    "intelligenceEngine": "PersonalizationEngine",
+    "executiveOutcome": "Focus executive attention on immediate priorities and bottlenecks",
+    "visibility": ["CEO", "CFO", "COO", "CRO"],
+    "canonicalStatus": "CORE",
+    "decisionTraceability": {
+      "indicator": "Pending Approvals & Active Risks",
+      "insight": "Operational bottleneck identified in procurement",
+      "decision": "Intervene in delayed operational workflows",
+      "action": "Approve pending critical requests",
+      "expectedResult": "Unblock operational flow"
+    },
+    "migrationAction": "MOVE"
+  },
+  {
+    "page": "dre",
+    "currentRoute": "/dashboard/dre",
+    "newGroup": "CFO Domain",
+    "intelligenceDomain": "Financial Intelligence",
+    "decisionLayer": "Strategic",
+    "intelligenceEngine": "MasterFinancialIntelligenceEngine",
+    "executiveOutcome": "Evaluate operational profitability and cost structure efficiency",
+    "visibility": ["CFO", "CEO", "BOARD", "ADVISOR"],
+    "canonicalStatus": "CORE",
+    "decisionTraceability": {
+      "indicator": "EBITDA Margin",
+      "insight": "Margin compression detected over last quarter",
+      "decision": "Evaluate cost structure and pricing",
+      "action": "Implement operational efficiency plan",
+      "expectedResult": "Margin recovery and profit maximization"
+    },
+    "migrationAction": "MOVE"
+  },
+  {
+    "page": "caixa",
+    "currentRoute": "/dashboard/caixa",
+    "newGroup": "CFO Domain",
+    "intelligenceDomain": "Financial Intelligence",
+    "decisionLayer": "Tactical",
+    "intelligenceEngine": "CashFlowEngine",
+    "executiveOutcome": "Ensure liquidity and optimize working capital",
+    "visibility": ["CFO", "CEO"],
+    "canonicalStatus": "CORE",
+    "decisionTraceability": {
+      "indicator": "Operating Cash Flow",
+      "insight": "Cash runway decreasing below 3 months",
+      "decision": "Optimize receivables or secure credit line",
+      "action": "Renegotiate payment terms with top suppliers",
+      "expectedResult": "Extend cash runway and secure liquidity"
+    },
+    "migrationAction": "MOVE"
+  },
+  {
+    "page": "bp",
+    "currentRoute": "/dashboard/bp",
+    "newGroup": "CFO Domain",
+    "intelligenceDomain": "Financial Intelligence",
+    "decisionLayer": "Governance",
+    "intelligenceEngine": "MasterFinancialIntelligenceEngine",
+    "executiveOutcome": "Monitor equity evolution and asset/liability balance",
+    "visibility": ["CFO", "CEO", "BOARD", "ADVISOR"],
+    "canonicalStatus": "CORE",
+    "decisionTraceability": {
+      "indicator": "Debt-to-Equity Ratio",
+      "insight": "Over-leverage increasing financial risk",
+      "decision": "Capital restructuring",
+      "action": "Pause dividend distribution and pay down short-term debt",
+      "expectedResult": "Healthier capital structure"
+    },
+    "migrationAction": "MOVE"
+  },
+  {
+    "page": "plano_acao",
+    "currentRoute": "/dashboard/plano_acao",
+    "newGroup": "CEO Domain",
+    "intelligenceDomain": "Operational Intelligence",
+    "decisionLayer": "Operational",
+    "intelligenceEngine": "ActionPlanEngine",
+    "executiveOutcome": "Track execution of strategic initiatives",
+    "visibility": ["CEO", "COO", "ALL_MANAGERS"],
+    "canonicalStatus": "CORE",
+    "decisionTraceability": {
+      "indicator": "Initiative Completion Rate",
+      "insight": "Strategic projects are falling behind schedule",
+      "decision": "Reallocate team bandwidth",
+      "action": "De-prioritize non-critical tasks",
+      "expectedResult": "Accelerate strategic project delivery"
+    },
+    "migrationAction": "MOVE"
+  },
+  {
+    "page": "dashboard_operacional",
+    "currentRoute": "/dashboard/dashboard_operacional",
+    "newGroup": "COO Domain",
+    "intelligenceDomain": "Operational Intelligence",
+    "decisionLayer": "Tactical",
+    "intelligenceEngine": "OperationsEngine",
+    "executiveOutcome": "Maximize operational throughput and efficiency",
+    "visibility": ["COO", "CEO"],
+    "canonicalStatus": "CORE",
+    "decisionTraceability": {
+      "indicator": "OEE (Overall Equipment Effectiveness) / Delivery SLA",
+      "insight": "Throughput drop due to supply chain delays",
+      "decision": "Activate secondary suppliers",
+      "action": "Shift purchase orders to backup vendors",
+      "expectedResult": "Restore delivery SLA"
+    },
+    "migrationAction": "MOVE"
+  },
+  {
+    "page": "dashboard_cultura",
+    "currentRoute": "/dashboard/dashboard_cultura",
+    "newGroup": "People Domain",
+    "intelligenceDomain": "People Intelligence",
+    "decisionLayer": "Strategic",
+    "intelligenceEngine": "HRAnalyticsEngine",
+    "executiveOutcome": "Align organizational culture with strategic goals",
+    "visibility": ["CHRO", "CEO", "BOARD"],
+    "canonicalStatus": "CORE",
+    "decisionTraceability": {
+      "indicator": "eNPS / Turnover Rate",
+      "insight": "High turnover in critical technical roles",
+      "decision": "Review retention policies",
+      "action": "Implement targeted retention bonuses and career mapping",
+      "expectedResult": "Stabilize key talent retention"
+    },
+    "migrationAction": "MOVE"
+  },
+  {
+    "page": "compliance_integrity_center",
+    "currentRoute": "/dashboard/compliance_integrity_center",
+    "newGroup": "Risk Domain",
+    "intelligenceDomain": "Risk Intelligence",
+    "decisionLayer": "Governance",
+    "intelligenceEngine": "RiskEngine",
+    "executiveOutcome": "Mitigate institutional risks and ensure compliance",
+    "visibility": ["CRO", "CEO", "BOARD"],
+    "canonicalStatus": "CORE",
+    "decisionTraceability": {
+      "indicator": "Compliance Breach Alerts",
+      "insight": "New regulatory framework not fully adopted",
+      "decision": "Initiate compliance audit",
+      "action": "Deploy internal audit team to critical sectors",
+      "expectedResult": "Zero regulatory fines and mitigated risk"
+    },
+    "migrationAction": "MOVE"
+  },
+  {
+    "page": "lab",
+    "currentRoute": "/dashboard/lab",
+    "newGroup": "Innovation Domain",
+    "intelligenceDomain": "Innovation Intelligence",
+    "decisionLayer": "Strategic",
+    "intelligenceEngine": "ScenarioSimulationEngine",
+    "executiveOutcome": "Simulate and validate new business models",
+    "visibility": ["CEO", "INNOVATION_LEAD"],
+    "canonicalStatus": "CORE",
+    "decisionTraceability": {
+      "indicator": "Scenario Viability Score",
+      "insight": "Proposed pivot yields 3x ROI in pessimistic scenario",
+      "decision": "Approve new product line investment",
+      "action": "Allocate budget for MVP development",
+      "expectedResult": "Successful launch of new revenue stream"
+    },
+    "migrationAction": "MOVE"
+  },
+  {
+    "page": "board_deck_center",
+    "currentRoute": "/dashboard/board_deck_center",
+    "newGroup": "Board Intelligence",
+    "intelligenceDomain": "Governance Intelligence",
+    "decisionLayer": "Governance",
+    "intelligenceEngine": "GovernanceService",
+    "executiveOutcome": "Facilitate board oversight and fiduciary decisions",
+    "visibility": ["BOARD", "CEO"],
+    "canonicalStatus": "CORE",
+    "decisionTraceability": {
+      "indicator": "Board Pack Completion & Governance KPIs",
+      "insight": "Lack of transparency in capital allocation reporting",
+      "decision": "Demand deeper dive in next board meeting",
+      "action": "Request external audit report on specific asset",
+      "expectedResult": "Fiduciary duty fulfilled and capital protected"
+    },
+    "migrationAction": "MOVE"
+  },
+  {
+    "page": "clientes",
+    "currentRoute": "/dashboard/clientes",
+    "newGroup": "Data Foundation",
+    "intelligenceDomain": "Master Data",
+    "decisionLayer": "Operational",
+    "intelligenceEngine": "MasterDataEngine",
+    "executiveOutcome": "Ensure data integrity for institutional clients/entities",
+    "visibility": ["ADMIN", "SUPPORT"],
+    "canonicalStatus": "SUPPORTING",
+    "decisionTraceability": null,
+    "migrationAction": "MOVE"
+  },
+  {
+    "page": "portfolio",
+    "currentRoute": "/dashboard/portfolio",
+    "newGroup": "Advisor Network",
+    "intelligenceDomain": "Governance Intelligence",
+    "decisionLayer": "Tactical",
+    "intelligenceEngine": "TenancyProvider",
+    "executiveOutcome": "Manage client portfolio health and identify intervention opportunities",
+    "visibility": ["ADVISOR"],
+    "canonicalStatus": "CORE",
+    "decisionTraceability": {
+      "indicator": "Client Health Score (Aggregate)",
+      "insight": "Client A's health score dropped due to cash flow issues",
+      "decision": "Proactive advisory intervention",
+      "action": "Schedule emergency financial review with Client A",
+      "expectedResult": "Prevent client insolvency and demonstrate advisory value"
+    },
+    "migrationAction": "MOVE"
+  }
+]

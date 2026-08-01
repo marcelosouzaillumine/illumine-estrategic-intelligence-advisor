@@ -1,0 +1,36 @@
+{
+  "commandThesis": {
+    "thesisStatement": "Atlas Group faces a severe logistics margin compression. The immediate priority is cash preservation and suspension of inorganic expansion.",
+    "orchestrationNarrative": "The correlation between rising logistics costs and debt cost indicates an imminent rupture if expansion is maintained.",
+    "primaryFocus": "Liquidity Stabilization and Deleveraging",
+    "actions": [
+      "Freeze H2 M&A budget",
+      "Renegotiate short-term debt covenants"
+    ]
+  },
+  "directives": [
+    {
+      "title": "Suspension of Inorganic Expansion",
+      "statement": "Immediate freeze of all planned acquisitions for the next semester due to liquidity pressure."
+    },
+    {
+      "title": "Dividend Retention",
+      "statement": "Limit dividend distribution to the mandatory legal minimum this fiscal year."
+    }
+  ],
+  "alignment": {
+    "narrative": "Commercial growth posture diverges from the current treasury need to protect cash."
+  },
+  "drift": {
+    "description": "Ad-hoc credit contracting by the Northern branch is not aligned with the deleveraging directive."
+  },
+  "explainability": {
+    "rationale": "The cognitive engine detected that the debt service cost will exceed operational cash generation in 4 months if the logistics margin maintains its current degradation."
+  },
+  "ui": {
+    "tag": "Corporate Governance",
+    "title": "Institutional Directives",
+    "subtitle": "AI-Based Fiduciary Recommendation",
+    "hash_label": "GENERATING HASH"
+  }
+}

@@ -46,9 +46,6 @@ export function DiagnosticoPage() {
           <Button onClick={handleCTAClick} className="h-14 px-8 font-bold uppercase tracking-widest text-sm flex gap-2 w-full sm:w-auto">
             <MessageSquare size={18} /> Agendar com Especialista
           </Button>
-          <Button variant="outline" onClick={() => navigate('/empresas')} className="h-14 px-8 font-bold uppercase tracking-widest text-sm flex gap-2 w-full sm:w-auto">
-            Conhecer Estrutura <ArrowRight size={18} />
-          </Button>
         </div>
       </motion.div>
     </main>

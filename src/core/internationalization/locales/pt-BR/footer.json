@@ -1,0 +1,31 @@
+{
+  "brand": {
+    "principle_1": "A inteligência amplia.",
+    "principle_2": "A decisão permanece humana."
+  },
+  "sections": {
+    "platform": {
+      "title": "Plataforma",
+      "manifesto": "Manifesto",
+      "infrastructure": "Infraestrutura",
+      "domains": "Domínios",
+      "enterprise": "Enterprise"
+    },
+    "ecosystem": {
+      "title": "Ecossistema",
+      "intelligence_center": "Executive Intelligence Center",
+      "advisor_network": "Advisor Network"
+    },
+    "trust": {
+      "title": "Confiança",
+      "trust_architecture": "Trust Architecture",
+      "security": "Security",
+      "privacy": "Privacy"
+    }
+  },
+  "bottom": {
+    "copyright": "© {{year}} Illumine Governance. Todos os direitos reservados.",
+    "privacy_policy": "Política de Privacidade",
+    "terms_of_use": "Termos de Uso"
+  }
+}

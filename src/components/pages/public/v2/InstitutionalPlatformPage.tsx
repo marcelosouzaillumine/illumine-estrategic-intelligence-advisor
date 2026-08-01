@@ -1,341 +1,374 @@
 import React from 'react';
 import { Database, LineChart, Cpu, MessageSquare, Brain, ArrowRight, Layers, ShieldCheck, Activity, Eye, Zap, Network, History, FileCheck, Lock } from 'lucide-react';
 import { Link } from 'react-router-dom';
-import { InstitutionalHero } from '@/components/ui/public/InstitutionalHero';
-import { InstitutionalSection } from '@/components/ui/public/InstitutionalSection';
-import { InstitutionalTitle } from '@/components/ui/public/InstitutionalTitle';
-import { InstitutionalCard } from '@/components/ui/public/InstitutionalCard';
+import { useTranslation } from 'react-i18next';
+import {
+  PageFrame,
+  Container,
+  Hero,
+  Section,
+  HeroTitle,
+  HeroLead,
+  SectionLabel,
+  SectionTitle,
+  SectionLead,
+  Narrative,
+  Insight,
+  Card,
+  ReadingContent,
+} from '@/components/ui/public/institutional/InstitutionalContentSystem';
 
 export function InstitutionalPlatformPage() {
+  const { t } = useTranslation('platform');
+  const { t: brand } = useTranslation('brand');
+
   return (
-    <div className="flex flex-col bg-[#050506] text-slate-200">
+    <PageFrame>
       
       {/* 1. Hero Conceitual */}
-      <InstitutionalHero
-        tagline="Plataforma"
-        title="Executive Intelligence Platform™"
-        subtitle="A infraestrutura de inteligência entre a organização e suas decisões estratégicas."
-        description={
-          <>
-            <p className="mb-6">
-              As empresas modernas possuem sistemas para registrar transações, ferramentas para visualizar indicadores e modelos de inteligência artificial capazes de responder perguntas.
+      <Hero className="min-h-[90vh] flex flex-col items-center justify-center overflow-hidden bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-slate-900/40 via-[#0A0A0B] to-[#0A0A0B]">
+        <Container className="relative z-10 flex flex-col items-center text-center pt-20">
+          <SectionLabel align="center">{t('hero.label')}</SectionLabel>
+          <HeroTitle align="center" className="max-w-5xl">
+            {brand('executiveIntelligencePlatform')}
+          </HeroTitle>
+          <HeroLead align="center" className="max-w-3xl mb-8">
+            {t('hero.lead')}
+          </HeroLead>
+          
+          <Narrative className="max-w-3xl text-center text-slate-400">
+            <p>
+              {t('hero.narrative_1')}
             </p>
-            <p className="mb-6 text-slate-400">
-              Mas decisões estratégicas exigem algo além de informação.<br />
-              <strong className="text-white">Exigem contexto.</strong>
+            <p className="mt-6 mb-6 text-slate-300">
+              {t('hero.narrative_2a')}<br />
+              <strong className="text-white">{t('hero.narrative_2b')}</strong>
             </p>
-            <p className="mb-8">
-              A Illumine cria uma camada de inteligência institucional que conecta dados corporativos, conhecimento organizacional e julgamento executivo para transformar informações dispersas em decisões mais claras, explicáveis e sustentáveis.
+            <p>
+              {t('hero.narrative_3')}
             </p>
-            <p className="text-white font-medium text-2xl">
-              A inteligência amplia.<br />
-              <span className="text-slate-500">A decisão permanece humana.</span>
+            <p className="text-white font-medium text-2xl mt-8 font-sans tracking-tight">
+              {brand('principle').split('.')[0]}.<br />
+              <span className="text-amber-500">{brand('principle').split('.')[1]}.</span>
             </p>
-          </>
-        }
-        showScrollIndicator={true}
-      >
-        <div className="mt-12">
-          <Link 
-            to="/dominios"
-            className="px-8 py-4 bg-white/10 border border-white/20 text-white font-semibold rounded-full hover:bg-white hover:text-black transition-all duration-300 inline-flex items-center gap-2"
-          >
-            Conhecer os Domínios
-            <ArrowRight size={20} />
-          </Link>
-        </div>
-      </InstitutionalHero>
+          </Narrative>
+
+          <div className="mt-12">
+            <Link 
+              to="/dominios"
+              className="px-8 py-4 bg-white/10 border border-white/20 text-white font-semibold rounded-full hover:bg-white hover:text-black transition-all duration-300 inline-flex items-center gap-2 font-sans"
+            >
+              {t('hero.cta_domains')}
+              <ArrowRight size={20} />
+            </Link>
+          </div>
+        </Container>
+      </Hero>
 
       {/* 2. Problema/contexto */}
-      <InstitutionalSection variant="dark">
-        <InstitutionalTitle 
-          chapter="O problema que a plataforma resolve"
-          title={<>Organizações não sofrem pela falta de dados.<br/>Sofrem pela falta de contexto.</>}
-        />
-        <div className="max-w-4xl mx-auto px-6">
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-12 text-lg text-slate-400 leading-relaxed">
+      <Section className="border-t border-white/5 bg-[#050506]">
+        <Container>
+          <div className="flex flex-col items-center text-center mb-20">
+            <SectionLabel align="center">{t('sections.problem.label')}</SectionLabel>
+            <SectionTitle align="center" className="max-w-4xl">
+              {t('sections.problem.title_1')}<br/>{t('sections.problem.title_2')}
+            </SectionTitle>
+          </div>
+          <div className="max-w-5xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-12 text-lg text-slate-400 leading-relaxed font-sans">
             <div>
-              <p className="mb-6">
-                A maior parte das empresas possui milhares de informações distribuídas entre:
+              <p className="mb-6 font-medium">
+                {t('sections.problem.p1')}
               </p>
               <ul className="space-y-3 mb-6">
-                <li className="flex items-center gap-3"><div className="w-1.5 h-1.5 rounded-full bg-amber-500" /> sistemas financeiros;</li>
-                <li className="flex items-center gap-3"><div className="w-1.5 h-1.5 rounded-full bg-amber-500" /> ERPs;</li>
-                <li className="flex items-center gap-3"><div className="w-1.5 h-1.5 rounded-full bg-amber-500" /> CRMs;</li>
-                <li className="flex items-center gap-3"><div className="w-1.5 h-1.5 rounded-full bg-amber-500" /> planilhas e documentos;</li>
-                <li className="flex items-center gap-3"><div className="w-1.5 h-1.5 rounded-full bg-amber-500" /> relatórios e reuniões;</li>
-                <li className="flex items-center gap-3"><div className="w-1.5 h-1.5 rounded-full bg-amber-500" /> experiências individuais dos líderes.</li>
+                <li className="flex items-center gap-3"><div className="w-1.5 h-1.5 rounded-full bg-amber-500" /> {t('sections.problem.list_1')}</li>
+                <li className="flex items-center gap-3"><div className="w-1.5 h-1.5 rounded-full bg-amber-500" /> {t('sections.problem.list_2')}</li>
+                <li className="flex items-center gap-3"><div className="w-1.5 h-1.5 rounded-full bg-amber-500" /> {t('sections.problem.list_3')}</li>
+                <li className="flex items-center gap-3"><div className="w-1.5 h-1.5 rounded-full bg-amber-500" /> {t('sections.problem.list_4')}</li>
+                <li className="flex items-center gap-3"><div className="w-1.5 h-1.5 rounded-full bg-amber-500" /> {t('sections.problem.list_5')}</li>
+                <li className="flex items-center gap-3"><div className="w-1.5 h-1.5 rounded-full bg-amber-500" /> {t('sections.problem.list_6')}</li>
               </ul>
-              <p className="text-white font-medium text-xl">O problema não é acessar informações.</p>
+              <p className="text-white font-medium text-xl">{t('sections.problem.p2')}</p>
             </div>
-            <div className="bg-white/5 border border-white/10 p-8 rounded-3xl">
-              <p className="mb-6 text-white font-medium">O problema é compreender:</p>
+            <Card variant="secondary" className="p-8 md:p-12 rounded-3xl" hoverable={false}>
+              <p className="mb-6 text-white font-medium">{t('sections.problem.card_title')}</p>
               <ul className="space-y-6">
                 <li className="flex items-start gap-4">
-                  <span className="text-amber-500 font-bold mt-1">?</span>
-                  <span>por que algo aconteceu;</span>
+                  <span className="text-amber-500 font-bold mt-1 text-xl">?</span>
+                  <span className="text-slate-300">{t('sections.problem.card_list_1')}</span>
                 </li>
                 <li className="flex items-start gap-4">
-                  <span className="text-amber-500 font-bold mt-1">?</span>
-                  <span>quais decisões levaram ao cenário atual;</span>
+                  <span className="text-amber-500 font-bold mt-1 text-xl">?</span>
+                  <span className="text-slate-300">{t('sections.problem.card_list_2')}</span>
                 </li>
                 <li className="flex items-start gap-4">
-                  <span className="text-amber-500 font-bold mt-1">?</span>
-                  <span>quais riscos estão emergindo;</span>
+                  <span className="text-amber-500 font-bold mt-1 text-xl">?</span>
+                  <span className="text-slate-300">{t('sections.problem.card_list_3')}</span>
                 </li>
                 <li className="flex items-start gap-4">
-                  <span className="text-amber-500 font-bold mt-1">?</span>
-                  <span>quais consequências uma nova decisão pode gerar.</span>
+                  <span className="text-amber-500 font-bold mt-1 text-xl">?</span>
+                  <span className="text-slate-300">{t('sections.problem.card_list_4')}</span>
                 </li>
               </ul>
-            </div>
+            </Card>
           </div>
-          <div className="mt-16 text-center">
-            <p className="text-2xl font-medium text-white p-8 border border-white/10 rounded-2xl bg-white/5 inline-block">
-              A Illumine foi criada para preencher esse espaço entre informação e decisão.
-            </p>
+          <div className="mt-16 text-center max-w-4xl mx-auto">
+            <Insight className="inline-block mx-auto border-none p-8 md:p-10 rounded-2xl bg-white/5 border border-white/10 text-center">
+              {t('sections.problem.insight')}
+            </Insight>
           </div>
-        </div>
-      </InstitutionalSection>
+        </Container>
+      </Section>
 
       {/* 3. Cinco camadas da plataforma */}
-      <InstitutionalSection variant="darker">
-        <InstitutionalTitle 
-          chapter="Arquitetura da Illumine"
-          title={<>Cinco camadas.<br/>Uma inteligência integrada.</>}
-          subtitle="A plataforma combina cinco capacidades fundamentais para construir uma visão institucional da organização."
-        />
-        <div className="max-w-6xl mx-auto px-6 space-y-8">
+      <Section className="border-t border-white/5 bg-[#0A0A0B]">
+        <Container>
+          <div className="flex flex-col items-center text-center mb-24">
+            <SectionLabel align="center">{t('sections.architecture.label')}</SectionLabel>
+            <SectionTitle align="center">{t('sections.architecture.title_1')}<br/>{t('sections.architecture.title_2')}</SectionTitle>
+            <SectionLead align="center" className="max-w-3xl">
+              {t('sections.architecture.lead')}
+            </SectionLead>
+          </div>
           
-          <InstitutionalCard className="p-8 md:p-12 flex flex-col md:flex-row gap-8 items-start">
-            <div className="w-16 h-16 rounded-2xl bg-white/10 flex items-center justify-center shrink-0">
-              <Database className="w-8 h-8 text-amber-500" />
-            </div>
-            <div>
-              <span className="text-amber-500 font-mono text-sm tracking-widest uppercase mb-2 block">1. Camada de Dados</span>
-              <h3 className="text-3xl font-bold text-white mb-4">Intelligence Foundation™</h3>
-              <p className="text-xl text-slate-300 font-medium mb-4">A base institucional de conhecimento.</p>
-              <p className="text-slate-400 mb-6 leading-relaxed">
-                Toda inteligência depende da qualidade do contexto. A Intelligence Foundation™ reúne e organiza informações provenientes das diferentes áreas da organização, criando uma base confiável para análise executiva. Transformamos dados fragmentados em uma base institucional confiável.
-              </p>
-              <div className="flex flex-wrap gap-3">
-                {['Dados financeiros', 'Informações operacionais', 'Indicadores comerciais', 'Documentos institucionais', 'Histórico decisório', 'Premissas estratégicas'].map(tag => (
-                  <span key={tag} className="px-3 py-1 bg-white/5 border border-white/10 rounded-lg text-sm text-slate-400">{tag}</span>
-                ))}
+          <div className="max-w-6xl mx-auto space-y-8">
+            
+            <Card variant="secondary" className="p-8 md:p-12 flex flex-col md:flex-row gap-8 items-start">
+              <div className="w-16 h-16 rounded-2xl bg-white/5 flex items-center justify-center shrink-0">
+                <Database className="w-8 h-8 text-amber-500" />
               </div>
-            </div>
-          </InstitutionalCard>
-
-          <InstitutionalCard className="p-8 md:p-12 flex flex-col md:flex-row gap-8 items-start">
-            <div className="w-16 h-16 rounded-2xl bg-white/10 flex items-center justify-center shrink-0">
-              <Cpu className="w-8 h-8 text-amber-500" />
-            </div>
-            <div>
-              <span className="text-amber-500 font-mono text-sm tracking-widest uppercase mb-2 block">2. Camada Analítica</span>
-              <h3 className="text-3xl font-bold text-white mb-4">Intelligence Engine™</h3>
-              <p className="text-xl text-slate-300 font-medium mb-4">O motor que interpreta relações e identifica padrões.</p>
-              <p className="text-slate-400 mb-6 leading-relaxed">
-                Dados isolados mostram eventos. Inteligência revela relações. O Intelligence Engine™ analisa tendências, correlações, desvios, riscos, impactos sistêmicos e oportunidades. Ele conecta diferentes dimensões da organização para responder perguntas que relatórios tradicionais não conseguem responder:
-              </p>
-              <div className="space-y-2 border-l-2 border-amber-500/50 pl-6 my-6 text-lg text-white font-medium">
-                <p>“Por que isso aconteceu?”</p>
-                <p>“Qual impacto essa decisão pode gerar?”</p>
-                <p>“Quais riscos estamos deixando de observar?”</p>
-              </div>
-            </div>
-          </InstitutionalCard>
-
-          <InstitutionalCard className="p-8 md:p-12 flex flex-col md:flex-row gap-8 items-start">
-            <div className="w-16 h-16 rounded-2xl bg-white/10 flex items-center justify-center shrink-0">
-              <Brain className="w-8 h-8 text-amber-500" />
-            </div>
-            <div>
-              <span className="text-amber-500 font-mono text-sm tracking-widest uppercase mb-2 block">3. Camada de Memória</span>
-              <h3 className="text-3xl font-bold text-white mb-4">Institutional Learning Architecture™</h3>
-              <p className="text-xl text-slate-300 font-medium mb-4">A memória estratégica da organização.</p>
-              <p className="text-slate-400 mb-6 leading-relaxed">
-                Empresas acumulam experiências, mas frequentemente perdem aprendizado. Quando líderes deixam uma organização, desaparecem contextos, premissas, análises, consequências e aprendizados obtidos. A Institutional Learning Architecture™ transforma decisões em ativos permanentes de conhecimento.
-              </p>
-              <p className="text-white font-medium text-lg">
-                A decisão de ontem transforma-se no conhecimento estratégico de amanhã.
-              </p>
-            </div>
-          </InstitutionalCard>
-
-          <InstitutionalCard className="p-8 md:p-12 flex flex-col md:flex-row gap-8 items-start">
-            <div className="w-16 h-16 rounded-2xl bg-white/10 flex items-center justify-center shrink-0">
-              <Network className="w-8 h-8 text-amber-500" />
-            </div>
-            <div>
-              <span className="text-amber-500 font-mono text-sm tracking-widest uppercase mb-2 block">4. Camada de Conselho</span>
-              <h3 className="text-3xl font-bold text-white mb-4">Executive Advisory™</h3>
-              <p className="text-xl text-slate-300 font-medium mb-4">Inteligência aumentada para decisões complexas.</p>
-              <p className="text-slate-400 mb-6 leading-relaxed">
-                A Illumine não substitui executivos, conselheiros ou especialistas. Ela fornece uma infraestrutura avançada de contexto, análise e simulação para apoiar decisões de alta complexidade. A plataforma amplia a capacidade de CEOs, equipes executivas, conselhos e advisors independentes.
-              </p>
-              <p className="text-white font-medium text-lg">
-                A tecnologia amplia a análise. O julgamento permanece humano.
-              </p>
-            </div>
-          </InstitutionalCard>
-
-          <InstitutionalCard className="p-8 md:p-12 flex flex-col md:flex-row gap-8 items-start">
-            <div className="w-16 h-16 rounded-2xl bg-white/10 flex items-center justify-center shrink-0">
-              <ShieldCheck className="w-8 h-8 text-amber-500" />
-            </div>
-            <div className="w-full">
-              <span className="text-amber-500 font-mono text-sm tracking-widest uppercase mb-2 block">5. Camada de Governança</span>
-              <h3 className="text-3xl font-bold text-white mb-4">Trust Architecture™</h3>
-              <p className="text-xl text-slate-300 font-medium mb-8">A camada de confiança da inteligência corporativa.</p>
-              
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
-                <div className="p-6 bg-black/50 rounded-2xl border border-white/5">
-                  <h5 className="text-white font-bold mb-2 flex items-center gap-2"><Eye size={16} className="text-amber-500"/> Explainable Intelligence™</h5>
-                  <p className="text-sm text-slate-400">Toda recomendação precisa apresentar sua origem, premissas e evidências.</p>
-                </div>
-                <div className="p-6 bg-black/50 rounded-2xl border border-white/5">
-                  <h5 className="text-white font-bold mb-2 flex items-center gap-2"><History size={16} className="text-amber-500"/> Decision Traceability</h5>
-                  <p className="text-sm text-slate-400">O histórico da decisão permanece documentado e acessível.</p>
-                </div>
-                <div className="p-6 bg-black/50 rounded-2xl border border-white/5">
-                  <h5 className="text-white font-bold mb-2 flex items-center gap-2"><FileCheck size={16} className="text-amber-500"/> Audit Trail</h5>
-                  <p className="text-sm text-slate-400">Registros imutáveis de análises, aprovações e aprendizados preservados.</p>
-                </div>
-                <div className="p-6 bg-black/50 rounded-2xl border border-white/5">
-                  <h5 className="text-white font-bold mb-2 flex items-center gap-2"><Lock size={16} className="text-amber-500"/> Human Oversight & Data Gov</h5>
-                  <p className="text-sm text-slate-400">A decisão final é humana. A informação fica restrita aos limites organizacionais.</p>
+              <div>
+                <span className="text-amber-500 font-sans text-sm tracking-widest uppercase mb-2 block font-medium">{t('sections.architecture.layer1.tag')}</span>
+                <h3 className="text-3xl font-bold text-white mb-4 font-sans">{brand('intelligenceFoundation')}</h3>
+                <p className="text-xl text-slate-300 font-medium mb-4 font-sans">{t('sections.architecture.layer1.desc_title')}</p>
+                <p className="text-slate-400 mb-6 leading-relaxed font-sans text-lg">
+                  {t('sections.architecture.layer1.desc')}
+                </p>
+                <div className="flex flex-wrap gap-3 font-sans">
+                  {Object.values(t('sections.architecture.layer1.tags', { returnObjects: true }) as Record<string, string>).map(tag => (
+                    <span key={tag} className="px-3 py-1 bg-white/5 border border-white/10 rounded-lg text-sm text-slate-400">{tag}</span>
+                  ))}
                 </div>
               </div>
-            </div>
-          </InstitutionalCard>
+            </Card>
 
-        </div>
-      </InstitutionalSection>
+            <Card variant="secondary" className="p-8 md:p-12 flex flex-col md:flex-row gap-8 items-start">
+              <div className="w-16 h-16 rounded-2xl bg-white/5 flex items-center justify-center shrink-0">
+                <Cpu className="w-8 h-8 text-amber-500" />
+              </div>
+              <div>
+                <span className="text-amber-500 font-sans text-sm tracking-widest uppercase mb-2 block font-medium">{t('sections.architecture.layer2.tag')}</span>
+                <h3 className="text-3xl font-bold text-white mb-4 font-sans">{brand('intelligenceEngine')}</h3>
+                <p className="text-xl text-slate-300 font-medium mb-4 font-sans">{t('sections.architecture.layer2.desc_title')}</p>
+                <p className="text-slate-400 mb-6 leading-relaxed font-sans text-lg">
+                  {t('sections.architecture.layer2.desc')}
+                </p>
+                <div className="space-y-2 border-l-2 border-amber-500/50 pl-6 my-6 text-lg text-white font-medium font-sans">
+                  <p>{t('sections.architecture.layer2.quotes.q1')}</p>
+                  <p>{t('sections.architecture.layer2.quotes.q2')}</p>
+                  <p>{t('sections.architecture.layer2.quotes.q3')}</p>
+                </div>
+              </div>
+            </Card>
+
+            <Card variant="secondary" className="p-8 md:p-12 flex flex-col md:flex-row gap-8 items-start">
+              <div className="w-16 h-16 rounded-2xl bg-white/5 flex items-center justify-center shrink-0">
+                <Brain className="w-8 h-8 text-amber-500" />
+              </div>
+              <div>
+                <span className="text-amber-500 font-sans text-sm tracking-widest uppercase mb-2 block font-medium">{t('sections.architecture.layer3.tag')}</span>
+                <h3 className="text-3xl font-bold text-white mb-4 font-sans">{brand('institutionalLearningArchitecture')}</h3>
+                <p className="text-xl text-slate-300 font-medium mb-4 font-sans">{t('sections.architecture.layer3.desc_title')}</p>
+                <p className="text-slate-400 mb-6 leading-relaxed font-sans text-lg">
+                  {t('sections.architecture.layer3.desc')}
+                </p>
+                <p className="text-amber-500 font-medium text-lg font-sans bg-amber-500/10 px-4 py-2 inline-block rounded-lg">
+                  {t('sections.architecture.layer3.insight')}
+                </p>
+              </div>
+            </Card>
+
+            <Card variant="secondary" className="p-8 md:p-12 flex flex-col md:flex-row gap-8 items-start">
+              <div className="w-16 h-16 rounded-2xl bg-white/5 flex items-center justify-center shrink-0">
+                <Network className="w-8 h-8 text-amber-500" />
+              </div>
+              <div>
+                <span className="text-amber-500 font-sans text-sm tracking-widest uppercase mb-2 block font-medium">{t('sections.architecture.layer4.tag')}</span>
+                <h3 className="text-3xl font-bold text-white mb-4 font-sans">{brand('executiveAdvisory')}</h3>
+                <p className="text-xl text-slate-300 font-medium mb-4 font-sans">{t('sections.architecture.layer4.desc_title')}</p>
+                <p className="text-slate-400 mb-6 leading-relaxed font-sans text-lg">
+                  {t('sections.architecture.layer4.desc')}
+                </p>
+                <p className="text-amber-500 font-medium text-lg font-sans bg-amber-500/10 px-4 py-2 inline-block rounded-lg">
+                  {t('sections.architecture.layer4.insight')}
+                </p>
+              </div>
+            </Card>
+
+            <Card variant="secondary" className="p-8 md:p-12 flex flex-col md:flex-row gap-8 items-start">
+              <div className="w-16 h-16 rounded-2xl bg-white/5 flex items-center justify-center shrink-0">
+                <ShieldCheck className="w-8 h-8 text-amber-500" />
+              </div>
+              <div className="w-full">
+                <span className="text-amber-500 font-sans text-sm tracking-widest uppercase mb-2 block font-medium">{t('sections.architecture.layer5.tag')}</span>
+                <h3 className="text-3xl font-bold text-white mb-4 font-sans">{brand('trustArchitecture')}</h3>
+                <p className="text-xl text-slate-300 font-medium mb-8 font-sans">{t('sections.architecture.layer5.desc_title')}</p>
+                
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                  <div className="p-6 bg-black/50 rounded-2xl border border-white/5 font-sans">
+                    <h5 className="text-white font-bold mb-2 flex items-center gap-2"><Eye size={16} className="text-amber-500"/> {t('sections.architecture.layer5.items.i1_title')}</h5>
+                    <p className="text-sm text-slate-400">{t('sections.architecture.layer5.items.i1_desc')}</p>
+                  </div>
+                  <div className="p-6 bg-black/50 rounded-2xl border border-white/5 font-sans">
+                    <h5 className="text-white font-bold mb-2 flex items-center gap-2"><History size={16} className="text-amber-500"/> {t('sections.architecture.layer5.items.i2_title')}</h5>
+                    <p className="text-sm text-slate-400">{t('sections.architecture.layer5.items.i2_desc')}</p>
+                  </div>
+                  <div className="p-6 bg-black/50 rounded-2xl border border-white/5 font-sans">
+                    <h5 className="text-white font-bold mb-2 flex items-center gap-2"><FileCheck size={16} className="text-amber-500"/> {t('sections.architecture.layer5.items.i3_title')}</h5>
+                    <p className="text-sm text-slate-400">{t('sections.architecture.layer5.items.i3_desc')}</p>
+                  </div>
+                  <div className="p-6 bg-black/50 rounded-2xl border border-white/5 font-sans">
+                    <h5 className="text-white font-bold mb-2 flex items-center gap-2"><Lock size={16} className="text-amber-500"/> {t('sections.architecture.layer5.items.i4_title')}</h5>
+                    <p className="text-sm text-slate-400">{t('sections.architecture.layer5.items.i4_desc')}</p>
+                  </div>
+                </div>
+              </div>
+            </Card>
+
+          </div>
+        </Container>
+      </Section>
 
       {/* 4. Institutional Digital Twin™ */}
-      <InstitutionalSection variant="glow">
-        <InstitutionalTitle 
-          chapter="Institutional Digital Twin™"
-          title="Um modelo vivo da organização."
-        />
-        <div className="max-w-6xl mx-auto px-6">
-          <InstitutionalCard variant="highlight" className="p-10 md:p-16 flex flex-col md:flex-row items-center gap-16 border-amber-500/20 bg-amber-500/5">
-            <div className="flex-1">
-              <h3 className="text-3xl font-bold text-white mb-6">A Illumine não apenas analisa dados históricos. Ela cria uma representação dinâmica da organização.</h3>
-              <p className="text-lg text-slate-400 mb-8 leading-relaxed">
-                O Institutional Digital Twin™ permite simular alterações de custos, mudanças estratégicas, investimentos, expansão, cenários financeiros e impactos operacionais antes que eles ocorram.
-              </p>
-              <div className="p-6 bg-black/40 border border-white/10 rounded-2xl">
-                <p className="text-amber-500 font-mono text-sm mb-4">EXEMPLO SISTÊMICO</p>
-                <p className="text-white mb-4">Uma alteração no custo logístico não é vista apenas como uma variação operacional. A plataforma analisa seus efeitos em cadeia sobre:</p>
-                <ul className="text-slate-300 space-y-2 flex flex-wrap gap-4">
-                  <li className="flex items-center gap-2"><ArrowRight size={14} className="text-amber-500"/> Margem EBITDA</li>
-                  <li className="flex items-center gap-2"><ArrowRight size={14} className="text-amber-500"/> Fluxo de Caixa</li>
-                  <li className="flex items-center gap-2"><ArrowRight size={14} className="text-amber-500"/> Capital de Giro</li>
-                  <li className="flex items-center gap-2"><ArrowRight size={14} className="text-amber-500"/> Financiamento</li>
-                </ul>
+      <Section className="border-t border-white/5 bg-[#050506] relative">
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-amber-900/10 via-transparent to-transparent z-0 pointer-events-none" />
+        <Container className="relative z-10">
+          <div className="flex flex-col items-center text-center mb-16">
+            <SectionLabel align="center">{t('sections.digital_twin.label')}</SectionLabel>
+            <SectionTitle align="center">{t('sections.digital_twin.title')}</SectionTitle>
+          </div>
+          <div className="max-w-6xl mx-auto">
+            <Card variant="accent" className="p-10 md:p-16 flex flex-col md:flex-row items-center gap-16 border-amber-500/20 bg-amber-500/5">
+              <div className="flex-1 font-sans">
+                <h3 className="text-3xl font-bold text-white mb-6">{t('sections.digital_twin.desc_title')}</h3>
+                <p className="text-lg text-slate-400 mb-8 leading-relaxed">
+                  {t('sections.digital_twin.desc')}
+                </p>
+                <div className="p-6 bg-black/40 border border-white/10 rounded-2xl">
+                  <p className="text-amber-500 font-mono tracking-widest text-xs font-bold mb-4">{t('sections.digital_twin.box_label')}</p>
+                  <p className="text-white mb-4 font-medium text-lg">{t('sections.digital_twin.box_text')}</p>
+                  <ul className="text-slate-300 space-y-2 flex flex-wrap gap-4 font-medium">
+                    <li className="flex items-center gap-2"><ArrowRight size={14} className="text-amber-500"/> {t('sections.digital_twin.box_items.i1')}</li>
+                    <li className="flex items-center gap-2"><ArrowRight size={14} className="text-amber-500"/> {t('sections.digital_twin.box_items.i2')}</li>
+                    <li className="flex items-center gap-2"><ArrowRight size={14} className="text-amber-500"/> {t('sections.digital_twin.box_items.i3')}</li>
+                    <li className="flex items-center gap-2"><ArrowRight size={14} className="text-amber-500"/> {t('sections.digital_twin.box_items.i4')}</li>
+                  </ul>
+                </div>
+                <p className="text-xl font-medium text-white mt-8">{t('sections.digital_twin.conclusion')}</p>
               </div>
-              <p className="text-xl font-medium text-white mt-8">A organização deixa de apenas olhar o passado e passa a compreender possibilidades futuras.</p>
-            </div>
-            <div className="w-full md:w-1/3 aspect-square relative flex items-center justify-center">
-               <div className="absolute inset-0 bg-amber-500/10 rounded-full blur-[80px]" />
-               <Activity className="w-32 h-32 text-amber-500 relative z-10 opacity-80" />
-               <div className="absolute w-full h-full border border-amber-500/20 rounded-full animate-[spin_10s_linear_infinite] border-dashed" />
-               <div className="absolute w-[120%] h-[120%] border border-amber-500/10 rounded-full animate-[spin_15s_linear_infinite_reverse]" />
-            </div>
-          </InstitutionalCard>
-        </div>
-      </InstitutionalSection>
+              <div className="w-full md:w-1/3 aspect-square relative flex items-center justify-center">
+                 <div className="absolute inset-0 bg-amber-500/10 rounded-full blur-[80px]" />
+                 <Activity className="w-32 h-32 text-amber-500 relative z-10 opacity-80" />
+                 <div className="absolute w-full h-full border border-amber-500/20 rounded-full animate-[spin_10s_linear_infinite] border-dashed" />
+                 <div className="absolute w-[120%] h-[120%] border border-amber-500/10 rounded-full animate-[spin_15s_linear_infinite_reverse]" />
+              </div>
+            </Card>
+          </div>
+        </Container>
+      </Section>
 
       {/* 5. Exemplo de decisão transformada */}
-      <InstitutionalSection variant="darker">
-        <InstitutionalTitle 
-          chapter="Executive Intelligence in Practice"
-          title="Da informação para a decisão."
-        />
-        <div className="max-w-4xl mx-auto px-6">
-          <div className="relative">
-            <div className="absolute left-1/2 -translate-x-1/2 top-0 bottom-0 w-px bg-white/10 hidden md:block" />
-            
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-16">
-              {/* Before */}
-              <div className="p-8 rounded-3xl bg-white/5 border border-white/10 md:text-right">
-                <span className="inline-block px-3 py-1 bg-white/10 text-slate-300 rounded-full text-sm font-medium mb-6">Relatório Tradicional (Antes)</span>
-                <p className="text-2xl font-serif italic text-slate-400">
-                  "O EBITDA caiu 8% no trimestre."
-                </p>
-              </div>
-
-              {/* After */}
-              <div className="p-8 rounded-3xl bg-amber-500/10 border border-amber-500/20 relative mt-8 md:mt-24 shadow-[0_0_50px_rgba(255,150,0,0.05)]">
-                <div className="absolute -top-4 -left-4 md:-left-8 bg-[#050506] p-2 rounded-full border border-white/10 hidden md:block">
-                  <ArrowRight className="w-6 h-6 text-amber-500" />
+      <Section className="border-t border-white/5 bg-[#0A0A0B]">
+        <Container>
+          <div className="flex flex-col items-center text-center mb-24">
+            <SectionLabel align="center">{t('sections.practice.label')}</SectionLabel>
+            <SectionTitle align="center">{t('sections.practice.title')}</SectionTitle>
+          </div>
+          <div className="max-w-4xl mx-auto">
+            <div className="relative">
+              <div className="absolute left-1/2 -translate-x-1/2 top-0 bottom-0 w-px bg-white/10 hidden md:block" />
+              
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-16">
+                {/* Before */}
+                <div className="p-8 rounded-3xl bg-white/5 border border-white/10 md:text-right flex flex-col justify-center min-h-[250px]">
+                  <span className="inline-block px-3 py-1 bg-white/10 text-slate-300 rounded-full text-xs font-bold uppercase tracking-widest mb-6 font-sans self-start md:self-end">{t('sections.practice.before_tag')}</span>
+                  <p className="text-2xl font-serif italic text-slate-400">
+                    {t('sections.practice.before_quote')}
+                  </p>
                 </div>
-                <span className="inline-block px-3 py-1 bg-amber-500/20 text-amber-500 rounded-full text-sm font-medium mb-6">Com Illumine Executive Intelligence</span>
-                <p className="text-2xl font-serif text-white leading-relaxed">
-                  "A Illumine identificou que a pressão sobre o EBITDA tem origem em três vetores principais: aumento de custos logísticos, ineficiências operacionais e desalinhamentos estratégicos. A interação desses fatores está drenando geração de caixa, reduzindo margem operacional e restringindo a capacidade da organização de financiar seu próximo ciclo de crescimento."
-                </p>
+
+                {/* After */}
+                <div className="p-8 rounded-3xl bg-amber-500/10 border border-amber-500/20 relative mt-8 md:mt-24 shadow-[0_0_50px_rgba(245,158,11,0.05)] flex flex-col justify-center min-h-[350px]">
+                  <div className="absolute -top-4 -left-4 md:-left-8 bg-[#050506] p-2 rounded-full border border-white/10 hidden md:block">
+                    <ArrowRight className="w-6 h-6 text-amber-500" />
+                  </div>
+                  <span className="inline-block px-3 py-1 bg-amber-500/20 text-amber-500 rounded-full text-xs font-bold uppercase tracking-widest mb-6 font-sans self-start">{t('sections.practice.after_tag')}</span>
+                  <p className="text-xl md:text-2xl font-serif text-white leading-relaxed font-medium">
+                    {t('sections.practice.after_quote')}
+                  </p>
+                </div>
               </div>
             </div>
           </div>
-        </div>
-      </InstitutionalSection>
+        </Container>
+      </Section>
 
       {/* 6. Evolução contínua */}
-      <InstitutionalSection variant="dark">
-        <InstitutionalTitle 
-          chapter="Evolução Contínua"
-          title="A plataforma evolui com a organização."
-          subtitle="A Illumine é construída como uma infraestrutura viva de inteligência institucional."
-        />
-        <div className="max-w-5xl mx-auto px-6 grid grid-cols-1 md:grid-cols-3 gap-6">
-          <InstitutionalCard className="p-8 border-t-4 border-t-amber-500 relative overflow-hidden">
-            <div className="absolute top-4 right-4 bg-amber-500/20 text-amber-500 text-[10px] font-bold px-2 py-1 rounded uppercase tracking-wider">Disponível</div>
-            <h4 className="text-xl font-bold text-white mb-4 mt-6">Consolidação Sistêmica</h4>
-            <p className="text-slate-400 text-sm">Observabilidade financeira, operacional e institucional integrada em tempo real.</p>
-          </InstitutionalCard>
-          
-          <InstitutionalCard className="p-8 border-t-4 border-t-white/60 relative overflow-hidden opacity-90">
-            <div className="absolute top-4 right-4 bg-white/10 text-white text-[10px] font-bold px-2 py-1 rounded uppercase tracking-wider">Em evolução</div>
-            <h4 className="text-xl font-bold text-white mb-4 mt-6">Cognitive Agents</h4>
-            <p className="text-slate-400 text-sm">Agentes inteligentes para análise interpretativa e geração de relatórios executivos.</p>
-          </InstitutionalCard>
+      <Section className="border-t border-white/5 bg-[#050506]">
+        <Container>
+          <div className="flex flex-col items-center text-center mb-16">
+            <SectionLabel align="center">{t('sections.evolution.label')}</SectionLabel>
+            <SectionTitle align="center">{t('sections.evolution.title')}</SectionTitle>
+            <SectionLead align="center">{t('sections.evolution.lead')}</SectionLead>
+          </div>
+          <div className="max-w-5xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-6 font-sans">
+            <Card className="p-8 border-t-4 border-t-amber-500 relative overflow-hidden" variant="secondary" hoverable={false}>
+              <div className="absolute top-4 right-4 bg-amber-500/20 text-amber-500 text-[10px] font-bold px-2 py-1 rounded uppercase tracking-wider">{t('sections.evolution.cards.c1_tag')}</div>
+              <h4 className="text-xl font-bold text-white mb-4 mt-6">{t('sections.evolution.cards.c1_title')}</h4>
+              <p className="text-slate-400 text-sm leading-relaxed">{t('sections.evolution.cards.c1_desc')}</p>
+            </Card>
+            
+            <Card className="p-8 border-t-4 border-t-white/60 relative overflow-hidden opacity-90" variant="secondary" hoverable={false}>
+              <div className="absolute top-4 right-4 bg-white/10 text-white text-[10px] font-bold px-2 py-1 rounded uppercase tracking-wider">{t('sections.evolution.cards.c2_tag')}</div>
+              <h4 className="text-xl font-bold text-white mb-4 mt-6">{t('sections.evolution.cards.c2_title')}</h4>
+              <p className="text-slate-400 text-sm leading-relaxed">{t('sections.evolution.cards.c2_desc')}</p>
+            </Card>
 
-          <InstitutionalCard className="p-8 border-t-4 border-t-slate-500 relative overflow-hidden opacity-60">
-            <div className="absolute top-4 right-4 bg-white/10 text-slate-300 text-[10px] font-bold px-2 py-1 rounded uppercase tracking-wider">Próxima evolução</div>
-            <h4 className="text-xl font-bold text-white mb-4 mt-6">Predictive Intelligence</h4>
-            <p className="text-slate-400 text-sm">Simulações avançadas, cenários ramificados e antecipação de riscos estruturais.</p>
-          </InstitutionalCard>
-        </div>
-      </InstitutionalSection>
+            <Card className="p-8 border-t-4 border-t-slate-500 relative overflow-hidden opacity-60" variant="secondary" hoverable={false}>
+              <div className="absolute top-4 right-4 bg-white/10 text-slate-300 text-[10px] font-bold px-2 py-1 rounded uppercase tracking-wider">{t('sections.evolution.cards.c3_tag')}</div>
+              <h4 className="text-xl font-bold text-white mb-4 mt-6">{t('sections.evolution.cards.c3_title')}</h4>
+              <p className="text-slate-400 text-sm leading-relaxed">{t('sections.evolution.cards.c3_desc')}</p>
+            </Card>
+          </div>
+        </Container>
+      </Section>
 
       {/* 7. Encerramento / CTA final */}
-      <InstitutionalSection variant="glow" className="pt-40 pb-40 text-center">
-        <div className="max-w-4xl mx-auto px-6 relative z-10">
+      <Section className="border-t border-white/5 bg-[#0A0A0B] pt-40 pb-40">
+        <Container className="text-center">
           <Zap className="w-12 h-12 text-amber-500 mx-auto mb-8 opacity-80" />
-          <h2 className="text-4xl md:text-6xl font-bold text-white mb-8 leading-tight">
-            A próxima vantagem competitiva será a capacidade de aprender.
+          <h2 className="text-4xl md:text-6xl font-bold text-white mb-8 leading-tight font-sans tracking-tight max-w-4xl mx-auto">
+            {t('sections.conclusion.title')}
           </h2>
-          <p className="text-xl md:text-2xl text-slate-400 font-medium mb-16 leading-relaxed">
-            Empresas vencedoras não serão apenas aquelas que possuem mais dados. Serão aquelas capazes de transformar experiências, decisões e informações em inteligência institucional.
+          <p className="text-xl md:text-2xl text-slate-400 font-medium mb-16 leading-relaxed max-w-4xl mx-auto font-sans">
+            {t('sections.conclusion.desc')}
           </p>
           
           <div className="mb-16">
-            <p className="text-amber-500 font-mono tracking-widest uppercase mb-4 text-sm">A Illumine constrói essa capacidade.</p>
-            <h3 className="text-3xl text-white font-bold mb-2">Executive Intelligence Platform™</h3>
-            <p className="text-slate-500 text-xl">A inteligência amplia. A decisão permanece humana.</p>
+            <p className="text-amber-500 font-sans tracking-widest uppercase mb-4 text-sm font-bold">{t('sections.conclusion.pre_title')}</p>
+            <h3 className="text-3xl text-white font-bold mb-2 font-sans">{brand('executiveIntelligencePlatform')}</h3>
+            <p className="text-slate-500 text-xl font-sans">{brand('principle')}</p>
           </div>
 
           <Link 
             to="/assessment"
-            className="inline-flex items-center gap-3 px-10 py-5 bg-white text-black font-semibold rounded-full hover:bg-slate-200 transition-all duration-300 shadow-[0_0_40px_rgba(255,255,255,0.2)] text-lg"
+            className="inline-flex items-center gap-3 px-10 py-5 bg-white text-black font-semibold rounded-full hover:bg-slate-200 transition-all duration-300 shadow-[0_0_40px_rgba(255,255,255,0.2)] text-lg font-sans"
           >
-            Realizar Diagnóstico Executivo™
+            {t('sections.conclusion.cta')}
             <ArrowRight size={20} />
           </Link>
-        </div>
-      </InstitutionalSection>
+        </Container>
+      </Section>
 
-    </div>
+    </PageFrame>
   );
 }

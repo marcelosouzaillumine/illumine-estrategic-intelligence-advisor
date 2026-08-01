@@ -1,8 +1,11 @@
 import React from 'react';
 import { cn } from '@/lib/utils';
 import { Users, Presentation, LineChart } from 'lucide-react';
+import { useTranslation } from 'react-i18next';
 
 export function LeadershipLayer({ className }: { className?: string }) {
+  const { t } = useTranslation('institutional');
+
   return (
     <div className={cn("grid grid-cols-1 md:grid-cols-3 gap-6", className)}>
       {/* Board Room Analysis */}
@@ -14,8 +17,8 @@ export function LeadershipLayer({ className }: { className?: string }) {
           <div className="inline-flex items-center justify-center p-3 rounded-xl bg-white/5 border border-white/10 mb-6 group-hover:scale-105 transition-transform">
             <Presentation size={24} className="text-slate-300" />
           </div>
-          <h4 className="text-2xl font-bold text-white mb-3">Comitê Executivo</h4>
-          <p className="text-base text-slate-400 leading-relaxed">Decisões estratégicas baseadas em simulações do Gêmeo Digital Institucional.</p>
+          <h4 className="text-2xl font-bold text-white mb-3">{t('human_oversight.leadership_layer.c1.title')}</h4>
+          <p className="text-base text-slate-400 leading-relaxed">{t('human_oversight.leadership_layer.c1.desc')}</p>
         </div>
       </div>
 
@@ -28,8 +31,8 @@ export function LeadershipLayer({ className }: { className?: string }) {
           <div className="inline-flex items-center justify-center p-3 rounded-xl bg-white/5 border border-white/10 mb-6 group-hover:scale-105 transition-transform">
             <Users size={24} className="text-slate-300" />
           </div>
-          <h4 className="text-2xl font-bold text-white mb-3">Conselho de Administração</h4>
-          <p className="text-base text-slate-400 leading-relaxed">Supervisão e transparência total com rastreabilidade auditável de longo prazo.</p>
+          <h4 className="text-2xl font-bold text-white mb-3">{t('human_oversight.leadership_layer.c2.title')}</h4>
+          <p className="text-base text-slate-400 leading-relaxed">{t('human_oversight.leadership_layer.c2.desc')}</p>
         </div>
       </div>
 
@@ -42,8 +45,8 @@ export function LeadershipLayer({ className }: { className?: string }) {
           <div className="inline-flex items-center justify-center p-3 rounded-xl bg-white/5 border border-white/10 mb-6 group-hover:scale-105 transition-transform">
             <LineChart size={24} className="text-slate-300" />
           </div>
-          <h4 className="text-2xl font-bold text-white mb-3">Análise de Risco</h4>
-          <p className="text-base text-slate-400 leading-relaxed">Modelos preditivos antecipando impactos no fluxo de caixa e valuation.</p>
+          <h4 className="text-2xl font-bold text-white mb-3">{t('human_oversight.leadership_layer.c3.title')}</h4>
+          <p className="text-base text-slate-400 leading-relaxed">{t('human_oversight.leadership_layer.c3.desc')}</p>
         </div>
       </div>
     </div>

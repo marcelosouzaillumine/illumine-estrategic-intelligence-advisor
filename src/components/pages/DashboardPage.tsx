@@ -45,7 +45,6 @@ import { useLanguage } from '../../contexts/LanguageContext';
 import { matchFinancialKey } from '../../utils/financialKeyNormalizer';
 import { DashboardEvolutionChart } from './dashboard/DashboardEvolutionChart';
 import { ExecutiveIntelligenceShell } from '../executive/ExecutiveIntelligenceShell';
-import { ExecutiveDecisionIntelligenceMount } from '../executive/ExecutiveDecisionIntelligenceMount';
 
 const AXIS_DATA = [
   { 
@@ -154,12 +153,7 @@ export function DashboardPage({
         title: t('dashboard.header.title', 'Visão Geral da Instituição'),
         description: t('dashboard.header.subtitle', 'Síntese executiva dos eixos estratégicos, saúde financeira e governança patrimonial.'),
       }}>
-        <ExecutiveDecisionIntelligenceMount
-          pageId="DashboardPage"
-          companyId={String(selectedClient || 'comp-1')}
-          period={String(selectedYear)}
-          financialData={{ EBITDA: getIndicatorValue('EBITDA') }}
-        />
+
       {((runtimeOutput as any)?.isSandbox || (runtimeOutput as any)?.isDemonstrative) && (
         <SandboxWarningOverlay type={(runtimeOutput as any).isSandbox ? 'sandbox' : 'demonstrative'} />
       )}

@@ -1,0 +1,53 @@
+{
+  "resonanceData": [
+    {
+      "subject": "Governança"
+    },
+    {
+      "subject": "Cultura"
+    },
+    {
+      "subject": "Finanças"
+    },
+    {
+      "subject": "Inovação"
+    },
+    {
+      "subject": "Marketing"
+    },
+    {
+      "subject": "Comercial"
+    },
+    {
+      "subject": "Operacional"
+    }
+  ],
+  "frictionSources": [
+    {
+      "name": "Silos de Dados"
+    },
+    {
+      "name": "Processos Manuais"
+    },
+    {
+      "name": "Alinhamento Liderança"
+    },
+    {
+      "name": "Retenção Talentos"
+    }
+  ],
+  "ui": {
+    "score_label": "Score de Integração",
+    "multidimensional_tag": "Análise Multidimensional Ativa",
+    "resonance_title": "Ressonância entre Eixos",
+    "resonance_desc": "Alinhamento de maturidade por área de gestão.",
+    "friction_title": "Atrito Sistêmico",
+    "friction_desc": "EBITDA drenado por ineficiências reais.",
+    "loss_label": "Perda do EBITDA",
+    "impact_label": "Impacto Estimado",
+    "contribution_label": "Contribuição",
+    "premium_tag": "Múltiplo de Governança",
+    "premium_val": "Premium Valuation",
+    "market_label": "Mercado Padrão"
+  }
+}

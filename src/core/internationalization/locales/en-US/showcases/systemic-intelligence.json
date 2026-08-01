@@ -1,0 +1,53 @@
+{
+  "resonanceData": [
+    {
+      "subject": "Governance"
+    },
+    {
+      "subject": "Culture"
+    },
+    {
+      "subject": "Finance"
+    },
+    {
+      "subject": "Innovation"
+    },
+    {
+      "subject": "Marketing"
+    },
+    {
+      "subject": "Commercial"
+    },
+    {
+      "subject": "Operations"
+    }
+  ],
+  "frictionSources": [
+    {
+      "name": "Data Silos"
+    },
+    {
+      "name": "Manual Processes"
+    },
+    {
+      "name": "Leadership Alignment"
+    },
+    {
+      "name": "Talent Retention"
+    }
+  ],
+  "ui": {
+    "score_label": "Integration Score",
+    "multidimensional_tag": "Active Multidimensional Analysis",
+    "resonance_title": "Axis Resonance",
+    "resonance_desc": "Maturity alignment by management area.",
+    "friction_title": "Systemic Friction",
+    "friction_desc": "EBITDA drained by real inefficiencies.",
+    "loss_label": "EBITDA Loss",
+    "impact_label": "Estimated Impact",
+    "contribution_label": "Contribution",
+    "premium_tag": "Governance Multiple",
+    "premium_val": "Premium Valuation",
+    "market_label": "Standard Market"
+  }
+}

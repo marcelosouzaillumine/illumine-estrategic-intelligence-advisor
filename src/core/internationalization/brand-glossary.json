@@ -1,0 +1,32 @@
+{
+  "category_a": {
+    "description": "Brand Assets. NEVER TRANSLATE. Maintain exactly as they are in all languages.",
+    "terms": [
+      "Illumine",
+      "Executive Intelligence Platform™",
+      "Executive Advisory™",
+      "Executive Operating System™",
+      "Executive Decision Operating System™",
+      "Trust Architecture™",
+      "Executive Copilot™",
+      "Executive Learning Loop™",
+      "Executive Intelligence™"
+    ]
+  },
+  "category_b": {
+    "description": "Translate ONLY when not acting as a brand asset. If it possesses the ™ trademark, maintain it in English.",
+    "terms": [
+      "Governance Intelligence™",
+      "Financial Intelligence™",
+      "Mission Intelligence™",
+      "Commercial Intelligence™",
+      "Operational Intelligence™",
+      "Risk Intelligence™",
+      "Innovation Intelligence™",
+      "Institutional Intelligence™"
+    ]
+  },
+  "category_c": {
+    "description": "Free translation. Adapt to sound natural for a B2B executive audience, avoiding literal translations."
+  }
+}

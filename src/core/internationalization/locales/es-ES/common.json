@@ -1,0 +1,17 @@
+{
+  "monthly": "ES::Mensal",
+  "annual": "ES::Anual",
+  "consolidated": "ES::Consolidado",
+  "compliant": "ES::Conforme",
+  "monitoring_active": "ES::Monitoramento Ativo",
+  "healthy": "ES::Saudável",
+  "attention": "ES::Atenção",
+  "critical": "ES::Crítico",
+  "on_rise": "ES::Em Alta",
+  "on_fall": "ES::Em Queda",
+  "stable": "ES::Estável",
+  "pending": "ES::Pendente",
+  "na": "ES::N/A",
+  "value": "ES::Valor",
+  "balance": "ES::Saldo"
+}

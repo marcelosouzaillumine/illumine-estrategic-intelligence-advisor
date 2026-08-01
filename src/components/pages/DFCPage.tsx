@@ -15,7 +15,6 @@ import { ManualFinancialModal } from '../modals/ManualFinancialModal';
 import { ImportFinancialModal } from '../modals/ImportFinancialModal';
 import { useDFCPageViewModel } from '../../viewmodels/useDFCPageViewModel';
 import { ExecutiveIntelligenceShell } from '../executive/ExecutiveIntelligenceShell';
-import { ExecutiveDecisionIntelligenceMount } from '../executive/ExecutiveDecisionIntelligenceMount';
 
 export interface DFCPageProps {
   clientId?: string;
@@ -100,13 +99,7 @@ export function DFCPage(props: DFCPageProps) {
         </div>
       ) : (
         <div className="space-y-6 mb-12">
-          <ExecutiveDecisionIntelligenceMount
-            pageId="DFCPage"
-            companyId={String(activeClientId || 'comp-1')}
-            companyName={activeClientName}
-            period={String(filterYear || initialYear || 2026)}
-            financialData={dfcMetrics}
-          />
+
           {/* Síntese de Caixa (Conselho & C-Suite) */}
           <CashPositionSummary
             netOperatingCashFlow={computed.netOperatingCashFlow}

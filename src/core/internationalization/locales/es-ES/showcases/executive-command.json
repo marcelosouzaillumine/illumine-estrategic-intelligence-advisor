@@ -1,0 +1,36 @@
+{
+  "commandThesis": {
+    "thesisStatement": "El Grupo Atlas se enfrenta a una severa compresión del margen logístico. La prioridad inmediata es la preservación de efectivo y la suspensión de la expansión inorgánica.",
+    "orchestrationNarrative": "La correlación entre el aumento de los costos logísticos y el costo de la deuda indica una ruptura inminente si se mantiene la expansión.",
+    "primaryFocus": "Estabilización de Liquidez y Desapalancamiento",
+    "actions": [
+      "Congelar el presupuesto de M&A del H2",
+      "Renegociar covenants de deuda a corto plazo"
+    ]
+  },
+  "directives": [
+    {
+      "title": "Suspensión de Expansión Inorgánica",
+      "statement": "Bloqueo inmediato de todas las adquisiciones planificadas para el próximo semestre debido a la presión de liquidez."
+    },
+    {
+      "title": "Retención de Dividendos",
+      "statement": "Limitar la distribución de dividendos al mínimo legal obligatorio en este ejercicio."
+    }
+  ],
+  "alignment": {
+    "narrative": "La postura de crecimiento comercial diverge de la necesidad actual de la tesorería de proteger el efectivo."
+  },
+  "drift": {
+    "description": "La contratación de crédito ad-hoc por la sucursal Norte no está alineada con la directiva de desapalancamiento."
+  },
+  "explainability": {
+    "rationale": "El motor cognitivo detectó que el costo del servicio de la deuda superará la generación de caja operativa en 4 meses si el margen logístico mantiene su degradación actual."
+  },
+  "ui": {
+    "tag": "Gobierno Corporativo",
+    "title": "Directrices Institucionales",
+    "subtitle": "Recomendación Fiduciaria Basada en IA",
+    "hash_label": "HASH GENERADOR"
+  }
+}

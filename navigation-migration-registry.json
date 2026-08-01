@@ -1,0 +1,275 @@
+{
+  "version": "1.1",
+  "name": "Illumine Navigation Architecture Refactoring",
+  "description": "Migration registry for moving from module-based IA to role/context-based IA",
+  "groups": {
+    "my_executive_workspace": {
+      "label": "My Executive Workspace",
+      "description": "Workspace personalizado por perfil (decisões abertas, riscos, indicadores críticos)",
+      "pages": ["efos"]
+    },
+    "executive_command_center": {
+      "label": "Executive Command Center",
+      "description": "Nova página inicial autenticada",
+      "pages": ["executive_command"]
+    },
+    "board_intelligence": {
+      "label": "Board Intelligence™",
+      "description": "Exclusivo para Conselho de Administração",
+      "pages": [
+        "institutional_board_pack",
+        "board_deck_center",
+        "sovereign_decision_center",
+        "institutional_structure_center",
+        "capital_governance_center",
+        "leadership_dna_center",
+        "executive_monitoring_center",
+        "risk_exposure_center",
+        "institutional_continuity"
+      ]
+    },
+    "executive_offices": {
+      "label": "Executive Offices™",
+      "subgroups": {
+        "ceo_office": {
+          "label": "CEO Office",
+          "pages": [
+            "consolidated_executive",
+            "plano_acao",
+            "executive_execution_center",
+            "strategic_intelligence",
+            "institutional_ios"
+          ]
+        },
+        "cfo_office": {
+          "label": "CFO Office",
+          "pages": [
+            "dashboard_gestao",
+            "bp",
+            "dfc",
+            "dlpa",
+            "dre",
+            "dre_gerencial",
+            "caixa",
+            "contas_pagar",
+            "contas_receber",
+            "ativos_financeiros",
+            "emprestimos",
+            "posicao_financeira",
+            "analise_financeira",
+            "modelagem",
+            "tax_reform_impact",
+            "simulador_capital",
+            "orcamento"
+          ]
+        },
+        "coo_office": {
+          "label": "COO Office",
+          "pages": [
+            "dashboard_operacional",
+            "producao",
+            "logistica",
+            "compras",
+            "administrativa_indicadores",
+            "operating_pressure"
+          ]
+        },
+        "commercial_office": {
+          "label": "Commercial Office",
+          "pages": [
+            "dashboard_comercial",
+            "dashboard_marketing",
+            "comercial_estrategico",
+            "marketing_estrategico",
+            "analise_mercado",
+            "precificacao"
+          ]
+        },
+        "people_office": {
+          "label": "People Office",
+          "pages": [
+            "dashboard_cultura",
+            "perfil_lideranca",
+            "quadro_pessoal",
+            "avaliacao_organograma",
+            "custos_pessoal",
+            "academy_home"
+          ]
+        },
+        "risk_office": {
+          "label": "Risk Office",
+          "pages": [
+            "compliance_integrity_center",
+            "crisis_response_center"
+          ]
+        },
+        "innovation_office": {
+          "label": "Innovation Office",
+          "pages": [
+            "lab",
+            "dashboard_inovacao",
+            "viabilidade"
+          ]
+        }
+      }
+    },
+    "advisor_network": {
+      "label": "Advisor Network™",
+      "description": "Workspace exclusivo para parceiros externos",
+      "pages": [
+        "portfolio",
+        "client_workspace",
+        "advisor_workspace"
+      ]
+    },
+    "intelligence_domains": {
+      "label": "Intelligence Domains",
+      "description": "Camada transversal de inteligência",
+      "pages": [
+        "esgim_assessment",
+        "governance_maturity_center",
+        "fiduciary_validation_center",
+        "economic_normalization_center",
+        "financial_lineage_center",
+        "credit_committee_center",
+        "institutional_memory_center",
+        "decision_lifecycle_center",
+        "operational_governance",
+        "product_governance_center",
+        "governance_orchestration",
+        "indicadores"
+      ]
+    },
+    "data_foundation": {
+      "label": "Data Foundation",
+      "description": "Área técnica-operacional",
+      "pages": [
+        "clientes",
+        "parceiros",
+        "premissas_economicas",
+        "dados_historicos",
+        "plano_contas",
+        "plano_contas_gerencial",
+        "maintenance"
+      ]
+    },
+    "administration": {
+      "label": "Administration",
+      "description": "Área restrita",
+      "pages": [
+        "gestao_usuarios",
+        "aprovacoes",
+        "institutional_onboarding",
+        "deployment_readiness",
+        "runtime_observability_center",
+        "multi_tenant_governance_center",
+        "pilot_monitoring",
+        "calibration_playground",
+        "pilot_experience",
+        "pilot_operations_center",
+        "academy_admin",
+        "partner_brand_configuration",
+        "suporte",
+        "mensagens",
+        "perfil_usuario",
+        "configuracoes_sistema"
+      ]
+    }
+  },
+  "page_mappings": [
+    { "id": "consolidated_executive", "target": "executive_offices/ceo_office", "action": "migrate" },
+    { "id": "portfolio", "target": "advisor_network", "action": "migrate" },
+    { "id": "efos", "target": "my_executive_workspace", "action": "migrate" },
+    { "id": "lab", "target": "executive_offices/innovation_office", "action": "migrate" },
+    { "id": "indicadores", "target": "intelligence_domains", "action": "migrate" },
+    { "id": "aprovacoes", "target": "administration", "action": "migrate" },
+    { "id": "plano_acao", "target": "executive_offices/ceo_office", "action": "migrate" },
+    { "id": "clientes", "target": "data_foundation", "action": "migrate" },
+    { "id": "parceiros", "target": "data_foundation", "action": "migrate" },
+    { "id": "premissas_economicas", "target": "data_foundation", "action": "migrate" },
+    { "id": "gestao_usuarios", "target": "administration", "action": "migrate" },
+    { "id": "dados_historicos", "target": "data_foundation", "action": "migrate" },
+    { "id": "executive_monitoring_center", "target": "board_intelligence", "action": "migrate" },
+    { "id": "esgim_assessment", "target": "intelligence_domains", "action": "migrate" },
+    { "id": "governance_maturity_center", "target": "intelligence_domains", "action": "migrate" },
+    { "id": "leadership_dna_center", "target": "board_intelligence", "action": "migrate" },
+    { "id": "institutional_structure_center", "target": "board_intelligence", "action": "migrate" },
+    { "id": "board_deck_center", "target": "board_intelligence", "action": "migrate" },
+    { "id": "fiduciary_validation_center", "target": "intelligence_domains", "action": "migrate" },
+    { "id": "economic_normalization_center", "target": "intelligence_domains", "action": "migrate" },
+    { "id": "capital_governance_center", "target": "board_intelligence", "action": "migrate" },
+    { "id": "financial_lineage_center", "target": "intelligence_domains", "action": "migrate" },
+    { "id": "credit_committee_center", "target": "intelligence_domains", "action": "migrate" },
+    { "id": "institutional_memory_center", "target": "intelligence_domains", "action": "migrate" },
+    { "id": "risk_exposure_center", "target": "board_intelligence", "action": "migrate" },
+    { "id": "decision_lifecycle_center", "target": "intelligence_domains", "action": "migrate" },
+    { "id": "sovereign_decision_center", "target": "board_intelligence", "action": "migrate" },
+    { "id": "executive_execution_center", "target": "executive_offices/ceo_office", "action": "migrate" },
+    { "id": "compliance_integrity_center", "target": "executive_offices/risk_office", "action": "migrate" },
+    { "id": "operating_pressure", "target": "executive_offices/coo_office", "action": "migrate" },
+    { "id": "institutional_continuity", "target": "board_intelligence", "action": "migrate" },
+    { "id": "operational_governance", "target": "intelligence_domains", "action": "migrate" },
+    { "id": "strategic_intelligence", "target": "executive_offices/ceo_office", "action": "migrate" },
+    { "id": "institutional_board_pack", "target": "board_intelligence", "action": "migrate" },
+    { "id": "institutional_onboarding", "target": "administration", "action": "migrate" },
+    { "id": "deployment_readiness", "target": "administration", "action": "migrate" },
+    { "id": "crisis_response_center", "target": "executive_offices/risk_office", "action": "migrate" },
+    { "id": "runtime_observability_center", "target": "administration", "action": "migrate" },
+    { "id": "product_governance_center", "target": "intelligence_domains", "action": "migrate" },
+    { "id": "multi_tenant_governance_center", "target": "administration", "action": "migrate" },
+    { "id": "governance_orchestration", "target": "intelligence_domains", "action": "migrate" },
+    { "id": "executive_command", "target": "executive_command_center", "action": "migrate" },
+    { "id": "institutional_ios", "target": "executive_offices/ceo_office", "action": "migrate" },
+    { "id": "pilot_monitoring", "target": "administration", "action": "migrate" },
+    { "id": "calibration_playground", "target": "administration", "action": "migrate" },
+    { "id": "advisor_workspace", "target": "advisor_network", "action": "migrate" },
+    { "id": "client_workspace", "target": "advisor_network", "action": "migrate" },
+    { "id": "pilot_experience", "target": "administration", "action": "migrate" },
+    { "id": "pilot_operations_center", "target": "administration", "action": "migrate" },
+    { "id": "dashboard_cultura", "target": "executive_offices/people_office", "action": "migrate" },
+    { "id": "perfil_lideranca", "target": "executive_offices/people_office", "action": "migrate" },
+    { "id": "quadro_pessoal", "target": "executive_offices/people_office", "action": "migrate" },
+    { "id": "avaliacao_organograma", "target": "executive_offices/people_office", "action": "migrate" },
+    { "id": "dashboard_gestao", "target": "executive_offices/cfo_office", "action": "migrate" },
+    { "id": "administrativa_indicadores", "target": "executive_offices/coo_office", "action": "migrate" },
+    { "id": "bp", "target": "executive_offices/cfo_office", "action": "migrate" },
+    { "id": "dfc", "target": "executive_offices/cfo_office", "action": "migrate" },
+    { "id": "dlpa", "target": "executive_offices/cfo_office", "action": "migrate" },
+    { "id": "dre", "target": "executive_offices/cfo_office", "action": "migrate" },
+    { "id": "plano_contas", "target": "data_foundation", "action": "migrate" },
+    { "id": "custos_pessoal", "target": "executive_offices/people_office", "action": "migrate" },
+    { "id": "dre_gerencial", "target": "executive_offices/cfo_office", "action": "migrate" },
+    { "id": "modelagem", "target": "executive_offices/cfo_office", "action": "migrate" },
+    { "id": "caixa", "target": "executive_offices/cfo_office", "action": "migrate" },
+    { "id": "contas_pagar", "target": "executive_offices/cfo_office", "action": "migrate" },
+    { "id": "tax_reform_impact", "target": "executive_offices/cfo_office", "action": "migrate" },
+    { "id": "ativos_financeiros", "target": "executive_offices/cfo_office", "action": "migrate" },
+    { "id": "contas_receber", "target": "executive_offices/cfo_office", "action": "migrate" },
+    { "id": "emprestimos", "target": "executive_offices/cfo_office", "action": "migrate" },
+    { "id": "analise_financeira", "target": "executive_offices/cfo_office", "action": "migrate" },
+    { "id": "plano_contas_gerencial", "target": "data_foundation", "action": "migrate" },
+    { "id": "posicao_financeira", "target": "executive_offices/cfo_office", "action": "migrate" },
+    { "id": "simulador_capital", "target": "executive_offices/cfo_office", "action": "migrate" },
+    { "id": "orcamento", "target": "executive_offices/cfo_office", "action": "migrate" },
+    { "id": "dashboard_inovacao", "target": "executive_offices/innovation_office", "action": "migrate" },
+    { "id": "viabilidade", "target": "executive_offices/innovation_office", "action": "migrate" },
+    { "id": "dashboard_marketing", "target": "executive_offices/commercial_office", "action": "migrate" },
+    { "id": "analise_mercado", "target": "executive_offices/commercial_office", "action": "migrate" },
+    { "id": "marketing_estrategico", "target": "executive_offices/commercial_office", "action": "migrate" },
+    { "id": "dashboard_comercial", "target": "executive_offices/commercial_office", "action": "migrate" },
+    { "id": "precificacao", "target": "executive_offices/commercial_office", "action": "migrate" },
+    { "id": "comercial_estrategico", "target": "executive_offices/commercial_office", "action": "migrate" },
+    { "id": "dashboard_operacional", "target": "executive_offices/coo_office", "action": "migrate" },
+    { "id": "compras", "target": "executive_offices/coo_office", "action": "migrate" },
+    { "id": "logistica", "target": "executive_offices/coo_office", "action": "migrate" },
+    { "id": "producao", "target": "executive_offices/coo_office", "action": "migrate" },
+    { "id": "academy_home", "target": "executive_offices/people_office", "action": "migrate" },
+    { "id": "academy_admin", "target": "administration", "action": "migrate" },
+    { "id": "partner_brand_configuration", "target": "administration", "action": "migrate" },
+    { "id": "suporte", "target": "administration", "action": "migrate" },
+    { "id": "mensagens", "target": "administration", "action": "migrate" },
+    { "id": "perfil_usuario", "target": "administration", "action": "migrate" },
+    { "id": "maintenance", "target": "data_foundation", "action": "migrate" },
+    { "id": "configuracoes_sistema", "target": "administration", "action": "migrate" }
+  ]
+}

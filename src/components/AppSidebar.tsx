@@ -34,24 +34,20 @@ import { useLanguage } from '../contexts/LanguageContext';
 /* ──────────────────────────── Logo ──────────────────────────── */
 function Logo({ collapsed }: { collapsed?: boolean }) {
   return (
-    <div className={cn('flex items-center gap-0 transition-all duration-1000 justify-center w-full', collapsed ? '' : '')}>
+    <div className={cn('flex items-center transition-all duration-500 w-full', collapsed ? 'justify-center' : 'justify-start px-2 gap-2')}>
       <div className={cn(
-        'flex items-center justify-center transition-all duration-700 relative group',
-        collapsed ? 'w-[46px] h-[46px]' : 'sidebar-logo-img w-[64px] h-[64px]'
+        'flex items-center justify-center transition-all duration-500 relative group shrink-0',
+        collapsed ? 'w-8 h-8' : 'w-8 h-8'
       )}>
         <img src="/logo.png" alt="Illumine Icon" className="relative z-10 w-full h-full object-contain" />
       </div>
       {!collapsed && (
-        <div className="flex flex-col items-center w-fit">
-          <span className="sidebar-logo-text" style={{ fontSize: '42px' }}>
-            illumine
-          </span>
-          <div className="sidebar-logo-sub" style={{ fontSize: '8.5px' }}>
-            {'Governance'.split('').map((char, i) => (
-              <span key={i}>{char === ' ' ? '\u00A0' : char}</span>
-            ))}
-          </div>
-        </div>
+        <span 
+          className="text-3xl tracking-[-0.04em] text-white leading-[0.8] block" 
+          style={{ fontFamily: '"Tilt Warp", sans-serif' }}
+        >
+          illumine
+        </span>
       )}
     </div>
   );
@@ -108,8 +104,8 @@ export function AppSidebar({
         if (a.id === 'consolidated_executive') return -1;
         if (b.id === 'consolidated_executive') return 1;
 
-        const labelA = t(a.labelKey);
-        const labelB = t(b.labelKey);
+        const labelA = t(a.labelKey, a.label);
+        const labelB = t(b.labelKey, b.label);
 
         const isADashboard = labelA.toLowerCase().includes('dashboard');
         const isBDashboard = labelB.toLowerCase().includes('dashboard');
@@ -199,7 +195,7 @@ export function AppSidebar({
                 )}
                 onClick={() => toggleSubmenu(group.group)}
               >
-                <span className="flex-1 truncate">{t(group.groupKey)}</span>
+                <span className="flex-1 truncate">{t(group.groupKey, group.group)}</span>
                 {isOpen ? <ChevronUp size={10} strokeWidth={1} /> : <ChevronDown size={10} strokeWidth={1} />}
               </SidebarGroupLabel>
 
@@ -214,7 +210,7 @@ export function AppSidebar({
                       <SidebarMenuItem key={item.id}>
                         <SidebarMenuButton
                           isActive={isActive}
-                          tooltip={isCollapsed ? t(item.labelKey || `navigation.page.${item.id}`) : undefined}
+                          tooltip={isCollapsed ? t(item.labelKey || `navigation.page.${item.id}`, item.label) : undefined}
                           onClick={() => {
                             if (isCollapsed && hasChildren) {
                                setOpen(true);
@@ -248,7 +244,7 @@ export function AppSidebar({
                             <div className="flex-1 min-w-0 flex items-center justify-between gap-2 overflow-hidden">
                               <div className="flex items-center gap-2 min-w-0">
                                 <span className="sidebar-menu-item-text truncate">
-                                  {t(item.labelKey || `navigation.page.${item.id}`)}
+                                  {t(item.labelKey || `navigation.page.${item.id}`, item.label)}
                                 </span>
                                 {item.id === 'aprovacoes' && totalPending > 0 && (
                                   <span className="flex h-4 min-w-[16px] px-1 items-center justify-center bg-critical-soft0 text-white text-[9px] font-black rounded-full animate-pulse">
@@ -302,7 +298,7 @@ export function AppSidebar({
                                       'w-1 h-1 rounded-full shrink-0 transition-all',
                                       currentPage === child.id ? 'bg-primary scale-125' : 'bg-muted/80'
                                     )} />
-                                    <span>{t(child.labelKey || `navigation.page.${child.id}`)}</span>
+                                    <span>{t(child.labelKey || `navigation.page.${child.id}`, child.label)}</span>
                                   </button>
                                 </SidebarMenuSubButton>
                               </SidebarMenuSubItem>

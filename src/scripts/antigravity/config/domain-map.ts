@@ -54,7 +54,6 @@ export const domainMap: Record<string, string[]> = {
     "HomePage",
     "LoginPage",
     "DiagnosticoPage",
-    "EmpresasPage",
     "ReferralProgramPage",
     "SupportPage"
   ]

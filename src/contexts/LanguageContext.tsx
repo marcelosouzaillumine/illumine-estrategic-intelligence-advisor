@@ -215,35 +215,76 @@ const mapLabelToKey = (label: string): string => {
   return map[cleanLabel] || '';
 };
 
+import { useTranslation } from 'react-i18next';
+
 export function LanguageProvider({ children }: { children: React.ReactNode }) {
+  const { t: i18nT, i18n } = useTranslation(['common', 'dashboard', 'executive']);
+
   const [language, setLanguageState] = useState<Locale>(() => {
-    if (typeof window !== 'undefined' && typeof localStorage !== 'undefined') {
-      const saved = localStorage.getItem('illumine-language');
-      if (saved === 'en-US' || saved === 'es-ES' || saved === 'pt-BR') {
-        return saved;
+    if (typeof window !== 'undefined') {
+      // 1. URL priority (e.g., ?lang=en-US)
+      const urlParams = new URLSearchParams(window.location.search);
+      const urlLang = urlParams.get('lang');
+      if (urlLang === 'en-US' || urlLang === 'es-ES' || urlLang === 'pt-BR') {
+        return urlLang as Locale;
+      }
+      
+      // 2. localStorage priority
+      if (typeof localStorage !== 'undefined') {
+        const saved = localStorage.getItem('illumine-language');
+        if (saved === 'en-US' || saved === 'es-ES' || saved === 'pt-BR') {
+          return saved as Locale;
+        }
+      }
+
+      // 3. navigator.language priority
+      if (typeof navigator !== 'undefined' && navigator.language) {
+        const browserLang = navigator.language;
+        if (browserLang.startsWith('en')) return 'en-US';
+        if (browserLang.startsWith('es')) return 'es-ES';
+        if (browserLang.startsWith('pt')) return 'pt-BR';
       }
     }
+    
+    // 4. Fallback
     return 'pt-BR';
   });
+
+  // Keep i18n in sync with state on first load since state could come from auto-detect
+  React.useEffect(() => {
+    if (i18n.language !== language) {
+      i18n.changeLanguage(language);
+    }
+  }, []);
 
   const setLanguage = (lang: Locale) => {
     setLanguageState(lang);
     if (typeof localStorage !== 'undefined') {
       localStorage.setItem('illumine-language', lang);
     }
+    // Sync with the new engine
+    if (i18n.language !== lang) {
+      i18n.changeLanguage(lang);
+    }
     window.dispatchEvent(new Event('storage'));
   };
 
   const t = (key: string, options?: string | Record<string, any>): string => {
+    // 1. Try the new i18next engine first
+    if (i18n.exists(key)) {
+      return i18nT(key, typeof options === 'object' ? options : undefined) as string;
+    }
+
+    // 2. Legacy fallback
     let result: string | undefined = undefined;
 
-    // 1. Try active dictionary
+    // Try active dictionary
     const activeDict = dictionaries[language];
     if (activeDict && (activeDict as any)[key] !== undefined) {
       result = (activeDict as any)[key];
     }
     
-    // 2. Try fallback dict if provided
+    // Try fallback dict if provided
     if (result === undefined && options) {
       if (typeof options === 'string') {
         result = options;
@@ -252,7 +293,7 @@ export function LanguageProvider({ children }: { children: React.ReactNode }) {
       }
     }
 
-    // 3. Try default dictionary (pt-BR)
+    // Try default dictionary (pt-BR)
     if (result === undefined) {
       const defaultDict = dictionaries['pt-BR'];
       if (language !== 'pt-BR' && defaultDict && (defaultDict as any)[key] !== undefined) {
@@ -264,11 +305,9 @@ export function LanguageProvider({ children }: { children: React.ReactNode }) {
     }
 
     if (result !== undefined) {
-      // String interpolation for variables like {{count}}
       if (options && typeof options === 'object') {
         let interpolated = result;
         for (const [k, v] of Object.entries(options)) {
-          // Ignore language keys if they were passed as fallbacks
           if (k !== 'pt-BR' && k !== 'en-US' && k !== 'es-ES') {
             interpolated = interpolated.replace(new RegExp(`\\{\\{${k}\\}\\}`, 'g'), String(v));
           }
@@ -278,15 +317,10 @@ export function LanguageProvider({ children }: { children: React.ReactNode }) {
       return result;
     }
 
-    // Emit warning for missing key
-    console.warn(`[i18n] Missing translation key: "${key}" for locale "${language}".`);
-
-    // 4. Last resort fallback / UI Shield
     if (process.env.NODE_ENV === 'development') {
       return `[[${key}]]`;
     }
 
-    // In production or test, shield UI with humanized key
     const humanized = humanizeInstitutionalKey(key);
     return humanized || key.replace(/^.*\./, "").replace(/_/g, " ");
   };
@@ -299,9 +333,14 @@ export function LanguageProvider({ children }: { children: React.ReactNode }) {
       return `${prefix}${safeT(key)}`;
     }
 
-    // Try active dictionary directly for cleaned label
     const cleanLabel = label.replace(/^[\s(\-+)=/]+/g, '').trim();
     if (cleanLabel) {
+      if (i18n.exists(`common:${cleanLabel}`)) {
+         const prefixMatch = label.match(/^[\s(\-+)=/]+/);
+         const prefix = prefixMatch ? prefixMatch[0] : '';
+         return `${prefix}${i18nT(`common:${cleanLabel}`)}`;
+      }
+
       const activeDict = dictionaries[language];
       if (activeDict && (activeDict as any)[cleanLabel] !== undefined) {
         const prefixMatch = label.match(/^[\s(\-+)=/]+/);
@@ -309,7 +348,6 @@ export function LanguageProvider({ children }: { children: React.ReactNode }) {
         return `${prefix}${(activeDict as any)[cleanLabel]}`;
       }
 
-      // Check fallback dict (pt-BR) if the active language doesn't have it
       const defaultDict = dictionaries['pt-BR'];
       if (defaultDict && (defaultDict as any)[cleanLabel] !== undefined) {
         const prefixMatch = label.match(/^[\s(\-+)=/]+/);
@@ -322,14 +360,10 @@ export function LanguageProvider({ children }: { children: React.ReactNode }) {
   };
 
   const safeT = (key: string, fallback = 'Informação estrutural indisponível'): string => {
-    // 1. Tentar resolver o label com humanização e fallback silencioso (null)
     const resolved = resolveInstitutionalLabel(key, t);
     
-    // 2. Se retornou null (humanização falhou, ou não havia nada),
-    // retornamos uma string vazia (silencioso) para que o componente não renderize o item.
     if (!resolved) return '';
 
-    // Sanitize in case double brackets leaked
     if (resolved.startsWith('[[') && resolved.endsWith(']]')) {
       if (process.env.NODE_ENV === 'development') {
         return resolved;

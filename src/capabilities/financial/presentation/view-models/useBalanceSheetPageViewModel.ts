@@ -44,6 +44,8 @@ import { buildBPHierarchy } from '../../../../lib/bpEngine';
 import { calculateDreCascade, generateInitialDreState } from '../../../../lib/dreCascade';
 import { FiduciaryRuntimeAdapter, PresentationLayer, ExecutiveIntelligenceReport, ExecutiveLabelResolver } from '../../../../services/FiduciaryRuntimeAdapter';
 import { ExecutiveLocaleEnforcer } from '../../../../core/enforcement/ExecutiveLocaleEnforcer';
+import { InstitutionalDecisionOS } from "../../../../../packages/intelligence/executive-intelligence-layer/src/orchestration/InstitutionalDecisionOS";
+import { DashboardStateBuilder } from "../../../../../packages/intelligence/executive-intelligence-layer/src/presentation/DashboardStateBuilder";
 
 import { FirestoreAuthAdapter } from '../../../../adapters/persistence/FirestoreAuthAdapter';
 import { useInstitutionalAuth } from '../../../../core/security/auth/InstitutionalAuthProvider';
@@ -523,6 +525,33 @@ export function useBalanceSheetPageViewModel({ clients, selectedClient, selected
     return BalanceSheetExecutiveViewModelBuilder.build(executiveReport || {}, 'safe', filterYear, bpSummary, financialIndicators);
   }, [executiveReport, filterYear, bpSummary, financialIndicators, hasBalanceSheetData]);
 
+  const presentationModel = useMemo(() => {
+    if (!hasBalanceSheetData || !bpSummary) return null;
+    const financialData = {
+      assets: bpSummary.ativoTotal,
+      liabilities: bpSummary.passivoTotal,
+      equity: bpSummary.patrimonioLiquido,
+      liquidity: bpSummary.passivoCirculante > 0 ? (bpSummary.ativoCirculante / bpSummary.passivoCirculante) : 0,
+      ebitda: ebitda || 0,
+      revenue: ebitda * 3 // fallback
+    };
+    const boardPackage = InstitutionalDecisionOS.runSession(
+      { 
+        id: 'q-1', 
+        text: 'Avaliação Patrimonial', 
+        questionType: 'UNKNOWN', 
+        askedBy: 'System', 
+        askedAt: new Date(),
+        decisionContext: { currentState: 'Sessão Automática', constraints: [], strategicMoment: 'N/A' },
+        businessProblem: 'N/A', decisionToEnable: 'N/A', strategicHypothesis: 'N/A', financialImpact: 'N/A',
+        timeHorizon: 'N/A', decisionMaker: 'System', decisionCriteria: [], successDefinition: 'N/A',
+        nonNegotiables: [], stakeholders: []
+      },
+      financialData
+    );
+    return boardPackage.assessments.financialAssessment;
+  }, [bpSummary, ebitda, hasBalanceSheetData]);
+
   const strategicTensions = useMemo(() => {
     if (!bpSummary || !financialIndicators) return [];
     return ExecutiveStrategicTensionEngine.evaluate(financialIndicators);
@@ -562,6 +591,7 @@ export function useBalanceSheetPageViewModel({ clients, selectedClient, selected
       ebitda,
       lucroLiquido,
       executiveViewModel,
+      assessment: presentationModel,
       financialAnalyticsViewModel,
       loadingHistory,
       historicalFinancialSeries,

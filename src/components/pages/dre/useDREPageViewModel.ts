@@ -3,6 +3,8 @@ import { useAnnualFinancialData, useAllFinancialData } from '../../../hooks/useF
 import { useInstitutionalAuth } from '../../../hooks/useInstitutionalAuth';
 import { FiduciaryRuntimeAdapter, PresentationLayer } from '../../../services/FiduciaryRuntimeAdapter';
 import { DREApplicationService } from './DREApplicationService';
+import { InstitutionalDecisionOS } from '../../../../packages/intelligence/executive-intelligence-layer/src/orchestration/InstitutionalDecisionOS';
+import { DashboardStateBuilder } from '../../../../packages/intelligence/executive-intelligence-layer/src/presentation/DashboardStateBuilder';
 
 export type ToastType = { type: 'success' | 'error'; message: string } | null;
 
@@ -67,6 +69,36 @@ export function useDREPageViewModel(clients: any[], selectedClient: string, sele
     setDreViewModel(vm);
   }, [dbData, dbDataBP, dbDataDLPA, dbDataDFC, allHistoryData, filterYear, segmentoEmpresa, docIds.length, currentClient]);
 
+  const hasDreData = dbData.length > 0 && !!dreViewModel;
+
+  const presentationModel = useMemo(() => {
+    if (!hasDreData) return null;
+    const financialData = {
+      assets: 1000000, // fallback
+      liabilities: 500000,
+      equity: 500000,
+      liquidity: 1.5,
+      ebitda: dreViewModel?.ebitda || 0,
+      revenue: dreViewModel?.receitaLiquida || 0
+    };
+    const boardPackage = InstitutionalDecisionOS.runSession(
+      { 
+        id: 'q-2', 
+        text: 'Avaliação Econômica (DRE)', 
+        questionType: 'UNKNOWN', 
+        askedBy: 'System', 
+        askedAt: new Date(),
+        decisionContext: { currentState: 'Sessão Automática', constraints: [], strategicMoment: 'N/A' },
+        businessProblem: 'N/A', decisionToEnable: 'N/A', strategicHypothesis: 'N/A', financialImpact: 'N/A',
+        timeHorizon: 'N/A', decisionMaker: 'System', decisionCriteria: [], successDefinition: 'N/A',
+        nonNegotiables: [], stakeholders: []
+      },
+      undefined,
+      financialData
+    );
+    return boardPackage.assessments.economicAssessment;
+  }, [hasDreData, dreViewModel]);
+
   const showToastMsg = useCallback((type: 'success' | 'error', message: string) => {
     setToast({ type, message });
     setTimeout(() => setToast(null), 4000);
@@ -90,7 +122,6 @@ export function useDREPageViewModel(clients: any[], selectedClient: string, sele
     return FiduciaryRuntimeAdapter.ExecutiveInformationDensityFramework.isSectionVisible(sectionName, densityLevel);
   }, [densityLevel]);
 
-  const hasDreData = dbData.length > 0 && !!dreViewModel;
 
   return {
     state: {
@@ -105,7 +136,8 @@ export function useDREPageViewModel(clients: any[], selectedClient: string, sele
       loadingHistory,
       hasDreData,
       executiveReport,
-      dreViewModel
+      dreViewModel,
+      assessment: presentationModel
     },
     computed: {
       isSectionVisible

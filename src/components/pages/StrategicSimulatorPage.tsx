@@ -1,10 +1,10 @@
 
-
 import React, { useState, useMemo, useEffect } from 'react';
 import { Zap, TrendingUp, Activity, DollarSign, Target, BarChart3, ArrowRight, Percent, RefreshCw, Info, ChevronRight, ShieldCheck } from 'lucide-react';
 import { motion } from 'motion/react';
 import { PageHeader, StatusBadge } from '../Common';
 import { ExecutivePageTemplate } from '../ui/executive-page-template';
+import { ExecutiveDashboardRenderer } from '../ui/ExecutiveDashboardRenderer';
 import { ExecutiveSurface } from '../ui/executive-surface';
 import { ExecutiveAccordion } from '../ui/executive-accordion';
 import { cn, formatCurrency } from '../../lib/utils';
@@ -31,6 +31,7 @@ export function StrategicSimulatorPage({ clientId, selectedYear, selectedMonth }
   // Adapter: useStrategicSimulatorPageAdapter
   // ViewModel: useStrategicSimulatorPageViewModel
   const { state: vmState, computed: vmComputed, actions: vmActions } = useStrategicSimulatorPageViewModel({ clientId });
+  const { presentationModel } = vmState;
   const portal = createPortal;
   // Real Data State
   const [dbIndicators, setDbIndicators] = useState<any[]>([]);
@@ -101,21 +102,7 @@ export function StrategicSimulatorPage({ clientId, selectedYear, selectedMonth }
     };
   }, [currentRevenue, currentEbitda, currentChurn, growthSim, churnSim, marginSim, efficiencySim]);
 
-  // Executive Intelligence Engine
-  const executiveBriefData = useMemo(() => {
-    // Generate synthetic financial payload based on current DB state
-    const financialData = {
-      revenue: currentRevenue,
-      ebitda: currentEbitda,
-      equity: 500000, // mock placeholder
-      liquidity: 1.2, // mock placeholder
-    };
-    
-    const evidencePackage = InstitutionalDecisionOS.run(financialData, undefined, 'Expansão Estratégica');
-    
-    // Adapt to UI
-    return ExecutiveBriefPresenter.present(evidencePackage);
-  }, [currentRevenue, currentEbitda]);
+
 
   const resetSim = () => {
     setGrowthSim(0);
@@ -166,13 +153,24 @@ export function StrategicSimulatorPage({ clientId, selectedYear, selectedMonth }
 
       <div className="mt-12 mb-8 border-t border-border pt-8" />
       <ExecutiveAccordion
-        title="Painel de Projeções e Alavancas"
-        subtitle="Configure os sliders para ver os impactos simulados na receita, ebitda e valuation em tempo real."
         variant="analytics"
         defaultExpanded
+        icon={<Target />}
+        title="Simulador de Alavancas de Valor"
+        subtitle="Modele cenários e veja o impacto instantâneo no Valuation."
       >
-
-      <div className="grid grid-cols-1 lg:grid-cols-12 gap-12">
+        {presentationModel && !presentationModel.scenarios.find(s => s.type === 'OPTIMIZATION' || s.type === 'GROWTH') ? (
+           <div className="mb-12">
+             <div className="p-8 bg-critical-soft/10 border border-critical-soft0 rounded-2xl mb-8">
+               <h3 className="text-xl font-bold text-critical-soft0 mb-2">Simulação Interrompida pela Governança</h3>
+               <p className="text-sm text-executive-secondary">
+                 O estado financeiro atual (CRITICAL) não permite cenários de otimização ou expansão. O foco exclusivo da instituição deve ser o Plano de Sobrevivência.
+               </p>
+             </div>
+             <ExecutiveDashboardRenderer model={presentationModel} />
+           </div>
+        ) : (
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 mt-8">
         {/* Sliders Area */}
         <div className="lg:col-span-4 space-y-10">
           <ExecutiveSurface padding="lg" radius="lg" className="space-y-12 bg-white">
@@ -341,10 +339,11 @@ export function StrategicSimulatorPage({ clientId, selectedYear, selectedMonth }
                 </button>
              </div>
           </div>
+          </div>
         </div>
-      </div>
+      )}
         <div className="mt-12 mb-8 border-t border-border pt-8" />
-        <ExecutiveBrief data={executiveBriefData} />
+        {presentationModel && <ExecutiveDashboardRenderer model={presentationModel} />}
       </ExecutiveAccordion>
     </ExecutivePageTemplate>
   );

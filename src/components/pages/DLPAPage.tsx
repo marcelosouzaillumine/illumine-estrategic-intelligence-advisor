@@ -29,7 +29,6 @@ import { ManualFinancialModal } from '../modals/ManualFinancialModal';
 import { ExecutivePageTemplate } from '../ui/executive-page-template';
 import { useDLPAPageViewModel, normalizeDLPARow } from './dlpa/useDLPAPageViewModel';
 import { ExecutiveIntelligenceShell } from '../executive/ExecutiveIntelligenceShell';
-import { ExecutiveDecisionIntelligenceMount } from '../executive/ExecutiveDecisionIntelligenceMount';
 
 export function DLPAPage({ clients, selectedClient, selectedYear }: any) {
   // Adapter: useFinancialDomain e Firestore collection('dlpa') sincronizam os saldos iniciais e distribuição de lucros
@@ -130,13 +129,7 @@ export function DLPAPage({ clients, selectedClient, selectedYear }: any) {
 
       {hasData && (
         <div className="space-y-10 mb-12">
-          <ExecutiveDecisionIntelligenceMount
-            pageId="DLPAPage"
-            companyId={String(selectedClient || 'comp-1')}
-            companyName={activeClientName}
-            period={String(filterYear || selectedYear || 2026)}
-            financialData={dlpaMetrics}
-          />
+
           {(capitalGov as any)?.error && (
             <ExecutiveSurface variant="critical" padding="xl" radius="xl" className="flex flex-col items-center justify-center text-center">
               <div className="w-16 h-16 bg-critical-soft text-critical rounded-full flex items-center justify-center mb-4">

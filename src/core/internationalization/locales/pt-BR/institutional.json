@@ -1,0 +1,315 @@
+{
+  "hero": {
+    "title": "A inteligência que transforma dados corporativos em decisões estratégicas melhores.",
+    "lead": "A Illumine conecta governança, finanças, estratégia e operação para criar memória institucional e ampliar a capacidade decisória de líderes e conselhos.",
+    "cta_primary": "Solicitar Diagnóstico Executivo",
+    "cta_secondary": "Conhecer a Plataforma"
+  },
+  "problem": {
+    "label": "O Paradoxo da Informação",
+    "title": "As empresas nunca tiveram tantos dados. Mas nunca tiveram tanta dificuldade para interpretar sua própria realidade.",
+    "erp_title": "ERP: Transacional",
+    "erp_desc": "Registra transações e responde com precisão matemática:",
+    "erp_strong": "\"O que aconteceu?\"",
+    "bi_title": "BI: Visual",
+    "bi_desc": "Visualiza indicadores e responde:",
+    "bi_strong": "\"O que está acontecendo agora?\"",
+    "illumine_title": "Illumine: Contextual",
+    "illumine_desc": "Preserva contexto decisório e responde:",
+    "illumine_strong": "\"Por que aconteceu, quais premissas sustentaram essa decisão e qual decisão deve ser tomada agora?\""
+  },
+  "solution": {
+    "title_prefix": "Entre o dado corporativo e a decisão estratégica existe uma camada que historicamente nunca foi construída:",
+    "title_highlight": "inteligência institucional.",
+    "layer1_title": "Intelligence Foundation™",
+    "layer1_desc": "Criar uma base institucional de dados, documentos, histórico e contexto. (ERP, CRM, Financeiro, Operacional).",
+    "layer1_quote": "\"Transformamos dados fragmentados em uma base confiável.\"",
+    "layer2_title": "Intelligence Engine™",
+    "layer2_desc": "Interpretar relações, identificar padrões, detectar riscos e gerar inteligência através de motores analíticos e modelos preditivos.",
+    "layer2_quote": "\"O dado mostra o que aconteceu. A inteligência explica o porquê.\"",
+    "layer3_title": "Executive Advisory™",
+    "layer3_desc": "Conectar inteligência tecnológica ao julgamento humano para conselhos, diretorias, executivos e consultores.",
+    "layer3_quote": "\"A tecnologia amplia a análise. A liderança decide.\""
+  },
+  "learning_loop": {
+    "label": "Institutional Learning Architecture™",
+    "title": "A memória institucional que transforma experiência em inteligência.",
+    "p1": "Toda organização toma milhares de decisões. Poucas preservam: contexto, premissas, consequências e aprendizados.",
+    "p2": "Organizações não perdem apenas dados. Elas perdem contexto. A Illumine cria a memória institucional para que a empresa evolua a cada decisão, conectando causas e consequências, e transformando experiências passadas em inteligência futura.",
+    "insight": "A decisão de ontem se transforma no conhecimento estratégico de amanhã.",
+    "observe": "Observar",
+    "decide": "Decidir",
+    "learn": "Aprender",
+    "evolve": "Evoluir"
+  },
+  "domains": {
+    "label": "Executive Intelligence Network™",
+    "title": "Nove domínios sistêmicos.",
+    "lead": "O Gêmeo Digital Institucional simula e conecta a sua organização através de 9 domínios integrados, antecipando impactos antes que eles cheguem ao DFC.",
+    "showcases": {
+      "command": {
+        "tag": "Institutional Intelligence Simulation™",
+        "title": "A decisão amparada por explicabilidade matemática.",
+        "lead": "Antes de uma decisão crítica de investimento, líderes podem compreender seus impactos sistêmicos no caixa, risco e valuation com rastreabilidade total.",
+        "insight_author": "Risk Intelligence™",
+        "insight_text": "Alerta Fiduciário: O modelo projeta uma asfixia de fluxo de caixa operacional no mês 4 caso a expansão seja financiada apenas com capital próprio.",
+        "insight_date": "Análise Simbólica em Tempo Real"
+      },
+      "systemic": {
+        "tag": "Institutional Intelligence Simulation™",
+        "title": "Interpretação Sistêmica e Gêmeo Digital Institucional.",
+        "lead": "A plataforma mapeia a fricção organizacional entre Cultura e Finanças e precifica o atrito antes que ele destrua a margem da companhia.",
+        "insight_author": "Operational Intelligence™",
+        "insight_text": "Silos operacionais detectados entre Marketing e Vendas estão resultando em um atrito invisível projetado em uma perda potencial de eficiência.",
+        "insight_date": "Simulação Sistêmica"
+      }
+    }
+  },
+  "human_oversight": {
+    "label": "Human Oversight™",
+    "title": "A tecnologia amplia a análise. A liderança decide.",
+    "lead": "A Illumine não substitui o julgamento executivo. Ela fornece o contexto sistêmico e a clareza matemática necessários para decisões de alto impacto.",
+    "leadership_layer": {
+      "c1": {
+        "title": "Comitê Executivo",
+        "desc": "Decisões estratégicas baseadas em simulações do Gêmeo Digital Institucional."
+      },
+      "c2": {
+        "title": "Conselho de Administração",
+        "desc": "Supervisão e transparência total com rastreabilidade auditável de longo prazo."
+      },
+      "c3": {
+        "title": "Análise de Risco",
+        "desc": "Modelos preditivos antecipando impactos no fluxo de caixa e valuation."
+      }
+    }
+  },
+  "trust": {
+    "label": "Trust Architecture™",
+    "title": "AI-Augmented Executive Intelligence.",
+    "lead": "A Illumine não automatiza julgamento executivo. Ela reduz ruído, amplia contexto e aumenta a qualidade da decisão. Construída sobre uma arquitetura de confiança fiduciária rigorosa.",
+    "principles": {
+      "p1": {
+        "title": "Human Oversight",
+        "desc": "A decisão e aprovação permanecem puramente humanas. A máquina interpreta, o humano julga."
+      },
+      "p2": {
+        "title": "Explainable Intelligence",
+        "desc": "Rastreabilidade desde o indicador agregado até a origem exata do evento gerador."
+      },
+      "p3": {
+        "title": "Audit Trail",
+        "desc": "Registro imutável de aprovações, simulações e histórico de aprendizado decisório."
+      },
+      "p4": {
+        "title": "Data Governance",
+        "desc": "Políticas estritas de acesso e preservação do contexto organizacional."
+      },
+      "p5": {
+        "title": "Fiduciary Controls",
+        "desc": "Isolamento multitenant extremo. A inteligência nunca atravessa fronteiras corporativas."
+      }
+    }
+  },
+  "cta_bottom": {
+    "title": "A inteligência amplia. A decisão permanece humana.",
+    "lead": "Transforme a infraestrutura de inteligência da sua organização hoje."
+  },
+  "manifesto": {
+    "hero": {
+      "label": "The Illumine Manifesto",
+      "title_1": "A Era da Informação atingiu seu limite.",
+      "title_2": "Bem-vindos à Era do Contexto.",
+      "lead_1": "As empresas nunca tiveram tantos dados.",
+      "lead_2": "Mas nunca tiveram tanta dificuldade para transformar informação em decisões melhores.",
+      "narrative": "O próximo diferencial competitivo não será apenas acessar dados. Será preservar contexto, ampliar julgamento e transformar experiências em inteligência institucional."
+    },
+    "chapter1": {
+      "label": "Capítulo 1",
+      "title_1": "O problema não é informação.",
+      "title_2": "É interpretação.",
+      "p1": "As organizações não sofrem pela ausência de dados.",
+      "p2": "Elas sofrem porque dados fragmentados não carregam contexto, julgamento ou aprendizado.",
+      "highlight_1": "Entre o que aconteceu e a decisão que precisa ser tomada existe uma camada invisível:",
+      "highlight_2": "a inteligência institucional."
+    },
+    "chapter2": {
+      "label": "Capítulo 2",
+      "title": "A evolução da infraestrutura corporativa."
+    },
+    "chapter3": {
+      "label": "Capítulo 3",
+      "title": "A era da Amnésia Institucional.",
+      "quote_1": "\"Quando um executivo deixa uma organização, ele não leva apenas sua experiência.",
+      "quote_2": "Ele leva embora anos de contexto: decisões tomadas, premissas consideradas, riscos avaliados e aprendizados conquistados.\"",
+      "insight": "Essa perda silenciosa compromete a continuidade estratégica e reduz a capacidade da organização de evoluir."
+    },
+    "chapter4": {
+      "label": "Capítulo 4",
+      "title": "Organizações inteligentes precisam de três capacidades fundamentais:",
+      "c1_title": "Memória.",
+      "c1_desc": "Preservar o contexto de cada decisão.",
+      "c2_title": "Raciocínio.",
+      "c2_desc": "Conectar causas, consequências e impactos sistêmicos.",
+      "c3_title": "Aprendizado.",
+      "c3_desc": "Transformar experiências em conhecimento permanente."
+    },
+    "chapter5": {
+      "label": "Capítulo 5",
+      "lead": "A plataforma construída para criar e escalar Inteligência Institucional em organizações complexas.",
+      "c1_title": "Executive Intelligence Platform™",
+      "c1_desc": "Conecta dados corporativos, contexto decisório e raciocínio executivo para reduzir a distância entre informação e decisão.",
+      "c2_title": "Institutional Learning Architecture™",
+      "c2_desc": "Transforma decisões passadas em conhecimento estratégico, permitindo que a organização aprenda continuamente."
+    }
+  },
+  "why": {
+    "hero": {
+      "label": "Por que Illumine",
+      "title": "Nem toda inteligência foi construída para apoiar decisões estratégicas.",
+      "lead": "A maioria das plataformas organiza dados, automatiza processos ou responde perguntas. A Illumine foi desenvolvida para apoiar decisões de alta complexidade, preservando contexto, memória institucional e governança.",
+      "cta": "Conheça a Arquitetura de Governança"
+    },
+    "fragmentation": {
+      "title": "O problema não é tecnologia.",
+      "title_highlight": "É fragmentação.",
+      "narrative": "Hoje uma organização utiliza dezenas de sistemas especializados. Cada solução resolve uma parte do problema. Nenhuma compreende a organização como um todo.",
+      "systems": [
+        "ERP",
+        "CRM",
+        "BI",
+        "RH",
+        "Fiscal",
+        "Projetos",
+        "IA Generativa"
+      ]
+    },
+    "paradigm": {
+      "label": "O Novo Paradigma",
+      "title": "O que torna a Illumine diferente",
+      "lead": "A evolução do software departamental para a inteligência institucional.",
+      "table": {
+        "col1": "Soluções Tradicionais",
+        "col2": "Executive Intelligence™"
+      },
+      "comparisons": [
+        {
+          "old": "Organizam dados",
+          "new": "Constrói contexto executivo"
+        },
+        {
+          "old": "Geram dashboards",
+          "new": "Apoia decisões"
+        },
+        {
+          "old": "Automatizam tarefas",
+          "new": "Preserva inteligência institucional"
+        },
+        {
+          "old": "Respondem perguntas",
+          "new": "Explica causas e consequências"
+        },
+        {
+          "old": "Operam por departamentos",
+          "new": "Compreende sistemas organizacionais"
+        },
+        {
+          "old": "Mostram indicadores",
+          "new": "Revela relações causais"
+        },
+        {
+          "old": "Dependem das pessoas lembrarem",
+          "new": "Preserva memória institucional"
+        }
+      ]
+    },
+    "architecture": {
+      "title": "Não é mais uma IA.",
+      "title_highlight": "É uma arquitetura de decisão.",
+      "narrative": "A Illumine não conversa apenas com documentos soltos. Ela gera contexto institucional conectando os fragmentos espalhados pela empresa.",
+      "tags": [
+        "Dados Financeiros",
+        "Processos",
+        "Indicadores",
+        "Decisões",
+        "Premissas",
+        "Consequências",
+        "Aprendizado"
+      ]
+    },
+    "capabilities": {
+      "label": "Tecnologia Proprietária",
+      "title": "Cinco capacidades exclusivas",
+      "lead": "O que possibilita que a plataforma interprete a organização como um sistema.",
+      "items": [
+        {
+          "title": "Contexto antes da resposta",
+          "description": "A plataforma interpreta o cenário completo antes de produzir recomendações."
+        },
+        {
+          "title": "Memória Institucional™",
+          "description": "Cada decisão preserva contexto, evidências, responsáveis, resultados e aprendizados."
+        },
+        {
+          "title": "Inteligência Sistêmica™",
+          "description": "Uma alteração operacional repercute automaticamente sobre caixa, margem, capital de giro, valuation e risco."
+        },
+        {
+          "title": "Explainable Intelligence™",
+          "description": "Cada recomendação informa evidências utilizadas, nível de confiança, premissas e limitações."
+        },
+        {
+          "title": "Evolução Contínua",
+          "description": "A plataforma aprende com decisões anteriores para aperfeiçoar análises futuras."
+        }
+      ]
+    },
+    "leadership": {
+      "title": "A tecnologia não substitui a liderança.",
+      "title_highlight": "Ela amplia sua capacidade de decidir.",
+      "narrative": "A decisão permanece humana. A Illumine amplia a capacidade analítica dos executivos, preserva conhecimento institucional e fornece evidências para decisões de maior qualidade."
+    },
+    "profiles_results": {
+      "profiles_label": "Maturidade Institucional",
+      "profiles_title": "Para quem foi construída",
+      "profiles_lead": "Não por segmentos. Por complexidade.",
+      "profiles_items": [
+        "Empresas de médio e grande porte",
+        "Holdings e Grupos empresariais",
+        "Organizações familiares em profissionalização",
+        "Organizações com múltiplas unidades de negócio",
+        "Instituições de saúde de alta complexidade",
+        "Instituições de ensino",
+        "Organizações do terceiro setor de alta complexidade"
+      ],
+      "results_label": "Geração de Valor",
+      "results_title": "O resultado esperado",
+      "results_lead": "Ao implantar a Illumine, a organização passa a operar com:",
+      "results_items": [
+        "Maior qualidade das decisões estratégicas",
+        "Redução da dependência de conhecimento individual",
+        "Maior transparência fiduciária e prestação de contas",
+        "Alinhamento real entre estratégia e execução",
+        "Inteligência institucional acumulativa",
+        "Governança baseada inteiramente em evidências"
+      ]
+    },
+    "conclusion": {
+      "title": "Toda decisão importante deixa consequências.",
+      "lead": "Sua organização está preservando também o contexto que levou a essa decisão?",
+      "cta1": "Realizar Assessment Executivo",
+      "cta2": "Conversar com um Executive Advisor"
+    }
+  },
+  "ecosystem": {
+    "enterprise": {
+      "title": "Illumine Enterprise™",
+      "desc": "A infraestrutura de inteligência institucional para empresas, grupos empresariais e organizações complexas que buscam transformar dados, contexto e conhecimento estratégico em decisões corporativas mais confiáveis, transparentes e sustentáveis."
+    },
+    "advisor": {
+      "title": "Executive Advisor Network™",
+      "desc": "Profissionais certificados para aplicar a disciplina de Executive Intelligence Advisory™ em organizações complexas.",
+      "quote": "\"Especialistas analisam partes. Executive Advisors interpretam sistemas.\""
+    }
+  }
+}

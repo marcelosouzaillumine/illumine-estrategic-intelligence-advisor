@@ -1,0 +1,10 @@
+{
+  "warning": "If the current dividend policy is maintained ($15M/semester), the operational runway will be reduced to 2 months in Q3.",
+  "justification": "Supported by 24 months of verified accounting and operational history.",
+  "ui": {
+    "trace_title": "Deliberation Trace",
+    "approval": "Profit Distribution Approval",
+    "conflict": "Conflicts with the Liquidity Stabilization Directive (CRITICAL)",
+    "intervention": "Fiduciary Intervention Required"
+  }
+}

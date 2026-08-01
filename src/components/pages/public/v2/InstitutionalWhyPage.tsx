@@ -1,296 +1,335 @@
 import React from 'react';
 import { ArrowRight, Combine, Brain, Eye, Activity, Database, Users, ShieldCheck, CheckCircle2, ChevronRight, X } from 'lucide-react';
 import { Link } from 'react-router-dom';
-import { InstitutionalHero } from '@/components/ui/public/InstitutionalHero';
-import { InstitutionalSection } from '@/components/ui/public/InstitutionalSection';
-import { InstitutionalTitle } from '@/components/ui/public/InstitutionalTitle';
-import { InstitutionalCard } from '@/components/ui/public/InstitutionalCard';
+import { useTranslation } from 'react-i18next';
+import {
+  PageFrame,
+  Container,
+  Hero,
+  Section,
+  HeroTitle,
+  HeroLead,
+  SectionLabel,
+  SectionTitle,
+  SectionLead,
+  Narrative,
+  Insight,
+  Card,
+  ReadingContent,
+} from '@/components/ui/public/institutional/InstitutionalContentSystem';
 
 export function InstitutionalWhyPage() {
-  const comparisons = [
-    { old: "Organizam dados", new: "Constrói contexto executivo" },
-    { old: "Geram dashboards", new: "Apoia decisões" },
-    { old: "Automatizam tarefas", new: "Preserva inteligência institucional" },
-    { old: "Respondem perguntas", new: "Explica causas e consequências" },
-    { old: "Operam por departamentos", new: "Compreende sistemas organizacionais" },
-    { old: "Mostram indicadores", new: "Revela relações causais" },
-    { old: "Dependem das pessoas lembrarem", new: "Preserva memória institucional" }
-  ];
+  const { t } = useTranslation('institutional');
+
+  const comparisons = t('why.paradigm.comparisons', { returnObjects: true }) as { old: string; new: string }[];
 
   const capabilities = [
     {
-      title: "Contexto antes da resposta",
-      description: "A plataforma interpreta o cenário completo antes de produzir recomendações.",
+      title: t('why.capabilities.items.0.title'),
+      description: t('why.capabilities.items.0.description'),
       icon: Brain
     },
     {
-      title: "Memória Institucional™",
-      description: "Cada decisão preserva contexto, evidências, responsáveis, resultados e aprendizados.",
+      title: t('why.capabilities.items.1.title'),
+      description: t('why.capabilities.items.1.description'),
       icon: Database
     },
     {
-      title: "Inteligência Sistêmica™",
-      description: "Uma alteração operacional repercute automaticamente sobre caixa, margem, capital de giro, valuation e risco.",
+      title: t('why.capabilities.items.2.title'),
+      description: t('why.capabilities.items.2.description'),
       icon: Combine
     },
     {
-      title: "Explainable Intelligence™",
-      description: "Cada recomendação informa evidências utilizadas, nível de confiança, premissas e limitações.",
+      title: t('why.capabilities.items.3.title'),
+      description: t('why.capabilities.items.3.description'),
       icon: Eye
     },
     {
-      title: "Evolução Contínua",
-      description: "A plataforma aprende com decisões anteriores para aperfeiçoar análises futuras.",
+      title: t('why.capabilities.items.4.title'),
+      description: t('why.capabilities.items.4.description'),
       icon: Activity
     }
   ];
 
-  const profiles = [
-    "Empresas de médio e grande porte",
-    "Holdings e Grupos empresariais",
-    "Organizações familiares em profissionalização",
-    "Organizações com múltiplas unidades de negócio",
-    "Instituições de saúde de alta complexidade",
-    "Instituições de ensino",
-    "Organizações do terceiro setor de alta complexidade"
-  ];
+  const profiles = t('why.profiles_results.profiles_items', { returnObjects: true }) as string[];
 
-  const results = [
-    "Maior qualidade das decisões estratégicas",
-    "Redução da dependência de conhecimento individual",
-    "Maior transparência fiduciária e prestação de contas",
-    "Alinhamento real entre estratégia e execução",
-    "Inteligência institucional acumulativa",
-    "Governança baseada inteiramente em evidências"
-  ];
+  const results = t('why.profiles_results.results_items', { returnObjects: true }) as string[];
+
+  const systems = t('why.fragmentation.systems', { returnObjects: true }) as string[];
+
+  const tags = t('why.architecture.tags', { returnObjects: true }) as string[];
 
   return (
-    <div className="flex flex-col bg-[#050506] text-slate-200">
+    <PageFrame>
       
       {/* Hero */}
-      <InstitutionalHero
-        tagline="Por que Illumine"
-        title={
-          <span className="text-4xl md:text-5xl lg:text-7xl max-w-5xl mx-auto block leading-tight">
-            Nem toda inteligência foi construída para apoiar decisões estratégicas.
-          </span>
-        }
-        subtitle={
-          <span className="text-xl md:text-2xl lg:text-3xl font-normal max-w-4xl mx-auto block mt-6 leading-relaxed">
-            A maioria das plataformas organiza dados, automatiza processos ou responde perguntas. A Illumine foi desenvolvida para apoiar decisões de alta complexidade, preservando contexto, memória institucional e governança.
-          </span>
-        }
-        showScrollIndicator={true}
-      >
-        <div className="mt-12">
-          <a href="#diferencial" className="px-8 py-4 bg-white/10 border border-white/20 text-white font-semibold rounded-full hover:bg-white hover:text-black transition-all duration-300 inline-flex items-center gap-2">
-            Conheça a Arquitetura de Governança
-            <ArrowRight size={20} />
-          </a>
-        </div>
-      </InstitutionalHero>
-
-      {/* Section 1: Fragmentação */}
-      <InstitutionalSection variant="darker" id="diferencial">
-        <div className="max-w-4xl mx-auto px-6 text-center">
-          <h2 className="text-3xl md:text-5xl font-bold text-white mb-6">
-            O problema não é tecnologia.<br/><span className="text-amber-500">É fragmentação.</span>
-          </h2>
-          <p className="text-xl text-slate-400 mb-16 leading-relaxed">
-            Hoje uma organização utiliza dezenas de sistemas especializados. Cada solução resolve uma parte do problema. Nenhuma compreende a organização como um todo.
-          </p>
-          
-          <div className="flex flex-wrap justify-center gap-4">
-            {['ERP', 'CRM', 'BI', 'RH', 'Fiscal', 'Projetos', 'IA Generativa'].map((sys, idx) => (
-              <div key={idx} className="px-6 py-3 bg-white/5 border border-white/10 rounded-xl text-slate-400 font-mono text-sm">
-                {sys}
-              </div>
-            ))}
-          </div>
-        </div>
-      </InstitutionalSection>
-
-      {/* Section 2: O que torna a Illumine diferente */}
-      <InstitutionalSection variant="dark">
-        <InstitutionalTitle 
-          chapter="O Novo Paradigma"
-          title="O que torna a Illumine diferente"
-          subtitle="A evolução do software departamental para a inteligência institucional."
-        />
-        
-        <div className="max-w-5xl mx-auto px-6">
-          <div className="bg-[#0A0A0B] border border-white/10 rounded-3xl overflow-hidden shadow-2xl">
-            {/* Header */}
-            <div className="grid grid-cols-2 border-b border-white/10 bg-black/40">
-              <div className="p-6 md:p-8 text-center border-r border-white/10">
-                <span className="text-slate-500 font-semibold tracking-widest uppercase text-sm">Soluções Tradicionais</span>
-              </div>
-              <div className="p-6 md:p-8 text-center bg-amber-500/5 relative overflow-hidden">
-                <div className="absolute top-0 left-0 w-full h-1 bg-amber-500" />
-                <span className="text-amber-500 font-bold tracking-widest uppercase text-sm">Executive Intelligence™</span>
-              </div>
-            </div>
-            
-            {/* Rows */}
-            <div className="divide-y divide-white/5">
-              {comparisons.map((comp, idx) => (
-                <div key={idx} className="grid grid-cols-2 hover:bg-white/5 transition-colors">
-                  <div className="p-6 md:p-8 flex items-center justify-center text-center border-r border-white/10">
-                    <span className="text-slate-400 line-through decoration-slate-600 decoration-1">{comp.old}</span>
-                  </div>
-                  <div className="p-6 md:p-8 flex items-center justify-center text-center bg-amber-500/[0.02]">
-                    <span className="text-white font-medium flex items-center gap-2">
-                      <ChevronRight className="w-4 h-4 text-amber-500 hidden md:block" />
-                      {comp.new}
-                    </span>
-                  </div>
-                </div>
-              ))}
-            </div>
-          </div>
-        </div>
-      </InstitutionalSection>
-
-      {/* Section 3: Arquitetura de Decisão */}
-      <InstitutionalSection variant="darker">
-        <div className="max-w-6xl mx-auto px-6 flex flex-col md:flex-row items-center gap-16">
-          <div className="w-full md:w-1/2">
-            <h2 className="text-3xl md:text-5xl font-bold text-white mb-6 leading-tight">
-              Não é mais uma IA.<br/><span className="text-slate-400">É uma arquitetura de decisão.</span>
-            </h2>
-            <p className="text-xl text-slate-400 leading-relaxed mb-8">
-              A Illumine não conversa apenas com documentos soltos. Ela gera contexto institucional conectando os fragmentos espalhados pela empresa.
-            </p>
-            <div className="flex flex-wrap gap-3">
-              {['Dados Financeiros', 'Processos', 'Indicadores', 'Decisões', 'Premissas', 'Consequências', 'Aprendizado'].map((item, idx) => (
-                <span key={idx} className="px-4 py-2 bg-amber-500/10 text-amber-500 border border-amber-500/20 rounded-full text-sm font-medium">
-                  {item}
-                </span>
-              ))}
-            </div>
-          </div>
-          
-          <div className="w-full md:w-1/2 flex justify-center">
-             <div className="w-full max-w-md aspect-square rounded-full border border-white/5 relative flex items-center justify-center">
-                <div className="absolute inset-4 rounded-full border border-white/10 animate-[spin_60s_linear_infinite]" />
-                <div className="absolute inset-12 rounded-full border border-amber-500/20 animate-[spin_40s_linear_infinite_reverse]" />
-                <div className="w-32 h-32 rounded-full bg-amber-500/10 border border-amber-500/30 flex items-center justify-center relative z-10 shadow-[0_0_50px_rgba(255,150,0,0.1)]">
-                   <Combine className="w-12 h-12 text-amber-500" />
-                </div>
-                {/* Floating nodes */}
-                <div className="absolute top-[10%] left-[20%] w-3 h-3 bg-white/40 rounded-full blur-[1px]" />
-                <div className="absolute bottom-[20%] right-[15%] w-4 h-4 bg-amber-500/40 rounded-full blur-[1px]" />
-                <div className="absolute top-[40%] right-[5%] w-2 h-2 bg-white/30 rounded-full blur-[1px]" />
-             </div>
-          </div>
-        </div>
-      </InstitutionalSection>
-
-      {/* Section 4: 5 Capacidades */}
-      <InstitutionalSection variant="dark">
-        <InstitutionalTitle 
-          chapter="Tecnologia Proprietária"
-          title="Cinco capacidades exclusivas"
-          subtitle="O que possibilita que a plataforma interprete a organização como um sistema."
-        />
-        
-        <div className="max-w-7xl mx-auto px-6 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {capabilities.map((cap, idx) => (
-            <InstitutionalCard key={idx} className="p-8 border-t-4 border-t-white/10 hover:border-t-amber-500 transition-colors">
-              <div className="w-12 h-12 rounded-xl bg-white/5 border border-white/10 flex items-center justify-center mb-6">
-                <cap.icon className="w-6 h-6 text-amber-500" />
-              </div>
-              <h4 className="text-xl font-bold text-white mb-3">{cap.title}</h4>
-              <p className="text-slate-400 leading-relaxed">{cap.description}</p>
-            </InstitutionalCard>
-          ))}
-        </div>
-      </InstitutionalSection>
-
-      {/* Section 5: Liderança */}
-      <InstitutionalSection variant="darker">
-        <div className="max-w-4xl mx-auto px-6 text-center">
-          <div className="w-20 h-20 rounded-full bg-white/5 border border-white/10 flex items-center justify-center mx-auto mb-8">
-            <Users className="w-10 h-10 text-slate-300" />
-          </div>
-          <h2 className="text-3xl md:text-5xl font-bold text-white mb-8 leading-tight">
-            A tecnologia não substitui a liderança. <br/>
-            <span className="text-amber-500">Ela amplia sua capacidade de decidir.</span>
-          </h2>
-          <p className="text-xl text-slate-400 leading-relaxed max-w-3xl mx-auto">
-            A decisão permanece humana. A Illumine amplia a capacidade analítica dos executivos, preserva conhecimento institucional e fornece evidências para decisões de maior qualidade.
-          </p>
-        </div>
-      </InstitutionalSection>
-
-      {/* Section 6 & 7: Para Quem & Resultados */}
-      <InstitutionalSection variant="dark" className="border-t border-white/5">
-        <div className="max-w-7xl mx-auto px-6 grid grid-cols-1 lg:grid-cols-2 gap-16">
-          
-          {/* Para Quem */}
-          <div>
-            <span className="text-sm font-semibold text-slate-500 uppercase tracking-widest block mb-4">Maturidade Institucional</span>
-            <h3 className="text-3xl font-bold text-white mb-4">Para quem foi construída</h3>
-            <p className="text-slate-400 mb-8">Não por segmentos. Por complexidade.</p>
-            
-            <ul className="space-y-4">
-              {profiles.map((profile, idx) => (
-                <li key={idx} className="flex items-start gap-3">
-                  <div className="w-6 h-6 mt-0.5 rounded bg-white/5 flex items-center justify-center shrink-0">
-                    <div className="w-1.5 h-1.5 rounded-full bg-slate-400" />
-                  </div>
-                  <span className="text-slate-300 text-lg">{profile}</span>
-                </li>
-              ))}
-            </ul>
-          </div>
-
-          {/* Resultados */}
-          <div>
-            <span className="text-sm font-semibold text-slate-500 uppercase tracking-widest block mb-4">Geração de Valor</span>
-            <h3 className="text-3xl font-bold text-white mb-4">O resultado esperado</h3>
-            <p className="text-slate-400 mb-8">Ao implantar a Illumine, a organização passa a operar com:</p>
-            
-            <div className="grid gap-4">
-              {results.map((result, idx) => (
-                <InstitutionalCard key={idx} className="p-4 flex items-center gap-4 bg-black/40 border-white/5">
-                  <CheckCircle2 className="w-5 h-5 text-amber-500 shrink-0" />
-                  <span className="text-white font-medium">{result}</span>
-                </InstitutionalCard>
-              ))}
-            </div>
-          </div>
-
-        </div>
-      </InstitutionalSection>
-
-      {/* CTA Final */}
-      <InstitutionalSection variant="glow" className="pt-40 pb-40 text-center">
-        <div className="max-w-4xl mx-auto px-6 relative z-10">
-          <h2 className="text-4xl md:text-5xl font-bold text-white mb-6 leading-tight">
-            Toda decisão importante deixa consequências.
-          </h2>
-          <p className="text-2xl text-slate-300 mb-16">
-            Sua organização está preservando também o contexto que levou a essa decisão?
-          </p>
-          <div className="flex flex-col sm:flex-row items-center justify-center gap-6">
-            <Link 
-              to="/assessment"
-              className="w-full sm:w-auto px-10 py-5 bg-white text-black font-semibold rounded-full hover:bg-slate-200 transition-all duration-300 shadow-[0_0_40px_rgba(255,255,255,0.2)] text-lg inline-flex justify-center items-center gap-2"
-            >
-              Realizar Assessment Executivo
+      <Hero className="min-h-[80vh] flex flex-col items-center justify-center bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-slate-900/40 via-[#0A0A0B] to-[#0A0A0B]">
+        <Container className="relative z-10 flex flex-col items-center text-center pt-20">
+          <SectionLabel align="center">{t('why.hero.label')}</SectionLabel>
+          <HeroTitle align="center" className="max-w-5xl">
+            {t('why.hero.title')}
+          </HeroTitle>
+          <HeroLead align="center" className="max-w-4xl mb-8">
+            {t('why.hero.lead')}
+          </HeroLead>
+          <div className="mt-12">
+            <a href="#diferencial" className="px-8 py-4 bg-white/10 border border-white/20 text-white font-semibold rounded-full hover:bg-white hover:text-black transition-all duration-300 inline-flex items-center gap-2 font-sans">
+              {t('why.hero.cta')}
               <ArrowRight size={20} />
-            </Link>
-            <a 
-              href="mailto:contact@illumine.com"
-              className="w-full sm:w-auto px-10 py-5 bg-white/10 border border-white/20 text-white font-semibold rounded-full hover:bg-white hover:text-black transition-all duration-300 text-lg text-center"
-            >
-              Conversar com um Executive Advisor
             </a>
           </div>
-        </div>
-      </InstitutionalSection>
+        </Container>
+      </Hero>
 
-    </div>
+      {/* Section 1: Fragmentação */}
+      <Section className="border-t border-white/5 bg-[#0A0A0B]" id="diferencial">
+        <Container className="text-center">
+          <div className="max-w-4xl mx-auto flex flex-col items-center">
+            <h2 className="text-4xl md:text-5xl font-bold text-white mb-6 font-sans">
+              {t('why.fragmentation.title')}<br/><span className="text-amber-500">{t('why.fragmentation.title_highlight')}</span>
+            </h2>
+            <Narrative className="max-w-3xl text-xl text-slate-400 mb-16 leading-relaxed text-center font-sans">
+              {t('why.fragmentation.narrative')}
+            </Narrative>
+            <div className="flex flex-wrap justify-center gap-4">
+              {systems.map((sys, idx) => (
+                <div key={idx} className="px-6 py-3 bg-white/5 border border-white/10 rounded-xl text-slate-400 font-mono text-sm">
+                  {sys}
+                </div>
+              ))}
+            </div>
+          </div>
+        </Container>
+      </Section>
+
+      {/* Section 2: O que torna a Illumine diferente */}
+      <Section className="border-t border-white/5 bg-[#050506]">
+        <Container>
+          <div className="flex flex-col items-center text-center mb-16">
+            <SectionLabel align="center">{t('why.paradigm.label')}</SectionLabel>
+            <SectionTitle align="center">{t('why.paradigm.title')}</SectionTitle>
+            <SectionLead align="center">{t('why.paradigm.lead')}</SectionLead>
+          </div>
+          
+          <div className="max-w-5xl mx-auto">
+            <div className="bg-[#0A0A0B] border border-white/10 rounded-3xl overflow-hidden shadow-2xl font-sans">
+              {/* Header */}
+              <div className="grid grid-cols-2 border-b border-white/10 bg-black/40">
+                <div className="p-6 md:p-8 text-center border-r border-white/10">
+                  <span className="text-slate-500 font-bold tracking-widest uppercase text-xs md:text-sm">{t('why.paradigm.table.col1')}</span>
+                </div>
+                <div className="p-6 md:p-8 text-center bg-amber-500/5 relative overflow-hidden">
+                  <div className="absolute top-0 left-0 w-full h-1 bg-amber-500" />
+                  <span className="text-amber-500 font-bold tracking-widest uppercase text-xs md:text-sm">{t('why.paradigm.table.col2')}</span>
+                </div>
+              </div>
+              
+              {/* Rows */}
+              <div className="divide-y divide-white/5">
+                {comparisons.map((comp, idx) => (
+                  <div key={idx} className="grid grid-cols-2 hover:bg-white/5 transition-colors">
+                    <div className="p-6 md:p-8 flex items-center justify-center text-center border-r border-white/10">
+                      <span className="text-slate-400 line-through decoration-slate-600 decoration-1 text-sm md:text-base">{comp.old}</span>
+                    </div>
+                    <div className="p-6 md:p-8 flex items-center justify-center text-center bg-amber-500/[0.02]">
+                      <span className="text-white font-medium flex items-center gap-2 text-sm md:text-base">
+                        <ChevronRight className="w-4 h-4 text-amber-500 hidden md:block" />
+                        {comp.new}
+                      </span>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+        </Container>
+      </Section>
+
+      {/* Section 3: Arquitetura de Decisão */}
+      <Section className="border-t border-white/5 bg-[#0A0A0B]">
+        <Container>
+          <div className="max-w-6xl mx-auto flex flex-col md:flex-row items-center gap-16">
+            <div className="w-full md:w-1/2">
+              <h2 className="text-4xl md:text-5xl font-bold text-white mb-6 leading-tight font-sans">
+                {t('why.architecture.title')}<br/><span className="text-slate-400">{t('why.architecture.title_highlight')}</span>
+              </h2>
+              <p className="text-xl text-slate-400 leading-relaxed mb-8 font-sans font-medium">
+                {t('why.architecture.narrative')}
+              </p>
+              <div className="flex flex-wrap gap-3 font-sans">
+                {tags.map((item, idx) => (
+                  <span key={idx} className="px-4 py-2 bg-amber-500/10 text-amber-500 border border-amber-500/20 rounded-full text-sm font-bold tracking-wide">
+                    {item}
+                  </span>
+                ))}
+              </div>
+            </div>
+            
+            <div className="w-full md:w-1/2 flex justify-center">
+               <div className="w-[300px] h-[300px] md:w-[450px] md:h-[450px] shrink-0 relative flex items-center justify-center">
+                  {/* Background Glow */}
+                  <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,_rgba(245,158,11,0.1),_transparent_60%)]" />
+
+                  {/* SVG Connections */}
+                  <svg className="absolute inset-0 w-full h-full pointer-events-none z-0">
+                     <line x1="50%" y1="50%" x2="15%" y2="25%" stroke="rgba(255,255,255,0.1)" strokeWidth="1.5" />
+                     <line x1="50%" y1="50%" x2="85%" y2="20%" stroke="rgba(255,255,255,0.1)" strokeWidth="1.5" />
+                     <line x1="50%" y1="50%" x2="20%" y2="75%" stroke="rgba(255,255,255,0.1)" strokeWidth="1.5" />
+                     <line x1="50%" y1="50%" x2="75%" y2="80%" stroke="rgba(245,158,11,0.3)" strokeWidth="1.5" />
+                     <line x1="50%" y1="50%" x2="10%" y2="55%" stroke="rgba(255,255,255,0.1)" strokeWidth="1.5" />
+                     <line x1="50%" y1="50%" x2="90%" y2="60%" stroke="rgba(255,255,255,0.1)" strokeWidth="1.5" />
+                  </svg>
+
+                  {/* Central Hub */}
+                  <div className="relative z-10 w-24 h-24 md:w-32 md:h-32 rounded-3xl bg-[#0A0A0B] border border-amber-500/40 flex items-center justify-center shadow-[0_0_50px_rgba(245,158,11,0.2)]">
+                     <div className="absolute inset-0 rounded-3xl border border-amber-500/50 animate-ping opacity-20" style={{ animationDuration: '3s' }} />
+                     <Combine className="w-10 h-10 md:w-14 md:h-14 text-amber-500" />
+                  </div>
+
+                  {/* Outer Nodes */}
+                  <div className="absolute top-[25%] left-[15%] w-10 h-10 md:w-12 md:h-12 -translate-x-1/2 -translate-y-1/2 rounded-xl bg-[#050506] border border-white/10 flex items-center justify-center z-10 shadow-lg" style={{ animation: 'pulse 4s cubic-bezier(0.4, 0, 0.6, 1) infinite' }}>
+                     <Database className="w-4 h-4 md:w-5 md:h-5 text-slate-400" />
+                  </div>
+
+                  <div className="absolute top-[20%] left-[85%] w-8 h-8 md:w-10 md:h-10 -translate-x-1/2 -translate-y-1/2 rounded-xl bg-[#050506] border border-white/10 flex items-center justify-center z-10 shadow-lg" style={{ animation: 'pulse 5s cubic-bezier(0.4, 0, 0.6, 1) infinite 1s' }}>
+                     <Activity className="w-3 h-3 md:w-4 md:h-4 text-slate-400" />
+                  </div>
+
+                  <div className="absolute top-[75%] left-[20%] w-12 h-12 md:w-14 md:h-14 -translate-x-1/2 -translate-y-1/2 rounded-xl bg-[#050506] border border-white/10 flex items-center justify-center z-10 shadow-lg" style={{ animation: 'pulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite 2s' }}>
+                     <Users className="w-5 h-5 md:w-6 md:h-6 text-slate-400" />
+                  </div>
+
+                  <div className="absolute top-[80%] left-[75%] w-10 h-10 md:w-12 md:h-12 -translate-x-1/2 -translate-y-1/2 rounded-xl bg-amber-500/5 border border-amber-500/30 flex items-center justify-center z-10 shadow-[0_0_20px_rgba(245,158,11,0.15)]" style={{ animation: 'pulse 4s cubic-bezier(0.4, 0, 0.6, 1) infinite 0.5s' }}>
+                     <Brain className="w-4 h-4 md:w-5 md:h-5 text-amber-500" />
+                  </div>
+
+                  <div className="absolute top-[55%] left-[10%] w-8 h-8 md:w-10 md:h-10 -translate-x-1/2 -translate-y-1/2 rounded-xl bg-[#050506] border border-white/10 flex items-center justify-center z-10 shadow-lg" style={{ animation: 'pulse 6s cubic-bezier(0.4, 0, 0.6, 1) infinite 1.5s' }}>
+                     <Eye className="w-3 h-3 md:w-4 md:h-4 text-slate-400" />
+                  </div>
+
+                  <div className="absolute top-[60%] left-[90%] w-10 h-10 md:w-12 md:h-12 -translate-x-1/2 -translate-y-1/2 rounded-xl bg-[#050506] border border-white/10 flex items-center justify-center z-10 shadow-lg" style={{ animation: 'pulse 4.5s cubic-bezier(0.4, 0, 0.6, 1) infinite 0.2s' }}>
+                     <ShieldCheck className="w-4 h-4 md:w-5 md:h-5 text-slate-400" />
+                  </div>
+               </div>
+            </div>
+          </div>
+        </Container>
+      </Section>
+
+      {/* Section 4: 5 Capacidades */}
+      <Section className="border-t border-white/5 bg-[#050506]">
+        <Container>
+          <div className="flex flex-col items-center text-center mb-16">
+            <SectionLabel align="center">{t('why.capabilities.label')}</SectionLabel>
+            <SectionTitle align="center">{t('why.capabilities.title')}</SectionTitle>
+            <SectionLead align="center">{t('why.capabilities.lead')}</SectionLead>
+          </div>
+          
+          <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 font-sans">
+            {capabilities.map((cap, idx) => (
+              <Card key={idx} variant="secondary" hoverable className="p-8 border-t-4 border-t-white/10 hover:border-t-amber-500 transition-colors">
+                <div className="w-12 h-12 rounded-xl bg-white/5 border border-white/10 flex items-center justify-center mb-6">
+                  <cap.icon className="w-6 h-6 text-amber-500" />
+                </div>
+                <h4 className="text-xl font-bold text-white mb-3">{cap.title}</h4>
+                <p className="text-slate-400 leading-relaxed font-medium">{cap.description}</p>
+              </Card>
+            ))}
+          </div>
+        </Container>
+      </Section>
+
+      {/* Section 5: Liderança */}
+      <Section className="border-t border-white/5 bg-[#0A0A0B]">
+        <Container>
+          <div className="max-w-4xl mx-auto text-center flex flex-col items-center">
+            <div className="w-20 h-20 rounded-full bg-white/5 border border-white/10 flex items-center justify-center mx-auto mb-8">
+              <Users className="w-10 h-10 text-slate-300" />
+            </div>
+            <h2 className="text-4xl md:text-5xl font-bold text-white mb-8 leading-tight font-sans">
+              {t('why.leadership.title')} <br/>
+              <span className="text-amber-500">{t('why.leadership.title_highlight')}</span>
+            </h2>
+            <Narrative className="max-w-3xl mx-auto text-xl text-slate-400 leading-relaxed text-center font-sans font-medium">
+              {t('why.leadership.narrative')}
+            </Narrative>
+          </div>
+        </Container>
+      </Section>
+
+      {/* Section 6 & 7: Para Quem & Resultados */}
+      <Section className="border-t border-white/5 bg-[#050506]">
+        <Container>
+          <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-16 font-sans">
+            
+            {/* Para Quem */}
+            <div>
+              <span className="text-xs font-bold text-slate-500 uppercase tracking-widest block mb-4">{t('why.profiles_results.profiles_label')}</span>
+              <h3 className="text-3xl font-bold text-white mb-4">{t('why.profiles_results.profiles_title')}</h3>
+              <p className="text-slate-400 mb-8 font-medium">{t('why.profiles_results.profiles_lead')}</p>
+              
+              <ul className="space-y-4">
+                {profiles.map((profile, idx) => (
+                  <li key={idx} className="flex items-start gap-3">
+                    <div className="w-6 h-6 mt-0.5 rounded bg-white/5 flex items-center justify-center shrink-0">
+                      <div className="w-1.5 h-1.5 rounded-full bg-slate-400" />
+                    </div>
+                    <span className="text-slate-300 text-lg font-medium">{profile}</span>
+                  </li>
+                ))}
+              </ul>
+            </div>
+
+            {/* Resultados */}
+            <div>
+              <span className="text-xs font-bold text-slate-500 uppercase tracking-widest block mb-4">{t('why.profiles_results.results_label')}</span>
+              <h3 className="text-3xl font-bold text-white mb-4">{t('why.profiles_results.results_title')}</h3>
+              <p className="text-slate-400 mb-8 font-medium">{t('why.profiles_results.results_lead')}</p>
+              
+              <div className="grid gap-4">
+                {results.map((result, idx) => (
+                  <Card key={idx} variant="secondary" hoverable={false} className="p-5 flex items-center gap-4 bg-black/40">
+                    <CheckCircle2 className="w-5 h-5 text-amber-500 shrink-0" />
+                    <span className="text-white font-medium">{result}</span>
+                  </Card>
+                ))}
+              </div>
+            </div>
+
+          </div>
+        </Container>
+      </Section>
+
+      {/* CTA Final */}
+      <Section className="border-t border-white/5 bg-[#0A0A0B] pt-40 pb-40 relative">
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-amber-900/10 via-transparent to-transparent z-0 pointer-events-none" />
+        <Container className="text-center relative z-10">
+          <div className="max-w-4xl mx-auto flex flex-col items-center">
+            <h2 className="text-4xl md:text-5xl font-bold text-white mb-6 leading-tight font-sans tracking-tight">
+              {t('why.conclusion.title')}
+            </h2>
+            <p className="text-2xl text-slate-300 mb-16 font-sans font-medium">
+              {t('why.conclusion.lead')}
+            </p>
+            <div className="flex flex-col sm:flex-row items-center justify-center gap-6">
+              <Link 
+                to="/assessment"
+                className="w-full sm:w-auto px-10 py-5 bg-white text-black font-semibold rounded-full hover:bg-slate-200 transition-all duration-300 shadow-[0_0_40px_rgba(255,255,255,0.2)] text-lg inline-flex justify-center items-center gap-2 font-sans"
+              >
+                {t('why.conclusion.cta1')}
+                <ArrowRight size={20} />
+              </Link>
+              <a 
+                href="mailto:contact@illumine.com"
+                className="w-full sm:w-auto px-10 py-5 bg-white/10 border border-white/20 text-white font-semibold rounded-full hover:bg-white hover:text-black transition-all duration-300 text-lg text-center font-sans"
+              >
+                {t('why.conclusion.cta2')}
+              </a>
+            </div>
+          </div>
+        </Container>
+      </Section>
+
+    </PageFrame>
   );
 }

@@ -54,6 +54,7 @@ import {
   EyeOff,
   Languages,
 } from 'lucide-react';
+import { LocaleProvider } from './core/internationalization/providers/LocaleProvider';
 import { LanguageProvider, useLanguage } from './contexts/LanguageContext';
 import { LanguageSelector } from './components/shared/LanguageSelector';
 import { SidebarProvider, SidebarTrigger } from './components/ui/sidebar';
@@ -82,7 +83,6 @@ import { ClientsPage } from './components/pages/ClientsPage';
 import { FiscalTributarioPage } from './components/pages/FiscalTributarioPage';
 import { QuadroPessoalPage } from './components/pages/QuadroPessoalPage';
 import { HomePage } from './components/pages/public/HomePage';
-import { EmpresasPage } from './components/pages/public/EmpresasPage';
 import { PartnerSalesPage } from './components/pages/PartnerSalesPage';
 import { ReferralProgramPage } from './components/pages/public/ReferralProgramPage';
 import { ExecutiveAdvisorNetworkLandingPage } from './components/pages/public/ExecutiveAdvisorNetworkLandingPage';
@@ -94,6 +94,7 @@ import { InstitutionalHomePage } from './components/pages/public/v2/Institutiona
 import { InstitutionalPlatformPage } from './components/pages/public/v2/InstitutionalPlatformPage';
 import { InstitutionalManifestoPage } from './components/pages/public/v2/InstitutionalManifestoPage';
 import { InstitutionalWhyPage } from './components/pages/public/v2/InstitutionalWhyPage';
+import { DebugI18nPage } from './components/pages/public/v2/DebugI18nPage';
 import { ExecutiveAssessmentPage } from './components/pages/public/v2/ExecutiveAssessmentPage';
 import { InstitutionalDomainsPage } from './components/pages/public/v2/InstitutionalDomainsPage';
 import { InstitutionalGovernancePage } from './components/pages/public/v2/InstitutionalGovernancePage';
@@ -140,7 +141,7 @@ import {
   Pie
 } from 'recharts';
 import { motion, AnimatePresence } from 'motion/react';
-import { DEFAULT_OPEN_SUBMENUS, DEFAULT_PAGE, FLAT_NAV_ITEMS, NAVIGATION_GROUPS, type Page } from './app/navigation';
+import { DEFAULT_OPEN_SUBMENUS, DEFAULT_PAGE, FLAT_NAV_ITEMS, NAVIGATION_GROUPS, LEGACY_ROUTE_MAP, type Page } from './app/navigation';
 import { renderCurrentPage } from './app/routes';
 import { ClientSelector } from './components/ClientSelector';
 import { GovernanceProvider, useGovernance } from './lib/governanceContext';
@@ -301,13 +302,19 @@ export default function App() {
   const [clients, setClients] = useState<any[]>([]);
   const [expandedGroups, setExpandedGroups] = useState<string[]>(['Dados de Cadastro', 'Análise de Performance', 'Planejamento Estratégico']);
   
-  // Backward compatibility state variables mapped to session
-  const isMaster = session?.role === 'SUPER_ADMIN';
-  const isPartner = session?.role === 'TENANT_ADMIN' || session?.availableTenants?.some(t => t.role === 'TENANT_ADMIN');
-  const userPartnerIds = session?.availableTenants?.filter(t => t.role === 'TENANT_ADMIN').map(t => t.tenantId) || [];
-  // Permissions are fully managed by InstitutionalAuth; null = full access
-  const userPermissions: string[] | null = isMaster ? null : null;
+  // --- WAVE 3A: SEPARATION OF PERSONA, PERMISSION, AND TENANT ---
+  // 1. Persona Layer (defines the overall experience and default workspace)
+  const userPersona = session?.role || 'VIEWER';
+  const isMaster = userPersona === 'SUPER_ADMIN';
+  const isPartner = userPersona === 'TENANT_ADMIN' || session?.availableTenants?.some(t => t.role === 'TENANT_ADMIN');
+  
+  // 2. Permission Layer (defines visibility of tools within the workspace)
+  // Permissions are fully managed by InstitutionalAuth; null = full access for SUPER_ADMIN
+  const userPermissions: string[] | null = isMaster ? null : (session?.permissions || []);
   const clientPermissionsMap: Record<string, string[]> = {};
+  
+  // 3. Tenant Layer (defines data context)
+  const userPartnerIds = session?.availableTenants?.filter(t => t.role === 'TENANT_ADMIN').map(t => t.tenantId) || [];
   const rolesLoaded = !authLoading && session !== null;
   const initialRedirectDone = useRef(false);
   
@@ -394,7 +401,15 @@ export default function App() {
   useEffect(() => {
     if (location.pathname.startsWith('/dashboard/')) {
       const parts = location.pathname.split('/');
-      const page = parts[2];
+      let page = parts[2];
+      
+      // Route Compatibility Layer: Legacy Route -> Route Resolver -> Canonical Route
+      if (page && LEGACY_ROUTE_MAP[page]) {
+        console.log(`[RouteResolver] Remapping legacy route ${page} to ${LEGACY_ROUTE_MAP[page]}`);
+        page = LEGACY_ROUTE_MAP[page];
+        navigate(`/dashboard/${page}`, { replace: true });
+      }
+
       if (page && page !== currentPage) {
         setCurrentPage(page as Page);
       }
@@ -403,7 +418,7 @@ export default function App() {
         setCurrentPage('efos' as Page);
       }
     }
-  }, [location.pathname, currentPage]);
+  }, [location.pathname, currentPage, navigate]);
 
   // Client state is now managed by InstitutionalAuth session sync above (useEffect at line 267).
 
@@ -483,124 +498,128 @@ export default function App() {
   }
 
   return (
-    <LanguageProvider>
-      <GovernanceProvider user={user}>
-        <TenancyProvider>
-          <ExecutiveCognitiveProvider>
-            <ExecutiveInteractionProvider>
-              <InstitutionalMemoryProvider initialTenantId={selectedClient}>
-                <Routes>
-                  {/* Institutional V2 Routes */}
-                  <Route element={<InstitutionalLayout />}>
-                    <Route path="/" element={<InstitutionalHomePage />} />
-                    <Route path="/tese" element={<Navigate to="/manifesto" replace />} />
-                    <Route path="/manifesto" element={<InstitutionalManifestoPage />} />
-                    <Route path="/por-que-illumine" element={<InstitutionalWhyPage />} />
-                    <Route path="/plataforma" element={<InstitutionalPlatformPage />} />
-                    <Route path="/dominios" element={<InstitutionalDomainsPage />} />
-                    <Route path="/governanca" element={<InstitutionalGovernancePage />} />
-                    <Route path="/centro-de-inteligencia" element={<InstitutionalIntelligenceCenterPage />} />
-                    <Route path="/intelligence-center" element={<ExecutiveIntelligenceCenterPage />} />
-                    <Route path="/assessment" element={<ExecutiveAssessmentPage />} />
-                    <Route path="/contato" element={
-                        <div className="min-h-screen bg-[#0A0A0B] flex flex-col items-center justify-center p-6 text-center">
-                            <div className="max-w-md w-full bg-white/5 border border-white/10 p-8 rounded-3xl backdrop-blur-sm">
-                                <h3 className="text-2xl font-bold text-white mb-4">Contato Institucional</h3>
-                                <p className="text-slate-400 mb-8">A primeira etapa para conhecer a Illumine é realizar um Executive Assessment™.</p>
-                                <a href="/assessment" className="w-full py-4 bg-primary text-primary-foreground font-semibold rounded-full hover:bg-primary/90 transition-colors flex items-center justify-center gap-2">
-                                    Iniciar Assessment
-                                </a>
-                            </div>
-                        </div>
-                    } />
-                    {/* Fallbacks temporários para as páginas de apoio antigas dentro do novo layout */}
-                    <Route path="/advisory" element={<ExecutiveAdvisorNetworkLandingPage />} />
-                    <Route path="/network" element={<ExecutiveAdvisorNetworkLandingPage />} />
-                    <Route path="/insights" element={<ExecutivePlatformLandingPage />} />
-                  </Route>
+    <LocaleProvider>
+      <LanguageProvider>
+        <GovernanceProvider user={user}>
+          <TenancyProvider>
+            <ExecutiveCognitiveProvider>
+              <ExecutiveInteractionProvider>
+                <InstitutionalMemoryProvider initialTenantId={selectedClient}>
+                  <Routes>
+                    {/* Institutional V2 Routes */}
+                    <Route element={<InstitutionalLayout />}>
+                      <Route path="/" element={<InstitutionalHomePage />} />
+                      <Route path="/tese" element={<Navigate to="/manifesto" replace />} />
+                      <Route path="/manifesto" element={<InstitutionalManifestoPage />} />
+                      <Route path="/por-que-illumine" element={<InstitutionalWhyPage />} />
+                      <Route path="/plataforma" element={<InstitutionalPlatformPage />} />
+                      <Route path="/dominios" element={<InstitutionalDomainsPage />} />
+                      <Route path="/governanca" element={<InstitutionalGovernancePage />} />
+                      <Route path="/centro-de-inteligencia" element={<InstitutionalIntelligenceCenterPage />} />
+                      <Route path="/intelligence-center" element={<ExecutiveIntelligenceCenterPage />} />
+                      <Route path="/assessment" element={<ExecutiveAssessmentPage />} />
+                      {import.meta.env.DEV && (
+                        <Route path="/debug/i18n" element={<DebugI18nPage />} />
+                      )}
+                      <Route path="/contato" element={
+                          <div className="min-h-screen bg-[#0A0A0B] flex flex-col items-center justify-center p-6 text-center">
+                              <div className="max-w-md w-full bg-white/5 border border-white/10 p-8 rounded-3xl backdrop-blur-sm">
+                                  <h3 className="text-2xl font-bold text-white mb-4">Contato Institucional</h3>
+                                  <p className="text-slate-400 mb-8">A primeira etapa para conhecer a Illumine é realizar um Executive Assessment™.</p>
+                                  <a href="/assessment" className="w-full py-4 bg-primary text-primary-foreground font-semibold rounded-full hover:bg-primary/90 transition-colors flex items-center justify-center gap-2">
+                                      Iniciar Assessment
+                                  </a>
+                              </div>
+                          </div>
+                      } />
+                      {/* Fallbacks temporários para as páginas de apoio antigas dentro do novo layout */}
+                      <Route path="/advisory" element={<ExecutiveAdvisorNetworkLandingPage />} />
+                      <Route path="/network" element={<ExecutiveAdvisorNetworkLandingPage />} />
+                      <Route path="/insights" element={<ExecutivePlatformLandingPage />} />
+                    </Route>
 
-                  {/* Legacy Routes */}
-                  <Route path="/empresas" element={<EmpresasPage />} />
-                  <Route path="/parceiros" element={<PartnerSalesPage />} />
-                  <Route path="/programa-parceiros" element={<ExecutiveAdvisorNetworkLandingPage />} />
-                  <Route path="/executive-advisor-network" element={<ExecutiveAdvisorNetworkLandingPage />} />
-                  <Route path="/executiveadvisornetwork" element={<ExecutiveAdvisorNetworkLandingPage />} />
-                  <Route path="/diagnostico" element={<DiagnosticoPage />} />
-                  <Route path="/login" element={user ? <Navigate to={isMaster || isPartner ? "/dashboard/portfolio" : "/dashboard/efos"} replace /> : <LoginPage />} />
-                  <Route path="/executive-home" element={<ExecutiveHomeWorkspace />} />
-                  <Route path="/consolidated-executive" element={<Navigate to="/dashboard/consolidated_executive" replace />} />
-                  <Route path="/executive-cognitive" element={<ExecutiveCognitivePage />} />
-                  <Route path="/investigation/:nodeId" element={<BoardInvestigationWorkspace />} />
-                  <Route path="/governance-time-machine" element={<GovernanceTimeMachinePage />} />
-                  <Route path="/governance-time-machine/:nodeId" element={<GovernanceTimeMachinePage />} />
-                  <Route path="/digital-twin" element={<InstitutionalDigitalTwinPage />} />
-                  <Route path="/digital-twin/:domainId" element={<InstitutionalDigitalTwinPage />} />
-                  <Route path="/advisor" element={<AdvisorCommandCenter />} />
-                  <Route path="/advisor/:organizationId" element={<AdvisorCommandCenter />} />
-                  <Route path="/war-room" element={<ScenarioCommandCenter />} />
-                  <Route path="/war-room/:scenarioId" element={<ScenarioCommandCenter />} />
-                  <Route path="/intelligence" element={<InstitutionalIntelligenceWorkspace />} />
-                  <Route path="/intelligence/:objectId" element={<InstitutionalIntelligenceWorkspace />} />
-                  <Route path="/architecture-governance/explorer" element={<ArchitectureExplorer />} />
-                  <Route path="/governance/analytics-health" element={
-                    isMaster || isPartner ? (
-                      <AnalyticsHealthCenterPage />
-                    ) : (
-                      <Navigate to="/" replace />
-                    )
-                  } />
-                  
-                  <Route 
-                    path="/dashboard/*" 
-                    element={
-                      user ? (
-                        <GovernanceProvider user={user}>
-                          <TooltipProvider>
-                            {requirePasswordChange && <ForcePasswordChangeModal onSuccess={() => setRequirePasswordChange(false)} />}
-                            <AppContent 
-                              user={user}
-                              authLoading={authLoading}
-                              clients={clients}
-                              selectedClient={selectedClient}
-                              setSelectedClient={setSelectedClient}
-                              selectedMonth={selectedMonth}
-                              setSelectedMonth={setSelectedMonth}
-                              selectedYear={selectedYear}
-                              setSelectedYear={setSelectedYear}
-                              setCurrentPage={(page: Page) => navigate(`/dashboard/${page}`)}
-                              setClients={setClients}
-                              currentPage={currentPage}
-                              academyCourseId={academyCourseId}
-                              setAcademyCourseId={setAcademyCourseId}
-                              isSidebarCollapsed={isSidebarCollapsed}
-                              setIsSidebarCollapsed={setIsSidebarCollapsed}
-                              isMobileMenuOpen={isMobileMenuOpen}
-                              setIsMobileMenuOpen={setIsMobileMenuOpen}
-                              openSubmenus={openSubmenus}
-                              toggleSubmenu={toggleSubmenu}
-                              userPermissions={userPermissions}
-                              isPartner={isPartner}
-                              isMaster={isMaster}
-                              userPartnerIds={userPartnerIds}
-                              showWelcome={showWelcome}
-                              setShowWelcome={setShowWelcome}
-                              welcomeText={welcomeText}
-                            />
-                          </TooltipProvider>
-                        </GovernanceProvider>
+                    {/* Legacy Routes */}
+                    <Route path="/parceiros" element={<PartnerSalesPage />} />
+                    <Route path="/programa-parceiros" element={<ExecutiveAdvisorNetworkLandingPage />} />
+                    <Route path="/executive-advisor-network" element={<ExecutiveAdvisorNetworkLandingPage />} />
+                    <Route path="/executiveadvisornetwork" element={<ExecutiveAdvisorNetworkLandingPage />} />
+                    <Route path="/diagnostico" element={<DiagnosticoPage />} />
+                    <Route path="/login" element={user ? <Navigate to={isMaster || isPartner ? "/dashboard/portfolio" : "/dashboard/efos"} replace /> : <LoginPage />} />
+                    <Route path="/executive-home" element={<ExecutiveHomeWorkspace />} />
+                    <Route path="/consolidated-executive" element={<Navigate to="/dashboard/consolidated_executive" replace />} />
+                    <Route path="/executive-cognitive" element={<ExecutiveCognitivePage />} />
+                    <Route path="/investigation/:nodeId" element={<BoardInvestigationWorkspace />} />
+                    <Route path="/governance-time-machine" element={<GovernanceTimeMachinePage />} />
+                    <Route path="/governance-time-machine/:nodeId" element={<GovernanceTimeMachinePage />} />
+                    <Route path="/digital-twin" element={<InstitutionalDigitalTwinPage />} />
+                    <Route path="/digital-twin/:domainId" element={<InstitutionalDigitalTwinPage />} />
+                    <Route path="/advisor" element={<AdvisorCommandCenter />} />
+                    <Route path="/advisor/:organizationId" element={<AdvisorCommandCenter />} />
+                    <Route path="/war-room" element={<ScenarioCommandCenter />} />
+                    <Route path="/war-room/:scenarioId" element={<ScenarioCommandCenter />} />
+                    <Route path="/intelligence" element={<InstitutionalIntelligenceWorkspace />} />
+                    <Route path="/intelligence/:objectId" element={<InstitutionalIntelligenceWorkspace />} />
+                    <Route path="/architecture-governance/explorer" element={<ArchitectureExplorer />} />
+                    <Route path="/governance/analytics-health" element={
+                      isMaster || isPartner ? (
+                        <AnalyticsHealthCenterPage />
                       ) : (
-                        <Navigate to="/login" replace />
+                        <Navigate to="/" replace />
                       )
-                    }
-                  />
-                  <Route path="*" element={<Navigate to="/" replace />} />
-                </Routes>
-              </InstitutionalMemoryProvider>
-            </ExecutiveInteractionProvider>
-          </ExecutiveCognitiveProvider>
-        </TenancyProvider>
-      </GovernanceProvider>
-    </LanguageProvider>
+                    } />
+                    
+                    <Route 
+                      path="/dashboard/*" 
+                      element={
+                        user ? (
+                          <GovernanceProvider user={user}>
+                            <TooltipProvider>
+                              {requirePasswordChange && <ForcePasswordChangeModal onSuccess={() => setRequirePasswordChange(false)} />}
+                              <AppContent 
+                                user={user}
+                                authLoading={authLoading}
+                                clients={clients}
+                                selectedClient={selectedClient}
+                                setSelectedClient={setSelectedClient}
+                                selectedMonth={selectedMonth}
+                                setSelectedMonth={setSelectedMonth}
+                                selectedYear={selectedYear}
+                                setSelectedYear={setSelectedYear}
+                                setCurrentPage={(page: Page) => navigate(`/dashboard/${page}`)}
+                                setClients={setClients}
+                                currentPage={currentPage}
+                                academyCourseId={academyCourseId}
+                                setAcademyCourseId={setAcademyCourseId}
+                                isSidebarCollapsed={isSidebarCollapsed}
+                                setIsSidebarCollapsed={setIsSidebarCollapsed}
+                                isMobileMenuOpen={isMobileMenuOpen}
+                                setIsMobileMenuOpen={setIsMobileMenuOpen}
+                                openSubmenus={openSubmenus}
+                                toggleSubmenu={toggleSubmenu}
+                                userPermissions={userPermissions}
+                                isPartner={isPartner}
+                                isMaster={isMaster}
+                                userPartnerIds={userPartnerIds}
+                                showWelcome={showWelcome}
+                                setShowWelcome={setShowWelcome}
+                                welcomeText={welcomeText}
+                              />
+                            </TooltipProvider>
+                          </GovernanceProvider>
+                        ) : (
+                          <Navigate to="/login" replace />
+                        )
+                      }
+                    />
+                    <Route path="*" element={<Navigate to="/" replace />} />
+                  </Routes>
+                </InstitutionalMemoryProvider>
+              </ExecutiveInteractionProvider>
+            </ExecutiveCognitiveProvider>
+          </TenancyProvider>
+        </GovernanceProvider>
+      </LanguageProvider>
+    </LocaleProvider>
   );
 }
 

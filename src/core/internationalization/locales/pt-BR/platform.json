@@ -1,0 +1,132 @@
+{
+  "hero": {
+    "label": "Plataforma",
+    "lead": "A infraestrutura de inteligência entre a organização e suas decisões estratégicas.",
+    "narrative_1": "As empresas modernas possuem sistemas para registrar transações, ferramentas para visualizar indicadores e modelos de inteligência artificial capazes de responder perguntas.",
+    "narrative_2a": "Mas decisões estratégicas exigem algo além de informação.",
+    "narrative_2b": "Exigem contexto.",
+    "narrative_3": "A Illumine cria uma camada de inteligência institucional que conecta dados corporativos, conhecimento organizacional e julgamento executivo para transformar informações dispersas em decisões mais claras, explicáveis e sustentáveis.",
+    "cta_domains": "Conhecer os Domínios"
+  },
+  "sections": {
+    "problem": {
+      "label": "O problema que a plataforma resolve",
+      "title_1": "Organizações não sofrem pela falta de dados.",
+      "title_2": "Sofrem pela falta de contexto.",
+      "p1": "A maior parte das empresas possui milhares de informações distribuídas entre:",
+      "list_1": "sistemas financeiros;",
+      "list_2": "ERPs;",
+      "list_3": "CRMs;",
+      "list_4": "planilhas e documentos;",
+      "list_5": "relatórios e reuniões;",
+      "list_6": "experiências individuais dos líderes.",
+      "p2": "O problema não é acessar informações.",
+      "card_title": "O problema é compreender:",
+      "card_list_1": "por que algo aconteceu;",
+      "card_list_2": "quais decisões levaram ao cenário atual;",
+      "card_list_3": "quais riscos estão emergindo;",
+      "card_list_4": "quais consequências uma nova decisão pode gerar.",
+      "insight": "A Illumine foi criada para preencher esse espaço entre informação e decisão."
+    },
+    "architecture": {
+      "label": "Arquitetura da Illumine",
+      "title_1": "Cinco camadas.",
+      "title_2": "Uma inteligência integrada.",
+      "lead": "A plataforma combina cinco capacidades fundamentais para construir uma visão institucional da organização.",
+      "layer1": {
+        "tag": "1. Camada de Dados",
+        "desc_title": "A base institucional de conhecimento.",
+        "desc": "Toda inteligência depende da qualidade do contexto. A Intelligence Foundation™ reúne e organiza informações provenientes das diferentes áreas da organização, criando uma base confiável para análise executiva. Transformamos dados fragmentados em uma base institucional confiável.",
+        "tags": {
+          "t1": "Dados financeiros",
+          "t2": "Informações operacionais",
+          "t3": "Indicadores comerciais",
+          "t4": "Documentos institucionais",
+          "t5": "Histórico decisório",
+          "t6": "Premissas estratégicas"
+        }
+      },
+      "layer2": {
+        "tag": "2. Camada Analítica",
+        "desc_title": "O motor que interpreta relações e identifica padrões.",
+        "desc": "Dados isolados mostram eventos. Inteligência revela relações. O Intelligence Engine™ analisa tendências, correlações, desvios, riscos, impactos sistêmicos e oportunidades. Ele conecta diferentes dimensões da organização para responder perguntas que relatórios tradicionais não conseguem responder:",
+        "quotes": {
+          "q1": "“Por que isso aconteceu?”",
+          "q2": "“Qual impacto essa decisão pode gerar?”",
+          "q3": "“Quais riscos estamos deixando de observar?”"
+        }
+      },
+      "layer3": {
+        "tag": "3. Camada de Memória",
+        "desc_title": "A memória estratégica da organização.",
+        "desc": "Empresas acumulam experiências, mas frequentemente perdem aprendizado. Quando líderes deixam uma organização, desaparecem contextos, premissas, análises, consequências e aprendizados obtidos. A Institutional Learning Architecture™ transforma decisões em ativos permanentes de conhecimento.",
+        "insight": "A decisão de ontem transforma-se no conhecimento estratégico de amanhã."
+      },
+      "layer4": {
+        "tag": "4. Camada de Conselho",
+        "desc_title": "Inteligência aumentada para decisões complexas.",
+        "desc": "A Illumine não substitui executivos, conselheiros ou especialistas. Ela fornece uma infraestrutura avançada de contexto, análise e simulação para apoiar decisões de alta complexidade. A plataforma amplia a capacidade de CEOs, equipes executivas, conselhos e advisors independentes.",
+        "insight": "A tecnologia amplia a análise. O julgamento permanece humano."
+      },
+      "layer5": {
+        "tag": "5. Camada de Governança",
+        "desc_title": "A camada de confiança da inteligência corporativa.",
+        "items": {
+          "i1_title": "Explainable Intelligence™",
+          "i1_desc": "Toda recomendação precisa apresentar sua origem, premissas e evidências.",
+          "i2_title": "Decision Traceability",
+          "i2_desc": "O histórico da decisão permanece documentado e acessível.",
+          "i3_title": "Audit Trail",
+          "i3_desc": "Registros imutáveis de análises, aprovações e aprendizados preservados.",
+          "i4_title": "Human Oversight & Data Gov",
+          "i4_desc": "A decisão final é humana. A informação fica restrita aos limites organizacionais."
+        }
+      }
+    },
+    "digital_twin": {
+      "label": "Institutional Digital Twin™",
+      "title": "Um modelo vivo da organização.",
+      "desc_title": "A Illumine não apenas analisa dados históricos. Ela cria uma representação dinâmica da organização.",
+      "desc": "O Institutional Digital Twin™ permite simular alterações de custos, mudanças estratégicas, investimentos, expansão, cenários financeiros e impactos operacionais antes que eles ocorram.",
+      "box_label": "EXEMPLO SISTÊMICO",
+      "box_text": "Uma alteração no custo logístico não é vista apenas como uma variação operacional. A plataforma analisa seus efeitos em cadeia sobre:",
+      "box_items": {
+        "i1": "Margem EBITDA",
+        "i2": "Fluxo de Caixa",
+        "i3": "Capital de Giro",
+        "i4": "Financiamento"
+      },
+      "conclusion": "A organização deixa de apenas olhar o passado e passa a compreender possibilidades futuras."
+    },
+    "practice": {
+      "label": "Executive Intelligence in Practice",
+      "title": "Da informação para a decisão.",
+      "before_tag": "Relatório Tradicional (Antes)",
+      "before_quote": "\"O EBITDA caiu 8% no trimestre.\"",
+      "after_tag": "Com Illumine Executive Intelligence",
+      "after_quote": "\"A Illumine identificou que a pressão sobre o EBITDA tem origem em três vetores principais: aumento de custos logísticos, ineficiências operacionais e desalinhamentos estratégicos. A interação desses fatores está drenando geração de caixa, reduzindo margem operacional e restringindo a capacidade da organização de financiar seu próximo ciclo de crescimento.\""
+    },
+    "evolution": {
+      "label": "Evolução Contínua",
+      "title": "A plataforma evolui com a organização.",
+      "lead": "A Illumine é construída como uma infraestrutura viva de inteligência institucional.",
+      "cards": {
+        "c1_tag": "Disponível",
+        "c1_title": "Consolidação Sistêmica",
+        "c1_desc": "Observabilidade financeira, operacional e institucional integrada em tempo real.",
+        "c2_tag": "Em evolução",
+        "c2_title": "Cognitive Agents",
+        "c2_desc": "Agentes inteligentes para análise interpretativa e geração de relatórios executivos.",
+        "c3_tag": "Próxima evolução",
+        "c3_title": "Predictive Intelligence",
+        "c3_desc": "Simulações avançadas, cenários ramificados e antecipação de riscos estruturais."
+      }
+    },
+    "conclusion": {
+      "title": "A próxima vantagem competitiva será a capacidade de aprender.",
+      "desc": "Empresas vencedoras não serão apenas aquelas que possuem mais dados. Serão aquelas capazes de transformar experiências, decisões e informações em inteligência institucional.",
+      "pre_title": "A Illumine constrói essa capacidade.",
+      "cta": "Realizar Diagnóstico Executivo™"
+    }
+  }
+}

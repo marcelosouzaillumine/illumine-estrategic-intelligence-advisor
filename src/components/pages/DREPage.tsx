@@ -22,10 +22,12 @@ import { DREExecutiveAdvisorySection } from './dre/DREExecutiveAdvisorySection';
 import { DRETechnicalLayerSection } from './dre/DRETechnicalLayerSection';
 import { useDREPageViewModel } from './dre/useDREPageViewModel';
 import { ExecutiveIntelligenceShell } from '../executive/ExecutiveIntelligenceShell';
-import { ExecutiveDecisionIntelligenceMount } from '../executive/ExecutiveDecisionIntelligenceMount';
+import { ExecutiveVerdictCard } from '../ui/ExecutiveVerdictCard';
+import { ExecutiveSummaryCard } from '../ui/ExecutiveSummaryCard';
 import { ExecutiveBrief } from '../executive-architecture/ExecutiveBrief';
 import { InstitutionalDecisionOS } from '../../../packages/intelligence/executive-intelligence-layer/src/orchestration/InstitutionalDecisionOS';
 import { ExecutiveBriefPresenter } from '../../viewmodels/ExecutiveBriefPresenter';
+import { ExecutiveDashboardRenderer } from '../ui/ExecutiveDashboardRenderer';
 
 export function DREPage({ clients, selectedClient, selectedYear }: any) {
   const { state, computed, actions } = useDREPageViewModel(clients, selectedClient, selectedYear);
@@ -41,7 +43,8 @@ export function DREPage({ clients, selectedClient, selectedYear }: any) {
     loadingHistory,
     hasDreData,
     executiveReport,
-    dreViewModel
+    dreViewModel,
+    assessment,
   } = state;
 
   const { isSectionVisible } = computed;
@@ -49,23 +52,6 @@ export function DREPage({ clients, selectedClient, selectedYear }: any) {
   const activeClientObj = clients?.find((c: any) => c.id === selectedClient);
   const activeClientName = activeClientObj?.nomeFantasia || activeClientObj?.razaoSocial || activeClientObj?.nome || 'Empresa Ativa';
 
-  // Executive Intelligence Engine
-  const executiveBriefData = useMemo(() => {
-    // Generate synthetic financial payload based on current DB state
-    const kpis = dreViewModel?.executiveMetrics || executiveReport?.canonicalState?.kpis || {} as any;
-    const financialData = {
-      revenue: kpis.receitaLiquida || kpis.revenue || 0,
-      ebitda: kpis.ebitda || 0,
-      equity: 500000, // mock placeholder
-      liquidity: 1.2, // mock placeholder
-    };
-    
-    // Use the backend cognitive engine
-    const evidencePackage = InstitutionalDecisionOS.run(financialData);
-    
-    // Adapt to UI
-    return ExecutiveBriefPresenter.present(evidencePackage);
-  }, [dreViewModel, executiveReport]);
 
   return (
     <ExecutiveIntelligenceShell pageTitle="Demonstração do Resultado (DRE)" pageContext="DREPage" companyName={activeClientName}>
@@ -134,28 +120,11 @@ export function DREPage({ clients, selectedClient, selectedYear }: any) {
         </div>
       ) : (
         <div className="space-y-10 mb-12">
-          {/* 2. CENTRO DE DECISÃO EXECUTIVA & INTELIGÊNCIA ATIVA (Avalia os dados do contexto definido acima) */}
-          <ExecutiveDecisionIntelligenceMount
-            pageId="DREPage"
-            companyId={String(selectedClient || 'comp-1')}
-            companyName={activeClientName}
-            period={String(filterYear || selectedYear || 2026)}
-            financialData={dreViewModel?.executiveMetrics || executiveReport?.canonicalState?.kpis}
-          />
-          {(executiveReport?.isSandbox || executiveReport?.isDemonstrative) && (
-            <SandboxWarningOverlay type={executiveReport.isSandbox ? 'sandbox' : 'demonstrative'} />
-          )}
-          {/* --- CAMADA 1: NÍVEL CONSELHO (SÍNTESE SOBERANA DA DRE) --- */}
-          <div className="mb-8">
-            <ExecutiveBrief data={executiveBriefData} />
-          </div>
-
-          {/* --- CAMADA 2: DIRETORIA & DRE ESTRUTURAL --- */}
-          {isSectionVisible('DRE_ADVISORY') && dreViewModel?.policy?.executiveDiagnosis && (
-            <DREExecutiveAdvisorySection 
-              viewModel={dreViewModel.policy.executiveDiagnosis}
-              selectedYear={selectedYear}
-            />
+          {assessment && (
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-12 animate-in fade-in slide-in-from-top-4 duration-500">
+              <ExecutiveVerdictCard assessment={assessment} />
+              <ExecutiveSummaryCard assessment={assessment} />
+            </div>
           )}
 
           <DREEconomicBreakdownSection
@@ -165,20 +134,7 @@ export function DREPage({ clients, selectedClient, selectedYear }: any) {
             viewModel={dreViewModel}
           />
 
-          {isSectionVisible('DRE_DECISION_SUPPORT') && dreViewModel?.policy?.boardQuestions && (
-            <DREBoardDecisionSupportSection viewModel={{
-              ...dreViewModel.policy.boardQuestions,
-              overallStatus: dreViewModel.policy.economicPositioning,
-              confidenceScore: dreViewModel.policy.confidenceScore
-            }} />
-          )}
 
-          {/* --- CAMADA 3: CAMADA TÉCNICA E DETALHAMENTO CONTÁBIL --- */}
-          {isSectionVisible('DRE_TECHNICAL_LAYER') && dreViewModel?.technicalLayer?.rows && dreViewModel.technicalLayer.rows.length > 0 && (
-            <div className="mt-12 mb-8 border-t border-border pt-8">
-              <DRETechnicalLayerSection viewModel={dreViewModel.technicalLayer} />
-            </div>
-          )}
         </div>
       )}
 

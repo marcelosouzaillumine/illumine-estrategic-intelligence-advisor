@@ -1,0 +1,36 @@
+{
+  "commandThesis": {
+    "thesisStatement": "O Grupo Atlas Participações enfrenta uma severa compressão de margem logística. A prioridade imediata é a preservação de caixa e suspensão de expansão inorgânica.",
+    "orchestrationNarrative": "A correlação entre o aumento de custos logísticos e o custo da dívida indica ruptura iminente se a expansão for mantida.",
+    "primaryFocus": "Estabilização de Liquidez e Redução de Alavancagem",
+    "actions": [
+      "Travar orçamento de M&A do H2",
+      "Renegociação de covenants da dívida de curto prazo"
+    ]
+  },
+  "directives": [
+    {
+      "title": "Suspensão de Expansão Inorgânica",
+      "statement": "Bloqueio imediato de todas as aquisições planejadas para o próximo semestre devido à pressão de liquidez."
+    },
+    {
+      "title": "Retenção de Dividendos",
+      "statement": "Limitar a distribuição de dividendos ao mínimo legal obrigatório neste exercício."
+    }
+  ],
+  "alignment": {
+    "narrative": "A postura de crescimento comercial diverge da necessidade atual de tesouraria de proteger o caixa."
+  },
+  "drift": {
+    "description": "Contratação de crédito pontual pela filial Norte não alinhada com a diretriz de desavancagem."
+  },
+  "explainability": {
+    "rationale": "O motor cognitivo detectou que o custo do serviço da dívida ultrapassará a geração de caixa operacional em 4 meses caso a margem logística mantenha a degradação atual."
+  },
+  "ui": {
+    "tag": "Governança Corporativa",
+    "title": "Diretrizes Institucionais",
+    "subtitle": "Recomendação Fiduciária Baseada em IA",
+    "hash_label": "HASH GERADOR"
+  }
+}

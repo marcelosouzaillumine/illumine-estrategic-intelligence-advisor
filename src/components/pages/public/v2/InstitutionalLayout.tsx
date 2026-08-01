@@ -2,11 +2,16 @@ import React, { useState, useEffect } from 'react';
 import { Outlet, Link, useLocation } from 'react-router-dom';
 import { Menu, X, ArrowRight } from 'lucide-react';
 import { cn } from '@/lib/utils';
+import { ExecutiveCopilotWidget } from '../../../ui/public/institutional/copilot/ExecutiveCopilotWidget';
+import { LanguageSelector } from '../../../ui/public/institutional/LanguageSelector';
+import { useTranslation } from 'react-i18next';
 
 export function InstitutionalLayout() {
   const [isScrolled, setIsScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const location = useLocation();
+  const { t: tNav } = useTranslation('navigation');
+  const { t: tFooter } = useTranslation('footer');
 
   useEffect(() => {
     const handleScroll = () => {
@@ -22,12 +27,12 @@ export function InstitutionalLayout() {
   }, [location.pathname]);
 
   const navLinks = [
-    { label: 'Manifesto', href: '/manifesto' },
-    { label: 'Plataforma', href: '/plataforma' },
-    { label: 'Domínios', href: '/dominios' },
-    { label: 'Por que Illumine', href: '/por-que-illumine' },
-    { label: 'Governança', href: '/governanca' },
-    { label: 'Centro de Inteligência', href: '/centro-de-inteligencia' },
+    { label: tNav('nav.manifesto'), href: '/manifesto' },
+    { label: tNav('nav.platform'), href: '/plataforma' },
+    { label: tNav('nav.domains'), href: '/dominios' },
+    { label: tNav('nav.why_illumine'), href: '/por-que-illumine' },
+    { label: tNav('nav.governance'), href: '/governanca' },
+    { label: tNav('nav.intelligence_center'), href: '/centro-de-inteligencia' },
   ];
 
   return (
@@ -68,6 +73,7 @@ export function InstitutionalLayout() {
 
           {/* Desktop Actions */}
           <div className="hidden lg:flex items-center gap-4">
+            <LanguageSelector />
             <Link 
               to="/login"
               className="text-[13px] font-semibold text-slate-400 hover:text-white transition-all px-4 py-2"
@@ -78,7 +84,7 @@ export function InstitutionalLayout() {
               to="/assessment"
               className="text-[13px] font-bold bg-white text-black px-6 py-2.5 rounded-full hover:scale-105 hover:bg-slate-100 transition-all duration-300 shadow-[0_0_30px_rgba(255,255,255,0.08)] flex items-center gap-2"
             >
-              Iniciar Executive Assessment
+              {tNav('nav.cta')}
             </Link>
           </div>
 
@@ -101,6 +107,7 @@ export function InstitutionalLayout() {
                 key={link.href} 
                 to={link.href}
                 className="text-slate-300 hover:text-white transition-colors"
+                onClick={() => setMobileMenuOpen(false)}
               >
                 {link.label}
               </Link>
@@ -110,14 +117,16 @@ export function InstitutionalLayout() {
             <Link 
               to="/assessment"
               className="text-center text-base font-semibold bg-white text-black px-6 py-4 rounded-full shadow-[0_0_20px_rgba(255,255,255,0.1)]"
+              onClick={() => setMobileMenuOpen(false)}
             >
-              Iniciar Executive Assessment™
+              {tNav('nav.cta')}™
             </Link>
             <Link 
               to="/login"
               className="text-center text-base font-medium text-slate-400 py-4 border border-white/10 rounded-full"
+              onClick={() => setMobileMenuOpen(false)}
             >
-              Login Plataforma
+              {tNav('nav.login')}
             </Link>
           </div>
         </div>
@@ -128,10 +137,8 @@ export function InstitutionalLayout() {
         <Outlet />
       </main>
 
-      {/* Footer */}
-      <footer className="border-t border-white/5 py-16 lg:py-24 mt-24 bg-[#050506] relative overflow-hidden">
-        {/* Subtle background glow */}
-        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[800px] h-[400px] bg-amber-500/5 rounded-full blur-[120px] pointer-events-none" />
+        {/* Footer */}
+      <footer className="border-t border-white/5 py-16 lg:py-24 bg-[#050506] relative overflow-hidden">
 
         <div className="max-w-7xl mx-auto px-6 grid grid-cols-1 md:grid-cols-12 gap-12 lg:gap-8 relative z-10">
           <div className="col-span-1 md:col-span-4 lg:col-span-5 pr-8">
@@ -146,36 +153,36 @@ export function InstitutionalLayout() {
             </Link>
             
             <p className="text-white text-xl font-medium tracking-tight leading-snug">
-              A inteligência amplia.<br />
-              <span className="text-amber-500">A decisão permanece humana.</span>
+              {tFooter('brand.principle_1')}<br />
+              <span className="text-amber-500">{tFooter('brand.principle_2')}</span>
             </p>
           </div>
           
           <div className="col-span-1 md:col-span-8 lg:col-span-7 grid grid-cols-1 sm:grid-cols-3 gap-12">
             <div>
-              <h4 className="text-[11px] font-bold uppercase tracking-widest text-slate-500 mb-6">Plataforma</h4>
+              <h4 className="text-[11px] font-bold uppercase tracking-widest text-slate-500 mb-6">{tFooter('sections.platform.title')}</h4>
               <ul className="space-y-4">
-                <li><Link to="/manifesto" className="text-[13px] font-medium text-slate-400 hover:text-amber-500 hover:translate-x-1 inline-block transition-all">Manifesto</Link></li>
-                <li><Link to="/plataforma" className="text-[13px] font-medium text-slate-400 hover:text-amber-500 hover:translate-x-1 inline-block transition-all">Infraestrutura</Link></li>
-                <li><Link to="/dominios" className="text-[13px] font-medium text-slate-400 hover:text-amber-500 hover:translate-x-1 inline-block transition-all">Domínios</Link></li>
-                <li><Link to="/enterprise" className="text-[13px] font-medium text-slate-400 hover:text-amber-500 hover:translate-x-1 inline-block transition-all">Enterprise</Link></li>
+                <li><Link to="/manifesto" className="text-[13px] font-medium text-slate-400 hover:text-amber-500 hover:translate-x-1 inline-block transition-all">{tFooter('sections.platform.manifesto')}</Link></li>
+                <li><Link to="/plataforma" className="text-[13px] font-medium text-slate-400 hover:text-amber-500 hover:translate-x-1 inline-block transition-all">{tFooter('sections.platform.infrastructure')}</Link></li>
+                <li><Link to="/dominios" className="text-[13px] font-medium text-slate-400 hover:text-amber-500 hover:translate-x-1 inline-block transition-all">{tFooter('sections.platform.domains')}</Link></li>
+                <li><Link to="/enterprise" className="text-[13px] font-medium text-slate-400 hover:text-amber-500 hover:translate-x-1 inline-block transition-all">{tFooter('sections.platform.enterprise')}</Link></li>
               </ul>
             </div>
 
             <div>
-              <h4 className="text-[11px] font-bold uppercase tracking-widest text-slate-500 mb-6">Ecossistema</h4>
+              <h4 className="text-[11px] font-bold uppercase tracking-widest text-slate-500 mb-6">{tFooter('sections.ecosystem.title')}</h4>
               <ul className="space-y-4">
-                <li><Link to="/centro-de-inteligencia" className="text-[13px] font-medium text-slate-400 hover:text-amber-500 hover:translate-x-1 inline-block transition-all">Executive Intelligence Center</Link></li>
-                <li><Link to="/network" className="text-[13px] font-medium text-slate-400 hover:text-amber-500 hover:translate-x-1 inline-block transition-all">Advisor Network</Link></li>
+                <li><Link to="/centro-de-inteligencia" className="text-[13px] font-medium text-slate-400 hover:text-amber-500 hover:translate-x-1 inline-block transition-all">{tFooter('sections.ecosystem.intelligence_center')}</Link></li>
+                <li><Link to="/network" className="text-[13px] font-medium text-slate-400 hover:text-amber-500 hover:translate-x-1 inline-block transition-all">{tFooter('sections.ecosystem.advisor_network')}</Link></li>
               </ul>
             </div>
 
             <div>
-              <h4 className="text-[11px] font-bold uppercase tracking-widest text-slate-500 mb-6">Confiança</h4>
+              <h4 className="text-[11px] font-bold uppercase tracking-widest text-slate-500 mb-6">{tFooter('sections.trust.title')}</h4>
               <ul className="space-y-4">
-                <li><Link to="/governanca" className="text-[13px] font-medium text-slate-400 hover:text-amber-500 hover:translate-x-1 inline-block transition-all">Trust Architecture</Link></li>
-                <li><Link to="/governanca" className="text-[13px] font-medium text-slate-400 hover:text-amber-500 hover:translate-x-1 inline-block transition-all">Security</Link></li>
-                <li><Link to="/privacidade" className="text-[13px] font-medium text-slate-400 hover:text-amber-500 hover:translate-x-1 inline-block transition-all">Privacy</Link></li>
+                <li><Link to="/governanca" className="text-[13px] font-medium text-slate-400 hover:text-amber-500 hover:translate-x-1 inline-block transition-all">{tFooter('sections.trust.trust_architecture')}</Link></li>
+                <li><Link to="/governanca" className="text-[13px] font-medium text-slate-400 hover:text-amber-500 hover:translate-x-1 inline-block transition-all">{tFooter('sections.trust.security')}</Link></li>
+                <li><Link to="/privacidade" className="text-[13px] font-medium text-slate-400 hover:text-amber-500 hover:translate-x-1 inline-block transition-all">{tFooter('sections.trust.privacy')}</Link></li>
               </ul>
             </div>
           </div>
@@ -183,14 +190,17 @@ export function InstitutionalLayout() {
         
         <div className="max-w-7xl mx-auto px-6 mt-20 pt-8 border-t border-white/5 flex flex-col md:flex-row items-center justify-between gap-4 relative z-10">
           <p className="text-slate-500 text-xs font-medium">
-            &copy; {new Date().getFullYear()} Illumine Governance. Todos os direitos reservados.
+            {tFooter('bottom.copyright', { year: new Date().getFullYear() })}
           </p>
           <div className="flex items-center gap-6 text-xs font-medium text-slate-500">
-            <Link to="/privacidade" className="hover:text-white transition-colors">Política de Privacidade</Link>
-            <Link to="/termos" className="hover:text-white transition-colors">Termos de Uso</Link>
+            <Link to="/privacidade" className="hover:text-white transition-colors">{tFooter('bottom.privacy_policy')}</Link>
+            <Link to="/termos" className="hover:text-white transition-colors">{tFooter('bottom.terms_of_use')}</Link>
           </div>
         </div>
       </footer>
+
+      {/* Executive Copilot Widget */}
+      <ExecutiveCopilotWidget />
     </div>
   );
 }

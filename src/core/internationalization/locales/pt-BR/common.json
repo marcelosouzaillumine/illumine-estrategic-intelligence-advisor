@@ -1,0 +1,17 @@
+{
+  "monthly": "Mensal",
+  "annual": "Anual",
+  "consolidated": "Consolidado",
+  "compliant": "Conforme",
+  "monitoring_active": "Monitoramento Ativo",
+  "healthy": "Saudável",
+  "attention": "Atenção",
+  "critical": "Crítico",
+  "on_rise": "Em Alta",
+  "on_fall": "Em Queda",
+  "stable": "Estável",
+  "pending": "Pendente",
+  "na": "N/A",
+  "value": "Valor",
+  "balance": "Saldo"
+}

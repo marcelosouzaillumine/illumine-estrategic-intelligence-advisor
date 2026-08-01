@@ -1,0 +1,31 @@
+{
+  "brand": {
+    "principle_1": "Intelligence amplifies.",
+    "principle_2": "The decision remains human."
+  },
+  "sections": {
+    "platform": {
+      "title": "Platform",
+      "manifesto": "Manifesto",
+      "infrastructure": "Infrastructure",
+      "domains": "Domains",
+      "enterprise": "Enterprise"
+    },
+    "ecosystem": {
+      "title": "Ecosystem",
+      "intelligence_center": "Executive Intelligence Center",
+      "advisor_network": "Advisor Network"
+    },
+    "trust": {
+      "title": "Trust",
+      "trust_architecture": "Trust Architecture™",
+      "security": "Security",
+      "privacy": "Privacy"
+    }
+  },
+  "bottom": {
+    "copyright": "© {{year}} Illumine Governance. All rights reserved.",
+    "privacy_policy": "Privacy Policy",
+    "terms_of_use": "Terms of Use"
+  }
+}

@@ -36,9 +36,10 @@ import { BalanceSheetStructuralTablesSection } from './balance-sheet/BalanceShee
 import { BalanceSheetCapitalPreservationSection } from './balance-sheet/BalanceSheetCapitalPreservationSection';
 import { ImportFinancialModal } from '../modals/ImportFinancialModal';
 import { ManualFinancialModal } from '../modals/ManualFinancialModal';
+import { ExecutiveVerdictCard } from '../ui/ExecutiveVerdictCard';
+import { ExecutiveSummaryCard } from '../ui/ExecutiveSummaryCard';
 import { ExecutiveLocaleEnforcer } from '../../core/enforcement/ExecutiveLocaleEnforcer';
 import { ExecutiveIntelligenceShell } from '../executive/ExecutiveIntelligenceShell';
-import { ExecutiveDecisionIntelligenceMount } from '../executive/ExecutiveDecisionIntelligenceMount';
 import { SandboxWarningOverlay } from '../executive-interaction/SandboxWarningOverlay';
 import { BPStrategicDiagnosisAdapter } from './balance-sheet/adapters/BPStrategicDiagnosisAdapter';
 import { useExecutivePage } from '../../hooks/useExecutivePage';
@@ -46,14 +47,14 @@ import { useBalanceSheetPageViewModel } from '../../capabilities/financial/prese
 import { ExecutiveBrief } from '../executive-architecture/ExecutiveBrief';
 import { InstitutionalDecisionOS } from '../../../packages/intelligence/executive-intelligence-layer/src/orchestration/InstitutionalDecisionOS';
 import { ExecutiveBriefPresenter } from '../../viewmodels/ExecutiveBriefPresenter';
+import { ExecutiveDashboardRenderer } from '../ui/ExecutiveDashboardRenderer';
 
 export function BalanceSheetPage(props: any) {
   const { state, computed, actions } = useBalanceSheetPageViewModel(props);
   const { clients, selectedClient, selectedYear } = props;
   
   const { filterYear, densityLevel, toast, deleting, showDeleteConfirm, showImportModal, showManualModal, showCamada2, showCamada3, showFullStressTests, userRole, isGenerating, engineError } = state;
-  const { profile, financialEntries, dreDbData, dlpaDbData, cashFlowDbData, allHistoryData, loadingBP, rows, bpSummary, ebitda, lucroLiquido, executiveViewModel, financialAnalyticsViewModel, loadingHistory, historicalFinancialSeries, t, hasBalanceSheetData, executiveReport, patrimonialIntelligenceReport, strategicTensions, financialIndicators,
-ativoTotal, passivoTotal, plValue, ac, anc, pc, pnc, isBalanced, divergence, cx, est, clientes, fornecedores, passivosFinanceiros, capitalSocial, valorPrejuizo, valAltaConversibilidade, valMediaConversibilidade, valBaixaConversibilidade, valConversibilidadeRestrita, creditosSocios, chartData, historyByYear, comparativeAnalysis, ativoData, passivoData, COLORS, resilienciaGlobal, maturidade } = computed;
+  const { profile, financialEntries, dreDbData, dlpaDbData, cashFlowDbData, allHistoryData, loadingBP, rows, bpSummary, ebitda, lucroLiquido, executiveViewModel, financialAnalyticsViewModel, loadingHistory, historicalFinancialSeries, t, hasBalanceSheetData, executiveReport, patrimonialIntelligenceReport, strategicTensions, financialIndicators, assessment, ativoTotal, passivoTotal, plValue, ac, anc, pc, pnc, isBalanced, divergence, cx, est, clientes, fornecedores, passivosFinanceiros, capitalSocial, valorPrejuizo, valAltaConversibilidade, valMediaConversibilidade, valBaixaConversibilidade, valConversibilidadeRestrita, creditosSocios, chartData, historyByYear, comparativeAnalysis, ativoData, passivoData, COLORS, resilienciaGlobal, maturidade } = computed;
   const { setFilterYear, setDensityLevel, setToast, setDeleting, setShowDeleteConfirm, setShowImportModal, setShowManualModal, setShowCamada2, setShowCamada3, setShowFullStressTests, refetchBP, handleDelete, translateLabel, showToast, isSectionVisible, setIsGenerating, setEngineError } = actions;
 
   // --- TELEMETRY ---
@@ -108,24 +109,6 @@ ativoTotal, passivoTotal, plValue, ac, anc, pc, pnc, isBalanced, divergence, cx,
     };
   }, [ativoTotal, passivoTotal, plValue, pc, ac, ebitda, lucroLiquido, executiveReport]);
 
-  // Executive Intelligence Engine
-  const executiveBriefData = useMemo(() => {
-    // Generate synthetic financial payload based on current DB state
-    const financialData = {
-      assets: bpFinancialMetrics.ativoTotal,
-      liabilities: bpFinancialMetrics.passivoTotal,
-      equity: bpFinancialMetrics.patrimonioLiquido,
-      liquidity: bpFinancialMetrics.liquidezCorrente,
-      ebitda: bpFinancialMetrics.ebitda,
-      revenue: (bpFinancialMetrics as any).receitaLiquida || bpFinancialMetrics.ebitda * 3, // fallback if missing
-    };
-    
-    // Use the backend cognitive engine
-    const evidencePackage = InstitutionalDecisionOS.run(financialData);
-    
-    // Adapt to UI
-    return ExecutiveBriefPresenter.present(evidencePackage);
-  }, [bpFinancialMetrics]);
 
   return (
     <ExecutiveIntelligenceShell pageTitle="Balanço Patrimonial" pageContext="BalanceSheetPage">
@@ -179,120 +162,12 @@ ativoTotal, passivoTotal, plValue, ac, anc, pc, pnc, isBalanced, divergence, cx,
         </div>
       ) : (
         <>
-          <ExecutiveDecisionIntelligenceMount
-            pageId="BalanceSheetPage"
-            companyId={String(selectedClient || 'comp-1')}
-            companyName={activeClientName}
-            period={String(filterYear || selectedYear || 2026)}
-            financialData={bpFinancialMetrics}
-          />
-          {(executiveReport?.isSandbox || executiveReport?.isDemonstrative) && (
-            <SandboxWarningOverlay type={executiveReport.isSandbox ? 'sandbox' : 'demonstrative'} />
+          {assessment && (
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-12 animate-in fade-in slide-in-from-top-4 duration-500">
+              <ExecutiveVerdictCard assessment={assessment} />
+              <ExecutiveSummaryCard assessment={assessment} />
+            </div>
           )}
-          <div className="space-y-6 mb-12">
-            {executiveViewModel && patrimonialIntelligenceReport && (
-              <>
-
-                {/* --- 0. SÍNTESE DO CONSELHO (CAMADA 1 SOBERANA) --- */}
-                <div className="mb-8">
-                  <ExecutiveBrief data={executiveBriefData} />
-                </div>
-
-                {/* --- 0. INSTITUTIONAL CONTEXT --- */}
-                <BalanceSheetInstitutionalContextSection 
-                  context={executiveViewModel.institutionalContext!} 
-                />
-
-                <div className="space-y-6 mb-12">
-                  
-                  {/* --- 1. PATRIMONIAL THESIS & BOARD ADVISORY --- */}
-                  {/* (Retired) A antiga tese textual foi substituída pela seção de Diagnóstico Estratégico (Executive Synthesis) */}
-
-                  {/* ── Comentário Executivo ─────────────────────────────────────────── */}
-                  {executiveReport && bpExecutiveAnalysisContext && (
-                    <BalanceSheetExecutiveSynthesisSection 
-                      executiveNarrative={executiveViewModel.executiveOpinion || 'Nenhuma narrativa disponível para este exercício.'}
-                      context={bpExecutiveAnalysisContext}
-                      selectedYear={filterYear}
-                    />
-                  )}
-
-                  {/* --- 7. PLANO EXECUTIVO --- */}
-                  <BalanceSheetExecutivePlan 
-                    executiveAnalysisContext={bpExecutiveAnalysisContext}
-                    planFinanceiro={executiveViewModel.planFinanceiro}
-                    planOperacional={executiveViewModel.planOperacional}
-                    planGovernanca={executiveViewModel.planGovernanca}
-                    dominantRiskFamily={executiveViewModel.dominantRiskFamily}
-                    strategicSeverity={executiveViewModel.strategicSeverity}
-                    strategicSeverityReason={executiveViewModel.strategicSeverityReason}
-                  />
-
-                  {/* --- MACRO TEMA: PROTEÇÃO FINANCEIRA --- */}
-                  <div className="mt-12 mb-8">
-                    <ExecutiveHeading as="h2" variant="moduleTitle" className="mb-2">Proteção Financeira</ExecutiveHeading>
-                    <ExecutiveText as="div" variant="moduleSubtitle" className="mb-6">Avaliação da capacidade de sobrevivência, proteção contra choques e solvência no curto e longo prazo.</ExecutiveText>
-                    
-                    <BalanceSheetCapitalPreservationSection 
-                      panel={executiveViewModel.decisionPanels.protection}
-                    />
-
-                    <BalanceSheetLiquiditySection 
-                      panel={executiveViewModel.decisionPanels.liquidity}
-                    />
-                  </div>
-
-                  {/* --- MACRO TEMA: ESTRUTURA PATRIMONIAL --- */}
-                  <div className="mt-12 mb-8 border-t border-border pt-8">
-                    <ExecutiveHeading as="h2" variant="moduleTitle" className="mb-2">Estrutura Patrimonial</ExecutiveHeading>
-                    <ExecutiveText as="div" variant="moduleSubtitle" className="mb-6">Análise do perfil de endividamento e do ciclo de giro que sustenta as operações.</ExecutiveText>
-
-                    <BalanceSheetCapitalStructureSection 
-                      panel={executiveViewModel.decisionPanels.capitalStructure}
-                    />
-
-                    <BalanceSheetWorkingCapitalSection 
-                      panel={executiveViewModel.decisionPanels.workingCapital}
-                    />
-                  </div>
-
-                  {/* --- MACRO TEMA: GERAÇÃO DE VALOR E EFICIÊNCIA --- */}
-                  <div className="mt-12 mb-8 border-t border-border pt-8">
-                    <ExecutiveHeading as="h2" variant="moduleTitle" className="mb-2">Eficiência de Alocação de Capital</ExecutiveHeading>
-                    <ExecutiveText as="div" variant="moduleSubtitle" className="mb-6">Avaliação da eficiência na alocação de capital e produtividade dos ativos.</ExecutiveText>
-
-                    {/* NOTE: Asset Quality is now fetched from ViewModel correctly */}
-                    <BalanceSheetAssetQualitySection 
-                      panel={executiveViewModel.decisionPanels.assetQuality}
-                    />
-
-                    <BalanceSheetCapitalEfficiencySection 
-                      panel={executiveViewModel.decisionPanels.capitalEfficiency}
-                    />
-                  </div>
-
-                  {/* --- 5. TENSÕES ESTRATÉGICAS --- */}
-                  {strategicTensions && strategicTensions.length > 0 && (
-                    <div className="mt-12 mb-8 border-t border-border pt-8">
-                      <ExecutiveStrategicTensions tensions={strategicTensions} />
-                    </div>
-                  )}
-
-                  {/* --- RASTREABILIDADE MOVIDA PARA A GOVERNANÇA --- */}
-
-                  {/* --- 6. GOVERNANÇA METODOLÓGICA E RESTRIÇÕES ESTRUTURAIS --- */}
-                  <div className="mt-12 mb-8 border-t border-border pt-8">
-                    <BalanceSheetAuditLayerSection 
-                      viewModel={executiveViewModel.auditLayer!}
-                      decisionTrace={executiveViewModel.decisionTrace!}
-                    />
-                  </div>
-                </div>
-
-              </>
-            )}
-          </div>
-
           <ExecutiveAccordion
             variant="analytics"
             defaultExpanded

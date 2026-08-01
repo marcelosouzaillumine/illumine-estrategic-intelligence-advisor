@@ -1,0 +1,10 @@
+{
+  "warning": "Si se mantiene la política de dividendos actual ($15M/semestre), el runway operativo se reducirá a 2 meses en el Q3.",
+  "justification": "Respaldado por 24 meses de historial contable y operativo verificado.",
+  "ui": {
+    "trace_title": "Traza de Deliberación",
+    "approval": "Aprobación de Distribución de Utilidades",
+    "conflict": "Entra en conflicto con la Directiva de Estabilización de Liquidez (CRÍTICO)",
+    "intervention": "Intervención Fiduciaria Requerida"
+  }
+}

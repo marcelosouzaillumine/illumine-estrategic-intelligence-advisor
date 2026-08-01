@@ -1,0 +1,130 @@
+{
+  "hero": {
+    "label": "Governance & Trust Architecture™",
+    "title": "La inteligencia amplifica.\nLa decisión sigue siendo puramente humana.",
+    "lead": "La plataforma Illumine fue diseñada para operar en consejos de administración y equipos ejecutivos bajo rigurosos controles fiduciarios y de aislamiento de datos.",
+    "narrative": "No entrenamos modelos con los datos de su compañía. Construimos un Gemelo Digital Institucional estrictamente aislado."
+  },
+  "sections": {
+    "principles": {
+      "title": "Nuestros Principios Fundamentales",
+      "description": "Pilares de gobernanza que sustentan nuestra arquitectura corporativa."
+    }
+  },
+  "page_hero": {
+    "label": "Gobernanza y Confianza",
+    "title": "Toda recomendación puede ser explicada. Toda decisión puede ser rastreada. Todo contexto puede ser preservado.",
+    "lead": "Illumine fue desarrollada para organizaciones que necesitan tomar decisiones relevantes con transparencia, responsabilidad fiduciaria y confianza institucional. No reemplaza el juicio humano. Amplía su capacidad de decidir en base a evidencias, contexto y memoria organizacional.",
+    "cta": "Conozca nuestra Trust Architecture™"
+  },
+  "challenge": {
+    "title": "El problema no es solo decidir.",
+    "subtitle": "Es lograr explicar, justificar y preservar el contexto de cada decisión.",
+    "narrative1": "En organizaciones complejas, las decisiones relevantes involucran múltiples áreas, diferentes premisas e impactos que se extienden por años. Cuando este contexto se pierde, la organización pierde su capacidad de aprender, evolucionar y responder con consistencia a los desafíos futuros.",
+    "narrative2": "La gobernanza moderna exige más que registros. Exige inteligencia institucional."
+  },
+  "principles_section": {
+    "label": "Principios Fundacionales",
+    "title": "La confianza no es un recurso. Es una arquitectura.",
+    "lead": "Illumine fue construida sobre principios que orientan todo el funcionamiento de la plataforma.",
+    "list": {
+      "p1": {
+        "title": "Evidencias antes que conclusiones",
+        "description": "Ninguna recomendación debe existir sin evidencias que la respalden."
+      },
+      "p2": {
+        "title": "Explicabilidad",
+        "description": "Cada recomendación presenta los factores considerados, las premisas adoptadas y el razonamiento utilizado para llegar a la conclusión."
+      },
+      "p3": {
+        "title": "Trazabilidad",
+        "description": "Todo proceso de toma de decisiones puede ser reconstruido posteriormente, preservando el contexto, los datos y las justificaciones."
+      },
+      "p4": {
+        "title": "Memoria Institucional",
+        "description": "Las decisiones dejan de depender exclusivamente de las personas y pasan a integrar el patrimonio intelectual de la organización."
+      },
+      "p5": {
+        "title": "Supervisión Humana",
+        "description": "La responsabilidad permanece en los ejecutivos. La plataforma amplía el análisis, pero no reemplaza el juicio."
+      }
+    }
+  },
+  "architecture_section": {
+    "label": "Trust Architecture™",
+    "title": "Una arquitectura diseñada para decisiones críticas.",
+    "lead": "Cada capa preserva su origen, sus evidencias y su contribución al resultado final.",
+    "nodes": {
+      "n1": "Datos",
+      "n2": "Contexto",
+      "n3": "Análisis",
+      "n4": "Recomendación",
+      "n5": "Decisión Humana"
+    }
+  },
+  "explainable_section": {
+    "label": "Transparencia Algorítmica",
+    "title": "Explainable Intelligence™",
+    "lead": "Toda recomendación generada por la plataforma está diseñada para responder a tres preguntas fundamentales del liderazgo ejecutivo.",
+    "questions": {
+      "q1": {
+        "q": "¿Qué se identificó?",
+        "a": "El diagnóstico producido por el modelo institucional."
+      },
+      "q2": {
+        "q": "¿Por qué se llegó a esta conclusión?",
+        "a": "Los factores, las evidencias y las relaciones que influyeron en la recomendación."
+      },
+      "q3": {
+        "q": "¿Cuál podría ser el impacto?",
+        "a": "Las posibles consecuencias financieras, operativas y estratégicas en caso de que las premisas permanezcan inalteradas."
+      }
+    }
+  },
+  "memory_section": {
+    "title": "Institutional Decision Memory™",
+    "lead": "Las organizaciones aprenden cuando sus decisiones permanecen accesibles. Illumine preserva el contexto de decisiones relevantes, incluyendo:",
+    "items": [
+      "Objetivos originales",
+      "Premisas utilizadas",
+      "Evidencias consideradas",
+      "Alternativas evaluadas",
+      "Responsables",
+      "Impactos esperados",
+      "Resultados obtenidos"
+    ],
+    "footer": "Con el tiempo, este historial se transforma en un activo institucional que fortalece la consistencia de futuras decisiones."
+  },
+  "evidence_section": {
+    "title": "Evidencia e Integridad",
+    "lead": "La confianza comienza por la calidad de la información. Cada análisis considera factores cruciales para garantizar la integridad del proceso:",
+    "items": [
+      "Origen de los datos",
+      "Actualización de la información",
+      "Integridad de los registros",
+      "Consistencia histórica",
+      "Nivel de confianza del análisis"
+    ],
+    "footer": "Esto permite a los ejecutivos comprender no solo la conclusión, sino también la solidez de las evidencias que la sustentan."
+  },
+  "security_section": {
+    "title": "Seguridad y Privacidad",
+    "lead": "La inteligencia exige protección.",
+    "narrative1": "La arquitectura de Illumine incorpora principios de seguridad y protección de la información compatibles con entornos corporativos, preservando la confidencialidad, la integridad y la disponibilidad de los datos utilizados en sus análisis.",
+    "narrative2": "La plataforma fue concebida para operar con controles de acceso, trazabilidad de acciones y mecanismos de protección compatibles con organizaciones que manejan información estratégica."
+  },
+  "human_section": {
+    "title": "La mejor inteligencia sigue siendo la",
+    "title_highlight": "inteligencia humana.",
+    "subtitle": "Illumine no automatiza la responsabilidad.",
+    "narrative1": "Amplía la capacidad analítica de los ejecutivos al conectar datos, contexto y conocimiento institucional en una visión integrada, preservando la autonomía y la responsabilidad de quien decide.",
+    "narrative2": "La tecnología reduce el esfuerzo necesario para comprender escenarios complejos. El juicio, la responsabilidad y la decisión permanecen en el liderazgo."
+  },
+  "conclusion": {
+    "title": "La confianza no nace de la tecnología.",
+    "subtitle": "Nace de la capacidad de comprender, justificar y preservar cada decisión.",
+    "lead": "Es por eso que Illumine fue concebida como una plataforma de Executive Intelligence, donde la inteligencia artificial, la gobernanza corporativa y el juicio humano actúan de forma complementaria para fortalecer las decisiones estratégicas.",
+    "cta1": "Programar una Demostración Ejecutiva",
+    "cta2": "Conocer la Plataforma"
+  }
+}

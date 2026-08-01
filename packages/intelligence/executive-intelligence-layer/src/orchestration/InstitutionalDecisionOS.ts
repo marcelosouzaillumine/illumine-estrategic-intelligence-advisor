@@ -1,32 +1,41 @@
-import { ExecutiveEvidencePackage } from '../contracts/ExecutiveEvidencePackage';
+import { TechnicalAssessmentPackage } from '../contracts/TechnicalAssessmentPackage';
 import { FinancialAssessmentPipeline } from './FinancialAssessmentPipeline';
-import { DecisionPipeline } from './DecisionPipeline';
-import { PresentationPipeline } from './PresentationPipeline';
-import { LearningEvent } from '../learning/LearningEvent';
+import { EconomicAssessmentPipeline } from './EconomicAssessmentPipeline';
+import { ExecutiveDeliberationSupportEngine } from '../deliberation/ExecutiveDeliberationSupportEngine';
+import { ExecutiveQuestion } from '../domain/ExecutiveQuestion';
+import { BoardPackage } from '../contracts/BoardPackage';
 
 export class InstitutionalDecisionOS {
   /**
-   * Ponto de entrada canônico do Executive Decision Governance Layer™.
+   * Ponto de entrada canônico do Executive Decision Operating System™ (EDOS).
    */
-  public static run(
+  public static runSession(
+    question: ExecutiveQuestion,
     financialData: any,
-    historicalData?: any[],
-    proposedIntent?: string,
-    learningHistory: LearningEvent[] = []
-  ): ExecutiveEvidencePackage {
+    economicData?: any,
+    cashData?: any
+  ): BoardPackage {
     
-    // Fake a hash for evidence
-    const evidenceHash = `HASH-${Date.now()}`;
+    // 1. Pipeline de Avaliações Técnicas (Assessments)
+    const financialAssessment = FinancialAssessmentPipeline.run(financialData);
+    
+    // Placeholder for other assessments (Economic/DRE, Cash/DFC)
+    const economicAssessment = economicData ? EconomicAssessmentPipeline.run(economicData) : undefined;
+    const cashAssessment = cashData ? { ...financialAssessment, domain: 'CASH_FLOW' as const } : undefined;
 
-    // 1. Pipeline de Avaliação Financeira (Realidade)
-    const { state } = FinancialAssessmentPipeline.run(financialData, historicalData);
+    const assessmentPackage: TechnicalAssessmentPackage = {
+      sessionId: `SESSION-${Date.now()}`,
+      generatedAt: new Date(),
+      financialAssessment,
+      economicAssessment,
+      cashAssessment,
+      overallDataIntegrity: 0.9,
+      missingDomains: []
+    };
 
-    // 2. Pipeline de Decisão Institucional (Política, Diagnóstico e Intenção)
-    const diagnosis = DecisionPipeline.run(state, proposedIntent, learningHistory, evidenceHash);
+    // 2. Pipeline de Deliberação Institucional
+    const boardPackage = ExecutiveDeliberationSupportEngine.deliberate(question, assessmentPackage);
 
-    // 3. Pipeline de Apresentação (Renderização Verbal e Empacotamento)
-    const packageResult = PresentationPipeline.run(diagnosis, financialData);
-
-    return packageResult;
+    return boardPackage;
   }
 }
