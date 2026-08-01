@@ -1,6 +1,6 @@
 import { ExecutiveText } from '../ui/executive-typography';
 import { ExecutiveHeading } from '../ui/executive-heading';
-import React from 'react';
+import React, { useMemo } from 'react';
 import { createPortal } from 'react-dom';
 import { Calendar, Loader2, Upload, Trash2, Plus, BarChart3, Database } from 'lucide-react';
 import { cn } from '../../lib/utils';
@@ -23,6 +23,9 @@ import { DRETechnicalLayerSection } from './dre/DRETechnicalLayerSection';
 import { useDREPageViewModel } from './dre/useDREPageViewModel';
 import { ExecutiveIntelligenceShell } from '../executive/ExecutiveIntelligenceShell';
 import { ExecutiveDecisionIntelligenceMount } from '../executive/ExecutiveDecisionIntelligenceMount';
+import { ExecutiveBrief } from '../executive-architecture/ExecutiveBrief';
+import { InstitutionalDecisionOS } from '../../../packages/intelligence/executive-intelligence-layer/src/orchestration/InstitutionalDecisionOS';
+import { ExecutiveBriefPresenter } from '../../viewmodels/ExecutiveBriefPresenter';
 
 export function DREPage({ clients, selectedClient, selectedYear }: any) {
   const { state, computed, actions } = useDREPageViewModel(clients, selectedClient, selectedYear);
@@ -45,6 +48,24 @@ export function DREPage({ clients, selectedClient, selectedYear }: any) {
 
   const activeClientObj = clients?.find((c: any) => c.id === selectedClient);
   const activeClientName = activeClientObj?.nomeFantasia || activeClientObj?.razaoSocial || activeClientObj?.nome || 'Empresa Ativa';
+
+  // Executive Intelligence Engine
+  const executiveBriefData = useMemo(() => {
+    // Generate synthetic financial payload based on current DB state
+    const kpis = dreViewModel?.executiveMetrics || executiveReport?.canonicalState?.kpis || {} as any;
+    const financialData = {
+      revenue: kpis.receitaLiquida || kpis.revenue || 0,
+      ebitda: kpis.ebitda || 0,
+      equity: 500000, // mock placeholder
+      liquidity: 1.2, // mock placeholder
+    };
+    
+    // Use the backend cognitive engine
+    const evidencePackage = InstitutionalDecisionOS.run(financialData);
+    
+    // Adapt to UI
+    return ExecutiveBriefPresenter.present(evidencePackage);
+  }, [dreViewModel, executiveReport]);
 
   return (
     <ExecutiveIntelligenceShell pageTitle="Demonstração do Resultado (DRE)" pageContext="DREPage" companyName={activeClientName}>
@@ -125,21 +146,9 @@ export function DREPage({ clients, selectedClient, selectedYear }: any) {
             <SandboxWarningOverlay type={executiveReport.isSandbox ? 'sandbox' : 'demonstrative'} />
           )}
           {/* --- CAMADA 1: NÍVEL CONSELHO (SÍNTESE SOBERANA DA DRE) --- */}
-          <ExecutiveSummarySection 
-            className="mb-8"
-            status={{ 
-              label: dreViewModel?.policy?.economicPositioning || 'DRE Auditada', 
-              variant: dreViewModel?.policy?.executiveDiagnosis?.severityState === 'critical' ? 'critical' : dreViewModel?.policy?.executiveDiagnosis?.severityState === 'warning' ? 'warning' : 'success' 
-            }}
-            question="Qual a eficiência operacional e a margem de contribuição do exercício?"
-            opinion={dreViewModel?.policy?.executiveDiagnosis?.currentSituation || "O comitê fiduciário homologa a DRE, analisando a evolução da margem EBITDA, controle de custos e rentabilidade líquida."}
-            driver={dreViewModel?.policy?.executiveDiagnosis?.primaryEconomicDriver || "Receita líquida, custos variáveis, despesas operacionais e resultado financeiro."}
-            implication={dreViewModel?.policy?.executiveDiagnosis?.operationalOutlook || "Geração de valor operacional para suportar o plano de crescimento e sustentabilidade."}
-            action={dreViewModel?.policy?.executiveDiagnosis?.primaryRecommendation || "Otimizar estrutura de custos variáveis e despesas operacionais para expandir a margem operacional."}
-          >
-            <ExecutiveStrategicTensions tensions={[]} />
-            <ExecutiveDecisionTrace trace={[]} />
-          </ExecutiveSummarySection>
+          <div className="mb-8">
+            <ExecutiveBrief data={executiveBriefData} />
+          </div>
 
           {/* --- CAMADA 2: DIRETORIA & DRE ESTRUTURAL --- */}
           {isSectionVisible('DRE_ADVISORY') && dreViewModel?.policy?.executiveDiagnosis && (

@@ -21,8 +21,8 @@ export class FinancialIntegrityEngine {
     let score = 100;
 
     // Sub-validadores Modulares
-    const bsBlocker = BalanceSheetValidator.validate(financialData);
-    if (bsBlocker) blockers.push(bsBlocker);
+    const bsResult = BalanceSheetValidator.validate(financialData);
+    if (bsResult.blockers.length > 0) blockers.push(...bsResult.blockers);
 
     const liqBlocker = LiquidityIntegrityRules.validate(financialData);
     if (liqBlocker) blockers.push(liqBlocker);

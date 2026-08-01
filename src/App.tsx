@@ -92,10 +92,13 @@ import { LoginPage } from './components/pages/public/LoginPage';
 import { InstitutionalLayout } from './components/pages/public/v2/InstitutionalLayout';
 import { InstitutionalHomePage } from './components/pages/public/v2/InstitutionalHomePage';
 import { InstitutionalPlatformPage } from './components/pages/public/v2/InstitutionalPlatformPage';
-import { InstitutionalThesisPage } from './components/pages/public/v2/InstitutionalThesisPage';
 import { InstitutionalManifestoPage } from './components/pages/public/v2/InstitutionalManifestoPage';
 import { InstitutionalWhyPage } from './components/pages/public/v2/InstitutionalWhyPage';
 import { ExecutiveAssessmentPage } from './components/pages/public/v2/ExecutiveAssessmentPage';
+import { InstitutionalDomainsPage } from './components/pages/public/v2/InstitutionalDomainsPage';
+import { InstitutionalGovernancePage } from './components/pages/public/v2/InstitutionalGovernancePage';
+import { InstitutionalIntelligenceCenterPage } from './components/pages/public/v2/InstitutionalIntelligenceCenterPage';
+import { ExecutiveIntelligenceCenterPage } from './components/pages/public/v2/ExecutiveIntelligenceCenterPage';
 import { ForcePasswordChangeModal } from './components/modals/ForcePasswordChangeModal';
 import { ConsolidatedExecutiveProvider } from './context/ConsolidatedExecutiveContext';
 import { ConsolidatedExecutivePage } from './components/pages/ConsolidatedExecutivePage';
@@ -490,10 +493,14 @@ export default function App() {
                   {/* Institutional V2 Routes */}
                   <Route element={<InstitutionalLayout />}>
                     <Route path="/" element={<InstitutionalHomePage />} />
-                    <Route path="/tese" element={<InstitutionalThesisPage />} />
+                    <Route path="/tese" element={<Navigate to="/manifesto" replace />} />
                     <Route path="/manifesto" element={<InstitutionalManifestoPage />} />
                     <Route path="/por-que-illumine" element={<InstitutionalWhyPage />} />
                     <Route path="/plataforma" element={<InstitutionalPlatformPage />} />
+                    <Route path="/dominios" element={<InstitutionalDomainsPage />} />
+                    <Route path="/governanca" element={<InstitutionalGovernancePage />} />
+                    <Route path="/centro-de-inteligencia" element={<InstitutionalIntelligenceCenterPage />} />
+                    <Route path="/intelligence-center" element={<ExecutiveIntelligenceCenterPage />} />
                     <Route path="/assessment" element={<ExecutiveAssessmentPage />} />
                     <Route path="/contato" element={
                         <div className="min-h-screen bg-[#0A0A0B] flex flex-col items-center justify-center p-6 text-center">

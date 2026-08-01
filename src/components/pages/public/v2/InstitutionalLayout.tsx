@@ -22,11 +22,12 @@ export function InstitutionalLayout() {
   }, [location.pathname]);
 
   const navLinks = [
-    { label: 'Tese', href: '/manifesto' },
+    { label: 'Manifesto', href: '/manifesto' },
     { label: 'Plataforma', href: '/plataforma' },
     { label: 'Domínios', href: '/dominios' },
-    { label: 'Ecossistema', href: '/ecossistema' },
+    { label: 'Por que Illumine', href: '/por-que-illumine' },
     { label: 'Governança', href: '/governanca' },
+    { label: 'Centro de Inteligência', href: '/centro-de-inteligencia' },
   ];
 
   return (
@@ -34,36 +35,31 @@ export function InstitutionalLayout() {
       {/* Navbar */}
       <header
         className={cn(
-          "fixed top-0 left-0 right-0 z-50 transition-all duration-300 border-b",
+          "fixed top-0 left-0 right-0 z-50 transition-all duration-500 border-b",
           isScrolled 
-            ? "bg-[#0A0A0B]/80 backdrop-blur-md border-white/5 py-4" 
-            : "bg-transparent border-transparent py-6"
+            ? "bg-[#0A0A0B]/80 backdrop-blur-xl border-white/5 py-4" 
+            : "bg-transparent border-transparent py-8"
         )}
       >
         <div className="max-w-7xl mx-auto px-6 flex items-center justify-between">
           {/* Logo */}
-          <Link to="/" className="flex flex-col items-start group">
+          <Link to="/" className="flex items-center gap-2 group">
+            <img src="/logo.png" alt="Illumine" className="w-8 h-8 object-contain transition-transform group-hover:scale-105 duration-500" />
             <span 
-              className="text-3xl tracking-[-0.04em] text-white leading-[0.8] block group-hover:text-primary transition-colors" 
+              className="text-3xl tracking-[-0.04em] text-white leading-[0.8] block group-hover:text-amber-500 transition-colors duration-500" 
               style={{ fontFamily: '"Tilt Warp", sans-serif' }}
             >
               illumine
             </span>
-            <div 
-              className="flex justify-between w-full text-[7px] text-white/70 uppercase mt-[2px] whitespace-nowrap tracking-widest" 
-              style={{ fontFamily: '"Work Sans", sans-serif', paddingLeft: '2px' }}
-            >
-              Governance
-            </div>
           </Link>
 
           {/* Desktop Nav */}
-          <nav className="hidden lg:flex items-center gap-8">
+          <nav className="hidden lg:flex items-center gap-6 xl:gap-10">
             {navLinks.map((link) => (
               <Link 
                 key={link.href} 
                 to={link.href}
-                className="text-sm font-medium text-slate-400 hover:text-white transition-colors"
+                className="text-[13px] font-semibold text-slate-400 hover:text-white transition-all duration-300 hover:-translate-y-0.5 whitespace-nowrap"
               >
                 {link.label}
               </Link>
@@ -74,15 +70,15 @@ export function InstitutionalLayout() {
           <div className="hidden lg:flex items-center gap-4">
             <Link 
               to="/login"
-              className="text-sm font-medium text-slate-400 hover:text-white transition-colors px-4 py-2"
+              className="text-[13px] font-semibold text-slate-400 hover:text-white transition-all px-4 py-2"
             >
               Login
             </Link>
             <Link 
               to="/assessment"
-              className="text-sm font-semibold bg-white text-black px-5 py-2.5 rounded-full hover:bg-slate-200 transition-colors flex items-center gap-2"
+              className="text-[13px] font-bold bg-white text-black px-6 py-2.5 rounded-full hover:scale-105 hover:bg-slate-100 transition-all duration-300 shadow-[0_0_30px_rgba(255,255,255,0.08)] flex items-center gap-2"
             >
-              Solicitar Assessment
+              Iniciar Executive Assessment
             </Link>
           </div>
 
@@ -113,9 +109,9 @@ export function InstitutionalLayout() {
           <div className="mt-auto mb-12 flex flex-col gap-4">
             <Link 
               to="/assessment"
-              className="text-center text-base font-semibold bg-white text-black px-6 py-4 rounded-full"
+              className="text-center text-base font-semibold bg-white text-black px-6 py-4 rounded-full shadow-[0_0_20px_rgba(255,255,255,0.1)]"
             >
-              Solicitar Assessment
+              Iniciar Executive Assessment™
             </Link>
             <Link 
               to="/login"
@@ -133,67 +129,63 @@ export function InstitutionalLayout() {
       </main>
 
       {/* Footer */}
-      <footer className="border-t border-white/5 py-12 lg:py-24 mt-24 bg-[#050506]">
-        <div className="max-w-7xl mx-auto px-6 grid grid-cols-1 md:grid-cols-5 gap-12 lg:gap-8">
-          <div className="col-span-1 md:col-span-2">
-            <Link to="/" className="flex flex-col items-start mb-6 inline-flex">
+      <footer className="border-t border-white/5 py-16 lg:py-24 mt-24 bg-[#050506] relative overflow-hidden">
+        {/* Subtle background glow */}
+        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[800px] h-[400px] bg-amber-500/5 rounded-full blur-[120px] pointer-events-none" />
+
+        <div className="max-w-7xl mx-auto px-6 grid grid-cols-1 md:grid-cols-12 gap-12 lg:gap-8 relative z-10">
+          <div className="col-span-1 md:col-span-4 lg:col-span-5 pr-8">
+            <Link to="/" className="flex items-center gap-2 mb-6 inline-flex group">
+              <img src="/logo.png" alt="Illumine" className="w-8 h-8 object-contain transition-transform group-hover:scale-105 duration-500" />
               <span 
                 className="text-3xl tracking-[-0.04em] text-white leading-[0.8] block" 
                 style={{ fontFamily: '"Tilt Warp", sans-serif' }}
               >
                 illumine
               </span>
-              <div 
-                className="flex justify-between w-full text-[7px] text-white/70 uppercase mt-[2px] whitespace-nowrap tracking-widest" 
-                style={{ fontFamily: '"Work Sans", sans-serif', paddingLeft: '2px' }}
-              >
-                Governance
-              </div>
             </Link>
-            <p className="text-slate-400 text-sm max-w-sm mb-8">
-              A camada de inteligência entre a organização e suas decisões estratégicas.
-            </p>
-            <p className="text-white font-medium text-lg leading-tight">
+            
+            <p className="text-white text-xl font-medium tracking-tight leading-snug">
               A inteligência amplia.<br />
-              <span className="text-slate-500">A decisão permanece humana.</span>
+              <span className="text-amber-500">A decisão permanece humana.</span>
             </p>
           </div>
           
-          <div>
-            <h4 className="text-white font-semibold mb-6">Plataforma</h4>
-            <ul className="space-y-4">
-              <li><Link to="/plataforma" className="text-slate-400 hover:text-white text-sm transition-colors">Visão Geral</Link></li>
-              <li><Link to="/foundation" className="text-slate-400 hover:text-white text-sm transition-colors">Intelligence Foundation™</Link></li>
-              <li><Link to="/engine" className="text-slate-400 hover:text-white text-sm transition-colors">Intelligence Engine™</Link></li>
-              <li><Link to="/advisory" className="text-slate-400 hover:text-white text-sm transition-colors">Executive Advisory™</Link></li>
-            </ul>
-          </div>
+          <div className="col-span-1 md:col-span-8 lg:col-span-7 grid grid-cols-1 sm:grid-cols-3 gap-12">
+            <div>
+              <h4 className="text-[11px] font-bold uppercase tracking-widest text-slate-500 mb-6">Plataforma</h4>
+              <ul className="space-y-4">
+                <li><Link to="/manifesto" className="text-[13px] font-medium text-slate-400 hover:text-amber-500 hover:translate-x-1 inline-block transition-all">Manifesto</Link></li>
+                <li><Link to="/plataforma" className="text-[13px] font-medium text-slate-400 hover:text-amber-500 hover:translate-x-1 inline-block transition-all">Infraestrutura</Link></li>
+                <li><Link to="/dominios" className="text-[13px] font-medium text-slate-400 hover:text-amber-500 hover:translate-x-1 inline-block transition-all">Domínios</Link></li>
+                <li><Link to="/enterprise" className="text-[13px] font-medium text-slate-400 hover:text-amber-500 hover:translate-x-1 inline-block transition-all">Enterprise</Link></li>
+              </ul>
+            </div>
 
-          <div>
-            <h4 className="text-white font-semibold mb-6">Trust Architecture™</h4>
-            <ul className="space-y-4">
-              <li><Link to="/trust" className="text-slate-400 hover:text-white text-sm transition-colors">Visão Geral de Confiança</Link></li>
-              <li><Link to="/trust#constitution" className="text-slate-400 hover:text-white text-sm transition-colors">Intelligence Constitution</Link></li>
-              <li><Link to="/trust#security" className="text-slate-400 hover:text-white text-sm transition-colors">Security & Governance</Link></li>
-              <li><Link to="/trust#explainability" className="text-slate-400 hover:text-white text-sm transition-colors">Explainable Intelligence</Link></li>
-            </ul>
-          </div>
+            <div>
+              <h4 className="text-[11px] font-bold uppercase tracking-widest text-slate-500 mb-6">Ecossistema</h4>
+              <ul className="space-y-4">
+                <li><Link to="/centro-de-inteligencia" className="text-[13px] font-medium text-slate-400 hover:text-amber-500 hover:translate-x-1 inline-block transition-all">Executive Intelligence Center</Link></li>
+                <li><Link to="/network" className="text-[13px] font-medium text-slate-400 hover:text-amber-500 hover:translate-x-1 inline-block transition-all">Advisor Network</Link></li>
+              </ul>
+            </div>
 
-          <div>
-            <h4 className="text-white font-semibold mb-6">Ecossistema</h4>
-            <ul className="space-y-4">
-              <li><Link to="/enterprise" className="text-slate-400 hover:text-white text-sm transition-colors">Illumine Enterprise™</Link></li>
-              <li><Link to="/network" className="text-slate-400 hover:text-white text-sm transition-colors">Advisor Network™</Link></li>
-              <li><Link to="/assessment" className="text-primary hover:text-primary/80 font-medium text-sm transition-colors">Maturity Assessment</Link></li>
-            </ul>
+            <div>
+              <h4 className="text-[11px] font-bold uppercase tracking-widest text-slate-500 mb-6">Confiança</h4>
+              <ul className="space-y-4">
+                <li><Link to="/governanca" className="text-[13px] font-medium text-slate-400 hover:text-amber-500 hover:translate-x-1 inline-block transition-all">Trust Architecture</Link></li>
+                <li><Link to="/governanca" className="text-[13px] font-medium text-slate-400 hover:text-amber-500 hover:translate-x-1 inline-block transition-all">Security</Link></li>
+                <li><Link to="/privacidade" className="text-[13px] font-medium text-slate-400 hover:text-amber-500 hover:translate-x-1 inline-block transition-all">Privacy</Link></li>
+              </ul>
+            </div>
           </div>
         </div>
         
-        <div className="max-w-7xl mx-auto px-6 mt-24 pt-8 border-t border-white/5 flex flex-col md:flex-row items-center justify-between gap-4">
-          <p className="text-slate-500 text-sm">
+        <div className="max-w-7xl mx-auto px-6 mt-20 pt-8 border-t border-white/5 flex flex-col md:flex-row items-center justify-between gap-4 relative z-10">
+          <p className="text-slate-500 text-xs font-medium">
             &copy; {new Date().getFullYear()} Illumine Governance. Todos os direitos reservados.
           </p>
-          <div className="flex items-center gap-6 text-sm text-slate-500">
+          <div className="flex items-center gap-6 text-xs font-medium text-slate-500">
             <Link to="/privacidade" className="hover:text-white transition-colors">Política de Privacidade</Link>
             <Link to="/termos" className="hover:text-white transition-colors">Termos de Uso</Link>
           </div>

@@ -94,7 +94,7 @@ export function ExecutiveCommandShowcase() {
               <ShieldCheck size={16} />
               <span className="text-[10px] uppercase font-bold tracking-widest font-mono">Governança Corporativa</span>
             </div>
-            <h1 className="text-2xl font-bold tracking-tight text-primary">Diretrizes Institucionais</h1>
+            <h1 className="text-2xl font-bold tracking-tight text-amber-500">Diretrizes Institucionais</h1>
             <p className="text-xs text-zinc-500 font-mono mt-1 uppercase tracking-widest">Recomendação Fiduciária Baseada em IA</p>
           </div>
           <div className="text-[10px] text-zinc-400 bg-zinc-900 border border-zinc-800 px-3 py-1.5 rounded-lg flex items-center gap-2">

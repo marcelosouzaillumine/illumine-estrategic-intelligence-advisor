@@ -1,15 +1,16 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import { ExecutiveCommandShowcase } from './showcases/ExecutiveCommandShowcase';
 import { ArrowRight, Shield, Database, Brain, Activity, Clock, ShieldCheck, FileKey, Library, Combine, Cpu, Lock, ChevronRight, Zap, Network, Layers, Globe } from 'lucide-react';
 import { cn } from '@/lib/utils';
-import { ExecutiveCommandShowcase } from './showcases/ExecutiveCommandShowcase';
 import { GovernanceShowcase } from './showcases/GovernanceShowcase';
 import { SystemicIntelligenceShowcase } from './showcases/SystemicIntelligenceShowcase';
 import { ExecutiveInsightCard } from './components/ExecutiveInsightCard';
+import { LeadershipLayer } from './components/LeadershipLayer';
 
 export function InstitutionalHomePage() {
   return (
-    <div className="flex flex-col bg-[#0A0A0B] text-slate-200">
+    <div className="flex flex-col bg-[#0A0A0B] text-slate-200 overflow-x-hidden">
       
       {/* SEÇÃO 1 — HERO */}
       <section className="relative min-h-[90vh] flex flex-col items-center justify-center overflow-hidden pt-20 pb-10">
@@ -49,34 +50,14 @@ export function InstitutionalHomePage() {
           </div>
         </div>
 
-        <div className="mt-20 w-full max-w-6xl mx-auto px-6 relative z-10">
-           <div className="relative border border-white/10 rounded-xl overflow-hidden bg-[#0A0A0B]/80 backdrop-blur-md shadow-2xl">
-              <div className="absolute inset-0 bg-gradient-to-b from-white/5 to-transparent pointer-events-none" />
-              <div className="p-4 border-b border-white/10 flex items-center gap-2 bg-black/50">
-                 <div className="w-3 h-3 rounded-full bg-red-500/20" />
-                 <div className="w-3 h-3 rounded-full bg-yellow-500/20" />
-                 <div className="w-3 h-3 rounded-full bg-green-500/20" />
-                 <div className="ml-4 flex-1 h-6 bg-white/5 rounded-md flex items-center px-4">
-                    <span className="text-[10px] font-mono text-slate-500">illumine.governance / executive-command</span>
-                 </div>
-              </div>
-              <div className="p-8 pb-0">
-                <div className="scale-95 origin-top opacity-50 relative pointer-events-none" style={{ filter: 'blur(2px)' }}>
-                   <ExecutiveCommandShowcase />
-                </div>
-              </div>
-              <div className="absolute bottom-0 left-0 right-0 h-40 bg-gradient-to-t from-[#0A0A0B] to-transparent z-10 flex items-end justify-center pb-8">
-                 <span className="text-xs uppercase tracking-widest text-slate-500 font-medium bg-black/50 px-4 py-2 rounded-full border border-white/5">Institutional Intelligence Simulation™</span>
-              </div>
-           </div>
-        </div>
+
       </section>
 
       {/* SEÇÃO 2 — O PROBLEMA */}
       <section className="py-32 border-t border-white/5 relative bg-gradient-to-b from-[#0A0A0B] to-[#0D0D11]">
         <div className="max-w-7xl mx-auto px-6">
           <div className="text-center max-w-4xl mx-auto mb-20">
-             <h2 className="text-sm font-semibold text-primary uppercase tracking-widest mb-4">O Paradoxo da Informação</h2>
+             <h2 className="text-sm font-semibold text-slate-500 uppercase tracking-widest mb-4">O Paradoxo da Informação</h2>
              <h3 className="text-4xl md:text-5xl font-bold text-white leading-tight">
                As empresas nunca tiveram tantos dados. Mas nunca tiveram tanta dificuldade para interpretar sua própria realidade.
              </h3>
@@ -93,11 +74,11 @@ export function InstitutionalHomePage() {
                 <h4 className="text-xl font-bold text-white mb-2">BI: Visual</h4>
                 <p className="text-slate-400 flex-1">Visualiza indicadores e responde: <strong>"O que está acontecendo agora?"</strong></p>
              </div>
-             <div className="p-8 rounded-2xl bg-primary/10 border border-primary/20 flex flex-col relative overflow-hidden">
-                <div className="absolute top-0 right-0 p-4 opacity-10"><ShieldCheck size={80} /></div>
-                <Brain className="w-8 h-8 text-primary mb-6 relative z-10" />
-                <h4 className="text-xl font-bold text-primary mb-2 relative z-10">Illumine: Contextual</h4>
-                <p className="text-slate-300 relative z-10">
+             <div className="p-8 rounded-2xl bg-white/10 border border-white/20 flex flex-col relative overflow-hidden">
+                <div className="absolute top-0 right-0 p-4 opacity-10"><ShieldCheck size={80} className="text-white" /></div>
+                <Brain className="w-8 h-8 text-white mb-6 relative z-10" />
+                <h4 className="text-xl font-bold text-white mb-2 relative z-10">Illumine: Contextual</h4>
+                <p className="text-slate-200 relative z-10">
                   Preserva contexto decisório e responde: <strong>"Por que aconteceu, quais premissas sustentaram essa decisão e qual decisão deve ser tomada agora?"</strong>
                 </p>
              </div>
@@ -109,14 +90,14 @@ export function InstitutionalHomePage() {
       <section className="py-32 bg-[#050506] border-y border-white/5 relative">
         <div className="max-w-7xl mx-auto px-6 text-center">
           <h2 className="text-3xl md:text-5xl font-bold text-white leading-tight max-w-4xl mx-auto mb-20">
-             Entre o dado corporativo e a decisão estratégica existe uma camada que historicamente nunca foi construída: <span className="text-primary">inteligência institucional.</span>
+             Entre o dado corporativo e a decisão estratégica existe uma camada que historicamente nunca foi construída: <span className="text-slate-400 font-medium">inteligência institucional.</span>
           </h2>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-12 relative z-10">
              {/* Camada 1 */}
              <div className="flex flex-col items-center text-center">
                 <div className="w-20 h-20 rounded-2xl bg-white/5 border border-white/10 flex items-center justify-center mb-6 shadow-lg shadow-black">
-                   <Layers className="w-10 h-10 text-slate-300" />
+                   <Layers className="w-10 h-10 text-slate-400" />
                 </div>
                 <h4 className="text-2xl font-bold text-white mb-4">Intelligence Foundation™</h4>
                 <p className="text-slate-400 leading-relaxed mb-6">
@@ -132,7 +113,7 @@ export function InstitutionalHomePage() {
                 <div className="hidden md:block absolute top-10 -left-6 w-12 border-t border-dashed border-white/20"></div>
                 <div className="hidden md:block absolute top-10 -right-6 w-12 border-t border-dashed border-white/20"></div>
                 <div className="w-20 h-20 rounded-2xl bg-primary/10 border border-primary/20 flex items-center justify-center mb-6 shadow-[0_0_30px_rgba(0,100,255,0.15)]">
-                   <Cpu className="w-10 h-10 text-primary" />
+                   <Cpu className="w-10 h-10 text-slate-400" />
                 </div>
                 <h4 className="text-2xl font-bold text-white mb-4">Intelligence Engine™</h4>
                 <p className="text-slate-400 leading-relaxed mb-6">
@@ -146,7 +127,7 @@ export function InstitutionalHomePage() {
              {/* Camada 3 */}
              <div className="flex flex-col items-center text-center">
                 <div className="w-20 h-20 rounded-2xl bg-white/5 border border-white/10 flex items-center justify-center mb-6 shadow-lg shadow-black">
-                   <Network className="w-10 h-10 text-slate-300" />
+                   <Network className="w-10 h-10 text-slate-400" />
                 </div>
                 <h4 className="text-2xl font-bold text-white mb-4">Executive Advisory™</h4>
                 <p className="text-slate-400 leading-relaxed mb-6">
@@ -166,7 +147,7 @@ export function InstitutionalHomePage() {
         
         <div className="max-w-7xl mx-auto px-6 relative z-10">
            <div className="text-center mb-16">
-              <h2 className="text-sm font-semibold text-primary uppercase tracking-widest mb-4">Institutional Learning Architecture™</h2>
+              <h2 className="text-sm font-semibold text-slate-500 uppercase tracking-widest mb-4">Institutional Learning Architecture™</h2>
               <h3 className="text-4xl md:text-6xl font-bold text-white mb-6">A memória institucional que transforma experiência em inteligência.</h3>
            </div>
 
@@ -179,7 +160,7 @@ export function InstitutionalHomePage() {
                     Organizações não perdem apenas dados. Elas perdem contexto. A Illumine cria a memória institucional para que a empresa evolua a cada decisão, conectando causas e consequências, e transformando experiências passadas em inteligência futura.
                  </p>
                  <div className="inline-flex items-center gap-3 px-6 py-4 bg-primary/10 border border-primary/20 rounded-xl mt-4">
-                    <Brain className="text-primary w-6 h-6" />
+                    <Brain className="text-slate-400 w-6 h-6" />
                     <span className="text-white font-medium text-lg">A decisão de ontem se transforma no conhecimento estratégico de amanhã.</span>
                  </div>
               </div>
@@ -207,9 +188,9 @@ export function InstitutionalHomePage() {
                  </div>
 
                  <div className="absolute w-[450px] h-[450px] animate-[spin_40s_linear_infinite_reverse]">
-                    <div className="absolute left-0 top-1/2 -mt-6 -ml-6 w-12 h-12 bg-[#0A0A0B] border border-primary/30 rounded-xl flex items-center justify-center shadow-[0_0_30px_rgba(0,100,255,0.1)] -rotate-45">
+                    <div className="absolute left-0 top-1/2 -mt-6 -ml-6 w-12 h-12 bg-[#0A0A0B] border border-white/20 rounded-xl flex items-center justify-center shadow-[0_0_30px_rgba(255,255,255,0.1)] -rotate-45">
                        <div className="rotate-45 flex flex-col items-center">
-                          <span className="text-[8px] uppercase tracking-widest text-primary font-bold">Aprender</span>
+                          <span className="text-[8px] uppercase tracking-widest text-slate-300 font-bold">Aprender</span>
                        </div>
                     </div>
                     <div className="absolute right-0 top-1/2 -mt-6 -mr-6 w-12 h-12 bg-[#0A0A0B] border border-amber-500/30 rounded-xl flex items-center justify-center shadow-[0_0_30px_rgba(255,150,0,0.1)] rotate-45">
@@ -227,7 +208,7 @@ export function InstitutionalHomePage() {
       <section className="py-32 bg-[#050506] border-t border-white/5 relative z-20">
          <div className="max-w-7xl mx-auto px-6">
             <div className="text-center mb-16 max-w-4xl mx-auto">
-               <h2 className="text-sm font-semibold text-primary uppercase tracking-widest mb-4">Executive Intelligence Network™</h2>
+               <h2 className="text-sm font-semibold text-slate-500 uppercase tracking-widest mb-4">Executive Intelligence Network™</h2>
                <h3 className="text-3xl md:text-5xl font-bold text-white mb-6">Nove domínios sistêmicos.</h3>
                <p className="text-slate-400 text-lg mb-12">O Gêmeo Digital Institucional simula e conecta a sua organização através de 9 domínios integrados, antecipando impactos antes que eles cheguem ao DFC.</p>
                
@@ -256,16 +237,15 @@ export function InstitutionalHomePage() {
                      <h4 className="text-3xl font-bold text-white mb-4">A decisão amparada por explicabilidade matemática.</h4>
                      <p className="text-slate-400 text-lg">Antes de uma decisão crítica de investimento, líderes podem compreender seus impactos sistêmicos no caixa, risco e valuation com rastreabilidade total.</p>
                   </div>
-                  <div className="relative">
-                     <div className="absolute top-0 right-0 z-30 transform translate-x-4 -translate-y-4">
-                       <span className="bg-primary/20 text-primary border border-primary/30 text-xs px-2 py-1 rounded backdrop-blur-md">Demonstração Interativa</span>
-                     </div>
+                  <div className="relative isolate overflow-hidden">
+
                      <ExecutiveCommandShowcase />
-                     <div className="absolute -right-8 -bottom-8 max-w-sm hidden lg:block z-30">
+                     <div className="absolute right-4 bottom-4 w-[320px] xl:w-[384px] hidden lg:block z-30 shadow-2xl">
                         <ExecutiveInsightCard 
                            author="Risk Intelligence™"
                            text="Alerta Fiduciário: O modelo projeta uma asfixia de fluxo de caixa operacional no mês 4 caso a expansão seja financiada apenas com capital próprio."
                            date="Análise Simbólica em Tempo Real"
+                           variant="float"
                         />
                      </div>
                   </div>
@@ -280,16 +260,15 @@ export function InstitutionalHomePage() {
                      <h4 className="text-3xl font-bold text-white mb-4">Interpretação Sistêmica e Gêmeo Digital Institucional.</h4>
                      <p className="text-slate-400 text-lg">A plataforma mapeia a fricção organizacional entre Cultura e Finanças e precifica o atrito antes que ele destrua a margem da companhia.</p>
                   </div>
-                  <div className="relative">
-                     <div className="absolute top-0 left-0 z-30 transform -translate-x-4 -translate-y-4">
-                       <span className="bg-primary/20 text-primary border border-primary/30 text-xs px-2 py-1 rounded backdrop-blur-md">Demonstração Interativa</span>
-                     </div>
+                  <div className="relative isolate overflow-hidden">
+
                      <SystemicIntelligenceShowcase />
-                     <div className="absolute -left-8 -bottom-8 max-w-sm hidden lg:block z-30">
+                     <div className="absolute left-4 bottom-4 w-[320px] xl:w-[384px] hidden lg:block z-30 shadow-2xl">
                         <ExecutiveInsightCard 
                            author="Operational Intelligence™"
                            text="Silos operacionais detectados entre Marketing e Vendas estão resultando em um atrito invisível projetado em uma perda potencial de eficiência."
                            date="Simulação Sistêmica"
+                           variant="float"
                         />
                      </div>
                   </div>
@@ -298,11 +277,23 @@ export function InstitutionalHomePage() {
          </div>
       </section>
 
-      {/* SEÇÃO 6 — TRUST ARCHITECTURE™ */}
+      {/* SEÇÃO 6 - A DECISÃO PERMANECE HUMANA (Leadership Layer) */}
+      <section className="py-32 bg-[#0A0A0B] border-t border-white/5 relative z-20">
+         <div className="max-w-7xl mx-auto px-6">
+            <div className="text-center mb-16 max-w-4xl mx-auto">
+               <h2 className="text-sm font-semibold text-slate-500 uppercase tracking-widest mb-4">Human Oversight™</h2>
+               <h3 className="text-3xl md:text-5xl font-bold text-white mb-6">A tecnologia amplia a análise. A liderança decide.</h3>
+               <p className="text-slate-400 text-lg mb-12">A Illumine não substitui o julgamento executivo. Ela fornece o contexto sistêmico e a clareza matemática necessários para decisões de alto impacto.</p>
+            </div>
+            <LeadershipLayer />
+         </div>
+      </section>
+
+      {/* SEÇÃO 7 — TRUST ARCHITECTURE™ */}
       <section className="py-32 bg-[#0A0A0B] border-y border-white/5">
         <div className="max-w-7xl mx-auto px-6 text-center">
           <ShieldCheck className="w-12 h-12 text-slate-400 mx-auto mb-8" />
-          <h2 className="text-sm font-semibold text-primary uppercase tracking-widest mb-4">Trust Architecture™</h2>
+          <h2 className="text-sm font-semibold text-slate-500 uppercase tracking-widest mb-4">Trust Architecture™</h2>
           <h3 className="text-3xl md:text-5xl font-bold text-white mb-6">
             AI-Augmented Executive Intelligence.
           </h3>
@@ -319,7 +310,7 @@ export function InstitutionalHomePage() {
               { icon: Lock, title: "Fiduciary Controls", desc: "Isolamento multitenant extremo. A inteligência nunca atravessa fronteiras corporativas." },
             ].map((principle, i) => (
               <div key={i} className="text-left bg-white/5 p-6 rounded-xl border border-white/5 hover:border-white/10 transition-colors flex flex-col items-start">
-                <principle.icon className="w-8 h-8 text-primary mb-4" />
+                <principle.icon className="w-8 h-8 text-slate-300 mb-4" />
                 <h4 className="text-white font-semibold mb-2 leading-tight">{principle.title}</h4>
                 <p className="text-xs text-slate-400 leading-relaxed mt-auto">{principle.desc}</p>
               </div>
@@ -337,7 +328,7 @@ export function InstitutionalHomePage() {
                 <div className="absolute top-0 right-0 p-8 opacity-5"><Globe size={120} /></div>
                 <h4 className="text-3xl font-bold text-white mb-4 relative z-10">Illumine Enterprise™</h4>
                 <p className="text-slate-400 mb-8 relative z-10 text-lg leading-relaxed flex-1">
-                  Para Empresas, Holdings, Conselhos Administrativos e Organizações Complexas que buscam elevar sua governança, transparência fiduciária e qualidade das decisões corporativas.
+                  A infraestrutura de inteligência institucional para empresas, grupos empresariais e organizações complexas que buscam transformar dados, contexto e conhecimento estratégico em decisões corporativas mais confiáveis, transparentes e sustentáveis.
                 </p>
              </div>
              
@@ -348,7 +339,7 @@ export function InstitutionalHomePage() {
                 <p className="text-slate-300 mb-8 relative z-10 text-lg leading-relaxed">
                   Profissionais certificados para aplicar a disciplina de Executive Intelligence Advisory™ em organizações complexas.
                 </p>
-                <div className="inline-block mt-auto px-4 py-3 bg-black/30 border border-white/10 rounded-lg text-sm text-primary font-medium">
+                <div className="inline-block mt-auto px-4 py-3 bg-white/5 border border-white/10 rounded-lg text-sm text-slate-300 font-medium">
                    "Especialistas analisam partes. Executive Advisors interpretam sistemas."
                 </div>
              </div>

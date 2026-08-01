@@ -187,12 +187,7 @@
       "@illumine/executive-intelligence-integration": [
         "./packages/intelligence/executive-intelligence-integration/src/index.ts"
       ],
-      "@illumine/executive-advisor-runtime": [
-        "./packages/intelligence/executive-advisor-runtime/src/index.ts"
-      ],
-      "@illumine/executive-workspace-orchestrator": [
-        "./packages/intelligence/executive-workspace-orchestrator/src/index.ts"
-      ],
+
       "@illumine/executive-decision-forensics": [
         "./packages/intelligence/executive-decision-forensics/src/index.ts"
       ],

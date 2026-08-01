@@ -1,40 +1,11 @@
-import { ExecutiveHeading } from '../../ui/executive-heading';
 import { logger } from '../../../services/logging/InstitutionalLogger';
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import { useNavigate } from 'react-router-dom';
-import { Mail, Lock, Eye, EyeOff, LogIn, Loader2, CheckCircle2, ShieldCheck } from 'lucide-react';
+import { Mail, Lock, Eye, EyeOff, LogIn, Loader2, CheckCircle2, ShieldCheck, ArrowLeft } from 'lucide-react';
 import { useAuthAdapter } from '../../../adapters/ui/useAuthAdapter';
-import { Button } from '../../ui/button';
-import { Input } from '../../ui/input';
-import { Label } from '../../ui/label';
 import { useDocumentTitle } from '../../../hooks/useDocumentTitle';
 import { useLanguage } from '../../../contexts/LanguageContext';
-
-function IllumineMark({ className = 'w-16 h-16' }: { className?: string }) {
-  return (
-    <svg
-      viewBox="0 0 100 100"
-      fill="none"
-      xmlns="http://www.w3.org/2000/svg"
-      className={className}
-      aria-hidden="true"
-    >
-      <line x1="30" y1="30" x2="22" y2="22" stroke="currentColor" strokeWidth="6" strokeLinecap="round" />
-      <line x1="18" y1="50" x2="8" y2="50" stroke="currentColor" strokeWidth="6" strokeLinecap="round" />
-      <line x1="30" y1="70" x2="22" y2="78" stroke="currentColor" strokeWidth="6" strokeLinecap="round" />
-      <line x1="50" y1="82" x2="50" y2="92" stroke="currentColor" strokeWidth="6" strokeLinecap="round" />
-      <line x1="70" y1="70" x2="78" y2="78" stroke="currentColor" strokeWidth="6" strokeLinecap="round" />
-      <path
-        d="M50 22 C 34.5 22, 22 34.5, 22 50 C 22 65.5, 34.5 78, 50 78 C 65.5 78, 78 65.5, 78 50 M50 50 L75 25 M75 25 L65 25 M75 25 L75 35"
-        stroke="currentColor"
-        strokeWidth="6"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-      />
-    </svg>
-  );
-}
 
 export function LoginPage() {
   const { t } = useLanguage();
@@ -52,7 +23,6 @@ export function LoginPage() {
   const [resetMessage, setResetMessage] = useState('');
   const [resetError, setResetError] = useState('');
 
-  // Escutar erro global disparado pelo App (ex: usuário não autorizado)
   useEffect(() => {
     const handleGlobalError = (e: any) => {
       setLoginError(e.detail);
@@ -68,7 +38,6 @@ export function LoginPage() {
     setLoginError('');
     try {
       await login();
-      // O App.tsx detectará o auth state change e atualizará o usuário
     } catch (error: any) {
       logger.error('Google sign-in failed', error);
       setLoginError(
@@ -91,7 +60,6 @@ export function LoginPage() {
     setIsSubmitting(true);
     try {
       await loginWithEmail(email.trim(), password);
-      // App.tsx handle
     } catch (error: any) {
       logger.error('Email authentication error', error);
       let errorMsg = t('auth.error.invalid_credentials');
@@ -134,143 +102,134 @@ export function LoginPage() {
   };
 
   return (
-    <main className="min-h-screen bg-background flex flex-col justify-center items-center p-4 relative overflow-hidden selection:bg-primary/20 selection:text-primary">
-      {/* Background Effects */}
-      <div className="fixed top-[-20%] left-[-10%] w-[50%] h-[50%] rounded-full bg-primary/5 blur-[120px] pointer-events-none" />
-      <div className="fixed bottom-[-20%] right-[-10%] w-[50%] h-[50%] rounded-full bg-secondary/5 blur-[120px] pointer-events-none" />
-      <div className="fixed inset-0 bg-[url('/noise.png')] opacity-[0.03] pointer-events-none mix-blend-overlay" />
-
+    <main className="min-h-screen bg-[#050506] flex flex-col justify-center items-center p-4 relative overflow-hidden font-sans selection:bg-amber-500/30 selection:text-white">
+      {/* Background Effects (Dark Institutional Style) */}
+      <div className="absolute top-0 inset-x-0 h-px bg-gradient-to-r from-transparent via-white/10 to-transparent" />
+      <div className="absolute bottom-0 inset-x-0 h-px bg-gradient-to-r from-transparent via-white/5 to-transparent" />
+      
       {/* Return Home Button */}
       <button 
         onClick={() => navigate('/')}
-    className="absolute top-6 left-6 text-sm font-bold text-executive-secondary hover:text-foreground flex items-center gap-2 transition-colors z-50"
+        className="absolute top-8 left-8 text-sm font-medium text-slate-400 hover:text-white flex items-center gap-2 transition-colors z-50 group"
       >
-        <span className="text-xl">&larr;</span> {t('auth.button.back')}
+        <ArrowLeft className="w-4 h-4 group-hover:-translate-x-1 transition-transform" /> {t('auth.button.back')}
       </button>
 
       <motion.div
-        initial={{ opacity: 0, scale: 0.96, y: 24 }}
+        initial={{ opacity: 0, scale: 0.98, y: 10 }}
         animate={{ opacity: 1, scale: 1, y: 0 }}
-        transition={{ duration: 0.3, ease: [0.16, 1, 0.3, 1] }}
-        className="relative w-full max-w-[460px] max-h-full rounded-card bg-card/95 backdrop-blur-2xl border border-border/60 shadow-2xl flex flex-col z-10 overflow-hidden"
-        style={{
-          boxShadow: '0 32px 80px rgba(14,28,44,0.22), 0 0 0 1px rgba(255,133,82,0.08)'
-        }}
+        transition={{ duration: 0.4, ease: "easeOut" }}
+        className="relative w-full max-w-[420px] rounded-3xl bg-[#0A0A0B] border border-white/10 shadow-2xl flex flex-col z-10 overflow-hidden"
       >
-        {/* Top accent */}
-        <div className="absolute top-0 inset-x-0 h-[2px] bg-gradient-to-r from-transparent via-secondary to-transparent" />
+        {/* Top accent line */}
+        <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-amber-500 to-transparent opacity-50" />
 
         {/* Header */}
-        <div className="relative bg-gradient-to-b from-primary/8 to-transparent p-[clamp(1rem,4vh,2rem)] pb-[clamp(0.75rem,2vh,1rem)] border-b border-border/40 shrink-0">
-          <div className="flex items-center gap-[clamp(0.5rem,2vh,0.75rem)] mb-[clamp(0.5rem,2vh,1rem)]">
-            <div className="w-[clamp(2rem,6vh,2.5rem)] h-[clamp(2rem,6vh,2.5rem)] rounded-button bg-primary border border-primary/20 flex items-center justify-center">
-              <IllumineMark className="w-[clamp(1.25rem,4vh,1.5rem)] h-[clamp(1.25rem,4vh,1.5rem)]" />
+        <div className="p-8 pb-6 border-b border-white/5 text-center">
+          <div className="flex flex-col items-center justify-center gap-4 mb-2">
+            <div className="flex items-center gap-1.5">
+              <img src="/logo.png" alt="Illumine" className="w-8 h-8 object-contain" />
+              <span className="text-3xl tracking-[-0.04em] text-white leading-none" style={{ fontFamily: '"Tilt Warp", sans-serif' }}>
+                illumine
+              </span>
             </div>
-            <div className="flex items-center gap-[clamp(0.25rem,1vh,0.5rem)] rounded-full bg-success-soft border border-success/20 px-[clamp(0.5rem,1.5vh,0.75rem)] py-[clamp(0.25rem,1vh,0.375rem)] text-[clamp(0.5rem,1.5vh,0.5625rem)] font-bold uppercase tracking-widest text-success">
-              <CheckCircle2 size={10} className="animate-pulse" />
+            <div className="flex items-center gap-2 rounded-full bg-amber-500/10 border border-amber-500/20 px-3 py-1.5 text-xs font-bold uppercase tracking-widest text-amber-500">
+              <Lock size={12} />
               {t('auth.badge.protected_access')}
             </div>
           </div>
-
-          <ExecutiveHeading as="h2" className="text-foreground">
-            {t('auth.title.login')}
-          </ExecutiveHeading>
-     <p className="mt-[clamp(0.25rem,1vh,0.375rem)] text-[clamp(0.75rem,2vh,0.875rem)] leading-snug text-executive-secondary font-medium font-sans">
-            {t('auth.subtitle.login')}
-          </p>
         </div>
 
         {/* Body */}
-        <div className="p-[clamp(1rem,4vh,2rem)] space-y-[clamp(0.5rem,2.5vh,1rem)] overflow-y-auto overscroll-contain flex-1">
-          <form onSubmit={handleEmailLogin} className="space-y-[clamp(0.5rem,2.5vh,1rem)]">
+        <div className="p-8 space-y-6">
+          <form onSubmit={handleEmailLogin} className="space-y-5">
             {/* Email */}
-            <div className="space-y-[clamp(0.25rem,1vh,0.5rem)]">
-              <Label className="text-[clamp(0.5rem,1.5vh,0.625rem)] font-bold uppercase tracking-widest text-muted-foreground block px-1">
+            <div className="space-y-2">
+              <label className="text-xs font-bold uppercase tracking-widest text-slate-500 block px-1">
                 {t('auth.label.email')}
-              </Label>
+              </label>
               <div className="relative group">
-                <span className="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-muted-foreground group-focus-within:text-primary transition-colors">
-                  <Mail className="w-[clamp(0.875rem,2.5vh,0.9375rem)] h-[clamp(0.875rem,2.5vh,0.9375rem)]" strokeWidth={1.5} />
+                <span className="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-slate-500 group-focus-within:text-amber-500 transition-colors">
+                  <Mail className="w-4 h-4" strokeWidth={2} />
                 </span>
-                <Input
+                <input
                   type="email"
                   required
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                   placeholder={t('auth.placeholder.email')}
-                  className="pl-10 h-[clamp(2.25rem,7vh,3rem)] text-[clamp(0.75rem,2vh,0.875rem)] bg-surface-container/40"
+                  className="w-full pl-10 h-12 text-sm bg-white/5 border border-white/10 text-white placeholder-slate-600 rounded-xl focus:outline-none focus:border-amber-500/50 focus:ring-1 focus:ring-amber-500/50 transition-all"
                 />
               </div>
             </div>
 
             {/* Password */}
-            <div className="space-y-[clamp(0.25rem,1vh,0.5rem)]">
+            <div className="space-y-2">
               <div className="flex justify-between items-center px-1">
-                <Label className="text-[clamp(0.5rem,1.5vh,0.625rem)] font-bold uppercase tracking-widest text-muted-foreground block">
+                <label className="text-xs font-bold uppercase tracking-widest text-slate-500 block">
                   {t('auth.label.password')}
-                </Label>
+                </label>
                 <button
                   type="button"
                   onClick={handlePasswordReset}
                   disabled={isResetting}
-                  className="text-[clamp(0.5rem,1.5vh,0.625rem)] font-bold uppercase tracking-widest text-primary hover:text-primary/80 disabled:opacity-70 transition-colors cursor-pointer"
+                  className="text-[10px] font-bold uppercase tracking-widest text-amber-500 hover:text-amber-400 disabled:opacity-50 transition-colors cursor-pointer"
                 >
                   {isResetting ? t('auth.button.sending') : t('auth.button.forgot_password')}
                 </button>
               </div>
               <div className="relative group">
-                <span className="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-muted-foreground group-focus-within:text-primary transition-colors">
-                  <Lock className="w-[clamp(0.875rem,2.5vh,0.9375rem)] h-[clamp(0.875rem,2.5vh,0.9375rem)]" strokeWidth={1.5} />
+                <span className="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-slate-500 group-focus-within:text-amber-500 transition-colors">
+                  <Lock className="w-4 h-4" strokeWidth={2} />
                 </span>
-                <Input
+                <input
                   type={showPassword ? 'text' : 'password'}
                   required
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
                   placeholder={t('auth.placeholder.password')}
-                  className="pl-10 pr-10 h-[clamp(2.25rem,7vh,3rem)] text-[clamp(0.75rem,2vh,0.875rem)] bg-surface-container/40"
+                  className="w-full pl-10 pr-10 h-12 text-sm bg-white/5 border border-white/10 text-white placeholder-slate-600 rounded-xl focus:outline-none focus:border-amber-500/50 focus:ring-1 focus:ring-amber-500/50 transition-all"
                 />
                 <button
                   type="button"
                   onClick={() => setShowPassword(!showPassword)}
-                  className="absolute inset-y-0 right-0 pr-3 flex items-center text-muted-foreground hover:text-foreground transition-colors"
+                  className="absolute inset-y-0 right-0 pr-3 flex items-center text-slate-500 hover:text-white transition-colors"
                 >
-                  {showPassword ? <EyeOff className="w-[clamp(0.875rem,2.5vh,0.9375rem)] h-[clamp(0.875rem,2.5vh,0.9375rem)]" strokeWidth={1.5} /> : <Eye className="w-[clamp(0.875rem,2.5vh,0.9375rem)] h-[clamp(0.875rem,2.5vh,0.9375rem)]" strokeWidth={1.5} />}
+                  {showPassword ? <EyeOff className="w-4 h-4" strokeWidth={2} /> : <Eye className="w-4 h-4" strokeWidth={2} />}
                 </button>
               </div>
             </div>
 
             {/* Submit */}
-            <Button
+            <button
               type="submit"
               disabled={isSubmitting || isSigningIn}
-              className="w-full h-[clamp(2.25rem,7vh,3rem)] font-bold text-[clamp(0.75rem,2vh,0.875rem)] text-primary-foreground uppercase tracking-widest flex items-center justify-center gap-2"
+              className="w-full h-12 font-bold text-sm bg-white text-black uppercase tracking-widest flex items-center justify-center gap-2 rounded-full hover:bg-slate-200 disabled:opacity-70 transition-all"
             >
-              {isSubmitting ? <Loader2 className="w-[clamp(0.875rem,2.5vh,1rem)] h-[clamp(0.875rem,2.5vh,1rem)] animate-spin" /> : <LogIn className="w-[clamp(0.875rem,2.5vh,1rem)] h-[clamp(0.875rem,2.5vh,1rem)]" />}
+              {isSubmitting ? <Loader2 className="w-4 h-4 animate-spin" /> : <LogIn className="w-4 h-4" />}
               {t('auth.button.login')}
-            </Button>
+            </button>
           </form>
 
           {/* Divider */}
-          <div className="relative flex items-center justify-center pt-[clamp(0.25rem,1vh,0.5rem)] pb-[clamp(0.25rem,1vh,0.5rem)]">
-            <div className="absolute inset-x-0 h-px bg-border" />
-            <span className="relative px-3 bg-card text-[clamp(0.5rem,1.5vh,0.625rem)] font-semibold uppercase tracking-widest text-muted-foreground">
+          <div className="relative flex items-center justify-center py-2">
+            <div className="absolute inset-x-0 h-px bg-white/10" />
+            <span className="relative px-3 bg-[#0A0A0B] text-[10px] font-bold uppercase tracking-widest text-slate-500">
               {t('auth.divider.or_continue_with')}
             </span>
           </div>
 
           {/* Google */}
-          <Button
+          <button
             type="button"
-            variant="outline"
             onClick={handleGoogleLogin}
             disabled={isSigningIn || isSubmitting}
-            className="w-full h-[clamp(2.25rem,7vh,3rem)] flex items-center justify-center gap-3 text-[clamp(0.75rem,2vh,0.875rem)] font-medium"
+            className="w-full h-12 flex items-center justify-center gap-3 text-sm font-medium bg-white/5 border border-white/10 text-white rounded-full hover:bg-white/10 disabled:opacity-70 transition-all"
           >
             {isSigningIn ? (
-              <Loader2 className="w-[clamp(1rem,3vh,1.125rem)] h-[clamp(1rem,3vh,1.125rem)] animate-spin text-secondary" />
+              <Loader2 className="w-4 h-4 animate-spin text-slate-400" />
             ) : (
-              <svg className="w-[clamp(0.875rem,2.5vh,1rem)] h-[clamp(0.875rem,2.5vh,1rem)]" viewBox="0 0 24 24">
+              <svg className="w-4 h-4" viewBox="0 0 24 24">
                 <path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="currentColor" />
                 <path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="currentColor" />
                 <path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.06H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.94l2.85-2.22.81-.63z" fill="currentColor" />
@@ -278,7 +237,7 @@ export function LoginPage() {
               </svg>
             )}
             {isSigningIn ? t('auth.button.connecting') : t('auth.button.login_google')}
-          </Button>
+          </button>
 
           {/* Errors/Messages */}
           <AnimatePresence>
@@ -287,7 +246,7 @@ export function LoginPage() {
                 initial={{ opacity: 0, height: 0 }}
                 animate={{ opacity: 1, height: 'auto' }}
                 exit={{ opacity: 0, height: 0 }}
-                className="rounded-button bg-critical-soft border border-destructive/20 px-[clamp(0.75rem,2.5vh,1rem)] py-[clamp(0.5rem,1.5vh,0.75rem)] text-[clamp(0.75rem,2vh,0.875rem)] font-medium text-destructive leading-5"
+                className="rounded-xl bg-red-500/10 border border-red-500/20 px-4 py-3 text-sm font-medium text-red-400"
               >
                 {loginError}
               </motion.div>
@@ -297,7 +256,7 @@ export function LoginPage() {
                 initial={{ opacity: 0, height: 0 }}
                 animate={{ opacity: 1, height: 'auto' }}
                 exit={{ opacity: 0, height: 0 }}
-                className="rounded-button bg-critical-soft border border-destructive/20 px-[clamp(0.75rem,2.5vh,1rem)] py-[clamp(0.5rem,1.5vh,0.75rem)] text-[clamp(0.75rem,2vh,0.875rem)] font-medium text-destructive leading-5"
+                className="rounded-xl bg-red-500/10 border border-red-500/20 px-4 py-3 text-sm font-medium text-red-400"
               >
                 {resetError}
               </motion.div>
@@ -307,7 +266,7 @@ export function LoginPage() {
                 initial={{ opacity: 0, height: 0 }}
                 animate={{ opacity: 1, height: 'auto' }}
                 exit={{ opacity: 0, height: 0 }}
-                className="rounded-button bg-success-soft border border-success/20 px-[clamp(0.75rem,2.5vh,1rem)] py-[clamp(0.5rem,1.5vh,0.75rem)] text-[clamp(0.75rem,2vh,0.875rem)] font-medium text-success leading-5"
+                className="rounded-xl bg-green-500/10 border border-green-500/20 px-4 py-3 text-sm font-medium text-green-400"
               >
                 {resetMessage}
               </motion.div>
@@ -315,12 +274,12 @@ export function LoginPage() {
           </AnimatePresence>
 
           {/* Security note */}
-          <div className="hidden sm:block rounded-button bg-surface-container/40 border border-border/60 p-[clamp(0.5rem,2vh,0.75rem)] mt-[clamp(0.5rem,2vh,1rem)]">
-      <p className="text-[clamp(0.5rem,1.5vh,0.625rem)] font-bold uppercase tracking-widest text-executive-secondary flex items-center gap-1.5">
-              <ShieldCheck className="w-[clamp(0.625rem,2vh,0.6875rem)] h-[clamp(0.625rem,2vh,0.6875rem)] text-secondary shrink-0" />
+          <div className="hidden sm:flex flex-col gap-1 rounded-xl bg-white/5 border border-white/5 p-4 mt-4">
+            <p className="text-[10px] font-bold uppercase tracking-widest text-slate-400 flex items-center gap-1.5">
+              <ShieldCheck className="w-3.5 h-3.5 text-amber-500" />
               {t('auth.warning.secure_environment')}
             </p>
-      <p className="mt-[clamp(0.25rem,1vh,0.375rem)] text-[clamp(0.625rem,1.8vh,0.6875rem)] leading-snug text-executive-secondary/75 font-medium font-sans">
+            <p className="text-xs leading-relaxed text-slate-500 font-medium">
               {t('auth.note.secure_environment')}
             </p>
           </div>

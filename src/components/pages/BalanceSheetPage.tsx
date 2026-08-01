@@ -43,6 +43,9 @@ import { SandboxWarningOverlay } from '../executive-interaction/SandboxWarningOv
 import { BPStrategicDiagnosisAdapter } from './balance-sheet/adapters/BPStrategicDiagnosisAdapter';
 import { useExecutivePage } from '../../hooks/useExecutivePage';
 import { useBalanceSheetPageViewModel } from '../../capabilities/financial/presentation/view-models/useBalanceSheetPageViewModel';
+import { ExecutiveBrief } from '../executive-architecture/ExecutiveBrief';
+import { InstitutionalDecisionOS } from '../../../packages/intelligence/executive-intelligence-layer/src/orchestration/InstitutionalDecisionOS';
+import { ExecutiveBriefPresenter } from '../../viewmodels/ExecutiveBriefPresenter';
 
 export function BalanceSheetPage(props: any) {
   const { state, computed, actions } = useBalanceSheetPageViewModel(props);
@@ -104,6 +107,25 @@ ativoTotal, passivoTotal, plValue, ac, anc, pc, pnc, isBalanced, divergence, cx,
 
     };
   }, [ativoTotal, passivoTotal, plValue, pc, ac, ebitda, lucroLiquido, executiveReport]);
+
+  // Executive Intelligence Engine
+  const executiveBriefData = useMemo(() => {
+    // Generate synthetic financial payload based on current DB state
+    const financialData = {
+      assets: bpFinancialMetrics.ativoTotal,
+      liabilities: bpFinancialMetrics.passivoTotal,
+      equity: bpFinancialMetrics.patrimonioLiquido,
+      liquidity: bpFinancialMetrics.liquidezCorrente,
+      ebitda: bpFinancialMetrics.ebitda,
+      revenue: (bpFinancialMetrics as any).receitaLiquida || bpFinancialMetrics.ebitda * 3, // fallback if missing
+    };
+    
+    // Use the backend cognitive engine
+    const evidencePackage = InstitutionalDecisionOS.run(financialData);
+    
+    // Adapt to UI
+    return ExecutiveBriefPresenter.present(evidencePackage);
+  }, [bpFinancialMetrics]);
 
   return (
     <ExecutiveIntelligenceShell pageTitle="Balanço Patrimonial" pageContext="BalanceSheetPage">
@@ -172,18 +194,9 @@ ativoTotal, passivoTotal, plValue, ac, anc, pc, pnc, isBalanced, divergence, cx,
               <>
 
                 {/* --- 0. SÍNTESE DO CONSELHO (CAMADA 1 SOBERANA) --- */}
-                <ExecutiveSummarySection 
-                  className="mb-8"
-                  status={{ label: 'Balanço Auditado', variant: 'success' }}
-                  question="Qual a solidez da estrutura patrimonial, nível de liquidez e alavancagem de capital?"
-                  opinion={executiveViewModel.executiveOpinion || "O comitê fiduciário homologa o balanço patrimonial, atestando a solidez da estrutura de ativos e a integridade da posição financeira."}
-                  driver="Ativo total, passivo oneroso, patrimônio líquido e liquidez corrente."
-                  implication="Preservação da capacidade de solvência e mitigação de risco de refinanciamento."
-                  action="Otimizar a estrutura de capital mantendo índice de cobertura de juros adequado."
-                >
-                  <ExecutiveStrategicTensions tensions={[]} />
-                  <ExecutiveDecisionTrace trace={[]} />
-                </ExecutiveSummarySection>
+                <div className="mb-8">
+                  <ExecutiveBrief data={executiveBriefData} />
+                </div>
 
                 {/* --- 0. INSTITUTIONAL CONTEXT --- */}
                 <BalanceSheetInstitutionalContextSection 

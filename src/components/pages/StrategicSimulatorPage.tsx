@@ -14,11 +14,11 @@ import { db } from '../../lib/firebase';
 import { ExecutiveHeading } from '../ui/executive-heading';
 import { ExecutiveText } from '../ui/executive-typography';
 import { createPortal } from 'react-dom';
-import { ExecutiveSummarySection } from '../ui/executive-summary-section';
-import { ExecutiveStrategicTensions } from '../ui/executive-strategic-tensions';
-import { ExecutiveDecisionTrace } from '../ui/executive-decision-trace';
 import { ExecutiveEmptyState } from '../ui/executive-empty-state';
 import { useStrategicSimulatorPageViewModel } from '../../viewmodels/useStrategicSimulatorPageViewModel';
+import { ExecutiveBrief } from '../executive-architecture/ExecutiveBrief';
+import { InstitutionalDecisionOS } from '../../../packages/intelligence/executive-intelligence-layer/src/orchestration/InstitutionalDecisionOS';
+import { ExecutiveBriefPresenter } from '../../viewmodels/ExecutiveBriefPresenter';
 
 interface StrategicSimulatorPageProps {
   clientId: string;
@@ -100,6 +100,22 @@ export function StrategicSimulatorPage({ clientId, selectedYear, selectedMonth }
       impactPercent: valuationCurrent > 0 ? ((valuationSimulated - valuationCurrent) / valuationCurrent) * 100 : 0
     };
   }, [currentRevenue, currentEbitda, currentChurn, growthSim, churnSim, marginSim, efficiencySim]);
+
+  // Executive Intelligence Engine
+  const executiveBriefData = useMemo(() => {
+    // Generate synthetic financial payload based on current DB state
+    const financialData = {
+      revenue: currentRevenue,
+      ebitda: currentEbitda,
+      equity: 500000, // mock placeholder
+      liquidity: 1.2, // mock placeholder
+    };
+    
+    const evidencePackage = InstitutionalDecisionOS.run(financialData, undefined, 'Expansão Estratégica');
+    
+    // Adapt to UI
+    return ExecutiveBriefPresenter.present(evidencePackage);
+  }, [currentRevenue, currentEbitda]);
 
   const resetSim = () => {
     setGrowthSim(0);
@@ -327,17 +343,8 @@ export function StrategicSimulatorPage({ clientId, selectedYear, selectedMonth }
           </div>
         </div>
       </div>
-       <ExecutiveSummarySection 
-         status={{ label: 'Simulações Calibradas', variant: 'success' }}
-         question="Como a variação nas alavancas operacionais afeta o valuation e a geração de caixa?"
-         opinion="O comitê fiduciário valida as premissas dos sliders de simulação e o impacto nas margens."
-         driver="Variação da receita, otimização de OpEx, redução do NCG e múltiplo de EBITDA."
-         implication="Melhora na tomada de decisão sobre novos investimentos e captação de recursos."
-         action="Acompanhar a sensibilidade dos múltiplos de mercado trimestralmente."
-       >
-         <ExecutiveStrategicTensions tensions={[]} />
-         <ExecutiveDecisionTrace trace={[]} />
-       </ExecutiveSummarySection>
+        <div className="mt-12 mb-8 border-t border-border pt-8" />
+        <ExecutiveBrief data={executiveBriefData} />
       </ExecutiveAccordion>
     </ExecutivePageTemplate>
   );
