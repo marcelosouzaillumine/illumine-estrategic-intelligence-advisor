@@ -27,9 +27,21 @@ interface LocaleProviderProps {
 }
 
 export const LocaleProvider: React.FC<LocaleProviderProps> = ({ children, initialPreference }) => {
-  const [preference, setPreferenceState] = useState<UserLocalePreference>({
-    ...DEFAULT_LOCALE_PREFERENCE,
-    ...initialPreference
+  const [preference, setPreferenceState] = useState<UserLocalePreference>(() => {
+    // Determine the initial language, taking into account i18n's already resolved language or localStorage
+    let currentLang = DEFAULT_LOCALE_PREFERENCE.language;
+    if (typeof window !== 'undefined') {
+      const saved = localStorage.getItem('illumine-language');
+      if (saved === 'en-US' || saved === 'es-ES' || saved === 'pt-BR') {
+        currentLang = saved as SupportedLanguage;
+      }
+    }
+    
+    return {
+      ...DEFAULT_LOCALE_PREFERENCE,
+      language: (i18n.language as SupportedLanguage) || currentLang,
+      ...initialPreference
+    };
   });
 
   useEffect(() => {

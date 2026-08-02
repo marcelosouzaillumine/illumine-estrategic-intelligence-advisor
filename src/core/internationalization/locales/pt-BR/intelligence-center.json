@@ -1,0 +1,158 @@
+{
+  "hero": {
+    "label": "Executive Intelligence Center™",
+    "title": "Onde a inteligência executiva evolui continuamente.",
+    "narrative_1": "O Executive Intelligence Center reúne pesquisas, análises, benchmarks e frameworks produzidos para apoiar líderes, conselhos e organizações na tomada de decisões mais consistentes.",
+    "narrative_2": "Mais do que acompanhar tendências, transformamos conhecimento em instrumentos práticos de gestão, governança e criação de valor.",
+    "cta": "Explorar o Centro de Inteligência"
+  },
+  "knowledge_production": {
+    "title": "Inteligência produzida, não apenas compartilhada.",
+    "subtitle": "Conhecimento como infraestrutura de decisão.",
+    "narrative": "A Illumine entende que plataformas inteligentes precisam evoluir continuamente. Por isso, investimos na produção sistemática de conhecimento aplicado, conectando experiência executiva, pesquisa, dados e prática empresarial.<br/><br/>O Executive Intelligence Center é o ambiente onde essa inteligência é organizada, publicada e continuamente expandida."
+  },
+  "frameworks": {
+    "title": "Frameworks Proprietários",
+    "lead": "Modelos intelectuais desenvolvidos pela Illumine para diagnóstico, tomada de decisão e evolução organizacional. Formamos uma biblioteca metodológica que embasa nossa arquitetura tecnológica.",
+    "items": [
+      {
+        "name": "Executive Intelligence Framework™",
+        "desc": "Modelo central para orquestração de inteligência decisória."
+      },
+      {
+        "name": "Institutional Learning Architecture™",
+        "desc": "Estrutura para captura e preservação de aprendizado organizacional."
+      },
+      {
+        "name": "Executive Decision Memory™",
+        "desc": "Repositório estruturado de decisões históricas e seus resultados."
+      },
+      {
+        "name": "Systemic Friction Model™",
+        "desc": "Diagnóstico de atritos operacionais e ineficiências latentes."
+      },
+      {
+        "name": "Trust Architecture™",
+        "desc": "Princípios de rastreabilidade, explicabilidade e governança de IA."
+      }
+    ]
+  },
+  "knowledge_areas": {
+    "title": "Áreas de Conhecimento",
+    "lead": "Um centro organizado por temas estratégicos.",
+    "items": [
+      {
+        "title": "Executive Briefs",
+        "description": "Análises objetivas sobre temas críticos para executivos e conselhos."
+      },
+      {
+        "title": "White Papers",
+        "description": "Estudos aprofundados sobre governança, inteligência institucional e transformação organizacional."
+      },
+      {
+        "title": "Pesquisas & Benchmarks",
+        "description": "Indicadores de mercado, maturidade organizacional e tendências executivas."
+      },
+      {
+        "title": "Casos de Aplicação",
+        "description": "Como organizações utilizam inteligência institucional para melhorar desempenho, governança e qualidade das decisões."
+      },
+      {
+        "title": "Biblioteca Técnica",
+        "description": "Conteúdo voltado para especialistas, advisors e parceiros."
+      }
+    ]
+  },
+  "research_lines": {
+    "title": "Linhas de Pesquisa",
+    "lead": "Investigamos os desafios que definirão a próxima geração da gestão.",
+    "items": [
+      {
+        "title": "Governança Corporativa",
+        "description": "Como organizações aumentam consistência decisória."
+      },
+      {
+        "title": "Inteligência Institucional",
+        "description": "Como preservar conhecimento crítico."
+      },
+      {
+        "title": "Performance Financeira",
+        "description": "Como decisões operacionais afetam valor econômico."
+      },
+      {
+        "title": "Liderança",
+        "description": "Como ampliar capacidade analítica sem substituir julgamento."
+      },
+      {
+        "title": "IA Aplicada à Gestão",
+        "description": "Limites, oportunidades e responsabilidade executiva."
+      },
+      {
+        "title": "Estratégia",
+        "description": "Como organizações aprendem continuamente."
+      }
+    ]
+  },
+  "publications": {
+    "title": "Publicações em Destaque",
+    "items": [
+      {
+        "tag": "Executive Brief",
+        "title": "Por que empresas inteligentes continuam tomando decisões ruins?",
+        "meta": "7 minutos"
+      },
+      {
+        "tag": "White Paper",
+        "title": "Executive Intelligence: a próxima evolução da infraestrutura corporativa",
+        "meta": "35 páginas"
+      },
+      {
+        "tag": "Pesquisa",
+        "title": "Maturidade em Governança nas Empresas Brasileiras",
+        "meta": "Relatório 2026"
+      },
+      {
+        "tag": "Framework",
+        "title": "Institutional Learning Architecture™",
+        "meta": "Metodologia"
+      },
+      {
+        "tag": "Estudo",
+        "title": "O custo da Amnésia Institucional",
+        "meta": "Casos de Estudo"
+      }
+    ]
+  },
+  "research_center": {
+    "title": "A plataforma aprende. O conhecimento evolui.",
+    "lead": "A inteligência produzida pela Illumine nasce da combinação entre:",
+    "items": [
+      "Experiência prática em organizações complexas;",
+      "Estudos sobre governança e gestão;",
+      "Observação contínua de padrões organizacionais;",
+      "Desenvolvimento de metodologias proprietárias;",
+      "Evolução permanente da plataforma."
+    ],
+    "conclusion": "Cada novo aprendizado fortalece tanto nosso conhecimento quanto a capacidade analítica da plataforma."
+  },
+  "audience": {
+    "title": "Para quem é este conteúdo",
+    "items": [
+      "Executivos",
+      "Conselheiros",
+      "Investidores",
+      "Advisors",
+      "Consultores",
+      "Pesquisadores"
+    ]
+  },
+  "cta": {
+    "title": "A próxima vantagem competitiva das organizações será sua <highlight>capacidade de aprender institucionalmente.</highlight>",
+    "narrative": "O Executive Intelligence Center existe para acelerar essa evolução, compartilhando pesquisas, metodologias e conhecimento que contribuam para uma nova geração de organizações mais inteligentes, resilientes e preparadas para decidir.",
+    "card_title": "Comece explorando nosso conhecimento.",
+    "card_lead": "Antes de conhecer a plataforma, conheça as ideias que inspiraram sua construção.",
+    "btn_publications": "Ler Publicações",
+    "btn_frameworks": "Explorar Frameworks",
+    "btn_assessment": "Realizar Assessment Executivo"
+  }
+}

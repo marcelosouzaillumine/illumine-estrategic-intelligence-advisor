@@ -74,18 +74,18 @@ export function InstitutionalLayout() {
           {/* Desktop Actions */}
           <div className="hidden lg:flex items-center gap-4">
             <LanguageSelector />
-            <Link 
-              to="/login"
+            <a 
+              href="/login"
               className="text-[13px] font-semibold text-slate-400 hover:text-white transition-all px-4 py-2"
             >
               Login
-            </Link>
-            <Link 
-              to="/assessment"
+            </a>
+            <a 
+              href="/assessment"
               className="text-[13px] font-bold bg-white text-black px-6 py-2.5 rounded-full hover:scale-105 hover:bg-slate-100 transition-all duration-300 shadow-[0_0_30px_rgba(255,255,255,0.08)] flex items-center gap-2"
             >
               {tNav('nav.cta')}
-            </Link>
+            </a>
           </div>
 
           {/* Mobile Menu Toggle */}
@@ -114,20 +114,20 @@ export function InstitutionalLayout() {
             ))}
           </nav>
           <div className="mt-auto mb-12 flex flex-col gap-4">
-            <Link 
-              to="/assessment"
+            <a 
+              href="/assessment"
               className="text-center text-base font-semibold bg-white text-black px-6 py-4 rounded-full shadow-[0_0_20px_rgba(255,255,255,0.1)]"
               onClick={() => setMobileMenuOpen(false)}
             >
-              {tNav('nav.cta')}™
-            </Link>
-            <Link 
-              to="/login"
+              {tNav('nav.cta')}
+            </a>
+            <a 
+              href="/login"
               className="text-center text-base font-medium text-slate-400 py-4 border border-white/10 rounded-full"
               onClick={() => setMobileMenuOpen(false)}
             >
               {tNav('nav.login')}
-            </Link>
+            </a>
           </div>
         </div>
       )}

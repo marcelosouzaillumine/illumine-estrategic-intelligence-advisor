@@ -33,7 +33,7 @@ export const advisorJourney = {
           nodeId: 'adv_q2',
           type: 'bot',
           sender: 'bot',
-          content: 'Entendido. E sua atuação é predominantemente focada em:',
+          content: 'Perfeito. E sua atuação é predominantemente focada em:',
           delay: 800,
           options: [
             { id: 'spec_consulting', label: 'Consultoria Empresarial' },

@@ -13,15 +13,17 @@ export function MessageTimeline({ messages, isTyping, onSelectOption }: MessageT
   const bottomRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    bottomRef.current?.scrollIntoView({ behavior: 'smooth' });
-  }, [messages, isTyping]);
+    if (isTyping) {
+      bottomRef.current?.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+    }
+  }, [isTyping]);
 
   return (
     <div className="p-5 bg-[#050506] flex-1 overflow-y-auto custom-scrollbar flex flex-col gap-5 font-sans">
       {messages.map((msg) => (
         <Fragment key={msg.id}>
           {msg.type === 'bot' && (
-            <div className="bg-[#121214] border border-white/5 rounded-2xl p-4 rounded-tl-none animate-in fade-in slide-in-from-bottom-2 duration-500 shadow-sm max-w-[90%]">
+            <div className="shrink-0 bg-[#121214] border border-white/5 rounded-2xl p-4 rounded-tl-none animate-in fade-in slide-in-from-bottom-2 duration-500 shadow-sm max-w-[90%]">
               <p className="text-[13px] md:text-sm text-slate-300 leading-relaxed whitespace-pre-wrap">
                 {msg.content}
               </p>
@@ -29,13 +31,13 @@ export function MessageTimeline({ messages, isTyping, onSelectOption }: MessageT
           )}
 
           {msg.type === 'user' && (
-            <div className="bg-amber-500/10 border border-amber-500/20 text-amber-500 rounded-2xl p-3 px-4 rounded-tr-none self-end max-w-[85%] animate-in fade-in slide-in-from-bottom-2 duration-300 shadow-sm">
+            <div className="shrink-0 bg-amber-500/10 border border-amber-500/20 text-amber-500 rounded-2xl p-3 px-4 rounded-tr-none self-end max-w-[85%] animate-in fade-in slide-in-from-bottom-2 duration-300 shadow-sm">
               <p className="text-[13px] md:text-sm font-medium">{msg.content}</p>
             </div>
           )}
 
           {msg.options && msg.options.length > 0 && (
-            <div className="flex flex-col gap-2 mt-1 animate-in fade-in duration-300">
+            <div className="shrink-0 flex flex-col gap-2 mt-1 animate-in fade-in duration-300">
               {msg.options.map((opt) => (
                 <button
                   key={opt.id}
@@ -50,10 +52,7 @@ export function MessageTimeline({ messages, isTyping, onSelectOption }: MessageT
           )}
           
           {msg.type === 'insight' && (
-            <div className="bg-transparent border-l-2 border-amber-500 pl-4 py-1 my-2 animate-in fade-in duration-500">
-              <p className="text-[10px] text-amber-500 font-bold uppercase tracking-widest mb-1.5 flex items-center gap-1.5">
-                <Sparkles size={10} /> Interpretação Executiva
-              </p>
+            <div className="shrink-0 bg-transparent border-l-2 border-amber-500 pl-4 py-1 my-2 animate-in fade-in duration-500">
               <p className="text-[13px] md:text-sm text-slate-400 font-medium leading-relaxed italic">
                 {msg.content}
               </p>
@@ -61,11 +60,8 @@ export function MessageTimeline({ messages, isTyping, onSelectOption }: MessageT
           )}
 
           {msg.type === 'summary' && (
-            <div className="bg-[#121214] border border-white/5 rounded-2xl p-4 animate-in fade-in duration-500 shadow-sm w-full relative overflow-hidden">
+            <div className="shrink-0 bg-[#121214] border border-white/5 rounded-2xl p-4 animate-in fade-in duration-500 shadow-sm w-full relative overflow-hidden">
                <div className="absolute top-0 left-0 w-1 h-full bg-blue-500/50" />
-               <p className="text-[10px] text-blue-400 font-bold uppercase tracking-widest mb-2 flex items-center gap-1.5">
-                 Síntese Estratégica
-               </p>
                <p className="text-[13px] md:text-sm text-slate-300 font-medium leading-relaxed">
                  {msg.content}
                </p>
@@ -73,7 +69,7 @@ export function MessageTimeline({ messages, isTyping, onSelectOption }: MessageT
           )}
 
           {msg.type === 'advisor_card' && (
-            <div className="bg-[#121214] border border-white/10 rounded-2xl overflow-hidden animate-in fade-in duration-500 shadow-lg w-full mt-2">
+            <div className="shrink-0 bg-[#121214] border border-white/10 rounded-2xl overflow-hidden animate-in fade-in duration-500 shadow-lg w-full mt-2">
               <div className="p-4 border-b border-white/5 bg-black/40">
                 <h4 className="text-white font-bold text-sm mb-1">{msg.content}</h4>
                 <p className="text-[11px] text-slate-400">Utilize a Executive Intelligence Platform para ampliar sua prática.</p>
@@ -92,7 +88,7 @@ export function MessageTimeline({ messages, isTyping, onSelectOption }: MessageT
           )}
 
           {msg.type === 'cta' && (
-            <div className="flex flex-col gap-3 mt-4 animate-in fade-in duration-500">
+            <div className="shrink-0 flex flex-col gap-3 mt-4 animate-in fade-in duration-500">
               {msg.content && (
                 <p className="text-[12px] text-slate-400 text-center px-4 leading-relaxed">
                   {msg.content}

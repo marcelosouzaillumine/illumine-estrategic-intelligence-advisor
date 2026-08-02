@@ -144,6 +144,7 @@ import { motion, AnimatePresence } from 'motion/react';
 import { DEFAULT_OPEN_SUBMENUS, DEFAULT_PAGE, FLAT_NAV_ITEMS, NAVIGATION_GROUPS, LEGACY_ROUTE_MAP, type Page } from './app/navigation';
 import { renderCurrentPage } from './app/routes';
 import { ClientSelector } from './components/ClientSelector';
+import { ScrollToTop } from './components/ScrollToTop';
 import { GovernanceProvider, useGovernance } from './lib/governanceContext';
 import { TenancyProvider } from './context/TenancyProvider';
 import { LGPDModal } from './components/modals/GovernanceModals';
@@ -505,6 +506,7 @@ export default function App() {
             <ExecutiveCognitiveProvider>
               <ExecutiveInteractionProvider>
                 <InstitutionalMemoryProvider initialTenantId={selectedClient}>
+                  <ScrollToTop />
                   <Routes>
                     {/* Institutional V2 Routes */}
                     <Route element={<InstitutionalLayout />}>

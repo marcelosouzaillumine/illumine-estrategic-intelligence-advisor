@@ -4,12 +4,20 @@ import { DEFAULT_LOCALE_PREFERENCE } from './locale.types';
 
 const getInitialLanguage = () => {
   if (typeof window !== 'undefined') {
-    const saved = localStorage.getItem('illumine_locale_preference');
+    const saved = localStorage.getItem('illumine-language');
     if (saved) {
       try {
         const parsed = JSON.parse(saved);
-        if (parsed.language) return parsed.language;
-      } catch (e) {}
+        if (typeof parsed === 'string') {
+          return parsed;
+        }
+        if (parsed && typeof parsed === 'object' && parsed.language) {
+          return parsed.language;
+        }
+      } catch (e) {
+        // Not JSON, just return the raw string
+        return saved;
+      }
     }
     
     // Also check i18next standard key as fallback if needed
@@ -41,6 +49,8 @@ import ptBrBrand from '../locales/pt-BR/brand.json';
 import ptBrShowcasesCommand from '../locales/pt-BR/showcases/executive-command.json';
 import ptBrShowcasesSystemic from '../locales/pt-BR/showcases/systemic-intelligence.json';
 import ptBrShowcasesGovernance from '../locales/pt-BR/showcases/governance.json';
+import ptBrIntelligenceCenter from '../locales/pt-BR/intelligence-center.json';
+import ptBrAssessment from '../locales/pt-BR/assessment.json';
 
 // Import en-US namespaces
 import enUsCommon from '../locales/en-US/common.json';
@@ -64,6 +74,8 @@ import enUsBrand from '../locales/en-US/brand.json';
 import enUsShowcasesCommand from '../locales/en-US/showcases/executive-command.json';
 import enUsShowcasesSystemic from '../locales/en-US/showcases/systemic-intelligence.json';
 import enUsShowcasesGovernance from '../locales/en-US/showcases/governance.json';
+import enUsIntelligenceCenter from '../locales/en-US/intelligence-center.json';
+import enUsAssessment from '../locales/en-US/assessment.json';
 
 // Import es-ES namespaces
 import esEsCommon from '../locales/es-ES/common.json';
@@ -87,6 +99,8 @@ import esEsBrand from '../locales/es-ES/brand.json';
 import esEsShowcasesCommand from '../locales/es-ES/showcases/executive-command.json';
 import esEsShowcasesSystemic from '../locales/es-ES/showcases/systemic-intelligence.json';
 import esEsShowcasesGovernance from '../locales/es-ES/showcases/governance.json';
+import esEsIntelligenceCenter from '../locales/es-ES/intelligence-center.json';
+import esEsAssessment from '../locales/es-ES/assessment.json';
 
 const resources = {
   'pt-BR': {
@@ -110,7 +124,9 @@ const resources = {
     brand: ptBrBrand,
     'showcases/executive-command': ptBrShowcasesCommand,
     'showcases/systemic-intelligence': ptBrShowcasesSystemic,
-    'showcases/governance': ptBrShowcasesGovernance
+    'showcases/governance': ptBrShowcasesGovernance,
+    'intelligence-center': ptBrIntelligenceCenter,
+    'assessment': ptBrAssessment
   },
   'en-US': {
     common: enUsCommon,
@@ -133,7 +149,9 @@ const resources = {
     brand: enUsBrand,
     'showcases/executive-command': enUsShowcasesCommand,
     'showcases/systemic-intelligence': enUsShowcasesSystemic,
-    'showcases/governance': enUsShowcasesGovernance
+    'showcases/governance': enUsShowcasesGovernance,
+    'intelligence-center': enUsIntelligenceCenter,
+    'assessment': enUsAssessment
   },
   'es-ES': {
     common: esEsCommon,
@@ -156,7 +174,9 @@ const resources = {
     brand: esEsBrand,
     'showcases/executive-command': esEsShowcasesCommand,
     'showcases/systemic-intelligence': esEsShowcasesSystemic,
-    'showcases/governance': esEsShowcasesGovernance
+    'showcases/governance': esEsShowcasesGovernance,
+    'intelligence-center': esEsIntelligenceCenter,
+    'assessment': esEsAssessment
   }
 };
 
@@ -169,7 +189,7 @@ i18n
     ns: [
       'common', 'dashboard', 'executive', 'metrics', 'reports', 'errors', 'ai',
       'institutional', 'platform', 'domains', 'governance', 'advisory', 'partners', 'pricing', 'navigation', 'footer', 'seo', 'brand',
-      'showcases/executive-command', 'showcases/systemic-intelligence', 'showcases/governance'
+      'showcases/executive-command', 'showcases/systemic-intelligence', 'showcases/governance', 'intelligence-center', 'assessment'
     ],
     defaultNS: 'common',
     interpolation: {

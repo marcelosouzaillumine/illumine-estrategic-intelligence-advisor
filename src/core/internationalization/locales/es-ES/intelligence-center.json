@@ -1,0 +1,158 @@
+{
+  "hero": {
+    "label": "Executive Intelligence Center™",
+    "title": "Donde la inteligencia ejecutiva evoluciona continuamente.",
+    "narrative_1": "El Executive Intelligence Center reúne investigaciones, análisis, puntos de referencia y marcos creados para apoyar a los líderes, consejos y organizaciones en la toma de decisiones más coherentes.",
+    "narrative_2": "Más que seguir tendencias, transformamos el conocimiento en instrumentos prácticos de gestión, gobernanza y creación de valor.",
+    "cta": "Explorar el Centro de Inteligencia"
+  },
+  "knowledge_production": {
+    "title": "Inteligencia producida, no solo compartida.",
+    "subtitle": "El conocimiento como infraestructura de decisión.",
+    "narrative": "Illumine comprende que las plataformas inteligentes deben evolucionar continuamente. Es por eso que invertimos en la producción sistemática de conocimiento aplicado, conectando la experiencia ejecutiva, la investigación, los datos y la práctica empresarial.<br/><br/>El Executive Intelligence Center es el entorno donde esta inteligencia se organiza, publica y expande continuamente."
+  },
+  "frameworks": {
+    "title": "Marcos Propietarios",
+    "lead": "Modelos intelectuales desarrollados por Illumine para el diagnóstico, la toma de decisiones y la evolución organizacional. Formamos una biblioteca metodológica que sustenta nuestra arquitectura tecnológica.",
+    "items": [
+      {
+        "name": "Executive Intelligence Framework™",
+        "desc": "Modelo central para la orquestación de la inteligencia en la toma de decisiones."
+      },
+      {
+        "name": "Institutional Learning Architecture™",
+        "desc": "Estructura para la captura y preservación del aprendizaje organizacional."
+      },
+      {
+        "name": "Executive Decision Memory™",
+        "desc": "Repositorio estructurado de decisiones históricas y sus resultados."
+      },
+      {
+        "name": "Systemic Friction Model™",
+        "desc": "Diagnóstico de fricciones operativas e ineficiencias latentes."
+      },
+      {
+        "name": "Trust Architecture™",
+        "desc": "Principios de trazabilidad, explicabilidad y gobernanza de IA."
+      }
+    ]
+  },
+  "knowledge_areas": {
+    "title": "Áreas de Conocimiento",
+    "lead": "Un centro organizado por temas estratégicos.",
+    "items": [
+      {
+        "title": "Executive Briefs",
+        "description": "Análisis objetivos sobre temas críticos para ejecutivos y consejos."
+      },
+      {
+        "title": "White Papers",
+        "description": "Estudios profundos sobre gobernanza, inteligencia institucional y transformación organizacional."
+      },
+      {
+        "title": "Investigación & Benchmarks",
+        "description": "Indicadores de mercado, madurez organizacional y tendencias ejecutivas."
+      },
+      {
+        "title": "Casos de Aplicación",
+        "description": "Cómo las organizaciones utilizan la inteligencia institucional para mejorar el rendimiento, la gobernanza y la calidad de las decisiones."
+      },
+      {
+        "title": "Biblioteca Técnica",
+        "description": "Contenido para especialistas, asesores y socios."
+      }
+    ]
+  },
+  "research_lines": {
+    "title": "Líneas de Investigación",
+    "lead": "Investigamos los desafíos que definirán la próxima generación de la gestión.",
+    "items": [
+      {
+        "title": "Gobernanza Corporativa",
+        "description": "Cómo las organizaciones aumentan la consistencia en las decisiones."
+      },
+      {
+        "title": "Inteligencia Institucional",
+        "description": "Cómo preservar el conocimiento crítico."
+      },
+      {
+        "title": "Desempeño Financiero",
+        "description": "Cómo las decisiones operativas afectan el valor económico."
+      },
+      {
+        "title": "Liderazgo",
+        "description": "Cómo ampliar la capacidad analítica sin reemplazar el juicio."
+      },
+      {
+        "title": "IA Aplicada a la Gestión",
+        "description": "Límites, oportunidades y responsabilidad ejecutiva."
+      },
+      {
+        "title": "Estrategia",
+        "description": "Cómo las organizaciones aprenden continuamente."
+      }
+    ]
+  },
+  "publications": {
+    "title": "Publicaciones Destacadas",
+    "items": [
+      {
+        "tag": "Executive Brief",
+        "title": "¿Por qué las empresas inteligentes siguen tomando malas decisiones?",
+        "meta": "7 minutos"
+      },
+      {
+        "tag": "White Paper",
+        "title": "Executive Intelligence: la próxima evolución de la infraestructura corporativa",
+        "meta": "35 páginas"
+      },
+      {
+        "tag": "Investigación",
+        "title": "Madurez en Gobernanza en las Empresas Brasileñas",
+        "meta": "Informe 2026"
+      },
+      {
+        "tag": "Marco de Referencia",
+        "title": "Institutional Learning Architecture™",
+        "meta": "Metodología"
+      },
+      {
+        "tag": "Estudio",
+        "title": "El costo de la Amnesia Institucional",
+        "meta": "Casos de Estudio"
+      }
+    ]
+  },
+  "research_center": {
+    "title": "La plataforma aprende. El conocimiento evoluciona.",
+    "lead": "La inteligencia producida por Illumine nace de la combinación de:",
+    "items": [
+      "Experiencia práctica en organizaciones complejas;",
+      "Estudios sobre gobernanza y gestión;",
+      "Observación continua de patrones organizacionales;",
+      "Desarrollo de metodologías propias;",
+      "Evolución continua de la plataforma."
+    ],
+    "conclusion": "Cada nuevo aprendizaje fortalece tanto nuestro conocimiento como la capacidad analítica de la plataforma."
+  },
+  "audience": {
+    "title": "Para quién es este contenido",
+    "items": [
+      "Ejecutivos",
+      "Consejeros",
+      "Inversores",
+      "Asesores",
+      "Consultores",
+      "Investigadores"
+    ]
+  },
+  "cta": {
+    "title": "La próxima ventaja competitiva de las organizaciones será su <highlight>capacidad para aprender institucionalmente.</highlight>",
+    "narrative": "El Executive Intelligence Center existe para acelerar esta evolución, compartiendo investigaciones, metodologías y conocimientos que contribuyen a una nueva generación de organizaciones más inteligentes, resilientes y preparadas para decidir.",
+    "card_title": "Comienza explorando nuestro conocimiento.",
+    "card_lead": "Antes de conocer la plataforma, descubre las ideas que inspiraron su creación.",
+    "btn_publications": "Leer Publicaciones",
+    "btn_frameworks": "Explorar Marcos de Referencia",
+    "btn_assessment": "Realizar Evaluación Ejecutiva"
+  }
+}

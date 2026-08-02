@@ -1,0 +1,95 @@
+{
+  "dimensions": {
+    "governance": {
+      "title": "Gobernanza",
+      "question": "¿La organización tiene mecanismos de decisión claros basados en datos auditables?"
+    },
+    "information": {
+      "title": "Información",
+      "question": "¿Los datos disponibles hoy tienen contexto ejecutivo o son solo números sueltos?"
+    },
+    "finance": {
+      "title": "Finanzas",
+      "question": "¿Existe una visión anticipada del capital y el flujo de caja integrada a la operación?"
+    },
+    "strategy": {
+      "title": "Estrategia",
+      "question": "¿Las decisiones estratégicas pasadas tienen un seguimiento activo de sus consecuencias?"
+    },
+    "operation": {
+      "title": "Operación",
+      "question": "¿Existen señales tempranas de ineficiencia antes de que afecten el margen?"
+    },
+    "people": {
+      "title": "Personas",
+      "question": "¿Las dependencias críticas del capital humano se cuantifican en riesgo operativo?"
+    },
+    "learning": {
+      "title": "Aprendizaje",
+      "question": "¿La empresa preserva rigurosamente su memoria de decisiones (Institutional Learning Loop)?"
+    }
+  },
+  "answers": [
+    "No, el proceso es manual o instintivo.",
+    "Parcialmente, pero dependemos de hojas de cálculo aisladas.",
+    "Sí, tenemos herramientas, pero el contexto se pierde.",
+    "Sí, tenemos total trazabilidad y anticipación sistémica."
+  ],
+  "maturity": {
+    "operational": {
+      "level": "Visibilidad Operativa",
+      "desc": "La organización opera con espejos retrovisores, enfocada en lo que ya pasó."
+    },
+    "integrated": {
+      "level": "Inteligencia Integrada",
+      "desc": "Existen conexiones de datos, pero las decisiones aún dependen de consolidaciones lentas."
+    },
+    "executive": {
+      "level": "Inteligencia Ejecutiva",
+      "desc": "Alta capacidad analítica con visión de riesgo, pero la memoria institucional aún puede fallar."
+    },
+    "institutional": {
+      "level": "Inteligencia Institucional",
+      "desc": "Madurez de vanguardia. La empresa tiene un Gemelo Digital y memoria causal para cada decisión."
+    }
+  },
+  "result": {
+    "completed_label": "Evaluación Completada",
+    "title": "Índice de Madurez de Inteligencia Ejecutiva™",
+    "map_title": "Mapa de Evolución Institucional™",
+    "opportunities_title": "Oportunidades de Inteligencia™",
+    "opportunities": [
+      "Preservación continua del contexto de decisión.",
+      "Integración entre la estrategia aprobada y la ejecución táctica.",
+      "Formación de una memoria institucional perenne."
+    ],
+    "btn_report": "Recibir Informe Ejecutivo y Programar Reunión",
+    "btn_home": "Volver a la Página de Inicio"
+  },
+  "form": {
+    "success_title": "Solicitud Recibida",
+    "success_desc": "Nuestro equipo de conserjería ejecutiva se pondrá en contacto en 24h para programar su presentación privada de la plataforma Illumine.",
+    "title": "Solicitar Acceso al Informe Ejecutivo",
+    "desc_1": "Su organización está lista para una nueva capa de inteligencia institucional.",
+    "desc_2": "Complete su información ejecutiva para recibir un análisis personalizado de madurez organizacional y programar una presentación privada de la plataforma Illumine.",
+    "name_label": "Nombre Completo",
+    "name_placeholder": "Ej: Juan Pérez",
+    "email_label": "Correo Corporativo",
+    "email_placeholder": "juan@empresa.com",
+    "role_label": "Cargo / Función",
+    "roles": [
+      "CEO / Miembro de la Junta",
+      "CFO / Director Financiero",
+      "COO / Director de Operaciones",
+      "Consultor / Asesor Ejecutivo",
+      "Otro Cargo Ejecutivo"
+    ],
+    "btn_submit": "Solicitar Reunión de Asesoría",
+    "disclaimer": "Sus datos serán tratados con estricta confidencialidad corporativa de acuerdo con nuestra Trust Architecture™."
+  },
+  "progress": {
+    "dimension_label": "Dimensión {{current}} de {{total}}",
+    "btn_back": "Volver",
+    "btn_cancel": "Cancelar Evaluación"
+  }
+}

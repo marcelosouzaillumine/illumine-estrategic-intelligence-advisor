@@ -1,0 +1,95 @@
+{
+  "dimensions": {
+    "governance": {
+      "title": "Governance",
+      "question": "Does the organization have clear decision mechanisms based on auditable data?"
+    },
+    "information": {
+      "title": "Information",
+      "question": "Does the data available today have executive context or are they just loose numbers?"
+    },
+    "finance": {
+      "title": "Finance",
+      "question": "Is there an anticipatory view of capital and cash integrated into operations?"
+    },
+    "strategy": {
+      "title": "Strategy",
+      "question": "Are past strategic decisions actively monitored for their consequences?"
+    },
+    "operation": {
+      "title": "Operation",
+      "question": "Are there early signs of inefficiency before they affect margins?"
+    },
+    "people": {
+      "title": "People",
+      "question": "Are critical human capital dependencies quantified into operational risk?"
+    },
+    "learning": {
+      "title": "Learning",
+      "question": "Does the company rigorously preserve its decision memory (Institutional Learning Loop)?"
+    }
+  },
+  "answers": [
+    "No, the process is manual or instinctive.",
+    "Partially, but we rely on isolated spreadsheets.",
+    "Yes, we have tools, but context gets lost.",
+    "Yes, we have full traceability and systemic anticipation."
+  ],
+  "maturity": {
+    "operational": {
+      "level": "Operational Visibility",
+      "desc": "The organization operates with rear-view mirrors, focused on what has already passed."
+    },
+    "integrated": {
+      "level": "Integrated Intelligence",
+      "desc": "Data connections exist, but decisions still rely on slow consolidations."
+    },
+    "executive": {
+      "level": "Executive Intelligence",
+      "desc": "High analytical capacity with risk view, but institutional memory can still fail."
+    },
+    "institutional": {
+      "level": "Institutional Intelligence",
+      "desc": "Cutting-edge maturity. The company has a Digital Twin and causal memory for every decision."
+    }
+  },
+  "result": {
+    "completed_label": "Assessment Completed",
+    "title": "Executive Intelligence Maturity Index™",
+    "map_title": "Institutional Evolution Map™",
+    "opportunities_title": "Intelligence Opportunities™",
+    "opportunities": [
+      "Continuous preservation of decision context.",
+      "Integration between approved strategy and tactical execution.",
+      "Formation of a perennial institutional memory."
+    ],
+    "btn_report": "Receive Executive Insight Report™ & Schedule Meeting",
+    "btn_home": "Back to Home Page"
+  },
+  "form": {
+    "success_title": "Request Received",
+    "success_desc": "Our executive concierge team will contact you within 24h to schedule your private presentation of the Illumine platform.",
+    "title": "Request Access to Executive Report",
+    "desc_1": "Your organization is ready for a new layer of institutional intelligence.",
+    "desc_2": "Fill out your executive information to receive a personalized organizational maturity analysis and schedule a private presentation of the Illumine platform.",
+    "name_label": "Full Name",
+    "name_placeholder": "Ex: John Doe",
+    "email_label": "Corporate Email",
+    "email_placeholder": "john@company.com",
+    "role_label": "Job Title / Role",
+    "roles": [
+      "CEO / Board Member",
+      "CFO / Chief Financial Officer",
+      "COO / Chief Operating Officer",
+      "Consultant / Executive Advisor",
+      "Other Executive Role"
+    ],
+    "btn_submit": "Request Advisory Meeting",
+    "disclaimer": "Your data will be treated with strict corporate confidentiality in accordance with our Trust Architecture™."
+  },
+  "progress": {
+    "dimension_label": "Dimension {{current}} of {{total}}",
+    "btn_back": "Back",
+    "btn_cancel": "Cancel Assessment"
+  }
+}

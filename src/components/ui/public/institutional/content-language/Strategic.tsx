@@ -6,7 +6,7 @@ import { SectionLead, SectionTitle } from '../design-language/InstitutionalTypog
 import { ReadingContent } from '../design-language/InstitutionalLayout';
 
 interface StrategicProps extends React.HTMLAttributes<HTMLDivElement> {
-  children: React.ReactNode;
+  children?: React.ReactNode;
 }
 
 /**

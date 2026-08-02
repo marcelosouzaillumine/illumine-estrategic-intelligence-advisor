@@ -43,7 +43,7 @@ export function Section({ children, className, ...props }: LayoutProps) {
 export function Hero({ children, className, ...props }: LayoutProps) {
   return (
     <section 
-      className={cn("pt-40 pb-24 md:pt-52 md:pb-32 relative", className)} 
+      className={cn("pt-20 pb-16 md:pt-24 md:pb-20 relative", className)} 
       {...props}
     >
       {children}
