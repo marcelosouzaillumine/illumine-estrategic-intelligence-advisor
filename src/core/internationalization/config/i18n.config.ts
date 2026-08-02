@@ -2,6 +2,23 @@ import i18n from 'i18next';
 import { initReactI18next } from 'react-i18next';
 import { DEFAULT_LOCALE_PREFERENCE } from './locale.types';
 
+const getInitialLanguage = () => {
+  if (typeof window !== 'undefined') {
+    const saved = localStorage.getItem('illumine_locale_preference');
+    if (saved) {
+      try {
+        const parsed = JSON.parse(saved);
+        if (parsed.language) return parsed.language;
+      } catch (e) {}
+    }
+    
+    // Also check i18next standard key as fallback if needed
+    const i18nextSaved = localStorage.getItem('i18nextLng');
+    if (i18nextSaved) return i18nextSaved;
+  }
+  return DEFAULT_LOCALE_PREFERENCE.language;
+};
+
 // Import pt-BR namespaces
 import ptBrCommon from '../locales/pt-BR/common.json';
 import ptBrDashboard from '../locales/pt-BR/dashboard.json';
@@ -21,6 +38,9 @@ import ptBrNavigation from '../locales/pt-BR/navigation.json';
 import ptBrFooter from '../locales/pt-BR/footer.json';
 import ptBrSeo from '../locales/pt-BR/seo.json';
 import ptBrBrand from '../locales/pt-BR/brand.json';
+import ptBrShowcasesCommand from '../locales/pt-BR/showcases/executive-command.json';
+import ptBrShowcasesSystemic from '../locales/pt-BR/showcases/systemic-intelligence.json';
+import ptBrShowcasesGovernance from '../locales/pt-BR/showcases/governance.json';
 
 // Import en-US namespaces
 import enUsCommon from '../locales/en-US/common.json';
@@ -41,6 +61,9 @@ import enUsNavigation from '../locales/en-US/navigation.json';
 import enUsFooter from '../locales/en-US/footer.json';
 import enUsSeo from '../locales/en-US/seo.json';
 import enUsBrand from '../locales/en-US/brand.json';
+import enUsShowcasesCommand from '../locales/en-US/showcases/executive-command.json';
+import enUsShowcasesSystemic from '../locales/en-US/showcases/systemic-intelligence.json';
+import enUsShowcasesGovernance from '../locales/en-US/showcases/governance.json';
 
 // Import es-ES namespaces
 import esEsCommon from '../locales/es-ES/common.json';
@@ -61,6 +84,9 @@ import esEsNavigation from '../locales/es-ES/navigation.json';
 import esEsFooter from '../locales/es-ES/footer.json';
 import esEsSeo from '../locales/es-ES/seo.json';
 import esEsBrand from '../locales/es-ES/brand.json';
+import esEsShowcasesCommand from '../locales/es-ES/showcases/executive-command.json';
+import esEsShowcasesSystemic from '../locales/es-ES/showcases/systemic-intelligence.json';
+import esEsShowcasesGovernance from '../locales/es-ES/showcases/governance.json';
 
 const resources = {
   'pt-BR': {
@@ -81,7 +107,10 @@ const resources = {
     navigation: ptBrNavigation,
     footer: ptBrFooter,
     seo: ptBrSeo,
-    brand: ptBrBrand
+    brand: ptBrBrand,
+    'showcases/executive-command': ptBrShowcasesCommand,
+    'showcases/systemic-intelligence': ptBrShowcasesSystemic,
+    'showcases/governance': ptBrShowcasesGovernance
   },
   'en-US': {
     common: enUsCommon,
@@ -101,7 +130,10 @@ const resources = {
     navigation: enUsNavigation,
     footer: enUsFooter,
     seo: enUsSeo,
-    brand: enUsBrand
+    brand: enUsBrand,
+    'showcases/executive-command': enUsShowcasesCommand,
+    'showcases/systemic-intelligence': enUsShowcasesSystemic,
+    'showcases/governance': enUsShowcasesGovernance
   },
   'es-ES': {
     common: esEsCommon,
@@ -121,7 +153,10 @@ const resources = {
     navigation: esEsNavigation,
     footer: esEsFooter,
     seo: esEsSeo,
-    brand: esEsBrand
+    brand: esEsBrand,
+    'showcases/executive-command': esEsShowcasesCommand,
+    'showcases/systemic-intelligence': esEsShowcasesSystemic,
+    'showcases/governance': esEsShowcasesGovernance
   }
 };
 
@@ -129,11 +164,12 @@ i18n
   .use(initReactI18next)
   .init({
     resources,
-    lng: DEFAULT_LOCALE_PREFERENCE.language, // Initial language, will be overridden by LocaleResolutionService
+    lng: getInitialLanguage(),
     fallbackLng: 'pt-BR',
     ns: [
       'common', 'dashboard', 'executive', 'metrics', 'reports', 'errors', 'ai',
-      'institutional', 'platform', 'domains', 'governance', 'advisory', 'partners', 'pricing', 'navigation', 'footer', 'seo', 'brand'
+      'institutional', 'platform', 'domains', 'governance', 'advisory', 'partners', 'pricing', 'navigation', 'footer', 'seo', 'brand',
+      'showcases/executive-command', 'showcases/systemic-intelligence', 'showcases/governance'
     ],
     defaultNS: 'common',
     interpolation: {

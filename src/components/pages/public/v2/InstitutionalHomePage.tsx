@@ -31,10 +31,6 @@ export function InstitutionalHomePage() {
       
       {/* SEÇÃO 1 — HERO */}
       <Hero className="min-h-[90vh] flex flex-col items-center justify-center overflow-hidden">
-        <div className="absolute inset-0 z-0 pointer-events-none">
-          <div className="absolute top-1/4 left-1/4 w-[600px] h-[600px] bg-blue-600/10 rounded-full blur-[120px] mix-blend-screen opacity-50" />
-          <div className="absolute bottom-1/4 right-1/4 w-[500px] h-[500px] bg-blue-500/10 rounded-full blur-[100px] mix-blend-screen opacity-40" />
-        </div>
 
         <Container className="relative z-10 flex flex-col items-center text-center">
           <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-white/5 border border-white/10 mb-8 backdrop-blur-sm">
