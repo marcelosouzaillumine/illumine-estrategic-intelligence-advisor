@@ -32,6 +32,13 @@ export const semanticTokens = {
         color: physicalTokens.colors.slate[400],
       }
     },
+    card: {
+      title: {
+        scale: physicalTokens.typography.scale['Heading M'],
+        weight: physicalTokens.typography.weight.bold,
+        color: physicalTokens.colors.base.white,
+      }
+    },
     editorial: {
       body: {
         scale: physicalTokens.typography.scale['Body L'],

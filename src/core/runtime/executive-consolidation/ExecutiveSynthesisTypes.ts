@@ -14,7 +14,7 @@ export interface BoardConclusion {
   content: string;
 }
 
-export interface PriorityRecommendation {
+export interface InstitutionalObservation {
   severity: "healthy" | "monitoring" | "warning" | "critical";
   content: string;
 }
@@ -24,20 +24,24 @@ export interface ExecutiveDecisionPayload {
   kpis: ExecutiveKPI[];
   thematicNarratives: ThematicNarrative[];
   boardConclusion: BoardConclusion;
-  priorityRecommendation: PriorityRecommendation;
+  institutionalObservation: InstitutionalObservation;
+  priorityRecommendation?: string;
 }
 
 export interface ExecutiveStrategicDiagnosisPayload {
   analysisYear: number;
   generatedAt: string;
   currentSituation: string;
-  strategicPriority: string;
+  strategicSignificance?: string;
   outlook: string;
-  priorityRecommendation: string;
+  institutionalObservation?: string | { severity: string; content: string; };
   severityState?: "healthy" | "warning" | "critical" | "neutral";
-  recommendationPriority?: "low" | "medium" | "high";
+  observationSeverity?: "low" | "medium" | "high";
   primaryDriver?: string;
   dominantStrength?: string;
   secondaryAttention?: string;
   moduleContext?: string;
+  strategicPriority?: string;
+  priorityRecommendation?: string;
+  recommendationPriority?: string;
 }

@@ -1,6 +1,7 @@
 import React from 'react';
 import { ExecutiveNarrative } from '../../ui/executive-narrative';
 import { ExecutiveMetricCard } from '../../ui/executive-metric-card';
+import { useExecutiveFormatter } from '../../../core/localization';
 
 interface PortfolioExecutiveSummaryProps {
   totalPortfolioValue: number;
@@ -11,8 +12,8 @@ export const PortfolioExecutiveSummary: React.FC<PortfolioExecutiveSummaryProps>
   totalPortfolioValue,
   activeAssetsCount
 }) => {
-  const formatCurrency = (val: number) =>
-    new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(val);
+  const formatter = useExecutiveFormatter();
+  const formatCurrency = (val: number) => formatter.currency(val);
 
   return (
     <div className="space-y-6">

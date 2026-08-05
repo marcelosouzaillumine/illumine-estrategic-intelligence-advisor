@@ -5,5 +5,62 @@
   "boardPack": "ES::Board Pack",
   "fiduciaryLineage": "ES::Linhagem Fiduciária",
   "strategicPositioning": "ES::Posicionamento Estratégico",
-  "executionRoadmap": "ES::Roadmap de Execução"
+  "executionRoadmap": "ES::Roadmap de Execução",
+  "status": {
+    "critical": "Crítico",
+    "attention": "Atención",
+    "healthy": "Saludable"
+  },
+  "maturity": {
+    "low": "Baja",
+    "medium": "Media",
+    "high": "Alta"
+  },
+  "confidence": {
+    "high": "Alta confianza",
+    "medium": "Confianza moderada",
+    "low": "Baja confianza"
+  },
+  "severity": {
+    "CRITICAL": "Crítica",
+    "SEVERE": "Severa",
+    "ELEVATED": "Elevada",
+    "WARNING": "Alerta",
+    "HIGH": "Alta",
+    "MEDIUM": "Media",
+    "LOW": "Baja"
+  },
+  "role": {
+    "HOLDING_PATRIMONIAL": "Holding Patrimonial",
+    "HOLDING_OPERACIONAL": "Holding Operacional",
+    "SUBSIDIARIA_OPERACIONAL": "Subsidiaria Operacional",
+    "SPE": "Entidad de Propósito Especial",
+    "CENTRO_ADMINISTRATIVO": "Centro de Servicios Compartidos",
+    "VEICULO_FINANCEIRO": "Vehículo Financiero",
+    "UNIDADE_DEFICITARIA": "Unidad Deficitaria",
+    "UNIDADE_ESTRATEGICA": "Unidad Estratégica"
+  },
+  "systemicRisk": {
+    "LIQUIDITY_CHAIN_COLLAPSE": "Colapso en Cadena de Liquidez",
+    "DEBT_CONCENTRATION": "Concentración de Deuda",
+    "SYSTEMIC_DEPENDENCY": "Dependencia Sistémica",
+    "DOMINO_EFFECT": "Efecto Dominó",
+    "TREASURY_CONTAMINATION": "Contaminación de Tesorería",
+    "FRAGILITY_CONSOLIDATION": "Consolidación de Fragilidades"
+  },
+  "causality": {
+    "ARTIFICIAL_GROWTH": "Crecimiento Artificial Intragrupo",
+    "OPERATIONAL_PARASITISM": "Parasitismo Operacional",
+    "CROSS_REVENUE_DEPENDENCY": "Dependencia Cruzada de Ingresos",
+    "INTERCOMPANY_FUNDING": "Financiación Intercompany",
+    "ARTIFICIAL_SUBSIDIZATION": "Subvención Artificial",
+    "REVENUE_CONCENTRATION": "Concentración de Ingresos",
+    "DEBT_CONCENTRATION": "Concentración de Deuda"
+  },
+  "dependency": {
+    "FUNDING": "Aporte / Préstamo",
+    "REVENUE": "Ingresos Intercompany",
+    "DEBT": "Deuda Cruzada",
+    "GUARANTEE": "Garantía / Fianza"
+  }
 }

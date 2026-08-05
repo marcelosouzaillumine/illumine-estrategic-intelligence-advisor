@@ -19,7 +19,7 @@ import { ExecutiveSummarySection } from '../ui/executive-summary-section';
 import { ExecutiveStrategicTensions } from '../ui/executive-strategic-tensions';
 import { ExecutiveDecisionTrace } from '../ui/executive-decision-trace';
 import { useRuntimeObservabilityPageViewModel } from '../../viewmodels/useRuntimeObservabilityPageViewModel';
-import { useRuntimeObservabilityViewModel } from '../../viewmodels/useRuntimeObservabilityViewModel';
+import { useExecutiveFormatter } from '../../core/localization';
 
 function ExecutionTraceTree({ trace }: { trace: any }) {
   if (!trace) return null;
@@ -91,6 +91,7 @@ export function RuntimeObservabilityPage() {
   // Adapter: useRuntimeObservabilityPageAdapter
   // ViewModel: useRuntimeObservabilityPageViewModel
   const { state: vmState, computed: vmComputed, actions: vmActions } = useRuntimeObservabilityPageViewModel({ clientId: '' });
+  const formatter = useExecutiveFormatter();
   const portal = createPortal;
   const [executions, setExecutions] = useState<RuntimeExecutionRecord[]>([]);
   const [health, setHealth] = useState<RuntimeHealthSnapshot | null>(null);
@@ -179,7 +180,7 @@ export function RuntimeObservabilityPage() {
                 )}
               >
                 <div className="flex justify-between items-center mb-1">
-                  <span className="text-[10px] font-mono text-muted-foreground">{new Date(ex.timestamp).toLocaleString()}</span>
+                  <span className="text-[10px] font-mono text-muted-foreground">{formatter.date(ex.timestamp)}</span>
                   <span className={cn("text-[10px] px-2 py-0.5 rounded-button uppercase font-bold", 
                     ex.executionStatus === 'COMPLETED' ? "bg-success-soft text-success" : 
                     ex.executionStatus === 'BLOCKED' ? "bg-warning-soft text-warning" : "bg-critical-soft text-destructive"
@@ -210,7 +211,7 @@ export function RuntimeObservabilityPage() {
          opinion="O comitê fiduciário homologa a telemetria do motor de inteligência e o log determinístico de decisões."
          driver="Uptime do sistema, latência de execução e árvore de rastreamento forense."
          implication="Garantia de auditabilidade integral e ausência de alucinações nos pareceres automáticos."
-         action="Manter a retenção contínua dos logs de observabilidade por 5 anos."
+         executiveQuestion="Manter a retenção contínua dos logs de observabilidade por 5 anos."
        >
          <ExecutiveStrategicTensions tensions={[]} />
          <ExecutiveDecisionTrace trace={[]} />

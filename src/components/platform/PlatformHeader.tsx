@@ -53,7 +53,7 @@ export const PlatformHeader: React.FC<PlatformHeaderProps> = ({
 
           <ExecutiveBadge variant={status === 'ACTIVE' ? 'success' : 'warning'} className="flex items-center gap-1">
             <ShieldCheck className="w-3.5 h-3.5" />
-            <span>{status === 'ACTIVE' ? 'Operacional' : 'Atenção'}</span>
+            <span>{status === 'ACTIVE' ? 'Operacional' : 'WARNING'}</span>
           </ExecutiveBadge>
         </div>
       </div>

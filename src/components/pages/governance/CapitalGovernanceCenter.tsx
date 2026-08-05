@@ -115,7 +115,7 @@ export function CapitalGovernanceCenter({ selectedClient, selectedYear }: Capita
         opinion={cgeInference?.narrative?.diagnostic || `O Capital Governance Score atual é de ${Math.round(cgs)}/100 (${cgsStatus}). A trajetória patrimonial está classificada como ${trajectory}.`}
         driver={cgeInference?.narrative?.driver || `Preservação patrimonial calculada em ${cgeMetrics.capitalPreservation !== undefined ? `${Number(cgeMetrics.capitalPreservation).toFixed(2)}%` : `${(cpi * 100).toFixed(2)}%`}.`}
         implication={cgeInference?.narrative?.impact || "Inconsistências entre distribuição de dividendos e necessidade de aporte societário podem gerar fragilidade de liquidez."}
-        action={cgeInference?.narrative?.recommendation || "Fortalecer retenção de lucros operacionais e calibrar a política de dividendos para preservar o Patrimônio Líquido."}
+        executiveQuestion={cgeInference?.narrative?.recommendation || "Fortalecer retenção de lucros operacionais e calibrar a política de dividendos para preservar o Patrimônio Líquido."}
         technicalScore={{
           value: Math.round(cgs),
           confidence: 'Alta'
@@ -139,7 +139,7 @@ export function CapitalGovernanceCenter({ selectedClient, selectedYear }: Capita
               <CgsScoreRing 
                 value={cgs} 
                 label={cgsStatus} 
-                status={cgs >= 70 ? 'Aprovado' : 'Atenção'} 
+                status={cgs >= 70 ? 'Aprovado' : 'WARNING'} 
               />
             </div>
 

@@ -43,7 +43,7 @@ export function PremissasEconomicasPage() {
           opinion="O comitê fiduciário homologa os índices Selic, IPCA, câmbio e inflação de suporte às simulações e projeções do sistema."
           driver="Taxa Selic, IPCA, câmbio USD/BRL e indexadores oficiais do Banco Central."
           implication="Garantia de consistência, realismo econômico e rastreabilidade nas projeções financeiras."
-          action="Executar a sincronização mensal das taxas de mercado com a API do Banco Central."
+          executiveQuestion="Executar a sincronização mensal das taxas de mercado com a API do Banco Central."
         >
           <ExecutiveStrategicTensions tensions={[]} />
           <ExecutiveDecisionTrace trace={[]} />

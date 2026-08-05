@@ -13,10 +13,10 @@ import { ExecutiveDecisionTrace } from '../../ui/executive-decision-trace';
 
 export function BalanceSheetAuditLayerSection({
   viewModel,
-  decisionTrace
+  evidenceTrace
 }: {
   viewModel: BalanceSheetAuditLayerViewModel;
-  decisionTrace?: any;
+  evidenceTrace?: any;
 }) {
   // Tone helpers removed in favor of canonical components and inline neutral styles
 
@@ -164,9 +164,9 @@ export function BalanceSheetAuditLayerSection({
       </div>
 
       {/* RASTREABILIDADE (DECISION TRACE) */}
-      {decisionTrace && (
+      {evidenceTrace && (
         <div className="mt-8 border-t border-border pt-8">
-          <ExecutiveDecisionTrace trace={decisionTrace} />
+          <ExecutiveDecisionTrace trace={evidenceTrace} />
         </div>
       )}
     </ExecutiveAccordion>

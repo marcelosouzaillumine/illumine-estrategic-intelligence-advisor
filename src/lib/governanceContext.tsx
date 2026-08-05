@@ -1,11 +1,11 @@
-
 import React, { createContext, useContext, useState, useEffect } from 'react';
 import { User } from 'firebase/auth';
 import { doc, getDoc, setDoc, serverTimestamp } from 'firebase/firestore';
-import { db, auth, MASTER_ADMINS } from './firebase';
+import { db } from './firebase';
 import { UserRole, GovernanceConfig } from '../types/governance';
 import { governanceService } from '../services/governanceService';
 import { DataAccessContext } from '../core/security/data-access-context';
+import { useExecutiveContext } from '../contexts/ExecutiveContext';
 
 const POLICY_VERSION = "1.0.2";
 
@@ -21,6 +21,7 @@ interface GovernanceContextType {
 const GovernanceContext = createContext<GovernanceContextType | undefined>(undefined);
 
 export function GovernanceProvider({ children, user }: { children: React.ReactNode, user: User | null }) {
+  const { context, loading: execLoading } = useExecutiveContext();
   const [role, setRole] = useState<UserRole>('cliente');
   const [isAccepted, setIsAccepted] = useState(false);
   const [config, setConfig] = useState<GovernanceConfig | null>(null);
@@ -28,28 +29,26 @@ export function GovernanceProvider({ children, user }: { children: React.ReactNo
 
   useEffect(() => {
     async function initGovernance() {
-      if (!user) {
+      if (execLoading) return; // Wait for the executive context
+
+      if (!user || !context) {
         setLoading(false);
         return;
       }
 
       try {
-        // 1. Determine Role
-        const userEmail = (user.email || '').toLowerCase().trim();
+        // 1. Determine Role from ExecutiveContext
         let currentRole: UserRole = 'cliente';
-        
-        if (MASTER_ADMINS.some(email => email.toLowerCase().trim() === userEmail)) {
-          currentRole = 'master';
+        if (context.capabilities.includes('SYSTEM.OBSERVABILITY.VIEW')) {
+          currentRole = 'master'; // Mapping new capabilities to legacy UserRole string for UI compatibility
         } else {
-          // Check for other roles in client_users or a global users collection
-          const userDoc = await getDoc(doc(db, 'users', user.uid));
-          if (userDoc.exists()) {
-            currentRole = userDoc.data().role || 'cliente';
-          }
+          // You could map context.membership.roleCode to UserRole here
+          currentRole = 'cliente';
         }
         setRole(currentRole);
 
-        // 2. Check Acceptance
+        // 2. Check Acceptance (Terms of service/Privacy policy)
+        // This is a legitimate governance concern, keep it hitting firestore or a future LegalService.
         const acceptanceDoc = await getDoc(doc(db, 'user_acceptances', user.uid));
         if (acceptanceDoc.exists()) {
           const data = acceptanceDoc.data();
@@ -58,8 +57,8 @@ export function GovernanceProvider({ children, user }: { children: React.ReactNo
 
         // 3. Get Global Config
         const systemContext: DataAccessContext = {
-          actorId: 'SYSTEM',
-          tenantId: 'SYSTEM',
+          actorId: context.user.id,
+          tenantId: context.tenant.id,
           role: 'SUPER_ADMIN',
           permissions: ['VIEW_OBSERVABILITY'],
           entityScope: { tenantId: 'SYSTEM', requestedEntityScope: 'ENTITY', entityId: 'SYSTEM', allowedEntityIds: ['SYSTEM'], allowedGroupIds: [], consolidatedScope: true },
@@ -80,7 +79,7 @@ export function GovernanceProvider({ children, user }: { children: React.ReactNo
     }
 
     initGovernance();
-  }, [user]);
+  }, [user, context, execLoading]);
 
   const setAccepted = async (accepted: boolean) => {
     if (!user) return;
@@ -99,9 +98,10 @@ export function GovernanceProvider({ children, user }: { children: React.ReactNo
   };
 
   const refreshConfig = async () => {
+    if (!context) return;
     const systemContext: DataAccessContext = {
-      actorId: 'SYSTEM',
-      tenantId: 'SYSTEM',
+      actorId: context.user.id,
+      tenantId: context.tenant.id,
       role: 'SUPER_ADMIN',
       permissions: ['VIEW_OBSERVABILITY'],
       entityScope: { tenantId: 'SYSTEM', requestedEntityScope: 'ENTITY', entityId: 'SYSTEM', allowedEntityIds: ['SYSTEM'], allowedGroupIds: [], consolidatedScope: true },
@@ -128,4 +128,4 @@ export const useGovernance = () => {
     throw new Error('useGovernance must be used within a GovernanceProvider');
   }
   return context;
-};
+}

@@ -126,7 +126,7 @@ export const ExecutiveCognitivePage: React.FC = () => {
          opinion="O comitê fiduciário homologa os grafos de causalidade, garantindo transparência nas inferências de inteligência."
          driver="Knowledge Graph, nós causais, matriz de explicabilidade e conexões de decisão."
          implication="Prevenção de decisões baseadas em correlações espúrias ou modelos opacos."
-         action="Verificar os nós de maior centralidade no grafo quinzenalmente."
+         executiveQuestion="Verificar os nós de maior centralidade no grafo quinzenalmente."
        >
          <ExecutiveStrategicTensions tensions={[]} />
          <ExecutiveDecisionTrace trace={[]} />

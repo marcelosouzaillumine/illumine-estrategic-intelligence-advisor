@@ -50,7 +50,7 @@ export function InstitutionalStrategicIntelligencePage({ clients, selectedClient
           opinion="O comitê fiduciário homologa os diagnósticos de eficiência de escala e governança como direcionadores fiduciários soberanos."
           driver="Eficiência de escala, resiliência de caixa, alavancagem estrutural e diretrizes executivas."
           implication="Alinhamento perfeito entre estratégia de longo prazo e execução operacional diária."
-          action="Executar as diretrizes de otimização de capital acordadas no comitê de governança."
+          executiveQuestion="Executar as diretrizes de otimização de capital acordadas no comitê de governança."
         >
           <ExecutiveStrategicTensions tensions={[]} />
           <ExecutiveDecisionTrace trace={[]} />

@@ -118,7 +118,7 @@ export function CleanupTool() {
         opinion="O comitê fiduciário homologa a ferramenta de limpeza para uso exclusivo em ambientes de homologação e testes."
         driver="Operações destrutivas controladas, isolamento por CNPJ e registro de auditoria."
         implication="Prevenção contra deleções acidentais de registros em ambientes de produção."
-        action="Restringir o acesso deste console a perfis de superadministradores de infraestrutura."
+        executiveQuestion="Restringir o acesso deste console a perfis de superadministradores de infraestrutura."
       >
         <ExecutiveStrategicTensions tensions={[]} />
         <ExecutiveDecisionTrace trace={[]} />

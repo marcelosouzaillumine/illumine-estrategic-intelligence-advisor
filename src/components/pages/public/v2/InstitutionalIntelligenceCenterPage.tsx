@@ -11,6 +11,8 @@ import {
   SectionLead,
   Narrative,
   Card,
+  CardGrid,
+  CardTitle,
 } from '@/components/ui/public/institutional/InstitutionalContentSystem';
 import { useTranslation } from 'react-i18next';
 
@@ -174,17 +176,17 @@ export function InstitutionalIntelligenceCenterPage() {
             </SectionLead>
           </div>
 
-          <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 font-sans">
+          <CardGrid className="max-w-7xl mx-auto md:grid-cols-2 lg:grid-cols-3 font-sans">
             {frameworks.map((fw, idx) => (
               <Card key={idx} variant="secondary" hoverable className="p-8 border-t-4 border-t-white/10 hover:border-t-amber-500 transition-colors group">
                 <div className="w-12 h-12 rounded-full bg-amber-500/10 flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-500">
                   <Network className="w-6 h-6 text-amber-500" />
                 </div>
-                <h3 className="text-xl font-bold text-white mb-4 group-hover:text-amber-500 transition-colors">{fw.name}</h3>
-                <p className="text-slate-400 leading-relaxed font-medium">{fw.desc}</p>
+                <CardTitle className="text-xl group-hover:text-amber-500 transition-colors">{fw.name}</CardTitle>
+                <Narrative className="text-slate-400 font-medium leading-relaxed">{fw.desc}</Narrative>
               </Card>
             ))}
-          </div>
+          </CardGrid>
         </Container>
       </Section>
 
@@ -196,18 +198,18 @@ export function InstitutionalIntelligenceCenterPage() {
             <SectionLead align="center" className="max-w-3xl">{t('knowledge_areas.lead')}</SectionLead>
           </div>
           
-          <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-8 font-sans">
+          <CardGrid className="max-w-7xl mx-auto md:grid-cols-3 gap-8 font-sans">
             {areasDeConhecimento.map((area, idx) => {
               const Icon = area.icon;
               return (
                 <Card key={idx} variant="secondary" hoverable={false} className="p-8 bg-white/5">
                   <Icon className="w-8 h-8 text-amber-500 mb-6" />
-                  <h3 className="text-xl font-bold text-white mb-3">{area.title}</h3>
-                  <p className="text-slate-400 leading-relaxed font-medium">{area.description}</p>
+                  <CardTitle className="text-xl mb-3">{area.title}</CardTitle>
+                  <Narrative className="text-slate-400 leading-relaxed font-medium">{area.description}</Narrative>
                 </Card>
               );
             })}
-          </div>
+          </CardGrid>
         </Container>
       </Section>
 
@@ -220,14 +222,14 @@ export function InstitutionalIntelligenceCenterPage() {
             <SectionLead align="center" className="max-w-3xl">{t('research_lines.lead')}</SectionLead>
           </div>
 
-          <div className="max-w-7xl mx-auto grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 font-sans">
+          <CardGrid className="max-w-7xl mx-auto sm:grid-cols-2 lg:grid-cols-3 font-sans">
             {linhasDePesquisa.map((linha, idx) => (
               <Card key={idx} variant="secondary" hoverable={false} className="p-8 bg-black/40 border-white/5">
-                <h3 className="text-xl font-bold text-white mb-3">{linha.title}</h3>
-                <p className="text-slate-400 font-medium">{linha.description}</p>
+                <CardTitle className="text-xl mb-3">{linha.title}</CardTitle>
+                <Narrative className="text-slate-400 font-medium">{linha.description}</Narrative>
               </Card>
             ))}
-          </div>
+          </CardGrid>
         </Container>
       </Section>
 
@@ -238,18 +240,18 @@ export function InstitutionalIntelligenceCenterPage() {
             <h2 className="text-3xl md:text-4xl font-bold text-white tracking-tight font-sans">{t('publications.title')}</h2>
           </div>
 
-          <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 font-sans">
+          <CardGrid className="max-w-7xl mx-auto md:grid-cols-2 lg:grid-cols-3 font-sans">
             {publicacoesDestaque.map((pub, idx) => (
               <a key={idx} href="#" className="flex flex-col p-8 rounded-2xl border border-white/10 bg-[#0A0A0B] hover:border-amber-500/50 group transition-all duration-300 min-h-[240px]">
                 <span className="text-xs font-bold tracking-wider text-amber-500 uppercase mb-4">{pub.tag}</span>
-                <h3 className="text-2xl font-bold text-white mb-auto group-hover:text-amber-500 transition-colors">{pub.title}</h3>
+                <CardTitle className="text-2xl mb-auto group-hover:text-amber-500 transition-colors">{pub.title}</CardTitle>
                 <div className="mt-8 flex items-center justify-between text-slate-500 text-sm font-medium">
                   <span>{pub.meta}</span>
                   <ArrowRight className="w-4 h-4 opacity-0 -translate-x-4 group-hover:opacity-100 group-hover:translate-x-0 transition-all duration-300 text-amber-500" />
                 </div>
               </a>
             ))}
-          </div>
+          </CardGrid>
         </Container>
       </Section>
 

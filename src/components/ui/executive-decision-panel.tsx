@@ -10,7 +10,7 @@ export interface ExecutiveDecisionPanelProps {
   opinion: string;
   driver: string;
   implication: string;
-  action: string;
+  executiveQuestion?: string;
   confidence?: string;
   technicalIndex?: string | number;
   className?: string;
@@ -31,7 +31,7 @@ export function ExecutiveDecisionPanel({
   opinion,
   driver,
   implication,
-  action,
+  executiveQuestion,
   confidence,
   technicalIndex,
   className
@@ -84,23 +84,31 @@ export function ExecutiveDecisionPanel({
         <ExecutiveHeading as="h4" variant="submoduleTitle">
           {driver}
         </ExecutiveHeading>
-        <ExecutiveText variant="bodyLarge" as="p" className="max-w-[70ch] mt-1 text-executive-secondary">
-          {implication}
-        </ExecutiveText>
+        <div className="mt-4">
+          <ExecutiveText variant="microLabel" className="text-executive-muted">
+            Implicação Estratégica
+          </ExecutiveText>
+          <ExecutiveText variant="bodyLarge" as="p" className="max-w-[70ch] mt-1 text-executive-secondary">
+            {implication}
+          </ExecutiveText>
+        </div>
       </div>
 
-      {/* 3. Ação Tática */}
-      <div className={cn("flex flex-col items-start w-full", ExecutiveDecisionRhythm.implicationToAction, ExecutiveDecisionRhythm.actionLabelToAction)}>
-        <ExecutiveText variant="microLabel" className="text-executive-muted mb-1">
-          Ação Tática
-        </ExecutiveText>
-        <ExecutiveCallout variant="info" className="w-full">
-          <ExecutiveText variant="bodyStrong" as="p" className="text-foreground font-medium">
-            {action}
+      {/* 3. Questão para Avaliação */}
+      {executiveQuestion && (
+        <div className={cn("flex flex-col items-start w-full", ExecutiveDecisionRhythm.implicationToAction, ExecutiveDecisionRhythm.actionLabelToAction)}>
+          <ExecutiveText variant="microLabel" className="text-executive-muted mb-1">
+            Questão para avaliação
           </ExecutiveText>
-        </ExecutiveCallout>
-      </div>
+          <ExecutiveCallout variant="info" className="w-full">
+            <ExecutiveText variant="bodyStrong" as="p" className="text-foreground font-medium">
+              {executiveQuestion}
+            </ExecutiveText>
+          </ExecutiveCallout>
+        </div>
+      )}
 
     </div>
   );
 }
+

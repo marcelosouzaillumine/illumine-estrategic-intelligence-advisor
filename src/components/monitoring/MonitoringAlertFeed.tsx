@@ -2,8 +2,10 @@ import React from 'react';
 import { MonitoringAlert } from '../../services/FiduciaryRuntimeAdapter';
 import { AlertSeverityBadge } from './AlertSeverityBadge';
 import { Hash } from 'lucide-react';
+import { useExecutiveFormatter } from '../../core/localization';
 
 export function MonitoringAlertFeed({ alerts }: { alerts: MonitoringAlert[] }) {
+  const formatter = useExecutiveFormatter();
   if (alerts.length === 0) {
     return (
       <div className="flex flex-col items-center justify-center p-8 bg-surface-container border border-border rounded-xl text-muted-foreground h-full">
@@ -19,7 +21,7 @@ export function MonitoringAlertFeed({ alerts }: { alerts: MonitoringAlert[] }) {
         <div key={alert.alertId} className="flex flex-col p-4 bg-background border border-border rounded-lg shadow-sm hover:border-primary/30 transition-colors">
           <div className="flex items-center justify-between mb-2">
             <AlertSeverityBadge severity={alert.severity} />
-            <span className="text-[10px] text-muted-foreground">{new Date(alert.timestamp).toLocaleString()}</span>
+            <span className="text-[10px] text-muted-foreground">{formatter.date(alert.timestamp)}</span>
           </div>
           
           <h4 className="text-sm font-semibold text-foreground mb-1">{alert.message}</h4>

@@ -82,7 +82,7 @@ export function InstitutionalThesisPage() {
             <div className="space-y-6">
               <h3 className="text-3xl font-bold text-white mb-6 font-sans">Inteligência que Amplia</h3>
               <p>
-                A Inteligência Artificial corporativa não deve ser projetada para substituir a intuição e a coragem do líder executivo. 
+                A inteligência corporativa não deve ser projetada para substituir a intuição e a coragem do líder executivo. 
                 O papel da tecnologia é reduzir a sobrecarga cognitiva e assegurar que a governança está sendo respeitada, liberando a mente do executivo para o que importa: <strong className="text-white font-bold">visão, estratégia e relacionamento</strong>.
               </p>
               <p>

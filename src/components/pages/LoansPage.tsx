@@ -69,7 +69,7 @@ export function LoansPage({ clients, selectedClient }: { clients: any[], selecte
           opinion="O comitê fiduciário homologa a estrutura de endividamento, validando o nível de alavancagem financeira e o perfil de vencimentos da dívida."
           driver="Saldo devedor total, taxa média ponderada de juros, cronograma de amortização SAC vs PRICE e garantias."
           implication="Manutenção de estrutura de capital saudável e mitigação de risco de refinanciamento de curto prazo."
-          action="Priorizar o pré-pagamento de linhas com custo mais elevado e estender o prazo médio de vencimento."
+          executiveQuestion="Priorizar o pré-pagamento de linhas com custo mais elevado e estender o prazo médio de vencimento."
         >
           <ExecutiveStrategicTensions tensions={[]} />
           <ExecutiveDecisionTrace trace={[]} />

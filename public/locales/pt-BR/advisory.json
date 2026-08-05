@@ -1,0 +1,68 @@
+{
+  "brand": {
+    "name": "Illumine Concierge™"
+  },
+  "widget": {
+    "title": "Illumine Concierge™",
+    "subtitle": "Public Experience",
+    "analyzing": "Analisando..."
+  },
+  "journeys": {
+    "discovery": {
+      "step1": "Para que possamos adequar a apresentação da plataforma, qual destas opções melhor descreve o perfil da sua instituição?",
+      "holding": "Holding / Grupo Econômico",
+      "hospital": "Hospital / Saúde",
+      "edu": "Instituição de Ensino",
+      "other": "Outro segmento",
+      "step2_holding": "Estruturas complexas exigem governança e memória institucional adequadas ao seu setor de atuação.",
+      "step3": "A Illumine possui módulos de inteligência e compliance desenhados para capturar as nuances operacionais e fiduciárias específicas do seu segmento, conectando a gestão diária aos objetivos macro-estratégicos.",
+      "step4": "Para mapearmos a melhor aplicação da nossa tecnologia ao seu caso, recomendamos um diagnóstico inicial.",
+      "cta_diagnostic": "Agendar Diagnóstico"
+    },
+    "finance": {
+      "step1": "O maior desafio da área financeira moderna não é fechar o balanço, mas conectá-lo à operação em tempo real. A Illumine atua como uma Controladoria Avançada Inteligente, mapeando vazamentos invisíveis de rentabilidade e viabilizando simulações de capital de giro e estrutura de capital com precisão matemática.",
+      "step2": "Nossa plataforma foi construída para dar segurança absoluta à Diretoria Financeira.",
+      "cta_talk": "Falar com Consultor"
+    },
+    "board": {
+      "step1": "A atuação fiduciária exige rastreabilidade e visão de impacto sistêmico. Como membro do conselho, qual sua prioridade imediata?",
+      "risk": "Gestão de Riscos e Compliance",
+      "strategy": "Alinhamento Estratégico",
+      "succession": "Continuidade e Sucessão",
+      "step2_risk": "A Illumine atua como uma camada protetora da memória fiduciária. O módulo Governance Intelligence garante que as decisões e seus impactos sejam documentados com precisão, reduzindo o risco de passivos não mapeados e assimetria de informação."
+    },
+    "advisor": {
+      "step1": "A Illumine potencializa a entrega de advisors e consultores, atuando como o sistema operacional estratégico para seus clientes. Como você atua hoje?",
+      "cfo": "BPO Financeiro / CFO as a Service",
+      "board": "Conselheiro Independente",
+      "consultant": "Consultoria Empresarial",
+      "step2_cfo": "Ao utilizar a Illumine, você eleva sua entrega financeira a um patamar estratégico. O sistema consolida dados, projeta cenários e estrutura a governança, permitindo que você atue como um verdadeiro copiloto da direção, com escalabilidade e redução de horas operacionais.",
+      "step3": "Nossa plataforma é a ferramenta definitiva para escalar o impacto da sua consultoria e aumentar a percepção de valor e recorrência nos seus clientes.",
+      "cta_partner": "Programa de Partners",
+      "cta_platform": "Explorar a Plataforma"
+    },
+    "executive": {
+      "step1": "Para liderar com precisão, você precisa de visibilidade total. Como líder, qual seu maior gargalo estratégico hoje?",
+      "execution": "Acompanhamento da Execução",
+      "data": "Qualidade da Informação para Decisão",
+      "alignment": "Alinhamento do Time Diretivo",
+      "step2_exec": "A Illumine foi desenhada exatamente para preencher o vácuo entre a estratégia definida no Board e a execução na operação. O Executive Operating System centraliza os OKRs, KPIs e planos de ação, garantindo accountability contínuo.",
+      "step3": "Temos módulos projetados especificamente para transformar a governança corporativa em uma prática diária.",
+      "cta_talk": "Conversar com Executive Advisor"
+    },
+    "welcome": {
+      "text": "Olá! Sou o Illumine Concierge™ e conecto líderes às soluções de inteligência executiva da plataforma. Para direcioná-lo à experiência adequada, qual é o seu contexto?",
+      "opt_executive": "Lidero uma organização",
+      "opt_advisor": "Apoio organizações como consultor ou advisor",
+      "opt_board": "Atuo em conselhos de administração",
+      "opt_finance": "Lidero a área financeira",
+      "opt_org": "Represento uma organização / instituição",
+      "opt_discovery": "Estou conhecendo a Illumine"
+    }
+  },
+  "actions": {
+    "start": "Começar",
+    "schedule": "Agendar",
+    "learn_more": "Saiba Mais"
+  }
+}

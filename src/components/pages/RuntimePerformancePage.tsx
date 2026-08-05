@@ -18,8 +18,10 @@ import { ExecutiveSummarySection } from '../ui/executive-summary-section';
 import { ExecutiveStrategicTensions } from '../ui/executive-strategic-tensions';
 import { ExecutiveDecisionTrace } from '../ui/executive-decision-trace';
 import { useRuntimePerformancePageViewModel } from '../../viewmodels/useRuntimePerformancePageViewModel';
+import { useTranslation } from 'react-i18next';
 
 export function RuntimePerformancePage() {
+  const { t } = useTranslation('executive');
   const { state: vmState, computed: vmComputed, actions: vmActions } = useRuntimePerformancePageViewModel({ clientId: '' });
   const [snapshot, setSnapshot] = useState<RuntimeLatencySnapshot | undefined>();
   const [spikes, setSpikes] = useState<any[]>([]);
@@ -54,7 +56,7 @@ export function RuntimePerformancePage() {
           opinion="O comitê fiduciário homologa a infraestrutura de processamento, atestando a estabilidade de memória e a resposta em milissegundos."
           driver="Tempo de resposta (ms), picos de memória (RAM), consultas lentas e disponibilidade."
           implication="Garantia de escalabilidade, alta disponibilidade e experiência fluida no ambiente de governança."
-          action="Manter o monitoramento contínuo de latência com alertas automáticos de estresse de memória."
+          executiveQuestion="Manter o monitoramento contínuo de latência com alertas automáticos de estresse de memória."
         >
           <ExecutiveStrategicTensions tensions={[]} />
           <ExecutiveDecisionTrace trace={[]} />
@@ -65,7 +67,7 @@ export function RuntimePerformancePage() {
           <ExecutiveMetricCard
             label="Memory Spikes (RAM)"
             value={String(spikes.length)}
-            statusBadge={<ExecutiveBadge variant={spikes.length === 0 ? "success" : "warning"}>{spikes.length === 0 ? "Zero Spikes" : "Atenção"}</ExecutiveBadge>}
+            statusBadge={<ExecutiveBadge variant={spikes.length === 0 ? "success" : "warning"}>{spikes.length === 0 ? "Zero Spikes" : t('executive:status.attention')}</ExecutiveBadge>}
             tone="neutral"
             description={<span className="text-xs text-muted-foreground font-medium">Picos de Uso de Memória</span>}
             className="bg-card border border-border shadow-sm h-full"

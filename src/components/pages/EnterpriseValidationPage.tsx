@@ -68,7 +68,7 @@ export function EnterpriseValidationPage() {
         opinion="O comitê fiduciário homologa os testes de integridade, atestando a robustez do ambiente sandbox enterprise."
         driver="Integridade de dados reais, UX executiva, telemetria de negócios e mapa de implantação."
         implication="Garantia de operação em ambiente de produção com zero fricção técnica."
-        action="Autorizar a transição do ambiente de sandbox para produção plena."
+        executiveQuestion="Autorizar a transição do ambiente de sandbox para produção plena."
       >
         <ExecutiveStrategicTensions tensions={[]} />
         <ExecutiveDecisionTrace trace={[]} />

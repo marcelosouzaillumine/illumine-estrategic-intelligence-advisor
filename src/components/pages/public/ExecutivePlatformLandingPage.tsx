@@ -750,7 +750,7 @@ export function ExecutivePlatformLandingPage() {
     'People Intelligence™',
     'Risk Intelligence™',
     'Institutional Intelligence™',
-    'Mission Intelligence™',
+    'Purpose Intelligence™',
     'Innovation Intelligence™'
   ];
 
@@ -774,46 +774,6 @@ export function ExecutivePlatformLandingPage() {
       <div className="fixed bottom-[-15%] right-[-5%] w-[50%] h-[50%] rounded-full bg-white/[0.015] blur-[180px] pointer-events-none z-0" />
 
       {/* Navbar Minimalist & Premium with LanguageSelector */}
-      <nav className="sticky top-0 inset-x-0 h-20 z-50 border-b border-[#202733] backdrop-blur-xl bg-[#050911]/90 transition-all duration-300">
-        <div className="max-w-[1536px] mx-auto px-4 sm:px-6 lg:px-8 xl:px-12 h-full flex items-center justify-between gap-3 lg:gap-6">
-          <div className="shrink-0">
-            <CanonicalBrandSignature categoryBadge="Executive Intelligence™" onClick={() => scrollToSection('hero')} />
-          </div>
-
-          <div className="hidden lg:flex items-center gap-5 xl:gap-8 text-xs xl:text-sm font-sans font-medium tracking-wide text-[#9CA3AF] normal-case whitespace-nowrap">
-            <a 
-              href="https://illumineconsultoria.com.br" 
-              target="_blank" 
-              rel="noopener noreferrer" 
-              className="hover:text-white transition-colors cursor-pointer whitespace-nowrap"
-            >
-              {dict.navInstitutional}
-            </a>
-            <button 
-              onClick={() => navigate('/executive-advisor-network')} 
-              className="hover:text-white transition-colors cursor-pointer whitespace-nowrap"
-            >
-              {dict.navAdvisorNetwork}
-            </button>
-            <button onClick={() => scrollToSection('tese')} className="hover:text-white transition-colors cursor-pointer whitespace-nowrap">{dict.navTese}</button>
-            <button onClick={() => scrollToSection('stack')} className="hover:text-white transition-colors cursor-pointer whitespace-nowrap">{dict.navStack}</button>
-            <button onClick={() => scrollToSection('dominios')} className="hover:text-white transition-colors cursor-pointer whitespace-nowrap">{dict.navDominios}</button>
-          </div>
-
-          <div className="flex items-center gap-3 sm:gap-4 shrink-0 whitespace-nowrap">
-            {/* Language Selector Component */}
-            <LanguageSelector className="bg-[#0B101A] border-[#202733] text-xs text-white" />
-
-            <button
-              onClick={() => navigate('/login')}
-              className="flex items-center gap-2 px-3.5 py-2 rounded-lg border border-[#202733] bg-[#0B101A] hover:bg-[#0B101A]/80 hover:border-[#FF8A57]/50 text-xs font-mono text-[#9CA3AF] hover:text-white transition-all cursor-pointer whitespace-nowrap"
-            >
-              <ShieldCheck size={14} className="text-[#FF8A57] shrink-0" />
-              <span>{dict.navRestricted}</span>
-            </button>
-          </div>
-        </div>
-      </nav>
 
       {/* 1. HERO SECTION (Foundational Thesis & Digital Executive Board) */}
       <section id="hero" className="scroll-mt-24 py-24 sm:py-32 px-6 relative z-10 border-b border-[#202733] bg-[#04070C]">
@@ -1432,22 +1392,6 @@ export function ExecutivePlatformLandingPage() {
       </AnimatePresence>
 
       {/* Footer Minimalist */}
-      <footer className="py-16 border-t border-[#202733] bg-[#050911] text-[#8E95A3] text-[10px] tracking-wider uppercase font-semibold relative z-10">
-        <div className="max-w-7xl mx-auto px-8">
-          <div className="flex flex-col sm:flex-row justify-between items-center gap-8">
-            <div className="flex items-center gap-2">
-              <span className="font-display font-medium text-white/80 text-sm tracking-tight" style={{ fontFamily: '"Tilt Warp", sans-serif' }}>illumine</span>
-              <span className="text-[8px] text-[#8E95A3]">|</span>
-              <span>{dict.footerRights}</span>
-            </div>
-            <div className="flex gap-6">
-              <button id="footer-btn-topo" onClick={() => scrollToSection('hero')} className="hover:text-white transition-colors cursor-pointer">{dict.footerTop}</button>
-              <button id="footer-btn-parceiros" onClick={() => navigate('/executive-advisor-network')} className="hover:text-white transition-colors cursor-pointer">{dict.footerPartners}</button>
-              <button id="footer-btn-login" onClick={() => navigate('/login')} className="hover:text-white transition-colors cursor-pointer">{dict.footerLogin}</button>
-            </div>
-          </div>
-        </div>
-      </footer>
 
     </main>
   );

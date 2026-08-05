@@ -2,20 +2,25 @@ import React, { useEffect, useState } from 'react';
 import { ProductAccessAuditLogger } from '../../services/FiduciaryRuntimeAdapter';
 import { ProductAccessEvent } from '../../services/FiduciaryRuntimeAdapter';
 import { ShieldAlert, ShieldCheck, Database, FileWarning, RefreshCw } from 'lucide-react';
+import { useExecutiveFormatter } from "../../core/localization";
 
 export function ProductAccessAuditFeed({ tenantId }: { tenantId: string }) {
+    const formatter = useExecutiveFormatter();
   const [logs, setLogs] = useState<ProductAccessEvent[]>([]);
 
   const fetchLogs = () => {
+      const formatter = useExecutiveFormatter();
     setLogs(ProductAccessAuditLogger.getLogsByTenant(tenantId).slice(0, 5)); // Mostra os 5 últimos
   };
 
   useEffect(() => {
+      const formatter = useExecutiveFormatter();
     fetchLogs();
     // Polling removido por restrição de governança fiduciária ativa (Monitoring Governance)
   }, [tenantId]);
 
   const getIcon = (type: string) => {
+      const formatter = useExecutiveFormatter();
     switch (type) {
       case 'FEATURE_BLOCKED': return <ShieldAlert size={14} className="text-rose-500" />;
       case 'FEATURE_GRANTED': return <ShieldCheck size={14} className="text-emerald-500" />;
@@ -45,7 +50,7 @@ export function ProductAccessAuditFeed({ tenantId }: { tenantId: string }) {
                 <span className="text-[10px] text-muted-foreground font-mono bg-background px-1.5 py-0.5 rounded border border-border">{log.resourceId}</span>
               </div>
               <div className="text-xs text-muted-foreground mt-1">{log.details}</div>
-              <div className="text-[10px] text-muted-foreground/60 mt-1">{new Date(log.timestamp).toLocaleTimeString()}</div>
+              <div className="text-[10px] text-muted-foreground/60 mt-1">{formatter.date(log.timestamp, { hour: '2-digit', minute: '2-digit' })}</div>
             </div>
           </div>
         ))}

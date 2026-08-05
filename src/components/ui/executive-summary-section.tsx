@@ -2,7 +2,6 @@ import React from 'react';
 import { cn } from '../../lib/utils';
 import { ExecutiveBadge, ExecutiveBadgeVariant } from './executive-badge';
 import { ExecutiveDecisionPanel } from './executive-decision-panel';
-import { ExecutiveTechnicalScore } from './executive-technical-score';
 import { ExecutiveSpacingRegistry } from './executive-typography';
 import { ExecutiveSurface } from './executive-surface';
 
@@ -22,7 +21,7 @@ export interface ExecutiveSummarySectionProps {
   opinion: string;
   driver: string;
   implication: string;
-  action: string;
+  executiveQuestion?: string;
   technicalScore?: {
     value: number | string | null;
     confidence?: string;
@@ -37,7 +36,7 @@ export function ExecutiveSummarySection({
   opinion,
   driver,
   implication,
-  action,
+  executiveQuestion,
   technicalScore,
   children,
   className 
@@ -53,7 +52,7 @@ export function ExecutiveSummarySection({
           opinion={opinion}
           driver={driver}
           implication={implication}
-          action={action}
+          executiveQuestion={executiveQuestion}
           confidence={technicalScore?.confidence}
           technicalIndex={technicalScore?.value ?? undefined}
         />

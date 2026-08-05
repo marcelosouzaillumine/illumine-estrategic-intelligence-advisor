@@ -104,7 +104,7 @@ const translations = {
   'navigation.page.advisor_cockpit': 'Cockpit del Asesor',
   'navigation.page.tenant_governance': 'Gobernanza de Organizaciones',
   'navigation.page.runtime_performance': 'Rendimiento en Tempo de Ejecución',
-  'navigation.page.institutional_copilot': 'Copiloto Institucional',
+  'navigation.page.institutional_copilot': 'Illumine Advisory™',
   'navigation.page.institutional_monitoring': 'Monitoreo Institucional',
   'navigation.page.decision_governance': 'Gobernanza de Decisiones',
   'navigation.page.institutional_integrations': 'Integraciones Institucionales',
@@ -1043,6 +1043,14 @@ const translations = {
   'governance.audit.mismatch_detected': 'Discrepancia de Datos Auditada',
   'governance.audit.consistent': 'Consistente',
   'governance.audit.inconsistent': 'Inconsistente',
+
+  // Concierge
+  'concierge.title': 'Executive Concierge™',
+  'concierge.description': 'Executive Concierge™ conecta a los líderes con las soluciones de inteligencia ejecutiva de Illumine.',
+
+  // Advisory
+  'advisory.title': 'Illumine Advisory™',
+  'advisory.description': 'Illumine Advisory™ transforma los datos empresariales en inteligencia para decisiones ejecutivas.'
 };
 
 export default translations;

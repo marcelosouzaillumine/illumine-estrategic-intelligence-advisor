@@ -6,6 +6,7 @@ import { useDocumentCurationModalAdapter } from '../../adapters/ui/useDocumentCu
 import { notificationService } from '../../services/notificationService';
 import { auditService } from '../../services/auditService';
 import { useAccountPlan } from '../../hooks/useAccountPlan';
+import { useExecutiveFormatter } from '../../core/localization';
 
 interface CurationModalProps {
   isOpen: boolean;
@@ -16,6 +17,7 @@ interface CurationModalProps {
 }
 
 export function DocumentCurationModal({ isOpen, onClose, document: docItem, client, onSuccess }: CurationModalProps) {
+  const formatter = useExecutiveFormatter();
   const {
     isProcessing,
     isSaving,
@@ -262,7 +264,7 @@ export function DocumentCurationModal({ isOpen, onClose, document: docItem, clie
                                     <Edit2 size={12} />
                                   </button>
                                   <span className={cn("text-xs font-bold", entry.value < 0 ? "text-red-600" : "text-foreground")}>
-                                    {entry.value.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}
+                                    {formatter.currency(entry.value)}
                                   </span>
                                 </>
                               )}

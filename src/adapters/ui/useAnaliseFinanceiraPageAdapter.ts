@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { FirestoreCashFlowAdapter } from '../persistence/FirestoreCashFlowAdapter';
+import { persistenceContainer } from '../../infrastructure/container/persistenceContainer';
 
 
 export function useAnaliseFinanceiraPageAdapter(selectedClient: string) {
@@ -11,7 +11,7 @@ export function useAnaliseFinanceiraPageAdapter(selectedClient: string) {
       if (!selectedClient) return;
       setLoadingCashFlow(true);
       try {
-        const cashFlows = await FirestoreCashFlowAdapter.getAllCashFlowsByClient(selectedClient);
+        const cashFlows = await persistenceContainer.cashFlow.getAllCashFlowsByClient(selectedClient);
         setCashFlowData(cashFlows);
       } catch (err) {
         console.error('Error fetching cash flows in capital intelligence:', err);

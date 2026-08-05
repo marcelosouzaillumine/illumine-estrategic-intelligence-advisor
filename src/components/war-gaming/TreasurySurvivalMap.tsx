@@ -1,10 +1,11 @@
 import React from 'react';
 import { TreasurySurvivalProfile } from '../../services/FiduciaryRuntimeAdapter';
 import { cn } from '../../lib/utils';
+import { useExecutiveFormatter } from '@/core/localization';
 // src/components/war-gaming/TreasurySurvivalMap.tsx
 
-
 export function TreasurySurvivalMap({ treasury }: { treasury: TreasurySurvivalProfile }) {
+  const formatter = useExecutiveFormatter();
   const isCritical = treasury.exhaustionPointReached;
 
   return (
@@ -26,7 +27,7 @@ export function TreasurySurvivalMap({ treasury }: { treasury: TreasurySurvivalPr
         <div className="flex-1 ml-4 border-l border-border pl-4">
           <span className="text-[10px] font-bold text-muted-foreground uppercase">Dreno Mensal Simul.</span>
           <p className="text-lg font-black text-muted-foreground tracking-tight">
-            {new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(treasury.liquidityDrainVelocity)}
+            {formatter.currency(treasury.liquidityDrainVelocity)}
           </p>
         </div>
       </div>

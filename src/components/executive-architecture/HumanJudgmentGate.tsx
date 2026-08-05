@@ -3,6 +3,7 @@ import { ExecutiveSurface } from '../ui/executive-surface';
 import { ExecutiveHeading } from '../ui/executive-heading';
 import { ExecutiveText } from '../ui/executive-typography';
 import { BrainCircuit, ArrowDown, UserCheck } from 'lucide-react';
+import { useExecutiveFormatter } from '../../core/localization';
 
 interface HumanJudgmentGateProps {
   reviewerName: string;
@@ -13,6 +14,7 @@ interface HumanJudgmentGateProps {
 }
 
 export function HumanJudgmentGate({ reviewerName, reviewerRole, date, authorityLevel, isConfirmed }: HumanJudgmentGateProps) {
+  const formatter = useExecutiveFormatter();
   return (
     <ExecutiveSurface variant="default" padding="xl" radius="xl" className="border border-border">
       <div className="flex flex-col items-center text-center space-y-6">
@@ -63,7 +65,7 @@ export function HumanJudgmentGate({ reviewerName, reviewerRole, date, authorityL
               <div>
                 <ExecutiveText variant="microLabel" className="text-muted-foreground block mb-1">Authority Level</ExecutiveText>
                 <div className="text-sm font-bold text-foreground">{authorityLevel}</div>
-                <div className="text-xs text-muted-foreground">{new Intl.DateTimeFormat('pt-BR', { dateStyle: 'short' }).format(new Date(date))}</div>
+                <div className="text-xs text-muted-foreground">{formatter.date(date, { dateStyle: 'short' })}</div>
               </div>
             </div>
           )}

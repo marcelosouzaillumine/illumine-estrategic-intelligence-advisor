@@ -3,6 +3,7 @@ import { useLanguage } from '../../contexts/LanguageContext';
 import { ChevronDown, Wifi, WifiOff, Loader2, RefreshCw } from 'lucide-react';
 import { cn } from '../../lib/utils';
 import { motion, AnimatePresence } from 'motion/react';
+import { useExecutiveFormatter } from "../../core/localization";
 
 export interface SupportedCurrency {
   code: string;
@@ -35,6 +36,7 @@ export function CurrencySelector({
   lastUpdated,
   rates,
 }: CurrencySelectorProps) {
+    const formatter = useExecutiveFormatter();
   const { translateLabel: t } = useLanguage();
   const [open, setOpen] = useState(false);
   const ref = useRef<HTMLDivElement>(null);
@@ -42,6 +44,7 @@ export function CurrencySelector({
   const current = SUPPORTED_CURRENCIES.find((c) => c.code === selected) || SUPPORTED_CURRENCIES[0];
 
   useEffect(() => {
+      const formatter = useExecutiveFormatter();
     function handleClickOutside(e: MouseEvent) {
       if (ref.current && !ref.current.contains(e.target as Node)) {
         setOpen(false);
@@ -52,7 +55,7 @@ export function CurrencySelector({
   }, []);
 
   const formatTime = (date: Date) =>
-    date.toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' });
+    formatter.date(date, { hour: '2-digit', minute: '2-digit' });
 
   return (
     <div ref={ref} className="relative shrink-0">
@@ -132,6 +135,7 @@ export function CurrencySelector({
             {/* Currency Options */}
             <div className="p-2">
               {SUPPORTED_CURRENCIES.map((currency) => {
+                  const formatter = useExecutiveFormatter();
                 const isSelected = currency.code === selected;
                 const rate = rates?.[currency.code];
                 return (
@@ -139,6 +143,7 @@ export function CurrencySelector({
                     key={currency.code}
                     id={`currency-option-${currency.code}`}
                     onClick={() => {
+                        const formatter = useExecutiveFormatter();
                       onChange(currency.code);
                       setOpen(false);
                     }}

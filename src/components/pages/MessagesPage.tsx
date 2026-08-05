@@ -20,6 +20,7 @@ import { ExecutivePageTemplate } from '../ui/executive-page-template';
 import { ExecutiveSurface } from '../ui/executive-surface';
 import { ExecutiveAccordion } from '../ui/executive-accordion';
 import { ExecutiveEmptyState } from '../ui/executive-empty-state';
+import { useExecutiveFormatter } from "../../core/localization";
 
 interface Message {
   id: string;
@@ -90,6 +91,7 @@ const CHANGELOG_DATA: ChangelogEntry[] = [
 ];
 
 export function MessagesPage() {
+    const formatter = useExecutiveFormatter();
   // Adapter: useMessagesPageAdapter
   // ViewModel: useMessagesPageViewModel
   const { state: vmState, computed: vmComputed, actions: vmActions } = useMessagesPageViewModel({ clientId: '' });
@@ -101,6 +103,7 @@ export function MessagesPage() {
   const { role } = useGovernance();
 
   const getNotificationIcon = (type: string) => {
+      const formatter = useExecutiveFormatter();
     switch (type) {
       case 'approval_request': return <ShieldCheck size={24} strokeWidth={1} />;
       case 'alert': return <Info size={24} strokeWidth={1} />;
@@ -111,6 +114,7 @@ export function MessagesPage() {
   };
 
   const getNotificationColor = (type: string) => {
+      const formatter = useExecutiveFormatter();
     switch (type) {
       case 'approval_request': return 'text-secondary';
       case 'alert': return 'text-amber-600';
@@ -204,7 +208,7 @@ export function MessagesPage() {
                         )}
                       </div>
                       <span className="text-[10px] font-bold uppercase tracking-[0.3em] text-text-dim">
-                        {msg.createdAt?.toDate ? msg.createdAt.toDate().toLocaleDateString('pt-BR') : 'Recent'}
+                        {msg.createdAt?.toDate ? formatter.date(msg.createdAt.toDate()) : 'Recent'}
                       </span>
                     </div>
           <p className="text-text-executive-secondary text-lg leading-relaxed mb-8 font-light max-w-3xl">
@@ -213,6 +217,7 @@ export function MessagesPage() {
                     {msg.link && (
                       <button 
                         onClick={(e) => {
+                                      const formatter = useExecutiveFormatter();
                           e.stopPropagation();
                           window.dispatchEvent(new CustomEvent('navigate-to', { detail: msg.link }));
                         }}
@@ -328,7 +333,7 @@ export function MessagesPage() {
          opinion="O comitê fiduciário acompanha as notificações emitidas pelo sistema, garantindo transparência operacional e comunicados íntegros."
          driver="Notificações institucionais, alertas do sistema e changelog de governança."
          implication="Melhoria no alinhamento de processos e disseminação de informações importantes."
-         action="Acompanhar as notificações do sistema diariamente e marcar como lidas."
+         executiveQuestion="Acompanhar as notificações do sistema diariamente e marcar como lidas."
        >
          <ExecutiveStrategicTensions tensions={[]} />
          <ExecutiveDecisionTrace trace={[]} />

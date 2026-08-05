@@ -56,7 +56,7 @@ export function PartnersPage({ clients, setClients, setSelectedClient, isMaster 
           opinion="O comitê fiduciário homologa a base de parceiros corporativos, atestando a regularidade de CNPJ/CPF e conformidade regulatória."
           driver="Parceiros cadastrados, governança de acesso, vinculação com clientes e adimplência."
           implication="Garantia de compliance de cadastro e mitigações de riscos de partes relacionadas."
-          action="Manter a validação automática de CNPJ via API da Receita Federal e auditoria de contratos."
+          executiveQuestion="Manter a validação automática de CNPJ via API da Receita Federal e auditoria de contratos."
         >
           <ExecutiveStrategicTensions tensions={[]} />
           <ExecutiveDecisionTrace trace={[]} />

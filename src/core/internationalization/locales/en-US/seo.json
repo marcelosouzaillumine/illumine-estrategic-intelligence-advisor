@@ -1,44 +1,32 @@
 {
   "home": {
     "title": "Illumine | Executive Intelligence Platform™",
-    "description": "The intelligence platform that connects governance, strategy, and operations to build your enterprise's institutional memory.",
-    "keywords": "Executive Intelligence, Decision Intelligence, Board Intelligence, Enterprise Intelligence, Executive Analytics",
-    "ogTitle": "Illumine | Executive Intelligence Platform™",
-    "ogDescription": "Turn fragmented enterprise data into your organization's institutional memory."
-  },
-  "manifesto": {
-    "title": "Illumine Manifesto | The Context Age",
-    "description": "The Information Age has reached its limit. Read the Illumine Manifesto and discover why context is the next competitive advantage.",
-    "keywords": "Manifesto, Illumine, Context Age, Institutional Memory, Strategic Performance Management, Executive Decision Support",
-    "ogTitle": "Illumine Manifesto | The Context Age",
-    "ogDescription": "The problem isn't information, it's interpretation. Read the Illumine Manifesto."
+    "description": "Transform management with the Illumine Executive Operating System™. A complete corporate intelligence architecture for strategic decision-making.",
+    "keywords": "Executive Intelligence, Decision Intelligence, Board Intelligence, Corporate Governance, Strategic Advisory, Virtual CFO, Enterprise Intelligence"
   },
   "platform": {
-    "title": "The Platform | Illumine Executive Intelligence™",
-    "description": "Discover the architecture behind the first Executive Intelligence Platform™ for large enterprises.",
-    "keywords": "Platform, Architecture, Executive Intelligence, Enterprise Intelligence, Business Intelligence Platform, Executive Dashboards",
-    "ogTitle": "Illumine Platform | Intelligence Architecture",
-    "ogDescription": "How we built the central nervous system for corporate strategy."
-  },
-  "domains": {
-    "title": "Systemic Domains | Illumine",
-    "description": "Discover how Illumine connects the 9 domains of governance to anticipate impacts on your cash flow.",
-    "keywords": "Domains, Governance, Finance, Risk, Operational, Executive KPI Dashboard, Corporate Performance",
-    "ogTitle": "Illumine | 9 Intelligence Domains™",
-    "ogDescription": "Understand organizational friction before it affects your financial results."
+    "title": "Platform | Illumine Executive Intelligence",
+    "description": "Discover the capabilities of our Executive Decision Operating System™ (EDOS). Executive dashboards, financial modeling, and more.",
+    "keywords": "Business Intelligence Platform, Strategic Performance Management, Corporate Performance, Executive Dashboards"
   },
   "governance": {
-    "title": "Governance & Trust | Trust Architecture™",
-    "description": "Impeccable auditing, complete traceability, and extreme isolation. Discover Illumine's Governance.",
-    "keywords": "AI Governance, Security, Trust Architecture, Decision Auditing, Board Reporting",
-    "ogTitle": "Illumine | Trust Architecture™",
-    "ogDescription": "Technology augments analysis. The decision remains purely human and auditable."
+    "title": "Governance & Security | Illumine",
+    "description": "Trust Architecture™: our data security and institutional governance foundation designed for critical corporate environments.",
+    "keywords": "Corporate Governance, Security, Data Privacy, Enterprise Risk"
   },
-  "why": {
-    "title": "Why Illumine? | Systemic Intelligence",
-    "description": "Understand why enterprises abandon static dashboards for Illumine's systemic and predictive intelligence.",
-    "keywords": "Why Illumine, Differentiation, Artificial Intelligence, BI vs AI, Decision Intelligence",
-    "ogTitle": "Why Illumine?",
-    "ogDescription": "From traditional BI to the Executive Intelligence Platform™."
+  "assessment": {
+    "title": "Executive Diagnostic Journey™™ | Illumine",
+    "description": "Executive intelligence maturity diagnostic. Evaluate your company's data infrastructure and discover how to evolve.",
+    "keywords": "Executive Diagnostic Journey™, Strategic Advisory, Strategic Consulting, Digital Maturity"
+  },
+  "manifesto": {
+    "title": "Manifesto | The Illumine Vision",
+    "description": "The future of corporate management through the Executive Intelligence Platform™. Understand our thesis and strategic architecture.",
+    "keywords": "Manifesto, Executive Intelligence, Future Vision, Corporate Innovation"
+  },
+  "intelligenceCenter": {
+    "title": "Intelligence Center | Illumine",
+    "description": "An intelligence hub focused on the synthesis, production, and dissemination of high-impact executive knowledge.",
+    "keywords": "Intelligence Center, Executive Analytics, Enterprise Intelligence"
   }
 }

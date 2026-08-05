@@ -3,8 +3,10 @@ import { FirestoreAuthAdapter } from '../../adapters/persistence/FirestoreAuthAd
 import { ClientsApplicationService } from './clients/ClientsApplicationService';
 import { validateCNPJ, formatDoc } from '../../lib/utils';
 import { useDataTable } from '../../hooks/useDataTable';
+import { useExecutiveFormatter } from "../../core/localization";
 
 export function useClientsPageViewModel({ clients, setClients, setSelectedClient, isMaster, isPartner, userPartnerIds }: any) {
+    const formatter = useExecutiveFormatter();
   const [view, setView] = useState<"list" | "form">("list");
   const [loading, setLoading] = useState(false);
   const [cnpjQuery, setCnpjQuery] = useState("");
@@ -16,13 +18,16 @@ export function useClientsPageViewModel({ clients, setClients, setSelectedClient
   const [fullClients, setFullClients] = useState<any[]>([]);
 
   useEffect(() => {
+      const formatter = useExecutiveFormatter();
     const unsubscribe = ClientsApplicationService.subscribeToClients(isMaster, clients, setFullClients);
     return () => unsubscribe && unsubscribe();
   }, [isMaster, clients]);
   
   const allSegments = useMemo(() => {
+      const formatter = useExecutiveFormatter();
     const segments = new Set<string>();
     fullClients.forEach((c: any) => {
+        const formatter = useExecutiveFormatter();
       if (c.segmentoAtuacao) segments.add(c.segmentoAtuacao);
       if (c.segmento) segments.add(c.segmento);
     });
@@ -113,6 +118,7 @@ export function useClientsPageViewModel({ clients, setClients, setSelectedClient
   const [tempUnit, setTempUnit] = useState("");
 
   useEffect(() => {
+      const formatter = useExecutiveFormatter();
     const el = document.getElementById("debug-clientspage");
     if (el) {
       el.textContent = `ClientsPage State:
@@ -125,6 +131,7 @@ loading: ${loading}
   });
 
   const validateField = (name: string, value: string) => {
+      const formatter = useExecutiveFormatter();
     let error = "";
     if (name === "cnpj" && formData.origin === "nacional") {
       const clean = value.replace(/\D/g, "");
@@ -158,12 +165,14 @@ loading: ${loading}
 
   // Fetch partners
   useEffect(() => {
+      const formatter = useExecutiveFormatter();
     const unsubscribe = ClientsApplicationService.subscribeToPartners(setPartners);
     return () => unsubscribe && unsubscribe();
   }, []);
 
   // Auto-fetch CNPJ when 14 digits are typed
   useEffect(() => {
+      const formatter = useExecutiveFormatter();
     const cleanCnpj = cnpjQuery.replace(/\D/g, "");
     if (cleanCnpj.length === 14 && !loading && !editingId) {
       fetchCNPJ();
@@ -171,6 +180,7 @@ loading: ${loading}
   }, [cnpjQuery]);
 
   const openAdd = () => {
+      const formatter = useExecutiveFormatter();
     setEditingId(null);
     setFormData(clientTemplate);
     setValidationErrors({});
@@ -181,6 +191,7 @@ loading: ${loading}
   };
 
   const openEdit = (client: any) => {
+      const formatter = useExecutiveFormatter();
     setEditingId(client.id);
     const data = { ...clientTemplate, ...client };
     setFormData(data);
@@ -198,6 +209,7 @@ loading: ${loading}
   };
 
   const fetchCNPJ = async () => {
+      const formatter = useExecutiveFormatter();
     if (!cnpjQuery) return;
     setLoading(true);
     setError("");
@@ -226,7 +238,7 @@ loading: ${loading}
         faturamentoMensal: 0,
         historicoFaturamento: Array(12).fill(null).map(() => ({ mes: "", ano: "", valor: 0 })),
         contatosAdicionais: [],
-        dataFundacao: data.data_inicio_atividade ? new Date(data.data_inicio_atividade).toLocaleDateString("pt-BR") : "",
+        dataFundacao: data.data_inicio_atividade ? formatter.date(data.data_inicio_atividade) : "",
         capitalSocial: data.capital_social || 0,
         socios: (data.qsa || []).map((s: any, _: number, arr: any[]) => ({
           nome: s.nome_socio || s.nome || s.nome_socio_pessoa_fisica || "Sócio não identificado",
@@ -253,6 +265,7 @@ loading: ${loading}
   };
 
   const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>, field: "logo" | "icon") => {
+      const formatter = useExecutiveFormatter();
     const file = e.target.files?.[0];
     if (!file) return;
 
@@ -264,6 +277,7 @@ loading: ${loading}
 
     const reader = new FileReader();
     reader.onload = (event) => {
+        const formatter = useExecutiveFormatter();
       const base64 = event.target?.result as string;
       setFormData(prev => ({ ...prev, [field]: base64 }));
     };
@@ -271,6 +285,7 @@ loading: ${loading}
   };
 
   const handleSave = async () => {
+      const formatter = useExecutiveFormatter();
     if (!FirestoreAuthAdapter.isAuthenticated()) {
       setError("Você precisa estar logado para salvar um cliente. Clique em 'Entrar com Google' na barra lateral.");
       return;
@@ -298,6 +313,7 @@ loading: ${loading}
   };
 
   const handleDelete = async () => {
+      const formatter = useExecutiveFormatter();
     if (!clientToDelete) return;
 
     setLoading(true);
@@ -331,6 +347,7 @@ loading: ${loading}
     initialSort: { key: "fantasia", direction: "asc" },
     itemsPerPage: 5,
     customFilter: (item: any, currentFilters: any) => {
+        const formatter = useExecutiveFormatter();
       if (currentFilters.partnerId === "direto") {
         return !item.partnerId;
       }
@@ -342,6 +359,7 @@ loading: ${loading}
   });
 
   const uniqueSegments = useMemo(() => {
+      const formatter = useExecutiveFormatter();
     const segments = fullClients.map((c: any) => c.segmento).filter(Boolean);
     return ["Todos", ...(Array.from(new Set(segments)) as string[]).sort()];
   }, [fullClients]);

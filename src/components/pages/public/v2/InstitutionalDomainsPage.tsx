@@ -15,6 +15,8 @@ import {
   Narrative,
   Insight,
   Card,
+  CardGrid,
+  CardTitle,
 } from '@/components/ui/public/institutional/InstitutionalContentSystem';
 
 export function InstitutionalDomainsPage() {
@@ -25,7 +27,7 @@ export function InstitutionalDomainsPage() {
 
   const domains = [
     {
-      id: 1,
+      id: 1, tid: 1,
       name: brand('governanceIntelligence'),
       icon: ShieldCheck,
       hasQuestions: true,
@@ -33,7 +35,7 @@ export function InstitutionalDomainsPage() {
       hasHighlight: false
     },
     {
-      id: 2,
+      id: 2, tid: 2,
       name: brand('financialIntelligence'),
       icon: PieChart,
       hasQuestions: false,
@@ -41,7 +43,7 @@ export function InstitutionalDomainsPage() {
       hasHighlight: true
     },
     {
-      id: 3,
+      id: 3, tid: 5,
       name: brand('operationalIntelligence'),
       icon: Activity,
       hasQuestions: true,
@@ -49,7 +51,7 @@ export function InstitutionalDomainsPage() {
       hasHighlight: false
     },
     {
-      id: 4,
+      id: 4, tid: 6,
       name: brand('commercialIntelligence'),
       icon: TrendingUp,
       hasQuestions: false,
@@ -57,7 +59,7 @@ export function InstitutionalDomainsPage() {
       hasHighlight: true
     },
     {
-      id: 5,
+      id: 5, tid: 7,
       name: brand('peopleIntelligence'),
       icon: Users,
       hasQuestions: false,
@@ -65,7 +67,7 @@ export function InstitutionalDomainsPage() {
       hasHighlight: false
     },
     {
-      id: 6,
+      id: 6, tid: 4,
       name: brand('riskIntelligence'),
       icon: ShieldCheck,
       hasQuestions: false,
@@ -73,7 +75,7 @@ export function InstitutionalDomainsPage() {
       hasHighlight: false
     },
     {
-      id: 7,
+      id: 7, tid: 3,
       name: brand('institutionalIntelligence'),
       icon: Combine,
       hasQuestions: false,
@@ -81,7 +83,7 @@ export function InstitutionalDomainsPage() {
       hasHighlight: false
     },
     {
-      id: 8,
+      id: 8, tid: 8,
       name: brand('missionIntelligence'),
       icon: Target,
       hasQuestions: false,
@@ -89,7 +91,7 @@ export function InstitutionalDomainsPage() {
       hasHighlight: false
     },
     {
-      id: 9,
+      id: 9, tid: 9,
       name: brand('innovationIntelligence'),
       icon: Lightbulb,
       hasQuestions: false,
@@ -144,7 +146,7 @@ export function InstitutionalDomainsPage() {
               <Card variant="accent" hoverable={false} className="p-10 border-amber-500/30 bg-amber-500/5 shadow-[0_0_80px_rgba(255,150,0,0.1)] text-center w-full max-w-2xl relative overflow-hidden backdrop-blur-md">
                 <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-amber-500/10 via-transparent to-transparent z-0 animate-pulse" />
                 <Combine className="w-20 h-20 text-amber-500 mx-auto mb-6 relative z-10" />
-                <h3 className="text-3xl font-bold text-white mb-3 relative z-10">{t('architecture.core.title')}</h3>
+                <CardTitle align="center" className="text-3xl mb-3 relative z-10">{t('architecture.core.title')}</CardTitle>
                 <p className="text-amber-500/80 text-sm font-bold tracking-widest uppercase mb-10 relative z-10">
                   {t('architecture.core.lead')}
                 </p>
@@ -164,10 +166,11 @@ export function InstitutionalDomainsPage() {
             </div>
 
             {/* Premium Domains Grid */}
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 font-sans">
+            <CardGrid className="md:grid-cols-2 lg:grid-cols-3 font-sans">
               {domains.map((domain) => (
-                <div 
+                <Card 
                   key={domain.id} 
+                  variant="secondary"
                   className="relative flex flex-col h-full p-8 rounded-3xl border border-white/5 bg-gradient-to-b from-white/[0.02] to-transparent hover:border-amber-500/30 transition-all duration-500 group overflow-hidden"
                 >
                   {/* Hover Glow */}
@@ -186,26 +189,24 @@ export function InstitutionalDomainsPage() {
                   {/* Content */}
                   <div className="relative z-10 flex-grow flex flex-col">
                     <div className="flex flex-col justify-start">
-                      <div className="h-[80px] flex flex-col justify-start">
-                        <h4 className="text-2xl font-bold text-white mb-3 tracking-tight leading-tight whitespace-pre-line">
-                          {domain.name.replace(' Intelligence', '\nIntelligence')}
-                        </h4>
-                      </div>
+                      <CardTitle className="text-2xl mb-3 tracking-tight leading-tight whitespace-pre-line h-[80px]">
+                        {domain.name.replace(' Intelligence', '\nIntelligence')}
+                      </CardTitle>
                       <div className="h-[64px] flex flex-col justify-start">
-                        <p className="text-xs font-bold uppercase tracking-widest text-amber-500">{t(`architecture.list.d${domain.id}.tagline`)}</p>
+                        <p className="text-xs font-bold uppercase tracking-widest text-amber-500">{t(`architecture.list.d${domain.tid}.tagline`)}</p>
                       </div>
                     </div>
                     
-                    <p className="text-slate-400 text-base leading-relaxed mt-2 mb-8 flex-grow">
-                      {t(`architecture.list.d${domain.id}.description`)}
-                    </p>
+                    <Narrative className="text-base leading-relaxed mt-2 mb-8 flex-grow">
+                      {t(`architecture.list.d${domain.tid}.description`)}
+                    </Narrative>
 
                     {/* Compact Details Area */}
                     <div className="mt-auto pt-6 border-t border-white/5 h-[90px] flex flex-col justify-center">
-                      {domain.hasHighlight && (
+                      {(domain.hasHighlight && t(`architecture.list.d${domain.tid}.highlight`) !== `architecture.list.d${domain.tid}.highlight`) && (
                         <div>
                           <p className="text-xs text-slate-300 font-medium italic border-l-2 border-amber-500/50 pl-3">
-                            "{t(`architecture.list.d${domain.id}.highlight`)}"
+                            "{t(`architecture.list.d${domain.tid}.highlight`)}"
                           </p>
                         </div>
                       )}
@@ -213,16 +214,25 @@ export function InstitutionalDomainsPage() {
                       {(!domain.hasHighlight && domain.hasApplications) && (
                         <div>
                           <div className="flex flex-wrap gap-2">
-                            {(t(`architecture.list.d${domain.id}.applications`, { returnObjects: true }) as string[]).slice(0, 2).map((app: string, i: number) => (
-                              <span key={i} className="px-3 py-1.5 bg-white/5 border border-white/5 rounded-lg text-xs text-slate-400 font-bold uppercase tracking-widest">
-                                {app}
-                              </span>
-                            ))}
-                            {(t(`architecture.list.d${domain.id}.applications`, { returnObjects: true }) as string[]).length > 2 && (
-                              <span className="px-2 py-1.5 text-xs text-amber-500 font-bold uppercase tracking-widest flex items-center">
-                                +{(t(`architecture.list.d${domain.id}.applications`, { returnObjects: true }) as string[]).length - 2}
-                              </span>
-                            )}
+                            {(() => {
+                              const apps = Array.isArray(t(`architecture.list.d${domain.tid}.applications`, { returnObjects: true })) 
+                                ? t(`architecture.list.d${domain.tid}.applications`, { returnObjects: true }) as string[] 
+                                : [];
+                              return (
+                                <>
+                                  {apps.slice(0, 2).map((app: string, i: number) => (
+                                    <span key={i} className="px-3 py-1.5 bg-white/5 border border-white/5 rounded-lg text-xs text-slate-400 font-bold uppercase tracking-widest">
+                                      {app}
+                                    </span>
+                                  ))}
+                                  {apps.length > 2 && (
+                                    <span className="px-2 py-1.5 text-xs text-amber-500 font-bold uppercase tracking-widest flex items-center">
+                                      +{apps.length - 2}
+                                    </span>
+                                  )}
+                                </>
+                              );
+                            })()}
                           </div>
                         </div>
                       )}
@@ -230,20 +240,26 @@ export function InstitutionalDomainsPage() {
                       {(!domain.hasHighlight && !domain.hasApplications && domain.hasQuestions) && (
                         <div>
                           <ul className="space-y-3">
-                            {(t(`architecture.list.d${domain.id}.questions`, { returnObjects: true }) as string[]).slice(0, 2).map((q: string, i: number) => (
-                              <li key={i} className="flex items-start gap-3 text-slate-300 text-sm">
-                                <div className="w-1.5 h-1.5 rounded-full bg-amber-500/50 shrink-0 mt-2" /> 
-                                <span className="leading-snug">{q}</span>
-                              </li>
-                            ))}
+                            {(() => {
+                              const questions = Array.isArray(t(`architecture.list.d${domain.tid}.questions`, { returnObjects: true })) 
+                                ? t(`architecture.list.d${domain.tid}.questions`, { returnObjects: true }) as string[] 
+                                : [];
+                              return questions.slice(0, 2).map((q: string, i: number) => (
+                                <li key={i} className="flex items-start gap-3 text-slate-300 text-sm">
+                                  <div className="w-1.5 h-1.5 rounded-full bg-amber-500/50 shrink-0 mt-2" /> 
+                                  <span className="leading-snug">{q}</span>
+                                </li>
+                              ));
+                            })()}
                           </ul>
+
                         </div>
                       )}
                     </div>
                   </div>
-                </div>
+                </Card>
               ))}
-            </div>
+            </CardGrid>
           </div>
         </Container>
       </Section>

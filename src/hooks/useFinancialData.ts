@@ -1,7 +1,7 @@
 import { logger } from "../services/logging/InstitutionalLogger";
 import { useState, useEffect, useCallback } from 'react';
 import { FinancialStatementLike, FinancialEntryLike } from '../types/contracts';
-import { FirestoreFinancialEntriesAdapter } from '../adapters/persistence/FirestoreFinancialEntriesAdapter';
+import { persistenceContainer } from '../infrastructure/container/persistenceContainer';
 import { buildHistoricalSeries, HistoricalFinancialSeries } from '../core/adapters/historical-series-adapter';
 
 
@@ -24,7 +24,7 @@ export function useFinancialData(clientId: string, year: number, month: number, 
           ? ['DRE', 'DRE Gerencial']
           : [type];
 
-      const { docs } = await FirestoreFinancialEntriesAdapter.getEntriesByTypesAndYear(clientId, queryTypes, year);
+      const { docs } = await persistenceContainer.financial.getEntriesByTypesAndYear(clientId, queryTypes, year);
       
       if (isCancelled.current) return;
 
@@ -97,7 +97,7 @@ export function useAllFinancialData(clientId: string) {
     setLoading(true);
     setError(null);
     try {
-      const { docs } = await FirestoreFinancialEntriesAdapter.getAllEntriesForClient(clientId);
+      const { docs } = await persistenceContainer.financial.getAllEntriesForClient(clientId);
       
       if (isCancelled.current) return;
 
@@ -189,7 +189,7 @@ export function useAnnualFinancialData(
     setLoading(true);
     setError(null);
     try {
-      const { docs } = await FirestoreFinancialEntriesAdapter.getEntriesByYear(clientId, year);
+      const { docs } = await persistenceContainer.financial.getEntriesByYear(clientId, year);
 
       if (isCancelled.current) return;
 

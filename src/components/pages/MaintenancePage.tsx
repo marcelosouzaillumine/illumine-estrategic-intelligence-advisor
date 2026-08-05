@@ -20,8 +20,10 @@ import { ExecutiveAccordion } from '../ui/executive-accordion';
 import { ExecutiveEmptyState } from '../ui/executive-empty-state';
 import { useGovernance } from '../../lib/governanceContext';
 import { notificationService } from '../../services/notificationService';
+import { useExecutiveFormatter } from "../../core/localization";
 
 export function MaintenancePage({ clients }: { clients: any[] }) {
+    const formatter = useExecutiveFormatter();
   // Adapter: useMaintenancePageAdapter
   // ViewModel: useMaintenancePageViewModel
   const { state: vmState, computed: vmComputed, actions: vmActions } = useMaintenancePageViewModel({ clientId: '' });
@@ -35,6 +37,7 @@ export function MaintenancePage({ clients }: { clients: any[] }) {
   const { role } = useGovernance();
 
   React.useEffect(() => {
+      const formatter = useExecutiveFormatter();
     if (role !== 'master' && role !== 'admin') return;
     
     setLoadingDocs(true);
@@ -44,6 +47,7 @@ export function MaintenancePage({ clients }: { clients: any[] }) {
     );
     
     const unsubscribe = onSnapshot(q, (snapshot) => {
+        const formatter = useExecutiveFormatter();
       setPendingDocs(snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() })));
       setLoadingDocs(false);
     });
@@ -52,6 +56,7 @@ export function MaintenancePage({ clients }: { clients: any[] }) {
   }, [role]);
 
   const handleApprove = async (docId: string, entry: any) => {
+      const formatter = useExecutiveFormatter();
     try {
       const batch = writeBatch(db);
       const targetDoc = doc(collection(db, entry.targetCollection || 'financial_entries'));
@@ -81,6 +86,7 @@ export function MaintenancePage({ clients }: { clients: any[] }) {
   };
 
   const handleReject = async (docId: string, entry: any) => {
+      const formatter = useExecutiveFormatter();
     try {
       await updateDoc(doc(db, 'financial_staging', docId), {
         status: 'rejected',
@@ -104,7 +110,8 @@ export function MaintenancePage({ clients }: { clients: any[] }) {
   };
 
   const addLog = (msg: string) => {
-    setLogs(prev => [`[${new Date().toLocaleTimeString()}] ${msg}`, ...prev].slice(0, 50));
+      const formatter = useExecutiveFormatter();
+    setLogs(prev => [`[${formatter.date(new Date(), { hour: '2-digit', minute: '2-digit' })}] ${msg}`, ...prev].slice(0, 50));
   };
 
   const filteredClients = clients.filter(c => 
@@ -113,6 +120,7 @@ export function MaintenancePage({ clients }: { clients: any[] }) {
   );
 
   const purgeMockupData = async (clientId: string, fantasia: string) => {
+      const formatter = useExecutiveFormatter();
     if (!window.confirm(`Deseja realmente realizar a limpeza cirúrgica de dados de MOCKUP para ${fantasia}? Esta ação removerá indicadores marcados como Histórico/Projetado e lançamentos financeiros simulados.`)) {
       return;
     }
@@ -133,6 +141,7 @@ export function MaintenancePage({ clients }: { clients: any[] }) {
       
       const batch = writeBatch(db);
       indSnap.docs.forEach(d => {
+          const formatter = useExecutiveFormatter();
         batch.delete(d.ref);
         totalDeleted++;
       });
@@ -383,7 +392,7 @@ export function MaintenancePage({ clients }: { clients: any[] }) {
          opinion="O painel geral de manutenção garante o controle soberano de expurgo e homologação de registros contábeis pendentes."
          driver="Expurgo de dados, homologação fiduciária e logs administrativos."
          implication="Prevenção de poluição de dados e integridade dos relatórios gerenciais."
-         action="Acompanhar e auditar periodicamente as ações administrativas executadas."
+         executiveQuestion="Acompanhar e auditar periodicamente as ações administrativas executadas."
        >
          <ExecutiveStrategicTensions tensions={[]} />
          <ExecutiveDecisionTrace trace={[]} />

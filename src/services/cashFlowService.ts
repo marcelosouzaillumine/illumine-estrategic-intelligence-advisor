@@ -1,6 +1,6 @@
 import { PayableEntry, ReceivableEntry, PositionEntry, EconomicAssumption, IndicatorValue, FirestoreDocument, PreComputedData } from "../types/contracts";
 import { serverTimestamp } from 'firebase/firestore';
-import { FirestoreCashFlowAdapter } from '../adapters/persistence/FirestoreCashFlowAdapter';
+import { persistenceContainer } from '../infrastructure/container/persistenceContainer';
 import { auth } from '../lib/firebase';
 import { DATA } from '../data';
 
@@ -14,13 +14,9 @@ export async function generateCashFlow(context: DataAccessContext, clientId: str
   // O clientId aqui é tratado como legacyTenantId/entityId transitório.
   // O wrapper garante a governança fiduciária antes da leitura.
   
-  const { payablesSnap, receivablesSnap, positionsSnap } = await GovernedRepositoryWrapper.execute(context, async () => {
-    return await FirestoreCashFlowAdapter.getOperationalData(cleanId);
+  const { payables, receivables, positions } = await GovernedRepositoryWrapper.execute(context, async () => {
+    return await persistenceContainer.cashFlow.getOperationalData(cleanId);
   });
-
-  const payables = payablesSnap.docs.map(d => ({ id: d.id, ...(d.data() as PayableEntry) }));
-  const receivables = receivablesSnap.docs.map(d => ({ id: d.id, ...(d.data() as ReceivableEntry) }));
-  const positions = positionsSnap.docs.map(d => ({ id: d.id, ...(d.data() as PositionEntry) }));
 
 
   let finalPayables = [...payables];
@@ -188,7 +184,7 @@ export async function generateCashFlow(context: DataAccessContext, clientId: str
   };
 
   await GovernedRepositoryWrapper.execute(writeContext, async () => {
-    await FirestoreCashFlowAdapter.saveCashFlow(cleanId, auth.currentUser?.uid, cashFlowData);
+    await persistenceContainer.cashFlow.saveCashFlow(cleanId, auth.currentUser?.uid, cashFlowData);
   });
 
   return cashFlowData;
@@ -199,10 +195,8 @@ export async function getFinancialEntries(context: DataAccessContext, clientId: 
   const cleanId = clientId.trim();
 
   return GovernedRepositoryWrapper.execute(context, async () => {
-    const snap = await FirestoreCashFlowAdapter.getFinancialEntries(cleanId);
-    return snap.docs
-      .map((doc: any) => ({ id: doc.id, ...doc.data() }))
-      .filter((d: FirestoreDocument) => d.status !== 'archived' && d.status !== 'pending' && d.status !== 'rejected');
+    const entries = await persistenceContainer.cashFlow.getFinancialEntries(cleanId);
+    return entries.filter((d: FirestoreDocument) => d.status !== 'archived' && d.status !== 'pending' && d.status !== 'rejected');
   });
 }
 
@@ -211,7 +205,7 @@ export async function getBudgets(context: DataAccessContext, clientId: string) {
   const cleanId = clientId.trim();
 
   return GovernedRepositoryWrapper.execute(context, async () => {
-    const snap = await FirestoreCashFlowAdapter.getBudgets(cleanId);
-    return snap.docs.map((doc: any) => ({ id: doc.id, ...doc.data() }));
+    const budgets = await persistenceContainer.cashFlow.getBudgets(cleanId);
+    return budgets;
   });
 }

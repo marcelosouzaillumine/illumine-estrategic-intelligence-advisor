@@ -22,6 +22,9 @@ import { ExecutiveDecisionHistoryCard } from './ExecutiveDecisionHistoryCard';
 import { ExecutiveCognitiveGovernanceCard } from './ExecutiveCognitiveGovernanceCard';
 import { ExecutiveDecisionTimeline } from './ExecutiveDecisionTimeline';
 import { ExecutiveWorkspaceOrchestrator, ExecutiveWorkspaceSnapshot } from '../../../packages/intelligence/executive-workspace-orchestrator/src';
+import { AdvisoryContextService } from '../../services/advisory-context.service';
+
+import { BRAND } from "../../config/brand";
 
 /**
  * Canonical Experience Name: Executive Advisor Workspace™
@@ -54,24 +57,14 @@ export function ExecutiveCopilotPanel() {
 
   // ERI Observer: Intercepta ciclo de vida e invoca o Decision Engine
   React.useEffect(() => {
-    // Fake Identity for validation purposes
-    const mockIdentity: ExecutiveIdentityContext = {
-      userId: 'test-user',
-      tenantId: 'test-tenant',
-      organizationId: 'test-org',
-      operationalRole: 'CLIENT',
-      executivePersona: 'CEO',
-      permissions: [],
-      sessionId: 'sess-123',
-      issuedAt: new Date(),
-      expiresAt: new Date(Date.now() + 1000 * 60 * 60 * 24),
-      identitySource: 'SYSTEM'
-    };
-
+    // In production this would be the actual organization ID from auth context
+    const currentOrgId = 'current_org';
+    const runtimeContext = AdvisoryContextService.getCurrentRuntimeContext(currentOrgId, page);
+    
     // Em produção, isso leria estado real da sessão (token, last login, etc.)
     const event = page ? SessionEvent.PAGE_CONTEXT_UPDATE : SessionEvent.FIRST_ACCESS_OF_DAY;
     
-    const generatedBriefing = ExecutiveRelationshipEngine.evaluateEvent(mockIdentity, {
+    const generatedBriefing = ExecutiveRelationshipEngine.evaluateEvent(runtimeContext.identity, {
       event,
       timestamp: new Date().toISOString(),
       pageId: page?.title,
@@ -104,43 +97,10 @@ export function ExecutiveCopilotPanel() {
     setLoadingState('Analisando contexto executivo...');
 
     try {
-      // Cria o Runtime Context Canônico
-      const runtimeContext: ExecutiveAdvisorRuntimeContext = {
-        identity: {
-          userId: 'user',
-          tenantId: 'tenant-1',
-          organizationId: 'org-1',
-          operationalRole: 'CLIENT',
-          executivePersona: 'Strategist',
-          permissions: [],
-          sessionId: 'session',
-          issuedAt: new Date(),
-          expiresAt: new Date(),
-          identitySource: 'SYSTEM'
-        },
-        organization: {
-          tenantId: 'tenant-1',
-          companyName: 'Organização Atual',
-          industry: 'Geral'
-        },
-        page: {
-          route: window.location.pathname,
-          domain: 'INSTITUTIONAL',
-          capability: 'Analysis',
-          purpose: page?.title || 'Dashboard',
-          // @ts-ignore - added title for the mock engine
-          title: page?.title
-        },
-        objective: {
-          currentDecision: userMessage
-        },
-        memory: {
-          previousDecisions: [],
-          unresolvedIssues: []
-        },
-        timestamp: new Date().toISOString(),
-        contextVersion: "1.0"
-      };
+      const currentOrgId = 'current_org';
+      // Cria o Runtime Context Canônico via AdvisoryContextService
+      const runtimeContext = AdvisoryContextService.getCurrentRuntimeContext(currentOrgId, page);
+      runtimeContext.objective = { currentDecision: userMessage };
 
       const orchestrator = new ExecutiveWorkspaceOrchestrator();
       
@@ -161,7 +121,8 @@ export function ExecutiveCopilotPanel() {
         }} 
       });
     } catch (error) {
-      addMessage({ role: 'assistant', content: 'Desculpe, o isolamento do tenant impediu a operação.' });
+      console.error('[Advisory] Erro ao preparar contexto executivo', error);
+      addMessage({ role: 'assistant', content: 'Não conseguimos preparar seu contexto executivo neste momento. Nossa equipe de inteligência já foi notificada. Por favor, tente novamente em alguns instantes.' });
     } finally {
       setTyping(false);
       setLoadingState(null);
@@ -194,7 +155,7 @@ export function ExecutiveCopilotPanel() {
           <div className="h-14 flex items-center justify-between px-4 border-b border-border/40 shrink-0 bg-surface-container/30">
             <div className="flex items-center gap-2">
               <Sparkles size={18} className="text-primary" />
-              <span className="font-bold text-sm tracking-wide">Illumine Executive Advisor™</span>
+              <span className="font-bold text-sm tracking-wide">{BRAND.advisoryName}</span>
             </div>
             <div className="flex items-center gap-1">
               <button onClick={() => setOpen(false)} className="p-1.5 text-muted-foreground hover:text-foreground hover:bg-surface-elevated rounded-md transition-colors" title="Fechar">
@@ -247,9 +208,13 @@ export function ExecutiveCopilotPanel() {
             <div className="flex-1 overflow-y-auto p-4 flex flex-col gap-6">
               {messages.length === 0 ? (
                 <div className="flex-1 flex flex-col items-center justify-center text-center text-muted-foreground p-4">
-                  <Sparkles size={32} className="mb-2 opacity-50" />
-                  <p className="text-sm">Olá, {getGreetingRole()}! Conselheiro Executivo Digital ativo.</p>
-                  <p className="text-xs mt-2 opacity-70">Contextualizado em {page?.title || 'nível corporativo'}.</p>
+                  <div className="w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center mb-4 border border-primary/20">
+                    <Sparkles size={24} className="text-primary opacity-80" />
+                  </div>
+                  <h3 className="text-sm font-bold text-foreground">Como posso apoiar sua próxima decisão?</h3>
+                  <p className="text-xs mt-2 max-w-[250px] opacity-80 leading-relaxed">
+                    Estou calibrado com o contexto de <strong>{page?.title || 'nível corporativo'}</strong> e pronto para análise de cenário.
+                  </p>
                 </div>
               ) : (
                 messages.map((msg) => (

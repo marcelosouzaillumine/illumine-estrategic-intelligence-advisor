@@ -89,7 +89,7 @@ export function ConsolidatedGroupAdminPage() {
           opinion="O comitê fiduciário homologa a estrutura de consolidação do grupo econômico, assegurando a correta eliminação de saldos e transações cruzadas."
           driver="Holdings controladoras, subsidiárias coligadas, percentual de participação e eliminações."
           implication="Demonstrações financeiras consolidadas fiéis à realidade fiduciária do grupo econômico."
-          action="Validar periodicamente o mapeamento de entidades coligadas e regras de consolidação integral."
+          executiveQuestion="Validar periodicamente o mapeamento de entidades coligadas e regras de consolidação integral."
         >
           <ExecutiveStrategicTensions tensions={[]} />
           <ExecutiveDecisionTrace trace={[]} />

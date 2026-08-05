@@ -1,7 +1,9 @@
 import React from 'react';
 import { useCommandCenter } from '../../context/governance-command-center/GovernanceCommandCenterProvider';
+import { useExecutiveFormatter } from "../../core/localization";
 
 export const GovernanceSupervisionTimeline: React.FC = () => {
+    const formatter = useExecutiveFormatter();
   const { activeIncidents } = useCommandCenter();
 
   // Ordenar por data de detecção (mais antiga primeiro para timeline de progressão)
@@ -30,7 +32,7 @@ export const GovernanceSupervisionTimeline: React.FC = () => {
 
             <div className="flex-1 p-3.5 bg-slate-900/30 border border-border rounded-xl hover:border-border transition-all space-y-1">
               <div className="flex justify-between items-center font-mono text-[10px] text-muted-foreground">
-                <span>{new Date(inc.detectedAt).toLocaleTimeString()} - {new Date(inc.detectedAt).toLocaleDateString()}</span>
+                <span>{formatter.date(inc.detectedAt, { hour: '2-digit', minute: '2-digit' })} - {formatter.date(inc.detectedAt)}</span>
                 <span className="text-cyan-400 font-bold">{inc.severity}</span>
               </div>
               <h5 className="text-xs font-mono font-bold text-muted-foreground">{inc.title}</h5>

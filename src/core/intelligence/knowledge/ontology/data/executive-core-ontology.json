@@ -1,0 +1,101 @@
+{
+  "id": "executive-core-ontology",
+  "version": "1.0.0",
+  "layer": "UNIVERSAL",
+  "dependencies": [],
+  "concepts": [
+    {
+      "id": "universal.company",
+      "name": "Company",
+      "type": "CONCEPT",
+      "domain": "UNIVERSAL",
+      "description": "The legal and operational entity.",
+      "semanticRole": "Primary analytical subject",
+      "synonyms": ["Organization", "Enterprise", "Firm"],
+      "attributes": { "criticality": "CRITICAL" },
+      "metadata": { "version": "1.0", "confidence": 1.0, "maturity": "PRODUCTION" },
+      "relationships": []
+    },
+    {
+      "id": "universal.revenue",
+      "name": "Revenue",
+      "type": "METRIC",
+      "domain": "UNIVERSAL",
+      "description": "Total amount of income generated.",
+      "semanticRole": "Top-line financial growth indicator",
+      "synonyms": ["Sales", "Turnover", "Top line"],
+      "attributes": { "direction": "HIGHER_IS_BETTER", "unit": "currency" },
+      "metadata": { "version": "1.0", "confidence": 1.0, "maturity": "PRODUCTION" },
+      "relationships": []
+    },
+    {
+      "id": "financial.liquidity",
+      "name": "Liquidity",
+      "type": "DIMENSION",
+      "domain": "FINANCIAL",
+      "description": "The ability of a company to meet short-term obligations.",
+      "semanticRole": "Evaluates short-term survival capacity",
+      "synonyms": ["Solvency (Short Term)", "Cash Position"],
+      "attributes": { "criticality": "CRITICAL" },
+      "metadata": { "version": "1.0", "confidence": 1.0, "maturity": "PRODUCTION" },
+      "relationships": [
+        { "type": "BELONGS_TO", "targetConceptId": "universal.company" }
+      ]
+    },
+    {
+      "id": "financial.liquidity.current_ratio",
+      "name": "Current Ratio",
+      "type": "METRIC",
+      "domain": "FINANCIAL",
+      "description": "Current Assets divided by Current Liabilities.",
+      "semanticRole": "Ability to cover short-term obligations",
+      "synonyms": ["Working Capital Ratio"],
+      "attributes": { "direction": "HIGHER_IS_BETTER", "unit": "ratio" },
+      "metadata": { "version": "1.0", "confidence": 0.98, "maturity": "PRODUCTION" },
+      "relationships": [
+        { "type": "MEASURES", "targetConceptId": "financial.liquidity" },
+        { "type": "INDICATES", "targetConceptId": "financial.liquidity" }
+      ]
+    },
+    {
+      "id": "financial.liquidity.quick_ratio",
+      "name": "Quick Ratio",
+      "type": "METRIC",
+      "domain": "FINANCIAL",
+      "description": "Current Assets excluding inventory divided by Current Liabilities.",
+      "semanticRole": "Immediate liquidity capacity",
+      "synonyms": ["Acid Test Ratio"],
+      "attributes": { "direction": "HIGHER_IS_BETTER", "unit": "ratio" },
+      "metadata": { "version": "1.0", "confidence": 0.98, "maturity": "PRODUCTION" },
+      "relationships": [
+        { "type": "MEASURES", "targetConceptId": "financial.liquidity" }
+      ]
+    },
+    {
+      "id": "organizational.culture",
+      "name": "Culture",
+      "type": "DIMENSION",
+      "domain": "PEOPLE",
+      "description": "Shared values, beliefs, and behaviors.",
+      "semanticRole": "Foundational behavioral driver",
+      "synonyms": ["Corporate Culture", "Work Environment"],
+      "attributes": { "criticality": "HIGH" },
+      "metadata": { "version": "1.0", "confidence": 1.0, "maturity": "PRODUCTION" },
+      "relationships": [
+        { "type": "BELONGS_TO", "targetConceptId": "universal.company" }
+      ]
+    },
+    {
+      "id": "strategy.decision",
+      "name": "Decision",
+      "type": "DECISION",
+      "domain": "STRATEGY",
+      "description": "An executive choice among alternatives.",
+      "semanticRole": "Actionable commitment of resources",
+      "synonyms": ["Strategic Choice", "Resolution"],
+      "attributes": { "criticality": "CRITICAL" },
+      "metadata": { "version": "1.0", "confidence": 1.0, "maturity": "PRODUCTION" },
+      "relationships": []
+    }
+  ]
+}

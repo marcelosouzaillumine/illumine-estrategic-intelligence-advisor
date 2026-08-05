@@ -4,9 +4,10 @@ import { RuntimeViolation } from '../../runtime/types';
 import { ExecutiveSurface } from '../ui/executive-surface';
 import { ExecutiveHeading } from '../ui/executive-heading';
 import { ExecutiveText } from '../ui/executive-typography';
-import { formatSeverityLabel } from './ConsolidatedLanguageFormatter';
+import { useLanguage } from '../../contexts/LanguageContext';
 
 export function GovernanceViolationsPanel({ violations }: { violations: RuntimeViolation[] }) {
+  const { t } = useLanguage();
   if (!violations || violations.length === 0) return null;
 
   return (
@@ -23,7 +24,7 @@ export function GovernanceViolationsPanel({ violations }: { violations: RuntimeV
             <div className="flex items-center gap-3 mb-2">
               <span className="inline-flex items-center px-2 py-0.5 rounded bg-critical/10 border border-critical/20">
                 <ExecutiveText variant="caption" className="font-bold uppercase text-critical">
-                  {formatSeverityLabel(v.severity)}
+                  {t(`executive:severity.${v.severity}`, v.severity)}
                 </ExecutiveText>
               </span>
               <ExecutiveText variant="bodyStandard" className="font-bold text-foreground">

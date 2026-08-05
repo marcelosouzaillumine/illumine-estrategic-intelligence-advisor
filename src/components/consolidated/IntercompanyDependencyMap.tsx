@@ -4,9 +4,12 @@ import { DependencyAnalysis } from '../../services/FiduciaryRuntimeAdapter';
 import { ExecutiveSurface } from '../ui/executive-surface';
 import { ExecutiveHeading } from '../ui/executive-heading';
 import { ExecutiveText } from '../ui/executive-typography';
-import { formatEntityName, formatDependencyTypeLabel } from './ConsolidatedLanguageFormatter';
+import { useLanguage } from '../../contexts/LanguageContext';
+import { useExecutiveFormatter } from '../../core/localization';
 
 export function IntercompanyDependencyMap({ dependencies }: { dependencies: DependencyAnalysis[] }) {
+  const { t } = useLanguage();
+  const formatter = useExecutiveFormatter();
   if (!dependencies || dependencies.length === 0) return null;
 
   return (
@@ -31,14 +34,14 @@ export function IntercompanyDependencyMap({ dependencies }: { dependencies: Depe
             <div className="flex items-center justify-between gap-3 flex-wrap">
               <span className="inline-flex items-center px-3 py-1 rounded-full bg-primary/10 border border-primary/20 shrink-0 whitespace-nowrap">
                 <ExecutiveText variant="caption" className="font-bold uppercase text-primary whitespace-nowrap">
-                  {formatDependencyTypeLabel(dep.dependencyType)}
+                  {t(`executive:dependency.${dep.dependencyType}`, dep.dependencyType)}
                 </ExecutiveText>
               </span>
 
               {dep.materialityPercentage > 0 && (
                 <span className="inline-flex items-center px-2.5 py-0.5 rounded-md bg-card border border-border shrink-0">
                   <ExecutiveText variant="caption" className="font-bold text-slate-700 dark:text-slate-300 whitespace-nowrap">
-                    Materialidade: {dep.materialityPercentage.toFixed(0)}%
+                    Materialidade: {formatter.percentage(dep.materialityPercentage / 100, { maximumFractionDigits: 0 })}
                   </ExecutiveText>
                 </span>
               )}
@@ -47,7 +50,7 @@ export function IntercompanyDependencyMap({ dependencies }: { dependencies: Depe
             <div className="flex flex-wrap items-center gap-2 sm:gap-3 p-3 rounded-xl bg-card border border-border/80 shadow-xs">
               <div className="px-3 py-1.5 rounded-lg bg-surface-container border border-border/60 flex items-center">
                 <ExecutiveText variant="caption" className="font-bold text-slate-800 dark:text-slate-100">
-                  {formatEntityName(dep.sourceEntityId)}
+                  {dep.sourceEntityId}
                 </ExecutiveText>
               </div>
 
@@ -57,7 +60,7 @@ export function IntercompanyDependencyMap({ dependencies }: { dependencies: Depe
 
               <div className="px-3 py-1.5 rounded-lg bg-surface-container border border-border/60 flex items-center">
                 <ExecutiveText variant="caption" className="font-bold text-slate-800 dark:text-slate-100">
-                  {formatEntityName(dep.targetEntityId)}
+                  {dep.targetEntityId}
                 </ExecutiveText>
               </div>
             </div>

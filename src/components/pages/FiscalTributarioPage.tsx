@@ -73,7 +73,7 @@ export function FiscalTributarioPage({ clientId }: FiscalTributarioPageProps) {
         opinion="O comitê fiduciário homologa as premissas tributárias, atestando a conformidade dos encargos de folha e dos impostos federais/estaduais."
         driver="Regime tributário (Simples, Lucro Presumido, Lucro Real), alíquotas efetivas e encargos sociais."
         implication="Preservação da margem operacional e mitigação de contingências fiscais ou autuações."
-        action="Realizar estudo de planejamento tributário anual para avaliar opção de migração de regime."
+        executiveQuestion="Realizar estudo de planejamento tributário anual para avaliar opção de migração de regime."
       >
         <ExecutiveStrategicTensions tensions={[]} />
         <ExecutiveDecisionTrace trace={[]} />
@@ -342,7 +342,7 @@ export function FiscalTributarioPage({ clientId }: FiscalTributarioPageProps) {
           opinion="O conselho fiduciário homologa as alíquotas vigentes e o planejamento tributário aplicado à operação."
           driver="Regime tributário, alíquotas efetivas de impostos e encargos sobre folha de pagamento."
           implication="Mitigação de passivos fiscais e otimização da carga tributária global."
-          action="Auditar anualmente o enquadramento fiscal e explorar teses de recuperação de créditos."
+          executiveQuestion="Auditar anualmente o enquadramento fiscal e explorar teses de recuperação de créditos."
         >
           <ExecutiveStrategicTensions tensions={[]} />
           <ExecutiveDecisionTrace trace={[]} />

@@ -61,7 +61,7 @@ export function DecisionGovernancePage() {
         opinion="O comitê fiduciário chancela a esteira de aprovação de deliberações e a trilha de auditoria."
         driver="Workflows ativos, aprovadores designados, prazos de deliberação e registros de auditoria."
         implication="Mitigação de riscos de responsabilização fiduciária por decisões desprovidas de parecer técnico."
-        action="Monitorar o backlog de deliberações pendentes no conselho."
+        executiveQuestion="Monitorar o backlog de deliberações pendentes no conselho."
       >
         <ExecutiveStrategicTensions tensions={[]} />
         <ExecutiveDecisionTrace trace={[]} />

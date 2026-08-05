@@ -139,6 +139,30 @@ Nenhuma nova funcionalidade poderá alterar a arquitetura horizontal estável da
 
 ---
 
+### VIII. Princípios da Arquitetura Orientada por Responsabilidade Executiva (NON-NEGOTIABLE)
+
+1. **Executive Responsibility-Oriented Architecture (EROA):** 
+A arquitetura técnica e de navegação da plataforma (Illumine Executive Intelligence Platform) deverá ser estritamente organizada pelos domínios de responsabilidade (Mandatos Executivos) de cada ator.
+- MUST: Nunca agrupar por ferramentas, relatórios, módulos técnicos, tabelas de banco de dados ou naturezas de componentes (ex: "Planilhas", "Dashboards").
+- MUST: O paradigma central é "navegação por responsabilidade" e mandato de negócios.
+
+2. **Executive Office Pattern (EOP):** 
+Todo Executive Office deverá seguir uma estrutura rígida de Bounded Contexts:
+`Executive Dashboard -> Executive Domains -> Decision Intelligence`
+- Onde `Executive Domains` agrupa responsabilidades claras da C-Suite, e não ferramentas (ex: "Commercial Execution" ao invés de "Pipeline").
+
+3. **Independência Estrita de Atores e Layers transversais:**
+A plataforma é estratificada em Layers de negócio claros:
+- **COMMAND LAYER:** Executive Command Center
+- **EXECUTION LAYER:** Executive Offices (Gestão de responsabilidades operacionais/estratégicas)
+- **GOVERNANCE LAYER (Board Independence):** Board Intelligence™. O domínio não se mistura com a gestão (Offices). Ele cuida de capital, estrutura e mandato fiduciário de forma soberana.
+- **ECOSYSTEM LAYER (Advisor Independence):** Advisor Network™. Workspaces de consultores devem ser isolados da corporação.
+- **COGNITIVE LAYER:** Enterprise Intelligence. O cérebro da plataforma que provê motores preditivos e validadores transversais para os Offices.
+- **FOUNDATION LAYER (Foundation Separation):** Cadastros básicos e premissas operacionais.
+- **PLATFORM LAYER (Platform Separation):** Faturamento SaaS, multi-tenant e administração técnica global (ocultos da operação do cliente).
+
+---
+
 ## Governance
 
 

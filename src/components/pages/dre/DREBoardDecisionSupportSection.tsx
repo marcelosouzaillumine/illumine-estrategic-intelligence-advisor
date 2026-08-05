@@ -61,7 +61,7 @@ const renderQuestionPanel = (question: string, vm: BoardQuestionVM, tone: 'succe
         opinion={sanitizeDREText(vm.response)}
         driver={sanitizeDREText(vm.rationale)}
         implication={""}
-        action={sanitizeDREText(vm.recommendation)}
+        executiveQuestion={sanitizeDREText(vm.recommendation)}
         confidence={confidence}
       />
     </ExecutiveSurface>

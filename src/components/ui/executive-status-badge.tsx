@@ -42,12 +42,12 @@ export function ExecutiveStatusBadge({ status, className, showIcon, variant = 's
                isCritical ? ShieldAlert :
                HelpCircle;
 
-  let label: React.ReactNode | string = isExcellent ? 'Excelente' :
-              isHealthy ? 'Saudável' :
-              isWarning ? 'Atenção' :
-              isCritical ? 'Crítico' :
-              isNeutral ? 'Neutro' :
-              isInsufficient ? 'Dados Insuficientes' :
+  let label: React.ReactNode | string = isExcellent ? 'EXCELENTE' :
+              isHealthy ? 'HEALTHY' :
+              isWarning ? 'WARNING' :
+              isCritical ? 'CRITICAL' :
+              isNeutral ? 'NEUTRAL' :
+              isInsufficient ? 'INSUFFICIENT' :
               String(status);
 
   // Mapeamentos de texto longo para versões compactas no badge KPI para evitar vazamento do card

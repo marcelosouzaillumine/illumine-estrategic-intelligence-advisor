@@ -1,54 +1,74 @@
 import React from 'react';
-import { ExecutiveEvidenceGrid } from '../../ui/executive-evidence-grid';
-import { ExecutiveBadge } from '../../ui/executive-badge';
-import { ExecutiveDecisionPanel } from '../../ui/executive-decision-panel';
-import { ExecutiveSurface } from '../../ui/executive-surface';
-import { DecisionPanelViewModel } from '../../../types/executive/BalanceSheetExecutiveViewModel';
+import { ExecutiveHeading } from '../../ui/executive-heading';
+import { ExecutiveText } from '../../ui/executive-typography';
+import { ExecutiveIntelligenceOutput } from '../../../core/intelligence/contracts/ExecutiveIntelligenceOutput';
+import { ExecutiveExposureCard } from '../../ui/executive-exposure-card';
 
 export type BalanceSheetCapitalStructureSectionProps = {
-  panel?: DecisionPanelViewModel;
+  bpSummary: any;
+  diagnostics: ExecutiveIntelligenceOutput | null;
 };
 
-export const BalanceSheetCapitalStructureSection = ({ panel }: BalanceSheetCapitalStructureSectionProps) => {
-  const forbidden = [
-    "Painel não gerado",
-    "Erro Estrutural",
-    "Aguardando evidências",
-    "Omitido do contexto",
-    "Dados Insuficientes",
-    "Dados Indisponíveis",
-    "Indeterminada",
-    "Indeterminado"
-  ];
-  if (panel && forbidden.some(term => JSON.stringify(panel).includes(term))) {
-    throw new Error("[BP Constitutional Violation] Panel contains forbidden synthetic placeholders.");
-  }
+export const BalanceSheetCapitalStructureSection = ({ bpSummary, diagnostics }: BalanceSheetCapitalStructureSectionProps) => {
+  if (!bpSummary || !diagnostics) return null;
 
-  if (!panel) {
-    throw new Error('[BP Constitutional Violation] Required decision panel missing in BalanceSheetCapitalStructureSection.');
-  }
+  const capitalStructure = diagnostics.evidence?.capitalStructure || {};
+  let dependencyClassification = 'Muito Baixa';
+  const dep = capitalStructure.dependencyRatio || 0;
+  if (dep > 0.8) dependencyClassification = 'Crítica';
+  else if (dep > 0.6) dependencyClassification = 'Alta';
+  else if (dep > 0.4) dependencyClassification = 'Moderada';
+  else if (dep > 0.2) dependencyClassification = 'Baixa';
 
   return (
     <div className="mb-10 animate-executive-fade relative">
-      <ExecutiveSurface variant="default" elevation="sm" className="p-6 md:p-8 mb-6 rounded-[24px]">
-        <ExecutiveDecisionPanel
-          question="Há riscos estruturais no endividamento atual?"
-          statusBadge={
-            <ExecutiveBadge variant={panel.statusBadgeVariant}>
-              {panel.statusLabel}
-            </ExecutiveBadge>
+      <ExecutiveHeading as="h4" variant="submoduleTitle" className="mb-4">Capital Structure Intelligence</ExecutiveHeading>
+
+      <ExecutiveExposureCard
+        title="Estrutura de Capital e Endividamento"
+        subtitle="Avaliação da dependência de capital de terceiros e cobertura patrimonial."
+        metrics={[
+          {
+            label: 'Dependência de Capital de Terceiros',
+            percentage: dep * 100,
+            colorClass: dep > 0.6 ? 'bg-critical' : (dep > 0.4 ? 'bg-warning' : 'bg-success')
+          },
+          {
+            label: 'Autonomia Financeira (PL/Ativo)',
+            percentage: (bpSummary.ativoTotal > 0 ? bpSummary.patrimonioLiquido / bpSummary.ativoTotal : 0) * 100,
+            colorClass: 'bg-insight'
           }
-          opinion={panel.opinion}
-          driver={panel.driver}
-          implication={panel.implication}
-          action={panel.action}
-          confidence={panel.confidence}
-          technicalIndex={panel.score}
-        />
-      </ExecutiveSurface>
-      {panel.evidences.length > 0 && (
-        <ExecutiveEvidenceGrid metrics={panel.evidences as any} />
-      )}
+        ]}
+      />
+
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mt-6">
+        <div className="bg-surface p-4 rounded-xl border border-border">
+          <ExecutiveText as="span" variant="label" className="text-secondary mb-1">Dependência de Terceiros</ExecutiveText>
+          <ExecutiveText as="span" variant="bodyLarge" className={`font-semibold ${dep > 0.6 ? 'text-critical' : 'text-foreground'}`}>
+            {dependencyClassification}
+          </ExecutiveText>
+        </div>
+        <div className="bg-surface p-4 rounded-xl border border-border">
+          <ExecutiveText as="span" variant="label" className="text-secondary mb-1">Cobertura do Ativo Permanente</ExecutiveText>
+          <ExecutiveText as="span" variant="bodyLarge" className="font-semibold text-foreground">
+            {(capitalStructure.permanentAssetCoverage || 0).toFixed(2)}x
+          </ExecutiveText>
+          <ExecutiveText as="span" variant="microLabel" className="text-secondary mt-1 block">PL / Ativo Não Circulante</ExecutiveText>
+        </div>
+        <div className="bg-surface p-4 rounded-xl border border-border">
+          <ExecutiveText as="span" variant="label" className="text-secondary mb-1">Alavancagem Patrimonial</ExecutiveText>
+          <ExecutiveText as="span" variant="bodyLarge" className="font-semibold text-foreground">
+            {(capitalStructure.patrimonialLeverage || 0).toFixed(2)}x
+          </ExecutiveText>
+          <ExecutiveText as="span" variant="microLabel" className="text-secondary mt-1 block">Ativo Total / PL</ExecutiveText>
+        </div>
+      </div>
+
+      <div className="bg-surface-container/30 p-4 mt-6 rounded-xl border border-border/50">
+        <ExecutiveText as="p" variant="bodyStandard" className="text-primary italic">
+          "Cada R$1,00 de capital próprio sustenta R${(capitalStructure.patrimonialLeverage || 0).toFixed(2)} em ativos. A dependência de terceiros é classificada como {dependencyClassification}."
+        </ExecutiveText>
+      </div>
     </div>
   );
 };

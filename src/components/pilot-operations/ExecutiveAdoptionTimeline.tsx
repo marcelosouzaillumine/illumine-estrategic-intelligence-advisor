@@ -1,10 +1,13 @@
 import React from 'react';
 import { usePilotOperations } from '../../context/pilot-operations/PilotOperationsProvider';
 import { Clock, ShieldAlert, CheckCircle2, ChevronRight } from 'lucide-react';
+import { useExecutiveFormatter } from "../../core/localization";
+
 // src/components/pilot-operations/ExecutiveAdoptionTimeline.tsx
 
 
 export const ExecutiveAdoptionTimeline: React.FC = () => {
+    const formatter = useExecutiveFormatter();
   const { telemetryEvents, pilotStatus } = usePilotOperations();
 
   const isFailClosed = pilotStatus === 'FAIL_CLOSED';
@@ -52,7 +55,7 @@ export const ExecutiveAdoptionTimeline: React.FC = () => {
                   </span>
                   <span className="text-muted-foreground/40 font-normal">·</span>
                   <span className="text-muted-foreground font-normal">
-                    {new Date(event.timestamp).toLocaleTimeString()}
+                    {formatter.date(event.timestamp, { hour: '2-digit', minute: '2-digit' })}
                   </span>
                 </div>
                 <div className="flex justify-between items-center text-[9px] font-mono text-muted-foreground">

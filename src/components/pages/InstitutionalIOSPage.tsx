@@ -100,7 +100,7 @@ export function InstitutionalIOSPage() {
         opinion="A infraestrutura de governança e sincronização de dados cross-domain está 100% online e operacional."
         driver="Linhas do tempo unificadas, mapeamento de dependências e sincronização operacional."
         implication="Mitigação de riscos de coordenação entre os diferentes domínios e departamentos."
-        action="Monitorar os eventos críticos de sincronização e manter a infraestrutura atualizada."
+        executiveQuestion="Monitorar os eventos críticos de sincronização e manter a infraestrutura atualizada."
       >
         <ExecutiveStrategicTensions tensions={[]} />
         <ExecutiveDecisionTrace trace={[]} />

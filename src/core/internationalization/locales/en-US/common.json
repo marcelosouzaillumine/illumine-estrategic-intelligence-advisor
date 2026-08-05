@@ -13,5 +13,71 @@
   "pending": "EN::Pendente",
   "na": "EN::N/A",
   "value": "EN::Valor",
-  "balance": "EN::Saldo"
+  "balance": "EN::Saldo",
+  "dealRoom": {
+    "pageTitle": "Executive Deal Room",
+    "pageSubtitle": "Executive Command Surface for strategic management of the opportunity lifecycle",
+    "company": "Company",
+    "segment": "Segment",
+    "sponsor": "Sponsor (Contact)",
+    "tenant": "Tenant ID",
+    "region": "Region",
+    "currency": "Currency",
+    "businessContext": "Business Context",
+    "stages": {
+      "qualification": {
+        "title": "Qualification Workspace",
+        "desc": "Initial data collection and strategic Lead qualification (MQL -> SQL)."
+      },
+      "discovery": {
+        "title": "Discovery Workspace",
+        "desc": "Deep mapping of pain points, solution architecture, and technical feasibility."
+      },
+      "solutionDesign": {
+        "title": "Solution Design",
+        "desc": "Architectural solution design and value engineering."
+      },
+      "proposal": {
+        "title": "Proposal Workspace",
+        "desc": "Executive proposal construction, pricing, and margin approvals."
+      },
+      "negotiation": {
+        "title": "Negotiation",
+        "desc": "Alignment of terms, commercial, and legal conditions."
+      },
+      "contract": {
+        "title": "Contracting",
+        "desc": "Contract issuance and signature."
+      },
+      "billing": {
+        "title": "Billing & Setup",
+        "desc": "Initial billing and financial setup."
+      },
+      "provisioning": {
+        "title": "Provisioning",
+        "desc": "License and access provisioning."
+      },
+      "completed": {
+        "title": "Completed",
+        "desc": "Commercial saga successfully completed."
+      }
+    }
+  },
+  "segments": {
+    "enterprise": "Enterprise",
+    "corporate": "Corporate",
+    "smb": "SMB"
+  },
+  "regions": {
+    "na": "North America"
+  },
+  "languages": {
+    "en": "English"
+  },
+  "currencies": {
+    "usd": "USD (Dollars)"
+  },
+  "icp": {
+    "strategic": "Strategic Profile (ICP)"
+  }
 }

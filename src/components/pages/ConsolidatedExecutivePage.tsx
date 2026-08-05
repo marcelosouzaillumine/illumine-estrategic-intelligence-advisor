@@ -131,7 +131,7 @@ export function ConsolidatedExecutivePage() {
             opinion="O comitê fiduciário atesta a eliminação correta de transações intercompany e homologa os demonstrativos consolidados."
             driver="Nível de confiança da consolidação, eliminações intercompany, propagação de risco e violações de governança."
             implication="Mitigação de contágio financeiro entre controladas e transparência patrimonial."
-            action="Sanar violações de governança identificadas no painel consolidado."
+            executiveQuestion="Sanar violações de governança identificadas no painel consolidado."
           >
             <ExecutiveStrategicTensions tensions={[]} />
             <ExecutiveDecisionTrace trace={[]} />

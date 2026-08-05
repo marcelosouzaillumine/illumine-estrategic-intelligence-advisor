@@ -2,8 +2,10 @@ import React from 'react';
 import { useInstitutionalMemory } from '../../context/institutional-memory/InstitutionalMemoryProvider';
 import { Sparkles, Fingerprint, Calendar } from 'lucide-react';
 import { cn } from '../../lib/utils';
+import { useExecutiveFormatter } from "../../core/localization";
 
 export function AdvisoryContinuitySurface() {
+    const formatter = useExecutiveFormatter();
   const { advisoryContinuity, lineageIntegrity } = useInstitutionalMemory();
 
   if (lineageIntegrity === 'FAIL_CLOSED' || advisoryContinuity.length === 0) {
@@ -45,9 +47,9 @@ export function AdvisoryContinuitySurface() {
             <div className="pt-2 border-t border-border/30 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3 text-[10px] text-muted-foreground font-semibold">
               <div className="flex items-center gap-1.5 flex-wrap">
                 <Calendar size={12} className="text-secondary" />
-                <span>Primeira emissão: {new Date(rec.firstIssuedAt).toLocaleDateString()}</span>
+                <span>Primeira emissão: {formatter.date(rec.firstIssuedAt)}</span>
                 {rec.timesIssued > 1 && (
-                  <span>• Última: {new Date(rec.lastIssuedAt).toLocaleDateString()}</span>
+                  <span>• Última: {formatter.date(rec.lastIssuedAt)}</span>
                 )}
               </div>
 

@@ -1,18 +1,18 @@
 {
   "hero": {
     "label": "Executive Intelligence Center™",
-    "title": "Donde la inteligencia ejecutiva evoluciona continuamente.",
-    "narrative_1": "El Executive Intelligence Center reúne investigaciones, análisis, puntos de referencia y marcos creados para apoyar a los líderes, consejos y organizaciones en la toma de decisiones más coherentes.",
+    "title": "Donde el conocimiento ejecutivo se transforma en inteligencia institucional.",
+    "narrative_1": "El Executive Intelligence Center reúne investigaciones, marcos, análisis y conocimiento aplicado para desarrollar nuevos modelos de toma de decisiones, gobernanza y evolución organizacional.",
     "narrative_2": "Más que seguir tendencias, transformamos el conocimiento en instrumentos prácticos de gestión, gobernanza y creación de valor.",
     "cta": "Explorar el Centro de Inteligencia"
   },
   "knowledge_production": {
-    "title": "Inteligencia producida, no solo compartida.",
-    "subtitle": "El conocimiento como infraestructura de decisión.",
-    "narrative": "Illumine comprende que las plataformas inteligentes deben evolucionar continuamente. Es por eso que invertimos en la producción sistemática de conocimiento aplicado, conectando la experiencia ejecutiva, la investigación, los datos y la práctica empresarial.<br/><br/>El Executive Intelligence Center es el entorno donde esta inteligencia se organiza, publica y expande continuamente."
+    "title": "La construcción continua de conocimiento ejecutivo.",
+    "subtitle": "El conocimiento como infraestructura institucional.",
+    "narrative": "Illumine desarrolla una base intelectual propia, conectando investigación, experiencia ejecutiva y aprendizaje organizacional para crear nuevos modelos de decisión y gobernanza.<br/><br/>El Executive Intelligence Center es el núcleo donde este conocimiento se desarrolla, organiza y transforma en inteligencia aplicada."
   },
   "frameworks": {
-    "title": "Marcos Propietarios",
+    "title": "Arquitectura Intelectual Illumine™",
     "lead": "Modelos intelectuales desarrollados por Illumine para el diagnóstico, la toma de decisiones y la evolución organizacional. Formamos una biblioteca metodológica que sustenta nuestra arquitectura tecnológica.",
     "items": [
       {
@@ -24,7 +24,7 @@
         "desc": "Estructura para la captura y preservación del aprendizaje organizacional."
       },
       {
-        "name": "Executive Decision Memory™",
+        "name": "Institutional Decision Memory™",
         "desc": "Repositorio estructurado de decisiones históricas y sus resultados."
       },
       {
@@ -38,7 +38,7 @@
     ]
   },
   "knowledge_areas": {
-    "title": "Áreas de Conocimiento",
+    "title": "Dominios de Investigación Ejecutiva",
     "lead": "Un centro organizado por temas estratégicos.",
     "items": [
       {
@@ -68,16 +68,20 @@
     "lead": "Investigamos los desafíos que definirán la próxima generación de la gestión.",
     "items": [
       {
-        "title": "Gobernanza Corporativa",
-        "description": "Cómo las organizaciones aumentan la consistencia en las decisiones."
+        "title": "Inteligencia Institucional",
+        "description": "Cómo preservar y potenciar el conocimiento crítico de la organización."
       },
       {
-        "title": "Inteligencia Institucional",
-        "description": "Cómo preservar el conocimiento crítico."
+        "title": "Gobernanza Corporativa",
+        "description": "Cómo las organizaciones aumentan la consistencia y transparencia de las decisiones."
+      },
+      {
+        "title": "Estrategia",
+        "description": "Cómo conectar la arquitectura empresarial con la evolución del mercado."
       },
       {
         "title": "Desempeño Financiero",
-        "description": "Cómo las decisiones operativas afectan el valor económico."
+        "description": "Cómo las decisiones operativas afectan el valor económico a largo plazo."
       },
       {
         "title": "Liderazgo",
@@ -85,16 +89,12 @@
       },
       {
         "title": "IA Aplicada a la Gestión",
-        "description": "Límites, oportunidades y responsabilidad ejecutiva."
-      },
-      {
-        "title": "Estrategia",
-        "description": "Cómo las organizaciones aprenden continuamente."
+        "description": "Límites, oportunidades y responsabilidad ejecutiva en la adopción de IA."
       }
     ]
   },
   "publications": {
-    "title": "Publicaciones Destacadas",
+    "title": "Biblioteca Ejecutiva",
     "items": [
       {
         "tag": "Executive Brief",
@@ -135,15 +135,26 @@
     ],
     "conclusion": "Cada nuevo aprendizaje fortalece tanto nuestro conocimiento como la capacidad analítica de la plataforma."
   },
+  "learning_loop": {
+    "title": "Institutional Learning Loop™",
+    "lead": "El conocimiento no es estático. Alimenta la evolución de la plataforma en un ciclo continuo de inteligencia.",
+    "nodes": {
+      "n1": "Investigación",
+      "n2": "Marco de Trabajo",
+      "n3": "Aplicación Ejecutiva",
+      "n4": "Aprendizaje Institucional",
+      "n5": "Evolución de la Plataforma"
+    }
+  },
   "audience": {
     "title": "Para quién es este contenido",
     "items": [
-      "Ejecutivos",
-      "Consejeros",
-      "Inversores",
-      "Asesores",
-      "Consultores",
-      "Investigadores"
+      "CEOs",
+      "Consejos de Administración",
+      "Family Offices",
+      "Ejecutivos C-Level",
+      "Asesores y Consultores",
+      "Investigadores y Académicos"
     ]
   },
   "cta": {

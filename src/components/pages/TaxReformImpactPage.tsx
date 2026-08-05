@@ -47,7 +47,7 @@ export function TaxReformImpactPage({ clientId, selectedYear }: any) {
           opinion="O comitê fiduciário homologa a simulação da Reforma Tributária, recomendando a readequação dos preços de venda e o aproveitamento integral de créditos de IVA."
           driver="Alíquota estimada de IBS/CBS, creditamento amplo, trava de transição e substituição de PIS/COFINS/ICMS/ISS."
           implication="Necessidade de reestruturação de contratos de fornecimento e revisão de pricing por NCM."
-          action="Modelar cenários de pricing por produto e revisar contratos de prestação de serviços."
+          executiveQuestion="Modelar cenários de pricing por produto e revisar contratos de prestação de serviços."
         >
           <ExecutiveStrategicTensions tensions={[]} />
           <ExecutiveDecisionTrace trace={[]} />

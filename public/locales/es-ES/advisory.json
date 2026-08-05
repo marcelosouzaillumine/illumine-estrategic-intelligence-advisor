@@ -1,0 +1,68 @@
+{
+  "brand": {
+    "name": "Illumine Concierge™"
+  },
+  "widget": {
+    "title": "Illumine Concierge™",
+    "subtitle": "Public Experience",
+    "analyzing": "Analizando..."
+  },
+  "journeys": {
+    "discovery": {
+      "step1": "Para adaptar mejor la presentación de la plataforma, ¿cuál de estas opciones describe mejor el perfil de su institución?",
+      "holding": "Holding / Grupo Económico",
+      "hospital": "Hospital / Salud",
+      "edu": "Institución Educativa",
+      "other": "Otro segmento",
+      "step2_holding": "Las estructuras complejas exigen gobernanza y memoria institucional adecuadas a su sector.",
+      "step3": "Illumine cuenta con módulos de inteligencia y cumplimiento diseñados para capturar los matices operativos y fiduciarios específicos de su segmento, conectando la gestión diaria con los objetivos macroestratégicos.",
+      "step4": "Para mapear la mejor aplicación de nuestra tecnología a su caso, recomendamos una evaluación inicial.",
+      "cta_diagnostic": "Programar Evaluación"
+    },
+    "finance": {
+      "step1": "El mayor desafío de las finanzas modernas no es cerrar el balance, sino conectarlo a las operaciones en tiempo real. Illumine actúa como una Contraloría Avanzada Inteligente, mapeando fugas invisibles de rentabilidad y permitiendo simulaciones de capital de trabajo y estructura de capital con precisión matemática.",
+      "step2": "Nuestra plataforma fue construida para brindar seguridad absoluta a la Junta Financiera.",
+      "cta_talk": "Hablar con un Consultor"
+    },
+    "board": {
+      "step1": "El trabajo fiduciario exige trazabilidad y una visión de impacto sistémico. Como miembro de la junta, ¿cuál es su prioridad inmediata?",
+      "risk": "Gestión de Riesgos y Cumplimiento",
+      "strategy": "Alineación Estratégica",
+      "succession": "Continuidad y Sucesión",
+      "step2_risk": "Illumine actúa como una capa protectora para la memoria fiduciaria. El módulo de Inteligencia de Gobernanza garantiza que las decisiones y sus impactos se documenten con precisión, reduciendo el riesgo de pasivos no mapeados y asimetría de información."
+    },
+    "advisor": {
+      "step1": "Illumine potencia la entrega de asesores y consultores, actuando como el sistema operativo estratégico para sus clientes. ¿Cómo opera hoy?",
+      "cfo": "BPO Financiero / CFO como Servicio",
+      "board": "Miembro Independiente de la Junta",
+      "consultant": "Consultoría Empresarial",
+      "step2_cfo": "Al utilizar Illumine, eleva su entrega financiera a un nivel estratégico. El sistema consolida datos, proyecta escenarios y estructura la gobernanza, lo que le permite actuar como un verdadero copiloto de la gerencia, con escalabilidad y reducción de horas operativas.",
+      "step3": "Nuestra plataforma es la herramienta definitiva para escalar el impacto de su consultoría y aumentar el valor percibido y la recurrencia para sus clientes.",
+      "cta_partner": "Programa de Partners",
+      "cta_platform": "Explorar Plataforma"
+    },
+    "executive": {
+      "step1": "Para liderar con precisión, necesita visibilidad total. Como líder, ¿cuál es su mayor cuello de botella estratégico hoy?",
+      "execution": "Seguimiento de Ejecución",
+      "data": "Calidad de Información para la Toma de Decisiones",
+      "alignment": "Alineación del Equipo Ejecutivo",
+      "step2_exec": "Illumine fue diseñado exactamente para llenar el vacío entre la estrategia definida por la Junta y la ejecución operativa. El Sistema Operativo Ejecutivo centraliza OKRs, KPIs y planes de acción, asegurando responsabilidad continua.",
+      "step3": "Tenemos módulos diseñados específicamente para transformar la gobernanza corporativa en una práctica diaria.",
+      "cta_talk": "Hablar con el Asesor Ejecutivo"
+    },
+    "welcome": {
+      "text": "¡Hola! Soy el Illumine Concierge™ y conecto a los líderes con las soluciones de inteligencia ejecutiva de la plataforma. Para dirigirlo a la experiencia más adecuada, ¿cuál es su contexto?",
+      "opt_executive": "Lidero una organización",
+      "opt_advisor": "Apoyo a organizaciones como consultor o asesor",
+      "opt_board": "Sirvo en juntas directivas",
+      "opt_finance": "Lidero el área financiera",
+      "opt_org": "Represento a una organización / institución",
+      "opt_discovery": "Estoy conociendo Illumine"
+    }
+  },
+  "actions": {
+    "start": "Comenzar",
+    "schedule": "Programar",
+    "learn_more": "Saber Más"
+  }
+}

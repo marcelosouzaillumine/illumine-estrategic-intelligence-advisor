@@ -15,6 +15,7 @@ import { ManualFinancialModal } from '../modals/ManualFinancialModal';
 import { ImportFinancialModal } from '../modals/ImportFinancialModal';
 import { useDFCPageViewModel } from '../../viewmodels/useDFCPageViewModel';
 import { ExecutiveIntelligenceShell } from '../executive/ExecutiveIntelligenceShell';
+import { useExecutiveFormatter } from '@/core/localization';
 
 export interface DFCPageProps {
   clientId?: string;
@@ -43,8 +44,8 @@ export function DFCPage(props: DFCPageProps) {
     showImportModal
   } = state;
 
-  const formatCurrency = (val: number) =>
-    new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(val);
+  const formatter = useExecutiveFormatter();
+  const formatCurrency = (val: number) => formatter.currency(val);
 
   const clientList = props.clients || [];
   const activeClientObj = clientList.find((c: any) => c.id === activeClientId);

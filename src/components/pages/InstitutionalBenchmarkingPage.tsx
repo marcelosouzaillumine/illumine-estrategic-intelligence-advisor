@@ -51,7 +51,7 @@ export function InstitutionalBenchmarkingPage() {
           opinion="O comitê fiduciário homologa a análise comparativa setorial, validando a posição competitiva e a garantia de privacidade K-Anonymity."
           driver="Percentil setorial de margem EBITDA, giro de ativos, prazo médio de estoque e rating de liquidez."
           implication="Identificação clara de gargalos operacionais e oportunidades de otimização frente aos melhores do setor."
-          action="Definir plano de ação para alinhar as métricas de capital de giro aos benchmarks da faixa de topo."
+          executiveQuestion="Definir plano de ação para alinhar as métricas de capital de giro aos benchmarks da faixa de topo."
         >
           <ExecutiveStrategicTensions tensions={[]} />
           <ExecutiveDecisionTrace trace={[]} />

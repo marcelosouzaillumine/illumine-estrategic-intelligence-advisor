@@ -33,7 +33,7 @@ export const BPWorkingCapitalThresholds: QuantitativeThreshold[] = [
 export interface BPRecommendationFragment {
   dimension: 'Protection' | 'Liquidity' | 'CapitalStructure' | 'WorkingCapital' | 'AssetQuality' | 'CapitalEfficiency';
   trigger: (liquidity: number, autonomy: number, workingCapital: number) => boolean;
-  action: string;
+  executiveQuestion: string;
   rationaleSnippet: string;
   causalityMetric: 'Liquidez' | 'Autonomia' | 'Capital de Giro';
 }
@@ -43,21 +43,21 @@ export const BPDimensionalCausalFragments: BPRecommendationFragment[] = [
     dimension: 'Protection',
     causalityMetric: 'Liquidez',
     trigger: (liq) => liq < 0.8,
-    action: 'Preservar caixa imediatamente e alongar dívidas',
+    executiveQuestion: 'Quais medidas de contingência devem ser acionadas para preservar caixa e alongar o perfil da dívida?',
     rationaleSnippet: 'a estrutura patrimonial é incapaz de absorver choques de curto prazo'
   },
   {
     dimension: 'Protection',
     causalityMetric: 'Autonomia',
     trigger: (liq, aut) => liq >= 1.5 && aut >= 0.50,
-    action: 'Manter governança de alocação de caixa',
+    executiveQuestion: 'A governança atual garante a eficiência na alocação deste caixa protegido?',
     rationaleSnippet: 'a estrutura patrimonial sustenta a operação com ampla segurança'
   },
   {
     dimension: 'Protection',
     causalityMetric: 'Liquidez',
     trigger: () => true, // Fallback
-    action: 'Conservar reservas adequadas às obrigações',
+    executiveQuestion: 'A política atual é suficiente para conservar reservas adequadas às obrigações futuras?',
     rationaleSnippet: 'o nível de proteção sustenta a operação padrão'
   },
 
@@ -65,21 +65,21 @@ export const BPDimensionalCausalFragments: BPRecommendationFragment[] = [
     dimension: 'Liquidity',
     causalityMetric: 'Liquidez',
     trigger: (liq) => liq < 0.8,
-    action: 'Suspender saídas não essenciais e renegociar prazos com fornecedores',
+    executiveQuestion: 'Quais saídas não essenciais podem ser suspensas e quais prazos podem ser renegociados?',
     rationaleSnippet: 'a liquidez imediata encontra-se em nível crítico de asfixia'
   },
   {
     dimension: 'Liquidity',
     causalityMetric: 'Liquidez',
     trigger: (liq) => liq >= 2.5,
-    action: 'Direcionar excedentes para reinvestimento, abatimento de dívida ou distribuição',
+    executiveQuestion: 'A liquidez excedente deve ser direcionada para reinvestimento, abatimento de dívida ou distribuição?',
     rationaleSnippet: 'as disponibilidades superam largamente a necessidade operacional'
   },
   {
     dimension: 'Liquidity',
     causalityMetric: 'Liquidez',
     trigger: () => true, // Fallback
-    action: 'Manter disciplina de fluxo de caixa',
+    executiveQuestion: 'A disciplina de fluxo de caixa está alinhada ao nível de liquidez atual?',
     rationaleSnippet: 'a liquidez permite o adimplemento regular das obrigações'
   },
 
@@ -87,21 +87,21 @@ export const BPDimensionalCausalFragments: BPRecommendationFragment[] = [
     dimension: 'CapitalStructure',
     causalityMetric: 'Autonomia',
     trigger: (_liq, aut) => aut < 0.15,
-    action: 'Buscar injeção de capital próprio ou estruturação de dívida alongada',
+    executiveQuestion: 'É o momento estratégico para injeção de capital próprio ou estruturação de dívida alongada?',
     rationaleSnippet: 'a dependência de terceiros pressiona a viabilidade estrutural'
   },
   {
     dimension: 'CapitalStructure',
     causalityMetric: 'Autonomia',
     trigger: (_liq, aut) => aut >= 0.70,
-    action: 'Avaliar otimização da estrutura de capital ou política de dividendos',
+    executiveQuestion: 'Existem oportunidades para otimizar a estrutura de capital ou a política de dividendos?',
     rationaleSnippet: 'a elevada autonomia confere independência frente a credores'
   },
   {
     dimension: 'CapitalStructure',
     causalityMetric: 'Autonomia',
     trigger: () => true, // Fallback
-    action: 'Buscar melhorias incrementais no custo da dívida',
+    executiveQuestion: 'Quais melhorias incrementais podem ser buscadas no custo da dívida atual?',
     rationaleSnippet: 'o mix de dívida e capital próprio mostra-se adequado'
   },
 
@@ -109,21 +109,21 @@ export const BPDimensionalCausalFragments: BPRecommendationFragment[] = [
     dimension: 'WorkingCapital',
     causalityMetric: 'Capital de Giro',
     trigger: (_liq, _aut, wc) => wc < -0.1,
-    action: 'Normalizar capital de giro priorizando ciclo de recebimentos',
+    executiveQuestion: 'Como normalizar o capital de giro priorizando o ciclo de recebimentos?',
     rationaleSnippet: 'a insuficiência de capital de giro asfixia o ciclo financeiro'
   },
   {
     dimension: 'WorkingCapital',
     causalityMetric: 'Capital de Giro',
     trigger: (_liq, _aut, wc) => wc >= 0.2,
-    action: 'Manter política superavitária de capital de giro',
+    executiveQuestion: 'A política superavitária de capital de giro maximiza a eficiência da operação?',
     rationaleSnippet: 'a forte folga financeira sustenta a necessidade operacional sem fricção'
   },
   {
     dimension: 'WorkingCapital',
     causalityMetric: 'Capital de Giro',
     trigger: () => true, // Fallback
-    action: 'Gerenciar o ciclo de conversão de caixa rigorosamente',
+    executiveQuestion: 'O gerenciamento do ciclo de conversão de caixa está rigoroso o suficiente?',
     rationaleSnippet: 'o capital de giro atende adequadamente a dinâmica operacional'
   },
 
@@ -131,14 +131,14 @@ export const BPDimensionalCausalFragments: BPRecommendationFragment[] = [
     dimension: 'AssetQuality',
     causalityMetric: 'Autonomia',
     trigger: (_liq, aut) => aut < 0.30,
-    action: 'Acelerar conversão de ativos de baixa liquidez em caixa',
+    executiveQuestion: 'É possível acelerar a conversão de ativos de baixa liquidez em caixa?',
     rationaleSnippet: 'a imobilização em cenário de baixa autonomia limita a flexibilidade'
   },
   {
     dimension: 'AssetQuality',
     causalityMetric: 'Liquidez',
     trigger: () => true, // Fallback
-    action: 'Garantir eficiência de conversão e renovação adequada',
+    executiveQuestion: 'A composição do ativo garante eficiência de conversão e renovação adequada?',
     rationaleSnippet: 'a composição do ativo demonstra equilíbrio na alocação de recursos'
   },
 
@@ -146,21 +146,21 @@ export const BPDimensionalCausalFragments: BPRecommendationFragment[] = [
     dimension: 'CapitalEfficiency',
     causalityMetric: 'Liquidez',
     trigger: (liq) => liq < 0.8,
-    action: 'Focar exclusivamente em liquidez e sobrevivência',
+    executiveQuestion: 'O foco exclusivo em liquidez e sobrevivência já foi plenamente absorvido pela operação?',
     rationaleSnippet: 'a eficiência cede espaço à prioridade absoluta de geração de caixa imediato'
   },
   {
     dimension: 'CapitalEfficiency',
     causalityMetric: 'Liquidez',
     trigger: (liq) => liq >= 2.5,
-    action: 'Formalizar política de alocação de excedentes e avaliar retorno marginal',
+    executiveQuestion: 'O retorno marginal justifica manter esta liquidez ou exige nova política de alocação de excedentes?',
     rationaleSnippet: 'a liquidez ociosa excessiva tende a penalizar a rentabilidade geral'
   },
   {
     dimension: 'CapitalEfficiency',
     causalityMetric: 'Autonomia',
     trigger: () => true, // Fallback
-    action: 'Buscar alavancas de incremento de retorno sobre capital empregado',
+    executiveQuestion: 'Quais alavancas incrementais de retorno sobre capital empregado podem ser ativadas?',
     rationaleSnippet: 'o capital alocado opera dentro da normalidade para a estrutura atual'
   }
 ];

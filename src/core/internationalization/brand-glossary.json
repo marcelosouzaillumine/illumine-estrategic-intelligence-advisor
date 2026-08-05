@@ -1,32 +1,47 @@
 {
-  "category_a": {
-    "description": "Brand Assets. NEVER TRANSLATE. Maintain exactly as they are in all languages.",
-    "terms": [
-      "Illumine",
-      "Executive Intelligence Platform™",
-      "Executive Advisory™",
-      "Executive Operating System™",
-      "Executive Decision Operating System™",
-      "Trust Architecture™",
-      "Executive Copilot™",
-      "Executive Learning Loop™",
-      "Executive Intelligence™"
-    ]
-  },
-  "category_b": {
-    "description": "Translate ONLY when not acting as a brand asset. If it possesses the ™ trademark, maintain it in English.",
-    "terms": [
-      "Governance Intelligence™",
-      "Financial Intelligence™",
-      "Mission Intelligence™",
-      "Commercial Intelligence™",
-      "Operational Intelligence™",
-      "Risk Intelligence™",
-      "Innovation Intelligence™",
-      "Institutional Intelligence™"
-    ]
-  },
-  "category_c": {
-    "description": "Free translation. Adapt to sound natural for a B2B executive audience, avoiding literal translations."
-  }
+  "protectedSymbols": [
+    "™",
+    "®"
+  ],
+  "forbiddenTranslations": [
+    {
+      "source": "Executive Intelligence Platform™",
+      "invalid": [
+        "Plataforma de Inteligencia Ejecutiva",
+        "Plataforma de Inteligência Executiva",
+        "Executive Intelligence Platform"
+      ]
+    },
+    {
+      "source": "Executive Advisory™",
+      "invalid": [
+        "Assessoria Executiva",
+        "Asesoramiento Ejecutivo"
+      ]
+    }
+  ],
+  "categoryA_neverTranslate": [
+    "Illumine",
+    "Executive Intelligence Platform™",
+    "Executive Advisory™",
+    "Executive Operating System™",
+    "Executive Decision Operating System™",
+    "Trust Architecture™"
+  ],
+  "categoryB_translateUnlessBrand": [
+    "Governance Intelligence™",
+    "Financial Intelligence™",
+    "Purpose Intelligence™",
+    "Operational Intelligence™",
+    "Commercial Intelligence™",
+    "Innovation Intelligence™",
+    "Institutional Intelligence™",
+    "Risk Intelligence™"
+  ],
+  "categoryC_freeContent": [
+    "Descrições",
+    "Artigos",
+    "Manifesto",
+    "Avaliações"
+  ]
 }

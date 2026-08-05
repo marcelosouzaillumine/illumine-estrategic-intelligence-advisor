@@ -4,12 +4,14 @@ import { ExecutiveHeading } from '../ui/executive-heading';
 import { ExecutiveText } from '../ui/executive-typography';
 import { FileSignature, ShieldCheck, Database } from 'lucide-react';
 import { DecisionSignature } from '../../../packages/intelligence/executive-intelligence-layer/src/governance/DecisionRecord';
+import { useExecutiveFormatter } from '../../core/localization';
 
 interface DecisionSignaturePanelProps {
   signature: DecisionSignature;
 }
 
 export function DecisionSignaturePanel({ signature }: DecisionSignaturePanelProps) {
+  const formatter = useExecutiveFormatter();
   if (!signature) return null;
 
   return (
@@ -43,7 +45,7 @@ export function DecisionSignaturePanel({ signature }: DecisionSignaturePanelProp
         <div>
           <ExecutiveText variant="microLabel" className="text-muted-foreground uppercase mb-1">Signature Date</ExecutiveText>
           <div className="text-sm text-foreground font-bold">
-            {new Intl.DateTimeFormat('pt-BR', { dateStyle: 'medium', timeStyle: 'short' }).format(new Date(signature.signatureDate))}
+            {formatter.date(signature.signatureDate, { dateStyle: 'medium', timeStyle: 'short' })}
           </div>
         </div>
 

@@ -1,54 +1,68 @@
 import React from 'react';
-import { ExecutiveEvidenceGrid } from '../../ui/executive-evidence-grid';
-import { ExecutiveBadge } from '../../ui/executive-badge';
-import { ExecutiveDecisionPanel } from '../../ui/executive-decision-panel';
-import { ExecutiveSurface } from '../../ui/executive-surface';
-import { DecisionPanelViewModel } from '../../../types/executive/BalanceSheetExecutiveViewModel';
+import { ExecutiveHeading } from '../../ui/executive-heading';
+import { ExecutiveText } from '../../ui/executive-typography';
+import { ExecutiveIntelligenceOutput } from '../../../core/intelligence/contracts/ExecutiveIntelligenceOutput';
 
 export type BalanceSheetWorkingCapitalSectionProps = {
-  panel?: DecisionPanelViewModel;
+  bpSummary: any;
+  diagnostics: ExecutiveIntelligenceOutput | null;
 };
 
-export const BalanceSheetWorkingCapitalSection = ({ panel }: BalanceSheetWorkingCapitalSectionProps) => {
-  const forbidden = [
-    "Painel não gerado",
-    "Erro Estrutural",
-    "Aguardando evidências",
-    "Omitido do contexto",
-    "Dados Insuficientes",
-    "Dados Indisponíveis",
-    "Indeterminada",
-    "Indeterminado"
-  ];
-  if (panel && forbidden.some(term => JSON.stringify(panel).includes(term))) {
-    throw new Error("[BP Constitutional Violation] Panel contains forbidden synthetic placeholders.");
-  }
+export const BalanceSheetWorkingCapitalSection = ({ bpSummary, diagnostics }: BalanceSheetWorkingCapitalSectionProps) => {
+  if (!bpSummary || !diagnostics) return null;
 
-  if (!panel) {
-    throw new Error('[BP Constitutional Violation] Required decision panel missing in BalanceSheetWorkingCapitalSection.');
-  }
+  const fleuriet = diagnostics.evidence?.fleuriet;
+  if (!fleuriet) return null;
+
+  const getRiskColor = (level: string) => {
+    switch (level) {
+      case 'LOW': return 'text-success';
+      case 'MEDIUM': return 'text-warning';
+      case 'HIGH': return 'text-critical';
+      case 'CRITICAL': return 'text-critical font-bold';
+      default: return 'text-foreground';
+    }
+  };
 
   return (
     <div className="mb-10 animate-executive-fade relative">
-      <ExecutiveSurface variant="default" elevation="sm" className="p-6 md:p-8 mb-6 rounded-[24px]">
-        <ExecutiveDecisionPanel
-          question="O ciclo operacional consome caixa excessivo ou é auto-financiável?"
-          statusBadge={
-            <ExecutiveBadge variant={panel.statusBadgeVariant}>
-              {panel.statusLabel}
-            </ExecutiveBadge>
-          }
-          opinion={panel.opinion}
-          driver={panel.driver}
-          implication={panel.implication}
-          action={panel.action}
-          confidence={panel.confidence}
-          technicalIndex={panel.score}
-        />
-      </ExecutiveSurface>
-      {panel.evidences.length > 0 && (
-        <ExecutiveEvidenceGrid metrics={panel.evidences as any} />
-      )}
+      <ExecutiveHeading as="h4" variant="submoduleTitle" className="mb-4">Working Capital Intelligence (Modelo Fleuriet)</ExecutiveHeading>
+
+      <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
+        <div className="bg-surface p-4 rounded-xl border border-border flex flex-col items-center justify-center text-center">
+          <ExecutiveText as="span" variant="label" className="text-secondary mb-1">Classificação</ExecutiveText>
+          <ExecutiveText as="span" variant="bodyLarge" className={`font-semibold ${getRiskColor(fleuriet.riskLevel)}`}>
+            {fleuriet.classification} ({fleuriet.type})
+          </ExecutiveText>
+        </div>
+
+        <div className="bg-surface p-4 rounded-xl border border-border flex flex-col items-center justify-center text-center">
+          <ExecutiveText as="span" variant="label" className="text-secondary mb-1">Capital de Giro Líquido</ExecutiveText>
+          <ExecutiveText as="span" variant="bodyLarge" className="font-semibold text-foreground">
+            {fleuriet.cgl > 0 ? 'Positivo (+)' : fleuriet.cgl < 0 ? 'Negativo (-)' : 'Neutro'}
+          </ExecutiveText>
+        </div>
+
+        <div className="bg-surface p-4 rounded-xl border border-border flex flex-col items-center justify-center text-center">
+          <ExecutiveText as="span" variant="label" className="text-secondary mb-1">Necessidade de Giro</ExecutiveText>
+          <ExecutiveText as="span" variant="bodyLarge" className="font-semibold text-foreground">
+             {fleuriet.ncg > 0 ? 'Positivo (+)' : fleuriet.ncg < 0 ? 'Negativo (-)' : 'Neutro'}
+          </ExecutiveText>
+        </div>
+
+        <div className="bg-surface p-4 rounded-xl border border-border flex flex-col items-center justify-center text-center">
+          <ExecutiveText as="span" variant="label" className="text-secondary mb-1">Saldo de Tesouraria</ExecutiveText>
+          <ExecutiveText as="span" variant="bodyLarge" className="font-semibold text-foreground">
+             {fleuriet.treasury > 0 ? 'Positivo (+)' : fleuriet.treasury < 0 ? 'Negativo (-)' : 'Neutro'}
+          </ExecutiveText>
+        </div>
+      </div>
+
+      <div className="bg-surface-container/30 p-4 mt-6 rounded-xl border border-border/50">
+        <ExecutiveText as="p" variant="bodyStandard" className="text-primary italic">
+          "{fleuriet.description}"
+        </ExecutiveText>
+      </div>
     </div>
   );
 };

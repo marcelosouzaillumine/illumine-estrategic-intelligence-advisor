@@ -457,7 +457,7 @@ export function PremissasClientePage({ clients, selectedClient }: { clients: any
        opinion="As premissas de prazos médios de recebimento e pagamento estão alinhadas com o histórico setorial."
        driver="Prazos médios, taxas de crescimento de receita e indexadores de custo."
        implication="Acurácia de projeção nas simulações de fluxo de caixa futuro."
-       action="Revisar anualmente e após mudanças contratuais relevantes."
+       executiveQuestion="Revisar anualmente e após mudanças contratuais relevantes."
      >
        <ExecutiveStrategicTensions tensions={[]} />
        <ExecutiveDecisionTrace trace={[]} />

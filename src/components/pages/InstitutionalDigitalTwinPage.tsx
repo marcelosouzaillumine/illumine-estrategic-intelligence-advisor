@@ -48,7 +48,7 @@ export const InstitutionalDigitalTwinPage: React.FC = () => {
           opinion="O comitê fiduciário homologa a simulação via Gêmeo Digital, recomendando a execução de testes de estresse em ambiente sandbox prévio."
           driver="Grafo de entidades corporativas, simulador de estresse, motor de montagem e métricas de fidelidade."
           implication="Mitigação de riscos em reestruturações de processos ou mudanças na alocação de capital."
-          action="Utilizar o workspace para validar qualquer alteração estrutural antes de sua aplicação em produção."
+          executiveQuestion="Utilizar o workspace para validar qualquer alteração estrutural antes de sua aplicação em produção."
         >
           <ExecutiveStrategicTensions tensions={[]} />
           <ExecutiveDecisionTrace trace={[]} />

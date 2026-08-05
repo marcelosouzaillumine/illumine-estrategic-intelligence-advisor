@@ -1,1 +1,68 @@
-{}
+{
+  "brand": {
+    "name": "Executive Concierge™"
+  },
+  "widget": {
+    "title": "Executive Concierge™",
+    "subtitle": "Connecting leaders to Illumine's executive intelligence.",
+    "analyzing": "Analyzing..."
+  },
+  "journeys": {
+    "discovery": {
+      "step1": "To best tailor the platform presentation, which of these options best describes your institution's profile?",
+      "holding": "Holding / Economic Group",
+      "hospital": "Hospital / Healthcare",
+      "edu": "Educational Institution",
+      "other": "Other segment",
+      "step2_holding": "Complex structures require governance and institutional memory suited to their sector.",
+      "step3": "Illumine has intelligence and compliance modules designed to capture the specific operational and fiduciary nuances of your segment, connecting daily management to macro-strategic objectives.",
+      "step4": "To map the best application of our technology to your case, we recommend an initial assessment.",
+      "cta_diagnostic": "Schedule Executive Diagnostic Journey™"
+    },
+    "finance": {
+      "step1": "The biggest challenge for modern finance is not closing the balance sheet, but connecting it to real-time operations. Illumine acts as an Intelligent Advanced Controllership, mapping invisible profitability leaks and enabling working capital and capital structure simulations with mathematical precision.",
+      "step2": "Our platform was built to provide absolute security to the Financial Board.",
+      "cta_talk": "Talk to a Consultant"
+    },
+    "board": {
+      "step1": "Fiduciary work requires traceability and a vision of systemic impact. As a board member, what is your immediate priority?",
+      "risk": "Risk Management and Compliance",
+      "strategy": "Strategic Alignment",
+      "succession": "Continuity and Succession",
+      "step2_risk": "Illumine acts as a protective layer for fiduciary memory. The Governance Intelligence module ensures that decisions and their impacts are accurately documented, reducing the risk of unmapped liabilities and information asymmetry."
+    },
+    "advisor": {
+      "step1": "Illumine boosts the delivery of advisors and consultants, acting as the strategic operating system for your clients. How do you operate today?",
+      "cfo": "Financial BPO / CFO as a Service",
+      "board": "Independent Board Member",
+      "consultant": "Business Consulting",
+      "step2_cfo": "By using Illumine, you elevate your financial delivery to a strategic level. The system consolidates data, projects scenarios, and structures governance, allowing you to act as a true co-pilot to management, with scalability and reduced operational hours.",
+      "step3": "Our platform is the definitive tool to scale the impact of your consulting and increase perceived value and recurrence for your clients.",
+      "cta_partner": "Partners Program",
+      "cta_platform": "Explore Platform"
+    },
+    "executive": {
+      "step1": "To lead with precision, you need total visibility. As a leader, what is your biggest strategic bottleneck today?",
+      "execution": "Execution Tracking",
+      "data": "Information Quality for Decision Making",
+      "alignment": "Executive Team Alignment",
+      "step2_exec": "Illumine was designed exactly to fill the vacuum between the strategy defined by the Board and operational execution. The Executive Operating System centralizes OKRs, KPIs, and action plans, ensuring continuous accountability.",
+      "step3": "We have modules specifically designed to transform corporate governance into a daily practice.",
+      "cta_talk": "Talk to Executive Advisor"
+    },
+    "welcome": {
+      "text": "Hello! I am the Illumine Concierge™ and I connect leaders to the platform's executive intelligence solutions. To direct you to the most suitable experience, what is your context?",
+      "opt_executive": "I lead an organization",
+      "opt_advisor": "I support organizations as a consultant or advisor",
+      "opt_board": "I serve on boards of directors",
+      "opt_finance": "I lead the financial area",
+      "opt_org": "I represent an organization / institution",
+      "opt_discovery": "I am getting to know Illumine"
+    }
+  },
+  "actions": {
+    "start": "Start",
+    "schedule": "Schedule",
+    "learn_more": "Learn More"
+  }
+}

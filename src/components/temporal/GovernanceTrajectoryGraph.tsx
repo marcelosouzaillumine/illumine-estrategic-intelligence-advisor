@@ -1,12 +1,14 @@
 import React from 'react';
 import { TemporalTrajectoryPoint } from '../../services/FiduciaryRuntimeAdapter';
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
+import { useExecutiveFormatter } from "../../core/localization";
 
 interface GovernanceTrajectoryGraphProps {
   series: TemporalTrajectoryPoint[];
 }
 
 export const GovernanceTrajectoryGraph: React.FC<GovernanceTrajectoryGraphProps> = ({ series }) => {
+    const formatter = useExecutiveFormatter();
   if (!series || series.length === 0) {
     return null; // Dummy Renderer: Fail-closed se não houver dados.
   }
@@ -14,7 +16,7 @@ export const GovernanceTrajectoryGraph: React.FC<GovernanceTrajectoryGraphProps>
   // Formatting timestamp for display
   const data = series.map((point) => ({
     ...point,
-    period: new Date(point.timestamp).toLocaleDateString(undefined, { month: 'short', year: 'numeric' })
+    period: formatter.date(point.timestamp, { month: 'short', year: 'numeric' })
   }));
 
   // Extrair o lineage mais recente para o Audit Reference

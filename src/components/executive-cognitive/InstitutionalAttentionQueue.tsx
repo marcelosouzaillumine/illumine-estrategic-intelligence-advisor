@@ -2,8 +2,10 @@ import React, { useState } from 'react';
 import { useExecutiveCognitive } from '../../context/executive-cognitive/ExecutiveCognitiveProvider';
 import { Clock, Eye, EyeOff } from 'lucide-react';
 import { cn } from '../../lib/utils';
+import { useExecutiveFormatter } from "../../core/localization";
 
 export function InstitutionalAttentionQueue() {
+    const formatter = useExecutiveFormatter();
   const { prioritizedItems } = useExecutiveCognitive();
   const [showDeferred, setShowDeferred] = useState(false);
 
@@ -54,7 +56,7 @@ export function InstitutionalAttentionQueue() {
             )}></div>
 
             <div className="flex items-center gap-2 text-[9px] font-bold tracking-wider uppercase text-muted-foreground">
-              <span>{item.signal.timestamp ? new Date(item.signal.timestamp).toLocaleTimeString() : 'N/A'}</span>
+              <span>{item.signal.timestamp ? formatter.date(item.signal.timestamp, { hour: '2-digit', minute: '2-digit' }) : 'N/A'}</span>
               <span>•</span>
               <span className="text-foreground font-mono">{item.signal.sourceModule}</span>
               <span>•</span>

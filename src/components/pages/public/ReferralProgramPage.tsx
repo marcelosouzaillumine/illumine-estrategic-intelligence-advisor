@@ -1,5 +1,5 @@
-import { ExecutiveAdvisorNetworkLandingPage } from './ExecutiveAdvisorNetworkLandingPage';
+import { InstitutionalAdvisorNetworkPage } from './v2/InstitutionalAdvisorNetworkPage';
 
 // Legacy Wrapper maintaining backwards compatibility for existing imports
-export { ExecutiveAdvisorNetworkLandingPage as ReferralProgramPage };
-export default ExecutiveAdvisorNetworkLandingPage;
+export { InstitutionalAdvisorNetworkPage as ReferralProgramPage };
+export default InstitutionalAdvisorNetworkPage;

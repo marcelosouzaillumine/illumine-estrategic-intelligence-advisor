@@ -1,9 +1,10 @@
 import { collection, query, where, getDocs, doc, setDoc, addDoc } from 'firebase/firestore';
 import { db } from '../../lib/firebase';
 import { FirestoreAuthAdapter } from './FirestoreAuthAdapter';
+import { ICashFlowPersistence, OperationalData } from '../../contracts/persistence/ICashFlowPersistence';
 
-export class FirestoreCashFlowAdapter {
-  static async getOperationalData(clientId: string): Promise<{ payablesSnap: any, receivablesSnap: any, positionsSnap: any }> {
+export class FirestoreCashFlowAdapter implements ICashFlowPersistence {
+  async getOperationalData(clientId: string): Promise<OperationalData> {
     const payablesQuery = query(collection(db, 'payables'), where('clientId', '==', clientId));
     const receivablesQuery = query(collection(db, 'receivables'), where('clientId', '==', clientId));
     const positionsQuery = query(collection(db, 'financial_positions'), where('clientId', '==', clientId));
@@ -13,10 +14,15 @@ export class FirestoreCashFlowAdapter {
       getDocs(receivablesQuery),
       getDocs(positionsQuery)
     ]);
-    return { payablesSnap, receivablesSnap, positionsSnap };
+    
+    return {
+      payables: payablesSnap.docs.map(d => ({ id: d.id, ...d.data() })),
+      receivables: receivablesSnap.docs.map(d => ({ id: d.id, ...d.data() })),
+      positions: positionsSnap.docs.map(d => ({ id: d.id, ...d.data() }))
+    };
   }
 
-  static async saveCashFlow(cleanId: string, ownerId: string | undefined, cashFlowData: any): Promise<void> {
+  async saveCashFlow(cleanId: string, ownerId: string | undefined, cashFlowData: any): Promise<void> {
     const q = query(
       collection(db, 'cash_flows'), 
       where('clientId', '==', cleanId),
@@ -31,25 +37,27 @@ export class FirestoreCashFlowAdapter {
     }
   }
 
-  static async getFinancialEntries(cleanId: string): Promise<any> {
+  async getFinancialEntries(cleanId: string): Promise<any[]> {
     const q = query(
       collection(db, 'financial_entries'),
       where('clientId', '==', cleanId)
     );
-    return await getDocs(q);
+    const snap = await getDocs(q);
+    return snap.docs.map(d => ({ id: d.id, ...d.data() }));
   }
 
-  static async getBudgets(cleanId: string): Promise<any> {
+  async getBudgets(cleanId: string): Promise<any[]> {
     const q = query(
       collection(db, 'budgets'),
       where('clientId', '==', cleanId)
     );
-    return await getDocs(q);
+    const snap = await getDocs(q);
+    return snap.docs.map(d => ({ id: d.id, ...d.data() }));
   }
 
-  static async getCashFlowsByClient(clientId: string): Promise<any[]> {
+  async getCashFlowsByClient(clientId: string, ownerId?: string): Promise<any[]> {
     if (!clientId) return [];
-    const userId = FirestoreAuthAdapter.getCurrentUserId();
+    const userId = ownerId || FirestoreAuthAdapter.getCurrentUserId();
     const q = query(
       collection(db, 'cash_flows'),
       where('clientId', '==', clientId),
@@ -59,7 +67,7 @@ export class FirestoreCashFlowAdapter {
     return snap.docs.map(d => d.data());
   }
 
-  static async getAllCashFlowsByClient(clientId: string): Promise<any[]> {
+  async getAllCashFlowsByClient(clientId: string): Promise<any[]> {
     if (!clientId) return [];
     const q = query(
       collection(db, 'cash_flows'),

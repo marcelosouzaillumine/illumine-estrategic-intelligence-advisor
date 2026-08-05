@@ -1,8 +1,10 @@
 import React from 'react';
 import { StrategicDecisionSimulator } from '../../services/FiduciaryRuntimeAdapter';
 import { Fingerprint } from 'lucide-react';
+import { useExecutiveFormatter } from '../../core/localization';
 
 export function DecisionEvidenceViewer({ tenantId }: { tenantId: string }) {
+  const formatter = useExecutiveFormatter();
   const sims = StrategicDecisionSimulator.getSimulations(tenantId);
   if (sims.length === 0) return null;
 
@@ -19,7 +21,7 @@ export function DecisionEvidenceViewer({ tenantId }: { tenantId: string }) {
           <div className="font-bold text-foreground mb-3 text-sm">Decision Lineage Reference</div>
           <div className="grid grid-cols-2 gap-3 text-muted-foreground mb-4">
             <div><span className="text-foreground">Execution ID:</span> <br/>{evidence.lineage.executionId}</div>
-            <div><span className="text-foreground">Timestamp:</span> <br/>{new Date(evidence.lineage.timestamp).toLocaleString()}</div>
+            <div><span className="text-foreground">Timestamp:</span> <br/>{formatter.date(evidence.lineage.timestamp)}</div>
             <div><span className="text-foreground">Linked Workflows:</span> <br/>{evidence.lineage.workflowIds?.join(', ') || 'N/A'}</div>
             <div><span className="text-foreground">Knowledge Graph Patterns:</span> <br/>{evidence.lineage.graphPatternRefs?.join(', ') || 'N/A'}</div>
           </div>

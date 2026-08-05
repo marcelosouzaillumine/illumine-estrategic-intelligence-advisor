@@ -1,0 +1,31 @@
+import React from 'react';
+import { TrendingUp, TrendingDown, Minus } from 'lucide-react';
+import { useExecutiveFormatter } from '../../../../core/localization';
+
+export interface EbitdaPerformanceWidgetProps {
+  value: number;
+  margin: number;
+  trend: 'up' | 'down' | 'neutral';
+}
+
+export function EbitdaPerformanceWidget({ value, margin, trend }: EbitdaPerformanceWidgetProps) {
+  const formatter = useExecutiveFormatter();
+  const formatCurrency = (val: number) => {
+    return formatter.currency(val);
+  };
+
+  const TrendIcon = trend === 'up' ? TrendingUp : trend === 'down' ? TrendingDown : Minus;
+
+  return (
+    <div className="bg-surface-elevated border border-border rounded-xl p-5 shadow-sm h-full flex flex-col justify-center">
+      <h3 className="text-xs font-semibold uppercase tracking-wider text-muted-foreground mb-1">EBITDA</h3>
+      <div className="flex items-baseline gap-2 mt-2">
+        <span className="text-2xl font-bold text-foreground">{formatCurrency(value)}</span>
+      </div>
+      <div className="flex items-center gap-1.5 mt-3 text-sm">
+        <TrendIcon size={16} className={trend === 'up' ? 'text-emerald-500' : trend === 'down' ? 'text-rose-500' : 'text-neutral-500'} />
+        <span className="text-muted-foreground font-medium">Margem: {margin}%</span>
+      </div>
+    </div>
+  );
+}

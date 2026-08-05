@@ -1,0 +1,2 @@
+import { OpportunityReadModel } from '../read-models/OpportunityReadModel';
+export interface ILeadReadProvider { getLeads(): Promise<OpportunityReadModel[]>; getLead(id: string): Promise<OpportunityReadModel | null>; }

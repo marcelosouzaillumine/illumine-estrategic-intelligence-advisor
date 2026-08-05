@@ -1,8 +1,7 @@
 import fs from 'fs';
 import path from 'path';
 import brandGlossary from '../src/core/internationalization/brand-glossary.json';
-
-const localesDir = path.join(__dirname, '../src/core/internationalization/locales');
+const localesDir = path.join(process.cwd(), 'src/core/internationalization/locales');
 const namespaces = [
   'navigation',
   'footer',
@@ -15,7 +14,7 @@ const namespaces = [
   'seo'
 ];
 
-const categoryATerms = brandGlossary.category_a.terms;
+const categoryATerms = brandGlossary.categoryA_neverTranslate;
 
 function flattenJSON(data: any, prefix = ''): Record<string, string> {
   let result: Record<string, string> = {};
@@ -29,12 +28,15 @@ function flattenJSON(data: any, prefix = ''): Record<string, string> {
   return result;
 }
 
+import { describe, it, before } from 'node:test';
+import assert from 'node:assert/strict';
+
 describe('Internationalization Brand Glossary Retention', () => {
   const ptData: Record<string, Record<string, string>> = {};
   const enData: Record<string, Record<string, string>> = {};
   const esData: Record<string, Record<string, string>> = {};
 
-  beforeAll(() => {
+  before(() => {
     for (const ns of namespaces) {
       const ptPath = path.join(localesDir, 'pt-BR', `${ns}.json`);
       const enPath = path.join(localesDir, 'en-US', `${ns}.json`);
@@ -60,10 +62,10 @@ describe('Internationalization Brand Glossary Retention', () => {
             const esValue = esData[ns]?.[key];
 
             if (enValue) {
-              expect(enValue).toContain(term);
+              assert.ok(enValue.includes(term), `Expected EN to contain ${term}`);
             }
             if (esValue) {
-              expect(esValue).toContain(term);
+              assert.ok(esValue.includes(term), `Expected ES to contain ${term}`);
             }
             checkedCount++;
           }
@@ -72,6 +74,6 @@ describe('Internationalization Brand Glossary Retention', () => {
     }
 
     // Ensure we checked at least some values to confirm test works
-    expect(checkedCount).toBeGreaterThanOrEqual(0); // Right now might be 0 if no terms used, but will be > 0.
+    assert.ok(checkedCount >= 0); // Right now might be 0 if no terms used, but will be > 0.
   });
 });

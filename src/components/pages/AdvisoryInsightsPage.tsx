@@ -243,7 +243,7 @@ export function AdvisoryInsightsPage({ clients, selectedClient, selectedYear, se
          opinion="O conselho homologa a síntese de pareceres, destacando os direcionadores operacionais prioritários."
          driver="Painel de insights C-Level, síntese de advisory, alertas operacionais e moderação narrativa."
          implication="Alinhamento estratégico contínuo entre a assessoria fiduciária e o conselho de administração."
-         action="Acompanhar a implementação dos insights priorizados no roadmap de governança."
+         executiveQuestion="Acompanhar a implementação dos insights priorizados no roadmap de governança."
        >
          <ExecutiveStrategicTensions tensions={[]} />
          <ExecutiveDecisionTrace trace={[]} />

@@ -1,0 +1,7 @@
+{
+  "title": "Oportunidade Decisória Detectada ({{id}})",
+  "priorityScore": "Priority Score: {{score}}",
+  "detectedSignal": "Sinal Detectado: {{signal}}",
+  "estimatedImpact": "Impacto Financeiro Estimado:",
+  "recommendedDate": "Data Limite Recomendada:"
+}

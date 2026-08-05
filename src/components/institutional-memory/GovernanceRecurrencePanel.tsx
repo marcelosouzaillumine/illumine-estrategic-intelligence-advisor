@@ -2,8 +2,10 @@ import React from 'react';
 import { useInstitutionalMemory } from '../../context/institutional-memory/InstitutionalMemoryProvider';
 import { ShieldAlert, AlertTriangle, ShieldCheck } from 'lucide-react';
 import { cn } from '../../lib/utils';
+import { useExecutiveFormatter } from "../../core/localization";
 
 export function GovernanceRecurrencePanel() {
+    const formatter = useExecutiveFormatter();
   const { recurrenceSignals, lineageIntegrity } = useInstitutionalMemory();
 
   if (lineageIntegrity === 'FAIL_CLOSED' || recurrenceSignals.length === 0) {
@@ -64,7 +66,7 @@ export function GovernanceRecurrencePanel() {
                   Ciclo Cíclico Identificado: {signal.frequencyCount} ocorrências registradas
                 </h4>
                 <p className="text-xs text-muted-foreground font-medium">
-                  Primeiro registro em: {new Date(signal.firstDetected).toLocaleDateString()} | Última detecção: {new Date(signal.lastDetected).toLocaleDateString()}
+                  Primeiro registro em: {formatter.date(signal.firstDetected)} | Última detecção: {formatter.date(signal.lastDetected)}
                 </p>
               </div>
 

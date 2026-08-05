@@ -91,7 +91,7 @@ export function OrcamentoPage({
         opinion="O comitê fiduciário homologa que as variações e desvios orçamentários estão sob controle nas unidades de negócio e centros de custo."
         driver="Budget anual, desvios orçamentários por centro de custo e alocação estratégica."
         implication="Previsibilidade financeira robusta e controle rígido das despesas operacionais."
-        action="Acompanhar desvios mensais e efetuar as revisões trimestrais planejadas de budget."
+        executiveQuestion="Acompanhar desvios mensais e efetuar as revisões trimestrais planejadas de budget."
       >
         <ExecutiveStrategicTensions tensions={[]} />
         <ExecutiveDecisionTrace trace={[]} />

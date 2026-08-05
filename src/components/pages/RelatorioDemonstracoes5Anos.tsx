@@ -314,7 +314,7 @@ export function RelatorioDemonstracoes5Anos({ clientId, selectedYear }: Relatori
          opinion="O comitê fiduciário atesta a consistência da evolução quinquenal dos demonstrativos financeiros."
          driver="Receita bruta, EBITDA acumulado, lucro líquido e Patrimônio Líquido."
          implication="Previsibilidade na identificação de ciclos econômicos e tendências de crescimento."
-         action="Acompanhar a evolução anual das taxas compostas de crescimento (CAGR)."
+         executiveQuestion="Acompanhar a evolução anual das taxas compostas de crescimento (CAGR)."
        >
          <ExecutiveStrategicTensions tensions={[]} />
          <ExecutiveDecisionTrace trace={[]} />

@@ -1,5 +1,5 @@
 import { useState, useEffect, useCallback } from 'react';
-import { FirestoreFinancialEntriesAdapter } from '../adapters/persistence/FirestoreFinancialEntriesAdapter';
+import { persistenceContainer } from '../infrastructure/container/persistenceContainer';
 
 
 export interface FinancialEntry {
@@ -36,7 +36,7 @@ export function useHistoricalDemonstracoes(clientId: string, currentYear: number
         currentYear - 5
       ];
 
-      const { docs } = await FirestoreFinancialEntriesAdapter.getEntriesInYears(clientId, targetYears);
+      const { docs } = await persistenceContainer.financial.getEntriesInYears(clientId, targetYears);
 
       if (isCancelled.current) return;
 

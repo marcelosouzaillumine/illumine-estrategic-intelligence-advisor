@@ -40,7 +40,7 @@ export function ExecutiveScenarioLabPage() {
             opinion="O comitê fiduciário homologa os testes de estresse e projeções de sensibilidade para suporte à tomada de decisão executiva."
             driver="Simulações de receita, variação de custos, projeções de caixa e testes de sensibilidade de mercado."
             implication="Mitigação de exposição a choques macroeconômicos ou desvios operacionais não planejados."
-            action="Definir gatilhos operacionais para ativação automática do plano de mitigação de liquidez."
+            executiveQuestion="Definir gatilhos operacionais para ativação automática do plano de mitigação de liquidez."
           >
             <ExecutiveStrategicTensions tensions={[]} />
             <ExecutiveDecisionTrace trace={[]} />

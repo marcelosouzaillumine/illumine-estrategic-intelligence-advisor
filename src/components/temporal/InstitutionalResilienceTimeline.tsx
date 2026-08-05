@@ -1,12 +1,14 @@
 import React from 'react';
 import { TemporalEvent } from '../../services/FiduciaryRuntimeAdapter';
 import { useLanguage } from '../../contexts/LanguageContext';
+import { useExecutiveFormatter } from "../../core/localization";
 
 interface ResilienceTimelineProps {
   events: TemporalEvent[];
 }
 
 export const InstitutionalResilienceTimeline: React.FC<ResilienceTimelineProps> = ({ events }) => {
+    const formatter = useExecutiveFormatter();
   const { t } = useLanguage();
   if (!events || events.length === 0) {
     return null; // Dummy Renderer
@@ -16,6 +18,7 @@ export const InstitutionalResilienceTimeline: React.FC<ResilienceTimelineProps> 
   const sortedEvents = [...events].sort((a, b) => new Date(a.timestamp).getTime() - new Date(b.timestamp).getTime());
 
   const getEventColor = (type: string) => {
+      const formatter = useExecutiveFormatter();
     switch(type) {
       case 'RECOVERY': return 'bg-green-500';
       case 'DETERIORATION': return 'bg-red-500';
@@ -45,7 +48,7 @@ export const InstitutionalResilienceTimeline: React.FC<ResilienceTimelineProps> 
                   {event.eventType.replace(/_/g, ' ')}
                 </span>
                 <div className="text-right">
-                  <div className="text-xs text-muted-foreground">{new Date(event.timestamp).toLocaleDateString()}</div>
+                  <div className="text-xs text-muted-foreground">{formatter.date(event.timestamp)}</div>
                 </div>
               </div>
               <p className="text-sm text-muted-foreground mt-2">{event.description}</p>

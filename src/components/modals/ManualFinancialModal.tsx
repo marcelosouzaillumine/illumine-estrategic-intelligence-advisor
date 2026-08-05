@@ -41,6 +41,7 @@ import {
   SortableContext,
   verticalListSortingStrategy
 } from '@dnd-kit/sortable';
+import { useExecutiveFormatter } from '@/core/localization';
 
 
 export function ManualFinancialModal({ type, clientId, year, onClose, onSuccess }: ManualFinancialModalProps) {
@@ -50,6 +51,8 @@ export function ManualFinancialModal({ type, clientId, year, onClose, onSuccess 
   const governance = useGovernance();
   const role = governance?.role || 'cliente';
   const { rows, setRows, loading, saving, saveEntries } = useManualFinancialModalAdapter(clientId, year, selectedType, role);
+  
+  const formatter = useExecutiveFormatter();
 
 
 
@@ -182,7 +185,7 @@ export function ManualFinancialModal({ type, clientId, year, onClose, onSuccess 
 
       const difference = Math.abs(totalAtivo - (totalPassivo + totalPL));
       if (difference > 0.01) {
-        setErrorMsg(`Dados inconsistentes: O Total do Ativo (${totalAtivo.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}) deve ser igual ao Total do Passivo + Patrimônio Líquido (${(totalPassivo + totalPL).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}). Diferença: ${difference.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}. Por favor, corrija os valores.`);
+        setErrorMsg(`Dados inconsistentes: O Total do Ativo (${formatter.currency(totalAtivo)}) deve ser igual ao Total do Passivo + Patrimônio Líquido (${formatter.currency(totalPassivo + totalPL)}). Diferença: ${formatter.currency(difference)}. Por favor, corrija os valores.`);
         return;
       }
 

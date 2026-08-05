@@ -45,7 +45,7 @@ export function EarlyWarningPage() {
         opinion="O comitê fiduciário homologa os sinais de alerta e recomenda ações preventivas antes da consumação do risco."
         driver="Padrões do Knowledge Graph, desvios de benchmark e tendências de solvência."
         implication="Prevenção de crises de liquidez e preservação da continuidade operacional."
-        action="Executar os planos de contingência associados aos alertas de maior severidade."
+        executiveQuestion="Executar os planos de contingência associados aos alertas de maior severidade."
       >
         <ExecutiveStrategicTensions tensions={[]} />
         <ExecutiveDecisionTrace trace={[]} />

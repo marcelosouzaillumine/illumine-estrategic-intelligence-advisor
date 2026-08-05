@@ -17,7 +17,7 @@ export class BalanceSheetCompletenessGuard {
     ] as const;
 
     requiredPanels.forEach(panelKey => {
-      const panel = viewModel.decisionPanels[panelKey as keyof typeof viewModel.decisionPanels];
+      const panel = viewModel.analysisPanels[panelKey as keyof typeof viewModel.analysisPanels];
       const isMissingOrEmpty = !panel || !panel.statusLabel || !panel.opinion || panel.statusLabel.includes('Dados Insuficientes') || panel.statusLabel.includes('Neutro');
       
       if (isMissingOrEmpty) {

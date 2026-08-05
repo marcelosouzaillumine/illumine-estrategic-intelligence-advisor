@@ -1,8 +1,10 @@
 import React from 'react';
 import { useCommandCenter } from '../../context/governance-command-center/GovernanceCommandCenterProvider';
+import { useExecutiveFormatter } from '../../core/localization';
 
 export const IncidentLifecyclePanel: React.FC = () => {
   const { selectedIncident, supervisionEvents, activeIncidents } = useCommandCenter();
+  const formatter = useExecutiveFormatter();
 
   if (!selectedIncident) {
     return (
@@ -37,7 +39,7 @@ export const IncidentLifecyclePanel: React.FC = () => {
         <div className="p-3 bg-slate-900/40 border border-border rounded-lg space-y-1">
           <div className="flex justify-between text-muted-foreground text-[10px]">
             <span>SYSTEM DETECTION</span>
-            <span>{new Date(selectedIncident.detectedAt).toLocaleString()}</span>
+            <span>{formatter.date(selectedIncident.detectedAt)}</span>
           </div>
           <p className="text-emerald-450 font-bold">DETECTION TRIGGERED</p>
           <p className="text-muted-foreground text-[11px] leading-relaxed font-sans">
@@ -50,7 +52,7 @@ export const IncidentLifecyclePanel: React.FC = () => {
           <div key={idx} className="p-3 bg-slate-900/40 border border-border rounded-lg space-y-1">
             <div className="flex justify-between text-muted-foreground text-[10px]">
               <span>SUPERVISION LOG</span>
-              <span>{new Date(evt.timestamp).toLocaleString()}</span>
+              <span>{formatter.date(evt.timestamp)}</span>
             </div>
             <p className="text-cyan-400 font-bold">ACTION: {evt.supervisionAction}</p>
             <p className="text-muted-foreground text-[11px] font-sans">

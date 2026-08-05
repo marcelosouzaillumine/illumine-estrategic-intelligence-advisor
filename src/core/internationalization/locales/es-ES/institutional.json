@@ -2,7 +2,7 @@
   "hero": {
     "title": "Transforme los datos corporativos en decisiones estratégicas seguras.",
     "lead": "Illumine conecta gobernanza, finanzas, estrategia y operaciones para construir memoria institucional y ampliar la capacidad de decisión de líderes y consejos de administración.",
-    "cta_primary": "Solicitar Executive Assessment",
+    "cta_primary": "Solicitar Executive Diagnostic Journey™",
     "cta_secondary": "Conocer la Plataforma"
   },
   "problem": {
@@ -166,14 +166,14 @@
   "why": {
     "hero": {
       "label": "Por qué Illumine",
-      "title": "No toda inteligencia fue construida para apoyar decisiones estratégicas.",
-      "lead": "La mayoría de las plataformas organizan datos, automatizan procesos o responden preguntas. Illumine fue diseñada para respaldar decisiones de alta complejidad preservando el contexto, la memoria institucional y la gobernanza.",
+      "title": "Las organizaciones han evolucionado su capacidad de operar. Ahora necesitan evolucionar su capacidad de decidir.",
+      "lead": "Illumine conecta contexto, memoria institucional, inteligencia sistémica y gobernanza para apoyar decisiones de alta complejidad con claridad, trazabilidad y aprendizaje continuo.",
       "cta": "Explore la Arquitectura de Gobernanza"
     },
     "fragmentation": {
       "title": "El problema no es la tecnología.",
       "title_highlight": "Es la fragmentación.",
-      "narrative": "Hoy en día, una organización utiliza docenas de sistemas especializados. Cada solución resuelve una pieza del rompecabezas. Ninguna comprende la empresa en su totalidad.",
+      "narrative": "Hoy una organización utiliza decenas de sistemas especializados. Cada sistema representa una parte de la realidad de la organización. Ninguno preserva el contexto necesario para comprenderla como un sistema.",
       "systems": [
         "ERP",
         "CRM",
@@ -184,9 +184,13 @@
         "IA Generativa"
       ]
     },
+    "transition": {
+      "title": "¿Por qué ahora?",
+      "narrative": "Durante décadas, las organizaciones invirtieron en sistemas para registrar operaciones, controlar procesos y analizar indicadores. El próximo salto no será recopilar más información, sino transformar el conocimiento disperso en inteligencia institucional capaz de apoyar decisiones cada vez más complejas."
+    },
     "paradigm": {
       "label": "El Nuevo Paradigma",
-      "title": "Qué hace diferente a Illumine",
+      "title": "Una nueva categoría de infraestructura de inteligencia ejecutiva.",
       "lead": "La evolución del software departamental a la inteligencia institucional.",
       "table": {
         "col1": "Soluciones Tradicionales",
@@ -195,11 +199,11 @@
       "comparisons": [
         {
           "old": "Organizan datos",
-          "new": "Construye contexto ejecutivo"
+          "new": "Preserva el contexto"
         },
         {
           "old": "Generan dashboards",
-          "new": "Apoya las decisiones"
+          "new": "Amplía el juicio ejecutivo"
         },
         {
           "old": "Automatizan tareas",
@@ -207,25 +211,21 @@
         },
         {
           "old": "Responden preguntas",
-          "new": "Explica causas y consecuencias"
+          "new": "Explica relaciones causales"
         },
         {
           "old": "Operan por departamentos",
-          "new": "Comprende los sistemas organizacionales"
+          "new": "Interpreta la organización como sistema"
         },
         {
-          "old": "Muestran indicadores",
-          "new": "Revela relaciones causales"
-        },
-        {
-          "old": "Dependen de la memoria humana",
-          "new": "Preserva la memoria institucional"
+          "old": "Dependen de que las personas recuerden",
+          "new": "Aprende continuamente de las decisiones"
         }
       ]
     },
     "architecture": {
       "title": "No es solo otra IA.",
-      "title_highlight": "Es una arquitectura de decisión.",
+      "title_highlight": "Es una infraestructura de inteligencia institucional.",
       "narrative": "Illumine no solo conversa con documentos aislados. Genera un contexto institucional conectando los fragmentos dispersos por la empresa.",
       "tags": [
         "Datos Financieros",
@@ -239,7 +239,7 @@
     },
     "capabilities": {
       "label": "Tecnología Propietaria",
-      "title": "Cinco capacidades exclusivas",
+      "title": "Cinco capacidades que las plataformas tradicionales no pueden ofrecer en conjunto.",
       "lead": "Lo que permite a la plataforma interpretar a la organización como un sistema.",
       "items": [
         {
@@ -260,7 +260,7 @@
         },
         {
           "title": "Evolución Continua",
-          "description": "La plataforma aprende de las decisiones pasadas para refinar los análisis futuros."
+          "description": "Cada decisión amplía la capacidad de la organización de decidir mejor en el futuro."
         }
       ]
     },
@@ -271,7 +271,7 @@
     },
     "profiles_results": {
       "profiles_label": "Madurez Institucional",
-      "profiles_title": "Para quién fue construida",
+      "profiles_title": "Organizaciones que operan en alta complejidad.",
       "profiles_lead": "No por sector. Por complejidad.",
       "profiles_items": [
         "Empresas medianas y grandes",
@@ -283,7 +283,7 @@
         "Organizaciones sin fines de lucro de alta complejidad"
       ],
       "results_label": "Generación de Valor",
-      "results_title": "Resultados esperados",
+      "results_title": "Qué cambia cuando la inteligencia institucional pasa a formar parte de la organización.",
       "results_lead": "Al implementar Illumine, la organización comienza a operar con:",
       "results_items": [
         "Mayor calidad en las decisiones estratégicas",
@@ -296,12 +296,15 @@
     },
     "conclusion": {
       "title": "Toda decisión importante deja consecuencias.",
-      "lead": "¿Su organización también está preservando el contexto que llevó a esa decisión?",
-      "cta1": "Realizar un Executive Assessment",
+      "lead": "Las organizaciones inteligentes preservan también el contexto que les dio origen.",
+      "cta1": "Realizar un Executive Diagnostic Journey™",
       "cta2": "Hablar con un Executive Advisor"
     }
   },
   "ecosystem": {
+    "label": "El Ecosistema Illumine",
+    "title": "Inteligencia distribuida. Aprendizaje continuo.",
+    "lead": "Una arquitectura dual que conecta la infraestructura tecnológica de vanguardia para empresas con una red global de expertos ejecutivos.",
     "enterprise": {
       "title": "Illumine Enterprise™",
       "desc": "La infraestructura de inteligencia institucional para empresas, grupos corporativos y organizaciones complejas que buscan transformar datos, contexto y conocimiento estratégico en decisiones corporativas más confiables, transparentes y sostenibles."

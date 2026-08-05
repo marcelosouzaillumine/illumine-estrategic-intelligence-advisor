@@ -4,6 +4,7 @@ import { ExecutiveHeading } from '../ui/executive-heading';
 import { ExecutiveText } from '../ui/executive-typography';
 import { Radar, AlertTriangle, UserCheck } from 'lucide-react';
 import { cn } from '../../lib/utils';
+import { useTranslation } from 'react-i18next';
 
 interface ConfidenceItemProps {
   label: string;
@@ -48,6 +49,7 @@ interface ExecutiveConfidenceMapProps {
 }
 
 export function ExecutiveConfidenceMap({ confidenceMap, decision, overallScore }: ExecutiveConfidenceMapProps) {
+  const { t } = useTranslation('executive');
   if (!confidenceMap) return null;
 
   return (
@@ -74,7 +76,7 @@ export function ExecutiveConfidenceMap({ confidenceMap, decision, overallScore }
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
         <ConfidenceItem label="Dados Financeiros" score={confidenceMap.financial.score} basis={confidenceMap.financial.basis} />
         <ConfidenceItem label="Diagnóstico (Causal)" score={confidenceMap.causal.score} basis={confidenceMap.causal.basis} />
-        <ConfidenceItem label="Recomendação" score={confidenceMap.recommendation.score} basis={confidenceMap.recommendation.basis} />
+        <ConfidenceItem label={t('executive:decision.recommendation')} score={confidenceMap.recommendation.score} basis={confidenceMap.recommendation.basis} />
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6 pt-6 border-t border-border">

@@ -1,0 +1,32 @@
+{
+  "id": "financial.knowledge.leverage.pattern.low",
+  "type": "PATTERN",
+  "domain": "FINANCIAL",
+  "ontologyReferences": [
+    "financial.capital_structure.debt_to_equity"
+  ],
+  "title": "Low Leverage Pattern",
+  "description": "Identifies extreme financial conservatism.",
+  "content": {
+    "conditions": [
+      {
+        "metric": "debt_to_equity",
+        "operator": "<",
+        "value": 0.1
+      }
+    ],
+    "additionalEvidence": [
+      "roe",
+      "wacc"
+    ],
+    "interpretation": "Extremely low leverage indicates high resilience but potentially sub-optimal cost of capital."
+  },
+  "confidence": 0.90,
+  "maturity": "VALIDATED",
+  "metadata": {
+    "version": "1.0",
+    "author": "Illumine Financial Engine",
+    "source": "Strategic Finance Patterns",
+    "createdAt": "2026-08-05T00:00:00Z"
+  }
+}

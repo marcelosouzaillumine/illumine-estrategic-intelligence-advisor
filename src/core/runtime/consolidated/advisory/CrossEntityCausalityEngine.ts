@@ -1,6 +1,6 @@
 import { ConsolidatedFinancialOutput } from '../types';
 import { CrossEntityCausality, DependencyAnalysis, HoldingRoleAnalysis } from './advisoryTypes';
-import { formatEntityName } from '../../../../components/consolidated/ConsolidatedLanguageFormatter';
+import { formatEntityName } from '../EntityFormatter';
 
 export class CrossEntityCausalityEngine {
   static analyze(

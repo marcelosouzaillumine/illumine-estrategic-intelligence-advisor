@@ -17,7 +17,7 @@ import { ExecutiveDecisionTrace } from '../ui/executive-decision-trace';
 import { useInstitutionalCopilotPageViewModel } from '../../viewmodels/useInstitutionalCopilotPageViewModel';
 import { TenantIsolationContext } from '../../../packages/security/tenant-isolation-kernel/src';
 
-export function InstitutionalCopilotPage() {
+export function InstitutionalAdvisoryPage() {
   // Adapter: useInstitutionalCopilotPageAdapter
   // ViewModel: useInstitutionalCopilotPageViewModel
   const { state: vmState, computed: vmComputed, actions: vmActions } = useInstitutionalCopilotPageViewModel({ clientId: '' });
@@ -40,8 +40,8 @@ export function InstitutionalCopilotPage() {
 
   return (
     <ExecutivePageTemplate header={{
-      title: "Copiloto Institucional",
-      description: "Inteligência Artificial Governeada. Respostas com grounding criptográfico e rastreabilidade fiduciária.",
+      title: "Illumine Advisory™",
+      description: "Inteligência Institucional Governeada. Respostas com grounding criptográfico e rastreabilidade fiduciária.",
     }}>
 
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-6 mb-10">
@@ -58,7 +58,7 @@ export function InstitutionalCopilotPage() {
       <div className="mt-12 mb-8 border-t border-border pt-8" />
       <ExecutiveAccordion
         title="Painel de Grounding e Chat"
-        subtitle="Interaja com a inteligência artificial dentro das diretrizes de governança."
+        subtitle="Interaja com a inteligência institucional dentro das diretrizes de governança."
         variant="analytics"
         defaultExpanded
       >
@@ -79,11 +79,11 @@ export function InstitutionalCopilotPage() {
       </div>
       <ExecutiveSummarySection 
         status={{ label: 'Grounding Validade', variant: 'success' }}
-        question="Como o copiloto garante a precisão fiduciária nas respostas institucionais?"
+        question="Como o sistema garante a precisão fiduciária nas respostas institucionais?"
         opinion="O comitê fiduciário homologa o motor de grounding criptográfico garantindo zero alucinações nas respostas."
         driver="Base fiduciária de conhecimento, checagem de alçadas e restrição de contexto."
         implication="Consultas rápidas com suporte documental auditável."
-        action="Manter atualizados os contextos e arquivos de alçada fiduciária."
+        executiveQuestion="Manter atualizados os contextos e arquivos de alçada fiduciária."
       >
         <ExecutiveStrategicTensions tensions={[]} />
         <ExecutiveDecisionTrace trace={[]} />

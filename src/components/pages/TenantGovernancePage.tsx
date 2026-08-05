@@ -96,7 +96,7 @@ export function TenantGovernancePage() {
           opinion="O comitê fiduciário homologa o isolamento de dados por tenant e as permissões de acesso da plataforma."
           driver="Tenants ativos, rastreabilidade de acessos, ausência de leakage e log de auditoria."
           implication="Proteção jurídica e contratual sobre o sigilo de informações de cada cliente."
-          action="Auditar mensalmente as matrizes de acesso e os logs de troca de workspace."
+          executiveQuestion="As rotinas de auditoria nas matrizes de acesso e logs de troca de workspace estão ativas e documentadas?"
         >
           <ExecutiveStrategicTensions tensions={[]} />
           <ExecutiveDecisionTrace trace={[]} />

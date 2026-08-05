@@ -139,7 +139,7 @@ export class StrategicOpinionConsistencyEngine {
     const narrativeContext = ExecutivePrimaryMotiveConsistencyEngine.deriveNarrativeContext(context, severityState);
 
     const situacaoAtual = ExecutiveNarrativeBuilder.buildSituacaoAtual(narrativeContext);
-    const prioridadeEstrategica = ExecutiveNarrativeBuilder.buildPrioridadeEstrategica(narrativeContext);
+    const prioridadeEstrategica = ExecutiveNarrativeBuilder.buildSignificadoFinanceiro(narrativeContext);
     const outlook = ExecutiveNarrativeBuilder.buildOutlook(narrativeContext);
 
     const rawNarrative = `Situação Atual: ${situacaoAtual} Prioridade Estratégica: ${prioridadeEstrategica} Outlook: ${outlook}`;

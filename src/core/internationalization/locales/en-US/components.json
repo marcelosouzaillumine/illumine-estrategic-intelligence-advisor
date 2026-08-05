@@ -1,0 +1,52 @@
+{
+  "metric_card": {
+    "trend_up": "Growth",
+    "trend_down": "Reduction",
+    "no_variation": "No variation",
+    "updated": "Updated"
+  },
+  "table": {
+    "columns": {
+      "name": "Name",
+      "status": "Status",
+      "updated_at": "Updated at",
+      "actions": "Actions"
+    }
+  },
+  "states": {
+    "empty": "No data available",
+    "error": "Unable to load information",
+    "retry": "Try again"
+  },
+  "semantic_cards": {
+    "recommendation": "Priority Recommendation",
+    "primary_driver": "Primary institutional driver:",
+    "diagnosis_title": "Strategic Diagnosis",
+    "recalculating": "Recalculating executive intelligence for {{year}}...",
+    "diagnosis_bp_desc": "Consolidated view of equity position, liquidity, capital structure, and financial sustainability capacity to support decision making.",
+    "diagnosis_dre_desc": "Consolidated view of economic performance, profit formation, and operational priorities to support decision making.",
+    "current_situation": "Current Situation",
+    "strategic_priority": "Strategic Priority",
+    "outlook": "Outlook"
+  },
+  "empty_state": {
+    "default_title": "No data available",
+    "default_description": "We could not find information for this view.",
+    "action": "Try again"
+  },
+  "loading": {
+    "generic": "Loading...",
+    "executive_intelligence": "Loading executive intelligence...",
+    "financial_analysis": "Loading financial analysis..."
+  },
+  "error": {
+    "generic": "An unexpected error occurred.",
+    "retry": "Try again",
+    "contact_support": "Contact support"
+  },
+  "typography": {
+    "executive_summary": "Executive Summary",
+    "strategic_overview": "Strategic Overview",
+    "current_status": "Current Status"
+  }
+}

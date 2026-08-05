@@ -1,0 +1,47 @@
+{
+  "id": "financial.knowledge.leverage.benchmark.standard",
+  "type": "BENCHMARK",
+  "domain": "FINANCIAL",
+  "ontologyReferences": [
+    "financial.capital_structure.debt_to_equity"
+  ],
+  "title": "Leverage Benchmark",
+  "description": "Standard ranges for assessing capital structure risk.",
+  "content": {
+    "metric": "debt_to_equity",
+    "ranges": [
+      {
+        "min": 0,
+        "max": 0.5,
+        "classification": "STRONG",
+        "meaning": "Very low dependency on third-party capital"
+      },
+      {
+        "min": 0.5,
+        "max": 1.5,
+        "classification": "HEALTHY",
+        "meaning": "Balanced capital structure"
+      },
+      {
+        "min": 1.5,
+        "max": 3.0,
+        "classification": "REVIEW",
+        "meaning": "Moderate to high leverage, evaluate cash generation capacity"
+      },
+      {
+        "min": 3.0,
+        "max": 999,
+        "classification": "RISK",
+        "meaning": "High insolvency risk"
+      }
+    ]
+  },
+  "confidence": 0.90,
+  "maturity": "VALIDATED",
+  "metadata": {
+    "version": "1.0",
+    "author": "Illumine Financial Engine",
+    "source": "Corporate Finance Standards",
+    "createdAt": "2026-08-05T00:00:00Z"
+  }
+}

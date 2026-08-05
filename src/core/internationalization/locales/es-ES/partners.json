@@ -1,1 +1,15 @@
-{}
+{
+  "profile": {
+    "fiduciaryScore": "Puntaje Fiduciario: {{score}}",
+    "successRate": "Tasa de Éxito:",
+    "nps": "NPS:",
+    "level": "Nivel:",
+    "generatedRoi": "ROI Generado:"
+  },
+  "holding": {
+    "title": "Holding y Grupo Económico — {{name}}",
+    "controlledCompanies": "Empresas Controladas:",
+    "units": "{{count}} Unidades",
+    "consolidatedRevenue": "Ingresos Consolidados:"
+  }
+}

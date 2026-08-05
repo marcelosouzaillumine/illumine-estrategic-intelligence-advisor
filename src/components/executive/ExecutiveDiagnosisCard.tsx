@@ -4,12 +4,14 @@ import { Stethoscope, AlertTriangle } from 'lucide-react';
 import { ExecutiveSurface } from '../ui/executive-surface';
 import { ExecutiveBadge } from '../ui/executive-badge';
 import { ExecutiveText } from '../ui/executive-typography';
+import { useExecutiveFormatter } from '@/core/localization';
 
 export interface ExecutiveDiagnosisCardProps {
   readonly context: ExecutiveDecisionContext;
 }
 
 export const ExecutiveDiagnosisCard: React.FC<ExecutiveDiagnosisCardProps> = ({ context }) => {
+  const formatter = useExecutiveFormatter();
   const metrics = context.executiveMetrics?.currentMetrics || {};
   const prevMetrics = context.executiveMetrics?.previousPeriodMetrics || {};
 
@@ -48,7 +50,7 @@ export const ExecutiveDiagnosisCard: React.FC<ExecutiveDiagnosisCardProps> = ({ 
           <span className="font-semibold text-foreground block mb-1">Impactos Financeiros Diretos</span>
           <div className="flex items-center gap-2 text-foreground font-medium mt-2">
             <AlertTriangle className="w-4 h-4 text-warning shrink-0" />
-            <span>Redução de R$ {Math.abs(ebitda - prevEbitda).toLocaleString('pt-BR')} na geração interna de caixa líquido.</span>
+            <span>Redução de {formatter.currency(Math.abs(ebitda - prevEbitda))} na geração interna de caixa líquido.</span>
           </div>
         </div>
       </div>

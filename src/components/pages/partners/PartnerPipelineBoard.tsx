@@ -1,6 +1,7 @@
 import React from 'react';
 import { ExecutiveSurface } from '../../ui/executive-surface';
 import { ExecutiveHeading } from '../../ui/executive-heading';
+import { useExecutiveFormatter } from '../../../core/localization';
 
 interface PartnerPipelineBoardProps {
   pipelineTotalValue: number;
@@ -11,8 +12,8 @@ export const PartnerPipelineBoard: React.FC<PartnerPipelineBoardProps> = ({
   pipelineTotalValue,
   activeDealsCount
 }) => {
-  const formatCurrency = (val: number) =>
-    new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(val);
+  const formatter = useExecutiveFormatter();
+  const formatCurrency = (val: number) => formatter.currency(val);
 
   return (
     <ExecutiveSurface className="p-6 space-y-6">

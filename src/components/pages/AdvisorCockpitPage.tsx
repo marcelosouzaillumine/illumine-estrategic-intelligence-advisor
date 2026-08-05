@@ -145,7 +145,7 @@ export function AdvisorCockpitPage() {
         opinion="O comitê fiduciário homologa os privilégios do perfil de advisor e o isolamento de sessões."
         driver="Contexto do tenant, permissões fiduciárias, score do grupo e atalhos rápidos."
         implication="Garantia de agilidade operacional nas reuniões de acompanhamento estratégico."
-        action="Auditar os privilégios de emulação de perfil a cada início de ciclo."
+        executiveQuestion="Auditar os privilégios de emulação de perfil a cada início de ciclo."
       >
         <ExecutiveStrategicTensions tensions={[]} />
         <ExecutiveDecisionTrace trace={[]} />

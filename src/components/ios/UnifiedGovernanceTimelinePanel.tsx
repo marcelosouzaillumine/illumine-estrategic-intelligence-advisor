@@ -1,8 +1,10 @@
 import React from 'react';
 import { InstitutionalOperatingSystem } from '../../services/FiduciaryRuntimeAdapter';
 import { GitCommit } from 'lucide-react';
+import { useExecutiveFormatter } from "../../core/localization";
 
 export function UnifiedGovernanceTimelinePanel({ tenantId }: { tenantId: string }) {
+    const formatter = useExecutiveFormatter();
   const state = InstitutionalOperatingSystem.getState(tenantId);
   if (!state) return null;
 
@@ -15,6 +17,7 @@ export function UnifiedGovernanceTimelinePanel({ tenantId }: { tenantId: string 
       
       <div className="relative border-l border-border/50 ml-3 space-y-6">
         {state.timeline.map((evt) => {
+            const formatter = useExecutiveFormatter();
           let color = 'bg-primary';
           let border = 'border-primary';
           if (evt.severity === 'CRITICAL') { color = 'bg-critical-soft0'; border = 'border-rose-500'; }
@@ -25,7 +28,7 @@ export function UnifiedGovernanceTimelinePanel({ tenantId }: { tenantId: string 
               <div className={'absolute w-3 h-3 ' + color + ' rounded-full -left-1.5 top-1.5 border-2 border-background'}></div>
               <div className="flex justify-between items-baseline mb-1">
                 <span className="text-sm font-bold text-foreground">{evt.title}</span>
-                <span className="text-[10px] text-muted-foreground uppercase">{new Date(evt.timestamp).toLocaleDateString()}</span>
+                <span className="text-[10px] text-muted-foreground uppercase">{formatter.date(evt.timestamp)}</span>
               </div>
               <div className="text-xs text-muted-foreground mb-1">{evt.description}</div>
               <div className="text-[10px] font-bold text-insight uppercase">{evt.domain.replace(/_/g, ' ')}</div>

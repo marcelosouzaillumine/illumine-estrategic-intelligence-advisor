@@ -3,6 +3,7 @@ import { motion, AnimatePresence } from 'motion/react';
 import { ShieldCheck, MessageSquare, AlertTriangle, FileText, CheckCircle2, ChevronRight, Activity, Cpu } from 'lucide-react';
 import type { CopilotMessage } from '../../../hooks/useBoardCopilot';
 import type { GovernanceCopilotQuestion } from '../../../lib/governance-copilot-reasoning-types';
+import { BRAND } from '../../../config/brand';
 
 export interface BoardCopilotPanelProps {
   messages: CopilotMessage[];
@@ -24,7 +25,7 @@ export function BoardCopilotPanel({ messages, isProcessing, suggestedQuestions, 
           </div>
           <div>
             <h3 className="text-xl font-black text-white flex items-center gap-2">
-              Board Meeting Copilot 
+              Board {BRAND.advisoryName}
               <span className="px-2 py-0.5 bg-primary text-primary text-[10px] uppercase tracking-widest rounded font-black border border-primary">
                 BMCL v4.4
               </span>
@@ -80,7 +81,7 @@ export function BoardCopilotPanel({ messages, isProcessing, suggestedQuestions, 
           {messages.length === 0 ? (
             <div className="flex-1 flex flex-col items-center justify-center text-center px-8 opacity-60">
               <ShieldCheck size={48} className="text-muted-foreground mb-4" />
-              <h4 className="text-sm font-black text-muted-foreground mb-2">Copilot Read-Only</h4>
+              <h4 className="text-sm font-black text-muted-foreground mb-2">{BRAND.advisoryRole} Read-Only</h4>
               <p className="text-xs text-muted-foreground max-w-sm">
                 Selecione uma questão sugerida ao lado. As respostas são baseadas estritamente em evidências e inteligência institucional certificada, sem geração livre de texto.
               </p>

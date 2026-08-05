@@ -22,7 +22,7 @@ export class BalanceSheetExecutiveLanguageCompiler {
     const selectedFrag = frags[0] || {
       dimension,
       causalityMetric: 'Liquidez',
-      action: 'Manter disciplina patrimonial',
+      executiveQuestion: 'A disciplina patrimonial está adequada para garantir a normalidade estrutural?',
       rationaleSnippet: 'os dados estruturais mantêm-se dentro da normalidade'
     };
 
@@ -63,11 +63,11 @@ export class BalanceSheetExecutiveLanguageCompiler {
       statusLabel,
       statusBadgeVariant,
       opinion,
-      driver: selectedFrag.causalityMetric,
-      action: selectedFrag.action,
-      score: null,
+      implication: selectedFrag.rationaleSnippet,
+      executiveQuestion: selectedFrag.executiveQuestion,
+      confidence: 'Alta',
       evidences: [],
-      origin: { sourceEngine: 'BalanceSheetExecutiveLanguageCompiler', sourceRule: 'Causal Execution', confidence: 'Alta', lastValidatedAt: new Date().toISOString() }
+      origin: { sourceEngine: 'BalanceSheetExecutiveLanguageCompiler', sourceRule: 'Causal Analysis', confidence: 'Alta', lastValidatedAt: new Date().toISOString() }
     };
   }
 
@@ -90,7 +90,7 @@ export class BalanceSheetExecutiveLanguageCompiler {
     const liqStr = `Liquidez em ${formatFact(facts.liquidityCurrent || 0, 2, false)}`;
     const autStr = `Autonomia de ${formatFact(facts.financialAutonomy || 0, 1, true)}`;
 
-    return `A organização apresenta estrutura caracterizada por ${autThreshold.label.toLowerCase()} (${autStr}) e ${liqThreshold.label.toLowerCase()} (${liqStr}), exigindo ações proporcionais à severidade de seus indicadores.`;
+    return `A organização apresenta estrutura caracterizada por ${autThreshold.label.toLowerCase()} (${autStr}) e ${liqThreshold.label.toLowerCase()} (${liqStr}), o que exige atenção proporcional à severidade de seus indicadores.`;
   }
 
   public static compileCriticalFactor(liqThreshold: QuantitativeThreshold, autThreshold: QuantitativeThreshold): string {
@@ -107,35 +107,35 @@ export class BalanceSheetExecutiveLanguageCompiler {
     return 'Necessidade de monitoramento das dimensões de risco mapeadas.';
   }
 
-  public static compileRecommendedAction(liqThreshold: QuantitativeThreshold, autThreshold: QuantitativeThreshold): string {
-    if (liqThreshold.severity === 'CRITICAL') return 'Executar plano emergencial de preservação de caixa imediatamente.';
-    if (autThreshold.severity === 'CRITICAL') return 'Iniciar renegociação de dívidas e blindagem de ativos vitais.';
-    if (liqThreshold.severity === 'WARNING' || autThreshold.severity === 'WARNING') return 'Acelerar conversão de capital de giro em caixa livre.';
-    return 'Manter disciplina e auditar limites de alavancagem.';
+  public static compileTechnicalObservation(liqThreshold: QuantitativeThreshold, autThreshold: QuantitativeThreshold): string {
+    if (liqThreshold.severity === 'CRITICAL') return 'A gravidade da liquidez requer revisão emergencial da estrutura de capital e fluxo de tesouraria.';
+    if (autThreshold.severity === 'CRITICAL') return 'A dependência crítica requer avaliação estrutural do perfil do passivo e proteção patrimonial.';
+    if (liqThreshold.severity === 'WARNING' || autThreshold.severity === 'WARNING') return 'A pressão em margens requer avaliação da eficiência do capital de giro.';
+    return 'A estabilidade atual reforça a manutenção da disciplina na alocação de recursos.';
   }
 
-  public static compilePlanActions(facts: BalanceSheetExecutiveFacts, liqThreshold: QuantitativeThreshold, autThreshold: QuantitativeThreshold, wcThreshold: QuantitativeThreshold) {
-    // Generate actions strictly from thresholds
-    let shortTerm = 'Preservar estabilidade financeira e monitorar indicadores de liquidez.';
-    let mediumTerm = 'Aprimorar eficiência operacional e retorno sobre ativos.';
-    let longTerm = 'Manter estrutura de capital equilibrada e crescimento sustentável.';
+  public static compileObservationContext(facts: BalanceSheetExecutiveFacts, liqThreshold: QuantitativeThreshold, autThreshold: QuantitativeThreshold, wcThreshold: QuantitativeThreshold) {
+    // Generate observations strictly from thresholds
+    let shortTerm = 'A estabilidade financeira permite o acompanhamento contínuo dos indicadores de liquidez.';
+    let mediumTerm = 'A base de capital suporta contínua busca por eficiência operacional e retorno sobre ativos.';
+    let longTerm = 'A estrutura de capital demonstra condições para sustentar o crescimento orgânico de longo prazo.';
 
     if (liqThreshold.severity === 'CRITICAL') {
-      shortTerm = 'Suspender saídas não essenciais e focar em sobrevivência do caixa.';
-      mediumTerm = 'Recompor liquidez mínima e alongar passivos exigíveis.';
-      longTerm = 'Reconstruir margem de segurança e proteção contra estresse.';
+      shortTerm = 'A criticidade da liquidez sinaliza a necessidade técnica de revisão de fluxos não essenciais.';
+      mediumTerm = 'O desequilíbrio estrutural requer readequação das margens de liquidez e passivos de curto prazo.';
+      longTerm = 'A vulnerabilidade de caixa afeta a capacidade de absorção de estresse a longo prazo.';
     } else if (autThreshold.severity === 'CRITICAL') {
-      shortTerm = 'Acelerar injeção de capital próprio ou retenção integral de lucro.';
-      mediumTerm = 'Reduzir nível de alavancagem estrutural.';
-      longTerm = 'Restabelecer níveis seguros de autonomia frente a credores.';
+      shortTerm = 'A estrutura de capital indica forte pressão fiduciária e baixa retenção histórica de valor.';
+      mediumTerm = 'A alta alavancagem estrutural condiciona o crescimento a novos aportes de capital externo.';
+      longTerm = 'A dependência crônica de terceiros compromete a autonomia financeira no longo prazo.';
     } else if (liqThreshold.severity === 'WARNING' || wcThreshold.severity === 'WARNING') {
-      shortTerm = 'Controlar expansão de necessidades de capital de giro.';
-      mediumTerm = 'Otimizar ciclo de caixa e reduzir prazos médios.';
-      longTerm = 'Garantir crescimento com disciplina em alocação de recursos.';
+      shortTerm = 'O consumo do capital de giro exige acompanhamento próximo sobre a necessidade adicional de recursos.';
+      mediumTerm = 'O ciclo de caixa em alerta afeta a conversão ótima de resultados em disponibilidade imediata.';
+      longTerm = 'A disciplina de alocação de recursos torna-se variável crítica para proteger as margens futuras.';
     } else if (liqThreshold.severity === 'ROBUST' && autThreshold.severity === 'ROBUST') {
-      shortTerm = 'Avaliar custo de oportunidade de recursos ociosos.';
-      mediumTerm = 'Estruturar reinvestimento produtivo ou distribuição de dividendos.';
-      longTerm = 'Otimizar estrutura de capital (WACC) considerando níveis de segurança.';
+      shortTerm = 'O cenário de liquidez excedente sugere análise sobre o custo de oportunidade da ociosidade financeira.';
+      mediumTerm = 'A forte retenção de valor sustenta cenários de expansão sem dependência sistêmica externa.';
+      longTerm = 'A autonomia estrutural garante as condições para maximização eficiente do retorno sobre o capital investido.';
     }
 
     return { shortTerm, mediumTerm, longTerm };

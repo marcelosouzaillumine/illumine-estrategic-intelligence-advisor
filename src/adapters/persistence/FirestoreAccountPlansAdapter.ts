@@ -1,9 +1,10 @@
 import { collection, query, where, orderBy, onSnapshot, writeBatch, doc, serverTimestamp, addDoc, updateDoc, deleteDoc, getDocs } from 'firebase/firestore';
 import { db } from '../../lib/firebase';
 import { FirestoreAuthAdapter } from './FirestoreAuthAdapter';
+import { IAccountPlansPersistence } from '../../contracts/persistence/IAccountPlansPersistence';
 
-export class FirestoreAccountPlansAdapter {
-  static listenToAccountPlanGeneric(clientId: string, planType: string | undefined, onUpdate: (accounts: any[]) => void, onError: (error: any) => void): () => void {
+export class FirestoreAccountPlansAdapter implements IAccountPlansPersistence {
+  listenToAccountPlanGeneric(clientId: string, planType: string | undefined, onUpdate: (accounts: any[]) => void, onError: (error: any) => void): () => void {
     let q;
     if (planType) {
       q = query(
@@ -21,11 +22,11 @@ export class FirestoreAccountPlansAdapter {
     }
     
     return onSnapshot(q as any, (snapshot: any) => {
-      onUpdate(snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() as any })));
+      onUpdate(snapshot.docs.map((doc: any) => ({ id: doc.id, ...doc.data() as any })));
     }, onError);
   }
 
-  static listenToAccountPlans(clientId: string, planType: string, onUpdate: (accounts: any[]) => void, onLegacyMigration: (legacyDocs: any[]) => void): () => void {
+  listenToAccountPlans(clientId: string, planType: string, onUpdate: (accounts: any[]) => void, onLegacyMigration: (legacyDocs: any[]) => void): () => void {
     const q = query(
       collection(db, 'account_plans'),
       where('clientId', '==', clientId),
@@ -55,7 +56,7 @@ export class FirestoreAccountPlansAdapter {
     });
   }
 
-  static async migrateLegacyAccounts(legacyDocs: any[]): Promise<void> {
+  async migrateLegacyAccounts(legacyDocs: any[]): Promise<void> {
     const batch = writeBatch(db);
     legacyDocs.forEach(d => {
       batch.update(doc(db, 'account_plans', d.id), { planType: 'accounting' });
@@ -63,7 +64,7 @@ export class FirestoreAccountPlansAdapter {
     await batch.commit();
   }
 
-  static listenToAccountingAccounts(clientId: string, onUpdate: (accounts: any[]) => void): () => void {
+  listenToAccountingAccounts(clientId: string, onUpdate: (accounts: any[]) => void): () => void {
     const q = query(
       collection(db, 'account_plans'),
       where('clientId', '==', clientId),
@@ -76,25 +77,25 @@ export class FirestoreAccountPlansAdapter {
     });
   }
 
-  static async addAccountPlan(payload: any): Promise<void> {
+  async addAccountPlan(payload: any): Promise<void> {
     await addDoc(collection(db, 'account_plans'), {
       ...payload,
       createdAt: serverTimestamp()
     });
   }
 
-  static async updateAccountPlan(id: string, payload: any): Promise<void> {
+  async updateAccountPlan(id: string, payload: any): Promise<void> {
     await updateDoc(doc(db, 'account_plans', id), {
       ...payload,
       updatedAt: serverTimestamp()
     });
   }
 
-  static async deleteAccountPlan(id: string): Promise<void> {
+  async deleteAccountPlan(id: string): Promise<void> {
     await deleteDoc(doc(db, 'account_plans', id));
   }
 
-  static async bulkAddDefaultPlans(defaultPlan: any[], clientId: string, clientName: string, planType: string): Promise<void> {
+  async bulkAddDefaultPlans(defaultPlan: any[], clientId: string, clientName: string, planType: string): Promise<void> {
     const batch = writeBatch(db);
     defaultPlan.forEach(acc => {
       const docRef = doc(collection(db, 'account_plans'));
@@ -114,7 +115,7 @@ export class FirestoreAccountPlansAdapter {
     await batch.commit();
   }
 
-  static async clearAllItems(clientId: string, type: string): Promise<void> {
+  async clearAllItems(clientId: string, type: string): Promise<void> {
     const q = query(
       collection(db, 'account_plans'), 
       where('clientId', '==', clientId),
@@ -131,7 +132,7 @@ export class FirestoreAccountPlansAdapter {
     }
   }
 
-  static async saveAllNewAccounts(selectedClient: string, planType: string, unassignedAccounts: any[]): Promise<number> {
+  async saveAllNewAccounts(selectedClient: string, planType: string, unassignedAccounts: any[]): Promise<number> {
     let count = 0;
     const chunkSize = 450;
     for (let i = 0; i < unassignedAccounts.length; i += chunkSize) {

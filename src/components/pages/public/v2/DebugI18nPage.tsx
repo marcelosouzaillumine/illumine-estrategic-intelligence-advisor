@@ -2,10 +2,12 @@ import React, { useState, useEffect } from 'react';
 import { useLanguage } from '../../../../contexts/LanguageContext';
 import { useTranslation } from 'react-i18next';
 import { PageFrame, Container, Section } from '../../../ui/public/institutional/InstitutionalContentSystem';
+import { useExecutiveFormatter } from '../../../../core/localization';
 
 export function DebugI18nPage() {
   const { language } = useLanguage();
   const { i18n } = useTranslation();
+  const formatter = useExecutiveFormatter();
   const [now, setNow] = useState(new Date());
 
   useEffect(() => {
@@ -23,8 +25,8 @@ export function DebugI18nPage() {
     'Current Namespace (default)': i18n.options.defaultNS,
     'Loaded Namespaces': i18n.reportNamespaces ? i18n.reportNamespaces.getUsedNamespaces().join(', ') : 'unknown',
     'Current Timezone': Intl.DateTimeFormat().resolvedOptions().timeZone,
-    'Current Date Format (short)': new Intl.DateTimeFormat(language, { dateStyle: 'short' }).format(now),
-    'Current Number Format': new Intl.NumberFormat(language, { style: 'currency', currency: 'BRL' }).format(1234.56),
+    'Current Date Format (short)': formatter.date(now, { dateStyle: 'short' }),
+    'Current Number Format': formatter.currency(1234.56, { currency: 'BRL' }),
   };
 
   return (

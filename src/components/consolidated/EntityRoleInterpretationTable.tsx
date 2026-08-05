@@ -4,9 +4,10 @@ import { HoldingRoleAnalysis } from '../../services/FiduciaryRuntimeAdapter';
 import { ExecutiveSurface } from '../ui/executive-surface';
 import { ExecutiveHeading } from '../ui/executive-heading';
 import { ExecutiveText } from '../ui/executive-typography';
-import { formatEntityName, formatInstitutionalRoleLabel } from './ConsolidatedLanguageFormatter';
+import { useLanguage } from '../../contexts/LanguageContext';
 
 export function EntityRoleInterpretationTable({ roles }: { roles: HoldingRoleAnalysis[] }) {
+  const { t } = useLanguage();
   if (!roles || roles.length === 0) return null;
 
   return (
@@ -51,13 +52,13 @@ export function EntityRoleInterpretationTable({ roles }: { roles: HoldingRoleAna
               <tr key={idx} className="hover:bg-muted/20 transition-colors">
                 <td className="py-4 px-2">
                   <ExecutiveText variant="bodyStandard" className="font-bold">
-                    {formatEntityName(role.entityId)}
+                    {role.entityId}
                   </ExecutiveText>
                 </td>
                 <td className="py-4 px-2">
                   <span className="inline-flex items-center px-3 py-1 rounded-full bg-muted border border-border shrink-0 whitespace-nowrap">
                     <ExecutiveText variant="caption" className="font-bold uppercase text-foreground whitespace-nowrap">
-                      {formatInstitutionalRoleLabel(role.inferredRole)}
+                      {t(`executive:role.${role.inferredRole}`, role.inferredRole.replace(/_/g, ' '))}
                     </ExecutiveText>
                   </span>
                 </td>

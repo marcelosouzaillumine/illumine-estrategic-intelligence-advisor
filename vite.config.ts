@@ -22,6 +22,8 @@ export default defineConfig(() => {
     resolve: {
       alias: {
         '@': path.resolve(__dirname, './src'),
+        '@application': path.resolve(__dirname, './packages/application'),
+        '@domain/revenue': path.resolve(__dirname, './packages/domain/revenue'),
         '@illumine/core-primitives': path.resolve(__dirname, './packages/domain/core-primitives/src'),
         '@illumine/semantic-model': path.resolve(__dirname, './packages/domain/semantic-model/src'),
         '@illumine/executive-contracts': path.resolve(__dirname, './packages/domain/executive-contracts/src'),

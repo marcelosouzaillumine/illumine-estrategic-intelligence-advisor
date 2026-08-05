@@ -5,9 +5,10 @@ import { cn } from '../../lib/utils';
 import { ExecutiveSurface } from '../ui/executive-surface';
 import { ExecutiveHeading } from '../ui/executive-heading';
 import { ExecutiveText } from '../ui/executive-typography';
-import { formatEntityName, formatSeverityLabel, formatSystemicRiskLabel } from './ConsolidatedLanguageFormatter';
+import { useLanguage } from '../../contexts/LanguageContext';
 
 export function SystemicRisksPanel({ risks }: { risks: SystemicRisk[] }) {
+  const { t } = useLanguage();
   if (!risks || risks.length === 0) {
     return (
       <ExecutiveSurface className="p-8">
@@ -38,7 +39,7 @@ export function SystemicRisksPanel({ risks }: { risks: SystemicRisk[] }) {
             <div className="flex items-center justify-between gap-3">
               <span className="inline-flex items-center px-3 py-1 rounded-full bg-rose-500/20 border border-rose-500/30 shrink-0 whitespace-nowrap">
                 <ExecutiveText variant="caption" className="font-bold uppercase text-rose-700 dark:text-rose-300 whitespace-nowrap">
-                  {formatSystemicRiskLabel(risk.riskType)}
+                  {t(`executive:systemicRisk.${risk.riskType}`, risk.riskType.replace(/_/g, ' '))}
                 </ExecutiveText>
               </span>
               <ExecutiveText 
@@ -48,7 +49,7 @@ export function SystemicRisksPanel({ risks }: { risks: SystemicRisk[] }) {
                   risk.severity === 'CRITICAL' || risk.severity === 'SEVERE' ? 'text-rose-700 dark:text-rose-300' : 'text-amber-700 dark:text-amber-400'
                 )}
               >
-                {formatSeverityLabel(risk.severity)}
+                {t(`executive:severity.${risk.severity}`, risk.severity)}
               </ExecutiveText>
             </div>
             <ExecutiveText variant="bodyStandard" className="font-medium text-slate-800 dark:text-slate-200 leading-relaxed">
@@ -58,7 +59,7 @@ export function SystemicRisksPanel({ risks }: { risks: SystemicRisk[] }) {
               <div className="flex items-center gap-2 mt-2 pt-3 border-t border-rose-500/20">
                 <ShieldAlert size={14} className="text-rose-600 dark:text-rose-400 shrink-0" />
                 <ExecutiveText variant="caption" className="font-bold text-rose-700 dark:text-rose-300 uppercase tracking-widest">
-                  ALERTA: Potencial Efeito Dominó (Gatilho: {formatEntityName(risk.triggerEntityId)})
+                  ALERTA: Potencial Efeito Dominó (Gatilho: {risk.triggerEntityId})
                 </ExecutiveText>
               </div>
             )}

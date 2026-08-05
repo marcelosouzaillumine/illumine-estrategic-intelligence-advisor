@@ -7,6 +7,12 @@ import { executiveRuntime } from '../../services/FiduciaryRuntimeAdapter';
 import { InstitutionalExecutiveCommandOutput } from '../../services/FiduciaryRuntimeAdapter';
 import { useLanguage } from '../../contexts/LanguageContext';
 
+// Canonical UI Components
+import { ExecutivePageTemplate } from '../ui/executive-page-template';
+import { ExecutiveEmptyState } from '../ui/executive-empty-state';
+import { ExecutivePlaceholder } from '../ui/executive-placeholder';
+import { ExecutiveBadge } from '../ui/executive-badge';
+
 // Child components
 import { ExecutiveDirectivePanel } from './ExecutiveDirectivePanel';
 import { GovernanceRestrictionOverlay } from './GovernanceRestrictionOverlay';
@@ -46,27 +52,24 @@ export function InstitutionalExecutiveCommandCenter({ clientId, selectedYear }: 
 
   if (!clientId) {
     return (
-      <div className="flex flex-col items-center justify-center min-h-[600px] space-y-8 bg-zinc-950 border border-zinc-800 rounded-3xl p-20 text-center w-full text-zinc-100 font-mono">
-        <div className="w-24 h-24 rounded-full bg-zinc-900 border border-zinc-800 flex items-center justify-center text-zinc-400 shadow-xl relative animate-pulse">
-          <Activity size={48} />
-        </div>
-        <div className="text-center space-y-4 w-full max-w-2xl mx-auto">
-          <h2 className="text-2xl font-bold tracking-tight">{t('cmd.title')}</h2>
-          <p className="text-zinc-500 text-xs tracking-wider uppercase">
-            {t('cmd.select_org')}
-          </p>
-        </div>
+      <div className="w-full flex items-center justify-center min-h-[600px]">
+        <ExecutiveEmptyState
+          icon={<Activity />}
+          title={t('cmd.title')}
+          description={t('cmd.select_org')}
+        />
       </div>
     );
   }
 
   if (loading) {
     return (
-      <div className="flex h-[80vh] items-center justify-center font-mono bg-zinc-950 text-zinc-100">
-        <div className="flex flex-col items-center gap-4 text-zinc-500">
-          <Loader2 className="animate-spin" size={32} />
-          <p className="text-xs uppercase tracking-widest">{t('cmd.processing')}</p>
-        </div>
+      <div className="w-full flex items-center justify-center min-h-[600px]">
+        <ExecutivePlaceholder
+          icon={Loader2}
+          title={t('cmd.processing')}
+          className="animate-pulse"
+        />
       </div>
     );
   }
@@ -75,38 +78,30 @@ export function InstitutionalExecutiveCommandCenter({ clientId, selectedYear }: 
 
   if (!executiveCommand) {
     return (
-      <div className="flex flex-col items-center justify-center min-h-[400px] bg-zinc-900 border border-zinc-800 rounded-3xl p-20 text-center shadow-sm font-mono">
-        <ShieldCheck size={48} className="text-zinc-600 mb-6" />
-        <h3 className="text-xl font-bold text-zinc-100 mb-2">{t('cmd.unavailable')}</h3>
-        <p className="text-zinc-500 max-w-md mb-8 text-xs">
-          {t('cmd.unavailable_desc')}
-        </p>
+      <div className="w-full flex items-center justify-center min-h-[600px]">
+        <ExecutiveEmptyState
+          icon={<ShieldCheck />}
+          title={t('cmd.unavailable')}
+          description={t('cmd.unavailable_desc')}
+        />
       </div>
     );
   }
 
   return (
-    <div className="flex flex-col gap-6 max-w-[1600px] mx-auto w-full text-zinc-100 pb-12 bg-zinc-950 p-6 rounded-3xl border border-zinc-800 font-mono">
-      
-      {/* Header */}
-      <div className="flex flex-col md:flex-row md:items-end justify-between gap-4 border-b border-zinc-800 pb-4">
-        <div>
-          <div className="flex items-center gap-2 text-zinc-400 mb-1">
-            <ShieldCheck size={16} />
-            <span className="text-[10px] uppercase font-bold tracking-widest font-mono">{t('cmd.board_room')}</span>
-          </div>
-          <h1 className="text-2xl font-bold tracking-tight text-primary">{t('cmd.header_title')}</h1>
-          <p className="text-xs text-zinc-500 font-mono mt-1 uppercase tracking-widest">{t('cmd.header_subtitle')}</p>
-        </div>
-        
-        {executiveCommand.commandThesis.lineageHash && (
-          <div className="text-[10px] text-zinc-400 bg-zinc-900 border border-zinc-800 px-3 py-1.5 rounded-lg flex items-center gap-2">
-            <span>{t('cmd.hash')}</span>
-            <span className="font-bold text-zinc-300">{executiveCommand.commandThesis.lineageHash.substring(0, 16)}...</span>
-          </div>
-        )}
-      </div>
-
+    <ExecutivePageTemplate
+      header={{
+        title: t('cmd.header_title'),
+        subtitle: t('cmd.header_subtitle'),
+        icon: ShieldCheck,
+        badge: t('cmd.board_room'),
+        actions: executiveCommand.commandThesis.lineageHash ? (
+          <ExecutiveBadge variant="neutral">
+            {t('cmd.hash')}: {executiveCommand.commandThesis.lineageHash.substring(0, 16)}...
+          </ExecutiveBadge>
+        ) : undefined
+      }}
+    >
       {/* Main Grid */}
       <div className="grid grid-cols-1 xl:grid-cols-12 gap-6">
         
@@ -134,6 +129,6 @@ export function InstitutionalExecutiveCommandCenter({ clientId, selectedYear }: 
         </div>
 
       </div>
-    </div>
+    </ExecutivePageTemplate>
   );
 }

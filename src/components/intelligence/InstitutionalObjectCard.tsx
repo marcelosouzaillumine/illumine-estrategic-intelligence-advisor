@@ -1,12 +1,14 @@
 import React from 'react';
 import { InstitutionalIntelligenceContext } from '../../types/intelligence/InstitutionalIntelligenceContext';
 import { Network, History, Database, ShieldAlert, FileText, Info } from 'lucide-react';
+import { useExecutiveFormatter } from "../../core/localization";
 
 interface Props {
   context: InstitutionalIntelligenceContext | null;
 }
 
 export const InstitutionalObjectCard: React.FC<Props> = ({ context }) => {
+    const formatter = useExecutiveFormatter();
   if (!context) {
     return (
       <div className="card-premium p-6 text-center text-muted-foreground">
@@ -47,7 +49,7 @@ export const InstitutionalObjectCard: React.FC<Props> = ({ context }) => {
         {state ? (
           <div className="p-3 bg-surface-container rounded-lg">
             <p className="text-sm text-foreground">Status: <span className="font-mono text-emerald-400">{state.status}</span></p>
-            <p className="text-xs text-muted-foreground mt-1">Atualizado em: {new Date(state.lastUpdated).toLocaleDateString()}</p>
+            <p className="text-xs text-muted-foreground mt-1">Atualizado em: {formatter.date(state.lastUpdated)}</p>
           </div>
         ) : (
           <p className="text-xs italic text-muted-foreground">Estado indisponível.</p>
@@ -63,7 +65,7 @@ export const InstitutionalObjectCard: React.FC<Props> = ({ context }) => {
           <ul className="space-y-2">
             {history.map((h, i) => (
               <li key={i} className="text-xs text-muted-foreground p-2 bg-surface-container rounded border border-border">
-                <span className="text-sky-400 font-mono mr-2 tabular-nums">{new Date(h.timestamp).toLocaleDateString()}</span>
+                <span className="text-sky-400 font-mono mr-2 tabular-nums">{formatter.date(h.timestamp)}</span>
                 {h.description}
               </li>
             ))}
@@ -135,6 +137,7 @@ export const InstitutionalObjectCard: React.FC<Props> = ({ context }) => {
 };
 
 function ActivityIcon() {
+    const formatter = useExecutiveFormatter();
   return (
     <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
       <polyline points="22 12 18 12 15 21 9 3 6 12 2 12"></polyline>

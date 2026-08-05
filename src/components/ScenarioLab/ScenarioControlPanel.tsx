@@ -1,5 +1,6 @@
 import React from 'react';
 import { ShieldCheck, TrendingUp, TrendingDown, DollarSign } from 'lucide-react';
+import { useExecutiveFormatter } from '../../core/localization';
 
 
 interface Props {
@@ -8,6 +9,7 @@ interface Props {
 }
 
 export function ScenarioControlPanel({ parameters, onChange }: Props) {
+  const formatter = useExecutiveFormatter();
   
   const handleSlider = (field: string, val: string) => {
     onChange({ ...parameters, [field]: parseFloat(val) });
@@ -72,7 +74,7 @@ export function ScenarioControlPanel({ parameters, onChange }: Props) {
         <div>
           <label className="text-xs font-bold text-muted-foreground flex justify-between mb-2">
             <span className="flex items-center gap-1"><DollarSign size={14} className="text-primary"/> Injeção de Dívida (Funding)</span>
-            <span className="text-primary font-mono">R$ {(parameters.debtInjection || 0).toLocaleString('pt-BR')}</span>
+            <span className="text-primary font-mono">{formatter.currency(parameters.debtInjection || 0)}</span>
           </label>
           <input 
             type="range" min="0" max="10000000" step="100000" 
@@ -86,7 +88,7 @@ export function ScenarioControlPanel({ parameters, onChange }: Props) {
         <div>
           <label className="text-xs font-bold text-muted-foreground flex justify-between mb-2">
             <span>Aumento de Headcount (R$ Mensal)</span>
-            <span className="text-amber-600 font-mono">+ R$ {(parameters.headcountAddition || 0).toLocaleString('pt-BR')}</span>
+            <span className="text-amber-600 font-mono">+ {formatter.currency(parameters.headcountAddition || 0)}</span>
           </label>
           <input 
             type="range" min="0" max="2000000" step="50000" 

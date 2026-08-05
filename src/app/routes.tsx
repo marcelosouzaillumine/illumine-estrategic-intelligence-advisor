@@ -1,5 +1,5 @@
 import type { User } from 'firebase/auth';
-import { DashboardPage } from '../components/pages/DashboardPage';
+// import { DashboardPage } from '../components/pages/DashboardPage'; // Retired
 import { IndicatorsPage } from '../components/pages/IndicatorsPage';
 import { DREPage } from '../components/pages/DREPage';
 import { BalanceSheetPage } from '../components/pages/BalanceSheetPage';
@@ -13,10 +13,9 @@ import { ViabilityPage } from '../components/pages/ViabilityPage';
 import { LoansPage } from '../components/pages/LoansPage';
 import { ClientsPage } from '../components/pages/ClientsPage';
 import { FiscalTributarioPage } from '../components/pages/FiscalTributarioPage';
-import { QuadroPessoalPage } from '../components/pages/QuadroPessoalPage';
+import { QuadroPessoalPage } from '../components/pages/legacy-archive/QuadroPessoalPage';
 import { ValuationPage } from '../components/pages/ValuationPage';
 import { AdvisoryInsightsPage } from '../components/pages/AdvisoryInsightsPage';
-import { PlanoAcaoPage } from '../components/pages/PlanoAcaoPage';
 import { AnaliseFinanceiraPage } from '../components/pages/AnaliseFinanceiraPage';
 import { DLPAPage } from '../components/pages/DLPAPage';
 import { DFCPage } from '../components/pages/DFCPage';
@@ -25,28 +24,28 @@ import { DreGerencialPage } from '../components/pages/DreGerencialPage';
 import { FinancialModelingPage } from '../components/pages/FinancialModelingPage';
 import { PayablesPage } from '../components/pages/PayablesPage';
 import { FinancialPositionPage } from '../components/pages/FinancialPositionPage';
-import { PurchasingPage } from '../components/pages/PurchasingPage';
+import { PurchasingPage } from '../components/pages/legacy-archive/PurchasingPage';
 import { ReceivablesPage } from '../components/pages/ReceivablesPage';
 import { PortfolioPage } from '../components/pages/PortfolioPage';
 import { LoanInvestmentSimPage } from '../components/pages/LoanInvestmentSimPage';
-import { AssetManagementPage } from '../components/pages/AssetManagementPage';
-import { DiretrizesPage } from '../components/pages/DiretrizesPage';
+import { DiretrizesPage } from '../components/pages/legacy-archive/DiretrizesPage';
 import { DiagnosticoPage } from '../components/pages/DiagnosticoPage';
 import { OKRsPage } from '../components/pages/OKRsPage';
-import { PrecificacaoPage } from '../components/pages/PrecificacaoPage';
+import { PrecificacaoPage } from '../components/pages/legacy-archive/PrecificacaoPage';
 import { RelatorioExecutivoPage } from '../components/pages/RelatorioExecutivoPage';
 import { StrategicSimulatorPage } from '../components/pages/StrategicSimulatorPage';
 import PayrollDashboard from '../components/PayrollDashboard';
 import { GovernanceDashboardPage } from '../components/pages/GovernanceDashboardPage';
-import { MarketingComercialPage } from '../components/pages/MarketingComercialPage';
-import { OperacionalPage } from '../components/pages/OperacionalPage';
-import { AdministrativaPage } from '../components/pages/AdministrativaPage';
+import { MarketingComercialPage } from '../components/pages/legacy-archive/MarketingComercialPage';
+import { OperacionalPage } from '../components/pages/legacy-archive/OperacionalPage';
+import { AdministrativaPage } from '../components/pages/legacy-archive/AdministrativaPage';
 import { ControladoriaPage } from '../components/pages/ControladoriaPage';
 import { FinancialAdminDashboard } from '../components/pages/FinancialAdminDashboard';
+import { PlanoAcaoPage } from '../components/pages/legacy-archive/PlanoAcaoPage';
+import { PlanoEstrategicoGlobalPage } from '../components/pages/legacy-archive/PlanoEstrategicoGlobalPage';
+import { RiskExposureCenter } from '../components/pages/legacy-archive/RiskExposureCenter';
 
-import { PlanoEstrategicoGlobalPage } from '../components/pages/PlanoEstrategicoGlobalPage';
-
-import { AnaliseMercadoPage } from '../components/pages/AnaliseMercadoPage';
+import { AnaliseMercadoPage } from '../components/pages/legacy-archive/AnaliseMercadoPage';
 
 import { AxisDashboardPage } from '../components/pages/AxisDashboardPage';
 import { ProfilePage } from '../components/pages/ProfilePage';
@@ -61,8 +60,8 @@ import { EstruturaGovernancaPage } from '../components/pages/EstruturaGovernanca
 import { LeadershipProfilePage } from '../components/pages/LeadershipProfilePage';
 import { MaintenancePage } from '../components/pages/MaintenancePage';
 
-import { MeetingMinutesPage } from '../components/pages/MeetingMinutesPage';
-import { AvaliacaoOrganogramaPage } from '../components/pages/AvaliacaoOrganogramaPage';
+import { MeetingMinutesPage } from '../components/pages/legacy-archive/MeetingMinutesPage';
+import { AvaliacaoOrganogramaPage } from '../components/pages/legacy-archive/AvaliacaoOrganogramaPage';
 
 import { PartnersPage } from '../components/pages/PartnersPage';
 import { ReferralProgramPage } from '../components/pages/public/ReferralProgramPage';
@@ -80,7 +79,7 @@ import { InstitutionalReportsPage } from '../components/pages/InstitutionalRepor
 import { AdvisorCockpitPage } from '../components/pages/AdvisorCockpitPage';
 import { TenantGovernancePage } from '../components/pages/TenantGovernancePage';
 import { RuntimePerformancePage } from '../components/pages/RuntimePerformancePage';
-import { InstitutionalCopilotPage } from '../components/pages/InstitutionalCopilotPage';
+import { InstitutionalAdvisoryPage } from '../components/pages/InstitutionalCopilotPage';
 import { InstitutionalMonitoringPage } from '../components/pages/InstitutionalMonitoringPage';
 import { DecisionGovernancePage } from '../components/pages/DecisionGovernancePage';
 import { InstitutionalIntegrationsPage } from '../components/pages/InstitutionalIntegrationsPage';
@@ -95,9 +94,9 @@ import { StrategicSimulationPage } from '../components/pages/StrategicSimulation
 import { BoardDeckCenter } from '../components/pages/governance/BoardDeckCenter';
 import { InstitutionalObservabilityCenter } from '../components/pages/governance/InstitutionalObservabilityCenter';
 
-import { GovernanceRiskHeatmap } from '../components/pages/governance/GovernanceRiskHeatmap';
+import { GovernanceRiskHeatmap } from '../components/pages/legacy-archive/GovernanceRiskHeatmap';
 import { FiduciaryGovernanceCenter } from '../components/pages/governance/FiduciaryGovernanceCenter';
-import { ComplianceIntegrityCenter } from '../components/pages/governance/ComplianceIntegrityCenter';
+import { ComplianceIntegrityCenter } from '../components/pages/legacy-archive/ComplianceIntegrityCenter';
 import { GovernanceOrchestrationPage } from '../components/pages/GovernanceOrchestrationPage';
 import { InstitutionalIOSPage } from '../components/pages/InstitutionalIOSPage';
 
@@ -122,7 +121,6 @@ import { CreditCommitteeCenter } from '../components/pages/governance/CreditComm
 import { InstitutionalMemoryCenter } from '../components/pages/governance/InstitutionalMemoryCenter';
 import { LeadershipDNACenter } from '../components/pages/governance/LeadershipDNACenter';
 import { InstitutionalStructureCenter } from '../components/pages/governance/InstitutionalStructureCenter';
-import { RiskExposureCenter } from '../components/pages/governance/RiskExposureCenter';
 import { DecisionLifecycleCenter } from '../components/pages/governance/DecisionLifecycleCenter';
 import { SovereignDecisionCenter } from '../components/pages/governance/SovereignDecisionCenter';
 import { ExecutiveExecutionCenter } from '../components/pages/governance/ExecutiveExecutionCenter';
@@ -136,6 +134,7 @@ import { InstitutionalExecutiveCommandCenter } from '../components/executive-com
 import { InstitutionalOnboardingControlCenterPage } from '../components/pages/InstitutionalOnboardingControlCenterPage';
 import { InstitutionalStrategicIntelligencePage } from '../components/pages/InstitutionalStrategicIntelligencePage';
 import { InstitutionalBoardPackPage } from '../components/pages/InstitutionalBoardPackPage';
+import { CFOValidationLab } from '../components/executive-workspace/lab/CFOValidationLab';
 
 import type { Page } from './navigation';
 
@@ -158,6 +157,8 @@ interface RouteRenderContext {
   userPartnerIds?: string[];
 }
 
+import { CapabilityResolver } from '../workspace/migration/CapabilityResolver';
+
 export function renderCurrentPage(ctx: RouteRenderContext) {
   const {
     currentPage,
@@ -177,6 +178,24 @@ export function renderCurrentPage(ctx: RouteRenderContext) {
     isMaster,
     userPartnerIds,
   } = ctx;
+
+  // Build the executive context needed for the capabilities
+  const executiveContext = {
+    office: 'cfo',
+    period: {
+      type: 'monthly' as const,
+      month: selectedMonth,
+      year: selectedYear,
+    },
+    currency: 'BRL',
+    scenario: 'actual' as const,
+  };
+
+  // Attempt to resolve legacy route into a new Executive Capability
+  const capabilityResolution = CapabilityResolver({ currentPage, context: executiveContext, tenantId: selectedClient });
+  if (capabilityResolution) {
+    return capabilityResolution;
+  }
 
   if (currentPage === 'portfolio') {
     return (
@@ -244,7 +263,7 @@ export function renderCurrentPage(ctx: RouteRenderContext) {
   if (currentPage === 'dre_gerencial') {
     return <DreGerencialPage selectedClient={selectedClient} selectedYear={selectedYear} selectedMonth={selectedMonth} />;
   }
-  if (currentPage === 'bp') {
+  if (currentPage === 'bp' || currentPage === 'cfo.financial-intelligence') {
     return <BalanceSheetPage clients={clients} selectedClient={selectedClient} selectedMonth={selectedMonth} selectedYear={selectedYear} />;
   }
   if (currentPage === 'dlpa') {
@@ -256,9 +275,7 @@ export function renderCurrentPage(ctx: RouteRenderContext) {
   if (currentPage === 'posicao_financeira') {
     return <FinancialPositionPage clients={clients} selectedClient={selectedClient} />;
   }
-  if (currentPage === 'ativos_financeiros') {
-    return <AssetManagementPage clientId={selectedClient} selectedYear={selectedYear} selectedMonth={selectedMonth} />;
-  }
+
   if (currentPage === 'contas_pagar') {
     return <PayablesPage clients={clients} selectedClient={selectedClient} isMaster={isMaster} />;
   }
@@ -538,7 +555,7 @@ export function renderCurrentPage(ctx: RouteRenderContext) {
     return <RuntimePerformancePage />;
   }
   if (currentPage === 'institutional_copilot' && isMaster) {
-    return <InstitutionalCopilotPage />;
+    return <InstitutionalAdvisoryPage />;
   }
   if (currentPage === 'institutional_monitoring' && isMaster) {
     return <InstitutionalMonitoringPage />;
@@ -701,6 +718,10 @@ export function renderCurrentPage(ctx: RouteRenderContext) {
 
   if ((currentPage as string) === 'referral_program') {
     return <ReferralProgramPage />;
+  }
+
+  if (currentPage === 'cfo_validation_lab') {
+    return <CFOValidationLab />;
   }
 
   return null;

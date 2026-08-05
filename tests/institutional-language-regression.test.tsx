@@ -30,7 +30,7 @@ if (typeof document === 'undefined') {
 // Dynamically import modules to ensure globals are set first!
 const React = await import('react');
 const { renderToStaticMarkup } = await import('react-dom/server');
-const { DFCPage } = await import('../src/components/pages/DFCPage');
+const { DFCPage } = await import('../src/components/pages/legacy-archive/DFCPage');
 const { FiduciaryRuntimeAdapter } = await import('../src/services/FiduciaryRuntimeAdapter');
 
 // Setup Mock Environment

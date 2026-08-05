@@ -4,6 +4,7 @@ import { ExecutiveSurface } from '../ui/executive-surface';
 import { ExecutiveBadge } from '../ui/executive-badge';
 import { ExecutiveText } from '../ui/executive-typography';
 import { ConnectorStatus } from '@illumine/executive-contracts';
+import { useExecutiveFormatter } from '../../core/localization';
 
 export interface ConnectorStatusCardProps {
   readonly title: string;
@@ -18,6 +19,7 @@ export const ConnectorStatusCard: React.FC<ConnectorStatusCardProps> = ({
   lastSync,
   recordsProcessed
 }) => {
+  const formatter = useExecutiveFormatter();
   return (
     <ExecutiveSurface className="p-3 bg-card border border-border rounded-lg shadow-sm">
       <div className="flex items-center justify-between gap-2 mb-2">
@@ -39,7 +41,7 @@ export const ConnectorStatusCard: React.FC<ConnectorStatusCardProps> = ({
         </div>
         <div>
           <span className="block text-[10px] uppercase">Registros</span>
-          <span className="font-medium text-foreground">{recordsProcessed.toLocaleString('pt-BR')}</span>
+          <span className="font-medium text-foreground">{formatter.number(recordsProcessed)}</span>
         </div>
       </div>
     </ExecutiveSurface>

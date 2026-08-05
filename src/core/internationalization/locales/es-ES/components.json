@@ -1,0 +1,52 @@
+{
+  "metric_card": {
+    "trend_up": "Crecimiento",
+    "trend_down": "Reducción",
+    "no_variation": "Sin variación",
+    "updated": "Actualizado"
+  },
+  "table": {
+    "columns": {
+      "name": "Nombre",
+      "status": "Estado",
+      "updated_at": "Actualizado en",
+      "actions": "Acciones"
+    }
+  },
+  "states": {
+    "empty": "No hay datos disponibles",
+    "error": "No se pudo cargar la información",
+    "retry": "Intentar nuevamente"
+  },
+  "semantic_cards": {
+    "recommendation": "Recomendación Prioritaria",
+    "primary_driver": "Driver institucional principal:",
+    "diagnosis_title": "Diagnóstico Estratégico",
+    "recalculating": "Recalculando inteligencia ejecutiva para {{year}}...",
+    "diagnosis_bp_desc": "Visión consolidada de la posición patrimonial, liquidez, estructura de capital y capacidad de sostenibilidad financiera para apoyar la toma de decisiones.",
+    "diagnosis_dre_desc": "Visión consolidada del desempeño económico, formación de ganancias y prioridades operativas para apoyar la toma de decisiones.",
+    "current_situation": "Situación Actual",
+    "strategic_priority": "Prioridad Estratégica",
+    "outlook": "Perspectiva"
+  },
+  "empty_state": {
+    "default_title": "No hay datos disponibles",
+    "default_description": "No pudimos encontrar información para esta vista.",
+    "action": "Intentar nuevamente"
+  },
+  "loading": {
+    "generic": "Cargando...",
+    "executive_intelligence": "Cargando inteligencia ejecutiva...",
+    "financial_analysis": "Cargando análisis financiero..."
+  },
+  "error": {
+    "generic": "Ocurrió un error inesperado.",
+    "retry": "Intentar nuevamente",
+    "contact_support": "Contactar soporte"
+  },
+  "typography": {
+    "executive_summary": "Resumen Ejecutivo",
+    "strategic_overview": "Visión Estratégica",
+    "current_status": "Estado Actual"
+  }
+}

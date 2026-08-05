@@ -81,11 +81,11 @@ import { InstitutionalDigitalTwinPage } from './components/pages/InstitutionalDi
 import { InstitutionalIntelligenceWorkspace } from './components/intelligence/InstitutionalIntelligenceWorkspace';
 import { ClientsPage } from './components/pages/ClientsPage';
 import { FiscalTributarioPage } from './components/pages/FiscalTributarioPage';
-import { QuadroPessoalPage } from './components/pages/QuadroPessoalPage';
+import { OpportunityDealRoomPage } from './features/revenue/deal-room/pages/OpportunityDealRoomPage';
 import { HomePage } from './components/pages/public/HomePage';
 import { PartnerSalesPage } from './components/pages/PartnerSalesPage';
 import { ReferralProgramPage } from './components/pages/public/ReferralProgramPage';
-import { ExecutiveAdvisorNetworkLandingPage } from './components/pages/public/ExecutiveAdvisorNetworkLandingPage';
+import { InstitutionalAdvisorNetworkPage } from './components/pages/public/v2/InstitutionalAdvisorNetworkPage';
 import { DiagnosticoPage } from './components/pages/public/DiagnosticoPage';
 import { ExecutivePlatformLandingPage } from './components/pages/public/ExecutivePlatformLandingPage';
 import { LoginPage } from './components/pages/public/LoginPage';
@@ -95,7 +95,7 @@ import { InstitutionalPlatformPage } from './components/pages/public/v2/Institut
 import { InstitutionalManifestoPage } from './components/pages/public/v2/InstitutionalManifestoPage';
 import { InstitutionalWhyPage } from './components/pages/public/v2/InstitutionalWhyPage';
 import { DebugI18nPage } from './components/pages/public/v2/DebugI18nPage';
-import { ExecutiveAssessmentPage } from './components/pages/public/v2/ExecutiveAssessmentPage';
+import { ExecutiveDiagnosticJourneyPage } from './components/pages/public/v2/ExecutiveDiagnosticJourneyPage';
 import { InstitutionalDomainsPage } from './components/pages/public/v2/InstitutionalDomainsPage';
 import { InstitutionalGovernancePage } from './components/pages/public/v2/InstitutionalGovernancePage';
 import { InstitutionalIntelligenceCenterPage } from './components/pages/public/v2/InstitutionalIntelligenceCenterPage';
@@ -114,10 +114,15 @@ import {
   GovernanceEscalationBanner 
 } from './components/executive-interaction';
 import { ExecutiveHomeWorkspace } from './components/executive/ExecutiveHomeWorkspace';
+import { ExecutiveWorkspaceLab } from './components/executive-workspace/ExecutiveWorkspaceLab';
+import { ExecutiveAppShell } from './components/executive-workspace/shell/ExecutiveAppShell';
+import { ExperienceRouter } from './navigation/ExperienceRouter';
 import { InstitutionalMemoryProvider, useInstitutionalMemory } from './context/institutional-memory/InstitutionalMemoryProvider';
 import { ExecutiveCopilotPanel } from './components/executive-copilot/ExecutiveCopilotPanel';
 import { useExecutiveUIStore } from '../packages/intelligence/executive-copilot/src/store/ExecutiveUIStore';
 import { useExecutiveConversationStore } from '../packages/intelligence/executive-copilot/src/store/ExecutiveConversationStore';
+import { RevenueRoutes } from './features/revenue/routes/revenue.routes';
+import { ClientWorkspaceRoutes } from './features/revenue/routes/clientWorkspace.routes';
 
 import { useDataTable } from './hooks/useDataTable';
 import { SortableHeader } from './components/SortableHeader';
@@ -143,18 +148,32 @@ import {
 import { motion, AnimatePresence } from 'motion/react';
 import { DEFAULT_OPEN_SUBMENUS, DEFAULT_PAGE, FLAT_NAV_ITEMS, NAVIGATION_GROUPS, LEGACY_ROUTE_MAP, type Page } from './app/navigation';
 import { renderCurrentPage } from './app/routes';
+import { internationalRoutes, routePrefixes, SupportedLocale, legacyAliases, RouteKey, getLocalizedRoute } from './core/routing/internationalRoutes';
+import { useLocale } from './core/internationalization/providers/LocaleProvider';
+import { resolveLandingRoute } from './core/navigation/landing.resolver';
 import { ClientSelector } from './components/ClientSelector';
 import { ScrollToTop } from './components/ScrollToTop';
 import { GovernanceProvider, useGovernance } from './lib/governanceContext';
 import { TenancyProvider } from './context/TenancyProvider';
+import { SeoProvider } from './core/seo/SeoProvider';
 import { LGPDModal } from './components/modals/GovernanceModals';
+import { NavigationModeProvider } from './navigation/NavigationModeProvider';
 import { AdvisorCommandCenter } from './components/advisor/AdvisorCommandCenter';
+import { AdministrationWorkspacePage } from './components/pages/AdministrationWorkspacePage';
+import { AdministrationAppShell } from './components/executive-workspace/shell/AdministrationAppShell';
 import { ScenarioCommandCenter } from './components/war-room/ScenarioCommandCenter';
 import { governanceService } from './services/governanceService';
 import { DataAccessContext } from './core/security/data-access-context';
 import { DadosHistoricosPage } from './components/pages/DadosHistoricosPage';
 import { ExplorerContainer as ArchitectureExplorer } from '@illumine/architecture-governance-ui';
-
+import { registerAllDiagnostics } from './intelligence/diagnostics';
+import { DiagnosticJourneyPage } from './components/diagnostics/DiagnosticJourneyPage';
+import { ExecutiveAdvisoryWorkspacePage } from './components/pages/ExecutiveAdvisoryWorkspacePage';
+import { PlatformRevenueCenterPage } from './components/platform/PlatformRevenueCenterPage';
+import { PlatformPipelinePage } from './components/platform/PlatformPipelinePage';
+import { PlatformPartnerCenterPage } from './components/platform/PlatformPartnerCenterPage';
+// Initialize all diagnostic registries
+registerAllDiagnostics();
 
 function Logo({ collapsed }: { collapsed?: boolean }) {
   return (
@@ -285,9 +304,81 @@ function AccessDeniedScreen({ onLogout }: { onLogout: () => void }) {
   );
 }
 
+// Helper components for routing logic
+function RootRedirect() {
+  const { preference } = useLocale();
+  const lang = preference.language as SupportedLocale;
+  const prefix = routePrefixes[lang] || '/pt';
+  return <Navigate to={prefix} replace />;
+}
 
+function LoginLanguageRedirect() {
+  const { preference } = useLocale();
+  const lang = preference.language as SupportedLocale;
+  const prefix = routePrefixes[lang] || '/pt';
+  return <Navigate to={`${prefix}/login`} replace />;
+}
 
+function LoginRedirect({ user, session }: { user: any; session: any }) {
+  if (!user) {
+    return <LoginPage />;
+  }
 
+  // Convert role to array for the resolver (since role in session is a string)
+  const roles = session?.role ? [session.role] : [];
+  
+  // Evolve: SUPER_ADMIN maps to Admin, TENANT_ADMIN maps to Advisor or Client
+  if (roles.includes('SUPER_ADMIN')) {
+    roles.unshift('Admin');
+  } else if (roles.includes('TENANT_ADMIN')) {
+    roles.unshift('Advisor');
+  } else if (roles.length === 0) {
+    roles.push('Client Executive');
+  }
+
+  const landing = resolveLandingRoute(roles);
+  
+  // Fallback for missing new routes (client/advisor)
+  if (landing.route === '/client/workspace' || landing.route.startsWith('/advisor')) {
+    return <Navigate to="/dashboard/efos" replace />;
+  }
+
+  return <Navigate to={landing.route} replace />;
+}
+
+function LegacyRedirect({ routeKey }: { routeKey: RouteKey }) {
+  const { preference } = useLocale();
+  const lang = preference.language as SupportedLocale;
+  const newPath = getLocalizedRoute(routeKey, lang);
+  console.log(`[LegacyRedirect] routeKey: ${routeKey}, lang: ${lang}, redirecting to: ${newPath}`);
+  return <Navigate to={newPath} replace />;
+}
+
+function getPageComponent(key: RouteKey) {
+  switch (key) {
+    case 'HOME': return <InstitutionalHomePage />;
+    case 'MANIFESTO': return <InstitutionalManifestoPage />;
+    case 'WHY': return <InstitutionalWhyPage />;
+    case 'PLATFORM': return <InstitutionalPlatformPage />;
+    case 'DOMAINS': return <InstitutionalDomainsPage />;
+    case 'GOVERNANCE': return <InstitutionalGovernancePage />;
+    case 'INTELLIGENCE_CENTER': return <InstitutionalIntelligenceCenterPage />;
+    case 'DIAGNOSTIC': return <ExecutiveDiagnosticJourneyPage />;
+    case 'CONTACT': return (
+      <div className="min-h-screen bg-[#0A0A0B] flex flex-col items-center justify-center p-6 text-center">
+        <div className="max-w-md w-full bg-white/5 border border-white/10 p-8 rounded-3xl backdrop-blur-sm">
+          <h3 className="text-2xl font-bold text-white mb-4">Contato Institucional</h3>
+          <p className="text-slate-400 mb-8">A primeira etapa para conhecer a Illumine é realizar um Executive Assessment™.</p>
+          <a href="/assessment" className="w-full py-4 bg-primary text-primary-foreground font-semibold rounded-full hover:bg-primary/90 transition-colors flex items-center justify-center gap-2">
+            Iniciar Assessment
+          </a>
+        </div>
+      </div>
+    );
+    case 'ADVISOR_NETWORK': return <InstitutionalAdvisorNetworkPage />;
+    default: return <InstitutionalHomePage />;
+  }
+}
 
 export default function App() {
   const location = useLocation();
@@ -507,46 +598,87 @@ export default function App() {
               <ExecutiveInteractionProvider>
                 <InstitutionalMemoryProvider initialTenantId={selectedClient}>
                   <ScrollToTop />
+                  <SeoProvider>
+                  <NavigationModeProvider>
                   <Routes>
-                    {/* Institutional V2 Routes */}
-                    <Route element={<InstitutionalLayout />}>
-                      <Route path="/" element={<InstitutionalHomePage />} />
-                      <Route path="/tese" element={<Navigate to="/manifesto" replace />} />
-                      <Route path="/manifesto" element={<InstitutionalManifestoPage />} />
-                      <Route path="/por-que-illumine" element={<InstitutionalWhyPage />} />
-                      <Route path="/plataforma" element={<InstitutionalPlatformPage />} />
-                      <Route path="/dominios" element={<InstitutionalDomainsPage />} />
-                      <Route path="/governanca" element={<InstitutionalGovernancePage />} />
-                      <Route path="/centro-de-inteligencia" element={<InstitutionalIntelligenceCenterPage />} />
-                      <Route path="/intelligence-center" element={<ExecutiveIntelligenceCenterPage />} />
-                      <Route path="/assessment" element={<ExecutiveAssessmentPage />} />
-                      {import.meta.env.DEV && (
+                    {/* ROOT REDIRECT */}
+                    <Route path="/" element={<RootRedirect />} />
+
+                    {/* EXTERNAL CLIENT WORKSPACE ROUTES (NO INSTITUTIONAL AUTH REQUIRED) */}
+                    {ClientWorkspaceRoutes()}
+
+                    {/* REVENUE DOMAIN ROUTES */}                    {/* {RevenueRoutes()} */}
+                    {/* CANONICAL ROUTES BY LOCALE */}
+                    {(Object.keys(routePrefixes) as SupportedLocale[]).map((locale) => {
+                      const prefix = routePrefixes[locale];
+                      return (
+                        <React.Fragment key={locale}>
+                          <Route element={<InstitutionalLayout />}>
+                            {Object.entries(internationalRoutes).map(([routeKey, canonicalSlug]) => {
+                              if (routeKey === 'LOGIN') return null;
+                              const path = canonicalSlug === '/' ? prefix : `${prefix}${canonicalSlug}`;
+                              return (
+                                <Route 
+                                  key={routeKey}
+                                  path={path} 
+                                  element={getPageComponent(routeKey as RouteKey)}
+                                />
+                              );
+                            })}
+                          </Route>
+                        </React.Fragment>
+                      );
+                    })}
+
+                    {/* EXPLICIT LOGIN ROUTES TO AVOID REACT ROUTER V6 MAP ISSUES */}
+                    <Route path="/login" element={<LoginLanguageRedirect />} />
+                    <Route path="/pt/login" element={<LoginRedirect user={user} session={session} />} />
+                    <Route path="/en/login" element={<LoginRedirect user={user} session={session} />} />
+                    <Route path="/es/login" element={<LoginRedirect user={user} session={session} />} />
+
+                    {/* LEGACY REDIRECTS */}
+                    {Object.entries(legacyAliases).map(([legacySlug, routeKey]) => (
+                      <Route 
+                        key={`legacy-${legacySlug}`} 
+                        path={legacySlug} 
+                        element={<LegacyRedirect routeKey={routeKey} />} 
+                      />
+                    ))}
+
+                    {/* NAKED CANONICAL SLUGS REDIRECTS (e.g. /platform -> /en/platform) */}
+                    {Object.entries(internationalRoutes).map(([routeKey, canonicalSlug]) => {
+                      if (canonicalSlug === '/') return null;
+                      return (
+                        <Route 
+                          key={`naked-${canonicalSlug}`} 
+                          path={canonicalSlug} 
+                          element={<LegacyRedirect routeKey={routeKey as RouteKey} />} 
+                        />
+                      );
+                    })}
+
+                    {/* Fallbacks temporários para as páginas de apoio antigas dentro do novo layout */}
+                    <Route path="/insights" element={<ExecutivePlatformLandingPage />} />
+                    
+                    {/* Dev routes */}
+                    {import.meta.env.DEV && (
+                      <Route element={<InstitutionalLayout />}>
                         <Route path="/debug/i18n" element={<DebugI18nPage />} />
-                      )}
-                      <Route path="/contato" element={
-                          <div className="min-h-screen bg-[#0A0A0B] flex flex-col items-center justify-center p-6 text-center">
-                              <div className="max-w-md w-full bg-white/5 border border-white/10 p-8 rounded-3xl backdrop-blur-sm">
-                                  <h3 className="text-2xl font-bold text-white mb-4">Contato Institucional</h3>
-                                  <p className="text-slate-400 mb-8">A primeira etapa para conhecer a Illumine é realizar um Executive Assessment™.</p>
-                                  <a href="/assessment" className="w-full py-4 bg-primary text-primary-foreground font-semibold rounded-full hover:bg-primary/90 transition-colors flex items-center justify-center gap-2">
-                                      Iniciar Assessment
-                                  </a>
-                              </div>
-                          </div>
-                      } />
-                      {/* Fallbacks temporários para as páginas de apoio antigas dentro do novo layout */}
-                      <Route path="/advisory" element={<ExecutiveAdvisorNetworkLandingPage />} />
-                      <Route path="/network" element={<ExecutiveAdvisorNetworkLandingPage />} />
-                      <Route path="/insights" element={<ExecutivePlatformLandingPage />} />
-                    </Route>
+                      </Route>
+                    )}
+                    
+                    {/* Root Redirect to language prefix */}
+                    <Route path="/" element={<Navigate to="/pt" replace />} />
+                    <Route path="/tese" element={<Navigate to="/pt/manifesto" replace />} />
+
+
+                    {/* Diagnostic Journeys & Advisory */}
+                    <Route path="/journeys/:journeyId" element={<DiagnosticJourneyPage />} />
+                    <Route path="/executive-advisory" element={<ExecutiveAdvisoryWorkspacePage />} />
 
                     {/* Legacy Routes */}
                     <Route path="/parceiros" element={<PartnerSalesPage />} />
-                    <Route path="/programa-parceiros" element={<ExecutiveAdvisorNetworkLandingPage />} />
-                    <Route path="/executive-advisor-network" element={<ExecutiveAdvisorNetworkLandingPage />} />
-                    <Route path="/executiveadvisornetwork" element={<ExecutiveAdvisorNetworkLandingPage />} />
                     <Route path="/diagnostico" element={<DiagnosticoPage />} />
-                    <Route path="/login" element={user ? <Navigate to={isMaster || isPartner ? "/dashboard/portfolio" : "/dashboard/efos"} replace /> : <LoginPage />} />
                     <Route path="/executive-home" element={<ExecutiveHomeWorkspace />} />
                     <Route path="/consolidated-executive" element={<Navigate to="/dashboard/consolidated_executive" replace />} />
                     <Route path="/executive-cognitive" element={<ExecutiveCognitivePage />} />
@@ -555,8 +687,59 @@ export default function App() {
                     <Route path="/governance-time-machine/:nodeId" element={<GovernanceTimeMachinePage />} />
                     <Route path="/digital-twin" element={<InstitutionalDigitalTwinPage />} />
                     <Route path="/digital-twin/:domainId" element={<InstitutionalDigitalTwinPage />} />
+                    
+                    {/* Executive Workspace Lab (Wave 16C) */}
+                    <Route path="/workspace/:office" element={<ExecutiveWorkspaceLab />} />
+                    
+                    {/* Executive AppShell Lab (Wave 17C & 17C.1) */}
+                    <Route path="/executive/workspace/:office" element={
+                      <ExecutiveAppShell>
+                        <ExecutiveWorkspaceLab />
+                      </ExecutiveAppShell>
+                    } />
+                    <Route path="/executive/workspace/:office/:surface" element={
+                      <ExecutiveAppShell>
+                        <ExecutiveWorkspaceLab />
+                      </ExecutiveAppShell>
+                    } />
+
+                    {/* Platform Workspace PoC (Wave 17J.1.10) */}
+                    <Route path="/platform/workspace/revenue-center" element={
+                      <ExecutiveAppShell semanticMatch={{ isLegacyUrl: true, officeId: 'platform-workspace', surfaceId: 'platform.revenue-center' }}>
+                        <PlatformRevenueCenterPage />
+                      </ExecutiveAppShell>
+                    } />
+                    <Route path="/platform/workspace/pipeline-intelligence" element={
+                      <ExecutiveAppShell semanticMatch={{ isLegacyUrl: true, officeId: 'platform-workspace', surfaceId: 'platform.pipeline-intelligence' }}>
+                        <PlatformPipelinePage />
+                      </ExecutiveAppShell>
+                    } />
+                    <Route path="/platform/workspace/partner-center" element={
+                      <ExecutiveAppShell semanticMatch={{ isLegacyUrl: true, officeId: 'platform-workspace', surfaceId: 'platform.partner-center' }}>
+                        <PlatformPartnerCenterPage />
+                      </ExecutiveAppShell>
+                    } />
+
+                    {/* Standalone Executive Workspaces (Canonical UI) */}
+                    <Route path="/executive/revenue/deal-room/:opportunityId" element={
+                      <AdministrationAppShell noPadding noScroll>
+                        <OpportunityDealRoomPage />
+                      </AdministrationAppShell>
+                    } />
+
+                    <Route path="/executive/revenue/*" element={
+                      <AdministrationAppShell>
+                        <RevenueRoutes />
+                      </AdministrationAppShell>
+                    } />
+                    
                     <Route path="/advisor" element={<AdvisorCommandCenter />} />
                     <Route path="/advisor/:organizationId" element={<AdvisorCommandCenter />} />
+                    <Route path="/administration/workspace" element={
+                      <AdministrationAppShell>
+                        <AdministrationWorkspacePage />
+                      </AdministrationAppShell>
+                    } />
                     <Route path="/war-room" element={<ScenarioCommandCenter />} />
                     <Route path="/war-room/:scenarioId" element={<ScenarioCommandCenter />} />
                     <Route path="/intelligence" element={<InstitutionalIntelligenceWorkspace />} />
@@ -615,6 +798,8 @@ export default function App() {
                     />
                     <Route path="*" element={<Navigate to="/" replace />} />
                   </Routes>
+                  </NavigationModeProvider>
+                  </SeoProvider>
                 </InstitutionalMemoryProvider>
               </ExecutiveInteractionProvider>
             </ExecutiveCognitiveProvider>
@@ -752,33 +937,35 @@ function AppContent({
         userName={user?.displayName || ''}
       />
       */}
-      <SidebarProvider
-        defaultOpen={!isSidebarCollapsed}
-        className="bg-background text-foreground transition-colors duration-500 overflow-hidden h-screen"
-      >
-        {/* Shadcn AppSidebar */}
-      <AppSidebar
-        user={user}
-        authLoading={authLoading}
-        clients={clients}
-        selectedClient={selectedClient}
-        handleSelectClient={handleSelectClient}
-        currentPage={currentPage}
-        setCurrentPage={setCurrentPage}
-        openSubmenus={openSubmenus}
-        toggleSubmenu={toggleSubmenu}
-        userPermissions={userPermissions}
-        isPartner={isPartner}
-        isMaster={isMaster}
-        isMobileMenuOpen={isMobileMenuOpen}
-        setIsMobileMenuOpen={setIsMobileMenuOpen}
-        totalPending={totalPending}
-      />
+      <ExperienceRouter
+        legacyLayout={(content) => (
+          <SidebarProvider
+            defaultOpen={!isSidebarCollapsed}
+            className="bg-background text-foreground transition-colors duration-500 overflow-hidden h-screen"
+          >
+            {/* Shadcn AppSidebar */}
+          <AppSidebar
+            user={user}
+            authLoading={authLoading}
+            clients={clients}
+            selectedClient={selectedClient}
+            handleSelectClient={handleSelectClient}
+            currentPage={currentPage}
+            setCurrentPage={setCurrentPage}
+            openSubmenus={openSubmenus}
+            toggleSubmenu={toggleSubmenu}
+            userPermissions={userPermissions}
+            isPartner={isPartner}
+            isMaster={isMaster}
+            isMobileMenuOpen={isMobileMenuOpen}
+            setIsMobileMenuOpen={setIsMobileMenuOpen}
+            totalPending={totalPending}
+          />
 
-      <main className="flex-1 flex flex-row min-w-0 relative h-full overflow-hidden">
-        
-        {/* Main Content Column */}
-        <div className="flex-1 flex flex-col min-w-0 relative h-full overflow-hidden">
+          <main className="flex-1 flex flex-row min-w-0 relative h-full overflow-hidden">
+            
+            {/* Main Content Column */}
+            <div className="flex-1 flex flex-col min-w-0 relative h-full overflow-hidden">
         <header className="h-14 sm:h-16 bg-background flex items-center justify-between px-2 sm:px-4 md:px-8 sticky top-0 z-50 transition-all duration-700 border-b border-border/40">
           <div className="flex items-center gap-1 sm:gap-2 md:gap-8 min-w-0">
             <SidebarTrigger className="text-foreground/70 hover:text-foreground hover:bg-surface-elevated transition-all duration-300 rounded-full p-2 shrink-0" />
@@ -840,29 +1027,7 @@ function AppContent({
         </header>
 
         <div className="flex-1 min-w-0 overflow-y-auto overflow-x-hidden p-4 sm:p-6 md:p-8">
-          <div id="main-content-wrapper" className="max-w-[1600px] mx-auto w-full space-y-6">
-            <GovernanceEscalationBanner />
-            <GlobalErrorBoundary>
-              {renderCurrentPage({
-                currentPage,
-                clients,
-                selectedClient,
-                setSelectedClient: handleSelectClient,
-                selectedMonth,
-                setSelectedMonth,
-                selectedYear,
-                setSelectedYear,
-                user,
-                setCurrentPage,
-                setClients,
-                academyCourseId,
-                setAcademyCourseId,
-                isPartner,
-                isMaster,
-                userPartnerIds
-              })}
-            </GlobalErrorBoundary>
-          </div>
+          {content}
         </div>
 
 
@@ -910,6 +1075,33 @@ function AppContent({
         <ExecutiveCopilotPanel />
       </main>
       </SidebarProvider>
+        )}
+      >
+        {/* CHILDREN PASSED TO ROUTER */}
+        <div id="main-content-wrapper" className="max-w-[1600px] mx-auto w-full space-y-6">
+          <GovernanceEscalationBanner />
+          <GlobalErrorBoundary>
+            {(renderCurrentPage({
+              currentPage,
+              clients,
+              selectedClient,
+              setSelectedClient: handleSelectClient,
+              selectedMonth,
+              setSelectedMonth,
+              selectedYear,
+              setSelectedYear,
+              user,
+              setCurrentPage,
+              setClients,
+              academyCourseId,
+              setAcademyCourseId,
+              isPartner,
+              isMaster,
+              userPartnerIds
+            }) as React.ReactNode)}
+          </GlobalErrorBoundary>
+        </div>
+      </ExperienceRouter>
       {/* Global Governance Interaction Overlays */}
       <ExecutiveModalOrchestrator />
       <InstitutionalBlockingDialog />

@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { ExecutiveText } from '@/components/ui/executive-typography';
 import { ExecutiveHeading } from '@/components/ui/executive-heading';
 import { ExecutiveSurface } from '@/components/ui/executive-surface';

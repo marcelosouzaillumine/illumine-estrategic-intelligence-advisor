@@ -1,15 +1,15 @@
 {
   "hero": {
-    "label": "Domínios de Inteligência Illumine™",
-    "title": "A inteligência que compreende a organização como um sistema integrado.",
-    "lead": "Empresas complexas não falham por falta de indicadores isolados. Elas perdem valor quando decisões tomadas em uma área geram impactos não percebidos em outras.",
+    "label": "Illumine Intelligence Network™",
+    "title": "A inteligência que compreende a organização como um sistema vivo e integrado.",
+    "lead": "Empresas complexas não perdem valor pela ausência de indicadores. Elas perdem valor quando decisões tomadas em uma área geram impactos não percebidos em outras.",
     "narrative": "A Illumine conecta múltiplas dimensões da organização para revelar relações causais, riscos ocultos e oportunidades estratégicas.",
-    "cta": "Explorar a Plataforma"
+    "cta": "Explorar as Inteligências"
   },
   "architecture": {
-    "label": "Arquitetura dos Domínios",
-    "title": "9 Domínios de Inteligência™",
-    "lead": "Cada domínio representa uma perspectiva da organização, mas a inteligência surge da conexão entre eles.",
+    "label": "A Rede de Inteligências Illumine™",
+    "title": "9 perspectivas. Uma inteligência integrada.",
+    "lead": "Cada inteligência representa uma perspectiva da organização. A inteligência surge quando essas perspectivas são conectadas.",
     "core": {
       "title": "Executive Intelligence Core™",
       "lead": "O motor central de processamento sistêmico",
@@ -18,12 +18,13 @@
         "p2": "Contexto",
         "p3": "Relações",
         "p4": "Insights",
-        "p5": "Decisão"
+        "p5": "Decisão",
+        "p6": "Aprendizado"
       }
     },
     "list": {
       "d1": {
-        "tagline": "Governança, decisões e accountability institucional",
+        "tagline": "Governança, decisões e accountability institucional.",
         "description": "Acompanha a qualidade das decisões estratégicas, seus fundamentos, responsáveis e impactos esperados.",
         "questions": [
           "Quais decisões críticas foram tomadas?",
@@ -31,16 +32,26 @@
           "Os resultados confirmaram as expectativas?",
           "O conhecimento institucional está sendo preservado?"
         ],
-        "applications": ["Decision Memory", "Executive Briefs", "Board Reports", "Governance Score"]
+        "applications": ["Memória de Decisão", "Briefings Executivos", "Relatórios do Conselho", "Score de Governança"]
       },
       "d2": {
-        "tagline": "A visão financeira integrada da organização",
+        "tagline": "A visão econômica integrada da organização.",
         "description": "Transforma demonstrações financeiras em inteligência executiva. Conecta Balanço Patrimonial, DRE, Fluxo de Caixa, Capital de Giro e Rentabilidade.",
         "highlight": "O que está pressionando o valor econômico da organização e quais decisões podem alterar essa trajetória.",
         "applications": ["Financial Digital Twin™", "Cenários de EBITDA", "Simulações de caixa", "Stress Testing financeiro"]
       },
       "d3": {
-        "tagline": "A eficiência real por trás dos resultados",
+        "tagline": "O conhecimento, contexto e memória que permanecem na organização.",
+        "description": "Transforma experiência acumulada em ativo institucional. Combate a Amnésia Institucional™ preservando contexto e aprendizados.",
+        "applications": ["Preservação de Contexto", "Base de Conhecimento", "Reconhecimento de Padrões"]
+      },
+      "d4": {
+        "tagline": "Antecipação de vulnerabilidades estratégicas.",
+        "description": "Identifica riscos financeiros, operacionais e institucionais antes que se tornem crises através de análise de dependências e concentração.",
+        "applications": ["Matriz de Vulnerabilidades", "Mapeamento de Dependências", "Cenários de Risco"]
+      },
+      "d5": {
+        "tagline": "A capacidade operacional que sustenta os resultados.",
         "description": "Analisa como processos, recursos e capacidade operacional impactam desempenho financeiro. Conecta produtividade, custos e gargalos.",
         "questions": [
           "Onde existe desperdício?",
@@ -48,41 +59,31 @@
           "Onde existe capacidade oculta?"
         ]
       },
-      "d4": {
-        "tagline": "Transformando mercado em previsibilidade",
+      "d6": {
+        "tagline": "Transformando mercado em crescimento sustentável.",
         "description": "Integra informações comerciais para compreender geração e sustentabilidade da receita. Analisa carteira, concentração e margens.",
         "highlight": "O crescimento atual está criando valor ou apenas aumentando complexidade?"
       },
-      "d5": {
-        "tagline": "Pessoas como capacidade estratégica",
-        "description": "Avalia a relação entre estrutura organizacional, produtividade e geração de valor. Analisa o custo da estrutura e retenção de conhecimento.",
-        "applications": ["Workforce Analytics", "Talent Retention", "Structure Cost"]
-      },
-      "d6": {
-        "tagline": "Antecipação de vulnerabilidades estratégicas",
-        "description": "Identifica riscos financeiros, operacionais e institucionais antes que se tornem crises através de análise de dependências e concentração.",
-        "applications": ["Vulnerability Matrix", "Dependency Mapping", "Risk Scenarios"]
-      },
       "d7": {
-        "tagline": "O conhecimento que permanece na organização",
-        "description": "Transforma experiência acumulada em ativo institucional. Combate a Amnésia Institucional™ preservando contexto e aprendizados.",
-        "applications": ["Context Preservation", "Knowledge Base", "Pattern Recognition"]
+        "tagline": "O capital humano como capacidade organizacional.",
+        "description": "Avalia a relação entre estrutura organizacional, produtividade e geração de valor. Analisa o custo da estrutura e retenção de conhecimento.",
+        "applications": ["Analytics da Força de Trabalho", "Retenção de Talentos", "Custo de Estrutura"]
       },
       "d8": {
-        "tagline": "Alinhamento entre propósito e execução",
-        "description": "Garante que estratégia, cultura e operação permaneçam conectadas através do alinhamento de indicadores-chave e objetivos.",
-        "applications": ["OKR Alignment", "Culture Mapping", "Strategic Tracking"]
+        "tagline": "O alinhamento entre propósito, estratégia e execução.",
+        "description": "Garante que identidade institucional e operações permaneçam conectadas através do alinhamento executivo.",
+        "applications": ["Alinhamento de Propósito", "Mapeamento de Cultura", "Acompanhamento Estratégico"]
       },
       "d9": {
-        "tagline": "Evolução contínua baseada em aprendizado",
+        "tagline": "A evolução contínua baseada em aprendizado.",
         "description": "Transforma dados, experimentos e resultados em capacidade de adaptação. Analisa hipóteses estratégicas e novos cenários.",
-        "applications": ["Hypothesis Testing", "Adaptability Score", "Experiment Tracking"]
+        "applications": ["Teste de Hipóteses", "Score de Adaptabilidade", "Acompanhamento de Experimentos"]
       }
     }
   },
   "system_value": {
     "label": "O Valor do Sistema",
-    "title": "A inteligência não está nos domínios. Está nas conexões.",
+    "title": "A inteligência emerge das conexões.",
     "lead": "Sistemas tradicionais analisam áreas isoladas. A Illumine interpreta as relações entre elas.",
     "steps": {
       "s1": { "pre": "Uma decisão comercial altera", "bold": "receita", "post": "." },
@@ -94,7 +95,7 @@
     "conclusion": "A Illumine captura essa cadeia de impacto e transforma complexidade organizacional em clareza executiva."
   },
   "conclusion": {
-    "title": "Descubra onde sua organização perde valor antes que isso apareça nos resultados.",
-    "cta": "Realizar Assessment Executivo"
+    "title": "Descubra onde sua organização perde valor antes que isso apareça nos indicadores financeiros.",
+    "cta": "Realizar Executive Diagnostic Journey™"
   }
 }

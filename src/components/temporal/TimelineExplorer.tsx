@@ -2,6 +2,7 @@ import React from 'react';
 import { Clock, Flag, RefreshCw, AlertTriangle, Shield, CheckCircle } from 'lucide-react';
 import { TimelineEvent } from '../../types/temporal/TimelineEvent';
 import { InstitutionalMilestone } from '../../types/temporal/InstitutionalMilestone';
+import { useExecutiveFormatter } from "../../core/localization";
 
 interface TimelineExplorerProps {
   events: TimelineEvent[];
@@ -11,6 +12,7 @@ interface TimelineExplorerProps {
 }
 
 export const TimelineExplorer: React.FC<TimelineExplorerProps> = ({ events, milestones, onSelectEvent, selectedEventId }) => {
+    const formatter = useExecutiveFormatter();
   if (!events.length && !milestones.length) {
     return (
       <div className="flex flex-col items-center justify-center p-8 bg-surface-container rounded-xl border border-border">
@@ -35,6 +37,7 @@ export const TimelineExplorer: React.FC<TimelineExplorerProps> = ({ events, mile
       
       <div className="relative pl-6 space-y-6 before:absolute before:inset-0 before:ml-[11px] before:-translate-x-px md:before:mx-auto md:before:translate-x-0 before:h-full before:w-0.5 before:bg-gradient-to-b before:from-indigo-500/20 before:via-border before:to-transparent">
         {allItems.map((item, idx) => {
+            const formatter = useExecutiveFormatter();
           const isSelected = item.type === 'EVENT' ? item.data.eventId === selectedEventId : false;
           
           if (item.type === 'MILESTONE') {
@@ -50,7 +53,7 @@ export const TimelineExplorer: React.FC<TimelineExplorerProps> = ({ events, mile
                       MARCO INSTITUCIONAL: {milestone.milestoneType}
                     </span>
                     <time className="text-[10px] text-amber-400 font-mono">
-                      {new Date(milestone.timestamp).toLocaleDateString()}
+                      {formatter.date(milestone.timestamp)}
                     </time>
                   </div>
                   <h4 className="text-sm font-bold text-amber-50">{milestone.title}</h4>
@@ -69,7 +72,7 @@ export const TimelineExplorer: React.FC<TimelineExplorerProps> = ({ events, mile
                       {event.eventType.replace(/_/g, ' ')}
                     </span>
                     <time className="text-[10px] text-muted-foreground font-mono">
-                      {new Date(event.timestamp).toLocaleDateString()}
+                      {formatter.date(event.timestamp)}
                     </time>
                   </div>
                   <p className="text-xs text-foreground mt-1">{event.description}</p>

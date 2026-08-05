@@ -18,8 +18,10 @@ import { ExecutiveSummarySection } from '../ui/executive-summary-section';
 import { ExecutiveStrategicTensions } from '../ui/executive-strategic-tensions';
 import { ExecutiveDecisionTrace } from '../ui/executive-decision-trace';
 import { useInstitutionalMonitoringPageViewModel } from '../../viewmodels/useInstitutionalMonitoringPageViewModel';
+import { useExecutiveFormatter } from "../../core/localization";
 
 export function InstitutionalMonitoringPage() {
+    const formatter = useExecutiveFormatter();
   // Adapter: useInstitutionalMonitoringPageAdapter
   // ViewModel: useInstitutionalMonitoringPageViewModel
   const { state: vmState, computed: vmComputed, actions: vmActions } = useInstitutionalMonitoringPageViewModel({ clientId: '' });
@@ -32,15 +34,18 @@ export function InstitutionalMonitoringPage() {
   const mockWorkspace = 'WS-1';
 
   useEffect(() => {
+      const formatter = useExecutiveFormatter();
     // Carrega do Registry passivamente ao montar (Simula sync)
     setAlerts(MonitoringAlertRegistry.getActiveAlerts(mockTenant, mockWorkspace));
   }, []);
 
   const handleRunCycle = () => {
+      const formatter = useExecutiveFormatter();
     setIsRunning(true);
     
     // Simula um delay UX para demonstrar o scheduler executando
     setTimeout(() => {
+        const formatter = useExecutiveFormatter();
       const mockContexts = [
         {
           tenantId: mockTenant,
@@ -120,7 +125,7 @@ export function InstitutionalMonitoringPage() {
                 <p className="text-[10px] text-muted-foreground font-medium uppercase tracking-widest">Última Execução</p>
                 <p className="text-body-sm font-medium text-foreground">
                   {lastExecution
-                    ? new Date(lastExecution.timestamp).toLocaleTimeString()
+                    ? formatter.date(lastExecution.timestamp, { hour: '2-digit', minute: '2-digit' })
                     : 'Pendente'}
                 </p>
               </div>
@@ -139,7 +144,7 @@ export function InstitutionalMonitoringPage() {
          opinion="O comitê fiduciário homologa os motores de vigilância contínua para contenção antecipada de anomalias."
          driver="Vigilância de liquidez, incidentes mapeados, score de confidence e logs de auditoria."
          implication="Resposta em tempo real a discrepâncias operacionais ou financeiras."
-         action="Acompanhar os feeds de alertas críticos diariamente no dashboard executivo."
+         executiveQuestion="Acompanhar os feeds de alertas críticos diariamente no dashboard executivo."
        >
          <ExecutiveStrategicTensions tensions={[]} />
          <ExecutiveDecisionTrace trace={[]} />

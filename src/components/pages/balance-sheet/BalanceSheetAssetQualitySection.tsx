@@ -1,54 +1,58 @@
 import React from 'react';
-import { DecisionPanelViewModel } from '../../../types/executive/BalanceSheetExecutiveViewModel';
-import { ExecutiveEvidenceGrid } from '../../ui/executive-evidence-grid';
-import { ExecutiveBadge } from '../../ui/executive-badge';
-import { ExecutiveDecisionPanel } from '../../ui/executive-decision-panel';
-import { ExecutiveSurface } from '../../ui/executive-surface';
+import { ExecutiveHeading } from '../../ui/executive-heading';
+import { ExecutiveText } from '../../ui/executive-typography';
+import { formatCurrency } from '../../../lib/utils';
+import { ExecutiveIntelligenceOutput } from '../../../core/intelligence/contracts/ExecutiveIntelligenceOutput';
+import { ExecutiveExposureCard } from '../../ui/executive-exposure-card';
 
 export type BalanceSheetAssetQualitySectionProps = {
-  panel?: DecisionPanelViewModel;
+  bpSummary: any;
+  diagnostics: ExecutiveIntelligenceOutput | null;
 };
 
-export const BalanceSheetAssetQualitySection = ({ panel }: BalanceSheetAssetQualitySectionProps) => {
-  const forbidden = [
-    "Painel não gerado",
-    "Erro Estrutural",
-    "Aguardando evidências",
-    "Omitido do contexto",
-    "Dados Insuficientes",
-    "Dados Indisponíveis",
-    "Indeterminada",
-    "Indeterminado"
-  ];
-  if (panel && forbidden.some(term => JSON.stringify(panel).includes(term))) {
-    throw new Error("[BP Constitutional Violation] Panel contains forbidden synthetic placeholders.");
-  }
+export const BalanceSheetAssetQualitySection = ({ bpSummary, diagnostics }: BalanceSheetAssetQualitySectionProps) => {
+  if (!bpSummary || !diagnostics) return null;
 
-  if (!panel) {
-    throw new Error('[BP Constitutional Violation] Required decision panel missing in BalanceSheetAssetQualitySection.');
-  }
+  const { ativoTotal, caixaEquivalentes, estoques, clientes, imobilizado } = bpSummary;
+
+  const getRatio = (value: number) => ativoTotal > 0 ? (value / ativoTotal) * 100 : 0;
 
   return (
     <div className="mb-10 animate-executive-fade relative">
-      <ExecutiveSurface variant="default" elevation="sm" className="p-6 md:p-8 mb-6 rounded-[24px]">
-        <ExecutiveDecisionPanel
-          question="O capital está imobilizado em excesso ou alocado eficientemente?"
-          statusBadge={
-            <ExecutiveBadge variant={panel.statusBadgeVariant}>
-              {panel.statusLabel}
-            </ExecutiveBadge>
+      <ExecutiveHeading as="h4" variant="submoduleTitle" className="mb-4">Asset Quality Intelligence</ExecutiveHeading>
+
+      <ExecutiveExposureCard
+        title="Composição e Liquidez dos Ativos"
+        subtitle="Mapeamento da velocidade de conversão e imobilização do capital."
+        metrics={[
+          {
+            label: 'Disponibilidades / Ativo Total',
+            percentage: getRatio(caixaEquivalentes),
+            colorClass: 'bg-success'
+          },
+          {
+            label: 'Clientes / Ativo Total',
+            percentage: getRatio(clientes),
+            colorClass: 'bg-insight'
+          },
+          {
+            label: 'Estoques / Ativo Total',
+            percentage: getRatio(estoques),
+            colorClass: 'bg-warning'
+          },
+          {
+            label: 'Imobilizado / Ativo Total',
+            percentage: getRatio(imobilizado || 0),
+            colorClass: 'bg-primary'
           }
-          opinion={panel.opinion}
-          driver={panel.driver}
-          implication={panel.implication}
-          action={panel.action}
-          confidence={panel.confidence}
-          technicalIndex={panel.score}
-        />
-      </ExecutiveSurface>
-      {panel.evidences && panel.evidences.length > 0 && (
-        <ExecutiveEvidenceGrid metrics={panel.evidences as any} />
-      )}
+        ]}
+      />
+
+      <div className="bg-surface-container/30 p-4 mt-6 rounded-xl border border-border/50">
+        <ExecutiveText as="p" variant="bodyStandard" className="text-primary italic">
+          "{((diagnostics.indicators.find(i => i.id === 'asset_liquidity')?.value || 0) * 100).toFixed(1)}% dos ativos apresentam elevada liquidez imediata (Caixa + Clientes), definindo o grau de realização rápida do ativo total."
+        </ExecutiveText>
+      </div>
     </div>
   );
 };

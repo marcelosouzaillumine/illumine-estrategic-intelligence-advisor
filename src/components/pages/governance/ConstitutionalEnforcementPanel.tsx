@@ -2,6 +2,7 @@ import React from 'react';
 import { useLanguage } from '../../../contexts/LanguageContext';
 import { ConstitutionalEnforcementAction } from '../../../services/FiduciaryRuntimeAdapter';
 import { ShieldAlert, AlertTriangle } from 'lucide-react';
+import { useExecutiveFormatter } from '../../../core/localization';
 
 interface Props {
   actions: ConstitutionalEnforcementAction[];
@@ -9,6 +10,7 @@ interface Props {
 
 export const ConstitutionalEnforcementPanel: React.FC<Props> = ({ actions }) => {
   const { t } = useLanguage();
+  const formatter = useExecutiveFormatter();
 
   const getSeverityStyle = (severity: string) => {
     switch (severity) {
@@ -47,7 +49,7 @@ export const ConstitutionalEnforcementPanel: React.FC<Props> = ({ actions }) => 
               <div className="flex justify-between items-center mt-2 pt-2 border-t border-black/10">
                 <span className="text-xs opacity-60 font-mono">{act.actionId}</span>
                 <span className="text-xs opacity-60">
-                  {new Date(act.timestamp).toLocaleString()}
+                  {formatter.date(act.timestamp)}
                 </span>
               </div>
             </div>

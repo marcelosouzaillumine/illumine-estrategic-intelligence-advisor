@@ -1,0 +1,18 @@
+{
+  "status": {
+    "critical": "Crítico",
+    "attention": "Atenção",
+    "healthy": "Saudável",
+    "neutral": "Neutro",
+    "optimized": "Otimizado",
+    "alert": "Alerta",
+    "pending": "Pendente",
+    "efficient": "Eficiente"
+  },
+  "decision": {
+    "recommendation": "Recomendação",
+    "opportunity": "Oportunidade",
+    "risk": "Risco",
+    "impact": "Impacto"
+  }
+}

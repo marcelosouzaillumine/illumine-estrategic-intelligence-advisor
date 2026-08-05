@@ -1,1 +1,15 @@
-{}
+{
+  "profile": {
+    "fiduciaryScore": "Fiduciary Score: {{score}}",
+    "successRate": "Success Rate:",
+    "nps": "NPS:",
+    "level": "Level:",
+    "generatedRoi": "Generated ROI:"
+  },
+  "holding": {
+    "title": "Holding & Economic Group — {{name}}",
+    "controlledCompanies": "Controlled Companies:",
+    "units": "{{count}} Units",
+    "consolidatedRevenue": "Consolidated Revenue:"
+  }
+}

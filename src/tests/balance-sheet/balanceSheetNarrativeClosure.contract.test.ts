@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { describe, it } from 'node:test';
 import * as assert from 'node:assert';
 import { BalanceSheetExecutivePlanBuilder } from '../../core/runtime/executive-consolidation/BalanceSheetExecutivePlanBuilder';

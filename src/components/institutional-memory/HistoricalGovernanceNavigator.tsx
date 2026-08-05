@@ -2,8 +2,10 @@ import React from 'react';
 import { useInstitutionalMemory } from '../../context/institutional-memory/InstitutionalMemoryProvider';
 import { Calendar } from 'lucide-react';
 import { cn } from '../../lib/utils';
+import { useExecutiveFormatter } from "../../core/localization";
 
 export function HistoricalGovernanceNavigator() {
+    const formatter = useExecutiveFormatter();
   const { records, lineageIntegrity } = useInstitutionalMemory();
 
   if (lineageIntegrity === 'FAIL_CLOSED' || records.length === 0) {
@@ -28,7 +30,7 @@ export function HistoricalGovernanceNavigator() {
             className="px-3 py-1 bg-surface-container/60 border border-border/40 text-muted-foreground text-[10px] font-bold uppercase tracking-wider rounded-lg select-none shrink-0"
             title={`Snapshot ${r.governanceCategory}`}
           >
-            {new Date(r.timestamp).toLocaleDateString()}
+            {formatter.date(r.timestamp)}
           </div>
         ))}
       </div>

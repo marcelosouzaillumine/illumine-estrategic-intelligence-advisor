@@ -166,7 +166,7 @@ export function ViabilityPage({ selectedClient, clients }: { selectedClient: str
           opinion="O comitê fiduciário homologa a análise de viabilidade dos projetos de investimento, atestando a atratividade do retorno em relação à TMA do grupo."
           driver="VPL projetado, Taxa Interna de Retorno (TIR), Payback descontado e Índice de Lucratividade."
           implication="Alocação eficiente do capital de acionistas em iniciativas geradoras de valor econômico adicionado."
-          action="Aprovar a execução condicionada ao cumprimento das premissas de CAPEX e ramp-up de receita."
+          executiveQuestion="O plano de investimento apresenta garantias adequadas de cumprimento do CAPEX e cronograma de ramp-up comercial?"
         >
           <ExecutiveStrategicTensions tensions={[]} />
           <ExecutiveDecisionTrace trace={[]} />

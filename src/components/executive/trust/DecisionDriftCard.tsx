@@ -20,7 +20,7 @@ export const DecisionDriftCard: React.FC<DecisionDriftCardProps> = ({ driftStatu
           </ExecutiveText>
         </div>
         <ExecutiveBadge variant={isHealthy ? 'success' : 'critical'}>
-          {isHealthy ? 'Saudável' : 'Alerta de Deriva'}
+          {isHealthy ? 'HEALTHY' : 'Alerta de Deriva'}
         </ExecutiveBadge>
       </div>
       <p className="text-muted-foreground text-xs leading-relaxed mt-1">

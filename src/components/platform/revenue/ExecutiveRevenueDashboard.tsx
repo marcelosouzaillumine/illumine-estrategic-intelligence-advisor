@@ -7,6 +7,7 @@ import { ExecutiveLeadEngine } from '../../../../packages/platform/executive-rev
 import { ExecutiveValueDeliveryEngine } from '../../../../packages/platform/executive-revenue/src/ExecutiveValueDeliveryEngine';
 import { ExecutivePartnerCenterEngine } from '../../../../packages/platform/executive-revenue/src/ExecutivePartnerCenterEngine';
 import { ExecutiveRevenueObservabilityEngine } from '../../../../packages/platform/executive-revenue/src/ExecutiveRevenueObservabilityEngine';
+import { useExecutiveFormatter } from '@/core/localization';
 
 export interface ExecutiveRevenueDashboardProps {
   readonly companyId?: string;
@@ -15,6 +16,7 @@ export interface ExecutiveRevenueDashboardProps {
 export const ExecutiveRevenueDashboard: React.FC<ExecutiveRevenueDashboardProps> = ({
   companyId = 'empresa-demo'
 }) => {
+  const formatter = useExecutiveFormatter();
   const crm = ExecutiveLeadEngine.getActiveCRM();
   const cs = ExecutiveValueDeliveryEngine.getCustomerHealth('Grupo Industrial Alfa');
   const partner = ExecutivePartnerCenterEngine.getPartnerStatus('Strategic Advisory Partners');
@@ -38,8 +40,8 @@ export const ExecutiveRevenueDashboard: React.FC<ExecutiveRevenueDashboardProps>
         </div>
         <div className="flex items-center gap-2">
           <ExecutiveBadge variant="warning" className="font-mono text-[10px]">BENCHMARK SIMULADO</ExecutiveBadge>
-          <ExecutiveBadge variant="success" className="font-mono">MRR: R$ {ers.mrrValue.toLocaleString('pt-BR')}</ExecutiveBadge>
-          <ExecutiveBadge variant="info" className="font-mono">ARR: R$ {ers.arrValue.toLocaleString('pt-BR')}</ExecutiveBadge>
+          <ExecutiveBadge variant="success" className="font-mono">MRR: {formatter.currency(ers.mrrValue)}</ExecutiveBadge>
+          <ExecutiveBadge variant="info" className="font-mono">ARR: {formatter.currency(ers.arrValue)}</ExecutiveBadge>
         </div>
 
       </div>
@@ -61,11 +63,11 @@ export const ExecutiveRevenueDashboard: React.FC<ExecutiveRevenueDashboardProps>
             </div>
             <div className="p-2.5 rounded bg-background/50 border border-border/30 flex justify-between items-center">
               <span>Engajamento & Risco de Churn</span>
-              <span className="font-bold text-emerald-400">{cs.engagementLevel} ({cs.churnRiskPercent}% churn risk)</span>
+              <span className="font-bold text-emerald-400">{cs.engagementLevel} ({formatter.percentage(cs.churnRiskPercent / 100, { maximumFractionDigits: 0 })} churn risk)</span>
             </div>
             <div className="p-2.5 rounded bg-background/50 border border-border/30 flex justify-between items-center">
               <span>Oportunidades de Expansão (Upsell)</span>
-              <span className="font-bold text-emerald-400">R$ {cs.expansionOpportunityValue.toLocaleString('pt-BR')}</span>
+              <span className="font-bold text-emerald-400">{formatter.currency(cs.expansionOpportunityValue)}</span>
             </div>
           </div>
         </ExecutiveSurface>
@@ -82,11 +84,11 @@ export const ExecutiveRevenueDashboard: React.FC<ExecutiveRevenueDashboardProps>
             </div>
             <div className="p-2.5 rounded bg-background/50 border border-border/30 flex justify-between items-center">
               <span>Pipeline Compartilhado</span>
-              <span className="font-bold text-purple-400">R$ {partner.activeSharedPipelineValue.toLocaleString('pt-BR')}</span>
+              <span className="font-bold text-purple-400">{formatter.currency(partner.activeSharedPipelineValue)}</span>
             </div>
             <div className="p-2.5 rounded bg-background/50 border border-border/30 flex justify-between items-center">
               <span>Comissões Acumuladas</span>
-              <span className="font-bold text-purple-400">R$ {partner.accruedCommissionsValue.toLocaleString('pt-BR')}</span>
+              <span className="font-bold text-purple-400">{formatter.currency(partner.accruedCommissionsValue)}</span>
             </div>
           </div>
         </ExecutiveSurface>

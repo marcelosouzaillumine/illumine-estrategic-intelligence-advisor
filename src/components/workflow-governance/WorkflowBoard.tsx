@@ -1,8 +1,10 @@
 import React from 'react';
 import { DecisionWorkflow } from '../../services/FiduciaryRuntimeAdapter';
 import { WorkflowStatusBadge } from './WorkflowStatusBadge';
+import { useExecutiveFormatter } from "../../core/localization";
 
 export function WorkflowBoard({ workflows }: { workflows: DecisionWorkflow[] }) {
+    const formatter = useExecutiveFormatter();
   if (workflows.length === 0) {
     return (
       <div className="flex flex-col items-center justify-center p-8 bg-surface-container border border-border rounded-xl text-muted-foreground h-full">
@@ -23,7 +25,7 @@ export function WorkflowBoard({ workflows }: { workflows: DecisionWorkflow[] }) 
           <div className="flex items-center gap-4 text-[10px] text-muted-foreground font-mono">
             <span>ID: {wf.workflowId}</span>
             <span>Type: {wf.type}</span>
-            <span>Created: {new Date(wf.createdAt).toLocaleDateString()}</span>
+            <span>Created: {formatter.date(wf.createdAt)}</span>
           </div>
         </div>
       ))}

@@ -20,11 +20,13 @@ import { ExecutiveSummarySection } from '../ui/executive-summary-section';
 import { ExecutiveStrategicTensions } from '../ui/executive-strategic-tensions';
 import { ExecutiveDecisionTrace } from '../ui/executive-decision-trace';
 import { useAdvisorWorkspaceViewModel } from '../../viewmodels/useAdvisorWorkspaceViewModel';
+import { useExecutiveFormatter } from '../../core/localization';
 
 export function AdvisorWorkspacePage({ selectedClient }: { selectedClient: string }) {
   // Adapter: useAdvisorWorkspaceAdapter
   // ViewModel: useAdvisorWorkspaceViewModel
   const { state, computed, actions } = useAdvisorWorkspaceViewModel({ selectedClient });
+  const formatter = useExecutiveFormatter();
   const portal = createPortal;
   const [activeProfile, setActiveProfile] = useState<string>('balanced');
   const [activeVersion, setActiveVersion] = useState<string>('v1.0.0');
@@ -416,7 +418,7 @@ export function AdvisorWorkspacePage({ selectedClient }: { selectedClient: strin
                 <div key={idx} className="p-2.5 bg-surface-container border border-border rounded-lg space-y-1">
                   <div className="flex justify-between items-center text-[9px] text-muted-foreground font-bold">
                     <span>{log.actorId} (versão {log.version})</span>
-                    <span>{new Date(log.createdAt).toLocaleTimeString()}</span>
+                    <span>{formatter.date(log.createdAt, { hour: '2-digit', minute: '2-digit' })}</span>
                   </div>
                   <p className="text-[10px] font-bold text-foreground">Mudou para perfil "{log.profileId}"</p>
          <p className="text-[9px] font-semibold text-executive-secondary italic">"{log.rationale}"</p>
@@ -447,7 +449,7 @@ export function AdvisorWorkspacePage({ selectedClient }: { selectedClient: strin
                     <div>
                       <h4 className="text-xs font-bold text-foreground capitalize">{inc.type.replace('_', ' ')}</h4>
                       <p className="text-[10px] text-muted-foreground mt-1 leading-relaxed">{inc.message}</p>
-                      <span className="text-[9px] text-muted-foreground/60 font-mono block mt-2">{new Date(inc.detectedAt).toLocaleString()}</span>
+                      <span className="text-[9px] text-muted-foreground/60 font-mono block mt-2">{formatter.date(inc.detectedAt)}</span>
                     </div>
                   </div>
                 ))
@@ -465,7 +467,7 @@ export function AdvisorWorkspacePage({ selectedClient }: { selectedClient: strin
          opinion="O comitê fiduciário atesta a calibração do motor de aconselhamento e aprova os parâmetros de staging."
          driver="Políticas fiduciárias ativas, fila de validação contábil e incidentes operacionais."
          implication="Melhora na acurácia dos alertas preditivos fornecidos aos C-Levels."
-         action="Processar os itens pendentes da fila de staging semanalmente."
+         executiveQuestion="Processar os itens pendentes da fila de staging semanalmente."
        >
          <ExecutiveStrategicTensions tensions={[]} />
          <ExecutiveDecisionTrace trace={[]} />

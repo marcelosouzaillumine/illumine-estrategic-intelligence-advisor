@@ -172,7 +172,7 @@ export function AnaliseFinanceiraPage({ clients, selectedClient, selectedYear }:
          opinion="O comitê fiduciário homologa a análise de capital, atestando o retorno sobre o capital investido e a solvência de longo prazo."
          driver="ROIC, WACC, margem EBITDA, cobertura de juros (DSCR) e EVA acumulado."
          implication="Garantia de que os investimentos superam o custo de capital próprio e de terceiros."
-         action="Ajustar o mix de captação de recursos para reduzir o WACC médio ponderado da companhia."
+         executiveQuestion="Ajustar o mix de captação de recursos para reduzir o WACC médio ponderado da companhia."
        >
          <ExecutiveStrategicTensions tensions={[]} />
          <ExecutiveDecisionTrace trace={[]} />
@@ -468,7 +468,7 @@ export function AnaliseFinanceiraPage({ clients, selectedClient, selectedYear }:
           opinion="O retorno sobre o capital (ROIC) supera o custo médio ponderado de capital (WACC), gerando valor econômico."
           driver="Ciclo operacional, giro e prazos médios."
           implication="Geração consistente de fluxo de caixa livre."
-          action="Manter alocação disciplinada e monitorar solvência."
+          executiveQuestion="Manter alocação disciplinada e monitorar solvência."
         >
           <ExecutiveStrategicTensions tensions={[]} />
           <ExecutiveDecisionTrace trace={[]} />

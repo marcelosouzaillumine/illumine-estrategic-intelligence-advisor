@@ -73,7 +73,7 @@ export function GovernanceKnowledgePanel({ clientId, scenario, executiveSummary 
           border: 'border-red-500/30',
           accent: 'bg-red-500',
           progressColor: 'var(--color-executive-primary)',
-          label: 'Crítico'
+          label: 'CRITICAL'
         };
       default:
         return {

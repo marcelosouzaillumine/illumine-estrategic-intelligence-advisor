@@ -1,6 +1,21 @@
 {
-  "title": "EN::Executive Dashboard",
-  "period": "EN::Período de Análise",
-  "performance": "EN::Análise de Performance",
-  "overview": "EN::Visão Geral"
+  "consolidated_executive": {
+    "loading": "Loading Consolidated Intelligence...",
+    "error_title": "Consolidation Failure",
+    "empty_title": "No Consolidated Report Available",
+    "empty_desc": "There is no active consolidated data for the selected economic group at this moment.",
+    "header_title": "Economic Group Consolidated Intelligence",
+    "header_desc": "Intercompany equity consolidation, structural dependencies, and systemic risk propagation.",
+    "header_badge": "Consolidated Session Enabled",
+    "passive_render": "Passive View Layer Rendering (Runtime-Compliant)",
+    "accordion_title": "C-Level Consolidation Panel",
+    "accordion_subtitle": "Analyze integrity, intercompany leverage, and governance compliance.",
+    "critical_blocker_default": "Active Governance Critical Violation.",
+    "summary_status": "Homologated Consolidation",
+    "summary_question": "What is the integrity of intercompany balances and the systemic risk of the economic group?",
+    "summary_opinion": "The fiduciary committee attests to the correct elimination of intercompany transactions and homologates the consolidated statements.",
+    "summary_driver": "Consolidation confidence level, intercompany eliminations, risk propagation, and governance violations.",
+    "summary_implication": "Mitigation of financial contagion among subsidiaries and equity transparency.",
+    "summary_action": "Resolve governance violations identified in the consolidated panel."
+  }
 }

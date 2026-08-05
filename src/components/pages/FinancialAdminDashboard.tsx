@@ -640,7 +640,7 @@ export function FinancialAdminDashboard({
          opinion="O conselho de administração homologa o saldo de caixa e a adimplência das contas operacionais."
          driver="Saldo de tesouraria, Ebitda operacional, giro de estoques e ciclo financeiro."
          implication="Manutenção de folga de liquidez para operar sem alavancagem de curto prazo."
-         action="Acompanhar a liquidez corrente e acelerar recebimentos de clientes inadimplentes."
+         executiveQuestion="Acompanhar a liquidez corrente e acelerar recebimentos de clientes inadimplentes."
        >
          <ExecutiveStrategicTensions tensions={[]} />
          <ExecutiveDecisionTrace trace={[]} />

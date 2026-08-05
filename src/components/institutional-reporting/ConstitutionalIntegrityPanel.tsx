@@ -1,6 +1,7 @@
 import React from 'react';
 import { Shield, ShieldAlert, Key, ClipboardList, AlertTriangle, Layers, GitBranch } from 'lucide-react';
 import { ConstitutionalSection } from '../../services/FiduciaryRuntimeAdapter';
+import { useExecutiveFormatter } from '../../core/localization';
 // src/components/institutional-reporting/ConstitutionalIntegrityPanel.tsx
 
 
@@ -9,6 +10,8 @@ interface ConstitutionalIntegrityPanelProps {
 }
 
 export const ConstitutionalIntegrityPanel: React.FC<ConstitutionalIntegrityPanelProps> = ({ section }) => {
+  const formatter = useExecutiveFormatter();
+
   if (!section) {
     return (
       <div className="bg-zinc-950 border border-zinc-800 rounded-xl p-6 text-zinc-500 font-mono text-xs">
@@ -171,7 +174,7 @@ export const ConstitutionalIntegrityPanel: React.FC<ConstitutionalIntegrityPanel
                   <div key={idx} className="grid grid-cols-4 px-4 py-3 gap-2">
                     <div>
                       <div className="font-bold text-zinc-300 truncate">{ov.target}</div>
-                      <div className="text-[9px] text-zinc-500">{new Date(ov.timestamp).toLocaleString()}</div>
+                      <div className="text-[9px] text-zinc-500">{formatter.date(ov.timestamp)}</div>
                     </div>
                     <div>
                       <div className="font-bold text-zinc-300">{ov.actor}</div>

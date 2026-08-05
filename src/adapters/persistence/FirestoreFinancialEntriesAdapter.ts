@@ -1,9 +1,9 @@
 import { collection, query, where, getDocs } from 'firebase/firestore';
 import { db } from '../../lib/firebase';
-import { FinancialStatementLike } from '../../types/contracts';
+import { IFinancialEntriesPersistence } from '../../contracts/persistence/IFinancialEntriesPersistence';
 
-export class FirestoreFinancialEntriesAdapter {
-  static async getEntriesByTypesAndYear(clientId: string, queryTypes: string[], year: number): Promise<{ docs: any[] }> {
+export class FirestoreFinancialEntriesAdapter implements IFinancialEntriesPersistence {
+  async getEntriesByTypesAndYear(clientId: string, queryTypes: string[], year: number): Promise<{ docs: any[] }> {
     const q = query(
       collection(db, 'financial_entries'),
       where('clientId', '==', clientId),
@@ -14,7 +14,7 @@ export class FirestoreFinancialEntriesAdapter {
     return { docs: snap.docs.map(doc => ({ id: doc.id, ...doc.data() })) };
   }
 
-  static async getAllEntriesForClient(clientId: string): Promise<{ docs: any[] }> {
+  async getAllEntriesForClient(clientId: string): Promise<{ docs: any[] }> {
     const q = query(
       collection(db, 'financial_entries'),
       where('clientId', '==', clientId)
@@ -23,7 +23,7 @@ export class FirestoreFinancialEntriesAdapter {
     return { docs: snap.docs.map(doc => ({ id: doc.id, ...doc.data() })) };
   }
 
-  static async getEntriesByYear(clientId: string, year: number): Promise<{ docs: any[] }> {
+  async getEntriesByYear(clientId: string, year: number): Promise<{ docs: any[] }> {
     const q = query(
       collection(db, 'financial_entries'),
       where('clientId', '==', clientId),
@@ -33,7 +33,7 @@ export class FirestoreFinancialEntriesAdapter {
     return { docs: snap.docs.map(doc => ({ id: doc.id, ...doc.data() })) };
   }
 
-  static async getEntriesInYears(clientId: string, targetYears: number[]): Promise<{ docs: any[] }> {
+  async getEntriesInYears(clientId: string, targetYears: number[]): Promise<{ docs: any[] }> {
     const q = query(
       collection(db, 'financial_entries'),
       where('clientId', '==', clientId),

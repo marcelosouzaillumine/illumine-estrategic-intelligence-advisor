@@ -21,7 +21,7 @@ export function Surface({ variant = 'primary', className, children, ...props }: 
 
   return (
     <div 
-      className={cn("rounded-2xl border", className)}
+      className={cn("rounded-2xl border flex flex-col h-full", className)}
       style={{
         backgroundColor: getBackgroundColor(),
         borderColor: variant === 'accent' ? 'rgba(245, 158, 11, 0.2)' : 'rgba(255, 255, 255, 0.05)',
@@ -41,7 +41,7 @@ export function Card({ hoverable = false, className, children, ...props }: CardP
   return (
     <Surface 
       className={cn(
-        "p-8 md:p-12 transition-all duration-300", 
+        "p-8 md:p-10 transition-all duration-300 flex flex-col h-full", 
         hoverable ? "hover:border-white/20 hover:-translate-y-1 shadow-lg" : "",
         className
       )}
@@ -58,5 +58,25 @@ export function Divider({ className, ...props }: React.HTMLAttributes<HTMLHRElem
       className={cn("border-t border-white/5 my-12", className)} 
       {...props}
     />
+  );
+}
+
+import { useEqualHeight } from '@/hooks/useEqualHeight';
+
+export interface CardGridProps extends React.HTMLAttributes<HTMLDivElement> {
+  children: React.ReactNode;
+}
+
+export function CardGrid({ children, className, ...props }: CardGridProps) {
+  const ref = useEqualHeight<HTMLDivElement>();
+  
+  return (
+    <div 
+      ref={ref} 
+      className={cn("grid gap-6", className)} 
+      {...props}
+    >
+      {children}
+    </div>
   );
 }

@@ -102,7 +102,7 @@ export function AssetManagementPage({ clientId, selectedYear, selectedMonth }: a
           opinion="O comitê fiduciário homologa a gestão de ativos, validando o patrimônio total e a adequação da política de alocação de liquidez."
           driver="Patrimônio total acumulado, yield real acima da inflação e diversificação por classe."
           implication="Preservação de capital e otimização do custo de oportunidade da tesouraria."
-          action="Manter rebalanceamento periódico para garantir alocação em conformidade com as diretrizes do conselho."
+          executiveQuestion="Manter rebalanceamento periódico para garantir alocação em conformidade com as diretrizes do conselho."
         >
           <ExecutiveStrategicTensions tensions={[]} />
           <ExecutiveDecisionTrace trace={[]} />

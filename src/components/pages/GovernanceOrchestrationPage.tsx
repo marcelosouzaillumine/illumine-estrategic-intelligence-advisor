@@ -77,7 +77,7 @@ export function GovernanceOrchestrationPage() {
         opinion="O comitê fiduciário homologa os playbooks e matrizes de escalonamento para mitigação coordenada de riscos."
         driver="Playbooks de crise, trilhas de recuperação, coordenação cross-domain e timeline de resposta."
         implication="Prontidão operacional e eliminação de pontos céticos na execução contingencial."
-        action="Realizar simulados trimestrais dos playbooks de maior impacto."
+        executiveQuestion="Realizar simulados trimestrais dos playbooks de maior impacto."
       >
         <ExecutiveStrategicTensions tensions={[]} />
         <ExecutiveDecisionTrace trace={[]} />

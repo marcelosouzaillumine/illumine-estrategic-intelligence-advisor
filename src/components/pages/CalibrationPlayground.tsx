@@ -23,6 +23,7 @@ import { ExecutiveSummarySection } from '../ui/executive-summary-section';
 import { ExecutiveStrategicTensions } from '../ui/executive-strategic-tensions';
 import { ExecutiveDecisionTrace } from '../ui/executive-decision-trace';
 import { useCalibrationPlaygroundViewModel } from '../../viewmodels/useCalibrationPlaygroundViewModel';
+import { useExecutiveFormatter } from '../../core/localization';
 
 const MOCK_SANDBOX_DATA = {
   isMockData: false,
@@ -67,9 +68,8 @@ const MOCK_SANDBOX_DATA = {
 
 
 export function CalibrationPlayground() {
-  // Adapter: useCalibrationPlaygroundAdapter
-  // ViewModel: useCalibrationPlaygroundViewModel
   const { state, computed, actions } = useCalibrationPlaygroundViewModel();
+  const formatter = useExecutiveFormatter();
   const portal = createPortal;
   const [activeTab, setActiveTab] = useState<'profile' | 'manual'>('profile');
   const [actorId, setActorId] = useState<string>('');
@@ -182,7 +182,7 @@ export function CalibrationPlayground() {
         opinion="O comitê fiduciário valida as alterações nos limiares de sensibilidade contábil e calibração de riscos."
         driver="Perfis de calibração, limiares de tolerância, rastro de auditoria e staging warnings."
         implication="Ajuste fino da sensibilidade dos pareceres automáticos sem perda de integridade conceitual."
-        action="Testar cenários de estresse antes de homologar novas versões de calibração para produção."
+        executiveQuestion="Testar cenários de estresse antes de homologar novas versões de calibração para produção."
       >
         <ExecutiveStrategicTensions tensions={[]} />
         <ExecutiveDecisionTrace trace={[]} />
@@ -634,7 +634,7 @@ export function CalibrationPlayground() {
                   <div className="flex flex-wrap items-center gap-2">
                     <span className="font-mono text-xs font-bold text-foreground bg-surface-container border border-border px-2 py-0.5 rounded">{log.version}</span>
                     <span className="px-2 py-0.5 bg-secondary/10 text-secondary border border-secondary/20 rounded text-[9px] font-black uppercase tracking-wider">PERFIL: {log.profileId}</span>
-                    <span className="text-[10px] text-muted-foreground font-mono">{new Date(log.createdAt).toLocaleString()}</span>
+                    <span className="text-[10px] text-muted-foreground font-mono">{formatter.date(log.createdAt)}</span>
                   </div>
                   <p className="text-xs text-foreground font-medium"><strong className="text-muted-foreground">Justificativa:</strong> {log.rationale}</p>
                   
@@ -667,7 +667,7 @@ export function CalibrationPlayground() {
           opinion="A calibração do comitê de auditoria reflete o apetite de risco da governança atual."
           driver="Materialidade de pareceres, margens de tolerância e perfis de inferência."
           implication="Maior assertividade na geração automatizada de relatórios executivos."
-          action="Revisar parâmetros semestralmente conforme volatilidade do mercado."
+          executiveQuestion="Revisar parâmetros semestralmente conforme volatilidade do mercado."
         >
           <ExecutiveStrategicTensions tensions={[]} />
           <ExecutiveDecisionTrace trace={[]} />

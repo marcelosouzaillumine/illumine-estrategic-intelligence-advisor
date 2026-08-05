@@ -58,7 +58,7 @@ export function InstitutionalBoardPackPage({ clients, selectedClient, selectedMo
           opinion="O comitê fiduciário homologa o Board Pack oficial, atestando a exatidão das demonstrações contábeis e dos indicadores estratégicos de governança."
           driver="Parecer de auditabilidade, síntese de DRE/BP, score de sustentabilidade e recomendações do CFO."
           implication="Suporte a decisões fiduciárias seguras e transparência na prestação de contas."
-          action="Pautar os pontos de atenção destacados no parecer para deliberação do conselho."
+          executiveQuestion="Pautar os pontos de atenção destacados no parecer para deliberação do conselho."
         >
           <ExecutiveStrategicTensions tensions={[]} />
           <ExecutiveDecisionTrace trace={[]} />

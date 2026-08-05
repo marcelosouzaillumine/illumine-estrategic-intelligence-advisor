@@ -82,3 +82,16 @@ export function SectionLead({ children, align, className, ...props }: Typography
     </p>
   );
 }
+
+export function CardTitle({ children, align, className, ...props }: TypographyProps) {
+  return (
+    <h3 
+      data-equal-height="card-title"
+      style={getStylesFromToken(semanticTokens.typography.card.title, align)} 
+      className={cn("mb-6 font-sans flex flex-col justify-start transition-all duration-200", className)} 
+      {...props}
+    >
+      {children}
+    </h3>
+  );
+}

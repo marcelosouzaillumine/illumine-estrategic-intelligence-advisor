@@ -74,7 +74,7 @@ export function InstitutionalKnowledgeGraphPage() {
           opinion="O comitê fiduciário homologa a ontologia e o mapeamento semântico como base para inferências de inteligência."
           driver="Ontologia corporativa, grafos de correlação, registros de linhagem e padrões de workflow."
           implication="Preservação da memória histórica e rastreabilidade total do conhecimento institucional."
-          action="Manter atualizadas as ontologias setoriais e os registros de regras causais."
+          executiveQuestion="Manter atualizadas as ontologias setoriais e os registros de regras causais."
         >
           <ExecutiveStrategicTensions tensions={[]} />
           <ExecutiveDecisionTrace trace={[]} />

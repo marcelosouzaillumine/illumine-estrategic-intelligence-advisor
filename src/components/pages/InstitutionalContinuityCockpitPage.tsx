@@ -85,7 +85,7 @@ export function InstitutionalContinuityCockpitPage({ clientId, selectedYear, sel
           opinion="O comitê fiduciário homologa o plano de continuidade de negócios, validando o nível de antifragilidade e as travas de recuperação de desastres."
           driver="Índice de resiliência, modo de sobrevivência ativo, tempo estimado de recuperação e travas fiduciárias."
           implication="Garantia de perpetuidade do negócio mesmo sob choques sistêmicos graves."
-          action="Executar testes de simulação de failover e recuperação a cada semestre."
+          executiveQuestion="Executar testes de simulação de failover e recuperação a cada semestre."
         >
           <ExecutiveStrategicTensions tensions={[]} />
           <ExecutiveDecisionTrace trace={[]} />

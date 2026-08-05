@@ -106,7 +106,7 @@ export function PlanoDeContasPage({
           opinion="O comitê fiduciário homologa a estrutura do plano de contas, garantindo o correto enquadramento e consistência nos balancetes."
           driver="Contas sintéticas, analíticas, de-para gerencial e mapeamento de DRE/DFC."
           implication="Padronização da escrituração contábil e agilidade no fechamento de ciclos fiduciários."
-          action="Manter o de-para de contas atualizado a cada novo lançamento no ERP."
+          executiveQuestion="Manter o de-para de contas atualizado a cada novo lançamento no ERP."
         >
           <ExecutiveStrategicTensions tensions={[]} />
           <ExecutiveDecisionTrace trace={[]} />

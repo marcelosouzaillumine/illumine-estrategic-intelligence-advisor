@@ -364,7 +364,7 @@ export function AxisDashboardPage({ axis, clientId, onNavigate, selectedMonth, s
         opinion={`O comitê fiduciário homologa os KPIs do eixo de ${axis}, atestando a integridade das métricas e o cumprimento das metas estipuladas.`}
         driver={`Indicadores estratégicos do eixo de ${axis}, histórico temporal e desvios toleráveis.`}
         implication="Preservação da eficiência operacional e estratégica no eixo monitorado."
-        action="Monitorar o desvio dos indicadores críticos e disparar os planos de ação corretiva quando necessário."
+        executiveQuestion="Monitorar o desvio dos indicadores críticos e disparar os planos de ação corretiva quando necessário."
       >
         <ExecutiveStrategicTensions tensions={[]} />
         <ExecutiveDecisionTrace trace={[]} />
@@ -527,7 +527,7 @@ export function AxisDashboardPage({ axis, clientId, onNavigate, selectedMonth, s
           opinion={`O comitê fiduciário homologa os indicadores de ${axis}, atestando a integridade dos dados obtidos.`}
           driver="Mapeamento de KPIs, pareceres de governança e parecer executivo do conselho."
           implication="Maior previsibilidade operacional e mitigação de gargalos no eixo avaliado."
-          action="Manter plano de monitoramento mensal e revisar metas trimestralmente."
+          executiveQuestion="Manter plano de monitoramento mensal e revisar metas trimestralmente."
         >
           <ExecutiveStrategicTensions tensions={[]} />
           <ExecutiveDecisionTrace trace={[]} />

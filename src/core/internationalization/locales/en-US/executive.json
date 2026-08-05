@@ -5,5 +5,62 @@
   "boardPack": "EN::Board Pack",
   "fiduciaryLineage": "EN::Linhagem Fiduciária",
   "strategicPositioning": "EN::Posicionamento Estratégico",
-  "executionRoadmap": "EN::Roadmap de Execução"
+  "executionRoadmap": "EN::Roadmap de Execução",
+  "status": {
+    "critical": "Critical",
+    "attention": "Attention",
+    "healthy": "Healthy"
+  },
+  "maturity": {
+    "low": "Low",
+    "medium": "Medium",
+    "high": "High"
+  },
+  "confidence": {
+    "high": "High confidence",
+    "medium": "Moderate confidence",
+    "low": "Low confidence"
+  },
+  "severity": {
+    "CRITICAL": "Critical",
+    "SEVERE": "Severe",
+    "ELEVATED": "Elevated",
+    "WARNING": "Warning",
+    "HIGH": "High",
+    "MEDIUM": "Medium",
+    "LOW": "Low"
+  },
+  "role": {
+    "HOLDING_PATRIMONIAL": "Holding Company",
+    "HOLDING_OPERACIONAL": "Operational Holding",
+    "SUBSIDIARIA_OPERACIONAL": "Operational Subsidiary",
+    "SPE": "Special Purpose Entity",
+    "CENTRO_ADMINISTRATIVO": "Shared Services Center",
+    "VEICULO_FINANCEIRO": "Financial Vehicle",
+    "UNIDADE_DEFICITARIA": "Loss-making Unit",
+    "UNIDADE_ESTRATEGICA": "Strategic Unit"
+  },
+  "systemicRisk": {
+    "LIQUIDITY_CHAIN_COLLAPSE": "Liquidity Chain Collapse",
+    "DEBT_CONCENTRATION": "Debt Concentration",
+    "SYSTEMIC_DEPENDENCY": "Systemic Dependency",
+    "DOMINO_EFFECT": "Domino Effect",
+    "TREASURY_CONTAMINATION": "Treasury Contamination",
+    "FRAGILITY_CONSOLIDATION": "Fragility Consolidation"
+  },
+  "causality": {
+    "ARTIFICIAL_GROWTH": "Artificial Intragroup Growth",
+    "OPERATIONAL_PARASITISM": "Operational Parasitism",
+    "CROSS_REVENUE_DEPENDENCY": "Cross-Revenue Dependency",
+    "INTERCOMPANY_FUNDING": "Intercompany Funding",
+    "ARTIFICIAL_SUBSIDIZATION": "Artificial Subsidization",
+    "REVENUE_CONCENTRATION": "Revenue Concentration",
+    "DEBT_CONCENTRATION": "Debt Concentration"
+  },
+  "dependency": {
+    "FUNDING": "Capital Injection / Loan",
+    "REVENUE": "Intercompany Revenue",
+    "DEBT": "Cross-Debt",
+    "GUARANTEE": "Guarantee"
+  }
 }

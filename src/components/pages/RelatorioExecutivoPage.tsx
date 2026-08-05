@@ -72,7 +72,7 @@ export function RelatorioExecutivoPage({ clientId, selectedMonth, selectedYear }
           opinion="O comitê fiduciário homologa o Relatório Executivo do ciclo, atestando a exatidão das demonstrações contábeis e dos indicadores estratégicos."
           driver="Evolução da receita, margem EBITDA, liquidez e atingimento de metas operacionais."
           implication="Garantia de reporte executivo preciso para o Conselho e acionistas."
-          action="Apresentar as recomendações fiduciárias na próxima reunião ordinária de conselho."
+          executiveQuestion="Apresentar as recomendações fiduciárias na próxima reunião ordinária de conselho."
         >
           <ExecutiveStrategicTensions tensions={[]} />
           <ExecutiveDecisionTrace trace={[]} />

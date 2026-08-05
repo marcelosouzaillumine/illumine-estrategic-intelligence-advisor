@@ -19,8 +19,10 @@ import { ExecutiveSummarySection } from '../ui/executive-summary-section';
 import { ExecutiveStrategicTensions } from '../ui/executive-strategic-tensions';
 import { ExecutiveDecisionTrace } from '../ui/executive-decision-trace';
 import { usePilotExperienceDashboardViewModel } from '../../viewmodels/usePilotExperienceDashboardViewModel';
+import { useExecutiveFormatter } from "../../core/localization";
 
 export function PilotExperienceDashboard({ selectedClient }: { selectedClient: string }) {
+    const formatter = useExecutiveFormatter();
   // Adapter: usePilotExperienceDashboardAdapter
   // ViewModel: usePilotExperienceDashboardViewModel
   const { state, computed, actions } = usePilotExperienceDashboardViewModel({ selectedClient });
@@ -30,6 +32,7 @@ export function PilotExperienceDashboard({ selectedClient }: { selectedClient: s
 
   // Hardcoded mockup data trigger if there is absolutely no data, so it shows something premium
   useEffect(() => {
+      const formatter = useExecutiveFormatter();
     // Inject mock data if empty just for rich first-impression aesthetics
     const currentSessions = CommercialPilotSessionManager.getAllSessions(selectedTenant);
     if (currentSessions.length === 0) {
@@ -97,6 +100,7 @@ export function PilotExperienceDashboard({ selectedClient }: { selectedClient: s
   }, [selectedTenant, refreshTrigger]);
 
   const handleRefresh = () => {
+      const formatter = useExecutiveFormatter();
     setRefreshTrigger(prev => prev + 1);
   };
 
@@ -288,7 +292,7 @@ export function PilotExperienceDashboard({ selectedClient }: { selectedClient: s
               <div key={f.feedbackId} className="p-4 bg-slate-50 border border-border rounded-xl space-y-3">
                 <div className="flex justify-between items-center text-[10px] font-bold text-muted-foreground">
                   <span className="flex items-center gap-1"><User size={12} /> {f.actorId}</span>
-                  <span>{new Date(f.timestamp).toLocaleDateString()}</span>
+                  <span>{formatter.date(f.timestamp)}</span>
                 </div>
                 
                 <div className="grid grid-cols-5 gap-2 text-center">
@@ -386,7 +390,7 @@ export function PilotExperienceDashboard({ selectedClient }: { selectedClient: s
               <div key={log.auditId} className="p-3 bg-slate-50 border border-border rounded-xl space-y-1">
                 <div className="flex justify-between items-center text-[9px] font-bold text-muted-foreground">
                   <span>ID Auditoria: {log.auditId.substring(0, 15)}...</span>
-                  <span>{new Date(log.timestamp).toLocaleTimeString()}</span>
+                  <span>{formatter.date(log.timestamp, { hour: '2-digit', minute: '2-digit' })}</span>
                 </div>
                 <p className="text-xs font-bold text-muted-foreground">
                   Ação "{log.action}" executada por {log.actorId}
@@ -405,7 +409,7 @@ export function PilotExperienceDashboard({ selectedClient }: { selectedClient: s
          opinion="O comitê fiduciário chancela os feedbacks qualitativos e a telemetria de engajamento do piloto comercial."
          driver="Score de satisfação, tempo de atenção dos executivos e logs de engajamento."
          implication="Garantia de usabilidade fluida e aderência aos requisitos fiduciários dos tomadores de decisão."
-         action="Analisar semanalmente os pontos de atrito identificados na telemetria de navegação."
+         executiveQuestion="Analisar semanalmente os pontos de atrito identificados na telemetria de navegação."
        >
          <ExecutiveStrategicTensions tensions={[]} />
          <ExecutiveDecisionTrace trace={[]} />

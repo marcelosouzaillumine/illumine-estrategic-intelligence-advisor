@@ -4,9 +4,10 @@ import { CrossEntityCausality } from '../../services/FiduciaryRuntimeAdapter';
 import { ExecutiveSurface } from '../ui/executive-surface';
 import { ExecutiveHeading } from '../ui/executive-heading';
 import { ExecutiveText } from '../ui/executive-typography';
-import { formatEntityName, formatCausalityLabel } from './ConsolidatedLanguageFormatter';
+import { useLanguage } from '../../contexts/LanguageContext';
 
 export function RiskPropagationPanel({ causalities }: { causalities: CrossEntityCausality[] }) {
+  const { t } = useLanguage();
   if (!causalities || causalities.length === 0) return null;
 
   return (
@@ -30,11 +31,11 @@ export function RiskPropagationPanel({ causalities }: { causalities: CrossEntity
           <div key={idx} className="p-5 rounded-2xl border border-border bg-muted/30 flex flex-col gap-3">
             <div className="flex items-center justify-between">
               <ExecutiveText variant="caption" className="font-bold uppercase text-slate-600 dark:text-slate-400">
-                Origem: {formatEntityName(causal.primaryEntityId)}
+                Origem: {causal.primaryEntityId}
               </ExecutiveText>
               <span className="inline-flex items-center px-3 py-1 rounded-full bg-amber-500/10 border border-amber-500/20 shrink-0 whitespace-nowrap">
                 <ExecutiveText variant="caption" className="font-bold uppercase text-amber-700 dark:text-amber-400 whitespace-nowrap">
-                  {formatCausalityLabel(causal.causalityType)}
+                  {t(`executive:causality.${causal.causalityType}`, causal.causalityType.replace(/_/g, ' '))}
                 </ExecutiveText>
               </span>
             </div>

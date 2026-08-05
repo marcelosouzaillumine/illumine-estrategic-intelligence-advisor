@@ -3,7 +3,8 @@ import React from 'react';
 import i18n from '../src/core/internationalization/config/i18n.config';
 import { I18nextProvider } from 'react-i18next';
 import { LanguageProvider, useLanguage } from '../src/contexts/LanguageContext';
-import '@testing-library/jest-dom';
+import { describe, it, beforeEach } from 'node:test';
+import assert from 'node:assert/strict';
 
 const TestComponent = () => {
   const { language, setLanguage } = useLanguage();
@@ -19,7 +20,9 @@ const TestComponent = () => {
 
 describe('Internationalization Pipeline', () => {
   beforeEach(() => {
-    localStorage.clear();
+    if (typeof window !== 'undefined' && window.localStorage) {
+      window.localStorage.clear();
+    }
   });
 
   it('changes language correctly and reflects in translation', async () => {
@@ -35,9 +38,9 @@ describe('Internationalization Pipeline', () => {
     );
 
     // Initial state
-    expect(screen.getByTestId('current-lang').textContent).toBe('pt-BR');
+    assert.equal(screen.getByTestId('current-lang').textContent, 'pt-BR');
     const ptTitle = screen.getByTestId('translated-hero-title').textContent;
-    expect(ptTitle).not.toContain('EN::');
+    assert.ok(!ptTitle?.includes('EN::'));
 
     // Act: click English button
     act(() => {
@@ -45,9 +48,9 @@ describe('Internationalization Pipeline', () => {
     });
 
     // Assert: Language changed to en-US and translation contains prefix
-    expect(screen.getByTestId('current-lang').textContent).toBe('en-US');
-    expect(i18n.language).toBe('en-US');
-    expect(screen.getByTestId('translated-hero-title').textContent).toContain('EN::');
+    assert.equal(screen.getByTestId('current-lang').textContent, 'en-US');
+    assert.equal(i18n.language, 'en-US');
+    assert.ok(screen.getByTestId('translated-hero-title').textContent?.includes('EN::'));
 
     // Act: click Portuguese button
     act(() => {
@@ -55,7 +58,7 @@ describe('Internationalization Pipeline', () => {
     });
 
     // Assert: Reverted to pt-BR
-    expect(screen.getByTestId('current-lang').textContent).toBe('pt-BR');
-    expect(screen.getByTestId('translated-hero-title').textContent).not.toContain('EN::');
+    assert.equal(screen.getByTestId('current-lang').textContent, 'pt-BR');
+    assert.ok(!screen.getByTestId('translated-hero-title').textContent?.includes('EN::'));
   });
 });

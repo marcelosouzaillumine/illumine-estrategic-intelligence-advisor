@@ -22,8 +22,10 @@ import { cn } from '../lib/utils';
 import { DOCUMENT_TYPES } from '../constants/documents';
 import { notificationService } from '../services/notificationService';
 import { parseFinancialPdf } from '../services/importService';
+import { useExecutiveFormatter } from "../core/localization";
 
 export function ClientImportHistory({ clientId, clientName }: { clientId: string, clientName: string }) {
+    const formatter = useExecutiveFormatter();
   const [month, setMonth] = useState(new Date().getMonth() + 1);
   const [year, setYear] = useState(new Date().getFullYear());
   const [docType, setDocType] = useState('DRE');
@@ -37,6 +39,7 @@ export function ClientImportHistory({ clientId, clientName }: { clientId: string
   const { fetchHistory: adapterFetchHistory, uploadFileAndData, deleteEntry } = useClientImportAdapter(clientId, clientName);
 
   useEffect(() => {
+      const formatter = useExecutiveFormatter();
     if (!pdfjsLib.GlobalWorkerOptions.workerSrc) {
       pdfjsLib.GlobalWorkerOptions.workerSrc = pdfWorker;
     }
@@ -45,6 +48,7 @@ export function ClientImportHistory({ clientId, clientName }: { clientId: string
   const docTypes = DOCUMENT_TYPES;
 
   const fetchHistory = async () => {
+      const formatter = useExecutiveFormatter();
     if (!clientId) return;
     setHistoryLoading(true);
     try {
@@ -58,10 +62,12 @@ export function ClientImportHistory({ clientId, clientName }: { clientId: string
   };
 
   useEffect(() => {
+      const formatter = useExecutiveFormatter();
     fetchHistory();
   }, [clientId]);
 
   const cleanNumber = (val: string | any) => {
+      const formatter = useExecutiveFormatter();
     if (!val) return 0;
     const str = val.toString().trim();
     let cleaned = str.replace(/[R$\s]/g, '');
@@ -76,6 +82,7 @@ export function ClientImportHistory({ clientId, clientName }: { clientId: string
   };
 
   const handleFileUpload = async (e: React.ChangeEvent<HTMLInputElement> | React.DragEvent) => {
+      const formatter = useExecutiveFormatter();
     e.preventDefault();
     setIsDragging(false);
     
@@ -104,11 +111,13 @@ export function ClientImportHistory({ clientId, clientName }: { clientId: string
   };
 
   const getMonthName = (m: number) => {
+      const formatter = useExecutiveFormatter();
     const months = ['Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho', 'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro'];
     return months[m - 1];
   };
 
   const handleDelete = async (id: string) => {
+      const formatter = useExecutiveFormatter();
     if (!confirm("Deseja realmente excluir este lançamento?")) return;
     try {
       await deleteEntry(id);
@@ -185,7 +194,8 @@ export function ClientImportHistory({ clientId, clientName }: { clientId: string
           </div>
 
           <div 
-            onDragOver={(e) => { e.preventDefault(); setIsDragging(true); }}
+            onDragOver={(e) => {
+                          const formatter = useExecutiveFormatter(); e.preventDefault(); setIsDragging(true); }}
             onDragLeave={() => setIsDragging(false)}
             onDrop={handleFileUpload}
             className={cn(
@@ -257,7 +267,7 @@ export function ClientImportHistory({ clientId, clientName }: { clientId: string
                   </div>
                   <p className="text-[11px] font-bold text-primary mb-1">{h.fileName}</p>
                   <div className="flex justify-between items-center mt-1">
-                    <p className="text-[9px] text-muted-foreground">Em: {h.createdAt?.toDate() ? h.createdAt.toDate().toLocaleDateString('pt-BR') : 'Recent'}</p>
+                    <p className="text-[9px] text-muted-foreground">Em: {h.createdAt?.toDate() ? formatter.date(h.createdAt.toDate()) : 'Recent'}</p>
                     {h.fileUrl && (
                       <a 
                         href={h.fileUrl} 

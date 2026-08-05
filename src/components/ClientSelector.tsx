@@ -22,13 +22,15 @@ interface ClientSelectorProps {
   selectedClient: string;
   setSelectedClient: (id: string) => void;
   onManageClients?: () => void;
+  isCollapsed?: boolean;
 }
 
 export function ClientSelector({ 
   clients, 
   selectedClient, 
   setSelectedClient,
-  onManageClients
+  onManageClients,
+  isCollapsed
 }: ClientSelectorProps) {
   const [isOpen, setIsOpen] = useState(false);
   const [searchTerm, setSearchTerm] = useState('');
@@ -56,52 +58,47 @@ export function ClientSelector({
       <button
         onClick={() => setIsOpen(!isOpen)}
         className={cn(
-          "flex items-center gap-1 sm:gap-2.5 px-1.5 sm:px-3.5 py-1 sm:py-1.5 rounded-button transition-all duration-700 group relative overflow-hidden border border-border/10",
+          "flex items-center rounded-lg transition-all w-full group",
+          isCollapsed ? "justify-center p-1" : "gap-2.5 px-2 py-2 text-left",
           isOpen 
-            ? "bg-primary text-primary-foreground shadow-md" 
-            : "hover:bg-surface-container/50"
+            ? "bg-black/[0.04] dark:bg-white/10" 
+            : "hover:bg-black/[0.03] dark:hover:bg-white/5"
         )}
+        title={isCollapsed ? currentClient?.fantasia : undefined}
       >
         <div className={cn(
-          "w-5 h-5 sm:w-7 sm:h-7 rounded-sm flex items-center justify-center shrink-0 transition-all duration-700 overflow-hidden",
-          isOpen 
-            ? "bg-white shadow-sm" 
-            : "bg-white shadow-sm"
+          "rounded flex items-center justify-center shrink-0 overflow-hidden shadow-sm border border-border/50 transition-all",
+          isCollapsed ? "w-10 h-10" : "w-8 h-8",
+          isOpen ? "bg-black/5 dark:bg-white/10" : "bg-background"
         )}>
           <ClientImage 
             src={currentClient?.icon || currentClient?.logo || ''}
             alt={currentClient?.fantasia || ''}
             fallback={
-              <Building2 size={16} strokeWidth={1.25} className={cn(
-                "transition-colors sm:w-4 sm:h-4 w-3.5 h-3.5",
-                isOpen ? "text-primary" : "text-neutral group-hover:text-accent"
+              <Building2 size={16} strokeWidth={1.5} className={cn(
+                "transition-colors",
+                isOpen ? "text-foreground" : "text-muted-foreground group-hover:text-foreground"
               )} />
             }
           />
         </div>
         
-        <div className="text-left relative z-10">
-          <p className={cn(
-            "hidden sm:block text-[8px] font-bold uppercase tracking-[0.3em] mb-0.5 transition-colors duration-500 leading-none",
-            isOpen ? "text-primary-foreground/60" : "text-accent"
-          )}>
-            Cliente Ativo
-          </p>
-          <div className="flex items-center gap-1 sm:gap-2 whitespace-nowrap">
-            <div className="flex items-center gap-1 sm:gap-1.5">
-              <span className={cn(
-                "text-[clamp(8px,2.5vw,12px)] font-bold tracking-tight transition-all duration-500 leading-none",
-                isOpen ? "!text-primary-foreground" : "text-foreground"
-              )}>
+        {!isCollapsed && (
+          <div className="text-left flex-1 min-w-0">
+            <p className="hidden sm:block text-[10px] font-semibold text-muted-foreground/50 uppercase tracking-[0.15em] mb-0.5">
+              Cliente Ativo
+            </p>
+            <div className="flex items-center justify-between gap-2">
+              <span className="text-[13px] font-medium text-foreground truncate">
                 {currentClient?.fantasia || 'Selecionar Corporação'}
               </span>
+              <ChevronDown size={14} strokeWidth={1.5} className={cn(
+                "transition-transform shrink-0",
+                isOpen ? "rotate-180 text-foreground" : "text-muted-foreground/60 group-hover:text-foreground"
+              )} />
             </div>
-            <ChevronDown size={11} strokeWidth={1.25} className={cn(
-              "transition-transform duration-500 shrink-0",
-              isOpen ? "rotate-180 !text-primary-foreground" : "text-neutral group-hover:text-accent"
-            )} />
           </div>
-        </div>
+        )}
       </button>
 
       {/* Dropdown Menu */}

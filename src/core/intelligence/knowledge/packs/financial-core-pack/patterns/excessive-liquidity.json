@@ -1,0 +1,33 @@
+{
+  "id": "financial.knowledge.liquidity.pattern.excessive",
+  "type": "PATTERN",
+  "domain": "FINANCIAL",
+  "ontologyReferences": [
+    "financial.liquidity.current_ratio"
+  ],
+  "title": "Excessive Liquidity Pattern",
+  "description": "Identifies potential capital sub-utilization.",
+  "content": {
+    "conditions": [
+      {
+        "metric": "current_ratio",
+        "operator": ">",
+        "value": 5
+      }
+    ],
+    "additionalEvidence": [
+      "cash_percentage",
+      "working_capital",
+      "growth_rate"
+    ],
+    "interpretation": "High liquidity may represent financial strength or inefficient capital allocation."
+  },
+  "confidence": 0.90,
+  "maturity": "VALIDATED",
+  "metadata": {
+    "version": "1.0",
+    "author": "Illumine Financial Engine",
+    "source": "Strategic Finance Patterns",
+    "createdAt": "2026-08-05T00:00:00Z"
+  }
+}

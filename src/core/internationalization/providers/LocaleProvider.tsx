@@ -31,9 +31,15 @@ export const LocaleProvider: React.FC<LocaleProviderProps> = ({ children, initia
     // Determine the initial language, taking into account i18n's already resolved language or localStorage
     let currentLang = DEFAULT_LOCALE_PREFERENCE.language;
     if (typeof window !== 'undefined') {
-      const saved = localStorage.getItem('illumine-language');
-      if (saved === 'en-US' || saved === 'es-ES' || saved === 'pt-BR') {
-        currentLang = saved as SupportedLanguage;
+      const path = window.location.pathname;
+      if (path.startsWith('/en')) currentLang = 'en-US';
+      else if (path.startsWith('/es')) currentLang = 'es-ES';
+      else if (path.startsWith('/pt')) currentLang = 'pt-BR';
+      else {
+        const saved = localStorage.getItem('illumine-language');
+        if (saved === 'en-US' || saved === 'es-ES' || saved === 'pt-BR') {
+          currentLang = saved as SupportedLanguage;
+        }
       }
     }
     

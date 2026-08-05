@@ -155,7 +155,7 @@ export function PayablesPage({ clients, selectedClient, isMaster }: { clients: a
           opinion="O comitê fiduciário homologa a posição de contas a pagar, registrando controle rigoroso das saídas operacionais e prazos de fornecedores."
           driver="Montante em atraso, vencimentos em 30 dias, obrigações de longo prazo e pagamentos efetuados."
           implication="Manutenção do rating de crédito com fornecedores e preservação do capital de giro."
-          action="Negociar prorrogação de títulos em atraso e otimizar prazos médios de pagamento (PMP)."
+          executiveQuestion="Negociar prorrogação de títulos em atraso e otimizar prazos médios de pagamento (PMP)."
         >
           <ExecutiveStrategicTensions tensions={[]} />
           <ExecutiveDecisionTrace trace={[]} />

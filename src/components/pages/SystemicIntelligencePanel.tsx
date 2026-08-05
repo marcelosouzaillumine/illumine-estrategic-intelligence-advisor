@@ -501,7 +501,7 @@ export function SystemicIntelligencePanel({ clientId, selectedMonth, selectedYea
          opinion="O comitê fiduciário homologa os índices de perenidade, atrito e multiplicadores de alavancagem humana."
          driver="Índice de perenidade, atrito operacional, multiplicador humano e ressonância C-Level."
          implication="Identificação preventiva de gargalos invisíveis que limitam o crescimento patrimonial."
-         action="Executar plano de ação corretivo para os eixos de maior atrito operacional."
+         executiveQuestion="Executar plano de ação corretivo para os eixos de maior atrito operacional."
        >
          <ExecutiveStrategicTensions tensions={[]} />
          <ExecutiveDecisionTrace trace={[]} />

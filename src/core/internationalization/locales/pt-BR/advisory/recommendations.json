@@ -1,0 +1,7 @@
+{
+  "title": "Recomendação Executiva Contextualizada",
+  "confidence": "Confiança: {{percent}}",
+  "kpiShift": "Mudança Esperada em KPIs:",
+  "alternatives": "Alternativas Analisadas:",
+  "impact": "Impacto:"
+}

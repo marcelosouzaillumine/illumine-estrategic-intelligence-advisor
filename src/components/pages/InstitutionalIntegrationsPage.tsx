@@ -116,7 +116,7 @@ export function InstitutionalIntegrationsPage() {
           opinion="O comitê fiduciário chancela os conectores integrados e a fila de staging como alfândega segura para recepção de dados."
           driver="Conectores de dados, fila de staging, validação fiduciária e homologação de publicação."
           implication="Eliminação de contaminação de dados brutos na base de governança."
-          action="Auditar mensalmente as permissões e chaves de API dos conectores ativos."
+          executiveQuestion="Auditar mensalmente as permissões e chaves de API dos conectores ativos."
         >
           <ExecutiveStrategicTensions tensions={[]} />
           <ExecutiveDecisionTrace trace={[]} />

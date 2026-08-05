@@ -61,7 +61,7 @@ export function InstitutionalOnboardingControlCenterPage() {
           opinion="O comitê fiduciário homologa o onboarding institucional, confirmando a correta configuração do ambiente isolado e a validação do de-para contábil."
           driver="Estágio de ativação, isolamento de tenant, integridade da linhagem e termos de governança."
           implication="Garantia de entrada segura na plataforma com total isolamento de dados entre empresas."
-          action="Liberar acesso total após confirmação do termo de responsabilidade do CFO."
+          executiveQuestion="Liberar acesso total após confirmação do termo de responsabilidade do CFO."
         >
           <ExecutiveStrategicTensions tensions={[]} />
           <ExecutiveDecisionTrace trace={[]} />

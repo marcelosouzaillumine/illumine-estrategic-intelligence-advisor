@@ -104,7 +104,7 @@ const translations = {
   'navigation.page.advisor_cockpit': 'Advisor Cockpit',
   'navigation.page.tenant_governance': 'Tenant Governance',
   'navigation.page.runtime_performance': 'Runtime Performance',
-  'navigation.page.institutional_copilot': 'Institutional Copilot',
+  'navigation.page.institutional_copilot': 'Illumine Advisory™',
   'navigation.page.institutional_monitoring': 'Institutional Monitoring',
   'navigation.page.decision_governance': 'Decision Governance',
   'navigation.page.institutional_integrations': 'Institutional Integrations',
@@ -1043,6 +1043,51 @@ const translations = {
   'governance.audit.mismatch_detected': 'Audited Data Mismatch',
   'governance.audit.consistent': 'Consistent',
   'governance.audit.inconsistent': 'Inconsistent',
+
+  // Concierge
+  'concierge.title': 'Executive Concierge™',
+  'concierge.description': 'Executive Concierge™ connects leaders to Illumine\'s executive intelligence solutions.',
+
+  // Advisory
+  'advisory.title': 'Illumine Advisory™',
+  'advisory.description': 'Illumine Advisory™ transforms business data into intelligence for executive decisions.',
+
+  // Deal Room
+  'dealRoom.pageTitle': 'Opportunity Deal Room',
+  'dealRoom.pageSubtitle': 'Executive Command Surface for strategic opportunity lifecycle management',
+  'dealRoom.company': 'Company',
+  'dealRoom.segment': 'Segment',
+  'dealRoom.sponsor': 'Sponsor (Contact)',
+  'dealRoom.tenant': 'Tenant ID',
+  'dealRoom.region': 'Region',
+  'dealRoom.currency': 'Currency',
+  'dealRoom.stages.qualification.title': 'Qualification Workspace',
+  'dealRoom.stages.qualification.desc': 'Initial data collection and strategic Lead qualification (MQL -> SQL).',
+  'dealRoom.stages.discovery.title': 'Discovery Workspace',
+  'dealRoom.stages.discovery.desc': 'Deep mapping of pain points, solution architecture, and technical feasibility.',
+  'dealRoom.stages.proposal.title': 'Proposal Workspace',
+  'dealRoom.stages.proposal.desc': 'Executive proposal construction, pricing, and margin approvals.',
+  'dealRoom.stages.solutionDesign.title': 'Solution Design',
+  'dealRoom.stages.solutionDesign.desc': 'Architectural solution design and value engineering.',
+  'dealRoom.stages.negotiation.title': 'Negotiation',
+  'dealRoom.stages.negotiation.desc': 'Alignment of terms, commercial, and legal conditions.',
+  'dealRoom.stages.contract.title': 'Contracting',
+  'dealRoom.stages.contract.desc': 'Contract issuance and signature.',
+  'dealRoom.stages.billing.title': 'Billing & Setup',
+  'dealRoom.stages.billing.desc': 'Initial billing and financial setup.',
+  'dealRoom.stages.provisioning.title': 'Provisioning',
+  'dealRoom.stages.provisioning.desc': 'License and access provisioning.',
+  'dealRoom.stages.completed.title': 'Completed',
+  'dealRoom.stages.completed.desc': 'Commercial saga successfully completed.',
+
+  // Common Business Enums
+  'segments.enterprise': 'Enterprise',
+  'segments.corporate': 'Corporate',
+  'segments.smb': 'SMB',
+  'icp.strategic': 'Strategic Profile (ICP)',
+  'regions.na': 'North America',
+  'languages.en': 'English',
+  'currencies.usd': 'USD (Dollars)'
 };
 
 export default translations;

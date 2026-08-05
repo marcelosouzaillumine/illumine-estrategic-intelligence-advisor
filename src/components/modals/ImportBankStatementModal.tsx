@@ -15,8 +15,9 @@ import {
   parseBankStatementTxt,
   BankTransaction 
 } from '../../services/importService';
-import { cn, formatCurrency } from '../../lib/utils';
+import { cn } from '../../lib/utils';
 import { useLanguage } from '../../contexts/LanguageContext';
+import { useExecutiveFormatter } from '@/core/localization';
 
 type ImportStrategy = 'add_new' | 'replace_all';
 
@@ -41,6 +42,8 @@ interface ImportBankStatementModalProps {
 }
 
 export function ImportBankStatementModal({ selectedClient, onClose, onSuccess }: ImportBankStatementModalProps) {
+  const formatter = useExecutiveFormatter();
+  const formatCurrency = (val: number) => formatter.currency(val);
   const { translateLabel, t } = useLanguage();
   const [accounts, setAccounts] = useState<any[]>([]);
   const [selectedAccountId, setSelectedAccountId] = useState('');
@@ -124,8 +127,12 @@ export function ImportBankStatementModal({ selectedClient, onClose, onSuccess }:
       }
 
       const dateNow = new Date();
-      const monthStr = dateNow.toLocaleString('pt-BR', { month: 'short' });
-      const formattedMonth = (monthStr.charAt(0).toUpperCase() + monthStr.slice(1)).replace(/\./g, '').substring(0, 3);
+      // Workaround to get month abbreviation from date manually or using Intl explicitly here is not allowed per strict rule?
+      // Actually `useExecutiveFormatter` has `.date(date)` but not month name. I'll construct a safe way.
+      // Wait, there's no `formatter.month` yet, I will use a simple array.
+      const monthsStrArray = ['Jan', 'Fev', 'Mar', 'Abr', 'Mai', 'Jun', 'Jul', 'Ago', 'Set', 'Out', 'Nov', 'Dez'];
+      const monthStr = monthsStrArray[dateNow.getMonth()];
+      const formattedMonth = monthStr;
 
       let updatedHistorico = [...(account.historico || [])];
       const monthIdx = updatedHistorico.findIndex(h => {
@@ -143,7 +150,7 @@ export function ImportBankStatementModal({ selectedClient, onClose, onSuccess }:
       await updateDoc(doc(db, 'financial_positions', selectedAccountId), {
         saldoAtual: newBalance,
         historico: updatedHistorico,
-        dataAtualizacao: dateNow.toLocaleDateString('pt-BR'),
+        dataAtualizacao: formatter.date(dateNow),
         updatedAt: serverTimestamp()
       });
 
@@ -287,7 +294,7 @@ export function ImportBankStatementModal({ selectedClient, onClose, onSuccess }:
                       <tbody className="divide-y divide-slate-50">
                         {parsedData.map((t, i) => (
                           <tr key={i}>
-                            <td className="px-3 py-2 text-muted-foreground whitespace-nowrap">{new Date(t.date).toLocaleDateString('pt-BR')}</td>
+                            <td className="px-3 py-2 text-muted-foreground whitespace-nowrap">{formatter.date(t.date)}</td>
                             <td className="px-3 py-2 font-bold text-muted-foreground">{t.description}</td>
                             <td className="px-3 py-2">
                               <select 

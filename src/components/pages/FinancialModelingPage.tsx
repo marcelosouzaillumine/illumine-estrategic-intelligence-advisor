@@ -44,7 +44,7 @@ export function FinancialModelingPage({ clients, selectedClient, setSelectedClie
           opinion="O comitê fiduciário homologa os modelos de projeção de longo prazo, atestando a coerência das taxas de desconto, inflação e premissas operacionais."
           driver="Projeção de 5 anos, margem EBITDA esperada, variação de NCG e plano de CAPEX."
           implication="Garantia de solidez na sustentação de planos de expansão e captação de dívida de longo prazo."
-          action="Revisar os parâmetros de inflação e taxa Selic no início de cada ciclo orçamentário anual."
+          executiveQuestion="Revisar os parâmetros de inflação e taxa Selic no início de cada ciclo orçamentário anual."
         >
           <ExecutiveStrategicTensions tensions={[]} />
           <ExecutiveDecisionTrace trace={[]} />

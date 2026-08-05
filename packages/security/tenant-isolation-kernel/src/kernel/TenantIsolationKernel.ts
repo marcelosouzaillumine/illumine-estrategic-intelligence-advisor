@@ -2,7 +2,6 @@ import { TenantIsolationContext } from '../contracts/TenantIsolationContext';
 import { IsolationDecision } from '../contracts/IsolationDecision';
 import { TenantBoundaryViolationError } from '../contracts/TenantBoundaryViolation';
 import { TenantIsolationTrace } from '../trace/TenantIsolationTrace';
-import * as crypto from 'crypto';
 
 export class TenantIsolationKernel {
   static validateContext(context: TenantIsolationContext): IsolationDecision {
@@ -63,6 +62,12 @@ export class TenantIsolationKernel {
 
   static createBoundaryHash(context: TenantIsolationContext): string {
     const data = `${context.tenantId}:${context.organizationId}:${context.authorizationScope}`;
-    return crypto.createHash('sha256').update(data).digest('hex');
+    let hash = 0;
+    for (let i = 0; i < data.length; i++) {
+      const char = data.charCodeAt(i);
+      hash = ((hash << 5) - hash) + char;
+      hash = hash & hash;
+    }
+    return Math.abs(hash).toString(16).padStart(8, '0');
   }
 }

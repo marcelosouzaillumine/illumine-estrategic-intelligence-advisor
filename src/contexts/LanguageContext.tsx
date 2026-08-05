@@ -1,6 +1,7 @@
 import React, { createContext, useContext, useState } from 'react';
 import { dictionaries, Locale } from '../i18n';
 import { resolveInstitutionalLabel, humanizeInstitutionalKey } from '../core/runtime/i18n/InstitutionalLabelResolver';
+import { useLocale } from '../core/internationalization/providers/LocaleProvider';
 
 interface LanguageContextType {
   language: Locale;
@@ -219,6 +220,7 @@ import { useTranslation } from 'react-i18next';
 
 export function LanguageProvider({ children }: { children: React.ReactNode }) {
   const { t: i18nT, i18n } = useTranslation(['common', 'dashboard', 'executive']);
+  const { setPreference } = useLocale();
 
   const [language, setLanguageState] = useState<Locale>(() => {
     if (typeof window !== 'undefined') {
@@ -228,6 +230,12 @@ export function LanguageProvider({ children }: { children: React.ReactNode }) {
       if (urlLang === 'en-US' || urlLang === 'es-ES' || urlLang === 'pt-BR') {
         return urlLang as Locale;
       }
+
+      // 1.5 URL path priority (e.g., /en/login)
+      const path = window.location.pathname;
+      if (path.startsWith('/en/') || path === '/en') return 'en-US';
+      if (path.startsWith('/es/') || path === '/es') return 'es-ES';
+      if (path.startsWith('/pt/') || path === '/pt') return 'pt-BR';
       
       // 2. localStorage priority
       if (typeof localStorage !== 'undefined') {
@@ -252,7 +260,7 @@ export function LanguageProvider({ children }: { children: React.ReactNode }) {
 
   // Keep i18n in sync with state on first load since state could come from auto-detect
   React.useEffect(() => {
-    if (i18n.language !== language) {
+    if (i18n && i18n.language !== language && typeof i18n.changeLanguage === 'function') {
       i18n.changeLanguage(language);
     }
   }, []);
@@ -263,15 +271,17 @@ export function LanguageProvider({ children }: { children: React.ReactNode }) {
       localStorage.setItem('illumine-language', lang);
     }
     // Sync with the new engine
-    if (i18n.language !== lang) {
+    if (i18n && i18n.language !== lang && typeof i18n.changeLanguage === 'function') {
       i18n.changeLanguage(lang);
     }
+    // Sync with LocaleProvider to prevent it from reverting i18n.language
+    setPreference({ language: lang });
     window.dispatchEvent(new Event('storage'));
   };
 
   const t = (key: string, options?: string | Record<string, any>): string => {
     // 1. Try the new i18next engine first
-    if (i18n.exists(key)) {
+    if (i18n && typeof i18n.exists === 'function' && i18n.exists(key)) {
       return i18nT(key, typeof options === 'object' ? options : undefined) as string;
     }
 
@@ -335,7 +345,7 @@ export function LanguageProvider({ children }: { children: React.ReactNode }) {
 
     const cleanLabel = label.replace(/^[\s(\-+)=/]+/g, '').trim();
     if (cleanLabel) {
-      if (i18n.exists(`common:${cleanLabel}`)) {
+      if (i18n && typeof i18n.exists === 'function' && i18n.exists(`common:${cleanLabel}`)) {
          const prefixMatch = label.match(/^[\s(\-+)=/]+/);
          const prefix = prefixMatch ? prefixMatch[0] : '';
          return `${prefix}${i18nT(`common:${cleanLabel}`)}`;

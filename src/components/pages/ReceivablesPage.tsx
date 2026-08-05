@@ -154,7 +154,7 @@ export function ReceivablesPage({ clients, selectedClient, isMaster }: { clients
           opinion="O comitê fiduciário homologa a carteira de contas a receber, atestando a qualidade dos ativos de crédito e o fluxo de entradas."
           driver="Títulos em atraso, vencimentos em 30 dias, recebíveis futuros e faturamento liquidado."
           implication="Manutenção da liquidez imediata e previsibilidade do FCO."
-          action="Acionar régua de cobrança para títulos inadimplentes e reavaliar limites de crédito."
+          executiveQuestion="Acionar régua de cobrança para títulos inadimplentes e reavaliar limites de crédito."
         >
           <ExecutiveStrategicTensions tensions={[]} />
           <ExecutiveDecisionTrace trace={[]} />

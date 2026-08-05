@@ -127,7 +127,7 @@ export function RealityValidationPage() {
          opinion="O comitê fiduciário valida o sandbox in-memory, atestando a integridade das simulações de estresse."
          driver="Datasets isolados, métricas de estabilidade de runtime e testes cross-tenant."
          implication="Garantia de tolerância a falhas sem impacto nos dados de produção."
-         action="Executar rotinas de estresse antes de qualquer promoção de release para produção."
+         executiveQuestion="Executar rotinas de estresse antes de qualquer promoção de release para produção."
        >
          <ExecutiveStrategicTensions tensions={[]} />
          <ExecutiveDecisionTrace trace={[]} />

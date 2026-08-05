@@ -16,6 +16,8 @@ import { ExecutiveSummarySection } from '@/components/ui/executive-summary-secti
 import { ExecutiveStrategicTensions } from '@/components/ui/executive-strategic-tensions';
 import { ExecutiveDecisionTrace } from '@/components/ui/executive-decision-trace';
 import { ExecutiveTechnicalLayer } from '@/components/ui/executive-technical-layer';
+import { useExecutiveFormatter } from '@/core/localization';
+import { useTranslation } from 'react-i18next';
 
 interface ObservabilityConsolePageProps {
   selectedClient?: string;
@@ -24,6 +26,8 @@ interface ObservabilityConsolePageProps {
 export function ObservabilityConsolePage({ selectedClient }: ObservabilityConsolePageProps) {
   const { session } = useInstitutionalAuth();
   const { buildDataAccessContext, isReady } = useRuntimeContext();
+  const formatter = useExecutiveFormatter();
+  const { t } = useTranslation('executive');
 
   const [activeTab, setActiveTab] = useState<'metrics' | 'history' | 'anomalies' | 'sessions' | 'integrity' | 'cockpit'>('metrics');
   const [selectedTenantFilter, setSelectedTenantFilter] = useState<string>('');
@@ -213,7 +217,7 @@ export function ObservabilityConsolePage({ selectedClient }: ObservabilityConsol
         opinion="O comitê fiduciário homologa a infraestrutura de telemetria, atestando a proteção contra violações cross-tenant e integridade do ledger."
         driver="Log ledger de auditoria, taxa de anomalias críticas, acessos negados e trocas de tenant."
         implication="Mitigação proativa de riscos cibernéticos e conformidade contínua com LGPD e governança fiduciária."
-        action="Manter regras de isolamento e monitorar os alertas de saturação e anomalias de acesso."
+        executiveQuestion="Manter regras de isolamento e monitorar os alertas de saturação e anomalias de acesso."
       >
         <ExecutiveStrategicTensions tensions={[]} />
         <ExecutiveDecisionTrace trace={[]} />
@@ -232,9 +236,9 @@ export function ObservabilityConsolePage({ selectedClient }: ObservabilityConsol
 
         <ExecutiveMetricCard
           label="Anomalias Críticas"
-          value={loading ? "..." : String(stats.criticalAnomalies)}
-          statusBadge={<ExecutiveBadge variant={stats.criticalAnomalies > 0 ? "critical" : "success"}>{stats.criticalAnomalies > 0 ? "Crítico" : "Saudável"}</ExecutiveBadge>}
-          tone="neutral"
+          value={String(stats.criticalAnomalies)}
+          statusBadge={<ExecutiveBadge variant={stats.criticalAnomalies > 0 ? "critical" : "success"}>{stats.criticalAnomalies > 0 ? t('executive:status.critical') : t('executive:status.healthy')}</ExecutiveBadge>}
+          tone={stats.criticalAnomalies > 0 ? "critical" : "neutral"}
           description={<span className="text-xs text-muted-foreground font-medium">Alertas Ativos</span>}
           className="bg-card border border-border shadow-sm h-full"
         />
@@ -344,13 +348,13 @@ export function ObservabilityConsolePage({ selectedClient }: ObservabilityConsol
                         </div>
                         <p className="text-xs text-muted-foreground flex items-center gap-1">
                           <Clock className="w-3.5 h-3.5" />
-                          Detectado em: {new Date(anom.detectedAt).toLocaleString()}
+                          Detectado em: {formatter.date(anom.detectedAt)}
                         </p>
                         <p className="text-xs text-muted-foreground font-mono">
                           Ator: {anom.actorId} | Sessão: {anom.sessionId.substring(0, 15)}...
                         </p>
                         <p className="text-xs text-primary font-bold">
-                          Ação Recomendada: {anom.recommendedAction}
+                          Ação Recomendada: {anom.technicalObservation}
                         </p>
                       </div>
                     </div>
@@ -383,7 +387,7 @@ export function ObservabilityConsolePage({ selectedClient }: ObservabilityConsol
                     <tbody className="divide-y divide-border">
                       {auditEvents.map((evt) => (
                         <tr key={evt.id} className="hover:bg-surface-container/30 transition-colors">
-                          <td className="p-4 text-muted-foreground font-mono whitespace-nowrap">{new Date(evt.timestamp).toLocaleString()}</td>
+                          <td className="p-4 text-muted-foreground font-mono whitespace-nowrap">{formatter.date(evt.timestamp)}</td>
                           <td className="p-4 font-bold">
                             <ExecutiveBadge variant={evt.eventType.startsWith('DENY_') ? 'critical' : evt.eventType === 'CROSS_TENANT_ATTEMPT' ? 'warning' : 'success'}>
                               {evt.eventType}
@@ -422,7 +426,7 @@ export function ObservabilityConsolePage({ selectedClient }: ObservabilityConsol
                       <ExecutiveText as="div" variant="caption" className="text-muted-foreground font-mono">Ator: {evt.actorId} | Sessão: {evt.sessionId.substring(0, 15)}...</ExecutiveText>
                     </div>
                     <div className="text-right">
-                      <span className="text-xs text-muted-foreground font-mono block">{new Date(evt.timestamp).toLocaleString()}</span>
+                      <span className="text-xs text-muted-foreground font-mono block">{formatter.date(evt.timestamp)}</span>
                     </div>
                   </div>
                 ))}

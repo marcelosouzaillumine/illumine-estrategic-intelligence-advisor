@@ -1,0 +1,21 @@
+{
+  "id": "financial.knowledge.principle.resilience",
+  "type": "PRINCIPLE",
+  "domain": "FINANCIAL",
+  "ontologyReferences": [
+    "financial.risk"
+  ],
+  "title": "Financial Resilience Principle",
+  "description": "Survival precedes optimization.",
+  "content": {
+    "statement": "An organization must guarantee short-term solvency before seeking aggressive capital structure optimization."
+  },
+  "confidence": 0.99,
+  "maturity": "ESTABLISHED",
+  "metadata": {
+    "version": "1.0",
+    "author": "Illumine Financial Engine",
+    "source": "Value-Based Management",
+    "createdAt": "2026-08-05T00:00:00Z"
+  }
+}

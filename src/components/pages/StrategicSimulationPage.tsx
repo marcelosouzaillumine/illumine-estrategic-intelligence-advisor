@@ -38,7 +38,7 @@ export function StrategicSimulationPage() {
           opinion="O comitê fiduciário homologa o modelo de simulação de liquidez, validando os parâmetros de resiliência e trade-offs operacionais."
           driver="Cenários de estresse, trade-offs operacionais, cascata de riscos e evidências regulatórias."
           implication="Avaliação prévia dos impactos no caixa e na solvência antes da execução de novas diretrizes estratégicas."
-          action="Realizar testes de estresse trimestrais para aferir o nível de resiliência institucional sob variações de mercado."
+          executiveQuestion="Realizar testes de estresse trimestrais para aferir o nível de resiliência institucional sob variações de mercado."
         >
           <ExecutiveStrategicTensions tensions={[]} />
           <ExecutiveDecisionTrace trace={[]} />

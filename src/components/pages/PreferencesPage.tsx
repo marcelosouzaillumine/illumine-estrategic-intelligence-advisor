@@ -244,7 +244,7 @@ export function PreferencesPage() {
          opinion="O comitê fiduciário homologa a persistência local das configurações de idioma e tema."
          driver="Idioma do sistema, tema visual (dark/light) e notificações."
          implication="Melhoria na ergonomia de uso e aderência às preferências do usuário."
-         action="Salvar alterações de preferências a cada mudança de contexto."
+         executiveQuestion="Salvar alterações de preferências a cada mudança de contexto."
        >
          <ExecutiveStrategicTensions tensions={[]} />
          <ExecutiveDecisionTrace trace={[]} />

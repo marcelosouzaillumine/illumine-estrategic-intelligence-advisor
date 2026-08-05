@@ -15,6 +15,8 @@ import {
   Narrative,
   Insight,
   Card,
+  CardGrid,
+  CardTitle,
   ReadingContent,
 } from '@/components/ui/public/institutional/InstitutionalContentSystem';
 
@@ -225,17 +227,17 @@ export function InstitutionalWhyPage() {
             <SectionLead align="center">{t('why.capabilities.lead')}</SectionLead>
           </div>
           
-          <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 font-sans">
+          <CardGrid className="max-w-7xl mx-auto md:grid-cols-2 lg:grid-cols-3 font-sans">
             {capabilities.map((cap, idx) => (
               <Card key={idx} variant="secondary" hoverable className="p-8 border-t-4 border-t-white/10 hover:border-t-amber-500 transition-colors">
                 <div className="w-12 h-12 rounded-xl bg-white/5 border border-white/10 flex items-center justify-center mb-6">
                   <cap.icon className="w-6 h-6 text-amber-500" />
                 </div>
-                <h4 className="text-xl font-bold text-white mb-3">{cap.title}</h4>
-                <p className="text-slate-400 leading-relaxed font-medium">{cap.description}</p>
+                <CardTitle className="text-xl mb-3">{cap.title}</CardTitle>
+                <Narrative className="text-slate-400 font-medium">{cap.description}</Narrative>
               </Card>
             ))}
-          </div>
+          </CardGrid>
         </Container>
       </Section>
 

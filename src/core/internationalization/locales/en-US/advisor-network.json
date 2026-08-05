@@ -1,0 +1,208 @@
+{
+  "hero": {
+    "label": "Illumine Executive Advisor Ecosystem™",
+    "lead": "The infrastructure that amplifies the value of executive advisory.",
+    "narrative": "Illumine expands the capacity of professionals who advise organizations, strengthening decisions, relationships, and value generation for their clients.",
+    "cta_certification": "Explore Certification",
+    "cta_partner": "Explore Platform Partner Model™"
+  },
+  "opportunity": {
+    "label": "The New Scenario of Executive Advisory",
+    "title_1": "Why the market",
+    "title_2": "has changed.",
+    "lead": "The market has changed. Clients expect much more than reports.",
+    "p1": "For years, consultants were hired to deliver diagnostics. Today, organizations expect partners capable of monitoring decisions, anticipating risks, and continuously contributing to value generation.",
+    "p2": "This is the greatest opportunity for professionals who want to go beyond one-off projects and establish themselves as long-term strategic partners."
+  },
+  "advisor_value": {
+    "label": "The New Advisor",
+    "title_1": "The evolution of",
+    "title_2": "professional practice",
+    "lead": "The infrastructure that elevates your professional practice.",
+    "comparisons": {
+      "c1": { "before": "Working only on projects", "after": "Continuous relationship" },
+      "c2": { "before": "Delivering annual diagnostics", "after": "Permanent monitoring" },
+      "c3": { "before": "Charging only for consulting", "after": "New sources of recurring revenue" },
+      "c4": { "before": "Relying on memory", "after": "Client's institutional intelligence" },
+      "c5": { "before": "Gathering data manually", "after": "Continuously updated analysis" },
+      "c6": { "before": "Issuing opinions", "after": "Evidence-backed opinions" }
+    }
+  },
+  "client_value": {
+    "label": "Impact",
+    "title_1": "The value perceived",
+    "title_2": "by the client",
+    "lead": "What your client starts receiving when you operate supported by Illumine.",
+    "items": {
+      "i1": "Continuous and real-time monitoring",
+      "i2": "Prioritized decisions based on risk and impact",
+      "i3": "Anticipatory alerts of vulnerabilities",
+      "i4": "Unbreakable institutional memory",
+      "i5": "Fully connected indicators",
+      "i6": "Strengthened structural governance"
+    }
+  },
+  "business_impact": {
+    "label": "The Impact on Your Business",
+    "title_1": "Develop a more predictable",
+    "title_2": "advisory business",
+    "lead": "Develop a more scalable advisory business, focused on revenue and productivity.",
+    "revenue": {
+      "title": "Generate more value",
+      "items": {
+        "i1": "Recurring advisory",
+        "i2": "Executive reviews",
+        "i3": "Board meetings",
+        "i4": "Continuous monitoring",
+        "i5": "On-demand opinions"
+      }
+    },
+    "productivity": {
+      "title": "Work better",
+      "items": {
+        "i1": "Fewer scattered spreadsheets",
+        "i2": "Less manual consolidation",
+        "i3": "Less rework",
+        "i4": "More time for relationships",
+        "i5": "More time for decisions"
+      }
+    }
+  },
+  "positioning": {
+    "label": "Evolution",
+    "title_1": "Evolve your operating",
+    "title_2": "model",
+    "lead": "You stop competing on hours worked and start competing on intelligence.",
+    "shifts": {
+      "s1": { "from": "Sells hours", "to": "Builds recurring relationships" },
+      "s2": { "from": "Delivers projects", "to": "Monitors decisions" },
+      "s3": { "from": "Answers questions", "to": "Anticipates risks" },
+      "s4": { "from": "Delivers diagnostics", "to": "Builds institutional intelligence" }
+    }
+  },
+  "authority": {
+    "label": "Strengthen your professional authority",
+    "title_1": "Institutional",
+    "title_2": "credibility",
+    "lead": "The Executive Intelligence Platform™ expands your technical capacity. The Illumine methodology strengthens your practice. The certification recognizes your work. Together, they elevate your credibility with clients, boards, and leadership.",
+    "items": {
+      "i1": { "title": "Trust", "desc": "More confidence in recommendations." },
+      "i2": { "title": "Differentiation", "desc": "Greater differentiation in the market." },
+      "i3": { "title": "Methodology", "desc": "Recognized methodology for complex decisions." },
+      "i4": { "title": "Credential", "desc": "Institutional credential that reinforces your authority." }
+    }
+  },
+  "community": {
+    "label": "Community",
+    "title_1": "You don't evolve",
+    "title_2": "alone",
+    "lead": "By being part of the Illumine Ecosystem, you join a community formed by professionals who act on the most relevant decisions of organizations. You remain independent, but you no longer evolve alone.",
+    "benefits": {
+      "b1": "Private community",
+      "b2": "Continuous updates",
+      "b3": "Exclusive research",
+      "b4": "Executive Intelligence Center™",
+      "b5": "Peer review",
+      "b6": "Qualified networking",
+      "b7": "Commercial opportunities",
+      "b8": "Continuous certification"
+    }
+  },
+  "paths": {
+    "label": "Two Paths",
+    "title": "Two models. One purpose.",
+    "lead": "Choose how you want to grow with Illumine.",
+    "model1": {
+      "title": "Illumine Certified Advisor Network™",
+      "subtitle": "Expand your practice while preserving your independence.",
+      "type": "For professionals",
+      "desc": "Ideal for professionals who want to incorporate the Executive Intelligence Platform™ into their practice, participating in Illumine's methodological and commercial ecosystem.",
+      "receives_title": "You receive",
+      "receives_items": {
+        "i1": "Official certification",
+        "i2": "Proprietary methodology",
+        "i3": "Commercial opportunities",
+        "i4": "Executive community",
+        "i5": "Participation in eligible revenues",
+        "i6": "Continuous updates"
+      },
+      "ideal_title": "Ideal for",
+      "ideal_items": {
+        "i1": "Board Members",
+        "i2": "Consultants",
+        "i3": "Mentors",
+        "i4": "Experts",
+        "i5": "Fractional Executives"
+      }
+    },
+    "model2": {
+      "title": "Illumine Platform Partner™",
+      "subtitle": "Transform your advisory firm into a scalable operation.",
+      "type": "For organizations",
+      "desc": "Use the Executive Intelligence Platform™ as infrastructure to serve your own client portfolio, maintaining commercial and operational autonomy.",
+      "receives_title": "You receive",
+      "receives_items": {
+        "i1": "Multi-company platform",
+        "i2": "Portfolio management",
+        "i3": "Proprietary frameworks",
+        "i4": "Team certification",
+        "i5": "Dedicated environment",
+        "i6": "Continuous platform evolution"
+      },
+      "ideal_title": "Ideal for",
+      "ideal_items": {
+        "i1": "Consultancies",
+        "i2": "Advisory Boutiques",
+        "i3": "CFO as a Service",
+        "i4": "Consultative offices",
+        "i5": "Integrators"
+      }
+    },
+    "comparison": {
+      "title": "Institutional Comparison",
+      "headers": {
+        "h1": "Criterion",
+        "h2": "Certified Advisor",
+        "h3": "Platform Partner"
+      },
+      "rows": {
+        "r1": { "label": "How do you operate?", "v1": "In partnership with Illumine", "v2": "With your own operation" },
+        "r2": { "label": "Who relates to the client?", "v1": "Illumine + Advisor", "v2": "Your company" },
+        "r3": { "label": "How do you generate revenue?", "v1": "Participation", "v2": "Own margin" },
+        "r4": { "label": "Ideal for", "v1": "Professionals", "v2": "Companies" },
+        "r5": { "label": "Scalability", "v1": "Individual", "v2": "Multi-company" },
+        "r6": { "label": "Platform usage", "v1": "Professional tool", "v2": "Operational infrastructure" }
+      }
+    }
+  },
+  "certification": {
+    "label": "The Credential",
+    "title_1": "Become a",
+    "title_2": "Certified Executive Advisor™",
+    "lead": "A development journey created for professionals who want to act with a structured methodology of Executive Intelligence Advisory™.",
+    "step1": {
+      "title": "Choose your model",
+      "desc": "Define the partnership modality most adherent to your business."
+    },
+    "step2": {
+      "title": "Apply",
+      "desc": "Present your profile for evaluation by the Illumine committee."
+    },
+    "step3": {
+      "title": "Earn your certification",
+      "desc": "Complete immersion in the intelligence methodology and frameworks."
+    },
+    "step4": {
+      "title": "Join the ecosystem",
+      "desc": "Act with the official credential and access the network's advantages."
+    }
+  },
+  "cta": {
+    "label": "Next Steps",
+    "title_1": "Choose how you want to be part",
+    "title_2": "of the Illumine Ecosystem.",
+    "lead": "Choose the model that best represents your way of generating value and join the Illumine Ecosystem.",
+    "btn_certified": "I want to become a Certified Advisor™",
+    "btn_platform": "I want to operate as a Platform Partner™"
+  }
+}

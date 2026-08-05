@@ -46,7 +46,7 @@ export function InstitutionalReportsPage() {
           opinion="O comitê fiduciário homologa a emissão de relatórios institucionais com carimbo digital e linhagem rastreável de auditabilidade."
           driver="Board Pack consolidado, hash de linhagem, política de visibilidade e governança de download."
           implication="Garantia de reporte fiduciário imutável e seguro para investidores e conselheiros."
-          action="Exportar o pacote mensal de governança para distribuição aos membros do conselho de administração."
+          executiveQuestion="Exportar o pacote mensal de governança para distribuição aos membros do conselho de administração."
         >
           <ExecutiveStrategicTensions tensions={[]} />
           <ExecutiveDecisionTrace trace={[]} />

@@ -1,25 +1,25 @@
-import { 
-  collection, 
-  query, 
-  where, 
-  getDocs, 
-  deleteDoc, 
-  doc, 
-  serverTimestamp, 
-  setDoc 
-} from 'firebase/firestore';
-import { db, createSecondaryUser } from '../../lib/firebase';
+import { createSecondaryUser } from '../../lib/firebase';
+import { IdentityService } from '../../services/IdentityService';
+import { TenantService } from '../../services/TenantService';
+import { Membership } from '../../domain/tenant/Tenant';
 
-export function useClientUserAdapter(clientId: string) {
+/**
+ * @deprecated This adapter is being migrated to use IdentityService and TenantService.
+ * Direct Firestore calls have been removed.
+ */
+export function useClientUserAdapter(tenantId: string) {
   const fetchUsers = async () => {
-    if (!clientId) return [];
+    if (!tenantId) return [];
     try {
-      const q = query(
-        collection(db, 'client_users'), 
-        where('clientId', '==', clientId)
-      );
-      const snap = await getDocs(q);
-      return snap.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+      const memberships = await TenantService.getMembershipsByTenant(tenantId);
+      // To maintain UI compatibility, we map Membership back to the shape the UI expects
+      return memberships.map(m => ({
+        id: m.id,
+        clientId: m.tenantId,
+        email: m.userId, // Legacy UI used email as ID sometimes or stored it. We'll map userId to email if needed, but Membership has userId.
+        userType: m.roleCode, // Legacy UI expects userType
+        status: m.status,
+      }));
     } catch (e: any) {
       console.error(e);
       return [];
@@ -30,47 +30,60 @@ export function useClientUserAdapter(clientId: string) {
     const emailLower = formData.email.toLowerCase().trim();
     let generatedPass = null;
 
-    const payload: any = {
-      ...formData,
-      email: emailLower,
-      clientId,
-      updatedAt: serverTimestamp(),
-    };
+    let user = await IdentityService.getUserByEmail(emailLower);
 
-    if (!editingId) {
+    if (!editingId && !user) {
       generatedPass = Math.random().toString(36).substring(2, 8).toUpperCase() + '@123';
       try {
         await createSecondaryUser(emailLower, generatedPass);
-        payload.requirePasswordChange = true;
+        // Create user in Identity
+        await IdentityService.createUser({
+          id: emailLower, // using email as ID for legacy compatibility
+          authUid: '', // We would need the UID from createSecondaryUser, but Firebase Auth admin is needed.
+          email: emailLower,
+          status: 'ACTIVE',
+          createdAt: new Date(),
+        });
       } catch (e: any) {
         if (e.code === 'auth/email-already-in-use') {
-          throw e; // Bubble it up to link it
+          throw e;
         } else {
           throw e;
         }
       }
     }
 
-    const docId = `${emailLower}_${clientId}`;
-    await setDoc(doc(db, 'client_users', docId), payload, { merge: true });
+    const membership: Membership = {
+      id: `${emailLower}_${tenantId}`,
+      userId: emailLower,
+      tenantId: tenantId,
+      roleCode: formData.userType || 'Usuário de Cliente',
+      status: 'ACTIVE',
+      joinedAt: new Date(),
+    };
+
+    await TenantService.createMembership(membership);
 
     return { generatedPass, emailLower };
   };
 
   const linkExistingUser = async (formData: any) => {
     const emailLower = formData.email.toLowerCase().trim();
-    const payload: any = {
-      ...formData,
-      email: emailLower,
-      clientId,
-      updatedAt: serverTimestamp(),
+    
+    const membership: Membership = {
+      id: `${emailLower}_${tenantId}`,
+      userId: emailLower,
+      tenantId: tenantId,
+      roleCode: formData.userType || 'Usuário de Cliente',
+      status: 'ACTIVE',
+      joinedAt: new Date(),
     };
-    const docId = `${emailLower}_${clientId}`;
-    await setDoc(doc(db, 'client_users', docId), payload, { merge: true });
+
+    await TenantService.createMembership(membership);
   };
 
   const deleteUser = async (id: string) => {
-    await deleteDoc(doc(db, 'client_users', id));
+    await TenantService.removeMembership(id);
   };
 
   return {

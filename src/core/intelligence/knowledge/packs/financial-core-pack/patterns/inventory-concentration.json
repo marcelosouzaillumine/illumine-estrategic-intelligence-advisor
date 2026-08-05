@@ -1,0 +1,32 @@
+{
+  "id": "financial.knowledge.working_capital.pattern.inventory",
+  "type": "PATTERN",
+  "domain": "FINANCIAL",
+  "ontologyReferences": [
+    "financial.working_capital.inventory"
+  ],
+  "title": "Inventory Concentration Pattern",
+  "description": "Identifies risk of capital lock-up in inventory.",
+  "content": {
+    "conditions": [
+      {
+        "metric": "inventory_to_assets",
+        "operator": ">",
+        "value": 0.25
+      }
+    ],
+    "additionalEvidence": [
+      "inventory_turnover",
+      "sales_growth"
+    ],
+    "interpretation": "High inventory concentration may indicate strategic stockpiling or slow-moving stock risk."
+  },
+  "confidence": 0.85,
+  "maturity": "VALIDATED",
+  "metadata": {
+    "version": "1.0",
+    "author": "Illumine Financial Engine",
+    "source": "Strategic Finance Patterns",
+    "createdAt": "2026-08-05T00:00:00Z"
+  }
+}

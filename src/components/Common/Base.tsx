@@ -111,9 +111,9 @@ export function StatusBadge({ status, label, className }: { status: string; labe
     if (label) return label;
     if (status === 'UNAVAILABLE') return t('common.unavailable', 'Indisponível');
     if (status === 'SANDBOX') return 'SANDBOX';
-    if (status === 'HEALTHY') return translateLabel ? translateLabel('Saudável') : 'SAUDÁVEL';
-    if (status === 'WARNING') return translateLabel ? translateLabel('Atenção') : 'ATENÇÃO';
-    if (status === 'CRITICAL') return translateLabel ? translateLabel('Crítico') : 'CRÍTICO';
+    if (status === 'HEALTHY') return translateLabel ? translateLabel('HEALTHY') : 'SAUDÁVEL';
+    if (status === 'WARNING') return translateLabel ? translateLabel('WARNING') : 'ATENÇÃO';
+    if (status === 'CRITICAL') return translateLabel ? translateLabel('CRITICAL') : 'CRÍTICO';
     return status;
   };
   

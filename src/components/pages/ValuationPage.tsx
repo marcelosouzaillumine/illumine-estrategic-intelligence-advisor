@@ -88,7 +88,7 @@ export function ValuationPage({ clients, selectedClient, selectedYear, selectedM
          opinion="O comitê fiduciário homologa a avaliação de valuation, atestando a razoabilidade do múltiplos de EBITDA e da taxa de desconto (WACC)."
          driver="EBITDA anualizado, múltiplos EV/EBITDA, taxa WACC e taxa de crescimento perpétuo."
          implication="Definição do piso de negociação para rodadas de investimento ou processos M&A."
-         action="Acompanhar a sensibilidade do valuation em relação a variações de WACC e EBITDA."
+         executiveQuestion="Qual a sensibilidade projetada do valuation em relação a variações adversas de WACC e EBITDA?"
        >
          <ExecutiveStrategicTensions tensions={[]} />
          <ExecutiveDecisionTrace trace={[]} />
@@ -266,7 +266,7 @@ export function ValuationPage({ clients, selectedClient, selectedYear, selectedM
          opinion="O comitê fiduciário homologa os cálculos de valuation com base nos múltiplos e no fluxo de caixa descontado."
          driver="Múltiplos setoriais, WACC e taxa de crescimento na perpetuidade."
          implication="Definição de preço de referência para captações de equity ou transações societárias."
-         action="Atualizar as premissas macroeconômicas trimestralmente."
+         executiveQuestion="As premissas macroeconômicas trimestrais sustentam os cenários de avaliação propostos?"
        >
          <ExecutiveStrategicTensions tensions={[]} />
          <ExecutiveDecisionTrace trace={[]} />

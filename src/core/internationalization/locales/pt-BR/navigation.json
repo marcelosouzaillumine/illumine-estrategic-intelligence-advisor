@@ -1,12 +1,39 @@
 {
+  "dashboard": "Dashboard Executivo",
+  "workspace": "Workspace Executivo",
+  "reports": "Relatórios",
+  "settings": "Configurações",
+  "administration": "Administração",
   "nav": {
+    "home": "Home",
     "manifesto": "Manifesto",
     "platform": "Plataforma",
-    "domains": "Domínios",
+    "intelligences": "Inteligências",
     "why_illumine": "Por que Illumine",
-    "governance": "Governança",
-    "intelligence_center": "Centro de Inteligência",
-    "login": "Login Plataforma",
-    "cta": "Iniciar Executive Assessment"
+    "governance": "Trust Architecture™",
+    "intelligence_center": "Executive Intelligence Center™",
+    "advisor_network": "Advisor Network",
+    "cta": "Iniciar Assessment"
+  },
+  "group": {
+    "my_executive_workspace": "Meu Workspace Executivo",
+    "executive_command_center": "Executive Command Center",
+    "board_intelligence": "Board Intelligence™",
+    "ceo_domain": "CEO Domain",
+    "cfo_domain": "CFO Domain",
+    "coo_domain": "COO Domain",
+    "commercial_domain": "Commercial Domain",
+    "people_domain": "People Domain",
+    "risk_domain": "Risk Domain",
+    "innovation_domain": "Innovation Domain",
+    "advisor_network": "Advisor Network™",
+    "intelligence_domains": "Intelligence Domains",
+    "data_foundation": "Data Foundation",
+    "administration": "Administração"
+  },
+  "page": {
+    "efos": "EFOS",
+    "executive_command": "Executive Command",
+    "consolidated_executive": "Inteligência Consolidada"
   }
 }

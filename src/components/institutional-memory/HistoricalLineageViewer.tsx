@@ -1,8 +1,10 @@
 import React from 'react';
 import { useInstitutionalMemory } from '../../context/institutional-memory/InstitutionalMemoryProvider';
 import { Fingerprint } from 'lucide-react';
+import { useExecutiveFormatter } from "../../core/localization";
 
 export function HistoricalLineageViewer() {
+    const formatter = useExecutiveFormatter();
   const { records, lineageIntegrity } = useInstitutionalMemory();
 
   if (lineageIntegrity === 'FAIL_CLOSED' || records.length === 0) {
@@ -19,7 +21,7 @@ export function HistoricalLineageViewer() {
       <div className="space-y-3 font-mono text-[9px] text-muted-foreground leading-normal">
         {records.map((r, idx) => (
           <div key={idx} className="flex justify-between items-center gap-4 p-2.5 rounded bg-surface-container/20 border border-border/10">
-            <span>{new Date(r.timestamp).toLocaleDateString()}</span>
+            <span>{formatter.date(r.timestamp)}</span>
             <span className="text-foreground font-bold">{r.lineageHash}</span>
           </div>
         ))}

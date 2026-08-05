@@ -7,7 +7,7 @@ export class TechnicalLayerBuilder {
   public static build(
     indicators: any[],
     resolveLabel: (key: string) => string,
-    decisionPanels?: Record<string, any>,
+    analysisPanels?: Record<string, any>,
     facts?: BalanceSheetExecutiveFacts,
     scenario?: string
   ): any[] {
@@ -95,7 +95,7 @@ export class TechnicalLayerBuilder {
           tone = 'neutral';
           purpose = 'Sem evidência quantitativa primária disponível para emissão de julgamento técnico.';
           sourceRule = 'SSOT Policy Layer';
-        } else if (decisionPanels && facts) {
+        } else if (analysisPanels && facts) {
           const applyPanelStatus = (panel: any) => {
             if (panel) {
               classificationLabel = panel.statusLabel;
@@ -124,10 +124,10 @@ export class TechnicalLayerBuilder {
               purpose = ExecutiveSemanticRegistry.getObservation(ind.metricName, classificationLabel);
               sourceRule = 'SSOT Policy Layer';
             } else {
-              applyPanelStatus(decisionPanels[ind.sovereignPanelKey]);
+              applyPanelStatus(analysisPanels[ind.sovereignPanelKey]);
             }
           } else {
-            applyPanelStatus(decisionPanels[ind.sovereignPanelKey]);
+            applyPanelStatus(analysisPanels[ind.sovereignPanelKey]);
           }
         }
 

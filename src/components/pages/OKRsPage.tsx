@@ -139,7 +139,7 @@ export function OKRsPage({ clientId }: OKRsPageProps) {
           opinion="O comitê fiduciário homologa o acompanhamento dos OKRs, atestando o progresso dos indicadores de performance e metas."
           driver="Objetivos por eixo, KRs financeiros/operacionais, taxa de conclusão e responsáveis."
           implication="Alinhamento estratégico contínuo entre a visão do conselho e a execução operacional das equipes."
-          action="Revisar os KRs em atraso ou em risco para realocar recursos e acelerar entregas."
+          executiveQuestion="Revisar os KRs em atraso ou em risco para realocar recursos e acelerar entregas."
         >
           <ExecutiveStrategicTensions tensions={[]} />
           <ExecutiveDecisionTrace trace={[]} />
@@ -392,7 +392,7 @@ export function OKRsPage({ clientId }: OKRsPageProps) {
          opinion="O conselho fiduciário valida a aderência dos resultados-chave aos eixos de gestão estratégica estabelecidos."
          driver="Objetivos de gestão, key results e progresso de metas."
          implication="Melhoria no alinhamento tático de todas as unidades de negócio."
-         action="Acompanhar o atingimento de cada KR semanalmente."
+         executiveQuestion="Acompanhar o atingimento de cada KR semanalmente."
        >
          <ExecutiveStrategicTensions tensions={[]} />
          <ExecutiveDecisionTrace trace={[]} />

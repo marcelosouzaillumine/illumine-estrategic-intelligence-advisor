@@ -141,9 +141,144 @@ export type Page =
   | 'admin_grupos'
   | 'consolidated_executive'
   | 'board_governance'
+  | 'ceo.executive-overview'
+  | 'ceo.strategic-performance'
+  | 'ceo.growth-intelligence'
+  | 'ceo.risk-overview'
+  | 'ceo.strategic-domains'
+  | 'ceo.decision-intelligence'
+  | 'coo.operations'
+  | 'coo.supply-chain'
+  | 'coo.procurement'
+  | 'commercial.commercial-execution'
+  | 'commercial.market-customer'
+  | 'commercial.partner-ecosystem'
+  | 'commercial.revenue-forecast'
+  | 'commercial.decision-intelligence'
+  | 'people.workforce'
+  | 'people.culture'
+  | 'people.leadership'
+  | 'people.costs'
+  | 'people.capability'
+  | 'people.organizational-intelligence'
+  | 'people.decision-intelligence'
+  | 'governance.corporate-policies'
+  | 'governance.decision-governance'
+  | 'governance.institutional-alignment'
+  | 'governance.decision-intelligence'
+  | 'risk.enterprise-risk'
+  | 'risk.compliance'
+  | 'risk.internal-audit'
+  | 'risk.decision-intelligence'
+  | 'innovation.innovation-portfolio'
+  | 'innovation.research-development'
+  | 'innovation.digital-transformation'
+  | 'innovation.knowledge-evolution'
+  | 'innovation.decision-intelligence'
+  | 'board.capital-governance'
+  | 'board.institutional-governance'
+  | 'board.leadership-oversight'
+  | 'board.strategic-continuity'
+  | 'board.fiduciary-intelligence'
+  | 'enterprise.intelligence-hub'
+  | 'enterprise.predictive-insights'
+  | 'enterprise.governance-engines'
+  | 'enterprise.risk-analytics'
+  | 'enterprise.institutional-memory'
+  | 'enterprise.decision-intelligence'
+  | 'enterprise.financial-lineage'
+  | 'foundation.master-data'
+  | 'foundation.business-rules'
+  | 'foundation.chart-accounts'
+  | 'foundation.data-collection'
+  | 'foundation.data-maintenance'
+  | 'admin.identity'
+  | 'admin.global-settings'
+  | 'admin.workflows'
+  | 'admin.branding'
+  | 'admin.tenant-management'
+  | 'admin.revenue'
+  | 'admin.academy'
+  | 'admin.runtime'
+  | 'cfo.executive-dashboard'
+  | 'cfo.financial-reporting'
+  | 'cfo.treasury-liquidity'
+  | 'cfo.working-capital'
+  | 'cfo.capital-structure'
+  | 'cfo.financial-performance'
+  | 'cfo.fpa'
+  | 'cfo.financial-intelligence'
+  | 'commercial.executive-overview'
+  | 'commercial.commercial-performance'
+  | 'commercial.revenue-intelligence'
+  | 'commercial.pipeline-intelligence'
+  | 'commercial.opportunity-management'
+  | 'commercial.customer-intelligence'
+  | 'commercial.partner-revenue'
+  | 'commercial.forecast-intelligence'
+  | 'coo.executive-overview'
+  | 'coo.process-execution'
+  | 'coo.logistics-supply-chain'
+  | 'coo.procurement-intelligence'
+  | 'coo.operational-excellence'
+
+  | 'revenue.command-center'
+  | 'revenue.pipeline'
+  | 'revenue.contracts'
+  | 'revenue.subscriptions'
+  | 'revenue.billing'
+  | 'revenue.access'
+  | 'revenue.tenants'
+  | 'revenue.runtime'
+  | 'revenue.intelligence'
+  | 'revenue.partners'
+  | 'revenue.advisors'
+  | 'revenue.institutions'
+  | 'revenue.deal-room'
+
+  | 'people.executive-overview'
+  | 'people.workforce-intelligence'
+  | 'people.culture-engagement'
+  | 'people.leadership-intelligence'
+  | 'people.people-costs'
+  | 'people.learning-development'
+  | 'people.organizational-intelligence'
+  | 'governance.executive-overview'
+  | 'governance.strategic-alignment'
+  | 'governance.decision-intelligence'
+  | 'governance.board-intelligence'
+  | 'governance.governance-maturity'
+  | 'risk.executive-overview'
+  | 'risk.risk-intelligence'
+  | 'risk.enterprise-risk'
+  | 'risk.compliance-intelligence'
+  | 'risk.control-maturity'
+  | 'risk.audit-intelligence'
+  | 'risk.enterprise-resilience'
+  | 'innovation.executive-overview'
+  | 'innovation.innovation-intelligence'
+  | 'innovation.innovation-portfolio'
+  | 'innovation.opportunity-intelligence'
+  | 'innovation.experiment-management'
+  | 'innovation.digital-transformation'
+  | 'innovation.knowledge-evolution'
+  
+  | 'platform.revenue-center'
+  | 'platform.pipeline-intelligence'
+  | 'platform.partner-center'
+  | 'platform.customer-success'
+  | 'platform.marketing'
+  | 'platform.academy'
+  | 'platform.billing'
+  | 'platform.product-management'
+  | 'platform.knowledge-center'
+  | 'platform.platform-analytics'
+  
+  | 'intelligence.preview'
 
   | 'war_room'
   | 'admin'
+  | 'workspace'
   | 'upload'
   | 'cleanup'
   | 'portfolio'
@@ -244,7 +379,8 @@ export type Page =
   | 'client_workspace'
   | 'operating_pressure'
   | 'pilot_experience'
-  | 'referral_program';
+  | 'referral_program'
+  | 'cfo_validation_lab';
 
 export interface NavigationItem {
   id: Page;
@@ -274,7 +410,8 @@ export const LEGACY_ROUTE_MAP: Record<string, Page> = {
   'cockpit': 'efos',
   'executive-home': 'efos',
   'consolidated-executive': 'consolidated_executive',
-  'dre_gerencial': 'dre', // Example mapping, adjusting if needed based on JSON
+  'dre_gerencial': 'dre',
+  'bp': 'cfo.financial-intelligence', // Balance Sheet Intelligence
 };
 
 export const DEFAULT_OPEN_SUBMENUS: Record<string, boolean> = {
@@ -284,224 +421,18 @@ export const DEFAULT_OPEN_SUBMENUS: Record<string, boolean> = {
   'Cockpit de Gestão': true,
 };
 
-const sortNavItems = (items: NavigationItem[]): NavigationItem[] => {
-  return [...items]
-    .map(item => ({
-      ...item,
-      children: item.children ? sortNavItems(item.children) : undefined
-    }))
-    .sort((a, b) => {
-      // "Inteligência Consolidada" (consolidated_executive) always first if it exists in the group
-      if (a.id === 'consolidated_executive') return -1;
-      if (b.id === 'consolidated_executive') return 1;
+import { NAVIGATION_GROUPS } from '../core/navigation/navigation.registry';
+export { NAVIGATION_GROUPS };
 
-      const labelA = a.label || a.labelKey;
-      const labelB = b.label || b.labelKey;
 
-      const isADashboard = labelA.toLowerCase().includes('dashboard');
-      const isBDashboard = labelB.toLowerCase().includes('dashboard');
-
-      if (isADashboard && !isBDashboard) return -1;
-      if (!isADashboard && isBDashboard) return 1;
-
-      return labelA.localeCompare(labelB, 'pt-BR');
-    });
-};
-
-const RAW_NAVIGATION_GROUPS: NavigationGroup[] = [
-  {
-    group: 'My Executive Workspace', groupKey: 'navigation.group.my_executive_workspace',
-    icon: LayoutDashboard,
-    items: [
-      { id: 'efos', label: 'EFOS', labelKey: 'navigation.page.efos', icon: LayoutDashboard },
-    ]
-  },
-  {
-    group: 'Executive Command Center', groupKey: 'navigation.group.executive_command_center',
-    icon: Target,
-    items: [
-      { id: 'executive_command', label: 'Executive Command', labelKey: 'navigation.page.executive_command', icon: Target, masterOnly: true },
-    ]
-  },
-  {
-    group: 'Board Intelligence™', groupKey: 'navigation.group.board_intelligence',
-    icon: Presentation,
-    items: [
-      { id: 'institutional_board_pack', label: 'Board Pack Institucional', labelKey: 'navigation.page.institutional_board_pack', icon: FileText },
-      { id: 'board_deck_center', label: 'Board Deck Center', labelKey: 'navigation.page.board_deck_center', icon: Presentation },
-      { id: 'sovereign_decision_center', label: 'Sovereign Decision Center', labelKey: 'navigation.page.sovereign_decision_center', icon: Activity },
-      { id: 'institutional_structure_center', label: 'Institutional Structure Center', labelKey: 'navigation.page.institutional_structure_center', icon: Users },
-      { id: 'capital_governance_center', label: 'Capital Governance Center', labelKey: 'navigation.page.capital_governance_center', icon: Scale },
-      { id: 'leadership_dna_center', label: 'Leadership DNA Center', labelKey: 'navigation.page.leadership_dna_center', icon: Users },
-      { id: 'executive_monitoring_center', label: 'Executive Monitoring Center', labelKey: 'navigation.page.executive_monitoring_center', icon: Target },
-      { id: 'risk_exposure_center', label: 'Risk Exposure Center', labelKey: 'navigation.page.risk_exposure_center', icon: ShieldAlert },
-      { id: 'institutional_continuity', label: 'Institutional Continuity Cockpit', labelKey: 'navigation.page.institutional_continuity', icon: HeartPulse }
-    ]
-  },
-  {
-    group: 'CEO Domain', groupKey: 'navigation.group.ceo_domain',
-    icon: Globe,
-    items: [
-      { id: 'consolidated_executive', label: 'Inteligência Consolidada', labelKey: 'navigation.page.consolidated_executive', icon: Globe },
-      { id: 'plano_acao', label: 'Roadmap de Execução', labelKey: 'navigation.page.plano_acao', icon: Rocket },
-      { id: 'executive_execution_center', label: 'Executive Execution Center', labelKey: 'navigation.page.executive_execution_center', icon: Activity },
-      { id: 'strategic_intelligence', label: 'Strategic Intelligence Center', labelKey: 'navigation.page.strategic_intelligence', icon: Compass },
-      { id: 'institutional_ios', label: 'Institutional iOS', labelKey: 'navigation.page.institutional_ios', icon: Scale, masterOnly: true }
-    ]
-  },
-  {
-    group: 'CFO Domain', groupKey: 'navigation.group.cfo_domain',
-    icon: Landmark,
-    items: [
-      { id: 'dashboard_gestao', label: 'Dashboard Adm Fin', labelKey: 'navigation.page.dashboard_gestao', icon: LayoutDashboard },
-      { id: 'dre', label: 'DRE Contábil', labelKey: 'navigation.page.dre', icon: FileText },
-      { id: 'dre_gerencial', label: 'DRE Gerencial Estratégica', labelKey: 'navigation.page.dre_gerencial', icon: LineChart },
-      { id: 'caixa', label: 'Fluxo de Caixa Consolidado', labelKey: 'navigation.page.caixa', icon: CircleDollarSign },
-      { id: 'bp', label: 'Balanço Patrimonial', labelKey: 'navigation.page.bp', icon: BookOpen },
-      { id: 'dfc', label: 'DFC Contábil', labelKey: 'navigation.page.dfc', icon: ArrowRightLeft },
-      { id: 'dlpa', label: 'DLPA Contábil', labelKey: 'navigation.page.dlpa', icon: BookOpen },
-      { id: 'contas_pagar', label: 'Fluxo de Contas a Pagar', labelKey: 'navigation.page.contas_pagar', icon: CreditCard },
-      { id: 'contas_receber', label: 'Gestão de Contas a Receber', labelKey: 'navigation.page.contas_receber', icon: ArrowUpRight },
-      { id: 'ativos_financeiros', label: 'Gestão de Ativos Financeiros', labelKey: 'navigation.page.ativos_financeiros', icon: WalletCards },
-      { id: 'emprestimos', label: 'Gestão de Passivos', labelKey: 'navigation.page.emprestimos', icon: CreditCard },
-      { id: 'posicao_financeira', label: 'Posição Financeira', labelKey: 'navigation.page.posicao_financeira', icon: Landmark },
-      { id: 'analise_financeira', label: 'Inteligência de Capital', labelKey: 'navigation.page.analise_financeira', icon: Coins },
-      { id: 'modelagem', label: 'Engenharia Financeira', labelKey: 'navigation.page.modelagem', icon: LayoutGrid },
-      { id: 'tax_reform_impact', label: 'Simulador de Impacto Tributário', labelKey: 'navigation.page.tax_reform_impact', icon: Percent },
-      { id: 'simulador_capital', label: 'Simulador de Captação', labelKey: 'navigation.page.simulador_capital', icon: Magnet },
-      { id: 'orcamento', label: 'Orçamento & Budget', labelKey: 'navigation.page.orcamento', icon: PiggyBank }
-    ]
-  },
-  {
-    group: 'COO Domain', groupKey: 'navigation.group.coo_domain',
-    icon: HardDrive,
-    items: [
-      { id: 'dashboard_operacional', label: 'Dashboard Operacional', labelKey: 'navigation.page.dashboard_operacional', icon: HardDrive },
-      { id: 'producao', label: 'Produção & Processos', labelKey: 'navigation.page.producao', icon: Factory },
-      { id: 'logistica', label: 'Eficiência em Logística', labelKey: 'navigation.page.logistica', icon: Layers },
-      { id: 'compras', label: 'Gestão de Compras', labelKey: 'navigation.page.compras', icon: ShoppingBag },
-      { id: 'administrativa_indicadores', label: 'Indicadores Administrativos', labelKey: 'navigation.page.administrativa_indicadores', icon: BarChart2 },
-      { id: 'operating_pressure', label: 'Pressão Operacional Institucional', labelKey: 'navigation.page.operating_pressure', icon: Activity }
-    ]
-  },
-  {
-    group: 'Commercial Domain', groupKey: 'navigation.group.commercial_domain',
-    icon: ShoppingBag,
-    items: [
-      { id: 'dashboard_comercial', label: 'Dashboard Comercial', labelKey: 'navigation.page.dashboard_comercial', icon: LineChart },
-      { id: 'dashboard_marketing', label: 'Dashboard de Marketing', labelKey: 'navigation.page.dashboard_marketing', icon: LayoutDashboard },
-      { id: 'comercial_estrategico', label: 'Vendas & Mercado', labelKey: 'navigation.page.comercial_estrategico', icon: ShoppingCart },
-      { id: 'marketing_estrategico', label: 'Marketing de Posicionamento', labelKey: 'navigation.page.marketing_estrategico', icon: Megaphone },
-      { id: 'analise_mercado', label: 'Inteligência Competitiva', labelKey: 'navigation.page.analise_mercado', icon: Target },
-      { id: 'precificacao', label: 'Precificação & Margem', labelKey: 'navigation.page.precificacao', icon: Tags }
-    ]
-  },
-  {
-    group: 'People Domain', groupKey: 'navigation.group.people_domain',
-    icon: Users,
-    items: [
-      { id: 'dashboard_cultura', label: 'Dashboard de Cultura', labelKey: 'navigation.page.dashboard_cultura', icon: PieChart },
-      { id: 'perfil_lideranca', label: 'Perfil de Liderança', labelKey: 'navigation.page.perfil_lideranca', icon: Star },
-      { id: 'quadro_pessoal', label: 'Gestão de Pessoas', labelKey: 'navigation.page.quadro_pessoal', icon: Users },
-      { id: 'avaliacao_organograma', label: 'Avaliação de Organograma', labelKey: 'navigation.page.avaliacao_organograma', icon: Boxes },
-      { id: 'custos_pessoal', label: 'Análise de Custos de Pessoal', labelKey: 'navigation.page.custos_pessoal', icon: CircleDollarSign },
-      { id: 'academy_home', label: 'Trilha do Conhecimento', labelKey: 'navigation.page.academy_home', icon: Presentation }
-    ]
-  },
-  {
-    group: 'Risk Domain', groupKey: 'navigation.group.risk_domain',
-    icon: ShieldCheck,
-    items: [
-      { id: 'compliance_integrity_center', label: 'Integridade & Compliance', labelKey: 'navigation.page.compliance_integrity_center', icon: ShieldCheck },
-      { id: 'crisis_response_center', label: 'Crisis Response Center', labelKey: 'navigation.page.crisis_response_center', icon: Siren, masterOnly: true }
-    ]
-  },
-  {
-    group: 'Innovation Domain', groupKey: 'navigation.group.innovation_domain',
-    icon: Lightbulb,
-    items: [
-      { id: 'dashboard_inovacao', label: 'Dashboard de Inovação', labelKey: 'navigation.page.dashboard_inovacao', icon: Zap },
-      { id: 'lab', label: 'Executive Scenario Lab', labelKey: 'navigation.page.lab', icon: FlaskConical },
-      { id: 'viabilidade', label: 'Projetos de Inovação', labelKey: 'navigation.page.viabilidade', icon: Rocket }
-    ]
-  },
-  {
-    group: 'Advisor Network™', groupKey: 'navigation.group.advisor_network',
-    icon: Briefcase,
-    items: [
-      { id: 'portfolio', label: 'Portfólio', labelKey: 'navigation.page.portfolio', icon: Briefcase },
-      { id: 'advisor_workspace', label: 'Advisor Workspace', labelKey: 'navigation.page.advisor_workspace', icon: Briefcase, masterOnly: true },
-      { id: 'client_workspace', label: 'Client Executive Workspace', labelKey: 'navigation.page.client_workspace', icon: LayoutDashboard }
-    ]
-  },
-  {
-    group: 'Intelligence Domains', groupKey: 'navigation.group.intelligence_domains',
-    icon: Network,
-    items: [
-      { id: 'esgim_assessment', label: 'Avaliação ESGIM™', labelKey: 'navigation.page.esgim_assessment', icon: Brain },
-      { id: 'governance_maturity_center', label: 'Governance Maturity Center', labelKey: 'navigation.page.governance_maturity_center', icon: Target },
-      { id: 'fiduciary_validation_center', label: 'Fiduciary Validation Center', labelKey: 'navigation.page.fiduciary_validation_center', icon: Scale },
-      { id: 'economic_normalization_center', label: 'Economic Normalization Center', labelKey: 'navigation.page.economic_normalization_center', icon: Scale },
-      { id: 'financial_lineage_center', label: 'Linhagem Fiduciária', labelKey: 'navigation.page.financial_lineage_center', icon: GitBranchPlus },
-      { id: 'credit_committee_center', label: 'Credit Committee Simulator', labelKey: 'navigation.page.credit_committee_center', icon: Landmark },
-      { id: 'institutional_memory_center', label: 'Institutional Memory Center', labelKey: 'navigation.page.institutional_memory_center', icon: History },
-      { id: 'decision_lifecycle_center', label: 'Decision Lifecycle Center', labelKey: 'navigation.page.decision_lifecycle_center', icon: GitBranchPlus },
-      { id: 'operational_governance', label: 'Operational Governance Center', labelKey: 'navigation.page.operational_governance', icon: ShieldCheck },
-      { id: 'product_governance_center', label: 'Product Governance Center', labelKey: 'navigation.page.product_governance_center', icon: PackageCheck, masterOnly: true },
-      { id: 'governance_orchestration', label: 'Governance Orchestration', labelKey: 'navigation.page.governance_orchestration', icon: ArrowUpRightSquare, masterOnly: true },
-      { id: 'indicadores', label: 'Análise de KPIs', labelKey: 'navigation.page.indicadores', icon: TrendingUp }
-    ]
-  },
-  {
-    group: 'Data Foundation', groupKey: 'navigation.group.data_foundation',
-    icon: Database,
-    items: [
-      { id: 'clientes', label: 'Empresas', labelKey: 'navigation.page.clientes', icon: Building2 },
-      { id: 'parceiros', label: 'Parceiros Estratégicos', labelKey: 'navigation.page.parceiros', icon: Handshake, masterOnly: true },
-      { id: 'premissas_economicas', label: 'Premissas do Sistema', labelKey: 'navigation.page.premissas_economicas', icon: Settings2 },
-      { id: 'dados_historicos', label: 'Central de Coleta de Dados', labelKey: 'navigation.page.dados_historicos', icon: Database },
-      { id: 'plano_contas', label: 'Plano Contas Contabilidade', labelKey: 'navigation.page.plano_contas', icon: List },
-      { id: 'plano_contas_gerencial', label: 'Plano de Contas Gerencial', labelKey: 'navigation.page.plano_contas_gerencial', icon: List },
-      { id: 'maintenance', label: 'Manutenção de Dados', labelKey: 'navigation.page.maintenance', icon: DatabaseBackup }
-    ]
-  },
-  {
-    group: 'Administration', groupKey: 'navigation.group.administration',
-    icon: Settings,
-    items: [
-      { id: 'gestao_usuarios', label: 'Usuários', labelKey: 'navigation.page.gestao_usuarios', icon: UserPlus, masterOnly: true },
-      { id: 'aprovacoes', label: 'Aprovações de Documentos', labelKey: 'navigation.page.aprovacoes', icon: CheckSquare, masterOnly: true },
-      { id: 'institutional_onboarding', label: 'Institutional Onboarding', labelKey: 'navigation.page.institutional_onboarding', icon: Building2, masterOnly: true },
-      { id: 'deployment_readiness', label: 'Deployment Readiness Layer', labelKey: 'navigation.page.deployment_readiness', icon: ShieldCheck, masterOnly: true },
-      { id: 'runtime_observability_center', label: 'Runtime Observability Center', labelKey: 'navigation.page.runtime_observability_center', icon: Activity, masterOnly: true },
-      { id: 'multi_tenant_governance_center', label: 'Multi-Tenant Governance Center', labelKey: 'navigation.page.multi_tenant_governance_center', icon: ShieldCheck, masterOnly: true },
-      { id: 'pilot_monitoring', label: 'Painel Operacional Piloto', labelKey: 'navigation.page.pilot_monitoring', icon: Activity, masterOnly: true },
-      { id: 'calibration_playground', label: 'Calibration Playground', labelKey: 'navigation.page.calibration_playground', icon: Sparkles, masterOnly: true },
-      { id: 'pilot_experience', label: 'Pilot Experience Dashboard', labelKey: 'navigation.page.pilot_experience', icon: BarChart3, masterOnly: true },
-      { id: 'pilot_operations_center', label: 'Pilot Operations Center', labelKey: 'navigation.page.pilot_operations_center', icon: ShieldCheck, masterOnly: true },
-      { id: 'academy_admin', label: 'Gestão da Academia', labelKey: 'navigation.page.academy_admin', icon: Settings2, masterOnly: true },
-      { id: 'partner_brand_configuration', label: 'Identidade Institucional (EBIL)', labelKey: 'navigation.page.partner_brand_configuration', icon: Building2 },
-      { id: 'suporte', label: 'Suporte', labelKey: 'navigation.page.suporte', icon: LifeBuoy },
-      { id: 'mensagens', label: 'Mensagens e Comunicados', labelKey: 'navigation.page.mensagens', icon: Bell },
-      { id: 'perfil_usuario', label: 'Gestão de Perfil', labelKey: 'navigation.page.perfil_usuario', icon: UserCog },
-      { id: 'configuracoes_sistema', label: 'Preferências do Sistema', labelKey: 'navigation.page.configuracoes_sistema', icon: Settings }
-    ]
-  }
-];
-
-export const NAVIGATION_GROUPS: NavigationGroup[] = RAW_NAVIGATION_GROUPS.map(group => ({
-  ...group,
-  items: sortNavItems(group.items)
-}));
-
-const flattenItems = (items: NavigationItem[]): NavigationItem[] => {
+const flattenItems = (items: any[]): any[] => {
   return items.reduce((acc, item) => {
     acc.push(item);
     if (item.children) {
       acc.push(...flattenItems(item.children));
     }
     return acc;
-  }, [] as NavigationItem[]);
+  }, [] as any[]);
 };
 
 export const FLAT_NAV_ITEMS = flattenItems(NAVIGATION_GROUPS.flatMap(group => group.items));

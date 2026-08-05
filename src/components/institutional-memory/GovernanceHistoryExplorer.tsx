@@ -2,9 +2,11 @@ import React, { useState } from 'react';
 import { useInstitutionalMemory } from '../../context/institutional-memory/InstitutionalMemoryProvider';
 import { Search, Compass, BookOpen, Fingerprint } from 'lucide-react';
 import { cn } from '../../lib/utils';
+import { useExecutiveFormatter } from '../../core/localization';
 
 export function GovernanceHistoryExplorer() {
   const { records, lineageIntegrity } = useInstitutionalMemory();
+  const formatter = useExecutiveFormatter();
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedRecordId, setSelectedRecordId] = useState<string | null>(null);
 
@@ -60,7 +62,7 @@ export function GovernanceHistoryExplorer() {
               )}
             >
               <div className="flex justify-between items-center text-[9px] uppercase tracking-wider text-muted-foreground">
-                <span>{new Date(r.timestamp).toLocaleDateString()}</span>
+                <span>{formatter.date(r.timestamp)}</span>
                 <span>{r.governanceCategory}</span>
               </div>
               <h4 className="font-semibold text-foreground line-clamp-1">{r.causalSummary}</h4>
@@ -81,7 +83,7 @@ export function GovernanceHistoryExplorer() {
                   {selectedRecord.causalSummary}
                 </h3>
                 <p className="text-[10px] text-muted-foreground font-mono mt-0.5">
-                  Data de Ingestão: {new Date(selectedRecord.timestamp).toLocaleString()}
+                  Data de Ingestão: {formatter.date(selectedRecord.timestamp)}
                 </p>
               </div>
 

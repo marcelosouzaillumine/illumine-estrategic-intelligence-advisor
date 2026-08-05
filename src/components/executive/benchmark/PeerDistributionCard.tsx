@@ -3,6 +3,7 @@ import { Users, ShieldCheck } from 'lucide-react';
 import { ExecutiveSurface } from '../../ui/executive-surface';
 import { ExecutiveBadge } from '../../ui/executive-badge';
 import { ExecutiveText } from '../../ui/executive-typography';
+import { useExecutiveFormatter } from '../../../core/localization';
 
 export interface PeerDistributionCardProps {
   readonly segmentName: string;
@@ -10,6 +11,7 @@ export interface PeerDistributionCardProps {
 }
 
 export const PeerDistributionCard: React.FC<PeerDistributionCardProps> = ({ segmentName, sampleCount }) => {
+  const formatter = useExecutiveFormatter();
   return (
     <ExecutiveSurface className="p-3 mb-3 bg-card border border-border rounded-lg shadow-sm">
       <div className="flex items-center justify-between gap-2">
@@ -25,7 +27,7 @@ export const PeerDistributionCard: React.FC<PeerDistributionCardProps> = ({ segm
         </ExecutiveBadge>
       </div>
       <p className="text-muted-foreground text-xs mt-1">
-        Segmento: <strong className="text-foreground">{segmentName}</strong> ({sampleCount.toLocaleString('pt-BR')} empresas contribuindo anonimamente).
+        Segmento: <strong className="text-foreground">{segmentName}</strong> ({formatter.number(sampleCount)} empresas contribuindo anonimamente).
       </p>
     </ExecutiveSurface>
   );

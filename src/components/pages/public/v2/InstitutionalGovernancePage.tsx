@@ -15,6 +15,8 @@ import {
   Narrative,
   Insight,
   Card,
+  CardGrid,
+  CardTitle,
 } from '@/components/ui/public/institutional/InstitutionalContentSystem';
 
 export function InstitutionalGovernancePage() {
@@ -117,17 +119,17 @@ export function InstitutionalGovernancePage() {
             <SectionLead align="center">{t('principles_section.lead')}</SectionLead>
           </div>
           
-          <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 font-sans">
+          <CardGrid className="max-w-7xl mx-auto md:grid-cols-2 lg:grid-cols-3 gap-8 font-sans">
             {principles.map((principle, idx) => (
               <Card key={idx} variant="secondary" hoverable className="p-8 border-t-4 border-t-amber-500/50 hover:border-t-amber-500 transition-colors">
                 <div className="w-12 h-12 rounded-full bg-amber-500/10 flex items-center justify-center mb-6">
                   <principle.icon className="w-6 h-6 text-amber-500" />
                 </div>
-                <h4 className="text-xl font-bold text-white mb-3">{principle.title}</h4>
-                <p className="text-slate-400 leading-relaxed font-medium">{principle.description}</p>
+                <CardTitle className="text-xl mb-3">{principle.title}</CardTitle>
+                <Narrative className="text-slate-400 leading-relaxed font-medium">{principle.description}</Narrative>
               </Card>
             ))}
-          </div>
+          </CardGrid>
         </Container>
       </Section>
 
@@ -223,10 +225,10 @@ export function InstitutionalGovernancePage() {
             <div className="space-y-6">
               {explainableQuestions.map((item, idx) => (
                 <Card key={idx} variant="secondary" hoverable={false} className="p-6 md:p-8 bg-white/5 border-white/10">
-                  <h4 className="text-lg font-bold text-white mb-2 flex items-center gap-3">
+                  <CardTitle className="text-lg mb-2 flex items-center gap-3">
                     <span className="text-amber-500">?</span> {item.q}
-                  </h4>
-                  <p className="text-slate-400 pl-6 border-l-2 border-white/10 ml-2 mt-4 py-1 font-medium">{item.a}</p>
+                  </CardTitle>
+                  <Narrative className="text-slate-400 pl-6 border-l-2 border-white/10 ml-2 mt-4 py-1 font-medium">{item.a}</Narrative>
                 </Card>
               ))}
             </div>
@@ -241,10 +243,10 @@ export function InstitutionalGovernancePage() {
             
             <Card variant="secondary" hoverable={false} className="p-10 border-white/5 bg-black/40">
               <Database className="w-10 h-10 text-amber-500 mb-6" />
-              <h3 className="text-2xl font-bold text-white mb-4">{t('memory_section.title')}</h3>
-              <p className="text-slate-400 mb-8 leading-relaxed font-medium">
+              <CardTitle className="text-2xl mb-4">{t('memory_section.title')}</CardTitle>
+              <Narrative className="text-slate-400 mb-8 leading-relaxed font-medium">
                 {t('memory_section.lead')}
-              </p>
+              </Narrative>
               <ul className="space-y-3">
                 {memoryItems.map((item, idx) => (
                   <li key={idx} className="flex items-center gap-3 text-slate-300 font-medium">
@@ -260,10 +262,10 @@ export function InstitutionalGovernancePage() {
 
             <Card variant="secondary" hoverable={false} className="p-10 border-white/5 bg-black/40">
               <FileSearch className="w-10 h-10 text-amber-500 mb-6" />
-              <h3 className="text-2xl font-bold text-white mb-4">{t('evidence_section.title')}</h3>
-              <p className="text-slate-400 mb-8 leading-relaxed font-medium">
+              <CardTitle className="text-2xl mb-4">{t('evidence_section.title')}</CardTitle>
+              <Narrative className="text-slate-400 mb-8 leading-relaxed font-medium">
                 {t('evidence_section.lead')}
-              </p>
+              </Narrative>
               <ul className="space-y-3">
                 {evidenceItems.map((item, idx) => (
                   <li key={idx} className="flex items-center gap-3 text-slate-300 font-medium">

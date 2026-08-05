@@ -3,6 +3,7 @@
 import React, { useState } from 'react';
 import { X, Download, Share2, ShieldCheck, Activity, Target, Workflow, AlertCircle, Compass } from 'lucide-react';
 import { FiduciaryRuntimeAdapter, ESGIMScenario, ESGIMMode, ExecutiveBoardReport } from '../../services/FiduciaryRuntimeAdapter';
+import { useExecutiveFormatter } from '../../core/localization';
 
 interface ExecutiveBoardReportModalProps {
   isOpen: boolean;
@@ -22,6 +23,7 @@ export function ExecutiveBoardReportModal({
   companyName
 }: ExecutiveBoardReportModalProps) {
   const [copied, setCopied] = useState(false);
+  const formatter = useExecutiveFormatter();
 
   if (!isOpen) return null;
 
@@ -84,7 +86,7 @@ export function ExecutiveBoardReportModal({
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4 p-4 bg-slate-950/40 border border-white/5 rounded-xl text-xs font-mono text-muted-foreground">
             <div className="space-y-1">
               <div><strong className="text-muted-foreground">Report ID:</strong> {report.reportId}</div>
-              <div><strong className="text-muted-foreground">Gerado em:</strong> {new Date(report.generatedAt).toLocaleString('pt-BR')}</div>
+              <div><strong className="text-muted-foreground">Gerado em:</strong> {formatter.date(report.generatedAt)}</div>
               <div><strong className="text-muted-foreground">Empresa:</strong> {report.companyName}</div>
             </div>
             <div className="space-y-1 md:text-right">

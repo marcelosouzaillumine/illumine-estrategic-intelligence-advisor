@@ -1,0 +1,22 @@
+{
+  "id": "financial.knowledge.liquidity.concept",
+  "type": "CONCEPT",
+  "domain": "FINANCIAL",
+  "ontologyReferences": [
+    "financial.liquidity",
+    "financial.liquidity.current_ratio"
+  ],
+  "title": "Liquidity Management",
+  "description": "Ability of an organization to meet short-term obligations while preserving operational flexibility.",
+  "content": {
+    "executiveMeaning": "Liquidity represents financial resilience and capacity to absorb operational volatility."
+  },
+  "confidence": 0.95,
+  "maturity": "ESTABLISHED",
+  "metadata": {
+    "version": "1.0",
+    "author": "Illumine Financial Engine",
+    "source": "Core Finance Principles",
+    "createdAt": "2026-08-05T00:00:00Z"
+  }
+}

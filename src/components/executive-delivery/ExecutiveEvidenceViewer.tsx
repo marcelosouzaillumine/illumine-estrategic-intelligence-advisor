@@ -2,6 +2,7 @@ import React from 'react';
 import { Layers, Shield, Hash, Server, Calendar, Cpu } from 'lucide-react';
 import { BoardEvidenceData } from '../../core/executive-delivery/GuidedBoardJourneyRuntime';
 import { cn } from '../../lib/utils';
+import { useExecutiveFormatter } from "../../core/localization";
 
 interface ExecutiveEvidenceViewerProps {
   evidence: BoardEvidenceData;
@@ -9,6 +10,7 @@ interface ExecutiveEvidenceViewerProps {
 }
 
 export function ExecutiveEvidenceViewer({ evidence, className }: ExecutiveEvidenceViewerProps) {
+    const formatter = useExecutiveFormatter();
   if (!evidence) return null;
 
   return (
@@ -81,7 +83,7 @@ export function ExecutiveEvidenceViewer({ evidence, className }: ExecutiveEviden
             <div>
               <span className="text-[9px] font-bold text-amber-400/60 uppercase tracking-wider block">Data da Execução</span>
               <span className="text-xs font-bold text-amber-200">
-                {new Date(evidence.timestamp).toLocaleDateString('pt-BR')}
+                {formatter.date(evidence.timestamp)}
               </span>
             </div>
           </div>

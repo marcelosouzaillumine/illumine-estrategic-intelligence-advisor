@@ -2,8 +2,10 @@ import React from 'react';
 import { useInstitutionalMemory } from '../../context/institutional-memory/InstitutionalMemoryProvider';
 import { Clock, ShieldAlert, Fingerprint, Activity } from 'lucide-react';
 import { cn } from '../../lib/utils';
+import { useExecutiveFormatter } from "../../core/localization";
 
 export function InstitutionalMemoryTimeline() {
+    const formatter = useExecutiveFormatter();
   const { memoryTimeline, lineageIntegrity } = useInstitutionalMemory();
 
   if (lineageIntegrity === 'FAIL_CLOSED') {
@@ -47,7 +49,7 @@ export function InstitutionalMemoryTimeline() {
             </div>
 
             <div className="flex items-center gap-2 text-[9px] font-bold tracking-wider uppercase text-muted-foreground">
-              <span>{new Date(phase.timestamp).toLocaleDateString()}</span>
+              <span>{formatter.date(phase.timestamp)}</span>
               <span>•</span>
               <span className="text-foreground font-mono">{phase.category}</span>
               <span>•</span>

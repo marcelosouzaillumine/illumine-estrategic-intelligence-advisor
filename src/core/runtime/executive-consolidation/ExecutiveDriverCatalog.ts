@@ -48,6 +48,16 @@ export interface ExecutiveDriverDefinition {
     warning: string;
     healthy: string;
   };
+  strategicSignificance?: {
+    critical: string;
+    warning: string;
+    healthy: string;
+  };
+  institutionalObservation?: {
+    critical: string;
+    warning: string;
+    healthy: string;
+  };
 }
 
 export const EXECUTIVE_DRIVER_CATALOG: Record<ExecutiveDriverId, ExecutiveDriverDefinition> = {

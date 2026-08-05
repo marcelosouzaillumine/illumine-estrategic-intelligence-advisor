@@ -3,8 +3,10 @@ import { Cpu, TrendingUp, AlertTriangle, Zap, Target, ShieldCheck, Activity, Arr
 import { ResponsiveContainer, RadarChart, PolarGrid, PolarAngleAxis, PolarRadiusAxis, Radar, Tooltip, BarChart, Bar, XAxis, YAxis, Cell } from 'recharts';
 import { useTranslation } from 'react-i18next';
 import { InstitutionalShowcase } from './InstitutionalShowcase';
+import { useExecutiveFormatter } from '../../../../../core/localization';
 
 export function SystemicIntelligenceShowcase() {
+  const formatter = useExecutiveFormatter();
   const { t } = useTranslation('showcases/systemic-intelligence');
 
   const rawResonance = t('resonanceData', { returnObjects: true });
@@ -48,7 +50,7 @@ export function SystemicIntelligenceShowcase() {
   };
 
   const formatCurrency = (value: number) => {
-    return new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(value);
+    return formatter.currency(value);
   };
 
   return (

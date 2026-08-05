@@ -19,6 +19,36 @@
       "@/*": [
         "./src/*"
       ],
+      "@application/*": [
+        "./packages/application/*"
+      ],
+      "@domain/shared/*": [
+        "./packages/domain/shared/*"
+      ],
+      "@domain/contract/*": [
+        "./packages/domain/contract/*"
+      ],
+      "@domain/subscription/*": [
+        "./packages/domain/subscription/*"
+      ],
+      "@domain/billing/*": [
+        "./packages/domain/billing/*"
+      ],
+      "@domain/licensing/*": [
+        "./packages/domain/licensing/*"
+      ],
+      "@domain/entitlement/*": [
+        "./packages/domain/entitlement/*"
+      ],
+      "@domain/provisioning/*": [
+        "./packages/domain/provisioning/*"
+      ],
+      "@domain/revenue": [
+        "./packages/domain/revenue/index.ts"
+      ],
+      "@domain/revenue/*": [
+        "./packages/domain/revenue/*"
+      ],
       "@illumine/core-primitives": [
         "./packages/domain/core-primitives/src/index.ts"
       ],

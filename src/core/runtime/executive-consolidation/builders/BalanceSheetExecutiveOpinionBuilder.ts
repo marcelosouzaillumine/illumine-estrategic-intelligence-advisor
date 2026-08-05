@@ -35,12 +35,12 @@ export class BalanceSheetExecutiveOpinionBuilder {
     return BalanceSheetExecutiveLanguageCompiler.compileManagementImplication(liqThreshold, autThreshold);
   }
 
-  public static buildRecommendedAction(scenario: InstitutionalScenario | undefined, facts?: BalanceSheetExecutiveFacts): string {
+  public static buildTechnicalObservation(scenario: InstitutionalScenario | undefined, facts?: BalanceSheetExecutiveFacts): string {
     if (!facts) return 'Monitorar indicadores de balanço patrimonial.';
 
     const liqThreshold = ExecutiveSemanticRegistry.getThreshold(facts.liquidityCurrent || 0, BPLiquidityThresholds);
     const autThreshold = ExecutiveSemanticRegistry.getThreshold(facts.financialAutonomy || 0, BPAutonomyThresholds);
 
-    return BalanceSheetExecutiveLanguageCompiler.compileRecommendedAction(liqThreshold, autThreshold);
+    return BalanceSheetExecutiveLanguageCompiler.compileTechnicalObservation(liqThreshold, autThreshold);
   }
 }

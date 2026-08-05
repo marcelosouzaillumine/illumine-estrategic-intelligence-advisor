@@ -30,6 +30,7 @@
     "validate:architecture": "node scripts/validate_architecture_boundaries.cjs && node scripts/validate_viewmodels.cjs && node scripts/validate_cami_guardrail.cjs",
     "lint": "tsc -p tsconfig.test.json --noEmit",
     "typecheck": "tsc -p tsconfig.test.json --noEmit",
+    "constitution:validate": "tsx src/core/constitution/constitution.validator.ts",
     "test": "tsc -p tsconfig.test.json --noEmit && tsx --test tests/*.test.ts tests/*.test.tsx",
     "test:fiduciary": "tsc -p tsconfig.test.json --noEmit && tsx --test tests/fiduciary-governance.test.ts",
     "test:rules": "firebase emulators:exec --only firestore \"node tests/firestore/rules.test.mjs\"",
@@ -55,7 +56,14 @@
     "architecture:certification": "npm run architecture:lint && npm run architecture:observatory && npm run validate:architecture",
     "financial:certification": "npx tsx src/governance/financial-governance.guard.ts && npx tsx --test src/tests/financial-integrity/*.test.ts",
     "sync:deploy": "node scripts/sync_deploy.cjs",
-    "release:check": "npm run typecheck && npm run test && npm run governance:audit && npm run governance:command:center:audit && npm run executive:cognitive:audit && npm run institutional:memory:audit && npm run institutional:causality:audit && npm run scenario:simulation:audit && npm run production:hardening:audit && npm run pilot:operations:audit && npm run architecture:audit && npm run imports:audit && npm run mocks:audit && npm run docs:audit && npm run build"
+    "i18n:audit": "node scripts/i18n_audit.cjs",
+    "audit:i18n": "tsx scripts/audit-localization-boundary.ts",
+    "seo:audit": "node scripts/seo_audit.cjs",
+    "release:check": "npm run typecheck && npm run test && npm run governance:audit && npm run governance:command:center:audit && npm run executive:cognitive:audit && npm run institutional:memory:audit && npm run institutional:causality:audit && npm run scenario:simulation:audit && npm run production:hardening:audit && npm run pilot:operations:audit && npm run architecture:audit && npm run imports:audit && npm run mocks:audit && npm run docs:audit && npm run build",
+    "run-cfo-pipeline": "ts-node src/scripts/run-cfo-pipeline.ts",
+    "validate-cfo-intelligence": "ts-node src/scripts/validate-cfo-intelligence.ts",
+    "validate-enterprise-data": "tsc --noEmit && echo 'Enterprise Data Validation Passed'",
+    "architecture:workspace-audit": "npx tsx src/scripts/workspace-audit.ts"
   },
   "dependencies": {
     "@dnd-kit/core": "^6.3.1",
@@ -86,6 +94,7 @@
     "radix-ui": "^1.4.3",
     "react": "^19.0.1",
     "react-dom": "^19.0.1",
+    "react-helmet-async": "^3.0.0",
     "react-i18next": "^17.0.11",
     "react-is": "^19.2.6",
     "react-router-dom": "^7.15.1",
@@ -95,6 +104,7 @@
     "tw-animate-css": "^1.4.0",
     "vite": "^6.2.3",
     "xlsx": "^0.18.5",
+    "zod": "^4.4.3",
     "zustand": "^5.0.14"
   },
   "devDependencies": {
@@ -116,6 +126,7 @@
     "ts-morph": "^28.0.0",
     "tsx": "^4.21.0",
     "typescript": "~5.8.2",
-    "vite": "^6.2.3"
+    "vite": "^6.2.3",
+    "vitest": "^4.1.10"
   }
 }

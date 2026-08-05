@@ -5,20 +5,22 @@ import { ExecutiveSurface } from '../ui/executive-surface';
 import { ExecutiveHeading } from '../ui/executive-heading';
 import { ExecutiveText } from '../ui/executive-typography';
 import { ExecutiveBadge } from '../ui/executive-badge';
-
+import { BRAND } from '../../config/brand';
 export interface ExecutiveIntelligenceShellProps {
   children: React.ReactNode;
   pageTitle: string;
   pageContext: string;
   userRole?: string;
   companyName?: string;
+  selectedYear?: number | string;
 }
 
 export const ExecutiveIntelligenceShell: React.FC<ExecutiveIntelligenceShellProps> = ({
   children,
   pageTitle,
   pageContext,
-  companyName = 'Grupo Corporativo'
+  companyName = 'Grupo Corporativo',
+  selectedYear
 }) => {
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
   const [isCopilotOpen, setIsCopilotOpen] = useState(false);
@@ -46,7 +48,7 @@ export const ExecutiveIntelligenceShell: React.FC<ExecutiveIntelligenceShellProp
           >
             <Sparkles className="h-4 w-4 text-primary-foreground animate-pulse" />
             <ExecutiveText variant="microLabel" className="text-primary-foreground font-semibold">
-              Executive Copilot
+              {BRAND.advisoryName}
             </ExecutiveText>
           </button>
         ) : (
@@ -55,7 +57,7 @@ export const ExecutiveIntelligenceShell: React.FC<ExecutiveIntelligenceShellProp
               <div className="flex items-center gap-2">
                 <Bot className="h-4 w-4 text-secondary" />
                 <ExecutiveHeading as="h4" variant="submoduleTitle" className="text-foreground">
-                  Executive Copilot
+                  {BRAND.advisoryName}
                 </ExecutiveHeading>
               </div>
               <button 
@@ -77,7 +79,7 @@ export const ExecutiveIntelligenceShell: React.FC<ExecutiveIntelligenceShellProp
               </div>
               <div className="flex justify-between items-center text-xs">
                 <ExecutiveText variant="microLabel" className="text-muted-foreground">Período</ExecutiveText>
-                <ExecutiveBadge variant="neutral">2026-YTD</ExecutiveBadge>
+                <ExecutiveBadge variant="neutral">{selectedYear ? `${selectedYear}-YTD` : '2026-YTD'}</ExecutiveBadge>
               </div>
 
               <ExecutiveSurface variant="transparent" padding="sm" className="mt-3 bg-muted/20 border border-border/40 rounded-lg space-y-1.5">

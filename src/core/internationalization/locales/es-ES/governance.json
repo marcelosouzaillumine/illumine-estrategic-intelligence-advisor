@@ -12,21 +12,22 @@
     }
   },
   "page_hero": {
-    "label": "Gobernanza y Confianza",
-    "title": "Toda recomendación puede ser explicada. Toda decisión puede ser rastreada. Todo contexto puede ser preservado.",
-    "lead": "Illumine fue desarrollada para organizaciones que necesitan tomar decisiones relevantes con transparencia, responsabilidad fiduciaria y confianza institucional. No reemplaza el juicio humano. Amplía su capacidad de decidir en base a evidencias, contexto y memoria organizacional.",
-    "cta": "Conozca nuestra Trust Architecture™"
+    "label": "Trust Architecture™",
+    "title": "Las decisiones críticas exigen confianza.",
+    "subtitle": "Toda recomendación debe ser explicable. Toda decisión debe ser rastreable. Todo contexto debe ser preservado.",
+    "lead": "Illumine fue desarrollada para organizaciones que necesitan tomar decisiones relevantes con transparencia, responsabilidad fiduciaria y confianza institucional, conectando evidencia, contexto y memoria organizacional en una arquitectura de confianza institucional.",
+    "cta": "Conozca nuestra Trust Architecture"
   },
   "challenge": {
     "title": "El problema no es solo decidir.",
     "subtitle": "Es lograr explicar, justificar y preservar el contexto de cada decisión.",
     "narrative1": "En organizaciones complejas, las decisiones relevantes involucran múltiples áreas, diferentes premisas e impactos que se extienden por años. Cuando este contexto se pierde, la organización pierde su capacidad de aprender, evolucionar y responder con consistencia a los desafíos futuros.",
-    "narrative2": "La gobernanza moderna exige más que registros. Exige inteligencia institucional."
+    "narrative2": "La gobernanza moderna exige más que registros. Exige decisiones comprensibles, justificables y preservadas a lo largo del tiempo."
   },
   "principles_section": {
     "label": "Principios Fundacionales",
-    "title": "La confianza no es un recurso. Es una arquitectura.",
-    "lead": "Illumine fue construida sobre principios que orientan todo el funcionamiento de la plataforma.",
+    "title": "Principios de la Trust Architecture™",
+    "lead": "Illumine se construyó sobre principios que guían todo el funcionamiento de la plataforma.",
     "list": {
       "p1": {
         "title": "Evidencias antes que conclusiones",
@@ -59,7 +60,8 @@
       "n2": "Contexto",
       "n3": "Análisis",
       "n4": "Recomendación",
-      "n5": "Decisión Humana"
+      "n5": "Decisión",
+      "n6": "Aprendizaje"
     }
   },
   "explainable_section": {
@@ -77,13 +79,17 @@
       },
       "q3": {
         "q": "¿Cuál podría ser el impacto?",
-        "a": "Las posibles consecuencias financieras, operativas y estratégicas en caso de que las premisas permanezcan inalteradas."
+        "a": "Las posibles consecuencias financieras, operativas y estratégicas si las suposiciones permanecen sin cambios."
+      },
+      "q4": {
+        "q": "¿Cómo llegamos a esta conclusión?",
+        "a": "El rastro de auditoría completo demostrando la metodología, las fuentes de datos procesadas y los pasos lógicos de inteligencia."
       }
     }
   },
   "memory_section": {
     "title": "Institutional Decision Memory™",
-    "lead": "Las organizaciones aprenden cuando sus decisiones permanecen accesibles. Illumine preserva el contexto de decisiones relevantes, incluyendo:",
+    "lead": "Las organizaciones aprenden cuando logran preservar el contexto de sus decisiones. Illumine preserva el contexto de decisiones relevantes, incluyendo:",
     "items": [
       "Objetivos originales",
       "Premisas utilizadas",
@@ -108,9 +114,9 @@
     "footer": "Esto permite a los ejecutivos comprender no solo la conclusión, sino también la solidez de las evidencias que la sustentan."
   },
   "security_section": {
-    "title": "Seguridad y Privacidad",
-    "lead": "La inteligencia exige protección.",
-    "narrative1": "La arquitectura de Illumine incorpora principios de seguridad y protección de la información compatibles con entornos corporativos, preservando la confidencialidad, la integridad y la disponibilidad de los datos utilizados en sus análisis.",
+    "title": "Protección de la Inteligencia Institucional",
+    "lead": "La inteligencia requiere protección.",
+    "narrative1": "La arquitectura de Illumine incorpora principios de seguridad y protección de la información compatibles con entornos corporativos, preservando la confidencialidad, integridad y disponibilidad de los datos utilizados en los análisis.",
     "narrative2": "La plataforma fue concebida para operar con controles de acceso, trazabilidad de acciones y mecanismos de protección compatibles con organizaciones que manejan información estratégica."
   },
   "human_section": {
@@ -122,9 +128,9 @@
   },
   "conclusion": {
     "title": "La confianza no nace de la tecnología.",
-    "subtitle": "Nace de la capacidad de comprender, justificar y preservar cada decisión.",
-    "lead": "Es por eso que Illumine fue concebida como una plataforma de Executive Intelligence, donde la inteligencia artificial, la gobernanza corporativa y el juicio humano actúan de forma complementaria para fortalecer las decisiones estratégicas.",
-    "cta1": "Programar una Demostración Ejecutiva",
+    "subtitle": "Nace de la capacidad de comprender, justificar y preservar decisiones a lo largo del tiempo.",
+    "lead": "Es por eso que Illumine fue concebida como una Executive Intelligence Platform™, donde la inteligencia artificial, el gobierno corporativo y el juicio humano actúan de manera complementaria para fortalecer decisiones estratégicas.",
+    "cta1": "Agendar una Demostración Ejecutiva",
     "cta2": "Conocer la Plataforma"
   }
 }

@@ -1,0 +1,19 @@
+{
+  "id": "financial.knowledge.liquidity.rule.cash_preservation",
+  "type": "RULE",
+  "domain": "FINANCIAL",
+  "ontologyReferences": ["financial.liquidity", "universal.cash"],
+  "title": "Cash Preservation Rule",
+  "description": "Rule triggered during high liquidity risk.",
+  "content": {
+    "rule": "IF Pattern = 'Liquidity Pressure' THEN Prioritize Cash Preservation over Growth."
+  },
+  "confidence": 0.99,
+  "maturity": "CERTIFIED",
+  "metadata": {
+    "version": "1.0",
+    "author": "Illumine Financial Engineering",
+    "source": "Corporate Finance Best Practices",
+    "createdAt": "2026-08-05T00:00:00Z"
+  }
+}

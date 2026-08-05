@@ -2,6 +2,7 @@ import React from 'react';
 import { History, Download, ShieldCheck, Hash } from 'lucide-react';
 import { ExportSnapshotMetadata } from '../../core/exporting/ExportTypes';
 import { cn } from '../../lib/utils';
+import { useExecutiveFormatter } from '../../core/localization';
 
 interface ExportHistoryPanelProps {
   exports: ExportSnapshotMetadata[];
@@ -10,6 +11,7 @@ interface ExportHistoryPanelProps {
 }
 
 export function ExportHistoryPanel({ exports, onDownloadReport, className }: ExportHistoryPanelProps) {
+  const formatter = useExecutiveFormatter();
   return (
     <div className={cn("bg-white border border-border rounded-[32px] p-6 shadow-sm", className)}>
       <div className="flex items-center gap-2 mb-6">
@@ -39,7 +41,7 @@ export function ExportHistoryPanel({ exports, onDownloadReport, className }: Exp
                   <td className="py-4">
                     <span className="font-mono text-[11px] block text-muted-foreground select-all">{exp.exportId}</span>
                     <span className="text-[10px] text-muted-foreground font-semibold block mt-0.5">
-                      {new Date(exp.timestamp).toLocaleString('pt-BR')}
+                      {formatter.date(exp.timestamp)}
                     </span>
                   </td>
                   <td className="py-4 font-mono text-[10px] text-muted-foreground max-w-[150px] truncate" title={exp.lineageHash}>

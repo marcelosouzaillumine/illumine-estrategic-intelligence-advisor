@@ -7,14 +7,15 @@ import { BalanceSheetWorkingCapitalSection } from '../src/components/pages/balan
 
 describe('BalanceSheetWorkingCapitalSection (Formatting Tests)', () => {
   it('Saldo de Tesouraria renders with R$ formatted currency', () => {
-    const panel: any = {
-      evidences: [
-        { name: 'Saldo de Tesouraria', value: 'R$ 1.231.692', format: 'currency' }
-      ]
+    const diagnostics: any = {
+      evidence: {
+        fleuriet: { name: 'Saldo de Tesouraria', value: 'R$ 1.231.692', format: 'currency' }
+      }
     };
+    const bpSummary: any = {};
     
     const { queryByText } = render(
-      <BalanceSheetWorkingCapitalSection panel={panel} />
+      <BalanceSheetWorkingCapitalSection bpSummary={bpSummary} diagnostics={diagnostics} />
     );
     
     const el = queryByText(/1\.231\.692/);
@@ -23,14 +24,15 @@ describe('BalanceSheetWorkingCapitalSection (Formatting Tests)', () => {
   });
 
   it('Saldo de Tesouraria handles invalid values by returning "—"', () => {
-    const panel: any = {
-      evidences: [
-        { name: 'Saldo de Tesouraria', value: '—', format: 'currency' }
-      ]
+    const diagnostics: any = {
+      evidence: {
+        fleuriet: { name: 'Saldo de Tesouraria', value: '—', format: 'currency' }
+      }
     };
+    const bpSummary: any = {};
     
     const { getByText } = render(
-      <BalanceSheetWorkingCapitalSection panel={panel} />
+      <BalanceSheetWorkingCapitalSection bpSummary={bpSummary} diagnostics={diagnostics} />
     );
     
     assert.ok(getByText('—'));

@@ -20,6 +20,7 @@ import {
 import { useSalesPipelineAdapter, SalesPipelineEntry } from '../adapters/ui/useSalesPipelineAdapter';
 import { cn, formatValue } from '../lib/utils';
 import { motion, AnimatePresence } from 'motion/react';
+import { useExecutiveFormatter } from '../core/localization';
 
 
 
@@ -36,6 +37,7 @@ const ETAPAS = [
 ];
 
 export function SalesPipelineManager({ clientId }: SalesPipelineManagerProps) {
+  const formatter = useExecutiveFormatter();
   const { entries, loading, handleAdd: addAdapter, handleDelete, handleImport: importAdapter } = useSalesPipelineAdapter(clientId);
   const [isAdding, setIsAdding] = useState(false);
   const [searchTerm, setSearchTerm] = useState('');
@@ -141,7 +143,7 @@ export function SalesPipelineManager({ clientId }: SalesPipelineManagerProps) {
             <div>
               <p className="text-[10px] font-black text-muted-foreground uppercase tracking-widest">{stat.label}</p>
               <p className="text-xl font-display font-black text-muted-foreground">
-                {stat.isCur ? formatValue(stat.value, 'R$') : stat.value.toLocaleString()}
+                {stat.isCur ? formatter.currency(stat.value) : formatter.number(stat.value)}
                 {stat.suffix}
               </p>
             </div>

@@ -36,12 +36,14 @@ import { useDataTable } from '../hooks/useDataTable';
 import { SortableHeader } from './SortableHeader';
 import { PageHeader } from './Common';
 import { usePayrollDashboardAdapter, PayrollEmployee } from '../adapters/ui/usePayrollDashboardAdapter';
+import { useExecutiveFormatter } from "../core/localization";
 
 const CHART_COLORS = ['var(--color-primary)', 'var(--color-state-excellent)', 'var(--color-state-warning)', 'var(--color-state-critical)', 'var(--color-accent)', 'var(--color-primary)'];
 
 type Employee = PayrollEmployee;
 
 export default function PayrollDashboard({ clientId }: { clientId: string }) {
+    const formatter = useExecutiveFormatter();
   const { employees, loading, clientInfo } = usePayrollDashboardAdapter(clientId);
   const [turnoverMensal, setTurnoverMensal] = useState<number>(0);
   const [selectedSimEmployeeId, setSelectedSimEmployeeId] = useState<string>('todos');
@@ -67,6 +69,7 @@ export default function PayrollDashboard({ clientId }: { clientId: string }) {
   const unique = (values: any[]) => Array.from(new Set(values.filter(Boolean))).sort();
 
   const filterOptions = useMemo(() => {
+      const formatter = useExecutiveFormatter();
     return {
       areas: ["Todas", ...unique(employees.map((item) => item.area))],
       statuses: ["Todos", ...unique(employees.map((item) => item.status))],
@@ -75,6 +78,7 @@ export default function PayrollDashboard({ clientId }: { clientId: string }) {
   }, [employees]);
 
   const summary = useMemo(() => {
+      const formatter = useExecutiveFormatter();
     const total = filteredEmployees.length;
     const monthlyCost = filteredEmployees.reduce((acc, item) => acc + item.custoMensal, 0);
     const annualCost = filteredEmployees.reduce((acc, item) => acc + item.custoAnual, 0);
@@ -99,7 +103,9 @@ export default function PayrollDashboard({ clientId }: { clientId: string }) {
   }, [filteredEmployees, turnoverMensal]);
 
   const groupSum = (rows: any[], key: string, valueKey: string) => {
+      const formatter = useExecutiveFormatter();
     return rows.reduce((acc, row) => {
+        const formatter = useExecutiveFormatter();
       const group = row[key] || "Não informado";
       acc[group] = (acc[group] || 0) + row[valueKey];
       return acc;
@@ -107,6 +113,7 @@ export default function PayrollDashboard({ clientId }: { clientId: string }) {
   };
 
   const getTopGroups = (grouped: Record<string, number>, limit = 5) => {
+      const formatter = useExecutiveFormatter();
     return Object.entries(grouped)
       .map(([name, value]) => ({ name, value }))
       .sort((a, b) => b.value - a.value)
@@ -117,6 +124,7 @@ export default function PayrollDashboard({ clientId }: { clientId: string }) {
   const roleCost = getTopGroups(groupSum(filteredEmployees, "funcao", "custoMensal"));
 
   const downloadCsv = () => {
+      const formatter = useExecutiveFormatter();
     const headers = ["Nome", "Função", "Área", "Contrato", "Status", "Custo Mensal", "Custo Anual"];
     const rows = filteredEmployees.map(e => [
       e.nome, e.funcao, e.area, e.tipoContrato, e.status, e.custoMensal, e.custoAnual
@@ -310,6 +318,7 @@ export default function PayrollDashboard({ clientId }: { clientId: string }) {
 
         <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
           {(() => {
+                      const formatter = useExecutiveFormatter();
             const simEmployees = selectedSimEmployeeId === 'todos' ? employees : employees.filter(e => e.id === selectedSimEmployeeId);
             const aviso = simEmployees.reduce((acc, e) => acc + ((e as any).valorAviso || 0), 0);
             const multa = simEmployees.reduce((acc, e) => acc + ((e as any).valorMultaFgts || 0), 0);
@@ -359,6 +368,7 @@ export default function PayrollDashboard({ clientId }: { clientId: string }) {
                 <Tooltip 
                   cursor={{ fill: 'var(--color-background)' }}
                   content={({ active, payload }) => {
+                      const formatter = useExecutiveFormatter();
                     if (active && payload && payload.length) {
                       return (
                         <div className="bg-primary p-3 rounded-xl shadow-xl border border-white/10 backdrop-blur-md">
@@ -413,6 +423,7 @@ export default function PayrollDashboard({ clientId }: { clientId: string }) {
                 </Pie>
                 <Tooltip 
                   content={({ active, payload }) => {
+                                      const formatter = useExecutiveFormatter();
                     if (active && payload && payload.length) {
                       return (
                         <div className="bg-primary p-3 rounded-xl shadow-xl border border-white/10 backdrop-blur-md">
@@ -445,6 +456,7 @@ export default function PayrollDashboard({ clientId }: { clientId: string }) {
           </h3>
           <div className="space-y-4">
             {areaCost.map((item, idx) => {
+                const formatter = useExecutiveFormatter();
               const max = Math.max(...areaCost.map(i => i.value));
               const percent = (item.value / max) * 100;
               return (
@@ -472,6 +484,7 @@ export default function PayrollDashboard({ clientId }: { clientId: string }) {
           </h3>
           <div className="space-y-4">
             {roleCost.map((item, idx) => {
+                const formatter = useExecutiveFormatter();
               const max = Math.max(...roleCost.map(i => i.value));
               const percent = (item.value / max) * 100;
               return (
@@ -524,7 +537,7 @@ export default function PayrollDashboard({ clientId }: { clientId: string }) {
                 <tr key={idx} className="hover:bg-slate-50/50 transition-colors group">
                   <td className="px-5 md:px-8 py-3 md:py-5">
                     <p className="text-sm font-black text-primary uppercase tracking-tight">{emp.nome}</p>
-                    <p className="text-[10px] text-muted-foreground font-bold uppercase tracking-widest mt-0.5">Admissão: {new Date(emp.admissao).toLocaleDateString('pt-BR')}</p>
+                    <p className="text-[10px] text-muted-foreground font-bold uppercase tracking-widest mt-0.5">Admissão: {formatter.date(emp.admissao)}</p>
                   </td>
                   <td className="px-5 md:px-8 py-3 md:py-5">
                     <div className="flex flex-col">

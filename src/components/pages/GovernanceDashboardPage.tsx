@@ -319,7 +319,7 @@ export function GovernanceDashboardPage({
         opinion="O comitê fiduciário homologa o painel de governança corporativa, atestando o cumprimento dos princípios institucionais."
         driver="Índice de maturidade, compliance index, eficácia decisória, gestão de riscos e mitigação."
         implication="Preservação da perpetuidade do negócio, transparência com acionistas e prontidão regulatória."
-        action="Monitorar os desvios apontados na matriz de riscos e executar os planos de adequação fiduciária."
+        executiveQuestion="Monitorar os desvios apontados na matriz de riscos e executar os planos de adequação fiduciária."
       >
         <ExecutiveStrategicTensions tensions={[]} />
         <ExecutiveDecisionTrace trace={[]} />
@@ -616,7 +616,7 @@ export function GovernanceDashboardPage({
          opinion="O comitê fiduciário avalia que os princípios de governança estão bem estruturados, com baixo desalinhamento operacional."
          driver="Maturidade corporativa, regras fiduciárias e checks de governança."
          implication="Maior transparência organizacional e segurança jurídica."
-         action="Acompanhar as recomendações de mitigação de risco e reportar trimestralmente."
+         executiveQuestion="Acompanhar as recomendações de mitigação de risco e reportar trimestralmente."
        >
          <ExecutiveStrategicTensions tensions={[]} />
          <ExecutiveDecisionTrace trace={[]} />

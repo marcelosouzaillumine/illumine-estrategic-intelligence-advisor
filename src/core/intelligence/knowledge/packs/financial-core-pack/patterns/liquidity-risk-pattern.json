@@ -1,0 +1,20 @@
+{
+  "id": "financial.knowledge.liquidity.pattern.pressure",
+  "type": "PATTERN",
+  "domain": "FINANCIAL",
+  "ontologyReferences": ["financial.liquidity.current_ratio"],
+  "title": "Liquidity Pressure Pattern",
+  "description": "Detects when short-term obligations threaten operational continuity.",
+  "content": {
+    "condition": "Current Ratio < 1.0 and Cash Flow is negative for 2 consecutive periods.",
+    "implication": "High risk of default on short term obligations."
+  },
+  "confidence": 0.95,
+  "maturity": "VERIFIED",
+  "metadata": {
+    "version": "1.0",
+    "author": "Illumine Financial Engineering",
+    "source": "Internal Historical Analysis",
+    "createdAt": "2026-08-05T00:00:00Z"
+  }
+}

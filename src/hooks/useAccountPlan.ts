@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { FirestoreAccountPlansAdapter } from '../adapters/persistence/FirestoreAccountPlansAdapter';
+import { persistenceContainer } from '../infrastructure/container/persistenceContainer';
 import { DATA } from '../data';
 
 export function useAccountPlan(clientId: string, planType?: 'accounting' | 'managerial') {
@@ -15,7 +15,7 @@ export function useAccountPlan(clientId: string, planType?: 'accounting' | 'mana
 
     setLoading(true);
     
-    const unsubscribe = FirestoreAccountPlansAdapter.listenToAccountPlanGeneric(
+    const unsubscribe = persistenceContainer.accountPlans.listenToAccountPlanGeneric(
       clientId, 
       planType, 
       (docs) => {

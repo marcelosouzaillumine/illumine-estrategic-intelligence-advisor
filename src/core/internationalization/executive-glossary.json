@@ -1,0 +1,46 @@
+{
+  "category_a": {
+    "description": "Never Translate - Core proprietary brands and architectural concepts",
+    "terms": [
+      "Executive Workspace™",
+      "Executive Advisory™",
+      "Board Intelligence™",
+      "Enterprise Data Foundation™",
+      "Institutional Learning Loop™",
+      "Executive Intelligence™",
+      "Executive Office™",
+      "Executive Domain™",
+      "Executive Command Center™",
+      "Illumine",
+      "Trust Architecture™"
+    ]
+  },
+  "category_b": {
+    "description": "Translate only outside branding - Terms that have specific brand meaning but can be translated when used generically",
+    "terms": [
+      "Dashboard",
+      "Workspace",
+      "Assessment",
+      "Executive Summary",
+      "Cockpit"
+    ]
+  },
+  "category_c": {
+    "description": "Free Translation - Standard industry terms",
+    "terms": [
+      "KPI",
+      "Report"
+    ]
+  },
+  "protected_business_terms": [
+    "EBITDA",
+    "Revenue",
+    "Cash Flow",
+    "DRE",
+    "Balance Sheet",
+    "Working Capital",
+    "ROI",
+    "ROE",
+    "EBIT"
+  ]
+}

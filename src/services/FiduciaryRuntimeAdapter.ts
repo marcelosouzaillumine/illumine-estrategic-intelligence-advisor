@@ -326,7 +326,7 @@ export { ExecutiveStrategicTensionEngine } from '../core/runtime/executive-conso
 export type { StrategicTension } from '../core/runtime/executive-consolidation/ExecutiveStrategicTensionEngine';
 export { BalanceSheetExecutiveViewModelBuilder } from '../core/runtime/executive-consolidation/BalanceSheetExecutiveViewModelBuilder';
 export { FinancialAnalyticsBuilder } from '../core/runtime/executive-consolidation/builders/FinancialAnalyticsBuilder';
-export { BalanceSheetExecutivePlanBuilder } from '../core/runtime/executive-consolidation/BalanceSheetExecutivePlanBuilder';
+
 export { DreExecutiveViewModelBuilder } from '../core/runtime/dre/DreExecutiveViewModelBuilder';
 export { DreContractGuard } from '../core/runtime/dre/DreContractGuard';
 export type { DreExecutiveViewModel } from '../core/runtime/dre/DreExecutiveViewModelBuilder';

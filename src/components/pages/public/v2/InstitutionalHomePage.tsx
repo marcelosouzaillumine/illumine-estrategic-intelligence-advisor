@@ -30,7 +30,7 @@ export function InstitutionalHomePage() {
     <PageFrame className="overflow-x-hidden">
       
       {/* SEÇÃO 1 — HERO */}
-      <Hero className="min-h-[90vh] flex flex-col items-center justify-center overflow-hidden">
+      <Hero className="min-h-[70vh] flex flex-col items-center justify-center overflow-hidden pt-20">
 
         <Container className="relative z-10 flex flex-col items-center text-center">
           <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-white/5 border border-white/10 mb-8 backdrop-blur-sm">
@@ -250,8 +250,8 @@ export function InstitutionalHomePage() {
                      <div className="inline-block px-3 py-1 mb-4 rounded-full bg-white/5 border border-white/10 text-xs font-mono text-slate-400 uppercase tracking-widest font-sans">
                         {t('domains.showcases.command.tag')}
                      </div>
-                     <SectionTitle>{t('domains.showcases.command.title')}</SectionTitle>
-                     <SectionLead>
+                     <SectionTitle align="left">{t('domains.showcases.command.title')}</SectionTitle>
+                     <SectionLead align="left">
                         {t('domains.showcases.command.lead')}
                      </SectionLead>
                   </div>
@@ -269,19 +269,21 @@ export function InstitutionalHomePage() {
                </div>
 
                {/* Showcase 3: Systemic Intelligence */}
-               <div className="space-y-8">
-                  <div className="max-w-3xl ml-auto text-right flex flex-col items-end">
+               <div className="flex flex-col lg:flex-row items-center w-full" style={{ gap: '4rem' }}>
+                  <div className="w-full lg:w-[calc(50%-2rem)] shrink-0 min-w-0">
                      <div className="inline-block px-3 py-1 mb-4 rounded-full bg-white/5 border border-white/10 text-xs font-mono text-slate-400 uppercase tracking-widest font-sans">
                         {t('domains.showcases.systemic.tag')}
                      </div>
-                     <SectionTitle align="right">{t('domains.showcases.systemic.title')}</SectionTitle>
-                     <SectionLead align="right" className="ml-auto mr-0">
+                     <SectionTitle align="left" className="!mx-0 !w-full !max-w-none text-left">
+                        {t('domains.showcases.systemic.title')}
+                     </SectionTitle>
+                     <SectionLead align="left" className="!mx-0 !w-full !max-w-none text-left">
                         {t('domains.showcases.systemic.lead')}
                      </SectionLead>
                   </div>
-                  <div className="relative isolate overflow-hidden">
+                  <div className="w-full lg:w-[calc(50%-2rem)] relative isolate shrink-0 min-w-0">
                      <SystemicIntelligenceShowcase />
-                     <div className="absolute left-4 bottom-4 w-[320px] xl:w-[384px] hidden lg:block z-30 shadow-2xl font-sans">
+                     <div className="absolute left-6 bottom-6 lg:left-10 lg:bottom-10 w-[320px] hidden lg:block z-30 shadow-2xl font-sans">
                         <ExecutiveInsightCard 
                            author={t('domains.showcases.systemic.insight_author')}
                            text={t('domains.showcases.systemic.insight_text')}
@@ -327,10 +329,10 @@ export function InstitutionalHomePage() {
               { icon: Database, title: t('trust.principles.p4.title'), desc: t('trust.principles.p4.desc') },
               { icon: Lock, title: t('trust.principles.p5.title'), desc: t('trust.principles.p5.desc') },
             ].map((principle, i) => (
-              <div key={i} className="text-left bg-white/5 p-6 rounded-xl border border-white/5 hover:border-white/10 transition-colors flex flex-col items-start font-sans">
-                <principle.icon className="w-8 h-8 text-slate-300 mb-4" />
-                <h4 className="text-white font-semibold mb-2 leading-tight">{principle.title}</h4>
-                <p className="text-xs text-slate-400 leading-relaxed mt-auto">{principle.desc}</p>
+              <div key={i} className="text-left bg-white/5 p-6 rounded-xl border border-white/5 hover:border-white/10 transition-colors flex flex-col items-start font-sans flex-grow shrink-0">
+                <principle.icon className="w-8 h-8 text-slate-300 mb-4 shrink-0" />
+                <h4 className="text-white font-semibold mb-2 leading-tight shrink-0 min-h-[56px] flex items-start w-full">{principle.title}</h4>
+                <p className="text-xs text-slate-400 leading-relaxed flex-grow">{principle.desc}</p>
               </div>
             ))}
           </div>
@@ -340,24 +342,36 @@ export function InstitutionalHomePage() {
       {/* SEÇÃO 7 — ECOSSISTEMA & CTA */}
       <Section className="bg-[#050506]">
         <Container>
+          <div className="text-center mb-16 max-w-4xl mx-auto flex flex-col items-center">
+             <SectionLabel align="center">{t('ecosystem.label')}</SectionLabel>
+             <SectionTitle align="center">{t('ecosystem.title')}</SectionTitle>
+             <SectionLead align="center">
+               {t('ecosystem.lead')}
+             </SectionLead>
+          </div>
+
           <div className="grid grid-cols-1 md:grid-cols-2 gap-16 mb-24">
              {/* Enterprise */}
-             <div className="p-12 rounded-3xl bg-white/5 border border-white/10 relative overflow-hidden flex flex-col items-start font-sans">
-                <div className="absolute top-0 right-0 p-8 opacity-5"><Globe size={120} /></div>
-                <h4 className="text-3xl font-bold text-white mb-4 relative z-10">{t('ecosystem.enterprise.title')}</h4>
-                <p className="text-slate-400 mb-8 relative z-10 text-lg leading-relaxed flex-1">
+             <div className="p-12 rounded-3xl bg-white/5 border border-white/10 relative overflow-hidden flex flex-col items-start font-sans flex-grow shrink-0">
+                <div className="absolute top-0 right-0 p-8 opacity-5 shrink-0"><Globe size={120} /></div>
+                <h4 className="text-3xl font-bold text-white mb-4 relative z-10 shrink-0 flex items-start w-full" style={{ minHeight: '100px' }}>
+                  {t('ecosystem.enterprise.title')}
+                </h4>
+                <p className="text-slate-400 mb-8 relative z-10 text-lg leading-relaxed flex-grow">
                   {t('ecosystem.enterprise.desc')}
                 </p>
              </div>
              
              {/* Advisor Network */}
-             <div className="p-12 rounded-3xl bg-amber-500/10 border border-amber-500/20 relative overflow-hidden flex flex-col items-start font-sans">
-                <div className="absolute top-0 right-0 p-8 opacity-5"><Network size={120} /></div>
-                <h4 className="text-3xl font-bold text-white mb-4 relative z-10">{t('ecosystem.advisor.title')}</h4>
-                <p className="text-slate-300 mb-8 relative z-10 text-lg leading-relaxed flex-1">
+             <div className="p-12 rounded-3xl bg-amber-500/10 border border-amber-500/20 relative overflow-hidden flex flex-col items-start font-sans flex-grow shrink-0">
+                <div className="absolute top-0 right-0 p-8 opacity-5 shrink-0"><Network size={120} /></div>
+                <h4 className="text-3xl font-bold text-white mb-4 relative z-10 shrink-0 flex items-start w-full" style={{ minHeight: '100px' }}>
+                  {t('ecosystem.advisor.title')}
+                </h4>
+                <p className="text-slate-300 mb-8 relative z-10 text-lg leading-relaxed flex-grow">
                   {t('ecosystem.advisor.desc')}
                 </p>
-                <div className="inline-block mt-auto px-4 py-3 bg-white/5 border border-white/10 rounded-lg text-sm text-slate-300 font-medium">
+                <div className="inline-block mt-auto px-4 py-3 bg-white/5 border border-white/10 rounded-lg text-sm text-slate-300 font-medium shrink-0">
                    {t('ecosystem.advisor.quote')}
                 </div>
              </div>

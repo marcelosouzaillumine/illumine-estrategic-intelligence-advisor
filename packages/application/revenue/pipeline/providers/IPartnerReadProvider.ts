@@ -1,0 +1,1 @@
+export interface IPartnerReadProvider { getPartnerData(leadId: string): Promise<any>; }

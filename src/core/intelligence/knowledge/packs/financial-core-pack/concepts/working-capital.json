@@ -1,0 +1,21 @@
+{
+  "id": "financial.knowledge.working_capital.concept",
+  "type": "CONCEPT",
+  "domain": "FINANCIAL",
+  "ontologyReferences": [
+    "financial.working_capital"
+  ],
+  "title": "Working Capital Efficiency",
+  "description": "Capital tied up in day-to-day operations (receivables, inventory, payables).",
+  "content": {
+    "executiveMeaning": "Working capital efficiency directly influences cash generation. Over-investment here drains free cash flow."
+  },
+  "confidence": 0.95,
+  "maturity": "ESTABLISHED",
+  "metadata": {
+    "version": "1.0",
+    "author": "Illumine Financial Engine",
+    "source": "Core Finance Principles",
+    "createdAt": "2026-08-05T00:00:00Z"
+  }
+}

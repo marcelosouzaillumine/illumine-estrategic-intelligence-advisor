@@ -4,6 +4,7 @@ import React, { useMemo } from 'react';
 import { ShieldCheck, TrendingUp, BarChart3, Scale, WalletCards, AlertCircle, CheckCircle2, PieChart as PieIcon, Zap, MessageSquare, Landmark, Calendar, Target, ArrowUpRight, Activity, ShieldAlert, AlertTriangle } from 'lucide-react';
 import { motion } from 'motion/react';
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, Cell, Legend } from 'recharts';
+import { useTranslation } from 'react-i18next';
 import { cn, formatValue, formatCurrency, getThemeColors } from '../../lib/utils';
 import { PageHeader, ControlBar } from '../Common';
 import { ExecutivePageTemplate } from '../ui/executive-page-template';
@@ -27,6 +28,7 @@ interface ControladoriaPageProps {
 }
 
 export function ControladoriaPage({ clientId }: ControladoriaPageProps) {
+  const { t } = useTranslation('executive');
   const { state, computed, actions } = useControladoriaViewModel({ clientId });
   const [dbIndicators, setDbIndicators] = React.useState<any[]>([]);
   const [budgets, setBudgets] = React.useState<any[]>([]);
@@ -139,7 +141,7 @@ export function ControladoriaPage({ clientId }: ControladoriaPageProps) {
   }, [totalPlanned, totalRealized]);
 
   const indicators = useMemo(() => [
-    { label: 'Aderência Orçamentária', value: `${adherenceScore}%`, statusBadge: <ExecutiveBadge variant={adherenceScore >= 90 ? "success" : "warning"}>{adherenceScore >= 90 ? "Eficiente" : "Atenção"}</ExecutiveBadge>, trend: 'Calculado' },
+    { label: 'Aderência Orçamentária', value: `${adherenceScore}%`, statusBadge: <ExecutiveBadge variant={adherenceScore >= 90 ? "success" : "warning"}>{adherenceScore >= 90 ? t('executive:status.efficient') : t('executive:status.attention')}</ExecutiveBadge>, trend: 'Calculado' },
     { label: 'Margem EBITDA Realizada', value: `${getIndicatorValue('Margem EBITDA', 0)}%`, statusBadge: <ExecutiveBadge variant="success">Real</ExecutiveBadge>, trend: 'Realizado' },
     { label: 'Burn Rate Mensal', value: formatCurrency(getIndicatorValue('Burn Rate', 0)), statusBadge: <ExecutiveBadge variant="info">Mensal</ExecutiveBadge>, trend: 'Gasto Mensal' },
     { label: 'Índice de Alavancagem', value: `${getIndicatorValue('Alavancagem', 0)}x`, statusBadge: <ExecutiveBadge variant="neutral">Estável</ExecutiveBadge>, trend: 'Solvência' }
@@ -183,7 +185,7 @@ export function ControladoriaPage({ clientId }: ControladoriaPageProps) {
         opinion="O comitê fiduciário homologa a análise de desvios orçamentários, atestando a integridade dos controles de conciliação e compliance."
         driver="Orçamento vs. Realizado, índice de conformidade e desvios por centro de custo."
         implication="Preservação da margem EBITDA projetada e contenção de vazamentos operacionais."
-        action="Exigir justificativa da diretoria para variações acima de 5% em despesas de overhead e alinhar contingências."
+        executiveQuestion="Exigir justificativa da diretoria para variações acima de 5% em despesas de overhead e alinhar contingências."
       >
         <ExecutiveStrategicTensions tensions={[]} />
         <ExecutiveDecisionTrace trace={[]} />
@@ -203,7 +205,7 @@ export function ControladoriaPage({ clientId }: ControladoriaPageProps) {
                   <div className="flex items-center gap-4">
                     <span className="text-4xl font-black text-foreground font-mono">{adherenceScore}%</span>
                     <ExecutiveBadge variant={adherenceScore >= 90 ? "success" : "warning"}>
-                      {adherenceScore >= 90 ? 'Eficiente' : 'Atenção'}
+                      {adherenceScore >= 90 ? t('executive:status.efficient') : t('executive:status.attention')}
                     </ExecutiveBadge>
                   </div>
                 </div>
@@ -332,7 +334,7 @@ export function ControladoriaPage({ clientId }: ControladoriaPageProps) {
                       </td>
                       <td className="py-4 px-6 text-center">
                         <ExecutiveBadge variant={row.realizado === 0 ? "neutral" : row.indice > 100 ? "critical" : row.indice > 90 ? "warning" : "success"}>
-                          {row.realizado === 0 ? "Pendente" : row.indice > 100 ? "Crítico" : row.indice > 90 ? "Alerta" : "Saudável"}
+                          {row.realizado === 0 ? t('executive:status.pending') : row.indice > 100 ? t('executive:status.critical') : row.indice > 90 ? t('executive:status.alert') : t('executive:status.healthy')}
                         </ExecutiveBadge>
                       </td>
                     </tr>

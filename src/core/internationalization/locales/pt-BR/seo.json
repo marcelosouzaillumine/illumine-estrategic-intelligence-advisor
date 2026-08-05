@@ -1,44 +1,32 @@
 {
   "home": {
     "title": "Illumine | Executive Intelligence Platform™",
-    "description": "A plataforma de inteligência que conecta governança, estratégia e operação para criar a memória institucional da sua empresa.",
-    "keywords": "Executive Intelligence, Governança, Inteligência Institucional, ERP, Decisão Estratégica",
-    "ogTitle": "Illumine | Executive Intelligence Platform™",
-    "ogDescription": "Transforme dados corporativos fragmentados na memória institucional da sua organização."
-  },
-  "manifesto": {
-    "title": "Manifesto Illumine | A Era do Contexto",
-    "description": "A Era da Informação atingiu seu limite. Leia o Manifesto Illumine e descubra porque o próximo diferencial competitivo será o contexto.",
-    "keywords": "Manifesto, Illumine, Era do Contexto, Memória Institucional, Decisão Estratégica",
-    "ogTitle": "Manifesto Illumine | A Era do Contexto",
-    "ogDescription": "O problema não é informação, é interpretação. Leia o Manifesto da Illumine."
+    "description": "Transforme a gestão com o Illumine Executive Operating System™. Uma arquitetura completa de inteligência corporativa para tomada de decisões estratégicas.",
+    "keywords": "Executive Intelligence, Decision Intelligence, Board Intelligence, Corporate Governance, Strategic Advisory, Virtual CFO, Enterprise Intelligence"
   },
   "platform": {
-    "title": "A Plataforma | Illumine Executive Intelligence™",
-    "description": "Conheça a arquitetura por trás da primeira Executive Intelligence Platform™ para grandes corporações.",
-    "keywords": "Plataforma, Arquitetura, Inteligência Executiva, Machine Learning corporativo, Big Data",
-    "ogTitle": "Illumine Platform | Arquitetura de Inteligência",
-    "ogDescription": "Como construímos o sistema nervoso central para a estratégia corporativa."
-  },
-  "domains": {
-    "title": "Domínios Sistêmicos | Illumine",
-    "description": "Descubra como a Illumine conecta os 9 domínios da governança para antecipar impactos no seu fluxo de caixa.",
-    "keywords": "Domínios, Governança, Finanças, Risco, Operacional",
-    "ogTitle": "Illumine | 9 Domínios de Inteligência",
-    "ogDescription": "Entenda a fricção organizacional antes que ela afete o seu resultado financeiro."
+    "title": "Plataforma | Illumine Executive Intelligence",
+    "description": "Conheça as capacidades do nosso Executive Decision Operating System™ (EDOS). Dashboards executivos, modelagem financeira e mais.",
+    "keywords": "Business Intelligence Platform, Strategic Performance Management, Corporate Performance, Executive Dashboards"
   },
   "governance": {
-    "title": "Governança e Confiança | Trust Architecture™",
-    "description": "Auditoria impecável, rastreabilidade completa e isolamento extremo. Conheça a Governança da Illumine.",
-    "keywords": "Governança de IA, Segurança, Trust Architecture, Auditoria de Decisões",
-    "ogTitle": "Illumine | Trust Architecture™",
-    "ogDescription": "A tecnologia amplia a análise. A decisão permanece puramente humana e auditável."
+    "title": "Governança e Segurança | Illumine",
+    "description": "Trust Architecture™: nossa fundação de segurança de dados e governança institucional desenhada para ambientes corporativos críticos.",
+    "keywords": "Corporate Governance, Security, Data Privacy, Enterprise Risk"
   },
-  "why": {
-    "title": "Por que a Illumine? | Inteligência Sistêmica",
-    "description": "Entenda por que empresas abandonam dashboards estáticos pela inteligência sistêmica e preditiva da Illumine.",
-    "keywords": "Por que Illumine, Diferencial, Inteligência Artificial, BI vs IA",
-    "ogTitle": "Por que a Illumine?",
-    "ogDescription": "Do BI tradicional à Executive Intelligence Platform™."
+  "assessment": {
+    "title": "Executive Diagnostic Journey™™ | Illumine",
+    "description": "Diagnóstico de maturidade em inteligência executiva. Avalie a infraestrutura de dados da sua empresa e descubra como evoluir.",
+    "keywords": "Executive Diagnostic Journey™, Strategic Advisory, Consultoria Estratégica, Maturidade Digital"
+  },
+  "manifesto": {
+    "title": "Manifesto | A Visão Illumine",
+    "description": "O futuro da gestão corporativa através do Executive Intelligence Platform™. Entenda nossa tese e nossa arquitetura estratégica.",
+    "keywords": "Manifesto, Executive Intelligence, Visão de Futuro, Inovação Corporativa"
+  },
+  "intelligenceCenter": {
+    "title": "Intelligence Center | Illumine",
+    "description": "Um núcleo de inteligência focado na síntese, produção e disseminação de conhecimentos executivos de alto impacto.",
+    "keywords": "Intelligence Center, Executive Analytics, Enterprise Intelligence"
   }
 }

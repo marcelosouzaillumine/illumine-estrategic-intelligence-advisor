@@ -13,6 +13,7 @@ import { ConfidenceDisclosurePanel } from './ConfidenceDisclosurePanel';
 import { ContinuityRiskPanel } from './ContinuityRiskPanel';
 import { BoardDecisionSurface } from './BoardDecisionSurface';
 import { InstitutionalLineageExplorer } from './InstitutionalLineageExplorer';
+import { useExecutiveFormatter } from '@/core/localization';
 import { EXECUTIVE_SEVERITY_THEME } from './ExecutiveSeverityTheme';
 import { ExecutiveTimelinePanel } from './ExecutiveTimelinePanel';
 import { CausalityExplorerPanel } from './CausalityExplorerPanel';
@@ -30,6 +31,7 @@ interface SovereignBoardPackPageProps {
 
 export function SovereignBoardPackPage({ boardPack, dataMode }: SovereignBoardPackPageProps) {
   const { t } = useLanguage();
+  const formatter = useExecutiveFormatter();
   const { session } = useInstitutionalAuth();
   const userRole = session?.role || 'BOARD_MEMBER';
   const profile = useMemo(() => FiduciaryRuntimeAdapter.getProfile(FiduciaryRuntimeAdapter.mapOfficialRoleToProfileId(userRole)), [userRole]);
@@ -83,7 +85,7 @@ export function SovereignBoardPackPage({ boardPack, dataMode }: SovereignBoardPa
       <div className="flex flex-col text-right text-[10px] font-mono text-muted-foreground dark:text-executive-secondary space-y-0.5">
        <span>Relatório ID: <span className="text-muted-foreground dark:text-executive-secondary font-bold">{boardPack.metadata?.reportId || 'N/A'}</span></span>
        <span>Ciclo: <span className="text-muted-foreground dark:text-executive-secondary font-bold">{boardPack.metadata?.cycleReference || 'N/A'}</span></span>
-       <span>Gerado em: <span className="text-muted-foreground dark:text-executive-secondary font-bold">{boardPack.metadata?.reportGenerationTimestamp ? new Date(boardPack.metadata.reportGenerationTimestamp).toLocaleString() : 'N/A'}</span></span>
+       <span>Gerado em: <span className="text-muted-foreground dark:text-executive-secondary font-bold">{boardPack.metadata?.reportGenerationTimestamp ? formatter.date(boardPack.metadata.reportGenerationTimestamp) : 'N/A'}</span></span>
             </div>
           )}
         </div>
@@ -195,7 +197,7 @@ export function SovereignBoardPackPage({ boardPack, dataMode }: SovereignBoardPa
     <div className="flex flex-col text-right text-[10px] font-mono text-muted-foreground dark:text-executive-secondary space-y-0.5">
      <span>Relatório ID: <span className="text-muted-foreground dark:text-executive-secondary font-bold">{boardPack.metadata.reportId || 'N/A'}</span></span>
      <span>Ciclo: <span className="text-muted-foreground dark:text-executive-secondary font-bold">{boardPack.metadata.cycleReference}</span></span>
-     <span>Gerado em: <span className="text-muted-foreground dark:text-executive-secondary font-bold">{new Date(boardPack.metadata.reportGenerationTimestamp).toLocaleString()}</span></span>
+     <span>Gerado em: <span className="text-muted-foreground dark:text-executive-secondary font-bold">{formatter.date(boardPack.metadata.reportGenerationTimestamp)}</span></span>
         </div>
       </div>
 
@@ -244,7 +246,7 @@ export function SovereignBoardPackPage({ boardPack, dataMode }: SovereignBoardPa
           {snapshot.periodScore !== undefined && (
             <div className="px-4 py-2 bg-slate-100 dark:bg-zinc-900 border border-border dark:border-zinc-800 rounded-2xl flex flex-col items-center shadow-xs">
        <span className="text-[8px] text-muted-foreground dark:text-executive-secondary font-black uppercase tracking-wider">Score</span>
-       <span className="text-xl font-light text-primary dark:text-executive-secondary">{snapshot.periodScore}</span>
+       <span className="text-xl font-light text-primary dark:text-executive-secondary">{formatter.score(snapshot.periodScore)}</span>
             </div>
           )}
         </div>
@@ -497,10 +499,10 @@ export function SovereignBoardPackPage({ boardPack, dataMode }: SovereignBoardPa
               <div className="space-y-2">
         <span className="text-[9px] font-black uppercase tracking-widest text-muted-foreground dark:text-executive-secondary">Taxa de Retorno Operacional (ROCE Proxy)</span>
         <div className="text-4xl font-light text-primary dark:text-executive-secondary tracking-tight">
-                  {boardPack.executiveDecisionPrioritization.economicReturn.returnRate.toFixed(1).replace('.', ',')}%
+                  {formatter.percentage(boardPack.executiveDecisionPrioritization.economicReturn.returnRate / 100)}
                 </div>
         <div className="text-[10px] font-semibold text-muted-foreground dark:text-executive-secondary">
-                  Calculado sobre Capital Empregado de {boardPack.executiveDecisionPrioritization.economicReturn.capitalEmployed.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}
+                  Calculado sobre Capital Empregado de {formatter.currency(boardPack.executiveDecisionPrioritization.economicReturn.capitalEmployed)}
                 </div>
               </div>
 
@@ -542,7 +544,7 @@ export function SovereignBoardPackPage({ boardPack, dataMode }: SovereignBoardPa
                 <div className="p-4 rounded-xl border border-border dark:border-zinc-900 bg-white/40 dark:bg-zinc-900/10 space-y-1.5">
                   <span className="text-[9px] font-black uppercase tracking-widest text-primary dark:text-primary">P2: Qual o retorno do capital empregado?</span>
          <p className="text-xs font-semibold text-muted-foreground dark:text-executive-secondary leading-relaxed">
-                    O retorno da operação foi de {boardPack.executiveDecisionPrioritization.economicReturn.returnRate.toFixed(1).replace('.', ',')}% para um custo de capital de referência de 12,0% a.a.
+                    O retorno da operação foi de {formatter.percentage(boardPack.executiveDecisionPrioritization.economicReturn.returnRate / 100)} para um custo de capital de referência de {formatter.percentage(0.12)}
                   </p>
                 </div>
 

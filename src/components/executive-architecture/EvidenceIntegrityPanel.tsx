@@ -4,6 +4,7 @@ import { ExecutiveHeading } from '../ui/executive-heading';
 import { ExecutiveText } from '../ui/executive-typography';
 import { ShieldCheck, CheckCircle2 } from 'lucide-react';
 import { cn } from '../../lib/utils';
+import { useExecutiveFormatter } from '../../core/localization';
 
 interface ProgressBarProps {
   score: number;
@@ -45,6 +46,7 @@ interface EvidenceIntegrityPanelProps {
 }
 
 export function EvidenceIntegrityPanel({ dataQuality }: EvidenceIntegrityPanelProps) {
+  const formatter = useExecutiveFormatter();
   if (!dataQuality) return null;
 
   return (
@@ -104,7 +106,7 @@ export function EvidenceIntegrityPanel({ dataQuality }: EvidenceIntegrityPanelPr
               <div>
                 <ExecutiveText variant="microLabel" className="text-muted-foreground uppercase block">Última Atualização</ExecutiveText>
                 <span className="text-sm text-foreground">
-                  {new Intl.DateTimeFormat('pt-BR', { dateStyle: 'short', timeStyle: 'short' }).format(new Date(dataQuality.lastUpdatedAt))}
+                  {formatter.date(dataQuality.lastUpdatedAt, { dateStyle: 'short', timeStyle: 'short' })}
                 </span>
               </div>
             </li>

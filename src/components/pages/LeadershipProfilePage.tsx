@@ -1154,7 +1154,7 @@ export function LeadershipProfilePage({ clientId }: { clientId: string }) {
          opinion="O perfil comportamental do time aponta excelente equilíbrio entre estabilidade corporativa e governança."
          driver="Perfis comportamentais DISC/Eneagrama, dilemas de gestão e alinhamento de liderança."
          implication="Alta assertividade na execução de políticas corporativas e baixo turnover em cargos chave."
-         action="Acompanhar pontos de atenção relativos a desalinhamentos em processos de mudança organizacional."
+         executiveQuestion="Acompanhar pontos de atenção relativos a desalinhamentos em processos de mudança organizacional."
        >
          <ExecutiveStrategicTensions tensions={[]} />
          <ExecutiveDecisionTrace trace={[]} />

@@ -624,7 +624,7 @@ export function GovernanceMaturityCenter({ clientId }: { clientId: string }) {
                       <div className="flex gap-4">
                          <div className="flex items-center gap-2">
                             <div className="w-3 h-3 rounded bg-destructive" />
-                            <span className="text-[10px] font-medium text-muted-foreground uppercase tracking-widest">Crítico</span>
+                            <span className="text-[10px] font-medium text-muted-foreground uppercase tracking-widest">Critical</span>
                          </div>
                          <div className="flex items-center gap-2">
                             <div className="w-3 h-3 rounded bg-warning" />

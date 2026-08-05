@@ -7,8 +7,8 @@
     "platform": {
       "title": "Plataforma",
       "manifesto": "Manifesto",
-      "infrastructure": "Infraestrutura",
-      "domains": "Domínios",
+      "infrastructure": "Arquitetura",
+      "domains": "Inteligências",
       "enterprise": "Enterprise"
     },
     "ecosystem": {
@@ -18,7 +18,7 @@
     },
     "trust": {
       "title": "Confiança",
-      "trust_architecture": "Trust Architecture",
+      "trust_architecture": "Trust Architecture™",
       "security": "Security",
       "privacy": "Privacy"
     }

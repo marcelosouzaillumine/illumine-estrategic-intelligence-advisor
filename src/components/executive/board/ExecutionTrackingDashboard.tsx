@@ -4,6 +4,7 @@ import { ShieldCheck, Activity, Target, Clock, AlertTriangle, CheckCircle2, Chev
 import { ExecutionCommitment } from '../../../services/ExecutionGovernanceAdapter';
 import { useExecutionTrackingDashboardViewModel } from '../../../capabilities/executive/presentation/view-models/useExecutionTrackingDashboardViewModel';
 import { cn, formatCurrency } from '../../../lib/utils';
+import { useExecutiveFormatter } from "../../../core/localization";
 
 interface ExecutionTrackingDashboardProps {
   commitments: ExecutionCommitment[];
@@ -11,9 +12,11 @@ interface ExecutionTrackingDashboardProps {
 }
 
 export function ExecutionTrackingDashboard({ commitments, onUpdateStatus }: ExecutionTrackingDashboardProps) {
+    const formatter = useExecutiveFormatter();
   const { state, computed, actions } = useExecutionTrackingDashboardViewModel(commitments);
 
   const getStatusIcon = (status: string) => {
+      const formatter = useExecutiveFormatter();
     switch (status) {
       case 'PENDING': return <Clock size={16} className="text-amber-500" />;
       case 'IN_PROGRESS': return <Activity size={16} className="text-blue-500" />;
@@ -25,6 +28,7 @@ export function ExecutionTrackingDashboard({ commitments, onUpdateStatus }: Exec
   };
 
   const renderSlippageSeverity = (severity: string, label: string) => {
+      const formatter = useExecutiveFormatter();
     let colorClass = "bg-surface text-muted-foreground border-border";
     if (severity === 'LOW') colorClass = "bg-blue-900/30 text-blue-400 border-blue-800/50";
     if (severity === 'MODERATE') colorClass = "bg-amber-900/30 text-amber-400 border-amber-800/50";
@@ -69,7 +73,7 @@ export function ExecutionTrackingDashboard({ commitments, onUpdateStatus }: Exec
                     </span>
                   </div>
                   <span className="text-[10px] font-bold text-muted-foreground">
-                    Prazo: {item.expectedCompletionDate.toLocaleDateString()}
+                    Prazo: {formatter.date(item.expectedCompletionDate)}
                   </span>
                 </div>
                 
@@ -97,6 +101,7 @@ export function ExecutionTrackingDashboard({ commitments, onUpdateStatus }: Exec
           </h3>
           <div className="space-y-4">
             {computed.completed.map(item => {
+                const formatter = useExecutiveFormatter();
               const validation = actions.validateExecutionImpact(item);
               return (
                 <div key={item.id} className="bg-surface/30 border border-border rounded-2xl p-5">

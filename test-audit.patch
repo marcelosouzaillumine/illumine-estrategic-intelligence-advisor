@@ -1,0 +1,11 @@
+--- src/capabilities/executive-advisory/components/MessageTimeline.tsx
++++ src/capabilities/executive-advisory/components/MessageTimeline.tsx
+@@ -19,6 +19,10 @@
+   const [showNewMessageAlert, setShowNewMessageAlert] = useState(false);
+ 
++  useEffect(() => {
++    console.log('[Audit] Timeline mounted');
++    return () => console.log('[Audit] Timeline unmounted');
++  }, []);
++
+   const calculateReadingDelay = (text: string | any) => {

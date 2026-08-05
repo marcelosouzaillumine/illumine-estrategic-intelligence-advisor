@@ -1,0 +1,1 @@
+export interface IProposalReadProvider { getProposalData(leadId: string): Promise<any>; }

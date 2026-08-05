@@ -12,9 +12,9 @@ export interface ExecutiveFieldOrigin {
   lastValidatedAt: string;
 }
 
-export interface ExecutivePlanActionViewModel {
-  prazo: DisplayLabel;
-  acao: DisplayNarrative;
+export interface ExecutiveObservationViewModel {
+  contexto: DisplayLabel;
+  observacao: DisplayNarrative;
   origin: ExecutiveFieldOrigin;
 }
 
@@ -39,19 +39,22 @@ export interface TechnicalIndicatorViewModel {
   origin: ExecutiveFieldOrigin;
 }
 
-export interface DecisionPanelViewModel {
+export interface AnalysisPanelViewModel {
   dimension: DisplayLabel;
   statusBadgeVariant: 'success' | 'warning' | 'critical' | 'neutral' | 'info';
   statusLabel: DisplayStatus;
   opinion: DisplayNarrative;
   driver: DisplayNarrative;
   implication: DisplayNarrative;
-  action: DisplayNarrative;
+  technicalObservation: DisplayNarrative;
+  executiveQuestion?: DisplayNarrative;
   confidence: DisplayLabel;
   score?: number;
   evidences: ExecutiveEvidenceViewModel[];
   origin: ExecutiveFieldOrigin;
 }
+
+export type DecisionPanelViewModel = AnalysisPanelViewModel;
 
 export interface BalanceSheetExecutiveViewModel {
   // Dummy Fiduciary Contract
@@ -67,21 +70,25 @@ export interface BalanceSheetExecutiveViewModel {
   diagnosisOrigin: ExecutiveFieldOrigin;
 
   // Executive Plan
-  planFinanceiro: ExecutivePlanActionViewModel;
-  planOperacional: ExecutivePlanActionViewModel;
-  planGovernanca: ExecutivePlanActionViewModel;
-  planOrigin: ExecutiveFieldOrigin;
+  observacaoFinanceira?: ExecutiveObservationViewModel;
+  observacaoOperacional?: ExecutiveObservationViewModel;
+  observacaoGovernanca?: ExecutiveObservationViewModel;
+  observacaoOrigin?: ExecutiveFieldOrigin;
 
   // Panels
-  decisionPanels: {
-    protection?: DecisionPanelViewModel;
-    liquidity?: DecisionPanelViewModel;
-    capitalStructure?: DecisionPanelViewModel;
-    workingCapital?: DecisionPanelViewModel;
-    capitalEfficiency?: DecisionPanelViewModel;
-    assetQuality?: DecisionPanelViewModel;
+  analysisPanels: {
+    protection?: AnalysisPanelViewModel;
+    liquidity?: AnalysisPanelViewModel;
+    capitalStructure?: AnalysisPanelViewModel;
+    workingCapital?: AnalysisPanelViewModel;
+    capitalEfficiency?: AnalysisPanelViewModel;
+    assetQuality?: AnalysisPanelViewModel;
   };
   
+  // Legacy / deprecated fields
+  decisionPanels?: Record<string, AnalysisPanelViewModel>;
+  decisionTrace?: any[];
+
   // Technical Layer
   technicalIndicators: TechnicalIndicatorViewModel[];
   
@@ -103,11 +110,11 @@ export interface BalanceSheetExecutiveViewModel {
   executiveOpinion?: DisplayNarrative;
   criticalFactor?: DisplayNarrative;
   managementImplication?: DisplayNarrative;
-  recommendedAction?: DisplayNarrative;
+  technicalObservation?: DisplayNarrative;
 
   // Missing components
   institutionalContext?: BalanceSheetInstitutionalContextViewModel;
   auditLayer?: BalanceSheetAuditLayerViewModel;
-  decisionTrace?: any[]; // Array of trace nodes
+  evidenceTrace?: any[]; // Array of trace nodes
   technicalLayer?: { families: { familyName: string; indicators: TechnicalIndicatorViewModel[] }[] };
 }

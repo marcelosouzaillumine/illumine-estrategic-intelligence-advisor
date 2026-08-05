@@ -89,7 +89,7 @@ export const SupportPage: React.FC<SupportPageProps> = ({ selectedClient, isMast
         opinion="O comitê fiduciário acompanha os indicadores de SLA, atestando a eficiência do atendimento ao cliente."
         driver="Chamados abertos, tempo médio de primeira resposta e índice de satisfação."
         implication="Manutenção do fluxo contínuo das operações sem interrupções críticas."
-        action="Acompanhar semanalmente a fila de tickets prioritários para alocação de recursos de suporte."
+        executiveQuestion="Acompanhar semanalmente a fila de tickets prioritários para alocação de recursos de suporte."
       >
         <ExecutiveStrategicTensions tensions={[]} />
         <ExecutiveDecisionTrace trace={[]} />

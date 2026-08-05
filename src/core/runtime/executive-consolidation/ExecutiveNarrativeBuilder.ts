@@ -73,21 +73,21 @@ export class ExecutiveNarrativeBuilder {
     return `${moduleName} apresenta fundamentos resilientes, destacando-se por ${dominantText}.`;
   }
 
-  public static buildPrioridadeEstrategica(context: ExecutiveNarrativeContext): string {
+  public static buildSignificadoFinanceiro(context: ExecutiveNarrativeContext): string {
     if (context.institutionalState === 'NEUTRAL') {
-      return 'Estabelecer rastreabilidade de dados financeiros.';
+      return 'Limitação estrutural para rastreabilidade de dados financeiros.';
     }
 
     if (context.institutionalState === 'CRITICAL') {
-      return `${context.dominantDriver.strategicPriority.critical}, contenção de expansão, preservação de caixa e normalização dos indicadores vitais.`;
+      return `${context.dominantDriver.narratives.critical}. O momento reflete a importância da preservação de caixa e normalização dos indicadores vitais.`;
     }
 
     if (context.institutionalState === 'WARNING') {
-      return `${context.dominantDriver.strategicPriority.warning}, preservação de margem de segurança e disciplina na alocação de recursos.`;
+      return `${context.dominantDriver.narratives.warning}. O contexto aponta para a relevância de preservar margens de segurança e manter disciplina na alocação de recursos.`;
     }
 
     // HEALTHY
-    return `${context.dominantDriver.strategicPriority.healthy}.`;
+    return `${context.dominantDriver.narratives.healthy}.`;
   }
 
   public static buildOutlook(context: ExecutiveNarrativeContext): string {
@@ -97,33 +97,33 @@ export class ExecutiveNarrativeBuilder {
 
     // Zero Semantic Contradiction: CRITICAL and WARNING must override any stage optimism
     if (context.institutionalState === 'CRITICAL') {
-      return 'O cenário exige foco total em estabilização, sobrevivência, preservação de caixa, continuidade operacional e normalização dos indicadores vitais.';
+      return 'O cenário sublinha condições de stress, onde a estabilização, preservação de caixa e normalização dos indicadores vitais assumem protagonismo natural.';
     }
 
     if (context.institutionalState === 'WARNING') {
-      return 'O cenário exige prudência, eficiência operacional, monitoramento contínuo e recomposição de margens de segurança.';
+      return 'O cenário reflete fatores de risco, onde a prudência operacional e a recomposição de margens de segurança tornam-se vetores explicativos dominantes.';
     }
 
     if (context.module === 'BP') {
       const stage = context.strategicStage;
-      if (stage === 'recovery') return 'A prioridade permanece na estabilização financeira e recomposição gradual da capacidade operacional.';
-      if (stage === 'stabilization') return 'O fortalecimento recente cria condições para consolidar ganhos e reduzir vulnerabilidades remanescentes.';
-      if (stage === 'expansion') return 'O desafio passa a ser sustentar o crescimento preservando disciplina de capital, liquidez e eficiência operacional.';
-      if (stage === 'optimization') return 'O foco estratégico migra para ganhos de produtividade e melhor utilização dos recursos disponíveis.';
-      if (stage === 'capital_allocation') return 'A elevada capacidade financeira exige a formalização de uma política de excedentes, equilibrando reinvestimento produtivo, reserva de segurança e eficiência do capital.';
+      if (stage === 'recovery') return 'O panorama atual reforça a centralidade da estabilização financeira e recomposição gradual da capacidade operacional.';
+      if (stage === 'stabilization') return 'O fortalecimento recente sustenta uma base favorável à redução de vulnerabilidades remanescentes.';
+      if (stage === 'expansion') return 'A trajetória observada evidencia que a sustentação do crescimento demanda contínua disciplina de capital e liquidez.';
+      if (stage === 'optimization') return 'A dinâmica vigente revela uma propensão natural a ganhos de produtividade e melhor utilização dos recursos.';
+      if (stage === 'capital_allocation') return 'A robustez sistêmica eleva a relevância técnica de mecanismos para equilibrar reinvestimento produtivo, reserva de segurança e eficiência do capital.';
     }
 
     // HEALTHY fallback
-    return 'O fortalecimento patrimonial recente cria uma sólida fundação para a execução contínua do plano de negócios.';
+    return 'O fortalecimento patrimonial recente forma uma base sólida de sustentação para a continuidade da operação.';
   }
 
-  public static buildPriorityRecommendation(context: ExecutiveNarrativeContext): string {
+  public static buildInstitutionalObservation(context: ExecutiveNarrativeContext): string {
     if (context.institutionalState === 'NEUTRAL') {
-      return 'Levantar as demonstrações financeiras primárias para iniciar a avaliação fiduciária.';
+      return 'Ausência de demonstrações financeiras primárias limitando a avaliação contextual.';
     }
     
     const state = context.institutionalState.toLowerCase() as 'critical' | 'warning' | 'healthy';
-    return context.dominantDriver.priorityRecommendation[state];
+    return context.dominantDriver.narratives[state];
   }
 
   private static getModuleSubject(module: string): string {

@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { FirestoreAuthAdapter } from '../persistence/FirestoreAuthAdapter';
-import { FirestoreCashFlowAdapter } from '../persistence/FirestoreCashFlowAdapter';
+import { persistenceContainer } from '../../infrastructure/container/persistenceContainer';
 
 import { GovernedRepositoryWrapper } from '../../core/security/governed-repository';
 import { DataAccessContext } from '../../core/security/data-access-context';
@@ -51,7 +51,7 @@ export function useCashFlowPageAdapter(selectedClient: string, clients: any[]) {
     const context = buildContext('VIEW_FINANCIALS', cleanId);
 
     try {
-      const cashFlows = await GovernedRepositoryWrapper.execute(context, async () => await FirestoreCashFlowAdapter.getCashFlowsByClient(cleanId));
+      const cashFlows = await GovernedRepositoryWrapper.execute(context, async () => await persistenceContainer.cashFlow.getCashFlowsByClient(cleanId));
       if (cashFlows && cashFlows.length > 0) {
         const data = cashFlows[0];
         setDbFluxo(data);

@@ -3,9 +3,10 @@ import { RuntimeConfidence } from '../../runtime/types';
 import { ShieldCheck, AlertTriangle, ShieldAlert } from 'lucide-react';
 import { cn } from '../../lib/utils';
 import { ExecutiveText } from '../ui/executive-typography';
-import { formatConfidenceLabel } from './ConsolidatedLanguageFormatter';
+import { useLanguage } from '../../contexts/LanguageContext';
 
 export function ConsolidatedConfidenceBadge({ confidence }: { confidence: RuntimeConfidence }) {
+  const { t } = useLanguage();
   const isHigh = confidence === 'HIGH';
   const isMedium = confidence === 'MEDIUM';
   
@@ -20,7 +21,7 @@ export function ConsolidatedConfidenceBadge({ confidence }: { confidence: Runtim
       {isMedium && <AlertTriangle size={14} className="text-amber-600 dark:text-amber-400 shrink-0" />}
       {!isHigh && !isMedium && <ShieldAlert size={14} className="text-rose-600 dark:text-rose-400 shrink-0" />}
       <ExecutiveText variant="caption" className="font-bold uppercase tracking-widest text-current">
-        Confiança Narrativa: {formatConfidenceLabel(confidence)}
+        {t('executive:confidenceLevel')}: {t(`executive:confidence.${confidence.toLowerCase()}`)}
       </ExecutiveText>
     </div>
   );

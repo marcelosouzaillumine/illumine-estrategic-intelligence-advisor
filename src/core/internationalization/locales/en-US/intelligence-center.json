@@ -1,19 +1,19 @@
 {
   "hero": {
     "label": "Executive Intelligence Center™",
-    "title": "Where executive intelligence continuously evolves.",
-    "narrative_1": "The Executive Intelligence Center gathers research, analysis, benchmarks, and frameworks produced to support leaders, boards, and organizations in making more consistent decisions.",
-    "narrative_2": "More than following trends, we transform knowledge into practical instruments for management, governance, and value creation.",
+    "title": "Where executive knowledge transforms into institutional intelligence.",
+    "narrative_1": "The Executive Intelligence Center brings together research, frameworks, analysis, and applied knowledge to develop new models for decision-making, governance, and organizational evolution.",
+    "narrative_2": "More than just following trends, we turn knowledge into practical instruments for management, governance, and value creation.",
     "cta": "Explore the Intelligence Center"
   },
   "knowledge_production": {
-    "title": "Intelligence produced, not just shared.",
-    "subtitle": "Knowledge as decision infrastructure.",
-    "narrative": "Illumine understands that intelligent platforms must continuously evolve. That is why we invest in the systematic production of applied knowledge, connecting executive experience, research, data, and business practice.<br/><br/>The Executive Intelligence Center is the environment where this intelligence is organized, published, and continuously expanded."
+    "title": "The continuous building of executive knowledge.",
+    "subtitle": "Knowledge as institutional infrastructure.",
+    "narrative": "Illumine develops its own intellectual foundation, connecting research, executive experience, and organizational learning to create new models for decision-making and governance.<br/><br/>The Executive Intelligence Center is the core where this knowledge is developed, organized, and transformed into applied intelligence."
   },
   "frameworks": {
-    "title": "Proprietary Frameworks",
-    "lead": "Intellectual models developed by Illumine for diagnosis, decision-making, and organizational evolution. We formed a methodological library that underpins our technological architecture.",
+    "title": "Illumine Intellectual Architecture™",
+    "lead": "Intellectual models developed by Illumine for diagnosis, decision-making, and organizational evolution. We form a methodological library that underpins our technological architecture.",
     "items": [
       {
         "name": "Executive Intelligence Framework™",
@@ -24,7 +24,7 @@
         "desc": "Structure for capturing and preserving organizational learning."
       },
       {
-        "name": "Executive Decision Memory™",
+        "name": "Institutional Decision Memory™",
         "desc": "Structured repository of historical decisions and their outcomes."
       },
       {
@@ -38,7 +38,7 @@
     ]
   },
   "knowledge_areas": {
-    "title": "Areas of Knowledge",
+    "title": "Executive Research Domains",
     "lead": "A center organized by strategic themes.",
     "items": [
       {
@@ -68,16 +68,20 @@
     "lead": "We investigate the challenges that will define the next generation of management.",
     "items": [
       {
-        "title": "Corporate Governance",
-        "description": "How organizations increase decision consistency."
+        "title": "Institutional Intelligence",
+        "description": "How to preserve and leverage critical organizational knowledge."
       },
       {
-        "title": "Institutional Intelligence",
-        "description": "How to preserve critical knowledge."
+        "title": "Corporate Governance",
+        "description": "How organizations increase decision consistency and transparency."
+      },
+      {
+        "title": "Strategy",
+        "description": "How to connect business architecture to market evolution."
       },
       {
         "title": "Financial Performance",
-        "description": "How operational decisions affect economic value."
+        "description": "How operational decisions affect long-term economic value."
       },
       {
         "title": "Leadership",
@@ -85,16 +89,12 @@
       },
       {
         "title": "AI Applied to Management",
-        "description": "Limits, opportunities, and executive responsibility."
-      },
-      {
-        "title": "Strategy",
-        "description": "How organizations continuously learn."
+        "description": "Limits, opportunities, and executive responsibility in AI adoption."
       }
     ]
   },
   "publications": {
-    "title": "Featured Publications",
+    "title": "Executive Library",
     "items": [
       {
         "tag": "Executive Brief",
@@ -135,15 +135,26 @@
     ],
     "conclusion": "Each new learning strengthens both our knowledge and the platform's analytical capacity."
   },
+  "learning_loop": {
+    "title": "Institutional Learning Loop™",
+    "lead": "Knowledge is not static. It fuels the evolution of the platform in a continuous cycle of intelligence.",
+    "nodes": {
+      "n1": "Research",
+      "n2": "Framework",
+      "n3": "Executive Application",
+      "n4": "Institutional Learning",
+      "n5": "Platform Evolution"
+    }
+  },
   "audience": {
     "title": "Who this content is for",
     "items": [
-      "Executives",
-      "Board Members",
-      "Investors",
-      "Advisors",
-      "Consultants",
-      "Researchers"
+      "CEOs",
+      "Boards of Directors",
+      "Family Offices",
+      "C-Level Executives",
+      "Advisors & Consultants",
+      "Researchers & Academics"
     ]
   },
   "cta": {
@@ -153,6 +164,6 @@
     "card_lead": "Before getting to know the platform, discover the ideas that inspired its creation.",
     "btn_publications": "Read Publications",
     "btn_frameworks": "Explore Frameworks",
-    "btn_assessment": "Conduct Executive Assessment"
+    "btn_assessment": "Conduct Executive Diagnostic Journey™"
   }
 }

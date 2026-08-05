@@ -2,8 +2,10 @@ import React, { useEffect, useState } from 'react';
 import { EarlyWarningSignalEngine } from '../../services/FiduciaryRuntimeAdapter';
 import { PredictiveRiskEvent } from '../../services/FiduciaryRuntimeAdapter';
 import { Siren, AlertTriangle } from 'lucide-react';
+import { useExecutiveFormatter } from '../../core/localization';
 
 export function EarlyWarningFeed({ tenantId }: { tenantId: string }) {
+  const formatter = useExecutiveFormatter();
   const [event, setEvent] = useState<PredictiveRiskEvent | null>(null);
 
   useEffect(() => {
@@ -28,7 +30,7 @@ export function EarlyWarningFeed({ tenantId }: { tenantId: string }) {
               <div className="flex justify-between items-start">
                 <div>
                   <h3 className="text-base font-bold text-rose-500">{signal.title}</h3>
-                  <div className="text-xs font-mono text-muted-foreground mt-1">ID: {signal.signalId} | {new Date(signal.createdAt).toLocaleString()}</div>
+                  <div className="text-xs font-mono text-muted-foreground mt-1">ID: {signal.signalId} | {formatter.date(signal.createdAt)}</div>
                 </div>
                 <div className="flex gap-2">
                   <span className="bg-critical-soft0 text-white text-[10px] uppercase font-bold px-2 py-1 rounded">

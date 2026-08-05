@@ -1,5 +1,5 @@
 import { CrossEntityCausality, SystemicRisk, HoldingRoleAnalysis } from './advisoryTypes';
-import { formatEntityName } from '../../../../components/consolidated/ConsolidatedLanguageFormatter';
+import { formatEntityName } from '../EntityFormatter';
 
 export class ConsolidatedNarrativeEngine {
   static generate(

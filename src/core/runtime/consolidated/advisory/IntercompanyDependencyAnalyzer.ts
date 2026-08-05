@@ -1,6 +1,6 @@
 import { ConsolidatedFinancialOutput } from '../types';
 import { DependencyAnalysis } from './advisoryTypes';
-import { formatEntityName } from '../../../../components/consolidated/ConsolidatedLanguageFormatter';
+import { formatEntityName } from '../EntityFormatter';
 
 export class IntercompanyDependencyAnalyzer {
   static analyze(financialOutput: ConsolidatedFinancialOutput): DependencyAnalysis[] {

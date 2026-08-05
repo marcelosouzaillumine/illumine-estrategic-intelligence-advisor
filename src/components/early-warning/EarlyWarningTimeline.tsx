@@ -1,8 +1,10 @@
 import React from 'react';
 import { EarlyWarningSignalEngine } from '../../services/FiduciaryRuntimeAdapter';
 import { Clock } from 'lucide-react';
+import { useExecutiveFormatter } from "../../core/localization";
 
 export function EarlyWarningTimeline({ tenantId }: { tenantId: string }) {
+    const formatter = useExecutiveFormatter();
   const signals = EarlyWarningSignalEngine.getSignals(tenantId);
 
   if (signals.length === 0) return null;
@@ -17,7 +19,7 @@ export function EarlyWarningTimeline({ tenantId }: { tenantId: string }) {
         {signals.map(signal => (
           <div key={signal.signalId} className="relative pl-6">
             <div className="absolute w-3 h-3 bg-critical-soft0 rounded-full -left-1.5 top-1.5 border-2 border-background"></div>
-            <div className="text-xs text-muted-foreground font-mono">{new Date(signal.createdAt).toLocaleTimeString()}</div>
+            <div className="text-xs text-muted-foreground font-mono">{formatter.date(signal.createdAt, { hour: '2-digit', minute: '2-digit' })}</div>
             <div className="text-sm font-medium text-foreground mt-1">{signal.title}</div>
             <div className="text-xs text-muted-foreground mt-1">{signal.category}</div>
           </div>

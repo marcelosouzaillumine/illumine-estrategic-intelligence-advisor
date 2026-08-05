@@ -3,8 +3,10 @@ import { Radar, Play, Loader2, AlertCircle, Clock } from 'lucide-react';
 import { PageHeader } from '../../Common';
 import { MonitoringAlertFeed } from '../../monitoring/MonitoringAlertFeed';
 import { useInstitutionalMonitoringViewModel } from '../../../capabilities/assessment-monitoring/presentation/view-models/useInstitutionalMonitoringViewModel';
+import { useExecutiveFormatter } from "../../../core/localization";
 
 export function InstitutionalMonitoringPage() {
+    const formatter = useExecutiveFormatter();
   const { alerts, isRunning, lastExecution, handleRunCycle } = useInstitutionalMonitoringViewModel();
 
   return (
@@ -57,7 +59,7 @@ export function InstitutionalMonitoringPage() {
                 <p className="text-[10px] text-muted-foreground font-medium uppercase tracking-widest">Última Execução</p>
                 <p className="text-body-sm font-medium text-foreground">
                   {lastExecution
-                    ? new Date(lastExecution.timestamp).toLocaleTimeString()
+                    ? formatter.date(lastExecution.timestamp, { hour: '2-digit', minute: '2-digit' })
                     : 'Pendente'}
                 </p>
               </div>

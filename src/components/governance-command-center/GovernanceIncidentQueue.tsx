@@ -1,8 +1,10 @@
 import React from 'react';
 import { useCommandCenter } from '../../context/governance-command-center/GovernanceCommandCenterProvider';
 import { GovernanceIncident } from '../../services/FiduciaryRuntimeAdapter';
+import { useExecutiveFormatter } from "../../core/localization";
 
 export const GovernanceIncidentQueue: React.FC = () => {
+    const formatter = useExecutiveFormatter();
   const {
     activeIncidents,
     selectedIncident,
@@ -16,6 +18,7 @@ export const GovernanceIncidentQueue: React.FC = () => {
   } = useCommandCenter();
 
   const getSeverityStyle = (severity: string) => {
+      const formatter = useExecutiveFormatter();
     switch (severity) {
       case 'SYSTEMIC':
         return 'text-rose-400 border-rose-500/30 bg-rose-950/20';
@@ -31,6 +34,7 @@ export const GovernanceIncidentQueue: React.FC = () => {
   };
 
   const getStatusBadge = (status: string) => {
+      const formatter = useExecutiveFormatter();
     switch (status) {
       case 'RESOLVED':
         return 'text-emerald-400 border-emerald-500/20 bg-emerald-950/15';
@@ -64,6 +68,7 @@ export const GovernanceIncidentQueue: React.FC = () => {
 
       <div className="space-y-3">
         {activeIncidents.map(({ incident, currentStatus, isCollapsed }) => {
+            const formatter = useExecutiveFormatter();
           const isSelected = selectedIncident?.incidentId === incident.incidentId;
           const severityStyle = getSeverityStyle(incident.severity);
           const statusStyle = getStatusBadge(currentStatus);
@@ -93,7 +98,7 @@ export const GovernanceIncidentQueue: React.FC = () => {
                   <h5 className="text-xs font-mono font-bold text-muted-foreground mt-1">{incident.title}</h5>
                 </div>
                 <span className="text-[10px] font-mono text-muted-foreground">
-                  {new Date(incident.detectedAt).toLocaleTimeString()}
+                  {formatter.date(incident.detectedAt, { hour: '2-digit', minute: '2-digit' })}
                 </span>
               </div>
 
@@ -109,6 +114,7 @@ export const GovernanceIncidentQueue: React.FC = () => {
                     {currentStatus === 'OPEN' && (
                       <button
                         onClick={(e) => {
+                                          const formatter = useExecutiveFormatter();
                           e.stopPropagation();
                           acknowledgeIncident(incident.incidentId);
                         }}
@@ -122,6 +128,7 @@ export const GovernanceIncidentQueue: React.FC = () => {
                     {(currentStatus === 'ACKNOWLEDGED' || currentStatus === 'OPEN') && (
                       <button
                         onClick={(e) => {
+                                          const formatter = useExecutiveFormatter();
                           e.stopPropagation();
                           superviseIncident(incident.incidentId);
                         }}
@@ -135,6 +142,7 @@ export const GovernanceIncidentQueue: React.FC = () => {
                     {currentStatus !== 'ESCALATED' && currentStatus !== 'RESOLVED' && (
                       <button
                         onClick={(e) => {
+                                          const formatter = useExecutiveFormatter();
                           e.stopPropagation();
                           escalateIncident(incident.incidentId);
                         }}
@@ -148,6 +156,7 @@ export const GovernanceIncidentQueue: React.FC = () => {
                     {currentStatus !== 'CONTAINED' && currentStatus !== 'RESOLVED' && (
                       <button
                         onClick={(e) => {
+                                          const formatter = useExecutiveFormatter();
                           e.stopPropagation();
                           containIncident(incident.incidentId);
                         }}
@@ -161,6 +170,7 @@ export const GovernanceIncidentQueue: React.FC = () => {
                     {currentStatus !== 'RESOLVED' && (
                       <button
                         onClick={(e) => {
+                                          const formatter = useExecutiveFormatter();
                           e.stopPropagation();
                           resolveIncident(incident.incidentId);
                         }}

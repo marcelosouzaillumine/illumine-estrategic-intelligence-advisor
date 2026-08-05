@@ -372,7 +372,7 @@ function sanitizeReport(obj: any): any {
           opinion="O comitê fiduciário homologa a análise EFOS, atestando a infraestrutura de dados e a interpretação sistêmica do capital."
           driver="Score composto, resiliência financeira, sustentabilidade da margem e encadeamento causal."
           implication="Visão unificada das demonstrações contábeis e mitigação proativa de riscos de insolvência."
-          action="Executar as ações estratégicas recomendadas pelo painel de inteligência operacional."
+          executiveQuestion="Executar as ações estratégicas recomendadas pelo painel de inteligência operacional."
         >
           <ExecutiveStrategicTensions tensions={[]} />
           <ExecutiveDecisionTrace trace={[]} />
@@ -482,7 +482,7 @@ function sanitizeReport(obj: any): any {
           opinion="O comitê fiduciário chancela o EFOS como sistema central de orquestração do capital e pareceres executivos."
           driver="Síntese financeira, alinhamento C-Level, governança topológica e motor de recomendação."
           implication="Trilha unificada de governança para tomada de decisão em tempo real."
-          action="Manter a calibração mensal dos motores preditivos e regras fiduciárias."
+          executiveQuestion="Manter a calibração mensal dos motores preditivos e regras fiduciárias."
         >
           <ExecutiveStrategicTensions tensions={[]} />
           <ExecutiveDecisionTrace trace={[]} />

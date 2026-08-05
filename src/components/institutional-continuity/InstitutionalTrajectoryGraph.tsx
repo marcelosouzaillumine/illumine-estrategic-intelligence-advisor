@@ -2,6 +2,7 @@ import React from 'react';
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, ReferenceLine } from 'recharts';
 import { AlertTriangle } from 'lucide-react';
 import { useLanguage } from '../../contexts/LanguageContext';
+import { useExecutiveFormatter } from '../../core/localization';
 
 interface HistoricalCycle {
   cycleId: string;
@@ -21,6 +22,7 @@ export function InstitutionalTrajectoryGraph({
   confidenceLevel
 }: InstitutionalTrajectoryGraphProps) {
   const { t } = useLanguage();
+  const formatter = useExecutiveFormatter();
 
   const isFailClosed = confidenceLevel === 'LOW';
 
@@ -62,7 +64,7 @@ export function InstitutionalTrajectoryGraph({
     return (
       <div className="bg-zinc-900 border border-zinc-700 rounded p-3 font-mono text-xs">
         <p className="text-zinc-300 font-bold mb-1">{label}</p>
-        <p className="text-zinc-400">{t('summary.fco_label')} <span className={data.fco >= 0 ? 'text-emerald-400' : 'text-red-400'}>{data.fco.toLocaleString()}</span></p>
+        <p className="text-zinc-400">{t('summary.fco_label')} <span className={data.fco >= 0 ? 'text-emerald-400' : 'text-red-400'}>{formatter.number(data.fco)}</span></p>
         <p className="text-zinc-400">{t('summary.treasury_label')} <span className="text-zinc-300">{data.severity}</span></p>
         {data.isSurvival === 1 && (
           <p className="text-red-400 mt-1 font-bold">{t('summary.survival_mode_alert')}</p>

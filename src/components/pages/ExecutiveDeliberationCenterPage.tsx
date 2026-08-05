@@ -75,7 +75,7 @@ export function ExecutiveDeliberationCenterPage() {
       <div className="mt-12 bg-white p-8 rounded-[32px] border-2 border-executive-primary/20 shadow-xl">
         <h3 className="text-2xl font-black text-executive-secondary mb-6">Human Decision Record</h3>
         <p className="text-sm text-muted-foreground mb-8">
-          A Inteligência Artificial preparou os cenários e expôs os conflitos. A decisão fiduciária pertence ao Comitê.
+          A inteligência institucional preparou os cenários e expôs os conflitos. A decisão fiduciária pertence ao Comitê.
         </p>
 
         <div className="space-y-6">

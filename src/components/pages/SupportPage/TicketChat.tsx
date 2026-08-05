@@ -6,6 +6,7 @@ import { auth } from '../../../lib/firebase';
 import { formatDistanceToNow } from 'date-fns';
 import { ptBR } from 'date-fns/locale';
 import { cn } from '../../../lib/utils';
+import { useExecutiveFormatter } from '../../../core/localization';
 
 interface TicketChatProps {
   ticket: SupportTicket;
@@ -14,6 +15,7 @@ interface TicketChatProps {
 }
 
 export const TicketChat: React.FC<TicketChatProps> = ({ ticket, isMaster, onClose }) => {
+  const formatter = useExecutiveFormatter();
   const [messages, setMessages] = useState<SupportMessage[]>([]);
   const [loading, setLoading] = useState(true);
   const [submitting, setSubmitting] = useState(false);
@@ -169,7 +171,7 @@ export const TicketChat: React.FC<TicketChatProps> = ({ ticket, isMaster, onClos
              <div className="space-y-1">
                 <div className="flex items-center gap-2">
                    <span className="text-[11px] font-medium text-foreground">{ticket.userName}</span>
-                   <span className="text-[9px] text-muted-foreground uppercase tracking-widest italic">{new Date(ticket.createdAt?.toDate?.() || ticket.createdAt).toLocaleString('pt-BR')}</span>
+                   <span className="text-[9px] text-muted-foreground uppercase tracking-widest italic">{formatter.date(ticket.createdAt?.toDate?.() || ticket.createdAt)}</span>
                 </div>
                 <p className="text-[11px] leading-relaxed text-muted-foreground/90 whitespace-pre-wrap">{ticket.description}</p>
              </div>
@@ -201,7 +203,7 @@ export const TicketChat: React.FC<TicketChatProps> = ({ ticket, isMaster, onClos
                         <span className="px-1.5 py-0.5 bg-secondary/10 text-secondary text-[8px] uppercase tracking-widest rounded-sm border border-secondary/20">Staff</span>
                      )}
                      <span className="text-[8px] text-muted-foreground uppercase tracking-widest italic">
-                        {msg.createdAt ? new Date(msg.createdAt?.toDate?.() || msg.createdAt).toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' }) : ''}
+                        {msg.createdAt ? formatter.date(msg.createdAt?.toDate?.() || msg.createdAt, { hour: '2-digit', minute: '2-digit' }) : ''}
                      </span>
                   </div>
                   

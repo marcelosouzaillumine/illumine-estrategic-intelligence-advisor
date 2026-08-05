@@ -13,9 +13,9 @@ export class BalanceSheetDecisionPolicyLayer {
     facts: BalanceSheetExecutiveFacts,
     rawAssessments: any = {},
     institutionalStage: string = ''
-  ): { decisionPanels: Record<string, any>, interpretations: any, institutionalScenario?: InstitutionalScenario } {
+  ): { analysisPanels: Record<string, any>, interpretations: any, institutionalScenario?: InstitutionalScenario } {
     
-    const decisionPanels: Record<string, any> = {};
+    const analysisPanels: Record<string, any> = {};
     const interpretations: any = {};
     
     // Evaluate Thresholds
@@ -27,19 +27,18 @@ export class BalanceSheetDecisionPolicyLayer {
     const derivedScenarioStr = BalanceSheetExecutiveLanguageCompiler.compileDerivedScenario(liqThreshold, autThreshold);
 
     // Compile Panels via Language Compiler
-    decisionPanels.protection = BalanceSheetExecutiveLanguageCompiler.compilePanel('Protection', facts, liqThreshold, autThreshold, wcThreshold);
-    decisionPanels.liquidity = BalanceSheetExecutiveLanguageCompiler.compilePanel('Liquidity', facts, liqThreshold, autThreshold, wcThreshold);
-    decisionPanels.capitalStructure = BalanceSheetExecutiveLanguageCompiler.compilePanel('CapitalStructure', facts, liqThreshold, autThreshold, wcThreshold);
-    decisionPanels.workingCapital = BalanceSheetExecutiveLanguageCompiler.compilePanel('WorkingCapital', facts, liqThreshold, autThreshold, wcThreshold);
-    decisionPanels.assetQuality = BalanceSheetExecutiveLanguageCompiler.compilePanel('AssetQuality', facts, liqThreshold, autThreshold, wcThreshold);
-    decisionPanels.capitalEfficiency = BalanceSheetExecutiveLanguageCompiler.compilePanel('CapitalEfficiency', facts, liqThreshold, autThreshold, wcThreshold);
+    analysisPanels.protection = BalanceSheetExecutiveLanguageCompiler.compilePanel('Protection', facts, liqThreshold, autThreshold, wcThreshold);
+    analysisPanels.liquidity = BalanceSheetExecutiveLanguageCompiler.compilePanel('Liquidity', facts, liqThreshold, autThreshold, wcThreshold);
+    analysisPanels.capitalStructure = BalanceSheetExecutiveLanguageCompiler.compilePanel('CapitalStructure', facts, liqThreshold, autThreshold, wcThreshold);
+    analysisPanels.workingCapital = BalanceSheetExecutiveLanguageCompiler.compilePanel('WorkingCapital', facts, liqThreshold, autThreshold, wcThreshold);
+    analysisPanels.assetQuality = BalanceSheetExecutiveLanguageCompiler.compilePanel('AssetQuality', facts, liqThreshold, autThreshold, wcThreshold);
+    analysisPanels.capitalEfficiency = BalanceSheetExecutiveLanguageCompiler.compilePanel('CapitalEfficiency', facts, liqThreshold, autThreshold, wcThreshold);
 
-    // Provide derived interpretations for backward compatibility in builders
     interpretations.patrimonialThesis = derivedScenarioStr === 'CRITICAL_LIQUIDITY_STRESS' ? 'Risco de Continuidade no Curto Prazo' : 'Gestão patrimonial orientada por dados quantitativos';
     interpretations.executivePlanOverride = {
-      shortTerm: { action: decisionPanels.liquidity.action },
-      mediumTerm: { action: decisionPanels.workingCapital.action },
-      longTerm: { action: decisionPanels.capitalStructure.action }
+      shortTerm: { executiveQuestion: analysisPanels.liquidity.executiveQuestion },
+      mediumTerm: { executiveQuestion: analysisPanels.workingCapital.executiveQuestion },
+      longTerm: { executiveQuestion: analysisPanels.capitalStructure.executiveQuestion }
     };
     
     // Reconstruct the institutionalScenario object from the derived scenario
@@ -53,6 +52,6 @@ export class BalanceSheetDecisionPolicyLayer {
       policyProfile: (derivedScenarioStr === 'CRITICAL_LIQUIDITY_STRESS' ? 'SURVIVAL' : 'SUSTAINABLE_MANAGEMENT') as any
     };
 
-    return { decisionPanels, interpretations, institutionalScenario };
+    return { analysisPanels, interpretations, institutionalScenario };
   }
 }

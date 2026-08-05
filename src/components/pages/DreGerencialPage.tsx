@@ -180,7 +180,7 @@ export function DreGerencialPage({ selectedClient, selectedYear: initialYear, se
          opinion="O comitê fiduciário homologa a DRE Gerencial, validando a margem de contribuição e a disciplina no controle das despesas fixas."
          driver="Receita líquida, custos variáveis, margem de contribuição, despesas operacionais e EBITDA gerencial."
          implication="Garantia de rentabilidade operacional suficiente para cobrir investimentos e serviço da dívida."
-         action="Acompanhar a análise vertical e horizontal para identificar desvios em contas operacionais críticas."
+         executiveQuestion="Acompanhar a análise vertical e horizontal para identificar desvios em contas operacionais críticas."
        >
          <ExecutiveStrategicTensions tensions={[]} />
          <ExecutiveDecisionTrace trace={[]} />

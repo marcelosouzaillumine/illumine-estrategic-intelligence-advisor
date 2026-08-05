@@ -1,0 +1,29 @@
+{
+  "id": "financial.knowledge.recommendation.liquidity_optimization",
+  "type": "RECOMMENDATION",
+  "domain": "FINANCIAL",
+  "ontologyReferences": [
+    "financial.liquidity",
+    "financial.capital_allocation"
+  ],
+  "title": "Liquidity Optimization Recommendation",
+  "description": "Suggested actions for excessive liquidity scenarios.",
+  "content": {
+    "triggers": [
+      "pattern.excessive_liquidity"
+    ],
+    "suggestions": [
+      "Evaluate M&A opportunities or reinvestment into core operations.",
+      "Consider debt prepayment to lower WACC.",
+      "Review dividend distribution or share buyback programs."
+    ]
+  },
+  "confidence": 0.85,
+  "maturity": "VALIDATED",
+  "metadata": {
+    "version": "1.0",
+    "author": "Illumine Financial Engine",
+    "source": "Corporate Strategy Best Practices",
+    "createdAt": "2026-08-05T00:00:00Z"
+  }
+}

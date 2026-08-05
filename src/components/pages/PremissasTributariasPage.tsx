@@ -482,7 +482,7 @@ export function PremissasTributariasPage({ clients: propClients }: any = {}) {
          opinion="O comitê fiduciário homologa as tabelas de incidência tributária vigentes para Simples, Presumido e Real."
          driver="Alíquotas de IRPJ, CSLL, PIS, COFINS, ISS e INSS patronal."
          implication="Garantia de apuração fiscal em conformidade com a legislação tributária."
-         action="Acompanhar a publicação de novas normativas da Receita Federal trimestralmente."
+         executiveQuestion="Acompanhar a publicação de novas normativas da Receita Federal trimestralmente."
        >
          <ExecutiveStrategicTensions tensions={[]} />
          <ExecutiveDecisionTrace trace={[]} />

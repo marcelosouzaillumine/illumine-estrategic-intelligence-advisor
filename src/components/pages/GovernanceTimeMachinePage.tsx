@@ -52,7 +52,7 @@ export const GovernanceTimeMachinePage: React.FC = () => {
           opinion="O comitê fiduciário homologa a auditoria via Máquina do Tempo de Governança, atestando a integridade imutável da trilha temporal de eventos."
           driver="Snapshots temporais fiduciários, motor de navegação na linha do tempo e detecção automática de drifts."
           implication="Garantia de auditoria forense completa para conselheiros, investidores e órgãos reguladores."
-          action="Executar a verificação de drifts temporais ao final de cada exercício fiscal."
+          executiveQuestion="Executar a verificação de drifts temporais ao final de cada exercício fiscal."
         >
           <ExecutiveStrategicTensions tensions={[]} />
           <ExecutiveDecisionTrace trace={[]} />

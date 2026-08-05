@@ -1,0 +1,193 @@
+{
+  "hero": {
+    "label": "Illumine Executive Advisor Ecosystem™",
+    "lead": "A infraestrutura que amplia o valor do aconselhamento executivo.",
+    "narrative": "A Illumine amplia a capacidade de profissionais que aconselham organizações, fortalecendo decisões, relacionamentos e geração de valor para seus clientes.",
+    "cta_certification": "Conhecer a Certificação",
+    "cta_partner": "Conhecer o Modelo Platform Partner™"
+  },
+  "opportunity": {
+    "label": "O Novo Cenário do Aconselhamento Executivo",
+    "title_1": "Por que o mercado",
+    "title_2": "mudou.",
+    "lead": "O mercado mudou. Os clientes esperam muito mais do que relatórios.",
+    "p1": "Durante anos, consultores foram contratados para entregar diagnósticos. Hoje, organizações esperam parceiros capazes de acompanhar decisões, antecipar riscos e contribuir continuamente para a geração de valor.",
+    "p2": "Essa é a maior abertura para profissionais que desejam ir além de projetos pontuais e se estabelecer como parceiros estratégicos de longo prazo."
+  },
+  "transformation": {
+    "label": "O Novo Advisor",
+    "title_1": "A evolução da",
+    "title_2": "prática de advisory",
+    "lead": "A infraestrutura que eleva a sua prática profissional.",
+    "before": "Modelo Tradicional",
+    "after": "O Novo Advisor",
+    "comparisons": {
+      "c1": { "before": "Venda de projetos", "after": "Constrói relacionamento contínuo" },
+      "c2": { "before": "Cobra horas", "after": "Gera receita recorrente" },
+      "c3": { "before": "Entrega diagnósticos", "after": "Acompanha decisões" },
+      "c4": { "before": "Responde perguntas", "after": "Antecipa riscos" },
+      "c5": { "before": "Trabalha sozinho", "after": "Atua com metodologia" },
+      "c6": { "before": "Opinião", "after": "Evidências" }
+    }
+  },
+  "client_value": {
+    "label": "Impacto",
+    "title_1": "O valor percebido",
+    "title_2": "pelo cliente",
+    "lead": "O que o seu cliente passa a receber quando você opera apoiado pela Illumine.",
+    "items": {
+      "i1": "Decisões mais consistentes",
+      "i2": "Acompanhamento contínuo",
+      "i3": "Identificação antecipada de riscos",
+      "i4": "Preservação da memória institucional",
+      "i5": "Maior confiança na governança"
+    }
+  },
+  "practice_impact": {
+    "label": "O Impacto no seu Negócio",
+    "title_1": "O que muda na",
+    "title_2": "sua prática profissional",
+    "lead": "Desenvolva um negócio consultivo mais escalável, focado em receita, produtividade e autoridade.",
+    "revenue": {
+      "title": "Receita",
+      "subtitle": "Transforme projetos em relacionamentos recorrentes.",
+      "items": {
+        "i1": "Advisory recorrente",
+        "i2": "Novas fontes de receita",
+        "i3": "Maior ticket médio"
+      }
+    },
+    "productivity": {
+      "title": "Produtividade",
+      "subtitle": "Dedique menos tempo à operação e mais tempo ao aconselhamento.",
+      "items": {
+        "i1": "Menos trabalho operacional",
+        "i2": "Mais tempo para relacionamento",
+        "i3": "Análises continuamente atualizadas"
+      }
+    },
+    "authority": {
+      "title": "Autoridade",
+      "subtitle": "Fortaleça sua credencial perante clientes, conselhos e investidores.",
+      "items": {
+        "i1": "Certificação",
+        "i2": "Metodologia",
+        "i3": "Comunidade",
+        "i4": "Credibilidade institucional"
+      }
+    }
+  },
+  "predictability": {
+    "label": "Previsibilidade",
+    "title_1": "Um modelo de negócio",
+    "title_2": "mais previsível",
+    "lead": "Construa uma operação resiliente com receita previsível e crescimento sustentado.",
+    "before": "Modelo Tradicional",
+    "after": "Ecossistema Illumine",
+    "comparisons": {
+      "c1": { "before": "Projetos pontuais", "after": "Advisory contínuo" },
+      "c2": { "before": "Receita irregular", "after": "Receita recorrente" },
+      "c3": { "before": "Diagnósticos isolados", "after": "Acompanhamento permanente" },
+      "c4": { "before": "Venda de horas", "after": "Venda de valor" },
+      "c5": { "before": "Pouca escalabilidade", "after": "Crescimento estruturado" },
+      "c6": { "before": "Relacionamento eventual", "after": "Parceria de longo prazo" }
+    }
+  },
+  "paths": {
+    "label": "Dois Caminhos",
+    "title": "Como você deseja participar do Ecossistema Illumine",
+    "lead": "Escolha a forma de atuação mais adequada ao seu modelo de negócio.",
+    "model1": {
+      "title": "Illumine Certified Advisor Network™",
+      "subtitle": "Amplie sua atuação preservando sua independência.",
+      "type": "Para profissionais",
+      "desc": "Ideal para profissionais que desejam incorporar a metodologia Illumine à sua prática, participando do ecossistema metodológico e comercial.",
+      "receives_title": "Você recebe",
+      "receives_items": {
+        "i1": "Certificação oficial",
+        "i2": "Metodologia proprietária",
+        "i3": "Oportunidades comerciais",
+        "i4": "Comunidade executiva",
+        "i5": "Participação em receitas elegíveis",
+        "i6": "Atualização contínua"
+      },
+      "ideal_title": "Ideal para",
+      "ideal_items": {
+        "i1": "Conselheiros",
+        "i2": "Consultores",
+        "i3": "Mentores",
+        "i4": "Especialistas",
+        "i5": "Fractional Executives"
+      }
+    },
+    "model2": {
+      "title": "Illumine Platform Partner™",
+      "subtitle": "Transforme sua empresa de advisory em uma operação escalável.",
+      "type": "Para organizações",
+      "desc": "Utilize a infraestrutura da Illumine para atender sua própria carteira de clientes, mantendo autonomia comercial e operacional.",
+      "receives_title": "Você recebe",
+      "receives_items": {
+        "i1": "Plataforma multiempresa",
+        "i2": "Gestão da carteira",
+        "i3": "Frameworks proprietários",
+        "i4": "Certificação da equipe",
+        "i5": "Ambiente dedicado",
+        "i6": "Evolução contínua da infraestrutura"
+      },
+      "ideal_title": "Ideal para",
+      "ideal_items": {
+        "i1": "Consultorias",
+        "i2": "Boutiques de Advisory",
+        "i3": "CFO as a Service",
+        "i4": "Escritórios consultivos",
+        "i5": "Integradores"
+      }
+    },
+    "comparison": {
+      "title": "Compare os dois modelos",
+      "headers": {
+        "h1": "Critério",
+        "h2": "Certified Advisor",
+        "h3": "Platform Partner"
+      },
+      "rows": {
+        "r1": { "label": "Como você atua?", "v1": "Em parceria com a Illumine", "v2": "Com sua própria operação" },
+        "r2": { "label": "Quem se relaciona com o cliente?", "v1": "Illumine + Advisor", "v2": "Sua empresa" },
+        "r3": { "label": "Como você gera receita?", "v1": "Participação", "v2": "Margem própria" },
+        "r4": { "label": "Ideal para", "v1": "Profissionais", "v2": "Empresas" },
+        "r5": { "label": "Escalabilidade", "v1": "Individual", "v2": "Multiempresa" },
+        "r6": { "label": "Como utiliza a plataforma", "v1": "Ferramenta profissional", "v2": "Infraestrutura operacional" }
+      }
+    }
+  },
+  "certification": {
+    "label": "A Credencial",
+    "title_1": "Sua jornada de",
+    "title_2": "certificação",
+    "lead": "Uma jornada de desenvolvimento criada para profissionais que desejam atuar com uma metodologia estruturada de Executive Intelligence Advisory™.",
+    "step1": {
+      "title": "Escolha seu modelo",
+      "desc": "Defina a modalidade de parceria mais aderente ao seu negócio."
+    },
+    "step2": {
+      "title": "Candidate-se",
+      "desc": "Apresente seu perfil para avaliação do comitê da Illumine."
+    },
+    "step3": {
+      "title": "Conquiste sua certificação",
+      "desc": "Imersão completa na metodologia e frameworks de inteligência."
+    },
+    "step4": {
+      "title": "Integre o ecossistema",
+      "desc": "Atue com a credencial oficial e acesse as vantagens da rede."
+    }
+  },
+  "cta": {
+    "label": "Próximos Passos",
+    "title_1": "Escolha como deseja fazer parte",
+    "title_2": "do Ecossistema Illumine.",
+    "lead": "Escolha o modelo que melhor representa sua forma de atuar e comece a construir a próxima etapa da sua prática profissional.",
+    "btn_certified": "Quero me tornar um Certified Advisor™",
+    "btn_platform": "Quero operar como Platform Partner™"
+  }
+}

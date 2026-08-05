@@ -15,6 +15,8 @@ import {
   Narrative,
   Insight,
   Card,
+  CardGrid,
+  CardTitle,
   ReadingContent,
 } from '@/components/ui/public/institutional/InstitutionalContentSystem';
 
@@ -37,16 +39,6 @@ export function InstitutionalPlatformPage() {
           </HeroLead>
           
           <Narrative className="max-w-3xl text-center text-slate-400">
-            <p>
-              {t('hero.narrative_1')}
-            </p>
-            <p className="mt-6 mb-6 text-slate-300">
-              {t('hero.narrative_2a')}<br />
-              <strong className="text-white">{t('hero.narrative_2b')}</strong>
-            </p>
-            <p>
-              {t('hero.narrative_3')}
-            </p>
             <p className="text-white font-medium text-2xl mt-8 font-sans tracking-tight">
               {brand('principle').split('.')[0]}.<br />
               <span className="text-amber-500">{brand('principle').split('.')[1]}.</span>
@@ -90,7 +82,7 @@ export function InstitutionalPlatformPage() {
               <p className="text-white font-medium text-xl">{t('sections.problem.p2')}</p>
             </div>
             <Card variant="secondary" className="p-8 md:p-12 rounded-3xl" hoverable={false}>
-              <p className="mb-6 text-white font-medium">{t('sections.problem.card_title')}</p>
+              <CardTitle className="text-xl mb-6 min-h-0">{t('sections.problem.card_title')}</CardTitle>
               <ul className="space-y-6">
                 <li className="flex items-start gap-4">
                   <span className="text-amber-500 font-bold mt-1 text-xl">?</span>
@@ -138,11 +130,11 @@ export function InstitutionalPlatformPage() {
               </div>
               <div>
                 <span className="text-amber-500 font-sans text-sm tracking-widest uppercase mb-2 block font-medium">{t('sections.architecture.layer1.tag')}</span>
-                <h3 className="text-3xl font-bold text-white mb-4 font-sans">{brand('intelligenceFoundation')}</h3>
+                <CardTitle className="text-3xl mb-4 min-h-0">{brand('intelligenceFoundation')}</CardTitle>
                 <p className="text-xl text-slate-300 font-medium mb-4 font-sans">{t('sections.architecture.layer1.desc_title')}</p>
-                <p className="text-slate-400 mb-6 leading-relaxed font-sans text-lg">
+                <Narrative className="text-lg leading-relaxed mb-6">
                   {t('sections.architecture.layer1.desc')}
-                </p>
+                </Narrative>
                 <div className="flex flex-wrap gap-3 font-sans">
                   {Object.values(t('sections.architecture.layer1.tags', { returnObjects: true }) as Record<string, string>).map(tag => (
                     <span key={tag} className="px-3 py-1 bg-white/5 border border-white/10 rounded-lg text-sm text-slate-400">{tag}</span>
@@ -157,11 +149,11 @@ export function InstitutionalPlatformPage() {
               </div>
               <div>
                 <span className="text-amber-500 font-sans text-sm tracking-widest uppercase mb-2 block font-medium">{t('sections.architecture.layer2.tag')}</span>
-                <h3 className="text-3xl font-bold text-white mb-4 font-sans">{brand('intelligenceEngine')}</h3>
+                <CardTitle className="text-3xl mb-4 min-h-0">{brand('intelligenceEngine')}</CardTitle>
                 <p className="text-xl text-slate-300 font-medium mb-4 font-sans">{t('sections.architecture.layer2.desc_title')}</p>
-                <p className="text-slate-400 mb-6 leading-relaxed font-sans text-lg">
+                <Narrative className="text-lg leading-relaxed mb-6">
                   {t('sections.architecture.layer2.desc')}
-                </p>
+                </Narrative>
                 <div className="space-y-2 border-l-2 border-amber-500/50 pl-6 my-6 text-lg text-white font-medium font-sans">
                   <p>{t('sections.architecture.layer2.quotes.q1')}</p>
                   <p>{t('sections.architecture.layer2.quotes.q2')}</p>
@@ -176,11 +168,11 @@ export function InstitutionalPlatformPage() {
               </div>
               <div>
                 <span className="text-amber-500 font-sans text-sm tracking-widest uppercase mb-2 block font-medium">{t('sections.architecture.layer3.tag')}</span>
-                <h3 className="text-3xl font-bold text-white mb-4 font-sans">{brand('institutionalLearningArchitecture')}</h3>
+                <CardTitle className="text-3xl mb-4 min-h-0">{brand('institutionalLearningArchitecture')}</CardTitle>
                 <p className="text-xl text-slate-300 font-medium mb-4 font-sans">{t('sections.architecture.layer3.desc_title')}</p>
-                <p className="text-slate-400 mb-6 leading-relaxed font-sans text-lg">
+                <Narrative className="text-lg leading-relaxed mb-6">
                   {t('sections.architecture.layer3.desc')}
-                </p>
+                </Narrative>
                 <p className="text-amber-500 font-medium text-lg font-sans bg-amber-500/10 px-4 py-2 inline-block rounded-lg">
                   {t('sections.architecture.layer3.insight')}
                 </p>
@@ -193,11 +185,11 @@ export function InstitutionalPlatformPage() {
               </div>
               <div>
                 <span className="text-amber-500 font-sans text-sm tracking-widest uppercase mb-2 block font-medium">{t('sections.architecture.layer4.tag')}</span>
-                <h3 className="text-3xl font-bold text-white mb-4 font-sans">{brand('executiveAdvisory')}</h3>
+                <CardTitle className="text-3xl mb-4 min-h-0">{brand('executiveAdvisory')}</CardTitle>
                 <p className="text-xl text-slate-300 font-medium mb-4 font-sans">{t('sections.architecture.layer4.desc_title')}</p>
-                <p className="text-slate-400 mb-6 leading-relaxed font-sans text-lg">
+                <Narrative className="text-lg leading-relaxed mb-6">
                   {t('sections.architecture.layer4.desc')}
-                </p>
+                </Narrative>
                 <p className="text-amber-500 font-medium text-lg font-sans bg-amber-500/10 px-4 py-2 inline-block rounded-lg">
                   {t('sections.architecture.layer4.insight')}
                 </p>
@@ -210,7 +202,7 @@ export function InstitutionalPlatformPage() {
               </div>
               <div className="w-full">
                 <span className="text-amber-500 font-sans text-sm tracking-widest uppercase mb-2 block font-medium">{t('sections.architecture.layer5.tag')}</span>
-                <h3 className="text-3xl font-bold text-white mb-4 font-sans">{brand('trustArchitecture')}</h3>
+                <CardTitle className="text-3xl mb-4 min-h-0">{brand('trustArchitecture')}</CardTitle>
                 <p className="text-xl text-slate-300 font-medium mb-8 font-sans">{t('sections.architecture.layer5.desc_title')}</p>
                 
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
@@ -249,10 +241,10 @@ export function InstitutionalPlatformPage() {
           <div className="max-w-6xl mx-auto">
             <Card variant="accent" className="p-10 md:p-16 flex flex-col md:flex-row items-center gap-16 border-amber-500/20 bg-amber-500/5">
               <div className="flex-1 font-sans">
-                <h3 className="text-3xl font-bold text-white mb-6">{t('sections.digital_twin.desc_title')}</h3>
-                <p className="text-lg text-slate-400 mb-8 leading-relaxed">
+                <CardTitle className="text-3xl mb-6 min-h-0">{t('sections.digital_twin.desc_title')}</CardTitle>
+                <Narrative className="text-lg text-slate-400 mb-8 leading-relaxed">
                   {t('sections.digital_twin.desc')}
-                </p>
+                </Narrative>
                 <div className="p-6 bg-black/40 border border-white/10 rounded-2xl">
                   <p className="text-amber-500 font-mono tracking-widest text-xs font-bold mb-4">{t('sections.digital_twin.box_label')}</p>
                   <p className="text-white mb-4 font-medium text-lg">{t('sections.digital_twin.box_text')}</p>
@@ -320,25 +312,25 @@ export function InstitutionalPlatformPage() {
             <SectionTitle align="center">{t('sections.evolution.title')}</SectionTitle>
             <SectionLead align="center">{t('sections.evolution.lead')}</SectionLead>
           </div>
-          <div className="max-w-5xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-6 font-sans">
+          <CardGrid className="max-w-5xl mx-auto md:grid-cols-3 gap-6 font-sans">
             <Card className="p-8 border-t-4 border-t-amber-500 relative overflow-hidden" variant="secondary" hoverable={false}>
               <div className="absolute top-4 right-4 bg-amber-500/20 text-amber-500 text-[10px] font-bold px-2 py-1 rounded uppercase tracking-wider">{t('sections.evolution.cards.c1_tag')}</div>
-              <h4 className="text-xl font-bold text-white mb-4 mt-6">{t('sections.evolution.cards.c1_title')}</h4>
-              <p className="text-slate-400 text-sm leading-relaxed">{t('sections.evolution.cards.c1_desc')}</p>
+              <CardTitle className="text-xl mt-6 mb-4">{t('sections.evolution.cards.c1_title')}</CardTitle>
+              <Narrative className="text-slate-400 text-sm leading-relaxed">{t('sections.evolution.cards.c1_desc')}</Narrative>
             </Card>
             
             <Card className="p-8 border-t-4 border-t-white/60 relative overflow-hidden opacity-90" variant="secondary" hoverable={false}>
               <div className="absolute top-4 right-4 bg-white/10 text-white text-[10px] font-bold px-2 py-1 rounded uppercase tracking-wider">{t('sections.evolution.cards.c2_tag')}</div>
-              <h4 className="text-xl font-bold text-white mb-4 mt-6">{t('sections.evolution.cards.c2_title')}</h4>
-              <p className="text-slate-400 text-sm leading-relaxed">{t('sections.evolution.cards.c2_desc')}</p>
+              <CardTitle className="text-xl mt-6 mb-4">{t('sections.evolution.cards.c2_title')}</CardTitle>
+              <Narrative className="text-slate-400 text-sm leading-relaxed">{t('sections.evolution.cards.c2_desc')}</Narrative>
             </Card>
 
             <Card className="p-8 border-t-4 border-t-slate-500 relative overflow-hidden opacity-60" variant="secondary" hoverable={false}>
               <div className="absolute top-4 right-4 bg-white/10 text-slate-300 text-[10px] font-bold px-2 py-1 rounded uppercase tracking-wider">{t('sections.evolution.cards.c3_tag')}</div>
-              <h4 className="text-xl font-bold text-white mb-4 mt-6">{t('sections.evolution.cards.c3_title')}</h4>
-              <p className="text-slate-400 text-sm leading-relaxed">{t('sections.evolution.cards.c3_desc')}</p>
+              <CardTitle className="text-xl mt-6 mb-4">{t('sections.evolution.cards.c3_title')}</CardTitle>
+              <Narrative className="text-slate-400 text-sm leading-relaxed">{t('sections.evolution.cards.c3_desc')}</Narrative>
             </Card>
-          </div>
+          </CardGrid>
         </Container>
       </Section>
 

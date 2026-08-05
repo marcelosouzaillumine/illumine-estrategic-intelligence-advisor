@@ -1,17 +1,23 @@
 import React, { useState, useEffect } from 'react';
 import { Outlet, Link, useLocation } from 'react-router-dom';
+import { getLocalizedRoute, RouteKey, SupportedLocale } from '../../../../core/routing/internationalRoutes';
 import { Menu, X, ArrowRight } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { ExecutiveCopilotWidget } from '../../../ui/public/institutional/copilot/ExecutiveCopilotWidget';
 import { LanguageSelector } from '../../../ui/public/institutional/LanguageSelector';
 import { useTranslation } from 'react-i18next';
+import { useInstitutionalAuth } from '../../../../core/security/auth/InstitutionalAuthProvider';
 
 export function InstitutionalLayout() {
+  const { user } = useInstitutionalAuth();
   const [isScrolled, setIsScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const location = useLocation();
-  const { t: tNav } = useTranslation('navigation');
+  const { t: tNav, i18n } = useTranslation('navigation');
   const { t: tFooter } = useTranslation('footer');
+  
+  const currentLang = i18n.language === 'en-US' ? 'en' : i18n.language === 'es-ES' ? 'es' : 'pt';
+  const loginUrl = `/${currentLang}/login`;
 
   useEffect(() => {
     const handleScroll = () => {
@@ -26,29 +32,34 @@ export function InstitutionalLayout() {
     setMobileMenuOpen(false);
   }, [location.pathname]);
 
+  const isHomePage = location.pathname === '/' || location.pathname.match(/^\/(pt|en|es)\/?$/) !== null;
+
+  const currentLocale = (i18n.language === 'en-US' ? 'en-US' : i18n.language === 'es-ES' ? 'es-ES' : 'pt-BR') as SupportedLocale;
+
   const navLinks = [
-    { label: tNav('nav.manifesto'), href: '/manifesto' },
-    { label: tNav('nav.platform'), href: '/plataforma' },
-    { label: tNav('nav.domains'), href: '/dominios' },
-    { label: tNav('nav.why_illumine'), href: '/por-que-illumine' },
-    { label: tNav('nav.governance'), href: '/governanca' },
-    { label: tNav('nav.intelligence_center'), href: '/centro-de-inteligencia' },
+    { label: tNav('nav.manifesto'), href: getLocalizedRoute('MANIFESTO', currentLocale) },
+    { label: tNav('nav.platform'), href: getLocalizedRoute('PLATFORM', currentLocale) },
+    { label: tNav('nav.intelligences'), href: getLocalizedRoute('DOMAINS', currentLocale) },
+    { label: tNav('nav.why_illumine'), href: getLocalizedRoute('WHY', currentLocale) },
+    { label: tNav('nav.governance'), href: getLocalizedRoute('GOVERNANCE', currentLocale) },
+    { label: tNav('nav.intelligence_center'), href: getLocalizedRoute('INTELLIGENCE_CENTER', currentLocale) },
+    { label: tNav('nav.advisor_network'), href: getLocalizedRoute('ADVISOR_NETWORK', currentLocale) },
   ];
 
   return (
     <div className="min-h-screen bg-[#0A0A0B] text-slate-200 font-sans selection:bg-primary/30 selection:text-primary-foreground flex flex-col">
       {/* Navbar */}
-      <header
-        className={cn(
-          "fixed top-0 left-0 right-0 z-50 transition-all duration-500 border-b",
+        <header
+          className={cn(
+            "fixed top-0 left-0 right-0 z-50 transition-all duration-500 border-b",
           isScrolled 
-            ? "bg-[#0A0A0B]/80 backdrop-blur-xl border-white/5 py-4" 
+            ? "bg-[#0A0A0B]/95 border-white/5 py-4" 
             : "bg-transparent border-transparent py-8"
         )}
       >
         <div className="max-w-7xl mx-auto px-6 flex items-center justify-between">
           {/* Logo */}
-          <Link to="/" className="flex items-center gap-2 group">
+          <Link to="/" className="flex items-center gap-2 group shrink-0">
             <img src="/logo.png" alt="Illumine" className="w-8 h-8 object-contain transition-transform group-hover:scale-105 duration-500" />
             <span 
               className="text-3xl tracking-[-0.04em] text-white leading-[0.8] block group-hover:text-amber-500 transition-colors duration-500" 
@@ -59,12 +70,12 @@ export function InstitutionalLayout() {
           </Link>
 
           {/* Desktop Nav */}
-          <nav className="hidden lg:flex items-center gap-6 xl:gap-10">
+          <nav className="hidden lg:flex flex-1 justify-center items-center gap-3 xl:gap-6 px-4">
             {navLinks.map((link) => (
               <Link 
                 key={link.href} 
                 to={link.href}
-                className="text-[13px] font-semibold text-slate-400 hover:text-white transition-all duration-300 hover:-translate-y-0.5 whitespace-nowrap"
+                className="text-[13px] xl:text-[14px] font-semibold text-slate-400 hover:text-white transition-all duration-300 hover:-translate-y-0.5 text-center whitespace-nowrap"
               >
                 {link.label}
               </Link>
@@ -72,20 +83,23 @@ export function InstitutionalLayout() {
           </nav>
 
           {/* Desktop Actions */}
-          <div className="hidden lg:flex items-center gap-4">
+          <div className="hidden lg:flex items-center gap-3 shrink-0">
             <LanguageSelector />
-            <a 
-              href="/login"
-              className="text-[13px] font-semibold text-slate-400 hover:text-white transition-all px-4 py-2"
-            >
-              Login
-            </a>
-            <a 
-              href="/assessment"
-              className="text-[13px] font-bold bg-white text-black px-6 py-2.5 rounded-full hover:scale-105 hover:bg-slate-100 transition-all duration-300 shadow-[0_0_30px_rgba(255,255,255,0.08)] flex items-center gap-2"
-            >
-              {tNav('nav.cta')}
-            </a>
+            {user ? (
+              <Link 
+                to={loginUrl}
+                className="text-[13px] xl:text-[14px] font-semibold text-slate-400 hover:text-white transition-all px-2 xl:px-4 py-2"
+              >
+                Dashboard
+              </Link>
+            ) : (
+              <Link 
+                to={loginUrl}
+                className="text-[13px] xl:text-[14px] font-semibold text-slate-400 hover:text-white transition-all px-2 xl:px-4 py-2"
+              >
+                Login
+              </Link>
+            )}
           </div>
 
           {/* Mobile Menu Toggle */}
@@ -113,32 +127,40 @@ export function InstitutionalLayout() {
               </Link>
             ))}
           </nav>
+          
+          <div className="mt-8 flex justify-center border-t border-white/5 pt-8">
+            <LanguageSelector />
+          </div>
+
           <div className="mt-auto mb-12 flex flex-col gap-4">
-            <a 
-              href="/assessment"
-              className="text-center text-base font-semibold bg-white text-black px-6 py-4 rounded-full shadow-[0_0_20px_rgba(255,255,255,0.1)]"
-              onClick={() => setMobileMenuOpen(false)}
-            >
-              {tNav('nav.cta')}
-            </a>
-            <a 
-              href="/login"
-              className="text-center text-base font-medium text-slate-400 py-4 border border-white/10 rounded-full"
-              onClick={() => setMobileMenuOpen(false)}
-            >
-              {tNav('nav.login')}
-            </a>
+            {user ? (
+              <Link 
+                to={loginUrl}
+                onClick={() => setMobileMenuOpen(false)}
+                className="text-center text-base font-semibold bg-[#1A212E] text-white border border-[#202733] px-6 py-4 rounded-full shadow-[0_0_20px_rgba(0,0,0,0.5)] block"
+              >
+                Dashboard
+              </Link>
+            ) : (
+              <Link 
+                to={loginUrl}
+                onClick={() => setMobileMenuOpen(false)}
+                className="text-center text-base font-semibold bg-[#1A212E] text-white border border-[#202733] px-6 py-4 rounded-full shadow-[0_0_20px_rgba(0,0,0,0.5)] block"
+              >
+                Login
+              </Link>
+            )}
           </div>
         </div>
       )}
 
       {/* Main Content Area */}
-      <main className="flex-1 flex flex-col pt-[80px]">
+      <main className="flex-1 flex flex-col pt-[100px] lg:pt-[120px]">
         <Outlet />
       </main>
 
-        {/* Footer */}
-      <footer className="border-t border-white/5 py-16 lg:py-24 bg-[#050506] relative overflow-hidden">
+      {/* Footer */}
+        <footer className="border-t border-white/5 py-16 lg:py-24 bg-[#050506] relative overflow-hidden">
 
         <div className="max-w-7xl mx-auto px-6 grid grid-cols-1 md:grid-cols-12 gap-12 lg:gap-8 relative z-10">
           <div className="col-span-1 md:col-span-4 lg:col-span-5 pr-8">
@@ -162,9 +184,9 @@ export function InstitutionalLayout() {
             <div>
               <h4 className="text-[11px] font-bold uppercase tracking-widest text-slate-500 mb-6">{tFooter('sections.platform.title')}</h4>
               <ul className="space-y-4">
-                <li><Link to="/manifesto" className="text-[13px] font-medium text-slate-400 hover:text-amber-500 hover:translate-x-1 inline-block transition-all">{tFooter('sections.platform.manifesto')}</Link></li>
-                <li><Link to="/plataforma" className="text-[13px] font-medium text-slate-400 hover:text-amber-500 hover:translate-x-1 inline-block transition-all">{tFooter('sections.platform.infrastructure')}</Link></li>
-                <li><Link to="/dominios" className="text-[13px] font-medium text-slate-400 hover:text-amber-500 hover:translate-x-1 inline-block transition-all">{tFooter('sections.platform.domains')}</Link></li>
+                <li><Link to={getLocalizedRoute('MANIFESTO', currentLocale)} className="text-[13px] font-medium text-slate-400 hover:text-amber-500 hover:translate-x-1 inline-block transition-all">{tFooter('sections.platform.manifesto')}</Link></li>
+                <li><Link to={getLocalizedRoute('PLATFORM', currentLocale)} className="text-[13px] font-medium text-slate-400 hover:text-amber-500 hover:translate-x-1 inline-block transition-all">{tFooter('sections.platform.infrastructure')}</Link></li>
+                <li><Link to={getLocalizedRoute('DOMAINS', currentLocale)} className="text-[13px] font-medium text-slate-400 hover:text-amber-500 hover:translate-x-1 inline-block transition-all">{tFooter('sections.platform.domains')}</Link></li>
                 <li><Link to="/enterprise" className="text-[13px] font-medium text-slate-400 hover:text-amber-500 hover:translate-x-1 inline-block transition-all">{tFooter('sections.platform.enterprise')}</Link></li>
               </ul>
             </div>
@@ -172,16 +194,16 @@ export function InstitutionalLayout() {
             <div>
               <h4 className="text-[11px] font-bold uppercase tracking-widest text-slate-500 mb-6">{tFooter('sections.ecosystem.title')}</h4>
               <ul className="space-y-4">
-                <li><Link to="/centro-de-inteligencia" className="text-[13px] font-medium text-slate-400 hover:text-amber-500 hover:translate-x-1 inline-block transition-all">{tFooter('sections.ecosystem.intelligence_center')}</Link></li>
-                <li><Link to="/network" className="text-[13px] font-medium text-slate-400 hover:text-amber-500 hover:translate-x-1 inline-block transition-all">{tFooter('sections.ecosystem.advisor_network')}</Link></li>
+                <li><Link to={getLocalizedRoute('INTELLIGENCE_CENTER', currentLocale)} className="text-[13px] font-medium text-slate-400 hover:text-amber-500 hover:translate-x-1 inline-block transition-all">{tFooter('sections.ecosystem.intelligence_center')}</Link></li>
+                <li><Link to={getLocalizedRoute('ADVISOR_NETWORK', currentLocale)} className="text-[13px] font-medium text-slate-400 hover:text-amber-500 hover:translate-x-1 inline-block transition-all">{tFooter('sections.ecosystem.advisor_network')}</Link></li>
               </ul>
             </div>
 
             <div>
               <h4 className="text-[11px] font-bold uppercase tracking-widest text-slate-500 mb-6">{tFooter('sections.trust.title')}</h4>
               <ul className="space-y-4">
-                <li><Link to="/governanca" className="text-[13px] font-medium text-slate-400 hover:text-amber-500 hover:translate-x-1 inline-block transition-all">{tFooter('sections.trust.trust_architecture')}</Link></li>
-                <li><Link to="/governanca" className="text-[13px] font-medium text-slate-400 hover:text-amber-500 hover:translate-x-1 inline-block transition-all">{tFooter('sections.trust.security')}</Link></li>
+                <li><Link to={getLocalizedRoute('GOVERNANCE', currentLocale)} className="text-[13px] font-medium text-slate-400 hover:text-amber-500 hover:translate-x-1 inline-block transition-all">{tFooter('sections.trust.trust_architecture')}</Link></li>
+                <li><Link to={getLocalizedRoute('GOVERNANCE', currentLocale)} className="text-[13px] font-medium text-slate-400 hover:text-amber-500 hover:translate-x-1 inline-block transition-all">{tFooter('sections.trust.security')}</Link></li>
                 <li><Link to="/privacidade" className="text-[13px] font-medium text-slate-400 hover:text-amber-500 hover:translate-x-1 inline-block transition-all">{tFooter('sections.trust.privacy')}</Link></li>
               </ul>
             </div>
@@ -199,7 +221,7 @@ export function InstitutionalLayout() {
         </div>
       </footer>
 
-      {/* Executive Copilot Widget */}
+      {/* Illumine Advisory Widget */}
       <ExecutiveCopilotWidget />
     </div>
   );

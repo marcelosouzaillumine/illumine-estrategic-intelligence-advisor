@@ -4,12 +4,14 @@ import { FileSearch, Database } from 'lucide-react';
 import { ExecutiveSurface } from '../ui/executive-surface';
 import { ExecutiveBadge } from '../ui/executive-badge';
 import { ExecutiveText } from '../ui/executive-typography';
+import { useExecutiveFormatter } from '../../core/localization';
 
 export interface ExecutiveEvidenceCardProps {
   readonly context: ExecutiveDecisionContext;
 }
 
 export const ExecutiveEvidenceCard: React.FC<ExecutiveEvidenceCardProps> = ({ context }) => {
+  const formatter = useExecutiveFormatter();
   const metrics = context.executiveMetrics?.currentMetrics || {};
   const ebitda = metrics.EBITDA || metrics.ebitda || 620000;
   const revenue = metrics.ReceitaBruta || metrics.revenue || 8450000;
@@ -32,17 +34,17 @@ export const ExecutiveEvidenceCard: React.FC<ExecutiveEvidenceCardProps> = ({ co
       <div className="grid grid-cols-1 md:grid-cols-3 gap-3 text-xs">
         <div className="p-2.5 bg-surface-container/30 rounded border border-border/30">
           <span className="text-muted-foreground block text-[10px] uppercase font-semibold">Receita Bruta ({context.period})</span>
-          <span className="font-bold text-foreground text-sm">R$ {revenue.toLocaleString('pt-BR')}</span>
+          <span className="font-bold text-foreground text-sm">{formatter.currency(revenue)}</span>
         </div>
 
         <div className="p-2.5 bg-surface-container/30 rounded border border-border/30">
           <span className="text-muted-foreground block text-[10px] uppercase font-semibold">EBITDA Gerado</span>
-          <span className="font-bold text-foreground text-sm">R$ {ebitda.toLocaleString('pt-BR')}</span>
+          <span className="font-bold text-foreground text-sm">{formatter.currency(ebitda)}</span>
         </div>
 
         <div className="p-2.5 bg-surface-container/30 rounded border border-border/30">
           <span className="text-muted-foreground block text-[10px] uppercase font-semibold">Benchmark de Mercado</span>
-          <span className="font-bold text-foreground text-sm">{context.benchmarks?.ebitdaMarginBenchmark || 15.0}% Margem</span>
+          <span className="font-bold text-foreground text-sm">{formatter.percentage(context.benchmarks?.ebitdaMarginBenchmark ? context.benchmarks.ebitdaMarginBenchmark / 100 : 0.15)} Margem</span>
         </div>
       </div>
     </ExecutiveSurface>

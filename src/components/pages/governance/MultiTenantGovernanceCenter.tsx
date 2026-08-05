@@ -10,7 +10,7 @@ export function MultiTenantGovernanceCenter() {
     { label: 'Tenants Ativos', value: '1', icon: Database, status: 'neutral' as const, trend: 'Estável' },
     { label: 'Workspaces Operacionais', value: '2', icon: Users, status: 'neutral' as const, trend: 'Estável' },
     { label: 'Execuções Rastreadas', value: '1.042', icon: Activity, status: 'neutral' as const, trend: 'Bullish' },
-    { label: 'Leakage Detectado', value: '0', icon: ShieldCheck, status: 'neutral' as const, trend: 'Saudável' },
+    { label: 'Leakage Detectado', value: '0', icon: ShieldCheck, status: 'neutral' as const, trend: 'HEALTHY' },
   ];
 
   const auditLog = [

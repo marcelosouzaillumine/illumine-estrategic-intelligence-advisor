@@ -65,8 +65,10 @@ import { ImportBankStatementModal } from '../modals/ImportBankStatementModal';
 import { BankTransactionsModal } from '../modals/BankTransactionsModal';
 import { StatusBadge } from '../Common';
 import { useFinancialPositionViewModel } from '../../viewmodels/useFinancialPositionViewModel';
+import { useExecutiveFormatter } from '@/core/localization';
 
 export function FinancialPositionPage({ clients, selectedClient }: { clients: any[], selectedClient: string }) {
+  const formatter = useExecutiveFormatter();
   // Adapter: useFinancialPositionPageAdapter
   // ViewModel: useFinancialPositionPageViewModel
   const { state: vmState, computed: vmComputed, actions: vmActions } = useFinancialPositionPageViewModel({ clientId: selectedClient });
@@ -374,7 +376,7 @@ export function FinancialPositionPage({ clients, selectedClient }: { clients: an
                           </span>
                           {p.moeda !== 'BRL' && (
                             <span className="text-[10px] font-bold text-muted-foreground italic">
-                              {p.moeda} {p.saldoAtual.toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
+                              {p.moeda} {formatter.number(p.saldoAtual, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
                             </span>
                           )}
                         </div>

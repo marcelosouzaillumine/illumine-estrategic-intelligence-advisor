@@ -60,7 +60,7 @@ export function InstitutionalDeploymentReadinessPage() {
           opinion="O comitê fiduciário valida os requisitos de prontidão técnica, confirmando a integridade das regras de isolamento e barramentos."
           driver="Checklist de segurança, política de isolamento multi-tenant e validação de dependências tecnológicas."
           implication="Garantia de que novos módulos ou atualizações não violam o princípio Deny-by-Default."
-          action="Manter o pipeline de CI/CD vinculado às verificações automatizadas de prontidão fiduciária."
+          executiveQuestion="Manter o pipeline de CI/CD vinculado às verificações automatizadas de prontidão fiduciária."
         >
           <ExecutiveStrategicTensions tensions={[]} />
           <ExecutiveDecisionTrace trace={[]} />

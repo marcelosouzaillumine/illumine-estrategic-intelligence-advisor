@@ -1,0 +1,31 @@
+{
+  "id": "financial.knowledge.rule.liquidity_analysis",
+  "type": "RULE",
+  "domain": "FINANCIAL",
+  "ontologyReferences": [
+    "financial.liquidity.current_ratio"
+  ],
+  "title": "Liquidity Comprehensive Analysis",
+  "description": "Guides the Reasoning Pipeline to evaluate context beyond the raw indicator.",
+  "content": {
+    "when": {
+      "concept": "current_ratio"
+    },
+    "evaluate": [
+      "benchmark",
+      "trend",
+      "asset_composition"
+    ],
+    "generate": {
+      "findingType": "financial_observation"
+    }
+  },
+  "confidence": 0.95,
+  "maturity": "VALIDATED",
+  "metadata": {
+    "version": "1.0",
+    "author": "Illumine Financial Engine",
+    "source": "Internal Architecture",
+    "createdAt": "2026-08-05T00:00:00Z"
+  }
+}

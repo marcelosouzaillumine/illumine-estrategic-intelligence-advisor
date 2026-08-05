@@ -1,0 +1,21 @@
+{
+  "id": "financial.knowledge.principle.efficiency",
+  "type": "PRINCIPLE",
+  "domain": "FINANCIAL",
+  "ontologyReferences": [
+    "financial.efficiency"
+  ],
+  "title": "Capital Efficiency Principle",
+  "description": "Idle capital destroys value.",
+  "content": {
+    "statement": "Assets should be actively deployed to generate return. Idle cash or bloated working capital reduces overall ROE."
+  },
+  "confidence": 0.99,
+  "maturity": "ESTABLISHED",
+  "metadata": {
+    "version": "1.0",
+    "author": "Illumine Financial Engine",
+    "source": "Value-Based Management",
+    "createdAt": "2026-08-05T00:00:00Z"
+  }
+}

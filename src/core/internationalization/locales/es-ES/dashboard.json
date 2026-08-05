@@ -1,6 +1,21 @@
 {
-  "title": "ES::Executive Dashboard",
-  "period": "ES::Período de Análise",
-  "performance": "ES::Análise de Performance",
-  "overview": "ES::Visão Geral"
+  "consolidated_executive": {
+    "loading": "Cargando Inteligencia Consolidada...",
+    "error_title": "Fallo de Consolidación",
+    "empty_title": "Ningún Informe Consolidado Disponible",
+    "empty_desc": "No hay datos consolidados activos para el grupo económico seleccionado en este momento.",
+    "header_title": "Inteligencia Consolidada del Grupo Económico",
+    "header_desc": "Consolidación patrimonial intercompany, dependencias estructurales y propagación de riesgo sistémico.",
+    "header_badge": "Sesión Consolidada Habilitada",
+    "passive_render": "Renderización Pasiva View Layer (Runtime-Compliant)",
+    "accordion_title": "Panel de Consolidación C-Level",
+    "accordion_subtitle": "Analice la integridad, apalancamiento intercompany y cumplimiento de gobernanza.",
+    "critical_blocker_default": "Violación Crítica de Active Governance.",
+    "summary_status": "Consolidación Homologada",
+    "summary_question": "¿Cuál es la integridad de los saldos intercompany y el riesgo sistémico del grupo económico?",
+    "summary_opinion": "El comité fiduciario certifica la correcta eliminación de transacciones intercompany y homologa los estados consolidados.",
+    "summary_driver": "Nivel de confianza de la consolidación, eliminaciones intercompany, propagación de riesgos y violaciones de gobernanza.",
+    "summary_implication": "Mitigación del contagio financiero entre subsidiarias y transparencia patrimonial.",
+    "summary_action": "Resolver las violaciones de gobernanza identificadas en el panel consolidado."
+  }
 }

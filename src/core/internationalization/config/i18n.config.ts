@@ -50,7 +50,14 @@ import ptBrShowcasesCommand from '../locales/pt-BR/showcases/executive-command.j
 import ptBrShowcasesSystemic from '../locales/pt-BR/showcases/systemic-intelligence.json';
 import ptBrShowcasesGovernance from '../locales/pt-BR/showcases/governance.json';
 import ptBrIntelligenceCenter from '../locales/pt-BR/intelligence-center.json';
-import ptBrAssessment from '../locales/pt-BR/assessment.json';
+import ptBrAssessment from '../locales/pt-BR/diagnostic.json';
+import ptBrWorkspace from '../locales/pt-BR/workspace.json';
+import ptBrSettings from '../locales/pt-BR/settings.json';
+import ptBrPermissions from '../locales/pt-BR/permissions.json';
+import ptBrAdvisoryRecommendations from '../locales/pt-BR/advisory/recommendations.json';
+import ptBrAdvisoryInsights from '../locales/pt-BR/advisory/insights.json';
+import ptBrAdvisoryActions from '../locales/pt-BR/advisory/actions.json';
+import ptBrAdvisorNetwork from '../locales/pt-BR/advisor-network.json';
 
 // Import en-US namespaces
 import enUsCommon from '../locales/en-US/common.json';
@@ -75,7 +82,14 @@ import enUsShowcasesCommand from '../locales/en-US/showcases/executive-command.j
 import enUsShowcasesSystemic from '../locales/en-US/showcases/systemic-intelligence.json';
 import enUsShowcasesGovernance from '../locales/en-US/showcases/governance.json';
 import enUsIntelligenceCenter from '../locales/en-US/intelligence-center.json';
-import enUsAssessment from '../locales/en-US/assessment.json';
+import enUsAssessment from '../locales/en-US/diagnostic.json';
+import enUsWorkspace from '../locales/en-US/workspace.json';
+import enUsSettings from '../locales/en-US/settings.json';
+import enUsPermissions from '../locales/en-US/permissions.json';
+import enUsAdvisoryRecommendations from '../locales/en-US/advisory/recommendations.json';
+import enUsAdvisoryInsights from '../locales/en-US/advisory/insights.json';
+import enUsAdvisoryActions from '../locales/en-US/advisory/actions.json';
+import enUsAdvisorNetwork from '../locales/en-US/advisor-network.json';
 
 // Import es-ES namespaces
 import esEsCommon from '../locales/es-ES/common.json';
@@ -100,7 +114,14 @@ import esEsShowcasesCommand from '../locales/es-ES/showcases/executive-command.j
 import esEsShowcasesSystemic from '../locales/es-ES/showcases/systemic-intelligence.json';
 import esEsShowcasesGovernance from '../locales/es-ES/showcases/governance.json';
 import esEsIntelligenceCenter from '../locales/es-ES/intelligence-center.json';
-import esEsAssessment from '../locales/es-ES/assessment.json';
+import esEsAssessment from '../locales/es-ES/diagnostic.json';
+import esEsWorkspace from '../locales/es-ES/workspace.json';
+import esEsSettings from '../locales/es-ES/settings.json';
+import esEsPermissions from '../locales/es-ES/permissions.json';
+import esEsAdvisoryRecommendations from '../locales/es-ES/advisory/recommendations.json';
+import esEsAdvisoryInsights from '../locales/es-ES/advisory/insights.json';
+import esEsAdvisoryActions from '../locales/es-ES/advisory/actions.json';
+import esEsAdvisorNetwork from '../locales/es-ES/advisor-network.json';
 
 const resources = {
   'pt-BR': {
@@ -126,7 +147,14 @@ const resources = {
     'showcases/systemic-intelligence': ptBrShowcasesSystemic,
     'showcases/governance': ptBrShowcasesGovernance,
     'intelligence-center': ptBrIntelligenceCenter,
-    'assessment': ptBrAssessment
+    'diagnostic': ptBrAssessment,
+    workspace: ptBrWorkspace,
+    settings: ptBrSettings,
+    permissions: ptBrPermissions,
+    'advisor-network': ptBrAdvisorNetwork,
+    'advisory/recommendations': ptBrAdvisoryRecommendations,
+    'advisory/insights': ptBrAdvisoryInsights,
+    'advisory/actions': ptBrAdvisoryActions
   },
   'en-US': {
     common: enUsCommon,
@@ -151,7 +179,14 @@ const resources = {
     'showcases/systemic-intelligence': enUsShowcasesSystemic,
     'showcases/governance': enUsShowcasesGovernance,
     'intelligence-center': enUsIntelligenceCenter,
-    'assessment': enUsAssessment
+    'diagnostic': enUsAssessment,
+    workspace: enUsWorkspace,
+    settings: enUsSettings,
+    permissions: enUsPermissions,
+    'advisor-network': enUsAdvisorNetwork,
+    'advisory/recommendations': enUsAdvisoryRecommendations,
+    'advisory/insights': enUsAdvisoryInsights,
+    'advisory/actions': enUsAdvisoryActions
   },
   'es-ES': {
     common: esEsCommon,
@@ -176,7 +211,14 @@ const resources = {
     'showcases/systemic-intelligence': esEsShowcasesSystemic,
     'showcases/governance': esEsShowcasesGovernance,
     'intelligence-center': esEsIntelligenceCenter,
-    'assessment': esEsAssessment
+    'diagnostic': esEsAssessment,
+    workspace: esEsWorkspace,
+    settings: esEsSettings,
+    permissions: esEsPermissions,
+    'advisor-network': esEsAdvisorNetwork,
+    'advisory/recommendations': esEsAdvisoryRecommendations,
+    'advisory/insights': esEsAdvisoryInsights,
+    'advisory/actions': esEsAdvisoryActions
   }
 };
 
@@ -189,7 +231,8 @@ i18n
     ns: [
       'common', 'dashboard', 'executive', 'metrics', 'reports', 'errors', 'ai',
       'institutional', 'platform', 'domains', 'governance', 'advisory', 'partners', 'pricing', 'navigation', 'footer', 'seo', 'brand',
-      'showcases/executive-command', 'showcases/systemic-intelligence', 'showcases/governance', 'intelligence-center', 'assessment'
+      'showcases/executive-command', 'showcases/systemic-intelligence', 'showcases/governance', 'intelligence-center', 'diagnostic', 'workspace', 'settings', 'permissions', 'advisor-network',
+      'advisory/recommendations', 'advisory/insights', 'advisory/actions'
     ],
     defaultNS: 'common',
     interpolation: {

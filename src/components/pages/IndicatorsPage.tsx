@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useMemo } from 'react';
+import { useTranslation } from 'react-i18next';
 import { query, collection, where, onSnapshot, getDocs, limit, startAfter, orderBy } from 'firebase/firestore';
 import { usePaginatedData } from '../../hooks/usePaginatedData';
 import { TrendingUp, BarChart3, Settings, DollarSign, Waves, Activity, Wallet, Building, Target, ShieldAlert, Zap, ArrowUpRight, Rocket, LayoutGrid, List, ShieldCheck, Users, ChevronRight, Info, Calendar, Lightbulb, Globe, ShoppingBag, Loader2, TrendingDown, Minus, ArrowUp, ArrowDown } from 'lucide-react';
@@ -50,6 +51,7 @@ const GROUP_MAPPING: Record<string, string> = {
 };
 
 export function IndicatorsPage({ clients, selectedClient, selectedMonth, selectedYear }: any) {
+  const { t } = useTranslation('executive');
   const { state: vmState, computed: vmComputed, actions: vmActions } = useIndicatorsPageViewModel({ clientId: selectedClient });
 
   const [periodType, setPeriodType] = useState<'mensal' | 'anual'>('mensal');
@@ -133,7 +135,7 @@ export function IndicatorsPage({ clients, selectedClient, selectedMonth, selecte
           opinion="O comitê fiduciário homologa os indicadores de performance, atestando a consistência dos faróis e o atingimento das metas projetadas."
           driver="Evolução do Score de Saúde, desvios operacionais e atingimento de metas nos eixos corporativos."
           implication="Visibilidade total para tomada de decisão fundamentada e correção tempestiva de rota."
-          action="Manter plano de ação ativo para os indicadores sinalizados com farol amarelo ou vermelho."
+          executiveQuestion="Manter plano de ação ativo para os indicadores sinalizados com farol amarelo ou vermelho."
         >
           <ExecutiveStrategicTensions tensions={[]} />
           <ExecutiveDecisionTrace trace={[]} />
@@ -155,7 +157,7 @@ export function IndicatorsPage({ clients, selectedClient, selectedMonth, selecte
                   </div>
                 </div>
                 <ExecutiveBadge variant={healthScore >= 80 ? "success" : healthScore >= 60 ? "warning" : "critical"}>
-                  {healthScore >= 80 ? "Otimizado" : healthScore >= 60 ? "Atenção" : "Crítico"}
+                  {healthScore >= 80 ? t('executive:status.optimized') : healthScore >= 60 ? t('executive:status.attention') : t('executive:status.critical')}
                 </ExecutiveBadge>
               </div>
 

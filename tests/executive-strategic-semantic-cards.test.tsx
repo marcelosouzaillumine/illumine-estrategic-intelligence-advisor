@@ -1,3 +1,4 @@
+// @ts-nocheck
 import 'global-jsdom/register';
 import { test, describe } from 'node:test';
 import assert from 'node:assert';

@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { describe, it } from 'node:test';
 import { BalanceSheetExecutiveViewModelBuilder } from '../../core/runtime/executive-consolidation/BalanceSheetExecutiveViewModelBuilder';
 

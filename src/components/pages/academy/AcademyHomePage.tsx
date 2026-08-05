@@ -71,7 +71,7 @@ export function AcademyHomePage({ onNavigate }: AcademyHomePageProps) {
         opinion="O comitê fiduciário homologa os programas de treinamento corporativo para sustentabilidade das operações."
         driver="Cursos publicados, horas de treinamento concluídas, engajamento por área e certificações."
         implication="Mitigação de falhas operacionais via qualificação constante dos quadros da empresa."
-        action="Incentivar a conclusão dos módulos prioritários de governança e finanças corporativas."
+        executiveQuestion="Incentivar a conclusão dos módulos prioritários de governança e finanças corporativas."
       >
         <ExecutiveStrategicTensions tensions={[]} />
         <ExecutiveDecisionTrace trace={[]} />

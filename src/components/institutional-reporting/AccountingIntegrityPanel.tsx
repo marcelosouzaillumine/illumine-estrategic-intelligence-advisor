@@ -1,6 +1,7 @@
 import React from 'react';
 import { ShieldBan, CheckCircle2, Activity, ShieldAlert } from 'lucide-react';
 import { useLanguage } from '../../contexts/LanguageContext';
+import { useExecutiveFormatter } from '../../core/localization';
 
 export interface AccountingIntegrityPanelProps {
   reconciliationStatus: 'PASSED' | 'FAILED' | 'WARNING';
@@ -24,6 +25,7 @@ export const AccountingIntegrityPanel: React.FC<AccountingIntegrityPanelProps> =
   auditTrail = []
 }) => {
   const { t } = useLanguage();
+  const formatter = useExecutiveFormatter();
 
   const isFailed = reconciliationStatus === 'FAILED';
   const isWarning = reconciliationStatus === 'WARNING';
@@ -92,13 +94,13 @@ export const AccountingIntegrityPanel: React.FC<AccountingIntegrityPanelProps> =
               {diffAmount !== undefined && (
                 <div>
                   <span className="text-[9px] uppercase font-bold tracking-widest opacity-50 block">Divergência Detectada</span>
-                  <span className="text-sm font-mono">{new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(diffAmount)}</span>
+                  <span className="text-sm font-mono">{formatter.currency(diffAmount)}</span>
                 </div>
               )}
               {toleranceApplied !== undefined && (
                 <div>
                   <span className="text-[9px] uppercase font-bold tracking-widest opacity-50 block">Tolerância Aplicada</span>
-                  <span className="text-sm font-mono">{new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(toleranceApplied)}</span>
+                  <span className="text-sm font-mono">{formatter.currency(toleranceApplied)}</span>
                 </div>
               )}
             </div>

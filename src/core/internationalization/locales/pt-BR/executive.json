@@ -5,5 +5,62 @@
   "boardPack": "Board Pack",
   "fiduciaryLineage": "Linhagem Fiduciária",
   "strategicPositioning": "Posicionamento Estratégico",
-  "executionRoadmap": "Roadmap de Execução"
+  "executionRoadmap": "Roadmap de Execução",
+  "status": {
+    "critical": "Crítico",
+    "attention": "Atenção",
+    "healthy": "Saudável"
+  },
+  "maturity": {
+    "low": "Baixa",
+    "medium": "Média",
+    "high": "Alta"
+  },
+  "confidence": {
+    "high": "Alta confiança",
+    "medium": "Confiança moderada",
+    "low": "Baixa confiança"
+  },
+  "severity": {
+    "CRITICAL": "Crítica",
+    "SEVERE": "Severa",
+    "ELEVATED": "Elevada",
+    "WARNING": "Alerta",
+    "HIGH": "Alta",
+    "MEDIUM": "Média",
+    "LOW": "Baixa"
+  },
+  "role": {
+    "HOLDING_PATRIMONIAL": "Holding Patrimonial",
+    "HOLDING_OPERACIONAL": "Holding Operacional",
+    "SUBSIDIARIA_OPERACIONAL": "Subsidiária Operacional",
+    "SPE": "Sociedade de Propósito Específico (SPE)",
+    "CENTRO_ADMINISTRATIVO": "Centro de Serviços Compartilhados",
+    "VEICULO_FINANCEIRO": "Veículo Financeiro",
+    "UNIDADE_DEFICITARIA": "Unidade Deficitária",
+    "UNIDADE_ESTRATEGICA": "Unidade Estratégica"
+  },
+  "systemicRisk": {
+    "LIQUIDITY_CHAIN_COLLAPSE": "Colapso em Cadeia de Liquidez",
+    "DEBT_CONCENTRATION": "Concentração de Endividamento",
+    "SYSTEMIC_DEPENDENCY": "Dependência Sistêmica",
+    "DOMINO_EFFECT": "Efeito Dominó",
+    "TREASURY_CONTAMINATION": "Contaminação de Tesouraria",
+    "FRAGILITY_CONSOLIDATION": "Consolidação de Fragilidades"
+  },
+  "causality": {
+    "ARTIFICIAL_GROWTH": "Crescimento Artificial Intragrupo",
+    "OPERATIONAL_PARASITISM": "Parasitismo Operacional",
+    "CROSS_REVENUE_DEPENDENCY": "Dependência Cruzada de Receita",
+    "INTERCOMPANY_FUNDING": "Financiamento Intercompany",
+    "ARTIFICIAL_SUBSIDIZATION": "Subvenção Artificial",
+    "REVENUE_CONCENTRATION": "Concentração de Receita",
+    "DEBT_CONCENTRATION": "Concentração de Dívida"
+  },
+  "dependency": {
+    "FUNDING": "Aporte / Mútuo",
+    "REVENUE": "Receita Intercompany",
+    "DEBT": "Endividamento Cruzado",
+    "GUARANTEE": "Garantia / Fiança"
+  }
 }

@@ -1,0 +1,20 @@
+{
+  "id": "financial-core",
+  "version": "1.0.0",
+  "domain": "FINANCIAL",
+  "requiredOntology": {
+    "id": "executive-core-ontology",
+    "minimumVersion": "1.0.0"
+  },
+  "supportedCapabilities": [
+    "balance-sheet"
+  ],
+  "coverage": {
+    "concepts": 1,
+    "patterns": 1,
+    "benchmarks": 1,
+    "rules": 1
+  },
+  "maturity": "VALIDATED",
+  "status": "ACTIVE"
+}

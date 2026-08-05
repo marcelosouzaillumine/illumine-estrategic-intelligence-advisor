@@ -3,6 +3,7 @@
 import React, { useState, useEffect } from 'react';
 import { Activity, User, Calendar, AlertTriangle, CheckCircle2, Clock, ShieldAlert, Plus, ArrowRight, Bookmark, ExternalLink, ChevronDown, UserCheck } from 'lucide-react';
 import { FiduciaryRuntimeAdapter, GovernanceDecision, GovernanceDecisionType, CognitiveOriginEngine, DecisionExecutionRisk, ESGIMScenario } from '../../../services/FiduciaryRuntimeAdapter';
+import { useExecutiveFormatter } from "../../../core/localization";
 
 interface GovernanceExecutionPanelProps {
   clientId: string;
@@ -11,6 +12,7 @@ interface GovernanceExecutionPanelProps {
 }
 
 export function GovernanceExecutionPanel({ clientId, scenario, mode }: GovernanceExecutionPanelProps) {
+    const formatter = useExecutiveFormatter();
   const [decisions, setDecisions] = useState<GovernanceDecision[]>([]);
   const [refreshTrigger, setRefreshTrigger] = useState(0);
 
@@ -28,6 +30,7 @@ export function GovernanceExecutionPanel({ clientId, scenario, mode }: Governanc
 
   // Fetch decisions and calculate metrics
   useEffect(() => {
+      const formatter = useExecutiveFormatter();
     const registry = FiduciaryRuntimeAdapter.decisionRegistryEngine;
     const list = registry.getDecisions(clientId, scenario);
     // Force array copy to trigger re-renders
@@ -35,11 +38,13 @@ export function GovernanceExecutionPanel({ clientId, scenario, mode }: Governanc
   }, [clientId, scenario, refreshTrigger]);
 
   const handleStatusChange = (id: string, status: any) => {
+      const formatter = useExecutiveFormatter();
     FiduciaryRuntimeAdapter.decisionRegistryEngine.updateDecisionStatus(id, status);
     setRefreshTrigger(prev => prev + 1);
   };
 
   const handleApproveBoard = (id: string) => {
+      const formatter = useExecutiveFormatter();
     const registry = FiduciaryRuntimeAdapter.decisionRegistryEngine;
     const dec = registry.getDecisions(clientId, scenario).find(d => d.id === id);
     if (dec) {
@@ -58,6 +63,7 @@ export function GovernanceExecutionPanel({ clientId, scenario, mode }: Governanc
   };
 
   const handleCreateDecision = (e: React.FormEvent) => {
+      const formatter = useExecutiveFormatter();
     e.preventDefault();
     if (!newTitle.trim()) return;
 
@@ -102,6 +108,7 @@ export function GovernanceExecutionPanel({ clientId, scenario, mode }: Governanc
 
   // Status visual mapping
   const getStatusBadge = (status: string) => {
+      const formatter = useExecutiveFormatter();
     switch (status) {
       case 'COMPLETED':
         return 'bg-success-soft0/10 border-emerald-500/30 text-emerald-400';
@@ -118,6 +125,7 @@ export function GovernanceExecutionPanel({ clientId, scenario, mode }: Governanc
   };
 
   const getRiskBadge = (risk: DecisionExecutionRisk) => {
+      const formatter = useExecutiveFormatter();
     switch (risk) {
       case 'CRITICAL':
         return 'bg-critical-soft0/20 text-rose-400 border border-rose-500/40 font-black';
@@ -132,6 +140,7 @@ export function GovernanceExecutionPanel({ clientId, scenario, mode }: Governanc
   };
 
   const getTypeLabel = (type: GovernanceDecisionType) => {
+      const formatter = useExecutiveFormatter();
     switch (type) {
       case 'BOARD_RESOLUTION': return 'Resolução do Conselho';
       case 'MANAGEMENT_ACTION': return 'Ação de Gestão';
@@ -504,13 +513,13 @@ export function GovernanceExecutionPanel({ clientId, scenario, mode }: Governanc
                     <span className="text-muted-foreground">Prazo Acordado:</span>
                     <span className={`font-bold flex items-center gap-1 ${dec.status === 'OVERDUE' ? 'text-rose-400' : 'text-muted-foreground'}`}>
                       <Calendar size={10} />
-                      {dec.dueDate ? new Date(dec.dueDate).toLocaleDateString('pt-BR') : 'Sem prazo'}
+                      {dec.dueDate ? formatter.date(dec.dueDate) : 'Sem prazo'}
                     </span>
                   </div>
                   {dec.approvedAt && (
                     <div className="flex justify-between">
                       <span className="text-muted-foreground">Aprovado At:</span>
-                      <span className="text-muted-foreground font-mono">{new Date(dec.approvedAt).toLocaleDateString('pt-BR')}</span>
+                      <span className="text-muted-foreground font-mono">{formatter.date(dec.approvedAt)}</span>
                     </div>
                   )}
                   {dec.relatedDecisionIds && dec.relatedDecisionIds.length > 0 && (

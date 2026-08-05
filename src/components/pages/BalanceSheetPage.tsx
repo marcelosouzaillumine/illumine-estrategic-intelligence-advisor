@@ -14,7 +14,7 @@ import { BalanceSheetDataSourceStatus } from './balance-sheet/BalanceSheetDataSo
 import { BalanceSheetYearFilter } from './balance-sheet/BalanceSheetYearFilter';
 import { BalanceSheetActionToolbar } from './balance-sheet/BalanceSheetActionToolbar';
 import { BalanceSheetBoardAdvisory } from './balance-sheet/BalanceSheetBoardAdvisory';
-import { BalanceSheetExecutivePlan } from './balance-sheet/BalanceSheetExecutivePlan';
+
 import { BalanceSheetCapitalEfficiencySection } from './balance-sheet/BalanceSheetCapitalEfficiencySection';
 import { BalanceSheetLiquiditySection } from './balance-sheet/BalanceSheetLiquiditySection';
 import { BalanceSheetWorkingCapitalSection } from './balance-sheet/BalanceSheetWorkingCapitalSection';
@@ -36,25 +36,28 @@ import { BalanceSheetStructuralTablesSection } from './balance-sheet/BalanceShee
 import { BalanceSheetCapitalPreservationSection } from './balance-sheet/BalanceSheetCapitalPreservationSection';
 import { ImportFinancialModal } from '../modals/ImportFinancialModal';
 import { ManualFinancialModal } from '../modals/ManualFinancialModal';
-import { ExecutiveVerdictCard } from '../ui/ExecutiveVerdictCard';
-import { ExecutiveSummaryCard } from '../ui/ExecutiveSummaryCard';
 import { ExecutiveLocaleEnforcer } from '../../core/enforcement/ExecutiveLocaleEnforcer';
 import { ExecutiveIntelligenceShell } from '../executive/ExecutiveIntelligenceShell';
+
 import { SandboxWarningOverlay } from '../executive-interaction/SandboxWarningOverlay';
 import { BPStrategicDiagnosisAdapter } from './balance-sheet/adapters/BPStrategicDiagnosisAdapter';
 import { useExecutivePage } from '../../hooks/useExecutivePage';
 import { useBalanceSheetPageViewModel } from '../../capabilities/financial/presentation/view-models/useBalanceSheetPageViewModel';
-import { ExecutiveBrief } from '../executive-architecture/ExecutiveBrief';
-import { InstitutionalDecisionOS } from '../../../packages/intelligence/executive-intelligence-layer/src/orchestration/InstitutionalDecisionOS';
-import { ExecutiveBriefPresenter } from '../../viewmodels/ExecutiveBriefPresenter';
-import { ExecutiveDashboardRenderer } from '../ui/ExecutiveDashboardRenderer';
+import { ExecutiveProductRenderer } from '../../core/experience/runtime/ExecutiveProductRenderer';
+import { FinancialPositionProduct } from '../../core/experience/products/FinancialPositionProduct';
+import { ExecutiveExperienceContext } from '../../core/experience/runtime/ExecutiveExperienceContext';
+import { registerBalanceSheetComponents } from '../../core/experience/registry/BalanceSheetComponentRegistration';
+
+// Register components for the runtime (runs once)
+registerBalanceSheetComponents();
 
 export function BalanceSheetPage(props: any) {
   const { state, computed, actions } = useBalanceSheetPageViewModel(props);
   const { clients, selectedClient, selectedYear } = props;
   
   const { filterYear, densityLevel, toast, deleting, showDeleteConfirm, showImportModal, showManualModal, showCamada2, showCamada3, showFullStressTests, userRole, isGenerating, engineError } = state;
-  const { profile, financialEntries, dreDbData, dlpaDbData, cashFlowDbData, allHistoryData, loadingBP, rows, bpSummary, ebitda, lucroLiquido, executiveViewModel, financialAnalyticsViewModel, loadingHistory, historicalFinancialSeries, t, hasBalanceSheetData, executiveReport, patrimonialIntelligenceReport, strategicTensions, financialIndicators, assessment, ativoTotal, passivoTotal, plValue, ac, anc, pc, pnc, isBalanced, divergence, cx, est, clientes, fornecedores, passivosFinanceiros, capitalSocial, valorPrejuizo, valAltaConversibilidade, valMediaConversibilidade, valBaixaConversibilidade, valConversibilidadeRestrita, creditosSocios, chartData, historyByYear, comparativeAnalysis, ativoData, passivoData, COLORS, resilienciaGlobal, maturidade } = computed;
+  const { profile, financialEntries, dreDbData, dlpaDbData, cashFlowDbData, allHistoryData, loadingBP, rows, bpSummary, ebitda, lucroLiquido, executiveViewModel, financialAnalyticsViewModel, loadingHistory, historicalFinancialSeries, t, hasBalanceSheetData, executiveReport, patrimonialIntelligenceReport, strategicTensions, financialIndicators,
+ativoTotal, passivoTotal, plValue, ac, anc, pc, pnc, isBalanced, divergence, cx, est, clientes, fornecedores, passivosFinanceiros, capitalSocial, valorPrejuizo, valAltaConversibilidade, valMediaConversibilidade, valBaixaConversibilidade, valConversibilidadeRestrita, creditosSocios, chartData, historyByYear, comparativeAnalysis, ativoData, passivoData, COLORS, resilienciaGlobal, maturidade } = computed;
   const { setFilterYear, setDensityLevel, setToast, setDeleting, setShowDeleteConfirm, setShowImportModal, setShowManualModal, setShowCamada2, setShowCamada3, setShowFullStressTests, refetchBP, handleDelete, translateLabel, showToast, isSectionVisible, setIsGenerating, setEngineError } = actions;
 
   // --- TELEMETRY ---
@@ -95,6 +98,23 @@ export function BalanceSheetPage(props: any) {
     contextualAlerts: []
   } : undefined;
 
+  const experienceContext: ExecutiveExperienceContext = useMemo(() => ({
+    productId: 'financial.position',
+    tenantId: String(selectedClient || 'comp-1'),
+    intelligence: {
+      financialPosition: {
+        bpSummary,
+        executiveViewModel,
+        financialAnalyticsViewModel,
+        patrimonialIntelligenceReport,
+        strategicTensions,
+        bpExecutiveAnalysisContext,
+        filterYear
+      }
+    },
+    evidence: { sources: [] },
+    viewState: { period: filterYear.toString() }
+  }), [selectedClient, filterYear, bpSummary, executiveViewModel, financialAnalyticsViewModel, patrimonialIntelligenceReport, strategicTensions, bpExecutiveAnalysisContext]);
 
   const bpFinancialMetrics = useMemo(() => {
     return {
@@ -109,9 +129,13 @@ export function BalanceSheetPage(props: any) {
     };
   }, [ativoTotal, passivoTotal, plValue, pc, ac, ebitda, lucroLiquido, executiveReport]);
 
-
   return (
-    <ExecutiveIntelligenceShell pageTitle="Balanço Patrimonial" pageContext="BalanceSheetPage">
+    <ExecutiveIntelligenceShell 
+      pageTitle="Balanço Patrimonial" 
+      pageContext="BalanceSheetPage"
+      companyName={clients?.find((c: any) => c.id === selectedClient)?.fantasia || clients?.find((c: any) => c.id === selectedClient)?.razao || 'Selecionar Corporação'}
+      selectedYear={selectedYear}
+    >
       <ExecutivePageTemplate header={{
         title: "Balanço Patrimonial",
         description: "Análise da posição financeira, estrutura de capital e solvência patrimonial.",
@@ -162,100 +186,18 @@ export function BalanceSheetPage(props: any) {
         </div>
       ) : (
         <>
-          {assessment && (
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-12 animate-in fade-in slide-in-from-top-4 duration-500">
-              <ExecutiveVerdictCard assessment={assessment} />
-              <ExecutiveSummaryCard assessment={assessment} />
-            </div>
+
+          {(executiveReport?.isSandbox || executiveReport?.isDemonstrative) && (
+            <SandboxWarningOverlay type={executiveReport.isSandbox ? 'sandbox' : 'demonstrative'} />
           )}
-          <ExecutiveAccordion
-            variant="analytics"
-            defaultExpanded
-            icon={<BarChart3 />}
-            title={ExecutiveLocaleEnforcer.normalize('Executive Financial Analytics')}
-            subtitle="Evidências Quantitativas e Distribuições."
-          >
-            <div className="flex flex-col mb-6 border-b border-border pb-4">
-              <ExecutiveHeading as="h4" variant="submoduleTitle" className="mb-2">Evidências Quantitativas</ExecutiveHeading>
-              <ExecutiveText as="div" variant="bodyStandard">
-                Análise Horizontal e Vertical • Gráficos
-              </ExecutiveText>
-            </div>
-
-            <div className="space-y-12 animate-in fade-in slide-in-from-top-4 duration-500">
-              
-              {/* ── Gráficos Adicionais Executivos ── */}
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-                {/* Waterfall: Dinâmica de Capital de Giro */}
-                <BalanceSheetWaterfallChartSection 
-                  viewModel={financialAnalyticsViewModel.waterfall} 
-                  formatCurrency={(value: number) => {
-                    if (value === null || value === undefined) return 'R$ 0';
-                    return new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL', maximumFractionDigits: 0 }).format(value);
-                  }}
-                />
-
-                {/* Heatmap: Concentração */}
-                <ExecutiveExposureCard
-                  title="Mapa de Calor: Concentração"
-                  subtitle={t('bp.working_capital.subtitle')}
-                  metrics={[
-                    {
-                      label: 'Estoque / Ativo Circulante',
-                      percentage: bpSummary && bpSummary.ativoCirculante > 0 ? (bpSummary.estoques / bpSummary.ativoCirculante) * 100 : 0,
-                      colorClass: 'bg-warning'
-                    },
-                    {
-                      label: 'Dívida CP / Passivo Total',
-                      percentage: bpSummary && bpSummary.passivoTotal > 0 ? (bpSummary.passivoCirculante / bpSummary.passivoTotal) * 100 : 0,
-                      colorClass: 'bg-critical'
-                    },
-                    {
-                      label: 'PL / Ativo Total (Autonomia)',
-                      percentage: bpSummary && bpSummary.ativoTotal > 0 ? (bpSummary.patrimonioLiquido / bpSummary.ativoTotal) * 100 : 0,
-                      colorClass: 'bg-insight'
-                    }
-                  ]}
-                />
-
-                {/* Composição do Ativo e Passivo */}
-                <BalanceSheetCompositionChartsSection 
-                  viewModel={financialAnalyticsViewModel.composition}
-                  formatCurrency={(value: number) => {
-                    if (value === null || value === undefined) return 'R$ 0';
-                    return new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL', maximumFractionDigits: 0 }).format(value);
-                  }}
-                />
-              </div>
-
-              {/* Evolução Patrimonial (5 anos) */}
-              {financialAnalyticsViewModel.evolution.chartData && financialAnalyticsViewModel.evolution.chartData.length > 0 && (
-                <BalanceSheetEvolutionAnalysisSection 
-                  viewModel={financialAnalyticsViewModel.evolution}
-                  formatCurrency={(value: number) => {
-                    if (value === null || value === undefined) return 'R$ 0';
-                    return new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL', maximumFractionDigits: 0 }).format(value);
-                  }}
-                />
-              )}
-
-              {/* ── Tabelas Detalhadas com AV/AH ── */}
-              <BalanceSheetStructuralTablesSection
-                viewModel={financialAnalyticsViewModel.structuralTables}
+          <div className="space-y-6 mb-12">
+            {executiveViewModel && patrimonialIntelligenceReport && (
+              <ExecutiveProductRenderer 
+                product={FinancialPositionProduct} 
+                context={experienceContext} 
               />
-            </div>
-          </ExecutiveAccordion>
-
-          {executiveViewModel && (
-            <div className="mt-12 mb-8 animate-executive-fade">
-              <ExecutiveHeading as="h2" variant="sectionTitle" className="mb-6">Memória Analítica e Evidências Técnicas</ExecutiveHeading>
-              <BalanceSheetTechnicalLayerSection 
-                viewModel={executiveViewModel.technicalLayer!}
-              />
-            </div>
-          )}
-
-
+            )}
+          </div>
         </>
       )}
 

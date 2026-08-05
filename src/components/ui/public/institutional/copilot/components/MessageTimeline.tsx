@@ -2,6 +2,7 @@ import { useEffect, useRef, Fragment } from 'react';
 import { CopilotMessage } from '../types';
 import { ArrowRight, MessageSquare, Sparkles, Loader2, CheckCircle2, ChevronRight } from 'lucide-react';
 import { Link } from 'react-router-dom';
+import { BRAND } from "@/config/brand";
 
 interface MessageTimelineProps {
   messages: CopilotMessage[];
@@ -76,7 +77,7 @@ export function MessageTimeline({ messages, isTyping, onSelectOption }: MessageT
               </div>
               <div className="p-4 bg-white/[0.02]">
                 <ul className="space-y-2.5">
-                  {['Executive Copilot™', 'Executive Intelligence™', 'Frameworks proprietários', 'Memória institucional', 'Executive Assessment™', 'Certificação'].map(benefit => (
+                  {[BRAND.advisoryName, 'Executive Intelligence™', 'Frameworks proprietários', 'Memória institucional', 'Executive Assessment™', 'Certificação'].map(benefit => (
                     <li key={benefit} className="flex items-center gap-2.5 text-[12px] text-slate-300">
                       <CheckCircle2 size={12} className="text-amber-500" />
                       {benefit}

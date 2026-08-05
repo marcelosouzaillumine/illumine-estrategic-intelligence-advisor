@@ -153,7 +153,7 @@ export function DLPAPage({ clients, selectedClient, selectedYear }: any) {
             opinion={narrative || "O comitê fiduciário homologa a DLPA, atestando a constituição correta de reservas legais, retenção de lucros e salvaguarda do capital investido."}
             driver="Saldo inicial, lucro líquido do exercício, reservas de lucros e dividendos distribuídos."
             implication="Preservação da base patrimonial para suportar a estratégia de expansão e mitigar riscos de erosão de capital."
-            action="Manter percentual mínimo de retenção alinhado à meta de alavancagem e às diretrizes estratégicas do conselho."
+            executiveQuestion="Manter percentual mínimo de retenção alinhado à meta de alavancagem e às diretrizes estratégicas do conselho."
           >
             <ExecutiveStrategicTensions tensions={[]} />
             <ExecutiveDecisionTrace trace={[]} />

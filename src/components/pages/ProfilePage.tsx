@@ -49,7 +49,7 @@ export function ProfilePage({ user, clients = [], selectedClient = '' }: Profile
           opinion="O comitê fiduciário homologa o perfil de acesso do usuário, atestando o nível de autorização e o respeito às políticas de segurança."
           driver="Nível de acesso, permissões de escrita/leitura, autenticação MFA e vínculo corporativo."
           implication="Garantia de que apenas usuários credenciados acessem dados confidenciais do grupo econômico."
-          action="Manter as credenciais atualizadas e habilitar a autenticação em dois fatores."
+          executiveQuestion="Manter as credenciais atualizadas e habilitar a autenticação em dois fatores."
         >
           <ExecutiveStrategicTensions tensions={[]} />
           <ExecutiveDecisionTrace trace={[]} />

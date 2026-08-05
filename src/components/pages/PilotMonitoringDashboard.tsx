@@ -20,11 +20,13 @@ import { ExecutiveSummarySection } from '../ui/executive-summary-section';
 import { ExecutiveStrategicTensions } from '../ui/executive-strategic-tensions';
 import { ExecutiveDecisionTrace } from '../ui/executive-decision-trace';
 import { usePilotMonitoringDashboardViewModel } from '../../viewmodels/usePilotMonitoringDashboardViewModel';
+import { useExecutiveFormatter } from '../../core/localization';
 
 export function PilotMonitoringDashboard() {
   // Adapter: usePilotMonitoringDashboardAdapter
   // ViewModel: usePilotMonitoringDashboardViewModel
   const { state: vmState, computed: vmComputed, actions: vmActions } = usePilotMonitoringDashboardViewModel({ clientId: '' });
+  const formatter = useExecutiveFormatter();
   const portal = createPortal;
   const [selectedTenant, setSelectedTenant] = useState<string>('TENANT-HQ');
   const [actorId, setActorId] = useState<string>('');
@@ -329,7 +331,7 @@ export function PilotMonitoringDashboard() {
                     <div className="space-y-1">
                       <p className="text-body-sm font-bold text-destructive">{log.details || 'Falha de Validação'}</p>
                       <p className="text-[10px] text-muted-foreground font-mono">
-                        Import ID: {log.importId || 'N/A'} · Operador: {log.actorId} · {new Date(log.timestamp).toLocaleString()}
+                        Import ID: {log.importId || 'N/A'} · Operador: {log.actorId} · {formatter.date(log.timestamp)}
                       </p>
                     </div>
                   </div>
@@ -524,7 +526,7 @@ export function PilotMonitoringDashboard() {
                     <td className="px-4 py-3">
                       <span className="text-muted-foreground text-[10px] font-bold uppercase tracking-wider">{log.previousStatus}</span>
                     </td>
-                    <td className="px-4 py-3 text-muted-foreground text-xs">{new Date(log.timestamp).toLocaleString()}</td>
+                    <td className="px-4 py-3 text-muted-foreground text-xs">{formatter.date(log.timestamp)}</td>
                   </tr>
                 ))}
               </tbody>
@@ -537,7 +539,7 @@ export function PilotMonitoringDashboard() {
          opinion="O comitê fiduciário homologa os protocolos de rollback e a governança de ingestão de dados em staging."
          driver="Métricas de latência, taxa de erro de ingestão e fila de homologação."
          implication="Prevenção de regressões e garantia de integridade nas bases operacionais."
-         action="Acompanhar diariamente os alertas de inconsistência para execução proativa de rollback se necessário."
+         executiveQuestion="Acompanhar diariamente os alertas de inconsistência para execução proativa de rollback se necessário."
        >
          <ExecutiveStrategicTensions tensions={[]} />
          <ExecutiveDecisionTrace trace={[]} />
