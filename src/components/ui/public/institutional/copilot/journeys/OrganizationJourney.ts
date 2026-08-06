@@ -15,6 +15,7 @@ export const organizationJourney = {
           { id: 'org_holding', label: 'Holding / Grupo Econômico' },
           { id: 'org_hospital', label: 'Hospital / Saúde' },
           { id: 'org_edu', label: 'Instituição de Ensino' },
+          { id: 'org_terceiro_setor', label: 'Organizações do terceiro setor' },
           { id: 'org_ong', label: 'Terceiro Setor / ONG' },
           { id: 'org_other', label: 'Outro' }
         ]

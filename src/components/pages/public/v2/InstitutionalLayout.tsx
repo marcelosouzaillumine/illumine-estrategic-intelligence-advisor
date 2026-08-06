@@ -176,13 +176,16 @@ export function InstitutionalLayout() {
 
       {/* Mobile Menu Overlay */}
       {mobileMenuOpen && (
-        <div className="fixed inset-0 z-40 bg-[#0A0A0B] pt-24 px-6 flex flex-col">
+        <div className="fixed inset-0 z-40 bg-[#0A0A0B] pt-24 px-6 pb-6 flex flex-col overflow-y-auto">
           <nav className="flex flex-col gap-6 text-xl font-medium">
             {navLinks.map((link) => (
               link.children ? (
-                <div key={link.label} className="flex flex-col gap-4">
-                  <span className="text-slate-500 text-sm uppercase tracking-wider font-bold">{link.label}</span>
-                  <div className="flex flex-col gap-4 pl-4 border-l border-white/10">
+                <details key={link.label} className="flex flex-col group/details">
+                  <summary className="text-slate-500 text-sm uppercase tracking-wider font-bold flex justify-between items-center cursor-pointer list-none">
+                    {link.label}
+                    <ChevronDown size={16} className="group-open/details:rotate-180 transition-transform" />
+                  </summary>
+                  <div className="flex flex-col gap-4 pl-4 border-l border-white/10 mt-4">
                     {link.children.map(child => (
                       <Link 
                         key={child.href} 
@@ -197,7 +200,7 @@ export function InstitutionalLayout() {
                       </Link>
                     ))}
                   </div>
-                </div>
+                </details>
               ) : (
                 <Link 
                   key={link.href} 

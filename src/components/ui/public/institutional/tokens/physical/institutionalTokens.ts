@@ -34,11 +34,11 @@ export const physicalTokens = {
       brand: '"Tilt Warp", sans-serif',
     },
     scale: {
-      'Display XL': { fontSize: '4.5rem', lineHeight: '1', tracking: '-0.04em' },      // 72px
-      'Display L': { fontSize: '3.75rem', lineHeight: '1.05', tracking: '-0.03em' },   // 60px
-      'Display M': { fontSize: '3rem', lineHeight: '1.1', tracking: '-0.02em' },       // 48px
-      'Heading XL': { fontSize: '2.25rem', lineHeight: '1.15', tracking: '-0.02em' },  // 36px
-      'Heading L': { fontSize: '1.875rem', lineHeight: '1.2', tracking: '-0.01em' },   // 30px
+      'Display XL': { fontSize: 'clamp(2.5rem, 5vw + 1rem, 4.5rem)', lineHeight: '1', tracking: '-0.04em' },      // 40px to 72px
+      'Display L': { fontSize: 'clamp(2.25rem, 4vw + 1rem, 3.75rem)', lineHeight: '1.05', tracking: '-0.03em' },   // 36px to 60px
+      'Display M': { fontSize: 'clamp(2rem, 3vw + 1rem, 3rem)', lineHeight: '1.1', tracking: '-0.02em' },       // 32px to 48px
+      'Heading XL': { fontSize: 'clamp(1.75rem, 2vw + 1rem, 2.25rem)', lineHeight: '1.15', tracking: '-0.02em' },  // 28px to 36px
+      'Heading L': { fontSize: 'clamp(1.5rem, 1.5vw + 1rem, 1.875rem)', lineHeight: '1.2', tracking: '-0.01em' },   // 24px to 30px
       'Heading M': { fontSize: '1.5rem', lineHeight: '1.3', tracking: '0' },           // 24px
       'Body XL': { fontSize: '1.25rem', lineHeight: '1.6', tracking: '0' },            // 20px
       'Body L': { fontSize: '1.125rem', lineHeight: '1.65', tracking: '0' },           // 18px
