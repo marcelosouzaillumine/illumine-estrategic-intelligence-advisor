@@ -90,7 +90,7 @@ describe('GovernanceDriftDetectionEngine', () => {
   });
 
   it('should detect RISK_UNDERSTATEMENT_DRIFT', () => {
-    const input = mockInput('O cenário está com o risco mitigado.', {
+    const input = mockInput('O contexto está com o risco mitigado.', {
       causalityOutput: { continuityRiskImpact: 'RISCO_DIRETO_VINCULADO' }
     });
     const result = GovernanceDriftDetectionEngine.evaluate(input);

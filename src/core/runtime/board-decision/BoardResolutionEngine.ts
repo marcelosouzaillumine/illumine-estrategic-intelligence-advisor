@@ -21,11 +21,11 @@ export class BoardResolutionEngine {
   ): BoardResolution {
     
     if (!scenario || !scenario.explainability?.lineageHash) {
-      throw new Error('FIDUCIARY_VIOLATION: Resolução do Board rejeitada. Cenário não possui rastreabilidade (Lineage Hash).');
+      throw new Error('FIDUCIARY_VIOLATION: Resolução do Board rejeitada. contexto não possui rastreabilidade (Lineage Hash).');
     }
 
     if (scenario.validation.status !== 'VALID') {
-      throw new Error('FIDUCIARY_VIOLATION: Resolução não pode ser baseada em um cenário bloqueado ou estruturalmente inválido.');
+      throw new Error('FIDUCIARY_VIOLATION: Resolução não pode ser baseada em um contexto bloqueado ou estruturalmente inválido.');
     }
 
     if (!rationale || rationale.length < 20) {

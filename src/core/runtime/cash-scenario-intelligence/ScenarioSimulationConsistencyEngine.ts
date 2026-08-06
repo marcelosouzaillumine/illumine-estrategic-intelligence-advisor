@@ -25,10 +25,10 @@ export class ScenarioSimulationConsistencyEngine {
       hasConflict,
       severity: hasConflict ? 'HIGH' : 'LOW',
       narrative: hasConflict
-        ? 'Alerta de Interpretação: A melhora observada no caixa decorre de liberação temporária de capital de giro. A geração operacional estrutural permanece deteriorada. O cenário melhora a liquidez de curto prazo, mas não resolve a causa econômica do problema.'
+        ? 'Alerta de Interpretação: A melhora observada no caixa decorre de liberação temporária de capital de giro. A geração operacional estrutural permanece deteriorada. O contexto melhora a liquidez de ciclo imediato, mas não resolve a causa econômica do problema.'
         : 'A simulação não apresenta conflitos estruturais de consistência fiduciária.',
       executiveInterpretation: hasConflict
-        ? 'A melhora observada no caixa decorre de liberação temporária de capital de giro. A geração operacional estrutural permanece deteriorada. O cenário melhora a liquidez de curto prazo, mas não resolve a causa econômica do problema.'
+        ? 'A melhora observada no caixa decorre de liberação temporária de capital de giro. A geração operacional estrutural permanece deteriorada. O contexto melhora a liquidez de ciclo imediato, mas não resolve a causa econômica do problema.'
         : 'A simulação não apresenta conflitos estruturais de consistência fiduciária.'
     };
   }

@@ -15,7 +15,7 @@ export class ExecutionBudgetGovernor {
    */
   static enforceBudget(metrics: Partial<ScenarioExecutionBudget>): boolean {
     if (metrics.maxScenarios && metrics.maxScenarios > DEFAULT_BUDGET.maxScenarios) {
-      console.warn(`[ExecutionBudgetGovernor] CRÍTICO: Tentativa de estourar limite de cenários. Máximo: ${DEFAULT_BUDGET.maxScenarios}`);
+      console.warn(`[ExecutionBudgetGovernor] CRÍTICO: Tentativa de estourar limite de contextos. Máximo: ${DEFAULT_BUDGET.maxScenarios}`);
       return false;
     }
 

@@ -18,7 +18,7 @@ export class InstitutionalScenarioEngine {
     if (!snapshots || snapshots.length < 2) {
       return {
         confidenceLevel: 'INSUFFICIENT_HISTORY',
-        confidenceReason: 'Histórico insuficiente para criar cenários projetados fiduciariamente válidos.',
+        confidenceReason: 'Histórico insuficiente para criar contextos projetados fiduciariamente válidos.',
         scenarios: []
       };
     }
@@ -30,7 +30,7 @@ export class InstitutionalScenarioEngine {
     
     return {
       confidenceLevel: snapshots.length >= 4 ? 'HIGH' : 'MODERATE',
-      confidenceReason: 'Cenários projetados calculando variação derivada da estabilidade institucional.',
+      confidenceReason: 'contextos projetados calculando variação derivada da estabilidade institucional.',
       scenarios: [
         {
           type: 'CONSERVADOR',
@@ -42,7 +42,7 @@ export class InstitutionalScenarioEngine {
           type: 'BASE',
           projectedGovernanceScore: Math.max(0, current.governanceScore + baseDelta),
           projectedCescfScore: Math.max(0, current.cescfScore + baseDelta),
-          narrative: 'Se mantiver a trajetória atual com o mesmo ritmo de execução, a organização chegará neste cenário base.'
+          narrative: 'Se mantiver a trajetória atual com o mesmo ritmo de execução, a organização chegará neste contexto base.'
         },
         {
           type: 'ACELERADO',

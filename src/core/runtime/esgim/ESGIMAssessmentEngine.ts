@@ -88,7 +88,7 @@ export class ESGIMAssessmentEngine {
           baseInt = 25; // Capped to critical
           isFiduciaryFailure = true;
           rulesApplied.push('Trigger de Risco Fiduciário / Insolvência ativado na simulação.');
-          evidenceTrail.push('Evidência Múltipla: Exposição extrema a garantias fiscais e insolvência operacional de curto prazo.');
+          evidenceTrail.push('Evidência Múltipla: Exposição extrema a garantias fiscais e insolvência operacional de ciclo imediato.');
           details = 'Simulação: Risco crítico de colapso financeiro fiduciário ativado, impedindo a proteção de ativos institucionais.';
           break;
 
@@ -118,7 +118,7 @@ export class ESGIMAssessmentEngine {
 
         case 'STANDARD':
         default:
-          rulesApplied.push('Cenário Padrão Executado (Nenhum veto ou bloqueio ativo).');
+          rulesApplied.push('contexto Padrão Executado (Nenhum veto ou bloqueio ativo).');
           evidenceTrail.push('Evidência Múltipla: Conformidade documental, conselho plural atuante e margens saudáveis.');
           break;
       }
@@ -291,7 +291,7 @@ export class ESGIMAssessmentEngine {
         if (score >= 90) return 'Forte alinhamento entre as decisões diárias e o propósito fundador da organização.';
         if (score >= 75) return 'Coerência missional adequada e liderança engajada na visão estratégica.';
         if (score >= 60) return 'Alinhamento missional em desenvolvimento, com desvios pontuais na operação.';
-        if (score >= 40) return 'Desvio parcial de propósito com decisões priorizando metas de curto prazo.';
+        if (score >= 40) return 'Desvio parcial de propósito com decisões priorizando metas de ciclo imediato.';
         return 'Completo desalinhamento missional com perda total da identidade fundadora.';
     }
   }
@@ -395,10 +395,10 @@ export class ESGIMAssessmentEngine {
       return 'ALERTA FIDUCIÁRIO: Risco crítico de insolvência ou quebra de salvaguarda fiduciária detectada. A continuidade institucional está exposta a passivos exigíveis urgentes, exigindo plano imediato de recapitalização e proteção patrimonial.';
     }
     if (flags.isMissionFailure) {
-      return 'ALERTA MISSIONAL: Há desalinhamento severo entre o cumprimento da missão e a saúde fiduciária. O caixa está sendo consumido sem sustentação econômica clara de longo prazo, demandando adequação do modelo de captação.';
+      return 'ALERTA MISSIONAL: Há desalinhamento severo entre o cumprimento da missão e a saúde fiduciária. O caixa está sendo consumido sem sustentação econômica clara de longo horizonte, demandando adequação do modelo de captação.';
     }
     if (flags.isKeyPersonDependency) {
-      return 'ALERTA DE CONTINUIDADE: A organização apresenta resultados consistentes, mas com resiliência de longo prazo ameaçada por alta dependência de fundadores/lideranças chave sem sucessores mapeados.';
+      return 'ALERTA DE CONTINUIDADE: A organização apresenta resultados consistentes, mas com resiliência de longo horizonte ameaçada por alta dependência de fundadores/lideranças chave sem sucessores mapeados.';
     }
     if (flags.isProspectiveFragility) {
       return 'ALERTA DE ADAPTAÇÃO: A organização possui solidez hoje, mas demonstra fragilidade e baixa prontidão estratégica para absorver choques ou inovações disruptivas de mercado.';
@@ -408,7 +408,7 @@ export class ESGIMAssessmentEngine {
       case 'EXCELLENT':
         return 'A organização apresenta excelência operacional e institucional de ponta. Apresenta forte alinhamento missional, governança transparente e alçadas bem segregadas, assegurando elevada resiliência em ciclos de transição.';
       case 'MATURE':
-        return 'A organização apresenta forte alinhamento missional e elevado capital relacional. Entretanto, fragilidades institucionais relacionadas à sucessão e continuidade reduzem sua resiliência de longo prazo.';
+        return 'A organização apresenta forte alinhamento missional e elevado capital relacional. Entretanto, fragilidades institucionais relacionadas à sucessão e continuidade reduzem sua resiliência de longo horizonte.';
       case 'DEVELOPING':
         return 'A organização está em fase de estruturação e profissionalização de suas práticas. A governança e processos de controle começam a ser formalizados, mas necessitam de maior profundidade e mitigação de dependências operacionais.';
       case 'CONCERN':

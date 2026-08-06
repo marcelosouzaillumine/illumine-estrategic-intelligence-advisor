@@ -166,7 +166,7 @@ export class BenchmarkComparativeEngine {
     if (scenario === 'MISSION_STRESS') {
       advisoryWarnings.push('Alinhamento de missão sob atenção. O cohort de BAM possui rigor estratégico diferenciado.');
     } else if (scenario === 'FOUNDER_EXIT') {
-      advisoryWarnings.push('Cenário de transição de fundador ativo. Risco de descontinuidade processual mapeado.');
+      advisoryWarnings.push('contexto de transição de fundador ativo. Risco de descontinuidade processual mapeado.');
     }
 
     comparativeDimensions.forEach(cd => {

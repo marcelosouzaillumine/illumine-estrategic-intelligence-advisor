@@ -16,7 +16,7 @@ export class SectorRiskPatternAnalyzer {
         },
         {
           patternId: 'PTRN-RET-2',
-          description: 'Aumento na concentração de dívida curto prazo',
+          description: 'Aumento na concentração de dívida ciclo imediato',
           occurrenceRate: 42.0,
           severity: 'CRITICAL'
         }

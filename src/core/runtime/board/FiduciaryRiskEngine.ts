@@ -32,7 +32,7 @@ export function assessFiduciaryRisks(input: BoardIntelligenceInput): FiduciaryRi
   let finReason = 'Sólida projeção de geração de valor econômico e estabilidade operacional.';
   if (input.valueDelta < 0 && !input.isBaseline) {
     finLevel = 'Elevado';
-    finReason = 'Cenário projeta destruição de valor econômico em relação à trajetória atual (Baseline).';
+    finReason = 'contexto projeta destruição de valor econômico em relação à trajetória atual (Baseline).';
   } else if (input.enterpriseValue <= 0) {
     finLevel = 'Crítico';
     finReason = 'Projeção crítica de valor econômico negativo ou insolvência técnica.';
@@ -49,14 +49,14 @@ export function assessFiduciaryRisks(input: BoardIntelligenceInput): FiduciaryRi
   const execLevel = calculateLevel(input.ieiScore, false);
   let execReason = 'Alta probabilidade de sucesso operacional na execução do plano projetado.';
   if (execLevel === 'Crítico' || execLevel === 'Elevado') {
-    execReason = 'Gap significativo na capacidade executiva para entregar o cenário com sucesso. Estruturas insuficientes.';
+    execReason = 'Gap significativo na capacidade executiva para entregar o contexto com sucesso. Estruturas insuficientes.';
   }
 
   // Governance Risk (IRG)
   const govLevel = calculateLevel(input.irgScore, true);
   let govReason = 'Controles, políticas e maturidade fiduciária adequados para o momento atual.';
   if (govLevel === 'Crítico' || govLevel === 'Elevado') {
-    govReason = 'Vulnerabilidade fiduciária. Ausência de controles rigorosos e práticas de governança exigidas pelo cenário.';
+    govReason = 'Vulnerabilidade fiduciária. Ausência de controles rigorosos e práticas de governança exigidas pelo contexto.';
   }
 
   // Determine overall risk

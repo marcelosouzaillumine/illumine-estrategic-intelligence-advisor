@@ -36,7 +36,7 @@ export class PressureNarrativeComposer {
     disclosures.push(`Avaliação de pressão estrutural consolidada em score ${scores.overall.toFixed(0)}/100.`);
 
     if (severity === 'ACUTE') {
-      disclosures.push('Alerta de Governança: Identificada pressão crítica acumulada sobre a capacidade de tesouraria de curto prazo.');
+      disclosures.push('Alerta de Governança: Identificada pressão crítica acumulada sobre a capacidade de tesouraria de ciclo imediato.');
     } else if (severity === 'CRITICAL') {
       disclosures.push('Recomendação Fiduciária: Monitoramento contínuo das obrigações correntes e preservação de margens operacionais.');
     }
@@ -48,7 +48,7 @@ export class PressureNarrativeComposer {
       disclosures.push('Desgaste na velocidade do caixa requer atenção para otimização de estoques e recebíveis.');
     }
     if (scores.fragility > 60) {
-      disclosures.push('Elevada rolagem de curto prazo exige repactuação prudente com credores.');
+      disclosures.push('Elevada rolagem de ciclo imediato exige repactuação prudente com credores.');
     }
 
     return disclosures;

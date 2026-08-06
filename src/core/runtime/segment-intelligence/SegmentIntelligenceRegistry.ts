@@ -25,7 +25,7 @@ export const SegmentIntelligenceRegistry: Record<SegmentCode, SegmentIntelligenc
       inventoryPressure: 'aprisionamento de capital em estoques',
       workingCapitalPressure: 'pressão no giro operacional e ciclo de caixa',
       operationalLeverage: 'alavancagem dependente de volume de vendas',
-      supplierDependency: 'alta dependência de prazos de fornecedores',
+      supplierDependency: 'alta dependência de ciclos de fornecedores',
       fixedCostBurden: 'pressão de custos logísticos e comissionamentos',
       revenueSensitivities: 'sensibilidade a sazonalidade e consumo varejista'
     },
@@ -33,7 +33,7 @@ export const SegmentIntelligenceRegistry: Record<SegmentCode, SegmentIntelligenc
       dominantOperationalRisks: ['Risco de obsolescência de estoque', 'Dependência de fornecedores estratégicos', 'Compressão de margem operacional'],
       strategicAlerts: ['Alerta de giro lento', 'Ruptura de ciclo de caixa'],
       contextualWarnings: ['Alta necessidade de capital de giro'],
-      vulnerabilityDrivers: ['Prazos médios desbalanceados', 'Custo logístico crescente']
+      vulnerabilityDrivers: ['ciclos médios desbalanceados', 'Custo logístico crescente']
     }
   },
   INDUSTRY: {
@@ -103,7 +103,7 @@ export const SegmentIntelligenceRegistry: Record<SegmentCode, SegmentIntelligenc
       dominantOperationalRisks: ['Glosas médicas e atrasos de convênios', 'Alto custo fixo assistencial', 'Ciclo de recebimento longo'],
       strategicAlerts: ['Risco de sinistralidade da fonte pagadora', 'Falta de suprimentos médicos'],
       contextualWarnings: ['Fluxo de caixa pressionado por faturamento não realizado'],
-      vulnerabilityDrivers: ['Prazo médio de recebimento dilatado', 'Ocupação abaixo do breakeven']
+      vulnerabilityDrivers: ['ciclo médio de recebimento dilatado', 'Ocupação abaixo do breakeven']
     }
   },
   SERVICES: {
@@ -207,7 +207,7 @@ export const SegmentIntelligenceRegistry: Record<SegmentCode, SegmentIntelligenc
     baseRiskProfile: {
       dominantOperationalRisks: ['Dependência de poucos grandes doadores', 'Ineficiência em destinação de fundos', 'Risco regulatório de compliance'],
       strategicAlerts: ['Falta de fundos irrestritos', 'Gargalo de fluxo de caixa para operação-meio'],
-      contextualWarnings: ['Sustentabilidade de longo prazo comprometida'],
+      contextualWarnings: ['Sustentabilidade de longo horizonte comprometida'],
       vulnerabilityDrivers: ['Perda de título filantrópico', 'Interrupção de repasses']
     }
   },

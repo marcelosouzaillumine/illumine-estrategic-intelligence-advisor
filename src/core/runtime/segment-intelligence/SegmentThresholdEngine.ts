@@ -44,7 +44,7 @@ export class SegmentThresholdEngine {
   }
 
   /**
-   * Avalia o nível de endividamento de curto prazo
+   * Avalia o nível de endividamento de ciclo imediato
    */
   static evaluateShortTermDebtPressure(segmentCode: SegmentCode, shortTermDebtToAssets: number): 'SAFE' | 'WARNING' | 'CRITICAL' {
     const thresholds = this.getThresholdsForSegment(segmentCode);

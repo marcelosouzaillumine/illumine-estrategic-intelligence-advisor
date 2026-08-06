@@ -1,0 +1,200 @@
+{
+  "hero": {
+    "title": "Governança Inteligente para Organizações que Transformam Vidas.",
+    "lead": "A primeira Executive Intelligence Platform™ desenvolvida para fortalecer Conselhos, Diretorias e Lideranças de organizações orientadas por propósito.",
+    "sublead": "A Illumine não foi criada para administrar organizações. Foi criada para fortalecer as decisões das organizações que transformam a sociedade.",
+    "cta_primary": "Solicitar uma demonstração",
+    "cta_secondary": "Conheça a Plataforma"
+  },
+  "category": {
+    "label": "UMA NOVA CATEGORIA",
+    "title": "Uma nova categoria de plataforma para organizações do Terceiro Setor.",
+    "desc": "Enquanto a maioria das soluções foi desenvolvida para executar processos operacionais, a Illumine foi criada para apoiar Conselhos, Diretorias e Lideranças na tomada de decisões estratégicas."
+  },
+  "architecture": {
+    "label": "EXECUTIVE INTELLIGENCE PLATFORM™",
+    "title": "A inteligência nasce da integração.",
+    "inputs": [
+      "Dados Financeiros",
+      "Planejamento Estratégico",
+      "Governança",
+      "Projetos",
+      "Indicadores",
+      "Documentos"
+    ],
+    "engines": [
+      "Executive Intelligence Engine™",
+      "Executive AI Advisory™",
+      "Executive Dashboards™"
+    ],
+    "outcome": "Decisões Estratégicas"
+  },
+  "board": {
+    "label": "O FIM DA INCERTEZA",
+    "title": "O Conselho nunca mais decide no escuro.",
+    "before_title": "Antes",
+    "before_items": [
+      "Reuniões baseadas em apresentações",
+      "Planilhas desconectadas",
+      "Relatórios isolados",
+      "Percepções individuais"
+    ],
+    "after_title": "Depois (Com Illumine)",
+    "after_items": [
+      "Indicadores em tempo real",
+      "Riscos monitorados",
+      "Tendências projetadas",
+      "Decisões fundamentadas"
+    ]
+  },
+  "problem": {
+    "label": "O DESAFIO DA GOVERNANÇA",
+    "title": "Sua organização já executa projetos. Agora ela precisa governar melhor.",
+    "desc_p1": "As organizações do Terceiro Setor normalmente possuem sistemas para operação diária. O verdadeiro desafio está em responder perguntas como:",
+    "q1": "Estamos cumprindo nossa missão?",
+    "q2": "Nossa organização é financeiramente sustentável?",
+    "q3": "O Conselho possui informações suficientes para decidir?",
+    "q4": "Os riscos institucionais estão sob controle?",
+    "q5": "Nossa governança inspira confiança aos financiadores?",
+    "q6": "Estamos preparados para crescer com segurança?",
+    "conclusion": "É exatamente aqui que a Illumine atua."
+  },
+  "offices": {
+    "label": "A PLATAFORMA",
+    "title": "Executive Offices™",
+    "lead": "A arquitetura EROA mapeia responsabilidades executivas, não departamentos operacionais.",
+    "board": {
+      "title": "Board Intelligence Office™",
+      "desc": "Inteligência para apoiar deliberações estratégicas do Conselho."
+    },
+    "governance": {
+      "title": "Governance Office™",
+      "desc": "Governança baseada em indicadores, riscos, conformidade e maturidade institucional."
+    },
+    "financial": {
+      "title": "Financial Intelligence Office™",
+      "desc": "Análises estratégicas sobre sustentabilidade financeira, liquidez, concentração de receitas e tendências."
+    },
+    "mission": {
+      "title": "Mission Intelligence Office™",
+      "desc": "Acompanhamento executivo da evolução da missão institucional por meio de indicadores estratégicos."
+    },
+    "risk": {
+      "title": "Institutional Risk Office™",
+      "desc": "Mapa executivo de riscos financeiros, regulatórios, jurídicos e reputacionais."
+    },
+    "compliance": {
+      "title": "Compliance Intelligence Office™",
+      "desc": "Avaliação contínua da conformidade e transparência da organização."
+    },
+    "ai": {
+      "title": "Executive AI Advisory™",
+      "desc": "Inteligência Artificial especializada em gerar análises, alertas e recomendações para a alta administração."
+    }
+  },
+  "scores": {
+    "label": "GOVERNANÇA BASEADA EM EVIDÊNCIAS",
+    "title": "Executive Scores™",
+    "lead": "Métricas exclusivas que transformam a saúde institucional em inteligência acionável.",
+    "status": {
+      "excellent": "Excelente",
+      "very_high": "Muito Alta",
+      "high": "Alta",
+      "attention": "Atenção",
+      "low": "Baixo"
+    }
+  },
+  "intelligence_timeline": {
+    "label": "O FLUXO DE VALOR",
+    "title": "Inteligência para decisões melhores.",
+    "steps": {
+      "data": "Dados",
+      "indicators": "Indicadores",
+      "correlations": "Correlações",
+      "executive_intel": "Executive Intelligence™",
+      "ai_advisor": "Executive AI Advisor™",
+      "decisions": "Decisões Estratégicas",
+      "impact": "Impacto Social"
+    }
+  },
+  "comparison": {
+    "label": "O QUE TORNA A ILLUMINE DIFERENTE?",
+    "title": "Sistemas Tradicionais vs. Illumine",
+    "traditional": "Sistemas Tradicionais",
+    "illumine": "Illumine",
+    "point1": {
+      "t": "Controlam operações.",
+      "i": "Entrega Inteligência Executiva."
+    },
+    "point2": {
+      "t": "Registram informações.",
+      "i": "Explica o que está acontecendo."
+    },
+    "point3": {
+      "t": "Mostram números.",
+      "i": "Produz análises estratégicas."
+    },
+    "point4": {
+      "t": "Apoiam execução.",
+      "i": "Apoia decisões."
+    }
+  },
+  "audience": {
+    "label": "EXECUTIVE FOCUS",
+    "title": "Desenvolvida para quem lidera organizações.",
+    "org_types": [
+      "Institutos",
+      "Fundações",
+      "Associações",
+      "OSC",
+      "Organizações Filantrópicas",
+      "Entidades Assistenciais",
+      "Instituições Religiosas com atuação social",
+      "Hospitais Filantrópicos",
+      "Instituições Educacionais sem fins lucrativos"
+    ],
+    "profiles": [
+      "Conselho Deliberativo",
+      "Conselho Fiscal",
+      "Diretoria Executiva",
+      "Presidência",
+      "Superintendência",
+      "Diretoria Financeira",
+      "Comitês",
+      "Consultores",
+      "Auditores"
+    ]
+  },
+  "ai_advisor": {
+    "label": "EXECUTIVE AI ADVISOR™",
+    "title": "A inteligência gerada pela plataforma.",
+    "ex1": "Embora os indicadores financeiros permaneçam estáveis, a crescente concentração de receitas em dois financiadores elevou o risco de sustentabilidade institucional.",
+    "ex2": "A maturidade da governança evoluiu de nível intermediário para avançado após a execução de 82% das deliberações do Conselho no último ciclo.",
+    "ex3": "O Conselho possui três deliberações estratégicas pendentes com impacto elevado.",
+    "ex4": "A organização apresenta evolução consistente nos indicadores de impacto institucional."
+  },
+  "integrations": {
+    "label": "ECOSSISTEMA",
+    "title": "Integrações Inteligentes™",
+    "desc": "A Illumine conecta-se aos sistemas que sua organização já utiliza. Integra dados provenientes de ERPs, sistemas financeiros, soluções contábeis, plataformas de prestação de contas, CRMs e outras fontes para gerar Inteligência Executiva.",
+    "highlight": "Não substituímos esses sistemas. Nós potencializamos o valor das informações produzidas por eles."
+  },
+  "impact": {
+    "label": "RESULTADO FINAL",
+    "title": "O verdadeiro indicador é o impacto.",
+    "lead": "Quando uma organização governa melhor:",
+    "items": [
+      "mais pessoas são atendidas.",
+      "mais recursos são preservados.",
+      "mais financiadores confiam.",
+      "mais projetos prosperam.",
+      "mais vidas são transformadas."
+    ]
+  },
+  "vision": {
+    "label": "NOSSA VISÃO",
+    "title": "Sua missão merece Inteligência Executiva.",
+    "desc": "Organizações que transformam vidas merecem tomar decisões com o mesmo nível de inteligência utilizado pelas maiores organizações do mundo. Porque o impacto social começa com decisões melhores.",
+    "cta": "Solicitar Demonstração"
+  }
+}

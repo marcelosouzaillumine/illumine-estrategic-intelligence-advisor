@@ -102,7 +102,7 @@ export class InstitutionalEarlyWarningEngine {
         'Survivability Rupture Risk',
         severity,
         'HIGH',
-        `Ruptura iminente ou de curto prazo detectada na governança e nos scores de sustentabilidade da organização.`,
+        `Ruptura iminente ou de ciclo imediato detectada na governança e nos scores de sustentabilidade da organização.`,
         rupture.ruptureDrivers
       );
     }

@@ -28,7 +28,7 @@ export class CrossStatementLiquidityInterpreter {
       if (isOperationalCashFlowPositive) {
         return 'A organização apresenta posição de liquidez confortável, sustentada por forte geração operacional de caixa.';
       } else {
-        return 'A organização possui liquidez confortável no momento, mas a queima de caixa operacional (FCO negativo) pode deteriorar essa posição estrutural a médio prazo.';
+        return 'A organização possui liquidez confortável no momento, mas a queima de caixa operacional (FCO negativo) pode deteriorar essa posição estrutural a médio ciclo.';
       }
     }
   }

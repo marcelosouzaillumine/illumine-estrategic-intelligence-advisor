@@ -51,7 +51,7 @@ export class BalanceSheetFinancialMetricsEngine {
           severity,
           confidence: 95,
           evidence: { AC: summary.ativoCirculante, PC: summary.passivoCirculante },
-          rationale: 'Mensura a capacidade de honrar compromissos de curto prazo.',
+          rationale: 'Mensura a capacidade de honrar compromissos de ciclo imediato.',
           lineageHash: generateHash(`${metricName}-${val}`),
           family,
           format: 'decimal'
@@ -118,9 +118,9 @@ export class BalanceSheetFinancialMetricsEngine {
         const val = Number(NaNEliminationGuard.sanitizeNumber((summary.ativoCirculante + rlp) / (summary.passivoCirculante + summary.passivoNaoCirculante), 0));
         const valLC = summary.passivoCirculante > 0 ? Number(NaNEliminationGuard.sanitizeNumber(summary.ativoCirculante / summary.passivoCirculante, 0)) : 0;
         
-        let rationale = 'Solvência estrutural de longo prazo.';
+        let rationale = 'Solvência estrutural de longo horizonte.';
         if (Math.abs(val - valLC) < 0.0001 && rlp === 0 && summary.passivoNaoCirculante === 0) {
-          rationale = 'A Liquidez Geral coincide com a Liquidez Corrente devido à ausência de ativos e passivos de longo prazo documentados. A avaliação estrutural permanece restrita ao horizonte de curto prazo.';
+          rationale = 'A Liquidez Geral coincide com a Liquidez Corrente devido à ausência de ativos e passivos de longo horizonte documentados. A avaliação estrutural permanece restrita ao horizonte de ciclo imediato.';
         }
 
         const classification = val >= 1.0 ? 'HEALTHY' : 'ATTENTION';
@@ -325,11 +325,11 @@ export class BalanceSheetFinancialMetricsEngine {
           if (totalDebtRatio > 0.4 || liquidity < 1.0) {
             classification = 'SHORT_TERM_PRESSURE';
             severity = 'CRITICAL';
-            rationale = 'Concentração severa de dívida no curto prazo agravada por alta alavancagem geral ou baixa liquidez.';
+            rationale = 'Concentração severa de dívida no ciclo imediato agravada por alta alavancagem geral ou baixa liquidez.';
           } else if (totalDebtRatio > 0.25 || liquidity < 1.5) {
             classification = 'ATTENTION';
             severity = 'ATTENTION';
-            rationale = 'Concentração de obrigações no curto prazo. Demanda monitoramento, embora suportada por liquidez.';
+            rationale = 'Concentração de obrigações no ciclo imediato. Demanda monitoramento, embora suportada por liquidez.';
           } else {
             classification = 'MONITORING';
             severity = 'HEALTHY';
@@ -339,7 +339,7 @@ export class BalanceSheetFinancialMetricsEngine {
           if (totalDebtRatio > 0.5 || liquidity < 1.0) {
             classification = 'SHORT_TERM_PRESSURE';
             severity = 'CRITICAL';
-            rationale = 'Maior parte das obrigações no curto prazo com estrutura de capital alavancada ou ilíquida.';
+            rationale = 'Maior parte das obrigações no ciclo imediato com estrutura de capital alavancada ou ilíquida.';
           } else if (totalDebtRatio > 0.25 || liquidity < 1.5) {
             classification = 'ATTENTION';
             severity = 'ATTENTION';

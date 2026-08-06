@@ -40,7 +40,7 @@ const createMockOutput = (
 
 describe('LongitudinalCashIntelligenceEngine', () => {
 
-  it('Cenário A: Turnaround Legítimo / Recuperação Real', () => {
+  it('contexto A: Turnaround Legítimo / Recuperação Real', () => {
     const p1 = createMockOutput(2, false, 'LIQUIDITY_DEPENDENT');
     const p2 = createMockOutput(4, true, 'REINVESTIMENTO_OPERACIONAL_SAUDAVEL');
     const p3 = createMockOutput(6, true, 'REINVESTIMENTO_OPERACIONAL_SAUDAVEL');
@@ -51,7 +51,7 @@ describe('LongitudinalCashIntelligenceEngine', () => {
     assert.equal(result.longitudinalOut.narrativeLongitudinal.isRecoveryReal, true);
   });
 
-  it('Cenário B: Turnaround Artificial', () => {
+  it('contexto B: Turnaround Artificial', () => {
     // Runway melhora, mas o FCO não é positivo e tem dependência crônica
     const p1 = createMockOutput(2, false, 'LIQUIDITY_DEPENDENT');
     const p2 = createMockOutput(4, false, 'LIQUIDEZ_ARTIFICIAL');
@@ -64,7 +64,7 @@ describe('LongitudinalCashIntelligenceEngine', () => {
     assert.ok(result.longitudinalOut.blockedConclusions.includes('REAL_RECOVERY'));
   });
 
-  it('Cenário C: Deterioração Progressiva', () => {
+  it('contexto C: Deterioração Progressiva', () => {
     const p1 = createMockOutput(10, true, 'OPERATIONALLY_SUSTAINABLE');
     const p2 = createMockOutput(6, false, 'LIQUIDITY_DEPENDENT');
     const p3 = createMockOutput(3, false, 'CONTINUITY_RISK');
@@ -74,7 +74,7 @@ describe('LongitudinalCashIntelligenceEngine', () => {
     assert.equal(result.longitudinalOut.runwayEvolutionTrend, 'DOWN');
   });
 
-  it('Cenário D: Histórico Incompleto (Fail-Closed)', () => {
+  it('contexto D: Histórico Incompleto (Fail-Closed)', () => {
     const p1 = createMockOutput(10, true, 'OPERATIONALLY_SUSTAINABLE');
     const p2 = createMockOutput(6, false, 'LIQUIDITY_DEPENDENT');
     const result = LongitudinalCashIntelligenceEngine.evaluate([p1, p2]);
@@ -83,7 +83,7 @@ describe('LongitudinalCashIntelligenceEngine', () => {
     assert.ok(result.longitudinalOut.blockedConclusions.includes('REAL_RECOVERY'));
   });
 
-  it('Cenário E: Recuperação Volátil', () => {
+  it('contexto E: Recuperação Volátil', () => {
     const p1 = createMockOutput(3, false, 'LIQUIDITY_DEPENDENT');
     const p2 = createMockOutput(6, true, 'OPERATIONALLY_SUSTAINABLE'); // Sobe
     const p3 = createMockOutput(4, false, 'CONTINUITY_RISK'); // Desce

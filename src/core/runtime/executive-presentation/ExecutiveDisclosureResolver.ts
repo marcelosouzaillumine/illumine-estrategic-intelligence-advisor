@@ -1,7 +1,7 @@
 export class ExecutiveDisclosureResolver {
   private static readonly DISCLOSURE_MAP: Record<string, string> = {
     'DISCLOSURE_RUNWAY_FRAGILITY': 'Horizonte financeiro reduzido e necessidade de preservação de caixa.',
-    'DISCLOSURE_REINVESTMENT_UNCERTAINTY': 'O retorno esperado das operações apresenta incertezas relevantes sob cenários de estresse econômico.',
+    'DISCLOSURE_REINVESTMENT_UNCERTAINTY': 'O retorno esperado das operações apresenta incertezas relevantes sob contextos de estresse econômico.',
     'DISCLOSURE_STRESS_ASSUMPTIONS': 'A estrutura financeira demonstra sensibilidade elevada a choques simultâneos de margem e recebimento.',
     'DISCLOSURE_SURVIVAL_ACTIVE': 'Modo de sobrevivência institucional ativo. Proteção de capital e reestruturação são prioridades máximas.',
     'DISCLOSURE_RECOVERY_ACTIVE': 'A organização encontra-se em estágio de recuperação financeira, exigindo controle estrito sobre expansão.',

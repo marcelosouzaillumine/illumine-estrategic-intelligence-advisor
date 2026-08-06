@@ -36,11 +36,11 @@ export class PropagationSimulationEngine {
       step: 1,
       entityId: input.entityId,
       contagionType: 'DIRECT_SHOCK',
-      impactDescription: `Choque determinístico inicial devido a cenário do tipo ${input.scenarioType}.`,
+      impactDescription: `Choque determinístico inicial devido a contexto do tipo ${input.scenarioType}.`,
       severity: baseScore > 75 ? 'CRITICAL' : baseScore > 40 ? 'ELEVATED' : 'CONTAINED'
     });
 
-    // Mapeamento determinístico de dependências com base no tenant e cenário
+    // Mapeamento determinístico de dependências com base no tenant e contexto
     // Para manter a segurança sem vazamento de dados, derivamos as entidades do tenant de forma determinística.
     const subEntities = [
       { id: `${input.entityId}-SUB-01`, name: 'Operações de Varejo / Vendas', weight: 0.6, type: 'REVENUE_SHARE_LOSS' },

@@ -116,7 +116,7 @@ export class EarlyWarningEngine {
     if (riskScore >= 81 || (isStabilityCritical && runwayPressure && isFCONegative && !memoryOutput.correctiveDecisionEvidence)) {
       level = 'CRITICAL_CONTINUITY_THREAT';
       evidenceTrail.push('Múltiplas pressões estruturais (Runway, FCO, Liquidez, Accountability) colapsaram simultaneamente.');
-      anticipatoryAlerts.push('ATENÇÃO: Sistema antecipa ruptura operacional em curtíssimo prazo na ausência de evento extremo corretivo/capitalização.');
+      anticipatoryAlerts.push('ATENÇÃO: Sistema antecipa ruptura operacional em ciclo imediato na ausência de evento extremo corretivo/capitalização.');
     } else if (riskScore >= 70 && isFCONegative && runwayPressure && isTrajectoryDeteriorating && !memoryOutput.correctiveDecisionEvidence) {
       level = 'OPERATIONAL_COLLAPSE_RISK';
       evidenceTrail.push('A falta de ação corretiva combinada à deterioração progressiva acelera o risco operacional.');
@@ -129,7 +129,7 @@ export class EarlyWarningEngine {
       evidenceTrail.push('Aceleração na velocidade de queima de caixa com encurtamento do runway longitudinal.');
     } else if (riskScore >= 50 && (runwayPressure || isLiquidityArtificial || hasWorkingCapitalStress)) {
       level = 'PRE_DISTRESS_STATE';
-      evidenceTrail.push('Apesar da estabilidade aparente de caixa, múltiplos sinais de pressão formam convergência para um cenário de stress.');
+      evidenceTrail.push('Apesar da estabilidade aparente de caixa, múltiplos sinais de pressão formam convergência para um contexto de stress.');
     } else if (riskScore >= 40 && hasCapitalDependency) {
       level = 'EMERGING_LIQUIDITY_DEPENDENCY';
       evidenceTrail.push('Crescente dependência de financiamentos não-operacionais sustentando artificialmente os finais dos ciclos.');
@@ -175,7 +175,7 @@ export class EarlyWarningEngine {
       'STRUCTURAL_DETERIORATION_ACCELERATION': 'A aceleração da deterioração no runway aponta para uma redução rápida do tempo útil da operação.',
       'RECURSIVE_CAPITALIZATION_RISK': 'O padrão atual aponta aumento progressivo da pressão de liquidez, mantida sob risco crônico de dependência externa contínua.',
       'OPERATIONAL_COLLAPSE_RISK': 'O FCO negativo e a falta de correção aceleram o risco projetado para limites operacionais críticos.',
-      'HIGH_RECURRENCE_PROBABILITY': 'A alta probabilidade de reincidência destrutiva expõe o caixa a riscos contínuos no curto-prazo.',
+      'HIGH_RECURRENCE_PROBABILITY': 'A alta probabilidade de reincidência destrutiva expõe o caixa a riscos contínuos no curto-ciclo.',
       'CRITICAL_CONTINUITY_THREAT': 'O sistema antecipa risco substancial à continuidade fiduciária da instituição (Continuous Monitoring Requerido).',
       'INSUFFICIENT_PREDICTIVE_EVIDENCE': 'Sinais insuficientes para formar uma análise preditiva sólida.',
       'BLOCKED_BY_ACCOUNTING_INTEGRITY': 'Avaliação antecipatória bloqueada.'

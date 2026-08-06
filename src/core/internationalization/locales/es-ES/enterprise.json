@@ -1,0 +1,142 @@
+{
+  "enterprise": {
+    "hero": {
+      "title": "Executive Intelligence Platform™",
+      "subtitle": "La infraestructura de inteligencia para organizaciones que necesitan tomar decisiones en entornos complejos.",
+      "cta_primary": "Solicitar Diagnóstico Ejecutivo™",
+      "cta_secondary": "Conocer la Plataforma",
+      "lead": "Conectamos datos corporativos, contexto institucional e inteligencia ejecutiva para transformar información dispersa en decisiones más claras, explicables y sostenibles.",
+      "badge": "Executive Intelligence para Organizaciones Complejas"
+    },
+    "challenge": {
+      "label": "El Nuevo Desafío Ejecutivo",
+      "title": "El problema no es la información. Es la interpretación.",
+      "desc1": "Las empresas tienen ERP, CRM, BI, sistemas financieros, herramientas operativas e inteligencia artificial.",
+      "desc2": "Pero las decisiones críticas requieren comprender:",
+      "bullet1": "Qué está pasando.",
+      "bullet2": "Por qué está pasando.",
+      "bullet3": "Qué impactos pueden surgir.",
+      "bullet4": "Qué decisiones pueden alterar esta trayectoria.",
+      "conclusion": "Illumine crea la capa de inteligencia entre los datos corporativos y la decisión ejecutiva.",
+      "intro": "El desafío de las organizaciones modernas no es recopilar información. Es transformar información fragmentada en comprensión ejecutiva."
+    },
+    "comparison": {
+      "traditional": {
+        "title": "Infraestructura Tradicional",
+        "erp": "Registra eventos.",
+        "bi": "Muestra indicadores.",
+        "analytics": "Identifica patrones.",
+        "ai": "Sintetiza información."
+      },
+      "illumine": {
+        "title": "Illumine Executive Intelligence Platform™",
+        "connects": "Conecta: Datos + Contexto + Conocimiento Institucional + Relaciones Causales + Juicio Ejecutivo",
+        "result": "Resultado: Decisiones más fundamentadas."
+      }
+    },
+    "architecture": {
+      "title": "Executive Intelligence Architecture™",
+      "layer1": {
+        "title": "Foundation Layer™",
+        "subtitle": "La base institucional.",
+        "desc": "Integra: Datos financieros, Documentos, Indicadores, Procesos, Historial organizacional.",
+        "message": "\"Transformamos datos fragmentados en una base contextual confiable.\""
+      },
+      "layer2": {
+        "title": "Intelligence Engine Layer™",
+        "subtitle": "La capa analítica.",
+        "desc": "Capacidades: Identificación de patrones, Correlación entre áreas, Detección de riesgos, Simulación de escenarios, Análisis causal.",
+        "message": "\"El dato muestra qué pasó. La inteligencia explica las relaciones.\""
+      },
+      "layer3": {
+        "title": "Executive Advisory Layer™",
+        "subtitle": "La conexión entre inteligencia y liderazgo.",
+        "desc": "Capacidades: Executive Insights, Recomendaciones explicables, Apoyo a Juntas, Apoyo a C-Level.",
+        "message": "\"La tecnología amplía el análisis. El liderazgo decide.\""
+      }
+    },
+    "environment": {
+      "label": "Executive Decision Environment™",
+      "title": "El diferencial percibido por el liderazgo.",
+      "sources": "De múltiples fuentes: ERP, CRM, Financiero, RRHH, Proyectos, Documentos, Reuniones",
+      "arrow": "↓",
+      "environment": "Executive Decision Environment™: Contexto, Relaciones, Riesgos, Escenarios, Insights",
+      "decision": "Decisión Ejecutiva"
+    },
+    "offices": {
+      "title": "Uma arquitetura orientada às responsabilidades executivas da organização.",
+      "board": {
+        "title": "Board Intelligence™",
+        "desc": "Suporte às deliberações estratégicas do Conselho e à governança fiduciária. Foco: Resoluções, Evidências, Accountability, Histórico decisório"
+      },
+      "ceo": {
+        "title": "CEO Office™",
+        "desc": "Visão sistêmica da organização. Foco: Estratégia, Cenários, Alinhamento executivo, Prioridades corporativas"
+      },
+      "cfo": {
+        "title": "CFO Office™",
+        "desc": "Inteligência econômico-financeira. Foco: Liquidez, Rentabilidade, Capital de giro, Estrutura de capital, Criação de valor"
+      },
+      "coo": {
+        "title": "COO Office™",
+        "desc": "Excelência operacional. Foco: Eficiência, Capacidade, Continuidade, Gargalos"
+      },
+      "commercial": {
+        "title": "Commercial Office™",
+        "desc": "Inteligência comercial e crescimento. Foco: Receita, Pipeline, Margens, Mercado, Crescimento sustentável"
+      },
+      "people": {
+        "title": "People Office™",
+        "desc": "Capital humano e organização. Foco: Cultura, Talentos, Sucessão, Produtividade"
+      },
+      "governance": {
+        "title": "Governance Office™",
+        "desc": "Governança institucional. Foco: Políticas, Controles, Maturidade, Transparência"
+      },
+      "risk": {
+        "title": "Risk & Compliance Office™",
+        "desc": "Gestão integrada de riscos. Foco: Riscos, Compliance, Dependências, Continuidade"
+      },
+      "innovation": {
+        "title": "Innovation Office™",
+        "desc": "Evolução institucional. Foco: Inovação, Aprendizado, Transformação, Inteligência institucional"
+      }
+    },
+    "memory": {
+      "title": "Las organizaciones inteligentes preservan sus decisiones.",
+      "desc": "Toda decisión importante tiene: Contexto, Premisas, Evidencia, Partes interesadas, Consecuencias, Aprendizajes. Illumine transforma decisiones pasadas en inteligencia futura."
+    },
+    "simulation": {
+      "title": "Antes de decidir, comprenda los impactos.",
+      "subtitle": "El Gemelo Digital Institucional representa relaciones entre decisiones, recursos, riesgos y resultados, permitiendo simular impactos antes de la ejecución.",
+      "flow": "Comercial → Ingresos → Margen → Caja → Inversión → Estrategia",
+      "message": "\"Illumine ayuda a los líderes a comprender los impactos antes de que aparezcan en los resultados.\""
+    },
+    "target": {
+      "title": "Construido para organizaciones donde las decisiones tienen alta complejidad.",
+      "list": "Medianas y grandes empresas, Holdings, Grupos empresariales, Empresas familiares, Instituciones de salud, Instituciones educativas, Organizaciones con múltiples unidades"
+    },
+    "differentials": {
+      "title": "Una nueva categoría de infraestructura corporativa.",
+      "trad1": "Registran información",
+      "ill1": "Preservan contexto",
+      "trad2": "Muestran indicadores",
+      "ill2": "Explican relaciones",
+      "trad3": "Trabajan departamentos",
+      "ill3": "Interpretan sistemas",
+      "trad4": "Responden preguntas",
+      "ill4": "Apoyan decisiones",
+      "trad5": "Dependen de personas",
+      "ill5": "Crean memoria institucional"
+    },
+    "trust": {
+      "title": "Confianza para decisiones críticas.",
+      "features": "Human Oversight, Explainable Intelligence™, Audit Trail, Data Governance, Fiduciary Controls",
+      "link": "Conozca la Trust Architecture™"
+    },
+    "final": {
+      "title": "Su organización ya tiene datos. Ahora necesita transformar el conocimiento en inteligencia.",
+      "desc": "Illumine ayuda a los líderes a comprender mejor escenarios complejos, preservar el conocimiento institucional y tomar decisiones estratégicas con mayor claridad."
+    }
+  }
+}

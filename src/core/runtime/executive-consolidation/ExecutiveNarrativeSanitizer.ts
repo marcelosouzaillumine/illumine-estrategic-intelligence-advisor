@@ -16,7 +16,7 @@ export class ExecutiveNarrativeSanitizer {
     
     // Remove parâmetros omitidos
     sanitized = sanitized.replace(/Parâmetros de divulgação omitidos:?/gi, '');
-    sanitized = sanitized.replace(/A simulação.*?cenários/gi, 'Executar revisão dos cenários');
+    sanitized = sanitized.replace(/A simulação.*?contextos/gi, 'Executar revisão dos contextos');
     
     // Remove ".:" ou sujeiras de formatação em qualquer lugar
     sanitized = sanitized.replace(/\s*\.:\s*/g, ' ');

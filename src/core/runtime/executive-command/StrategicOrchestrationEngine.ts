@@ -25,7 +25,7 @@ export class StrategicOrchestrationEngine {
     if (context.activeSurvivalMode === 'SURVIVAL_MODE') {
       primaryFocus = 'INSTITUTIONAL_SURVIVAL_AND_CAPITAL_DEFENSE';
       immediateActionsRetained.push('Cessar toda alocação de capital em novas avenidas.');
-      immediateActionsRetained.push('Acionar contingência de tesouraria de curto prazo.');
+      immediateActionsRetained.push('Acionar contingência de tesouraria de ciclo imediato.');
     } else if (context.operatingPressureSeverity === 'CRITICAL' || context.treasuryProtectionLevel.includes('WEAK')) {
       primaryFocus = 'LIQUIDITY_AND_OPERATIONAL_RECOVERY';
       immediateActionsRetained.push('Reestruturar ciclo operacional para liberar caixa.');

@@ -160,7 +160,7 @@ export class InstitutionalStabilityEngine {
     } else if (score >= 40) {
       classification = 'STABLE_BUT_MONITORED';
       evidenceTrail.push('Posição estável, mas vulnerabilidades estruturais (FCO ou Drift) exigem observação.');
-      dominantStabilityDrivers.push('Manutenção de runway em curtíssimo prazo, apesar da pressão.');
+      dominantStabilityDrivers.push('Manutenção de runway em ciclo imediato, apesar da pressão.');
     } else if (score > 25 && score < 40) {
       classification = 'UNSTABLE';
       evidenceTrail.push('Inviabilidade operacional primária latente compensada parcial ou temporariamente.');

@@ -58,6 +58,9 @@ import ptBrAdvisoryRecommendations from '../locales/pt-BR/advisory/recommendatio
 import ptBrAdvisoryInsights from '../locales/pt-BR/advisory/insights.json';
 import ptBrAdvisoryActions from '../locales/pt-BR/advisory/actions.json';
 import ptBrAdvisorNetwork from '../locales/pt-BR/advisor-network.json';
+import ptBrNonprofit from '../locales/pt-BR/nonprofit.json';
+import ptBrEnterprise from '../locales/pt-BR/enterprise.json';
+import ptBrAdvisorPartner from '../locales/pt-BR/advisor-partner.json';
 
 // Import en-US namespaces
 import enUsCommon from '../locales/en-US/common.json';
@@ -90,6 +93,9 @@ import enUsAdvisoryRecommendations from '../locales/en-US/advisory/recommendatio
 import enUsAdvisoryInsights from '../locales/en-US/advisory/insights.json';
 import enUsAdvisoryActions from '../locales/en-US/advisory/actions.json';
 import enUsAdvisorNetwork from '../locales/en-US/advisor-network.json';
+import enUsNonprofit from '../locales/en-US/nonprofit.json';
+import enUsEnterprise from '../locales/en-US/enterprise.json';
+import enUsAdvisorPartner from '../locales/en-US/advisor-partner.json';
 
 // Import es-ES namespaces
 import esEsCommon from '../locales/es-ES/common.json';
@@ -122,6 +128,9 @@ import esEsAdvisoryRecommendations from '../locales/es-ES/advisory/recommendatio
 import esEsAdvisoryInsights from '../locales/es-ES/advisory/insights.json';
 import esEsAdvisoryActions from '../locales/es-ES/advisory/actions.json';
 import esEsAdvisorNetwork from '../locales/es-ES/advisor-network.json';
+import esEsNonprofit from '../locales/es-ES/nonprofit.json';
+import esEsEnterprise from '../locales/es-ES/enterprise.json';
+import esEsAdvisorPartner from '../locales/es-ES/advisor-partner.json';
 
 const resources = {
   'pt-BR': {
@@ -154,7 +163,10 @@ const resources = {
     'advisor-network': ptBrAdvisorNetwork,
     'advisory/recommendations': ptBrAdvisoryRecommendations,
     'advisory/insights': ptBrAdvisoryInsights,
-    'advisory/actions': ptBrAdvisoryActions
+    'advisory/actions': ptBrAdvisoryActions,
+    nonprofit: ptBrNonprofit,
+    enterprise: ptBrEnterprise,
+    'advisor-partner': ptBrAdvisorPartner
   },
   'en-US': {
     common: enUsCommon,
@@ -186,7 +198,10 @@ const resources = {
     'advisor-network': enUsAdvisorNetwork,
     'advisory/recommendations': enUsAdvisoryRecommendations,
     'advisory/insights': enUsAdvisoryInsights,
-    'advisory/actions': enUsAdvisoryActions
+    'advisory/actions': enUsAdvisoryActions,
+    nonprofit: enUsNonprofit,
+    enterprise: enUsEnterprise,
+    'advisor-partner': enUsAdvisorPartner
   },
   'es-ES': {
     common: esEsCommon,
@@ -218,7 +233,10 @@ const resources = {
     'advisor-network': esEsAdvisorNetwork,
     'advisory/recommendations': esEsAdvisoryRecommendations,
     'advisory/insights': esEsAdvisoryInsights,
-    'advisory/actions': esEsAdvisoryActions
+    'advisory/actions': esEsAdvisoryActions,
+    nonprofit: esEsNonprofit,
+    enterprise: esEsEnterprise,
+    'advisor-partner': esEsAdvisorPartner
   }
 };
 
@@ -232,7 +250,7 @@ i18n
       'common', 'dashboard', 'executive', 'metrics', 'reports', 'errors', 'ai',
       'institutional', 'platform', 'domains', 'governance', 'advisory', 'partners', 'pricing', 'navigation', 'footer', 'seo', 'brand',
       'showcases/executive-command', 'showcases/systemic-intelligence', 'showcases/governance', 'intelligence-center', 'diagnostic', 'workspace', 'settings', 'permissions', 'advisor-network',
-      'advisory/recommendations', 'advisory/insights', 'advisory/actions'
+      'advisory/recommendations', 'advisory/insights', 'advisory/actions', 'nonprofit', 'enterprise', 'advisor-partner'
     ],
     defaultNS: 'common',
     interpolation: {

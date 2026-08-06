@@ -148,7 +148,7 @@ export class DecisionComplianceEngine {
     if (domains.includes('Dividend Distribution') || domains.includes('Financing Strategy')) {
       if (report.severity?.level === 'CRÍTICA' && report.scores?.composite < 40) {
         violations.push(
-          'VIOLAÇÃO CONSTITUCIONAL: Retiradas de acionistas bloqueadas sob cenário de grave deterioração institucional e fragilidade fiduciária.'
+          'VIOLAÇÃO CONSTITUCIONAL: Retiradas de acionistas bloqueadas sob contexto de grave deterioração institucional e fragilidade fiduciária.'
         );
         severity = 'CONSTITUTIONAL_VIOLATION';
       }
@@ -191,7 +191,7 @@ export class DecisionComplianceEngine {
       const nonBypassableTriggers = [
         'lucro líquido', 'prejuízo', 'erosão patrimonial', 'lineage hash',
         'rastreabilidade', 'matemática', 'safeguard', 'bypass',
-        'sem cenário', 'contexto institucional', 'constitucional'
+        'sem contexto', 'contexto institucional', 'constitucional'
       ];
 
       const activeViolations = [...violations];

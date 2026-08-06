@@ -5,7 +5,7 @@ import { ExecutionIntegrityState } from './operational-governance-types';
 export class OperationalStabilityGuard {
   /**
    * Atua como um buffer (low-pass filter fiduciário) para evitar 
-   * "strain inflation" devido a flutuações operacionais isoladas de curto prazo.
+   * "strain inflation" devido a flutuações operacionais isoladas de ciclo imediato.
    * Se o status for Strain, mas a flutuação não justificar a quebra estrutural real,
    * ele amortece para Pressured ou Stable, dependendo da recorrência.
    */

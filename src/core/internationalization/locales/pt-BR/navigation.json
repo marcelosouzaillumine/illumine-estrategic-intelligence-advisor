@@ -13,7 +13,19 @@
     "governance": "Trust Architecture™",
     "intelligence_center": "Executive Intelligence Center™",
     "advisor_network": "Advisor Network",
-    "cta": "Iniciar Assessment"
+    "nonprofit": "Nonprofit",
+    "enterprise": "Enterprise",
+    "solutions": "Soluções",
+    "ecosystem": "Ecossistema",
+    "security": "Segurança",
+    "privacy": "Privacidade",
+    "cta": "Iniciar Assessment",
+    "architecture": "Arquitetura",
+    "intelligence_network": "Intelligence Network",
+    "trust": "Confiança",
+    "enterprise_sub": "Executive Intelligence Platform™ para empresas, grupos empresariais e organizações complexas.",
+    "nonprofit_sub": "Executive Intelligence Platform™ para organizações orientadas por propósito, Conselhos e instituições sociais.",
+    "security_arch": "Security Architecture™"
   },
   "group": {
     "my_executive_workspace": "Meu Workspace Executivo",

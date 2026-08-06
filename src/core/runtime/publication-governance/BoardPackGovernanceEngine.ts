@@ -33,7 +33,7 @@ export class BoardPackGovernanceEngine {
     // 2. Scenario simulation verification
     if (report.policyContext?.activeProfile === 'TURNAROUND' && !report.scenarioProjections) {
       // For turnaround profiles, simulations are constitutionally required in board packs
-      errors.push('BOARD PACK COMPLIANCE: Projeções de cenário simuladas obrigatórias para perfil TURNAROUND ausentes.');
+      errors.push('BOARD PACK COMPLIANCE: Projeções de contexto simuladas obrigatórias para perfil TURNAROUND ausentes.');
     }
 
     return {

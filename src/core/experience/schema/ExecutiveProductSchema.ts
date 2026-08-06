@@ -23,6 +23,9 @@ export interface ExecutiveProductSchema {
   productType: ExecutiveProductType;
   advisoryLevel: AdvisoryLevel;
   decisionAuthority: boolean;
+  canRecommend: boolean;
+  canExecute: boolean;
+  canCreateGovernanceDecision: boolean;
   purpose: string;
   executiveDecisionSupported: string[];
   hierarchy: ExecutiveSectionSchema[];

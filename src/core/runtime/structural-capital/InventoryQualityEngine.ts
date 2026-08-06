@@ -68,7 +68,7 @@ export class InventoryQualityEngine {
 
     if (inventoryOperationalDependency > 1.20) {
       activeSignals.push('INVENTORY_CAPITAL_IMMOBILIZATION');
-      explanations.push(`Pressão estrutural de capital: o estoque imobiliza valor equivalente a ${(inventoryOperationalDependency * 100).toFixed(1)}% das obrigações de curto prazo.`);
+      explanations.push(`Pressão estrutural de capital: o estoque imobiliza valor equivalente a ${(inventoryOperationalDependency * 100).toFixed(1)}% das obrigações de ciclo imediato.`);
     }
 
     if (inventoryCapitalImmobilization > 0.35) {

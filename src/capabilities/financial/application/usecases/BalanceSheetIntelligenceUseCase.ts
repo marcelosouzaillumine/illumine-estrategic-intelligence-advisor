@@ -164,7 +164,7 @@ export class BalanceSheetIntelligenceUseCase implements FinancialIntelligencePor
           ],
           strengths: [
             "Alta autonomia financeira e baixo risco de solvência estrutural.",
-            "Forte capacidade de pagamento no curto prazo."
+            "Forte capacidade de pagamento no ciclo imediato."
           ],
           attentionPoints: [
             "Capital possivelmente subutilizado devido à alta concentração de caixa.",

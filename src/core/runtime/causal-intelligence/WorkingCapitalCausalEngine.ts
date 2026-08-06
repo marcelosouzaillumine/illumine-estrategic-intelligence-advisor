@@ -46,7 +46,7 @@ export class WorkingCapitalCausalEngine {
         rationale = 'Dreno crítico de capital de giro causado pelo acúmulo simultâneo de estoques e contas a receber.';
       } else if (receivablesTrend === 'GROWING') {
         severity = 'HIGH';
-        rationale = 'Dreno elevado de liquidez concentrado na expansão de contas a receber (prazos a clientes).';
+        rationale = 'Dreno elevado de liquidez concentrado na expansão de contas a receber (ciclos a clientes).';
       } else if (inventoryTrend === 'GROWING') {
         severity = 'HIGH';
         rationale = 'Retenção elevada de recursos em estoques de baixa rotação, comprometendo liquidez imediata.';

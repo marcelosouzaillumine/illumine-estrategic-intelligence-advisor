@@ -68,7 +68,7 @@ export class CashConstraintDiagnosisEngine {
           name: 'RECEBIVEIS',
           value: absReceivables,
           priority: 3,
-          rationale: 'O alongamento do prazo médio de recebimento ou crescimento da carteira absorveu a liquidez gerada.',
+          rationale: 'O alongamento do ciclo médio de recebimento ou crescimento da carteira absorveu a liquidez gerada.',
           severity: 'RESTRITIVO'
         });
       }

@@ -56,14 +56,19 @@ export class BalanceSheetExecutiveLanguageCompiler {
       statusBadgeVariant = liqThreshold.severity === 'CRITICAL' ? 'critical' : (liqThreshold.severity === 'WARNING' ? 'warning' : 'success');
     }
 
-    const opinion = `Indicador primário de ${selectedFrag.causalityMetric} em ${formatFact(metricValue)} demonstra que ${selectedFrag.rationaleSnippet}.`;
+    const observation = `A dimensão de ${dimension} apresenta comportamento de ${statusLabel.toLowerCase()}.`;
+    const evidence = `Indicador primário de ${selectedFrag.causalityMetric} em ${formatFact(metricValue)}.`;
+    const financialMeaning = selectedFrag.rationaleSnippet.charAt(0).toUpperCase() + selectedFrag.rationaleSnippet.slice(1);
+    const technicalInterpretation = `O motor analítico identificou ${selectedFrag.causalityMetric.toLowerCase()} como o ofensor crítico ou fator determinante nesta camada.`;
 
     return {
       dimension,
       statusLabel,
       statusBadgeVariant,
-      opinion,
-      implication: selectedFrag.rationaleSnippet,
+      observation,
+      evidence,
+      financialMeaning,
+      technicalInterpretation,
       executiveQuestion: selectedFrag.executiveQuestion,
       confidence: 'Alta',
       evidences: [],
@@ -118,23 +123,23 @@ export class BalanceSheetExecutiveLanguageCompiler {
     // Generate observations strictly from thresholds
     let shortTerm = 'A estabilidade financeira permite o acompanhamento contínuo dos indicadores de liquidez.';
     let mediumTerm = 'A base de capital suporta contínua busca por eficiência operacional e retorno sobre ativos.';
-    let longTerm = 'A estrutura de capital demonstra condições para sustentar o crescimento orgânico de longo prazo.';
+    let longTerm = 'A estrutura de capital demonstra condições para sustentar o crescimento orgânico estrutural.';
 
     if (liqThreshold.severity === 'CRITICAL') {
       shortTerm = 'A criticidade da liquidez sinaliza a necessidade técnica de revisão de fluxos não essenciais.';
-      mediumTerm = 'O desequilíbrio estrutural requer readequação das margens de liquidez e passivos de curto prazo.';
-      longTerm = 'A vulnerabilidade de caixa afeta a capacidade de absorção de estresse a longo prazo.';
+      mediumTerm = 'O desequilíbrio estrutural requer readequação das margens de liquidez e obrigações de ciclo imediato.';
+      longTerm = 'A vulnerabilidade de caixa afeta a capacidade de absorção de estresse no horizonte futuro.';
     } else if (autThreshold.severity === 'CRITICAL') {
       shortTerm = 'A estrutura de capital indica forte pressão fiduciária e baixa retenção histórica de valor.';
       mediumTerm = 'A alta alavancagem estrutural condiciona o crescimento a novos aportes de capital externo.';
-      longTerm = 'A dependência crônica de terceiros compromete a autonomia financeira no longo prazo.';
+      longTerm = 'A dependência crônica de terceiros compromete a autonomia financeira estrutural.';
     } else if (liqThreshold.severity === 'WARNING' || wcThreshold.severity === 'WARNING') {
       shortTerm = 'O consumo do capital de giro exige acompanhamento próximo sobre a necessidade adicional de recursos.';
       mediumTerm = 'O ciclo de caixa em alerta afeta a conversão ótima de resultados em disponibilidade imediata.';
       longTerm = 'A disciplina de alocação de recursos torna-se variável crítica para proteger as margens futuras.';
     } else if (liqThreshold.severity === 'ROBUST' && autThreshold.severity === 'ROBUST') {
-      shortTerm = 'O cenário de liquidez excedente sugere análise sobre o custo de oportunidade da ociosidade financeira.';
-      mediumTerm = 'A forte retenção de valor sustenta cenários de expansão sem dependência sistêmica externa.';
+      shortTerm = 'O quadro de liquidez excedente sugere análise sobre o custo de oportunidade da ociosidade financeira.';
+      mediumTerm = 'A forte retenção de valor sustenta contextos de expansão sem dependência sistêmica externa.';
       longTerm = 'A autonomia estrutural garante as condições para maximização eficiente do retorno sobre o capital investido.';
     }
 

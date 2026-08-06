@@ -95,7 +95,7 @@ export class PatrimonialExecutiveInterpretationEngine {
 
       patrimonialThesis = `A estrutura patrimonial permanece formalmente solvente, porém apresenta ${joinedIssues}.`;
     } else if (isEndivAlto) {
-      patrimonialThesis = `A estrutura patrimonial apresenta solvência de curto prazo preservada, mas a elevada alavancagem limita a capacidade de financiar crescimento operacional.`;
+      patrimonialThesis = `A estrutura patrimonial apresenta solvência de ciclo imediato preservada, mas a elevada alavancagem limita a capacidade de financiar crescimento operacional.`;
     } else {
       if (score >= 80) {
         if (stage === 'capital_allocation' || strategicSeverityReason.toLowerCase().includes('excedente') || strategicSeverityReason.toLowerCase().includes('conservador')) {
@@ -104,7 +104,7 @@ export class PatrimonialExecutiveInterpretationEngine {
           patrimonialThesis = `A estrutura patrimonial é forte e resiliente, suportando crescimento sustentável com robusta margem de absorção contra choques.`;
         }
       } else if (score >= 60) {
-        patrimonialThesis = `A estrutura patrimonial é estável e equilibrada, apresentando indicadores controlados sem exposição severa no curto prazo.`;
+        patrimonialThesis = `A estrutura patrimonial é estável e equilibrada, apresentando indicadores controlados sem exposição severa no ciclo imediato.`;
       } else {
         patrimonialThesis = `A estrutura patrimonial requer otimização do giro e da estrutura de capital, apesar de não apresentar rompimento imediato de liquidez.`;
       }

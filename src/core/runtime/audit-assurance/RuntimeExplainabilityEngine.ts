@@ -66,7 +66,7 @@ export class RuntimeExplainabilityEngine {
     if (context.isPredictiveRuptureTriggered) {
       narrative.predictiveRuptureReason = context.predictiveRuptureTrigger
         ? `Ruptura preditiva detectada nos modelos: ${context.predictiveRuptureTrigger}.`
-        : 'Ruptura de projeção identificada com alto desvio em relação ao cenário-base estruturado.';
+        : 'Ruptura de projeção identificada com alto desvio em relação ao contexto-base estruturado.';
     }
 
     if (context.isPublicationRestricted) {

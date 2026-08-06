@@ -43,7 +43,7 @@ export class ExecutiveStrategicTensionEngine {
       tensions.push({
         id: 'TENSION_LIQUIDITY_CYCLE',
         title: 'Vulnerabilidade de Liquidez vs. Ciclo Alongado',
-        description: 'Liquidez corrente pressionada combinada com um ciclo financeiro longo. O descasamento de prazos está drenando o caixa operacional.',
+        description: 'Liquidez corrente pressionada combinada com um ciclo financeiro longo. O descasamento de ciclos está drenando o caixa operacional.',
         severity: 'CRITICAL',
         dimensionsInvolved: ['Proteção Financeira', 'Estrutura Patrimonial']
       });

@@ -38,10 +38,10 @@ export function generateAttentionItems(input: BoardIntelligenceInput): BoardAtte
   if (input.executiveRecommendation === '1º Recomendado' && !input.isBaseline) {
     items.push({
       id: 'deliberar-scenario',
-      title: 'Aprovação de Novo Cenário Estratégico',
+      title: 'Aprovação de Novo contexto Estratégico',
       category: 'Deliberar',
       urgency: 'Próxima Reunião',
-      rationale: 'O comitê executivo (EDL) classificou este cenário como "1º Recomendado" e aguarda ratificação fiduciária do Conselho.'
+      rationale: 'O comitê executivo (EDL) classificou este contexto como "1º Recomendado" e aguarda ratificação fiduciária do Conselho.'
     });
   } else if (input.isBaseline) {
     // If it's the baseline, maybe just monitor unless there are issues
@@ -51,7 +51,7 @@ export function generateAttentionItems(input: BoardIntelligenceInput): BoardAtte
         title: 'Mitigação de Risco Operacional no Baseline',
         category: 'Deliberar',
         urgency: 'Próxima Reunião',
-        rationale: 'Apesar de ser o cenário base oficial, a capacidade de execução (IEI) está perigosamente baixa.'
+        rationale: 'Apesar de ser o contexto base oficial, a capacidade de execução (IEI) está perigosamente baixa.'
       });
     }
   }
@@ -60,7 +60,7 @@ export function generateAttentionItems(input: BoardIntelligenceInput): BoardAtte
   if (input.longTermRoadmapItemsCount > 0) {
     items.push({
       id: 'monitorar-roadmap',
-      title: `Evolução do Roadmap Institucional de Longo Prazo (${input.longTermRoadmapItemsCount} ações)`,
+      title: `Evolução do Roadmap Institucional de longo horizonte (${input.longTermRoadmapItemsCount} ações)`,
       category: 'Monitorar',
       urgency: 'Contínua',
       rationale: 'Iniciativas de maturação lenta que preparam a base para saltos futuros de complexidade societária/operacional.'
@@ -77,7 +77,7 @@ export function generateAttentionItems(input: BoardIntelligenceInput): BoardAtte
     });
   }
 
-  // Fallback se não tiver itens (muito raro em cenários reais)
+  // Fallback se não tiver itens (muito raro em contextos reais)
   if (items.length === 0) {
     items.push({
       id: 'monitorar-geral',

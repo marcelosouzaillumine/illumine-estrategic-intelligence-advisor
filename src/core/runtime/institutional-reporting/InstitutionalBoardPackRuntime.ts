@@ -247,7 +247,7 @@ export class InstitutionalBoardPackRuntime {
 
     const thesisContext = maturity.description;
     const tensaoPrincipal = isLiquidityCrisis 
-      ? 'Forte pressão de liquidez operacional e curto prazo de sobrevivência'
+      ? 'Forte pressão de liquidez operacional e ciclo imediato de sobrevivência'
       : (isProfitabilityCrisis
           ? 'Ineficiência operacional resultando em margens negativas e prejuízo operacional'
           : 'Estabilização financeira geral com necessidade de expansão estratégica.');

@@ -277,7 +277,7 @@ export interface InstitutionalBoardPackOutput {
     top5ExecutiveActions: Array<{
       acao: string;
       responsavel: string;
-      prazo: string;
+      ciclo: string;
       impactoEsperado: string;
       origin: string;
       evidence: string[];

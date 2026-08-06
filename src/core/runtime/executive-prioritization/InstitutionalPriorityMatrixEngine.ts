@@ -3,7 +3,7 @@
 export interface PriorityMatrixRow {
   area: 'Liquidez' | 'Rentabilidade' | 'Capital' | 'Governança' | 'Crescimento' | 'Operações';
   impacto: 'Muito Alto' | 'Alto' | 'Moderado' | 'Baixo';
-  urgencia: 'Imediata' | 'Curto Prazo' | 'Médio Prazo' | 'Longo Prazo';
+  urgencia: 'Imediata' | 'ciclo imediato' | 'médio ciclo' | 'longo horizonte';
   esforco: 'Muito Alto' | 'Alto' | 'Moderado' | 'Baixo';
 }
 
@@ -30,7 +30,7 @@ export class InstitutionalPriorityMatrixEngine {
     rows.push({
       area: 'Liquidez',
       impacto: isLiquidityCrisis ? 'Muito Alto' : 'Moderado',
-      urgencia: isLiquidityCrisis ? (runwayMonths < 3 ? 'Imediata' : 'Curto Prazo') : 'Longo Prazo',
+      urgencia: isLiquidityCrisis ? (runwayMonths < 3 ? 'Imediata' : 'ciclo imediato') : 'longo horizonte',
       esforco: 'Moderado',
     });
 
@@ -39,7 +39,7 @@ export class InstitutionalPriorityMatrixEngine {
     rows.push({
       area: 'Rentabilidade',
       impacto: isProfitabilityCrisis ? 'Muito Alto' : 'Moderado',
-      urgencia: isProfitabilityCrisis ? 'Curto Prazo' : 'Médio Prazo',
+      urgencia: isProfitabilityCrisis ? 'ciclo imediato' : 'médio ciclo',
       esforco: 'Alto',
     });
 
@@ -48,7 +48,7 @@ export class InstitutionalPriorityMatrixEngine {
     rows.push({
       area: 'Capital',
       impacto: isCapitalEroded ? 'Alto' : 'Moderado',
-      urgencia: isCapitalEroded ? 'Curto Prazo' : 'Longo Prazo',
+      urgencia: isCapitalEroded ? 'ciclo imediato' : 'longo horizonte',
       esforco: 'Moderado',
     });
 
@@ -57,7 +57,7 @@ export class InstitutionalPriorityMatrixEngine {
     rows.push({
       area: 'Governança',
       impacto: isGovWeak ? 'Alto' : 'Baixo',
-      urgencia: isGovWeak ? 'Curto Prazo' : 'Longo Prazo',
+      urgencia: isGovWeak ? 'ciclo imediato' : 'longo horizonte',
       esforco: 'Baixo',
     });
 
@@ -66,7 +66,7 @@ export class InstitutionalPriorityMatrixEngine {
     rows.push({
       area: 'Crescimento',
       impacto: isProfitabilityCrisis ? 'Moderado' : 'Alto',
-      urgencia: isLiquidityCrisis ? 'Longo Prazo' : 'Médio Prazo',
+      urgencia: isLiquidityCrisis ? 'longo horizonte' : 'médio ciclo',
       esforco: 'Muito Alto',
     });
 
@@ -75,7 +75,7 @@ export class InstitutionalPriorityMatrixEngine {
     rows.push({
       area: 'Operações',
       impacto: 'Moderado',
-      urgencia: isLiquidityCrisis ? 'Curto Prazo' : 'Médio Prazo',
+      urgencia: isLiquidityCrisis ? 'ciclo imediato' : 'médio ciclo',
       esforco: 'Moderado',
     });
 

@@ -227,7 +227,7 @@ export class GovernanceMonitoringEngine {
       recommendations.push("Instaurar plano emergencial de contingência corporativa fiduciária.");
       recommendations.push("Suspender temporariamente iniciativas de escala (GRE™) até saneamento dos alertas críticos.");
     } else if (trend === "STABLE") {
-      recommendations.push("Acelerar a execução das prioridades de curto prazo (BPE™) pendentes.");
+      recommendations.push("Acelerar a execução das prioridades de ciclo imediato (BPE™) pendentes.");
       recommendations.push("Mapear preventivamente o comitê de transição sucessória.");
     } else {
       recommendations.push("Prosseguir para as fases avançadas de Escala Sustentável e Preservação de Legado do GRE™.");
@@ -270,7 +270,7 @@ export class GovernanceMonitoringEngine {
       explainability.push({
         title: "Override de Risco Sistêmico",
         type: "override",
-        description: `O desvio crítico do cenário '${scenario}' induziu rebaixamento imediato do score e ativação de triggers de alerta.`,
+        description: `O desvio crítico do contexto '${scenario}' induziu rebaixamento imediato do score e ativação de triggers de alerta.`,
         timestamp
       });
     }

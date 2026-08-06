@@ -168,7 +168,7 @@ export class DreDecisionPolicyLayer {
       executiveDiagnosis: {
         currentSituation: diag.currentSituation,
         strategicPriority: diag.strategicPriority,
-        operationalOutlook: isCritica ? "Cenário exigindo intervenção para assegurar estabilidade." : "Ambiente com lastro analítico preservado.",
+        operationalOutlook: isCritica ? "contexto exigindo intervenção para assegurar estabilidade." : "Ambiente com lastro analítico preservado.",
         primaryRecommendation: p1.recommendation,
         primaryEconomicDriver: diag.primaryEconomicDriver,
         severityState,

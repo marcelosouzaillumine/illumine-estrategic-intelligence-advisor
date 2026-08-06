@@ -23,7 +23,7 @@ export class ScenarioPropagationRuntime {
           severity: relation.materiality === 'MATERIAL' ? 'CRITICAL' : 'WARNING',
           source: 'ScenarioPropagationRuntime',
           timestamp: new Date().toISOString(),
-          message: `Risco Preditivo: Calote intragrupo. A Entidade devedora (${relation.fromEntityId}) encontra-se insolvente no cenário estressado, ameaçando ${relation.amount} para o credor (${relation.toEntityId}).`,
+          message: `Risco Preditivo: Calote intragrupo. A Entidade devedora (${relation.fromEntityId}) encontra-se insolvente no contexto estressado, ameaçando ${relation.amount} para o credor (${relation.toEntityId}).`,
           affectedEntities: [relation.fromEntityId, relation.toEntityId],
           runtimeStage: 'SCENARIO_PROPAGATION',
           resolved: false

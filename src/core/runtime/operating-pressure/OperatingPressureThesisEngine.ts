@@ -32,7 +32,7 @@ export class OperatingPressureThesisEngine {
     if (scores.erosion > 70) {
       treasuryErosionProfile = 'Erosão severa de reservas de tesouraria decorrente de FCO desfavorável contínuo.';
     } else if (scores.erosion > 40) {
-      treasuryErosionProfile = 'Drenagem gradual de caixa com redução de runway de segurança de médio prazo.';
+      treasuryErosionProfile = 'Drenagem gradual de caixa com redução de runway de segurança de médio ciclo.';
     }
 
     let institutionalOperatingStrain = 'Pressão operacional sob controle fiduciário.';

@@ -39,9 +39,9 @@ export class BalanceSheetExecutiveNarrativeEngine {
       const liqR = Number(liqRealInd.value).toFixed(2).replace('.', ',');
       const liqI = Number(liqInstInd.value).toFixed(2).replace('.', ',');
       if (Number(liqRealInd.value) > 1) {
-        parts.push(`A liquidez permanece forte, com Liquidez Real de ${liqR} e Liquidez Instantânea Real de ${liqI}, indicando ampla capacidade de cobertura das obrigações de curto prazo.`);
+        parts.push(`A liquidez permanece forte, com Liquidez Real de ${liqR} e Liquidez Instantânea Real de ${liqI}, indicando ampla capacidade de cobertura das obrigações de ciclo imediato.`);
       } else {
-        parts.push(`A liquidez apresenta restrições, com Liquidez Real de ${liqR} e Liquidez Instantânea Real de ${liqI}, requerendo atenção à cobertura de curto prazo.`);
+        parts.push(`A liquidez apresenta restrições, com Liquidez Real de ${liqR} e Liquidez Instantânea Real de ${liqI}, requerendo atenção à cobertura de ciclo imediato.`);
         parts.push(`Compressão de caixa reduziu liquidez para ${liqR}.`);
       }
     }

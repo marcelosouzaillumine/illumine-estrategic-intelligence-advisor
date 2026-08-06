@@ -32,16 +32,16 @@ export class DecisionTradeoffEngine {
 
     if (domains.includes('CAPEX')) {
       tradeoffs.push({
-        dimension: 'Investimento Estrutural vs Caixa de Curto Prazo',
+        dimension: 'Investimento Estrutural vs Caixa de ciclo imediato',
         sacrifice: 'Imobilização imediata de caixa, aumentando a vulnerabilidade a choques operacionais.',
-        benefit: 'Modernização de ativos fixos e expectativa de ganhos de escala no longo prazo.'
+        benefit: 'Modernização de ativos fixos e expectativa de ganhos de escala no longo horizonte.'
       });
     }
 
     if (domains.includes('Debt Expansion')) {
       tradeoffs.push({
         dimension: 'Alavancagem vs Custos Financeiros',
-        sacrifice: 'Aumento de passivos exigíveis e do serviço da dívida (juros) no curto prazo.',
+        sacrifice: 'Aumento de passivos exigíveis e do serviço da dívida (juros) no ciclo imediato.',
         benefit: 'Entrada rápida de recursos de terceiros sem diluição de participação dos sócios.'
       });
     }
@@ -58,7 +58,7 @@ export class DecisionTradeoffEngine {
       tradeoffs.push({
         dimension: 'Expansão vs Rentabilidade Imediata',
         sacrifice: 'Aumento das despesas operacionais fixas e elevação temporária do ponto de equilíbrio.',
-        benefit: 'Ampliação da capacidade de mercado e velocidade de escala no médio prazo.'
+        benefit: 'Ampliação da capacidade de mercado e velocidade de escala no médio ciclo.'
       });
     }
 

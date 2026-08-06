@@ -34,7 +34,7 @@ export class LiabilityNatureResolver {
       profiles.push('WORKING_CAPITAL_PRESSURE');
     }
 
-    // 5. STRUCTURED_DEBT: passivo não circulante relevante (longo prazo) representa mais de 40% do passivo total
+    // 5. STRUCTURED_DEBT: passivo não circulante relevante (longo horizonte) representa mais de 40% do passivo total
     if (pnc > 0 && pt > 0 && (pnc / pt) > 0.4) {
       profiles.push('STRUCTURED_DEBT');
     }

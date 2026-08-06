@@ -323,7 +323,7 @@ export class InstitutionalBoardPackDocumentRuntime {
 
       // Section 2: Ignored Recommendations Report
       let ignoredText = `## Ignored Recommendations Report\n\n`;
-      ignoredText += `Análise de aderência fiduciária a longo prazo:\n\n`;
+      ignoredText += `Análise de aderência fiduciária a longo horizonte:\n\n`;
       ignoredText += `- **Aderência Fiduciária (Response Rate)**: ${domains.advisory?.score ?? 70}/100\n`;
       ignoredText += `- **Dedução por Negligência**: ${auditability.reconciliationTrace || 'N/A'}\n\n`;
       ignoredText += `*Recomendações fiduciárias reiteradas devem ser saneadas para evitar fadiga de governança e erosão de score longitudinal.*`;
@@ -597,9 +597,9 @@ export class InstitutionalBoardPackDocumentRuntime {
       roadmapText += `### Executive Action Timeline\n`;
       const getLabel = (id: string) => allDecs.find((d: any) => d.id === id)?.label || id;
       roadmapText += `- **0–30 dias (Imediato)**: ${timelineDecisions.immediate?.map((id: string) => getLabel(id)).join(', ') || 'Nenhuma ação imediata'}\n`;
-      roadmapText += `- **30–90 dias (Curto Prazo)**: ${timelineDecisions.shortTerm?.map((id: string) => getLabel(id)).join(', ') || 'Nenhuma ação'}\n`;
-      roadmapText += `- **90–180 dias (Médio Prazo)**: ${timelineDecisions.mediumTerm?.map((id: string) => getLabel(id)).join(', ') || 'Nenhuma ação'}\n`;
-      roadmapText += `- **180+ dias (Longo Prazo)**: ${timelineDecisions.longTerm?.map((id: string) => getLabel(id)).join(', ') || 'Nenhuma ação'}\n\n`;
+      roadmapText += `- **30–90 dias (ciclo imediato)**: ${timelineDecisions.shortTerm?.map((id: string) => getLabel(id)).join(', ') || 'Nenhuma ação'}\n`;
+      roadmapText += `- **90–180 dias (médio ciclo)**: ${timelineDecisions.mediumTerm?.map((id: string) => getLabel(id)).join(', ') || 'Nenhuma ação'}\n`;
+      roadmapText += `- **180+ dias (longo horizonte)**: ${timelineDecisions.longTerm?.map((id: string) => getLabel(id)).join(', ') || 'Nenhuma ação'}\n\n`;
 
       roadmapText += `### Pathway Confidence & Viability\n`;
       roadmapText += `- **${pathways.conservative?.name}**: Viabilidade ${pathways.conservative?.probability}% - ${pathways.conservative?.description}\n`;
@@ -619,7 +619,7 @@ export class InstitutionalBoardPackDocumentRuntime {
       topDecisions.slice(0, 3).forEach((dec: any) => {
         const matrix = decisionScenarioMatrix[dec.id] || {};
         survivabilityFrameworkText += `### Decisão: ${dec.label}\n`;
-        survivabilityFrameworkText += `| Cenário | Impacto de Liquidez | Impacto Covenants | Impacto Sobrevivência | Impacto Financiabilidade |\n`;
+        survivabilityFrameworkText += `| contexto | Impacto de Liquidez | Impacto Covenants | Impacto Sobrevivência | Impacto Financiabilidade |\n`;
         survivabilityFrameworkText += `| --- | --- | --- | --- | --- |\n`;
         Object.entries(matrix).forEach(([scName, scVal]: [string, any]) => {
           survivabilityFrameworkText += `| ${scName} | ${scVal.liquidityImpact} | ${scVal.covenantImpact} | ${scVal.survivabilityImpact} | ${scVal.financeabilityImpact} |\n`;

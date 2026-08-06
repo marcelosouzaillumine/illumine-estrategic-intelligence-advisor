@@ -14,7 +14,7 @@ export interface ExecutiveDecisionOutput {
 
 export function evaluateExecutiveDecision(scenarios: ExecutiveDecisionInput[], baselineScenarioId?: string): ExecutiveDecisionOutput {
   if (scenarios.length === 0) {
-    throw new Error("Não há cenários disponíveis para avaliação executiva.");
+    throw new Error("Não há contextos disponíveis para avaliação executiva.");
   }
 
   const rankedScenarios = rankScenarios(scenarios);
@@ -40,10 +40,10 @@ export function evaluateExecutiveDecision(scenarios: ExecutiveDecisionInput[], b
     strategicWarnings.push("A recomendação sugerida ainda carrega alto risco institucional devido à complexidade da operação.");
   }
   if (recommended.irgScore >= 60) {
-    strategicWarnings.push("A implementação da Jornada de Governança (Roadmap) é pré-requisito para o sucesso deste cenário.");
+    strategicWarnings.push("A implementação da Jornada de Governança (Roadmap) é pré-requisito para o sucesso deste contexto.");
   }
 
-  let executiveSummary = `Entre os cenários avaliados, o cenário "${recommended.scenarioName}" apresenta a melhor relação simulada entre geração de valor, capacidade de execução e maturidade institucional.`;
+  let executiveSummary = `Entre os contextos avaliados, o contexto "${recommended.scenarioName}" apresenta a melhor relação simulada entre geração de valor, capacidade de execução e maturidade institucional.`;
   if (confidenceLevel === 'Baixa') {
     executiveSummary += ` Contudo, os níveis de pressão de governança (GPI) e capacidade de execução atual (IEI) indicam que sua implementação demandará forte apoio técnico e metodológico. `;
   }

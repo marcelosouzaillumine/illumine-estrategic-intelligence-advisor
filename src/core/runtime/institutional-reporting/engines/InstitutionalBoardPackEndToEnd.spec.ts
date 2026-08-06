@@ -333,7 +333,7 @@ describe('InstitutionalBoardPack End-to-End Tests', () => {
     assert.equal(boardPack.status, 'COMPLETE');
   });
 
-  it('Cenário A: Empresa Saudável', () => {
+  it('contexto A: Empresa Saudável', () => {
     const { boardPack } = runScenario(createHealthyCompanyPayload());
 
     assert.notEqual(boardPack.status, 'RESTRICTED');
@@ -347,7 +347,7 @@ describe('InstitutionalBoardPack End-to-End Tests', () => {
     assert.notEqual(boardPack.fiduciaryTimeline?.timelineIntegrityStatus, 'BROKEN');
   });
 
-  it('Cenário B: Score Alto + Trajetória Restritiva', () => {
+  it('contexto B: Score Alto + Trajetória Restritiva', () => {
     const { boardPack } = runScenario(createRestrictiveTrajectoryPayload());
     
     assert.equal(boardPack.executiveSnapshot.recoveryNarrativeBlocked, true);
@@ -358,7 +358,7 @@ describe('InstitutionalBoardPack End-to-End Tests', () => {
     );
   });
 
-  it('Cenário C: Quarentena Contábil', () => {
+  it('contexto C: Quarentena Contábil', () => {
     const { report } = runScenario(createAccountingQuarantinePayload());
     
     // Check if the cross-statement reconciliation engine flagged it
@@ -368,7 +368,7 @@ describe('InstitutionalBoardPack End-to-End Tests', () => {
     assert.ok(true, 'Quarentena contábil deve ser ativada na lógica fiduciária');
   });
 
-  it('Cenário D: Histórico Insuficiente', () => {
+  it('contexto D: Histórico Insuficiente', () => {
     const { boardPack } = runScenario(createInsufficientHistoryPayload());
     
     // Timeline may be undefined or INSUFFICIENT_HISTORY depending on mapping
@@ -376,7 +376,7 @@ describe('InstitutionalBoardPack End-to-End Tests', () => {
     assert.equal(boardPack.executiveSnapshot.recoveryNarrativeBlocked, true);
   });
 
-  it('Cenário E: FCO negativo + FCF positivo', () => {
+  it('contexto E: FCO negativo + FCF positivo', () => {
     const { boardPack } = runScenario(createNegativeFcoPositiveFcfPayload());
     
     console.log('E Trajectory:', boardPack.executiveSnapshot.longitudinalTrajectory);
@@ -388,11 +388,11 @@ describe('InstitutionalBoardPack End-to-End Tests', () => {
     const summaryLower = boardPack.executiveSnapshot.executiveSummary.toLowerCase();
     
     for (const term of restrictedTerms) {
-      assert.equal(summaryLower.includes(term), false, `Resumo não pode conter '${term}' em cenário restritivo`);
+      assert.equal(summaryLower.includes(term), false, `Resumo não pode conter '${term}' em contexto restritivo`);
     }
   });
 
-  it('Cenário F: Turnaround Artificial / Granatum-like', () => {
+  it('contexto F: Turnaround Artificial / Granatum-like', () => {
     const { boardPack } = runScenario(createArtificialTurnaroundPayload());
 
     console.log('F Trajectory:', boardPack.executiveSnapshot.longitudinalTrajectory);
@@ -405,11 +405,11 @@ describe('InstitutionalBoardPack End-to-End Tests', () => {
     const summaryLower = boardPack.executiveSnapshot.executiveSummary.toLowerCase();
     
     for (const term of restrictedTerms) {
-      assert.equal(summaryLower.includes(term), false, `Resumo não pode conter '${term}' em cenário restritivo`);
+      assert.equal(summaryLower.includes(term), false, `Resumo não pode conter '${term}' em contexto restritivo`);
     }
   });
 
-  it('Cenário G: Crescimento real sustentável', () => {
+  it('contexto G: Crescimento real sustentável', () => {
     const { boardPack } = runScenario(createSustainableGrowthPayload());
 
     assert.notEqual(boardPack.status, 'RESTRICTED');

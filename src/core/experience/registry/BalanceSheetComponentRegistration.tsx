@@ -1,6 +1,6 @@
 import React from 'react';
 import { ExperienceComponentRegistry } from './ExperienceComponentRegistry';
-import { ExecutiveSummarySection } from '../../../components/ui/executive-summary-section';
+import { ExecutiveDiagnosticSummarySection } from '../../../components/ui/executive-diagnostic-summary-section';
 import { BalanceSheetInstitutionalContextSection } from '../../../components/pages/balance-sheet/BalanceSheetInstitutionalContextSection';
 import { BalanceSheetExecutiveSynthesisSection } from '../../../components/pages/balance-sheet/BalanceSheetExecutiveSynthesisSection';
 import { ExecutiveStrategicTensions } from '../../../components/ui/executive-strategic-tensions';
@@ -23,19 +23,18 @@ import { BalanceSheetStructuralTablesSection } from '../../../components/pages/b
 
 export function registerBalanceSheetComponents() {
   ExperienceComponentRegistry.register({
-    id: 'ExecutiveSummarySection',
+    id: 'ExecutiveDiagnosticSummarySection',
     component: (props: any) => {
       const { context } = props;
       const { executiveViewModel } = context.intelligence.financialPosition;
       return (
-        <ExecutiveSummarySection 
+        <ExecutiveDiagnosticSummarySection 
           className="mb-8"
-          status={{ label: 'Balanço Auditado', variant: 'success' }}
-          question="Qual a solidez da estrutura patrimonial, nível de liquidez e alavancagem de capital?"
-          opinion={executiveViewModel?.executiveOpinion || "O balanço patrimonial foi auditado, atestando a integridade da estrutura de ativos e da posição financeira."}
-          driver="Ativo total, passivo oneroso, patrimônio líquido e liquidez corrente."
-          implication="A estrutura atual reflete estabilidade, sendo o retorno financeiro condicionado à alocação estratégica."
-          executiveQuestion="A estrutura de capital atual otimiza o retorno financeiro sem comprometer a estabilidade do balanço?"
+          status={{ label: 'Balanço Patrimonial', variant: 'neutral' }}
+          question="O que a estrutura patrimonial indica sobre a situação atual da organização?"
+          observation={executiveViewModel?.executiveOpinion || "Estrutura patrimonial apresentada para interpretação fiduciária."}
+          evidence="Ativo total, passivo, patrimônio líquido e indicadores de cobertura."
+          financialMeaning="Proporção entre capital próprio, capital de terceiros e liquidez estrutural acumulada."
         />
       );
     },

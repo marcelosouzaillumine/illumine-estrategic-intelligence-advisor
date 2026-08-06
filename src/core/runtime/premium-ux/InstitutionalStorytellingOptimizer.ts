@@ -13,7 +13,7 @@ export class InstitutionalStorytellingOptimizer {
       keyRisk: dataset.stressFactors[0] ?? 'Pressão operacional elevada',
       recommendedFocus: criticalEntity
         ? criticalEntity.name + ' apresenta pressão de liquidez CRÍTICA e demanda decisão executiva urgente.'
-        : 'Monitorar evolução do cenário sistêmico.'
+        : 'Monitorar evolução do contexto sistêmico.'
     };
   }
 }

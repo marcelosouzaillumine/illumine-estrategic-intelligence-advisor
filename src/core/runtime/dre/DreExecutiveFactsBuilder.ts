@@ -132,7 +132,7 @@ export class DreExecutiveFactsBuilder {
     // Se já vem o trendNote direto no payload atual, tentaremos usá-lo se não tiver array histórico
     if (this.rawPayload && this.rawPayload.trendNote && (!this.historicalPayloads || this.historicalPayloads.length === 0)) {
         // Como o trendNote não expõe as bases do passado facilmente, só pegamos o valor e assumimos válido se for numérico razoável.
-        // O cenário ideal seria ter a historicalSeries e recalcular usando a Guard, mas para compatibilidade fallback:
+        // O contexto ideal seria ter a historicalSeries e recalcular usando a Guard, mas para compatibilidade fallback:
         const tRev = this.rawPayload.trendNote.receita !== undefined ? this.rawPayload.trendNote.receita / 100 : 0;
         const tEbitda = this.rawPayload.trendNote.ebitda !== undefined ? this.rawPayload.trendNote.ebitda / 100 : 0;
         const tLucro = this.rawPayload.trendNote.lucro !== undefined ? this.rawPayload.trendNote.lucro / 100 : 0;

@@ -28,7 +28,7 @@ export class CrossStatementExecutiveNarrativeEngine {
       sentences.push("Houve redução na capacidade de preservação do capital próprio, ampliando o risco patrimonial.");
     }
     if (hasChain('DFC_CONTINUITY_PRESSURE')) {
-      sentences.push("A contínua queima de caixa combinada com baixo runway eleva o risco de continuidade da operação no curto prazo.");
+      sentences.push("A contínua queima de caixa combinada com baixo runway eleva o risco de continuidade da operação no ciclo imediato.");
     }
 
     if (sentences.length > 0) {

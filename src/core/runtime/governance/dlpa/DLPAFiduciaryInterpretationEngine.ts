@@ -210,9 +210,9 @@ export class DLPAFiduciaryInterpretationEngine {
         governanceNarrative = 'A estrutura de capital encontra-se em estágio de sobrevivência devido ao colapso ou exaustão do PL. A retenção total é compulsória e decorre da completa ausência de capacidade econômica, demandando imediato reforço patrimonial externo.';
       }
     } else if (retentionClassification === 'UNSUSTAINABLE_PRESERVATION') {
-      governanceNarrative = 'A ausência de distribuição decorre de severa fragilidade de liquidez e fluxo de caixa operacional negativo. A preservação de recursos é insustentável no longo prazo, refletindo o aprisionamento de capital na operação para cobrir ineficiências comerciais.';
+      governanceNarrative = 'A ausência de distribuição decorre de severa fragilidade de liquidez e fluxo de caixa operacional negativo. A preservação de recursos é insustentável no longo horizonte, refletindo o aprisionamento de capital na operação para cobrir ineficiências comerciais.';
     } else {
-      governanceNarrative = 'A política distributiva e de retenção de capital opera em regime moderado, necessitando de formalização e alinhamento de metas estratégicas de governança patrimonial de longo prazo.';
+      governanceNarrative = 'A política distributiva e de retenção de capital opera em regime moderado, necessitando de formalização e alinhamento de metas estratégicas de governança patrimonial de longo horizonte.';
     }
 
     // Universal fiduciary principle: se prejuízo e PL preservado através de capitalização

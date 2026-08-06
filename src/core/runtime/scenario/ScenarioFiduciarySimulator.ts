@@ -10,7 +10,7 @@ import { DataAccessContext } from '../../security/data-access-context';
 
 export class ScenarioFiduciarySimulator {
   /**
-   * Orquestrador Mestre do Laboratório de Cenários.
+   * Orquestrador Mestre do Laboratório de contextos.
    * Isolado, Fiduciário, e Seguro (Non-Mutating sobre dados reais).
    */
   static async runSimulation(

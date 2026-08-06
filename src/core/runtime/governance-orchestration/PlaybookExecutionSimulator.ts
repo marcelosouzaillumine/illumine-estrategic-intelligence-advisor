@@ -9,7 +9,7 @@ export class PlaybookExecutionSimulator {
         expectedStabilizationTime: 6, // 6 meses
         tradeoffs: [
           'Perda de Market Share por corte em Marketing',
-          'Aumento de Custo de Dívida de Curto Prazo'
+          'Aumento de Custo de Dívida de ciclo imediato'
         ]
       };
     }

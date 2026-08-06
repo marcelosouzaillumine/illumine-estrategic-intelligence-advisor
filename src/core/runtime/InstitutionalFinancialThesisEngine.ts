@@ -144,8 +144,8 @@ export class InstitutionalFinancialThesisEngine {
       if (!hasDRE && hasBP) {
         const liquidityClause = metrics?.liqCorrente !== null && metrics?.liqCorrente !== undefined
           ? (metrics.liqCorrente >= 1
-              ? `A liquidez corrente de ${liqStatus} indica capacidade adequada de cobertura das obrigações de curto prazo`
-              : `A liquidez corrente de ${liqStatus} indica restrição no ciclo de curto prazo`)
+              ? `A liquidez corrente de ${liqStatus} indica capacidade adequada de cobertura das obrigações de ciclo imediato`
+              : `A liquidez corrente de ${liqStatus} indica restrição no ciclo de ciclo imediato`)
           : 'A liquidez operacional requer avaliação detalhada';
 
         // Already covered by outer 'if (profile.consolidatedSeverity === INDISPONÍVEL)' — this branch is BP-only without INDISPONÍVEL
@@ -165,14 +165,14 @@ export class InstitutionalFinancialThesisEngine {
 
         const liquidityClause = (metrics?.liqCorrente !== null && metrics?.liqCorrente !== undefined)
           ? (metrics.liqCorrente >= 1
-            ? `A liquidez corrente de ${liqStatus} aponta conforto no curto prazo`
-            : `A liquidez corrente de ${liqStatus} indica aperto no ciclo de curto prazo`)
+            ? `A liquidez corrente de ${liqStatus} aponta conforto no ciclo imediato`
+            : `A liquidez corrente de ${liqStatus} indica aperto no ciclo de ciclo imediato`)
           : (hasBP ? 'A liquidez corrente não pôde ser calculada pois as contas de Ativo e Passivo Circulante não foram identificadas no Balanço' : 'A liquidez corrente não pôde ser avaliada por falta de dados do Balanço Patrimonial');
 
       if (profile.consolidatedSeverity === 'CRÍTICA') {
         thesis = `A operação enfrenta severas pressões estruturais que ameaçam sua continuidade. Há ${profitabilityClause}, ${bottomLineClause}. ${liquidityClause}, exigindo intervenção imediata.`;
       } else if (profile.consolidatedSeverity === 'ALTA') {
-        thesis = `O modelo de capital apresenta gargalos estruturais relevantes. A empresa mostra ${profitabilityClause}, ${bottomLineClause}. ${liquidityClause}, limitando a sustentabilidade de longo prazo.`;
+        thesis = `O modelo de capital apresenta gargalos estruturais relevantes. A empresa mostra ${profitabilityClause}, ${bottomLineClause}. ${liquidityClause}, limitando a sustentabilidade de longo horizonte.`;
       } else if (profile.consolidatedSeverity === 'MODERADA') {
         thesis = `A estrutura financeira é funcional, porém existem ineficiências em pontos críticos. Notou-se ${profitabilityClause}, ${bottomLineClause}. ${liquidityClause}.`;
       } else {

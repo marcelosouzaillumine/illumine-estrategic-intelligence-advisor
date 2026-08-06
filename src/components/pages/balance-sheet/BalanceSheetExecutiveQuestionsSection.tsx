@@ -9,7 +9,7 @@ export interface DecisionTriggerPayload {
   trigger: string;
   businessContext: string;
   questionForBoard: string;
-  requiredDecision: boolean;
+  requiredAttention: boolean;
 }
 
 export function BalanceSheetExecutiveQuestionsSection({ triggers }: { triggers: DecisionTriggerPayload[] }) {
@@ -22,7 +22,7 @@ export function BalanceSheetExecutiveQuestionsSection({ triggers }: { triggers: 
           <HelpCircle className="w-5 h-5" />
         </div>
         <ExecutiveHeading as="h2" variant="moduleTitle" className="text-foreground leading-tight tracking-tight">
-          Questões Executivas para o Conselho (Decision Triggers)
+          Tópicos de Avaliação Fiduciária
         </ExecutiveHeading>
       </div>
 
@@ -31,7 +31,7 @@ export function BalanceSheetExecutiveQuestionsSection({ triggers }: { triggers: 
           <ExecutiveSurface key={idx} padding="md" radius="md" className="border border-border shadow-md bg-card flex flex-col gap-4">
             <div>
               <ExecutiveText variant="microLabel" className="text-executive-muted uppercase tracking-wider font-semibold mb-1">
-                Trigger Institucional
+                Sinalização Institucional
               </ExecutiveText>
               <ExecutiveText variant="bodyStandard" className="text-foreground font-medium">
                 {trigger.trigger}
@@ -49,15 +49,15 @@ export function BalanceSheetExecutiveQuestionsSection({ triggers }: { triggers: 
 
             <div className="mt-auto pt-4 border-t border-border flex flex-col gap-2">
               <ExecutiveText variant="microLabel" className="text-primary uppercase tracking-wider font-semibold">
-                Questão para o Conselho
+                Questão para Avaliação
               </ExecutiveText>
               <ExecutiveHeading as="h4" variant="submoduleTitle" className="text-foreground leading-snug">
                 {trigger.questionForBoard}
               </ExecutiveHeading>
-              {trigger.requiredDecision && (
+              {trigger.requiredAttention && (
                 <div className="mt-2 inline-flex items-center w-fit px-2 py-1 rounded-full bg-state-warning-soft border border-state-warning-border">
                   <span className="w-2 h-2 rounded-full bg-state-warning-foreground mr-2" />
-                  <span className="text-xs font-semibold text-state-warning-foreground">Deliberação Requerida</span>
+                  <span className="text-xs font-semibold text-state-warning-foreground">Requer Atenção Fiduciária</span>
                 </div>
               )}
             </div>

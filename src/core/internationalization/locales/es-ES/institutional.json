@@ -314,5 +314,63 @@
       "desc": "Profesionales certificados para aplicar la disciplina de Executive Intelligence Advisory™ en organizaciones complejas.",
       "quote": "\"Los especialistas analizan las partes. Los Executive Advisors interpretan los sistemas.\""
     }
+  },
+  "home": {
+    "v2": {
+      "hero": {
+        "title": "Executive Intelligence Platform™",
+        "subtitle": "La infraestructura de inteligencia entre la organización y sus decisiones críticas.",
+        "lead": "Illumine conecta datos corporativos, conocimiento institucional e inteligencia ejecutiva para ampliar la capacidad de líderes y juntas directivas de comprender escenarios complejos, anticipar impactos y tomar mejores decisiones.",
+        "badge": "Una nueva categoría de infraestructura corporativa.",
+        "badge_desc": "No reemplazamos ERP. No reemplazamos BI. No reemplazamos líderes. Creamos la capa de inteligencia que los conecta a todos.",
+        "cta_primary": "Solicitar Diagnóstico Ejecutivo™",
+        "cta_secondary": "Conocer la Plataforma",
+        "insight": "La inteligencia amplía. La decisión sigue siendo humana."
+      },
+      "problem": {
+        "title": "Nunca hemos tenido tanta información. Pero nunca ha sido tan difícil comprender la realidad.",
+        "lead": "Las organizaciones modernas tienen decenas de sistemas. Pero las decisiones estratégicas exigen algo que estos sistemas normalmente no proporcionan: Contexto.",
+        "erp": "ERP registra.",
+        "bi": "BI visualiza.",
+        "analytics": "Analytics interpreta.",
+        "illumine": "Las decisiones críticas necesitan contexto."
+      },
+      "layer": {
+        "title": "La Nueva Capa de Inteligencia",
+        "lead": "Illumine no reemplaza sus sistemas. Amplía su valor agregando la Institutional Intelligence Layer™.",
+        "foundation_title": "Foundation Layer™",
+        "foundation_desc": "La memoria institucional de la organización. Transforma datos fragmentados en una base contextual confiable.",
+        "engine_title": "Intelligence Engine Layer™",
+        "engine_desc": "La inteligencia que interpreta relaciones. El dato muestra qué sucedió. La inteligencia explica el porqué.",
+        "advisory_title": "Executive Advisory Layer™",
+        "advisory_desc": "Inteligencia para quienes deciden. La tecnología amplía el análisis. El liderazgo decide."
+      },
+      "network": {
+        "title": "La Organización como Sistema Vivo",
+        "lead": "Las decisiones no ocurren de forma aislada. La Executive Intelligence Network™ simula y conecta a su organización a través de 9 inteligencias conectadas.",
+        "flow_1": "Lo comercial impacta los ingresos.",
+        "flow_2": "Los ingresos impactan el margen.",
+        "flow_3": "El margen impacta la caja.",
+        "flow_4": "La caja impacta la estrategia."
+      },
+      "trust": {
+        "title": "Memoria Institucional y Confianza",
+        "lead": "Las organizaciones no solo pierden datos. Pierden contexto.",
+        "learning_title": "Institutional Learning Architecture™",
+        "learning_desc": "Cada decisión genera aprendizaje. Cada aprendizaje fortalece la próxima decisión.",
+        "trust_title": "Trust Architecture™",
+        "trust_desc": "Human Oversight, Explainable Intelligence™, Audit Trail, Data Governance, Fiduciary Controls."
+      },
+      "ecosystem": {
+        "title": "Ecosistema Illumine",
+        "lead": "Una nueva infraestructura de inteligencia ejecutiva para diferentes realidades organizacionales.",
+        "enterprise_title": "Enterprise",
+        "enterprise_desc": "Para organizaciones complejas.",
+        "nonprofit_title": "Nonprofit",
+        "nonprofit_desc": "Para organizaciones orientadas por un propósito.",
+        "advisor_title": "Advisor Network",
+        "advisor_desc": "Para especialistas."
+      }
+    }
   }
 }

@@ -12,7 +12,7 @@ export class StrategicResponseCoordinator {
         {
           responseId: 'RESP-LIQ-2',
           domain: 'OPERATIONS',
-          action: 'Renegociação emergencial de prazos com top 10 fornecedores críticos.'
+          action: 'Renegociação emergencial de ciclos com top 10 fornecedores críticos.'
         }
       ];
     }

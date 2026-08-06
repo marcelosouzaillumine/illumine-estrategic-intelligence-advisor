@@ -66,7 +66,7 @@ export class OperationalLiquidityRealityEngine {
     
     if (realLiquidityStrength < minRealLiquidity) {
       activeSignals.push('LOW_REAL_LIQUIDITY');
-      explanations.push(`A liquidez econômica real (descontando prazos e estoques) cobre apenas ${(realLiquidityStrength * 100).toFixed(1)}% das obrigações de curto prazo.`);
+      explanations.push(`A liquidez econômica real (descontando ciclos e estoques) cobre apenas ${(realLiquidityStrength * 100).toFixed(1)}% das obrigações de ciclo imediato.`);
     }
 
     if (operationalCashPressure < 0.15) {
@@ -80,7 +80,7 @@ export class OperationalLiquidityRealityEngine {
 
     let explanation = '';
     if (activeSignals.length === 0 && explanations.length === 0) {
-      explanation = 'A liquidez econômica atual não demonstra tensão imediata ou déficit grave de cobertura no curto prazo.';
+      explanation = 'A liquidez econômica atual não demonstra tensão imediata ou déficit grave de cobertura no ciclo imediato.';
     } else {
       explanation = explanations.join(' ');
     }

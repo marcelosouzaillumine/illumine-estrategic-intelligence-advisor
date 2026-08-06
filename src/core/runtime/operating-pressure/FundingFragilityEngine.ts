@@ -12,16 +12,16 @@ export class FundingFragilityEngine {
     const rolloverPressureRatio = current.totalDebt > 0 ? current.shortTermDebt / current.totalDebt : 0;
     if (rolloverPressureRatio > 0.7 && current.totalDebt > 0) {
       score += 30;
-      warnings.push(`Elevada pressão de rolagem de dívidas no curto prazo (${(rolloverPressureRatio * 100).toFixed(1)}% do total)`);
+      warnings.push(`Elevada pressão de rolagem de dívidas no ciclo imediato (${(rolloverPressureRatio * 100).toFixed(1)}% do total)`);
     } else if (rolloverPressureRatio > 0.4 && current.totalDebt > 0) {
       score += 15;
-      warnings.push(`Pressão moderada de rolagem de obrigações de curto prazo (${(rolloverPressureRatio * 100).toFixed(1)}% do total)`);
+      warnings.push(`Pressão moderada de rolagem de obrigações de ciclo imediato (${(rolloverPressureRatio * 100).toFixed(1)}% do total)`);
     }
 
     // 2. Debt vs Cash cover (short-term debt vs available cash)
     if (current.shortTermDebt > current.availableCash) {
       score += 35;
-      warnings.push('Obrigações de curto prazo excedem o saldo de caixa disponível (dependência de refinanciamento)');
+      warnings.push('Obrigações de ciclo imediato excedem o saldo de caixa disponível (dependência de refinanciamento)');
     }
 
     // 3. Overall debt dependency (total debt vs annual revenue)

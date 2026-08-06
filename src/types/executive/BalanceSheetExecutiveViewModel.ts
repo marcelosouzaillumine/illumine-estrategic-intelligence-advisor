@@ -43,10 +43,11 @@ export interface AnalysisPanelViewModel {
   dimension: DisplayLabel;
   statusBadgeVariant: 'success' | 'warning' | 'critical' | 'neutral' | 'info';
   statusLabel: DisplayStatus;
-  opinion: DisplayNarrative;
-  driver: DisplayNarrative;
-  implication: DisplayNarrative;
-  technicalObservation: DisplayNarrative;
+  title?: DisplayNarrative;
+  observation: DisplayNarrative;
+  evidence: DisplayNarrative;
+  financialMeaning: DisplayNarrative;
+  technicalInterpretation: DisplayNarrative;
   executiveQuestion?: DisplayNarrative;
   confidence: DisplayLabel;
   score?: number;
@@ -85,9 +86,6 @@ export interface BalanceSheetExecutiveViewModel {
     assetQuality?: AnalysisPanelViewModel;
   };
   
-  // Legacy / deprecated fields
-  decisionPanels?: Record<string, AnalysisPanelViewModel>;
-  decisionTrace?: any[];
 
   // Technical Layer
   technicalIndicators: TechnicalIndicatorViewModel[];

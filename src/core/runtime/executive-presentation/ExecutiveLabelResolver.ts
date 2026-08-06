@@ -18,14 +18,14 @@ export class ExecutiveLabelResolver {
     'CLASSIFICATION_OVERRIDE_APPLIED': 'Ajuste Conservador de Classificação Aplicado',
     'FORCED_CAUTION_DISCLOSURE': 'Divulgação Prudencial Obrigatória',
     'LIQUIDITY_FRAGILITY_OVERRIDE': 'Restrição por Fragilidade de Liquidez',
-    'SHORT_TERM_LIABILITY_PRESSURE': 'Curto Prazo', // Abreviado para badges técnicos
-    'CONCENTRAÇÃO NO CURTO PRAZO': 'Curto Prazo', // Abreviado para badges técnicos
+    'SHORT_TERM_LIABILITY_PRESSURE': 'ciclo imediato', // Abreviado para badges técnicos
+    'CONCENTRAÇÃO NO ciclo imediato': 'ciclo imediato', // Abreviado para badges técnicos
     'TREASURY_STRESS_OVERRIDE': 'Restrição por Estresse de Tesouraria',
     'CAPITAL_DEPENDENCY_OVERRIDE': 'Restrição por Dependência de Capital',
     'EARNINGS_QUALITY_OVERRIDE': 'Restrição por Qualidade dos Resultados',
     'Liquidity Fragility Override': 'Restrição por Fragilidade de Liquidez',
     'Treasury Stress Override': 'Restrição por Estresse de Tesouraria',
-    'Short-Term Debt Concentration Override': 'Restrição por Concentração de Dívida de Curto Prazo',
+    'Short-Term Debt Concentration Override': 'Restrição por Concentração de Dívida de ciclo imediato',
     'Capital Dependency Override': 'Restrição por Dependência de Capital',
     'Earnings Quality Override': 'Restrição por Qualidade dos Resultados',
     
@@ -105,7 +105,7 @@ export class ExecutiveLabelResolver {
     'RECONCILIATION GAP': 'Diferença de Reconciliação',
     'ACTIVE': 'Ativo',
     'STATUS': 'Status',
-    'Short Term Pressure': 'Concentração no Curto Prazo',
+    'Short Term Pressure': 'Concentração no ciclo imediato',
     'Score': 'Pontuação',
     'Proxy Nível 2': 'Estimativa Indireta — Nível 2',
     

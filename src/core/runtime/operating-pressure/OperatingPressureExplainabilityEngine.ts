@@ -40,7 +40,7 @@ export class OperatingPressureExplainabilityEngine {
       {
         engine: 'Fragilidade de Funding (FundingFragility)',
         contribution: scores.fragility * 0.15,
-        rationale: `Pressão de rollover e concentração de curto prazo com score de ${scores.fragility.toFixed(0)}/100.`
+        rationale: `Pressão de rollover e concentração de ciclo imediato com score de ${scores.fragility.toFixed(0)}/100.`
       }
     ];
 

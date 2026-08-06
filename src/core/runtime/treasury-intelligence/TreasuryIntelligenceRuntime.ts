@@ -159,7 +159,7 @@ export class TreasuryIntelligenceRuntime {
       shortTermDebt
     });
 
-    if (fco > 0 && fcf === 0) { // basic heuristic for Cenário A
+    if (fco > 0 && fcf === 0) { // basic heuristic for contexto A
       console.log('TREASURY DEBUG', {
         resilienceDays: resilience.reserveSustainabilityDays,
         stressSeverity: stressSimulations.stressSeverity,

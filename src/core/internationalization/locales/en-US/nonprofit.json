@@ -1,0 +1,199 @@
+{
+  "hero": {
+    "title": "Intelligent Governance for Organizations that Transform Lives.",
+    "lead": "The first Executive Intelligence Platform™ developed to strengthen Boards, Executives, and Leaders of purpose-driven organizations.",
+    "sublead": "Illumine was not created to manage organizations. It was created to empower the decisions of organizations that transform society.",
+    "cta_primary": "Request a Demo",
+    "cta_secondary": "Explore the Platform"
+  },
+  "category": {
+    "label": "A NEW CATEGORY",
+    "title": "A new category of platform for Non-Profit Organizations.",
+    "desc": "While most solutions were developed to execute operational processes, Illumine was created to support Boards, Executives, and Leaders in strategic decision-making."
+  },
+  "architecture": {
+    "label": "EXECUTIVE INTELLIGENCE PLATFORM™",
+    "title": "Intelligence is born from integration.",
+    "inputs": [
+      "Financial Data",
+      "Strategic Planning",
+      "Governance",
+      "Projects",
+      "Indicators",
+      "Documents"
+    ],
+    "engines": [
+      "Executive Intelligence Engine™",
+      "Executive AI Advisory™",
+      "Executive Dashboards™"
+    ],
+    "outcome": "Strategic Decisions"
+  },
+  "board": {
+    "label": "THE END OF UNCERTAINTY",
+    "title": "The Board never decides in the dark again.",
+    "before_title": "Before",
+    "before_items": [
+      "Meetings based on presentations",
+      "Disconnected spreadsheets",
+      "Isolated reports",
+      "Individual perceptions"
+    ],
+    "after_title": "After (With Illumine)",
+    "after_items": [
+      "Real-time indicators",
+      "Monitored risks",
+      "Projected trends",
+      "Evidence-based decisions"
+    ]
+  },
+  "problem": {
+    "label": "THE GOVERNANCE CHALLENGE",
+    "title": "Your organization already executes projects. Now it needs to govern better.",
+    "desc_p1": "Non-Profit Organizations usually have systems for daily operations. The real challenge is answering questions like:",
+    "q1": "Are we fulfilling our mission?",
+    "q2": "Is our organization financially sustainable?",
+    "q3": "Does the Board have enough information to decide?",
+    "q4": "Are institutional risks under control?",
+    "q5": "Does our governance inspire confidence in funders?",
+    "q6": "Are we prepared to grow safely?",
+    "conclusion": "This is exactly where Illumine operates."
+  },
+  "offices": {
+    "label": "THE PLATFORM",
+    "title": "Executive Offices™",
+    "lead": "The EROA architecture maps executive responsibilities, not operational departments.",
+    "board": {
+      "title": "Board Intelligence Office™",
+      "desc": "Intelligence to support strategic deliberations of the Board."
+    },
+    "governance": {
+      "title": "Governance Office™",
+      "desc": "Governance based on indicators, risks, compliance, and institutional maturity."
+    },
+    "financial": {
+      "title": "Financial Intelligence Office™",
+      "desc": "Strategic analyses on financial sustainability, liquidity, revenue concentration, and trends."
+    },
+    "mission": {
+      "title": "Mission Intelligence Office™",
+      "desc": "Executive tracking of institutional mission evolution through strategic indicators."
+    },
+    "risk": {
+      "title": "Institutional Risk Office™",
+      "desc": "Executive map of financial, regulatory, legal, and reputational risks."
+    },
+    "compliance": {
+      "title": "Compliance Intelligence Office™",
+      "desc": "Continuous evaluation of organizational compliance and transparency."
+    },
+    "ai": {
+      "title": "Executive AI Advisory™",
+      "desc": "Artificial Intelligence specialized in generating analyses, alerts, and recommendations for top management."
+    }
+  },
+  "scores": {
+    "label": "EVIDENCE-BASED GOVERNANCE",
+    "title": "Executive Scores™",
+    "lead": "Exclusive metrics that transform institutional health into actionable intelligence.",
+    "status": {
+      "excellent": "Excellent",
+      "very_high": "Very High",
+      "high": "High",
+      "attention": "Attention"
+    }
+  },
+  "intelligence_timeline": {
+    "label": "THE VALUE STREAM",
+    "title": "Intelligence for better decisions.",
+    "steps": {
+      "data": "Data",
+      "indicators": "Indicators",
+      "correlations": "Correlations",
+      "executive_intel": "Executive Intelligence™",
+      "ai_advisor": "Executive AI Advisor™",
+      "decisions": "Strategic Decisions",
+      "impact": "Social Impact"
+    }
+  },
+  "comparison": {
+    "label": "WHAT MAKES ILLUMINE DIFFERENT?",
+    "title": "Traditional Systems vs. Illumine",
+    "traditional": "Traditional Systems",
+    "illumine": "Illumine",
+    "point1": {
+      "t": "Control operations.",
+      "i": "Delivers Executive Intelligence."
+    },
+    "point2": {
+      "t": "Record information.",
+      "i": "Explains what is happening."
+    },
+    "point3": {
+      "t": "Show numbers.",
+      "i": "Produces strategic analyses."
+    },
+    "point4": {
+      "t": "Support execution.",
+      "i": "Supports decisions."
+    }
+  },
+  "audience": {
+    "label": "EXECUTIVE FOCUS",
+    "title": "Developed for those who lead organizations.",
+    "org_types": [
+      "Institutes",
+      "Foundations",
+      "Associations",
+      "CSOs",
+      "Philanthropic Organizations",
+      "Welfare Entities",
+      "Religious Institutions with Social Action",
+      "Philanthropic Hospitals",
+      "Non-Profit Educational Institutions"
+    ],
+    "profiles": [
+      "Deliberative Board",
+      "Fiscal Council",
+      "Executive Board",
+      "Presidency",
+      "Superintendence",
+      "Financial Directorate",
+      "Committees",
+      "Consultants",
+      "Auditors"
+    ]
+  },
+  "ai_advisor": {
+    "label": "EXECUTIVE AI ADVISOR™",
+    "title": "The intelligence generated by the platform.",
+    "ex1": "Although financial indicators remain stable, the growing revenue concentration among two funders has raised institutional sustainability risk.",
+    "ex2": "Governance maturity evolved from intermediate to advanced following the execution of 82% of the Board's deliberations in the last cycle.",
+    "ex3": "The Board has three pending strategic deliberations with high impact.",
+    "ex4": "The organization shows consistent evolution in institutional impact indicators."
+  },
+  "integrations": {
+    "label": "ECOSYSTEM",
+    "title": "Intelligent Integrations™",
+    "desc": "Illumine connects to the systems your organization already uses. It integrates data from ERPs, financial systems, accounting solutions, accountability platforms, CRMs, and other sources to generate Executive Intelligence.",
+    "highlight": "We do not replace these systems. We amplify the value of the information they produce."
+  },
+  "impact": {
+    "label": "THE FINAL RESULT",
+    "title": "The true indicator is impact.",
+    "lead": "When an organization governs better:",
+    "items": [
+      "more people are served.",
+      "more resources are preserved.",
+      "more funders trust.",
+      "more projects prosper.",
+      "more lives are transformed."
+    ]
+  },
+  "vision": {
+    "label": "OUR VISION",
+    "title": "Your mission deserves Executive Intelligence.",
+    "desc": "Organizations that transform lives deserve to make decisions with the same level of intelligence used by the world's largest companies. Because social impact starts with better decisions.",
+    "cta": "Request a Demo"
+  }
+}

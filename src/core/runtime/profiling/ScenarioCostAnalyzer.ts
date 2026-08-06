@@ -2,7 +2,7 @@ import { ScenarioExecutionBudget } from './ProfilingTypes';
 
 export class ScenarioCostAnalyzer {
   /**
-   * Verifica se o ambiente pode rodar um cenário antes de permitir sua execução.
+   * Verifica se o ambiente pode rodar um contexto antes de permitir sua execução.
    * Não altera a matemática, apenas atua como disjuntor computacional.
    */
   static validateBudget(currentMetrics: {
@@ -12,7 +12,7 @@ export class ScenarioCostAnalyzer {
   }, budget: ScenarioExecutionBudget): { allowed: boolean; reason?: string } {
     
     if (currentMetrics.scenariosRun >= budget.maxScenarios) {
-      return { allowed: false, reason: 'Orçamento excedido: Limite máximo de cenários atingido.' };
+      return { allowed: false, reason: 'Orçamento excedido: Limite máximo de contextos atingido.' };
     }
 
     if (currentMetrics.snapshotSizeKb > budget.maxSnapshotSizeKb) {

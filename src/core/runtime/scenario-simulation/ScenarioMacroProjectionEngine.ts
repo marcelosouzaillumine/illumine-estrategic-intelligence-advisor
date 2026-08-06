@@ -9,7 +9,7 @@ import {
 
 export class ScenarioMacroProjectionEngine {
   /**
-   * Executa a simulação determinística de cenários a partir de inputs do Runtime.
+   * Executa a simulação determinística de contextos a partir de inputs do Runtime.
    * Totalmente isolado em memória (non-mutating), rastreável e fail-closed.
    */
   public static run(input: SimulationInput): SimulationOutput {
@@ -65,7 +65,7 @@ export class ScenarioMacroProjectionEngine {
         break;
     }
 
-    // Multiplicadores específicos de cada cenário de stress
+    // Multiplicadores específicos de cada contexto de stress
     let scenarioMultiplier = 1.0;
     let deteriorationCategory = 'Deterioração estável dentro de limites projetados.';
 
@@ -99,7 +99,7 @@ export class ScenarioMacroProjectionEngine {
         break;
       case 'STRATEGIC_DRIFT':
         scenarioMultiplier = 1.3;
-        deteriorationCategory = 'Afastamento gradual dos objetivos de longo prazo por desvio de escopo.';
+        deteriorationCategory = 'Afastamento gradual dos objetivos de longo horizonte por desvio de escopo.';
         break;
     }
 
@@ -160,7 +160,7 @@ export class ScenarioMacroProjectionEngine {
       exposureDesc = 'Exposição moderada. Recomenda-se acompanhamento e mitigação preventiva.';
     }
 
-    // 6. Classificação de Estresse do Cenário
+    // 6. Classificação de Estresse do contexto
     let stressClassification: StrategicStressLevel = 'LIGHT';
     if (projectedScore >= 75) stressClassification = 'EXTREME';
     else if (projectedScore >= 50) stressClassification = 'HIGH';
@@ -172,7 +172,7 @@ export class ScenarioMacroProjectionEngine {
       step: 1,
       entityId: input.entityId,
       contagionType: 'DIRECT_SHOCK',
-      impactDescription: `Impacto inicial do cenário ${input.scenarioType} com duração estimada de ${horizonDays} dias.`,
+      impactDescription: `Impacto inicial do contexto ${input.scenarioType} com duração estimada de ${horizonDays} dias.`,
       severity: projectedScore > 75 ? 'CRITICAL' : projectedScore > 40 ? 'ELEVATED' : 'CONTAINED' as SimulationPropagationSeverity
     });
 
@@ -205,7 +205,7 @@ export class ScenarioMacroProjectionEngine {
 
     // 8. Premissas, Limitações e Dependências de Linha de Base
     const assumptions = [
-      `Cenário simulado sob hipótese de persistência de estresse tipo ${input.scenarioType}.`,
+      `contexto simulado sob hipótese de persistência de estresse tipo ${input.scenarioType}.`,
       'Taxas de juros operacionais e câmbio mantidos constantes em linha com a última leitura contábil.',
       'Ausência de novos aportes de capital externo ou captação de dívida emergencial no período.'
     ];

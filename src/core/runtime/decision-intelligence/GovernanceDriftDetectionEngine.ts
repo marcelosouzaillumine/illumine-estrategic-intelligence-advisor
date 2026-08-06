@@ -84,7 +84,7 @@ export class GovernanceDriftDetectionEngine {
     }
 
     // Rule 3: ARTIFICIAL_TURNAROUND_DRIFT
-    const turnaroundClaims = ['recuperação estrutural', 'turnaround', 'reversão de cenário', 'virada de caixa'];
+    const turnaroundClaims = ['recuperação estrutural', 'turnaround', 'reversão de contexto', 'virada de caixa'];
     const hasTurnaroundClaim = turnaroundClaims.some(claim => narrativeLower.includes(claim));
 
     const isArtificialTurnaround = 
@@ -129,7 +129,7 @@ export class GovernanceDriftDetectionEngine {
     }
 
     // Rule 5: RISK_UNDERSTATEMENT_DRIFT
-    const riskUnderstatementClaims = ['risco mitigado', 'risco controlado', 'cenário seguro'];
+    const riskUnderstatementClaims = ['risco mitigado', 'risco controlado', 'contexto seguro'];
     const hasRiskUnderstatement = riskUnderstatementClaims.some(claim => narrativeLower.includes(claim));
 
     const riskScore = behavioralPatterns.behavioralRiskScore;
@@ -144,11 +144,11 @@ export class GovernanceDriftDetectionEngine {
       conflictingClaims.push('Suavização ou mitigação declarada de riscos.');
       fiduciaryReality.push('Presença de risco fiduciário crítico ou score comportamental de alto risco associado a continuidade.');
       evidenceTrail.push('A avaliação fiduciária aponta subdimensionamento narrativo do risco sistêmico atual.');
-      blockedOptimisticClaims.push('risco mitigado / cenário seguro');
+      blockedOptimisticClaims.push('risco mitigado / contexto seguro');
       affectedDomains.add('RISCO');
       recommendedNarrativeCorrections.push({
         originalClaim: 'risco mitigado / risco controlado',
-        recommendedSubstitution: 'cenário de alto risco sob monitoramento fiduciário'
+        recommendedSubstitution: 'contexto de alto risco sob monitoramento fiduciário'
       });
       baseRiskScore += 40;
     }

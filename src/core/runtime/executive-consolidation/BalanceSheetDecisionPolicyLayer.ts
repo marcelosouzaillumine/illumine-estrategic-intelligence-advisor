@@ -34,7 +34,7 @@ export class BalanceSheetDecisionPolicyLayer {
     analysisPanels.assetQuality = BalanceSheetExecutiveLanguageCompiler.compilePanel('AssetQuality', facts, liqThreshold, autThreshold, wcThreshold);
     analysisPanels.capitalEfficiency = BalanceSheetExecutiveLanguageCompiler.compilePanel('CapitalEfficiency', facts, liqThreshold, autThreshold, wcThreshold);
 
-    interpretations.patrimonialThesis = derivedScenarioStr === 'CRITICAL_LIQUIDITY_STRESS' ? 'Risco de Continuidade no Curto Prazo' : 'Gestão patrimonial orientada por dados quantitativos';
+    interpretations.patrimonialThesis = derivedScenarioStr === 'CRITICAL_LIQUIDITY_STRESS' ? 'Risco de Continuidade no ciclo imediato' : 'Gestão patrimonial orientada por dados quantitativos';
     interpretations.executivePlanOverride = {
       shortTerm: { executiveQuestion: analysisPanels.liquidity.executiveQuestion },
       mediumTerm: { executiveQuestion: analysisPanels.workingCapital.executiveQuestion },

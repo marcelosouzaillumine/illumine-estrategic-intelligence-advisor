@@ -36,7 +36,7 @@ export function orchestrateNarrative(
   if (thesisProfile.consolidatedSeverity === 'CRÍTICA') {
     thesis = 'A operação enfrenta severas pressões estruturais que ameaçam sua continuidade ou capacidade de geração orgânica de valor.';
   } else if (thesisProfile.consolidatedSeverity === 'ALTA') {
-    thesis = 'O modelo de capital apresenta gargalos estruturais relevantes que limitam a sustentabilidade de longo prazo.';
+    thesis = 'O modelo de capital apresenta gargalos estruturais relevantes que limitam a sustentabilidade de longo horizonte.';
   } else if (thesisProfile.consolidatedSeverity === 'MODERADA') {
     thesis = 'A estrutura financeira é funcional, porém existem ineficiências em pontos críticos do ciclo institucional.';
   } else {

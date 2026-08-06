@@ -62,7 +62,7 @@ export class ExecutivePriorityResolver {
       priorities.push({
         title: 'Reduzir a queima operacional de caixa e restaurar a autonomia financeira.',
         severity: 'HIGH',
-        rationale: 'A operação do negócio consome caixa rotineiramente. Reajustar com urgência o ciclo financeiro de estoques e prazos de recebimento.',
+        rationale: 'A operação do negócio consome caixa rotineiramente. Reajustar com urgência o ciclo financeiro de estoques e ciclos de recebimento.',
         sourceModule: 'DFC'
       });
     }
@@ -100,7 +100,7 @@ export class ExecutivePriorityResolver {
       priorities.push({
         title: 'Ajuste de Liquidez Corrente',
         severity: 'HIGH',
-        rationale: 'O passivo circulante supera o ativo circulante, indicando forte compressão de liquidez patrimonial a curto prazo.',
+        rationale: 'O passivo circulante supera o ativo circulante, indicando forte compressão de liquidez patrimonial a ciclo imediato.',
         sourceModule: 'BP'
       });
     }

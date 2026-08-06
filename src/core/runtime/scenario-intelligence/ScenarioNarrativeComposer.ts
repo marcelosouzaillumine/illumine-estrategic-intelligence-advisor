@@ -21,7 +21,7 @@ export class ScenarioNarrativeComposer {
     if (systemicSeverity === 'CRÍTICA') {
       lead = 'A propagação estrutural observada evidencia forte pressão de liquidez operacional e resiliência reduzida de tesouraria.';
     } else if (systemicSeverity === 'ALTA') {
-      lead = 'A propagação observada indica consumo acelerado de capital, tensionando a sustentabilidade de curto prazo.';
+      lead = 'A propagação observada indica consumo acelerado de capital, tensionando a sustentabilidade de ciclo imediato.';
     }
 
     let resilienceStr = '';

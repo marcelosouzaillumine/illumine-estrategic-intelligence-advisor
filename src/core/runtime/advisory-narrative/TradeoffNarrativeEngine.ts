@@ -29,7 +29,7 @@ export class TradeoffNarrativeEngine {
     // Dyad 2: Liquidity vs Expansion
     const gComposite = baselines.controlledGrowth?.finalSurvivabilityScores?.composite ?? 75;
     const gRunway = baselines.controlledGrowth?.liquidityRunwayCycles ?? 18;
-    explanation += `- Liquidez vs Expansão: O Crescimento Controlado retém uma margem de segurança fiduciária com runway de ${gRunway} meses contra a queima acelerada do cenário candidato.\n`;
+    explanation += `- Liquidez vs Expansão: O Crescimento Controlado retém uma margem de segurança fiduciária com runway de ${gRunway} meses contra a queima acelerada do contexto candidato.\n`;
 
     // Dyad 3: Stabilization vs Acceleration
     const sComposite = baselines.survivalStabilization?.finalSurvivabilityScores?.composite ?? 85;

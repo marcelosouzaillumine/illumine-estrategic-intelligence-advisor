@@ -3,11 +3,11 @@ import { ConsolidatedFinancialInput } from '../consolidated/types';
 export class ScenarioSnapshotBuilder {
   /**
    * Constrói uma cópia puramente imutável (Deep Clone) do estado atual, 
-   * separando a Memória do Cenário da Memória do Runtine Operacional.
+   * separando a Memória do contexto da Memória do Runtine Operacional.
    */
   static buildClone(input: ConsolidatedFinancialInput): ConsolidatedFinancialInput {
     // Utiliza structuredClone para garantir a quebra total de referência.
-    // Assim, aplicar uma falência no cenário não apagará a conta do BD ou View Local
+    // Assim, aplicar uma falência no contexto não apagará a conta do BD ou View Local
     return structuredClone(input);
   }
 

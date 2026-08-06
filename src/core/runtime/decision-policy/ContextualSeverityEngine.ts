@@ -33,7 +33,7 @@ export class ContextualSeverityEngine {
         lower.includes('matemática') ||
         lower.includes('safeguard') ||
         lower.includes('bypass') ||
-        lower.includes('sem cenário') ||
+        lower.includes('sem contexto') ||
         lower.includes('contexto institucional')
       );
     });

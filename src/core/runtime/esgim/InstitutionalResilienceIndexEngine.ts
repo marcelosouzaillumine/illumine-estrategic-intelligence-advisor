@@ -40,7 +40,7 @@ export class InstitutionalResilienceIndexEngine {
       explainability.push({
         title: 'Modo de Simulação Ativo',
         type: 'rule',
-        description: `Exibindo simulação do cenário de estresse: ${scenario}`,
+        description: `Exibindo simulação do contexto de estresse: ${scenario}`,
         timestamp
       });
 
@@ -302,13 +302,13 @@ export class InstitutionalResilienceIndexEngine {
       return 'ALERTA CONSTITUCIONAL: A quebra ativa de limites estatutários destrói a resiliência corporativa. A capacidade da organização de se manter operacional e fiduciariamente alinhada está severamente comprometida.';
     }
     if (metrics.scenario === 'LIQUIDITY_SHOCK') {
-      return 'ALERTA FIDUCIÁRIO: Colapso financeiro de curto prazo detectado. Sem caixa ou reservas estratégicas para absorver choques operacionais, a sobrevivência e preservação da missão da holding encontram-se em nível crítico.';
+      return 'ALERTA FIDUCIÁRIO: Colapso financeiro de ciclo imediato detectado. Sem caixa ou reservas estratégicas para absorver choques operacionais, a sobrevivência e preservação da missão da holding encontram-se em nível crítico.';
     }
     if (metrics.scenario === 'MISSION_STRESS') {
-      return 'ALERTA DE PROPÓSITO: Há severo conflito entre a operação de mercado e a sustentabilidade da missão fundadora. A holding está vulnerável a pressões econômicas que sufocam sua entrega social de médio prazo.';
+      return 'ALERTA DE PROPÓSITO: Há severo conflito entre a operação de mercado e a sustentabilidade da missão fundadora. A holding está vulnerável a pressões econômicas que sufocam sua entrega social de médio ciclo.';
     }
     if (metrics.scenario === 'FOUNDER_EXIT') {
-      return 'ALERTA DE TRANSIÇÃO: A resiliência geral da organização é ameaçada por dependência excessiva das figuras dos fundadores. A ausência de planos de sucessão estruturados bloqueia a estabilidade de longo prazo no caso de um desligamento súbito.';
+      return 'ALERTA DE TRANSIÇÃO: A resiliência geral da organização é ameaçada por dependência excessiva das figuras dos fundadores. A ausência de planos de sucessão estruturados bloqueia a estabilidade de longo horizonte no caso de um desligamento súbito.';
     }
     if (metrics.scenario === 'MARKET_DISRUPTION') {
       return 'ALERTA DE ADAPTAÇÃO: A organização possui solidez financeira e governança estruturada hoje, mas carece de flexibilidade adaptativa. A rigidez do modelo de negócio impede a absorção de inovações e choques de mercado disruptivos.';

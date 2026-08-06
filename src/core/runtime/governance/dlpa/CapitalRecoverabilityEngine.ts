@@ -44,10 +44,10 @@ export class CapitalRecoverabilityEngine {
       narrative = `O tempo estimado de recomposição patrimonial é curto (${tempoRecuperacao.toFixed(1).replace('.', ',')} anos), configurando alta recuperabilidade.`;
     } else if (tempoRecuperacao < 5) {
       classification = 'Moderada';
-      narrative = `O tempo estimado de recomposição patrimonial é de médio prazo (${tempoRecuperacao.toFixed(1).replace('.', ',')} anos), configurando recuperabilidade moderada.`;
+      narrative = `O tempo estimado de recomposição patrimonial é de médio ciclo (${tempoRecuperacao.toFixed(1).replace('.', ',')} anos), configurando recuperabilidade moderada.`;
     } else if (tempoRecuperacao < 10) {
       classification = 'Baixa';
-      narrative = `O tempo estimado de recomposição patrimonial é de longo prazo (${tempoRecuperacao.toFixed(1).replace('.', ',')} anos), configurando baixa recuperabilidade.`;
+      narrative = `O tempo estimado de recomposição patrimonial é de longo horizonte (${tempoRecuperacao.toFixed(1).replace('.', ',')} anos), configurando baixa recuperabilidade.`;
     }
 
     return {

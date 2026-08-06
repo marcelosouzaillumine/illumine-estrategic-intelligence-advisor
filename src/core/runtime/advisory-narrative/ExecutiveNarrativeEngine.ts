@@ -86,7 +86,7 @@ export class ExecutiveNarrativeEngine {
 
     const scenarioExpl = comparisonReport
       ? ScenarioExplanationEngine.generateScenarioExplanation(comparisonReport.candidatePath, comparisonReport.baselines)
-      : 'Os cenários de simulação não foram processados.';
+      : 'Os contextos de simulação não foram processados.';
 
     const govGuidelines = GovernanceNarrativeEngine.generateGovernanceGuidelines(report, validationResult, audience);
     const summary = ExecutiveSummaryEngine.generateSummary(report, recommendedPath, audience);

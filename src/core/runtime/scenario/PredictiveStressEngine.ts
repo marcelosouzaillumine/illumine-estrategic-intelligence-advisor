@@ -15,7 +15,7 @@ export class PredictiveStressEngine {
     
     const sensitivity = CalibrationEngine.getCalibration().stressPropagationSensitivity;
 
-    // Analisa a solvência bruta entidade a entidade no cenário pós-choque
+    // Analisa a solvência bruta entidade a entidade no contexto pós-choque
     for (const entity of stressedInput.entities) {
       const bp = stressedInput.bpByEntity[entity.id] || [];
       let cash = 0;

@@ -11,9 +11,9 @@ export class FinancialDiagnosticEngine {
     const debtRatio = indicators.find(i => i.id === 'debt_ratio')?.value || 0;
 
     if (currentLiquidity >= 1.5) {
-      strengths.push('Alta capacidade de cobertura das obrigações de curto prazo.');
+      strengths.push('Alta capacidade de cobertura das obrigações de ciclo imediato.');
     } else if (currentLiquidity < 1.0) {
-      attention.push('Baixa liquidez corrente. Risco de descasamento no curto prazo.');
+      attention.push('Baixa liquidez corrente. Risco de descasamento no ciclo imediato.');
     }
 
     if (debtRatio <= 0.4) {

@@ -4,7 +4,7 @@ import { FiduciaryCashIntelligenceRuntime } from './FiduciaryCashIntelligenceRun
 
 describe('FiduciaryCashIntelligenceRuntime - Stress Tests Institucionais', () => {
 
-  it('Cenário 1: Lucro Contábil sem Caixa', () => {
+  it('contexto 1: Lucro Contábil sem Caixa', () => {
     // EBITDA positivo, Lucro positivo, mas FCO negativo. Aumento de estoque e clientes.
     const result = FiduciaryCashIntelligenceRuntime.evaluate(
       [{ id: 1 }], // dfcData simulado (reconciliação mockada/assumida sem bloqueio pra fins de teste de runtime)
@@ -37,7 +37,7 @@ describe('FiduciaryCashIntelligenceRuntime - Stress Tests Institucionais', () =>
     assert.ok(result.blockedConclusions.includes('STRONG_OPERATIONAL_GENERATION'));
   });
 
-  it('Cenário 2: Crescimento Tóxico', () => {
+  it('contexto 2: Crescimento Tóxico', () => {
     // FCO consumido por estoque e clientes (working capital trap)
     const result = FiduciaryCashIntelligenceRuntime.evaluate(
       [{ id: 1 }],
@@ -67,7 +67,7 @@ describe('FiduciaryCashIntelligenceRuntime - Stress Tests Institucionais', () =>
     assert.ok(result.blockedConclusions.includes('HEALTHY_LIQUIDITY'));
   });
 
-  it('Cenário 3: Liquidez Artificial por Endividamento', () => {
+  it('contexto 3: Liquidez Artificial por Endividamento', () => {
     // FCO negativo, FCF muito positivo, caixa alto
     const result = FiduciaryCashIntelligenceRuntime.evaluate(
       [{ id: 1 }],
@@ -97,7 +97,7 @@ describe('FiduciaryCashIntelligenceRuntime - Stress Tests Institucionais', () =>
     assert.ok(result.artificialLiquidityDetected.diagnoses.includes('EXTERNAL_SURVIVAL_SUPPORT'));
   });
 
-  it('Cenário 4: Empresa Saudável', () => {
+  it('contexto 4: Empresa Saudável', () => {
     // Reinvestimento operacional com FCO robusto
     const result = FiduciaryCashIntelligenceRuntime.evaluate(
       [{ id: 1 }],
@@ -137,7 +137,7 @@ describe('FiduciaryCashIntelligenceRuntime - Stress Tests Institucionais', () =>
     assert.equal(result.blockedConclusions.includes('HEALTHY_LIQUIDITY'), false);
   });
 
-  it('Cenário 5: Dados Incompletos', () => {
+  it('contexto 5: Dados Incompletos', () => {
     const result = FiduciaryCashIntelligenceRuntime.evaluate(
       [{ id: 1 }],
       100000,

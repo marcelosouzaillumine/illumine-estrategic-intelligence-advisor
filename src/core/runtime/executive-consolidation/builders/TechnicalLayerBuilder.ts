@@ -91,7 +91,7 @@ export class TechnicalLayerBuilder {
         let sourceRule = 'Canonical Mapping';
 
         if (ind.value === 'INSUFFICIENT_DATA') {
-          classificationLabel = 'Não aplicável ao cenário atual';
+          classificationLabel = 'Não aplicável ao contexto atual';
           tone = 'neutral';
           purpose = 'Sem evidência quantitativa primária disponível para emissão de julgamento técnico.';
           sourceRule = 'SSOT Policy Layer';
@@ -135,7 +135,7 @@ export class TechnicalLayerBuilder {
         if (scenario === 'CRITICAL_LIQUIDITY_STRESS' && ind.value !== 'INSUFFICIENT_DATA') {
           if (['Liquidez Excedente', 'Estrutura Patrimonial Muito Sólida', 'Qualidade Estrutural Preservada', 'Atenção à Eficiência da Alocação', 'Saudável', 'Neutro'].includes(classificationLabel)) {
             tone = 'critical';
-            purpose = 'Avaliação severamente degradada pelo risco agudo de insolvência de curto prazo.';
+            purpose = 'Avaliação severamente degradada pelo risco agudo de insolvência no ciclo imediato.';
             
             if (family === 'Liquidez') classificationLabel = 'Liquidez Crítica';
             else if (family === 'Estrutura de Capital') classificationLabel = 'Estrutura sob Pressão';

@@ -86,7 +86,7 @@ export class FiduciaryCashInterpreter {
 
     if (sustainability.selfFinancingCapacity === 'HIGH') {
       causalFindings.push('Capacidade robusta de autofinanciamento a partir de geração operacional líquida.');
-      institutionalImplications.push('Independência estrutural em relação a aportes societários ou endividamento adicional no curto prazo.');
+      institutionalImplications.push('Independência estrutural em relação a aportes societários ou endividamento adicional no ciclo imediato.');
     } else {
       blockedInterpretations.push('HIGH_SELF_FINANCING');
     }

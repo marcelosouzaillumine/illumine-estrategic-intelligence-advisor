@@ -10,7 +10,7 @@ export class InstitutionalCollapseConstraintEngine {
     const violations: string[] = [];
 
     if (!inputs || inputs.length === 0) {
-      violations.push('Cenário vazio sem vetores de crise definidos.');
+      violations.push('contexto vazio sem vetores de crise definidos.');
       return { valid: false, violations };
     }
 

@@ -33,7 +33,7 @@ export class StrategicStressEngine {
       if (overallSeverity === 'CRÍTICA' || overallSeverity === 'ALTA' || isEbitdaNegative) {
         systemicFragilityImpact = 'CRITICAL';
         stressScoreDelta = -30;
-        stressFactors.push('Exposição crítica de passivos/capital em cenário corporativo deteriorado.');
+        stressFactors.push('Exposição crítica de passivos/capital em contexto corporativo deteriorado.');
       } else {
         systemicFragilityImpact = 'HIGH';
         stressScoreDelta = -15;

@@ -253,14 +253,14 @@ export class BenchmarkAdvisoryEngine {
       init3.difficulty = 'HIGH';
       init3.expectedImpact = 12;
       init3.simulatedBpsImpact = 12;
-      init3.rationale = 'Ação mandatória emergencial em cenários de saída de fundadores para conter riscos de legado.';
+      init3.rationale = 'Ação mandatória emergencial em contextos de saída de fundadores para conter riscos de legado.';
     } else if (scenario === 'MARKET_DISRUPTION') {
       // Prioritize adaptiveness
       init2.title = 'Implantar programa de modernização tecnológica e disrupção de portfólio';
       init2.category = 'GOVERNANCE';
       init2.expectedImpact = 10;
       init2.simulatedBpsImpact = 10;
-      init2.rationale = 'Indispensável para conter a obsolescência sob cenários de disrupção mercadológica.';
+      init2.rationale = 'Indispensável para conter a obsolescência sob contextos de disrupção mercadológica.';
     }
 
     initiatives.push(init1, init2, init3, init4, init5);

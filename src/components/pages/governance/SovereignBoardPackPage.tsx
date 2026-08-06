@@ -461,7 +461,7 @@ export function SovereignBoardPackPage({ boardPack, dataMode }: SovereignBoardPa
            <ExecutiveHeading as="h4" className="text-primary dark:text-executive-secondary">{act.acao}</ExecutiveHeading>
                     </div>
           <span className="px-2 py-0.5 rounded bg-slate-100 dark:bg-zinc-800 text-[8px] font-mono text-muted-foreground dark:text-executive-secondary uppercase shrink-0">
-                      Prazo: {act.prazo}
+                      Prazo: {(act as any).prazo || act.ciclo}
                     </span>
                   </div>
 

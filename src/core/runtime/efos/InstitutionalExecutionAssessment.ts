@@ -44,20 +44,20 @@ export function calculateInstitutionalExecution(input: ExecutionAssessmentInput)
 
   if (riskLevel === 'Baixo') {
     executionCapacity = 'Preparado';
-    institutionalReadiness = 'A organização possui robustez estrutural para absorver a complexidade do cenário com risco controlado.';
+    institutionalReadiness = 'A organização possui robustez estrutural para absorver a complexidade do contexto com risco controlado.';
   } else if (riskLevel === 'Moderado') {
     executionCapacity = 'Adequado';
-    institutionalReadiness = 'A capacidade de execução suporta o cenário, mas exigirá atenção pontual em processos fiduciários ou operacionais.';
+    institutionalReadiness = 'A capacidade de execução suporta o contexto, mas exigirá atenção pontual em processos fiduciários ou operacionais.';
   } else if (riskLevel === 'Elevado') {
     executionCapacity = 'Vulnerável';
-    institutionalReadiness = 'A pressão do cenário excede a maturidade atual. Risco elevado de gargalos operacionais ou quebras de governança.';
+    institutionalReadiness = 'A pressão do contexto excede a maturidade atual. Risco elevado de gargalos operacionais ou quebras de governança.';
   } else {
     executionCapacity = 'Crítico';
-    institutionalReadiness = 'O cenário projeta uma expansão incompatível com a fundação institucional vigente. Execução altamente comprometida.';
+    institutionalReadiness = 'O contexto projeta uma expansão incompatível com a fundação institucional vigente. Execução altamente comprometida.';
   }
 
   // Narrative Generation
-  const narrative = `O cenário analisado projeta uma Pressão de Governança (GPI) de ${gpi.toFixed(1)}/100 devido ao crescimento e Capex estimados. Com um EFOS Score basal de ${input.efosScore.toFixed(1)}/100, o Índice de Execução Institucional (IEI) resultante é de ${iei.toFixed(1)}/100, classificando a capacidade de execução como ${executionCapacity} (Risco ${riskLevel}). ${institutionalReadiness} Recomenda-se ${riskLevel === 'Baixo' || riskLevel === 'Moderado' ? 'prosseguir com o plano de ação mantendo a cadência de auditorias contínuas' : 'fortalecer os mecanismos de governança e execução antes da implementação integral do cenário'}.`;
+  const narrative = `O contexto analisado projeta uma Pressão de Governança (GPI) de ${gpi.toFixed(1)}/100 devido ao crescimento e Capex estimados. Com um EFOS Score basal de ${input.efosScore.toFixed(1)}/100, o Índice de Execução Institucional (IEI) resultante é de ${iei.toFixed(1)}/100, classificando a capacidade de execução como ${executionCapacity} (Risco ${riskLevel}). ${institutionalReadiness} Recomenda-se ${riskLevel === 'Baixo' || riskLevel === 'Moderado' ? 'prosseguir com o plano de ação mantendo a cadência de auditorias contínuas' : 'fortalecer os mecanismos de governança e execução antes da implementação integral do contexto'}.`;
 
   return {
     governancePressureIndex: gpi,

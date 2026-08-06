@@ -25,7 +25,7 @@ export class StrategicRecommendationEngine {
     if (recommendedPath === 'Survival Stabilization' || recommendedPath === 'Conservative Preservation') {
       narrative += `Esta rota prioriza a recomposição imediata dos saldos de caixa de livre movimentação e mitiga os riscos de ruptura estrutural. `;
     } else {
-      narrative += `Este cenário concilia o crescimento disciplinado com a manutenção dos limites regulamentares e preservação do patrimônio. `;
+      narrative += `Este contexto concilia o crescimento disciplinado com a manutenção dos limites regulamentares e preservação do patrimônio. `;
     }
 
     if (ineligiblePaths.includes(candidateCategory)) {

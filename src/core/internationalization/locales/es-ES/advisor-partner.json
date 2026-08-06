@@ -1,0 +1,239 @@
+{
+  "hero": {
+    "label": "Advisor Partner™",
+    "lead": "Transforme sua expertise em uma operação de Executive Intelligence.",
+    "narrative": "Acesse uma plataforma, metodologia e ecossistema desenvolvidos para ampliar o valor que você entrega aos seus clientes.",
+    "cta_primary": "Tornar-se um Advisor Partner",
+    "cta_secondary": "Agendar uma apresentação",
+    "tag1": "Platform",
+    "tag2": "Methodology",
+    "tag3": "Advisory Enablement"
+  },
+  "not_just": {
+    "title": "Mais que uma plataforma.",
+    "lead": "Um ecossistema para escalar sua atuação.",
+    "narrative": "Ao tornar-se um Advisor Partner™, você integra um ecossistema desenvolvido para acelerar implantações, fortalecer sua atuação consultiva e ampliar sua capacidade de gerar valor aos clientes.",
+    "c1": "Executive Intelligence Platform™",
+    "c2": "Executive Methodology™",
+    "c3": "Advisor Academy™",
+    "c4": "Certification™",
+    "c5": "Executive Co-Advisory™",
+    "c6": "Continuous Innovation™"
+  },
+  "platform": {
+    "title": "Executive Intelligence Platform™",
+    "lead": "Uma plataforma completa ao seu dispor.",
+    "f1": "Executive Command Center",
+    "f2": "Financial Intelligence",
+    "f3": "Governance Intelligence",
+    "f4": "Commercial Intelligence",
+    "f5": "Operational Intelligence",
+    "f6": "People Intelligence",
+    "f7": "Risk Intelligence",
+    "f8": "Institutional Intelligence",
+    "f9": "Executive AI Assistant",
+    "f10": "API Hub",
+    "f11": "Executive Reports",
+    "f12": "Executive Dashboards"
+  },
+  "partnership": {
+    "title": "Como funciona a parceria",
+    "flow1": "Advisor Partner",
+    "flow2": "Executive Partner Enablement™",
+    "flow3": "Advisor Membership™",
+    "flow4": "Primeiro Cliente",
+    "flow5": "Implantação",
+    "flow6": "Executive Advisory",
+    "flow7": "Escala da Operação",
+    "flow8": "Receita Recorrente"
+  },
+  "enablement": {
+    "label": "Executive Partner Enablement™",
+    "title": "A fundação da sua parceria.",
+    "desc": "O Executive Partner Enablement™ é o programa oficial de habilitação para atuação como Advisor Partner da Illumine.",
+    "price_label": "Investimento único",
+    "price": "R$ 4.997",
+    "includes": "Inclui:",
+    "i1": "Configuração completa do Workspace",
+    "i2": "Onboarding",
+    "i3": "Formação inicial",
+    "i4": "Foundation Certification",
+    "i5": "Advisor Academy™",
+    "i6": "Biblioteca metodológica",
+    "i7": "Templates",
+    "i8": "Ambiente de demonstração",
+    "i9": "Materiais comerciais",
+    "i10": "Integração do sistema utilizado pelo escritório do Partner com a plataforma Illumine, quando tecnicamente suportada ou houver conectores disponíveis",
+    "i10_note": "Um diferencial competitivo."
+  },
+  "plans": {
+    "title": "Advisor Membership™",
+    "foundation": {
+      "title": "Foundation Partner™",
+      "price": "R$ 1.497/mês",
+      "desc": "Ideal para Advisors iniciando sua operação.",
+      "i1": "Workspace",
+      "i2": "Plataforma",
+      "i3": "Academy",
+      "i4": "Biblioteca",
+      "i5": "Ambiente Demo",
+      "i6": "Foundation Certification",
+      "i7": "Até 3 organizações clientes"
+    },
+    "professional": {
+      "title": "Professional Partner™",
+      "price": "R$ 2.997/mês",
+      "desc": "Ideal para Advisors em crescimento.",
+      "i1": "Tudo do plano Foundation",
+      "i2": "Professional Certification",
+      "i3": "Recursos avançados",
+      "i4": "Suporte prioritário",
+      "i5": "Sessão mensal de Executive Advisory",
+      "i6": "Até 6 organizações clientes"
+    },
+    "executive": {
+      "title": "Executive Partner™",
+      "price": "R$ 5.997/mês",
+      "desc": "Para operações consultivas estruturadas.",
+      "i1": "Tudo do plano Professional",
+      "i2": "Executive Certification",
+      "i3": "Executive Co-Advisory™",
+      "i4": "Executive Sponsor",
+      "i5": "Participação em reuniões estratégicas",
+      "i6": "Apoio para Conselhos e Diretorias",
+      "i7": "Até 10 organizações clientes"
+    },
+    "strategic": {
+      "title": "Strategic Partner™",
+      "price": "Sob proposta",
+      "desc": "Programa destinado a empresas de consultoria e parceiros estratégicos que necessitam operações em maior escala, desenvolvimento dedicado, recursos Enterprise e condições comerciais personalizadas.",
+      "i1": "Acima de 10 organizações"
+    }
+  },
+  "commercial": {
+    "title": "Como funciona o modelo comercial",
+    "illumine": {
+      "title": "Tecnologia (Illumine)",
+      "desc": "A Illumine é responsável por:",
+      "i1": "Plataforma",
+      "i2": "Infraestrutura",
+      "i3": "Segurança",
+      "i4": "Atualizações",
+      "i5": "APIs",
+      "i6": "Evolução da plataforma",
+      "i7": "Desenvolvimento sob demanda"
+    },
+    "advisor": {
+      "title": "Serviços Profissionais (Advisor)",
+      "desc": "O Advisor é responsável por:",
+      "i1": "Diagnóstico",
+      "i2": "Implantação",
+      "i3": "Parametrização",
+      "i4": "Configuração",
+      "i5": "Treinamento",
+      "i6": "Executive Advisory",
+      "i7": "Projetos Estratégicos",
+      "note": "Os honorários profissionais são definidos livremente pelo Advisor."
+    }
+  },
+  "office_integration": {
+    "title": "Office Integration™",
+    "desc": "A integração entre a plataforma Illumine e o sistema utilizado pelo escritório do Partner faz parte do Executive Partner Enablement™, quando tecnicamente suportada.",
+    "i1": "CRM",
+    "i2": "ERP",
+    "i3": "Financeiro",
+    "i4": "Comercial",
+    "i5": "Ferramentas administrativas"
+  },
+  "client_integration": {
+    "title": "Client Integration™",
+    "desc": "Quando os clientes do Advisor necessitarem integração com seus próprios sistemas, será desenvolvido um projeto específico.",
+    "i1": "ERP",
+    "i2": "CRM",
+    "i3": "Sistemas Contábeis",
+    "i4": "Sistemas Hospitalares",
+    "i5": "Sistemas Públicos",
+    "i6": "Sistemas Proprietários",
+    "note1": "Cada projeto é dimensionado individualmente.",
+    "note2": "Os investimentos consideram: arquitetura, desenvolvimento, homologação, monitoramento, infraestrutura e manutenção."
+  },
+  "dev_services": {
+    "title": "Executive Development Services™",
+    "desc": "Recursos exclusivos, integrações corporativas e funcionalidades específicas podem ser desenvolvidos sob demanda para atender às necessidades do Advisor Partner ou de seus clientes.",
+    "i1": "dashboards",
+    "i2": "módulos",
+    "i3": "agentes inteligentes",
+    "i4": "workflows",
+    "i5": "automações",
+    "i6": "integrações",
+    "i7": "relatórios"
+  },
+  "coadvisory": {
+    "title": "Executive Co-Advisory™",
+    "desc1": "Nos planos superiores, a equipe da Illumine pode atuar em conjunto com o Advisor Partner em momentos estratégicos, apoiando apresentações executivas, reuniões de Conselho, análises de indicadores e decisões de maior complexidade.",
+    "desc2": "O objetivo é fortalecer a atuação do Partner e ampliar o impacto entregue ao cliente."
+  },
+  "journey": {
+    "title": "Jornada de Crescimento",
+    "s1": "Executive Partner Enablement™",
+    "s2": "Advisor Membership™",
+    "s3": "Primeiro Cliente",
+    "s4": "Implantação",
+    "s5": "Executive Advisory",
+    "s6": "Escala da Operação",
+    "s7": "Relacionamentos Recorrentes",
+    "s8": "Expansão da Carteira"
+  },
+  "faq": {
+    "title": "Perguntas Frequentes",
+    "q1": {
+      "q": "Quem fornece a plataforma ao cliente?",
+      "a": "O Advisor Partner é o responsável por disponibilizar a solução ao cliente como parte de sua oferta de serviços. A Illumine atua como provedora da infraestrutura tecnológica, apoiando o ecossistema de Partners e garantindo a evolução contínua da plataforma."
+    },
+    "q2": {
+      "q": "Quem realiza a implantação?",
+      "a": "O Advisor Partner, pois ele é o detentor da metodologia e o condutor da transformação executiva no cliente."
+    },
+    "q3": {
+      "q": "Quem define os honorários do Executive Advisory?",
+      "a": "Os honorários dos serviços profissionais são definidos e negociados livremente pelo Advisor, sem interveniência da Illumine."
+    },
+    "q4": {
+      "q": "A Illumine concorre com o Advisor?",
+      "a": "De forma alguma. Nosso modelo é 100% focado na tecnologia. Todo o advisory estratégico é liderado e entregue exclusivamente por nossos Partners."
+    },
+    "q5": {
+      "q": "A integração do sistema do escritório está incluída?",
+      "a": "Sim. Ela é parte integrante do Executive Partner Enablement™, mediante a viabilidade técnica e conectores já existentes."
+    },
+    "q6": {
+      "q": "Como funcionam as integrações dos clientes?",
+      "a": "Via projetos sob demanda (Client Integration™), orçados separadamente caso a caso."
+    },
+    "q7": {
+      "q": "Quem desenvolve novas funcionalidades?",
+      "a": "A equipe de tecnologia da Illumine através de nossos Executive Development Services™ sob demanda."
+    },
+    "q8": {
+      "q": "Posso contratar apenas integrações?",
+      "a": "Os serviços de integração corporativa fazem parte do ecossistema Advisor Partner™ e estão disponíveis para projetos conduzidos por Partners ativos. Cada integração é avaliada individualmente conforme os requisitos técnicos da organização atendida."
+    },
+    "q9": {
+      "q": "Posso solicitar desenvolvimento exclusivo?",
+      "a": "Sim. Os Advisor Partners podem solicitar o desenvolvimento de funcionalidades específicas, módulos, integrações ou componentes exclusivos. Cada solicitação é submetida a uma avaliação de viabilidade técnica, alinhamento arquitetural e estimativa de esforço antes da elaboração de uma proposta comercial."
+    },
+    "q10": {
+      "q": "A Illumine atende diretamente meus clientes?",
+      "a": "A Illumine atua como provedora da tecnologia e parceira estratégica do Advisor Partner. Nossa atuação é direcionada ao fortalecimento do Partner, preservando sua autonomia e protagonismo na condução do relacionamento com seus clientes. Quando necessário, a equipe Illumine poderá participar de iniciativas estratégicas, apresentações executivas ou projetos específicos, sempre em conjunto com o Advisor Partner e dentro do modelo de parceria estabelecido."
+    },
+    "q11": {
+      "q": "O que é o Executive Sponsor incluído no plano Executive?",
+      "a": "O Executive Sponsor é um líder sênior da Illumine designado exclusivamente para apoiar o Advisor Partner. Ele atua como um conselheiro dedicado, auxiliando no planejamento de contas corporativas, no alinhamento de arquiteturas tecnológicas complexas e no suporte estratégico para garantir o sucesso das implantações e a geração de valor contínuo."
+    }
+  },
+  "cta": {
+    "title": "Transforme sua experiência em uma operação consultiva baseada em Executive Intelligence.",
+    "primary": "Quero me tornar um Advisor Partner",
+    "secondary": "Agendar uma apresentação"
+  }
+}

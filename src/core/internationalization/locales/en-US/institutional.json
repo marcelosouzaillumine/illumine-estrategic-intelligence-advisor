@@ -314,5 +314,63 @@
       "desc": "Certified professionals to apply the Executive Intelligence Advisory™ discipline in complex organizations.",
       "quote": "\"Specialists analyze parts. Executive Advisors interpret systems.\""
     }
+  },
+  "home": {
+    "v2": {
+      "hero": {
+        "title": "Executive Intelligence Platform™",
+        "subtitle": "The intelligence infrastructure between the organization and its critical decisions.",
+        "lead": "Illumine connects corporate data, institutional knowledge, and executive intelligence to expand the ability of leaders and boards to understand complex scenarios, anticipate impacts, and make better decisions.",
+        "badge": "A new category of corporate infrastructure.",
+        "badge_desc": "We don't replace ERP. We don't replace BI. We don't replace leaders. We create the intelligence layer that connects them all.",
+        "cta_primary": "Request Executive Assessment™",
+        "cta_secondary": "Discover the Platform",
+        "insight": "Intelligence amplifies. The decision remains human."
+      },
+      "problem": {
+        "title": "We've never had so much information. But it has never been so difficult to understand reality.",
+        "lead": "Modern organizations have dozens of systems. But strategic decisions require something these systems typically do not provide: Context.",
+        "erp": "ERP records.",
+        "bi": "BI visualizes.",
+        "analytics": "Analytics interprets.",
+        "illumine": "Critical decisions need context."
+      },
+      "layer": {
+        "title": "The New Intelligence Layer",
+        "lead": "Illumine does not replace your systems. It amplifies their value by adding the Institutional Intelligence Layer™.",
+        "foundation_title": "Foundation Layer™",
+        "foundation_desc": "The institutional memory of the organization. Transforms fragmented data into a reliable contextual foundation.",
+        "engine_title": "Intelligence Engine Layer™",
+        "engine_desc": "The intelligence that interprets relationships. Data shows what happened. Intelligence explains why.",
+        "advisory_title": "Executive Advisory Layer™",
+        "advisory_desc": "Intelligence for decision-makers. Technology amplifies analysis. Leadership decides."
+      },
+      "network": {
+        "title": "The Organization as a Living System",
+        "lead": "Decisions don't happen in isolation. The Executive Intelligence Network™ simulates and connects your organization through 9 connected intelligences.",
+        "flow_1": "Commercial impacts revenue.",
+        "flow_2": "Revenue impacts margin.",
+        "flow_3": "Margin impacts cash.",
+        "flow_4": "Cash impacts strategy."
+      },
+      "trust": {
+        "title": "Institutional Memory and Trust",
+        "lead": "Organizations don't just lose data. They lose context.",
+        "learning_title": "Institutional Learning Architecture™",
+        "learning_desc": "Every decision generates learning. Every learning strengthens the next decision.",
+        "trust_title": "Trust Architecture™",
+        "trust_desc": "Human Oversight, Explainable Intelligence™, Audit Trail, Data Governance, Fiduciary Controls."
+      },
+      "ecosystem": {
+        "title": "Illumine Ecosystem",
+        "lead": "A new executive intelligence infrastructure for different organizational realities.",
+        "enterprise_title": "Enterprise",
+        "enterprise_desc": "For complex organizations.",
+        "nonprofit_title": "Nonprofit",
+        "nonprofit_desc": "For purpose-driven organizations.",
+        "advisor_title": "Advisor Network",
+        "advisor_desc": "For specialists."
+      }
+    }
   }
 }

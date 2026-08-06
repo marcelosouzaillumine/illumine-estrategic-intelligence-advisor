@@ -79,7 +79,7 @@ export class CapitalEfficiencyRuleSet {
           primaryDriverKpi = 'Capital Subutilizado';
           executiveNarrative = 'A robusta posição patrimonial proporciona elevada segurança financeira; entretanto, o excesso de liquidez e a baixa utilização do capital sugerem oportunidade de otimização da alocação dos recursos para maximizar geração de valor aos acionistas.';
           primaryDriver = 'Capital excessivamente conservador';
-          managerialImplication = 'O capital retido excede as necessidades operacionais e obrigações de curto e longo prazo. A estrutura atual, embora sem risco de insolvência, resulta em ociosidade que drena o retorno sobre o capital (ROE/ROIC).';
+          managerialImplication = 'O capital retido excede as necessidades operacionais e obrigações de curto e longo horizonte. A estrutura atual, embora sem risco de insolvência, resulta em ociosidade que drena o retorno sobre o capital (ROE/ROIC).';
           priorityAction = 'Formalizar política institucional de alocação de excedentes de caixa para otimizar rentabilidade e crescimento sustentável.';
         }
       } else if (caixaExcedente > 0) {
@@ -109,7 +109,7 @@ export class CapitalEfficiencyRuleSet {
       primaryDriverKpi = 'Capital Ocioso';
       executiveNarrative = 'Identificado capital imobilizado ou liquidez ineficiente que pode estar drenando gravemente a rentabilidade patrimonial.';
       primaryDriver = 'Acúmulo de capital ocioso ou estoques de baixa rotatividade';
-      managerialImplication = 'O capital retido não justifica seu custo de oportunidade, deteriorando indicadores de retorno como ROE e ROIC no médio prazo.';
+      managerialImplication = 'O capital retido não justifica seu custo de oportunidade, deteriorando indicadores de retorno como ROE e ROIC no médio ciclo.';
       priorityAction = 'Otimizar o ciclo financeiro e revisar a política de estoques e caixa mínimo.';
     } else {
       healthStatus = 'CRITICAL';

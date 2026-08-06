@@ -68,7 +68,7 @@ export const FinancialRiskRules: FinancialRiskRule[] = [
   },
   {
     id: 'short_term_pressure',
-    category: 'Pressão de Curto Prazo',
+    category: 'Pressão de ciclo imediato',
     evaluate: (data: NormalizedBalanceSheet) => {
       const shortTermDebtRatio = data.liabilities.total > 0 ? (data.liabilities.currentLiabilities / data.liabilities.total) : 0;
       const currentLiquidity = data.liabilities.currentLiabilities > 0 ? (data.assets.currentAssets / data.liabilities.currentLiabilities) : 0;
@@ -76,12 +76,12 @@ export const FinancialRiskRules: FinancialRiskRule[] = [
       if (shortTermDebtRatio > 0.8 && currentLiquidity < 1.5) {
         return {
           id: 'short_term_pressure_critical',
-          category: 'Pressão de Curto Prazo',
+          category: 'Pressão de ciclo imediato',
           severity: 'CRITICAL',
           metric: 'PC / Passivo Total & Liquidez Corrente',
           value: shortTermDebtRatio,
           triggerCondition: 'PC > 80% & Liquidez < 1.5',
-          message: 'Forte pressão de curto prazo combinada com margem estreita de liquidez.'
+          message: 'Forte pressão de ciclo imediato combinada com margem estreita de liquidez.'
         };
       }
       return null;

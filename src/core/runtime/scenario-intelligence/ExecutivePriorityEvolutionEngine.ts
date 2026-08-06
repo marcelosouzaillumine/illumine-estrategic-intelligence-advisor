@@ -45,7 +45,7 @@ export class ExecutivePriorityEvolutionEngine {
           priority: fundingNeed.severity === 'CRÍTICA' ? 'Alta' : 'Moderada',
           expectedImpact: 'Garantir sobrevivência frente ao estresse de expansão simulado',
           executionRisk: 'Moderado',
-          fiduciaryEvidence: `Cenário simulado induz déficit de geração livre forçando alavancagem passiva.`,
+          fiduciaryEvidence: `contexto simulado induz déficit de geração livre forçando alavancagem passiva.`,
           category: 'Funding',
           timeline: 'Imediato',
           monitoringKPI: 'Liquidez Corrente Simulada',

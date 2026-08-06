@@ -104,7 +104,7 @@ export class GovernanceJourneyEngine {
 
       case 'LIQUIDITY_SHOCK':
         boardNarrative = 
-          "A holding sofre uma crise financeira aguda devido a um severo choque de liquidez operacional no curto prazo. " +
+          "A holding sofre uma crise financeira aguda devido a um severo choque de liquidez operacional no ciclo imediato. " +
           "Com runway fiduciário inferior a 90 dias, a continuidade das operações corre risco de insolvência perante passivos imediatos. " +
           "O foco do conselho deve se concentrar em aportes imediatos de capital e interrupção de planos de expansão do roadmap. " +
           "Ações emergenciais e renegociações de custos fixos são cruciais para restaurar a integridade financeira corporativa.";
@@ -123,13 +123,13 @@ export class GovernanceJourneyEngine {
           "Embora as operações financeiras estejam robustas no baseline atual, as métricas prospectivas indicam rigidez à disrupção tecnológica. " +
           "A ausência de competências digitais no board e canais de receita alternativos expõe a organização a obsolescência de mercado. " +
           "Exige-se a alocação imediata de orçamento para inovação de portfólio e workshops de reciclagem tecnológica de conselheiros. " +
-          "Instituir um comitê assessor de novas tecnologias facilitará a adaptação mercadológica de médio prazo.";
+          "Instituir um comitê assessor de novas tecnologias facilitará a adaptação mercadológica de médio ciclo.";
         break;
 
       case 'MISSION_STRESS':
         boardNarrative = 
           "Existe um desalinhamento missional ativo na holding, onde despesas operacionais administrativas estão drenando recursos do propósito social. " +
-          "Essa priorização comercial de curto prazo gera conflitos éticos fiduciários e ameaça a reputação perante doadores e parceiros. " +
+          "Essa priorização comercial de ciclo imediato gera conflitos éticos fiduciários e ameaça a reputação perante doadores e parceiros. " +
           "A governança recomenda realizar auditoria orçamentária extraordinária e readequar a alocação de caixa para a missão final. " +
           "Formalizar um comitê de preservação de legado blindará permanentemente a identidade existencial da marca.";
         break;
@@ -164,7 +164,7 @@ export class GovernanceJourneyEngine {
       status: s1Status,
       primaryMetric: 'Maturidade & Resiliência',
       primaryValue: `Score: ${esgim.overallScore}/100 | IRI: ${iri.score}/100`,
-      executiveSummary: `Maturidade operacional classificada como ${esgim.maturityLevel}. A resiliência de longo prazo da holding está avaliada como nível ${iri.level.replace(/_/g, ' ')}.`,
+      executiveSummary: `Maturidade operacional classificada como ${esgim.maturityLevel}. A resiliência de longo horizonte da holding está avaliada como nível ${iri.level.replace(/_/g, ' ')}.`,
       sourceModules: ['ESGIM™', 'IRI™'],
       actionRequired: s1Status !== 'HEALTHY' ? 'Revisar vulnerabilidades identificadas nos eixos institucionais.' : undefined,
       executiveAttentionScore: s1Eai
@@ -240,7 +240,7 @@ export class GovernanceJourneyEngine {
       primaryValue: `${overdueRate}% em atraso`,
       executiveSummary: `Índice de resolutividade decisória: ${geiWeighted}%. Existem pendências ativas aguardando atribuição de responsabilidade fiduciária.`,
       sourceModules: ['GDTL™'],
-      actionRequired: overdueRate > 0 ? 'Designar responsáveis e rever prazos das deliberações em atraso.' : undefined,
+      actionRequired: overdueRate > 0 ? 'Designar responsáveis e rever ciclos das deliberações em atraso.' : undefined,
       executiveAttentionScore: s4Eai
     });
 

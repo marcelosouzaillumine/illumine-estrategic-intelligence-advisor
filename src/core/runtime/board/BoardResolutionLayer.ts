@@ -31,7 +31,7 @@ export function generateBoardResolutions(
   if (input.executiveRecommendation === '1º Recomendado' && !input.isBaseline) {
     resolutions.push({
       action: 'Deliberar',
-      topic: `Aprovação do Cenário "${input.scenarioName}"`,
+      topic: `Aprovação do contexto "${input.scenarioName}"`,
       justification: 'Tema recomendado para deliberação do Conselho por apresentar o melhor equilíbrio entre geração de valor e capacidade de execução.',
       impact: `Criação projetada de valor no montante de R$ ${(input.valueDelta / 1000000).toFixed(1)}M, suportada por análise determinística de riscos.`
     });

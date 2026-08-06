@@ -81,7 +81,7 @@ export class CrossDomainCausalityResolver {
       
       if (isSingleYear) {
         return {
-          primaryEvent: 'Eficiência de curto prazo estabilizada, com geração de caixa.',
+          primaryEvent: 'Eficiência de ciclo imediato estabilizada, com geração de caixa.',
           rootCause: 'Sincronia momentânea entre ciclo de vendas e conversão de caixa.',
           systemicPropagation: 'Aumento estático da margem de segurança patrimonial.',
           executiveInsight: 'Consolidar este patamar antes de assumir novos compromissos estruturais.'
@@ -92,7 +92,7 @@ export class CrossDomainCausalityResolver {
         primaryEvent: 'Expansão operacional sustentável e autocorrigida pelo fluxo de caixa.',
         rootCause: 'Ciclos de conversão eficientes e ganho escalar de margens reais.',
         systemicPropagation: 'Robustez de liquidez e independência de capital externo.',
-        executiveInsight: 'Cenário favorável para investimentos de capex ou distribuição controlada de dividendos.'
+        executiveInsight: 'contexto favorável para investimentos de capex ou distribuição controlada de dividendos.'
       };
     }
 
@@ -101,7 +101,7 @@ export class CrossDomainCausalityResolver {
       primaryEvent: 'Estrutura em transição ou sem vetor dominante unificado.',
       rootCause: 'Fatores multidirecionais diluindo a causalidade principal.',
       systemicPropagation: 'Risco moderado decorrente da falta de clareza em conversão direcional.',
-      executiveInsight: 'Manter postura neutra e focar em visibilidade de curto prazo.'
+      executiveInsight: 'Manter postura neutra e focar em visibilidade de ciclo imediato.'
     };
   }
 }

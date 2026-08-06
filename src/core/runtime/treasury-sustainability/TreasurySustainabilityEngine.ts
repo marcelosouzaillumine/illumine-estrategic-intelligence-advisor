@@ -61,10 +61,10 @@ export class TreasurySustainabilityEngine {
     let socialJustification = '';
     if (fco >= 0 && runwayMonths >= 12) {
       socialCapacity = 'Alta';
-      socialJustification = 'Geração de caixa superavitária e liquidez robusta garantem estabilidade total de pessoal e investimentos comunitários de longo prazo.';
+      socialJustification = 'Geração de caixa superavitária e liquidez robusta garantem estabilidade total de pessoal e investimentos comunitários de longo horizonte.';
     } else if (runwayMonths >= 6) {
       socialCapacity = 'Parcial';
-      socialJustification = 'Liquidez estável de curto prazo mitiga demissões iminentes, porém a ausência de geração de caixa própria restringe novas contratações ou projetos.';
+      socialJustification = 'Liquidez estável de ciclo imediato mitiga demissões iminentes, porém a ausência de geração de caixa própria restringe novas contratações ou projetos.';
     } else if (runwayMonths >= 3) {
       socialCapacity = 'Vulnerável';
       socialJustification = 'O caixa comprimido ameaça a manutenção de empregos operacionais secundários e suspende investimentos sociais planejados.';
@@ -78,7 +78,7 @@ export class TreasurySustainabilityEngine {
     let govJustification = '';
     if (fundingRatio <= 0.30 && runwayMonths >= 12) {
       govStatus = 'Consistente';
-      govJustification = 'Baixa dependência societária e runway seguro de longo prazo atestam conformidade fiduciária e resiliência de caixa.';
+      govJustification = 'Baixa dependência societária e runway seguro de longo horizonte atestam conformidade fiduciária e resiliência de caixa.';
     } else if (fundingRatio <= 0.50 && runwayMonths >= 6) {
       govStatus = 'Moderada';
       govJustification = 'A liquidez está garantida temporariamente, com dependência administrável de aportes societários de contingência.';
@@ -114,7 +114,7 @@ export class TreasurySustainabilityEngine {
       justification = `O runway confortável de ${runwayMonths.toFixed(1)} meses e a geração operacional positiva de caixa garantem a sustentabilidade financeira da missão institucional.`;
     } else if (runwayMonths >= 6) {
       answer = 'Parcialmente';
-      justification = `A liquidez atual de ${runwayMonths.toFixed(1)} meses garante a continuidade das atividades no curto prazo, mas a ausência de excedentes operacionais exige captação complementar.`;
+      justification = `A liquidez atual de ${runwayMonths.toFixed(1)} meses garante a continuidade das atividades no ciclo imediato, mas a ausência de excedentes operacionais exige captação complementar.`;
     } else {
       answer = 'Não';
       justification = `O runway extremamente comprimido de ${runwayMonths.toFixed(1)} meses coloca a continuidade institucional em risco imediato, exigindo readequação estrutural.`;

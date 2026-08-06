@@ -58,7 +58,7 @@ export class BalanceSheetScenarioClassifier {
       return {
         scenario: 'CRITICAL_LIQUIDITY_STRESS',
         confidence: 'HIGH',
-        primaryDriver: 'Asfixia aguda de liquidez de curto prazo',
+        primaryDriver: 'Asfixia aguda de liquidez de ciclo imediato',
         secondaryDriver: 'Incapacidade de honrar passivos circulantes com disponibilidades imediatas',
         severity: 'CRITICAL',
         policyProfile: 'SURVIVAL',

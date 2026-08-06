@@ -59,7 +59,7 @@ export class LiquidityRealityEngine {
         caixaEquivalentes: summary.caixaEquivalentes,
         passivoCirculante: summary.passivoCirculante
       },
-      rationale: `Mede a capacidade imediata de honrar obrigações de curto prazo utilizando apenas disponibilidades puras.`,
+      rationale: `Mede a capacidade imediata de honrar obrigações de ciclo imediato utilizando apenas disponibilidades puras.`,
       lineageHash: `LRE-LIR-${Date.now().toString(16)}`,
       family,
       format: 'decimal'

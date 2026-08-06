@@ -25,22 +25,22 @@ export class FleurietAnalysisEngine {
       type = 'TYPE_3';
       classification = 'ATENÇÃO';
       riskLevel = 'MEDIUM';
-      description = 'Empresa possui capital de giro próprio, mas precisa de recursos de curto prazo para financiar a necessidade operacional. Saldo de tesouraria negativo.';
+      description = 'Empresa possui capital de giro próprio, mas precisa de recursos de ciclo imediato para financiar a necessidade operacional. Saldo de tesouraria negativo.';
     } else if (!isCglPositive && isNcgPositive && !isTreasuryPositive) {
       type = 'TYPE_4';
       classification = 'RISCO ELEVADO';
       riskLevel = 'HIGH';
-      description = 'Empresa opera com insuficiência de capital próprio, dependendo de recursos de curto prazo para bancar sua necessidade operacional. Alta dependência financeira.';
+      description = 'Empresa opera com insuficiência de capital próprio, dependendo de recursos de ciclo imediato para bancar sua necessidade operacional. Alta dependência financeira.';
     } else if (!isCglPositive && !isNcgPositive && isTreasuryPositive) {
       type = 'TYPE_5';
       classification = 'ESTRUTURA ATÍPICA';
       riskLevel = 'MEDIUM';
-      description = 'Empresa possui capital de giro líquido negativo, mas a operação gera recursos (NCG negativa), resultando em tesouraria positiva. Atenção a prazos.';
+      description = 'Empresa possui capital de giro líquido negativo, mas a operação gera recursos (NCG negativa), resultando em tesouraria positiva. Atenção a ciclos.';
     } else { // !isCglPositive && !isNcgPositive && !isTreasuryPositive
       type = 'TYPE_6';
       classification = 'CRÍTICA';
       riskLevel = 'CRITICAL';
-      description = 'Empresa opera no limite. A operação e a estrutura dependem integralmente de passivos de curto prazo. Risco de insolvência severo se houver choque operacional.';
+      description = 'Empresa opera no limite. A operação e a estrutura dependem integralmente de passivos de ciclo imediato. Risco de insolvência severo se houver choque operacional.';
     }
 
     return {

@@ -96,7 +96,7 @@ export class BoardPrioritiesEngine {
         urgency: 'IMMEDIATE',
         estimatedWindow: 'Próximos 30 dias',
         impact: 'CRITICAL',
-        expectedBenefit: 'Proteção contra insolvência iminente e preservação de obrigações de curto prazo.',
+        expectedBenefit: 'Proteção contra insolvência iminente e preservação de obrigações de ciclo imediato.',
         evidence: [
           'Fiduciary Resilience reduzida para score 15.',
           'Runway de caixa projetado inferior a 90 dias.'
@@ -114,7 +114,7 @@ export class BoardPrioritiesEngine {
       candidates.push({
         id: 'PR-FID-02',
         title: 'Reestruturar Custos Fixos e Alongar Passivo Exigível',
-        description: 'Negociar com parceiros e credores para postergar passivos fiduciários de curto prazo.',
+        description: 'Negociar com parceiros e credores para postergar passivos fiduciários de ciclo imediato.',
         category: 'FIDUCIARY',
         urgency: 'IMMEDIATE',
         estimatedWindow: 'Próximos 30 dias',
@@ -209,7 +209,7 @@ export class BoardPrioritiesEngine {
         urgency: 'MEDIUM_TERM',
         estimatedWindow: 'Próximos 12 meses',
         impact: 'HIGH',
-        expectedBenefit: 'Diluição de riscos sistêmicos e sustentação fiduciária em longo prazo.',
+        expectedBenefit: 'Diluição de riscos sistêmicos e sustentação fiduciária em longo horizonte.',
         evidence: [
           'Baixa flexibilidade adaptativa de mercado.'
         ],
@@ -239,7 +239,7 @@ export class BoardPrioritiesEngine {
         ],
         explainability: [
           'Restrição missional cognitiva ativada (cap de score geral em 59).',
-          'Sufocamento missional por pressão financeira de curto prazo.'
+          'Sufocamento missional por pressão financeira de ciclo imediato.'
         ],
         decisionCategory: 'Legacy',
         priorityScore: 90,
@@ -347,7 +347,7 @@ export class BoardPrioritiesEngine {
       estimatedWindow: 'Horizonte estratégico',
       impact: 'MODERATE',
       expectedBenefit: 'Detecção antecipada de ameaças competitivas ou novos modelos regulatórios.',
-      evidence: ['Foco em estabilidade operacional no curto prazo.'],
+      evidence: ['Foco em estabilidade operacional no ciclo imediato.'],
       explainability: ['Prevenção de obsolescência corporativa futura.'],
       decisionCategory: 'Growth',
       priorityScore: 65,
@@ -417,7 +417,7 @@ export class BoardPrioritiesEngine {
       case 'LIQUIDITY_SHOCK':
         return {
           headline: 'Colapso de Liquidez e Risco Crítico Fiduciário',
-          summary: 'Ruptura severa nas contas patrimoniais com runway de curto prazo exposto. A sustentabilidade operacional está em risco iminente.',
+          summary: 'Ruptura severa nas contas patrimoniais com runway de ciclo imediato exposto. A sustentabilidade operacional está em risco iminente.',
           primaryRisk: 'Insolvência operacional e quebra do legado corporativo por iliquidez.',
           primaryOpportunity: 'Atração de aportes emergenciais e renegociação imediata de passivos.',
           recommendedFocus: 'Estabilização de fluxo de caixa e captação emergencial de contingência.'

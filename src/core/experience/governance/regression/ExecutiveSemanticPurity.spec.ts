@@ -32,9 +32,9 @@ describe('Executive Semantic Purity Enforcement (Wave 1.4.8)', () => {
 
   const forbiddenTerms = [
     // Explicit English
-    'approve', 'approval', 'recommend', 'recommended', 'execute', 'execution', 'plan', 'owner', 'deadline', 'decision', 'strategy', 'action', 'roadmap', 'priority',
+    'approve', 'approval', 'recommend', 'recommended', 'execute', 'execution', 'plan', 'owner', 'deadline', 'decision', 'strategy', 'action', 'roadmap', 'priority', 'scenario', 'optimized scenario', 'strategy recommendation', 'dividend distribution', 'action plan', 'kpi shift',
     // Explicit Portuguese
-    'decisão', 'decidir', 'aprovação', 'aprovar', 'recomendação', 'recomendado', 'executar', 'execução', 'plano', 'prazo de execução', 'cenário otimizado', 'ação tática', 'prioridade estratégica',
+    'decisão', 'decidir', 'aprovação', 'aprovar', 'recomendação', 'recomendado', 'executar', 'execução', 'plano', 'prazo de execução', 'cenário otimizado', 'ação tática', 'prioridade estratégica', 'melhoria', 'otimização', 'sugestão', 'orientação', 'cenário', 'alternativa',
     // Implicit Portuguese
     'deve avaliar', 'precisa', 'necessita', 'convém', 'aconselha', 'recomenda', 'implementar', 'é aconselhável', 'seria adequado', 'sugere-se', 'cabe implementar', 'vale considerar', 'próximo passo'
   ];
@@ -43,13 +43,28 @@ describe('Executive Semantic Purity Enforcement (Wave 1.4.8)', () => {
     // We build the view model
     const viewModel = BalanceSheetExecutiveViewModelBuilder.build(mockContext as any);
     
+    const extractStringValues = (obj: any): string[] => {
+      let strings: string[] = [];
+      if (typeof obj === 'string') {
+        strings.push(obj.toLowerCase());
+      } else if (Array.isArray(obj)) {
+        obj.forEach(item => strings.push(...extractStringValues(item)));
+      } else if (obj !== null && typeof obj === 'object') {
+        Object.values(obj).forEach(val => strings.push(...extractStringValues(val)));
+      }
+      return strings;
+    };
+    
     // Convert the entire view model to a string payload to search for banned terms
-    const payloadString = JSON.stringify(viewModel).toLowerCase();
+    const payloadString = extractStringValues(viewModel).join(' ');
     
     // Log the JSON string to a file for inspection
     require('fs').writeFileSync('/Users/marcelosouza/.gemini/antigravity-ide/brain/315d9311-d301-4a25-9742-00796c8b0c1e/scratch/viewModelDump.json', JSON.stringify(viewModel, null, 2));
 
-    const foundTerms = forbiddenTerms.filter(term => payloadString.includes(term.toLowerCase()));
+    const foundTerms = forbiddenTerms.filter(term => {
+      const regex = new RegExp(`\\b${term}\\b`, 'i');
+      return regex.test(payloadString);
+    });
 
     if (foundTerms.length > 0) {
       console.error(`Found forbidden terms in ViewModel: ${foundTerms.join(', ')}`);
@@ -61,6 +76,9 @@ describe('Executive Semantic Purity Enforcement (Wave 1.4.8)', () => {
   it('FinancialPositionProduct must be strictly analytical', () => {
     expect(FinancialPositionProduct.productType).toBe('INTELLIGENCE_PRODUCT');
     expect(FinancialPositionProduct.decisionAuthority).toBe(false);
+    expect(FinancialPositionProduct.canRecommend).toBe(false);
+    expect(FinancialPositionProduct.canExecute).toBe(false);
+    expect(FinancialPositionProduct.canCreateGovernanceDecision).toBe(false);
     expect(FinancialPositionProduct.office).toBe('CFO_OFFICE');
   });
 

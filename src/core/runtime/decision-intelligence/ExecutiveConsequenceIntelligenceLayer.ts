@@ -26,16 +26,16 @@ export class ExecutiveConsequenceIntelligenceLayer {
       };
     } else if (isModerate) {
       return {
-        consequenceOfAction: 'A otimização dos prazos de giro e redução de despesas não essenciais estabilizará as reservas de caixa sem necessidade de aportes adicionais.',
+        consequenceOfAction: 'A otimização dos ciclos de giro e redução de despesas não essenciais estabilizará as reservas de caixa sem necessidade de aportes adicionais.',
         consequenceOfInaction: 'A manutenção da queima de caixa sem ajuste estrutural erosionará gradualmente a reserva de contingência, elevando a vulnerabilidade a choques de liquidez.',
-        impactHorizon: 'Curto Prazo (3-6 meses)',
+        impactHorizon: 'ciclo imediato (3-6 meses)',
         reversibility: 'Recuperação possível mediante ação rápida'
       };
     } else {
       return {
         consequenceOfAction: 'A alocação de caixa livre em Capex produtivo ou reservas de rendimento acelerará o crescimento orgânico e a solidez patrimonial.',
-        consequenceOfInaction: 'A ausência de reinvestimento planejado dos excedentes de caixa pode gerar obsolescência operacional no médio prazo, reduzindo a competitividade.',
-        impactHorizon: 'Médio a Longo Prazo (12+ meses)',
+        consequenceOfInaction: 'A ausência de reinvestimento planejado dos excedentes de caixa pode gerar obsolescência operacional no médio ciclo, reduzindo a competitividade.',
+        impactHorizon: 'Médio a longo horizonte (12+ meses)',
         reversibility: 'Alta possibilidade de recuperação'
       };
     }

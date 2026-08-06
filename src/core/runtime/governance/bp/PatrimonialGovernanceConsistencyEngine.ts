@@ -152,7 +152,7 @@ export class PatrimonialGovernanceConsistencyEngine {
     const ce = getIndicatorValue('Composição do Endividamento');
 
     if (lc !== null && lc < 1.00) {
-      forcedDisclosures.push('Divulgação Prudencial Obrigatória: Liquidez Corrente inferior a 1.00, indicando pressão estrutural de curto prazo.');
+      forcedDisclosures.push('Divulgação Prudencial Obrigatória: Liquidez Corrente inferior a 1.00, indicando pressão estrutural de ciclo imediato.');
       criticalOverrides++;
     }
     if (ls !== null && ls < 0.70) {
@@ -168,7 +168,7 @@ export class PatrimonialGovernanceConsistencyEngine {
       criticalOverrides++;
     }
     if (ce !== null && ce > 0.70) {
-      forcedDisclosures.push('Concentração de Obrigações no Curto Prazo: Perfil de endividamento fortemente concentrado no curto prazo.');
+      forcedDisclosures.push('Concentração de Obrigações no ciclo imediato: Perfil de endividamento fortemente concentrado no ciclo imediato.');
       criticalOverrides++;
     }
 

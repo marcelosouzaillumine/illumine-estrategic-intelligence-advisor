@@ -22,7 +22,7 @@ export function generateBoardAgenda(
   resolutions: BoardResolution[]
 ): BoardAgenda {
   const agenda: BoardAgenda = {
-    estrategia: { title: '1. Estratégia e Cenários', items: [] },
+    estrategia: { title: '1. Estratégia e contextos', items: [] },
     financas: { title: '2. Desempenho Fiduciário', items: [] },
     governanca: { title: '3. Governança e Liderança', items: [] },
     riscos: { title: '4. Riscos Institucionais', items: [] },
@@ -30,7 +30,7 @@ export function generateBoardAgenda(
 
   // Populate Strategy
   if (!input.isBaseline && input.executiveRecommendation === '1º Recomendado') {
-    agenda.estrategia.items.push(`Avaliação do Cenário Proposto: "${input.scenarioName}"`);
+    agenda.estrategia.items.push(`Avaliação do contexto Proposto: "${input.scenarioName}"`);
   } else {
     agenda.estrategia.items.push('Acompanhamento da Estratégia Vigente (Baseline)');
   }
@@ -46,7 +46,7 @@ export function generateBoardAgenda(
     agenda.governanca.items.push('Revisão da Pressão Sistêmica (GPI Elevado)');
   }
   if (input.longTermRoadmapItemsCount > 0) {
-    agenda.governanca.items.push('Acompanhamento do Roadmap Institucional de Longo Prazo');
+    agenda.governanca.items.push('Acompanhamento do Roadmap Institucional de longo horizonte');
   }
 
   // Populate Risks

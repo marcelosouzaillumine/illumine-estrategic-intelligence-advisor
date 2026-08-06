@@ -77,17 +77,17 @@ export class ExecutiveBoardReportEngine {
     switch (scenario) {
       case 'CONSTITUTIONAL_BREACH':
         executiveSummary = 
-          "A holding enfrenta um cenário de governança gravemente degradado devido a desvios críticos nas alçadas de tomada de decisão estatutária. " +
+          "A holding enfrenta um contexto de governança gravemente degradado devido a desvios críticos nas alçadas de tomada de decisão estatutária. " +
           "Uma auditoria interna detectou violações diretas de limites de aprovação pelo Board e inatividade temporária do comitê de ética no tratamento de sinalizações operacionais. " +
           "Este desalinhamento constitucional resultou no rebaixamento do score geral de governança para o limite crítico de 39 pontos, acionando overrides imediatos da Constituição Cognitiva para proteger os ativos sociais. " +
           "Exige atenção imediata a suspensão de qualquer aprovação de fundos extraordinários sem dupla assinatura digital e a restauração urgente das alçadas estatutárias do Board. " +
           "A principal oportunidade para gerar valor neste momento de crise é revisar integralmente a governança digital, reconfigurando os tokens criptográficos de alçada e formalizando políticas rígidas de compliance. " +
-          "Essa intervenção rápida restabelecerá a confiança dos acionistas e regularizará a conformidade da holding perante órgãos reguladores no curto prazo.";
+          "Essa intervenção rápida restabelecerá a confiança dos acionistas e regularizará a conformidade da holding perante órgãos reguladores no ciclo imediato.";
         break;
 
       case 'LIQUIDITY_SHOCK':
         executiveSummary = 
-          "A holding sofre um colapso financeiro fiduciário agudo devido a um severo choque de liquidez operacional de curto prazo. " +
+          "A holding sofre um colapso financeiro fiduciário agudo devido a um severo choque de liquidez operacional de ciclo imediato. " +
           "O caixa disponível projetado cobre menos de 90 dias de custos operacionais fixos, com alta exposição a passivos fiscais exigíveis de imediato. " +
           "A resiliência financeira declinou drasticamente para a pontuação de 15, gerando um cap geral fiduciário de 39 pontos na avaliação composto do ESGIM. " +
           "Esta crise ocorre por oscilações drásticas de custos fixos sem reservas de contingência suficientes para absorver o impacto. " +
@@ -108,7 +108,7 @@ export class ExecutiveBoardReportEngine {
 
       case 'MARKET_DISRUPTION':
         executiveSummary = 
-          "A organização opera em um patamar financeiro e operacional consolidado no presente, mas as métricas prospectivas indicam vulnerabilidade severa a inovações de mercado de médio prazo. " +
+          "A organização opera em um patamar financeiro e operacional consolidado no presente, mas as métricas prospectivas indicam vulnerabilidade severa a inovações de mercado de médio ciclo. " +
           "A holding apresenta rigidez na adaptação do portfólio tecnológico perante novos concorrentes de modelo de negócio ágil, rebaixando a resiliência prospectiva para o patamar preocupante de 30. " +
           "A causa principal é a ausência de fóruns dedicados a novos modelos de negócio e competências em tecnologia no conselho. " +
           "Exige atenção imediata a aprovação de recursos para reciclagem estratégica de competências e análise de portfólio disruptivo. " +
@@ -119,7 +119,7 @@ export class ExecutiveBoardReportEngine {
         executiveSummary = 
           "A holding encontra-se sob pressão ativa de desalinhamento missional, onde custos fixos administrativos e de escala operacionais estão drenando recursos financeiros que deveriam apoiar a atividade social principal da organização. " +
           "A continuidade da missão original caiu para score 35, limitando a maturidade global ao ceiling de 59 pontos. " +
-          "Esse conflito fiduciário-missional surge pela priorização de metas financeiras comerciais de curto prazo. " +
+          "Esse conflito fiduciário-missional surge pela priorização de metas financeiras comerciais de ciclo imediato. " +
           "Exige atenção imediata a revisão orçamentária do comitê de gastos e o restabelecimento da alocação de caixa obrigatória em prol do propósito existencial do fundador. " +
           "A oportunidade de valor reside em formalizar um comitê misto de preservação do propósito e integrar cláusulas contratuais societárias permanentes de legado, atraindo investidores de propósito e blindando a reputação institucional.";
         break;
@@ -128,7 +128,7 @@ export class ExecutiveBoardReportEngine {
       default:
         executiveSummary = 
           "A holding apresenta um desempenho de governança excepcional no período avaliado. " +
-          "Sob o cenário padrão de baseline saudável, as operações estão estruturadas com processos formalizados e comitês de governança ativos. " +
+          "Sob o contexto padrão de baseline saudável, as operações estão estruturadas com processos formalizados e comitês de governança ativos. " +
           "A resiliência geral (IRI score 76) reflete a solidez das contas fiduciárias e a proteção adequada do legado corporativo. " +
           "Esta condição positiva ocorre devido à segregação eficiente de alçadas decisórias no Board, manutenção de reservas financeiras equivalentes a seis meses de operação e forte alinhamento entre as decisões estratégicas e o propósito existencial do fundador. " +
           "No entanto, para fins de mitigação preventiva, o Conselho deve atentar para a institucionalização contínua de processos informais e o planejamento antecipado de sucessão, evitando gargalos de liderança futura. " +
@@ -152,7 +152,7 @@ export class ExecutiveBoardReportEngine {
       principalRisks.push("[MODERATE] Desalinhamento Normativo: Riscos regulatórios decorrentes de desvios do estatuto social.");
     } else if (scenario === 'LIQUIDITY_SHOCK') {
       principalRisks.push("[CRITICAL] Ruptura Fiduciária de Caixa: Runway operacional projetado inferior a 90 dias.");
-      principalRisks.push("[CRITICAL] Insolvência de Curto Prazo: Alta volatilidade de custos fixos expondo o patrimônio a execuções fiscais.");
+      principalRisks.push("[CRITICAL] Insolvência de ciclo imediato: Alta volatilidade de custos fixos expondo o patrimônio a execuções fiscais.");
       principalRisks.push("[HIGH] Estagnação do Plano Estratégico: Bloqueio financeiro impedindo a implantação de fases de estruturação.");
       principalRisks.push("[HIGH] Desmobilização Operacional: Risco de paralisação de projetos e corte forçado de equipes essenciais.");
       principalRisks.push("[MODERATE] Perda de Crédito Corporativo: Rebaixamento da classificação de risco fiduciário junto a parceiros.");
@@ -170,7 +170,7 @@ export class ExecutiveBoardReportEngine {
       principalRisks.push("[LOW] Custos Altos de Migração Tecnológica: Necessidade de pesados investimentos em novos sistemas.");
     } else if (scenario === 'MISSION_STRESS') {
       principalRisks.push("[HIGH] Conflito Fiduciário-Missional: Alocação excessiva de caixa em despesas acessórias de escala.");
-      principalRisks.push("[HIGH] Desalinhamento de Propósito Fundador: Decisões comerciais de curto prazo sufocando a missão principal.");
+      principalRisks.push("[HIGH] Desalinhamento de Propósito Fundador: Decisões comerciais de ciclo imediato sufocando a missão principal.");
       principalRisks.push("[MODERATE] Risco de Imagem Institucional: Perda de doadores/parceiros e investidores de impacto por perda de propósito.");
       principalRisks.push("[MODERATE] Fracionamento de Marca: Dissonância entre o propósito declarado e a operação real.");
       principalRisks.push("[LOW] Queda no Engajamento de Talentos: Clima organizacional afetado por desvio de valores essenciais.");
@@ -186,41 +186,41 @@ export class ExecutiveBoardReportEngine {
     // Consolidate opportunities classified by timeframe
     const principalOpportunities: string[] = [];
     if (scenario === 'CONSTITUTIONAL_BREACH') {
-      principalOpportunities.push("[Curto Prazo] Auditoria Ética Extraordinária: Saneamento imediato de regras do conselho.");
-      principalOpportunities.push("[Curto Prazo] Reconfiguração de Tokens Digitais: Endurecer limites de assinaturas decisórias digitais.");
-      principalOpportunities.push("[Médio Prazo] Instalação de Ouvidoria Independente: Canal de denúncias externo para mitigar riscos.");
-      principalOpportunities.push("[Médio Prazo] Revisão de Alçadas Estatutárias: Atualização e divisão colegiada de responsabilidades.");
-      principalOpportunities.push("[Longo Prazo] Certificação de Governança Compliance: Consolidar práticas para atrair fundos institucionais.");
+      principalOpportunities.push("[ciclo imediato] Auditoria Ética Extraordinária: Saneamento imediato de regras do conselho.");
+      principalOpportunities.push("[ciclo imediato] Reconfiguração de Tokens Digitais: Endurecer limites de assinaturas decisórias digitais.");
+      principalOpportunities.push("[médio ciclo] Instalação de Ouvidoria Independente: Canal de denúncias externo para mitigar riscos.");
+      principalOpportunities.push("[médio ciclo] Revisão de Alçadas Estatutárias: Atualização e divisão colegiada de responsabilidades.");
+      principalOpportunities.push("[longo horizonte] Certificação de Governança Compliance: Consolidar práticas para atrair fundos institucionais.");
     } else if (scenario === 'LIQUIDITY_SHOCK') {
-      principalOpportunities.push("[Curto Prazo] Captação de Aporte de Emergência: Atrair sócios para recomposição imediata do capital de giro.");
-      principalOpportunities.push("[Curto Prazo] Renegociação de Custos Fixos: Contratos com fornecedores para alongamento de prazos de pagamento.");
-      principalOpportunities.push("[Médio Prazo] Securitização de Recebíveis: Antecipar recursos para recomposição de reserva líquida.");
-      principalOpportunities.push("[Médio Prazo] Estruturação de Comitê de Tesouraria: Controles fiduciários semanais para evitar quebras.");
-      principalOpportunities.push("[Longo Prazo] Parcerias Corporativas de Risco: Compartilhamento de infraestrutura operacional.");
+      principalOpportunities.push("[ciclo imediato] Captação de Aporte de Emergência: Atrair sócios para recomposição imediata do capital de giro.");
+      principalOpportunities.push("[ciclo imediato] Renegociação de Custos Fixos: Contratos com fornecedores para alongamento de ciclos de pagamento.");
+      principalOpportunities.push("[médio ciclo] Securitização de Recebíveis: Antecipar recursos para recomposição de reserva líquida.");
+      principalOpportunities.push("[médio ciclo] Estruturação de Comitê de Tesouraria: Controles fiduciários semanais para evitar quebras.");
+      principalOpportunities.push("[longo horizonte] Parcerias Corporativas de Risco: Compartilhamento de infraestrutura operacional.");
     } else if (scenario === 'FOUNDER_EXIT') {
-      principalOpportunities.push("[Curto Prazo] Instauração do Comitê de Sucessão: Mapear candidatos a cargos chaves internos.");
-      principalOpportunities.push("[Curto Prazo] Manualização de Processos de Marca: Coletar e documentar rotinas dos fundadores.");
-      principalOpportunities.push("[Médio Prazo] Profissionalização da Gestão: Contratação de CEO externo com metas vinculadas ao legado.");
-      principalOpportunities.push("[Médio Prazo] Conselho de Administração Plural: Incluir conselheiros independentes de mercado.");
-      principalOpportunities.push("[Longo Prazo] Consolidação da Holding Familiar: Regimento de governança e herança blindados.");
+      principalOpportunities.push("[ciclo imediato] Instauração do Comitê de Sucessão: Mapear candidatos a cargos chaves internos.");
+      principalOpportunities.push("[ciclo imediato] Manualização de Processos de Marca: Coletar e documentar rotinas dos fundadores.");
+      principalOpportunities.push("[médio ciclo] Profissionalização da Gestão: Contratação de CEO externo com metas vinculadas ao legado.");
+      principalOpportunities.push("[médio ciclo] Conselho de Administração Plural: Incluir conselheiros independentes de mercado.");
+      principalOpportunities.push("[longo horizonte] Consolidação da Holding Familiar: Regimento de governança e herança blindados.");
     } else if (scenario === 'MARKET_DISRUPTION') {
-      principalOpportunities.push("[Curto Prazo] Reciclagem Tecnológica do Conselho: Workshops de tendências digitais e inovações.");
-      principalOpportunities.push("[Curto Prazo] Mapeamento de Novos Modelos: Teste de protótipos de vendas online e modelos recorrentes.");
-      principalOpportunities.push("[Médio Prazo] Fundo de Investimento em Inovação: Reservas para aquisição de startups adjacentes.");
-      principalOpportunities.push("[Médio Prazo] Parcerias Tecnológicas Estratégicas: Integração com hubs de inovação.");
-      principalOpportunities.push("[Longo Prazo] Diversificação Total de Receita: Reduzir dependência do modelo tradicional de negócios.");
+      principalOpportunities.push("[ciclo imediato] Reciclagem Tecnológica do Conselho: Workshops de tendências digitais e inovações.");
+      principalOpportunities.push("[ciclo imediato] Mapeamento de Novos Modelos: Teste de protótipos de vendas online e modelos recorrentes.");
+      principalOpportunities.push("[médio ciclo] Fundo de Investimento em Inovação: Reservas para aquisição de startups adjacentes.");
+      principalOpportunities.push("[médio ciclo] Parcerias Tecnológicas Estratégicas: Integração com hubs de inovação.");
+      principalOpportunities.push("[longo horizonte] Diversificação Total de Receita: Reduzir dependência do modelo tradicional de negócios.");
     } else if (scenario === 'MISSION_STRESS') {
-      principalOpportunities.push("[Curto Prazo] Auditoria Fiduciária de Propósito: Revisar gastos e cortar supérfluos operacionais.");
-      principalOpportunities.push("[Curto Prazo] Readequação do Orçamento da Missão: Garantir alocação direta de receitas à finalidade principal.");
-      principalOpportunities.push("[Médio Prazo] Comitê de Preservação do Legado: Fórum permanente para avaliar alinhamento de decisões.");
-      principalOpportunities.push("[Médio Prazo] Captação Verde / ESG Corporativo: Fundos internacionais voltados a empresas com propósito.");
-      principalOpportunities.push("[Longo Prazo] Vinculação Criptográfica de Propósito: Cláusulas permanentes no estatuto social da marca.");
+      principalOpportunities.push("[ciclo imediato] Auditoria Fiduciária de Propósito: Revisar gastos e cortar supérfluos operacionais.");
+      principalOpportunities.push("[ciclo imediato] Readequação do Orçamento da Missão: Garantir alocação direta de receitas à finalidade principal.");
+      principalOpportunities.push("[médio ciclo] Comitê de Preservação do Legado: Fórum permanente para avaliar alinhamento de decisões.");
+      principalOpportunities.push("[médio ciclo] Captação Verde / ESG Corporativo: Fundos internacionais voltados a empresas com propósito.");
+      principalOpportunities.push("[longo horizonte] Vinculação Criptográfica de Propósito: Cláusulas permanentes no estatuto social da marca.");
     } else {
-      principalOpportunities.push("[Curto Prazo] Revisão dos Manuais de Governança: Atualizar rotinas internas e manuais do Board.");
-      principalOpportunities.push("[Curto Prazo] Criação de Comitê de Sucessão Preventivo: Preparar sucessores com antecedência.");
-      principalOpportunities.push("[Médio Prazo] Início da Phase 4 do Roadmap: Acelerar diversificação prospectiva de portfólio.");
-      principalOpportunities.push("[Médio Prazo] Expansão Corporativa para Novos Estados: Ampliar margens aproveitando a alta maturidade.");
-      principalOpportunities.push("[Longo Prazo] Consolidação Multigeração do Legado: Criar estrutura indestrutível de patrimônio.");
+      principalOpportunities.push("[ciclo imediato] Revisão dos Manuais de Governança: Atualizar rotinas internas e manuais do Board.");
+      principalOpportunities.push("[ciclo imediato] Criação de Comitê de Sucessão Preventivo: Preparar sucessores com antecedência.");
+      principalOpportunities.push("[médio ciclo] Início da Phase 4 do Roadmap: Acelerar diversificação prospectiva de portfólio.");
+      principalOpportunities.push("[médio ciclo] Expansão Corporativa para Novos Estados: Ampliar margens aproveitando a alta maturidade.");
+      principalOpportunities.push("[longo horizonte] Consolidação Multigeração do Legado: Criar estrutura indestrutível de patrimônio.");
     }
 
     // 7. Board Priorities
@@ -277,7 +277,7 @@ export class ExecutiveBoardReportEngine {
       recommendedDecisions.push(
         "Decisão: Congelar Planos de Escala do Roadmap | " +
         "Justificativa: Direcionamento total de caixa para a contenção operacional. | " +
-        "Benefício: Redução da pressão de desembolso no curto prazo. | " +
+        "Benefício: Redução da pressão de desembolso no ciclo imediato. | " +
         "Horizonte: 90 dias."
       );
     } else if (scenario === 'FOUNDER_EXIT') {
@@ -322,7 +322,7 @@ export class ExecutiveBoardReportEngine {
     } else {
       recommendedDecisions.push(
         "Decisão: Iniciar Planejamento Preventivo de Sucessão | " +
-        "Justificativa: Holding operando em conformidade, mas necessitando proteção a longo prazo. | " +
+        "Justificativa: Holding operando em conformidade, mas necessitando proteção a longo horizonte. | " +
         "Benefício: Garantia preventiva de transição de ciclo sem atritos. | " +
         "Horizonte: 12 meses."
       );
@@ -337,7 +337,7 @@ export class ExecutiveBoardReportEngine {
     // 11. Explainability Logs (Component 10)
     const explainability: string[] = [
       "Inteligências Analisadas: Fiduciary Intelligence, Institutional Intelligence, Prospective Intelligence, Mission Alignment Engine.",
-      `Evidências Coletadas: Relatórios fiduciários de DRE/DFC, registros estatutários do Board e simulação de cenário: ${scenario}.`,
+      `Evidências Coletadas: Relatórios fiduciários de DRE/DFC, registros estatutários do Board e simulação de contexto: ${scenario}.`,
       "Regras Fiduciárias Aplicadas: Constituição Cognitiva com limitação de teto e overrides em caso de desvios.",
       `Modo de Monitoramento: ${mode} | Linha Temporal: ${monitoring.timelineMode}.`
     ];

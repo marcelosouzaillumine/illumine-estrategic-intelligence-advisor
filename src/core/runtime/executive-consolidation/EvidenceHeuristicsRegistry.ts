@@ -22,7 +22,7 @@ export class EvidenceHeuristicsRegistry {
     if (nameLower.includes('corrente') || nameLower.includes('current ratio')) {
       return {
         healthyRange: '> 1.5x',
-        interpretation: value >= 1.5 ? 'Liquidez confortável' : (value >= 1.0 ? 'Liquidez restrita' : 'Risco de insolvência curto prazo'),
+        interpretation: value >= 1.5 ? 'Liquidez confortável' : (value >= 1.0 ? 'Liquidez restrita' : 'Risco de insolvência ciclo imediato'),
         trend: 'stable',
         confidence: 'Alta'
       };

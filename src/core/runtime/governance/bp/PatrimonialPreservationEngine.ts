@@ -86,7 +86,7 @@ export class PatrimonialPreservationEngine {
       if (lacClassification === 'CRITICAL') {
         if (bufferClassification === 'HEALTHY' && isLiquidityHealthy && isDebtHealthy) {
           lacClassification = 'ATTENTION';
-          lacRationale += ' Contudo, a margem de segurança patrimonial, liquidez e endividamento estão saudáveis, mitigando o risco de curto prazo.';
+          lacRationale += ' Contudo, a margem de segurança patrimonial, liquidez e endividamento estão saudáveis, mitigando o risco de ciclo imediato.';
         }
       }
 

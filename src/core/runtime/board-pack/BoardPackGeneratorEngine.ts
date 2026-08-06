@@ -92,7 +92,7 @@ export class BoardPackGeneratorEngine {
       meetingCriticality: "LOW",
       content: [
         "Plataforma de Suporte à Decisão Cognitiva de Governança",
-        `Cenário de Operação: ${scenario}`,
+        `contexto de Operação: ${scenario}`,
         `Manchete Principal: "${report.executiveHeadline}"`,
         "Certificação Cognitiva: Level 5 (Governance Cognitive Assurance Framework)"
       ]
@@ -336,7 +336,7 @@ export class BoardPackGeneratorEngine {
       content: [
         `Lineage Hash Criptográfico: ${report.lineageHash}`,
         `ID do Relatório Base: ${report.reportId}`,
-        `Cenário Operacional Validado: ${scenario}`,
+        `contexto Operacional Validado: ${scenario}`,
         `Modo do Histórico de Dados: ${mode} (${monitoring.timelineMode})`,
         "Algoritmos de Validação: ESGIM v1.0, IRI v1.0, BPE v1.0, GRE v1.0, GML v1.0, EBRG v1.0, BAI v1.0, GLL v1.0",
         `Actor ID Autorizado: ${actorId || 'SYSTEM'}`,

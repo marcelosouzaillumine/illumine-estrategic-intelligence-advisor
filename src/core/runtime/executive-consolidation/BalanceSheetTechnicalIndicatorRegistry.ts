@@ -16,10 +16,10 @@ export const BalanceSheetTechnicalIndicatorRegistry: Record<string, TechnicalInd
     technicalName: 'Margem de Segurança Patrimonial',
     executiveName: 'Margem de Segurança Patrimonial',
     formula: 'Capital Circulante Próprio / Ativo Circulante',
-    purpose: 'Medir a proporção do ativo de curto prazo financiado por recursos próprios de longo prazo.',
+    purpose: 'Medir a proporção do ativo de ciclo imediato financiado por recursos próprios de longo horizonte.',
     limitations: 'Não considera a qualidade ou liquidez real dos ativos circulantes.',
     referenceRange: '> 0 (Positiva)',
-    methodologicalNotes: 'Depende diretamente da classificação contábil correta de curto e longo prazo.'
+    methodologicalNotes: 'Depende diretamente da classificação contábil correta de curto e longo horizonte.'
   },
   'Reserva Patrimonial para Choques': {
     technicalName: 'Capacidade de Absorção de Perdas',
@@ -46,13 +46,13 @@ export const BalanceSheetTechnicalIndicatorRegistry: Record<string, TechnicalInd
     purpose: 'Projetar quantos meses a empresa pode operar sem gerar receita ou captar recursos (Runway).',
     limitations: 'Estático, assume linearidade nas despesas futuras.',
     referenceRange: '> 6 meses',
-    methodologicalNotes: 'Uso restrito a análises de stress de curtíssimo prazo.'
+    methodologicalNotes: 'Uso restrito a análises de stress de ciclo imediato.'
   },
   'Velocidade de Erosão Patrimonial': {
     technicalName: 'Velocidade de Erosão Patrimonial',
     executiveName: 'Velocidade de Erosão Patrimonial',
     formula: 'Déficit Operacional Recorrente / Patrimônio Líquido',
-    purpose: 'Medir o ritmo de destruição de capital em cenários de turnaround.',
+    purpose: 'Medir o ritmo de destruição de capital em contextos de turnaround.',
     limitations: 'Altamente volátil entre os trimestres.',
     referenceRange: '< 0',
     methodologicalNotes: 'Indicador preditivo de falência estrutural.'
@@ -63,7 +63,7 @@ export const BalanceSheetTechnicalIndicatorRegistry: Record<string, TechnicalInd
     technicalName: 'Liquidez Corrente',
     executiveName: 'Liquidez Corrente',
     formula: 'Ativo Circulante / Passivo Circulante',
-    purpose: 'Medir a capacidade folgada de honrar compromissos de curto prazo.',
+    purpose: 'Medir a capacidade folgada de honrar compromissos de ciclo imediato.',
     limitations: 'Inclui estoques, que podem ter baixa liquidez imediata.',
     referenceRange: '> 1.2',
     methodologicalNotes: 'Valores muito altos indicam capital ocioso.'
@@ -81,7 +81,7 @@ export const BalanceSheetTechnicalIndicatorRegistry: Record<string, TechnicalInd
     technicalName: 'Liquidez Imediata',
     executiveName: 'Liquidez Imediata',
     formula: 'Disponibilidades / Passivo Circulante',
-    purpose: 'Mensurar a capacidade de cobrir as dívidas de curto prazo apenas com o caixa livre.',
+    purpose: 'Mensurar a capacidade de cobrir as dívidas de ciclo imediato apenas com o caixa livre.',
     limitations: 'Valores altos sacrificam a rentabilidade.',
     referenceRange: '> 0.2',
     methodologicalNotes: 'Indicador de estresse máximo.'
@@ -149,7 +149,7 @@ export const BalanceSheetTechnicalIndicatorRegistry: Record<string, TechnicalInd
     purpose: 'Medir a capacidade de financiar a expansão do capital de giro.',
     limitations: 'Dinâmico, dependente de premissas de NCG.',
     referenceRange: '> 2.0',
-    methodologicalNotes: 'Avalia o fôlego de curto/médio prazo.'
+    methodologicalNotes: 'Avalia o fôlego de curto/médio ciclo.'
   },
 
   // --- Capital de Giro ---
@@ -157,7 +157,7 @@ export const BalanceSheetTechnicalIndicatorRegistry: Record<string, TechnicalInd
     technicalName: 'Capital de Giro Líquido',
     executiveName: 'Capital de Giro Líquido',
     formula: 'Ativo Circulante - Passivo Circulante',
-    purpose: 'Representar a folga financeira de curto prazo em termos absolutos.',
+    purpose: 'Representar a folga financeira de ciclo imediato em termos absolutos.',
     limitations: 'Não informa se o giro está bem gerido, apenas se há excedente ou déficit estrutural.',
     referenceRange: '> 0 (Positivo)',
     methodologicalNotes: 'Pode ser mascarado por estoques obsoletos.'
@@ -174,7 +174,7 @@ export const BalanceSheetTechnicalIndicatorRegistry: Record<string, TechnicalInd
   'Ciclo Financeiro': {
     technicalName: 'Ciclo Financeiro',
     executiveName: 'Ciclo Financeiro',
-    formula: 'Prazo Médio de Estoque + Prazo Médio de Recebimento - Prazo Médio de Pagamento',
+    formula: 'ciclo Médio de Estoque + ciclo Médio de Recebimento - ciclo Médio de Pagamento',
     purpose: 'Medir os dias de "vazio de caixa" que precisam ser financiados.',
     limitations: 'Usa saldos finais de balanço, que podem ter sazonalidades extremas.',
     referenceRange: 'Quanto menor, melhor. (Até negativo)',

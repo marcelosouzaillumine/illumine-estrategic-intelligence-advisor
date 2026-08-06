@@ -211,7 +211,7 @@ export class PredictiveGovernanceEngine {
         domains,
         value: 1000,
         motivation,
-        assumptions: ['Simulação de cenário preditivo'],
+        assumptions: ['Simulação de contexto preditivo'],
         expectedOutcomes: ['Resultado simulado'],
         timestamp: new Date(Date.now() + t * 24 * 60 * 60 * 1000).toISOString(),
         approverId: 'USR-SIM',

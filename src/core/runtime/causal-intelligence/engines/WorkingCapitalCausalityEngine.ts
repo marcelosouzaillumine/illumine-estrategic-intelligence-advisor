@@ -15,7 +15,7 @@ export class WorkingCapitalCausalityEngine {
     const workingCapitalPressure = curr.workingCapital < prev.workingCapital || curr.workingCapital < 0;
 
     if (workingCapitalPressure) {
-      const cause = 'DILATAÇÃO_DE_PRAZOS_DE_RECEBIMENTO';
+      const cause = 'DILATAÇÃO_DE_ciclos_DE_RECEBIMENTO';
       const driver = 'PRESSÃO_DE_CAPITAL_DE_GIRO';
       const effect = 'CONSUMO_DE_FLUXO_DE_CAIXA';
       const narrative = 'Dilatação no ciclo operacional pressionou a necessidade de capital de giro, reduzindo a liquidez.';

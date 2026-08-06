@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Outlet, Link, useLocation } from 'react-router-dom';
 import { getLocalizedRoute, RouteKey, SupportedLocale } from '../../../../core/routing/internationalRoutes';
-import { Menu, X, ArrowRight } from 'lucide-react';
+import { Menu, X, ArrowRight, ChevronDown } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { ExecutiveCopilotWidget } from '../../../ui/public/institutional/copilot/ExecutiveCopilotWidget';
 import { LanguageSelector } from '../../../ui/public/institutional/LanguageSelector';
@@ -36,14 +36,47 @@ export function InstitutionalLayout() {
 
   const currentLocale = (i18n.language === 'en-US' ? 'en-US' : i18n.language === 'es-ES' ? 'es-ES' : 'pt-BR') as SupportedLocale;
 
-  const navLinks = [
-    { label: tNav('nav.manifesto'), href: getLocalizedRoute('MANIFESTO', currentLocale) },
-    { label: tNav('nav.platform'), href: getLocalizedRoute('PLATFORM', currentLocale) },
-    { label: tNav('nav.intelligences'), href: getLocalizedRoute('DOMAINS', currentLocale) },
-    { label: tNav('nav.why_illumine'), href: getLocalizedRoute('WHY', currentLocale) },
-    { label: tNav('nav.governance'), href: getLocalizedRoute('GOVERNANCE', currentLocale) },
-    { label: tNav('nav.intelligence_center'), href: getLocalizedRoute('INTELLIGENCE_CENTER', currentLocale) },
-    { label: tNav('nav.advisor_network'), href: getLocalizedRoute('ADVISOR_NETWORK', currentLocale) },
+  type NavNode = { label: string; subtitle?: string; href?: string; children?: NavNode[] };
+
+  const navLinks: NavNode[] = [
+    { 
+      label: tNav('nav.platform'),
+      children: [
+        { label: tNav('nav.manifesto'), href: getLocalizedRoute('MANIFESTO', currentLocale) },
+        { label: tNav('nav.architecture'), href: getLocalizedRoute('PLATFORM', currentLocale) },
+        { label: tNav('nav.intelligence_network'), href: getLocalizedRoute('DOMAINS', currentLocale) },
+        { label: 'Trust Architecture™', href: getLocalizedRoute('GOVERNANCE', currentLocale) },
+      ]
+    },
+    { 
+      label: tNav('nav.solutions'),
+      children: [
+        { 
+          label: 'Enterprise Intelligence™', 
+          subtitle: tNav('nav.enterprise_sub'),
+          href: getLocalizedRoute('ENTERPRISE', currentLocale) 
+        },
+        { 
+          label: 'Nonprofit Intelligence™', 
+          subtitle: tNav('nav.nonprofit_sub'),
+          href: getLocalizedRoute('NONPROFIT', currentLocale) 
+        },
+      ]
+    },
+    {
+      label: tNav('nav.ecosystem'),
+      children: [
+        { label: 'Executive Intelligence Center™', href: getLocalizedRoute('INTELLIGENCE_CENTER', currentLocale) },
+        { label: 'Advisor Network™', href: getLocalizedRoute('ADVISOR_NETWORK', currentLocale) },
+      ]
+    },
+    {
+      label: tNav('nav.trust'),
+      children: [
+        { label: 'Privacy Intelligence™', href: getLocalizedRoute('PRIVACY', currentLocale) },
+        { label: tNav('nav.security_arch'), href: getLocalizedRoute('SECURITY', currentLocale) },
+      ]
+    }
   ];
 
   return (
@@ -70,15 +103,44 @@ export function InstitutionalLayout() {
           </Link>
 
           {/* Desktop Nav */}
-          <nav className="hidden lg:flex flex-1 justify-center items-center gap-3 xl:gap-6 px-4">
+          <nav className="hidden lg:flex flex-1 justify-center items-center gap-6 xl:gap-8 px-4">
             {navLinks.map((link) => (
-              <Link 
-                key={link.href} 
-                to={link.href}
-                className="text-[13px] xl:text-[14px] font-semibold text-slate-400 hover:text-white transition-all duration-300 hover:-translate-y-0.5 text-center whitespace-nowrap"
-              >
-                {link.label}
-              </Link>
+              link.children ? (
+                <div key={link.label} className="relative group">
+                  <button className="flex items-center gap-1 text-[14px] xl:text-[16px] font-semibold text-slate-400 group-hover:text-white transition-all duration-300 text-center whitespace-nowrap">
+                    {link.label}
+                    <ChevronDown size={14} className="group-hover:rotate-180 transition-transform duration-300" />
+                  </button>
+                  <div className="absolute top-full left-1/2 -translate-x-1/2 pt-6 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 z-50">
+                    <div className="bg-black/80 border border-white/10 rounded-2xl shadow-[0_0_40px_rgba(0,0,0,0.5)] p-2 min-w-[240px] flex flex-col backdrop-blur-2xl">
+                      {link.children.map(child => (
+                        <Link
+                          key={child.href}
+                          to={child.href || ''}
+                          className="px-4 py-3 rounded-xl hover:bg-white/10 text-slate-300 hover:text-white transition-all text-sm font-medium block"
+                        >
+                          <div className="flex flex-col gap-1">
+                            <span>{child.label}</span>
+                            {child.subtitle && (
+                              <span className="text-xs text-slate-500 font-normal whitespace-normal line-clamp-2 min-w-[200px] max-w-[300px]">
+                                {child.subtitle}
+                              </span>
+                            )}
+                          </div>
+                        </Link>
+                      ))}
+                    </div>
+                  </div>
+                </div>
+              ) : (
+                <Link 
+                  key={link.href} 
+                  to={link.href || ''}
+                  className="text-[14px] xl:text-[16px] font-semibold text-slate-400 hover:text-white transition-all duration-300 hover:-translate-y-0.5 text-center whitespace-nowrap"
+                >
+                  {link.label}
+                </Link>
+              )
             ))}
           </nav>
 
@@ -88,14 +150,14 @@ export function InstitutionalLayout() {
             {user ? (
               <Link 
                 to={loginUrl}
-                className="text-[13px] xl:text-[14px] font-semibold text-slate-400 hover:text-white transition-all px-2 xl:px-4 py-2"
+                className="text-[14px] xl:text-[16px] font-semibold text-slate-400 hover:text-white transition-all px-2 xl:px-4 py-2"
               >
                 Dashboard
               </Link>
             ) : (
               <Link 
                 to={loginUrl}
-                className="text-[13px] xl:text-[14px] font-semibold text-slate-400 hover:text-white transition-all px-2 xl:px-4 py-2"
+                className="text-[14px] xl:text-[16px] font-semibold text-slate-400 hover:text-white transition-all px-2 xl:px-4 py-2"
               >
                 Login
               </Link>
@@ -117,14 +179,35 @@ export function InstitutionalLayout() {
         <div className="fixed inset-0 z-40 bg-[#0A0A0B] pt-24 px-6 flex flex-col">
           <nav className="flex flex-col gap-6 text-xl font-medium">
             {navLinks.map((link) => (
-              <Link 
-                key={link.href} 
-                to={link.href}
-                className="text-slate-300 hover:text-white transition-colors"
-                onClick={() => setMobileMenuOpen(false)}
-              >
-                {link.label}
-              </Link>
+              link.children ? (
+                <div key={link.label} className="flex flex-col gap-4">
+                  <span className="text-slate-500 text-sm uppercase tracking-wider font-bold">{link.label}</span>
+                  <div className="flex flex-col gap-4 pl-4 border-l border-white/10">
+                    {link.children.map(child => (
+                      <Link 
+                        key={child.href} 
+                        to={child.href || ''}
+                        className="text-slate-300 hover:text-white transition-colors flex flex-col gap-1"
+                        onClick={() => setMobileMenuOpen(false)}
+                      >
+                        <span>{child.label}</span>
+                        {child.subtitle && (
+                          <span className="text-sm text-slate-500 font-normal">{child.subtitle}</span>
+                        )}
+                      </Link>
+                    ))}
+                  </div>
+                </div>
+              ) : (
+                <Link 
+                  key={link.href} 
+                  to={link.href || ''}
+                  className="text-slate-300 hover:text-white transition-colors"
+                  onClick={() => setMobileMenuOpen(false)}
+                >
+                  {link.label}
+                </Link>
+              )
             ))}
           </nav>
           
@@ -187,7 +270,8 @@ export function InstitutionalLayout() {
                 <li><Link to={getLocalizedRoute('MANIFESTO', currentLocale)} className="text-[13px] font-medium text-slate-400 hover:text-amber-500 hover:translate-x-1 inline-block transition-all">{tFooter('sections.platform.manifesto')}</Link></li>
                 <li><Link to={getLocalizedRoute('PLATFORM', currentLocale)} className="text-[13px] font-medium text-slate-400 hover:text-amber-500 hover:translate-x-1 inline-block transition-all">{tFooter('sections.platform.infrastructure')}</Link></li>
                 <li><Link to={getLocalizedRoute('DOMAINS', currentLocale)} className="text-[13px] font-medium text-slate-400 hover:text-amber-500 hover:translate-x-1 inline-block transition-all">{tFooter('sections.platform.domains')}</Link></li>
-                <li><Link to="/enterprise" className="text-[13px] font-medium text-slate-400 hover:text-amber-500 hover:translate-x-1 inline-block transition-all">{tFooter('sections.platform.enterprise')}</Link></li>
+                <li><Link to={getLocalizedRoute('ENTERPRISE', currentLocale)} className="text-[13px] font-medium text-slate-400 hover:text-amber-500 hover:translate-x-1 inline-block transition-all">Enterprise Intelligence™</Link></li>
+                <li><Link to={getLocalizedRoute('NONPROFIT', currentLocale)} className="text-[13px] font-medium text-slate-400 hover:text-amber-500 hover:translate-x-1 inline-block transition-all">Nonprofit Intelligence™</Link></li>
               </ul>
             </div>
 
@@ -203,8 +287,8 @@ export function InstitutionalLayout() {
               <h4 className="text-[11px] font-bold uppercase tracking-widest text-slate-500 mb-6">{tFooter('sections.trust.title')}</h4>
               <ul className="space-y-4">
                 <li><Link to={getLocalizedRoute('GOVERNANCE', currentLocale)} className="text-[13px] font-medium text-slate-400 hover:text-amber-500 hover:translate-x-1 inline-block transition-all">{tFooter('sections.trust.trust_architecture')}</Link></li>
-                <li><Link to={getLocalizedRoute('GOVERNANCE', currentLocale)} className="text-[13px] font-medium text-slate-400 hover:text-amber-500 hover:translate-x-1 inline-block transition-all">{tFooter('sections.trust.security')}</Link></li>
-                <li><Link to="/privacidade" className="text-[13px] font-medium text-slate-400 hover:text-amber-500 hover:translate-x-1 inline-block transition-all">{tFooter('sections.trust.privacy')}</Link></li>
+                <li><Link to={getLocalizedRoute('PRIVACY', currentLocale)} className="text-[13px] font-medium text-slate-400 hover:text-amber-500 hover:translate-x-1 inline-block transition-all">Privacy Intelligence™</Link></li>
+                <li><Link to={getLocalizedRoute('SECURITY', currentLocale)} className="text-[13px] font-medium text-slate-400 hover:text-amber-500 hover:translate-x-1 inline-block transition-all">{tFooter('sections.trust.security')}</Link></li>
               </ul>
             </div>
           </div>
@@ -215,7 +299,7 @@ export function InstitutionalLayout() {
             {tFooter('bottom.copyright', { year: new Date().getFullYear() })}
           </p>
           <div className="flex items-center gap-6 text-xs font-medium text-slate-500">
-            <Link to="/privacidade" className="hover:text-white transition-colors">{tFooter('bottom.privacy_policy')}</Link>
+            <Link to="/privacy-policy" className="hover:text-white transition-colors">Privacy Policy</Link>
             <Link to="/termos" className="hover:text-white transition-colors">{tFooter('bottom.terms_of_use')}</Link>
           </div>
         </div>

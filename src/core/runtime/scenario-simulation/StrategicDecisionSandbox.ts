@@ -72,7 +72,7 @@ export class StrategicDecisionSandbox {
           break;
 
         case 'RESTRUCTURING':
-          // Reestruturação operacional: reduz drasticamente despesas, mas causa anomalias de curto prazo
+          // Reestruturação operacional: reduz drasticamente despesas, mas causa anomalias de ciclo imediato
           if (clonedInput.baseFinancials.despesasFixas) {
             clonedInput.baseFinancials.despesasFixas -= (clonedInput.baseFinancials.despesasFixas * 0.15 * intensity);
           }

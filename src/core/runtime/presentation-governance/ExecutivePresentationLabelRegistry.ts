@@ -15,7 +15,7 @@ export class ExecutivePresentationLabelRegistry {
     'DFC_BOARD_PRIORITIES_TITLE': 'Prioridades do Conselho',
     'DFC_CAUSAL_INTELLIGENCE_TITLE': 'Inteligência Causal de Caixa',
     'DFC_EARLY_WARNING_TITLE': 'Painel de Alertas Prévios',
-    'DFC_SCENARIO_SIMULATION_TITLE': 'Mecanismo de Simulação de Cenários',
+    'DFC_SCENARIO_SIMULATION_TITLE': 'Mecanismo de Simulação de contextos',
     'DFC_TECHNICAL_LAYER_TITLE': 'Camada Técnica',
     'DFC_EQE_SUMMARY_EXECUTIVE': 'Qualidade da Geração Econômica',
     'DFC_EQE_SUMMARY_TECHNICAL': 'Qualidade dos Resultados — Camada Técnica',

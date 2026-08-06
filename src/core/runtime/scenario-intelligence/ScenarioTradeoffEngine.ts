@@ -38,7 +38,7 @@ export class ScenarioTradeoffEngine {
           scenarioBId: sB.id,
           dimension: 'DFC (Caixa Operacional)',
           winnerId: sB.id,
-          tradeoffRationale: 'Cenário B protege o fluxo de caixa operacional, enquanto o Cenário A induz deterioração direta.'
+          tradeoffRationale: 'contexto B protege o fluxo de caixa operacional, enquanto o contexto A induz deterioração direta.'
         });
       } else if (dfcNodeB.impactDirection === 'NEGATIVE' && dfcNodeA.impactDirection !== 'NEGATIVE') {
         edges.push({
@@ -46,7 +46,7 @@ export class ScenarioTradeoffEngine {
           scenarioBId: sB.id,
           dimension: 'DFC (Caixa Operacional)',
           winnerId: sA.id,
-          tradeoffRationale: 'Cenário A protege o fluxo de caixa operacional, enquanto o Cenário B induz deterioração direta.'
+          tradeoffRationale: 'contexto A protege o fluxo de caixa operacional, enquanto o contexto B induz deterioração direta.'
         });
       }
     }
@@ -62,18 +62,18 @@ export class ScenarioTradeoffEngine {
         scenarioBId: sB.id,
         dimension: 'Risco Sistêmico',
         winnerId: sB.id,
-        tradeoffRationale: `Cenário B apresenta menor risco sistêmico (${pB.systemicSeverity}) comparado ao Cenário A (${pA.systemicSeverity}).`
+        tradeoffRationale: `contexto B apresenta menor risco sistêmico (${pB.systemicSeverity}) comparado ao contexto A (${pA.systemicSeverity}).`
       });
-      criticalTensions.push(`Cenário A submete a arquitetura de capital a um estresse sistêmico de nível ${pA.systemicSeverity}.`);
+      criticalTensions.push(`contexto A submete a arquitetura de capital a um estresse sistêmico de nível ${pA.systemicSeverity}.`);
     } else if (sevB > sevA) {
       edges.push({
         scenarioAId: sA.id,
         scenarioBId: sB.id,
         dimension: 'Risco Sistêmico',
         winnerId: sA.id,
-        tradeoffRationale: `Cenário A apresenta menor risco sistêmico (${pA.systemicSeverity}) comparado ao Cenário B (${pB.systemicSeverity}).`
+        tradeoffRationale: `contexto A apresenta menor risco sistêmico (${pA.systemicSeverity}) comparado ao contexto B (${pB.systemicSeverity}).`
       });
-      criticalTensions.push(`Cenário B submete a arquitetura de capital a um estresse sistêmico de nível ${pB.systemicSeverity}.`);
+      criticalTensions.push(`contexto B submete a arquitetura de capital a um estresse sistêmico de nível ${pB.systemicSeverity}.`);
     }
 
     // 3. Structural Integrity Score
@@ -85,7 +85,7 @@ export class ScenarioTradeoffEngine {
         scenarioBId: sB.id,
         dimension: 'Integridade Estrutural',
         winnerId: winner.id,
-        tradeoffRationale: `Cenário ${winner.id} retém margem de segurança estrutural superior (${winner.propagationProfile!.structuralIntegrityScore} vs ${loser.propagationProfile!.structuralIntegrityScore}).`
+        tradeoffRationale: `contexto ${winner.id} retém margem de segurança estrutural superior (${winner.propagationProfile!.structuralIntegrityScore} vs ${loser.propagationProfile!.structuralIntegrityScore}).`
       });
     }
 
@@ -96,7 +96,7 @@ export class ScenarioTradeoffEngine {
         scenarioBId: sB.id,
         dimension: 'Geral',
         winnerId: null,
-        tradeoffRationale: 'Cenários apresentam impactos estruturais equivalentes, sem divergência material na arquitetura de capital.'
+        tradeoffRationale: 'contextos apresentam impactos estruturais equivalentes, sem divergência material na arquitetura de capital.'
       });
     }
 

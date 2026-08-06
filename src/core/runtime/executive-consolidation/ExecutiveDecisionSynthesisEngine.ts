@@ -54,7 +54,7 @@ export class ExecutiveDecisionSynthesisEngine {
       if (stage === 'recovery') {
         institutionalObservation = "A posição atual indica um contexto de recomposição patrimonial, onde o fortalecimento da liquidez e da qualidade do capital são fatores críticos de sustentação.";
       } else if (stage === 'expansion') {
-        institutionalObservation = "O estágio de expansão evidencia a manutenção da disciplina de capital, com impacto observável em estoques e obrigações operacionais de curto prazo.";
+        institutionalObservation = "O estágio de expansão evidencia a manutenção da disciplina de capital, com impacto observável em estoques e obrigações operacionais de ciclo imediato.";
       } else if (stage === 'capital_allocation') {
         institutionalObservation = "Os níveis de geração de caixa configuram um excedente estrutural, com implicações diretas na eficiência e produtividade do capital retido.";
       }
@@ -93,7 +93,7 @@ export class ExecutiveDecisionSynthesisEngine {
       case 'DRE': return 'O Desempenho Econômico';
       case 'DFC': return 'A Geração de Caixa';
       case 'DLPA': return 'A Distribuição de Valor';
-      default: return 'O cenário avaliado';
+      default: return 'O contexto avaliado';
     }
   }
 
@@ -109,7 +109,7 @@ export class ExecutiveDecisionSynthesisEngine {
         themes.push({
           title: 'Liquidez Patrimonial',
           content: context.primaryIndicators.liquidityScore > 50 
-            ? 'Capacidade adequada para honrar compromissos de curto prazo sem estresse material de capital de giro.' 
+            ? 'Capacidade adequada para honrar compromissos de ciclo imediato sem estresse material de capital de giro.' 
             : 'Sinais de estrangulamento na capacidade de liquidação de obrigações em ciclos operacionais normais.'
         });
       }

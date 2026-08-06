@@ -46,13 +46,13 @@ export class CashBoardDecisionSupportEngine {
       ? 'Se nada for feito, a liquidez disponível será insuficiente para sustentar a continuidade operacional.' 
       : (sustainability.classification === 'AUTOSSUSTENTADA' 
           ? 'Se nada for feito, a operação continuará gerando caixa e expandindo organicamente sua liquidez.' 
-          : 'O cenário apresenta transição. Sem otimizações no ciclo financeiro, poderá não atingir a total independência de capital externo.');
+          : 'O contexto apresenta transição. Sem otimizações no ciclo financeiro, poderá não atingir a total independência de capital externo.');
 
     let immediateAction = 'Manter o monitoramento rigoroso dos indicadores de capital de giro e preservar as reservas de liquidez.';
     if (isBurning) {
       immediateAction = 'Implementar plano emergencial de corte de despesas fixas (Overhead) para reduzir a queima operacional de caixa.';
     } else if (constraint.primaryConstraint === 'ESTOQUES') {
-      immediateAction = 'Aprovar otimização imediata do ciclo de estoques e reduzir o prazo médio de estocagem (PME) para liberar caixa.';
+      immediateAction = 'Aprovar otimização imediata do ciclo de estoques e reduzir o ciclo médio de estocagem (PME) para liberar caixa.';
     } else if (constraint.primaryConstraint === 'RECEBIVEIS') {
       immediateAction = 'Rever política de concessão de crédito a clientes e acelerar a cobrança de faturas vencidas para recompor liquidez.';
     } else if (constraint.primaryConstraint === 'CAPEX') {

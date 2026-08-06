@@ -61,10 +61,10 @@ export function ExecutiveSidebar({ currentOfficeId, onOfficeChange, currentSurfa
   };
 
   return (
-    <div className={`flex flex-col h-screen bg-background border-r border-border transition-all duration-300 ${isCollapsed ? 'w-20' : 'w-64'}`}>
+    <div className={`flex flex-col h-screen bg-transparent border-r border-black/5 dark:border-white/5 transition-all duration-300 ${isCollapsed ? 'w-20' : 'w-64'}`}>
       
       {/* Top area: Logo and Toggle */}
-      <div className={`flex items-center h-16 border-b border-border px-4 ${isCollapsed ? 'justify-center' : 'justify-between'} relative group`}>
+      <div className={`flex items-center h-16 border-b border-black/5 dark:border-white/5 px-4 ${isCollapsed ? 'justify-center' : 'justify-between'} relative group`}>
         <div className="flex items-center gap-2">
           <div className="w-8 h-8 relative shrink-0 flex items-center justify-center">
             <img src="/logo.png" alt="Illumine Icon" className="relative z-10 w-full h-full object-contain" />
@@ -89,7 +89,7 @@ export function ExecutiveSidebar({ currentOfficeId, onOfficeChange, currentSurfa
       </div>
 
       {/* Client Selector Area */}
-      <div className={cn("border-b border-border transition-all", isCollapsed ? "p-3 flex flex-col items-center gap-3" : "px-3 py-3")}>
+      <div className={cn("border-b border-black/5 dark:border-white/5 transition-all", isCollapsed ? "p-3 flex flex-col items-center gap-3" : "px-3 py-3")}>
         <ClientSelector 
           clients={clients}
           selectedClient={selectedClient}
@@ -239,7 +239,7 @@ export function ExecutiveSidebar({ currentOfficeId, onOfficeChange, currentSurfa
       </div>
 
       {/* Footer Settings */}
-      <div className="p-4 border-t border-border flex flex-col gap-1">
+      <div className="p-4 border-t border-black/5 dark:border-white/5 flex flex-col gap-1">
         <button type="button"
           className={`flex items-center gap-3 px-3 py-2.5 rounded-lg transition-colors w-full text-left text-muted-foreground hover:bg-black/5 dark:hover:bg-white/5 hover:text-foreground
             ${isCollapsed ? 'justify-center' : 'justify-start'}

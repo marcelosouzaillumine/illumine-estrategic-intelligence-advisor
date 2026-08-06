@@ -36,7 +36,7 @@ export class CrisisExplainabilityEngine {
       escalatedPressures,
       institutionalStressExplanation: explanation,
       fiduciaryWarnings: [
-        'Este cenário é uma simulação estrutural determinística e não representa uma previsão fiduciária.'
+        'Este contexto é uma simulação estrutural determinística e não representa uma previsão fiduciária.'
       ]
     };
   }

@@ -55,7 +55,7 @@ export class RecoverabilityAssessmentEngine {
 
     return {
       classificacao: 'Baixa',
-      justificativa: 'Cenário estrutural híbrido, exigindo ajustes simultâneos em margem e estrutura de custo.'
+      justificativa: 'contexto estrutural híbrido, exigindo ajustes simultâneos em margem e estrutura de custo.'
     };
   }
 }

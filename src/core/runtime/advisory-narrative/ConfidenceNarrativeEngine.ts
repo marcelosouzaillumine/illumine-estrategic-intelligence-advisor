@@ -19,7 +19,7 @@ export class ConfidenceNarrativeEngine {
 
     let statement = `AVALIAÇÃO DE CONFIANÇA E LIMITAÇÕES DOS DADOS:\n`;
     statement += `- Grau de Confiança: Classificado como "${confidence}".\n`;
-    statement += `- Completude de Dados Financeiros: Medida em ${completeness}% dos campos necessários para modelagem de curto prazo.\n`;
+    statement += `- Completude de Dados Financeiros: Medida em ${completeness}% dos campos necessários para modelagem de ciclo imediato.\n`;
     statement += `- Base Histórica Decisória: Conta com ${historyLength} registros armazenados no decision ledger (lineage fiduciário).\n`;
 
     if (historyLength < 4) {

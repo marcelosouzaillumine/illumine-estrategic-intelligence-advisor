@@ -6,7 +6,7 @@ import { BoardDecisionGovernanceValidator } from './BoardDecisionGovernanceValid
 export interface ExecutiveAction {
   acao: string;
   responsavel: string;
-  prazo: string;
+  ciclo: string;
   impactoEsperado: string;
   origin: string;
   evidence: string[];
@@ -23,7 +23,7 @@ export class ExecutiveActionPlanEngine {
     const actions: ExecutiveAction[] = directoryActions.map(a => ({
       acao: a.action,
       responsavel: a.responsible,
-      prazo: a.prazoRecomendadoLabel === 'Imediata' ? 'Imediato' : a.prazoRecomendadoLabel === 'Curto Prazo' ? '30 dias' : '90 dias',
+      ciclo: a.prazoRecomendadoLabel === 'Imediata' ? 'Imediato' : a.prazoRecomendadoLabel === 'ciclo imediato' ? '30 dias' : '90 dias',
       impactoEsperado: a.impactoEsperado,
       origin: a.origin,
       evidence: a.evidence
@@ -37,9 +37,9 @@ export class ExecutiveActionPlanEngine {
 
     if (fco < 0 && !actions.some(a => a.acao.toLowerCase().includes('recebimento') || a.acao.toLowerCase().includes('cobrança'))) {
       defaults.push({
-        acao: 'Rever prazos médios de recebimento de clientes e intensificar cobranças de inadimplentes.',
+        acao: 'Rever ciclos médios de recebimento de clientes e intensificar cobranças de inadimplentes.',
         responsavel: 'Financeiro / Contas a Receber',
-        prazo: '15 dias',
+        ciclo: '15 dias',
         impactoEsperado: 'Redução do ciclo de conversão de caixa e aceleração da entrada de caixa.',
         origin: 'DFC',
         evidence: ['Fluxo de caixa operacional deficitário.']
@@ -50,7 +50,7 @@ export class ExecutiveActionPlanEngine {
       defaults.push({
         acao: 'Congelar novos gastos comerciais discricionários e focar em canais de vendas com ROI comprovado.',
         responsavel: 'Diretor Comercial / Marketing',
-        prazo: '30 dias',
+        ciclo: '30 dias',
         impactoEsperado: 'Aumento da eficiência de vendas e redução do custo de aquisição de clientes (CAC).',
         origin: 'DRE',
         evidence: ['Operação deficitária no exercício.']
@@ -61,7 +61,7 @@ export class ExecutiveActionPlanEngine {
       defaults.push({
         acao: 'Implementar fechamento financeiro semanal com conciliação bancária 100% automatizada.',
         responsavel: 'Controladoria',
-        prazo: '30 dias',
+        ciclo: '30 dias',
         impactoEsperado: 'Mitigação de erros de lançamentos e maior confiabilidade de dados para DFC.',
         origin: 'Processos',
         evidence: ['Necessidade preventiva de fortalecimento de governança contábil.']
@@ -70,9 +70,9 @@ export class ExecutiveActionPlanEngine {
 
     // Add standard operational optimization if still needed
     defaults.push({
-      acao: 'Renegociar prazos de pagamento com fornecedores chave para estender o prazo de desembolso.',
+      acao: 'Renegociar ciclos de pagamento com fornecedores chave para estender o ciclo de desembolso.',
       responsavel: 'Compras / Suprimentos',
-      prazo: '45 dias',
+      ciclo: '45 dias',
       impactoEsperado: 'Melhoria no capital de giro sem necessidade de captação de dívida.',
       origin: 'Operação',
       evidence: ['Preservação preventiva da liquidez corrente.']
@@ -81,7 +81,7 @@ export class ExecutiveActionPlanEngine {
     defaults.push({
       acao: 'Revisar tabela de preços e precificação por canal para mitigar erosão de margem bruta.',
       responsavel: 'CEO / Comercial',
-      prazo: '30 dias',
+      ciclo: '30 dias',
       impactoEsperado: 'Melhoria na margem de contribuição média ponderada.',
       origin: 'Receita',
       evidence: ['Necessidade de otimização de margem de contribuição.']

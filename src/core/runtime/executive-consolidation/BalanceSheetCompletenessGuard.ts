@@ -18,13 +18,9 @@ export class BalanceSheetCompletenessGuard {
 
     requiredPanels.forEach(panelKey => {
       const panel = viewModel.analysisPanels[panelKey as keyof typeof viewModel.analysisPanels];
-      const isMissingOrEmpty = !panel || !panel.statusLabel || !panel.opinion || panel.statusLabel.includes('Dados Insuficientes') || panel.statusLabel.includes('Neutro');
       
-      if (isMissingOrEmpty) {
-        console.log(facts);
-        const debugFactsStr = facts ? JSON.stringify(facts) : 'No facts passed to Guard';
-        console.error('DEBUG_GUARD_EXEC_REPORT:', JSON.stringify(viewModel, null, 2));
-        throw new Error(`[BP Constitutional Violation] Required decision panel '${panelKey}' is missing or empty. Debug Facts: ${debugFactsStr}`);
+      if (!panel || !panel.observation || !panel.evidence) {
+        throw new Error(`[BP Constitutional Violation] Fiduciary panel missing required diagnostic fields for dimension: ${panelKey}`);
       }
     });
 

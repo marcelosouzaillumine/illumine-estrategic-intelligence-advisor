@@ -42,18 +42,18 @@ export class DreContractGuard {
       }
     }
 
-    // 3. Validações de coerência lógica (Cenário vs Health Index vs Texto)
+    // 3. Validações de coerência lógica (contexto vs Health Index vs Texto)
     if (scenario === DreEconomicScenario.ECONOMIC_STRESS || scenario === DreEconomicScenario.STRUCTURE_ABSORPTION_RISK) {
       if (policy.executiveDiagnosis.primaryRecommendation.toLowerCase().includes('acelerar crescimento')) {
-        throw new Error(`[DRE Contract Guard] Coerência Falhou: Cenário de risco/prejuízo recomendando "acelerar crescimento".`);
+        throw new Error(`[DRE Contract Guard] Coerência Falhou: contexto de risco/prejuízo recomendando "acelerar crescimento".`);
       }
       if (policy.healthIndex >= 70) {
-        throw new Error(`[DRE Contract Guard] Coerência Falhou: Cenário de risco com Health Index de ${policy.healthIndex} (incompatível).`);
+        throw new Error(`[DRE Contract Guard] Coerência Falhou: contexto de risco com Health Index de ${policy.healthIndex} (incompatível).`);
       }
     }
 
     if (scenario === DreEconomicScenario.ACCELERATED_VALUE_CREATION && policy.healthIndex < 85) {
-       throw new Error(`[DRE Contract Guard] Coerência Falhou: Cenário de Aceleração de Valor com Health Index < 85.`);
+       throw new Error(`[DRE Contract Guard] Coerência Falhou: contexto de Aceleração de Valor com Health Index < 85.`);
     }
 
     if (scenario === DreEconomicScenario.MARGIN_COMPRESSION && policy.healthIndex > 75) {

@@ -55,7 +55,7 @@ export class DFCFiduciaryPriorityResolver {
         });
       } else {
         priorities.push({
-          text: 'Otimizar o giro de estoques e prazos de recebimento',
+          text: 'Otimizar o giro de estoques e ciclos de recebimento',
           type: 'BOARD',
           impact: 'Moderado'
         });

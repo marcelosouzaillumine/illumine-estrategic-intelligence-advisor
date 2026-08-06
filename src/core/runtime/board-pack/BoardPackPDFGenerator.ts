@@ -45,7 +45,7 @@ export class BoardPackPDFGenerator {
       doc.setFont('helvetica', 'normal');
       doc.setTextColor(150, 150, 150);
       const formatTime = new Date(pack.generatedAt).toLocaleDateString('pt-BR') + ' ' + new Date(pack.generatedAt).toLocaleTimeString('pt-BR');
-      const metaStr = `Cenário: ${pack.scenario}  |  Modo: ${pack.timelineMode}  |  Gerado em: ${formatTime}  |  Slide ${slideNum} de ${pack.slides.length}`;
+      const metaStr = `contexto: ${pack.scenario}  |  Modo: ${pack.timelineMode}  |  Gerado em: ${formatTime}  |  Slide ${slideNum} de ${pack.slides.length}`;
       doc.text(metaStr, pageWidth - margin - doc.getTextWidth(metaStr), pageHeight - 10);
     };
 
@@ -99,7 +99,7 @@ export class BoardPackPDFGenerator {
     doc.setFont('helvetica', 'normal');
     doc.setFontSize(9);
     doc.setTextColor(180, 180, 180);
-    doc.text(`Cenário: ${pack.scenario}  |  Readiness Score: ${pack.decisionReadinessScore}/100  |  Modo: ${pack.timelineMode}`, margin, 155);
+    doc.text(`contexto: ${pack.scenario}  |  Readiness Score: ${pack.decisionReadinessScore}/100  |  Modo: ${pack.timelineMode}`, margin, 155);
     doc.text(`Identificador do Pack: ${pack.packId}`, margin, 163);
 
     // Cover footer signature
@@ -216,7 +216,7 @@ export class BoardPackPDFGenerator {
             doc.setLineWidth(0.3);
             doc.rect(margin, rowY, contentWidth, 20, 'DF');
 
-            const isCritical = bullet.includes('[CRITICAL]') || bullet.includes('[Curto Prazo]') || bullet.includes('Violação') || bullet.includes('Caixa');
+            const isCritical = bullet.includes('[CRITICAL]') || bullet.includes('[ciclo imediato]') || bullet.includes('Violação') || bullet.includes('Caixa');
             doc.setFillColor(isCritical ? coral.r : sage.r, isCritical ? coral.g : sage.g, isCritical ? coral.b : sage.b);
             doc.rect(margin, rowY, 2.5, 20, 'F');
 

@@ -72,7 +72,7 @@ export class ActionEvidenceResolver {
         if (currentLiquidity !== undefined && currentLiquidity !== null) {
           return {
             ...causality,
-            evidence: `Índice de Liquidez Corrente atual é de ${currentLiquidity.toFixed(2)}x as obrigações de curto prazo.`
+            evidence: `Índice de Liquidez Corrente atual é de ${currentLiquidity.toFixed(2)}x as obrigações de ciclo imediato.`
           };
         }
         return {
@@ -95,12 +95,12 @@ export class ActionEvidenceResolver {
           const ratio = (debtCP / totalLiab) * 100;
           return {
             ...causality,
-            evidence: `Concentração de ${ratio.toFixed(2)}% do passivo total com vencimento no curto prazo.`
+            evidence: `Concentração de ${ratio.toFixed(2)}% do passivo total com vencimento no ciclo imediato.`
           };
         }
         return {
           ...causality,
-          evidence: `Perfil de dívida requer alongamento estrutural para redução da pressão sobre o caixa de curto prazo.`
+          evidence: `Perfil de dívida requer alongamento estrutural para redução da pressão sobre o caixa de ciclo imediato.`
         };
       }
 

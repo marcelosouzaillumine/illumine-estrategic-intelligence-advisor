@@ -39,9 +39,9 @@ export function translateCapitalStructure(bpSummary: BPSummary | undefined, metr
   // Rollover Risk
   let rolloverRisk = 'Baixo a Moderado';
   if (metrics.qualidadeEndividamento > 0.7) {
-    rolloverRisk = 'Alto Risco (Forte concentração no Curto Prazo)';
+    rolloverRisk = 'Alto Risco (Forte concentração no ciclo imediato)';
   } else if (metrics.qualidadeEndividamento > 0.5) {
-    rolloverRisk = 'Atenção (Curto Prazo pressionado)';
+    rolloverRisk = 'Atenção (ciclo imediato pressionado)';
   }
 
   // Operational Dependency (Banking Dependence)

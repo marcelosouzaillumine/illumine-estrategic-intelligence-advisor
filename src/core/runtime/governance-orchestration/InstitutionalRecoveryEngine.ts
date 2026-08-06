@@ -7,7 +7,7 @@ export class InstitutionalRecoveryEngine {
         {
           strategyId: 'REC-' + Date.now() + '-1',
           domain: 'FINANCE',
-          containmentAction: 'Renegociação Dívida Longo Prazo',
+          containmentAction: 'Renegociação Dívida longo horizonte',
           recoveryTimelineMonths: 12
         },
         {

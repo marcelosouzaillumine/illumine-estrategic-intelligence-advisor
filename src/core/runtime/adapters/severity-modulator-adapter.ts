@@ -45,7 +45,7 @@ export function translateSeverityModulation(
     metrics
   );
 
-  // Deriva o nível máximo de severidade com base nos cenários modulados
+  // Deriva o nível máximo de severidade com base nos contextos modulados
   let maxSeverity: SeverityLevel = 'SAUDÁVEL';
   const severityRank: Record<string, number> = {
     'SAUDÁVEL': 0, 'SENSÍVEL': 1, 'PRESSIONADO': 2, 'RESTRITIVO': 3, 'ESTRESSADO': 4, 'CRÍTICO': 5, 'COLAPSO': 6

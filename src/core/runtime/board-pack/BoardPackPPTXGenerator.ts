@@ -111,7 +111,7 @@ export class BoardPackPPTXGenerator {
 
     // Meta details container
     coverSlide.addText(
-      `Cenário: ${pack.scenario}  |  Readiness Score: ${pack.decisionReadinessScore}/100  |  Modo: ${pack.timelineMode}`,
+      `contexto: ${pack.scenario}  |  Readiness Score: ${pack.decisionReadinessScore}/100  |  Modo: ${pack.timelineMode}`,
       {
         x: 0.8,
         y: 6.2,
@@ -290,7 +290,7 @@ export class BoardPackPPTXGenerator {
               line: { color: borderGrey, width: 1 }
             });
 
-            const isCritical = bullet.includes('[CRITICAL]') || bullet.includes('[Curto Prazo]') || bullet.includes('Violação') || bullet.includes('Caixa');
+            const isCritical = bullet.includes('[CRITICAL]') || bullet.includes('[ciclo imediato]') || bullet.includes('Violação') || bullet.includes('Caixa');
             pptxSlide.addShape(pptx.ShapeType.rect, {
               x: 0.8,
               y: cardY,
@@ -398,7 +398,7 @@ export class BoardPackPPTXGenerator {
         // Generation Metadata (Bottom Right)
         const formatTime = new Date(pack.generatedAt).toLocaleDateString('pt-BR') + ' ' + new Date(pack.generatedAt).toLocaleTimeString('pt-BR');
         pptxSlide.addText(
-          `Cenário: ${pack.scenario}  |  Modo: ${pack.timelineMode}  |  Gerado em: ${formatTime}`,
+          `contexto: ${pack.scenario}  |  Modo: ${pack.timelineMode}  |  Gerado em: ${formatTime}`,
           {
             x: 6.8,
             y: 6.5,

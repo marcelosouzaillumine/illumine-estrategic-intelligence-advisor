@@ -142,7 +142,7 @@ export class MockCfoProvider implements CfoIntelligenceProvider {
           id: 'insight-cash-1',
           title: 'Estabilidade de Caixa',
           severity: 'success',
-          narrative: 'A posição de caixa atual suporta integralmente as obrigações de curto prazo.',
+          narrative: 'A posição de caixa atual suporta integralmente as obrigações de ciclo imediato.',
           evidence: [
             'Runway atual de 145 dias',
             'Inadimplência de recebíveis caiu para 2.1%'
@@ -265,7 +265,7 @@ export class MockCfoProvider implements CfoIntelligenceProvider {
           id: 'insight-wc-1',
           title: 'Eficiência no Contas a Pagar',
           severity: 'success',
-          narrative: 'O prazo médio de pagamento (DPO) aumentou em 5 dias, melhorando o ciclo de caixa.',
+          narrative: 'O ciclo médio de pagamento (DPO) aumentou em 5 dias, melhorando o ciclo de caixa.',
           evidence: [
             'DPO passou de 55 para 60 dias'
           ],

@@ -55,8 +55,8 @@ export class InstitutionalLocaleGuard {
       'TAX_EXPOSURE': 'Elevada exposição ao passivo tributário',
       'JUDICIAL_EXPOSURE': 'Elevada exposição ao contencioso judicial',
       'PAYROLL_PRESSURE': 'Elevada pressão de folha/encargos',
-      'STRUCTURED_DEBT': 'Estrutura financeira alavancada por dívida de longo prazo',
-      'WORKING_CAPITAL_PRESSURE': 'Dependência relevante de capital operacional de curto prazo',
+      'STRUCTURED_DEBT': 'Estrutura financeira alavancada por dívida de longo horizonte',
+      'WORKING_CAPITAL_PRESSURE': 'Dependência relevante de capital operacional de ciclo imediato',
       'BALANCED_LIABILITY': 'Estrutura financeira conservadora'
     };
     return mapping[profile] || profile.replace(/_/g, ' ');

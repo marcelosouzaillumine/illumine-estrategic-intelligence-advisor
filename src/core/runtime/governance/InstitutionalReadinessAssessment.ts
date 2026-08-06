@@ -43,19 +43,19 @@ export function calculateInstitutionalReadiness(input: InstitutionalReadinessAss
 
   if (irg <= 20) {
     readinessLevel = 'Pronto';
-    roadmapHorizon = 'Curto Prazo focado em Otimização';
+    roadmapHorizon = 'ciclo imediato focado em Otimização';
     governancePriority = 'Manutenção e Monitoramento Contínuo';
   } else if (irg <= 40) {
     readinessLevel = 'Pequenos Ajustes';
-    roadmapHorizon = 'Curto/Médio Prazo (3-6 meses)';
+    roadmapHorizon = 'Curto/médio ciclo (3-6 meses)';
     governancePriority = 'Formalização de Processos Chave e Comitês Menores';
   } else if (irg <= 60) {
     readinessLevel = 'Transformação Necessária';
-    roadmapHorizon = 'Médio Prazo (6-12 meses)';
+    roadmapHorizon = 'médio ciclo (6-12 meses)';
     governancePriority = 'Estruturação da Governança Executiva e Gestão de Riscos';
   } else if (irg <= 80) {
     readinessLevel = 'Reestruturação Relevante';
-    roadmapHorizon = 'Longo Prazo (12-18 meses)';
+    roadmapHorizon = 'longo horizonte (12-18 meses)';
     governancePriority = 'Fundação de Governança Fiduciária (Conselhos e Auditoria)';
   } else {
     readinessLevel = 'Alto Risco Institucional';
@@ -63,7 +63,7 @@ export function calculateInstitutionalReadiness(input: InstitutionalReadinessAss
     governancePriority = 'Reconstrução Completa da Capacidade Organizacional';
   }
 
-  const narrative = `O cenário avaliado possui potencial de geração de R$ ${(input.enterpriseValueDelta / 1000000).toFixed(1)} milhões em valor econômico adicional. Entretanto, o Institutional Execution Index (IEI) indica capacidade de execução de ${input.ieiScore.toFixed(0)}/100, e o Institutional Readiness Gap (IRG) atinge ${irg.toFixed(0)}/100, apontando uma situação de ${readinessLevel}. As recomendações prioritárias concentram-se em ${governancePriority.toLowerCase()} antes da execução integral da estratégia, com horizonte principal de ${roadmapHorizon}.`;
+  const narrative = `O contexto avaliado possui potencial de geração de R$ ${(input.enterpriseValueDelta / 1000000).toFixed(1)} milhões em valor econômico adicional. Entretanto, o Institutional Execution Index (IEI) indica capacidade de execução de ${input.ieiScore.toFixed(0)}/100, e o Institutional Readiness Gap (IRG) atinge ${irg.toFixed(0)}/100, apontando uma situação de ${readinessLevel}. As recomendações prioritárias concentram-se em ${governancePriority.toLowerCase()} antes da execução integral da estratégia, com horizonte principal de ${roadmapHorizon}.`;
 
   return {
     readinessGap: irg,

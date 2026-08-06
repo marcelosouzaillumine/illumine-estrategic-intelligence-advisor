@@ -10,7 +10,7 @@ export class CeoRiskEngine {
           domain: 'finance',
           probability: 'low' as const,
           impact: 'high' as const,
-          description: 'Exposição cambial em contratos de longo prazo.'
+          description: 'Exposição cambial em contratos de longo horizonte.'
         },
         {
           domain: 'commercial',

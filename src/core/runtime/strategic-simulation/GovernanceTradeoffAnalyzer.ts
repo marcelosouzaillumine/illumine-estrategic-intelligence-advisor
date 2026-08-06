@@ -11,7 +11,7 @@ export class GovernanceTradeoffAnalyzer {
           gainDescription: 'Sobrevivência financeira garantida para os próximos 18 meses.',
           lossDomain: 'OPERATIONAL',
           lossDescription: 'Perda de market share sistêmico e dependência aumentada de terceiros.',
-          netResilienceImpact: -0.1 // Ligeira queda na resiliência de longo prazo
+          netResilienceImpact: -0.1 // Ligeira queda na resiliência de longo horizonte
         }
       ];
     }

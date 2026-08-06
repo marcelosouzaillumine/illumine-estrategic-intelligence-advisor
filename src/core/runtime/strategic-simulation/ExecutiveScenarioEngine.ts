@@ -92,16 +92,16 @@ export class ExecutiveScenarioEngine {
     const advisoryNotes: string[] = [];
 
     advisoryNotes.push(
-      `Análise Preditiva de Cenário: Estresse do perfil ${stressProfile} aplicado no ciclo 3.`
+      `Análise Preditiva de contexto: Estresse do perfil ${stressProfile} aplicado no ciclo 3.`
     );
 
     if (candidatePath.classification === 'UNSUSTAINABLE' || candidatePath.classification === 'COLLAPSE_TRAJECTORY') {
       advisoryNotes.push(
-        `AVISO FIDUCIÁRIO: O cenário candidato (${candidatePath.category}) viola limites mínimos de sobrevivência (< 40/100) e foi considerado INELIGÍVEL para recomendação.`
+        `AVISO FIDUCIÁRIO: O contexto candidato (${candidatePath.category}) viola limites mínimos de sobrevivência (< 40/100) e foi considerado INELIGÍVEL para recomendação.`
       );
     } else {
       advisoryNotes.push(
-        `O cenário candidato (${candidatePath.category}) apresenta conformidade com as restrições fiduciárias.`
+        `O contexto candidato (${candidatePath.category}) apresenta conformidade com as restrições fiduciárias.`
       );
     }
 
@@ -111,7 +111,7 @@ export class ExecutiveScenarioEngine {
 
     // Assert trace hashes and lineage compatibility
     advisoryNotes.push(
-      `Rastreabilidade da Decisão: Código de rastreamento fiduciário do cenário recomendado: ${recommendedPathInstance.traceHash}`
+      `Rastreabilidade da Decisão: Código de rastreamento fiduciário do contexto recomendado: ${recommendedPathInstance.traceHash}`
     );
 
     return {

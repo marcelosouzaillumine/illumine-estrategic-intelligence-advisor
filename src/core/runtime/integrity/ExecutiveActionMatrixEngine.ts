@@ -215,7 +215,7 @@ export class ExecutiveActionMatrixEngine {
     // Default metadata inference (matching ExecutivePerspectiveSection logic)
     let category = 'Governança Corporativa';
     let priority = 'Normal';
-    let timeline = 'Longo Prazo';
+    let timeline = 'longo horizonte';
     let expectedImpact = 'Ajuste de estrutura operacional';
     let executionRisk = 'Instabilidade tática';
     let monitoringKPI = 'EBITDA / ROL';
@@ -243,9 +243,9 @@ export class ExecutiveActionMatrixEngine {
 
     // Timeline
     if (lower.includes('imediato') || lower.includes('curto') || lower.includes('30 dias') || lower.includes('60 dias')) {
-      timeline = 'Curto Prazo';
+      timeline = 'ciclo imediato';
     } else if (lower.includes('médio') || lower.includes('90 dias') || lower.includes('180 dias')) {
-      timeline = 'Médio Prazo';
+      timeline = 'médio ciclo';
     }
 
     // Fiduciary Evidence Mapping based on ActionEvidenceResolver

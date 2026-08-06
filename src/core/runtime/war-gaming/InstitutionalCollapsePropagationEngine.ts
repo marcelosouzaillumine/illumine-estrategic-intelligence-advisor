@@ -71,7 +71,7 @@ export class InstitutionalCollapsePropagationEngine {
 
          nodes.push({
            nodeId: 'NODE_SUP_1',
-           variable: 'Prazo Médio de Fornecedores',
+           variable: 'ciclo Médio de Fornecedores',
            baselineValue: baselineMetrics.prazoMedioFornecedores,
            simulatedValue: simulatedPrazo,
            variancePercentage: pVariance,

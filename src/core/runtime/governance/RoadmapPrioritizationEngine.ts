@@ -5,7 +5,7 @@ export interface RoadmapAction {
   title: string;
   category: string;
   impactLevel: string;
-  estimatedTimeline: 'Curto Prazo' | 'Médio Prazo' | 'Longo Prazo';
+  estimatedTimeline: 'ciclo imediato' | 'médio ciclo' | 'longo horizonte';
 }
 
 export interface RoadmapPrioritizationInput {
@@ -74,17 +74,17 @@ export function generateInstitutionalRoadmap(input: RoadmapPrioritizationInput):
       title: item.rec.title,
       category: item.rec.category,
       impactLevel: item.rec.impactLevel,
-      estimatedTimeline: 'Longo Prazo'
+      estimatedTimeline: 'longo horizonte'
     };
 
     if (item.priorityScore >= 15 && curtoPrazo.length < 3) {
-      action.estimatedTimeline = 'Curto Prazo';
+      action.estimatedTimeline = 'ciclo imediato';
       curtoPrazo.push(action);
     } else if (item.priorityScore >= 10 && medioPrazo.length < 4) {
-      action.estimatedTimeline = 'Médio Prazo';
+      action.estimatedTimeline = 'médio ciclo';
       medioPrazo.push(action);
     } else if (longoPrazo.length < 4) {
-      action.estimatedTimeline = 'Longo Prazo';
+      action.estimatedTimeline = 'longo horizonte';
       longoPrazo.push(action);
     }
   });

@@ -41,9 +41,9 @@ export class InterventionTrackEngine {
 
   private static getTrackDescription(track: TrackArea): string {
     switch (track) {
-      case 'LIQUIDITY': return 'Ações emergenciais e de curto prazo focadas em proteção de caixa e capital de giro.';
+      case 'LIQUIDITY': return 'Ações emergenciais e de ciclo imediato focadas em proteção de caixa e capital de giro.';
       case 'GOVERNANCE': return 'Restabelecimento de alçadas, controles internos e dinâmicas de Board.';
-      case 'CAPITAL': return 'Estratégias de funding, desalavancagem e estrutura de capital a longo prazo.';
+      case 'CAPITAL': return 'Estratégias de funding, desalavancagem e estrutura de capital a longo horizonte.';
       case 'OPERATIONS': return 'Ajuste de capacidade, redução de custos e otimização de margens.';
       case 'ESG': return 'Alinhamento regulatório e fortalecimento de maturidade socioambiental.';
       default: return 'Plano de ação executivo consolidado.';

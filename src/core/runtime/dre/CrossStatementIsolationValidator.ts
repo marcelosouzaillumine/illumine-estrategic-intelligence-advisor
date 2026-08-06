@@ -11,7 +11,7 @@
 const BLOCKED_DRE_TERMS = [
   // Liquidez e Caixa (domínio do DFC/BP)
   'liquidez', 'caixa', 'runway', 'fluxo de caixa', 'cash', 'tesouraria',
-  'capital de giro', 'ciclo financeiro', 'prazo médio',
+  'capital de giro', 'ciclo financeiro', 'ciclo médio',
   // Endividamento (domínio do BP)
   'endividamento', 'dívida', 'financiamento', 'empréstimo', 'captação',
   'amortização', 'covenants',

@@ -39,7 +39,7 @@ export class WorkingCapitalEngineAdapter {
           domain: 'working-capital',
           type: 'positive',
           title: 'Eficiência no Contas a Pagar',
-          description: 'O prazo médio de pagamento (DPO) aumentou em 5 dias, melhorando o ciclo de caixa.'
+          description: 'O ciclo médio de pagamento (DPO) aumentou em 5 dias, melhorando o ciclo de caixa.'
         }
       ]
     };

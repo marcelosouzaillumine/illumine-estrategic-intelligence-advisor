@@ -105,7 +105,7 @@ export class ExecutiveBoardReportPDF {
     doc.setTextColor(200, 200, 200);
     doc.text(`Report ID: ${report.reportId}`, margin + 8, 172);
     doc.text(`Emitido em: ${new Date(report.generatedAt).toLocaleDateString('pt-BR')} ${new Date(report.generatedAt).toLocaleTimeString('pt-BR')}`, margin + 8, 179);
-    doc.text(`Cenário de Análise: ${report.scenario}`, margin + 8, 186);
+    doc.text(`contexto de Análise: ${report.scenario}`, margin + 8, 186);
     doc.text(`Nível de Confiança das Inferências: ${report.confidenceLevel}`, margin + 8, 193);
     doc.text(`Compilado por: ${report.generatedBy || 'SYSTEM'}`, margin + 8, 200);
     doc.text(`Modo de Operação: ${report.timelineMode === 'LIVE_HISTORY' ? 'AUDITADO (LIVE_DATA)' : 'SIMULADO (DEMO_SCENARIO)'}`, margin + 8, 207);
@@ -278,14 +278,14 @@ export class ExecutiveBoardReportPDF {
       doc.setFont('helvetica', 'bold');
       doc.setFontSize(9);
       doc.setTextColor(darkNavy.r, darkNavy.g, darkNavy.b);
-      const cleanOppText = opp.replace('[Curto Prazo] ', '').replace('[Médio Prazo] ', '').replace('[Longo Prazo] ', '');
+      const cleanOppText = opp.replace('[ciclo imediato] ', '').replace('[médio ciclo] ', '').replace('[longo horizonte] ', '');
       const oppLines = doc.splitTextToSize(`${i + 1}. ${cleanOppText}`, contentWidth - 10);
       doc.text(oppLines, margin + 6, oppY + 5);
 
       doc.setFont('helvetica', 'normal');
       doc.setFontSize(8);
       doc.setTextColor(120, 120, 120);
-      const timeframeLabel = opp.includes('[Curto Prazo]') ? 'Horizonte: Curto Prazo (≤ 90 dias)' : opp.includes('[Médio Prazo]') ? 'Horizonte: Médio Prazo (≤ 12 meses)' : 'Horizonte: Longo Prazo (> 12 meses)';
+      const timeframeLabel = opp.includes('[ciclo imediato]') ? 'Horizonte: ciclo imediato (≤ 90 dias)' : opp.includes('[médio ciclo]') ? 'Horizonte: médio ciclo (≤ 12 meses)' : 'Horizonte: longo horizonte (> 12 meses)';
       doc.text(timeframeLabel, margin + 6, oppY + 14);
 
       oppY += 21;

@@ -177,7 +177,7 @@ export class GovernanceRoadmapEngine {
         ? ['Readequar Alocação de Recursos para a Missão Principal', 'Revisar Modelo Fiduciário-Missional do Board']
         : ['Auditar Indicadores de Alinhamento Missional de Gastos'],
       expectedBenefits: [
-        'Blindagem reputacional e alinhamento de propósito existencial de longo prazo.',
+        'Blindagem reputacional e alinhamento de propósito existencial de longo horizonte.',
         'Coerência missional de investimentos consolidada.'
       ],
       dependencies: ['PH-03'], // Enforce: LEGACY requires STRENGTHENING (PH-03)

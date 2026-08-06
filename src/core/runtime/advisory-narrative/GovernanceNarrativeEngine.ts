@@ -28,7 +28,7 @@ export class GovernanceNarrativeEngine {
     }
 
     if (isLeveraged) {
-      guidelines += `2. Controle de Alavancagem: A detecção de passivos e alavancagem estrutural exige a proibição de novas captações financeiras de curto prazo até que o índice de endividamento retorne ao patamar seguro.\n`;
+      guidelines += `2. Controle de Alavancagem: A detecção de passivos e alavancagem estrutural exige a proibição de novas captações financeiras de ciclo imediato até que o índice de endividamento retorne ao patamar seguro.\n`;
     } else {
       guidelines += `2. Alocação de Passivos: Manter estrutura de endividamento sob controle regulamentar.\n`;
     }

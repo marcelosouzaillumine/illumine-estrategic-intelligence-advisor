@@ -44,7 +44,7 @@ export const BPDimensionalCausalFragments: BPRecommendationFragment[] = [
     causalityMetric: 'Liquidez',
     trigger: (liq) => liq < 0.8,
     executiveQuestion: 'Quais medidas de contingência devem ser acionadas para preservar caixa e alongar o perfil da dívida?',
-    rationaleSnippet: 'a estrutura patrimonial é incapaz de absorver choques de curto prazo'
+    rationaleSnippet: 'a estrutura patrimonial é incapaz de absorver choques de ciclo imediato'
   },
   {
     dimension: 'Protection',
@@ -65,7 +65,7 @@ export const BPDimensionalCausalFragments: BPRecommendationFragment[] = [
     dimension: 'Liquidity',
     causalityMetric: 'Liquidez',
     trigger: (liq) => liq < 0.8,
-    executiveQuestion: 'Quais saídas não essenciais podem ser suspensas e quais prazos podem ser renegociados?',
+    executiveQuestion: 'Quais saídas não essenciais podem ser suspensas e quais ciclos podem ser renegociados?',
     rationaleSnippet: 'a liquidez imediata encontra-se em nível crítico de asfixia'
   },
   {
@@ -132,7 +132,7 @@ export const BPDimensionalCausalFragments: BPRecommendationFragment[] = [
     causalityMetric: 'Autonomia',
     trigger: (_liq, aut) => aut < 0.30,
     executiveQuestion: 'É possível acelerar a conversão de ativos de baixa liquidez em caixa?',
-    rationaleSnippet: 'a imobilização em cenário de baixa autonomia limita a flexibilidade'
+    rationaleSnippet: 'a imobilização em contexto de baixa autonomia limita a flexibilidade'
   },
   {
     dimension: 'AssetQuality',
@@ -147,7 +147,7 @@ export const BPDimensionalCausalFragments: BPRecommendationFragment[] = [
     causalityMetric: 'Liquidez',
     trigger: (liq) => liq < 0.8,
     executiveQuestion: 'O foco exclusivo em liquidez e sobrevivência já foi plenamente absorvido pela operação?',
-    rationaleSnippet: 'a eficiência cede espaço à prioridade absoluta de geração de caixa imediato'
+    rationaleSnippet: 'a eficiência cede espaço à urgência absoluta de geração de caixa imediato'
   },
   {
     dimension: 'CapitalEfficiency',
@@ -276,8 +276,8 @@ export class ExecutiveSemanticRegistry {
   public static resolveSemanticSovereignty(metricName: string, sovereignStatus: string): string | null {
     if (sovereignStatus === 'Liquidez Excedente') {
       if (metricName === 'Liquidez Corrente') return 'Valor estrutural indicando capacidade operacional substancial de liquidação no ciclo corrente.';
-      if (metricName === 'Liquidez Imediata') return 'Caixa imediato elevado frente ao passivo circulante de curtíssimo prazo.';
-      if (metricName === 'Liquidez Seca') return 'Forte cobertura de passivos de curto prazo desconsiderando estoques de menor liquidez.';
+      if (metricName === 'Liquidez Imediata') return 'Caixa imediato elevado frente ao passivo circulante de curtíssimo ciclo.';
+      if (metricName === 'Liquidez Seca') return 'Forte cobertura de passivos de ciclo imediato desconsiderando estoques de menor liquidez.';
       if (metricName === 'Liquidez Geral') return 'Capacidade global robusta para honrar obrigações presentes e futuras.';
     }
 
@@ -285,14 +285,14 @@ export class ExecutiveSemanticRegistry {
       if (metricName === 'Liquidez Corrente') return 'Liquidez elevada atuando como reserva tática para sustentar o ciclo de expansão operacional.';
       if (metricName === 'Liquidez Imediata') return 'Caixa alocado estrategicamente para absorver aumentos bruscos de passivo circulante.';
       if (metricName === 'Liquidez Seca') return 'Forte capacidade de cobertura sem dependência de estoques, vital durante picos de crescimento.';
-      if (metricName === 'Liquidez Geral') return 'Fôlego financeiro amplo preservado para garantir a expansão sem riscos ao longo prazo.';
+      if (metricName === 'Liquidez Geral') return 'Fôlego financeiro amplo preservado para garantir a expansão sem riscos ao longo horizonte.';
     }
 
     if (sovereignStatus === 'Estrutura de Capital Fragilizada' || sovereignStatus === 'Alavancagem Crítica') {
       if (metricName === 'Relação Dívida / Patrimônio Líquido' || metricName === 'Dívida Financeira sobre Patrimônio Líquido') return 'Nível crítico de dependência de credores, com forte impacto no fluxo de caixa.';
       if (metricName === 'Endividamento Geral' || metricName === 'Debt-to-Assets') return 'Ativos majoritariamente financiados por capital oneroso, indicando asfixia estrutural.';
       if (metricName === 'Autonomia Financeira') return 'Asfixia institucional com vulnerabilidade elevada a choques de mercado devido à falta de capital próprio.';
-      if (metricName === 'Composição do Endividamento') return 'Elevada concentração de vencimentos no curto prazo, ampliando o risco de liquidez.';
+      if (metricName === 'Composição do Endividamento') return 'Elevada concentração de vencimentos no ciclo imediato, ampliando o risco de liquidez.';
     }
 
     return null;
@@ -309,22 +309,22 @@ export class ExecutiveSemanticRegistry {
     }
 
     if (sovereignStatus === 'Baixo impacto devido à reduzida alavancagem') {
-      return 'Embora concentrada no curto prazo, a dívida é pouco material frente ao ativo e amplamente coberta pela liquidez.';
+      return 'Embora concentrada no ciclo imediato, a dívida é pouco material frente ao ativo e amplamente coberta pela liquidez.';
     }
 
-    if (sovereignStatus === 'Não aplicável ao cenário atual') {
+    if (sovereignStatus === 'Não aplicável ao contexto atual') {
       return 'Sem evidência quantitativa primária disponível para emitir julgamento técnico.';
     }
 
     const defaults: Record<string, string> = {
       'Liquidez Corrente': 'Mede a capacidade estática da companhia de honrar obrigações dentro do ciclo operacional.',
-      'Liquidez Imediata': 'Avalia o fôlego de caixa mais estrito contra obrigações exigíveis no curto prazo.',
-      'Liquidez Seca': 'Avalia a capacidade de cobertura de passivos de curto prazo sem depender da venda de estoques.',
-      'Liquidez Geral': 'Indica a capacidade global de pagamento no curto e no longo prazo.',
+      'Liquidez Imediata': 'Avalia o fôlego de caixa mais estrito contra obrigações exigíveis no ciclo imediato.',
+      'Liquidez Seca': 'Avalia a capacidade de cobertura de passivos de ciclo imediato sem depender da venda de estoques.',
+      'Liquidez Geral': 'Indica a capacidade global de pagamento no curto e no longo horizonte.',
       'Liquidez Real': 'Avalia a liquidez operacional imediata desconsiderando ativos de baixa convertibilidade.',
       'Autonomia Financeira': 'Proporção de capital próprio em relação aos ativos da empresa, indicando independência financeira.',
-      'Composição do Endividamento': 'Proporção de obrigações vincendas no curto prazo em relação ao endividamento total.',
-      'Capital de Giro Líquido': 'Volume absoluto de recursos aplicados no ativo circulante financiados por passivos de longo prazo ou capital próprio.',
+      'Composição do Endividamento': 'Proporção de obrigações vincendas no ciclo imediato em relação ao endividamento total.',
+      'Capital de Giro Líquido': 'Volume absoluto de recursos aplicados no ativo circulante financiados por passivos de longo horizonte ou capital próprio.',
       'Necessidade de Capital de Giro': 'Volume de recursos exigidos pelas operações diárias não cobertos pelos fornecedores operacionais.',
       'Saldo de Tesouraria': 'Margem de caixa livre remanescente após o financiamento da necessidade de capital de giro.',
       'Endividamento Geral': 'Grau de comprometimento dos ativos totais da companhia por capital de terceiros.',

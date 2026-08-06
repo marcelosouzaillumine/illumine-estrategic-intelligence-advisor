@@ -83,7 +83,7 @@ export class InstitutionalContextEngine {
       blockedRecommendations = ['Expansão física ou Capex imobiliário', 'Investimento agressivo em novas frentes comerciais', 'Estoque de antecipação'];
     } else if (businessStage === 'INITIAL_OPERATION' || businessStage === 'STRUCTURING_OPERATION') {
       focusAreas = ['Definição do ponto de equilíbrio (Break-even)', 'Validação de Unit Economics', 'Preservação de caixa mínimo'];
-      blockedRecommendations = ['Distribuição de lucros ou dividendos', 'Financiamento bancário de longo prazo estruturado'];
+      blockedRecommendations = ['Distribuição de lucros ou dividendos', 'Financiamento bancário de longo horizonte estruturado'];
     } else if (businessStage === 'EXPANDING_OPERATION') {
       focusAreas = ['Garantia de margem de contribuição saudável', 'Aceleração comercial', 'Otimização de capital de giro'];
       blockedRecommendations = ['Redução desmedida do time de vendas', 'Desaceleração do investimento em produto/tecnologia'];

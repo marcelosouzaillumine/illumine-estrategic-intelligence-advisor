@@ -53,11 +53,11 @@ export class MeetingMinutesEngine {
     const companyName = meeting.title.split(' - ')[1] || 'Holding Illumine S/A';
     
     const executiveSummary = 
-      `Aos ${new Date(meeting.createdAt).toLocaleDateString('pt-BR')}, reuniu-se o Conselho de Administração da ${companyName} em caráter extraordinário sob o Cenário Operacional de ${scenarioLabel}. ` +
+      `Aos ${new Date(meeting.createdAt).toLocaleDateString('pt-BR')}, reuniu-se o Conselho de Administração da ${companyName} em caráter extraordinário sob o contexto Operacional de ${scenarioLabel}. ` +
       `Com um Score de Prontidão Decisória inicial avaliado em ${meeting.readinessScore}/100, foram percorridos todos os tópicos constitucionais da pauta. ` +
       `Durante a sessão, deliberou-se sobre ${totalCount} propostas de resolução recomendadas pela plataforma Illumine Governance™. ` +
       `Desse total, foram aprovadas ${approvedCount} resoluções, rejeitadas ${rejected.length} e postergadas ${postponed.length} para deliberações futuras. ` +
-      `As deliberações aprovadas foram integradas imediatamente ao Governance Decision Tracking Layer (GDTL™) para garantir rastreabilidade, monitoramento de prazos e accountability fiduciária integral.`;
+      `As deliberações aprovadas foram integradas imediatamente ao Governance Decision Tracking Layer (GDTL™) para garantir rastreabilidade, monitoramento de ciclos e accountability fiduciária integral.`;
 
     return {
       meetingId: meeting.meetingId,

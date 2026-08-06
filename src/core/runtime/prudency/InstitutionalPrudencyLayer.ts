@@ -156,7 +156,7 @@ export const InstitutionalPrudencyLayer = {
       blockedClaims.push('maturidade consolidada', 'tendência estrutural', 'estabilidade histórica', 'crescimento sustentável');
     } else if (cycles === 2) {
       narrativeRestrictions.push('Limitar conclusões sobre consolidação; usar linguagem condicional para evolução.');
-      advisoryRestrictions.push('Manter foco em estabilização de curto prazo, não em expansão agressiva baseada no passado.');
+      advisoryRestrictions.push('Manter foco em estabilização de ciclo imediato, não em expansão agressiva baseada no passado.');
       blockedClaims.push('maturidade consolidada', 'tendência inquestionável', 'resiliência comprovada');
     }
 

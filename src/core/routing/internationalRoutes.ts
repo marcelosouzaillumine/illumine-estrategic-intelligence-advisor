@@ -12,7 +12,12 @@ export type RouteKey =
   | 'CONTACT'
   | 'PARTNERS'
   | 'ADVISOR_NETWORK'
-  | 'LOGIN';
+  | 'LOGIN'
+  | 'NONPROFIT'
+  | 'ENTERPRISE'
+  | 'SECURITY'
+  | 'PRIVACY'
+  | 'ADVISOR_PARTNER';
 
 export const routePrefixes: Record<SupportedLocale, string> = {
   'pt-BR': '/pt',
@@ -36,7 +41,12 @@ export const internationalRoutes: Record<RouteKey, string> = {
   CONTACT: '/contact',
   PARTNERS: '/partners',
   ADVISOR_NETWORK: '/advisor-network',
-  LOGIN: '/login'
+  LOGIN: '/login',
+  NONPROFIT: '/nonprofit',
+  ENTERPRISE: '/enterprise',
+  SECURITY: '/security',
+  PRIVACY: '/privacy',
+  ADVISOR_PARTNER: '/advisor-partner'
 };
 
 /**
@@ -60,6 +70,8 @@ export const legacyAliases: Record<string, RouteKey> = {
   '/programa-parceiros': 'ADVISOR_NETWORK',
   '/executive-advisor-network': 'ADVISOR_NETWORK',
   '/executiveadvisornetwork': 'ADVISOR_NETWORK',
+  '/programa-advisors': 'ADVISOR_PARTNER',
+  '/advisor-programs': 'ADVISOR_PARTNER',
   // ES-ES legacy (if any existed before)
   '/manifiesto': 'MANIFESTO',
   '/gobernanza': 'GOVERNANCE',

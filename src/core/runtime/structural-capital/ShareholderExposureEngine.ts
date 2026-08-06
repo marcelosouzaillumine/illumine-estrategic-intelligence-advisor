@@ -60,7 +60,7 @@ export class ShareholderExposureEngine {
     const impliedGovernanceFrailty = shareholderCurrentAccountRatio > 0.20 && shareholderConcentration > 0.30;
     
     if (impliedGovernanceFrailty) {
-      explanations.push('Este cenário sinaliza fragilidade de governança na preservação do capital operacional, sugerindo tensão fiduciária.');
+      explanations.push('Este contexto sinaliza fragilidade de governança na preservação do capital operacional, sugerindo tensão fiduciária.');
     }
 
     let explanation = '';

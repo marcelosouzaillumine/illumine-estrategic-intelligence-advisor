@@ -57,7 +57,7 @@ export class DreExecutiveLanguageCompiler {
     }
     
     if (year === 2023) {
-      return `A evolução longitudinal caracteriza uma operação com viabilidade em patamar crítico. O cenário impõe contenção estrita e alavancagem operacional restrita.`;
+      return `A evolução longitudinal caracteriza uma operação com viabilidade em patamar crítico. O contexto impõe contenção estrita e alavancagem operacional restrita.`;
     }
 
     if (year === 2024) {
@@ -139,7 +139,7 @@ export class DreExecutiveLanguageCompiler {
       primaryEconomicDriver: "Deficiência ou ausência de faturamento estruturado declarado.",
       p1Response: "Auditoria indisponível devido à ausência de faturamento.",
       p2Response: "Estrutura não calculável perante receita inexistente.",
-      p3Response: "Equilíbrio indefinido em cenário nulo.",
+      p3Response: "Equilíbrio indefinido em contexto nulo.",
       p4Response: "Inconsistência de volume restringe análise.",
       p5Response: "Rastreio operacional suspenso.",
       p6Response: "Base de risco não formatável sem DRE consolidada.",

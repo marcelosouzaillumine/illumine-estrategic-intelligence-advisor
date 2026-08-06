@@ -92,16 +92,16 @@ export class ExecutiveNarrativeBuilder {
 
   public static buildOutlook(context: ExecutiveNarrativeContext): string {
     if (context.institutionalState === 'NEUTRAL') {
-      return 'Cenário indeterminado até a normalização do fluxo de informações.';
+      return 'contexto indeterminado até a normalização do fluxo de informações.';
     }
 
     // Zero Semantic Contradiction: CRITICAL and WARNING must override any stage optimism
     if (context.institutionalState === 'CRITICAL') {
-      return 'O cenário sublinha condições de stress, onde a estabilização, preservação de caixa e normalização dos indicadores vitais assumem protagonismo natural.';
+      return 'O contexto sublinha condições de stress, onde a estabilização, preservação de caixa e normalização dos indicadores vitais assumem protagonismo natural.';
     }
 
     if (context.institutionalState === 'WARNING') {
-      return 'O cenário reflete fatores de risco, onde a prudência operacional e a recomposição de margens de segurança tornam-se vetores explicativos dominantes.';
+      return 'O contexto reflete fatores de risco, onde a prudência operacional e a recomposição de margens de segurança tornam-se vetores explicativos dominantes.';
     }
 
     if (context.module === 'BP') {

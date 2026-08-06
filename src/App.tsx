@@ -86,6 +86,7 @@ import { HomePage } from './components/pages/public/HomePage';
 import { PartnerSalesPage } from './components/pages/PartnerSalesPage';
 import { ReferralProgramPage } from './components/pages/public/ReferralProgramPage';
 import { InstitutionalAdvisorNetworkPage } from './components/pages/public/v2/InstitutionalAdvisorNetworkPage';
+import { InstitutionalAdvisorPartnerPage } from './components/pages/public/v2/InstitutionalAdvisorPartnerPage';
 import { DiagnosticoPage } from './components/pages/public/DiagnosticoPage';
 import { ExecutivePlatformLandingPage } from './components/pages/public/ExecutivePlatformLandingPage';
 import { LoginPage } from './components/pages/public/LoginPage';
@@ -100,6 +101,10 @@ import { InstitutionalDomainsPage } from './components/pages/public/v2/Instituti
 import { InstitutionalGovernancePage } from './components/pages/public/v2/InstitutionalGovernancePage';
 import { InstitutionalIntelligenceCenterPage } from './components/pages/public/v2/InstitutionalIntelligenceCenterPage';
 import { ExecutiveIntelligenceCenterPage } from './components/pages/public/v2/ExecutiveIntelligenceCenterPage';
+import { InstitutionalNonprofitPage } from './components/pages/public/v2/InstitutionalNonprofitPage';
+import { EnterpriseIntelligencePage } from './components/pages/public/v2/EnterpriseIntelligencePage';
+import PrivacyPage from './components/pages/public/v2/PrivacyPage';
+import SecurityPage from './components/pages/public/v2/SecurityPage';
 import { ForcePasswordChangeModal } from './components/modals/ForcePasswordChangeModal';
 import { ConsolidatedExecutiveProvider } from './context/ConsolidatedExecutiveContext';
 import { ConsolidatedExecutivePage } from './components/pages/ConsolidatedExecutivePage';
@@ -376,6 +381,11 @@ function getPageComponent(key: RouteKey) {
       </div>
     );
     case 'ADVISOR_NETWORK': return <InstitutionalAdvisorNetworkPage />;
+    case 'ADVISOR_PARTNER': return <InstitutionalAdvisorPartnerPage />;
+    case 'NONPROFIT': return <InstitutionalNonprofitPage />;
+    case 'ENTERPRISE': return <EnterpriseIntelligencePage />;
+    case 'PRIVACY': return <PrivacyPage />;
+    case 'SECURITY': return <SecurityPage />;
     default: return <InstitutionalHomePage />;
   }
 }

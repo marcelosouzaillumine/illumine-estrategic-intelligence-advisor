@@ -208,7 +208,7 @@ export class BenchmarkReadinessEngine {
     ];
 
     if (scenario === 'CONSTITUTIONAL_BREACH' || scenario === 'LIQUIDITY_SHOCK' || scenario === 'MISSION_STRESS') {
-      explainability.push(`Teto constitucional aplicado ativamente devido ao cenário de ${scenario}.`);
+      explainability.push(`Teto constitucional aplicado ativamente devido ao contexto de ${scenario}.`);
     }
 
     const getDimensionStatus = (s: number): 'CRITICAL' | 'WARNING' | 'OPTIMAL' => {

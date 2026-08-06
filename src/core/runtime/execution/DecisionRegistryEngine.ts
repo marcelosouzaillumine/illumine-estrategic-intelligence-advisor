@@ -122,7 +122,7 @@ export class DecisionRegistryEngine {
           createdAt: new Date().toISOString(),
           dueDate: parseDateOffset(1),
           status: "OPEN",
-          expectedBenefit: "Sanar risco de inadimplência fiscal e operacional de curtíssimo prazo.",
+          expectedBenefit: "Sanar risco de inadimplência fiscal e operacional de ciclo imediato.",
           evidence: ["Disponibilidade fiduciária inferior a 90 dias de runway"],
           lineageHash: `LIN-GDTL-LS-1-${baseTime}`,
           approvedByBoard: true,
@@ -203,7 +203,7 @@ export class DecisionRegistryEngine {
           dueDate: parseDateOffset(30),
           status: "IN_PROGRESS",
           expectedBenefit: "Reduzir risco de obsolescência tecnológica frente a concorrentes digitais.",
-          evidence: ["Erosão prospectiva com declínio concorrencial de médio prazo"],
+          evidence: ["Erosão prospectiva com declínio concorrencial de médio ciclo"],
           lineageHash: `LIN-GDTL-MD-1-${baseTime}`,
           approvedByBoard: true,
           approvedAt: new Date().toISOString()

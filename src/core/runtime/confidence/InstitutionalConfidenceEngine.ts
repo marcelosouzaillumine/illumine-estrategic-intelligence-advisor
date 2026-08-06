@@ -39,7 +39,7 @@ export class InstitutionalConfidenceEngine {
       rationales.push('Série histórica longa (>= 3 anos) permite previsibilidade de tendência.');
     } else if (historicoCiclos === 2) {
       score += 10;
-      rationales.push('Histórico limitado (apenas 1 ano base) restringe análise de longo prazo.');
+      rationales.push('Histórico limitado (apenas 1 ano base) restringe análise de longo horizonte.');
     } else {
       rationales.push('Ausência de histórico comparável impede validação de evolução estrutural.');
     }

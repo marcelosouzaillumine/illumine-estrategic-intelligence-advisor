@@ -22,8 +22,8 @@ export function generateBoardFollowupAgenda(commitments: ExecutionCommitment[]):
         category: 'MONITORAMENTO',
         urgency: isCriticalSlippage ? 'CRITICAL' : 'NORMAL',
         narrative: isCriticalSlippage 
-          ? `Alerta de Slippage Crítico. O prazo estourou ou o escopo reduziu severamente. Score de Slippage: ${commitment.slippage.overallSlippageScore}.`
-          : `Monitoramento contínuo do andamento. Prazo estimado: ${commitment.expectedCompletionDate.toLocaleDateString()}.`
+          ? `Alerta de Slippage Crítico. O ciclo estourou ou o escopo reduziu severamente. Score de Slippage: ${commitment.slippage.overallSlippageScore}.`
+          : `Monitoramento contínuo do andamento. ciclo estimado: ${commitment.expectedCompletionDate.toLocaleDateString()}.`
       });
     } else if (commitment.status === 'DEVIATED' || commitment.status === 'EXECUTED') {
       const impact = validateExecutionImpact(commitment);

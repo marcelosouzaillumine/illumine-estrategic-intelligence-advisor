@@ -56,7 +56,7 @@ export class PrescriptiveActionEngine {
       return {
         title: 'Reforço de Capital de Giro',
         description: 'Intervenção imediata para alongamento de dívida e preservação de caixa.',
-        actionDescription: '1. Renegociar dívidas de curto prazo. 2. Congelar CAPEX não essencial. 3. Antecipar recebíveis.',
+        actionDescription: '1. Renegociar dívidas de ciclo imediato. 2. Congelar CAPEX não essencial. 3. Antecipar recebíveis.',
         expectedOutcome: 'Redução da exposição financeira e restauração do capital de giro.',
         track: 'LIQUIDITY'
       };

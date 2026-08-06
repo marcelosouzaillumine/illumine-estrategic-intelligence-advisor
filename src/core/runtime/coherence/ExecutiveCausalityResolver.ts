@@ -33,7 +33,7 @@ export class ExecutiveCausalityResolver {
         return {
           domain,
           kpi: 'Liquidez Corrente e Ciclo de Caixa',
-          expectedImpact: 'Fortalecimento da capacidade de resposta financeira de curto prazo.',
+          expectedImpact: 'Fortalecimento da capacidade de resposta financeira de ciclo imediato.',
           executionRisk: 'Elevação da exposição a pressões de liquidez e necessidade emergencial de capital de giro.'
         };
       case 'CAPITAL_STRUCTURE':

@@ -73,7 +73,7 @@ export class CrossStatementPropagationEngine {
         chain: 'DFC_CONTINUITY_PRESSURE',
         category: 'CONTINUITY_RISK',
         severity: input.runway < 3 ? 'CRITICAL' : 'HIGH',
-        narrative: 'A queima sistemática de caixa com runway crítico eleva substancialmente o risco de continuidade a curto prazo.',
+        narrative: 'A queima sistemática de caixa com runway crítico eleva substancialmente o risco de continuidade a ciclo imediato.',
         evidence: {
           fco: input.fco,
           runwayMonths: input.runway

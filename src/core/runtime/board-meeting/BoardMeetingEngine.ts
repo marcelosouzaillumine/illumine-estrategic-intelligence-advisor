@@ -160,7 +160,7 @@ export class BoardMeetingEngine {
   ): BoardMeeting {
     const meeting = this.getActiveMeeting(clientId, scenario);
     if (!meeting) {
-      throw new Error(`Nenhuma reunião ativa encontrada para o cenário: ${scenario}`);
+      throw new Error(`Nenhuma reunião ativa encontrada para o contexto: ${scenario}`);
     }
 
     const resolution = meeting.resolutions.find(r => r.id === resolutionId);
@@ -222,7 +222,7 @@ export class BoardMeetingEngine {
   ): { meeting: BoardMeeting; minutes: MeetingMinutes } {
     const meeting = this.getActiveMeeting(clientId, scenario);
     if (!meeting) {
-      throw new Error(`Nenhuma reunião ativa encontrada para o cenário: ${scenario}`);
+      throw new Error(`Nenhuma reunião ativa encontrada para o contexto: ${scenario}`);
     }
 
     meeting.status = 'COMPLETED';

@@ -44,7 +44,7 @@ export class TreasuryGovernanceEngine {
     // Rule 1: Prioritize growth over survivability
     if ((runwayMonths < 12 || isSurvivabilityDegraded) && allocationsToGrowth > availableCash * 0.3) {
       violations.push(
-        'GROWTH_OVER_SURVIVABILITY_VIOLATION: Alocação excessiva em crescimento comercial em cenário de vulnerabilidade de sobrevivência.'
+        'GROWTH_OVER_SURVIVABILITY_VIOLATION: Alocação excessiva em crescimento comercial em contexto de vulnerabilidade de sobrevivência.'
       );
     }
 

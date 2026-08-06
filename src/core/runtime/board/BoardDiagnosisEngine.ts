@@ -26,7 +26,7 @@ export class BoardDiagnosisEngine {
     
     return {
       institutionalRisk: isBurningCash 
-        ? 'Dissonância entre capacidade de geração econômica e sustentabilidade de caixa no curto prazo.' 
+        ? 'Dissonância entre capacidade de geração econômica e sustentabilidade de caixa no ciclo imediato.' 
         : 'Risco moderado de estagnação caso o ciclo de capital não seja acelerado.',
       
       structuralBottleneck: hasMarginButNoScale

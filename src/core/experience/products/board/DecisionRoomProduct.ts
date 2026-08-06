@@ -8,6 +8,9 @@ export const DecisionRoomProduct: ExecutiveProductSchema = {
   productType: ExecutiveProductType.DECISION_PRODUCT,
   advisoryLevel: 'RECOMMENDATION',
   decisionAuthority: true,
+  canRecommend: true,
+  canExecute: true,
+  canCreateGovernanceDecision: true,
   purpose: 'Apresentar alternativas, estruturar cenários e registrar a deliberação fiduciária.',
   executiveDecisionSupported: ['Decisões estratégicas vinculantes', 'Aprovação orçamentária e alocação estrutural'],
   hierarchy: [

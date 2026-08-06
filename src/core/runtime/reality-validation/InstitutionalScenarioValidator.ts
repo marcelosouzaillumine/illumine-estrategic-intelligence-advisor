@@ -10,7 +10,7 @@ export class InstitutionalScenarioValidator {
     RealityValidationAuditLogger.logEvent(
       tenantId,
       'SCENARIO_VALIDATED',
-      'Cenário [' + dataset.name + '] validado. Stress: ' + stressTriggered + '. EW Ativados: ' + earlyWarningsActivated
+      'contexto [' + dataset.name + '] validado. Stress: ' + stressTriggered + '. EW Ativados: ' + earlyWarningsActivated
     );
 
     return {

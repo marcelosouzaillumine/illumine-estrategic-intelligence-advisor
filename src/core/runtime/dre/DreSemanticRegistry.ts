@@ -91,7 +91,7 @@ export const CausalRegistry: CausalDriverFragment[] = [
     intent: 'VALUE_CREATION', severity: 'PRESSURIZED', 
     causalCore: 'formação de margem contraída',
     executiveImplication: 'A conversão primária de receita apresenta ineficiência perante a estrutura de custos',
-    boardMandate: 'Pressiona a capacidade de sustentação do modelo a curto prazo',
+    boardMandate: 'Pressiona a capacidade de sustentação do modelo a ciclo imediato',
     recommendedAction: 'Otimizar eficiência na conversão da receita primária' 
   },
   { 
@@ -185,7 +185,7 @@ export const CausalRegistry: CausalDriverFragment[] = [
   { 
     intent: 'SURVIVAL_THRESHOLD', severity: 'BORDERLINE', 
     causalCore: 'distanciamento limite do break-even',
-    executiveImplication: 'A segurança operacional restringe a flexibilidade no planejamento de curto prazo',
+    executiveImplication: 'A segurança operacional restringe a flexibilidade no planejamento de ciclo imediato',
     boardMandate: 'Obriga a retenção severa de recursos para contingência orçamentária',
     recommendedAction: 'Monitorar tração comercial e congelar novas despesas atreladas' 
   },
@@ -207,7 +207,7 @@ export const CausalRegistry: CausalDriverFragment[] = [
     intent: 'SURVIVAL_THRESHOLD', severity: 'EXCELLENT', 
     causalCore: 'amplo múltiplo de cobertura do ponto de equilíbrio',
     executiveImplication: 'O nivelamento operacional atinge um patamar superior de blindagem comercial',
-    boardMandate: 'Confirma resiliência estrutural de longo prazo na dinâmica de receitas',
+    boardMandate: 'Confirma resiliência estrutural de longo horizonte na dinâmica de receitas',
     recommendedAction: 'Mapear eventuais otimizações operacionais em processos complementares' 
   },
 
@@ -296,7 +296,7 @@ export const CausalRegistry: CausalDriverFragment[] = [
     causalCore: 'diluição acelerada de atritos que reflete máxima retenção de caixa',
     executiveImplication: 'As barreiras ao crescimento econômico real foram contornadas através da otimização operacional',
     boardMandate: 'A diretoria evidencia execução orçamentária muito superior à média industrial',
-    recommendedAction: 'Concentrar estratégias de curto prazo em replicação e padronização da eficiência alcançada' 
+    recommendedAction: 'Concentrar estratégias de ciclo imediato em replicação e padronização da eficiência alcançada' 
   },
 
   // P6 - INACTION_RISK (Base: Break-Even Coverage)
@@ -310,7 +310,7 @@ export const CausalRegistry: CausalDriverFragment[] = [
   { 
     intent: 'INACTION_RISK', severity: 'PRESSURIZED', 
     causalCore: 'alta sensibilidade ao desgaste inflacionário perante inércia comercial',
-    executiveImplication: 'A paralisia estratégica expõe o negócio a perdas operacionais em curto prazo',
+    executiveImplication: 'A paralisia estratégica expõe o negócio a perdas operacionais em ciclo imediato',
     boardMandate: 'Determina prontidão para repasse de preços e ajustes em contratos desfavoráveis',
     recommendedAction: 'Preparar ações e políticas de contenção de custos reativos' 
   },
@@ -326,7 +326,7 @@ export const CausalRegistry: CausalDriverFragment[] = [
     causalCore: 'espaço operacional adequado para planejar ciclos',
     executiveImplication: 'Os indicadores protegem os horizontes analíticos, permitindo execução calculada',
     boardMandate: 'Autoriza debates amplos em comitê, reduzindo a pressão por cortes emergenciais',
-    recommendedAction: 'Avaliar oportunidades de melhoria focando o médio prazo' 
+    recommendedAction: 'Avaliar oportunidades de melhoria focando o médio ciclo' 
   },
   { 
     intent: 'INACTION_RISK', severity: 'STRONG', 
@@ -382,8 +382,8 @@ export const CausalRegistry: CausalDriverFragment[] = [
   { 
     intent: 'BOARD_MANDATE', severity: 'EXCELLENT', 
     causalCore: 'performance impecável nos direcionadores primários da operação',
-    executiveImplication: 'O cenário é perfeitamente adequado para orquestrar frentes avançadas de ganho contínuo de resultados',
-    boardMandate: 'Reconhece o alinhamento maduro da entidade e foca diretrizes no planejamento a longo prazo sobre excelência consolidada',
+    executiveImplication: 'O contexto é perfeitamente adequado para orquestrar frentes avançadas de ganho contínuo de resultados',
+    boardMandate: 'Reconhece o alinhamento maduro da entidade e foca diretrizes no planejamento a longo horizonte sobre excelência consolidada',
     recommendedAction: 'Aprofundar discussões de visão corporativa futura com o colchão orçamentário solidamente assegurado' 
   }
 ];
@@ -394,7 +394,7 @@ export const getCausalFragment = (intent: PanelIntent, severity: 'UNSUSTAINABLE'
 
 /**
  * PLANO EXECUTIVO (Causal Planning)
- * Os prazos do plano são determinados pelo grau de estresse.
+ * Os ciclos do plano são determinados pelo grau de estresse.
  */
 export const ExecutivePlanTriggers = {
   getPlan: (severity: 'UNSUSTAINABLE' | 'PRESSURIZED' | 'BORDERLINE' | 'ADEQUATE' | 'STRONG' | 'EXCELLENT', hasBurn: boolean) => {

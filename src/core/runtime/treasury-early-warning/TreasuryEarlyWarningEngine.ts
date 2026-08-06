@@ -13,7 +13,7 @@ export class TreasuryEarlyWarningEngine {
 
     // 1. Runway Warning
     let runwayStatus: TreasuryEarlyWarningAlert['status'] = 'NORMAL';
-    let runwayMsg = 'Prazo de sobrevivência de caixa confortável.';
+    let runwayMsg = 'ciclo de sobrevivência de caixa confortável.';
     if (runwayMonths < 1.0) {
       runwayStatus = 'SURVIVABILITY_THREAT';
       runwayMsg = `Ameaça à continuidade: Runway extremamente crítico de ${runwayMonths.toFixed(1)} meses.`;
@@ -41,7 +41,7 @@ export class TreasuryEarlyWarningEngine {
     if (fco < 0) {
       if (runwayMonths < 3.0) {
         fcoStatus = 'CRITICAL';
-        fcoMsg = 'FCO negativo sob runway crítico. Consumo severo de caixa com alto risco de insolvência de curto prazo.';
+        fcoMsg = 'FCO negativo sob runway crítico. Consumo severo de caixa com alto risco de insolvência de ciclo imediato.';
       } else if (consecutiveNegativeFCOCycles >= 4) {
         fcoStatus = 'CRITICAL';
         fcoMsg = `FCO negativo persistente por ${consecutiveNegativeFCOCycles} ciclos. Risco crítico de colapso estrutural.`;
@@ -108,14 +108,14 @@ export class TreasuryEarlyWarningEngine {
         metric: 'Clientes',
         value: 'Crescimento > Receita',
         status: 'ALERT',
-        message: 'Crescimento de Clientes superior ao crescimento de Receita (Dilação de prazo médio de recebimento).'
+        message: 'Crescimento de Clientes superior ao crescimento de Receita (Dilação de ciclo médio de recebimento).'
       });
     } else {
       alerts.push({
         metric: 'Clientes',
         value: 'Equilibrado',
         status: 'NORMAL',
-        message: 'Prazo de recebimento de clientes compatível com a receita.'
+        message: 'ciclo de recebimento de clientes compatível com a receita.'
       });
     }
 

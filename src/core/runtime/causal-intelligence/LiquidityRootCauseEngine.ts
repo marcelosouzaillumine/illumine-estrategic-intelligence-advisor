@@ -107,7 +107,7 @@ export class LiquidityRootCauseEngine {
         'CUSTOMER_CREDIT_EXPANSION',
         'Expansão de Crédito a Clientes',
         fco < 0 ? 'HIGH' : 'MODERATE',
-        'Sinalização de extensão de prazos médios de recebimento concedidos a clientes, postergando entrada de caixa.',
+        'Sinalização de extensão de ciclos médios de recebimento concedidos a clientes, postergando entrada de caixa.',
         0.8
       );
     }
@@ -116,7 +116,7 @@ export class LiquidityRootCauseEngine {
         'CUSTOMER_CONCENTRATION_RISK',
         'Risco de Concentração de Recebíveis',
         'HIGH',
-        'Elevada exposição de crédito de curto prazo em relação ao caixa livre disponível da organização.',
+        'Elevada exposição de crédito de ciclo imediato em relação ao caixa livre disponível da organização.',
         0.75
       );
     }
@@ -156,7 +156,7 @@ export class LiquidityRootCauseEngine {
     if (thirdPartyFunding > 0 && availableCash < thirdPartyFunding * 0.3) {
       addFactor(
         'SHORT_TERM_DEBT_REFINANCING_PRESSURE',
-        'Pressão de Rolagem de Dívida de Curto Prazo',
+        'Pressão de Rolagem de Dívida de ciclo imediato',
         'HIGH',
         'Vetores de refinanciamento necessários devido à baixa cobertura de caixa sobre as obrigações bancárias vincendas.',
         0.8

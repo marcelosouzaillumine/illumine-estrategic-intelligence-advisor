@@ -25,16 +25,16 @@ export class BalanceSheetPatrimonialIntelligenceEngine {
     // Interpretações determinísticas com base no framework institucional
     let solvencyReading = 'O balanço não apresenta riscos estruturais iminentes de solvência.';
     if (solvencyStatus.includes('Alto')) {
-      solvencyReading = 'Alavancagem elevada indica pressão na estrutura de obrigações de longo prazo.';
+      solvencyReading = 'Alavancagem elevada indica pressão na estrutura de obrigações de longo horizonte.';
     } else if (solvencyStatus.includes('Baixo') || solvencyStatus.includes('Controlado')) {
       solvencyReading = 'Estrutura passiva confortável, com dependência de terceiros minimizada.';
     }
 
     let liquidityReading = 'Equilíbrio aceitável na relação de conversibilidade dos ativos circulantes.';
     if (liquidityStatus.includes('Forte') || liquidityStatus.includes('Saudável') || liquidityStatus.includes('Alta')) {
-      liquidityReading = 'Alta disponibilidade para cumprimento de obrigações de curto prazo, sugerindo eficiência de caixa.';
+      liquidityReading = 'Alta disponibilidade para cumprimento de obrigações de ciclo imediato, sugerindo eficiência de caixa.';
     } else if (liquidityStatus.includes('Fraca') || liquidityStatus.includes('Pressionada')) {
-      liquidityReading = 'Descompasso crítico entre exigibilidades de curto prazo e realização de ativos, demandando atenção à NCG.';
+      liquidityReading = 'Descompasso crítico entre exigibilidades de ciclo imediato e realização de ativos, demandando atenção à NCG.';
     }
 
     let capitalStructureReading = 'Composição mista de capital próprio e de terceiros suportando a operação.';

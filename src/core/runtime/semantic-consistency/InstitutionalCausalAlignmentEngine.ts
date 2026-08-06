@@ -14,7 +14,7 @@ export class InstitutionalCausalAlignmentEngine {
         return 'A organização apresenta indicadores financeiros favoráveis, porém enfrenta restrições operacionais que limitam severamente sua capacidade de execução.';
       }
       if (conflict.concept === SemanticConcept.LIQUIDITY) {
-        return 'O modelo de negócios apresenta rentabilidade contábil, porém o ciclo operacional gera pressões significativas de caixa no curto prazo.';
+        return 'O modelo de negócios apresenta rentabilidade contábil, porém o ciclo operacional gera pressões significativas de caixa no ciclo imediato.';
       }
       if (conflict.concept === SemanticConcept.GOVERNANCE_MATURITY) {
         return 'Existem políticas formais avançadas em algumas áreas (ex: ESG), mas a cultura e as práticas executivas diárias indicam estágio inicial de governança fiduciária.';

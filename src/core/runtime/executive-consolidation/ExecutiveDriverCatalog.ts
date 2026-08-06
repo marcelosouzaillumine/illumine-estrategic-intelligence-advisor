@@ -80,7 +80,7 @@ export const EXECUTIVE_DRIVER_CATALOG: Record<ExecutiveDriverId, ExecutiveDriver
       healthy: "Liquidez Real Confortável"
     },
     narratives: {
-      critical: "liquidez real sob pressão imediata de obrigações de curto prazo",
+      critical: "liquidez real sob pressão imediata de obrigações de ciclo imediato",
       warning: "compressão da capacidade de liquidação, requerendo otimização de capital de giro",
       healthy: "ampla folga de liquidez"
     },
@@ -90,8 +90,8 @@ export const EXECUTIVE_DRIVER_CATALOG: Record<ExecutiveDriverId, ExecutiveDriver
       healthy: "Alocação eficiente de excedentes e preservação do poder econômico do capital"
     },
     priorityRecommendation: {
-      critical: "Renegociar passivos de curto prazo e preservar caixa imediatamente.",
-      warning: "Alongar perfil da dívida e otimizar prazos operacionais.",
+      critical: "Renegociar passivos de ciclo imediato e preservar caixa imediatamente.",
+      warning: "Alongar perfil da dívida e otimizar ciclos operacionais.",
       healthy: "Instituir política formal de alocação de excedentes e reinvestimento na operação."
     }
   },
@@ -114,7 +114,7 @@ export const EXECUTIVE_DRIVER_CATALOG: Record<ExecutiveDriverId, ExecutiveDriver
       healthy: "Disponibilidades Robustas"
     },
     narratives: {
-      critical: "risco de ruptura no curtíssimo prazo por baixo saldo em tesouraria",
+      critical: "risco de ruptura no ciclo imediato por baixo saldo em tesouraria",
       warning: "caixa livre em patamar mínimo, indicando baixo colchão de liquidez",
       healthy: "forte posição de caixa, mitigando riscos de choques de liquidez"
     },
@@ -398,7 +398,7 @@ export const EXECUTIVE_DRIVER_CATALOG: Record<ExecutiveDriverId, ExecutiveDriver
     },
     priorityRecommendation: {
       critical: "Estruturar operações de desconto de recebíveis de forma provisória.",
-      warning: "Equacionar os prazos médios de recebimento (PMR) e pagamento (PMP).",
+      warning: "Equacionar os ciclos médios de recebimento (PMR) e pagamento (PMP).",
       healthy: "Otimizar o custo de capital evitando tomar linhas de giro onerosas sem necessidade."
     }
   },

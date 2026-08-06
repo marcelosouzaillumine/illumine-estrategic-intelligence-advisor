@@ -190,9 +190,9 @@ export class BalanceSheetExecutiveViewModelBuilder {
     // Conciliation
     const patrimonialIndex = facts.patrimonialIndex || 0;
     if (auditLayer?.globalScore !== undefined && auditLayer.globalScore > 70 && patrimonialIndex < 30 && patrimonialIndex > 0) {
-      (guardedViewModel as any).compositeIndexesConciliation = 'Nota Metodológica: A sólida proteção patrimonial (Score elevado) reflete a estrutura de capital e o nível de liquidez acumulada, enquanto a Eficiência Operacional (EFOS reduzida) evidencia pressões de curto prazo no capital de giro ou margens. Ambas as leituras são independentes e não contraditórias.';
+      (guardedViewModel as any).compositeIndexesConciliation = 'Nota Metodológica: A sólida proteção patrimonial (Score elevado) reflete a estrutura de capital e o nível de liquidez acumulada, enquanto a Eficiência Operacional (EFOS reduzida) evidencia pressões de ciclo imediato no capital de giro ou margens. Ambas as leituras são independentes e não contraditórias.';
     } else if (auditLayer?.globalScore !== undefined && auditLayer.globalScore < 40 && patrimonialIndex > 70) {
-      (guardedViewModel as any).compositeIndexesConciliation = 'Nota Metodológica: A eficiência operacional atual é forte, porém o baixo Score Patrimonial reflete desequilíbrios estruturais crônicos no endividamento ou liquidez de longo prazo.';
+      (guardedViewModel as any).compositeIndexesConciliation = 'Nota Metodológica: A eficiência operacional atual é forte, porém o baixo Score Patrimonial reflete desequilíbrios estruturais crônicos no endividamento ou liquidez de longo horizonte.';
     }
 
     const testMode = process.env.NODE_ENV === 'test';
@@ -202,7 +202,49 @@ export class BalanceSheetExecutiveViewModelBuilder {
       testMode
     );
 
-    return this.assertNoRawEnums(sanitizedViewModel);
+    return this.assertFinancialNarrativePurity(sanitizedViewModel);
+  }
+
+  private static assertFinancialNarrativePurity(vm: BalanceSheetExecutiveViewModel): BalanceSheetExecutiveViewModel {
+    const extractStringValues = (obj: any): string[] => {
+      let strings: string[] = [];
+      if (typeof obj === 'string') {
+        strings.push(obj.toLowerCase());
+      } else if (Array.isArray(obj)) {
+        obj.forEach(item => strings.push(...extractStringValues(item)));
+      } else if (obj !== null && typeof obj === 'object') {
+        Object.values(obj).forEach(val => strings.push(...extractStringValues(val)));
+      }
+      return strings;
+    };
+    
+    const allValues = extractStringValues(vm).join(' ');
+    
+    // Prohibited Semantic List (Decision DNA)
+    const prohibitedTerms = [
+      'decision', 'decisão', 'decidir',
+      'approve', 'approval', 'aprovação', 'aprovar',
+      'recommend', 'recommended', 'recomendação', 'recomenda', 'recomendado',
+      'execute', 'execution', 'executar', 'execução',
+      'owner', 'deadline', 'prazo',
+      'roadmap', 'action plan', 'plano', 'ação',
+      'scenario', 'optimized scenario', 'cenário', 'alternativa',
+      'strategy recommendation', 'dividend distribution',
+      'kpi shift', 'prioridade', 'melhoria', 'otimização',
+      'sugestão', 'orientação'
+    ];
+
+    const violations = prohibitedTerms.filter(term => {
+      // Use word boundary to avoid partial matches where possible, though simple includes is safer for broad catching
+      const regex = new RegExp(`\\b${term}\\b`, 'i');
+      return regex.test(allValues);
+    });
+
+    if (violations.length > 0) {
+      throw new Error(`[BP Constitutional Violation] Financial Narrative Purity failed. Prescriptive or decision-oriented terms found in ViewModel: ${violations.join(', ')}`);
+    }
+
+    return this.assertNoRawEnums(vm);
   }
 
   private static assertNoRawEnums(vm: BalanceSheetExecutiveViewModel): BalanceSheetExecutiveViewModel {

@@ -16,7 +16,7 @@ export class InstitutionalInterpretationBoundary {
     let safeClaim = rawClaim;
 
     if (isSingleYear) {
-      safeClaim = safeClaim.replace(/crescimento sustentável/gi, 'expansão de curto prazo (histórico insuficiente)');
+      safeClaim = safeClaim.replace(/crescimento sustentável/gi, 'expansão de ciclo imediato (histórico insuficiente)');
       safeClaim = safeClaim.replace(/estabilidade consolidada/gi, 'equilíbrio momentâneo');
       safeClaim = safeClaim.replace(/forte tendência/gi, 'indicação estática');
     }

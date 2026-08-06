@@ -19,7 +19,7 @@ export class DominantRiskResolver {
       return 'Queima operacional de caixa drenando a tesouraria.';
     }
     if (input.liquidezReal < 1.0) {
-      return 'Fragilidade de liquidez limitando capacidade de pagamento no curto prazo.';
+      return 'Fragilidade de liquidez limitando capacidade de pagamento no ciclo imediato.';
     }
     if (input.lucroLiquido < 0) {
       return 'Escala econômica insuficiente prejudicando a criação de valor.';

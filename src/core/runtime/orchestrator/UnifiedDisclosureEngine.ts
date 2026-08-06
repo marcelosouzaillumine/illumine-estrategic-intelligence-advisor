@@ -60,7 +60,7 @@ export class UnifiedDisclosureEngine {
       primaryDisclosure = 'QUALIDADE DO CAIXA NÃO VERIFICÁVEL: Avaliação de DFC ausente compromete a validação de conversão de caixa e sustentabilidade real de lucros.';
       blockedSections.push('Análise de Conversão de Caixa', 'Sustentabilidade de Dividendos');
     } else if (isSingleYear) {
-      primaryDisclosure = 'DIAGNÓSTICO ESTÁTICO: Análise restrita ao cenário atual devido à insuficiência de ciclos históricos para inferência longitudinal.';
+      primaryDisclosure = 'DIAGNÓSTICO ESTÁTICO: Análise restrita ao contexto atual devido à insuficiência de ciclos históricos para inferência longitudinal.';
       blockedSections.push('Análise de Tendência', 'Crescimento Sustentável', 'Evolução Histórica');
     }
 

@@ -33,7 +33,7 @@ export class NarrativeGovernanceResolver {
     } else {
       allowedNarrativeFrame.push(
         'Otimização do retorno sobre capital investido (ROIC).',
-        'Gestão fina de estoques e prazos médios contábeis.',
+        'Gestão fina de estoques e ciclos médios contábeis.',
         'Preservação da solidez patrimonial e dividendos.'
       );
     }
@@ -41,10 +41,10 @@ export class NarrativeGovernanceResolver {
     // 2. Blocked Narrative Claims (Garantias proibidas)
     if (density === 'SINGLE_YEAR_ONLY' || density === 'LOW_HISTORICAL_DENSITY') {
       blockedNarrativeClaims.push(
-        'Melhoria consistente e sustentável de longo prazo',
+        'Melhoria consistente e sustentável de longo horizonte',
         'Tendência longitudinal secular de expansão de margens',
         'Recuperação histórica de rentabilidade consolidada',
-        'Turnaround estrutural de longo prazo comprovado'
+        'Turnaround estrutural de longo horizonte comprovado'
       );
     }
 

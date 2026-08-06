@@ -35,7 +35,7 @@ export class DecisionCausalityEngine {
     if (domains.includes('CAPEX')) {
       expectedEffects.push('Saída de recursos líquidos para imobilização de ativos estruturais.');
       secondOrderRisks.push('Redução na flexibilidade financeira e possível estrangulamento de capital de giro.');
-      propagationPath.push('CAPEX → Liquidez de Curto Prazo → Solvência');
+      propagationPath.push('CAPEX → Liquidez de ciclo imediato → Solvência');
     }
 
     if (domains.includes('Debt Expansion')) {

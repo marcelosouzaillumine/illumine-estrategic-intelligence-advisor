@@ -20,7 +20,12 @@ const SEO_KEY_MAP: Record<RouteKey, string> = {
   CONTACT: 'contact',
   PARTNERS: 'partners',
   LOGIN: 'login',
-  ADVISOR_NETWORK: 'advisor-network',
+  ADVISOR_NETWORK: 'advisorNetwork',
+  NONPROFIT: 'nonprofit',
+  ENTERPRISE: 'enterprise',
+  SECURITY: 'security',
+  PRIVACY: 'privacy',
+  ADVISOR_PARTNER: 'advisorPartner'
 };
 
 export function useSeo({ pageKey, schemaTypes }: SeoConfig) {

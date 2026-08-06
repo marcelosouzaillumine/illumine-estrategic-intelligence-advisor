@@ -95,11 +95,11 @@ export class BalanceSheetDiagnosticEngine {
     } else if (cgl === 'positive' && ncg === 'positive' && treasury === 'positive') {
       fleuriet = { type: 'TYPE_2', label: 'Sólida', cgl, ncg, treasury, riskLevel: 'LOW', description: 'A empresa financia sua operação com recursos próprios e mantém reserva financeira positiva.' };
     } else if (cgl === 'positive' && ncg === 'positive' && treasury === 'negative') {
-      fleuriet = { type: 'TYPE_3', label: 'Insatisfatória', cgl, ncg, treasury, riskLevel: 'MEDIUM', description: 'O capital de giro próprio é insuficiente para financiar a operação, exigindo recursos de curto prazo.' };
+      fleuriet = { type: 'TYPE_3', label: 'Insatisfatória', cgl, ncg, treasury, riskLevel: 'MEDIUM', description: 'O capital de giro próprio é insuficiente para financiar a operação, exigindo recursos de ciclo imediato.' };
     } else if (cgl === 'negative' && ncg === 'positive' && treasury === 'negative') {
-      fleuriet = { type: 'TYPE_4', label: 'Alto Risco', cgl, ncg, treasury, riskLevel: 'HIGH', description: 'A empresa apresenta dependência estrutural de capital de terceiros de curto prazo para financiar a operação e o imobilizado.' };
+      fleuriet = { type: 'TYPE_4', label: 'Alto Risco', cgl, ncg, treasury, riskLevel: 'HIGH', description: 'A empresa apresenta dependência estrutural de capital de terceiros de ciclo imediato para financiar a operação e o imobilizado.' };
     } else if (cgl === 'negative' && ncg === 'negative' && treasury === 'positive') {
-      fleuriet = { type: 'TYPE_5', label: 'Estrutura Atípica', cgl, ncg, treasury, riskLevel: 'MEDIUM', description: 'A empresa financia o ativo permanente com recursos de curto prazo, mas a operação gera caixa suficiente para cobrir.' };
+      fleuriet = { type: 'TYPE_5', label: 'Estrutura Atípica', cgl, ncg, treasury, riskLevel: 'MEDIUM', description: 'A empresa financia o ativo permanente com recursos de ciclo imediato, mas a operação gera caixa suficiente para cobrir.' };
     } else {
       fleuriet = { type: 'TYPE_6', label: 'Crítica', cgl, ncg, treasury, riskLevel: 'CRITICAL', description: 'Descompasso financeiro severo, com falta de capital de giro e operação consumindo recursos sem cobertura.' };
     }
@@ -129,7 +129,7 @@ export class BalanceSheetDiagnosticEngine {
     if (cashRatio > 0.5) {
       risks.push({ id: 'CASH_EXCESS', category: 'Capital Allocation', level: 'WARNING', metric: 'Disponibilidades / Ativo', value: cashRatio, message: 'Capital líquido elevado. Avaliar retorno sobre capital e eficiência da alocação.' });
     } else if (cashRatio < 0.1) {
-      risks.push({ id: 'CASH_LOW', category: 'Liquidity', level: 'ATTENTION', metric: 'Disponibilidades / Ativo', value: cashRatio, message: 'Baixa liquidez imediata. Acompanhar obrigações de curtíssimo prazo.' });
+      risks.push({ id: 'CASH_LOW', category: 'Liquidity', level: 'ATTENTION', metric: 'Disponibilidades / Ativo', value: cashRatio, message: 'Baixa liquidez imediata. Acompanhar obrigações de ciclo imediato.' });
     }
 
     // Short-term Pressure
@@ -137,7 +137,7 @@ export class BalanceSheetDiagnosticEngine {
     const currentLiquidity = passivoCirculante > 0 ? ativoCirculante / passivoCirculante : 0;
     
     if (currentLiabilitiesRatio > 0.8 && currentLiquidity < 1.5) {
-      risks.push({ id: 'ST_PRESSURE', category: 'Solvency', level: 'CRITICAL', metric: 'PC / Passivo Total', value: currentLiabilitiesRatio, message: 'Forte pressão de curto prazo associada a baixa margem de liquidez.' });
+      risks.push({ id: 'ST_PRESSURE', category: 'Solvency', level: 'CRITICAL', metric: 'PC / Passivo Total', value: currentLiabilitiesRatio, message: 'Forte pressão de ciclo imediato associada a baixa margem de liquidez.' });
     }
 
     // 4. Executive Narrative
@@ -165,7 +165,7 @@ export class BalanceSheetDiagnosticEngine {
       if (inventoryRatio > 0.3) parts.push('estoques');
       message += `Principal atenção: O capital está concentrado em ${parts.join(' e ')}, sugerindo necessidade de avaliação da eficiência de utilização dos recursos.`;
     } else if (currentLiabilitiesRatio > 0.6) {
-       message += `Principal atenção: O endividamento está concentrado no curto prazo, exigindo monitoramento ativo do ciclo financeiro.`;
+       message += `Principal atenção: O endividamento está concentrado no ciclo imediato, exigindo monitoramento ativo do ciclo financeiro.`;
     } else {
        message += `Não foram identificadas anomalias estruturais severas na composição patrimonial.`;
     }
