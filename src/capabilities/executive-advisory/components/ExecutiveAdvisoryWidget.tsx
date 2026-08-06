@@ -36,11 +36,11 @@ export function ExecutiveAdvisoryWidget() {
   const showBackButton = engine.messages.length > 1;
 
   return (
-    <div className="fixed bottom-6 right-6 z-[1000] font-sans flex flex-col items-end">
+    <div className="fixed bottom-6 right-6 z-[1000] font-sans flex flex-col items-end pointer-events-none">
       
       {/* Popover */}
       <div 
-        className={`mb-4 w-[340px] md:w-[380px] bg-[#0A0A0B] border border-white/10 rounded-2xl shadow-[0_0_50px_rgba(0,0,0,0.5)] overflow-hidden transition-all duration-500 origin-bottom-right flex flex-col h-[550px] max-h-[80vh] ${
+        className={`mb-4 w-[340px] md:w-[380px] bg-[#0A0A0B] border border-white/10 rounded-2xl shadow-[0_0_50px_rgba(0,0,0,0.5)] overflow-hidden transition-all duration-500 origin-bottom-right flex flex-col h-[550px] max-h-[80vh] pointer-events-auto ${
           isOpen ? 'scale-100 opacity-100 translate-y-0' : 'scale-90 opacity-0 translate-y-8 pointer-events-none'
         }`}
       >
@@ -84,7 +84,7 @@ export function ExecutiveAdvisoryWidget() {
       {/* FAB Button */}
       <button
         onClick={() => setIsOpen(!isOpen)}
-        className={`w-14 h-14 rounded-full flex items-center justify-center transition-all duration-500 shadow-[0_0_30px_rgba(245,158,11,0.2)] hover:scale-110
+        className={`w-14 h-14 rounded-full flex items-center justify-center transition-all duration-500 shadow-[0_0_30px_rgba(245,158,11,0.2)] hover:scale-110 pointer-events-auto
           ${isOpen ? 'bg-[#121214] border border-white/10 text-white rotate-90' : 'bg-amber-500 text-black hover:bg-amber-400'}
         `}
       >

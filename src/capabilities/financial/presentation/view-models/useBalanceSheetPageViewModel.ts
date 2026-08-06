@@ -22,7 +22,7 @@ import { BalanceSheetAssetQualitySection } from '../../../../components/pages/ba
 import { BalanceSheetCapitalStructureSection } from '../../../../components/pages/balance-sheet/BalanceSheetCapitalStructureSection';
 import { BalanceSheetInstitutionalContextSection } from '../../../../components/pages/balance-sheet/BalanceSheetInstitutionalContextSection';
 import { BalanceSheetTechnicalLayerSection } from '../../../../components/pages/balance-sheet/BalanceSheetTechnicalLayerSection';
-import { BalanceSheetExecutiveViewModelBuilder } from '../../../../core/runtime/executive-consolidation/BalanceSheetExecutiveViewModelBuilder';
+import { FinancialPositionPureViewModelBuilder } from '../../../../core/runtime/executive-consolidation/FinancialPositionPureViewModelBuilder';
 import { FinancialAnalyticsBuilder } from '../../../../core/runtime/executive-consolidation/builders/FinancialAnalyticsBuilder';
 import { BalanceSheetAuditLayerSection } from '../../../../components/pages/balance-sheet/BalanceSheetAuditLayerSection';
 import { BalanceSheetWaterfallChartSection } from '../../../../components/pages/balance-sheet/BalanceSheetWaterfallChartSection';
@@ -542,10 +542,7 @@ export function useBalanceSheetPageViewModel({ clients, selectedClient, selected
     );
   }, [waterfallData, ativoData, passivoData, chartData, majorChanges, comparativeAnalysis, bpSummary, translateLabel]);
 
-  const executiveViewModel = useMemo(() => {
-    if (!hasBalanceSheetData) return null;
-    return BalanceSheetExecutiveViewModelBuilder.build(executiveReport || {}, 'safe', filterYear, bpSummary, financialIndicators);
-  }, [executiveReport, filterYear, bpSummary, financialIndicators, hasBalanceSheetData]);
+  // Legacy executiveViewModel removed for purity
 
   const presentationModel = useMemo(() => {
     if (!hasBalanceSheetData || !bpSummary) return null;
@@ -579,9 +576,19 @@ export function useBalanceSheetPageViewModel({ clients, selectedClient, selected
     return ExecutiveStrategicTensionEngine.evaluate(financialIndicators);
   }, [financialIndicators, bpSummary]);
 
-  const evidenceTrace = useMemo(() => {
-    return executiveViewModel?.evidenceTrace || [];
-  }, [executiveViewModel]);
+  const pureViewModel = useMemo(() => {
+    if (!hasBalanceSheetData || !bpSummary) return null;
+    return FinancialPositionPureViewModelBuilder.build({
+      balanceSheet: bpSummary,
+      indicators: financialIndicators || [],
+      historicalSeries: historicalFinancialSeries?.series || [],
+      metadata: {
+        healthStatus: executiveReport?.canonicalState?.status || 'NEUTRAL',
+        confidence: executiveReport?.compliance?.confidenceLevel || 'HIGH',
+        drivers: []
+      }
+    });
+  }, [hasBalanceSheetData, bpSummary, financialIndicators, historicalFinancialSeries, executiveReport]);
 
 
   return {
@@ -612,17 +619,13 @@ export function useBalanceSheetPageViewModel({ clients, selectedClient, selected
       bpSummary,
       ebitda,
       lucroLiquido,
-      executiveViewModel,
+      pureViewModel,
       assessment: presentationModel,
       financialAnalyticsViewModel,
       loadingHistory,
       historicalFinancialSeries,
       t,
       hasBalanceSheetData,
-      executiveReport,
-      patrimonialIntelligenceReport,
-      strategicTensions,
-      financialIndicators,
       ativoTotal,
       passivoTotal,
       plValue,

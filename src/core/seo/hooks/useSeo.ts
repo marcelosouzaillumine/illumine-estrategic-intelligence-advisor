@@ -25,7 +25,8 @@ const SEO_KEY_MAP: Record<RouteKey, string> = {
   ENTERPRISE: 'enterprise',
   SECURITY: 'security',
   PRIVACY: 'privacy',
-  ADVISOR_PARTNER: 'advisorPartner'
+  ADVISOR_PARTNER: 'advisorPartner',
+  PLANS: 'plans'
 };
 
 export function useSeo({ pageKey, schemaTypes }: SeoConfig) {

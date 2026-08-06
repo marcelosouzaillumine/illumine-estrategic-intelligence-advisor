@@ -24,8 +24,6 @@ import { BalanceSheetInstitutionalContextSection } from './balance-sheet/Balance
 import { BalanceSheetTechnicalLayerSection } from './balance-sheet/BalanceSheetTechnicalLayerSection';
 import { BalanceSheetAuditLayerSection } from './balance-sheet/BalanceSheetAuditLayerSection';
 import { BalanceSheetWaterfallChartSection } from './balance-sheet/BalanceSheetWaterfallChartSection';
-import { ExecutiveStrategicTensions } from '../ui/executive-strategic-tensions';
-import { ExecutiveDecisionTrace } from '../ui/executive-decision-trace';
 import { BalanceSheetEvolutionAnalysisSection } from './balance-sheet/BalanceSheetEvolutionAnalysisSection';
 import { BalanceSheetCompositionChartsSection } from './balance-sheet/BalanceSheetCompositionChartsSection';
 import { ExecutiveExposureCard } from '../ui/executive-exposure-card';
@@ -56,8 +54,7 @@ export function BalanceSheetPage(props: any) {
   const { clients, selectedClient, selectedYear } = props;
   
   const { filterYear, densityLevel, toast, deleting, showDeleteConfirm, showImportModal, showManualModal, showCamada2, showCamada3, showFullStressTests, userRole, isGenerating, engineError } = state;
-  const { profile, financialEntries, dreDbData, dlpaDbData, cashFlowDbData, allHistoryData, loadingBP, rows, bpSummary, ebitda, lucroLiquido, executiveViewModel, financialAnalyticsViewModel, loadingHistory, historicalFinancialSeries, t, hasBalanceSheetData, executiveReport, patrimonialIntelligenceReport, strategicTensions, financialIndicators,
-ativoTotal, passivoTotal, plValue, ac, anc, pc, pnc, isBalanced, divergence, cx, est, clientes, fornecedores, passivosFinanceiros, capitalSocial, valorPrejuizo, valAltaConversibilidade, valMediaConversibilidade, valBaixaConversibilidade, valConversibilidadeRestrita, creditosSocios, chartData, historyByYear, comparativeAnalysis, ativoData, passivoData, COLORS, resilienciaGlobal, maturidade } = computed;
+  const { profile, financialEntries, dreDbData, dlpaDbData, cashFlowDbData, allHistoryData, loadingBP, rows, bpSummary, ebitda, lucroLiquido, pureViewModel, financialAnalyticsViewModel, loadingHistory, historicalFinancialSeries, t, hasBalanceSheetData, ativoTotal, passivoTotal, plValue, ac, anc, pc, pnc, isBalanced, divergence, cx, est, clientes, fornecedores, passivosFinanceiros, capitalSocial, valorPrejuizo, valAltaConversibilidade, valMediaConversibilidade, valBaixaConversibilidade, valConversibilidadeRestrita, creditosSocios, chartData, historyByYear, comparativeAnalysis, ativoData, passivoData, COLORS, resilienciaGlobal, maturidade } = computed;
   const { setFilterYear, setDensityLevel, setToast, setDeleting, setShowDeleteConfirm, setShowImportModal, setShowManualModal, setShowCamada2, setShowCamada3, setShowFullStressTests, refetchBP, handleDelete, translateLabel, showToast, isSectionVisible, setIsGenerating, setEngineError } = actions;
 
   // --- TELEMETRY ---
@@ -85,36 +82,18 @@ ativoTotal, passivoTotal, plValue, ac, anc, pc, pnc, isBalanced, divergence, cx,
     filters: { year: filterYear, densityLevel }
   });
 
-  const bpExecutiveAnalysisContext = executiveReport ? {
-    analysisYear: filterYear,
-    generatedAt: new Date().toISOString(),
-    moduleContext: 'BP' as any,
-    activeFiduciaryRestrictions: [],
-    fiduciaryClassification: patrimonialIntelligenceReport?.patrimonialClassification || 'SAUDÁVEL',
-    mathematicalClassification: 'STABLE',
-    globalScore: resilienciaGlobal,
-    primaryIndicators: {},
-    technicalDrivers: BPStrategicDiagnosisAdapter.mapDrivers(financialIndicators, bpSummary),
-    contextualAlerts: []
-  } : undefined;
-
   const experienceContext: ExecutiveExperienceContext = useMemo(() => ({
     productId: 'financial.position',
     tenantId: String(selectedClient || 'comp-1'),
     intelligence: {
       financialPosition: {
-        bpSummary,
-        executiveViewModel,
-        financialAnalyticsViewModel,
-        patrimonialIntelligenceReport,
-        strategicTensions,
-        bpExecutiveAnalysisContext,
+        pureViewModel,
         filterYear
       }
     },
     evidence: { sources: [] },
     viewState: { period: filterYear.toString() }
-  }), [selectedClient, filterYear, bpSummary, executiveViewModel, financialAnalyticsViewModel, patrimonialIntelligenceReport, strategicTensions, bpExecutiveAnalysisContext]);
+  }), [selectedClient, filterYear, pureViewModel]);
 
   const bpFinancialMetrics = useMemo(() => {
     return {
@@ -123,11 +102,9 @@ ativoTotal, passivoTotal, plValue, ac, anc, pc, pnc, isBalanced, divergence, cx,
       patrimonioLiquido: plValue || 0,
       liquidezCorrente: pc > 0 ? (ac / pc) : 0,
       ebitda: ebitda || 0,
-      lucroLiquido: lucroLiquido || 0,
-      ...((executiveReport?.canonicalState as any)?.kpis || {})
-
+      lucroLiquido: lucroLiquido || 0
     };
-  }, [ativoTotal, passivoTotal, plValue, pc, ac, ebitda, lucroLiquido, executiveReport]);
+  }, [ativoTotal, passivoTotal, plValue, pc, ac, ebitda, lucroLiquido]);
 
   return (
     <ExecutiveIntelligenceShell 
@@ -146,7 +123,7 @@ ativoTotal, passivoTotal, plValue, ac, anc, pc, pnc, isBalanced, divergence, cx,
           <div className="flex flex-col md:flex-row md:items-center gap-4">
             <div className="flex items-center gap-4">
               {hasBalanceSheetData && (
-                <StatusBadge status={executiveReport?.isSandbox || executiveReport?.isDemonstrative ? 'SANDBOX' : (executiveReport?.canonicalState?.status || 'Ativo')} />
+                <StatusBadge status={'Ativo'} />
               )}
               <BalanceSheetDataSourceStatus hasRealData={hasBalanceSheetData} loading={loadingBP} />
             </div>
@@ -169,13 +146,13 @@ ativoTotal, passivoTotal, plValue, ac, anc, pc, pnc, isBalanced, divergence, cx,
             onSecondaryAction={() => setShowImportModal(true)}
           />
         </div>
-      ) : hasBalanceSheetData && !executiveReport && isGenerating ? (
+      ) : hasBalanceSheetData && !pureViewModel && isGenerating ? (
         <ExecutiveSurface variant="default" elevation="sm" className="flex flex-col items-center justify-center p-12 mb-12">
           <Loader2 size={32} className="animate-spin text-secondary mb-4" />
           <ExecutiveHeading as="h3" variant="moduleTitle" className="mb-2 text-center">Processando Análise</ExecutiveHeading>
           <ExecutiveText as="div" variant="bodyStandard" className="text-center max-w-md">Gerando inteligência patrimonial e síntese executiva fiduciária para o exercício de {filterYear}...</ExecutiveText>
         </ExecutiveSurface>
-      ) : hasBalanceSheetData && !executiveReport && engineError ? (
+      ) : hasBalanceSheetData && !pureViewModel && engineError ? (
         <div className="mb-12">
           <ExecutiveEmptyState
             title="Falha na Geração Executiva"
@@ -187,11 +164,8 @@ ativoTotal, passivoTotal, plValue, ac, anc, pc, pnc, isBalanced, divergence, cx,
       ) : (
         <>
 
-          {(executiveReport?.isSandbox || executiveReport?.isDemonstrative) && (
-            <SandboxWarningOverlay type={executiveReport.isSandbox ? 'sandbox' : 'demonstrative'} />
-          )}
           <div className="space-y-6 mb-12">
-            {executiveViewModel && patrimonialIntelligenceReport && (
+            {pureViewModel && (
               <ExecutiveProductRenderer 
                 product={FinancialPositionProduct} 
                 context={experienceContext} 

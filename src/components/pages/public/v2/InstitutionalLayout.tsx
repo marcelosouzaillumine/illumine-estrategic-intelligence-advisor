@@ -145,29 +145,33 @@ export function InstitutionalLayout() {
           </nav>
 
           {/* Desktop Actions */}
-          <div className="hidden lg:flex items-center gap-3 shrink-0">
+          <div className="hidden lg:flex items-center gap-3 shrink-0 relative z-[60]">
             <LanguageSelector />
             {user ? (
-              <Link 
-                to={loginUrl}
-                className="text-[16px] xl:text-[18px] font-semibold text-slate-400 hover:text-white transition-all px-2 xl:px-4 py-2"
+              <a 
+                href={loginUrl}
+                className="text-[16px] xl:text-[18px] font-semibold text-slate-400 hover:text-white transition-all px-2 xl:px-4 py-2 cursor-pointer relative z-[70]"
               >
                 Dashboard
-              </Link>
+              </a>
             ) : (
-              <Link 
-                to={loginUrl}
-                className="text-[16px] xl:text-[18px] font-semibold text-slate-400 hover:text-white transition-all px-2 xl:px-4 py-2"
+              <a 
+                href={loginUrl}
+                className="text-[16px] xl:text-[18px] font-semibold text-slate-400 hover:text-white transition-all px-2 xl:px-4 py-2 cursor-pointer relative z-[70]"
               >
                 Login
-              </Link>
+              </a>
             )}
           </div>
 
           {/* Mobile Menu Toggle */}
           <button 
-            className="lg:hidden text-slate-400 hover:text-white p-2"
-            onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+            type="button"
+            className="lg:hidden text-slate-400 hover:text-white p-2 relative z-[60]"
+            onClick={(e) => {
+              e.preventDefault();
+              setMobileMenuOpen(!mobileMenuOpen);
+            }}
           >
             {mobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
           </button>
@@ -242,7 +246,7 @@ export function InstitutionalLayout() {
 
       {/* Main Content Area */}
       <main className="flex-1 flex flex-col pt-[100px] lg:pt-[120px]">
-        <Outlet />
+        {React.useMemo(() => <Outlet />, [location.pathname])}
       </main>
 
       {/* Footer */}

@@ -31,5 +31,6 @@ export interface ExecutiveProductSchema {
   hierarchy: ExecutiveSectionSchema[];
   intelligenceSources: IntelligenceSource[];
   confidenceModel: ConfidenceDefinition;
+  allowedContext?: string[];
   governance: GovernanceDefinition;
 }

@@ -21,6 +21,14 @@ export const FinancialPositionProduct: ExecutiveProductSchema = {
     { type: 'EXECUTIVE_QUESTIONS', components: ['BalanceSheetExecutiveQuestionsSection'] },
     { type: 'TECHNICAL_EVIDENCE', components: ['ExecutiveAccordion', 'BalanceSheetAuditLayerSection'] }
   ],
+  allowedContext: [
+    'overview',
+    'diagnosis',
+    'signals',
+    'historicalEvolution',
+    'executiveQuestions',
+    'technicalEvidence'
+  ],
   intelligenceSources: [
     { engine: 'Financial Intelligence Coordinator', context: 'bp' },
     { engine: 'Patrimonial Intelligence Engine', context: 'structural' }

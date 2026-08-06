@@ -105,6 +105,8 @@ import { InstitutionalNonprofitPage } from './components/pages/public/v2/Institu
 import { EnterpriseIntelligencePage } from './components/pages/public/v2/EnterpriseIntelligencePage';
 import PrivacyPage from './components/pages/public/v2/PrivacyPage';
 import SecurityPage from './components/pages/public/v2/SecurityPage';
+import { CommercialLandingLayout } from './components/pages/public/v2/layouts/CommercialLandingLayout';
+import { ExecutivePlansPage } from './components/pages/public/v2/ExecutivePlansPage';
 import { ForcePasswordChangeModal } from './components/modals/ForcePasswordChangeModal';
 import { ConsolidatedExecutiveProvider } from './context/ConsolidatedExecutiveContext';
 import { ConsolidatedExecutivePage } from './components/pages/ConsolidatedExecutivePage';
@@ -386,6 +388,7 @@ function getPageComponent(key: RouteKey) {
     case 'ENTERPRISE': return <EnterpriseIntelligencePage />;
     case 'PRIVACY': return <PrivacyPage />;
     case 'SECURITY': return <SecurityPage />;
+    case 'PLANS': return <ExecutivePlansPage />;
     default: return <InstitutionalHomePage />;
   }
 }
@@ -625,7 +628,7 @@ export default function App() {
                         <React.Fragment key={locale}>
                           <Route element={<InstitutionalLayout />}>
                             {Object.entries(internationalRoutes).map(([routeKey, canonicalSlug]) => {
-                              if (routeKey === 'LOGIN') return null;
+                              if (routeKey === 'LOGIN' || routeKey === 'PLANS') return null;
                               const path = canonicalSlug === '/' ? prefix : `${prefix}${canonicalSlug}`;
                               return (
                                 <Route 
@@ -639,6 +642,21 @@ export default function App() {
                         </React.Fragment>
                       );
                     })}
+
+                    {/* STANDALONE ROUTES (e.g. Plans, Commercial Landing) */}
+                    <Route element={<CommercialLandingLayout />}>
+                      {(Object.keys(routePrefixes) as SupportedLocale[]).map((locale) => {
+                        const prefix = routePrefixes[locale];
+                        const path = internationalRoutes['PLANS'];
+                        return (
+                          <Route 
+                            key={`plans-${locale}`}
+                            path={`${prefix}${path}`} 
+                            element={<ExecutivePlansPage />}
+                          />
+                        );
+                      })}
+                    </Route>
 
                     {/* EXPLICIT LOGIN ROUTES TO AVOID REACT ROUTER V6 MAP ISSUES */}
                     <Route path="/login" element={<LoginLanguageRedirect />} />

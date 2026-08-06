@@ -1,4 +1,5 @@
 import { IntelligenceSource } from '../schema/ExecutiveProductSchema';
+import { FinancialPositionIntelligenceContract } from '../contracts/FinancialPositionPureViewModel';
 
 export interface CalculationReference {
   metric: string;
@@ -12,7 +13,7 @@ export interface ExecutiveExperienceContext {
   
   // The data payload injected by engines, strongly typed.
   intelligence: {
-    financialPosition?: any; // To be mapped to a specific context type if needed
+    financialPosition?: FinancialPositionIntelligenceContract;
     financialPerformance?: any;
     cashFlow?: any;
   };

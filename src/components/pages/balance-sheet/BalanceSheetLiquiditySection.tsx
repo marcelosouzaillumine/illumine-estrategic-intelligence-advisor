@@ -4,52 +4,32 @@ import { ExecutiveEvidenceGrid } from '../../ui/executive-evidence-grid';
 import { ExecutiveBadge } from '../../ui/executive-badge';
 import { ExecutiveDiagnosticPanel } from '../../ui/executive-diagnostic-panel';
 import { ExecutiveSurface } from '../../ui/executive-surface';
-import { AnalysisPanelViewModel } from '../../../types/executive/BalanceSheetExecutiveViewModel';
+import { FinancialIndicator } from '../../../core/experience/contracts/FinancialPositionPureViewModel';
 
 export type BalanceSheetLiquiditySectionProps = {
-  panel: AnalysisPanelViewModel;
+  indicators: FinancialIndicator[];
 };
 
-export const BalanceSheetLiquiditySection = ({ panel }: BalanceSheetLiquiditySectionProps) => {
-  const forbidden = [
-    "Painel não gerado",
-    "Erro Estrutural",
-    "Aguardando evidências",
-    "Omitido do contexto",
-    "Dados Insuficientes",
-    "Dados Indisponíveis",
-    "Indeterminada",
-    "Indeterminado"
-  ];
-  if (panel && forbidden.some(term => JSON.stringify(panel).includes(term))) {
-    throw new Error("[BP Constitutional Violation] Panel contains forbidden synthetic placeholders.");
+export const BalanceSheetLiquiditySection = ({ indicators }: BalanceSheetLiquiditySectionProps) => {
+  if (!indicators || indicators.length === 0) {
+    return null;
   }
 
-  if (!panel) {
-    throw new Error('[BP Constitutional Violation] Required diagnostic panel missing in BalanceSheetLiquiditySection.');
-  }
+  // Map pure financial indicators to the evidence grid format
+  const mappedMetrics = indicators.map(i => ({
+    label: i.name,
+    value: String(i.value),
+    status: i.classification === 'CRITICAL' ? 'critical' : (i.classification === 'WARNING' ? 'warning' : 'success'),
+    trend: 'neutral',
+    insight: i.financialMeaning
+  }));
 
   return (
     <div className="mb-10 animate-executive-fade relative">
       <ExecutiveSurface variant="default" elevation="sm" className="p-6 md:p-8 mb-6 rounded-[24px]">
-        <ExecutiveDiagnosticPanel
-          question="A empresa possui fôlego financeiro estrutural ou vive de sobressaltos de caixa?"
-          statusBadge={
-            <ExecutiveBadge variant={panel.statusBadgeVariant}>
-              {panel.statusLabel}
-            </ExecutiveBadge>
-          }
-          observation={panel.observation}
-          evidence={panel.evidence}
-          financialMeaning={panel.financialMeaning}
-          executiveQuestion={panel.executiveQuestion}
-          confidence={panel.confidence}
-          technicalIndex={panel.score}
-        />
+        <ExecutiveHeading as="h4" variant="submoduleTitle" className="mb-4">Inteligência de Liquidez</ExecutiveHeading>
+        <ExecutiveEvidenceGrid metrics={mappedMetrics as any} />
       </ExecutiveSurface>
-      {panel.evidences.length > 0 && (
-        <ExecutiveEvidenceGrid metrics={panel.evidences as any} />
-      )}
     </div>
   );
 };

@@ -1,68 +1,31 @@
 import React from 'react';
 import { ExecutiveHeading } from '../../ui/executive-heading';
 import { ExecutiveText } from '../../ui/executive-typography';
-import { ExecutiveIntelligenceOutput } from '../../../core/intelligence/contracts/ExecutiveIntelligenceOutput';
+import { FinancialIndicator } from '../../../core/experience/contracts/FinancialPositionPureViewModel';
+import { ExecutiveEvidenceGrid } from '../../ui/executive-evidence-grid';
+import { ExecutiveSurface } from '../../ui/executive-surface';
 
 export type BalanceSheetWorkingCapitalSectionProps = {
-  bpSummary: any;
-  diagnostics: ExecutiveIntelligenceOutput | null;
+  indicators: FinancialIndicator[];
 };
 
-export const BalanceSheetWorkingCapitalSection = ({ bpSummary, diagnostics }: BalanceSheetWorkingCapitalSectionProps) => {
-  if (!bpSummary || !diagnostics) return null;
+export const BalanceSheetWorkingCapitalSection = ({ indicators }: BalanceSheetWorkingCapitalSectionProps) => {
+  if (!indicators || indicators.length === 0) return null;
 
-  const fleuriet = diagnostics.evidence?.fleuriet;
-  if (!fleuriet) return null;
-
-  const getRiskColor = (level: string) => {
-    switch (level) {
-      case 'LOW': return 'text-success';
-      case 'MEDIUM': return 'text-warning';
-      case 'HIGH': return 'text-critical';
-      case 'CRITICAL': return 'text-critical font-bold';
-      default: return 'text-foreground';
-    }
-  };
+  const mappedMetrics = indicators.map(i => ({
+    label: i.name,
+    value: String(i.value),
+    status: i.classification === 'CRITICAL' ? 'critical' : (i.classification === 'WARNING' ? 'warning' : 'success'),
+    trend: 'neutral',
+    insight: i.financialMeaning
+  }));
 
   return (
     <div className="mb-10 animate-executive-fade relative">
-      <ExecutiveHeading as="h4" variant="submoduleTitle" className="mb-4">Working Capital Intelligence (Modelo Fleuriet)</ExecutiveHeading>
-
-      <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
-        <div className="bg-surface p-4 rounded-xl border border-border flex flex-col items-center justify-center text-center">
-          <ExecutiveText as="span" variant="label" className="text-secondary mb-1">Classificação</ExecutiveText>
-          <ExecutiveText as="span" variant="bodyLarge" className={`font-semibold ${getRiskColor(fleuriet.riskLevel)}`}>
-            {fleuriet.classification} ({fleuriet.type})
-          </ExecutiveText>
-        </div>
-
-        <div className="bg-surface p-4 rounded-xl border border-border flex flex-col items-center justify-center text-center">
-          <ExecutiveText as="span" variant="label" className="text-secondary mb-1">Capital de Giro Líquido</ExecutiveText>
-          <ExecutiveText as="span" variant="bodyLarge" className="font-semibold text-foreground">
-            {fleuriet.cgl > 0 ? 'Positivo (+)' : fleuriet.cgl < 0 ? 'Negativo (-)' : 'Neutro'}
-          </ExecutiveText>
-        </div>
-
-        <div className="bg-surface p-4 rounded-xl border border-border flex flex-col items-center justify-center text-center">
-          <ExecutiveText as="span" variant="label" className="text-secondary mb-1">Necessidade de Giro</ExecutiveText>
-          <ExecutiveText as="span" variant="bodyLarge" className="font-semibold text-foreground">
-             {fleuriet.ncg > 0 ? 'Positivo (+)' : fleuriet.ncg < 0 ? 'Negativo (-)' : 'Neutro'}
-          </ExecutiveText>
-        </div>
-
-        <div className="bg-surface p-4 rounded-xl border border-border flex flex-col items-center justify-center text-center">
-          <ExecutiveText as="span" variant="label" className="text-secondary mb-1">Saldo de Tesouraria</ExecutiveText>
-          <ExecutiveText as="span" variant="bodyLarge" className="font-semibold text-foreground">
-             {fleuriet.treasury > 0 ? 'Positivo (+)' : fleuriet.treasury < 0 ? 'Negativo (-)' : 'Neutro'}
-          </ExecutiveText>
-        </div>
-      </div>
-
-      <div className="bg-surface-container/30 p-4 mt-6 rounded-xl border border-border/50">
-        <ExecutiveText as="p" variant="bodyStandard" className="text-primary italic">
-          "{fleuriet.description}"
-        </ExecutiveText>
-      </div>
+      <ExecutiveSurface variant="default" elevation="sm" className="p-6 md:p-8 mb-6 rounded-[24px]">
+        <ExecutiveHeading as="h4" variant="submoduleTitle" className="mb-4">Inteligência de Capital de Giro</ExecutiveHeading>
+        <ExecutiveEvidenceGrid metrics={mappedMetrics as any} />
+      </ExecutiveSurface>
     </div>
   );
 };
