@@ -107,7 +107,7 @@ export function InstitutionalLayout() {
             {navLinks.map((link) => (
               link.children ? (
                 <div key={link.label} className="relative group">
-                  <button className="flex items-center gap-1 text-[14px] xl:text-[16px] font-semibold text-slate-400 group-hover:text-white transition-all duration-300 text-center whitespace-nowrap">
+                  <button className="flex items-center gap-1 text-[16px] xl:text-[18px] font-semibold text-slate-400 group-hover:text-white transition-all duration-300 text-center whitespace-nowrap">
                     {link.label}
                     <ChevronDown size={14} className="group-hover:rotate-180 transition-transform duration-300" />
                   </button>
@@ -136,7 +136,7 @@ export function InstitutionalLayout() {
                 <Link 
                   key={link.href} 
                   to={link.href || ''}
-                  className="text-[14px] xl:text-[16px] font-semibold text-slate-400 hover:text-white transition-all duration-300 hover:-translate-y-0.5 text-center whitespace-nowrap"
+                  className="text-[16px] xl:text-[18px] font-semibold text-slate-400 hover:text-white transition-all duration-300 hover:-translate-y-0.5 text-center whitespace-nowrap"
                 >
                   {link.label}
                 </Link>
@@ -150,14 +150,14 @@ export function InstitutionalLayout() {
             {user ? (
               <Link 
                 to={loginUrl}
-                className="text-[14px] xl:text-[16px] font-semibold text-slate-400 hover:text-white transition-all px-2 xl:px-4 py-2"
+                className="text-[16px] xl:text-[18px] font-semibold text-slate-400 hover:text-white transition-all px-2 xl:px-4 py-2"
               >
                 Dashboard
               </Link>
             ) : (
               <Link 
                 to={loginUrl}
-                className="text-[14px] xl:text-[16px] font-semibold text-slate-400 hover:text-white transition-all px-2 xl:px-4 py-2"
+                className="text-[16px] xl:text-[18px] font-semibold text-slate-400 hover:text-white transition-all px-2 xl:px-4 py-2"
               >
                 Login
               </Link>
