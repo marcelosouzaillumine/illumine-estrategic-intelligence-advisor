@@ -1,120 +1,41 @@
 import React from 'react';
 import { ExperienceComponentRegistry } from './ExperienceComponentRegistry';
-import { ExecutiveDiagnosticSummarySection } from '../../../components/ui/executive-diagnostic-summary-section';
-import { BalanceSheetLiquiditySection } from '../../../components/pages/balance-sheet/BalanceSheetLiquiditySection';
-import { BalanceSheetCapitalStructureSection } from '../../../components/pages/balance-sheet/BalanceSheetCapitalStructureSection';
-import { BalanceSheetWorkingCapitalSection } from '../../../components/pages/balance-sheet/BalanceSheetWorkingCapitalSection';
-import { BalanceSheetAssetQualitySection } from '../../../components/pages/balance-sheet/BalanceSheetAssetQualitySection';
-import { BalanceSheetExecutiveQuestionsSection } from '../../../components/pages/balance-sheet/BalanceSheetExecutiveQuestionsSection';
-import { ExecutiveAccordion } from '../../../components/ui/executive-accordion';
-import { BalanceSheetTechnicalLayerSection } from '../../../components/pages/balance-sheet/BalanceSheetTechnicalLayerSection';
+
+import { FinancialOverviewRoot } from '../../../components/pages/balance-sheet/roots/FinancialOverviewRoot';
+import { FinancialDiagnosisRoot } from '../../../components/pages/balance-sheet/roots/FinancialDiagnosisRoot';
+import { FinancialSignalsRoot } from '../../../components/pages/balance-sheet/roots/FinancialSignalsRoot';
+import { HistoricalEvolutionRoot } from '../../../components/pages/balance-sheet/roots/HistoricalEvolutionRoot';
+import { ExecutiveQuestionsRoot } from '../../../components/pages/balance-sheet/roots/ExecutiveQuestionsRoot';
+import { TechnicalEvidenceRoot } from '../../../components/pages/balance-sheet/roots/TechnicalEvidenceRoot';
 
 export function registerBalanceSheetComponents() {
   ExperienceComponentRegistry.register({
-    id: 'ExecutiveDiagnosticSummarySection',
-    component: (props: any) => {
-      const { context } = props;
-      const { pureViewModel } = context.intelligence.financialPosition;
-      return (
-        <ExecutiveDiagnosticSummarySection 
-          className="mb-8"
-          status={{ label: 'Balanço Patrimonial', variant: pureViewModel?.overview?.healthStatus === 'HEALTHY' ? 'success' : 'neutral' }}
-          question="O que a estrutura patrimonial indica sobre a situação atual da organização?"
-          observation={pureViewModel?.overview?.observation || "Estrutura patrimonial apresentada para interpretação fiduciária."}
-          evidence={pureViewModel?.overview?.evidence || ""}
-          financialMeaning={pureViewModel?.overview?.financialMeaning || ""}
-        />
-      );
-    },
-    allowedSections: ['EXECUTIVE_FINANCIAL_OVERVIEW'],
-    requiredData: ['financialPosition'],
-    governance: { executiveOnly: true }
+    id: 'FinancialOverviewRoot',
+    factory: (props: any) => <FinancialOverviewRoot {...props} />
   });
 
   ExperienceComponentRegistry.register({
-    id: 'BalanceSheetLiquiditySection',
-    component: (props: any) => {
-      const { context } = props;
-      const { pureViewModel } = context.intelligence.financialPosition;
-      return <BalanceSheetLiquiditySection indicators={pureViewModel?.diagnosis?.liquidity || []} />;
-    },
-    allowedSections: ['FINANCIAL_DIAGNOSIS'],
-    requiredData: ['financialPosition'],
-    governance: { executiveOnly: true }
+    id: 'FinancialDiagnosisRoot',
+    factory: (props: any) => <FinancialDiagnosisRoot {...props} />
   });
 
   ExperienceComponentRegistry.register({
-    id: 'BalanceSheetCapitalStructureSection',
-    component: (props: any) => {
-      const { context } = props;
-      const { pureViewModel } = context.intelligence.financialPosition;
-      return <BalanceSheetCapitalStructureSection indicators={pureViewModel?.diagnosis?.capitalStructure || []} />;
-    },
-    allowedSections: ['FINANCIAL_DIAGNOSIS'],
-    requiredData: ['financialPosition'],
-    governance: { executiveOnly: true }
+    id: 'FinancialSignalsRoot',
+    factory: (props: any) => <FinancialSignalsRoot {...props} />
   });
 
   ExperienceComponentRegistry.register({
-    id: 'BalanceSheetWorkingCapitalSection',
-    component: (props: any) => {
-      const { context } = props;
-      const { pureViewModel } = context.intelligence.financialPosition;
-      return <BalanceSheetWorkingCapitalSection indicators={pureViewModel?.diagnosis?.workingCapital || []} />;
-    },
-    allowedSections: ['FINANCIAL_DIAGNOSIS'],
-    requiredData: ['financialPosition'],
-    governance: { executiveOnly: true }
+    id: 'HistoricalEvolutionRoot',
+    factory: (props: any) => <HistoricalEvolutionRoot {...props} />
   });
 
   ExperienceComponentRegistry.register({
-    id: 'BalanceSheetAssetQualitySection',
-    component: (props: any) => {
-      const { context } = props;
-      const { pureViewModel } = context.intelligence.financialPosition;
-      return <BalanceSheetAssetQualitySection indicators={pureViewModel?.diagnosis?.assetQuality || []} />;
-    },
-    allowedSections: ['FINANCIAL_DIAGNOSIS'],
-    requiredData: ['financialPosition'],
-    governance: { executiveOnly: true }
+    id: 'ExecutiveQuestionsRoot',
+    factory: (props: any) => <ExecutiveQuestionsRoot {...props} />
   });
 
   ExperienceComponentRegistry.register({
-    id: 'BalanceSheetExecutiveQuestionsSection',
-    component: (props: any) => {
-      const { context } = props;
-      const { pureViewModel } = context.intelligence.financialPosition;
-      return (
-        <BalanceSheetExecutiveQuestionsSection 
-          triggers={pureViewModel?.executiveQuestions || []}
-        />
-      );
-    },
-    allowedSections: ['EXECUTIVE_QUESTIONS'],
-    requiredData: ['financialPosition'],
-    governance: { executiveOnly: true }
-  });
-
-  ExperienceComponentRegistry.register({
-    id: 'ExecutiveAccordion',
-    component: (props: any) => {
-      const { context } = props;
-      const { pureViewModel } = context.intelligence.financialPosition;
-      return (
-        <ExecutiveAccordion
-          variant="analytics"
-          defaultExpanded={false}
-          title="Memória Analítica e Evidências Técnicas (Contabilidade Bruta)"
-          subtitle="Análises horizontais, verticais, tabelas estruturais e visualizações técnicas."
-        >
-          <div className="space-y-12 mt-6">
-            <BalanceSheetTechnicalLayerSection viewModel={pureViewModel?.technicalEvidence || []} />
-          </div>
-        </ExecutiveAccordion>
-      );
-    },
-    allowedSections: ['TECHNICAL_EVIDENCE'],
-    requiredData: ['financialPosition'],
-    governance: { executiveOnly: true }
+    id: 'TechnicalEvidenceRoot',
+    factory: (props: any) => <TechnicalEvidenceRoot {...props} />
   });
 }

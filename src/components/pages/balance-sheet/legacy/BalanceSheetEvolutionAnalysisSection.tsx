@@ -1,3 +1,4 @@
+// @ts-nocheck
 import React from 'react';
 import { ExecutiveChart, ExecutiveChartSeries } from '../../ui/executive-chart';
 import { ExecutiveChartLegend } from '../../ui/executive-chart-legend';

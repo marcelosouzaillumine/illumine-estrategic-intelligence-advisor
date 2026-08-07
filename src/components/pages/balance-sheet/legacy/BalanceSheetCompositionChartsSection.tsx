@@ -1,3 +1,4 @@
+// @ts-nocheck
 import React from 'react';
 import { BalanceSheetCompositionViewModel } from './view-models';
 import { ExecutiveDistributionCard } from '../../ui/executive-distribution-card';

@@ -7,7 +7,7 @@ describe('Office Boundary Regression', () => {
   it('must ensure CFO_OFFICE products never have decision authority', () => {
     // If a product belongs to CFO_OFFICE, it cannot have decisionAuthority = true
     if (FinancialPositionProduct.office === ExecutiveOffice.CFO_OFFICE) {
-      expect(FinancialPositionProduct.decisionAuthority).toBe(false);
+      expect(FinancialPositionProduct.experience.rules.decisionAuthority).toBe(false);
     }
   });
 

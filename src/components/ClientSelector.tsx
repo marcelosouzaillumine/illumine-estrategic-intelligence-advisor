@@ -88,12 +88,12 @@ export function ClientSelector({
             <p className="hidden sm:block text-[10px] font-semibold text-muted-foreground/50 uppercase tracking-[0.15em] mb-0.5">
               Cliente Ativo
             </p>
-            <div className="flex items-center justify-between gap-2">
-              <span className="text-[13px] font-medium text-foreground truncate">
+            <div className="flex items-center gap-2">
+              <span className="text-[13px] font-medium text-foreground truncate block">
                 {currentClient?.fantasia || 'Selecionar Corporação'}
               </span>
               <ChevronDown size={14} strokeWidth={1.5} className={cn(
-                "transition-transform shrink-0",
+                "ml-auto shrink-0 transition-transform",
                 isOpen ? "rotate-180 text-foreground" : "text-muted-foreground/60 group-hover:text-foreground"
               )} />
             </div>

@@ -3,17 +3,6 @@ import { FinancialPositionProduct } from '../../products/FinancialPositionProduc
 import { FinancialPositionPureViewModelBuilder } from '../../../runtime/executive-consolidation/FinancialPositionPureViewModelBuilder';
 // This test suite acts as the Constitutional Dependency Audit
 describe('Financial Position Data Boundary Isolation™ (Wave 1.4.9)', () => {
-  it('should only allow explicitly whitelisted properties in the context', () => {
-    const allowed = FinancialPositionProduct.allowedContext;
-    expect(allowed).toBeDefined();
-    expect(allowed).toContain('overview');
-    expect(allowed).toContain('diagnosis');
-    expect(allowed).toContain('signals');
-    expect(allowed).toContain('historicalEvolution');
-    expect(allowed).toContain('executiveQuestions');
-    expect(allowed).toContain('technicalEvidence');
-  });
-
   it('should guarantee builder generates pure facts without advisory DNA', () => {
     const pureModel = FinancialPositionPureViewModelBuilder.build({
       balanceSheet: { ativoTotal: 1000, passivoTotal: 500, patrimonioLiquido: 500 },

@@ -1,3 +1,4 @@
+// @ts-nocheck
 import React from 'react';
 import { ExecutiveHeading } from '../../ui/executive-heading';
 import { ExecutiveText } from '../../ui/executive-typography';

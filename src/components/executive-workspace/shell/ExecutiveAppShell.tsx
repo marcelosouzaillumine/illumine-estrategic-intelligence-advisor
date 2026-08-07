@@ -185,7 +185,7 @@ export function ExecutiveAppShell({ children, semanticMatch }: ExecutiveAppShell
           surfaceName={surfaceNames[currentSurfaceId] || 'Overview'}
           onMobileMenuToggle={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
         />
-        <main className="flex-1 overflow-auto bg-muted/20 relative">
+        <main className="flex-1 overflow-auto relative">
           {/* Overlay to catch clicks on mobile when sidebar is open */}
           <div id="executive-shell-content-area" className="w-full h-full flex flex-col relative">
             <LegacyRouteBridge 

@@ -15,23 +15,14 @@ import { BalanceSheetYearFilter } from './balance-sheet/BalanceSheetYearFilter';
 import { BalanceSheetActionToolbar } from './balance-sheet/BalanceSheetActionToolbar';
 
 
-import { BalanceSheetCapitalEfficiencySection } from './balance-sheet/BalanceSheetCapitalEfficiencySection';
 import { BalanceSheetLiquiditySection } from './balance-sheet/BalanceSheetLiquiditySection';
 import { BalanceSheetWorkingCapitalSection } from './balance-sheet/BalanceSheetWorkingCapitalSection';
 import { BalanceSheetAssetQualitySection } from './balance-sheet/BalanceSheetAssetQualitySection';
 import { BalanceSheetCapitalStructureSection } from './balance-sheet/BalanceSheetCapitalStructureSection';
-import { BalanceSheetInstitutionalContextSection } from './balance-sheet/BalanceSheetInstitutionalContextSection';
 import { BalanceSheetTechnicalLayerSection } from './balance-sheet/BalanceSheetTechnicalLayerSection';
-import { BalanceSheetAuditLayerSection } from './balance-sheet/BalanceSheetAuditLayerSection';
-import { BalanceSheetWaterfallChartSection } from './balance-sheet/BalanceSheetWaterfallChartSection';
-import { BalanceSheetEvolutionAnalysisSection } from './balance-sheet/BalanceSheetEvolutionAnalysisSection';
-import { BalanceSheetCompositionChartsSection } from './balance-sheet/BalanceSheetCompositionChartsSection';
 import { ExecutiveExposureCard } from '../ui/executive-exposure-card';
-import { BalanceSheetExecutiveSynthesisSection } from './balance-sheet/BalanceSheetExecutiveSynthesisSection';
 import { ExecutivePageTemplate } from '../ui/executive-page-template';
 import { ExecutiveSummarySection } from '../ui/executive-summary-section';
-import { BalanceSheetStructuralTablesSection } from './balance-sheet/BalanceSheetStructuralTablesSection';
-import { BalanceSheetCapitalPreservationSection } from './balance-sheet/BalanceSheetCapitalPreservationSection';
 import { ImportFinancialModal } from '../modals/ImportFinancialModal';
 import { ManualFinancialModal } from '../modals/ManualFinancialModal';
 import { ExecutiveLocaleEnforcer } from '../../core/enforcement/ExecutiveLocaleEnforcer';

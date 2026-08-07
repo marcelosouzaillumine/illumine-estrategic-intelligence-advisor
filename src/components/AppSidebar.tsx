@@ -133,7 +133,7 @@ export function AppSidebar({
   });
 
   return (
-    <Sidebar collapsible="icon" className="border-r border-border">
+    <Sidebar collapsible="icon" className="border-none">
       {/* Header: Logo */}
       <SidebarHeader className={cn('py-3', isCollapsed ? 'px-2 items-center' : 'px-4')}>
         <div className="flex items-center justify-center w-full relative">
@@ -313,69 +313,69 @@ export function AppSidebar({
             </SidebarGroup>
           );
         })}
-      </SidebarContent>
-
-      {/* Footer: User info + logout */}
-      <SidebarFooter className={cn('border-t border-border', isCollapsed ? 'px-2 py-4' : 'p-4 xl:p-6')}>
-        {authLoading ? (
-          <div className="flex justify-center py-2">
-            <Loader2 className="animate-spin text-secondary" size={18} />
-          </div>
-        ) : user ? (
-          <div className="flex flex-col gap-2 xl:gap-3">
-            <div className={cn('flex items-center transition-all', isCollapsed ? 'justify-center' : 'gap-2 px-1')}>
-              {user.photoURL ? (
-                <img
-                  src={user.photoURL}
-                  alt={user.displayName || ''}
-                  className="w-6 h-6 rounded-full border border-secondary shrink-0"
-                  title={isCollapsed ? user.displayName || t('common.user') : undefined}
-                />
-              ) : (
-                <div
-                  className="w-6 h-6 rounded-full bg-primary flex items-center justify-center text-white font-bold text-[9px] shrink-0"
-                  title={isCollapsed ? user.displayName || t('common.user') : undefined}
-                >
-                  {user.displayName?.split(' ').map(n => n[0]).join('') || 'U'}
-                </div>
-              )}
-              {!isCollapsed && (
-                <div className="flex-1 min-w-0 text-left">
-                  <p className="text-body-sm font-medium truncate text-foreground">{user.displayName || t('common.user')}</p>
-                  {!userPermissions && (
-                    <span className="text-[8px] font-medium uppercase text-secondary tracking-widest block">
-                      {t('common.master_admin')}
-                    </span>
-                  )}
-                </div>
-              )}
+        
+        {/* User info + logout incorporated into scrollable content */}
+        <div className={cn('mt-8 mb-4', isCollapsed ? 'px-2' : 'px-4 xl:px-6')}>
+          {authLoading ? (
+            <div className="flex justify-center py-2">
+              <Loader2 className="animate-spin text-secondary" size={18} />
             </div>
+          ) : user ? (
+            <div className="flex flex-col gap-2 xl:gap-3">
+              <div className={cn('flex items-center transition-all', isCollapsed ? 'justify-center' : 'gap-2 px-1')}>
+                {user.photoURL ? (
+                  <img
+                    src={user.photoURL}
+                    alt={user.displayName || ''}
+                    className="w-6 h-6 rounded-full border border-secondary shrink-0"
+                    title={isCollapsed ? user.displayName || t('common.user') : undefined}
+                  />
+                ) : (
+                  <div
+                    className="w-6 h-6 rounded-full bg-primary flex items-center justify-center text-white font-bold text-[9px] shrink-0"
+                    title={isCollapsed ? user.displayName || t('common.user') : undefined}
+                  >
+                    {user.displayName?.split(' ').map(n => n[0]).join('') || 'U'}
+                  </div>
+                )}
+                {!isCollapsed && (
+                  <div className="flex-1 min-w-0 text-left">
+                    <p className="text-body-sm font-medium truncate text-foreground">{user.displayName || t('common.user')}</p>
+                    {!userPermissions && (
+                      <span className="text-[8px] font-medium uppercase text-secondary tracking-widest block">
+                        {t('common.master_admin')}
+                      </span>
+                    )}
+                  </div>
+                )}
+              </div>
+              <button
+                onClick={logout}
+                title={isCollapsed ? t('buttons.logout') : undefined}
+                className={cn(
+                  'flex items-center justify-center gap-2 py-2 text-xs font-medium uppercase tracking-widest text-destructive hover:bg-destructive/5 rounded-button transition-colors border border-destructive/20 mt-2',
+                  isCollapsed ? 'w-9 h-9 p-0 mx-auto' : 'w-full'
+                )}
+              >
+                <LogOut size={13} />
+                {!isCollapsed && t('buttons.logout')}
+              </button>
+            </div>
+          ) : (
             <button
-              onClick={logout}
-              title={isCollapsed ? t('buttons.logout') : undefined}
+              onClick={login}
+              title={isCollapsed ? t('buttons.login') : undefined}
               className={cn(
-                'flex items-center justify-center gap-2 py-2 text-xs font-medium uppercase tracking-widest text-destructive hover:bg-destructive/5 rounded-button transition-colors border border-destructive/20',
-                isCollapsed ? 'w-9 h-9 p-0 mx-auto' : 'w-full'
+                'flex items-center justify-center gap-2 bg-primary text-primary-foreground rounded-button text-xs font-medium uppercase tracking-widest hover:bg-primary/90 transition-all shadow-sm',
+                isCollapsed ? 'w-9 h-9 p-0 mx-auto' : 'w-full py-3'
               )}
             >
-              <LogOut size={13} />
-              {!isCollapsed && t('buttons.logout')}
+              <LogIn size={isCollapsed ? 18 : 14} />
+              {!isCollapsed && t('buttons.login')}
             </button>
-          </div>
-        ) : (
-          <button
-            onClick={login}
-            title={isCollapsed ? t('buttons.login') : undefined}
-            className={cn(
-              'flex items-center justify-center gap-2 bg-primary text-primary-foreground rounded-button text-xs font-medium uppercase tracking-widest hover:bg-primary/90 transition-all shadow-sm',
-              isCollapsed ? 'w-9 h-9 p-0 mx-auto' : 'w-full py-3'
-            )}
-          >
-            <LogIn size={isCollapsed ? 18 : 14} />
-            {!isCollapsed && t('buttons.login')}
-          </button>
-        )}
-      </SidebarFooter>
+          )}
+        </div>
+      </SidebarContent>
 
       <SidebarRail />
     </Sidebar>

@@ -75,10 +75,10 @@ describe('Executive Semantic Purity Enforcement (Wave 1.4.8)', () => {
   
   it('FinancialPositionProduct must be strictly analytical', () => {
     expect(FinancialPositionProduct.productType).toBe('INTELLIGENCE_PRODUCT');
-    expect(FinancialPositionProduct.decisionAuthority).toBe(false);
-    expect(FinancialPositionProduct.canRecommend).toBe(false);
-    expect(FinancialPositionProduct.canExecute).toBe(false);
-    expect(FinancialPositionProduct.canCreateGovernanceDecision).toBe(false);
+    expect(FinancialPositionProduct.experience.rules.decisionAuthority).toBe(false);
+    expect(FinancialPositionProduct.experience.rules.canRecommend).toBe(false);
+    expect(FinancialPositionProduct.experience.rules.canExecute).toBe(false);
+    expect(FinancialPositionProduct.experience.rules.canCreateGovernanceDecision).toBe(false);
     expect(FinancialPositionProduct.office).toBe('CFO_OFFICE');
   });
 

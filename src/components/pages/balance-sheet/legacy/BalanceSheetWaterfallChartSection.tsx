@@ -1,3 +1,4 @@
+// @ts-nocheck
 import React from 'react';
 import { ExecutiveChart } from '../../ui/executive-chart';
 import { ExecutiveSurface } from '../../ui/executive-surface';

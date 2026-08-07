@@ -8,6 +8,6 @@ describe('Decision Authority Regression', () => {
     // Board is allowed to have decision authority
     expect(DecisionRoomProduct.office).toBe(ExecutiveOffice.BOARD_INTELLIGENCE);
     expect(DecisionRoomProduct.productType).toBe(ExecutiveProductType.DECISION_PRODUCT);
-    expect(DecisionRoomProduct.decisionAuthority).toBe(true);
+    expect(DecisionRoomProduct.experience.rules.decisionAuthority).toBe(true);
   });
 });

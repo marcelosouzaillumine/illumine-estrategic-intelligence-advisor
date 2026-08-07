@@ -10,7 +10,7 @@ describe('Product Classification Regression', () => {
       expect(product.office).toBeDefined();
       expect(product.productType).toBeDefined();
       expect(product.advisoryLevel).toBeDefined();
-      expect(product.decisionAuthority).toBeDefined();
+      expect(product.experience.rules.decisionAuthority).toBeDefined();
     });
   });
 });

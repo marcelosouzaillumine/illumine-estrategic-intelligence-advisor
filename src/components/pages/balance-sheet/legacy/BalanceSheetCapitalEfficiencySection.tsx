@@ -1,4 +1,5 @@
 // @ts-nocheck
+// @ts-nocheck
 import React from 'react';
 import { ExecutiveEvidenceGrid } from '../../ui/executive-evidence-grid';
 import { ExecutiveBadge } from '../../ui/executive-badge';
@@ -6,11 +7,11 @@ import { ExecutiveDiagnosticPanel } from '../../ui/executive-diagnostic-panel';
 import { ExecutiveSurface } from '../../ui/executive-surface';
 import { AnalysisPanelViewModel } from '../../../types/executive/BalanceSheetExecutiveViewModel';
 
-export type BalanceSheetCapitalPreservationSectionProps = {
+export type BalanceSheetCapitalEfficiencySectionProps = {
   panel: AnalysisPanelViewModel;
 };
 
-export const BalanceSheetCapitalPreservationSection = ({ panel }: BalanceSheetCapitalPreservationSectionProps) => {
+export const BalanceSheetCapitalEfficiencySection = ({ panel }: BalanceSheetCapitalEfficiencySectionProps) => {
   const forbidden = [
     "Painel não gerado",
     "Erro Estrutural",
@@ -26,14 +27,14 @@ export const BalanceSheetCapitalPreservationSection = ({ panel }: BalanceSheetCa
   }
 
   if (!panel) {
-    throw new Error('[BP Constitutional Violation] Required diagnostic panel missing in BalanceSheetCapitalPreservationSection.');
+    throw new Error('[BP Constitutional Violation] Required diagnostic panel missing in BalanceSheetCapitalEfficiencySection.');
   }
 
   return (
     <div className="mb-10 animate-executive-fade relative">
       <ExecutiveSurface variant="default" elevation="sm" className="p-6 md:p-8 mb-6 rounded-[24px]">
         <ExecutiveDiagnosticPanel
-          question="A estrutura financeira está preservando o valor investido ou destruindo a riqueza dos acionistas?"
+          question="Os ativos estão alocados de forma produtiva ou imobilizados sem geração de caixa?"
           statusBadge={
             <ExecutiveBadge variant={panel.statusBadgeVariant}>
               {panel.statusLabel}

@@ -1,46 +1,45 @@
-import { ExecutiveProductSchema } from '../schema/ExecutiveProductSchema';
+import { ExecutiveProductDefinition, ExecutiveExperienceLayer } from '../constitution/ExecutiveProductDefinition';
 import { ExecutiveOffice } from '../governance/offices/ExecutiveOffice';
 import { ExecutiveProductType } from './ExecutiveProductType';
 
-export const FinancialPositionProduct: ExecutiveProductSchema = {
-  id: 'financial.position',
+export const cfoLayers: ExecutiveExperienceLayer[] = [
+  { id: 'overview', name: 'Executive Financial Overview', order: 10, rootComponentId: 'FinancialOverviewRoot' },
+  { id: 'diagnosis', name: 'Financial Diagnosis', order: 20, rootComponentId: 'FinancialDiagnosisRoot' },
+  { id: 'signals', name: 'Intelligence Signals', order: 30, rootComponentId: 'FinancialSignalsRoot' },
+  { id: 'historical', name: 'Historical Evolution', order: 40, rootComponentId: 'HistoricalEvolutionRoot' },
+  { id: 'questions', name: 'Executive Questions', order: 50, rootComponentId: 'ExecutiveQuestionsRoot' },
+  { id: 'evidence', name: 'Technical Evidence', order: 100, rootComponentId: 'TechnicalEvidenceRoot' }
+];
+
+export const FinancialPositionProduct: ExecutiveProductDefinition = {
+  metadata: {
+    id: 'financial.position',
+    purpose: 'Preservar valor econômico, liquidez e sustentabilidade financeira.',
+    executiveDecisionSupported: ['Alocação de capital e proteção do balanço patrimonial']
+  },
   office: ExecutiveOffice.CFO_OFFICE,
   productType: ExecutiveProductType.INTELLIGENCE_PRODUCT,
   advisoryLevel: 'DIAGNOSTIC',
-  decisionAuthority: false,
-  canRecommend: false,
-  canExecute: false,
-  canCreateGovernanceDecision: false,
-  purpose: 'Preservar valor econômico, liquidez e sustentabilidade financeira.',
-  executiveDecisionSupported: ['Alocação de capital e proteção do balanço patrimonial'],
-  hierarchy: [
-    { type: 'EXECUTIVE_FINANCIAL_OVERVIEW', components: ['ExecutiveDiagnosticSummarySection'] },
-    { type: 'FINANCIAL_DIAGNOSIS', components: ['BalanceSheetLiquiditySection', 'BalanceSheetCapitalStructureSection', 'BalanceSheetWorkingCapitalSection', 'BalanceSheetAssetQualitySection', 'BalanceSheetCapitalEfficiencySection', 'BalanceSheetCapitalPreservationSection'] },
-    { type: 'INTELLIGENCE_SIGNALS', components: ['BalanceSheetInstitutionalContextSection', 'BalanceSheetExecutiveSynthesisSection', 'ExecutiveStrategicTensions'] },
-    { type: 'HISTORICAL_EVOLUTION', components: ['BalanceSheetEvolutionAnalysisSection', 'BalanceSheetWaterfallChartSection', 'BalanceSheetCompositionChartsSection'] },
-    { type: 'EXECUTIVE_QUESTIONS', components: ['BalanceSheetExecutiveQuestionsSection'] },
-    { type: 'TECHNICAL_EVIDENCE', components: ['ExecutiveAccordion', 'BalanceSheetAuditLayerSection'] }
-  ],
-  allowedContext: [
-    'overview',
-    'diagnosis',
-    'signals',
-    'historicalEvolution',
-    'executiveQuestions',
-    'technicalEvidence'
-  ],
-  intelligenceSources: [
-    { engine: 'Financial Intelligence Coordinator', context: 'bp' },
-    { engine: 'Patrimonial Intelligence Engine', context: 'structural' }
-  ],
-  confidenceModel: {
-    minimumRequired: 'HIGH',
-    auditTrailVisible: true
+  capabilities: {
+    intelligenceSources: [
+      { engine: 'Financial Intelligence Coordinator', context: 'bp' },
+      { engine: 'Patrimonial Intelligence Engine', context: 'structural' }
+    ],
+    confidenceModel: {
+      minimumRequired: 'HIGH',
+      auditTrailVisible: true
+    }
   },
-  governance: {
-    requiresEvidence: true,
-    requiresHumanDecision: false
+  experience: {
+    layers: cfoLayers,
+    rules: {
+      requiresEvidence: true,
+      requiresHumanDecision: false,
+      decisionAuthority: false,
+      canRecommend: false,
+      canExecute: false,
+      canCreateGovernanceDecision: false
+    }
   }
 };
-
 

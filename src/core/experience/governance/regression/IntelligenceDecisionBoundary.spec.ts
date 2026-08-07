@@ -8,7 +8,7 @@ describe('Intelligence Decision Boundary Governance', () => {
   it('CFO_OFFICE intelligence products must not contain decision authority', () => {
     expect(FinancialPositionProduct.office).toBe(ExecutiveOffice.CFO_OFFICE);
     expect(FinancialPositionProduct.productType).toBe(ExecutiveProductType.INTELLIGENCE_PRODUCT);
-    expect(FinancialPositionProduct.decisionAuthority).toBe(false);
+    expect(FinancialPositionProduct.experience.rules.decisionAuthority).toBe(false);
   });
 
   it('INTELLIGENCE_PRODUCT must not carry approval semantics in its configuration', () => {
@@ -25,6 +25,6 @@ describe('Intelligence Decision Boundary Governance', () => {
     // Assuming DecisionRoomProduct represents the Board Intelligence
     expect(DecisionRoomProduct.office).toBe(ExecutiveOffice.BOARD_INTELLIGENCE);
     expect(DecisionRoomProduct.productType).toBe(ExecutiveProductType.DECISION_PRODUCT);
-    expect(DecisionRoomProduct.decisionAuthority).toBe(true);
+    expect(DecisionRoomProduct.experience.rules.decisionAuthority).toBe(true);
   });
 });

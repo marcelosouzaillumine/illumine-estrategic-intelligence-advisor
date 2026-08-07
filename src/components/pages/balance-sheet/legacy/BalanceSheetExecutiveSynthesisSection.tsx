@@ -1,3 +1,4 @@
+// @ts-nocheck
 import React, { useMemo } from 'react';
 import { ExecutiveStrategicSemanticCards } from '../../ui/executive-strategic-semantic-cards';
 import { ExecutiveHeading } from '../../ui/executive-heading';

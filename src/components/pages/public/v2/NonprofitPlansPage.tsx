@@ -9,8 +9,6 @@ import {
   Zap,
   Layers,
   ArrowRight,
-  Server,
-  Lock,
   ChevronDown,
   Building2,
   Users,
@@ -22,7 +20,7 @@ import {
   Network
 } from 'lucide-react';
 
-export function ExecutivePlansPage() {
+export function NonprofitPlansPage() {
   const offices = [
     'Executive Command Center',
     'Financial Intelligence',
@@ -51,7 +49,7 @@ export function ExecutivePlansPage() {
 
   return (
     <div className="flex flex-col bg-[#0A0A0B] text-slate-200">
-      <SeoManager pageKey="PLANS" />
+      <SeoManager pageKey="NONPROFIT_PLANS" />
       
       {/* 1. Hero Section */}
       <section className="relative pt-48 pb-24 px-6 overflow-hidden">
@@ -59,21 +57,15 @@ export function ExecutivePlansPage() {
         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-amber-500/10 rounded-full blur-[120px] pointer-events-none"></div>
         
         <div className="max-w-4xl mx-auto text-center relative z-10">
-          <div className="inline-flex flex-col items-center justify-center mb-8">
-            <span className="text-[10px] uppercase tracking-[0.3em] text-amber-500 font-bold mb-2">Solução Exclusiva</span>
-            <span className="text-sm md:text-base font-medium text-white border border-white/10 bg-white/5 px-6 py-2 rounded-full backdrop-blur-md">
-              Executive Intelligence Platform™
-            </span>
-          </div>
-
           <h1 className="text-5xl md:text-6xl font-bold tracking-tight text-white mb-6">
-            Uma plataforma que evolui com a sua organização.
+            A mesma plataforma.<br />
+            A capacidade ideal para o Terceiro Setor.
           </h1>
           <p className="text-xl text-slate-400 mb-10 max-w-3xl mx-auto leading-relaxed">
-            Transforme dados em decisões estratégicas com uma plataforma desenvolvida para Conselhos, Diretorias e Executivos que desejam governar com inteligência, previsibilidade e segurança.
+            Transforme dados de impacto em decisões executivas com uma plataforma desenvolvida para ONGs, Fundações, Institutos e Redes que desejam governar com inteligência, sustentabilidade e transparência.
           </p>
           <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
-            <LeadCaptureEntryPoint label="Agendar Executive Demo" className="px-8 py-4 text-lg" />
+            <LeadCaptureEntryPoint className="px-8 py-4 text-lg" />
           </div>
         </div>
       </section>
@@ -126,33 +118,32 @@ export function ExecutivePlansPage() {
       <section className="py-24 bg-[#050506] relative">
         <div className="max-w-7xl mx-auto px-6">
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-            {/* Starter */}
+            {/* Community */}
             <div className="bg-[#0A0A0B] border border-white/10 rounded-3xl p-8 flex flex-col relative group hover:border-amber-500/50 transition-colors">
-              <h3 className="text-2xl font-bold text-white mb-2">Starter™</h3>
-              <p className="text-sm text-slate-400 mb-8 h-10">Ideal para organizações iniciando sua jornada de Executive Intelligence.</p>
+              <h3 className="text-2xl font-bold text-white mb-2">Community™</h3>
+              <p className="text-sm text-slate-400 mb-8 h-12">Ideal para pequenas organizações e OSCs em fase de estruturação.</p>
               
               <div className="mb-8">
                 <div className="text-sm text-slate-500 font-semibold uppercase tracking-wider mb-2">Licenciamento</div>
                 <div className="flex items-end gap-1">
-                  <span className="text-3xl font-bold text-white">R$ 997</span>
+                  <span className="text-3xl font-bold text-white">R$ 597</span>
                   <span className="text-slate-500 mb-1">/mês</span>
                 </div>
               </div>
 
               <div className="mb-8 p-4 bg-white/5 rounded-2xl border border-white/5">
                 <div className="text-xs text-slate-400 font-semibold uppercase tracking-wider mb-1">Executive Enablement™</div>
-                <div className="text-xl font-bold text-white">R$ 2.997</div>
+                <div className="text-xl font-bold text-white">R$ 1.997</div>
                 <div className="text-xs text-slate-500 mt-1">Taxa única de implantação</div>
               </div>
 
               <ul className="flex flex-col gap-3 mb-8">
                 {[
-                  'Até 1 unidade de negócio (empresa, filial ou organização)',
+                  'Até 1 organização ou projeto',
                   'Até 3 usuários licenciados',
                   'Executive Intelligence Platform™ completa',
-                  'Executive AI',
-                  'Dashboards Executivos',
-                  'Executive Enablement™'
+                  'Executive AI e Dashboards',
+                  'Governança Institucional e Indicadores de Impacto'
                 ].map((feature, i) => (
                   <li key={i} className="flex items-start gap-2 text-sm text-slate-300 leading-tight">
                     <CheckCircle2 className="w-4 h-4 text-amber-500 shrink-0 mt-0.5" />
@@ -169,28 +160,29 @@ export function ExecutivePlansPage() {
             {/* Growth */}
             <div className="bg-[#0A0A0B] border border-white/10 rounded-3xl p-8 flex flex-col relative group hover:border-amber-500/50 transition-colors">
               <h3 className="text-2xl font-bold text-white mb-2">Growth™</h3>
-              <p className="text-sm text-slate-400 mb-8 h-10">Ideal para organizações em crescimento e expansão.</p>
+              <p className="text-sm text-slate-400 mb-8 h-12">Ideal para organizações em crescimento e amadurecimento.</p>
               
               <div className="mb-8">
                 <div className="text-sm text-slate-500 font-semibold uppercase tracking-wider mb-2">Licenciamento</div>
                 <div className="flex items-end gap-1">
-                  <span className="text-3xl font-bold text-white">R$ 1.997</span>
+                  <span className="text-3xl font-bold text-white">R$ 1.197</span>
                   <span className="text-slate-500 mb-1">/mês</span>
                 </div>
               </div>
 
               <div className="mb-8 p-4 bg-white/5 rounded-2xl border border-white/5">
                 <div className="text-xs text-slate-400 font-semibold uppercase tracking-wider mb-1">Executive Enablement™</div>
-                <div className="text-xl font-bold text-white">R$ 4.997</div>
+                <div className="text-xl font-bold text-white">R$ 2.997</div>
                 <div className="text-xs text-slate-500 mt-1">Taxa única de implantação</div>
               </div>
 
               <ul className="flex flex-col gap-3 mb-8">
                 {[
-                  'Até 3 unidades de negócio',
+                  'Até 3 unidades ou projetos',
                   'Até 10 usuários licenciados',
-                  'API Integration Ready™ incluída, quando houver estrutura de integração disponibilizada pelo sistema da organização',
-                  'Executive Intelligence Platform™ completa'
+                  'API Integration Ready™, quando houver estrutura disponível',
+                  'Executive Intelligence Platform™ completa',
+                  'Executive AI e Dashboards Executivos'
                 ].map((feature, i) => (
                   <li key={i} className="flex items-start gap-2 text-sm text-slate-300 leading-tight">
                     <CheckCircle2 className="w-4 h-4 text-amber-500 shrink-0 mt-0.5" />
@@ -198,56 +190,39 @@ export function ExecutivePlansPage() {
                   </li>
                 ))}
               </ul>
-
-              <div className="mb-8 p-4 bg-amber-500/5 rounded-2xl border border-amber-500/10">
-                <div className="text-xs text-amber-500 font-bold uppercase tracking-wider mb-2">Advisor Success Support™</div>
-                <ul className="flex flex-col gap-2">
-                  {[
-                    'Sessão periódica de orientação para maximizar a utilização da plataforma.',
-                    'Apoio na interpretação dos indicadores executivos.',
-                    'Recomendações de boas práticas de governança e gestão.',
-                    'Possibilidade de contratação simplificada de Executive Advisory por meio da rede de Advisors Partners.'
-                  ].map((subItem, i) => (
-                    <li key={i} className="flex items-start gap-2 text-xs text-slate-400 leading-relaxed">
-                      <span className="w-1 h-1 rounded-full bg-amber-500 shrink-0 mt-1.5" />
-                      <span>{subItem}</span>
-                    </li>
-                  ))}
-                </ul>
-              </div>
               
               <div className="mt-auto">
                 <LeadCaptureEntryPoint label="Agendar Demo" variant="outline" className="w-full py-3" />
               </div>
             </div>
 
-            {/* Executive */}
+            {/* Network */}
             <div className="bg-[#0A0A0B] border border-amber-500/50 rounded-3xl p-8 flex flex-col relative shadow-[0_0_40px_rgba(245,158,11,0.1)]">
               <div className="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-amber-500 text-black text-xs font-bold uppercase tracking-widest px-4 py-1 rounded-full">
                 Recomendado
               </div>
-              <h3 className="text-2xl font-bold text-white mb-2">Executive™</h3>
-              <p className="text-sm text-slate-400 mb-8 h-10">Ideal para organizações com maior complexidade operacional.</p>
+              <h3 className="text-2xl font-bold text-white mb-2">Network™</h3>
+              <p className="text-sm text-slate-400 mb-8 h-12">Ideal para organizações com múltiplos programas ou filiais.</p>
               
               <div className="mb-8">
                 <div className="text-sm text-amber-500 font-semibold uppercase tracking-wider mb-2">Licenciamento</div>
                 <div className="flex items-end gap-1">
-                  <span className="text-3xl font-bold text-white">R$ 3.997</span>
+                  <span className="text-3xl font-bold text-white">R$ 2.497</span>
                   <span className="text-slate-500 mb-1">/mês</span>
                 </div>
               </div>
 
               <div className="mb-8 p-4 bg-amber-500/10 rounded-2xl border border-amber-500/20">
                 <div className="text-xs text-amber-500 font-semibold uppercase tracking-wider mb-1">Executive Enablement™</div>
-                <div className="text-xl font-bold text-white">R$ 7.997</div>
+                <div className="text-xl font-bold text-white">R$ 4.997</div>
                 <div className="text-xs text-slate-400 mt-1">Taxa única de implantação</div>
               </div>
 
               <ul className="flex flex-col gap-3 mb-8">
                 {[
-                  'Até 10 unidades de negócio',
+                  'Até 10 unidades ou projetos',
                   'Até 25 usuários licenciados',
-                  'API Integration Ready™ incluída, quando houver estrutura de integração disponibilizada pelo sistema da organização',
+                  'API Integration Ready™, quando houver estrutura disponível',
                   'Executive Intelligence Platform™ completa'
                 ].map((feature, i) => (
                   <li key={i} className="flex items-start gap-2 text-sm text-slate-300 leading-tight">
@@ -256,34 +231,16 @@ export function ExecutivePlansPage() {
                   </li>
                 ))}
               </ul>
-
-              <div className="mb-8 p-4 bg-amber-500/10 rounded-2xl border border-amber-500/20">
-                <div className="text-xs text-amber-500 font-bold uppercase tracking-wider mb-2">Executive Success & Advisory Enablement™</div>
-                <ul className="flex flex-col gap-2">
-                  {[
-                    'Acompanhamento estratégico periódico para evolução da utilização da plataforma.',
-                    'Apoio na estruturação de indicadores e painéis executivos.',
-                    'Priorização na conexão com Advisors Partners especializados.',
-                    'Condições diferenciadas para contratação de projetos de Executive Advisory.',
-                    'Planejamento conjunto da evolução da plataforma conforme o amadurecimento da organização.'
-                  ].map((subItem, i) => (
-                    <li key={i} className="flex items-start gap-2 text-xs text-slate-400 leading-relaxed">
-                      <span className="w-1 h-1 rounded-full bg-amber-500 shrink-0 mt-1.5" />
-                      <span>{subItem}</span>
-                    </li>
-                  ))}
-                </ul>
-              </div>
               
               <div className="mt-auto">
                 <LeadCaptureEntryPoint label="Agendar Demo" variant="primary" className="w-full py-3" />
               </div>
             </div>
 
-            {/* Enterprise */}
+            {/* Alliance */}
             <div className="bg-gradient-to-b from-[#111113] to-[#0A0A0B] border border-white/10 rounded-3xl p-8 flex flex-col relative group hover:border-white/30 transition-colors">
-              <h3 className="text-2xl font-bold text-white mb-2">Enterprise™</h3>
-              <p className="text-sm text-slate-400 mb-8 h-10">Para grupos empresariais, hospitais, holdings e multiunidades.</p>
+              <h3 className="text-2xl font-bold text-white mb-2">Alliance™</h3>
+              <p className="text-sm text-slate-400 mb-8 h-12">Para grandes organizações, federações, fundações e redes.</p>
               
               <div className="mb-8">
                 <div className="text-sm text-slate-500 font-semibold uppercase tracking-wider mb-2">Licenciamento</div>
@@ -300,10 +257,10 @@ export function ExecutivePlansPage() {
 
               <ul className="flex flex-col gap-3 mb-8">
                 {[
-                  'Quantidades conforme projeto',
-                  'Arquitetura personalizada',
-                  'Recursos Enterprise',
-                  'API Integration Ready™ conforme arquitetura da organização'
+                  'Operações nacionais ou internacionais',
+                  'Arquitetura personalizada e integrações corporativas',
+                  'Recursos Enterprise e alta capacidade operacional',
+                  'Desenho de implantação sob medida'
                 ].map((feature, i) => (
                   <li key={i} className="flex items-start gap-2 text-sm text-slate-300 leading-tight">
                     <CheckCircle2 className="w-4 h-4 text-amber-500 shrink-0 mt-0.5" />
@@ -318,19 +275,13 @@ export function ExecutivePlansPage() {
             </div>
           </div>
 
-          <div className="mt-8 text-center text-sm text-slate-400 max-w-4xl mx-auto">
-            <p className="bg-[#050506] border border-white/5 rounded-2xl p-6 text-left shadow-lg">
-              <strong className="text-white font-semibold">Observação Institucional:</strong> Os serviços de Executive Advisory são opcionais e realizados por Advisors Partners credenciados. A Illumine atua como provedora da tecnologia, da infraestrutura e do ecossistema de inteligência executiva, preservando o protagonismo dos seus parceiros na condução dos serviços profissionais.
-            </p>
-          </div>
-
-          <div className="mt-12 bg-[#0A0A0B] border border-white/10 rounded-3xl p-8 lg:p-10 text-left md:text-center max-w-4xl mx-auto shadow-lg">
+          <div className="mt-16 bg-[#0A0A0B] border border-white/10 rounded-3xl p-8 lg:p-10 text-left md:text-center max-w-4xl mx-auto shadow-lg">
             <h4 className="text-xl font-bold text-white mb-4 flex items-center md:justify-center gap-3">
               <Network className="w-6 h-6 text-amber-500" />
-              Integrações com Sistemas Corporativos
+              Integrações com Sistemas Institucionais
             </h4>
             <p className="text-slate-400 mb-6 leading-relaxed">
-              Os planos Growth™, Executive™ e Enterprise™ contemplam a configuração da integração da plataforma Illumine com sistemas que disponibilizem APIs, conectores ou mecanismos de integração compatíveis, <strong className="text-white font-medium">desde que a estrutura técnica necessária seja fornecida pelo sistema da organização</strong>.
+              Os planos Growth™, Network™ e Alliance™ contemplam a configuração da integração da plataforma Illumine com sistemas que disponibilizem APIs, conectores ou mecanismos de integração compatíveis, <strong className="text-white font-medium">desde que a estrutura técnica necessária seja fornecida pelo sistema da organização</strong>.
             </p>
             <div className="bg-amber-500/10 border border-amber-500/20 rounded-2xl p-6">
               <p className="text-sm text-amber-500/90 leading-relaxed font-medium">
@@ -349,10 +300,10 @@ export function ExecutivePlansPage() {
             <div className="bg-gradient-to-br from-[#1A1A1E] to-[#0D0D10] border border-white/10 rounded-3xl p-10">
               <h3 className="text-3xl font-bold text-white mb-6">Executive Enablement™</h3>
               <p className="text-slate-400 mb-8 leading-relaxed">
-                O programa estruturado de implantação que prepara a plataforma para refletir a realidade operacional da organização antes do início da operação.
+                O programa estruturado de implantação que prepara a plataforma para refletir a realidade institucional da organização antes do início da operação.
               </p>
               <ul className="space-y-4">
-                {['Diagnóstico Operacional', 'Configuração e Estruturação', 'Parametrização de Indicadores', 'Treinamento Executivo', 'Homologação', 'Go Live'].map((item, idx) => (
+                {['Diagnóstico institucional', 'Configuração do ambiente', 'Parametrização de indicadores', 'Estruturação de usuários e permissões', 'Capacitação das equipes', 'Homologação e Go Live assistido'].map((item, idx) => (
                   <li key={idx} className="flex items-center gap-3 text-slate-300">
                     <div className="w-6 h-6 rounded-full bg-amber-500/20 flex items-center justify-center shrink-0">
                       <CheckCircle2 className="w-4 h-4 text-amber-500" />
@@ -372,17 +323,8 @@ export function ExecutivePlansPage() {
                   <Database className="w-5 h-5 text-amber-500" />
                   Office Integration™
                 </h4>
-                <p className="text-sm text-slate-400 mb-4">Integração nativa ou via API com ERP, CRM, RH, Financeiro e Contabilidade.</p>
-                <div className="text-xs text-slate-500 bg-white/5 p-3 rounded-xl">Sujeito a avaliação e viabilidade técnica.</div>
-              </div>
-
-              <div className="bg-[#050506] border border-white/5 p-6 rounded-2xl">
-                <h4 className="text-lg font-bold text-white mb-2 flex items-center gap-2">
-                  <Layers className="w-5 h-5 text-amber-500" />
-                  Executive Development™
-                </h4>
-                <p className="text-sm text-slate-400 mb-4">Desenvolvimento sob demanda de dashboards, módulos, agentes inteligentes e automações.</p>
-                <div className="text-xs text-slate-500 bg-white/5 p-3 rounded-xl">Sujeito a escopo e proposta comercial.</div>
+                <p className="text-sm text-slate-400 mb-4">Integração com ERPs, CRMs e sistemas de captação ou RH do Terceiro Setor.</p>
+                <div className="text-xs text-slate-500 bg-white/5 p-3 rounded-xl">Sujeito a avaliação técnica e proposta comercial dedicada caso exija novos conectores.</div>
               </div>
 
               <div className="bg-[#050506] border border-white/5 p-6 rounded-2xl relative overflow-hidden">
@@ -391,7 +333,7 @@ export function ExecutivePlansPage() {
                 </div>
                 <h4 className="text-lg font-bold text-white mb-2">Executive Advisory™</h4>
                 <p className="text-sm text-slate-400">
-                  Serviço profissional opcional. Pode ser contratado através de um Advisor Partner™ credenciado ou conforme o modelo comercial adotado para o projeto, atuando como seu conselho assistido.
+                  Serviço profissional opcional, realizado por Advisors Partners credenciados ou por equipes autorizadas, conforme o modelo de atuação adotado para cada projeto institucional.
                 </p>
               </div>
             </div>
@@ -443,23 +385,23 @@ export function ExecutivePlansPage() {
             {[
               {
                 q: "Todos utilizam a mesma plataforma?",
-                a: "Sim. A Illumine não comercializa 'versões de software'. Toda organização tem acesso à mesma Executive Intelligence Platform™, com todos os módulos, segurança enterprise e Executive AI."
+                a: "Sim. A Illumine não comercializa 'versões reduzidas'. Toda organização social tem acesso à mesma Executive Intelligence Platform™ premium, variando apenas a capacidade operacional conforme o plano."
               },
               {
                 q: "O que muda entre os planos?",
-                a: "Os planos refletem apenas a capacidade operacional necessária: volume de usuários, armazenamento, poder de processamento de dados e unidades organizacionais mapeadas."
+                a: "Os planos refletem a escala institucional: limite de unidades/projetos atendidos e quantidade de usuários licenciados que poderão acessar a plataforma."
               },
               {
                 q: "A implantação está incluída no valor mensal?",
-                a: "Não. A implantação é realizada através do programa Executive Enablement™, cobrado como uma taxa única no início do projeto, garantindo que a plataforma reflita perfeitamente sua realidade antes do Go Live."
+                a: "Não. A implantação é realizada através do programa Executive Enablement™, cobrado como uma taxa única no início do projeto, para configurar indicadores, governança e treinar a equipe."
               },
               {
                 q: "Como funcionam as integrações?",
-                a: "Através do Office Integration™, nossa equipe de engenharia pode conectar a Illumine aos seus sistemas atuais (ERP, CRM, RH). Cada integração passa por uma análise de viabilidade técnica."
+                a: "Para sistemas que já dispõem de API aberta e moderna, a integração está inclusa (API Ready) a partir do plano Growth. Caso exija desenvolvimento de novos conectores específicos, será avaliado via escopo dedicado."
               },
               {
-                q: "Como contratar um Advisor Partner™?",
-                a: "O Executive Advisory™ é um serviço profissional opcional prestado por parceiros certificados pela Illumine. Nossa equipe pode conectá-lo ao Advisor ideal para o seu perfil e momento de negócio."
+                q: "Existe apoio consultivo associado à plataforma?",
+                a: "Sim. Opcionalmente, organizações podem contratar o serviço de Executive Advisory™, realizado por especialistas ou parceiros certificados, para apoiar ativamente o Conselho e a Diretoria Executiva."
               }
             ].map((faq, idx) => (
               <details key={idx} className="group bg-[#050506] border border-white/5 rounded-2xl overflow-hidden">
@@ -481,10 +423,10 @@ export function ExecutivePlansPage() {
         <div className="absolute inset-0 opacity-10 bg-[radial-gradient(circle_at_center,black_1px,transparent_1px)] [background-size:24px_24px]"></div>
         <div className="max-w-4xl mx-auto px-6 text-center relative z-10">
           <h2 className="text-4xl md:text-5xl font-bold tracking-tight mb-6">
-            Leve Executive Intelligence para sua organização.
+            Inteligência de impacto para sua organização.
           </h2>
           <p className="text-xl font-medium opacity-80 mb-10 max-w-2xl mx-auto">
-            Descubra como a Illumine pode apoiar sua organização na construção de uma gestão mais inteligente, integrada e orientada por dados.
+            Descubra como a Illumine pode apoiar sua organização na construção de uma gestão mais transparente, sustentável e orientada por dados de impacto.
           </p>
           <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
             <LeadCaptureEntryPoint 

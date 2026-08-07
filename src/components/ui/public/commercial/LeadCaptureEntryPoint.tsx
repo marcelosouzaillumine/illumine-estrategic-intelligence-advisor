@@ -1,7 +1,7 @@
 import React from 'react';
-import { useNavigate } from 'react-router-dom';
-import { useTranslation } from 'react-i18next';
-import { getLocalizedRoute, SupportedLocale } from '../../../../core/routing/internationalRoutes';
+
+// Centralized configuration for commercial leads
+export const WHATSAPP_COMMERCIAL_URL = "https://wa.me/5511999999999?text=Ol%C3%A1%2C%20gostaria%20de%20agendar%20uma%20Executive%20Demo%20da%20plataforma%20Illumine.";
 
 interface LeadCaptureEntryPointProps {
   label?: string;
@@ -10,21 +10,15 @@ interface LeadCaptureEntryPointProps {
 }
 
 export function LeadCaptureEntryPoint({ 
-  label = 'Agendar uma Executive Demo', 
+  label = 'Agendar Executive Demo', 
   className = '', 
   variant = 'primary' 
 }: LeadCaptureEntryPointProps) {
-  const navigate = useNavigate();
-  const { i18n } = useTranslation();
-  
-  const currentLocale = (i18n.language === 'en-US' ? 'en-US' : i18n.language === 'es-ES' ? 'es-ES' : 'pt-BR') as SupportedLocale;
 
   const handleClick = (e: React.MouseEvent) => {
     e.preventDefault();
-    // In the future, this can open a Deal Room™, Executive Concierge™, etc.
-    // Today, it routes to Assessment/Contact
-    const targetRoute = getLocalizedRoute('DIAGNOSTIC', currentLocale);
-    navigate(targetRoute);
+    // Redirects to official commercial WhatsApp
+    window.open(WHATSAPP_COMMERCIAL_URL, '_blank', 'noopener,noreferrer');
   };
 
   const baseStyles = "inline-flex items-center justify-center font-semibold transition-all duration-300 rounded-full whitespace-nowrap";

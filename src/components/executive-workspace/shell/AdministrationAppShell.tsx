@@ -61,7 +61,7 @@ export function AdministrationAppShell({ children, noPadding = false, noScroll =
           surfaceName="Workspace"
           onMobileMenuToggle={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
         />
-        <main className={cn("flex-1 min-h-0 bg-muted/20 relative", !noScroll && "overflow-auto")}>
+        <main className={cn("flex-1 min-h-0 relative", !noScroll && "overflow-auto")}>
           <div className={cn("w-full h-full flex flex-col relative", !noPadding && "p-4 sm:p-6")}>
             {children}
           </div>

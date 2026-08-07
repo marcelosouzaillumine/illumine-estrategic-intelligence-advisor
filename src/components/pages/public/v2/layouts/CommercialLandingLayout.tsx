@@ -16,17 +16,8 @@ export function CommercialLandingLayout() {
               >
                 illumine
               </span>
-              <span className="text-[10px] uppercase tracking-[0.2em] text-slate-400 mt-1 font-semibold hidden sm:block">
-                Executive Intelligence Platform™
-              </span>
             </div>
           </Link>
-          
-          <div className="text-right">
-            <span className="text-xs sm:text-sm font-medium text-amber-500 border border-amber-500/20 bg-amber-500/10 px-4 py-2 rounded-full whitespace-nowrap">
-              Executive Pricing Experience™
-            </span>
-          </div>
         </div>
       </header>
 

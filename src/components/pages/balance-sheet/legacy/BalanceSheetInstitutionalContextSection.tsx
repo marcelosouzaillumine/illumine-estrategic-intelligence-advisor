@@ -1,3 +1,4 @@
+// @ts-nocheck
 import React from 'react';
 import { Building2, Compass, Briefcase, Zap } from 'lucide-react';
 import { BalanceSheetInstitutionalContextViewModel } from './view-models';

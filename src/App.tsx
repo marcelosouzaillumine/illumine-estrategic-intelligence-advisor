@@ -94,6 +94,7 @@ import { InstitutionalLayout } from './components/pages/public/v2/InstitutionalL
 import { InstitutionalHomePage } from './components/pages/public/v2/InstitutionalHomePage';
 import { InstitutionalPlatformPage } from './components/pages/public/v2/InstitutionalPlatformPage';
 import { InstitutionalManifestoPage } from './components/pages/public/v2/InstitutionalManifestoPage';
+import { PitchPresentationPage } from './components/pages/public/v2/PitchPresentationPage';
 import { InstitutionalWhyPage } from './components/pages/public/v2/InstitutionalWhyPage';
 import { DebugI18nPage } from './components/pages/public/v2/DebugI18nPage';
 import { ExecutiveDiagnosticJourneyPage } from './components/pages/public/v2/ExecutiveDiagnosticJourneyPage';
@@ -107,6 +108,7 @@ import PrivacyPage from './components/pages/public/v2/PrivacyPage';
 import SecurityPage from './components/pages/public/v2/SecurityPage';
 import { CommercialLandingLayout } from './components/pages/public/v2/layouts/CommercialLandingLayout';
 import { ExecutivePlansPage } from './components/pages/public/v2/ExecutivePlansPage';
+import { NonprofitPlansPage } from './components/pages/public/v2/NonprofitPlansPage';
 import { ForcePasswordChangeModal } from './components/modals/ForcePasswordChangeModal';
 import { ConsolidatedExecutiveProvider } from './context/ConsolidatedExecutiveContext';
 import { ConsolidatedExecutivePage } from './components/pages/ConsolidatedExecutivePage';
@@ -364,6 +366,7 @@ function LegacyRedirect({ routeKey }: { routeKey: RouteKey }) {
 function getPageComponent(key: RouteKey) {
   switch (key) {
     case 'HOME': return <InstitutionalHomePage />;
+    case 'PITCH': return <PitchPresentationPage />;
     case 'MANIFESTO': return <InstitutionalManifestoPage />;
     case 'WHY': return <InstitutionalWhyPage />;
     case 'PLATFORM': return <InstitutionalPlatformPage />;
@@ -628,7 +631,7 @@ export default function App() {
                         <React.Fragment key={locale}>
                           <Route element={<InstitutionalLayout />}>
                             {Object.entries(internationalRoutes).map(([routeKey, canonicalSlug]) => {
-                              if (routeKey === 'LOGIN' || routeKey === 'PLANS') return null;
+                              if (routeKey === 'LOGIN' || routeKey === 'PLANS' || routeKey === 'PITCH') return null;
                               const path = canonicalSlug === '/' ? prefix : `${prefix}${canonicalSlug}`;
                               return (
                                 <Route 
@@ -643,17 +646,37 @@ export default function App() {
                       );
                     })}
 
+                    {/* FULLSCREEN STANDALONE ROUTES (No Header/Footer Layouts) */}
+                    {(Object.keys(routePrefixes) as SupportedLocale[]).map((locale) => {
+                      const prefix = routePrefixes[locale];
+                      const pitchPath = internationalRoutes['PITCH'];
+                      return (
+                        <React.Fragment key={`pitch-${locale}`}>
+                          <Route 
+                            path={`${prefix}${pitchPath}`} 
+                            element={getPageComponent('PITCH')}
+                          />
+                        </React.Fragment>
+                      );
+                    })}
+
                     {/* STANDALONE ROUTES (e.g. Plans, Commercial Landing) */}
                     <Route element={<CommercialLandingLayout />}>
                       {(Object.keys(routePrefixes) as SupportedLocale[]).map((locale) => {
                         const prefix = routePrefixes[locale];
-                        const path = internationalRoutes['PLANS'];
+                        const plansPath = internationalRoutes['PLANS'];
+                        const nonprofitPlansPath = internationalRoutes['NONPROFIT_PLANS'];
                         return (
-                          <Route 
-                            key={`plans-${locale}`}
-                            path={`${prefix}${path}`} 
-                            element={<ExecutivePlansPage />}
-                          />
+                          <React.Fragment key={`plans-${locale}`}>
+                            <Route 
+                              path={`${prefix}${plansPath}`} 
+                              element={<ExecutivePlansPage />}
+                            />
+                            <Route 
+                              path={`${prefix}${nonprofitPlansPath}`} 
+                              element={<NonprofitPlansPage />}
+                            />
+                          </React.Fragment>
                         );
                       })}
                     </Route>
@@ -994,7 +1017,7 @@ function AppContent({
             
             {/* Main Content Column */}
             <div className="flex-1 flex flex-col min-w-0 relative h-full overflow-hidden">
-        <header className="h-14 sm:h-16 bg-background flex items-center justify-between px-2 sm:px-4 md:px-8 sticky top-0 z-50 transition-all duration-700 border-b border-border/40">
+        <header className="h-14 sm:h-16 bg-background flex items-center justify-between px-2 sm:px-4 md:px-8 sticky top-0 z-50 transition-all duration-700">
           <div className="flex items-center gap-1 sm:gap-2 md:gap-8 min-w-0">
             <SidebarTrigger className="text-foreground/70 hover:text-foreground hover:bg-surface-elevated transition-all duration-300 rounded-full p-2 shrink-0" />
             

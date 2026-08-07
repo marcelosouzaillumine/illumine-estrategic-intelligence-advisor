@@ -4,8 +4,6 @@ import { useNavigate } from 'react-router-dom';
 import { logout } from '../../../lib/firebase';
 import { resolveExecutiveNavigation, resolveOfficeNavigation } from '../../../core/navigation/navigation.resolver';
 import { WorkspaceNavigationGroup } from '../../../core/navigation/navigation.types';
-import { ClientSelector } from '../../ClientSelector';
-import { useSidebarAuthAdapter } from '../../../adapters/ui/SidebarAuthAdapter';
 import { useLanguage } from '../../../contexts/LanguageContext';
 import { cn } from '../../../lib/utils';
 
@@ -18,7 +16,6 @@ interface ExecutiveSidebarProps {
 
 export function ExecutiveSidebar({ currentOfficeId, onOfficeChange, currentSurfaceId, onSurfaceChange }: ExecutiveSidebarProps) {
   const [isCollapsed, setIsCollapsed] = useState(false);
-  const { clients, selectedClient, handleSelectClient } = useSidebarAuthAdapter();
   const { t } = useLanguage();
   const navigate = useNavigate();
   
@@ -61,10 +58,10 @@ export function ExecutiveSidebar({ currentOfficeId, onOfficeChange, currentSurfa
   };
 
   return (
-    <div className={`flex flex-col h-screen bg-transparent border-r border-black/5 dark:border-white/5 transition-all duration-300 ${isCollapsed ? 'w-20' : 'w-64'}`}>
+    <div className={`flex flex-col h-screen bg-transparent transition-all duration-300 ${isCollapsed ? 'w-20' : 'w-64'}`}>
       
       {/* Top area: Logo and Toggle */}
-      <div className={`flex items-center h-16 border-b border-black/5 dark:border-white/5 px-4 ${isCollapsed ? 'justify-center' : 'justify-between'} relative group`}>
+      <div className={`flex items-center h-16 px-4 ${isCollapsed ? 'justify-center' : 'justify-between'} relative group`}>
         <div className="flex items-center gap-2">
           <div className="w-8 h-8 relative shrink-0 flex items-center justify-center">
             <img src="/logo.png" alt="Illumine Icon" className="relative z-10 w-full h-full object-contain" />
@@ -88,24 +85,18 @@ export function ExecutiveSidebar({ currentOfficeId, onOfficeChange, currentSurfa
         )}
       </div>
 
-      {/* Client Selector Area */}
-      <div className={cn("border-b border-black/5 dark:border-white/5 transition-all", isCollapsed ? "p-3 flex flex-col items-center gap-3" : "px-3 py-3")}>
-        <ClientSelector 
-          clients={clients}
-          selectedClient={selectedClient}
-          setSelectedClient={handleSelectClient}
-          isCollapsed={isCollapsed}
-        />
-        {isCollapsed && (
+      {/* Sidebar Toggle (when collapsed) */}
+      {isCollapsed && (
+        <div className="flex justify-center pb-2 pt-2">
           <button type="button" 
             onClick={() => setIsCollapsed(false)}
             className="p-1.5 text-muted-foreground/40 hover:bg-black/5 dark:hover:bg-white/10 hover:text-foreground rounded-md transition-colors flex justify-center"
             title={t('navigation.action.expand', 'Expandir menu')}
           >
-            <PanelLeftOpen className="w-4 h-4" />
+            <PanelLeftOpen className="w-5 h-5" />
           </button>
-        )}
-      </div>
+        </div>
+      )}
 
       {/* Scrollable Navigation */}
       <div 
@@ -236,29 +227,30 @@ export function ExecutiveSidebar({ currentOfficeId, onOfficeChange, currentSurfa
             </>
           );
         })()}
-      </div>
 
-      {/* Footer Settings */}
-      <div className="p-4 border-t border-black/5 dark:border-white/5 flex flex-col gap-1">
-        <button type="button"
-          className={`flex items-center gap-3 px-3 py-2.5 rounded-lg transition-colors w-full text-left text-muted-foreground hover:bg-black/5 dark:hover:bg-white/5 hover:text-foreground
-            ${isCollapsed ? 'justify-center' : 'justify-start'}
-          `}
-          title={isCollapsed ? t('navigation.page.settings', 'Configurações') : undefined}
-        >
-          <Settings className="w-5 h-5 shrink-0" />
-          {!isCollapsed && <span className="text-[13px]">{t('navigation.page.settings', 'Configurações')}</span>}
-        </button>
-        <button type="button"
-          onClick={handleLogout}
-          className={`flex items-center gap-3 px-3 py-2.5 rounded-lg transition-colors w-full text-left text-muted-foreground hover:bg-red-500/10 hover:text-red-500 dark:hover:bg-red-500/20 dark:hover:text-red-400
-            ${isCollapsed ? 'justify-center' : 'justify-start'}
-          `}
-          title={isCollapsed ? t('navigation.page.logout', 'Sair') : undefined}
-        >
-          <LogOut className="w-5 h-5 shrink-0" />
-          {!isCollapsed && <span className="text-[13px]">{t('navigation.page.logout', 'Sair')}</span>}
-        </button>
+        {/* Footer Settings incorporated into scrollable content */}
+        <div className="flex flex-col gap-1 mt-4">
+          <button type="button"
+            className={`flex items-center gap-3 px-3 py-2.5 rounded-lg transition-colors w-full text-left text-muted-foreground hover:bg-black/5 dark:hover:bg-white/5 hover:text-foreground
+              ${isCollapsed ? 'justify-center' : 'justify-start'}
+            `}
+            title={isCollapsed ? t('navigation.page.settings', 'Configurações') : undefined}
+          >
+            <Settings className="w-5 h-5 shrink-0" />
+            {!isCollapsed && <span className="text-[13px]">{t('navigation.page.settings', 'Configurações')}</span>}
+          </button>
+          
+          <button type="button"
+            onClick={handleLogout}
+            className={`flex items-center gap-3 px-3 py-2.5 rounded-lg transition-colors w-full text-left text-destructive hover:bg-destructive/5
+              ${isCollapsed ? 'justify-center' : 'justify-start'}
+            `}
+            title={isCollapsed ? t('buttons.logout', 'Sair') : undefined}
+          >
+            <LogOut className="w-5 h-5 shrink-0" />
+            {!isCollapsed && <span className="text-[13px] font-medium">{t('buttons.logout', 'Sair')}</span>}
+          </button>
+        </div>
       </div>
     </div>
   );

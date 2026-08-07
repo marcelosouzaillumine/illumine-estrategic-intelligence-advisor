@@ -1,35 +1,42 @@
-import { ExecutiveProductSchema } from '../../schema/ExecutiveProductSchema';
+import { ExecutiveProductDefinition, ExecutiveExperienceLayer } from '../../constitution/ExecutiveProductDefinition';
 import { ExecutiveOffice } from '../../governance/offices/ExecutiveOffice';
 import { ExecutiveProductType } from '../ExecutiveProductType';
 
-export const DecisionRoomProduct: ExecutiveProductSchema = {
-  id: 'board.decision.room',
+export const decisionLayers: ExecutiveExperienceLayer[] = [
+  { id: 'summary', name: 'Executive Summary', order: 10, rootComponentId: 'DecisionContextCard' },
+  { id: 'interpretation', name: 'Strategic Interpretation', order: 20, rootComponentId: 'StrategicAlternativesPanel' },
+  { id: 'domains', name: 'Intelligence Domains', order: 30, rootComponentId: 'RiskAssessmentFramework' },
+  { id: 'questions', name: 'CFO Questions', order: 50, rootComponentId: 'RecommendationFramework' },
+  { id: 'evidence', name: 'Technical Evidence', order: 100, rootComponentId: 'GovernanceRecordPanel' }
+];
+
+export const DecisionRoomProduct: ExecutiveProductDefinition = {
+  metadata: {
+    id: 'board.decision.room',
+    purpose: 'Apresentar alternativas, estruturar cenários e registrar a deliberação fiduciária.',
+    executiveDecisionSupported: ['Decisões estratégicas vinculantes', 'Aprovação orçamentária e alocação estrutural']
+  },
   office: ExecutiveOffice.BOARD_INTELLIGENCE,
   productType: ExecutiveProductType.DECISION_PRODUCT,
   advisoryLevel: 'RECOMMENDATION',
-  decisionAuthority: true,
-  canRecommend: true,
-  canExecute: true,
-  canCreateGovernanceDecision: true,
-  purpose: 'Apresentar alternativas, estruturar cenários e registrar a deliberação fiduciária.',
-  executiveDecisionSupported: ['Decisões estratégicas vinculantes', 'Aprovação orçamentária e alocação estrutural'],
-  hierarchy: [
-    // This is a placeholder hierarchy mapping to theoretical sections for the Board Room
-    { type: 'EXECUTIVE_SUMMARY', components: ['DecisionContextCard'] },
-    { type: 'STRATEGIC_INTERPRETATION', components: ['StrategicAlternativesPanel', 'ScenarioAnalysisBoard'] },
-    { type: 'INTELLIGENCE_DOMAINS', components: ['RiskAssessmentFramework'] },
-    { type: 'CFO_QUESTIONS', components: ['RecommendationFramework'] },
-    { type: 'TECHNICAL_EVIDENCE', components: ['GovernanceRecordPanel'] }
-  ],
-  intelligenceSources: [
-    { engine: 'Decision Intelligence Coordinator', context: 'decision' }
-  ],
-  confidenceModel: {
-    minimumRequired: 'ABSOLUTE',
-    auditTrailVisible: true
+  capabilities: {
+    intelligenceSources: [
+      { engine: 'Decision Intelligence Coordinator', context: 'decision' }
+    ],
+    confidenceModel: {
+      minimumRequired: 'ABSOLUTE',
+      auditTrailVisible: true
+    }
   },
-  governance: {
-    requiresEvidence: true,
-    requiresHumanDecision: true
+  experience: {
+    layers: decisionLayers,
+    rules: {
+      requiresEvidence: true,
+      requiresHumanDecision: true,
+      decisionAuthority: true,
+      canRecommend: true,
+      canExecute: true,
+      canCreateGovernanceDecision: true
+    }
   }
 };
