@@ -1,4 +1,4 @@
-import { getSupabaseClient } from '../infrastructure/supabase/SupabaseClient';
+import { getSupabaseClient } from '../../infrastructure/supabase/SupabaseClient';
 
 export interface BoardResolution {
   id?: string;
