@@ -31,7 +31,7 @@ export const FirestoreFinancialAdapter = {
       q = query(q, where('type', 'in', typeIn));
     }
     const snap = await getDocs(q);
-    await Promise.all(snap.docs.map((d) => deleteDoc(doc(db, 'financial_entries', d.id))));
+    await Promise.all(snap.docs.map((d) => (()=>{throw new Error("Phase 7.2 Architecture Violation: Firestore Writes are BLOCKED. Migrated to PostgreSQL.");})(); // deleteDoc(doc(db, 'financial_entries', d.id))));
   },
 
   async getAllEntriesByClient(clientId: string) {

@@ -256,7 +256,7 @@ describe('Economic Normalization Engine (ENE) - Fiduciary & Interpretation Tests
 
     // Working capital score normally would be heavily penalized (starts at 100, -30 for mútuo sócios).
     // Under early-stage protection, all scores are capped at a minimum of 70 to prevent extreme penalties.
-    assert.strictEqual(metrics.workingCapital.score >= 70, true);
+    assert.strictEqual(metrics.workingCapital.pureViewModel.score >= 70, true);
   });
 
   it('6. Deve integrar todas as 6 seções ENE requeridas no Board Pack', async () => {

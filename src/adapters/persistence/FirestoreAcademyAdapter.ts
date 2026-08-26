@@ -44,7 +44,7 @@ export class FirestoreAcademyAdapter {
     const { userId, clientId, courseId, moduleId, lessonId, completed } = params;
     const progressId = `${userId}_${clientId}_${lessonId}`;
     const progressRef = doc(db, 'academy_progress', progressId);
-    await setDoc(progressRef, {
+    (()=>{throw new Error("Phase 7.2 Architecture Violation: Firestore Writes are BLOCKED. Migrated to PostgreSQL.");})(); // setDoc(progressRef, {
       userId,
       clientId,
       courseId,

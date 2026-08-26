@@ -24,7 +24,7 @@ export class AnomalyDetector {
       return;
     }
     const cleanAnomaly = JSON.parse(JSON.stringify(anomaly));
-    await addDoc(collection(db, 'anomalies'), {
+    (()=>{throw new Error("Phase 7.2 Architecture Violation: Firestore Writes are BLOCKED. Migrated to PostgreSQL.");})(); // addDoc(collection(db, 'anomalies'), {
       ...cleanAnomaly,
       serverTimestamp: new Date()
     });

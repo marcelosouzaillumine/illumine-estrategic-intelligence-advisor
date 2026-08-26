@@ -46,7 +46,7 @@ export function MarketingComercialPage({ type, clientId }: MarketingComercialPag
   const [view, setView] = useState<'dashboard' | 'pipeline'>('dashboard');
   const [periodMode, setPeriodMode] = useState<'mensal' | 'anual'>('mensal');
 
-  const { pipelineEntries } = useSalesPipelineAdapter(clientId, isMarketing);
+  const { entries: pipelineEntries } = useSalesPipelineAdapter(clientId);
 
   const { dbIndicators, getIndicatorValue } = useIndicatorsAdapter(clientId, selectedYear, selectedMonth);
 

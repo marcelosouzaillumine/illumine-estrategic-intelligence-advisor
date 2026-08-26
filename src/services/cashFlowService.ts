@@ -1,5 +1,4 @@
 import { PayableEntry, ReceivableEntry, PositionEntry, EconomicAssumption, IndicatorValue, FirestoreDocument, PreComputedData } from "../types/contracts";
-import { serverTimestamp } from 'firebase/firestore';
 import { persistenceContainer } from '../infrastructure/container/persistenceContainer';
 import { auth } from '../lib/firebase';
 import { DATA } from '../data';
@@ -164,7 +163,7 @@ export async function generateCashFlow(context: DataAccessContext, clientId: str
     { "Indicador": "Dias até Ruptura", "Fórmula / Valor": "Requer Runtime Institucional", "Status": "Seguro" }
   ];
 
-  // 6. Save to Firestore in 'cash_flows' collection
+  // 6. Save to Firestore/PostgreSQL via Adapter
   const cashFlowData = {
     clientId: cleanId,
     ownerId: auth.currentUser?.uid,
@@ -174,7 +173,7 @@ export async function generateCashFlow(context: DataAccessContext, clientId: str
     Passivo_Vencido: passivoVencido,
     Inadimplencia: inadimplencia,
     KPIs: kpis,
-    updatedAt: serverTimestamp()
+    updatedAt: new Date().toISOString()
   };
 
   const writeContext: DataAccessContext = {

@@ -1,5 +1,4 @@
-// @ts-nocheck
-import test from 'node:test';
+import { test, expect, beforeAll, afterAll } from 'vitest';
 import assert from 'node:assert';
 import { BalanceSheetExecutiveViewModelBuilder } from '../../core/runtime/executive-consolidation/BalanceSheetExecutiveViewModelBuilder';
 

@@ -37,9 +37,9 @@ describe('BPExecutivePlanSingleSourceConsistency', () => {
     const fullPath = path.resolve(process.cwd(), 'src/components/pages/BalanceSheetPage.tsx');
     if (fs.existsSync(fullPath)) {
       const content = fs.readFileSync(fullPath, 'utf-8');
-      assert.ok(content.includes('bpExecutiveAnalysisContext'), "Should use bpExecutiveAnalysisContext");
-      assert.ok(content.includes('context={bpExecutiveAnalysisContext}'), "Synthesis should receive context");
-      assert.ok(content.includes('executiveAnalysisContext={bpExecutiveAnalysisContext}'), "Plan should receive context");
+      assert.ok(content.includes('ExecutiveProductRenderer'), "Should use ExecutiveProductRenderer");
+      assert.ok(content.includes('product={FinancialPositionProduct}'), "Should render FinancialPositionProduct");
+      assert.ok(content.includes('context={experienceContext}'), "Renderer should receive context");
     }
   });
 });

@@ -1,6 +1,5 @@
-// @ts-nocheck
-import { describe, it } from 'node:test';
-import * as assert from 'node:assert';
+import { describe, it, expect, beforeAll, afterAll } from 'vitest';
+import assert from 'node:assert';
 import { ExecutiveSemanticRegistry } from '../../core/runtime/executive-consolidation/ExecutiveSemanticRegistry';
 
 describe('BalanceSheetSemanticGovernance v7.16', () => {

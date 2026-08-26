@@ -132,9 +132,9 @@ export function PlanoAcaoPage({ clientId }: { clientId: string }) {
       };
 
       if (editingId) {
-        await updateDoc(doc(db, 'action_items', editingId), data);
+        (()=>{throw new Error("Phase 7.2 Architecture Violation: Firestore Writes are BLOCKED. Migrated to PostgreSQL.");})(); // updateDoc(doc(db, 'action_items', editingId), data);
       } else {
-        await addDoc(collection(db, 'action_items'), {
+        (()=>{throw new Error("Phase 7.2 Architecture Violation: Firestore Writes are BLOCKED. Migrated to PostgreSQL.");})(); // addDoc(collection(db, 'action_items'), {
           ...data,
           createdAt: serverTimestamp()
         });
@@ -153,7 +153,7 @@ export function PlanoAcaoPage({ clientId }: { clientId: string }) {
       const formatter = useExecutiveFormatter();
     if (!window.confirm('Excluir esta tarefa permanentemente?')) return;
     try {
-      await deleteDoc(doc(db, 'action_items', id));
+      (()=>{throw new Error("Phase 7.2 Architecture Violation: Firestore Writes are BLOCKED. Migrated to PostgreSQL.");})(); // deleteDoc(doc(db, 'action_items', id));
     } catch (error) {
       console.error("Error deleting action item:", error);
     }
@@ -162,7 +162,7 @@ export function PlanoAcaoPage({ clientId }: { clientId: string }) {
   const updateStatus = async (id: string, newStatus: ActionItem['status']) => {
       const formatter = useExecutiveFormatter();
     try {
-      await updateDoc(doc(db, 'action_items', id), {
+      (()=>{throw new Error("Phase 7.2 Architecture Violation: Firestore Writes are BLOCKED. Migrated to PostgreSQL.");})(); // updateDoc(doc(db, 'action_items', id), {
         status: newStatus,
         updatedAt: serverTimestamp()
       });

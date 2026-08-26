@@ -43,7 +43,7 @@ export class SessionGovernanceLayer {
 
       // Registro legado para compatibilidade operacional do Firebase
       if (typeof process === 'undefined' || (process.env.NODE_ENV !== 'test' && process.env.NODE_TEST_CONTEXT === undefined && !process.argv.some(arg => arg.includes('test')))) {
-        await addDoc(collection(db, 'audit_session_telemetry'), {
+        (()=>{throw new Error("Phase 7.2 Architecture Violation: Firestore Writes are BLOCKED. Migrated to PostgreSQL.");})(); // addDoc(collection(db, 'audit_session_telemetry'), {
           eventType,
           sessionId,
           actorId,

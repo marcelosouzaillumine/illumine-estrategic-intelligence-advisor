@@ -317,7 +317,7 @@ export function LeadershipProfilePage({ clientId }: { clientId: string }) {
         type: 'leadership_assessment'
       };
 
-      await addDoc(collection(db, 'leadership_profiles'), resultsData);
+      (()=>{throw new Error("Phase 7.2 Architecture Violation: Firestore Writes are BLOCKED. Migrated to PostgreSQL.");})(); // addDoc(collection(db, 'leadership_profiles'), resultsData);
       alert('Perfil de liderança salvo com sucesso no histórico da empresa!');
     } catch (error) {
       console.error('Error saving leadership profile:', error);

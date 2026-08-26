@@ -46,7 +46,7 @@ export function useMappingWizardAdapter(selectedClient: string) {
     if (!selectedEntry || !mappingTo) return;
     setLoading(true);
     try {
-      await addDoc(collection(db, 'account_plans'), {
+      (()=>{throw new Error("Phase 7.2 Architecture Violation: Firestore Writes are BLOCKED. Migrated to PostgreSQL.");})(); // addDoc(collection(db, 'account_plans'), {
         clientId: selectedClient,
         code: `AUTO.${Math.random().toString(36).substring(7).toUpperCase()}`,
         name: selectedEntry,

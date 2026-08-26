@@ -42,7 +42,7 @@ export class GroupOnboardingRepository {
         updatedAt: now
       };
 
-      await setDoc(doc(db, 'economic_groups', id), newGroup);
+      (()=>{throw new Error("Phase 7.2 Architecture Violation: Firestore Writes are BLOCKED. Migrated to PostgreSQL.");})(); // setDoc(doc(db, 'economic_groups', id), newGroup);
       return newGroup;
     } catch (err: unknown) {
       console.error('[GroupOnboardingRepository] Error creating group:', err);

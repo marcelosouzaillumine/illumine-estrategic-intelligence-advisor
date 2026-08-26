@@ -75,7 +75,7 @@ export function ExecutiveCommentary({ reportType, clientId, year, month, default
       );
       const snap = await getDocs(q);
       if (!snap.empty) {
-        await updateDoc(doc(db, 'report_notes', snap.docs[0].id), {
+        (()=>{throw new Error("Phase 7.2 Architecture Violation: Firestore Writes are BLOCKED. Migrated to PostgreSQL.");})(); // updateDoc(doc(db, 'report_notes', snap.docs[0].id), {
           note: '',
           updatedAt: serverTimestamp(),
           updatedBy: auth.currentUser?.uid
@@ -104,13 +104,13 @@ export function ExecutiveCommentary({ reportType, clientId, year, month, default
       const snap = await getDocs(q);
       
       if (!snap.empty) {
-        await updateDoc(doc(db, 'report_notes', snap.docs[0].id), {
+        (()=>{throw new Error("Phase 7.2 Architecture Violation: Firestore Writes are BLOCKED. Migrated to PostgreSQL.");})(); // updateDoc(doc(db, 'report_notes', snap.docs[0].id), {
           note,
           updatedAt: serverTimestamp(),
           updatedBy: auth.currentUser?.uid
         });
       } else {
-        await addDoc(collection(db, 'report_notes'), {
+        (()=>{throw new Error("Phase 7.2 Architecture Violation: Firestore Writes are BLOCKED. Migrated to PostgreSQL.");})(); // addDoc(collection(db, 'report_notes'), {
           clientId,
           reportType,
           year,

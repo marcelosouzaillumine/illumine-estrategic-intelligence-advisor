@@ -206,7 +206,7 @@ export function ImportPlanoModal({ clients, selectedClient, onClose, onSuccess, 
         const chunkSize = 450;
         const existingDocs = existingAccounts;
         for (let i = 0; i < existingDocs.length; i += chunkSize) {
-          const batch = writeBatch(db);
+          const batch = (()=>{throw new Error("Phase 7.2 Architecture Violation: Firestore Writes are BLOCKED. Migrated to PostgreSQL.");})(); // writeBatch(db);
           existingDocs.slice(i, i + chunkSize).forEach(a => batch.delete(doc(db, 'account_plans', a.id)));
           await batch.commit();
         }
@@ -237,7 +237,7 @@ export function ImportPlanoModal({ clients, selectedClient, onClose, onSuccess, 
           };
           if (strategy === 'replace_all' || acc._status === 'new') {
             // Always create
-            await addDoc(collection(db, 'account_plans'), {
+            (()=>{throw new Error("Phase 7.2 Architecture Violation: Firestore Writes are BLOCKED. Migrated to PostgreSQL.");})(); // addDoc(collection(db, 'account_plans'), {
               ...baseData,
               status: 'pending',
               requiresApproval: true,
@@ -264,7 +264,7 @@ export function ImportPlanoModal({ clients, selectedClient, onClose, onSuccess, 
             created++;
           } else if (strategy === 'replace_duplicates' && (acc._status === 'duplicate' || acc._status === 'conflict')) {
             // Update existing (preserve kpiMapping etc.)
-            await updateDoc(doc(db, 'account_plans', acc._existingId!), {
+            (()=>{throw new Error("Phase 7.2 Architecture Violation: Firestore Writes are BLOCKED. Migrated to PostgreSQL.");})(); // updateDoc(doc(db, 'account_plans', acc._existingId!), {
               name: acc.name,
               type: acc.type,
               level: baseData.level,

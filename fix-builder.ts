@@ -1,0 +1,11 @@
+import * as fs from 'fs';
+const path = 'src/capabilities/financial/application/consolidation/FinancialPositionPureViewModelBuilder.ts';
+let content = fs.readFileSync(path, 'utf8');
+content = content.replace(/intelligenceContract\.overview/g, 'intelligenceContract.pureViewModel.overview');
+content = content.replace(/intelligenceContract\.diagnosis/g, 'intelligenceContract.pureViewModel.diagnosis');
+content = content.replace(/intelligenceContract\.signals/g, 'intelligenceContract.pureViewModel.signals');
+content = content.replace(/intelligenceContract\.historicalEvolution/g, 'intelligenceContract.pureViewModel.historicalEvolution');
+content = content.replace(/intelligenceContract\.score/g, 'intelligenceContract.pureViewModel.score');
+content = content.replace(/intelligenceContract\.executiveQuestions/g, 'intelligenceContract.pureViewModel.executiveQuestions');
+content = content.replace(/intelligenceContract\.technicalEvidence/g, 'intelligenceContract.pureViewModel.technicalEvidence');
+fs.writeFileSync(path, content, 'utf8');

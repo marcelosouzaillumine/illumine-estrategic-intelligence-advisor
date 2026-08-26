@@ -1,7 +1,7 @@
-// @ts-nocheck
 import React, { useState, useMemo, useEffect } from 'react';
 import { LayoutGrid, Activity, FileText, Coins, BookOpen, Settings2, AlertTriangle, ShieldCheck, Upload, Plus, TrendingUp, LayoutDashboard, Presentation, Scale, Compass, Fingerprint, Target, Globe, ClipboardList, BarChart3, PieChart, Zap, Briefcase, Calculator, CreditCard, ArrowUpRight, CircleDollarSign, List, Landmark, Boxes, Rocket, LineChart, Percent, ShoppingBag, HardDrive, Layers, Bell, Users, Trash2, Save, Loader2, CheckCircle2 } from 'lucide-react';
-import { collection, query, where, getDocs, orderBy, addDoc, updateDoc, doc, serverTimestamp, deleteDoc } from 'firebase/firestore';
+
+
 import { db, handleFirestoreError, OperationType } from '../../../lib/firebase';
 import { motion, AnimatePresence } from 'motion/react';
 import { ResponsiveContainer, BarChart, CartesianGrid, XAxis, YAxis, Tooltip, Bar, AreaChart, Area } from 'recharts';

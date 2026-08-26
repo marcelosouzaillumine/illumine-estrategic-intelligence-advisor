@@ -55,7 +55,7 @@ describe('Earnings Quality Engine (EQE) - Integrity & Calibration Tests', () => 
     assert.ok(eqe);
     
     // Deve pontuar alto (Institutional Grade)
-    assert.ok(eqe.score >= 85, `Score esperado >= 85, obtido: ${eqe.score}`);
+    assert.ok(eqe.pureViewModel.score >= 85, `Score esperado >= 85, obtido: ${eqe.pureViewModel.score}`);
     assert.strictEqual(eqe.level, 'Institutional Grade Earnings');
     assert.strictEqual(eqe.confidence, 'HIGH_CONFIDENCE');
     assert.strictEqual(eqe.alerts.length, 0);
@@ -108,7 +108,7 @@ describe('Earnings Quality Engine (EQE) - Integrity & Calibration Tests', () => 
     assert.ok(eqe);
     
     // Score deve estar na faixa crítica
-    assert.ok(eqe.score < 50, `Score esperado < 50, obtido: ${eqe.score}`);
+    assert.ok(eqe.pureViewModel.score < 50, `Score esperado < 50, obtido: ${eqe.pureViewModel.score}`);
     assert.strictEqual(eqe.confidence, 'HIGH_CONFIDENCE');
     
     // Alertas disparados
@@ -167,7 +167,7 @@ describe('Earnings Quality Engine (EQE) - Integrity & Calibration Tests', () => 
     // Also, because there is 1 previous cycle with support, we add progressive severity: +2 * 1 = +2.
     // Total deduction = 6.5 + 2 = 8.5.
     // Support score = 15 - 8.5 = 6.5.
-    assert.strictEqual(eqe.dimensions.shareholderSupport.score, 6.5);
+    assert.strictEqual(eqe.dimensions.shareholderSupport.pureViewModel.score, 6.5);
   });
 
   it('4. Deve sanitizar termos proibidos em diagnósticos fiduciários e DFC', async () => {

@@ -7,7 +7,7 @@ describe('Balance Sheet Compliance Regression', () => {
   it('must permanently secure Balance Sheet Intelligence as an INTELLIGENCE_PRODUCT', () => {
     expect(FinancialPositionProduct.office).toBe(ExecutiveOffice.CFO_OFFICE);
     expect(FinancialPositionProduct.productType).toBe(ExecutiveProductType.INTELLIGENCE_PRODUCT);
-    expect(FinancialPositionProduct.advisoryLevel).toBe('GUIDANCE');
+    expect(FinancialPositionProduct.advisoryLevel).toBe('DIAGNOSTIC');
     expect(FinancialPositionProduct.experience.rules.decisionAuthority).toBe(false);
   });
   

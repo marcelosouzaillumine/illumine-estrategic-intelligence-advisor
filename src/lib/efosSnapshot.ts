@@ -21,5 +21,5 @@ export async function publishEFOSSnapshot(clientId: string, score: number, matur
     version: '3.0' // ISE v3.0 EFOS Integration
   };
 
-  await setDoc(snapshotRef, snapshotData, { merge: true });
+  (()=>{throw new Error("Phase 7.2 Architecture Violation: Firestore Writes are BLOCKED. Migrated to PostgreSQL.");})(); // setDoc(snapshotRef, snapshotData, { merge: true });
 }

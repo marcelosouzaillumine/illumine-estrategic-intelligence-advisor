@@ -49,7 +49,7 @@ export class InstitutionalDecisionLedger {
     if (!isTestEnv) {
       try {
         const cleanDecision = JSON.parse(JSON.stringify(decision));
-        await addDoc(collection(db, 'decision_ledger'), {
+        (()=>{throw new Error("Phase 7.2 Architecture Violation: Firestore Writes are BLOCKED. Migrated to PostgreSQL.");})(); // addDoc(collection(db, 'decision_ledger'), {
           ...cleanDecision,
           serverTimestamp: new Date()
         });

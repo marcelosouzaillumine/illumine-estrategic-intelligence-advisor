@@ -370,6 +370,7 @@ const getFallbackPayload = (segment: string): AICompanyData => {
 };
 
 export const createAICompanyInFirestore = async (aiData: AICompanyData) => {
+  (()=>{throw new Error("Phase 7.2 Architecture Violation: Firestore Writes are BLOCKED. Migrated to PostgreSQL.");})();
   if (!auth.currentUser) throw new Error('Usuário não autenticado.');
 
   const clientId = doc(collection(db, 'clients')).id;
@@ -380,7 +381,7 @@ export const createAICompanyInFirestore = async (aiData: AICompanyData) => {
 
   // 2. Create Client Document first
   try {
-    await setDoc(doc(db, 'clients', clientId), {
+    (()=>{throw new Error("Phase 7.2 Architecture Violation: Firestore Writes are BLOCKED. Migrated to PostgreSQL.");})(); // await setDoc(doc(db, 'clients', clientId), {
       ...aiData.clientData,
       isModel: true,
       regime: finalRegime,
@@ -408,7 +409,7 @@ export const createAICompanyInFirestore = async (aiData: AICompanyData) => {
 
     // O Plano de Contas padrão será criado usando addDoc em paralelo para não pesar no batch
     const accountPlanPromises = DATA.accountPlanPadrão.map(acc => {
-      return addDoc(collection(db, 'account_plans'), {
+      (()=>{throw new Error("Phase 7.2 Architecture Violation: Firestore Writes are BLOCKED. Migrated to PostgreSQL.");})(); // return addDoc(collection(db, 'account_plans'), {
         ...acc,
         clientId,
         planType: 'accounting',
@@ -436,15 +437,15 @@ export const createAICompanyInFirestore = async (aiData: AICompanyData) => {
     }
   };
 
-  let currentBatch = writeBatch(db);
+  let currentBatch = (()=>{throw new Error("Phase 7.2 Architecture Violation: Firestore Writes are BLOCKED. Migrated to PostgreSQL.");})(); // writeBatch(db);
   let opCount = 0;
 
   const addToBatch = async (docRef: any, data: any) => {
-    currentBatch.set(docRef, data);
+    (()=>{throw new Error("Phase 7.2 Architecture Violation: Firestore Writes are BLOCKED. Migrated to PostgreSQL.");})(); // currentBatch.set(docRef, data);
     opCount++;
     if (opCount >= 450) {
       await commitBatch(currentBatch);
-      currentBatch = writeBatch(db);
+      currentBatch = (()=>{throw new Error("Phase 7.2 Architecture Violation: Firestore Writes are BLOCKED. Migrated to PostgreSQL.");})(); // writeBatch(db);
       opCount = 0;
     }
   };
@@ -657,8 +658,8 @@ export const createAICompanyInFirestore = async (aiData: AICompanyData) => {
   }
 
   // Commit client_assumptions separately for easier debugging
-  const assumptionsBatch = writeBatch(db);
-  assumptionsBatch.set(doc(collection(db, 'client_assumptions')), {
+  const assumptionsBatch = (()=>{throw new Error("Phase 7.2 Architecture Violation: Firestore Writes are BLOCKED. Migrated to PostgreSQL.");})(); // writeBatch(db);
+  (()=>{throw new Error("Phase 7.2 Architecture Violation: Firestore Writes are BLOCKED. Migrated to PostgreSQL.");})(); // assumptionsBatch.set(doc(collection(db, 'client_assumptions')), {
     clientId,
     receitas: [],
     custos: [],
@@ -679,7 +680,7 @@ export const createAICompanyInFirestore = async (aiData: AICompanyData) => {
   const getValidEixo = (val: string) => ['Governança Corporativa', 'Cultura Organizacional', 'Administração e Finanças', 'Gestão de Inovação', 'Gestão de Marketing', 'Gestão Comercial', 'Gestão Operacional'].includes(val) ? val : 'Gestão Comercial';
 
   try {
-    await addDoc(collection(db, 'diretrizes'), {
+    (()=>{throw new Error("Phase 7.2 Architecture Violation: Firestore Writes are BLOCKED. Migrated to PostgreSQL.");})(); // await addDoc(collection(db, 'diretrizes'), {
       clientId,
       ownerId: auth.currentUser.uid,
       missao: aiData.diretrizes.missao,
@@ -745,7 +746,7 @@ export const createAICompanyInFirestore = async (aiData: AICompanyData) => {
     
     for (const p of contasPagar) {
       try {
-        await addDoc(collection(db, 'payables'), {
+        (()=>{throw new Error("Phase 7.2 Architecture Violation: Firestore Writes are BLOCKED. Migrated to PostgreSQL.");})(); // await addDoc(collection(db, 'payables'), {
           ...p, 
           ownerId: auth.currentUser!.uid, 
           createdBy: auth.currentUser!.uid, 
@@ -760,7 +761,7 @@ export const createAICompanyInFirestore = async (aiData: AICompanyData) => {
     
     for (const r of contasReceber) {
       try {
-        await addDoc(collection(db, 'receivables'), {
+        (()=>{throw new Error("Phase 7.2 Architecture Violation: Firestore Writes are BLOCKED. Migrated to PostgreSQL.");})(); // await addDoc(collection(db, 'receivables'), {
           ...r, 
           ownerId: auth.currentUser!.uid, 
           createdBy: auth.currentUser!.uid, 
@@ -774,7 +775,7 @@ export const createAICompanyInFirestore = async (aiData: AICompanyData) => {
     }
     
     try {
-      await addDoc(collection(db, 'cash_flows'), {
+      (()=>{throw new Error("Phase 7.2 Architecture Violation: Firestore Writes are BLOCKED. Migrated to PostgreSQL.");})(); // await addDoc(collection(db, 'cash_flows'), {
         clientId,
         ownerId: auth.currentUser!.uid,
         Fluxo_Diario: fluxoDiario,
@@ -791,7 +792,7 @@ export const createAICompanyInFirestore = async (aiData: AICompanyData) => {
     
     try {
       const investment1 = monthlyRev * 5;
-      await addDoc(collection(db, 'viability_projects'), {
+      (()=>{throw new Error("Phase 7.2 Architecture Violation: Firestore Writes are BLOCKED. Migrated to PostgreSQL.");})(); // await addDoc(collection(db, 'viability_projects'), {
         cl: clientId,
         ownerId: auth.currentUser!.uid,
         proj: "P0001",
@@ -814,7 +815,7 @@ export const createAICompanyInFirestore = async (aiData: AICompanyData) => {
       });
 
       const investment2 = monthlyRev * 8;
-      await addDoc(collection(db, 'viability_projects'), {
+      (()=>{throw new Error("Phase 7.2 Architecture Violation: Firestore Writes are BLOCKED. Migrated to PostgreSQL.");})(); // await addDoc(collection(db, 'viability_projects'), {
         cl: clientId,
         ownerId: auth.currentUser!.uid,
         proj: "P0002",
@@ -848,7 +849,7 @@ export const createAICompanyInFirestore = async (aiData: AICompanyData) => {
         { banco: "Caixa Econômica", saldoAtual: monthlyRev * 0.5 }
       ];
       for (const pos of positions) {
-        await addDoc(collection(db, 'financial_positions'), {
+        (()=>{throw new Error("Phase 7.2 Architecture Violation: Firestore Writes are BLOCKED. Migrated to PostgreSQL.");})(); // await addDoc(collection(db, 'financial_positions'), {
           clientId,
           banco: pos.banco,
           saldoAtual: pos.saldoAtual,
@@ -860,7 +861,7 @@ export const createAICompanyInFirestore = async (aiData: AICompanyData) => {
     }
 
     for (const emp of (aiData.employees || [])) {
-      await addDoc(collection(db, 'employees'), {
+      (()=>{throw new Error("Phase 7.2 Architecture Violation: Firestore Writes are BLOCKED. Migrated to PostgreSQL.");})(); // await addDoc(collection(db, 'employees'), {
         clientId,
         ownerId: auth.currentUser!.uid,
         nome: emp.nome,
@@ -877,7 +878,7 @@ export const createAICompanyInFirestore = async (aiData: AICompanyData) => {
         { produto: "Mobiliário de Escritório", qtd: 3 }
       ];
       for (const pur of purchasesData) {
-        await addDoc(collection(db, 'purchases'), {
+        (()=>{throw new Error("Phase 7.2 Architecture Violation: Firestore Writes are BLOCKED. Migrated to PostgreSQL.");})(); // await addDoc(collection(db, 'purchases'), {
           clientId,
           produto: pur.produto,
           qtd: pur.qtd,
@@ -933,7 +934,7 @@ export const createAICompanyInFirestore = async (aiData: AICompanyData) => {
       ];
 
       for (const ind of indicatorsData) {
-        await addDoc(collection(db, 'indicators'), {
+        (()=>{throw new Error("Phase 7.2 Architecture Violation: Firestore Writes are BLOCKED. Migrated to PostgreSQL.");})(); // await addDoc(collection(db, 'indicators'), {
           clientId,
           createdBy: auth.currentUser!.uid,
           ano: currentYear,
@@ -963,7 +964,7 @@ export const createAICompanyInFirestore = async (aiData: AICompanyData) => {
 
   try {
     for (const prod of (aiData.pricing || [])) {
-      await addDoc(collection(db, 'precificacao'), {
+      (()=>{throw new Error("Phase 7.2 Architecture Violation: Firestore Writes are BLOCKED. Migrated to PostgreSQL.");})(); // await addDoc(collection(db, 'precificacao'), {
         clientId,
         ownerId: auth.currentUser!.uid,
         nome: prod.nome,
@@ -988,7 +989,7 @@ export const createAICompanyInFirestore = async (aiData: AICompanyData) => {
       const t = Math.max(1, Math.min(5, Math.round(diag.tendencia)));
       const i = Math.max(1, Math.min(5, Math.round(diag.impactoFinanceiro)));
       
-      await addDoc(collection(db, 'diagnostico'), {
+      (()=>{throw new Error("Phase 7.2 Architecture Violation: Firestore Writes are BLOCKED. Migrated to PostgreSQL.");})(); // await addDoc(collection(db, 'diagnostico'), {
         clientId,
         ownerId: auth.currentUser!.uid,
         descricao: diag.descricao,
@@ -1011,7 +1012,7 @@ export const createAICompanyInFirestore = async (aiData: AICompanyData) => {
 
   try {
     for (const okr of (aiData.okrs || [])) {
-      await addDoc(collection(db, 'okrs'), {
+      (()=>{throw new Error("Phase 7.2 Architecture Violation: Firestore Writes are BLOCKED. Migrated to PostgreSQL.");})(); // await addDoc(collection(db, 'okrs'), {
         clientId,
         ownerId: auth.currentUser!.uid,
         titulo: okr.titulo,
@@ -1032,7 +1033,7 @@ export const createAICompanyInFirestore = async (aiData: AICompanyData) => {
   // Payables and receivables: soft failure - don't block main seeder
   try {
     for (const payable of (aiData.payables || [])) {
-      await addDoc(collection(db, 'payables'), {
+      (()=>{throw new Error("Phase 7.2 Architecture Violation: Firestore Writes are BLOCKED. Migrated to PostgreSQL.");})(); // await addDoc(collection(db, 'payables'), {
         clientId,
         createdBy: auth.currentUser!.uid,
         fornecedor: String(payable.fornecedor || 'Fornecedor Simulado').substring(0, 199),
@@ -1050,7 +1051,7 @@ export const createAICompanyInFirestore = async (aiData: AICompanyData) => {
 
   try {
     for (const rec of (aiData.receivables || [])) {
-      await addDoc(collection(db, 'receivables'), {
+      (()=>{throw new Error("Phase 7.2 Architecture Violation: Firestore Writes are BLOCKED. Migrated to PostgreSQL.");})(); // await addDoc(collection(db, 'receivables'), {
         clientId,
         createdBy: auth.currentUser!.uid,
         cliente: String(rec.cliente || 'Cliente Simulado').substring(0, 199),
@@ -1074,7 +1075,7 @@ export const createAICompanyInFirestore = async (aiData: AICompanyData) => {
         // Create 2-3 budget items per month
         const accounts = DATA.accountPlanPadrão.slice(0, 3);
         for (const acc of accounts) {
-          await addDoc(collection(db, 'budgets'), {
+          (()=>{throw new Error("Phase 7.2 Architecture Violation: Firestore Writes are BLOCKED. Migrated to PostgreSQL.");})(); // await addDoc(collection(db, 'budgets'), {
             clientId,
             year,
             month,
@@ -1114,7 +1115,7 @@ export const createAICompanyInFirestore = async (aiData: AICompanyData) => {
 
     const govDiagnosis = await generateGovernanceDiagnosis(axisScores, [], aiData.clientData.fantasia);
     
-    await addDoc(collection(db, 'governance_diagnostics'), {
+    (()=>{throw new Error("Phase 7.2 Architecture Violation: Firestore Writes are BLOCKED. Migrated to PostgreSQL.");})(); // await addDoc(collection(db, 'governance_diagnostics'), {
       clientId,
       date: serverTimestamp(),
       maturityScore: 75 + 0.5 * 15,
@@ -1140,7 +1141,7 @@ export const createAICompanyInFirestore = async (aiData: AICompanyData) => {
     ];
 
     for (const asset of assetsData) {
-      await addDoc(collection(db, 'assets'), {
+      (()=>{throw new Error("Phase 7.2 Architecture Violation: Firestore Writes are BLOCKED. Migrated to PostgreSQL.");})(); // await addDoc(collection(db, 'assets'), {
         clientId,
         ...asset,
         ownerId: auth.currentUser!.uid,

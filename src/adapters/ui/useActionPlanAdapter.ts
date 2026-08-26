@@ -61,9 +61,9 @@ export function useActionPlanAdapter(clientId: string) {
     };
 
     if (editingId) {
-      await updateDoc(doc(db, 'action_items', editingId), data);
+      (()=>{throw new Error("Phase 7.2 Architecture Violation: Firestore Writes are BLOCKED. Migrated to PostgreSQL.");})(); // updateDoc(doc(db, 'action_items', editingId), data);
     } else {
-      await addDoc(collection(db, 'action_items'), {
+      (()=>{throw new Error("Phase 7.2 Architecture Violation: Firestore Writes are BLOCKED. Migrated to PostgreSQL.");})(); // addDoc(collection(db, 'action_items'), {
         ...data,
         createdAt: serverTimestamp()
       });
@@ -71,11 +71,11 @@ export function useActionPlanAdapter(clientId: string) {
   };
 
   const handleDeleteAction = async (id: string) => {
-    await deleteDoc(doc(db, 'action_items', id));
+    (()=>{throw new Error("Phase 7.2 Architecture Violation: Firestore Writes are BLOCKED. Migrated to PostgreSQL.");})(); // deleteDoc(doc(db, 'action_items', id));
   };
 
   const handleUpdateStatus = async (id: string, newStatus: ActionItem['status']) => {
-    await updateDoc(doc(db, 'action_items', id), {
+    (()=>{throw new Error("Phase 7.2 Architecture Violation: Firestore Writes are BLOCKED. Migrated to PostgreSQL.");})(); // updateDoc(doc(db, 'action_items', id), {
       status: newStatus,
       updatedAt: serverTimestamp()
     });

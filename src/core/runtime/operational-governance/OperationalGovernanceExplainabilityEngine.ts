@@ -1,4 +1,3 @@
-// @ts-nocheck
 // src/core/runtime/operational-governance/OperationalGovernanceExplainabilityEngine.ts
 
 import { 

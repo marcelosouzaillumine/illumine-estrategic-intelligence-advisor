@@ -15,7 +15,7 @@ export class ImmutableLedger {
       return;
     }
     const cleanEntry = JSON.parse(JSON.stringify(entry));
-    await addDoc(collection(db, 'governance_ledger'), cleanEntry);
+    (()=>{throw new Error("Phase 7.2 Architecture Violation: Firestore Writes are BLOCKED. Migrated to PostgreSQL.");})(); // addDoc(collection(db, 'governance_ledger'), cleanEntry);
   }
 
   static async record(event: AuditEvent): Promise<void> {

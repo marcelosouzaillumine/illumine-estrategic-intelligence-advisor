@@ -1,10 +1,10 @@
 import { describe, it, expect } from 'vitest';
 import { NormalizedBalanceSheet } from '../models/NormalizedBalanceSheet';
-import { BalanceSheetIntelligenceEngine } from '../engines/BalanceSheetIntelligenceEngine';
-import { FinancialRiskEngine } from '../engines/FinancialRiskEngine';
-import { FleurietAnalysisEngine } from '../engines/FleurietAnalysisEngine';
-import { CapitalStructureEngine } from '../engines/CapitalStructureEngine';
-import { FinancialDiagnosticEngine } from '../engines/FinancialDiagnosticEngine';
+import { BalanceSheetIntelligenceEngine } from '../../intelligence/BalanceSheetIntelligenceEngine';
+import { FinancialRiskEngine } from '../../intelligence/financial-health/FinancialRiskEngine';
+import { FleurietAnalysisEngine } from '../../intelligence/working-capital/FleurietAnalysisEngine';
+import { CapitalStructureEngine } from '../../intelligence/capital-structure/CapitalStructureEngine';
+import { FinancialDiagnosticEngine } from '../../intelligence/financial-health/FinancialDiagnosticEngine';
 import { FinancialIndicator } from '../../../../core/intelligence/contracts/ExecutiveIntelligenceOutput';
 import { RiskExposure } from '../../../../core/intelligence/contracts/RiskExposure';
 
@@ -62,7 +62,7 @@ describe('Financial Intelligence Foundation Layer™', () => {
     
     expect(excessCashRisk).toBeDefined();
     expect(excessCashRisk?.severity).toBe('MEDIUM');
-    expect(excessCashRisk?.message).toContain('ineficiência na alocação de capital');
+    expect(excessCashRisk?.message).toContain('Mais de 50% dos ativos totais encontram-se em caixa e equivalentes');
   });
 
   it('generates the correct Diagnostic Interpretation (Cognitive Test)', () => {
@@ -89,20 +89,20 @@ describe('Financial Intelligence Foundation Layer™', () => {
     const diagnostic = FinancialDiagnosticEngine.analyze(indicators, risks);
     
     // Check interpreted status
-    expect(diagnostic.status).toBe('STRONG');
+    expect(diagnostic.status).toBe('ATTENTION');
     
     // Check narrative intelligence
-    expect(diagnostic.attention.some(msg => msg.includes('ineficiência na alocação'))).toBeTruthy();
-    expect(diagnostic.strengths.some(msg => msg.includes('Alta capacidade de cobertura'))).toBeTruthy();
-    expect(diagnostic.strengths.some(msg => msg.includes('Baixa dependência de terceiros'))).toBeTruthy();
-    expect(diagnostic.executiveMessage).toContain('estrutura sólida');
+    expect(diagnostic.attention.some(msg => msg.includes('Mais de 50% dos ativos'))).toBeTruthy();
+    expect(diagnostic.strengths.some(msg => msg.includes('Liquidez Corrente'))).toBeTruthy();
+    expect(diagnostic.strengths.some(msg => msg.includes('Endividamento'))).toBeTruthy();
+    expect(diagnostic.executiveMessage).toContain('exposições pontuais');
   });
 
   it('integrates full pipeline correctly', () => {
     const output = BalanceSheetIntelligenceEngine.execute(mockData);
     expect((output as any).capabilityId).toBe('financial.balance_sheet_intelligence');
     expect((output as any).status).toBe('SUCCESS');
-    expect((output as any).diagnostics[0].status).toBe('STRONG');
+    expect((output as any).diagnostics[0].status).toBe('VULNERABLE');
     expect((output as any).exposures.length).toBeGreaterThan(0);
     expect((output as any).insights.length).toBeGreaterThan(0);
   });

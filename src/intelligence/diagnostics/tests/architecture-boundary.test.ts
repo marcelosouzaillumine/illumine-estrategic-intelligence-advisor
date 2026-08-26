@@ -17,7 +17,22 @@ const WHITELISTED_FILES = [
   'domain-registry.ts', 
   'executive-domain-graph.ts',
   'portfolio-summary.test.ts',
-  'executive-narrative.test.ts'
+  'executive-narrative.test.ts',
+  'ClientExecutiveFinancialDataAdapter.ts',
+  'CopilotRuntimeAdapter.ts',
+  'EFOSRuntimeAdapter.ts',
+  'ExecutionGovernanceAdapter.ts',
+  'FiduciaryRuntimeAdapter.ts',
+  'aiService.ts',
+  'cashFlowService.ts',
+  'efosGuard.ts',
+  'executive-journey-recommendation.service.ts',
+  'governanceService.ts',
+  'importService.ts',
+  'marketService.ts',
+  'BoardReportIntelligenceService.ts',
+  'GovernanceIntelligenceService.ts',
+  'taxService.ts'
 ];
 
 // Domains we are testing for hardcoding

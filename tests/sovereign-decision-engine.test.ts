@@ -235,7 +235,7 @@ describe('Sovereign Decision Engine (SDE) Tests', () => {
     const growthConflict = sdeMetrics.conflicts.find((c: any) => c.id === 'growth_vs_cash');
     if (growthConflict) {
       assert.strictEqual(growthConflict.severity, 'CRITICAL');
-      assert.ok(growthConflict.score >= 80);
+      assert.ok(growthConflict.pureViewModel.score >= 80);
     }
   });
 

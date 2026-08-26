@@ -1,4 +1,3 @@
-// @ts-nocheck
 import { IntelligenceAssuranceEngine } from '../engines/IntelligenceAssuranceEngine';
 import { NormalizedBalanceSheet } from '../../../../capabilities/financial/domain/models/NormalizedBalanceSheet';
 import { ExecutiveIntelligenceOutput } from '../../contracts/ExecutiveIntelligenceOutput';

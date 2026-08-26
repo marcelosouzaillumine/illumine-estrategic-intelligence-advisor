@@ -7,6 +7,11 @@ export function useStrategicSimulatorPageViewModel({ clientId }: any) {
   const { simulatorData, loading } = useStrategicSimulatorPageAdapter(clientId);
   const [activeTab, setActiveTab] = useState('strategicsimulator');
 
+  const capability: any = {
+    status: 'UNAVAILABLE',
+    reason: 'INDICATORS_DATA_SOURCE_NOT_MIGRATED'
+  };
+
   const boardPackage = InstitutionalDecisionOS.runSession(
     { 
       id: 'q-sim', 
@@ -25,7 +30,7 @@ export function useStrategicSimulatorPageViewModel({ clientId }: any) {
   const presentationModel = DashboardStateBuilder.buildFromBoardPackage(boardPackage);
 
   return {
-    state: { simulatorData, loading, activeTab, presentationModel },
+    state: { capability, simulatorData, loading, activeTab, presentationModel },
     computed: { simulatedEbitdaMarginPct: 22.4 },
     actions: { setActiveTab }
   };

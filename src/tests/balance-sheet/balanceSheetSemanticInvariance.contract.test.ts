@@ -1,5 +1,4 @@
-// @ts-nocheck
-import { describe, it } from 'node:test';
+import { describe, it, expect, beforeAll, afterAll } from 'vitest';
 import { BalanceSheetExecutiveViewModelBuilder } from '../../core/runtime/executive-consolidation/BalanceSheetExecutiveViewModelBuilder';
 
 describe('BalanceSheetSemanticInvariance v7.15', () => {

@@ -12,7 +12,7 @@ export class FirestoreSystemAssumptionsAdapter {
   }
 
   static async updateEconomicPremises(updatedData: any, formattedDate: string, formattedMonthYear: string): Promise<void> {
-    await setDoc(doc(db, 'system', 'economic_premises'), {
+    (()=>{throw new Error("Phase 7.2 Architecture Violation: Firestore Writes are BLOCKED. Migrated to PostgreSQL.");})(); // setDoc(doc(db, 'system', 'economic_premises'), {
       econData: updatedData,
       lastSync: formattedDate,
       lastSyncFull: formattedMonthYear,

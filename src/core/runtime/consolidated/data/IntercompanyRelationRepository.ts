@@ -36,7 +36,7 @@ export class IntercompanyRelationRepository {
         id
       };
 
-      await setDoc(doc(db, 'intercompany_relations', id), relation);
+      (()=>{throw new Error("Phase 7.2 Architecture Violation: Firestore Writes are BLOCKED. Migrated to PostgreSQL.");})(); // setDoc(doc(db, 'intercompany_relations', id), relation);
       return relation;
     } catch (err: unknown) {
       console.error('[IntercompanyRelationRepository] Error adding relation:', err);
@@ -46,7 +46,7 @@ export class IntercompanyRelationRepository {
 
   static async removeRelation(relationId: string): Promise<void> {
     try {
-      await deleteDoc(doc(db, 'intercompany_relations', relationId));
+      (()=>{throw new Error("Phase 7.2 Architecture Violation: Firestore Writes are BLOCKED. Migrated to PostgreSQL.");})(); // deleteDoc(doc(db, 'intercompany_relations', relationId));
     } catch (err: unknown) {
       console.error('[IntercompanyRelationRepository] Error removing relation:', err);
       throw err;

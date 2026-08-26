@@ -25,14 +25,14 @@ export class FirestoreGovernanceAdapter {
 
   static async updateConfig(id: string, config: Partial<GovernanceConfig>): Promise<void> {
     const docRef = doc(db, 'configuracoes_governanca', id);
-    await updateDoc(docRef, {
+    (()=>{throw new Error("Phase 7.2 Architecture Violation: Firestore Writes are BLOCKED. Migrated to PostgreSQL.");})(); // updateDoc(docRef, {
       ...config,
       updatedAt: serverTimestamp()
     });
   }
 
   static async logAction(payload: AuditLog): Promise<void> {
-    await addDoc(collection(db, 'audit_logs'), payload);
+    (()=>{throw new Error("Phase 7.2 Architecture Violation: Firestore Writes are BLOCKED. Migrated to PostgreSQL.");})(); // addDoc(collection(db, 'audit_logs'), payload);
   }
 
   static async getLogs(filters: { userId?: string, clienteId?: string }): Promise<AuditLog[]> {

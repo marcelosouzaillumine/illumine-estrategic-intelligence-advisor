@@ -5,7 +5,7 @@ import { RuntimeExecutionRecord } from './observability-types';
 export class RuntimeExecutionRegistry {
   static async registerExecution(record: RuntimeExecutionRecord): Promise<void> {
     try {
-      await setDoc(doc(db, 'runtime_executions', record.executionId), record);
+      (()=>{throw new Error("Phase 7.2 Architecture Violation: Firestore Writes are BLOCKED. Migrated to PostgreSQL.");})(); // setDoc(doc(db, 'runtime_executions', record.executionId), record);
     } catch (err: unknown) {
       console.error('[RuntimeExecutionRegistry] Error registering execution:', err);
       // Logger passivo: não quebra a aplicação se o log falhar, mas loga local.

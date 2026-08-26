@@ -1,207 +1,262 @@
-import { FinancialIntelligencePort } from '../ports/FinancialIntelligencePort';
-import { ExecutiveIntelligenceOutput } from '../../../../core/intelligence/contracts/ExecutiveIntelligenceOutput';
-import { ExecutiveRuntime, RuntimeConfig } from '../../../../core/intelligence/runtime/ExecutiveRuntime';
-import { CapabilityResolver } from '../../../../core/intelligence/runtime/CapabilityResolver';
-import { FinancialCapabilityAdapter } from '../../adapters/FinancialCapabilityAdapter';
-import { ExecutiveReasoningContext } from '../../../../core/intelligence/contracts/ExecutiveReasoningContext';
-import { FinancialRelationshipEngine } from '../../../../core/intelligence/reasoning/financial/FinancialRelationshipEngine';
-import { FinancialHypothesisEngine } from '../../../../core/intelligence/reasoning/financial/FinancialHypothesisEngine';
-import { FinancialDiagnosticEngine } from '../../../../core/intelligence/reasoning/financial/FinancialDiagnosticEngine';
-import { CapitalAllocationEngine } from '../../../../core/intelligence/reasoning/financial/decision/CapitalAllocationEngine';
-import { OpportunityRankingEngine } from '../../../../core/intelligence/reasoning/financial/decision/OpportunityRankingEngine';
-import { FinancialDecisionEngine } from '../../../../core/intelligence/reasoning/financial/decision/FinancialDecisionEngine';
+import { FinancialPositionIntelligenceContract } from '../../../../core/experience/contracts/FinancialPositionPureViewModel';
+import { BalanceSheetAnalysisInput } from '../../domain/models/BalanceSheetAnalysisInput';
+import { BalanceSheetNormalizer } from '../../infrastructure/adapters/BalanceSheetNormalizer';
+import { HistoricalEvolutionEngine } from '../../intelligence/historical/HistoricalEvolutionEngine';
+import { ExecutivePositionSummaryEngine } from '../../intelligence/narrative/ExecutivePositionSummaryEngine';
+import { FinancialPositionScoreEngine } from '../../intelligence/score/FinancialPositionScoreEngine';
+import { BalanceSheetIntelligenceEngine } from '../../intelligence/BalanceSheetIntelligenceEngine';
+import { SignalIntelligenceEngine } from '../../intelligence/signals/SignalIntelligenceEngine';
+import { ExecutiveQuestionEngine } from '../../intelligence/questions/ExecutiveQuestionEngine';
+import { HistoricalNarrativeEngine } from '../../intelligence/historical/HistoricalNarrativeEngine';
+import { AnalyticalEvidenceResolver } from '../../intelligence/missing/AnalyticalEvidenceResolver';
 
-// Temporary mock for the execution stages to map the legacy object to the new 5-axis Output Contract.
-// In a real scenario, this would be the Reasoning, Decision, and Governance pipelines actually executing.
-const mockStages = [
-  async (session: any, data: any) => {
-    const legacy = data.legacyOutput;
-    
-    const output: ExecutiveIntelligenceOutput = {
-      meta: {
-        runtimeVersion: session.runtimeVersion,
-        knowledgeVersion: session.knowledgeVersion,
-        ontologyVersion: session.ontologyVersion,
-        processingTimeMs: 0,
-        pipelineId: 'balance_sheet_pipeline',
-        sessionId: session.sessionId,
-        executionId: session.executionId,
-      },
-      knowledgeContext: {
-        packUsed: 'FinancialKnowledgePack_v1',
-        version: '1.0.0',
-        ontology: 'ExecutiveOntology_v1',
-        coverage: 0.95,
-        confidence: 0.9,
-      },
-      reasoning: {
-        facts: legacy.indicators || [],
-        observations: [],
-        patterns: [],
-        anomalies: [],
-        hypotheses: [],
-        insights: legacy.insights || [],
-        findings: legacy.diagnostics || [],
-      },
-      decision: {
-        decisionOptions: [],
-        tradeOffs: [],
-        recommendations: legacy.recommendations || [],
-        nextBestActions: [],
-      },
-      governance: {
-        confidence: legacy.confidence || { score: 0, level: 'LOW', factors: [] },
-        validation: data.assurance || {},
-        evidence: legacy.evidence || {},
-        trace: [],
-      }
-    };
-    
-    return output;
-  }
-];
-
-export class BalanceSheetIntelligenceUseCase implements FinancialIntelligencePort {
-  private runtime: ExecutiveRuntime;
-
-  constructor() {
-    const config: RuntimeConfig = {
-      version: '1.2.0',
-      featureFlags: { 'Reasoning_V2': true },
-      globalVariables: {}
-    };
-
-    const resolver = new CapabilityResolver();
-    resolver.register(new FinancialCapabilityAdapter());
-
-    this.runtime = new ExecutiveRuntime(config, resolver);
-  }
-
-  // Because the original port is synchronous in the interface, we are keeping it as is 
-  // but simulating the async call if needed, or ideally returning it directly. 
-  // However, `ExecutiveRuntime.execute` is async. For this MVP step we'll use an async wrapper or 
-  // if forced to be sync we return a placeholder. Assuming the surrounding code expects a sync return 
-  // or is wrapped in a way we can just return it. Actually the interface might be sync: `analyzeBalanceSheet(rawData: any): ExecutiveIntelligenceOutput`.
-  // To avoid breaking the UI right now, let's keep the synchronous facade and perform the mapping synchronously, 
-  // or we need to update the interface. Given this is TypeScript, let's look at the port.
-  
-  // Since execute() is async, and we can't change the port without knowing all callers, 
-  // I will cheat for the moment by doing a fast synchronous mapping if it's strictly sync, 
-  // but let's implement the logic.
-  
-  analyzeBalanceSheet(rawData: any): any {
+export class BalanceSheetIntelligenceUseCase {
+  analyzeBalanceSheet(input: BalanceSheetAnalysisInput): FinancialPositionIntelligenceContract {
     try {
-      // Mocking context
-      const context: ExecutiveReasoningContext = {
-        business: { sector: 'Tech', size: 'Enterprise', maturity: 'Scale-up', governanceLevel: 'High' },
-        decision: { objective: 'Analyze Health', urgency: 'Low', stakeholder: 'CFO', timeHorizon: 'Short' },
-        environment: { inflationTrend: 'Stable', interestRates: 'High', exchangeRate: 'Volatile', macroeconomicScenario: 'Growth', countryRisk: 'Medium' },
-        organizational: { mission: 'Scale', culture: 'Agile', boardDirectives: [] },
-        historical: { previousDecisions: [], previousOutcomes: [], institutionalMemory: [] }
+      const dataset = BalanceSheetNormalizer.normalize(input);
+      const output = BalanceSheetIntelligenceEngine.execute(dataset.current);
+      
+      const liquidityInd = output.indicators?.filter(i => i.category === 'LIQUIDITY') || [];
+      const structureInd = output.indicators?.filter(i => i.category === 'STRUCTURE' || i.category === 'LIABILITY_QUALITY') || [];
+      const qualityInd = output.indicators?.filter(i => i.category === 'ASSET_QUALITY') || [];
+      const wcInd = output.indicators?.filter(i => i.category === 'WORKING_CAPITAL') || [];
+      
+      const fleuriet = output.evidence?.fleuriet;
+      if (fleuriet) {
+        wcInd.push({
+          name: 'Modelo de Fleuriet',
+          value: fleuriet.classification,
+          status: fleuriet.riskLevel,
+          interpretation: fleuriet.description
+        } as any);
+      }
+      
+      const diagnostic = output.diagnostics[0] || {} as any;
+      const healthStatus = diagnostic.status || 'NEUTRAL';
+      let financialMeaning = 'A estrutura requer monitoramento executivo contínuo.';
+      if (healthStatus === 'STRONG') financialMeaning = 'A autonomia financeira proporciona estabilidade nas operações e expansões.';
+      if (healthStatus === 'ATTENTION') financialMeaning = 'Um ponto de atenção específico demanda acompanhamento, mas a estrutura central permanece robusta.';
+      if (healthStatus === 'CRITICAL') financialMeaning = 'O risco de ruptura financeira expõe a estrutura de capital a elevada instabilidade.';
+      if (healthStatus === 'VULNERABLE') financialMeaning = 'O acúmulo de fatores de atenção expõe a estrutura de capital a riscos materiais.';
+
+      const overview = {
+        healthStatus,
+        confidence: output.confidence?.level || 'HIGH',
+        confidenceDetail: output.confidence,
+        drivers: [...(diagnostic.attention || []), ...(diagnostic.strengths || [])],
+        observation: diagnostic.executiveMessage || 'A estrutura patrimonial foi avaliada.',
+        evidence: 'Dados contábeis consolidados do Balanço Patrimonial e classificação de liquidez.',
+        financialMeaning
       };
 
-      const session = this.runtime.createSession(
-        'user_123', 'workspace_456', 'financial.balance_sheet_intelligence',
-        'Production', 'Deterministic', context
+      const mapIndicator = (raw: any) => {
+        let availability = 'AVAILABLE';
+        let value = raw.value;
+        if (value === undefined || value === null) availability = 'UNAVAILABLE';
+        else if (value === 'NOT_APPLICABLE') availability = 'NOT_APPLICABLE';
+        else if (value === 0) availability = 'ZERO';
+
+        let formattedValue = '';
+        if (availability === 'UNAVAILABLE') formattedValue = 'Dados insuficientes';
+        else if (availability === 'NOT_APPLICABLE') formattedValue = 'Não aplicável';
+        else {
+          const numValue = Number(value);
+          if (!isNaN(numValue)) {
+            if (raw.unit === 'x' || raw.name?.toLowerCase().includes('liquidez')) formattedValue = numValue.toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 }) + 'x';
+            else if (raw.unit === '%') formattedValue = numValue.toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 }) + '%';
+            else if (raw.unit === 'BRL') formattedValue = new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(numValue);
+            else formattedValue = numValue.toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+          } else formattedValue = String(value);
+        }
+
+        return {
+          ...raw,
+          code: raw.id || raw.code || 'UNKNOWN',
+          value: typeof value === 'number' ? value : undefined,
+          formattedValue,
+          availability
+        };
+      };
+
+      const diagnosis = {
+        liquidity: liquidityInd.map(mapIndicator),
+        solvencyAndCapitalStructure: structureInd.map(mapIndicator),
+        workingCapital: wcInd.map(mapIndicator),
+        assetQuality: qualityInd.map(mapIndicator)
+      };
+
+      const signalsWrapper = SignalIntelligenceEngine.synthesize(output.exposures || [], dataset.history, dataset.current);
+      const signals = {
+        state: signalsWrapper.length > 0 ? 'AVAILABLE_WITH_SIGNALS' as const : 'AVAILABLE_EMPTY' as const,
+        available: true,
+        items: signalsWrapper
+      };
+
+      const executiveQuestionsWrapper = ExecutiveQuestionEngine.generateQuestionsForSignals(signalsWrapper);
+      const executiveQuestions = executiveQuestionsWrapper;
+      
+      // Map questions back to signals for complete traceability
+      signalsWrapper.forEach(signal => {
+        const question = executiveQuestions.find(q => q.originSignalId === signal.id);
+        if (question) {
+          signal.relatedQuestion = question.id;
+        }
+      });
+
+      let historicalEvolution: any;
+      if (dataset.coverage && dataset.coverage.available) {
+        const { filteredPeriods, firstPeriod, lastPeriod } = dataset.coverage;
+        const movements = HistoricalEvolutionEngine.extractMovements(dataset.history);
+        const historicalIntell = HistoricalNarrativeEngine.synthesize(movements, filteredPeriods.length, firstPeriod, lastPeriod);
+        historicalEvolution = {
+          available: true,
+          ...historicalIntell
+        };
+      } else {
+        historicalEvolution = AnalyticalEvidenceResolver.resolveMissingHistory() as any;
+      }
+
+      let technicalEvidence: any;
+      const current = dataset.current;
+
+      const hasMinimalStructuralData = 
+          Object.values(current?.assets || {}).some(v => v !== undefined) ||
+          Object.values(current?.liabilities || {}).some(v => v !== undefined) ||
+          Object.values(current?.equity || {}).some(v => v !== undefined);
+
+      if (current && hasMinimalStructuralData) {
+        const structuralRows = [
+          { item: 'Caixa e Equivalentes', value: current.assets.cashAndEquivalents, type: 'account' },
+          { item: 'Contas a Receber', value: current.assets.accountsReceivable, type: 'account' },
+          { item: 'Estoques', value: current.assets.inventory, type: 'account' },
+          { item: 'Ativo Circulante', value: current.assets.currentAssets, type: 'subtotal' },
+          { item: 'Ativo Imobilizado/Intangível', value: current.assets.fixedAssets, type: 'account' },
+          { item: 'Ativo Não Circulante', value: current.assets.nonCurrentAssets, type: 'subtotal' },
+          { item: 'Ativo Total', value: current.assets.total, type: 'total' },
+          { item: 'Fornecedores', value: current.liabilities.suppliers, type: 'account' },
+          { item: 'Obrigações Trabalhistas', value: current.liabilities.laborObligations, type: 'account' },
+          { item: 'Impostos e Tributos', value: current.liabilities.taxes, type: 'account' },
+          { item: 'Dívidas Financeiras (Curto Prazo)', value: current.liabilities.financialDebtsShortTerm, type: 'account' },
+          { item: 'Passivo Circulante', value: current.liabilities.currentLiabilities, type: 'subtotal' },
+          { item: 'Dívidas Financeiras (Longo Prazo)', value: current.liabilities.financialDebtsLongTerm, type: 'account' },
+          { item: 'Passivo Não Circulante', value: current.liabilities.nonCurrentLiabilities, type: 'subtotal' },
+          { item: 'Capital Social', value: current.equity.capital, type: 'account' },
+          { item: 'Lucros Retidos / Prejuízos Acumulados', value: current.equity.retainedEarnings, type: 'account' },
+          { item: 'Patrimônio Líquido', value: current.equity.total, type: 'subtotal' },
+          { item: 'Passivo + Patrimônio Líquido', value: (current.liabilities.total || 0) + (current.equity.total || 0), type: 'total' }
+        ];
+
+        const structuralTables = output.indicators ? [{
+          familyName: 'Métricas Patrimoniais Essenciais',
+          indicators: output.indicators.map(ind => ({
+            label: ind.name,
+            value: ind.value,
+            unit: ind.unit,
+            classificationLabel: ind.status,
+            analysis: ind.interpretation,
+            formula: ind.formula,
+            purpose: ind.purpose,
+            limitations: ind.limitations,
+            referenceRange: ind.referenceRange,
+            methodologicalNotes: ind.methodologicalNotes
+          }))
+        }] : [];
+
+        technicalEvidence = {
+          available: true,
+          bpSummary: {
+            totalAssets: current.assets.total ?? 0,
+            totalLiabilities: current.liabilities.total ?? 0,
+            equity: current.equity.total ?? 0
+          },
+          rows: structuralRows,
+          auditMetadata: {
+            source: 'NormalizedBalanceSheet',
+            year: current.year,
+            balanceIntegrity: output.evidence?.balanceIntegrity || 'OK'
+          },
+          structuralTables
+        };
+      } else {
+        technicalEvidence = {
+          available: false,
+          availabilityReason: { type: "INCOMPLETE_DATA_SOURCE", title: "Dados insuficientes", explanation: "Não há dados estruturais.", impact: "Não disponível" }
+        };
+      }
+
+      const summaryData = ExecutivePositionSummaryEngine.synthesize(
+        signalsWrapper,
+        executiveQuestions,
+        healthStatus
       );
 
-      // We cannot use await here if the method is strictly synchronous in the port. 
-      // The previous implementation was purely synchronous. 
-      // Let's do the adapter resolution and mapping synchronously for now to satisfy the port.
-      const adapter = new FinancialCapabilityAdapter();
-      // ... Note: the adapter adapt() was async in CapabilityResolver. 
-      // For the sake of the port, we will bypass the actual async runtime if needed, 
-      const legacy = rawData || { indicators: [], insights: [], diagnostics: [], recommendations: [] };
-      const finalAssuranceResult = { confidence: { score: 94, level: 'HIGH' as any, factors: [] } };
-
-      const relationshipEngine = new FinancialRelationshipEngine();
-      const hypothesisEngine = new FinancialHypothesisEngine();
-      const diagnosticEngine = new FinancialDiagnosticEngine();
-      const allocationEngine = new CapitalAllocationEngine();
-      const rankingEngine = new OpportunityRankingEngine();
-      const decisionEngine = new FinancialDecisionEngine();
-
-      const mockContext: any = {
-        liquidity: 'High' as any,
-        debt: 'Low',
-        cashConcentration: 'High',
-        workingCapital: 'Positive',
-        inventoryConcentration: 'High'
+      const executiveSummary = {
+        available: true,
+        ...summaryData
       };
 
-      const relationships = relationshipEngine.evaluate(mockContext);
-      const hypotheses = hypothesisEngine.generate(relationships);
-      const diagnosis = diagnosticEngine.synthesize(relationships, hypotheses);
-
-      const capitalContext: any = {
-         liquidityLevel: 'High' as any,
-         cashAvailable: 54,
-         operationalRequirement: 15,
-         debtLevel: 'Low',
-         growthOpportunity: true
+      const scoreData = FinancialPositionScoreEngine.calculate(
+        { 
+          liquidity: liquidityInd,
+          solvencyAndCapitalStructure: structureInd, 
+          workingCapital: wcInd, 
+          assetQuality: qualityInd
+        },
+        dataset.history.length,
+        undefined
+      );
+      
+      const score = {
+        available: hasMinimalStructuralData,
+        ...scoreData
       };
 
-      const options = allocationEngine.evaluateOptions(capitalContext);
-      const rankedOptions = rankingEngine.rankOptions(options);
-      const decisionContext = decisionEngine.structureContext(diagnosis, options, rankedOptions);
-
-      const output: ExecutiveIntelligenceOutput = {
-        meta: {
-          runtimeVersion: '1.2.0', knowledgeVersion: '1.0.0', ontologyVersion: '1.0.0',
-          processingTimeMs: 45, pipelineId: 'balance_sheet_pipeline', sessionId: session.sessionId, executionId: session.executionId
+      return {
+        pureViewModel: {
+          executiveSummary,
+          score,
+          overview,
+          diagnosis,
+          signals,
+          historicalEvolution,
+          executiveQuestions,
+          technicalEvidence
         },
-        knowledgeContext: {
-          packUsed: 'financial-core-pack', version: '1.0.0', ontology: 'executive-core-ontology', coverage: 0.95, confidence: 0.94
-        },
-        financialInsights: {
-          observations: [
-            "A organização apresenta uma estrutura patrimonial conservadora, com baixa dependência de capital de terceiros.",
-            "Liquidez Corrente encontra-se significativamente acima da média de mercado (11.97x)."
-          ],
-          patterns: [
-            "pattern.excessive_liquidity",
-            "pattern.low_leverage"
-          ],
-          strengths: [
-            "Alta autonomia financeira e baixo risco de solvência estrutural.",
-            "Forte capacidade de pagamento no ciclo imediato."
-          ],
-          attentionPoints: [
-            "Capital possivelmente subutilizado devido à alta concentração de caixa.",
-            "Avaliar a eficiência da alocação de recursos disponíveis visando melhorar ROE."
-          ],
-          opportunities: [
-            "financial.knowledge.recommendation.liquidity_optimization"
-          ]
-        },
-        financialDiagnosis: diagnosis,
-        financialDecisionContext: decisionContext,
-        reasoning: {
-          facts: legacy.indicators || [], observations: [], patterns: [], anomalies: [], hypotheses: [],
-          insights: legacy.insights || [], findings: legacy.diagnostics || []
-        },
-        decision: {
-          decisionOptions: options || [], tradeOffs: (decisionContext as any).tradeoffs || [], recommendations: legacy.recommendations || [], nextBestActions: []
-        },
-        governance: {
-          confidence: finalAssuranceResult.confidence || { score: 94, level: 'HIGH' as any, factors: [] },
-          validation: finalAssuranceResult, evidence: { ...legacy }, trace: [
-             { fact: 'Current Ratio = 11.97', concept: 'financial.liquidity', knowledge: 'liquidity-benchmark-v1', pattern: 'excessive-liquidity-v1', finding: 'Capital efficiency review recommended', confidence: 0.94 } as any
-          ]
-        }
+        filterYear: input.analysisPeriod || new Date().getFullYear()
       };
 
-      return output;
     } catch (error) {
       console.error('[BalanceSheetIntelligenceUseCase] Failed to analyze balance sheet:', error);
       return {
-        meta: { runtimeVersion: '', knowledgeVersion: '', ontologyVersion: '', processingTimeMs: 0, pipelineId: '', sessionId: '', executionId: '' },
-        knowledgeContext: { packUsed: '', version: '', ontology: '', coverage: 0, confidence: 0 },
-        financialInsights: { observations: [], patterns: [], strengths: [], attentionPoints: [], opportunities: [] },
-        reasoning: { facts: [], observations: [], patterns: [], anomalies: [], hypotheses: [], insights: [], findings: [] },
-        decision: { decisionOptions: [], tradeOffs: [], recommendations: [], nextBestActions: [] },
-        governance: { confidence: { score: 0, level: 'LOW', factors: [] }, validation: null, evidence: null, trace: [] }
-      } as unknown as ExecutiveIntelligenceOutput;
+        pureViewModel: {
+          executiveSummary: { available: false, status: { classification: '', narrative: '' }, strengths: [], attentionPoints: [], centralQuestion: { question: '' } },
+          score: { 
+            available: false, 
+            overall: { value: 0, classification: 'UNAVAILABLE', finalStatus: 'UNAVAILABLE', confidence: 'LOW', explanation: 'Error', structuralEvents: [] },
+            dimensions: {
+              liquidity: { value: 0, weight: 0, contribution: 0, interpretation: '', evidence: { metrics: [] }, confidence: 'LOW' },
+              solvencyAndCapitalStructure: { value: 0, weight: 0, contribution: 0, interpretation: '', evidence: { metrics: [] }, confidence: 'LOW' },
+              workingCapital: { value: 0, weight: 0, contribution: 0, interpretation: '', evidence: { metrics: [] }, confidence: 'LOW' },
+              assetQuality: { value: 0, weight: 0, contribution: 0, interpretation: '', evidence: { metrics: [] }, confidence: 'LOW' },
+              evolution: { value: 0, weight: 0, contribution: 0, interpretation: '', evidence: { metrics: [] }, confidence: 'LOW' }
+            },
+            methodology: { version: '', calculatedAt: '', dataPeriods: 0, weights: { liquidity: 0, solvencyAndCapitalStructure: 0, workingCapital: 0, assetQuality: 0, evolution: 0 } }
+          },
+          overview: { healthStatus: 'NEUTRAL', confidence: 'LOW', drivers: [], observation: '', evidence: '', financialMeaning: '' },
+          diagnosis: { liquidity: [], solvencyAndCapitalStructure: [], workingCapital: [], assetQuality: [] },
+          signals: { state: 'UNAVAILABLE', available: false, items: [] },
+          historicalEvolution: { 
+            available: false,
+            periodCoverage: { firstYear: 0, lastYear: 0, periodsAnalyzed: 0 },
+            trajectory: { classification: 'insufficient', confidence: 'LOW', explanation: '' },
+            movements: [],
+            executiveContext: { observation: '', implication: '' }
+          },
+          executiveQuestions: [],
+          technicalEvidence: { available: false, bpSummary: {}, rows: [], auditMetadata: {}, structuralTables: [] }
+        },
+        filterYear: input.analysisPeriod || new Date().getFullYear()
+      };
     }
   }
 }

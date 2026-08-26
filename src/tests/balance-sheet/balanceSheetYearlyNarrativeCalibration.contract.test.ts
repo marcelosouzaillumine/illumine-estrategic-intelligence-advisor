@@ -1,5 +1,4 @@
-// @ts-nocheck
-import { describe, it } from 'node:test';
+import { describe, it, expect, beforeAll, afterAll } from 'vitest';
 import assert from 'node:assert';
 import { BalanceSheetExecutiveNarrativeEngine } from '../../core/runtime/governance/bp/BalanceSheetExecutiveNarrativeEngine';
 

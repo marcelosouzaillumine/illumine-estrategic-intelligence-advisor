@@ -39,7 +39,9 @@ export class FinancialPipelineOrchestrator {
     allHistoryEntries: any[],
     targetClientId: string,
     targetStatementType: FinancialStatementType,
-    targetYear: number
+    targetYear: number,
+    tenantId: string,
+    actorId: string
   ): Promise<FinancialGovernanceContract> {
     // Step 1: Normalize Raw Docs to Canonical Entries via single authorized point
     const normalizedTargetEntries = CanonicalFinancialNormalizer.normalizeBatch(rawEntries, targetClientId, targetYear);
@@ -90,7 +92,7 @@ export class FinancialPipelineOrchestrator {
     });
 
     // Step 7: Record Audit Ledger Event & Telemetry
-    await FinancialCertificationLedger.recordCertification(dataset);
+    await new FinancialCertificationLedger().certify(dataset.id, {}, tenantId, actorId);
     FinancialObservatory.trackDataset(dataset);
 
     // Step 8: Resolve Decision Permission Matrix

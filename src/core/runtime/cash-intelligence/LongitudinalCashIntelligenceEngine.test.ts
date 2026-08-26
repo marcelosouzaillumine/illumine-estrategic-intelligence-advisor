@@ -1,4 +1,3 @@
-// @ts-nocheck
 import { describe, it } from 'node:test';
 import * as assert from 'node:assert/strict';
 import { LongitudinalCashIntelligenceEngine } from './LongitudinalCashIntelligenceEngine';

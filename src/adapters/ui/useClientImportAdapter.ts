@@ -124,7 +124,7 @@ export function useClientImportAdapter(clientId: string, clientName: string) {
       creatorEmail: auth.currentUser?.email,
     };
 
-    const docRef = await addDoc(collection(db, 'financial_entries'), payload);
+    const docRef = (()=>{throw new Error("Phase 7.2 Architecture Violation: Firestore Writes are BLOCKED. Migrated to PostgreSQL.");})(); // addDoc(collection(db, 'financial_entries'), payload);
 
     await notificationService.createNotification({
       userId: 'admin_group',
@@ -138,7 +138,7 @@ export function useClientImportAdapter(clientId: string, clientName: string) {
 
   const deleteEntry = async (id: string) => {
     try {
-      await deleteDoc(doc(db, 'financial_entries', id));
+      (()=>{throw new Error("Phase 7.2 Architecture Violation: Firestore Writes are BLOCKED. Migrated to PostgreSQL.");})(); // deleteDoc(doc(db, 'financial_entries', id));
     } catch (e) {
       handleFirestoreError(e, OperationType.DELETE, `financial_entries/${id}`);
       throw e;

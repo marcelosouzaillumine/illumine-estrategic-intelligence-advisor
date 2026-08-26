@@ -15,7 +15,7 @@ import { AppNotification } from '../../services/platform/notificationService';
 
 export class FirestoreNotificationAdapter {
   static async createNotification(notification: Omit<AppNotification, 'createdAt' | 'read'>): Promise<void> {
-    await addDoc(collection(db, 'notifications'), {
+    (()=>{throw new Error("Phase 7.2 Architecture Violation: Firestore Writes are BLOCKED. Migrated to PostgreSQL.");})(); // addDoc(collection(db, 'notifications'), {
       ...notification,
       read: false,
       createdAt: serverTimestamp()
@@ -24,7 +24,7 @@ export class FirestoreNotificationAdapter {
 
   static async markAsRead(notificationId: string): Promise<void> {
     const docRef = doc(db, 'notifications', notificationId);
-    await updateDoc(docRef, { read: true });
+    (()=>{throw new Error("Phase 7.2 Architecture Violation: Firestore Writes are BLOCKED. Migrated to PostgreSQL.");})(); // updateDoc(docRef, { read: true });
   }
 
   static listenNotifications(userId: string, onUpdate: (notifications: AppNotification[]) => void, onError?: (err: any) => void): () => void {

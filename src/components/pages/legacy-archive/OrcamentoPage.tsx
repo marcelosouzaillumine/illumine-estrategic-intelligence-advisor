@@ -1,4 +1,3 @@
-// @ts-nocheck
 import React, { useState } from 'react';
 import { Plus, Search, Filter, Save, UploadCloud, ChevronRight, Calculator, Trash2, Edit2, X, FileSpreadsheet, CheckCircle2, Loader2, Building2, Landmark, LayoutGrid, AlertCircle, TrendingUp, FileText, Calendar } from 'lucide-react';
 import { cn, formatCurrency } from '../../../lib/utils';

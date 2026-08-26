@@ -23,7 +23,7 @@ export class FirestoreGenericCollectionAdapter {
   }
 
   static async addDocument(collectionName: string, item: any, clientId: string, ownerId: string): Promise<string> {
-    const docRef = await addDoc(collection(db, collectionName), {
+    const docRef = (()=>{throw new Error("Phase 7.2 Architecture Violation: Firestore Writes are BLOCKED. Migrated to PostgreSQL.");})(); // addDoc(collection(db, collectionName), {
       ...item,
       clientId,
       ownerId,
@@ -35,10 +35,10 @@ export class FirestoreGenericCollectionAdapter {
 
   static async updateDocument(collectionName: string, id: string, item: any): Promise<void> {
     const docRef = doc(db, collectionName, id);
-    await updateDoc(docRef, { ...item, updatedAt: serverTimestamp() });
+    (()=>{throw new Error("Phase 7.2 Architecture Violation: Firestore Writes are BLOCKED. Migrated to PostgreSQL.");})(); // updateDoc(docRef, { ...item, updatedAt: serverTimestamp() });
   }
 
   static async deleteDocument(collectionName: string, id: string): Promise<void> {
-    await deleteDoc(doc(db, collectionName, id));
+    (()=>{throw new Error("Phase 7.2 Architecture Violation: Firestore Writes are BLOCKED. Migrated to PostgreSQL.");})(); // deleteDoc(doc(db, collectionName, id));
   }
 }

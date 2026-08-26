@@ -8,7 +8,7 @@ export class GovernanceViolationHistory {
     
     try {
       const promises = violations.map(violation => 
-        setDoc(doc(db, 'governance_violations', violation.violationId), violation)
+        (()=>{throw new Error("Phase 7.2 Architecture Violation: Firestore Writes are BLOCKED. Migrated to PostgreSQL.");})(); // setDoc(doc(db, 'governance_violations', violation.violationId), violation)
       );
       await Promise.all(promises);
     } catch (err: unknown) {

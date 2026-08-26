@@ -133,8 +133,8 @@ describe('Institutional Memory Engine (IME) - Adapter & Report Integration Tests
     const imeMetrics = results.InstitutionalMemoryEngine.inference?.metrics;
     assert.ok(imeMetrics);
     assert.strictEqual(imeMetrics.isEarlyStage, true);
-    assert.ok(imeMetrics.domains.treasury.score >= 70);
-    assert.ok(imeMetrics.domains.earnings.score >= 70);
+    assert.ok(imeMetrics.domains.treasury.pureViewModel.score >= 70);
+    assert.ok(imeMetrics.domains.earnings.pureViewModel.score >= 70);
   });
 
   it('3. Deve acionar a sanitização de narrativas proibidas', async () => {

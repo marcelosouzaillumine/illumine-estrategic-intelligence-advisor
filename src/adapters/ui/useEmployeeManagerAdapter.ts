@@ -69,9 +69,9 @@ export function useEmployeeManagerAdapter(clientId: string, clientConfig: any) {
       };
 
       if (editingId) {
-        await updateDoc(doc(db, 'employees', editingId), payload);
+        (()=>{throw new Error("Phase 7.2 Architecture Violation: Firestore Writes are BLOCKED. Migrated to PostgreSQL.");})(); // updateDoc(doc(db, 'employees', editingId), payload);
       } else {
-        await addDoc(collection(db, 'employees'), payload);
+        (()=>{throw new Error("Phase 7.2 Architecture Violation: Firestore Writes are BLOCKED. Migrated to PostgreSQL.");})(); // addDoc(collection(db, 'employees'), payload);
       }
       
       onSuccess();
@@ -86,7 +86,7 @@ export function useEmployeeManagerAdapter(clientId: string, clientConfig: any) {
   const handleDelete = async (id: string) => {
     if (!window.confirm('Excluir colaborador?')) return;
     try {
-      await deleteDoc(doc(db, 'employees', id));
+      (()=>{throw new Error("Phase 7.2 Architecture Violation: Firestore Writes are BLOCKED. Migrated to PostgreSQL.");})(); // deleteDoc(doc(db, 'employees', id));
       fetchEmployees();
     } catch (e) {
       console.error(e);

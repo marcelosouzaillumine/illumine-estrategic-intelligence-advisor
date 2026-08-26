@@ -4,7 +4,7 @@ import { BalanceSheetIntelligenceUseCase } from '../../../capabilities/financial
 describe('KnowledgeTraceability', () => {
   it('should ensure that every finding possesses full governance traceability (Fact -> Concept -> Knowledge -> Pattern -> Inference -> Finding -> Confidence)', () => {
     const useCase = new BalanceSheetIntelligenceUseCase();
-    const output = useCase.analyzeBalanceSheet({});
+    const output: any = useCase.analyzeBalanceSheet({} as any);
 
     expect(output.governance.trace).toBeDefined();
     expect(output.governance.trace.length).toBeGreaterThan(0);

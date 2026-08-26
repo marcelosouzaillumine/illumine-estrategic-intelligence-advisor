@@ -35,7 +35,7 @@ export function useAssetModalAdapter(clientId: string, asset?: any, onClose?: ()
       };
 
       if (asset?.id) {
-        await updateDoc(doc(db, 'assets', asset.id), dataToSave);
+        (()=>{throw new Error("Phase 7.2 Architecture Violation: Firestore Writes are BLOCKED. Migrated to PostgreSQL.");})(); // updateDoc(doc(db, 'assets', asset.id), dataToSave);
       } else {
         const newData = {
           ...dataToSave,
@@ -43,7 +43,7 @@ export function useAssetModalAdapter(clientId: string, asset?: any, onClose?: ()
           ownerId: auth.currentUser?.uid,
           createdAt: serverTimestamp()
         };
-        await addDoc(collection(db, 'assets'), newData);
+        (()=>{throw new Error("Phase 7.2 Architecture Violation: Firestore Writes are BLOCKED. Migrated to PostgreSQL.");})(); // addDoc(collection(db, 'assets'), newData);
       }
       
       if (onClose) onClose();

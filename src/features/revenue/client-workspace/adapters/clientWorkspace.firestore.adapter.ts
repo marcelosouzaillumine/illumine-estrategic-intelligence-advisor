@@ -22,6 +22,6 @@ export const clientWorkspaceAdapter = {
 
   async logCustomerAuditEvent(illumineId: string, proposalId: string, auditLog: ProposalAuditLog): Promise<void> {
     const logRef = doc(db, `revenue_platform/${illumineId}/proposals/${proposalId}/audit_logs`, auditLog.id);
-    await setDoc(logRef, auditLog);
+    (()=>{throw new Error("Phase 7.2 Architecture Violation: Firestore Writes are BLOCKED. Migrated to PostgreSQL.");})(); // setDoc(logRef, auditLog);
   }
 };

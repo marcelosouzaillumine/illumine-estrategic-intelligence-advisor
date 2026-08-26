@@ -15,7 +15,7 @@ export class FirestoreAuthorizationAdapter implements IAuthorizationPersistence 
   }
 
   async saveRole(role: Role): Promise<void> {
-    await setDoc(doc(db, 'auth_roles', role.code), role, { merge: true });
+    (()=>{throw new Error("Phase 7.2 Architecture Violation: Firestore Writes are BLOCKED. Migrated to PostgreSQL.");})(); // setDoc(doc(db, 'auth_roles', role.code), role, { merge: true });
   }
 
   async getPermissionByCode(permissionCode: string): Promise<Permission | null> {
@@ -29,7 +29,7 @@ export class FirestoreAuthorizationAdapter implements IAuthorizationPersistence 
   }
 
   async savePermission(permission: Permission): Promise<void> {
-    await setDoc(doc(db, 'auth_permissions', permission.code), permission, { merge: true });
+    (()=>{throw new Error("Phase 7.2 Architecture Violation: Firestore Writes are BLOCKED. Migrated to PostgreSQL.");})(); // setDoc(doc(db, 'auth_permissions', permission.code), permission, { merge: true });
   }
 
   async getCapabilityByCode(capabilityCode: string): Promise<Capability | null> {
@@ -43,7 +43,7 @@ export class FirestoreAuthorizationAdapter implements IAuthorizationPersistence 
   }
 
   async saveCapability(capability: Capability): Promise<void> {
-    await setDoc(doc(db, 'auth_capabilities', capability.code), capability, { merge: true });
+    (()=>{throw new Error("Phase 7.2 Architecture Violation: Firestore Writes are BLOCKED. Migrated to PostgreSQL.");})(); // setDoc(doc(db, 'auth_capabilities', capability.code), capability, { merge: true });
   }
 
   async getActionByCode(actionCode: string): Promise<Action | null> {
@@ -57,6 +57,6 @@ export class FirestoreAuthorizationAdapter implements IAuthorizationPersistence 
   }
 
   async saveAction(action: Action): Promise<void> {
-    await setDoc(doc(db, 'auth_actions', action.code), action, { merge: true });
+    (()=>{throw new Error("Phase 7.2 Architecture Violation: Firestore Writes are BLOCKED. Migrated to PostgreSQL.");})(); // setDoc(doc(db, 'auth_actions', action.code), action, { merge: true });
   }
 }

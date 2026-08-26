@@ -38,9 +38,9 @@ export class FirestoreClientAssumptionsAdapter {
     };
 
     if (!snap.empty) {
-      await updateDoc(doc(db, 'client_assumptions', snap.docs[0].id), payload);
+      (()=>{throw new Error("Phase 7.2 Architecture Violation: Firestore Writes are BLOCKED. Migrated to PostgreSQL.");})(); // updateDoc(doc(db, 'client_assumptions', snap.docs[0].id), payload);
     } else {
-      await addDoc(collection(db, 'client_assumptions'), payload);
+      (()=>{throw new Error("Phase 7.2 Architecture Violation: Firestore Writes are BLOCKED. Migrated to PostgreSQL.");})(); // addDoc(collection(db, 'client_assumptions'), payload);
     }
   }
 }

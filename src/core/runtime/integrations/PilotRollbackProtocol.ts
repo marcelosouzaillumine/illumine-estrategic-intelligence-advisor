@@ -88,7 +88,7 @@ export class PilotRollbackProtocol {
         const q = query(collection(db, 'financial_staging'), where('batchId', '==', importId));
         const snap = await getDocs(q);
         if (snap.size > 0) {
-          const batch = writeBatch(db);
+          const batch = (()=>{throw new Error("Phase 7.2 Architecture Violation: Firestore Writes are BLOCKED. Migrated to PostgreSQL.");})(); // writeBatch(db);
           snap.docs.forEach(docSnap => {
             batch.update(doc(db, 'financial_staging', docSnap.id), { 
               status: 'reverted',
@@ -152,7 +152,7 @@ export class PilotRollbackProtocol {
         const q = query(collection(db, 'financial_staging'), where('batchId', '==', importId));
         const snap = await getDocs(q);
         if (snap.size > 0) {
-          const batch = writeBatch(db);
+          const batch = (()=>{throw new Error("Phase 7.2 Architecture Violation: Firestore Writes are BLOCKED. Migrated to PostgreSQL.");})(); // writeBatch(db);
           snap.docs.forEach(docSnap => {
             batch.update(doc(db, 'financial_staging', docSnap.id), { 
               status: 'pending',
@@ -215,7 +215,7 @@ export class PilotRollbackProtocol {
         const q = query(collection(db, 'financial_staging'), where('clientId', '==', tenantId));
         const snap = await getDocs(q);
         if (snap.size > 0) {
-          const batch = writeBatch(db);
+          const batch = (()=>{throw new Error("Phase 7.2 Architecture Violation: Firestore Writes are BLOCKED. Migrated to PostgreSQL.");})(); // writeBatch(db);
           snap.docs.forEach(docSnap => {
             const data = docSnap.data();
             if (data.status === 'migrated' || data.status === 'approved') {

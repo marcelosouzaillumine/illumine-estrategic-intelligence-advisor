@@ -117,7 +117,7 @@ export function ManualFinancialModal({ type, clientId, year, onClose, onSuccess 
     // NOVA ESTRUTURA BP: Usa o bpEngine para inferir hierarquia estritamente
     const { flatNodes } = buildBPHierarchy(rows);
     computedRows = flatNodes.map(node => {
-      const original = rows.find(r => r.id === node.id) || rows.find(r => r.category === node.category)!;
+      const original = rows.find(r => r.id === node.id.replace(/_idx\d+$/, '')) || rows.find(r => r.category?.trim().toLowerCase() === node.category?.trim().toLowerCase())!;
       
       let inferredType = original.type;
       let current = node;

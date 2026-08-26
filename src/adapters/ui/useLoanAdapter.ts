@@ -27,10 +27,10 @@ export function useLoanAdapter(clientId: string | undefined) {
       updatedAt: serverTimestamp()
     };
     if (selectedProjectId) {
-      await updateDoc(doc(db, 'captacao_projetos', selectedProjectId), fullPayload);
+      (()=>{throw new Error("Phase 7.2 Architecture Violation: Firestore Writes are BLOCKED. Migrated to PostgreSQL.");})(); // updateDoc(doc(db, 'captacao_projetos', selectedProjectId), fullPayload);
       return selectedProjectId;
     } else {
-      const docRef = await addDoc(collection(db, 'captacao_projetos'), fullPayload);
+      const docRef = (()=>{throw new Error("Phase 7.2 Architecture Violation: Firestore Writes are BLOCKED. Migrated to PostgreSQL.");})(); // addDoc(collection(db, 'captacao_projetos'), fullPayload);
       return docRef.id;
     }
   };

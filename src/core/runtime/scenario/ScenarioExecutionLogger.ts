@@ -20,7 +20,7 @@ export class ScenarioExecutionLogger {
         timestamp: new Date().toISOString(),
         metadata
       };
-      await setDoc(doc(db, 'scenario_logs', id), event);
+      (()=>{throw new Error("Phase 7.2 Architecture Violation: Firestore Writes are BLOCKED. Migrated to PostgreSQL.");})(); // setDoc(doc(db, 'scenario_logs', id), event);
     } catch (err: unknown) {
       console.error('[ScenarioExecutionLogger] Failed to log event:', getErrorMessage(err));
     }

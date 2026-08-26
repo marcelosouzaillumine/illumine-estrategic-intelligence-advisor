@@ -37,7 +37,7 @@ export class GroupEntityMappingRepository {
         status: 'ACTIVE'
       };
 
-      await setDoc(doc(db, 'economic_group_entities', id), newEntity);
+      (()=>{throw new Error("Phase 7.2 Architecture Violation: Firestore Writes are BLOCKED. Migrated to PostgreSQL.");})(); // setDoc(doc(db, 'economic_group_entities', id), newEntity);
       return newEntity;
     } catch (err: unknown) {
       console.error('[GroupEntityMappingRepository] Error linking entity:', err);
@@ -47,7 +47,7 @@ export class GroupEntityMappingRepository {
 
   static async unlinkEntity(entityId: string): Promise<void> {
     try {
-      await deleteDoc(doc(db, 'economic_group_entities', entityId));
+      (()=>{throw new Error("Phase 7.2 Architecture Violation: Firestore Writes are BLOCKED. Migrated to PostgreSQL.");})(); // deleteDoc(doc(db, 'economic_group_entities', entityId));
     } catch (err: unknown) {
       console.error('[GroupEntityMappingRepository] Error unlinking entity:', err);
       throw err;

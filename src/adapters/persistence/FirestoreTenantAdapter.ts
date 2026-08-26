@@ -16,16 +16,16 @@ export class FirestoreTenantAdapter implements ITenantPersistence {
   }
 
   async createTenant(tenant: Tenant): Promise<string> {
-    await setDoc(doc(db, 'tenants', tenant.id), tenant);
+    (()=>{throw new Error("Phase 7.2 Architecture Violation: Firestore Writes are BLOCKED. Migrated to PostgreSQL.");})(); // setDoc(doc(db, 'tenants', tenant.id), tenant);
     return tenant.id;
   }
 
   async updateTenant(tenantId: string, payload: Partial<Tenant>): Promise<void> {
-    await setDoc(doc(db, 'tenants', tenantId), payload, { merge: true });
+    (()=>{throw new Error("Phase 7.2 Architecture Violation: Firestore Writes are BLOCKED. Migrated to PostgreSQL.");})(); // setDoc(doc(db, 'tenants', tenantId), payload, { merge: true });
   }
 
   async deleteTenant(tenantId: string): Promise<void> {
-    await deleteDoc(doc(db, 'tenants', tenantId));
+    (()=>{throw new Error("Phase 7.2 Architecture Violation: Firestore Writes are BLOCKED. Migrated to PostgreSQL.");})(); // deleteDoc(doc(db, 'tenants', tenantId));
   }
 
   async getMembershipsByUserId(userId: string): Promise<Membership[]> {
@@ -41,14 +41,14 @@ export class FirestoreTenantAdapter implements ITenantPersistence {
   }
 
   async createMembership(membership: Membership): Promise<void> {
-    await setDoc(doc(db, 'tenant_memberships', membership.id), membership);
+    (()=>{throw new Error("Phase 7.2 Architecture Violation: Firestore Writes are BLOCKED. Migrated to PostgreSQL.");})(); // setDoc(doc(db, 'tenant_memberships', membership.id), membership);
   }
 
   async updateMembership(membershipId: string, payload: Partial<Membership>): Promise<void> {
-    await setDoc(doc(db, 'tenant_memberships', membershipId), payload, { merge: true });
+    (()=>{throw new Error("Phase 7.2 Architecture Violation: Firestore Writes are BLOCKED. Migrated to PostgreSQL.");})(); // setDoc(doc(db, 'tenant_memberships', membershipId), payload, { merge: true });
   }
 
   async removeMembership(membershipId: string): Promise<void> {
-    await deleteDoc(doc(db, 'tenant_memberships', membershipId));
+    (()=>{throw new Error("Phase 7.2 Architecture Violation: Firestore Writes are BLOCKED. Migrated to PostgreSQL.");})(); // deleteDoc(doc(db, 'tenant_memberships', membershipId));
   }
 }

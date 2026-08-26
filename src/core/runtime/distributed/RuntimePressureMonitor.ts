@@ -29,7 +29,7 @@ export class RuntimePressureMonitor {
       return;
     }
     const cleanIncident = JSON.parse(JSON.stringify(incident));
-    await addDoc(collection(db, 'runtime_pressure'), {
+    (()=>{throw new Error("Phase 7.2 Architecture Violation: Firestore Writes are BLOCKED. Migrated to PostgreSQL.");})(); // addDoc(collection(db, 'runtime_pressure'), {
       ...cleanIncident,
       serverTimestamp: new Date()
     });

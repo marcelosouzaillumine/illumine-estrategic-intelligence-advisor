@@ -1,5 +1,4 @@
-// @ts-nocheck
-import test from 'node:test';
+import { test, expect, beforeAll, afterAll } from 'vitest';
 import assert from 'node:assert';
 import { FiduciaryRuntimeAdapter } from '../../services/FiduciaryRuntimeAdapter';
 import { ExecutiveDecisionSynthesisEngine } from '../../core/runtime/executive-consolidation/ExecutiveDecisionSynthesisEngine';

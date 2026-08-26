@@ -41,7 +41,7 @@ export class RuntimeHealthMonitor {
         anomalies
       };
 
-      await setDoc(doc(db, 'runtime_health_snapshots', snapshot.id), snapshot);
+      (()=>{throw new Error("Phase 7.2 Architecture Violation: Firestore Writes are BLOCKED. Migrated to PostgreSQL.");})(); // setDoc(doc(db, 'runtime_health_snapshots', snapshot.id), snapshot);
       return snapshot;
 
     } catch (err: unknown) {

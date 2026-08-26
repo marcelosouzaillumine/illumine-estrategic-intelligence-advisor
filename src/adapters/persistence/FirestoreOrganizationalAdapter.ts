@@ -16,7 +16,7 @@ export class FirestoreOrganizationalAdapter {
 
   static async saveOrgChart(clientId: string, nodes: any[]): Promise<void> {
     const docRef = doc(db, 'org_charts', `org_${clientId}`);
-    await setDoc(docRef, {
+    (()=>{throw new Error("Phase 7.2 Architecture Violation: Firestore Writes are BLOCKED. Migrated to PostgreSQL.");})(); // setDoc(docRef, {
       clientId,
       nodes,
       updatedAt: serverTimestamp()

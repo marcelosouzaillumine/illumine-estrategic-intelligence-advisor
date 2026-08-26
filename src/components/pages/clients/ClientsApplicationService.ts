@@ -1,4 +1,4 @@
-import { FirestoreClientsAdapter } from '../../../adapters/persistence/FirestoreClientsAdapter';
+import { SupabaseClientsAdapter } from '../../../adapters/persistence/SupabaseClientsAdapter';
 import { DATA } from '../../../data';
 
 export class ClientsApplicationService {
@@ -10,7 +10,7 @@ export class ClientsApplicationService {
     clients: any[] | null | undefined,
     onUpdate: (clientsList: any[]) => void
   ): () => void {
-    return FirestoreClientsAdapter.subscribeToClients(isMaster, clients, onUpdate);
+    return SupabaseClientsAdapter.subscribeToClients(isMaster, clients, onUpdate);
   }
 
   /**
@@ -44,11 +44,11 @@ export class ClientsApplicationService {
     const clientData = {
       ...formData,
       ownerId: currentUserUid,
-      updatedAt: FirestoreClientsAdapter.getServerTimestamp()
+      updatedAt: SupabaseClientsAdapter.getServerTimestamp()
     };
 
     if (editingId) {
-      await FirestoreClientsAdapter.updateClient(editingId, clientData);
+      await SupabaseClientsAdapter.updateClient(editingId, clientData);
     } else {
       const clientFinalData = {
         ...clientData,
@@ -56,10 +56,10 @@ export class ClientsApplicationService {
         partnerId: (!isMaster && isPartner && userPartnerIds && userPartnerIds.length > 0) 
           ? userPartnerIds[0] 
           : clientData.partnerId,
-        createdAt: FirestoreClientsAdapter.getServerTimestamp()
+        createdAt: SupabaseClientsAdapter.getServerTimestamp()
       };
 
-      const clientId = await FirestoreClientsAdapter.addClient(clientFinalData);
+      const clientId = await SupabaseClientsAdapter.addClient(clientFinalData);
 
       // Cria o plano de contas padrão automaticamente para novos clientes
       const plans = DATA.accountPlanPadrão.map(acc => {
@@ -68,13 +68,13 @@ export class ClientsApplicationService {
           clientId: clientId,
           planType: "accounting",
           status: acc.status || "Ativa",
-          createdAt: FirestoreClientsAdapter.getServerTimestamp(),
-          updatedAt: FirestoreClientsAdapter.getServerTimestamp(),
+          createdAt: SupabaseClientsAdapter.getServerTimestamp(),
+          updatedAt: SupabaseClientsAdapter.getServerTimestamp(),
           createdBy: currentUserUid
         };
       });
       
-      await FirestoreClientsAdapter.createAccountPlanBatch(plans);
+      await SupabaseClientsAdapter.createAccountPlanBatch(plans);
     }
   }
 
@@ -95,19 +95,19 @@ export class ClientsApplicationService {
       "receivables"
     ];
 
-    await FirestoreClientsAdapter.deleteClientCascade(clientId, collectionsToClean);
+    await SupabaseClientsAdapter.deleteClientCascade(clientId, collectionsToClean);
   }
   /**
    * Aprova um cliente.
    */
   static async approveClient(clientId: string): Promise<void> {
-    await FirestoreClientsAdapter.approveClient(clientId);
+    await SupabaseClientsAdapter.approveClient(clientId);
   }
 
   /**
    * Assina as atualizações da coleção de partners.
    */
   static subscribeToPartners(onUpdate: (partnersList: any[]) => void): () => void {
-    return FirestoreClientsAdapter.subscribeToPartners(onUpdate);
+    return SupabaseClientsAdapter.subscribeToPartners(onUpdate);
   }
 }

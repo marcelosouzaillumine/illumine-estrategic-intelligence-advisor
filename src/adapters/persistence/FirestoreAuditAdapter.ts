@@ -4,7 +4,7 @@ import { AuditLogPayload } from '../../services/platform/auditService';
 
 export class FirestoreAuditAdapter {
   static async logAction(payload: AuditLogPayload): Promise<void> {
-    await addDoc(collection(db, 'audit_logs'), {
+    (()=>{throw new Error("Phase 7.2 Architecture Violation: Firestore Writes are BLOCKED. Migrated to PostgreSQL.");})(); // addDoc(collection(db, 'audit_logs'), {
       ...payload,
       createdAt: serverTimestamp(),
     });

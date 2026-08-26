@@ -48,7 +48,7 @@ export const supportService = {
         status: 'pending'
       };
 
-      const docRef = await addDoc(collection(db, TICKETS_COLLECTION), newTicket);
+      const docRef = (()=>{throw new Error("Phase 7.2 Architecture Violation: Firestore Writes are BLOCKED. Migrated to PostgreSQL.");})(); // addDoc(collection(db, TICKETS_COLLECTION), newTicket);
 
       // If it's the 9th ticket, notify Admin Master
       if (isNinth) {
@@ -109,7 +109,7 @@ export const supportService = {
       if (adminNotes !== undefined) {
         updateData.adminNotes = adminNotes;
       }
-      await updateDoc(docRef, updateData);
+      (()=>{throw new Error("Phase 7.2 Architecture Violation: Firestore Writes are BLOCKED. Migrated to PostgreSQL.");})(); // updateDoc(docRef, updateData);
     } catch (error) {
       console.error('Error updating ticket status:', error);
       throw error;
@@ -122,7 +122,7 @@ export const supportService = {
         ...message,
         createdAt: serverTimestamp()
       };
-      await addDoc(collection(db, MESSAGES_COLLECTION), newMessage);
+      (()=>{throw new Error("Phase 7.2 Architecture Violation: Firestore Writes are BLOCKED. Migrated to PostgreSQL.");})(); // addDoc(collection(db, MESSAGES_COLLECTION), newMessage);
     } catch (error) {
       console.error('Error adding ticket message:', error);
       throw error;

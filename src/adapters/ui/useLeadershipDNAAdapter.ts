@@ -33,7 +33,7 @@ export function useLeadershipDNAAdapter(clientId: string) {
       createdBy: auth.currentUser?.email || 'unknown'
     };
     
-    const docRef = await addDoc(collection(db, 'leadership_dna_assessments'), fullPayload);
+    const docRef = (()=>{throw new Error("Phase 7.2 Architecture Violation: Firestore Writes are BLOCKED. Migrated to PostgreSQL.");})(); // addDoc(collection(db, 'leadership_dna_assessments'), fullPayload);
     
     // Update local state optimizing for fast feedback
     setAssessments(prev => [{ id: docRef.id, ...fullPayload, createdAt: new Date() }, ...prev]);
@@ -71,7 +71,7 @@ export function useLeadershipDNAAdapter(clientId: string) {
       createdAt: serverTimestamp(),
       type: 'governance_assessment'
     };
-    await addDoc(collection(db, 'leadership_profiles'), payload);
+    (()=>{throw new Error("Phase 7.2 Architecture Violation: Firestore Writes are BLOCKED. Migrated to PostgreSQL.");})(); // addDoc(collection(db, 'leadership_profiles'), payload);
   };
 
   return {

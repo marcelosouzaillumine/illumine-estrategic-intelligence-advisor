@@ -35,7 +35,7 @@ export class FinancialMetricOntology {
       id: 'financial.profitability.ebitda_margin',
       category: 'profitability',
       meaning: 'Eficiência operacional antes dos efeitos financeiros e fiscais',
-      businessQuestion: 'A operação possui capacidade de sustentar crescimento e honrar dívidas?',
+      businessQuestion: 'A operação gera valor suficiente e possui capacidade de sustentar crescimento e honrar dívidas?',
       relatedMetrics: ['revenue_growth', 'operating_expenses', 'cash_generation', 'gross_margin']
     });
 

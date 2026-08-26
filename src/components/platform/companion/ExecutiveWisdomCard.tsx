@@ -1,4 +1,3 @@
-// @ts-nocheck
 import React from 'react';
 import { ExecutiveSurface } from '../../ui/executive-surface';
 import { ExecutiveBadge } from '../../ui/executive-badge';

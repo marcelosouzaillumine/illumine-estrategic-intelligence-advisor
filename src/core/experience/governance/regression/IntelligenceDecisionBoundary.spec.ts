@@ -12,7 +12,14 @@ describe('Intelligence Decision Boundary Governance', () => {
   });
 
   it('INTELLIGENCE_PRODUCT must not carry approval semantics in its configuration', () => {
-    const serializedConfig = JSON.stringify(FinancialPositionProduct).toLowerCase();
+    // We exclude the 'rules' object from this stringification because it legitimately 
+    // contains permission flags like 'canExecute: false' and 'canRecommend: false' 
+    // to explicitly forbid actions. The intent is to ensure the product metadata 
+    // and purpose do not carry action semantics.
+    const serializedConfig = JSON.stringify(FinancialPositionProduct, (key, value) => {
+      if (key === 'rules') return undefined;
+      return value;
+    }).toLowerCase();
     
     // Verbos decisórios proibidos para um produto de Inteligência
     expect(serializedConfig).not.toContain('approve');

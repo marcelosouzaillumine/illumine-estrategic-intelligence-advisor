@@ -25,7 +25,7 @@ export class ScenarioRegistry {
 
       // Salva no Firestore
       await GovernedRepositoryWrapper.execute(simulationContext, async () => {
-        await setDoc(doc(db, 'scenario_executions', result.scenarioId), record);
+        (()=>{throw new Error("Phase 7.2 Architecture Violation: Firestore Writes are BLOCKED. Migrated to PostgreSQL.");})(); // setDoc(doc(db, 'scenario_executions', result.scenarioId), record);
       });
 
       // [Knowledge Graph Integration] Chamada Passiva

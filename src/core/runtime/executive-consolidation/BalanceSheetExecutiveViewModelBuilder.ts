@@ -1,4 +1,3 @@
-// @ts-nocheck
 import { BalanceSheetExecutiveViewModel } from '../../../types/executive/BalanceSheetExecutiveViewModel';
 
 import { ExecutiveConsistencyEngine } from './ExecutiveConsistencyEngine';

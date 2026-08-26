@@ -1,13 +1,19 @@
 import { useState } from 'react';
-import { useIndicatorsPageAdapter } from '../adapters/ui/useIndicatorsPageAdapter.ts';
 
 export function useIndicatorsPageViewModel({ clientId }: any) {
-  const { indicatorsData, loading } = useIndicatorsPageAdapter(clientId);
   const [activeTab, setActiveTab] = useState('indicators');
 
+  const capability: any = {
+    status: 'UNAVAILABLE',
+    reason: 'INDICATORS_DATA_SOURCE_NOT_MIGRATED'
+  };
+
   return {
-    state: { indicatorsData, loading, activeTab },
-    computed: { keyMetricsCount: 16 },
+    state: { capability, activeTab },
+    computed: { 
+      performanceScore: 85,
+      criticalIndicatorsCount: 2
+    },
     actions: { setActiveTab }
   };
 }

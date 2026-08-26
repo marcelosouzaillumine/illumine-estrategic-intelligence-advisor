@@ -25,10 +25,10 @@ describe('ExecutiveCommunicationProfiles Persona Preferences Tests', () => {
 
   it('2. Deve formatar a narrativa executiva passivamente de acordo com a verbosidade do perfil', () => {
     const conciseSummary = ExecutiveCommunicationProfiles.formatSummary(mockReport, 'BOARD_PROFILE');
-    assert.ok(conciseSummary.length < mockReport.advisory.executiveSummary.length);
+    assert.ok(conciseSummary.length < mockReport.advisory.pureViewModel.executiveSummary.length);
     assert.ok(conciseSummary.includes('Operação financeira estável e robusta'));
 
     const detailedSummary = ExecutiveCommunicationProfiles.formatSummary(mockReport, 'ADVISOR_PROFILE');
-    assert.strictEqual(detailedSummary, mockReport.advisory.executiveSummary);
+    assert.strictEqual(detailedSummary, mockReport.advisory.pureViewModel.executiveSummary);
   });
 });

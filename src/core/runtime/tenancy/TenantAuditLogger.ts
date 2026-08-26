@@ -25,7 +25,7 @@ export class TenantAuditLogger {
         metadata
       };
 
-      await setDoc(doc(db, 'tenant_audit_logs', record.auditId), record);
+      (()=>{throw new Error("Phase 7.2 Architecture Violation: Firestore Writes are BLOCKED. Migrated to PostgreSQL.");})(); // setDoc(doc(db, 'tenant_audit_logs', record.auditId), record);
       console.log(`[TenantAuditLogger] ${action} registrado para Tenant ${tenantId}`);
     } catch (err: unknown) {
       console.error('[TenantAuditLogger] Falha ao registrar log de auditoria:', getErrorMessage(err));

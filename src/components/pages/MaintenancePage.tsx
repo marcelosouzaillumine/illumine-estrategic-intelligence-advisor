@@ -58,7 +58,7 @@ export function MaintenancePage({ clients }: { clients: any[] }) {
   const handleApprove = async (docId: string, entry: any) => {
       const formatter = useExecutiveFormatter();
     try {
-      const batch = writeBatch(db);
+      const batch = (()=>{throw new Error("Phase 7.2 Architecture Violation: Firestore Writes are BLOCKED. Migrated to PostgreSQL.");})(); // writeBatch(db);
       const targetDoc = doc(collection(db, entry.targetCollection || 'financial_entries'));
       batch.set(targetDoc, {
         ...(entry.payload || {}),
@@ -88,7 +88,7 @@ export function MaintenancePage({ clients }: { clients: any[] }) {
   const handleReject = async (docId: string, entry: any) => {
       const formatter = useExecutiveFormatter();
     try {
-      await updateDoc(doc(db, 'financial_staging', docId), {
+      (()=>{throw new Error("Phase 7.2 Architecture Violation: Firestore Writes are BLOCKED. Migrated to PostgreSQL.");})(); // updateDoc(doc(db, 'financial_staging', docId), {
         status: 'rejected',
         rejectedAt: serverTimestamp(),
         rejectedBy: auth.currentUser?.uid
@@ -139,7 +139,7 @@ export function MaintenancePage({ clients }: { clients: any[] }) {
       );
       const indSnap = await getDocs(indQuery);
       
-      const batch = writeBatch(db);
+      const batch = (()=>{throw new Error("Phase 7.2 Architecture Violation: Firestore Writes are BLOCKED. Migrated to PostgreSQL.");})(); // writeBatch(db);
       indSnap.docs.forEach(d => {
           const formatter = useExecutiveFormatter();
         batch.delete(d.ref);

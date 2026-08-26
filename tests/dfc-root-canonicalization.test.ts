@@ -97,8 +97,8 @@ describe('DFC Root Canonicalization Framework (DRCF)', () => {
     // Test the requested fields explicitly
     assert.ok(metrics.fiduciary.fcoOperacionalReal !== undefined);
     assert.ok(metrics.fiduciary.runway !== undefined);
-    assert.ok(metrics.fiduciary.cashQuality.score !== undefined);
-    assert.ok(metrics.fiduciary.earningsQuality.score !== undefined);
+    assert.ok(metrics.fiduciary.cashQuality.pureViewModel.score !== undefined);
+    assert.ok(metrics.fiduciary.earningsQuality.pureViewModel.score !== undefined);
     assert.ok(metrics.fiduciary.reconciliationGap !== undefined);
   });
 

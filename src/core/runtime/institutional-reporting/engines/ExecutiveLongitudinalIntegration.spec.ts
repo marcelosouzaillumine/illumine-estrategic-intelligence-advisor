@@ -1,4 +1,4 @@
-// @ts-nocheck
+
 import { describe, it } from 'node:test';
 import * as assert from 'node:assert/strict';
 import { LongitudinalScoreEngine } from './LongitudinalScoreEngine';
@@ -104,7 +104,7 @@ describe('Executive Longitudinal Integration', () => {
     it('Deve bloquear conclusões otimistas em ARTIFICIAL_TURNAROUND', () => {
       const mockReport: Partial<ExecutiveIntelligenceReport> = {
         strategicIntelligence: { posture: 'EXPANSION_POSTURE', trajectory: 'TRAJECTORY_STABLE', thesis: { unifiedThesisStatement: 'Fake thesis' }, explainability: {} as any } as any,
-        operationalGovernance: { executionIntegrity: { status: 'EXECUTION_STABLE', activeFrictions: [], breakdownRisks: [] }, structuralConsistency: 'STRONG', processMaturity: 'MATURE', governanceAlerts: [] },
+        operationalGovernance: { executionIntegrity: { status: "EXECUTION_STABLE", capabilityConfidence: "HIGH", strainFactors: [] } } as any,
         scores: { composite: 85, financial: 90, operational: 80, governance: 80, structural: 80 },
         longitudinalCashIntelligence: {
           trajectoryClassification: 'ARTIFICIAL_TURNAROUND',
@@ -133,7 +133,7 @@ describe('Executive Longitudinal Integration', () => {
     it('Deve suprimir crescimento sustentável se houver dependência crônica', () => {
       const result = ExecutiveReportNarrativeOrchestrator.generateExecutiveSummary({
         strategic: { posture: 'EXPANSION_POSTURE', trajectory: 'TRAJECTORY_STABLE', thesis: { unifiedThesisStatement: 'Fake thesis' }, explainability: {} as any } as any,
-        governance: { executionIntegrity: { status: 'EXECUTION_STABLE', activeFrictions: [], breakdownRisks: [] }, structuralConsistency: 'STRONG', processMaturity: 'MATURE', governanceAlerts: [] },
+        governance: { executionIntegrity: { status: "EXECUTION_STABLE", capabilityConfidence: "HIGH", strainFactors: [] } } as any,
         hasSurvivalMode: false,
         longitudinal: {
           trajectoryClassification: 'ARTIFICIAL_TURNAROUND',

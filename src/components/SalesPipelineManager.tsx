@@ -71,19 +71,18 @@ export function SalesPipelineManager({ clientId }: SalesPipelineManagerProps) {
     });
   }, [entries, searchTerm, filterVendedor, filterUnidade, filterFilial]);
 
-  const handleAdd = (e: React.FormEvent) => {
+  const handleAdd = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!formData.customerName || !formData.valor) return;
-    addAdapter(formData, () => {
-      setIsAdding(false);
-      setFormData({
-        vendedor: '',
-        unidade: '',
-        filial: '',
-        etapa: 'Prospecção',
-        valor: '',
-        customerName: ''
-      });
+    await addAdapter(formData);
+    setIsAdding(false);
+    setFormData({
+      vendedor: '',
+      unidade: '',
+      filial: '',
+      etapa: 'Prospecção',
+      valor: '',
+      customerName: ''
     });
   };
 
@@ -111,7 +110,7 @@ export function SalesPipelineManager({ clientId }: SalesPipelineManagerProps) {
         }
       });
       
-      importAdapter(parsedData, () => {
+      importAdapter(parsedData).then(() => {
         alert('Importação concluída com sucesso!');
       });
     };

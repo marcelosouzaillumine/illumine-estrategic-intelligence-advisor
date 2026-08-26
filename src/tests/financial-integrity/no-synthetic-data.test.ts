@@ -10,7 +10,9 @@ describe('CFDI v2.1 — No Synthetic Data / Fallback Contract', () => {
       [],
       'client-empty',
       FinancialStatementType.DRE_ACCOUNTING,
-      2026
+      2026,
+      '550e8400-e29b-41d4-a716-446655440000', // Mock Tenant ID
+      '990e8400-e29b-41d4-a716-446655441111'  // Mock Actor ID
     );
 
     assert.strictEqual(governance.certificationStatus, 'FAILED');

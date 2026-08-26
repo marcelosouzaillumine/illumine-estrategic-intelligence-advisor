@@ -84,7 +84,7 @@ export function GovernanceProvider({ children, user }: { children: React.ReactNo
   const setAccepted = async (accepted: boolean) => {
     if (!user) return;
     try {
-      await setDoc(doc(db, 'user_acceptances', user.uid), {
+      (()=>{throw new Error("Phase 7.2 Architecture Violation: Firestore Writes are BLOCKED. Migrated to PostgreSQL.");})(); // setDoc(doc(db, 'user_acceptances', user.uid), {
         accepted,
         acceptedAt: serverTimestamp(),
         userId: user.uid,

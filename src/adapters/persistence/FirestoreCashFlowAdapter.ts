@@ -31,9 +31,9 @@ export class FirestoreCashFlowAdapter implements ICashFlowPersistence {
     const existingSnap = await getDocs(q);
     
     if (!existingSnap.empty) {
-      await setDoc(doc(db, 'cash_flows', existingSnap.docs[0].id), cashFlowData);
+      (()=>{throw new Error("Phase 7.2 Architecture Violation: Firestore Writes are BLOCKED. Migrated to PostgreSQL.");})(); // setDoc(doc(db, 'cash_flows', existingSnap.docs[0].id), cashFlowData);
     } else {
-      await addDoc(collection(db, 'cash_flows'), cashFlowData);
+      (()=>{throw new Error("Phase 7.2 Architecture Violation: Firestore Writes are BLOCKED. Migrated to PostgreSQL.");})(); // addDoc(collection(db, 'cash_flows'), cashFlowData);
     }
   }
 

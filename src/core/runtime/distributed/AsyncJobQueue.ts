@@ -68,7 +68,7 @@ export class AsyncJobQueue {
       return;
     }
     const cleanJob = JSON.parse(JSON.stringify(job));
-    await addDoc(collection(db, 'institutional_jobs'), cleanJob);
+    (()=>{throw new Error("Phase 7.2 Architecture Violation: Firestore Writes are BLOCKED. Migrated to PostgreSQL.");})(); // addDoc(collection(db, 'institutional_jobs'), cleanJob);
   }
 
   // Wrapper for Firestore document update
@@ -85,7 +85,7 @@ export class AsyncJobQueue {
     const q = query(collection(db, 'institutional_jobs'), where('jobId', '==', jobId), limit(1));
     const snap = await getDocs(q);
     if (!snap.empty) {
-      await updateDoc(snap.docs[0].ref, cleanUpdates);
+      (()=>{throw new Error("Phase 7.2 Architecture Violation: Firestore Writes are BLOCKED. Migrated to PostgreSQL.");})(); // updateDoc(snap.docs[0].ref, cleanUpdates);
     }
   }
 
@@ -287,7 +287,7 @@ export class AsyncJobQueue {
 
     // Em produção, usa transação para evitar claim concorrente duplo
     // Buscamos o primeiro job QUEUED ordenado por prioridade e timestamp
-    return await runTransaction(db, async (transaction) => {
+    return (()=>{throw new Error("Phase 7.2 Architecture Violation: Firestore Writes are BLOCKED. Migrated to PostgreSQL.");})(); // runTransaction(db, async (transaction) => {
       // Puxa o job mais antigo na fila
       const targetTenant = (context.role === 'SUPER_ADMIN' && context.resourceTenantId) ? context.resourceTenantId : tenantId;
       

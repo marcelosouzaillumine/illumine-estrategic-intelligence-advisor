@@ -18,8 +18,8 @@ export class FinancialAnalyticsBuilder {
     formatCurrency: (value: number) => string
   ): BalanceSheetFinancialAnalyticsViewModel {
     
-    const equityToAssetsPercentage = bpSummary.ativoTotal > 0 
-      ? (bpSummary.patrimonioLiquido / bpSummary.ativoTotal) * 100 
+    const equityToAssetsPercentage = (bpSummary.ativoTotal || 0) > 0 
+      ? ((bpSummary.patrimonioLiquido || 0) / (bpSummary.ativoTotal || 1)) * 100 
       : 0;
 
     const evolutionHighlights = majorChanges.map(change => {

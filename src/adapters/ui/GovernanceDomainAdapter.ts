@@ -1,6 +1,5 @@
 import { useState, useEffect, useMemo } from 'react';
-import { collection, query, where, onSnapshot } from 'firebase/firestore';
-import { db } from '../../lib/firebase';
+
 import { GovernanceDomainViewModel, GovernanceRule, RiskItem } from '../../viewmodels/GovernanceDomainViewModel';
 
 export interface UseGovernanceDomainParams {
@@ -16,23 +15,11 @@ export function useGovernanceDomain({ selectedClient }: UseGovernanceDomainParam
     if (!selectedClient) return;
     setLoading(true);
 
-    const qRules = query(collection(db, 'governance_rules'), where('clientId', '==', selectedClient));
-    const unsubscribeRules = onSnapshot(qRules, (snapshot) => {
-      const docs = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() as any }));
-      setRules(docs);
-    });
-
-    const qRisks = query(collection(db, 'governance_risks'), where('clientId', '==', selectedClient));
-    const unsubscribeRisks = onSnapshot(qRisks, (snapshot) => {
-      const docs = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() as any }));
-      setRisks(docs);
-      setLoading(false);
-    });
-
-    return () => {
-      unsubscribeRules();
-      unsubscribeRisks();
-    };
+    // TODO(Phase 7): Migrate Governance Rules and Risks to PostgreSQL
+    // For Phase 6, we just return empty data and disable the loader.
+    setRules([]);
+    setRisks([]);
+    setLoading(false);
   }, [selectedClient]);
 
   const maturityScore = useMemo(() => {

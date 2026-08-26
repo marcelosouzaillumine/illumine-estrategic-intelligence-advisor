@@ -66,7 +66,7 @@ export async function createNewDraftScenario(clientId: string, name: string = 'C
     }]
   };
 
-  await setDoc(newScenarioRef, scenarioData);
+  (()=>{throw new Error("Phase 7.2 Architecture Violation: Firestore Writes are BLOCKED. Migrated to PostgreSQL.");})(); // setDoc(newScenarioRef, scenarioData);
 
   // Busca as premissas globais do cliente
   const globalAssumptionsQ = query(collection(db, 'client_assumptions'), where('clientId', '==', clientId));
@@ -96,7 +96,7 @@ export async function createNewDraftScenario(clientId: string, name: string = 'C
   }
 
   const assumptionsRef = doc(collection(db, 'scenario_assumptions'));
-  await setDoc(assumptionsRef, {
+  (()=>{throw new Error("Phase 7.2 Architecture Violation: Firestore Writes are BLOCKED. Migrated to PostgreSQL.");})(); // setDoc(assumptionsRef, {
     ...baseAssumptions,
     scenarioId: newScenarioRef.id,
     clientId,
@@ -190,9 +190,9 @@ export async function processViabilityImpact(project: any) {
 
   if (!snapImpact.empty) {
     const docId = snapImpact.docs[0].id;
-    await updateDoc(doc(db, 'scenario_impacts', docId), { ...impactData, updatedAt: serverTimestamp() });
+    (()=>{throw new Error("Phase 7.2 Architecture Violation: Firestore Writes are BLOCKED. Migrated to PostgreSQL.");})(); // updateDoc(doc(db, 'scenario_impacts', docId), { ...impactData, updatedAt: serverTimestamp() });
   } else {
-    await addDoc(collection(db, 'scenario_impacts'), { ...impactData, createdAt: serverTimestamp() });
+    (()=>{throw new Error("Phase 7.2 Architecture Violation: Firestore Writes are BLOCKED. Migrated to PostgreSQL.");})(); // addDoc(collection(db, 'scenario_impacts'), { ...impactData, createdAt: serverTimestamp() });
   }
 }
 
@@ -251,7 +251,7 @@ export async function approveScenario(scenarioId: string) {
   }
 
   // 2. Execute Transaction
-  await runTransaction(db, async (transaction) => {
+  (()=>{throw new Error("Phase 7.2 Architecture Violation: Firestore Writes are BLOCKED. Migrated to PostgreSQL.");})(); // runTransaction(db, async (transaction) => {
     const newBaselineDoc = await transaction.get(scenarioRef);
     if (!newBaselineDoc.exists()) throw new Error("Scenario not found");
     const newData = newBaselineDoc.data() as InstitutionalScenario;

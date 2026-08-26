@@ -7,7 +7,7 @@ export class ConfidenceTimelineEngine {
     try {
       const id = crypto.randomUUID();
       const newEntry: ConfidenceTimelineEntry = { ...entry, id };
-      await setDoc(doc(db, 'confidence_timeline', id), newEntry);
+      (()=>{throw new Error("Phase 7.2 Architecture Violation: Firestore Writes are BLOCKED. Migrated to PostgreSQL.");})(); // setDoc(doc(db, 'confidence_timeline', id), newEntry);
     } catch (err: unknown) {
       console.error('[ConfidenceTimelineEngine] Error recording confidence:', err);
     }

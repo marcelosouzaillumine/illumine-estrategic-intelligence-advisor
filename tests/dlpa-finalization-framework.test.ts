@@ -107,8 +107,8 @@ describe('DLPA Temporal Recoverability Finalization Framework (DTRFF) v1.0', () 
 
   test('5. Granatum 2022 CPS score is recalculated inside the prudential range [34, 38]', () => {
     const cps = exec!.capitalPreservationScore;
-    expect(cps.score).toBeGreaterThanOrEqual(34);
-    expect(cps.score).toBeLessThanOrEqual(38);
+    expect(cps.pureViewModel.score).toBeGreaterThanOrEqual(34);
+    expect(cps.pureViewModel.score).toBeLessThanOrEqual(38);
   });
 
   test('6. No display of "0,0 anos" under negative historical profits', () => {

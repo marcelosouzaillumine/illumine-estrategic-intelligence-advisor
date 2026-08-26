@@ -50,7 +50,7 @@ export function useBankAccountModalAdapter(clientId: string, account?: any, onCl
         }
         dataToSave.historico = updatedHistorico;
 
-        await updateDoc(doc(db, 'financial_positions', account.id), dataToSave);
+        (()=>{throw new Error("Phase 7.2 Architecture Violation: Firestore Writes are BLOCKED. Migrated to PostgreSQL.");})(); // updateDoc(doc(db, 'financial_positions', account.id), dataToSave);
       } else {
         const newData = {
           ...dataToSave,
@@ -61,7 +61,7 @@ export function useBankAccountModalAdapter(clientId: string, account?: any, onCl
             { mes: formattedMonth, saldo: currentValue }
           ],
         };
-        await addDoc(collection(db, 'financial_positions'), newData);
+        (()=>{throw new Error("Phase 7.2 Architecture Violation: Firestore Writes are BLOCKED. Migrated to PostgreSQL.");})(); // addDoc(collection(db, 'financial_positions'), newData);
       }
       
       if (onClose) onClose();

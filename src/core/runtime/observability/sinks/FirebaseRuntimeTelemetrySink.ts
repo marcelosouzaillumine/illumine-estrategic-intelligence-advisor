@@ -9,7 +9,7 @@ import { collection, doc, setDoc, addDoc, getDoc } from 'firebase/firestore';
 export class FirebaseRuntimeTelemetrySink implements RuntimeTelemetrySink {
   async logEvent(event: RuntimeLogEvent): Promise<void> {
     try {
-      await setDoc(doc(db, 'runtime_logs', event.id), event);
+      (()=>{throw new Error("Phase 7.2 Architecture Violation: Firestore Writes are BLOCKED. Migrated to PostgreSQL.");})(); // setDoc(doc(db, 'runtime_logs', event.id), event);
     } catch (error) {
       console.error('[FirebaseRuntimeTelemetrySink] Error logging event', error);
     }
@@ -17,7 +17,7 @@ export class FirebaseRuntimeTelemetrySink implements RuntimeTelemetrySink {
   
   async saveTrace(trace: ExecutionTrace): Promise<void> {
     try {
-      await setDoc(doc(db, 'runtime_traces', trace.executionId), trace);
+      (()=>{throw new Error("Phase 7.2 Architecture Violation: Firestore Writes are BLOCKED. Migrated to PostgreSQL.");})(); // setDoc(doc(db, 'runtime_traces', trace.executionId), trace);
     } catch (error) {
       console.error('[FirebaseRuntimeTelemetrySink] Error saving trace', error);
     }
@@ -42,7 +42,7 @@ export class FirebaseRuntimeTelemetrySink implements RuntimeTelemetrySink {
   
   async recordFailClosedEvent(event: FailClosedTelemetryEvent): Promise<void> {
     try {
-      await addDoc(collection(db, 'telemetry_fail_closed'), event);
+      (()=>{throw new Error("Phase 7.2 Architecture Violation: Firestore Writes are BLOCKED. Migrated to PostgreSQL.");})(); // addDoc(collection(db, 'telemetry_fail_closed'), event);
     } catch (error) {
       console.error('[FirebaseRuntimeTelemetrySink] Error recording fail closed', error);
     }
@@ -50,7 +50,7 @@ export class FirebaseRuntimeTelemetrySink implements RuntimeTelemetrySink {
   
   async recordLatencyMetric(metric: LatencyMetric): Promise<void> {
     try {
-      await addDoc(collection(db, 'telemetry_latency'), metric);
+      (()=>{throw new Error("Phase 7.2 Architecture Violation: Firestore Writes are BLOCKED. Migrated to PostgreSQL.");})(); // addDoc(collection(db, 'telemetry_latency'), metric);
     } catch (error) {
       console.error('[FirebaseRuntimeTelemetrySink] Error recording latency', error);
     }
@@ -58,7 +58,7 @@ export class FirebaseRuntimeTelemetrySink implements RuntimeTelemetrySink {
   
   async recordPayloadIntegrityCheck(check: PayloadIntegrityCheck): Promise<void> {
     try {
-      await addDoc(collection(db, 'telemetry_payload_integrity'), check);
+      (()=>{throw new Error("Phase 7.2 Architecture Violation: Firestore Writes are BLOCKED. Migrated to PostgreSQL.");})(); // addDoc(collection(db, 'telemetry_payload_integrity'), check);
     } catch (error) {
       console.error('[FirebaseRuntimeTelemetrySink] Error recording payload integrity', error);
     }
@@ -66,7 +66,7 @@ export class FirebaseRuntimeTelemetrySink implements RuntimeTelemetrySink {
   
   async recordLineageValidation(validation: LineageValidationEvent): Promise<void> {
     try {
-      await addDoc(collection(db, 'telemetry_lineage_validation'), validation);
+      (()=>{throw new Error("Phase 7.2 Architecture Violation: Firestore Writes are BLOCKED. Migrated to PostgreSQL.");})(); // addDoc(collection(db, 'telemetry_lineage_validation'), validation);
     } catch (error) {
       console.error('[FirebaseRuntimeTelemetrySink] Error recording lineage validation', error);
     }

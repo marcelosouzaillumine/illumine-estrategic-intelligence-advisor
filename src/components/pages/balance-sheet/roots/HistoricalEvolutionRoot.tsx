@@ -1,11 +1,17 @@
 import React from 'react';
-import { ExecutiveEmptyState } from '../../../ui/executive-empty-state';
+import { ExecutiveExperienceContext } from '../../../../core/experience/runtime/ExecutiveExperienceContext';
+import { HistoricalEvolutionSection } from '../HistoricalEvolutionSection';
 
-export const HistoricalEvolutionRoot = ({ context }: any) => {
-  return (
-    <ExecutiveEmptyState 
-      title="Historical Evolution"
-      description="Análise longitudinal de preservação de capital em construção."
-    />
-  );
-};
+interface HistoricalEvolutionRootProps {
+  context: ExecutiveExperienceContext;
+}
+
+export function HistoricalEvolutionRoot({ context }: HistoricalEvolutionRootProps) {
+  const historicalEvolution = context.intelligence.financialPosition?.pureViewModel?.historicalEvolution;
+  
+  if (!historicalEvolution || !historicalEvolution.available) {
+    return null;
+  }
+  
+  return <HistoricalEvolutionSection historicalEvolution={historicalEvolution} />;
+}

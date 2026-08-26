@@ -1,4 +1,3 @@
-// @ts-nocheck
 // src/core/runtime/causal-intelligence/InstitutionalFragilityCorrelationEngine.ts
 
 import { CashIntelligenceRuntimeOutput } from '../cash-intelligence/CashIntelligenceTypes';
