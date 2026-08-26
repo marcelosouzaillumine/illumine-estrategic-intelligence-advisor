@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { collection, addDoc, serverTimestamp, updateDoc, doc } from 'firebase/firestore';
 import { db, auth } from '../../lib/firebase';
+import { blockedFirestoreWrite } from '../../lib/blockedFirestoreWrite';
 
 export function useBankAccountModalAdapter(clientId: string, account?: any, onClose?: () => void) {
   const [loading, setLoading] = useState(false);
@@ -50,7 +51,7 @@ export function useBankAccountModalAdapter(clientId: string, account?: any, onCl
         }
         dataToSave.historico = updatedHistorico;
 
-        (()=>{throw new Error("Phase 7.2 Architecture Violation: Firestore Writes are BLOCKED. Migrated to PostgreSQL.");})(); // updateDoc(doc(db, 'financial_positions', account.id), dataToSave);
+        blockedFirestoreWrite(); // updateDoc(doc(db, 'financial_positions', account.id), dataToSave);
       } else {
         const newData = {
           ...dataToSave,
@@ -61,7 +62,7 @@ export function useBankAccountModalAdapter(clientId: string, account?: any, onCl
             { mes: formattedMonth, saldo: currentValue }
           ],
         };
-        (()=>{throw new Error("Phase 7.2 Architecture Violation: Firestore Writes are BLOCKED. Migrated to PostgreSQL.");})(); // addDoc(collection(db, 'financial_positions'), newData);
+        blockedFirestoreWrite(); // addDoc(collection(db, 'financial_positions'), newData);
       }
       
       if (onClose) onClose();

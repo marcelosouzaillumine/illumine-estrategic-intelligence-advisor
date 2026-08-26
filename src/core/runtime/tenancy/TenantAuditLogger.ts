@@ -2,6 +2,7 @@ import { collection, doc, setDoc } from 'firebase/firestore';
 import { db } from '../../../lib/firebase';
 import { TenantAuditRecord } from './TenancyTypes';
 import { getErrorMessage } from '../../../types/runtime/RuntimeErrorGuards';
+import { blockedFirestoreWrite } from '../../../lib/blockedFirestoreWrite';
 
 export class TenantAuditLogger {
   /**
@@ -25,7 +26,7 @@ export class TenantAuditLogger {
         metadata
       };
 
-      (()=>{throw new Error("Phase 7.2 Architecture Violation: Firestore Writes are BLOCKED. Migrated to PostgreSQL.");})(); // setDoc(doc(db, 'tenant_audit_logs', record.auditId), record);
+      blockedFirestoreWrite(); // setDoc(doc(db, 'tenant_audit_logs', record.auditId), record);
       console.log(`[TenantAuditLogger] ${action} registrado para Tenant ${tenantId}`);
     } catch (err: unknown) {
       console.error('[TenantAuditLogger] Falha ao registrar log de auditoria:', getErrorMessage(err));

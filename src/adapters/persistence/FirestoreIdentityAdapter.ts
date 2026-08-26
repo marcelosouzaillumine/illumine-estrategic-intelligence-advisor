@@ -2,6 +2,7 @@ import { collection, doc, getDoc, getDocs, query, setDoc, where } from 'firebase
 import { db } from '../../lib/firebase';
 import { IIdentityPersistence } from '../../contracts/persistence/IIdentityPersistence';
 import { User, UserProfile, Session } from '../../domain/identity/User';
+import { blockedFirestoreWrite } from '../../lib/blockedFirestoreWrite';
 
 export class FirestoreIdentityAdapter implements IIdentityPersistence {
   async getUserByAuthUid(uid: string): Promise<User | null> {
@@ -21,11 +22,11 @@ export class FirestoreIdentityAdapter implements IIdentityPersistence {
   }
 
   async createUser(user: User): Promise<void> {
-    (()=>{throw new Error("Phase 7.2 Architecture Violation: Firestore Writes are BLOCKED. Migrated to PostgreSQL.");})(); // setDoc(doc(db, 'users', user.id), user);
+    blockedFirestoreWrite(); // setDoc(doc(db, 'users', user.id), user);
   }
 
   async updateUserStatus(userId: string, status: User['status']): Promise<void> {
-    (()=>{throw new Error("Phase 7.2 Architecture Violation: Firestore Writes are BLOCKED. Migrated to PostgreSQL.");})(); // setDoc(doc(db, 'users', userId), { status }, { merge: true });
+    blockedFirestoreWrite(); // setDoc(doc(db, 'users', userId), { status }, { merge: true });
   }
 
   async getUserProfile(userId: string): Promise<UserProfile | null> {
@@ -34,14 +35,14 @@ export class FirestoreIdentityAdapter implements IIdentityPersistence {
   }
 
   async saveUserProfile(profile: UserProfile): Promise<void> {
-    (()=>{throw new Error("Phase 7.2 Architecture Violation: Firestore Writes are BLOCKED. Migrated to PostgreSQL.");})(); // setDoc(doc(db, 'user_profiles', profile.userId), profile, { merge: true });
+    blockedFirestoreWrite(); // setDoc(doc(db, 'user_profiles', profile.userId), profile, { merge: true });
   }
 
   async createSession(session: Session): Promise<void> {
-    (()=>{throw new Error("Phase 7.2 Architecture Violation: Firestore Writes are BLOCKED. Migrated to PostgreSQL.");})(); // setDoc(doc(db, 'sessions', session.id), session);
+    blockedFirestoreWrite(); // setDoc(doc(db, 'sessions', session.id), session);
   }
 
   async revokeSession(sessionId: string): Promise<void> {
-    (()=>{throw new Error("Phase 7.2 Architecture Violation: Firestore Writes are BLOCKED. Migrated to PostgreSQL.");})(); // setDoc(doc(db, 'sessions', sessionId), { status: 'REVOKED' }, { merge: true });
+    blockedFirestoreWrite(); // setDoc(doc(db, 'sessions', sessionId), { status: 'REVOKED' }, { merge: true });
   }
 }

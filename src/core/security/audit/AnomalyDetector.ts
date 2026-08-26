@@ -1,6 +1,7 @@
 import { db } from '../../../lib/firebase';
 import { collection, addDoc } from 'firebase/firestore';
 import { AuditEvent } from './AuditEventBus';
+import { blockedFirestoreWrite } from '../../../lib/blockedFirestoreWrite';
 
 export interface AnomalyLog {
   anomalyId: string;
@@ -24,10 +25,10 @@ export class AnomalyDetector {
       return;
     }
     const cleanAnomaly = JSON.parse(JSON.stringify(anomaly));
-    (()=>{throw new Error("Phase 7.2 Architecture Violation: Firestore Writes are BLOCKED. Migrated to PostgreSQL.");})(); // addDoc(collection(db, 'anomalies'), {
-      ...cleanAnomaly,
-      serverTimestamp: new Date()
-    });
+    blockedFirestoreWrite(); // addDoc(collection(db, 'anomalies'), {
+      // ...cleanAnomaly,
+      // serverTimestamp: new Date()
+    // });
   }
 
   static async analyze(event: AuditEvent): Promise<void> {

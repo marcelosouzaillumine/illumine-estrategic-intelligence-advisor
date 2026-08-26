@@ -7,6 +7,7 @@ import { db } from '../../../lib/firebase';
 import { collection, addDoc, getDocs, query, where } from 'firebase/firestore';
 import { ExecutiveDecision } from './decision-types';
 import { AuditEventBus } from '../../security/audit/AuditEventBus';
+import { blockedFirestoreWrite } from '../../../lib/blockedFirestoreWrite';
 
 export class InstitutionalDecisionLedger {
   private static inMemoryDecisions: ExecutiveDecision[] = [];
@@ -49,10 +50,10 @@ export class InstitutionalDecisionLedger {
     if (!isTestEnv) {
       try {
         const cleanDecision = JSON.parse(JSON.stringify(decision));
-        (()=>{throw new Error("Phase 7.2 Architecture Violation: Firestore Writes are BLOCKED. Migrated to PostgreSQL.");})(); // addDoc(collection(db, 'decision_ledger'), {
-          ...cleanDecision,
-          serverTimestamp: new Date()
-        });
+        blockedFirestoreWrite(); // addDoc(collection(db, 'decision_ledger'), {
+          // ...cleanDecision,
+          // serverTimestamp: new Date()
+        // });
       } catch (e) {
         console.error('[DecisionLedger] Failed to save decision in ledger:', e);
       }

@@ -1,6 +1,7 @@
 import { collection, query, where, orderBy, onSnapshot, doc, setDoc, serverTimestamp } from 'firebase/firestore';
 import { db } from '../../lib/firebase';
 import type { Course, Module, Lesson, UserProgress } from '../../types/academy';
+import { blockedFirestoreWrite } from '../../lib/blockedFirestoreWrite';
 
 export class FirestoreAcademyAdapter {
   static listenToCourses(onUpdate: (courses: Course[]) => void, onError: (err: any) => void): () => void {
@@ -44,15 +45,15 @@ export class FirestoreAcademyAdapter {
     const { userId, clientId, courseId, moduleId, lessonId, completed } = params;
     const progressId = `${userId}_${clientId}_${lessonId}`;
     const progressRef = doc(db, 'academy_progress', progressId);
-    (()=>{throw new Error("Phase 7.2 Architecture Violation: Firestore Writes are BLOCKED. Migrated to PostgreSQL.");})(); // setDoc(progressRef, {
-      userId,
-      clientId,
-      courseId,
-      moduleId,
-      lessonId,
-      completed,
-      completedAt: completed ? serverTimestamp() : null,
-      lastAccessAt: serverTimestamp()
-    }, { merge: true });
+    blockedFirestoreWrite(); // setDoc(progressRef, {
+      // userId,
+      // clientId,
+      // courseId,
+      // moduleId,
+      // lessonId,
+      // completed,
+      // completedAt: completed ? serverTimestamp() : null,
+      // lastAccessAt: serverTimestamp()
+    // }, { merge: true });
   }
 }

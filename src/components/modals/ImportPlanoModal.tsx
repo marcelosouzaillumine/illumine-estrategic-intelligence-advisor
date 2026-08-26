@@ -4,6 +4,7 @@ import {
   X, Loader2, CheckCircle2, UploadCloud, FileText, Trash2, 
   AlertTriangle, Plus, RefreshCw, ShieldAlert, Info 
 } from 'lucide-react';
+import { blockedFirestoreWrite } from '../../lib/blockedFirestoreWrite';
 import { 
   collection, addDoc, updateDoc, deleteDoc, getDocs, 
   query, where, serverTimestamp, writeBatch, doc 
@@ -206,7 +207,7 @@ export function ImportPlanoModal({ clients, selectedClient, onClose, onSuccess, 
         const chunkSize = 450;
         const existingDocs = existingAccounts;
         for (let i = 0; i < existingDocs.length; i += chunkSize) {
-          const batch = (()=>{throw new Error("Phase 7.2 Architecture Violation: Firestore Writes are BLOCKED. Migrated to PostgreSQL.");})(); // writeBatch(db);
+          const batch: any = blockedFirestoreWrite(); // writeBatch(db);
           existingDocs.slice(i, i + chunkSize).forEach(a => batch.delete(doc(db, 'account_plans', a.id)));
           await batch.commit();
         }
@@ -237,14 +238,14 @@ export function ImportPlanoModal({ clients, selectedClient, onClose, onSuccess, 
           };
           if (strategy === 'replace_all' || acc._status === 'new') {
             // Always create
-            (()=>{throw new Error("Phase 7.2 Architecture Violation: Firestore Writes are BLOCKED. Migrated to PostgreSQL.");})(); // addDoc(collection(db, 'account_plans'), {
-              ...baseData,
-              status: 'pending',
-              requiresApproval: true,
-              sourceCollection: 'account_plans',
-              createdAt: serverTimestamp(),
-              creatorEmail: auth.currentUser!.email,
-            });
+            blockedFirestoreWrite(); // addDoc(collection(db, 'account_plans'), {
+              // ...baseData,
+              // status: 'pending',
+              // requiresApproval: true,
+              // sourceCollection: 'account_plans',
+              // createdAt: serverTimestamp(),
+              // creatorEmail: auth.currentUser!.email,
+            // });
 
             if (i === 0 && acc === chunk[0]) {
                await notificationService.createNotification({
@@ -264,17 +265,17 @@ export function ImportPlanoModal({ clients, selectedClient, onClose, onSuccess, 
             created++;
           } else if (strategy === 'replace_duplicates' && (acc._status === 'duplicate' || acc._status === 'conflict')) {
             // Update existing (preserve kpiMapping etc.)
-            (()=>{throw new Error("Phase 7.2 Architecture Violation: Firestore Writes are BLOCKED. Migrated to PostgreSQL.");})(); // updateDoc(doc(db, 'account_plans', acc._existingId!), {
-              name: acc.name,
-              type: acc.type,
-              level: baseData.level,
-              status: 'pending',
-              requiresApproval: true,
-              sourceCollection: 'account_plans',
-              updatedAt: serverTimestamp(),
-              updatedBy: auth.currentUser!.uid,
-              updaterEmail: auth.currentUser!.email,
-            });
+            blockedFirestoreWrite(); // updateDoc(doc(db, 'account_plans', acc._existingId!), {
+              // name: acc.name,
+              // type: acc.type,
+              // level: baseData.level,
+              // status: 'pending',
+              // requiresApproval: true,
+              // sourceCollection: 'account_plans',
+              // updatedAt: serverTimestamp(),
+              // updatedBy: auth.currentUser!.uid,
+              // updaterEmail: auth.currentUser!.email,
+            // });
 
             if (i === 0 && acc === chunk[0]) {
                await notificationService.createNotification({

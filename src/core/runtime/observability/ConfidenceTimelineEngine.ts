@@ -1,13 +1,14 @@
 import { collection, doc, setDoc, getDocs, query, where, orderBy } from 'firebase/firestore';
 import { db } from '../../../lib/firebase';
 import { ConfidenceTimelineEntry } from './observability-types';
+import { blockedFirestoreWrite } from '../../../lib/blockedFirestoreWrite';
 
 export class ConfidenceTimelineEngine {
   static async recordConfidence(entry: Omit<ConfidenceTimelineEntry, 'id'>): Promise<void> {
     try {
       const id = crypto.randomUUID();
       const newEntry: ConfidenceTimelineEntry = { ...entry, id };
-      (()=>{throw new Error("Phase 7.2 Architecture Violation: Firestore Writes are BLOCKED. Migrated to PostgreSQL.");})(); // setDoc(doc(db, 'confidence_timeline', id), newEntry);
+      blockedFirestoreWrite(); // setDoc(doc(db, 'confidence_timeline', id), newEntry);
     } catch (err: unknown) {
       console.error('[ConfidenceTimelineEngine] Error recording confidence:', err);
     }

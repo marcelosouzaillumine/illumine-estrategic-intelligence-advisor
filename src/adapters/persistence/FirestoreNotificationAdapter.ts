@@ -10,21 +10,22 @@ import {
   updateDoc,
   doc
 } from 'firebase/firestore';
+import { blockedFirestoreWrite } from '../../lib/blockedFirestoreWrite';
 import { db } from '../../lib/firebase';
 import { AppNotification } from '../../services/platform/notificationService';
 
 export class FirestoreNotificationAdapter {
   static async createNotification(notification: Omit<AppNotification, 'createdAt' | 'read'>): Promise<void> {
-    (()=>{throw new Error("Phase 7.2 Architecture Violation: Firestore Writes are BLOCKED. Migrated to PostgreSQL.");})(); // addDoc(collection(db, 'notifications'), {
-      ...notification,
-      read: false,
-      createdAt: serverTimestamp()
-    });
+    blockedFirestoreWrite(); // addDoc(collection(db, 'notifications'), {
+      // ...notification,
+      // read: false,
+      // createdAt: serverTimestamp()
+    // });
   }
 
   static async markAsRead(notificationId: string): Promise<void> {
     const docRef = doc(db, 'notifications', notificationId);
-    (()=>{throw new Error("Phase 7.2 Architecture Violation: Firestore Writes are BLOCKED. Migrated to PostgreSQL.");})(); // updateDoc(docRef, { read: true });
+    blockedFirestoreWrite(); // updateDoc(docRef, { read: true });
   }
 
   static listenNotifications(userId: string, onUpdate: (notifications: AppNotification[]) => void, onError?: (err: any) => void): () => void {

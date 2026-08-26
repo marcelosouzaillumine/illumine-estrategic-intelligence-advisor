@@ -19,6 +19,7 @@ import { ExecutiveText } from '../ui/executive-typography';
 import { ExecutiveSurface } from '../ui/executive-surface';
 import { ExecutiveAccordion } from '../ui/executive-accordion';
 import { ExecutiveEmptyState } from '../ui/executive-empty-state';
+import { blockedFirestoreWrite } from '../../lib/blockedFirestoreWrite';
 
 interface Role {
   id: string;
@@ -317,7 +318,7 @@ export function LeadershipProfilePage({ clientId }: { clientId: string }) {
         type: 'leadership_assessment'
       };
 
-      (()=>{throw new Error("Phase 7.2 Architecture Violation: Firestore Writes are BLOCKED. Migrated to PostgreSQL.");})(); // addDoc(collection(db, 'leadership_profiles'), resultsData);
+      blockedFirestoreWrite(); // addDoc(collection(db, 'leadership_profiles'), resultsData);
       alert('Perfil de liderança salvo com sucesso no histórico da empresa!');
     } catch (error) {
       console.error('Error saving leadership profile:', error);

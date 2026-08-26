@@ -1,5 +1,6 @@
 import { collection, query, where, getDocs, addDoc, updateDoc, doc, serverTimestamp, orderBy } from 'firebase/firestore';
 import { db } from '../../lib/firebase';
+import { blockedFirestoreWrite } from '../../lib/blockedFirestoreWrite';
 
 export class FirestoreClientAssumptionsAdapter {
   static async getAssumptions(clientId: string): Promise<any> {
@@ -38,9 +39,9 @@ export class FirestoreClientAssumptionsAdapter {
     };
 
     if (!snap.empty) {
-      (()=>{throw new Error("Phase 7.2 Architecture Violation: Firestore Writes are BLOCKED. Migrated to PostgreSQL.");})(); // updateDoc(doc(db, 'client_assumptions', snap.docs[0].id), payload);
+      blockedFirestoreWrite(); // updateDoc(doc(db, 'client_assumptions', snap.docs[0].id), payload);
     } else {
-      (()=>{throw new Error("Phase 7.2 Architecture Violation: Firestore Writes are BLOCKED. Migrated to PostgreSQL.");})(); // addDoc(collection(db, 'client_assumptions'), payload);
+      blockedFirestoreWrite(); // addDoc(collection(db, 'client_assumptions'), payload);
     }
   }
 }

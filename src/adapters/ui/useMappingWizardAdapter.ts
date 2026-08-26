@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { collection, query, where, getDocs, addDoc, serverTimestamp, limit } from 'firebase/firestore';
 import { db, auth } from '../../lib/firebase';
+import { blockedFirestoreWrite } from '../../lib/blockedFirestoreWrite';
 
 export function useMappingWizardAdapter(selectedClient: string) {
   const [loading, setLoading] = useState(false);
@@ -46,18 +47,18 @@ export function useMappingWizardAdapter(selectedClient: string) {
     if (!selectedEntry || !mappingTo) return;
     setLoading(true);
     try {
-      (()=>{throw new Error("Phase 7.2 Architecture Violation: Firestore Writes are BLOCKED. Migrated to PostgreSQL.");})(); // addDoc(collection(db, 'account_plans'), {
-        clientId: selectedClient,
-        code: `AUTO.${Math.random().toString(36).substring(7).toUpperCase()}`,
-        name: selectedEntry,
-        type: 'Receita',
-        level: 1,
-        status: 'Ativa',
-        kpiMapping: mappingTo,
-        createdAt: serverTimestamp(),
-        updatedAt: serverTimestamp(),
-        createdBy: auth.currentUser?.uid
-      });
+      blockedFirestoreWrite(); // addDoc(collection(db, 'account_plans'), {
+        // clientId: selectedClient,
+        // code: `AUTO.${Math.random().toString(36).substring(7).toUpperCase()}`,
+        // name: selectedEntry,
+        // type: 'Receita',
+        // level: 1,
+        // status: 'Ativa',
+        // kpiMapping: mappingTo,
+        // createdAt: serverTimestamp(),
+        // updatedAt: serverTimestamp(),
+        // createdBy: auth.currentUser?.uid
+      // });
       
       setUnmappedEntries(unmappedEntries.filter(e => e !== selectedEntry));
       setSelectedEntry(null);

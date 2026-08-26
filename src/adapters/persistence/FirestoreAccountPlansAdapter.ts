@@ -2,6 +2,7 @@ import { collection, query, where, orderBy, onSnapshot, writeBatch, doc, serverT
 import { db } from '../../lib/firebase';
 import { FirestoreAuthAdapter } from './FirestoreAuthAdapter';
 import { IAccountPlansPersistence } from '../../contracts/persistence/IAccountPlansPersistence';
+import { blockedFirestoreWrite } from '../../lib/blockedFirestoreWrite';
 
 export class FirestoreAccountPlansAdapter implements IAccountPlansPersistence {
   listenToAccountPlanGeneric(clientId: string, planType: string | undefined, onUpdate: (accounts: any[]) => void, onError: (error: any) => void): () => void {
@@ -57,7 +58,7 @@ export class FirestoreAccountPlansAdapter implements IAccountPlansPersistence {
   }
 
   async migrateLegacyAccounts(legacyDocs: any[]): Promise<void> {
-    const batch = (()=>{throw new Error("Phase 7.2 Architecture Violation: Firestore Writes are BLOCKED. Migrated to PostgreSQL.");})(); // writeBatch(db);
+    const batch: any = blockedFirestoreWrite(); // writeBatch(db);
     legacyDocs.forEach(d => {
       batch.update(doc(db, 'account_plans', d.id), { planType: 'accounting' });
     });
@@ -78,25 +79,25 @@ export class FirestoreAccountPlansAdapter implements IAccountPlansPersistence {
   }
 
   async addAccountPlan(payload: any): Promise<void> {
-    (()=>{throw new Error("Phase 7.2 Architecture Violation: Firestore Writes are BLOCKED. Migrated to PostgreSQL.");})(); // addDoc(collection(db, 'account_plans'), {
-      ...payload,
-      createdAt: serverTimestamp()
-    });
+    blockedFirestoreWrite(); // addDoc(collection(db, 'account_plans'), {
+      // ...payload,
+      // createdAt: serverTimestamp()
+    // });
   }
 
   async updateAccountPlan(id: string, payload: any): Promise<void> {
-    (()=>{throw new Error("Phase 7.2 Architecture Violation: Firestore Writes are BLOCKED. Migrated to PostgreSQL.");})(); // updateDoc(doc(db, 'account_plans', id), {
-      ...payload,
-      updatedAt: serverTimestamp()
-    });
+    blockedFirestoreWrite(); // updateDoc(doc(db, 'account_plans', id), {
+      // ...payload,
+      // updatedAt: serverTimestamp()
+    // });
   }
 
   async deleteAccountPlan(id: string): Promise<void> {
-    (()=>{throw new Error("Phase 7.2 Architecture Violation: Firestore Writes are BLOCKED. Migrated to PostgreSQL.");})(); // deleteDoc(doc(db, 'account_plans', id));
+    blockedFirestoreWrite(); // deleteDoc(doc(db, 'account_plans', id));
   }
 
   async bulkAddDefaultPlans(defaultPlan: any[], clientId: string, clientName: string, planType: string): Promise<void> {
-    const batch = (()=>{throw new Error("Phase 7.2 Architecture Violation: Firestore Writes are BLOCKED. Migrated to PostgreSQL.");})(); // writeBatch(db);
+    const batch: any = blockedFirestoreWrite(); // writeBatch(db);
     defaultPlan.forEach(acc => {
       const docRef = doc(collection(db, 'account_plans'));
       batch.set(docRef, {
@@ -126,7 +127,7 @@ export class FirestoreAccountPlansAdapter implements IAccountPlansPersistence {
     const chunkSize = 450;
     const docs = snapshot.docs;
     for (let i = 0; i < docs.length; i += chunkSize) {
-      const batch = (()=>{throw new Error("Phase 7.2 Architecture Violation: Firestore Writes are BLOCKED. Migrated to PostgreSQL.");})(); // writeBatch(db);
+      const batch: any = blockedFirestoreWrite(); // writeBatch(db);
       docs.slice(i, i + chunkSize).forEach(d => batch.delete(d.ref));
       await batch.commit();
     }
@@ -136,7 +137,7 @@ export class FirestoreAccountPlansAdapter implements IAccountPlansPersistence {
     let count = 0;
     const chunkSize = 450;
     for (let i = 0; i < unassignedAccounts.length; i += chunkSize) {
-      const batch = (()=>{throw new Error("Phase 7.2 Architecture Violation: Firestore Writes are BLOCKED. Migrated to PostgreSQL.");})(); // writeBatch(db);
+      const batch: any = blockedFirestoreWrite(); // writeBatch(db);
       const chunk = unassignedAccounts.slice(i, i + chunkSize);
       
       for (const acc of chunk) {

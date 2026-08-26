@@ -1,6 +1,7 @@
 import { useState, useCallback } from 'react';
 import { collection, query, where, getDocs, addDoc, updateDoc, doc, serverTimestamp } from 'firebase/firestore';
 import { db, auth, handleFirestoreError, OperationType } from '../../lib/firebase';
+import { blockedFirestoreWrite } from '../../lib/blockedFirestoreWrite';
 
 export function useExecutiveCommentaryAdapter(clientId: string, reportType: string, year: number, month: number) {
   const [loading, setLoading] = useState(false);
@@ -40,11 +41,11 @@ export function useExecutiveCommentaryAdapter(clientId: string, reportType: stri
       );
       const snap = await getDocs(q);
       if (!snap.empty) {
-        (()=>{throw new Error("Phase 7.2 Architecture Violation: Firestore Writes are BLOCKED. Migrated to PostgreSQL.");})(); // updateDoc(doc(db, 'report_notes', snap.docs[0].id), {
-          note: '',
-          updatedAt: serverTimestamp(),
-          updatedBy: auth.currentUser?.uid || 'anonymous'
-        });
+        blockedFirestoreWrite(); // updateDoc(doc(db, 'report_notes', snap.docs[0].id), {
+          // note: '',
+          // updatedAt: serverTimestamp(),
+          // updatedBy: auth.currentUser?.uid || 'anonymous'
+        // });
       }
       return true;
     } catch (error) {
@@ -69,22 +70,22 @@ export function useExecutiveCommentaryAdapter(clientId: string, reportType: stri
       const snap = await getDocs(q);
       
       if (!snap.empty) {
-        (()=>{throw new Error("Phase 7.2 Architecture Violation: Firestore Writes are BLOCKED. Migrated to PostgreSQL.");})(); // updateDoc(doc(db, 'report_notes', snap.docs[0].id), {
-          note,
-          updatedAt: serverTimestamp(),
-          updatedBy: auth.currentUser?.uid || 'anonymous'
-        });
+        blockedFirestoreWrite(); // updateDoc(doc(db, 'report_notes', snap.docs[0].id), {
+          // note,
+          // updatedAt: serverTimestamp(),
+          // updatedBy: auth.currentUser?.uid || 'anonymous'
+        // });
       } else {
-        (()=>{throw new Error("Phase 7.2 Architecture Violation: Firestore Writes are BLOCKED. Migrated to PostgreSQL.");})(); // addDoc(collection(db, 'report_notes'), {
-          clientId,
-          reportType,
-          year,
-          month,
-          note,
-          createdAt: serverTimestamp(),
-          updatedAt: serverTimestamp(),
-          createdBy: auth.currentUser?.uid || 'anonymous'
-        });
+        blockedFirestoreWrite(); // addDoc(collection(db, 'report_notes'), {
+          // clientId,
+          // reportType,
+          // year,
+          // month,
+          // note,
+          // createdAt: serverTimestamp(),
+          // updatedAt: serverTimestamp(),
+          // createdBy: auth.currentUser?.uid || 'anonymous'
+        // });
       }
       return true;
     } catch (error) {

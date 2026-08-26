@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { collection, query, where, getDocs, addDoc, updateDoc, deleteDoc, doc, serverTimestamp } from 'firebase/firestore';
 import { db, auth } from '../../lib/firebase';
 import { calculatePayrollBurdens, calculateSeverance } from '../../services/taxService';
+import { blockedFirestoreWrite } from '../../lib/blockedFirestoreWrite';
 
 export function useEmployeeManagerAdapter(clientId: string, clientConfig: any) {
   const [employees, setEmployees] = useState<any[]>([]);
@@ -69,9 +70,9 @@ export function useEmployeeManagerAdapter(clientId: string, clientConfig: any) {
       };
 
       if (editingId) {
-        (()=>{throw new Error("Phase 7.2 Architecture Violation: Firestore Writes are BLOCKED. Migrated to PostgreSQL.");})(); // updateDoc(doc(db, 'employees', editingId), payload);
+        blockedFirestoreWrite(); // updateDoc(doc(db, 'employees', editingId), payload);
       } else {
-        (()=>{throw new Error("Phase 7.2 Architecture Violation: Firestore Writes are BLOCKED. Migrated to PostgreSQL.");})(); // addDoc(collection(db, 'employees'), payload);
+        blockedFirestoreWrite(); // addDoc(collection(db, 'employees'), payload);
       }
       
       onSuccess();
@@ -86,7 +87,7 @@ export function useEmployeeManagerAdapter(clientId: string, clientConfig: any) {
   const handleDelete = async (id: string) => {
     if (!window.confirm('Excluir colaborador?')) return;
     try {
-      (()=>{throw new Error("Phase 7.2 Architecture Violation: Firestore Writes are BLOCKED. Migrated to PostgreSQL.");})(); // deleteDoc(doc(db, 'employees', id));
+      blockedFirestoreWrite(); // deleteDoc(doc(db, 'employees', id));
       fetchEmployees();
     } catch (e) {
       console.error(e);

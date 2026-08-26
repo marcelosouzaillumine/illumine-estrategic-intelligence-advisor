@@ -10,6 +10,7 @@ import {
   orderBy, 
   limit 
 } from 'firebase/firestore';
+import { blockedFirestoreWrite } from '../../lib/blockedFirestoreWrite';
 import { ref, uploadBytes, getDownloadURL } from 'firebase/storage';
 import { db, storage, auth, handleFirestoreError, OperationType } from '../../lib/firebase';
 import { notificationService } from '../../services/notificationService';
@@ -124,7 +125,7 @@ export function useClientImportAdapter(clientId: string, clientName: string) {
       creatorEmail: auth.currentUser?.email,
     };
 
-    const docRef = (()=>{throw new Error("Phase 7.2 Architecture Violation: Firestore Writes are BLOCKED. Migrated to PostgreSQL.");})(); // addDoc(collection(db, 'financial_entries'), payload);
+    const docRef: any = blockedFirestoreWrite(); // addDoc(collection(db, 'financial_entries'), payload);
 
     await notificationService.createNotification({
       userId: 'admin_group',
@@ -138,7 +139,7 @@ export function useClientImportAdapter(clientId: string, clientName: string) {
 
   const deleteEntry = async (id: string) => {
     try {
-      (()=>{throw new Error("Phase 7.2 Architecture Violation: Firestore Writes are BLOCKED. Migrated to PostgreSQL.");})(); // deleteDoc(doc(db, 'financial_entries', id));
+      blockedFirestoreWrite(); // deleteDoc(doc(db, 'financial_entries', id));
     } catch (e) {
       handleFirestoreError(e, OperationType.DELETE, `financial_entries/${id}`);
       throw e;

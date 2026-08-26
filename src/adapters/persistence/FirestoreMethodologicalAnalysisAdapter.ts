@@ -1,5 +1,6 @@
 import { collection, query, where, getDocs, addDoc, updateDoc, doc, serverTimestamp } from 'firebase/firestore';
 import { db } from '../../lib/firebase';
+import { blockedFirestoreWrite } from '../../lib/blockedFirestoreWrite';
 
 export class FirestoreMethodologicalAnalysisAdapter {
   static async getAnalysis(clientId: string, year: number, month: number): Promise<{ id: string, docData: any } | null> {
@@ -17,19 +18,19 @@ export class FirestoreMethodologicalAnalysisAdapter {
   }
 
   static async createAnalysis(payload: any): Promise<string> {
-    const docRef = (()=>{throw new Error("Phase 7.2 Architecture Violation: Firestore Writes are BLOCKED. Migrated to PostgreSQL.");})(); // addDoc(collection(db, 'methodological_analyses'), {
-      ...payload,
-      createdAt: serverTimestamp(),
-    });
+    const docRef: any = blockedFirestoreWrite(); // addDoc(collection(db, 'methodological_analyses'), {
+      // ...payload,
+      // createdAt: serverTimestamp(),
+    // });
     return docRef.id;
   }
 
   static async updateAnalysisReprocessed(id: string, reprocessedData: any): Promise<void> {
-    (()=>{throw new Error("Phase 7.2 Architecture Violation: Firestore Writes are BLOCKED. Migrated to PostgreSQL.");})(); // updateDoc(doc(db, 'methodological_analyses', id), {
-      reprocessed: {
-        ...reprocessedData,
-        reprocessedAt: new Date().toISOString()
-      }
-    });
+    blockedFirestoreWrite(); // updateDoc(doc(db, 'methodological_analyses', id), {
+      // reprocessed: {
+        // ...reprocessedData,
+        // reprocessedAt: new Date().toISOString()
+      // }
+    // });
   }
 }

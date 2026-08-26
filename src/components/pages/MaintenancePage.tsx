@@ -21,6 +21,7 @@ import { ExecutiveEmptyState } from '../ui/executive-empty-state';
 import { useGovernance } from '../../lib/governanceContext';
 import { notificationService } from '../../services/notificationService';
 import { useExecutiveFormatter } from "../../core/localization";
+import { blockedFirestoreWrite } from '../../lib/blockedFirestoreWrite';
 
 export function MaintenancePage({ clients }: { clients: any[] }) {
     const formatter = useExecutiveFormatter();
@@ -58,7 +59,7 @@ export function MaintenancePage({ clients }: { clients: any[] }) {
   const handleApprove = async (docId: string, entry: any) => {
       const formatter = useExecutiveFormatter();
     try {
-      const batch = (()=>{throw new Error("Phase 7.2 Architecture Violation: Firestore Writes are BLOCKED. Migrated to PostgreSQL.");})(); // writeBatch(db);
+      const batch: any = blockedFirestoreWrite(); // writeBatch(db);
       const targetDoc = doc(collection(db, entry.targetCollection || 'financial_entries'));
       batch.set(targetDoc, {
         ...(entry.payload || {}),
@@ -88,11 +89,11 @@ export function MaintenancePage({ clients }: { clients: any[] }) {
   const handleReject = async (docId: string, entry: any) => {
       const formatter = useExecutiveFormatter();
     try {
-      (()=>{throw new Error("Phase 7.2 Architecture Violation: Firestore Writes are BLOCKED. Migrated to PostgreSQL.");})(); // updateDoc(doc(db, 'financial_staging', docId), {
-        status: 'rejected',
-        rejectedAt: serverTimestamp(),
-        rejectedBy: auth.currentUser?.uid
-      });
+      blockedFirestoreWrite(); // updateDoc(doc(db, 'financial_staging', docId), {
+        // status: 'rejected',
+        // rejectedAt: serverTimestamp(),
+        // rejectedBy: auth.currentUser?.uid
+      // });
 
       // Notify User
       await notificationService.createNotification({
@@ -139,7 +140,7 @@ export function MaintenancePage({ clients }: { clients: any[] }) {
       );
       const indSnap = await getDocs(indQuery);
       
-      const batch = (()=>{throw new Error("Phase 7.2 Architecture Violation: Firestore Writes are BLOCKED. Migrated to PostgreSQL.");})(); // writeBatch(db);
+      const batch: any = blockedFirestoreWrite(); // writeBatch(db);
       indSnap.docs.forEach(d => {
           const formatter = useExecutiveFormatter();
         batch.delete(d.ref);

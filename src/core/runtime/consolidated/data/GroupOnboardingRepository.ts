@@ -1,6 +1,7 @@
 import { collection, doc, setDoc, getDocs, getDoc, updateDoc } from 'firebase/firestore';
 import { db } from '../../../../lib/firebase';
 import { v4 as generateId } from 'uuid'; // Assuming this exists or I'll use standard id generation
+import { blockedFirestoreWrite } from '../../../../lib/blockedFirestoreWrite';
 
 export interface EconomicGroupModel {
   id: string;
@@ -42,7 +43,7 @@ export class GroupOnboardingRepository {
         updatedAt: now
       };
 
-      (()=>{throw new Error("Phase 7.2 Architecture Violation: Firestore Writes are BLOCKED. Migrated to PostgreSQL.");})(); // setDoc(doc(db, 'economic_groups', id), newGroup);
+      blockedFirestoreWrite(); // setDoc(doc(db, 'economic_groups', id), newGroup);
       return newGroup;
     } catch (err: unknown) {
       console.error('[GroupOnboardingRepository] Error creating group:', err);

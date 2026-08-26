@@ -23,6 +23,7 @@ import { cn } from '../../../lib/utils';
 import { useDataTable } from '../../../hooks/useDataTable';
 import { usePlanoAcaoViewModel } from '../../../viewmodels/usePlanoAcaoViewModel';
 import { useExecutiveFormatter } from "../../../core/localization";
+import { blockedFirestoreWrite } from '../../../lib/blockedFirestoreWrite';
 
 interface ActionItem {
   id?: string;
@@ -132,12 +133,12 @@ export function PlanoAcaoPage({ clientId }: { clientId: string }) {
       };
 
       if (editingId) {
-        (()=>{throw new Error("Phase 7.2 Architecture Violation: Firestore Writes are BLOCKED. Migrated to PostgreSQL.");})(); // updateDoc(doc(db, 'action_items', editingId), data);
+        blockedFirestoreWrite(); // updateDoc(doc(db, 'action_items', editingId), data);
       } else {
-        (()=>{throw new Error("Phase 7.2 Architecture Violation: Firestore Writes are BLOCKED. Migrated to PostgreSQL.");})(); // addDoc(collection(db, 'action_items'), {
-          ...data,
-          createdAt: serverTimestamp()
-        });
+        blockedFirestoreWrite(); // addDoc(collection(db, 'action_items'), {
+          // ...data,
+          // createdAt: serverTimestamp()
+        // });
       }
 
       setIsFormOpen(false);
@@ -153,7 +154,7 @@ export function PlanoAcaoPage({ clientId }: { clientId: string }) {
       const formatter = useExecutiveFormatter();
     if (!window.confirm('Excluir esta tarefa permanentemente?')) return;
     try {
-      (()=>{throw new Error("Phase 7.2 Architecture Violation: Firestore Writes are BLOCKED. Migrated to PostgreSQL.");})(); // deleteDoc(doc(db, 'action_items', id));
+      blockedFirestoreWrite(); // deleteDoc(doc(db, 'action_items', id));
     } catch (error) {
       console.error("Error deleting action item:", error);
     }
@@ -162,10 +163,10 @@ export function PlanoAcaoPage({ clientId }: { clientId: string }) {
   const updateStatus = async (id: string, newStatus: ActionItem['status']) => {
       const formatter = useExecutiveFormatter();
     try {
-      (()=>{throw new Error("Phase 7.2 Architecture Violation: Firestore Writes are BLOCKED. Migrated to PostgreSQL.");})(); // updateDoc(doc(db, 'action_items', id), {
-        status: newStatus,
-        updatedAt: serverTimestamp()
-      });
+      blockedFirestoreWrite(); // updateDoc(doc(db, 'action_items', id), {
+        // status: newStatus,
+        // updatedAt: serverTimestamp()
+      // });
     } catch (error) {
       console.error("Error updating status:", error);
     }

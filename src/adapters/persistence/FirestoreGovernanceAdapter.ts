@@ -10,6 +10,7 @@ import {
   orderBy, 
   limit 
 } from 'firebase/firestore';
+import { blockedFirestoreWrite } from '../../lib/blockedFirestoreWrite';
 import { db } from '../../lib/firebase';
 import { GovernanceConfig, AuditLog } from '../../types/governance';
 
@@ -25,14 +26,14 @@ export class FirestoreGovernanceAdapter {
 
   static async updateConfig(id: string, config: Partial<GovernanceConfig>): Promise<void> {
     const docRef = doc(db, 'configuracoes_governanca', id);
-    (()=>{throw new Error("Phase 7.2 Architecture Violation: Firestore Writes are BLOCKED. Migrated to PostgreSQL.");})(); // updateDoc(docRef, {
-      ...config,
-      updatedAt: serverTimestamp()
-    });
+    blockedFirestoreWrite(); // updateDoc(docRef, {
+      // ...config,
+      // updatedAt: serverTimestamp()
+    // });
   }
 
   static async logAction(payload: AuditLog): Promise<void> {
-    (()=>{throw new Error("Phase 7.2 Architecture Violation: Firestore Writes are BLOCKED. Migrated to PostgreSQL.");})(); // addDoc(collection(db, 'audit_logs'), payload);
+    blockedFirestoreWrite(); // addDoc(collection(db, 'audit_logs'), payload);
   }
 
   static async getLogs(filters: { userId?: string, clienteId?: string }): Promise<AuditLog[]> {

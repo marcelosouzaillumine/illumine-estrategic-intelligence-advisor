@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { collection, query, where, onSnapshot, addDoc, updateDoc, doc, serverTimestamp } from 'firebase/firestore';
 import { db, auth } from '../../lib/firebase';
+import { blockedFirestoreWrite } from '../../lib/blockedFirestoreWrite';
 
 export function useLoanAdapter(clientId: string | undefined) {
   const [savedProjects, setSavedProjects] = useState<any[]>([]);
@@ -27,10 +28,10 @@ export function useLoanAdapter(clientId: string | undefined) {
       updatedAt: serverTimestamp()
     };
     if (selectedProjectId) {
-      (()=>{throw new Error("Phase 7.2 Architecture Violation: Firestore Writes are BLOCKED. Migrated to PostgreSQL.");})(); // updateDoc(doc(db, 'captacao_projetos', selectedProjectId), fullPayload);
+      blockedFirestoreWrite(); // updateDoc(doc(db, 'captacao_projetos', selectedProjectId), fullPayload);
       return selectedProjectId;
     } else {
-      const docRef = (()=>{throw new Error("Phase 7.2 Architecture Violation: Firestore Writes are BLOCKED. Migrated to PostgreSQL.");})(); // addDoc(collection(db, 'captacao_projetos'), fullPayload);
+      const docRef: any = blockedFirestoreWrite(); // addDoc(collection(db, 'captacao_projetos'), fullPayload);
       return docRef.id;
     }
   };

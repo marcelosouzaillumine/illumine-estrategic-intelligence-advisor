@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { db, auth } from '../../lib/firebase';
 import { collection, addDoc, serverTimestamp, query, where, getDocs, orderBy } from 'firebase/firestore';
+import { blockedFirestoreWrite } from '../../lib/blockedFirestoreWrite';
 
 export function useLeadershipDNAAdapter(clientId: string) {
   const [assessments, setAssessments] = useState<any[]>([]);
@@ -33,7 +34,7 @@ export function useLeadershipDNAAdapter(clientId: string) {
       createdBy: auth.currentUser?.email || 'unknown'
     };
     
-    const docRef = (()=>{throw new Error("Phase 7.2 Architecture Violation: Firestore Writes are BLOCKED. Migrated to PostgreSQL.");})(); // addDoc(collection(db, 'leadership_dna_assessments'), fullPayload);
+    const docRef: any = blockedFirestoreWrite(); // addDoc(collection(db, 'leadership_dna_assessments'), fullPayload);
     
     // Update local state optimizing for fast feedback
     setAssessments(prev => [{ id: docRef.id, ...fullPayload, createdAt: new Date() }, ...prev]);
@@ -71,7 +72,7 @@ export function useLeadershipDNAAdapter(clientId: string) {
       createdAt: serverTimestamp(),
       type: 'governance_assessment'
     };
-    (()=>{throw new Error("Phase 7.2 Architecture Violation: Firestore Writes are BLOCKED. Migrated to PostgreSQL.");})(); // addDoc(collection(db, 'leadership_profiles'), payload);
+    blockedFirestoreWrite(); // addDoc(collection(db, 'leadership_profiles'), payload);
   };
 
   return {

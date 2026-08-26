@@ -2,6 +2,7 @@ import { collection, query, where, getDocs, doc, setDoc, addDoc } from 'firebase
 import { db } from '../../lib/firebase';
 import { FirestoreAuthAdapter } from './FirestoreAuthAdapter';
 import { ICashFlowPersistence, OperationalData } from '../../contracts/persistence/ICashFlowPersistence';
+import { blockedFirestoreWrite } from '../../lib/blockedFirestoreWrite';
 
 export class FirestoreCashFlowAdapter implements ICashFlowPersistence {
   async getOperationalData(clientId: string): Promise<OperationalData> {
@@ -31,9 +32,9 @@ export class FirestoreCashFlowAdapter implements ICashFlowPersistence {
     const existingSnap = await getDocs(q);
     
     if (!existingSnap.empty) {
-      (()=>{throw new Error("Phase 7.2 Architecture Violation: Firestore Writes are BLOCKED. Migrated to PostgreSQL.");})(); // setDoc(doc(db, 'cash_flows', existingSnap.docs[0].id), cashFlowData);
+      blockedFirestoreWrite(); // setDoc(doc(db, 'cash_flows', existingSnap.docs[0].id), cashFlowData);
     } else {
-      (()=>{throw new Error("Phase 7.2 Architecture Violation: Firestore Writes are BLOCKED. Migrated to PostgreSQL.");})(); // addDoc(collection(db, 'cash_flows'), cashFlowData);
+      blockedFirestoreWrite(); // addDoc(collection(db, 'cash_flows'), cashFlowData);
     }
   }
 

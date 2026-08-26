@@ -2,6 +2,7 @@ import { collection, doc, getDoc, getDocs, setDoc } from 'firebase/firestore';
 import { db } from '../../lib/firebase';
 import { IAuthorizationPersistence } from '../../contracts/persistence/IAuthorizationPersistence';
 import { Role, Permission, Capability, Action } from '../../domain/authorization/RBAC';
+import { blockedFirestoreWrite } from '../../lib/blockedFirestoreWrite';
 
 export class FirestoreAuthorizationAdapter implements IAuthorizationPersistence {
   async getRoleByCode(roleCode: string): Promise<Role | null> {
@@ -15,7 +16,7 @@ export class FirestoreAuthorizationAdapter implements IAuthorizationPersistence 
   }
 
   async saveRole(role: Role): Promise<void> {
-    (()=>{throw new Error("Phase 7.2 Architecture Violation: Firestore Writes are BLOCKED. Migrated to PostgreSQL.");})(); // setDoc(doc(db, 'auth_roles', role.code), role, { merge: true });
+    blockedFirestoreWrite(); // setDoc(doc(db, 'auth_roles', role.code), role, { merge: true });
   }
 
   async getPermissionByCode(permissionCode: string): Promise<Permission | null> {
@@ -29,7 +30,7 @@ export class FirestoreAuthorizationAdapter implements IAuthorizationPersistence 
   }
 
   async savePermission(permission: Permission): Promise<void> {
-    (()=>{throw new Error("Phase 7.2 Architecture Violation: Firestore Writes are BLOCKED. Migrated to PostgreSQL.");})(); // setDoc(doc(db, 'auth_permissions', permission.code), permission, { merge: true });
+    blockedFirestoreWrite(); // setDoc(doc(db, 'auth_permissions', permission.code), permission, { merge: true });
   }
 
   async getCapabilityByCode(capabilityCode: string): Promise<Capability | null> {
@@ -43,7 +44,7 @@ export class FirestoreAuthorizationAdapter implements IAuthorizationPersistence 
   }
 
   async saveCapability(capability: Capability): Promise<void> {
-    (()=>{throw new Error("Phase 7.2 Architecture Violation: Firestore Writes are BLOCKED. Migrated to PostgreSQL.");})(); // setDoc(doc(db, 'auth_capabilities', capability.code), capability, { merge: true });
+    blockedFirestoreWrite(); // setDoc(doc(db, 'auth_capabilities', capability.code), capability, { merge: true });
   }
 
   async getActionByCode(actionCode: string): Promise<Action | null> {
@@ -57,6 +58,6 @@ export class FirestoreAuthorizationAdapter implements IAuthorizationPersistence 
   }
 
   async saveAction(action: Action): Promise<void> {
-    (()=>{throw new Error("Phase 7.2 Architecture Violation: Firestore Writes are BLOCKED. Migrated to PostgreSQL.");})(); // setDoc(doc(db, 'auth_actions', action.code), action, { merge: true });
+    blockedFirestoreWrite(); // setDoc(doc(db, 'auth_actions', action.code), action, { merge: true });
   }
 }

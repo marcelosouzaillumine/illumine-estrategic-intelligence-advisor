@@ -1,5 +1,6 @@
 import { collection, query, where, getDocs, getDoc, doc, setDoc, deleteDoc, orderBy, onSnapshot, addDoc, updateDoc, serverTimestamp } from 'firebase/firestore';
 import { db } from '../../lib/firebase';
+import { blockedFirestoreWrite } from '../../lib/blockedFirestoreWrite';
 
 export const FirestoreClientsAdapter = {
   subscribeToClientById(clientId: string, onUpdate: (clientData: any | null) => void): () => void {
@@ -43,12 +44,12 @@ export const FirestoreClientsAdapter = {
   },
 
   async addClient(clientFinalData: any): Promise<string> {
-    const docRef = (()=>{throw new Error("Phase 7.2 Architecture Violation: Firestore Writes are BLOCKED. Migrated to PostgreSQL.");})(); // addDoc(collection(db, "clients"), clientFinalData);
+    const docRef: any = blockedFirestoreWrite(); // addDoc(collection(db, "clients"), clientFinalData);
     return docRef.id;
   },
 
   async updateClient(editingId: string, clientData: any): Promise<void> {
-    (()=>{throw new Error("Phase 7.2 Architecture Violation: Firestore Writes are BLOCKED. Migrated to PostgreSQL.");})(); // updateDoc(doc(db, "clients", editingId), clientData);
+    blockedFirestoreWrite(); // updateDoc(doc(db, "clients", editingId), clientData);
   },
 
   async deleteClientCascade(clientId: string, collectionsToClean: string[]): Promise<void> {
@@ -57,18 +58,18 @@ export const FirestoreClientsAdapter = {
         const q = query(collection(db, coll), where("clientId", "==", clientId));
         const snap = await getDocs(q);
         if (!snap.empty) {
-          const deletePromises = snap.docs.map(d => (()=>{throw new Error("Phase 7.2 Architecture Violation: Firestore Writes are BLOCKED. Migrated to PostgreSQL.");})(); // deleteDoc(doc(db, coll, d.id)));
+          const deletePromises = snap.docs.map(d => blockedFirestoreWrite()); // deleteDoc(doc(db, coll, d.id))
           await Promise.all(deletePromises);
         }
       } catch (e) {
         console.warn(`Erro ao limpar coleção ${coll} (pode não existir dados ou sem permissão):`, e);
       }
     }
-    (()=>{throw new Error("Phase 7.2 Architecture Violation: Firestore Writes are BLOCKED. Migrated to PostgreSQL.");})(); // deleteDoc(doc(db, "clients", clientId));
+    blockedFirestoreWrite(); // deleteDoc(doc(db, "clients", clientId));
   },
 
   async approveClient(clientId: string): Promise<void> {
-    (()=>{throw new Error("Phase 7.2 Architecture Violation: Firestore Writes are BLOCKED. Migrated to PostgreSQL.");})(); // updateDoc(doc(db, "clients", clientId), { approvalStatus: "Approved" });
+    blockedFirestoreWrite(); // updateDoc(doc(db, "clients", clientId), { approvalStatus: "Approved" });
   },
 
   subscribeToPartners(onUpdate: (partnersList: any[]) => void): () => void {
@@ -80,7 +81,7 @@ export const FirestoreClientsAdapter = {
 
   async createAccountPlanBatch(plans: any[]): Promise<void> {
     const batch = plans.map(acc => {
-       return (()=>{throw new Error("Phase 7.2 Architecture Violation: Firestore Writes are BLOCKED. Migrated to PostgreSQL.");})(); // addDoc(collection(db, "account_plans"), acc);
+       return blockedFirestoreWrite(); // addDoc(collection(db, "account_plans"), acc);
     });
     await Promise.all(batch);
   },

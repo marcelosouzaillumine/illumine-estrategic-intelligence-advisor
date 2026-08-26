@@ -1,6 +1,7 @@
 import { db } from '../../../../lib/firebase';
 import { doc, getDoc, setDoc } from 'firebase/firestore';
 import { Proposal, ProposalVersion, ProposalAuditLog } from '@domain/revenue';
+import { blockedFirestoreWrite } from '../../../../lib/blockedFirestoreWrite';
 
 export const clientWorkspaceAdapter = {
   async getPublishedProposalVersion(illumineId: string, proposalId: string, versionId: string): Promise<ProposalVersion | null> {
@@ -22,6 +23,6 @@ export const clientWorkspaceAdapter = {
 
   async logCustomerAuditEvent(illumineId: string, proposalId: string, auditLog: ProposalAuditLog): Promise<void> {
     const logRef = doc(db, `revenue_platform/${illumineId}/proposals/${proposalId}/audit_logs`, auditLog.id);
-    (()=>{throw new Error("Phase 7.2 Architecture Violation: Firestore Writes are BLOCKED. Migrated to PostgreSQL.");})(); // setDoc(logRef, auditLog);
+    blockedFirestoreWrite(); // setDoc(logRef, auditLog);
   }
 };

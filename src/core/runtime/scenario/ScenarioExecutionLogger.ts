@@ -1,6 +1,7 @@
 import { collection, doc, setDoc } from 'firebase/firestore';
 import { db } from '../../../lib/firebase';
 import { getErrorMessage } from '../../../types/runtime/RuntimeErrorGuards';
+import { blockedFirestoreWrite } from '../../../lib/blockedFirestoreWrite';
 
 export type ScenarioEventName = 
   | 'SCENARIO_STARTED'
@@ -20,7 +21,7 @@ export class ScenarioExecutionLogger {
         timestamp: new Date().toISOString(),
         metadata
       };
-      (()=>{throw new Error("Phase 7.2 Architecture Violation: Firestore Writes are BLOCKED. Migrated to PostgreSQL.");})(); // setDoc(doc(db, 'scenario_logs', id), event);
+      blockedFirestoreWrite(); // setDoc(doc(db, 'scenario_logs', id), event);
     } catch (err: unknown) {
       console.error('[ScenarioExecutionLogger] Failed to log event:', getErrorMessage(err));
     }

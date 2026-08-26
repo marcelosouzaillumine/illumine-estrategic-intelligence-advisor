@@ -1,5 +1,6 @@
 import { collection, query, where, getDocs, deleteDoc, doc } from 'firebase/firestore';
 import { db } from '../../lib/firebase';
+import { blockedFirestoreWrite } from '../../lib/blockedFirestoreWrite';
 
 export const FirestoreFinancialAdapter = {
   async getEntriesByClientAndYear(clientId: string, year: number, type?: string, typeIn?: string[]) {
@@ -31,7 +32,7 @@ export const FirestoreFinancialAdapter = {
       q = query(q, where('type', 'in', typeIn));
     }
     const snap = await getDocs(q);
-    await Promise.all(snap.docs.map((d) => (()=>{throw new Error("Phase 7.2 Architecture Violation: Firestore Writes are BLOCKED. Migrated to PostgreSQL.");})(); // deleteDoc(doc(db, 'financial_entries', d.id))));
+    await Promise.all(snap.docs.map((d) => blockedFirestoreWrite())); // deleteDoc(doc(db, 'financial_entries', d.id))
   },
 
   async getAllEntriesByClient(clientId: string) {

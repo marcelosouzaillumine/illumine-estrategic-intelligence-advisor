@@ -1,5 +1,6 @@
 import { collection, query, where, onSnapshot, doc, setDoc, serverTimestamp } from 'firebase/firestore';
 import { db } from '../../lib/firebase';
+import { blockedFirestoreWrite } from '../../lib/blockedFirestoreWrite';
 
 export class FirestoreOrganizationalAdapter {
   static listenToOrgChartByClient(clientId: string, onUpdate: (nodes: any[]) => void): () => void {
@@ -16,10 +17,10 @@ export class FirestoreOrganizationalAdapter {
 
   static async saveOrgChart(clientId: string, nodes: any[]): Promise<void> {
     const docRef = doc(db, 'org_charts', `org_${clientId}`);
-    (()=>{throw new Error("Phase 7.2 Architecture Violation: Firestore Writes are BLOCKED. Migrated to PostgreSQL.");})(); // setDoc(docRef, {
-      clientId,
-      nodes,
-      updatedAt: serverTimestamp()
-    });
+    blockedFirestoreWrite(); // setDoc(docRef, {
+      // clientId,
+      // nodes,
+      // updatedAt: serverTimestamp()
+    // });
   }
 }

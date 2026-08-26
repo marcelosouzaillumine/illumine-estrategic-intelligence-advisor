@@ -13,6 +13,7 @@ import {
   updateDoc,
   onSnapshot
 } from 'firebase/firestore';
+import { blockedFirestoreWrite } from '../lib/blockedFirestoreWrite';
 import { ref, uploadBytesResumable, getDownloadURL } from 'firebase/storage';
 import { db, storage } from '../lib/firebase';
 import { SupportTicket, SupportMessage, TicketStatus } from '../types/support';
@@ -48,7 +49,7 @@ export const supportService = {
         status: 'pending'
       };
 
-      const docRef = (()=>{throw new Error("Phase 7.2 Architecture Violation: Firestore Writes are BLOCKED. Migrated to PostgreSQL.");})(); // addDoc(collection(db, TICKETS_COLLECTION), newTicket);
+      const docRef: any = blockedFirestoreWrite(); // addDoc(collection(db, TICKETS_COLLECTION), newTicket);
 
       // If it's the 9th ticket, notify Admin Master
       if (isNinth) {
@@ -109,7 +110,7 @@ export const supportService = {
       if (adminNotes !== undefined) {
         updateData.adminNotes = adminNotes;
       }
-      (()=>{throw new Error("Phase 7.2 Architecture Violation: Firestore Writes are BLOCKED. Migrated to PostgreSQL.");})(); // updateDoc(docRef, updateData);
+      blockedFirestoreWrite(); // updateDoc(docRef, updateData);
     } catch (error) {
       console.error('Error updating ticket status:', error);
       throw error;
@@ -122,7 +123,7 @@ export const supportService = {
         ...message,
         createdAt: serverTimestamp()
       };
-      (()=>{throw new Error("Phase 7.2 Architecture Violation: Firestore Writes are BLOCKED. Migrated to PostgreSQL.");})(); // addDoc(collection(db, MESSAGES_COLLECTION), newMessage);
+      blockedFirestoreWrite(); // addDoc(collection(db, MESSAGES_COLLECTION), newMessage);
     } catch (error) {
       console.error('Error adding ticket message:', error);
       throw error;

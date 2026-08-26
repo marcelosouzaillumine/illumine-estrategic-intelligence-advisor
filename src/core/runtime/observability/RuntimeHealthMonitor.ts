@@ -2,6 +2,7 @@ import { collection, doc, setDoc, getDocs, query, orderBy, limit } from 'firebas
 import { db } from '../../../lib/firebase';
 import { RuntimeHealthSnapshot, RuntimeExecutionRecord } from './observability-types';
 import { RuntimeExecutionRegistry } from './RuntimeExecutionRegistry';
+import { blockedFirestoreWrite } from '../../../lib/blockedFirestoreWrite';
 
 export class RuntimeHealthMonitor {
   static async generateSnapshot(): Promise<RuntimeHealthSnapshot> {
@@ -41,7 +42,7 @@ export class RuntimeHealthMonitor {
         anomalies
       };
 
-      (()=>{throw new Error("Phase 7.2 Architecture Violation: Firestore Writes are BLOCKED. Migrated to PostgreSQL.");})(); // setDoc(doc(db, 'runtime_health_snapshots', snapshot.id), snapshot);
+      blockedFirestoreWrite(); // setDoc(doc(db, 'runtime_health_snapshots', snapshot.id), snapshot);
       return snapshot;
 
     } catch (err: unknown) {

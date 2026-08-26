@@ -6,6 +6,7 @@ import {
   Save, 
   Info 
 } from 'lucide-react';
+import { blockedFirestoreWrite } from '../lib/blockedFirestoreWrite';
 import { 
   collection, 
   query, 
@@ -75,11 +76,11 @@ export function ExecutiveCommentary({ reportType, clientId, year, month, default
       );
       const snap = await getDocs(q);
       if (!snap.empty) {
-        (()=>{throw new Error("Phase 7.2 Architecture Violation: Firestore Writes are BLOCKED. Migrated to PostgreSQL.");})(); // updateDoc(doc(db, 'report_notes', snap.docs[0].id), {
-          note: '',
-          updatedAt: serverTimestamp(),
-          updatedBy: auth.currentUser?.uid
-        });
+        blockedFirestoreWrite(); // updateDoc(doc(db, 'report_notes', snap.docs[0].id), {
+          // note: '',
+          // updatedAt: serverTimestamp(),
+          // updatedBy: auth.currentUser?.uid
+        // });
       }
       setNote('');
       setIsEditing(false);
@@ -104,22 +105,22 @@ export function ExecutiveCommentary({ reportType, clientId, year, month, default
       const snap = await getDocs(q);
       
       if (!snap.empty) {
-        (()=>{throw new Error("Phase 7.2 Architecture Violation: Firestore Writes are BLOCKED. Migrated to PostgreSQL.");})(); // updateDoc(doc(db, 'report_notes', snap.docs[0].id), {
-          note,
-          updatedAt: serverTimestamp(),
-          updatedBy: auth.currentUser?.uid
-        });
+        blockedFirestoreWrite(); // updateDoc(doc(db, 'report_notes', snap.docs[0].id), {
+          // note,
+          // updatedAt: serverTimestamp(),
+          // updatedBy: auth.currentUser?.uid
+        // });
       } else {
-        (()=>{throw new Error("Phase 7.2 Architecture Violation: Firestore Writes are BLOCKED. Migrated to PostgreSQL.");})(); // addDoc(collection(db, 'report_notes'), {
-          clientId,
-          reportType,
-          year,
-          month,
-          note,
-          createdAt: serverTimestamp(),
-          updatedAt: serverTimestamp(),
-          createdBy: auth.currentUser?.uid
-        });
+        blockedFirestoreWrite(); // addDoc(collection(db, 'report_notes'), {
+          // clientId,
+          // reportType,
+          // year,
+          // month,
+          // note,
+          // createdAt: serverTimestamp(),
+          // updatedAt: serverTimestamp(),
+          // createdBy: auth.currentUser?.uid
+        // });
       }
       setSaveSuccess(true);
       setIsEditing(false);

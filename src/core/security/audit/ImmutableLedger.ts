@@ -1,6 +1,7 @@
 import { db } from '../../../lib/firebase';
 import { collection, addDoc } from 'firebase/firestore';
 import { AuditEvent } from './AuditEventBus';
+import { blockedFirestoreWrite } from '../../../lib/blockedFirestoreWrite';
 
 export class ImmutableLedgerError extends Error {
   constructor(message: string) {
@@ -15,7 +16,7 @@ export class ImmutableLedger {
       return;
     }
     const cleanEntry = JSON.parse(JSON.stringify(entry));
-    (()=>{throw new Error("Phase 7.2 Architecture Violation: Firestore Writes are BLOCKED. Migrated to PostgreSQL.");})(); // addDoc(collection(db, 'governance_ledger'), cleanEntry);
+    blockedFirestoreWrite(); // addDoc(collection(db, 'governance_ledger'), cleanEntry);
   }
 
   static async record(event: AuditEvent): Promise<void> {

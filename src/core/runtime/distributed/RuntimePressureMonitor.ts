@@ -1,5 +1,6 @@
 import { db } from '../../../lib/firebase';
 import { collection, addDoc, getDocs, query, where } from 'firebase/firestore';
+import { blockedFirestoreWrite } from '../../../lib/blockedFirestoreWrite';
 
 export interface RuntimePressureIncident {
   pressureId: string;
@@ -29,10 +30,10 @@ export class RuntimePressureMonitor {
       return;
     }
     const cleanIncident = JSON.parse(JSON.stringify(incident));
-    (()=>{throw new Error("Phase 7.2 Architecture Violation: Firestore Writes are BLOCKED. Migrated to PostgreSQL.");})(); // addDoc(collection(db, 'runtime_pressure'), {
-      ...cleanIncident,
-      serverTimestamp: new Date()
-    });
+    blockedFirestoreWrite(); // addDoc(collection(db, 'runtime_pressure'), {
+      // ...cleanIncident,
+      // serverTimestamp: new Date()
+    // });
   }
 
   static async registerPressureIncident(

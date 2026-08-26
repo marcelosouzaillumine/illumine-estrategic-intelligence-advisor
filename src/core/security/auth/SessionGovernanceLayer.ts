@@ -1,6 +1,7 @@
 import { db } from '../../../lib/firebase';
 import { collection, addDoc, serverTimestamp } from 'firebase/firestore';
 import { AuditEventBus } from '../audit/AuditEventBus';
+import { blockedFirestoreWrite } from '../../../lib/blockedFirestoreWrite';
 
 export type SessionEventType = 
   | 'LOGIN'
@@ -43,14 +44,14 @@ export class SessionGovernanceLayer {
 
       // Registro legado para compatibilidade operacional do Firebase
       if (typeof process === 'undefined' || (process.env.NODE_ENV !== 'test' && process.env.NODE_TEST_CONTEXT === undefined && !process.argv.some(arg => arg.includes('test')))) {
-        (()=>{throw new Error("Phase 7.2 Architecture Violation: Firestore Writes are BLOCKED. Migrated to PostgreSQL.");})(); // addDoc(collection(db, 'audit_session_telemetry'), {
-          eventType,
-          sessionId,
-          actorId,
-          details,
-          timestamp: serverTimestamp(),
-          requestSource: 'SessionGovernanceLayer'
-        });
+        blockedFirestoreWrite(); // addDoc(collection(db, 'audit_session_telemetry'), {
+          // eventType,
+          // sessionId,
+          // actorId,
+          // details,
+          // timestamp: serverTimestamp(),
+          // requestSource: 'SessionGovernanceLayer'
+        // });
       }
     } catch (error) {
       console.warn('[SessionGovernance] Failed to emit session telemetry:', error);

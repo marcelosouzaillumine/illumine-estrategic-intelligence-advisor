@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { collection, query, where, getDocs, addDoc, serverTimestamp, updateDoc, doc, deleteDoc, onSnapshot } from 'firebase/firestore';
 import { db, auth } from '../../lib/firebase';
+import { blockedFirestoreWrite } from '../../lib/blockedFirestoreWrite';
 
 export interface ActionItem {
   id?: string;
@@ -61,24 +62,24 @@ export function useActionPlanAdapter(clientId: string) {
     };
 
     if (editingId) {
-      (()=>{throw new Error("Phase 7.2 Architecture Violation: Firestore Writes are BLOCKED. Migrated to PostgreSQL.");})(); // updateDoc(doc(db, 'action_items', editingId), data);
+      blockedFirestoreWrite(); // updateDoc(doc(db, 'action_items', editingId), data);
     } else {
-      (()=>{throw new Error("Phase 7.2 Architecture Violation: Firestore Writes are BLOCKED. Migrated to PostgreSQL.");})(); // addDoc(collection(db, 'action_items'), {
-        ...data,
-        createdAt: serverTimestamp()
-      });
+      blockedFirestoreWrite(); // addDoc(collection(db, 'action_items'), {
+        // ...data,
+        // createdAt: serverTimestamp()
+      // });
     }
   };
 
   const handleDeleteAction = async (id: string) => {
-    (()=>{throw new Error("Phase 7.2 Architecture Violation: Firestore Writes are BLOCKED. Migrated to PostgreSQL.");})(); // deleteDoc(doc(db, 'action_items', id));
+    blockedFirestoreWrite(); // deleteDoc(doc(db, 'action_items', id));
   };
 
   const handleUpdateStatus = async (id: string, newStatus: ActionItem['status']) => {
-    (()=>{throw new Error("Phase 7.2 Architecture Violation: Firestore Writes are BLOCKED. Migrated to PostgreSQL.");})(); // updateDoc(doc(db, 'action_items', id), {
-      status: newStatus,
-      updatedAt: serverTimestamp()
-    });
+    blockedFirestoreWrite(); // updateDoc(doc(db, 'action_items', id), {
+      // status: newStatus,
+      // updatedAt: serverTimestamp()
+    // });
   };
 
   return {

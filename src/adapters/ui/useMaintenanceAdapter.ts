@@ -3,6 +3,7 @@ import { collection, query, getDocs, where, deleteDoc, doc, writeBatch, onSnapsh
 import { db, auth } from '../../lib/firebase';
 import { useGovernance } from '../../lib/governanceContext';
 import { notificationService } from '../../services/notificationService';
+import { blockedFirestoreWrite } from '../../lib/blockedFirestoreWrite';
 export function useMaintenanceAdapter() {
   const [pendingDocs, setPendingDocs] = useState<any[]>([]);
   const [loadingDocs, setLoadingDocs] = useState(false);
@@ -27,7 +28,7 @@ export function useMaintenanceAdapter() {
 
   const handleApprove = async (docId: string, entry: any, addLog: (msg: string) => void) => {
     try {
-      const batch = (()=>{throw new Error("Phase 7.2 Architecture Violation: Firestore Writes are BLOCKED. Migrated to PostgreSQL.");})(); // writeBatch(db);
+      const batch: any = blockedFirestoreWrite(); // writeBatch(db);
       const targetDoc = doc(collection(db, entry.targetCollection || 'financial_entries'));
       batch.set(targetDoc, {
         ...(entry.payload || {}),
@@ -55,11 +56,11 @@ export function useMaintenanceAdapter() {
 
   const handleReject = async (docId: string, entry: any, addLog: (msg: string) => void) => {
     try {
-      (()=>{throw new Error("Phase 7.2 Architecture Violation: Firestore Writes are BLOCKED. Migrated to PostgreSQL.");})(); // updateDoc(doc(db, 'financial_staging', docId), {
-        status: 'rejected',
-        rejectedAt: serverTimestamp(),
-        rejectedBy: auth.currentUser?.uid
-      });
+      blockedFirestoreWrite(); // updateDoc(doc(db, 'financial_staging', docId), {
+        // status: 'rejected',
+        // rejectedAt: serverTimestamp(),
+        // rejectedBy: auth.currentUser?.uid
+      // });
 
       await notificationService.createNotification({
         userId: entry.createdBy,
@@ -93,7 +94,7 @@ export function useMaintenanceAdapter() {
       );
       const indSnap = await getDocs(indQuery);
       
-      const batch = (()=>{throw new Error("Phase 7.2 Architecture Violation: Firestore Writes are BLOCKED. Migrated to PostgreSQL.");})(); // writeBatch(db);
+      const batch: any = blockedFirestoreWrite(); // writeBatch(db);
       indSnap.docs.forEach(d => {
         batch.delete(d.ref);
         totalDeleted++;

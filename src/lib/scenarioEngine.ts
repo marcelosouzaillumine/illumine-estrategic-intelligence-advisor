@@ -1,5 +1,6 @@
 import { collection, doc, setDoc, getDocs, query, where, serverTimestamp, updateDoc, getDoc, addDoc, runTransaction, Timestamp } from 'firebase/firestore';
 import { db, auth } from './firebase';
+import { blockedFirestoreWrite } from './blockedFirestoreWrite';
 
 export type ScenarioStatus = 'Draft' | 'Pending Approval' | 'Approved' | 'Archived';
 
@@ -66,7 +67,7 @@ export async function createNewDraftScenario(clientId: string, name: string = 'C
     }]
   };
 
-  (()=>{throw new Error("Phase 7.2 Architecture Violation: Firestore Writes are BLOCKED. Migrated to PostgreSQL.");})(); // setDoc(newScenarioRef, scenarioData);
+  blockedFirestoreWrite(); // setDoc(newScenarioRef, scenarioData);
 
   // Busca as premissas globais do cliente
   const globalAssumptionsQ = query(collection(db, 'client_assumptions'), where('clientId', '==', clientId));
@@ -96,13 +97,13 @@ export async function createNewDraftScenario(clientId: string, name: string = 'C
   }
 
   const assumptionsRef = doc(collection(db, 'scenario_assumptions'));
-  (()=>{throw new Error("Phase 7.2 Architecture Violation: Firestore Writes are BLOCKED. Migrated to PostgreSQL.");})(); // setDoc(assumptionsRef, {
-    ...baseAssumptions,
-    scenarioId: newScenarioRef.id,
-    clientId,
-    ownerId: currentUser.uid,
-    updatedAt: serverTimestamp()
-  });
+  blockedFirestoreWrite(); // setDoc(assumptionsRef, {
+    // ...baseAssumptions,
+    // scenarioId: newScenarioRef.id,
+    // clientId,
+    // ownerId: currentUser.uid,
+    // updatedAt: serverTimestamp()
+  // });
 
   return newScenarioRef.id;
 }
@@ -190,9 +191,9 @@ export async function processViabilityImpact(project: any) {
 
   if (!snapImpact.empty) {
     const docId = snapImpact.docs[0].id;
-    (()=>{throw new Error("Phase 7.2 Architecture Violation: Firestore Writes are BLOCKED. Migrated to PostgreSQL.");})(); // updateDoc(doc(db, 'scenario_impacts', docId), { ...impactData, updatedAt: serverTimestamp() });
+    blockedFirestoreWrite(); // updateDoc(doc(db, 'scenario_impacts', docId), { ...impactData, updatedAt: serverTimestamp() });
   } else {
-    (()=>{throw new Error("Phase 7.2 Architecture Violation: Firestore Writes are BLOCKED. Migrated to PostgreSQL.");})(); // addDoc(collection(db, 'scenario_impacts'), { ...impactData, createdAt: serverTimestamp() });
+    blockedFirestoreWrite(); // addDoc(collection(db, 'scenario_impacts'), { ...impactData, createdAt: serverTimestamp() });
   }
 }
 
@@ -251,53 +252,53 @@ export async function approveScenario(scenarioId: string) {
   }
 
   // 2. Execute Transaction
-  (()=>{throw new Error("Phase 7.2 Architecture Violation: Firestore Writes are BLOCKED. Migrated to PostgreSQL.");})(); // runTransaction(db, async (transaction) => {
-    const newBaselineDoc = await transaction.get(scenarioRef);
-    if (!newBaselineDoc.exists()) throw new Error("Scenario not found");
-    const newData = newBaselineDoc.data() as InstitutionalScenario;
-
-    if (newData.status === 'Approved') throw new Error("Scenario is already approved");
-
-    // Re-verify the current baseline hasn't changed if we found one
-    let oldData: InstitutionalScenario | null = null;
-    if (currentBaselineRef) {
-      const oldBaselineDoc = await transaction.get(currentBaselineRef);
-      if (oldBaselineDoc.exists()) {
-        oldData = oldBaselineDoc.data() as InstitutionalScenario;
-        // Verify it is still Approved (to prevent race conditions)
-        if (oldData.status === 'Approved') {
-          const oldTrail = oldData.auditTrail || [];
-          oldTrail.push({
-            action: 'Archived due to new Baseline approval',
-            userId: currentUser.uid,
-            timestamp: new Date().toISOString(),
-            previousStatus: 'Approved',
-            newStatus: 'Archived',
-            metadata: { replacedBy: scenarioId }
-          });
-          transaction.update(currentBaselineRef, {
-            status: 'Archived',
-            auditTrail: oldTrail as any
-          });
-        }
-      }
-    }
-
-    const newTrail = newData.auditTrail || [];
-    newTrail.push({
-      action: 'Approved as Baseline',
-      userId: currentUser.uid,
-      timestamp: new Date().toISOString(),
-      previousStatus: newData.status,
-      newStatus: 'Approved',
-      metadata: { replacedBaselineId: currentBaselineRef ? currentBaselineRef.id : null }
-    });
-
-    transaction.update(scenarioRef, {
-      status: 'Approved',
-      approvedBy: currentUser.uid,
-      approvedAt: serverTimestamp(),
-      auditTrail: newTrail as any
-    });
-  });
+  blockedFirestoreWrite(); // runTransaction(db, async (transaction) => {
+    // const newBaselineDoc = await transaction.get(scenarioRef);
+    // if (!newBaselineDoc.exists()) throw new Error("Scenario not found");
+    // const newData = newBaselineDoc.data() as InstitutionalScenario;
+// 
+    // if (newData.status === 'Approved') throw new Error("Scenario is already approved");
+// 
+    // // Re-verify the current baseline hasn't changed if we found one
+    // let oldData: InstitutionalScenario | null = null;
+    // if (currentBaselineRef) {
+      // const oldBaselineDoc = await transaction.get(currentBaselineRef);
+      // if (oldBaselineDoc.exists()) {
+        // oldData = oldBaselineDoc.data() as InstitutionalScenario;
+        // // Verify it is still Approved (to prevent race conditions)
+        // if (oldData.status === 'Approved') {
+          // const oldTrail = oldData.auditTrail || [];
+          // oldTrail.push({
+            // action: 'Archived due to new Baseline approval',
+            // userId: currentUser.uid,
+            // timestamp: new Date().toISOString(),
+            // previousStatus: 'Approved',
+            // newStatus: 'Archived',
+            // metadata: { replacedBy: scenarioId }
+          // });
+          // transaction.update(currentBaselineRef, {
+            // status: 'Archived',
+            // auditTrail: oldTrail as any
+          // });
+        // }
+      // }
+    // }
+// 
+    // const newTrail = newData.auditTrail || [];
+    // newTrail.push({
+      // action: 'Approved as Baseline',
+      // userId: currentUser.uid,
+      // timestamp: new Date().toISOString(),
+      // previousStatus: newData.status,
+      // newStatus: 'Approved',
+      // metadata: { replacedBaselineId: currentBaselineRef ? currentBaselineRef.id : null }
+    // });
+// 
+    // transaction.update(scenarioRef, {
+      // status: 'Approved',
+      // approvedBy: currentUser.uid,
+      // approvedAt: serverTimestamp(),
+      // auditTrail: newTrail as any
+    // });
+  // });
 }

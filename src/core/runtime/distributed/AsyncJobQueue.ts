@@ -3,6 +3,7 @@ import { collection, doc, addDoc, getDocs, updateDoc, query, where, limit, runTr
 import { DataAccessContext } from '../../security/data-access-context';
 import { AuditEventBus } from '../../security/audit/AuditEventBus';
 import { RuntimePressureMonitor } from './RuntimePressureMonitor';
+import { blockedFirestoreWrite } from '../../../lib/blockedFirestoreWrite';
 
 export type JobState =
   | 'QUEUED'
@@ -68,7 +69,7 @@ export class AsyncJobQueue {
       return;
     }
     const cleanJob = JSON.parse(JSON.stringify(job));
-    (()=>{throw new Error("Phase 7.2 Architecture Violation: Firestore Writes are BLOCKED. Migrated to PostgreSQL.");})(); // addDoc(collection(db, 'institutional_jobs'), cleanJob);
+    blockedFirestoreWrite(); // addDoc(collection(db, 'institutional_jobs'), cleanJob);
   }
 
   // Wrapper for Firestore document update
@@ -85,7 +86,7 @@ export class AsyncJobQueue {
     const q = query(collection(db, 'institutional_jobs'), where('jobId', '==', jobId), limit(1));
     const snap = await getDocs(q);
     if (!snap.empty) {
-      (()=>{throw new Error("Phase 7.2 Architecture Violation: Firestore Writes are BLOCKED. Migrated to PostgreSQL.");})(); // updateDoc(snap.docs[0].ref, cleanUpdates);
+      blockedFirestoreWrite(); // updateDoc(snap.docs[0].ref, cleanUpdates);
     }
   }
 
@@ -287,50 +288,50 @@ export class AsyncJobQueue {
 
     // Em produção, usa transação para evitar claim concorrente duplo
     // Buscamos o primeiro job QUEUED ordenado por prioridade e timestamp
-    return (()=>{throw new Error("Phase 7.2 Architecture Violation: Firestore Writes are BLOCKED. Migrated to PostgreSQL.");})(); // runTransaction(db, async (transaction) => {
+    return blockedFirestoreWrite(); // runTransaction(db, async (transaction) => {
       // Puxa o job mais antigo na fila
-      const targetTenant = (context.role === 'SUPER_ADMIN' && context.resourceTenantId) ? context.resourceTenantId : tenantId;
-      
-      let q = query(
-        collection(db, 'institutional_jobs'),
-        where('jobState', '==', 'QUEUED'),
-        where('jobType', '==', jobType)
-      );
-      
-      if (targetTenant !== 'MASTER') {
-        q = query(q, where('tenantId', '==', targetTenant));
-      }
-
-      const snap = await getDocs(q);
-      const candidates = snap.docs.map(d => ({ ref: d.ref, data: d.data() as AsyncJob }));
-      
+      // const targetTenant = (context.role === 'SUPER_ADMIN' && context.resourceTenantId) ? context.resourceTenantId : tenantId;
+      // 
+      // let q = query(
+        // collection(db, 'institutional_jobs'),
+        // where('jobState', '==', 'QUEUED'),
+        // where('jobType', '==', jobType)
+      // );
+      // 
+      // if (targetTenant !== 'MASTER') {
+        // q = query(q, where('tenantId', '==', targetTenant));
+      // }
+// 
+      // const snap = await getDocs(q);
+      // const candidates = snap.docs.map(d => ({ ref: d.ref, data: d.data() as AsyncJob }));
+      // 
       // Ordenação secundária na memória por prioridade (CRITICAL > HIGH > MEDIUM > LOW) e createdAt
-      const priorityWeights = { CRITICAL: 4, HIGH: 3, MEDIUM: 2, LOW: 1 };
-      candidates.sort((a, b) => {
-        const wA = priorityWeights[a.data.priority] || 2;
-        const wB = priorityWeights[b.data.priority] || 2;
-        if (wA !== wB) return wB - wA;
-        return a.data.createdAt.localeCompare(b.data.createdAt);
-      });
-
-      if (candidates.length > 0) {
-        const best = candidates[0];
-        transaction.update(best.ref, {
-          jobState: 'RUNNING',
-          startedAt: new Date().toISOString(),
-          heartbeatAt: new Date().toISOString(),
-          processingNode: nodeId
-        });
-        return {
-          ...best.data,
-          jobState: 'RUNNING',
-          startedAt: new Date().toISOString(),
-          heartbeatAt: new Date().toISOString(),
-          processingNode: nodeId
-        } as AsyncJob;
-      }
-      return null;
-    });
+      // const priorityWeights = { CRITICAL: 4, HIGH: 3, MEDIUM: 2, LOW: 1 };
+      // candidates.sort((a, b) => {
+        // const wA = priorityWeights[a.data.priority] || 2;
+        // const wB = priorityWeights[b.data.priority] || 2;
+        // if (wA !== wB) return wB - wA;
+        // return a.data.createdAt.localeCompare(b.data.createdAt);
+      // });
+// 
+      // if (candidates.length > 0) {
+        // const best = candidates[0];
+        // transaction.update(best.ref, {
+          // jobState: 'RUNNING',
+          // startedAt: new Date().toISOString(),
+          // heartbeatAt: new Date().toISOString(),
+          // processingNode: nodeId
+        // });
+        // return {
+          // ...best.data,
+          // jobState: 'RUNNING',
+          // startedAt: new Date().toISOString(),
+          // heartbeatAt: new Date().toISOString(),
+          // processingNode: nodeId
+        // } as AsyncJob;
+      // }
+      // return null;
+    // });
   }
 
   static async completeJob(jobId: string): Promise<void> {
