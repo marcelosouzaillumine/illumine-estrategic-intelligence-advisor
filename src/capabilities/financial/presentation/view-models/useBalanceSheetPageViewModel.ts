@@ -392,7 +392,12 @@ export function useBalanceSheetPageViewModel({ clients, selectedClient, selected
           prevEbitda,
           prevCaixa,
           dreDataLength: dreDbData.length,
-          historicalCyclesCount: calculatedCycles
+          historicalCyclesCount: calculatedCycles,
+          // allHistoryData já era buscado (linha ~94) mas nunca chegava ao
+          // runtime — getHistSum/getDfcVal em executive-intelligence-runtime.ts
+          // dependem dele para variações patrimoniais e reconciliação
+          // cross-statement, e sempre recebiam [] sem isto.
+          allHistoryData
         },
         historicalSeries: historicalFinancialSeries?.series || [],
         bpData: financialEntries,

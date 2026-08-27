@@ -136,6 +136,7 @@ import { FinancialRuntimeContextAdapter } from './financial-context/FinancialRun
 import { InstitutionalBusinessProfile } from './institutional-identity/InstitutionalBusinessProfile';
 import { InstitutionalFinancialThesisEngine } from './InstitutionalFinancialThesisEngine';
 import { CrossStatementCausalityEngine, CrossStatementCausalityReport } from './CrossStatementCausalityEngine';
+import { CrossStatementReconciliationEngine, ReconciliationEngineParams } from './governance/cross-statement/CrossStatementReconciliationEngine';
 import { SemanticComplianceAuditRuntime } from './constitutional-governance/SemanticComplianceAuditRuntime';
 import { ConstitutionalGovernanceRuntime } from './constitutional-governance/ConstitutionalGovernanceRuntime';
 import { TemporalEvidenceFilter } from './temporal-governance/TemporalEvidenceFilter';
@@ -1880,13 +1881,60 @@ export class ExecutiveIntelligenceRuntime implements
       metrics
     );
 
+    // Reconciliação cross-statement (4 eixos) — motor já existia e já era
+    // testado, mas nunca era chamado em produção; seu único efeito é o
+    // reconciliationStatus abaixo, que destrava o bloqueio por inconsistência
+    // contábil no CrossStatementCausalityEngine (parâmetro que era sempre
+    // omitido). Usa dlpaData quando disponível; cai para os valores já
+    // extraídos do próprio Balanço (saldoInicialLucro/saldoFinalLucro/
+    // dividendos, linhas acima) quando o cliente não lança uma DLPA separada.
+    const dlpaYearEntries = allHistData.filter((d: any) =>
+      Number(d.year) === filtYear && (normStr(d.type || '') === 'dlpa' || normStr(d.docType || '') === 'dlpa')
+    );
+    const dlpaResultadoExercicioRaw = getDfcVal(dlpaYearEntries, ['resultado do exercicio', 'lucro liquido', 'lucro do exercicio']);
+    const dlpaDistribuicaoDividendosRaw = getDfcVal(dlpaYearEntries, ['dividendo', 'distribuicao', 'jcp', 'juros sobre capital']);
+    const dlpaSaldoFinalRaw = getDfcVal(dlpaYearEntries, ['saldo final', 'saldo atual']);
+
+    // Fallback quando não há DLPA separada: mesma extração que já roda dentro
+    // do bloco de fco/fci/fcf acima (linhas ~1610-1612), recalculada aqui
+    // porque aquelas constantes são locais ao bloco if/else onde nasceram.
+    const saldoInicialLucroBP = getHistValue(filtYear - 1, ['balanço patrimonial', 'bp', 'balanco patrimonial', 'balanco'], ['lucros acumulados', 'lucro acumulado', 'prejuizos acumulados', 'lucros ou prejuizos']);
+    const saldoFinalLucroBP = getHistValue(filtYear, ['balanço patrimonial', 'bp', 'balanco patrimonial', 'balanco'], ['lucros acumulados', 'lucro acumulado', 'prejuizos acumulados', 'lucros ou prejuizos']);
+    const dividendosBP = saldoInicialLucroBP + dreLucro - saldoFinalLucroBP;
+
+    const dlpaResultadoExercicio = dlpaResultadoExercicioRaw || dreLucro;
+    const dlpaDistribuicaoDividendos = Math.abs(dlpaDistribuicaoDividendosRaw || dividendosBP || 0);
+    const dlpaSaldoFinalLucrosPrejuizos = dlpaSaldoFinalRaw || saldoFinalLucroBP;
+    const dfcPagamentoDividendos = Math.abs(getDfcVal(dfcDataForRuntime, ['dividendo', 'distribuicao de lucro']));
+
+    const reconciliationParams: ReconciliationEngineParams = {
+      bpCaixaInicial: rawData.rawFinancialData?.prevCaixa || 0,
+      bpCaixaFinal: bpSummary?.caixaEquivalentes || 0,
+      bpPlFinal: bpSummary?.patrimonioLiquido || 0,
+      bpCapitalSocial: bpSummary?.capitalSocial || 0,
+      // BPSummary não separa reservas/ajustes de avaliação patrimonial do
+      // capital social e lucros acumulados — ficam em 0 (honesto) em vez de
+      // um valor inventado; isso pode gerar falso-positivo no Eixo D para
+      // empresas com reservas relevantes.
+      bpReservas: 0,
+      bpAjustesPatrimoniais: 0,
+      dreLucroLiquido: dreLucro,
+      dlpaResultadoExercicio,
+      dlpaDistribuicaoDividendos,
+      dlpaSaldoFinalLucrosPrejuizos,
+      dfcVariacaoLiquidaCaixa: fco + fci + fcf,
+      dfcPagamentoDividendos
+    };
+    const reconciliationReport = CrossStatementReconciliationEngine.evaluate(reconciliationParams);
+
     // Process Cross-Statement Causality (Trilha 4)
     const crossStatementCausality = CrossStatementCausalityEngine.analyze(
       bpSummary,
       dreEbitda,
       dreLucro,
       cashFlowReport,
-      capitalGovernanceReport
+      capitalGovernanceReport,
+      reconciliationReport.reconciliationStatus
     );
 
     // Consolidate priorities (Trilha 7)
