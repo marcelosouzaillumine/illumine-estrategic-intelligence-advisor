@@ -218,7 +218,7 @@ export const OKRCreateSurface: React.FC<OKRCreateSurfaceProps> = ({ menteeId, pr
               </div>
             </div>
 
-            {kr.type !== 'BOOLEAN' && (
+            {kr.type !== 'BINARY' && (
               <div className="grid grid-cols-2 gap-2">
                 <div className="space-y-1">
                   <label className="text-[10px] text-muted-foreground">Valor Inicial</label>

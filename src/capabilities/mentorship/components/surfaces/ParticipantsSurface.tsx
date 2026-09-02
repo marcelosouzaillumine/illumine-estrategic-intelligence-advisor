@@ -80,7 +80,7 @@ export const ParticipantsSurface: React.FC<ParticipantsSurfaceProps> = ({ progra
 
   const filteredMentors = mentors.filter(m =>
     m.displayName.toLowerCase().includes(search.toLowerCase()) ||
-    m.expertise.domains.some(d => d.toLowerCase().includes(search.toLowerCase()))
+    m.expertiseDomains.some(d => d.toLowerCase().includes(search.toLowerCase()))
   );
 
   if (loading) {
