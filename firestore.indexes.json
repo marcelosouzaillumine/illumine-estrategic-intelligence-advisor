@@ -4,134 +4,192 @@
       "collectionGroup": "financial_entries",
       "queryScope": "COLLECTION",
       "fields": [
-        {
-          "fieldPath": "clientId",
-          "order": "ASCENDING"
-        },
-        {
-          "fieldPath": "createdAt",
-          "order": "DESCENDING"
-        }
+        { "fieldPath": "clientId",  "order": "ASCENDING"  },
+        { "fieldPath": "createdAt", "order": "DESCENDING" }
       ]
     },
     {
       "collectionGroup": "account_plans",
       "queryScope": "COLLECTION",
       "fields": [
-        {
-          "fieldPath": "clientId",
-          "order": "ASCENDING"
-        },
-        {
-          "fieldPath": "planType",
-          "order": "ASCENDING"
-        },
-        {
-          "fieldPath": "code",
-          "order": "ASCENDING"
-        }
+        { "fieldPath": "clientId",  "order": "ASCENDING" },
+        { "fieldPath": "planType",  "order": "ASCENDING" },
+        { "fieldPath": "code",      "order": "ASCENDING" }
       ]
     },
     {
       "collectionGroup": "payables",
       "queryScope": "COLLECTION",
       "fields": [
-        {
-          "fieldPath": "clientId",
-          "order": "ASCENDING"
-        },
-        {
-          "fieldPath": "vencimento",
-          "order": "ASCENDING"
-        }
+        { "fieldPath": "clientId",   "order": "ASCENDING" },
+        { "fieldPath": "vencimento", "order": "ASCENDING" }
       ]
     },
     {
       "collectionGroup": "receivables",
       "queryScope": "COLLECTION",
       "fields": [
-        {
-          "fieldPath": "clientId",
-          "order": "ASCENDING"
-        },
-        {
-          "fieldPath": "vencimento",
-          "order": "ASCENDING"
-        }
+        { "fieldPath": "clientId",   "order": "ASCENDING" },
+        { "fieldPath": "vencimento", "order": "ASCENDING" }
       ]
     },
     {
       "collectionGroup": "audit_events",
       "queryScope": "COLLECTION",
       "fields": [
-        {
-          "fieldPath": "tenantId",
-          "order": "ASCENDING"
-        },
-        {
-          "fieldPath": "timestamp",
-          "order": "DESCENDING"
-        }
+        { "fieldPath": "tenantId",  "order": "ASCENDING"  },
+        { "fieldPath": "timestamp", "order": "DESCENDING" }
       ]
     },
     {
       "collectionGroup": "anomalies",
       "queryScope": "COLLECTION",
       "fields": [
-        {
-          "fieldPath": "tenantId",
-          "order": "ASCENDING"
-        },
-        {
-          "fieldPath": "detectedAt",
-          "order": "DESCENDING"
-        }
+        { "fieldPath": "tenantId",   "order": "ASCENDING"  },
+        { "fieldPath": "detectedAt", "order": "DESCENDING" }
       ]
     },
     {
       "collectionGroup": "institutional_jobs",
       "queryScope": "COLLECTION",
       "fields": [
-        {
-          "fieldPath": "tenantId",
-          "order": "ASCENDING"
-        },
-        {
-          "fieldPath": "createdAt",
-          "order": "DESCENDING"
-        }
+        { "fieldPath": "tenantId",  "order": "ASCENDING"  },
+        { "fieldPath": "createdAt", "order": "DESCENDING" }
       ]
     },
     {
       "collectionGroup": "institutional_jobs",
       "queryScope": "COLLECTION",
       "fields": [
-        {
-          "fieldPath": "tenantId",
-          "order": "ASCENDING"
-        },
-        {
-          "fieldPath": "jobType",
-          "order": "ASCENDING"
-        },
-        {
-          "fieldPath": "createdAt",
-          "order": "DESCENDING"
-        }
+        { "fieldPath": "tenantId",  "order": "ASCENDING"  },
+        { "fieldPath": "jobType",   "order": "ASCENDING"  },
+        { "fieldPath": "createdAt", "order": "DESCENDING" }
       ]
     },
     {
       "collectionGroup": "runtime_pressure",
       "queryScope": "COLLECTION",
       "fields": [
-        {
-          "fieldPath": "tenantId",
-          "order": "ASCENDING"
-        },
-        {
-          "fieldPath": "detectedAt",
-          "order": "DESCENDING"
-        }
+        { "fieldPath": "tenantId",   "order": "ASCENDING"  },
+        { "fieldPath": "detectedAt", "order": "DESCENDING" }
+      ]
+    },
+
+    {
+      "collectionGroup": "mentor_profiles",
+      "queryScope": "COLLECTION",
+      "fields": [
+        { "fieldPath": "userId",    "order": "ASCENDING" },
+        { "fieldPath": "programId", "order": "ASCENDING" }
+      ]
+    },
+    {
+      "collectionGroup": "mentor_profiles",
+      "queryScope": "COLLECTION",
+      "fields": [
+        { "fieldPath": "programId",   "order": "ASCENDING" },
+        { "fieldPath": "displayName", "order": "ASCENDING" }
+      ]
+    },
+
+    {
+      "collectionGroup": "mentee_profiles",
+      "queryScope": "COLLECTION",
+      "fields": [
+        { "fieldPath": "userId",    "order": "ASCENDING" },
+        { "fieldPath": "programId", "order": "ASCENDING" }
+      ]
+    },
+    {
+      "collectionGroup": "mentee_profiles",
+      "queryScope": "COLLECTION",
+      "fields": [
+        { "fieldPath": "programId",   "order": "ASCENDING" },
+        { "fieldPath": "displayName", "order": "ASCENDING" }
+      ]
+    },
+
+    {
+      "collectionGroup": "mentoring_sessions",
+      "queryScope": "COLLECTION",
+      "fields": [
+        { "fieldPath": "mentorId",    "order": "ASCENDING" },
+        { "fieldPath": "programId",   "order": "ASCENDING" },
+        { "fieldPath": "scheduledAt", "order": "ASCENDING" }
+      ]
+    },
+    {
+      "collectionGroup": "mentoring_sessions",
+      "queryScope": "COLLECTION",
+      "fields": [
+        { "fieldPath": "menteeId",    "order": "ASCENDING" },
+        { "fieldPath": "programId",   "order": "ASCENDING" },
+        { "fieldPath": "scheduledAt", "order": "ASCENDING" }
+      ]
+    },
+    {
+      "collectionGroup": "mentoring_sessions",
+      "queryScope": "COLLECTION",
+      "fields": [
+        { "fieldPath": "mentorId",    "order": "ASCENDING" },
+        { "fieldPath": "menteeId",    "order": "ASCENDING" },
+        { "fieldPath": "scheduledAt", "order": "ASCENDING" }
+      ]
+    },
+
+    {
+      "collectionGroup": "okrs",
+      "queryScope": "COLLECTION",
+      "fields": [
+        { "fieldPath": "menteeId",  "order": "ASCENDING"  },
+        { "fieldPath": "programId", "order": "ASCENDING"  },
+        { "fieldPath": "createdAt", "order": "DESCENDING" }
+      ]
+    },
+
+    {
+      "collectionGroup": "matches",
+      "queryScope": "COLLECTION",
+      "fields": [
+        { "fieldPath": "programId", "order": "ASCENDING"  },
+        { "fieldPath": "createdAt", "order": "DESCENDING" }
+      ]
+    },
+    {
+      "collectionGroup": "matches",
+      "queryScope": "COLLECTION",
+      "fields": [
+        { "fieldPath": "mentorId", "order": "ASCENDING" },
+        { "fieldPath": "menteeId", "order": "ASCENDING" },
+        { "fieldPath": "status",   "order": "ASCENDING" }
+      ]
+    },
+
+    {
+      "collectionGroup": "pulse_checkins",
+      "queryScope": "COLLECTION",
+      "fields": [
+        { "fieldPath": "menteeId",    "order": "ASCENDING"  },
+        { "fieldPath": "programId",   "order": "ASCENDING"  },
+        { "fieldPath": "completedAt", "order": "DESCENDING" }
+      ]
+    },
+
+    {
+      "collectionGroup": "programs",
+      "queryScope": "COLLECTION",
+      "fields": [
+        { "fieldPath": "tenantId", "order": "ASCENDING" },
+        { "fieldPath": "status",   "order": "ASCENDING" }
+      ]
+    },
+
+    {
+      "collectionGroup": "diagnostics",
+      "queryScope": "COLLECTION",
+      "fields": [
+        { "fieldPath": "menteeId",  "order": "ASCENDING" },
+        { "fieldPath": "programId", "order": "ASCENDING" }
       ]
     }
   ],

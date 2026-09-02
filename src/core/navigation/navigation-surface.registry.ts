@@ -93,5 +93,22 @@ export const NAVIGATION_SURFACE_REGISTRY: NavigationSurfaceDefinition[] = [
   { surfaceId: "platform.partner-center", capabilityId: "PLATFORM_PARTNER_VIEW", route: "/platform/workspace/partner-center", officeId: "platform-workspace" },
 
   // Administration Workspace
-  { surfaceId: "workspace", capabilityId: "PLATFORM_ADMIN_VIEW", route: "/administration/workspace", officeId: "administration" }
+  { surfaceId: "workspace", capabilityId: "PLATFORM_ADMIN_VIEW", route: "/administration/workspace", officeId: "administration" },
+
+  // Mentor Office
+  { surfaceId: "mentor.dashboard",  capabilityId: "mentor.dashboard",  route: "/mentor/workspace",          officeId: "mentor-office" },
+  { surfaceId: "mentor.mentees",    capabilityId: "mentor.mentees",    route: "/mentor/workspace/mentees",  officeId: "mentor-office" },
+  { surfaceId: "mentor.sessions",   capabilityId: "mentor.sessions",   route: "/mentor/workspace/sessions", officeId: "mentor-office" },
+  { surfaceId: "mentor.library",    capabilityId: "mentor.library",    route: "/mentor/workspace/library",  officeId: "mentor-office" },
+
+  // Mentee Office
+  { surfaceId: "mentee.dashboard",  capabilityId: "mentee.dashboard",  route: "/mentee/workspace",          officeId: "mentee-office" },
+  { surfaceId: "mentee.journey",    capabilityId: "mentee.journey",    route: "/mentee/workspace/journey",  officeId: "mentee-office" },
+  { surfaceId: "mentee.sessions",   capabilityId: "mentee.sessions",   route: "/mentee/workspace/sessions", officeId: "mentee-office" },
+  { surfaceId: "mentee.resources",  capabilityId: "mentee.resources",  route: "/mentee/workspace/resources", officeId: "mentee-office" },
+
+  // Program Admin
+  { surfaceId: "program.dashboard", capabilityId: "program.dashboard", route: "/admin/programa",            officeId: "program-admin" },
+  { surfaceId: "program.matching",  capabilityId: "program.matching",  route: "/admin/programa/matching",   officeId: "program-admin" },
+  { surfaceId: "program.reports",   capabilityId: "program.reports",   route: "/admin/programa/relatorios", officeId: "program-admin" }
 ];

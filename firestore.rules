@@ -585,7 +585,93 @@ service cloud.firestore {
       allow delete: if false;
     }
 
-    // --- Global Safety Net (Moved to End) ---
+    // ─── Mentorship Core ──────────────────────────────────────────────────────
+
+    function isMentor() {
+      return hasRole('MENTOR');
+    }
+
+    function isMentee() {
+      return hasRole('MENTEE');
+    }
+
+    function isProgramAdmin() {
+      return hasRole('PROGRAM_ADMIN') || isSuperAdmin();
+    }
+
+    function isInProgram(programId) {
+      return isSignedIn()
+        && (isProgramAdmin()
+          || exists(/databases/$(database)/documents/programs/$(programId)/participants/$(request.auth.uid)));
+    }
+
+    function isSessionParticipant(sessionId) {
+      return isSignedIn()
+        && (isProgramAdmin()
+          || get(/databases/$(database)/documents/mentoring_sessions/$(sessionId)).data.mentorId == request.auth.uid
+          || get(/databases/$(database)/documents/mentoring_sessions/$(sessionId)).data.menteeId == request.auth.uid);
+    }
+
+    // Programs — isolados por programa; participantes leem, admins escrevem
+    match /programs/{programId} {
+      allow read: if isInProgram(programId);
+      allow create: if isProgramAdmin();
+      allow update: if isProgramAdmin();
+      allow delete: if isSuperAdmin();
+
+      match /participants/{userId} {
+        allow read: if isInProgram(programId);
+        allow write: if isProgramAdmin();
+      }
+    }
+
+    // Mentoring Sessions — apenas participantes da sessão
+    match /mentoring_sessions/{sessionId} {
+      allow read:   if isSessionParticipant(sessionId);
+      allow create: if isMentor() || isProgramAdmin();
+      allow update: if isSessionParticipant(sessionId);
+      allow delete: if isProgramAdmin();
+    }
+
+    // OKRs — mentor e mentee da dupla podem ler/escrever; admin também
+    match /okrs/{okrId} {
+      allow read:   if isSignedIn()
+                      && (isProgramAdmin()
+                        || resource.data.mentorId == request.auth.uid
+                        || resource.data.menteeId == request.auth.uid);
+      allow create: if isMentor() || isMentee() || isProgramAdmin();
+      allow update: if isMentor() || isMentee() || isProgramAdmin();
+      allow delete: if isProgramAdmin();
+    }
+
+    // Pulse Check-ins — apenas o próprio mentee escreve; mentor e admin leem
+    match /pulse_checkins/{checkinId} {
+      allow read:   if isSignedIn()
+                      && (isProgramAdmin()
+                        || resource.data.mentorId == request.auth.uid
+                        || resource.data.menteeId == request.auth.uid);
+      allow create: if isMentee();
+      allow update: if isMentee();
+      allow delete: if isProgramAdmin();
+    }
+
+    // Content Library — todos os participantes leem; mentor e admin escrevem
+    match /resources/{resourceId} {
+      allow read:   if isSignedIn() && (isMentor() || isMentee() || isProgramAdmin());
+      allow create: if isMentor() || isProgramAdmin();
+      allow update: if isMentor() || isProgramAdmin();
+      allow delete: if isProgramAdmin();
+    }
+
+    // Matching records — apenas admin
+    match /matches/{matchId} {
+      allow read:   if isProgramAdmin()
+                      || resource.data.mentorId == request.auth.uid
+                      || resource.data.menteeId == request.auth.uid;
+      allow write:  if isProgramAdmin();
+    }
+
+    // ─── Global Safety Net (Moved to End) ────────────────────────────────────
     match /{document=**} {
       allow read, write: if false;
     }

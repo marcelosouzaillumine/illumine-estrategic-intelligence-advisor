@@ -66,6 +66,18 @@ export const ROLE_LANDING_REGISTRY: Record<string, RoleLandingDefinition> = {
     fallbackRoute: '/executive/workspace/governance-office/governance.board-intelligence'
   },
 
+  // Mentorship Layer
+  'Mentor': {
+    role: 'Mentor',
+    context: 'MENTOR',
+    fallbackRoute: '/mentor/workspace'
+  },
+  'Mentee': {
+    role: 'Mentee',
+    context: 'MENTEE',
+    fallbackRoute: '/mentee/workspace'
+  },
+
   // Partner Layer
   'Advisor': {
     role: 'Advisor',

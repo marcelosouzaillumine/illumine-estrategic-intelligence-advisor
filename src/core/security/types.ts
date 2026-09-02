@@ -7,7 +7,10 @@ export type OfficialRole =
   | 'AUDITOR'
   | 'ADVISOR'
   | 'OPERATIONAL_USER'
-  | 'INVESTOR';
+  | 'INVESTOR'
+  | 'MENTOR'
+  | 'MENTEE'
+  | 'PROGRAM_ADMIN';
 
 export type OfficialAction =
   | 'VIEW_DASHBOARD'
@@ -36,7 +39,15 @@ export type OfficialAction =
   | 'APPROVE_DATA'
   | 'CONFIGURE_POLICIES'
   | 'CREATE_REPORT'
-  | 'CREATE_NOTE';
+  | 'CREATE_NOTE'
+  | 'VIEW_MENTORING_SESSION'
+  | 'CREATE_MENTORING_SESSION'
+  | 'SUBMIT_SESSION_NOTES'
+  | 'SCHEDULE_SESSION'
+  | 'VIEW_MENTEE_PROFILE'
+  | 'VIEW_MENTOR_PROFILE'
+  | 'MANAGE_PROGRAM'
+  | 'VIEW_PROGRAM_REPORTS';
 
 export type VisibilityPolicy =
   | 'PUBLIC_WITHIN_TENANT'
