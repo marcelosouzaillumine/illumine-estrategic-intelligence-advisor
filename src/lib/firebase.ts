@@ -37,6 +37,7 @@ export const createSecondaryUser = async (email: string, pass: string) => {
 };
 
 export const MASTER_ADMINS = [
+  'marcelo.illumine@icloud.com',
   'marcelo.illuminecoaching@gmail.com',
   'marcelosouza.illumine@gmail.com',
   'atendimentoliminar@gmail.com',
