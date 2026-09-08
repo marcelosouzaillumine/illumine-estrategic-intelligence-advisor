@@ -53,7 +53,7 @@ export const ExecutiveQuestionsRoot = ({ context }: any) => {
                   Origem do Questionamento
                 </ExecutiveText>
                 <ExecutiveText variant="bodyStandard" className="text-foreground">
-                  Referência: Sinal {q.originSignalId}
+                  Originado do diagnóstico: {q.context?.split(' classificado')[0]?.replace('Indicador ', '') || 'análise estrutural'}
                 </ExecutiveText>
               </div>
 

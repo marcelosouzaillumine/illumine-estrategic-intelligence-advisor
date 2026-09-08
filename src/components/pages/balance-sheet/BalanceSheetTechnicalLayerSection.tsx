@@ -6,8 +6,11 @@ import { ExecutiveEmptyState } from '../../ui/executive-empty-state';
 import { cn } from '../../../lib/utils';
 
 export function normalizeTechnicalLayer(viewModel: any) {
+  if (!viewModel) return [];
+  // families always takes priority — items[] here is evidence rows, not nested data
+  if (Array.isArray(viewModel.families)) return viewModel.families;
   let target = viewModel;
-  if (viewModel && viewModel.items && Array.isArray(viewModel.items) && viewModel.items.length > 0) {
+  if (viewModel.items && Array.isArray(viewModel.items) && viewModel.items.length > 0 && viewModel.items[0]?.families) {
     target = viewModel.items[0];
   }
   if (Array.isArray(target)) return target;
@@ -152,7 +155,8 @@ export function BalanceSheetTechnicalLayerSection({
                 </thead>
                 <tbody>
                   {(family.indicators || []).map((ind: any, idx: number) => {
-                    const hasData = !isMissing(ind.value) && ind.value !== '0.00' && ind.value !== '0,00';
+                    const displayValue = ind.formattedValue ?? (typeof ind.value === 'number' ? ind.value.toFixed(2) : ind.value);
+                    const hasData = displayValue !== null && displayValue !== undefined && displayValue !== 'Não aplicável' && !isMissing(displayValue);
                     return (
                       <tr key={idx} className="border-b border-border/50 hover:bg-surface-high/30 transition-colors">
                         <td className="py-3 px-4 text-executive-primary align-top">
@@ -163,16 +167,18 @@ export function BalanceSheetTechnicalLayerSection({
                         <td className="py-3 px-4 align-top text-executive-secondary">
                           <ExecutiveText variant="microLabel" className="font-mono">{ind.formula}</ExecutiveText>
                         </td>
-                        <td className="py-3 px-4 align-top">
-                          <ExecutiveText variant="bodyStandard">{ind.value}</ExecutiveText>
+                        <td className="py-3 px-4 align-top font-mono tabular-nums">
+                          <ExecutiveText variant="bodyStandard" className="font-mono">
+                            {hasData ? displayValue : <span className="text-muted-foreground italic text-xs">Não aplicável</span>}
+                          </ExecutiveText>
                         </td>
                         <td className="py-3 px-4 align-top">
                           {hasData && ind.classificationLabel ? (
-                            <span className="inline-flex items-center px-2 py-1 rounded-md bg-surface-high text-executive-secondary border border-border">
-                              <ExecutiveText as="span" variant="microLabel">{ind.classificationLabel}</ExecutiveText>
+                            <span className={cn("inline-flex items-center px-2 py-1 rounded-md border text-xs font-medium", ind.badgeClass || 'bg-surface-high text-executive-secondary border-border')}>
+                              {ind.classificationLabel}
                             </span>
                           ) : (
-                            <ExecutiveText as="span" variant="microLabel" className="text-executive-muted">Não aplicável</ExecutiveText>
+                            <ExecutiveText as="span" variant="microLabel" className="text-executive-muted">—</ExecutiveText>
                           )}
                         </td>
                         <td className="py-3 px-4 text-executive-secondary align-top">

@@ -9,9 +9,9 @@ export const TechnicalEvidenceRoot = ({ context }: any) => {
   if (!evidence || !evidence.available) {
     const fallbackReason = evidence?.availabilityReason || {
       type: "INCOMPLETE_DATA_SOURCE",
-      title: "Technical Evidence Unavailable",
-      explanation: "Insufficient metrics to construct the structural analytical tables.",
-      impact: "Low-level structural inspection cannot be rendered."
+      title: "Evidência Técnica Indisponível",
+      explanation: "Métricas insuficientes para construir as tabelas analíticas estruturais.",
+      impact: "Inspeção estrutural de baixo nível não pode ser renderizada."
     };
     return <ExecutiveAnalyticalMissing reason={fallbackReason} className="my-8" />;
   }

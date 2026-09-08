@@ -10,7 +10,7 @@ export const DiagnosisGrid = ({ viewModel }: { viewModel: any }) => {
   return (
     <div className="space-y-8">
       <BalanceSheetLiquiditySection indicators={viewModel.liquidity || []} />
-      <BalanceSheetCapitalStructureSection indicators={viewModel.capitalStructure || []} />
+      <BalanceSheetCapitalStructureSection indicators={viewModel.solvencyAndCapitalStructure || []} />
       <BalanceSheetWorkingCapitalSection indicators={viewModel.workingCapital || []} />
       <BalanceSheetAssetQualitySection indicators={viewModel.assetQuality || []} />
     </div>

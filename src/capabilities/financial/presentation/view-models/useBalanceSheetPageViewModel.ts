@@ -300,20 +300,45 @@ export function useBalanceSheetPageViewModel({ clients, selectedClient, selected
   const { ebitda, lucroLiquido } = useMemo(() => {
     if (dreDbData.length === 0) return { ebitda: 0, lucroLiquido: 0 };
 
-    const mappedRows = dreDbData
-      .filter((r: any) => r.dreTipo !== 'SINTETICA') 
+    // IDs oficiais da estrutura DRE — linhas de Firestore com estes IDs são
+    // totalizadoras já computadas pelo cascade; incluí-las causaria dupla contagem.
+    const OFFICIAL_DRE_IDS = new Set(['ROB','DED','ROL','CUSTOS','LUCRO_BRUTO','DESP_OPER','EBITDA','DEP_AMORT','EBIT','RESULT_FIN','OUTRAS_REC_DESP','RAIR_CSLL','PROV_IR_CSLL','LUCRO_LIQ']);
+
+    // Pré-varredura: verifica se há receita bruta (ROB) explícita nos dados.
+    // Se não houver, "receita líquida" é a única linha de receita — não deve ser filtrada.
+    const detailRows = dreDbData
+      .filter((r: any) => r.dreTipo !== 'SINTETICA')
+      .filter((r: any) => !OFFICIAL_DRE_IDS.has(r.id));
+
+    const hasGrossRevenue = detailRows.some((r: any) => {
+      const cat = (r.category || r.conta || '').toLowerCase();
+      return cat.includes('receita operacional bruta') || cat === 'receita bruta' ||
+        cat.includes('faturamento') ||
+        (cat.includes('receita') && !cat.includes('líquida') && !cat.includes('financeir') && !cat.includes('outras'));
+    });
+
+    const mappedRows = detailRows
       .map((r: any) => {
-        if (r.parentId) return r; 
+        // Sempre re-deriva parentId pela categoria, nunca confia no parentId salvo
         const cat = (r.category || r.conta || '').toLowerCase();
+
+        // Receita líquida: filtra apenas se já existe receita bruta (evita dupla contagem).
+        // Se não há receita bruta, trata receita líquida como ROB (única linha de receita).
+        const isNetRevenue = cat.includes('receita líquida') || cat.includes('receita operacional líquida');
+        if (isNetRevenue && hasGrossRevenue) return null;
+
+        // Demais linhas calculadas/sintéticas — sempre ignorar
         if (
-          cat.includes('receita líquida') || cat.includes('receita operacional líquida') ||
           cat.includes('lucro bruto') || cat === 'ebitda' || cat === 'ebit' ||
           cat.includes('resultado operacional líquido') || cat.includes('lajida') ||
           cat.includes('lucro líquido') || cat.includes('lair') || cat.includes('resultado antes')
         ) return null;
 
         let parentId = '';
-        if (cat.includes('receita operacional bruta') || cat === 'receita bruta' || cat.includes('faturamento') ||
+        if (isNetRevenue) {
+          // Chegou aqui apenas quando !hasGrossRevenue (senão teria retornado null acima)
+          parentId = 'ROB';
+        } else if (cat.includes('receita operacional bruta') || cat === 'receita bruta' || cat.includes('faturamento') ||
             (cat.includes('receita') && !cat.includes('líquida') && !cat.includes('financeir') && !cat.includes('outras'))) {
           parentId = 'ROB';
         } else if (cat.includes('deduç') || cat.includes('imposto sobre') || cat.includes('abatimento') || cat.includes('devoluç') || cat.includes('cancelamento')) {
@@ -339,17 +364,30 @@ export function useBalanceSheetPageViewModel({ clients, selectedClient, selected
       ...generateInitialDreState(),
       ...mappedRows.map((r: any) => {
         const val = parseMetricStr(r.value || r.val);
-        return {
-          ...r,
-          val,
-          value: val
-        };
+        return { ...r, val, value: val };
       })
     ];
 
     const cascadeResult = calculateDreCascade(allRows);
     const directEbitda = cascadeResult.find(r => r.id === 'EBITDA')?.computedValue || 0;
     const directLucro = cascadeResult.find(r => r.id === 'LUCRO_LIQ')?.computedValue || 0;
+
+    // Diagnóstico para validar integridade da cascata
+    const hasRevenue = mappedRows.some((r: any) => r.parentId === 'ROB');
+    const hasCostOrExpense = mappedRows.some((r: any) => ['CUSTOS', 'DESP_OPER'].includes(r.parentId));
+    console.log('[DRE-CASCADE] ROB:', cascadeResult.find(r => r.id === 'ROB')?.computedValue);
+    console.log('[DRE-CASCADE] CUSTOS:', cascadeResult.find(r => r.id === 'CUSTOS')?.computedValue);
+    console.log('[DRE-CASCADE] DESP_OPER:', cascadeResult.find(r => r.id === 'DESP_OPER')?.computedValue);
+    console.log('[DRE-CASCADE] EBITDA:', directEbitda, '| LUCRO_LIQ:', directLucro);
+    console.log('[DRE-CASCADE] hasRevenue:', hasRevenue, '| hasGrossRevenue:', hasGrossRevenue, '| hasCostOrExpense:', hasCostOrExpense, '| rows:', mappedRows.length);
+
+    // Guarda de sanidade: sem custo/despesa mapeado significa DRE incompleto —
+    // LUCRO_LIQ seria igual à receita bruta (impossível). Não passa ao engine.
+    if (!hasCostOrExpense) {
+      console.warn('[DRE-CASCADE] DRE sem custos/despesas mapeados — ignorando lucroLiquido para cross-statement');
+      return { ebitda: 0, lucroLiquido: 0 };
+    }
+
     return { ebitda: directEbitda, lucroLiquido: directLucro };
   }, [dreDbData]);
   
@@ -586,10 +624,23 @@ export function useBalanceSheetPageViewModel({ clients, selectedClient, selected
   // Motor canônico de indicadores patrimoniais (governance/bp), separado do
   // `financialIndicators` legado acima (financialAnalysisService) para não afetar
   // os outros campos computados que já dependem dele.
+  // ROA > ±100% é fisicamente implausível — indica DRE incompleto ou dupla contagem.
+  // Nenhuma operação normal perde/ganha mais do que o total de seus ativos em um ano.
+  // Passa undefined quando o resultado não é confiável para omitir ROA/ROE.
+  const crossStatementInput = useMemo(() => {
+    if (!bpSummary || !lucroLiquido || !bpSummary.ativoTotal) return undefined;
+    const impliedROA = lucroLiquido / bpSummary.ativoTotal;
+    if (Math.abs(impliedROA) > 1.0) {
+      console.warn(`[CROSS-STATEMENT] ROA implícito de ${(impliedROA * 100).toFixed(0)}% — DRE provavelmente incompleto. Omitindo ROA/ROE.`);
+      return undefined;
+    }
+    return { lucroLiquido, ebitda };
+  }, [bpSummary, lucroLiquido, ebitda]);
+
   const canonicalIndicators = useMemo(() => {
     if (!bpSummary || Object.keys(bpSummary).length === 0) return [];
-    return BalanceSheetFinancialMetricsEngine.calculateIndicators(bpSummary);
-  }, [bpSummary]);
+    return BalanceSheetFinancialMetricsEngine.calculateIndicators(bpSummary, crossStatementInput);
+  }, [bpSummary, crossStatementInput]);
 
   // Pipeline testado (14 contract tests em src/tests/balance-sheet) que produz
   // severidade/narrativa validadas — não é o formato que a UI real consome
@@ -610,9 +661,10 @@ export function useBalanceSheetPageViewModel({ clients, selectedClient, selected
     return mapToFinancialPositionPureViewModel(
       canonicalIndicators,
       historicalFinancialSeries?.series,
-      canonicalViewModel
+      canonicalViewModel,
+      comparativeAnalysis
     );
-  }, [hasBalanceSheetData, bpSummary, canonicalIndicators, historicalFinancialSeries, canonicalViewModel]);
+  }, [hasBalanceSheetData, bpSummary, canonicalIndicators, historicalFinancialSeries, canonicalViewModel, comparativeAnalysis]);
 
 
   return {

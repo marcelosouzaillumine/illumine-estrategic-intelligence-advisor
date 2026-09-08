@@ -33,10 +33,10 @@ export const ExecutiveAnalyticalMissing: React.FC<ExecutiveAnalyticalMissingProp
         {reason.title}
       </ExecutiveHeading>
       
-      <ExecutiveText variant="bodyStandard" className="text-executive-secondary max-w-md mb-6">
+      <ExecutiveText as="p" variant="bodyStandard" className="text-executive-secondary max-w-md w-full mb-6">
         {reason.explanation}
       </ExecutiveText>
-      
+
       <div className="bg-card border border-border rounded-md p-4 text-left w-full max-w-lg">
         <ExecutiveText variant="microLabel" className="uppercase tracking-wider font-semibold text-primary mb-1">
           Impacto Analítico

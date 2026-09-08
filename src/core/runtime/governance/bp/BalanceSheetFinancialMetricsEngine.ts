@@ -28,7 +28,7 @@ export class BalanceSheetFinancialMetricsEngine {
   constructor(...args: any[]) {}
   [key: string]: any;
   static [key: string]: any;
-  static calculateIndicators(summary: BPSummary): PatrimonialIndicator[] {
+  static calculateIndicators(summary: BPSummary, crossStatement?: { lucroLiquido?: number; ebitda?: number }): PatrimonialIndicator[] {
     const indicators: PatrimonialIndicator[] = [];
 
     // --- LIQUIDEZ ---
@@ -428,6 +428,101 @@ export class BalanceSheetFinancialMetricsEngine {
       } else {
         indicators.push(this.insufficientData(metricName, family, 'Falta PL para Debt-to-Equity'));
       }
+    }
+
+    // --- IMOBILIZAÇÃO DOS RECURSOS NÃO CORRENTES ---
+    // 14. IRNC
+    {
+      const family = 'Imobilização';
+      const metricName = 'Imobilização dos Recursos Não Correntes';
+      const capitalPermanente = summary.patrimonioLiquido + summary.passivoNaoCirculante;
+      if (summary.ativoPermanente !== null && capitalPermanente > 0) {
+        const val = Number(NaNEliminationGuard.sanitizeNumber(summary.ativoPermanente / capitalPermanente, 0));
+        const classification = val > 1.0 ? 'CRITICAL' : (val > 0.8 ? 'ATTENTION' : 'HEALTHY');
+        indicators.push({
+          metricName,
+          value: val,
+          classification,
+          severity: classification,
+          confidence: 90,
+          evidence: { AtivoPermanente: summary.ativoPermanente, PL: summary.patrimonioLiquido, PNC: summary.passivoNaoCirculante },
+          rationale: val > 1.0
+            ? 'Imobilizado superior ao capital permanente — parte do ativo fixo financiada por passivos de curto prazo.'
+            : 'Capital permanente (PL + PNC) cobre adequadamente o ativo imobilizado.',
+          lineageHash: generateHash(`${metricName}-${val}`),
+          family,
+          format: 'percentage'
+        });
+      } else {
+        indicators.push(this.insufficientData(metricName, family, 'Ativo Permanente nulo/indisponível ou sem capital permanente'));
+      }
+    }
+
+    // --- ENDIVIDAMENTO LÍQUIDO ---
+    // 15. Net Debt (Dívida Líquida)
+    {
+      const family = 'Estrutura de Capital';
+      const metricName = 'Dívida Líquida (Net Debt)';
+      const passivoOneroso = summary.passivosFinanceiros || 0;
+      const val = passivoOneroso - summary.caixaEquivalentes;
+      const debtRatio = summary.ativoTotal > 0 ? val / summary.ativoTotal : 0;
+      const classification = val < 0 ? 'POSITIVE_TREASURY' : (debtRatio > 0.3 ? 'CRITICAL' : 'ATTENTION');
+      const severity = val < 0 ? 'HEALTHY' : (debtRatio > 0.3 ? 'CRITICAL' : 'ATTENTION');
+      indicators.push({
+        metricName,
+        value: val,
+        classification,
+        severity,
+        confidence: 95,
+        evidence: { PassivosFinanceiros: passivoOneroso, Caixa: summary.caixaEquivalentes },
+        rationale: val < 0
+          ? `Caixa supera a dívida financeira (posição credora líquida).`
+          : `Dívida financeira líquida de ${debtRatio > 0 ? (debtRatio * 100).toFixed(1) + '%' : '0%'} do ativo total.`,
+        lineageHash: generateHash(`${metricName}-${val}`),
+        family,
+        format: 'currency'
+      });
+    }
+
+    // --- RENTABILIDADE PATRIMONIAL (cross-statement, requer DRE) ---
+    // 16. ROA
+    if (crossStatement?.lucroLiquido !== undefined && crossStatement.lucroLiquido !== null && summary.ativoTotal > 0) {
+      const family = 'Rentabilidade Patrimonial';
+      const metricName = 'ROA — Retorno sobre Ativos';
+      const val = Number(NaNEliminationGuard.sanitizeNumber(crossStatement.lucroLiquido / summary.ativoTotal, 0));
+      const classification = val < 0 ? 'CRITICAL' : (val < 0.05 ? 'ATTENTION' : 'HEALTHY');
+      indicators.push({
+        metricName,
+        value: val,
+        classification,
+        severity: classification,
+        confidence: 90,
+        evidence: { LucroLiquido: crossStatement.lucroLiquido, AtivoTotal: summary.ativoTotal },
+        rationale: 'Eficiência na geração de resultado a partir dos ativos totais da organização.',
+        lineageHash: generateHash(`${metricName}-${val}`),
+        family,
+        format: 'percentage'
+      });
+    }
+
+    // 17. ROE
+    if (crossStatement?.lucroLiquido !== undefined && crossStatement.lucroLiquido !== null && summary.patrimonioLiquido > 0) {
+      const family = 'Rentabilidade Patrimonial';
+      const metricName = 'ROE — Retorno sobre PL';
+      const val = Number(NaNEliminationGuard.sanitizeNumber(crossStatement.lucroLiquido / summary.patrimonioLiquido, 0));
+      const classification = val < 0 ? 'CRITICAL' : (val < 0.08 ? 'ATTENTION' : 'HEALTHY');
+      indicators.push({
+        metricName,
+        value: val,
+        classification,
+        severity: classification,
+        confidence: 90,
+        evidence: { LucroLiquido: crossStatement.lucroLiquido, PL: summary.patrimonioLiquido },
+        rationale: 'Rendimento gerado sobre o capital dos acionistas/sócios.',
+        lineageHash: generateHash(`${metricName}-${val}`),
+        family,
+        format: 'percentage'
+      });
     }
 
     return indicators;

@@ -33,7 +33,7 @@ export const FinancialSignalsRoot = ({ context }: any) => {
       <div className="w-full my-8 flex flex-col gap-4">
         <div className="flex items-center gap-3 mb-2 pb-2 border-b border-border">
           <ExecutiveHeading as="h2" variant="moduleTitle" className="text-foreground leading-tight tracking-tight">
-            Intelligence Signals
+            Sinais de Inteligência Patrimonial
           </ExecutiveHeading>
         </div>
         <ExecutiveEmptyState
@@ -49,7 +49,7 @@ export const FinancialSignalsRoot = ({ context }: any) => {
     <div className="w-full my-8 flex flex-col gap-4">
       <div className="flex items-center gap-3 mb-2 pb-2 border-b border-border">
         <ExecutiveHeading as="h2" variant="moduleTitle" className="text-foreground leading-tight tracking-tight">
-          Intelligence Signals
+          Sinais de Inteligência Patrimonial
         </ExecutiveHeading>
       </div>
       
@@ -60,15 +60,15 @@ export const FinancialSignalsRoot = ({ context }: any) => {
           
           return (
             <ExecutiveSurface key={idx} padding="none" radius="md" className={cn(
-              "border shadow-sm flex flex-col overflow-hidden",
-              isCritical ? "border-state-critical-border" :
-              isWarning ? "border-state-warning-border" :
+              "border-2 shadow-sm flex flex-col overflow-hidden",
+              isCritical ? "border-red-400 dark:border-red-600" :
+              isWarning ? "border-amber-400 dark:border-amber-600" :
               "border-border"
             )}>
               <div className={cn(
                 "flex items-center gap-2 px-4 py-3 border-b",
-                isCritical ? "bg-state-critical-soft/30 border-state-critical-border" :
-                isWarning ? "bg-state-warning-soft/30 border-state-warning-border" :
+                isCritical ? "bg-red-100 border-red-300 dark:bg-red-950 dark:border-red-700" :
+                isWarning ? "bg-amber-100 border-amber-300 dark:bg-amber-950 dark:border-amber-700" :
                 "bg-surface-container border-border"
               )}>
                 {isCritical ? <AlertCircle className="w-5 h-5 text-state-critical-foreground" /> :
