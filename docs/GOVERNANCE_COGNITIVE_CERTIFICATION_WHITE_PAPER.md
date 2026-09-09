@@ -1,6 +1,6 @@
 # Governance Cognitive Certification Executive White Paper v1.0
 
-**Illumine Governance™ – System of Institutional Intelligence**
+**Illumine Governance™ – System of Institutional Governance**
 **Document ID:** GCC-WP-2026-V1  
 **Release Date:** June 2026  
 **Audience:** Boards of Directors, C-Level Executives, Investors, and Strategic Partners  
@@ -35,7 +35,7 @@ A certificação comprova empiricamente que a plataforma é capaz de interpretar
 As corporações atuais investem milhões em pilhas tecnológicas que coletam, organizam e exibem dados:
 * **ERPs (Enterprise Resource Planning):** Registram com precisão as transações passadas e os fluxos de caixa operados.
 * **CRMs (Customer Relationship Management):** Mapeiam o histórico e a intensidade das interações comerciais com clientes.
-* **BI (Business Intelligence) & Dashboards:** Consolidam e apresentam indicadores de desempenho (KPIs) de forma visual.
+* **BI (Business Governance) & Dashboards:** Consolidam e apresentam indicadores de desempenho (KPIs) de forma visual.
 
 Apesar da sofisticação dessas ferramentas, elas compartilham de uma limitação fundamental: **são sistemas de registro, não de discernimento.** Elas medem o que aconteceu ou o que está acontecendo sob premissas estáticas, mas falham em responder à pergunta crítica:
 
@@ -86,17 +86,17 @@ Para estruturar e organizar a leitura da integridade corporativa, o Illumine Gov
 
 ---
 
-## 5. The Seven Intelligences
+## 5. The Seven Governances
 
 A orquestração do framework ESGIM™ e a interpretação de cenários complexos são executadas pelas **Sete Inteligências Estruturantes** do Illumine:
 
-1. **Economic Intelligence:** Responde à pergunta *"Existe geração de valor?"*, analisando margens, EBITDA, lucros contábeis e potencial de escala.
-2. **Fiduciary Intelligence:** Responde à pergunta *"O valor está protegido?"*, focando na integridade do fluxo de caixa, liquidez corrente, solvência e endividamento.
-3. **Institutional Intelligence:** Responde à pergunta *"Existe continuidade institucional?"*, avaliando a robustez dos processos, dependências operacionais e maturidade administrativa.
-4. **Causal Intelligence:** Responde à pergunta *"Por que os fenômenos observados estão ocorrendo?"*, mapeando a raiz dos conflitos e rastreando efeitos de segunda e terceira ordem das decisões corporativas.
-5. **Constitutional Intelligence:** Responde à pergunta *"Existe aderência aos princípios?"*, monitorando desvios éticos, fraudes contratuais e conformidade com a Constituição Cognitiva.
-6. **Missional Intelligence:** Responde à pergunta *"A organização está vivendo sua razão de existir?"*, medindo o alinhamento estratégico com o propósito central declarado.
-7. **Prospective Intelligence:** Responde à pergunta *"A organização está preparada para o futuro?"*, interpretando a capacidade adaptativa, P&D, transições regulatórias e ameaças disruptivas de longo prazo.
+1. **Economic Governance:** Responde à pergunta *"Existe geração de valor?"*, analisando margens, EBITDA, lucros contábeis e potencial de escala.
+2. **Fiduciary Governance:** Responde à pergunta *"O valor está protegido?"*, focando na integridade do fluxo de caixa, liquidez corrente, solvência e endividamento.
+3. **Institutional Governance:** Responde à pergunta *"Existe continuidade institucional?"*, avaliando a robustez dos processos, dependências operacionais e maturidade administrativa.
+4. **Causal Governance:** Responde à pergunta *"Por que os fenômenos observados estão ocorrendo?"*, mapeando a raiz dos conflitos e rastreando efeitos de segunda e terceira ordem das decisões corporativas.
+5. **Constitutional Governance:** Responde à pergunta *"Existe aderência aos princípios?"*, monitorando desvios éticos, fraudes contratuais e conformidade com a Constituição Cognitiva.
+6. **Missional Governance:** Responde à pergunta *"A organização está vivendo sua razão de existir?"*, medindo o alinhamento estratégico com o propósito central declarado.
+7. **Prospective Governance:** Responde à pergunta *"A organização está preparada para o futuro?"*, interpretando a capacidade adaptativa, P&D, transições regulatórias e ameaças disruptivas de longo prazo.
 
 ---
 
@@ -107,12 +107,12 @@ Para garantir que a inteligência artificial não alucine e mantenha absoluta co
 ### Constitutional Override
 > [!IMPORTANT]
 > **"Resultados não podem substituir princípios."**  
-> Se a *Constitutional Intelligence* identificar uma violação crítica de integridade ou ética (`CRITICAL CONSTITUTIONAL BREACH`), o sistema executa um override imediato. Diagnósticos de excelência financeira ou fiduciária são vetados e o rating corporativo é rebaixado para `ESGIM_CRITICAL`.
+> Se a *Constitutional Governance* identificar uma violação crítica de integridade ou ética (`CRITICAL CONSTITUTIONAL BREACH`), o sistema executa um override imediato. Diagnósticos de excelência financeira ou fiduciária são vetados e o rating corporativo é rebaixado para `ESGIM_CRITICAL`.
 
 ### Fiduciary Override
 > [!IMPORTANT]
 > **"Crescimento não pode destruir valor."**  
-> A *Economic Intelligence* não possui permissão para gerar diagnósticos otimistas se a *Fiduciary Intelligence* reportar fragilidade estrutural severa de liquidez ou fluxo de caixa. O crescimento comercial desordenado que consome o capital de giro ativa a trava fiduciária de ratings.
+> A *Economic Governance* não possui permissão para gerar diagnósticos otimistas se a *Fiduciary Governance* reportar fragilidade estrutural severa de liquidez ou fluxo de caixa. O crescimento comercial desordenado que consome o capital de giro ativa a trava fiduciária de ratings.
 
 ### Mission Sustainability Principle
 > [!IMPORTANT]

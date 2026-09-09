@@ -4,7 +4,7 @@ import { ConstitutionReference } from './ConstitutionReference';
 import { DecisionLineage } from './DecisionLineage';
 
 export type DecisionOutcome = 'NO_ACTION' | 'MONITOR' | 'INVESTIGATE' | 'ARCHITECTURAL_REVIEW';
-export type DecisionClassification = 'STRATEGIC' | 'ARCHITECTURAL' | 'TECHNICAL' | 'GOVERNANCE' | 'COMPLIANCE' | 'SECURITY' | 'UX' | 'PERFORMANCE' | 'DATA' | 'INTELLIGENCE';
+export type DecisionClassification = 'STRATEGIC' | 'ARCHITECTURAL' | 'TECHNICAL' | 'GOVERNANCE' | 'COMPLIANCE' | 'SECURITY' | 'UX' | 'PERFORMANCE' | 'DATA' | 'GOVERNANCE';
 
 export interface ArchitectureDecision {
   readonly id: string;

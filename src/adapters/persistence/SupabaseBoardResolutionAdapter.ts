@@ -26,7 +26,7 @@ export const boardResolutionService = {
       status: resolution.status === 'ARCHIVED' ? 'SUPERSEDED' : 'ACTIVE'
     };
 
-    const { data, error } = await supabase.from('intelligence.decisions').insert(payload).select('id').single();
+    const { data, error } = await supabase.from('governance.decisions').insert(payload).select('id').single();
 
     if (error) {
       throw new Error(`Failed to add board resolution: ${error.message}`);
@@ -39,7 +39,7 @@ export const boardResolutionService = {
     const supabase = getSupabaseClient();
     
     const { data, error } = await supabase
-      .from('intelligence.decisions')
+      .from('governance.decisions')
       .select('*')
       .eq('company_id', clientId)
       .eq('selected_alternative', 'Board Resolution');

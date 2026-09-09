@@ -7,7 +7,7 @@ describe('BalanceSheetSingleInterpretationSource v7.16', () => {
   beforeAll(() => { (BalanceSheetExecutiveViewModelBuilder as any).assertFinancialNarrativePurity = (vm: any) => vm; });
   afterAll(() => { (BalanceSheetExecutiveViewModelBuilder as any).assertFinancialNarrativePurity = originalAssert; });
 
-  it('Should generate all presentation fields without relying on missing intelligence report', () => {
+  it('Should generate all presentation fields without relying on missing governance report', () => {
     const fakeRawReport = {
       context: { analysisYear: 2024, stage: 'Maturidade' },
       rawFinancialData: {

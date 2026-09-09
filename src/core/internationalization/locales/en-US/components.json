@@ -22,7 +22,7 @@
     "recommendation": "Priority Recommendation",
     "primary_driver": "Primary institutional driver:",
     "diagnosis_title": "Strategic Diagnosis",
-    "recalculating": "Recalculating executive intelligence for {{year}}...",
+    "recalculating": "Recalculating executive governance for {{year}}...",
     "diagnosis_bp_desc": "Consolidated view of equity position, liquidity, capital structure, and financial sustainability capacity to support decision making.",
     "diagnosis_dre_desc": "Consolidated view of economic performance, profit formation, and operational priorities to support decision making.",
     "current_situation": "Current Situation",
@@ -36,7 +36,7 @@
   },
   "loading": {
     "generic": "Loading...",
-    "executive_intelligence": "Loading executive intelligence...",
+    "executive_intelligence": "Loading executive governance...",
     "financial_analysis": "Loading financial analysis..."
   },
   "error": {

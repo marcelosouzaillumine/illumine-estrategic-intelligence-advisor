@@ -4,8 +4,8 @@ import { BalanceSheetIntelligenceEngine } from '../intelligence/BalanceSheetInte
 import { IntelligenceAssuranceEngine } from '../../../core/intelligence/assurance/engines/IntelligenceAssuranceEngine';
 
 export class FinancialCapabilityAdapter implements CapabilityAdapter {
-  public readonly id = 'financial.balance_sheet_intelligence';
-  public readonly type = 'FINANCIAL_INTELLIGENCE';
+  public readonly id = 'financial.balance_sheet_governance';
+  public readonly type = 'FINANCIAL_GOVERNANCE';
   public readonly version = '1.0.0';
 
   public async adapt(rawInput: any): Promise<any> {
@@ -20,7 +20,7 @@ export class FinancialCapabilityAdapter implements CapabilityAdapter {
     
     // We package this up into an object that the new Executive Cognitive Runtime can process
     return {
-      source: 'BalanceSheetIntelligenceEngine',
+      source: 'BalanceSheetGovernanceEngine',
       legacyOutput,
       assurance: finalAssuranceResult,
       rawInput

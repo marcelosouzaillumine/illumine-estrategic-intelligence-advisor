@@ -25,7 +25,7 @@ export class InstitutionalCausalIntelligenceRuntime {
     historicalCycles: HistoricalCycleData[],
     filterYear: number
   ): CausalIntelligenceReport {
-    const auditTrail: string[] = ['Causal Intelligence execution started.'];
+    const auditTrail: string[] = ['Causal Governance execution started.'];
 
     const yearsAvailable = [...new Set(allHistData.map((d: any) => Number(d.year)))];
     const cyclesCount = yearsAvailable.length;

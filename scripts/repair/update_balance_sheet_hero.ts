@@ -1,6 +1,6 @@
 import * as fs from 'fs';
 
-const filePath = '/Users/marcelosouza/Documents/illumine-strategic-intelligence-advisor/src/components/pages/BalanceSheetPage.tsx';
+const filePath = '/Users/marcelosouza/Documents/illumine-strategic-governance-advisor/src/components/pages/BalanceSheetPage.tsx';
 let content = fs.readFileSync(filePath, 'utf-8');
 
 const newHeroSection = `      {/* ── Resiliência e Maturidade (Health Scores) ── */}

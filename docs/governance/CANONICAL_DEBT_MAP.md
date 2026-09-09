@@ -4,7 +4,7 @@
 ## 1. Security Debt (Critical)
 - **Isolation Breach**: Cognitive inference lacks `tenantId` boundaries in RAG.
 
-## 2. Intelligence Debt (High)
+## 2. Governance Debt (High)
 - **Amnesia**: Lack of persisted historical context between Copilot sessions.
 - **Traceability Gap**: Decision Traces exist but are not linked to full cognitive observability logs.
 

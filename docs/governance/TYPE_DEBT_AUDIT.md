@@ -5,7 +5,7 @@ Este documento registra erros de tipagem encontrados na camada de Domínio, Dado
 ## Erros Identificados
 
 - **Arquivo:** `src/workspace/data/factory/provider.factory.ts`
-  - **Erro:** `Cannot find module '../../intelligence/cfo/mock-cfo.provider'`
+  - **Erro:** `Cannot find module '../../governance/cfo/mock-cfo.provider'`
   - **Motivo:** O módulo foi movido ou renomeado, mas o factory não foi atualizado.
 
 - **Arquivo:** `src/workspace/data/mappers/cfo-snapshot.mapper.ts`
@@ -15,7 +15,7 @@ Este documento registra erros de tipagem encontrados na camada de Domínio, Dado
 - **Arquivo:** `src/workspace/data/providers/mock-cfo.provider.ts`
   - **Erro:** Faltam as mesmas propriedades de `ExecutiveSnapshotMetadata`.
 
-- **Arquivo:** `src/workspace/intelligence/snapshots/snapshot.generator.ts`
+- **Arquivo:** `src/workspace/governance/snapshots/snapshot.generator.ts`
   - **Erro:** Faltam as mesmas propriedades de `ExecutiveSnapshotMetadata` ao gerar o snapshot.
 
 ## Resolução Esperada

@@ -15,8 +15,8 @@ export class GovernanceDiagnosticJourney extends ExecutiveDiagnosticJourney {
   public get descriptor(): ExecutiveDiagnostic {
     return {
       id: 'diag_governance_v1',
-      journeyId: 'governance-intelligence',
-      name: 'Governance Intelligence Diagnostic Journey™',
+      journeyId: 'governance-governance',
+      name: 'Governance Governance Diagnostic Journey™',
       domain: GOVERNANCE_DOMAIN,
       description: 'Uma jornada executiva para compreender como sua organização estrutura decisões, responsabilidades e mecanismos de liderança.',
       dimensions: GOVERNANCE_DIMENSIONS,

@@ -1,6 +1,6 @@
 import { buildBPHierarchy } from '../lib/bpEngine';
 
-export const CURRENT_METHODOLOGY_VERSION = "Illumine Intelligence Engine v1.1";
+export const CURRENT_METHODOLOGY_VERSION = "Illumine Governance Engine v1.1";
 
 const getVal = (data: any[], names: string[]) => {
   const lowerNames = names.map(n => n.toLowerCase());
@@ -77,7 +77,7 @@ export const IntelligenceEngine = {
     let costOfDebt   = 0.12;  // Kd bruto (taxa média de mercado para PMEs)
     const taxShield  = 1 - 0.34; // Benefício fiscal do IR/CSLL
 
-    if (version === "Illumine Intelligence Engine v2.0") {
+    if (version === "Illumine Governance Engine v2.0") {
       costOfEquity = 0.16;
       costOfDebt   = 0.11;
       noplat = ebitda * 0.70;

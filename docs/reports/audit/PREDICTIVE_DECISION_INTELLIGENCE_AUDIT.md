@@ -1,8 +1,8 @@
-# PREDICTIVE_DECISION_INTELLIGENCE_AUDIT.md — Relatório de Auditoria de Inteligência Preditiva (PDI v1.0)
+# PREDICTIVE_DECISION_GOVERNANCE_AUDIT.md — Relatório de Auditoria de Inteligência Preditiva (PDI v1.0)
 
-> **Relatório Oficial de Auditoria da Wave 18.9 (Predictive Decision Intelligence)**  
+> **Relatório Oficial de Auditoria da Wave 18.9 (Predictive Decision Governance)**  
 > *Autoridade Supreme: Architecture Review Board (ARB) & Executive Governance Council*  
-> *Subordinado à [`ARCHITECTURE_CONSTITUTION.md`](file:///Users/marcelosouza/Documents/illumine-strategic-intelligence-advisor/ARCHITECTURE_CONSTITUTION.md)*
+> *Subordinado à [`ARCHITECTURE_CONSTITUTION.md`](file:///Users/marcelosouza/Documents/illumine-strategic-governance-advisor/ARCHITECTURE_CONSTITUTION.md)*
 
 ---
 

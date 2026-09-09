@@ -1,4 +1,4 @@
-# EXECUTIVE_DECISION_INTELLIGENCE_CANONICAL_ARCHITECTURE.md — Arquitetura Canônica da Camada de Decisão Executiva
+# EXECUTIVE_DECISION_GOVERNANCE_CANONICAL_ARCHITECTURE.md — Arquitetura Canônica da Camada de Decisão Executiva
 
 > **Documentação de Arquitetura de Inteligência Sem Superfície Visual de Agente (Wave 17.12)**  
 > *Norma Subordinada à IERA v1.0 e ADR-066*
@@ -7,7 +7,7 @@
 
 ## 1. Princípio Arquitetural da Camada de Decisão (ADR-066)
 
-> *"Executive Agents are not page components. They are intelligence engines that power the executive decision experience. Agents provide intelligence; the executive experience provides decisions."*
+> *"Executive Agents are not page components. They are governance engines that power the executive decision experience. Agents provide governance; the executive experience provides decisions."*
 
 ---
 
@@ -18,11 +18,11 @@
         ↓
 [Semantic Layer] 
         ↓
-[Intelligence Kernel] 
+[Governance Kernel] 
         ↓
 [Agent Runtime (Financial, Risk, Simulation, Advisory Engines)] 
         ↓
-[Executive Decision Intelligence Engine] 
+[Executive Decision Governance Engine] 
         ↓
 [Executive Page Decision Layer (Signal, Narrative, Recommendation, Actions)]
 ```

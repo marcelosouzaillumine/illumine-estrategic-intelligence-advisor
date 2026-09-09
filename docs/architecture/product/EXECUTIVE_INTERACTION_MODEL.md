@@ -12,9 +12,9 @@
 | **CEO** | Visão agregada de EBITDA, liquidez e riscos estratégicos. | Alocação de capital e prioridades estratégicas. | 15–30 min | Executive Decision Agent & CFO Agent | Aprovação/Rejeição de deliberações de alto risco. |
 | **Diretor (CFO/COO/CMO)** | Indicadores de resultado e desvios de desempenho do seu domínio. | Trade-offs operacionais e plano de mitigação. | 30–45 min | CFO Agent, Operations Agent, Commercial Agent | Definição de plano de ação e submissão ao CEO. |
 | **Conselheiro (Board)** | Pauta de deliberação do Conselho e Board Pack sintético. | Votação e governança de decisões críticas. | 10–20 min | Board Executive Advisor & Risk Agent | Votação, ressalvas e aprovação em ata. |
-| **Advisor / Consultor** | Grafo de causas e diagnóstico de desempenho cruzado. | Formulação de hipóteses e cenários comparativos. | 45–60 min | Cross-Domain Intelligence & Benchmark Agent | Submissão de recomendação qualificada ao Diretor. |
+| **Advisor / Consultor** | Grafo de causas e diagnóstico de desempenho cruzado. | Formulação de hipóteses e cenários comparativos. | 45–60 min | Cross-Domain Governance & Benchmark Agent | Submissão de recomendação qualificada ao Diretor. |
 | **Controller** | Variações orçamentárias, DFC/DRE e aderência a SLAs. | Rastreabilidade de evidências e conciliação de dados. | 60+ min | Financial Capability Engine & Compliance Agent | Validação do pacote de evidências primárias. |
-| **Investidor / M&A** | Valoração, múltiplos de mercado e governança de capital. | Avaliação de tese de investimento/desinvestimento. | 15–30 min | Portfolio & Valuation Intelligence Agent | Homologação de memorial descritivo. |
+| **Investidor / M&A** | Valoração, múltiplos de mercado e governança de capital. | Avaliação de tese de investimento/desinvestimento. | 15–30 min | Portfolio & Valuation Governance Agent | Homologação de memorial descritivo. |
 
 ---
 

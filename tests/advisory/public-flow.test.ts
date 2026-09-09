@@ -2,7 +2,7 @@ import { describe, it, expect, vi, beforeEach } from 'vitest';
 import { ExecutiveAdvisoryRouter } from '../../src/capabilities/executive-advisory/engine/ExecutiveAdvisoryRouter';
 import { ExecutiveMemoryService } from '../../src/intelligence/memory/executive-memory.service';
 
-describe('Public Intelligence Flow Recovery', () => {
+describe('Public Governance Flow Recovery', () => {
   beforeEach(() => {
     vi.clearAllMocks();
     globalThis.window = { ExecutiveMemoryService } as any;

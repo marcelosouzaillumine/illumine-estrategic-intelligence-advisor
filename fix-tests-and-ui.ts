@@ -14,7 +14,7 @@ if (fs.existsSync(p1)) {
 }
 
 // 2. Fix SchemaValidator.spec.ts
-const p2 = 'src/core/intelligence/validation/__tests__/SchemaValidator.spec.ts';
+const p2 = 'src/core/governance/validation/__tests__/SchemaValidator.spec.ts';
 if (fs.existsSync(p2)) {
   let content = fs.readFileSync(p2, 'utf-8');
   content = content.replace('governance: {}', 'governance: {}, financialInsights: {} as any'); // The mock needs the property. 'as any' is forbidden, so let's provide a real mock or just {}.

@@ -27,8 +27,8 @@ export function InstitutionalStrategicIntelligenceCenter({ data }: Institutional
         <div>
           <h2 className="text-xl font-bold text-white flex items-center gap-2">
             <Network className="text-blue-500" />
-            Institutional Strategic Intelligence
-          </h2>
+            Institutional Strategic Governance
+                                </h2>
           <p className="text-zinc-400 text-sm mt-1">Sovereign Directional Coherence Layer</p>
         </div>
       </div>

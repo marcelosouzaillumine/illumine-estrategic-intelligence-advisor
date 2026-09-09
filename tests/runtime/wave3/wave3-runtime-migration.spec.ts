@@ -22,7 +22,7 @@ export function testWave3DeclarativeRuntimeMigration(): boolean {
 
   const ast = EUCCompilerEngine.compile(dfcManifest);
   if (!ast || ast.name !== 'dfc-executive-analysis' || !ast.intelligenceBinding?.recommendation?.enabled) {
-    throw new Error('Falha no teste de compilação de manifesto declarativo com intelligenceBinding');
+    throw new Error('Falha no teste de compilação de manifesto declarativo com governanceBinding');
   }
 
   // Test 02 — Architecture Compliance & Runtime Execution

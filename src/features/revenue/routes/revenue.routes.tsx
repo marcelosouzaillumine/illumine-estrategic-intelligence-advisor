@@ -30,7 +30,7 @@ export const RevenueRoutes: React.FC = () => {
         <Route path="access" element={<LicenseEntitlementPage />} />
         <Route path="tenants" element={<TenantOperationsPage />} />
         <Route path="runtime" element={<RevenueRuntimePage />} />
-        <Route path="intelligence" element={<RevenueIntelligencePage />} />
+        <Route path="governance" element={<RevenueIntelligencePage />} />
         <Route path="partners">
           <Route index element={<PartnerNetworkPage />} />
           <Route path="advisors" element={<CertifiedAdvisorNetworkPage />} />

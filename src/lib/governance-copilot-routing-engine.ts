@@ -53,16 +53,16 @@ export class GovernanceCopilotRoutingEngine {
 
     if (topics.includes('RISKS')) {
       sources.add('executiveSovereignty');
-      sources.add('governanceIntelligenceNetwork');
+      sources.add('governanceGovernanceNetwork');
     }
     if (topics.includes('VALUATION')) {
-      sources.add('valuationIntelligence');
+      sources.add('valuationGovernance');
     }
     if (topics.includes('CAPITAL_ALLOCATION')) {
-      sources.add('capitalAllocationIntelligence');
+      sources.add('capitalAllocationGovernance');
     }
     if (topics.includes('ESG')) {
-      sources.add('esgIntelligence');
+      sources.add('esgGovernance');
     }
     if (topics.includes('EXECUTION')) {
       sources.add('governanceDigitalTwin');

@@ -44,7 +44,7 @@ export type IRILevel = 'HIGH_RESILIENCE' | 'RESILIENT' | 'MODERATE' | 'FRAGILE' 
 
 export interface ExplainabilityTrail {
   title: string;
-  type: 'evidence' | 'intelligence' | 'rule' | 'override';
+  type: 'evidence' | 'governance' | 'rule' | 'override';
   description: string;
   timestamp: string;
 }

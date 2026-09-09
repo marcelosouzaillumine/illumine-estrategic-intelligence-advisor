@@ -33,7 +33,7 @@ export function InstitutionalScenarioPanel({ contextData }: Props) {
         <div className="flex items-center gap-3">
           <Settings2 size={24} className="text-primary-500" />
           <div>
-            <h2 className="text-lg font-black text-slate-900 tracking-tight">Institutional Scenario Intelligence</h2>
+            <h2 className="text-lg font-black text-slate-900 tracking-tight">Institutional Scenario Governance</h2>
             <p className="text-xs font-medium text-slate-500">Simulação estrutural baseada em propagação e constraints fiduciárias.</p>
           </div>
         </div>

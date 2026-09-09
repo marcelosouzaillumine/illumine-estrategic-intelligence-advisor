@@ -2,7 +2,7 @@
 
 > **Especificação Arquitetural Oficial da Illumine OS™**  
 > *Autoridade Supreme: Architecture Review Board (ARB) & Executive Governance Council*  
-> *Subordinado à [`ARCHITECTURE_CONSTITUTION.md`](file:///Users/marcelosouza/Documents/illumine-strategic-intelligence-advisor/ARCHITECTURE_CONSTITUTION.md)*
+> *Subordinado à [`ARCHITECTURE_CONSTITUTION.md`](file:///Users/marcelosouza/Documents/illumine-strategic-governance-advisor/ARCHITECTURE_CONSTITUTION.md)*
 
 ---
 

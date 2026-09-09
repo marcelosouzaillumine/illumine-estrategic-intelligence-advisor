@@ -16,8 +16,8 @@ export class ExecutiveActionLayer {
 
     if (pageId === 'DREPage') {
       return [
-        { actionId: 'act-dre-1', label: '✨ Explicar Variação de Margem', domain: 'Financial', agentId: 'cfo-intelligence-agent' },
-        { actionId: 'act-dre-2', label: '✨ Identificar Drivers de Despesa', domain: 'Financial', agentId: 'cfo-intelligence-agent' },
+        { actionId: 'act-dre-1', label: '✨ Explicar Variação de Margem', domain: 'Financial', agentId: 'cfo-governance-agent' },
+        { actionId: 'act-dre-2', label: '✨ Identificar Drivers de Despesa', domain: 'Financial', agentId: 'cfo-governance-agent' },
         { actionId: 'act-dre-3', label: '✨ Simular Impacto Orçamentário', domain: 'Simulation', agentId: 'simulation-agent' }
       ];
     }

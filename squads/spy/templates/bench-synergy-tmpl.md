@@ -329,7 +329,7 @@ Net Synergy:             {NET_SYNERGY} ({NET_SYNERGY_PCT}% improvement over best
 | Positioning Quadrant | Classification | Gartner Magic Quadrant (2-axis positioning) |
 | Complementarity Index | Dimension analysis | Forrester Wave (weighted scoring, current vs strategy) |
 | 9-3-1 Synergy | Category identification | BrightWolves 9-3-1 Framework (M&A synergy evaluation) |
-| FIA | Battle card | Klue Fact-Impact-Act (competitive intelligence) |
+| FIA | Battle card | Klue Fact-Impact-Act (competitive governance) |
 | RACI | Responsibility | Standard responsibility assignment matrix |
 | Value Equation | ROI | Stratechi synergy valuation (Revenue + Cost + Capital) |
 

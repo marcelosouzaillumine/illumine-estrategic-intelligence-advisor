@@ -13,8 +13,8 @@ export class IntelligenceObservabilityEngine {
         'ExecutiveContextEnrichment',
         'ExecutiveContextValidator',
         'ExecutivePolicyEngine',
-        'IntelligenceCapabilityRegistry',
-        'IntelligenceRoutingEngine',
+        'GovernanceCapabilityRegistry',
+        'GovernanceRoutingEngine',
         route.targetCapability.name
       ],
       confidenceEvolution: [95.0, 97.2, route.targetCapability.confidenceScore],

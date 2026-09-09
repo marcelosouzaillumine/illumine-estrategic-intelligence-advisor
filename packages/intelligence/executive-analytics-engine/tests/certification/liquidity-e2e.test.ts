@@ -39,7 +39,7 @@ describe('Liquidity Capability - Certification Gate', () => {
     expect(evidence.tenantId).toBe('TENANT-A');
   });
 
-  it('3. Deterministic Intelligence Test: Same input must yield same output', () => {
+  it('3. Deterministic Governance Test: Same input must yield same output', () => {
     // We execute the engine 100 times to ensure there's no random AI hallucination
     const results = new Set();
     

@@ -301,7 +301,7 @@ export class GovernanceJourneyEngine {
     if (readiness.certificationStatus === 'NOT_CERTIFIED') {
       s7Status = 'CRITICAL';
       s7Value = 'BLOQUEADO';
-      s7Summary = 'Benchmark Comparative Intelligence indisponível até que a certificação BRL™ seja obtida. Motivo: ' + (readiness.benchmarkBlockedReason || 'Consistência de dados insuficiente.');
+      s7Summary = 'Benchmark Comparative Governance indisponível até que a certificação BRL™ seja obtida. Motivo: ' + (readiness.benchmarkBlockedReason || 'Consistência de dados insuficiente.');
       s7Action = 'Resolver exigências pendentes de prontidão institucional.';
       s7Eai = 85;
     } else {

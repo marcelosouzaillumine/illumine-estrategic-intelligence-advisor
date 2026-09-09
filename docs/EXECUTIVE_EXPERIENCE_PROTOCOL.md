@@ -3,7 +3,7 @@
 Este protocolo define a especificação técnica e as restrições fiduciárias de design para a exibição, organização e humanização da inteligência contábil-financeira para executivos e tomadores de decisão na plataforma Illumine.
 
 ## 1. Princípio Central da Experiência Passiva
-Toda e qualquer interface (workspaces de clientes, dashboards do advisor, relatórios impressos, apresentações para conselhos) consome **única e exclusivamente** a saída estruturada do `ExecutiveIntelligenceReport` gerada pelo Core Runtime.
+Toda e qualquer interface (workspaces de clientes, dashboards do advisor, relatórios impressos, apresentações para conselhos) consome **única e exclusivamente** a saída estruturada do `ExecutiveGovernanceReport` gerada pelo Core Runtime.
 
 É terminantemente proibido:
 - Inferir qualquer severidade ou nível de risco na UI.

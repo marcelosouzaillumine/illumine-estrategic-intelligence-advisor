@@ -4,7 +4,7 @@ import { runEvidenceAudit } from '../src/lib/institutional-evidence-audit-engine
 import { InstitutionalOutcomeRecord, InstitutionalConversionMetrics } from '../src/lib/institutional-outcomes-types';
 
 describe('Institutional Evidence Audit Engine', () => {
-  it('should classify as GOVERNANCE_INTELLIGENCE_PLATFORM when E1/E2 predominate', () => {
+  it('should classify as GOVERNANCE_GOVERNANCE_PLATFORM when E1/E2 predominate', () => {
     const records: InstitutionalOutcomeRecord[] = [];
     const metrics: InstitutionalConversionMetrics = {
       totalInsights: 10,
@@ -21,7 +21,7 @@ describe('Institutional Evidence Audit Engine', () => {
 
     const audit = runEvidenceAudit(records, metrics);
     
-    assert.strictEqual(audit.decisionInfluenceClassification, 'GOVERNANCE_INTELLIGENCE_PLATFORM');
+    assert.strictEqual(audit.decisionInfluenceClassification, 'GOVERNANCE_GOVERNANCE_PLATFORM');
     assert.strictEqual(audit.evidenceStrengthClassification, 'MODERATE');
     assert.strictEqual(audit.predominantLevel, 'E1');
   });

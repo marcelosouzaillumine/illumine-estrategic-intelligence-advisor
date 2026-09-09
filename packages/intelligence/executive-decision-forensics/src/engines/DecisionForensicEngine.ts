@@ -31,27 +31,27 @@ export class DecisionForensicEngine {
 
   private validateForensicCompleteness(pkg: Partial<ExecutiveDecisionForensicsPackage>): void {
     if (!pkg.observationChain || pkg.observationChain.length === 0) {
-      throw new Error('OPAQUE INTELLIGENCE: Recommendation blocked. Missing observation chain.');
+      throw new Error('OPAQUE GOVERNANCE: Recommendation blocked. Missing observation chain.');
     }
     
     if (!pkg.evidenceChain || pkg.evidenceChain.length === 0) {
-      throw new Error('OPAQUE INTELLIGENCE: Recommendation blocked. Missing evidence chain.');
+      throw new Error('OPAQUE GOVERNANCE: Recommendation blocked. Missing evidence chain.');
     }
 
     if (!pkg.reasoningChain || pkg.reasoningChain.length === 0) {
-      throw new Error('OPAQUE INTELLIGENCE: Recommendation blocked. Missing reasoning chain.');
+      throw new Error('OPAQUE GOVERNANCE: Recommendation blocked. Missing reasoning chain.');
     }
 
     if (!pkg.finalRecommendation) {
-      throw new Error('OPAQUE INTELLIGENCE: Recommendation blocked. Missing final recommendation.');
+      throw new Error('OPAQUE GOVERNANCE: Recommendation blocked. Missing final recommendation.');
     }
 
     if (!pkg.confidenceEvolution || pkg.confidenceEvolution.length === 0) {
-      throw new Error('OPAQUE INTELLIGENCE: Recommendation blocked. Missing confidence validation.');
+      throw new Error('OPAQUE GOVERNANCE: Recommendation blocked. Missing confidence validation.');
     }
 
     if (!pkg.governanceChecks || pkg.governanceChecks.length === 0) {
-      throw new Error('OPAQUE INTELLIGENCE: Recommendation blocked. Missing governance review.');
+      throw new Error('OPAQUE GOVERNANCE: Recommendation blocked. Missing governance review.');
     }
 
     // Verifica a linhagem

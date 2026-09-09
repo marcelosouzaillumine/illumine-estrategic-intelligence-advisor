@@ -3,7 +3,7 @@ import assert from "node:assert";
 import { SegmentIntelligenceEngine } from "./SegmentIntelligenceEngine";
 import { InstitutionalBusinessProfile } from "../institutional-identity/InstitutionalBusinessProfile";
 
-describe("SegmentIntelligenceEngine", () => {
+describe("SegmentGovernanceEngine", () => {
   const engine = new SegmentIntelligenceEngine();
 
   test("Unknown segment - should restrict strong diagnostics", () => {

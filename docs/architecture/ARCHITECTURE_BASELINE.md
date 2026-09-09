@@ -16,6 +16,6 @@
 
 ## 📄 Arquivos de Registro e Registries Oficiais
 
-- **Metrics Baseline**: [docs/architecture/architecture-metrics.json](file:///Users/marcelosouza/Documents/illumine-strategic-intelligence-advisor/docs/architecture/architecture-metrics.json)
-- **Historical Snapshots**: [docs/architecture/baseline/v5.0.json](file:///Users/marcelosouza/Documents/illumine-strategic-intelligence-advisor/docs/architecture/baseline/v5.0.json)
-- **Architecture Registries**: [docs/architecture/registry/](file:///Users/marcelosouza/Documents/illumine-strategic-intelligence-advisor/docs/architecture/registry/)
+- **Metrics Baseline**: [docs/architecture/architecture-metrics.json](file:///Users/marcelosouza/Documents/illumine-strategic-governance-advisor/docs/architecture/architecture-metrics.json)
+- **Historical Snapshots**: [docs/architecture/baseline/v5.0.json](file:///Users/marcelosouza/Documents/illumine-strategic-governance-advisor/docs/architecture/baseline/v5.0.json)
+- **Architecture Registries**: [docs/architecture/registry/](file:///Users/marcelosouza/Documents/illumine-strategic-governance-advisor/docs/architecture/registry/)

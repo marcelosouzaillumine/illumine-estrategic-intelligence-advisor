@@ -1,11 +1,11 @@
-# Mission Alignment Composite Intelligence Engine v1.0
+# Mission Alignment Composite Governance Engine v1.0
 
 > [!NOTE]
-> Este documento inaugura oficialmente uma nova categoria arquitetural dentro do Governance: as **Composite Intelligence Engines**.
+> Este documento inaugura oficialmente uma nova categoria arquitetural dentro do Governance: as **Composite Governance Engines**.
 
 ## 1. Goal Description
 
-Estabelecer oficialmente o Mission Alignment Composite Intelligence Engine como o primeiro Composite Intelligence Engine da plataforma Illumine Governance.
+Estabelecer oficialmente o Mission Alignment Composite Governance Engine como o primeiro Composite Governance Engine da plataforma Illumine Governance.
 
 Esta engine será responsável por orquestrar múltiplas Inteligências Estruturantes para avaliar a capacidade da organização de permanecer fiel à sua razão de existir ao longo do tempo.
 
@@ -22,9 +22,9 @@ O objetivo é criar uma camada de orquestração cognitiva capaz de produzir uma
 
 Fica registrada oficialmente uma nova categoria arquitetural:
 
-### Composite Intelligence Engines
+### Composite Governance Engines
 **Definition:**
-"Composite Intelligence Engines são motores de interpretação executiva que consomem múltiplas Inteligências Estruturantes para responder perguntas organizacionais de ordem superior."
+"Composite Governance Engines são motores de interpretação executiva que consomem múltiplas Inteligências Estruturantes para responder perguntas organizacionais de ordem superior."
 
 *O Mission Alignment Engine é o primeiro membro oficial desta categoria.*
 
@@ -36,14 +36,14 @@ Fica registrada oficialmente uma nova categoria arquitetural:
 **Central Question:**
 O Mission Alignment Engine deverá responder: *"Esta organização possui capacidade real de permanecer fiel à sua razão de existir ao longo do tempo?"*
 
-## 4. Intelligence Sources
+## 4. Governance Sources
 
 O Mission Alignment Engine deverá consumir oficialmente as seguintes Inteligências Estruturantes:
 
-* **Missional Intelligence:** Responsável por avaliar Purpose Clarity, Strategic Alignment, Cultural Alignment, Operational Alignment, e Stakeholder Impact.
-* **Constitutional Intelligence:** Responsável por avaliar a integridade dos princípios, coerência ética, aderência constitucional, e violação de valores institucionais.
-* **Institutional Intelligence:** Responsável por avaliar a continuidade institucional, maturidade organizacional, e capacidade de sustentação institucional.
-* **Prospective Intelligence:** Responsável por avaliar a sustentabilidade futura, capacidade de adaptação, capacidade sucessória, e continuidade da missão.
+* **Missional Governance:** Responsável por avaliar Purpose Clarity, Strategic Alignment, Cultural Alignment, Operational Alignment, e Stakeholder Impact.
+* **Constitutional Governance:** Responsável por avaliar a integridade dos princípios, coerência ética, aderência constitucional, e violação de valores institucionais.
+* **Institutional Governance:** Responsável por avaliar a continuidade institucional, maturidade organizacional, e capacidade de sustentação institucional.
+* **Prospective Governance:** Responsável por avaliar a sustentabilidade futura, capacidade de adaptação, capacidade sucessória, e continuidade da missão.
 
 ## 5. Composite Dimensions
 
@@ -78,11 +78,11 @@ Ficam registrados oficialmente os estados possíveis resultantes da avaliação:
 **Definition:**
 "Ocorre quando múltiplas inteligências convergem para indicar divergência relevante entre propósito declarado e realidade institucional."
 
-A conclusão deverá considerar simultaneamente a Missional Intelligence, Constitutional Intelligence, Institutional Intelligence e Prospective Intelligence.
+A conclusão deverá considerar simultaneamente a Missional Governance, Constitutional Governance, Institutional Governance e Prospective Governance.
 
 ## 8. Arbitration Rules
 
-O Mission Alignment Engine aplica integralmente o [Seven Intelligences Interaction Framework](SEVEN_INTELLIGENCES_INTERACTION_FRAMEWORK.md).
+O Mission Alignment Engine aplica integralmente o [Seven Governances Interaction Framework](SEVEN_GOVERNANCES_INTERACTION_FRAMEWORK.md).
 
 * **Rule 1: Constitutional Breach overrides Mission Alignment.**
   * *Exemplo:* Missão forte + Violação constitucional grave
@@ -128,14 +128,14 @@ Toda conclusão do Mission Alignment Engine deverá registrar:
 O Mission Alignment Engine poderá ser consumido por:
 * ESGIM Runtime
 * Executive Advisory Layer
-* Narrative Intelligence
-* Board Intelligence
+* Narrative Governance
+* Board Governance
 * Executive AI Layer
 * Institutional Reporting Layer
 
 ## 12. Expected Outcome
 
-Ao final desta implementação deverá existir o primeiro Composite Intelligence Engine da plataforma, capaz de:
+Ao final desta implementação deverá existir o primeiro Composite Governance Engine da plataforma, capaz de:
 1. Orquestrar múltiplas Inteligências Estruturantes.
 2. Avaliar alinhamento organizacional profundo.
 3. Detectar Mission Drift estrutural.

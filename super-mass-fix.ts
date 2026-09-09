@@ -2,10 +2,10 @@ import * as fs from 'fs';
 
 // UI Pages to mark as Not Available (Phase 7) or fix imports
 const uiPages = [
-  'src/components/pages/CashFlowIntelligencePage.tsx',
+  'src/components/pages/CashFlowGovernancePage.tsx',
   'src/components/pages/CleanupTool.tsx',
   'src/components/pages/ConsolidatedGroupAdminPage.tsx',
-  'src/components/pages/DreIntelligencePage.tsx',
+  'src/components/pages/DreGovernancePage.tsx',
   'src/components/pages/ExecutiveFinancialCommandCenter.tsx',
   'src/components/pages/FinancialAdminDashboard.tsx',
   'src/components/pages/FinancialPositionPage.tsx',
@@ -23,8 +23,8 @@ export default function NotAvailablePage(props: any) {
   return <div>Capability Not Available (Planned for Phase 7)</div>;
 }
 // Support for named exports if they exist
-export const CashFlowIntelligencePage = NotAvailablePage;
-export const DreIntelligencePage = NotAvailablePage;
+export const CashFlowGovernancePage = NotAvailablePage;
+export const DreGovernancePage = NotAvailablePage;
 export const ExecutiveFinancialCommandCenter = NotAvailablePage;
 export const FinancialAdminDashboard = NotAvailablePage;
 export const FinancialPositionPage = NotAvailablePage;
@@ -61,7 +61,7 @@ export default DREPage;
 }
 
 // Fix SchemaValidator.spec.ts
-const schemaVal = 'src/core/intelligence/validation/__tests__/SchemaValidator.spec.ts';
+const schemaVal = 'src/core/governance/validation/__tests__/SchemaValidator.spec.ts';
 if (fs.existsSync(schemaVal)) {
   let content = fs.readFileSync(schemaVal, 'utf-8');
   // ensure financialInsights is everywhere

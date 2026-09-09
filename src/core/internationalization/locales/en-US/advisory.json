@@ -4,7 +4,7 @@
   },
   "widget": {
     "title": "Executive Concierge™",
-    "subtitle": "Connecting leaders to Illumine's executive intelligence.",
+    "subtitle": "Connecting leaders to Illumine's executive governance.",
     "analyzing": "Analyzing..."
   },
   "journeys": {
@@ -15,7 +15,7 @@
       "edu": "Educational Institution",
       "other": "Other segment",
       "step2_holding": "Complex structures require governance and institutional memory suited to their sector.",
-      "step3": "Illumine has intelligence and compliance modules designed to capture the specific operational and fiduciary nuances of your segment, connecting daily management to macro-strategic objectives.",
+      "step3": "Illumine has governance and compliance modules designed to capture the specific operational and fiduciary nuances of your segment, connecting daily management to macro-strategic objectives.",
       "step4": "To map the best application of our technology to your case, we recommend an initial assessment.",
       "cta_diagnostic": "Schedule Executive Diagnostic Journey™"
     },
@@ -29,7 +29,7 @@
       "risk": "Risk Management and Compliance",
       "strategy": "Strategic Alignment",
       "succession": "Continuity and Succession",
-      "step2_risk": "Illumine acts as a protective layer for fiduciary memory. The Governance Intelligence module ensures that decisions and their impacts are accurately documented, reducing the risk of unmapped liabilities and information asymmetry."
+      "step2_risk": "Illumine acts as a protective layer for fiduciary memory. The Governance Governance module ensures that decisions and their impacts are accurately documented, reducing the risk of unmapped liabilities and information asymmetry."
     },
     "advisor": {
       "step1": "Illumine boosts the delivery of advisors and consultants, acting as the strategic operating system for your clients. How do you operate today?",
@@ -51,7 +51,7 @@
       "cta_talk": "Talk to Executive Advisor"
     },
     "welcome": {
-      "text": "Hello! I am the Illumine Concierge™ and I connect leaders to the platform's executive intelligence solutions. To direct you to the most suitable experience, what is your context?",
+      "text": "Hello! I am the Illumine Concierge™ and I connect leaders to the platform's executive governance solutions. To direct you to the most suitable experience, what is your context?",
       "opt_executive": "I lead an organization",
       "opt_advisor": "I support organizations as a consultant or advisor",
       "opt_board": "I serve on boards of directors",

@@ -67,7 +67,7 @@ A Illumine não é uma ferramenta de dashboards comerciais ou simulações estat
 
 ## 4. Cenários Homologados no Registro
 
-O ensaio deve operar estritamente sobre os cenários do [ExecutiveDemoScenarioRegistry](file:///Users/marcelosouza/Documents/illumine-strategic-intelligence-advisor/src/core/runtime/executive/demo/ExecutiveDemoScenarioRegistry.ts):
+O ensaio deve operar estritamente sobre os cenários do [ExecutiveDemoScenarioRegistry](file:///Users/marcelosouza/Documents/illumine-strategic-governance-advisor/src/core/runtime/executive/demo/ExecutiveDemoScenarioRegistry.ts):
 
 | Cenário ID | Tensão Estrutural | Causalidade Principal | Nível de Confiança | Principais Violations |
 | :--- | :--- | :--- | :--- | :--- |

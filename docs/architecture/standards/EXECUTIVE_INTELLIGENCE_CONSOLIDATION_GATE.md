@@ -1,12 +1,12 @@
-# EXECUTIVE_INTELLIGENCE_CONSOLIDATION_GATE.md — Consolidação da Camada de Inteligência Executiva (Gate 19.7)
+# EXECUTIVE_GOVERNANCE_CONSOLIDATION_GATE.md — Consolidação da Camada de Inteligência Executiva (Gate 19.7)
 
 > **Gate Constitucional de Consolidação da Camada de Inteligência Executiva da Illumine OS™ (EICG v1.0)**  
 > *Emissor: Architecture Review Board (ARB) & Executive Governance Council*  
-> *Subordinado à [`ARCHITECTURE_CONSTITUTION.md`](file:///Users/marcelosouza/Documents/illumine-strategic-intelligence-advisor/ARCHITECTURE_CONSTITUTION.md)*
+> *Subordinado à [`ARCHITECTURE_CONSTITUTION.md`](file:///Users/marcelosouza/Documents/illumine-strategic-governance-advisor/ARCHITECTURE_CONSTITUTION.md)*
 
 ---
 
-## 1. Modelo Operacional Integrado (Executive Intelligence Operating Model)
+## 1. Modelo Operacional Integrado (Executive Governance Operating Model)
 
 $$\text{PERCEBER (EDIF)} \longrightarrow \text{COMPREENDER (EKFH)} \longrightarrow \text{SABEDORIA (ILI)} \longrightarrow \text{ACONSELHAR (EAIL)} \longrightarrow \text{DECIDIR (EIL)} \longrightarrow \text{EXECUTAR (EWI)}$$
 
@@ -21,13 +21,13 @@ $$\text{PERCEBER (EDIF)} \longrightarrow \text{COMPREENDER (EKFH)} \longrightarr
 
 ---
 
-## 2. Níveis de Maturidade de Inteligência (Intelligence Maturity Model)
+## 2. Níveis de Maturidade de Inteligência (Governance Maturity Model)
 
-1. **Level 1 — Data Intelligence**: Coleta e normatização de dados empresariais certificados.
-2. **Level 2 — Knowledge Intelligence**: Construção da ontologia e modelo causal de conhecimento.
-3. **Level 3 — Decision Intelligence**: Formulação de decisões executivas sob matriz de risco.
-4. **Level 4 — Advisory Intelligence**: Aconselhamento estratégico com simulação de cenários e contrapontos.
-5. **Level 5 — Institutional Intelligence**: Aprendizado contínuo, calibração e memória institucional permanente.
+1. **Level 1 — Data Governance**: Coleta e normatização de dados empresariais certificados.
+2. **Level 2 — Knowledge Governance**: Construção da ontologia e modelo causal de conhecimento.
+3. **Level 3 — Decision Governance**: Formulação de decisões executivas sob matriz de risco.
+4. **Level 4 — Advisory Governance**: Aconselhamento estratégico com simulação de cenários e contrapontos.
+5. **Level 5 — Institutional Governance**: Aprendizado contínuo, calibração e memória institucional permanente.
 
 ---
 

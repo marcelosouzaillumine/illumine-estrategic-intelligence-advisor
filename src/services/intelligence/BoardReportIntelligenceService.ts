@@ -161,7 +161,7 @@ const phase2Schema = {
       required: ["velocidadeDeterioracaoRecuperacao", "maturidadeFinanceira", "narrativaMemoriaInstitucional"]
     }
   },
-  required: ["liquidityIntelligence", "capitalDeGiro", "analiseHistorica"]
+  required: ["liquidityGovernance", "capitalDeGiro", "analiseHistorica"]
 };
 
 const phase3Schema = {
@@ -223,7 +223,7 @@ const phase3Schema = {
       required: ["sinteseEstrategica", "principaisRiscos", "recomendacaoBoard"]
     }
   },
-  required: ["stressTesting", "boardIntelligence", "parecerTecnico", "conclusao"]
+  required: ["stressTesting", "boardGovernance", "parecerTecnico", "conclusao"]
 };
 
 function compactFinancialData(data: FinancialEntry[]) {
@@ -249,9 +249,9 @@ function compactFinancialData(data: FinancialEntry[]) {
   return JSON.stringify(yearly, null, 2);
 }
 
-const BASE_PROMPT = `Você é um motor de Advisory Corporativo de Alto Nível (Illumine Corporate Intelligence).
+const BASE_PROMPT = `Você é um motor de Advisory Corporativo de Alto Nível (Illumine Corporate Governance).
 O relatório deve possuir padrão institucional de board reporting, governance analytics e corporate resilience.
-A IA deve operar como sistema de análise causal, motor de inteligência patrimonial e distress operational intelligence.
+A IA deve operar como sistema de análise causal, motor de inteligência patrimonial e distress operational governance.
 Linguagem formal, altamente executiva e profunda.
 NÃO use alarmismo exagerado nem otimismo cego. Baseie-se apenas nos dados.
 
@@ -371,8 +371,8 @@ ATENÇÃO: Você não pode projetar tendências ou inferir continuidade históri
   onProgress("Medindo Liquidez e Resiliência Histórica (Fase 2/3)...");
   const p2 = await ai.models.generateContent({
     model: 'gemini-2.5-flash',
-    contents: `${dataContext}GERAR: Liquidity Quality Intelligence, Inteligência de Capital de Giro e Análise Histórica/Evolutiva.
-    Diferencie crescimento saudável de crescimento drenante.`,
+    contents: `${dataContext}GERAR: Liquidity Quality Governance, Inteligência de Capital de Giro e Análise Histórica/Evolutiva.
+        Diferencie crescimento saudável de crescimento drenante.`,
     config: {
       responseMimeType: 'application/json',
       responseSchema: phase2Schema as any,
@@ -385,8 +385,8 @@ ATENÇÃO: Você não pode projetar tendências ou inferir continuidade históri
   onProgress("Projetando Cenários e Parecer Técnico (Fase 3/3)...");
   const p3 = await ai.models.generateContent({
     model: 'gemini-2.5-flash',
-    contents: `${dataContext}GERAR: Stress Testing, Board Intelligence, Action Plan Executivo, Cenários de Reequilíbrio, Parecer Técnico e Conclusão.
-    Responda se a companhia é sustentável, se o crescimento é saudável, se existe risco estrutural.`,
+    contents: `${dataContext}GERAR: Stress Testing, Board Governance, Action Plan Executivo, Cenários de Reequilíbrio, Parecer Técnico e Conclusão.
+        Responda se a companhia é sustentável, se o crescimento é saudável, se existe risco estrutural.`,
     config: {
       responseMimeType: 'application/json',
       responseSchema: phase3Schema as any,

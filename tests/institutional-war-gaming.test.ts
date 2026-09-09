@@ -6,7 +6,7 @@ import { InstitutionalWarGameEngine } from '../src/core/runtime/war-gaming/Insti
 import { LongitudinalCrisisMemoryEngine } from '../src/core/runtime/war-gaming/LongitudinalCrisisMemoryEngine';
 import { CrisisInput } from '../src/core/runtime/war-gaming/war-gaming-types';
 
-describe('RC-1.8 - Institutional War Gaming & Crisis Intelligence', () => {
+describe('RC-1.8 - Institutional War Gaming & Crisis Governance', () => {
 
   beforeEach(() => {
     LongitudinalCrisisMemoryEngine.clearMemoryForTests();

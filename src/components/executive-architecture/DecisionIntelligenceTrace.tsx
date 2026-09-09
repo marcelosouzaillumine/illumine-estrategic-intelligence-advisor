@@ -20,8 +20,8 @@ export function DecisionIntelligenceTrace({ decision, assumptions = [], evidence
       <div className="flex items-center gap-2 mb-6">
         <Waypoints size={16} className="text-executive-primary" />
         <ExecutiveHeading as="h4" className="text-foreground tracking-widest uppercase text-sm">
-          Decision Intelligence Trace™
-        </ExecutiveHeading>
+          Decision Governance Trace™
+                          </ExecutiveHeading>
       </div>
 
       <div className="flex flex-col items-center text-center space-y-4">

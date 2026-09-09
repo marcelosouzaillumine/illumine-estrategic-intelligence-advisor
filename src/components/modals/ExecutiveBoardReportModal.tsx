@@ -67,7 +67,7 @@ export function ExecutiveBoardReportModal({
               <ShieldCheck className="w-5 h-5" />
             </div>
             <div>
-              <span className="text-[9px] text-muted-foreground uppercase tracking-widest font-black block">Board Communication Intelligence</span>
+              <span className="text-[9px] text-muted-foreground uppercase tracking-widest font-black block">Board Communication Governance</span>
               <h2 className="text-base font-display font-medium text-muted-foreground">Relatório Executivo do Conselho (EBRG™)</h2>
             </div>
           </div>

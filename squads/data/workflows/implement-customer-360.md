@@ -293,5 +293,5 @@ go_live:
 
 ---
 
-*Data Intelligence Pack - Workflow v1.0*
+*Data Governance Pack - Workflow v1.0*
 *Primary Agent: @peter-fader | Secondary: @nick-mehta, @avinash-kaushik*

@@ -2,7 +2,7 @@
 import { describe, it, expect } from 'vitest';
 import { OrganizationalPatternContract } from '@illumine/executive-contracts';
 
-describe('@illumine/intelligence (Wave 18.5 Pattern Recognition Schema)', () => {
+describe('@illumine/governance (Wave 18.5 Pattern Recognition Schema)', () => {
   it('should validate OrganizationalPatternContract for detecting recurring patterns', () => {
     const pattern: OrganizationalPatternContract = {
       patternId: 'pat-fin-001',

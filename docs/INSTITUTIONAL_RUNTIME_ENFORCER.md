@@ -98,9 +98,9 @@ O sistema de governança narrativa (geração de textos via IA e LLM) está enge
 
 Todo o ecossistema tecnológico se reportará a uma Única Fonte de Verdade.
 
-Fica estabelecido que toda inteligência processada, de qualquer natureza, deverá nascer exclusivamente do contrato de dados e do estado unificado denominado **`ExecutiveIntelligenceReport`** (ou nomenclatura equivalente no domínio arquitetural).
+Fica estabelecido que toda inteligência processada, de qualquer natureza, deverá nascer exclusivamente do contrato de dados e do estado unificado denominado **`ExecutiveGovernanceReport`** (ou nomenclatura equivalente no domínio arquitetural).
 
-**Regra Dourada:** Nenhuma página ou módulo da aplicação possui capacidade cognitiva própria para produzir interpretação. Todas leem do *ExecutiveIntelligenceReport*.
+**Regra Dourada:** Nenhuma página ou módulo da aplicação possui capacidade cognitiva própria para produzir interpretação. Todas leem do *ExecutiveGovernanceReport*.
 
 ---
 
@@ -126,7 +126,7 @@ Para suportar esta infraestrutura de policiamento, ficam oficializadas na arquit
 *   **`ArchitecturalDriftDetector`**: Monitora se componentes do sistema estão tentando resolver problemas matemáticos sem chamar o Core.
 *   **`NarrativeIntegrityValidator`**: Garante que o texto de resposta esteja simétrico com os indicadores consolidados e restrições semânticas.
 *   **`SeverityConsistencyValidator`**: Cancela diagnósticos de Colapso para balanços com caixa e continuidade atestada.
-*   **`ContextComplianceValidator`**: Força a inteligência a ser filtrada pelas tolerâncias da *Segment Intelligence Matrix*.
+*   **`ContextComplianceValidator`**: Força a inteligência a ser filtrada pelas tolerâncias da *Segment Governance Matrix*.
 *   **`CausalIntegrityMonitor`**: Bloqueia *insights* que não informem a cadeia estrutural causal do problema.
 *   **`ExecutiveConsistencyEngine`**: O juiz final que empacota e aprova a inteligência antes da UI.
 
@@ -168,7 +168,7 @@ A plataforma operará com as prerrogativas de:
 *   Sistema Institucional de Inteligência de Decisão;
 *   Plataforma madura de Advisory Corporativo;
 *   Sistema blindado de Governança Financeira;
-*   Legítima *Executive Intelligence Layer*.
+*   Legítima *Executive Governance Layer*.
 
 O objetivo não é produzir *dashboards* independentes e reativos que assustam o usuário, mas sim produzir **inteligência institucional estruturada, absolutamente coerente, tecnologicamente auditável e arquiteturalmente centralizada.**
 

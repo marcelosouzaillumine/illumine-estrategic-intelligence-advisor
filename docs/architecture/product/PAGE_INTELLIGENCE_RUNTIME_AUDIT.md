@@ -1,6 +1,6 @@
-# PAGE_INTELLIGENCE_RUNTIME_AUDIT.md — Auditoria de Montagem e Integração por Página
+# PAGE_GOVERNANCE_RUNTIME_AUDIT.md — Auditoria de Montagem e Integração por Página
 
-> **Relatório de Auditoria de Montagem do Executive Intelligence Runtime (Wave 17.8 Fase 1)**
+> **Relatório de Auditoria de Montagem do Executive Governance Runtime (Wave 17.8 Fase 1)**
 
 ---
 
@@ -21,5 +21,5 @@
 
 ## 2. Garantias de Não-Orfandade de Inteligência (ADR-061)
 
-- **Regra Fiduciária**: *"Capabilities, agents and intelligence services are not considered implemented until they are available through the executive user experience."*
+- **Regra Fiduciária**: *"Capabilities, agents and governance services are not considered implemented until they are available through the executive user experience."*
 - 100% dos 12 agentes executivos possuem superfícies táteis de interação na interface.

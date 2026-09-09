@@ -3,7 +3,7 @@ import { DiagnosticQuestion } from '../core/diagnostic-contracts';
 export const GOVERNANCE_QUESTIONS: DiagnosticQuestion[] = [
   {
     id: 'gov-q1',
-    dimensionId: 'strategic-governance',
+    dimensionId: 'strategic-intelligence',
     text: 'Como decisões estratégicas relevantes são tomadas atualmente na organização?',
     type: 'single_choice',
     options: [

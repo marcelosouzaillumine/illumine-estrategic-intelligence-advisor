@@ -7,7 +7,7 @@ describe('@illumine/human-governance-gateway (Wave 15B Phase 6)', () => {
   it('should enforce PENDING_HUMAN_REVIEW for HIGH risk recommendations (ADR-027)', () => {
     const highRiskRec: AgentRecommendation = {
       recommendationId: 'rec-high-01',
-      agentId: 'cfo-intelligence-agent',
+      agentId: 'cfo-governance-agent',
       domain: 'finance',
       title: 'Emissão de Debêntures',
       executiveSummary: 'Operação de crédito de R$ 50M',

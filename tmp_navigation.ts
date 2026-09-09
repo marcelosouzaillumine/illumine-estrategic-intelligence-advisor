@@ -127,7 +127,7 @@ export type Page =
   | 'institutional_ios'
   | 'executive_command'
   | 'operational_governance'
-  | 'strategic_intelligence'
+  | 'strategic_governance'
   | 'institutional_board_pack'
   | 'institutional_continuity'
   | 'deployment_readiness'
@@ -324,7 +324,7 @@ const RAW_NAVIGATION_GROUPS: NavigationGroup[] = [
     ]
   },
   {
-    group: 'Board Intelligence™', groupKey: 'navigation.group.board_intelligence',
+    group: 'Board Governance™', groupKey: 'navigation.group.board_governance',
     icon: Presentation,
     items: [
       { id: 'institutional_board_pack', label: 'Board Pack Institucional', labelKey: 'navigation.page.institutional_board_pack', icon: FileText },
@@ -345,7 +345,7 @@ const RAW_NAVIGATION_GROUPS: NavigationGroup[] = [
       { id: 'consolidated_executive', label: 'Inteligência Consolidada', labelKey: 'navigation.page.consolidated_executive', icon: Globe },
       { id: 'plano_acao', label: 'Roadmap de Execução', labelKey: 'navigation.page.plano_acao', icon: Rocket },
       { id: 'executive_execution_center', label: 'Executive Execution Center', labelKey: 'navigation.page.executive_execution_center', icon: Activity },
-      { id: 'strategic_intelligence', label: 'Strategic Intelligence Center', labelKey: 'navigation.page.strategic_intelligence', icon: Compass },
+      { id: 'strategic_governance', label: 'Strategic Governance Center', labelKey: 'navigation.page.strategic_governance', icon: Compass },
       { id: 'institutional_ios', label: 'Institutional iOS', labelKey: 'navigation.page.institutional_ios', icon: Scale, masterOnly: true }
     ]
   },
@@ -435,7 +435,7 @@ const RAW_NAVIGATION_GROUPS: NavigationGroup[] = [
     ]
   },
   {
-    group: 'Intelligence Domains', groupKey: 'navigation.group.intelligence_domains',
+    group: 'Governance Domains', groupKey: 'navigation.group.governance_domains',
     icon: Network,
     items: [
       { id: 'esgim_assessment', label: 'Avaliação ESGIM™', labelKey: 'navigation.page.esgim_assessment', icon: Brain },

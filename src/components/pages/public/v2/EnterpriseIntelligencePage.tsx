@@ -269,7 +269,7 @@ export function EnterpriseIntelligencePage() {
         <Container>
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
             <div>
-              <SectionLabel align="left">Institutional Intelligence Simulation™</SectionLabel>
+              <SectionLabel align="left">Institutional Governance Simulation™</SectionLabel>
               <h2 className="text-3xl md:text-4xl font-bold text-white mb-6">
                 {t('enterprise.simulation.title')}
               </h2>

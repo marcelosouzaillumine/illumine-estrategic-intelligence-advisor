@@ -13,7 +13,7 @@ Nenhuma engine pode:
 
 Todas as análises devem obedecer:
 - MASTER_ARCHITECTURE.md
-- MASTER_FINANCIAL_INTELLIGENCE_ENGINE.md
+- MASTER_FINANCIAL_GOVERNANCE_ENGINE.md
 - ENGINE_CAUSALITY_AND_LIQUIDITY_FRAMEWORK.md
 
 ---
@@ -112,7 +112,7 @@ Todos os scores da plataforma devem:
 
 ---
 
-# 8. Advisory Intelligence
+# 8. Advisory Governance
 
 Os advisories devem separar:
 

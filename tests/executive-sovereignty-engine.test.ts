@@ -113,7 +113,7 @@ describe("Executive Sovereignty Layer (ESL) v3.0", () => {
     assert.strictEqual(buildExecutiveSovereigntyProfile(undefined), undefined);
   });
 
-  test("should return undefined if input has no intelligence layers", () => {
+  test("should return undefined if input has no governance layers", () => {
     assert.strictEqual(buildExecutiveSovereigntyProfile({}), undefined);
   });
 

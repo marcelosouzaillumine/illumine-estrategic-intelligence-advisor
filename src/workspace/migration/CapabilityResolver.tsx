@@ -72,7 +72,7 @@ export const CapabilityResolver: React.FC<CapabilityResolverProps> = ({ currentP
   switch (capabilityId) {
     case 'cfo.financial-performance':
       return <FinancialPerformanceCapability context={resolvedContext} />;
-    case 'cfo.cash-intelligence':
+    case 'cfo.cash-governance':
       return <CashIntelligenceCapability context={resolvedContext} />;
     case 'cfo.planning-forecast':
       return <PlanningForecastCapability context={resolvedContext} />;
@@ -82,7 +82,7 @@ export const CapabilityResolver: React.FC<CapabilityResolverProps> = ({ currentP
       return <ExecutiveOverviewCapability context={resolvedContext} />;
     case 'ceo.strategic-performance':
       return <StrategicPerformanceCapability context={resolvedContext} />;
-    case 'ceo.growth-intelligence':
+    case 'ceo.growth-governance':
       return <GrowthIntelligenceCapability context={resolvedContext} />;
     case 'ceo.risk-overview':
       return <RiskOverviewCapability context={resolvedContext} />;
@@ -90,9 +90,9 @@ export const CapabilityResolver: React.FC<CapabilityResolverProps> = ({ currentP
       return <CommercialOverviewCapability context={resolvedContext} />;
     case 'commercial.commercial-performance':
       return <CommercialPerformanceCapability context={resolvedContext} />;
-    case 'commercial.pipeline-intelligence':
+    case 'commercial.pipeline-governance':
       return <PipelineIntelligenceCapability context={resolvedContext} />;
-    case 'commercial.customer-intelligence':
+    case 'commercial.customer-governance':
       return <CustomerIntelligenceCapability context={resolvedContext} />;
     case 'coo.executive-overview':
       return <OperationalOverviewCapability context={resolvedContext} />;
@@ -100,55 +100,55 @@ export const CapabilityResolver: React.FC<CapabilityResolverProps> = ({ currentP
       return <ProcessExecutionCapability context={resolvedContext} />;
     case 'coo.logistics-supply-chain':
       return <LogisticsSupplyChainCapability context={resolvedContext} />;
-    case 'coo.procurement-intelligence':
+    case 'coo.procurement-governance':
       return <ProcurementIntelligenceCapability context={resolvedContext} />;
     case 'coo.operational-excellence':
       return <OperationalExcellenceCapability context={resolvedContext} />;
     case 'people.executive-overview':
       return <PeopleOverviewCapability context={resolvedContext} />;
-    case 'people.workforce-intelligence':
+    case 'people.workforce-governance':
       return <WorkforceCapability context={resolvedContext} />;
     case 'people.culture-engagement':
       return <CultureCapability context={resolvedContext} />;
-    case 'people.leadership-intelligence':
+    case 'people.leadership-governance':
       return <LeadershipCapability context={resolvedContext} />;
     case 'people.people-costs':
       return <PeopleFinancialCapability context={resolvedContext} />;
     case 'people.learning-development':
       return <CapabilityDevelopmentCapability context={resolvedContext} />;
-    case 'people.organizational-intelligence':
+    case 'people.organizational-governance':
       return <OrganizationalIntelligenceCapability context={resolvedContext} />;
     case 'governance.executive-overview':
       return <GovernanceOverviewCapability context={resolvedContext} />;
     case 'governance.strategic-alignment':
       return <StrategicAlignmentCapability context={resolvedContext} />;
-    case 'governance.decision-intelligence':
+    case 'governance.decision-governance':
       return <DecisionIntelligenceCapability context={resolvedContext} />;
-    case 'governance.board-intelligence':
+    case 'governance.board-governance':
       return <BoardIntelligenceCapability context={resolvedContext} />;
     case 'governance.governance-maturity':
       return <GovernanceMaturityCapability context={resolvedContext} />;
     case 'risk.executive-overview':
       return <RiskOfficeOverviewCapability context={resolvedContext} />;
-    case 'risk.risk-intelligence':
+    case 'risk.risk-governance':
       return <RiskIntelligenceCapability context={resolvedContext} />;
     case 'risk.enterprise-risk':
       return <EnterpriseRiskCapability context={resolvedContext} />;
-    case 'risk.compliance-intelligence':
+    case 'risk.compliance-governance':
       return <ComplianceCapability context={resolvedContext} />;
     case 'risk.control-maturity':
       return <ControlMaturityCapability context={resolvedContext} />;
-    case 'risk.audit-intelligence':
+    case 'risk.audit-governance':
       return <AuditIntelligenceCapability context={resolvedContext} />;
     case 'risk.enterprise-resilience':
       return <EnterpriseResilienceCapability context={resolvedContext} />;
     case 'innovation.executive-overview':
       return <InnovationOverviewCapability context={resolvedContext} />;
-    case 'innovation.innovation-intelligence':
+    case 'innovation.innovation-governance':
       return <InnovationIntelligenceCapability context={resolvedContext} />;
     case 'innovation.innovation-portfolio':
       return <InnovationPortfolioCapability context={resolvedContext} />;
-    case 'innovation.opportunity-intelligence':
+    case 'innovation.opportunity-governance':
       return <OpportunityIntelligenceCapability context={resolvedContext} />;
     case 'innovation.experiment-management':
       return <ExperimentManagementCapability context={resolvedContext} />;
@@ -158,7 +158,7 @@ export const CapabilityResolver: React.FC<CapabilityResolverProps> = ({ currentP
       return <KnowledgeEvolutionCapability context={resolvedContext} />;
     
     // Enterprise Intelligence (Wave 17J)
-    case 'intelligence.preview':
+    case 'governance.preview':
       return <EnterpriseIntelligencePreview context={resolvedContext} />;
       
     default:

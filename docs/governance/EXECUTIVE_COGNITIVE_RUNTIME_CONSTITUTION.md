@@ -1,5 +1,5 @@
 # EXECUTIVE COGNITIVE RUNTIME CONSTITUTION™
-**The Laws of Cognitive Institutional Intelligence & Metacognition**
+**The Laws of Cognitive Institutional Governance & Metacognition**
 **Version:** 1.0
 **Status:** CANONICAL
 

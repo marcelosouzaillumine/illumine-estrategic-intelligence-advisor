@@ -4,7 +4,7 @@ import { ExecutiveMemoryService } from '../../src/intelligence/memory/executive-
 import { DomainRegistry } from '../../src/intelligence/diagnostics/core/domain-registry';
 import { BRAND } from '../../src/config/brand';
 
-describe('Gate 3 — Advisory Intelligence Connectivity', () => {
+describe('Gate 3 — Advisory Governance Connectivity', () => {
   beforeEach(() => {
     // Inject mock data into MemoryService for testing
     const memoryService = ExecutiveMemoryService.getInstance();
@@ -12,8 +12,8 @@ describe('Gate 3 — Advisory Intelligence Connectivity', () => {
     
     // Register domain
     DomainRegistry.getInstance().register({
-      domain: 'financial-intelligence' as any,
-      name: 'Financial Intelligence™',
+      domain: 'financial-governance' as any,
+      name: 'Financial Governance™',
       isCoreFoundation: true,
       supportedEngines: ['Advisory']
     });
@@ -21,7 +21,7 @@ describe('Gate 3 — Advisory Intelligence Connectivity', () => {
     memoryService.injectContext(orgId, {
       id: 'ctx-123',
       profileId: 'prof-123',
-      domain: 'financial-intelligence',
+      domain: 'financial-governance',
       organizationStage: 'Enterprise Development' as any,
       currentExecutiveReality: 'Realidade Executiva Teste',
       strategicConversation: 'Conversa Estratégica Teste',

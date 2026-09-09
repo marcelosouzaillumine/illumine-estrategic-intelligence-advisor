@@ -1,7 +1,7 @@
 /// <reference types="vitest" />
 import { describe, it, expect } from 'vitest';
 
-describe('@illumine/intelligence (Wave 18.3 Registration Experience Classification)', () => {
+describe('@illumine/governance (Wave 18.3 Registration Experience Classification)', () => {
   it('should verify registration pages belong to Platform Workspace', () => {
     const registrationPages = ['Clients', 'Companies', 'Partners', 'Users', 'Permissions'];
 

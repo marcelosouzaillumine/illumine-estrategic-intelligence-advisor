@@ -8,7 +8,7 @@ export class PatrimonialContextMapper {
       inheritedBlocks.push({
         conclusionType: "ALL_PATRIMONIAL_CONCLUSIONS",
         deterministicTrigger: "FinancialRuntimeContext fail-closed active",
-        limitationCreated: "Entire patrimonial intelligence engine is blocked.",
+        limitationCreated: "Entire patrimonial governance engine is blocked.",
         sourceRule: "Propagation Integrity Mapper"
       });
     }

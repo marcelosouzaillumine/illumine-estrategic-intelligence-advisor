@@ -9,7 +9,7 @@ The Sovereign Fiduciary Frontend Layer (SFFL) exists to expose fiduciary conclus
 * It is **not** a decision engine.
 * It is **not** a governance engine.
 
-All institutional intelligence originates exclusively from the Runtime Layer.
+All institutional governance originates exclusively from the Runtime Layer.
 
 ---
 

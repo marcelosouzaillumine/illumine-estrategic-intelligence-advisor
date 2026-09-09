@@ -1,7 +1,7 @@
 import { CfoIntelligencePipeline } from '../workspace/intelligence/cfo/cfo.pipeline';
 
 async function main() {
-  console.log('--- Illumine Intelligence: CFO Pipeline Runner ---');
+  console.log('--- Illumine Governance: CFO Pipeline Runner ---');
 
   const args = process.argv.slice(2);
   const tenantId = args.find(a => a.startsWith('--tenantId='))?.split('=')[1] || 'tenant-teste';

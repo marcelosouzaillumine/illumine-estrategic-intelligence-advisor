@@ -10,7 +10,7 @@ export class ExecutiveCopilotExperience {
     return {
       primaryCause: `Análise contextual de "${prompt}" sobre ${focusArea}: variação decorrente de insumos e margem.`,
       evidenceSummaries: [`Evidência 1 de ${focusArea}`, `Evidência 2 de ${focusArea}`],
-      consultedAgents: ['cfo-intelligence-agent', 'controller-agent'],
+      consultedAgents: ['cfo-governance-agent', 'controller-agent'],
       recommendationText: `Recomenda-se plano de ação para ${focusArea}`,
       expectedImpactSummary: '+250 bps de margem',
       confidenceScore: { value: 95 } as any

@@ -2,7 +2,7 @@
 
 > **Arquitetura do Grafo Institucional de Conhecimento e Memória Decisória**  
 > *Autoridade Supreme: Architecture Review Board (ARB) & Executive Governance Council*  
-> *Alinhado à [`ARCHITECTURE_CONSTITUTION.md`](file:///Users/marcelosouza/Documents/illumine-strategic-intelligence-advisor/ARCHITECTURE_CONSTITUTION.md), ADR-068 e ADR-081*
+> *Alinhado à [`ARCHITECTURE_CONSTITUTION.md`](file:///Users/marcelosouza/Documents/illumine-strategic-governance-advisor/ARCHITECTURE_CONSTITUTION.md), ADR-068 e ADR-081*
 
 ---
 

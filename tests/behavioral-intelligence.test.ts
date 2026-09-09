@@ -65,7 +65,7 @@ const createBaseDecision = (domains: any[] = ['Dividend Distribution'], value = 
   approverRole: 'CFO'
 });
 
-describe('Institutional Behavioral Intelligence & Governance Drift Framework', () => {
+describe('Institutional Behavioral Governance & Governance Drift Framework', () => {
   beforeEach(() => {
     InstitutionalDecisionLedger.clearMemory();
   });

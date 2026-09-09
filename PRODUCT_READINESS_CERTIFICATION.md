@@ -2,7 +2,7 @@
 
 > **Certificado Oficial de Qualidade e Prontidão Operacional de Produto da Wave 18.7**  
 > *Emissor: Architecture Review Board (ARB) & Executive Governance Council*  
-> *Alinhado à [`ARCHITECTURE_CONSTITUTION.md`](file:///Users/marcelosouza/Documents/illumine-strategic-intelligence-advisor/ARCHITECTURE_CONSTITUTION.md) e ADR-085*
+> *Alinhado à [`ARCHITECTURE_CONSTITUTION.md`](file:///Users/marcelosouza/Documents/illumine-strategic-governance-advisor/ARCHITECTURE_CONSTITUTION.md) e ADR-085*
 
 ---
 

@@ -22,7 +22,7 @@ describe('ExecutiveConversationEngine & Adapter', () => {
     assert.strictEqual(finalReport.executiveConversation, undefined);
   });
 
-  it('must successfully attach executiveConversation without mutating prior intelligence', () => {
+  it('must successfully attach executiveConversation without mutating prior governance', () => {
     const originalReport = {
       esgIntelligence: { overallScore: 85 },
       governanceCopilotContext: { availableTopics: ['ESG'] },

@@ -117,7 +117,7 @@ export class ExecutiveAccountabilityEngine {
     else if (status === 'CHRONIC_REACTION_DELAY' || status === 'REACTIVE_CORRECTION') reactionSpeedAssessment = 'TARDIA';
     else if (status === 'NON_CORRECTIVE_MANAGEMENT_PATTERN') reactionSpeedAssessment = 'INEXISTENTE';
 
-    const narrative = `A análise de Executive Accountability Intelligence classificou a capacidade de reação institucional como ${status}. ${evidenceTrail.join(' ')}`;
+    const narrative = `A análise de Executive Accountability Governance classificou a capacidade de reação institucional como ${status}. ${evidenceTrail.join(' ')}`;
 
     return {
       accountabilityScore,

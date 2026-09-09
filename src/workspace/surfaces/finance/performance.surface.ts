@@ -9,7 +9,7 @@ export const FINANCIAL_PERFORMANCE_SURFACE: DecisionSurfaceDefinition = {
   descriptionKey: 'workspace.cfo.surfaces.performance.description',
   intent: 'analyze',
   capability: CAPABILITIES.FINANCIAL_DASHBOARD_VIEW,
-  supportedEngines: ['FinancialIntelligenceEngine'],
+  supportedEngines: ['FinancialGovernanceEngine'],
   supportedAgents: ['ExecutiveAdvisor'],
   defaultLayout: FinancialReviewPattern.layout.id,
   layouts: [

@@ -32,7 +32,7 @@ export function InstitutionalKnowledgeGraphPage() {
   return (
     <ExecutivePageTemplate header={{
       title: "Knowledge Graph Institucional",
-      description: "Semantic Intelligence Layer. Explorador auditável de correlações fiduciárias e memória institucional.",
+      description: "Semantic Governance Layer. Explorador auditável de correlações fiduciárias e memória institucional.",
     }}>
 
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-6 mb-10">

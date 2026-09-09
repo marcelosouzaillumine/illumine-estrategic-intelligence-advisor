@@ -2,7 +2,7 @@
 import { describe, it, expect } from 'vitest';
 import { KnowledgeGraphNode, KnowledgeGraphRelationship } from '@illumine/executive-contracts';
 
-describe('@illumine/intelligence (Wave 18.5 Knowledge Graph Architecture)', () => {
+describe('@illumine/governance (Wave 18.5 Knowledge Graph Architecture)', () => {
   it('should validate Organizational Knowledge Graph nodes and relationships (OIKE v1.0 / ADR-081)', () => {
     const companyNode: KnowledgeGraphNode = {
       nodeId: 'node-comp-1',

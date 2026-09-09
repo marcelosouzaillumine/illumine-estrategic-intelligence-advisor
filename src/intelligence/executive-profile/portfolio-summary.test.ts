@@ -2,7 +2,7 @@ import { PortfolioSummaryService } from './portfolio-summary.service';
 import { ExecutiveProfilePortfolio } from './portfolio-types';
 import { describe, it, expect } from 'vitest';
 
-describe('Executive Intelligence Portfolio Engine™ - Calibration', () => {
+describe('Executive Governance Portfolio Engine™ - Calibration', () => {
   const service = new PortfolioSummaryService();
 
   const mockPortfolioBase: any = {
@@ -25,7 +25,7 @@ describe('Executive Intelligence Portfolio Engine™ - Calibration', () => {
 
     const summary = service.generateSummary(portfolio);
     expect(summary.organizationalStage).toBe('Foundation Building');
-    expect(summary.recommendedEvolution.nextJourneyId).toBe('governance-intelligence'); // Will suggest governance evolution as the current one is initial, or leadership based on logic.
+    expect(summary.recommendedEvolution.nextJourneyId).toBe('governance-governance'); // Will suggest governance evolution as the current one is initial, or leadership based on logic.
     // In our logic it is "Foundation Building" and if developing + initial without people, next Journey could be operational/governance.
   });
 
@@ -41,7 +41,7 @@ describe('Executive Intelligence Portfolio Engine™ - Calibration', () => {
 
     const summary = service.generateSummary(portfolio);
     expect(summary.organizationalStage).toBe('Enterprise Development');
-    expect(summary.recommendedEvolution.nextJourneyId).toBe('operational-intelligence');
+    expect(summary.recommendedEvolution.nextJourneyId).toBe('operational-governance');
   });
 
   it('Cenário 3 — Empresa dependente do fundador', () => {
@@ -57,6 +57,6 @@ describe('Executive Intelligence Portfolio Engine™ - Calibration', () => {
     const summary = service.generateSummary(portfolio);
     expect(summary.organizationalStage).toBe('Foundation Building');
     expect(summary.attentionAreas).toContain('Leadership Governance');
-    expect(summary.recommendedEvolution.nextJourneyId).toBe('leadership-intelligence');
+    expect(summary.recommendedEvolution.nextJourneyId).toBe('leadership-governance');
   });
 });

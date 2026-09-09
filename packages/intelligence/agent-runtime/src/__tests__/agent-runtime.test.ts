@@ -13,13 +13,13 @@ describe('@illumine/agent-runtime (Wave 15B Phase 1 Foundation)', () => {
 
     const recommendation: AgentRecommendation = {
       recommendationId: 'rec-cfo-01',
-      agentId: 'cfo-intelligence-agent',
+      agentId: 'cfo-governance-agent',
       domain: 'finance',
       title: 'Reestruturação de Dívida de Curto Prazo',
       executiveSummary: 'Recomenda-se emitir debêntures para alongar o perfil do passivo.',
       reasoningTrace: {
         traceId: 'tr-01',
-        agentId: 'cfo-intelligence-agent',
+        agentId: 'cfo-governance-agent',
         steps: ['Passo 1: Analisar DFC', 'Passo 2: Simular emissão'],
         confidence: Score.create(90),
         timestamp: new Date()
@@ -37,7 +37,7 @@ describe('@illumine/agent-runtime (Wave 15B Phase 1 Foundation)', () => {
       timestamp: new Date()
     };
 
-    expect(recommendation.agentId).toBe('cfo-intelligence-agent');
+    expect(recommendation.agentId).toBe('cfo-governance-agent');
     expect(recommendation.riskLevel).toBe('HIGH');
     expect(recommendation.evidenceBundle.lineageHash).toBe('sha256-evidence-bundle-001');
   });

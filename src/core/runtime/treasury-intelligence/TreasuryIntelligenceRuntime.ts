@@ -50,7 +50,7 @@ export class TreasuryIntelligenceRuntime {
    * orchestrates the evaluation, prioritization, and optimization of capital stewardship.
    */
   public static evaluate(input: TreasuryRuntimeInput): TreasuryIntelligenceRuntimeOutput {
-    const auditTrail: string[] = ['Execution started at TreasuryIntelligenceRuntime'];
+    const auditTrail: string[] = ['Execution started at TreasuryGovernanceRuntime'];
 
     const {
       allocations,
@@ -127,7 +127,7 @@ export class TreasuryIntelligenceRuntime {
       runwayMonths: fco < 0 ? Math.round((availableCash / (Math.abs(fco) / 12)) * 10) / 10 : 99.0,
       historicalCyclesCount
     });
-    auditTrail.push(`Reinvestment intelligence evaluated. Quality: ${reinvestment.reinvestmentQuality}`);
+    auditTrail.push(`Reinvestment governance evaluated. Quality: ${reinvestment.reinvestmentQuality}`);
 
     // 4. Evaluate Treasury Resilience Engine
     const resilience = TreasuryResilienceEngine.evaluate({
@@ -310,7 +310,7 @@ export class TreasuryIntelligenceRuntime {
         disclosureId: `TREASURY_DISC_${idx}`,
         disclosureType: 'LIMITATION',
         severity: severity,
-        sourceRuntime: 'TreasuryIntelligenceRuntime',
+        sourceRuntime: 'TreasuryGovernanceRuntime',
         restrictionLevel: 'HARD',
         message: msg
       })),

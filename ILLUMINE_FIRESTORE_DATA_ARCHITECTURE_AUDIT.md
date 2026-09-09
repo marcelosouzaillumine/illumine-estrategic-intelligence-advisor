@@ -1,7 +1,7 @@
 # ILLUMINE_FIRESTORE_DATA_ARCHITECTURE_AUDIT
 
 ## 1. Executive Summary
-This document provides a comprehensive, read-only architectural audit of the Firebase and Firestore implementation within the Illumine platform. The audit was conducted using repository source code, configuration files, and Firestore rules. The architecture relies extensively on Firestore for NoSQL document storage, with security rules handling tenant isolation. However, the schema reveals complex relational dependencies—particularly in financial intelligence and multi-tenancy—that are difficult to maintain in NoSQL, making the eventual migration to a relational structure (PostgreSQL) highly recommended.
+This document provides a comprehensive, read-only architectural audit of the Firebase and Firestore implementation within the Illumine platform. The audit was conducted using repository source code, configuration files, and Firestore rules. The architecture relies extensively on Firestore for NoSQL document storage, with security rules handling tenant isolation. However, the schema reveals complex relational dependencies—particularly in financial governance and multi-tenancy—that are difficult to maintain in NoSQL, making the eventual migration to a relational structure (PostgreSQL) highly recommended.
 
 **Runtime Access:** [UNKNOWN] - Direct access to the live Firebase environment was not available. All findings are derived strictly from repository evidence (`[CODE]`, `[RULES]`, `[CONFIG]`).
 
@@ -108,7 +108,7 @@ Located in `src/adapters/persistence/` `[CODE]`.
 - Collections: `diagnostico`, `okrs`, `diretrizes`, `report_notes`.
 - Tenant Boundary: All isolated by `clientId` and `ownerId`. 
 
-## 14. Executive Intelligence Data
+## 14. Executive Governance Data
 `[CODE]`: 
 - AI outputs from Gemini (e.g., `generateGovernanceDiagnosis`) map directly to the `diagnostico` schema. 
 - Generated data is persisted in Firestore, but [UNKNOWN] if historical versions of AI generations are kept (no versioning fields observed in `firestore.rules`).

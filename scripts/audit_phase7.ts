@@ -26,7 +26,7 @@ function run(cmd: string): string {
 console.log("Auditing Phase 6 Closure...");
 output.nocheck = run('grep -Rn "@ts-nocheck" src/capabilities src/core || true').split('\n').filter(Boolean);
 output.asAny = run('grep -Rn "as any" src/capabilities src/core || true').split('\n').filter(Boolean);
-output.firestore = run('grep -Rn "firebase/firestore" src/capabilities/financial/domain src/capabilities/financial/intelligence src/capabilities/financial/application || true').split('\n').filter(Boolean);
+output.firestore = run('grep -Rn "firebase/firestore" src/capabilities/financial/domain src/capabilities/financial/governance src/capabilities/financial/application || true').split('\n').filter(Boolean);
 
 console.log("Auditing Phase 7 Intention...");
 output.phase7Docs = run('find . -type f -not -path "*/node_modules/*" -not -path "*/.git/*" -not -path "*/.gemini/*" -not -path "*/.agent/*" | grep -iE "phase.?7" || true').split('\n').filter(Boolean);

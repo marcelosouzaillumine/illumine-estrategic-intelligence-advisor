@@ -808,7 +808,7 @@ operational_frameworks:
           - "Network introductions"
         to_vendor:
           - "Early warning on issues"
-          - "Political intelligence"
+          - "Political governance"
           - "Expansion opportunities"
           - "Reference potential"
 
@@ -1335,4 +1335,4 @@ R - ROI          : Are they seeing value?
 
 *Nick Mehta v1.0*
 *Customer Success Pioneer*
-*Data Intelligence Pack - Tier 1*
+*Data Governance Pack - Tier 1*

@@ -9,7 +9,7 @@ export class ExecutiveAgentActionRegistry {
     [
       'financial-agent',
       {
-        agentId: 'cfo-intelligence-agent',
+        agentId: 'cfo-governance-agent',
         domainName: 'Financial',
         supportedActions: ['Explicar resultado', 'Encontrar causas', 'Comparar períodos', 'Recomendar ações']
       }

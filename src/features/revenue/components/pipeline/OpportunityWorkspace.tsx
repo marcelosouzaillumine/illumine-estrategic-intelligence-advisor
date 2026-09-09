@@ -73,8 +73,8 @@ export function OpportunityWorkspace({ workspace, onBack }: OpportunityWorkspace
             {/* Revenue Intelligence */}
             <div className="space-y-4">
               <ExecutiveText variant="sectionSubtitle" className="flex items-center gap-2">
-                <Brain size={20} className="text-primary"/> Revenue Intelligence
-              </ExecutiveText>
+                <Brain size={20} className="text-primary"/> Revenue Governance
+                                            </ExecutiveText>
               <div className="grid grid-cols-1 gap-4">
                 {workspace.intelligence.map(insight => (
                   <div key={insight.id} className="bg-card border border-border p-4 rounded-xl flex gap-4 items-start">

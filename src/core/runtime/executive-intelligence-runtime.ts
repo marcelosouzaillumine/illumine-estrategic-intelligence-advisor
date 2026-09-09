@@ -432,8 +432,8 @@ export class ExecutiveIntelligenceRuntime implements
     }
 
     const traceEngine = new RuntimeTraceEngine('SINGLE_ENTITY');
-    traceEngine.Profiler.startEngine('ExecutiveIntelligenceRuntime');
-    traceEngine.Lineage.startNode('ExecutiveIntelligenceRuntime', ['rawData']);
+    traceEngine.Profiler.startEngine('ExecutiveGovernanceRuntime');
+    traceEngine.Lineage.startNode('ExecutiveGovernanceRuntime', ['rawData']);
 
     // ── Dicionário de tradução de enums para português fluido ──────────────────────────
     const enumLabels: Record<string, string> = {
@@ -1957,7 +1957,7 @@ export class ExecutiveIntelligenceRuntime implements
 
     // 7. Consolidação e Auditoria (Confidence Integrity Layer)
     traceEngine.Lineage.endNode('ExecutiveReportGenerated');
-    traceEngine.Profiler.endEngine('ExecutiveIntelligenceRuntime');
+    traceEngine.Profiler.endEngine('ExecutiveGovernanceRuntime');
 
     const fiduciaryEnforcement = GlobalFiduciaryDistributionEnforcementEngine.evaluate(capitalGovernanceReport.fiduciaryOutput);
 
@@ -2201,7 +2201,7 @@ export class ExecutiveIntelligenceRuntime implements
               disclosureType: 'RESTRICTION',
               message: 'Modo de sobrevivência institucional ativo (ISHE). Todas as prioridades financeiras acima do Nível 1 estão congeladas.', 
               severity: 'CRITICAL',
-              sourceRuntime: 'TreasuryIntelligenceRuntime',
+              sourceRuntime: 'TreasuryGovernanceRuntime',
               restrictionLevel: 'HARD'
             }
           );
@@ -2243,7 +2243,7 @@ export class ExecutiveIntelligenceRuntime implements
               disclosureType: 'RESTRICTION',
               message: `Restrições progressivas de tesouraria devido a estágio de recuperação (${recoveryReport.activeRecoveryStage}).`, 
               severity: 'HIGH',
-              sourceRuntime: 'TreasuryIntelligenceRuntime',
+              sourceRuntime: 'TreasuryGovernanceRuntime',
               restrictionLevel: 'SOFT'
             }
           );
@@ -2626,7 +2626,7 @@ export class ExecutiveIntelligenceRuntime implements
 
     if (executivePatrimonialReport?.governanceConsistency?.consistencyStatus === 'FAIL_CLOSED') {
       initialReport.compliance.fiduciaryEnforcement.fiduciaryRestrictions.push({
-        scope: 'PATRIMONIAL_INTELLIGENCE',
+        scope: 'PATRIMONIAL_GOVERNANCE',
         reason: 'PATRIMONIAL_GOVERNANCE_FAIL_CLOSED',
         confidenceCap: 60,
         description: 'Inconsistências materiais exigem revisão executiva.',

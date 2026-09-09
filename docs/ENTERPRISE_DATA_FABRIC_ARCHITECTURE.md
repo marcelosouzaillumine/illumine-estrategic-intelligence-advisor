@@ -2,7 +2,7 @@
 
 > **Arquitetura do Tecido Unificado de Dados Empresariais e Ingestão Contínua**  
 > *Autoridade Supreme: Architecture Review Board (ARB) & Executive Governance Council*  
-> *Alinhado à [`ARCHITECTURE_CONSTITUTION.md`](file:///Users/marcelosouza/Documents/illumine-strategic-intelligence-advisor/ARCHITECTURE_CONSTITUTION.md), ADR-068 e ADR-078*
+> *Alinhado à [`ARCHITECTURE_CONSTITUTION.md`](file:///Users/marcelosouza/Documents/illumine-strategic-governance-advisor/ARCHITECTURE_CONSTITUTION.md), ADR-068 e ADR-078*
 
 ---
 
@@ -26,7 +26,7 @@ External Operational Systems (ERP, CRM, Banking, Spreadsheets, APIs)
                     Executive Digital Twin (Representação Viva da Empresa)
                              │
                              ▼
-                    Decision Intelligence Engine (Início da Cadeia Cognitiva)
+                    Decision Governance Engine (Início da Cadeia Cognitiva)
 ```
 
 ---

@@ -32,7 +32,7 @@ export class WorkspaceManager {
       configuration: {
         theme: 'EXECUTIVE_DARK',
         defaultDashboard: 'ceo.dashboard',
-        activeCapabilities: ['finance-intelligence', 'governance-intelligence']
+        activeCapabilities: ['finance-governance', 'governance-governance']
       },
       members: [],
       createdAt: new Date().toISOString()

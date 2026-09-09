@@ -29,7 +29,7 @@ A migração visa eliminar dívida técnica visual, substituindo construções m
   - Utilizar `ExecutiveNarrative` (variant: `recommendation`) para tarefas de mentoria.
   - Incorporar `ExecutiveCallout` para alertas de pendências.
 
-### Superfície 4: Institutional Intelligence
+### Superfície 4: Institutional Governance
 - **Ações:**
   - Aplicar `ExecutiveNarrative` (variant: `insight` e `board-note`) nos painéis de IA.
   - Substituir qualquer layout ad-hoc.

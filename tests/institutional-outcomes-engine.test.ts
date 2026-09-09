@@ -25,6 +25,6 @@ describe('Institutional Outcomes Engine', () => {
     assert.strictEqual(db.conversionMetrics.totalActions, 1);
     assert.strictEqual(db.transformationIndex.executionScore, 10);
     assert.strictEqual(db.evidenceAudit.predominantLevel, 'E4');
-    assert.strictEqual(db.evidenceAudit.decisionInfluenceClassification, 'INSTITUTIONAL_INTELLIGENCE_PLATFORM');
+    assert.strictEqual(db.evidenceAudit.decisionInfluenceClassification, 'INSTITUTIONAL_GOVERNANCE_PLATFORM');
   });
 });

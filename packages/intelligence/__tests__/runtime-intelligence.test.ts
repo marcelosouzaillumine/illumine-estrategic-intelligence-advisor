@@ -2,8 +2,8 @@
 import { describe, it, expect } from 'vitest';
 import { ExecutiveDecisionIntelligenceEngine } from '@illumine/executive-decision-intelligence';
 
-describe('@illumine/intelligence (Wave 18.1 Runtime Intelligence Recalculation)', () => {
-  it('should recalculate decision intelligence dynamically when financial metrics change (ADR-068)', () => {
+describe('@illumine/governance (Wave 18.1 Runtime Governance Recalculation)', () => {
+  it('should recalculate decision governance dynamically when financial metrics change (ADR-068)', () => {
     const resLow = ExecutiveDecisionIntelligenceEngine.evaluate({
       companyId: 'comp-1',
       companyName: 'Empresa Beta',

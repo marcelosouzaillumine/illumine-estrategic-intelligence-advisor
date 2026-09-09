@@ -14,7 +14,7 @@ Menu Principal
 O modelo estruturalmente desejado operará sob a lógica fiduciária executiva:
 Executive Office (ex: CFO Office)
        ↓
-    Capability (ex: Financial Performance Intelligence)
+    Capability (ex: Financial Performance Governance)
        ↓
     Experience (ex: Margin Diagnosis)
        ↓
@@ -36,5 +36,5 @@ Executive Office (ex: CFO Office)
 ### Fase 3: Executive Workspace Navigation (Wave 17)
 - Mudança total de UX/UI.
 - **Ação:** Desativar a "sidebar" monolítica focada em ferramentas e ativar a nova interface orientada a **Espaços de Trabalho Executivo**.
-- Em vez de um botão de navegação para "DRE", o executivo acessará o "CFO Office" e solicitará a "Financial Performance Intelligence".
+- Em vez de um botão de navegação para "DRE", o executivo acessará o "CFO Office" e solicitará a "Financial Performance Governance".
 - Ativação das dashboards unificadas que combinam múltiplos widgets operando na mesma linha de Capability sob os Domains.

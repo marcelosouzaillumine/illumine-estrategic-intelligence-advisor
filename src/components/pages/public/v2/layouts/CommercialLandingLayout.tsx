@@ -31,7 +31,7 @@ export function CommercialLandingLayout() {
         <div className="max-w-7xl mx-auto px-6 flex flex-col md:flex-row items-center justify-between gap-6 relative z-10">
           <div className="flex flex-col gap-1 items-center md:items-start">
             <span className="text-white font-bold tracking-widest uppercase text-sm">Illumine</span>
-            <span className="text-slate-500 text-xs">Executive Intelligence Platform™</span>
+            <span className="text-slate-500 text-xs">Executive Governance Platform™</span>
             <span className="text-slate-600 text-xs mt-2">© {new Date().getFullYear()} Illumine.</span>
           </div>
           <div className="flex items-center gap-6 text-xs font-medium text-slate-500">

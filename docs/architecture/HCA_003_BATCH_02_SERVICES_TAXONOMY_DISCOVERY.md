@@ -17,10 +17,10 @@ Foram mapeados os serviços remanescentes na raiz e agrupados por sua vocabulár
 - `ExecutiveRuntimeAdapter.ts` (397 bytes)
 - `FiduciaryRuntimeAdapter.ts` (31 KB)
 
-### 🧠 Intelligence (Serviços Analíticos e IA)
+### 🧠 Governance (Serviços Analíticos e IA)
 *Extensão do Batch 1B.*
 - `aiService.ts` (11 KB)
-- `intelligenceEngine.ts` (7 KB)
+- `governanceEngine.ts` (7 KB)
 
 ### 💰 Financial (Processamento Financeiro)
 - `cashFlowService.ts` (10 KB)
@@ -64,7 +64,7 @@ Foram mapeados os serviços remanescentes na raiz e agrupados por sua vocabulár
 *Arquivos monolíticos, motores ocultos ou hubs de importação cruzada massiva. Requerem refatoração estrutural profunda.*
 - `FiduciaryRuntimeAdapter.ts` *(245 imports relativos!)*
 - `importService.ts` *(48 KB, motor de ingestão monolítico)*
-- `intelligenceEngine.ts` *(Possível sombreamento de engines do core)*
+- `governanceEngine.ts` *(Possível sombreamento de engines do core)*
 - `ClientExecutiveFinancialDataAdapter.ts`
 
 ---

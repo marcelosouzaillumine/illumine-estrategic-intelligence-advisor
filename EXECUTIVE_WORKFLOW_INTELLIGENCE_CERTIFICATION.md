@@ -1,8 +1,8 @@
-# EXECUTIVE_WORKFLOW_INTELLIGENCE_CERTIFICATION.md — Certificado de Homologação da Wave 19.4 (EWI v1.0)
+# EXECUTIVE_WORKFLOW_GOVERNANCE_CERTIFICATION.md — Certificado de Homologação da Wave 19.4 (EWI v1.0)
 
 > **Certificado Oficial de Qualidade e Governança do Sistema Motor Executivo Corporativo**  
 > *Emissor: Architecture Review Board (ARB) & Executive Governance Council*  
-> *Subordinado à [`ARCHITECTURE_CONSTITUTION.md`](file:///Users/marcelosouza/Documents/illumine-strategic-intelligence-advisor/ARCHITECTURE_CONSTITUTION.md)*
+> *Subordinado à [`ARCHITECTURE_CONSTITUTION.md`](file:///Users/marcelosouza/Documents/illumine-strategic-governance-advisor/ARCHITECTURE_CONSTITUTION.md)*
 
 ---
 
@@ -21,4 +21,4 @@
 
 ## 2. Decisão Definitiva do Conselho (ARB Final Decision)
 
-$$\mathbf{STATUS: \quad APPROVED \quad - \quad EXECUTIVE \quad WORKFLOW \quad INTELLIGENCE \quad v1.0 \quad HOMOLOGADO}$$
+$$\mathbf{STATUS: \quad APPROVED \quad - \quad EXECUTIVE \quad WORKFLOW \quad GOVERNANCE \quad v1.0 \quad HOMOLOGADO}$$

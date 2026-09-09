@@ -14,7 +14,7 @@ The following pages and components have been audited and certified:
 - `/domains`: certified (Namespace: `domains.json`)
 - `/assessment`: certified (Namespace: `assessment.json`)
 - `/why`: certified (Namespace: `why.json`)
-- `/intelligence-center`: certified (Namespace: `intelligenceCenter.json`)
+- `/governance-center`: certified (Namespace: `governanceCenter.json`)
 
 ### Component Architecture
 - **LanguageProvider**: Implements global language synchronization.
@@ -25,7 +25,7 @@ The following pages and components have been audited and certified:
 ### Executive Advisory™ Migration
 The previous "Copilot" module has been fully rebranded and refactored as a pure domain model:
 - `ExecutiveAdvisoryWidget.tsx` (Presentation Layer)
-- `ExecutiveAdvisoryEngine.ts` (Intelligence Layer)
+- `ExecutiveAdvisoryEngine.ts` (Governance Layer)
 - `ExecutiveAdvisoryRouter.ts` (Routing Layer)
 - `Journeys` (Experience Layer): `DiscoveryJourney`, `FinanceJourney`, `BoardJourney`, `AdvisorJourney`, `ExecutiveJourney`.
 

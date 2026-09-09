@@ -25,7 +25,7 @@ function runCommand(name: string, command: string, successMessage: string) {
 
 async function runCertification() {
   console.log('========================================================');
-  console.log('ILLUMINE FINANCIAL INTELLIGENCE FOUNDATION CERTIFICATION');
+  console.log('ILLUMINE FINANCIAL GOVERNANCE FOUNDATION CERTIFICATION');
   console.log('Phase 6: Enterprise Foundation');
   console.log('========================================================\n');
 
@@ -42,7 +42,7 @@ async function runCertification() {
   runCommand('Performance & RLS', `${envVars} npx --yes vite-node scripts/test-performance-scale.ts`, 'RLS Cross-Tenant, Concurrency, Load Scalability, and P95/P99 SLAs passed.');
 
   // 4. Intelligence Engine & Provenance
-  runCommand('Intelligence & Provenance', `${envVars} npx --yes vite-node scripts/test-intelligence-engine.ts`, 'Causal Rules, Score Determinism, Provenance Tenant Isolation passed.');
+  runCommand('Governance & Provenance', `${envVars} npx --yes vite-node scripts/test-governance-engine.ts`, 'Causal Rules, Score Determinism, Provenance Tenant Isolation passed.');
 
   // 5. Firebase Integrity (Identity Bridge)
   // test-identity-bridge.ts isn't fully updated but we can rely on manual testing or the fact that RLS concurrency uses the same JWT structure.
@@ -51,14 +51,14 @@ async function runCertification() {
   
   // 6. Extra Requirements from User
   results.push({ gate: 'Score Versioning', status: 'PASS', message: 'HealthScorerV1 implements explicit versioning.' });
-  results.push({ gate: 'Provenance Reconstruction', status: 'PASS', message: 'IntelligenceTraceability accurately records all identifiers allowing full deterministic reconstruction.' });
+  results.push({ gate: 'Provenance Reconstruction', status: 'PASS', message: 'GovernanceTraceability accurately records all identifiers allowing full deterministic reconstruction.' });
   results.push({ gate: 'Failure Isolation', status: 'PASS', message: 'LLM is completely decoupled from Deterministic Core.' });
   results.push({ gate: 'Observability', status: 'PASS', message: 'All telemetry fields (tenant, company, version) are present.' });
 
   console.log('\n--- Final Certification Matrix ---');
   let blockers = 0;
   let markdown = `# ILLUMINE
-# FINANCIAL INTELLIGENCE FOUNDATION
+# FINANCIAL GOVERNANCE FOUNDATION
 ## Phase 6 Certification
 **Version:** 1.0
 
@@ -82,7 +82,7 @@ async function runCertification() {
     markdown += `\n### Result\n**Enterprise Foundation**\n**CERTIFIED**\n`;
     
     // Output certification report
-    fs.writeFileSync(path.join(process.cwd(), 'ILLUMINE_FINANCIAL_INTELLIGENCE_FOUNDATION_CERTIFICATION_V1.md'), markdown);
+    fs.writeFileSync(path.join(process.cwd(), 'ILLUMINE_FINANCIAL_GOVERNANCE_FOUNDATION_CERTIFICATION_V1.md'), markdown);
   }
 }
 

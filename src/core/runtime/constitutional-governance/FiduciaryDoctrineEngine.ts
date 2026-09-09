@@ -21,7 +21,7 @@ export class FiduciaryDoctrineEngine {
       },
       doctrineLineageHash: 'DOC-SHA256-INITIAL-FIDUCIARY-DOCTRINE-SIGNATURE',
       compatibilityReferences: ['1.0.0', '1.1.0'],
-      propagationScope: ['compliance', 'decision-intelligence', 'publication-governance', 'audit-assurance'],
+      propagationScope: ['compliance', 'decision-governance', 'publication-governance', 'audit-assurance'],
       migrationRequirements: ['initialize-axioms']
     };
     this.doctrineHistory.push(this.activeDoctrine);

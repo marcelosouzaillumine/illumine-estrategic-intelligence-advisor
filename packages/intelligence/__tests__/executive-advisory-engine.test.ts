@@ -3,7 +3,7 @@ import { describe, it, expect } from 'vitest';
 import { ExecutiveContextProvider } from '@illumine/executive-context-engine';
 import { ExecutiveAdvisoryEngine } from '../executive-advisory-engine/src';
 
-describe('@illumine/intelligence (Wave 18.6 Executive Advisory Engine)', () => {
+describe('@illumine/governance (Wave 18.6 Executive Advisory Engine)', () => {
   it('should execute full advisory cycle from context to opportunity, recommendation, simulation and action plan', () => {
     const ctx = ExecutiveContextProvider.buildContext({
       companyId: 'comp-100',

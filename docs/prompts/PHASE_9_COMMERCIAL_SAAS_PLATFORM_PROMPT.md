@@ -11,7 +11,7 @@ Sua missão é transformar a plataforma em um produto SaaS Enterprise comerciali
 COMPONENTES DO PROGRAMA 04
 ============================================================
 1. **Enterprise Workspace** (`@illumine/workspace`): Ambientes executivos multi-tenant (`Workspace`, `WorkspaceMember`, `WorkspacePermission`, `WorkspaceDashboard`).
-2. **Capability Marketplace** (`@illumine/capabilities`): Ativação declarativa de capacidades corporativas (`Finance Intelligence`, `Governance Intelligence`, `Strategy Intelligence`, `People Intelligence`).
+2. **Capability Marketplace** (`@illumine/capabilities`): Ativação declarativa de capacidades corporativas (`Finance Governance`, `Governance Governance`, `Strategy Governance`, `People Governance`).
 3. **Subscription Platform** (`@illumine/subscription`): Planos comerciais (`Starter`, `Professional`, `Enterprise`), gerenciamento de licenças, limites e feature flags.
 4. **Enterprise AI Gateway**: Rastreabilidade, auditoria e isolamento de contexto para requisições de IA corporativas (`AIRequest`, `AIResponse`, `PromptPolicy`, `AIExecutionAudit`).
 

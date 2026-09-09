@@ -3,8 +3,8 @@ import { Confidence } from '@illumine/core-primitives';
 
 export class RiskIntelligenceCapability {
   public static readonly manifest: CapabilityManifest = {
-    id: 'cap-risk-intelligence',
-    name: 'Risk Intelligence Cognitive Capability',
+    id: 'cap-risk-governance',
+    name: 'Risk Governance Cognitive Capability',
     version: '1.0.0',
     maturity: Maturity.CERTIFIED,
     stability: Stability.CANONICAL,

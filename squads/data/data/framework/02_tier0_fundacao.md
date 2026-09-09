@@ -1,4 +1,4 @@
-# Framework de Clones - Data Intelligence Pack
+# Framework de Clones - Data Governance Pack
 ## 02 - Tier 0: Fundação
 
 ---
@@ -14,7 +14,7 @@ ERRADO: "Vamos medir tudo e ver o que aparece"
 CERTO:  "Qual decisão esta métrica vai informar?"
 ```
 
-Toda métrica no Data Intelligence Pack deve responder:
+Toda métrica no Data Governance Pack deve responder:
 - **Quem** vai olhar para isso?
 - **Quando** vai olhar?
 - **Que ação** vai tomar baseado no número?
@@ -160,7 +160,7 @@ Wes Kao ensina que completion rate é proxy, não outcome. O que importa é:
 
 ## CHECKLIST PRÉ-IMPLEMENTAÇÃO
 
-Antes de implementar qualquer funcionalidade do Data Intelligence Pack:
+Antes de implementar qualquer funcionalidade do Data Governance Pack:
 
 ```
 □ Defini qual decisão esta métrica vai informar
@@ -194,5 +194,5 @@ Se algum item está em branco, volte para a Fundamentação.
 
 ---
 
-*Framework de Clones - Data Intelligence Pack v2.0*
+*Framework de Clones - Data Governance Pack v2.0*
 *Tier 0: Fundação*

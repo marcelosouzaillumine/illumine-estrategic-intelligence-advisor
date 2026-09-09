@@ -1,7 +1,7 @@
 import { describe, it, expect, beforeEach } from 'vitest';
 import { FinancialIntelligenceMemory } from '../FinancialIntelligenceMemory';
 
-describe('FinancialIntelligenceMemory', () => {
+describe('FinancialGovernanceMemory', () => {
   let memory: FinancialIntelligenceMemory;
 
   beforeEach(() => {

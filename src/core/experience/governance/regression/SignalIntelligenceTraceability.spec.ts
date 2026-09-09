@@ -1,7 +1,7 @@
 import { describe, it, expect } from 'vitest';
 import { SignalIntelligenceEngine } from '../../../../capabilities/financial/intelligence/signals/SignalIntelligenceEngine';
 
-describe('SignalIntelligenceTraceability', () => {
+describe('SignalGovernanceTraceability', () => {
   it('should guarantee traceability from raw exposure to final signal', () => {
     const exposures = [{
       id: 'inventory_concentration',

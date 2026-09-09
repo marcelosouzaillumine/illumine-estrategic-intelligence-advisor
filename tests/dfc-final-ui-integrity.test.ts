@@ -33,7 +33,7 @@ describe('DFC Final UI Integrity & Executive Language Patch v1.1', () => {
       'DFC_CONTEXT',
       'DFC_CQS_SUMMARY',
       'DFC_EXECUTIVE_DIAGNOSIS',
-      'DFC_CAUSAL_INTELLIGENCE',
+      'DFC_CAUSAL_GOVERNANCE',
       'DFC_EARLY_WARNING',
       'DFC_REVENUE_CASH_CONVERSION',
       'DFC_SHAREHOLDER_DEPENDENCY',

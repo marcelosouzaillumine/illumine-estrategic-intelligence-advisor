@@ -29,7 +29,7 @@ export const CAPABILITY_REGISTRY: Record<SystemCapability, CapabilityRegistryEnt
   [CAPABILITIES.BOARD_PACK_VIEW]: {
     capability: CAPABILITIES.BOARD_PACK_VIEW,
     officeId: 'board-office',
-    engineKey: 'engine.board.intelligence',
+    engineKey: 'engine.board.governance',
     route: '/governance/board'
   },
   [CAPABILITIES.BOARD_DECISION_APPROVE]: {
@@ -53,13 +53,13 @@ export const CAPABILITY_REGISTRY: Record<SystemCapability, CapabilityRegistryEnt
   [CAPABILITIES.TENANT_MANAGE]: {
     capability: CAPABILITIES.TENANT_MANAGE,
     officeId: 'advisor-office',
-    engineKey: 'engine.client.intelligence',
+    engineKey: 'engine.client.governance',
     route: '/admin/settings'
   },
   [CAPABILITIES.USER_MANAGE]: {
     capability: CAPABILITIES.USER_MANAGE,
     officeId: 'risk-office',
-    engineKey: 'engine.control.intelligence',
+    engineKey: 'engine.control.governance',
     route: '/admin/users'
   },
   [CAPABILITIES.SYSTEM_OBSERVABILITY_VIEW]: {
@@ -71,13 +71,13 @@ export const CAPABILITY_REGISTRY: Record<SystemCapability, CapabilityRegistryEnt
   [CAPABILITIES.SYSTEM_ADMINISTRATION]: {
     capability: CAPABILITIES.SYSTEM_ADMINISTRATION,
     officeId: 'risk-office',
-    engineKey: 'engine.compliance.intelligence',
+    engineKey: 'engine.compliance.governance',
     route: '/admin/settings'
   },
   [CAPABILITIES.SYSTEM_INTELLIGENCE_DEBUG]: {
     capability: CAPABILITIES.SYSTEM_INTELLIGENCE_DEBUG,
     officeId: 'risk-office', // Or a new system office
-    engineKey: 'engine.system.intelligence',
+    engineKey: 'engine.system.governance',
     route: '/executive/lab/cfo-validation'
   },
   [CAPABILITIES.EXECUTIVE_WORKSPACE_VIEW]: {

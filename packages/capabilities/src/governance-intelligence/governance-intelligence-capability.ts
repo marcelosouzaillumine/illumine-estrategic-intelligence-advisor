@@ -3,8 +3,8 @@ import { Confidence } from '@illumine/core-primitives';
 
 export class GovernanceIntelligenceCapability {
   public static readonly manifest: CapabilityManifest = {
-    id: 'cap-governance-intelligence',
-    name: 'Governance Intelligence Cognitive Capability',
+    id: 'cap-governance-governance',
+    name: 'Governance Governance Cognitive Capability',
     version: '1.0.0',
     maturity: Maturity.CERTIFIED,
     stability: Stability.CANONICAL,

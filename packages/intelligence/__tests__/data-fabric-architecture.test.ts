@@ -2,7 +2,7 @@
 import { describe, it, expect } from 'vitest';
 import { ConnectorSpecification } from '@illumine/executive-contracts';
 
-describe('@illumine/intelligence (Wave 18.4 Data Fabric Architecture)', () => {
+describe('@illumine/governance (Wave 18.4 Data Fabric Architecture)', () => {
   it('should validate Enterprise Data Fabric canonical pipeline (EIDF v1.0 / ADR-078)', () => {
     const connector: ConnectorSpecification = {
       connectorId: 'conn-erp-sap',

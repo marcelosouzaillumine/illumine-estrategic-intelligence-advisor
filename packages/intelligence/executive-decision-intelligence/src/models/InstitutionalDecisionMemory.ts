@@ -5,7 +5,7 @@ export type DecisionMemoryState =
   | 'RESULT_OBSERVED' 
   | 'OUTCOME_COMPARED' 
   | 'LESSON_GENERATED' 
-  | 'INTELLIGENCE_UPDATED';
+  | 'GOVERNANCE_UPDATED';
 
 export interface DecisionLesson {
   readonly expectedOutcome: string;

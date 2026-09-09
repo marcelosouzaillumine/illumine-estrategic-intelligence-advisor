@@ -17,7 +17,7 @@ Foram identificados 31 arquivos `flat` na raiz de serviços.
 - `governanceAiService.ts`
 - `advisoryAiService.ts`
 - `aiBoardReportService.ts`
-*(Recomendação: Classificar domínios e mover para `src/services/intelligence/` com taxonomia padronizada).*
+*(Recomendação: Classificar domínios e mover para `src/services/governance/` com taxonomia padronizada).*
 
 **Adapters sem Taxonomia Canônica (Risco: LOW / SAFE):**
 - `BoardRuntimeAdapter.ts`
@@ -25,13 +25,13 @@ Foram identificados 31 arquivos `flat` na raiz de serviços.
 - `ExecutionGovernanceAdapter.ts`
 - `ExecutiveRuntimeAdapter.ts`
 - `FiduciaryRuntimeAdapter.ts`
-*(Recomendação: Consolidar ou renomear para refletir o padrão Application/Intelligence Service).*
+*(Recomendação: Consolidar ou renomear para refletir o padrão Application/Governance Service).*
 
 ## 3. Mapeamento de Runtime Engines
 Existem mais de 600 motores (engines) na pasta `src/core/runtime/`. O alto volume indica segmentação extrema e potencial duplicação de responsabilidades (cálculo de DFC, DRE e Patrimônio repetidos).
 
 **Áreas Críticas de Sobreposição (Risco: HIGH):**
-- Inúmeras engines de `executive-consolidation` e `causal-intelligence` que recalcularão métricas se não forem orquestradas por um Dispatcher único.
+- Inúmeras engines de `executive-consolidation` e `causal-governance` que recalcularão métricas se não forem orquestradas por um Dispatcher único.
 - `InstitutionalDecisionEngine` vs `ExecutiveDecisionEngine`.
 
 ## 4. DTOs e Types Duplicados
@@ -49,5 +49,5 @@ O Batch 1 deve focar exclusivamente nas áreas onde não há risco matemático o
 
 **Escopo Proposto:**
 1. **ViewModel Consolidation:** Excluir `InstitutionalMemoryViewModel.ts` obsoleto e manter a versão `useInstitutionalMemoryViewModel.ts` (ajustando os imports).
-2. **Services Taxonomy - Fase 1:** Criar a pasta `src/services/intelligence/` e organizar os serviços de IA (ex: `aiBoardReportService.ts`, `advisoryAiService.ts`, etc), analisando seus conteúdos para renomeá-los canonicamente (ex: `AdvisoryIntelligenceService.ts`).
+2. **Services Taxonomy - Fase 1:** Criar a pasta `src/services/governance/` e organizar os serviços de IA (ex: `aiBoardReportService.ts`, `advisoryAiService.ts`, etc), analisando seus conteúdos para renomeá-los canonicamente (ex: `AdvisoryGovernanceService.ts`).
 

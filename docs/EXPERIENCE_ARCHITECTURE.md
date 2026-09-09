@@ -2,14 +2,14 @@
 
 > **Documento Normativo Canônico de Arquitetura de Experiência (Level A — Canonical)**  
 > *Horizonte Temporal de Estabilidade: 10+ Anos (2026 – 2036+)*  
-> *Documentos Complementares: [`ARCHITECTURE_CONSTITUTION.md`](file:///Users/marcelosouza/Documents/illumine-strategic-intelligence-advisor/ARCHITECTURE_CONSTITUTION.md) | [`ARCHITECTURE_REFERENCE.md`](file:///Users/marcelosouza/Documents/illumine-strategic-intelligence-advisor/ARCHITECTURE_REFERENCE.md)*  
+> *Documentos Complementares: [`ARCHITECTURE_CONSTITUTION.md`](file:///Users/marcelosouza/Documents/illumine-strategic-governance-advisor/ARCHITECTURE_CONSTITUTION.md) | [`ARCHITECTURE_REFERENCE.md`](file:///Users/marcelosouza/Documents/illumine-strategic-governance-advisor/ARCHITECTURE_REFERENCE.md)*  
 > *Status: Homologado & Congelado*
 
 ---
 
 ## 1. Visão Geral e Propósito
 
-A **Experience Architecture (EA v1.0)** formaliza a camada oficial que elenca o propósito cognitivo de cada interação na plataforma Illumine Strategic Intelligence Advisor, atuando como o **elo normativo entre a Arquitetura de Domínio e a Arquitetura Visual**.
+A **Experience Architecture (EA v1.0)** formaliza a camada oficial que elenca o propósito cognitivo de cada interação na plataforma Illumine Strategic Governance Advisor, atuando como o **elo normativo entre a Arquitetura de Domínio e a Arquitetura Visual**.
 
 Com a instituição da EA v1.0, o *Render Protocol* deixa de ser o centro isolado da experiência e passa a ser reconhecido como a implementação visual concreta de uma arquitetura cognitiva superior.
 
@@ -81,7 +81,7 @@ A plataforma classifica todas as interações e superfícies em **4 Categorias C
 * **Pergunta Primária de Negócio**: *O que precisa ser executado e qual o status da operação?*
 * **Escopos de Aplicação**: Workflows de Aprovação, Gestão de Projetos, Diretrizes Táticas, Pendências, Roadmaps de Execução.
 
-### 5.4 Intelligence Experience
+### 5.4 Governance Experience
 * **Objetivo**: Transformar conhecimento acumulado, histórico decisório e inteligência causal em aprendizado contínuo.
 * **Pergunta Primária de Negócio**: *O que aprendemos com nossas decisões passadas e baselines de mercado?*
 * **Escopos de Aplicação**: Memória Organizacional (`OrganizationalMemory`), Grafo de Conhecimento Causal, Linha do Tempo Decisória (`DecisionTimeline`), Aprendizado Executivo, Benchmarks Setoriais.
@@ -97,7 +97,7 @@ Illumine Experience Architecture
 ├── Executive Workspace      (Foco: Decision Experience & Conselho)
 ├── Platform Workspace       (Foco: Registration Experience & Administração)
 ├── Operational Workspace    (Foco: Operational Experience & Execução)
-└── Intelligence Workspace   (Foco: Intelligence Experience & Memória Causal)
+└── Governance Workspace   (Foco: Governance Experience & Memória Causal)
 ```
 
 | Workspace | Categoria Predominante | Perfil do Usuário Alvo | Isolamento Cognitivo |
@@ -105,7 +105,7 @@ Illumine Experience Architecture
 | **Executive Workspace** | `Decision Experience` | Conselho, CEO, CFO, Diretoria | Zero ruído operacional; máxima densidade sintética. |
 | **Platform Workspace** | `Registration Experience` | Administradores, Compliance, FP&A | Foco em integridade, cadastros e parametrização. |
 | **Operational Workspace** | `Operational Experience` | Gerentes de Projeto, Operações, Controladoria | Foco em execução, tarefas e acompanhamento de planos. |
-| **Intelligence Workspace** | `Intelligence Experience` | Análise Estratégica, R&D, Advisory | Foco em padrões causais, lições aprendidas e memórias. |
+| **Governance Workspace** | `Governance Experience` | Análise Estratégica, R&D, Advisory | Foco em padrões causais, lições aprendidas e memórias. |
 
 ---
 
@@ -117,7 +117,7 @@ $$\begin{aligned}
 \text{Experience Architecture} &\longrightarrow \text{Decision Experience} \longrightarrow \text{Executive Cognitive Architecture} \longrightarrow \text{Executive Render Protocol} \\
 \text{Experience Architecture} &\longrightarrow \text{Registration Experience} \longrightarrow \text{Platform Cognitive Architecture} \longrightarrow \text{Platform Render Protocol} \\
 \text{Experience Architecture} &\longrightarrow \text{Operational Experience} \longrightarrow \text{Operational Cognitive Architecture} \longrightarrow \text{Operational Render Protocol} \\
-\text{Experience Architecture} &\longrightarrow \text{Intelligence Experience} \longrightarrow \text{Intelligence Cognitive Architecture} \longrightarrow \text{Intelligence Render Protocol}
+\text{Experience Architecture} &\longrightarrow \text{Governance Experience} \longrightarrow \text{Governance Cognitive Architecture} \longrightarrow \text{Governance Render Protocol}
 \end{aligned}$$
 
 ---
@@ -142,10 +142,10 @@ Toda página presente ou futura na plataforma DEVE pertencer a exatamente **uma*
 | **Planos de Ação & Diretrizes (`PlanoAcaoPage`)** | `Operational` | `Operational` | `Operational Render Protocol` |
 | **Workflows & Pendências (`WorkflowsPage`)** | `Operational` | `Operational` | `Operational Render Protocol` |
 | **Execução de Projetos (`ProjectsPage`)** | `Operational` | `Operational` | `Operational Render Protocol` |
-| **Memória Organizacional (`OrganizationalMemoryPage`)**| `Intelligence` | `Intelligence` | `Intelligence Render Protocol` |
-| **Grafo de Conhecimento Causal (`KnowledgeGraphPage`)**| `Intelligence` | `Intelligence` | `Intelligence Render Protocol` |
-| **Decision Timeline (`DecisionTimelinePage`)** | `Intelligence` | `Intelligence` | `Intelligence Render Protocol` |
-| **Benchmarks Setoriais (`BenchmarksPage`)** | `Intelligence` | `Intelligence` | `Intelligence Render Protocol` |
+| **Memória Organizacional (`OrganizationalMemoryPage`)**| `Governance` | `Governance` | `Governance Render Protocol` |
+| **Grafo de Conhecimento Causal (`KnowledgeGraphPage`)**| `Governance` | `Governance` | `Governance Render Protocol` |
+| **Decision Timeline (`DecisionTimelinePage`)** | `Governance` | `Governance` | `Governance Render Protocol` |
+| **Benchmarks Setoriais (`BenchmarksPage`)** | `Governance` | `Governance` | `Governance Render Protocol` |
 
 ---
 
@@ -165,7 +165,7 @@ A partir deste marco, a plataforma evoluirá **exclusivamente por implementaçã
 
 ### Escopo Permitido para Waves Futuras
 As próximas Waves de desenvolvimento passarão a atuar exclusivamente em:
-- Implementação de novos **Render Protocols** especializados (`Platform Render Protocol`, `Operational Render Protocol`, `Intelligence Render Protocol`).
+- Implementação de novos **Render Protocols** especializados (`Platform Render Protocol`, `Operational Render Protocol`, `Governance Render Protocol`).
 - Construção de novas **superfícies e páginas** (devidamente classificadas na matriz).
 - Criação de novos **componentes de interface visual** (UI Components).
 - Desenvolvimento de novas **Capabilities** de negócio.

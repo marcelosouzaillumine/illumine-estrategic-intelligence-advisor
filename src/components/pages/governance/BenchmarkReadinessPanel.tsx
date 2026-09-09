@@ -285,16 +285,16 @@ export function BenchmarkReadinessPanel({ clientId, scenario }: BenchmarkReadine
         <div className="space-y-1 relative z-0">
           <h4 className="text-sm font-extrabold text-muted-foreground flex items-center gap-2">
             <Sparkles className="w-4 h-4 text-primary" />
-            Benchmark Comparative Intelligence (BCI™)
-          </h4>
+            Benchmark Comparative Governance (BCI™)
+                                </h4>
           <p className="text-xs text-muted-foreground leading-relaxed">
             Consulte médias setoriais da holding contra o mercado, índices de governança regionais e benchmarks específicos de empresas familiares.
           </p>
         </div>
 
         <span className="text-[10px] text-muted-foreground font-mono select-none relative z-0">
-          Status: Benchmark Comparative Intelligence unavailable until BRL™ certification is achieved.
-        </span>
+          Status: Benchmark Comparative Governance unavailable until BRL™ certification is achieved.
+                          </span>
       </div>
 
     </div>

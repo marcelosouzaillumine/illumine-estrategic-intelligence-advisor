@@ -1,23 +1,23 @@
 {
   "hero": {
-    "label": "Executive Intelligence Center™",
-    "title": "Where executive knowledge transforms into institutional intelligence.",
-    "narrative_1": "The Executive Intelligence Center brings together research, frameworks, analysis, and applied knowledge to develop new models for decision-making, governance, and organizational evolution.",
+    "label": "Executive Governance Center™",
+    "title": "Where executive knowledge transforms into institutional governance.",
+    "narrative_1": "The Executive Governance Center brings together research, frameworks, analysis, and applied knowledge to develop new models for decision-making, governance, and organizational evolution.",
     "narrative_2": "More than just following trends, we turn knowledge into practical instruments for management, governance, and value creation.",
-    "cta": "Explore the Intelligence Center"
+    "cta": "Explore the Governance Center"
   },
   "knowledge_production": {
     "title": "The continuous building of executive knowledge.",
     "subtitle": "Knowledge as institutional infrastructure.",
-    "narrative": "Illumine develops its own intellectual foundation, connecting research, executive experience, and organizational learning to create new models for decision-making and governance.<br/><br/>The Executive Intelligence Center is the core where this knowledge is developed, organized, and transformed into applied intelligence."
+    "narrative": "Illumine develops its own intellectual foundation, connecting research, executive experience, and organizational learning to create new models for decision-making and governance.<br/><br/>The Executive Governance Center is the core where this knowledge is developed, organized, and transformed into applied governance."
   },
   "frameworks": {
     "title": "Illumine Intellectual Architecture™",
     "lead": "Intellectual models developed by Illumine for diagnosis, decision-making, and organizational evolution. We form a methodological library that underpins our technological architecture.",
     "items": [
       {
-        "name": "Executive Intelligence Framework™",
-        "desc": "Central model for orchestrating decision intelligence."
+        "name": "Executive Governance Framework™",
+        "desc": "Central model for orchestrating decision governance."
       },
       {
         "name": "Institutional Learning Architecture™",
@@ -47,7 +47,7 @@
       },
       {
         "title": "White Papers",
-        "description": "In-depth studies on governance, institutional intelligence, and organizational transformation."
+        "description": "In-depth studies on governance, institutional governance, and organizational transformation."
       },
       {
         "title": "Research & Benchmarks",
@@ -55,7 +55,7 @@
       },
       {
         "title": "Use Cases",
-        "description": "How organizations use institutional intelligence to improve performance, governance, and decision quality."
+        "description": "How organizations use institutional governance to improve performance, governance, and decision quality."
       },
       {
         "title": "Technical Library",
@@ -68,7 +68,7 @@
     "lead": "We investigate the challenges that will define the next generation of management.",
     "items": [
       {
-        "title": "Institutional Intelligence",
+        "title": "Institutional Governance",
         "description": "How to preserve and leverage critical organizational knowledge."
       },
       {
@@ -103,7 +103,7 @@
       },
       {
         "tag": "White Paper",
-        "title": "Executive Intelligence: the next evolution of corporate infrastructure",
+        "title": "Executive Governance: the next evolution of corporate infrastructure",
         "meta": "35 pages"
       },
       {
@@ -125,7 +125,7 @@
   },
   "research_center": {
     "title": "The platform learns. Knowledge evolves.",
-    "lead": "The intelligence produced by Illumine is born from the combination of:",
+    "lead": "The governance produced by Illumine is born from the combination of:",
     "items": [
       "Practical experience in complex organizations;",
       "Studies on governance and management;",
@@ -137,7 +137,7 @@
   },
   "learning_loop": {
     "title": "Institutional Learning Loop™",
-    "lead": "Knowledge is not static. It fuels the evolution of the platform in a continuous cycle of intelligence.",
+    "lead": "Knowledge is not static. It fuels the evolution of the platform in a continuous cycle of governance.",
     "nodes": {
       "n1": "Research",
       "n2": "Framework",
@@ -159,7 +159,7 @@
   },
   "cta": {
     "title": "The next competitive advantage for organizations will be their <highlight>ability to learn institutionally.</highlight>",
-    "narrative": "The Executive Intelligence Center exists to accelerate this evolution, sharing research, methodologies, and knowledge that contribute to a new generation of smarter, more resilient, and decision-ready organizations.",
+    "narrative": "The Executive Governance Center exists to accelerate this evolution, sharing research, methodologies, and knowledge that contribute to a new generation of smarter, more resilient, and decision-ready organizations.",
     "card_title": "Start by exploring our knowledge.",
     "card_lead": "Before getting to know the platform, discover the ideas that inspired its creation.",
     "btn_publications": "Read Publications",

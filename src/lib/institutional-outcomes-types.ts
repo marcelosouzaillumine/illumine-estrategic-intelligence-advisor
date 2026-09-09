@@ -55,7 +55,7 @@ export interface InstitutionalTransformationIndex {
 
 export interface EvidenceAuditSummary {
   evidenceStrengthClassification: 'WEAK' | 'MODERATE' | 'STRONG' | 'IRREFUTABLE';
-  decisionInfluenceClassification: 'SUPPORT_TOOL' | 'ANALYTICAL_TOOL' | 'DECISION_SUPPORT_SYSTEM' | 'GOVERNANCE_INTELLIGENCE_PLATFORM' | 'INSTITUTIONAL_INTELLIGENCE_PLATFORM' | 'INSTITUTIONAL_OPERATING_SYSTEM';
+  decisionInfluenceClassification: 'SUPPORT_TOOL' | 'ANALYTICAL_TOOL' | 'DECISION_SUPPORT_SYSTEM' | 'GOVERNANCE_GOVERNANCE_PLATFORM' | 'INSTITUTIONAL_GOVERNANCE_PLATFORM' | 'INSTITUTIONAL_OPERATING_SYSTEM';
   predominantLevel: OutcomeEvidenceLevel;
   totalVerifiedEvidence: number;
 }

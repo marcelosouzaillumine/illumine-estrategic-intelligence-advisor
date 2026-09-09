@@ -33,7 +33,7 @@ function runAudit() {
   if (fs.existsSync(execRuntime)) {
     const content = fs.readFileSync(execRuntime, 'utf8');
     if (!content.includes('fiduciaryRationale') || !content.includes('propagationChains')) {
-      console.error('❌ ERRO: ExecutiveIntelligenceRuntime sem nó de explicabilidade (fiduciaryRationale) ou (propagationChains).');
+      console.error('❌ ERRO: ExecutiveGovernanceRuntime sem nó de explicabilidade (fiduciaryRationale) ou (propagationChains).');
       hasErrors = true;
     }
   }

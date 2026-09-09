@@ -104,31 +104,31 @@
 - **Risco:** Médio
 - **Justificativa:** Sem imports, mas contexto não indica lixo imediato.
 
-### 📄 src/core/runtime/cash-intelligence/DFCPresentationSegregationEngine.ts
+### 📄 src/core/runtime/cash-governance/DFCPresentationSegregationEngine.ts
 - **Tipo:** Engine
 - **Status Inferido:** Uso futuro provável (Confiança: Baixo)
 - **Risco:** Médio
 - **Justificativa:** Sem imports, mas contexto não indica lixo imediato.
 
-### 📄 src/core/runtime/cash-intelligence/InstitutionalCashSustainabilityEngine.ts
+### 📄 src/core/runtime/cash-governance/InstitutionalCashSustainabilityEngine.ts
 - **Tipo:** Engine
 - **Status Inferido:** Uso futuro provável (Confiança: Baixo)
 - **Risco:** Médio
 - **Justificativa:** Sem imports, mas contexto não indica lixo imediato.
 
-### 📄 src/core/runtime/cash-intelligence/LongitudinalCashIntelligenceEngine.spec.ts
+### 📄 src/core/runtime/cash-governance/LongitudinalCashGovernanceEngine.spec.ts
 - **Tipo:** Engine
 - **Status Inferido:** Órfão provável (Confiança: Alto)
 - **Risco:** Médio
 - **Justificativa:** Zero imports detectados. Totalmente isolado.
 
-### 📄 src/core/runtime/cash-intelligence/LongitudinalCashIntelligenceEngine.test.ts
+### 📄 src/core/runtime/cash-governance/LongitudinalCashGovernanceEngine.test.ts
 - **Tipo:** Engine
 - **Status Inferido:** Órfão provável (Confiança: Alto)
 - **Risco:** Médio
 - **Justificativa:** Zero imports detectados. Totalmente isolado.
 
-### 📄 src/core/runtime/cash-intelligence/UniversalCashIndicatorsEngine.spec.ts
+### 📄 src/core/runtime/cash-governance/UniversalCashIndicatorsEngine.spec.ts
 - **Tipo:** Engine
 - **Status Inferido:** Órfão provável (Confiança: Alto)
 - **Risco:** Médio
@@ -140,49 +140,49 @@
 - **Risco:** Médio
 - **Justificativa:** Sem imports, mas contexto não indica lixo imediato.
 
-### 📄 src/core/runtime/decision-intelligence/DecisionToCashCausalityEngine.test.ts
+### 📄 src/core/runtime/decision-governance/DecisionToCashCausalityEngine.test.ts
 - **Tipo:** Engine
 - **Status Inferido:** Órfão provável (Confiança: Alto)
 - **Risco:** Médio
 - **Justificativa:** Zero imports detectados. Totalmente isolado.
 
-### 📄 src/core/runtime/decision-intelligence/EarlyWarningEngine.test.ts
+### 📄 src/core/runtime/decision-governance/EarlyWarningEngine.test.ts
 - **Tipo:** Engine
 - **Status Inferido:** Órfão provável (Confiança: Alto)
 - **Risco:** Médio
 - **Justificativa:** Zero imports detectados. Totalmente isolado.
 
-### 📄 src/core/runtime/decision-intelligence/ExecutiveAccountabilityEngine.test.ts
+### 📄 src/core/runtime/decision-governance/ExecutiveAccountabilityEngine.test.ts
 - **Tipo:** Engine
 - **Status Inferido:** Órfão provável (Confiança: Alto)
 - **Risco:** Médio
 - **Justificativa:** Zero imports detectados. Totalmente isolado.
 
-### 📄 src/core/runtime/decision-intelligence/GovernanceDriftDetectionEngine.test.ts
+### 📄 src/core/runtime/decision-governance/GovernanceDriftDetectionEngine.test.ts
 - **Tipo:** Engine
 - **Status Inferido:** Órfão provável (Confiança: Alto)
 - **Risco:** Médio
 - **Justificativa:** Zero imports detectados. Totalmente isolado.
 
-### 📄 src/core/runtime/decision-intelligence/InstitutionalBehavioralPatternsEngine.test.ts
+### 📄 src/core/runtime/decision-governance/InstitutionalBehavioralPatternsEngine.test.ts
 - **Tipo:** Engine
 - **Status Inferido:** Órfão provável (Confiança: Alto)
 - **Risco:** Médio
 - **Justificativa:** Zero imports detectados. Totalmente isolado.
 
-### 📄 src/core/runtime/decision-intelligence/InstitutionalDecisionIntelligenceEngine.ts
+### 📄 src/core/runtime/decision-governance/InstitutionalDecisionGovernanceEngine.ts
 - **Tipo:** Engine
 - **Status Inferido:** Uso futuro provável (Confiança: Baixo)
 - **Risco:** Médio
 - **Justificativa:** Sem imports, mas contexto não indica lixo imediato.
 
-### 📄 src/core/runtime/decision-intelligence/InstitutionalRiskMatrixEngine.ts
+### 📄 src/core/runtime/decision-governance/InstitutionalRiskMatrixEngine.ts
 - **Tipo:** Engine
 - **Status Inferido:** Uso futuro provável (Confiança: Baixo)
 - **Risco:** Médio
 - **Justificativa:** Sem imports, mas contexto não indica lixo imediato.
 
-### 📄 src/core/runtime/decision-intelligence/InstitutionalStabilityEngine.test.ts
+### 📄 src/core/runtime/decision-governance/InstitutionalStabilityEngine.test.ts
 - **Tipo:** Engine
 - **Status Inferido:** Órfão provável (Confiança: Alto)
 - **Risco:** Médio
@@ -254,7 +254,7 @@
 - **Risco:** Médio
 - **Justificativa:** Zero imports detectados. Totalmente isolado.
 
-### 📄 src/core/runtime/institutional-context/SegmentIntelligenceEngine.test.ts
+### 📄 src/core/runtime/institutional-context/SegmentGovernanceEngine.test.ts
 - **Tipo:** Engine
 - **Status Inferido:** Órfão provável (Confiança: Alto)
 - **Risco:** Médio
@@ -314,13 +314,13 @@
 - **Risco:** Médio
 - **Justificativa:** Sem imports, mas contexto não indica lixo imediato.
 
-### 📄 src/core/runtime/scenario-intelligence/ExecutivePriorityEvolutionEngine.ts
+### 📄 src/core/runtime/scenario-governance/ExecutivePriorityEvolutionEngine.ts
 - **Tipo:** Engine
 - **Status Inferido:** Uso futuro provável (Confiança: Baixo)
 - **Risco:** Médio
 - **Justificativa:** Sem imports, mas contexto não indica lixo imediato.
 
-### 📄 src/core/runtime/scenario-intelligence/ThesisFutureImpactEngine.ts
+### 📄 src/core/runtime/scenario-governance/ThesisFutureImpactEngine.ts
 - **Tipo:** Engine
 - **Status Inferido:** Uso futuro provável (Confiança: Baixo)
 - **Risco:** Médio
@@ -356,7 +356,7 @@
 - **Risco:** Médio
 - **Justificativa:** Sem imports, mas contexto não indica lixo imediato.
 
-### 📄 src/core/runtime/treasury-intelligence/CapitalAllocationEngine.ts
+### 📄 src/core/runtime/treasury-governance/CapitalAllocationEngine.ts
 - **Tipo:** Engine
 - **Status Inferido:** Uso futuro provável (Confiança: Baixo)
 - **Risco:** Médio
@@ -432,19 +432,19 @@
   - `src/core/runtime/prescriptive-governance/BoardResolutionEngine.ts` -> Oficial provável (6 imports)
 
 ### 🔄 Colisão: `EarningsQualityEngine` (Risco: Alto)
-- **Oficial Provável:** `src/core/runtime/cash-intelligence/EarningsQualityEngine.ts`
-  - `src/core/runtime/cash-intelligence/EarningsQualityEngine.ts` -> Oficial provável (4 imports)
+- **Oficial Provável:** `src/core/runtime/cash-governance/EarningsQualityEngine.ts`
+  - `src/core/runtime/cash-governance/EarningsQualityEngine.ts` -> Oficial provável (4 imports)
   - `src/core/runtime/governance/dre/EarningsQualityEngine.ts` -> Indeterminado (4 imports)
 
 ### 🔄 Colisão: `ExecutiveActionMatrixEngine` (Risco: Alto)
-- **Oficial Provável:** `src/core/runtime/decision-intelligence/ExecutiveActionMatrixEngine.ts`
-  - `src/core/runtime/decision-intelligence/ExecutiveActionMatrixEngine.ts` -> Oficial provável (6 imports)
+- **Oficial Provável:** `src/core/runtime/decision-governance/ExecutiveActionMatrixEngine.ts`
+  - `src/core/runtime/decision-governance/ExecutiveActionMatrixEngine.ts` -> Oficial provável (6 imports)
   - `src/core/runtime/integrity/ExecutiveActionMatrixEngine.ts` -> Oficial provável (6 imports)
 
 ### 🔄 Colisão: `StrategicPostureEngine` (Risco: Alto)
 - **Oficial Provável:** `src/core/runtime/decision-policy/StrategicPostureEngine.ts`
   - `src/core/runtime/decision-policy/StrategicPostureEngine.ts` -> Oficial provável (5 imports)
-  - `src/core/runtime/strategic-intelligence/StrategicPostureEngine.ts` -> Indeterminado (5 imports)
+  - `src/core/runtime/strategic-governance/StrategicPostureEngine.ts` -> Indeterminado (5 imports)
 
 ### 🔄 Colisão: `ExecutiveDecisionAdapter` (Risco: Alto)
 - **Oficial Provável:** `src/core/runtime/executive/ExecutiveDecisionAdapter.ts`
@@ -455,7 +455,7 @@
 ### 🔄 Colisão: `CapitalPreservationEngine` (Risco: Alto)
 - **Oficial Provável:** `src/core/runtime/governance/bp/CapitalPreservationEngine.ts`
   - `src/core/runtime/governance/bp/CapitalPreservationEngine.ts` -> Oficial provável (4 imports)
-  - `src/core/runtime/treasury-intelligence/CapitalPreservationEngine.ts` -> Indeterminado (4 imports)
+  - `src/core/runtime/treasury-governance/CapitalPreservationEngine.ts` -> Indeterminado (4 imports)
 
 ### 🔄 Colisão: `InstitutionalRecoveryEngine` (Risco: Alto)
 - **Oficial Provável:** `src/core/runtime/governance-orchestration/InstitutionalRecoveryEngine.ts`
@@ -531,7 +531,7 @@
 ### 🔄 Colisão: `InstitutionalResilienceEngine` (Risco: Alto)
 - **Oficial Provável:** `src/core/runtime/institutional-resilience/InstitutionalResilienceEngine.ts`
   - `src/core/runtime/institutional-resilience/InstitutionalResilienceEngine.ts` -> Oficial provável (7 imports)
-  - `src/core/runtime/predictive-intelligence/InstitutionalResilienceEngine.ts` -> Oficial provável (7 imports)
+  - `src/core/runtime/predictive-governance/InstitutionalResilienceEngine.ts` -> Oficial provável (7 imports)
 
 ### 🔄 Colisão: `LifecycleClassificationEngine` (Risco: Alto)
 - **Oficial Provável:** `src/core/runtime/lifecycle/LifecycleClassificationEngine.ts`
@@ -541,12 +541,12 @@
 ### 🔄 Colisão: `InstitutionalEarlyWarningEngine` (Risco: Alto)
 - **Oficial Provável:** `src/core/runtime/predictive-governance/InstitutionalEarlyWarningEngine.ts`
   - `src/core/runtime/predictive-governance/InstitutionalEarlyWarningEngine.ts` -> Oficial provável (4 imports)
-  - `src/core/runtime/predictive-intelligence/InstitutionalEarlyWarningEngine.ts` -> Indeterminado (4 imports)
+  - `src/core/runtime/predictive-governance/InstitutionalEarlyWarningEngine.ts` -> Indeterminado (4 imports)
 
 ### 🔄 Colisão: `InstitutionalScenarioEngine` (Risco: Alto)
 - **Oficial Provável:** `src/core/runtime/predictive-governance/InstitutionalScenarioEngine.ts`
   - `src/core/runtime/predictive-governance/InstitutionalScenarioEngine.ts` -> Oficial provável (5 imports)
-  - `src/core/runtime/scenario-intelligence/InstitutionalScenarioEngine.ts` -> Indeterminado (5 imports)
+  - `src/core/runtime/scenario-governance/InstitutionalScenarioEngine.ts` -> Indeterminado (5 imports)
 
 ### 🔄 Colisão: `NarrativeConsistencyEngine` (Risco: Alto)
 - **Oficial Provável:** `src/core/runtime/publication-governance/NarrativeConsistencyEngine.ts`
@@ -559,13 +559,13 @@
   - `src/core/runtime/scenario-simulation/ScenarioSimulationEngine.ts` -> Oficial provável (8 imports)
 
 ### 🔄 Colisão: `PropagationSimulationEngine` (Risco: Alto)
-- **Oficial Provável:** `src/core/runtime/scenario-intelligence/PropagationSimulationEngine.ts`
-  - `src/core/runtime/scenario-intelligence/PropagationSimulationEngine.ts` -> Oficial provável (5 imports)
+- **Oficial Provável:** `src/core/runtime/scenario-governance/PropagationSimulationEngine.ts`
+  - `src/core/runtime/scenario-governance/PropagationSimulationEngine.ts` -> Oficial provável (5 imports)
   - `src/core/runtime/scenario-simulation/PropagationSimulationEngine.ts` -> Indeterminado (5 imports)
 
 ### 🔄 Colisão: `ScenarioTradeoffEngine` (Risco: Alto)
-- **Oficial Provável:** `src/core/runtime/scenario-intelligence/ScenarioTradeoffEngine.ts`
-  - `src/core/runtime/scenario-intelligence/ScenarioTradeoffEngine.ts` -> Oficial provável (4 imports)
+- **Oficial Provável:** `src/core/runtime/scenario-governance/ScenarioTradeoffEngine.ts`
+  - `src/core/runtime/scenario-governance/ScenarioTradeoffEngine.ts` -> Oficial provável (4 imports)
   - `src/core/runtime/strategic-simulation/ScenarioTradeoffEngine.ts` -> Indeterminado (4 imports)
 
 ## Recomendações e Roadmap de Consolidação

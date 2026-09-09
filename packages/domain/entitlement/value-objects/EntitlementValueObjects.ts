@@ -11,7 +11,7 @@ export enum EntitlementStatus {
 }
 
 export enum CapabilityCategory {
-  INTELLIGENCE = 'INTELLIGENCE',
+  INTELLIGENCE = 'GOVERNANCE',
   GOVERNANCE = 'GOVERNANCE',
   OPERATIONS = 'OPERATIONS',
   PLATFORM = 'PLATFORM'

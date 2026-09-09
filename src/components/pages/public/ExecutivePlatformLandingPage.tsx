@@ -117,7 +117,7 @@ const DICTIONARY: Record<Locale, {
     navAdvisorNetwork: 'Advisor Network',
     navTese: 'Tese & Manifesto',
     navManifesto: 'Manifesto',
-    navStack: 'Intelligence Stack™',
+    navStack: 'Governance Stack™',
     navDominios: 'Domínios',
     navAdvisory: 'Advisory™',
     navTrust: 'Trust',
@@ -134,7 +134,7 @@ const DICTIONARY: Record<Locale, {
     thesisPara1: 'As organizações foram construídas para administrar operações. Entretanto, o ambiente empresarial tornou-se exponencialmente mais complexo do que os modelos de gestão tradicionais conseguem interpretar.',
     thesisPara2: 'Nos últimos anos, a quantidade de dados disponíveis cresceu continuamente, mas a capacidade das organizações de transformar esses dados em decisões executivas consistentes não evoluiu na mesma velocidade.',
     thesisPara3: 'as empresas nunca tiveram tanta informação e nunca enfrentaram tanta dificuldade para interpretar sua própria realidade.',
-    thesisFooterTag: 'Tese Fundacional da Illumine Executive Intelligence Platform',
+    thesisFooterTag: 'Tese Fundacional da Illumine Executive Governance Platform',
     thesisFooterBadge: 'Aprendizado Institucional Contínuo',
     manifestoTag: 'Manifesto de Inteligência Executiva',
     manifestoTitle: 'Do Controle de Operações ao Aprendizado Contínuo',
@@ -165,14 +165,14 @@ const DICTIONARY: Record<Locale, {
       { step: '06', name: 'APRENDER', desc: 'Memória institucional' },
       { step: '07', name: 'EVOLUIR', desc: 'Novo ciclo' }
     ],
-    stackTag: 'Executive Intelligence Stack™',
+    stackTag: 'Executive Governance Stack™',
     stackTitle: 'A Arquitetura de Inteligência de 6 Camadas',
     stackSub: 'Como a Illumine conecta a infraestrutura de dados existente à decisão executiva do conselho:',
     stackLayers: [
       { layer: 'Layer 6', name: 'Executive Advisory™', role: 'Decisão, priorização e acompanhamento executivo contínuo' },
       { layer: 'Layer 5', name: 'Institutional Learning Loop™', role: 'Aprendizado organizacional, memória histórica e evolução contínua' },
-      { layer: 'Layer 4', name: 'Executive Intelligence Agents™', role: 'Interpretação especializada por domínios de inteligência' },
-      { layer: 'Layer 3', name: 'Executive Intelligence Engines™', role: 'Motores analíticos de correlação, análise causal e priorização estratégica' },
+      { layer: 'Layer 4', name: 'Executive Governance Agents™', role: 'Interpretação especializada por domínios de inteligência' },
+      { layer: 'Layer 3', name: 'Executive Governance Engines™', role: 'Motores analíticos de correlação, análise causal e priorização estratégica' },
       { layer: 'Layer 2', name: 'Observability Layer', role: 'Monitoramento contínuo, detecção de desvios e sinais precoces' },
       { layer: 'Layer 1', name: 'Enterprise Data Foundation', role: 'ERP, CRM, Dados Financeiros, Operacionais, Fiduciários e Pessoas' }
     ],
@@ -187,16 +187,16 @@ const DICTIONARY: Record<Locale, {
       'Reuniões extensas de alinhamento',
       'Decisão reativa após a crise instalada'
     ],
-    paradigmIllumineTitle: 'Modelo Illumine (Executive Intelligence)',
+    paradigmIllumineTitle: 'Modelo Illumine (Executive Governance)',
     paradigmIllumineTag: 'Antecipatório',
     paradigmIllumineSteps: [
       'Enterprise Data Foundation',
-      'Executive Intelligence Network™ & Engines™',
-      'Executive Intelligence Agents™',
+      'Executive Governance Network™ & Engines™',
+      'Executive Governance Agents™',
       'Executive Advisory™ (Recomendações Priorizadas)',
       'Aprendizado Institucional Contínuo'
     ],
-    domainsTag: 'Executive Intelligence Network™',
+    domainsTag: 'Executive Governance Network™',
     domainsTitle: 'Infraestrutura de Conhecimento por Domínios Especializados',
     domainsSub: 'Nove capacidades dedicadas que observam, correlacionam e produzem inteligência decisória:',
     domainsObservedSignalsTag: 'Sinais & Evidências Observadas:',
@@ -301,10 +301,10 @@ const DICTIONARY: Record<Locale, {
     ],
     closingTag: 'Perpetuidade & Continuidade Institucional',
     closingQuote: '“A próxima geração de organizações não será definida apenas pela capacidade de executar melhor. Será definida pela capacidade de compreender melhor, decidir melhor e aprender continuamente.”',
-    closingSub: 'Essa é a base da Illumine Executive Intelligence Platform.',
+    closingSub: 'Essa é a base da Illumine Executive Governance Platform.',
     closingCtaPrimary: 'Solicitar Diagnóstico Executivo',
     closingCtaSecondary: 'Falar com um Executive Advisor',
-    footerRights: '© 2026 Illumine Executive Intelligence Platform. Todos os direitos reservados.',
+    footerRights: '© 2026 Illumine Executive Governance Platform. Todos os direitos reservados.',
     footerTop: 'Voltar ao Topo',
     footerPartners: 'Executive Advisor Network™',
     footerLogin: 'Acesso Restrito'
@@ -315,7 +315,7 @@ const DICTIONARY: Record<Locale, {
     navAdvisorNetwork: 'Advisor Network',
     navTese: 'Thesis & Manifesto',
     navManifesto: 'Manifesto',
-    navStack: 'Intelligence Stack™',
+    navStack: 'Governance Stack™',
     navDominios: 'Domains',
     navAdvisory: 'Advisory™',
     navTrust: 'Trust',
@@ -323,7 +323,7 @@ const DICTIONARY: Record<Locale, {
     navEvaluate: 'Assess Robustness',
     heroBadge: 'The Assisted Digital Executive Board',
     heroHeadline: 'The best decisions are made before problems become visible.',
-    heroSubheadline: 'An institutional layer of executive intelligence connecting financial, operational, fiduciary, and strategic data to support board and executive decisions in real time.',
+    heroSubheadline: 'An institutional layer of executive governance connecting financial, operational, fiduciary, and strategic data to support board and executive decisions in real time.',
     heroCtaPrimary: 'Evaluate Organizational Robustness',
     heroCtaSecondary: 'Explore the Platform',
     heroDisclaimer: 'An institutional layer that amplifies leadership analysis and interpretation without replacing human judgment or executive responsibility.',
@@ -332,9 +332,9 @@ const DICTIONARY: Record<Locale, {
     thesisPara1: 'Organizations were built to manage operations. However, the business environment has become exponentially more complex than traditional management models can interpret.',
     thesisPara2: 'In recent years, the amount of available data has grown continuously, but organizations’ capacity to turn that data into consistent executive decisions has not evolved at the same pace.',
     thesisPara3: 'companies have never had so much information and have never faced such difficulty interpreting their own reality.',
-    thesisFooterTag: 'Foundational Thesis of Illumine Executive Intelligence Platform',
+    thesisFooterTag: 'Foundational Thesis of Illumine Executive Governance Platform',
     thesisFooterBadge: 'Continuous Institutional Learning',
-    manifestoTag: 'Executive Intelligence Manifesto',
+    manifestoTag: 'Executive Governance Manifesto',
     manifestoTitle: 'From Operational Control to Continuous Learning',
     manifestoPara1: 'Twentieth-century organizations were built to control operations. Twenty-first-century organizations need to learn continuously.',
     manifestoPara2: 'For decades, executives relied on spreadsheets, isolated dashboards, lengthy meetings, and subjective interpretations to understand reality. Today, market velocity has made that model insufficient.',
@@ -352,7 +352,7 @@ const DICTIONARY: Record<Locale, {
       { num: '04', title: 'Low-Visibility Decisions', desc: 'Making strategic decisions under fragmented data destroys value and compromises continuity.' }
     ],
     loopTag: 'Institutional Learning Loop™',
-    loopTitle: 'The Intelligence & Organizational Learning Cycle',
+    loopTitle: 'The Governance & Organizational Learning Cycle',
     loopSub: 'The continuous intellectual engine turning data into institutional evolution:',
     loopSteps: [
       { step: '01', name: 'OBSERVE', desc: 'Signal monitoring' },
@@ -363,14 +363,14 @@ const DICTIONARY: Record<Locale, {
       { step: '06', name: 'LEARN', desc: 'Institutional memory' },
       { step: '07', name: 'EVOLVE', desc: 'New cycle' }
     ],
-    stackTag: 'Executive Intelligence Stack™',
-    stackTitle: 'The 6-Layer Intelligence Architecture',
+    stackTag: 'Executive Governance Stack™',
+    stackTitle: 'The 6-Layer Governance Architecture',
     stackSub: 'How Illumine connects existing data infrastructure to executive board decisions:',
     stackLayers: [
       { layer: 'Layer 6', name: 'Executive Advisory™', role: 'Continuous executive decision-making, prioritization, and tracking' },
       { layer: 'Layer 5', name: 'Institutional Learning Loop™', role: 'Organizational learning, historical memory, and continuous evolution' },
-      { layer: 'Layer 4', name: 'Executive Intelligence Agents™', role: 'Specialized interpretation across intelligence domains' },
-      { layer: 'Layer 3', name: 'Executive Intelligence Engines™', role: 'Analytical correlation engines, causal analysis, and strategic prioritization' },
+      { layer: 'Layer 4', name: 'Executive Governance Agents™', role: 'Specialized interpretation across governance domains' },
+      { layer: 'Layer 3', name: 'Executive Governance Engines™', role: 'Analytical correlation engines, causal analysis, and strategic prioritization' },
       { layer: 'Layer 2', name: 'Observability Layer', role: 'Continuous monitoring, anomaly detection, and early warning signals' },
       { layer: 'Layer 1', name: 'Enterprise Data Foundation', role: 'ERP, CRM, Financial, Operational, Fiduciaries, and People Data' }
     ],
@@ -385,18 +385,18 @@ const DICTIONARY: Record<Locale, {
       'Extensive alignment meetings',
       'Reactive decisions after crises install'
     ],
-    paradigmIllumineTitle: 'Illumine Model (Executive Intelligence)',
+    paradigmIllumineTitle: 'Illumine Model (Executive Governance)',
     paradigmIllumineTag: 'Anticipatory',
     paradigmIllumineSteps: [
       'Enterprise Data Foundation',
-      'Executive Intelligence Network™ & Engines™',
-      'Executive Intelligence Agents™',
+      'Executive Governance Network™ & Engines™',
+      'Executive Governance Agents™',
       'Executive Advisory™ (Prioritized Recommendations)',
       'Continuous Institutional Learning'
     ],
-    domainsTag: 'Executive Intelligence Network™',
+    domainsTag: 'Executive Governance Network™',
     domainsTitle: 'Knowledge Infrastructure across Specialized Domains',
-    domainsSub: 'Nine dedicated capabilities observing, correlating, and producing decision intelligence:',
+    domainsSub: 'Nine dedicated capabilities observing, correlating, and producing decision governance:',
     domainsObservedSignalsTag: 'Observed Signals & Evidence:',
     domainsList: [
       {
@@ -456,7 +456,7 @@ const DICTIONARY: Record<Locale, {
       { title: 'Prioritizes', desc: 'Filters operational noise and focuses board attention on what is critical.' },
       { title: 'Learns', desc: 'Records decision history and refines models with every new cycle.' }
     ],
-    governanceTag: 'Governance Intelligence™ & ESGIM™',
+    governanceTag: 'Governance Governance™ & ESGIM™',
     governanceTitle: 'Fiduciary Dimension & ESGIM™ Framework',
     governanceSub: 'The repositioning of Illumine Governance™ as the central fiduciary domain, measured by the proprietary ESGIM™ framework:',
     esgimCards: [
@@ -482,10 +482,10 @@ const DICTIONARY: Record<Locale, {
     transformTableAfterHeader: 'After Illumine (Anticipatory)',
     transformTable: [
       { antes: 'Board meetings spent debating data accuracy.', depois: 'Board meetings focused on grounded strategic decisions.' },
-      { antes: 'Dispersed spreadsheets and disconnected KPIs by department.', depois: 'Executive intelligence integrated across 9 domains in real time.' },
+      { antes: 'Dispersed spreadsheets and disconnected KPIs by department.', depois: 'Executive governance integrated across 9 domains in real time.' },
       { antes: 'Discovering bottlenecks and risks only when they become crises.', depois: 'Early detection of weak signals and invisible frictions.' },
       { antes: 'Intuitive decisions without historical traceability.', depois: 'Continuous Advisory with fiduciary explainability and learning.' },
-      { antes: 'Overreliance on key individuals’ memory.', depois: 'Institutional memory and intelligence preserved within the business.' }
+      { antes: 'Overreliance on key individuals’ memory.', depois: 'Institutional memory and governance preserved within the business.' }
     ],
     useCasesTag: 'Complex Organizations',
     useCasesTitle: 'Engineered for high-complexity enterprise structures',
@@ -499,10 +499,10 @@ const DICTIONARY: Record<Locale, {
     ],
     closingTag: 'Perpetuity & Institutional Continuity',
     closingQuote: '“The next generation of organizations will not be defined merely by their ability to execute better. They will be defined by their ability to understand better, decide better, and learn continuously.”',
-    closingSub: 'This is the foundation of the Illumine Executive Intelligence Platform.',
+    closingSub: 'This is the foundation of the Illumine Executive Governance Platform.',
     closingCtaPrimary: 'Request Executive Diagnostic',
     closingCtaSecondary: 'Speak with an Executive Advisor',
-    footerRights: '© 2026 Illumine Executive Intelligence Platform. All rights reserved.',
+    footerRights: '© 2026 Illumine Executive Governance Platform. All rights reserved.',
     footerTop: 'Back to Top',
     footerPartners: 'Executive Advisor Network™',
     footerLogin: 'Restricted Access'
@@ -513,7 +513,7 @@ const DICTIONARY: Record<Locale, {
     navAdvisorNetwork: 'Advisor Network',
     navTese: 'Tesis y Manifiesto',
     navManifesto: 'Manifiesto',
-    navStack: 'Intelligence Stack™',
+    navStack: 'Governance Stack™',
     navDominios: 'Dominios',
     navAdvisory: 'Advisory™',
     navTrust: 'Trust',
@@ -530,7 +530,7 @@ const DICTIONARY: Record<Locale, {
     thesisPara1: 'Las organizaciones fueron construidas para administrar operaciones. Sin embargo, el entorno empresarial se ha vuelto exponencialmente más complejo de lo que los modelos tradicionales pueden interpretar.',
     thesisPara2: 'En los últimos años, la cantidad de datos ha crecido continuamente, pero la capacidad de transformar esos datos en decisiones consistentes no ha evolucionado al mismo ritmo.',
     thesisPara3: 'las empresas nunca han tenido tanta información y nunca han enfrentado tanta dificultad para interpretar su propia realidad.',
-    thesisFooterTag: 'Tesis Fundacional de Illumine Executive Intelligence Platform',
+    thesisFooterTag: 'Tesis Fundacional de Illumine Executive Governance Platform',
     thesisFooterBadge: 'Aprendizaje Institucional Continuo',
     manifestoTag: 'Manifiesto de Inteligencia Ejecutiva',
     manifestoTitle: 'Del Control Operacional al Aprendizaje Continuo',
@@ -561,14 +561,14 @@ const DICTIONARY: Record<Locale, {
       { step: '06', name: 'APRENDER', desc: 'Memoria institucional' },
       { step: '07', name: 'EVOLUCIONAR', desc: 'Nuevo ciclo' }
     ],
-    stackTag: 'Executive Intelligence Stack™',
+    stackTag: 'Executive Governance Stack™',
     stackTitle: 'La Arquitectura de Inteligencia de 6 Capas',
     stackSub: 'Cómo Illumine conecta la infraestructura de datos existente con las decisiones del consejo:',
     stackLayers: [
       { layer: 'Layer 6', name: 'Executive Advisory™', role: 'Decisión, priorización y acompañamiento ejecutivo continuo' },
       { layer: 'Layer 5', name: 'Institutional Learning Loop™', role: 'Aprendizaje organizacional, memoria histórica y evolución continua' },
-      { layer: 'Layer 4', name: 'Executive Intelligence Agents™', role: 'Interpretación especializada por dominios de inteligencia' },
-      { layer: 'Layer 3', name: 'Executive Intelligence Engines™', role: 'Motores analíticos de correlación, análisis causal y priorización' },
+      { layer: 'Layer 4', name: 'Executive Governance Agents™', role: 'Interpretación especializada por dominios de inteligencia' },
+      { layer: 'Layer 3', name: 'Executive Governance Engines™', role: 'Motores analíticos de correlación, análisis causal y priorización' },
       { layer: 'Layer 2', name: 'Observability Layer', role: 'Monitoreo continuo, detección de desvíos y señales tempranas' },
       { layer: 'Layer 1', name: 'Enterprise Data Foundation', role: 'ERP, CRM, Datos Financieros, Operacionales, Fiduciarios y Personas' }
     ],
@@ -583,16 +583,16 @@ const DICTIONARY: Record<Locale, {
       'Reuniones extensas de alineación',
       'Decisión reactiva tras la crisis instalada'
     ],
-    paradigmIllumineTitle: 'Modelo Illumine (Executive Intelligence)',
+    paradigmIllumineTitle: 'Modelo Illumine (Executive Governance)',
     paradigmIllumineTag: 'Anticipatorio',
     paradigmIllumineSteps: [
       'Enterprise Data Foundation',
-      'Executive Intelligence Network™ & Engines™',
-      'Executive Intelligence Agents™',
+      'Executive Governance Network™ & Engines™',
+      'Executive Governance Agents™',
       'Executive Advisory™ (Recomendaciones Priorizadas)',
       'Aprendizaje Institucional Continuo'
     ],
-    domainsTag: 'Executive Intelligence Network™',
+    domainsTag: 'Executive Governance Network™',
     domainsTitle: 'Infraestructura de Conocimiento por Dominios Especializados',
     domainsSub: 'Nueve capacidades dedicadas que observan, correlacionan y producen inteligencia decisória:',
     domainsObservedSignalsTag: 'Señales y Evidencias Observadas:',
@@ -697,10 +697,10 @@ const DICTIONARY: Record<Locale, {
     ],
     closingTag: 'Perpetuidad y Continuidad Institucional',
     closingQuote: '“La próxima generación de organizaciones no se definirá solo por su capacidad de ejecutar mejor. Se definirá por su capacidad de comprender mejor, decidir mejor y aprender continuamente.”',
-    closingSub: 'Esta es la base de Illumine Executive Intelligence Platform.',
+    closingSub: 'Esta es la base de Illumine Executive Governance Platform.',
     closingCtaPrimary: 'Solicitar Diagnóstico Ejecutivo',
     closingCtaSecondary: 'Hablar con un Executive Advisor',
-    footerRights: '© 2026 Illumine Executive Intelligence Platform. Todos los derechos reservados.',
+    footerRights: '© 2026 Illumine Executive Governance Platform. Todos los derechos reservados.',
     footerTop: 'Volver al Inicio',
     footerPartners: 'Portal de Socios',
     footerLogin: 'Acceso Restringido'
@@ -743,15 +743,15 @@ export function ExecutivePlatformLandingPage() {
 
   // Executive Intelligence Network™ - 9 Canonical Domain Titles (Preserved Trademark Names)
   const domainTitles = [
-    'Governance Intelligence™',
-    'Financial Intelligence™',
-    'Operational Intelligence™',
-    'Commercial Intelligence™',
-    'People Intelligence™',
-    'Risk Intelligence™',
-    'Institutional Intelligence™',
-    'Purpose Intelligence™',
-    'Innovation Intelligence™'
+    'Governance Governance™',
+    'Financial Governance™',
+    'Operational Governance™',
+    'Commercial Governance™',
+    'People Governance™',
+    'Risk Governance™',
+    'Institutional Governance™',
+    'Purpose Governance™',
+    'Innovation Governance™'
   ];
 
   const domainIcons = [
@@ -796,7 +796,7 @@ export function ExecutivePlatformLandingPage() {
           <div className="pt-6 flex flex-col sm:flex-row items-center justify-center gap-4 max-w-xl mx-auto">
             <button
               id="hero-cta-avaliar"
-              onClick={() => handleCTAClick("Olá! Desejo solicitar a avaliação de robustez institucional da minha organização na Illumine Executive Intelligence Platform.")}
+              onClick={() => handleCTAClick("Olá! Desejo solicitar a avaliação de robustez institucional da minha organização na Illumine Executive Governance Platform.")}
               className="w-full sm:w-auto min-h-[3.5rem] h-auto py-3 px-6 sm:px-9 rounded-full bg-[#F9F9F9] text-[#111111] font-bold text-xs uppercase tracking-widest hover:bg-white transition-all flex items-center justify-center gap-3 cursor-pointer shadow-[0_0_30px_rgba(255,138,87,0.30)] text-center"
             >
               <span className="leading-snug">{dict.heroCtaPrimary}</span>
@@ -1350,7 +1350,7 @@ export function ExecutivePlatformLandingPage() {
           <div className="pt-8 flex flex-col sm:flex-row items-center justify-center gap-4 max-w-2xl mx-auto">
             <button
               id="final-cta-diagnostico"
-              onClick={() => handleCTAClick("Olá! Desejo solicitar o Diagnóstico Executivo da minha organização na Illumine Executive Intelligence Platform.")}
+              onClick={() => handleCTAClick("Olá! Desejo solicitar o Diagnóstico Executivo da minha organização na Illumine Executive Governance Platform.")}
               className="w-full sm:w-auto min-h-[3.5rem] h-auto py-3 px-6 sm:px-9 rounded-full bg-[#F9F9F9] text-[#111111] font-bold text-xs uppercase tracking-widest hover:bg-white transition-all flex items-center justify-center gap-3 cursor-pointer shadow-[0_0_30px_rgba(255,138,87,0.30)] text-center"
             >
               <span className="leading-snug">{dict.closingCtaPrimary}</span>
@@ -1379,7 +1379,7 @@ export function ExecutivePlatformLandingPage() {
           >
             <button
               id="sticky-cta-btn"
-              onClick={() => handleCTAClick("Olá! Desejo solicitar a avaliação de robustez na Illumine Executive Intelligence Platform.")}
+              onClick={() => handleCTAClick("Olá! Desejo solicitar a avaliação de robustez na Illumine Executive Governance Platform.")}
               className="flex items-center gap-3 px-6 min-h-[3.5rem] h-auto py-3 bg-[#F9F9F9] text-[#111111] font-bold text-[10px] uppercase tracking-widest rounded-full shadow-[0_0_30px_rgba(255,138,87,0.30)] hover:bg-white transition-all cursor-pointer border border-white/20 text-center"
             >
               <div className="w-7 h-7 rounded-full bg-[#FF8A57]/15 border border-[#FF8A57]/30 flex items-center justify-center text-[#FF8A57] shrink-0">

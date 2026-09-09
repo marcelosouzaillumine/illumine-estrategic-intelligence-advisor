@@ -459,5 +459,5 @@ go_live:
 
 ---
 
-*Data Intelligence Pack - Workflow v1.0*
+*Data Governance Pack - Workflow v1.0*
 *Primary Agent: @david-spinks | Secondary: @nick-mehta, @wes-kao, @avinash-kaushik*

@@ -44,7 +44,7 @@ export function InstitutionalLayout() {
       children: [
         { label: tNav('nav.manifesto'), href: getLocalizedRoute('MANIFESTO', currentLocale) },
         { label: tNav('nav.architecture'), href: getLocalizedRoute('PLATFORM', currentLocale) },
-        { label: tNav('nav.intelligence_network'), href: getLocalizedRoute('DOMAINS', currentLocale) },
+        { label: tNav('nav.governance_network'), href: getLocalizedRoute('DOMAINS', currentLocale) },
         { label: 'Trust Architecture™', href: getLocalizedRoute('GOVERNANCE', currentLocale) },
       ]
     },
@@ -52,12 +52,12 @@ export function InstitutionalLayout() {
       label: tNav('nav.solutions'),
       children: [
         { 
-          label: 'Enterprise Intelligence™', 
+          label: 'Enterprise Governance™', 
           subtitle: tNav('nav.enterprise_sub'),
           href: getLocalizedRoute('ENTERPRISE', currentLocale) 
         },
         { 
-          label: 'Nonprofit Intelligence™', 
+          label: 'Nonprofit Governance™', 
           subtitle: tNav('nav.nonprofit_sub'),
           href: getLocalizedRoute('NONPROFIT', currentLocale) 
         },
@@ -66,14 +66,14 @@ export function InstitutionalLayout() {
     {
       label: tNav('nav.ecosystem'),
       children: [
-        { label: 'Executive Intelligence Center™', href: getLocalizedRoute('INTELLIGENCE_CENTER', currentLocale) },
+        { label: 'Executive Governance Center™', href: getLocalizedRoute('GOVERNANCE_CENTER', currentLocale) },
         { label: 'Advisor Network™', href: getLocalizedRoute('ADVISOR_NETWORK', currentLocale) },
       ]
     },
     {
       label: tNav('nav.trust'),
       children: [
-        { label: 'Privacy Intelligence™', href: getLocalizedRoute('PRIVACY', currentLocale) },
+        { label: 'Privacy Governance™', href: getLocalizedRoute('PRIVACY', currentLocale) },
         { label: tNav('nav.security_arch'), href: getLocalizedRoute('SECURITY', currentLocale) },
       ]
     }
@@ -277,15 +277,15 @@ export function InstitutionalLayout() {
                 <li><Link to={getLocalizedRoute('MANIFESTO', currentLocale)} className="text-[13px] font-medium text-slate-400 hover:text-amber-500 hover:translate-x-1 inline-block transition-all">{tFooter('sections.platform.manifesto')}</Link></li>
                 <li><Link to={getLocalizedRoute('PLATFORM', currentLocale)} className="text-[13px] font-medium text-slate-400 hover:text-amber-500 hover:translate-x-1 inline-block transition-all">{tFooter('sections.platform.infrastructure')}</Link></li>
                 <li><Link to={getLocalizedRoute('DOMAINS', currentLocale)} className="text-[13px] font-medium text-slate-400 hover:text-amber-500 hover:translate-x-1 inline-block transition-all">{tFooter('sections.platform.domains')}</Link></li>
-                <li><Link to={getLocalizedRoute('ENTERPRISE', currentLocale)} className="text-[13px] font-medium text-slate-400 hover:text-amber-500 hover:translate-x-1 inline-block transition-all">Enterprise Intelligence™</Link></li>
-                <li><Link to={getLocalizedRoute('NONPROFIT', currentLocale)} className="text-[13px] font-medium text-slate-400 hover:text-amber-500 hover:translate-x-1 inline-block transition-all">Nonprofit Intelligence™</Link></li>
+                <li><Link to={getLocalizedRoute('ENTERPRISE', currentLocale)} className="text-[13px] font-medium text-slate-400 hover:text-amber-500 hover:translate-x-1 inline-block transition-all">Enterprise Governance™</Link></li>
+                <li><Link to={getLocalizedRoute('NONPROFIT', currentLocale)} className="text-[13px] font-medium text-slate-400 hover:text-amber-500 hover:translate-x-1 inline-block transition-all">Nonprofit Governance™</Link></li>
               </ul>
             </div>
 
             <div>
               <h4 className="text-[11px] font-bold uppercase tracking-widest text-slate-500 mb-6">{tFooter('sections.ecosystem.title')}</h4>
               <ul className="space-y-4">
-                <li><Link to={getLocalizedRoute('INTELLIGENCE_CENTER', currentLocale)} className="text-[13px] font-medium text-slate-400 hover:text-amber-500 hover:translate-x-1 inline-block transition-all">{tFooter('sections.ecosystem.intelligence_center')}</Link></li>
+                <li><Link to={getLocalizedRoute('GOVERNANCE_CENTER', currentLocale)} className="text-[13px] font-medium text-slate-400 hover:text-amber-500 hover:translate-x-1 inline-block transition-all">{tFooter('sections.ecosystem.governance_center')}</Link></li>
                 <li><Link to={getLocalizedRoute('ADVISOR_NETWORK', currentLocale)} className="text-[13px] font-medium text-slate-400 hover:text-amber-500 hover:translate-x-1 inline-block transition-all">{tFooter('sections.ecosystem.advisor_network')}</Link></li>
               </ul>
             </div>
@@ -294,7 +294,7 @@ export function InstitutionalLayout() {
               <h4 className="text-[11px] font-bold uppercase tracking-widest text-slate-500 mb-6">{tFooter('sections.trust.title')}</h4>
               <ul className="space-y-4">
                 <li><Link to={getLocalizedRoute('GOVERNANCE', currentLocale)} className="text-[13px] font-medium text-slate-400 hover:text-amber-500 hover:translate-x-1 inline-block transition-all">{tFooter('sections.trust.trust_architecture')}</Link></li>
-                <li><Link to={getLocalizedRoute('PRIVACY', currentLocale)} className="text-[13px] font-medium text-slate-400 hover:text-amber-500 hover:translate-x-1 inline-block transition-all">Privacy Intelligence™</Link></li>
+                <li><Link to={getLocalizedRoute('PRIVACY', currentLocale)} className="text-[13px] font-medium text-slate-400 hover:text-amber-500 hover:translate-x-1 inline-block transition-all">Privacy Governance™</Link></li>
                 <li><Link to={getLocalizedRoute('SECURITY', currentLocale)} className="text-[13px] font-medium text-slate-400 hover:text-amber-500 hover:translate-x-1 inline-block transition-all">{tFooter('sections.trust.security')}</Link></li>
               </ul>
             </div>

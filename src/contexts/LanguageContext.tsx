@@ -71,7 +71,7 @@ const mapLabelToKey = (label: string): string => {
     // Pages
     'inteligencia consolidada': 'navigation.page.consolidated_executive',
     'portfolio': 'navigation.page.portfolio',
-    'inteligencia sistemica': 'navigation.page.systemic_intelligence',
+    'inteligencia sistemica': 'navigation.page.systemic_governance',
     'efos': 'navigation.page.efos',
     'executive scenario lab': 'navigation.page.lab',
     'analise de kpis': 'navigation.page.indicadores',

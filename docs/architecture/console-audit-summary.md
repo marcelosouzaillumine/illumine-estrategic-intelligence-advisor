@@ -18,11 +18,11 @@
   `console.error(`[ConsolidatedEntityRepository] Failed to fetch BP for ${entityId}: ${err.message}`);`
 - **[Financeiro/Sensível]** `src/core/runtime/consolidated/data/ConsolidatedEntityRepository.ts:44`
   `console.error(`[ConsolidatedEntityRepository] Failed to fetch DRE for ${entityId}: ${err.message}`);`
-- **[Financeiro/Sensível]** `src/core/runtime/executive-intelligence-runtime.ts:585`
+- **[Financeiro/Sensível]** `src/core/runtime/executive-governance-runtime.ts:585`
   `console.log('BP SUMMARY DEBUG:', bpSummary);`
-- **[Financeiro/Sensível]** `src/core/runtime/executive-intelligence-runtime.ts:630`
+- **[Financeiro/Sensível]** `src/core/runtime/executive-governance-runtime.ts:630`
   `console.log("DEBUG RUNTIME DRE LUCRO:", dreLucro, "DREDATA:", JSON.stringify(rawData.dreData));`
-- **[Financeiro/Sensível]** `src/core/runtime/executive-intelligence-runtime.ts:1308`
+- **[Financeiro/Sensível]** `src/core/runtime/executive-governance-runtime.ts:1308`
   `console.log("DEBUG: normalizedDRE =", JSON.stringify(normalizedDRE));`
 - **[Segurança/Auth]** `src/core/runtime/governance/dfc/DFCSSOTAuthorityGuard.ts:26`
   `console.error(`[DFCSSOTAuthorityGuard] ${reason}`);`

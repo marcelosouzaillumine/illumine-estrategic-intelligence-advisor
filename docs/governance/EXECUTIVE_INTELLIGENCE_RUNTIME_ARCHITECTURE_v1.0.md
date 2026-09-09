@@ -1,4 +1,4 @@
-# Executive Intelligence Platform Architecture v1.0
+# Executive Governance Platform Architecture v1.0
 
 **Status:** Active (Post-RC-003 Consolidation)
 **Date:** 2026-07-31
@@ -20,7 +20,7 @@ A arquitetura executiva é desenhada em seis camadas estritas:
 - **Papel:** O cérebro corporativo.
 - **Responsabilidade:** Fornecer dados e contexto (EvidenceChain) ao motor cognitivo. Não toma decisões, apenas recupera fatos comprovados.
 
-### 1.3. Intelligence Layer (Cognitive Runtime)
+### 1.3. Governance Layer (Cognitive Runtime)
 - **Componente:** `ExecutiveCognitiveRuntime`
 - **Papel:** **Quem decide.**
 - **Responsabilidade:** Único motor autorizado a executar chamadas primárias aos Large Language Models (LLMs). É aqui que o raciocínio é orquestrado (Chain of Thought). Recebe intenção e contexto, devolve uma decisão baseada em fatos.
@@ -28,7 +28,7 @@ A arquitetura executiva é desenhada em seis camadas estritas:
 ### 1.4. Governance Layer (Trust & Forensics)
 - **Componentes:** `CognitiveTrustGate` e `DecisionForensics`
 - **Papel:** **Quem valida e quem audita.**
-- **Responsabilidade:** Intercepta a saída da Intelligence Layer. 
+- **Responsabilidade:** Intercepta a saída da Governance Layer. 
   - *Trust Gate:* Decide se a resposta fere alguma regra constitucional (Veto).
   - *Forensics:* Gera a caixa preta criptográfica detalhando como a decisão foi tomada.
 
@@ -48,7 +48,7 @@ Quando um usuário envia um input (Intenção):
 1. **O Workspace Orchestrator (Experience)** repassa a intenção ao Backend.
 2. **O Tenant Isolation (Security)** envelopa a requisição.
 3. **O Executive Memory (Memory)** anexa o contexto.
-4. **O Cognitive Runtime (Intelligence)** elabora o raciocínio.
+4. **O Cognitive Runtime (Governance)** elabora o raciocínio.
 5. **O Trust Gate (Governance)** carimba e aprova.
 6. **O Decision Forensics (Governance)** assina o registro e empacota o `ExecutiveWorkspaceSnapshot`.
 7. **A UI (Experience)** renderiza a visualização final e imutável.

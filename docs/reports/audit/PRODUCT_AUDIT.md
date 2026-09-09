@@ -2,7 +2,7 @@
 
 > **Relatório Técnico de Métricas Globais, Diferenciação de Produto e Heatmaps**  
 > *Horizonte Temporal: Julho de 2026 | IERA v1.0 Compliance Audit*  
-> *Documento Integrante do Pacote [`EXECUTIVE_ARCHITECTURE_AUDIT.md`](file:///Users/marcelosouza/Documents/illumine-strategic-intelligence-advisor/docs/reports/audit/EXECUTIVE_ARCHITECTURE_AUDIT.md)*  
+> *Documento Integrante do Pacote [`EXECUTIVE_ARCHITECTURE_AUDIT.md`](file:///Users/marcelosouza/Documents/illumine-strategic-governance-advisor/docs/reports/audit/EXECUTIVE_ARCHITECTURE_AUDIT.md)*  
 > *Status: Homologado*
 
 ---
@@ -11,7 +11,7 @@
 
 | Métrica de Avaliação | Score (0 - 100) | Avaliação Qualitativa |
 | :--- | :---: | :--- |
-| **1. Executive Intelligence Score** | **94.2 / 100** | Inteligência executiva consolidada e contextualizada. |
+| **1. Executive Governance Score** | **94.2 / 100** | Inteligência executiva consolidada e contextualizada. |
 | **2. Decision Support Score** | **92.5 / 100** | Forte alinhamento entre perguntas de negócio e respostas. |
 | **3. Architecture Expression Score** | **91.8 / 100** | Arquitetura claramente visível e compreensível ao usuário. |
 | **4. Experience Consistency Score** | **95.0 / 100** | Padrão visual e comportamental altamente consistente. |
@@ -35,7 +35,7 @@
 * `Executive Workspace` (13 páginas): 🟢 **96% Aderente**
 * `Platform Workspace` (5 páginas): 🟢 **95% Aderente**
 * `Operational Workspace` (5 páginas): 🟢 **94% Aderente**
-* `Intelligence Workspace` (5 páginas): 🟢 **93% Aderente**
+* `Governance Workspace` (5 páginas): 🟢 **93% Aderente**
 
 ### 2.2 Heatmap de Capabilities (Integração & Desacoplamento)
 * `Financial`: 🟢 **98%** | `Governance`: 🟢 **96%** | `Operational`: 🟢 **94%**
@@ -45,7 +45,7 @@
 * `Decision (EXP-001)`: 🟢 **97%**
 * `Registration (EXP-002)`: 🟢 **96%**
 * `Operational (EXP-003)`: 🟢 **94%**
-* `Intelligence (EXP-004)`: 🟢 **93%**
+* `Governance (EXP-004)`: 🟢 **93%**
 
 ### 2.4 Heatmap Cognitivo (As 8 Camadas Universais)
 * `Context`: 🟢 **100%** | `Intent`: 🟢 **96%** | `Understanding`: 🟢 **98%** | `Diagnosis`: 🟢 **95%**

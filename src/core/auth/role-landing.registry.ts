@@ -30,20 +30,20 @@ export const ROLE_LANDING_REGISTRY: Record<string, RoleLandingDefinition> = {
   'Commercial': {
     role: 'Commercial',
     context: 'EXECUTIVE',
-    surfaceId: 'commercial.revenue-intelligence',
-    fallbackRoute: '/executive/workspace/commercial-office/commercial.revenue-intelligence'
+    surfaceId: 'commercial.revenue-governance',
+    fallbackRoute: '/executive/workspace/commercial-office/commercial.revenue-governance'
   },
   'People': {
     role: 'People',
     context: 'EXECUTIVE',
-    surfaceId: 'people.workforce-intelligence',
-    fallbackRoute: '/executive/workspace/people-office/people.workforce-intelligence'
+    surfaceId: 'people.workforce-governance',
+    fallbackRoute: '/executive/workspace/people-office/people.workforce-governance'
   },
   'Innovation': {
     role: 'Innovation',
     context: 'EXECUTIVE',
-    surfaceId: 'innovation.innovation-intelligence',
-    fallbackRoute: '/executive/workspace/innovation-office/innovation.innovation-intelligence'
+    surfaceId: 'innovation.innovation-governance',
+    fallbackRoute: '/executive/workspace/innovation-office/innovation.innovation-governance'
   },
   'Governance': {
     role: 'Governance',
@@ -54,16 +54,16 @@ export const ROLE_LANDING_REGISTRY: Record<string, RoleLandingDefinition> = {
   'Risk': {
     role: 'Risk',
     context: 'EXECUTIVE',
-    surfaceId: 'risk.risk-intelligence',
-    fallbackRoute: '/executive/workspace/risk-office/risk.risk-intelligence'
+    surfaceId: 'risk.risk-governance',
+    fallbackRoute: '/executive/workspace/risk-office/risk.risk-governance'
   },
   
   // Board
   'Board Member': {
     role: 'Board Member',
     context: 'EXECUTIVE',
-    surfaceId: 'governance.board-intelligence',
-    fallbackRoute: '/executive/workspace/governance-office/governance.board-intelligence'
+    surfaceId: 'governance.board-governance',
+    fallbackRoute: '/executive/workspace/governance-office/governance.board-governance'
   },
 
   // Mentorship Layer

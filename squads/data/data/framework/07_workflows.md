@@ -1,4 +1,4 @@
-# Framework de Clones - Data Intelligence Pack
+# Framework de Clones - Data Governance Pack
 ## 07 - Workflows
 
 ---
@@ -548,5 +548,5 @@ FASE 4: LEARNING ELEMENTS (Kao)
 
 ---
 
-*Framework de Clones - Data Intelligence Pack v2.0*
+*Framework de Clones - Data Governance Pack v2.0*
 *Workflows*

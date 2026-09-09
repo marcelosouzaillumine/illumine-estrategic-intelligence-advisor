@@ -15,7 +15,7 @@ export const ProcurementIntelligenceCapability: React.FC<ProcurementIntelligence
   return (
     <div className="p-6 max-w-7xl mx-auto space-y-6">
       <header className="mb-8">
-        <h1 className="text-2xl font-semibold text-slate-100 tracking-tight">Procurement Intelligence</h1>
+        <h1 className="text-2xl font-semibold text-slate-100 tracking-tight">Procurement Governance</h1>
         <p className="text-slate-400 text-sm mt-1">COO Office</p>
       </header>
 

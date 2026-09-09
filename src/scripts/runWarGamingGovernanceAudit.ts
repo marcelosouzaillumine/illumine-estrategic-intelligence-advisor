@@ -7,7 +7,7 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 const ROOT_DIR = path.resolve(__dirname, '../../');
 
-console.log("Iniciando War Gaming Governance Audit (Scenario Intelligence)...");
+console.log("Iniciando War Gaming Governance Audit (Scenario Governance)...");
 console.log("Esta camada opera estritamente em modo observacional. Proibida simulação client-side e matemática fiduciária não rastreada.\n");
 
 // Arquivos requeridos estruturalmente
@@ -15,7 +15,7 @@ const requiredFiles = [
   'src/components/war-room/WarRoomWorkspace.tsx', // War Room Workspace
   'src/core/runtime/scenario-intelligence/InstitutionalScenarioEngine.ts', // War Room Runtime
   'src/core/war-room/ScenarioNavigationEngine.ts', // ScenarioNavigationEngine
-  'docs/architecture/Scenario_Intelligence_War_Room_Audit.md' // Scenario_Intelligence_War_Room_Audit
+  'docs/architecture/Scenario_Governance_War_Room_Audit.md' // Scenario_Intelligence_War_Room_Audit
 ];
 
 let failed = false;

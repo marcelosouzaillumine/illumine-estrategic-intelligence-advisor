@@ -21,7 +21,7 @@ export class ProcurementEngine {
           impact: 'Risco de parada operacional caso um dos fornecedores apresente falha de entrega.',
           recommendation: 'Iniciar plano de contingência e homologação de novos fornecedores no próximo trimestre.',
           confidence: 88,
-          affectedCapability: 'coo.procurement-intelligence',
+          affectedCapability: 'coo.procurement-governance',
           affectedOffice: 'coo'
         }
       ]

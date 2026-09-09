@@ -1,4 +1,4 @@
-# MASTER CONTEXTUAL INTELLIGENCE ENGINE
+# MASTER CONTEXTUAL GOVERNANCE ENGINE
 
 **Versão:** 1.0
 **Classificação:** Arquitetura Core Institucional
@@ -161,7 +161,7 @@ No contexto do desenvolvimento, sustentação e evolução de algoritmos, modelo
 
 ## 8. Objetivo Institucional Final
 
-A finalidade suprema da adoção da *Master Contextual Intelligence Engine* é o reposicionamento definitivo da entrega de valor da plataforma Illumine.
+A finalidade suprema da adoção da *Master Contextual Governance Engine* é o reposicionamento definitivo da entrega de valor da plataforma Illumine.
 
 O sistema abandona qualquer concepção ou formato que o aproxime de um mero *dashboard* descritivo e calculador cego de métricas.
 

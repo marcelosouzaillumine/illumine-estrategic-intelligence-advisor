@@ -6,7 +6,7 @@ import { generateAttentionItems } from '../src/core/runtime/board/BoardAttention
 import { generateBoardResolutions } from '../src/core/runtime/board/BoardResolutionLayer';
 import { generateBoardAgenda } from '../src/core/runtime/board/BoardAgendaGenerator';
 
-describe('Board Intelligence Layer (BIL)', () => {
+describe('Board Governance Layer (BIL)', () => {
   it('should identify high risk when IRG is > 60 and escalate', () => {
     const input = buildBoardIntelligenceInput(
       's1', 'Draft Agressivo', false, 50000000, 10000000, 40, 30, 80, 50, 'Crítico', 'Alto Risco', 5

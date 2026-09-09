@@ -8,7 +8,7 @@ export const CFO_FINANCIAL_PERFORMANCE_SURFACE: DecisionSurfaceDefinition = {
   descriptionKey: 'cfo.performance.desc',
   intent: 'analyze',
   capability: CAPABILITIES.EXECUTIVE_WORKSPACE_VIEW,
-  supportedEngines: ['financial-intelligence-engine'],
+  supportedEngines: ['financial-governance-engine'],
   supportedAgents: ['cfo-agent'],
   defaultLayout: 'cfo-performance-grid',
   layouts: [],

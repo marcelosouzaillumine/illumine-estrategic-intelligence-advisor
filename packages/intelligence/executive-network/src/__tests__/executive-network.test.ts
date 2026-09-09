@@ -16,7 +16,7 @@ describe('@illumine/executive-network (Wave 14 Phase 5)', () => {
       nodeId: 'exec-board-1',
       role: 'BOARD',
       name: 'Conselheiro Titular',
-      capabilitiesAssigned: ['governance-intelligence']
+      capabilitiesAssigned: ['governance-governance']
     };
 
     net.registerNode(ceo);

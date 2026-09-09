@@ -34,7 +34,7 @@ describe('GoldenScenario - The Constitutional Anchor', () => {
     expect(liquiditySignal?.traceability?.metric?.value).toBeCloseTo(0.546, 2);
   });
 
-  it('2. Intelligence Gate - Should detect strength (coverage) and tension (inventory/cash concentration)', () => {
+  it('2. Governance Gate - Should detect strength (coverage) and tension (inventory/cash concentration)', () => {
     const signals = result.pureViewModel.signals.items;
     
     const inventorySignal = signals.find(s => s.id === 'inventory_concentration_monitor' || s.id === 'inventory_concentration_high' || s.id === 'inventory_concentration_critical');

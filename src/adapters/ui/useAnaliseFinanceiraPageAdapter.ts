@@ -14,7 +14,7 @@ export function useAnaliseFinanceiraPageAdapter(selectedClient: string) {
         const cashFlows = await persistenceContainer.cashFlow.getAllCashFlowsByClient(selectedClient);
         setCashFlowData(cashFlows);
       } catch (err) {
-        console.error('Error fetching cash flows in capital intelligence:', err);
+        console.error('Error fetching cash flows in capital governance:', err);
       } finally {
         setLoadingCashFlow(false);
       }

@@ -11,8 +11,8 @@ export function IntelligenceInbox() {
   return (
     <div className="p-8">
       <header className="mb-6">
-        <h1 className="text-2xl font-bold">Intelligence Inbox™</h1>
-        <p className="text-gray-500">Human Intelligence Layer | Executive Workspace</p>
+        <h1 className="text-2xl font-bold">Governance Inbox™</h1>
+        <p className="text-gray-500">Human Governance Layer | Executive Workspace</p>
       </header>
 
       <div className="flex gap-4 border-b mb-6">

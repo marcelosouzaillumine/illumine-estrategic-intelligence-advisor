@@ -4,7 +4,7 @@ import { ExecutiveOffice } from '../offices/ExecutiveOffice';
 import { ExecutiveProductType } from '../../products/ExecutiveProductType';
 
 describe('Decision Authority Regression', () => {
-  it('must ensure only BOARD_INTELLIGENCE can issue DECISION_PRODUCT with decision authority', () => {
+  it('must ensure only BOARD_GOVERNANCE can issue DECISION_PRODUCT with decision authority', () => {
     // Board is allowed to have decision authority
     expect(DecisionRoomProduct.office).toBe(ExecutiveOffice.BOARD_INTELLIGENCE);
     expect(DecisionRoomProduct.productType).toBe(ExecutiveProductType.DECISION_PRODUCT);

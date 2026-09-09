@@ -39,7 +39,7 @@ export class TrajectoryAnalyzer {
     // Trajectory Projection Layer
     const trajectory: ArchitectureTrajectory = {
       id: `TRAJ-${Date.now()}`,
-      subjectId: 'Financial Intelligence',
+      subjectId: 'Financial Governance',
       subjectType: 'CAPABILITY',
       events: events
     };

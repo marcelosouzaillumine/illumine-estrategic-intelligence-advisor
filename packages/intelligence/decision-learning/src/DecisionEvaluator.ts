@@ -13,7 +13,7 @@ export class DecisionEvaluator {
     if (deviation > 1.0) {
       return {
         requestId: `req-imp-${forecast.forecastId}`,
-        targetCapabilityId: 'financial-intelligence',
+        targetCapabilityId: 'financial-governance',
         metricCode: forecast.metricCode,
         proposedAdjustment: `Ajustar ponderacao do modelo preditivo para a métrica ${forecast.metricCode} devido a desvio medido de ${deviation}`,
         justification: `Desvio medido de ${deviation} entre valor previsto (${forecast.expectedValue}) e valor real (${outcome.measuredDelta}).`,

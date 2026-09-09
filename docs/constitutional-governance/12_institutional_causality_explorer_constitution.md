@@ -238,7 +238,7 @@ Cash Flow Deterioration
 ## Constitutional Classification
 
 The Institutional Causality Explorer is classified as:
-> **CAUSAL_INTELLIGENCE_LAYER**
+> **CAUSAL_GOVERNANCE_LAYER**
 
 and shall **never** become:
 * `PREDICTION_ENGINE`

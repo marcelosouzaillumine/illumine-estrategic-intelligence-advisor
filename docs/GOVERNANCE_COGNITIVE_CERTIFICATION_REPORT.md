@@ -27,27 +27,27 @@ Abaixo, descreve-se resumidamente o comportamento da arquitetura em cada um dos 
 
 ### CAE-001: Economic Success vs Fiduciary Failure (Caso: Granatum)
 * **Objetivo:** Garantir que o crescimento econômico e lucros contábeis não mascarem a queima de caixa crítica e estrangulamento de liquidez de curto prazo.
-* **Comportamento Cognitivo:** A *Fiduciary Intelligence* identificou a queima operacional crítica e vetou a classificação otimista da *Economic Intelligence*. A Constituição Cognitiva acionou a **Rule 1 (Fiduciary Override)**.
+* **Comportamento Cognitivo:** A *Fiduciary Governance* identificou a queima operacional crítica e vetou a classificação otimista da *Economic Governance*. A Constituição Cognitiva acionou a **Rule 1 (Fiduciary Override)**.
 * **Resultado:** **APPROVED** (Falso positivo evitado; classificação rebaixada para Fiduciary Concern, impedindo selo de Excelência).
 
 ### CAE-002: Economic Success vs Constitutional Breach (Caso: Empresa Alpha)
 * **Objetivo:** Comprovar a supremacia da integridade ética e dos princípios constitucionais sobre os resultados financeiros.
-* **Comportamento Cognitivo:** A *Constitutional Intelligence* detectou dolo (manipulação deliberada de indicadores internos e ocultação de passivos) e ativou o **Constitutional Override**.
+* **Comportamento Cognitivo:** A *Constitutional Governance* detectou dolo (manipulação deliberada de indicadores internos e ocultação de passivos) e ativou o **Constitutional Override**.
 * **Resultado:** **APPROVED** (Veto absoluto de classificação positiva, rebaixando a organização para `ESGIM_CRITICAL` e demandando reestruturação imediata no Board Layer).
 
 ### CAE-003: Mission Success vs Fiduciary Rupture (Caso: Acridas)
 * **Objetivo:** Evitar a romantização do propósito social em detrimento da sustentabilidade e viabilidade fiduciária de longo prazo.
-* **Comportamento Cognitivo:** A *Missional Intelligence* identificou o excelente impacto comunitário, mas a *Fiduciary Intelligence* sinalizou a incapacidade de runway. O *Mission Alignment Engine* consolidou o diagnóstico como `MISSION_ALIGNMENT_CONCERN`.
+* **Comportamento Cognitivo:** A *Missional Governance* identificou o excelente impacto comunitário, mas a *Fiduciary Governance* sinalizou a incapacidade de runway. O *Mission Alignment Engine* consolidou o diagnóstico como `MISSION_ALIGNMENT_CONCERN`.
 * **Resultado:** **APPROVED** (A organização foi classificada como `ESGIM_DEVELOPING`, reconhecendo a causa, mas apontando a necessidade urgente de diversificação de receitas e fundo de reserva).
 
 ### CAE-004: Institutional Fragility – Key Person Dependency (Caso: Empório do Mármore)
 * **Objetivo:** Detectar vulnerabilidades de continuidade e sucessão organizacional ocultadas por resultados econômicos e governança formalizada.
-* **Comportamento Cognitivo:** A *Institutional Intelligence* e a *Prospective Intelligence* mapearam a dependência crítica dos fundadores e a falta de pipeline sucessório (`SUCCESSION RISK`).
+* **Comportamento Cognitivo:** A *Institutional Governance* e a *Prospective Governance* mapearam a dependência crítica dos fundadores e a falta de pipeline sucessório (`SUCCESSION RISK`).
 * **Resultado:** **APPROVED** (O *ESGIM Runtime* emitiu `FRAGILE` na dimensão institucional, atuando como barreira de rating e limitando a classificação a `ESGIM_MATURE`, bloqueando o selo de excelência).
 
 ### CAE-005: Prospective Fragility – Future Readiness (Caso: Sobrasa)
 * **Objetivo:** Identificar inércia estratégica e risco de obsolescência de longo prazo em empresas financeiramente saudáveis no presente.
-* **Comportamento Cognitivo:** A *Prospective Intelligence* leu o baixíssimo investimento em P&D e a forte concentração de receitas em commodities ameaçadas por regulação, declarando `STRATEGIC FRAGILITY`.
+* **Comportamento Cognitivo:** A *Prospective Governance* leu o baixíssimo investimento em P&D e a forte concentração de receitas em commodities ameaçadas por regulação, declarando `STRATEGIC FRAGILITY`.
 * **Resultado:** **APPROVED** (O *ESGIM Runtime* rebaixou a nota de prontidão futura para `FRAGILE`, barrando o selo de `ESGIM_EXCELLENCE` e gerando diretrizes estratégicas de transição tecnológica de 36 a 60 meses no Board Layer).
 
 ---

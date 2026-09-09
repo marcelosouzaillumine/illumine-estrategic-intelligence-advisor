@@ -24,7 +24,7 @@ export const InstitutionalLearningWorkspace: React.FC<InstitutionalLearningWorks
           </div>
           <div>
             <div className="flex items-center gap-2">
-              <h1 className="text-xl font-bold tracking-tight text-foreground">Institutional Learning Intelligence Layer</h1>
+              <h1 className="text-xl font-bold tracking-tight text-foreground">Institutional Learning Governance Layer</h1>
               <ExecutiveBadge variant="info" className="font-mono">ILI v1.0 Governed</ExecutiveBadge>
             </div>
             <p className="text-xs text-muted-foreground">Sistema de síntese de sabedoria institucional permanente, calibração decisória e evolução do Grafo Causal.</p>
@@ -69,8 +69,8 @@ export const InstitutionalLearningWorkspace: React.FC<InstitutionalLearningWorks
               <span className="font-bold text-purple-400">Step 3:</span> Causal Wisdom Graph Evolution
             </div>
             <div className="p-2 rounded bg-background/40 border border-border/30">
-              <span className="font-bold text-purple-400">Step 4:</span> Decision Intelligence Context Calibration
-            </div>
+              <span className="font-bold text-purple-400">Step 4:</span> Decision Governance Context Calibration
+                                      </div>
           </div>
         </ExecutiveSurface>
       </div>

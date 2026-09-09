@@ -8,7 +8,7 @@ export class ExecutiveProposalEngine {
     return {
       proposalId: `prop-${Date.now()}`,
       companyName,
-      scopeSummary: 'Implantação da Illumine OS™ Executive Intelligence & Decision Platform (Saas Enterprise).',
+      scopeSummary: 'Implantação da Illumine OS™ Executive Governance & Decision Platform (Saas Enterprise).',
       annualInvestmentValue: annualInvestment,
       projectedEbitdaGain: roi.annualSavingsEstimated,
       projectedPaybackMonths: parseFloat((roi.paybackPeriodDays / 30).toFixed(1)),

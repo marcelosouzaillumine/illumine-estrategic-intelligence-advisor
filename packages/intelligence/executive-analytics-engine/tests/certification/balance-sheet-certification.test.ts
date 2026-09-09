@@ -6,7 +6,7 @@ import { BalanceSheetCapability } from '../../capabilities/BalanceSheetCapabilit
 describe('Balance Sheet Certification - Gate 6', () => {
   const capability = new BalanceSheetCapability();
 
-  it('1. Zero UI Intelligence: FinancialPositionPage must not contain banned terms', () => {
+  it('1. Zero UI Governance: FinancialPositionPage must not contain banned terms', () => {
     // We read the actual page component
     const filePath = path.join(__dirname, '../../../../../../src/components/pages/FinancialPositionPage.tsx');
     const pageContent = fs.readFileSync(filePath, 'utf-8').toLowerCase();
@@ -31,7 +31,7 @@ describe('Balance Sheet Certification - Gate 6', () => {
     });
 
     expect(result.evidence.capabilityName).toBe('BalanceSheetCapability');
-    expect(result.evidence.owner).toBe('Financial Intelligence Domain');
+    expect(result.evidence.owner).toBe('Financial Governance Domain');
   });
 
   it('3. Evidence Coverage: Every result has an evidence Reference ID', () => {

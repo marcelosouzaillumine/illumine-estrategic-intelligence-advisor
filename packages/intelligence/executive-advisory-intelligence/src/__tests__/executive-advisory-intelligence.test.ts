@@ -8,7 +8,7 @@ import {
   HumanExecutiveReviewEngine
 } from '../index';
 
-describe('Wave 19.6 — Executive Advisory Intelligence Layer (EAIL v1.0)', () => {
+describe('Wave 19.6 — Executive Advisory Governance Layer (EAIL v1.0)', () => {
   it('should generate advisory package with recommendations and counterArguments', () => {
     const advisory = ExecutiveAdvisorEngine.generateExecutiveAdvisory('empresa-01');
     expect(advisory.companyId).toBe('empresa-01');

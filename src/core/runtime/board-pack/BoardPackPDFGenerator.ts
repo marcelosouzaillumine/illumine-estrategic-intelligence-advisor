@@ -106,7 +106,7 @@ export class BoardPackPDFGenerator {
     doc.setFont('helvetica', 'bold');
     doc.setFontSize(10);
     doc.setTextColor(255, 255, 255);
-    doc.text('Illumine Corporate Intelligence™', margin, pageHeight - 20);
+    doc.text('Illumine Corporate Governance™', margin, pageHeight - 20);
 
     // ==========================================
     // CONTENT PAGES (Pages 2 to dynamic end)

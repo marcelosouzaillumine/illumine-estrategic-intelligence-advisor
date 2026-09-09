@@ -1,13 +1,13 @@
 {
   "home": {
-    "title": "Illumine | Executive Intelligence Platform™",
+    "title": "Illumine | Executive Governance Platform™",
     "description": "Transforme a gestão com o Illumine Executive Operating System™. Uma arquitetura completa de inteligência corporativa para tomada de decisões estratégicas.",
-    "keywords": "Executive Intelligence, Decision Intelligence, Board Intelligence, Corporate Governance, Strategic Advisory, Virtual CFO, Enterprise Intelligence"
+    "keywords": "Executive Governance, Decision Governance, Board Governance, Corporate Governance, Strategic Advisory, Virtual CFO, Enterprise Governance"
   },
   "platform": {
-    "title": "Plataforma | Illumine Executive Intelligence",
+    "title": "Plataforma | Illumine Executive Governance",
     "description": "Conheça as capacidades do nosso Executive Decision Operating System™ (EDOS). Dashboards executivos, modelagem financeira e mais.",
-    "keywords": "Business Intelligence Platform, Strategic Performance Management, Corporate Performance, Executive Dashboards"
+    "keywords": "Business Governance Platform, Strategic Performance Management, Corporate Performance, Executive Dashboards"
   },
   "governance": {
     "title": "Governança e Segurança | Illumine",
@@ -21,12 +21,12 @@
   },
   "manifesto": {
     "title": "Manifesto | A Visão Illumine",
-    "description": "O futuro da gestão corporativa através do Executive Intelligence Platform™. Entenda nossa tese e nossa arquitetura estratégica.",
-    "keywords": "Manifesto, Executive Intelligence, Visão de Futuro, Inovação Corporativa"
+    "description": "O futuro da gestão corporativa através do Executive Governance Platform™. Entenda nossa tese e nossa arquitetura estratégica.",
+    "keywords": "Manifesto, Executive Governance, Visão de Futuro, Inovação Corporativa"
   },
   "intelligenceCenter": {
-    "title": "Intelligence Center | Illumine",
+    "title": "Governance Center | Illumine",
     "description": "Um núcleo de inteligência focado na síntese, produção e disseminação de conhecimentos executivos de alto impacto.",
-    "keywords": "Intelligence Center, Executive Analytics, Enterprise Intelligence"
+    "keywords": "Governance Center, Executive Analytics, Enterprise Governance"
   }
 }

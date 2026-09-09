@@ -1,13 +1,13 @@
-# Prospective Intelligence Engine Framework v1.0
+# Prospective Governance Engine Framework v1.0
 
 > [!NOTE]
-> A Prospective Intelligence não é uma engine de futurologia. Ela é uma engine de capacidade futura observável, baseada em evidências organizacionais, responsável por interpretar a capacidade da organização de sustentar geração de valor, proteção de valor, continuidade institucional e cumprimento da missão ao longo do tempo.
+> A Prospective Governance não é uma engine de futurologia. Ela é uma engine de capacidade futura observável, baseada em evidências organizacionais, responsável por interpretar a capacidade da organização de sustentar geração de valor, proteção de valor, continuidade institucional e cumprimento da missão ao longo do tempo.
 
 ## 1. Goal Description
 
-Estabelecer oficialmente a Prospective Intelligence Engine como a sétima Inteligência Estruturante da plataforma Illumine Governance.
+Estabelecer oficialmente a Prospective Governance Engine como a sétima Inteligência Estruturante da plataforma Illumine Governance.
 
-A Prospective Intelligence será responsável por interpretar a capacidade da organização de adaptar-se, inovar, suceder lideranças, preservar continuidade institucional e sustentar sua missão em ambientes de transformação.
+A Prospective Governance será responsável por interpretar a capacidade da organização de adaptar-se, inovar, suceder lideranças, preservar continuidade institucional e sustentar sua missão em ambientes de transformação.
 
 Esta implementação:
 * não cria cálculos financeiros;
@@ -18,7 +18,7 @@ O objetivo é definir responsabilidades, limites, dependências e fundamentos in
 
 ## 2. Constitutional Position
 
-Fica registrado oficialmente que a Prospective Intelligence integra o conjunto das Inteligências Estruturantes da plataforma. A Prospective Intelligence opera após as Engines Especialistas e antes da Correlação Empresarial.
+Fica registrado oficialmente que a Prospective Governance integra o conjunto das Inteligências Estruturantes da plataforma. A Prospective Governance opera após as Engines Especialistas e antes da Correlação Empresarial.
 
 **Posição oficial na cadeia cognitiva:**
 ```text
@@ -28,7 +28,7 @@ Indicadores
   ↓
 Engines Especialistas
   ↓
-Prospective Intelligence
+Prospective Governance
   ↓
 Correlação Empresarial
   ↓
@@ -36,20 +36,20 @@ Priorização
   ↓
 Advisory
   ↓
-Board Intelligence
+Board Governance
 ```
 
 ## 3. Core Mission e Central Question
 
 **Definition:**
-"A Prospective Intelligence interpreta a capacidade futura da organização de adaptar-se, inovar, suceder lideranças, preservar continuidade institucional e sustentar sua missão em ambientes de transformação."
+"A Prospective Governance interpreta a capacidade futura da organização de adaptar-se, inovar, suceder lideranças, preservar continuidade institucional e sustentar sua missão em ambientes de transformação."
 
 **Central Question:**
-A Prospective Intelligence deverá responder: *"Esta organização está preparada para prosperar no futuro sem comprometer sua identidade, sua missão e sua capacidade de gerar valor?"*
+A Prospective Governance deverá responder: *"Esta organização está preparada para prosperar no futuro sem comprometer sua identidade, sua missão e sua capacidade de gerar valor?"*
 
 ## 4. Domains of Analysis
 
-A Prospective Intelligence deverá avaliar os seguintes domínios:
+A Prospective Governance deverá avaliar os seguintes domínios:
 
 * **Adaptability:** Capacidade de adaptação a mudanças econômicas, regulatórias, tecnológicas e organizacionais.
 * **Innovation Capacity:** Capacidade de inovação, renovação e evolução organizacional.
@@ -86,7 +86,7 @@ Ficam registradas oficialmente as seguintes definições:
 
 ## 6. Principle Sources
 
-A Prospective Intelligence deverá consumir prioritariamente os seguintes princípios fornecidos pela Institutional Wisdom Library (IWL):
+A Prospective Governance deverá consumir prioritariamente os seguintes princípios fornecidos pela Institutional Wisdom Library (IWL):
 * Strategic Principles
 * Institutional Principles
 * Leadership Principles
@@ -107,13 +107,13 @@ Toda conclusão prospectiva deverá registrar explicitamente:
 
 ## 8. Architectural Boundaries
 
-A Prospective Intelligence **NÃO PODE**:
+A Prospective Governance **NÃO PODE**:
 * recalcular indicadores;
 * alterar scores financeiros;
 * alterar engines existentes;
 * substituir Constitutional Governance;
-* substituir Fiduciary Intelligence;
-* substituir Missional Intelligence;
+* substituir Fiduciary Governance;
+* substituir Missional Governance;
 * gerar previsões sem evidências observáveis.
 
 ## 9. Constitutional Safeguards
@@ -124,7 +124,7 @@ A Prospective Intelligence **NÃO PODE**:
 
 ### FUTURE_SPECULATION_PROHIBITION
 **Definition:**
-"A Prospective Intelligence não realiza futurologia, previsão especulativa ou projeções sem suporte em evidências, tendências observáveis ou capacidades organizacionais verificáveis."
+"A Prospective Governance não realiza futurologia, previsão especulativa ou projeções sem suporte em evidências, tendências observáveis ou capacidades organizacionais verificáveis."
 
 ### MISSION_CONTINUITY_PROTECTION
 **Definition:**
@@ -132,23 +132,23 @@ A Prospective Intelligence **NÃO PODE**:
 
 ## 10. Future Consumers
 
-A Prospective Intelligence poderá ser consumida por:
+A Prospective Governance poderá ser consumida por:
 * Mission Alignment Engine
 * ESGIM Runtime
 * Executive Advisory Layer
-* Narrative Intelligence
-* Board Intelligence
+* Narrative Governance
+* Board Governance
 * Executive AI Layer
 
-## 11. Relationship with Other Intelligences
+## 11. Relationship with Other Governances
 
-* **Economic Intelligence:** Avalia geração de valor.
-* **Fiduciary Intelligence:** Avalia proteção de valor.
-* **Institutional Intelligence:** Avalia continuidade institucional.
-* **Causal Intelligence:** Avalia causas dos fenômenos.
-* **Constitutional Intelligence:** Avalia aderência aos princípios.
-* **Missional Intelligence:** Avalia alinhamento entre propósito e realidade.
-* **Prospective Intelligence:** Avalia a capacidade futura de sustentar valor, missão, continuidade e relevância.
+* **Economic Governance:** Avalia geração de valor.
+* **Fiduciary Governance:** Avalia proteção de valor.
+* **Institutional Governance:** Avalia continuidade institucional.
+* **Causal Governance:** Avalia causas dos fenômenos.
+* **Constitutional Governance:** Avalia aderência aos princípios.
+* **Missional Governance:** Avalia alinhamento entre propósito e realidade.
+* **Prospective Governance:** Avalia a capacidade futura de sustentar valor, missão, continuidade e relevância.
 
 ## 12. Expected Outcome
 

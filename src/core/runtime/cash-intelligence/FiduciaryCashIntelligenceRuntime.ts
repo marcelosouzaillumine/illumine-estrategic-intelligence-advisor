@@ -73,7 +73,7 @@ export class FiduciaryCashIntelligenceRuntime {
     isInventoryGrowthExceedingRevenue?: boolean,
     isReceivablesGrowthExceedingRevenue?: boolean
   ): CashIntelligenceRuntimeOutput {
-    const auditTrail: string[] = ['Execution started at FiduciaryCashIntelligenceRuntime'];
+    const auditTrail: string[] = ['Execution started at FiduciaryCashGovernanceRuntime'];
     const fcoOperacionalReal = fco - (contasRelacionadas || 0);
 
     // 1. Camada de Reconciliação Estrutural

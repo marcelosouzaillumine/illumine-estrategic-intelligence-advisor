@@ -7,7 +7,7 @@
 
 ## 1. Modelo Universal da Cadeia de Valor
 
-$$\text{Business Signal} \rightarrow \text{Intelligence Analysis} \rightarrow \text{Executive Recommendation} \rightarrow \text{Human Decision} \rightarrow \text{Business Outcome} \rightarrow \text{Impact Measurement}$$
+$$\text{Business Signal} \rightarrow \text{Governance Analysis} \rightarrow \text{Executive Recommendation} \rightarrow \text{Human Decision} \rightarrow \text{Business Outcome} \rightarrow \text{Impact Measurement}$$
 
 ---
 
@@ -58,5 +58,5 @@ $$\text{Business Signal} \rightarrow \text{Intelligence Analysis} \rightarrow \t
 - **Cadeia de Valor**: Agrega opiniões conflitantes entre CFO e COO $\rightarrow$ Recomenda alternativa ponderada de expansão faseada $\rightarrow$ CEO aprova $\rightarrow$ Redução do tempo de decisão de 30 para 5 dias.
 
 ### **12. Enterprise Orchestrator (Rede)**
-- **KPIs Primários**: `EnterpriseIntelligenceScore (EnIS)`, `NetworkConnectivityIndex`.
+- **KPIs Primários**: `EnterpriseGovernanceScore (EnIS)`, `NetworkConnectivityIndex`.
 - **Cadeia de Valor**: Monitora o alinhamento da rede corporativa $\rightarrow$ Emite sinal de sincronia entre Governança e Operações $\rightarrow$ ARB aprova $\rightarrow$ Score EnIS evolui de 75 para 87 (`Networked Enterprise`).

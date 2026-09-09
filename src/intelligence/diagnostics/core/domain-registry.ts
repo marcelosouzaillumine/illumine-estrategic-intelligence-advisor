@@ -25,42 +25,42 @@ export class DomainRegistry {
   private registerCoreDomains() {
     this.register({
       domain: 'financial',
-      name: 'Financial Intelligence™',
+      name: 'Financial Governance™',
       isCoreFoundation: true,
       supportedEngines: ['Diagnostic', 'ERP Connector', 'KPI Engine']
     });
 
     this.register({
       domain: 'governance',
-      name: 'Governance Intelligence™',
+      name: 'Governance Governance™',
       isCoreFoundation: true,
       supportedEngines: ['Diagnostic', 'Advisory', 'Compliance Engine']
     });
 
     this.register({
       domain: 'operational',
-      name: 'Operational Intelligence™',
+      name: 'Operational Governance™',
       isCoreFoundation: false,
       supportedEngines: ['Diagnostic']
     });
     
     this.register({
       domain: 'commercial',
-      name: 'Commercial Intelligence™',
+      name: 'Commercial Governance™',
       isCoreFoundation: false,
       supportedEngines: ['Diagnostic']
     });
 
     this.register({
       domain: 'people',
-      name: 'People Intelligence™',
+      name: 'People Governance™',
       isCoreFoundation: false,
       supportedEngines: ['Diagnostic']
     });
     
     this.register({
       domain: 'sample',
-      name: 'Sample Intelligence™',
+      name: 'Sample Governance™',
       isCoreFoundation: false,
       supportedEngines: ['Diagnostic']
     });

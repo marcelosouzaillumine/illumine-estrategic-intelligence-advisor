@@ -6,7 +6,7 @@ import { InstitutionalTrajectoryGuard } from '../src/core/runtime/institutional-
 import { FiduciaryEvolutionEngine } from '../src/core/runtime/institutional-memory/FiduciaryEvolutionEngine';
 import { InstitutionalContinuityResolver } from '../src/core/runtime/institutional-memory/InstitutionalContinuityResolver';
 
-describe('Institutional Decision Intelligence Layer', () => {
+describe('Institutional Decision Governance Layer', () => {
 
   it('deve garantir que o Ledger é append-only', () => {
     const ledger = new InstitutionalDecisionLedger();

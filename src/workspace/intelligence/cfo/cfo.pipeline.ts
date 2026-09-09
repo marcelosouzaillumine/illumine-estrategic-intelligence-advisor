@@ -8,7 +8,7 @@ import { InsightQualityValidator } from '../validation/insight-quality.validator
 import { CfoHealthScoreEngine } from './cfo-health-score.engine';
 
 export class CfoIntelligencePipeline extends IntelligencePipeline {
-  readonly pipelineName = 'CfoIntelligencePipeline';
+  readonly pipelineName = 'CfoGovernancePipeline';
 
   private financialEngine = new FinancialEngineAdapter();
   private cashEngine = new CashEngineAdapter();
@@ -20,7 +20,7 @@ export class CfoIntelligencePipeline extends IntelligencePipeline {
   }
 
   protected async runProcess(context: IntelligencePipelineContext): Promise<void> {
-    console.log(`[CFO Pipeline] Starting intelligence generation for ${context.tenantId}`);
+    console.log(`[CFO Pipeline] Starting governance generation for ${context.tenantId}`);
 
     // 1. Coletar dados financeiros de origem
     // (In a real scenario, fetch raw DRE/Balanço data here from the ERP sync tables)
@@ -81,6 +81,6 @@ export class CfoIntelligencePipeline extends IntelligencePipeline {
     // 4. Salvar o snapshot no Firestore
     await this.snapshotRepository.saveSnapshot(context.tenantId, context.periodId, snapshotPayload);
     
-    console.log(`[CFO Pipeline] Intelligence snapshot generated and saved successfully.`);
+    console.log(`[CFO Pipeline] Governance snapshot generated and saved successfully.`);
   }
 }

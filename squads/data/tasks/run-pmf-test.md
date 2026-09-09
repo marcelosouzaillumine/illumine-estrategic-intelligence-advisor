@@ -1501,7 +1501,7 @@ analysis_tools:
 changelog:
   - version: "1.0"
     date: "2026-01-23"
-    author: "Data Intelligence Pack"
+    author: "Data Governance Pack"
     changes:
       - "Initial task creation"
       - "Sean Ellis methodology integrated"

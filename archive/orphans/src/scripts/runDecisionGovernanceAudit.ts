@@ -34,7 +34,7 @@ function runAudit() {
   }
 
   // Verify ScenarioTradeoffEngine
-  const tradeoffFile = path.join(process.cwd(), 'src/core/runtime/scenario-intelligence/ScenarioTradeoffEngine.ts');
+  const tradeoffFile = path.join(process.cwd(), 'src/core/runtime/scenario-governance/ScenarioTradeoffEngine.ts');
   if (fs.existsSync(tradeoffFile)) {
     const content = fs.readFileSync(tradeoffFile, 'utf8');
     if (content.includes('fetch(') || content.includes('import { genai }')) {

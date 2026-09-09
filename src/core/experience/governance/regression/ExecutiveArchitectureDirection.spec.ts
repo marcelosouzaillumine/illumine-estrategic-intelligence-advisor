@@ -32,7 +32,7 @@ describe('Executive Architecture Direction', () => {
     });
   });
 
-  it('Presentation must not depend on Domain (must go through Application/Intelligence)', () => {
+  it('Presentation must not depend on Domain (must go through Application/Governance)', () => {
     const files = getFilesRecursively(presentationPath);
     files.forEach(file => {
       // Ignore root and layout things for now, let's focus on financial pages

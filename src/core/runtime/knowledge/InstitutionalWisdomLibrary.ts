@@ -67,7 +67,7 @@ export class InstitutionalWisdomLibrary {
       collection: 'STRATEGIC',
       title: 'Prontidão Adaptativa de Portfólio',
       description: 'Monitorar continuamente o ciclo tecnológico de mercado para mitigar a obsolescência e gerar inovação prospectiva sustentável.',
-      source: 'Strategic Intelligence Framework',
+      source: 'Strategic Governance Framework',
       tags: ['Inovação', 'Adaptabilidade', 'Mercado'],
       version: '1.0',
       status: 'ACTIVE',

@@ -1,9 +1,9 @@
 import { describe, it, expect } from 'vitest';
 import { ExecutiveAgentExecutionRuntime } from '@illumine/executive-page-intelligence';
 
-describe('@illumine/intelligence (Wave 17.9 Executive Agent Execution Runtime)', () => {
+describe('@illumine/governance (Wave 17.9 Executive Agent Execution Runtime)', () => {
   it('should execute complete agent journey returning 5-layer response (ADR-062)', () => {
-    const res = ExecutiveAgentExecutionRuntime.executeAction('cfo-intelligence-agent', 'Analisar resultado', 'DREPage');
+    const res = ExecutiveAgentExecutionRuntime.executeAction('cfo-governance-agent', 'Analisar resultado', 'DREPage');
 
     expect(res.layer1Summary).toBeDefined();
     expect(res.layer2Evidences.length).toBeGreaterThan(0);

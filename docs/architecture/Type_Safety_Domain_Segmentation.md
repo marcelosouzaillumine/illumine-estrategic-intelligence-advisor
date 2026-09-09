@@ -9,11 +9,11 @@
 | Domínio | CRITICAL | HIGH | MEDIUM | LOW | Total | Observação |
 |---|---|---|---|---|---|---|
 | `runtime` | 200 | 0 | 0 | 0 | **200** |  |
-| `core/runtime/executive-intelligence-runtime.ts` | 143 | 0 | 0 | 0 | **143** | 🔒 Isolado (Requer Micro-sprint própria) |
+| `core/runtime/executive-governance-runtime.ts` | 143 | 0 | 0 | 0 | **143** | 🔒 Isolado (Requer Micro-sprint própria) |
 | `core/runtime/institutional-reporting` | 113 | 0 | 0 | 0 | **113** | 🔒 Isolado (Requer Micro-sprint própria) |
 | `core/runtime/governance` | 42 | 0 | 0 | 0 | **42** | 🔒 Isolado (Requer Micro-sprint própria) |
 | `core/runtime/capital-governance` | 41 | 0 | 0 | 0 | **41** | 🔒 Isolado (Requer Micro-sprint própria) |
-| `core/runtime/decision-intelligence` | 34 | 0 | 0 | 0 | **34** | 🔒 Isolado (Requer Micro-sprint própria) |
+| `core/runtime/decision-governance` | 34 | 0 | 0 | 0 | **34** | 🔒 Isolado (Requer Micro-sprint própria) |
 | `core/runtime/compliance` | 28 | 0 | 0 | 0 | **28** | 🔒 Isolado (Requer Micro-sprint própria) |
 | `core/runtime/consolidated` | 26 | 0 | 0 | 0 | **26** | 🔒 Isolado (Requer Micro-sprint própria) |
 | `core/runtime/constitutional-governance` | 24 | 0 | 0 | 0 | **24** | 🔒 Isolado (Requer Micro-sprint própria) |
@@ -22,10 +22,10 @@
 | `core/runtime/observability` | 20 | 0 | 0 | 0 | **20** | 🔒 Isolado (Requer Micro-sprint própria) |
 | `core/runtime/advisory-narrative` | 19 | 0 | 0 | 0 | **19** | 🔒 Isolado (Requer Micro-sprint própria) |
 | `core/runtime/institutional-context` | 17 | 0 | 0 | 0 | **17** | 🔒 Isolado (Requer Micro-sprint própria) |
-| `core/runtime/cash-intelligence` | 16 | 0 | 0 | 0 | **16** | 🔒 Isolado (Requer Micro-sprint própria) |
+| `core/runtime/cash-governance` | 16 | 0 | 0 | 0 | **16** | 🔒 Isolado (Requer Micro-sprint própria) |
 | `core/runtime/executive-consolidation` | 14 | 0 | 0 | 0 | **14** | 🔒 Isolado (Requer Micro-sprint própria) |
 | `core/runtime/operating-pressure` | 14 | 0 | 0 | 0 | **14** | 🔒 Isolado (Requer Micro-sprint própria) |
-| `core/runtime/scenario-intelligence` | 14 | 0 | 0 | 0 | **14** | 🔒 Isolado (Requer Micro-sprint própria) |
+| `core/runtime/scenario-governance` | 14 | 0 | 0 | 0 | **14** | 🔒 Isolado (Requer Micro-sprint própria) |
 | `services/importService.ts` | 14 | 0 | 0 | 0 | **14** |  |
 | `core/runtime/institutional-resilience` | 13 | 0 | 0 | 0 | **13** | 🔒 Isolado (Requer Micro-sprint própria) |
 | `core/runtime/recovery-regression` | 13 | 0 | 0 | 0 | **13** | 🔒 Isolado (Requer Micro-sprint própria) |
@@ -34,14 +34,14 @@
 | `core/runtime/publication-governance` | 12 | 0 | 0 | 0 | **12** | 🔒 Isolado (Requer Micro-sprint própria) |
 | `core/runtime/presentation-governance` | 11 | 0 | 0 | 0 | **11** | 🔒 Isolado (Requer Micro-sprint própria) |
 | `core/runtime/institutional-recovery` | 10 | 0 | 0 | 0 | **10** | 🔒 Isolado (Requer Micro-sprint própria) |
-| `core/runtime/predictive-intelligence` | 10 | 0 | 0 | 0 | **10** | 🔒 Isolado (Requer Micro-sprint própria) |
-| `core/runtime/causal-intelligence` | 9 | 0 | 0 | 0 | **9** | 🔒 Isolado (Requer Micro-sprint própria) |
+| `core/runtime/predictive-governance` | 10 | 0 | 0 | 0 | **10** | 🔒 Isolado (Requer Micro-sprint própria) |
+| `core/runtime/causal-governance` | 9 | 0 | 0 | 0 | **9** | 🔒 Isolado (Requer Micro-sprint própria) |
 | `services/logging` | 9 | 0 | 0 | 0 | **9** | ✅ Fase 1 (Aprovado) |
 | `core/runtime/institutional-memory` | 8 | 0 | 0 | 0 | **8** | 🔒 Isolado (Requer Micro-sprint própria) |
-| `core/runtime/strategic-intelligence` | 8 | 0 | 0 | 0 | **8** | 🔒 Isolado (Requer Micro-sprint própria) |
+| `core/runtime/strategic-governance` | 8 | 0 | 0 | 0 | **8** | 🔒 Isolado (Requer Micro-sprint própria) |
 | `core/runtime/strategic-simulation` | 8 | 0 | 0 | 0 | **8** | 🔒 Isolado (Requer Micro-sprint própria) |
 | `core/runtime/ai-governance` | 7 | 0 | 0 | 0 | **7** | 🔒 Isolado (Requer Micro-sprint própria) |
-| `core/runtime/behavioral-intelligence` | 7 | 0 | 0 | 0 | **7** | 🔒 Isolado (Requer Micro-sprint própria) |
+| `core/runtime/behavioral-governance` | 7 | 0 | 0 | 0 | **7** | 🔒 Isolado (Requer Micro-sprint própria) |
 | `core/runtime/cashflow` | 7 | 0 | 0 | 0 | **7** | 🔒 Isolado (Requer Micro-sprint própria) |
 | `core/runtime/integrations` | 7 | 0 | 0 | 0 | **7** | 🔒 Isolado (Requer Micro-sprint própria) |
 | `core/runtime/lifecycle` | 7 | 0 | 0 | 0 | **7** | 🔒 Isolado (Requer Micro-sprint própria) |
@@ -63,9 +63,9 @@
 | `core/runtime/InstitutionalFinancialThesisEngine.ts` | 4 | 0 | 0 | 0 | **4** | 🔒 Isolado (Requer Micro-sprint própria) |
 | `services/FiduciaryRuntimeAdapter.ts` | 4 | 0 | 0 | 0 | **4** |  |
 | `services/aiBoardReportService.ts` | 4 | 0 | 0 | 0 | **4** |  |
-| `services/intelligenceEngine.ts` | 4 | 0 | 0 | 0 | **4** |  |
+| `services/governanceEngine.ts` | 4 | 0 | 0 | 0 | **4** |  |
 | `core/runtime/board-pack` | 3 | 0 | 0 | 0 | **3** | 🔒 Isolado (Requer Micro-sprint própria) |
-| `core/runtime/cash-causal-intelligence` | 3 | 0 | 0 | 0 | **3** | 🔒 Isolado (Requer Micro-sprint própria) |
+| `core/runtime/cash-causal-governance` | 3 | 0 | 0 | 0 | **3** | 🔒 Isolado (Requer Micro-sprint própria) |
 | `core/runtime/dre` | 3 | 0 | 0 | 0 | **3** | 🔒 Isolado (Requer Micro-sprint própria) |
 | `core/runtime/executive-timeline` | 3 | 0 | 0 | 0 | **3** | 🔒 Isolado (Requer Micro-sprint própria) |
 | `core/runtime/governance-copilot` | 3 | 0 | 0 | 0 | **3** | 🔒 Isolado (Requer Micro-sprint própria) |
@@ -74,7 +74,7 @@
 | `core/runtime/product-governance` | 3 | 0 | 0 | 0 | **3** | 🔒 Isolado (Requer Micro-sprint própria) |
 | `services/aiService.ts` | 3 | 0 | 0 | 0 | **3** |  |
 | `services/taxService.ts` | 3 | 0 | 0 | 0 | **3** |  |
-| `core/runtime/KPISemanticIntelligenceEngine.ts` | 2 | 0 | 0 | 0 | **2** | 🔒 Isolado (Requer Micro-sprint própria) |
+| `core/runtime/KPISemanticGovernanceEngine.ts` | 2 | 0 | 0 | 0 | **2** | 🔒 Isolado (Requer Micro-sprint própria) |
 | `core/runtime/calibration` | 2 | 0 | 0 | 0 | **2** | 🔒 Isolado (Requer Micro-sprint própria) |
 | `core/runtime/institutional-causality` | 2 | 0 | 0 | 0 | **2** | 🔒 Isolado (Requer Micro-sprint própria) |
 | `core/runtime/institutional-evidence` | 2 | 0 | 0 | 0 | **2** | 🔒 Isolado (Requer Micro-sprint própria) |
@@ -99,7 +99,7 @@
 | `core/runtime/pilot-operations` | 1 | 0 | 0 | 0 | **1** | 🔒 Isolado (Requer Micro-sprint própria) |
 | `core/runtime/profiling` | 1 | 0 | 0 | 0 | **1** | 🔒 Isolado (Requer Micro-sprint própria) |
 | `core/runtime/scenario` | 1 | 0 | 0 | 0 | **1** | 🔒 Isolado (Requer Micro-sprint própria) |
-| `core/runtime/treasury-intelligence` | 1 | 0 | 0 | 0 | **1** | 🔒 Isolado (Requer Micro-sprint própria) |
+| `core/runtime/treasury-governance` | 1 | 0 | 0 | 0 | **1** | 🔒 Isolado (Requer Micro-sprint própria) |
 | `services/ClientExecutiveFinancialDataAdapter.ts` | 1 | 0 | 0 | 0 | **1** |  |
 | `services/auditService.ts` | 1 | 0 | 0 | 0 | **1** |  |
 | `services/security` | 1 | 0 | 0 | 0 | **1** | ✅ Fase 1 (Aprovado) |
@@ -140,7 +140,7 @@
 | 1 | `ui/components` | 866 |
 | 2 | `outros` | 594 |
 | 3 | `runtime` | 200 |
-| 4 | `core/runtime/executive-intelligence-runtime.ts` | 143 |
+| 4 | `core/runtime/executive-governance-runtime.ts` | 143 |
 | 5 | `core/runtime/institutional-reporting` | 113 |
 | 6 | `scripts` | 103 |
 | 7 | `ui/hooks` | 85 |
@@ -148,7 +148,7 @@
 | 9 | `core/runtime/governance` | 42 |
 | 10 | `core/runtime/capital-governance` | 41 |
 | 11 | `core/orchestration` | 37 |
-| 12 | `core/runtime/decision-intelligence` | 34 |
+| 12 | `core/runtime/decision-governance` | 34 |
 | 13 | `core/runtime/compliance` | 28 |
 | 14 | `core/runtime/consolidated` | 26 |
 | 15 | `core/runtime/constitutional-governance` | 24 |
@@ -158,12 +158,12 @@
 | 19 | `types` | 20 |
 | 20 | `core/runtime/advisory-narrative` | 19 |
 | 21 | `core/runtime/institutional-context` | 17 |
-| 22 | `core/runtime/cash-intelligence` | 16 |
+| 22 | `core/runtime/cash-governance` | 16 |
 | 23 | `core/security` | 16 |
 | 24 | `core/presentation` | 15 |
 | 25 | `core/runtime/executive-consolidation` | 14 |
 | 26 | `core/runtime/operating-pressure` | 14 |
-| 27 | `core/runtime/scenario-intelligence` | 14 |
+| 27 | `core/runtime/scenario-governance` | 14 |
 | 28 | `services/importService.ts` | 14 |
 | 29 | `core/runtime/institutional-resilience` | 13 |
 | 30 | `core/runtime/recovery-regression` | 13 |
@@ -174,20 +174,20 @@
 | 35 | `core/executive-experience` | 11 |
 | 36 | `core/runtime/presentation-governance` | 11 |
 | 37 | `core/runtime/institutional-recovery` | 10 |
-| 38 | `core/runtime/predictive-intelligence` | 10 |
+| 38 | `core/runtime/predictive-governance` | 10 |
 | 39 | `governance` | 10 |
 | 40 | `App.tsx` | 9 |
 | 41 | `constants.ts` | 9 |
 | 42 | `core/executive-delivery` | 9 |
-| 43 | `core/runtime/causal-intelligence` | 9 |
+| 43 | `core/runtime/causal-governance` | 9 |
 | 44 | `services/logging` | 9 |
 | 45 | `ui/context` | 8 |
 | 46 | `core/runtime/institutional-memory` | 8 |
-| 47 | `core/runtime/strategic-intelligence` | 8 |
+| 47 | `core/runtime/strategic-governance` | 8 |
 | 48 | `core/runtime/strategic-simulation` | 8 |
 | 49 | `data.ts` | 8 |
 | 50 | `core/runtime/ai-governance` | 7 |
-| 51 | `core/runtime/behavioral-intelligence` | 7 |
+| 51 | `core/runtime/behavioral-governance` | 7 |
 | 52 | `core/runtime/cashflow` | 7 |
 | 53 | `core/runtime/integrations` | 7 |
 | 54 | `core/runtime/lifecycle` | 7 |
@@ -212,11 +212,11 @@
 | 73 | `core/runtime/InstitutionalFinancialThesisEngine.ts` | 4 |
 | 74 | `services/FiduciaryRuntimeAdapter.ts` | 4 |
 | 75 | `services/aiBoardReportService.ts` | 4 |
-| 76 | `services/intelligenceEngine.ts` | 4 |
+| 76 | `services/governanceEngine.ts` | 4 |
 | 77 | `tests` | 4 |
 | 78 | `core/commercial` | 3 |
 | 79 | `core/runtime/board-pack` | 3 |
-| 80 | `core/runtime/cash-causal-intelligence` | 3 |
+| 80 | `core/runtime/cash-causal-governance` | 3 |
 | 81 | `core/runtime/dre` | 3 |
 | 82 | `core/runtime/executive-timeline` | 3 |
 | 83 | `core/runtime/governance-copilot` | 3 |
@@ -228,7 +228,7 @@
 | 89 | `services/taxService.ts` | 3 |
 | 90 | `core/adapters` | 2 |
 | 91 | `core/enforcement` | 2 |
-| 92 | `core/runtime/KPISemanticIntelligenceEngine.ts` | 2 |
+| 92 | `core/runtime/KPISemanticGovernanceEngine.ts` | 2 |
 | 93 | `core/runtime/calibration` | 2 |
 | 94 | `core/runtime/institutional-causality` | 2 |
 | 95 | `core/runtime/institutional-evidence` | 2 |
@@ -254,7 +254,7 @@
 | 115 | `core/runtime/pilot-operations` | 1 |
 | 116 | `core/runtime/profiling` | 1 |
 | 117 | `core/runtime/scenario` | 1 |
-| 118 | `core/runtime/treasury-intelligence` | 1 |
+| 118 | `core/runtime/treasury-governance` | 1 |
 | 119 | `i18n` | 1 |
 | 120 | `services/ClientExecutiveFinancialDataAdapter.ts` | 1 |
 | 121 | `services/auditService.ts` | 1 |
@@ -275,7 +275,7 @@ Devido ao risco sistêmico das engines fiduciárias, a estratégia de refatoraç
 - **Motivo:** Preparam o terreno para fornecer payloads fortemente tipados para os motores principais.
 
 ### Fase 3: Camada Fiduciária Primária (Engines Determinísticas)
-- **Escopo:** `core/runtime/bp`, `core/runtime/dre`, `core/runtime/treasury-intelligence`
+- **Escopo:** `core/runtime/bp`, `core/runtime/dre`, `core/runtime/treasury-governance`
 - **Motivo:** Motores de cálculo estático. Exigem validação matemática rigorosa após qualquer alteração de tipo.
 
 ### Fase 4: Camada Estratégica e Orquestração

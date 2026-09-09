@@ -11,7 +11,7 @@ We will introduce the new modules in the core runtime without altering any exist
 ### Component: Executive Decision Prioritization Layer (EDPL)
 Path: `src/core/runtime/executive-prioritization/`
 
-#### [NEW] [FiduciaryPriorityEscalationEngine.ts](file:///Users/marcelosouza/Documents/illumine-strategic-intelligence-advisor/src/core/runtime/executive-prioritization/FiduciaryPriorityEscalationEngine.ts)
+#### [NEW] [FiduciaryPriorityEscalationEngine.ts](file:///Users/marcelosouza/Documents/illumine-strategic-governance-advisor/src/core/runtime/executive-prioritization/FiduciaryPriorityEscalationEngine.ts)
 Defines a strict priority category hierarchy:
 1. Sobrevivência (Survival)
 2. Liquidez (Liquidity)
@@ -22,13 +22,13 @@ Defines a strict priority category hierarchy:
 7. Crescimento (Growth)
 8. Otimização (Optimization)
 
-#### [NEW] [BoardDecisionGovernanceValidator.ts](file:///Users/marcelosouza/Documents/illumine-strategic-intelligence-advisor/src/core/runtime/executive-prioritization/BoardDecisionGovernanceValidator.ts)
+#### [NEW] [BoardDecisionGovernanceValidator.ts](file:///Users/marcelosouza/Documents/illumine-strategic-governance-advisor/src/core/runtime/executive-prioritization/BoardDecisionGovernanceValidator.ts)
 Ensures clear division between Board and Directory domains.
 - **Board Domains**: Capital, Estratégia, Governança, Risco.
 - **Directory Domains**: Receita, Custos, Caixa, Processos, Operação.
 Prevents any operational/directory actions from leaking into the Board decisions.
 
-#### [NEW] [BoardAttentionDemandIndexEngine.ts](file:///Users/marcelosouza/Documents/illumine-strategic-intelligence-advisor/src/core/runtime/executive-prioritization/BoardAttentionDemandIndexEngine.ts)
+#### [NEW] [BoardAttentionDemandIndexEngine.ts](file:///Users/marcelosouza/Documents/illumine-strategic-governance-advisor/src/core/runtime/executive-prioritization/BoardAttentionDemandIndexEngine.ts)
 Calculates the **Board Attention Demand Index (BADI)** (0–100) where higher scores indicate greater attention demand (not better performance) for:
 - Liquidez
 - Rentabilidade
@@ -36,7 +36,7 @@ Calculates the **Board Attention Demand Index (BADI)** (0–100) where higher sc
 - Governança
 - Compliance
 
-#### [NEW] [ExecutivePriorityRankingEngine.ts](file:///Users/marcelosouza/Documents/illumine-strategic-intelligence-advisor/src/core/runtime/executive-prioritization/ExecutivePriorityRankingEngine.ts)
+#### [NEW] [ExecutivePriorityRankingEngine.ts](file:///Users/marcelosouza/Documents/illumine-strategic-governance-advisor/src/core/runtime/executive-prioritization/ExecutivePriorityRankingEngine.ts)
 Evaluates and ranks all candidates for recommendations, calculating:
 - **Impact Score** (0–100) -> Mapped to: *Muito Alto*, *Alto*, *Moderado*, *Baixo*
 - **Urgency Score** (0–100) -> Mapped to: *Imediata*, *Curto Prazo*, *Médio Prazo*, *Longo Prazo*
@@ -53,7 +53,7 @@ Includes **Decision Traceability**:
 - **Origin**: DRE, DFC, DLPA, BP, Cross-Statement.
 - **Evidence**: Specific metrics proving the recommendation (e.g. `["Runway = 2.2 meses", "Liquidez Imediata = 0.17x"]`).
 
-#### [NEW] [BoardTop3DecisionEngine.ts](file:///Users/marcelosouza/Documents/illumine-strategic-intelligence-advisor/src/core/runtime/executive-prioritization/BoardTop3DecisionEngine.ts)
+#### [NEW] [BoardTop3DecisionEngine.ts](file:///Users/marcelosouza/Documents/illumine-strategic-governance-advisor/src/core/runtime/executive-prioritization/BoardTop3DecisionEngine.ts)
 Produces structured Top 3 Decisions for the Board (validated by `BoardDecisionGovernanceValidator.ts`):
 - Problema
 - Impacto esperado (Muito Alto / Alto / Moderado / Baixo)
@@ -61,7 +61,7 @@ Produces structured Top 3 Decisions for the Board (validated by `BoardDecisionGo
 - Consequência da inação
 - Traceability (Origin and Evidence)
 
-#### [NEW] [ExecutiveActionPlanEngine.ts](file:///Users/marcelosouza/Documents/illumine-strategic-intelligence-advisor/src/core/runtime/executive-prioritization/ExecutiveActionPlanEngine.ts)
+#### [NEW] [ExecutiveActionPlanEngine.ts](file:///Users/marcelosouza/Documents/illumine-strategic-governance-advisor/src/core/runtime/executive-prioritization/ExecutiveActionPlanEngine.ts)
 Produces Top 5 concrete, actionable items for the Executive Directory:
 - Ação
 - Responsável (e.g., CFO, CEO, Diretor Comercial, Financeiro)
@@ -69,7 +69,7 @@ Produces Top 5 concrete, actionable items for the Executive Directory:
 - Impacto esperado
 - Traceability (Origin and Evidence)
 
-#### [NEW] [InstitutionalPriorityMatrixEngine.ts](file:///Users/marcelosouza/Documents/illumine-strategic-intelligence-advisor/src/core/runtime/executive-prioritization/InstitutionalPriorityMatrixEngine.ts)
+#### [NEW] [InstitutionalPriorityMatrixEngine.ts](file:///Users/marcelosouza/Documents/illumine-strategic-governance-advisor/src/core/runtime/executive-prioritization/InstitutionalPriorityMatrixEngine.ts)
 Generates the expanded Priority Matrix:
 - Liquidez
 - Rentabilidade
@@ -83,7 +83,7 @@ Generates the expanded Priority Matrix:
 ### Component: Economic Value Layer (EVL)
 Path: `src/core/runtime/economic-value/`
 
-#### [NEW] [ExecutiveMaturityLayer.ts](file:///Users/marcelosouza/Documents/illumine-strategic-intelligence-advisor/src/core/runtime/economic-value/ExecutiveMaturityLayer.ts)
+#### [NEW] [ExecutiveMaturityLayer.ts](file:///Users/marcelosouza/Documents/illumine-strategic-governance-advisor/src/core/runtime/economic-value/ExecutiveMaturityLayer.ts)
 Classifies the company stage transversal layer:
 - **Emergente** (1 year or low revenue)
 - **Estruturando** (2 years)
@@ -93,16 +93,16 @@ Classifies the company stage transversal layer:
 
 If the maturity is Emergente/Estruturando, severity thresholds are softened dynamically across other engines to avoid overly severe interpretations.
 
-#### [NEW] [EconomicReturnEngine.ts](file:///Users/marcelosouza/Documents/illumine-strategic-intelligence-advisor/src/core/runtime/economic-value/EconomicReturnEngine.ts)
+#### [NEW] [EconomicReturnEngine.ts](file:///Users/marcelosouza/Documents/illumine-strategic-governance-advisor/src/core/runtime/economic-value/EconomicReturnEngine.ts)
 Unified framework answering: **"O retorno produzido pela operação justifica o capital empregado?"**
 Computes:
 - **Economic Return Classification**: Criação Consistente de Valor, Criação Moderada de Valor, Retorno Insuficiente, Destruição de Valor, Destruição Acelerada de Valor.
 - **Economic Return Confidence**: HIGH (3+ years), MEDIUM (2 years), LOW (1 year).
 
-#### [NEW] [EconomicValueCreationEngine.ts](file:///Users/marcelosouza/Documents/illumine-strategic-intelligence-advisor/src/core/runtime/economic-value/EconomicValueCreationEngine.ts)
+#### [NEW] [EconomicValueCreationEngine.ts](file:///Users/marcelosouza/Documents/illumine-strategic-governance-advisor/src/core/runtime/economic-value/EconomicValueCreationEngine.ts)
 Produces the narrative explaining value creation/destruction based on the output of `EconomicReturnEngine` and maturity stage.
 
-#### [NEW] [InstitutionalExecutiveThesisEngine.ts](file:///Users/marcelosouza/Documents/illumine-strategic-intelligence-advisor/src/core/runtime/economic-value/InstitutionalExecutiveThesisEngine.ts)
+#### [NEW] [InstitutionalExecutiveThesisEngine.ts](file:///Users/marcelosouza/Documents/illumine-strategic-governance-advisor/src/core/runtime/economic-value/InstitutionalExecutiveThesisEngine.ts)
 Produces a single consolidated executive narrative:
 - Contexto
 - Tensão Principal
@@ -115,16 +115,16 @@ Produces a single consolidated executive narrative:
 
 ### Component: Board Layer Support Engines
 
-#### [MODIFY] [DREBoardDecisionSupportEngine.ts](file:///Users/marcelosouza/Documents/illumine-strategic-intelligence-advisor/src/core/runtime/dre/DREBoardDecisionSupportEngine.ts)
+#### [MODIFY] [DREBoardDecisionSupportEngine.ts](file:///Users/marcelosouza/Documents/illumine-strategic-governance-advisor/src/core/runtime/dre/DREBoardDecisionSupportEngine.ts)
 Add:
 - **P8**: Estamos criando valor econômico?
 - **P9**: Qual iniciativa possui maior potencial de retorno?
 
-#### [MODIFY] [CashBoardDecisionSupportEngine.ts](file:///Users/marcelosouza/Documents/illumine-strategic-intelligence-advisor/src/core/runtime/cash-intelligence/CashBoardDecisionSupportEngine.ts)
+#### [MODIFY] [CashBoardDecisionSupportEngine.ts](file:///Users/marcelosouza/Documents/illumine-strategic-governance-advisor/src/core/runtime/cash-governance/CashBoardDecisionSupportEngine.ts)
 Add:
 - **P8** (as `acaoMelhoraLiquidez`): Qual ação melhora mais rapidamente a liquidez?
 
-#### [MODIFY] [DLPABoardDecisionSupportEngine.ts](file:///Users/marcelosouza/Documents/illumine-strategic-intelligence-advisor/src/core/runtime/governance/dlpa/DLPABoardDecisionSupportEngine.ts)
+#### [MODIFY] [DLPABoardDecisionSupportEngine.ts](file:///Users/marcelosouza/Documents/illumine-strategic-governance-advisor/src/core/runtime/governance/dlpa/DLPABoardDecisionSupportEngine.ts)
 Add:
 - **P8**: Qual ação acelera a recomposição patrimonial?
 
@@ -132,13 +132,13 @@ Add:
 
 ### Component: Board Pack Orchestration & UI
 
-#### [MODIFY] [institutional-reporting-types.ts](file:///Users/marcelosouza/Documents/illumine-strategic-intelligence-advisor/src/core/runtime/institutional-reporting/institutional-reporting-types.ts)
+#### [MODIFY] [institutional-reporting-types.ts](file:///Users/marcelosouza/Documents/illumine-strategic-governance-advisor/src/core/runtime/institutional-reporting/institutional-reporting-types.ts)
 Add types/interfaces for BADI, temporal return confidence, traceability, page zero (strategic snapshot), and executive thesis.
 
-#### [MODIFY] [InstitutionalBoardPackRuntime.ts](file:///Users/marcelosouza/Documents/illumine-strategic-intelligence-advisor/src/core/runtime/institutional-reporting/InstitutionalBoardPackRuntime.ts)
+#### [MODIFY] [InstitutionalBoardPackRuntime.ts](file:///Users/marcelosouza/Documents/illumine-strategic-governance-advisor/src/core/runtime/institutional-reporting/InstitutionalBoardPackRuntime.ts)
 Integrate all new engines to compile the new section metrics in the board pack.
 
-#### [MODIFY] [SovereignBoardPackPage.tsx](file:///Users/marcelosouza/Documents/illumine-strategic-intelligence-advisor/src/components/pages/governance/SovereignBoardPackPage.tsx)
+#### [MODIFY] [SovereignBoardPackPage.tsx](file:///Users/marcelosouza/Documents/illumine-strategic-governance-advisor/src/components/pages/governance/SovereignBoardPackPage.tsx)
 Build a visually stunning set of premium widgets inside `SovereignBoardPackPage.tsx`.
 - **Página Zero: Executive Strategic Snapshot**:
   Rendered at the very top of the normal flow, answering:

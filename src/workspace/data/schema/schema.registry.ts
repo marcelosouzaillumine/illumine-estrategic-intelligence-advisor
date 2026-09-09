@@ -21,13 +21,13 @@ export class SchemaRegistry {
 SchemaRegistry.register({
   name: 'ExecutiveSnapshot',
   version: 'v1',
-  fields: ['id', 'tenantId', 'periodId', 'performance', 'cashIntelligence', 'planning'],
+  fields: ['id', 'tenantId', 'periodId', 'performance', 'cashGovernance', 'planning'],
   deprecated: false,
 });
 
 SchemaRegistry.register({
   name: 'ExecutiveSnapshot',
   version: 'v2',
-  fields: ['id', 'tenantId', 'periodId', 'performance', 'cashIntelligence', 'planning', 'scenario'],
+  fields: ['id', 'tenantId', 'periodId', 'performance', 'cashGovernance', 'planning', 'scenario'],
   deprecated: false,
 });

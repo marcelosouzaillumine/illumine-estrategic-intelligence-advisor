@@ -46,7 +46,7 @@ if (fs.existsSync(p02)) {
 }
 
 // 4. BalanceSheetIntelligenceEngine
-const engine = 'src/capabilities/financial/intelligence/BalanceSheetIntelligenceEngine.ts';
+const engine = 'src/capabilities/financial/governance/BalanceSheetGovernanceEngine.ts';
 if (fs.existsSync(engine)) {
   let content = fs.readFileSync(engine, 'utf-8');
   content = content.replace(/purpose: [^,]+,/g, '');

@@ -2,7 +2,7 @@
 **CAE-BASELINE-001**
 
 ## Objective
-Answer the fundamental question: *"Can the institutional intelligence of one company influence another company?"*
+Answer the fundamental question: *"Can the institutional governance of one company influence another company?"*
 
 ## Architecture Boundaries Evaluated
 
@@ -23,4 +23,4 @@ Answer the fundamental question: *"Can the institutional intelligence of one com
 **🚨 CRITICAL CERTIFICATION FAILURE 🚨**
 **Violation Code:** AR-CAE-SEC-001 (Cognitive Tenant Isolation™ Breach)
 **Evidence:** `src/components/pages/InstitutionalCopilotPage.tsx` and Embedding Services lack strict `tenantId` pre-filters in RAG queries.
-**Impact:** Cross-tenant intelligence leakage. A recommendation for Company B might be subconsciously weighted by data from Company A.
+**Impact:** Cross-tenant governance leakage. A recommendation for Company B might be subconsciously weighted by data from Company A.

@@ -10,7 +10,7 @@ export class JourneyRouteResolver {
    * Resolves a logical journey ID to a physical route in the application dynamically.
    */
   static resolve(journeyId: string): JourneyRouteInfo {
-    const domainPrefix = journeyId.replace('-intelligence', '');
+    const domainPrefix = journeyId.replace('-governance', '');
     const registry = DomainRegistry.getInstance();
     const meta = registry.getDomain(domainPrefix as any);
 

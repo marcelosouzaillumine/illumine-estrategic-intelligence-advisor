@@ -15,8 +15,8 @@ export class FinancialDiagnosticJourney extends ExecutiveDiagnosticJourney {
   public get descriptor(): ExecutiveDiagnostic {
     return {
       id: 'diag_financial_v1',
-      journeyId: 'financial-intelligence',
-      name: 'Financial Intelligence Diagnostic Journey™',
+      journeyId: 'financial-governance',
+      name: 'Financial Governance Diagnostic Journey™',
       domain: FINANCIAL_DOMAIN,
       description: 'Avaliação da maturidade e capacidade de antecipação financeira da organização.',
       dimensions: FINANCIAL_DIMENSIONS,

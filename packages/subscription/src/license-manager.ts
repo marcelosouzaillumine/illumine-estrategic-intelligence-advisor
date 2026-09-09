@@ -15,7 +15,7 @@ export class LicenseManager {
         maxUsers: isEnterprise ? 9999 : 25,
         aiMonthlyQuota: isEnterprise ? 100000 : 5000
       },
-      features: ['finance-intelligence', 'governance-intelligence', 'ai-advisor'],
+      features: ['finance-governance', 'governance-governance', 'ai-advisor'],
       createdAt: new Date().toISOString()
     };
 

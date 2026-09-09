@@ -10,7 +10,7 @@ export const RevenueCapabilityRegistry: Record<string, RevenueCapability> = {
   commandCenter: {
     id: "revenue.command-center",
     route: "/executive/revenue",
-    capability: "REVENUE_INTELLIGENCE",
+    capability: "REVENUE_GOVERNANCE",
     requiredRole: ["CEO", "CRO"],
     title: "Command Center"
   },
@@ -33,7 +33,7 @@ export const RevenueCapabilityRegistry: Record<string, RevenueCapability> = {
     route: "/executive/revenue/subscriptions",
     capability: "RECURRING_REVENUE",
     requiredRole: ["CEO", "CRO", "FINANCE"],
-    title: "Subscription Intelligence"
+    title: "Subscription Governance"
   },
   billing: {
     id: "revenue.billing",
@@ -71,10 +71,10 @@ export const RevenueCapabilityRegistry: Record<string, RevenueCapability> = {
     title: "Partner Network"
   },
   intelligence: {
-    id: "revenue.intelligence",
-    route: "/executive/revenue/intelligence",
-    capability: "DECISION_INTELLIGENCE",
+    id: "revenue.governance",
+    route: "/executive/revenue/governance",
+    capability: "DECISION_GOVERNANCE",
     requiredRole: ["CEO", "CRO"],
-    title: "Intelligence Center"
+    title: "Governance Center"
   }
 };

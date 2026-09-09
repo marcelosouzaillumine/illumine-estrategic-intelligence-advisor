@@ -10,7 +10,7 @@ import {
   WorkflowOutcomeEngine
 } from '../index';
 
-describe('Wave 19.4 — Executive Workflow Intelligence (EWI v1.0)', () => {
+describe('Wave 19.4 — Executive Workflow Governance (EWI v1.0)', () => {
   it('should create DecisionCommandEnvelope and evaluate approval matrix', () => {
     const envelope = DecisionCommandEnvelopeResolver.createEnvelope('dec-01', 'FinancialAgent', 'HIGH', 'Otimização de EBITDA');
     expect(envelope.riskLevel).toBe('HIGH');

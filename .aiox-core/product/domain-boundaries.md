@@ -1,13 +1,13 @@
 # Domain Boundaries™ v1.0
 
-Objetivo: Definir claramente os limites entre domínios na Illumine Executive Intelligence Platform, garantindo coesão e baixo acoplamento na modelagem de serviços, interfaces e inteligência.
+Objetivo: Definir claramente os limites entre domínios na Illumine Executive Governance Platform, garantindo coesão e baixo acoplamento na modelagem de serviços, interfaces e inteligência.
 
 ---
 
 ## CFO Domain
 
 **Responsabilidade:**
-- Financial Intelligence
+- Financial Governance
 - Accounting Views
 - Cash Management
 - Capital Models
@@ -23,10 +23,10 @@ Objetivo: Definir claramente os limites entre domínios na Illumine Executive In
 ## CCO Domain
 
 **Responsabilidade:**
-- Revenue Intelligence
-- Sales Intelligence
-- Pricing Intelligence
-- Market Intelligence
+- Revenue Governance
+- Sales Governance
+- Pricing Governance
+- Market Governance
 
 **Não deve possuir:**
 - Accounting Rules
@@ -38,10 +38,10 @@ Objetivo: Definir claramente os limites entre domínios na Illumine Executive In
 ## COO Domain
 
 **Responsabilidade:**
-- Operational Intelligence
-- Process Intelligence
-- Production Intelligence
-- Supply Chain Intelligence
+- Operational Governance
+- Process Governance
+- Production Governance
+- Supply Chain Governance
 - Efficiency Management
 
 **Não deve possuir:**
@@ -57,7 +57,7 @@ Objetivo: Definir claramente os limites entre domínios na Illumine Executive In
 - Institutional Strategy
 - Execution Management (OKRs)
 - Decision Governance
-- Fiduciary Intelligence
+- Fiduciary Governance
 - Institutional Memory
 
 **Não deve possuir:**
@@ -67,7 +67,7 @@ Objetivo: Definir claramente os limites entre domínios na Illumine Executive In
 
 ---
 
-## Intelligence Domain
+## Governance Domain
 
 **Responsabilidade:**
 - Motores analíticos (Engines)
@@ -84,9 +84,9 @@ Objetivo: Definir claramente os limites entre domínios na Illumine Executive In
 ## CHRO Domain
 
 **Responsabilidade:**
-- Culture Intelligence
-- Leadership Intelligence
-- Talent Intelligence
+- Culture Governance
+- Leadership Governance
+- Talent Governance
 - Organizational Design
 - People Analytics
 

@@ -476,7 +476,7 @@ export function useBalanceSheetPageViewModel({ clients, selectedClient, selected
   const maturidade = executiveReport?.institutionalView?.maturity?.stageLabel || executiveReport?.context.stage || 'Pendente';
 
   console.log('[DEBUG-BALANCE-SHEET] executiveReport:', !!executiveReport);
-  console.log('[DEBUG-BALANCE-SHEET] patrimonialIntelligenceReport:', !!patrimonialIntelligenceReport);
+  console.log('[DEBUG-BALANCE-SHEET] patrimonialGovernanceReport:', !!patrimonialIntelligenceReport);
   console.log('[DEBUG-BALANCE-SHEET] governanceStatus:', (executiveReport as any)?.governanceStatus);
   console.log('[DEBUG-BALANCE-SHEET] scoreBreakdown:', patrimonialIntelligenceReport?.scoreBreakdown);
 

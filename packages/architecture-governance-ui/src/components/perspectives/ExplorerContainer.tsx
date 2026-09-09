@@ -9,7 +9,7 @@ export const ExplorerContainer: React.FC = () => {
   const [model, setModel] = useState<ArchitectureExplorerModel | null>(null);
   const [capabilities, setCapabilities] = useState<EnrichedArtifact[]>([]);
   const [selectedId, setSelectedId] = useState<string | null>(null);
-  const [activeTab, setActiveTab] = useState<'DETAILS' | 'EVIDENCE' | 'AUDIT' | 'INTELLIGENCE' | 'EVOLUTION' | 'ADVISORY' | 'EXPOSURE' | 'DECISION' | 'KNOWLEDGE' | 'RECOMMENDATION'>('DETAILS');
+  const [activeTab, setActiveTab] = useState<'DETAILS' | 'EVIDENCE' | 'AUDIT' | 'GOVERNANCE' | 'EVOLUTION' | 'ADVISORY' | 'EXPOSURE' | 'DECISION' | 'KNOWLEDGE' | 'RECOMMENDATION'>('DETAILS');
 
   useEffect(() => {
     const loadModel = async () => {
@@ -80,11 +80,11 @@ export const ExplorerContainer: React.FC = () => {
                   Audit Trail
                 </button>
                 <button 
-                  className={`flex-1 py-2 text-sm font-medium border-b-2 transition-colors ${activeTab === 'INTELLIGENCE' ? 'border-white text-white' : 'border-transparent text-white/50 hover:text-white/80'}`}
-                  onClick={() => setActiveTab('INTELLIGENCE')}
+                  className={`flex-1 py-2 text-sm font-medium border-b-2 transition-colors ${activeTab === 'GOVERNANCE' ? 'border-white text-white' : 'border-transparent text-white/50 hover:text-white/80'}`}
+                  onClick={() => setActiveTab('GOVERNANCE')}
                 >
-                  Intelligence
-                </button>
+                  Governance
+                                                  </button>
                 <button 
                   className={`flex-1 py-2 text-sm font-medium border-b-2 transition-colors ${activeTab === 'EVOLUTION' ? 'border-white text-white' : 'border-transparent text-white/50 hover:text-white/80'}`}
                   onClick={() => setActiveTab('EVOLUTION')}
@@ -145,7 +145,7 @@ export const ExplorerContainer: React.FC = () => {
                     </div>
                   </div>
                 )}
-                {activeTab === 'INTELLIGENCE' && (
+                {activeTab === 'GOVERNANCE' && (
                   <div className="bg-[#121214] border border-[#2a2a2f] rounded-lg p-4 h-full overflow-y-auto flex flex-col gap-6">
                     <div>
                       <h3 className="text-xs font-semibold uppercase text-white/40 mb-2">Structural Insights</h3>
@@ -200,7 +200,7 @@ export const ExplorerContainer: React.FC = () => {
                     <div>
                       <h3 className="text-xs font-semibold uppercase text-white/40 mb-2">Capability Trajectory</h3>
                       <div className="p-3 border border-[#2a2a2f] rounded bg-[#1a1a1e]">
-                        <p className="text-sm font-semibold">Financial Intelligence</p>
+                        <p className="text-sm font-semibold">Financial Governance</p>
                         <div className="mt-2 text-xs font-mono text-white/50 pl-2 border-l border-[#2a2a2f]">
                           v1<br/>
                           |<br/>
@@ -219,8 +219,8 @@ export const ExplorerContainer: React.FC = () => {
                     <div>
                       <h3 className="text-xs font-semibold uppercase text-white/40 mb-2">Architecture Narrative</h3>
                       <div className="p-3 border border-[#2a2a2f] rounded bg-[#1a1a1e] font-serif italic text-white/80 text-sm">
-                        "A capability Financial Intelligence exibiu o padrão estrutural DEPENDENCY_EXPANSION na categoria DEPENDENCY, em conjunto com BOUNDARY_EXPANSION entre os snapshots analisados. Ocorreu também uma evolução material com CHANGE_CONCENTRATION observada no período."
-                      </div>
+                        "A capability Financial Governance exibiu o padrão estrutural DEPENDENCY_EXPANSION na categoria DEPENDENCY, em conjunto com BOUNDARY_EXPANSION entre os snapshots analisados. Ocorreu também uma evolução material com CHANGE_CONCENTRATION observada no período."
+                                                                    </div>
                     </div>
                     <div>
                       <h3 className="text-xs font-semibold uppercase text-white/40 mb-2">Structural Signals</h3>

@@ -165,7 +165,7 @@ export class DreIntelligenceUseCase {
             };
 
         } catch (error) {
-            console.error('[DreIntelligenceUseCase] Failed:', error);
+            console.error('[DreGovernanceUseCase] Failed:', error);
             // Return fallback mock
             return {
                 executiveSummary: { available: false, items: [], availabilityReason: {} as any },

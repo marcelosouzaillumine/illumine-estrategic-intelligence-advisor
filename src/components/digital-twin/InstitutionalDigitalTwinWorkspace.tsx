@@ -129,11 +129,11 @@ export const InstitutionalDigitalTwinWorkspace: React.FC<InstitutionalDigitalTwi
         />
         <div className="flex gap-2">
           <button
-            onClick={() => handleCrossNavigation('INTELLIGENCE_FABRIC', `/intelligence/root`)}
+            onClick={() => handleCrossNavigation('GOVERNANCE_FABRIC', `/governance/root`)}
             className="flex items-center gap-2 px-4 py-2 bg-accent hover:bg-accent text-accent text-sm font-display font-medium rounded-[12px] transition-colors border border-accent shadow-sm"
           >
             <Network size={16} />
-            <span>Intelligence Fabric</span>
+            <span>Governance Fabric</span>
           </button>
           <button
             onClick={() => handleCrossNavigation('ADVISOR', `/advisor`)}

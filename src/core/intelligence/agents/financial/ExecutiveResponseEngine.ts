@@ -27,7 +27,7 @@ export class ExecutiveResponseEngine {
     if (retrievedContext.profile) {
       evidence.push({
         description: `Perfil financeiro classificado como ${retrievedContext.profile}`,
-        source: 'FinancialIntelligenceCoordinator'
+        source: 'FinancialGovernanceCoordinator'
       });
     }
 

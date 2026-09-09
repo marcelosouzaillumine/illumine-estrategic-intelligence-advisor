@@ -1,4 +1,4 @@
-# Framework de Clones - Data Intelligence Pack
+# Framework de Clones - Data Governance Pack
 ## 06 - Matriz de Decisão
 
 ---
@@ -221,7 +221,7 @@ SUPORTE: Wes Kao (learning in community)
 
 ## ORDEM RECOMENDADA DE CONSULTA
 
-Para implementação completa do Data Intelligence Pack:
+Para implementação completa do Data Governance Pack:
 
 ```
 FASE 1: FUNDAMENTAÇÃO
@@ -324,5 +324,5 @@ Kaushik (primário) + Fader + Mehta
 
 ---
 
-*Framework de Clones - Data Intelligence Pack v2.0*
+*Framework de Clones - Data Governance Pack v2.0*
 *Matriz de Decisão*

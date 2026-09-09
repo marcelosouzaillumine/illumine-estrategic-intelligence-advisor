@@ -32,11 +32,11 @@ export function DiagnosticProfileView({ profile }: DiagnosticProfileViewProps) {
           <Sparkles className="w-5 h-5 text-amber-500" />
         </div>
         <h2 className="text-[10px] font-bold text-amber-500 uppercase tracking-[0.2em] mb-4">
-          Executive Intelligence Summary™
-        </h2>
+          Executive Governance Summary™
+                          </h2>
         <h1 className="text-3xl font-light text-white mb-2">
-          {profile.domain.charAt(0).toUpperCase() + profile.domain.slice(1)} Intelligence Profile™
-        </h1>
+          {profile.domain.charAt(0).toUpperCase() + profile.domain.slice(1)} Governance Profile™
+                          </h1>
       </div>
 
       <div className="space-y-4 mb-12 relative before:absolute before:inset-0 before:bg-gradient-to-b before:from-white/5 before:to-transparent before:-z-10 before:rounded-3xl p-8 border border-white/5 rounded-3xl bg-[#0A0A0A]">

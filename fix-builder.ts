@@ -1,11 +1,11 @@
 import * as fs from 'fs';
 const path = 'src/capabilities/financial/application/consolidation/FinancialPositionPureViewModelBuilder.ts';
 let content = fs.readFileSync(path, 'utf8');
-content = content.replace(/intelligenceContract\.overview/g, 'intelligenceContract.pureViewModel.overview');
-content = content.replace(/intelligenceContract\.diagnosis/g, 'intelligenceContract.pureViewModel.diagnosis');
-content = content.replace(/intelligenceContract\.signals/g, 'intelligenceContract.pureViewModel.signals');
-content = content.replace(/intelligenceContract\.historicalEvolution/g, 'intelligenceContract.pureViewModel.historicalEvolution');
-content = content.replace(/intelligenceContract\.score/g, 'intelligenceContract.pureViewModel.score');
-content = content.replace(/intelligenceContract\.executiveQuestions/g, 'intelligenceContract.pureViewModel.executiveQuestions');
-content = content.replace(/intelligenceContract\.technicalEvidence/g, 'intelligenceContract.pureViewModel.technicalEvidence');
+content = content.replace(/intelligenceContract\.overview/g, 'governanceContract.pureViewModel.overview');
+content = content.replace(/intelligenceContract\.diagnosis/g, 'governanceContract.pureViewModel.diagnosis');
+content = content.replace(/intelligenceContract\.signals/g, 'governanceContract.pureViewModel.signals');
+content = content.replace(/intelligenceContract\.historicalEvolution/g, 'governanceContract.pureViewModel.historicalEvolution');
+content = content.replace(/intelligenceContract\.score/g, 'governanceContract.pureViewModel.score');
+content = content.replace(/intelligenceContract\.executiveQuestions/g, 'governanceContract.pureViewModel.executiveQuestions');
+content = content.replace(/intelligenceContract\.technicalEvidence/g, 'governanceContract.pureViewModel.technicalEvidence');
 fs.writeFileSync(path, content, 'utf8');

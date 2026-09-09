@@ -2,7 +2,7 @@
 import { describe, it, expect } from 'vitest';
 import { ExecutiveVotingEngine } from '../agent-council/src';
 
-describe('@illumine/intelligence (Wave 18.10 Executive Voting Engine)', () => {
+describe('@illumine/governance (Wave 18.10 Executive Voting Engine)', () => {
   it('should tally votes accurately across 5 executive directors', () => {
     const mockOpinions = [
       { agentRole: 'CFO', perspectiveName: 'Liquidez', diagnosis: 'OK', proposedAction: 'Act', confidenceScore: 95, supportingEvidence: ['E1'], votedDecision: 'APPROVE' as const },

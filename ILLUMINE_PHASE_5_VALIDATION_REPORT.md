@@ -28,7 +28,7 @@ A correção aplicada durante a execução exigiu transformar as funções `tena
 ## H. Impersonation results
 **PASS.** O `System Operator` foi testado em seu escopo restrito (`System Tenant`). Ele obteve falha ao tentar ler a `Company A1` em fluxo normal e sucesso isolado ao habilitar a sessão explícita `audit.impersonation_sessions` apontando para o `Tenant A`. Além disso, foi comprovado que o seu ID (`impersonator_id`) é cravado irrevogavelmente na tabela `audit.system_logs` sobrepondo as ações efetuadas sob a entidade do executivo.
 
-## I. Intelligence immutability results
+## I. Governance immutability results
 **PASS.** Tentativas de fazer updates in-place nos motivos (`rationale`) ou apagar uma decisão estratégica via `DELETE` (Hard Delete) acionaram as violações devidas ("Decisions are immutable" / "Decisions cannot be deleted"). O único fluxo validado foi o arquivamento sem perda (soft delete) com gravação de auditoria.
 
 ## J. Known limitations

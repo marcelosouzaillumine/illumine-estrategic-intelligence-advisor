@@ -19,7 +19,7 @@ describe('@illumine/advisory-trigger-engine (Wave 16 Phase 2 Trigger Engine)', (
     const trigger = AdvisoryTriggerEngine.evaluateSignal(signal);
     expect(trigger).toBeDefined();
     expect(trigger?.urgency).toBe('HIGH');
-    expect(trigger?.recommendedAgents).toContain('cfo-intelligence-agent');
+    expect(trigger?.recommendedAgents).toContain('cfo-governance-agent');
   });
 
   it('should return null for LOW severity signals', () => {

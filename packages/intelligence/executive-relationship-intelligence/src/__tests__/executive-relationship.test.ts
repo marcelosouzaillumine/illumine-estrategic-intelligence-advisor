@@ -3,7 +3,7 @@ import { ExecutiveInteractionDecisionEngine } from '../ExecutiveInteractionDecis
 import { SessionEvent, SessionContext } from '../ExecutiveSessionIntelligence';
 import { ExecutiveRelationshipState } from '../ExecutiveRelationshipState';
 
-describe('Executive Relationship Intelligence (ERI) - Behavioral Calibration', () => {
+describe('Executive Relationship Governance (ERI) - Behavioral Calibration', () => {
   const baseState: ExecutiveRelationshipState = {
     userIdentity: 'test_user',
     operationalRole: 'CLIENT',

@@ -21,7 +21,7 @@ export class AdvisoryTriggerEngine {
         triggerType: signal.domain === 'FINANCE' ? 'Financial' : 'Risk',
         urgency: signal.severity,
         affectedDomain: signal.domain,
-        recommendedAgents: ['cfo-intelligence-agent', 'executive-decision-agent'],
+        recommendedAgents: ['cfo-governance-agent', 'executive-decision-agent'],
         expectedImpactSummary: `Gatilho proativo ativado para atenuação de risco em ${signal.metric}`
       };
     }

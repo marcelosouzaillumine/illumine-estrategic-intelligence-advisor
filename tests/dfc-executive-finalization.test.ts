@@ -6,7 +6,7 @@ import { ExecutiveInformationDensityFramework } from '../src/core/runtime/presen
 import { ExecutiveLabelResolver } from '../src/core/runtime/executive-presentation/ExecutiveLabelResolver';
 import { DFCExecutiveBindingAudit } from '../src/core/runtime/cash-intelligence/DFCExecutiveBindingAudit';
 
-describe('DFC Executive Intelligence Calibration & Presentation Governance (DFC-FINAL v1.0)', () => {
+describe('DFC Executive Governance Calibration & Presentation Governance (DFC-FINAL v1.0)', () => {
   // Set up mock inputs for Granatum 2022:
   // Receita: R$ 156.969,54
   // FCO Contábil: -R$ 113.736,08
@@ -137,7 +137,7 @@ describe('DFC Executive Intelligence Calibration & Presentation Governance (DFC-
       'DFC_RECONCILIATION_SUMMARY',
       'DFC_CONTEXT',
       'DFC_CQS_SUMMARY',
-      'DFC_CAUSAL_INTELLIGENCE',
+      'DFC_CAUSAL_GOVERNANCE',
       'DFC_REVENUE_CASH_CONVERSION',
       'DFC_SHAREHOLDER_DEPENDENCY',
       'DFC_EFSI',

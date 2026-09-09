@@ -138,7 +138,7 @@ Toda linguagem deve parecer:
 - board paper;
 - investment memo;
 - CFO report;
-- strategic intelligence.
+- strategic governance.
 
 Evitar:
 - linguagem dramática;

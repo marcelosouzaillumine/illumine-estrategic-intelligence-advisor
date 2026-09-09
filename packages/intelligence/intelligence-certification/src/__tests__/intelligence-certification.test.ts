@@ -7,8 +7,8 @@ import {
 } from '../index';
 import { Score } from '@illumine/core-primitives';
 
-describe('@illumine/intelligence-certification (Phase 6 Certification & EIS)', () => {
-  it('should calculate composite Executive Intelligence Score (EIS) and determine maturity level', () => {
+describe('@illumine/governance-certification (Phase 6 Certification & EIS)', () => {
+  it('should calculate composite Executive Governance Score (EIS) and determine maturity level', () => {
     const dimensions: EISDimensions = {
       decisionQualityScore: Score.create(80),
       predictiveAccuracyScore: Score.create(75),
@@ -23,7 +23,7 @@ describe('@illumine/intelligence-certification (Phase 6 Certification & EIS)', (
     expect(result.maturityLevel).toBe(IntelligenceMaturityLevel.ADAPTATIVA);
   });
 
-  it('should track historical trajectory via IntelligenceTrajectory', () => {
+  it('should track historical trajectory via GovernanceTrajectory', () => {
     const trajectory = new IntelligenceTrajectory();
     const dimensions: EISDimensions = {
       decisionQualityScore: Score.create(60),

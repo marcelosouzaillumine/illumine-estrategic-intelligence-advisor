@@ -17,7 +17,7 @@ export class RecommendationReleasePolicy {
     
     // 2. Nenhuma recomendação pode sair sem estar atrelada a um trace cognitivo
     if (!payload.generationTraceId) {
-      violations.push('POLICY_VIOLATION: Recommendation lacks generation trace ID (Opaque Intelligence).');
+      violations.push('POLICY_VIOLATION: Recommendation lacks generation trace ID (Opaque Governance).');
     }
     
     // 3. (Mock) Verificação de evicências 

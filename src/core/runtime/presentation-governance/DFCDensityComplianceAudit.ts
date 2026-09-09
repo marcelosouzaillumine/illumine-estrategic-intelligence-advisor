@@ -15,7 +15,7 @@ export class DFCDensityComplianceAudit {
       const prohibited = [
         'DFC_CONTEXT',
         'DFC_CQS_SUMMARY',
-        'DFC_CAUSAL_INTELLIGENCE',
+        'DFC_CAUSAL_GOVERNANCE',
         'DFC_REVENUE_CASH_CONVERSION',
         'DFC_SHAREHOLDER_DEPENDENCY',
         'DFC_EFSI',

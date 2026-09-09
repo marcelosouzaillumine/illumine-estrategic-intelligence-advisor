@@ -1,7 +1,7 @@
 import { describe, it, expect } from 'vitest';
 import { OrgGraphNode, OrgImpactRelationship, OrganizationalGraphModel } from '../index';
 
-describe('@illumine/organizational-intelligence-graph (Wave 14 Phase 2)', () => {
+describe('@illumine/organizational-governance-graph (Wave 14 Phase 2)', () => {
   it('should build OrganizationalGraphModel mapping Strategy -> Capabilities -> Processes -> Metrics -> Decisions -> Outcomes', () => {
     const model = new OrganizationalGraphModel();
 

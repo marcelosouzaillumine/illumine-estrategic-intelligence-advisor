@@ -23,7 +23,7 @@ export class EntitlementMapperService {
     // Example logic mapping commercial modules to specific technical capabilities
     if (scope.modules.includes('ILLUMINE_EXECUTIVE') || scope.capabilities.includes('executive_dashboard')) {
       mapped.push({ code: 'executive_dashboard', category: CapabilityCategory.INTELLIGENCE });
-      mapped.push({ code: 'financial_intelligence', category: CapabilityCategory.INTELLIGENCE });
+      mapped.push({ code: 'financial_governance', category: CapabilityCategory.INTELLIGENCE });
       mapped.push({ code: 'governance_office', category: CapabilityCategory.GOVERNANCE });
       mapped.push({ code: 'risk_office', category: CapabilityCategory.OPERATIONS });
     }

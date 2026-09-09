@@ -2,7 +2,7 @@
 import { describe, it, expect } from 'vitest';
 import { DataLineageTrace } from '@illumine/executive-contracts';
 
-describe('@illumine/intelligence (Wave 18.4 Data Lineage Traceability)', () => {
+describe('@illumine/governance (Wave 18.4 Data Lineage Traceability)', () => {
   it('should enforce DataLineageTrace from raw source to metric and insight (ADR-079)', () => {
     const trace: DataLineageTrace = {
       traceId: 'trace-101',

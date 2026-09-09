@@ -23,13 +23,13 @@ import {
 export function NonprofitPlansPage() {
   const offices = [
     'Executive Command Center',
-    'Financial Intelligence',
-    'Governance Intelligence',
-    'Commercial Intelligence',
-    'Operational Intelligence',
-    'People Intelligence',
-    'Risk Intelligence',
-    'Institutional Intelligence',
+    'Financial Governance',
+    'Governance Governance',
+    'Commercial Governance',
+    'Operational Governance',
+    'People Governance',
+    'Risk Governance',
+    'Institutional Governance',
     'Executive AI',
     'API Hub',
     'Executive Reports',
@@ -74,7 +74,7 @@ export function NonprofitPlansPage() {
       <section className="py-24 bg-[#050506] border-y border-white/5 relative">
         <div className="max-w-7xl mx-auto px-6">
           <div className="text-center mb-16">
-            <h2 className="text-3xl font-bold text-white mb-4">Todas as organizações utilizam a mesma Executive Intelligence Platform™</h2>
+            <h2 className="text-3xl font-bold text-white mb-4">Todas as organizações utilizam a mesma Executive Governance Platform™</h2>
             <p className="text-lg text-slate-400 max-w-2xl mx-auto">
               Os planos diferenciam apenas a capacidade operacional licenciada e os serviços contratados. Não existem versões reduzidas.
             </p>
@@ -141,7 +141,7 @@ export function NonprofitPlansPage() {
                 {[
                   'Até 1 organização ou projeto',
                   'Até 3 usuários licenciados',
-                  'Executive Intelligence Platform™ completa',
+                  'Executive Governance Platform™ completa',
                   'Executive AI e Dashboards',
                   'Governança Institucional e Indicadores de Impacto'
                 ].map((feature, i) => (
@@ -181,7 +181,7 @@ export function NonprofitPlansPage() {
                   'Até 3 unidades ou projetos',
                   'Até 10 usuários licenciados',
                   'API Integration Ready™, quando houver estrutura disponível',
-                  'Executive Intelligence Platform™ completa',
+                  'Executive Governance Platform™ completa',
                   'Executive AI e Dashboards Executivos'
                 ].map((feature, i) => (
                   <li key={i} className="flex items-start gap-2 text-sm text-slate-300 leading-tight">
@@ -223,7 +223,7 @@ export function NonprofitPlansPage() {
                   'Até 10 unidades ou projetos',
                   'Até 25 usuários licenciados',
                   'API Integration Ready™, quando houver estrutura disponível',
-                  'Executive Intelligence Platform™ completa'
+                  'Executive Governance Platform™ completa'
                 ].map((feature, i) => (
                   <li key={i} className="flex items-start gap-2 text-sm text-slate-300 leading-tight">
                     <CheckCircle2 className="w-4 h-4 text-amber-500 shrink-0 mt-0.5" />
@@ -385,7 +385,7 @@ export function NonprofitPlansPage() {
             {[
               {
                 q: "Todos utilizam a mesma plataforma?",
-                a: "Sim. A Illumine não comercializa 'versões reduzidas'. Toda organização social tem acesso à mesma Executive Intelligence Platform™ premium, variando apenas a capacidade operacional conforme o plano."
+                a: "Sim. A Illumine não comercializa 'versões reduzidas'. Toda organização social tem acesso à mesma Executive Governance Platform™ premium, variando apenas a capacidade operacional conforme o plano."
               },
               {
                 q: "O que muda entre os planos?",

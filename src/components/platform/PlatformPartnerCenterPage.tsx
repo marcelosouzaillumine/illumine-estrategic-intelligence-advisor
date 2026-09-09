@@ -8,7 +8,7 @@ export function PlatformPartnerCenterPage() {
     <div className="p-8">
       <PageHeader
         title="Partner Center"
-        subtitle="Platform Intelligence Workspace"
+        subtitle="Platform Governance Workspace"
         icon={Handshake}
       />
       <div className="mt-8">

@@ -4,7 +4,8 @@ import { BalanceSheetIntelligenceEngine } from '../src/capabilities/financial/in
 import { NormalizedBalanceSheet } from '../src/capabilities/financial/domain/models/NormalizedBalanceSheet';
 
 async function runIntelligenceTests() {
-  console.log('Starting Phase 6F Intelligence Engine Test...\n');
+  console.log('Starting Phase 6F Governance Engine Test...\
+');
   
   // Create mock facts for the new engine
   const facts: NormalizedBalanceSheet = {
@@ -28,7 +29,7 @@ async function runIntelligenceTests() {
   };
   
   // 1. Initialize Engine
-  console.log(`✅ Engine Initialized: BalanceSheetIntelligenceEngine.`);
+  console.log(`✅ Engine Initialized: BalanceSheetGovernanceEngine.`);
   
   // 3. Execution 1
   const context1 = BalanceSheetIntelligenceEngine.execute(facts);
@@ -53,10 +54,12 @@ async function runIntelligenceTests() {
   }
   console.log(`✅ Indicator Analysis Passed: Produced ${context1.indicators.length} indicators.`);
   
-  console.log('\n✅ ALL INTELLIGENCE ENGINE GATES PASSED.');
+  console.log('\
+✅ ALL GOVERNANCE ENGINE GATES PASSED.');
 }
 
 runIntelligenceTests().catch(err => {
-    console.error('\n❌ INTELLIGENCE ENGINE VALIDATION FAILED:', err);
+    console.error('\
+❌ GOVERNANCE ENGINE VALIDATION FAILED:', err);
     process.exit(1);
 });

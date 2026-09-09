@@ -18,8 +18,8 @@ Mapeamento de vulnerabilidades potenciais e quebras de barreira fiduciária (Ten
 | `src/core/orchestration/executiveOrchestrationEngine.ts` | 345 | EXPLICIT_BYPASS | `...bypassedBoardRecs,` |
 | `src/core/runtime/compliance/RuntimeComplianceEngine.ts` | 205 | EXPLICIT_BYPASS | `deterministicIntegrity: violations.some(v => v.labelKey.includes('bypass') || v.labelKey.includes('u` |
 | `src/core/runtime/compliance/RuntimeComplianceEngine.ts` | 276 | EXPLICIT_BYPASS | `violations.push({ labelKey: 'runtime.compliance.architecture_bypass_ui_recalculation', severity: 'cr` |
-| `src/core/runtime/decision-intelligence/DecisionComplianceEngine.ts` | 193 | EXPLICIT_BYPASS | `'rastreabilidade', 'matemática', 'safeguard', 'bypass',` |
-| `src/core/runtime/decision-intelligence/DecisionComplianceEngine.ts` | 205 | EXPLICIT_BYPASS | `if (!isNonBypassable && (!policyContext.materiality.isMaterial || policyContext.flexibilityModifiers` |
+| `src/core/runtime/decision-governance/DecisionComplianceEngine.ts` | 193 | EXPLICIT_BYPASS | `'rastreabilidade', 'matemática', 'safeguard', 'bypass',` |
+| `src/core/runtime/decision-governance/DecisionComplianceEngine.ts` | 205 | EXPLICIT_BYPASS | `if (!isNonBypassable && (!policyContext.materiality.isMaterial || policyContext.flexibilityModifiers` |
 | `src/core/runtime/decision-policy/ContextualSeverityEngine.ts` | 35 | EXPLICIT_BYPASS | `lower.includes('bypass') ||` |
 | `src/core/runtime/decision-policy/DecisionPolicyEngine.ts` | 47 | EXPLICIT_BYPASS | `const bypassMinorBlocks = !materiality.isMaterial;` |
 | `src/core/runtime/decision-policy/DecisionPolicyEngine.ts` | 57 | EXPLICIT_BYPASS | `bypassMinorBlocks` |
@@ -67,7 +67,7 @@ Mapeamento de vulnerabilidades potenciais e quebras de barreira fiduciária (Ten
 | `src/app/routes.tsx` | 327 | SUSPICIOUS_CLAIM | `if (currentPage === 'clientes' || (currentPage as string) === 'clientes_root') {` |
 | `src/components/Common/Base.tsx` | 476 | SUSPICIOUS_CLAIM | `const [internalPeriodMode, setInternalPeriodMode] = React.useState<'mensal' | 'anual'>('mensal');` |
 | `src/components/Common/Base.tsx` | 478 | SUSPICIOUS_CLAIM | `const periodMode = isControlled ? periodModeProp : internalPeriodMode;` |
-| `src/components/ExecutivePerspectiveSection.tsx` | 172 | SUSPICIOUS_CLAIM | `const rc = intelligenceReport.causality.rootCause;` |
+| `src/components/ExecutivePerspectiveSection.tsx` | 172 | SUSPICIOUS_CLAIM | `const rc = governanceReport.causality.rootCause;` |
 | `src/components/executive-command/CommandExplainabilityDrawer.tsx` | 43 | SUSPICIOUS_CLAIM | `{explainability.supportingLineageHashes.map((hash, idx) => (` |
 | `src/components/executive-interaction/RuntimeLineageViewer.tsx` | 41 | SUSPICIOUS_CLAIM | `<span>{t("overlays.root_hash")} {lineageHash.substring(0, 16)}...</span>` |
 | `src/components/modals/ImportFinancialModal.tsx` | 67 | SUSPICIOUS_CLAIM | `throw new Error(t("modals.import_financial.unsupported_format"));` |
@@ -105,14 +105,14 @@ Mapeamento de vulnerabilidades potenciais e quebras de barreira fiduciária (Ten
 | `src/components/pages/governance/ObservabilityConsolePage.tsx` | 45 | SUSPICIOUS_CLAIM | `setSelectedTenantFilter(isSuperAdmin ? 'GLOBAL' : session.tenantId);` |
 | `src/components/pages/governance/ObservabilityConsolePage.tsx` | 47 | SUSPICIOUS_CLAIM | `}, [isReady, session, isSuperAdmin]);` |
 | `src/components/pages/governance/ObservabilityConsolePage.tsx` | 187 | SUSPICIOUS_CLAIM | `{isSuperAdmin && (` |
-| `src/components/panels/causal-intelligence/InstitutionalCausalRootCausesPanel.tsx` | 7 | SUSPICIOUS_CLAIM | `rootCauses?: CausalFactor[];` |
-| `src/components/panels/causal-intelligence/InstitutionalCausalRootCausesPanel.tsx` | 10 | SUSPICIOUS_CLAIM | `export const InstitutionalCausalRootCausesPanel: React.FC<RootCausesPanelProps> = ({ rootCauses = []` |
-| `src/components/panels/causal-intelligence/InstitutionalCausalRootCausesPanel.tsx` | 28 | SUSPICIOUS_CLAIM | `<h4 className="text-[10px] font-black uppercase tracking-widest text-slate-500">{t('causal.root_caus` |
-| `src/components/panels/causal-intelligence/InstitutionalCausalRootCausesPanel.tsx` | 35 | SUSPICIOUS_CLAIM | `{rootCauses.length === 0 ? (` |
-| `src/components/panels/causal-intelligence/InstitutionalCausalRootCausesPanel.tsx` | 40 | SUSPICIOUS_CLAIM | `rootCauses.map((factor, idx) => (` |
-| `src/components/panels/causal-intelligence/SurvivabilityDependencyGraphPanel.tsx` | 16 | SUSPICIOUS_CLAIM | `const rootCauses = nodes.filter(n => n.type === 'ROOT_CAUSE');` |
-| `src/components/panels/causal-intelligence/SurvivabilityDependencyGraphPanel.tsx` | 25 | SUSPICIOUS_CLAIM | `rootCauses.forEach((node, i) => {` |
-| `src/components/panels/causal-intelligence/SurvivabilityDependencyGraphPanel.tsx` | 26 | SUSPICIOUS_CLAIM | `const spacing = height / (rootCauses.length + 1);` |
+| `src/components/panels/causal-governance/InstitutionalCausalRootCausesPanel.tsx` | 7 | SUSPICIOUS_CLAIM | `rootCauses?: CausalFactor[];` |
+| `src/components/panels/causal-governance/InstitutionalCausalRootCausesPanel.tsx` | 10 | SUSPICIOUS_CLAIM | `export const InstitutionalCausalRootCausesPanel: React.FC<RootCausesPanelProps> = ({ rootCauses = []` |
+| `src/components/panels/causal-governance/InstitutionalCausalRootCausesPanel.tsx` | 28 | SUSPICIOUS_CLAIM | `<h4 className="text-[10px] font-black uppercase tracking-widest text-slate-500">{t('causal.root_caus` |
+| `src/components/panels/causal-governance/InstitutionalCausalRootCausesPanel.tsx` | 35 | SUSPICIOUS_CLAIM | `{rootCauses.length === 0 ? (` |
+| `src/components/panels/causal-governance/InstitutionalCausalRootCausesPanel.tsx` | 40 | SUSPICIOUS_CLAIM | `rootCauses.map((factor, idx) => (` |
+| `src/components/panels/causal-governance/SurvivabilityDependencyGraphPanel.tsx` | 16 | SUSPICIOUS_CLAIM | `const rootCauses = nodes.filter(n => n.type === 'ROOT_CAUSE');` |
+| `src/components/panels/causal-governance/SurvivabilityDependencyGraphPanel.tsx` | 25 | SUSPICIOUS_CLAIM | `rootCauses.forEach((node, i) => {` |
+| `src/components/panels/causal-governance/SurvivabilityDependencyGraphPanel.tsx` | 26 | SUSPICIOUS_CLAIM | `const spacing = height / (rootCauses.length + 1);` |
 | `src/components/ui/dialog.tsx` | 40 | SUSPICIOUS_CLAIM | `"fixed inset-0 isolate z-50 bg-black/10 duration-100 supports-backdrop-filter:backdrop-blur-xs data-` |
 | `src/contexts/LanguageContext.tsx` | 118 | SUSPICIOUS_CLAIM | `'administracao': 'navigation.page.adm_root',` |
 | `src/contexts/LanguageContext.tsx` | 120 | SUSPICIOUS_CLAIM | `'contabilidade': 'navigation.page.contabil_root',` |
@@ -142,23 +142,23 @@ Mapeamento de vulnerabilidades potenciais e quebras de barreira fiduciária (Ten
 | `src/core/runtime/benchmarking/BenchmarkDatasetBuilder.ts` | 14 | SUSPICIOUS_CLAIM | `_internalId: `T-VAREJO-${i}`, // Nunca sai daqui` |
 | `src/core/runtime/benchmarking/BenchmarkDatasetBuilder.ts` | 26 | SUSPICIOUS_CLAIM | `_internalId: `T-AERO-${i}`,` |
 | `src/core/runtime/board/BoardPrioritiesEngine.ts` | 389 | SUSPICIOUS_CLAIM | `supportingPrinciples: gklResult.principleMatches.map(pm => pm.title),` |
-| `src/core/runtime/cash-intelligence/InstitutionalContinuityEngine.ts` | 103 | SUSPICIOUS_CLAIM | `continuityRiskDrivers.push('artificial_liquidity_support');` |
-| `src/core/runtime/causal-intelligence/InstitutionalCausalIntelligenceRuntime.ts` | 64 | SUSPICIOUS_CLAIM | `rootCauses: [],` |
-| `src/core/runtime/causal-intelligence/InstitutionalCausalIntelligenceRuntime.ts` | 81 | SUSPICIOUS_CLAIM | `rootCauses: [],` |
-| `src/core/runtime/causal-intelligence/InstitutionalCausalIntelligenceRuntime.ts` | 110 | SUSPICIOUS_CLAIM | `const rootCauses = LiquidityRootCauseEngine.evaluate(` |
-| `src/core/runtime/causal-intelligence/InstitutionalCausalIntelligenceRuntime.ts` | 127 | SUSPICIOUS_CLAIM | `const dependencyGraph = SurvivabilityDependencyGraph.build(rootCauses, fco, isDfcAvailable);` |
-| `src/core/runtime/causal-intelligence/InstitutionalCausalIntelligenceRuntime.ts` | 130 | SUSPICIOUS_CLAIM | `const stressCascadePath = OperationalStressCascadeEngine.evaluate(rootCauses, fco, isDfcAvailable);` |
-| `src/core/runtime/causal-intelligence/InstitutionalCausalIntelligenceRuntime.ts` | 147 | SUSPICIOUS_CLAIM | `causalOpinion = 'Restricted causal inference due to missing DFC. Structural evidence indicates proba` |
-| `src/core/runtime/causal-intelligence/InstitutionalCausalIntelligenceRuntime.ts` | 149 | SUSPICIOUS_CLAIM | `const activeFactors = rootCauses.map(r => r.label).join(', ');` |
-| `src/core/runtime/causal-intelligence/InstitutionalCausalIntelligenceRuntime.ts` | 163 | SUSPICIOUS_CLAIM | `rootCauses,` |
-| `src/core/runtime/causal-intelligence/InstitutionalCausalityExplorer.ts` | 57 | SUSPICIOUS_CLAIM | `const supportingEvidence: CausalEvidence[] = [];` |
-| `src/core/runtime/causal-intelligence/InstitutionalCausalityExplorer.ts` | 61 | SUSPICIOUS_CLAIM | `supportingEvidence.push(` |
-| `src/core/runtime/causal-intelligence/InstitutionalCausalityExplorer.ts` | 87 | SUSPICIOUS_CLAIM | `supportingEvidence,` |
-| `src/core/runtime/causal-intelligence/causal-types.ts` | 40 | SUSPICIOUS_CLAIM | `supportingEvidence: CausalEvidence[];` |
-| `src/core/runtime/causal-intelligence/types.ts` | 60 | SUSPICIOUS_CLAIM | `rootCauses: CausalFactor[];` |
-| `src/core/runtime/decision-intelligence/ConstitutionalDecisionRuntime.ts` | 35 | SUSPICIOUS_CLAIM | `supportingMetrics: ['FCO', 'Liquidity Score'],` |
-| `src/core/runtime/decision-intelligence/ConstitutionalDecisionRuntime.ts` | 54 | SUSPICIOUS_CLAIM | `supportingMetrics: d.supportingMetrics,` |
-| `src/core/runtime/decision-intelligence/ExecutiveDecisionObject.ts` | 26 | SUSPICIOUS_CLAIM | `supportingMetrics: string[];` |
+| `src/core/runtime/cash-governance/InstitutionalContinuityEngine.ts` | 103 | SUSPICIOUS_CLAIM | `continuityRiskDrivers.push('artificial_liquidity_support');` |
+| `src/core/runtime/causal-governance/InstitutionalCausalGovernanceRuntime.ts` | 64 | SUSPICIOUS_CLAIM | `rootCauses: [],` |
+| `src/core/runtime/causal-governance/InstitutionalCausalGovernanceRuntime.ts` | 81 | SUSPICIOUS_CLAIM | `rootCauses: [],` |
+| `src/core/runtime/causal-governance/InstitutionalCausalGovernanceRuntime.ts` | 110 | SUSPICIOUS_CLAIM | `const rootCauses = LiquidityRootCauseEngine.evaluate(` |
+| `src/core/runtime/causal-governance/InstitutionalCausalGovernanceRuntime.ts` | 127 | SUSPICIOUS_CLAIM | `const dependencyGraph = SurvivabilityDependencyGraph.build(rootCauses, fco, isDfcAvailable);` |
+| `src/core/runtime/causal-governance/InstitutionalCausalGovernanceRuntime.ts` | 130 | SUSPICIOUS_CLAIM | `const stressCascadePath = OperationalStressCascadeEngine.evaluate(rootCauses, fco, isDfcAvailable);` |
+| `src/core/runtime/causal-governance/InstitutionalCausalGovernanceRuntime.ts` | 147 | SUSPICIOUS_CLAIM | `causalOpinion = 'Restricted causal inference due to missing DFC. Structural evidence indicates proba` |
+| `src/core/runtime/causal-governance/InstitutionalCausalGovernanceRuntime.ts` | 149 | SUSPICIOUS_CLAIM | `const activeFactors = rootCauses.map(r => r.label).join(', ');` |
+| `src/core/runtime/causal-governance/InstitutionalCausalGovernanceRuntime.ts` | 163 | SUSPICIOUS_CLAIM | `rootCauses,` |
+| `src/core/runtime/causal-governance/InstitutionalCausalityExplorer.ts` | 57 | SUSPICIOUS_CLAIM | `const supportingEvidence: CausalEvidence[] = [];` |
+| `src/core/runtime/causal-governance/InstitutionalCausalityExplorer.ts` | 61 | SUSPICIOUS_CLAIM | `supportingEvidence.push(` |
+| `src/core/runtime/causal-governance/InstitutionalCausalityExplorer.ts` | 87 | SUSPICIOUS_CLAIM | `supportingEvidence,` |
+| `src/core/runtime/causal-governance/causal-types.ts` | 40 | SUSPICIOUS_CLAIM | `supportingEvidence: CausalEvidence[];` |
+| `src/core/runtime/causal-governance/types.ts` | 60 | SUSPICIOUS_CLAIM | `rootCauses: CausalFactor[];` |
+| `src/core/runtime/decision-governance/ConstitutionalDecisionRuntime.ts` | 35 | SUSPICIOUS_CLAIM | `supportingMetrics: ['FCO', 'Liquidity Score'],` |
+| `src/core/runtime/decision-governance/ConstitutionalDecisionRuntime.ts` | 54 | SUSPICIOUS_CLAIM | `supportingMetrics: d.supportingMetrics,` |
+| `src/core/runtime/decision-governance/ExecutiveDecisionObject.ts` | 26 | SUSPICIOUS_CLAIM | `supportingMetrics: string[];` |
 | `src/core/runtime/esgim/esgimTypes.ts` | 90 | SUSPICIOUS_CLAIM | `supportingPrinciples?: string[];` |
 | `src/core/runtime/executive/AdvisoryCompressionEngine.ts` | 21 | SUSPICIOUS_CLAIM | `supportingMetrics: { ...narrative.supportingMetrics },` |
 | `src/core/runtime/executive/RuntimeBackedStorytelling.ts` | 10 | SUSPICIOUS_CLAIM | `supportingMetrics: RuntimeMetrics,` |
@@ -168,18 +168,18 @@ Mapeamento de vulnerabilidades potenciais e quebras de barreira fiduciária (Ten
 | `src/core/runtime/executive-command/ExecutiveCommandExplainabilityEngine.ts` | 17 | SUSPICIOUS_CLAIM | `supportingLineageHashes: [context.lineageHash],` |
 | `src/core/runtime/executive-command/ExecutiveCommandExplainabilityEngine.ts` | 34 | SUSPICIOUS_CLAIM | `supportingLineageHashes: [context.lineageHash],` |
 | `src/core/runtime/executive-command/executive-command-types.ts` | 73 | SUSPICIOUS_CLAIM | `supportingLineageHashes: string[];` |
-| `src/core/runtime/executive-intelligence-runtime.ts` | 218 | SUSPICIOUS_CLAIM | `rootCause?: string;` |
-| `src/core/runtime/executive-intelligence-runtime.ts` | 233 | SUSPICIOUS_CLAIM | `supportingEvidence?: import('./causal-intelligence/causal-types').CausalEvidence[];` |
-| `src/core/runtime/executive-intelligence-runtime.ts` | 785 | SUSPICIOUS_CLAIM | `if (!baseCausality.rootCause.includes('INSUFFICIENT_DATA')) {` |
-| `src/core/runtime/executive-intelligence-runtime.ts` | 786 | SUSPICIOUS_CLAIM | `baseCausality.rootCause = `Indícios apontam para: ${baseCausality.rootCause}`;` |
-| `src/core/runtime/executive-intelligence-runtime.ts` | 902 | SUSPICIOUS_CLAIM | `rootCause: sanitizeNarrative(rawCausality.rootCause),` |
-| `src/core/runtime/executive-intelligence-runtime.ts` | 1238 | SUSPICIOUS_CLAIM | `const internalAuditErrors: string[] = [];` |
-| `src/core/runtime/executive-intelligence-runtime.ts` | 1242 | SUSPICIOUS_CLAIM | `internalAuditErrors.push('Divergência matemática detectada: Lucro Bruto.');` |
-| `src/core/runtime/executive-intelligence-runtime.ts` | 1252 | SUSPICIOUS_CLAIM | `breakEvenDays, indiceConversaoOperacional, ebitda, recGrowth, ebitdaGrowth, internalAuditErrors,` |
-| `src/core/runtime/executive-intelligence-runtime.ts` | 1262 | SUSPICIOUS_CLAIM | `const rootCauseReport = EBITDARootCauseEngine.evaluate(` |
-| `src/core/runtime/executive-intelligence-runtime.ts` | 1284 | SUSPICIOUS_CLAIM | `internalAuditErrors.length > 0` |
-| `src/core/runtime/executive-intelligence-runtime.ts` | 1355 | SUSPICIOUS_CLAIM | `(dreInsights as any).rootCauseReport = rootCauseReport;` |
-| `src/core/runtime/executive-intelligence-runtime.ts` | 2638 | SUSPICIOUS_CLAIM | `causalChainPresent: !!initialReport.causality?.rootCause,` |
+| `src/core/runtime/executive-governance-runtime.ts` | 218 | SUSPICIOUS_CLAIM | `rootCause?: string;` |
+| `src/core/runtime/executive-governance-runtime.ts` | 233 | SUSPICIOUS_CLAIM | `supportingEvidence?: import('./causal-governance/causal-types').CausalEvidence[];` |
+| `src/core/runtime/executive-governance-runtime.ts` | 785 | SUSPICIOUS_CLAIM | `if (!baseCausality.rootCause.includes('INSUFFICIENT_DATA')) {` |
+| `src/core/runtime/executive-governance-runtime.ts` | 786 | SUSPICIOUS_CLAIM | `baseCausality.rootCause = `Indícios apontam para: ${baseCausality.rootCause}`;` |
+| `src/core/runtime/executive-governance-runtime.ts` | 902 | SUSPICIOUS_CLAIM | `rootCause: sanitizeNarrative(rawCausality.rootCause),` |
+| `src/core/runtime/executive-governance-runtime.ts` | 1238 | SUSPICIOUS_CLAIM | `const internalAuditErrors: string[] = [];` |
+| `src/core/runtime/executive-governance-runtime.ts` | 1242 | SUSPICIOUS_CLAIM | `internalAuditErrors.push('Divergência matemática detectada: Lucro Bruto.');` |
+| `src/core/runtime/executive-governance-runtime.ts` | 1252 | SUSPICIOUS_CLAIM | `breakEvenDays, indiceConversaoOperacional, ebitda, recGrowth, ebitdaGrowth, internalAuditErrors,` |
+| `src/core/runtime/executive-governance-runtime.ts` | 1262 | SUSPICIOUS_CLAIM | `const rootCauseReport = EBITDARootCauseEngine.evaluate(` |
+| `src/core/runtime/executive-governance-runtime.ts` | 1284 | SUSPICIOUS_CLAIM | `internalAuditErrors.length > 0` |
+| `src/core/runtime/executive-governance-runtime.ts` | 1355 | SUSPICIOUS_CLAIM | `(dreInsights as any).rootCauseReport = rootCauseReport;` |
+| `src/core/runtime/executive-governance-runtime.ts` | 2638 | SUSPICIOUS_CLAIM | `causalChainPresent: !!initialReport.causality?.rootCause,` |
 | `src/core/runtime/executive-orchestration/cognitive/ExecutiveNarrativeHierarchyEngine.ts` | 11 | SUSPICIOUS_CLAIM | `level2: report.causality.rootCause || 'Sem causa raiz estrutural mapeada pelo Runtime.',` |
 | `src/core/runtime/governance/bp/BalanceSheetExecutiveRecommendationEngine.ts` | 7 | SUSPICIOUS_CLAIM | `rootCause: string` |
 | `src/core/runtime/governance/bp/BalanceSheetExecutiveRecommendationEngine.ts` | 12 | SUSPICIOUS_CLAIM | `rationale: [rootCause, 'Capital is formally preserved.']` |

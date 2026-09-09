@@ -52,8 +52,8 @@ export function ExecutiveMaturityMap({ portfolio }: ExecutiveMaturityMapProps) {
     <div className="w-full bg-[#0A0A0A] border border-white/5 p-8 rounded-3xl mb-12">
       <div className="flex items-center justify-between border-b border-white/5 mb-8 pb-4">
         <h3 className="text-white text-lg font-light">
-          Executive Intelligence Portfolio™
-        </h3>
+          Executive Governance Portfolio™
+                          </h3>
         <span className="text-[10px] text-slate-500 uppercase tracking-widest">
           Index: {portfolio?.intelligenceIndex || 0}/100
         </span>

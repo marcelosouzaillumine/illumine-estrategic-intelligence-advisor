@@ -1,6 +1,6 @@
 export enum IntelligenceEvents {
-  ARTIFACT_CREATED = "intelligence.artifact.created",
-  ARTIFACT_VALIDATED = "intelligence.artifact.validated",
+  ARTIFACT_CREATED = "governance.artifact.created",
+  ARTIFACT_VALIDATED = "governance.artifact.validated",
   DECISION_APPROVED = "decision.approved",
   OUTCOME_MEASURED = "outcome.measured"
 }

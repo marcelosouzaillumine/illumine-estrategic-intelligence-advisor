@@ -9,7 +9,7 @@ export const CFOIntelligenceTemplate: ExecutiveExperienceLayer[] = [
   { id: 'overview', name: 'Executive Financial Overview', order: 10, rootComponentId: 'FinancialOverviewRoot' },
   { id: 'score', name: 'Financial Position Score', order: 15, rootComponentId: 'FinancialPositionScoreRoot' },
   { id: 'diagnosis', name: 'Financial Diagnosis', order: 20, rootComponentId: 'FinancialDiagnosisRoot' },
-  { id: 'signals', name: 'Intelligence Signals', order: 30, rootComponentId: 'FinancialSignalsRoot' },
+  { id: 'signals', name: 'Governance Signals', order: 30, rootComponentId: 'FinancialSignalsRoot' },
   { id: 'historical', name: 'Historical Evolution', order: 40, rootComponentId: 'HistoricalEvolutionRoot' },
   { id: 'questions', name: 'Executive Questions', order: 50, rootComponentId: 'ExecutiveQuestionsRoot' },
   { id: 'evidence', name: 'Technical Evidence', order: 100, rootComponentId: 'TechnicalEvidenceRoot' }

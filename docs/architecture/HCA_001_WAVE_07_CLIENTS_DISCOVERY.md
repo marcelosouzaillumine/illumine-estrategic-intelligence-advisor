@@ -41,7 +41,7 @@ A estrutura será dividida rigorosamente entre:
    - Isolamento da requisição HTTP ao `brasilapi.com.br` para validação de CNPJ.
    - Fornecerá os dados ao ViewModel de forma agnóstica de banco de dados.
 
-3. **`ClientIntelligenceService.ts` (Domain/AI Service)**
+3. **`ClientGovernanceService.ts` (Domain/AI Service)**
    - Ficará responsável por prover a estrutura `aiAnalysis` validada.
    - A UI (`relatorio_ia`) apenas renderizará os dados mapeados, sem precisar realizar casting local (`as any`).
 

@@ -44,7 +44,7 @@ describe('DRE Canonical Pipeline Isolation Contract', () => {
     );
   });
 
-  it('O DreExecutiveFactsBuilder deve ser capaz de computar o cascade de forma independente do ExecutiveIntelligenceRuntime', () => {
+  it('O DreExecutiveFactsBuilder deve ser capaz de computar o cascade de forma independente do ExecutiveGovernanceRuntime', () => {
     // Simulando uma injeção bruta onde o cascade resulta nisso
     const builder = new DreExecutiveFactsBuilder({ 
       cascadeResult: [

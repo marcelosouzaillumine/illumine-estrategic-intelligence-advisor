@@ -2118,7 +2118,7 @@ Based on this design: $[X-Y] range recommended
 
 ---
 
-*Data Intelligence Pack v1.0*
+*Data Governance Pack v1.0*
 *Agent: Wes Kao - Cohort-Based Learning Expert*
 *Tier: 1 (Operationalization)*
 *Lines: 1900+*

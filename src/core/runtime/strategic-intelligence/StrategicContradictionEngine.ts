@@ -47,7 +47,7 @@ export class StrategicContradictionEngine {
         type: 'DIRECTIONAL_DIVERGENCE',
         description: 'Observed strategic contradiction: capital distribution signals during active treasury stress.',
         severity: 'CRITICAL',
-        involvedEngines: ['TreasuryIntelligenceRuntime', 'ExecutiveCommandRuntime']
+        involvedEngines: ['TreasuryGovernanceRuntime', 'ExecutiveCommandRuntime']
       });
     }
 

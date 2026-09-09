@@ -1,5 +1,5 @@
 export interface ExpansionOpportunity {
-  recommendedSuite: 'Governance Intelligence' | 'Strategic Advisory AI' | 'Vertical Intelligence';
+  recommendedSuite: 'Governance Governance' | 'Strategic Advisory AI' | 'Vertical Governance';
   probabilityPercentage: number;
   potentialEbitdaGainBrl: number;
   reasoning: string;
@@ -9,10 +9,10 @@ export class ExpansionRecommendationEngine {
   public static recommendExpansion(tenantId: string): ExpansionOpportunity[] {
     return [
       {
-        recommendedSuite: 'Governance Intelligence',
+        recommendedSuite: 'Governance Governance',
         probabilityPercentage: 92,
         potentialEbitdaGainBrl: 450000,
-        reasoning: 'Alta maturidade no módulo Executive Intelligence e expansão recomendada para Conselho Digital e Matriz RACI.'
+        reasoning: 'Alta maturidade no módulo Executive Governance e expansão recomendada para Conselho Digital e Matriz RACI.'
       }
     ];
   }

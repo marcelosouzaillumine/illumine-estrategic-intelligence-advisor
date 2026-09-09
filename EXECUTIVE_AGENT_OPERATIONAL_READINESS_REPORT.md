@@ -2,7 +2,7 @@
 
 > **Relatório Executivo de Certificação da Wave 17.9**  
 > *Autoridade: Architecture Review Board (ARB) & Executive Agent Operational Committee*  
-> *Maturidade Certificada: **Executive Agent Operational Intelligence Certified**.*
+> *Maturidade Certificada: **Executive Agent Operational Governance Certified**.*
 
 ---
 
@@ -20,6 +20,6 @@
 
 ## 2. Veredito Final de Certificação
 
-$$\mathbf{EXECUTIVE \quad AGENT \quad OPERATIONAL \quad INTELLIGENCE \quad - \quad CERTIFIED}$$
+$$\mathbf{EXECUTIVE \quad AGENT \quad OPERATIONAL \quad GOVERNANCE \quad - \quad CERTIFIED}$$
 
-A Illumine OS™ atinge a certificação máxima de operação prática dos 12 agentes executivos (EAOS = 98.2 / 100 $\ge 95$), estando oficialmente apta para a **Wave 18 — Enterprise Data Connectivity & Real-Time Intelligence**.
+A Illumine OS™ atinge a certificação máxima de operação prática dos 12 agentes executivos (EAOS = 98.2 / 100 $\ge 95$), estando oficialmente apta para a **Wave 18 — Enterprise Data Connectivity & Real-Time Governance**.

@@ -2,7 +2,7 @@ import { describe, it, expect } from 'vitest';
 import * as fs from 'fs';
 import * as path from 'path';
 
-describe('@illumine/intelligence (Wave 15A Agent Domain Coverage)', () => {
+describe('@illumine/governance (Wave 15A Agent Domain Coverage)', () => {
   it('should verify that all 12 canonical agents exist in agent-capability-registry.json with 0 missing domains', () => {
     const registryPath = path.resolve(process.cwd(), 'agent-capability-registry.json');
     const content = fs.readFileSync(registryPath, 'utf-8');

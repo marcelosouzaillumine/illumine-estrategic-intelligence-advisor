@@ -148,7 +148,7 @@ export function EconomicNormalizationCenter({ selectedClient, selectedYear }: Ec
           <div>
             <div className="flex justify-between items-start mb-6">
               <div>
-                <span className="text-[10px] font-black tracking-widest text-muted-foreground uppercase">Fiduciary Intelligence</span>
+                <span className="text-[10px] font-black tracking-widest text-muted-foreground uppercase">Fiduciary Governance</span>
                 <ExecutiveHeading as="h3" className="text-muted-foreground mt-1">Economic Normalization Score</ExecutiveHeading>
               </div>
               <span className={cn("px-3 py-1 rounded-xl text-[10px] font-black tracking-widest uppercase border", scoreBgMap[currentLabelKey])}>

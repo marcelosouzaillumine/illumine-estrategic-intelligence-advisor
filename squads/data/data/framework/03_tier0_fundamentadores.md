@@ -1,4 +1,4 @@
-# Framework de Clones - Data Intelligence Pack
+# Framework de Clones - Data Governance Pack
 ## 03 - Tier 0: Fundamentadores (Foundation Layer)
 
 ---
@@ -67,7 +67,7 @@ Fader popularizou o uso de RFM como **preditor de comportamento futuro**, não a
 | **Frequency** | Quantas transações no período? | Alta frequência indica hábito formado |
 | **Monetary** | Quanto gastou no total? | Indica capacidade e disposição de gastar |
 
-### Aplicação no Data Intelligence Pack
+### Aplicação no Data Governance Pack
 
 O **Health Score** do PRD usa lógica derivada de Fader:
 
@@ -293,5 +293,5 @@ A combinação é poderosa para:
 
 ---
 
-*Framework de Clones - Data Intelligence Pack v2.0*
+*Framework de Clones - Data Governance Pack v2.0*
 *Tier 0: Fundamentadores (Foundation Layer)*

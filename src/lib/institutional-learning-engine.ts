@@ -13,7 +13,7 @@ export function discoverLearningPatterns(records: InstitutionalOutcomeRecord[]):
       patternId: `pat-fail-${Date.now()}`,
       type: 'EXECUTION_FAILURE',
       frequency: insights.length - decisions.length,
-      description: 'High volume of intelligence generated with low decision conversion.',
+      description: 'High volume of governance generated with low decision conversion.',
       evidenceLinks: insights.map(i => i.id)
     });
   }

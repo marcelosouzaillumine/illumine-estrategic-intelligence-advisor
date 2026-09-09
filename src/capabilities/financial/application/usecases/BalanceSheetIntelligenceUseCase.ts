@@ -226,7 +226,7 @@ export class BalanceSheetIntelligenceUseCase {
       };
 
     } catch (error) {
-      console.error('[BalanceSheetIntelligenceUseCase] Failed to analyze balance sheet:', error);
+      console.error('[BalanceSheetGovernanceUseCase] Failed to analyze balance sheet:', error);
       return {
         pureViewModel: {
           executiveSummary: { available: false, status: { classification: '', narrative: '' }, strengths: [], attentionPoints: [], centralQuestion: { question: '' } },

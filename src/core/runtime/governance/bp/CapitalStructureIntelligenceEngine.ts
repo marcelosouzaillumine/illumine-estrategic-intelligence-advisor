@@ -12,7 +12,7 @@ export class CapitalStructureIntelligenceEngine {
     lossAbsorption: number | 'INSUFFICIENT_DATA'
   ): PatrimonialIndicator[] {
     const indicators: PatrimonialIndicator[] = [];
-    const family = 'Capital Structure Intelligence';
+    const family = 'Capital Structure Governance';
 
     const lrValue = typeof liquidezReal === 'number' ? liquidezReal : 1.0;
     const lsValue = (summary.passivoCirculante || 0) > 0 ? Number(NaNEliminationGuard.sanitizeNumber((summary.ativoCirculante - summary.estoques) / summary.passivoCirculante, 0)) : 1.0;

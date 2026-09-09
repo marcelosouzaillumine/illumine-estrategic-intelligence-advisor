@@ -54,20 +54,20 @@ if (fs.existsSync(p01)) {
   // To avoid "Type X is missing properties from Type X", just remove the explicit type on the variable.
   content = content.replace(/: FinancialPositionIntelligenceContract =/g, ' =');
   // At the call site, cast it.
-  content = content.replace(/await capability\.validateContract\(mockContract\)/g, 'await capability.validateContract(mockContract as unknown as FinancialPositionIntelligenceContract)');
-  content = content.replace(/await engine\.process\(mockContract\)/g, 'await engine.process(mockContract as unknown as FinancialPositionIntelligenceContract)');
+  content = content.replace(/await capability\.validateContract\(mockContract\)/g, 'await capability.validateContract(mockContract as unknown as FinancialPositionGovernanceContract)');
+  content = content.replace(/await engine\.process\(mockContract\)/g, 'await engine.process(mockContract as unknown as FinancialPositionGovernanceContract)');
   fs.writeFileSync(p01, content);
 }
 const p02 = 'src/capabilities/financial/domain/__tests__/P02_04_05.spec.ts';
 if (fs.existsSync(p02)) {
   let content = fs.readFileSync(p02, 'utf-8');
   content = content.replace(/: FinancialPositionIntelligenceContract =/g, ' =');
-  content = content.replace(/\(partialContract\)/g, '(partialContract as unknown as FinancialPositionIntelligenceContract)');
+  content = content.replace(/\(partialContract\)/g, '(partialContract as unknown as FinancialPositionGovernanceContract)');
   fs.writeFileSync(p02, content);
 }
 
 // 5. BalanceSheetIntelligenceEngine
-const engine = 'src/capabilities/financial/intelligence/BalanceSheetIntelligenceEngine.ts';
+const engine = 'src/capabilities/financial/governance/BalanceSheetGovernanceEngine.ts';
 if (fs.existsSync(engine)) {
   let content = fs.readFileSync(engine, 'utf-8');
   content = content.replace(/purpose: [^,]+,/g, '');

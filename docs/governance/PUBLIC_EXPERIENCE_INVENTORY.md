@@ -17,9 +17,9 @@ Este documento serve como mapa arquitetural e de governança para as páginas de
 | **Manifesto (Tese)** | `/public/v2/InstitutionalManifestoPage.tsx` | `institutional` | Alta |
 | **Por que Illumine** | `/public/v2/InstitutionalWhyPage.tsx` | `institutional` | Alta |
 | **Plataforma** | `/public/v2/InstitutionalPlatformPage.tsx` | `platform` | Média |
-| **Domínios (Intelligence)** | `/public/v2/InstitutionalDomainsPage.tsx` | `domains` | Média |
+| **Domínios (Governance)** | `/public/v2/InstitutionalDomainsPage.tsx` | `domains` | Média |
 | **Governança** | `/public/v2/InstitutionalGovernancePage.tsx` | `governance` | Média |
-| **Centro de Inteligência** | `/public/v2/InstitutionalIntelligenceCenterPage.tsx` | `institutional` | Baixa |
+| **Centro de Inteligência** | `/public/v2/InstitutionalGovernanceCenterPage.tsx` | `institutional` | Baixa |
 | **Executive Assessment** | `/public/v2/ExecutiveAssessmentPage.tsx` | `institutional` | Baixa |
 | **Evolution Timeline** | `/public/v2/EvolutionTimeline.tsx` | `institutional` | Baixa |
 | **Thesis Page** | `/public/v2/InstitutionalThesisPage.tsx` | *Ver Manifesto* | - |

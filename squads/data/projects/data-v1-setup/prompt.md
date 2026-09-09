@@ -1,8 +1,8 @@
-# Data Intelligence Pack v1.0 - Setup
+# Data Governance Pack v1.0 - Setup
 
 ## MISSION
 
-Criar o Data Intelligence Squad com 6 agents especializados (clones de experts reais) e tasks operacionais para análise de dados de negócio.
+Criar o Data Governance Squad com 6 agents especializados (clones de experts reais) e tasks operacionais para análise de dados de negócio.
 
 ---
 

@@ -31,18 +31,18 @@ Fica registrado formalmente que permanecem inalterados e não poderão ser subst
 * DRE Runtime
 * BP Runtime
 * DFC Runtime
-* DLPA Intelligence
+* DLPA Governance
 * Master Causal Engine
-* Institutional Intelligence
-* Economic Intelligence
-* Governance Intelligence
-* Systemic Intelligence
-* Anthropological Intelligence
+* Institutional Governance
+* Economic Governance
+* Governance Governance
+* Systemic Governance
+* Anthropological Governance
 * Engine Central de Correlação
 * Engine de Priorização
 * Explainability Global
 * Executive Advisory Layer
-* Narrative Intelligence
+* Narrative Governance
 * Executive Workspace
 * Executive AI Layer
 * Constitutional Governance
@@ -107,7 +107,7 @@ Toda inferência institucional deverá manter coerência causal obrigatória ent
 
 A plataforma deixa oficialmente de operar apenas como sistema de analytics financeiro e passa a operar como:
 
-CAUSAL INSTITUTIONAL INTELLIGENCE PLATFORM.
+CAUSAL INSTITUTIONAL GOVERNANCE PLATFORM.
 
 ## CAUSAL VALIDATION GOVERNANCE
 
@@ -132,15 +132,15 @@ Nenhuma alteração relevante na MASTER_CAUSAL_ENGINE poderá ser considerada ho
 
 Toda interpretação operacional da plataforma deverá obedecer obrigatoriamente às diretrizes estabelecidas na:
 
-* OPERATIONAL_INTELLIGENCE_LAYER.md
+* OPERATIONAL_GOVERNANCE_LAYER.md
 
-A plataforma deixa de interpretar a DRE apenas como painel de indicadores ou cálculo financeiro estático. Passa a atuar como um Operational Behavioral Intelligence System.
+A plataforma deixa de interpretar a DRE apenas como painel de indicadores ou cálculo financeiro estático. Passa a atuar como um Operational Behavioral Governance System.
 Nenhum módulo poderá:
 * interpretar EBITDA isoladamente sem contextualizar a sua qualidade (Saudável, Frágil, Artificial, Destrutivo);
 * inferir saúde operacional apenas por faturamento ou lucros descontextualizados;
 * classificar crescimento sem avaliar pressão estrutural, conversão em caixa e elasticidade operacional.
 
-## CASH FLOW INTELLIGENCE GOVERNANCE
+## CASH FLOW GOVERNANCE GOVERNANCE
 
 A plataforma Illumine passa a reconhecer o Fluxo de Caixa como terceiro eixo estrutural da inteligência institucional, ao lado de:
 
@@ -150,7 +150,7 @@ A plataforma Illumine passa a reconhecer o Fluxo de Caixa como terceiro eixo est
 
 Toda interpretação de caixa deverá obedecer obrigatoriamente ao documento:
 
-* CASH_FLOW_INTELLIGENCE_LAYER.md
+* CASH_FLOW_GOVERNANCE_LAYER.md
 
 A camada de caixa torna-se responsável por:
 
@@ -165,7 +165,7 @@ A camada de caixa torna-se responsável por:
 * risco de ruptura;
 * continuidade empresarial baseada em caixa.
 
-Nenhum componente, engine, hook, página, serviço, relatório, score ou advisory poderá interpretar Fluxo de Caixa fora das regras definidas pela CASH_FLOW_INTELLIGENCE_LAYER.
+Nenhum componente, engine, hook, página, serviço, relatório, score ou advisory poderá interpretar Fluxo de Caixa fora das regras definidas pela CASH_FLOW_GOVERNANCE_LAYER.
 
 A plataforma passa a reconhecer institucionalmente que:
 
@@ -188,7 +188,7 @@ Toda inferência institucional deverá manter coerência causal obrigatória ent
 
 A Arquitetura Mestra deverá registrar que a plataforma Illumine evolui para uma:
 
-**INTEGRATED INSTITUTIONAL INTELLIGENCE PLATFORM**
+**INTEGRATED INSTITUTIONAL GOVERNANCE PLATFORM**
 
 capaz de interpretar estrutura, operação e caixa de forma integrada, causal, ponderada, calibrada e executivamente coerente.
 
@@ -261,15 +261,15 @@ Os 7 domínios são:
 
 Atravessando transversalmente os 7 domínios oficiais, a plataforma Illumine passa a reconhecer oficialmente 7 inteligências estruturantes. Estas inteligências não atuam como dashboards ou páginas individuais, mas sim como **camadas interpretativas** que guiam a análise, a geração de advisory e a formação de planos de ação sistêmicos:
 
-> **Constituição Cognitiva:** O framework oficial de interação, arbitragem e precedência destas 7 inteligências está registrado em: [SEVEN_INTELLIGENCES_INTERACTION_FRAMEWORK.md](file:///Users/marcelosouza/Documents/illumine-strategic-intelligence-advisor/docs/SEVEN_INTELLIGENCES_INTERACTION_FRAMEWORK.md).
+> **Constituição Cognitiva:** O framework oficial de interação, arbitragem e precedência destas 7 inteligências está registrado em: [SEVEN_GOVERNANCES_INTERACTION_FRAMEWORK.md](file:///Users/marcelosouza/Documents/illumine-strategic-governance-advisor/docs/SEVEN_GOVERNANCES_INTERACTION_FRAMEWORK.md).
 
 1. **Inteligência de Governança:** Avalia o alinhamento estratégico, a sucessão, os mecanismos de controle, o nível de *compliance* e a mitigação de riscos estruturais nas práticas da empresa.
 2. **Inteligência Sistêmica:** Analisa como as diferentes áreas e processos interagem e dependem uns dos outros, identificando gargalos, redundâncias e oportunidades de otimização no fluxo de valor organizacional.
 3. **Inteligência Institucional:** Compreende o legado da organização, sua imagem perante o mercado, o impacto gerado na sociedade e o alinhamento de seu posicionamento com os valores de longo prazo.
 4. **Inteligência Econômica:** Interpreta a saúde financeira corporativa sob o aspecto da geração de valor sustentável, viabilidade de negócios e eficiência pragmática na alocação de capital e recursos.
 5. **Inteligência Antropológica:** Foca nas dinâmicas de comportamento humano, nas crenças, nos rituais corporativos, na coerência entre a cultura declarada e a cultura vivida, e no tecido relacional dos colaboradores.
-6. **Inteligência Missional:** ([MISSIONAL_INTELLIGENCE_ENGINE.md](file:///Users/marcelosouza/Documents/illumine-strategic-intelligence-advisor/docs/MISSIONAL_INTELLIGENCE_ENGINE.md)) Avalia a coerência entre missão declarada e missão praticada; o alinhamento entre propósito, estratégia e operação; monitora *Mission Drift* e *Mission Integrity*; e mede o impacto transformacional gerado pela organização. A pergunta central é: *"A organização está cumprindo sua razão de existir?"*.
-7. **Inteligência Prospectiva:** ([PROSPECTIVE_INTELLIGENCE_ENGINE.md](file:///Users/marcelosouza/Documents/illumine-strategic-intelligence-advisor/docs/PROSPECTIVE_INTELLIGENCE_ENGINE.md)) Avalia a adaptabilidade organizacional, capacidade de inovação, capacidade de sucessão, preparação para riscos futuros, sustentabilidade de longo prazo e resiliência estratégica. A pergunta central é: *"Esta organização está preparada para prosperar no futuro sem comprometer sua identidade, sua missão e sua capacidade de gerar valor?"*.
+6. **Inteligência Missional:** ([MISSIONAL_GOVERNANCE_ENGINE.md](file:///Users/marcelosouza/Documents/illumine-strategic-governance-advisor/docs/MISSIONAL_GOVERNANCE_ENGINE.md)) Avalia a coerência entre missão declarada e missão praticada; o alinhamento entre propósito, estratégia e operação; monitora *Mission Drift* e *Mission Integrity*; e mede o impacto transformacional gerado pela organização. A pergunta central é: *"A organização está cumprindo sua razão de existir?"*.
+7. **Inteligência Prospectiva:** ([PROSPECTIVE_GOVERNANCE_ENGINE.md](file:///Users/marcelosouza/Documents/illumine-strategic-governance-advisor/docs/PROSPECTIVE_GOVERNANCE_ENGINE.md)) Avalia a adaptabilidade organizacional, capacidade de inovação, capacidade de sucessão, preparação para riscos futuros, sustentabilidade de longo prazo e resiliência estratégica. A pergunta central é: *"Esta organização está preparada para prosperar no futuro sem comprometer sua identidade, sua missão e sua capacidade de gerar valor?"*.
 
 ### 4.1. ESGIM Framework
 
@@ -291,7 +291,7 @@ Fica registrado oficialmente o **ESGIM™** como framework transversal da plataf
 ### 4.2. Institutional Wisdom Library (IWL)
 
 Fica registrada oficialmente a Institutional Wisdom Library. O framework detalhado e as regras de governança cognitiva encontram-se em:
-* [INSTITUTIONAL_WISDOM_LIBRARY_RUNTIME.md](file:///Users/marcelosouza/Documents/illumine-strategic-intelligence-advisor/docs/INSTITUTIONAL_WISDOM_LIBRARY_RUNTIME.md)
+* [INSTITUTIONAL_WISDOM_LIBRARY_RUNTIME.md](file:///Users/marcelosouza/Documents/illumine-strategic-governance-advisor/docs/INSTITUTIONAL_WISDOM_LIBRARY_RUNTIME.md)
 
 **Definition:**
 "A Institutional Wisdom Library representa a base epistemológica utilizada pelas Inteligências Estruturantes para interpretar evidências, tensões, riscos e oportunidades institucionais."
@@ -328,43 +328,43 @@ Fica registrado que todas as futuras capacidades de **ESGIM**, **Inteligência M
 * Explainability Global
 * Engine Central de Correlação
 * Engine de Priorização
-* Narrative Intelligence
+* Narrative Governance
 * Executive Advisory Layer
 
 Nenhuma nova capacidade poderá gerar conclusões sem rastreabilidade.
 
-### 4.4. Composite Intelligence Engines
+### 4.4. Composite Governance Engines
 
-Fica registrada oficialmente uma nova categoria arquitetural na plataforma: **Composite Intelligence Engines**.
+Fica registrada oficialmente uma nova categoria arquitetural na plataforma: **Composite Governance Engines**.
 Estas são engines de interpretação executiva que consomem múltiplas Inteligências Estruturantes para responder perguntas organizacionais de ordem superior.
 
-O membro inaugural desta categoria é o **Mission Alignment Engine**. Os detalhes de sua orquestração, consumo (Missional, Constitutional, Institutional e Prospective Intelligence) e regras de arbitragem estão registrados em:
-* [MISSION_ALIGNMENT_ENGINE.md](file:///Users/marcelosouza/Documents/illumine-strategic-intelligence-advisor/docs/MISSION_ALIGNMENT_ENGINE.md)
+O membro inaugural desta categoria é o **Mission Alignment Engine**. Os detalhes de sua orquestração, consumo (Missional, Constitutional, Institutional e Prospective Governance) e regras de arbitragem estão registrados em:
+* [MISSION_ALIGNMENT_ENGINE.md](file:///Users/marcelosouza/Documents/illumine-strategic-governance-advisor/docs/MISSION_ALIGNMENT_ENGINE.md)
 
 ### 4.5. Governance Assessment Runtimes
 
 Fica registrada oficialmente a categoria de **Governance Assessment Runtimes**, atuando como a camada que produz avaliações executivas institucionais integradas. O membro inaugural desta categoria é o **ESGIM Governance Assessment Runtime**, cujas regras consolidadas estão documentadas em:
-* [ESGIM_RUNTIME_FRAMEWORK.md](file:///Users/marcelosouza/Documents/illumine-strategic-intelligence-advisor/docs/ESGIM_RUNTIME_FRAMEWORK.md)
+* [ESGIM_RUNTIME_FRAMEWORK.md](file:///Users/marcelosouza/Documents/illumine-strategic-governance-advisor/docs/ESGIM_RUNTIME_FRAMEWORK.md)
 
-### 4.6. Board Intelligence Layers
+### 4.6. Board Governance Layers
 
-Fica registrada oficialmente a categoria de **Board Intelligence Layers**, responsável por transformar avaliações institucionais em suporte direto à tomada de decisão para Conselhos e Investidores. O membro inaugural é o **ESGIM Board Intelligence Layer**, detalhado em:
-* [ESGIM_BOARD_INTELLIGENCE_LAYER.md](file:///Users/marcelosouza/Documents/illumine-strategic-intelligence-advisor/docs/ESGIM_BOARD_INTELLIGENCE_LAYER.md)
+Fica registrada oficialmente a categoria de **Board Governance Layers**, responsável por transformar avaliações institucionais em suporte direto à tomada de decisão para Conselhos e Investidores. O membro inaugural é o **ESGIM Board Governance Layer**, detalhado em:
+* [ESGIM_BOARD_GOVERNANCE_LAYER.md](file:///Users/marcelosouza/Documents/illumine-strategic-governance-advisor/docs/ESGIM_BOARD_GOVERNANCE_LAYER.md)
 
 ### 4.7. Cognitive Validation Framework
 
 Fica registrado oficialmente o framework responsável pela validação, auditoria e certificação do comportamento cognitivo da arquitetura, submetendo todo o fluxo de orquestração a Stress Tests obrigatórios para garantir tolerância zero a falsos positivos fiduciários e institucionais. O documento de referência é:
-* [ESGIM_COGNITIVE_VALIDATION_FRAMEWORK.md](file:///Users/marcelosouza/Documents/illumine-strategic-intelligence-advisor/docs/ESGIM_COGNITIVE_VALIDATION_FRAMEWORK.md)
+* [ESGIM_COGNITIVE_VALIDATION_FRAMEWORK.md](file:///Users/marcelosouza/Documents/illumine-strategic-governance-advisor/docs/ESGIM_COGNITIVE_VALIDATION_FRAMEWORK.md)
 
 ### 4.8. Cognitive Assurance & Certification Frameworks
 
 Fica registrada oficialmente a categoria de **Cognitive Assurance & Certification Frameworks**, atuando como a autoridade máxima de governança da qualidade cognitiva da plataforma. Esta camada é responsável por auditar, certificar e revogar certificações (baseadas em Rules estritas) garantindo confiabilidade institucional. O framework oficial está documentado em:
-* [GOVERNANCE_COGNITIVE_ASSURANCE_FRAMEWORK.md](file:///Users/marcelosouza/Documents/illumine-strategic-intelligence-advisor/docs/GOVERNANCE_COGNITIVE_ASSURANCE_FRAMEWORK.md)
+* [GOVERNANCE_COGNITIVE_ASSURANCE_FRAMEWORK.md](file:///Users/marcelosouza/Documents/illumine-strategic-governance-advisor/docs/GOVERNANCE_COGNITIVE_ASSURANCE_FRAMEWORK.md)
 
 ### 4.9. Cognitive Audit & Certification Execution Packs
 
 Ficam registrados oficialmente os artefatos de execução das auditorias cognitivas. Eles contêm os escopos de testes práticos, modelos de pontuação, limiares de certificação e as regras rígidas de escalada (Failure Escalation). O primeiro execution pack oficial que inaugura a certificação da plataforma está em:
-* [ESGIM_COGNITIVE_AUDIT_EXECUTION_PACK.md](file:///Users/marcelosouza/Documents/illumine-strategic-intelligence-advisor/docs/ESGIM_COGNITIVE_AUDIT_EXECUTION_PACK.md)
+* [ESGIM_COGNITIVE_AUDIT_EXECUTION_PACK.md](file:///Users/marcelosouza/Documents/illumine-strategic-governance-advisor/docs/ESGIM_COGNITIVE_AUDIT_EXECUTION_PACK.md)
 
 ## 5. Módulos Técnicos (Subsistemas)
 
@@ -1426,16 +1426,16 @@ A Governança de Insights e Alertas depende do correto funcionamento de:
 ### Objetivo Final
 Transformar a Illumine em uma plataforma executiva imune ao excesso informacional, capaz de reduzir o ruído, organizar o foco estratégico e preservar a clareza decisória de alto nível.
 
-## 18. Narrative Intelligence Layer
+## 18. Narrative Governance Layer
 
 ### Objetivo
-Documentar a arquitetura oficial da camada de *Narrative Intelligence* da plataforma Illumine. A camada funciona como responsável por transformar indicadores, correlações, priorizações, *explainability*, *advisory* e inteligências estruturantes em narrativas executivas coerentes, contextualizadas e organizadas.
+Documentar a arquitetura oficial da camada de *Narrative Governance* da plataforma Illumine. A camada funciona como responsável por transformar indicadores, correlações, priorizações, *explainability*, *advisory* e inteligências estruturantes em narrativas executivas coerentes, contextualizadas e organizadas.
 
 > **Importante:**
 > Nesta etapa, não há implementação de código, criação de IA autônoma, recálculo de indicadores ou criação de dashboards novos. Documenta-se apenas as responsabilidades, fluxo narrativo, regras cognitivas, limites e a estrutura executiva.
 
 ### Função Principal
-A *Narrative Intelligence* deve:
+A *Narrative Governance* deve:
 - Conectar análises
 - Organizar causalidade
 - Consolidar contexto
@@ -1465,13 +1465,13 @@ Executivos não pensam em indicadores isolados. Executivos pensam em:
 - **Narrativa:** "O crescimento operacional está consumindo capital de giro acima da capacidade atual de *funding* da empresa."
 
 ### Regras Fundamentais
-**A Narrative Intelligence PODE:**
+**A Narrative Governance PODE:**
 - Consolidar contexto
 - Organizar causalidade
 - Estruturar narrativa executiva
 - Conectar efeitos sistêmicos
 
-**A Narrative Intelligence NÃO PODE:**
+**A Narrative Governance NÃO PODE:**
 - Recalcular indicadores
 - Alterar engines
 - Inventar causalidade
@@ -1519,7 +1519,7 @@ A inteligência narrativa deve manter um encadeamento lógico, para:
 - Antropológica
 
 ### Dependências
-A *Narrative Intelligence* depende obrigatoriamente das entregas de:
+A *Narrative Governance* depende obrigatoriamente das entregas de:
 - Engines Especialistas
 - Engine Central de Correlação
 - Engine de Priorização
@@ -1747,7 +1747,7 @@ A Engine de Maturidade depende dos insumos e integrações com:
 - Executive Advisory Layer
 - Explainability Global
 - Governança de Insights
-- Narrative Intelligence
+- Narrative Governance
 
 ### Objetivo Final
 Transformar a Illumine em uma plataforma capaz de contextualizar sua inteligência empresarial conforme o estágio *real* de maturidade organizacional da empresa, evitando *advisory* genérico e aumentando drasticamente a coerência executiva nas recomendações.
@@ -1805,7 +1805,7 @@ O *Executive AI Layer* deve atuar para:
 
 ### Fluxo Oficial (Cadeia de Valor)
 O fluxo informacional segue estritamente a hierarquia:
-Dados → Engines → Inteligências → Correlação → Priorização → Explainability → Advisory → Narrative Intelligence → **Executive AI Layer**
+Dados → Engines → Inteligências → Correlação → Priorização → Explainability → Advisory → Narrative Governance → **Executive AI Layer**
 
 ### Exemplos Oficiais
 
@@ -1853,7 +1853,7 @@ A Inteligência Artificial baseia-se diretamente nas entregas validadas de:
 - Explainability Global
 - Executive Advisory Layer
 - Governança de Insights
-- Narrative Intelligence
+- Narrative Governance
 - Engine de Maturidade Empresarial
 
 ### Objetivo Final
@@ -2034,7 +2034,7 @@ Documentar a ordem oficial de consolidação e evolução da plataforma Illumine
 - Engine Central de Correlação
 - Engine de Priorização Executiva
 - Governança de Insights
-- *Narrative Intelligence*
+- *Narrative Governance*
 - Advisory Executivo Base
 - *Explainability* Global estabelecido
 - Causalidade validada nativamente
@@ -3019,7 +3019,7 @@ O algoritmo de Advisory Patrimonial requer as seguintes assinaturas para operar:
 - O *Explainability* do BP (Para justificar o conselho)
 - A *Engine* de Correlação Sistêmica do BP (Para cruzar a foto patrimonial com o filme da DRE/Fluxo)
 - A *Engine* de Priorização (Para saber o que falar primeiro)
-- A camada de *Narrative Intelligence* (Para moldar o texto final)
+- A camada de *Narrative Governance* (Para moldar o texto final)
 - O *Executive Advisory Layer* (Para entrega visual ao usuário)
 
 ### Exemplos Oficiais de Saída
@@ -3093,7 +3093,7 @@ O conselheiro virtual não deve gerar fadiga informacional. O texto deve elencar
 O texto interpretativo forjado pelo *Advisory Patrimonial* serve como *feed* direto e vital para as camadas de apresentação:
 - Visão *Board* (Apresentações de Conselho)
 - *Executive Workspace* (Mesa de Trabalho da Diretoria)
-- *Narrative Intelligence* (Geração de relatórios completos)
+- *Narrative Governance* (Geração de relatórios completos)
 - *Executive AI Layer* (LLMs governadas para Q&A e aprofundamentos no chat)
 
 ### Proibições do Módulo
@@ -3153,7 +3153,7 @@ O algoritmo de escoragem ("Credit Score" do BP) necessita das seguintes camadas:
 - Correlação Sistêmica do BP (Para entender o risco de contágio)
 - *Advisory* Patrimonial (Para amparar a nota gerada)
 - *Engine* de Priorização (Para destacar o score)
-- *Narrative Intelligence* (Para explicar o porquê do score)
+- *Narrative Governance* (Para explicar o porquê do score)
 
 ### Dimensões Oficiais do Score
 O cálculo matricial da nota leva em consideração 8 dimensões obrigatórias:
@@ -3227,7 +3227,7 @@ A "Nota" (*Score Patrimonial*) serve de *badge* e alimentará os módulos:
 - *Executive Workspace* (Cards de Top Level)
 - Visão *Board* (Apresentações de Conselho Sintéticas)
 - *Executive Advisory Layer* (Bandeiras de gravidade ao lado do texto)
-- *Narrative Intelligence* (Moldando o tom do e-mail de alerta)
+- *Narrative Governance* (Moldando o tom do e-mail de alerta)
 - *Executive AI Layer* (Permitindo o prompt: "Por que meu score abaixou?")
 
 ### Proibições do Módulo
@@ -3273,7 +3273,7 @@ Por ser a análise mais sofisticada da plataforma, a Continuidade depende compul
 - Análise de Capital de Giro
 - Correlação Sistêmica (Visão Holística)
 - *Advisory* Executivo (Leitura Heurística)
-- *Narrative Intelligence*
+- *Narrative Governance*
 - *Engine* de Maturidade Empresarial
 - Sinais de Macro Economia
 
@@ -3363,7 +3363,7 @@ O Parecer de Continuidade Empresarial alimenta as esferas mais nobres da UI:
 - *Executive Workspace* (Card mestre de saúde)
 - Visão *Board* (Início do deck de reunião de acionistas)
 - *Executive Advisory Layer* (Modulando o tom geral do software)
-- *Narrative Intelligence* (O viés pelo qual os relatórios mensais são escritos)
+- *Narrative Governance* (O viés pelo qual os relatórios mensais são escritos)
 - *Executive AI Layer* (LLMs usando o nível de continuidade para adequar recomendações)
 
 ### Proibições do Módulo
@@ -3485,7 +3485,7 @@ Esta é a cadeia alimentar da Illumine. A seta (`→`) significa "Alimenta" / "�
 - O *Explainability* (Para lastrear seu conselho)
 - A *Engine* de Priorização (Para saber o que aconselhar primeiro)
 
-**Narrative Intelligence** depende estritamente de:
+**Narrative Governance** depende estritamente de:
 - O *Advisory* gerado
 - As Correlações mapeadas
 - A Priorização do período
@@ -3528,7 +3528,7 @@ Arquitetura Mestra Illumine.md
 MASTER_IMPORT_ENGINE.md
 → governa ingestão, parsing, validação, normalização, staging, aprovação e integração de dados
 
-MASTER_FINANCIAL_INTELLIGENCE_ENGINE.md
+MASTER_FINANCIAL_GOVERNANCE_ENGINE.md
 → governa cálculos financeiros, causalidade, liquidez, continuidade empresarial, advisory e scores
 
 MASTER_AI_ADVISORY_ENGINE.md
@@ -3595,7 +3595,7 @@ Toda narrativa deve obedecer obrigatoriamente:
 - MASTER_AI_ADVISORY_ENGINE.md
 
 Toda análise financeira deve obedecer:
-- MASTER_FINANCIAL_INTELLIGENCE_ENGINE.md
+- MASTER_FINANCIAL_GOVERNANCE_ENGINE.md
 
 Toda importação deve obedecer:
 - MASTER_IMPORT_ENGINE.md
@@ -3625,12 +3625,12 @@ A plataforma Illumine opera através de camadas hierárquicas de inteligência.
 
 A ordem oficial de precedência institucional é:
 
-1. INSTITUTIONAL_CONTEXT_INTELLIGENCE_LAYER (Camada de Contexto - Fundamento do Runtime)
+1. INSTITUTIONAL_CONTEXT_GOVERNANCE_LAYER (Camada de Contexto - Fundamento do Runtime)
 2. MASTER_RUNTIME_ORCHESTRATOR.md
 3. RUNTIME_COMPLIANCE_SYSTEM.md
 4. MASTER_ARCHITECTURE.md
 5. MASTER_INSTITUTIONAL_INFERENCE_ENGINE.md
-6. MASTER_FINANCIAL_INTELLIGENCE_ENGINE.md
+6. MASTER_FINANCIAL_GOVERNANCE_ENGINE.md
 7. Engines específicas
 8. Componentes
 9. Mock data / fallback / regras locais
@@ -3654,13 +3654,13 @@ A Executive Synthesis Engine define:
 - consolidação cognitiva;
 - coerência institucional.
 
-A Master Executive Intelligence Layer define:
+A Master Executive Governance Layer define:
 - orquestração da inteligência;
 - hierarquia semântica;
 - prioridade narrativa;
 - linguagem institucional.
 
-A Master Financial Intelligence Engine define:
+A Master Financial Governance Engine define:
 - fórmulas;
 - cálculos;
 - métricas;
@@ -3737,12 +3737,12 @@ Nenhuma interface poderá:
 
 Hierarquia oficial da plataforma:
 
-1. INSTITUTIONAL_CONTEXT_INTELLIGENCE_LAYER (Camada de Contexto - Fundamento do Runtime)
+1. INSTITUTIONAL_CONTEXT_GOVERNANCE_LAYER (Camada de Contexto - Fundamento do Runtime)
 2. MASTER_RUNTIME_ORCHESTRATOR.md
 3. RUNTIME_COMPLIANCE_SYSTEM.md
 4. MASTER_ARCHITECTURE.md
 5. MASTER_INSTITUTIONAL_INFERENCE_ENGINE.md
-6. MASTER_FINANCIAL_INTELLIGENCE_ENGINE.md
+6. MASTER_FINANCIAL_GOVERNANCE_ENGINE.md
 7. Engines específicas
 8. Componentes
 9. Mock data / fallback / regras locais
@@ -3768,7 +3768,7 @@ Toda renderização financeira institucional deve obedecer suas diretrizes.
 
 Fica estabelecida a referência cruzada entre as principais diretrizes arquiteturais:
 * MASTER_ARCHITECTURE.md
-* MASTER_FINANCIAL_INTELLIGENCE_ENGINE.md
+* MASTER_FINANCIAL_GOVERNANCE_ENGINE.md
 * BOARD_RENDER_ENGINE.md
 * BOARD_SYNTHESIS_ENGINE.md
 
@@ -3778,7 +3778,7 @@ A BOARD_SYNTHESIS_ENGINE é definida como engine obrigatória para qualquer:
 * advisory;
 * stress test;
 * board report;
-* intelligence engine;
+* governance engine;
 * narrative engine;
 * dashboard executivo.
 
@@ -3786,12 +3786,12 @@ A BOARD_SYNTHESIS_ENGINE é definida como engine obrigatória para qualquer:
 
 Fica definida a seguinte precedência na plataforma:
 
-1. INSTITUTIONAL_CONTEXT_INTELLIGENCE_LAYER (Camada de Contexto - Fundamento do Runtime)
+1. INSTITUTIONAL_CONTEXT_GOVERNANCE_LAYER (Camada de Contexto - Fundamento do Runtime)
 2. MASTER_RUNTIME_ORCHESTRATOR.md
 3. RUNTIME_COMPLIANCE_SYSTEM.md
 4. MASTER_ARCHITECTURE.md
 5. MASTER_INSTITUTIONAL_INFERENCE_ENGINE.md
-6. MASTER_FINANCIAL_INTELLIGENCE_ENGINE.md
+6. MASTER_FINANCIAL_GOVERNANCE_ENGINE.md
 7. Engines específicas
 8. Componentes
 9. Mock data / fallback / regras locais
@@ -3831,7 +3831,7 @@ Toda renderização institucional deve obedecer suas diretrizes.
 Toda inteligência da plataforma deve seguir:
 
 CAMADA 1 → Executive Summary
-CAMADA 2 → Executive Intelligence
+CAMADA 2 → Executive Governance
 CAMADA 3 → Technical Analytics
 
 A profundidade deve ser:
@@ -3853,8 +3853,8 @@ Porém:
 
 Exemplo:
 
-* Treasury Intelligence
-* Liquidity Quality Intelligence
+* Treasury Governance
+* Liquidity Quality Governance
 * Elasticidade Financeira
 
 Devem compor:
@@ -3887,8 +3887,8 @@ Este documento balizará as *Stories* e refatorações que compõem o *Brownfiel
 *Este documento é um artefato vivo de arquitetura conceitual e deve ser atualizado conforme novos domínios forem mapeados, sempre preservando as diretrizes de estabilidade e segurança.*
 
 
-## BUSINESS_MODEL_INTELLIGENCE_ENGINE
-A BUSINESS_MODEL_INTELLIGENCE_ENGINE atua como uma das Core Intelligence Engines e orquestra a Strategic Interpretation Layer, a Executive Advisory Layer e a Financial Intelligence Pipeline.
+## BUSINESS_MODEL_GOVERNANCE_ENGINE
+A BUSINESS_MODEL_GOVERNANCE_ENGINE atua como uma das Core Governance Engines e orquestra a Strategic Interpretation Layer, a Executive Advisory Layer e a Financial Governance Pipeline.
 
 **REGRA INSTITUCIONAL SUPREMA:**
 Nenhuma análise pode ser executada sem contextualização do modelo econômico-operacional da empresa.
@@ -3901,11 +3901,11 @@ A engine prove:
 - interpretação contextual de liquidez, capital de giro e alavancagem.
 
 **Dependência Obrigatória:**
-- BP → BUSINESS_MODEL_INTELLIGENCE_ENGINE
-- DRE → BUSINESS_MODEL_INTELLIGENCE_ENGINE
-- STRESS TEST → BUSINESS_MODEL_INTELLIGENCE_ENGINE
-- SCORES → BUSINESS_MODEL_INTELLIGENCE_ENGINE
-- ADVISORY → BUSINESS_MODEL_INTELLIGENCE_ENGINE
+- BP → BUSINESS_MODEL_GOVERNANCE_ENGINE
+- DRE → BUSINESS_MODEL_GOVERNANCE_ENGINE
+- STRESS TEST → BUSINESS_MODEL_GOVERNANCE_ENGINE
+- SCORES → BUSINESS_MODEL_GOVERNANCE_ENGINE
+- ADVISORY → BUSINESS_MODEL_GOVERNANCE_ENGINE
 
 ## INSTITUTIONAL_RUNTIME_ENFORCER
 
@@ -3931,7 +3931,7 @@ Responsável por:
 **Dependências:**
 - EXECUTIVE_ORCHESTRATION_ENGINE
 - BOARD_SYNTHESIS_ENGINE
-- MASTER_FINANCIAL_INTELLIGENCE
+- MASTER_FINANCIAL_GOVERNANCE
 - EXECUTIVE_CAUSALITY_ENGINE
 - STRATEGIC_RISK_ENGINE
 - MASTER_AI_ADVISORY_ENGINE
@@ -3982,7 +3982,7 @@ como camada oficial de:
 - inferência;
 - causalidade;
 - epistemologia;
-- advisory intelligence;
+- advisory governance;
 - validação cognitiva;
 - enforcement narrativo;
 - confidence scoring;
@@ -3992,7 +3992,7 @@ como camada oficial de:
 
 A plataforma utiliza uma arquitetura institucional centralizada de execução cognitiva baseada nos documentos:
 
-- INSTITUTIONAL_CONTEXT_INTELLIGENCE_LAYER (Fundamento do Runtime)
+- INSTITUTIONAL_CONTEXT_GOVERNANCE_LAYER (Fundamento do Runtime)
 - MASTER_RUNTIME_ORCHESTRATOR.md
 - RUNTIME_COMPLIANCE_SYSTEM.md
 
@@ -4029,10 +4029,10 @@ Toda execução deve obedecer:
 - a validação epistemológica;
 - o compliance institucional.
 
-## INSTITUTIONAL_CONTEXT_INTELLIGENCE_LAYER
+## INSTITUTIONAL_CONTEXT_GOVERNANCE_LAYER
 
 **Nível 00 (Fundamento do Runtime)**
-INSTITUTIONAL_CONTEXT_INTELLIGENCE_LAYER
+INSTITUTIONAL_CONTEXT_GOVERNANCE_LAYER
 
 **Função:**
 Camada base de inteligência contextual institucional.

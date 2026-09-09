@@ -4,7 +4,7 @@ export class IntelligenceCapabilityRegistry {
   private static readonly capabilities: IntelligenceCapabilityDescriptor[] = [
     {
       capabilityId: 'cap-eail-01',
-      name: 'Executive Advisory Intelligence Layer (EAIL v1.0)',
+      name: 'Executive Advisory Governance Layer (EAIL v1.0)',
       version: '1.0.0',
       owner: 'Executive Advisory Council',
       supportedDomains: ['FINANCIAL', 'STRATEGIC'],
@@ -15,7 +15,7 @@ export class IntelligenceCapabilityRegistry {
     },
     {
       capabilityId: 'cap-ewi-01',
-      name: 'Executive Workflow Intelligence (EWI v1.0)',
+      name: 'Executive Workflow Governance (EWI v1.0)',
       version: '1.0.0',
       owner: 'Workflow Governance Board',
       supportedDomains: ['OPERATIONAL', 'FINANCIAL'],

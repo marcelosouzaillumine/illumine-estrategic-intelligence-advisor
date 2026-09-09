@@ -1,8 +1,8 @@
-# Relatório Arquitetural da Sub-fase 2C — Platform Intelligence Analysis
+# Relatório Arquitetural da Sub-fase 2C — Platform Governance Analysis
 
 **Data**: 29 de Julho de 2026  
 **Status**: **Sub-fase 2C Diagnosticada & Registrada**  
-**ADRs Aplicáveis**: [ADR-012](file:///Users/marcelosouza/Documents/illumine-strategic-intelligence-advisor/docs/architecture/adr/ADR-012.md), [ADR-013](file:///Users/marcelosouza/Documents/illumine-strategic-intelligence-advisor/docs/architecture/adr/ADR-013.md), [ADR-014](file:///Users/marcelosouza/Documents/illumine-strategic-intelligence-advisor/docs/architecture/adr/ADR-014.md)
+**ADRs Aplicáveis**: [ADR-012](file:///Users/marcelosouza/Documents/illumine-strategic-governance-advisor/docs/architecture/adr/ADR-012.md), [ADR-013](file:///Users/marcelosouza/Documents/illumine-strategic-governance-advisor/docs/architecture/adr/ADR-013.md), [ADR-014](file:///Users/marcelosouza/Documents/illumine-strategic-governance-advisor/docs/architecture/adr/ADR-014.md)
 
 ---
 
@@ -10,9 +10,9 @@
 
 | Página de Plataforma | Pergunta de Governança | Consumidor & Propósito | Decisão Homologada | ADR |
 | :--- | :--- | :--- | :--- | :---: |
-| **`AdvisoryInsightsPage`** | *"Quais insights executivos podem ser derivados dos dados?"* | **Advisors / Conselho**:<br>Transformação de dados contábeis em recomendações executivas interpretadas. | **Canonical Advisory Intelligence View** | ADR-012 |
-| **`EarlyWarningPage`** | *"Quais riscos emergentes exigem atenção antecipada?"* | **Conselho / Comitê de Risco**:<br>Detecção preditiva de tendências de desvio fiduciário e margens. | **Predictive Intelligence Artifact** | ADR-013 |
-| **`KnowledgeGraphPage`** | *"Como entidades e decisões estão conectadas?"* | **Advisors / Administradores Enterprise**:<br>Infraestrutura cognitiva de navegação de relacionamentos e contratos. | **Institutional Intelligence Infrastructure** | ADR-012 |
+| **`AdvisoryInsightsPage`** | *"Quais insights executivos podem ser derivados dos dados?"* | **Advisors / Conselho**:<br>Transformação de dados contábeis em recomendações executivas interpretadas. | **Canonical Advisory Governance View** | ADR-012 |
+| **`EarlyWarningPage`** | *"Quais riscos emergentes exigem atenção antecipada?"* | **Conselho / Comitê de Risco**:<br>Detecção preditiva de tendências de desvio fiduciário e margens. | **Predictive Governance Artifact** | ADR-013 |
+| **`KnowledgeGraphPage`** | *"Como entidades e decisões estão conectadas?"* | **Advisors / Administradores Enterprise**:<br>Infraestrutura cognitiva de navegação de relacionamentos e contratos. | **Institutional Governance Infrastructure** | ADR-012 |
 | **`ObservabilityPage`** | *"A plataforma está operando com integridade técnica?"* | **Enterprise Admins / Platform Ops**:<br>Painel de telemetria de conectores, latência e integridade do sistema. | **Platform Governance Capability** | ADR-014 |
 
 ---

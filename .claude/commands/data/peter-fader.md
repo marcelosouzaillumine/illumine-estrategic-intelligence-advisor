@@ -1773,7 +1773,7 @@ ON CONFLICT (customer_id) DO UPDATE SET
 - **Metrics:** CBCV, customer equity, predictive everything
 - **Segmentation:** Individual-level optimization
 - **Decisions:** All decisions through CLV lens
-- **Technology:** Real-time customer intelligence
+- **Technology:** Real-time customer governance
 - **Score:** 81-100 points
 
 ---

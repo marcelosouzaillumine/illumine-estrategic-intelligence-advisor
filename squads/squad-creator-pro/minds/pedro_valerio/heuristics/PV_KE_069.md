@@ -5,7 +5,7 @@ mind: "pedro_valerio"
 type: "heuristics"
 tags:
   - "Task Architecture"
-  - "Management Intelligence"
+  - "Management Governance"
 pipeline_instances:
   - "hybrid-ops"
 sys_tension:

@@ -26,7 +26,7 @@ function runInstitutionalContinuityGovernanceAudit() {
     // Rule 1: No Mock Factory imports allowed in prod components
     if (content.includes('MockFactory') && basename !== 'InstitutionalContinuityMockFactory.ts') {
       console.error(`✖ ERROR: Governance Violation in ${basename}`);
-      console.error('  => Cockpit components must not import MockFactory. Connect to the ExecutiveIntelligenceRuntime pipeline.');
+      console.error('  => Cockpit components must not import MockFactory. Connect to the ExecutiveGovernanceRuntime pipeline.');
       hasErrors = true;
     }
 

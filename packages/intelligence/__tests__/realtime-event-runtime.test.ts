@@ -2,8 +2,8 @@
 import { describe, it, expect } from 'vitest';
 import { DataEventContract } from '@illumine/executive-contracts';
 
-describe('@illumine/intelligence (Wave 18.4 Real-Time Intelligence Event Runtime)', () => {
-  it('should validate DataEventContract for event-driven intelligence calculation (ADR-080)', () => {
+describe('@illumine/governance (Wave 18.4 Real-Time Governance Event Runtime)', () => {
+  it('should validate DataEventContract for event-driven governance calculation (ADR-080)', () => {
     const event: DataEventContract = {
       eventId: 'evt-901',
       tenantId: 'tenant-default',

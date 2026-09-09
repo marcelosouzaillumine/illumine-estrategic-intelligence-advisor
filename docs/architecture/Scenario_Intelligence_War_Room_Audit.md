@@ -1,7 +1,7 @@
-# Fiduciary Architecture Audit — Scenario Intelligence & War Room v1.0
+# Fiduciary Architecture Audit — Scenario Governance & War Room v1.0
 
 ## Resumo Executivo
-O Scenario Intelligence & War Room v1.0 é o último grande módulo do Illumine Governance™ Operating System. Diferente de um simulador tradicional, sua arquitetura atua estritamente como uma **Superfície Observacional de Consequências** extraídas de simulações soberanas pregressas.
+O Scenario Governance & War Room v1.0 é o último grande módulo do Illumine Governance™ Operating System. Diferente de um simulador tradicional, sua arquitetura atua estritamente como uma **Superfície Observacional de Consequências** extraídas de simulações soberanas pregressas.
 
 ## 1. Compliance Mandatório: Read-Only Architecture
 A regra fundamental imposta pelo Conselho foi validada com sucesso:

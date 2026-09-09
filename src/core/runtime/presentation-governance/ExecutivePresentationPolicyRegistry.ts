@@ -16,7 +16,7 @@ export const PRESENTATION_POLICIES: VisibilityPolicy[] = [
   
   { section: 'DFC_CONTEXT', visibleIn: ['EXECUTIVE', 'TECHNICAL'] },
   { section: 'DFC_CQS_SUMMARY', visibleIn: ['EXECUTIVE', 'TECHNICAL'] },
-  { section: 'DFC_CAUSAL_INTELLIGENCE', visibleIn: ['EXECUTIVE', 'TECHNICAL'] },
+  { section: 'DFC_CAUSAL_GOVERNANCE', visibleIn: ['EXECUTIVE', 'TECHNICAL'] },
   { section: 'DFC_REVENUE_CASH_CONVERSION', visibleIn: ['EXECUTIVE', 'TECHNICAL'] },
   { section: 'DFC_SHAREHOLDER_DEPENDENCY', visibleIn: ['EXECUTIVE', 'TECHNICAL'] },
   { section: 'DFC_EFSI', visibleIn: ['EXECUTIVE', 'TECHNICAL'] },

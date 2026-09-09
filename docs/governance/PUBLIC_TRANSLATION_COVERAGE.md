@@ -9,7 +9,7 @@ This document tracks the internationalization coverage of the Illumine OS™ Pub
 | Navigation | 100% | ✅ Concluído | Via `navigation.json` e `brand.json`. |
 | Footer | 100% | ✅ Concluído | Via `footer.json` e `brand.json`. |
 | Institutional Pages | 100% | ✅ Concluído | Home, Manifesto, Platform, Domains, Governance. Todas utilizam `useTranslation`. |
-| Intelligence Center | 100% | ✅ Concluído | Página 100% controlada por `intelligence-center.json`. |
+| Governance Center | 100% | ✅ Concluído | Página 100% controlada por `governance-center.json`. |
 | Executive Assessment | 100% | ✅ Concluído | Página migrada para `assessment.json`. |
 | Shared Components | 100% | ✅ Concluído | CTAs, Headers, Labels do `InstitutionalContentSystem`. |
 | Showcases | 100% | ✅ Concluído | Separados em `/showcases` namespaces. |

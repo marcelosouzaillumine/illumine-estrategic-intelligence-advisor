@@ -456,21 +456,21 @@ const Slide4 = () => (
       </motion.h2>
       
       <motion.p variants={fadeUp} className="text-sm text-slate-500 font-medium tracking-[0.2em] uppercase mb-10">
-        Executive Intelligence Platform™
-      </motion.p>
+        Executive Governance Platform™
+                      </motion.p>
 
       <motion.div variants={fadeUp} className="mt-4 flex items-center gap-10 p-8 pr-16 bg-white/[0.03] border border-amber-500/20 rounded-[2.5rem] backdrop-blur-md hover:bg-white/[0.05] transition-colors cursor-default">
         <div className="p-4 bg-white rounded-3xl shadow-[0_0_50px_rgba(245,158,11,0.3)]">
           {/* Gerador público gratuito de QR Code apontando para a Illumine */}
           <img 
-            src="https://api.qrserver.com/v1/create-qr-code/?size=250x250&data=https://illumineintelligence.com&color=000000&bgcolor=ffffff" 
+            src="https://api.qrserver.com/v1/create-qr-code/?size=250x250&data=https://illuminegovernance.com&color=000000&bgcolor=ffffff" 
             alt="QR Code Illumine" 
             className="w-[160px] h-[160px]" 
           />
         </div>
         <div className="text-left flex flex-col justify-center">
           <span className="text-slate-400 font-light text-2xl mb-2">Explore a plataforma</span>
-          <span className="text-white font-bold text-4xl mb-4 tracking-tight">illumineintelligence.com</span>
+          <span className="text-white font-bold text-4xl mb-4 tracking-tight">illuminegovernance.com</span>
           <span className="text-amber-500 font-bold text-lg tracking-[0.2em] uppercase flex items-center gap-3">
             Agendar Executive Demo <ArrowRight className="w-6 h-6" />
           </span>

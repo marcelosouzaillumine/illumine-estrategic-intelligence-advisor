@@ -50,7 +50,7 @@ Algoritmo interpretativo focado na detecção da verdadeira anomalia. Se a Liqui
 O diagnóstico reportado ao usuário **sempre abordará a causa raiz**, e nunca o sintoma.
 
 ## 10. Structural Dependency Mapping
-A plataforma mapeia como a arquitetura passiva depende da arquitetura ativa. Se uma empresa depende exclusivamente de linhas de crédito curtas para financiar estoques longos, cria-se uma falha tectônica (dependency risk). A engine reportará as sensibilidades cruzadas de forma transparente no diagnóstico de *Board Intelligence*.
+A plataforma mapeia como a arquitetura passiva depende da arquitetura ativa. Se uma empresa depende exclusivamente de linhas de crédito curtas para financiar estoques longos, cria-se uma falha tectônica (dependency risk). A engine reportará as sensibilidades cruzadas de forma transparente no diagnóstico de *Board Governance*.
 
 ## 11. Risk Propagation Engine
 Prevê como uma vulnerabilidade em "A" se transforma em crise em "B". Se as métricas mostrarem aumento crônico na NCG por múltiplos meses, a predição alertará que a Margem Líquida será consumida pelas despesas financeiras geradas para cobrir esse novo gap estrutural, gerando um mapa temporal da crise.
@@ -177,10 +177,10 @@ O mesmo indicador poderá possuir pesos diferentes dependendo do contexto instit
 ### Operação Baseada em Comportamento
 A plataforma deixa oficialmente de operar como mecanismo estático de classificação financeira.
 A engine passa a operar como:
-- Behavioral Financial Intelligence Engine;
-- Institutional Causal Intelligence Layer;
+- Behavioral Financial Governance Engine;
+- Institutional Causal Governance Layer;
 - Dynamic Financial Stress Engine;
-- Structural Resilience Intelligence System.
+- Structural Resilience Governance System.
 
 ### Proibições Institucionais
 Nenhum módulo poderá:
@@ -312,9 +312,9 @@ Evitar:
 
 ### Objetivo Final
 A plataforma Illumine deverá operar como:
-- Stable Institutional Intelligence System;
+- Stable Institutional Governance System;
 - Weighted Causal Advisory Engine;
-- Executive Behavioral Intelligence Platform;
+- Executive Behavioral Governance Platform;
 - Institutional Financial Interpretation System.
 
 A causalidade deverá ser:

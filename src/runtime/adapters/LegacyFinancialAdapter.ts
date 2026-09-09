@@ -86,7 +86,7 @@ export const LegacyFinancialAdapter: EngineDefinition = {
       };
 
       const inference: InferenceBlock = {
-        domain: 'Financial Intelligence',
+        domain: 'Financial Governance',
         metrics: {
           baseMetrics,
           scoreMetrics,

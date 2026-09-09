@@ -4,11 +4,11 @@
 | Layer | Non-Interference |
 |---|---|
 | Core Payload Preservation | PASS ✅ |
-| ESGINTELLIGENCE Integration | PASS ✅ |
-| VALUATIONINTELLIGENCE Integration | PASS ✅ |
-| BENCHMARKINTELLIGENCE Integration | PASS ✅ |
-| SECTORINTELLIGENCE Integration | PASS ✅ |
-| CAPITALALLOCATIONINTELLIGENCE Integration | PASS ✅ |
+| ESGGOVERNANCE Integration | PASS ✅ |
+| VALUATIONGOVERNANCE Integration | PASS ✅ |
+| BENCHMARKGOVERNANCE Integration | PASS ✅ |
+| SECTORGOVERNANCE Integration | PASS ✅ |
+| CAPITALALLOCATIONGOVERNANCE Integration | PASS ✅ |
 | EXECUTIVESOVEREIGNTY Integration | PASS ✅ |
 
 ## Coverage Audit

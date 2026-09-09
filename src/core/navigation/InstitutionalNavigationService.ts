@@ -23,8 +23,8 @@ export class InstitutionalNavigationService {
         return `/war-room${objectParam}`;
       case 'ADVISOR':
         return `/advisor${objectParam}`;
-      case 'INTELLIGENCE_FABRIC':
-        return `/intelligence-fabric${objectParam}`;
+      case 'GOVERNANCE_FABRIC':
+        return `/governance-fabric${objectParam}`;
       case 'MEMORY':
         return `/institutional-memory${objectParam}`;
       case 'EXECUTIVE_HOME':

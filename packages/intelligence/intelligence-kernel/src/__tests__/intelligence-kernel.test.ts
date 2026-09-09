@@ -1,12 +1,12 @@
 import { describe, it, expect } from 'vitest';
 import { IntelligenceIdentity, ProvenanceReference, IntelligenceArtifact, LearningSignal } from '../index';
 
-describe('@illumine/intelligence-kernel (Phase 0 Foundation)', () => {
-  it('should instantiate IntelligenceIdentity and ProvenanceReference correctly', () => {
+describe('@illumine/governance-kernel (Phase 0 Foundation)', () => {
+  it('should instantiate GovernanceIdentity and ProvenanceReference correctly', () => {
     const identity: IntelligenceIdentity = {
       id: 'intel-01',
       source: 'financial-engine',
-      capability: 'financial-intelligence',
+      capability: 'financial-governance',
       version: '1.0.0',
       generatedAt: '2026-07-28T00:00:00Z'
     };
@@ -21,12 +21,12 @@ describe('@illumine/intelligence-kernel (Phase 0 Foundation)', () => {
     expect(prov.lineageHash).toBe('sha256-abc123xyz');
   });
 
-  it('should construct IntelligenceArtifact with identity and provenance', () => {
+  it('should construct GovernanceArtifact with identity and provenance', () => {
     const artifact: IntelligenceArtifact = {
       identity: {
         id: 'artifact-01',
         source: 'risk-engine',
-        capability: 'risk-intelligence',
+        capability: 'risk-governance',
         version: '1.0.0',
         generatedAt: '2026-07-28T00:00:00Z'
       },

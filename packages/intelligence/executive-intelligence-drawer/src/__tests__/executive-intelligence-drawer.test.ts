@@ -1,7 +1,7 @@
 import { describe, it, expect } from 'vitest';
 import { ExecutiveIntelligenceDrawer, InsightExplorer, EvidencePanel, RecommendationPanel } from '../index';
 
-describe('@illumine/executive-intelligence-drawer (Wave 17.5 Phase 2 Persistent Drawer)', () => {
+describe('@illumine/executive-governance-drawer (Wave 17.5 Phase 2 Persistent Drawer)', () => {
   it('should open persistent drawer keeping page context and active filters (ADR-056)', () => {
     const state = ExecutiveIntelligenceDrawer.open('FinancialPage', { year: '2026' });
 

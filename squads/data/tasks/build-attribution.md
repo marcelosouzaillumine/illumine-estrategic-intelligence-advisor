@@ -1690,6 +1690,6 @@ changelog:
 
 ---
 
-*Data Intelligence Pack - Task: Build Attribution*
+*Data Governance Pack - Task: Build Attribution*
 *Primary Agent: Avinash Kaushik*
 *Framework: DMMM + See-Think-Do-Care*

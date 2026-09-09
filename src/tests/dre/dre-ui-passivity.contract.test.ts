@@ -4,7 +4,7 @@ import * as fs from 'node:fs';
 import * as path from 'node:path';
 
 describe('DRE UI Passivity Contract', () => {
-  it('must not contain data-processing logic or structural intelligence in the UI layer', () => {
+  it('must not contain data-processing logic or structural governance in the UI layer', () => {
     const dreDir = path.join(process.cwd(), 'src/components/pages/dre');
     
     if (!fs.existsSync(dreDir)) {

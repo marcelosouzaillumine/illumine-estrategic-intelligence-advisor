@@ -3,7 +3,7 @@ import { describe, it, expect } from 'vitest';
 import fs from 'fs';
 import path from 'path';
 
-describe('@illumine/intelligence (Wave 17.13 Runtime Inspector Verification)', () => {
+describe('@illumine/governance (Wave 17.13 Runtime Inspector Verification)', () => {
   it('should verify ExecutiveIntelligenceRuntimeInspector exists and returns null to hide debug bars', () => {
     const inspectorPath = path.resolve(__dirname, '../../../src/components/executive/ExecutiveIntelligenceRuntimeInspector.tsx');
     expect(fs.existsSync(inspectorPath)).toBe(true);

@@ -231,7 +231,7 @@ A plataforma deverá evoluir:
 Toda evolução deverá continuar subordinada a:
 * MASTER_ARCHITECTURE.md
 * MASTER_CAUSAL_ENGINE.md
-* MASTER_CONSOLIDATED_INTELLIGENCE_ENGINE.md
+* MASTER_CONSOLIDATED_GOVERNANCE_ENGINE.md
 * EXECUTIVE_ADVISORY_ENGINE
 * SCENARIO_SIMULATION_ENGINE.md
 * INSTITUTIONAL_ACCESS_GOVERNANCE.md
@@ -245,7 +245,7 @@ A plataforma NÃO poderá:
 * sacrificar governança por UX;
 * sacrificar causalidade por velocidade;
 * permitir AI shadow calls;
-* duplicar intelligence layers;
+* duplicar governance layers;
 * criar bypasses comerciais;
 * flexibilizar lineage;
 * romper SSOT;
@@ -256,11 +256,11 @@ A plataforma NÃO poderá:
 ## OBJETIVO FINAL
 
 A plataforma Illumine passa oficialmente a operar como:
-* Enterprise Institutional Intelligence Platform
+* Enterprise Institutional Governance Platform
 * Executive Decision Operating System
 * Predictive Governance Infrastructure
 * Institutional Simulation Environment
-* Fiduciary Executive Intelligence Platform
+* Fiduciary Executive Governance Platform
 
 com:
 * governança;

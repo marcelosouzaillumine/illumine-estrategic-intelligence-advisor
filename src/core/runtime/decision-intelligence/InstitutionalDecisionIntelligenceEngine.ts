@@ -54,7 +54,7 @@ export class InstitutionalDecisionIntelligenceEngine {
     try {
       historicalDecisions = await InstitutionalDecisionLedger.getDecisions(decision.tenantId, decision.clientId);
     } catch (e) {
-      console.warn('[DecisionIntelligenceEngine] Failed to retrieve ledger history:', e);
+      console.warn('[DecisionGovernanceEngine] Failed to retrieve ledger history:', e);
     }
     const trajectory = GovernanceTrajectoryEngine.analyzeTrajectory(historicalDecisions, report.scores?.governance ?? 70);
 
@@ -97,7 +97,7 @@ export class InstitutionalDecisionIntelligenceEngine {
         }
       }
     } catch (err) {
-      console.warn('[DecisionIntelligenceEngine] Failed to evaluate behavioral intelligence:', err);
+      console.warn('[DecisionGovernanceEngine] Failed to evaluate behavioral governance:', err);
     }
 
     if (behavioralResult) {
@@ -160,7 +160,7 @@ export class InstitutionalDecisionIntelligenceEngine {
           }
         }
       } catch (err) {
-        console.warn('[DecisionIntelligenceEngine] Failed to evaluate predictive intelligence:', err);
+        console.warn('[DecisionGovernanceEngine] Failed to evaluate predictive governance:', err);
       }
     }
 
@@ -224,7 +224,7 @@ export class InstitutionalDecisionIntelligenceEngine {
       try {
         await InstitutionalDecisionLedger.recordDecision(decisionWithHash);
       } catch (e) {
-        console.error('[DecisionIntelligenceEngine] Failed to save decision in ledger:', e);
+        console.error('[DecisionGovernanceEngine] Failed to save decision in ledger:', e);
       }
     }
 

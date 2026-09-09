@@ -1,7 +1,7 @@
 import { describe, it, expect } from 'vitest';
 import { ExecutiveDecisionLayer } from '@illumine/executive-experience-composer';
 
-describe('@illumine/intelligence (Wave 17.11 Real Runtime Data Binding)', () => {
+describe('@illumine/governance (Wave 17.11 Real Runtime Data Binding)', () => {
   it('should bind decision view to active financial metrics from financial model', () => {
     const res = ExecutiveDecisionLayer.resolveDecisionView({
       companyId: 'comp-100',

@@ -1,5 +1,5 @@
 # COGNITIVE DECISION FORENSICS STANDARD™
-**The Laws of Intelligence Accounting & Traceability**
+**The Laws of Governance Accounting & Traceability**
 **Version:** 1.0
 **Status:** CANONICAL
 

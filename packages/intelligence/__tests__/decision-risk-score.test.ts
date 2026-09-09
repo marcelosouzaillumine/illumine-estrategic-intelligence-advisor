@@ -2,7 +2,7 @@
 import { describe, it, expect } from 'vitest';
 import { DecisionRiskEngine } from '../decision-trust-governance/src';
 
-describe('@illumine/intelligence (Wave 18.10.5 Decision Risk Score Engine)', () => {
+describe('@illumine/governance (Wave 18.10.5 Decision Risk Score Engine)', () => {
   it('should calculate composite decision risk score across 6 risk dimensions', () => {
     const riskScores = {
       financialRiskScore: 18.0,

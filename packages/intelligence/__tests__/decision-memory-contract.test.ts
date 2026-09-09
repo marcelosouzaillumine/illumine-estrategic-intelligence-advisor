@@ -3,7 +3,7 @@ import { describe, it, expect } from 'vitest';
 import { DecisionMemoryContract } from '@illumine/executive-contracts';
 import { ExecutiveContextProvider } from '@illumine/executive-context-engine';
 
-describe('@illumine/intelligence (Wave 18.5 Decision Memory Contract)', () => {
+describe('@illumine/governance (Wave 18.5 Decision Memory Contract)', () => {
   it('should validate DecisionMemoryContract for historical decision tracking (ADR-082)', () => {
     const ctx = ExecutiveContextProvider.buildContext({
       companyId: 'comp-100',

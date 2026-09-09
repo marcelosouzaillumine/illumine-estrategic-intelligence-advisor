@@ -15,7 +15,7 @@ O **Batch 01 (SAFE)** contemplou os 8 primeiros arquivos da lista de refatora√ß√
 Os 8 arquivos refatorados e homologados neste ciclo foram:
 
 1. `src/components/pages/PremissasTributariasPage.tsx`
-2. `src/components/pages/SystemicIntelligencePanel.tsx`
+2. `src/components/pages/SystemicGovernancePanel.tsx`
 3. `src/components/pages/PlanoEstrategicoGlobalPage.tsx`
 4. `src/components/ClientAccessLogs.tsx`
 5. `src/components/GovernanceInsightPanel.tsx`

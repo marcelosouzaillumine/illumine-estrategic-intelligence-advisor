@@ -1,8 +1,8 @@
 # Executive Concierge™ - Governance Policy
 
-Esta política estabelece os Níveis de Informação e o **Public Intelligence Boundary** da Illumine, garantindo que o Executive Concierge™ e os agentes orientados ao mercado comuniquem o valor estratégico da plataforma sem expor a propriedade intelectual.
+Esta política estabelece os Níveis de Informação e o **Public Governance Boundary** da Illumine, garantindo que o Executive Concierge™ e os agentes orientados ao mercado comuniquem o valor estratégico da plataforma sem expor a propriedade intelectual.
 
-## 1. Public Intelligence Boundary
+## 1. Public Governance Boundary
 
 O princípio central de proteção: **O Executive Concierge™ revela valor, não revela propriedade intelectual.**
 
@@ -31,7 +31,7 @@ A experiência pública de inteligência deve:
 *   Posicionamento institucional e de mercado;
 *   Benefícios executivos;
 *   Domínios de atuação fiduciária;
-*   Visão geral das capacidades do Intelligence Stack.
+*   Visão geral das capacidades do Governance Stack.
 *   "O que fazemos", "Por que fazemos", "Como ajudamos".
 
 ### Nível 2 — Usuário Autenticado (Authenticated Client)
@@ -43,8 +43,8 @@ A experiência pública de inteligência deve:
 *   Cenários preditivos;
 *   Planos de ação gerados pelas Engines.
 
-### Nível 3 — Inteligência Proprietária (Private Intelligence)
-**Escopo:** Motores internos e arquitetura (Executive Intelligence Agents™, Runtime).
+### Nível 3 — Inteligência Proprietária (Private Governance)
+**Escopo:** Motores internos e arquitetura (Executive Governance Agents™, Runtime).
 **Restrito:**
 *   Pesos dos modelos de scoring (ex: Score Patrimonial);
 *   Regras e validações de engines;

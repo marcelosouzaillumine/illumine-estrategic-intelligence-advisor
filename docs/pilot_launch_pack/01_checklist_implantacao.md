@@ -23,7 +23,7 @@ Este checklist governa a ativação controlada do ambiente piloto para o primeir
 - [ ] Auditoria fiduciária inicial confirmada (`evidenceStatus === 'VALIDATED'`).
 
 ## Fase 4: Geração de Inteligência Base
-- [ ] Execução da avaliação longitudinal (`LongitudinalCashIntelligenceEngine` e associados).
+- [ ] Execução da avaliação longitudinal (`LongitudinalCashGovernanceEngine` e associados).
 - [ ] Geração do primeiro **Executive Board Pack**.
 - [ ] Verificação da ausência de restrições de bloqueio constitucional (`constitutionalConfidence !== 'BLOCKED'`).
 - [ ] Homologação interna do Master Supervisor validando se a narrativa estratégica condiz com a realidade documentada.

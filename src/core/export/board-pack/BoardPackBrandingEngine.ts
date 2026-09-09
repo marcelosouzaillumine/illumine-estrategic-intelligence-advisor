@@ -12,7 +12,7 @@ export class BoardPackBrandingEngine {
       primaryColor: '#09090b', // zinc-950
       secondaryColor: '#18181b', // zinc-900
       accentColor: '#3b82f6', // blue-500
-      footerText: 'EFOS Institutional Intelligence Runtime. Strictly confidential.'
+      footerText: 'EFOS Institutional Governance Runtime. Strictly confidential.'
     };
   }
 

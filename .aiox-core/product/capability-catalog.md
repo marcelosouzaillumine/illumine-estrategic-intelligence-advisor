@@ -4,7 +4,7 @@ O catálogo expande o Executive Office Registry definindo as entradas, motores e
 
 ---
 
-## Financial Performance Intelligence
+## Financial Performance Governance
 
 **Office:**
 CFO Office
@@ -19,9 +19,9 @@ Avaliar geração de valor econômico e integridade estrutural.
 - Indicadores Financeiros Históricos
 
 **Motores Analíticos (Processing Engines):**
-- Margin Intelligence Engine
+- Margin Governance Engine
 - Profitability Engine
-- Cash Intelligence Engine
+- Cash Governance Engine
 - Solvency Engine
 
 **Saídas (Output Decision):**
@@ -67,7 +67,7 @@ Garantir o alinhamento fiduciário e rastreabilidade das decisões executivas.
 
 ---
 
-## Revenue & Sales Intelligence
+## Revenue & Sales Governance
 
 **Office:**
 CCO Office

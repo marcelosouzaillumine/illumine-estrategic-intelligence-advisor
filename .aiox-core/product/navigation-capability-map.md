@@ -13,13 +13,13 @@ Apenas documentar.
 **Futuro:**
 CFO Office
   ↓
-Financial Performance Intelligence
+Financial Performance Governance
   ↓
 DRE Contábil / DRE Gerencial Estratégica
 
 CFO Office
   ↓
-Cash Intelligence
+Cash Governance
   ↓
 Fluxo de Caixa / Contas a Pagar / Contas a Receber
 
@@ -43,7 +43,7 @@ Atas de Reunião / OKRs / Planos de Ação
 **Futuro:**
 CCO Office
   ↓
-Revenue Intelligence / Sales Intelligence
+Revenue Governance / Sales Governance
   ↓
 Vendas / Precificação / Pipeline
 
@@ -55,7 +55,7 @@ Vendas / Precificação / Pipeline
 **Futuro:**
 COO Office
   ↓
-Operational Intelligence / Efficiency Management
+Operational Governance / Efficiency Management
   ↓
 Processos / Produção / Produtividade
 
@@ -67,7 +67,7 @@ Processos / Produção / Produtividade
 **Futuro:**
 CHRO Office
   ↓
-Talent Intelligence / Leadership Intelligence
+Talent Governance / Leadership Governance
   ↓
 Liderança / Design Organizacional
 
@@ -79,7 +79,7 @@ Liderança / Design Organizacional
 **Futuro:**
 Advisor Office
   ↓
-Portfolio Management / Client Intelligence
+Portfolio Management / Client Governance
   ↓
 Diagnósticos Estratégicos / Viabilidade
 
@@ -101,7 +101,7 @@ Gestão da Rede de Parceiros
 **Atual:**
 `/academy/learning`, `/academy/certification`
 **Futuro:**
-Intelligence Office
+Governance Office
   ↓
 Institutional Memory
   ↓
@@ -115,6 +115,6 @@ Fundação de Conhecimento Educacional
 **Futuro:**
 Chief Risk Office
   ↓
-Control Intelligence / Compliance Intelligence
+Control Governance / Compliance Governance
   ↓
 Configurações Globais / Gestão de Acessos

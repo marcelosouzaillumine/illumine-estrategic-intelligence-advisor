@@ -1,7 +1,7 @@
 import { describe, it, expect } from 'vitest';
 import { EnterpriseSignalMonitor, EnterpriseSignalEvent } from '../index';
 
-describe('@illumine/continuous-intelligence-monitor (Wave 16 Phase 1 Continuous Observation)', () => {
+describe('@illumine/continuous-governance-monitor (Wave 16 Phase 1 Continuous Observation)', () => {
   it('should emit and retrieve continuous enterprise signal events across corporate dimensions', () => {
     const monitor = new EnterpriseSignalMonitor();
 

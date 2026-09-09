@@ -34,8 +34,8 @@ export function ExecutiveIntelligenceArchitectureMap({ domains }: ExecutiveIntel
         <div className="w-px h-8 bg-gradient-to-t from-blue-500/20 to-transparent mb-4" />
         <div className="px-6 py-2 rounded-full border border-blue-500/30 bg-blue-500/5 shadow-[0_0_20px_rgba(59,130,246,0.15)] flex items-center justify-center">
           <span className="text-xs uppercase tracking-[0.2em] font-medium text-blue-400">
-            Executive Advisory Intelligence™
-          </span>
+            Executive Advisory Governance™
+                                </span>
         </div>
         <div className="w-px h-8 bg-gradient-to-b from-blue-500/20 to-transparent mt-4" />
       </div>
@@ -46,15 +46,15 @@ export function ExecutiveIntelligenceArchitectureMap({ domains }: ExecutiveIntel
         
         <div className="text-center mb-6">
           <span className="text-[10px] text-slate-500 uppercase tracking-[0.3em] font-bold">
-            Executive Intelligence Layer
-          </span>
+            Executive Governance Layer
+                                </span>
         </div>
 
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
           {domains.map(domain => {
              const styles = getStatusStyles(domain.status);
              const glow = getGlow(domain.status);
-             const name = domain.domain.charAt(0).toUpperCase() + domain.domain.slice(1) + ' Intelligence™';
+             const name = domain.domain.charAt(0).toUpperCase() + domain.domain.slice(1) + ' Governance™';
              
              return (
                <div key={domain.domain} className={`p-5 rounded-2xl border transition-all duration-700 ease-out ${styles} ${glow} flex flex-col items-center text-center relative overflow-hidden group`}>

@@ -307,7 +307,7 @@ grandes restricoes:
 |-------|-------|
 | **Description** | Make problems vivid and emotionally resonant |
 | **Cognitive Type** | Storytelling + Psychology |
-| **Automation Potential** | LOW - Requires emotional intelligence |
+| **Automation Potential** | LOW - Requires emotional governance |
 | **Executor** | Human |
 | **Precondition** | Core problems identified |
 | **Output** | Specific scenarios that illustrate pain |

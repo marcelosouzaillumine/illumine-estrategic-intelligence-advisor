@@ -1,11 +1,11 @@
 # ILLUMINE_PHASE_3_5_FINANCIAL_DATA_MODEL
 
 ## 1. Executive Summary
-This document represents **Phase 3.5** of the Illumine architecture design. It focuses exclusively on the **Canonical Financial Data Model** and its structural integration with the **Executive Intelligence Model**. 
+This document represents **Phase 3.5** of the Illumine architecture design. It focuses exclusively on the **Canonical Financial Data Model** and its structural integration with the **Executive Governance Model**. 
 
-Illumine is not merely an accounting ERP; it is an Executive Intelligence Platform. As such, the database architecture must rigidly separate raw financial data from normalized facts, calculated metrics, and ultimately, executive decisions. This document codifies the 7-Layer Architecture that transforms raw data into actionable intelligence and tracks its outcomes.
+Illumine is not merely an accounting ERP; it is an Executive Governance Platform. As such, the database architecture must rigidly separate raw financial data from normalized facts, calculated metrics, and ultimately, executive decisions. This document codifies the 7-Layer Architecture that transforms raw data into actionable governance and tracks its outcomes.
 
-## 2. The 7-Layer Executive Intelligence Architecture
+## 2. The 7-Layer Executive Governance Architecture
 The core architectural principle of Illumine is the unidirectional flow of value from data to outcome. The database must reflect these exact boundaries to guarantee provenance, auditability, and trust.
 
 | Layer | Concept | Description | Architectural Requirement |
@@ -13,8 +13,8 @@ The core architectural principle of Illumine is the unidirectional flow of value
 | **1. SOURCE** | *O que aconteceu* | Raw data from accounting systems, PDFs, APIs, or manual imports. | Must preserve the original, untampered payload/document. |
 | **2. FACT** | *O dado normalizado* | Financial entries mapped to the canonical Illumine Chart of Accounts. | Must be immutable once the financial period is closed. |
 | **3. METRIC** | *O que calculamos* | Aggregations, scores, and ratios (e.g., EBITDA, Liquidity). | Must be versioned based on the formula used at the time. |
-| **4. INTELLIGENCE**| *O que interpretamos*| AI-generated insights and recommendations. | Must retain strict AI provenance (model, context, prompt). |
-| **5. DECISION** | *O que foi decidido* | The formal executive choice based on intelligence. | Strictly immutable. Historical record of leadership intent. |
+| **4. GOVERNANCE**| *O que interpretamos*| AI-generated insights and recommendations. | Must retain strict AI provenance (model, context, prompt). |
+| **5. DECISION** | *O que foi decidido* | The formal executive choice based on governance. | Strictly immutable. Historical record of leadership intent. |
 | **6. ACTION** | *O que foi executado* | Tasks, assignments, and action plans. | Mutable status, but state changes must be audited. |
 | **7. OUTCOME** | *O que resultou* | The measurable impact of the action over time. | Links back to future metrics to close the loop. |
 
@@ -38,9 +38,9 @@ The core architectural principle of Illumine is the unidirectional flow of value
   - Linked to a `MetricDefinition` (the formula version) so historical reports never magically change if a formula is updated years later.
 - **`FinancialScore`**: The normalized Illumine score (0-100) for a specific dimension.
 
-## 4. Intelligence & Decision Entities (Layers 4 to 7)
+## 4. Governance & Decision Entities (Layers 4 to 7)
 
-### 4.1. Layer 4: INTELLIGENCE
+### 4.1. Layer 4: GOVERNANCE
 - **`Insight`**: An observation derived from Metrics (e.g., "Liquidity dropped 15% this quarter").
 - **`Recommendation`**: A proposed course of action (e.g., "Renegotiate short-term debt").
 - **Provenance Rules:** 
@@ -68,7 +68,7 @@ Soft Delete is NOT a universal rule. Entities follow specific lifecycle policies
 |---|---|---|
 | **Structural / Master** | **Soft Delete** | `Company`, `User`, `Membership`, `Account` |
 | **Operational** | **Archive / Inactive** | `ActionPlan`, `ActionItem`, `Subscription` |
-| **Audit / History** | **Immutable (No Delete)** | `FinancialEntry` (Closed), `FinancialPeriod`, `Decision`, `AuditEvent`, `Intelligence Provenance` |
+| **Audit / History** | **Immutable (No Delete)** | `FinancialEntry` (Closed), `FinancialPeriod`, `Decision`, `AuditEvent`, `Governance Provenance` |
 | **PII / Compliance** | **Hard Delete** | Specific personal data requiring GDPR/LGPD compliance upon request (controlled via backend jobs). |
 
 ## 6. Security & Support Model (Platform Operations)
@@ -97,7 +97,7 @@ flowchart TD
     subgraph L3 [3. METRIC]
         D[EBITDA] --> E[Liquidity Score]
     end
-    subgraph L4 [4. INTELLIGENCE]
+    subgraph L4 [4. GOVERNANCE]
         F[AI Insight] --> G[AI Recommendation]
     end
     subgraph L5 [5. DECISION]
@@ -140,7 +140,7 @@ erDiagram
     ADJUSTMENT_ENTRY ||--|| AUDIT_EVENT : triggers
 ```
 
-### 7.3. Intelligence Provenance & Legacy Handling
+### 7.3. Governance Provenance & Legacy Handling
 ```mermaid
 erDiagram
     RECOMMENDATION ||--o{ DECISION : informs
@@ -162,4 +162,4 @@ erDiagram
 3. **Legacy AI:** Explicitly modeled to retain existing Firestore diagnostics without forging metadata.
 4. **Super Admin:** Replaced by audited "Explicit Impersonation".
 5. **Retention Policies:** Segmented into Soft Delete, Archive, Immutable, and Hard Delete, depending on the entity class.
-6. **7-Layer Pipeline:** Formally codified the Illumine Intelligence Architecture from Source to Outcome. 
+6. **7-Layer Pipeline:** Formally codified the Illumine Governance Architecture from Source to Outcome. 

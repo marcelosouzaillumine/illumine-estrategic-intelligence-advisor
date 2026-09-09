@@ -69,7 +69,7 @@
 - Line 99: `any` (CRITICAL) -> `capitalGovernanceReport: any,`
 - Line 100: `any` (CRITICAL) -> `metrics: any`
 
-### src/core/runtime/KPISemanticIntelligenceEngine.ts
+### src/core/runtime/KPISemanticGovernanceEngine.ts
 
 - Line 54: `any` (CRITICAL) -> `public static enrich(kpi: any, segment: string): any {`
 - Line 54: `any` (CRITICAL) -> `public static enrich(kpi: any, segment: string): any {`
@@ -164,28 +164,28 @@
 - Line 59: `any` (CRITICAL) -> `original: any;`
 - Line 60: `any` (CRITICAL) -> `reconstructed: any;`
 
-### src/core/runtime/behavioral-intelligence/BehavioralTrajectoryEngine.ts
+### src/core/runtime/behavioral-governance/BehavioralTrajectoryEngine.ts
 
 - Line 28: `any` (CRITICAL) -> `report: any,`
 
-### src/core/runtime/behavioral-intelligence/GovernanceDriftEngine.ts
+### src/core/runtime/behavioral-governance/GovernanceDriftEngine.ts
 
 - Line 15: `any` (CRITICAL) -> `report: any`
 
-### src/core/runtime/behavioral-intelligence/GovernanceFatigueEngine.ts
+### src/core/runtime/behavioral-governance/GovernanceFatigueEngine.ts
 
 - Line 14: `any` (CRITICAL) -> `report: any`
 
-### src/core/runtime/behavioral-intelligence/InstitutionalBehaviorProfileEngine.ts
+### src/core/runtime/behavioral-governance/InstitutionalBehaviorProfileEngine.ts
 
 - Line 51: `any` (CRITICAL) -> `public static getDecisionTargetProfile(decision: ExecutiveDecision, report: any): BehaviorProfile {`
 - Line 104: `any` (CRITICAL) -> `report: any,`
 
-### src/core/runtime/behavioral-intelligence/InstitutionalBehavioralIntelligenceEngine.ts
+### src/core/runtime/behavioral-governance/InstitutionalBehavioralGovernanceEngine.ts
 
 - Line 30: `any` (CRITICAL) -> `report: any,`
 
-### src/core/runtime/behavioral-intelligence/LongitudinalPatternEngine.ts
+### src/core/runtime/behavioral-governance/LongitudinalPatternEngine.ts
 
 - Line 23: `any` (CRITICAL) -> `report: any,`
 
@@ -276,17 +276,17 @@
 
 - Line 100: `any` (CRITICAL) -> `executiveLayer?: any;`
 
-### src/core/runtime/cash-causal-intelligence/DFCCausalDriverPresentationAudit.ts
+### src/core/runtime/cash-causal-governance/DFCCausalDriverPresentationAudit.ts
 
 - Line 16: `unknown` (CRITICAL) -> `const isValidNumber = (value: unknown): value is number =>`
 - Line 19: `unknown` (CRITICAL) -> `const isStrValid = (val: unknown): val is string =>`
 - Line 23: `any` (CRITICAL) -> `public static audit(rawDrivers: any[]): AuditResult {`
 
-### src/core/runtime/cash-intelligence/CashFlowReconciliationEngine.ts
+### src/core/runtime/cash-governance/CashFlowReconciliationEngine.ts
 
 - Line 8: `any` (CRITICAL) -> `dfcData: any[],`
 
-### src/core/runtime/cash-intelligence/CashIntelligenceTypes.ts
+### src/core/runtime/cash-governance/CashGovernanceTypes.ts
 
 - Line 241: `any` (CRITICAL) -> `dfcExecutiveSnapshot?: any;`
 - Line 242: `any` (CRITICAL) -> `cqsExplainability?: any;`
@@ -296,31 +296,31 @@
 - Line 258: `any` (CRITICAL) -> `earningsQuality?: any;`
 - Line 259: `any` (CRITICAL) -> `cashQuality?: any;`
 
-### src/core/runtime/cash-intelligence/CashQualityExplainabilityEngine.ts
+### src/core/runtime/cash-governance/CashQualityExplainabilityEngine.ts
 
 - Line 15: `any` (CRITICAL) -> `public static explain(cqs: any): CQSExplanation {`
 
-### src/core/runtime/cash-intelligence/DFCExecutiveBindingAudit.ts
+### src/core/runtime/cash-governance/DFCExecutiveBindingAudit.ts
 
 - Line 8: `any` (CRITICAL) -> `public static audit(output: any): {`
 
-### src/core/runtime/cash-intelligence/FiduciaryCashIntelligenceRuntime.ts
+### src/core/runtime/cash-governance/FiduciaryCashGovernanceRuntime.ts
 
 - Line 43: `any` (CRITICAL) -> `dfcData: any[],`
 - Line 108: `unknown` (CRITICAL) -> `universalIndicators: {} as unknown as UniversalCashIndicators, // Not computed`
 - Line 401: `any` (CRITICAL) -> `private static generateLineageHash(inputs: any[]): string {`
 
-### src/core/runtime/cash-intelligence/InstitutionalCashSustainabilityEngine.ts
+### src/core/runtime/cash-governance/InstitutionalCashSustainabilityEngine.ts
 
 - Line 16: `any` (CRITICAL) -> `dfcData: any[],`
 
-### src/core/runtime/cash-intelligence/LongitudinalCashIntelligenceEngine.spec.ts
+### src/core/runtime/cash-governance/LongitudinalCashGovernanceEngine.spec.ts
 
 - Line 26: `any` (CRITICAL) -> `classification: classification as any,`
 
-### src/core/runtime/cash-intelligence/LongitudinalCashIntelligenceEngine.test.ts
+### src/core/runtime/cash-governance/LongitudinalCashGovernanceEngine.test.ts
 
-- Line 7: `any` (CRITICAL) -> `function createMockCycle(overrides: any = {}): CashIntelligenceRuntimeOutput {`
+- Line 7: `any` (CRITICAL) -> `function createMockCycle(overrides: any = {}): CashGovernanceRuntimeOutput {`
 
 ### src/core/runtime/cashflow/CashFlowOperationalEngine.ts
 
@@ -338,17 +338,17 @@
 - Line 65: `any` (CRITICAL) -> `sustainability: any;`
 - Line 66: `any` (CRITICAL) -> `funding: any;`
 
-### src/core/runtime/causal-intelligence/InstitutionalCausalIntelligenceRuntime.ts
+### src/core/runtime/causal-governance/InstitutionalCausalGovernanceRuntime.ts
 
 - Line 24: `any` (CRITICAL) -> `allHistData: any[],`
 - Line 30: `any` (CRITICAL) -> `const yearsAvailable = [...new Set(allHistData.map((d: any) => Number(d.year)))];`
 - Line 34: `any` (CRITICAL) -> `const isDfcAvailable = allHistData.some((d: any) =>`
 
-### src/core/runtime/causal-intelligence/LiquidityRootCauseEngine.ts
+### src/core/runtime/causal-governance/LiquidityRootCauseEngine.ts
 
 - Line 20: `any` (CRITICAL) -> `allHistData: any[],`
 
-### src/core/runtime/causal-intelligence/StructuralDeteriorationMapper.ts
+### src/core/runtime/causal-governance/StructuralDeteriorationMapper.ts
 
 - Line 22: `any` (CRITICAL) -> `private static getVal(allHistData: any[], year: number, docType: string, keywords: string[]): number {`
 - Line 23: `any` (CRITICAL) -> `const entries = allHistData.filter((d: any) => {`
@@ -399,7 +399,7 @@
 
 ### src/core/runtime/consolidated/ConsolidatedRuntimeOrchestrator.ts
 
-- Line 38: `any` (CRITICAL) -> `public runConsolidatedAnalysis(input: any): ExecutiveIntelligenceReport {`
+- Line 38: `any` (CRITICAL) -> `public runConsolidatedAnalysis(input: any): ExecutiveGovernanceReport {`
 - Line 59: `unknown` (CRITICAL) -> `return this.legacyRuntime.generateExecutiveReport(input as unknown as Record<string, unknown>);`
 - Line 62: `unknown` (CRITICAL) -> `const typedInput = input as unknown as ConsolidatedOrchestratorInput;`
 - Line 67: `unknown` (CRITICAL) -> `typedInput.entities as unknown as never[], // Assuming TenantGovernanceEnforcer expects EntityGraphNode[]`
@@ -540,106 +540,106 @@
 
 - Line 9: `any` (CRITICAL) -> `public validate(context: any): ValidationResult {`
 
-### src/core/runtime/decision-intelligence/ConstitutionalDecisionRuntime.ts
+### src/core/runtime/decision-governance/ConstitutionalDecisionRuntime.ts
 
 - Line 12: `any` (CRITICAL) -> `context: any`
 
-### src/core/runtime/decision-intelligence/DecisionComplianceEngine.ts
+### src/core/runtime/decision-governance/DecisionComplianceEngine.ts
 
 - Line 16: `any` (CRITICAL) -> `report: any,`
 
-### src/core/runtime/decision-intelligence/DecisionPrioritizationEngine.ts
+### src/core/runtime/decision-governance/DecisionPrioritizationEngine.ts
 
 - Line 2: `any` (CRITICAL) -> `public static evaluatePriority(context: any): 'CRITICAL' | 'HIGH' | 'MEDIUM' | 'LOW' {`
 
-### src/core/runtime/decision-intelligence/DecisionToCashCausalityEngine.test.ts
+### src/core/runtime/decision-governance/DecisionToCashCausalityEngine.test.ts
 
 - Line 32: `any` (CRITICAL) -> `cashCycles: [{ isAvailable: true } as any],`
 - Line 33: `any` (CRITICAL) -> `longitudinalCash: { trajectoryClassification: 'STABLE_SUSTAINABILITY' } as any,`
 - Line 34: `any` (CRITICAL) -> `fiduciaryTimeline: { timelineIntegrityStatus: isBroken ? 'BROKEN' : 'VERIFIED' } as any,`
 
-### src/core/runtime/decision-intelligence/DecisionToCashCausalityTypes.ts
+### src/core/runtime/decision-governance/DecisionToCashCausalityTypes.ts
 
 - Line 51: `any` (CRITICAL) -> `financialContext: any; // Simplified placeholder for FinancialRuntimeContext`
 
-### src/core/runtime/decision-intelligence/EarlyWarningEngine.test.ts
+### src/core/runtime/decision-governance/EarlyWarningEngine.test.ts
 
-- Line 6: `any` (CRITICAL) -> `function mockInput(overrides: any = {}): EarlyWarningIntelligenceInput {`
+- Line 6: `any` (CRITICAL) -> `function mockInput(overrides: any = {}): EarlyWarningGovernanceInput {`
 - Line 17: `any` (CRITICAL) -> `{ fcoResult: 'CASH_GENERATION' } as any,`
 - Line 18: `any` (CRITICAL) -> `{ fcoResult: 'CASH_GENERATION' } as any,`
 - Line 19: `any` (CRITICAL) -> `{ fcoResult: 'CASH_GENERATION' } as any`
 
-### src/core/runtime/decision-intelligence/EarlyWarningTypes.ts
+### src/core/runtime/decision-governance/EarlyWarningTypes.ts
 
 - Line 36: `any` (CRITICAL) -> `financialContext?: any;`
 
-### src/core/runtime/decision-intelligence/ExecutiveAccountabilityEngine.test.ts
+### src/core/runtime/decision-governance/ExecutiveAccountabilityEngine.test.ts
 
 - Line 6: `any` (CRITICAL) -> `function mockInput(overrides: any = {}): ExecutiveAccountabilityInput {`
 
-### src/core/runtime/decision-intelligence/ExecutiveAccountabilityTypes.ts
+### src/core/runtime/decision-governance/ExecutiveAccountabilityTypes.ts
 
-- Line 28: `any` (CRITICAL) -> `executiveIntelligenceReport?: any;`
+- Line 28: `any` (CRITICAL) -> `executiveGovernanceReport?: any;`
 - Line 30: `any` (CRITICAL) -> `financialContext?: any;`
 
-### src/core/runtime/decision-intelligence/ExecutiveActionMatrixEngine.ts
+### src/core/runtime/decision-governance/ExecutiveActionMatrixEngine.ts
 
 - Line 4: `any` (CRITICAL) -> `public static mapActions(context: any): string[] {`
 
-### src/core/runtime/decision-intelligence/ExecutivePriorityResolver.ts
+### src/core/runtime/decision-governance/ExecutivePriorityResolver.ts
 
 - Line 12: `any` (CRITICAL) -> `public static resolve(report: any): ExecutivePriority[] {`
 - Line 97: `any` (CRITICAL) -> `const currentLiquidity = kpis.find((k: any) => k.name === 'Liquidez Corrente')?.val ?? 1.0;`
 
-### src/core/runtime/decision-intelligence/GovernanceDriftDetectionEngine.test.ts
+### src/core/runtime/decision-governance/GovernanceDriftDetectionEngine.test.ts
 
 - Line 6: `any` (CRITICAL) -> `function mockInput(executiveNarrative: string, overrides: any = {}): GovernanceDriftDetectionInput {`
 - Line 52: `any` (CRITICAL) -> `} as any`
 
-### src/core/runtime/decision-intelligence/GovernanceDriftTypes.ts
+### src/core/runtime/decision-governance/GovernanceDriftTypes.ts
 
-- Line 23: `any` (CRITICAL) -> `executiveIntelligenceReport?: any; // Representação simplificada para o teste de escopo`
+- Line 23: `any` (CRITICAL) -> `executiveGovernanceReport?: any; // Representação simplificada para o teste de escopo`
 - Line 29: `any` (CRITICAL) -> `financialContext?: any;`
 
-### src/core/runtime/decision-intelligence/InstitutionalBehavioralPatternsEngine.test.ts
+### src/core/runtime/decision-governance/InstitutionalBehavioralPatternsEngine.test.ts
 
 - Line 6: `any` (CRITICAL) -> `function mockInput(overrides: any = {}): InstitutionalBehavioralPatternsInput {`
 
-### src/core/runtime/decision-intelligence/InstitutionalBehavioralTypes.ts
+### src/core/runtime/decision-governance/InstitutionalBehavioralTypes.ts
 
 - Line 36: `any` (CRITICAL) -> `financialContext?: any;`
 
-### src/core/runtime/decision-intelligence/InstitutionalDecisionIntelligenceEngine.ts
+### src/core/runtime/decision-governance/InstitutionalDecisionGovernanceEngine.ts
 
 - Line 31: `any` (CRITICAL) -> `report: any`
 - Line 72: `any` (CRITICAL) -> `let behavioralResult: any = null;`
 - Line 73: `any` (CRITICAL) -> `let predictiveResult: any = null;`
 
-### src/core/runtime/decision-intelligence/InstitutionalDecisionLedger.ts
+### src/core/runtime/decision-governance/InstitutionalDecisionLedger.ts
 
 - Line 31: `unknown` (CRITICAL) -> `role: decision.approverRole as unknown as "SYSTEM" | "UNAUTHENTICATED",`
 
-### src/core/runtime/decision-intelligence/InstitutionalRiskMatrixEngine.ts
+### src/core/runtime/decision-governance/InstitutionalRiskMatrixEngine.ts
 
 - Line 2: `any` (CRITICAL) -> `public static evaluateRisk(context: any): {`
 
-### src/core/runtime/decision-intelligence/InstitutionalStabilityEngine.test.ts
+### src/core/runtime/decision-governance/InstitutionalStabilityEngine.test.ts
 
 - Line 6: `any` (CRITICAL) -> `function mockInput(overrides: any = {}): InstitutionalStabilityInput {`
 
-### src/core/runtime/decision-intelligence/InstitutionalStabilityTypes.ts
+### src/core/runtime/decision-governance/InstitutionalStabilityTypes.ts
 
 - Line 46: `any` (CRITICAL) -> `financialContext?: any;`
 
-### src/core/runtime/decision-intelligence/InstitutionalSurvivabilityEngine.ts
+### src/core/runtime/decision-governance/InstitutionalSurvivabilityEngine.ts
 
 - Line 13: `any` (CRITICAL) -> `public static calculate(report: any, policyContext?: PolicyContext): SurvivabilityScores {`
 
-### src/core/runtime/decision-intelligence/StrategicStressEngine.ts
+### src/core/runtime/decision-governance/StrategicStressEngine.ts
 
 - Line 14: `any` (CRITICAL) -> `report: any`
 
-### src/core/runtime/decision-intelligence/decision-types.ts
+### src/core/runtime/decision-governance/decision-types.ts
 
 - Line 80: `any` (CRITICAL) -> `predictiveAssessment?: any;`
 
@@ -753,7 +753,7 @@
 
 - Line 21: `any` (CRITICAL) -> `export function isDebugAllowed(profile: any, showDebugTools: boolean = false): boolean {`
 
-### src/core/runtime/executive-intelligence-runtime.ts
+### src/core/runtime/executive-governance-runtime.ts
 
 - Line 244: `any` (CRITICAL) -> `actionMatrix: any[];`
 - Line 246: `any` (CRITICAL) -> `fiduciaryEnforcement?: any;`
@@ -774,7 +774,7 @@
 - Line 312: `any` (CRITICAL) -> `fiduciaryEnforcement?: any;`
 - Line 316: `any` (CRITICAL) -> `scenarioProjections?: any;`
 - Line 326: `any` (CRITICAL) -> `institutionalCausality?: any;`
-- Line 337: `any` (CRITICAL) -> `patrimonialIntelligenceReport?: any;`
+- Line 337: `any` (CRITICAL) -> `patrimonialGovernanceReport?: any;`
 - Line 360: `any` (CRITICAL) -> `inferences?: Record<string, { metrics: any; narrative?: any; confidence?: string; score?: number }>;`
 - Line 360: `any` (CRITICAL) -> `inferences?: Record<string, { metrics: any; narrative?: any; confidence?: string; score?: number }>;`
 - Line 362: `any` (CRITICAL) -> `temporalAudit?: any;`
@@ -786,8 +786,8 @@
 - Line 389: `any` (CRITICAL) -> `public propagateConfidence(report: any) {`
 - Line 392: `any` (CRITICAL) -> `public applyFailClosed(report: any, reason: string) {`
 - Line 395: `any` (CRITICAL) -> `public generateAuditTrail(report: any) {`
-- Line 403: `any` (CRITICAL) -> `public generateExecutiveReport(rawData: any, externalMetadata?: any): ExecutiveIntelligenceReport {`
-- Line 403: `any` (CRITICAL) -> `public generateExecutiveReport(rawData: any, externalMetadata?: any): ExecutiveIntelligenceReport {`
+- Line 403: `any` (CRITICAL) -> `public generateExecutiveReport(rawData: any, externalMetadata?: any): ExecutiveGovernanceReport {`
+- Line 403: `any` (CRITICAL) -> `public generateExecutiveReport(rawData: any, externalMetadata?: any): ExecutiveGovernanceReport {`
 - Line 412: `any` (CRITICAL) -> `let tempValidation: any = null;`
 - Line 584: `any` (CRITICAL) -> `let bpSummary: any = rawData.rawFinancialData?.bpSummary || rawData.bpSummary || {};`
 - Line 603: `any` (CRITICAL) -> `const cleanHierarchySummary: any = {};`
@@ -795,7 +795,7 @@
 - Line 628: `any` (CRITICAL) -> `: (hasDRE ? (rawData.dreData.find((r: any) => r.category === 'LUCRO LÍQUIDO DO EXERCÍCIO' || r.id === 'LUCRO_LIQ')?.value || 0) : 0);`
 - Line 641: `any` (CRITICAL) -> `const calcScores = (bp: any, ebitda: number, lucroLiq: number) => {`
 - Line 724: `any` (CRITICAL) -> `let finalWeights: any = baseWeights;`
-- Line 726: `unknown` (CRITICAL) -> `const recalibrated = LongitudinalIntelligenceGuard.recalibrateWeights(baseWeights as unknown as Record<string, number>);`
+- Line 726: `unknown` (CRITICAL) -> `const recalibrated = LongitudinalGovernanceGuard.recalibrateWeights(baseWeights as unknown as Record<string, number>);`
 - Line 906: `any` (CRITICAL) -> `insights: rawCausality.insights?.map((ins: any) => ({`
 - Line 936: `unknown` (CRITICAL) -> `const bp = bpSummary || {} as unknown;`
 - Line 1021: `any` (CRITICAL) -> `const isOfficialDfcAvailable = allHistData.some((d: any) => {`
@@ -925,7 +925,7 @@
 
 ### src/core/runtime/financial-context/FinancialRuntimeContextAdapter.test.ts
 
-- Line 139: `any` (CRITICAL) -> `} as any as SegmentIntelligenceProfile;`
+- Line 139: `any` (CRITICAL) -> `} as any as SegmentGovernanceProfile;`
 
 ### src/core/runtime/governance/bp/BalanceSheetExecutiveNarrativeEngine.ts
 
@@ -966,7 +966,7 @@
 
 - Line 27: `any` (CRITICAL) -> `static analyze(summary: BPSummary, dreData: any[]): PatrimonialIndicator[] {`
 
-### src/core/runtime/governance/bp/WorkingCapitalIntelligenceEngine.ts
+### src/core/runtime/governance/bp/WorkingCapitalGovernanceEngine.ts
 
 - Line 6: `any` (CRITICAL) -> `static analyze(summary: BPSummary, dreData: any[]): PatrimonialIndicator[] {`
 
@@ -1073,7 +1073,7 @@
 - Line 32: `any` (CRITICAL) -> `let bpSummary: any = {};`
 - Line 41: `any` (CRITICAL) -> `let dreCascade: any[] = [];`
 
-### src/core/runtime/institutional-context/SegmentIntelligenceEngine.ts
+### src/core/runtime/institutional-context/SegmentGovernanceEngine.ts
 
 - Line 68: `unknown` (CRITICAL) -> `assetIntensityProfile: result.assetIntensityProfile as unknown as "UNKNOWN",`
 - Line 69: `unknown` (CRITICAL) -> `workingCapitalCycleProfile: result.workingCapitalCycleProfile as unknown as "UNKNOWN",`
@@ -1126,8 +1126,8 @@
 - Line 34: `any` (CRITICAL) -> `survivalReport?: any;`
 - Line 35: `any` (CRITICAL) -> `fiduciaryOutput?: any;`
 - Line 36: `any` (CRITICAL) -> `treasuryRuntime?: any;`
-- Line 37: `any` (CRITICAL) -> `cashIntelligenceRuntime?: any;`
-- Line 38: `any` (CRITICAL) -> `patrimonialIntelligenceRuntime?: any;`
+- Line 37: `any` (CRITICAL) -> `cashGovernanceRuntime?: any;`
+- Line 38: `any` (CRITICAL) -> `patrimonialGovernanceRuntime?: any;`
 - Line 39: `any` (CRITICAL) -> `longitudinalRuntimeHistory?: any[];`
 - Line 40: `any` (CRITICAL) -> `historicalCycles?: any[];`
 - Line 44: `any` (CRITICAL) -> `memoryProfile?: any;`
@@ -1138,10 +1138,10 @@
 
 - Line 14: `any` (CRITICAL) -> `} as any as import('../institutional-context/types').InstitutionalContextProfile,`
 - Line 18: `any` (CRITICAL) -> `} as any as import('../observability/observability-types').RuntimeExecutionTrace,`
-- Line 23: `any` (CRITICAL) -> `} as any as ExecutiveIntelligenceReport['compliance'],`
-- Line 28: `any` (CRITICAL) -> `} as any as import('../strategic-intelligence/strategic-intelligence-types').InstitutionalStrategicIntelligenceOutput,`
+- Line 23: `any` (CRITICAL) -> `} as any as ExecutiveGovernanceReport['compliance'],`
+- Line 28: `any` (CRITICAL) -> `} as any as import('../strategic-governance/strategic-governance-types').InstitutionalStrategicGovernanceOutput,`
 - Line 32: `any` (CRITICAL) -> `} as any as import('../evidence-ingestion/InstitutionalEvidenceTypes').InstitutionalEvidenceValidationOutput,`
-- Line 39: `any` (CRITICAL) -> `} as any as import('../cash-intelligence/CashIntelligenceTypes').LongitudinalCashIntelligenceOutput`
+- Line 39: `any` (CRITICAL) -> `} as any as import('../cash-governance/CashGovernanceTypes').LongitudinalCashGovernanceOutput`
 
 ### src/core/runtime/institutional-reporting/InstitutionalBoardPackDocumentRuntime.ts
 
@@ -1227,8 +1227,8 @@
 ### src/core/runtime/institutional-reporting/engines/ExecutiveLongitudinalIntegration.spec.ts
 
 - Line 31: `any` (CRITICAL) -> `classification: classification as any,`
-- Line 106: `any` (CRITICAL) -> `strategicIntelligence: { posture: 'EXPANSION_POSTURE', trajectory: 'TRAJECTORY_STABLE', thesis: { unifiedThesisStatement: 'Fake thesis' }, explainability: {} as any } as any,`
-- Line 106: `any` (CRITICAL) -> `strategicIntelligence: { posture: 'EXPANSION_POSTURE', trajectory: 'TRAJECTORY_STABLE', thesis: { unifiedThesisStatement: 'Fake thesis' }, explainability: {} as any } as any,`
+- Line 106: `any` (CRITICAL) -> `strategicGovernance: { posture: 'EXPANSION_POSTURE', trajectory: 'TRAJECTORY_STABLE', thesis: { unifiedThesisStatement: 'Fake thesis' }, explainability: {} as any } as any,`
+- Line 106: `any` (CRITICAL) -> `strategicGovernance: { posture: 'EXPANSION_POSTURE', trajectory: 'TRAJECTORY_STABLE', thesis: { unifiedThesisStatement: 'Fake thesis' }, explainability: {} as any } as any,`
 - Line 135: `any` (CRITICAL) -> `strategic: { posture: 'EXPANSION_POSTURE', trajectory: 'TRAJECTORY_STABLE', thesis: { unifiedThesisStatement: 'Fake thesis' }, explainability: {} as any } as any,`
 - Line 135: `any` (CRITICAL) -> `strategic: { posture: 'EXPANSION_POSTURE', trajectory: 'TRAJECTORY_STABLE', thesis: { unifiedThesisStatement: 'Fake thesis' }, explainability: {} as any } as any,`
 - Line 149: `any` (CRITICAL) -> `} as any);`
@@ -1256,13 +1256,13 @@
 - Line 12: `unknown` (CRITICAL) -> `boardPackLineageHash: boardPackHash as unknown as BoardPackLineageHash,`
 - Line 14: `unknown` (CRITICAL) -> `'EXECUTIVE_REPORT': ((report.runtimeMetadata as unknown as { lineageHash?: string })?.lineageHash || 'UNAVAILABLE') as unknown as RuntimeLineageHash,`
 - Line 14: `unknown` (CRITICAL) -> `'EXECUTIVE_REPORT': ((report.runtimeMetadata as unknown as { lineageHash?: string })?.lineageHash || 'UNAVAILABLE') as unknown as RuntimeLineageHash,`
-- Line 15: `unknown` (CRITICAL) -> `'STRATEGIC_INTELLIGENCE': (report.strategicIntelligence?.explainability.strategicLineage || 'UNAVAILABLE') as unknown as RuntimeLineageHash,`
+- Line 15: `unknown` (CRITICAL) -> `'STRATEGIC_GOVERNANCE': (report.strategicGovernance?.explainability.strategicLineage || 'UNAVAILABLE') as unknown as RuntimeLineageHash,`
 - Line 16: `unknown` (CRITICAL) -> `'OPERATIONAL_GOVERNANCE': (((report.operationalGovernance as unknown as { auditTrail?: string[] })?.auditTrail?.[0]) || 'UNAVAILABLE') as unknown as RuntimeLineageHash,`
 - Line 16: `unknown` (CRITICAL) -> `'OPERATIONAL_GOVERNANCE': (((report.operationalGovernance as unknown as { auditTrail?: string[] })?.auditTrail?.[0]) || 'UNAVAILABLE') as unknown as RuntimeLineageHash,`
 - Line 17: `unknown` (CRITICAL) -> `'CONTINUITY_COCKPIT': (((report.resilienceReport as unknown as { lineageHash?: string })?.lineageHash) || 'UNAVAILABLE') as unknown as RuntimeLineageHash,`
 - Line 17: `unknown` (CRITICAL) -> `'CONTINUITY_COCKPIT': (((report.resilienceReport as unknown as { lineageHash?: string })?.lineageHash) || 'UNAVAILABLE') as unknown as RuntimeLineageHash,`
-- Line 18: `unknown` (CRITICAL) -> `'TREASURY_INTELLIGENCE': (((report.treasuryIntelligenceReport as unknown as { treasuryLineageHash?: string })?.treasuryLineageHash) || 'UNAVAILABLE') as unknown as RuntimeLineageHash`
-- Line 18: `unknown` (CRITICAL) -> `'TREASURY_INTELLIGENCE': (((report.treasuryIntelligenceReport as unknown as { treasuryLineageHash?: string })?.treasuryLineageHash) || 'UNAVAILABLE') as unknown as RuntimeLineageHash`
+- Line 18: `unknown` (CRITICAL) -> `'TREASURY_GOVERNANCE': (((report.treasuryGovernanceReport as unknown as { treasuryLineageHash?: string })?.treasuryLineageHash) || 'UNAVAILABLE') as unknown as RuntimeLineageHash`
+- Line 18: `unknown` (CRITICAL) -> `'TREASURY_GOVERNANCE': (((report.treasuryGovernanceReport as unknown as { treasuryLineageHash?: string })?.treasuryLineageHash) || 'UNAVAILABLE') as unknown as RuntimeLineageHash`
 - Line 20: `unknown` (CRITICAL) -> `propagationHashes: ((report.runtimeMetadata as unknown as { auditTrail?: string[] })?.auditTrail) || []`
 
 ### src/core/runtime/institutional-reporting/engines/OperationalGovernanceReportingEngine.ts
@@ -1287,8 +1287,8 @@
 - Line 38: `any` (CRITICAL) -> `regressionReport?: any;`
 - Line 39: `any` (CRITICAL) -> `fiduciaryOutput?: any;`
 - Line 40: `any` (CRITICAL) -> `treasuryRuntime?: any;`
-- Line 41: `any` (CRITICAL) -> `cashIntelligenceRuntime?: any;`
-- Line 42: `any` (CRITICAL) -> `patrimonialIntelligenceRuntime?: any;`
+- Line 41: `any` (CRITICAL) -> `cashGovernanceRuntime?: any;`
+- Line 42: `any` (CRITICAL) -> `patrimonialGovernanceRuntime?: any;`
 - Line 43: `any` (CRITICAL) -> `governanceTrajectoryRuntime?: any;`
 - Line 44: `any` (CRITICAL) -> `historicalInstitutionalMemory?: any; // To be derived if missing`
 - Line 45: `any` (CRITICAL) -> `longitudinalRuntimeHistory?: any[];`
@@ -1306,8 +1306,8 @@
 
 - Line 29: `any` (CRITICAL) -> `fiduciaryOutput?: any;`
 - Line 30: `any` (CRITICAL) -> `treasuryRuntime?: any;`
-- Line 31: `any` (CRITICAL) -> `cashIntelligenceRuntime?: any;`
-- Line 32: `any` (CRITICAL) -> `patrimonialIntelligenceRuntime?: any;`
+- Line 31: `any` (CRITICAL) -> `cashGovernanceRuntime?: any;`
+- Line 32: `any` (CRITICAL) -> `patrimonialGovernanceRuntime?: any;`
 - Line 33: `any` (CRITICAL) -> `recoveryReport?: any;`
 - Line 34: `any` (CRITICAL) -> `historicalCycles?: any[];`
 - Line 39: `any` (CRITICAL) -> `memoryProfile?: any;`
@@ -1540,19 +1540,19 @@
 
 - Line 15: `any` (CRITICAL) -> `rawPayload?: any`
 
-### src/core/runtime/predictive-intelligence/BehavioralAccelerationEngine.ts
+### src/core/runtime/predictive-governance/BehavioralAccelerationEngine.ts
 
 - Line 22: `any` (CRITICAL) -> `report: any`
 
-### src/core/runtime/predictive-intelligence/DeteriorationMomentumEngine.ts
+### src/core/runtime/predictive-governance/DeteriorationMomentumEngine.ts
 
 - Line 34: `any` (CRITICAL) -> `report: any,`
 
-### src/core/runtime/predictive-intelligence/InstitutionalResilienceEngine.ts
+### src/core/runtime/predictive-governance/InstitutionalResilienceEngine.ts
 
 - Line 22: `any` (CRITICAL) -> `report: any,`
 
-### src/core/runtime/predictive-intelligence/PredictiveGovernanceEngine.ts
+### src/core/runtime/predictive-governance/PredictiveGovernanceEngine.ts
 
 - Line 31: `any` (CRITICAL) -> `finalProfile: any;`
 - Line 41: `any` (CRITICAL) -> `report: any,`
@@ -1560,11 +1560,11 @@
 - Line 164: `any` (CRITICAL) -> `let domains: any[] = [];`
 - Line 253: `any` (CRITICAL) -> `function driftPropertyWarning(severity: any): boolean {`
 
-### src/core/runtime/predictive-intelligence/RecoveryViabilityEngine.ts
+### src/core/runtime/predictive-governance/RecoveryViabilityEngine.ts
 
 - Line 24: `any` (CRITICAL) -> `report: any,`
 
-### src/core/runtime/predictive-intelligence/StrategicCollapseRiskEngine.ts
+### src/core/runtime/predictive-governance/StrategicCollapseRiskEngine.ts
 
 - Line 22: `any` (CRITICAL) -> `report: any,`
 
@@ -1653,8 +1653,8 @@
 - Line 28: `any` (CRITICAL) -> `survivalReport?: any;`
 - Line 29: `any` (CRITICAL) -> `fiduciaryOutput?: any;`
 - Line 30: `any` (CRITICAL) -> `treasuryRuntime?: any;`
-- Line 31: `any` (CRITICAL) -> `cashIntelligenceRuntime?: any;`
-- Line 32: `any` (CRITICAL) -> `patrimonialIntelligenceRuntime?: any;`
+- Line 31: `any` (CRITICAL) -> `cashGovernanceRuntime?: any;`
+- Line 32: `any` (CRITICAL) -> `patrimonialGovernanceRuntime?: any;`
 - Line 33: `any` (CRITICAL) -> `liquidityStressRuntime?: any;`
 - Line 34: `any` (CRITICAL) -> `longitudinalRuntimeHistory?: any[];`
 - Line 35: `any` (CRITICAL) -> `operationalContinuityRuntime?: any;`
@@ -1672,59 +1672,59 @@
 
 - Line 17: `unknown` (CRITICAL) -> `for (const relation of (stressedInput as unknown as { intercompanyRelations?: { fromEntityId: string, toEntityId: string, amount: number, materiality: string }[] }).intercompanyRelations || []) {`
 
-### src/core/runtime/scenario-intelligence/InstitutionalScenarioEngine.ts
+### src/core/runtime/scenario-governance/InstitutionalScenarioEngine.ts
 
 - Line 10: `any` (CRITICAL) -> `public static evaluateScenario(inputs: ScenarioInput[], contextData: any): InstitutionalScenarioResult {`
 
-### src/core/runtime/scenario-intelligence/InstitutionalStressTestEngine.ts
+### src/core/runtime/scenario-governance/InstitutionalStressTestEngine.ts
 
 - Line 15: `any` (CRITICAL) -> `contextData: any`
 
-### src/core/runtime/scenario-intelligence/PropagationSimulationEngine.ts
+### src/core/runtime/scenario-governance/PropagationSimulationEngine.ts
 
 - Line 5: `any` (CRITICAL) -> `public static simulate(inputs: ScenarioInput[], contextData: any): PropagationSimulationProfile {`
 
-### src/core/runtime/scenario-intelligence/ScenarioBaselineValidator.ts
+### src/core/runtime/scenario-governance/ScenarioBaselineValidator.ts
 
 - Line 2: `any` (CRITICAL) -> `public static validate(baselineContext: any): {`
 
-### src/core/runtime/scenario-intelligence/ScenarioComparisonEngine.ts
+### src/core/runtime/scenario-governance/ScenarioComparisonEngine.ts
 
 - Line 10: `any` (CRITICAL) -> `public static compare(baselineContext: any, scenarioContext: any): ScenarioComparison[] {`
 - Line 10: `any` (CRITICAL) -> `public static compare(baselineContext: any, scenarioContext: any): ScenarioComparison[] {`
 
-### src/core/runtime/scenario-intelligence/ScenarioConstraintEngine.ts
+### src/core/runtime/scenario-governance/ScenarioConstraintEngine.ts
 
 - Line 9: `any` (CRITICAL) -> `public static validate(inputs: ScenarioInput[], contextData: any): ScenarioConstraintValidation {`
 
-### src/core/runtime/scenario-intelligence/ScenarioExplainabilityEngine.ts
+### src/core/runtime/scenario-governance/ScenarioExplainabilityEngine.ts
 
 - Line 7: `any` (CRITICAL) -> `baselineContext: any,`
 - Line 8: `any` (CRITICAL) -> `simulationInputs: any[],`
 
-### src/core/runtime/scenario-intelligence/ScenarioImpactRuntime.ts
+### src/core/runtime/scenario-governance/ScenarioImpactRuntime.ts
 
 - Line 14: `any` (CRITICAL) -> `baselineContext: any,`
 - Line 80: `any` (CRITICAL) -> `private static mapDecisionToMutation(actionId: string): any {`
 
-### src/core/runtime/scenario-intelligence/ScenarioMutationEngine.ts
+### src/core/runtime/scenario-governance/ScenarioMutationEngine.ts
 
 - Line 5: `any` (CRITICAL) -> `public static applyMutations(baselineContext: any, mutations: ScenarioMutation[]): any {`
 - Line 5: `any` (CRITICAL) -> `public static applyMutations(baselineContext: any, mutations: ScenarioMutation[]): any {`
 
-### src/core/runtime/scenario-intelligence/ScenarioSurvivabilityFilter.ts
+### src/core/runtime/scenario-governance/ScenarioSurvivabilityFilter.ts
 
 - Line 4: `any` (CRITICAL) -> `public static validate(baselineContext: any, mutations: ScenarioMutation[]): {`
 
-### src/core/runtime/strategic-intelligence/strategic-intelligence-adapter.ts
+### src/core/runtime/strategic-governance/strategic-governance-adapter.ts
 
 - Line 12: `any` (CRITICAL) -> `lineageHash: report.runtimeMetadata?.lineageHash || (report as any).metadata?.lineageHash || 'UNVERIFIED',`
 - Line 13: `any` (CRITICAL) -> `tenantId: report.institutionalContext?.tenantId || (report as any).metadata?.tenantId || 'UNKNOWN',`
 - Line 14: `any` (CRITICAL) -> `cycleReference: report.institutionalContext?.currentCycle || (report as any).metadata?.cycleReference || 'UNKNOWN',`
 - Line 15: `any` (CRITICAL) -> `historicalCyclesCount: report.runtimeMetadata?.historicalCyclesAvailable || (report as any).metadata?.historicalCyclesCount || 0,`
 - Line 18: `unknown` (CRITICAL) -> `fundingDependenceLevel: (report.capitalGovernanceReport as unknown as { metrics?: { fundingDependenceLevel?: string } })?.metrics?.fundingDependenceLevel || 'UNKNOWN',`
-- Line 35: `unknown` (CRITICAL) -> `directives: (report.treasuryIntelligenceReport as unknown as { directives?: string[] }).directives ||`
-- Line 37: `unknown` (CRITICAL) -> `stressStatus: (report.treasuryIntelligenceReport as unknown as { stressStatus?: string }).stressStatus ||`
+- Line 35: `unknown` (CRITICAL) -> `directives: (report.treasuryGovernanceReport as unknown as { directives?: string[] }).directives ||`
+- Line 37: `unknown` (CRITICAL) -> `stressStatus: (report.treasuryGovernanceReport as unknown as { stressStatus?: string }).stressStatus ||`
 - Line 41: `unknown` (CRITICAL) -> `structuralPressureSeverity: (report.operatingPressureReport as unknown as { structuralPressureSeverity?: string }).structuralPressureSeverity ||`
 
 ### src/core/runtime/strategic-simulation/ExecutiveScenarioEngine.ts
@@ -1779,7 +1779,7 @@
 
 - Line 14: `unknown` (CRITICAL) -> `const id = entity.id || (entity as unknown as { entityId?: string }).entityId;`
 
-### src/core/runtime/treasury-intelligence/TreasuryIntelligenceRuntime.ts
+### src/core/runtime/treasury-governance/TreasuryGovernanceRuntime.ts
 
 - Line 344: `any` (CRITICAL) -> `private static generateLineageHash(inputs: any[]): string {`
 
@@ -1931,7 +1931,7 @@
 - Line 216: `any` (HIGH) -> `const bpEntries = allEntries.filter((e: any) => {`
 - Line 254: `any` (HIGH) -> `data.data.forEach((entry: any) => {`
 
-### src/hooks/useScenarioExecutionIntelligence.ts
+### src/hooks/useScenarioExecutionGovernance.ts
 
 - Line 5: `any` (HIGH) -> `valuationOutput: any,`
 - Line 6: `any` (HIGH) -> `scenarioValuationInput: any,`
@@ -2290,7 +2290,7 @@
 - Line 1134: `tsIgnore` (CRITICAL) -> `// @ts-ignore`
 - Line 1150: `any` (CRITICAL) -> `textContent.items.forEach((item: any) => {`
 
-### src/services/intelligenceEngine.ts
+### src/services/governanceEngine.ts
 
 - Line 5: `any` (CRITICAL) -> `const getVal = (data: any[], names: string[]) => {`
 - Line 16: `any` (CRITICAL) -> `const extractCMV = (dreRows: any[]): number => {`

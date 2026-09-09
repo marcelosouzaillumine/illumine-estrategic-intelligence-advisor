@@ -2,8 +2,8 @@ import { describe, it, expect } from 'vitest';
 import * as fs from 'fs';
 import * as path from 'path';
 
-describe('NoPrescriptiveIntelligence', () => {
-  it('should not contain prescriptive language in intelligence and experience layers', () => {
+describe('NoPrescriptiveGovernance', () => {
+  it('should not contain prescriptive language in governance and experience layers', () => {
     const prescriptiveTerms = [
       ' recomenda-se ',
       ' precisa ',

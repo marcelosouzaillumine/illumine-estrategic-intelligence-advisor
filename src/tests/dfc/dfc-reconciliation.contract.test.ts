@@ -26,7 +26,7 @@ describe('DFC Reconciliation Contract', () => {
     assert.ok(mismatchViolation, 'Deve emitir DFC_RECONCILIATION_MISMATCH quando a soma do fluxo de caixa difere da variação patrimonial do disponível');
   });
 
-  it('Deve bloquear a avaliação no FiduciaryCashIntelligenceRuntime via FAIL_CLOSED se a reconciliação for inconciliável', () => {
+  it('Deve bloquear a avaliação no FiduciaryCashGovernanceRuntime via FAIL_CLOSED se a reconciliação for inconciliável', () => {
     const result = FiduciaryCashIntelligenceRuntime.evaluate(
       [], // dfcData
       100000, // dreNetIncome

@@ -7,7 +7,7 @@ export function IntelligenceTraceViewer({ lineage }: { lineage: IntelligenceLine
 
   return (
     <div className="p-6 bg-white border rounded shadow-sm">
-      <h3 className="text-lg font-bold border-b pb-2 mb-4">Intelligence Lineage Explorer™</h3>
+      <h3 className="text-lg font-bold border-b pb-2 mb-4">Governance Lineage Explorer™</h3>
       
       <div className="flex flex-col space-y-4">
         {lineage.nodes.map(node => (

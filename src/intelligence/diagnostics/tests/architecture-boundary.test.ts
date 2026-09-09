@@ -30,8 +30,8 @@ const WHITELISTED_FILES = [
   'governanceService.ts',
   'importService.ts',
   'marketService.ts',
-  'BoardReportIntelligenceService.ts',
-  'GovernanceIntelligenceService.ts',
+  'BoardReportGovernanceService.ts',
+  'GovernanceGovernanceService.ts',
   'taxService.ts'
 ];
 

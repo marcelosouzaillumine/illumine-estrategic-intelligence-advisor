@@ -5,11 +5,11 @@
   ],
   "forbiddenTranslations": [
     {
-      "source": "Executive Intelligence Platform™",
+      "source": "Executive Governance Platform™",
       "invalid": [
         "Plataforma de Inteligencia Ejecutiva",
         "Plataforma de Inteligência Executiva",
-        "Executive Intelligence Platform"
+        "Executive Governance Platform"
       ]
     },
     {
@@ -22,21 +22,21 @@
   ],
   "categoryA_neverTranslate": [
     "Illumine",
-    "Executive Intelligence Platform™",
+    "Executive Governance Platform™",
     "Executive Advisory™",
     "Executive Operating System™",
     "Executive Decision Operating System™",
     "Trust Architecture™"
   ],
   "categoryB_translateUnlessBrand": [
-    "Governance Intelligence™",
-    "Financial Intelligence™",
-    "Purpose Intelligence™",
-    "Operational Intelligence™",
-    "Commercial Intelligence™",
-    "Innovation Intelligence™",
-    "Institutional Intelligence™",
-    "Risk Intelligence™"
+    "Governance Governance™",
+    "Financial Governance™",
+    "Purpose Governance™",
+    "Operational Governance™",
+    "Commercial Governance™",
+    "Innovation Governance™",
+    "Institutional Governance™",
+    "Risk Governance™"
   ],
   "categoryC_freeContent": [
     "Descrições",

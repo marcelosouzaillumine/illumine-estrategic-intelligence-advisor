@@ -39,7 +39,7 @@ class MockRuntimePipeline {
     };
 
     if (injectAnomaly === 'MISSING_FORENSICS') {
-      return { traceId: lineageId, package: null as any, finalOutput: new Error('OPAQUE_INTELLIGENCE_BLOCK') };
+      return { traceId: lineageId, package: null as any, finalOutput: new Error('OPAQUE_GOVERNANCE_BLOCK') };
     }
 
     // Simulate Trust Gate evaluation
@@ -67,14 +67,14 @@ describe('Wave 15.2 - Executive Cognitive Runtime Certification™', () => {
   };
 
   describe('Test 5 — Cognitive Trace Completeness', () => {
-    it('should block if trace/forensics is missing (OPAQUE_INTELLIGENCE_BLOCK)', () => {
+    it('should block if trace/forensics is missing (OPAQUE_GOVERNANCE_BLOCK)', () => {
       const { finalOutput } = MockRuntimePipeline.simulateFlow('Analyze risk', validContext, 'MISSING_FORENSICS');
       
       expect(finalOutput).toBeInstanceOf(Error);
-      expect((finalOutput as Error).message).toBe('OPAQUE_INTELLIGENCE_BLOCK');
+      expect((finalOutput as Error).message).toBe('OPAQUE_GOVERNANCE_BLOCK');
     });
 
-    it('should deliver intelligence if trace and forensics are complete', () => {
+    it('should deliver governance if trace and forensics are complete', () => {
       const { finalOutput, package: pkg } = MockRuntimePipeline.simulateFlow('Analyze risk', validContext);
       
       expect(finalOutput).toBe('Executive Delivery Approved');

@@ -53,7 +53,7 @@ PACOTES OBRIGATÓRIOS & SEQUÊNCIA DE IMPLEMENTAÇÃO EM 5 FASES
 5. `@illumine/runtime`: ERE Engine (`Manifest Loader`, `Routing`, `Binding`, `ViewModel Binding`, `Semantic Components`, `React Passivo Tree`).
 6. `@illumine/compiler`: EUC Compilador AST (`Manifest Parser`, `AST Builder`, `Component Resolver`, `Layout Resolver`, `Token Resolver`, `Optimization Layer`). Zero JSX arbitrário, zero CSS manual.
 
-### FASE 4 — SEMANTIC INTELLIGENCE & CERTIFICATION
+### FASE 4 — SEMANTIC GOVERNANCE & CERTIFICATION
 7. `@illumine/see`: Barramento SEE conectando EME, AKG, Policy Engine, Workflow Engine, Recommendation Engine, Reasoning Engine, Digital Twin via Event Bus. API: `SemanticExecutionEngine.execute(context)`.
 8. `@illumine/certification`: Certification Engine (Evidence Bundle, SHA-256 Hash, Audit Manifest, L4 Certificate).
 

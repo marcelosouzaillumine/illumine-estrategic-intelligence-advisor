@@ -1,5 +1,5 @@
 # ILLUMINE OS™ — COGNITIVE BUSINESS PLATFORM PROMPT (v21.3)
-## PROGRAMA 03: Domain Knowledge Engine, Executive Digital Twin & Recommendation Intelligence Engine
+## PROGRAMA 03: Domain Knowledge Engine, Executive Digital Twin & Recommendation Governance Engine
 
 ============================================================
 PAPEL E MISSÃO DE ENGENHARIA COGNITIVA
@@ -17,7 +17,7 @@ COMPONENTES DO PROGRAMA 03
 ============================================================
 1. **Domain Knowledge Engine (DKE)** (`@illumine/knowledge`): Ontologia corporativa (`BusinessEntity`, `Relationship`, `KnowledgeNode`) e Grafo AKG de Conhecimento.
 2. **Executive Digital Twin (EDT)** (`@illumine/digital-twin`): Modelo vivo da organização (`ExecutiveDigitalTwin`, `OrganizationModel`, `Capability`, `Risk`, `Process`, `maturityScore`).
-3. **Recommendation Intelligence Engine (RIE)** (`@illumine/recommendation`): Motor de recomendações preditivas com aprovação humana obrigatória (`requiresApproval: true`, `status: "PENDING" | "APPROVED" | "REJECTED"`).
+3. **Recommendation Governance Engine (RIE)** (`@illumine/recommendation`): Motor de recomendações preditivas com aprovação humana obrigatória (`requiresApproval: true`, `status: "PENDING" | "APPROVED" | "REJECTED"`).
 
 ============================================================
 CRITÉRIOS DE ACEITAÇÃO DA FASE 8

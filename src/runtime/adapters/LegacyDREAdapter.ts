@@ -295,7 +295,7 @@ export const LegacyDREAdapter: EngineDefinition = {
       const indiceDeducoes = receitaBruta > 0 ? (deducoesReceita / receitaBruta) * 100 : 0;
 
       const inference: InferenceBlock = {
-        domain: 'Operational Intelligence',
+        domain: 'Operational Governance',
         metrics: {
           cascadeResult,
           ebitda, ebitVal, recLiquida, lucroBruto, lucroLiq,

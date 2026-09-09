@@ -42,7 +42,7 @@ export interface ConfidenceSnapshot {
 }
 
 export interface GovernanceDecision {
-  status: 'APPROVED' | 'REQUIRES_HUMAN_REVIEW' | 'BLOCKED' | 'OPAQUE_INTELLIGENCE';
+  status: 'APPROVED' | 'REQUIRES_HUMAN_REVIEW' | 'BLOCKED' | 'OPAQUE_GOVERNANCE';
   gateId: string;
   timestamp: Date;
   reason?: string;

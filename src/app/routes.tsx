@@ -263,7 +263,7 @@ export function renderCurrentPage(ctx: RouteRenderContext) {
   if (currentPage === 'dre_gerencial') {
     return <DreGerencialPage selectedClient={selectedClient} selectedYear={selectedYear} selectedMonth={selectedMonth} />;
   }
-  if (currentPage === 'bp' || currentPage === 'cfo.financial-intelligence') {
+  if (currentPage === 'bp' || currentPage === 'cfo.financial-governance') {
     return <BalanceSheetPage clients={clients} selectedClient={selectedClient} selectedMonth={selectedMonth} selectedYear={selectedYear} />;
   }
   if (currentPage === 'dlpa') {
@@ -630,7 +630,7 @@ export function renderCurrentPage(ctx: RouteRenderContext) {
   if (currentPage === 'institutional_onboarding') {
     return <InstitutionalOnboardingControlCenterPage />;
   }
-  if (currentPage === 'strategic_intelligence') {
+  if (currentPage === 'strategic_governance') {
     return <InstitutionalStrategicIntelligencePage clients={clients} selectedClient={selectedClient} selectedMonth={selectedMonth} selectedYear={selectedYear} />;
   }
   if (currentPage === 'institutional_board_pack') {

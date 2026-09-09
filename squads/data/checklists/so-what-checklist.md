@@ -321,6 +321,6 @@ Root cause provável: [causa] baseado em [evidência].
 
 ---
 
-*Data Intelligence Pack - So What Checklist v1.0*
+*Data Governance Pack - So What Checklist v1.0*
 *Based on: Avinash Kaushik Methodology*
 *Last Updated: 2026-01-23*

@@ -2,7 +2,7 @@
 
 **Data de Encerramento da Fase 2**: 29 de Julho de 2026  
 **Status da Fase 2**: **100% CONCLUÍDA & REGISTRADA**  
-**Artefato Principal Produzido**: [page-decision-registry.json](file:///Users/marcelosouza/Documents/illumine-strategic-intelligence-advisor/docs/architecture/registry/page-decision-registry.json) *(Mapa Canônico de Produto v2.0.0)*
+**Artefato Principal Produzido**: [page-decision-registry.json](file:///Users/marcelosouza/Documents/illumine-strategic-governance-advisor/docs/architecture/registry/page-decision-registry.json) *(Mapa Canônico de Produto v2.0.0)*
 
 ---
 
@@ -19,17 +19,17 @@ Aplicando o princípio inegociável:
 
 | Domínio Arquitetural | Páginas Mapeadas e Homologadas | Classificação Oficial | ADRs Associados |
 | :--- | :--- | :--- | :---: |
-| **Finance Core** *(Sub-fase 2A)* | `DFCPage`<br>`CashFlowPage`<br>`BalanceSheetPage`<br>`FinancialPositionPage`<br>`DREPage`<br>`DreGerencialPage` | • Canônica Fiduciária<br>• Visão Operacional de Caixa<br>• Canônica Contábil SSOT<br>• Camada Analítica Derivada<br>• Canônica Contábil SSOT<br>• Visão Gerencial Derivada | [ADR-006](file:///Users/marcelosouza/Documents/illumine-strategic-intelligence-advisor/docs/architecture/adr/ADR-006.md)<br>[ADR-007](file:///Users/marcelosouza/Documents/illumine-strategic-intelligence-advisor/docs/architecture/adr/ADR-007.md)<br>[ADR-008](file:///Users/marcelosouza/Documents/illumine-strategic-intelligence-advisor/docs/architecture/adr/ADR-008.md) |
-| **Strategic Intelligence** *(Sub-fase 2B)* | `ValuationPage`<br>`ViabilityPage`<br>`DiagnosticoPage`<br>`EstruturaGovernancaPage`<br>`CapitalGovernanceCenterPage`<br>`PlanoEstrategicoGlobalPage`<br>`DiretrizesPage` | • Canonical Strategic Assessment<br>• Strategic Decision Simulation<br>• Strategic Foundation Artifact<br>• Organizational Structure Artifact<br>• Governance Intelligence View<br>• Strategic Execution Artifact<br>• Strategic Directives Artifact | [ADR-009](file:///Users/marcelosouza/Documents/illumine-strategic-intelligence-advisor/docs/architecture/adr/ADR-009.md)<br>[ADR-010](file:///Users/marcelosouza/Documents/illumine-strategic-intelligence-advisor/docs/architecture/adr/ADR-010.md)<br>[ADR-011](file:///Users/marcelosouza/Documents/illumine-strategic-intelligence-advisor/docs/architecture/adr/ADR-011.md) |
-| **Platform Intelligence** *(Sub-fase 2C)* | `AdvisoryInsightsPage`<br>`EarlyWarningPage`<br>`KnowledgeGraphPage`<br>`ObservabilityPage` | • Canonical Advisory Intelligence View<br>• Predictive Intelligence Artifact<br>• Institutional Intelligence Infrastructure<br>• Platform Governance Capability | [ADR-012](file:///Users/marcelosouza/Documents/illumine-strategic-intelligence-advisor/docs/architecture/adr/ADR-012.md)<br>[ADR-013](file:///Users/marcelosouza/Documents/illumine-strategic-intelligence-advisor/docs/architecture/adr/ADR-013.md)<br>[ADR-014](file:///Users/marcelosouza/Documents/illumine-strategic-intelligence-advisor/docs/architecture/adr/ADR-014.md) |
+| **Finance Core** *(Sub-fase 2A)* | `DFCPage`<br>`CashFlowPage`<br>`BalanceSheetPage`<br>`FinancialPositionPage`<br>`DREPage`<br>`DreGerencialPage` | • Canônica Fiduciária<br>• Visão Operacional de Caixa<br>• Canônica Contábil SSOT<br>• Camada Analítica Derivada<br>• Canônica Contábil SSOT<br>• Visão Gerencial Derivada | [ADR-006](file:///Users/marcelosouza/Documents/illumine-strategic-governance-advisor/docs/architecture/adr/ADR-006.md)<br>[ADR-007](file:///Users/marcelosouza/Documents/illumine-strategic-governance-advisor/docs/architecture/adr/ADR-007.md)<br>[ADR-008](file:///Users/marcelosouza/Documents/illumine-strategic-governance-advisor/docs/architecture/adr/ADR-008.md) |
+| **Strategic Governance** *(Sub-fase 2B)* | `ValuationPage`<br>`ViabilityPage`<br>`DiagnosticoPage`<br>`EstruturaGovernancaPage`<br>`CapitalGovernanceCenterPage`<br>`PlanoEstrategicoGlobalPage`<br>`DiretrizesPage` | • Canonical Strategic Assessment<br>• Strategic Decision Simulation<br>• Strategic Foundation Artifact<br>• Organizational Structure Artifact<br>• Governance Governance View<br>• Strategic Execution Artifact<br>• Strategic Directives Artifact | [ADR-009](file:///Users/marcelosouza/Documents/illumine-strategic-governance-advisor/docs/architecture/adr/ADR-009.md)<br>[ADR-010](file:///Users/marcelosouza/Documents/illumine-strategic-governance-advisor/docs/architecture/adr/ADR-010.md)<br>[ADR-011](file:///Users/marcelosouza/Documents/illumine-strategic-governance-advisor/docs/architecture/adr/ADR-011.md) |
+| **Platform Governance** *(Sub-fase 2C)* | `AdvisoryInsightsPage`<br>`EarlyWarningPage`<br>`KnowledgeGraphPage`<br>`ObservabilityPage` | • Canonical Advisory Governance View<br>• Predictive Governance Artifact<br>• Institutional Governance Infrastructure<br>• Platform Governance Capability | [ADR-012](file:///Users/marcelosouza/Documents/illumine-strategic-governance-advisor/docs/architecture/adr/ADR-012.md)<br>[ADR-013](file:///Users/marcelosouza/Documents/illumine-strategic-governance-advisor/docs/architecture/adr/ADR-013.md)<br>[ADR-014](file:///Users/marcelosouza/Documents/illumine-strategic-governance-advisor/docs/architecture/adr/ADR-014.md) |
 
 ---
 
 ## 🧪 3. Evidências e Exit Criteria da Fase 2
 
-- [x] **[page-decision-registry.json](file:///Users/marcelosouza/Documents/illumine-strategic-intelligence-advisor/docs/architecture/registry/page-decision-registry.json) v2.0.0 criado e publicado**.
+- [x] **[page-decision-registry.json](file:///Users/marcelosouza/Documents/illumine-strategic-governance-advisor/docs/architecture/registry/page-decision-registry.json) v2.0.0 criado e publicado**.
 - [x] **17 páginas classificadas com rigor técnico**, delimitando escopo, consumidor, engine, ViewModel e decisão.
-- [x] **9 ADRs publicados** (ADR-006 a ADR-014) normatizando os domínios de Finance Core, Strategic Intelligence e Platform Intelligence.
+- [x] **9 ADRs publicados** (ADR-006 a ADR-014) normatizando os domínios de Finance Core, Strategic Governance e Platform Governance.
 - [x] **Zero fusões precipitadas de páginas** que possuíam consumidores ou objetivos funcionais distintos.
 - [x] **`npm run validate:architecture`**: Aprovado com 100% de conformidade.
 

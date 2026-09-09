@@ -6,7 +6,7 @@ import { TrendingUp, Users, Map, Key } from 'lucide-react';
 export const GrowthIntelligenceCapability: React.FC<{ context: ExecutiveContext }> = ({ context }) => {
   const { data, loading, error } = useCeoGrowthIntelligence(context);
 
-  if (loading) return <div className="p-8 text-slate-400">Carregando Growth Intelligence...</div>;
+  if (loading) return <div className="p-8 text-slate-400">Carregando Growth Governance...</div>;
   if (error || !data) return <div className="p-8 text-rose-400">Erro ao carregar dados de crescimento.</div>;
 
   return (
@@ -15,8 +15,8 @@ export const GrowthIntelligenceCapability: React.FC<{ context: ExecutiveContext 
         <div>
           <h1 className="text-2xl font-light text-slate-100 flex items-center gap-3">
             <TrendingUp className="w-6 h-6 text-indigo-400" />
-            Growth Intelligence
-          </h1>
+            Growth Governance
+                                </h1>
           <p className="text-slate-400 mt-2 font-light">Performance comercial e alavancas de crescimento.</p>
         </div>
       </header>

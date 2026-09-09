@@ -12,7 +12,7 @@ class ForensicsIntegrityValidator {
         status: 'BLOCK',
         gateId: 'AR-GFC-COG-013',
         timestamp: new Date(),
-        reason: 'OPAQUE INTELLIGENCE: Recommendation without evidence'
+        reason: 'OPAQUE GOVERNANCE: Recommendation without evidence'
       } as any; // Using 'BLOCK' mapping to match test expectation
     }
 
@@ -87,7 +87,7 @@ describe('Wave 15.1 - Executive Decision Forensics Certification™', () => {
       const validation = ForensicsIntegrityValidator.validate(pkg);
       
       expect(validation.status).toBe('BLOCK');
-      expect(validation.reason).toContain('OPAQUE INTELLIGENCE');
+      expect(validation.reason).toContain('OPAQUE GOVERNANCE');
     });
   });
 

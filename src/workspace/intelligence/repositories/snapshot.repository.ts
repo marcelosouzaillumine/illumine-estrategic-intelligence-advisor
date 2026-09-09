@@ -5,7 +5,7 @@ export class SnapshotRepository {
    * depending on the worker environment.
    */
   async saveSnapshot(tenantId: string, periodId: string, payload: any): Promise<void> {
-    const path = `executive_intelligence/cfo/${tenantId}/periods/${periodId}`;
+    const path = `executive_governance/cfo/${tenantId}/periods/${periodId}`;
     
     // Simulate network delay
     await new Promise(resolve => setTimeout(resolve, 300));

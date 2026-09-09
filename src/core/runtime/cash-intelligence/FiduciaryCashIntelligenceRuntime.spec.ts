@@ -2,7 +2,7 @@ import { describe, it } from 'node:test';
 import * as assert from 'node:assert/strict';
 import { FiduciaryCashIntelligenceRuntime } from './FiduciaryCashIntelligenceRuntime';
 
-describe('FiduciaryCashIntelligenceRuntime - Stress Tests Institucionais', () => {
+describe('FiduciaryCashGovernanceRuntime - Stress Tests Institucionais', () => {
 
   it('contexto 1: Lucro Contábil sem Caixa', () => {
     // EBITDA positivo, Lucro positivo, mas FCO negativo. Aumento de estoque e clientes.

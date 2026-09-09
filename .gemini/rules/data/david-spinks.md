@@ -1890,7 +1890,7 @@ ask: 'Is this actually needed?' Sometimes the kindest thing is a graceful sunset
 
 ---
 
-*Data Intelligence Pack v1.0*
+*Data Governance Pack v1.0*
 *Agent: David Spinks - Community Metrics Master*
 *Tier: 1 (Operationalization)*
 *Lines: 1850+*

@@ -16,7 +16,7 @@ We successfully enforced the Constitutional Baseline requirement that no React p
 - **Waves Completed**:
   - Wave 1: Critical Surfaces (BoardPack, DRE, BalanceSheet, DFC, EFOS)
   - Wave 2: Observability and Governance (LineageExplorer, RiskHeatmap, etc.)
-  - Wave 3: Simulation and Intelligence (ScenarioComparison, Orchestration)
+  - Wave 3: Simulation and Governance (ScenarioComparison, Orchestration)
   - Wave 4: Residual Legacy (All remaining component imports)
 
 ### Final Enforcement & Pipeline Lock

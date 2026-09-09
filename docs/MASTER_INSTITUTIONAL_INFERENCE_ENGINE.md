@@ -255,7 +255,7 @@ Gerar:
 - risco continuidade.
 
 ====================================================================
-10. TEMPORAL INTELLIGENCE ENGINE
+10. TEMPORAL GOVERNANCE ENGINE
 ====================================================================
 
 Criar inteligência temporal.
@@ -324,13 +324,13 @@ A plataforma deve explicar:
 - consequência institucional.
 
 ====================================================================
-13. EXECUTIVE INTELLIGENCE ENFORCEMENT
+13. EXECUTIVE GOVERNANCE ENFORCEMENT
 ====================================================================
 
 A plataforma deve operar como:
 
 - CFO Advisory Layer;
-- Enterprise Intelligence Layer;
+- Enterprise Governance Layer;
 - Institutional Decision Engine;
 - Strategic Governance Infrastructure.
 
@@ -392,7 +392,7 @@ E posteriormente para:
 - inteligência causal;
 - simulação estratégica;
 - inferência preditiva;
-- governance intelligence;
+- governance governance;
 - institutional cognitive architecture.
 
 ====================================================================

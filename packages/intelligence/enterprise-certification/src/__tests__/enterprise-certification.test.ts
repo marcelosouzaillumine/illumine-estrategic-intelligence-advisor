@@ -7,7 +7,7 @@ import {
 import { Score } from '@illumine/core-primitives';
 
 describe('@illumine/enterprise-certification (Wave 14 Phase 6 EnIS)', () => {
-  it('should calculate composite Enterprise Intelligence Score (EnIS) and classify Networked Enterprise level', () => {
+  it('should calculate composite Enterprise Governance Score (EnIS) and classify Networked Enterprise level', () => {
     const dimensions: EnISDimensions = {
       knowledgeConnectivityScore: Score.create(85),
       crossDomainScore: Score.create(90),

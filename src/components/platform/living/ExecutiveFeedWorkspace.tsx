@@ -64,7 +64,7 @@ export const ExecutiveFeedWorkspace: React.FC<ExecutiveFeedWorkspaceProps> = ({ 
         <div className="flex items-center justify-between text-xs text-muted-foreground">
           <div className="flex items-center gap-2">
             <ShieldCheck className="w-4 h-4 text-emerald-400" />
-            <span>Executive Living Intelligence System ELI v1.0 Active for {companyId}</span>
+            <span>Executive Living Governance System ELI v1.0 Active for {companyId}</span>
           </div>
           <span>Platform v1.0 Compliant</span>
         </div>

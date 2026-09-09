@@ -6,7 +6,7 @@ const eras = [
   { title: "BI", action: "Visualizar resultados.", icon: LineChart },
   { title: "Analytics", action: "Interpretar padrões.", icon: Cpu },
   { title: "Generative AI", action: "Sintetizar conhecimento.", icon: MessageSquare },
-  { title: "Executive Intelligence", action: "Decidir, aprender e evoluir.", icon: Brain, highlight: true }
+  { title: "Executive Governance", action: "Decidir, aprender e evoluir.", icon: Brain, highlight: true }
 ];
 
 export function EvolutionTimeline() {

@@ -47,10 +47,10 @@ ROADMAP DE IMPLEMENTAÇÃO EM 5 PROGRAMAS
 ### PROGRAMA 03 — COGNITIVE BUSINESS PLATFORM
 - Domain Knowledge Engine Evolution (ERP, CRM, Financeiro, RH, Operações ➔ Ontology ➔ Knowledge Graph ➔ Reasoning ➔ Recommendations).
 - Executive Digital Twin (Organization Digital Twin: Structure, People, Financials, Processes, Risks, Assets, Capabilities).
-- Recommendation Intelligence (Business Event ➔ Analysis ➔ Confidence Score ➔ Human Approval ➔ Execution).
+- Recommendation Governance (Business Event ➔ Analysis ➔ Confidence Score ➔ Human Approval ➔ Execution).
 
 ### PROGRAMA 04 — COMMERCIAL SaaS PLATFORM
-- Enterprise Workspace (Executive Dashboard, Strategic Planning, Financial Intelligence, Governance Center, Risk Management, AI Advisor).
+- Enterprise Workspace (Executive Dashboard, Strategic Planning, Financial Governance, Governance Center, Risk Management, AI Advisor).
 - Capability Marketplace (`@illumine/capabilities`: Finance, Governance, Compliance, Strategy, HR, Operations, Sales).
 - Subscription Platform (Planos: Starter, Professional, Enterprise, Enterprise Certified | Multi-Tenant Billing & Limits).
 

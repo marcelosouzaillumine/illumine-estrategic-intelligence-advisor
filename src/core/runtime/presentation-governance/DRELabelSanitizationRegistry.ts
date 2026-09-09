@@ -19,7 +19,7 @@ export class DRELabelSanitizationRegistry {
     'Income Tax': 'Imposto de Renda',
     'Account': 'Conta',
     'Value Brl': 'Valor (R$)',
-    'Scale Efficiency Intelligence': 'Inteligência de Escala',
+    'Scale Efficiency Governance': 'Inteligência de Escala',
     'Growth Revenue': 'Crescimento de Receita',
     'Growth EBITDA': 'Crescimento de EBITDA',
     'NOT_AVAILABLE': 'Histórico Insuficiente',

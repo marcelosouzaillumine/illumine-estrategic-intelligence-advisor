@@ -3,7 +3,7 @@ import { FinancialPositionPureViewModelBuilder } from '../../../../capabilities/
 import { FinancialPositionIntelligenceContract } from '../../../../capabilities/financial/contracts/FinancialPositionIntelligenceContract';
 
 describe('FinancialPositionSignalsHydration', () => {
-  it('should perfectly map signals from Intelligence without losing properties', () => {
+  it('should perfectly map signals from Governance without losing properties', () => {
     // Arrange
     const intelligence: FinancialPositionIntelligenceContract = {
       executiveSummary: { available: false, items: [] },

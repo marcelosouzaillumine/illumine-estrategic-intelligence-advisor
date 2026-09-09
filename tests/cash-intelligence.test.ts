@@ -2,7 +2,7 @@ import { describe, it } from 'node:test';
 import assert from 'node:assert/strict';
 import { InstitutionalCashSustainabilityEngine } from '../src/core/runtime/cash-intelligence/InstitutionalCashSustainabilityEngine';
 
-describe('Institutional Cash Intelligence - Fiduciary Logic', () => {
+describe('Institutional Cash Governance - Fiduciary Logic', () => {
   it('should restrict analysis when DFC is completely missing', () => {
     const report = InstitutionalCashSustainabilityEngine.evaluate(
       [], // missing DFC

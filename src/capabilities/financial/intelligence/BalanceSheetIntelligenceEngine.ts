@@ -331,7 +331,7 @@ export class BalanceSheetIntelligenceEngine {
     const diagnostic = FinancialDiagnosticEngine.analyze(indicators, exposures);
 
     return {
-      capabilityId: 'financial.balance_sheet_intelligence' as any,
+      capabilityId: 'financial.balance_sheet_governance' as any,
       status: 'SUCCESS',
       confidence: confidenceDetail,
       indicators,

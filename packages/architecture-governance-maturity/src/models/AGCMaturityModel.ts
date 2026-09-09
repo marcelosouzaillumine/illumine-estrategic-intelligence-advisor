@@ -8,7 +8,7 @@ export enum AGCMaturityLevel {
   LEVEL_1_DISCOVERY = 'LEVEL_1_DISCOVERY',
   LEVEL_2_MEASUREMENT = 'LEVEL_2_MEASUREMENT',
   LEVEL_3_CERTIFICATION = 'LEVEL_3_CERTIFICATION',
-  LEVEL_4_INTELLIGENCE = 'LEVEL_4_INTELLIGENCE',
+  LEVEL_4_INTELLIGENCE = 'LEVEL_4_GOVERNANCE',
   LEVEL_5_ADVISORY = 'LEVEL_5_ADVISORY',
   LEVEL_6_RISK = 'LEVEL_6_RISK',
   LEVEL_7_DECISION = 'LEVEL_7_DECISION',
@@ -58,7 +58,7 @@ export const AGC_MATURITY_MODEL: readonly MaturityLevelDefinition[] = [
   },
   {
     level: AGCMaturityLevel.LEVEL_4_INTELLIGENCE,
-    name: 'Architecture Intelligence',
+    name: 'Architecture Governance',
     capabilities: ['Evolution Tracking', 'Historical Audit', 'Time-Travel Governance', 'Structural Analytics'],
     description: 'Camada de accountability histórico e inteligência analítica de trajetória.',
     status: 'IMPLEMENTADO'
@@ -72,21 +72,21 @@ export const AGC_MATURITY_MODEL: readonly MaturityLevelDefinition[] = [
   },
   {
     level: AGCMaturityLevel.LEVEL_6_RISK,
-    name: 'Architecture Risk Intelligence',
+    name: 'Architecture Risk Governance',
     capabilities: ['Exposure Index', 'Risk Assessment', 'Risk Signals', 'Risk Policy Catalog'],
     description: 'A plataforma transforma sinais contextuais neutros em quantificações formais de exposição arquitetural baseadas em políticas declarativas.',
     status: 'IMPLEMENTADO'
   },
   {
     level: AGCMaturityLevel.LEVEL_7_DECISION,
-    name: 'Architecture Decision Intelligence',
+    name: 'Architecture Decision Governance',
     capabilities: ['Decision Board', 'Architecture Memory', 'Immutable Context Hash', 'Formal Outcomes'],
     description: 'A plataforma delibera fatos formalmente como um Architecture Review Board não-intervencionista, preparando a decisão.',
     status: 'IMPLEMENTADO'
   },
   {
     level: AGCMaturityLevel.LEVEL_8_KNOWLEDGE,
-    name: 'Architecture Knowledge Intelligence',
+    name: 'Architecture Knowledge Governance',
     capabilities: ['Knowledge Graph', 'Decision Explainability', 'Constitution Reference', 'Decision Lineage', 'Architecture Canon'],
     description: 'Consolida a ontologia completa da arquitetura do Illumine OS em um grafo semântico interconectado. Transforma governança em patrimônio histórico.',
     status: 'IMPLEMENTADO'
@@ -100,28 +100,28 @@ export const AGC_MATURITY_MODEL: readonly MaturityLevelDefinition[] = [
   },
   {
     level: AGCMaturityLevel.LEVEL_10_STRATEGIC,
-    name: 'Strategic Architecture Intelligence',
+    name: 'Strategic Architecture Governance',
     capabilities: ['Recommendation Engine', 'Alternative Generation', 'Scenario Evaluation', 'Strategic Support'],
     description: 'A organização transforma memória arquitetural em alternativas estratégicas fundamentadas, atuando como conselheiro estrutural (Decision Support).',
     status: 'IMPLEMENTADO'
   },
   {
     level: AGCMaturityLevel.LEVEL_11_EXECUTIVE,
-    name: 'Executive Decision Intelligence',
+    name: 'Executive Decision Governance',
     capabilities: ['Decision Context Engine', 'Decision Brief Generator', 'Institutional Decision Memory'],
     description: 'A organização transforma inteligência contextual em decisões governadas, acompanhadas por evidências, resultados esperados e aprendizado institucional contínuo.',
     status: 'IMPLEMENTADO'
   },
   {
     level: AGCMaturityLevel.LEVEL_12_LEARNING,
-    name: 'Institutional Learning Intelligence',
+    name: 'Institutional Learning Governance',
     capabilities: ['Strategic Self-Correction', 'Adaptive Governance', 'Institutional Reflex'],
     description: 'A organização aprende sistematicamente com suas decisões históricas, aprimorando continuamente seus modelos estratégicos e sua capacidade adaptativa.',
     status: 'IMPLEMENTADO'
   },
   {
     level: 'LEVEL_13_INTEGRATION',
-    name: 'Executive Intelligence Experience Integration',
+    name: 'Executive Governance Experience Integration',
     capabilities: ['Contextual Executive UI', 'Holistic Narrative Orchestration', 'Traceable Copilot'],
     description: 'A organização acessa inteligência executiva contextualizada no momento da decisão, conectando recomendações, decisões e aprendizados em uma experiência contínua.',
     status: 'IMPLEMENTADO'

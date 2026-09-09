@@ -41,8 +41,8 @@ Toda simulação executada no EXECUTIVE_SCENARIO_LAB deverá obedecer obrigatori
 * MASTER_ARCHITECTURE.md
 * MASTER_CAUSAL_ENGINE.md
 * SCENARIO_SIMULATION_ENGINE.md
-* OPERATIONAL_INTELLIGENCE_LAYER.md
-* CASH_FLOW_INTELLIGENCE_LAYER.md
+* OPERATIONAL_GOVERNANCE_LAYER.md
+* CASH_FLOW_GOVERNANCE_LAYER.md
 * EXECUTIVE_ADVISORY_ENGINE
 * CALIBRATION & STABILITY LAYER
 * WEIGHTED CAUSAL INFERENCE LAYER
@@ -317,10 +317,10 @@ Toda alteração deverá ser validada contra:
 A plataforma Illumine passa a operar como:
 
 * Executive Decision Simulation Platform;
-* Predictive Institutional Intelligence Lab;
+* Predictive Institutional Governance Lab;
 * Enterprise Stress Testing Environment;
 * Strategic Scenario Projection Engine;
-* Institutional Forecast Intelligence System.
+* Institutional Forecast Governance System.
 
 A Illumine deverá permitir que executivos:
 

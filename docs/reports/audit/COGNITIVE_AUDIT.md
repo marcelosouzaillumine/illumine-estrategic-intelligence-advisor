@@ -2,7 +2,7 @@
 
 > **Relatório Técnico de Auditoria da Arquitetura Cognitiva e Narrativa Institucional**  
 > *Horizonte Temporal: Julho de 2026 | IERA v1.0 Compliance Audit*  
-> *Documento Integrante do Pacote [`EXECUTIVE_ARCHITECTURE_AUDIT.md`](file:///Users/marcelosouza/Documents/illumine-strategic-intelligence-advisor/docs/reports/audit/EXECUTIVE_ARCHITECTURE_AUDIT.md)*  
+> *Documento Integrante do Pacote [`EXECUTIVE_ARCHITECTURE_AUDIT.md`](file:///Users/marcelosouza/Documents/illumine-strategic-governance-advisor/docs/reports/audit/EXECUTIVE_ARCHITECTURE_AUDIT.md)*  
 > *Status: Homologado*
 
 ---
@@ -23,7 +23,7 @@ Esta auditoria consolida a análise de 3 dimensões fundamentais da plataforma:
 | **`Decision Experience` (DRE, Liquidez, Board)** | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |
 | **`Registration Experience` (Clientes, Parceiros)** | ✅ | ✅ | ✅ | ✅ | ⚠️ *N/A* | ✅ | ✅ | ⚠️ *N/A* |
 | **`Operational Experience` (Planos, Workflows)** | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |
-| **`Intelligence Experience` (Memory, Graph)** | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |
+| **`Governance Experience` (Memory, Graph)** | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |
 
 *Nota: Em páginas de Cadastro (`Registration Experience`), as etapas de `Deliberation` e `Learning` ocorrem no nível de validação de compliance de dados contábeis.*
 

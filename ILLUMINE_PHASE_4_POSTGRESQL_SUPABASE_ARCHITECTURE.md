@@ -1,7 +1,7 @@
 # ILLUMINE_PHASE_4_POSTGRESQL_SUPABASE_ARCHITECTURE
 
 ## 1. Executive Summary
-This document defines the **Phase 4: PostgreSQL / Supabase Architecture & Migration Design** for the Illumine Executive Intelligence Platform. It translates the conceptually approved 7-Layer Canonical Model (SOURCE → FACT → METRIC → INTELLIGENCE → DECISION → ACTION → OUTCOME) into a rigorous physical and logical PostgreSQL design. 
+This document defines the **Phase 4: PostgreSQL / Supabase Architecture & Migration Design** for the Illumine Executive Governance Platform. It translates the conceptually approved 7-Layer Canonical Model (SOURCE → FACT → METRIC → GOVERNANCE → DECISION → ACTION → OUTCOME) into a rigorous physical and logical PostgreSQL design. 
 
 This design enforces structural Tenant isolation via Row-Level Security (RLS), ensures mathematical immutability for closed financial periods, guarantees AI provenance, and establishes a secure, auditable foundation for executive decision-making. No code or database changes are executed in this phase; this is purely a technical blueprint.
 
@@ -9,12 +9,12 @@ This design enforces structural Tenant isolation via Row-Level Security (RLS), e
 To maintain domain boundaries and simplify permissions, the database will be divided into specific PostgreSQL schemas:
 1. `tenant` - Core multitenancy, RBAC, workspaces, and companies.
 2. `finance` - Chart of accounts, financial periods, transactions, adjustments, and metrics.
-3. `intelligence` - Insights, recommendations, decisions, actions, and AI provenance.
+3. `governance` - Insights, recommendations, decisions, actions, and AI provenance.
 4. `audit` - Append-only system logs, history tables, and impersonation events.
 5. `legacy` - Temporary staging tables for raw Firebase data cleansing prior to migration.
 
 ## 3. Logical-to-Physical Entity Mapping & Tables
-The 7-Layer Intelligence Architecture does not mean 7 tables. It maps to the following physical structure:
+The 7-Layer Governance Architecture does not mean 7 tables. It maps to the following physical structure:
 
 ### 3.1. Tenant & Identity (`tenant` schema)
 - `tenant`: `id` (PK), `name`, `status`, `created_at`
@@ -36,8 +36,8 @@ The 7-Layer Intelligence Architecture does not mean 7 tables. It maps to the fol
   - `metric_definition`: `id`, `name`, `formula`, `version`
   - `metric_value`: `id`, `period_id` (FK), `metric_definition_id` (FK), `value`, `calculated_at`
 
-### 3.3. Intelligence & Decision Architecture (`intelligence` schema)
-* **INTELLIGENCE:**
+### 3.3. Governance & Decision Architecture (`governance` schema)
+* **GOVERNANCE:**
   - `insight`: `id`, `company_id`, `metric_value_id` (FK, optional), `description`
   - `recommendation`: `id`, `insight_id` (FK), `description`, `ai_provenance_id` (FK, nullable)
   - `ai_provenance`: `id`, `provider`, `model`, `prompt_hash`, `context_hash`, `generated_at`
@@ -108,7 +108,7 @@ The 7-Layer Intelligence Architecture does not mean 7 tables. It maps to the fol
 ## 13. Final Deliverables (Summary)
 
 ### A. Recommended PostgreSQL Architecture
-- Schemas: `tenant`, `finance`, `intelligence`, `audit`, `legacy`.
+- Schemas: `tenant`, `finance`, `governance`, `audit`, `legacy`.
 - Strict RLS, Triggers for history, Views for financial nets.
 
 ### B. Security & RLS Model

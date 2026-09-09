@@ -1,7 +1,7 @@
 # Architecture Compliance Audit - Executive Cognitive UI v1.1
 
 ## 1. Objective
-This document attests to the architectural compliance of the Executive Cognitive UI v1.1 — Board Contextual Intelligence Integration. The integration was carefully designed to inject cognitive exploration capabilities directly into the fiduciary decision surfaces without breaking the established deterministic runtime boundaries.
+This document attests to the architectural compliance of the Executive Cognitive UI v1.1 — Board Contextual Governance Integration. The integration was carefully designed to inject cognitive exploration capabilities directly into the fiduciary decision surfaces without breaking the established deterministic runtime boundaries.
 
 ## 2. Compliance Checklist
 

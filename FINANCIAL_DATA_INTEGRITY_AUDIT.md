@@ -66,7 +66,7 @@
 - `src/governance/financial-governance.guard.ts`
 
 ### Interface Executiva:
-- `src/components/executive/ExecutiveDecisionIntelligenceMount.tsx`
+- `src/components/executive/ExecutiveDecisionGovernanceMount.tsx`
 
 ---
 
@@ -76,7 +76,7 @@
 ---
 
 ## 7. Linhagem de Dados Completa (Data Lineage)
-`Cloud Firestore (financial_entries)` ➔ `CanonicalFinancialNormalizer` ➔ `Readonly<CanonicalFinancialEntry>` ➔ `FinancialGovernanceBoundary` ➔ `CertifiedFinancialDataset (SHA-256 Hash)` ➔ `Firestore (financial_certifications)` ➔ `Executive Runtime Guard` ➔ `Executive Intelligence` ➔ `Executive UI`.
+`Cloud Firestore (financial_entries)` ➔ `CanonicalFinancialNormalizer` ➔ `Readonly<CanonicalFinancialEntry>` ➔ `FinancialGovernanceBoundary` ➔ `CertifiedFinancialDataset (SHA-256 Hash)` ➔ `Firestore (financial_certifications)` ➔ `Executive Runtime Guard` ➔ `Executive Governance` ➔ `Executive UI`.
 
 ---
 

@@ -4,7 +4,7 @@
 This defines the Phase 5 local PostgreSQL/Supabase database foundation. The architecture is split into five canonical schemas:
 1. `tenant`: Multitenancy and identity (Tenants, Companies, Users, Memberships, Roles).
 2. `finance`: Canonical financial domains (COA, Periods, Entries, Adjustments).
-3. `intelligence`: Decision intelligence (AI Provenance, Insights, Recommendations, Decisions, Actions, Outcomes).
+3. `governance`: Decision governance (AI Provenance, Insights, Recommendations, Decisions, Actions, Outcomes).
 4. `audit`: System audit logs and explicit impersonation sessions.
 5. `legacy`: Staging area for initial Firebase import/cleansing.
 
@@ -17,6 +17,6 @@ Row-Level Security (RLS) policies govern all data access strictly at the databas
 - **Adjustments**: Corrections to closed periods require inserting an `adjustment_entries` record.
 - **Views**: `v_financial_statements` nets `financial_entries` against `adjustment_entries`.
 
-## Intelligence Immutability
+## Governance Immutability
 - **Decisions**: Strongly immutable. Can only change status (Archived, Superseded).
 - **AI Provenance**: Tracks the hash and model of AI-generated insights.

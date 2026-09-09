@@ -18,8 +18,8 @@ O motor de composição divide a tela nos seguintes contextos:
 
 ## 4. O Sistema de Templates Institucionais
 As propostas não nascem do zero. Elas herdam de *Proposal Templates*:
-- **Executive Intelligence Platform™ (Template Enterprise)**
-- **Governance Intelligence Diagnostic™ (Template Assessment)**
+- **Executive Governance Platform™ (Template Enterprise)**
+- **Governance Governance Diagnostic™ (Template Assessment)**
 - **Executive Advisory™ (Template Consulting)**
 - **Partner Proposal (Template Channel)**
 
@@ -38,7 +38,7 @@ A renderização do conteúdo baseia-se em um padrão *Block/Section*. A `Propos
 - `TERMS`
 - `ACCEPTANCE`
 
-## 6. Integração com Executive Intelligence (O Diferencial)
+## 6. Integração com Executive Governance (O Diferencial)
 O builder pode (e deve) consumir inteligência prévia gerada pela plataforma. 
 Exemplo: Um `Governance Assessment` concluído em uma `Opportunity` anterior poderá popular automaticamente as seções `CHALLENGE` e `OPPORTUNITY` em formato de `Executive Evidence Grid`.
 

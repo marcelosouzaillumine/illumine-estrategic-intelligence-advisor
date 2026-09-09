@@ -7,7 +7,7 @@
 | :--- | :--- | :--- | :--- |
 | Constitutional Compliance | 25% | 80 | 20.00 |
 | Executive Experience | 20% | 70 | 14.00 |
-| Intelligence Quality | 15% | 65 | 9.75 |
+| Governance Quality | 15% | 65 | 9.75 |
 | Security & Tenant Isolation | 15% | 0 | 0.00 |
 | Technical Health | 10% | 75 | 7.50 |
 | Observability | 5% | 40 | 2.00 |
@@ -24,7 +24,7 @@
  "dimensions": {
    "constitutionalCompliance": 80,
    "executiveExperience": 70,
-   "intelligenceQuality": 65,
+   "governanceQuality": 65,
    "securityIsolation": 0,
    "technicalHealth": 75,
    "observability": 40,

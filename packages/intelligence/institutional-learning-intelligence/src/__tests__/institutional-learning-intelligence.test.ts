@@ -9,7 +9,7 @@ import {
   InstitutionalLearningEngine
 } from '../index';
 
-describe('Wave 19.5 — Institutional Learning Intelligence Layer (ILI v1.0)', () => {
+describe('Wave 19.5 — Institutional Learning Governance Layer (ILI v1.0)', () => {
   it('should synthesize InstitutionalWisdomObject with episodic memory', () => {
     const wisdom = InstitutionalWisdomEngine.synthesizeWisdom('dec-01', 'EPISODIC', 3.5, 'Redução de custos operacionais aumentou EBITDA.');
     expect(wisdom.decisionId).toBe('dec-01');

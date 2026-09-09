@@ -2,7 +2,7 @@ import { Logger } from '../../core/src/logging/logger';
 
 export interface AdvisoryAnalysis {
   agentName: string;
-  domain: 'CFO' | 'STRATEGY' | 'GOVERNANCE' | 'OPERATIONS' | 'PEOPLE' | 'CUSTOMER_SUCCESS' | 'VALUE_REALIZATION' | 'GROWTH' | 'MARKET_INTELLIGENCE' | 'ECOSYSTEM' | 'SALES_INTELLIGENCE' | 'IMPLEMENTATION';
+  domain: 'CFO' | 'STRATEGY' | 'GOVERNANCE' | 'OPERATIONS' | 'PEOPLE' | 'CUSTOMER_SUCCESS' | 'VALUE_REALIZATION' | 'GROWTH' | 'MARKET_GOVERNANCE' | 'ECOSYSTEM' | 'SALES_GOVERNANCE' | 'IMPLEMENTATION';
   recommendation: string;
   confidenceScore: number;
   mustAutoMergeForbidden: true;
@@ -97,7 +97,7 @@ export class GrowthAgent {
     return {
       agentName: 'Growth Agent',
       domain: 'GROWTH',
-      recommendation: 'Recomendar expansão para o pacote Governance Intelligence.',
+      recommendation: 'Recomendar expansão para o pacote Governance Governance.',
       confidenceScore: 0.95,
       mustAutoMergeForbidden: true
     };
@@ -107,8 +107,8 @@ export class GrowthAgent {
 export class MarketIntelligenceAgent {
   public static analyze(): AdvisoryAnalysis {
     return {
-      agentName: 'Market Intelligence Agent',
-      domain: 'MARKET_INTELLIGENCE',
+      agentName: 'Market Governance Agent',
+      domain: 'MARKET_GOVERNANCE',
       recommendation: 'Aproveitar a tendência de queda nos juros para otimizar a estrutura de capital.',
       confidenceScore: 0.96,
       mustAutoMergeForbidden: true
@@ -131,8 +131,8 @@ export class EcosystemAgent {
 export class SalesIntelligenceAgent {
   public static analyze(): AdvisoryAnalysis {
     return {
-      agentName: 'Sales Intelligence Agent',
-      domain: 'SALES_INTELLIGENCE',
+      agentName: 'Sales Governance Agent',
+      domain: 'SALES_GOVERNANCE',
       recommendation: 'Priorizar contas com Enterprise Fit Score > 90 no funil de vendas complexas.',
       confidenceScore: 0.98,
       mustAutoMergeForbidden: true

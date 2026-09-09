@@ -31,7 +31,7 @@ export class AdvisoryContextService {
     // Load from memory dynamically
     if (memory) {
       Object.values(memory.activeContexts).forEach(ctx => {
-        const domainPrefix = ctx.domain.replace('-intelligence', '') as DiagnosticDomain;
+        const domainPrefix = ctx.domain.replace('-governance', '') as DiagnosticDomain;
         portfolio.domains[domainPrefix] = {
           status: 'completed',
           currentMaturity: ctx.profile?.maturityLevel,
@@ -55,7 +55,7 @@ export class AdvisoryContextService {
     }
 
     // Apply current record
-    const currentDomainPrefix = record.domain.replace('-intelligence', '') as DiagnosticDomain;
+    const currentDomainPrefix = record.domain.replace('-governance', '') as DiagnosticDomain;
     portfolio.domains[currentDomainPrefix] = {
       status: 'completed',
       currentMaturity: record.profile?.maturityLevel,

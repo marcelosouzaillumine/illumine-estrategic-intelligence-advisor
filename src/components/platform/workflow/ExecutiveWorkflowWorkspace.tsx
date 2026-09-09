@@ -24,7 +24,7 @@ export const ExecutiveWorkflowWorkspace: React.FC<ExecutiveWorkflowWorkspaceProp
           </div>
           <div>
             <div className="flex items-center gap-2">
-              <h1 className="text-xl font-bold tracking-tight text-foreground">Executive Workflow Intelligence</h1>
+              <h1 className="text-xl font-bold tracking-tight text-foreground">Executive Workflow Governance</h1>
               <ExecutiveBadge variant="info" className="font-mono">EWI v1.0 Governed Engine</ExecutiveBadge>
 
 

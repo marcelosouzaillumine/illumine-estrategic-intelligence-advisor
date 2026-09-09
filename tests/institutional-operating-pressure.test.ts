@@ -5,7 +5,7 @@ import assert from 'node:assert/strict';
 import { InstitutionalPressureRuntime } from '../src/core/runtime/operating-pressure/InstitutionalPressureRuntime';
 import { LongitudinalPressureMemoryEngine } from '../src/core/runtime/operating-pressure/LongitudinalPressureMemoryEngine';
 
-describe('RC-1.8A - Institutional Operating Pressure Intelligence', () => {
+describe('RC-1.8A - Institutional Operating Pressure Governance', () => {
 
   beforeEach(() => {
     LongitudinalPressureMemoryEngine.clearMemoryForTests();

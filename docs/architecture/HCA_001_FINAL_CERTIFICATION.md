@@ -36,7 +36,7 @@ As capabilities priorizadas nesta iniciativa atingiram os requisitos de certific
 - **Status**: Certified / Minor Drift Residual
 - A página principal `ClientsPage.tsx` foi massivamente refatorada para atuar via `useClientsPageViewModel`. Contudo, o rastreio automático detectou resquícios não intencionais:
   - Presença residual de imports explícitos `useState`, `useEffect`, `useMemo` no header do arquivo (mesmo que alguns já tenham sido movidos).
-  - Imports diretos vazados: `ClientsApplicationService.approveClient(client.id)`, `ClientIntelligenceService.normalizeAiAnalysis(formData)`, além das instâncias diretas do `db` e `auth` (Firebase).
+  - Imports diretos vazados: `ClientsApplicationService.approveClient(client.id)`, `ClientGovernanceService.normalizeAiAnalysis(formData)`, além das instâncias diretas do `db` e `auth` (Firebase).
   - *Mitigação Sugerida:* Abertura de card no próximo roadmap de Tech Debt para limpar importações e delegar `approveClient` e `normalizeAiAnalysis` integralmente às `actions` do ViewModel correspondente, limpando totalmente os includes de Reactivity.
 
 ## 4. Mapeamento de Imports Diretos Remanescentes (Amostragem Crítica)
@@ -57,7 +57,7 @@ Os componentes abaixo listados ainda importam dependências diretas de `Firebase
 - **Simulators & Strategy:**
   - `EnterpriseValidationPage.tsx`
   - `InstitutionalDigitalTwinPage.tsx`
-  - `InstitutionalStrategicIntelligencePage.tsx`
+  - `InstitutionalStrategicGovernancePage.tsx`
 
 ## 5. Conclusão da HCA-001
 

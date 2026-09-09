@@ -1,4 +1,4 @@
-# EXECUTIVE_INTELLIGENCE_REAL_MOUNT_AUDIT.md — Matriz de Auditoria de Montagem Real
+# EXECUTIVE_GOVERNANCE_REAL_MOUNT_AUDIT.md — Matriz de Auditoria de Montagem Real
 
 > **Relatório de Auditoria de Montagem Real em Árvore React (Wave 17.10.1 Fase 1)**
 

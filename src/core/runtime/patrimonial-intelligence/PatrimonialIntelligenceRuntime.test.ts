@@ -4,7 +4,7 @@ import { PatrimonialIntelligenceRuntime, SimpleBPSummary } from "./PatrimonialIn
 import { FinancialRuntimeContextAdapter } from "../financial-context/FinancialRuntimeContextAdapter";
 import { InstitutionalBusinessProfile } from "../institutional-identity/InstitutionalBusinessProfile";
 
-describe("PatrimonialIntelligenceRuntime", () => {
+describe("PatrimonialGovernanceRuntime", () => {
   const runtime = new PatrimonialIntelligenceRuntime();
   const contextAdapter = new FinancialRuntimeContextAdapter();
 

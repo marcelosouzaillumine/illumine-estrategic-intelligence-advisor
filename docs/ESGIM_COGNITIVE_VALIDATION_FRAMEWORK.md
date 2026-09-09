@@ -10,9 +10,9 @@ Estabelecer oficialmente o ESGIM Cognitive Validation Framework como o mecanismo
 O objetivo desta estrutura é verificar se:
 * as Inteligências Estruturantes operam corretamente;
 * os mecanismos de arbitragem funcionam adequadamente;
-* as Composite Intelligence Engines produzem conclusões coerentes;
+* as Composite Governance Engines produzem conclusões coerentes;
 * os Governance Assessment Runtimes evitam falsos positivos;
-* os Board Intelligence Layers produzem recomendações executivas consistentes.
+* os Board Governance Layers produzem recomendações executivas consistentes.
 
 Esta implementação **não cria** novas engines e **não altera** qualquer componente existente. O objetivo é unicamente validar a arquitetura construída.
 
@@ -25,9 +25,9 @@ Esta implementação **não cria** novas engines e **não altera** qualquer comp
 
 Ficam registradas oficialmente cinco categorias de validação:
 
-### Category 1: Intelligence Validation
+### Category 1: Governance Validation
 * **Objetivo:** Validar individualmente cada Inteligência Estruturante.
-* **Escopo:** Economic Intelligence, Fiduciary Intelligence, Institutional Intelligence, Causal Intelligence, Constitutional Intelligence, Missional Intelligence, Prospective Intelligence.
+* **Escopo:** Economic Governance, Fiduciary Governance, Institutional Governance, Causal Governance, Constitutional Governance, Missional Governance, Prospective Governance.
 * **Pergunta:** *"A inteligência produz a conclusão esperada diante das evidências fornecidas?"*
 
 ### Category 2: Arbitration Validation
@@ -35,8 +35,8 @@ Ficam registradas oficialmente cinco categorias de validação:
 * **Pergunta:** *"As regras da Constituição Cognitiva estão sendo respeitadas?"*
 * **Exemplos:** Economic vs Fiduciary, Economic vs Constitutional, Missional vs Fiduciary, Prospective vs Institutional.
 
-### Category 3: Composite Intelligence Validation
-* **Objetivo:** Validar Composite Intelligence Engines.
+### Category 3: Composite Governance Validation
+* **Objetivo:** Validar Composite Governance Engines.
 * **Escopo inicial:** Mission Alignment Engine.
 * **Pergunta:** *"A engine composta produz uma conclusão coerente diante de inteligências conflitantes?"*
 
@@ -55,11 +55,11 @@ Ficam registrados oficialmente os 10 cenários obrigatórios de Stress Test:
 
 * **Stress Test 01: Economic Success vs Fiduciary Failure**
   * *Cenário:* Receita crescente, lucro crescente, caixa deteriorando, endividamento crescente.
-  * *Resultado esperado:* Fiduciary Intelligence prevalece. Governance Assessment não pode gerar classificação positiva.
+  * *Resultado esperado:* Fiduciary Governance prevalece. Governance Assessment não pode gerar classificação positiva.
 
 * **Stress Test 02: Economic Success vs Constitutional Breach**
   * *Cenário:* Resultados financeiros excelentes, fraude comprovada, violação ética.
-  * *Resultado esperado:* Constitutional Intelligence prevalece. Impedir classificações positivas.
+  * *Resultado esperado:* Constitutional Governance prevalece. Impedir classificações positivas.
 
 * **Stress Test 03: Mission Success vs Fiduciary Rupture**
   * *Cenário:* Missão forte, impacto social elevado, colapso financeiro iminente.
@@ -87,7 +87,7 @@ Ficam registrados oficialmente os 10 cenários obrigatórios de Stress Test:
 
 * **Stress Test 09: Board Actionability**
   * *Cenário:* Risco identificado.
-  * *Resultado esperado:* Board Intelligence produz ação recomendada. Não apenas diagnóstico.
+  * *Resultado esperado:* Board Governance produz ação recomendada. Não apenas diagnóstico.
 
 * **Stress Test 10: Explainability Traceability**
   * *Objetivo:* Garantir rastreabilidade completa.
@@ -133,7 +133,7 @@ Ao final desta implementação deverá existir um framework oficial capaz de:
 2. Validar arbitragens.
 3. Validar Composite Engines.
 4. Validar Governance Assessment Runtimes.
-5. Validar Board Intelligence Layers.
+5. Validar Board Governance Layers.
 6. Certificar coerência cognitiva da plataforma.
 7. Reduzir risco de falsos positivos.
 8. Sustentar readiness para produção enterprise.

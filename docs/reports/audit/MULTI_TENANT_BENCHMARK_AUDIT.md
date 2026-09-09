@@ -1,8 +1,8 @@
 # MULTI_TENANT_BENCHMARK_AUDIT.md — Relatório de Auditoria da Rede Multi-Tenant de Benchmark (MBAI v2.0)
 
-> **Relatório Oficial de Auditoria da Wave 18.8 (Multi-Tenant Advisory Intelligence)**  
+> **Relatório Oficial de Auditoria da Wave 18.8 (Multi-Tenant Advisory Governance)**  
 > *Autoridade Supreme: Architecture Review Board (ARB) & Executive Governance Council*  
-> *Subordinado à [`ARCHITECTURE_CONSTITUTION.md`](file:///Users/marcelosouza/Documents/illumine-strategic-intelligence-advisor/ARCHITECTURE_CONSTITUTION.md)*
+> *Subordinado à [`ARCHITECTURE_CONSTITUTION.md`](file:///Users/marcelosouza/Documents/illumine-strategic-governance-advisor/ARCHITECTURE_CONSTITUTION.md)*
 
 ---
 

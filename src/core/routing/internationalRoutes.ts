@@ -7,7 +7,7 @@ export type RouteKey =
   | 'PLATFORM'
   | 'DOMAINS'
   | 'GOVERNANCE'
-  | 'INTELLIGENCE_CENTER'
+  | 'GOVERNANCE_CENTER'
   | 'DIAGNOSTIC'
   | 'CONTACT'
   | 'PARTNERS'
@@ -39,7 +39,7 @@ export const internationalRoutes: Record<RouteKey, string> = {
   PLATFORM: '/platform',
   DOMAINS: '/domains',
   GOVERNANCE: '/governance',
-  INTELLIGENCE_CENTER: '/intelligence-center',
+  GOVERNANCE_CENTER: '/governance-center',
   DIAGNOSTIC: '/assessment',
   CONTACT: '/contact',
   PARTNERS: '/partners',
@@ -66,7 +66,7 @@ export const legacyAliases: Record<string, RouteKey> = {
   '/dominios': 'DOMAINS',
   '/diagnostico': 'DIAGNOSTIC',
   '/parceiros': 'PARTNERS',
-  '/centro-de-inteligencia': 'INTELLIGENCE_CENTER',
+  '/centro-de-inteligencia': 'GOVERNANCE_CENTER',
   '/por-que-illumine': 'WHY',
   '/contato': 'CONTACT',
   '/entrar': 'LOGIN',

@@ -16,7 +16,7 @@ export type NavigationCategory =
   | 'command'
   | 'board'
   | 'executive-office'
-  | 'intelligence'
+  | 'governance'
   | 'partner'
   | 'foundation'
   | 'platform'

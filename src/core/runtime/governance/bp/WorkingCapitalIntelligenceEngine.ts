@@ -8,7 +8,7 @@ export class WorkingCapitalIntelligenceEngine {
   static [key: string]: any;
   static analyze(summary: BPSummary, dreData: any[]): PatrimonialIndicator[] {
     const indicators: PatrimonialIndicator[] = [];
-    const family = 'Working Capital Intelligence';
+    const family = 'Working Capital Governance';
 
     // PMPC, PMRV, PMRE Calculation (Proxy via DRE se necessário)
     // Busca CMV e Receita na DRE

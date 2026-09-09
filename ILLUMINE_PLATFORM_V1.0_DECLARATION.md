@@ -2,7 +2,7 @@
 
 > **Declaração Oficial de Conclusão do Ciclo de Construção de Plataforma & Estabilidade de Arquitetura**  
 > *Emissor: Architecture Review Board (ARB) & Executive Governance Council*  
-> *Subordinado à [`ARCHITECTURE_CONSTITUTION.md`](file:///Users/marcelosouza/Documents/illumine-strategic-intelligence-advisor/ARCHITECTURE_CONSTITUTION.md)*
+> *Subordinado à [`ARCHITECTURE_CONSTITUTION.md`](file:///Users/marcelosouza/Documents/illumine-strategic-governance-advisor/ARCHITECTURE_CONSTITUTION.md)*
 
 ---
 
@@ -26,7 +26,7 @@ $$\begin{array}{c}
 \hline
 \mathbf{Executive \quad Coordination \quad Layer \quad (ICL \quad / \quad IIN \quad v1.0)} \\
 \hline
-\mathbf{Executive \quad Intelligence \quad Layer \quad (EIL \quad / \quad EAIL \quad / \quad EWI)} \\
+\mathbf{Executive \quad Governance \quad Layer \quad (EIL \quad / \quad EAIL \quad / \quad EWI)} \\
 \hline
 \mathbf{Institutional \quad Knowledge \quad \& \quad Memory \quad Layer \quad (EKFH \quad / \quad ILI)} \\
 \hline
@@ -41,9 +41,9 @@ $$\begin{array}{c}
 
 1. **Congelamento da Arquitetura de Base**: A infraestrutura horizontal de base, contratos canônicos e runtime estão congelados e declarados estáveis para produção enterprise.
 2. **Evolução por Capacidades Verticais**: O desenvolvimento futuro de produto deixará de criar novas waves horizontais, migrando exclusivamente para o **Vertical Capability Roadmap**:
-   - `Risk Intelligence™` (Financeiro, Operacional, Jurídico, Estratégico, ESG)
-   - `Scenario Intelligence™` (Modelagem de consequências *What if...*)
-   - `Decision Intelligence™` (Comparação quantitativa e ranking de opções)
+   - `Risk Governance™` (Financeiro, Operacional, Jurídico, Estratégico, ESG)
+   - `Scenario Governance™` (Modelagem de consequências *What if...*)
+   - `Decision Governance™` (Comparação quantitativa e ranking de opções)
    - `Autonomous Executive Agents™` (Agentes especializados C-Level: CEO, CFO, COO, CMO, CHRO, Board)
    - `Institutional Memory Graph™` (Grafo causal e reutilização de lições aprendidas)
 3. **Preservação Constitucional**: Todos os contratos públicos canônicos permanecem imutáveis. **ADR-001 a ADR-085 totalmente preservadas**.

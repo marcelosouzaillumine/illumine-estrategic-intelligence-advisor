@@ -2,7 +2,7 @@
 
 > **Relatório Oficial de Auditoria da Wave 18.4 (Regime Foundation & Contratos)**  
 > *Autoridade Supreme: Architecture Review Board (ARB) & Executive Governance Council*  
-> *Subordinado à [`ARCHITECTURE_CONSTITUTION.md`](file:///Users/marcelosouza/Documents/illumine-strategic-intelligence-advisor/ARCHITECTURE_CONSTITUTION.md) e ADR-078*
+> *Subordinado à [`ARCHITECTURE_CONSTITUTION.md`](file:///Users/marcelosouza/Documents/illumine-strategic-governance-advisor/ARCHITECTURE_CONSTITUTION.md) e ADR-078*
 
 ---
 
@@ -14,7 +14,7 @@
 | **Connector Framework** | `CONNECTOR_ARCHITECTURE.md` | ✅ **100% Homologado** | 100% |
 | **Data Lineage Governance** | `DATA_LINEAGE_FRAMEWORK.md` | ✅ **100% Homologado** | 100% |
 | **Data Quality Governance** | `DATA_QUALITY_GOVERNANCE.md` | ✅ **100% Homologado** | 100% |
-| **Real-Time Intelligence Model** | `REAL_TIME_INTELLIGENCE_MODEL.md` | ✅ **100% Homologado** | 100% |
+| **Real-Time Governance Model** | `REAL_TIME_GOVERNANCE_MODEL.md` | ✅ **100% Homologado** | 100% |
 
 ---
 

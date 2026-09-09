@@ -1,6 +1,6 @@
-# Executive Intelligence Operating Model Policy™
+# Executive Governance Operating Model Policy™
 
-Este documento estabelece as diretrizes de governança para o Executive Intelligence Operating Model™, definindo claramente a fronteira de propriedade intelectual (IP) entre o que pode ser exposto à UI/Cliente e o que deve permanecer restrito aos motores internos da Illumine.
+Este documento estabelece as diretrizes de governança para o Executive Governance Operating Model™, definindo claramente a fronteira de propriedade intelectual (IP) entre o que pode ser exposto à UI/Cliente e o que deve permanecer restrito aos motores internos da Illumine.
 
 ## Público (Permitido para Exibição / Interface do Usuário)
 

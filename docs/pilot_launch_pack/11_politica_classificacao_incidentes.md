@@ -11,7 +11,7 @@ Esta política estabelece os graus de severidade de anomalias detectadas no ambi
 
 ### 2. `MODERATE` (Alerta Operacional)
 - **Definição**: Disparidade contábil parcial em áreas não estruturais ou falta de histórico suficiente (ex: apenas 2 anos de DFC em vez de 3).
-- **Exemplos**: Score Longitudinal rebaixado a "NOT_AVAILABLE" por `LongitudinalIntelligenceGuard`.
+- **Exemplos**: Score Longitudinal rebaixado a "NOT_AVAILABLE" por `LongitudinalGovernanceGuard`.
 - **Ação**: A Engine alerta a falta de profundidade de dados; certas simulações podem ser desativadas. O *Board Pack* conterá uma advertência clara sobre previsibilidade.
 
 ### 3. `HIGH` (Risco Fiduciário Relevante)

@@ -1,4 +1,4 @@
-# Intelligence Quality Report
+# Governance Quality Report
 
 ## Differentiation Audit
 **Result:** PASS ✅

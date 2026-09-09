@@ -18,4 +18,4 @@ Este índice registra todos os registros formais de decisões arquiteturais estr
 | **ADR-012** | Delimitação de Fronteira do Domínio de Inteligência de Plataforma | **Aprovado** | 2026-07-29 | Arquiteto-Chefe |
 | **ADR-013** | Arquitetura de Inteligência Preditiva (Early Warning) | **Aprovado** | 2026-07-29 | Arquiteto-Chefe |
 | **ADR-014** | Modelo de Governança de Observabilidade em Três Níveis | **Aprovado** | 2026-07-29 | Arquiteto-Chefe |
-| **ADR-015** | Arquitetura da Fonte Única da Verdade para Inteligência Financeira (Financial Intelligence SSOT) | **Aprovado** | 2026-07-29 | Arquiteto-Chefe |
+| **ADR-015** | Arquitetura da Fonte Única da Verdade para Inteligência Financeira (Financial Governance SSOT) | **Aprovado** | 2026-07-29 | Arquiteto-Chefe |

@@ -1,7 +1,7 @@
 import { describe, it, expect } from 'vitest';
 import { PerformanceBaseline, GapAnalysisEngine } from '../index';
 
-describe('@illumine/benchmark-intelligence (Wave 14 Phase 4)', () => {
+describe('@illumine/benchmark-governance (Wave 14 Phase 4)', () => {
   it('should evaluate gap analysis against historical baseline and strategic target', () => {
     const baseline: PerformanceBaseline = {
       baselineId: 'base-ebitda',

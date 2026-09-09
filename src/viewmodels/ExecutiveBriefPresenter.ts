@@ -62,7 +62,7 @@ export class ExecutiveBriefPresenter {
 
     return {
       header: {
-        title: 'Executive Intelligence Brief',
+        title: 'Executive Governance Brief',
         subtitle: `Sessão Cognitiva: ${pkg.cognitiveSessionId}`,
         statusBadge: pkg.executiveContext.financialState,
         statusVariant

@@ -13,25 +13,25 @@ export interface CapabilityRegistryItem {
 export class CapabilityRegistry {
   private readonly capabilities = new Map<string, CapabilityRegistryItem>([
     [
-      'finance-intelligence',
+      'finance-governance',
       {
-        id: 'finance-intelligence',
+        id: 'finance-governance',
         name: FinancialIntelligenceCapability.manifest.name,
         features: ['dre-analysis', 'cashflow-analysis', 'liquidity-assessment', 'capital-structure-optimization']
       }
     ],
     [
-      'governance-intelligence',
+      'governance-governance',
       {
-        id: 'governance-intelligence',
+        id: 'governance-governance',
         name: GovernanceIntelligenceCapability.manifest.name,
         features: ['board-vote-audit', 'decision-integrity-scoring', 'compliance-verification']
       }
     ],
     [
-      'operational-intelligence',
+      'operational-governance',
       {
-        id: 'operational-intelligence',
+        id: 'operational-governance',
         name: OperationalIntelligenceCapability.manifest.name,
         features: ['workflow-binding', 'sla-tracking', 'process-efficiency']
       }
@@ -45,9 +45,9 @@ export class CapabilityRegistry {
       }
     ],
     [
-      'risk-intelligence',
+      'risk-governance',
       {
-        id: 'risk-intelligence',
+        id: 'risk-governance',
         name: RiskIntelligenceCapability.manifest.name,
         features: ['cyber-risk-mapping', 'fx-hedging-analysis', 'institutional-risk-tracking']
       }

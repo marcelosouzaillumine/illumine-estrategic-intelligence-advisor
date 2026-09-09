@@ -23,7 +23,7 @@ export class ExecutiveContextEngine {
       currentPage,
       activeDomain,
       visibleKpis,
-      relevantAgentIds: ['cfo-intelligence-agent', 'executive-decision-agent']
+      relevantAgentIds: ['cfo-governance-agent', 'executive-decision-agent']
     };
   }
 }

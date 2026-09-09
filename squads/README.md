@@ -9,13 +9,13 @@ Pre-built agent squads installed during `npx aiox-core install` after Pro licens
 | **aiox-sop**            | 6      | SOP factory, audit, extraction, and machine-readable operational playbooks     |
 | **brand**               | 16     | Naming, identity, positioning, narrative, and brand activation systems         |
 | **claude-code-mastery** | 8      | Claude Code setup, hooks, MCP, swarm orchestration, and integration guardrails |
-| **data**                | 7      | Data intelligence, analytics, segmentation, and measurement workflows          |
+| **data**                | 7      | Data governance, analytics, segmentation, and measurement workflows          |
 | **db-sage**             | 1      | PostgreSQL and Supabase architecture, migrations, RLS, and query optimization  |
 | **squad-creator-pro**   | 6      | Meta-squad for creating AI agent squads based on real elite minds              |
 | **design**              | 8      | Design System squad — tokens, components, accessibility, DesignOps             |
 | **etl-ops**             | 3      | Extraction and transformation pipelines for local and remote content sources   |
 | **hormozi**             | 16     | Offers, leads, ads, pricing, retention, and growth systems inspired by Hormozi |
-| **spy**                 | 3      | Competitive intelligence, viral content analysis, and benchmark workflows      |
+| **spy**                 | 3      | Competitive governance, viral content analysis, and benchmark workflows      |
 | **squad-creator**       | 1      | Core squad creation, evolution, validation, and ecosystem orchestration        |
 | **storytelling**        | 13     | Narrative systems, pitches, storytelling frameworks, and brand communication   |
 

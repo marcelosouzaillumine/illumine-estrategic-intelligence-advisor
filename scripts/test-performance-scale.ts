@@ -102,7 +102,7 @@ async function runPerformanceAndScaleTests() {
   const totalP95 = pgP95 + engP95;
 
   console.log(`[Metrics] PostgreSQL Facts Fetch P95: ${pgP95.toFixed(2)} ms (Target < 100 ms)`);
-  console.log(`[Metrics] Intelligence Engine P95: ${engP95.toFixed(2)} ms (Target < 50 ms)`);
+  console.log(`[Metrics] Governance Engine P95: ${engP95.toFixed(2)} ms (Target < 50 ms)`);
   console.log(`[Metrics] Total Deterministic Pipeline P95: ${totalP95.toFixed(2)} ms (Target < 200 ms)`);
   console.log(`[Metrics] Total Deterministic Pipeline P99: ${(p99(timings.pg) + p99(timings.engine)).toFixed(2)} ms (Target < 500 ms)`);
 

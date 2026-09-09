@@ -7,7 +7,7 @@ import { PressureRuntimeInput } from '../../src/core/runtime/operating-pressure/
 import { LongitudinalPressureMemoryEngine } from '../../src/core/runtime/operating-pressure/LongitudinalPressureMemoryEngine';
 import { PressureNarrativeComposer } from '../../src/core/runtime/operating-pressure/PressureNarrativeComposer';
 
-describe('Institutional Operating Pressure Intelligence Layer (RC-1.8A)', () => {
+describe('Institutional Operating Pressure Governance Layer (RC-1.8A)', () => {
   beforeEach(() => {
     LongitudinalPressureMemoryEngine.clearMemoryForTests();
   });

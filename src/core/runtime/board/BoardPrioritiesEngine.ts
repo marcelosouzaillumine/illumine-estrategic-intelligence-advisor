@@ -108,7 +108,7 @@ export class BoardPrioritiesEngine {
         decisionCategory: 'Survival',
         priorityScore: 98,
         constitutionalDriver: 'FIDUCIARY',
-        expectedImpactArea: ['IRI', 'Fiduciary Intelligence']
+        expectedImpactArea: ['IRI', 'Fiduciary Governance']
       });
 
       candidates.push({
@@ -129,7 +129,7 @@ export class BoardPrioritiesEngine {
         decisionCategory: 'Stabilization',
         priorityScore: 91,
         constitutionalDriver: 'FIDUCIARY',
-        expectedImpactArea: ['IRI', 'Fiduciary Intelligence']
+        expectedImpactArea: ['IRI', 'Fiduciary Governance']
       });
     }
 
@@ -153,7 +153,7 @@ export class BoardPrioritiesEngine {
         decisionCategory: 'Legacy',
         priorityScore: 95,
         constitutionalDriver: 'INSTITUTIONAL',
-        expectedImpactArea: ['IRI', 'Institutional Intelligence']
+        expectedImpactArea: ['IRI', 'Institutional Governance']
       });
 
       candidates.push({
@@ -174,7 +174,7 @@ export class BoardPrioritiesEngine {
         decisionCategory: 'Legacy',
         priorityScore: 87,
         constitutionalDriver: 'INSTITUTIONAL',
-        expectedImpactArea: ['ESGIM', 'Institutional Intelligence']
+        expectedImpactArea: ['ESGIM', 'Institutional Governance']
       });
     }
 
@@ -198,7 +198,7 @@ export class BoardPrioritiesEngine {
         decisionCategory: 'Strengthening',
         priorityScore: 89,
         constitutionalDriver: 'PROSPECTIVE',
-        expectedImpactArea: ['IRI', 'Prospective Intelligence']
+        expectedImpactArea: ['IRI', 'Prospective Governance']
       });
 
       candidates.push({
@@ -219,7 +219,7 @@ export class BoardPrioritiesEngine {
         decisionCategory: 'Growth',
         priorityScore: 81,
         constitutionalDriver: 'PROSPECTIVE',
-        expectedImpactArea: ['IRI', 'Prospective Intelligence']
+        expectedImpactArea: ['IRI', 'Prospective Governance']
       });
     }
 
@@ -284,7 +284,7 @@ export class BoardPrioritiesEngine {
       decisionCategory: 'Survival',
       priorityScore: 80,
       constitutionalDriver: 'FIDUCIARY',
-      expectedImpactArea: ['IRI', 'Fiduciary Intelligence']
+      expectedImpactArea: ['IRI', 'Fiduciary Governance']
     });
 
     candidates.push({
@@ -301,7 +301,7 @@ export class BoardPrioritiesEngine {
       decisionCategory: 'Legacy',
       priorityScore: 78,
       constitutionalDriver: 'INSTITUTIONAL',
-      expectedImpactArea: ['ESGIM', 'IRI', 'Institutional Intelligence']
+      expectedImpactArea: ['ESGIM', 'IRI', 'Institutional Governance']
     });
 
     candidates.push({
@@ -352,7 +352,7 @@ export class BoardPrioritiesEngine {
       decisionCategory: 'Growth',
       priorityScore: 65,
       constitutionalDriver: 'PROSPECTIVE',
-      expectedImpactArea: ['IRI', 'Prospective Intelligence']
+      expectedImpactArea: ['IRI', 'Prospective Governance']
     });
 
     // 4. Sort Candidates by priorityScore Descending

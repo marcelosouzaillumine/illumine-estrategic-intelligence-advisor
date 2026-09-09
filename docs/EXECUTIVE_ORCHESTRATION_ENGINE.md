@@ -52,7 +52,7 @@ A plataforma deve:
 
 ---
 
-### CAMADA 2 — EXECUTIVE INTELLIGENCE
+### CAMADA 2 — EXECUTIVE GOVERNANCE
 **Público:**
 * CFO
 * Advisory
@@ -65,10 +65,10 @@ A plataforma deve:
 * apresentar cenários.
 
 **Pode conter:**
-* Treasury Intelligence;
+* Treasury Governance;
 * Stress Tests;
 * Governance Risks;
-* Growth Intelligence;
+* Growth Governance;
 * Capital Allocation;
 * Continuidade Operacional;
 * Resiliência Financeira;
@@ -161,8 +161,8 @@ A plataforma NÃO deve parecer:
 Engines semanticamente equivalentes devem ser agrupadas.
 
 Exemplo:
-* Liquidity Quality Intelligence
-* Treasury Intelligence
+* Liquidity Quality Governance
+* Treasury Governance
 * Elasticidade Financeira
 
 Devem compor: **“Liquidez & Resiliência Financeira”**

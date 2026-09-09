@@ -72,7 +72,7 @@ const createBaseDecision = (domains: any[] = ['Dividend Distribution'], value = 
   approverRole: 'CFO'
 });
 
-describe('Institutional Predictive Intelligence & Early Warning Framework', () => {
+describe('Institutional Predictive Governance & Early Warning Framework', () => {
   beforeEach(() => {
     InstitutionalDecisionLedger.clearMemory();
   });

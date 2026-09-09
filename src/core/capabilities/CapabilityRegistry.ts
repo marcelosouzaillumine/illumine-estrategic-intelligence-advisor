@@ -12,8 +12,8 @@ export interface CapabilityDefinition {
 }
 
 export const CapabilityRegistry: Record<string, CapabilityDefinition> = {
-  "executive.conversation.intelligence": {
-    id: "executive.conversation.intelligence",
+  "executive.conversation.governance": {
+    id: "executive.conversation.governance",
     layer: "FOUNDATIONAL",
     maturity: "foundation",
     version: "1.0",

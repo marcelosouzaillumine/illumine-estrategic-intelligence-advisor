@@ -1,7 +1,7 @@
 import { describe, it, expect } from 'vitest';
 import { ImpactChainAnalyzer } from '../index';
 
-describe('@illumine/cross-domain-intelligence (Wave 14 Phase 3)', () => {
+describe('@illumine/cross-domain-governance (Wave 14 Phase 3)', () => {
   it('should build cross domain impact chain from Turnover -> Produtividade -> OPEX -> EBITDA', () => {
     const chain = ImpactChainAnalyzer.buildCrossDomainChain('TURNOVER');
     expect(chain.rootDomain).toBe('PEOPLE');

@@ -38,17 +38,17 @@ O Framework deverá responder: *"Podemos confiar que esta arquitetura produzirá
 
 O framework poderá certificar:
 
-* **Structural Intelligences:** Economic, Fiduciary, Institutional, Causal, Constitutional, Missional, Prospective.
-* **Composite Intelligence Engines:** Mission Alignment Engine, Futuras Composite Engines.
+* **Structural Governances:** Economic, Fiduciary, Institutional, Causal, Constitutional, Missional, Prospective.
+* **Composite Governance Engines:** Mission Alignment Engine, Futuras Composite Engines.
 * **Governance Assessment Runtimes:** ESGIM Runtime, Futuros Assessment Runtimes.
-* **Board Intelligence Layers:** ESGIM Board Intelligence Layer, Futuras camadas Board-Level.
+* **Board Governance Layers:** ESGIM Board Governance Layer, Futuras camadas Board-Level.
 
 ## 5. Certification Requirements
 
 Toda certificação deverá exigir aprovação absoluta em:
-* Intelligence Validation
+* Governance Validation
 * Arbitration Validation
-* Composite Intelligence Validation
+* Composite Governance Validation
 * Governance Assessment Validation
 * Board Decision Validation
 * Explainability Validation
@@ -106,7 +106,7 @@ Ficam registradas oficialmente as métricas:
 
 As certificações serão obrigatoriamente revogadas e submetidas a recertificação (Recertificação obrigatória) caso ocorram:
 * **Rule 1:** Inserção de nova Inteligência Estruturante.
-* **Rule 2:** Inserção de nova Composite Intelligence Engine.
+* **Rule 2:** Inserção de nova Composite Governance Engine.
 * **Rule 3:** Inserção de novo Governance Assessment Runtime.
 * **Rule 4:** Alteração da Constituição Cognitiva.
 * **Rule 5:** Alteração de regras de arbitragem.
@@ -134,7 +134,7 @@ Ficam registrados oficialmente os princípios de assurance:
 Fica registrada oficialmente a existência futura dos seguintes pacotes:
 * ESGIM Cognitive Audit Pack
 * Mission Alignment Audit Pack
-* Board Intelligence Audit Pack
+* Board Governance Audit Pack
 * Enterprise Certification Pack
 
 ## 14. Expected Outcome

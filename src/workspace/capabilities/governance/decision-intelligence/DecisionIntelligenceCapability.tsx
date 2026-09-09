@@ -9,13 +9,13 @@ interface DecisionIntelligenceCapabilityProps {
 export const DecisionIntelligenceCapability: React.FC<DecisionIntelligenceCapabilityProps> = ({ context }) => {
   const { data, loading } = useDecisionGovernance(context);
 
-  if (loading) return <div className="p-8 text-slate-400">Processando Decision Intelligence...</div>;
+  if (loading) return <div className="p-8 text-slate-400">Processando Decision Governance...</div>;
   if (!data) return null;
 
   return (
     <div className="p-6 max-w-7xl mx-auto space-y-6">
       <header className="mb-8">
-        <h1 className="text-2xl font-semibold text-slate-100 tracking-tight">Decision Intelligence</h1>
+        <h1 className="text-2xl font-semibold text-slate-100 tracking-tight">Decision Governance</h1>
         <p className="text-slate-400 text-sm mt-1">Governance Office</p>
       </header>
 

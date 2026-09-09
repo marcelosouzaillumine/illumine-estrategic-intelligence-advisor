@@ -1,7 +1,7 @@
-# MASTER EXECUTIVE INTELLIGENCE LAYER
+# MASTER EXECUTIVE GOVERNANCE LAYER
 
 ## 1. Objetivo da Inteligência Institucional
-A **Master Executive Intelligence Layer** é o cérebro orquestrador final da plataforma Illumine. Seu objetivo não é gerar novos dados, mas garantir que toda a inteligência estrutural produzida pelas sub-engines seja envelopada, hierarquizada e apresentada como um único relatório de *Advisory de Alta Performance*. Ela transforma "dados causais" em "Comunicação de Board".
+A **Master Executive Governance Layer** é o cérebro orquestrador final da plataforma Illumine. Seu objetivo não é gerar novos dados, mas garantir que toda a inteligência estrutural produzida pelas sub-engines seja envelopada, hierarquizada e apresentada como um único relatório de *Advisory de Alta Performance*. Ela transforma "dados causais" em "Comunicação de Board".
 
 ## 2. Single Institutional Voice
 Nenhuma engine "fala sozinha" com o usuário. A plataforma adota uma **Single Institutional Voice** (Voz Institucional Única). Os alertas das engines de Causalidade, Liquidez, Rendimento e Tendência convergem em um único canal comunicativo executivo, garantindo total isenção, polidez e harmonia semântica.
@@ -13,7 +13,7 @@ O processo cognitivo da plataforma obedece estritamente ao seguinte pipeline de 
 3. **Narrative Engine:** (Camada Textual Bruta)
 4. **Governance Filter:** (Filtro de Riscos de Linguagem)
 5. **Executive Semantic Harmonizer:** (Harmonização de Sentenças)
-6. **Executive Intelligence Layer:** (Camada de Orquestração Institucional e Comunicação de Board)
+6. **Executive Governance Layer:** (Camada de Orquestração Institucional e Comunicação de Board)
 
 ## 4. Regras de Prioridade Narrativa
 Quando múltiplos fatores estão em disputa, a comunicação segue a hierarquia de risco existencial:
@@ -37,7 +37,7 @@ Capacidade da plataforma de destilar parágrafos analíticos densos em *Bullet P
 ## 9. Causal Dominance Rules
 Quando duas matrizes geram vetores opostos (Ex: Crescimento de Receita vs CGL Negativo), a dominância causal favorece sempre o **fundamento de proteção ao capital investido**. A inteligência executiva apontará a Receita Crescente como um *Risco Acelerador* (consumo de caixa) e não como um sinal de sucesso isolado.
 
-## 10. Board Communication Intelligence
+## 10. Board Communication Governance
 A linguagem da Illumine atua não apenas para informar, mas para alinhar os sócios, os conselhos de administração e os diretores (C-Levels). A forma de falar prioriza a unificação de entendimentos entre os tomadores de decisão (Consenso Executivo).
 
 ## 11. Executive Memory Layer
@@ -67,7 +67,7 @@ Padrão obrigatório de sintaxe:
 - **Precisão em cenários de queima de caixa:** Sem fatalismos. (ex: *"Deterioração de Solvência"* e não *"Quebra Iminente"*).
 
 ## 19. Final Render Governance
-A camada de bloqueio final na interface (UI). Nenhum componente React no Front-End tem autorização para renderizar dados financeiros inferenciais sem que o objeto JSON traga a "assinatura digital" de aprovação desta Master Intelligence Layer.
+A camada de bloqueio final na interface (UI). Nenhum componente React no Front-End tem autorização para renderizar dados financeiros inferenciais sem que o objeto JSON traga a "assinatura digital" de aprovação desta Master Governance Layer.
 
 ## 20. Conclusão Institucional
-A **Master Executive Intelligence Layer** garante a supremacia da Illumine no segmento de software estratégico. Ela eleva o produto de um simples processador matemático para uma entidade institucional corporativa confiável, cuja comunicação é a pedra fundamental da governança, do planejamento estratégico e da segurança empresarial.
+A **Master Executive Governance Layer** garante a supremacia da Illumine no segmento de software estratégico. Ela eleva o produto de um simples processador matemático para uma entidade institucional corporativa confiável, cuja comunicação é a pedra fundamental da governança, do planejamento estratégico e da segurança empresarial.

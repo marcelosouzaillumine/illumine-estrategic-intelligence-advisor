@@ -7,8 +7,8 @@ export const CFOValidationLab: React.FC = () => {
       <div className="flex items-center justify-between">
         <h1 className="text-3xl font-bold text-gray-900">CFO Validation Lab</h1>
         <span className="px-3 py-1 bg-purple-100 text-purple-800 rounded-full text-sm font-medium">
-          SYSTEM_INTELLIGENCE_DEBUG
-        </span>
+          SYSTEM_GOVERNANCE_DEBUG
+                          </span>
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">

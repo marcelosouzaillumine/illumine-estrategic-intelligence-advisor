@@ -2,7 +2,7 @@
 import { describe, it, expect } from 'vitest';
 import { ExecutiveDecisionIntelligenceEngine } from '@illumine/executive-decision-intelligence';
 
-describe('@illumine/intelligence (Wave 18.2 Executive Render Protocol v2.0)', () => {
+describe('@illumine/governance (Wave 18.2 Executive Render Protocol v2.0)', () => {
   it('should verify decision engine provides data for all 8 cognitive layers (EER v1.0)', () => {
     const output = ExecutiveDecisionIntelligenceEngine.evaluate({
       companyId: 'comp-emporio',

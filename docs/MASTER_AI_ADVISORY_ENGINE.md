@@ -12,7 +12,7 @@ Nenhuma narrativa consultiva pode ser gerada ou exibida na plataforma se os dado
 5. Validação hierárquica;
 6. Curadoria financeira.
 
-Toda narrativa gerada deve obedecer incondicionalmente às diretrizes estabelecidas na **Arquitetura Mestra Illumine**, no **MASTER_IMPORT_ENGINE.md**, no **MASTER_FINANCIAL_INTELLIGENCE_ENGINE.md**, bem como nas **Engine de Causalidade Financeira** e **Engine de Continuidade Empresarial**. Em caso de conflito, a matemática validada e as regras de restrição financeira prevalecem sobre qualquer formulação textual.
+Toda narrativa gerada deve obedecer incondicionalmente às diretrizes estabelecidas na **Arquitetura Mestra Illumine**, no **MASTER_IMPORT_ENGINE.md**, no **MASTER_FINANCIAL_GOVERNANCE_ENGINE.md**, bem como nas **Engine de Causalidade Financeira** e **Engine de Continuidade Empresarial**. Em caso de conflito, a matemática validada e as regras de restrição financeira prevalecem sobre qualquer formulação textual.
 
 ## 3. Princípios da Inteligência Consultiva
 A AI Advisory Engine garante que toda análise ou parecer gerado pela plataforma Illumine responda, de forma clara, direta e objetiva, às seguintes questões fundamentais:
@@ -135,7 +135,7 @@ Para garantir a coesão arquitetônica, a AI Advisory Engine possui integração
 - **MASTER_IMPORT_ENGINE.md**
   → Garante validade, aprovação e integridade dos dados, assegurando que o advisory opere apenas sobre uma base auditada.
   
-- **MASTER_FINANCIAL_INTELLIGENCE_ENGINE.md**
+- **MASTER_FINANCIAL_GOVERNANCE_ENGINE.md**
   → Garante fórmulas, scores, causalidade e continuidade, provendo o lastro matemático e as inteligências primárias para a formulação da narrativa.
   
 - **Arquitetura Mestra Illumine**

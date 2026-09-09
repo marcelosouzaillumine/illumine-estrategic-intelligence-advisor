@@ -2,7 +2,7 @@
 
 > **Relatório Técnico de Auditoria do Motor de Recomendações e Inteligência Consultiva**  
 > *Horizonte Temporal: Julho de 2026 | IERA v1.0 Compliance Audit*  
-> *Documento Integrante do Pacote [`EXECUTIVE_ARCHITECTURE_AUDIT.md`](file:///Users/marcelosouza/Documents/illumine-strategic-intelligence-advisor/docs/reports/audit/EXECUTIVE_ARCHITECTURE_AUDIT.md)*  
+> *Documento Integrante do Pacote [`EXECUTIVE_ARCHITECTURE_AUDIT.md`](file:///Users/marcelosouza/Documents/illumine-strategic-governance-advisor/docs/reports/audit/EXECUTIVE_ARCHITECTURE_AUDIT.md)*  
 > *Status: Homologado*
 
 ---
@@ -23,7 +23,7 @@ A auditoria verificou se cada recomendação emitida pela plataforma contém os 
 
 | Elemento Obrigatório | Status de Implementação | Evidência no Código / Módulo |
 | :--- | :---: | :--- |
-| **Contexto de Negócio** | ✅ 100% | `ExecutiveDecisionContext` em `@illumine/intelligence-kernel` |
+| **Contexto de Negócio** | ✅ 100% | `ExecutiveDecisionContext` em `@illumine/governance-kernel` |
 | **Alternativas Confrontadas** | ✅ 95% | `AlternativeEvaluator` em `@illumine/executive-orchestrator` |
 | **Justificativa Causal** | ✅ 100% | `CausalityInterpretationEngine` em `docs/` |
 | **Trilha de Evidências** | ✅ 100% | `Decision Trace ID` em `ExecutiveDecisionTrace` |

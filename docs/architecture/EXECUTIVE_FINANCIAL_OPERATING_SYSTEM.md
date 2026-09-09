@@ -11,7 +11,7 @@ Demonstrações contábeis e financeiras tradicionais — como o Balanço Patrim
 O capital de uma entidade empresarial não é estático nem segmentado; ele é um fluido dinâmico que percorre a estrutura corporativa. Interpretar um único demonstrativo de forma isolada equivale a diagnosticar a saúde de um organismo analisando apenas um de seus sistemas vitais.
 
 ### 1.2 O Fracasso dos Dashboards Tradicionais (Analytics vs. Reporting vs. EFOS)
-Os painéis de Business Intelligence (BI) e dashboards tradicionais falham no ambiente executivo porque se limitam a fazer **reporting** ou **analytics** descritivos:
+Os painéis de Business Governance (BI) e dashboards tradicionais falham no ambiente executivo porque se limitam a fazer **reporting** ou **analytics** descritivos:
 * **Reporting**: Consolida e exibe dados históricos de forma tabular ou visualizada. Diz *o que* aconteceu.
 * **Analytics**: Permite filtros, drill-downs e comparações numéricas. Permite visualizar *onde* aconteceu.
 * **Executive Financial Operating System (EFOS)**: Interpreta o *significado fiduciário* e a *causalidade econômica* das interações entre a estrutura de capital, o desempenho operacional e o fluxo de caixa. O EFOS traduz números em teses de governança executiva orientadas a evidências causais, protegendo o Board contra conclusões frágeis e ilusões de liquidez.
@@ -106,7 +106,7 @@ Responsável pela repriorização da matriz de recomendações estratégicas. El
 
 ---
 
-## 4. KPI Semantic Intelligence
+## 4. KPI Semantic Governance
 
 Os indicadores no EFOS não operam como simples exibições numéricas acompanhadas de sinais lógicos binários (maior/menor). Cada KPI é enriquecido contextualmente pelo modelo setorial da empresa e pelas restrições de governança corporativa.
 
@@ -118,7 +118,7 @@ Métricas brutas sem contexto não geram inteligência. O sistema correlaciona a
 * **Antes (Analytics Tradicional)**:
   > *"Margem Bruta = 55%"*
 
-* **Depois (Illumine EFOS Semantic Intelligence)**:
+* **Depois (Illumine EFOS Semantic Governance)**:
   > *"A margem bruta de 55.0% encontra-se acima do benchmark de referência esperado de 48.0% para operações industriais do segmento de Cosméticos. Esta performance sugere viabilidade comercial robusta em termos de precificação e custos variáveis diretos, embora a margem atual permaneça insuficiente para absorver a pesada estrutura de despesas fixas administrativas instalada no presente ciclo (gerando um déficit de cobertura operacional de 15.2%)."*
 
 ---
@@ -243,7 +243,7 @@ Para posicionar corretamente a Illumine nos comitês de tomada de decisão e con
 
 * **O que a Illumine NÃO é**:
   - **ERP (Enterprise Resource Planning)**: Não operamos no nível de processamento transacional de compras, vendas, estoque ou faturamento diário.
-  - **BI (Business Intelligence)**: Não somos uma tela em branco para construção de gráficos ad-hoc baseados em consultas SQL arbitrárias.
+  - **BI (Business Governance)**: Não somos uma tela em branco para construção de gráficos ad-hoc baseados em consultas SQL arbitrárias.
   - **Dashboard Financeiro / Reporting AI**: Não nos limitamos a resumir planilhas de forma estática ou com linguagem genérica orientada por IA generativa sem regras fiscais rígidas.
 
 * **O que a Illumine É**:

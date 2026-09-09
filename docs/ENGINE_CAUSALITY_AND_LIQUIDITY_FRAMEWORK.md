@@ -50,7 +50,7 @@ As recomendações geradas devem portar o rigor e a densidade de um conselho de 
 ---
 
 ## 5. Regras de Stress e Descontinuidade (Action Plans de Emergência)
-Quando o índice de **Liquidez Real cai para faixas críticas** (conforme ditado pela *Master Financial Intelligence Engine*), o *Advisory Engine* altera seu comportamento primário e aciona as **Stress Narratives**:
+Quando o índice de **Liquidez Real cai para faixas críticas** (conforme ditado pela *Master Financial Governance Engine*), o *Advisory Engine* altera seu comportamento primário e aciona as **Stress Narratives**:
 
 1. **Bloqueio de Recomendações Expansivas:** A IA bloqueia proativamente qualquer *Action Plan* que sugira ampliação de capex, investimento de marketing expansivo, ou distribuição de dividendos.
 2. **Foco na Desalavancagem e Sobrevivência:** O *Action Plan* gerado deve ter os seguintes vetores prioritários:

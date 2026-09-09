@@ -12,7 +12,7 @@ export const ScenarioCommandCenter: React.FC = () => {
     <div className="max-w-[1600px] mx-auto px-6 lg:px-10 space-y-8 pb-32 animate-executive-fade">
       <div className="flex justify-between items-start mb-4">
         <PageHeader
-          title="Scenario Intelligence & War Room"
+          title="Scenario Governance & War Room"
           subtitle="Superfície executiva para exploração de consequências institucionais previamente calculadas."
           icon={Target}
           transparent

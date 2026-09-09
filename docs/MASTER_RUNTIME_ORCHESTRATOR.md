@@ -40,7 +40,7 @@ RAW DATA LAYER
 ↓
 NORMALIZATION LAYER
 ↓
-FINANCIAL INTELLIGENCE ENGINE
+FINANCIAL GOVERNANCE ENGINE
 ↓
 BUSINESS MODEL CONTEXT ENGINE
 ↓
@@ -48,7 +48,7 @@ INFERENCE VALIDATION ENGINE
 ↓
 LIQUIDITY QUALITY ENGINE
 ↓
-TEMPORAL INTELLIGENCE ENGINE
+TEMPORAL GOVERNANCE ENGINE
 ↓
 ACCOUNT INTERPRETATION ENGINE
 ↓
@@ -188,7 +188,7 @@ Toda narrativa deve seguir:
 Toda engine deve respeitar:
 
 MASTER_ARCHITECTURE.md
-MASTER_FINANCIAL_INTELLIGENCE_ENGINE.md
+MASTER_FINANCIAL_GOVERNANCE_ENGINE.md
 MASTER_INSTITUTIONAL_INFERENCE_ENGINE.md
 
 Este documento governa:
@@ -234,7 +234,7 @@ A precedência institucional é:
 1. MASTER_RUNTIME_ORCHESTRATOR.md
 2. MASTER_ARCHITECTURE.md
 3. MASTER_INSTITUTIONAL_INFERENCE_ENGINE.md
-4. MASTER_FINANCIAL_INTELLIGENCE_ENGINE.md
+4. MASTER_FINANCIAL_GOVERNANCE_ENGINE.md
 5. Engines específicas
 6. Componentes
 7. Mock data
@@ -248,7 +248,7 @@ A plataforma deve operar como:
 
 - Institutional Runtime System
 - Enterprise Advisory Infrastructure
-- Governance Intelligence Platform
+- Governance Governance Platform
 - Executive Decision Engine
 - Institutional Cognitive Architecture
 

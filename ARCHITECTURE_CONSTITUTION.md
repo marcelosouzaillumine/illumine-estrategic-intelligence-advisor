@@ -2,7 +2,7 @@
 
 > **Documento Normativo Supremo de Arquitetura de Referência**  
 > *Horizonte Temporal de Estabilidade: 10+ Anos (2026 – 2036+)*  
-> *Documentos Complementares: [`ARCHITECTURE_REFERENCE.md`](file:///Users/marcelosouza/Documents/illumine-strategic-intelligence-advisor/ARCHITECTURE_REFERENCE.md) | [`ARCHITECTURE_COMPLIANCE.md`](file:///Users/marcelosouza/Documents/illumine-strategic-intelligence-advisor/ARCHITECTURE_COMPLIANCE.md)*  
+> *Documentos Complementares: [`ARCHITECTURE_REFERENCE.md`](file:///Users/marcelosouza/Documents/illumine-strategic-governance-advisor/ARCHITECTURE_REFERENCE.md) | [`ARCHITECTURE_COMPLIANCE.md`](file:///Users/marcelosouza/Documents/illumine-strategic-governance-advisor/ARCHITECTURE_COMPLIANCE.md)*  
 > *Status: Homologado & Congelado*
 
 ---
@@ -25,12 +25,12 @@
 > **Os 8 Princípios Canônicos da Experience Architecture & Governança (EAF v1.0 / AGC v1.0 / ADR-069 / ADR-070):**
 
 7. **Experience First Principle**: Toda experiência DEVE nascer do seu propósito cognitivo de negócio antes de qualquer decisão de interface gráfica.
-8. **One Experience Rule**: Cada página da plataforma pertence a exatamente UMA categoria de Experience (`Decision`, `Registration`, `Operational` ou `Intelligence`).
+8. **One Experience Rule**: Cada página da plataforma pertence a exatamente UMA categoria de Experience (`Decision`, `Registration`, `Operational` ou `Governance`).
 9. **Render Is Implementation Principle**: Os *Render Protocols* implementam visualmente as experiências; eles NUNCA definem as experiências.
 10. **Workspace Separation Principle**: Os *Workspaces* possuem responsabilidades e perfis cognitivos distintos. É estritamente proibido misturar padrões de decisão do Conselho com padrões administrativos ou operacionais.
-11. **Canonical Experience Registry Principle**: Toda *Experience* válida DEVE obrigatoriamente figurar no Cartório Oficial ([`docs/CANONICAL_EXPERIENCE_REGISTRY.md`](file:///Users/marcelosouza/Documents/illumine-strategic-intelligence-advisor/docs/CANONICAL_EXPERIENCE_REGISTRY.md)). É vedada a criação de experiências implícitas.
-12. **Experience Certification Principle**: Nenhuma superfície ou página pode ser homologada para produção sem certificação formal e declaração de metadados ([`docs/EXPERIENCE_CERTIFICATION_FRAMEWORK.md`](file:///Users/marcelosouza/Documents/illumine-strategic-intelligence-advisor/docs/EXPERIENCE_CERTIFICATION_FRAMEWORK.md)).
-13. **Pipeline Equivalence Principle**: A *Experience Architecture* e o *Pipeline Cognitivo da IERA* DEVEM permanecer semanticamente e funcionalmente equivalentes ([`docs/COGNITIVE_MAPPING.md`](file:///Users/marcelosouza/Documents/illumine-strategic-intelligence-advisor/docs/COGNITIVE_MAPPING.md)).
+11. **Canonical Experience Registry Principle**: Toda *Experience* válida DEVE obrigatoriamente figurar no Cartório Oficial ([`docs/CANONICAL_EXPERIENCE_REGISTRY.md`](file:///Users/marcelosouza/Documents/illumine-strategic-governance-advisor/docs/CANONICAL_EXPERIENCE_REGISTRY.md)). É vedada a criação de experiências implícitas.
+12. **Experience Certification Principle**: Nenhuma superfície ou página pode ser homologada para produção sem certificação formal e declaração de metadados ([`docs/EXPERIENCE_CERTIFICATION_FRAMEWORK.md`](file:///Users/marcelosouza/Documents/illumine-strategic-governance-advisor/docs/EXPERIENCE_CERTIFICATION_FRAMEWORK.md)).
+13. **Pipeline Equivalence Principle**: A *Experience Architecture* e o *Pipeline Cognitivo da IERA* DEVEM permanecer semanticamente e funcionalmente equivalentes ([`docs/COGNITIVE_MAPPING.md`](file:///Users/marcelosouza/Documents/illumine-strategic-governance-advisor/docs/COGNITIVE_MAPPING.md)).
 14. **Governed Specialization Principle**: Os *Render Protocols* especializam *Experiences*, e as *Experiences* especializam a *Cognitive Architecture*. É expressamente proibida qualquer especialização direta de *Render Protocols* sem uma *Experience* intermediária registrada.
 
 
@@ -41,7 +41,7 @@
 
 O **Executive Digital Twin** é o modelo computacional vivo da empresa, sobre o qual operam todas as capacidades, motores, inteligências e aplicações da plataforma:
 
-$$\text{Primitive Truth} \longrightarrow \text{Semantic Meaning} \longrightarrow \text{Executive Contract} \longrightarrow \text{Domain Intelligence} \longrightarrow \text{Cognitive Capabilities}$$
+$$\text{Primitive Truth} \longrightarrow \text{Semantic Meaning} \longrightarrow \text{Executive Contract} \longrightarrow \text{Domain Governance} \longrightarrow \text{Cognitive Capabilities}$$
 
 $$\text{Executive Digital Twin} \supset \{ \text{Strategy}, \text{Governance}, \text{Finance}, \text{Operations}, \text{People}, \text{Market}, \text{Risks}, \text{Assets}, \text{Projects}, \text{Decisions}, \text{Knowledge} \}$$
 
@@ -114,7 +114,7 @@ $$\text{EBITDA} \longrightarrow \text{Cash Flow} \longrightarrow \text{Liquidity
 
 1. Mudanças nos contratos de **CANONICAL / FROZEN** exigem homologação por unanimidade e emissão de ADR.
 2. A inclusão de novos termos na Linguagem Ubíqua exige a criação de uma nova **Architecture Decision Record (ADR)**.
-3. O pipeline de CI/CD aplicará validação automática do **`ArchitectureComplianceIndex`** (definido em [`ARCHITECTURE_COMPLIANCE.md`](file:///Users/marcelosouza/Documents/illumine-strategic-intelligence-advisor/ARCHITECTURE_COMPLIANCE.md)).
+3. O pipeline de CI/CD aplicará validação automática do **`ArchitectureComplianceIndex`** (definido em [`ARCHITECTURE_COMPLIANCE.md`](file:///Users/marcelosouza/Documents/illumine-strategic-governance-advisor/ARCHITECTURE_COMPLIANCE.md)).
 
 ## Executive Narrative Rendering Principle™
 Todo conteúdo textual produzido por agentes deve passar por um componente institucional de interpretação antes de alcançar a experiência executiva. Nenhum motor externo de renderização pode controlar diretamente a apresentação cognitiva ao usuário.
@@ -128,10 +128,10 @@ As seguintes regras garantem a qualidade e a integridade da Camada de Experiênc
 ### Experiência Executiva (EXP)
 
 **[AR-GFC-EXP-009] Canonical Workspace Isolation™**
-- A interface de Copilot UI está terminantemente proibida de importar, instanciar ou interagir diretamente com `WorkspaceAdvisoryEngine` ou `ExecutiveIntelligenceContextAssembler`. Todo o fluxo deve passar pelo `ExecutiveWorkspaceOrchestrator` que fornecerá um `ExecutiveWorkspaceSnapshot` imutável.
+- A interface de Copilot UI está terminantemente proibida de importar, instanciar ou interagir diretamente com `WorkspaceAdvisoryEngine` ou `ExecutiveGovernanceContextAssembler`. Todo o fluxo deve passar pelo `ExecutiveWorkspaceOrchestrator` que fornecerá um `ExecutiveWorkspaceSnapshot` imutável.
 - **Justificativa:** UI "Burra". A inteligência deve ser separada da apresentação para possibilitar uma auditoria cognitiva precisa.
 
-**[AR-GFC-EXP-010] Intelligence Density Requirement™**
+**[AR-GFC-EXP-010] Governance Density Requirement™**
 - O Snapshot orquestrado deve possuir indicadores mínimos de densidade (Confiança, Risco) gerados pelos *Engines*. 
 - O orquestrador atua bloqueando e negando a geração do Snapshot caso a densidade de inteligência seja nula.
 
@@ -146,7 +146,7 @@ As seguintes regras garantem a qualidade e a integridade da Camada de Experiênc
 **[AR-GFC-COG-013] Decision Forensics Completeness™**
 - Nenhuma recomendação estratégica pode ser liberada para consumo da UI ou ECR sem apresentar uma Cadeia Forense completa e validada (*ExecutiveDecisionForensicsPackage*).
 - **Regra Exata:** A trilha deve conter obrigatoriamente *Observation*, *Evidence*, *Reasoning*, *Confidence*, e *Governance Review*. Todas devem ter Rastreabilidade Lógica (*Parent ID*) referenciando a anterior.
-- **Violação:** `RECOMMENDATION BLOCKED - STATUS: OPAQUE INTELLIGENCE`. O motor bloqueia a sugestão se a Inteligência não puder justificar legal ou logicamente sua própria origem.
+- **Violação:** `RECOMMENDATION BLOCKED - STATUS: OPAQUE GOVERNANCE`. O motor bloqueia a sugestão se a Inteligência não puder justificar legal ou logicamente sua própria origem.
 
 ---
 

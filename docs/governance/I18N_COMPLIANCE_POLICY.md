@@ -64,7 +64,7 @@ Não faça isso:
 ```
 
 ### ✅ PERMITIDO
-Os domínios semânticos devem ser externalizados e consultados via i18n na UI, ou injetados pelos *Intelligence Engines* (que geram as chaves baseadas na Data Layer).
+Os domínios semânticos devem ser externalizados e consultados via i18n na UI, ou injetados pelos *Governance Engines* (que geram as chaves baseadas na Data Layer).
 
 Faça assim:
 ```tsx

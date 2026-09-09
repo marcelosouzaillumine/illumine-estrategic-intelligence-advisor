@@ -28,7 +28,7 @@ export function InstitutionalDomainsPage() {
   const domains = [
     {
       id: 1, tid: 1,
-      name: brand('governanceIntelligence'),
+      name: brand('governanceGovernance'),
       icon: ShieldCheck,
       hasQuestions: true,
       hasApplications: true,
@@ -36,7 +36,7 @@ export function InstitutionalDomainsPage() {
     },
     {
       id: 2, tid: 2,
-      name: brand('financialIntelligence'),
+      name: brand('financialGovernance'),
       icon: PieChart,
       hasQuestions: false,
       hasApplications: true,
@@ -44,7 +44,7 @@ export function InstitutionalDomainsPage() {
     },
     {
       id: 3, tid: 5,
-      name: brand('operationalIntelligence'),
+      name: brand('operationalGovernance'),
       icon: Activity,
       hasQuestions: true,
       hasApplications: false,
@@ -52,7 +52,7 @@ export function InstitutionalDomainsPage() {
     },
     {
       id: 4, tid: 6,
-      name: brand('commercialIntelligence'),
+      name: brand('commercialGovernance'),
       icon: TrendingUp,
       hasQuestions: false,
       hasApplications: false,
@@ -60,7 +60,7 @@ export function InstitutionalDomainsPage() {
     },
     {
       id: 5, tid: 7,
-      name: brand('peopleIntelligence'),
+      name: brand('peopleGovernance'),
       icon: Users,
       hasQuestions: false,
       hasApplications: true,
@@ -68,7 +68,7 @@ export function InstitutionalDomainsPage() {
     },
     {
       id: 6, tid: 4,
-      name: brand('riskIntelligence'),
+      name: brand('riskGovernance'),
       icon: ShieldCheck,
       hasQuestions: false,
       hasApplications: true,
@@ -76,7 +76,7 @@ export function InstitutionalDomainsPage() {
     },
     {
       id: 7, tid: 3,
-      name: brand('institutionalIntelligence'),
+      name: brand('institutionalGovernance'),
       icon: Combine,
       hasQuestions: false,
       hasApplications: true,
@@ -84,7 +84,7 @@ export function InstitutionalDomainsPage() {
     },
     {
       id: 8, tid: 8,
-      name: brand('missionIntelligence'),
+      name: brand('missionGovernance'),
       icon: Target,
       hasQuestions: false,
       hasApplications: true,
@@ -92,7 +92,7 @@ export function InstitutionalDomainsPage() {
     },
     {
       id: 9, tid: 9,
-      name: brand('innovationIntelligence'),
+      name: brand('innovationGovernance'),
       icon: Lightbulb,
       hasQuestions: false,
       hasApplications: true,
@@ -190,7 +190,8 @@ export function InstitutionalDomainsPage() {
                   <div className="relative z-10 flex-grow flex flex-col">
                     <div className="flex flex-col justify-start">
                       <CardTitle className="text-2xl mb-3 tracking-tight leading-tight whitespace-pre-line h-[80px]">
-                        {domain.name.replace(' Intelligence', '\nIntelligence')}
+                        {domain.name.replace(' Governance', '\
+Governance')}
                       </CardTitle>
                       <div className="h-[64px] flex flex-col justify-start">
                         <p className="text-xs font-bold uppercase tracking-widest text-amber-500">{t(`architecture.list.d${domain.tid}.tagline`)}</p>

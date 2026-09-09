@@ -54,9 +54,9 @@ export abstract class IntelligencePipeline {
 
   private persistAuditLog(log: IntelligenceExecutionLog) {
     // Fire-and-forget or await persistence
-    console.log(`[Intelligence Audit] ${log.pipeline} - ${log.status} for ${log.tenantId} (Period: ${log.periodId})`);
+    console.log(`[Governance Audit] ${log.pipeline} - ${log.status} for ${log.tenantId} (Period: ${log.periodId})`);
     if (log.error) {
-      console.error(`[Intelligence Error] ${log.error}`);
+      console.error(`[Governance Error] ${log.error}`);
     }
     // TODO: Hook up to the actual IntelligenceAuditRepository
   }

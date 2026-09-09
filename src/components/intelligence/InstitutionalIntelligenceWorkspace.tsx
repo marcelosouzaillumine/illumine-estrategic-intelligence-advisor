@@ -35,7 +35,7 @@ export const InstitutionalIntelligenceWorkspace: React.FC = () => {
           tenantId,
           `ctx-${Date.now()}`,
           objectId,
-          'INSTITUTIONAL_INTELLIGENCE'
+          'INSTITUTIONAL_GOVERNANCE'
         );
 
         const ctx = await runtime.getInstitutionalContext(tenantId, objectId);
@@ -46,7 +46,7 @@ export const InstitutionalIntelligenceWorkspace: React.FC = () => {
           setSummary(sum);
         }
       } catch (e) {
-        console.error("Failed to load Intelligence Fabric Context", e);
+        console.error("Failed to load Governance Fabric Context", e);
       } finally {
         if (active) setLoading(false);
       }
@@ -81,7 +81,7 @@ export const InstitutionalIntelligenceWorkspace: React.FC = () => {
     <div className="max-w-[1600px] mx-auto px-6 lg:px-10 space-y-8 pb-32 animate-executive-fade">
       <div className="flex justify-between items-start mb-4">
         <PageHeader
-          title="Institutional Intelligence Fabric"
+          title="Institutional Governance Fabric"
           subtitle="Visão omnidirecional de inteligência: Contexto, Memória, Causalidade, Evidência e Impacto."
           icon={Network}
           transparent

@@ -22,7 +22,7 @@ Esta fase focou na obliteração e blindagem fiduciária de 38 entradas de loggi
 | **CRITICAL** | `src/core/security/auth/InstitutionalAuthProvider.tsx` | Migrado |
 | **CRITICAL** | `src/services/aiService.ts` | Migrado |
 | **CRITICAL** | `src/services/security/RoleManagementService.ts` | Migrado |
-| **HIGH** | `src/core/runtime/executive-intelligence-runtime.ts` | Removido |
+| **HIGH** | `src/core/runtime/executive-governance-runtime.ts` | Removido |
 | **HIGH** | `src/hooks/useFinancialData.ts` | Migrado |
 | **HIGH** | `src/runtime/adapters/LegacyFinancialAdapter.ts` | Migrado |
 | **HIGH** | `src/scripts/debug_entries.ts` | Removido |

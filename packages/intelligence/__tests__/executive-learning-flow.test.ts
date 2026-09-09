@@ -2,7 +2,7 @@
 import { describe, it, expect } from 'vitest';
 import { ExecutiveDecisionIntelligenceEngine } from '@illumine/executive-decision-intelligence';
 
-describe('@illumine/intelligence (Wave 18.2 Executive Learning Flow)', () => {
+describe('@illumine/governance (Wave 18.2 Executive Learning Flow)', () => {
   it('should preserve decision context traceability for learning feedback loop (ADR-076)', () => {
     const res = ExecutiveDecisionIntelligenceEngine.evaluate({
       companyId: 'comp-learning',

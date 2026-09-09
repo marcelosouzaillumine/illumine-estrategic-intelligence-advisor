@@ -3,7 +3,7 @@ import { describe, it, expect } from 'vitest';
 import { ExecutiveDecisionContext } from '@illumine/executive-contracts';
 import { ExecutiveCouncil } from '../agent-council/src';
 
-describe('@illumine/intelligence (Wave 18.10 Multi-Agent Advisory Integration)', () => {
+describe('@illumine/governance (Wave 18.10 Multi-Agent Advisory Integration)', () => {
   it('should integrate multi-agent deliberation seamlessly without circular dependencies or architectural violations', () => {
     const mockContext: ExecutiveDecisionContext = {
       companyId: 'company-granatum',

@@ -69,7 +69,7 @@ export class BalanceSheetCapability {
       formulasApplied: [{ name: 'BalanceSheet', expression: 'Sum(saldoAtual * exchangeRate)', result: totalCurrent }],
       engineVersion: '1.0.0',
       capabilityName: 'BalanceSheetCapability',
-      owner: 'Financial Intelligence Domain',
+      owner: 'Financial Governance Domain',
       certifiedAt: new Date().toISOString(),
       rawValues: [],
       indicatorsUsed: [],

@@ -2,7 +2,7 @@
 
 > **Padrão Normativo de Renderização Visual do Platform Workspace & Governança Operacional**  
 > *Autoridade Supreme: Architecture Review Board (ARB) & Experience Architecture Foundation (EAF v1.0)*  
-> *Alinhado à [`ARCHITECTURE_CONSTITUTION.md`](file:///Users/marcelosouza/Documents/illumine-strategic-intelligence-advisor/ARCHITECTURE_CONSTITUTION.md), ADR-069, ADR-070 e ADR-077*
+> *Alinhado à [`ARCHITECTURE_CONSTITUTION.md`](file:///Users/marcelosouza/Documents/illumine-strategic-governance-advisor/ARCHITECTURE_CONSTITUTION.md), ADR-069, ADR-070 e ADR-077*
 
 ---
 

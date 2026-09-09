@@ -9,7 +9,7 @@ import { HistoricalReplayIndex } from '../src/core/runtime/institutional-memory/
 import { InstitutionalMemoryRegistry } from '../src/core/runtime/institutional-memory/InstitutionalMemoryRegistry';
 import { HistoricalCycleData } from '../src/core/runtime/institutional-memory/types';
 
-describe('Institutional Memory & Longitudinal Intelligence Layer', () => {
+describe('Institutional Memory & Longitudinal Governance Layer', () => {
 
   beforeEach(() => {
     InstitutionalMemoryRegistry.clearForTest();

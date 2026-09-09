@@ -1,4 +1,4 @@
-# MASTER FINANCIAL INTELLIGENCE ENGINE
+# MASTER FINANCIAL GOVERNANCE ENGINE
 
 ## 1. Finalidade
 
@@ -15,7 +15,7 @@ Este arquivo é a fonte oficial das fórmulas financeiras da plataforma.
 Sempre que houver conflito entre documentos, a ordem de decisão será:
 
 1. MASTER_ARCHITECTURE.md
-2. MASTER_FINANCIAL_INTELLIGENCE_ENGINE.md
+2. MASTER_FINANCIAL_GOVERNANCE_ENGINE.md
 3. Documentos específicos de módulos
 4. Componentes de interface
 5. Mock data ou regras locais
@@ -1587,7 +1587,7 @@ Toda inteligência financeira deve ser organizada em camadas progressivas de lei
 A plataforma deve separar:
 
 * Executive Summary;
-* Executive Intelligence;
+* Executive Governance;
 * Technical Analytics.
 
 Nenhuma análise pode apresentar:
@@ -1625,7 +1625,7 @@ Toda interpretação financeira deve consultar obrigatoriamente:
 
 - EXECUTIVE_CAUSALITY_ENGINE.md
 - STRATEGIC_RISK_ENGINE.md
-- BUSINESS_MODEL_INTELLIGENCE_ENGINE.md
+- BUSINESS_MODEL_GOVERNANCE_ENGINE.md
 - BOARD_SYNTHESIS_ENGINE.md
 
 Antes da renderização final.
@@ -1668,7 +1668,7 @@ A engine detecta e tipifica institucionalmente os seguintes fenômenos através 
 - **FULL_TEMPORAL_MODE**: Ativado quando há histórico a partir de 3 anos, o que autoriza inferência causal avançada e tipificação de aceleração ou desaceleração.
 - **LIMITED_TEMPORAL_MODE**: Ativado em conjuntos de dados com menos de 3 períodos, permitindo inferências curtas (como o colapso abrupto), porém inibindo scores temporais definitivos.
 
-Nenhum componente de UI pode calcular trajetórias temporais locais (e.g. Hooks React). Todo o relatório temporal, incluindo a matriz de *Inflection Points* e os alertas executivos (como `riskPatterns` e `recoveryPatterns`), deve ser lido do payload central (ExecutiveIntelligenceReport).
+Nenhum componente de UI pode calcular trajetórias temporais locais (e.g. Hooks React). Todo o relatório temporal, incluindo a matriz de *Inflection Points* e os alertas executivos (como `riskPatterns` e `recoveryPatterns`), deve ser lido do payload central (ExecutiveGovernanceReport).
 
 ---
 
@@ -1678,7 +1678,7 @@ A engine de Observabilidade Institucional atua como sentinela passiva e forense 
 
 ## 23.1 Princípios de Observabilidade
 
-- **Zero UI Metrics:** Nenhuma métrica de performance, log de erro, limitador, tracer temporal, ou lineage poderá ser processada na UI. A React Layer apenas lê o output `runtimeMetadata` do `ExecutiveIntelligenceReport`.
+- **Zero UI Metrics:** Nenhuma métrica de performance, log de erro, limitador, tracer temporal, ou lineage poderá ser processada na UI. A React Layer apenas lê o output `runtimeMetadata` do `ExecutiveGovernanceReport`.
 - **Passividade Forense:** Componentes de observação não modificam input do cliente nem influenciam na matemática das Advisory Engines. Eles atuam exclusivamente em auditoria e rastreamento (lineage) da execução.
 - **Transparência Causal (Explainability):** Decisões executivas tomadas pelos geradores de insights (`AdvisoryDecisionTrace`) devem ser rastreadas da raiz ao nó com detalhamento determinístico.
 

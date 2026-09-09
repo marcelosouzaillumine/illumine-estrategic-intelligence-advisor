@@ -6,7 +6,7 @@ export class EvolutionSnapshotGenerator {
   constructor(private readonly workspaceRoot: string) {}
 
   async generate(snapshot: EvolutionSnapshot): Promise<void> {
-    const dir = path.join(this.workspaceRoot, 'artifacts', 'architecture-intelligence', `EVOLUTION-SNAPSHOT-v1`);
+    const dir = path.join(this.workspaceRoot, 'artifacts', 'architecture-governance', `EVOLUTION-SNAPSHOT-v1`);
     if (!fs.existsSync(dir)) {
       fs.mkdirSync(dir, { recursive: true });
     }

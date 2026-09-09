@@ -1,6 +1,6 @@
 # Canonical Analytics Report
 
-O presente relatório formaliza a implantação estrutural dos motores de Business Intelligence da plataforma, consolidando o resultado arquitetural das Waves BI-001 e BI-002.
+O presente relatório formaliza a implantação estrutural dos motores de Business Governance da plataforma, consolidando o resultado arquitetural das Waves BI-001 e BI-002.
 
 ## 1. Topologia Alcançada
 O pipeline analítico agora flui exclusivamente através do funil:

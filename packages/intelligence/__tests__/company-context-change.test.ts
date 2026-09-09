@@ -2,7 +2,7 @@
 import { describe, it, expect } from 'vitest';
 import { ExecutiveDecisionIntelligenceEngine } from '@illumine/executive-decision-intelligence';
 
-describe('@illumine/intelligence (Wave 18.1 Company Context Change)', () => {
+describe('@illumine/governance (Wave 18.1 Company Context Change)', () => {
   it('should generate different narratives when company changes (ADR-068)', () => {
     const resA = ExecutiveDecisionIntelligenceEngine.evaluate({
       companyId: 'comp-emporio',

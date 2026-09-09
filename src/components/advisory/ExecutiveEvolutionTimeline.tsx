@@ -29,7 +29,7 @@ export function ExecutiveEvolutionTimeline({ memoryState }: ExecutiveEvolutionTi
   const latestProfileMock: ExecutiveProfileRecord = {
     id: latestContext.id,
     organizationId: 'org-timeline',
-    domain: latestContext.domain.replace('-intelligence', ''),
+    domain: latestContext.domain.replace('-governance', ''),
     profile: latestContext.profile,
     generatedAt: latestContext.generatedAt,
     dataSource: 'diagnostic-v1',
@@ -41,7 +41,7 @@ export function ExecutiveEvolutionTimeline({ memoryState }: ExecutiveEvolutionTi
     latestProfileMock
   );
 
-  const getDomainFromId = (id: string) => id.replace('-intelligence', '');
+  const getDomainFromId = (id: string) => id.replace('-governance', '');
 
   const formatRecommendationName = (id: string) => {
       const formatter = useExecutiveFormatter();

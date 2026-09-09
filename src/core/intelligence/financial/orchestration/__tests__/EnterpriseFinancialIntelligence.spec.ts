@@ -1,7 +1,7 @@
 import { describe, it, expect } from 'vitest';
 import { FinancialIntelligenceCoordinator } from '../FinancialIntelligenceCoordinator';
 
-describe('EnterpriseFinancialIntelligence', () => {
+describe('EnterpriseFinancialGovernance', () => {
   it('should map the end-to-end orchestration scenario for Wave 2.0', () => {
     const coordinator = new FinancialIntelligenceCoordinator();
     

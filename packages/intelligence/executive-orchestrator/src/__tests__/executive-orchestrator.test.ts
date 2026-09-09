@@ -25,8 +25,8 @@ describe('@illumine/executive-orchestrator (Phase 3 Multi-Agent Orchestrator)', 
 
   it('should select capabilities via CapabilitySelectionPolicy', () => {
     const selected = CapabilitySelectionPolicy.selectCapabilities(dummyContext);
-    expect(selected).toContain('financial-intelligence');
-    expect(selected).toContain('risk-intelligence');
+    expect(selected).toContain('financial-governance');
+    expect(selected).toContain('risk-governance');
   });
 
   it('should aggregate opinions and detect divergences neutraly via AgentCoordinator', () => {

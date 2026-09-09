@@ -224,8 +224,8 @@ export const ExecutiveDemoShell: React.FC = () => {
           <h3 className="text-base font-bold text-white">Institutional Terms of Fiduciary Disclosure</h3>
           <p className="text-xs text-muted-foreground leading-relaxed">
             By accepting, you certify that the demonstration runs solely on certified snapshot hashes.
-            Simulations, indicators, and timelines represent audited data from the core intelligence engine.
-          </p>
+                                  Simulations, indicators, and timelines represent audited data from the core governance engine.
+                                </p>
           <button
             onClick={actions.handleAcknowledgeDisclosure}
             className="px-4 py-2 bg-blue-600 text-white rounded text-xs font-mono font-bold hover:bg-blue-700"

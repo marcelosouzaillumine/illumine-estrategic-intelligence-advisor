@@ -53,7 +53,7 @@ const createBaseDecision = (domains: any[] = ['Dividend Distribution']): Executi
   approverRole: 'CFO'
 });
 
-describe('Institutional Decision Intelligence Framework', () => {
+describe('Institutional Decision Governance Framework', () => {
 
   beforeEach(() => {
     InstitutionalDecisionLedger.clearMemory();

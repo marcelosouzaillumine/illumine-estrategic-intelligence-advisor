@@ -591,19 +591,19 @@ export class AuditAppendOnlyRule implements ArchitectureRuleEvaluator {
   }
 }export class IntNoMutationRule implements ArchitectureRuleEvaluator {
   ruleId = 'AR-GFC-INT-001';
-  name = 'Intelligence No Mutation';
+  name = 'Governance No Mutation';
 
   evaluate(context: AuditContext): GFCEvidence[] {
     const evidences: GFCEvidence[] = [];
     if (!context.domainFiles) return evidences;
 
     context.domainFiles.forEach(file => {
-      if (file.getFilePath().includes('architecture-governance-intelligence')) {
+      if (file.getFilePath().includes('architecture-governance-governance')) {
         const text = file.getText();
-        if (text.includes('writeFileSync') && !file.getFilePath().includes('IntelligenceSnapshotGenerator')) {
-          evidences.push(createEvidence(this.ruleId, `Intelligence layer mutates files directly`, 'CRITICAL', file.getFilePath(), 'FAIL'));
+        if (text.includes('writeFileSync') && !file.getFilePath().includes('GovernanceSnapshotGenerator')) {
+          evidences.push(createEvidence(this.ruleId, `Governance layer mutates files directly`, 'CRITICAL', file.getFilePath(), 'FAIL'));
         } else {
-          evidences.push(createEvidence(this.ruleId, `Intelligence layer respects immutability`, 'LOW', file.getFilePath(), 'PASS'));
+          evidences.push(createEvidence(this.ruleId, `Governance layer respects immutability`, 'LOW', file.getFilePath(), 'PASS'));
         }
       }
     });
@@ -613,7 +613,7 @@ export class AuditAppendOnlyRule implements ArchitectureRuleEvaluator {
 
 export class IntEvidenceRequiredRule implements ArchitectureRuleEvaluator {
   ruleId = 'AR-GFC-INT-002';
-  name = 'Intelligence Evidence Required';
+  name = 'Governance Evidence Required';
 
   evaluate(context: AuditContext): GFCEvidence[] {
     const evidences: GFCEvidence[] = [];
@@ -635,7 +635,7 @@ export class IntEvidenceRequiredRule implements ArchitectureRuleEvaluator {
 
 export class IntNoRecommendationLeakageRule implements ArchitectureRuleEvaluator {
   ruleId = 'AR-GFC-INT-003';
-  name = 'Intelligence No Recommendation Leakage';
+  name = 'Governance No Recommendation Leakage';
 
   evaluate(context: AuditContext): GFCEvidence[] {
     const evidences: GFCEvidence[] = [];
@@ -644,15 +644,15 @@ export class IntNoRecommendationLeakageRule implements ArchitectureRuleEvaluator
     const blockedTerms = ['should fix', 'recommended action', 'remediation', 'solution', 'risk', 'bad'];
     
     context.domainFiles.forEach(file => {
-      if (file.getFilePath().includes('architecture-governance-intelligence')) {
+      if (file.getFilePath().includes('architecture-governance-governance')) {
         const text = file.getText().toLowerCase();
         for (const term of blockedTerms) {
           if (text.includes(term)) {
-            evidences.push(createEvidence(this.ruleId, `Intelligence layer contains prescriptive language: ${term}`, 'CRITICAL', file.getFilePath(), 'FAIL'));
+            evidences.push(createEvidence(this.ruleId, `Governance layer contains prescriptive language: ${term}`, 'CRITICAL', file.getFilePath(), 'FAIL'));
             return;
           }
         }
-        evidences.push(createEvidence(this.ruleId, `Intelligence layer is neutral`, 'LOW', file.getFilePath(), 'PASS'));
+        evidences.push(createEvidence(this.ruleId, `Governance layer is neutral`, 'LOW', file.getFilePath(), 'PASS'));
       }
     });
     return evidences;
@@ -661,21 +661,21 @@ export class IntNoRecommendationLeakageRule implements ArchitectureRuleEvaluator
 
 export class IntDeterministicGenerationRule implements ArchitectureRuleEvaluator {
   ruleId = 'AR-GFC-INT-004';
-  name = 'Intelligence Deterministic Generation';
+  name = 'Governance Deterministic Generation';
 
   evaluate(context: AuditContext): GFCEvidence[] {
     const evidences: GFCEvidence[] = [];
     if (!context.domainFiles) return evidences;
 
     context.domainFiles.forEach(file => {
-      if (file.getFilePath().includes('architecture-governance-intelligence')) {
+      if (file.getFilePath().includes('architecture-governance-governance')) {
         const text = file.getText();
         // Permite Date.now() ou generatedAt para context mas Snapshot em si deve idealmente usar determinismo. 
         // Mock simplification: verificamos a ausência de Math.random().
         if (text.includes('Math.random()')) {
-          evidences.push(createEvidence(this.ruleId, `Intelligence snapshot generation is non-deterministic`, 'CRITICAL', file.getFilePath(), 'FAIL'));
+          evidences.push(createEvidence(this.ruleId, `Governance snapshot generation is non-deterministic`, 'CRITICAL', file.getFilePath(), 'FAIL'));
         } else {
-          evidences.push(createEvidence(this.ruleId, `Intelligence snapshot generation is deterministic`, 'LOW', file.getFilePath(), 'PASS'));
+          evidences.push(createEvidence(this.ruleId, `Governance snapshot generation is deterministic`, 'LOW', file.getFilePath(), 'PASS'));
         }
       }
     });
@@ -685,19 +685,19 @@ export class IntDeterministicGenerationRule implements ArchitectureRuleEvaluator
 
 export class IntSourceTraceabilityRule implements ArchitectureRuleEvaluator {
   ruleId = 'AR-GFC-INT-005';
-  name = 'Intelligence Source Traceability';
+  name = 'Governance Source Traceability';
 
   evaluate(context: AuditContext): GFCEvidence[] {
     const evidences: GFCEvidence[] = [];
     if (!context.domainFiles) return evidences;
 
     context.domainFiles.forEach(file => {
-      if (file.getFilePath().includes('IntelligenceContext')) {
+      if (file.getFilePath().includes('GovernanceContext')) {
         const text = file.getText();
         if (!text.includes('discoverySnapshotId') || !text.includes('evaluationSnapshotId')) {
-          evidences.push(createEvidence(this.ruleId, `Intelligence context lacks traceability to source snapshots`, 'CRITICAL', file.getFilePath(), 'FAIL'));
+          evidences.push(createEvidence(this.ruleId, `Governance context lacks traceability to source snapshots`, 'CRITICAL', file.getFilePath(), 'FAIL'));
         } else {
-          evidences.push(createEvidence(this.ruleId, `Intelligence context enforces traceability`, 'LOW', file.getFilePath(), 'PASS'));
+          evidences.push(createEvidence(this.ruleId, `Governance context enforces traceability`, 'LOW', file.getFilePath(), 'PASS'));
         }
       }
     });
@@ -736,7 +736,7 @@ export class EvoHistoricalImmutabilityRule implements ArchitectureRuleEvaluator 
     if (!context.domainFiles) return evidences;
 
     context.domainFiles.forEach(file => {
-      if (file.getFilePath().includes('architecture-governance-intelligence/src/evolution')) {
+      if (file.getFilePath().includes('architecture-governance-governance/src/evolution')) {
         const text = file.getText();
         // Mock simplification: garante que a engine não modifique arquivos do registry original
         if (text.includes('updateSnapshot') || text.includes('overrideSnapshot')) {
@@ -781,7 +781,7 @@ export class EvoSourceSnapshotProtectionRule implements ArchitectureRuleEvaluato
     if (!context.domainFiles) return evidences;
 
     context.domainFiles.forEach(file => {
-      if (file.getFilePath().includes('architecture-governance-intelligence/src/evolution')) {
+      if (file.getFilePath().includes('architecture-governance-governance/src/evolution')) {
         const text = file.getText();
         if (text.includes('writeFileSync') && !file.getFilePath().includes('EvolutionSnapshotGenerator')) {
           evidences.push(createEvidence(this.ruleId, `Evolution layer writes directly to filesystem outside generator`, 'CRITICAL', file.getFilePath(), 'FAIL'));
@@ -1678,12 +1678,12 @@ export class ExpExecutiveContextIntegrityRule implements ArchitectureRuleEvaluat
     if (!context.domainFiles) return evidences;
 
     context.domainFiles.forEach(file => {
-      if (file.getFilePath().includes('ExecutiveIntelligenceContextAssembler.ts')) {
+      if (file.getFilePath().includes('ExecutiveGovernanceContextAssembler.ts')) {
         const text = file.getText();
-        if (!text.includes('ExecutiveIntelligenceContext')) {
-          evidences.push(createEvidence(this.ruleId, `Assembler must produce ExecutiveIntelligenceContext`, 'CRITICAL', file.getFilePath(), 'FAIL'));
+        if (!text.includes('ExecutiveGovernanceContext')) {
+          evidences.push(createEvidence(this.ruleId, `Assembler must produce ExecutiveGovernanceContext`, 'CRITICAL', file.getFilePath(), 'FAIL'));
         } else {
-          evidences.push(createEvidence(this.ruleId, `Assembler produces ExecutiveIntelligenceContext`, 'LOW', file.getFilePath(), 'PASS'));
+          evidences.push(createEvidence(this.ruleId, `Assembler produces ExecutiveGovernanceContext`, 'LOW', file.getFilePath(), 'PASS'));
         }
       }
     });
@@ -1693,7 +1693,7 @@ export class ExpExecutiveContextIntegrityRule implements ArchitectureRuleEvaluat
 
 export class ExpIntelligenceTraceabilityRule implements ArchitectureRuleEvaluator {
   ruleId = 'AR-GFC-EXP-002';
-  name = 'Intelligence Traceability';
+  name = 'Governance Traceability';
 
   evaluate(context: AuditContext): GFCEvidence[] {
     const evidences: GFCEvidence[] = [];
@@ -1744,7 +1744,7 @@ export class ExpDecisionBoundaryProtectionRule implements ArchitectureRuleEvalua
     if (!context.domainFiles) return evidences;
 
     context.domainFiles.forEach(file => {
-      if (file.getFilePath().includes('ExecutiveCopilotPanel.tsx') || file.getFilePath().includes('ExecutiveIntelligenceNarrativeEngine.ts')) {
+      if (file.getFilePath().includes('ExecutiveCopilotPanel.tsx') || file.getFilePath().includes('ExecutiveGovernanceNarrativeEngine.ts')) {
         const text = file.getText();
         if (text.includes('autoApprove') || text.includes('decideForUser')) {
           evidences.push(createEvidence(this.ruleId, `Copilot must not automate executive decisions`, 'CRITICAL', file.getFilePath(), 'FAIL'));
@@ -1759,14 +1759,14 @@ export class ExpDecisionBoundaryProtectionRule implements ArchitectureRuleEvalua
 
 export class ExpCrossTenantIntelligenceIsolationRule implements ArchitectureRuleEvaluator {
   ruleId = 'AR-GFC-EXP-005';
-  name = 'Cross Tenant Intelligence Isolation';
+  name = 'Cross Tenant Governance Isolation';
 
   evaluate(context: AuditContext): GFCEvidence[] {
     const evidences: GFCEvidence[] = [];
     if (!context.domainFiles) return evidences;
 
     context.domainFiles.forEach(file => {
-      if (file.getFilePath().includes('ExecutiveIntelligenceContextAssembler.ts') || file.getFilePath().includes('ExecutiveIntelligenceNarrativeEngine.ts')) {
+      if (file.getFilePath().includes('ExecutiveGovernanceContextAssembler.ts') || file.getFilePath().includes('ExecutiveGovernanceNarrativeEngine.ts')) {
         const text = file.getText();
         if (!text.includes('tenantId') && !text.includes('activeTenantId')) {
           evidences.push(createEvidence(this.ruleId, `Assembler/Narrative must respect activeTenantId`, 'CRITICAL', file.getFilePath(), 'FAIL'));

@@ -21,7 +21,7 @@ export class CapitalRecoveryIndexEngine {
       evidence: { capitalSocial: summary.capitalSocial, patrimonioLiquido: summary.patrimonioLiquido },
       rationale: `A companhia necessita recompor aproximadamente ${(cri * 100).toFixed(1)}% do capital originalmente aportado para restaurar integralmente sua posição patrimonial.`,
       lineageHash: `CRI-IDX-${Date.now().toString(16)}`,
-      family: 'Turnaround Intelligence',
+      family: 'Turnaround Governance',
       format: 'percentage'
     };
   }

@@ -2,7 +2,7 @@
 
 > **Manual e Protocolo de Certificação Automática de Experiências (Level A — Canonical)**  
 > *Horizonte Temporal de Estabilidade: 10+ Anos (2026 – 2036+)*  
-> *Documentos Complementares: [`docs/CANONICAL_EXPERIENCE_REGISTRY.md`](file:///Users/marcelosouza/Documents/illumine-strategic-intelligence-advisor/docs/CANONICAL_EXPERIENCE_REGISTRY.md) | [`docs/EXPERIENCE_REGISTRY.md`](file:///Users/marcelosouza/Documents/illumine-strategic-intelligence-advisor/docs/EXPERIENCE_REGISTRY.md)*  
+> *Documentos Complementares: [`docs/CANONICAL_EXPERIENCE_REGISTRY.md`](file:///Users/marcelosouza/Documents/illumine-strategic-governance-advisor/docs/CANONICAL_EXPERIENCE_REGISTRY.md) | [`docs/EXPERIENCE_REGISTRY.md`](file:///Users/marcelosouza/Documents/illumine-strategic-governance-advisor/docs/EXPERIENCE_REGISTRY.md)*  
 > *Status: Homologado & Congelado*
 
 ---
@@ -56,13 +56,13 @@ cognitiveProfile: OPERATIONAL
 renderProtocol: OPERATIONAL
 ```
 
-#### 2.4 Intelligence Experience
+#### 2.4 Governance Experience
 ```yaml
-experience: INTELLIGENCE
-workspace: INTELLIGENCE
+experience: GOVERNANCE
+workspace: GOVERNANCE
 classification: EXP-004
-cognitiveProfile: INTELLIGENCE
-renderProtocol: INTELLIGENCE
+cognitiveProfile: GOVERNANCE
+renderProtocol: GOVERNANCE
 ```
 
 ---
@@ -71,11 +71,11 @@ renderProtocol: INTELLIGENCE
 
 Para obter o certificado de release, a superfície deve passar com 100% de sucesso pelas 5 verificações do *Compliance Gate*:
 
-1. **Gate 1 (Classificação Obrigatória)**: O código de classificação (`classification`) DEVE existir no [`docs/CANONICAL_EXPERIENCE_REGISTRY.md`](file:///Users/marcelosouza/Documents/illumine-strategic-intelligence-advisor/docs/CANONICAL_EXPERIENCE_REGISTRY.md) (`EXP-001` a `EXP-004`).
-2. **Gate 2 (Workspace Compatível)**: O `workspace` declarado DEVE ser exatamente o cadastrado para aquela `experience` na matriz do [`docs/EXPERIENCE_REGISTRY.md`](file:///Users/marcelosouza/Documents/illumine-strategic-intelligence-advisor/docs/EXPERIENCE_REGISTRY.md).
+1. **Gate 1 (Classificação Obrigatória)**: O código de classificação (`classification`) DEVE existir no [`docs/CANONICAL_EXPERIENCE_REGISTRY.md`](file:///Users/marcelosouza/Documents/illumine-strategic-governance-advisor/docs/CANONICAL_EXPERIENCE_REGISTRY.md) (`EXP-001` a `EXP-004`).
+2. **Gate 2 (Workspace Compatível)**: O `workspace` declarado DEVE ser exatamente o cadastrado para aquela `experience` na matriz do [`docs/EXPERIENCE_REGISTRY.md`](file:///Users/marcelosouza/Documents/illumine-strategic-governance-advisor/docs/EXPERIENCE_REGISTRY.md).
 3. **Gate 3 (Render Protocol Compatível)**: O `renderProtocol` DEVE ser a especialização visual autorizada para aquela `experience`.
 4. **Gate 4 (Cognitive Profile Compatível)**: O `cognitiveProfile` DEVE corresponder ao modelo de processamento da experiência declarada.
-5. **Gate 5 (Registro na Matriz de Superfícies)**: A página DEVE estar catalogada no [`docs/EXPERIENCE_CLASSIFICATION_MATRIX.md`](file:///Users/marcelosouza/Documents/illumine-strategic-intelligence-advisor/docs/EXPERIENCE_CLASSIFICATION_MATRIX.md).
+5. **Gate 5 (Registro na Matriz de Superfícies)**: A página DEVE estar catalogada no [`docs/EXPERIENCE_CLASSIFICATION_MATRIX.md`](file:///Users/marcelosouza/Documents/illumine-strategic-governance-advisor/docs/EXPERIENCE_CLASSIFICATION_MATRIX.md).
 
 ---
 

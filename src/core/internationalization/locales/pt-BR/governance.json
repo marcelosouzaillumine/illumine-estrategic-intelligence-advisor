@@ -66,7 +66,7 @@
   },
   "explainable_section": {
     "label": "Transparência Algorítmica",
-    "title": "Explainable Intelligence™",
+    "title": "Explainable Governance™",
     "lead": "Toda recomendação gerada pela plataforma é desenhada para responder a três perguntas fundamentais da liderança executiva.",
     "questions": {
       "q1": {
@@ -129,7 +129,7 @@
   "conclusion": {
     "title": "Confiança não nasce da tecnologia.",
     "subtitle": "Nasce da capacidade de compreender, justificar e preservar decisões ao longo do tempo.",
-    "lead": "É por isso que a Illumine foi concebida como uma Executive Intelligence Platform™, onde inteligência artificial, governança corporativa e julgamento humano atuam de forma complementar para fortalecer decisões estratégicas.",
+    "lead": "É por isso que a Illumine foi concebida como uma Executive Governance Platform™, onde inteligência artificial, governança corporativa e julgamento humano atuam de forma complementar para fortalecer decisões estratégicas.",
     "cta1": "Agendar uma Demonstração Executiva",
     "cta2": "Conhecer a Plataforma"
   }

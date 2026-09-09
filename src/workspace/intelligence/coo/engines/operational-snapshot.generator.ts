@@ -32,7 +32,7 @@ export class OperationalSnapshotGenerator {
       lastUpdatedAt: new Date().toISOString(),
       generatedAt: new Date().toISOString(),
       tenantId: 'unknown-tenant',
-      contextSource: 'operational-intelligence-engines',
+      contextSource: 'operational-governance-engines',
       dataType,
       version: '1.0'
     };
@@ -65,7 +65,7 @@ export class OperationalSnapshotGenerator {
   public async generateProcurementIntelligence(context: ExecutiveContext, rawData: any): Promise<ProcurementIntelligenceData> {
     const data = await this.procurementEngine.computeProcurement(context, rawData);
     return {
-      metadata: this.createMetadata(context, 'procurement-intelligence'),
+      metadata: this.createMetadata(context, 'procurement-governance'),
       ...data
     };
   }

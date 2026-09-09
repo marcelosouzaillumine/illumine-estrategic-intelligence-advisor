@@ -26,9 +26,9 @@
   - `ConsolidatedExecutiveSummaryCard`: 1 instance
   - `SimulationConfidenceCard`: 1 instance
 
-## 2. Intelligence Inventory
+## 2. Governance Inventory
 - **Agents:** 12 Executive Agents (Active in v29.0).
-- **Engines:** `ProductAnalyticsEngine`, `ExecutiveJourneyEngine`, `AgentObservabilityEngine`, `DecisionObservabilityEngine`, `ValueObservabilityEngine`, `ExperimentEngine`, `LearningEngine`, `RoadmapIntelligenceEngine`, `ProductHealthEngine`.
+- **Engines:** `ProductAnalyticsEngine`, `ExecutiveJourneyEngine`, `AgentObservabilityEngine`, `DecisionObservabilityEngine`, `ValueObservabilityEngine`, `ExperimentEngine`, `LearningEngine`, `RoadmapGovernanceEngine`, `ProductHealthEngine`.
 - **Services:** Copilot Service (Flagged for missing Memory/Relationship context).
 
 ## 3. Governance Inventory
@@ -37,5 +37,5 @@
 
 ## Structural Findings (Observational Mode)
 - The vast majority of the frontend structure deeply complies with the Canonical Page Architecture (Header > Hero > Surface > Narrative). 
-- The intelligence engines are fully built, but their outputs (Expected KPIShift, Decision Trace) are visually absent in a minority of pages (legacy Operational views).
+- The governance engines are fully built, but their outputs (Expected KPIShift, Decision Trace) are visually absent in a minority of pages (legacy Operational views).
 - *Observation Complete. No code was modified.*

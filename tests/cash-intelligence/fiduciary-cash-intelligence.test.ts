@@ -3,7 +3,7 @@ import { describe, it } from 'node:test';
 import assert from 'node:assert/strict';
 import { FiduciaryCashIntelligenceRuntime } from '../../src/core/runtime/cash-intelligence/FiduciaryCashIntelligenceRuntime';
 
-describe('Fiduciary Cash Intelligence System - Protocol Scenarios', () => {
+describe('Fiduciary Cash Governance System - Protocol Scenarios', () => {
   
   it('1. Falso Caixa Positivo - deve barrar conclusões saudáveis', () => {
     // FCO negativo, FCF positivo grande, resultando em caixa positivo final alto.

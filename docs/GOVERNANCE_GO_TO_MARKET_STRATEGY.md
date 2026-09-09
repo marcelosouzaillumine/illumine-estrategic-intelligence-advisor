@@ -150,7 +150,7 @@ A plataforma não será comercializada via publicidade tradicional ou outbound a
 ## 7. First 10 Clients Strategy
 
 O objetivo comercial dos primeiros 10 clientes fechados **não é o faturamento absoluto**, mas sim a validação prática da ferramenta em campo:
-* **Refinamento Epistemológico:** Calibrar a sensibilidade dos motores da *Causal Intelligence* e *Prospective Intelligence* com dados industriais reais.
+* **Refinamento Epistemológico:** Calibrar a sensibilidade dos motores da *Causal Governance* e *Prospective Governance* com dados industriais reais.
 * **Geração de Cases:** Coleta de depoimentos (sociedade, conselho, C-Level) comprovando melhoria na resiliência organizacional.
 * **Validação de Valor:** Refinar o preço da assinatura de monitoramento permanente (LTV).
 

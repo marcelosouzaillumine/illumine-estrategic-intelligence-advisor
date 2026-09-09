@@ -70,7 +70,7 @@ describe('Legacy Capability Test', () => {
 }
 
 // 5. Fix SchemaValidator.spec.ts
-const schemaVal = 'src/core/intelligence/validation/__tests__/SchemaValidator.spec.ts';
+const schemaVal = 'src/core/governance/validation/__tests__/SchemaValidator.spec.ts';
 if (fs.existsSync(schemaVal)) {
   let content = fs.readFileSync(schemaVal, 'utf-8');
   content = content.replace(/governance: \{.*?\}/, 'governance: {}, financialInsights: {}');

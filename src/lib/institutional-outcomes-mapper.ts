@@ -18,7 +18,7 @@ export function mapReportToInstitutionalEvidenceInput(
           category: 'STRATEGY',
           level: 'E1',
           source: 'SYSTEM_RUNTIME',
-          sourceReference: 'SectorIntelligenceLayer',
+          sourceReference: 'SectorGovernanceLayer',
           description: `Identified capability gap: ${gap}`,
           dateLogged: new Date().toISOString()
         });
@@ -33,7 +33,7 @@ export function mapReportToInstitutionalEvidenceInput(
           category: 'CAPITAL_ALLOCATION',
           level: 'E2',
           source: 'SYSTEM_RUNTIME',
-          sourceReference: 'CapitalAllocationIntelligenceLayer',
+          sourceReference: 'CapitalAllocationGovernanceLayer',
           description: `Recommended strategic priority: ${priority.priority || priority}`,
           dateLogged: new Date().toISOString()
         });

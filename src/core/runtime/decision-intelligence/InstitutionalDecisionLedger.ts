@@ -34,7 +34,7 @@ export class InstitutionalDecisionLedger {
         eventType: 'DECISION_RECORDED',
         resourceType: 'ExecutiveDecision',
         resourceId: decision.decisionId,
-        requestSource: 'DECISION_INTELLIGENCE',
+        requestSource: 'DECISION_GOVERNANCE',
         auditSeverity: 'INFO',
         lineageReference: decision.lineageHash,
         metadata: {

@@ -2,7 +2,7 @@ import { ConstitutionalProtocol, ValidationResult } from '../ConstitutionalProto
 
 export class AIConstitutionProtocol implements ConstitutionalProtocol {
   public protocolId = 'ACF';
-  public protocolName = 'Artificial Intelligence Constitution Framework';
+  public protocolName = 'Artificial Governance Constitution Framework';
   public protocolVersion = 'ACF-1.0';
   public authorityLevel = 'SUPREME';
 

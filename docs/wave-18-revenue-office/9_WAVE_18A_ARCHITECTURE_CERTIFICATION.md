@@ -8,7 +8,7 @@
 
 ### 1. Global Architecture Consistency
 **Status:** PASS
-**Validation:** The Executive Revenue Office™ operates as an isolated Platform Domain. It does not mix with the Commercial Intelligence Office (Tenant Domain) mas se conecta perfeitamente ao sistema operacional multi-tenant via o ecossistema de Entitlements e Licenças.
+**Validation:** The Executive Revenue Office™ operates as an isolated Platform Domain. It does not mix with the Commercial Governance Office (Tenant Domain) mas se conecta perfeitamente ao sistema operacional multi-tenant via o ecossistema de Entitlements e Licenças.
 
 ### 2. Data Model & Firestore Separation
 **Status:** PASS

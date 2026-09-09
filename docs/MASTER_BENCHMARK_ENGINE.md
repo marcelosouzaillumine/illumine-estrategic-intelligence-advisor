@@ -1,6 +1,6 @@
 # MASTER BENCHMARK ENGINE
 
-Este documento estipula a arquitetura da camada de **Institutional Benchmarking & Intelligence Network**, responsável por prover métricas comparativas na plataforma Illumine. A premissa central é o princípio de **Privacy-Preserving Intelligence**: o valor fiduciário de uma comparação de mercado nunca pode justificar o sacrifício do anonimato de um Tenant.
+Este documento estipula a arquitetura da camada de **Institutional Benchmarking & Governance Network**, responsável por prover métricas comparativas na plataforma Illumine. A premissa central é o princípio de **Privacy-Preserving Governance**: o valor fiduciário de uma comparação de mercado nunca pode justificar o sacrifício do anonimato de um Tenant.
 
 ## Arquitetura de Privacidade (K-Anonymity)
 

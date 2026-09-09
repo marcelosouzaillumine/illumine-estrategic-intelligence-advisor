@@ -2,7 +2,7 @@
 import { describe, it, expect } from 'vitest';
 import { LearningRecordContract } from '@illumine/executive-contracts';
 
-describe('@illumine/intelligence (Wave 18.5 Executive Learning Runtime)', () => {
+describe('@illumine/governance (Wave 18.5 Executive Learning Runtime)', () => {
   it('should validate LearningRecordContract and calibration factor (ADR-083)', () => {
     const record: LearningRecordContract = {
       recordId: 'rec-learn-10',

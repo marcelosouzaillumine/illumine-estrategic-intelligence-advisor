@@ -3,7 +3,7 @@ import { useInstitutionalStrategicIntelligenceAdapter } from '../adapters/ui/use
 
 export function useInstitutionalStrategicIntelligenceViewModel({ clientId }: any) {
   const { strategicItems, loading } = useInstitutionalStrategicIntelligenceAdapter(clientId);
-  const [activeTab, setActiveTab] = useState('intelligence');
+  const [activeTab, setActiveTab] = useState('governance');
 
   return {
     state: {

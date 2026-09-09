@@ -20,7 +20,7 @@
 | **Risk Agent** | Risco | Prevenção de Riscos Institucionais, Hedge Cambial, Cibersegurança | Matriz de Riscos, early warning signals, Câmbio | Resiliência Organizacional, Perdas Evitadas |
 | **Innovation Agent** | Inovação | Investimento em P&D, Novas Linhas de Negócio, Disrupção | Pesquisas de Mercado, Benchmarks Tecnológicos | Receita de Novos Produtos, ROI de P&D |
 | **Executive Decision Agent** | Decisão | Priorização Executiva, Consolidação de Pareceres do Conselho | Pareceres de Agentes, Integridade Decisória | Qualidade Decisória (Decision Integrity Score) |
-| **Enterprise Orchestrator** | Rede | Orquestração da Rede Cognitiva Empresarial | Enterprise Intelligence Graph, EnIS | Valor Sistêmico da Rede (EnIS Score) |
+| **Enterprise Orchestrator** | Rede | Orquestração da Rede Cognitiva Empresarial | Enterprise Governance Graph, EnIS | Valor Sistêmico da Rede (EnIS Score) |
 
 ---
 

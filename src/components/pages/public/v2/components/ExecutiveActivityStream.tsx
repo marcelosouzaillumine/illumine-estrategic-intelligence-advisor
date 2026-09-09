@@ -13,14 +13,14 @@ type StreamItem = {
 
 const INITIAL_STREAM: StreamItem[] = [
   { id: '1', type: 'system', title: 'Simulação Sistêmica Concluída: Cenário Expansão Q3', domain: 'Executive Engine™', time: 'Agora', icon: Cpu },
-  { id: '2', type: 'alert', title: 'Risco de Liquidez: Projeção de asfixia em 120 dias.', domain: 'Financial Intelligence™', time: '2m atrás', icon: TrendingUp },
-  { id: '3', type: 'insight', title: 'Silo Detectado: Fricção entre Vendas e Operações afeta Margem.', domain: 'Operational Intelligence™', time: '15m atrás', icon: Activity },
-  { id: '4', type: 'decision', title: 'Aprovação Fiduciária Requerida: Ajuste de Capex', domain: 'Governance Intelligence™', time: '1h atrás', icon: ShieldAlert },
+  { id: '2', type: 'alert', title: 'Risco de Liquidez: Projeção de asfixia em 120 dias.', domain: 'Financial Governance™', time: '2m atrás', icon: TrendingUp },
+  { id: '3', type: 'insight', title: 'Silo Detectado: Fricção entre Vendas e Operações afeta Margem.', domain: 'Operational Governance™', time: '15m atrás', icon: Activity },
+  { id: '4', type: 'decision', title: 'Aprovação Fiduciária Requerida: Ajuste de Capex', domain: 'Governance Governance™', time: '1h atrás', icon: ShieldAlert },
 ];
 
 const NEW_ITEMS: StreamItem[] = [
-  { id: '5', type: 'insight', title: 'Análise de Sensibilidade: Aumento de 5% no custo de capital.', domain: 'Risk Intelligence™', time: 'Agora', icon: AlertTriangle },
-  { id: '6', type: 'system', title: 'Atualização do Gêmeo Digital: Novos dados do ERP integrados.', domain: 'Intelligence Foundation™', time: 'Agora', icon: CheckCircle2 },
+  { id: '5', type: 'insight', title: 'Análise de Sensibilidade: Aumento de 5% no custo de capital.', domain: 'Risk Governance™', time: 'Agora', icon: AlertTriangle },
+  { id: '6', type: 'system', title: 'Atualização do Gêmeo Digital: Novos dados do ERP integrados.', domain: 'Governance Foundation™', time: 'Agora', icon: CheckCircle2 },
 ];
 
 export function ExecutiveActivityStream({ className }: { className?: string }) {

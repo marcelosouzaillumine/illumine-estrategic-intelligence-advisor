@@ -34,7 +34,7 @@ function createMockCycle(overrides: any = {}): CashIntelligenceRuntimeOutput {
   } as CashIntelligenceRuntimeOutput;
 }
 
-describe('LongitudinalCashIntelligenceEngine', () => {
+describe('LongitudinalCashGovernanceEngine', () => {
 
   it('should return INSUFFICIENT_HISTORICAL_DATA if less than 3 cycles', () => {
     const cycles = [createMockCycle(), createMockCycle()];

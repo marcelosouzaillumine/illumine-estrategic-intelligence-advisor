@@ -22,13 +22,13 @@
 
 | Página Migrada | Data | Common.tsx Imports Removidos | ViewModel | Quality Gates Status |
 | :--- | :---: | :---: | :--- | :---: |
-| [PayablesPage.tsx](file:///Users/marcelosouza/Documents/illumine-strategic-intelligence-advisor/src/components/pages/PayablesPage.tsx) | 2026-07-28 | `StatusBadge` (1) | `usePayablesPageViewModel` | ✅ Passou (0 erros) |
-| [ReceivablesPage.tsx](file:///Users/marcelosouza/Documents/illumine-strategic-intelligence-advisor/src/components/pages/ReceivablesPage.tsx) | 2026-07-28 | `StatusBadge` (1) | `useReceivablesPageViewModel` | ✅ Passou (0 erros) |
-| [EFOSPage.tsx](file:///Users/marcelosouza/Documents/illumine-strategic-intelligence-advisor/src/components/pages/EFOSPage.tsx) | 2026-07-28 | `StatusBadge` (1) | `useEFOSPageViewModel` | ✅ Passou (0 erros) |
-| [MarketingComercialPage.tsx](file:///Users/marcelosouza/Documents/illumine-strategic-intelligence-advisor/src/components/pages/MarketingComercialPage.tsx) | 2026-07-28 | `PageHeader`, `StatusBadge`, `ControlBar` (3) | `useMarketingComercialPageViewModel` | ✅ Passou (0 erros) |
-| [PlanoDeContasPage.tsx](file:///Users/marcelosouza/Documents/illumine-strategic-intelligence-advisor/src/components/pages/PlanoDeContasPage.tsx) | 2026-07-28 | `PageHeader`, `StatusBadge` (2) | `usePlanoDeContasPageViewModel` | ✅ Passou (0 erros) |
-| [TaxReformImpactPage.tsx](file:///Users/marcelosouza/Documents/illumine-strategic-intelligence-advisor/src/components/pages/TaxReformImpactPage.tsx) | 2026-07-29 | `PageHeader`, `StatusBadge` (2) | `useTaxReformImpactPageViewModel` | ✅ Passou (0 erros) |
-| [ViabilityPage.tsx](file:///Users/marcelosouza/Documents/illumine-strategic-intelligence-advisor/src/components/pages/ViabilityPage.tsx) | 2026-07-29 | `PageHeader`, `StatusBadge` (2) | `useViabilityPageViewModel` | ✅ Passou (0 erros) |
+| [PayablesPage.tsx](file:///Users/marcelosouza/Documents/illumine-strategic-governance-advisor/src/components/pages/PayablesPage.tsx) | 2026-07-28 | `StatusBadge` (1) | `usePayablesPageViewModel` | ✅ Passou (0 erros) |
+| [ReceivablesPage.tsx](file:///Users/marcelosouza/Documents/illumine-strategic-governance-advisor/src/components/pages/ReceivablesPage.tsx) | 2026-07-28 | `StatusBadge` (1) | `useReceivablesPageViewModel` | ✅ Passou (0 erros) |
+| [EFOSPage.tsx](file:///Users/marcelosouza/Documents/illumine-strategic-governance-advisor/src/components/pages/EFOSPage.tsx) | 2026-07-28 | `StatusBadge` (1) | `useEFOSPageViewModel` | ✅ Passou (0 erros) |
+| [MarketingComercialPage.tsx](file:///Users/marcelosouza/Documents/illumine-strategic-governance-advisor/src/components/pages/MarketingComercialPage.tsx) | 2026-07-28 | `PageHeader`, `StatusBadge`, `ControlBar` (3) | `useMarketingComercialPageViewModel` | ✅ Passou (0 erros) |
+| [PlanoDeContasPage.tsx](file:///Users/marcelosouza/Documents/illumine-strategic-governance-advisor/src/components/pages/PlanoDeContasPage.tsx) | 2026-07-28 | `PageHeader`, `StatusBadge` (2) | `usePlanoDeContasPageViewModel` | ✅ Passou (0 erros) |
+| [TaxReformImpactPage.tsx](file:///Users/marcelosouza/Documents/illumine-strategic-governance-advisor/src/components/pages/TaxReformImpactPage.tsx) | 2026-07-29 | `PageHeader`, `StatusBadge` (2) | `useTaxReformImpactPageViewModel` | ✅ Passou (0 erros) |
+| [ViabilityPage.tsx](file:///Users/marcelosouza/Documents/illumine-strategic-governance-advisor/src/components/pages/ViabilityPage.tsx) | 2026-07-29 | `PageHeader`, `StatusBadge` (2) | `useViabilityPageViewModel` | ✅ Passou (0 erros) |
 
 ---
 

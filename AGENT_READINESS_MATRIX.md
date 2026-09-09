@@ -10,7 +10,7 @@
 | Dimensão de Governança | Status de Prontidão | Mecanismo de Enforcement | Pacote Responsável |
 | :--- | :---: | :--- | :--- |
 | **Context Awareness** | ✅ **PASSED** | `EnterpriseContext` & `OrganizationalBoundary` | `@illumine/enterprise-knowledge-fabric` |
-| **Knowledge Access** | ✅ **PASSED** | Grafo Causal & Ontologia Integrada | `@illumine/organizational-intelligence-graph` |
+| **Knowledge Access** | ✅ **PASSED** | Grafo Causal & Ontologia Integrada | `@illumine/organizational-governance-graph` |
 | **Decision Traceability** | ✅ **PASSED** | `ReasoningTrace` & `ExperienceRecord` | `@illumine/organizational-memory` |
 | **Confidence Model** | ✅ **PASSED** | `PredictionCalibration` & Value Objects | `@illumine/predictive-engine` |
 | **Human Approval (HitL)**| ✅ **PASSED** | Trava de Alçada em Nível 2 (Recomendação) | `@illumine/executive-contracts` |

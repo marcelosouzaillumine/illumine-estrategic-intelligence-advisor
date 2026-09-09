@@ -57,7 +57,7 @@ export function ExecutiveAdvisoryWidget() {
               </div>
             )}
             <div>
-              <h4 className="text-white font-bold text-sm">{t('brand.name', 'Executive Intelligence Concierge™')}</h4>
+              <h4 className="text-white font-bold text-sm">{t('brand.name', 'Executive Governance Concierge™')}</h4>
               <p className="text-[10px] text-slate-400 font-bold uppercase tracking-widest">
                 {engine.thinkingText || (engine.isTyping ? t('widget.analyzing', 'Analisando contexto...') : t('widget.subtitle', 'Illumine Advisory™'))}
               </p>

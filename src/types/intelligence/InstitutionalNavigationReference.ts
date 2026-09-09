@@ -4,7 +4,7 @@ export type InstitutionalWorkspaceType =
   | 'TIME_MACHINE'
   | 'ADVISOR'
   | 'WAR_ROOM'
-  | 'INTELLIGENCE_FABRIC'
+  | 'GOVERNANCE_FABRIC'
   | 'MEMORY'
   | 'EXECUTIVE_HOME'
   | 'HUB'

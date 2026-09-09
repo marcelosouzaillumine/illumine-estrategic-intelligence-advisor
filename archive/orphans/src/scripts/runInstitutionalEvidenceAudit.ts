@@ -204,9 +204,9 @@ let totalE5_E6 = totalResults; // E6 is 0
 
 let predominantCategory = "";
 if (totalE1_E2 > totalE3_E4 && totalE1_E2 > totalE5_E6) {
-  predominantCategory = "Governance Intelligence Platform";
+  predominantCategory = "Governance Governance Platform";
 } else if (totalE3_E4 >= totalE1_E2 && totalE3_E4 > totalE5_E6) {
-  predominantCategory = "Institutional Intelligence Platform";
+  predominantCategory = "Institutional Governance Platform";
 } else {
   predominantCategory = "Institutional Operating System";
 }

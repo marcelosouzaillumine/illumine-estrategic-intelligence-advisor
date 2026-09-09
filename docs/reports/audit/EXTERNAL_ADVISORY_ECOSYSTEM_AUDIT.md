@@ -2,7 +2,7 @@
 
 > **Relatório Oficial de Auditoria da Wave 18.11 (External Advisory Ecosystem & Partner Operating Model)**  
 > *Autoridade Supreme: Architecture Review Board (ARB) & Executive Governance Council*  
-> *Subordinado à [`ARCHITECTURE_CONSTITUTION.md`](file:///Users/marcelosouza/Documents/illumine-strategic-intelligence-advisor/ARCHITECTURE_CONSTITUTION.md)*
+> *Subordinado à [`ARCHITECTURE_CONSTITUTION.md`](file:///Users/marcelosouza/Documents/illumine-strategic-governance-advisor/ARCHITECTURE_CONSTITUTION.md)*
 
 ---
 
@@ -15,7 +15,7 @@
 | **Multi-Advisor Assignment** | `MultiAdvisorAssignmentEngine.ts` | Teste `multi-advisor-assignment.test.ts` | ✅ **VERIFIED** |
 | **Advisory Workflow (8 Estados)** | `AdvisoryWorkflowEngine.ts` | Teste `advisory-workflow.test.ts` | ✅ **VERIFIED** |
 | **Executive Meeting Center** | `ExecutiveMeetingCenterEngine.ts` | Teste `executive-meeting-center.test.ts` | ✅ **VERIFIED** |
-| **Advisor Performance Intelligence** | `AdvisorPerformanceEngine.ts` | Teste `advisor-performance.test.ts` | ✅ **VERIFIED** |
+| **Advisor Performance Governance** | `AdvisorPerformanceEngine.ts` | Teste `advisor-performance.test.ts` | ✅ **VERIFIED** |
 | **Holding & Structure Hierarchies** | `HoldingStructureEngine.ts` | Agregação multi-unidade | ✅ **VERIFIED** |
 | **Workspace Executivo de Partners** | `ExecutiveAdvisoryWorkspace.tsx` | Componentes em `src/components/executive/partner/` | ✅ **VERIFIED** |
 

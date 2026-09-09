@@ -10,7 +10,7 @@ describe('GovernanceCopilotConfidenceEngine', () => {
       { esgIntelligence: {} } as any,
       10, // lots of evidence
       10, // lots of memory
-      ['esgIntelligence'],
+      ['esgGovernance'],
       3   // high conflicts
     );
     assert.strictEqual(confidence.level, 'LOW');
@@ -25,13 +25,13 @@ describe('GovernanceCopilotConfidenceEngine', () => {
       } as any,
       10, // 5.0
       10, // 3.0
-      ['esgIntelligence', 'valuationIntelligence', 'governanceDigitalTwin'], // 3.0 -> Total 11.0 (> 8)
+      ['esgGovernance', 'valuationGovernance', 'governanceDigitalTwin'], // 3.0 -> Total 11.0 (> 8)
       0  // zero conflicts
     );
     assert.strictEqual(confidence.level, 'VERY_HIGH');
   });
 
-  it('must prevent VERY_HIGH if evidence/memory is LOW despite HIGH intelligence', () => {
+  it('must prevent VERY_HIGH if evidence/memory is LOW despite HIGH governance', () => {
     const confidence = GovernanceCopilotConfidenceEngine.evaluateConfidence(
       { 
         esgIntelligence: {},
@@ -40,7 +40,7 @@ describe('GovernanceCopilotConfidenceEngine', () => {
       } as any,
       0, // zero evidence
       0, // zero memory
-      ['esgIntelligence', 'valuationIntelligence', 'governanceDigitalTwin'], // 3.0
+      ['esgGovernance', 'valuationGovernance', 'governanceDigitalTwin'], // 3.0
       0
     );
     // Based on rules: if evidence == 0 && memory == 0, max is MODERATE. Score is 3.0 > 2, so MODERATE.

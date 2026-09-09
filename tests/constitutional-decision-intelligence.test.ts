@@ -5,7 +5,7 @@ import { ConstitutionalDecisionRuntime } from '../src/core/runtime/decision-inte
 import { ExecutiveDecisionReport } from '../src/core/runtime/decision-intelligence/ExecutiveDecisionReport';
 import { ExecutiveActionMatrixEngine } from '../src/core/runtime/decision-intelligence/ExecutiveActionMatrixEngine';
 
-describe('Constitutional Decision Intelligence Layer (CDIL v1.1) Tests', () => {
+describe('Constitutional Decision Governance Layer (CDIL v1.1) Tests', () => {
   beforeEach(() => {
     ConstitutionalActionRegistry.clearRegistry();
     

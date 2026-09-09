@@ -8,9 +8,9 @@
 ### Architecture Claim Validation
 | Claim | Evidence | Status |
 |---|---|---|
-| Governance Intelligence Platform | Motores causais e relatórios determinísticos consolidados (GDT, GML) | **VALIDATED** |
+| Governance Governance Platform | Motores causais e relatórios determinísticos consolidados (GDT, GML) | **VALIDATED** |
 | Institutional Operating System | Conexão ponta a ponta desde contabilidade bruta até Soberania Institucional, substituindo ciclos humanos | **VALIDATED** |
-| Executive Intelligence Platform | Produção de Board Packs, Advisory Narratives e Executive Stories | **VALIDATED** |
+| Executive Governance Platform | Produção de Board Packs, Advisory Narratives e Executive Stories | **VALIDATED** |
 
 ### Executive Conclusion
 Classificamos oficialmente a Illumine Governance™ como um **INSTITUTIONAL OPERATING SYSTEM**.

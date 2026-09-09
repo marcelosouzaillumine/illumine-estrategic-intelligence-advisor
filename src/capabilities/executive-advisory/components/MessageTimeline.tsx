@@ -125,11 +125,11 @@ export function MessageTimeline({ messages, isTyping, thinkingText, onSelectOpti
                   <div className="shrink-0 bg-[#121214] border border-white/10 rounded-2xl overflow-hidden shadow-lg w-full mt-2">
                     <div className="p-4 border-b border-white/5 bg-black/40">
                       <h4 className="text-white font-bold text-sm mb-1">{msg.content}</h4>
-                      <p className="text-[11px] text-slate-400">Utilize a Executive Intelligence Platform para ampliar sua prática.</p>
+                      <p className="text-[11px] text-slate-400">Utilize a Executive Governance Platform para ampliar sua prática.</p>
                     </div>
                     <div className="p-4 bg-white/[0.02]">
                       <ul className="space-y-2.5">
-                        {['Executive Advisory™', 'Executive Intelligence™', 'Frameworks proprietários', 'Memória institucional', 'Executive Assessment™', 'Certificação'].map(benefit => (
+                        {['Executive Advisory™', 'Executive Governance™', 'Frameworks proprietários', 'Memória institucional', 'Executive Assessment™', 'Certificação'].map(benefit => (
                           <li key={benefit} className="flex items-center gap-2.5 text-[12px] text-slate-300">
                             <CheckCircle2 size={12} className="text-amber-500" />
                             {benefit}

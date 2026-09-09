@@ -39,7 +39,7 @@ if (fs.existsSync(pureBuilder)) {
 const p01 = 'src/capabilities/financial/domain/__tests__/P01DataChain.spec.ts';
 if (fs.existsSync(p01)) {
   let content = fs.readFileSync(p01, 'utf-8');
-  content = content.replace(/as FinancialPositionIntelligenceContract/g, 'as unknown as FinancialPositionIntelligenceContract');
+  content = content.replace(/as FinancialPositionIntelligenceContract/g, 'as unknown as FinancialPositionGovernanceContract');
   // if it's missing 'as', let's just blindly cast the mock to unknown first
   content = content.replace(/const mockContract: FinancialPositionIntelligenceContract = \{/g, 'const mockContract = {');
   content = content.replace(/const contract: FinancialPositionIntelligenceContract = \{/g, 'const contract = {');
@@ -54,7 +54,7 @@ if (fs.existsSync(p02)) {
 }
 
 // 4. BalanceSheetIntelligenceEngine.ts
-const engine = 'src/capabilities/financial/intelligence/BalanceSheetIntelligenceEngine.ts';
+const engine = 'src/capabilities/financial/governance/BalanceSheetGovernanceEngine.ts';
 if (fs.existsSync(engine)) {
   let content = fs.readFileSync(engine, 'utf-8');
   content = content.replace(/, BalanceIntegrity/g, '');

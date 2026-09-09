@@ -37,7 +37,7 @@ describe('Gate 5: Performance & Scale Certification', () => {
         dataSources: []
       };
       
-      completedJourneys.push(`${domainKey}-intelligence`);
+      completedJourneys.push(`${domainKey}-governance`);
     }
 
     const portfolio: ExecutiveProfilePortfolio = {
@@ -66,7 +66,7 @@ describe('Gate 5: Performance & Scale Certification', () => {
     // 3. Measure Narrative Engine Performance
     const narrativeService = new ExecutiveNarrativeService();
     const narStartTime = performance.now();
-    const conversation = narrativeService.generateStrategicConversation(summary.organizationalStage, 'scale-domain-0-intelligence');
+    const conversation = narrativeService.generateStrategicConversation(summary.organizationalStage, 'scale-domain-0-governance');
     const narEndTime = performance.now();
     
     expect(narEndTime - narStartTime).toBeLessThan(500);

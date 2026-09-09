@@ -34,7 +34,7 @@ export class ExecutiveCopilotRouter {
     }
 
     return {
-      targetAgentId: 'cfo-intelligence-agent',
+      targetAgentId: 'cfo-governance-agent',
       domainName: 'Financial',
       confidence: 95
     };

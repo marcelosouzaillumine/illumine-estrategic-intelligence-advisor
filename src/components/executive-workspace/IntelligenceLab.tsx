@@ -8,11 +8,11 @@ export function IntelligenceLab({ securityContext }: { securityContext: any }) {
   const [output, setOutput] = useState<any>(null);
 
   // Authorization Check
-  if (!securityContext?.permissions?.includes("INTELLIGENCE_LAB_ACCESS")) {
+  if (!securityContext?.permissions?.includes("GOVERNANCE_LAB_ACCESS")) {
     return (
       <div className="p-8 text-center text-red-600">
         <h1 className="text-2xl font-bold">Acesso Negado</h1>
-        <p>Você não possui a permissão INTELLIGENCE_LAB_ACCESS requerida para este ambiente simulado.</p>
+        <p>Você não possui a permissão GOVERNANCE_LAB_ACCESS requerida para este ambiente simulado.</p>
       </div>
     );
   }
@@ -40,7 +40,7 @@ export function IntelligenceLab({ securityContext }: { securityContext: any }) {
   return (
     <div className="p-8 max-w-4xl mx-auto">
       <header className="mb-8">
-        <h1 className="text-3xl font-bold">Intelligence Simulation Workspace™</h1>
+        <h1 className="text-3xl font-bold">Governance Simulation Workspace™</h1>
         <p className="text-gray-500">Laboratório restrito para testes da governança orgânica sem dependência externa de LLMs.</p>
       </header>
       
@@ -57,8 +57,8 @@ export function IntelligenceLab({ securityContext }: { securityContext: any }) {
             className="w-full bg-black text-white font-bold py-2 rounded hover:bg-gray-800"
             onClick={runSimulation}
           >
-            Run Intelligence (Mock)
-          </button>
+            Run Governance (Mock)
+                                </button>
         </div>
 
         {output && (

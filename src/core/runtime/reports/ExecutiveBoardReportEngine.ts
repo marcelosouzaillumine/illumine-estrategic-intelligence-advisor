@@ -336,7 +336,7 @@ export class ExecutiveBoardReportEngine {
 
     // 11. Explainability Logs (Component 10)
     const explainability: string[] = [
-      "Inteligências Analisadas: Fiduciary Intelligence, Institutional Intelligence, Prospective Intelligence, Mission Alignment Engine.",
+      "Inteligências Analisadas: Fiduciary Governance, Institutional Governance, Prospective Governance, Mission Alignment Engine.",
       `Evidências Coletadas: Relatórios fiduciários de DRE/DFC, registros estatutários do Board e simulação de contexto: ${scenario}.`,
       "Regras Fiduciárias Aplicadas: Constituição Cognitiva com limitação de teto e overrides em caso de desvios.",
       `Modo de Monitoramento: ${mode} | Linha Temporal: ${monitoring.timelineMode}.`

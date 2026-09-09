@@ -23,7 +23,7 @@ Toda alteração relevante na:
 * WEIGHTED CAUSAL INFERENCE LAYER;
 * CALIBRATION & STABILITY LAYER;
 * Executive Advisory Engine;
-* Behavioral Intelligence Layer;
+* Behavioral Governance Layer;
 
 deverá obrigatoriamente ser validada contra os datasets definidos neste documento.
 

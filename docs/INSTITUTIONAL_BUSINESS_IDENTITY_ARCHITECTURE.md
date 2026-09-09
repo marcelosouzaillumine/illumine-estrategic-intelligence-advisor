@@ -111,11 +111,11 @@ export type InstitutionalBusinessProfile = {
 ### 3. Nova Engine Obrigatória
 
 **Criar:**
-`SegmentIntelligenceEngine`
+`SegmentGovernanceEngine`
 ou
 `InstitutionalIdentityResolver`
 
-#### 3.1. Implementação Atual (SegmentIntelligenceEngine)
+#### 3.1. Implementação Atual (SegmentGovernanceEngine)
 
 A engine foi implementada em `src/core/runtime/institutional-context/` e atua como a primeira camada operacional do runtime. Suas principais responsabilidades incluem:
 * **Contextual Confidence Matrix**: Isola o nível de confiança na interpretação (baseado na completude dos dados) do score financeiro da empresa.
@@ -146,13 +146,13 @@ em:
 ```text
 Cadastro do Cliente
         ↓
-Segment Intelligence Matrix
+Segment Governance Matrix
         ↓
 InstitutionalBusinessProfile
         ↓
 Runtime Financeiro
         ↓
-Contextual Intelligence Layer
+Contextual Governance Layer
         ↓
 Executive Advisory Layer
 ```
@@ -260,9 +260,9 @@ Muito mais institucional e executivo.
 ### 12. Diretriz Final
 
 A Illumine Governance deve evoluir de:
-**Financial Intelligence**
+**Financial Governance**
 para:
-**Institutional Contextual Intelligence**
+**Institutional Contextual Governance**
 
 O sistema não deve mais apenas:
 * interpretar indicadores;

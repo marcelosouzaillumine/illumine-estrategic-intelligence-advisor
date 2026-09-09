@@ -1,13 +1,13 @@
 {
   "home": {
-    "title": "Illumine | Executive Intelligence Platform™",
-    "description": "Transform management with the Illumine Executive Operating System™. A complete corporate intelligence architecture for strategic decision-making.",
-    "keywords": "Executive Intelligence, Decision Intelligence, Board Intelligence, Corporate Governance, Strategic Advisory, Virtual CFO, Enterprise Intelligence"
+    "title": "Illumine | Executive Governance Platform™",
+    "description": "Transform management with the Illumine Executive Operating System™. A complete corporate governance architecture for strategic decision-making.",
+    "keywords": "Executive Governance, Decision Governance, Board Governance, Corporate Governance, Strategic Advisory, Virtual CFO, Enterprise Governance"
   },
   "platform": {
-    "title": "Platform | Illumine Executive Intelligence",
+    "title": "Platform | Illumine Executive Governance",
     "description": "Discover the capabilities of our Executive Decision Operating System™ (EDOS). Executive dashboards, financial modeling, and more.",
-    "keywords": "Business Intelligence Platform, Strategic Performance Management, Corporate Performance, Executive Dashboards"
+    "keywords": "Business Governance Platform, Strategic Performance Management, Corporate Performance, Executive Dashboards"
   },
   "governance": {
     "title": "Governance & Security | Illumine",
@@ -16,17 +16,17 @@
   },
   "assessment": {
     "title": "Executive Diagnostic Journey™™ | Illumine",
-    "description": "Executive intelligence maturity diagnostic. Evaluate your company's data infrastructure and discover how to evolve.",
+    "description": "Executive governance maturity diagnostic. Evaluate your company's data infrastructure and discover how to evolve.",
     "keywords": "Executive Diagnostic Journey™, Strategic Advisory, Strategic Consulting, Digital Maturity"
   },
   "manifesto": {
     "title": "Manifesto | The Illumine Vision",
-    "description": "The future of corporate management through the Executive Intelligence Platform™. Understand our thesis and strategic architecture.",
-    "keywords": "Manifesto, Executive Intelligence, Future Vision, Corporate Innovation"
+    "description": "The future of corporate management through the Executive Governance Platform™. Understand our thesis and strategic architecture.",
+    "keywords": "Manifesto, Executive Governance, Future Vision, Corporate Innovation"
   },
   "intelligenceCenter": {
-    "title": "Intelligence Center | Illumine",
-    "description": "An intelligence hub focused on the synthesis, production, and dissemination of high-impact executive knowledge.",
-    "keywords": "Intelligence Center, Executive Analytics, Enterprise Intelligence"
+    "title": "Governance Center | Illumine",
+    "description": "An governance hub focused on the synthesis, production, and dissemination of high-impact executive knowledge.",
+    "keywords": "Governance Center, Executive Analytics, Enterprise Governance"
   }
 }

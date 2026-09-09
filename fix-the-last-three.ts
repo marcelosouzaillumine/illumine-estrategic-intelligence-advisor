@@ -4,7 +4,7 @@ import * as fs from 'fs';
 const p01 = 'src/capabilities/financial/domain/__tests__/P01DataChain.spec.ts';
 if (fs.existsSync(p01)) {
   let content = fs.readFileSync(p01, 'utf-8');
-  content = content.replace(/intelligenceContract: contract/g, 'intelligenceContract: contract as unknown as FinancialPositionIntelligenceContract');
+  content = content.replace(/intelligenceContract: contract/g, 'governanceContract: contract as unknown as FinancialPositionGovernanceContract');
   fs.writeFileSync(p01, content);
 }
 
@@ -12,12 +12,12 @@ if (fs.existsSync(p01)) {
 const p02 = 'src/capabilities/financial/domain/__tests__/P02_04_05.spec.ts';
 if (fs.existsSync(p02)) {
   let content = fs.readFileSync(p02, 'utf-8');
-  content = content.replace(/intelligenceContract: mockContract/g, 'intelligenceContract: mockContract as unknown as FinancialPositionIntelligenceContract');
+  content = content.replace(/intelligenceContract: mockContract/g, 'governanceContract: mockContract as unknown as FinancialPositionGovernanceContract');
   fs.writeFileSync(p02, content);
 }
 
 // 3. Fix BalanceSheetIntelligenceEngine
-const engine = 'src/capabilities/financial/intelligence/BalanceSheetIntelligenceEngine.ts';
+const engine = 'src/capabilities/financial/governance/BalanceSheetGovernanceEngine.ts';
 if (fs.existsSync(engine)) {
   let content = fs.readFileSync(engine, 'utf-8');
   // It says "Cannot find name 'BalanceIntegrity'". I'll just change it to 'any'.

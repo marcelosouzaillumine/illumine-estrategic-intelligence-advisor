@@ -141,11 +141,11 @@ export const BoardInvestigationWorkspace: React.FC = () => {
           
           <div className="flex gap-2">
             <button
-              onClick={() => handleCrossNavigation('INTELLIGENCE_FABRIC', `/intelligence/${nodeId}`)}
+              onClick={() => handleCrossNavigation('GOVERNANCE_FABRIC', `/governance/${nodeId}`)}
               className="flex items-center gap-2 px-4 py-2 bg-accent hover:bg-accent text-accent text-sm font-display font-medium rounded-[12px] transition-colors border border-accent shadow-sm"
             >
               <Network size={16} />
-              <span>Contexto no Intelligence Fabric</span>
+              <span>Contexto no Governance Fabric</span>
             </button>
             <button
               onClick={() => handleCrossNavigation('WAR_ROOM', `/war-room`)}

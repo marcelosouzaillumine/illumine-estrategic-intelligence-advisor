@@ -64,8 +64,8 @@ export function BenchmarkAdvisoryPanel({ clientId, scenario }: BenchmarkAdvisory
           <div>
             <div className="flex items-center gap-2">
               <h2 className="text-xl font-bold tracking-tight text-white">
-                Benchmark Advisory Intelligence
-              </h2>
+                Benchmark Advisory Governance
+                                            </h2>
               <span className="text-[10px] font-black uppercase tracking-widest px-2 py-0.5 bg-primary border border-primary text-primary rounded-full">
                 BAI™ v1.0
               </span>

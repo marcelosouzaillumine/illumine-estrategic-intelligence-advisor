@@ -8,7 +8,7 @@ export function PlatformRevenueCenterPage() {
     <div className="p-8">
       <PageHeader
         title="Revenue Center"
-        subtitle="Platform Intelligence Workspace"
+        subtitle="Platform Governance Workspace"
         icon={TrendingUp}
       />
       <div className="mt-8">

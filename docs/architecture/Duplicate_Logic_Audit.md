@@ -6,16 +6,16 @@ Mapeamento de implementações paralelas ou duplicação de cálculos críticos 
 **Classificação:** CRITICAL
 
 - `src/core/runtime/ExecutiveExperienceConsistencyEngine.ts`
-- `src/core/runtime/behavioral-intelligence/ExecutiveConsistencyEngine.ts`
+- `src/core/runtime/behavioral-governance/ExecutiveConsistencyEngine.ts`
 - `src/core/runtime/benchmark/BenchmarkReadinessEngine.ts`
 - `src/core/runtime/board-pack/BoardPackGeneratorEngine.ts`
-- `src/core/runtime/causal-intelligence/engines/RootCausePrioritizationEngine.ts`
+- `src/core/runtime/causal-governance/engines/RootCausePrioritizationEngine.ts`
 - `src/core/runtime/compliance/RuntimeComplianceEngine.ts`
 - `src/core/runtime/confidence/InstitutionalConfidenceEngine.ts`
-- `src/core/runtime/decision-intelligence/InstitutionalStabilityEngine.ts`
+- `src/core/runtime/decision-governance/InstitutionalStabilityEngine.ts`
 - `src/core/runtime/esgim/InstitutionalResilienceIndexEngine.ts`
 - `src/core/runtime/executive-command/InstitutionalAlignmentEngine.ts`
-- `src/core/runtime/executive-intelligence-runtime.ts`
+- `src/core/runtime/executive-governance-runtime.ts`
 - `src/core/runtime/governance/bp/BalanceSheetFiduciaryConsistencyEngine.ts`
 - `src/core/runtime/governance/bp/DebtToEquityEngine.ts`
 - `src/core/runtime/governance/bp/InstitutionalPatrimonialClassificationEngine.ts`
@@ -43,7 +43,7 @@ Mapeamento de implementações paralelas ou duplicação de cálculos críticos 
 - `src/core/runtime/operating-pressure/TreasuryErosionEngine.ts`
 - `src/core/runtime/predictive-governance/InstitutionalTrajectoryEngine.ts`
 - `src/core/runtime/predictive-governance/PredictiveGovernanceScoreEngine.ts`
-- `src/core/runtime/predictive-intelligence/StrategicCollapseRiskEngine.ts`
+- `src/core/runtime/predictive-governance/StrategicCollapseRiskEngine.ts`
 - `src/core/runtime/prescriptive-governance/FiduciaryPriorityEngine.ts`
 - `src/core/runtime/recovery-regression/RecoveryStabilityMonitoringEngine.ts`
 - `src/core/runtime/roadmap/GovernanceRoadmapEngine.ts`
@@ -71,19 +71,19 @@ Mapeamento de implementações paralelas ou duplicação de cálculos críticos 
 **Classificação:** REVIEW_REQUIRED
 
 - `src/core/runtime/InstitutionalFinancialThesisEngine.ts`
-- `src/core/runtime/causal-intelligence/InstitutionalCausalityExplorer.ts`
+- `src/core/runtime/causal-governance/InstitutionalCausalityExplorer.ts`
 - `src/core/runtime/consolidated/advisory/ConsolidatedAdvisoryOrchestrator.ts`
 - `src/core/runtime/consolidated/advisory/ConsolidatedNarrativeEngine.ts`
 - `src/core/runtime/constitutional-governance/ConstitutionalGovernanceDashboardEngine.ts`
 - `src/core/runtime/economic-value/InstitutionalExecutiveThesisEngine.ts`
-- `src/core/runtime/executive-intelligence-runtime.ts`
+- `src/core/runtime/executive-governance-runtime.ts`
 - `src/core/runtime/executive-prioritization/BoardTop3DecisionEngine.ts`
 - `src/core/runtime/executive-prioritization/ExecutiveActionPlanEngine.ts`
 - `src/core/runtime/executive-prioritization/InstitutionalPriorityMatrixEngine.ts`
 - `src/core/runtime/executive-timeline/ExecutiveTimelineEngine.ts`
 - `src/core/runtime/governance/bp/BalanceSheetExecutiveNarrativeEngine.ts`
 - `src/core/runtime/governance/bp/BalanceSheetLongitudinalNarrativeGenerator.ts`
-- `src/core/runtime/governance/bp/BalanceSheetPatrimonialIntelligenceEngine.ts`
+- `src/core/runtime/governance/bp/BalanceSheetPatrimonialGovernanceEngine.ts`
 - `src/core/runtime/governance/bp/BoardPatrimonialAdvisoryEngine.ts`
 - `src/core/runtime/institutional-memory/InstitutionalTimelineRuntime.ts`
 - `src/core/runtime/institutional-reporting/InstitutionalBoardPackRuntime.ts`
@@ -119,7 +119,7 @@ Mapeamento de implementações paralelas ou duplicação de cálculos críticos 
 - `src/core/runtime/advisory-narrative/GovernanceNarrativeEngine.ts`
 - `src/core/runtime/board-decision/BoardResolutionEngine.ts`
 - `src/core/runtime/compliance/RuntimeComplianceEngine.ts`
-- `src/core/runtime/executive-intelligence-runtime.ts`
+- `src/core/runtime/executive-governance-runtime.ts`
 - `src/core/runtime/executive-timeline/engines/TrajectoryClassificationEngine.ts`
 - `src/core/runtime/institutional-reporting/InstitutionalBoardPackDocumentRuntime.ts`
 - `src/core/runtime/operating-pressure/InstitutionalPressureRuntime.ts`
@@ -234,55 +234,55 @@ Mapeamento de implementações paralelas ou duplicação de cálculos críticos 
 ### Cálculo de `cumulativeprofile` (6 implementações)
 **Classificação:** REVIEW_REQUIRED
 
-- `src/core/runtime/behavioral-intelligence/BehavioralTrajectoryEngine.ts`
-- `src/core/runtime/behavioral-intelligence/InstitutionalBehaviorProfileEngine.ts`
-- `src/core/runtime/behavioral-intelligence/InstitutionalBehavioralIntelligenceEngine.ts`
-- `src/core/runtime/predictive-intelligence/DeteriorationMomentumEngine.ts`
-- `src/core/runtime/predictive-intelligence/PredictiveGovernanceEngine.ts`
+- `src/core/runtime/behavioral-governance/BehavioralTrajectoryEngine.ts`
+- `src/core/runtime/behavioral-governance/InstitutionalBehaviorProfileEngine.ts`
+- `src/core/runtime/behavioral-governance/InstitutionalBehavioralGovernanceEngine.ts`
+- `src/core/runtime/predictive-governance/DeteriorationMomentumEngine.ts`
+- `src/core/runtime/predictive-governance/PredictiveGovernanceEngine.ts`
 - `src/core/runtime/strategic-simulation/StrategicSimulationEngine.ts`
 
 ### Cálculo de `consistency` (3 implementações)
 **Classificação:** REVIEW_REQUIRED
 
-- `src/core/runtime/behavioral-intelligence/ExecutiveConsistencyEngine.ts`
-- `src/core/runtime/behavioral-intelligence/InstitutionalAdaptationEngine.ts`
-- `src/core/runtime/behavioral-intelligence/InstitutionalBehavioralIntelligenceEngine.ts`
+- `src/core/runtime/behavioral-governance/ExecutiveConsistencyEngine.ts`
+- `src/core/runtime/behavioral-governance/InstitutionalAdaptationEngine.ts`
+- `src/core/runtime/behavioral-governance/InstitutionalBehavioralGovernanceEngine.ts`
 
 ### Cálculo de `fatigue` (6 implementações)
 **Classificação:** REVIEW_REQUIRED
 
-- `src/core/runtime/behavioral-intelligence/GovernanceFatigueEngine.ts`
-- `src/core/runtime/behavioral-intelligence/InstitutionalBehavioralIntelligenceEngine.ts`
-- `src/core/runtime/predictive-intelligence/BehavioralAccelerationEngine.ts`
-- `src/core/runtime/predictive-intelligence/DeteriorationMomentumEngine.ts`
-- `src/core/runtime/predictive-intelligence/PredictiveGovernanceEngine.ts`
+- `src/core/runtime/behavioral-governance/GovernanceFatigueEngine.ts`
+- `src/core/runtime/behavioral-governance/InstitutionalBehavioralGovernanceEngine.ts`
+- `src/core/runtime/predictive-governance/BehavioralAccelerationEngine.ts`
+- `src/core/runtime/predictive-governance/DeteriorationMomentumEngine.ts`
+- `src/core/runtime/predictive-governance/PredictiveGovernanceEngine.ts`
 - `src/core/runtime/strategic-simulation/StrategicSimulationEngine.ts`
 
 ### Cálculo de `adaptation` (2 implementações)
 **Classificação:** REVIEW_REQUIRED
 
-- `src/core/runtime/behavioral-intelligence/InstitutionalAdaptationEngine.ts`
-- `src/core/runtime/behavioral-intelligence/InstitutionalBehavioralIntelligenceEngine.ts`
+- `src/core/runtime/behavioral-governance/InstitutionalAdaptationEngine.ts`
+- `src/core/runtime/behavioral-governance/InstitutionalBehavioralGovernanceEngine.ts`
 
 ### Cálculo de `behavior` (2 implementações)
 **Classificação:** REVIEW_REQUIRED
 
-- `src/core/runtime/behavioral-intelligence/InstitutionalBehavioralIntelligenceEngine.ts`
-- `src/core/runtime/decision-intelligence/InstitutionalDecisionIntelligenceEngine.ts`
+- `src/core/runtime/behavioral-governance/InstitutionalBehavioralGovernanceEngine.ts`
+- `src/core/runtime/decision-governance/InstitutionalDecisionGovernanceEngine.ts`
 
 ### Cálculo de `patterns` (4 implementações)
 **Classificação:** REVIEW_REQUIRED
 
-- `src/core/runtime/behavioral-intelligence/InstitutionalBehavioralIntelligenceEngine.ts`
-- `src/core/runtime/behavioral-intelligence/LongitudinalPatternEngine.ts`
+- `src/core/runtime/behavioral-governance/InstitutionalBehavioralGovernanceEngine.ts`
+- `src/core/runtime/behavioral-governance/LongitudinalPatternEngine.ts`
 - `src/core/runtime/knowledge-graph/WorkflowPatternAnalyzer.ts`
 - `src/components/knowledge-graph/WorkflowPatternPanel.tsx`
 
 ### Cálculo de `maturity` (2 implementações)
 **Classificação:** REVIEW_REQUIRED
 
-- `src/core/runtime/behavioral-intelligence/InstitutionalBehavioralIntelligenceEngine.ts`
-- `src/core/runtime/behavioral-intelligence/InstitutionalMaturityEvolutionEngine.ts`
+- `src/core/runtime/behavioral-governance/InstitutionalBehavioralGovernanceEngine.ts`
+- `src/core/runtime/behavioral-governance/InstitutionalMaturityEvolutionEngine.ts`
 
 ### Cálculo de `advisory` (5 implementações)
 **Classificação:** REVIEW_REQUIRED
@@ -345,8 +345,8 @@ Mapeamento de implementações paralelas ou duplicação de cálculos críticos 
 - `src/core/runtime/esgim/InstitutionalResilienceIndexEngine.ts`
 - `src/core/runtime/journey/GovernanceJourneyEngine.ts`
 - `src/core/runtime/monitoring/GovernanceMonitoringEngine.ts`
-- `src/core/runtime/predictive-intelligence/InstitutionalResilienceEngine.ts`
-- `src/core/runtime/predictive-intelligence/PredictiveGovernanceEngine.ts`
+- `src/core/runtime/predictive-governance/InstitutionalResilienceEngine.ts`
+- `src/core/runtime/predictive-governance/PredictiveGovernanceEngine.ts`
 - `src/core/runtime/reports/ExecutiveBoardReportEngine.ts`
 - `src/components/pages/governance/ESGIMAssessmentPage.tsx`
 - `src/components/pages/governance/GovernanceJourneyPanel.tsx`
@@ -463,7 +463,7 @@ Mapeamento de implementações paralelas ou duplicação de cálculos críticos 
 - `src/core/runtime/board-decision/DecisionLineageTracker.ts`
 - `src/core/runtime/compliance/FiduciaryContracts.ts`
 - `src/core/runtime/compliance/RuntimeComplianceEngine.ts`
-- `src/core/runtime/executive-intelligence-runtime.ts`
+- `src/core/runtime/executive-governance-runtime.ts`
 
 ### Cálculo de `generatedat` (7 implementações)
 **Classificação:** REVIEW_REQUIRED
@@ -590,15 +590,15 @@ Mapeamento de implementações paralelas ou duplicação de cálculos críticos 
 ### Cálculo de `classify` (27 implementações)
 **Classificação:** REVIEW_REQUIRED
 
-- `src/core/runtime/cash-causal-intelligence/CashFlowCausalIntelligenceEngine.ts`
-- `src/core/runtime/cash-causal-intelligence/CashFlowCausalSeverityEngine.ts`
-- `src/core/runtime/cash-intelligence/CashBoardDecisionSupportEngine.ts`
-- `src/core/runtime/cash-intelligence/DFCExecutiveSnapshotEngine.ts`
-- `src/core/runtime/cash-intelligence/DFCFiduciaryPriorityResolver.ts`
-- `src/core/runtime/cash-intelligence/FiduciaryCashIntelligenceRuntime.ts`
-- `src/core/runtime/cash-intelligence/RunwayClassificationEngine.ts`
+- `src/core/runtime/cash-causal-governance/CashFlowCausalGovernanceEngine.ts`
+- `src/core/runtime/cash-causal-governance/CashFlowCausalSeverityEngine.ts`
+- `src/core/runtime/cash-governance/CashBoardDecisionSupportEngine.ts`
+- `src/core/runtime/cash-governance/DFCExecutiveSnapshotEngine.ts`
+- `src/core/runtime/cash-governance/DFCFiduciaryPriorityResolver.ts`
+- `src/core/runtime/cash-governance/FiduciaryCashGovernanceRuntime.ts`
+- `src/core/runtime/cash-governance/RunwayClassificationEngine.ts`
 - `src/core/runtime/dre/OperationalHealthExplainabilityEngine.ts`
-- `src/core/runtime/executive-intelligence-runtime.ts`
+- `src/core/runtime/executive-governance-runtime.ts`
 - `src/core/runtime/executive-timeline/ExecutiveTimelineEngine.ts`
 - `src/core/runtime/executive-timeline/engines/TrajectoryClassificationEngine.ts`
 - `src/core/runtime/governance/bp/InstitutionalPatrimonialClassificationEngine.ts`
@@ -621,32 +621,32 @@ Mapeamento de implementações paralelas ou duplicação de cálculos críticos 
 ### Cálculo de `generatepayload` (4 implementações)
 **Classificação:** REVIEW_REQUIRED
 
-- `src/core/runtime/cash-intelligence/CashExecutiveAdvisoryEngine.ts`
-- `src/core/runtime/cash-intelligence/FiduciaryCashIntelligenceRuntime.ts`
-- `src/core/runtime/scenario-intelligence/InstitutionalScenarioEngine.ts`
-- `src/core/runtime/scenario-intelligence/ScenarioExplainabilityEngine.ts`
+- `src/core/runtime/cash-governance/CashExecutiveAdvisoryEngine.ts`
+- `src/core/runtime/cash-governance/FiduciaryCashGovernanceRuntime.ts`
+- `src/core/runtime/scenario-governance/InstitutionalScenarioEngine.ts`
+- `src/core/runtime/scenario-governance/ScenarioExplainabilityEngine.ts`
 
 ### Cálculo de `buildsnapshot` (2 implementações)
 **Classificação:** REVIEW_REQUIRED
 
-- `src/core/runtime/cash-intelligence/DFCExecutiveSnapshotEngine.ts`
-- `src/core/runtime/cash-intelligence/FiduciaryCashIntelligenceRuntime.ts`
+- `src/core/runtime/cash-governance/DFCExecutiveSnapshotEngine.ts`
+- `src/core/runtime/cash-governance/FiduciaryCashGovernanceRuntime.ts`
 
 ### Cálculo de `generatelineagehash` (6 implementações)
 **Classificação:** REVIEW_REQUIRED
 
-- `src/core/runtime/cash-intelligence/FiduciaryCashIntelligenceRuntime.ts`
+- `src/core/runtime/cash-governance/FiduciaryCashGovernanceRuntime.ts`
 - `src/core/runtime/ios/IOSGovernanceEngine.ts`
 - `src/core/runtime/ios/InstitutionalPulseEngine.ts`
-- `src/core/runtime/patrimonial-intelligence/PatrimonialContextMapper.ts`
-- `src/core/runtime/patrimonial-intelligence/PatrimonialIntelligenceRuntime.ts`
-- `src/core/runtime/treasury-intelligence/TreasuryIntelligenceRuntime.ts`
+- `src/core/runtime/patrimonial-governance/PatrimonialContextMapper.ts`
+- `src/core/runtime/patrimonial-governance/PatrimonialGovernanceRuntime.ts`
+- `src/core/runtime/treasury-governance/TreasuryGovernanceRuntime.ts`
 
 ### Cálculo de `longitudinalscore` (5 implementações)
 **Classificação:** CRITICAL
 
-- `src/core/runtime/cash-intelligence/LongitudinalCashIntelligenceEngine.ts`
-- `src/core/runtime/executive-intelligence-runtime.ts`
+- `src/core/runtime/cash-governance/LongitudinalCashGovernanceEngine.ts`
+- `src/core/runtime/executive-governance-runtime.ts`
 - `src/core/runtime/institutional-reporting/engines/ExecutiveSnapshotEngine.ts`
 - `src/core/runtime/institutional-reporting/engines/InstitutionalBoardPackEndToEnd.spec.ts`
 - `src/components/institutional-reporting/ExecutiveSnapshotSurface.tsx`
@@ -654,10 +654,10 @@ Mapeamento de implementações paralelas ou duplicação de cálculos críticos 
 ### Cálculo de `resiliencescore` (5 implementações)
 **Classificação:** CRITICAL
 
-- `src/core/runtime/cash-intelligence/OperationalSustainabilityRuntime.ts`
+- `src/core/runtime/cash-governance/OperationalSustainabilityRuntime.ts`
 - `src/core/runtime/institutional-resilience/InstitutionalResilienceEngine.ts`
 - `src/core/runtime/operational-governance/OperationalContinuityEngine.ts`
-- `src/core/runtime/scenario-intelligence/InstitutionalStressTestEngine.ts`
+- `src/core/runtime/scenario-governance/InstitutionalStressTestEngine.ts`
 - `src/components/pages/InstitutionalContinuityCockpitPage.tsx`
 
 ### Cálculo de `cashconversion` (2 implementações)
@@ -699,8 +699,8 @@ Mapeamento de implementações paralelas ou duplicação de cálculos críticos 
 ### Cálculo de `build` (13 implementações)
 **Classificação:** REVIEW_REQUIRED
 
-- `src/core/runtime/causal-intelligence/InstitutionalCausalIntelligenceRuntime.ts`
-- `src/core/runtime/causal-intelligence/SurvivabilityDependencyGraph.ts`
+- `src/core/runtime/causal-governance/InstitutionalCausalGovernanceRuntime.ts`
+- `src/core/runtime/causal-governance/SurvivabilityDependencyGraph.ts`
 - `src/core/runtime/financial-context/FinancialRuntimeContextAdapter.ts`
 - `src/core/runtime/institutional-causality/GovernanceImpactChainEngine.ts`
 - `src/core/runtime/institutional-causality/InstitutionalCausalityOrchestrator.ts`
@@ -716,8 +716,8 @@ Mapeamento de implementações paralelas ou duplicação de cálculos críticos 
 ### Cálculo de `determine` (4 implementações)
 **Classificação:** REVIEW_REQUIRED
 
-- `src/core/runtime/causal-intelligence/InstitutionalCausalityExplorer.ts`
-- `src/core/runtime/causal-intelligence/engines/CausalityConfidenceEngine.ts`
+- `src/core/runtime/causal-governance/InstitutionalCausalityExplorer.ts`
+- `src/core/runtime/causal-governance/engines/CausalityConfidenceEngine.ts`
 - `src/core/runtime/executive-timeline/ExecutiveTimelineEngine.ts`
 - `src/core/runtime/executive-timeline/engines/TimelineConfidenceEngine.ts`
 
@@ -751,13 +751,13 @@ Mapeamento de implementações paralelas ou duplicação de cálculos críticos 
 
 - `src/core/runtime/compliance/InstitutionalIntegrityEngine.ts`
 - `src/core/runtime/publication-governance/ExecutivePublicationRuntime.ts`
-- `src/core/runtime/scenario-intelligence/PropagationSimulationEngine.ts`
+- `src/core/runtime/scenario-governance/PropagationSimulationEngine.ts`
 
 ### Cálculo de `minscore` (3 implementações)
 **Classificação:** CRITICAL
 
 - `src/core/runtime/compliance/RuntimeComplianceEngine.ts`
-- `src/core/runtime/decision-intelligence/InstitutionalDecisionIntelligenceEngine.ts`
+- `src/core/runtime/decision-governance/InstitutionalDecisionGovernanceEngine.ts`
 - `src/core/runtime/executive-timeline/engines/TrajectoryClassificationEngine.ts`
 
 ### Cálculo de `generateexecutivereport` (17 implementações)
@@ -765,7 +765,7 @@ Mapeamento de implementações paralelas ou duplicação de cálculos críticos 
 
 - `src/core/runtime/consolidated/ConsolidatedRuntimeOrchestrator.ts`
 - `src/core/runtime/consolidated/EntityRuntimeExecutor.ts`
-- `src/core/runtime/executive-intelligence-runtime.ts`
+- `src/core/runtime/executive-governance-runtime.ts`
 - `src/core/runtime/institutional-reporting/engines/InstitutionalBoardPackEndToEnd.spec.ts`
 - `src/services/FiduciaryRuntimeAdapter.ts`
 - `src/components/executive-command/InstitutionalExecutiveCommandCenter.tsx`
@@ -803,7 +803,7 @@ Mapeamento de implementações paralelas ou duplicação de cálculos críticos 
 **Classificação:** REVIEW_REQUIRED
 
 - `src/core/runtime/constitutional-governance/ExecutiveConstitutionalRuntime.ts`
-- `src/core/runtime/executive-intelligence-runtime.ts`
+- `src/core/runtime/executive-governance-runtime.ts`
 
 ### Cálculo de `reportaxioms` (2 implementações)
 **Classificação:** REVIEW_REQUIRED
@@ -826,8 +826,8 @@ Mapeamento de implementações paralelas ou duplicação de cálculos críticos 
 - `src/core/runtime/institutional-reporting/InstitutionalBoardPackRuntime.ts`
 - `src/core/runtime/scenario/ScenarioFiduciarySimulator.ts`
 - `src/core/runtime/scenario/ScenarioSnapshotBuilder.ts`
-- `src/core/runtime/scenario-intelligence/ScenarioHashFramework.ts`
-- `src/core/runtime/scenario-intelligence/ScenarioImpactRuntime.ts`
+- `src/core/runtime/scenario-governance/ScenarioHashFramework.ts`
+- `src/core/runtime/scenario-governance/ScenarioImpactRuntime.ts`
 - `src/core/runtime/strategic-simulation/ScenarioStressEngine.ts`
 - `src/core/runtime/strategic-simulation/StrategicSimulationEngine.ts`
 - `src/runtime/adapters/FinancialLineageIntegrityAdapter.ts`
@@ -835,22 +835,22 @@ Mapeamento de implementações paralelas ou duplicação de cálculos críticos 
 ### Cálculo de `priority` (4 implementações)
 **Classificação:** REVIEW_REQUIRED
 
-- `src/core/runtime/decision-intelligence/ConstitutionalDecisionRuntime.ts`
-- `src/core/runtime/decision-intelligence/DecisionPrioritizationEngine.ts`
+- `src/core/runtime/decision-governance/ConstitutionalDecisionRuntime.ts`
+- `src/core/runtime/decision-governance/DecisionPrioritizationEngine.ts`
 - `src/core/governance/__tests__/SignalPriorityEngine.test.ts`
 - `src/core/governance/signal-hierarchy/SignalPriorityEngine.ts`
 
 ### Cálculo de `urgency` (2 implementações)
 **Classificação:** REVIEW_REQUIRED
 
-- `src/core/runtime/decision-intelligence/ConstitutionalDecisionRuntime.ts`
-- `src/core/runtime/decision-intelligence/DecisionPrioritizationEngine.ts`
+- `src/core/runtime/decision-governance/ConstitutionalDecisionRuntime.ts`
+- `src/core/runtime/decision-governance/DecisionPrioritizationEngine.ts`
 
 ### Cálculo de `tradeoffs` (6 implementações)
 **Classificação:** REVIEW_REQUIRED
 
-- `src/core/runtime/decision-intelligence/DecisionTradeoffEngine.ts`
-- `src/core/runtime/decision-intelligence/InstitutionalDecisionIntelligenceEngine.ts`
+- `src/core/runtime/decision-governance/DecisionTradeoffEngine.ts`
+- `src/core/runtime/decision-governance/InstitutionalDecisionGovernanceEngine.ts`
 - `src/core/runtime/executive/ExecutiveDecisionEngine.ts`
 - `src/core/runtime/executive/TradeOffAnalysisEngine.ts`
 - `src/core/runtime/strategic-simulation/GovernanceTradeoffAnalyzer.ts`
@@ -859,37 +859,37 @@ Mapeamento de implementações paralelas ou duplicação de cálculos críticos 
 ### Cálculo de `riskscore` (3 implementações)
 **Classificação:** CRITICAL
 
-- `src/core/runtime/decision-intelligence/EarlyWarningEngine.ts`
-- `src/core/runtime/decision-intelligence/GovernanceDriftDetectionEngine.ts`
+- `src/core/runtime/decision-governance/EarlyWarningEngine.ts`
+- `src/core/runtime/decision-governance/GovernanceDriftDetectionEngine.ts`
 - `src/core/runtime/early-warning/EarlyWarningSignalEngine.ts`
 
 ### Cálculo de `runwayimpactassessment` (2 implementações)
 **Classificação:** REVIEW_REQUIRED
 
-- `src/core/runtime/decision-intelligence/EarlyWarningEngine.ts`
-- `src/core/runtime/decision-intelligence/InstitutionalStabilityEngine.ts`
+- `src/core/runtime/decision-governance/EarlyWarningEngine.ts`
+- `src/core/runtime/decision-governance/InstitutionalStabilityEngine.ts`
 
 ### Cálculo de `fcoimpactassessment` (3 implementações)
 **Classificação:** REVIEW_REQUIRED
 
-- `src/core/runtime/decision-intelligence/EarlyWarningEngine.ts`
-- `src/core/runtime/decision-intelligence/GovernanceDriftDetectionEngine.ts`
-- `src/core/runtime/decision-intelligence/InstitutionalStabilityEngine.ts`
+- `src/core/runtime/decision-governance/EarlyWarningEngine.ts`
+- `src/core/runtime/decision-governance/GovernanceDriftDetectionEngine.ts`
+- `src/core/runtime/decision-governance/InstitutionalStabilityEngine.ts`
 
 ### Cálculo de `accountabilityscore` (5 implementações)
 **Classificação:** CRITICAL
 
-- `src/core/runtime/decision-intelligence/EarlyWarningEngine.ts`
-- `src/core/runtime/decision-intelligence/ExecutiveAccountabilityEngine.ts`
-- `src/core/runtime/decision-intelligence/InstitutionalStabilityEngine.ts`
+- `src/core/runtime/decision-governance/EarlyWarningEngine.ts`
+- `src/core/runtime/decision-governance/ExecutiveAccountabilityEngine.ts`
+- `src/core/runtime/decision-governance/InstitutionalStabilityEngine.ts`
 - `src/runtime/adapters/ExecutiveExecutionAdapter.ts`
 - `src/components/pages/governance/ExecutiveExecutionCenter.tsx`
 
 ### Cálculo de `basescore` (5 implementações)
 **Classificação:** CRITICAL
 
-- `src/core/runtime/decision-intelligence/ExecutiveAccountabilityEngine.ts`
-- `src/core/runtime/decision-intelligence/InstitutionalBehavioralPatternsEngine.ts`
+- `src/core/runtime/decision-governance/ExecutiveAccountabilityEngine.ts`
+- `src/core/runtime/decision-governance/InstitutionalBehavioralPatternsEngine.ts`
 - `src/core/runtime/institutional-memory/TemporalGovernanceScoring.ts`
 - `src/core/runtime/knowledge/GovernanceKnowledgeEngine.ts`
 - `src/components/scenario-simulation/GovernanceProjectionTimeline.tsx`
@@ -897,8 +897,8 @@ Mapeamento de implementações paralelas ou duplicação de cálculos críticos 
 ### Cálculo de `trajectory` (5 implementações)
 **Classificação:** REVIEW_REQUIRED
 
-- `src/core/runtime/decision-intelligence/GovernanceTrajectoryEngine.ts`
-- `src/core/runtime/decision-intelligence/InstitutionalDecisionIntelligenceEngine.ts`
+- `src/core/runtime/decision-governance/GovernanceTrajectoryEngine.ts`
+- `src/core/runtime/decision-governance/InstitutionalDecisionGovernanceEngine.ts`
 - `src/core/runtime/predictive-governance/InstitutionalTrajectoryEngine.ts`
 - `src/core/runtime/predictive-governance/PredictiveGovernanceScoreEngine.ts`
 - `src/hooks/usePredictiveGovernance.ts`
@@ -906,46 +906,46 @@ Mapeamento de implementações paralelas ou duplicação de cálculos críticos 
 ### Cálculo de `finalscore` (2 implementações)
 **Classificação:** CRITICAL
 
-- `src/core/runtime/decision-intelligence/InstitutionalBehavioralPatternsEngine.ts`
+- `src/core/runtime/decision-governance/InstitutionalBehavioralPatternsEngine.ts`
 - `src/core/runtime/institutional-memory/TemporalGovernanceScoring.ts`
 
 ### Cálculo de `prediction` (2 implementações)
 **Classificação:** REVIEW_REQUIRED
 
-- `src/core/runtime/decision-intelligence/InstitutionalDecisionIntelligenceEngine.ts`
-- `src/core/runtime/predictive-intelligence/PredictiveGovernanceEngine.ts`
+- `src/core/runtime/decision-governance/InstitutionalDecisionGovernanceEngine.ts`
+- `src/core/runtime/predictive-governance/PredictiveGovernanceEngine.ts`
 
 ### Cálculo de `stress` (4 implementações)
 **Classificação:** REVIEW_REQUIRED
 
-- `src/core/runtime/decision-intelligence/InstitutionalDecisionIntelligenceEngine.ts`
-- `src/core/runtime/decision-intelligence/StrategicStressEngine.ts`
+- `src/core/runtime/decision-governance/InstitutionalDecisionGovernanceEngine.ts`
+- `src/core/runtime/decision-governance/StrategicStressEngine.ts`
 - `src/core/runtime/scenario/PredictiveStressEngine.ts`
 - `src/core/runtime/scenario/ScenarioPropagationRuntime.ts`
 
 ### Cálculo de `risk` (3 implementações)
 **Classificação:** REVIEW_REQUIRED
 
-- `src/core/runtime/decision-intelligence/InstitutionalRiskMatrixEngine.ts`
+- `src/core/runtime/decision-governance/InstitutionalRiskMatrixEngine.ts`
 - `src/core/runtime/governance/risk/EnterpriseRiskEngine.ts`
 - `src/core/runtime/governance/risk/RiskMatrixEngine.ts`
 
 ### Cálculo de `resilienceassessment` (2 implementações)
 **Classificação:** REVIEW_REQUIRED
 
-- `src/core/runtime/decision-intelligence/InstitutionalStabilityEngine.ts`
-- `src/core/runtime/decision-intelligence/InstitutionalStabilityTypes.ts`
+- `src/core/runtime/decision-governance/InstitutionalStabilityEngine.ts`
+- `src/core/runtime/decision-governance/InstitutionalStabilityTypes.ts`
 
 ### Cálculo de `financialscore` (2 implementações)
 **Classificação:** CRITICAL
 
-- `src/core/runtime/decision-intelligence/InstitutionalSurvivabilityEngine.ts`
+- `src/core/runtime/decision-governance/InstitutionalSurvivabilityEngine.ts`
 - `src/core/runtime/prescriptive-governance/ExecutionCapacityConstraintEngine.ts`
 
 ### Cálculo de `governancescore` (4 implementações)
 **Classificação:** CRITICAL
 
-- `src/core/runtime/decision-intelligence/InstitutionalSurvivabilityEngine.ts`
+- `src/core/runtime/decision-governance/InstitutionalSurvivabilityEngine.ts`
 - `src/core/runtime/institutional-reporting/engines/GovernanceReportingEngine.ts`
 - `src/core/runtime/prescriptive-governance/ExecutionCapacityConstraintEngine.ts`
 - `src/runtime/adapters/InstitutionalMemoryAdapter.ts`
@@ -953,13 +953,13 @@ Mapeamento de implementações paralelas ou duplicação de cálculos críticos 
 ### Cálculo de `structuralscore` (2 implementações)
 **Classificação:** CRITICAL
 
-- `src/core/runtime/decision-intelligence/InstitutionalSurvivabilityEngine.ts`
+- `src/core/runtime/decision-governance/InstitutionalSurvivabilityEngine.ts`
 - `src/core/runtime/strategic-simulation/GovernanceImpactSimulationEngine.ts`
 
 ### Cálculo de `eqsscore` (2 implementações)
 **Classificação:** CRITICAL
 
-- `src/core/runtime/decision-intelligence/InstitutionalSurvivabilityEngine.ts`
+- `src/core/runtime/decision-governance/InstitutionalSurvivabilityEngine.ts`
 - `src/runtime/adapters/LegacyDFCAdapter.ts`
 
 ### Cálculo de `sector` (2 implementações)
@@ -991,13 +991,13 @@ Mapeamento de implementações paralelas ou duplicação de cálculos críticos 
 
 - `src/core/runtime/dre/CrossStatementIsolationValidator.ts`
 - `src/core/runtime/dre/DREBoardAdvisoryEngine.ts`
-- `src/core/runtime/executive-intelligence-runtime.ts`
+- `src/core/runtime/executive-governance-runtime.ts`
 
 ### Cálculo de `generateexecutiveadvisory` (3 implementações)
 **Classificação:** REVIEW_REQUIRED
 
 - `src/core/runtime/dre/DREBoardAdvisoryEngine.ts`
-- `src/core/runtime/executive-intelligence-runtime.ts`
+- `src/core/runtime/executive-governance-runtime.ts`
 - `src/hooks/useExecutiveAdvisory.ts`
 
 ### Cálculo de `valuecreationassessment` (3 implementações)
@@ -1011,7 +1011,7 @@ Mapeamento de implementações paralelas ou duplicação de cálculos críticos 
 **Classificação:** REVIEW_REQUIRED
 
 - `src/core/runtime/dre/DREBoardDecisionSupportEngine.ts`
-- `src/core/runtime/executive-intelligence-runtime.ts`
+- `src/core/runtime/executive-governance-runtime.ts`
 
 ### Cálculo de `determinepredictiveconfidence` (2 implementações)
 **Classificação:** REVIEW_REQUIRED
@@ -1084,16 +1084,16 @@ Mapeamento de implementações paralelas ou duplicação de cálculos críticos 
 ### Cálculo de `buildmemory` (2 implementações)
 **Classificação:** REVIEW_REQUIRED
 
-- `src/core/runtime/executive-intelligence-runtime.ts`
+- `src/core/runtime/executive-governance-runtime.ts`
 - `src/core/runtime/institutional-memory/InstitutionalMemoryEngine.ts`
 
 ### Cálculo de `buildbphierarchy` (10 implementações)
 **Classificação:** REVIEW_REQUIRED
 
-- `src/core/runtime/executive-intelligence-runtime.ts`
+- `src/core/runtime/executive-governance-runtime.ts`
 - `src/core/runtime/institutional-context/InstitutionalContextEngine.ts`
 - `src/services/aiBoardReportService.ts`
-- `src/services/intelligenceEngine.ts`
+- `src/services/governanceEngine.ts`
 - `src/runtime/adapters/LegacyDFCAdapter.ts`
 - `src/components/modals/ImportFinancialModal.tsx`
 - `src/components/modals/ManualFinancialModal.tsx`
@@ -1104,7 +1104,7 @@ Mapeamento de implementações paralelas ou duplicação de cálculos críticos 
 ### Cálculo de `financialmetrics` (4 implementações)
 **Classificação:** REVIEW_REQUIRED
 
-- `src/core/runtime/executive-intelligence-runtime.ts`
+- `src/core/runtime/executive-governance-runtime.ts`
 - `src/services/aiBoardReportService.ts`
 - `src/runtime/adapters/LegacyFinancialAdapter.ts`
 - `src/hooks/useExecutiveAdvisory.ts`
@@ -1112,7 +1112,7 @@ Mapeamento de implementações paralelas ou duplicação de cálculos críticos 
 ### Cálculo de `mastercausality` (4 implementações)
 **Classificação:** REVIEW_REQUIRED
 
-- `src/core/runtime/executive-intelligence-runtime.ts`
+- `src/core/runtime/executive-governance-runtime.ts`
 - `src/services/aiBoardReportService.ts`
 - `src/runtime/adapters/LegacyFinancialAdapter.ts`
 - `src/hooks/useExecutiveAdvisory.ts`
@@ -1120,13 +1120,13 @@ Mapeamento de implementações paralelas ou duplicação de cálculos críticos 
 ### Cálculo de `scoreestrutura` (2 implementações)
 **Classificação:** CRITICAL
 
-- `src/core/runtime/executive-intelligence-runtime.ts`
+- `src/core/runtime/executive-governance-runtime.ts`
 - `src/runtime/adapters/LegacyDREAdapter.ts`
 
 ### Cálculo de `drecascade` (7 implementações)
 **Classificação:** REVIEW_REQUIRED
 
-- `src/core/runtime/executive-intelligence-runtime.ts`
+- `src/core/runtime/executive-governance-runtime.ts`
 - `src/runtime/adapters/LegacyDFCAdapter.ts`
 - `src/runtime/adapters/LegacyDREAdapter.ts`
 - `src/components/modals/ManualFinancialModal.tsx`
@@ -1137,86 +1137,86 @@ Mapeamento de implementações paralelas ou duplicação de cálculos críticos 
 ### Cálculo de `generatedreinsights` (2 implementações)
 **Classificação:** REVIEW_REQUIRED
 
-- `src/core/runtime/executive-intelligence-runtime.ts`
+- `src/core/runtime/executive-governance-runtime.ts`
 - `src/runtime/adapters/LegacyDREAdapter.ts`
 
 ### Cálculo de `economicvalueassessment` (2 implementações)
 **Classificação:** REVIEW_REQUIRED
 
-- `src/core/runtime/executive-intelligence-runtime.ts`
+- `src/core/runtime/executive-governance-runtime.ts`
 - `src/components/pages/DREPage.tsx`
 
 ### Cálculo de `earningsqualityassessment` (2 implementações)
 **Classificação:** REVIEW_REQUIRED
 
-- `src/core/runtime/executive-intelligence-runtime.ts`
+- `src/core/runtime/executive-governance-runtime.ts`
 - `src/components/pages/DREPage.tsx`
 
 ### Cálculo de `confidenceassessment` (2 implementações)
 **Classificação:** REVIEW_REQUIRED
 
-- `src/core/runtime/executive-intelligence-runtime.ts`
+- `src/core/runtime/executive-governance-runtime.ts`
 - `src/components/pages/DREPage.tsx`
 
 ### Cálculo de `scoremargembruta` (2 implementações)
 **Classificação:** CRITICAL
 
-- `src/core/runtime/executive-intelligence-runtime.ts`
+- `src/core/runtime/executive-governance-runtime.ts`
 - `src/runtime/adapters/LegacyDREAdapter.ts`
 
 ### Cálculo de `scorecmv` (2 implementações)
 **Classificação:** CRITICAL
 
-- `src/core/runtime/executive-intelligence-runtime.ts`
+- `src/core/runtime/executive-governance-runtime.ts`
 - `src/runtime/adapters/LegacyDREAdapter.ts`
 
 ### Cálculo de `scoremargemebitda` (2 implementações)
 **Classificação:** CRITICAL
 
-- `src/core/runtime/executive-intelligence-runtime.ts`
+- `src/core/runtime/executive-governance-runtime.ts`
 - `src/runtime/adapters/LegacyDREAdapter.ts`
 
 ### Cálculo de `scoremargemop` (2 implementações)
 **Classificação:** CRITICAL
 
-- `src/core/runtime/executive-intelligence-runtime.ts`
+- `src/core/runtime/executive-governance-runtime.ts`
 - `src/runtime/adapters/LegacyDREAdapter.ts`
 
 ### Cálculo de `scorecobertura` (2 implementações)
 **Classificação:** CRITICAL
 
-- `src/core/runtime/executive-intelligence-runtime.ts`
+- `src/core/runtime/executive-governance-runtime.ts`
 - `src/runtime/adapters/LegacyDREAdapter.ts`
 
 ### Cálculo de `scorecaixa` (2 implementações)
 **Classificação:** CRITICAL
 
-- `src/core/runtime/executive-intelligence-runtime.ts`
+- `src/core/runtime/executive-governance-runtime.ts`
 - `src/runtime/adapters/LegacyDREAdapter.ts`
 
 ### Cálculo de `scoredivida` (2 implementações)
 **Classificação:** CRITICAL
 
-- `src/core/runtime/executive-intelligence-runtime.ts`
+- `src/core/runtime/executive-governance-runtime.ts`
 - `src/runtime/adapters/LegacyDREAdapter.ts`
 
 ### Cálculo de `patrimonialstructure` (3 implementações)
 **Classificação:** REVIEW_REQUIRED
 
-- `src/core/runtime/executive-intelligence-runtime.ts`
-- `src/core/runtime/patrimonial-intelligence/PatrimonialIntelligenceRuntime.test.ts`
-- `src/core/runtime/patrimonial-intelligence/PatrimonialIntelligenceRuntime.ts`
+- `src/core/runtime/executive-governance-runtime.ts`
+- `src/core/runtime/patrimonial-governance/PatrimonialGovernanceRuntime.test.ts`
+- `src/core/runtime/patrimonial-governance/PatrimonialGovernanceRuntime.ts`
 
 ### Cálculo de `buildmatrix` (2 implementações)
 **Classificação:** REVIEW_REQUIRED
 
-- `src/core/runtime/executive-intelligence-runtime.ts`
+- `src/core/runtime/executive-governance-runtime.ts`
 - `src/core/runtime/integrity/ExecutiveActionMatrixEngine.ts`
 
 ### Cálculo de `indicators` (4 implementações)
 **Classificação:** REVIEW_REQUIRED
 
-- `src/core/runtime/executive-intelligence-runtime.ts`
+- `src/core/runtime/executive-governance-runtime.ts`
 - `src/core/runtime/governance/bp/BalanceSheetFinancialMetricsEngine.ts`
 - `src/core/runtime/governance/bp/PatrimonialTrendEngine.ts`
 - `src/components/pages/BalanceSheetPage.tsx`
@@ -1224,13 +1224,13 @@ Mapeamento de implementações paralelas ou duplicação de cálculos críticos 
 ### Cálculo de `generateinterpretations` (2 implementações)
 **Classificação:** REVIEW_REQUIRED
 
-- `src/core/runtime/executive-intelligence-runtime.ts`
+- `src/core/runtime/executive-governance-runtime.ts`
 - `src/core/runtime/governance/bp/PatrimonialExecutiveInterpretationEngine.ts`
 
 ### Cálculo de `trend` (4 implementações)
 **Classificação:** REVIEW_REQUIRED
 
-- `src/core/runtime/executive-intelligence-runtime.ts`
+- `src/core/runtime/executive-governance-runtime.ts`
 - `src/core/runtime/governance/bp/PatrimonialTrendEngine.ts`
 - `src/core/runtime/semantic-consistency/ConsistencyTrendEngine.ts`
 - `src/hooks/useSemanticConsistency.ts`
@@ -1238,13 +1238,13 @@ Mapeamento de implementações paralelas ou duplicação de cálculos críticos 
 ### Cálculo de `generatelineage` (2 implementações)
 **Classificação:** REVIEW_REQUIRED
 
-- `src/core/runtime/executive-intelligence-runtime.ts`
+- `src/core/runtime/executive-governance-runtime.ts`
 - `src/core/runtime/governance/bp/BalanceSheetSummaryLineageAudit.ts`
 
 ### Cálculo de `confidencescore` (3 implementações)
 **Classificação:** CRITICAL
 
-- `src/core/runtime/executive-intelligence-runtime.ts`
+- `src/core/runtime/executive-governance-runtime.ts`
 - `src/core/runtime/governance/bp/PatrimonialGovernanceConsistencyEngine.ts`
 - `src/core/runtime/governance/fiduciary/DecisionFiduciaryValidator.ts`
 
@@ -1325,7 +1325,7 @@ Mapeamento de implementações paralelas ou duplicação de cálculos críticos 
 **Classificação:** REVIEW_REQUIRED
 
 - `src/core/runtime/institutional-context/ContextualConfidenceMatrix.ts`
-- `src/core/runtime/institutional-context/SegmentIntelligenceEngine.ts`
+- `src/core/runtime/institutional-context/SegmentGovernanceEngine.ts`
 
 ### Cálculo de `buildtimeline` (3 implementações)
 **Classificação:** REVIEW_REQUIRED
@@ -1530,16 +1530,16 @@ Mapeamento de implementações paralelas ou duplicação de cálculos críticos 
 **Classificação:** REVIEW_REQUIRED
 
 - `src/core/runtime/predictive-governance/GovernanceMomentumEngine.ts`
-- `src/core/runtime/predictive-intelligence/DeteriorationMomentumEngine.ts`
-- `src/core/runtime/predictive-intelligence/PredictiveGovernanceEngine.ts`
+- `src/core/runtime/predictive-governance/DeteriorationMomentumEngine.ts`
+- `src/core/runtime/predictive-governance/PredictiveGovernanceEngine.ts`
 - `src/hooks/usePredictiveGovernance.ts`
 
 ### Cálculo de `generatewarnings` (4 implementações)
 **Classificação:** REVIEW_REQUIRED
 
 - `src/core/runtime/predictive-governance/InstitutionalEarlyWarningEngine.ts`
-- `src/core/runtime/predictive-intelligence/InstitutionalEarlyWarningEngine.ts`
-- `src/core/runtime/predictive-intelligence/PredictiveGovernanceEngine.ts`
+- `src/core/runtime/predictive-governance/InstitutionalEarlyWarningEngine.ts`
+- `src/core/runtime/predictive-governance/PredictiveGovernanceEngine.ts`
 - `src/hooks/usePredictiveGovernance.ts`
 
 ### Cálculo de `generaterecommendations` (2 implementações)
@@ -1558,38 +1558,38 @@ Mapeamento de implementações paralelas ou duplicação de cálculos críticos 
 ### Cálculo de `acceleration` (2 implementações)
 **Classificação:** REVIEW_REQUIRED
 
-- `src/core/runtime/predictive-intelligence/BehavioralAccelerationEngine.ts`
-- `src/core/runtime/predictive-intelligence/PredictiveGovernanceEngine.ts`
+- `src/core/runtime/predictive-governance/BehavioralAccelerationEngine.ts`
+- `src/core/runtime/predictive-governance/PredictiveGovernanceEngine.ts`
 
 ### Cálculo de `rupture` (2 implementações)
 **Classificação:** REVIEW_REQUIRED
 
-- `src/core/runtime/predictive-intelligence/GovernanceRuptureEngine.ts`
-- `src/core/runtime/predictive-intelligence/PredictiveGovernanceEngine.ts`
+- `src/core/runtime/predictive-governance/GovernanceRuptureEngine.ts`
+- `src/core/runtime/predictive-governance/PredictiveGovernanceEngine.ts`
 
 ### Cálculo de `survivabilityscores` (2 implementações)
 **Classificação:** CRITICAL
 
-- `src/core/runtime/predictive-intelligence/PredictiveGovernanceEngine.ts`
-- `src/core/runtime/predictive-intelligence/SurvivabilityProjectionEngine.ts`
+- `src/core/runtime/predictive-governance/PredictiveGovernanceEngine.ts`
+- `src/core/runtime/predictive-governance/SurvivabilityProjectionEngine.ts`
 
 ### Cálculo de `forecast` (2 implementações)
 **Classificação:** REVIEW_REQUIRED
 
-- `src/core/runtime/predictive-intelligence/PredictiveGovernanceEngine.ts`
+- `src/core/runtime/predictive-governance/PredictiveGovernanceEngine.ts`
 - `src/components/pages/ExecutiveScenarioLabPage.tsx`
 
 ### Cálculo de `assessrecovery` (2 implementações)
 **Classificação:** REVIEW_REQUIRED
 
-- `src/core/runtime/predictive-intelligence/PredictiveGovernanceEngine.ts`
-- `src/core/runtime/predictive-intelligence/RecoveryViabilityEngine.ts`
+- `src/core/runtime/predictive-governance/PredictiveGovernanceEngine.ts`
+- `src/core/runtime/predictive-governance/RecoveryViabilityEngine.ts`
 
 ### Cálculo de `collapserisk` (2 implementações)
 **Classificação:** REVIEW_REQUIRED
 
-- `src/core/runtime/predictive-intelligence/PredictiveGovernanceEngine.ts`
-- `src/core/runtime/predictive-intelligence/StrategicCollapseRiskEngine.ts`
+- `src/core/runtime/predictive-governance/PredictiveGovernanceEngine.ts`
+- `src/core/runtime/predictive-governance/StrategicCollapseRiskEngine.ts`
 
 ### Cálculo de `generateagenda` (2 implementações)
 **Classificação:** REVIEW_REQUIRED
@@ -1637,8 +1637,8 @@ Mapeamento de implementações paralelas ou duplicação de cálculos críticos 
 **Classificação:** REVIEW_REQUIRED
 
 - `src/core/runtime/reality-validation/IntercompanyComplexitySimulator.ts`
-- `src/core/runtime/scenario-intelligence/InstitutionalScenarioEngine.ts`
-- `src/core/runtime/scenario-intelligence/PropagationSimulationEngine.ts`
+- `src/core/runtime/scenario-governance/InstitutionalScenarioEngine.ts`
+- `src/core/runtime/scenario-governance/PropagationSimulationEngine.ts`
 - `src/core/runtime/strategic-simulation/ExecutiveScenarioEngine.ts`
 - `src/core/runtime/strategic-simulation/StrategicDecisionSimulator.ts`
 - `src/core/runtime/strategic-simulation/StrategicSimulationEngine.ts`

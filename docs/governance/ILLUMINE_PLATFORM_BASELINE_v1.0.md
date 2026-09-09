@@ -19,19 +19,19 @@ Os seguintes artefatos e sistemas compõem a Baseline v1.0 e estão protegidos c
 5. **Canonical Component Registry**: A biblioteca visual base (Design System).
 6. **Domain Certified Dataset Standard**: Os contratos de domínio de dados.
 7. **Enterprise Knowledge Fabric**: O tecido que amarra os contextos organizacionais.
-8. **Executive Intelligence Architecture**: A camada de integração e orquestração de recomendação, decisão e aprendizado.
+8. **Executive Governance Architecture**: A camada de integração e orquestração de recomendação, decisão e aprendizado.
 9. **Architecture Decision Records (ADRs)**: O histórico canônico de decisões.
 
 ---
 
-## 3. A Nova Fronteira: Intelligence Quality™
+## 3. A Nova Fronteira: Governance Quality™
 
 Com a infraestrutura congelada e auto-regulada pelo CAE™, a energia da plataforma direciona-se 100% para a **Evolução de Produto**. A arquitetura não é mais a restrição; a qualidade da inteligência passa a ser o único foco.
 
 **Roadmap Imediato de Produto:**
-- **Wave 15 — Executive Intelligence Expansion**: Expansão da inteligência nos domínios. Aumentar a profundidade analítica, reduzir recomendações genéricas e personalizar por papel executivo.
+- **Wave 15 — Executive Governance Expansion**: Expansão da inteligência nos domínios. Aumentar a profundidade analítica, reduzir recomendações genéricas e personalizar por papel executivo.
 - **Wave 16 — Multi-Agent Collaboration**: Agentes debatem, validam e escalam resoluções conjuntamente.
 - **Wave 18 — Trust & Governance**: Tangibilizar a confiança institucional usando a base do CAE.
-- **Wave 20 — Illumine Intelligence Network™**: Conexão total do ecossistema.
+- **Wave 20 — Illumine Governance Network™**: Conexão total do ecossistema.
 
 > *A fundação está pronta. O foco agora é construir o edifício estratégico mais inteligente do mercado.*

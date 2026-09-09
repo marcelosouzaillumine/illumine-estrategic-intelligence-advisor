@@ -979,6 +979,6 @@ Solucoes:
 ---
 
 *Checklist Version: 1.0*
-*Data Intelligence Pack - Health Score Validation*
+*Data Governance Pack - Health Score Validation*
 *Primary Agent: Nick Mehta*
 *Secondary Agent: Peter Fader*

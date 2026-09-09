@@ -65,12 +65,12 @@ export async function generateInstitutionalExecutiveReport(
     const lucroLiquidoMock = 0;
     const industryMock = clientData?.industry || 'Indefinido';
     const metrics = calculateFinancialMetrics(bpSummaryMock, ebitdaMock, lucroLiquidoMock, industryMock);
-    baseAudit.enginesExecuted?.push('FinancialIntelligenceEngine');
+    baseAudit.enginesExecuted?.push('FinancialGovernanceEngine');
 
     // 3. BusinessModelIntelligenceEngine
     onProgress('Inferindo taxonomia do modelo de negócios...');
     const identity = inferBusinessIdentity(industryMock, financialData.length, bpSummaryMock, [], clientData?.clientValidation);
-    baseAudit.enginesExecuted?.push('BusinessModelIntelligenceEngine');
+    baseAudit.enginesExecuted?.push('BusinessModelGovernanceEngine');
 
     // Construção da Série Histórica (Temporal Causality Layer)
     const historicalData = financialData.map(d => {
@@ -151,7 +151,7 @@ export function orchestrateSynchronousIntelligence(
   const result = enforceInstitutionalRuntime(
     { metrics, scores: updatedScores, causalInsights: causalInsights }, 
     {
-      enginesExecuted: ['DataValidationEngine', 'FinancialIntelligenceEngine', 'BusinessModelIntelligenceEngine', 'ExecutiveCausalityEngine', 'StrategicRiskEngine', 'BoardSynthesisEngine'],
+      enginesExecuted: ['DataValidationEngine', 'FinancialGovernanceEngine', 'BusinessModelGovernanceEngine', 'ExecutiveCausalityEngine', 'StrategicRiskEngine', 'BoardSynthesisEngine'],
       businessModel: identity.modeloDeNegocio,
       score: updatedScores.resilienciaGlobal
     }
@@ -171,7 +171,7 @@ export function orchestrateSynchronousIntelligence(
 export async function orchestrateAdvisoryNarrative(params: any): Promise<{ narrative: string, auditTrail: InstitutionalAuditTrail }> {
   let narrative = await generateAdvisoryParecer(params);
   const { sanitizedOutput, auditTrail } = enforceInstitutionalRuntime(narrative, {
-    enginesExecuted: ['FinancialIntelligenceEngine', 'BusinessModelIntelligenceEngine', 'ExecutiveCausalityEngine']
+    enginesExecuted: ['FinancialGovernanceEngine', 'BusinessModelGovernanceEngine', 'ExecutiveCausalityEngine']
   });
   return { narrative: sanitizedOutput, auditTrail };
 }
@@ -187,7 +187,7 @@ export async function orchestrateGovernanceNarrative(params: any): Promise<{ nar
 export async function orchestrateCfoParecer(params: any): Promise<{ narrative: string, auditTrail: InstitutionalAuditTrail }> {
   let narrative = await generateAdvisoryParecer(params);
   const { sanitizedOutput, auditTrail } = enforceInstitutionalRuntime(narrative, {
-    enginesExecuted: ['FinancialIntelligenceEngine', 'ExecutiveCausalityEngine']
+    enginesExecuted: ['FinancialGovernanceEngine', 'ExecutiveCausalityEngine']
   });
   return { narrative: sanitizedOutput, auditTrail };
 }

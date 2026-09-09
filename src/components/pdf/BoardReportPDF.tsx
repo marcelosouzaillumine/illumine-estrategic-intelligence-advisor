@@ -33,7 +33,7 @@ export const A4Page = ({ children, isCover = false }: { children: React.ReactNod
     {children}
     {!isCover && (
       <div className="absolute bottom-6 left-10 right-10 flex justify-between items-center border-t border-border pt-2">
-        <span className="text-[9px] font-bold text-[var(--color-state-healthy)] tracking-widest uppercase">Illumine Corporate Intelligence</span>
+        <span className="text-[9px] font-bold text-[var(--color-state-healthy)] tracking-widest uppercase">Illumine Corporate Governance</span>
         <span className="text-[8px] text-muted-foreground uppercase">BOARD ADVISORY REPORT</span>
       </div>
     )}
@@ -69,7 +69,7 @@ export const BoardReportPDF = forwardRef(({ data, companyName, reportDate, tempo
           </div>
 
           <div className="z-10 pt-10 border-t border-white/10">
-             <h2 className="text-2xl font-bold tracking-tight text-white">Illumine Corporate Intelligence</h2>
+             <h2 className="text-2xl font-bold tracking-tight text-white">Illumine Corporate Governance</h2>
              <p className="text-xs text-slate-400 font-medium mt-1">{translate('boardpack.pdf.powered_by')}</p>
           </div>
         </div>

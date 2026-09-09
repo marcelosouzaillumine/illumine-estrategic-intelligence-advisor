@@ -10,7 +10,7 @@ O objetivo é garantir a transição sem perda de contexto funcional e prover cl
 | :--- | :--- | :--- | :--- |
 | **Financeiro** (`/finance/dre`) | CFO Office > Financial Performance | `FINANCIAL_DASHBOARD_VIEW` | ✅ Migrado |
 | **DRE** (`/finance/dre`) | CFO Office > Financial Performance | `FINANCIAL_DASHBOARD_VIEW` | ✅ Migrado |
-| **Fluxo de Caixa** (`/finance/cash-flow`) | CFO Office > Cash Intelligence | `FINANCIAL_ENTRIES_VIEW` | ✅ Migrado |
+| **Fluxo de Caixa** (`/finance/cash-flow`) | CFO Office > Cash Governance | `FINANCIAL_ENTRIES_VIEW` | ✅ Migrado |
 | **Relatórios** (`/finance/modeling`) | CFO Office > Executive Insights (Planning) | `FINANCIAL_BUDGET_MANAGE` | 🔄 Híbrido |
 | **Clientes** (`/risk/compliance`) | Advisor Office > Client Portfolio | `TENANT_MANAGE` | ⏳ Planejado |
 | **Configurações** (`/admin/settings`) | Risk/CEO Office > Administration | `SYSTEM_ADMINISTRATION` | ⏳ Planejado |
@@ -23,4 +23,4 @@ O objetivo é garantir a transição sem perda de contexto funcional e prover cl
 ## Progresso da Migração
 - O Menu Legado foi formalmente substituído pelo Executive Workspace Sidebar.
 - Nenhuma dependência direta de SDK (Firebase) resiste na camada de UI.
-- O Workspace adota hierarquia formal: `Office -> Capability -> Decision Surface -> Intelligence -> Action`.
+- O Workspace adota hierarquia formal: `Office -> Capability -> Decision Surface -> Governance -> Action`.

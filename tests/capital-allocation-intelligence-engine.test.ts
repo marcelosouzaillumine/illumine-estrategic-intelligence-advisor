@@ -10,7 +10,7 @@ import { ValuationIntelligence } from "../src/lib/valuation-intelligence-types";
 import { ESGIntelligence } from "../src/lib/esg-intelligence-types";
 import { GovernanceDigitalTwin } from "../src/lib/governance-digital-twin-types";
 
-describe("Capital Allocation Intelligence Layer v3.0", () => {
+describe("Capital Allocation Governance Layer v3.0", () => {
   const createMockInput = (
     deficiencies: boolean
   ): CapitalAllocationIntelligenceInput => {

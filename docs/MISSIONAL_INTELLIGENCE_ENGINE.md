@@ -1,13 +1,13 @@
-# Missional Intelligence Engine Framework v1.0
+# Missional Governance Engine Framework v1.0
 
 > [!NOTE]
-> A Missional Intelligence é uma inteligência organizacional universal. Ela não é uma engine religiosa, de conformidade doutrinária, de avaliação espiritual ou exclusiva para organizações cristãs. Ela avalia a **coerência entre propósito declarado e realidade operacional**, servindo para empresas, indústrias, cooperativas, terceiro setor, fundações, escolas, hospitais e organizações confessionais. A engine nasce universal; a IWL (Institutional Wisdom Library) fornecerá os princípios específicos utilizados em cada contexto.
+> A Missional Governance é uma inteligência organizacional universal. Ela não é uma engine religiosa, de conformidade doutrinária, de avaliação espiritual ou exclusiva para organizações cristãs. Ela avalia a **coerência entre propósito declarado e realidade operacional**, servindo para empresas, indústrias, cooperativas, terceiro setor, fundações, escolas, hospitais e organizações confessionais. A engine nasce universal; a IWL (Institutional Wisdom Library) fornecerá os princípios específicos utilizados em cada contexto.
 
 ## 1. Goal Description
 
-Estabelecer oficialmente a Missional Intelligence Engine como a sexta Inteligência Estruturante da plataforma Illumine Governance.
+Estabelecer oficialmente a Missional Governance Engine como a sexta Inteligência Estruturante da plataforma Illumine Governance.
 
-A Missional Intelligence será responsável por interpretar o alinhamento entre propósito declarado, estratégia, cultura, operação, governança e impacto organizacional.
+A Missional Governance será responsável por interpretar o alinhamento entre propósito declarado, estratégia, cultura, operação, governança e impacto organizacional.
 
 Esta implementação:
 * não cria cálculos financeiros;
@@ -18,7 +18,7 @@ O objetivo é definir responsabilidades, limites, dependências e fundamentos in
 
 ## 2. Constitutional Position
 
-Fica registrado oficialmente que a Missional Intelligence integra o conjunto das Inteligências Estruturantes da plataforma. A Missional Intelligence opera após as Engines Especialistas e antes da Correlação Empresarial.
+Fica registrado oficialmente que a Missional Governance integra o conjunto das Inteligências Estruturantes da plataforma. A Missional Governance opera após as Engines Especialistas e antes da Correlação Empresarial.
 
 **Posição oficial na cadeia cognitiva:**
 ```text
@@ -28,7 +28,7 @@ Indicadores
   ↓
 Engines Especialistas
   ↓
-Missional Intelligence
+Missional Governance
   ↓
 Correlação Empresarial
   ↓
@@ -36,20 +36,20 @@ Priorização
   ↓
 Advisory
   ↓
-Board Intelligence
+Board Governance
 ```
 
 ## 3. Core Mission e Central Question
 
 **Definition:**
-"A Missional Intelligence interpreta o grau de coerência entre a razão de existir declarada pela organização e a realidade observada em suas estruturas, decisões, comportamentos, processos e resultados."
+"A Missional Governance interpreta o grau de coerência entre a razão de existir declarada pela organização e a realidade observada em suas estruturas, decisões, comportamentos, processos e resultados."
 
 **Central Question:**
-A Missional Intelligence deverá responder: *"Esta organização está vivendo aquilo que afirma ser?"*
+A Missional Governance deverá responder: *"Esta organização está vivendo aquilo que afirma ser?"*
 
 ## 4. Domains of Analysis
 
-A Missional Intelligence deverá avaliar os seguintes domínios:
+A Missional Governance deverá avaliar os seguintes domínios:
 
 * **Purpose Clarity:** A organização possui propósito explícito e compreendido?
 * **Strategic Alignment:** A estratégia está alinhada ao propósito?
@@ -82,7 +82,7 @@ Ficam registradas oficialmente as seguintes definições:
 
 ## 6. Principle Sources
 
-A Missional Intelligence deverá consumir prioritariamente os seguintes princípios fornecidos pela Institutional Wisdom Library (IWL):
+A Missional Governance deverá consumir prioritariamente os seguintes princípios fornecidos pela Institutional Wisdom Library (IWL):
 * BAM Principles
 * Biblical Principles
 * Institutional Principles
@@ -101,12 +101,12 @@ Toda conclusão missional deverá registrar explicitamente:
 
 ## 8. Architectural Boundaries
 
-A Missional Intelligence **NÃO PODE**:
+A Missional Governance **NÃO PODE**:
 * recalcular indicadores;
 * alterar scores financeiros;
 * alterar engines existentes;
 * substituir Constitutional Governance;
-* substituir Fiduciary Intelligence;
+* substituir Fiduciary Governance;
 * substituir evidências objetivas.
 
 ## 9. Constitutional Safeguard
@@ -117,12 +117,12 @@ A Missional Intelligence **NÃO PODE**:
 
 ## 10. Future Consumers
 
-A Missional Intelligence poderá ser consumida por:
+A Missional Governance poderá ser consumida por:
 * Mission Alignment Engine
 * ESGIM Runtime
 * Executive Advisory Layer
-* Narrative Intelligence
-* Board Intelligence
+* Narrative Governance
+* Board Governance
 
 ## 11. Expected Outcome
 

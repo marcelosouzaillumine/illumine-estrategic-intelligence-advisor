@@ -2,7 +2,7 @@
 import { describe, it, expect } from 'vitest';
 import { RiskPredictionContract, OpportunityPredictionContract } from '@illumine/executive-contracts';
 
-describe('@illumine/intelligence (Wave 18.9 Predictive Model Validation)', () => {
+describe('@illumine/governance (Wave 18.9 Predictive Model Validation)', () => {
   it('should validate RiskPredictionContract and OpportunityPredictionContract schemas', () => {
     const risk: RiskPredictionContract = {
       riskId: 'risk-cash-01',

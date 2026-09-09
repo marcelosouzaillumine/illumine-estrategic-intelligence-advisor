@@ -3,7 +3,7 @@ import { describe, it, expect } from 'vitest';
 import { ExecutiveDecisionContext } from '@illumine/executive-contracts';
 import { DecisionExplainabilityEngine } from '../decision-trust-governance/src';
 
-describe('@illumine/intelligence (Wave 18.10.5 Decision Explainability Engine)', () => {
+describe('@illumine/governance (Wave 18.10.5 Decision Explainability Engine)', () => {
   it('should generate a complete trust contract explaining confidence, risks and hypotheses (TEDG v1.0)', () => {
     const mockContext: ExecutiveDecisionContext = {
       companyId: 'company-granatum',

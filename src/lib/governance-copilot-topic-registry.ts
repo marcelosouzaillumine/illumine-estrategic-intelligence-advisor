@@ -10,7 +10,7 @@ export interface TopicRoutingRules {
 export const GOVERNANCE_COPILOT_TOPIC_REGISTRY: TopicRoutingRules[] = [
   {
     topic: 'RISKS',
-    requiredEngines: ['executiveSovereignty', 'governanceIntelligenceNetwork']
+    requiredEngines: ['executiveSovereignty', 'governanceGovernanceNetwork']
   },
   {
     topic: 'PRIORITIES',
@@ -22,19 +22,19 @@ export const GOVERNANCE_COPILOT_TOPIC_REGISTRY: TopicRoutingRules[] = [
   },
   {
     topic: 'GOVERNANCE',
-    requiredEngines: ['governanceIntelligenceNetwork']
+    requiredEngines: ['governanceGovernanceNetwork']
   },
   {
     topic: 'VALUATION',
-    requiredEngines: ['valuationIntelligence']
+    requiredEngines: ['valuationGovernance']
   },
   {
     topic: 'ESG',
-    requiredEngines: ['esgIntelligence']
+    requiredEngines: ['esgGovernance']
   },
   {
     topic: 'CAPITAL_ALLOCATION',
-    requiredEngines: ['capitalAllocationIntelligence']
+    requiredEngines: ['capitalAllocationGovernance']
   },
   {
     topic: 'SOVEREIGNTY',

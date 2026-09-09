@@ -1,14 +1,14 @@
 import { describe, it, expect, beforeEach } from 'vitest';
 import { FinancialIntelligenceCoordinator } from '../FinancialIntelligenceCoordinator';
 
-describe('FinancialIntelligenceCoordinator', () => {
+describe('FinancialGovernanceCoordinator', () => {
   let coordinator: FinancialIntelligenceCoordinator;
 
   beforeEach(() => {
     coordinator = new FinancialIntelligenceCoordinator();
   });
 
-  it('should orchestrate contexts and generate a Unified Intelligence Context', () => {
+  it('should orchestrate contexts and generate a Unified Governance Context', () => {
     const mockCashContext = { signals: { attentionPoints: ['Lucro não convertido em caixa'] } };
     const mockPerfContext = { signals: { attentionPoints: ['Deterioração de Margem'] } };
 

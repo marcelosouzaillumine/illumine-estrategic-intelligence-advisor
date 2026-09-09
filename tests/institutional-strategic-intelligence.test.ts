@@ -5,7 +5,7 @@ import assert from 'node:assert/strict';
 import { InstitutionalStrategicIntelligenceRuntime } from '../src/core/runtime/strategic-intelligence/InstitutionalStrategicIntelligenceRuntime';
 import { ExecutiveIntelligenceReport } from '../src/core/runtime/executive-intelligence-runtime';
 
-describe('Institutional Strategic Intelligence Runtime', () => {
+describe('Institutional Strategic Governance Runtime', () => {
 
   const createBaseReport = (): any => ({
     metadata: { lineageHash: 'TEST-HASH', historicalCyclesCount: 5 },

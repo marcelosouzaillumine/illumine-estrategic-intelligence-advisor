@@ -1,13 +1,13 @@
 # ILLUMINE_CANONICAL_DATA_MODEL
 
 ## 1. Executive Summary
-This document defines the canonical, technology-agnostic data model for the Illumine Executive Intelligence Platform. It serves as the architectural bridge transitioning from the current Firebase/Firestore (NoSQL) implementation to a target enterprise-grade, relational, multi-tenant architecture (PostgreSQL/Supabase). The model presented here focuses strictly on business domains, relationships, and data governance, independent of the underlying storage technology, though optimized for a relational schema.
+This document defines the canonical, technology-agnostic data model for the Illumine Executive Governance Platform. It serves as the architectural bridge transitioning from the current Firebase/Firestore (NoSQL) implementation to a target enterprise-grade, relational, multi-tenant architecture (PostgreSQL/Supabase). The model presented here focuses strictly on business domains, relationships, and data governance, independent of the underlying storage technology, though optimized for a relational schema.
 
 ## 2. Design Principles
-- **Domain-Driven:** The model reflects business realities (Finance, Governance, Intelligence) rather than database limitations.
+- **Domain-Driven:** The model reflects business realities (Finance, Governance, Governance) rather than database limitations.
 - **Multi-Tenant by Design:** Absolute data isolation at the structural level.
 - **Immutability & Traceability:** Financial and decision data must preserve historical states.
-- **AI Provenance:** Intelligence outputs must trace back to the model, prompt, and context that generated them.
+- **AI Provenance:** Governance outputs must trace back to the model, prompt, and context that generated them.
 - **Analytical Readiness:** Structured to support complex aggregations without client-side processing.
 
 ## 3. Current vs Target State
@@ -16,15 +16,15 @@ This document defines the canonical, technology-agnostic data model for the Illu
 | Company/Workspace | `clients` collection | `Tenant` & `Company` | Separating billing/workspace from actual legal entities. | Medium |
 | User Access | `client_users`, `ownerId` | `User`, `Membership`, `Role` | Standardizing RBAC and M:N relationships. | Medium |
 | Financial Data | `financial_entries` (Flat NoSQL) | `FinancialPeriod`, `Account`, `FinancialEntry`, `Statement` | Ensuring relational integrity and eliminating N+1 reads. | High |
-| Intelligence | `diagnostico` (Overwritten) | `Insight`, `Recommendation`, `Decision` | Preserving historical intelligence and separating AI output from executive action. | High |
+| Governance | `diagnostico` (Overwritten) | `Insight`, `Recommendation`, `Decision` | Preserving historical governance and separating AI output from executive action. | High |
 
 ## 4. Domain Boundaries
 The platform consists of the following canonical domains:
 1. **Identity & Access:** Users, Memberships, Roles, Permissions.
 2. **Tenant & Organization:** Tenants (Billing/Workspace), Companies (Legal Entities), Business Units.
-3. **Financial Intelligence:** Account Plans, Transactions, Statements, Ratios, Metrics.
+3. **Financial Governance:** Account Plans, Transactions, Statements, Ratios, Metrics.
 4. **Governance & Risk:** Assessments, Risks, Controls, Findings.
-5. **Decision Intelligence:** Problems, Alternatives, Insights, Recommendations, Decisions, Actions.
+5. **Decision Governance:** Problems, Alternatives, Insights, Recommendations, Decisions, Actions.
 6. **Enterprise Context:** Knowledge items, evidence, context vectors.
 7. **Commercial/Revenue:** Subscriptions, Plans, Advisor Partners.
 
@@ -37,14 +37,14 @@ The platform consists of the following canonical domains:
 - **ChartOfAccount / Account:** The structured financial tree.
 - **FinancialEntry:** A transactional or imported financial value.
 - **Insight / Recommendation:** AI-generated or human-generated analytical outputs.
-- **Decision:** A formalized executive choice based on intelligence.
+- **Decision:** A formalized executive choice based on governance.
 - **Action:** A concrete step resulting from a Decision.
 
 ## 6. Entity Classification
 - **MASTER DATA:** `Tenant`, `Company`, `User`, `ChartOfAccount`. (Core entities that change infrequently).
 - **TRANSACTIONAL DATA:** `FinancialEntry`, `Action`. (High volume, event-driven).
 - **ANALYTICAL / DERIVED DATA:** `FinancialMetric`, `FinancialScore`. (Calculated from transactional data).
-- **INTELLIGENCE DATA:** `Insight`, `Recommendation`, `Diagnostic`. (AI or Advisor generated).
+- **GOVERNANCE DATA:** `Insight`, `Recommendation`, `Diagnostic`. (AI or Advisor generated).
 - **AUDIT DATA:** `AuditEvent`, `SystemLog`. (Immutable trails).
 
 ## 7. Tenant Model
@@ -72,7 +72,7 @@ Currently, Firestore merges Tenant and Company into `clients`. These MUST be sep
 1. **Source Data:** Imported raw trial balances or DREs (`ImportEvent`, `RawFinancialData`).
 2. **Normalized Data:** `FinancialEntry` mapped to the canonical `Account` within a `FinancialPeriod`.
 3. **Calculated Metrics:** `FinancialStatementLine` (aggregated), `FinancialMetric` (calculated).
-4. **Intelligence:** `FinancialScore`, `Insight`.
+4. **Governance:** `FinancialScore`, `Insight`.
 
 The model must explicitly store `FinancialPeriod` (e.g., 2024-12) to lock historical data. 
 
@@ -89,8 +89,8 @@ Separation of Concerns:
 - **Decision:** Executive response to the Risk.
 - **Action Plan:** Tasks generated to implement the Decision.
 
-## 13. Intelligence Domain
-**The Golden Thread of Intelligence:**
+## 13. Governance Domain
+**The Golden Thread of Governance:**
 `DATA` -> `ANALYSIS` -> `INSIGHT` -> `RECOMMENDATION` -> `DECISION` -> `ACTION` -> `OUTCOME`
 
 AI does not make decisions; it generates Insights and Recommendations. Humans make Decisions. This canonical model strictly separates the AI-generated `Recommendation` from the human `Decision`.
@@ -101,7 +101,7 @@ To support the Executive Concierge / RAG:
 - **Source/Evidence:** Where the knowledge came from (a PDF, a Meeting Minute).
 - **Context:** Metadata grouping knowledge (e.g., "Fiscal Strategy 2025").
 
-## 15. Decision Intelligence
+## 15. Decision Governance
 A `Decision` record must capture:
 - **Problem/Context:** Why is this decision needed?
 - **Alternatives:** What options were evaluated?
@@ -134,7 +134,7 @@ Critical entities (Financials, Decisions) require an append-only `History/EventL
 ## 19. Entity Lifecycle
 - **Master Data:** Soft delete only (`deleted_at`).
 - **Financial/Audit Data:** NO DELETE. Only compensating transactions or archival.
-- **Intelligence Data:** Archival / Superseding. An AI insight from 2024 is historically relevant in 2026.
+- **Governance Data:** Archival / Superseding. An AI insight from 2024 is historically relevant in 2026.
 
 ## 20. Historical Data
 Current architecture overwrites metrics. The canonical model requires temporal history.
@@ -166,7 +166,7 @@ erDiagram
     COMPANY ||--o{ BUSINESS_UNIT : contains
 ```
 
-### 23.2 Intelligence & Decision Lifecycle
+### 23.2 Governance & Decision Lifecycle
 ```mermaid
 erDiagram
     RAW_DATA ||--o{ INSIGHT : fuels
@@ -217,7 +217,7 @@ erDiagram
 ## 28. Anti-Patterns to Avoid
 - **Simulated Foreign Keys:** Storing a string ID without a DB constraint.
 - **Client-Side Cascades:** Expecting the React frontend to loop and delete related records.
-- **Overwriting Intelligence:** Erasing last month's diagnostic with this month's diagnostic.
+- **Overwriting Governance:** Erasing last month's diagnostic with this month's diagnostic.
 - **Uncontrolled SUPER_ADMIN:** Global `allow read, write: if true` bypasses.
 - **Logic in Adapters:** Business logic (like legacy account migrations) existing inside persistence layers.
 
@@ -225,7 +225,7 @@ erDiagram
 1. **Decision:** Separation of Tenant and Company.
    - **Recommended:** Splitting the current `clients` concept into `Tenant` (Billing/Access) and `Company` (Business Data).
    - **Impact:** Allows Advisors to manage multiple companies efficiently and paves the way for Partner networks.
-2. **Decision:** Intelligence Persistence.
+2. **Decision:** Governance Persistence.
    - **Recommended:** Store AI generation metadata alongside Insights.
    - **Impact:** Increases storage but guarantees executive auditability.
 3. **Decision:** Financial History.
@@ -238,14 +238,14 @@ erDiagram
           ↓
 [ APPLICATION SERVICES (Zustand/Hooks) ]
           ↓
-[ DOMAIN LOGIC (Intelligence/Finance) ]
+[ DOMAIN LOGIC (Governance/Finance) ]
           ↓
 [ REPOSITORIES (Data Access Layer) ]
           ↓
 [ SUPABASE / POSTGRESQL (RLS + ACID) ]
 ```
 - Real-time updates handled by Supabase Realtime where strictly necessary.
-- Intelligence generation brokered by secure backend services (Edge Functions/Cloud Functions) to protect API keys and ensure provenance.
+- Governance generation brokered by secure backend services (Edge Functions/Cloud Functions) to protect API keys and ensure provenance.
 
 ## 31. Migration Considerations
 - **No Big Bang:** Dual-write adapters must be implemented during Phase 4/5. 

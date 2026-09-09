@@ -7,7 +7,7 @@ import { GovernanceMemory } from "../src/lib/governance-memory-types";
 import { GovernanceIntelligenceNetwork } from "../src/lib/governance-intelligence-network-types";
 import { GovernanceDigitalTwin } from "../src/lib/governance-digital-twin-types";
 
-describe("ESG Intelligence Layer v3.0", () => {
+describe("ESG Governance Layer v3.0", () => {
   const createMockInput = (
     envEvents: number,
     socEvents: number,

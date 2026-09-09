@@ -1,4 +1,4 @@
-# Executive Intelligence Plugin Architecture Spec™
+# Executive Governance Plugin Architecture Spec™
 
 Esta é a especificação arquitetural definitiva (RFC) da Fase C da plataforma Illumine. A plataforma não possui mais o conceito de "diagnósticos acoplados". Tudo o que representa um domínio de inteligência organizacional agora deve obedecer estritamente a arquitetura de Plugins detalhada neste documento.
 
@@ -21,7 +21,7 @@ Esta é a especificação arquitetural definitiva (RFC) da Fase C da plataforma 
 
 ### 2.3 Executive Profile Portfolio (`portfolio-types.ts` & `portfolio-summary.service.ts`)
 - **Papel:** Agregador do estado organizacional.
-- **Responsabilidade:** Armazenar o `ExecutiveDomainState` dinâmico para cada chave do registro e calcular o **Executive Intelligence Index™** através de cruzamentos (Maturity, Coverage, Balance, Foundations).
+- **Responsabilidade:** Armazenar o `ExecutiveDomainState` dinâmico para cada chave do registro e calcular o **Executive Governance Index™** através de cruzamentos (Maturity, Coverage, Balance, Foundations).
 
 ### 2.4 Narrative Engine (`executive-narrative.service.ts`)
 - **Papel:** Tradutor abstrato de capacidades organizacionais.

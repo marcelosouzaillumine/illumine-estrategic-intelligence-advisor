@@ -57,13 +57,13 @@ Esta matriz consolida as portas de segurança corporativa (Security Gates) em do
 
 ### AR-GFC-COG-013: Decision Forensics Completeness™
 **Rule:** Nenhuma recomendação estratégica pode ser publicada sem Evidência, Raciocínio, Confiança, Rastreamento e Governança.
-**Enforcement:** A `RecommendationReleasePolicy` avalia o `ExecutiveDecisionForensicsPackage`. Se qualquer parte da linhagem estiver ausente, a inteligência é categorizada como OPAQUE INTELLIGENCE.
-**Violation Consequence:** STATUS: OPAQUE INTELLIGENCE. ACTION: BLOCK RELEASE.
+**Enforcement:** A `RecommendationReleasePolicy` avalia o `ExecutiveDecisionForensicsPackage`. Se qualquer parte da linhagem estiver ausente, a inteligência é categorizada como OPAQUE GOVERNANCE.
+**Violation Consequence:** STATUS: OPAQUE GOVERNANCE. ACTION: BLOCK RELEASE.
 
 ### AR-GFC-COG-014: Cognitive Runtime Integrity™
 **Rule:** Nenhum componente cognitivo pode operar isoladamente fora da cadeia certificada de identidade, evidência, raciocínio e governança.
 **Enforcement:** A arquitetura bloqueia agente sem trace, memória sem ownership, recomendação sem forensics e decisão sem confidence. Toda a cadeia deve atuar de forma integrada sob a fiscalização do CAE™.
-**Violation Consequence:** OPAQUE_INTELLIGENCE_BLOCK ou FORENSIC_CHAIN_BROKEN disparado pelo sistema nervoso da plataforma.
+**Violation Consequence:** OPAQUE_GOVERNANCE_BLOCK ou FORENSIC_CHAIN_BROKEN disparado pelo sistema nervoso da plataforma.
 
 ---
 
@@ -78,9 +78,9 @@ Esta matriz consolida as portas de segurança corporativa (Security Gates) em do
 
 ## Delivery Security
 
-### AR-GFC-SEC-007: Unverified Intelligence Release Prevention™
+### AR-GFC-SEC-007: Unverified Governance Release Prevention™
 **Rule:** Inteligência sem rastro (Trace ID) ou com evidências fracas deve ser descartada (Unverified).
-**Enforcement:** O `RecommendationReleasePolicy` nega a liberação em caso de Rastro Inexistente ou Opaque Intelligence.
+**Enforcement:** O `RecommendationReleasePolicy` nega a liberação em caso de Rastro Inexistente ou Opaque Governance.
 **Violation Consequence:** Block Release.
 
 ### AR-GFC-SEC-008: Executive Recommendation Security Certification™

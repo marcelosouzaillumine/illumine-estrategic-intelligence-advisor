@@ -8,7 +8,7 @@ import { OperationalAbsorptionEngine } from '../src/core/runtime/dre/Operational
 import { DREExecutiveBindingAudit } from '../src/core/runtime/dre/DREExecutiveBindingAudit';
 import { ScaleEfficiencyIntegrityEngine } from '../src/core/runtime/integrity/ScaleEfficiencyIntegrityEngine';
 
-describe('DEIBRF v1.0 - DRE Executive Intelligence Binding Resolution', () => {
+describe('DEIBRF v1.0 - DRE Executive Governance Binding Resolution', () => {
   // Granatum 2022 dataset based on user prompt requirements
   const granatum2022Payload = {
     netRevenue: 156969.54,

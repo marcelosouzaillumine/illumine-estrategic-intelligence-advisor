@@ -33,7 +33,7 @@ export function ExecutiveAdvisoryWorkspacePage() {
   const domainStates: IntelligenceDomainState[] = registry.getAllDomains().map(meta => ({
     domain: meta.domain,
     status: intelligencePortfolio?.domains[meta.domain]?.status === 'completed' ? 'established' : 'future',
-    currentCapability: meta.name.replace(' Intelligence™', ''),
+    currentCapability: meta.name.replace(' Governance™', ''),
     strategicRole: meta.isCoreFoundation ? 'foundation' : 'growth'
   }));
 

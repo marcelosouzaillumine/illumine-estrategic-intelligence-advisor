@@ -4,8 +4,8 @@ import { EconomicValueIntelligenceEngine } from '../src/core/runtime/governance/
 import { EarningsCompositionEngine } from '../src/core/runtime/governance/dre/EarningsCompositionEngine';
 import { InstitutionalConfidenceEngine } from '../src/core/runtime/confidence/InstitutionalConfidenceEngine';
 
-describe('DRE Executive Intelligence Pack', () => {
-  describe('EconomicValueIntelligenceEngine', () => {
+describe('DRE Executive Governance Pack', () => {
+  describe('EconomicValueGovernanceEngine', () => {
     it('should classify as VALUE_DESTROYING when EBITDA < 0, Lucro < 0 and scale < 0.8', () => {
       const result = EconomicValueIntelligenceEngine.evaluate(100000, -20000, -10000, 200000);
       assert.strictEqual(result.classification, 'VALUE_DESTROYING');

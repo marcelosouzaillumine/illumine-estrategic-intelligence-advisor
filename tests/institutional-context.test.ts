@@ -4,7 +4,7 @@ import { InstitutionalContextEngine } from '../src/core/runtime/institutional-co
 import { executiveRuntime } from '../src/core/runtime/executive-intelligence-runtime';
 import { CalibrationEngine } from '../src/core/runtime/calibration/CalibrationEngine';
 
-describe('Institutional Context Intelligence Layer', () => {
+describe('Institutional Context Governance Layer', () => {
   beforeEach(() => {
     CalibrationEngine.resetToDefault();
   });

@@ -8,7 +8,7 @@ import { FinancialDiagnosticEngine } from '../../intelligence/financial-health/F
 import { FinancialIndicator } from '../../../../core/intelligence/contracts/ExecutiveIntelligenceOutput';
 import { RiskExposure } from '../../../../core/intelligence/contracts/RiskExposure';
 
-describe('Financial Intelligence Foundation Layer™', () => {
+describe('Financial Governance Foundation Layer™', () => {
   const mockData: NormalizedBalanceSheet = {
     year: 2026,
     assets: {
@@ -100,7 +100,7 @@ describe('Financial Intelligence Foundation Layer™', () => {
 
   it('integrates full pipeline correctly', () => {
     const output = BalanceSheetIntelligenceEngine.execute(mockData);
-    expect((output as any).capabilityId).toBe('financial.balance_sheet_intelligence');
+    expect((output as any).capabilityId).toBe('financial.balance_sheet_governance');
     expect((output as any).status).toBe('SUCCESS');
     expect((output as any).diagnostics[0].status).toBe('VULNERABLE');
     expect((output as any).exposures.length).toBeGreaterThan(0);

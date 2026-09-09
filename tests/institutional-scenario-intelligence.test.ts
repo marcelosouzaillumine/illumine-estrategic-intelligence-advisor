@@ -4,7 +4,7 @@ import assert from 'node:assert/strict';
 import { InstitutionalScenarioEngine } from '../src/core/runtime/scenario-intelligence/InstitutionalScenarioEngine';
 import { ScenarioInput } from '../src/core/runtime/scenario-intelligence/scenario-types';
 
-describe('RC-1.6 - Institutional Scenario Intelligence', () => {
+describe('RC-1.6 - Institutional Scenario Governance', () => {
 
   const baseContext = { netIncome: 1000, availableCash: 5000, fundingInflows: 0 };
 

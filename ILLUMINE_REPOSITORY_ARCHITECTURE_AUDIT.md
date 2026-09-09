@@ -26,10 +26,10 @@ The application follows a modular, partially domain-driven design structure:
 - **Core Systems:** `/src/core/runtime`, `/src/core/constitution`
 
 ## 5. Domain Map
-- **Financial Intelligence:** Account plans, financial entries (DRE, BP, Caixa), payables, receivables.
+- **Financial Governance:** Account plans, financial entries (DRE, BP, Caixa), payables, receivables.
 - **Governance:** OKRs, diagnoses, guidelines (mission, vision), meeting minutes, action items.
 - **Tenancy/Identity:** Client/Tenant management, user memberships, roles.
-- **Advisory/Intelligence:** AI-driven diagnosis generation, financial statement parsing.
+- **Advisory/Governance:** AI-driven diagnosis generation, financial statement parsing.
 
 ## 6. Database Dependencies
 The platform is currently **100% dependent on Firebase/Firestore**.
@@ -65,14 +65,14 @@ Identified in `.env.example`:
   2. **Governance Diagnosis:** Generates C-level institutional diagnoses based on indicator scores (`generateGovernanceDiagnosis`).
 - **Models:** Uses `gemini-2.0-flash`. Prompts are hardcoded in the service.
 
-## 11. Financial Intelligence Architecture
+## 11. Financial Governance Architecture
 - **Data Model:** Financial entries are categorized by type (`DRE`, `BP`, `CAIXA`) and competence (month/year).
 - **Adapters:** `FirestoreFinancialAdapter`, `FirestoreCashFlowAdapter`, `FirestoreAccountPlansAdapter`.
 - **AI Normalization:** Raw documents are sent to Gemini to extract normalized entries, which are then stored in Firestore.
 
 ## 12. API & Integrations
 - **Firebase:** Core data and auth layer.
-- **Gemini:** Core intelligence engine.
+- **Gemini:** Core governance engine.
 - **Internal APIs:** Mentions of `/api/generate-advisory-parecer` in env, likely running via Firebase Cloud Functions or Vercel Edge functions.
 
 ## 13. Security Findings
@@ -100,9 +100,9 @@ Identified in `.env.example`:
 
 ## 18. Illumine Target Architecture Alignment
 - **Multi-tenant architecture:** PARTIALLY ALIGNED (Transitioning).
-- **Financial/Governance Intelligence:** ALIGNED.
+- **Financial/Governance Governance:** ALIGNED.
 - **Enterprise-grade security/Supabase:** NOT ALIGNED (Still on Firebase).
-- **Intelligence Engines:** ALIGNED (Gemini integration exists).
+- **Governance Engines:** ALIGNED (Gemini integration exists).
 
 ## 19. Risk Register
 1. **Migration Risk:** Transitioning from NoSQL (Firestore) to Relational (Supabase) will require massive data modeling and code refactoring across all `adapters/persistence`.

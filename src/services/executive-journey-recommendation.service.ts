@@ -53,7 +53,7 @@ export class ExecutiveJourneyRecommendationEngine {
     if (focus === 'advisor_network') return 'advisor-network';
     if (focus === 'client_access') return 'client-access';
     if (focus === '360') return 'executive-360';
-    return `${focus}-intelligence`;
+    return `${focus}-governance`;
   }
 
   /**

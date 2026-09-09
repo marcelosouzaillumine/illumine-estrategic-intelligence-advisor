@@ -44,7 +44,7 @@ describe('Financial Lineage Integrity Framework (FLIF) v1.3.2 Tests', () => {
     
     // Mock DRE inference with a mismatched net income (e.g. 50000)
     context.inferences['LegacyDREAdapter'] = {
-      domain: 'Operational Intelligence',
+      domain: 'Operational Governance',
       metrics: {
         lucroLiq: 50000,
         recLiquida: 100000
@@ -83,7 +83,7 @@ describe('Financial Lineage Integrity Framework (FLIF) v1.3.2 Tests', () => {
     
     // Mock DRE to match
     context.inferences['LegacyDREAdapter'] = {
-      domain: 'Operational Intelligence',
+      domain: 'Operational Governance',
       metrics: {
         lucroLiq: 2000,
         recLiquida: 100000
@@ -277,7 +277,7 @@ describe('Financial Lineage Integrity Framework (FLIF) v1.3.2 Tests', () => {
     
     // Mock DRE to match
     context.inferences['LegacyDREAdapter'] = {
-      domain: 'Operational Intelligence',
+      domain: 'Operational Governance',
       metrics: {
         lucroLiq: -68548.88,
         recLiquida: 382483.91

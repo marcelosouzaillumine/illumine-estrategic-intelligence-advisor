@@ -5,7 +5,7 @@ import { GovernanceIntelligenceInput, GovernanceIntelligenceReportLike } from ".
 import { mapReportToGovernanceIntelligenceInput } from "../src/lib/governance-intelligence-network-mapper";
 import { GovernanceMemory } from "../src/lib/governance-memory-types";
 
-describe("Governance Intelligence Network v2.0", () => {
+describe("Governance Governance Network v2.0", () => {
   const mockMemory: GovernanceMemory = {
     events: [
       {
@@ -98,7 +98,7 @@ describe("Governance Intelligence Network v2.0", () => {
     assert.strictEqual(buildGovernanceIntelligenceNetwork({}), undefined);
   });
 
-  test("should build governance intelligence correctly from memory events", () => {
+  test("should build governance governance correctly from memory events", () => {
     const reportLike: GovernanceIntelligenceReportLike = {
       governanceMemory: mockMemory,
     };

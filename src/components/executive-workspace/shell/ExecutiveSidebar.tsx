@@ -219,7 +219,7 @@ export function ExecutiveSidebar({ currentOfficeId, onOfficeChange, currentSurfa
               {renderSection(t('navigation.category.command', 'Command Center'), nav.command)}
               {renderSection(t('navigation.category.board', 'Board & Governance'), nav.board)}
               {renderSection(t('navigation.category.executive', 'Executive Offices'), nav.offices)}
-              {renderSection(t('navigation.category.intelligence', 'Enterprise Intelligence'), nav.intelligence)}
+              {renderSection(t('navigation.category.governance', 'Enterprise Governance'), nav.intelligence)}
               {renderSection(t('navigation.category.partner', 'Advisor Network'), nav.partner)}
               {renderSection(t('navigation.category.foundation', 'Data Foundation'), nav.foundation)}
               {renderSection(t('navigation.category.administration', 'Administration'), nav.administration)}

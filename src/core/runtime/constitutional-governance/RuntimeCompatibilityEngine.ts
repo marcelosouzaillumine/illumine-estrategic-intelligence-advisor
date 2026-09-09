@@ -9,15 +9,15 @@ export class RuntimeCompatibilityEngine {
   constructor() {
     const coreDomains = [
       'compliance',
-      'decision_intelligence',
+      'decision_governance',
       'policy_materiality',
-      'behavioral_intelligence',
-      'predictive_intelligence',
+      'behavioral_governance',
+      'predictive_governance',
       'strategic_simulation',
       'advisory_narrative',
       'publication_governance',
       'audit_assurance',
-      'treasury_intelligence'
+      'treasury_governance'
     ];
 
     this.compatibilityMatrix = {};

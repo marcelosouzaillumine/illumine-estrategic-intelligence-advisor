@@ -4,7 +4,7 @@ import { MemoryClassification } from '../src/learning/MemoryClassification';
 import { DecisionMemoryRecord } from '../src/learning/DecisionMemoryRecord';
 import { LearningEvent } from '../src/learning/LearningEvent';
 
-describe('ExecutiveIntelligenceOrchestrator', () => {
+describe('ExecutiveGovernanceOrchestrator', () => {
   it('must block the pipeline immediately if Layer 0 (Integrity) fails critically', () => {
     // Cenário: PL Negativo com Decisão de Distribuir Dividendos
     const badData = { equity: -1000000 };

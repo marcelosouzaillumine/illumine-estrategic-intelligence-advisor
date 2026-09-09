@@ -32,7 +32,7 @@ export function InstitutionalPlatformPage() {
         <Container className="relative z-10 flex flex-col items-center text-center pt-20">
           <SectionLabel align="center">{t('hero.label')}</SectionLabel>
           <HeroTitle align="center" className="max-w-5xl">
-            {brand('executiveIntelligencePlatform')}
+            {brand('executiveGovernancePlatform')}
           </HeroTitle>
           <HeroLead align="center" className="max-w-3xl mb-8">
             {t('hero.lead')}
@@ -130,7 +130,7 @@ export function InstitutionalPlatformPage() {
               </div>
               <div>
                 <span className="text-amber-500 font-sans text-sm tracking-widest uppercase mb-2 block font-medium">{t('sections.architecture.layer1.tag')}</span>
-                <CardTitle className="text-3xl mb-4 min-h-0">{brand('intelligenceFoundation')}</CardTitle>
+                <CardTitle className="text-3xl mb-4 min-h-0">{brand('governanceFoundation')}</CardTitle>
                 <p className="text-xl text-slate-300 font-medium mb-4 font-sans">{t('sections.architecture.layer1.desc_title')}</p>
                 <Narrative className="text-lg leading-relaxed mb-6">
                   {t('sections.architecture.layer1.desc')}
@@ -149,7 +149,7 @@ export function InstitutionalPlatformPage() {
               </div>
               <div>
                 <span className="text-amber-500 font-sans text-sm tracking-widest uppercase mb-2 block font-medium">{t('sections.architecture.layer2.tag')}</span>
-                <CardTitle className="text-3xl mb-4 min-h-0">{brand('intelligenceEngine')}</CardTitle>
+                <CardTitle className="text-3xl mb-4 min-h-0">{brand('governanceEngine')}</CardTitle>
                 <p className="text-xl text-slate-300 font-medium mb-4 font-sans">{t('sections.architecture.layer2.desc_title')}</p>
                 <Narrative className="text-lg leading-relaxed mb-6">
                   {t('sections.architecture.layer2.desc')}
@@ -347,7 +347,7 @@ export function InstitutionalPlatformPage() {
           
           <div className="mb-16">
             <p className="text-amber-500 font-sans tracking-widest uppercase mb-4 text-sm font-bold">{t('sections.conclusion.pre_title')}</p>
-            <h3 className="text-3xl text-white font-bold mb-2 font-sans">{brand('executiveIntelligencePlatform')}</h3>
+            <h3 className="text-3xl text-white font-bold mb-2 font-sans">{brand('executiveGovernancePlatform')}</h3>
             <p className="text-slate-500 text-xl font-sans">{brand('principle')}</p>
           </div>
 

@@ -9,7 +9,7 @@ import { BoardAgendaEngine } from '../src/core/runtime/prescriptive-governance/B
 import { BoardDraftingEngine } from '../src/core/runtime/prescriptive-governance/BoardDraftingEngine';
 import { PredictiveRiskOutput, EmergingRiskCategory } from '../src/core/runtime/predictive-governance/PredictiveRiskEngine';
 
-test('▶ Prescriptive Governance Intelligence Framework (PRGIF) v1.0', async (t) => {
+test('▶ Prescriptive Governance Governance Framework (PRGIF) v1.0', async (t) => {
   const mockSnapshots = [
     { id: '1', clientId: 'c', period: '2025', governanceScore: 80, bpHealth: 100, dreHealth: 50, dfcHealth: 50, esgMaturity: 50, cescfScore: 50, financialResilience: 50, operationalEfficiency: 50 },
     { id: '2', clientId: 'c', period: '2026', governanceScore: 80, bpHealth: 100, dreHealth: 50, dfcHealth: 50, esgMaturity: 50, cescfScore: 50, financialResilience: 50, operationalEfficiency: 50 }

@@ -1,9 +1,9 @@
 import { ExecutiveCapability } from '../../contracts/capability.types';
 
 export const CustomerIntelligenceCapabilityDefinition: ExecutiveCapability = {
-  id: 'commercial.customer-intelligence',
+  id: 'commercial.customer-governance',
   office: 'commercial',
-  surfaces: ['customer-intelligence'],
+  surfaces: ['customer-governance'],
   requiredPermissions: ['commercial:read:customer'],
   intelligenceSources: ['enterprise:commercial:customer']
 };

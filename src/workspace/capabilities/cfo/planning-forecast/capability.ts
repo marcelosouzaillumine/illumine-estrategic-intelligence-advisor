@@ -8,5 +8,5 @@ export const planningForecastCapability: ExecutiveCapability = {
     'planning.forecast'
   ],
   requiredPermissions: ['view_planning_forecast'],
-  intelligenceSources: ['enterprise:financial', 'cfo:intelligence-engine']
+  intelligenceSources: ['enterprise:financial', 'cfo:governance-engine']
 };

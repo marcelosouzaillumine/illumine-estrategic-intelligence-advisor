@@ -1,6 +1,6 @@
 # MASTER STRATEGIC SIMULATION ENGINE
 
-Este documento estipula a arquitetura da camada de **Institutional Strategic Simulation & Decision Intelligence Layer**, que eleva a plataforma à categoria de **Strategic Governance Simulation Infrastructure**. O sistema atua como o laboratório de governança fiduciária, projetando consequências de decisões críticas antes de sua execução no mundo real.
+Este documento estipula a arquitetura da camada de **Institutional Strategic Simulation & Decision Governance Layer**, que eleva a plataforma à categoria de **Strategic Governance Simulation Infrastructure**. O sistema atua como o laboratório de governança fiduciária, projetando consequências de decisões críticas antes de sua execução no mundo real.
 
 ## Princípios Simuladores
 

@@ -1,4 +1,4 @@
-export type CapabilitySource = 'DISCOVERY' | 'CERTIFICATION' | 'RISK' | 'DECISION' | 'ADVISORY' | 'EVOLUTION' | 'INTELLIGENCE' | 'EVALUATION';
+export type CapabilitySource = 'DISCOVERY' | 'CERTIFICATION' | 'RISK' | 'DECISION' | 'ADVISORY' | 'EVOLUTION' | 'GOVERNANCE' | 'EVALUATION';
 
 export interface GovernanceMemoryEvent {
   readonly id: string;

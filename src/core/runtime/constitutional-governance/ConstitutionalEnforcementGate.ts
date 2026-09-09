@@ -23,7 +23,7 @@ export class ConstitutionalEnforcementGate {
    */
   public static enforce(
     metadata: ConstitutionalGovernanceMetadata,
-    target: 'Snapshot' | 'BoardPack' | 'StrategicIntelligence' | 'Narrative' | 'Export' | 'Scores' | 'Readiness' | 'Telemetry'
+    target: 'Snapshot' | 'BoardPack' | 'StrategicGovernance' | 'Narrative' | 'Export' | 'Scores' | 'Readiness' | 'Telemetry'
   ): EnforcementGateResult {
     const restrictionResult = ConstitutionalRestrictionEngine.translateRestrictions(metadata);
 

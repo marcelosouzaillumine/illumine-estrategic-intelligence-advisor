@@ -7,7 +7,7 @@ describe('@illumine/executive-orchestrator (Wave 16 Phase 3 Executive Advisory C
   it('should coordinate multi-agent council and generate UnifiedExecutiveAdvisoryBrief (ADR-039)', () => {
     const rec1: AgentRecommendation = {
       recommendationId: 'r-cfo-1',
-      agentId: 'cfo-intelligence-agent',
+      agentId: 'cfo-governance-agent',
       domain: 'finance',
       title: 'Emitir debêntures',
       executiveSummary: 'Alongar perfil de dívida',
@@ -35,7 +35,7 @@ describe('@illumine/executive-orchestrator (Wave 16 Phase 3 Executive Advisory C
 
     const brief = ExecutiveAdvisoryCouncil.coordinateCouncil('trig-01', 'FINANCE', [rec1, rec2]);
     expect(brief.participatingAgents.length).toBe(2);
-    expect(brief.participatingAgents).toContain('cfo-intelligence-agent');
+    expect(brief.participatingAgents).toContain('cfo-governance-agent');
     expect(brief.overallConfidenceScore.value).toBe(93);
   });
 });

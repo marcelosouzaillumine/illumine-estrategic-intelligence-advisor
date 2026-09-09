@@ -24,7 +24,7 @@ export function BoardModeDashboard({ input }: BoardModeDashboardProps) {
         <div className="relative z-10">
           <div className="flex items-center gap-3 mb-2">
             <Scale className="text-amber-400" size={24} />
-            <h2 className="text-2xl font-black">Board Intelligence Layer (BIL)</h2>
+            <h2 className="text-2xl font-black">Board Governance Layer (BIL)</h2>
           </div>
           <p className="text-sm text-muted-foreground max-w-2xl mb-8">
             Painel consolidado para aconselhamento fiduciário. Informações processadas determinísticamente a partir 

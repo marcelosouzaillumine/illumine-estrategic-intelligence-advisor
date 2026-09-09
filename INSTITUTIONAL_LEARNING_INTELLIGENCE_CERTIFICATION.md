@@ -1,8 +1,8 @@
-# INSTITUTIONAL_LEARNING_INTELLIGENCE_CERTIFICATION.md — Certificado de Homologação da Wave 19.5 (ILI v1.0)
+# INSTITUTIONAL_LEARNING_GOVERNANCE_CERTIFICATION.md — Certificado de Homologação da Wave 19.5 (ILI v1.0)
 
 > **Certificado Oficial de Qualidade e Governança da Memória e Aprendizado Institucional Permanente**  
 > *Emissor: Architecture Review Board (ARB) & Executive Governance Council*  
-> *Subordinado à [`ARCHITECTURE_CONSTITUTION.md`](file:///Users/marcelosouza/Documents/illumine-strategic-intelligence-advisor/ARCHITECTURE_CONSTITUTION.md)*
+> *Subordinado à [`ARCHITECTURE_CONSTITUTION.md`](file:///Users/marcelosouza/Documents/illumine-strategic-governance-advisor/ARCHITECTURE_CONSTITUTION.md)*
 
 ---
 
@@ -21,4 +21,4 @@
 
 ## 2. Decisão Definitiva do Conselho (ARB Final Decision)
 
-$$\mathbf{STATUS: \quad APPROVED \quad - \quad INSTITUTIONAL \quad LEARNING \quad INTELLIGENCE \quad v1.0 \quad HOMOLOGADO}$$
+$$\mathbf{STATUS: \quad APPROVED \quad - \quad INSTITUTIONAL \quad LEARNING \quad GOVERNANCE \quad v1.0 \quad HOMOLOGADO}$$

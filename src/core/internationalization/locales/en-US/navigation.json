@@ -8,10 +8,10 @@
     "home": "Home",
     "manifesto": "Manifesto",
     "platform": "Platform",
-    "intelligences": "Intelligences",
+    "intelligences": "Governances",
     "why_illumine": "Why Illumine",
     "governance": "Trust Architecture™",
-    "intelligence_center": "Executive Intelligence Center™",
+    "intelligence_center": "Executive Governance Center™",
     "advisor_network": "Advisor Network",
     "nonprofit": "Nonprofit",
     "enterprise": "Enterprise",
@@ -21,7 +21,7 @@
     "privacy": "Privacy",
     "cta": "Start Assessment",
     "architecture": "Architecture",
-    "intelligence_network": "Intelligence Network",
+    "intelligence_network": "Governance Network",
     "trust": "Trust",
     "enterprise_sub": "For enterprises, corporate groups, and complex organizations.",
     "nonprofit_sub": "For purpose-driven organizations, Boards, and social institutions.",
@@ -30,7 +30,7 @@
   "group": {
     "my_executive_workspace": "My Executive Workspace",
     "executive_command_center": "Executive Command Center",
-    "board_intelligence": "Board Intelligence™",
+    "board_intelligence": "Board Governance™",
     "ceo_domain": "CEO Domain",
     "cfo_domain": "CFO Domain",
     "coo_domain": "COO Domain",
@@ -39,13 +39,13 @@
     "risk_domain": "Risk Domain",
     "innovation_domain": "Innovation Domain",
     "advisor_network": "Advisor Network™",
-    "intelligence_domains": "Intelligence Domains",
+    "intelligence_domains": "Governance Domains",
     "data_foundation": "Data Foundation",
     "administration": "Administration"
   },
   "page": {
     "efos": "EFOS",
     "executive_command": "Executive Command",
-    "consolidated_executive": "Consolidated Intelligence"
+    "consolidated_executive": "Consolidated Governance"
   }
 }

@@ -38,7 +38,7 @@ for (const [p, hookName] of Object.entries(hookExports)) {
 }
 
 // 3. Fix SchemaValidator.spec.ts
-const schemaVal = 'src/core/intelligence/validation/__tests__/SchemaValidator.spec.ts';
+const schemaVal = 'src/core/governance/validation/__tests__/SchemaValidator.spec.ts';
 if (fs.existsSync(schemaVal)) {
   let content = fs.readFileSync(schemaVal, 'utf-8');
   content = content.replace(/financialInsights: \{ metrics: \{\}, trends: \{\}, insights: \[\] \}/g, 

@@ -53,7 +53,7 @@ export const ClientWorkspaceLayout: React.FC = () => {
       </main>
       
       <footer className="py-6 border-t border-slate-800 text-center text-slate-500 text-sm">
-        <p>Protected by Illumine Executive Intelligence OS</p>
+        <p>Protected by Illumine Executive Governance OS</p>
       </footer>
     </div>
   );

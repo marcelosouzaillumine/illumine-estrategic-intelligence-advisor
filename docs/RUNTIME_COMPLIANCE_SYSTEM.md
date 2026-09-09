@@ -229,7 +229,7 @@ Toda camada da plataforma deve obedecer:
 
 - MASTER_RUNTIME_ORCHESTRATOR.md
 - MASTER_INSTITUTIONAL_INFERENCE_ENGINE.md
-- MASTER_FINANCIAL_INTELLIGENCE_ENGINE.md
+- MASTER_FINANCIAL_GOVERNANCE_ENGINE.md
 - MASTER_ARCHITECTURE.md
 - MIGRATION_ENFORCEMENT_LAYER.md
 
@@ -252,7 +252,7 @@ A plataforma deve operar como:
 
 - Institutional Runtime System
 - Cognitive Governance Infrastructure
-- Executive Intelligence Platform
+- Executive Governance Platform
 - Advisory Operating System
 - Institutional Decision Engine
 

@@ -77,8 +77,8 @@ export class ExecutiveLabelResolver {
     'Debt Capacity Score': 'Score de Capacidade de Endividamento',
     'Equity Quality Index': 'Qualidade do Capital',
     'Financial Debt-to-Equity': 'Dívida Financeira sobre Patrimônio Líquido',
-    'Working Capital Intelligence': 'Inteligência de Capital de Giro',
-    'Patrimonial Intelligence': 'Inteligência Patrimonial',
+    'Working Capital Governance': 'Inteligência de Capital de Giro',
+    'Patrimonial Governance': 'Inteligência Patrimonial',
     'Executive Financial Analytics': 'Inteligência Financeira Executiva',
     
     // Trends

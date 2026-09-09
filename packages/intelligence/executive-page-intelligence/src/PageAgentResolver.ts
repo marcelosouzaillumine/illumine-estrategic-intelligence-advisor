@@ -27,10 +27,10 @@ export class PageAgentResolver {
       case 'DFC':
       case 'DLPA':
       case 'EFOS':
-        return ['cfo-intelligence-agent', 'controller-agent', 'financial-risk-agent'];
+        return ['cfo-governance-agent', 'controller-agent', 'financial-risk-agent'];
       case 'STRATEGIC':
       case 'DASHBOARD':
-        return ['ceo-strategic-agent', 'cfo-intelligence-agent', 'advisory-council-agent'];
+        return ['ceo-strategic-agent', 'cfo-governance-agent', 'advisory-council-agent'];
       default:
         return ['executive-orchestrator-agent'];
     }

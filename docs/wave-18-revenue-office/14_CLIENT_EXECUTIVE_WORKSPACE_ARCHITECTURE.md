@@ -11,7 +11,7 @@ A jornada linear do prospect é controlada e rastreável:
 1. **Executive Welcome:** Contextualização (Account, Advisor, Data). Foco em relação, não em preço.
 2. **Current Reality:** Análise das dores e fricções mapeadas na plataforma.
 3. **Strategic Opportunity:** O custo da inação e o valor projetado.
-4. **Proposed Intelligence Solution:** Mapeamento de problemas vs. Capacidades da Illumine.
+4. **Proposed Governance Solution:** Mapeamento de problemas vs. Capacidades da Illumine.
 5. **Transformation Journey:** Roadmap e milestones (Implementation Plan).
 6. **Investment & Terms:** O "Commitment" financeiro derivado do *Pricing Snapshot*.
 7. **Executive Questions:** Canal seguro para dúvidas (embutido).

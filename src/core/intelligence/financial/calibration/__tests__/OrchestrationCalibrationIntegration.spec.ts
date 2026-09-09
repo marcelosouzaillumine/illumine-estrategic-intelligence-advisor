@@ -1,7 +1,7 @@
 import { describe, it, expect } from 'vitest';
 import { FinancialIntelligenceCoordinator } from '../../orchestration/FinancialIntelligenceCoordinator';
 
-describe('FinancialIntelligenceCoordinator with Calibration', () => {
+describe('FinancialGovernanceCoordinator with Calibration', () => {
   const coordinator = new FinancialIntelligenceCoordinator();
 
   it('should calibrate the unified context before passing to agent', () => {

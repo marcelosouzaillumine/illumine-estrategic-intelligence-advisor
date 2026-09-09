@@ -38,7 +38,7 @@ const createMockOutput = (
   };
 };
 
-describe('LongitudinalCashIntelligenceEngine', () => {
+describe('LongitudinalCashGovernanceEngine', () => {
 
   it('contexto A: Turnaround Legítimo / Recuperação Real', () => {
     const p1 = createMockOutput(2, false, 'LIQUIDITY_DEPENDENT');

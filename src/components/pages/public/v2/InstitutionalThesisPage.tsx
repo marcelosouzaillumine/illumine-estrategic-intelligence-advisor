@@ -65,7 +65,7 @@ export function InstitutionalThesisPage() {
                   <p className="text-slate-300 font-medium italic">
                     Amnésia Institucional mitigada. Histórico preservado na memória central fiduciária.
                   </p>
-                  <span className="text-xs text-slate-500 block mt-3 uppercase tracking-wider font-bold">Continuous Intelligence</span>
+                  <span className="text-xs text-slate-500 block mt-3 uppercase tracking-wider font-bold">Continuous Governance</span>
                 </Insight>
               </div>
               <h3 className="text-2xl font-bold text-white mb-6 flex items-center gap-3 font-sans">
@@ -86,8 +86,8 @@ export function InstitutionalThesisPage() {
                 O papel da tecnologia é reduzir a sobrecarga cognitiva e assegurar que a governança está sendo respeitada, liberando a mente do executivo para o que importa: <strong className="text-white font-bold">visão, estratégia e relacionamento</strong>.
               </p>
               <p>
-                Nós não construímos apenas uma tecnologia. Nós desenvolvemos a primeira Executive Intelligence Platform™ do mundo, desenhada especificamente para suportar a complexidade do alto escalão.
-              </p>
+                Nós não construímos apenas uma tecnologia. Nós desenvolvemos a primeira Executive Governance Platform™ do mundo, desenhada especificamente para suportar a complexidade do alto escalão.
+                                            </p>
             </div>
             
           </ReadingContent>

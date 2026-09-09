@@ -36,7 +36,7 @@ export interface DecisionSurfaceDefinition {
   descriptionKey: string;
   intent: NavigationIntent; // monitor | analyze | decide | operate
   capability: SystemCapability; // Permissão necessária para renderizar
-  supportedEngines: string[]; // Motores que alimentam esta Surface (ex: 'FinancialIntelligenceEngine')
+  supportedEngines: string[]; // Motores que alimentam esta Surface (ex: 'FinancialGovernanceEngine')
   supportedAgents: string[]; // Agentes habilitados na Surface
   widgetIds: string[]; // Peças visuais que a compõem
 }
@@ -46,6 +46,6 @@ export interface DecisionSurfaceDefinition {
 A Decision Surface é desenhada para já nascer com a Inteligência Artificial plugável. O fluxo de responsabilidade é:
 
 1. **Surface**: Requisita "Me dê a visão de Saúde Financeira".
-2. **Financial Intelligence Engine**: Computa KPIs, gera Insights.
+2. **Financial Governance Engine**: Computa KPIs, gera Insights.
 3. **Surface**: Renderiza a tela baseada nos Insights (Status, Contexto).
 4. **Agente (Executive Advisor)**: Observa o Contexto na Surface e inicia um diálogo sugerindo ações proativas ("Devo preparar um cenário de redução de custos?").

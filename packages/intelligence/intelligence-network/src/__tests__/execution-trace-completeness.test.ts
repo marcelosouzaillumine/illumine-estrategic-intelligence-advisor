@@ -9,7 +9,7 @@ describe('Quality Gate 3 — Execution Trace Completeness Test', () => {
     expect(orchestration.status).toBe('ORCHESTRATED_SUCCESS');
     expect(orchestration.observabilityTrace.executionChain).toContain('ExecutiveContextAssembler');
     expect(orchestration.observabilityTrace.executionChain).toContain('ExecutivePolicyEngine');
-    expect(orchestration.observabilityTrace.executionChain).toContain('IntelligenceRoutingEngine');
+    expect(orchestration.observabilityTrace.executionChain).toContain('GovernanceRoutingEngine');
     expect(orchestration.observabilityTrace.wisdomAppliedCount).toBeGreaterThan(0);
   });
 });

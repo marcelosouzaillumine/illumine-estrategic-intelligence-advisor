@@ -2300,6 +2300,6 @@ changelog:
 
 ---
 
-*Data Intelligence Pack - Task: Create Dashboard*
+*Data Governance Pack - Task: Create Dashboard*
 *Primary Agent: Avinash Kaushik*
 *Framework: DMMM + So What Test + Data Storytelling*

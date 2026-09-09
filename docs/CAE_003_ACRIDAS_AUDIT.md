@@ -17,11 +17,11 @@
 Validar se a arquitetura Governance responde corretamente quando uma organização apresenta forte alinhamento missional, elevado impacto social e clara aderência ao propósito institucional, porém enfrenta fragilidades fiduciárias capazes de comprometer sua continuidade.
 
 Este teste deverá comprovar que:
-* Missional Intelligence não sobrepõe Fiduciary Intelligence;
+* Missional Governance não sobrepõe Fiduciary Governance;
 * impacto social não substitui sustentabilidade financeira;
 * Mission Alignment não invalida riscos fiduciários;
 * ESGIM Runtime evita falsos positivos relacionados à missão;
-* Board Intelligence Layer produz recomendações equilibradas entre propósito e continuidade.
+* Board Governance Layer produz recomendações equilibradas entre propósito e continuidade.
 
 ---
 
@@ -59,39 +59,39 @@ Este teste deverá comprovar que:
 
 ---
 
-## Intelligence Evaluation
+## Governance Evaluation
 
-### Economic Intelligence
+### Economic Governance
 * **Pergunta:** Existe geração sustentável de valor organizacional?
 * **Resultado:** MODERATE
 * **Justificativa:** A organização cumpre com maestria sua função de gerar valor social agregado, porém com restrições severas de geração de superávit econômico ou monetário retido.
 
-### Fiduciary Intelligence
+### Fiduciary Governance
 * **Pergunta:** O valor está protegido?
 * **Resultado:** CONCERN
 * **Justificativa:** A fragilidade e volatilidade da estrutura financeira (baixo runway, alta dependência de convênios e carência de capital de giro) ameaçam diretamente a continuidade e a integridade da missão social no médio prazo.
 
-### Institutional Intelligence
+### Institutional Governance
 * **Pergunta:** Existe continuidade institucional?
 * **Resultado:** MODERATE RISK
 * **Justificativa:** Há uma missão estruturada e equipe qualificada, mas a sustentabilidade da operação depende inteiramente da estabilidade das receitas recorrentes e da mitigação da dependência financeira.
 
-### Causal Intelligence
+### Causal Governance
 * **Pergunta:** Por que existe tensão entre missão e continuidade?
 * **Resultado:** CAUSALITY IDENTIFIED
 * **Justificativa:** O ritmo de expansão e manutenção do impacto social (demanda por serviços de acolhimento) é superior à capacidade financeira histórica de sustentação e geração de receitas recorrentes não vinculadas da organização.
 
-### Constitutional Intelligence
+### Constitutional Governance
 * **Pergunta:** Existe aderência aos princípios institucionais?
 * **Resultado:** ALIGNED
 * **Justificativa:** A conduta da organização é ética, os relatórios são transparentes e não existem desvios éticos ou constitucionais identificados.
 
-### Missional Intelligence
+### Missional Governance
 * **Pergunta:** A organização está vivendo sua razão de existir?
 * **Resultado:** STRONG POSITIVE
 * **Justificativa:** Elevado alinhamento entre o propósito estatutário e as atividades finalísticas observadas em campo, com impacto comunitário real e mensurável.
 
-### Prospective Intelligence
+### Prospective Governance
 * **Pergunta:** A missão é sustentável no futuro?
 * **Resultado:** FUTURE CONCERN
 * **Justificativa:** A continuidade e expansão do impacto estão condicionadas ao fortalecimento e diversificação da matriz de receitas e à construção de uma reserva institucional mínima.
@@ -101,10 +101,10 @@ Este teste deverá comprovar que:
 ## Arbitration Validation
 
 * **Aplicar:** Mission Success vs Fiduciary Rupture
-* **Verificar:** A Missional Intelligence prevaleceu sobre a Fiduciary Intelligence? **NÃO**
-* **Verificar:** A Fiduciary Intelligence impactou a avaliação final? **SIM**
+* **Verificar:** A Missional Governance prevaleceu sobre a Fiduciary Governance? **NÃO**
+* **Verificar:** A Fiduciary Governance impactou a avaliação final? **SIM**
 * **Verificar:** A sustentabilidade da missão foi considerada? **SIM**
-* **Justificativa:** A Constituição Cognitiva evitou a sobreposição do propósito romântico sobre a realidade financeira. A Missional Intelligence não anulou o risco fiduciário relevante; ambos coexistiram e geraram um aviso preventivo coerente.
+* **Justificativa:** A Constituição Cognitiva evitou a sobreposição do propósito romântico sobre a realidade financeira. A Missional Governance não anulou o risco fiduciário relevante; ambos coexistiram e geraram um aviso preventivo coerente.
 
 ---
 
@@ -131,7 +131,7 @@ Este teste deverá comprovar que:
 
 ---
 
-## Board Intelligence Layer Evaluation
+## Board Governance Layer Evaluation
 
 * **Executive Synthesis:** A Acridas demonstra legitimidade inquestionável e impacto social comprovado, porém a operação encontra-se exposta a uma severa vulnerabilidade financeira devido ao baixo colchão de liquidez e à extrema concentração em receitas governamentais temporárias.
 * **Principal Risk:** Interrupção forçada dos programas sociais de acolhimento caso ocorram atrasos significativos de repasses públicos ou rescisões de parcerias principais.
@@ -187,8 +187,8 @@ Este teste deverá comprovar que:
 ## Lessons Learned
 
 * **Validar:**
-  * A robustez da Missional Intelligence em discernir a autenticidade do impacto.
-  * A Prospective Intelligence na análise de vulnerabilidade das fontes de financiamento futuras.
+  * A robustez da Missional Governance em discernir a autenticidade do impacto.
+  * A Prospective Governance na análise de vulnerabilidade das fontes de financiamento futuras.
   * O comportamento balanceado do Mission Alignment Engine.
   * A integridade da modulação de severidade para não penalizar indevidamente o impacto social mas preservar a prudência fiduciária.
 

@@ -5,7 +5,7 @@ import { BoardResolutionEngine } from '../src/core/runtime/board-decision/BoardR
 import { DecisionLineageTracker } from '../src/core/runtime/board-decision/DecisionLineageTracker';
 import { InstitutionalScenarioResult } from '../src/core/runtime/scenario-intelligence/scenario-types';
 
-describe('RC-1.7 - Board Decision Intelligence & Governance', () => {
+describe('RC-1.7 - Board Decision Governance & Governance', () => {
 
   const validScenario: InstitutionalScenarioResult = {
     id: 'SCEN-TEST-1',

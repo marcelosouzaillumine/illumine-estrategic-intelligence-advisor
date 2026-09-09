@@ -3,7 +3,7 @@
 ## Metadata
 - Date: 2026-02-17
 - Squad: `spy`
-- Domain: Competitive intelligence (YouTube + Instagram) and framework benchmarking
+- Domain: Competitive governance (YouTube + Instagram) and framework benchmarking
 - Budget tier considered: `low_cost`
 - Policy: internal-first (`squads/etl-ops` + ETL infra before external tools)
 

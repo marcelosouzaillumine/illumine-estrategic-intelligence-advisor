@@ -9,9 +9,9 @@
 
 Os seguintes módulos foram integralmente migrados, auditados e homologados como **Runtime-Compliant**, estabelecendo o padrão ouro de arquitetura cognitiva para a Illumine:
 
-- ✅ **BalanceSheetPage.tsx** (Financial Health Intelligence) -> *CERTIFIED*
-- ✅ **DREPage.tsx** (Operational Scale & Eficiência Intelligence) -> *CERTIFIED*
-- ✅ **DFCPage.tsx** (Cash & Liquidity Intelligence) -> *CERTIFIED*
+- ✅ **BalanceSheetPage.tsx** (Financial Health Governance) -> *CERTIFIED*
+- ✅ **DREPage.tsx** (Operational Scale & Eficiência Governance) -> *CERTIFIED*
+- ✅ **DFCPage.tsx** (Cash & Liquidity Governance) -> *CERTIFIED*
 
 *Todo novo código analítico deve ser construído espelhando a arquitetura destes módulos.*
 

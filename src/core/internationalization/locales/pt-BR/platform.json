@@ -36,7 +36,7 @@
       "layer1": {
         "tag": "1. Camada de Dados",
         "desc_title": "A base institucional de conhecimento.",
-        "desc": "Toda decisão inteligente depende de dados confiáveis e contexto preservado. A Intelligence Foundation™ reúne e organiza informações provenientes das diferentes áreas da organização, criando uma base confiável para análise executiva. Transformamos dados fragmentados em uma base institucional confiável.",
+        "desc": "Toda decisão inteligente depende de dados confiáveis e contexto preservado. A Governance Foundation™ reúne e organiza informações provenientes das diferentes áreas da organização, criando uma base confiável para análise executiva. Transformamos dados fragmentados em uma base institucional confiável.",
         "tags": {
           "t1": "Dados financeiros",
           "t2": "Informações operacionais",
@@ -50,7 +50,7 @@
         "tag": "3. Camada de Inteligência",
         "desc_title": "O motor que interpreta relações e identifica padrões.",
         "highlight": "Dados isolados mostram eventos. Inteligência revela relações.",
-        "desc": "O Intelligence Engine™ analisa tendências, correlações, desvios, riscos, impactos sistêmicos e oportunidades. Ele conecta diferentes dimensões da organização para responder perguntas que relatórios tradicionais não conseguem responder:",
+        "desc": "O Governance Engine™ analisa tendências, correlações, desvios, riscos, impactos sistêmicos e oportunidades. Ele conecta diferentes dimensões da organização para responder perguntas que relatórios tradicionais não conseguem responder:",
         "quotes": {
           "q1": "“Por que isso aconteceu?”",
           "q2": "“Qual impacto essa decisão pode gerar?”",
@@ -73,7 +73,7 @@
         "tag": "5. Camada de Confiança",
         "desc_title": "A camada de confiança da inteligência corporativa.",
         "items": {
-          "i1_title": "Explainable Intelligence™",
+          "i1_title": "Explainable Governance™",
           "i1_desc": "Toda recomendação precisa apresentar sua origem, premissas e evidências.",
           "i2_title": "Rastreabilidade de Decisões",
           "i2_desc": "O histórico da decisão permanece documentado e acessível.",
@@ -100,11 +100,11 @@
       "conclusion": "A organização deixa de apenas olhar o passado e passa a compreender possibilidades futuras."
     },
     "practice": {
-      "label": "Executive Intelligence in Practice",
+      "label": "Executive Governance in Practice",
       "title": "Da informação para a decisão.",
       "before_tag": "Relatório Tradicional (Antes)",
       "before_quote": "\"O EBITDA caiu 8% no trimestre.\"",
-      "after_tag": "Com Illumine Executive Intelligence",
+      "after_tag": "Com Illumine Executive Governance",
       "after_quote": "\"A Illumine identificou que a pressão sobre o caixa tem origem na interação de três vetores: ineficiências operacionais recentes, aumento de custos logísticos e uma decisão de investimento anterior. Essa relação está drenando margem operacional e restringindo o próximo ciclo de crescimento.\""
     },
     "evolution": {
@@ -113,13 +113,13 @@
       "lead": "A Illumine é construída como uma infraestrutura viva de inteligência institucional.",
       "cards": {
         "c1_tag": "Hoje",
-        "c1_title": "Institutional Intelligence Foundation",
+        "c1_title": "Institutional Governance Foundation",
         "c1_desc": "Observabilidade financeira, operacional e institucional integrada em tempo real.",
         "c2_tag": "Em evolução",
         "c2_title": "Cognitive Agents",
         "c2_desc": "Agentes inteligentes para análise interpretativa e geração de relatórios executivos.",
         "c3_tag": "Próxima fronteira",
-        "c3_title": "Predictive Intelligence",
+        "c3_title": "Predictive Governance",
         "c3_desc": "Simulações avançadas, cenários ramificados e antecipação de riscos estruturais."
       }
     },

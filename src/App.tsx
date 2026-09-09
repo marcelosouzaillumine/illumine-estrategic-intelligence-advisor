@@ -380,7 +380,7 @@ function getPageComponent(key: RouteKey) {
     case 'PLATFORM': return <InstitutionalPlatformPage />;
     case 'DOMAINS': return <InstitutionalDomainsPage />;
     case 'GOVERNANCE': return <InstitutionalGovernancePage />;
-    case 'INTELLIGENCE_CENTER': return <InstitutionalIntelligenceCenterPage />;
+    case 'GOVERNANCE_CENTER': return <InstitutionalIntelligenceCenterPage />;
     case 'DIAGNOSTIC': return <ExecutiveDiagnosticJourneyPage />;
     case 'CONTACT': return (
       <div className="min-h-screen bg-[#0A0A0B] flex flex-col items-center justify-center p-6 text-center">
@@ -768,8 +768,8 @@ export default function App() {
                         <PlatformRevenueCenterPage />
                       </ExecutiveAppShell>
                     } />
-                    <Route path="/platform/workspace/pipeline-intelligence" element={
-                      <ExecutiveAppShell semanticMatch={{ isLegacyUrl: true, officeId: 'platform-workspace', surfaceId: 'platform.pipeline-intelligence' }}>
+                    <Route path="/platform/workspace/pipeline-governance" element={
+                      <ExecutiveAppShell semanticMatch={{ isLegacyUrl: true, officeId: 'platform-workspace', surfaceId: 'platform.pipeline-governance' }}>
                         <PlatformPipelinePage />
                       </ExecutiveAppShell>
                     } />
@@ -839,8 +839,8 @@ export default function App() {
                     } />
                     <Route path="/war-room" element={<ScenarioCommandCenter />} />
                     <Route path="/war-room/:scenarioId" element={<ScenarioCommandCenter />} />
-                    <Route path="/intelligence" element={<InstitutionalIntelligenceWorkspace />} />
-                    <Route path="/intelligence/:objectId" element={<InstitutionalIntelligenceWorkspace />} />
+                    <Route path="/governance" element={<InstitutionalIntelligenceWorkspace />} />
+                    <Route path="/governance/:objectId" element={<InstitutionalIntelligenceWorkspace />} />
                     <Route path="/architecture-governance/explorer" element={<ArchitectureExplorer />} />
                     <Route path="/governance/analytics-health" element={
                       isMaster || isPartner ? (
