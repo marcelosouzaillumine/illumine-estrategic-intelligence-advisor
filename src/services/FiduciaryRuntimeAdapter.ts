@@ -34,10 +34,10 @@ import { EFOSPresentationLeakGuard } from '../core/runtime/executive-consolidati
 import { CrossStatementPresentationGuard } from '../core/runtime/executive-consolidation/CrossStatementPresentationGuard';
 import { MetricCanonicalizationEngine } from '../core/runtime/executive-consolidation/MetricCanonicalizationEngine';
 import { ExecutiveRecommendation } from '../core/runtime/executive-consolidation/ExecutiveRecommendationDeduplicationEngine';
-import { RuntimeExecutionRegistry } from '../core/runtime/observability/RuntimeExecutionRegistry';
-import { RuntimeHealthMonitor } from '../core/runtime/observability/RuntimeHealthMonitor';
-import { ExecutionReplayEngine } from '../core/runtime/observability/ExecutionReplayEngine';
-import { RuntimeExecutionRecord, RuntimeHealthSnapshot, ReplayExecutionResult } from '../core/runtime/observability/observability-types';
+import { RuntimeExecutionRegistry } from '../platform/observability/RuntimeExecutionRegistry';
+import { RuntimeHealthMonitor } from '../platform/observability/RuntimeHealthMonitor';
+import { ExecutionReplayEngine } from '../platform/observability/ExecutionReplayEngine';
+import { RuntimeExecutionRecord, RuntimeHealthSnapshot, ReplayExecutionResult } from '../platform/observability/observability-types';
 import { ConsolidatedExecutiveAdvisoryReport } from '../core/runtime/consolidated/advisory/advisoryTypes';
 import { DecisionRecordRegistry } from '../core/runtime/workflow-governance/DecisionRecordRegistry';
 import { WorkflowAuditLogger } from '../core/runtime/workflow-governance/WorkflowAuditLogger';
@@ -155,7 +155,7 @@ export const FiduciaryRuntimeAdapter = {
 // Re-exports
 export type { ExecutiveIntelligenceReport } from '../core/runtime/executive-intelligence-runtime';
 export { executiveRuntime } from '../core/runtime/executive-intelligence-runtime';
-export { InstitutionalLocaleGuard } from '../core/runtime/locale/InstitutionalLocaleGuard';
+export { InstitutionalLocaleGuard } from '../platform/locale/InstitutionalLocaleGuard';
 export { ExecutiveLabelResolver } from '../core/runtime/executive-presentation/ExecutiveLabelResolver';
 export { ExecutiveDisclosureResolver } from '../core/runtime/executive-presentation/ExecutiveDisclosureResolver';
 export { ExecutiveNarrativeDeduplicationEngine } from '../core/runtime/executive-presentation/ExecutiveNarrativeDeduplicationEngine';
@@ -254,7 +254,7 @@ export { ProductGovernanceEngine } from '../core/runtime/product-governance/Prod
 export { GoldenDatasetRegistry } from '../core/runtime/reality-validation/GoldenDatasetRegistry';
 export { GoldenDatasetIsolationEngine } from '../core/runtime/reality-validation/GoldenDatasetIsolationEngine';
 export type { GoldenDatasetProfile } from '../core/runtime/reality-validation/RealityValidationTypes';
-export type { RuntimeExecutionRecord, RuntimeHealthSnapshot, ReplayExecutionResult } from '../core/runtime/observability/observability-types';
+export type { RuntimeExecutionRecord, RuntimeHealthSnapshot, ReplayExecutionResult } from '../platform/observability/observability-types';
 export type { RuntimeLatencySnapshot } from '../core/runtime/profiling/ProfilingTypes';
 export type { ScenarioTradeoffProfile, BoardResolution } from '../core/runtime/board-decision/board-decision-types';
 export { ScenarioTradeoffEngine } from '../core/runtime/scenario-intelligence/ScenarioTradeoffEngine';
@@ -287,8 +287,8 @@ export type { StrategicSimulationResult } from '../core/runtime/strategic-simula
 export type { StrategicSimulationInput } from '../core/runtime/strategic-simulation/StrategicSimulationTypes';
 export { StrategicDecisionEvidenceBinder } from '../core/runtime/strategic-simulation/StrategicDecisionEvidenceBinder';
 export type { TemporalTrajectoryPoint, TemporalEvent, PredictiveRecurrenceState, ResponsivenessMetrics, TemporalEscalationState, TemporalConfidenceState, EarlyWarningSignal, TemporalCausalityOutput, TemporalDensityMap } from '../core/runtime/institutional-memory/types';
-export { AdvisorWorkspaceManager } from '../core/runtime/tenancy/AdvisorWorkspaceManager';
-export type { Workspace } from '../core/runtime/tenancy/TenancyTypes';
+export { AdvisorWorkspaceManager } from '../platform/tenant/AdvisorWorkspaceManager';
+export type { Workspace } from '../platform/tenant/TenancyTypes';
 export type { CrisisPropagationNode, CrisisExplainabilityProfile, CrisisInput, CrisisType, InstitutionalSurvivalThesis, WarGameResult, TreasurySurvivalProfile } from '../core/runtime/war-gaming/war-gaming-types';
 export { WarGameAdapter } from '../core/runtime/war-gaming/war-game-adapter';
 export type { WorkflowStatus } from '../core/runtime/workflow-governance/WorkflowGovernanceTypes';

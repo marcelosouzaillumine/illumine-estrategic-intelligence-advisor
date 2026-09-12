@@ -1,6 +1,6 @@
 import React, { createContext, useContext, useState } from 'react';
 import { dictionaries, Locale } from '../i18n';
-import { resolveInstitutionalLabel, humanizeInstitutionalKey } from '../core/runtime/i18n/InstitutionalLabelResolver';
+import { resolveInstitutionalLabel, humanizeInstitutionalKey } from '../platform/i18n/InstitutionalLabelResolver';
 import { useLocale } from '../core/internationalization/providers/LocaleProvider';
 
 interface LanguageContextType {

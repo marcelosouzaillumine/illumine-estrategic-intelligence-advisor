@@ -5,7 +5,7 @@ import { ExecutiveSupervisionEngine } from '../src/core/runtime/governance-comma
 import { RuntimeHealthMonitoringEngine } from '../src/core/runtime/governance-command-center/RuntimeHealthMonitoringEngine';
 import { MultiTenantSupervisionEngine } from '../src/core/runtime/governance-command-center/MultiTenantSupervisionEngine';
 import { GovernanceIncident, GovernanceSupervisionEvent } from '../src/core/runtime/governance-command-center/types';
-import { TenantRole } from '../src/core/runtime/tenancy/TenancyTypes';
+import { TenantRole } from '../src/platform/tenant/TenancyTypes';
 
 const createMockIncident = (overrides?: Partial<GovernanceIncident>): GovernanceIncident => ({
   incidentId: 'inc-01',

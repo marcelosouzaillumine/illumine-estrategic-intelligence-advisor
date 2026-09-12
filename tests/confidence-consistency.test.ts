@@ -1,7 +1,7 @@
 import { describe, it, beforeEach } from 'node:test';
 import assert from 'node:assert/strict';
 import { CalibrationEngine } from '../src/core/runtime/calibration/CalibrationEngine';
-import { ConfidenceTelemetryEngine } from '../src/core/runtime/observability/ConfidenceTelemetryEngine';
+import { ConfidenceTelemetryEngine } from '../src/platform/observability/ConfidenceTelemetryEngine';
 import { PredictiveStressEngine } from '../src/core/runtime/scenario/PredictiveStressEngine';
 import { ScenarioConfidenceProjector } from '../src/core/runtime/scenario/ScenarioConfidenceProjector';
 import { ConsolidatedFinancialInput } from '../src/core/runtime/consolidated/types';

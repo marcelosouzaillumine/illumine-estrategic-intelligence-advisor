@@ -5,7 +5,7 @@ import {
   TenantExecutionContext, 
   TenantViolations,
   LegacyTenantContextAdapter
-} from '../src/core/runtime/tenancy/hardening';
+} from '../src/platform/tenant/hardening';
 
 test('Tenant Isolation Hardening (RC-1.1A)', async (t) => {
 

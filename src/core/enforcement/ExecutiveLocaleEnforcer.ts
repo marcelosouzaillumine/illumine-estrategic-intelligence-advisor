@@ -1,4 +1,4 @@
-import { InstitutionalTerminologyRegistry } from '../runtime/i18n/InstitutionalTerminologyRegistry';
+import { InstitutionalTerminologyRegistry } from '../../platform/i18n/InstitutionalTerminologyRegistry';
 
 export class ExecutiveLocaleEnforcer {
   /**

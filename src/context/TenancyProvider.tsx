@@ -1,8 +1,8 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
-import { AdvisorWorkspaceContext, TenantPermission } from '../core/runtime/tenancy/TenancyTypes';
-import { WorkspaceResolver } from '../core/runtime/tenancy/WorkspaceResolver';
-import { PermissionMatrixResolver } from '../core/runtime/tenancy/PermissionMatrixResolver';
-import { TenantAuditLogger } from '../core/runtime/tenancy/TenantAuditLogger';
+import { AdvisorWorkspaceContext, TenantPermission } from '../platform/tenant/TenancyTypes';
+import { WorkspaceResolver } from '../platform/tenant/WorkspaceResolver';
+import { PermissionMatrixResolver } from '../platform/tenant/PermissionMatrixResolver';
+import { TenantAuditLogger } from '../platform/tenant/TenantAuditLogger';
 
 interface TenancyContextType {
   context: AdvisorWorkspaceContext | null;

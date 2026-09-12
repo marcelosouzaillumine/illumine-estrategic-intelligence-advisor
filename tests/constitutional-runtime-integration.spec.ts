@@ -8,8 +8,8 @@ import { ExecutiveIntelligenceRuntime } from '../src/core/runtime/executive-inte
 import { InstitutionalBoardPackRuntime } from '../src/core/runtime/institutional-reporting/InstitutionalBoardPackRuntime';
 import { ConstitutionalIntegrityPanel } from '../src/components/institutional-reporting/ConstitutionalIntegrityPanel';
 import { QuarantineModeSurface } from '../src/components/institutional-reporting/QuarantineModeSurface';
-import { InMemoryRuntimeTelemetrySink } from '../src/core/runtime/observability/sinks/InMemoryRuntimeTelemetrySink';
-import { RuntimeExecutionLogger } from '../src/core/runtime/observability/RuntimeExecutionLogger';
+import { InMemoryRuntimeTelemetrySink } from '../src/platform/observability/sinks/InMemoryRuntimeTelemetrySink';
+import { RuntimeExecutionLogger } from '../src/platform/observability/RuntimeExecutionLogger';
 import { ExecutiveConstitutionalRuntime } from '../src/core/runtime/constitutional-governance/ExecutiveConstitutionalRuntime';
 
 interface MockRawData {

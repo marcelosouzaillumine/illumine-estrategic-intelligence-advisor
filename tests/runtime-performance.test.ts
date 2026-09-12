@@ -4,10 +4,10 @@ import { tenantScopedRuntimeCache } from '../src/core/runtime/performance/Tenant
 import { LazyExecutionCoordinator } from '../src/core/runtime/performance/LazyExecutionCoordinator';
 import { DAGExecutionOptimizer } from '../src/core/runtime/performance/DAGExecutionOptimizer';
 import { RuntimePerformanceMonitor } from '../src/core/runtime/performance/RuntimePerformanceMonitor';
-import { RuntimeTelemetryEngine } from '../src/core/runtime/telemetry/RuntimeTelemetryEngine';
-import { TelemetryAuditTrail } from '../src/core/runtime/telemetry/TelemetryAuditTrail';
+import { RuntimeTelemetryEngine } from '../src/platform/telemetry/RuntimeTelemetryEngine';
+import { TelemetryAuditTrail } from '../src/platform/telemetry/TelemetryAuditTrail';
 import { SovereignCacheKey } from '../src/core/runtime/performance/types';
-import { TenantIsolationError } from '../src/core/runtime/tenancy/hardening/TenantExecutionContext';
+import { TenantIsolationError } from '../src/platform/tenant/hardening/TenantExecutionContext';
 
 describe('Runtime Performance & Telemetry - Sprint 2 (Active Governance)', () => {
 

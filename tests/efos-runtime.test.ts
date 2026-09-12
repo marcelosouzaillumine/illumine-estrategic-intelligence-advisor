@@ -49,7 +49,7 @@ describe('EFOS Runtime - Cross Statement Causality Engine', () => {
 
 describe('EFOS Observability - Propagation Chain Tracer', () => {
   it('Deve agrupar tensões conectadas em cadeias de propagação', async () => {
-    const { tracePropagationChains } = await import('../src/core/runtime/observability/PropagationChainTracer');
+    const { tracePropagationChains } = await import('../src/platform/observability/PropagationChainTracer');
     const tensions = [
       { source: 'DRE', target: 'DFC', propagationDirection: 'DRE → DFC', mechanism: 'EBITDA não convertido', evidence: '...', severity: 'ALTA' },
       { source: 'DFC', target: 'BP', propagationDirection: 'DFC → BP', mechanism: 'Consumo de Caixa', evidence: '...', severity: 'CRÍTICA' }
@@ -65,7 +65,7 @@ describe('EFOS Observability - Propagation Chain Tracer', () => {
 
 describe('EFOS Observability - Institutional Explainability', () => {
   it('Deve gerar racional fiduciário completo com camadas progressivas', async () => {
-    const { generateFiduciaryRationale } = await import('../src/core/runtime/observability/InstitutionalExplainabilityEngine');
+    const { generateFiduciaryRationale } = await import('../src/platform/observability/InstitutionalExplainabilityEngine');
     const profile = { isAvailable: true, consolidatedSeverity: 'ALTA', structuralRisks: [{ id: 'RISK_1', component: 'Capital', severity: 'ALTA' }], pressures: [] } as any;
     const rationale = generateFiduciaryRationale(profile, [], 'HIGH_CONFIDENCE', false);
     assert.ok(rationale.executiveSummary);
