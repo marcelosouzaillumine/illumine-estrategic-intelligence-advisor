@@ -1,6 +1,6 @@
 import { describe, it } from 'node:test';
 import assert from 'node:assert';
-import { CashConcentrationAssessmentEngine } from '../src/core/runtime/governance/bp/CashConcentrationAssessmentEngine';
+import { CashConcentrationAssessmentEngine } from '../src/capabilities/runtime/governance/bp/CashConcentrationAssessmentEngine';
 
 describe('CashConcentration Golden Test', () => {
   it('should label 43.6% cash as Reserva financeira elevada', () => {

@@ -7,11 +7,11 @@ import {
   SimulationOutput,
   SandboxConfig,
   SandboxResult
-} from '../../core/runtime/scenario-simulation/types';
-import { ScenarioMacroProjectionEngine } from '../../core/runtime/scenario-simulation/ScenarioMacroProjectionEngine';
-import { GovernanceForecastEngine, ForecastOutput } from '../../core/runtime/scenario-simulation/GovernanceForecastEngine';
-import { PropagationSimulationEngine } from '../../core/runtime/scenario-simulation/PropagationSimulationEngine';
-import { StrategicDecisionSandbox } from '../../core/runtime/scenario-simulation/StrategicDecisionSandbox';
+} from '../../capabilities/runtime/scenario-simulation/types';
+import { ScenarioMacroProjectionEngine } from '../../capabilities/runtime/scenario-simulation/ScenarioMacroProjectionEngine';
+import { GovernanceForecastEngine, ForecastOutput } from '../../capabilities/runtime/scenario-simulation/GovernanceForecastEngine';
+import { PropagationSimulationEngine } from '../../capabilities/runtime/scenario-simulation/PropagationSimulationEngine';
+import { StrategicDecisionSandbox } from '../../capabilities/runtime/scenario-simulation/StrategicDecisionSandbox';
 
 interface ScenarioSimulationContextType {
   activeScenarioType: SimulationScenarioType;

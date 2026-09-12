@@ -12,7 +12,7 @@ import { ExecutiveDecisionAdapter } from '../src/runtime/adapters/ExecutiveDecis
 import { InstitutionalMemoryAdapter } from '../src/runtime/adapters/InstitutionalMemoryAdapter';
 import { BoardRiskMatrixAdapter } from '../src/runtime/adapters/BoardRiskMatrixAdapter';
 import { InstitutionalContext, EngineExecutionResult } from '../src/runtime/types';
-import { InstitutionalBoardPackDocumentRuntime } from '../src/core/runtime/institutional-reporting/InstitutionalBoardPackDocumentRuntime';
+import { InstitutionalBoardPackDocumentRuntime } from '../src/capabilities/runtime/institutional-reporting/InstitutionalBoardPackDocumentRuntime';
 import { buildBPHierarchy } from '../src/lib/bpEngine';
 
 describe('Executive Execution Engine (E3) Tests', () => {

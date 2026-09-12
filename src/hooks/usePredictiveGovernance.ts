@@ -1,12 +1,12 @@
 import { useState, useEffect } from 'react';
-import { InMemoryTrendRepository } from '../core/runtime/predictive-governance/InstitutionalTrendRepository';
-import { InstitutionalTrajectoryEngine, TrajectoryOutput } from '../core/runtime/predictive-governance/InstitutionalTrajectoryEngine';
-import { PredictiveRiskEngine, PredictiveRiskOutput } from '../core/runtime/predictive-governance/PredictiveRiskEngine';
-import { InstitutionalEarlyWarningEngine, EarlyWarningOutput, EarlyWarningSignal } from '../core/runtime/predictive-governance/InstitutionalEarlyWarningEngine';
-import { InstitutionalScenarioEngine, ScenarioOutput } from '../core/runtime/predictive-governance/InstitutionalScenarioEngine';
-import { GovernanceMomentumEngine, MomentumOutput } from '../core/runtime/predictive-governance/GovernanceMomentumEngine';
-import { PredictiveRecommendationEngine, RecommendationOutput } from '../core/runtime/predictive-governance/PredictiveRecommendationEngine';
-import { PredictiveGovernanceScoreEngine, ScoreOutput } from '../core/runtime/predictive-governance/PredictiveGovernanceScoreEngine';
+import { InMemoryTrendRepository } from '../capabilities/runtime/predictive-governance/InstitutionalTrendRepository';
+import { InstitutionalTrajectoryEngine, TrajectoryOutput } from '../capabilities/runtime/predictive-governance/InstitutionalTrajectoryEngine';
+import { PredictiveRiskEngine, PredictiveRiskOutput } from '../capabilities/runtime/predictive-governance/PredictiveRiskEngine';
+import { InstitutionalEarlyWarningEngine, EarlyWarningOutput, EarlyWarningSignal } from '../capabilities/runtime/predictive-governance/InstitutionalEarlyWarningEngine';
+import { InstitutionalScenarioEngine, ScenarioOutput } from '../capabilities/runtime/predictive-governance/InstitutionalScenarioEngine';
+import { GovernanceMomentumEngine, MomentumOutput } from '../capabilities/runtime/predictive-governance/GovernanceMomentumEngine';
+import { PredictiveRecommendationEngine, RecommendationOutput } from '../capabilities/runtime/predictive-governance/PredictiveRecommendationEngine';
+import { PredictiveGovernanceScoreEngine, ScoreOutput } from '../capabilities/runtime/predictive-governance/PredictiveGovernanceScoreEngine';
 
 export interface PredictiveGovernanceData {
   trajectory: TrajectoryOutput;

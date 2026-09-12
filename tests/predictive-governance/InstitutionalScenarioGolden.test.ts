@@ -1,8 +1,8 @@
 import test from 'node:test';
 import assert from 'node:assert';
-import { InstitutionalScenarioEngine } from '../../src/core/runtime/predictive-governance/InstitutionalScenarioEngine';
-import { InstitutionalSnapshot } from '../../src/core/runtime/predictive-governance/PredictiveTypes';
-import { TrajectoryOutput } from '../../src/core/runtime/predictive-governance/InstitutionalTrajectoryEngine';
+import { InstitutionalScenarioEngine } from '../../src/capabilities/runtime/predictive-governance/InstitutionalScenarioEngine';
+import { InstitutionalSnapshot } from '../../src/capabilities/runtime/predictive-governance/PredictiveTypes';
+import { TrajectoryOutput } from '../../src/capabilities/runtime/predictive-governance/InstitutionalTrajectoryEngine';
 
 test('▶ Institutional Scenario Golden Tests', async (t) => {
   await t.test('✔ 1. Projects scenarios based on trajectory', () => {

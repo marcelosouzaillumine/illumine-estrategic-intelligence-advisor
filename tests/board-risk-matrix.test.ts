@@ -6,7 +6,7 @@ import { LegacyFinancialAdapter } from '../src/runtime/adapters/LegacyFinancialA
 import { LegacyDREAdapter } from '../src/runtime/adapters/LegacyDREAdapter';
 import { StressTestAdapter } from '../src/runtime/adapters/StressTestAdapter';
 import { InstitutionalContext } from '../src/runtime/types';
-import { InstitutionalBoardPackDocumentRuntime } from '../src/core/runtime/institutional-reporting/InstitutionalBoardPackDocumentRuntime';
+import { InstitutionalBoardPackDocumentRuntime } from '../src/capabilities/runtime/institutional-reporting/InstitutionalBoardPackDocumentRuntime';
 import { ExecutiveIntelligenceReport } from '../src/core/runtime/executive-intelligence-runtime';
 
 describe('Board Risk Matrix (BRM) - Engine & Report Integration Tests', () => {

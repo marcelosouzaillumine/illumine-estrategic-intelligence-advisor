@@ -11,7 +11,7 @@ import { InstitutionalMemoryAdapter } from '../src/runtime/adapters/Institutiona
 import { BoardRiskMatrixAdapter } from '../src/runtime/adapters/BoardRiskMatrixAdapter';
 import { InstitutionalContext, EngineExecutionResult } from '../src/runtime/types';
 import { ExecutiveIntelligenceReport } from '../src/core/runtime/executive-intelligence-runtime';
-import { InstitutionalBoardPackDocumentRuntime } from '../src/core/runtime/institutional-reporting/InstitutionalBoardPackDocumentRuntime';
+import { InstitutionalBoardPackDocumentRuntime } from '../src/capabilities/runtime/institutional-reporting/InstitutionalBoardPackDocumentRuntime';
 import { buildBPHierarchy } from '../src/lib/bpEngine';
 
 describe('Credit Committee Simulator (CCS) Tests', () => {

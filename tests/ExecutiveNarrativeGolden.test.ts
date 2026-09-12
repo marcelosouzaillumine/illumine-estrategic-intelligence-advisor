@@ -1,7 +1,7 @@
 import { describe, it } from 'node:test';
 import assert from 'node:assert';
-import { BalanceSheetExecutiveNarrativeEngine } from '../src/core/runtime/governance/bp/BalanceSheetExecutiveNarrativeEngine';
-import { BalanceSheetGovernanceOutputValidator } from '../src/core/runtime/governance/bp/BalanceSheetGovernanceOutputValidator';
+import { BalanceSheetExecutiveNarrativeEngine } from '../src/capabilities/runtime/governance/bp/BalanceSheetExecutiveNarrativeEngine';
+import { BalanceSheetGovernanceOutputValidator } from '../src/capabilities/runtime/governance/bp/BalanceSheetGovernanceOutputValidator';
 
 describe('ExecutiveNarrative Golden Test', () => {
   it('should generate narrative for Granatum 2023', () => {

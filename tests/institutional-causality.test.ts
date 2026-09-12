@@ -2,11 +2,11 @@ import { describe, it, beforeEach } from 'node:test';
 import assert from 'node:assert/strict';
 import { InstitutionalCausalityExplorer } from '../src/capabilities/financial/runtime/causal-intelligence/InstitutionalCausalityExplorer';
 import { HistoricalRuntimeCycle } from '../src/workspace/runtime/executive-timeline/executive-timeline-types';
-import { InstitutionalCausalityOrchestrator } from '../src/core/runtime/institutional-causality/InstitutionalCausalityOrchestrator';
-import { ExecutiveNarrativeSanitizer, FiduciaryNarrativeViolation } from '../src/core/runtime/institutional-causality/ExecutiveNarrativeSanitizer';
+import { InstitutionalCausalityOrchestrator } from '../src/capabilities/runtime/institutional-causality/InstitutionalCausalityOrchestrator';
+import { ExecutiveNarrativeSanitizer, FiduciaryNarrativeViolation } from '../src/capabilities/runtime/institutional-causality/ExecutiveNarrativeSanitizer';
 import { executiveRuntime } from '../src/core/runtime/executive-intelligence-runtime';
-import { HistoricalCycleData } from '../src/core/runtime/institutional-memory/types';
-import { LOW_CONFIDENCE, HIGH_CONFIDENCE } from '../src/core/runtime/institutional-causality/types';
+import { HistoricalCycleData } from '../src/capabilities/runtime/institutional-memory/types';
+import { LOW_CONFIDENCE, HIGH_CONFIDENCE } from '../src/capabilities/runtime/institutional-causality/types';
 import { CalibrationEngine } from '../src/core/runtime/calibration/CalibrationEngine';
 
 describe('Institutional Causality Graph & Longitudinal Governance Layer (RC-1.3) Suite', () => {

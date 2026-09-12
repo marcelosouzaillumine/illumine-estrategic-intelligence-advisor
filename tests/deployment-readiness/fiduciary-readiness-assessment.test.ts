@@ -3,8 +3,8 @@
 
 import test, { describe, it } from 'node:test';
 import assert from 'node:assert/strict';
-import { FiduciaryReadinessAssessmentEngine } from '../../src/core/runtime/deployment-readiness/FiduciaryReadinessAssessmentEngine';
-import { DeploymentReadinessInput } from '../../src/core/runtime/deployment-readiness/DeploymentReadinessTypes';
+import { FiduciaryReadinessAssessmentEngine } from '../../src/capabilities/runtime/deployment-readiness/FiduciaryReadinessAssessmentEngine';
+import { DeploymentReadinessInput } from '../../src/capabilities/runtime/deployment-readiness/DeploymentReadinessTypes';
 
 describe('Fiduciary Readiness Assessment Engine Validation', () => {
 

@@ -1,9 +1,9 @@
 import { test, describe, beforeEach } from 'node:test';
 import assert from 'node:assert/strict';
-import { ConstitutionalActionRegistry } from '../src/core/runtime/decision-intelligence/ConstitutionalActionRegistry';
-import { ConstitutionalDecisionRuntime } from '../src/core/runtime/decision-intelligence/ConstitutionalDecisionRuntime';
-import { ExecutiveDecisionReport } from '../src/core/runtime/decision-intelligence/ExecutiveDecisionReport';
-import { ExecutiveActionMatrixEngine } from '../src/core/runtime/decision-intelligence/ExecutiveActionMatrixEngine';
+import { ConstitutionalActionRegistry } from '../src/capabilities/runtime/decision-intelligence/ConstitutionalActionRegistry';
+import { ConstitutionalDecisionRuntime } from '../src/capabilities/runtime/decision-intelligence/ConstitutionalDecisionRuntime';
+import { ExecutiveDecisionReport } from '../src/capabilities/runtime/decision-intelligence/ExecutiveDecisionReport';
+import { ExecutiveActionMatrixEngine } from '../src/capabilities/runtime/decision-intelligence/ExecutiveActionMatrixEngine';
 
 describe('Constitutional Decision Governance Layer (CDIL v1.1) Tests', () => {
   beforeEach(() => {

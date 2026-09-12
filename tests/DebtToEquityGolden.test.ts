@@ -1,6 +1,6 @@
 import { describe, it } from 'node:test';
 import assert from 'node:assert';
-import { DebtToEquityEngine } from '../src/core/runtime/governance/bp/DebtToEquityEngine';
+import { DebtToEquityEngine } from '../src/capabilities/runtime/governance/bp/DebtToEquityEngine';
 
 describe('DebtToEquity Golden Test', () => {
   it('should calculate 0.35x for Granatum 2023', () => {

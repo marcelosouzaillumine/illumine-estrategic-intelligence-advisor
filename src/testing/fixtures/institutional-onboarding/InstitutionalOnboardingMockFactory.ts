@@ -1,4 +1,4 @@
-import { InstitutionalOnboardingInput } from '../../../core/runtime/institutional-onboarding/InstitutionalOnboardingTypes';
+import { InstitutionalOnboardingInput } from '../../../capabilities/runtime/institutional-onboarding/InstitutionalOnboardingTypes';
 
 export class InstitutionalOnboardingMockFactory {
   public static createDefaultInput(): InstitutionalOnboardingInput {

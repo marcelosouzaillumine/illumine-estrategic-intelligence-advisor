@@ -1,8 +1,8 @@
 // tests/institutional-resilience/institutional-resilience.test.ts
 import { describe, it } from 'node:test';
 import assert from 'node:assert';
-import { InstitutionalResilienceEngine } from '../../src/core/runtime/institutional-resilience/InstitutionalResilienceEngine';
-import { ResilienceEvaluationInput } from '../../src/core/runtime/institutional-resilience/ResilienceTypes';
+import { InstitutionalResilienceEngine } from '../../src/capabilities/runtime/institutional-resilience/InstitutionalResilienceEngine';
+import { ResilienceEvaluationInput } from '../../src/capabilities/runtime/institutional-resilience/ResilienceTypes';
 
 describe('Institutional Resilience & Antifragility Engine (IRAE)', () => {
 

@@ -1,13 +1,13 @@
 import test from 'node:test';
 import assert from 'node:assert';
-import { ExecutionCapacityConstraintEngine } from '../src/core/runtime/prescriptive-governance/ExecutionCapacityConstraintEngine';
-import { PrescriptiveActionEngine } from '../src/core/runtime/prescriptive-governance/PrescriptiveActionEngine';
-import { FiduciaryPriorityEngine } from '../src/core/runtime/prescriptive-governance/FiduciaryPriorityEngine';
-import { DecisionMatrixEngine } from '../src/core/runtime/prescriptive-governance/DecisionMatrixEngine';
-import { InterventionTrackEngine } from '../src/core/runtime/prescriptive-governance/InterventionTrackEngine';
-import { BoardAgendaEngine } from '../src/core/runtime/prescriptive-governance/BoardAgendaEngine';
-import { BoardDraftingEngine } from '../src/core/runtime/prescriptive-governance/BoardDraftingEngine';
-import { PredictiveRiskOutput, EmergingRiskCategory } from '../src/core/runtime/predictive-governance/PredictiveRiskEngine';
+import { ExecutionCapacityConstraintEngine } from '../src/capabilities/runtime/prescriptive-governance/ExecutionCapacityConstraintEngine';
+import { PrescriptiveActionEngine } from '../src/capabilities/runtime/prescriptive-governance/PrescriptiveActionEngine';
+import { FiduciaryPriorityEngine } from '../src/capabilities/runtime/prescriptive-governance/FiduciaryPriorityEngine';
+import { DecisionMatrixEngine } from '../src/capabilities/runtime/prescriptive-governance/DecisionMatrixEngine';
+import { InterventionTrackEngine } from '../src/capabilities/runtime/prescriptive-governance/InterventionTrackEngine';
+import { BoardAgendaEngine } from '../src/capabilities/runtime/prescriptive-governance/BoardAgendaEngine';
+import { BoardDraftingEngine } from '../src/capabilities/runtime/prescriptive-governance/BoardDraftingEngine';
+import { PredictiveRiskOutput, EmergingRiskCategory } from '../src/capabilities/runtime/predictive-governance/PredictiveRiskEngine';
 
 test('▶ Prescriptive Governance Governance Framework (PRGIF) v1.0', async (t) => {
   const mockSnapshots = [

@@ -4,7 +4,7 @@
 // Formulates executive-ready summaries and highlights key recommendations.
 
 import { AdvisoryAudience } from './advisory-narrative-types';
-import { ScenarioCategory } from '../../core/runtime/strategic-simulation/simulation-types';
+import { ScenarioCategory } from '../../capabilities/runtime/strategic-simulation/simulation-types';
 
 export class ExecutiveSummaryEngine {
   /**

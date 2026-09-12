@@ -4,12 +4,12 @@
 
 import { describe, it } from 'node:test';
 import assert from 'node:assert/strict';
-import { InstitutionalDecisionIntelligenceEngine } from '../src/core/runtime/decision-intelligence/InstitutionalDecisionIntelligenceEngine';
-import { DecisionComplianceEngine } from '../src/core/runtime/decision-intelligence/DecisionComplianceEngine';
-import { InstitutionalSurvivabilityEngine } from '../src/core/runtime/decision-intelligence/InstitutionalSurvivabilityEngine';
+import { InstitutionalDecisionIntelligenceEngine } from '../src/capabilities/runtime/decision-intelligence/InstitutionalDecisionIntelligenceEngine';
+import { DecisionComplianceEngine } from '../src/capabilities/runtime/decision-intelligence/DecisionComplianceEngine';
+import { InstitutionalSurvivabilityEngine } from '../src/capabilities/runtime/decision-intelligence/InstitutionalSurvivabilityEngine';
 import { DecisionPolicyEngine } from '../src/core/runtime/decision-policy/DecisionPolicyEngine';
 import { InstitutionalMaterialityEngine } from '../src/core/runtime/decision-policy/InstitutionalMaterialityEngine';
-import { ExecutiveDecision } from '../src/core/runtime/decision-intelligence/decision-types';
+import { ExecutiveDecision } from '../src/capabilities/runtime/decision-intelligence/decision-types';
 
 const createBaseReportContext = () => ({
   scores: {

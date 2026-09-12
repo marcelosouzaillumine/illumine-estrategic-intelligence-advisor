@@ -1,8 +1,8 @@
 // @ts-nocheck
 import { test } from 'node:test';
 import * as assert from 'node:assert';
-import { InstitutionalOnboardingOrchestrator } from '../../src/core/runtime/institutional-onboarding/InstitutionalOnboardingOrchestrator';
-import { InstitutionalOnboardingInput } from '../../src/core/runtime/institutional-onboarding/InstitutionalOnboardingTypes';
+import { InstitutionalOnboardingOrchestrator } from '../../src/capabilities/runtime/institutional-onboarding/InstitutionalOnboardingOrchestrator';
+import { InstitutionalOnboardingInput } from '../../src/capabilities/runtime/institutional-onboarding/InstitutionalOnboardingTypes';
 
 function getBaseInput(): InstitutionalOnboardingInput {
   return {

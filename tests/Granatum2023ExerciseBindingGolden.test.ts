@@ -1,7 +1,7 @@
 import { describe, it } from 'node:test';
 import assert from 'node:assert';
-import { BalanceSheetExerciseBindingGuard } from '../src/core/runtime/governance/bp/BalanceSheetExerciseBindingGuard';
-import { BalanceSheetHistoricalContaminationAudit } from '../src/core/runtime/governance/bp/BalanceSheetHistoricalContaminationAudit';
+import { BalanceSheetExerciseBindingGuard } from '../src/capabilities/runtime/governance/bp/BalanceSheetExerciseBindingGuard';
+import { BalanceSheetHistoricalContaminationAudit } from '../src/capabilities/runtime/governance/bp/BalanceSheetHistoricalContaminationAudit';
 
 describe('Granatum 2023 Exercise Binding Golden Test (Partial Fail-Closed)', () => {
 

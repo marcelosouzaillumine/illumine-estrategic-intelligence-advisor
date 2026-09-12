@@ -1,15 +1,15 @@
 import { test, describe, beforeEach } from 'node:test';
 import assert from 'node:assert/strict';
-import { ConstitutionalGovernanceRegistry } from '../src/core/runtime/constitutional-governance/ConstitutionalGovernanceRegistry';
-import { ConstitutionalGovernanceRuntime } from '../src/core/runtime/constitutional-governance/ConstitutionalGovernanceRuntime';
-import { SemanticConstitutionProtocol } from '../src/core/runtime/constitutional-governance/protocols/SemanticConstitutionProtocol';
-import { SemanticDeterminismValidator } from '../src/core/runtime/constitutional-governance/SemanticDeterminismValidator';
+import { ConstitutionalGovernanceRegistry } from '../src/capabilities/runtime/constitutional-governance/ConstitutionalGovernanceRegistry';
+import { ConstitutionalGovernanceRuntime } from '../src/capabilities/runtime/constitutional-governance/ConstitutionalGovernanceRuntime';
+import { SemanticConstitutionProtocol } from '../src/capabilities/runtime/constitutional-governance/protocols/SemanticConstitutionProtocol';
+import { SemanticDeterminismValidator } from '../src/capabilities/runtime/constitutional-governance/SemanticDeterminismValidator';
 
-import { FiduciaryConstitutionProtocol } from '../src/core/runtime/constitutional-governance/protocols/FiduciaryConstitutionProtocol';
-import { TreasuryConstitutionProtocol } from '../src/core/runtime/constitutional-governance/protocols/TreasuryConstitutionProtocol';
-import { CausalConstitutionProtocol } from '../src/core/runtime/constitutional-governance/protocols/CausalConstitutionProtocol';
-import { LineageConstitutionProtocol } from '../src/core/runtime/constitutional-governance/protocols/LineageConstitutionProtocol';
-import { AIConstitutionProtocol } from '../src/core/runtime/constitutional-governance/protocols/AIConstitutionProtocol';
+import { FiduciaryConstitutionProtocol } from '../src/capabilities/runtime/constitutional-governance/protocols/FiduciaryConstitutionProtocol';
+import { TreasuryConstitutionProtocol } from '../src/capabilities/runtime/constitutional-governance/protocols/TreasuryConstitutionProtocol';
+import { CausalConstitutionProtocol } from '../src/capabilities/runtime/constitutional-governance/protocols/CausalConstitutionProtocol';
+import { LineageConstitutionProtocol } from '../src/capabilities/runtime/constitutional-governance/protocols/LineageConstitutionProtocol';
+import { AIConstitutionProtocol } from '../src/capabilities/runtime/constitutional-governance/protocols/AIConstitutionProtocol';
 
 describe('Constitutional Governance Layer (CGL v1.0) Tests', () => {
   beforeEach(() => {

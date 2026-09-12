@@ -1,21 +1,21 @@
 import { useState, useEffect } from 'react';
 import { usePredictiveGovernance } from './usePredictiveGovernance';
-import { ExecutionCapacityConstraintEngine } from '../core/runtime/prescriptive-governance/ExecutionCapacityConstraintEngine';
-import { PrescriptiveActionEngine } from '../core/runtime/prescriptive-governance/PrescriptiveActionEngine';
-import { FiduciaryPriorityEngine } from '../core/runtime/prescriptive-governance/FiduciaryPriorityEngine';
-import { DecisionMatrixEngine } from '../core/runtime/prescriptive-governance/DecisionMatrixEngine';
-import { DecisionMatrixOutput } from '../core/runtime/prescriptive-governance/DecisionMatrixEngine';
-import { InterventionTrackEngine } from '../core/runtime/prescriptive-governance/InterventionTrackEngine';
-import { BoardAgendaEngine } from '../core/runtime/prescriptive-governance/BoardAgendaEngine';
-import { BoardDraftingEngine } from '../core/runtime/prescriptive-governance/BoardDraftingEngine';
+import { ExecutionCapacityConstraintEngine } from '../capabilities/runtime/prescriptive-governance/ExecutionCapacityConstraintEngine';
+import { PrescriptiveActionEngine } from '../capabilities/runtime/prescriptive-governance/PrescriptiveActionEngine';
+import { FiduciaryPriorityEngine } from '../capabilities/runtime/prescriptive-governance/FiduciaryPriorityEngine';
+import { DecisionMatrixEngine } from '../capabilities/runtime/prescriptive-governance/DecisionMatrixEngine';
+import { DecisionMatrixOutput } from '../capabilities/runtime/prescriptive-governance/DecisionMatrixEngine';
+import { InterventionTrackEngine } from '../capabilities/runtime/prescriptive-governance/InterventionTrackEngine';
+import { BoardAgendaEngine } from '../capabilities/runtime/prescriptive-governance/BoardAgendaEngine';
+import { BoardDraftingEngine } from '../capabilities/runtime/prescriptive-governance/BoardDraftingEngine';
 import { 
   InstitutionalCapacity, 
   ExecutivePriority, 
   InterventionTrack, 
   BoardAgenda, 
   BoardResolution 
-} from '../core/runtime/prescriptive-governance/PrescriptiveTypes';
-import { InMemoryTrendRepository } from '../core/runtime/predictive-governance/InstitutionalTrendRepository';
+} from '../capabilities/runtime/prescriptive-governance/PrescriptiveTypes';
+import { InMemoryTrendRepository } from '../capabilities/runtime/predictive-governance/InstitutionalTrendRepository';
 
 export interface PrescriptiveGovernanceOutput {
   capacity: InstitutionalCapacity;

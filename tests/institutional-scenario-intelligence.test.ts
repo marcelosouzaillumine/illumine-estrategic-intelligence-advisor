@@ -1,8 +1,8 @@
 // tests/institutional-scenario-intelligence.test.ts
 import { describe, it } from 'node:test';
 import assert from 'node:assert/strict';
-import { InstitutionalScenarioEngine } from '../src/core/runtime/scenario-intelligence/InstitutionalScenarioEngine';
-import { ScenarioInput } from '../src/core/runtime/scenario-intelligence/scenario-types';
+import { InstitutionalScenarioEngine } from '../src/capabilities/runtime/scenario-intelligence/InstitutionalScenarioEngine';
+import { ScenarioInput } from '../src/capabilities/runtime/scenario-intelligence/scenario-types';
 
 describe('RC-1.6 - Institutional Scenario Governance', () => {
 

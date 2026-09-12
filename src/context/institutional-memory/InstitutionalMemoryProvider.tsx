@@ -5,11 +5,11 @@ import {
   RecommendationContinuity,
   InstitutionalMemoryIntegrity,
   InstitutionalHistoricalConfidence
-} from '../../core/runtime/institutional-memory/types';
-import { InstitutionalMemoryRegistry } from '../../core/runtime/institutional-memory/InstitutionalMemoryRegistry';
-import { InstitutionalPatternRecognitionEngine } from '../../core/runtime/institutional-memory/InstitutionalPatternRecognitionEngine';
-import { AdvisoryContinuityEngine } from '../../core/runtime/institutional-memory/AdvisoryContinuityEngine';
-import { GovernanceTimelineEngine, TimelinePhase } from '../../core/runtime/institutional-memory/GovernanceTimelineEngine';
+} from '../../capabilities/runtime/institutional-memory/types';
+import { InstitutionalMemoryRegistry } from '../../capabilities/runtime/institutional-memory/InstitutionalMemoryRegistry';
+import { InstitutionalPatternRecognitionEngine } from '../../capabilities/runtime/institutional-memory/InstitutionalPatternRecognitionEngine';
+import { AdvisoryContinuityEngine } from '../../capabilities/runtime/institutional-memory/AdvisoryContinuityEngine';
+import { GovernanceTimelineEngine, TimelinePhase } from '../../capabilities/runtime/institutional-memory/GovernanceTimelineEngine';
 
 interface InstitutionalMemoryContextType {
   records: InstitutionalMemoryRecord[];

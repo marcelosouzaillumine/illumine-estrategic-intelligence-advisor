@@ -2,7 +2,7 @@ import { describe, it } from 'node:test';
 import assert from 'node:assert/strict';
 import { LegacyDFCAdapter } from '../src/runtime/adapters/LegacyDFCAdapter';
 import { InstitutionalContext } from '../src/runtime/types';
-import { InstitutionalSurvivabilityEngine } from '../src/core/runtime/decision-intelligence/InstitutionalSurvivabilityEngine';
+import { InstitutionalSurvivabilityEngine } from '../src/capabilities/runtime/decision-intelligence/InstitutionalSurvivabilityEngine';
 
 describe('Earnings Quality Engine (EQE) - Integrity & Calibration Tests', () => {
 

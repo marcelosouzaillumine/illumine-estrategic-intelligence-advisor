@@ -1,7 +1,7 @@
 import { test, describe, beforeEach } from 'node:test';
 import * as assert from 'node:assert';
-import { StagingValidationEngine } from '../src/core/runtime/integrations/StagingValidationEngine';
-import { ImportedDataset } from '../src/core/runtime/integrations/IntegrationGovernanceTypes';
+import { StagingValidationEngine } from '../src/capabilities/runtime/integrations/StagingValidationEngine';
+import { ImportedDataset } from '../src/capabilities/runtime/integrations/IntegrationGovernanceTypes';
 
 describe('Transactional Staging Validation Engine', () => {
   let validPayablesDataset: ImportedDataset;

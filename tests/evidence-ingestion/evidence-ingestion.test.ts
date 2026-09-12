@@ -1,7 +1,7 @@
 import { test } from 'node:test';
 import * as assert from 'node:assert';
-import { InstitutionalEvidenceOrchestrator } from '../../src/core/runtime/evidence-ingestion/InstitutionalEvidenceOrchestrator';
-import { InstitutionalEvidenceInput, EvidenceDocument } from '../../src/core/runtime/evidence-ingestion/InstitutionalEvidenceTypes';
+import { InstitutionalEvidenceOrchestrator } from '../../src/capabilities/runtime/evidence-ingestion/InstitutionalEvidenceOrchestrator';
+import { InstitutionalEvidenceInput, EvidenceDocument } from '../../src/capabilities/runtime/evidence-ingestion/InstitutionalEvidenceTypes';
 
 function getValidDoc(type: any, id: string): EvidenceDocument {
   return {

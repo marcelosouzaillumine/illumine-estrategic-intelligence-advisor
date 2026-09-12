@@ -2,7 +2,7 @@ import { test, describe } from 'node:test';
 import assert from 'node:assert/strict';
 import { CapitalGovernanceAdapter } from '../src/runtime/adapters/CapitalGovernanceAdapter';
 import { InstitutionalContext } from '../src/runtime/types';
-import { DLPAFiduciaryInterpretationEngine } from '../src/core/runtime/governance/dlpa/DLPAFiduciaryInterpretationEngine';
+import { DLPAFiduciaryInterpretationEngine } from '../src/capabilities/runtime/governance/dlpa/DLPAFiduciaryInterpretationEngine';
 import { LifecycleContextBuilder } from '../src/workspace/runtime/lifecycle/LifecycleContextBuilder';
 import { LifecycleSemanticAuthority } from '../src/workspace/runtime/lifecycle/LifecycleSemanticAuthority';
 import { LifecycleSemanticViolationScanner } from '../src/workspace/runtime/lifecycle/LifecycleSemanticViolationScanner';

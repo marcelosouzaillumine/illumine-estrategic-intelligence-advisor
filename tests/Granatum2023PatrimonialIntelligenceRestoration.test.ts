@@ -1,7 +1,7 @@
 import { test } from 'node:test';
 import assert from 'node:assert';
-import { BalanceSheetAnalyticalContextIntegrityGuard } from '../src/core/runtime/governance/bp/BalanceSheetAnalyticalContextIntegrityGuard';
-import { BalanceSheetPatrimonialIntelligenceEngine } from '../src/core/runtime/governance/bp/BalanceSheetPatrimonialIntelligenceEngine';
+import { BalanceSheetAnalyticalContextIntegrityGuard } from '../src/capabilities/runtime/governance/bp/BalanceSheetAnalyticalContextIntegrityGuard';
+import { BalanceSheetPatrimonialIntelligenceEngine } from '../src/capabilities/runtime/governance/bp/BalanceSheetPatrimonialIntelligenceEngine';
 
 test('Granatum 2023 Patrimonial Governance Restoration', async (t) => {
   await t.test('analyticalContextIntegrity remains valid when technical data is present', () => {

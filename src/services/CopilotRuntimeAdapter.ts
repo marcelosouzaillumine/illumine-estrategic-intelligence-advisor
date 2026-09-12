@@ -1,6 +1,6 @@
-import { runGovernanceCopilotAdapter } from '../core/runtime/governance-copilot/governance-copilot-adapter';
-import { runGovernanceCopilotReasoningAdapter } from '../core/runtime/governance-copilot/governance-copilot-reasoning-adapter';
-import { runExecutiveConversationAdapter } from '../core/runtime/governance-copilot/executive-conversation-adapter';
+import { runGovernanceCopilotAdapter } from '../capabilities/runtime/governance-copilot/governance-copilot-adapter';
+import { runGovernanceCopilotReasoningAdapter } from '../capabilities/runtime/governance-copilot/governance-copilot-reasoning-adapter';
+import { runExecutiveConversationAdapter } from '../capabilities/runtime/governance-copilot/executive-conversation-adapter';
 
 export const CopilotRuntimeAdapter = {
   runGovernanceCopilotAdapter,

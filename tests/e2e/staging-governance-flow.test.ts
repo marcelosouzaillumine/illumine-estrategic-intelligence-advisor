@@ -4,11 +4,11 @@ import { DataAccessContext } from '../../src/core/security/data-access-context';
 import { TenantResolutionEngine } from '../../src/core/security/auth/TenantResolutionEngine';
 import { executiveRuntime } from '../../src/core/runtime/executive-intelligence-runtime';
 import { BoardPackExportEngine } from '../../src/core/exporting/BoardPackExportEngine';
-import { InstitutionalMemoryRegistry } from '../../src/core/runtime/institutional-memory/InstitutionalMemoryRegistry';
+import { InstitutionalMemoryRegistry } from '../../src/capabilities/runtime/institutional-memory/InstitutionalMemoryRegistry';
 import { SeveritySemanticEngine } from '../../src/components/executive-interaction/SeveritySemanticEngine';
 import { AuditEventBus } from '../../src/core/security/audit/AuditEventBus';
 import { ImmutableLedger } from '../../src/core/security/audit/ImmutableLedger';
-import { DistributedAnomalyAggregator } from '../../src/core/runtime/distributed/DistributedAnomalyAggregator';
+import { DistributedAnomalyAggregator } from '../../src/capabilities/runtime/distributed/DistributedAnomalyAggregator';
 import { governanceService } from '../../src/services/governanceService';
 
 describe('E2E Staging Governance Workflow Test', () => {

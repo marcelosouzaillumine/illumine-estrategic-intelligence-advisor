@@ -2,8 +2,8 @@ import { describe, it } from 'node:test';
 import assert from 'node:assert/strict';
 import { executiveRuntime } from '../src/core/runtime/executive-intelligence-runtime';
 import { InstitutionalExecutionContext } from '../src/runtime/InstitutionalExecutionContext';
-import { InstitutionalBoardPackRuntime } from '../src/core/runtime/institutional-reporting/InstitutionalBoardPackRuntime';
-import { InstitutionalBoardPackDocumentRuntime } from '../src/core/runtime/institutional-reporting/InstitutionalBoardPackDocumentRuntime';
+import { InstitutionalBoardPackRuntime } from '../src/capabilities/runtime/institutional-reporting/InstitutionalBoardPackRuntime';
+import { InstitutionalBoardPackDocumentRuntime } from '../src/capabilities/runtime/institutional-reporting/InstitutionalBoardPackDocumentRuntime';
 
 describe('Temporal Fiduciary Integrity Framework (TFIF) v1.0', () => {
 

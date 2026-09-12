@@ -1,11 +1,11 @@
 import { test } from 'node:test';
 import * as assert from 'node:assert';
-import { ImportedDataset } from '../src/core/runtime/integrations/IntegrationGovernanceTypes';
-import { ImportReviewQueue } from '../src/core/runtime/integrations/ImportReviewQueue';
-import { StagingValidationEngine } from '../src/core/runtime/integrations/StagingValidationEngine';
-import { ImportPublicationEngine } from '../src/core/runtime/integrations/ImportPublicationEngine';
-import { PilotRollbackProtocol } from '../src/core/runtime/integrations/PilotRollbackProtocol';
-import { ConnectorAuditLogger } from '../src/core/runtime/integrations/ConnectorAuditLogger';
+import { ImportedDataset } from '../src/capabilities/runtime/integrations/IntegrationGovernanceTypes';
+import { ImportReviewQueue } from '../src/capabilities/runtime/integrations/ImportReviewQueue';
+import { StagingValidationEngine } from '../src/capabilities/runtime/integrations/StagingValidationEngine';
+import { ImportPublicationEngine } from '../src/capabilities/runtime/integrations/ImportPublicationEngine';
+import { PilotRollbackProtocol } from '../src/capabilities/runtime/integrations/PilotRollbackProtocol';
+import { ConnectorAuditLogger } from '../src/capabilities/runtime/integrations/ConnectorAuditLogger';
 
 const createBaseDataset = (importId: string, tenantId: string): ImportedDataset => ({
   importId,

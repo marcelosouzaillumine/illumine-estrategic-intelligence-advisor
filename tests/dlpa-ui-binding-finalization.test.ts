@@ -1,14 +1,14 @@
 import { test, describe } from 'node:test';
 import assert from 'node:assert/strict';
 import { CapitalGovernanceAdapter } from '../src/capabilities/financial/runtime/capital-governance/capital-governance-adapter';
-import { DLPACanonicalBindingAudit } from '../src/core/runtime/governance/dlpa/DLPACanonicalBindingAudit';
-import { DLPACanonicalScoreResolver } from '../src/core/runtime/governance/dlpa/DLPACanonicalScoreResolver';
-import { DLPARecoveryHorizonResolver } from '../src/core/runtime/governance/dlpa/DLPARecoveryHorizonResolver';
-import { DLPALegacyPayloadAudit } from '../src/core/runtime/governance/dlpa/DLPALegacyPayloadAudit';
-import { DLPAUIConsistencyAudit } from '../src/core/runtime/governance/dlpa/DLPAUIConsistencyAudit';
-import { DLPALegacyFieldScanner } from '../src/core/runtime/governance/dlpa/DLPALegacyFieldScanner';
-import { DLPACanonicalPayloadEnforcer } from '../src/core/runtime/governance/dlpa/DLPACanonicalPayloadEnforcer';
-import { DLPAUIHardFailAudit } from '../src/core/runtime/governance/dlpa/DLPAUIHardFailAudit';
+import { DLPACanonicalBindingAudit } from '../src/capabilities/runtime/governance/dlpa/DLPACanonicalBindingAudit';
+import { DLPACanonicalScoreResolver } from '../src/capabilities/runtime/governance/dlpa/DLPACanonicalScoreResolver';
+import { DLPARecoveryHorizonResolver } from '../src/capabilities/runtime/governance/dlpa/DLPARecoveryHorizonResolver';
+import { DLPALegacyPayloadAudit } from '../src/capabilities/runtime/governance/dlpa/DLPALegacyPayloadAudit';
+import { DLPAUIConsistencyAudit } from '../src/capabilities/runtime/governance/dlpa/DLPAUIConsistencyAudit';
+import { DLPALegacyFieldScanner } from '../src/capabilities/runtime/governance/dlpa/DLPALegacyFieldScanner';
+import { DLPACanonicalPayloadEnforcer } from '../src/capabilities/runtime/governance/dlpa/DLPACanonicalPayloadEnforcer';
+import { DLPAUIHardFailAudit } from '../src/capabilities/runtime/governance/dlpa/DLPAUIHardFailAudit';
 
 // Local expect helper to support Jest/Vitest style syntax
 const expect = (actual: any) => ({

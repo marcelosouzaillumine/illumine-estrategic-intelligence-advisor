@@ -1,4 +1,4 @@
-import { InstitutionalContextProfile } from '../../core/runtime/institutional-context/types';
+import { InstitutionalContextProfile } from '../../capabilities/runtime/institutional-context/types';
 
 export class InstitutionalConsistencyGuard {
   /**

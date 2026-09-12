@@ -5,7 +5,7 @@ import { LegacyFinancialAdapter } from '../src/runtime/adapters/LegacyFinancialA
 import { LegacyDREAdapter } from '../src/runtime/adapters/LegacyDREAdapter';
 import { LegacyDFCAdapter } from '../src/runtime/adapters/LegacyDFCAdapter';
 import { InstitutionalContext, EngineExecutionResult } from '../src/runtime/types';
-import { InstitutionalBoardPackDocumentRuntime } from '../src/core/runtime/institutional-reporting/InstitutionalBoardPackDocumentRuntime';
+import { InstitutionalBoardPackDocumentRuntime } from '../src/capabilities/runtime/institutional-reporting/InstitutionalBoardPackDocumentRuntime';
 
 describe('Financial Lineage Integrity Framework (FLIF) v1.3.2 Tests', () => {
 

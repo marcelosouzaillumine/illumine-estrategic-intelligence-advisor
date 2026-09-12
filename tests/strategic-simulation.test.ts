@@ -5,12 +5,12 @@
 
 import { describe, it } from 'node:test';
 import assert from 'node:assert/strict';
-import { StrategicSimulationEngine } from '../src/core/runtime/strategic-simulation/StrategicSimulationEngine';
-import { ScenarioStressEngine } from '../src/core/runtime/strategic-simulation/ScenarioStressEngine';
-import { ResilienceOptimizationEngine } from '../src/core/runtime/strategic-simulation/ResilienceOptimizationEngine';
-import { InstitutionalOptimizationEngine } from '../src/core/runtime/strategic-simulation/InstitutionalOptimizationEngine';
-import { ExecutiveScenarioEngine } from '../src/core/runtime/strategic-simulation/ExecutiveScenarioEngine';
-import { ExecutiveDecision } from '../src/core/runtime/decision-intelligence/decision-types';
+import { StrategicSimulationEngine } from '../src/capabilities/runtime/strategic-simulation/StrategicSimulationEngine';
+import { ScenarioStressEngine } from '../src/capabilities/runtime/strategic-simulation/ScenarioStressEngine';
+import { ResilienceOptimizationEngine } from '../src/capabilities/runtime/strategic-simulation/ResilienceOptimizationEngine';
+import { InstitutionalOptimizationEngine } from '../src/capabilities/runtime/strategic-simulation/InstitutionalOptimizationEngine';
+import { ExecutiveScenarioEngine } from '../src/capabilities/runtime/strategic-simulation/ExecutiveScenarioEngine';
+import { ExecutiveDecision } from '../src/capabilities/runtime/decision-intelligence/decision-types';
 
 const createBaseReportContext = () => ({
   scores: {

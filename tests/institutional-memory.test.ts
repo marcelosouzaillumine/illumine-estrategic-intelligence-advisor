@@ -1,13 +1,13 @@
 import { describe, it, beforeEach } from 'node:test';
 import assert from 'node:assert/strict';
-import { InstitutionalMemoryEngine } from '../src/core/runtime/institutional-memory/InstitutionalMemoryEngine';
-import { HistoricalDecisionLedger, HistoricalLedgerError } from '../src/core/runtime/institutional-memory/HistoricalDecisionLedger';
-import { InstitutionalMemoryRegistry } from '../src/core/runtime/institutional-memory/InstitutionalMemoryRegistry';
-import { InstitutionalPatternRecognitionEngine } from '../src/core/runtime/institutional-memory/InstitutionalPatternRecognitionEngine';
-import { AdvisoryContinuityEngine } from '../src/core/runtime/institutional-memory/AdvisoryContinuityEngine';
-import { GovernanceTimelineEngine } from '../src/core/runtime/institutional-memory/GovernanceTimelineEngine';
+import { InstitutionalMemoryEngine } from '../src/capabilities/runtime/institutional-memory/InstitutionalMemoryEngine';
+import { HistoricalDecisionLedger, HistoricalLedgerError } from '../src/capabilities/runtime/institutional-memory/HistoricalDecisionLedger';
+import { InstitutionalMemoryRegistry } from '../src/capabilities/runtime/institutional-memory/InstitutionalMemoryRegistry';
+import { InstitutionalPatternRecognitionEngine } from '../src/capabilities/runtime/institutional-memory/InstitutionalPatternRecognitionEngine';
+import { AdvisoryContinuityEngine } from '../src/capabilities/runtime/institutional-memory/AdvisoryContinuityEngine';
+import { GovernanceTimelineEngine } from '../src/capabilities/runtime/institutional-memory/GovernanceTimelineEngine';
 import { executiveRuntime } from '../src/core/runtime/executive-intelligence-runtime';
-import { HistoricalCycleData, InstitutionalMemoryRecord } from '../src/core/runtime/institutional-memory/types';
+import { HistoricalCycleData, InstitutionalMemoryRecord } from '../src/capabilities/runtime/institutional-memory/types';
 import { CalibrationEngine } from '../src/core/runtime/calibration/CalibrationEngine';
 
 describe('Institutional Memory Engine (RC-1.2A) Suite', () => {

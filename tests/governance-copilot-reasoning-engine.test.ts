@@ -2,7 +2,7 @@
 
 import { describe, it } from 'node:test';
 import * as assert from 'node:assert';
-import { runGovernanceCopilotReasoningAdapter } from '../src/core/runtime/governance-copilot/governance-copilot-reasoning-adapter';
+import { runGovernanceCopilotReasoningAdapter } from '../src/capabilities/runtime/governance-copilot/governance-copilot-reasoning-adapter';
 
 describe('GovernanceCopilotReasoningEngine & Adapter', () => {
   it('must enforce Deep Non-Interference', () => {

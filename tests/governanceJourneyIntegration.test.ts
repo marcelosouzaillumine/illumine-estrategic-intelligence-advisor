@@ -1,7 +1,7 @@
 import { describe, it } from 'node:test';
 import assert from 'node:assert';
-import { calculateInstitutionalReadiness } from '../src/core/runtime/governance/InstitutionalReadinessAssessment';
-import { generateInstitutionalRoadmap } from '../src/core/runtime/governance/RoadmapPrioritizationEngine';
+import { calculateInstitutionalReadiness } from '../src/capabilities/runtime/governance/InstitutionalReadinessAssessment';
+import { generateInstitutionalRoadmap } from '../src/capabilities/runtime/governance/RoadmapPrioritizationEngine';
 
 describe('InstitutionalReadinessAssessment Engine', () => {
   it('should calculate IRG correctly for a healthy scenario', () => {

@@ -1,8 +1,8 @@
 // @ts-nocheck
 import test, { describe, it } from 'node:test';
 import assert from 'node:assert/strict';
-import { InstitutionalDeploymentReadinessEngine } from '../../src/core/runtime/deployment-readiness/InstitutionalDeploymentReadinessEngine';
-import { DeploymentReadinessInput } from '../../src/core/runtime/deployment-readiness/DeploymentReadinessTypes';
+import { InstitutionalDeploymentReadinessEngine } from '../../src/capabilities/runtime/deployment-readiness/InstitutionalDeploymentReadinessEngine';
+import { DeploymentReadinessInput } from '../../src/capabilities/runtime/deployment-readiness/DeploymentReadinessTypes';
 
 describe('Institutional Deployment Readiness Engine Validation', () => {
 

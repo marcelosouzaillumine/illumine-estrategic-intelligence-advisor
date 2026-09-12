@@ -1,10 +1,10 @@
 import { test, describe, beforeEach } from 'node:test';
 import * as assert from 'node:assert';
-import { HistoricalReplayIndex } from '../src/core/runtime/institutional-memory/HistoricalReplayIndex';
-import { MemoryRetentionGovernance } from '../src/core/runtime/institutional-memory/MemoryRetentionGovernance';
-import { ReplayMetadataRegistry, DataAccessContext } from '../src/core/runtime/institutional-memory/ReplayMetadataRegistry';
-import { LongitudinalSnapshotSummary } from '../src/core/runtime/institutional-memory/LongitudinalSnapshotSummary';
-import { InstitutionalMemoryRegistry } from '../src/core/runtime/institutional-memory/InstitutionalMemoryRegistry';
+import { HistoricalReplayIndex } from '../src/capabilities/runtime/institutional-memory/HistoricalReplayIndex';
+import { MemoryRetentionGovernance } from '../src/capabilities/runtime/institutional-memory/MemoryRetentionGovernance';
+import { ReplayMetadataRegistry, DataAccessContext } from '../src/capabilities/runtime/institutional-memory/ReplayMetadataRegistry';
+import { LongitudinalSnapshotSummary } from '../src/capabilities/runtime/institutional-memory/LongitudinalSnapshotSummary';
+import { InstitutionalMemoryRegistry } from '../src/capabilities/runtime/institutional-memory/InstitutionalMemoryRegistry';
 
 describe('Phase 2: Historical Replay Index & Retention Governance', () => {
 

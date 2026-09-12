@@ -1,7 +1,7 @@
 import { test, describe } from 'node:test';
 import * as assert from 'node:assert';
-import { calculateExecutionSlippage, updateExecutionCommitment } from '../../src/core/runtime/execution-governance/ExecutionTrackingEngine';
-import { ExecutionCommitment } from '../../src/core/runtime/execution-governance/ExecutionGovernanceTypes';
+import { calculateExecutionSlippage, updateExecutionCommitment } from '../../src/capabilities/runtime/execution-governance/ExecutionTrackingEngine';
+import { ExecutionCommitment } from '../../src/capabilities/runtime/execution-governance/ExecutionGovernanceTypes';
 
 describe('ExecutionTrackingEngine', () => {
   test('should calculate correct slippage for perfectly executed commitment', () => {

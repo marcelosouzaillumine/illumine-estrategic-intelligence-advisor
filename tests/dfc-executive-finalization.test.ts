@@ -1,7 +1,7 @@
 import { describe, it } from 'node:test';
 import assert from 'node:assert/strict';
 import { FiduciaryCashIntelligenceRuntime } from '../src/capabilities/financial/runtime/cash-intelligence/FiduciaryCashIntelligenceRuntime';
-import { ExecutivePriorityResolver } from '../src/core/runtime/decision-intelligence/ExecutivePriorityResolver';
+import { ExecutivePriorityResolver } from '../src/capabilities/runtime/decision-intelligence/ExecutivePriorityResolver';
 import { ExecutiveInformationDensityFramework } from '../src/workspace/runtime/presentation-governance/ExecutiveInformationDensityFramework';
 import { ExecutiveLabelResolver } from '../src/workspace/runtime/executive-presentation/ExecutiveLabelResolver';
 import { DFCExecutiveBindingAudit } from '../src/capabilities/financial/runtime/cash-intelligence/DFCExecutiveBindingAudit';

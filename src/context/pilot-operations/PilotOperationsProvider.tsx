@@ -13,12 +13,12 @@ import {
   PilotReadinessReport,
   PilotValidationCategory,
   PilotFeedbackSeverity
-} from '../../core/runtime/pilot-operations/types';
-import { PilotOperationsEngine } from '../../core/runtime/pilot-operations/PilotOperationsEngine';
-import { ExecutiveOnboardingEngine } from '../../core/runtime/pilot-operations/ExecutiveOnboardingEngine';
-import { PilotObservabilityEngine } from '../../core/runtime/pilot-operations/PilotObservabilityEngine';
-import { PilotFeedbackGovernanceEngine } from '../../core/runtime/pilot-operations/PilotFeedbackGovernanceEngine';
-import { ProductionReadinessAssessment } from '../../core/runtime/pilot-operations/ProductionReadinessAssessment';
+} from '../../capabilities/runtime/pilot-operations/types';
+import { PilotOperationsEngine } from '../../capabilities/runtime/pilot-operations/PilotOperationsEngine';
+import { ExecutiveOnboardingEngine } from '../../capabilities/runtime/pilot-operations/ExecutiveOnboardingEngine';
+import { PilotObservabilityEngine } from '../../capabilities/runtime/pilot-operations/PilotObservabilityEngine';
+import { PilotFeedbackGovernanceEngine } from '../../capabilities/runtime/pilot-operations/PilotFeedbackGovernanceEngine';
+import { ProductionReadinessAssessment } from '../../capabilities/runtime/pilot-operations/ProductionReadinessAssessment';
 
 interface PilotOperationsContextType {
   pilotStatus: PilotTenantStatus;

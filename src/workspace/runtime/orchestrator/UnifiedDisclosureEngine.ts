@@ -1,5 +1,5 @@
-import { InstitutionalContextProfile } from '../../core/runtime/institutional-context/types';
-import { ContinuityStatus } from '../../core/runtime/institutional-memory/InstitutionalContinuityResolver';
+import { InstitutionalContextProfile } from '../../capabilities/runtime/institutional-context/types';
+import { ContinuityStatus } from '../../capabilities/runtime/institutional-memory/InstitutionalContinuityResolver';
 
 export type DomainPresenceStatus = {
   hasBP: boolean;

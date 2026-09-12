@@ -3,7 +3,7 @@ import { describe, it } from 'node:test';
 import assert from 'node:assert/strict';
 import { BoardResolutionEngine } from '../src/capabilities/financial/runtime/board-decision/BoardResolutionEngine';
 import { DecisionLineageTracker } from '../src/capabilities/financial/runtime/board-decision/DecisionLineageTracker';
-import { InstitutionalScenarioResult } from '../src/core/runtime/scenario-intelligence/scenario-types';
+import { InstitutionalScenarioResult } from '../src/capabilities/runtime/scenario-intelligence/scenario-types';
 
 describe('RC-1.7 - Board Decision Governance & Governance', () => {
 

@@ -1,10 +1,10 @@
 import { describe, it } from 'node:test';
 import assert from 'node:assert';
-import { SimulationInput, SandboxConfig } from '../src/core/runtime/scenario-simulation/types';
-import { ScenarioMacroProjectionEngine } from '../src/core/runtime/scenario-simulation/ScenarioMacroProjectionEngine';
-import { GovernanceForecastEngine } from '../src/core/runtime/scenario-simulation/GovernanceForecastEngine';
-import { PropagationSimulationEngine } from '../src/core/runtime/scenario-simulation/PropagationSimulationEngine';
-import { StrategicDecisionSandbox } from '../src/core/runtime/scenario-simulation/StrategicDecisionSandbox';
+import { SimulationInput, SandboxConfig } from '../src/capabilities/runtime/scenario-simulation/types';
+import { ScenarioMacroProjectionEngine } from '../src/capabilities/runtime/scenario-simulation/ScenarioMacroProjectionEngine';
+import { GovernanceForecastEngine } from '../src/capabilities/runtime/scenario-simulation/GovernanceForecastEngine';
+import { PropagationSimulationEngine } from '../src/capabilities/runtime/scenario-simulation/PropagationSimulationEngine';
+import { StrategicDecisionSandbox } from '../src/capabilities/runtime/scenario-simulation/StrategicDecisionSandbox';
 
 const getMockInput = (): SimulationInput => ({
   scenarioType: 'LIQUIDITY_STRESS',

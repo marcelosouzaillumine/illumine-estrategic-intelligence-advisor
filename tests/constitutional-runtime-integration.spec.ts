@@ -5,12 +5,12 @@
 import { describe, it } from 'node:test';
 import assert from 'node:assert/strict';
 import { ExecutiveIntelligenceRuntime } from '../src/core/runtime/executive-intelligence-runtime';
-import { InstitutionalBoardPackRuntime } from '../src/core/runtime/institutional-reporting/InstitutionalBoardPackRuntime';
+import { InstitutionalBoardPackRuntime } from '../src/capabilities/runtime/institutional-reporting/InstitutionalBoardPackRuntime';
 import { ConstitutionalIntegrityPanel } from '../src/components/institutional-reporting/ConstitutionalIntegrityPanel';
 import { QuarantineModeSurface } from '../src/components/institutional-reporting/QuarantineModeSurface';
 import { InMemoryRuntimeTelemetrySink } from '../src/platform/observability/sinks/InMemoryRuntimeTelemetrySink';
 import { RuntimeExecutionLogger } from '../src/platform/observability/RuntimeExecutionLogger';
-import { ExecutiveConstitutionalRuntime } from '../src/core/runtime/constitutional-governance/ExecutiveConstitutionalRuntime';
+import { ExecutiveConstitutionalRuntime } from '../src/capabilities/runtime/constitutional-governance/ExecutiveConstitutionalRuntime';
 
 interface MockRawData {
   isMockData: boolean;

@@ -2,7 +2,7 @@ import { describe, it } from 'node:test';
 import assert from 'node:assert/strict';
 import { CapitalGovernanceAdapter } from '../src/runtime/adapters/CapitalGovernanceAdapter';
 import { InstitutionalContext } from '../src/runtime/types';
-import { InstitutionalBoardPackDocumentRuntime } from '../src/core/runtime/institutional-reporting/InstitutionalBoardPackDocumentRuntime';
+import { InstitutionalBoardPackDocumentRuntime } from '../src/capabilities/runtime/institutional-reporting/InstitutionalBoardPackDocumentRuntime';
 
 describe('Capital Governance Engine (CGE) - Sovereign Capital & DLPA Tests', () => {
 

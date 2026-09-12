@@ -1,7 +1,7 @@
 import { test as it, describe } from 'node:test';
 import assert from 'node:assert/strict';
-import { EconomicValueIntelligenceEngine } from '../src/core/runtime/governance/dre/EconomicValueIntelligenceEngine';
-import { EarningsCompositionEngine } from '../src/core/runtime/governance/dre/EarningsCompositionEngine';
+import { EconomicValueIntelligenceEngine } from '../src/capabilities/runtime/governance/dre/EconomicValueIntelligenceEngine';
+import { EarningsCompositionEngine } from '../src/capabilities/runtime/governance/dre/EarningsCompositionEngine';
 import { InstitutionalConfidenceEngine } from '../src/core/runtime/confidence/InstitutionalConfidenceEngine';
 
 describe('DRE Executive Governance Pack', () => {

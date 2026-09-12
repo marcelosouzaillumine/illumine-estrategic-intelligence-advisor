@@ -1,6 +1,6 @@
 import { describe, it } from 'node:test';
 import assert from 'node:assert';
-import { WorkingCapitalIntelligenceEngine } from '../src/core/runtime/governance/bp/WorkingCapitalIntelligenceEngine';
+import { WorkingCapitalIntelligenceEngine } from '../src/capabilities/runtime/governance/bp/WorkingCapitalIntelligenceEngine';
 
 describe('BP NaN Golden Test', () => {
   it('should not leak NaN when data is insufficient or invalid', () => {

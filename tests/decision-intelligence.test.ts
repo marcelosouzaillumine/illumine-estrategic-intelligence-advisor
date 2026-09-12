@@ -5,11 +5,11 @@
 
 import { describe, it, beforeEach } from 'node:test';
 import assert from 'node:assert/strict';
-import { InstitutionalDecisionIntelligenceEngine } from '../src/core/runtime/decision-intelligence/InstitutionalDecisionIntelligenceEngine';
-import { InstitutionalDecisionLedger } from '../src/core/runtime/decision-intelligence/InstitutionalDecisionLedger';
-import { ExecutiveDecision } from '../src/core/runtime/decision-intelligence/decision-types';
+import { InstitutionalDecisionIntelligenceEngine } from '../src/capabilities/runtime/decision-intelligence/InstitutionalDecisionIntelligenceEngine';
+import { InstitutionalDecisionLedger } from '../src/capabilities/runtime/decision-intelligence/InstitutionalDecisionLedger';
+import { ExecutiveDecision } from '../src/capabilities/runtime/decision-intelligence/decision-types';
 import { BoardResolutionEngine } from '../src/capabilities/financial/runtime/board-decision/BoardResolutionEngine';
-import { InstitutionalScenarioResult } from '../src/core/runtime/scenario-intelligence/scenario-types';
+import { InstitutionalScenarioResult } from '../src/capabilities/runtime/scenario-intelligence/scenario-types';
 
 const createBaseReportContext = () => ({
   scores: {

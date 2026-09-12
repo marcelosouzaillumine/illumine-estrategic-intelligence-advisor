@@ -2,8 +2,8 @@ import { describe, it } from 'node:test';
 import * as assert from 'node:assert/strict';
 import { CashFlowCausalIntelligenceEngine } from '../src/capabilities/financial/runtime/cash-causal-intelligence/CashFlowCausalIntelligenceEngine';
 import { CashFlowScenarioEngine } from '../src/capabilities/financial/runtime/cash-scenario-intelligence/CashFlowScenarioEngine';
-import { TreasuryEarlyWarningEngine } from '../src/core/runtime/treasury-early-warning/TreasuryEarlyWarningEngine';
-import { TreasurySustainabilityEngine } from '../src/core/runtime/treasury-sustainability/TreasurySustainabilityEngine';
+import { TreasuryEarlyWarningEngine } from '../src/capabilities/runtime/treasury-early-warning/TreasuryEarlyWarningEngine';
+import { TreasurySustainabilityEngine } from '../src/capabilities/runtime/treasury-sustainability/TreasurySustainabilityEngine';
 import { FiduciaryCashIntelligenceRuntime } from '../src/capabilities/financial/runtime/cash-intelligence/FiduciaryCashIntelligenceRuntime';
 import { PRESENTATION_POLICIES } from '../src/workspace/runtime/presentation-governance/ExecutivePresentationPolicyRegistry';
 

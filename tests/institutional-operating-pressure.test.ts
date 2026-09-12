@@ -2,8 +2,8 @@
 
 import { describe, it, beforeEach } from 'node:test';
 import assert from 'node:assert/strict';
-import { InstitutionalPressureRuntime } from '../src/core/runtime/operating-pressure/InstitutionalPressureRuntime';
-import { LongitudinalPressureMemoryEngine } from '../src/core/runtime/operating-pressure/LongitudinalPressureMemoryEngine';
+import { InstitutionalPressureRuntime } from '../src/capabilities/runtime/operating-pressure/InstitutionalPressureRuntime';
+import { LongitudinalPressureMemoryEngine } from '../src/capabilities/runtime/operating-pressure/LongitudinalPressureMemoryEngine';
 
 describe('RC-1.8A - Institutional Operating Pressure Governance', () => {
 

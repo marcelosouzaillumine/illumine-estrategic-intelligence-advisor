@@ -2,10 +2,10 @@ import { test, describe } from 'node:test';
 import assert from 'node:assert/strict';
 import { CapitalGovernanceAdapter } from '../src/runtime/adapters/CapitalGovernanceAdapter';
 import { InstitutionalContext } from '../src/runtime/types';
-import { DLPAFiduciaryInterpretationEngine } from '../src/core/runtime/governance/dlpa/DLPAFiduciaryInterpretationEngine';
+import { DLPAFiduciaryInterpretationEngine } from '../src/capabilities/runtime/governance/dlpa/DLPAFiduciaryInterpretationEngine';
 import { LifecycleSemanticConsumptionGuard } from '../src/workspace/runtime/lifecycle/LifecycleSemanticConsumptionGuard';
 import { LifecycleSemanticViolationScanner } from '../src/workspace/runtime/lifecycle/LifecycleSemanticViolationScanner';
-import { InstitutionalBoardPackDocumentRuntime } from '../src/core/runtime/institutional-reporting/InstitutionalBoardPackDocumentRuntime';
+import { InstitutionalBoardPackDocumentRuntime } from '../src/capabilities/runtime/institutional-reporting/InstitutionalBoardPackDocumentRuntime';
 import { ExecutiveIntelligenceReport } from '../src/core/runtime/executive-intelligence-runtime';
 
 describe('DLPA Lifecycle Semantic Consumption E2E Tests (DLSCF v1.0)', () => {

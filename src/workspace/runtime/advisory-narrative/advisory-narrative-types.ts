@@ -2,9 +2,9 @@
 //
 // Advisory Narrative & Board Communication Types
 
-import { SurvivabilityScores } from '../../core/runtime/decision-intelligence/decision-types';
-import { FatigueMetrics, BehaviorProfile } from '../../core/runtime/behavioral-intelligence/behavioral-types';
-import { ScenarioCategory } from '../../core/runtime/strategic-simulation/simulation-types';
+import { SurvivabilityScores } from '../../capabilities/runtime/decision-intelligence/decision-types';
+import { FatigueMetrics, BehaviorProfile } from '../../capabilities/runtime/behavioral-intelligence/behavioral-types';
+import { ScenarioCategory } from '../../capabilities/runtime/strategic-simulation/simulation-types';
 
 export type AdvisoryAudience =
   | 'BOARD'

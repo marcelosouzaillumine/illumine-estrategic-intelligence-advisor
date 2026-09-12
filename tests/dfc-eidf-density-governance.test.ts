@@ -1,7 +1,7 @@
 import { describe, it } from 'node:test';
 import assert from 'node:assert/strict';
 import { ExecutiveInformationDensityFramework } from '../src/workspace/runtime/presentation-governance/ExecutiveInformationDensityFramework';
-import { TreasuryEarlyWarningEngine } from '../src/core/runtime/treasury-early-warning/TreasuryEarlyWarningEngine';
+import { TreasuryEarlyWarningEngine } from '../src/capabilities/runtime/treasury-early-warning/TreasuryEarlyWarningEngine';
 
 describe('DFC EIDF Density & Section Governance (EIDF v1.0)', () => {
   it('BOARD mode hides CDIL, Early Warning, Simulation, EFSI, EQE', () => {

@@ -4,18 +4,18 @@
 
 import { describe, it } from 'node:test';
 import assert from 'node:assert/strict';
-import { ExecutiveAssuranceRuntime } from '../src/core/runtime/audit-assurance/ExecutiveAssuranceRuntime';
-import { FiduciaryEvidenceEngine } from '../src/core/runtime/audit-assurance/FiduciaryEvidenceEngine';
-import { RuntimeExplainabilityEngine } from '../src/core/runtime/audit-assurance/RuntimeExplainabilityEngine';
-import { AuditTrailEngine } from '../src/core/runtime/audit-assurance/AuditTrailEngine';
-import { CausalChainEngine } from '../src/core/runtime/audit-assurance/CausalChainEngine';
-import { RegulatoryAssuranceEngine } from '../src/core/runtime/audit-assurance/RegulatoryAssuranceEngine';
-import { EvidenceIntegrityEngine } from '../src/core/runtime/audit-assurance/EvidenceIntegrityEngine';
-import { InstitutionalForensicsEngine } from '../src/core/runtime/audit-assurance/InstitutionalForensicsEngine';
-import { AuditReconstructionEngine } from '../src/core/runtime/audit-assurance/AuditReconstructionEngine';
-import { AssuranceCertificationEngine } from '../src/core/runtime/audit-assurance/AssuranceCertificationEngine';
-import { InstitutionalAuditEngine } from '../src/core/runtime/audit-assurance/InstitutionalAuditEngine';
-import { AuditTrailEntry } from '../src/core/runtime/audit-assurance/audit-types';
+import { ExecutiveAssuranceRuntime } from '../src/capabilities/runtime/audit-assurance/ExecutiveAssuranceRuntime';
+import { FiduciaryEvidenceEngine } from '../src/capabilities/runtime/audit-assurance/FiduciaryEvidenceEngine';
+import { RuntimeExplainabilityEngine } from '../src/capabilities/runtime/audit-assurance/RuntimeExplainabilityEngine';
+import { AuditTrailEngine } from '../src/capabilities/runtime/audit-assurance/AuditTrailEngine';
+import { CausalChainEngine } from '../src/capabilities/runtime/audit-assurance/CausalChainEngine';
+import { RegulatoryAssuranceEngine } from '../src/capabilities/runtime/audit-assurance/RegulatoryAssuranceEngine';
+import { EvidenceIntegrityEngine } from '../src/capabilities/runtime/audit-assurance/EvidenceIntegrityEngine';
+import { InstitutionalForensicsEngine } from '../src/capabilities/runtime/audit-assurance/InstitutionalForensicsEngine';
+import { AuditReconstructionEngine } from '../src/capabilities/runtime/audit-assurance/AuditReconstructionEngine';
+import { AssuranceCertificationEngine } from '../src/capabilities/runtime/audit-assurance/AssuranceCertificationEngine';
+import { InstitutionalAuditEngine } from '../src/capabilities/runtime/audit-assurance/InstitutionalAuditEngine';
+import { AuditTrailEntry } from '../src/capabilities/runtime/audit-assurance/audit-types';
 
 describe('Sovereign Institutional Audit, Evidence & Regulatory Assurance Suite', () => {
 

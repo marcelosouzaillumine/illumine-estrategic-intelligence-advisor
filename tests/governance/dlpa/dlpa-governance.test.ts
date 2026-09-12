@@ -4,9 +4,9 @@
 
 import { describe, it } from 'node:test';
 import assert from 'node:assert/strict';
-import { DLPAFiduciaryInterpretationEngine } from '../../../src/core/runtime/governance/dlpa/DLPAFiduciaryInterpretationEngine';
+import { DLPAFiduciaryInterpretationEngine } from '../../../src/capabilities/runtime/governance/dlpa/DLPAFiduciaryInterpretationEngine';
 import { FinancialRuntimeContextAdapter } from '../../../src/capabilities/financial/runtime/financial-context/FinancialRuntimeContextAdapter';
-import { InstitutionalBusinessProfile } from '../../../src/core/runtime/institutional-identity/InstitutionalBusinessProfile';
+import { InstitutionalBusinessProfile } from '../../../src/capabilities/runtime/institutional-identity/InstitutionalBusinessProfile';
 import { CapitalGovernanceAdapter } from '../../../src/capabilities/financial/runtime/capital-governance/capital-governance-adapter';
 
 describe('DLPA Fiduciary Governance Refactor Suite', () => {

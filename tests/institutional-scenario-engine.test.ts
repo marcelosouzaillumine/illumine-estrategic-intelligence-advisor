@@ -1,13 +1,13 @@
 import { test, describe, beforeEach } from 'node:test';
 import assert from 'node:assert/strict';
-import { ScenarioRegistry } from '../src/core/runtime/scenario-intelligence/ScenarioRegistry';
-import { ScenarioImpactRuntime } from '../src/core/runtime/scenario-intelligence/ScenarioImpactRuntime';
-import { ScenarioBaselineValidator } from '../src/core/runtime/scenario-intelligence/ScenarioBaselineValidator';
-import { ScenarioDeterminismValidator } from '../src/core/runtime/scenario-intelligence/ScenarioDeterminismValidator';
-import { ScenarioHashFramework } from '../src/core/runtime/scenario-intelligence/ScenarioHashFramework';
-import { ScenarioLineageFramework } from '../src/core/runtime/scenario-intelligence/ScenarioLineageFramework';
-import { InstitutionalScenario } from '../src/core/runtime/scenario-intelligence/ScenarioDefinition';
-import { ScenarioSimulationConstitutionProtocol } from '../src/core/runtime/constitutional-governance/protocols/ScenarioSimulationConstitutionProtocol';
+import { ScenarioRegistry } from '../src/capabilities/runtime/scenario-intelligence/ScenarioRegistry';
+import { ScenarioImpactRuntime } from '../src/capabilities/runtime/scenario-intelligence/ScenarioImpactRuntime';
+import { ScenarioBaselineValidator } from '../src/capabilities/runtime/scenario-intelligence/ScenarioBaselineValidator';
+import { ScenarioDeterminismValidator } from '../src/capabilities/runtime/scenario-intelligence/ScenarioDeterminismValidator';
+import { ScenarioHashFramework } from '../src/capabilities/runtime/scenario-intelligence/ScenarioHashFramework';
+import { ScenarioLineageFramework } from '../src/capabilities/runtime/scenario-intelligence/ScenarioLineageFramework';
+import { InstitutionalScenario } from '../src/capabilities/runtime/scenario-intelligence/ScenarioDefinition';
+import { ScenarioSimulationConstitutionProtocol } from '../src/capabilities/runtime/constitutional-governance/protocols/ScenarioSimulationConstitutionProtocol';
 
 describe('Institutional Scenario Engine (ISE v1.1) Tests', () => {
   beforeEach(() => {

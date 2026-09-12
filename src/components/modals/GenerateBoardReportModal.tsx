@@ -5,7 +5,7 @@ import { Button } from '../ui/button';
 import { useExecutiveAdvisory } from '../../hooks/useExecutiveAdvisory';
 import { useLanguage } from '../../contexts/LanguageContext';
 import { ExecutiveBoardReportPDF } from '../../core/runtime/reports/ExecutiveBoardReportPDF';
-import { ExecutiveBoardReport } from '../../core/runtime/esgim/esgimTypes';
+import { ExecutiveBoardReport } from '../../capabilities/runtime/esgim/esgimTypes';
 
 interface GenerateBoardReportModalProps {
   isOpen: boolean;

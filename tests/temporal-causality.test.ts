@@ -1,14 +1,14 @@
 import { test, describe, beforeEach } from 'node:test';
 import * as assert from 'node:assert';
-import { InstitutionalDeteriorationModel } from '../src/core/runtime/institutional-memory/InstitutionalDeteriorationModel';
-import { ExecutiveResponsivenessEngine, ActionMarker } from '../src/core/runtime/institutional-memory/ExecutiveResponsivenessEngine';
-import { GovernanceFatigueDetection } from '../src/core/runtime/institutional-memory/GovernanceFatigueDetection';
-import { PredictiveRecurrenceEngine } from '../src/core/runtime/institutional-memory/PredictiveRecurrenceEngine';
-import { TemporalEscalationEngine } from '../src/core/runtime/institutional-memory/TemporalEscalationEngine';
-import { TemporalGovernanceScoring } from '../src/core/runtime/institutional-memory/TemporalGovernanceScoring';
-import { InstitutionalEarlyWarningSystem } from '../src/core/runtime/institutional-memory/InstitutionalEarlyWarningSystem';
-import { TemporalCausalityEngine } from '../src/core/runtime/institutional-memory/TemporalCausalityEngine';
-import { HistoricalReplayIndexEntry } from '../src/core/runtime/institutional-memory/types';
+import { InstitutionalDeteriorationModel } from '../src/capabilities/runtime/institutional-memory/InstitutionalDeteriorationModel';
+import { ExecutiveResponsivenessEngine, ActionMarker } from '../src/capabilities/runtime/institutional-memory/ExecutiveResponsivenessEngine';
+import { GovernanceFatigueDetection } from '../src/capabilities/runtime/institutional-memory/GovernanceFatigueDetection';
+import { PredictiveRecurrenceEngine } from '../src/capabilities/runtime/institutional-memory/PredictiveRecurrenceEngine';
+import { TemporalEscalationEngine } from '../src/capabilities/runtime/institutional-memory/TemporalEscalationEngine';
+import { TemporalGovernanceScoring } from '../src/capabilities/runtime/institutional-memory/TemporalGovernanceScoring';
+import { InstitutionalEarlyWarningSystem } from '../src/capabilities/runtime/institutional-memory/InstitutionalEarlyWarningSystem';
+import { TemporalCausalityEngine } from '../src/capabilities/runtime/institutional-memory/TemporalCausalityEngine';
+import { HistoricalReplayIndexEntry } from '../src/capabilities/runtime/institutional-memory/types';
 
 describe('Phase 3 Step A: Core Temporal Engines', () => {
 

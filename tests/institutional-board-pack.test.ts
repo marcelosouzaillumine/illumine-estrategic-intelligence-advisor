@@ -3,7 +3,7 @@
 
 import test, { describe, it } from 'node:test';
 import assert from 'node:assert/strict';
-import { InstitutionalBoardPackRuntime } from '../src/core/runtime/institutional-reporting/InstitutionalBoardPackRuntime';
+import { InstitutionalBoardPackRuntime } from '../src/capabilities/runtime/institutional-reporting/InstitutionalBoardPackRuntime';
 import { ExecutiveIntelligenceReport } from '../src/core/runtime/executive-intelligence-runtime';
 
 describe('Institutional Board Pack Runtime', () => {

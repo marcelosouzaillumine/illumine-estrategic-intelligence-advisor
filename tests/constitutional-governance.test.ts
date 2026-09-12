@@ -4,8 +4,8 @@
 
 import { describe, it } from 'node:test';
 import assert from 'node:assert/strict';
-import { ExecutiveConstitutionalRuntime } from '../src/core/runtime/constitutional-governance/ExecutiveConstitutionalRuntime';
-import { FiduciaryAxiom } from '../src/core/runtime/constitutional-governance/constitutional-types';
+import { ExecutiveConstitutionalRuntime } from '../src/capabilities/runtime/constitutional-governance/ExecutiveConstitutionalRuntime';
+import { FiduciaryAxiom } from '../src/capabilities/runtime/constitutional-governance/constitutional-types';
 
 describe('Constitutional Governance Layer', () => {
 

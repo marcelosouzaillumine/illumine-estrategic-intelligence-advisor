@@ -1,9 +1,9 @@
 import { test, describe } from 'node:test';
 import assert from 'node:assert/strict';
 import { CapitalGovernanceAdapter } from '../src/capabilities/financial/runtime/capital-governance/capital-governance-adapter';
-import { PatrimonialRecoveryHorizonEngine } from '../src/core/runtime/governance/dlpa/PatrimonialRecoveryHorizonEngine';
-import { CapitalRecoverabilityEngine } from '../src/core/runtime/governance/dlpa/CapitalRecoverabilityEngine';
-import { CapitalPreservationScoreEngine } from '../src/core/runtime/governance/dlpa/CapitalPreservationScoreEngine';
+import { PatrimonialRecoveryHorizonEngine } from '../src/capabilities/runtime/governance/dlpa/PatrimonialRecoveryHorizonEngine';
+import { CapitalRecoverabilityEngine } from '../src/capabilities/runtime/governance/dlpa/CapitalRecoverabilityEngine';
+import { CapitalPreservationScoreEngine } from '../src/capabilities/runtime/governance/dlpa/CapitalPreservationScoreEngine';
 
 describe('Executive Layer Evaluation v2.3', () => {
   test('Granatum 2022 dataset produces expected executive outputs', () => {

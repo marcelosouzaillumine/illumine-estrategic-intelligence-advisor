@@ -1,7 +1,7 @@
 import test from 'node:test';
 import assert from 'node:assert';
-import { PredictiveRiskEngine, EmergingRiskCategory } from '../../src/core/runtime/predictive-governance/PredictiveRiskEngine';
-import { InstitutionalSnapshot } from '../../src/core/runtime/predictive-governance/PredictiveTypes';
+import { PredictiveRiskEngine, EmergingRiskCategory } from '../../src/capabilities/runtime/predictive-governance/PredictiveRiskEngine';
+import { InstitutionalSnapshot } from '../../src/capabilities/runtime/predictive-governance/PredictiveTypes';
 
 test('▶ Predictive Risk Golden Tests', async (t) => {
   await t.test('✔ 1. Detects emerging LIQUIDITY_RISK over 3 consecutive cycles', () => {

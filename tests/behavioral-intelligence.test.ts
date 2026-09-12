@@ -4,13 +4,13 @@
 
 import { describe, it, beforeEach } from 'node:test';
 import assert from 'node:assert/strict';
-import { InstitutionalDecisionIntelligenceEngine } from '../src/core/runtime/decision-intelligence/InstitutionalDecisionIntelligenceEngine';
-import { InstitutionalDecisionLedger } from '../src/core/runtime/decision-intelligence/InstitutionalDecisionLedger';
-import { ExecutiveDecision } from '../src/core/runtime/decision-intelligence/decision-types';
-import { InstitutionalBehaviorProfileEngine } from '../src/core/runtime/behavioral-intelligence/InstitutionalBehaviorProfileEngine';
-import { GovernanceDriftEngine } from '../src/core/runtime/behavioral-intelligence/GovernanceDriftEngine';
-import { GovernanceFatigueEngine } from '../src/core/runtime/behavioral-intelligence/GovernanceFatigueEngine';
-import { InstitutionalBehavioralIntelligenceEngine } from '../src/core/runtime/behavioral-intelligence/InstitutionalBehavioralIntelligenceEngine';
+import { InstitutionalDecisionIntelligenceEngine } from '../src/capabilities/runtime/decision-intelligence/InstitutionalDecisionIntelligenceEngine';
+import { InstitutionalDecisionLedger } from '../src/capabilities/runtime/decision-intelligence/InstitutionalDecisionLedger';
+import { ExecutiveDecision } from '../src/capabilities/runtime/decision-intelligence/decision-types';
+import { InstitutionalBehaviorProfileEngine } from '../src/capabilities/runtime/behavioral-intelligence/InstitutionalBehaviorProfileEngine';
+import { GovernanceDriftEngine } from '../src/capabilities/runtime/behavioral-intelligence/GovernanceDriftEngine';
+import { GovernanceFatigueEngine } from '../src/capabilities/runtime/behavioral-intelligence/GovernanceFatigueEngine';
+import { InstitutionalBehavioralIntelligenceEngine } from '../src/capabilities/runtime/behavioral-intelligence/InstitutionalBehavioralIntelligenceEngine';
 
 const createBaseReportContext = () => ({
   scores: {

@@ -2,10 +2,10 @@ import { describe, it } from 'node:test';
 import assert from 'node:assert/strict';
 import { ExecutiveInformationDensityFramework } from '../src/workspace/runtime/presentation-governance/ExecutiveInformationDensityFramework';
 import { TemporalIntegrityValidator } from '../src/workspace/runtime/presentation-governance/TemporalIntegrityValidator';
-import { DLPATemporalIntegrityGuard } from '../src/core/runtime/governance/dlpa/DLPATemporalIntegrityGuard';
-import { PatrimonialRecoveryHorizonEngine } from '../src/core/runtime/governance/dlpa/PatrimonialRecoveryHorizonEngine';
-import { InstitutionalBoardPackRuntime } from '../src/core/runtime/institutional-reporting/InstitutionalBoardPackRuntime';
-import { ExecutivePriorityResolver } from '../src/core/runtime/decision-intelligence/ExecutivePriorityResolver';
+import { DLPATemporalIntegrityGuard } from '../src/capabilities/runtime/governance/dlpa/DLPATemporalIntegrityGuard';
+import { PatrimonialRecoveryHorizonEngine } from '../src/capabilities/runtime/governance/dlpa/PatrimonialRecoveryHorizonEngine';
+import { InstitutionalBoardPackRuntime } from '../src/capabilities/runtime/institutional-reporting/InstitutionalBoardPackRuntime';
+import { ExecutivePriorityResolver } from '../src/capabilities/runtime/decision-intelligence/ExecutivePriorityResolver';
 import { executiveRuntime } from '../src/core/runtime/executive-intelligence-runtime';
 
 const createBasePayload = (analysisYear: number) => ({

@@ -2,9 +2,9 @@
 
 import { describe, it, beforeEach } from 'node:test';
 import assert from 'node:assert/strict';
-import { InstitutionalWarGameEngine } from '../src/core/runtime/war-gaming/InstitutionalWarGameEngine';
-import { LongitudinalCrisisMemoryEngine } from '../src/core/runtime/war-gaming/LongitudinalCrisisMemoryEngine';
-import { CrisisInput } from '../src/core/runtime/war-gaming/war-gaming-types';
+import { InstitutionalWarGameEngine } from '../src/capabilities/runtime/war-gaming/InstitutionalWarGameEngine';
+import { LongitudinalCrisisMemoryEngine } from '../src/capabilities/runtime/war-gaming/LongitudinalCrisisMemoryEngine';
+import { CrisisInput } from '../src/capabilities/runtime/war-gaming/war-gaming-types';
 
 describe('RC-1.8 - Institutional War Gaming & Crisis Governance', () => {
 
