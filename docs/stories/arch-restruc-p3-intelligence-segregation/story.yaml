@@ -1,0 +1,100 @@
+id: arch-restruc-p3-intelligence-segregation
+title: "Reestruturação Arquitetural — Fase 3: Segregação de packages/intelligence"
+status: Draft
+workflow: story-development-cycle
+mode: interactive
+created_at: '2026-09-12'
+owner: architect
+
+problem: >
+  packages/intelligence contém 76 sub-pacotes sem nenhuma segregação de camada.
+  O mesmo diretório hospeda primitivas canônicas de Core (intelligence-kernel,
+  executive-cognitive-runtime, knowledge-graph), orquestradores de Shell
+  (executive-workspace-orchestrator, executive-experience-composer) e engines
+  específicas do Produto Illumine (executive-advisory-engine, executive-board,
+  executive-analytics-engine). Um path de import não distingue a qual camada
+  um pacote pertence.
+
+business_value: >
+  Segregar packages/intelligence nos 3 escopos corretos (core, shell, product)
+  permite importar apenas o que cada camada precisa, ativa a possibilidade de
+  versionar o Core independentemente do Produto, e cria o fundamento para o
+  white-label — outro parceiro poderia usar o Core e o Shell sem o Produto Illumine.
+
+scope:
+  in:
+    - Classificar os 76 sub-pacotes de packages/intelligence por camada.
+    - Criar packages/core/ com os pacotes de L2 (kernel, cognitive-runtime, knowledge-graph, learning-loop, decision-*, agent-runtime).
+    - Criar packages/shell/ com os pacotes de L3 (experience-composer, workspace-orchestrator, rendering-engine, advisory-workflow, narrative-engine, partner-ecosystem).
+    - Criar packages/product/ com os pacotes de L4 (advisory-engine, analytics-engine, board, question-engine, insight-engine, executive-copilot, maturity-index, predictive-*).
+    - Criar re-exports em packages/intelligence/* para backward compatibility.
+    - Adicionar eslint rule @illumine/no-cross-layer-import como warn.
+  out:
+    - Alterar a lógica interna de qualquer pacote.
+    - Remover packages/intelligence/ (mantido como re-export layer temporariamente).
+    - Implementar a eslint rule como error (isso é pós-fase).
+
+acceptance_criteria:
+  - id: AC1
+    given: packages/core/
+    when: listado após a fase
+    then: contém apenas pacotes com lógica cognitiva agnóstica de domínio.
+  - id: AC2
+    given: packages/shell/
+    when: listado após a fase
+    then: contém apenas pacotes de experiência executiva sem referência a DRE, BP, DFC ou DLPA.
+  - id: AC3
+    given: packages/product/
+    when: listado após a fase
+    then: contém os pacotes de intelligence específicos do Illumine Governance.
+  - id: AC4
+    given: a eslint rule @illumine/no-cross-layer-import
+    when: executada no codebase
+    then: reporta violações como warnings (não quebra o build ainda).
+  - id: AC5
+    given: todos os consumers dos packages/intelligence/*
+    when: o build é executado após a reorganização
+    then: funcionam via re-exports sem alteração de import path.
+
+tasks:
+  - [ ] Gerar inventário completo dos 76 sub-pacotes com classificação por camada.
+  - [ ] Criar packages/core/ e mover pacotes L2.
+  - [ ] Criar packages/shell/ e mover pacotes L3.
+  - [ ] Criar packages/product/ e mover pacotes L4.
+  - [ ] Criar re-exports em packages/intelligence/* para cada pacote movido.
+  - [ ] Atualizar package.json de cada pacote com novo scope (@illumine/core, @illumine/shell, @illumine/product).
+  - [ ] Implementar eslint rule @illumine/no-cross-layer-import (warn mode).
+  - [ ] Executar npm run typecheck e corrigir erros de import.
+  - [ ] Executar npm run lint e verificar warnings de cross-layer.
+  - [ ] Executar npm run build e verificar sem erros novos.
+
+risks:
+  - Alguns pacotes podem ter dependências cruzadas não documentadas que violam as
+    fronteiras — descoberto apenas durante o move.
+  - A eslint rule em warn mode pode gerar muitos warnings inicialmente, dificultando
+    identificar novos problemas.
+  - O escopo de re-exports pode ser maior que estimado se houver deep imports.
+
+dependencies:
+  - docs/stories/arch-restruc-p2-runtime-surgery/story.yaml (Done antes desta)
+  - .aiox-core/data/layer-boundaries.md
+  - packages/intelligence/ (76 sub-pacotes)
+  - packages/eslint-plugin/ (para adicionar a nova rule)
+
+pre_conditions:
+  - Fase 2 concluída (Done).
+  - Branch de feature criada.
+  - Inventário dos 76 pacotes gerado e revisado.
+
+definition_of_done:
+  - [ ] packages/core/, packages/shell/, packages/product/ criados e populados.
+  - [ ] Re-exports em packages/intelligence/* para backward compatibility.
+  - [ ] eslint rule @illumine/no-cross-layer-import implementada em warn mode.
+  - [ ] npm run typecheck passa sem erros novos.
+  - [ ] npm run lint passa (warnings de cross-layer são esperados neste momento).
+  - [ ] npm run build passa sem erros novos.
+
+quality_gate:
+  npm_typecheck: pass_no_new_errors
+  npm_lint: pass_warnings_allowed
+  npm_build: pass_no_new_errors
