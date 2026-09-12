@@ -1,3 +1,3 @@
-// re-export shim — arquivos movidos para src/platform/i18n/
-export * from '../../../platform/i18n/InstitutionalLabelResolver';
-export * from '../../../platform/i18n/InstitutionalTerminologyRegistry';
+// re-export shim — arquivos movidos para src/capabilities/financial/i18n/
+export * from '../../../capabilities/financial/i18n/InstitutionalLabelResolver';
+export * from '../../../capabilities/financial/i18n/InstitutionalTerminologyRegistry';
