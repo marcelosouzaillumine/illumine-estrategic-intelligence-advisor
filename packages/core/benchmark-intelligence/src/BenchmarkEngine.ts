@@ -18,6 +18,16 @@ export class BenchmarkEngine {
     };
   }
 
+  public static getIndustryBenchmark(industry: string): IndustryBenchmark {
+    return {
+      industry,
+      p25EbitdaMarginPercentage: 12.0,
+      p50EbitdaMarginPercentage: 17.0,
+      p75EbitdaMarginPercentage: 26.0,
+      averageWorkingCapitalDays: 45,
+    };
+  }
+
   public static calculatePercentilePosition(query: BenchmarkQuery, companyValue: number): PercentileCalculation {
     const stats = this.calculateIndustryStatistics(query);
     const gap = Number((companyValue - stats.median).toFixed(1));

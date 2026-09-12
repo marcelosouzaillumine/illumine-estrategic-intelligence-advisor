@@ -10,4 +10,5 @@ export * from './StrategicMemoryEngine';
 export * from './StrategicNarrativeComposer';
 export * from './StrategicPostureEngine';
 export * from './strategic-intelligence-adapter';
-export * from './strategic-intelligence-types';
+// export * from './strategic-intelligence-types';
+  // TS2308: duplicate export

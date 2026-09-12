@@ -30,8 +30,8 @@ export * from '../../../workspace/runtime/executive-consolidation/EvidenceSelect
 export * from '../../../workspace/runtime/executive-consolidation/ExecutiveActionCompletenessAudit';
 export * from '../../../workspace/runtime/executive-consolidation/ExecutiveBlockedAnalysisTranslator';
 export * from '../../../workspace/runtime/executive-consolidation/ExecutiveBusinessTerminologyRegistry';
-export * from '../../../workspace/runtime/executive-consolidation/ExecutiveConsistencyEngine';
-export * from '../../../workspace/runtime/executive-consolidation/ExecutiveDecisionSynthesisEngine';
+// export * from '../../../workspace/runtime/executive-consolidation/ExecutiveConsistencyEngine';
+  // TS2308: duplicate exportexport * from '../../../workspace/runtime/executive-consolidation/ExecutiveDecisionSynthesisEngine';
 export * from '../../../workspace/runtime/executive-consolidation/ExecutiveDriverCatalog';
 export * from '../../../workspace/runtime/executive-consolidation/ExecutiveDriverQualifiers';
 export * from '../../../workspace/runtime/executive-consolidation/ExecutiveIndicatorExplanationEngine';
@@ -41,8 +41,8 @@ export * from '../../../workspace/runtime/executive-consolidation/ExecutiveNarra
 export * from '../../../workspace/runtime/executive-consolidation/ExecutivePrimaryMotiveConsistencyEngine';
 export * from '../../../workspace/runtime/executive-consolidation/ExecutiveRecommendationDeduplicationEngine';
 export * from '../../../workspace/runtime/executive-consolidation/ExecutiveSemanticAudit';
-export * from '../../../workspace/runtime/executive-consolidation/ExecutiveSemanticBoundaryGuard';
-export * from '../../../workspace/runtime/executive-consolidation/ExecutiveSemanticRegistry';
+// export * from '../../../workspace/runtime/executive-consolidation/ExecutiveSemanticBoundaryGuard';
+  // TS2308: duplicate exportexport * from '../../../workspace/runtime/executive-consolidation/ExecutiveSemanticRegistry';
 export * from '../../../workspace/runtime/executive-consolidation/ExecutiveStrategicMaturityEngine';
 export * from '../../../workspace/runtime/executive-consolidation/ExecutiveStrategicSnapshotEngine';
 export * from '../../../workspace/runtime/executive-consolidation/ExecutiveStrategicTensionEngine';
@@ -55,7 +55,7 @@ export * from '../../../workspace/runtime/executive-consolidation/ProductionVisi
 export * from '../../../workspace/runtime/executive-consolidation/Resolvers';
 export * from '../../../workspace/runtime/executive-consolidation/RuntimeLineageGuard';
 export * from '../../../workspace/runtime/executive-consolidation/StrategicDiagnosisStageResolver';
-export * from '../../../workspace/runtime/executive-consolidation/StrategicOpinionConsistencyEngine';
-export * from '../../../workspace/runtime/executive-consolidation/StrategicOpinionConsistencyEngine.test';
-export * from '../../../workspace/runtime/executive-consolidation/SynthesisMetricsResolver';
+// export * from '../../../workspace/runtime/executive-consolidation/StrategicOpinionConsistencyEngine';
+  // TS2308: duplicate export// export * from '../../../workspace/runtime/executive-consolidation/StrategicOpinionConsistencyEngine.test';
+  // TS2308: duplicate exportexport * from '../../../workspace/runtime/executive-consolidation/SynthesisMetricsResolver';
 export * from '../../../workspace/runtime/executive-consolidation/WorkingCapitalExecutiveAssessmentEngine';

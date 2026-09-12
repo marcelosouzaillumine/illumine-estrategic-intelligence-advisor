@@ -19,4 +19,5 @@ export * from '../../../capabilities/financial/runtime/consolidated/Intercompany
 export * from '../../../capabilities/financial/runtime/consolidated/IntercompanyMatchingResolver';
 export * from '../../../capabilities/financial/runtime/consolidated/MultiEntityExecutionPlanner';
 export * from '../../../capabilities/financial/runtime/consolidated/consolidated-types';
-export * from '../../../capabilities/financial/runtime/consolidated/types';
+// export * from '../../../capabilities/financial/runtime/consolidated/types';
+  // TS2308: duplicate export

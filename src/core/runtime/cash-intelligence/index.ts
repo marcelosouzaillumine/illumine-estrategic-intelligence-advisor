@@ -40,4 +40,5 @@ export * from '../../../capabilities/financial/runtime/cash-intelligence/Synthet
 export * from '../../../capabilities/financial/runtime/cash-intelligence/UniversalCashIndicatorsEngine';
 export * from '../../../capabilities/financial/runtime/cash-intelligence/UniversalCashIndicatorsEngine.spec';
 export * from '../../../capabilities/financial/runtime/cash-intelligence/WorkingCapitalDrainDetector';
-export * from '../../../capabilities/financial/runtime/cash-intelligence/types';
+// export * from '../../../capabilities/financial/runtime/cash-intelligence/types';
+  // TS2308: duplicate export
