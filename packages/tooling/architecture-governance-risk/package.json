@@ -1,0 +1,9 @@
+{
+  "name": "@illumine/architecture-governance-risk",
+  "version": "1.0.0",
+  "private": true,
+  "main": "src/index.ts",
+  "dependencies": {
+    "@illumine/architecture-governance-advisory": "*"
+  }
+}

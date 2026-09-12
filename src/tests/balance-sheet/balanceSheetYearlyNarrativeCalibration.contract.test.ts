@@ -1,6 +1,6 @@
 import { describe, it, expect, beforeAll, afterAll } from 'vitest';
 import assert from 'node:assert';
-import { BalanceSheetExecutiveNarrativeEngine } from '../../core/runtime/governance/bp/BalanceSheetExecutiveNarrativeEngine';
+import { BalanceSheetExecutiveNarrativeEngine } from '../../capabilities/runtime/governance/bp/BalanceSheetExecutiveNarrativeEngine';
 
 describe('BalanceSheetYearlyNarrativeCalibration', () => {
   it('Should emit exact causal string when reserves are consumed and liquidity is reduced', () => {

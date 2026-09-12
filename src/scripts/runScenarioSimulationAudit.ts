@@ -6,7 +6,7 @@ function runAudit() {
   console.log('Iniciando Scenario Governance Audit (RC-1.6)...');
   let hasErrors = false;
 
-  const coreDir = path.join(process.cwd(), 'src/core/runtime/scenario-intelligence');
+  const coreDir = path.join(process.cwd(), 'src/capabilities/runtime/scenario-intelligence');
   const constraintFile = path.join(coreDir, 'ScenarioConstraintEngine.ts');
 
   // Check 1: Constraint Engine must exist and enforce fail-closed

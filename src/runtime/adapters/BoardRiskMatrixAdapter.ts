@@ -1,5 +1,5 @@
 import { EngineDefinition, InstitutionalContext, EngineExecutionResult, InferenceBlock, CausalityChain, AdvisoryNarrative } from '../types';
-import { InstitutionalSurvivabilityEngine } from '../../core/runtime/decision-intelligence/InstitutionalSurvivabilityEngine';
+import { InstitutionalSurvivabilityEngine } from '../../capabilities/runtime/decision-intelligence/InstitutionalSurvivabilityEngine';
 
 export const BoardRiskMatrixAdapter: EngineDefinition = {
   name: 'BoardRiskMatrixAdapter',

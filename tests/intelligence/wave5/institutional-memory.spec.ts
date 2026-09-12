@@ -1,5 +1,5 @@
 import { InstitutionalIntelligenceEngine } from '../../../packages/organizational-intelligence/src/index';
-import { businessMemoryRepository } from '../../../packages/institutional-memory/src/index';
+import { businessMemoryRepository } from '../../../packages/product/institutional-memory/memory/BusinessMemoryRepository';
 import { EnterpriseAgentOrchestrator } from '../../../packages/advisory-agents/src/index';
 import { ArchitectureScoreCalculator } from '../../../packages/certification/src/index';
 

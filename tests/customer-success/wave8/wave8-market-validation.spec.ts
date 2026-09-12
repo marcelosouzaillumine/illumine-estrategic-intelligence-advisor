@@ -1,6 +1,6 @@
-import { CustomerHealthScoreEngine, valueEvidenceEngine, ExpansionRecommendationEngine } from '../../../packages/customer-success/src/index';
-import { FoundingPartnerLifecycleEngine } from '../../../packages/founding-partners-os/src/index';
-import { BenchmarkEngine } from '../../../packages/benchmark-intelligence/src/index';
+import { CustomerHealthScoreEngine, valueEvidenceEngine, ExpansionRecommendationEngine } from '../../../packages/os/customer-success/src/index';
+import { FoundingPartnerLifecycleEngine } from '../../../packages/os/founding-partners-os/src/index';
+import { BenchmarkEngine } from '../../../packages/core/benchmark-intelligence/src/index';
 import { EnterpriseFitScoreEngine } from '../../../packages/sales-intelligence/src/index';
 import { EnterpriseAgentOrchestrator } from '../../../packages/advisory-agents/src/index';
 

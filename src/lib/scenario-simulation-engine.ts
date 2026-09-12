@@ -6,7 +6,7 @@ import { BPSummary } from './bpEngine';
 
 /**
  * @deprecated MOTOR LEGADO (FASE 1/2) - SERÁ REMOVIDO APÓS 0 IMPORTS ATIVOS.
- * POR FAVOR, USE O NOVO MOTOR: `src/core/runtime/scenario-intelligence/`
+ * POR FAVOR, USE O NOVO MOTOR: `src/capabilities/runtime/scenario-intelligence/`
  */
 
 // --- INTERFACES ---

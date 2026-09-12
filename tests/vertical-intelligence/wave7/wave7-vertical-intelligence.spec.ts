@@ -8,7 +8,7 @@ import {
   IndustrialOperationsAdvisorAgent,
   ServicesGrowthAdvisorAgent
 } from '../../../packages/vertical-intelligence/src/index';
-import { VerticalROIEngine } from '../../../packages/commercialization/src/index';
+import { VerticalROIEngine } from '../../../packages/os/commercialization/src/index';
 
 export function testWave7VerticalIntelligence(): boolean {
   // Test 01: Vertical Engines Execution

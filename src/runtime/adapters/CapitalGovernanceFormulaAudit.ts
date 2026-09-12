@@ -5,7 +5,7 @@ export function scanForLegacyFormulas(): boolean {
   try {
     const filesToScan = [
       path.resolve(process.cwd(), 'src/components/pages/governance/CapitalGovernanceCenter.tsx'),
-      path.resolve(process.cwd(), 'src/core/runtime/institutional-reporting/InstitutionalBoardPackDocumentRuntime.ts')
+      path.resolve(process.cwd(), 'src/capabilities/runtime/institutional-reporting/InstitutionalBoardPackDocumentRuntime.ts')
     ];
 
     const forbidden = [

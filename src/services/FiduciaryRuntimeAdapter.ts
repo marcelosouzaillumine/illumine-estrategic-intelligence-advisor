@@ -36,7 +36,7 @@ import { MetricCanonicalizationEngine } from '../core/runtime/executive-consolid
 import { ExecutiveRecommendation } from '../core/runtime/executive-consolidation/ExecutiveRecommendationDeduplicationEngine';
 import { RuntimeExecutionRegistry } from '../platform/observability/RuntimeExecutionRegistry';
 import { RuntimeHealthMonitor } from '../platform/observability/RuntimeHealthMonitor';
-import { ExecutionReplayEngine } from '../platform/observability/ExecutionReplayEngine';
+import { ExecutionReplayEngine } from '../capabilities/financial/runtime/consolidated/ExecutionReplayEngine';
 import { RuntimeExecutionRecord, RuntimeHealthSnapshot, ReplayExecutionResult } from '../platform/observability/observability-types';
 import { ConsolidatedExecutiveAdvisoryReport } from '../capabilities/financial/runtime/consolidated/advisory/advisoryTypes';
 import { DecisionRecordRegistry } from '../core/runtime/workflow-governance/DecisionRecordRegistry';

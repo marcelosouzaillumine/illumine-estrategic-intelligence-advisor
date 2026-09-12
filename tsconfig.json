@@ -53,25 +53,25 @@
         "./packages/domain/core-primitives/src/index.ts"
       ],
       "@illumine/architecture-governance-decision": [
-        "./packages/architecture-governance-decision/src/index.ts"
+        "./packages/tooling/architecture-governance-decision/src/index.ts"
       ],
       "@illumine/architecture-governance-discovery": [
-        "./packages/architecture-governance-discovery/src/index.ts"
+        "./packages/tooling/architecture-governance-discovery/src/index.ts"
       ],
       "@illumine/architecture-governance-evaluation": [
-        "./packages/architecture-governance-evaluation/src/index.ts"
+        "./packages/tooling/architecture-governance-evaluation/src/index.ts"
       ],
       "@illumine/architecture-governance-knowledge": [
-        "./packages/architecture-governance-knowledge/src/index.ts"
+        "./packages/tooling/architecture-governance-knowledge/src/index.ts"
       ],
       "@illumine/architecture-governance-memory": [
-        "./packages/architecture-governance-memory/src/index.ts"
+        "./packages/tooling/architecture-governance-memory/src/index.ts"
       ],
       "@illumine/architecture-governance-recommendation": [
-        "./packages/architecture-governance-recommendation/src/index.ts"
+        "./packages/tooling/architecture-governance-recommendation/src/index.ts"
       ],
       "@illumine/architecture-governance-ui": [
-        "./packages/architecture-governance-ui/src/index.ts"
+        "./packages/tooling/architecture-governance-ui/src/index.ts"
       ],
       "@illumine/semantic-model": [
         "./packages/domain/semantic-model/src/index.ts"
@@ -309,6 +309,42 @@
       ],
       "@illumine/agent-council": [
         "./packages/product/agent-council/src/index.ts"
+      ],
+      "@illumine/architecture-governance-advisory": [
+        "./packages/tooling/architecture-governance-advisory/src/index.ts"
+      ],
+      "@illumine/architecture-governance-audit": [
+        "./packages/tooling/architecture-governance-audit/src/index.ts"
+      ],
+      "@illumine/architecture-governance-certification": [
+        "./packages/tooling/architecture-governance-certification/src/index.ts"
+      ],
+      "@illumine/architecture-governance-contracts": [
+        "./packages/tooling/architecture-governance-contracts/src/index.ts"
+      ],
+      "@illumine/architecture-governance-domain": [
+        "./packages/tooling/architecture-governance-domain/src/index.ts"
+      ],
+      "@illumine/architecture-governance-intelligence": [
+        "./packages/tooling/architecture-governance-intelligence/src/index.ts"
+      ],
+      "@illumine/architecture-governance-maturity": [
+        "./packages/tooling/architecture-governance-maturity/src/index.ts"
+      ],
+      "@illumine/architecture-governance-registry": [
+        "./packages/tooling/architecture-governance-registry/src/index.ts"
+      ],
+      "@illumine/architecture-governance-risk": [
+        "./packages/tooling/architecture-governance-risk/src/index.ts"
+      ],
+      "@illumine/architecture-governance-rules": [
+        "./packages/tooling/architecture-governance-rules/src/index.ts"
+      ],
+      "@illumine/architecture-governance-types": [
+        "./packages/tooling/architecture-governance-types/src/index.ts"
+      ],
+      "@illumine/architecture-governance-ui-contracts": [
+        "./packages/tooling/architecture-governance-ui-contracts/src/index.ts"
       ]
     },
     "types": [

@@ -1,4 +1,4 @@
-import { IllumineValueIndex, BoardMeetingSimulator, foundingPartnersProgram } from '../../../packages/commercialization/src/index';
+import { IllumineValueIndex, BoardMeetingSimulator, foundingPartnersProgram } from '../../../packages/os/commercialization/src/index';
 
 export function testWave6EnterpriseCommercialization(): boolean {
   // 1. Test Illumine Value Index™ (ROI Calculado)

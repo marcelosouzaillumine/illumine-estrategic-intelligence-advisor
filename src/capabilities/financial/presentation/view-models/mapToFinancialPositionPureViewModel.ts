@@ -1,4 +1,4 @@
-import { PatrimonialIndicator } from '../../../../core/runtime/governance/bp/BalanceSheetFinancialMetricsEngine';
+import { PatrimonialIndicator } from '../../../../capabilities/runtime/governance/bp/BalanceSheetFinancialMetricsEngine';
 import { FinancialPositionPureViewModel, FinancialIndicator } from '../../../../core/experience/contracts/FinancialPositionPureViewModel';
 import { BalanceSheetExecutiveViewModel } from '../../../../types/executive/BalanceSheetExecutiveViewModel';
 

@@ -13,7 +13,7 @@ const FORBIDDEN_PATTERNS = [
   { pattern: /FAKE_FALLBACK_ENGANOSO/g, message: 'Fallback genérico não permitido.' },
   { pattern: /if\s*\([^)]*year\s*>\s*prevYear[^)]*\)\s*{[^}]*alta[^}]*}/gi, message: 'Lógica YoY local detectada.' },
   { pattern: /parseBrNumber\([^)]*\)\s*\?\?\s*0/g, message: 'FAIL-SILENT: Uso de zero silencioso detectado. Proibido pela Import Governance.' },
-  { pattern: /from\s+['"]\.\.\/lib\/scenario-simulation-engine['"]/g, message: 'MOTOR LEGADO: Importação do antigo motor de simulação detectada. Use o novo em src/core/runtime/scenario-intelligence/' },
+  { pattern: /from\s+['"]\.\.\/lib\/scenario-simulation-engine['"]/g, message: 'MOTOR LEGADO: Importação do antigo motor de simulação detectada. Use o novo em src/capabilities/runtime/scenario-intelligence/' },
   { pattern: /CommercialPlanEngine\..*(scores|causality|advisory|severity)\s*=/g, message: 'ComercialPlanEngine não pode alterar outputs financeiros.' },
   { pattern: /import\s+.*from\s+['"].*\/lib\/(score-engine|financial-engine|bpEngine)['"]/gi, message: 'EXPERIENCE BYPASS: Importação direta de motor matemático nas camadas de visualização ou experiência.' }
 ];

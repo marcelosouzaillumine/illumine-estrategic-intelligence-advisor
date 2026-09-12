@@ -1,4 +1,4 @@
-import { BalanceSheetExecutiveNarrativeEngine } from '../../../core/runtime/governance/bp/BalanceSheetExecutiveNarrativeEngine';
+import { BalanceSheetExecutiveNarrativeEngine } from '../../../capabilities/runtime/governance/bp/BalanceSheetExecutiveNarrativeEngine';
 
 describe('Balance Sheet Narrative Adapter Binding Test', () => {
   it('Should generate narrative correctly when sufficient data is present', () => {

@@ -13,7 +13,7 @@ console.log("Esta camada opera estritamente em modo observacional. Proibida simu
 // Arquivos requeridos estruturalmente
 const requiredFiles = [
   'src/components/war-room/WarRoomWorkspace.tsx', // War Room Workspace
-  'src/core/runtime/scenario-intelligence/InstitutionalScenarioEngine.ts', // War Room Runtime
+  'src/capabilities/runtime/scenario-intelligence/InstitutionalScenarioEngine.ts', // War Room Runtime
   'src/core/war-room/ScenarioNavigationEngine.ts', // ScenarioNavigationEngine
   'docs/architecture/Scenario_Governance_War_Room_Audit.md' // Scenario_Intelligence_War_Room_Audit
 ];

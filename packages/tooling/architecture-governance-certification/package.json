@@ -1,0 +1,11 @@
+{
+  "name": "@illumine/architecture-governance-certification",
+  "version": "1.0.0",
+  "main": "src/index.ts",
+  "dependencies": {
+    "@illumine/architecture-governance-contracts": "workspace:*",
+    "@illumine/architecture-governance-types": "workspace:*",
+    "@illumine/architecture-governance-evaluation": "workspace:*",
+    "@illumine/architecture-governance-registry": "workspace:*"
+  }
+}

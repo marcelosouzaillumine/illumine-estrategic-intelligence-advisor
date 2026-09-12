@@ -1,0 +1,5 @@
+export enum GateResult {
+  PASS = 'PASS',
+  PASS_WITH_OBSERVATIONS = 'PASS_WITH_OBSERVATIONS',
+  FAIL = 'FAIL'
+}

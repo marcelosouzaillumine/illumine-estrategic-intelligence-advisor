@@ -43,3 +43,11 @@ export class BenchmarkEngine {
     };
   }
 }
+
+export interface IndustryBenchmark {
+  industry: string;
+  p25EbitdaMarginPercentage: number;
+  p50EbitdaMarginPercentage: number;
+  p75EbitdaMarginPercentage: number;
+  averageWorkingCapitalDays: number;
+}

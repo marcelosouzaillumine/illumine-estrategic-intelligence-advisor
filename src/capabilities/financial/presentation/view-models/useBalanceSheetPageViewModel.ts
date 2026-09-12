@@ -23,7 +23,7 @@ import { BalanceSheetCapitalStructureSection } from '../../../../components/page
 import { BalanceSheetInstitutionalContextSection } from '../../../../components/pages/balance-sheet/BalanceSheetInstitutionalContextSection';
 import { BalanceSheetTechnicalLayerSection } from '../../../../components/pages/balance-sheet/BalanceSheetTechnicalLayerSection';
 import { BalanceSheetExecutiveViewModelBuilder } from '../../../../core/runtime/executive-consolidation/BalanceSheetExecutiveViewModelBuilder';
-import { BalanceSheetFinancialMetricsEngine } from '../../../../core/runtime/governance/bp/BalanceSheetFinancialMetricsEngine';
+import { BalanceSheetFinancialMetricsEngine } from '../../../../capabilities/runtime/governance/bp/BalanceSheetFinancialMetricsEngine';
 import { mapToFinancialPositionPureViewModel } from './mapToFinancialPositionPureViewModel';
 import { FinancialAnalyticsBuilder } from '../../../../core/runtime/executive-consolidation/builders/FinancialAnalyticsBuilder';
 import { BalanceSheetAuditLayerSection } from '../../../../components/pages/balance-sheet/BalanceSheetAuditLayerSection';
