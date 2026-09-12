@@ -1,7 +1,7 @@
 import { collection, query, where, getDocs, doc, getDoc } from 'firebase/firestore';
-import { db } from '../../../../lib/firebase';
+import { db } from '../../../../../lib/firebase';
 import { ConsolidationEntity } from '../types';
-import { getErrorMessage } from '../../../../types/runtime/RuntimeErrorGuards';
+import { getErrorMessage } from '../../../../../types/runtime/RuntimeErrorGuards';
 
 export class ConsolidatedGroupRepository {
   /**

@@ -2,7 +2,7 @@ import { DecisionMemoryOutput } from './InstitutionalDecisionTypes';
 import { DecisionToCashCausalityOutput } from './DecisionToCashCausalityTypes';
 import { InstitutionalBehavioralPatternsOutput } from './InstitutionalBehavioralTypes';
 import { GovernanceDriftDetectionOutput } from './GovernanceDriftTypes';
-import { LongitudinalCashIntelligenceOutput } from '../../capabilities/financial/runtime/cash-intelligence/CashIntelligenceTypes';
+import { LongitudinalCashIntelligenceOutput } from '../../financial/runtime/cash-intelligence/CashIntelligenceTypes';
 import { CrossStatementReconciliationReport } from '../governance/cross-statement/CrossStatementReconciliationEngine';
 import { FiduciaryTimelineSection } from '../institutional-reporting/institutional-reporting-types';
 

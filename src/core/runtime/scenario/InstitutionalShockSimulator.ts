@@ -1,5 +1,5 @@
 import { ScenarioShock } from './ScenarioTypes';
-import { ConsolidatedFinancialInput, FinancialStatementLine } from '../consolidated/types';
+import { ConsolidatedFinancialInput, FinancialStatementLine } from '../../../capabilities/financial/runtime/consolidated/types';
 
 export class InstitutionalShockSimulator {
   /**

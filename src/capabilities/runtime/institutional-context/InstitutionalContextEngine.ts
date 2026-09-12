@@ -19,7 +19,7 @@ import { GrowthPatternResolver } from './GrowthPatternResolver';
 import { StrategicConfidenceResolver } from './StrategicConfidenceResolver';
 import { NarrativeGovernanceResolver } from './NarrativeGovernanceResolver';
 import { buildBPHierarchy } from '../../../lib/bpEngine';
-import { InstitutionalLocaleGuard } from '../locale/InstitutionalLocaleGuard';
+import { InstitutionalLocaleGuard } from '../../../core/runtime/locale/InstitutionalLocaleGuard';
 import { SegmentIntelligenceRegistry } from '../segment-intelligence/SegmentIntelligenceRegistry';
 import { SegmentCode, SegmentConfidenceScore } from '../segment-intelligence/types';
 

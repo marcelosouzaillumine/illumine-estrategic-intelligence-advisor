@@ -1,4 +1,4 @@
-import { TemporalFiduciaryIntegrityEngine } from '../../core/runtime/temporal-governance/TemporalFiduciaryIntegrityEngine';
+import { TemporalFiduciaryIntegrityEngine } from '../../../core/runtime/temporal-governance/TemporalFiduciaryIntegrityEngine';
 
 export class TemporalIntegrityValidator {
   /**

@@ -1,8 +1,8 @@
 // src/core/runtime/institutional-reporting/engines/InstitutionalLineageAppendixEngine.ts
 
-import { ExecutiveIntelligenceReport } from '../../executive-intelligence-runtime';
+import { ExecutiveIntelligenceReport } from '../../../../core/runtime/executive-intelligence-runtime';
 import { LineageAppendix } from '../institutional-reporting-types';
-import { BoardPackLineageHash, RuntimeLineageHash } from '../../shared/lineage-types';
+import { BoardPackLineageHash, RuntimeLineageHash } from '../../../../core/runtime/shared/lineage-types';
 
 export class InstitutionalLineageAppendixEngine {
   

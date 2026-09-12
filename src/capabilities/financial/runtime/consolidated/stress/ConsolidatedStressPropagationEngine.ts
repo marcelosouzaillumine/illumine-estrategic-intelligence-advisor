@@ -1,5 +1,5 @@
 import { ConsolidatedOrchestratorInput, EliminatedValueRecord, UnreconciledIntercompany } from '../consolidated-types';
-import { ExecutiveIntelligenceReport } from '../../../../core/runtime/executive-intelligence-runtime';
+import { ExecutiveIntelligenceReport } from '../../../../../core/runtime/executive-intelligence-runtime';
 import { SystemicRiskProfile } from './stress-types';
 import { CrossEntityRiskGraph } from './CrossEntityRiskGraph';
 import { InstitutionalContagionResolver } from './InstitutionalContagionResolver';

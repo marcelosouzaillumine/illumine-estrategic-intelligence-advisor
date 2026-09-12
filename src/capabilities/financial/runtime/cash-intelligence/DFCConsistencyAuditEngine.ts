@@ -1,4 +1,4 @@
-import { ExecutiveRecommendation } from '../executive-consolidation/ExecutiveRecommendationDeduplicationEngine';
+import { ExecutiveRecommendation } from '../../../../workspace/runtime/executive-consolidation/ExecutiveRecommendationDeduplicationEngine';
 import { FiduciaryRunwayClassification } from './RunwayClassificationEngine';
 
 export interface ConsistencyAuditResult {

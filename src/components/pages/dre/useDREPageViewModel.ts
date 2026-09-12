@@ -3,8 +3,8 @@ import { useAnnualFinancialData, useAllFinancialData } from '../../../hooks/useF
 import { useInstitutionalAuth } from '../../../hooks/useInstitutionalAuth';
 import { FiduciaryRuntimeAdapter, PresentationLayer } from '../../../services/FiduciaryRuntimeAdapter';
 import { DREApplicationService } from './DREApplicationService';
-import { InstitutionalDecisionOS } from '../../../../packages/intelligence/executive-intelligence-layer/src/orchestration/InstitutionalDecisionOS';
-import { DashboardStateBuilder } from '../../../../packages/intelligence/executive-intelligence-layer/src/presentation/DashboardStateBuilder';
+import { InstitutionalDecisionOS } from '../../../../packages/shell/executive-intelligence-layer/src/orchestration/InstitutionalDecisionOS';
+import { DashboardStateBuilder } from '../../../../packages/shell/executive-intelligence-layer/src/presentation/DashboardStateBuilder';
 import { buildBPHierarchy } from '../../../lib/bpEngine';
 
 export type ToastType = { type: 'success' | 'error'; message: string } | null;

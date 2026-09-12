@@ -3,8 +3,8 @@ import { EarlyStageNarrativeEngine } from '../../core/runtime/semantic/EarlyStag
 import { RunwayAuditEngine } from '../../core/runtime/semantic/RunwayAuditEngine';
 import { DreCashEvidence, BalanceSheetCashEvidence, DfcPrimaryEvidence } from '../../capabilities/financial/runtime/cash-intelligence/CashEvidenceContracts';
 import { DFCIndirectMethodEngine } from '../../capabilities/financial/runtime/cash-intelligence/DFCIndirectMethodEngine';
-import { DFCSemanticCanonicalRootResolver } from '../../core/runtime/lifecycle/DFCSemanticCanonicalRootResolver';
-import { ExecutiveLifecycleContextResolver } from '../../core/runtime/lifecycle/ExecutiveLifecycleContextResolver';
+import { DFCSemanticCanonicalRootResolver } from '../../workspace/runtime/lifecycle/DFCSemanticCanonicalRootResolver';
+import { ExecutiveLifecycleContextResolver } from '../../workspace/runtime/lifecycle/ExecutiveLifecycleContextResolver';
 import { FiduciaryCashIntelligenceRuntime } from '../../capabilities/financial/runtime/cash-intelligence/FiduciaryCashIntelligenceRuntime';
 import { CashQualityExplainabilityEngine } from '../../capabilities/financial/runtime/cash-intelligence/CashQualityExplainabilityEngine';
 

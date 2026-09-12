@@ -18,7 +18,7 @@ import { GovernanceTrajectoryEngine } from './GovernanceTrajectoryEngine';
 import { InstitutionalDecisionLedger } from './InstitutionalDecisionLedger';
 import { DecisionTradeoffEngine } from './DecisionTradeoffEngine';
 import { StrategicStressEngine } from './StrategicStressEngine';
-import { DecisionPolicyEngine } from '../../core/runtime/decision-policy/DecisionPolicyEngine';
+import { DecisionPolicyEngine } from '../../../core/runtime/decision-policy/DecisionPolicyEngine';
 import { InstitutionalBehavioralIntelligenceEngine } from '../behavioral-intelligence/InstitutionalBehavioralIntelligenceEngine';
 
 export class InstitutionalDecisionIntelligenceEngine {

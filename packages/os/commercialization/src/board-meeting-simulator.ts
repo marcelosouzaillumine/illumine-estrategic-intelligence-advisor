@@ -1,4 +1,4 @@
-import { EnterpriseAgentOrchestrator } from '../../advisory-agents/src/advisory-agents';
+import { EnterpriseAgentOrchestrator } from '../../../advisory-agents/src/advisory-agents';
 
 export interface BoardMeetingTranscript {
   topic: string;

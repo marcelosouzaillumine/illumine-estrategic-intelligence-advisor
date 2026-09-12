@@ -1,6 +1,6 @@
-import { logger } from "../../../../services/logging/InstitutionalLogger";
+import { logger } from "../../../../../services/logging/InstitutionalLogger";
 import { collection, query, where, getDocs } from 'firebase/firestore';
-import { db } from '../../../../lib/firebase';
+import { db } from '../../../../../lib/firebase';
 
 export class ConsolidatedEntityRepository {
   /**

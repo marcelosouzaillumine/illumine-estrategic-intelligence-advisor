@@ -4,7 +4,7 @@
 // Ref: docs/implementation_plan.md
 
 import { SurvivabilityScores } from './decision-types';
-import { PolicyContext } from '../../core/runtime/decision-policy/policy-types';
+import { PolicyContext } from '../../../core/runtime/decision-policy/policy-types';
 
 export class InstitutionalSurvivabilityEngine {
   /**

@@ -3,7 +3,7 @@ import { ExecutiveSurface } from '../../ui/executive-surface';
 import { ExecutiveBadge } from '../../ui/executive-badge';
 import { InstitutionalMemoryCard } from './InstitutionalMemoryCard';
 import { Brain, ShieldCheck, GitMerge, TrendingUp, Sparkles } from 'lucide-react';
-import { InstitutionalMemoryLedgerEngine } from '../../../../packages/intelligence/institutional-learning-intelligence/src/InstitutionalMemoryLedgerEngine';
+import { InstitutionalMemoryLedgerEngine } from '../../../../packages/product/institutional-learning-intelligence/src/InstitutionalMemoryLedgerEngine';
 
 export interface InstitutionalLearningWorkspaceProps {
   readonly companyId?: string;

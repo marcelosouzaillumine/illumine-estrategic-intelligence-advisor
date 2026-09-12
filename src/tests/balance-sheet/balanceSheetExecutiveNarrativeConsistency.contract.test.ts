@@ -1,7 +1,7 @@
 // @ts-nocheck
 import { describe, it, test, expect, beforeAll, afterAll } from 'vitest';
 import assert from 'node:assert';
-import { BalanceSheetExecutiveViewModelBuilder } from '../../core/runtime/executive-consolidation/BalanceSheetExecutiveViewModelBuilder';
+import { BalanceSheetExecutiveViewModelBuilder } from '../../workspace/runtime/executive-consolidation/BalanceSheetExecutiveViewModelBuilder';
 
 describe.skip('LEGACY: BalanceSheetExecutiveNarrativeConsistency v7.16 (Obsolete narrative properties)', () => {
   it('Should generate all narratives from the exact same InstitutionalScenario without contradiction', () => {

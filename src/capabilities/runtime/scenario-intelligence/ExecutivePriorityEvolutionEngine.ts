@@ -1,7 +1,7 @@
 // src/core/runtime/scenario-intelligence/ExecutivePriorityEvolutionEngine.ts
 import { InstitutionalScenarioResult } from './scenario-types';
 import { StressTestResult } from './InstitutionalStressTestEngine';
-import { ExecutiveActionItem } from '../../core/runtime/integrity/ExecutiveActionMatrixEngine';
+import { ExecutiveActionItem } from '../../../core/runtime/integrity/ExecutiveActionMatrixEngine';
 
 export class ExecutivePriorityEvolutionEngine {
   public static evolve(

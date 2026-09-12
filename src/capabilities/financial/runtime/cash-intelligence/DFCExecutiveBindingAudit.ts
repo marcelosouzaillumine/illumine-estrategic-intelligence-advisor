@@ -1,5 +1,5 @@
 import { CashIntelligenceRuntimeOutput } from './CashIntelligenceTypes';
-import { ExecutivePriorityResolver } from '../decision-intelligence/ExecutivePriorityResolver';
+import { ExecutivePriorityResolver } from '../../../runtime/decision-intelligence/ExecutivePriorityResolver';
 
 export class DFCExecutiveBindingAudit {
   /**

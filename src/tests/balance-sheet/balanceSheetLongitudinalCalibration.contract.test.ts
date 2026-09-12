@@ -1,6 +1,6 @@
 import { describe, it, test, expect, beforeAll, afterAll } from 'vitest';
 import assert from 'node:assert';
-import { BalanceSheetExecutiveViewModelBuilder } from '../../core/runtime/executive-consolidation/BalanceSheetExecutiveViewModelBuilder';
+import { BalanceSheetExecutiveViewModelBuilder } from '../../workspace/runtime/executive-consolidation/BalanceSheetExecutiveViewModelBuilder';
 
 test('BalanceSheet Longitudinal Calibration: Adapts when data is present', () => {
   const originalAssert = (BalanceSheetExecutiveViewModelBuilder as any).assertFinancialNarrativePurity;

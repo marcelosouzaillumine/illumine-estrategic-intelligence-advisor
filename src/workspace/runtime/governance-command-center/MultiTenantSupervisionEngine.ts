@@ -1,5 +1,5 @@
-import { TenantRole } from '../../core/runtime/tenancy/TenancyTypes';
-import { TenantAuditLogger } from '../../core/runtime/tenancy/TenantAuditLogger';
+import { TenantRole } from '../../../core/runtime/tenancy/TenancyTypes';
+import { TenantAuditLogger } from '../../../core/runtime/tenancy/TenantAuditLogger';
 
 export class MultiTenantSupervisionEngine {
   /**

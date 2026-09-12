@@ -3,7 +3,7 @@ import { ExecutiveSurface } from '../../ui/executive-surface';
 import { ExecutiveBadge } from '../../ui/executive-badge';
 import { RecommendationCard } from './RecommendationCard';
 import { Lightbulb, ShieldCheck, Compass, Sliders, CheckCircle2 } from 'lucide-react';
-import { ExecutiveAdvisorEngine } from '../../../../packages/intelligence/executive-advisory-intelligence/src/ExecutiveAdvisorEngine';
+import { ExecutiveAdvisorEngine } from '../../../../packages/shell/executive-advisory-intelligence/src/ExecutiveAdvisorEngine';
 
 export interface ExecutiveAdvisoryWorkspaceProps {
   readonly companyId?: string;

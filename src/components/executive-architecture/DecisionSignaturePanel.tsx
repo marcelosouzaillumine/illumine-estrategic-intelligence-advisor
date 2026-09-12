@@ -3,7 +3,7 @@ import { ExecutiveSurface } from '../ui/executive-surface';
 import { ExecutiveHeading } from '../ui/executive-heading';
 import { ExecutiveText } from '../ui/executive-typography';
 import { FileSignature, ShieldCheck, Database } from 'lucide-react';
-import { DecisionSignature } from '../../../packages/intelligence/executive-intelligence-layer/src/governance/DecisionRecord';
+import { DecisionSignature } from '../../../packages/shell/executive-intelligence-layer/src/governance/DecisionRecord';
 import { useExecutiveFormatter } from '../../core/localization';
 
 interface DecisionSignaturePanelProps {

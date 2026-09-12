@@ -1,7 +1,7 @@
 // src/core/runtime/causal-intelligence/WorkingCapitalCausalEngine.ts
 
-import { HistoricalCycleData } from '../institutional-memory/types';
-import { extractCycleMetrics } from '../institutional-causality/types';
+import { HistoricalCycleData } from '../../../runtime/institutional-memory/types';
+import { extractCycleMetrics } from '../../../runtime/institutional-causality/types';
 
 export class WorkingCapitalCausalEngine {
   public static evaluate(

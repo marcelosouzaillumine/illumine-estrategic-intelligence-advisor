@@ -1,5 +1,5 @@
 import { ExecutiveDecisionEvent } from './InstitutionalDecisionTypes';
-import { CashIntelligenceRuntimeOutput, LongitudinalCashIntelligenceOutput } from '../../capabilities/financial/runtime/cash-intelligence/CashIntelligenceTypes';
+import { CashIntelligenceRuntimeOutput, LongitudinalCashIntelligenceOutput } from '../../financial/runtime/cash-intelligence/CashIntelligenceTypes';
 import { FiduciaryTimelineSection } from '../institutional-reporting/institutional-reporting-types';
 
 export type CausalityConfidenceLevel = 

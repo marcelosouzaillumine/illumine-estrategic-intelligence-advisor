@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
-import { BalanceSheetCapability } from '../../packages/intelligence/executive-analytics-engine/capabilities/BalanceSheetCapability';
-import { ExecutiveAnalyticsResult } from '../../packages/intelligence/executive-analytics-engine';
+import { BalanceSheetCapability } from '../../packages/shell/executive-analytics-engine/capabilities/BalanceSheetCapability';
+import { ExecutiveAnalyticsResult } from '../../packages/shell/executive-analytics-engine';
 
 // Mock registry mapping capability string names to instances
 const capabilityRegistry: Record<string, any> = {

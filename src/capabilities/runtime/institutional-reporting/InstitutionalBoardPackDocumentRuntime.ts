@@ -1,8 +1,8 @@
 // src/core/runtime/institutional-reporting/InstitutionalBoardPackDocumentRuntime.ts
 
-import { ExecutiveIntelligenceReport } from '../../core/runtime/executive-intelligence-runtime';
+import { ExecutiveIntelligenceReport } from '../../../core/runtime/executive-intelligence-runtime';
 import { FiduciaryNarrativeFormattingEngine } from './engines/FiduciaryNarrativeFormattingEngine';
-import { BoardPackLineageHash } from '../shared/lineage-types';
+import { BoardPackLineageHash } from '../../../core/runtime/shared/lineage-types';
 import { ReportVariant } from './institutional-reporting-types';
 import { FinancialLineageIntegrityAdapter } from '../../../runtime/adapters/FinancialLineageIntegrityAdapter';
 

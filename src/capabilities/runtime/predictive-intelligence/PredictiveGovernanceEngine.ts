@@ -4,7 +4,7 @@
 // Coordinates all predictive evaluations and simulates future governance scenarios.
 
 import { ExecutiveDecision, SurvivabilityScores } from '../decision-intelligence/decision-types';
-import { DecisionPolicyProfile } from '../../core/runtime/decision-policy/policy-types';
+import { DecisionPolicyProfile } from '../../../core/runtime/decision-policy/policy-types';
 import { BehavioralAssessmentResult } from '../behavioral-intelligence/behavioral-types';
 import {
   PredictiveAssessmentResult,

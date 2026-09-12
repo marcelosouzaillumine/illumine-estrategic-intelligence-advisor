@@ -1,5 +1,5 @@
-import { evaluateExecutiveDecision, ExecutiveDecisionOutput } from '../core/runtime/executive/ExecutiveDecisionEngine';
-import { ExecutiveSessionContext } from '../core/runtime/executive/board/ExecutiveSessionContext';
+import { evaluateExecutiveDecision, ExecutiveDecisionOutput } from '../workspace/runtime/executive/ExecutiveDecisionEngine';
+import { ExecutiveSessionContext } from '../workspace/runtime/executive/board/ExecutiveSessionContext';
 
 export const ExecutiveRuntimeAdapter = {
   evaluateExecutiveDecision,

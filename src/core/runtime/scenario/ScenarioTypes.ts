@@ -1,5 +1,5 @@
-import { ConsolidatedFinancialInput } from '../consolidated/types';
-import { ConsolidatedExecutiveAdvisoryReport } from '../consolidated/advisory/advisoryTypes';
+import { ConsolidatedFinancialInput } from '../../../capabilities/financial/runtime/consolidated/types';
+import { ConsolidatedExecutiveAdvisoryReport } from '../../../capabilities/financial/runtime/consolidated/advisory/advisoryTypes';
 import { GovernanceViolationRecord } from '../observability/observability-types';
 
 export type ScenarioShockType = 

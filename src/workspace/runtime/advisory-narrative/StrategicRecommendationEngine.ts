@@ -3,7 +3,7 @@
 // Strategic Recommendation Engine
 // Ranks strategic alternatives and explains survivability, prioritizing preservation.
 
-import { ScenarioCategory } from '../../capabilities/runtime/strategic-simulation/simulation-types';
+import { ScenarioCategory } from '../../../capabilities/runtime/strategic-simulation/simulation-types';
 
 export class StrategicRecommendationEngine {
   /**

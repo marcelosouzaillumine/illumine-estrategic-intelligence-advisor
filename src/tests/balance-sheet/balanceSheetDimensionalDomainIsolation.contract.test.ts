@@ -1,7 +1,7 @@
 import { test, expect, beforeAll, afterAll } from 'vitest';
 import assert from 'node:assert';
 import { FiduciaryRuntimeAdapter } from '../../services/FiduciaryRuntimeAdapter';
-import { ExecutiveDecisionSynthesisEngine } from '../../core/runtime/executive-consolidation/ExecutiveDecisionSynthesisEngine';
+import { ExecutiveDecisionSynthesisEngine } from '../../workspace/runtime/executive-consolidation/ExecutiveDecisionSynthesisEngine';
 
 test('BalanceSheet Dimensional Domain Isolation: DRE terms cannot leak into BP execution', () => {
   const rawData = {

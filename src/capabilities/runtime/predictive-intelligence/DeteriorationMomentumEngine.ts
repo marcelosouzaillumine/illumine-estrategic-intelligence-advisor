@@ -4,7 +4,7 @@
 // Measures velocity (first derivative) and acceleration (second derivative) of governance deterioration.
 
 import { ExecutiveDecision } from '../decision-intelligence/decision-types';
-import { DecisionPolicyProfile } from '../../core/runtime/decision-policy/policy-types';
+import { DecisionPolicyProfile } from '../../../core/runtime/decision-policy/policy-types';
 import { InstitutionalBehaviorProfileEngine } from '../behavioral-intelligence/InstitutionalBehaviorProfileEngine';
 import { GovernanceFatigueEngine } from '../behavioral-intelligence/GovernanceFatigueEngine';
 import { GovernanceDriftEngine } from '../behavioral-intelligence/GovernanceDriftEngine';

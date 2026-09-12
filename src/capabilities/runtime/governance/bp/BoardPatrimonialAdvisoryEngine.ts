@@ -1,6 +1,6 @@
 import { PatrimonialIndicator } from './BalanceSheetFinancialMetricsEngine';
 import { PatrimonialInterpretationOutput } from './PatrimonialExecutiveInterpretationEngine';
-import { StrategicOpinionConsistencyEngine, ExecutiveAnalysisContext } from '../../executive-consolidation/StrategicOpinionConsistencyEngine';
+import { StrategicOpinionConsistencyEngine, ExecutiveAnalysisContext } from '../../../../workspace/runtime/executive-consolidation/StrategicOpinionConsistencyEngine';
 
 export interface BoardAdvisoryReport {
   situacaoPatrimonial: string;

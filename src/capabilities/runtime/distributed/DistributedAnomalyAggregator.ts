@@ -1,7 +1,7 @@
 import { db } from '../../../lib/firebase';
 import { collection, addDoc, getDocs, query, where } from 'firebase/firestore';
-import { AuditEvent } from '../../security/audit/AuditEventBus';
-import { AnomalyDetector } from '../../security/audit/AnomalyDetector';
+import { AuditEvent } from '../../../core/security/audit/AuditEventBus';
+import { AnomalyDetector } from '../../../core/security/audit/AnomalyDetector';
 
 export class DistributedAnomalyAggregator {
   private static localAuditEvents: AuditEvent[] = [];

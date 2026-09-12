@@ -1,5 +1,5 @@
 import { DeploymentEnvironment, ExecutiveAccessRole, InstitutionalDeploymentReadinessOutput, TenantIsolationRuntime } from '../deployment-readiness/DeploymentReadinessTypes';
-import { ExecutiveIntelligenceReport } from '../../core/runtime/executive-intelligence-runtime';
+import { ExecutiveIntelligenceReport } from '../../../core/runtime/executive-intelligence-runtime';
 
 export interface OrganizationalMetadata {
   organizationName: string;

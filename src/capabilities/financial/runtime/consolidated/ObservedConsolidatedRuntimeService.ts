@@ -8,12 +8,12 @@ import { ConsolidatedDataValidationGateway } from './data/ConsolidatedDataValida
 import { ConsolidatedFinancialOrchestrator } from './ConsolidatedFinancialOrchestrator';
 import { ConsolidatedAdvisoryOrchestrator } from './advisory/ConsolidatedAdvisoryOrchestrator';
 
-import { RuntimeExecutionRegistry } from '../../../platform/observability/RuntimeExecutionRegistry';
-import { RuntimeExecutionLogger } from '../../../platform/observability/RuntimeExecutionLogger';
-import { ExecutionTraceBuilder } from '../../../platform/observability/ExecutionTraceBuilder';
-import { ConfidenceTimelineEngine } from '../../../platform/observability/ConfidenceTimelineEngine';
-import { GovernanceViolationHistory } from '../../../platform/observability/GovernanceViolationHistory';
-import { RuntimeExecutionRecord, GovernanceViolationRecord, ExecutionStatus } from '../../../platform/observability/observability-types';
+import { RuntimeExecutionRegistry } from '../../../../platform/observability/RuntimeExecutionRegistry';
+import { RuntimeExecutionLogger } from '../../../../platform/observability/RuntimeExecutionLogger';
+import { ExecutionTraceBuilder } from '../../../../platform/observability/ExecutionTraceBuilder';
+import { ConfidenceTimelineEngine } from '../../../../platform/observability/ConfidenceTimelineEngine';
+import { GovernanceViolationHistory } from '../../../../platform/observability/GovernanceViolationHistory';
+import { RuntimeExecutionRecord, GovernanceViolationRecord, ExecutionStatus } from '../../../../platform/observability/observability-types';
 
 /**
  * Service Wrapper de Observabilidade.

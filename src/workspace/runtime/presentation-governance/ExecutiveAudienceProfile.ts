@@ -1,4 +1,4 @@
-import { OfficialRole } from '../../security/types';
+import { OfficialRole } from '../../../core/security/types';
 
 export type PresentationLayer = 'BOARD' | 'EXECUTIVE' | 'TECHNICAL';
 

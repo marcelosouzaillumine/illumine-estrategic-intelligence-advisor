@@ -2,7 +2,7 @@ import React from 'react';
 import { ExecutiveSurface } from '../../ui/executive-surface';
 import { ExecutiveBadge } from '../../ui/executive-badge';
 import { Cpu, ShieldCheck, Activity } from 'lucide-react';
-import { IntelligenceCapabilityRegistry } from '../../../../packages/intelligence/intelligence-network/src/IntelligenceCapabilityRegistry';
+import { IntelligenceCapabilityRegistry } from '../../../../packages/shell/intelligence-network/src/IntelligenceCapabilityRegistry';
 
 export const CapabilityMapCard: React.FC = () => {
   const capabilities = IntelligenceCapabilityRegistry.getRegisteredCapabilities();

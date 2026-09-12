@@ -25,7 +25,7 @@ import { ExecutiveIntelligenceShell } from '../executive/ExecutiveIntelligenceSh
 import { ExecutiveVerdictCard } from '../ui/ExecutiveVerdictCard';
 import { ExecutiveSummaryCard } from '../ui/ExecutiveSummaryCard';
 import { ExecutiveBrief } from '../executive-architecture/ExecutiveBrief';
-import { InstitutionalDecisionOS } from '../../../packages/intelligence/executive-intelligence-layer/src/orchestration/InstitutionalDecisionOS';
+import { InstitutionalDecisionOS } from '../../../packages/shell/executive-intelligence-layer/src/orchestration/InstitutionalDecisionOS';
 import { ExecutiveBriefPresenter } from '../../viewmodels/ExecutiveBriefPresenter';
 import { ExecutiveDashboardRenderer } from '../ui/ExecutiveDashboardRenderer';
 

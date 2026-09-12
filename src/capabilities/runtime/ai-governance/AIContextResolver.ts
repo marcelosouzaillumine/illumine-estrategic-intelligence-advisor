@@ -1,7 +1,7 @@
 import { AIQueryRequest, AIAllowedContext } from './AIGovernanceTypes';
 import { AIPermissionResolver } from './AIPermissionResolver';
 import { AITenantBoundaryEnforcer } from './AITenantBoundaryEnforcer';
-import { TenantRole } from '../tenancy/TenancyTypes';
+import { TenantRole } from '../../../core/runtime/tenancy/TenancyTypes';
 
 export class AIContextResolver {
   /**

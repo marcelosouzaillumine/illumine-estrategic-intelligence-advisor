@@ -2,7 +2,7 @@ import { test, describe } from "node:test";
 import assert from "node:assert";
 import { PatrimonialIntelligenceRuntime, SimpleBPSummary } from "./PatrimonialIntelligenceRuntime";
 import { FinancialRuntimeContextAdapter } from "../financial-context/FinancialRuntimeContextAdapter";
-import { InstitutionalBusinessProfile } from "../institutional-identity/InstitutionalBusinessProfile";
+import { InstitutionalBusinessProfile } from "../../../runtime/institutional-identity/InstitutionalBusinessProfile";
 
 describe("PatrimonialGovernanceRuntime", () => {
   const runtime = new PatrimonialIntelligenceRuntime();

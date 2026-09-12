@@ -1,7 +1,7 @@
 import { BPSummary } from '../../../../lib/bpEngine';
 import { PatrimonialIndicator } from './BalanceSheetFinancialMetricsEngine';
 import { NaNEliminationGuard } from '../common/NaNEliminationGuard';
-import { sanitize } from '../../executive-consolidation/ExecutiveSemanticBoundaryGuard';
+import { sanitize } from '../../../../workspace/runtime/executive-consolidation/ExecutiveSemanticBoundaryGuard';
 
 export class EquityQualityEngine {
   constructor(...args: any[]) {}

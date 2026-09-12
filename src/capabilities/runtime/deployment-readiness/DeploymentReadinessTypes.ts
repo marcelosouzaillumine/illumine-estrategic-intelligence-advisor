@@ -1,7 +1,7 @@
 // src/core/runtime/deployment-readiness/DeploymentReadinessTypes.ts
 
-import { RuntimeOutputBase } from '../shared/runtime-contracts';
-import { ExecutiveIntelligenceReport } from '../../core/runtime/executive-intelligence-runtime';
+import { RuntimeOutputBase } from '../../../core/runtime/shared/runtime-contracts';
+import { ExecutiveIntelligenceReport } from '../../../core/runtime/executive-intelligence-runtime';
 
 export type DeploymentEnvironment = 'PRODUCTION' | 'PILOT' | 'DEVELOPMENT' | 'LOCAL';
 export type ExecutiveAccessRole = 'MASTER_SUPERVISOR' | 'FIDUCIARY_AUDITOR' | 'TENANT_ADMIN' | 'PILOT_OPERATOR' | 'UNAUTHORIZED';

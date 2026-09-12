@@ -2,7 +2,7 @@
 //
 // Contextual Severity Engine
 
-import { DecisionSeverity } from '../decision-intelligence/decision-types';
+import { DecisionSeverity } from '../../../capabilities/runtime/decision-intelligence/decision-types';
 import { PolicyContext } from './policy-types';
 
 export class ContextualSeverityEngine {

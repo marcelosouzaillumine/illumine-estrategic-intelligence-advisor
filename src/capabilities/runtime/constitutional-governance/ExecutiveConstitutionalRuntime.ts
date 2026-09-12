@@ -22,12 +22,12 @@ import { DoctrineConsistencyEngine } from './DoctrineConsistencyEngine';
 import { RuntimeCompatibilityEngine } from './RuntimeCompatibilityEngine';
 import { ConstitutionalAuditEngine } from './ConstitutionalAuditEngine';
 import { ConstitutionalGovernanceEngine } from './ConstitutionalGovernanceEngine';
-import { sha256 } from '../executive/types';
-import { RuntimeExecutionLogger } from '../observability/RuntimeExecutionLogger';
+import { sha256 } from '../../../workspace/runtime/executive/types';
+import { RuntimeExecutionLogger } from '../../../core/runtime/observability/RuntimeExecutionLogger';
 import { SemanticComplianceAuditRuntime } from './SemanticComplianceAuditRuntime';
 import { SemanticLineagePayload } from './SemanticLineageReport';
 import { getErrorMessage, getErrorStack } from '../../../types/runtime/RuntimeErrorGuards';
-import { ConstitutionalGraphAdapter } from '../../knowledge-graph/adapters/ConstitutionalGraphAdapter';
+import { ConstitutionalGraphAdapter } from '../../../core/knowledge-graph/adapters/ConstitutionalGraphAdapter';
 
 export class ExecutiveConstitutionalRuntime {
   public readonly axiomEngine = new FiduciaryAxiomEngine();

@@ -1,6 +1,6 @@
 import { DecisionMemoryOutput } from './InstitutionalDecisionTypes';
 import { DecisionToCashCausalityOutput } from './DecisionToCashCausalityTypes';
-import { LongitudinalCashIntelligenceOutput } from '../../capabilities/financial/runtime/cash-intelligence/CashIntelligenceTypes';
+import { LongitudinalCashIntelligenceOutput } from '../../financial/runtime/cash-intelligence/CashIntelligenceTypes';
 import { FiduciaryTimelineSection } from '../institutional-reporting/institutional-reporting-types';
 import { CrossStatementReconciliationReport } from '../governance/cross-statement/CrossStatementReconciliationEngine';
 

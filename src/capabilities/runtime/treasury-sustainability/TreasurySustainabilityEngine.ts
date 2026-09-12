@@ -1,4 +1,4 @@
-import { TreasurySustainabilityOutput } from '../../capabilities/financial/runtime/cash-intelligence/CashIntelligenceTypes';
+import { TreasurySustainabilityOutput } from '../../../capabilities/financial/runtime/cash-intelligence/CashIntelligenceTypes';
 
 export class TreasurySustainabilityEngine {
   public static evaluate(

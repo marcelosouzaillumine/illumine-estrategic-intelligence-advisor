@@ -3,7 +3,7 @@ import { ExecutiveSurface } from '../../ui/executive-surface';
 import { ExecutiveBadge } from '../../ui/executive-badge';
 import { IntegrationTrustScoreCard } from './IntegrationTrustScoreCard';
 import { Database, Network, ShieldCheck, Layers, Cpu } from 'lucide-react';
-import { SourceAdapterRegistryEngine } from '../../../../packages/intelligence/enterprise-data-integration-fabric/src/SourceAdapterRegistryEngine';
+import { SourceAdapterRegistryEngine } from '../../../../packages/core/enterprise-data-integration-fabric/src/SourceAdapterRegistryEngine';
 
 export interface PlatformIntegrationWorkspaceProps {
   readonly companyId?: string;

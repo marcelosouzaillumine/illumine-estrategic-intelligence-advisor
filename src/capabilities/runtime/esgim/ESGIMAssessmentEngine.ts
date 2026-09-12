@@ -8,9 +8,9 @@ import {
   ESGIMMode, 
   ESGIMScenario 
 } from './esgimTypes';
-import { esgGovernanceEngine } from '../../capabilities/financial/runtime/compliance/ESGGovernanceEngine';
-import { institutionalIntegrityEngine } from '../../capabilities/financial/runtime/compliance/InstitutionalIntegrityEngine';
-import { ESGIMGraphAdapter } from '../../knowledge-graph/adapters/ESGIMGraphAdapter';
+import { esgGovernanceEngine } from '../../../capabilities/financial/runtime/compliance/ESGGovernanceEngine';
+import { institutionalIntegrityEngine } from '../../../capabilities/financial/runtime/compliance/InstitutionalIntegrityEngine';
+import { ESGIMGraphAdapter } from '../../../core/knowledge-graph/adapters/ESGIMGraphAdapter';
 
 export class ESGIMAssessmentEngine {
   private static instance: ESGIMAssessmentEngine;

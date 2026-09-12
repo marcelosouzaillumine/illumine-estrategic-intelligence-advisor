@@ -1,4 +1,4 @@
-import { ExecutiveIntelligenceReport } from '../../core/runtime/executive-intelligence-runtime';
+import { ExecutiveIntelligenceReport } from '../../../core/runtime/executive-intelligence-runtime';
 import { InstitutionalBoardPackOutput, ReportGenerationStatus } from './institutional-reporting-types';
 import { ExecutiveSnapshotEngine } from './engines/ExecutiveSnapshotEngine';
 import { GovernanceReportingEngine } from './engines/GovernanceReportingEngine';
@@ -11,22 +11,22 @@ import { InstitutionalExplainabilityAppendixEngine } from './engines/Institution
 import { InstitutionalLineageAppendixEngine } from './engines/InstitutionalLineageAppendixEngine';
 import { InstitutionalDisclosureReportingEngine } from './engines/InstitutionalDisclosureReportingEngine';
 import { BoardResolutionAppendixEngine } from './engines/BoardResolutionAppendixEngine';
-import { RuntimeComplianceEngine } from '../../capabilities/financial/runtime/compliance/RuntimeComplianceEngine';
+import { RuntimeComplianceEngine } from '../../../capabilities/financial/runtime/compliance/RuntimeComplianceEngine';
 import { BoardPackMetadata } from './institutional-reporting-types';
 
-import { BoardPackExecutiveRenderingGuard } from '../../workspace/runtime/lifecycle/BoardPackExecutiveRenderingGuard';
+import { BoardPackExecutiveRenderingGuard } from '../../../workspace/runtime/lifecycle/BoardPackExecutiveRenderingGuard';
 import { ExecutivePriorityResolver } from '../decision-intelligence/ExecutivePriorityResolver';
 
 import { ExecutiveMaturityLayer } from '../economic-value/ExecutiveMaturityLayer';
 import { EconomicReturnEngine } from '../economic-value/EconomicReturnEngine';
 import { EconomicValueCreationEngine } from '../economic-value/EconomicValueCreationEngine';
 import { InstitutionalExecutiveThesisEngine } from '../economic-value/InstitutionalExecutiveThesisEngine';
-import { ExecutivePriorityRankingEngine } from '../../workspace/runtime/executive-prioritization/ExecutivePriorityRankingEngine';
-import { BoardTop3DecisionEngine } from '../../workspace/runtime/executive-prioritization/BoardTop3DecisionEngine';
-import { BoardDecisionGraphAdapter } from '../../knowledge-graph/adapters/BoardDecisionGraphAdapter';
-import { ExecutiveActionPlanEngine } from '../../workspace/runtime/executive-prioritization/ExecutiveActionPlanEngine';
-import { InstitutionalPriorityMatrixEngine } from '../../workspace/runtime/executive-prioritization/InstitutionalPriorityMatrixEngine';
-import { BoardAttentionDemandIndexEngine } from '../../workspace/runtime/executive-prioritization/BoardAttentionDemandIndexEngine';
+import { ExecutivePriorityRankingEngine } from '../../../workspace/runtime/executive-prioritization/ExecutivePriorityRankingEngine';
+import { BoardTop3DecisionEngine } from '../../../workspace/runtime/executive-prioritization/BoardTop3DecisionEngine';
+import { BoardDecisionGraphAdapter } from '../../../core/knowledge-graph/adapters/BoardDecisionGraphAdapter';
+import { ExecutiveActionPlanEngine } from '../../../workspace/runtime/executive-prioritization/ExecutiveActionPlanEngine';
+import { InstitutionalPriorityMatrixEngine } from '../../../workspace/runtime/executive-prioritization/InstitutionalPriorityMatrixEngine';
+import { BoardAttentionDemandIndexEngine } from '../../../workspace/runtime/executive-prioritization/BoardAttentionDemandIndexEngine';
 
 export class InstitutionalBoardPackRuntime {
   
@@ -56,7 +56,7 @@ export class InstitutionalBoardPackRuntime {
       cycleReference: String(report.institutionalContext?.currentCycle || 'N/A')
     });
 
-    let snapshotIntegrityStatus: import('../shared/runtime-constitutional-types').RuntimeIntegrityStatus = 'UNVERIFIABLE';
+    let snapshotIntegrityStatus: import('../../../core/runtime/shared/runtime-constitutional-types').RuntimeIntegrityStatus = 'UNVERIFIABLE';
     if (report.runtimeMetadata.status === 'COMPLETED') {
       snapshotIntegrityStatus = 'INTACT';
     } else if (report.runtimeMetadata.status === 'FAILED') {
@@ -66,7 +66,7 @@ export class InstitutionalBoardPackRuntime {
     }
 
     const metadata: BoardPackMetadata = {
-      boardPackLineageHash: boardPackLineageHash as import('../shared/lineage-types').BoardPackLineageHash,
+      boardPackLineageHash: boardPackLineageHash as import('../../../core/runtime/shared/lineage-types').BoardPackLineageHash,
       reportGenerationTimestamp: new Date().toISOString(),
       generatedAt: new Date().toISOString(),
       runtimeVersion: '1.0.0',
@@ -92,7 +92,7 @@ export class InstitutionalBoardPackRuntime {
 
     // 4. Assemble Appendices
     const explainabilityAppendix = InstitutionalExplainabilityAppendixEngine.generate(report);
-    const lineageAppendix = InstitutionalLineageAppendixEngine.generate(report, boardPackLineageHash as import('../shared/lineage-types').BoardPackLineageHash);
+    const lineageAppendix = InstitutionalLineageAppendixEngine.generate(report, boardPackLineageHash as import('../../../core/runtime/shared/lineage-types').BoardPackLineageHash);
     const boardResolutionAppendix = BoardResolutionAppendixEngine.generate(report);
     
     const disclosures = InstitutionalDisclosureReportingEngine.generate(report, metadata);
@@ -422,7 +422,7 @@ export class InstitutionalBoardPackRuntime {
     return {
       status: 'FAILED',
       metadata: {
-        boardPackLineageHash: 'FAILED' as import('../shared/lineage-types').BoardPackLineageHash,
+        boardPackLineageHash: 'FAILED' as import('../../../core/runtime/shared/lineage-types').BoardPackLineageHash,
         reportGenerationTimestamp: new Date().toISOString(),
         generatedAt: new Date().toISOString(),
         runtimeVersion: "1.0",
@@ -478,7 +478,7 @@ export class InstitutionalBoardPackRuntime {
         confidenceDecomposition: {}
       },
       lineageAppendix: {
-        boardPackLineageHash: 'FAILED' as import('../shared/lineage-types').BoardPackLineageHash,
+        boardPackLineageHash: 'FAILED' as import('../../../core/runtime/shared/lineage-types').BoardPackLineageHash,
         runtimeHashes: {},
         propagationHashes: []
       },

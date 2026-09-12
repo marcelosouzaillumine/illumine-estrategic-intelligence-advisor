@@ -1,5 +1,5 @@
 import { RunwayClassificationEngine, FiduciaryRunwayClassification } from './RunwayClassificationEngine';
-import { ExecutiveRecommendation } from '../executive-consolidation/ExecutiveRecommendationDeduplicationEngine';
+import { ExecutiveRecommendation } from '../../../../workspace/runtime/executive-consolidation/ExecutiveRecommendationDeduplicationEngine';
 
 export interface DFCFiduciaryContext {
   fco: number;

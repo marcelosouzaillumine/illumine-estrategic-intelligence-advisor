@@ -1,7 +1,7 @@
 import { useEffect } from 'react';
-import { ExecutiveKnowledgeRegistry } from '../../packages/intelligence/enterprise-knowledge-fabric/src/registry/ExecutiveKnowledgeRegistry';
-import { PageKnowledge } from '../../packages/intelligence/executive-copilot/src/store/ExecutiveKnowledgeStore';
-import { useExecutiveContextStore } from '../../packages/intelligence/executive-copilot/src/store/ExecutiveContextStore';
+import { ExecutiveKnowledgeRegistry } from '../../packages/core/enterprise-knowledge-fabric/src/registry/ExecutiveKnowledgeRegistry';
+import { PageKnowledge } from '../../packages/shell/executive-copilot/src/store/ExecutiveKnowledgeStore';
+import { useExecutiveContextStore } from '../../packages/shell/executive-copilot/src/store/ExecutiveContextStore';
 
 interface UseExecutivePageProps extends PageKnowledge {
   companyId?: string;

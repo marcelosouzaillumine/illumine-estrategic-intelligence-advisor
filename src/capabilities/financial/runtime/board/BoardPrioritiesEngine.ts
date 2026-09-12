@@ -5,10 +5,10 @@ import {
   BoardExecutiveBrief, 
   ESGIMMode, 
   ESGIMScenario 
-} from '../esgim/esgimTypes';
-import { esgimAssessmentEngine } from '../esgim/ESGIMAssessmentEngine';
-import { institutionalResilienceIndexEngine } from '../esgim/InstitutionalResilienceIndexEngine';
-import { governanceKnowledgeEngine } from '../knowledge/GovernanceKnowledgeEngine';
+} from '../../../runtime/esgim/esgimTypes';
+import { esgimAssessmentEngine } from '../../../runtime/esgim/ESGIMAssessmentEngine';
+import { institutionalResilienceIndexEngine } from '../../../runtime/esgim/InstitutionalResilienceIndexEngine';
+import { governanceKnowledgeEngine } from '../../../../core/runtime/knowledge/GovernanceKnowledgeEngine';
 
 export class BoardPrioritiesEngine {
   private static instance: BoardPrioritiesEngine;

@@ -1,4 +1,4 @@
-import { RuntimeConfidence } from '../../../../runtime/types';
+import { RuntimeConfidence } from '../../../../../runtime/types';
 import { CrossEntityCausality, SystemicRisk } from './advisoryTypes';
 
 export class ConsolidatedConfidenceResolver {

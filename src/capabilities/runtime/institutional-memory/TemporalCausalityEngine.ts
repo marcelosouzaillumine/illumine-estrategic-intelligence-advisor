@@ -12,7 +12,7 @@ import { TemporalEscalationEngine } from './TemporalEscalationEngine';
 import { TemporalGovernanceScoring } from './TemporalGovernanceScoring';
 import { InstitutionalEarlyWarningSystem } from './InstitutionalEarlyWarningSystem';
 import { DataAccessContext } from './ReplayMetadataRegistry';
-import { sha256 } from '../executive/types';
+import { sha256 } from '../../../workspace/runtime/executive/types';
 
 export class TemporalCausalityEngine {
   public static evaluateLongitudinalCausality(

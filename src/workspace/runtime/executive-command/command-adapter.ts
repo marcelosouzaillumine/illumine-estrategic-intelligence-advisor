@@ -1,6 +1,6 @@
 // src/core/runtime/executive-command/command-adapter.ts
 
-import { ExecutiveIntelligenceReport } from '../../core/runtime/executive-intelligence-runtime';
+import { ExecutiveIntelligenceReport } from '../../../core/runtime/executive-intelligence-runtime';
 
 /**
  * Extrates the necessary context from the consolidated EFOS report

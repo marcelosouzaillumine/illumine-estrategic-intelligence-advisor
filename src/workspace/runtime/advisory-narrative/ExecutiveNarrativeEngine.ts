@@ -17,7 +17,7 @@ import { InstitutionalDisclosureNarrativeEngine } from './InstitutionalDisclosur
 import { ExecutiveSummaryEngine } from './ExecutiveSummaryEngine';
 import { ConfidenceNarrativeEngine } from './ConfidenceNarrativeEngine';
 import { GovernanceNarrativeEngine } from './GovernanceNarrativeEngine';
-import { ScenarioCategory } from '../../capabilities/runtime/strategic-simulation/simulation-types';
+import { ScenarioCategory } from '../../../capabilities/runtime/strategic-simulation/simulation-types';
 
 export class ExecutiveNarrativeEngine {
   /**

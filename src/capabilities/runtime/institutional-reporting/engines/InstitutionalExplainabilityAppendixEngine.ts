@@ -1,6 +1,6 @@
 // src/core/runtime/institutional-reporting/engines/InstitutionalExplainabilityAppendixEngine.ts
 
-import { ExecutiveIntelligenceReport } from '../../executive-intelligence-runtime';
+import { ExecutiveIntelligenceReport } from '../../../../core/runtime/executive-intelligence-runtime';
 import { ExplainabilityAppendix } from '../institutional-reporting-types';
 
 export class InstitutionalExplainabilityAppendixEngine {

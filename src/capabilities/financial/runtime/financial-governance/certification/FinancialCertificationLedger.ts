@@ -1,4 +1,4 @@
-import { AuditEventBus } from '../../../security/audit/AuditEventBus';
+import { AuditEventBus } from '../../../../../core/security/audit/AuditEventBus';
 
 export class FinancialCertificationLedger {
   async certify(reportId: string, metadata: any, tenantId: string, actorId: string): Promise<string> {

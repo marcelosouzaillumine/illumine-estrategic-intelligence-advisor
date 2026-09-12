@@ -4,7 +4,7 @@
 // Controls doctrine lifecycle, versions, supersessions, and compatibility verification.
 
 import { FiduciaryDoctrine } from './constitutional-types';
-import { sha256 } from '../executive/types';
+import { sha256 } from '../../../workspace/runtime/executive/types';
 
 export class FiduciaryDoctrineEngine {
   private activeDoctrine: FiduciaryDoctrine;

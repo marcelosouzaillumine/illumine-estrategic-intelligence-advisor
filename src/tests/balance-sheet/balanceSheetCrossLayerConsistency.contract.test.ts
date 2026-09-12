@@ -1,7 +1,7 @@
 import { describe, it, expect, beforeAll, afterAll } from 'vitest';
 import assert from 'node:assert';
-import { BalanceSheetExecutiveViewModelBuilder } from '../../core/runtime/executive-consolidation/BalanceSheetExecutiveViewModelBuilder';
-import { ExecutiveSemanticRegistry } from '../../core/runtime/executive-consolidation/ExecutiveSemanticRegistry';
+import { BalanceSheetExecutiveViewModelBuilder } from '../../workspace/runtime/executive-consolidation/BalanceSheetExecutiveViewModelBuilder';
+import { ExecutiveSemanticRegistry } from '../../workspace/runtime/executive-consolidation/ExecutiveSemanticRegistry';
 
 describe('BalanceSheetCrossLayerConsistency v7.16', () => {
   it('Should guarantee semantic consistency between Opinion, Trace, and Plan', () => {

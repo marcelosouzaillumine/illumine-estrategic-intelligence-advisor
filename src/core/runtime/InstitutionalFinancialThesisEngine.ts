@@ -1,6 +1,6 @@
 // src/core/runtime/InstitutionalFinancialThesisEngine.ts
-import { CashFlowDiagnostics } from './cashflow/cashflow-types';
-import { CapitalGovernanceDiagnostics } from './capital-governance/capital-governance-types';
+import { CashFlowDiagnostics } from '../../capabilities/financial/runtime/cashflow/cashflow-types';
+import { CapitalGovernanceDiagnostics } from '../../capabilities/financial/runtime/capital-governance/capital-governance-types';
 
 export interface InstitutionalFinancialThesisProfile {
   thesisId: string;

@@ -4,7 +4,7 @@ import { ExecutiveSurface } from './executive-surface';
 import { ExecutiveHeading } from './executive-heading';
 import { ExecutiveText } from './executive-typography';
 import { cn } from '../../lib/utils';
-import { TechnicalAssessment } from '../../../packages/intelligence/executive-intelligence-layer/src/contracts/TechnicalAssessment';
+import { TechnicalAssessment } from '../../../packages/shell/executive-intelligence-layer/src/contracts/TechnicalAssessment';
 
 interface ExecutiveVerdictCardProps {
   assessment: TechnicalAssessment;

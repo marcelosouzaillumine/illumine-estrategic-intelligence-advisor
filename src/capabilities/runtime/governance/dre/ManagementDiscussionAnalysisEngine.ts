@@ -1,4 +1,4 @@
-import { InstitutionalLineageTracer, FiduciarySource } from '../../lineage/InstitutionalLineageTracer';
+import { InstitutionalLineageTracer, FiduciarySource } from '../../../../core/runtime/lineage/InstitutionalLineageTracer';
 import { ExecutiveNarrativeSanitizer } from '../../institutional-causality/ExecutiveNarrativeSanitizer';
 
 export interface MDABlock {

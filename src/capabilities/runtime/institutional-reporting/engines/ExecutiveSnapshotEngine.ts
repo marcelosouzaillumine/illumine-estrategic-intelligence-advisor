@@ -1,6 +1,6 @@
 // src/core/runtime/institutional-reporting/engines/ExecutiveSnapshotEngine.ts
 
-import { ExecutiveIntelligenceReport } from '../../executive-intelligence-runtime';
+import { ExecutiveIntelligenceReport } from '../../../../core/runtime/executive-intelligence-runtime';
 import { ExecutiveSnapshotSection, FiduciaryRestriction } from '../institutional-reporting-types';
 import { ExecutiveReportNarrativeOrchestrator } from '../ExecutiveReportNarrativeOrchestrator';
 

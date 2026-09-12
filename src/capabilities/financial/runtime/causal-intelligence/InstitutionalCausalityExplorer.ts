@@ -1,7 +1,7 @@
 // src/core/runtime/causal-intelligence/InstitutionalCausalityExplorer.ts
 
 import { InstitutionalCausalityOutput, CausalChain, CausalEvidence, CausalConfidence } from './causal-types';
-import { HistoricalRuntimeCycle } from '../executive-timeline/executive-timeline-types';
+import { HistoricalRuntimeCycle } from '../../../../workspace/runtime/executive-timeline/executive-timeline-types';
 import { CausalityConfidenceEngine } from './engines/CausalityConfidenceEngine';
 import { RootCausePrioritizationEngine } from './engines/RootCausePrioritizationEngine';
 import { OperationalCausalityEngine } from './engines/OperationalCausalityEngine';

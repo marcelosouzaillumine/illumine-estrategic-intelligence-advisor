@@ -1,1 +1,1 @@
-export { ExecutiveSemanticRegistry } from '../core/runtime/presentation-governance/ExecutiveSemanticRegistry';
+export { ExecutiveSemanticRegistry } from '../workspace/runtime/presentation-governance/ExecutiveSemanticRegistry';

@@ -24,7 +24,7 @@ import {
   FinancialGovernanceContract,
   FinancialDecisionPermissionMatrixResolver
 } from '../../../../../../packages/executive-contracts/src/financial/index';
-import { CanonicalFinancialNormalizer } from '../../../../adapters/persistence/CanonicalFinancialNormalizer';
+import { CanonicalFinancialNormalizer } from '../../../../../adapters/persistence/CanonicalFinancialNormalizer';
 import { FinancialIntegrityValidator } from '../validation/FinancialIntegrityValidator';
 import { CrossStatementValidator } from '../validation/CrossStatementValidator';
 import { FinancialDataQualityScoreEngine } from '../quality/FinancialDataQualityScoreEngine';

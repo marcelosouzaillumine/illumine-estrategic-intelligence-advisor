@@ -8,9 +8,9 @@ import {
   ESGIMScenario, 
   ESGIMMode,
   GovernanceDecision
-} from '../esgim/esgimTypes';
+} from '../../../runtime/esgim/esgimTypes';
 import { boardPackGeneratorEngine } from '../board-pack/BoardPackGeneratorEngine';
-import { decisionRegistryEngine } from '../execution/DecisionRegistryEngine';
+import { decisionRegistryEngine } from '../../../runtime/execution/DecisionRegistryEngine';
 import { meetingMinutesEngine } from './MeetingMinutesEngine';
 
 export class BoardMeetingEngine {

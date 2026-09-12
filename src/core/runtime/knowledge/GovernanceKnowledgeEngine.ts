@@ -4,10 +4,10 @@ import {
   PrincipleMatch, 
   GovernanceKnowledgeResult, 
   ESGIMScenario 
-} from '../esgim/esgimTypes';
+} from '../../../capabilities/runtime/esgim/esgimTypes';
 import { InstitutionalWisdomLibrary, IWLPrinciple } from './InstitutionalWisdomLibrary';
-import { esgimAssessmentEngine } from '../esgim/ESGIMAssessmentEngine';
-import { decisionRegistryEngine } from '../execution/DecisionRegistryEngine';
+import { esgimAssessmentEngine } from '../../../capabilities/runtime/esgim/ESGIMAssessmentEngine';
+import { decisionRegistryEngine } from '../../../capabilities/runtime/execution/DecisionRegistryEngine';
 
 export type PAIMaturityLevel = 'EXCELLENT' | 'MATURE' | 'DEVELOPING' | 'CONCERN' | 'CRITICAL';
 

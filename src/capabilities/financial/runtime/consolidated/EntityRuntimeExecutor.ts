@@ -1,5 +1,5 @@
 import { EntityInputPayload } from './consolidated-types';
-import { ExecutiveIntelligenceRuntime, ExecutiveIntelligenceReport } from '../../core/runtime/executive-intelligence-runtime';
+import { ExecutiveIntelligenceRuntime, ExecutiveIntelligenceReport } from '../../../../core/runtime/executive-intelligence-runtime';
 
 export class EntityRuntimeExecutor {
   private runtime: ExecutiveIntelligenceRuntime;

@@ -1,9 +1,9 @@
 // src/core/runtime/board-decision/BoardResolutionEngine.ts
 import { BoardResolution, DecisionImpactScale } from './board-decision-types';
-import { InstitutionalScenarioResult } from '../scenario-intelligence/scenario-types';
-import { DecisionComplianceEngine } from '../decision-intelligence/DecisionComplianceEngine';
-import { InstitutionalSurvivabilityEngine } from '../decision-intelligence/InstitutionalSurvivabilityEngine';
-import { ExecutiveDecision, DecisionDomain } from '../decision-intelligence/decision-types';
+import { InstitutionalScenarioResult } from '../../../runtime/scenario-intelligence/scenario-types';
+import { DecisionComplianceEngine } from '../../../runtime/decision-intelligence/DecisionComplianceEngine';
+import { InstitutionalSurvivabilityEngine } from '../../../runtime/decision-intelligence/InstitutionalSurvivabilityEngine';
+import { ExecutiveDecision, DecisionDomain } from '../../../runtime/decision-intelligence/decision-types';
 
 export class BoardResolutionEngine {
   /**

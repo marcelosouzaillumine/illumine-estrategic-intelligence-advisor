@@ -7,12 +7,12 @@ import {
   ExplainabilityTrail,
   ESGIMMode, 
   ESGIMScenario 
-} from '../esgim/esgimTypes';
-import { esgimAssessmentEngine } from '../esgim/ESGIMAssessmentEngine';
-import { institutionalResilienceIndexEngine } from '../esgim/InstitutionalResilienceIndexEngine';
-import { boardPrioritiesEngine } from '../board/BoardPrioritiesEngine';
+} from '../../../capabilities/runtime/esgim/esgimTypes';
+import { esgimAssessmentEngine } from '../../../capabilities/runtime/esgim/ESGIMAssessmentEngine';
+import { institutionalResilienceIndexEngine } from '../../../capabilities/runtime/esgim/InstitutionalResilienceIndexEngine';
+import { boardPrioritiesEngine } from '../../../capabilities/financial/runtime/board/BoardPrioritiesEngine';
 import { governanceRoadmapEngine } from '../roadmap/GovernanceRoadmapEngine';
-import { decisionRegistryEngine } from '../execution/DecisionRegistryEngine';
+import { decisionRegistryEngine } from '../../../capabilities/runtime/execution/DecisionRegistryEngine';
 
 export class GovernanceMonitoringEngine {
   private static instance: GovernanceMonitoringEngine;

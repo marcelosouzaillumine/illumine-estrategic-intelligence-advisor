@@ -1,5 +1,5 @@
 import { StorytellingNarrative } from './PremiumUXTypes';
-import { GoldenDatasetProfile } from '../../core/runtime/reality-validation/RealityValidationTypes';
+import { GoldenDatasetProfile } from '../../../core/runtime/reality-validation/RealityValidationTypes';
 
 export class InstitutionalStorytellingOptimizer {
   static buildNarrative(dataset: GoldenDatasetProfile): StorytellingNarrative {

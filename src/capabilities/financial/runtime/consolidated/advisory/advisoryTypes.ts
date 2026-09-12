@@ -1,4 +1,4 @@
-import { RuntimeConfidence, RuntimeViolation } from '../../../../runtime/types';
+import { RuntimeConfidence, RuntimeViolation } from '../../../../../runtime/types';
 import { ConsolidatedFinancialOutput, EliminationRecord } from '../types';
 
 export type InstitutionalRole = 

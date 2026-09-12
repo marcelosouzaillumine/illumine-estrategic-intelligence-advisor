@@ -83,7 +83,7 @@ export interface EntityInputPayload {
   rawData: any; 
 }
 
-import { TenantExecutionContext } from '../tenancy/hardening/TenantExecutionContext';
+import { TenantExecutionContext } from '../../../../core/runtime/tenancy/hardening/TenantExecutionContext';
 
 export interface ConsolidatedOrchestratorInput {
   groupId?: string;

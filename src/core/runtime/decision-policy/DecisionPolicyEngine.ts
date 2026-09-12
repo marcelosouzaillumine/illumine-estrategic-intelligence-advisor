@@ -2,7 +2,7 @@
 //
 // Sovereign Decision Policy Engine
 
-import { ExecutiveDecision } from '../decision-intelligence/decision-types';
+import { ExecutiveDecision } from '../../../capabilities/runtime/decision-intelligence/decision-types';
 import { DecisionPolicyProfile, PolicyContext } from './policy-types';
 import { SectorGovernanceProfileEngine } from './SectorGovernanceProfileEngine';
 import { StrategicPostureEngine } from './StrategicPostureEngine';

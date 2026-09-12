@@ -1,16 +1,16 @@
-import { InstitutionalContextProfile } from '../../capabilities/runtime/institutional-context/types';
+import { InstitutionalContextProfile } from '../../../capabilities/runtime/institutional-context/types';
 import { DomainPresenceStatus, UnifiedDisclosureEngine } from './UnifiedDisclosureEngine';
 import { CrossDomainCausalityResolver, DomainSignals } from './CrossDomainCausalityResolver';
 import { InstitutionalConsistencyGuard } from './InstitutionalConsistencyGuard';
 import { InstitutionalViewContract } from './InstitutionalViewContract';
 import { InstitutionalInterpretationBoundary } from './InstitutionalInterpretationBoundary';
-import { InstitutionalDecisionLedger } from '../../capabilities/runtime/institutional-memory/InstitutionalDecisionLedger';
-import { InstitutionalContinuityResolver, ContinuityStatus } from '../../capabilities/runtime/institutional-memory/InstitutionalContinuityResolver';
-import { RecommendationPersistenceTracker } from '../../capabilities/runtime/institutional-memory/RecommendationPersistenceTracker';
-import { InstitutionalBehaviorPatternEngine } from '../../capabilities/runtime/institutional-memory/InstitutionalBehaviorPatternEngine';
-import { FiduciaryEvolutionEngine } from '../../capabilities/runtime/institutional-memory/FiduciaryEvolutionEngine';
-import { ExecutiveResolutionTracker } from '../../capabilities/runtime/institutional-memory/ExecutiveResolutionTracker';
-import { ExecutiveMemoryNarrativeEngine } from '../../capabilities/runtime/institutional-memory/ExecutiveMemoryNarrativeEngine';
+import { InstitutionalDecisionLedger } from '../../../capabilities/runtime/institutional-memory/InstitutionalDecisionLedger';
+import { InstitutionalContinuityResolver, ContinuityStatus } from '../../../capabilities/runtime/institutional-memory/InstitutionalContinuityResolver';
+import { RecommendationPersistenceTracker } from '../../../capabilities/runtime/institutional-memory/RecommendationPersistenceTracker';
+import { InstitutionalBehaviorPatternEngine } from '../../../capabilities/runtime/institutional-memory/InstitutionalBehaviorPatternEngine';
+import { FiduciaryEvolutionEngine } from '../../../capabilities/runtime/institutional-memory/FiduciaryEvolutionEngine';
+import { ExecutiveResolutionTracker } from '../../../capabilities/runtime/institutional-memory/ExecutiveResolutionTracker';
+import { ExecutiveMemoryNarrativeEngine } from '../../../capabilities/runtime/institutional-memory/ExecutiveMemoryNarrativeEngine';
 
 export type OrchestratorPayload = {
   ctx: InstitutionalContextProfile;

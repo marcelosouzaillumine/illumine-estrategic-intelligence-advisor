@@ -1,7 +1,7 @@
 // src/core/runtime/treasury-intelligence/types.ts
 
-import { RuntimeOutputBase, RuntimeSeverity } from '../shared/runtime-contracts';
-import { TreasuryLineageHash } from '../shared/lineage-types';
+import { RuntimeOutputBase, RuntimeSeverity } from '../../../core/runtime/shared/runtime-contracts';
+import { TreasuryLineageHash } from '../../../core/runtime/shared/lineage-types';
 
 export type TreasuryPriorityLevel = 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9;
 

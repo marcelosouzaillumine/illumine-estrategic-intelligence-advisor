@@ -1,6 +1,6 @@
 import { collection, query, where, getDocs } from 'firebase/firestore';
-import { db } from '../../../../lib/firebase';
-import { getErrorMessage } from '../../../../types/runtime/RuntimeErrorGuards';
+import { db } from '../../../../../lib/firebase';
+import { getErrorMessage } from '../../../../../types/runtime/RuntimeErrorGuards';
 
 export class IntercompanyRelationsLoader {
   /**

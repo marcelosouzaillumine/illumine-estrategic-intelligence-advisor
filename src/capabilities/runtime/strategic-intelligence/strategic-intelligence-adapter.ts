@@ -1,6 +1,6 @@
 // src/core/runtime/strategic-intelligence/strategic-intelligence-adapter.ts
 
-import { ExecutiveIntelligenceReport } from '../../core/runtime/executive-intelligence-runtime';
+import { ExecutiveIntelligenceReport } from '../../../core/runtime/executive-intelligence-runtime';
 import { StrategicEvaluationContext } from './strategic-intelligence-types';
 
 export class StrategicIntelligenceAdapter {

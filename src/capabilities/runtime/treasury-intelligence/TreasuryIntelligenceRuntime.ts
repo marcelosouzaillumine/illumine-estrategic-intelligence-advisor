@@ -5,8 +5,8 @@ import {
   TreasuryAllocationItem,
   TreasuryPriorityLevel
 } from './types';
-import { RuntimeSeverity } from '../shared/runtime-contracts';
-import { LineageHash } from '../shared/lineage-types';
+import { RuntimeSeverity } from '../../../core/runtime/shared/runtime-contracts';
+import { LineageHash } from '../../../core/runtime/shared/lineage-types';
 import { DistributionSustainabilityEngine } from './DistributionSustainabilityEngine';
 import { ReinvestmentIntelligenceEngine } from './ReinvestmentIntelligenceEngine';
 import { TreasuryResilienceEngine } from './TreasuryResilienceEngine';

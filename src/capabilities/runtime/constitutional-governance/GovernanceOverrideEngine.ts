@@ -5,7 +5,7 @@
 // and ensures absolute auditability by tracking all attempts (approved, rejected, forbidden, unauthorized).
 
 import { ConstitutionalOverrideAttempt, ConstitutionalAuditRecord } from './constitutional-types';
-import { sha256 } from '../executive/types';
+import { sha256 } from '../../../workspace/runtime/executive/types';
 
 export class GovernanceOverrideEngine {
   private overrideHistory: ConstitutionalOverrideAttempt[] = [];

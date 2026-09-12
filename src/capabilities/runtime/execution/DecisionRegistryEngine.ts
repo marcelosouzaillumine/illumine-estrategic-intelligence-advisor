@@ -7,7 +7,7 @@ import {
   DecisionExecutionRisk,
   ESGIMScenario
 } from '../esgim/esgimTypes';
-import { governanceKnowledgeEngine } from '../../core/runtime/knowledge/GovernanceKnowledgeEngine';
+import { governanceKnowledgeEngine } from '../../../core/runtime/knowledge/GovernanceKnowledgeEngine';
 
 export class DecisionRegistryEngine {
   private static instance: DecisionRegistryEngine;

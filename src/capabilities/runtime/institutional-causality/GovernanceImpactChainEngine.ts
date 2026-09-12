@@ -1,4 +1,4 @@
-import { sha256 } from '../executive/types';
+import { sha256 } from '../../../workspace/runtime/executive/types';
 import { HistoricalCycleData } from '../institutional-memory/types';
 import { GovernanceImpactChain, StructuralPropagationVector, LongitudinalRiskPattern } from './types';
 

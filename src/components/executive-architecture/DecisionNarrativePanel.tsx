@@ -3,7 +3,7 @@ import { ExecutiveSurface } from '../ui/executive-surface';
 import { ExecutiveHeading } from '../ui/executive-heading';
 import { ExecutiveText } from '../ui/executive-typography';
 import { Info } from 'lucide-react';
-import { NarrativeBlock } from '../../../packages/intelligence/executive-intelligence-layer/src/contracts/ExecutiveEvidencePackage';
+import { NarrativeBlock } from '../../../packages/shell/executive-intelligence-layer/src/contracts/ExecutiveEvidencePackage';
 
 interface DecisionNarrativePanelProps {
   blocks: NarrativeBlock[];

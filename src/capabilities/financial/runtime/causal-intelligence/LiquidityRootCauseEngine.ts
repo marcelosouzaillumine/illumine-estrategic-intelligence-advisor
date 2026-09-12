@@ -4,7 +4,7 @@ import { CausalFactor, CausalFactorType, CausalSeverity } from './types';
 import { CashIntelligenceRuntimeOutput } from '../cash-intelligence/CashIntelligenceTypes';
 import { WorkingCapitalCausalEngine } from './WorkingCapitalCausalEngine';
 import { StructuralDeteriorationMapper } from './StructuralDeteriorationMapper';
-import { HistoricalCycleData } from '../institutional-memory/types';
+import { HistoricalCycleData } from '../../../runtime/institutional-memory/types';
 
 export class LiquidityRootCauseEngine {
   public static evaluate(

@@ -1,4 +1,4 @@
-import { ExecutiveIntelligenceReport } from '../../core/runtime/executive-intelligence-runtime';
+import { ExecutiveIntelligenceReport } from '../../../../core/runtime/executive-intelligence-runtime';
 import { ConsolidatedConfidence, ConsolidatedViolation, EliminatedValueRecord, EntityLineageNode } from './consolidated-types';
 import { resolveConsolidatedConfidence } from './EntityScopedConfidenceResolver';
 import { propagateViolations } from './ConsolidatedViolationPropagator';

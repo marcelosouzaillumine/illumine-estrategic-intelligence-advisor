@@ -5,17 +5,17 @@ import {
   GovernanceJourneyStep, 
   ESGIMScenario, 
   ESGIMMode 
-} from '../../capabilities/runtime/esgim/esgimTypes';
-import { esgimAssessmentEngine } from '../../capabilities/runtime/esgim/ESGIMAssessmentEngine';
-import { institutionalResilienceIndexEngine } from '../../capabilities/runtime/esgim/InstitutionalResilienceIndexEngine';
-import { boardPrioritiesEngine } from '../../capabilities/financial/runtime/board/BoardPrioritiesEngine';
-import { governanceRoadmapEngine } from '../../core/runtime/roadmap/GovernanceRoadmapEngine';
-import { governanceMonitoringEngine } from '../../core/runtime/monitoring/GovernanceMonitoringEngine';
-import { decisionRegistryEngine } from '../../capabilities/runtime/execution/DecisionRegistryEngine';
-import { governanceLearningEngine } from '../../core/runtime/learning/GovernanceLearningEngine';
-import { benchmarkReadinessEngine } from '../../core/runtime/benchmark/BenchmarkReadinessEngine';
-import { benchmarkComparativeEngine } from '../../core/runtime/benchmark/BenchmarkComparativeEngine';
-import { benchmarkAdvisoryEngine } from '../../core/runtime/benchmark/BenchmarkAdvisoryEngine';
+} from '../../../capabilities/runtime/esgim/esgimTypes';
+import { esgimAssessmentEngine } from '../../../capabilities/runtime/esgim/ESGIMAssessmentEngine';
+import { institutionalResilienceIndexEngine } from '../../../capabilities/runtime/esgim/InstitutionalResilienceIndexEngine';
+import { boardPrioritiesEngine } from '../../../capabilities/financial/runtime/board/BoardPrioritiesEngine';
+import { governanceRoadmapEngine } from '../../../core/runtime/roadmap/GovernanceRoadmapEngine';
+import { governanceMonitoringEngine } from '../../../core/runtime/monitoring/GovernanceMonitoringEngine';
+import { decisionRegistryEngine } from '../../../capabilities/runtime/execution/DecisionRegistryEngine';
+import { governanceLearningEngine } from '../../../core/runtime/learning/GovernanceLearningEngine';
+import { benchmarkReadinessEngine } from '../../../core/runtime/benchmark/BenchmarkReadinessEngine';
+import { benchmarkComparativeEngine } from '../../../core/runtime/benchmark/BenchmarkComparativeEngine';
+import { benchmarkAdvisoryEngine } from '../../../core/runtime/benchmark/BenchmarkAdvisoryEngine';
 
 export class GovernanceJourneyEngine {
   private static instance: GovernanceJourneyEngine;

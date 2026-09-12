@@ -2,7 +2,7 @@
 
 import { InstitutionalStrategicIntelligenceOutput } from '../strategic-intelligence/strategic-intelligence-types';
 import { InstitutionalOperationalGovernanceOutput } from '../operational-governance/operational-governance-types';
-import { InstitutionalExecutiveCommandOutput } from '../../workspace/runtime/executive-command/executive-command-types';
+import { InstitutionalExecutiveCommandOutput } from '../../../workspace/runtime/executive-command/executive-command-types';
 import { TreasuryIntelligenceRuntimeOutput } from '../treasury-intelligence/types';
 
 /**
@@ -18,7 +18,7 @@ export class ExecutiveReportNarrativeOrchestrator {
     governance: InstitutionalOperationalGovernanceOutput;
     treasury?: TreasuryIntelligenceRuntimeOutput;
     hasSurvivalMode: boolean;
-    longitudinal?: import('../cash-intelligence/CashIntelligenceTypes').LongitudinalCashIntelligenceOutput;
+    longitudinal?: import('../../../capabilities/financial/runtime/cash-intelligence/CashIntelligenceTypes').LongitudinalCashIntelligenceOutput;
     constitutionalStatus?: string;
   }): string {
     

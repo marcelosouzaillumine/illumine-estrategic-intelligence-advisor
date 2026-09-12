@@ -3,7 +3,7 @@
 import { test, describe, it } from 'node:test';
 import assert from 'node:assert';
 import { InstitutionalBoardPackDocumentRuntime } from './InstitutionalBoardPackDocumentRuntime';
-import { ExecutiveIntelligenceReport } from '../../core/runtime/executive-intelligence-runtime';
+import { ExecutiveIntelligenceReport } from '../../../core/runtime/executive-intelligence-runtime';
 import { ReportVariant } from './institutional-reporting-types';
 
 describe('InstitutionalBoardPackDocumentRuntime', () => {
@@ -15,7 +15,7 @@ describe('InstitutionalBoardPackDocumentRuntime', () => {
     runtimeMetadata: {
       lineageHash: 'HASH_123',
       auditTrail: ['Event A', 'Event B']
-    } as any as import('../observability/observability-types').RuntimeExecutionTrace,
+    } as any as import('../../../core/runtime/observability/observability-types').RuntimeExecutionTrace,
     compliance: {
       fiduciaryEnforcement: {
         complianceStatus: 'VALIDATED'
@@ -36,7 +36,7 @@ describe('InstitutionalBoardPackDocumentRuntime', () => {
       narrativeLongitudinal: {
         executiveNarrative: 'Crescimento real validado.'
       }
-    } as any as import('../cash-intelligence/CashIntelligenceTypes').LongitudinalCashIntelligenceOutput
+    } as any as import('../../../capabilities/financial/runtime/cash-intelligence/CashIntelligenceTypes').LongitudinalCashIntelligenceOutput
   };
 
   it('deve gerar o document output completo e imutavel', () => {

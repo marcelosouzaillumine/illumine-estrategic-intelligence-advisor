@@ -1,7 +1,7 @@
 import { describe, it, expect, beforeAll, afterAll } from 'vitest';
 import assert from 'node:assert';
-import { ExecutiveSemanticRegistry } from '../../core/runtime/executive-consolidation/ExecutiveSemanticRegistry';
-import { BalanceSheetExecutiveViewModelBuilder } from '../../core/runtime/executive-consolidation/BalanceSheetExecutiveViewModelBuilder';
+import { ExecutiveSemanticRegistry } from '../../workspace/runtime/executive-consolidation/ExecutiveSemanticRegistry';
+import { BalanceSheetExecutiveViewModelBuilder } from '../../workspace/runtime/executive-consolidation/BalanceSheetExecutiveViewModelBuilder';
 
 describe('BalanceSheetNarrativeClosure Contract', () => {
   it('should test plan builder logic via view model builder', () => {

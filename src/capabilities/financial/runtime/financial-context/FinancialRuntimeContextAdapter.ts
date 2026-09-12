@@ -1,9 +1,9 @@
-import { InstitutionalBusinessProfile } from "../institutional-identity/InstitutionalBusinessProfile";
-import { SegmentIntelligenceEngine } from "../institutional-context/SegmentIntelligenceEngine";
+import { InstitutionalBusinessProfile } from "../../../runtime/institutional-identity/InstitutionalBusinessProfile";
+import { SegmentIntelligenceEngine } from "../../../runtime/institutional-context/SegmentIntelligenceEngine";
 import { FinancialRuntimeContext } from "./FinancialRuntimeContextTypes";
 import { mapRestrictionsToGuards } from "./FinancialRuntimeContextGuards";
-import { LifecycleContextBuilder } from "../lifecycle/LifecycleContextBuilder";
-import { LifecycleSemanticAuthority } from "../lifecycle/LifecycleSemanticAuthority";
+import { LifecycleContextBuilder } from "../../../../workspace/runtime/lifecycle/LifecycleContextBuilder";
+import { LifecycleSemanticAuthority } from "../../../../workspace/runtime/lifecycle/LifecycleSemanticAuthority";
 
 export class FinancialRuntimeContextAdapter {
   private segmentEngine: SegmentIntelligenceEngine;

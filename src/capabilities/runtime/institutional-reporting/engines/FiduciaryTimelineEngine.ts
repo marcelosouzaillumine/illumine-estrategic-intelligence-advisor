@@ -1,5 +1,5 @@
 import { FiduciaryTimelineSection } from '../institutional-reporting-types';
-import { CashIntelligenceRuntimeOutput } from '../../cash-intelligence/CashIntelligenceTypes';
+import { CashIntelligenceRuntimeOutput } from '../../../../capabilities/financial/runtime/cash-intelligence/CashIntelligenceTypes';
 
 export class FiduciaryTimelineEngine {
   /**

@@ -2,7 +2,7 @@ import React from 'react';
 import { ExecutiveSurface } from '../../ui/executive-surface';
 import { ExecutiveBadge } from '../../ui/executive-badge';
 import { ShieldCheck, Activity, Clock, CheckCircle2 } from 'lucide-react';
-import { IntegrationEventBusEngine } from '../../../../packages/intelligence/enterprise-data-integration-fabric/src/IntegrationEventBusEngine';
+import { IntegrationEventBusEngine } from '../../../../packages/core/enterprise-data-integration-fabric/src/IntegrationEventBusEngine';
 
 export const IntegrationTrustScoreCard: React.FC = () => {
   const trustData = IntegrationEventBusEngine.calculateIntegrationTrustScore();

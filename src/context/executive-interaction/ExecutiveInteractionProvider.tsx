@@ -6,7 +6,7 @@ import {
   ExecutiveEvidenceVisibility,
   ExecutiveModalPriority,
   GovernanceDataDependency
-} from '../../core/runtime/executive-interaction/types';
+} from '../../workspace/runtime/executive-interaction/types';
 
 interface LoadingSemantics {
   phase: 'validating' | 'dependencies' | 'confidence' | 'lineage' | 'sync' | 'ready';

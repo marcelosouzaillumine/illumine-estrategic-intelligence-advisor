@@ -1,4 +1,4 @@
-import { LongitudinalIntelligenceGuard } from '../../core/runtime/coherence/LongitudinalIntelligenceGuard';
+import { LongitudinalIntelligenceGuard } from '../../../core/runtime/coherence/LongitudinalIntelligenceGuard';
 
 export interface PrudencyReason {
   title: string;

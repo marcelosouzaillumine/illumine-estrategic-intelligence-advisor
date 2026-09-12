@@ -1,27 +1,27 @@
-import { BalanceSheetFinancialMetricsEngine } from "./governance/bp/BalanceSheetFinancialMetricsEngine";
-import { ExecutiveAnalysisContext } from "./executive-consolidation/StrategicOpinionConsistencyEngine";
-import { PatrimonialScoreExplainabilityEngine } from "./governance/bp/PatrimonialScoreExplainabilityEngine";
-import { InstitutionalPatrimonialClassificationEngine } from "./governance/bp/InstitutionalPatrimonialClassificationEngine";
-import { PatrimonialExecutiveInterpretationEngine } from "./governance/bp/PatrimonialExecutiveInterpretationEngine";
-import { PatrimonialTrendEngine } from "./governance/bp/PatrimonialTrendEngine";
-import { PatrimonialGovernanceConsistencyEngine } from "./governance/bp/PatrimonialGovernanceConsistencyEngine";
-import { PatrimonialClassificationCeilingEngine } from "./governance/bp/PatrimonialClassificationCeilingEngine";
-import { BalanceSheetQualityEngine } from "./governance/bp/BalanceSheetQualityEngine";
-import { WorkingCapitalIntelligenceEngine } from "./governance/bp/WorkingCapitalIntelligenceEngine";
-import { CapitalStructureIntelligenceEngine } from "./governance/bp/CapitalStructureIntelligenceEngine";
-import { PatrimonialPreservationEngine } from "./governance/bp/PatrimonialPreservationEngine";
-import { LiquidityRealityEngine } from "./governance/bp/LiquidityRealityEngine";
-import { EquityQualityEngine } from "./governance/bp/EquityQualityEngine";
-import { BoardPatrimonialAdvisoryEngine } from "./governance/bp/BoardPatrimonialAdvisoryEngine";
-import { BoardConsistencyEngine } from "./governance/bp/BoardConsistencyEngine";
-import { BalanceSheetExecutiveNarrativeEngine } from "./governance/bp/BalanceSheetExecutiveNarrativeEngine";
+import { BalanceSheetFinancialMetricsEngine } from "../../capabilities/runtime/governance/bp/BalanceSheetFinancialMetricsEngine";
+import { ExecutiveAnalysisContext } from "../../workspace/runtime/executive-consolidation/StrategicOpinionConsistencyEngine";
+import { PatrimonialScoreExplainabilityEngine } from "../../capabilities/runtime/governance/bp/PatrimonialScoreExplainabilityEngine";
+import { InstitutionalPatrimonialClassificationEngine } from "../../capabilities/runtime/governance/bp/InstitutionalPatrimonialClassificationEngine";
+import { PatrimonialExecutiveInterpretationEngine } from "../../capabilities/runtime/governance/bp/PatrimonialExecutiveInterpretationEngine";
+import { PatrimonialTrendEngine } from "../../capabilities/runtime/governance/bp/PatrimonialTrendEngine";
+import { PatrimonialGovernanceConsistencyEngine } from "../../capabilities/runtime/governance/bp/PatrimonialGovernanceConsistencyEngine";
+import { PatrimonialClassificationCeilingEngine } from "../../capabilities/runtime/governance/bp/PatrimonialClassificationCeilingEngine";
+import { BalanceSheetQualityEngine } from "../../capabilities/runtime/governance/bp/BalanceSheetQualityEngine";
+import { WorkingCapitalIntelligenceEngine } from "../../capabilities/runtime/governance/bp/WorkingCapitalIntelligenceEngine";
+import { CapitalStructureIntelligenceEngine } from "../../capabilities/runtime/governance/bp/CapitalStructureIntelligenceEngine";
+import { PatrimonialPreservationEngine } from "../../capabilities/runtime/governance/bp/PatrimonialPreservationEngine";
+import { LiquidityRealityEngine } from "../../capabilities/runtime/governance/bp/LiquidityRealityEngine";
+import { EquityQualityEngine } from "../../capabilities/runtime/governance/bp/EquityQualityEngine";
+import { BoardPatrimonialAdvisoryEngine } from "../../capabilities/runtime/governance/bp/BoardPatrimonialAdvisoryEngine";
+import { BoardConsistencyEngine } from "../../capabilities/runtime/governance/bp/BoardConsistencyEngine";
+import { BalanceSheetExecutiveNarrativeEngine } from "../../capabilities/runtime/governance/bp/BalanceSheetExecutiveNarrativeEngine";
 import { RuntimeExecutionRegistry } from './observability/RuntimeExecutionRegistry';
-import { BalanceSheetSummaryLineageAudit } from './governance/bp/BalanceSheetSummaryLineageAudit';
-import { BalanceSheetExerciseBindingGuard } from './governance/bp/BalanceSheetExerciseBindingGuard';
-import { BalanceSheetHistoricalContaminationAudit } from './governance/bp/BalanceSheetHistoricalContaminationAudit';
-import { BalanceSheetNarrativeTemporalAudit } from './governance/bp/BalanceSheetNarrativeTemporalAudit';
-import { BalanceSheetPatrimonialIntelligenceEngine } from './governance/bp/BalanceSheetPatrimonialIntelligenceEngine';
-import { BalanceSheetAnalyticalContextIntegrityGuard } from './governance/bp/BalanceSheetAnalyticalContextIntegrityGuard';
+import { BalanceSheetSummaryLineageAudit } from '../../capabilities/runtime/governance/bp/BalanceSheetSummaryLineageAudit';
+import { BalanceSheetExerciseBindingGuard } from '../../capabilities/runtime/governance/bp/BalanceSheetExerciseBindingGuard';
+import { BalanceSheetHistoricalContaminationAudit } from '../../capabilities/runtime/governance/bp/BalanceSheetHistoricalContaminationAudit';
+import { BalanceSheetNarrativeTemporalAudit } from '../../capabilities/runtime/governance/bp/BalanceSheetNarrativeTemporalAudit';
+import { BalanceSheetPatrimonialIntelligenceEngine } from '../../capabilities/runtime/governance/bp/BalanceSheetPatrimonialIntelligenceEngine';
+import { BalanceSheetAnalyticalContextIntegrityGuard } from '../../capabilities/runtime/governance/bp/BalanceSheetAnalyticalContextIntegrityGuard';
 import { getSectorProfile } from '../intelligence/sector-behavior-profiles';
 import { translateCapitalStructure } from './adapters/capital-structure-adapter';
 import { translateCausalityInterpretation } from './adapters/causality-interpretation-adapter';
@@ -29,70 +29,70 @@ import { translateSeverityModulation } from './adapters/severity-modulator-adapt
 import { buildBPHierarchy } from '../../lib/bpEngine';
 import { calculateDreCascade } from '../../lib/dreCascade';
 import { generateDreInsights, DreMetrics } from '../../lib/dreInsights';
-import { ExecutiveEconomicQualityEngine } from './governance/dre/ExecutiveEconomicQualityEngine';
-import { EBITDARootCauseEngine } from './governance/dre/EBITDARootCauseEngine';
-import { EconomicValueIntelligenceEngine } from './governance/dre/EconomicValueIntelligenceEngine';
-import { EarningsCompositionEngine } from './governance/dre/EarningsCompositionEngine';
+import { ExecutiveEconomicQualityEngine } from '../../capabilities/runtime/governance/dre/ExecutiveEconomicQualityEngine';
+import { EBITDARootCauseEngine } from '../../capabilities/runtime/governance/dre/EBITDARootCauseEngine';
+import { EconomicValueIntelligenceEngine } from '../../capabilities/runtime/governance/dre/EconomicValueIntelligenceEngine';
+import { EarningsCompositionEngine } from '../../capabilities/runtime/governance/dre/EarningsCompositionEngine';
 import { InstitutionalConfidenceEngine } from './confidence/InstitutionalConfidenceEngine';
-import { ManagementDiscussionAnalysisEngine } from './governance/dre/ManagementDiscussionAnalysisEngine';
-import { DREExecutiveInterpretationEngine } from './dre/DREExecutiveInterpretationEngine';
-import { EconomicValueNarrativeEngine } from './dre/EconomicValueNarrativeEngine';
-import { RevenueEconomicStructureEngine } from './dre/RevenueEconomicStructureEngine';
-import { EconomicBurnRateEngine } from './dre/EconomicBurnRateEngine';
-import { DREBoardDecisionSupportEngine } from './dre/DREBoardDecisionSupportEngine';
-import { DREBoardAdvisoryEngine } from './dre/DREBoardAdvisoryEngine';
-import { RecoverabilityAssessmentEngine } from './dre/RecoverabilityAssessmentEngine';
-import { BreakEvenAnalysisEngine } from './dre/BreakEvenAnalysisEngine';
-import { OperationalAbsorptionEngine } from './dre/OperationalAbsorptionEngine';
-import { OperationalHealthExplainabilityEngine } from './dre/OperationalHealthExplainabilityEngine';
-import { CrossStatementIsolationValidator } from './dre/CrossStatementIsolationValidator';
-import { EconomicDiagnosisEngine } from './dre/EconomicDiagnosisEngine';
-import { DREExecutiveDataMapper } from './dre/DREExecutiveDataMapper';
-import { DREExecutiveBindingAudit } from './dre/DREExecutiveBindingAudit';
+import { ManagementDiscussionAnalysisEngine } from '../../capabilities/runtime/governance/dre/ManagementDiscussionAnalysisEngine';
+import { DREExecutiveInterpretationEngine } from '../../capabilities/financial/runtime/dre/DREExecutiveInterpretationEngine';
+import { EconomicValueNarrativeEngine } from '../../capabilities/financial/runtime/dre/EconomicValueNarrativeEngine';
+import { RevenueEconomicStructureEngine } from '../../capabilities/financial/runtime/dre/RevenueEconomicStructureEngine';
+import { EconomicBurnRateEngine } from '../../capabilities/financial/runtime/dre/EconomicBurnRateEngine';
+import { DREBoardDecisionSupportEngine } from '../../capabilities/financial/runtime/dre/DREBoardDecisionSupportEngine';
+import { DREBoardAdvisoryEngine } from '../../capabilities/financial/runtime/dre/DREBoardAdvisoryEngine';
+import { RecoverabilityAssessmentEngine } from '../../capabilities/financial/runtime/dre/RecoverabilityAssessmentEngine';
+import { BreakEvenAnalysisEngine } from '../../capabilities/financial/runtime/dre/BreakEvenAnalysisEngine';
+import { OperationalAbsorptionEngine } from '../../capabilities/financial/runtime/dre/OperationalAbsorptionEngine';
+import { OperationalHealthExplainabilityEngine } from '../../capabilities/financial/runtime/dre/OperationalHealthExplainabilityEngine';
+import { CrossStatementIsolationValidator } from '../../capabilities/financial/runtime/dre/CrossStatementIsolationValidator';
+import { EconomicDiagnosisEngine } from '../../capabilities/financial/runtime/dre/EconomicDiagnosisEngine';
+import { DREExecutiveDataMapper } from '../../capabilities/financial/runtime/dre/DREExecutiveDataMapper';
+import { DREExecutiveBindingAudit } from '../../capabilities/financial/runtime/dre/DREExecutiveBindingAudit';
 import { InstitutionalLineageTracer } from './lineage/InstitutionalLineageTracer';
 import { DRE_OFFICIAL_STRUCTURE } from '../../constants/dreStructure';
 import { calculateFinancialMetrics } from '../../lib/financial-engine';
 import { inferBusinessIdentity } from '../../lib/business-identity-engine';
 import { evaluateMasterCausality } from '../../lib/master-causal-engine';
-import { ConsolidatedRuntimeOutputExt } from './consolidated/consolidated-types';
+import { ConsolidatedRuntimeOutputExt } from '../../capabilities/financial/runtime/consolidated/consolidated-types';
 import { TemporalCausalityOutput } from '../intelligence/temporal-causality-engine';
 import { RuntimeExecutionTrace } from './observability/observability-types';
 import { RuntimeTraceEngine } from './observability/RuntimeTraceEngine';
-import { InstitutionalContextEngine } from './institutional-context/InstitutionalContextEngine';
-import { InstitutionalContextProfile } from './institutional-context/types';
-import { InventoryDependencyEngine } from './governance/bp/InventoryDependencyEngine';
+import { InstitutionalContextEngine } from '../../capabilities/runtime/institutional-context/InstitutionalContextEngine';
+import { InstitutionalContextProfile } from '../../capabilities/runtime/institutional-context/types';
+import { InventoryDependencyEngine } from '../../capabilities/runtime/governance/bp/InventoryDependencyEngine';
 import { CalibrationEngine } from './calibration/CalibrationEngine';
-import { SegmentCode } from './segment-intelligence/types';
-import { SegmentRiskProfileEngine } from './segment-intelligence/SegmentRiskProfileEngine';
+import { SegmentCode } from '../../capabilities/runtime/segment-intelligence/types';
+import { SegmentRiskProfileEngine } from '../../capabilities/runtime/segment-intelligence/SegmentRiskProfileEngine';
 import { LongitudinalIntelligenceGuard } from './coherence/LongitudinalIntelligenceGuard';
-import { InstitutionalMemoryEngine } from './institutional-memory/InstitutionalMemoryEngine';
-import { InstitutionalMemoryProfile } from './institutional-memory/types';
-import { StructuralCapitalOrchestrator } from './structural-capital/StructuralCapitalOrchestrator';
-import { StructuralCapitalProfile } from './structural-capital/types';
-import { InstitutionalCausalityOrchestrator } from './institutional-causality/InstitutionalCausalityOrchestrator';
-import { InstitutionalCausalityProfile } from './institutional-causality/types';
-import { ExecutivePriorityCascadeResolver } from './institutional-causality/ExecutivePriorityCascadeResolver';
-import { ExecutiveNarrativeSanitizer } from './institutional-causality/ExecutiveNarrativeSanitizer';
+import { InstitutionalMemoryEngine } from '../../capabilities/runtime/institutional-memory/InstitutionalMemoryEngine';
+import { InstitutionalMemoryProfile } from '../../capabilities/runtime/institutional-memory/types';
+import { StructuralCapitalOrchestrator } from '../../capabilities/runtime/structural-capital/StructuralCapitalOrchestrator';
+import { StructuralCapitalProfile } from '../../capabilities/runtime/structural-capital/types';
+import { InstitutionalCausalityOrchestrator } from '../../capabilities/runtime/institutional-causality/InstitutionalCausalityOrchestrator';
+import { InstitutionalCausalityProfile } from '../../capabilities/runtime/institutional-causality/types';
+import { ExecutivePriorityCascadeResolver } from '../../capabilities/runtime/institutional-causality/ExecutivePriorityCascadeResolver';
+import { ExecutiveNarrativeSanitizer } from '../../capabilities/runtime/institutional-causality/ExecutiveNarrativeSanitizer';
 import { getIndustryOkrs } from '../../lib/industry-engine';
-import { FiduciaryCashIntelligenceRuntime } from './cash-intelligence/FiduciaryCashIntelligenceRuntime';
-import { CashIntelligenceRuntimeOutput } from './cash-intelligence/CashIntelligenceTypes';
-import { InstitutionalCausalIntelligenceRuntime } from './causal-intelligence/InstitutionalCausalIntelligenceRuntime';
-import { CausalIntelligenceReport } from './causal-intelligence/types';
-import { TreasuryIntelligenceRuntime } from './treasury-intelligence/TreasuryIntelligenceRuntime';
-import { TreasuryIntelligenceRuntimeOutput } from './treasury-intelligence/types';
-import { PatrimonialIntelligenceRuntime } from './patrimonial-intelligence/PatrimonialIntelligenceRuntime';
-import { InstitutionalSurvivalHierarchyEngine } from './institutional-survival/InstitutionalSurvivalHierarchyEngine';
-import { InstitutionalSurvivalOutput } from './institutional-survival/SurvivalTypes';
-import { InstitutionalRecoveryEngine } from './institutional-recovery/InstitutionalRecoveryEngine';
-import { InstitutionalRecoveryOutput } from './institutional-recovery/RecoveryTypes';
-import { SurvivalConstraintPropagationEngine } from './institutional-survival/SurvivalConstraintPropagationEngine';
-import { TreasuryPriorityMatrixEngine } from './treasury-intelligence/TreasuryPriorityMatrixEngine';
-import { InstitutionalResilienceEngine } from './institutional-resilience/InstitutionalResilienceEngine';
-import { RecoveryRegressionGuardEngine } from './recovery-regression/RecoveryRegressionGuardEngine';
-import { InstitutionalPressureRuntime } from './operating-pressure/InstitutionalPressureRuntime';
-import { PressureAdapter } from './operating-pressure/pressure-adapter';
-import { ExecutiveTimelineEngine } from './executive-timeline/ExecutiveTimelineEngine';
-import { InstitutionalCausalityExplorer } from './causal-intelligence/InstitutionalCausalityExplorer';
+import { FiduciaryCashIntelligenceRuntime } from '../../capabilities/financial/runtime/cash-intelligence/FiduciaryCashIntelligenceRuntime';
+import { CashIntelligenceRuntimeOutput } from '../../capabilities/financial/runtime/cash-intelligence/CashIntelligenceTypes';
+import { InstitutionalCausalIntelligenceRuntime } from '../../capabilities/financial/runtime/causal-intelligence/InstitutionalCausalIntelligenceRuntime';
+import { CausalIntelligenceReport } from '../../capabilities/financial/runtime/causal-intelligence/types';
+import { TreasuryIntelligenceRuntime } from '../../capabilities/runtime/treasury-intelligence/TreasuryIntelligenceRuntime';
+import { TreasuryIntelligenceRuntimeOutput } from '../../capabilities/runtime/treasury-intelligence/types';
+import { PatrimonialIntelligenceRuntime } from '../../capabilities/financial/runtime/patrimonial-intelligence/PatrimonialIntelligenceRuntime';
+import { InstitutionalSurvivalHierarchyEngine } from '../../capabilities/runtime/institutional-survival/InstitutionalSurvivalHierarchyEngine';
+import { InstitutionalSurvivalOutput } from '../../capabilities/runtime/institutional-survival/SurvivalTypes';
+import { InstitutionalRecoveryEngine } from '../../capabilities/runtime/institutional-recovery/InstitutionalRecoveryEngine';
+import { InstitutionalRecoveryOutput } from '../../capabilities/runtime/institutional-recovery/RecoveryTypes';
+import { SurvivalConstraintPropagationEngine } from '../../capabilities/runtime/institutional-survival/SurvivalConstraintPropagationEngine';
+import { TreasuryPriorityMatrixEngine } from '../../capabilities/runtime/treasury-intelligence/TreasuryPriorityMatrixEngine';
+import { InstitutionalResilienceEngine } from '../../capabilities/runtime/institutional-resilience/InstitutionalResilienceEngine';
+import { RecoveryRegressionGuardEngine } from '../../capabilities/runtime/recovery-regression/RecoveryRegressionGuardEngine';
+import { InstitutionalPressureRuntime } from '../../capabilities/runtime/operating-pressure/InstitutionalPressureRuntime';
+import { PressureAdapter } from '../../capabilities/runtime/operating-pressure/pressure-adapter';
+import { ExecutiveTimelineEngine } from '../../workspace/runtime/executive-timeline/ExecutiveTimelineEngine';
+import { InstitutionalCausalityExplorer } from '../../capabilities/financial/runtime/causal-intelligence/InstitutionalCausalityExplorer';
 
 // Integrity Engines (RC-1.3A)
 import { EmptyCycleIntegrityEngine } from './integrity/EmptyCycleIntegrityEngine';
@@ -104,45 +104,45 @@ import { ExecutiveActionMatrixEngine, ExecutiveActionItem } from './integrity/Ex
 import { HistoricalSeriesIntegrityEngine } from './integrity/HistoricalSeriesIntegrityEngine';
 import { ExecutiveEmptyStateResolver } from './integrity/ExecutiveEmptyStateResolver';
 import { ExecutiveDiagnosisComposer } from '../executive-experience/ExecutiveDiagnosisComposer';
-import { InstitutionalFinancialDomainOrchestrator } from './orchestrator/InstitutionalFinancialDomainOrchestrator';
-import { InstitutionalViewContract } from './orchestrator/InstitutionalViewContract';
-import { InstitutionalExecutiveCommandRuntime } from './executive-command/InstitutionalExecutiveCommandRuntime';
-import { InstitutionalOperationalGovernanceRuntime } from './operational-governance/InstitutionalOperationalGovernanceRuntime';
-import { InstitutionalStrategicIntelligenceRuntime } from './strategic-intelligence/InstitutionalStrategicIntelligenceRuntime';
-import { InstitutionalBoardPackRuntime } from './institutional-reporting/InstitutionalBoardPackRuntime';
-import { InstitutionalDeploymentReadinessEngine } from './deployment-readiness/InstitutionalDeploymentReadinessEngine';
-import { DeploymentEnvironment } from './deployment-readiness/DeploymentReadinessTypes';
-import { InstitutionalOnboardingOrchestrator } from './institutional-onboarding/InstitutionalOnboardingOrchestrator';
+import { InstitutionalFinancialDomainOrchestrator } from '../../workspace/runtime/orchestrator/InstitutionalFinancialDomainOrchestrator';
+import { InstitutionalViewContract } from '../../workspace/runtime/orchestrator/InstitutionalViewContract';
+import { InstitutionalExecutiveCommandRuntime } from '../../workspace/runtime/executive-command/InstitutionalExecutiveCommandRuntime';
+import { InstitutionalOperationalGovernanceRuntime } from '../../capabilities/runtime/operational-governance/InstitutionalOperationalGovernanceRuntime';
+import { InstitutionalStrategicIntelligenceRuntime } from '../../capabilities/runtime/strategic-intelligence/InstitutionalStrategicIntelligenceRuntime';
+import { InstitutionalBoardPackRuntime } from '../../capabilities/runtime/institutional-reporting/InstitutionalBoardPackRuntime';
+import { InstitutionalDeploymentReadinessEngine } from '../../capabilities/runtime/deployment-readiness/InstitutionalDeploymentReadinessEngine';
+import { DeploymentEnvironment } from '../../capabilities/runtime/deployment-readiness/DeploymentReadinessTypes';
+import { InstitutionalOnboardingOrchestrator } from '../../capabilities/runtime/institutional-onboarding/InstitutionalOnboardingOrchestrator';
 import { InstitutionalOnboardingMockFactory } from '../../testing/fixtures/institutional-onboarding/InstitutionalOnboardingMockFactory';
-import { InstitutionalEvidenceOrchestrator } from './evidence-ingestion/InstitutionalEvidenceOrchestrator';
+import { InstitutionalEvidenceOrchestrator } from '../../capabilities/runtime/evidence-ingestion/InstitutionalEvidenceOrchestrator';
 import { InstitutionalEvidenceMockFactory } from '../../testing/fixtures/evidence-ingestion/InstitutionalEvidenceMockFactory';
 import { readRuntimeEnvironmentConfig } from './config/RuntimeEnvironmentConfig';
-import { ExecutiveConstitutionalRuntime } from './constitutional-governance/ExecutiveConstitutionalRuntime';
-import { ConstitutionalEnforcementGate } from './constitutional-governance/ConstitutionalEnforcementGate';
-import { ConstitutionalRestrictionEngine } from './constitutional-governance/ConstitutionalRestrictionEngine';
-import { ConstitutionalGovernanceMetadata } from './constitutional-governance/constitutional-types';
-import { ConstitutionalGovernanceDashboardEngine } from './constitutional-governance/ConstitutionalGovernanceDashboardEngine';
+import { ExecutiveConstitutionalRuntime } from '../../capabilities/runtime/constitutional-governance/ExecutiveConstitutionalRuntime';
+import { ConstitutionalEnforcementGate } from '../../capabilities/runtime/constitutional-governance/ConstitutionalEnforcementGate';
+import { ConstitutionalRestrictionEngine } from '../../capabilities/runtime/constitutional-governance/ConstitutionalRestrictionEngine';
+import { ConstitutionalGovernanceMetadata } from '../../capabilities/runtime/constitutional-governance/constitutional-types';
+import { ConstitutionalGovernanceDashboardEngine } from '../../capabilities/runtime/constitutional-governance/ConstitutionalGovernanceDashboardEngine';
 
 const constRuntime = new ExecutiveConstitutionalRuntime();
 
 // EFOS Engines & Adapters (RC-1.4)
-import { CashFlowAdapter } from './cashflow/cashflow-adapter';
-import { LongitudinalCashIntelligenceEngine } from './cash-intelligence/LongitudinalCashIntelligenceEngine';
-import { GlobalFiduciaryDistributionEnforcementEngine } from './governance/fiduciary-enforcement/GlobalFiduciaryDistributionEnforcementEngine';
-import { ConsolidatedCashFlowReport } from './cashflow/cashflow-types';
-import { CapitalGovernanceAdapter } from './capital-governance/capital-governance-adapter';
-import { ConsolidatedCapitalGovernanceReport } from './capital-governance/capital-governance-types';
-import { FinancialRuntimeContextAdapter } from './financial-context/FinancialRuntimeContextAdapter';
-import { InstitutionalBusinessProfile } from './institutional-identity/InstitutionalBusinessProfile';
+import { CashFlowAdapter } from '../../capabilities/financial/runtime/cashflow/cashflow-adapter';
+import { LongitudinalCashIntelligenceEngine } from '../../capabilities/financial/runtime/cash-intelligence/LongitudinalCashIntelligenceEngine';
+import { GlobalFiduciaryDistributionEnforcementEngine } from '../../capabilities/runtime/governance/fiduciary-enforcement/GlobalFiduciaryDistributionEnforcementEngine';
+import { ConsolidatedCashFlowReport } from '../../capabilities/financial/runtime/cashflow/cashflow-types';
+import { CapitalGovernanceAdapter } from '../../capabilities/financial/runtime/capital-governance/capital-governance-adapter';
+import { ConsolidatedCapitalGovernanceReport } from '../../capabilities/financial/runtime/capital-governance/capital-governance-types';
+import { FinancialRuntimeContextAdapter } from '../../capabilities/financial/runtime/financial-context/FinancialRuntimeContextAdapter';
+import { InstitutionalBusinessProfile } from '../../capabilities/runtime/institutional-identity/InstitutionalBusinessProfile';
 import { InstitutionalFinancialThesisEngine } from './InstitutionalFinancialThesisEngine';
 import { CrossStatementCausalityEngine, CrossStatementCausalityReport } from './CrossStatementCausalityEngine';
-import { CrossStatementReconciliationEngine, ReconciliationEngineParams } from './governance/cross-statement/CrossStatementReconciliationEngine';
-import { SemanticComplianceAuditRuntime } from './constitutional-governance/SemanticComplianceAuditRuntime';
-import { ConstitutionalGovernanceRuntime } from './constitutional-governance/ConstitutionalGovernanceRuntime';
+import { CrossStatementReconciliationEngine, ReconciliationEngineParams } from '../../capabilities/runtime/governance/cross-statement/CrossStatementReconciliationEngine';
+import { SemanticComplianceAuditRuntime } from '../../capabilities/runtime/constitutional-governance/SemanticComplianceAuditRuntime';
+import { ConstitutionalGovernanceRuntime } from '../../capabilities/runtime/constitutional-governance/ConstitutionalGovernanceRuntime';
 import { TemporalEvidenceFilter } from './temporal-governance/TemporalEvidenceFilter';
-import { ConstitutionalDecisionRuntime } from './decision-intelligence/ConstitutionalDecisionRuntime';
-import { ScenarioImpactRuntime } from './scenario-intelligence/ScenarioImpactRuntime';
-import { InstitutionalPrudencyLayer } from './prudency/InstitutionalPrudencyLayer';
+import { ConstitutionalDecisionRuntime } from '../../capabilities/runtime/decision-intelligence/ConstitutionalDecisionRuntime';
+import { ScenarioImpactRuntime } from '../../capabilities/runtime/scenario-intelligence/ScenarioImpactRuntime';
+import { InstitutionalPrudencyLayer } from '../../capabilities/runtime/prudency/InstitutionalPrudencyLayer';
 import { ExecutiveNarrativeOrchestrator, OrchestratedNarrative } from './ExecutiveNarrativeOrchestrator';
 import { ExecutiveNarrativeHarmonizer } from './narrative/ExecutiveNarrativeHarmonizer';
 import { ExecutivePriorityConsolidationEngine } from './ExecutivePriorityConsolidationEngine';
@@ -156,8 +156,8 @@ import {
   ConfidencePropagationContract,
   FailClosedContract,
   InstitutionalAuditabilityContract
-} from './compliance/FiduciaryContracts';
-import { RuntimeComplianceEngine } from './compliance/RuntimeComplianceEngine';
+} from '../../capabilities/financial/runtime/compliance/FiduciaryContracts';
+import { RuntimeComplianceEngine } from '../../capabilities/financial/runtime/compliance/RuntimeComplianceEngine';
 
 /**
  * INSTITUTIONAL RUNTIME ENFORCER
@@ -178,7 +178,7 @@ export interface ExecutiveIntelligenceReport extends ConsolidatedRuntimeOutputEx
   isSandbox?: boolean;
   isDemonstrative?: boolean;
   fiduciaryWarnings?: string[];
-  constitutionalDashboard?: import('./constitutional-governance/constitutional-dashboard-types').ConstitutionalGovernanceDashboardOutput;
+  constitutionalDashboard?: import('../../capabilities/runtime/constitutional-governance/constitutional-dashboard-types').ConstitutionalGovernanceDashboardOutput;
   canonicalState?: {
     status: string;
     trend: string;
@@ -230,9 +230,9 @@ export interface ExecutiveIntelligenceReport extends ConsolidatedRuntimeOutputEx
     }[];
     primaryCause?: string;
     secondaryCauses?: string[];
-    causalChains?: import('./causal-intelligence/causal-types').CausalChain[];
-    confidenceLevel?: import('./causal-intelligence/causal-types').CausalConfidence;
-    supportingEvidence?: import('./causal-intelligence/causal-types').CausalEvidence[];
+    causalChains?: import('../../capabilities/financial/runtime/causal-intelligence/causal-types').CausalChain[];
+    confidenceLevel?: import('../../capabilities/financial/runtime/causal-intelligence/causal-types').CausalConfidence;
+    supportingEvidence?: import('../../capabilities/financial/runtime/causal-intelligence/causal-types').CausalEvidence[];
     executiveNarrative?: string;
     lineageHash?: string;
   };
@@ -256,7 +256,7 @@ export interface ExecutiveIntelligenceReport extends ConsolidatedRuntimeOutputEx
     badge?: string;
     displayValue?: string;
   }[];
-  prudency?: import('./prudency/InstitutionalPrudencyLayer').PrudencyOutput;
+  prudency?: import('../../capabilities/runtime/prudency/InstitutionalPrudencyLayer').PrudencyOutput;
   propagationChains?: any[];
   fiduciaryRationale?: any;
   fiduciaryEnforcement?: any;
@@ -319,11 +319,11 @@ export interface ExecutiveIntelligenceReport extends ConsolidatedRuntimeOutputEx
   
   // Observability (Phase 4)
   runtimeMetadata?: RuntimeExecutionTrace;
-  semanticCompliance?: import('./constitutional-governance/SemanticComplianceAuditRuntime').SemanticComplianceReport;
-  constitutionalCompliance?: import('./constitutional-governance/ConstitutionalComplianceReport').ConstitutionalComplianceReport;
-  decisionIntelligence?: import('./decision-intelligence/ExecutiveDecisionReport').ExecutiveDecisionReport | { status: 'CDIL_BLOCKED_BY_CGL' };
-  scenarioIntelligence?: import('./scenario-intelligence/InstitutionalScenarioReport').InstitutionalScenarioReport[];
-  constitutionalEvaluation?: import("./constitutional-governance/constitutional-types").ConstitutionalGovernanceMetadata;
+  semanticCompliance?: import('../../capabilities/runtime/constitutional-governance/SemanticComplianceAuditRuntime').SemanticComplianceReport;
+  constitutionalCompliance?: import('../../capabilities/runtime/constitutional-governance/ConstitutionalComplianceReport').ConstitutionalComplianceReport;
+  decisionIntelligence?: import('../../capabilities/runtime/decision-intelligence/ExecutiveDecisionReport').ExecutiveDecisionReport | { status: 'CDIL_BLOCKED_BY_CGL' };
+  scenarioIntelligence?: import('../../capabilities/runtime/scenario-intelligence/InstitutionalScenarioReport').InstitutionalScenarioReport[];
+  constitutionalEvaluation?: import("../../capabilities/runtime/constitutional-governance/constitutional-types").ConstitutionalGovernanceMetadata;
   institutionalMemory?: InstitutionalMemoryProfile;
   institutionalCausality?: any;
   structuralCapital?: StructuralCapitalProfile;
@@ -337,8 +337,8 @@ export interface ExecutiveIntelligenceReport extends ConsolidatedRuntimeOutputEx
   survivalReport?: InstitutionalSurvivalOutput;
   recoveryReport?: InstitutionalRecoveryOutput;
   patrimonialIntelligenceReport?: any;
-  patrimonialStructuralRestrictions?: import('./governance/bp/PatrimonialClassificationCeilingEngine').PatrimonialClassificationCeilingOutput;
-  operatingPressureReport?: import('./operating-pressure/operating-pressure-types').InstitutionalPressureRuntimeOutput;
+  patrimonialStructuralRestrictions?: import('../../capabilities/runtime/governance/bp/PatrimonialClassificationCeilingEngine').PatrimonialClassificationCeilingOutput;
+  operatingPressureReport?: import('../../capabilities/runtime/operating-pressure/operating-pressure-types').InstitutionalPressureRuntimeOutput;
   financialThesis?: {
     thesis: string;
     tensions: string[];
@@ -348,21 +348,21 @@ export interface ExecutiveIntelligenceReport extends ConsolidatedRuntimeOutputEx
   crossStatementCausality?: CrossStatementCausalityReport;
   orchestratedNarrative?: OrchestratedNarrative;
   consistencyReport?: ConsistencyValidationResult;
-  longitudinalCashIntelligence?: import('./cash-intelligence/CashIntelligenceTypes').LongitudinalCashIntelligenceOutput;
+  longitudinalCashIntelligence?: import('../../capabilities/financial/runtime/cash-intelligence/CashIntelligenceTypes').LongitudinalCashIntelligenceOutput;
   institutionalView: InstitutionalViewContract;
-  resilienceReport?: import('./institutional-resilience/ResilienceTypes').InstitutionalResilienceOutput;
-  regressionReport?: import('./recovery-regression/RecoveryRegressionTypes').RecoveryRegressionOutput;
-  executiveCommand?: import('./executive-command/executive-command-types').InstitutionalExecutiveCommandOutput;
-  operationalGovernance?: import('./operational-governance/operational-governance-types').InstitutionalOperationalGovernanceOutput;
-  strategicIntelligence?: import('./strategic-intelligence/strategic-intelligence-types').InstitutionalStrategicIntelligenceOutput;
-  institutionalBoardPack?: import('./institutional-reporting/institutional-reporting-types').InstitutionalBoardPackOutput;
-  deploymentReadiness?: import('./deployment-readiness/DeploymentReadinessTypes').InstitutionalDeploymentReadinessOutput;
-  institutionalOnboarding?: import('./institutional-onboarding/InstitutionalOnboardingTypes').InstitutionalOnboardingOutput;
-  institutionalEvidence?: import('./evidence-ingestion/InstitutionalEvidenceTypes').InstitutionalEvidenceValidationOutput;
+  resilienceReport?: import('../../capabilities/runtime/institutional-resilience/ResilienceTypes').InstitutionalResilienceOutput;
+  regressionReport?: import('../../capabilities/runtime/recovery-regression/RecoveryRegressionTypes').RecoveryRegressionOutput;
+  executiveCommand?: import('../../workspace/runtime/executive-command/executive-command-types').InstitutionalExecutiveCommandOutput;
+  operationalGovernance?: import('../../capabilities/runtime/operational-governance/operational-governance-types').InstitutionalOperationalGovernanceOutput;
+  strategicIntelligence?: import('../../capabilities/runtime/strategic-intelligence/strategic-intelligence-types').InstitutionalStrategicIntelligenceOutput;
+  institutionalBoardPack?: import('../../capabilities/runtime/institutional-reporting/institutional-reporting-types').InstitutionalBoardPackOutput;
+  deploymentReadiness?: import('../../capabilities/runtime/deployment-readiness/DeploymentReadinessTypes').InstitutionalDeploymentReadinessOutput;
+  institutionalOnboarding?: import('../../capabilities/runtime/institutional-onboarding/InstitutionalOnboardingTypes').InstitutionalOnboardingOutput;
+  institutionalEvidence?: import('../../capabilities/runtime/evidence-ingestion/InstitutionalEvidenceTypes').InstitutionalEvidenceValidationOutput;
   inferences?: Record<string, { metrics: any; narrative?: any; confidence?: string; score?: number }>;
-  timeline?: import('./executive-timeline/executive-timeline-types').ExecutiveTimelineOutput;
+  timeline?: import('../../workspace/runtime/executive-timeline/executive-timeline-types').ExecutiveTimelineOutput;
   temporalAudit?: any;
-  fiduciaryCausality?: import('./causal-intelligence/causal-types').InstitutionalCausalityOutput;
+  fiduciaryCausality?: import('../../capabilities/financial/runtime/causal-intelligence/causal-types').InstitutionalCausalityOutput;
   featureFlags?: any;
 }
 
@@ -1861,7 +1861,7 @@ export class ExecutiveIntelligenceRuntime implements
       preservation: rawCapitalGov.diagnostics.preservation,
       capitalization: rawCapitalGov.diagnostics.capitalization,
       behavior: rawCapitalGov.diagnostics.behavior,
-      fiduciaryOutput: (rawCapitalGov.diagnostics as unknown as { fiduciaryOutput: import('./governance/dlpa/DLPAFiduciaryInterpretationEngine').DLPAFiduciaryOutput }).fiduciaryOutput,
+      fiduciaryOutput: (rawCapitalGov.diagnostics as unknown as { fiduciaryOutput: import('../../capabilities/runtime/governance/dlpa/DLPAFiduciaryInterpretationEngine').DLPAFiduciaryOutput }).fiduciaryOutput,
       executiveLayer: rawCapitalGov.executiveLayer,
       semantic: rawCapitalGov.semantic ? {
         cpiStatus: rawCapitalGov.semantic.rawCapitalStatus || 'NEUTRO',

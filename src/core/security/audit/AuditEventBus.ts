@@ -2,7 +2,7 @@ import { getSupabaseClient } from '../../../infrastructure/supabase/SupabaseClie
 import { OfficialRole, VisibilityPolicy } from '../types';
 import { ImmutableLedger } from './ImmutableLedger';
 import { AnomalyDetector } from './AnomalyDetector';
-import { DistributedAnomalyAggregator } from '../../runtime/distributed/DistributedAnomalyAggregator';
+import { DistributedAnomalyAggregator } from '../../../capabilities/runtime/distributed/DistributedAnomalyAggregator';
 
 export interface AuditEvent {
   eventId: string;

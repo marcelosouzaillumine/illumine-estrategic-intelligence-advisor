@@ -1,6 +1,6 @@
 import { SegmentCode, SegmentNarrativeTraits } from './types';
 import { SegmentIntelligenceRegistry } from './SegmentIntelligenceRegistry';
-import { CanonicalInstitutionalTaxonomyRegistry } from '../../core/runtime/coherence/CanonicalInstitutionalTaxonomyRegistry';
+import { CanonicalInstitutionalTaxonomyRegistry } from '../../../core/runtime/coherence/CanonicalInstitutionalTaxonomyRegistry';
 
 export class SegmentNarrativeAdapter {
   /**

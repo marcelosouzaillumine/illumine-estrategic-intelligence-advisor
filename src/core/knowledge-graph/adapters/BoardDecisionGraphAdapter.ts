@@ -1,4 +1,4 @@
-import { InstitutionalBoardPackOutput } from "../../runtime/institutional-reporting/institutional-reporting-types";
+import { InstitutionalBoardPackOutput } from "../../../capabilities/runtime/institutional-reporting/institutional-reporting-types";
 import { InstitutionalNodeBuilder } from "../InstitutionalNodeBuilder";
 import { InstitutionalRelationshipBuilder } from "../InstitutionalRelationshipBuilder";
 import { InstitutionalGraphRegistry } from "../InstitutionalGraphRegistry";

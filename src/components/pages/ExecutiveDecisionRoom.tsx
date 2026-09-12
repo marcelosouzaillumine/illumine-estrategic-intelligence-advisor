@@ -1,6 +1,6 @@
 import React from 'react';
 import { ExecutivePageTemplate } from '../ui/executive-page-template';
-import { DecisionRecord, DecisionStatus } from '../../../packages/intelligence/executive-intelligence-layer/src/governance/DecisionRecord';
+import { DecisionRecord, DecisionStatus } from '../../../packages/shell/executive-intelligence-layer/src/governance/DecisionRecord';
 import { DecisionContextPanel } from '../executive-architecture/DecisionContextPanel';
 import { ScenarioSimulationPanel } from '../executive-architecture/ScenarioSimulationPanel';
 import { DeliberationRecordPanel } from '../executive-architecture/DeliberationRecordPanel';

@@ -1,14 +1,14 @@
 // src/core/runtime/institutional-reporting/institutional-reporting-types.ts
 
-import { InstitutionalExecutiveCommandOutput, ExecutiveDirective } from '../../workspace/runtime/executive-command/executive-command-types';
+import { InstitutionalExecutiveCommandOutput, ExecutiveDirective } from '../../../workspace/runtime/executive-command/executive-command-types';
 import { InstitutionalOperationalGovernanceOutput } from '../operational-governance/operational-governance-types';
 import { InstitutionalStrategicIntelligenceOutput } from '../strategic-intelligence/strategic-intelligence-types';
 import { InstitutionalResilienceOutput } from '../institutional-resilience/ResilienceTypes';
 import { TreasuryIntelligenceRuntimeOutput } from '../treasury-intelligence/types';
-import { RuntimeMetadata, InstitutionalDisclosure } from '../shared/runtime-contracts';
-import { BoardPackLineageHash, RuntimeLineageHash } from '../shared/lineage-types';
+import { RuntimeMetadata, InstitutionalDisclosure } from '../../../core/runtime/shared/runtime-contracts';
+import { BoardPackLineageHash, RuntimeLineageHash } from '../../../core/runtime/shared/lineage-types';
 export type { BoardPackLineageHash, RuntimeLineageHash };
-import { RuntimeIntegrityStatus } from '../shared/runtime-constitutional-types';
+import { RuntimeIntegrityStatus } from '../../../core/runtime/shared/runtime-constitutional-types';
 import {
   ConstitutionalOverrideAttempt,
   ConstitutionalAuditRecord,
@@ -244,8 +244,8 @@ export interface InstitutionalBoardPackOutput {
   governanceIntegrityReview?: GovernanceIntegrityReviewSection;
   fiduciaryStructuralRestrictions?: FiduciaryStructuralRestrictionsSection;
   structuralLiquidityRisk?: StructuralLiquidityRiskSection;
-  timeline?: import('../executive-timeline/executive-timeline-types').ExecutiveTimelineOutput;
-  causality?: import('../causal-intelligence/causal-types').InstitutionalCausalityOutput;
+  timeline?: import('../../../workspace/runtime/executive-timeline/executive-timeline-types').ExecutiveTimelineOutput;
+  causality?: import('../../../capabilities/financial/runtime/causal-intelligence/causal-types').InstitutionalCausalityOutput;
   executiveView?: {
     contextoEmpresarial: string;
     principaisRiscos: string[];

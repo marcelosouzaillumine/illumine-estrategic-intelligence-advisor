@@ -1,18 +1,18 @@
-import { ExecutiveIntelligenceRuntime, ExecutiveIntelligenceReport } from '../../core/runtime/executive-intelligence-runtime';
+import { ExecutiveIntelligenceRuntime, ExecutiveIntelligenceReport } from '../../../../core/runtime/executive-intelligence-runtime';
 import { ConsolidatedOrchestratorInput } from './consolidated-types';
 import { MultiEntityExecutionPlanner } from './MultiEntityExecutionPlanner';
 import { EntityRuntimeExecutor } from './EntityRuntimeExecutor';
 import { ConsolidatedOutputAssembler } from './ConsolidatedOutputAssembler';
 import { IntercompanyEliminationEngine } from './IntercompanyEliminationEngine';
 import { ConsolidatedStressPropagationEngine } from './stress/ConsolidatedStressPropagationEngine';
-import { TenantGovernanceEnforcer, TenantExecutionContext, LegacyTenantContextAdapter } from '../tenancy/hardening';
-import { RuntimeTelemetryEngine } from '../telemetry/RuntimeTelemetryEngine';
-import { OrchestrationProfiler } from '../performance/OrchestrationProfiler';
-import { DAGExecutionOptimizer } from '../performance/DAGExecutionOptimizer';
-import { LazyExecutionCoordinator } from '../performance/LazyExecutionCoordinator';
-import { RuntimePerformanceMonitor } from '../performance/RuntimePerformanceMonitor';
-import { tenantScopedRuntimeCache } from '../performance/TenantScopedRuntimeCache';
-import { SovereignCacheKey } from '../performance/types';
+import { TenantGovernanceEnforcer, TenantExecutionContext, LegacyTenantContextAdapter } from '../../../../core/runtime/tenancy/hardening';
+import { RuntimeTelemetryEngine } from '../../../../core/runtime/telemetry/RuntimeTelemetryEngine';
+import { OrchestrationProfiler } from '../../../../core/runtime/performance/OrchestrationProfiler';
+import { DAGExecutionOptimizer } from '../../../../core/runtime/performance/DAGExecutionOptimizer';
+import { LazyExecutionCoordinator } from '../../../../core/runtime/performance/LazyExecutionCoordinator';
+import { RuntimePerformanceMonitor } from '../../../../core/runtime/performance/RuntimePerformanceMonitor';
+import { tenantScopedRuntimeCache } from '../../../../core/runtime/performance/TenantScopedRuntimeCache';
+import { SovereignCacheKey } from '../../../../core/runtime/performance/types';
 
 export class ConsolidatedRuntimeOrchestrator {
   private planner: MultiEntityExecutionPlanner;

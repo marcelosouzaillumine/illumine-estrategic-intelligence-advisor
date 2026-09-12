@@ -3,7 +3,7 @@ import { ExecutiveSurface } from '../../ui/executive-surface';
 import { ExecutiveBadge } from '../../ui/executive-badge';
 import { ApprovalFlowCard } from './ApprovalFlowCard';
 import { Workflow, PlayCircle, ShieldCheck, CheckSquare, Layers } from 'lucide-react';
-import { ActionRegistryEngine } from '../../../../packages/intelligence/executive-workflow-intelligence/src/ActionRegistryEngine';
+import { ActionRegistryEngine } from '../../../../packages/shell/executive-workflow-intelligence/src/ActionRegistryEngine';
 
 export interface ExecutiveWorkflowWorkspaceProps {
   readonly companyId?: string;

@@ -7,8 +7,8 @@ import { LiquidityRootCauseEngine } from './LiquidityRootCauseEngine';
 import { SurvivabilityDependencyGraph } from './SurvivabilityDependencyGraph';
 import { OperationalStressCascadeEngine } from './OperationalStressCascadeEngine';
 import { InstitutionalFragilityCorrelationEngine } from './InstitutionalFragilityCorrelationEngine';
-import { HistoricalCycleData } from '../institutional-memory/types';
-import { sha256 } from '../executive/types';
+import { HistoricalCycleData } from '../../../runtime/institutional-memory/types';
+import { sha256 } from '../../../../workspace/runtime/executive/types';
 
 export class InstitutionalCausalIntelligenceRuntime {
   public static evaluate(

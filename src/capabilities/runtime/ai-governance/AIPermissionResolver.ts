@@ -1,4 +1,4 @@
-import { TenantRole } from '../tenancy/TenancyTypes';
+import { TenantRole } from '../../../core/runtime/tenancy/TenancyTypes';
 
 export class AIPermissionResolver {
   static canAccessContext(role: TenantRole, contextType: string): boolean {

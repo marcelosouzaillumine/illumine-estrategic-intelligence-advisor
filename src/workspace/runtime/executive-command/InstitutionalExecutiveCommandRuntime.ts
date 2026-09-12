@@ -1,6 +1,6 @@
 // src/core/runtime/executive-command/InstitutionalExecutiveCommandRuntime.ts
 
-import { ExecutiveIntelligenceReport } from '../../core/runtime/executive-intelligence-runtime';
+import { ExecutiveIntelligenceReport } from '../../../core/runtime/executive-intelligence-runtime';
 import { CommandAdapter } from './command-adapter';
 import { InstitutionalDirectiveEngine } from './InstitutionalDirectiveEngine';
 import { ExecutiveDriftDetectionEngine } from './ExecutiveDriftDetectionEngine';

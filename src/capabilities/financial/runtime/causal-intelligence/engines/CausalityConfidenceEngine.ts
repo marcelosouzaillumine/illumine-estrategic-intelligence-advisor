@@ -1,7 +1,7 @@
 // src/core/runtime/causal-intelligence/engines/CausalityConfidenceEngine.ts
 
 import { CausalConfidence } from '../causal-types';
-import { HistoricalRuntimeCycle } from '../../../../workspace/runtime/executive-timeline/executive-timeline-types';
+import { HistoricalRuntimeCycle } from '../../../../../workspace/runtime/executive-timeline/executive-timeline-types';
 
 export class CausalityConfidenceEngine {
   public static determine(

@@ -18,7 +18,7 @@ import { GovernanceImpactSimulationEngine } from './GovernanceImpactSimulationEn
 import { InstitutionalSurvivabilityEngine } from '../decision-intelligence/InstitutionalSurvivabilityEngine';
 import { InstitutionalBehaviorProfileEngine } from '../behavioral-intelligence/InstitutionalBehaviorProfileEngine';
 import { GovernanceFatigueEngine } from '../behavioral-intelligence/GovernanceFatigueEngine';
-import { DecisionPolicyEngine } from '../../core/runtime/decision-policy/DecisionPolicyEngine';
+import { DecisionPolicyEngine } from '../../../core/runtime/decision-policy/DecisionPolicyEngine';
 
 export class StrategicSimulationEngine {
   /**

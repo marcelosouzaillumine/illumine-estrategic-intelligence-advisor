@@ -8,11 +8,11 @@ import {
   CognitiveSignal,
   PrioritizedAttentionItem,
   NarrativeHierarchyBlock
-} from '../../core/runtime/executive-orchestration/cognitive/types';
-import { ExecutiveSignalPriorityEngine } from '../../core/runtime/executive-orchestration/cognitive/ExecutiveSignalPriorityEngine';
-import { DecisionFatigueProtectionEngine } from '../../core/runtime/executive-orchestration/cognitive/DecisionFatigueProtectionEngine';
-import { NarrativeCompressionEngine, CompressedOutput } from '../../core/runtime/executive-orchestration/cognitive/NarrativeCompressionEngine';
-import { ExecutiveNarrativeHierarchyEngine } from '../../core/runtime/executive-orchestration/cognitive/ExecutiveNarrativeHierarchyEngine';
+} from '../../workspace/runtime/executive-orchestration/cognitive/types';
+import { ExecutiveSignalPriorityEngine } from '../../workspace/runtime/executive-orchestration/cognitive/ExecutiveSignalPriorityEngine';
+import { DecisionFatigueProtectionEngine } from '../../workspace/runtime/executive-orchestration/cognitive/DecisionFatigueProtectionEngine';
+import { NarrativeCompressionEngine, CompressedOutput } from '../../workspace/runtime/executive-orchestration/cognitive/NarrativeCompressionEngine';
+import { ExecutiveNarrativeHierarchyEngine } from '../../workspace/runtime/executive-orchestration/cognitive/ExecutiveNarrativeHierarchyEngine';
 import { ExecutiveIntelligenceReport } from '../../core/runtime/executive-intelligence-runtime';
 
 interface ExecutiveCognitiveContextType {

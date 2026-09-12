@@ -2,7 +2,7 @@ import React from 'react';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '../ui/card';
 import { ExecutiveBadge as Badge } from '../ui/executive-badge';
 import { Scale, CheckCircle2, AlertTriangle, ShieldCheck } from 'lucide-react';
-import { CognitiveGovernanceScore } from '../../../packages/intelligence/executive-cognitive-runtime/src/contracts/ExecutiveCognitiveGovernance';
+import { CognitiveGovernanceScore } from '../../../packages/shell/executive-cognitive-runtime/src/contracts/ExecutiveCognitiveGovernance';
 
 interface ExecutiveCognitiveGovernanceCardProps {
   score: CognitiveGovernanceScore;

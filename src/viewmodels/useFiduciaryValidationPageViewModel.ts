@@ -1,6 +1,6 @@
 import { useState, useEffect, useMemo } from 'react';
 import { useExecutiveCognitive } from '../context/executive-cognitive/ExecutiveCognitiveProvider';
-import { CognitiveSignal } from '../core/runtime/executive-orchestration/cognitive/types';
+import { CognitiveSignal } from '../workspace/runtime/executive-orchestration/cognitive/types';
 import {
   FiduciaryValidationProjection,
   GovernanceSeverity,

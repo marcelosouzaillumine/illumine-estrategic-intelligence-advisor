@@ -1,6 +1,6 @@
 import { describe, it, expect, beforeAll, afterAll } from 'vitest';
 import assert from 'node:assert';
-import { ExecutiveSemanticRegistry } from '../../../src/core/runtime/executive-consolidation/ExecutiveSemanticRegistry';
+import { ExecutiveSemanticRegistry } from '../../workspace/runtime/executive-consolidation/ExecutiveSemanticRegistry';
 
 describe('BP v7.18 - Semantic Matrix Isolation', () => {
   it('Should block expansion terms in CRITICAL_LIQUIDITY_STRESS', () => {

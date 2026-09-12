@@ -1,8 +1,8 @@
 // src/core/runtime/institutional-reporting/engines/InstitutionalDisclosureEngine.ts
 
-import { ExecutiveIntelligenceReport } from '../../executive-intelligence-runtime';
+import { ExecutiveIntelligenceReport } from '../../../../core/runtime/executive-intelligence-runtime';
 import { BoardPackMetadata, FiduciaryRestriction, ReportGenerationStatus } from '../institutional-reporting-types';
-import { InstitutionalDisclosure, RuntimeSeverity } from '../../shared/runtime-contracts';
+import { InstitutionalDisclosure, RuntimeSeverity } from '../../../../core/runtime/shared/runtime-contracts';
 
 export class InstitutionalDisclosureReportingEngine {
   

@@ -10,7 +10,7 @@ import { GovernanceRestrictionOverlay } from '../../../../executive-command/Gove
 import { ExecutiveDriftRadar } from '../../../../executive-command/ExecutiveDriftRadar';
 import { CommandExplainabilityDrawer } from '../../../../executive-command/CommandExplainabilityDrawer';
 
-import { InstitutionalExecutiveCommandOutput } from '../../../../../core/runtime/executive-command/executive-command-types';
+import { InstitutionalExecutiveCommandOutput } from '../../../../../workspace/runtime/executive-command/executive-command-types';
 
 export function ExecutiveCommandShowcase() {
   const { t } = useTranslation('showcases/executive-command');

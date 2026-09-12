@@ -1,7 +1,7 @@
 import { collection, doc, setDoc, getDocs, getDoc, updateDoc } from 'firebase/firestore';
-import { db } from '../../../../lib/firebase';
+import { db } from '../../../../../lib/firebase';
 import { v4 as generateId } from 'uuid'; // Assuming this exists or I'll use standard id generation
-import { blockedFirestoreWrite } from '../../../../lib/blockedFirestoreWrite';
+import { blockedFirestoreWrite } from '../../../../../lib/blockedFirestoreWrite';
 
 export interface EconomicGroupModel {
   id: string;

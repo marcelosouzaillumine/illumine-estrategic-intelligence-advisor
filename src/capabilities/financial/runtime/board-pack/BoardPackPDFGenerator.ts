@@ -1,7 +1,7 @@
 // src/core/runtime/board-pack/BoardPackPDFGenerator.ts
 
 import { jsPDF } from 'jspdf';
-import { BoardPack, BoardPackSlide } from '../esgim/esgimTypes';
+import { BoardPack, BoardPackSlide } from '../../../runtime/esgim/esgimTypes';
 
 export class BoardPackPDFGenerator {
   /**

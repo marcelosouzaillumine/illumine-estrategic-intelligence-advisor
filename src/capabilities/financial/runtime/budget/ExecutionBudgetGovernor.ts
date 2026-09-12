@@ -1,4 +1,4 @@
-import { ScenarioExecutionBudget } from '../profiling/ProfilingTypes';
+import { ScenarioExecutionBudget } from '../../../../core/runtime/profiling/ProfilingTypes';
 
 const DEFAULT_BUDGET: ScenarioExecutionBudget = {
   maxScenarios: 50,

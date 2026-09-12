@@ -6,8 +6,8 @@ import {
   StrategicExecutionAlignment
 } from './operational-governance-types';
 import { OperationalEvaluationContext } from './operational-governance-adapter';
-import { ExplainabilityOutput } from '../shared/runtime-contracts';
-import { ExplainabilityLevel } from '../shared/runtime-constitutional-types';
+import { ExplainabilityOutput } from '../../../core/runtime/shared/runtime-contracts';
+import { ExplainabilityLevel } from '../../../core/runtime/shared/runtime-constitutional-types';
 
 export class OperationalGovernanceExplainabilityEngine {
   static evaluate(

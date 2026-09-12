@@ -1,7 +1,7 @@
 // src/core/runtime/board-pack/BoardPackPPTXGenerator.ts
 
 import pptxgen from 'pptxgenjs';
-import { BoardPack, BoardPackSlide } from '../esgim/esgimTypes';
+import { BoardPack, BoardPackSlide } from '../../../runtime/esgim/esgimTypes';
 
 export class BoardPackPPTXGenerator {
   /**

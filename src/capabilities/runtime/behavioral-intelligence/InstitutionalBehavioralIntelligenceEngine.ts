@@ -4,7 +4,7 @@
 // Coordinates the evaluation of long-term corporate identity, consistency, fatigue, and drift.
 
 import { ExecutiveDecision } from '../decision-intelligence/decision-types';
-import { DecisionPolicyProfile } from '../../core/runtime/decision-policy/policy-types';
+import { DecisionPolicyProfile } from '../../../core/runtime/decision-policy/policy-types';
 import {
   BehavioralAssessmentResult,
   BehavioralScores,

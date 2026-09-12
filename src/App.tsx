@@ -128,8 +128,8 @@ import { ExecutiveAppShell } from './components/executive-workspace/shell/Execut
 import { ExperienceRouter } from './navigation/ExperienceRouter';
 import { InstitutionalMemoryProvider, useInstitutionalMemory } from './context/institutional-memory/InstitutionalMemoryProvider';
 import { ExecutiveCopilotPanel } from './components/executive-copilot/ExecutiveCopilotPanel';
-import { useExecutiveUIStore } from '../packages/intelligence/executive-copilot/src/store/ExecutiveUIStore';
-import { useExecutiveConversationStore } from '../packages/intelligence/executive-copilot/src/store/ExecutiveConversationStore';
+import { useExecutiveUIStore } from '../packages/shell/executive-copilot/src/store/ExecutiveUIStore';
+import { useExecutiveConversationStore } from '../packages/shell/executive-copilot/src/store/ExecutiveConversationStore';
 import { RevenueRoutes } from './features/revenue/routes/revenue.routes';
 import { ClientWorkspaceRoutes } from './features/revenue/routes/clientWorkspace.routes';
 

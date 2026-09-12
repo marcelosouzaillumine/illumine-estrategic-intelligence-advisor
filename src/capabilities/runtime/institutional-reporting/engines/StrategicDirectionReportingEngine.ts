@@ -1,6 +1,6 @@
 // src/core/runtime/institutional-reporting/engines/StrategicDirectionReportingEngine.ts
 
-import { ExecutiveIntelligenceReport } from '../../executive-intelligence-runtime';
+import { ExecutiveIntelligenceReport } from '../../../../core/runtime/executive-intelligence-runtime';
 import { StrategicDirectionSection } from '../institutional-reporting-types';
 
 export class StrategicDirectionReportingEngine {

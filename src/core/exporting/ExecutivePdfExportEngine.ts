@@ -2,7 +2,7 @@ import { jsPDF } from 'jspdf';
 import { ExecutiveIntelligenceReport } from '../runtime/executive-intelligence-runtime';
 import { CalibrationEngine } from '../runtime/calibration/CalibrationEngine';
 import { ExportSnapshotMetadata } from './ExportTypes';
-import { RuntimeComplianceEngine } from '../runtime/compliance/RuntimeComplianceEngine';
+import { RuntimeComplianceEngine } from '../../capabilities/financial/runtime/compliance/RuntimeComplianceEngine';
 import { ExportMetadataAdapter } from './export-metadata-adapter';
 
 export interface PdfExportOutput {

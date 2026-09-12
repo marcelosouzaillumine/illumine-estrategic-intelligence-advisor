@@ -1,7 +1,7 @@
 // src/core/runtime/operational-governance/operational-governance-types.ts
 
-import { RuntimeOutputBase } from '../shared/runtime-contracts';
-import { GovernanceLineageHash } from '../shared/lineage-types';
+import { RuntimeOutputBase } from '../../../core/runtime/shared/runtime-contracts';
+import { GovernanceLineageHash } from '../../../core/runtime/shared/lineage-types';
 
 export type ExecutionCapabilityConfidence = 'HIGH' | 'MEDIUM' | 'LOW' | 'UNVERIFIABLE';
 

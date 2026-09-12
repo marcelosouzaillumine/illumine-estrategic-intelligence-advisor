@@ -1,7 +1,7 @@
 import { db } from '../../../lib/firebase';
 import { collection, doc, addDoc, getDocs, updateDoc, query, where, limit, runTransaction } from 'firebase/firestore';
-import { DataAccessContext } from '../../security/data-access-context';
-import { AuditEventBus } from '../../security/audit/AuditEventBus';
+import { DataAccessContext } from '../../../core/security/data-access-context';
+import { AuditEventBus } from '../../../core/security/audit/AuditEventBus';
 import { RuntimePressureMonitor } from './RuntimePressureMonitor';
 import { blockedFirestoreWrite } from '../../../lib/blockedFirestoreWrite';
 

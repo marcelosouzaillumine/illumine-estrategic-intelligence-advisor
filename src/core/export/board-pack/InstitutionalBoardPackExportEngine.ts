@@ -1,6 +1,6 @@
 // src/core/export/board-pack/InstitutionalBoardPackExportEngine.ts
 
-import { InstitutionalBoardPackOutput } from '../../runtime/institutional-reporting/institutional-reporting-types';
+import { InstitutionalBoardPackOutput } from '../../../capabilities/runtime/institutional-reporting/institutional-reporting-types';
 
 export class InstitutionalBoardPackExportEngine {
   

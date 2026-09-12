@@ -8,18 +8,18 @@ import {
   RecommendedDecisionEntry, 
   ESGIMScenario, 
   ESGIMMode 
-} from '../esgim/esgimTypes';
-import { esgimAssessmentEngine } from '../esgim/ESGIMAssessmentEngine';
-import { institutionalResilienceIndexEngine } from '../esgim/InstitutionalResilienceIndexEngine';
+} from '../../../runtime/esgim/esgimTypes';
+import { esgimAssessmentEngine } from '../../../runtime/esgim/ESGIMAssessmentEngine';
+import { institutionalResilienceIndexEngine } from '../../../runtime/esgim/InstitutionalResilienceIndexEngine';
 import { boardPrioritiesEngine } from '../board/BoardPrioritiesEngine';
-import { governanceRoadmapEngine } from '../roadmap/GovernanceRoadmapEngine';
-import { governanceMonitoringEngine } from '../monitoring/GovernanceMonitoringEngine';
-import { executiveBoardReportEngine } from '../reports/ExecutiveBoardReportEngine';
-import { decisionRegistryEngine } from '../execution/DecisionRegistryEngine';
-import { governanceKnowledgeEngine } from '../knowledge/GovernanceKnowledgeEngine';
-import { benchmarkAdvisoryEngine } from '../benchmark/BenchmarkAdvisoryEngine';
-import { governanceLearningEngine } from '../learning/GovernanceLearningEngine';
-import { governanceJourneyEngine } from '../journey/GovernanceJourneyEngine';
+import { governanceRoadmapEngine } from '../../../../core/runtime/roadmap/GovernanceRoadmapEngine';
+import { governanceMonitoringEngine } from '../../../../core/runtime/monitoring/GovernanceMonitoringEngine';
+import { executiveBoardReportEngine } from '../../../../core/runtime/reports/ExecutiveBoardReportEngine';
+import { decisionRegistryEngine } from '../../../runtime/execution/DecisionRegistryEngine';
+import { governanceKnowledgeEngine } from '../../../../core/runtime/knowledge/GovernanceKnowledgeEngine';
+import { benchmarkAdvisoryEngine } from '../../../../core/runtime/benchmark/BenchmarkAdvisoryEngine';
+import { governanceLearningEngine } from '../../../../core/runtime/learning/GovernanceLearningEngine';
+import { governanceJourneyEngine } from '../../../../workspace/runtime/journey/GovernanceJourneyEngine';
 
 export class BoardPackGeneratorEngine {
   private static instance: BoardPackGeneratorEngine;

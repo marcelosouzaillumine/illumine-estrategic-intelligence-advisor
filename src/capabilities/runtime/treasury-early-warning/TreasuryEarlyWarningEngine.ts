@@ -1,4 +1,4 @@
-import { TreasuryEarlyWarningOutput, TreasuryEarlyWarningAlert } from '../../capabilities/financial/runtime/cash-intelligence/CashIntelligenceTypes';
+import { TreasuryEarlyWarningOutput, TreasuryEarlyWarningAlert } from '../../../capabilities/financial/runtime/cash-intelligence/CashIntelligenceTypes';
 
 export class TreasuryEarlyWarningEngine {
   public static evaluate(

@@ -1,5 +1,5 @@
 import { DeploymentReadinessInput, InstitutionalDeploymentReadinessOutput } from './DeploymentReadinessTypes';
-import { LineageHash } from '../shared/lineage-types';
+import { LineageHash } from '../../../core/runtime/shared/lineage-types';
 import { EnvironmentIntegrityValidationEngine } from './EnvironmentIntegrityValidationEngine';
 import { InstitutionalPilotGovernanceEngine } from './InstitutionalPilotGovernanceEngine';
 import { RuntimeOperationalAssuranceEngine } from './RuntimeOperationalAssuranceEngine';
@@ -99,7 +99,7 @@ export class InstitutionalDeploymentReadinessEngine {
         cycleReference: 'CURRENT'
       },
       lineage: {
-        lineageHash: input.lineageHash as unknown as import('../shared/lineage-types').LineageHash,
+        lineageHash: input.lineageHash as unknown as import('../../../core/runtime/shared/lineage-types').LineageHash,
         parentHashes: []
       },
       disclosures: blockedDeploymentReasons.map((reason, idx) => ({

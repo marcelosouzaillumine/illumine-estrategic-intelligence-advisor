@@ -1,6 +1,6 @@
 import { test, expect, beforeAll, afterAll } from 'vitest';
 import assert from 'node:assert';
-import { BalanceSheetDecisionPolicyLayer } from '../../core/runtime/executive-consolidation/BalanceSheetDecisionPolicyLayer';
+import { BalanceSheetDecisionPolicyLayer } from '../../workspace/runtime/executive-consolidation/BalanceSheetDecisionPolicyLayer';
 
 test('BalanceSheet Scenario is Output, not Input: Scenarios are derived dynamically', () => {
   const facts = {

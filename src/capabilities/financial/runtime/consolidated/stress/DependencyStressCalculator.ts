@@ -1,5 +1,5 @@
 import { ContagionEdge } from './stress-types';
-import { ExecutiveIntelligenceReport } from '../../../../core/runtime/executive-intelligence-runtime';
+import { ExecutiveIntelligenceReport } from '../../../../../core/runtime/executive-intelligence-runtime';
 
 /**
  * Calcula se a entidade alvo (Target) tem resiliência para absorver o impacto.

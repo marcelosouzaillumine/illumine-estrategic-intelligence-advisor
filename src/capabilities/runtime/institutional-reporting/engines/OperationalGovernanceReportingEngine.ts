@@ -1,6 +1,6 @@
 // src/core/runtime/institutional-reporting/engines/OperationalGovernanceReportingEngine.ts
 
-import { ExecutiveIntelligenceReport } from '../../executive-intelligence-runtime';
+import { ExecutiveIntelligenceReport } from '../../../../core/runtime/executive-intelligence-runtime';
 import { OperationalGovernanceSection } from '../institutional-reporting-types';
 
 export class OperationalGovernanceReportingEngine {

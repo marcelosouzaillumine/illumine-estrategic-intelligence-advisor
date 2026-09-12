@@ -6,7 +6,7 @@
 import { db } from '../../../lib/firebase';
 import { collection, addDoc, getDocs, query, where } from 'firebase/firestore';
 import { ExecutiveDecision } from './decision-types';
-import { AuditEventBus } from '../../security/audit/AuditEventBus';
+import { AuditEventBus } from '../../../core/security/audit/AuditEventBus';
 import { blockedFirestoreWrite } from '../../../lib/blockedFirestoreWrite';
 
 export class InstitutionalDecisionLedger {

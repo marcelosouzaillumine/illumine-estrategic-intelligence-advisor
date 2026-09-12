@@ -1,6 +1,6 @@
 import { ContagionEdge } from './stress-types';
 import { DependencyStressCalculator } from './DependencyStressCalculator';
-import { ExecutiveIntelligenceReport } from '../../../../core/runtime/executive-intelligence-runtime';
+import { ExecutiveIntelligenceReport } from '../../../../../core/runtime/executive-intelligence-runtime';
 
 export class InstitutionalContagionResolver {
   private calculator: DependencyStressCalculator;

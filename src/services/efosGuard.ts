@@ -3,12 +3,12 @@
 // Centralized guard utilities for EFOS page to avoid direct runtime imports.
 // Re-export the needed functions/classes from their original locations.
 
-import { sanitize, translate } from '../core/runtime/executive-consolidation/ExecutiveSemanticBoundaryGuard';
-import { audit } from '../core/runtime/executive-consolidation/ExecutiveSemanticAudit';
-import { ExecutiveSemanticRegistry } from '../core/runtime/presentation-governance/ExecutiveSemanticRegistry';
+import { sanitize, translate } from '../workspace/runtime/executive-consolidation/ExecutiveSemanticBoundaryGuard';
+import { audit } from '../workspace/runtime/executive-consolidation/ExecutiveSemanticAudit';
+import { ExecutiveSemanticRegistry } from '../workspace/runtime/presentation-governance/ExecutiveSemanticRegistry';
 
-export { isDebugAllowed } from '../core/runtime/executive-consolidation/ProductionVisibilityPolicy';
-export { ExecutivePresentationRegistry } from '../core/runtime/presentation-governance/ExecutivePresentationRegistry';
+export { isDebugAllowed } from '../workspace/runtime/executive-consolidation/ProductionVisibilityPolicy';
+export { ExecutivePresentationRegistry } from '../workspace/runtime/presentation-governance/ExecutivePresentationRegistry';
 export { sanitize, translate, audit };
 export const languageSanitize = sanitize;
 

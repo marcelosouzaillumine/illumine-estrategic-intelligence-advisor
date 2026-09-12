@@ -1,6 +1,6 @@
 // src/core/runtime/institutional-reporting/engines/TreasuryPressureReportingEngine.ts
 
-import { ExecutiveIntelligenceReport } from '../../executive-intelligence-runtime';
+import { ExecutiveIntelligenceReport } from '../../../../core/runtime/executive-intelligence-runtime';
 import { TreasurySection } from '../institutional-reporting-types';
 
 export class TreasuryPressureReportingEngine {

@@ -1,4 +1,4 @@
-import { SegmentIntelligenceProfile } from "../institutional-context/SegmentIntelligenceTypes";
+import { SegmentIntelligenceProfile } from "../../../runtime/institutional-context/SegmentIntelligenceTypes";
 import { 
   BlockedConclusion, 
   AllowedConclusion, 

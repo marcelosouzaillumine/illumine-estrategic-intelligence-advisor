@@ -1,4 +1,4 @@
-import { DataAccessContext } from '../../security/data-access-context';
+import { DataAccessContext } from '../../../core/security/data-access-context';
 
 export type RuntimePartitionType =
   | 'Advisory Runtime'

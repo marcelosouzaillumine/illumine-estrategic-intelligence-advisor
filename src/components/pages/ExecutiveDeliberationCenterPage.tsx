@@ -1,8 +1,8 @@
 import React from 'react';
 import { ExecutivePageTemplate } from '../ui/executive-page-template';
 import { ExecutiveDashboardRenderer } from '../ui/ExecutiveDashboardRenderer';
-import { DashboardStateBuilder } from '../../../packages/intelligence/executive-intelligence-layer/src/presentation/DashboardStateBuilder';
-import { InstitutionalDecisionOS } from '../../../packages/intelligence/executive-intelligence-layer/src/orchestration/InstitutionalDecisionOS';
+import { DashboardStateBuilder } from '../../../packages/shell/executive-intelligence-layer/src/presentation/DashboardStateBuilder';
+import { InstitutionalDecisionOS } from '../../../packages/shell/executive-intelligence-layer/src/orchestration/InstitutionalDecisionOS';
 
 export function ExecutiveDeliberationCenterPage() {
   

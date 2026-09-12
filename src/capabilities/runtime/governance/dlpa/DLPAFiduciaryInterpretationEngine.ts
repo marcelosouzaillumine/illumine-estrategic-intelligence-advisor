@@ -3,12 +3,12 @@
 // Ref: Governance Runtime Correction — DLPA Fiduciary Interpretation Refactor
 // Main orchestrator for DLPA Fiduciary Interpretation.
 
-import { FinancialRuntimeContext } from '../../financial-context/FinancialRuntimeContextTypes';
+import { FinancialRuntimeContext } from '../../../../capabilities/financial/runtime/financial-context/FinancialRuntimeContextTypes';
 import { DistributionEligibilityEngine, DistributionEligibilityResult } from './DistributionEligibilityEngine';
 import { PatrimonialIntegrityEngine, PatrimonialIntegrityReport, CapitalPreservationStatus } from './PatrimonialIntegrityEngine';
 import { CapitalRetentionClassificationEngine, CapitalRetentionClassification } from './CapitalRetentionClassificationEngine';
 import { DLPAHistoricalConsistencyEngine, HistoricalCycleMetrics } from './DLPAHistoricalConsistencyEngine';
-import { LifecycleConsistencyValidator } from '../../lifecycle/LifecycleConsistencyValidator';
+import { LifecycleConsistencyValidator } from '../../../../workspace/runtime/lifecycle/LifecycleConsistencyValidator';
 
 
 export interface DLPAFiduciaryOutput {

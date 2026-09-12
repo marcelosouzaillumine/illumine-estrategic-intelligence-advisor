@@ -1,6 +1,6 @@
 import { collection, doc, setDoc, getDocs, query, where, deleteDoc } from 'firebase/firestore';
-import { db } from '../../../../lib/firebase';
-import { blockedFirestoreWrite } from '../../../../lib/blockedFirestoreWrite';
+import { db } from '../../../../../lib/firebase';
+import { blockedFirestoreWrite } from '../../../../../lib/blockedFirestoreWrite';
 
 export interface IntercompanyRelationModel {
   id: string;

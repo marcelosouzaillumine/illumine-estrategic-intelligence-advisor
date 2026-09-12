@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { useStrategicSimulatorPageAdapter } from '../adapters/ui/useStrategicSimulatorPageAdapter.ts';
-import { InstitutionalDecisionOS } from '../../packages/intelligence/executive-intelligence-layer/src/orchestration/InstitutionalDecisionOS';
-import { DashboardStateBuilder } from '../../packages/intelligence/executive-intelligence-layer/src/presentation/DashboardStateBuilder';
+import { InstitutionalDecisionOS } from '../../packages/shell/executive-intelligence-layer/src/orchestration/InstitutionalDecisionOS';
+import { DashboardStateBuilder } from '../../packages/shell/executive-intelligence-layer/src/presentation/DashboardStateBuilder';
 
 export function useStrategicSimulatorPageViewModel({ clientId }: any) {
   const { simulatorData, loading } = useStrategicSimulatorPageAdapter(clientId);

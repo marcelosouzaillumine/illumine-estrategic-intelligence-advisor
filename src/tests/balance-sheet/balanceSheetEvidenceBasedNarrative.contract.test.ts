@@ -1,7 +1,7 @@
 import { describe, it, expect, beforeAll, afterAll } from 'vitest';
 import assert from 'node:assert';
-import { BalanceSheetExecutiveViewModelBuilder } from '../../../src/core/runtime/executive-consolidation/BalanceSheetExecutiveViewModelBuilder';
-import { BalanceSheetExecutiveFactsBuilder } from '../../../src/core/runtime/executive-consolidation/BalanceSheetExecutiveFactsBuilder';
+import { BalanceSheetExecutiveViewModelBuilder } from '../../workspace/runtime/executive-consolidation/BalanceSheetExecutiveViewModelBuilder';
+import { BalanceSheetExecutiveFactsBuilder } from '../../workspace/runtime/executive-consolidation/BalanceSheetExecutiveFactsBuilder';
 
 describe('BP v7.18 - Evidence Based Narratives', () => {
   it('Should inject quantitative metrics into opinion when available', () => {

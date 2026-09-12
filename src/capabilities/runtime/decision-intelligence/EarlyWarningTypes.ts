@@ -1,5 +1,5 @@
 import { InstitutionalStabilityIndexOutput } from './InstitutionalStabilityTypes';
-import { LongitudinalCashIntelligenceOutput, CashIntelligenceRuntimeOutput } from '../../capabilities/financial/runtime/cash-intelligence/CashIntelligenceTypes';
+import { LongitudinalCashIntelligenceOutput, CashIntelligenceRuntimeOutput } from '../../financial/runtime/cash-intelligence/CashIntelligenceTypes';
 import { FiduciaryTimelineSection } from '../institutional-reporting/institutional-reporting-types';
 import { DecisionMemoryOutput } from './InstitutionalDecisionTypes';
 import { DecisionToCashCausalityOutput } from './DecisionToCashCausalityTypes';

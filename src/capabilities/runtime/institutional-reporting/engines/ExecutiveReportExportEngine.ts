@@ -1,6 +1,6 @@
 // src/core/runtime/institutional-reporting/engines/ExecutiveReportExportEngine.ts
 
-import { ExecutiveIntelligenceReport } from '../../executive-intelligence-runtime';
+import { ExecutiveIntelligenceReport } from '../../../../core/runtime/executive-intelligence-runtime';
 import { ReportVariant } from '../institutional-reporting-types';
 import { InstitutionalBoardPackDocumentRuntime, InstitutionalBoardPackDocumentOutput } from '../InstitutionalBoardPackDocumentRuntime';
 

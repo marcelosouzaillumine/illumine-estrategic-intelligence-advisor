@@ -1,7 +1,7 @@
 // src/core/runtime/ExecutiveNarrativeOrchestrator.ts
 import { InstitutionalFinancialThesisProfile } from './InstitutionalFinancialThesisEngine';
-import { GlobalFiduciaryDistributionEnforcementEngine } from './governance/fiduciary-enforcement/GlobalFiduciaryDistributionEnforcementEngine';
-import { SurvivalConstraintPropagationEngine } from './institutional-survival/SurvivalConstraintPropagationEngine';
+import { GlobalFiduciaryDistributionEnforcementEngine } from '../../capabilities/runtime/governance/fiduciary-enforcement/GlobalFiduciaryDistributionEnforcementEngine';
+import { SurvivalConstraintPropagationEngine } from '../../capabilities/runtime/institutional-survival/SurvivalConstraintPropagationEngine';
 
 export interface OrchestratedNarrative {
   title: string;

@@ -1,6 +1,6 @@
 // src/core/runtime/board-meeting/MeetingMinutesEngine.ts
 
-import { BoardMeeting, MeetingMinutes, BoardResolution } from '../esgim/esgimTypes';
+import { BoardMeeting, MeetingMinutes, BoardResolution } from '../../../runtime/esgim/esgimTypes';
 
 export class MeetingMinutesEngine {
   private static instance: MeetingMinutesEngine;

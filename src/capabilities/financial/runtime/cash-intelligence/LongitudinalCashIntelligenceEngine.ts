@@ -1,5 +1,5 @@
 import { CashIntelligenceRuntimeOutput, LongitudinalCashIntelligenceOutput, LongitudinalTrajectory } from './CashIntelligenceTypes';
-import { FiduciaryTimelineSection } from '../institutional-reporting/institutional-reporting-types';
+import { FiduciaryTimelineSection } from '../../../runtime/institutional-reporting/institutional-reporting-types';
 
 export class LongitudinalCashIntelligenceEngine {
   public static evaluate(cycles: CashIntelligenceRuntimeOutput[]): {

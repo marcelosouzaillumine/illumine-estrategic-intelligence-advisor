@@ -5,8 +5,8 @@ import {
   GovernanceRoadmapPhase, 
   ESGIMMode, 
   ESGIMScenario 
-} from '../esgim/esgimTypes';
-import { boardPrioritiesEngine } from '../board/BoardPrioritiesEngine';
+} from '../../../capabilities/runtime/esgim/esgimTypes';
+import { boardPrioritiesEngine } from '../../../capabilities/financial/runtime/board/BoardPrioritiesEngine';
 import { governanceKnowledgeEngine } from '../knowledge/GovernanceKnowledgeEngine';
 
 export class GovernanceRoadmapEngine {

@@ -3,7 +3,7 @@ import { ExecutiveIntelligenceReport } from '../runtime/executive-intelligence-r
 import { CalibrationEngine } from '../runtime/calibration/CalibrationEngine';
 import { ExportSnapshotMetadata } from './ExportTypes';
 import { formatValue } from '../../lib/utils';
-import { RuntimeComplianceEngine } from '../runtime/compliance/RuntimeComplianceEngine';
+import { RuntimeComplianceEngine } from '../../capabilities/financial/runtime/compliance/RuntimeComplianceEngine';
 import { ExportMetadataAdapter } from './export-metadata-adapter';
 
 export interface BoardPackExportOutput {

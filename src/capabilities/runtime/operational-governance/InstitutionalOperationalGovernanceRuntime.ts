@@ -1,6 +1,6 @@
 // src/core/runtime/operational-governance/InstitutionalOperationalGovernanceRuntime.ts
 
-import { ExecutiveIntelligenceReport } from '../../core/runtime/executive-intelligence-runtime';
+import { ExecutiveIntelligenceReport } from '../../../core/runtime/executive-intelligence-runtime';
 import { OperationalGovernanceAdapter } from './operational-governance-adapter';
 import { ExecutionIntegrityEngine } from './ExecutionIntegrityEngine';
 import { OperationalStabilityGuard } from './OperationalStabilityGuard';
@@ -47,7 +47,7 @@ export class InstitutionalOperationalGovernanceRuntime {
         cycleReference: (context as unknown as { cycleReference?: string }).cycleReference || 'UNKNOWN'
       },
       lineage: {
-        lineageHash: context.lineageHash as unknown as import('../shared/lineage-types').LineageHash,
+        lineageHash: context.lineageHash as unknown as import('../../../core/runtime/shared/lineage-types').LineageHash,
         parentHashes: []
       },
       disclosures: [],

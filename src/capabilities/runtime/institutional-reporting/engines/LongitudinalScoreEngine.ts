@@ -1,4 +1,4 @@
-import { LongitudinalTrajectory } from '../../cash-intelligence/CashIntelligenceTypes';
+import { LongitudinalTrajectory } from '../../../../capabilities/financial/runtime/cash-intelligence/CashIntelligenceTypes';
 
 export class LongitudinalScoreEngine {
   /**

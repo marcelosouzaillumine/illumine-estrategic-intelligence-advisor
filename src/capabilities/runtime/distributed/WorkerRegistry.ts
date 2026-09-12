@@ -1,6 +1,6 @@
 import { AsyncJob, AsyncJobQueue } from './AsyncJobQueue';
 import { RuntimePartitionManager, RuntimePartitionType } from './RuntimePartitionManager';
-import { DataAccessContext } from '../../security/data-access-context';
+import { DataAccessContext } from '../../../core/security/data-access-context';
 import { getErrorMessage } from '../../../types/runtime/RuntimeErrorGuards';
 
 export type WorkerStatus = 'IDLE' | 'BUSY' | 'STOPPED';

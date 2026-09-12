@@ -1,6 +1,6 @@
 // src/core/runtime/institutional-reporting/engines/ContinuityReportingEngine.ts
 
-import { ExecutiveIntelligenceReport } from '../../executive-intelligence-runtime';
+import { ExecutiveIntelligenceReport } from '../../../../core/runtime/executive-intelligence-runtime';
 import { ContinuitySection } from '../institutional-reporting-types';
 
 export class ContinuityReportingEngine {

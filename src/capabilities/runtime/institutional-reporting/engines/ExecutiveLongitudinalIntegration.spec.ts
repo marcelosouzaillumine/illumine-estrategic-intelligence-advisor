@@ -4,8 +4,8 @@ import * as assert from 'node:assert/strict';
 import { LongitudinalScoreEngine } from './LongitudinalScoreEngine';
 import { FiduciaryTimelineEngine } from './FiduciaryTimelineEngine';
 import { ExecutiveSnapshotEngine } from './ExecutiveSnapshotEngine';
-import { CashIntelligenceRuntimeOutput } from '../../cash-intelligence/CashIntelligenceTypes';
-import { ExecutiveIntelligenceReport } from '../../executive-intelligence-runtime';
+import { CashIntelligenceRuntimeOutput } from '../../../../capabilities/financial/runtime/cash-intelligence/CashIntelligenceTypes';
+import { ExecutiveIntelligenceReport } from '../../../../core/runtime/executive-intelligence-runtime';
 import { ExecutiveReportNarrativeOrchestrator } from '../ExecutiveReportNarrativeOrchestrator';
 
 const createMockHistoricalOutput = (

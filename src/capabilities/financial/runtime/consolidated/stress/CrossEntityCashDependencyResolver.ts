@@ -1,6 +1,6 @@
 import { EntityInputPayload } from '../consolidated-types';
 import { ContagionEdge } from './stress-types';
-import { ExecutiveIntelligenceReport } from '../../../../core/runtime/executive-intelligence-runtime';
+import { ExecutiveIntelligenceReport } from '../../../../../core/runtime/executive-intelligence-runtime';
 
 export class CrossEntityCashDependencyResolver {
   

@@ -1,4 +1,4 @@
-import { ExecutiveIntelligenceReport } from '../../executive-intelligence-runtime';
+import { ExecutiveIntelligenceReport } from '../../../../core/runtime/executive-intelligence-runtime';
 import { NarrativeHierarchyBlock } from './types';
 
 export class ExecutiveNarrativeHierarchyEngine {

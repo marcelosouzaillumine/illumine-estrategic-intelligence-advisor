@@ -4,8 +4,8 @@
 // Ref: docs/implementation_plan.md
 
 import { ExecutiveDecision, DecisionSeverity, SurvivabilityScores } from './decision-types';
-import { PolicyContext } from '../../core/runtime/decision-policy/policy-types';
-import { ContextualSeverityEngine } from '../../core/runtime/decision-policy/ContextualSeverityEngine';
+import { PolicyContext } from '../../../core/runtime/decision-policy/policy-types';
+import { ContextualSeverityEngine } from '../../../core/runtime/decision-policy/ContextualSeverityEngine';
 
 export class DecisionComplianceEngine {
   /**

@@ -2,7 +2,7 @@ import { EntityInputPayload, EliminatedValueRecord, UnreconciledIntercompany } f
 import { ContagionEdge } from './stress-types';
 import { SharedLiabilityStressEngine } from './SharedLiabilityStressEngine';
 import { CrossEntityCashDependencyResolver } from './CrossEntityCashDependencyResolver';
-import { ExecutiveIntelligenceReport } from '../../../../core/runtime/executive-intelligence-runtime';
+import { ExecutiveIntelligenceReport } from '../../../../../core/runtime/executive-intelligence-runtime';
 
 /**
  * Mapeia as conexões matemáticas/estruturais entre as entidades.

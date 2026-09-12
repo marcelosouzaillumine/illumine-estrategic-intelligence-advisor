@@ -32,10 +32,10 @@ import { RunwayClassificationEngine } from './RunwayClassificationEngine';
 // Roadmap v1.0 Imports
 import { CashFlowCausalIntelligenceEngine } from '../cash-causal-intelligence/CashFlowCausalIntelligenceEngine';
 import { CashFlowScenarioEngine } from '../cash-scenario-intelligence/CashFlowScenarioEngine';
-import { TreasuryEarlyWarningEngine } from '../treasury-early-warning/TreasuryEarlyWarningEngine';
-import { TreasurySustainabilityEngine } from '../treasury-sustainability/TreasurySustainabilityEngine';
+import { TreasuryEarlyWarningEngine } from '../../../runtime/treasury-early-warning/TreasuryEarlyWarningEngine';
+import { TreasurySustainabilityEngine } from '../../../runtime/treasury-sustainability/TreasurySustainabilityEngine';
 
-import { ExecutiveAnalysisContext } from '../executive-consolidation/StrategicOpinionConsistencyEngine';
+import { ExecutiveAnalysisContext } from '../../../../workspace/runtime/executive-consolidation/StrategicOpinionConsistencyEngine';
 
 export class FiduciaryCashIntelligenceRuntime {
   /**

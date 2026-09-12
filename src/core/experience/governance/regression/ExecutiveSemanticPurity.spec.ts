@@ -1,6 +1,6 @@
 import { describe, it, expect } from 'vitest';
 import { FinancialPositionProduct } from '../../../experience/products/FinancialPositionProduct';
-import { BalanceSheetExecutiveViewModelBuilder } from '../../../runtime/executive-consolidation/BalanceSheetExecutiveViewModelBuilder';
+import { BalanceSheetExecutiveViewModelBuilder } from '../../../../workspace/runtime/executive-consolidation/BalanceSheetExecutiveViewModelBuilder';
 
 // Mock context for generation
 const mockContext = {

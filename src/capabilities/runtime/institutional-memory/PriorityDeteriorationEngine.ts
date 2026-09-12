@@ -1,5 +1,5 @@
 // src/core/runtime/institutional-memory/PriorityDeteriorationEngine.ts
-import { CausalityPropagationLink } from '../CrossStatementCausalityEngine';
+import { CausalityPropagationLink } from '../../../core/runtime/CrossStatementCausalityEngine';
 
 export interface StructuralRisk {
   id: string;

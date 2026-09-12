@@ -4,7 +4,7 @@
 // Tracks and projects the longitudinal trajectory of executive actions and scores.
 
 import { ExecutiveDecision } from '../decision-intelligence/decision-types';
-import { DecisionPolicyProfile } from '../../core/runtime/decision-policy/policy-types';
+import { DecisionPolicyProfile } from '../../../core/runtime/decision-policy/policy-types';
 import { BehaviorProfile } from './behavioral-types';
 import { InstitutionalBehaviorProfileEngine } from './InstitutionalBehaviorProfileEngine';
 

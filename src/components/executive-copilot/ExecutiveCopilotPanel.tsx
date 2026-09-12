@@ -1,27 +1,27 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { X, Send, Sparkles, MessageSquare, Lightbulb, Zap, FileText } from 'lucide-react';
-import { useExecutiveUIStore } from '../../../packages/intelligence/executive-copilot/src/store/ExecutiveUIStore';
-import { useExecutiveConversationStore } from '../../../packages/intelligence/executive-copilot/src/store/ExecutiveConversationStore';
-import { useExecutiveKnowledgeStore } from '../../../packages/intelligence/executive-copilot/src/store/ExecutiveKnowledgeStore';
+import { useExecutiveUIStore } from '../../../packages/shell/executive-copilot/src/store/ExecutiveUIStore';
+import { useExecutiveConversationStore } from '../../../packages/shell/executive-copilot/src/store/ExecutiveConversationStore';
+import { useExecutiveKnowledgeStore } from '../../../packages/shell/executive-copilot/src/store/ExecutiveKnowledgeStore';
 import { useGovernance } from '../../lib/governanceContext';
 
-import { ExecutiveIdentityContext } from '../../../packages/intelligence/executive-identity-context/src/ExecutiveIdentityContext';
-import { ExecutiveRelationshipEngine } from '../../../packages/intelligence/executive-relationship-intelligence/src/ExecutiveRelationshipEngine';
-import { SessionEvent } from '../../../packages/intelligence/executive-relationship-intelligence/src/ExecutiveSessionIntelligence';
+import { ExecutiveIdentityContext } from '../../../packages/shell/executive-identity-context/src/ExecutiveIdentityContext';
+import { ExecutiveRelationshipEngine } from '../../../packages/shell/executive-relationship-intelligence/src/ExecutiveRelationshipEngine';
+import { SessionEvent } from '../../../packages/shell/executive-relationship-intelligence/src/ExecutiveSessionIntelligence';
 import { ExecutiveNarrativeRenderer } from '../../../packages/ui/executive-narrative-renderer/src';
 
 // New Architecture Imports
-import { ExecutiveIntelligencePipeline } from '../../../packages/intelligence/executive-advisor-runtime/src/ExecutiveIntelligencePipeline';
-import { ExecutiveAdvisorRuntimeContext } from '../../../packages/intelligence/executive-advisor-runtime/src/ExecutiveAdvisorRuntimeContext';
-import { WorkspaceAdvisoryEngine } from '../../../packages/intelligence/executive-advisor-runtime/src/WorkspaceAdvisoryEngine';
-import { ExecutiveIntelligenceRenderingEngine } from '../../../packages/intelligence/executive-rendering-engine/src/ExecutiveIntelligenceRenderingEngine';
+import { ExecutiveIntelligencePipeline } from '../../../packages/shell/executive-advisor-runtime/src/ExecutiveIntelligencePipeline';
+import { ExecutiveAdvisorRuntimeContext } from '../../../packages/shell/executive-advisor-runtime/src/ExecutiveAdvisorRuntimeContext';
+import { WorkspaceAdvisoryEngine } from '../../../packages/shell/executive-advisor-runtime/src/WorkspaceAdvisoryEngine';
+import { ExecutiveIntelligenceRenderingEngine } from '../../../packages/shell/executive-rendering-engine/src/ExecutiveIntelligenceRenderingEngine';
 import { ExecutiveLearningCard } from './ExecutiveLearningCard';
 import { ExecutivePatternCard } from './ExecutivePatternCard';
 import { ExecutiveDecisionHistoryCard } from './ExecutiveDecisionHistoryCard';
 import { ExecutiveCognitiveGovernanceCard } from './ExecutiveCognitiveGovernanceCard';
 import { ExecutiveDecisionTimeline } from './ExecutiveDecisionTimeline';
-import { ExecutiveWorkspaceOrchestrator, ExecutiveWorkspaceSnapshot } from '../../../packages/intelligence/executive-workspace-orchestrator/src';
+import { ExecutiveWorkspaceOrchestrator, ExecutiveWorkspaceSnapshot } from '../../../packages/shell/executive-workspace-orchestrator/src';
 import { AdvisoryContextService } from '../../services/advisory-context.service';
 
 import { BRAND } from "../../config/brand";

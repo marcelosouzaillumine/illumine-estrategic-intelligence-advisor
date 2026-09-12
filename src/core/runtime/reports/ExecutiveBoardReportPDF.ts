@@ -1,7 +1,7 @@
 // src/core/runtime/reports/ExecutiveBoardReportPDF.ts
 
 import { jsPDF } from 'jspdf';
-import { ExecutiveBoardReport } from '../esgim/esgimTypes';
+import { ExecutiveBoardReport } from '../../../capabilities/runtime/esgim/esgimTypes';
 
 export class ExecutiveBoardReportPDF {
   /**

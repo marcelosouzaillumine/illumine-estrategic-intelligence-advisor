@@ -3,7 +3,7 @@ import { ExecutiveSurface } from '../../ui/executive-surface';
 import { ExecutiveBadge } from '../../ui/executive-badge';
 import { CapabilityMapCard } from './CapabilityMapCard';
 import { Network, ShieldCheck, Route, Clock, Lock, BrainCircuit } from 'lucide-react';
-import { IntelligenceNetworkOrchestrationEngine } from '../../../../packages/intelligence/intelligence-network/src/IntelligenceNetworkOrchestrationEngine';
+import { IntelligenceNetworkOrchestrationEngine } from '../../../../packages/shell/intelligence-network/src/IntelligenceNetworkOrchestrationEngine';
 
 export interface ExecutiveIntelligenceCommandCenterProps {
   readonly companyId?: string;

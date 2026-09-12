@@ -1,4 +1,4 @@
-import { ExecutiveEvidencePackage, NarrativeBlock, ExecutionPlanItem, RiskItem } from '../../packages/intelligence/executive-intelligence-layer/src/contracts/ExecutiveEvidencePackage';
+import { ExecutiveEvidencePackage, NarrativeBlock, ExecutionPlanItem, RiskItem } from '../../packages/shell/executive-intelligence-layer/src/contracts/ExecutiveEvidencePackage';
 
 export interface ExecutiveBriefViewModel {
   header: {

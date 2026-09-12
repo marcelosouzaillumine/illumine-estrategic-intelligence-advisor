@@ -11,8 +11,8 @@ export interface AdvisoryPayload extends CompressedAdvisory {
   lineageHash: string;
 }
 
-import { LineageService } from '../lineage/LineageService';
-import { RuntimeLineageGuard } from '../executive-consolidation/RuntimeLineageGuard';
+import { LineageService } from '../../../../core/runtime/lineage/LineageService';
+import { RuntimeLineageGuard } from '../../../../workspace/runtime/executive-consolidation/RuntimeLineageGuard';
 export class CashExecutiveAdvisoryEngine {
   /**
    * Sintetiza o Advisory em formato executivo comprimido (max 600 caracteres)

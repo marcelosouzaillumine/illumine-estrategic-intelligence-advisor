@@ -1,4 +1,4 @@
-import { InstitutionalTerminologyRegistry } from '../i18n/InstitutionalTerminologyRegistry';
+import { InstitutionalTerminologyRegistry } from '../../capabilities/financial/i18n/InstitutionalTerminologyRegistry';
 
 export class InstitutionalLocaleGuard {
   /**

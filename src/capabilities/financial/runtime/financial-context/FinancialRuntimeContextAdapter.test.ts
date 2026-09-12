@@ -1,8 +1,8 @@
 import { test, describe } from "node:test";
 import assert from "node:assert";
 import { FinancialRuntimeContextAdapter } from "./FinancialRuntimeContextAdapter";
-import { InstitutionalBusinessProfile } from "../institutional-identity/InstitutionalBusinessProfile";
-import { SegmentIntelligenceProfile } from "../institutional-context/SegmentIntelligenceTypes";
+import { InstitutionalBusinessProfile } from "../../../runtime/institutional-identity/InstitutionalBusinessProfile";
+import { SegmentIntelligenceProfile } from "../../../runtime/institutional-context/SegmentIntelligenceTypes";
 import * as guards from "./FinancialRuntimeContextGuards";
 
 describe("FinancialRuntimeContextAdapter", () => {

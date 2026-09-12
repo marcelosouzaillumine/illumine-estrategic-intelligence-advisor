@@ -1,6 +1,6 @@
 import { useState, useCallback } from 'react';
 import { FiduciaryRuntimeAdapter } from '../../services/FiduciaryRuntimeAdapter';
-import type { RecommendationEvidence } from '../../capabilities/runtime/governance-orchestration/GovernanceOrchestrationTypes';
+import type { RecommendationEvidence } from '../../workspace/runtime/governance-orchestration/GovernanceOrchestrationTypes';
 
 export function useGovernanceOrchestration(tenantId: string) {
   const [, setTick] = useState(0);

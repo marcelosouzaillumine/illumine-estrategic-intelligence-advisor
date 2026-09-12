@@ -1,7 +1,7 @@
 import { ImportedDataset, StagingValidationWarning } from './IntegrationGovernanceTypes';
 import { ACTIVE_STAGING_POLICY, TRANSACTIONAL_STAGING_POLICY, StagingValidationPolicy } from './StagingValidationPolicy';
-import { CalibrationEngine } from '../../core/runtime/calibration/CalibrationEngine';
-import { NON_SUPPRESSIBLE_WARNINGS } from '../../core/runtime/calibration/CalibrationTypes';
+import { CalibrationEngine } from '../../../core/runtime/calibration/CalibrationEngine';
+import { NON_SUPPRESSIBLE_WARNINGS } from '../../../core/runtime/calibration/CalibrationTypes';
 
 export class StagingValidationEngine {
   static validateDataset(dataset: ImportedDataset): void {

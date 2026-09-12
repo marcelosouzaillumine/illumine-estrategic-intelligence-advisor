@@ -4,7 +4,7 @@
 // Compiles the 10 context dimensions into a signed EvidencePackage.
 
 import { EvidencePackage } from './audit-types';
-import { sha256 } from '../executive/types';
+import { sha256 } from '../../../workspace/runtime/executive/types';
 
 export class FiduciaryEvidenceEngine {
   /**

@@ -1,6 +1,6 @@
 // src/core/runtime/scenario-intelligence/ScenarioTradeoffEngine.ts
 import { InstitutionalScenarioResult } from './scenario-types';
-import { ScenarioTradeoffProfile, ScenarioTradeoffEdge } from '../../capabilities/financial/runtime/board-decision/board-decision-types';
+import { ScenarioTradeoffProfile, ScenarioTradeoffEdge } from '../../../capabilities/financial/runtime/board-decision/board-decision-types';
 
 export class ScenarioTradeoffEngine {
   /**

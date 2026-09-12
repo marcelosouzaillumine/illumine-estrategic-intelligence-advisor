@@ -1,6 +1,6 @@
 // src/core/runtime/operational-governance/operational-governance-adapter.ts
 
-import { ExecutiveIntelligenceReport } from '../../core/runtime/executive-intelligence-runtime';
+import { ExecutiveIntelligenceReport } from '../../../core/runtime/executive-intelligence-runtime';
 
 /**
  * Extrates the necessary context from the consolidated EFOS report

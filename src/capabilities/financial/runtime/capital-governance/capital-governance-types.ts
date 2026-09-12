@@ -86,7 +86,7 @@ export interface CapitalGovernanceDiagnostics {
   behavior: GovernanceCapitalBehaviorMetrics | null;
 }
 
-import { DLPAFiduciaryOutput } from '../governance/dlpa/DLPAFiduciaryInterpretationEngine';
+import { DLPAFiduciaryOutput } from '../../../runtime/governance/dlpa/DLPAFiduciaryInterpretationEngine';
 
 export interface ConsolidatedCapitalGovernanceReport {
   isAvailable: boolean;

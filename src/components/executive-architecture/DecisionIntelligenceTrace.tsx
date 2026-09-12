@@ -3,7 +3,7 @@ import { ExecutiveSurface } from '../ui/executive-surface';
 import { ExecutiveHeading } from '../ui/executive-heading';
 import { ExecutiveText } from '../ui/executive-typography';
 import { Waypoints, ArrowDown } from 'lucide-react';
-import { FinancialEvidenceContract } from '../../../packages/intelligence/executive-intelligence-layer/src/contracts/FinancialEvidenceContract';
+import { FinancialEvidenceContract } from '../../../packages/shell/executive-intelligence-layer/src/contracts/FinancialEvidenceContract';
 
 interface DecisionIntelligenceTraceProps {
   decision: string;

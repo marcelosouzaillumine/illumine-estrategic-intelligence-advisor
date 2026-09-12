@@ -1,6 +1,6 @@
 import { describe, it, expect, beforeAll, afterAll } from 'vitest';
 import assert from 'node:assert';
-import { FinancialAnalyticsBuilder } from '../../core/runtime/executive-consolidation/builders/FinancialAnalyticsBuilder';
+import { FinancialAnalyticsBuilder } from '../../workspace/runtime/executive-consolidation/builders/FinancialAnalyticsBuilder';
 
 describe('BalanceSheetVerticalAnalysisIntegrity', () => {
   it('Should ensure Ativo Total is the base for Vertical Analysis, and never render > 100%', () => {

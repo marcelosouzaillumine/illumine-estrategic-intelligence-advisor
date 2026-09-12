@@ -1,7 +1,7 @@
 // src/core/runtime/ExecutivePriorityConsolidationEngine.ts
 import { InstitutionalFinancialThesisProfile } from './InstitutionalFinancialThesisEngine';
 import { CausalityPropagationLink } from './CrossStatementCausalityEngine';
-import { GlobalFiduciaryDistributionEnforcementEngine } from './governance/fiduciary-enforcement/GlobalFiduciaryDistributionEnforcementEngine';
+import { GlobalFiduciaryDistributionEnforcementEngine } from '../../capabilities/runtime/governance/fiduciary-enforcement/GlobalFiduciaryDistributionEnforcementEngine';
 
 export interface ExecutiveAction {
   id: string;

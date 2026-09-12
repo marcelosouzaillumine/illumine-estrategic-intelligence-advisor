@@ -1,4 +1,4 @@
-import { useExecutiveUIStore } from '../../packages/intelligence/executive-copilot/src/store/ExecutiveUIStore';
+import { useExecutiveUIStore } from '../../packages/shell/executive-copilot/src/store/ExecutiveUIStore';
 
 export class AdvisoryLaunchService {
   /**

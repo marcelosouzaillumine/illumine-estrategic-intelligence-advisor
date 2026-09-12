@@ -9,10 +9,10 @@ import {
   EscalationTopology,
   MultiTenantSupervision,
   SupervisionActionType
-} from '../../capabilities/runtime/governance-command-center/types';
-import { GovernanceIncidentOrchestrator } from '../../capabilities/runtime/governance-command-center/GovernanceIncidentOrchestrator';
-import { ExecutiveSupervisionEngine } from '../../capabilities/runtime/governance-command-center/ExecutiveSupervisionEngine';
-import { RuntimeHealthMonitoringEngine } from '../../capabilities/runtime/governance-command-center/RuntimeHealthMonitoringEngine';
+} from '../../workspace/runtime/governance-command-center/types';
+import { GovernanceIncidentOrchestrator } from '../../workspace/runtime/governance-command-center/GovernanceIncidentOrchestrator';
+import { ExecutiveSupervisionEngine } from '../../workspace/runtime/governance-command-center/ExecutiveSupervisionEngine';
+import { RuntimeHealthMonitoringEngine } from '../../workspace/runtime/governance-command-center/RuntimeHealthMonitoringEngine';
 
 interface CommandCenterContextType {
   activeIncidents: Array<{ incident: GovernanceIncident; currentStatus: GovernanceIncidentStatus; isCollapsed: boolean }>;

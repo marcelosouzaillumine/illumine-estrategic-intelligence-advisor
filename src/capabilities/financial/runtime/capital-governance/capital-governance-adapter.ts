@@ -35,33 +35,33 @@ import { mapReportToBoardDeckInput } from '../../../../lib/board-deck-mapper';
 import { buildBoardDeck } from '../../../../lib/board-deck-engine';
 import type { BoardDeck } from '../../../../lib/board-deck-types';
 
-import type { InstitutionalReportPackage } from "../../../lib/institutional-reporting-types";
-import { mapReportToInstitutionalReportingInput } from "../../../lib/institutional-reporting-mapper";
-import { buildInstitutionalReportPackage } from "../../../lib/institutional-reporting-engine";
+import type { InstitutionalReportPackage } from "../../../../lib/institutional-reporting-types";
+import { mapReportToInstitutionalReportingInput } from "../../../../lib/institutional-reporting-mapper";
+import { buildInstitutionalReportPackage } from "../../../../lib/institutional-reporting-engine";
 
-import { mapReportToGovernanceMemoryInput } from "../../../lib/governance-memory-mapper";
-import { buildGovernanceMemory } from "../../../lib/governance-memory-engine";
-import type { GovernanceMemory } from "../../../lib/governance-memory-types";
+import { mapReportToGovernanceMemoryInput } from "../../../../lib/governance-memory-mapper";
+import { buildGovernanceMemory } from "../../../../lib/governance-memory-engine";
+import type { GovernanceMemory } from "../../../../lib/governance-memory-types";
 
-import { mapReportToGovernanceIntelligenceInput } from "../../../lib/governance-intelligence-network-mapper";
-import { buildGovernanceIntelligenceNetwork } from "../../../lib/governance-intelligence-network-engine";
-import type { GovernanceIntelligenceNetwork } from "../../../lib/governance-intelligence-network-types";
+import { mapReportToGovernanceIntelligenceInput } from "../../../../lib/governance-intelligence-network-mapper";
+import { buildGovernanceIntelligenceNetwork } from "../../../../lib/governance-intelligence-network-engine";
+import type { GovernanceIntelligenceNetwork } from "../../../../lib/governance-intelligence-network-types";
 
-import { mapReportToGovernanceDigitalTwinInput } from "../../../lib/governance-digital-twin-mapper";
-import { buildGovernanceDigitalTwin } from "../../../lib/governance-digital-twin-engine";
-import type { GovernanceDigitalTwin } from "../../../lib/governance-digital-twin-types";
+import { mapReportToGovernanceDigitalTwinInput } from "../../../../lib/governance-digital-twin-mapper";
+import { buildGovernanceDigitalTwin } from "../../../../lib/governance-digital-twin-engine";
+import type { GovernanceDigitalTwin } from "../../../../lib/governance-digital-twin-types";
 
-import { mapReportToESGIntelligenceInput } from "../../../lib/esg-intelligence-mapper";
-import { buildESGIntelligence } from "../../../lib/esg-intelligence-engine";
-import type { ESGIntelligence } from "../../../lib/esg-intelligence-types";
+import { mapReportToESGIntelligenceInput } from "../../../../lib/esg-intelligence-mapper";
+import { buildESGIntelligence } from "../../../../lib/esg-intelligence-engine";
+import type { ESGIntelligence } from "../../../../lib/esg-intelligence-types";
 
-import { mapReportToValuationIntelligenceInput } from "../../../lib/valuation-intelligence-mapper";
-import { buildValuationIntelligence } from "../../../lib/valuation-intelligence-engine";
-import type { ValuationIntelligence } from "../../../lib/valuation-intelligence-types";
+import { mapReportToValuationIntelligenceInput } from "../../../../lib/valuation-intelligence-mapper";
+import { buildValuationIntelligence } from "../../../../lib/valuation-intelligence-engine";
+import type { ValuationIntelligence } from "../../../../lib/valuation-intelligence-types";
 
-import { mapReportToBenchmarkIntelligenceInput } from "../../../lib/benchmark-intelligence-mapper";
-import { buildBenchmarkIntelligence } from "../../../lib/benchmark-intelligence-engine";
-import type { BenchmarkIntelligence } from "../../../lib/benchmark-intelligence-types";
+import { mapReportToBenchmarkIntelligenceInput } from "../../../../lib/benchmark-intelligence-mapper";
+import { buildBenchmarkIntelligence } from "../../../../lib/benchmark-intelligence-engine";
+import type { BenchmarkIntelligence } from "../../../../lib/benchmark-intelligence-types";
 
 import { mapReportToSectorIntelligenceInput } from '../../../../lib/sector-intelligence-mapper';
 import { buildSectorIntelligence } from '../../../../lib/sector-intelligence-engine';
@@ -75,37 +75,37 @@ import { mapReportToExecutiveSovereigntyInput } from '../../../../lib/executive-
 import { buildExecutiveSovereigntyProfile } from '../../../../lib/executive-sovereignty-engine';
 import type { ExecutiveSovereigntyProfile } from '../../../../lib/executive-sovereignty-types';
 
-import { DLPAFiduciaryInterpretationEngine, DLPAFiduciaryOutput } from '../governance/dlpa/DLPAFiduciaryInterpretationEngine';
+import { DLPAFiduciaryInterpretationEngine, DLPAFiduciaryOutput } from '../../../runtime/governance/dlpa/DLPAFiduciaryInterpretationEngine';
 import { FinancialRuntimeContext } from '../financial-context/FinancialRuntimeContextTypes';
 import { FinancialRuntimeContextAdapter } from '../financial-context/FinancialRuntimeContextAdapter';
-import { InstitutionalBusinessProfile } from '../institutional-identity/InstitutionalBusinessProfile';
+import { InstitutionalBusinessProfile } from '../../../runtime/institutional-identity/InstitutionalBusinessProfile';
 import { buildGovernanceScore } from '../../../../runtime/adapters/CapitalGovernanceAdapter';
-import { LifecycleFallbackReasons, LifecycleFallbackReason } from '../lifecycle/LifecycleFallbackReasons';
-import { LifecyclePropagationAudit } from '../lifecycle/LifecyclePropagationAudit';
+import { LifecycleFallbackReasons, LifecycleFallbackReason } from '../../../../workspace/runtime/lifecycle/LifecycleFallbackReasons';
+import { LifecyclePropagationAudit } from '../../../../workspace/runtime/lifecycle/LifecyclePropagationAudit';
 import { CapitalGovernanceSemanticEngine } from '../../../../runtime/governance/capital/CapitalGovernanceSemanticEngine';
 
-import { DLPAMetricsEngine } from '../governance/dlpa/DLPAMetricsEngine';
-import { DLPACapitalConsumptionEngine } from '../governance/dlpa/DLPACapitalConsumptionEngine';
-import { DLPAShareholderCapitalDependencyEngine } from '../governance/dlpa/DLPAShareholderCapitalDependencyEngine';
-import { DLPAEquityFormationQualityEngine } from '../governance/dlpa/DLPAEquityFormationQualityEngine';
-import { DLPADistributionCapacityEngine } from '../governance/dlpa/DLPADistributionCapacityEngine';
-import { DLPARetentionEngine } from '../governance/dlpa/DLPARetentionEngine';
-import { DLPAGovernanceInterpretationEngine } from '../governance/dlpa/DLPAGovernanceInterpretationEngine';
-import { DLPABoardDecisionSupportEngine } from '../governance/dlpa/DLPABoardDecisionSupportEngine';
-import { DLPABoardAdvisoryEngine } from '../governance/dlpa/DLPABoardAdvisoryEngine';
-import { CapitalRecoveryEngine } from '../governance/dlpa/CapitalRecoveryEngine';
-import { CapitalErosionRiskEngine } from '../governance/dlpa/CapitalErosionRiskEngine';
-import { CapitalPreservationStatusEngine } from '../governance/dlpa/CapitalPreservationStatusEngine';
-import { ShareholderDependencyNarrativeEngine } from '../governance/dlpa/ShareholderDependencyNarrativeEngine';
-import { CapitalRecoveryRequirementEngine } from '../governance/dlpa/CapitalRecoveryRequirementEngine';
-import { PatrimonialRecoveryHorizonEngine } from '../governance/dlpa/PatrimonialRecoveryHorizonEngine';
-import { CapitalRecoverabilityEngine } from '../governance/dlpa/CapitalRecoverabilityEngine';
-import { CapitalPreservationScoreEngine } from '../governance/dlpa/CapitalPreservationScoreEngine';
-import { TemporalEvidenceFilter } from '../temporal-governance/TemporalEvidenceFilter';
-import { TemporalFiduciaryIntegrityEngine } from '../temporal-governance/TemporalFiduciaryIntegrityEngine';
-import { DLPAGovernanceRadarEngine } from '../governance/dlpa/DLPAGovernanceRadarEngine';
-import { DLPAConsistencyAuditEngine } from '../governance/dlpa/DLPAConsistencyAuditEngine';
-import { DLPALegacyPayloadAudit } from '../governance/dlpa/DLPALegacyPayloadAudit';
+import { DLPAMetricsEngine } from '../../../runtime/governance/dlpa/DLPAMetricsEngine';
+import { DLPACapitalConsumptionEngine } from '../../../runtime/governance/dlpa/DLPACapitalConsumptionEngine';
+import { DLPAShareholderCapitalDependencyEngine } from '../../../runtime/governance/dlpa/DLPAShareholderCapitalDependencyEngine';
+import { DLPAEquityFormationQualityEngine } from '../../../runtime/governance/dlpa/DLPAEquityFormationQualityEngine';
+import { DLPADistributionCapacityEngine } from '../../../runtime/governance/dlpa/DLPADistributionCapacityEngine';
+import { DLPARetentionEngine } from '../../../runtime/governance/dlpa/DLPARetentionEngine';
+import { DLPAGovernanceInterpretationEngine } from '../../../runtime/governance/dlpa/DLPAGovernanceInterpretationEngine';
+import { DLPABoardDecisionSupportEngine } from '../../../runtime/governance/dlpa/DLPABoardDecisionSupportEngine';
+import { DLPABoardAdvisoryEngine } from '../../../runtime/governance/dlpa/DLPABoardAdvisoryEngine';
+import { CapitalRecoveryEngine } from '../../../runtime/governance/dlpa/CapitalRecoveryEngine';
+import { CapitalErosionRiskEngine } from '../../../runtime/governance/dlpa/CapitalErosionRiskEngine';
+import { CapitalPreservationStatusEngine } from '../../../runtime/governance/dlpa/CapitalPreservationStatusEngine';
+import { ShareholderDependencyNarrativeEngine } from '../../../runtime/governance/dlpa/ShareholderDependencyNarrativeEngine';
+import { CapitalRecoveryRequirementEngine } from '../../../runtime/governance/dlpa/CapitalRecoveryRequirementEngine';
+import { PatrimonialRecoveryHorizonEngine } from '../../../runtime/governance/dlpa/PatrimonialRecoveryHorizonEngine';
+import { CapitalRecoverabilityEngine } from '../../../runtime/governance/dlpa/CapitalRecoverabilityEngine';
+import { CapitalPreservationScoreEngine } from '../../../runtime/governance/dlpa/CapitalPreservationScoreEngine';
+import { TemporalEvidenceFilter } from '../../../../core/runtime/temporal-governance/TemporalEvidenceFilter';
+import { TemporalFiduciaryIntegrityEngine } from '../../../../core/runtime/temporal-governance/TemporalFiduciaryIntegrityEngine';
+import { DLPAGovernanceRadarEngine } from '../../../runtime/governance/dlpa/DLPAGovernanceRadarEngine';
+import { DLPAConsistencyAuditEngine } from '../../../runtime/governance/dlpa/DLPAConsistencyAuditEngine';
+import { DLPALegacyPayloadAudit } from '../../../runtime/governance/dlpa/DLPALegacyPayloadAudit';
 
 export interface HistoricalCycleMetrics {
   year: number;

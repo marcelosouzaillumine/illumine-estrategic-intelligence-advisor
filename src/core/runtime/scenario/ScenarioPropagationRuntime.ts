@@ -1,4 +1,4 @@
-import { ConsolidatedFinancialInput } from '../consolidated/types';
+import { ConsolidatedFinancialInput } from '../../../capabilities/financial/runtime/consolidated/types';
 import { GovernanceViolationRecord } from '../observability/observability-types';
 import { InstitutionalStressResult, ScenarioPropagationResult, ProjectedConfidence } from './ScenarioTypes';
 import { PredictiveStressEngine } from './PredictiveStressEngine';

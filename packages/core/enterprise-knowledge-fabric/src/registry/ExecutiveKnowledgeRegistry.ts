@@ -4,7 +4,7 @@ import {
   MetricKnowledge,
   CapabilityKnowledge,
   ActionKnowledge
-} from '../../../executive-copilot/src/store/ExecutiveKnowledgeStore';
+} from '../../../../shell/executive-copilot/src/store/ExecutiveKnowledgeStore';
 
 export class ExecutiveKnowledgeRegistry {
   

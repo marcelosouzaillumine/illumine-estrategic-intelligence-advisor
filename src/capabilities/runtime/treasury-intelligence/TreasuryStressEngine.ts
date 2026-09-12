@@ -1,7 +1,7 @@
 // src/core/runtime/treasury-intelligence/TreasuryStressEngine.ts
 
 import { TreasuryStressOutput } from './types';
-import { RuntimeSeverity } from '../shared/runtime-contracts';
+import { RuntimeSeverity } from '../../../core/runtime/shared/runtime-contracts';
 
 export interface StressSimulationInput {
   availableCash: number;

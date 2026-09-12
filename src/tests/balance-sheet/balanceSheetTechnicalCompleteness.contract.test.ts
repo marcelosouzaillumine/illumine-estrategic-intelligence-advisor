@@ -1,6 +1,6 @@
 import { describe, it, expect, beforeAll, afterAll } from 'vitest';
 import assert from 'node:assert';
-import { BalanceSheetExecutiveFactsBuilder } from '../../core/runtime/executive-consolidation/BalanceSheetExecutiveFactsBuilder';
+import { BalanceSheetExecutiveFactsBuilder } from '../../workspace/runtime/executive-consolidation/BalanceSheetExecutiveFactsBuilder';
 
 describe('BalanceSheetTechnicalCompleteness Contract', () => {
   it('should derive liquidityReal and equityQuality when primary indicators are missing but accounting data exists', () => {

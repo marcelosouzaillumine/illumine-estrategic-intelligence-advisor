@@ -1,5 +1,5 @@
 import React from 'react';
-import { ExecutiveDashboardState, KPIView, PriorityView, ScenarioView, NarrativeViewBlock } from '../../../packages/intelligence/executive-intelligence-layer/src/presentation/ExecutiveDashboardState';
+import { ExecutiveDashboardState, KPIView, PriorityView, ScenarioView, NarrativeViewBlock } from '../../../packages/shell/executive-intelligence-layer/src/presentation/ExecutiveDashboardState';
 import { ExecutiveSurface } from './executive-surface';
 import { ExecutiveHeading } from './executive-heading';
 import { ExecutiveText } from './executive-typography';

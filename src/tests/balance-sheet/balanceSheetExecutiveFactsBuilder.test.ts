@@ -1,6 +1,6 @@
 import { test, describe, expect, beforeAll, afterAll } from 'vitest';
 import assert from 'node:assert';
-import { BalanceSheetExecutiveFactsBuilder } from '../../core/runtime/executive-consolidation/BalanceSheetExecutiveFactsBuilder';
+import { BalanceSheetExecutiveFactsBuilder } from '../../workspace/runtime/executive-consolidation/BalanceSheetExecutiveFactsBuilder';
 
 describe('BalanceSheetExecutiveFactsBuilder', () => {
   test('must extract strict quantitative values for Granatum 2025', () => {

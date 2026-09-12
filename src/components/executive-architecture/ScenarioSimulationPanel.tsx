@@ -4,7 +4,7 @@ import { ExecutiveHeading } from '../ui/executive-heading';
 import { ExecutiveText } from '../ui/executive-typography';
 import { GitBranch, ArrowUpCircle, ArrowDownCircle, MinusCircle, CheckCircle2 } from 'lucide-react';
 import { cn } from '../../lib/utils';
-import { StrategicScenario } from '../../../packages/intelligence/executive-intelligence-layer/src/governance/DecisionRecord';
+import { StrategicScenario } from '../../../packages/shell/executive-intelligence-layer/src/governance/DecisionRecord';
 
 interface ScenarioSimulationPanelProps {
   scenarios: StrategicScenario[];

@@ -1,9 +1,9 @@
-import { InstitutionalBusinessProfile } from "../institutional-identity/InstitutionalBusinessProfile";
+import { InstitutionalBusinessProfile } from "../../../runtime/institutional-identity/InstitutionalBusinessProfile";
 import { 
   SegmentIntelligenceProfile, 
   DownstreamRuntimeRestrictions,
   SegmentIntelligenceAuditEntry
-} from "../institutional-context/SegmentIntelligenceTypes";
+} from "../../../runtime/institutional-context/SegmentIntelligenceTypes";
 
 export type ConclusionPermissionLevel = 
   | "FULL_ALLOWED"
@@ -47,8 +47,8 @@ export interface FinancialRuntimeContext {
     passedPropagationIntegrityCheck: boolean;
     failClosedTriggered: boolean;
   };
-  lifecycle?: import('../lifecycle/LifecycleContextBuilder').LifecycleContext;
-  lifecycleProfile?: import('../lifecycle/LifecycleSemanticAuthority').SemanticLifecycleProfile;
+  lifecycle?: import('../../../../workspace/runtime/lifecycle/LifecycleContextBuilder').LifecycleContext;
+  lifecycleProfile?: import('../../../../workspace/runtime/lifecycle/LifecycleSemanticAuthority').SemanticLifecycleProfile;
   runtimeAudit?: {
     lifecycleProfilePresent: boolean;
     lifecycleStage: string;

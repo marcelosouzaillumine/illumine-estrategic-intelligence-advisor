@@ -1,6 +1,6 @@
 import { BPSummary } from '../../../../lib/bpEngine';
 import { PatrimonialIndicator } from './BalanceSheetFinancialMetricsEngine';
-import { sanitize, translate } from '../../executive-consolidation/ExecutiveSemanticBoundaryGuard';
+import { sanitize, translate } from '../../../../workspace/runtime/executive-consolidation/ExecutiveSemanticBoundaryGuard';
 
 export class BalanceSheetPatrimonialIntelligenceEngine {
   constructor(...args: any[]) {}

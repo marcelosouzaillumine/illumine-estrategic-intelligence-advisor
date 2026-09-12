@@ -1,5 +1,5 @@
 // src/core/runtime/board-decision/board-decision-types.ts
-import { InstitutionalScenarioResult } from '../scenario-intelligence/scenario-types';
+import { InstitutionalScenarioResult } from '../../../runtime/scenario-intelligence/scenario-types';
 
 export type ResolutionStatus = 'DRAFT' | 'APPROVED' | 'REJECTED' | 'SUPERSEDED';
 export type DecisionImpactScale = 'LOCAL' | 'STRUCTURAL' | 'SYSTEMIC';
