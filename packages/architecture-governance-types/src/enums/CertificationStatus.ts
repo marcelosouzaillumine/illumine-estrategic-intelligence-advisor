@@ -1,8 +1,0 @@
-export enum CertificationStatus {
-  CERTIFIED = 'CERTIFIED',
-  PENDING = 'PENDING',
-  BETA = 'BETA',
-  NOT_CERTIFIED = 'NOT_CERTIFIED',
-  APPROVED = 'APPROVED',
-  BLOCKED = 'BLOCKED'
-}

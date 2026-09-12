@@ -1,4 +1,0 @@
-name: Architecture Governance Interaction Capability
-description: Capability responsável pela superfície de observabilidade do Architecture Governance Center. Consome read-models estritos.
-version: 1.0.0
-owner: AGC Team
