@@ -1,6 +1,6 @@
 import { describe, it } from 'node:test';
 import assert from 'node:assert/strict';
-import { ConsolidatedRuntimeOrchestrator } from '../src/core/runtime/consolidated/ConsolidatedRuntimeOrchestrator';
+import { ConsolidatedRuntimeOrchestrator } from '../src/capabilities/financial/runtime/consolidated/ConsolidatedRuntimeOrchestrator';
 import { topologyStressFixture } from './topology-stress.fixture';
 
 describe('Phase 4: Consolidated Stress Propagation Engine', () => {

@@ -19,7 +19,7 @@ function runAudit() {
   }
 
   // Check 4: DFC Runtime must reconcile EBITDA, WC, CAPEX
-  const cashConvEngine = path.join(process.cwd(), 'src/core/runtime/cashflow/CashConversionEngine.ts');
+  const cashConvEngine = path.join(process.cwd(), 'src/capabilities/financial/runtime/cashflow/CashConversionEngine.ts');
   if (fs.existsSync(cashConvEngine)) {
     const content = fs.readFileSync(cashConvEngine, 'utf8');
     if (!content.includes('workingCapitalVariation') || !content.includes('capex')) {

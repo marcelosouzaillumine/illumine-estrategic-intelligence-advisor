@@ -1,6 +1,6 @@
 import { test, describe } from 'node:test';
 import assert from 'node:assert/strict';
-import { CapitalGovernanceAdapter } from '../src/core/runtime/capital-governance/capital-governance-adapter';
+import { CapitalGovernanceAdapter } from '../src/capabilities/financial/runtime/capital-governance/capital-governance-adapter';
 
 // Local expect wrapper matching Jest/Vitest style to comply with user's specific assertion requirements
 const expect = (actual: any) => ({

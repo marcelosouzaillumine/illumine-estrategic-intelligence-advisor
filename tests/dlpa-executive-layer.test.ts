@@ -1,6 +1,6 @@
 import { test, describe } from 'node:test';
 import assert from 'node:assert/strict';
-import { CapitalGovernanceAdapter } from '../src/core/runtime/capital-governance/capital-governance-adapter';
+import { CapitalGovernanceAdapter } from '../src/capabilities/financial/runtime/capital-governance/capital-governance-adapter';
 import { PatrimonialRecoveryHorizonEngine } from '../src/core/runtime/governance/dlpa/PatrimonialRecoveryHorizonEngine';
 import { CapitalRecoverabilityEngine } from '../src/core/runtime/governance/dlpa/CapitalRecoverabilityEngine';
 import { CapitalPreservationScoreEngine } from '../src/core/runtime/governance/dlpa/CapitalPreservationScoreEngine';

@@ -1,9 +1,9 @@
 import { describe, it } from 'node:test';
 import assert from 'node:assert/strict';
-import { resolveConsolidatedConfidence } from '../src/core/runtime/consolidated/EntityScopedConfidenceResolver';
-import { propagateViolations } from '../src/core/runtime/consolidated/ConsolidatedViolationPropagator';
-import { buildLineageTree } from '../src/core/runtime/consolidated/CrossEntityLineageResolver';
-import { ConsolidatedRuntimeContext } from '../src/core/runtime/consolidated/ConsolidatedRuntimeContext';
+import { resolveConsolidatedConfidence } from '../src/capabilities/financial/runtime/consolidated/EntityScopedConfidenceResolver';
+import { propagateViolations } from '../src/capabilities/financial/runtime/consolidated/ConsolidatedViolationPropagator';
+import { buildLineageTree } from '../src/capabilities/financial/runtime/consolidated/CrossEntityLineageResolver';
+import { ConsolidatedRuntimeContext } from '../src/capabilities/financial/runtime/consolidated/ConsolidatedRuntimeContext';
 import { ExecutiveIntelligenceRuntime } from '../src/core/runtime/executive-intelligence-runtime';
 
 describe('Consolidated Financial Runtime - Phase 1 Contracts', () => {

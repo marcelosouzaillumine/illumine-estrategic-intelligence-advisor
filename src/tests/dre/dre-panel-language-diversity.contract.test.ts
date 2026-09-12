@@ -1,7 +1,7 @@
 import test from 'node:test';
 import assert from 'node:assert';
-import { DreExecutiveLanguageCompiler } from '../../core/runtime/dre/DreExecutiveLanguageCompiler';
-import { getCausalFragment, PanelIntent } from '../../core/runtime/dre/DreSemanticRegistry';
+import { DreExecutiveLanguageCompiler } from '../../capabilities/financial/runtime/dre/DreExecutiveLanguageCompiler';
+import { getCausalFragment, PanelIntent } from '../../capabilities/financial/runtime/dre/DreSemanticRegistry';
 
 test('DRE Panel Language Diversity Contract', async (t) => {
   await t.test('Panels should not repeat boilerplate interpretations', () => {

@@ -1,4 +1,4 @@
-import { ConsolidatedOrchestratorInput } from '../src/core/runtime/consolidated/consolidated-types';
+import { ConsolidatedOrchestratorInput } from '../src/capabilities/financial/runtime/consolidated/consolidated-types';
 
 export const topologyStressFixture: ConsolidatedOrchestratorInput = {
   groupId: 'STRESS-GRP-01',

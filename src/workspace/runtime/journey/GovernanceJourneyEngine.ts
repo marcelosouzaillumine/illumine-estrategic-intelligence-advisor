@@ -8,7 +8,7 @@ import {
 } from '../../core/runtime/esgim/esgimTypes';
 import { esgimAssessmentEngine } from '../../core/runtime/esgim/ESGIMAssessmentEngine';
 import { institutionalResilienceIndexEngine } from '../../core/runtime/esgim/InstitutionalResilienceIndexEngine';
-import { boardPrioritiesEngine } from '../../core/runtime/board/BoardPrioritiesEngine';
+import { boardPrioritiesEngine } from '../../capabilities/financial/runtime/board/BoardPrioritiesEngine';
 import { governanceRoadmapEngine } from '../../core/runtime/roadmap/GovernanceRoadmapEngine';
 import { governanceMonitoringEngine } from '../../core/runtime/monitoring/GovernanceMonitoringEngine';
 import { decisionRegistryEngine } from '../../core/runtime/execution/DecisionRegistryEngine';

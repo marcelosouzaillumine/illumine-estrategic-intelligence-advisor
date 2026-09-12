@@ -4,7 +4,7 @@ import { TenantOwnershipValidator } from './TenantOwnershipValidator';
 import { CrossTenantAccessDetector } from './CrossTenantAccessDetector';
 import { TenantAwareAuditTrail } from './TenantAwareAuditTrail';
 import { RuntimeIsolationValidator } from './RuntimeIsolationValidator';
-import { ConsolidationEntity } from '../../../core/runtime/consolidated/types';
+import { ConsolidationEntity } from '../../../capabilities/financial/runtime/consolidated/types';
 import { EntityGraphData } from '../../../topology/types';
 import { getErrorMessage, isViolationLike } from '../../../types/runtime/RuntimeErrorGuards';
 

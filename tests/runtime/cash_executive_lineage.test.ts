@@ -1,4 +1,4 @@
-import { CashExecutiveAdvisoryEngine } from '../../src/core/runtime/cash-intelligence/CashExecutiveAdvisoryEngine';
+import { CashExecutiveAdvisoryEngine } from '../../src/capabilities/financial/runtime/cash-intelligence/CashExecutiveAdvisoryEngine';
 
 describe('CashExecutiveAdvisoryEngine lineage handling', () => {
   it('should produce a deterministic lineageHash', () => {

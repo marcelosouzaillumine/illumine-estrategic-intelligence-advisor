@@ -5,7 +5,7 @@
 
 import { describe, it } from 'node:test';
 import assert from 'node:assert/strict';
-import { RuntimeComplianceEngine } from '../src/core/runtime/compliance/RuntimeComplianceEngine';
+import { RuntimeComplianceEngine } from '../src/capabilities/financial/runtime/compliance/RuntimeComplianceEngine';
 
 const createValidMockReport = (): any => ({
   scores: {

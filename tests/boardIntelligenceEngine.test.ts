@@ -1,10 +1,10 @@
 import { describe, it } from 'node:test';
 import assert from 'node:assert';
-import { buildBoardIntelligenceInput } from '../src/core/runtime/board/BoardIntelligenceAdapter';
-import { assessFiduciaryRisks } from '../src/core/runtime/board/FiduciaryRiskEngine';
-import { generateAttentionItems } from '../src/core/runtime/board/BoardAttentionEngine';
-import { generateBoardResolutions } from '../src/core/runtime/board/BoardResolutionLayer';
-import { generateBoardAgenda } from '../src/core/runtime/board/BoardAgendaGenerator';
+import { buildBoardIntelligenceInput } from '../src/capabilities/financial/runtime/board/BoardIntelligenceAdapter';
+import { assessFiduciaryRisks } from '../src/capabilities/financial/runtime/board/FiduciaryRiskEngine';
+import { generateAttentionItems } from '../src/capabilities/financial/runtime/board/BoardAttentionEngine';
+import { generateBoardResolutions } from '../src/capabilities/financial/runtime/board/BoardResolutionLayer';
+import { generateBoardAgenda } from '../src/capabilities/financial/runtime/board/BoardAgendaGenerator';
 
 describe('Board Governance Layer (BIL)', () => {
   it('should identify high risk when IRG is > 60 and escalate', () => {

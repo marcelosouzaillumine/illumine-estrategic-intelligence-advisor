@@ -1,8 +1,8 @@
 import { describe, it } from 'node:test';
 import assert from 'node:assert/strict';
 import { generateInstitutionalFinancialThesisProfile } from '../src/core/runtime/InstitutionalFinancialThesisEngine';
-import { CashFlowDiagnostics } from '../src/core/runtime/cashflow/cashflow-types';
-import { CapitalGovernanceDiagnostics } from '../src/core/runtime/capital-governance/capital-governance-types';
+import { CashFlowDiagnostics } from '../src/capabilities/financial/runtime/cashflow/cashflow-types';
+import { CapitalGovernanceDiagnostics } from '../src/capabilities/financial/runtime/capital-governance/capital-governance-types';
 import { detectCrossStatementCausality } from '../src/core/runtime/CrossStatementCausalityEngine';
 
 describe('EFOS Runtime - Institutional Financial Thesis Engine', () => {

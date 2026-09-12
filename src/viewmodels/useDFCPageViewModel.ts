@@ -3,9 +3,9 @@ import { useDFCPageAdapter } from '../adapters/ui/useDFCPageAdapter';
 import { useAnnualFinancialData } from '../hooks/useFinancialData';
 import { buildBPSummaryFromRawEntries } from '../lib/buildBPSummaryFromRawEntries';
 import { calculateDreCascade, generateInitialDreState } from '../lib/dreCascade';
-import { DFCIndirectMethodEngine } from '../core/runtime/cash-intelligence/DFCIndirectMethodEngine';
-import { UniversalCashIndicatorsEngine } from '../core/runtime/cash-intelligence/UniversalCashIndicatorsEngine';
-import { DreCashEvidence, BalanceSheetCashEvidence } from '../core/runtime/cash-intelligence/CashEvidenceContracts';
+import { DFCIndirectMethodEngine } from '../capabilities/financial/runtime/cash-intelligence/DFCIndirectMethodEngine';
+import { UniversalCashIndicatorsEngine } from '../capabilities/financial/runtime/cash-intelligence/UniversalCashIndicatorsEngine';
+import { DreCashEvidence, BalanceSheetCashEvidence } from '../capabilities/financial/runtime/cash-intelligence/CashEvidenceContracts';
 
 export interface UseDFCPageViewModelProps {
   clientId?: string;

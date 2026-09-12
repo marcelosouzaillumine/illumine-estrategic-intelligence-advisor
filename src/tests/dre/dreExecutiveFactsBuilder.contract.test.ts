@@ -1,6 +1,6 @@
 import { describe, it } from 'node:test';
 import * as assert from 'node:assert';
-import { DreExecutiveFactsBuilder } from '../../core/runtime/dre/DreExecutiveFactsBuilder';
+import { DreExecutiveFactsBuilder } from '../../capabilities/financial/runtime/dre/DreExecutiveFactsBuilder';
 
 describe('DreExecutiveFactsBuilder Contract', () => {
   it('must extract correctly from cascadeResult when financialMetrics is zero/empty', () => {

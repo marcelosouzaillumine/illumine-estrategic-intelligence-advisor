@@ -1,6 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert';
-import { CausalRegistry, PanelIntent } from '../../core/runtime/dre/DreSemanticRegistry';
+import { CausalRegistry, PanelIntent } from '../../capabilities/financial/runtime/dre/DreSemanticRegistry';
 
 test('DRE Causal Driver Alignment Contract', async (t) => {
   await t.test('Critical severity drivers should never map to positive/expansion recommendations', () => {

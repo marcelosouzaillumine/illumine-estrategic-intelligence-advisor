@@ -1,7 +1,7 @@
 import test from 'node:test';
 import assert from 'node:assert';
-import { DreNarrativeSeverity } from '../../core/runtime/dre/DreNarrativeSeverity';
-import { getCausalFragment } from '../../core/runtime/dre/DreSemanticRegistry';
+import { DreNarrativeSeverity } from '../../capabilities/financial/runtime/dre/DreNarrativeSeverity';
+import { getCausalFragment } from '../../capabilities/financial/runtime/dre/DreSemanticRegistry';
 
 test('DRE Break-Even Threshold Language Contract', async (t) => {
   await t.test('Coverage < 100% (CRITICAL) must not use folga and must indicate insufficiency', () => {

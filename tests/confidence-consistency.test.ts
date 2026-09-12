@@ -4,7 +4,7 @@ import { CalibrationEngine } from '../src/core/runtime/calibration/CalibrationEn
 import { ConfidenceTelemetryEngine } from '../src/platform/observability/ConfidenceTelemetryEngine';
 import { PredictiveStressEngine } from '../src/core/runtime/scenario/PredictiveStressEngine';
 import { ScenarioConfidenceProjector } from '../src/core/runtime/scenario/ScenarioConfidenceProjector';
-import { ConsolidatedFinancialInput } from '../src/core/runtime/consolidated/types';
+import { ConsolidatedFinancialInput } from '../src/capabilities/financial/runtime/consolidated/types';
 import { ScenarioPropagationResult } from '../src/core/runtime/scenario/ScenarioTypes';
 
 describe('Phase 9: Confidence Consistency & Parameter Sensitivity Tests', () => {

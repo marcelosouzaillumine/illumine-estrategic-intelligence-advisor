@@ -1,6 +1,6 @@
 import { describe, it } from 'node:test';
 import assert from 'node:assert';
-import { FinancialPipelineOrchestrator } from '../../core/runtime/financial-governance/pipeline/FinancialPipelineOrchestrator';
+import { FinancialPipelineOrchestrator } from '../../capabilities/financial/runtime/financial-governance/pipeline/FinancialPipelineOrchestrator';
 import { FinancialStatementType } from '../../../packages/executive-contracts/src/financial/index';
 
 describe('CFDI v2.1 — No Synthetic Data / Fallback Contract', () => {

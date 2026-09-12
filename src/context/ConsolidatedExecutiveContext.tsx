@@ -1,11 +1,11 @@
 import React, { createContext, useContext, useEffect, useState } from 'react';
-import { ConsolidatedExecutiveAdvisoryReport } from '../core/runtime/consolidated/advisory/advisoryTypes';
-import { ConsolidatedFinancialOrchestrator } from '../core/runtime/consolidated/ConsolidatedFinancialOrchestrator';
-import { ConsolidatedAdvisoryOrchestrator } from '../core/runtime/consolidated/advisory/ConsolidatedAdvisoryOrchestrator';
-import { ConsolidatedFinancialInput } from '../core/runtime/consolidated/types';
-import { DEMO_GROUP_FIXTURE } from '../core/runtime/consolidated/data/DemoGroupFixture';
-import { ConsolidatedFinancialDataLoader } from '../core/runtime/consolidated/data/ConsolidatedFinancialDataLoader';
-import { ConsolidatedDataValidationGateway } from '../core/runtime/consolidated/data/ConsolidatedDataValidationGateway';
+import { ConsolidatedExecutiveAdvisoryReport } from '../capabilities/financial/runtime/consolidated/advisory/advisoryTypes';
+import { ConsolidatedFinancialOrchestrator } from '../capabilities/financial/runtime/consolidated/ConsolidatedFinancialOrchestrator';
+import { ConsolidatedAdvisoryOrchestrator } from '../capabilities/financial/runtime/consolidated/advisory/ConsolidatedAdvisoryOrchestrator';
+import { ConsolidatedFinancialInput } from '../capabilities/financial/runtime/consolidated/types';
+import { DEMO_GROUP_FIXTURE } from '../capabilities/financial/runtime/consolidated/data/DemoGroupFixture';
+import { ConsolidatedFinancialDataLoader } from '../capabilities/financial/runtime/consolidated/data/ConsolidatedFinancialDataLoader';
+import { ConsolidatedDataValidationGateway } from '../capabilities/financial/runtime/consolidated/data/ConsolidatedDataValidationGateway';
 
 interface ConsolidatedContextType {
   report: ConsolidatedExecutiveAdvisoryReport | null;

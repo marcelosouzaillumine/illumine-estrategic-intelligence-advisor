@@ -8,7 +8,7 @@ import assert from 'node:assert/strict';
 import { InstitutionalDecisionIntelligenceEngine } from '../src/core/runtime/decision-intelligence/InstitutionalDecisionIntelligenceEngine';
 import { InstitutionalDecisionLedger } from '../src/core/runtime/decision-intelligence/InstitutionalDecisionLedger';
 import { ExecutiveDecision } from '../src/core/runtime/decision-intelligence/decision-types';
-import { BoardResolutionEngine } from '../src/core/runtime/board-decision/BoardResolutionEngine';
+import { BoardResolutionEngine } from '../src/capabilities/financial/runtime/board-decision/BoardResolutionEngine';
 import { InstitutionalScenarioResult } from '../src/core/runtime/scenario-intelligence/scenario-types';
 
 const createBaseReportContext = () => ({

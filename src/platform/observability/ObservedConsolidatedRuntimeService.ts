@@ -1,12 +1,12 @@
-import { ConsolidatedFinancialInput } from '../../core/runtime/consolidated/types';
-import { ConsolidatedExecutiveAdvisoryReport } from '../../core/runtime/consolidated/advisory/advisoryTypes';
-import { ConsolidatedGroupInput } from '../../core/runtime/consolidated/data/dataTypes';
-import { ConsolidatedDataModelValidator } from '../../core/runtime/consolidated/data/ConsolidatedDataModelValidator';
-import { EconomicGroupModel } from '../../core/runtime/consolidated/data/GroupOnboardingRepository';
-import { IntercompanyRelationModel } from '../../core/runtime/consolidated/data/IntercompanyRelationRepository';
-import { ConsolidatedDataValidationGateway } from '../../core/runtime/consolidated/data/ConsolidatedDataValidationGateway';
-import { ConsolidatedFinancialOrchestrator } from '../../core/runtime/consolidated/ConsolidatedFinancialOrchestrator';
-import { ConsolidatedAdvisoryOrchestrator } from '../../core/runtime/consolidated/advisory/ConsolidatedAdvisoryOrchestrator';
+import { ConsolidatedFinancialInput } from '../../capabilities/financial/runtime/consolidated/types';
+import { ConsolidatedExecutiveAdvisoryReport } from '../../capabilities/financial/runtime/consolidated/advisory/advisoryTypes';
+import { ConsolidatedGroupInput } from '../../capabilities/financial/runtime/consolidated/data/dataTypes';
+import { ConsolidatedDataModelValidator } from '../../capabilities/financial/runtime/consolidated/data/ConsolidatedDataModelValidator';
+import { EconomicGroupModel } from '../../capabilities/financial/runtime/consolidated/data/GroupOnboardingRepository';
+import { IntercompanyRelationModel } from '../../capabilities/financial/runtime/consolidated/data/IntercompanyRelationRepository';
+import { ConsolidatedDataValidationGateway } from '../../capabilities/financial/runtime/consolidated/data/ConsolidatedDataValidationGateway';
+import { ConsolidatedFinancialOrchestrator } from '../../capabilities/financial/runtime/consolidated/ConsolidatedFinancialOrchestrator';
+import { ConsolidatedAdvisoryOrchestrator } from '../../capabilities/financial/runtime/consolidated/advisory/ConsolidatedAdvisoryOrchestrator';
 
 import { RuntimeExecutionRegistry } from './RuntimeExecutionRegistry';
 import { RuntimeExecutionLogger } from './RuntimeExecutionLogger';

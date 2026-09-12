@@ -1,7 +1,7 @@
 // @ts-nocheck
 import { describe, it } from 'node:test';
 import assert from 'node:assert/strict';
-import { FiduciaryCashIntelligenceRuntime } from '../../src/core/runtime/cash-intelligence/FiduciaryCashIntelligenceRuntime';
+import { FiduciaryCashIntelligenceRuntime } from '../../src/capabilities/financial/runtime/cash-intelligence/FiduciaryCashIntelligenceRuntime';
 
 describe('Fiduciary Cash Governance System - Protocol Scenarios', () => {
   

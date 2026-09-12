@@ -1,6 +1,6 @@
 import { describe, it } from 'node:test';
 import assert from 'node:assert/strict';
-import { DFCCausalDriverPresentationAudit } from '../src/core/runtime/cash-causal-intelligence/DFCCausalDriverPresentationAudit';
+import { DFCCausalDriverPresentationAudit } from '../src/capabilities/financial/runtime/cash-causal-intelligence/DFCCausalDriverPresentationAudit';
 import { ExecutiveInformationDensityFramework } from '../src/workspace/runtime/presentation-governance/ExecutiveInformationDensityFramework';
 import { TreasuryEarlyWarningEngine } from '../src/core/runtime/treasury-early-warning/TreasuryEarlyWarningEngine';
 

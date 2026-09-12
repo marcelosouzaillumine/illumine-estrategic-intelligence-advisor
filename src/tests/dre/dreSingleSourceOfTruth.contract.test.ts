@@ -1,6 +1,6 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
-import { DreExecutiveViewModelBuilder } from '../../core/runtime/dre/DreExecutiveViewModelBuilder';
+import { DreExecutiveViewModelBuilder } from '../../capabilities/financial/runtime/dre/DreExecutiveViewModelBuilder';
 
 test('dreSingleSourceOfTruth: todos os KPIs devem residir e vir do DreExecutiveViewModelBuilder', () => {
   const payload = {

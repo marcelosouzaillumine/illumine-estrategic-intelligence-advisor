@@ -1,6 +1,6 @@
 import { describe, it, beforeEach } from 'node:test';
 import assert from 'node:assert/strict';
-import { InstitutionalCausalityExplorer } from '../src/core/runtime/causal-intelligence/InstitutionalCausalityExplorer';
+import { InstitutionalCausalityExplorer } from '../src/capabilities/financial/runtime/causal-intelligence/InstitutionalCausalityExplorer';
 import { HistoricalRuntimeCycle } from '../src/workspace/runtime/executive-timeline/executive-timeline-types';
 import { InstitutionalCausalityOrchestrator } from '../src/core/runtime/institutional-causality/InstitutionalCausalityOrchestrator';
 import { ExecutiveNarrativeSanitizer, FiduciaryNarrativeViolation } from '../src/core/runtime/institutional-causality/ExecutiveNarrativeSanitizer';

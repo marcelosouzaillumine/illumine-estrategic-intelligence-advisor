@@ -1,7 +1,7 @@
 import test from 'node:test';
 import assert from 'node:assert';
-import { DreExecutiveLanguageCompiler } from '../../core/runtime/dre/DreExecutiveLanguageCompiler';
-import { DreExecutiveFactsBuilder } from '../../core/runtime/dre/DreExecutiveFactsBuilder';
+import { DreExecutiveLanguageCompiler } from '../../capabilities/financial/runtime/dre/DreExecutiveLanguageCompiler';
+import { DreExecutiveFactsBuilder } from '../../capabilities/financial/runtime/dre/DreExecutiveFactsBuilder';
 
 test('[DRE] Semantics: Borderline 2023 Language', () => {
   const compiler = new DreExecutiveLanguageCompiler();

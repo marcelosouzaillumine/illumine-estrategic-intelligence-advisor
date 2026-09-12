@@ -1,7 +1,7 @@
 import test from 'node:test';
 import assert from 'node:assert';
-import { DreExecutiveLanguageCompiler } from '../../core/runtime/dre/DreExecutiveLanguageCompiler';
-import { getCausalFragment } from '../../core/runtime/dre/DreSemanticRegistry';
+import { DreExecutiveLanguageCompiler } from '../../capabilities/financial/runtime/dre/DreExecutiveLanguageCompiler';
+import { getCausalFragment } from '../../capabilities/financial/runtime/dre/DreSemanticRegistry';
 
 test('[DRE] Semantics: No Template Prefixes', () => {
   const compiler = new DreExecutiveLanguageCompiler();

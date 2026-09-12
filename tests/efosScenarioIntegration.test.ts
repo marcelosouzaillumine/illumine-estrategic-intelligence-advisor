@@ -1,7 +1,7 @@
 import test from 'node:test';
 import assert from 'node:assert';
-import { adaptScenarioToEFOSInput } from '../src/core/runtime/efos/EFOSScenarioAdapter';
-import { calculateInstitutionalExecution } from '../src/core/runtime/efos/InstitutionalExecutionAssessment';
+import { adaptScenarioToEFOSInput } from '../src/capabilities/financial/runtime/efos/EFOSScenarioAdapter';
+import { calculateInstitutionalExecution } from '../src/capabilities/financial/runtime/efos/InstitutionalExecutionAssessment';
 
 test('▶ EFOS Scenario Integration Engine', async (t) => {
   await t.test('✔ adaptScenarioToEFOSInput: formata corretamente os deltas', () => {

@@ -7,8 +7,8 @@ import { describe, it } from 'node:test';
 import assert from 'node:assert/strict';
 
 import { ExecutiveNarrativeSingleSourceValidator } from '../src/workspace/runtime/presentation-governance/ExecutiveNarrativeSingleSourceValidator';
-import { DREBoardAdvisoryEngine } from '../src/core/runtime/dre/DREBoardAdvisoryEngine';
-import { DREBoardDecisionSupportEngine } from '../src/core/runtime/dre/DREBoardDecisionSupportEngine';
+import { DREBoardAdvisoryEngine } from '../src/capabilities/financial/runtime/dre/DREBoardAdvisoryEngine';
+import { DREBoardDecisionSupportEngine } from '../src/capabilities/financial/runtime/dre/DREBoardDecisionSupportEngine';
 
 // Granatum 2022
 const granatumDiagnosis = {

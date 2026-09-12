@@ -4,11 +4,11 @@ import { DRELabelSanitizationRegistry } from '../src/workspace/runtime/presentat
 import { CrossStatementNarrativeIsolationRegistry } from '../src/workspace/runtime/presentation-governance/CrossStatementNarrativeIsolationRegistry';
 import { OperationalSeverityGovernanceEngine } from '../src/workspace/runtime/presentation-governance/OperationalSeverityGovernanceEngine';
 import { DREPresentationGovernanceAudit } from '../src/workspace/runtime/presentation-governance/DREPresentationGovernanceAudit';
-import { DRERecoverabilityGovernanceEngine } from '../src/core/runtime/dre/DRERecoverabilityGovernanceEngine';
-import { OperationalHealthExplainabilityEngine } from '../src/core/runtime/dre/OperationalHealthExplainabilityEngine';
-import { EconomicDiagnosisEngine } from '../src/core/runtime/dre/EconomicDiagnosisEngine';
-import { DREBoardAdvisoryEngine } from '../src/core/runtime/dre/DREBoardAdvisoryEngine';
-import { DREExecutiveDataMapper } from '../src/core/runtime/dre/DREExecutiveDataMapper';
+import { DRERecoverabilityGovernanceEngine } from '../src/capabilities/financial/runtime/dre/DRERecoverabilityGovernanceEngine';
+import { OperationalHealthExplainabilityEngine } from '../src/capabilities/financial/runtime/dre/OperationalHealthExplainabilityEngine';
+import { EconomicDiagnosisEngine } from '../src/capabilities/financial/runtime/dre/EconomicDiagnosisEngine';
+import { DREBoardAdvisoryEngine } from '../src/capabilities/financial/runtime/dre/DREBoardAdvisoryEngine';
+import { DREExecutiveDataMapper } from '../src/capabilities/financial/runtime/dre/DREExecutiveDataMapper';
 import { ExecutiveLabelResolver } from '../src/workspace/runtime/executive-presentation/ExecutiveLabelResolver';
 
 describe('DRE Executive Governance (DEGFF) Validation', () => {

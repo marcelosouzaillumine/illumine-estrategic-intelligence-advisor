@@ -1,7 +1,7 @@
 import { describe, it } from 'node:test';
 import assert from 'node:assert';
 import { LegacyDFCAdapter } from '../../runtime/adapters/LegacyDFCAdapter';
-import { FiduciaryCashIntelligenceRuntime } from '../../core/runtime/cash-intelligence/FiduciaryCashIntelligenceRuntime';
+import { FiduciaryCashIntelligenceRuntime } from '../../capabilities/financial/runtime/cash-intelligence/FiduciaryCashIntelligenceRuntime';
 
 describe('DFC Reconciliation Contract', () => {
   it('Deve emitir DFC_RECONCILIATION_MISMATCH no LegacyDFCAdapter se o Caixa Final estimado divergir do Caixa Final real do BP', async () => {

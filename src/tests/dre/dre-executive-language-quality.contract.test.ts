@@ -1,9 +1,9 @@
 import test from 'node:test';
 import assert from 'node:assert';
-import { DreDecisionPolicyLayer, BoardQuestion } from '../../core/runtime/dre/DreDecisionPolicyLayer';
-import { DreExecutiveFacts } from '../../core/runtime/dre/DreExecutiveFactsBuilder';
-import { DreEconomicScenario } from '../../core/runtime/dre/DreScenarioClassifier';
-import { DreExecutiveLanguageCompiler } from '../../core/runtime/dre/DreExecutiveLanguageCompiler';
+import { DreDecisionPolicyLayer, BoardQuestion } from '../../capabilities/financial/runtime/dre/DreDecisionPolicyLayer';
+import { DreExecutiveFacts } from '../../capabilities/financial/runtime/dre/DreExecutiveFactsBuilder';
+import { DreEconomicScenario } from '../../capabilities/financial/runtime/dre/DreScenarioClassifier';
+import { DreExecutiveLanguageCompiler } from '../../capabilities/financial/runtime/dre/DreExecutiveLanguageCompiler';
 
 const createBaseFacts = (): DreExecutiveFacts => ({
   grossRevenue: 1000, deductions: 0, netRevenue: 1000, cogs: 400,

@@ -1,7 +1,7 @@
 import test from 'node:test';
 import assert from 'node:assert';
-import { DreSemanticValidator, DRE_SEMANTIC_BLACKLIST } from '../../core/runtime/dre/DreSemanticRegistry';
-import { DreExecutiveViewModelBuilder } from '../../core/runtime/dre/DreExecutiveViewModelBuilder';
+import { DreSemanticValidator, DRE_SEMANTIC_BLACKLIST } from '../../capabilities/financial/runtime/dre/DreSemanticRegistry';
+import { DreExecutiveViewModelBuilder } from '../../capabilities/financial/runtime/dre/DreExecutiveViewModelBuilder';
 
 test('DRE No Unsourced Strategic Inference: Must not contain extrapolated strategic words', async (t) => {
   const extrapolatedWords = [

@@ -1,6 +1,6 @@
 import { describe, it } from 'node:test';
 import assert from 'node:assert';
-import { CrossStatementValidator } from '../../core/runtime/financial-governance/validation/CrossStatementValidator';
+import { CrossStatementValidator } from '../../capabilities/financial/runtime/financial-governance/validation/CrossStatementValidator';
 import { FinancialStatementType } from '../../../packages/executive-contracts/src/financial/index';
 
 describe('CFDI v2.1 — Cross Statement Consistency Contract', () => {

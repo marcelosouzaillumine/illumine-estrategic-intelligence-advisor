@@ -5,7 +5,7 @@ import assert from 'node:assert';
 import { InMemoryRuntimeTelemetrySink } from './sinks/InMemoryRuntimeTelemetrySink';
 import { RuntimeExecutionLogger } from './RuntimeExecutionLogger';
 import { ExecutionTraceBuilder } from './ExecutionTraceBuilder';
-import { RuntimeComplianceEngine } from '../../core/runtime/compliance/RuntimeComplianceEngine';
+import { RuntimeComplianceEngine } from '../../capabilities/financial/runtime/compliance/RuntimeComplianceEngine';
 
 describe('Runtime Telemetry Abstraction', () => {
   let sink: InMemoryRuntimeTelemetrySink;

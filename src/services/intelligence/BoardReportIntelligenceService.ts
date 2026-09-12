@@ -5,7 +5,7 @@ import { calculateFinancialMetrics } from '../../lib/financial-engine';
 import { calculateScores } from '../../lib/score-engine';
 import { enforceInstitutionalRuntime } from '../../core/enforcement/institutionalRuntimeEnforcer';
 import { evaluateMasterCausality } from '../../lib/master-causal-engine';
-import { RuntimeComplianceEngine } from '../../core/runtime/compliance/RuntimeComplianceEngine';
+import { RuntimeComplianceEngine } from '../../capabilities/financial/runtime/compliance/RuntimeComplianceEngine';
 
 const getAI = () => {
   const apiKey = import.meta.env.VITE_GEMINI_API_KEY;

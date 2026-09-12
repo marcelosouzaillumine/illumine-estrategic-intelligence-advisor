@@ -1,7 +1,7 @@
 import { ReplayExecutionResult } from './observability-types';
 import { RuntimeExecutionRegistry } from './RuntimeExecutionRegistry';
 import { ExecutionTraceBuilder } from './ExecutionTraceBuilder';
-import { ConsolidatedExecutiveAdvisoryReport } from '../../core/runtime/consolidated/advisory/advisoryTypes';
+import { ConsolidatedExecutiveAdvisoryReport } from '../../capabilities/financial/runtime/consolidated/advisory/advisoryTypes';
 
 export class ExecutionReplayEngine {
   /**

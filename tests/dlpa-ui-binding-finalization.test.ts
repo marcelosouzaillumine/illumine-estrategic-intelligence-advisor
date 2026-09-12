@@ -1,6 +1,6 @@
 import { test, describe } from 'node:test';
 import assert from 'node:assert/strict';
-import { CapitalGovernanceAdapter } from '../src/core/runtime/capital-governance/capital-governance-adapter';
+import { CapitalGovernanceAdapter } from '../src/capabilities/financial/runtime/capital-governance/capital-governance-adapter';
 import { DLPACanonicalBindingAudit } from '../src/core/runtime/governance/dlpa/DLPACanonicalBindingAudit';
 import { DLPACanonicalScoreResolver } from '../src/core/runtime/governance/dlpa/DLPACanonicalScoreResolver';
 import { DLPARecoveryHorizonResolver } from '../src/core/runtime/governance/dlpa/DLPARecoveryHorizonResolver';

@@ -1,12 +1,12 @@
 import { EngineDefinition, InstitutionalContext, EngineExecutionResult, InferenceBlock, CausalityChain, AdvisoryNarrative } from '../types';
 import { EarlyStageNarrativeEngine } from '../../core/runtime/semantic/EarlyStageNarrativeEngine';
 import { RunwayAuditEngine } from '../../core/runtime/semantic/RunwayAuditEngine';
-import { DreCashEvidence, BalanceSheetCashEvidence, DfcPrimaryEvidence } from '../../core/runtime/cash-intelligence/CashEvidenceContracts';
-import { DFCIndirectMethodEngine } from '../../core/runtime/cash-intelligence/DFCIndirectMethodEngine';
+import { DreCashEvidence, BalanceSheetCashEvidence, DfcPrimaryEvidence } from '../../capabilities/financial/runtime/cash-intelligence/CashEvidenceContracts';
+import { DFCIndirectMethodEngine } from '../../capabilities/financial/runtime/cash-intelligence/DFCIndirectMethodEngine';
 import { DFCSemanticCanonicalRootResolver } from '../../core/runtime/lifecycle/DFCSemanticCanonicalRootResolver';
 import { ExecutiveLifecycleContextResolver } from '../../core/runtime/lifecycle/ExecutiveLifecycleContextResolver';
-import { FiduciaryCashIntelligenceRuntime } from '../../core/runtime/cash-intelligence/FiduciaryCashIntelligenceRuntime';
-import { CashQualityExplainabilityEngine } from '../../core/runtime/cash-intelligence/CashQualityExplainabilityEngine';
+import { FiduciaryCashIntelligenceRuntime } from '../../capabilities/financial/runtime/cash-intelligence/FiduciaryCashIntelligenceRuntime';
+import { CashQualityExplainabilityEngine } from '../../capabilities/financial/runtime/cash-intelligence/CashQualityExplainabilityEngine';
 
 const localNormalizeString = (s: string) => 
   s.toLowerCase()

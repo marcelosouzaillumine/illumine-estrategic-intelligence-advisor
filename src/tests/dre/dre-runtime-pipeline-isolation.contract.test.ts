@@ -2,8 +2,8 @@ import { describe, it } from 'node:test';
 import fs from 'fs';
 import path from 'path';
 import assert from 'assert';
-import { DreExecutiveLanguageCompiler } from '../../core/runtime/dre/DreExecutiveLanguageCompiler';
-import { DreExecutiveFactsBuilder } from '../../core/runtime/dre/DreExecutiveFactsBuilder';
+import { DreExecutiveLanguageCompiler } from '../../capabilities/financial/runtime/dre/DreExecutiveLanguageCompiler';
+import { DreExecutiveFactsBuilder } from '../../capabilities/financial/runtime/dre/DreExecutiveFactsBuilder';
 
 describe('DRE Canonical Pipeline Isolation Contract', () => {
   it('Deve garantir que o DREPage.tsx não consuma report.metrics.financialMetrics para o DreExecutiveViewModelBuilder', () => {

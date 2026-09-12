@@ -2,9 +2,9 @@ import { describe, it } from 'node:test';
 import assert from 'node:assert/strict';
 import * as fs from 'node:fs';
 import * as path from 'node:path';
-import { FiduciaryCashIntelligenceRuntime } from '../src/core/runtime/cash-intelligence/FiduciaryCashIntelligenceRuntime';
-import { InstitutionalCausalIntelligenceRuntime } from '../src/core/runtime/causal-intelligence/InstitutionalCausalIntelligenceRuntime';
-import { CausalFactor } from '../src/core/runtime/causal-intelligence/types';
+import { FiduciaryCashIntelligenceRuntime } from '../src/capabilities/financial/runtime/cash-intelligence/FiduciaryCashIntelligenceRuntime';
+import { InstitutionalCausalIntelligenceRuntime } from '../src/capabilities/financial/runtime/causal-intelligence/InstitutionalCausalIntelligenceRuntime';
+import { CausalFactor } from '../src/capabilities/financial/runtime/causal-intelligence/types';
 
 describe('Institutional Causal Governance - Fiduciary Logic', () => {
 

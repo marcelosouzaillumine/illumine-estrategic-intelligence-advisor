@@ -1,6 +1,6 @@
 import { describe, it } from 'node:test';
-import { DreScenarioClassifier, DreEconomicScenario } from '../../core/runtime/dre/DreScenarioClassifier';
-import { DreExecutiveFacts } from '../../core/runtime/dre/DreExecutiveFactsBuilder';
+import { DreScenarioClassifier, DreEconomicScenario } from '../../capabilities/financial/runtime/dre/DreScenarioClassifier';
+import { DreExecutiveFacts } from '../../capabilities/financial/runtime/dre/DreExecutiveFactsBuilder';
 
 describe('DreScenarioClassifier', () => {
   const baseFacts: DreExecutiveFacts = {

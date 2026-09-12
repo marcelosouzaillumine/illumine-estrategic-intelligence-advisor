@@ -1,7 +1,7 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
-import { DreDecisionPolicyLayer } from '../../core/runtime/dre/DreDecisionPolicyLayer';
-import { DreEconomicScenario } from '../../core/runtime/dre/DreScenarioClassifier';
+import { DreDecisionPolicyLayer } from '../../capabilities/financial/runtime/dre/DreDecisionPolicyLayer';
+import { DreEconomicScenario } from '../../capabilities/financial/runtime/dre/DreScenarioClassifier';
 
 test('dreSemanticGovernance: Nenhuma política deve conter jargões inadequados (Semantic Registry)', () => {
   const facts: any = { ebitdaMargin: 0.5, hasMeaningfulHistory: true, ebitda: 1000, grossProfit: 2000, breakEvenCoverage: 1.5 };
