@@ -1,12 +1,12 @@
 import { describe, it } from 'node:test';
 import assert from 'node:assert';
-import { RuntimeBackedStorytelling } from '../src/core/runtime/executive/RuntimeBackedStorytelling';
-import { ExecutiveNarrativePolicy } from '../src/core/runtime/executive/ExecutiveNarrativePolicy';
-import { ConfidenceDisclosurePolicy } from '../src/core/runtime/executive/ConfidenceDisclosurePolicy';
-import { ViolationVisibilityPolicy } from '../src/core/runtime/executive/ViolationVisibilityPolicy';
-import { AdvisoryCompressionEngine } from '../src/core/runtime/executive/AdvisoryCompressionEngine';
-import { InstitutionalPresentationGuard } from '../src/core/runtime/executive/InstitutionalPresentationGuard';
-import { ExecutiveNarrativeData, ExecutiveViolation } from '../src/core/runtime/executive/types';
+import { RuntimeBackedStorytelling } from '../src/workspace/runtime/executive/RuntimeBackedStorytelling';
+import { ExecutiveNarrativePolicy } from '../src/workspace/runtime/executive/ExecutiveNarrativePolicy';
+import { ConfidenceDisclosurePolicy } from '../src/workspace/runtime/executive/ConfidenceDisclosurePolicy';
+import { ViolationVisibilityPolicy } from '../src/workspace/runtime/executive/ViolationVisibilityPolicy';
+import { AdvisoryCompressionEngine } from '../src/workspace/runtime/executive/AdvisoryCompressionEngine';
+import { InstitutionalPresentationGuard } from '../src/workspace/runtime/executive/InstitutionalPresentationGuard';
+import { ExecutiveNarrativeData, ExecutiveViolation } from '../src/workspace/runtime/executive/types';
 
 describe('RC-1.1B: Executive Experience Governance Model', () => {
 

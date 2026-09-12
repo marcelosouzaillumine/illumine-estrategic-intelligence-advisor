@@ -1,15 +1,15 @@
 import { test, describe } from 'node:test';
 import assert from 'node:assert/strict';
-import { DRELabelSanitizationRegistry } from '../src/core/runtime/presentation-governance/DRELabelSanitizationRegistry';
-import { CrossStatementNarrativeIsolationRegistry } from '../src/core/runtime/presentation-governance/CrossStatementNarrativeIsolationRegistry';
-import { OperationalSeverityGovernanceEngine } from '../src/core/runtime/presentation-governance/OperationalSeverityGovernanceEngine';
-import { DREPresentationGovernanceAudit } from '../src/core/runtime/presentation-governance/DREPresentationGovernanceAudit';
+import { DRELabelSanitizationRegistry } from '../src/workspace/runtime/presentation-governance/DRELabelSanitizationRegistry';
+import { CrossStatementNarrativeIsolationRegistry } from '../src/workspace/runtime/presentation-governance/CrossStatementNarrativeIsolationRegistry';
+import { OperationalSeverityGovernanceEngine } from '../src/workspace/runtime/presentation-governance/OperationalSeverityGovernanceEngine';
+import { DREPresentationGovernanceAudit } from '../src/workspace/runtime/presentation-governance/DREPresentationGovernanceAudit';
 import { DRERecoverabilityGovernanceEngine } from '../src/core/runtime/dre/DRERecoverabilityGovernanceEngine';
 import { OperationalHealthExplainabilityEngine } from '../src/core/runtime/dre/OperationalHealthExplainabilityEngine';
 import { EconomicDiagnosisEngine } from '../src/core/runtime/dre/EconomicDiagnosisEngine';
 import { DREBoardAdvisoryEngine } from '../src/core/runtime/dre/DREBoardAdvisoryEngine';
 import { DREExecutiveDataMapper } from '../src/core/runtime/dre/DREExecutiveDataMapper';
-import { ExecutiveLabelResolver } from '../src/core/runtime/executive-presentation/ExecutiveLabelResolver';
+import { ExecutiveLabelResolver } from '../src/workspace/runtime/executive-presentation/ExecutiveLabelResolver';
 
 describe('DRE Executive Governance (DEGFF) Validation', () => {
   

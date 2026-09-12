@@ -1,8 +1,8 @@
 import { describe, it } from 'node:test';
 import assert from 'node:assert';
-import { CapitalStructureExecutiveAssessmentEngine } from '../src/core/runtime/executive-consolidation/CapitalStructureExecutiveAssessmentEngine';
-import { WorkingCapitalExecutiveAssessmentEngine } from '../src/core/runtime/executive-consolidation/WorkingCapitalExecutiveAssessmentEngine';
-import { StrategicOpinionConsistencyEngine } from '../src/core/runtime/executive-consolidation/StrategicOpinionConsistencyEngine';
+import { CapitalStructureExecutiveAssessmentEngine } from '../src/workspace/runtime/executive-consolidation/CapitalStructureExecutiveAssessmentEngine';
+import { WorkingCapitalExecutiveAssessmentEngine } from '../src/workspace/runtime/executive-consolidation/WorkingCapitalExecutiveAssessmentEngine';
+import { StrategicOpinionConsistencyEngine } from '../src/workspace/runtime/executive-consolidation/StrategicOpinionConsistencyEngine';
 
 describe('BPFinalExecutiveConsistencyHotfix - End-to-End Alignment', () => {
   it('Should not contradict low leverage with alavancagem elevada', () => {

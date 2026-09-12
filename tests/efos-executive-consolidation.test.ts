@@ -1,10 +1,10 @@
 import { describe, it } from 'node:test';
 import * as assert from 'node:assert';
 import { orchestrateExecutiveConsolidation } from '../src/core/orchestration/executiveOrchestrationEngine';
-import { MetricCanonicalizationEngine } from '../src/core/runtime/executive-consolidation/MetricCanonicalizationEngine';
-import { CanonicalDivergenceAuditEngine } from '../src/core/runtime/executive-consolidation/CanonicalDivergenceAuditEngine';
-import { CompositeScoreGovernanceEngine } from '../src/core/runtime/executive-consolidation/CompositeScoreGovernanceEngine';
-import { ExecutiveRecommendation } from '../src/core/runtime/executive-consolidation/ExecutiveRecommendationDeduplicationEngine';
+import { MetricCanonicalizationEngine } from '../src/workspace/runtime/executive-consolidation/MetricCanonicalizationEngine';
+import { CanonicalDivergenceAuditEngine } from '../src/workspace/runtime/executive-consolidation/CanonicalDivergenceAuditEngine';
+import { CompositeScoreGovernanceEngine } from '../src/workspace/runtime/executive-consolidation/CompositeScoreGovernanceEngine';
+import { ExecutiveRecommendation } from '../src/workspace/runtime/executive-consolidation/ExecutiveRecommendationDeduplicationEngine';
 
 describe('EFOS Executive Consolidation Layer (EECF v1.1)', () => {
 

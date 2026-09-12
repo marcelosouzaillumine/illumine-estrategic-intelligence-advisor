@@ -1,9 +1,9 @@
 import test from 'node:test';
 import { strict as assert } from 'assert';
-import { CrossStatementPropagationEngine } from '../src/core/runtime/executive-consolidation/CrossStatementPropagationEngine';
-import { CrossStatementPresentationGuard } from '../src/core/runtime/executive-consolidation/CrossStatementPresentationGuard';
-import { CrossStatementBindingResolver } from '../src/core/runtime/executive-consolidation/CrossStatementBindingResolver';
-import { EFOSExecutiveConsistencyAuditEngine } from '../src/core/runtime/executive-consolidation/EFOSExecutiveConsistencyAuditEngine';
+import { CrossStatementPropagationEngine } from '../src/workspace/runtime/executive-consolidation/CrossStatementPropagationEngine';
+import { CrossStatementPresentationGuard } from '../src/workspace/runtime/executive-consolidation/CrossStatementPresentationGuard';
+import { CrossStatementBindingResolver } from '../src/workspace/runtime/executive-consolidation/CrossStatementBindingResolver';
+import { EFOSExecutiveConsistencyAuditEngine } from '../src/workspace/runtime/executive-consolidation/EFOSExecutiveConsistencyAuditEngine';
 
 test('EFOS Cross-Statement Canonical Tension Enforcement Patch (ECCTEP)', async (t) => {
   await t.test('1. Tensão sintética não renderiza em BOARD', () => {

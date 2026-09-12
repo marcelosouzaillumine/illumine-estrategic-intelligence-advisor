@@ -1,7 +1,7 @@
 import { describe, it } from 'node:test';
 import assert from 'node:assert/strict';
-import { ExecutiveInformationDensityFramework } from '../src/core/runtime/presentation-governance/ExecutiveInformationDensityFramework';
-import { TemporalIntegrityValidator } from '../src/core/runtime/presentation-governance/TemporalIntegrityValidator';
+import { ExecutiveInformationDensityFramework } from '../src/workspace/runtime/presentation-governance/ExecutiveInformationDensityFramework';
+import { TemporalIntegrityValidator } from '../src/workspace/runtime/presentation-governance/TemporalIntegrityValidator';
 import { DLPATemporalIntegrityGuard } from '../src/core/runtime/governance/dlpa/DLPATemporalIntegrityGuard';
 import { PatrimonialRecoveryHorizonEngine } from '../src/core/runtime/governance/dlpa/PatrimonialRecoveryHorizonEngine';
 import { InstitutionalBoardPackRuntime } from '../src/core/runtime/institutional-reporting/InstitutionalBoardPackRuntime';

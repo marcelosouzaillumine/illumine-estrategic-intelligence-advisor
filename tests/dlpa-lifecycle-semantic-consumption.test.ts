@@ -3,8 +3,8 @@ import assert from 'node:assert/strict';
 import { CapitalGovernanceAdapter } from '../src/runtime/adapters/CapitalGovernanceAdapter';
 import { InstitutionalContext } from '../src/runtime/types';
 import { DLPAFiduciaryInterpretationEngine } from '../src/core/runtime/governance/dlpa/DLPAFiduciaryInterpretationEngine';
-import { LifecycleSemanticConsumptionGuard } from '../src/core/runtime/lifecycle/LifecycleSemanticConsumptionGuard';
-import { LifecycleSemanticViolationScanner } from '../src/core/runtime/lifecycle/LifecycleSemanticViolationScanner';
+import { LifecycleSemanticConsumptionGuard } from '../src/workspace/runtime/lifecycle/LifecycleSemanticConsumptionGuard';
+import { LifecycleSemanticViolationScanner } from '../src/workspace/runtime/lifecycle/LifecycleSemanticViolationScanner';
 import { InstitutionalBoardPackDocumentRuntime } from '../src/core/runtime/institutional-reporting/InstitutionalBoardPackDocumentRuntime';
 import { ExecutiveIntelligenceReport } from '../src/core/runtime/executive-intelligence-runtime';
 

@@ -1,7 +1,7 @@
 import { test, describe } from 'node:test';
 import * as assert from 'node:assert';
-import { DFCSemanticCanonicalRootResolver } from '../src/core/runtime/lifecycle/DFCSemanticCanonicalRootResolver';
-import { DFCSemanticRenderingGuard } from '../src/core/runtime/lifecycle/DFCSemanticRenderingGuard';
+import { DFCSemanticCanonicalRootResolver } from '../src/workspace/runtime/lifecycle/DFCSemanticCanonicalRootResolver';
+import { DFCSemanticRenderingGuard } from '../src/workspace/runtime/lifecycle/DFCSemanticRenderingGuard';
 import { LegacyDFCAdapter } from '../src/runtime/adapters/LegacyDFCAdapter';
 
 describe('DFC Root Canonicalization Framework (DRCF)', () => {

@@ -2,9 +2,9 @@ import test from 'node:test';
 import assert from 'node:assert';
 import { CapitalGovernanceAdapter } from '../src/core/runtime/capital-governance/capital-governance-adapter';
 import { FinancialRuntimeContextAdapter } from '../src/core/runtime/financial-context/FinancialRuntimeContextAdapter';
-import { LifecycleFallbackReasons } from '../src/core/runtime/lifecycle/LifecycleFallbackReasons';
-import { LifecyclePropagationTracker } from '../src/core/runtime/lifecycle/LifecyclePropagationAudit';
-import { LifecycleRenderAudit } from '../src/core/runtime/lifecycle/LifecycleRenderAudit';
+import { LifecycleFallbackReasons } from '../src/workspace/runtime/lifecycle/LifecycleFallbackReasons';
+import { LifecyclePropagationTracker } from '../src/workspace/runtime/lifecycle/LifecyclePropagationAudit';
+import { LifecycleRenderAudit } from '../src/workspace/runtime/lifecycle/LifecycleRenderAudit';
 
 test('DLPA Lifecycle Propagation Audit Framework', async (t) => {
   const contextAdapter = new FinancialRuntimeContextAdapter();

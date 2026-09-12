@@ -6,7 +6,7 @@
 import { describe, it } from 'node:test';
 import assert from 'node:assert/strict';
 
-import { ExecutiveNarrativeSingleSourceValidator } from '../src/core/runtime/presentation-governance/ExecutiveNarrativeSingleSourceValidator';
+import { ExecutiveNarrativeSingleSourceValidator } from '../src/workspace/runtime/presentation-governance/ExecutiveNarrativeSingleSourceValidator';
 import { DREBoardAdvisoryEngine } from '../src/core/runtime/dre/DREBoardAdvisoryEngine';
 import { DREBoardDecisionSupportEngine } from '../src/core/runtime/dre/DREBoardDecisionSupportEngine';
 

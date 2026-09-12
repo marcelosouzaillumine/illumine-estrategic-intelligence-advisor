@@ -1,7 +1,7 @@
 import { describe, it } from 'node:test';
 import * as assert from 'node:assert';
-import { StrategicOpinionConsistencyEngine, ExecutiveAnalysisContext } from '../src/core/runtime/executive-consolidation/StrategicOpinionConsistencyEngine';
-import { ExecutiveDecisionSynthesisEngine } from '../src/core/runtime/executive-consolidation/ExecutiveDecisionSynthesisEngine';
+import { StrategicOpinionConsistencyEngine, ExecutiveAnalysisContext } from '../src/workspace/runtime/executive-consolidation/StrategicOpinionConsistencyEngine';
+import { ExecutiveDecisionSynthesisEngine } from '../src/workspace/runtime/executive-consolidation/ExecutiveDecisionSynthesisEngine';
 
 describe('StrategicDiagnosisTextualRefinement', () => {
 

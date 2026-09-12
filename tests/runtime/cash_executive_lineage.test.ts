@@ -11,7 +11,7 @@ describe('CashExecutiveAdvisoryEngine lineage handling', () => {
     const originalEnv = process.env.NODE_ENV;
     process.env.NODE_ENV = 'test';
     const broken = { ...CashExecutiveAdvisoryEngine.compress(true, true, 'c', true) } as any;
-    const { RuntimeLineageGuard } = require('../../src/core/runtime/executive-consolidation/RuntimeLineageGuard');
+    const { RuntimeLineageGuard } = require('../../src/workspace/runtime/executive-consolidation/RuntimeLineageGuard');
     expect(() => RuntimeLineageGuard.validate(broken)).toThrow();
     process.env.NODE_ENV = originalEnv;
   });

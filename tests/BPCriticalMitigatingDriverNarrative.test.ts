@@ -1,6 +1,6 @@
 import { describe, it } from 'node:test';
 import assert from 'node:assert';
-import { ExecutiveNarrativeBuilder, ExecutiveNarrativeContext } from '../src/core/runtime/executive-consolidation/ExecutiveNarrativeBuilder';
+import { ExecutiveNarrativeBuilder, ExecutiveNarrativeContext } from '../src/workspace/runtime/executive-consolidation/ExecutiveNarrativeBuilder';
 
 describe('BPCriticalMitigatingDriverNarrative - v3.2 Hotfix', () => {
   it('Should use prudential language for mitigating drivers in CRITICAL scenarios', () => {

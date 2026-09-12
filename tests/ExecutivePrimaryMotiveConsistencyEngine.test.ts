@@ -1,8 +1,8 @@
 import { describe, it } from 'node:test';
 
 import assert from 'node:assert';
-import { ExecutivePrimaryMotiveConsistencyEngine } from '../src/core/runtime/executive-consolidation/ExecutivePrimaryMotiveConsistencyEngine';
-import { ExecutiveAnalysisContext } from '../src/core/runtime/executive-consolidation/StrategicOpinionConsistencyEngine';
+import { ExecutivePrimaryMotiveConsistencyEngine } from '../src/workspace/runtime/executive-consolidation/ExecutivePrimaryMotiveConsistencyEngine';
+import { ExecutiveAnalysisContext } from '../src/workspace/runtime/executive-consolidation/StrategicOpinionConsistencyEngine';
 
 describe('ExecutivePrimaryMotiveConsistencyEngine', () => {
   it('should return CRITICAL motive for BP 2022 (Liquidez Real Crítica)', () => {

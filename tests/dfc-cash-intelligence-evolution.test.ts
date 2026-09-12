@@ -5,7 +5,7 @@ import { CashFlowScenarioEngine } from '../src/core/runtime/cash-scenario-intell
 import { TreasuryEarlyWarningEngine } from '../src/core/runtime/treasury-early-warning/TreasuryEarlyWarningEngine';
 import { TreasurySustainabilityEngine } from '../src/core/runtime/treasury-sustainability/TreasurySustainabilityEngine';
 import { FiduciaryCashIntelligenceRuntime } from '../src/core/runtime/cash-intelligence/FiduciaryCashIntelligenceRuntime';
-import { PRESENTATION_POLICIES } from '../src/core/runtime/presentation-governance/ExecutivePresentationPolicyRegistry';
+import { PRESENTATION_POLICIES } from '../src/workspace/runtime/presentation-governance/ExecutivePresentationPolicyRegistry';
 
 describe('DFC Cash Flow Governance Roadmap v1.0', () => {
 

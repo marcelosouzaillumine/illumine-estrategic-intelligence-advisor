@@ -6,7 +6,7 @@
 import { describe, it } from 'node:test';
 import assert from 'node:assert/strict';
 
-import { ExecutiveLabelGovernanceRegistry } from '../src/core/runtime/presentation-governance/ExecutiveLabelGovernanceRegistry';
+import { ExecutiveLabelGovernanceRegistry } from '../src/workspace/runtime/presentation-governance/ExecutiveLabelGovernanceRegistry';
 import { CrossStatementIsolationValidator } from '../src/core/runtime/dre/CrossStatementIsolationValidator';
 import { DREBoardDecisionSupportEngine } from '../src/core/runtime/dre/DREBoardDecisionSupportEngine';
 import { OperationalHealthExplainabilityEngine } from '../src/core/runtime/dre/OperationalHealthExplainabilityEngine';

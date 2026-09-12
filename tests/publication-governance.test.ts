@@ -4,10 +4,10 @@
 
 import { describe, it } from 'node:test';
 import assert from 'node:assert/strict';
-import { ExecutivePublicationRuntime } from '../src/core/runtime/publication-governance/ExecutivePublicationRuntime';
-import { FiduciaryDisclosureValidationEngine } from '../src/core/runtime/publication-governance/FiduciaryDisclosureValidationEngine';
-import { ExportAuthorizationEngine } from '../src/core/runtime/publication-governance/ExportAuthorizationEngine';
-import { NarrativeConsistencyEngine } from '../src/core/runtime/publication-governance/NarrativeConsistencyEngine';
+import { ExecutivePublicationRuntime } from '../src/workspace/runtime/publication-governance/ExecutivePublicationRuntime';
+import { FiduciaryDisclosureValidationEngine } from '../src/workspace/runtime/publication-governance/FiduciaryDisclosureValidationEngine';
+import { ExportAuthorizationEngine } from '../src/workspace/runtime/publication-governance/ExportAuthorizationEngine';
+import { NarrativeConsistencyEngine } from '../src/workspace/runtime/publication-governance/NarrativeConsistencyEngine';
 
 const createBaseReportContext = () => ({
   scores: {

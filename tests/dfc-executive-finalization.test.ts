@@ -2,8 +2,8 @@ import { describe, it } from 'node:test';
 import assert from 'node:assert/strict';
 import { FiduciaryCashIntelligenceRuntime } from '../src/core/runtime/cash-intelligence/FiduciaryCashIntelligenceRuntime';
 import { ExecutivePriorityResolver } from '../src/core/runtime/decision-intelligence/ExecutivePriorityResolver';
-import { ExecutiveInformationDensityFramework } from '../src/core/runtime/presentation-governance/ExecutiveInformationDensityFramework';
-import { ExecutiveLabelResolver } from '../src/core/runtime/executive-presentation/ExecutiveLabelResolver';
+import { ExecutiveInformationDensityFramework } from '../src/workspace/runtime/presentation-governance/ExecutiveInformationDensityFramework';
+import { ExecutiveLabelResolver } from '../src/workspace/runtime/executive-presentation/ExecutiveLabelResolver';
 import { DFCExecutiveBindingAudit } from '../src/core/runtime/cash-intelligence/DFCExecutiveBindingAudit';
 
 describe('DFC Executive Governance Calibration & Presentation Governance (DFC-FINAL v1.0)', () => {

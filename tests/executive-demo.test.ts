@@ -1,11 +1,11 @@
 import { describe, it } from 'node:test';
 import assert from 'node:assert';
 
-import { ExecutiveDemoScenarioRegistry, DemoScenario } from '../src/core/runtime/executive/demo/ExecutiveDemoScenarioRegistry';
-import { ExecutiveDemoSession, DemoSessionState } from '../src/core/runtime/executive/demo/ExecutiveDemoSession';
-import { GuidedBoardJourneyEngine } from '../src/core/runtime/executive/demo/GuidedBoardJourneyEngine';
-import { ExecutiveStorySequenceResolver } from '../src/core/runtime/executive/demo/ExecutiveStorySequenceResolver';
-import { InstitutionalDemoDatasetGuard } from '../src/core/runtime/executive/demo/InstitutionalDemoDatasetGuard';
+import { ExecutiveDemoScenarioRegistry, DemoScenario } from '../src/workspace/runtime/executive/demo/ExecutiveDemoScenarioRegistry';
+import { ExecutiveDemoSession, DemoSessionState } from '../src/workspace/runtime/executive/demo/ExecutiveDemoSession';
+import { GuidedBoardJourneyEngine } from '../src/workspace/runtime/executive/demo/GuidedBoardJourneyEngine';
+import { ExecutiveStorySequenceResolver } from '../src/workspace/runtime/executive/demo/ExecutiveStorySequenceResolver';
+import { InstitutionalDemoDatasetGuard } from '../src/workspace/runtime/executive/demo/InstitutionalDemoDatasetGuard';
 
 describe('RC-1.1B: Executive Demonstrability Layer', () => {
 

@@ -2,8 +2,8 @@
 
 import { describe, it } from 'node:test';
 import assert from 'node:assert';
-import { ExecutiveTimelineEngine } from '../src/core/runtime/executive-timeline/ExecutiveTimelineEngine';
-import { HistoricalRuntimeCycle } from '../src/core/runtime/executive-timeline/executive-timeline-types';
+import { ExecutiveTimelineEngine } from '../src/workspace/runtime/executive-timeline/ExecutiveTimelineEngine';
+import { HistoricalRuntimeCycle } from '../src/workspace/runtime/executive-timeline/executive-timeline-types';
 
 describe('Executive Timeline Engine (ETE) v1.0', () => {
 

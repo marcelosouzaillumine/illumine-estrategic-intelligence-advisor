@@ -1,10 +1,10 @@
 import { describe, it } from 'node:test';
 import assert from 'node:assert';
-import { ExecutiveSignalPriorityEngine } from '../src/core/runtime/executive-orchestration/cognitive/ExecutiveSignalPriorityEngine';
-import { NarrativeCompressionEngine } from '../src/core/runtime/executive-orchestration/cognitive/NarrativeCompressionEngine';
-import { DecisionFatigueProtectionEngine } from '../src/core/runtime/executive-orchestration/cognitive/DecisionFatigueProtectionEngine';
-import { ExecutiveNarrativeHierarchyEngine } from '../src/core/runtime/executive-orchestration/cognitive/ExecutiveNarrativeHierarchyEngine';
-import { CognitiveSignal, PrioritizedAttentionItem } from '../src/core/runtime/executive-orchestration/cognitive/types';
+import { ExecutiveSignalPriorityEngine } from '../src/workspace/runtime/executive-orchestration/cognitive/ExecutiveSignalPriorityEngine';
+import { NarrativeCompressionEngine } from '../src/workspace/runtime/executive-orchestration/cognitive/NarrativeCompressionEngine';
+import { DecisionFatigueProtectionEngine } from '../src/workspace/runtime/executive-orchestration/cognitive/DecisionFatigueProtectionEngine';
+import { ExecutiveNarrativeHierarchyEngine } from '../src/workspace/runtime/executive-orchestration/cognitive/ExecutiveNarrativeHierarchyEngine';
+import { CognitiveSignal, PrioritizedAttentionItem } from '../src/workspace/runtime/executive-orchestration/cognitive/types';
 import { ExecutiveIntelligenceReport } from '../src/core/runtime/executive-intelligence-runtime';
 
 describe('Executive Cognitive Orchestration Module Tests', () => {

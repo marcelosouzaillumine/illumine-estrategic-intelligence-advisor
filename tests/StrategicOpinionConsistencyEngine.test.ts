@@ -2,8 +2,8 @@ import { describe, it } from 'node:test';
 import assert from 'node:assert';
 
 
-import { StrategicOpinionConsistencyEngine, ExecutiveAnalysisContext } from '../src/core/runtime/executive-consolidation/StrategicOpinionConsistencyEngine';
-import { ExecutiveDecisionSynthesisEngine } from '../src/core/runtime/executive-consolidation/ExecutiveDecisionSynthesisEngine';
+import { StrategicOpinionConsistencyEngine, ExecutiveAnalysisContext } from '../src/workspace/runtime/executive-consolidation/StrategicOpinionConsistencyEngine';
+import { ExecutiveDecisionSynthesisEngine } from '../src/workspace/runtime/executive-consolidation/ExecutiveDecisionSynthesisEngine';
 
 describe('StrategicOpinionConsistencyEngine Parametric Test v1.3', () => {
   it('should generate parametric narratives that reflect unique material drivers across healthy exercises', () => {

@@ -1,7 +1,7 @@
 import { describe, it } from 'node:test';
 import assert from 'node:assert';
-import { BalanceSheetScenarioClassifier } from '../src/core/runtime/executive-consolidation/BalanceSheetScenarioClassifier';
-import { BalanceSheetExecutiveFacts } from '../src/core/runtime/executive-consolidation/BalanceSheetExecutiveFactsBuilder';
+import { BalanceSheetScenarioClassifier } from '../src/workspace/runtime/executive-consolidation/BalanceSheetScenarioClassifier';
+import { BalanceSheetExecutiveFacts } from '../src/workspace/runtime/executive-consolidation/BalanceSheetExecutiveFactsBuilder';
 
 describe('BalanceSheetScenarioClassifier', () => {
   it('should identify CRITICAL_LIQUIDITY_STRESS when liquidity is very low', () => {

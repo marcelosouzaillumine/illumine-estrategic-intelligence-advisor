@@ -1,6 +1,6 @@
 import { test, describe } from 'node:test';
 import assert from 'node:assert/strict';
-import { ExecutiveLifecycleContextResolver } from '../src/core/runtime/lifecycle/ExecutiveLifecycleContextResolver';
+import { ExecutiveLifecycleContextResolver } from '../src/workspace/runtime/lifecycle/ExecutiveLifecycleContextResolver';
 
 describe('ExecutiveLifecycleContextResolver (ELAF v1.0)', () => {
   test('1. Does not use semanticSource or canonicalRoot, strictly lifecycleStage and lifecycleLabel', () => {

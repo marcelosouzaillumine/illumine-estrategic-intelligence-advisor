@@ -1,12 +1,12 @@
 import { describe, it } from 'node:test';
 import assert from 'node:assert';
 
-import { BoardModeGuard } from '../src/core/runtime/executive/board/BoardModeGuard';
-import { InstitutionalBoardFlow } from '../src/core/runtime/executive/board/InstitutionalBoardFlow';
-import { ExecutiveSessionContext } from '../src/core/runtime/executive/board/ExecutiveSessionContext';
-import { ExecutiveNarrativePolicy } from '../src/core/runtime/executive/ExecutiveNarrativePolicy';
-import { RuntimeBackedStorytelling } from '../src/core/runtime/executive/RuntimeBackedStorytelling';
-import { ExecutiveNarrativeData } from '../src/core/runtime/executive/types';
+import { BoardModeGuard } from '../src/workspace/runtime/executive/board/BoardModeGuard';
+import { InstitutionalBoardFlow } from '../src/workspace/runtime/executive/board/InstitutionalBoardFlow';
+import { ExecutiveSessionContext } from '../src/workspace/runtime/executive/board/ExecutiveSessionContext';
+import { ExecutiveNarrativePolicy } from '../src/workspace/runtime/executive/ExecutiveNarrativePolicy';
+import { RuntimeBackedStorytelling } from '../src/workspace/runtime/executive/RuntimeBackedStorytelling';
+import { ExecutiveNarrativeData } from '../src/workspace/runtime/executive/types';
 
 // ─── Fixtures ──────────────────────────────────────────────────────────────
 

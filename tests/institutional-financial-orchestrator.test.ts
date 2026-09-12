@@ -1,6 +1,6 @@
 import { describe, it } from 'node:test';
 import assert from 'node:assert/strict';
-import { InstitutionalFinancialDomainOrchestrator } from '../src/core/runtime/orchestrator/InstitutionalFinancialDomainOrchestrator';
+import { InstitutionalFinancialDomainOrchestrator } from '../src/workspace/runtime/orchestrator/InstitutionalFinancialDomainOrchestrator';
 
 describe('InstitutionalFinancialDomainOrchestrator', () => {
   const getMockCtx = (): any => ({

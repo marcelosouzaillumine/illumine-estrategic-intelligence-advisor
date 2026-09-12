@@ -1,8 +1,8 @@
 import { test, describe } from 'node:test';
 import * as assert from 'node:assert';
-import { ExecutiveLifecycleContextResolver } from '../src/core/runtime/lifecycle/ExecutiveLifecycleContextResolver';
+import { ExecutiveLifecycleContextResolver } from '../src/workspace/runtime/lifecycle/ExecutiveLifecycleContextResolver';
 import { LegacyDFCAdapter } from '../src/runtime/adapters/LegacyDFCAdapter';
-import { DFCSemanticCanonicalRootResolver } from '../src/core/runtime/lifecycle/DFCSemanticCanonicalRootResolver';
+import { DFCSemanticCanonicalRootResolver } from '../src/workspace/runtime/lifecycle/DFCSemanticCanonicalRootResolver';
 
 describe('Executive Lifecycle Abstraction Framework (ELAF) v1.0', () => {
 

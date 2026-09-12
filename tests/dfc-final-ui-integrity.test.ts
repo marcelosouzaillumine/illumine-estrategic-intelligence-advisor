@@ -1,7 +1,7 @@
 import { describe, it } from 'node:test';
 import assert from 'node:assert/strict';
 import { DFCCausalDriverPresentationAudit } from '../src/core/runtime/cash-causal-intelligence/DFCCausalDriverPresentationAudit';
-import { ExecutiveInformationDensityFramework } from '../src/core/runtime/presentation-governance/ExecutiveInformationDensityFramework';
+import { ExecutiveInformationDensityFramework } from '../src/workspace/runtime/presentation-governance/ExecutiveInformationDensityFramework';
 import { TreasuryEarlyWarningEngine } from '../src/core/runtime/treasury-early-warning/TreasuryEarlyWarningEngine';
 
 describe('DFC Final UI Integrity & Executive Language Patch v1.1', () => {

@@ -1,6 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert';
-import { DLPALegacyLabelScanner } from '../src/core/runtime/lifecycle/DLPALegacyLabelScanner';
+import { DLPALegacyLabelScanner } from '../src/workspace/runtime/lifecycle/DLPALegacyLabelScanner';
 import { CapitalGovernanceAdapter } from '../src/core/runtime/capital-governance/capital-governance-adapter';
 import { FinancialRuntimeContextAdapter } from '../src/core/runtime/financial-context/FinancialRuntimeContextAdapter';
 

@@ -1,7 +1,7 @@
 import test from 'node:test';
 import assert from 'node:assert';
 import { LegacyDFCAdapter } from '../src/runtime/adapters/LegacyDFCAdapter';
-import { DFCSemanticRenderingGuard } from '../src/core/runtime/lifecycle/DFCSemanticRenderingGuard';
+import { DFCSemanticRenderingGuard } from '../src/workspace/runtime/lifecycle/DFCSemanticRenderingGuard';
 import { FinancialRuntimeContextAdapter } from '../src/core/runtime/financial-context/FinancialRuntimeContextAdapter';
 
 test('DFC Executive Semantic Rendering Completion Framework', async (t) => {

@@ -4,11 +4,11 @@
 
 import { describe, it } from 'node:test';
 import assert from 'node:assert/strict';
-import { ExecutiveNarrativeEngine } from '../src/core/runtime/advisory-narrative/ExecutiveNarrativeEngine';
-import { FiduciaryCommunicationEngine } from '../src/core/runtime/advisory-narrative/FiduciaryCommunicationEngine';
-import { BoardCommunicationEngine } from '../src/core/runtime/advisory-narrative/BoardCommunicationEngine';
-import { ConfidenceNarrativeEngine } from '../src/core/runtime/advisory-narrative/ConfidenceNarrativeEngine';
-import { StrategicRecommendationEngine } from '../src/core/runtime/advisory-narrative/StrategicRecommendationEngine';
+import { ExecutiveNarrativeEngine } from '../src/workspace/runtime/advisory-narrative/ExecutiveNarrativeEngine';
+import { FiduciaryCommunicationEngine } from '../src/workspace/runtime/advisory-narrative/FiduciaryCommunicationEngine';
+import { BoardCommunicationEngine } from '../src/workspace/runtime/advisory-narrative/BoardCommunicationEngine';
+import { ConfidenceNarrativeEngine } from '../src/workspace/runtime/advisory-narrative/ConfidenceNarrativeEngine';
+import { StrategicRecommendationEngine } from '../src/workspace/runtime/advisory-narrative/StrategicRecommendationEngine';
 
 const createBaseReportContext = () => ({
   scores: {
