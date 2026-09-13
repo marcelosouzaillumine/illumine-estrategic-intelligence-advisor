@@ -1,8 +1,2 @@
-export * from './FundingFragilityMap';
-export * from './InstitutionalPressureDashboard';
-export * from './InstitutionalStrainHeatmap';
-export * from './LiquidityCompressionGraph';
-export * from './OperationalFatiguePanel';
-export * from './PressureExplainabilityDrawer';
-export * from './PressurePropagationGraph';
-export * from './TreasuryErosionTimeline';
+// shim — implementação em capabilities/financial/operating-pressure/presentation/
+export * from '../../capabilities/financial/operating-pressure/presentation';

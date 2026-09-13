@@ -1,5 +1,2 @@
-export * from './DiagnosticIntro';
-export * from './DiagnosticJourneyPage';
-export * from './DiagnosticProfileView';
-export * from './DiagnosticProgressIndicator';
-export * from './DiagnosticQuestionCard';
+// shim — implementação em capabilities/financial/diagnostics/presentation/
+export * from '../../capabilities/financial/diagnostics/presentation';

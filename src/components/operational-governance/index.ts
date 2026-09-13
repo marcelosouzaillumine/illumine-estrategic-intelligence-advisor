@@ -1,6 +1,2 @@
-export * from './ExecutionIntegrityPanel';
-export * from './InstitutionalDependencyRadar';
-export * from './OperationalContinuitySurface';
-export * from './OperationalExplainabilityDrawer';
-export * from './OperationalFrictionMap';
-export * from './StrategicExecutionAlignmentPanel';
+// shim — implementação em capabilities/financial/operational-governance/presentation/
+export * from '../../capabilities/financial/operational-governance/presentation';

@@ -1,6 +1,2 @@
-export * from './ExecutiveCognitiveGovernanceCard';
-export * from './ExecutiveCopilotPanel';
-export * from './ExecutiveDecisionHistoryCard';
-export * from './ExecutiveDecisionTimeline';
-export * from './ExecutiveLearningCard';
-export * from './ExecutivePatternCard';
+// shim — implementação em capabilities/financial/executive-copilot/presentation/
+export * from '../../capabilities/financial/executive-copilot/presentation';

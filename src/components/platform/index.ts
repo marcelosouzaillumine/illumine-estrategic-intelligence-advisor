@@ -1,12 +1,2 @@
-export * from './PlatformHeader';
-export * from './PlatformGovernanceOverview';
-export * from './PlatformOperationalMetrics';
-export * from './PlatformWorkspace';
-export * from './PlatformEditor';
-export * from './PlatformAuditTrail';
-export * from './PlatformStatusCard';
-export * from './DataSourceCard';
-export * from './ConnectorStatusCard';
-export * from './DataQualityOverview';
-export * from './SyncHistoryTable';
-export * from './DataLineageViewer';
+// shim — implementação em capabilities/financial/platform/presentation/
+export * from '../../capabilities/financial/platform/presentation';

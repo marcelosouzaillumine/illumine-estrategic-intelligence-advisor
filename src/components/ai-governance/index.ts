@@ -1,7 +1,2 @@
-export * from './CopilotChatPanel';
-export * from './CopilotContextSelector';
-export * from './CopilotGroundingBadge';
-export * from './CopilotPolicyWarning';
-export * from './CopilotSessionHistory';
-export * from './CopilotSourceReferences';
-export * from './CopilotTracePanel';
+// shim — implementação em capabilities/financial/ai-governance/presentation/
+export * from '../../capabilities/financial/ai-governance/presentation';

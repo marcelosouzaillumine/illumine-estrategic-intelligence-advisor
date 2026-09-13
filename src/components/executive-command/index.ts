@@ -1,7 +1,2 @@
-export * from './CommandExplainabilityDrawer';
-export * from './ExecutiveDirectivePanel';
-export * from './ExecutiveDriftRadar';
-export * from './GovernanceRestrictionOverlay';
-export * from './InstitutionalExecutiveCommandCenter';
-export * from './InstitutionalPrioritySurface';
-export * from './StrategicAlignmentSurface';
+// shim — implementação em capabilities/financial/executive-command/presentation/
+export * from '../../capabilities/financial/executive-command/presentation';

@@ -1,4 +1,2 @@
-export * from './DomainHealthExplorer';
-export * from './ExecutiveDigitalTwinDashboard';
-export * from './InstitutionalDigitalTwinWorkspace';
-export * from './InstitutionalMapViewer';
+// shim — implementação em capabilities/financial/digital-twin/presentation/
+export * from '../../capabilities/financial/digital-twin/presentation';

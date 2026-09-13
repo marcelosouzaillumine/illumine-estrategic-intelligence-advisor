@@ -1,2 +1,2 @@
-export * from './LanguageSelector';
-export * from './LocalizedEnum';
+// shim — implementação em capabilities/financial/shared/presentation/
+export * from '../../capabilities/financial/shared/presentation';

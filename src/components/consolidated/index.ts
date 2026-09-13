@@ -1,10 +1,2 @@
-export * from './ConsolidatedConfidenceBadge';
-export * from './ConsolidatedExecutiveSummaryCard';
-export * from './ConsolidatedLineagePanel';
-export * from './CriticalEmissionBlocker';
-export * from './EntityRoleInterpretationTable';
-export * from './GovernanceViolationsPanel';
-export * from './IntercompanyDependencyMap';
-export * from './RiskPropagationPanel';
-export * from './StrategicGroupAlertsPanel';
-export * from './SystemicRisksPanel';
+// shim — implementação em capabilities/financial/consolidated/presentation/
+export * from '../../capabilities/financial/consolidated/presentation';

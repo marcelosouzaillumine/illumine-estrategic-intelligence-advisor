@@ -1,10 +1,2 @@
-export * from './CognitiveLoadIndicator';
-export * from './ExecutiveAdoptionTimeline';
-export * from './ExecutiveOnboardingSurface';
-export * from './GovernanceReadabilityPanel';
-export * from './GovernanceWorkflowGuide';
-export * from './PilotFeedbackSurface';
-export * from './PilotOperationalHealthCard';
-export * from './PilotOperationsCenter';
-export * from './PilotValidationDashboard';
-export * from './RuntimeStabilitySurface';
+// shim — implementação em capabilities/financial/pilot-operations/presentation/
+export * from '../../capabilities/financial/pilot-operations/presentation';

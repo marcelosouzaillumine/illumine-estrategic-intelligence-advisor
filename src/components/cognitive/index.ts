@@ -1,10 +1,2 @@
-export * from './CausalPathPanel';
-export * from './CognitiveSummaryCard';
-export * from './DecisionCognitiveDrawer';
-export * from './DecisionImpactPanel';
-export * from './EvidenceDetailPanel';
-export * from './EvidencePanel';
-export * from './ExecutiveCognitiveDashboard';
-export * from './ExplainabilityDetailPanel';
-export * from './ExplainabilityPanel';
-export * from './InstitutionalGraphViewer';
+// shim — implementação em capabilities/financial/cognitive/presentation/
+export * from '../../capabilities/financial/cognitive/presentation';

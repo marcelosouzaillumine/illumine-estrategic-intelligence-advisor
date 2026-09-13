@@ -1,4 +1,2 @@
-export * from './ExecutiveWorkspaceLab';
-export * from './IntelligenceInbox';
-export * from './IntelligenceLab';
-export * from './IntelligenceTraceViewer';
+// shim — implementação em capabilities/financial/executive-workspace/presentation/
+export * from '../../capabilities/financial/executive-workspace/presentation';

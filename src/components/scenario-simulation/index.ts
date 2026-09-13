@@ -1,8 +1,2 @@
-export * from './ExecutiveScenarioNavigator';
-export * from './ForecastIntegrityBadge';
-export * from './GovernanceForecastSurface';
-export * from './GovernanceProjectionTimeline';
-export * from './ScenarioSimulationPanel';
-export * from './SimulationConfidenceCard';
-export * from './SimulationLineageViewer';
-export * from './StrategicStressMap';
+// shim — implementação em capabilities/financial/scenario-simulation/presentation/
+export * from '../../capabilities/financial/scenario-simulation/presentation';
