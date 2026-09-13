@@ -17,7 +17,7 @@ import {
 } from 'lucide-react';
 import { motion } from 'motion/react';
 import { cn, formatCurrency, formatValue } from '../../lib/utils';
-import { ExecutiveCommentary } from '../ExecutiveCommentary';
+import { ExecutiveCommentary } from '../../capabilities/financial/components/presentation/ExecutiveCommentary';
 import { PageHeader, StatusBadge } from '../Common';
 import { ExecutiveMetricCard } from '../ui/executive-metric-card';
 import { ExecutivePageTemplate } from '../ui/executive-page-template';

@@ -1,1 +1,2 @@
-export * from './InstitutionalDigitalTwinViewModel';
+// shim
+export * from '../../capabilities/financial/digital-twin/application';

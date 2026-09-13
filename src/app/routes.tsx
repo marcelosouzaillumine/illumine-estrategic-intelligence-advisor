@@ -34,7 +34,7 @@ import { OKRsPage } from '../components/pages/OKRsPage';
 import { PrecificacaoPage } from '../components/pages/legacy-archive/PrecificacaoPage';
 import { RelatorioExecutivoPage } from '../components/pages/RelatorioExecutivoPage';
 import { StrategicSimulatorPage } from '../components/pages/StrategicSimulatorPage';
-import PayrollDashboard from '../components/PayrollDashboard';
+import PayrollDashboard from '../capabilities/financial/components/presentation/PayrollDashboard';
 import { GovernanceDashboardPage } from '../components/pages/GovernanceDashboardPage';
 import { MarketingComercialPage } from '../components/pages/legacy-archive/MarketingComercialPage';
 import { OperacionalPage } from '../components/pages/legacy-archive/OperacionalPage';

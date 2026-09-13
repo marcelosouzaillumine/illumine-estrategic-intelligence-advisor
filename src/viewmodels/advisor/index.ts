@@ -1,1 +1,2 @@
-export * from './AdvisorWorkspaceViewModel';
+// shim
+export * from '../../capabilities/financial/advisor/application';

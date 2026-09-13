@@ -10,10 +10,10 @@
 import React, { useState, useCallback, useEffect } from 'react';
 import { TenantBrandConfig } from '../../core/brand/BrandBoundaryContract';
 import { BrandIdentityResolver } from '../../core/brand/BrandIdentityResolver';
-import { BrandIdentityForm } from '../../components/admin/brand/BrandIdentityForm';
-import { BrandColorConfigurator } from '../../components/admin/brand/BrandColorConfigurator';
-import { BrandIdentityPreview } from '../../components/admin/brand/BrandIdentityPreview';
-import { BrandPublicationWorkflow } from '../../components/admin/brand/BrandPublicationWorkflow';
+import { BrandIdentityForm } from '../../capabilities/financial/admin/presentation/BrandIdentityForm';
+import { BrandColorConfigurator } from '../../capabilities/financial/admin/presentation/BrandColorConfigurator';
+import { BrandIdentityPreview } from '../../capabilities/financial/admin/presentation/BrandIdentityPreview';
+import { BrandPublicationWorkflow } from '../../capabilities/financial/admin/presentation/BrandPublicationWorkflow';
 import { useLanguage } from '../../contexts/LanguageContext';
 import { Building2, CheckCircle2, AlertCircle, X } from 'lucide-react';
 

@@ -1,1 +1,2 @@
-export * from './ExecutiveCognitiveViewModel';
+// shim
+export * from '../../capabilities/financial/cognitive/application';

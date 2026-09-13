@@ -9,7 +9,7 @@ import { useAllFinancialData } from '../../../../hooks/useFinancialData';
 import html2canvas from 'html2canvas';
 import jsPDF from 'jspdf';
 import { evaluateFinancialRules } from '../../../../lib/governanceIntelligence';
-import { GovernanceInsightPanel } from '../../../../components/GovernanceInsightPanel';
+import { GovernanceInsightPanel } from '../../components/presentation/GovernanceInsightPanel';
 import { PageHeader, StatusBadge } from '../../../../components/Common';
 import { ExecutivePageTemplate } from '../../../../components/ui/executive-page-template';
 import { ExecutiveSurface } from '../../../../components/ui/executive-surface';

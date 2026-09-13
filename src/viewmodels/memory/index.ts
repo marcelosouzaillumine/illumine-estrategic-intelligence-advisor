@@ -1,1 +1,2 @@
-export * from './InstitutionalMemoryViewModel';
+// shim
+export * from '../../capabilities/financial/memory/application';

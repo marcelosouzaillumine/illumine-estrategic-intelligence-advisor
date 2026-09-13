@@ -16,8 +16,8 @@ import { ExecutiveEmptyState } from '../../../../components/ui/executive-empty-s
 import { formatValue, formatCurrency, cn } from '../../../../lib/utils';
 import { EixoGestao } from '../../../../types/modules';
 import { GOVERNANCE_PRINCIPLES, evaluateAxisRules } from '../../../../lib/governanceIntelligence';
-import { GovernanceInsightPanel } from '../../../../components/GovernanceInsightPanel';
-import { ExecutivePerspectiveSection } from '../../../../components/ExecutivePerspectiveSection';
+import { GovernanceInsightPanel } from '../../components/presentation/GovernanceInsightPanel';
+import { ExecutivePerspectiveSection } from '../../components/presentation/ExecutivePerspectiveSection';
 import { useExecutiveAdvisory } from '../../../../hooks/useExecutiveAdvisory';
 import { useHistoricalDemonstracoes } from '../../../../hooks/useHistoricalDemonstracoes';
 import { useInstitutionalRuntime } from '../../../../hooks/useInstitutionalRuntime';

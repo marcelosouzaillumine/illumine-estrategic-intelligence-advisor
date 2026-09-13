@@ -1,1 +1,2 @@
-export * from './GovernanceTimeMachineViewModel';
+// shim
+export * from '../../capabilities/financial/temporal/application';
