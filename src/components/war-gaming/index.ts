@@ -1,8 +1,2 @@
-export * from './CollapsePropagationGraph';
-export * from './CrisisExplainabilityDrawer';
-export * from './CrisisScenarioPanel';
-export * from './InstitutionalPressureHeatmap';
-export * from './InstitutionalWarRoomPage';
-export * from './LiquidityStressTimeline';
-export * from './StrategicResponseComparator';
-export * from './TreasurySurvivalMap';
+// shim — implementação em capabilities/financial/war-gaming/presentation/
+export * from '../../capabilities/financial/war-gaming/presentation';

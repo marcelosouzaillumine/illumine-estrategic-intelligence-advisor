@@ -1,8 +1,2 @@
-export * from './CrossDomainStateBoard';
-export * from './GovernanceCoordinationCenter';
-export * from './InstitutionalContextViewer';
-export * from './InstitutionalDependencyGraph';
-export * from './InstitutionalPulsePanel';
-export * from './InstitutionalStateMap';
-export * from './OperationalSynchronizationViewer';
-export * from './UnifiedGovernanceTimelinePanel';
+// shim — implementação em capabilities/financial/ios/presentation/
+export * from '../../capabilities/financial/ios/presentation';

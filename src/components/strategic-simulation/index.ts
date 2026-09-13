@@ -1,8 +1,2 @@
-export * from './DecisionEvidenceViewer';
-export * from './DecisionImpactPanel';
-export * from './GovernanceTradeoffPanel';
-export * from './InstitutionalResiliencePanel';
-export * from './ScenarioComparisonViewer';
-export * from './StrategicSimulationFeed';
-export * from './StrategicSimulationTimeline';
-export * from './StrategicStressCascadePanel';
+// shim — implementação em capabilities/financial/strategic-simulation/presentation/
+export * from '../../capabilities/financial/strategic-simulation/presentation';

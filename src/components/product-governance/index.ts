@@ -1,9 +1,2 @@
-export * from './DemoWorkspacePanel';
-export * from './FeatureEntitlementTable';
-export * from './FeatureFlagViewer';
-export * from './ProductAccessAuditFeed';
-export * from './ProductPlanRegistryPanel';
-export * from './SubscriptionStatusCard';
-export * from './TrialModePanel';
-export * from './UsageQuotaDashboard';
-export * from './useProductGovernance';
+// shim — implementação em capabilities/financial/product-governance/presentation/
+export * from '../../capabilities/financial/product-governance/presentation';

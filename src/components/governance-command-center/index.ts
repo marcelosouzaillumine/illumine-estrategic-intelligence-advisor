@@ -1,14 +1,2 @@
-export * from './CommandIntegrityBadge';
-export * from './EscalationTopologyMap';
-export * from './ExecutiveCommandNavigator';
-export * from './ExecutiveIncidentRadar';
-export * from './GovernanceAuditCorrelationPanel';
-export * from './GovernanceCommandCenterSurface';
-export * from './GovernanceIncidentQueue';
-export * from './GovernanceSupervisionTimeline';
-export * from './IncidentLifecyclePanel';
-export * from './IncidentLineageViewer';
-export * from './MultiTenantOperationsGrid';
-export * from './RuntimeHealthPanel';
-export * from './RuntimeIntegritySurface';
-export * from './SystemicPropagationSurface';
+// shim — implementação em capabilities/financial/governance-command-center/presentation/
+export * from '../../capabilities/financial/governance-command-center/presentation';

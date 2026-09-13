@@ -1,13 +1,2 @@
-export * from './ExecutiveTimeMachineDashboard';
-export * from './GovernanceTrajectoryGraph';
-export * from './HistoricalEvidencePanel';
-export * from './InstitutionalChangePanel';
-export * from './InstitutionalResilienceTimeline';
-export * from './SnapshotComparisonPanel';
-export * from './TemporalAdvisoryCard';
-export * from './TemporalBoardWorkflowPanel';
-export * from './TemporalCollaborationPanel';
-export * from './TemporalEarlyWarningBanner';
-export * from './TemporalExecutiveScoreboard';
-export * from './TemporalHeatmapPanel';
-export * from './TimelineExplorer';
+// shim — implementação em capabilities/financial/temporal/presentation/
+export * from '../../capabilities/financial/temporal/presentation';

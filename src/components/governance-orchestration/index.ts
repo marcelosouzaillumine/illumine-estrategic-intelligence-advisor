@@ -1,9 +1,2 @@
-export * from './CrossDomainCoordinationPanel';
-export * from './EscalationOrchestrationPanel';
-export * from './GovernancePlaybookPanel';
-export * from './GovernanceRecommendationFeed';
-export * from './InstitutionalPriorityBoard';
-export * from './PlaybookSimulationViewer';
-export * from './RecoveryPathViewer';
-export * from './StrategicResponseTimeline';
-export * from './useGovernanceOrchestration';
+// shim — implementação em capabilities/financial/governance-orchestration/presentation/
+export * from '../../capabilities/financial/governance-orchestration/presentation';

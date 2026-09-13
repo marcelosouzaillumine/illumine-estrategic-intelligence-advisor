@@ -1,7 +1,2 @@
-export * from './ExecutiveContinuityNarrativePanel';
-export * from './FiduciaryContinuityPanel';
-export * from './FiduciaryRestrictionOverlay';
-export * from './InstitutionalLifecycleSurface';
-export * from './InstitutionalTrajectoryGraph';
-export * from './RecoveryRegressionTimeline';
-export * from './ResilienceAntifragilityRadar';
+// shim — implementação em capabilities/financial/institutional-continuity/presentation/
+export * from '../../capabilities/financial/institutional-continuity/presentation';

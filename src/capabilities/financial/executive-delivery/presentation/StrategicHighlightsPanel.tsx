@@ -1,0 +1,124 @@
+import React from 'react';
+import { Target, CheckCircle2, Sparkles } from 'lucide-react';
+import { ExecutiveIntelligenceReport } from '../../../../services/FiduciaryRuntimeAdapter';
+import { cn, formatValue } from '../../../../lib/utils';
+
+interface StrategicHighlightsPanelProps {
+  report: ExecutiveIntelligenceReport;
+  className?: string;
+}
+
+export function StrategicHighlightsPanel({ report, className }: StrategicHighlightsPanelProps) {
+  if (!report) return null;
+
+  const { metrics } = report;
+  const kpis = metrics?.kpis || [];
+  const efficiencies = metrics?.efficiencies || [];
+
+  const getStatusColor = (status: string) => {
+    switch (status) {
+      case 'Verde':
+        return 'bg-success-soft text-emerald-700 border-emerald-100';
+      case 'Amarelo':
+        return 'bg-warning-soft text-amber-700 border-amber-100';
+      case 'Vermelho':
+        return 'bg-critical-soft text-rose-700 border-rose-100';
+      default:
+        return 'bg-slate-50 text-muted-foreground border-border';
+    }
+  };
+
+  const getEfficiencyColor = (color: string) => {
+    switch (color) {
+      case 'green':
+      case 'emerald':
+        return 'text-emerald-600 bg-success-soft border-emerald-100';
+      case 'yellow':
+      case 'amber':
+        return 'text-amber-600 bg-warning-soft border-amber-100';
+      case 'red':
+      case 'rose':
+        return 'text-rose-600 bg-critical-soft border-rose-100';
+      default:
+        return 'text-primary bg-primary border-primary';
+    }
+  };
+
+  return (
+    <div className={cn("grid grid-cols-1 md:grid-cols-2 gap-6", className)}>
+      
+      {/* KPIs List */}
+      <div className="bg-white border border-border rounded-[32px] p-6 shadow-sm">
+        <div className="flex items-center gap-2 mb-6">
+          <Target className="text-muted-foreground" size={18} />
+          <span className="text-[10px] font-black uppercase tracking-widest text-muted-foreground">Indicadores Operacionais (KPIs)</span>
+        </div>
+
+        {kpis.length === 0 ? (
+          <div className="py-8 text-center text-xs font-medium text-muted-foreground italic">
+            Nenhum KPI declarado nesta execução.
+          </div>
+        ) : (
+          <div className="space-y-3 max-h-[380px] overflow-y-auto pr-1">
+            {kpis.map((kpi, idx) => (
+              <div 
+                key={idx} 
+                className="flex items-center justify-between p-3 rounded-xl border border-border hover:border-border transition-all bg-slate-50/50"
+              >
+                <div>
+                  <p className="text-xs font-bold text-muted-foreground">{kpi.name}</p>
+                  <p className="text-[9px] text-muted-foreground font-semibold mt-1">Tendência: {kpi.trend}</p>
+                </div>
+                <div className="flex items-center gap-3">
+                  <span className="text-sm font-black text-muted-foreground">
+                    {formatValue(Number(kpi.val), kpi.unit)}
+                  </span>
+                  <span className={cn("text-[9px] px-2.5 py-1 rounded-full border font-black uppercase tracking-wider", getStatusColor(kpi.status))}>
+                    {kpi.status}
+                  </span>
+                </div>
+              </div>
+            ))}
+          </div>
+        )}
+      </div>
+
+      {/* Efficiencies & Optimizations */}
+      <div className="bg-white border border-border rounded-[32px] p-6 shadow-sm">
+        <div className="flex items-center gap-2 mb-6">
+          <Sparkles className="text-muted-foreground" size={18} />
+          <span className="text-[10px] font-black uppercase tracking-widest text-muted-foreground">Eficiências Estruturais Detectadas</span>
+        </div>
+
+        {efficiencies.length === 0 ? (
+          <div className="py-8 text-center text-xs font-medium text-muted-foreground italic">
+            Nenhuma eficiência declarada nesta execução.
+          </div>
+        ) : (
+          <div className="space-y-4 max-h-[380px] overflow-y-auto pr-1">
+            {efficiencies.map((eff, idx) => (
+              <div 
+                key={idx} 
+                className={cn("p-4 rounded-2xl border flex gap-3 items-start", getEfficiencyColor(eff.color))}
+              >
+                <CheckCircle2 size={16} className="shrink-0 mt-0.5" />
+                <div>
+                  <div className="flex items-baseline justify-between gap-4">
+                    <p className="text-xs font-black uppercase tracking-wider text-muted-foreground">{eff.name}</p>
+                    <span className="text-xs font-black text-muted-foreground shrink-0">
+                      {eff.value}{eff.unit || '%'}
+                    </span>
+                  </div>
+                  <p className="text-[11px] font-semibold text-muted-foreground mt-1 leading-normal">
+                    {eff.desc}
+                  </p>
+                </div>
+              </div>
+            ))}
+          </div>
+        )}
+      </div>
+
+    </div>
+  );
+}

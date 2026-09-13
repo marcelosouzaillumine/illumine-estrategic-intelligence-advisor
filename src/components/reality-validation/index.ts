@@ -1,9 +1,2 @@
-export * from './CrossTenantStressViewer';
-export * from './ExecutiveUXHeatmap';
-export * from './GoldenDatasetExplorer';
-export * from './InstitutionalComplexityViewer';
-export * from './OperationalScalePanel';
-export * from './OperationalStressDashboard';
-export * from './RealityValidationTimeline';
-export * from './RuntimeStabilityPanel';
-export * from './useInstitutionalSessionStability';
+// shim — implementação em capabilities/financial/reality-validation/presentation/
+export * from '../../capabilities/financial/reality-validation/presentation';

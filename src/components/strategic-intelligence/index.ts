@@ -1,10 +1,2 @@
-export * from './CapitalStrategyAlignmentSurface';
-export * from './ExpansionSustainabilityPanel';
-export * from './InstitutionalDirectionHeatmap';
-export * from './InstitutionalStrategicIntelligenceCenter';
-export * from './InstitutionalVectorMap';
-export * from './StrategicContradictionSurface';
-export * from './StrategicExplainabilityDrawer';
-export * from './StrategicPosturePanel';
-export * from './StrategicRestrictionOverlay';
-export * from './TrajectoryContinuityTimeline';
+// shim — implementação em capabilities/financial/strategic-intelligence/presentation/
+export * from '../../capabilities/financial/strategic-intelligence/presentation';

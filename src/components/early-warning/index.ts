@@ -1,9 +1,2 @@
-export * from './BenchmarkDeviationPanel';
-export * from './EarlyWarningFeed';
-export * from './EarlyWarningTimeline';
-export * from './GovernanceTrendPanel';
-export * from './GraphPatternAlertPanel';
-export * from './PredictiveRiskPanel';
-export * from './ScenarioDeteriorationPanel';
-export * from './WarningEvidenceViewer';
-export * from './useEarlyWarningSignals';
+// shim — implementação em capabilities/financial/early-warning/presentation/
+export * from '../../capabilities/financial/early-warning/presentation';

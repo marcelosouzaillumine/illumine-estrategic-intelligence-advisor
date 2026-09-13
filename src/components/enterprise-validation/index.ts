@@ -1,8 +1,2 @@
-export * from './CommercialPackagingViewer';
-export * from './EnterpriseReadinessDashboard';
-export * from './InstitutionalDeploymentMap';
-export * from './InstitutionalUXInsights';
-export * from './OperationalPlaybookViewer';
-export * from './PilotReadinessPanel';
-export * from './RealDataValidationPanel';
-export * from './RuntimeIntegrityStatus';
+// shim — implementação em capabilities/financial/enterprise-validation/presentation/
+export * from '../../capabilities/financial/enterprise-validation/presentation';
