@@ -1,2 +1,2 @@
-export * from './InstitutionalLineageTracer';
-export * from './LineageService';
+// re-export shim — implementação movida para ../../../workspace/runtime/lineage/
+export * from '../../../workspace/runtime/lineage';

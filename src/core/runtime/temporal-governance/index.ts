@@ -1,2 +1,2 @@
-export * from './TemporalEvidenceFilter';
-export * from './TemporalFiduciaryIntegrityEngine';
+// re-export shim — implementação movida para ../../../workspace/runtime/temporal-governance/
+export * from '../../../workspace/runtime/temporal-governance';

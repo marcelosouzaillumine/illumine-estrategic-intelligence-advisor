@@ -1,4 +1,2 @@
-export * from './fail-closed-types';
-export * from './lineage-types';
-export * from './runtime-constitutional-types';
-export * from './runtime-contracts';
+// re-export shim — implementação movida para ../../../capabilities/runtime/shared/
+export * from '../../../capabilities/runtime/shared';

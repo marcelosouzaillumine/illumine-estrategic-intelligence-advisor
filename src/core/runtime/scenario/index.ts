@@ -1,10 +1,2 @@
-export * from './InstitutionalShockSimulator';
-export * from './PredictiveStressEngine';
-export * from './ScenarioConfidenceProjector';
-export * from './ScenarioExecutionLogger';
-export * from './ScenarioFiduciarySimulator';
-export * from './ScenarioNarrativeEngine';
-export * from './ScenarioPropagationRuntime';
-export * from './ScenarioRegistry';
-export * from './ScenarioSnapshotBuilder';
-export * from './ScenarioTypes';
+// shim — implementação em ../../../capabilities/runtime/scenario/
+export * from '../../../capabilities/runtime/scenario';

@@ -1,8 +1,2 @@
-export * from './ConsistencyTrendEngine';
-export * from './CrossEngineSemanticConsistencyEngine';
-export * from './ExecutiveConsistencyReportEngine';
-export * from './ExecutiveSemanticRegistry';
-export * from './InstitutionalCausalAlignmentEngine';
-export * from './NarrativeConsistencyEngine';
-export * from './SemanticClassificationNormalizer';
-export * from './SemanticCompatibilityMatrix';
+// re-export shim — implementação movida para ../../../capabilities/runtime/semantic-consistency/
+export * from '../../../capabilities/runtime/semantic-consistency';

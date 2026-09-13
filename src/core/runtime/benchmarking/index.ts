@@ -1,12 +1,2 @@
-export * from './BenchmarkAnonymizationEngine';
-export * from './BenchmarkAuditLogger';
-export * from './BenchmarkCohortBuilder';
-export * from './BenchmarkConfidenceIndex';
-export * from './BenchmarkDatasetBuilder';
-export * from './BenchmarkExecutiveReportBuilder';
-export * from './BenchmarkGovernanceEngine';
-export * from './BenchmarkLineageBinder';
-export * from './BenchmarkPrivacyGuard';
-export * from './BenchmarkTypes';
-export * from './InstitutionalBenchmarkEngine';
-export * from './SectorRiskPatternAnalyzer';
+// re-export shim — implementação movida para ../../../capabilities/runtime/benchmarking/
+export * from '../../../capabilities/runtime/benchmarking';

@@ -1,2 +1,2 @@
-export * from './MockBoardPackScenarios';
-export * from './ValidationDatasetFactory';
+// re-export shim — implementação movida para ../../../capabilities/runtime/validation/
+export * from '../../../capabilities/runtime/validation';

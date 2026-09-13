@@ -1,6 +1,2 @@
-export * from './EarlyStageConsistencyValidator';
-export * from './EarlyStageNarrativeEngine';
-export * from './EarlyStageSemanticEngine';
-export * from './LifecycleClassificationEngine';
-export * from './RunwayAuditEngine';
-export * from './RunwayDisclosureEngine';
+// re-export shim — implementação movida para ../../../capabilities/runtime/semantic/
+export * from '../../../capabilities/runtime/semantic';

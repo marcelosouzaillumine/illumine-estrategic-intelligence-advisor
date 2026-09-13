@@ -1,2 +1,2 @@
-export * from './ExecutiveBoardReportEngine';
-export * from './ExecutiveBoardReportPDF';
+// shim — implementação em ../../../capabilities/runtime/reports/
+export * from '../../../capabilities/runtime/reports';

@@ -1,8 +1,2 @@
-export * from './DAGExecutionOptimizer';
-export * from './HistoricalInferenceGuard';
-export * from './LazyExecutionCoordinator';
-export * from './OperationalEfficiencyInterpreter';
-export * from './OrchestrationProfiler';
-export * from './RuntimePerformanceMonitor';
-export * from './TenantScopedRuntimeCache';
-export * from './types';
+// shim — implementação em ../../../workspace/runtime/performance/
+export * from '../../../workspace/runtime/performance';

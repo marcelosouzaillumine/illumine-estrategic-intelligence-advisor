@@ -1,3 +1,2 @@
-export * from './CalibrationEngine';
-export * from './CalibrationProfiles';
-export * from './CalibrationTypes';
+// re-export shim — implementação movida para ../../../capabilities/runtime/calibration/
+export * from '../../../capabilities/runtime/calibration';

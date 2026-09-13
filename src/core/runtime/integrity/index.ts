@@ -1,10 +1,2 @@
-export * from './ActionEvidenceResolver';
-export * from './BenchmarkGovernanceRegistry';
-export * from './BenchmarkReferenceEngine';
-export * from './EmptyCycleIntegrityEngine';
-export * from './ExecutiveActionMatrixEngine';
-export * from './ExecutiveEmptyStateResolver';
-export * from './HistoricalSeriesIntegrityEngine';
-export * from './InvalidMetricGuard';
-export * from './ScaleEfficiencyIntegrityEngine';
-export * from './StructuralRootNormalizer';
+// shim — implementação em ../../../capabilities/runtime/integrity/
+export * from '../../../capabilities/runtime/integrity';

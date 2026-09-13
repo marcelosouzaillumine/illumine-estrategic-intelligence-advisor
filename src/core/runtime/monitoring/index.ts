@@ -1,11 +1,2 @@
-export * from './AlertPolicyResolver';
-export * from './ConfidenceDriftDetector';
-export * from './GovernanceEscalationEngine';
-export * from './GovernanceMonitoringEngine';
-export * from './InstitutionalMonitoringEngine';
-export * from './LiquidityWatchEngine';
-export * from './MonitoringAlertRegistry';
-export * from './MonitoringExecutionScheduler';
-export * from './MonitoringRuleEngine';
-export * from './MonitoringTypes';
-export * from './SystemicRiskTrendAnalyzer';
+// shim — implementação em ../../../workspace/runtime/monitoring/
+export * from '../../../workspace/runtime/monitoring';

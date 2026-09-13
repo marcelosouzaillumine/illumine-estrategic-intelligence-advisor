@@ -1,12 +1,2 @@
-export * from './EntityRelationshipMapper';
-export * from './GovernanceRelationshipGraph';
-export * from './GraphAuditLogger';
-export * from './GraphQueryEngine';
-export * from './InstitutionalKnowledgeGraph';
-export * from './InstitutionalMemoryEngine';
-export * from './InstitutionalOntologyRegistry';
-export * from './KnowledgeGraphGovernanceEngine';
-export * from './KnowledgeGraphTypes';
-export * from './RiskCorrelationEngine';
-export * from './SemanticLineageEngine';
-export * from './WorkflowPatternAnalyzer';
+// re-export shim — implementação movida para ../../../capabilities/runtime/knowledge-graph/
+export * from '../../../capabilities/runtime/knowledge-graph';

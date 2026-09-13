@@ -1,8 +1,2 @@
-export * from './ExecutiveWorkflowValidationEngine';
-export * from './GoldenDatasetIsolationEngine';
-export * from './GoldenDatasetRegistry';
-export * from './InstitutionalScenarioValidator';
-export * from './IntercompanyComplexitySimulator';
-export * from './OperationalStressDatasetBuilder';
-export * from './RealityValidationAuditLogger';
-export * from './RealityValidationTypes';
+// re-export shim — implementação movida para ../../../workspace/runtime/reality-validation/
+export * from '../../../workspace/runtime/reality-validation';

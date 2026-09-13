@@ -1,5 +1,2 @@
-export * from './CanonicalInstitutionalTaxonomyRegistry';
-export * from './ExecutiveCausalityResolver';
-export * from './InstitutionalClaimBoundary';
-export * from './InstitutionalSemanticGraph';
-export * from './LongitudinalIntelligenceGuard';
+// shim — implementação em ../../../capabilities/runtime/coherence/
+export * from '../../../capabilities/runtime/coherence';

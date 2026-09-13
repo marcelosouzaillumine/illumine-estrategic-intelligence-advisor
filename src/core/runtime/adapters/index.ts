@@ -1,3 +1,2 @@
-export * from './capital-structure-adapter';
-export * from './causality-interpretation-adapter';
-export * from './severity-modulator-adapter';
+// re-export shim — implementação movida para ../../../workspace/runtime/adapters/
+export * from '../../../workspace/runtime/adapters';
