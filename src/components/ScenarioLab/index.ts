@@ -1,4 +1,2 @@
-export * from './AdvisoryDeltaPanel';
-export * from './InstitutionalProjectionPanel';
-export * from './RiskPropagationMap';
-export * from './ScenarioControlPanel';
+// shim — implementação em capabilities/financial/ScenarioLab/presentation/
+export * from '../../capabilities/financial/ScenarioLab/presentation';

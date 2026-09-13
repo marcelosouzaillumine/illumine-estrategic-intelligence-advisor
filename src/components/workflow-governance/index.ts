@@ -1,3 +1,2 @@
-export * from './WorkflowAuditFeed';
-export * from './WorkflowBoard';
-export * from './WorkflowStatusBadge';
+// shim — implementação em capabilities/financial/workflow-governance/presentation/
+export * from '../../capabilities/financial/workflow-governance/presentation';

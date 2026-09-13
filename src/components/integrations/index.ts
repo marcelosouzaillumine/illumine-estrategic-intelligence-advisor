@@ -1,3 +1,2 @@
-export * from './ConnectorRegistryPanel';
-export * from './ImportReviewQueueTable';
-export * from './SourceTrustBadge';
+// shim — implementação em capabilities/financial/integrations/presentation/
+export * from '../../capabilities/financial/integrations/presentation';

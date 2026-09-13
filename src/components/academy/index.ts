@@ -1,4 +1,2 @@
-export * from './CourseCard';
-export * from './CourseCarousel';
-export * from './HeroBanner';
-export * from './VerticalCourseCard';
+// shim — implementação em capabilities/financial/academy/presentation/
+export * from '../../capabilities/financial/academy/presentation';
