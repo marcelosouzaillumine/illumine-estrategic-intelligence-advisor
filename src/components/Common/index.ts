@@ -1,4 +1,2 @@
-export * from './Base';
-export * from './CurrencySelector';
-export * from './SortableTableRow';
-export * from './WelcomeMessage';
+// shim — implementação em capabilities/financial/common/presentation/
+export * from '../../capabilities/financial/common/presentation';
