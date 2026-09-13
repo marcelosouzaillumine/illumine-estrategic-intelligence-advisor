@@ -1,5 +1,5 @@
 // src/core/runtime/scenario-intelligence/ScenarioExplainabilityEngine.ts
-import { sha256 } from '../../../workspace/runtime/executive/types';
+import { sha256 } from '../../../platform/crypto/sha256';
 import { PropagationSimulationProfile, ScenarioConstraintValidation, ScenarioExplainabilityPayload } from './scenario-types';
 
 export class ScenarioExplainabilityEngine {

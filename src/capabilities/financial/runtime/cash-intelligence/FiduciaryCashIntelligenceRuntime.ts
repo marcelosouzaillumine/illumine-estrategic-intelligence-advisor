@@ -35,7 +35,7 @@ import { CashFlowScenarioEngine } from '../cash-scenario-intelligence/CashFlowSc
 import { TreasuryEarlyWarningEngine } from '../../../runtime/treasury-early-warning/TreasuryEarlyWarningEngine';
 import { TreasurySustainabilityEngine } from '../../../runtime/treasury-sustainability/TreasurySustainabilityEngine';
 
-import { ExecutiveAnalysisContext } from '../../../../workspace/runtime/executive-consolidation/StrategicOpinionConsistencyEngine';
+import { ExecutiveAnalysisContext } from '../../../../core/runtime/executive-consolidation';
 
 export class FiduciaryCashIntelligenceRuntime {
   /**

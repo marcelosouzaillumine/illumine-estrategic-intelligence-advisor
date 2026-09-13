@@ -1,6 +1,6 @@
 // src/core/runtime/institutional-reporting/institutional-reporting-types.ts
 
-import { InstitutionalExecutiveCommandOutput, ExecutiveDirective } from '../../../workspace/runtime/executive-command/executive-command-types';
+import { InstitutionalExecutiveCommandOutput, ExecutiveDirective } from '../../../core/runtime/executive-command';
 import { InstitutionalOperationalGovernanceOutput } from '../operational-governance/operational-governance-types';
 import { InstitutionalStrategicIntelligenceOutput } from '../strategic-intelligence/strategic-intelligence-types';
 import { InstitutionalResilienceOutput } from '../institutional-resilience/ResilienceTypes';

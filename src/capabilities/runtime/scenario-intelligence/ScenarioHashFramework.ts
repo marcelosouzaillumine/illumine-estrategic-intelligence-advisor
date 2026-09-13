@@ -1,4 +1,4 @@
-import { sha256 } from '../../../workspace/runtime/executive/types';
+import { sha256 } from '../../../platform/crypto/sha256';
 import { ScenarioMutation } from './ScenarioMutation';
 
 export class ScenarioHashFramework {

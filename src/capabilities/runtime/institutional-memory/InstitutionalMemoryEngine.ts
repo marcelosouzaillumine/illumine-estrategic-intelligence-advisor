@@ -1,4 +1,4 @@
-import { sha256 } from '../../../workspace/runtime/executive/types';
+import { sha256 } from '../../../platform/crypto/sha256';
 import { InstitutionalMemoryProfile, HistoricalCycleData } from './types';
 import { RecommendationPersistenceTracker } from './RecommendationPersistenceTracker';
 import { GovernanceRecurrenceEngine } from './GovernanceRecurrenceEngine';

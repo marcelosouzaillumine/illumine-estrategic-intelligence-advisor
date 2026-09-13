@@ -1,7 +1,7 @@
 import { EconomicDiagnosisOutput } from './EconomicDiagnosisEngine';
 import { CrossStatementIsolationValidator } from './CrossStatementIsolationValidator';
-import { ExecutivePrimaryMotiveConsistencyEngine } from '../../../../workspace/runtime/executive-consolidation/ExecutivePrimaryMotiveConsistencyEngine';
-import { StrategicOpinionConsistencyEngine, ExecutiveAnalysisContext } from '../../../../workspace/runtime/executive-consolidation/StrategicOpinionConsistencyEngine';
+import { ExecutivePrimaryMotiveConsistencyEngine } from '../../../../core/runtime/executive-consolidation';
+import { StrategicOpinionConsistencyEngine, ExecutiveAnalysisContext } from '../../../../core/runtime/executive-consolidation';
 
 export interface BoardDecisionFramework {
   classificacaoGeral: string;

@@ -19,7 +19,7 @@ import { decisionRegistryEngine } from '../../../runtime/execution/DecisionRegis
 import { governanceKnowledgeEngine } from '../../../../core/runtime/knowledge/GovernanceKnowledgeEngine';
 import { benchmarkAdvisoryEngine } from '../../../../core/runtime/benchmark/BenchmarkAdvisoryEngine';
 import { governanceLearningEngine } from '../../../../core/runtime/learning/GovernanceLearningEngine';
-import { governanceJourneyEngine } from '../../../../workspace/runtime/journey/GovernanceJourneyEngine';
+import { governanceJourneyEngine } from '../../../../core/runtime/journey';
 
 export class BoardPackGeneratorEngine {
   private static instance: BoardPackGeneratorEngine;

@@ -1,4 +1,4 @@
-import { sanitize } from '../../../../workspace/runtime/executive-consolidation/ExecutiveSemanticBoundaryGuard';
+import { sanitize } from '../../../../core/runtime/executive-consolidation';
 
 export class BalanceSheetExecutiveRecommendationEngine {
   constructor(...args: any[]) {}

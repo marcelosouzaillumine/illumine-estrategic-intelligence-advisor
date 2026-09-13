@@ -2,7 +2,7 @@
 
 import { InstitutionalStrategicIntelligenceOutput } from '../strategic-intelligence/strategic-intelligence-types';
 import { InstitutionalOperationalGovernanceOutput } from '../operational-governance/operational-governance-types';
-import { InstitutionalExecutiveCommandOutput } from '../../../workspace/runtime/executive-command/executive-command-types';
+import { InstitutionalExecutiveCommandOutput } from '../../../core/runtime/executive-command';
 import { TreasuryIntelligenceRuntimeOutput } from '../treasury-intelligence/types';
 
 /**

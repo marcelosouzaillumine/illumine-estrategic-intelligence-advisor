@@ -1,7 +1,7 @@
 // src/core/runtime/causal-intelligence/engines/ConstitutionalCausalityEngine.ts
 
 import { CausalChain } from '../causal-types';
-import { HistoricalRuntimeCycle } from '../../../../../workspace/runtime/executive-timeline/executive-timeline-types';
+import { HistoricalRuntimeCycle } from '../../../../../core/runtime/executive-timeline';
 
 export class ConstitutionalCausalityEngine {
   public static detect(cycles: HistoricalRuntimeCycle[]): CausalChain[] {

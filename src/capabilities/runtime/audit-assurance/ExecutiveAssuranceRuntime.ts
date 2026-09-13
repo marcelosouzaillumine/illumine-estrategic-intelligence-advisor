@@ -18,7 +18,7 @@ import { InstitutionalForensicsEngine } from './InstitutionalForensicsEngine';
 import { AuditReconstructionEngine } from './AuditReconstructionEngine';
 import { AssuranceCertificationEngine, CertificationScores, VetoTriggers } from './AssuranceCertificationEngine';
 import { InstitutionalAuditEngine } from './InstitutionalAuditEngine';
-import { sha256 } from '../../../workspace/runtime/executive/types';
+import { sha256 } from '../../../platform/crypto/sha256';
 
 export class ExecutiveAssuranceRuntime {
   private evidenceEngine = new FiduciaryEvidenceEngine();

@@ -1,5 +1,5 @@
 import { CashBoardDecision, CashSustainability, CashConfidenceLevel, DFCCashAdvisory } from './CashIntelligenceTypes';
-import { StrategicOpinionConsistencyEngine, ExecutiveAnalysisContext } from '../../../../workspace/runtime/executive-consolidation/StrategicOpinionConsistencyEngine';
+import { StrategicOpinionConsistencyEngine, ExecutiveAnalysisContext } from '../../../../core/runtime/executive-consolidation';
 
 export class DFCCashAdvisoryEngine {
   public static evaluate(

@@ -22,7 +22,7 @@ import { DoctrineConsistencyEngine } from './DoctrineConsistencyEngine';
 import { RuntimeCompatibilityEngine } from './RuntimeCompatibilityEngine';
 import { ConstitutionalAuditEngine } from './ConstitutionalAuditEngine';
 import { ConstitutionalGovernanceEngine } from './ConstitutionalGovernanceEngine';
-import { sha256 } from '../../../workspace/runtime/executive/types';
+import { sha256 } from '../../../platform/crypto/sha256';
 import { RuntimeExecutionLogger } from '../../../core/runtime/observability/RuntimeExecutionLogger';
 import { SemanticComplianceAuditRuntime } from './SemanticComplianceAuditRuntime';
 import { SemanticLineagePayload } from './SemanticLineageReport';

@@ -1,7 +1,7 @@
 import { CashBoardDecision, CashConfidenceLevel, CashConstraintDiagnosis, OperationalCashBurn, ShareholderDependency, CashSustainability, RevenueCashConversion } from './CashIntelligenceTypes';
 import { RunwayClassificationEngine } from './RunwayClassificationEngine';
-import { ExecutiveAnalysisContext } from '../../../../workspace/runtime/executive-consolidation/StrategicOpinionConsistencyEngine';
-import { ExecutivePrimaryMotiveConsistencyEngine } from '../../../../workspace/runtime/executive-consolidation/ExecutivePrimaryMotiveConsistencyEngine';
+import { ExecutiveAnalysisContext } from '../../../../core/runtime/executive-consolidation';
+import { ExecutivePrimaryMotiveConsistencyEngine } from '../../../../core/runtime/executive-consolidation';
 
 export class CashBoardDecisionSupportEngine {
   public static evaluate(

@@ -8,7 +8,7 @@ import { DistributionEligibilityEngine, DistributionEligibilityResult } from './
 import { PatrimonialIntegrityEngine, PatrimonialIntegrityReport, CapitalPreservationStatus } from './PatrimonialIntegrityEngine';
 import { CapitalRetentionClassificationEngine, CapitalRetentionClassification } from './CapitalRetentionClassificationEngine';
 import { DLPAHistoricalConsistencyEngine, HistoricalCycleMetrics } from './DLPAHistoricalConsistencyEngine';
-import { LifecycleConsistencyValidator } from '../../../../workspace/runtime/lifecycle/LifecycleConsistencyValidator';
+import { LifecycleConsistencyValidator } from '../../../../core/runtime/lifecycle';
 
 
 export interface DLPAFiduciaryOutput {

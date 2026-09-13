@@ -1,4 +1,4 @@
-import { sha256 } from '../../../workspace/runtime/executive/types';
+import { sha256 } from '../../../platform/crypto/sha256';
 import { ConstitutionalSemanticAuthorityRegistry } from './ConstitutionalSemanticAuthorityRegistry';
 
 export interface SemanticLineagePayload {

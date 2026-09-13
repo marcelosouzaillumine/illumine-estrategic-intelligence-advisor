@@ -8,7 +8,7 @@ import { SurvivabilityDependencyGraph } from './SurvivabilityDependencyGraph';
 import { OperationalStressCascadeEngine } from './OperationalStressCascadeEngine';
 import { InstitutionalFragilityCorrelationEngine } from './InstitutionalFragilityCorrelationEngine';
 import { HistoricalCycleData } from '../../../runtime/institutional-memory/types';
-import { sha256 } from '../../../../workspace/runtime/executive/types';
+import { sha256 } from '../../../../platform/crypto/sha256';
 
 export class InstitutionalCausalIntelligenceRuntime {
   public static evaluate(

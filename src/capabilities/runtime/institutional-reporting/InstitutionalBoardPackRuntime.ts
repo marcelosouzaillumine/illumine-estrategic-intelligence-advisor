@@ -14,19 +14,19 @@ import { BoardResolutionAppendixEngine } from './engines/BoardResolutionAppendix
 import { RuntimeComplianceEngine } from '../../../capabilities/financial/runtime/compliance/RuntimeComplianceEngine';
 import { BoardPackMetadata } from './institutional-reporting-types';
 
-import { BoardPackExecutiveRenderingGuard } from '../../../workspace/runtime/lifecycle/BoardPackExecutiveRenderingGuard';
+import { BoardPackExecutiveRenderingGuard } from '../../../core/runtime/lifecycle';
 import { ExecutivePriorityResolver } from '../decision-intelligence/ExecutivePriorityResolver';
 
 import { ExecutiveMaturityLayer } from '../economic-value/ExecutiveMaturityLayer';
 import { EconomicReturnEngine } from '../economic-value/EconomicReturnEngine';
 import { EconomicValueCreationEngine } from '../economic-value/EconomicValueCreationEngine';
 import { InstitutionalExecutiveThesisEngine } from '../economic-value/InstitutionalExecutiveThesisEngine';
-import { ExecutivePriorityRankingEngine } from '../../../workspace/runtime/executive-prioritization/ExecutivePriorityRankingEngine';
-import { BoardTop3DecisionEngine } from '../../../workspace/runtime/executive-prioritization/BoardTop3DecisionEngine';
+import { ExecutivePriorityRankingEngine } from '../../../core/runtime/executive-prioritization';
+import { BoardTop3DecisionEngine } from '../../../core/runtime/executive-prioritization';
 import { BoardDecisionGraphAdapter } from '../../../core/knowledge-graph/adapters/BoardDecisionGraphAdapter';
-import { ExecutiveActionPlanEngine } from '../../../workspace/runtime/executive-prioritization/ExecutiveActionPlanEngine';
-import { InstitutionalPriorityMatrixEngine } from '../../../workspace/runtime/executive-prioritization/InstitutionalPriorityMatrixEngine';
-import { BoardAttentionDemandIndexEngine } from '../../../workspace/runtime/executive-prioritization/BoardAttentionDemandIndexEngine';
+import { ExecutiveActionPlanEngine } from '../../../core/runtime/executive-prioritization';
+import { InstitutionalPriorityMatrixEngine } from '../../../core/runtime/executive-prioritization';
+import { BoardAttentionDemandIndexEngine } from '../../../core/runtime/executive-prioritization';
 
 export class InstitutionalBoardPackRuntime {
   

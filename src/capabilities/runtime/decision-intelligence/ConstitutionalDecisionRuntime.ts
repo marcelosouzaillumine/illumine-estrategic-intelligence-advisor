@@ -1,4 +1,4 @@
-import { sha256 } from '../../../workspace/runtime/executive/types';
+import { sha256 } from '../../../platform/crypto/sha256';
 import { ExecutiveDecisionObject } from './ExecutiveDecisionObject';
 import { ExecutiveDecisionReport } from './ExecutiveDecisionReport';
 import { DecisionPrioritizationEngine } from './DecisionPrioritizationEngine';

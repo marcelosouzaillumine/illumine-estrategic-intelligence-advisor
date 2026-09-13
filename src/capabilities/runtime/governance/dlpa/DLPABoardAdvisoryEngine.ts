@@ -1,4 +1,4 @@
-import { StrategicOpinionConsistencyEngine, ExecutiveAnalysisContext } from '../../../../workspace/runtime/executive-consolidation/StrategicOpinionConsistencyEngine';
+import { StrategicOpinionConsistencyEngine, ExecutiveAnalysisContext } from '../../../../core/runtime/executive-consolidation';
 
 export class DLPABoardAdvisoryEngine {
   constructor(...args: any[]) {}

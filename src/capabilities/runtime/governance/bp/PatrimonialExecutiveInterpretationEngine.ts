@@ -1,7 +1,7 @@
 import { PatrimonialIndicator } from './BalanceSheetFinancialMetricsEngine';
 import { PatrimonialScoreBreakdown } from './PatrimonialScoreExplainabilityEngine';
-import { ExecutiveAnalysisContext } from '../../../../workspace/runtime/executive-consolidation/StrategicOpinionConsistencyEngine';
-import { ExecutivePrimaryMotiveConsistencyEngine } from '../../../../workspace/runtime/executive-consolidation/ExecutivePrimaryMotiveConsistencyEngine';
+import { ExecutiveAnalysisContext } from '../../../../core/runtime/executive-consolidation';
+import { ExecutivePrimaryMotiveConsistencyEngine } from '../../../../core/runtime/executive-consolidation';
 
 export interface PatrimonialInterpretationOutput {
   patrimonialThesis: string;

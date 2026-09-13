@@ -1,7 +1,7 @@
 import { EconomicValueInput, EconomicValueNarrativeEngine } from './EconomicValueNarrativeEngine';
 import { RecoverabilityInput, RecoverabilityAssessmentEngine } from './RecoverabilityAssessmentEngine';
-import { ExecutivePrimaryMotiveConsistencyEngine } from '../../../../workspace/runtime/executive-consolidation/ExecutivePrimaryMotiveConsistencyEngine';
-import { ExecutiveAnalysisContext } from '../../../../workspace/runtime/executive-consolidation/StrategicOpinionConsistencyEngine';
+import { ExecutivePrimaryMotiveConsistencyEngine } from '../../../../core/runtime/executive-consolidation';
+import { ExecutiveAnalysisContext } from '../../../../core/runtime/executive-consolidation';
 
 export interface ExecutiveInterpretationInput {
   economicValueInput: EconomicValueInput;

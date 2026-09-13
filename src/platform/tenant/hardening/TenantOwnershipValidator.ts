@@ -1,4 +1,4 @@
-import { ConsolidationEntity } from '../../../capabilities/financial/runtime/consolidated/types';
+import { TenantAwareEntity as ConsolidationEntity } from '../TenantAwareEntity';
 import { EntityGraphData } from '../../../topology/types';
 import { TenantExecutionContext, TenantIsolationError, TenantViolations } from './TenantExecutionContext';
 import { RuntimeBoundaryGuard } from './RuntimeBoundaryGuard';

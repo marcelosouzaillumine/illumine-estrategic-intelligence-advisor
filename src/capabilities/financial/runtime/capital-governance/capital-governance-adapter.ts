@@ -80,8 +80,8 @@ import { FinancialRuntimeContext } from '../financial-context/FinancialRuntimeCo
 import { FinancialRuntimeContextAdapter } from '../financial-context/FinancialRuntimeContextAdapter';
 import { InstitutionalBusinessProfile } from '../../../runtime/institutional-identity/InstitutionalBusinessProfile';
 import { buildGovernanceScore } from '../../../../runtime/adapters/CapitalGovernanceAdapter';
-import { LifecycleFallbackReasons, LifecycleFallbackReason } from '../../../../workspace/runtime/lifecycle/LifecycleFallbackReasons';
-import { LifecyclePropagationAudit } from '../../../../workspace/runtime/lifecycle/LifecyclePropagationAudit';
+import { LifecycleFallbackReasons, LifecycleFallbackReason } from '../../../../core/runtime/lifecycle';
+import { LifecyclePropagationAudit } from '../../../../core/runtime/lifecycle';
 import { CapitalGovernanceSemanticEngine } from '../../../../runtime/governance/capital/CapitalGovernanceSemanticEngine';
 
 import { DLPAMetricsEngine } from '../../../runtime/governance/dlpa/DLPAMetricsEngine';

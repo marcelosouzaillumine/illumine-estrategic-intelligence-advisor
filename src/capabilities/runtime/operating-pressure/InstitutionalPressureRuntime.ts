@@ -1,6 +1,6 @@
 // src/core/runtime/operating-pressure/InstitutionalPressureRuntime.ts
 
-import { sha256 } from '../../../workspace/runtime/executive/types';
+import { sha256 } from '../../../platform/crypto/sha256';
 import { PressureRuntimeInput, InstitutionalPressureRuntimeOutput, OperatingPressureSeverity } from './operating-pressure-types';
 import { PressureAccumulationEngine } from './PressureAccumulationEngine';
 import { OperationalFatigueEngine } from './OperationalFatigueEngine';

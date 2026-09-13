@@ -1,5 +1,5 @@
 import { ExecutivePriority } from './ExecutivePriorityResolver';
-import { ExecutivePresentationLabelRegistry } from '../../../workspace/runtime/presentation-governance/ExecutivePresentationLabelRegistry';
+import { ExecutivePresentationLabelRegistry } from '../../../core/runtime/presentation-governance';
 
 export interface NormalizedPriority {
   theme: string;

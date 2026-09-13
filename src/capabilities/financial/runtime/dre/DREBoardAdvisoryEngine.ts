@@ -1,9 +1,9 @@
 import { NormalizedDREPayload } from './DREExecutiveDataMapper';
 import { EconomicDiagnosisOutput } from './EconomicDiagnosisEngine';
 import { CrossStatementIsolationValidator } from './CrossStatementIsolationValidator';
-import { ExecutiveLabelGovernanceRegistry } from '../../../../workspace/runtime/presentation-governance/ExecutiveLabelGovernanceRegistry';
-import { StrategicOpinionConsistencyEngine, ExecutiveAnalysisContext } from '../../../../workspace/runtime/executive-consolidation/StrategicOpinionConsistencyEngine';
-import { ExecutivePrimaryMotiveConsistencyEngine } from '../../../../workspace/runtime/executive-consolidation/ExecutivePrimaryMotiveConsistencyEngine';
+import { ExecutiveLabelGovernanceRegistry } from '../../../../core/runtime/presentation-governance';
+import { StrategicOpinionConsistencyEngine, ExecutiveAnalysisContext } from '../../../../core/runtime/executive-consolidation';
+import { ExecutivePrimaryMotiveConsistencyEngine } from '../../../../core/runtime/executive-consolidation';
 
 export interface ExecutiveAdvisoryOutput {
   situacaoAtual: string;
