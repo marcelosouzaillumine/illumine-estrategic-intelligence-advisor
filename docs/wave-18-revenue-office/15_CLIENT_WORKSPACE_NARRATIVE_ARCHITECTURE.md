@@ -8,7 +8,7 @@ A progressão é intencional: **Contexto ➔ Tensão (Realidade) ➔ Solução (
 - **ExecutiveWelcome:** Quem somos, por que estamos aqui (sem preço).
 - **StrategicContext:** O racional estratégico por trás do Assessment.
 - **CurrentReality:** Os riscos observados posicionados como oportunidades latentes de evolução.
-- **IntelligenceSolution:** A ponte entre a Capability Illumine e a redução da fricção.
+- **GovernanceSolution:** A ponte entre a Capability Illumine e a redução da fricção.
 - **TransformationJourney:** O cronograma da parceria.
 - **InvestmentPerspective:** O compromisso financeiro atrelado ao valor estratégico.
 - **ExecutiveNextStep:** O "Decision Center Placeholder" (preparação para próxima wave).

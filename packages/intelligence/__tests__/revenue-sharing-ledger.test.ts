@@ -2,7 +2,7 @@
 import { describe, it, expect } from 'vitest';
 import { RevenueSharingLedgerEngine } from '../platform-distribution/src';
 
-describe('@illumine/intelligence (Wave 19.2 Revenue Sharing Ledger Engine)', () => {
+describe('@illumine/governance (Wave 19.2 Revenue Sharing Ledger Engine)', () => {
   it('should calculate audit-ready multi-party revenue splits with ledger hashes', () => {
     const split = RevenueSharingLedgerEngine.calculateSplit(10000);
     expect(split.platformRoyaltyAmount).toBe(1500);

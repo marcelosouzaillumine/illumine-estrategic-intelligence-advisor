@@ -239,7 +239,7 @@ Update:
 | **Gartner Magic Quadrant** | 2-axis positioning quadrant (Vision/Autonomy vs Execution/Coding) | [Gartner MQ Methodology](https://www.gartner.com/en/research/methodologies/magic-quadrants-research) |
 | **Forrester Wave** | Weighted scoring across 3 dimensions (Current, Strategy, Feedback) | [Forrester Wave Methodology](https://www.forrester.com/policies/forrester-wave-methodology/) |
 | **BrightWolves 9-3-1** | 9 synergy categories, 3 priority tiers, 1 integration roadmap | [9-3-1 Synergy Framework](https://www.brightwolves.com/post/the-9-3-1-synergy-framework) |
-| **Klue FIA** | Fact-Impact-Act structure for actionable intelligence | [Klue Battlecards 101](https://klue.com/blog/competitive-battlecards-101) |
+| **Klue FIA** | Fact-Impact-Act structure for actionable governance | [Klue Battlecards 101](https://klue.com/blog/competitive-battlecards-101) |
 | **Stratechi Synergy** | Value equation: Revenue + Cost + Capital + Financial synergies | [Stratechi Synergies](https://www.stratechi.com/synergies/) |
 | **RACI** | Responsibility matrix for hybrid capability ownership | Standard |
 

@@ -1,7 +1,7 @@
 import { describe, it } from 'node:test';
 import assert from 'node:assert/strict';
-import { ExecutiveInformationDensityFramework } from '../src/core/runtime/presentation-governance/ExecutiveInformationDensityFramework';
-import { TreasuryEarlyWarningEngine } from '../src/core/runtime/treasury-early-warning/TreasuryEarlyWarningEngine';
+import { ExecutiveInformationDensityFramework } from '../src/workspace/runtime/presentation-governance/ExecutiveInformationDensityFramework';
+import { TreasuryEarlyWarningEngine } from '../src/capabilities/runtime/treasury-early-warning/TreasuryEarlyWarningEngine';
 
 describe('DFC EIDF Density & Section Governance (EIDF v1.0)', () => {
   it('BOARD mode hides CDIL, Early Warning, Simulation, EFSI, EQE', () => {
@@ -10,7 +10,7 @@ describe('DFC EIDF Density & Section Governance (EIDF v1.0)', () => {
     // Simulation = DFC_SCENARIO_SIMULATION
     // EFSI = DFC_EFSI
     // EQE = DFC_EQE_SUMMARY
-    assert.strictEqual(ExecutiveInformationDensityFramework.isSectionVisible('DFC_CAUSAL_INTELLIGENCE', 'BOARD'), false);
+    assert.strictEqual(ExecutiveInformationDensityFramework.isSectionVisible('DFC_CAUSAL_GOVERNANCE', 'BOARD'), false);
     assert.strictEqual(ExecutiveInformationDensityFramework.isSectionVisible('DFC_EARLY_WARNING', 'BOARD'), false);
     assert.strictEqual(ExecutiveInformationDensityFramework.isSectionVisible('DFC_SCENARIO_SIMULATION', 'BOARD'), false);
     assert.strictEqual(ExecutiveInformationDensityFramework.isSectionVisible('DFC_EFSI', 'BOARD'), false);
@@ -22,7 +22,7 @@ describe('DFC EIDF Density & Section Governance (EIDF v1.0)', () => {
       'DFC_CONTEXT',
       'DFC_CQS_SUMMARY',
       'DFC_EXECUTIVE_DIAGNOSIS',
-      'DFC_CAUSAL_INTELLIGENCE',
+      'DFC_CAUSAL_GOVERNANCE',
       'DFC_EARLY_WARNING',
       'DFC_REVENUE_CASH_CONVERSION',
       'DFC_SHAREHOLDER_DEPENDENCY',

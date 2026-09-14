@@ -12,7 +12,7 @@ COMPONENTES DO PROGRAMA WAVE 4
 ============================================================
 1. **L4 Coverage Expansion (50+ Manifestos L4)** em `src/runtime/manifests/pages/` (`balance-sheet`, `dre`, `governance-dashboard`, `valuation`, `viability`, `strategic-simulator`, `decision-center`, `digital-twin`).
 2. **Design Governance Engine** (`@illumine/design-governance` em `packages/design-governance/src/`): `DesignSystemAuditor` para validação de tokens visuais e componentes Executive.
-3. **Performance Intelligence Layer** (`@illumine/performance` em `packages/performance/src/`): `PerformanceProfiler` e cálculo do Executive Performance Index (`EPI` $\ge 95\%$).
+3. **Performance Governance Layer** (`@illumine/performance` em `packages/performance/src/`): `PerformanceProfiler` e cálculo do Executive Performance Index (`EPI` $\ge 95\%$).
 4. **Enterprise Architecture Agent v2** (`@illumine/agent`): Auditoria preventiva e refatoração assistida sob aprovação compulsória **Human-in-the-Loop**.
 5. **Security Compliance Engine** (`@illumine/security`): Validação OWASP Top 10 e isolamento de Tenants.
 

@@ -1,11 +1,11 @@
 import { strict as assert } from 'assert';
 import test from 'node:test';
-import { CrossStatementPropagationEngine } from '../src/core/runtime/executive-consolidation/CrossStatementPropagationEngine';
-import { CapitalProtectionCanonicalResolver } from '../src/core/runtime/executive-consolidation/CapitalProtectionCanonicalResolver';
-import { ExecutiveNarrativeSanitizer } from '../src/core/runtime/executive-consolidation/ExecutiveNarrativeSanitizer';
-import { ExecutiveRecommendationDeduplicationEngine } from '../src/core/runtime/executive-consolidation/ExecutiveRecommendationDeduplicationEngine';
-import { BoardDecisionMaterialityResolver } from '../src/core/runtime/executive-prioritization/BoardDecisionMaterialityResolver';
-import { EFOSExecutiveConsistencyAuditEngine } from '../src/core/runtime/executive-consolidation/EFOSExecutiveConsistencyAuditEngine';
+import { CrossStatementPropagationEngine } from '../src/workspace/runtime/executive-consolidation/CrossStatementPropagationEngine';
+import { CapitalProtectionCanonicalResolver } from '../src/workspace/runtime/executive-consolidation/CapitalProtectionCanonicalResolver';
+import { ExecutiveNarrativeSanitizer } from '../src/workspace/runtime/executive-consolidation/ExecutiveNarrativeSanitizer';
+import { ExecutiveRecommendationDeduplicationEngine } from '../src/workspace/runtime/executive-consolidation/ExecutiveRecommendationDeduplicationEngine';
+import { BoardDecisionMaterialityResolver } from '../src/workspace/runtime/executive-prioritization/BoardDecisionMaterialityResolver';
+import { EFOSExecutiveConsistencyAuditEngine } from '../src/workspace/runtime/executive-consolidation/EFOSExecutiveConsistencyAuditEngine';
 
 test('ECIF v1.0 - Executive Consolidation Integrity Framework', async (t) => {
   await t.test('CrossStatementPropagationEngine - CRITICAL Triad Entity', () => {

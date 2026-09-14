@@ -1,0 +1,28 @@
+page:
+  id: diagnostico-executive
+  architecture: EAA
+  certificationLevel: L4
+runtime:
+  engine: ERE
+  compiler: EUCCompilerEngine
+layout:
+  template: ExecutivePageTemplate
+sections:
+  - id: diagnostic-summary
+    component: ExecutiveNarrative
+    governanceLevel: BOARD
+    props:
+      variant: summary
+      title: "Diagnóstico Global de Maturidade & Riscos"
+  - id: diagnostic-metrics
+    component: ExecutiveMetricCard
+    governanceLevel: EXECUTIVE
+intelligenceBinding:
+  knowledge:
+    enabled: true
+  digitalTwin:
+    enabled: true
+  recommendation:
+    enabled: true
+  audit:
+    enabled: true

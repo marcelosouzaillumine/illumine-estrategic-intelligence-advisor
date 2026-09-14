@@ -234,7 +234,7 @@ A plataforma Illumine passa a operar como:
 
 * Authenticated Institutional Runtime
 * Enterprise Multi-Tenant Executive Environment
-* Session-Governed Intelligence Platform
+* Session-Governed Governance Platform
 * Fiduciary Access Infrastructure
 
 com:

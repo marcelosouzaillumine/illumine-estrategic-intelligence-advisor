@@ -1,10 +1,10 @@
 import { strict as assert } from 'assert';
 import test from 'node:test';
-import { CrossStatementPropagationEngine } from '../src/core/runtime/executive-consolidation/CrossStatementPropagationEngine';
-import { CrossStatementBindingResolver } from '../src/core/runtime/executive-consolidation/CrossStatementBindingResolver';
-import { CrossStatementPresentationGuard } from '../src/core/runtime/executive-consolidation/CrossStatementPresentationGuard';
-import { EFOSExecutiveConsistencyAuditEngine } from '../src/core/runtime/executive-consolidation/EFOSExecutiveConsistencyAuditEngine';
-import { ExecutiveActionCompletenessAudit } from '../src/core/runtime/executive-consolidation/ExecutiveActionCompletenessAudit';
+import { CrossStatementPropagationEngine } from '../src/workspace/runtime/executive-consolidation/CrossStatementPropagationEngine';
+import { CrossStatementBindingResolver } from '../src/workspace/runtime/executive-consolidation/CrossStatementBindingResolver';
+import { CrossStatementPresentationGuard } from '../src/workspace/runtime/executive-consolidation/CrossStatementPresentationGuard';
+import { EFOSExecutiveConsistencyAuditEngine } from '../src/workspace/runtime/executive-consolidation/EFOSExecutiveConsistencyAuditEngine';
+import { ExecutiveActionCompletenessAudit } from '../src/workspace/runtime/executive-consolidation/ExecutiveActionCompletenessAudit';
 
 test('ECSBF v1.0 - Cross-Statement Sovereign Binding Framework', async (t) => {
   await t.test('CrossStatementPropagationEngine - Returns Array of Entities (VALUE_DESTRUCTION_CHAIN & DFC_CONTINUITY_PRESSURE)', () => {

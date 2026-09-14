@@ -49,15 +49,15 @@ Ficam registradas oficialmente as cinco dimensões do ESGIM:
 ## 5. Runtime Inputs
 
 O ESGIM Runtime deverá consumir as seguintes inteligências, engines e frameworks:
-* Economic Intelligence
-* Fiduciary Intelligence
-* Institutional Intelligence
-* Constitutional Intelligence
-* Missional Intelligence
-* Prospective Intelligence
-* Mission Alignment Composite Intelligence Engine
+* Economic Governance
+* Fiduciary Governance
+* Institutional Governance
+* Constitutional Governance
+* Missional Governance
+* Prospective Governance
+* Mission Alignment Composite Governance Engine
 * Institutional Wisdom Library
-* Seven Intelligences Interaction Framework
+* Seven Governances Interaction Framework
 
 ## 6. Assessment Dimensions
 
@@ -112,13 +112,13 @@ Toda avaliação ESGIM deverá registrar explicitamente:
 **Definition:**
 "Nenhuma avaliação ESGIM poderá ser emitida sem evidências organizacionais observáveis."
 
-### ESGIM_INTELLIGENCE_TRACEABILITY
+### ESGIM_GOVERNANCE_TRACEABILITY
 **Definition:**
 "Toda conclusão ESGIM deverá possuir rastreabilidade completa até as inteligências, composite engines e evidências utilizadas."
 
 ### ESGIM_NON_SUBSTITUTION_RULE
 **Definition:**
-"O ESGIM Runtime não substitui Inteligências Estruturantes nem Composite Intelligence Engines. Atua exclusivamente como camada de avaliação integrada."
+"O ESGIM Runtime não substitui Inteligências Estruturantes nem Composite Governance Engines. Atua exclusivamente como camada de avaliação integrada."
 
 ## 11. ESGIM Board Readiness
 
@@ -132,8 +132,8 @@ Fica registrada oficialmente a doutrina de preparação para Board:
 
 O ESGIM Runtime poderá ser consumido por:
 * Executive Advisory Layer
-* Narrative Intelligence
-* Board Intelligence
+* Narrative Governance
+* Board Governance
 * Institutional Reporting Layer
 * Executive AI Layer
 * ESGIM Board Layer
@@ -142,7 +142,7 @@ O ESGIM Runtime poderá ser consumido por:
 
 Ao final desta implementação deverá existir o primeiro Governance Assessment Runtime da plataforma, capaz de:
 1. Consolidar múltiplas inteligências.
-2. Consolidar Composite Intelligence Engines.
+2. Consolidar Composite Governance Engines.
 3. Avaliar ESGIM de forma integrada.
 4. Produzir avaliações executivas auditáveis.
 5. Preservar Explainability Global.

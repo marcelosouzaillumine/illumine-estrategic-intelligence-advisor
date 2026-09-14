@@ -1,12 +1,12 @@
-import { ExecutiveStrategicMaturityEngine } from '../src/core/runtime/executive-consolidation/ExecutiveStrategicMaturityEngine';
-import { CrossStatementPropagationEngine } from '../src/core/runtime/executive-consolidation/CrossStatementPropagationEngine';
-import { CrossStatementExecutiveNarrativeEngine } from '../src/core/runtime/executive-consolidation/CrossStatementExecutiveNarrativeEngine';
-import { DominantRiskResolver, PriorityDecisionResolver } from '../src/core/runtime/executive-consolidation/Resolvers';
-import { BoardDecisionEscalationEngine } from '../src/core/runtime/executive-consolidation/BoardDecisionEscalationEngine';
-import { BoardTop3DecisionEngine } from '../src/core/runtime/executive-prioritization/BoardTop3DecisionEngine';
-import { BADIConsistencyEngine } from '../src/core/runtime/executive-consolidation/BADIConsistencyEngine';
-import { EFOSExecutiveConsistencyAuditEngine } from '../src/core/runtime/executive-consolidation/EFOSExecutiveConsistencyAuditEngine';
-import { ExecutiveRecommendationDeduplicationEngine } from '../src/core/runtime/executive-consolidation/ExecutiveRecommendationDeduplicationEngine';
+import { ExecutiveStrategicMaturityEngine } from '../src/workspace/runtime/executive-consolidation/ExecutiveStrategicMaturityEngine';
+import { CrossStatementPropagationEngine } from '../src/workspace/runtime/executive-consolidation/CrossStatementPropagationEngine';
+import { CrossStatementExecutiveNarrativeEngine } from '../src/workspace/runtime/executive-consolidation/CrossStatementExecutiveNarrativeEngine';
+import { DominantRiskResolver, PriorityDecisionResolver } from '../src/workspace/runtime/executive-consolidation/Resolvers';
+import { BoardDecisionEscalationEngine } from '../src/workspace/runtime/executive-consolidation/BoardDecisionEscalationEngine';
+import { BoardTop3DecisionEngine } from '../src/workspace/runtime/executive-prioritization/BoardTop3DecisionEngine';
+import { BADIConsistencyEngine } from '../src/workspace/runtime/executive-consolidation/BADIConsistencyEngine';
+import { EFOSExecutiveConsistencyAuditEngine } from '../src/workspace/runtime/executive-consolidation/EFOSExecutiveConsistencyAuditEngine';
+import { ExecutiveRecommendationDeduplicationEngine } from '../src/workspace/runtime/executive-consolidation/ExecutiveRecommendationDeduplicationEngine';
 import { describe, it } from 'node:test';
 import assert from 'node:assert';
 

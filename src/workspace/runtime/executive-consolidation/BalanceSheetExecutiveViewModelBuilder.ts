@@ -1,0 +1,305 @@
+import { BalanceSheetExecutiveViewModel } from '../../../types/executive/BalanceSheetExecutiveViewModel';
+
+import { ExecutiveConsistencyEngine } from './ExecutiveConsistencyEngine';
+import { ExecutiveBusinessTerminologyTranslator } from './ExecutiveBusinessTerminologyRegistry';
+import { ExecutiveSemanticRegistry } from './ExecutiveSemanticRegistry';
+import { DisplaySemanticResolver } from '../executive-presentation/DisplaySemanticResolver';
+import { NumericIntegrityGuard } from './NumericIntegrityGuard';
+import { BalanceSheetTechnicalIndicatorEngine } from './BalanceSheetTechnicalIndicatorRegistry';
+import { EvidenceSelector } from './EvidenceSelector';
+import { TechnicalLayerBuilder } from './builders/TechnicalLayerBuilder';
+import { AuditLayerBuilder } from './builders/AuditLayerBuilder';
+import { InstitutionalContextBuilder } from './builders/InstitutionalContextBuilder';
+import { DecisionTraceBuilder } from './builders/DecisionTraceBuilder';
+import { ExecutiveLabelResolver } from '../executive-presentation/ExecutiveLabelResolver';
+import { BalanceSheetDecisionPolicyLayer } from './BalanceSheetDecisionPolicyLayer';
+import { BalanceSheetCompletenessGuard } from './BalanceSheetCompletenessGuard';
+import { BalanceSheetExecutiveFactsBuilder } from './BalanceSheetExecutiveFactsBuilder';
+import { BalanceSheetExecutiveOpinionBuilder } from './builders/BalanceSheetExecutiveOpinionBuilder';
+
+export class BalanceSheetExecutiveViewModelBuilder {
+  public static build(executiveReport: any, mode: 'strict' | 'safe' | 'unsafe' = 'safe', filterYear?: number, directBpSummary?: any, directIndicators?: any[]): BalanceSheetExecutiveViewModel {
+    const rawReport = executiveReport || {};
+    const {
+      assessments,
+      indicators
+    } = rawReport.patrimonialIntelligenceReport || {};
+
+    const interpretations = rawReport.patrimonialIntelligenceReport?.executiveInterpretation || rawReport.patrimonialIntelligenceReport?.interpretations;
+
+    // --- Phase 1: Facts Builder ---
+    const finalIndicators = directIndicators && directIndicators.length > 0 ? directIndicators : (indicators && indicators.length > 0 ? indicators : (rawReport.rawFinancialData?.financialIndicators || []));
+    const facts = BalanceSheetExecutiveFactsBuilder.build(rawReport, finalIndicators, directBpSummary);
+
+    const technicalLayerFallback = TechnicalLayerBuilder.build(
+      finalIndicators,
+      (key: string) => DisplaySemanticResolver.resolve('label', key) || key,
+      undefined,
+      facts,
+      undefined
+    );
+
+    // --- Phase 2: Decision Policy Layer ---
+    const institutionalStage = rawReport.institutionalView?.maturity?.stageLabel || rawReport.context?.stage || '';
+    const policyResult = BalanceSheetDecisionPolicyLayer.applyPolicies(
+      facts,
+      assessments,
+      institutionalStage
+    );
+
+    const formatFact = (val: any, decimals = 1, isPercent = false) => {
+      if (val === undefined || val === null || val === 'LIMITED_EVIDENCE') return '';
+      return `${(val * (isPercent ? 100 : 1)).toFixed(decimals)}${isPercent ? '%' : 'x'}`;
+    };
+
+    const liqStr = facts?.liquidityCurrent !== undefined && facts?.liquidityCurrent !== null ? `liquidez corrente de ${formatFact(facts.liquidityCurrent, 2, false)}` : '';
+    const autStr = facts?.financialAutonomy !== undefined && facts?.financialAutonomy !== null ? `autonomia financeira de ${formatFact(facts.financialAutonomy, 1, true)}` : '';
+    
+    let baseReason = 'Diagnóstico sustentado pela evolução da estrutura patrimonial.';
+    if (liqStr && autStr) {
+      baseReason = `Diagnóstico sustentado por ${liqStr} e ${autStr}.`;
+    } else if (liqStr) {
+      baseReason = `Diagnóstico sustentado por ${liqStr}.`;
+    } else if (autStr) {
+      baseReason = `Diagnóstico sustentado por ${autStr}.`;
+    }
+
+    const resolvedInterpretations = policyResult.interpretations;
+    const globalSeverityReason = resolvedInterpretations?.strategicSeverityReason || baseReason;
+
+    // 1. Validate Consistency (Phase 2)
+    const consistencyAudit = ExecutiveConsistencyEngine.validateStrategicAlignment(
+      globalSeverityReason,
+      policyResult.analysisPanels,
+      mode
+    );
+
+    // 2. Technical Indicators & Evidence Selection (Phases 3 & 4)
+    const technicalIndicators = (indicators || []).map((ind: any) => {
+      const canonicalMetric = BalanceSheetTechnicalIndicatorEngine.getMetadata(ind.metricName);
+      let val = ind.value;
+      if (val === 'INSUFFICIENT_DATA' || isNaN(val) || val === null || val === undefined) {
+        val = 'Avaliação limitada por disponibilidade de evidências históricas';
+      } else {
+        // Here we should not use generic toFixed, but let DisplayValueFormatter do it if needed
+        val = Number(val).toFixed(2);
+      }
+
+      return {
+        familyName: DisplaySemanticResolver.resolve('familyName', ind.familyName || 'Indicadores Gerais'),
+        label: DisplaySemanticResolver.resolve('label', ind.metricName),
+        formula: DisplaySemanticResolver.resolve('formula', canonicalMetric?.formula || 'Fórmula dinâmica calculada pelo motor analítico institucional.'),
+        value: String(val),
+        classificationLabel: DisplaySemanticResolver.resolve('classificationLabel', ind.classification || ''),
+        purpose: DisplaySemanticResolver.resolve('purpose', canonicalMetric?.purpose || 'Avaliação contextual.'),
+        limitations: DisplaySemanticResolver.resolve('limitations', canonicalMetric?.limitations || 'Sem limitações conhecidas.'),
+        referenceRange: String(canonicalMetric?.referenceRange || 'Depende do setor e do modelo operacional.'),
+        methodologicalNotes: DisplaySemanticResolver.resolve('methodologicalNotes', canonicalMetric?.methodologicalNotes || ''),
+        origin: {
+          sourceEngine: 'BalanceSheetTechnicalIndicatorRegistry',
+          sourceRule: 'Canonical Definition',
+          confidence: 100,
+          lastValidatedAt: new Date().toISOString()
+        }
+      };
+    });
+
+    const analysisPanels = {
+      protection: policyResult.analysisPanels?.protection,
+      liquidity: policyResult.analysisPanels?.liquidity,
+      capitalStructure: policyResult.analysisPanels?.capitalStructure,
+      workingCapital: policyResult.analysisPanels?.workingCapital,
+      capitalEfficiency: policyResult.analysisPanels?.capitalEfficiency,
+      assetQuality: policyResult.analysisPanels?.assetQuality
+    } as any;
+
+    const technicalLayer = TechnicalLayerBuilder.build(
+      finalIndicators,
+      (key: string) => DisplaySemanticResolver.resolve('label', key) || key,
+      analysisPanels,
+      facts,
+      policyResult.institutionalScenario?.scenario
+    );
+
+    const auditLayer = AuditLayerBuilder.build(
+      executiveReport.patrimonialStructuralRestrictions,
+      executiveReport.patrimonialIntelligenceReport?.governanceConsistency,
+      executiveReport.patrimonialIntelligenceReport?.scoreBreakdown?.globalScore,
+      executiveReport.patrimonialIntelligenceReport?.scoreBreakdown?.criticalOffenders,
+      (key: string) => DisplaySemanticResolver.resolve('label', key) || key
+    );
+
+    const institutionalContext = InstitutionalContextBuilder.build(
+      executiveReport.context,
+      DisplaySemanticResolver.resolve('label', executiveReport.institutionalView?.maturity?.stageLabel || executiveReport.context?.stage || '')
+    );
+
+    const emptyBase = this.buildEmpty();
+    
+    // 6. Integrate SIS properties
+    const executiveOpinion = BalanceSheetExecutiveOpinionBuilder.buildOpinion(policyResult.institutionalScenario, facts);
+    const criticalFactor = BalanceSheetExecutiveOpinionBuilder.buildCriticalFactor(policyResult.institutionalScenario, facts);
+    const managementImplication = BalanceSheetExecutiveOpinionBuilder.buildManagementImplication(policyResult.institutionalScenario, facts);
+    const technicalObservation = BalanceSheetExecutiveOpinionBuilder.buildTechnicalObservation(policyResult.institutionalScenario, facts);
+    const evidenceTrace = DecisionTraceBuilder.build(
+      policyResult.institutionalScenario,
+      rawReport.patrimonialIntelligenceReport,
+      filterYear || new Date().getFullYear(),
+      facts
+    );
+
+    const rawViewModel: BalanceSheetExecutiveViewModel = {
+      ...emptyBase,
+      institutionalContext,
+      auditLayer,
+      institutionalScenario: policyResult.institutionalScenario ? {
+        scenario: policyResult.institutionalScenario.scenario,
+        confidence: DisplaySemanticResolver.resolve('confidence', policyResult.institutionalScenario.confidence),
+        primaryDriver: policyResult.institutionalScenario.primaryDriver,
+        secondaryDriver: policyResult.institutionalScenario.secondaryDriver,
+        severity: DisplaySemanticResolver.resolve('severity', policyResult.institutionalScenario.severity),
+        policyProfile: policyResult.institutionalScenario.policyProfile,
+        liquidityIntent: DisplaySemanticResolver.resolve('liquidityIntent', policyResult.institutionalScenario.liquidityIntent)
+      } : undefined,
+      policyProfile: policyResult.institutionalScenario?.policyProfile,
+      executiveOpinion,
+      criticalFactor,
+      managementImplication,
+      strategicSeverity: DisplaySemanticResolver.resolve('status', policyResult.institutionalScenario?.severity || 'MEDIUM'),
+      strategicSeverityReason: globalSeverityReason,
+      dominantRiskFamily: resolvedInterpretations?.dominantRiskFamily || 'Diretrizes Estratégicas',
+      patrimonialThesis: resolvedInterpretations?.patrimonialThesis || 'Estrutura Financeira',
+      diagnosisOrigin: {
+        sourceEngine: 'ExecutiveConsistencyEngine',
+        sourceRule: 'Phase 2 Validation',
+        confidence: consistencyAudit.confidenceScore,
+        lastValidatedAt: new Date().toISOString()
+      },
+      analysisPanels: analysisPanels as any,
+      technicalIndicators,
+      isConsistent: consistencyAudit.isConsistent,
+      consistencyViolations: consistencyAudit.violations,
+      evidenceTrace,
+      technicalLayer: { families: technicalLayer as any }
+    };
+
+    NumericIntegrityGuard.verify(indicators || [], rawViewModel);
+    const guardedViewModel = BalanceSheetCompletenessGuard.enforce(rawViewModel, facts, mode);
+
+    // Conciliation
+    const patrimonialIndex = facts.patrimonialIndex || 0;
+    if (auditLayer?.globalScore !== undefined && auditLayer.globalScore > 70 && patrimonialIndex < 30 && patrimonialIndex > 0) {
+      (guardedViewModel as any).compositeIndexesConciliation = 'Nota Metodológica: A sólida proteção patrimonial (Score elevado) reflete a estrutura de capital e o nível de liquidez acumulada, enquanto a Eficiência Operacional (EFOS reduzida) evidencia pressões de ciclo imediato no capital de giro ou margens. Ambas as leituras são independentes e não contraditórias.';
+    } else if (auditLayer?.globalScore !== undefined && auditLayer.globalScore < 40 && patrimonialIndex > 70) {
+      (guardedViewModel as any).compositeIndexesConciliation = 'Nota Metodológica: A eficiência operacional atual é forte, porém o baixo Score Patrimonial reflete desequilíbrios estruturais crônicos no endividamento ou liquidez de longo horizonte.';
+    }
+
+    const testMode = process.env.NODE_ENV === 'test';
+    const sanitizedViewModel = ExecutiveSemanticRegistry.enforceViewModelSemanticMatrix(
+      guardedViewModel,
+      policyResult.institutionalScenario?.scenario || 'STRUCTURALLY_BALANCED',
+      testMode
+    );
+
+    return this.assertFinancialNarrativePurity(sanitizedViewModel);
+  }
+
+  private static assertFinancialNarrativePurity(vm: BalanceSheetExecutiveViewModel): BalanceSheetExecutiveViewModel {
+    const extractStringValues = (obj: any): string[] => {
+      let strings: string[] = [];
+      if (typeof obj === 'string') {
+        strings.push(obj.toLowerCase());
+      } else if (Array.isArray(obj)) {
+        obj.forEach(item => strings.push(...extractStringValues(item)));
+      } else if (obj !== null && typeof obj === 'object') {
+        Object.values(obj).forEach(val => strings.push(...extractStringValues(val)));
+      }
+      return strings;
+    };
+    
+    const allValues = extractStringValues(vm).join(' ');
+    
+    // Prohibited Semantic List (Decision DNA)
+    const prohibitedTerms = [
+      'decision', 'decisão', 'decidir',
+      'approve', 'approval', 'aprovação', 'aprovar',
+      'recommend', 'recommended', 'recomendação', 'recomenda', 'recomendado',
+      'execute', 'execution', 'executar', 'execução',
+      'owner', 'deadline', 'prazo',
+      'roadmap', 'action plan', 'plano', 'ação',
+      'scenario', 'optimized scenario', 'cenário', 'alternativa',
+      'strategy recommendation', 'dividend distribution',
+      'kpi shift', 'prioridade', 'melhoria', 'otimização',
+      'sugestão', 'orientação'
+    ];
+
+    const violations = prohibitedTerms.filter(term => {
+      // Use word boundary to avoid partial matches where possible, though simple includes is safer for broad catching
+      const regex = new RegExp(`\\b${term}\\b`, 'i');
+      return regex.test(allValues);
+    });
+
+    if (violations.length > 0) {
+      throw new Error(`[BP Constitutional Violation] Financial Narrative Purity failed. Prescriptive or decision-oriented terms found in ViewModel: ${violations.join(', ')}`);
+    }
+
+    return this.assertNoRawEnums(vm);
+  }
+
+  private static assertNoRawEnums(vm: BalanceSheetExecutiveViewModel): BalanceSheetExecutiveViewModel {
+    const vmString = JSON.stringify(vm);
+    // Removed NaN, null, N/A from string regex to avoid false positives
+    const forbiddenPattern = /\b(HEALTHY|UNHEALTHY|WARNING|ATTENTION|NEUTRAL|RESILIENT|MINOR_WARNINGS|MONITORING|STABLE|EXCELLENT|Debt-to-Equity|Working Capital)\b/;
+    if (forbiddenPattern.test(vmString)) {
+      console.warn('[SSOT-VIOLATION] Enum técnico ou termo não traduzido vazou para o ViewModel Final:', vmString.match(forbiddenPattern));
+    }
+    
+    // Traversal to catch NaN, null, undefined in displayable string fields
+    const deepSanitizeValues = (obj: any): any => {
+      if (Array.isArray(obj)) {
+        return obj.map(deepSanitizeValues);
+      } else if (obj !== null && typeof obj === 'object') {
+        const newObj: any = {};
+        for (const key in obj) {
+          const val = obj[key];
+          if (val === null || val === undefined) {
+            newObj[key] = val; // Preserva o tipo estrutural para não quebrar arrays (ex: criticalOffenders)
+          } else if (typeof val === 'number' && Number.isNaN(val)) {
+            newObj[key] = '—';
+          } else if (typeof val === 'string' && (val === 'NaN' || val === 'N/A' || val === 'null' || val === 'undefined')) {
+            newObj[key] = '—';
+          } else {
+            newObj[key] = deepSanitizeValues(val);
+          }
+        }
+        return newObj;
+      }
+      return obj;
+    };
+
+    return deepSanitizeValues(vm);
+  }
+
+  public static buildEmpty(): BalanceSheetExecutiveViewModel {
+    const origin = { sourceEngine: 'Fallback', sourceRule: 'Empty', confidence: 0, lastValidatedAt: new Date().toISOString() };
+    return {
+      strategicSeverity: 'MONITORING',
+      strategicSeverityReason: 'Sem dados',
+      dominantRiskFamily: 'N/A',
+      patrimonialThesis: 'Aguardando dados',
+      diagnosisOrigin: origin,
+      observacaoFinanceira: { contexto: '', observacao: '', origin: { sourceEngine: '', sourceRule: '', confidence: 0, lastValidatedAt: '' } },
+      observacaoOperacional: { contexto: '', observacao: '', origin: { sourceEngine: '', sourceRule: '', confidence: 0, lastValidatedAt: '' } },
+      observacaoGovernanca: { contexto: '', observacao: '', origin: { sourceEngine: '', sourceRule: '', confidence: 0, lastValidatedAt: '' } },
+      observacaoOrigin: { sourceEngine: '', sourceRule: '', confidence: 0, lastValidatedAt: '' },
+      analysisPanels: {},
+      technicalIndicators: [],
+      isConsistent: true,
+      consistencyViolations: [],
+      institutionalContext: undefined,
+      auditLayer: undefined,
+      evidenceTrace: [],
+      technicalLayer: { families: [] }
+    };
+  }
+}

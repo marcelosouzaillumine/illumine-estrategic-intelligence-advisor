@@ -41,23 +41,23 @@
       "desc": "The organization operates with rear-view mirrors, focused on what has already passed."
     },
     "integrated": {
-      "level": "Integrated Intelligence",
+      "level": "Integrated Governance",
       "desc": "Data connections exist, but decisions still rely on slow consolidations."
     },
     "executive": {
-      "level": "Executive Intelligence",
+      "level": "Executive Governance",
       "desc": "High analytical capacity with risk view, but institutional memory can still fail."
     },
     "institutional": {
-      "level": "Institutional Intelligence",
+      "level": "Institutional Governance",
       "desc": "Cutting-edge maturity. The company has a Digital Twin and causal memory for every decision."
     }
   },
   "result": {
     "completed_label": "Executive Diagnostic Journey™ Completed",
-    "title": "Executive Intelligence Maturity Index™",
+    "title": "Executive Governance Maturity Index™",
     "map_title": "Institutional Evolution Map™",
-    "opportunities_title": "Intelligence Opportunities™",
+    "opportunities_title": "Governance Opportunities™",
     "opportunities": [
       "Continuous preservation of decision context.",
       "Integration between approved strategy and tactical execution.",
@@ -70,7 +70,7 @@
     "success_title": "Request Received",
     "success_desc": "Our executive concierge team will contact you within 24h to schedule your private presentation of the Illumine platform.",
     "title": "Request Access to Executive Report",
-    "desc_1": "Your organization is ready for a new layer of institutional intelligence.",
+    "desc_1": "Your organization is ready for a new layer of institutional governance.",
     "desc_2": "Fill out your executive information to receive a personalized organizational maturity analysis and schedule a private presentation of the Illumine platform.",
     "name_label": "Full Name",
     "name_placeholder": "Ex: John Doe",

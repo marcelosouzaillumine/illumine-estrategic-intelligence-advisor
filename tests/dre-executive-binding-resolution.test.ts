@@ -1,14 +1,14 @@
 import { describe, it } from 'node:test';
 import assert from 'node:assert/strict';
-import { DREExecutiveDataMapper } from '../src/core/runtime/dre/DREExecutiveDataMapper';
-import { RevenueEconomicStructureEngine } from '../src/core/runtime/dre/RevenueEconomicStructureEngine';
-import { EconomicBurnRateEngine } from '../src/core/runtime/dre/EconomicBurnRateEngine';
-import { BreakEvenAnalysisEngine } from '../src/core/runtime/dre/BreakEvenAnalysisEngine';
-import { OperationalAbsorptionEngine } from '../src/core/runtime/dre/OperationalAbsorptionEngine';
-import { DREExecutiveBindingAudit } from '../src/core/runtime/dre/DREExecutiveBindingAudit';
+import { DREExecutiveDataMapper } from '../src/capabilities/financial/runtime/dre/DREExecutiveDataMapper';
+import { RevenueEconomicStructureEngine } from '../src/capabilities/financial/runtime/dre/RevenueEconomicStructureEngine';
+import { EconomicBurnRateEngine } from '../src/capabilities/financial/runtime/dre/EconomicBurnRateEngine';
+import { BreakEvenAnalysisEngine } from '../src/capabilities/financial/runtime/dre/BreakEvenAnalysisEngine';
+import { OperationalAbsorptionEngine } from '../src/capabilities/financial/runtime/dre/OperationalAbsorptionEngine';
+import { DREExecutiveBindingAudit } from '../src/capabilities/financial/runtime/dre/DREExecutiveBindingAudit';
 import { ScaleEfficiencyIntegrityEngine } from '../src/core/runtime/integrity/ScaleEfficiencyIntegrityEngine';
 
-describe('DEIBRF v1.0 - DRE Executive Intelligence Binding Resolution', () => {
+describe('DEIBRF v1.0 - DRE Executive Governance Binding Resolution', () => {
   // Granatum 2022 dataset based on user prompt requirements
   const granatum2022Payload = {
     netRevenue: 156969.54,

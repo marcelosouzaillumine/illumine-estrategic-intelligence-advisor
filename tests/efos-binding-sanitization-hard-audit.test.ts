@@ -1,11 +1,11 @@
 import { strict as assert } from 'assert';
 import test from 'node:test';
 import { orchestrateExecutiveConsolidation } from '../src/core/orchestration/executiveOrchestrationEngine';
-import { CrossStatementPropagationEngine } from '../src/core/runtime/executive-consolidation/CrossStatementPropagationEngine';
-import { ExecutiveNarrativeSanitizer } from '../src/core/runtime/executive-consolidation/ExecutiveNarrativeSanitizer';
-import { EFOSExecutiveConsistencyAuditEngine } from '../src/core/runtime/executive-consolidation/EFOSExecutiveConsistencyAuditEngine';
-import { EFOSPresentationLeakGuard } from '../src/core/runtime/executive-consolidation/EFOSPresentationLeakGuard';
-import { CapitalProtectionCanonicalResolver } from '../src/core/runtime/executive-consolidation/CapitalProtectionCanonicalResolver';
+import { CrossStatementPropagationEngine } from '../src/workspace/runtime/executive-consolidation/CrossStatementPropagationEngine';
+import { ExecutiveNarrativeSanitizer } from '../src/workspace/runtime/executive-consolidation/ExecutiveNarrativeSanitizer';
+import { EFOSExecutiveConsistencyAuditEngine } from '../src/workspace/runtime/executive-consolidation/EFOSExecutiveConsistencyAuditEngine';
+import { EFOSPresentationLeakGuard } from '../src/workspace/runtime/executive-consolidation/EFOSPresentationLeakGuard';
+import { CapitalProtectionCanonicalResolver } from '../src/workspace/runtime/executive-consolidation/CapitalProtectionCanonicalResolver';
 
 test('EFOS Executive Binding, Sanitization & Hard Audit Framework (EBSHAF v1.0)', async (t) => {
   await t.test('CrossStatementPropagationEngine', async (t) => {

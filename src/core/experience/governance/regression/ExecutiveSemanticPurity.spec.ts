@@ -1,6 +1,6 @@
 import { describe, it, expect } from 'vitest';
 import { FinancialPositionProduct } from '../../../experience/products/FinancialPositionProduct';
-import { BalanceSheetExecutiveViewModelBuilder } from '../../../runtime/executive-consolidation/BalanceSheetExecutiveViewModelBuilder';
+import { BalanceSheetExecutiveViewModelBuilder } from '../../../../workspace/runtime/executive-consolidation/BalanceSheetExecutiveViewModelBuilder';
 
 // Mock context for generation
 const mockContext = {
@@ -74,7 +74,7 @@ describe('Executive Semantic Purity Enforcement (Wave 1.4.8)', () => {
   });
   
   it('FinancialPositionProduct must be strictly analytical', () => {
-    expect(FinancialPositionProduct.productType).toBe('INTELLIGENCE_PRODUCT');
+    expect(FinancialPositionProduct.productType).toBe('GOVERNANCE_PRODUCT');
     expect(FinancialPositionProduct.experience.rules.decisionAuthority).toBe(false);
     expect(FinancialPositionProduct.experience.rules.canRecommend).toBe(false);
     expect(FinancialPositionProduct.experience.rules.canExecute).toBe(false);

@@ -53,7 +53,7 @@ export class IntelligenceAssuranceEngine implements IntelligenceAssurancePort {
         narrative: narrativeIssues.filter(i => i.severity === 'CRITICAL').length === 0,
       },
       provenance: {
-        source: 'IntelligenceAssuranceEngine',
+        source: 'GovernanceAssuranceEngine',
         rulesApplied: [
           ...dataIntegrityResult.provenance.rulesApplied,
           'Financial Logic Assurances',

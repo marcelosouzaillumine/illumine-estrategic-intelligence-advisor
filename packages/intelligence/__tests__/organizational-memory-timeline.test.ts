@@ -3,7 +3,7 @@ import { describe, it, expect } from 'vitest';
 import { DecisionMemoryContract } from '@illumine/executive-contracts';
 import { ExecutiveContextProvider } from '@illumine/executive-context-engine';
 
-describe('@illumine/intelligence (Wave 18.5 Organizational Memory Timeline)', () => {
+describe('@illumine/governance (Wave 18.5 Organizational Memory Timeline)', () => {
   it('should structure immutable timeline of past decisions per company', () => {
     const ctx = ExecutiveContextProvider.buildContext({
       companyId: 'comp-emporio',

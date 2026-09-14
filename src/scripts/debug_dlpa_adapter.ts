@@ -1,7 +1,7 @@
 import { initializeApp } from 'firebase/app';
 import { getFirestore, collection, getDocs, query, where } from 'firebase/firestore';
 import * as fs from 'fs';
-import { CapitalGovernanceAdapter } from '../core/runtime/capital-governance/capital-governance-adapter';
+import { CapitalGovernanceAdapter } from '../capabilities/financial/runtime/capital-governance/capital-governance-adapter';
 
 const firebaseConfig = JSON.parse(fs.readFileSync('./firebase-applet-config.json', 'utf8'));
 const app = initializeApp(firebaseConfig);

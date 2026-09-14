@@ -1,10 +1,10 @@
 import test from 'node:test';
 import assert from 'node:assert';
-import { RunwayClassificationEngine } from '../src/core/runtime/cash-intelligence/RunwayClassificationEngine';
-import { DFCFiduciaryPriorityResolver } from '../src/core/runtime/cash-intelligence/DFCFiduciaryPriorityResolver';
-import { CashQualityExplainabilityEngine } from '../src/core/runtime/cash-intelligence/CashQualityExplainabilityEngine';
-import { CashExecutiveAdvisoryEngine } from '../src/core/runtime/cash-intelligence/CashExecutiveAdvisoryEngine';
-import { DFCConsistencyAuditEngine } from '../src/core/runtime/cash-intelligence/DFCConsistencyAuditEngine';
+import { RunwayClassificationEngine } from '../src/capabilities/financial/runtime/cash-intelligence/RunwayClassificationEngine';
+import { DFCFiduciaryPriorityResolver } from '../src/capabilities/financial/runtime/cash-intelligence/DFCFiduciaryPriorityResolver';
+import { CashQualityExplainabilityEngine } from '../src/capabilities/financial/runtime/cash-intelligence/CashQualityExplainabilityEngine';
+import { CashExecutiveAdvisoryEngine } from '../src/capabilities/financial/runtime/cash-intelligence/CashExecutiveAdvisoryEngine';
+import { DFCConsistencyAuditEngine } from '../src/capabilities/financial/runtime/cash-intelligence/DFCConsistencyAuditEngine';
 
 test('DFC Executive Excellence Framework (DEEFF v1.0)', async (t) => {
   await t.test('RunwayClassificationEngine', async (t) => {

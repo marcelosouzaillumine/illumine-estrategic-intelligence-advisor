@@ -24,15 +24,15 @@ describe('International Routing Architecture', () => {
 
   it('every route must possess a canonical URL', () => {
     routeKeys.forEach(key => {
-      const canonical = generateCanonicalUrl('https://illumineintelligence.com', key, 'pt-BR');
+      const canonical = generateCanonicalUrl('https://illuminegovernance.com', key, 'pt-BR');
       assert.ok(canonical, 'canonical URL should be defined');
-      assert.ok(canonical.startsWith('https://illumineintelligence.com/pt'), 'canonical must start with pt-BR base');
+      assert.ok(canonical.startsWith('https://illuminegovernance.com/pt'), 'canonical must start with pt-BR base');
     });
   });
 
   it('every route must possess hreflang tags for all locales and x-default', () => {
     routeKeys.forEach(key => {
-      const hreflangTags = generateHreflangTags('https://illumineintelligence.com', key);
+      const hreflangTags = generateHreflangTags('https://illuminegovernance.com', key);
       
       // Should have 3 locales + 1 x-default
       assert.strictEqual(hreflangTags.length, 4);

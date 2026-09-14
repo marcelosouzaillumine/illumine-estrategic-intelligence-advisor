@@ -7,7 +7,7 @@ import { EconomicNormalizationAdapter } from '../src/runtime/adapters/EconomicNo
 import { ExecutiveDecisionAdapter } from '../src/runtime/adapters/ExecutiveDecisionAdapter';
 import { InstitutionalMemoryAdapter } from '../src/runtime/adapters/InstitutionalMemoryAdapter';
 import { InstitutionalContext, EngineExecutionResult } from '../src/runtime/types';
-import { InstitutionalBoardPackDocumentRuntime } from '../src/core/runtime/institutional-reporting/InstitutionalBoardPackDocumentRuntime';
+import { InstitutionalBoardPackDocumentRuntime } from '../src/capabilities/runtime/institutional-reporting/InstitutionalBoardPackDocumentRuntime';
 
 describe('Institutional Memory Engine (IME) - Adapter & Report Integration Tests', () => {
 
@@ -133,8 +133,8 @@ describe('Institutional Memory Engine (IME) - Adapter & Report Integration Tests
     const imeMetrics = results.InstitutionalMemoryEngine.inference?.metrics;
     assert.ok(imeMetrics);
     assert.strictEqual(imeMetrics.isEarlyStage, true);
-    assert.ok(imeMetrics.domains.treasury.score >= 70);
-    assert.ok(imeMetrics.domains.earnings.score >= 70);
+    assert.ok(imeMetrics.domains.treasury.pureViewModel.score >= 70);
+    assert.ok(imeMetrics.domains.earnings.pureViewModel.score >= 70);
   });
 
   it('3. Deve acionar a sanitização de narrativas proibidas', async () => {

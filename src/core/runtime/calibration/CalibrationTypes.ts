@@ -1,4 +1,4 @@
-import { StagingValidationWarning } from '../integrations/IntegrationGovernanceTypes';
+import { StagingValidationWarning } from '../../../capabilities/runtime/integrations/IntegrationGovernanceTypes';
 
 export type AdvisoryVerbosity = 'low' | 'medium' | 'high';
 

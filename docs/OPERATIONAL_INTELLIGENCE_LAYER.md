@@ -1,10 +1,10 @@
-# OPERATIONAL_INTELLIGENCE_LAYER
+# OPERATIONAL_GOVERNANCE_LAYER
 
 ## FINALIDADE
 
 Este documento define oficialmente a camada de Inteligência Operacional da plataforma Illumine.
 
-A OPERATIONAL_INTELLIGENCE_LAYER torna-se responsável pela interpretação causal, comportamental e institucional da DRE (Demonstração do Resultado do Exercício), performance operacional, qualidade da margem, sustentabilidade do crescimento e eficiência estrutural das empresas analisadas.
+A OPERATIONAL_GOVERNANCE_LAYER torna-se responsável pela interpretação causal, comportamental e institucional da DRE (Demonstração do Resultado do Exercício), performance operacional, qualidade da margem, sustentabilidade do crescimento e eficiência estrutural das empresas analisadas.
 
 A plataforma deixa de interpretar a DRE apenas como:
 
@@ -36,7 +36,7 @@ Toda interpretação operacional da plataforma deverá obedecer obrigatoriamente
 * WEIGHTED CAUSAL INFERENCE LAYER
 * CALIBRATION & STABILITY LAYER
 * CAUSAL_GOLDEN_DATASETS.md
-* OPERATIONAL_INTELLIGENCE_LAYER.md
+* OPERATIONAL_GOVERNANCE_LAYER.md
 
 Nenhum módulo poderá:
 
@@ -327,9 +327,9 @@ A plataforma não poderá:
 
 A plataforma Illumine passa a operar como:
 
-* Operational Behavioral Intelligence System;
+* Operational Behavioral Governance System;
 * Institutional Operational Advisory Engine;
-* Enterprise Margin Intelligence Layer;
+* Enterprise Margin Governance Layer;
 * Dynamic Operational Causality Engine;
 * Executive Operational Interpretation Platform.
 

@@ -7,7 +7,7 @@ export const discoveryJourney = {
         id: `msg_disc_resp_${Date.now()}`,
         type: 'bot',
         sender: 'bot',
-        content: 'Ficamos felizes com o seu interesse. A Illumine é uma Executive Intelligence Platform desenhada para conectar dados corporativos, contexto decisório e raciocínio executivo. Nosso objetivo é reduzir a distância entre a informação e a tomada de decisão.',
+        content: 'Ficamos felizes com o seu interesse. A Illumine é uma Executive Governance Platform desenhada para conectar dados corporativos, contexto decisório e raciocínio executivo. Nosso objetivo é reduzir a distância entre a informação e a tomada de decisão.',
         delay: 800
       },
       {

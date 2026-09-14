@@ -4,20 +4,20 @@
 
 import { describe, it, beforeEach } from 'node:test';
 import assert from 'node:assert/strict';
-import { InstitutionalDecisionIntelligenceEngine } from '../src/core/runtime/decision-intelligence/InstitutionalDecisionIntelligenceEngine';
-import { InstitutionalDecisionLedger } from '../src/core/runtime/decision-intelligence/InstitutionalDecisionLedger';
-import { ExecutiveDecision } from '../src/core/runtime/decision-intelligence/decision-types';
-import { DeteriorationMomentumEngine } from '../src/core/runtime/predictive-intelligence/DeteriorationMomentumEngine';
-import { BehavioralAccelerationEngine } from '../src/core/runtime/predictive-intelligence/BehavioralAccelerationEngine';
-import { SurvivabilityProjectionEngine } from '../src/core/runtime/predictive-intelligence/SurvivabilityProjectionEngine';
-import { TrajectoryForecastEngine } from '../src/core/runtime/predictive-intelligence/TrajectoryForecastEngine';
-import { InstitutionalResilienceEngine } from '../src/core/runtime/predictive-intelligence/InstitutionalResilienceEngine';
-import { RecoveryViabilityEngine } from '../src/core/runtime/predictive-intelligence/RecoveryViabilityEngine';
-import { StrategicCollapseRiskEngine } from '../src/core/runtime/predictive-intelligence/StrategicCollapseRiskEngine';
-import { GovernanceRuptureEngine } from '../src/core/runtime/predictive-intelligence/GovernanceRuptureEngine';
-import { InstitutionalEarlyWarningEngine } from '../src/core/runtime/predictive-intelligence/InstitutionalEarlyWarningEngine';
-import { PredictiveGovernanceEngine } from '../src/core/runtime/predictive-intelligence/PredictiveGovernanceEngine';
-import { InstitutionalBehavioralIntelligenceEngine } from '../src/core/runtime/behavioral-intelligence/InstitutionalBehavioralIntelligenceEngine';
+import { InstitutionalDecisionIntelligenceEngine } from '../src/capabilities/runtime/decision-intelligence/InstitutionalDecisionIntelligenceEngine';
+import { InstitutionalDecisionLedger } from '../src/capabilities/runtime/decision-intelligence/InstitutionalDecisionLedger';
+import { ExecutiveDecision } from '../src/capabilities/runtime/decision-intelligence/decision-types';
+import { DeteriorationMomentumEngine } from '../src/capabilities/runtime/predictive-intelligence/DeteriorationMomentumEngine';
+import { BehavioralAccelerationEngine } from '../src/capabilities/runtime/predictive-intelligence/BehavioralAccelerationEngine';
+import { SurvivabilityProjectionEngine } from '../src/capabilities/runtime/predictive-intelligence/SurvivabilityProjectionEngine';
+import { TrajectoryForecastEngine } from '../src/capabilities/runtime/predictive-intelligence/TrajectoryForecastEngine';
+import { InstitutionalResilienceEngine } from '../src/capabilities/runtime/predictive-intelligence/InstitutionalResilienceEngine';
+import { RecoveryViabilityEngine } from '../src/capabilities/runtime/predictive-intelligence/RecoveryViabilityEngine';
+import { StrategicCollapseRiskEngine } from '../src/capabilities/runtime/predictive-intelligence/StrategicCollapseRiskEngine';
+import { GovernanceRuptureEngine } from '../src/capabilities/runtime/predictive-intelligence/GovernanceRuptureEngine';
+import { InstitutionalEarlyWarningEngine } from '../src/capabilities/runtime/predictive-intelligence/InstitutionalEarlyWarningEngine';
+import { PredictiveGovernanceEngine } from '../src/capabilities/runtime/predictive-intelligence/PredictiveGovernanceEngine';
+import { InstitutionalBehavioralIntelligenceEngine } from '../src/capabilities/runtime/behavioral-intelligence/InstitutionalBehavioralIntelligenceEngine';
 
 const createBaseReportContext = () => ({
   scores: {
@@ -72,7 +72,7 @@ const createBaseDecision = (domains: any[] = ['Dividend Distribution'], value = 
   approverRole: 'CFO'
 });
 
-describe('Institutional Predictive Intelligence & Early Warning Framework', () => {
+describe('Institutional Predictive Governance & Early Warning Framework', () => {
   beforeEach(() => {
     InstitutionalDecisionLedger.clearMemory();
   });

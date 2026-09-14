@@ -16,11 +16,11 @@ console.log("Running Phase 1: Architecture Reality Audit...");
 
 const expectedLayers = [
   // v3.x
-  'esg-intelligence',
-  'valuation-intelligence',
-  'benchmark-intelligence',
-  'sector-intelligence',
-  'capital-allocation-intelligence',
+  'esg-governance',
+  'valuation-governance',
+  'benchmark-governance',
+  'sector-governance',
+  'capital-allocation-governance',
   'executive-sovereignty'
 ];
 
@@ -158,11 +158,11 @@ runtimeIntegrityMd += `| Output | Present | Notes |\n`;
 runtimeIntegrityMd += `|---|---|---|\n`;
 
 const keysToCheck = [
-  'esgIntelligence',
-  'valuationIntelligence',
-  'benchmarkIntelligence',
-  'sectorIntelligence',
-  'capitalAllocationIntelligence',
+  'esgGovernance',
+  'valuationGovernance',
+  'benchmarkGovernance',
+  'sectorGovernance',
+  'capitalAllocationGovernance',
   'executiveSovereignty'
 ];
 
@@ -174,7 +174,9 @@ keysToCheck.forEach(key => {
 fs.writeFileSync(path.join(reportsDir, 'runtime-integrity-report.md'), runtimeIntegrityMd);
 
 // Phase 3 & 8: Intelligence Quality & Sovereignty Readiness
-let intelligenceQualityMd = `# Intelligence Quality Report\n\n`;
+let intelligenceQualityMd = `# Governance Quality Report
+
+`;
 let passedDifferentiation = false;
 
 if (
@@ -191,7 +193,7 @@ intelligenceQualityMd += `|---|---|---|\n`;
 intelligenceQualityMd += `| Mature Company | SOVEREIGN | ${matureResult.executiveSovereignty?.sovereigntyClassification} |\n`;
 intelligenceQualityMd += `| Fragile Company | FOUNDATIONAL/DEVELOPING | ${fragileResult.executiveSovereignty?.sovereigntyClassification} |\n`;
 
-fs.writeFileSync(path.join(reportsDir, 'intelligence-quality-report.md'), intelligenceQualityMd);
+fs.writeFileSync(path.join(reportsDir, 'governance-quality-report.md'), intelligenceQualityMd);
 
 // Phase 4: Non-Interference (Deep Equal)
 let nonInterferenceMd = `# Constitutional Compliance Report\n\n`;

@@ -1,6 +1,6 @@
 import { logger } from "../services/logging/InstitutionalLogger";
-import { ConsolidatedAdvisoryOrchestrator } from '../core/runtime/consolidated/advisory/ConsolidatedAdvisoryOrchestrator';
-import { ConsolidatedFinancialOutput, ConsolidationEntity } from '../core/runtime/consolidated/types';
+import { ConsolidatedAdvisoryOrchestrator } from '../capabilities/financial/runtime/consolidated/advisory/ConsolidatedAdvisoryOrchestrator';
+import { ConsolidatedFinancialOutput, ConsolidationEntity } from '../capabilities/financial/runtime/consolidated/types';
 
 async function runAudit() {
   console.log('Iniciando Consolidated Advisory Audit...\n');

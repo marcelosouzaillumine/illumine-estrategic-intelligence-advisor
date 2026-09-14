@@ -5,7 +5,7 @@
 
 import { describe, it } from 'node:test';
 import assert from 'node:assert/strict';
-import { RuntimeComplianceEngine } from '../src/core/runtime/compliance/RuntimeComplianceEngine';
+import { RuntimeComplianceEngine } from '../src/capabilities/financial/runtime/compliance/RuntimeComplianceEngine';
 
 const createValidMockReport = (): any => ({
   scores: {
@@ -108,7 +108,7 @@ describe('Institutional Fiduciary Runtime Constitution - Compliance Engine', () 
   describe('4. Semantic Governance & Tone Checks', () => {
     it('Deve barrar termos proibidos em relatórios formais', () => {
       const report = createValidMockReport();
-      report.advisory.executiveSummary = 'Identificamos fraude na folha e colapso definitivo na tesouraria.';
+      report.advisory.pureViewModel.executiveSummary = 'Identificamos fraude na folha e colapso definitivo na tesouraria.';
 
       assert.throws(() => {
         RuntimeComplianceEngine.validate(report, 'export');
@@ -117,7 +117,7 @@ describe('Institutional Fiduciary Runtime Constitution - Compliance Engine', () 
 
     it('Deve barrar termo "predatório" se não houver evidência distributiva', () => {
       const report = createValidMockReport();
-      report.advisory.executiveSummary = 'Observamos uma extração predatória de caixa.';
+      report.advisory.pureViewModel.executiveSummary = 'Observamos uma extração predatória de caixa.';
       // hasDistributiveEvidence defaults to false
 
       assert.throws(() => {
@@ -127,7 +127,7 @@ describe('Institutional Fiduciary Runtime Constitution - Compliance Engine', () 
 
     it('Deve emitir warning em caso de linguagem dramática/não-sóbria', () => {
       const report = createValidMockReport();
-      report.advisory.executiveSummary = 'A situação da liquidez imediata está catastrófica e causou pânico.';
+      report.advisory.pureViewModel.executiveSummary = 'A situação da liquidez imediata está catastrófica e causou pânico.';
 
       const result = RuntimeComplianceEngine.validate(report, 'render');
       assert.ok(result.warnings.some(w => w.args?.term === 'catastrófica'));
@@ -191,7 +191,7 @@ describe('Institutional Fiduciary Runtime Constitution - Compliance Engine', () 
       const result = RuntimeComplianceEngine.validate(report, 'advisory');
       assert.equal(result.isValid, false);
       assert.equal(report.scores.financial, 0);
-      assert.ok(report.advisory.executiveSummary.includes('Informação insuficiente para inferência institucional'));
+      assert.ok(report.advisory.pureViewModel.executiveSummary.includes('Informação insuficiente para inferência institucional'));
     });
   });
 });

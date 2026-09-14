@@ -9,13 +9,13 @@ interface BoardIntelligenceCapabilityProps {
 export const BoardIntelligenceCapability: React.FC<BoardIntelligenceCapabilityProps> = ({ context }) => {
   const { data, loading } = useBoardIntelligence(context);
 
-  if (loading) return <div className="p-8 text-slate-400">Processando Board Intelligence...</div>;
+  if (loading) return <div className="p-8 text-slate-400">Processando Board Governance...</div>;
   if (!data) return null;
 
   return (
     <div className="p-6 max-w-7xl mx-auto space-y-6">
       <header className="mb-8">
-        <h1 className="text-2xl font-semibold text-slate-100 tracking-tight">Board Intelligence</h1>
+        <h1 className="text-2xl font-semibold text-slate-100 tracking-tight">Board Governance</h1>
         <p className="text-slate-400 text-sm mt-1">Governance Office</p>
       </header>
 

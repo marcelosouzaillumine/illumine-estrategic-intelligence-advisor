@@ -16,6 +16,6 @@
 
 ## 2. Nível de Certificação Atingido
 
-$$\mathbf{LEVEL \quad 4: \quad ENTERPRISE \quad INTELLIGENCE \quad READY}$$
+$$\mathbf{LEVEL \quad 4: \quad ENTERPRISE \quad GOVERNANCE \quad READY}$$
 
 A plataforma atinge o nível máximo de certificação de prontidão operacional, estando apta a operar com total segurança institucional em clientes corporativos reais.

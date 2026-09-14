@@ -2,7 +2,7 @@
 import { describe, it, expect } from 'vitest';
 import { DecisionLedgerEngine, DecisionReplayEngine } from '../decision-trust-governance/src';
 
-describe('@illumine/intelligence (Wave 18.10.5 Decision Replay Engine)', () => {
+describe('@illumine/governance (Wave 18.10.5 Decision Replay Engine)', () => {
   it('should replay historical executive decisions deterministically from ledger hash', () => {
     const record = DecisionLedgerEngine.recordDecision('company-granatum', 'dec-2026', 'Cenário Recomendado');
     const replay = DecisionReplayEngine.replayDecision(record);

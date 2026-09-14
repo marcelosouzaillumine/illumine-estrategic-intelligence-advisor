@@ -2,7 +2,7 @@
 import { describe, it, expect } from 'vitest';
 import { DataQualityReport } from '@illumine/executive-contracts';
 
-describe('@illumine/intelligence (Wave 18.4 Data Quality Governance)', () => {
+describe('@illumine/governance (Wave 18.4 Data Quality Governance)', () => {
   it('should generate DataQualityReport with confidence score and coverage percentage', () => {
     const report: DataQualityReport = {
       reportId: 'rep-001',

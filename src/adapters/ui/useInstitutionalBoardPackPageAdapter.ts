@@ -1,8 +1,2 @@
-import { useState } from 'react';
-
-export function useInstitutionalBoardPackPageAdapter(clientId: string) {
-  const [loading, setLoading] = useState(false);
-  const [boardPackData, setBoardPackData] = useState<any>({});
-
-  return { boardPackData, loading };
-}
+// shim
+export * from '../../capabilities/financial/infrastructure/adapters/ui/useInstitutionalBoardPackPageAdapter';

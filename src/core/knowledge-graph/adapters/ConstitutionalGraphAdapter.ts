@@ -1,4 +1,4 @@
-import { ConstitutionalGovernanceMetadata } from "../../runtime/constitutional-governance/constitutional-types";
+import { ConstitutionalGovernanceMetadata } from "../../../capabilities/runtime/constitutional-governance/constitutional-types";
 import { InstitutionalNodeBuilder } from "../InstitutionalNodeBuilder";
 import { InstitutionalRelationshipBuilder } from "../InstitutionalRelationshipBuilder";
 import { InstitutionalGraphRegistry } from "../InstitutionalGraphRegistry";

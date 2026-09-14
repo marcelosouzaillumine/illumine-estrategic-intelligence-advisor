@@ -1,7 +1,7 @@
 /// <reference types="vitest" />
 import { describe, it, expect } from 'vitest';
 
-describe('@illumine/intelligence (Wave 18.3 Platform Render Protocol v1.0)', () => {
+describe('@illumine/governance (Wave 18.3 Platform Render Protocol v1.0)', () => {
   it('should verify platform pages use 6 operational layers without executive decision surface (PWGE v1.0)', () => {
     const platformLayers = [
       'Layer 1 — Platform Header',

@@ -1,4 +1,4 @@
-import { CapitalGovernanceAdapter } from '../core/runtime/capital-governance/capital-governance-adapter';
+import { CapitalGovernanceAdapter } from '../capabilities/financial/runtime/capital-governance/capital-governance-adapter';
 
 const context = {
   lifecycle: { analysisYear: 2024 },

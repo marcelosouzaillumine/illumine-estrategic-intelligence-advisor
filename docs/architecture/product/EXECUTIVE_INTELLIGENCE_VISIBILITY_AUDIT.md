@@ -1,4 +1,4 @@
-# EXECUTIVE_INTELLIGENCE_VISIBILITY_AUDIT.md — Auditoria de Visibilidade Perceptível da Inteligência
+# EXECUTIVE_GOVERNANCE_VISIBILITY_AUDIT.md — Auditoria de Visibilidade Perceptível da Inteligência
 
 > **Relatório de Auditoria de Visibilidade de UX Executiva (Wave 17.10 Fase 1)**
 

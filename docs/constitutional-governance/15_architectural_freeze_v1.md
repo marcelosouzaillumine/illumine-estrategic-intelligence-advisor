@@ -5,7 +5,7 @@
 **Domain:** Enterprise Governance Architecture
 
 ## 1. Declaration of Freeze
-The Institutional Governance platform has achieved its **v1.0 Constitutional Baseline**. The system's foundational architecture—specifically the absolute separation between the *Executive Intelligence Runtime* and the *Sovereign Fiduciary Frontend Layer (SFFL)*—is now **formally frozen**.
+The Institutional Governance platform has achieved its **v1.0 Constitutional Baseline**. The system's foundational architecture—specifically the absolute separation between the *Executive Governance Runtime* and the *Sovereign Fiduciary Frontend Layer (SFFL)*—is now **formally frozen**.
 
 ## 2. Unalterable Principles
 The following architectural mandates cannot be bypassed, ignored, or circumvented:
@@ -19,7 +19,7 @@ The following architectural mandates cannot be bypassed, ignored, or circumvente
 Any proposal to alter the flow of data, introduce new intermediary layers, or change the integration patterns between Runtime and UI must be preceded by a formal **Request for Comments (RFC)**. The RFC must demonstrate that the change does not compromise the Constitutional Baseline.
 
 ### B. Logic and Threshold Updates (Constitutional Amendment)
-Any adjustment to fiduciary thresholds, predictive intelligence weights, penalty severities, or core domain mappings requires a **Constitutional Amendment**. This process involves:
+Any adjustment to fiduciary thresholds, predictive governance weights, penalty severities, or core domain mappings requires a **Constitutional Amendment**. This process involves:
 - Documentation of the mathematical or regulatory rationale.
 - Regression testing across all 6 core scenarios (`A` through `F`).
 - Execution of `npm run self-audit` to guarantee no downstream leakage.

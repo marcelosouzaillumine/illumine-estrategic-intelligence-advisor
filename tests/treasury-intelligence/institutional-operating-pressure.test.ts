@@ -2,12 +2,12 @@
 
 import { test, describe, beforeEach } from 'node:test';
 import assert from 'node:assert';
-import { InstitutionalPressureRuntime } from '../../src/core/runtime/operating-pressure/InstitutionalPressureRuntime';
-import { PressureRuntimeInput } from '../../src/core/runtime/operating-pressure/operating-pressure-types';
-import { LongitudinalPressureMemoryEngine } from '../../src/core/runtime/operating-pressure/LongitudinalPressureMemoryEngine';
-import { PressureNarrativeComposer } from '../../src/core/runtime/operating-pressure/PressureNarrativeComposer';
+import { InstitutionalPressureRuntime } from '../../src/capabilities/runtime/operating-pressure/InstitutionalPressureRuntime';
+import { PressureRuntimeInput } from '../../src/capabilities/runtime/operating-pressure/operating-pressure-types';
+import { LongitudinalPressureMemoryEngine } from '../../src/capabilities/runtime/operating-pressure/LongitudinalPressureMemoryEngine';
+import { PressureNarrativeComposer } from '../../src/capabilities/runtime/operating-pressure/PressureNarrativeComposer';
 
-describe('Institutional Operating Pressure Intelligence Layer (RC-1.8A)', () => {
+describe('Institutional Operating Pressure Governance Layer (RC-1.8A)', () => {
   beforeEach(() => {
     LongitudinalPressureMemoryEngine.clearMemoryForTests();
   });

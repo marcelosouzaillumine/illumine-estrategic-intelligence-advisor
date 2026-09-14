@@ -9,7 +9,7 @@ export class CapabilityRegistry {
 
   private registerStandardCapabilities(): void {
     this.register({
-      name: 'finance-intelligence',
+      name: 'finance-governance',
       version: '1.0.0',
       domain: 'finance',
       features: ['dre-analysis', 'cash-flow', 'profitability', 'forecasting'],
@@ -17,7 +17,7 @@ export class CapabilityRegistry {
     });
 
     this.register({
-      name: 'governance-intelligence',
+      name: 'governance-governance',
       version: '1.0.0',
       domain: 'governance',
       features: ['risk-management', 'compliance-audit', 'board-reports'],

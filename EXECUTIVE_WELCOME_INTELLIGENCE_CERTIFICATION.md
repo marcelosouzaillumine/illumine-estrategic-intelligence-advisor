@@ -1,8 +1,8 @@
-# EXECUTIVE_WELCOME_INTELLIGENCE_CERTIFICATION.md — Certificado de Homologação da Capability Vertical EWIX v1.0
+# EXECUTIVE_WELCOME_GOVERNANCE_CERTIFICATION.md — Certificado de Homologação da Capability Vertical EWIX v1.0
 
-> **Certificado Oficial de Qualidade e Governança da Capability Executive Welcome Intelligence™**  
+> **Certificado Oficial de Qualidade e Governança da Capability Executive Welcome Governance™**  
 > *Emissor: Architecture Review Board (ARB) & Product Review Board (PRB)*  
-> *Subordinado à [`ARCHITECTURE_CONSTITUTION.md`](file:///Users/marcelosouza/Documents/illumine-strategic-intelligence-advisor/ARCHITECTURE_CONSTITUTION.md) e à [`ILLUMINE_PLATFORM_V1.0_DECLARATION.md`](file:///Users/marcelosouza/Documents/illumine-strategic-intelligence-advisor/ILLUMINE_PLATFORM_V1.0_DECLARATION.md)*
+> *Subordinado à [`ARCHITECTURE_CONSTITUTION.md`](file:///Users/marcelosouza/Documents/illumine-strategic-governance-advisor/ARCHITECTURE_CONSTITUTION.md) e à [`ILLUMINE_PLATFORM_V1.0_DECLARATION.md`](file:///Users/marcelosouza/Documents/illumine-strategic-governance-advisor/ILLUMINE_PLATFORM_V1.0_DECLARATION.md)*
 
 ---
 
@@ -21,4 +21,4 @@
 
 ## 2. Decisão Definitiva dos Conselhos (ARB & PRB Final Decision)
 
-$$\mathbf{STATUS: \quad APPROVED \quad - \quad EXECUTIVE \quad WELCOME \quad INTELLIGENCE \quad v1.0 \quad HOMOLOGADO}$$
+$$\mathbf{STATUS: \quad APPROVED \quad - \quad EXECUTIVE \quad WELCOME \quad GOVERNANCE \quad v1.0 \quad HOMOLOGADO}$$

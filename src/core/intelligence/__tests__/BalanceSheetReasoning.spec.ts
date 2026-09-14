@@ -7,13 +7,16 @@ describe('BalanceSheetReasoning Integration', () => {
     
     // Simulating the inputs: Current Ratio = 11.97, Cash/Assets = 54.5%
     const mockData = {
+       current: { ano: 2024, ativoTotal: 100 },
+       history: [],
+       analysisPeriod: 2024,
        indicators: [
          { name: 'current_ratio', value: 11.97 },
          { name: 'cash_to_assets', value: 0.545 }
        ]
     };
 
-    const output = useCase.analyzeBalanceSheet(mockData);
+    const output: any = useCase.analyzeBalanceSheet(mockData as any);
 
     expect(output).toBeDefined();
     expect(output.financialInsights).toBeDefined();

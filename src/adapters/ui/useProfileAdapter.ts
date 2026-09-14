@@ -1,8 +1,2 @@
-import { useState } from 'react';
-
-export function useProfileAdapter() {
-  const [loading, setLoading] = useState(false);
-  const [profile, setProfile] = useState<any>({});
-
-  return { profile, loading };
-}
+// shim
+export * from '../../capabilities/financial/infrastructure/adapters/ui/useProfileAdapter';

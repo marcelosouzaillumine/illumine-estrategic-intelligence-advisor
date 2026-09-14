@@ -30,7 +30,7 @@ describe('@illumine/capabilities Cognition Engine (Wave 12B)', () => {
     rawDomainData: {}
   };
 
-  it('should validate FinancialIntelligenceCapability manifest and evaluate opinion', () => {
+  it('should validate FinancialGovernanceCapability manifest and evaluate opinion', () => {
     const manifest = FinancialIntelligenceCapability.manifest;
     expect(manifest.maturity).toBe(Maturity.CERTIFIED);
     expect(manifest.stability).toBe(Stability.CANONICAL);
@@ -41,7 +41,7 @@ describe('@illumine/capabilities Cognition Engine (Wave 12B)', () => {
     expect(opinion.recommendations.length).toBeGreaterThan(0);
   });
 
-  it('should validate GovernanceIntelligenceCapability manifest and evaluate opinion', () => {
+  it('should validate GovernanceGovernanceCapability manifest and evaluate opinion', () => {
     const manifest = GovernanceIntelligenceCapability.manifest;
     expect(manifest.maturity).toBe(Maturity.CERTIFIED);
     expect(manifest.cognitiveProfile.explanation).toBe(true);
@@ -50,7 +50,7 @@ describe('@illumine/capabilities Cognition Engine (Wave 12B)', () => {
     expect(opinion.agentId).toBe('governance-agent');
   });
 
-  it('should validate OperationalIntelligenceCapability, StrategicAnalysisCapability and RiskIntelligenceCapability', () => {
+  it('should validate OperationalGovernanceCapability, StrategicAnalysisCapability and RiskGovernanceCapability', () => {
     expect(OperationalIntelligenceCapability.manifest.cognitiveProfile.explanation).toBe(true);
     expect(StrategicAnalysisCapability.manifest.cognitiveProfile.explanation).toBe(true);
     expect(RiskIntelligenceCapability.manifest.cognitiveProfile.explanation).toBe(true);

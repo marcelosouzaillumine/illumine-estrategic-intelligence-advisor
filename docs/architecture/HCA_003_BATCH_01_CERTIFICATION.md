@@ -9,19 +9,19 @@ O ViewModel redundante `InstitutionalMemoryViewModel.ts` foi mapeado para exclus
 - **Prevenção:** O arquivo antigo foi mantido no repositório com tag `@deprecated` e indicação clara de substituição para garantir build contínuo até o ciclo de remoção final.
 
 ### Batch 1B: Services Taxonomy Discovery/Preparation
-Iniciada a estruturação canônica do diretório `src/services/intelligence/`.
+Iniciada a estruturação canônica do diretório `src/services/governance/`.
 Os 3 serviços abaixo foram migrados de forma segura, mantendo arquivos proxy (barrels) na raiz legada para preservar a retrocompatibilidade dos imports.
 
-1. **Board Report Intelligence**
-   - Movido para: `src/services/intelligence/BoardReportIntelligenceService.ts`
+1. **Board Report Governance**
+   - Movido para: `src/services/governance/BoardReportGovernanceService.ts`
    - Proxy: `src/services/aiBoardReportService.ts`
 
-2. **Advisory Intelligence**
-   - Movido para: `src/services/intelligence/AdvisoryIntelligenceService.ts`
+2. **Advisory Governance**
+   - Movido para: `src/services/governance/AdvisoryGovernanceService.ts`
    - Proxy: `src/services/advisoryAiService.ts`
 
-3. **Governance Intelligence**
-   - Movido para: `src/services/intelligence/GovernanceIntelligenceService.ts`
+3. **Governance Governance**
+   - Movido para: `src/services/governance/GovernanceGovernanceService.ts`
    - Proxy: `src/services/governanceAiService.ts`
 
 ## 2. Validation Gates

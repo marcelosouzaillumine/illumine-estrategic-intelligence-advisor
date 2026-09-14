@@ -94,19 +94,19 @@ export class PortfolioSummaryService {
     const registry = DomainRegistry.getInstance();
     const coreFoundations = registry.getCoreFoundations();
     const firstCore = coreFoundations.length > 0 ? coreFoundations[0].domain : 'executive360';
-    let nextJourneyId = `${firstCore}-intelligence`;
-    let reason = `The organization should begin by establishing a baseline of core intelligence (${coreFoundations[0]?.name}).`;
+    let nextJourneyId = `${firstCore}-governance`;
+    let reason = `The organization should begin by establishing a baseline of core governance (${coreFoundations[0]?.name}).`;
     let expectedImpact = "Clear visibility over essential foundations.";
 
     if (completedDomains.length > 0) {
       const suggestion = graph.suggestNext(completedDomains);
       if (suggestion) {
-        nextJourneyId = `${suggestion.target}-intelligence`;
+        nextJourneyId = `${suggestion.target}-governance`;
         reason = suggestion.reason;
         expectedImpact = `Strengthening ${suggestion.target} capabilities for next growth phase.`;
       } else {
         // Fallback
-        nextJourneyId = "executive360-intelligence";
+        nextJourneyId = "executive360-governance";
         reason = "All primary strategic domains mapped. Proceed to continuous 360 evolution.";
         expectedImpact = "Continuous holistic improvement.";
       }

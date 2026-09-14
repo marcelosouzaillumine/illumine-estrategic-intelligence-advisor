@@ -1,6 +1,6 @@
 import { logger } from "../services/logging/InstitutionalLogger";
-import { ConsolidatedFinancialOrchestrator } from '../core/runtime/consolidated/ConsolidatedFinancialOrchestrator';
-import { ConsolidatedFinancialInput } from '../core/runtime/consolidated/types';
+import { ConsolidatedFinancialOrchestrator } from '../capabilities/financial/runtime/consolidated/ConsolidatedFinancialOrchestrator';
+import { ConsolidatedFinancialInput } from '../capabilities/financial/runtime/consolidated/types';
 
 async function runAudit() {
   logger.audit('Iniciando Consolidated Financial Audit', {});

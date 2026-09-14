@@ -1,8 +1,8 @@
 import { describe, it } from 'node:test';
 import assert from 'node:assert';
-import { TechnicalLayerBuilder } from '../src/core/runtime/executive-consolidation/builders/TechnicalLayerBuilder';
-import { BalanceSheetExecutiveFacts } from '../src/core/runtime/executive-consolidation/BalanceSheetExecutiveFactsBuilder';
-import { BalanceSheetExecutiveViewModelBuilder } from '../src/core/runtime/executive-consolidation/BalanceSheetExecutiveViewModelBuilder';
+import { TechnicalLayerBuilder } from '../src/workspace/runtime/executive-consolidation/builders/TechnicalLayerBuilder';
+import { BalanceSheetExecutiveFacts } from '../src/workspace/runtime/executive-consolidation/BalanceSheetExecutiveFactsBuilder';
+import { BalanceSheetExecutiveViewModelBuilder } from '../src/workspace/runtime/executive-consolidation/BalanceSheetExecutiveViewModelBuilder';
 
 describe('Executive Semantic Consistency', () => {
   const dummyResolveLabel = (key: string) => key;

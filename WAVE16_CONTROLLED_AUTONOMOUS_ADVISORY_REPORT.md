@@ -10,7 +10,7 @@
 
 | Dimensão Auditada | Pontuação | Status | Evidências Auditadas |
 | :--- | :---: | :---: | :--- |
-| **1. Continuous Observation** | **98/100** | ✅ **READY** | `@illumine/continuous-intelligence-monitor` ativo com `EnterpriseSignalEvent`. |
+| **1. Continuous Observation** | **98/100** | ✅ **READY** | `@illumine/continuous-governance-monitor` ativo com `EnterpriseSignalEvent`. |
 | **2. Advisory Trigger Engine** | **96/100** | ✅ **READY** | `@illumine/advisory-trigger-engine` disparando gatilhos proativos por severidade. |
 | **3. Multi-Agent Advisory Council**| **96/100** | ✅ **READY** | `ExecutiveAdvisoryCouncil` gerando `UnifiedExecutiveAdvisoryBrief`. |
 | **4. Executive Insight Engine** | **97/100** | ✅ **READY** | `@illumine/executive-insight-engine` gerando insights nas 5 categorias estritas. |

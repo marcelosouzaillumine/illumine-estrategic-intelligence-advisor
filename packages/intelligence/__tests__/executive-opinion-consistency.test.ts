@@ -3,7 +3,7 @@ import { describe, it, expect } from 'vitest';
 import { ExecutiveDecisionContext } from '@illumine/executive-contracts';
 import { ExecutiveCFOAgent, ExecutiveCOOAgent, ExecutiveCROAgent, ExecutiveCCOAgent, ExecutiveCEOAgent } from '../agent-council/src';
 
-describe('@illumine/intelligence (Wave 18.10 Executive Opinion Consistency)', () => {
+describe('@illumine/governance (Wave 18.10 Executive Opinion Consistency)', () => {
   it('should verify that each director produces a distinct perspective and confidence score above 90%', () => {
     const mockContext: ExecutiveDecisionContext = {
       companyId: 'company-granatum',

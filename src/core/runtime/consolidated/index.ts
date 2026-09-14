@@ -1,5 +1,4 @@
-export * from './consolidated-types';
-export * from './ConsolidatedRuntimeContext';
-export * from './EntityScopedConfidenceResolver';
-export * from './ConsolidatedViolationPropagator';
-export * from './CrossEntityLineageResolver';
+// re-export shim — movido para src/capabilities/financial/runtime/consolidated/
+export * from '../../../capabilities/financial/runtime/consolidated';
+// export * from '../../../capabilities/financial/runtime/consolidated/types';
+  // TS2308: duplicate export

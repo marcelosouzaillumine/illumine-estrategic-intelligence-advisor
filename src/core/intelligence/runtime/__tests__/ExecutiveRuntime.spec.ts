@@ -25,7 +25,7 @@ describe('ExecutiveRuntime', () => {
     expect(session.capabilityId).toBe('cap_789');
   });
 
-  it('should successfully execute a pipeline and return ExecutiveIntelligenceOutput', async () => {
+  it('should successfully execute a pipeline and return ExecutiveGovernanceOutput', async () => {
     const config: RuntimeConfig = { version: '1.2.0', featureFlags: {}, globalVariables: {} };
     const resolver = new CapabilityResolver();
     

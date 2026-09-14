@@ -2,7 +2,7 @@ import React from 'react';
 import { ExecutiveSurface } from '../../ui/executive-surface';
 import { ExecutiveBadge } from '../../ui/executive-badge';
 import { Cpu, ShieldCheck, Activity } from 'lucide-react';
-import { IntelligenceCapabilityRegistry } from '../../../../packages/intelligence/intelligence-network/src/IntelligenceCapabilityRegistry';
+import { IntelligenceCapabilityRegistry } from '../../../../packages/shell/intelligence-network/src/IntelligenceCapabilityRegistry';
 
 export const CapabilityMapCard: React.FC = () => {
   const capabilities = IntelligenceCapabilityRegistry.getRegisteredCapabilities();
@@ -12,7 +12,7 @@ export const CapabilityMapCard: React.FC = () => {
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-2">
           <Cpu className="w-5 h-5 text-cyan-400" />
-          <h3 className="font-semibold text-sm">Registered Intelligence Capabilities Map</h3>
+          <h3 className="font-semibold text-sm">Registered Governance Capabilities Map</h3>
         </div>
         <ExecutiveBadge variant="success">Registry Active</ExecutiveBadge>
       </div>

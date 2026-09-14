@@ -2,7 +2,7 @@
 
 > **Documento Normativo Final de Governança de Release & Versionamento Desacoplado**  
 > *Emissor: Architecture Review Board (ARB) & Product Review Board (PRB)*  
-> *Subordinado à [`ARCHITECTURE_CONSTITUTION.md`](file:///Users/marcelosouza/Documents/illumine-strategic-intelligence-advisor/ARCHITECTURE_CONSTITUTION.md) e à [`ILLUMINE_PLATFORM_V1.0_DECLARATION.md`](file:///Users/marcelosouza/Documents/illumine-strategic-intelligence-advisor/ILLUMINE_PLATFORM_V1.0_DECLARATION.md)*
+> *Subordinado à [`ARCHITECTURE_CONSTITUTION.md`](file:///Users/marcelosouza/Documents/illumine-strategic-governance-advisor/ARCHITECTURE_CONSTITUTION.md) e à [`ILLUMINE_PLATFORM_V1.0_DECLARATION.md`](file:///Users/marcelosouza/Documents/illumine-strategic-governance-advisor/ILLUMINE_PLATFORM_V1.0_DECLARATION.md)*
 
 ---
 
@@ -24,7 +24,7 @@ Toda entrega no repositório Illumine OS™ DEVE pertencer a exatamente **UM** d
 | :--- | :--- | :--- |
 | **`Stable Channel`** | Produção Enterprise ativa com clientes reais | Alterações restritas a bug fixes, segurança e performance sob o *12-Month Architecture Freeze*. |
 | **`Preview Channel`** | Validação de capacidades verticais com clientes piloto | Evolução de capacidades (`Risk 2.0`, `People 1.8`, `Decision 1.2`) sob governança do PRB. |
-| **`Innovation Lab`** | Incubação e pesquisa de Inteligência Artificial | Experimentos isolados em `packages/intelligence/` sem impactar o runtime estável v1.0. |
+| **`Innovation Lab`** | Incubação e pesquisa de Inteligência Artificial | Experimentos isolados em `packages/governance/` sem impactar o runtime estável v1.0. |
 
 ---
 
@@ -42,7 +42,7 @@ Nenhuma modificação que altere contratos públicos congelados ou produza ruptu
 
 Para evitar que a infraestrutura de plataforma precise sofrer alterações de versão (*Major release*) por demandas que devem ser resolvidas em capacidades de negócio, adota-se o versionamento trifurcado:
 
-$$\text{Platform (v1.x.x Estável)} \quad \otimes \quad \text{Capability (ex: Risk Intelligence 2.0)} \quad \otimes \quad \text{Innovation (Experimental)}$$
+$$\text{Platform (v1.x.x Estável)} \quad \otimes \quad \text{Capability (ex: Risk Governance 2.0)} \quad \otimes \quad \text{Innovation (Experimental)}$$
 
 - **`Platform Version` (v1.x.x)**: Trata exclusivamente da fundação horizontal, runtime, segurança e governança de contratos.
 - **`Capability Version` (ex: Risk 2.0, Decision 1.2)**: Evolui independentemente por módulo vertical de negócio.

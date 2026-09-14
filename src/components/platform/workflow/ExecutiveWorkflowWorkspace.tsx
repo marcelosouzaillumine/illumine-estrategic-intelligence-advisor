@@ -3,7 +3,7 @@ import { ExecutiveSurface } from '../../ui/executive-surface';
 import { ExecutiveBadge } from '../../ui/executive-badge';
 import { ApprovalFlowCard } from './ApprovalFlowCard';
 import { Workflow, PlayCircle, ShieldCheck, CheckSquare, Layers } from 'lucide-react';
-import { ActionRegistryEngine } from '../../../../packages/intelligence/executive-workflow-intelligence/src/ActionRegistryEngine';
+import { ActionRegistryEngine } from '../../../../packages/shell/executive-workflow-intelligence/src/ActionRegistryEngine';
 
 export interface ExecutiveWorkflowWorkspaceProps {
   readonly companyId?: string;
@@ -24,7 +24,7 @@ export const ExecutiveWorkflowWorkspace: React.FC<ExecutiveWorkflowWorkspaceProp
           </div>
           <div>
             <div className="flex items-center gap-2">
-              <h1 className="text-xl font-bold tracking-tight text-foreground">Executive Workflow Intelligence</h1>
+              <h1 className="text-xl font-bold tracking-tight text-foreground">Executive Workflow Governance</h1>
               <ExecutiveBadge variant="info" className="font-mono">EWI v1.0 Governed Engine</ExecutiveBadge>
 
 

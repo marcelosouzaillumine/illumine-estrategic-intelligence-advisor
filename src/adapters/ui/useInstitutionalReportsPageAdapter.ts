@@ -1,8 +1,2 @@
-import { useState } from 'react';
-
-export function useInstitutionalReportsPageAdapter(clientId: string) {
-  const [loading, setLoading] = useState(false);
-  const [reportsData, setReportsData] = useState<any[]>([]);
-
-  return { reportsData, loading };
-}
+// shim
+export * from '../../capabilities/financial/infrastructure/adapters/ui/useInstitutionalReportsPageAdapter';

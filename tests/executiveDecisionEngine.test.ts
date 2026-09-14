@@ -1,7 +1,7 @@
 import { describe, it } from 'node:test';
 import assert from 'node:assert';
-import { evaluateExecutiveDecision } from '../src/core/runtime/executive/ExecutiveDecisionEngine';
-import { buildExecutiveDecisionInput } from '../src/core/runtime/executive/ExecutiveDecisionTypes';
+import { evaluateExecutiveDecision } from '../src/workspace/runtime/executive/ExecutiveDecisionEngine';
+import { buildExecutiveDecisionInput } from '../src/workspace/runtime/executive/ExecutiveDecisionTypes';
 
 describe('Executive Decision Engine', () => {
   it('should recommend the base scenario over an aggressive one with poor execution metrics', () => {

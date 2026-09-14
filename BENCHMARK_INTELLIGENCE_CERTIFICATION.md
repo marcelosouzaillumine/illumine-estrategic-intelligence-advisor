@@ -1,8 +1,8 @@
-# BENCHMARK_INTELLIGENCE_CERTIFICATION.md — Certificado de Inteligência de Benchmark Multi-Tenant (MBAI v2.0)
+# BENCHMARK_GOVERNANCE_CERTIFICATION.md — Certificado de Inteligência de Benchmark Multi-Tenant (MBAI v2.0)
 
 > **Certificado Oficial de Inteligência de Negócio e Aprendizado Agregado da Wave 18.8**  
 > *Emissor: Architecture Review Board (ARB) & Executive Governance Council*  
-> *Alinhado à [`ARCHITECTURE_CONSTITUTION.md`](file:///Users/marcelosouza/Documents/illumine-strategic-intelligence-advisor/ARCHITECTURE_CONSTITUTION.md)*
+> *Alinhado à [`ARCHITECTURE_CONSTITUTION.md`](file:///Users/marcelosouza/Documents/illumine-strategic-governance-advisor/ARCHITECTURE_CONSTITUTION.md)*
 
 ---
 

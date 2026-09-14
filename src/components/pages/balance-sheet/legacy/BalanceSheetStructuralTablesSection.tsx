@@ -1,18 +1,21 @@
-// @ts-nocheck
 import React from 'react';
 import { Calendar, TrendingUp, TrendingDown } from 'lucide-react';
-import { cn } from '../../../lib/utils';
-import { BalanceSheetStructuralTablesViewModel } from './view-models';
-import { ExecutiveSurface } from '../../ui/executive-surface';
-import { ExecutiveHeading } from '../../ui/executive-heading';
-import { ExecutiveText } from '../../ui/executive-typography';
-import { ExecutiveBadge } from '../../ui/executive-badge';
+import { cn } from '../../../../lib/utils';
+import { BalanceSheetStructuralTablesViewModel } from '../view-models';
+import { ExecutiveSurface } from '../../../ui/executive-surface';
+import { ExecutiveHeading } from '../../../ui/executive-heading';
+import { ExecutiveText } from '../../../ui/executive-typography';
+import { ExecutiveBadge } from '../../../ui/executive-badge';
 
 export function BalanceSheetStructuralTablesSection({
   viewModel
 }: {
-  viewModel: BalanceSheetStructuralTablesViewModel;
+  viewModel: any;
 }) {
+  const isArray = Array.isArray(viewModel);
+  const isEmpty = isArray ? viewModel.length === 0 : (viewModel?.isEmpty ?? true);
+  const sections = isArray ? viewModel : (viewModel?.sections ?? []);
+  
   return (
     <div>
       <div className="flex items-start justify-between px-2 mb-4">
@@ -32,7 +35,7 @@ export function BalanceSheetStructuralTablesSection({
         </div>
       </div>
 
-      {viewModel.isEmpty ? (
+      {isEmpty ? (
         <ExecutiveSurface padding="none" className="flex flex-col items-center justify-center py-24 rounded-[40px] border-dashed border-border shadow-sm">
           <div className="w-16 h-16 bg-surface-container/30 rounded-full flex items-center justify-center mb-4">
             <Calendar size={28} className="text-muted-foreground" />
@@ -44,7 +47,7 @@ export function BalanceSheetStructuralTablesSection({
         </ExecutiveSurface>
       ) : (
         <div className="space-y-8">
-          {viewModel.sections.map((section, idx) => {
+          {sections.filter((s: any) => s && Array.isArray(s.rows)).map((section: any, idx: number) => {
             const colorTheme = section.tone === 'assets' ? 'emerald' : section.tone === 'liabilities' ? 'blue' : 'primary';
             const badgeVariant = section.tone === 'assets' ? 'success' : section.tone === 'liabilities' ? 'info' : 'neutral';
             return (

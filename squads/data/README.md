@@ -1,4 +1,4 @@
-# Data Intelligence Squad
+# Data Governance Squad
 
 > Squad de analytics orientado por especialistas, organizado em 3 tiers e operando em modo `workspace_first`.
 

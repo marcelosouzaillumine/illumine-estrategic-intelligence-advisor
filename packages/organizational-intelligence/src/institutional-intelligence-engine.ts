@@ -10,7 +10,7 @@ export interface OrganizationalInsight {
 
 export class InstitutionalIntelligenceEngine {
   public static generateExecutiveInsights(tenantId: string): OrganizationalInsight[] {
-    Logger.info(`[Institutional Intelligence Engine] Gerando insights cognitivos para Tenant: ${tenantId}`);
+    Logger.info(`[Institutional Governance Engine] Gerando insights cognitivos para Tenant: ${tenantId}`);
     return [
       {
         id: `ins-${Math.random().toString(36).substring(2, 9)}`,

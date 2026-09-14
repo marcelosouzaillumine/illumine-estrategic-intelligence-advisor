@@ -2,7 +2,7 @@
 
 > **Documento Normativo Canônico de Mapeamento Cognitivo (Level A — Canonical)**  
 > *Horizonte Temporal de Estabilidade: 10+ Anos (2026 – 2036+)*  
-> *Documentos Complementares: [`docs/EXPERIENCE_ARCHITECTURE.md`](file:///Users/marcelosouza/Documents/illumine-strategic-intelligence-advisor/docs/EXPERIENCE_ARCHITECTURE.md) | [`ARCHITECTURE_CONSTITUTION.md`](file:///Users/marcelosouza/Documents/illumine-strategic-intelligence-advisor/ARCHITECTURE_CONSTITUTION.md)*  
+> *Documentos Complementares: [`docs/EXPERIENCE_ARCHITECTURE.md`](file:///Users/marcelosouza/Documents/illumine-strategic-governance-advisor/docs/EXPERIENCE_ARCHITECTURE.md) | [`ARCHITECTURE_CONSTITUTION.md`](file:///Users/marcelosouza/Documents/illumine-strategic-governance-advisor/ARCHITECTURE_CONSTITUTION.md)*  
 > *Status: Homologado & Congelado*
 
 ---

@@ -1,5 +1,2 @@
-/**
- * @deprecated Use src/services/intelligence/GovernanceIntelligenceService.ts instead.
- * Preserved temporarily for backward compatibility.
- */
-export * from './intelligence/GovernanceIntelligenceService';
+// shim
+export * from '../capabilities/financial/governance/infrastructure/governanceAiService';

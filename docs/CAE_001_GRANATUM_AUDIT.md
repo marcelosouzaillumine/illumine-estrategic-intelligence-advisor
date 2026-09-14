@@ -17,7 +17,7 @@
 Validar se a arquitetura Governance responde corretamente quando indicadores econômicos positivos coexistem com riscos fiduciários relevantes.
 
 Este teste deverá comprovar que:
-* Economic Intelligence não sobrepõe Fiduciary Intelligence;
+* Economic Governance não sobrepõe Fiduciary Governance;
 * a Constituição Cognitiva funciona corretamente;
 * o ESGIM Runtime evita falsos positivos;
 * o Board Layer gera recomendações coerentes.
@@ -57,39 +57,39 @@ Este teste deverá comprovar que:
 
 ---
 
-## Intelligence Evaluation
+## Governance Evaluation
 
-### Economic Intelligence
+### Economic Governance
 * **Pergunta:** Existe geração de valor?
 * **Resultado:** STRONG POSITIVE
 * **Justificativa:** A empresa demonstra forte capacidade de escala comercial, margens operacionais (EBITDA) robustas e lucro contábil positivo, sinalizando modelo de negócios atrativo na DRE.
 
-### Fiduciary Intelligence
+### Fiduciary Governance
 * **Pergunta:** O valor está protegido?
 * **Resultado:** CRITICAL FAILURE
 * **Justificativa:** O valor não está protegido. O lucro gerado na DRE não se converte em caixa livre. O crescimento acelerado está destruindo o capital de giro, levando a empresa a uma asfixia de liquidez no curto prazo.
 
-### Institutional Intelligence
+### Institutional Governance
 * **Pergunta:** Existe continuidade institucional?
 * **Resultado:** FRAGILE
 * **Justificativa:** A falta de governança estruturada, a dependência do fundador e os gargalos operacionais indicam que a instituição não possui "chassi" para suportar a escala que está alcançando.
 
-### Causal Intelligence
+### Causal Governance
 * **Pergunta:** Por que os fenômenos observados estão ocorrendo?
 * **Resultado:** CAUSALITY IDENTIFIED
 * **Justificativa:** A queima de caixa (efeito) é causada por um ciclo de conversão de caixa desalinhado aliado a um capex de expansão financiado com capital de curto prazo. A "miopia da DRE" levou a gestão a confundir lucro com disponibilidade financeira.
 
-### Constitutional Intelligence
+### Constitutional Governance
 * **Pergunta:** Existe alguma violação constitucional?
 * **Resultado:** WARNING
 * **Justificativa:** Sem fraudes éticas reportadas, mas a negligência com o fluxo de caixa fere o princípio constitucional de Proteção Patrimonial (Stewardship Fiduciário) da Institutional Wisdom Library.
 
-### Missional Intelligence
+### Missional Governance
 * **Pergunta:** Existe alinhamento entre propósito e realidade?
 * **Resultado:** DRIFT WARNING
 * **Justificativa:** A missão de "entregar excelência" está sendo sufocada pela obsessão comercial desbalanceada, gerando rupturas logísticas e estresse financeiro.
 
-### Prospective Intelligence
+### Prospective Governance
 * **Pergunta:** Existe capacidade futura sustentável?
 * **Resultado:** CONCERN
 * **Justificativa:** Matematicamente, mantida a atual estrutura de capital, a empresa entrará em colapso antes de realizar seu potencial futuro.
@@ -99,7 +99,7 @@ Este teste deverá comprovar que:
 ## Arbitration Validation
 
 * **Aplicar:** Economic Success vs Fiduciary Failure
-* **Verificar:** A Fiduciary Intelligence prevaleceu? **SIM**
+* **Verificar:** A Fiduciary Governance prevaleceu? **SIM**
 * **Justificativa:** A Constituição Cognitiva acionou a **Rule 1 (Economic Success does not override Fiduciary Failure)**. A avaliação final foi rebaixada para Fiduciary Concern, vetando qualquer diagnóstico de "Excelência" baseado apenas no Lucro Líquido e Crescimento.
 
 ---
@@ -126,7 +126,7 @@ Este teste deverá comprovar que:
 
 ---
 
-## Board Intelligence Layer Evaluation
+## Board Governance Layer Evaluation
 
 * **Executive Synthesis:** A Granatum apresenta a "ilusão do crescimento". O modelo comercial é altamente tracionado e gera lucro contábil, mas a operação é uma destruidora de caixa implacável. O crescimento atual está sendo financiado por alavancagem suicida de curto prazo, colocando a empresa em risco de insolvência em menos de 90 dias.
 * **Principal Risk:** Ruptura de liquidez (Fiduciary Collapse) em curtíssimo prazo.
@@ -165,7 +165,7 @@ Este teste deverá comprovar que:
 ## Audit Conclusion
 
 * **Resultado esperado:** A arquitetura deve impedir que crescimento econômico isolado produza uma classificação positiva quando existirem fragilidades fiduciárias relevantes.
-* **Resultado obtido:** Falso positivo anulado. Economic Intelligence reconheceu o mérito comercial, mas foi corretamente sobreposta pelo Veto da Fiduciary Intelligence. O Board Layer emitiu ordem de "IMMEDIATE ACTION", salvando a organização de colapso cego pelo lucro.
+* **Resultado obtido:** Falso positivo anulado. Economic Governance reconheceu o mérito comercial, mas foi corretamente sobreposta pelo Veto da Fiduciary Governance. O Board Layer emitiu ordem de "IMMEDIATE ACTION", salvando a organização de colapso cego pelo lucro.
 
 ---
 
@@ -180,7 +180,7 @@ Este teste deverá comprovar que:
 ## Lessons Learned
 
 * **Inconsistências encontradas:** Nenhuma no processo de veto.
-* **Oportunidades de melhoria:** Incluir na Causal Intelligence uma leitura mais explícita do "Custo de Aquisição vs Ciclo de Recebimento" para explicar o gargalo de giro.
+* **Oportunidades de melhoria:** Incluir na Causal Governance uma leitura mais explícita do "Custo de Aquisição vs Ciclo de Recebimento" para explicar o gargalo de giro.
 * **Evidências adicionais desejáveis:** Incluir conciliação bancária futura para atestar o Runway Financeiro exato.
 
 ---

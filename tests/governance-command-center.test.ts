@@ -1,11 +1,11 @@
 import { describe, it } from 'node:test';
 import assert from 'node:assert';
-import { GovernanceIncidentOrchestrator } from '../src/core/runtime/governance-command-center/GovernanceIncidentOrchestrator';
-import { ExecutiveSupervisionEngine } from '../src/core/runtime/governance-command-center/ExecutiveSupervisionEngine';
-import { RuntimeHealthMonitoringEngine } from '../src/core/runtime/governance-command-center/RuntimeHealthMonitoringEngine';
-import { MultiTenantSupervisionEngine } from '../src/core/runtime/governance-command-center/MultiTenantSupervisionEngine';
-import { GovernanceIncident, GovernanceSupervisionEvent } from '../src/core/runtime/governance-command-center/types';
-import { TenantRole } from '../src/core/runtime/tenancy/TenancyTypes';
+import { GovernanceIncidentOrchestrator } from '../src/workspace/runtime/governance-command-center/GovernanceIncidentOrchestrator';
+import { ExecutiveSupervisionEngine } from '../src/workspace/runtime/governance-command-center/ExecutiveSupervisionEngine';
+import { RuntimeHealthMonitoringEngine } from '../src/workspace/runtime/governance-command-center/RuntimeHealthMonitoringEngine';
+import { MultiTenantSupervisionEngine } from '../src/workspace/runtime/governance-command-center/MultiTenantSupervisionEngine';
+import { GovernanceIncident, GovernanceSupervisionEvent } from '../src/workspace/runtime/governance-command-center/types';
+import { TenantRole } from '../src/platform/tenant/TenancyTypes';
 
 const createMockIncident = (overrides?: Partial<GovernanceIncident>): GovernanceIncident => ({
   incidentId: 'inc-01',

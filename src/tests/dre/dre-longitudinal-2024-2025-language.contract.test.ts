@@ -5,7 +5,7 @@ import path from 'node:path';
 
 describe('DRE Longitudinal 2024-2025 Language Contract', () => {
   it('must specifically target 2024 and 2025 years in the longitudinal compiler', () => {
-    const compilerPath = path.join(process.cwd(), 'src/core/runtime/dre/DreExecutiveLanguageCompiler.ts');
+    const compilerPath = path.join(process.cwd(), 'src/capabilities/financial/runtime/dre/DreExecutiveLanguageCompiler.ts');
     
     if (!fs.existsSync(compilerPath)) {
       return; 

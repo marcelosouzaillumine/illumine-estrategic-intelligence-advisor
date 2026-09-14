@@ -2,7 +2,7 @@ import { describe, it, expect, beforeEach } from 'vitest';
 import { FinancialIntelligenceContextBuilder } from '../builder/FinancialIntelligenceContextBuilder';
 import { FinancialFact } from '../facts/FinancialFact';
 
-describe('FinancialIntelligenceContextBuilder', () => {
+describe('FinancialGovernanceContextBuilder', () => {
   let builder: FinancialIntelligenceContextBuilder;
 
   beforeEach(() => {

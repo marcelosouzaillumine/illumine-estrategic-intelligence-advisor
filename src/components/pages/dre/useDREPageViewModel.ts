@@ -3,8 +3,9 @@ import { useAnnualFinancialData, useAllFinancialData } from '../../../hooks/useF
 import { useInstitutionalAuth } from '../../../hooks/useInstitutionalAuth';
 import { FiduciaryRuntimeAdapter, PresentationLayer } from '../../../services/FiduciaryRuntimeAdapter';
 import { DREApplicationService } from './DREApplicationService';
-import { InstitutionalDecisionOS } from '../../../../packages/intelligence/executive-intelligence-layer/src/orchestration/InstitutionalDecisionOS';
-import { DashboardStateBuilder } from '../../../../packages/intelligence/executive-intelligence-layer/src/presentation/DashboardStateBuilder';
+import { InstitutionalDecisionOS } from '../../../../packages/shell/executive-intelligence-layer/src/orchestration/InstitutionalDecisionOS';
+import { DashboardStateBuilder } from '../../../../packages/shell/executive-intelligence-layer/src/presentation/DashboardStateBuilder';
+import { buildBPHierarchy } from '../../../lib/bpEngine';
 
 export type ToastType = { type: 'success' | 'error'; message: string } | null;
 
@@ -71,13 +72,37 @@ export function useDREPageViewModel(clients: any[], selectedClient: string, sele
 
   const hasDreData = dbData.length > 0 && !!dreViewModel;
 
+  // Balanço real do mesmo cliente/ano (dbDataBP, já buscado acima) — antes disto
+  // o card de veredito usava assets/liabilities/equity fixos, não os do cliente.
+  const bpSummary = useMemo(() => {
+    if (!dbDataBP || dbDataBP.length === 0) return null;
+    const aggregated: Record<string, any> = {};
+    dbDataBP.forEach((d: any) => {
+      const type = (d.tipo || d.type || '').trim().toLowerCase();
+      const category = (d.conta || d.category || '').trim();
+      const key = `${type}_${category.toLowerCase()}`;
+      if (!aggregated[key]) {
+        aggregated[key] = { ...d, val: (d.val ?? d.valor ?? d.value ?? 0), conta: category, level: d.level ?? 1 };
+      } else if (aggregated[key].val === 0 && (d.val ?? d.valor ?? d.value ?? 0) !== 0) {
+        aggregated[key].val = (d.val ?? d.valor ?? d.value ?? 0);
+      }
+    });
+    const arr = Object.values(aggregated).sort((a: any, b: any) => (a.ordem || 0) - (b.ordem || 0));
+    return buildBPHierarchy(arr).summary;
+  }, [dbDataBP]);
+
   const presentationModel = useMemo(() => {
     if (!hasDreData) return null;
+    if (!bpSummary || (bpSummary.ativoTotal === 0 && bpSummary.passivoTotal === 0)) {
+      // Sem balanço real para este cliente/ano: nenhum veredito baseado em
+      // patrimônio fictício — melhor omitir do que fabricar assets/liabilities.
+      return null;
+    }
     const financialData = {
-      assets: 1000000, // fallback
-      liabilities: 500000,
-      equity: 500000,
-      liquidity: 1.5,
+      assets: bpSummary.ativoTotal,
+      liabilities: bpSummary.passivoTotal,
+      equity: bpSummary.patrimonioLiquido,
+      liquidity: bpSummary.passivoCirculante > 0 ? (bpSummary.ativoCirculante / bpSummary.passivoCirculante) : 0,
       ebitda: dreViewModel?.ebitda || 0,
       revenue: dreViewModel?.receitaLiquida || 0
     };
@@ -97,7 +122,7 @@ export function useDREPageViewModel(clients: any[], selectedClient: string, sele
       financialData
     );
     return boardPackage.assessments.economicAssessment;
-  }, [hasDreData, dreViewModel]);
+  }, [hasDreData, dreViewModel, bpSummary]);
 
   const showToastMsg = useCallback((type: 'success' | 'error', message: string) => {
     setToast({ type, message });

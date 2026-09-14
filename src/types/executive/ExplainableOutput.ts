@@ -1,6 +1,2 @@
-export interface ExplainableOutput<T> {
-  payload: T;
-  evidenceBundleId?: string;
-  explainabilityChainId?: string;
-  confidenceLevel: "UNVERIFIED" | "LOW" | "MEDIUM" | "HIGH" | "VERIFIED";
-}
+// shim
+export * from '../../capabilities/financial/contracts/types/executive/ExplainableOutput';

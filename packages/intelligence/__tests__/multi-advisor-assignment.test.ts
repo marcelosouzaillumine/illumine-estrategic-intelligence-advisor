@@ -2,7 +2,7 @@
 import { describe, it, expect } from 'vitest';
 import { MultiAdvisorAssignmentEngine } from '../partner-ecosystem/src';
 
-describe('@illumine/intelligence (Wave 18.11 Multi-Advisor Assignment Engine)', () => {
+describe('@illumine/governance (Wave 18.11 Multi-Advisor Assignment Engine)', () => {
   it('should assign multiple specialized advisors to a company with independent scopes', () => {
     const asgnFin = MultiAdvisorAssignmentEngine.assignAdvisor('company-granatum', 'adv-fin-01', 'FINANCIAL');
     const asgnOp = MultiAdvisorAssignmentEngine.assignAdvisor('company-granatum', 'adv-op-01', 'OPERATIONAL');

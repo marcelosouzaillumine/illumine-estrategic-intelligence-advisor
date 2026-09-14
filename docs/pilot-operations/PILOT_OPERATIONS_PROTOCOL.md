@@ -1,6 +1,6 @@
 # Controlled Pilot Operations Protocol (PILOT_OPERATIONS_PROTOCOL)
 
-This document establishes the operational parameters, isolation rules, and fail-closed procedures for pilot environments of the Illumine Strategic Intelligence Platform.
+This document establishes the operational parameters, isolation rules, and fail-closed procedures for pilot environments of the Illumine Strategic Governance Platform.
 
 ## 1. Core Principles
 

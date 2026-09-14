@@ -3,7 +3,7 @@ import { Activity } from 'lucide-react';
 import { ExecutiveSurface } from '../../ui/executive-surface';
 import { ExecutiveBadge } from '../../ui/executive-badge';
 import { ExecutiveText } from '../../ui/executive-typography';
-import { EnterpriseDataHealthScore } from '../../../../packages/intelligence/enterprise-knowledge-foundation/src/EnterpriseDataHealthIndexEngine';
+import { EnterpriseDataHealthScore } from '../../../../packages/core/enterprise-knowledge-foundation/src/EnterpriseDataHealthIndexEngine';
 
 export interface EnterpriseDataHealthIndexCardProps {
   readonly healthScore: EnterpriseDataHealthScore;

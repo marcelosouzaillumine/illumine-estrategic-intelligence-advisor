@@ -1,23 +1,23 @@
 {
   "enterprise": {
     "hero": {
-      "title": "Executive Intelligence Platform™",
-      "subtitle": "The intelligence infrastructure for organizations that need to make decisions in complex environments.",
+      "title": "Executive Governance Platform™",
+      "subtitle": "The governance infrastructure for organizations that need to make decisions in complex environments.",
       "cta_primary": "Request Executive Assessment™",
       "cta_secondary": "Discover the Platform",
-      "lead": "We connect corporate data, institutional context, and executive intelligence to transform scattered information into clearer, explainable, and sustainable decisions.",
-      "badge": "Executive Intelligence for Complex Organizations"
+      "lead": "We connect corporate data, institutional context, and executive governance to transform scattered information into clearer, explainable, and sustainable decisions.",
+      "badge": "Executive Governance for Complex Organizations"
     },
     "challenge": {
       "label": "The New Executive Challenge",
       "title": "The problem isn't information. It's interpretation.",
-      "desc1": "Companies have ERP, CRM, BI, financial systems, operational tools, and artificial intelligence.",
+      "desc1": "Companies have ERP, CRM, BI, financial systems, operational tools, and artificial governance.",
       "desc2": "But critical decisions require understanding:",
       "bullet1": "What is happening.",
       "bullet2": "Why it is happening.",
       "bullet3": "What impacts may arise.",
       "bullet4": "What decisions can alter this trajectory.",
-      "conclusion": "Illumine creates the intelligence layer between corporate data and executive decision.",
+      "conclusion": "Illumine creates the governance layer between corporate data and executive decision.",
       "intro": "The challenge for modern organizations isn't collecting information. It is transforming fragmented information into executive understanding."
     },
     "comparison": {
@@ -29,13 +29,13 @@
         "ai": "Synthesizes information."
       },
       "illumine": {
-        "title": "Illumine Executive Intelligence Platform™",
+        "title": "Illumine Executive Governance Platform™",
         "connects": "Connects: Data + Context + Institutional Knowledge + Causal Relations + Executive Judgment",
         "result": "Result: More informed decisions."
       }
     },
     "architecture": {
-      "title": "Executive Intelligence Architecture™",
+      "title": "Executive Governance Architecture™",
       "layer1": {
         "title": "Foundation Layer™",
         "subtitle": "The institutional foundation.",
@@ -43,14 +43,14 @@
         "message": "\"We transform fragmented data into a reliable contextual foundation.\""
       },
       "layer2": {
-        "title": "Intelligence Engine Layer™",
+        "title": "Governance Engine Layer™",
         "subtitle": "The analytical layer.",
         "desc": "Capabilities: Pattern identification, Cross-area correlation, Risk detection, Scenario simulation, Causal analysis.",
-        "message": "\"Data shows what happened. Intelligence explains the relationships.\""
+        "message": "\"Data shows what happened. Governance explains the relationships.\""
       },
       "layer3": {
         "title": "Executive Advisory Layer™",
-        "subtitle": "The connection between intelligence and leadership.",
+        "subtitle": "The connection between governance and leadership.",
         "desc": "Capabilities: Executive Insights, Explainable recommendations, Board support, C-Level support.",
         "message": "\"Technology amplifies analysis. Leadership decides.\""
       }
@@ -66,7 +66,7 @@
     "offices": {
       "title": "Uma arquitetura orientada às responsabilidades executivas da organização.",
       "board": {
-        "title": "Board Intelligence™",
+        "title": "Board Governance™",
         "desc": "Suporte às deliberações estratégicas do Conselho e à governança fiduciária. Foco: Resoluções, Evidências, Accountability, Histórico decisório"
       },
       "ceo": {
@@ -104,7 +104,7 @@
     },
     "memory": {
       "title": "Intelligent organizations preserve their decisions.",
-      "desc": "Every important decision has: Context, Assumptions, Evidence, Stakeholders, Consequences, Learnings. Illumine transforms past decisions into future intelligence."
+      "desc": "Every important decision has: Context, Assumptions, Evidence, Stakeholders, Consequences, Learnings. Illumine transforms past decisions into future governance."
     },
     "simulation": {
       "title": "Before deciding, understand the impacts.",
@@ -131,11 +131,11 @@
     },
     "trust": {
       "title": "Trust for critical decisions.",
-      "features": "Human Oversight, Explainable Intelligence™, Audit Trail, Data Governance, Fiduciary Controls",
+      "features": "Human Oversight, Explainable Governance™, Audit Trail, Data Governance, Fiduciary Controls",
       "link": "Discover Trust Architecture™"
     },
     "final": {
-      "title": "Your organization already has data. Now it needs to transform knowledge into intelligence.",
+      "title": "Your organization already has data. Now it needs to transform knowledge into governance.",
       "desc": "Illumine helps leaders better understand complex scenarios, preserve institutional knowledge, and make strategic decisions with greater clarity."
     }
   }

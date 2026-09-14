@@ -1,6 +1,6 @@
 import { describe, it } from 'node:test';
 import assert from 'node:assert';
-import { FinancialPipelineOrchestrator } from '../../core/runtime/financial-governance/pipeline/FinancialPipelineOrchestrator';
+import { FinancialPipelineOrchestrator } from '../../capabilities/financial/runtime/financial-governance/pipeline/FinancialPipelineOrchestrator';
 import { FinancialStatementType } from '../../../packages/executive-contracts/src/financial/index';
 
 describe('CFDI v2.1 — Executive Runtime Blocking & Permission Matrix Contract', () => {
@@ -37,7 +37,9 @@ describe('CFDI v2.1 — Executive Runtime Blocking & Permission Matrix Contract'
       [],
       'client-healthy',
       FinancialStatementType.DRE_ACCOUNTING,
-      2026
+      2026,
+      '550e8400-e29b-41d4-a716-446655440000', // Mock Tenant ID
+      '990e8400-e29b-41d4-a716-446655441111'  // Mock Actor ID
     );
 
     assert.strictEqual(governance.certificationStatus, 'CERTIFIED');

@@ -1,4 +1,4 @@
-# SEGMENT INTELLIGENCE MATRIX
+# SEGMENT GOVERNANCE MATRIX
 
 **Versão:** 1.0
 **Classificação:** Arquitetura Core Institucional
@@ -198,7 +198,7 @@ No desenvolvimento, manutenção e alimentação de algoritmos da plataforma, **
 
 ## 8. Objetivo Final Institucional
 
-O objetivo fundamental da implementação da **Segment Intelligence Matrix** é forçar a evolução definitiva da plataforma Illumine.
+O objetivo fundamental da implementação da **Segment Governance Matrix** é forçar a evolução definitiva da plataforma Illumine.
 
 Ela deverá migrar **da leitura matemática estéril** de números descolados de contexto para **a interpretação institucional contextual profunda**, ancorada na visão de inteligência executiva.
 

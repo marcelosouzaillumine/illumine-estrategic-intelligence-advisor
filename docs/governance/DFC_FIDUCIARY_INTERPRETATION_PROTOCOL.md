@@ -4,7 +4,7 @@
 **Versão:** 1.0.0  
 **Data da última atualização:** 29 de Maio de 2026  
 **Status:** Oficial / Homologado  
-**Escopo:** Camada de Inteligência de Caixa (Cash Intelligence)
+**Escopo:** Camada de Inteligência de Caixa (Cash Governance)
 
 ---
 
@@ -12,7 +12,7 @@
 
 Este documento constitui a **Constituição Fiduciária da DFC** no ecossistema Illumine/EFOS. Ele atua como:
 - A fonte oficial e soberana de interpretação institucional para todas as análises de fluxo de caixa;
-- O protocolo regulador da camada de Inteligência de Caixa (*Cash Intelligence*);
+- O protocolo regulador da camada de Inteligência de Caixa (*Cash Governance*);
 - A especificação obrigatória a ser seguida de forma determinística por todas as engines e algoritmos de cálculo;
 - A base técnica para auditorias automatizadas e implementação de suítes de testes fiduciários;
 - A fonte de verdade absoluta para renderização e exibição de diagnósticos em painéis e interfaces executivas.
@@ -125,7 +125,7 @@ Caso a variação líquida apresentada na DFC divirja da variação real observa
 
 ---
 
-### REGRA 6 — Cross-Domain Intelligence (Inteligência Cruzada de Domínios)
+### REGRA 6 — Cross-Domain Governance (Inteligência Cruzada de Domínios)
 A DFC não deve ser analisada como uma planilha isolada. A análise fiduciária de caixa é um processo sistêmico que exige a alimentação de dados integrados de três domínios principais:
 
 1. **DRE (Demonstração do Resultado do Exercício):** Lucro/prejuízo líquido, EBITDA, margem operacional e avaliação da qualidade do lucro (geração de lucro real versus acréscimos contábeis sem caixa);
@@ -166,7 +166,7 @@ Mapeamento da governança do fluxo de caixa e resiliência organizacional:
 ## 7. Diretrizes para Implementação das Engines
 
 As lógicas descritas neste protocolo deverão ser concentradas na camada isolada de regras de negócio em:
-`src/core/runtime/cash-intelligence/`
+`src/core/runtime/cash-governance/`
 
 Devem ser modelados ou adaptados os seguintes módulos desacoplados:
 * `ArtificialLiquidityDetector.ts`: Engine especializada em comparar FCO e FCF para identificar coberturas artificiais de caixa e emitir sinalizadores de sustentação externa;
@@ -181,7 +181,7 @@ Devem ser modelados ou adaptados os seguintes módulos desacoplados:
 ## 8. Diretrizes de Testes
 
 Os testes para o ecossistema de inteligência de caixa deverão residir em:
-`tests/cash-intelligence/`
+`tests/cash-governance/`
 
 Devem ser implementados e validados cenários rigorosos de teste cobrindo:
 1. **Falso Caixa Positivo:** Garantir que uma simulação com saldo final de caixa de $10.000.000,00, gerado exclusivamente por dívidas financeiras ($\text{FCF} > 0$), resulte em diagnóstico de `Liquidez Dependente de Capital` e nunca em liquidez saudável;

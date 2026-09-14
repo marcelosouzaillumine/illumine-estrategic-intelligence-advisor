@@ -1,8 +1,8 @@
-# EXECUTIVE_COMPANION_INTELLIGENCE_CERTIFICATION.md — Certificado de Homologação da Capability Enterprise ECI v2.0
+# EXECUTIVE_COMPANION_GOVERNANCE_CERTIFICATION.md — Certificado de Homologação da Capability Enterprise ECI v2.0
 
-> **Certificado Oficial de Qualidade e Governança da Capability Enterprise Executive Companion Intelligence™ (ECI v2.0)**  
+> **Certificado Oficial de Qualidade e Governança da Capability Enterprise Executive Companion Governance™ (ECI v2.0)**  
 > *Emissor: Architecture Review Board (ARB) & Product Review Board (PRB)*  
-> *Subordinado à [`ARCHITECTURE_CONSTITUTION.md`](file:///Users/marcelosouza/Documents/illumine-strategic-intelligence-advisor/ARCHITECTURE_CONSTITUTION.md) e à [`ILLUMINE_PLATFORM_V1.0_DECLARATION.md`](file:///Users/marcelosouza/Documents/illumine-strategic-intelligence-advisor/ILLUMINE_PLATFORM_V1.0_DECLARATION.md)*
+> *Subordinado à [`ARCHITECTURE_CONSTITUTION.md`](file:///Users/marcelosouza/Documents/illumine-strategic-governance-advisor/ARCHITECTURE_CONSTITUTION.md) e à [`ILLUMINE_PLATFORM_V1.0_DECLARATION.md`](file:///Users/marcelosouza/Documents/illumine-strategic-governance-advisor/ILLUMINE_PLATFORM_V1.0_DECLARATION.md)*
 
 ---
 
@@ -22,4 +22,4 @@
 
 ## 2. Decisão Definitiva dos Conselhos (ARB & PRB Final Decision)
 
-$$\mathbf{STATUS: \quad APPROVED \quad - \quad EXECUTIVE \quad COMPANION \quad INTELLIGENCE \quad v2.0 \quad HOMOLOGADO}$$
+$$\mathbf{STATUS: \quad APPROVED \quad - \quad EXECUTIVE \quad COMPANION \quad GOVERNANCE \quad v2.0 \quad HOMOLOGADO}$$

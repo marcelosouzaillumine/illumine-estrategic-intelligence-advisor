@@ -6,6 +6,7 @@ import { UserRole, GovernanceConfig } from '../types/governance';
 import { governanceService } from '../services/governanceService';
 import { DataAccessContext } from '../core/security/data-access-context';
 import { useExecutiveContext } from '../contexts/ExecutiveContext';
+import { blockedFirestoreWrite } from './blockedFirestoreWrite';
 
 const POLICY_VERSION = "1.0.2";
 
@@ -84,13 +85,13 @@ export function GovernanceProvider({ children, user }: { children: React.ReactNo
   const setAccepted = async (accepted: boolean) => {
     if (!user) return;
     try {
-      await setDoc(doc(db, 'user_acceptances', user.uid), {
-        accepted,
-        acceptedAt: serverTimestamp(),
-        userId: user.uid,
-        email: user.email,
-        version: POLICY_VERSION
-      });
+      blockedFirestoreWrite(); // setDoc(doc(db, 'user_acceptances', user.uid), {
+        // accepted,
+        // acceptedAt: serverTimestamp(),
+        // userId: user.uid,
+        // email: user.email,
+        // version: POLICY_VERSION
+      // });
       setIsAccepted(accepted);
     } catch (error) {
       console.error('Error saving acceptance:', error);

@@ -2,7 +2,7 @@
 
 > **Padrão Normativo de Renderização Visual da Experiência Executiva de Decisão**  
 > *Autoridade Supreme: Architecture Review Board (ARB) & Experience Architecture Foundation (EAF v1.0)*  
-> *Alinhado à [`ARCHITECTURE_CONSTITUTION.md`](file:///Users/marcelosouza/Documents/illumine-strategic-intelligence-advisor/ARCHITECTURE_CONSTITUTION.md), ADR-068 e ADR-076*
+> *Alinhado à [`ARCHITECTURE_CONSTITUTION.md`](file:///Users/marcelosouza/Documents/illumine-strategic-governance-advisor/ARCHITECTURE_CONSTITUTION.md), ADR-068 e ADR-076*
 
 ---
 
@@ -34,7 +34,7 @@ Executive Page
 
 ### Layer 2 — Executive Intent (`<ExecutiveIntentCard />`)
 - **Propósito**: Responder à indagação "Qual decisão esta experiência suporta?".
-- **Regra**: Derivado dinamicamente do `ExecutiveDecisionContext` + `Decision Intelligence Engine`. Nunca estático.
+- **Regra**: Derivado dinamicamente do `ExecutiveDecisionContext` + `Decision Governance Engine`. Nunca estático.
 
 ### Layer 3 — Executive Understanding (`<ExecutiveSynthesis />`)
 - **Propósito**: Responder "O que está acontecendo?" com a síntese fiduciária narrativa gerada pelo `Executive Narrative Engine`.

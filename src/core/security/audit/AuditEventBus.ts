@@ -1,9 +1,8 @@
-import { db } from '../../../lib/firebase';
-import { collection, addDoc } from 'firebase/firestore';
+import { getSupabaseClient } from '../../../infrastructure/supabase/SupabaseClient';
 import { OfficialRole, VisibilityPolicy } from '../types';
 import { ImmutableLedger } from './ImmutableLedger';
 import { AnomalyDetector } from './AnomalyDetector';
-import { DistributedAnomalyAggregator } from '../../runtime/distributed/DistributedAnomalyAggregator';
+import { DistributedAnomalyAggregator } from '../../../capabilities/runtime/distributed/DistributedAnomalyAggregator';
 
 export interface AuditEvent {
   eventId: string;
@@ -72,10 +71,30 @@ export class AuditEventBus {
       return;
     }
     const cleanEvent = JSON.parse(JSON.stringify(event));
-    await addDoc(collection(db, 'audit_events'), {
-      ...cleanEvent,
-      serverTimestamp: new Date()
-    });
+    
+    // Convert to RPC format
+    const rpcParams = {
+      p_tenant_id: cleanEvent.tenantId,
+      p_company_id: cleanEvent.metadata?.company_id || null,
+      p_actor_id: cleanEvent.actorId,
+      p_event_type: cleanEvent.eventType,
+      p_resource_type: cleanEvent.resourceType,
+      p_resource_id: cleanEvent.resourceId || null,
+      p_severity: cleanEvent.auditSeverity,
+      p_metadata: cleanEvent.metadata || {},
+      p_correlation_id: cleanEvent.correlationId || null
+    };
+
+    try {
+      const supabase = getSupabaseClient();
+      const { error } = await supabase.rpc('emit_application_event', rpcParams);
+      if (error) {
+        throw error;
+      }
+    } catch (e) {
+      console.error('[AuditEventBus] Supabase audit write failed, storing telemetry failure', e);
+      throw e;
+    }
   }
 
   static async saveFailure(failureLog: any): Promise<void> {
@@ -83,7 +102,13 @@ export class AuditEventBus {
       return;
     }
     const cleanLog = JSON.parse(JSON.stringify(failureLog));
-    await addDoc(collection(db, 'telemetry_failures'), cleanLog);
+    try {
+      const supabase = getSupabaseClient();
+      // We assume audit.telemetry_failures exists, or we write it to a generic failures log
+      await supabase.from('audit.telemetry_failures').insert(cleanLog);
+    } catch (e) {
+      console.error('[AuditEventBus] Supabase telemetry failure write failed', e);
+    }
   }
 
   private static async persistWithRetry(event: AuditEvent, attempt: number = 0) {

@@ -7,7 +7,8 @@ import { InsightQualityValidator } from '../workspace/intelligence/validation/in
 import { IntelligenceValidationFramework } from '../workspace/intelligence/validation/intelligence-validation.framework';
 
 function validateFixture(name: string, fixture: any) {
-  console.log(`\nCFO Intelligence Validation`);
+  console.log(`
+CFO Governance Validation`);
   console.log(`${name}`);
   
   const scoreResult = CfoHealthScoreEngine.calculateScore(fixture);

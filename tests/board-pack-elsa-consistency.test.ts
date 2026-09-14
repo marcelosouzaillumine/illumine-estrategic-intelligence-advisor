@@ -1,6 +1,6 @@
 import { test, describe } from 'node:test';
 import * as assert from 'node:assert';
-import { BoardPackExecutiveRenderingGuard } from '../src/core/runtime/lifecycle/BoardPackExecutiveRenderingGuard';
+import { BoardPackExecutiveRenderingGuard } from '../src/workspace/runtime/lifecycle/BoardPackExecutiveRenderingGuard';
 
 describe('Board Pack ELSA Executive Consistency Framework (BPEECF) v1.0', () => {
 

@@ -9,8 +9,8 @@ A estrutura encontra-se radicalmente fragmentada em múltiplos subdomínios, ope
 **Principais Agrupamentos de Domínio Identificados:**
 - `governance/` (contendo dlpa, dre, bp, dfc)
 - `executive-consolidation/` (Múltiplas engines de síntese executiva)
-- `cash-intelligence/` e `cashflow/`
-- `causal-intelligence/` e `institutional-causality/`
+- `cash-governance/` e `cashflow/`
+- `causal-governance/` e `institutional-causality/`
 - `audit-assurance/` e `compliance/`
 - `consolidated/` e `cross-statement/`
 
@@ -27,9 +27,9 @@ Existem várias engines que prometem a "síntese final" ou consolidação de dir
 - `ExecutiveDecisionSynthesisEngine.ts`
 - `ExecutiveStrategicSnapshotEngine.ts`
 
-### Motores de Causalidade (Causal Intelligence)
+### Motores de Causalidade (Causal Governance)
 Há uma explosão de motores de causalidade segmentados, todos tentado estabelecer causa raiz:
-- `CashFlowCausalIntelligenceEngine.ts`
+- `CashFlowCausalGovernanceEngine.ts`
 - `DecisionToCashCausalityEngine.ts`
 - `OperationalCausalityEngine.ts`
 - `CapitalStructureCausalityEngine.ts`
@@ -44,7 +44,7 @@ Foram identificados dezenas de arquivos de Tipagem (`types.ts`) locais para cada
 
 ### 🔴 HIGH RISK (Não tocar agora)
 *Motores de consolidação fiduciária e causalidade profunda. A junção manual causaria a quebra da integridade temporal (TFIF).*
-- Toda a pasta `causal-intelligence/` e `executive-consolidation/`.
+- Toda a pasta `causal-governance/` e `executive-consolidation/`.
 - Motores que lidam com `TemporalEvidence` e `LineageHash` (DLPA/DFC temporal).
 
 ### 🟡 MEDIUM RISK (Fundir sob forte validação)
@@ -64,7 +64,7 @@ Para avançar com absoluta segurança e respeitar os *gates* do projeto, a propo
 
 1. **Intervenção 1: Canonicalização de Tipos de Causalidade (SAFE)**
    - O ecossistema de Causalidade possui tipos espalhados (`DecisionToCashCausalityTypes.ts`, `EarlyWarningTypes.ts`, `causal-types.ts`, `types.ts`).
-   - **Ação:** Criar um arquivo canônico em `src/core/runtime/causal-intelligence/CausalInterfaces.ts` que funde as interfaces puras de input/output, sem mover a lógica matemática das engines.
+   - **Ação:** Criar um arquivo canônico em `src/core/runtime/causal-governance/CausalInterfaces.ts` que funde as interfaces puras de input/output, sem mover a lógica matemática das engines.
    - **Risco:** Zero (Apenas refatoração de tipagem estática do TypeScript).
 
 2. **Intervenção 2: Descontinuação Formal de Engine Obsoleta de Demonstração (SAFE)**

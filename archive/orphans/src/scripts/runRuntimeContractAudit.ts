@@ -45,7 +45,7 @@ walkDir(RUNTIME_DIR, (filePath) => {
     // Tests and adapters are allowed to use `as any` to bridge legacy/mock data to strict types.
     const whitelist: string[] = [
       'ConstitutionalGovernanceRuntime.ts',
-      'executive-intelligence-runtime.ts',
+      'executive-governance-runtime.ts',
       'InstitutionalBoardPackDocumentRuntime.ts',
       'InstitutionalBoardPackRuntime.ts'
     ];

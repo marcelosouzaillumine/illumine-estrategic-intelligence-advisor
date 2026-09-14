@@ -1,7 +1,7 @@
 import { describe, it } from 'node:test';
 import assert from 'node:assert/strict';
 import { FiduciaryRuntimeAdapter } from '../src/services/FiduciaryRuntimeAdapter';
-import { ExecutiveLanguageViolationError } from '../src/core/runtime/presentation-governance/ExecutiveLanguageBoundaryGuard';
+import { ExecutiveLanguageViolationError } from '../src/workspace/runtime/presentation-governance/ExecutiveLanguageBoundaryGuard';
 
 describe('Executive Language Sovereignty Framework (ELSF) v1.0 Tests', () => {
 

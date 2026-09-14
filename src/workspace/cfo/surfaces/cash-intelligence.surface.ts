@@ -2,13 +2,13 @@ import { DecisionSurfaceDefinition } from '../../types';
 import { CAPABILITIES } from '../../../domain/authorization/Capabilities';
 
 export const CFO_CASH_INTELLIGENCE_SURFACE: DecisionSurfaceDefinition = {
-  id: 'cash-intelligence',
+  id: 'cash-governance',
   officeId: 'cfo-office',
   titleKey: 'cfo.cash.title',
   descriptionKey: 'cfo.cash.desc',
   intent: 'analyze',
   capability: CAPABILITIES.EXECUTIVE_WORKSPACE_VIEW,
-  supportedEngines: ['financial-intelligence-engine'],
+  supportedEngines: ['financial-governance-engine'],
   supportedAgents: ['cfo-agent'],
   defaultLayout: 'cfo-cash-grid',
   layouts: [],

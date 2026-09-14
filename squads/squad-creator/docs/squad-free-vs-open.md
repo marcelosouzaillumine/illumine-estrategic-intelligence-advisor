@@ -86,7 +86,7 @@ O squad-chief acumula todas as funcoes: triage, routing, criacao, validacao, ana
 |-------|------|---------------|
 | **oalanicolas** | Knowledge Architect | DNA extraction, source classification, mind cloning |
 | **pedro-valerio** | Process Absolutist & Automation Architect | Axioma assessment, audit, modernization scoring |
-| **thiago_finch** | Business Strategy & Marketing Architect | Strategy, positioning, market intelligence |
+| **thiago_finch** | Business Strategy & Marketing Architect | Strategy, positioning, market governance |
 
 **Delegacao no Pro:**
 - squad-chief identifica a necessidade e delega para o especialista adequado.
@@ -487,7 +487,7 @@ User pede squad
     → pv-axioma-assessment (10 dimensoes)
     → optimize (Worker vs Agent routing)
   → Delega para @thiago_finch (strategy)
-    → Posicionamento, market intelligence
+    → Posicionamento, market governance
   → squad-chief integra tudo
     → Cria squad com DNA extraction
     → validate-squad (versao pro com axiomas)

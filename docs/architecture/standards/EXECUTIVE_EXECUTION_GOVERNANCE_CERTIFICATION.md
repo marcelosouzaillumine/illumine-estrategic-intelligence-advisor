@@ -2,7 +2,7 @@
 
 > **Gate Constitucional de Fechamento Governativo da Execução Executiva**  
 > *Emissor: Architecture Review Board (ARB) & Executive Governance Council*  
-> *Subordinado à [`ARCHITECTURE_CONSTITUTION.md`](file:///Users/marcelosouza/Documents/illumine-strategic-intelligence-advisor/ARCHITECTURE_CONSTITUTION.md)*
+> *Subordinado à [`ARCHITECTURE_CONSTITUTION.md`](file:///Users/marcelosouza/Documents/illumine-strategic-governance-advisor/ARCHITECTURE_CONSTITUTION.md)*
 
 ---
 
@@ -14,7 +14,7 @@
 | **Aprovação Humana por Risco** | Toda execução de risco `MEDIUM`, `HIGH` ou `CRITICAL` exige chancela fiduciária no `ApprovalFlowEngine` | ✅ Certificado |
 | **Atribuição de Responsabilidade (Owner)** | Todo workflow possui um proprietário executivo atribuído | ✅ Certificado |
 | **Evento de Medição de Resultado** | Toda conclusão de execução emite um `WorkflowOutcomeEvent` | ✅ Certificado |
-| **Feedback de Aprendizado** | Todo evento de resultado alimenta a camada de aprendizado (`Institutional Learning Intelligence`) | ✅ Certificado |
+| **Feedback de Aprendizado** | Todo evento de resultado alimenta a camada de aprendizado (`Institutional Learning Governance`) | ✅ Certificado |
 | **Trilha Imutável de Confiança** | Zero execução ocorre sem registro imutável no `ExecutiveTrustLedgerEngine` | ✅ Certificado |
 
 ---

@@ -34,7 +34,7 @@ import { OKRsPage } from '../components/pages/OKRsPage';
 import { PrecificacaoPage } from '../components/pages/legacy-archive/PrecificacaoPage';
 import { RelatorioExecutivoPage } from '../components/pages/RelatorioExecutivoPage';
 import { StrategicSimulatorPage } from '../components/pages/StrategicSimulatorPage';
-import PayrollDashboard from '../components/PayrollDashboard';
+import PayrollDashboard from '../capabilities/financial/components/presentation/PayrollDashboard';
 import { GovernanceDashboardPage } from '../components/pages/GovernanceDashboardPage';
 import { MarketingComercialPage } from '../components/pages/legacy-archive/MarketingComercialPage';
 import { OperacionalPage } from '../components/pages/legacy-archive/OperacionalPage';
@@ -263,7 +263,7 @@ export function renderCurrentPage(ctx: RouteRenderContext) {
   if (currentPage === 'dre_gerencial') {
     return <DreGerencialPage selectedClient={selectedClient} selectedYear={selectedYear} selectedMonth={selectedMonth} />;
   }
-  if (currentPage === 'bp' || currentPage === 'cfo.financial-intelligence') {
+  if (currentPage === 'bp' || currentPage === 'cfo.financial-governance') {
     return <BalanceSheetPage clients={clients} selectedClient={selectedClient} selectedMonth={selectedMonth} selectedYear={selectedYear} />;
   }
   if (currentPage === 'dlpa') {
@@ -630,7 +630,7 @@ export function renderCurrentPage(ctx: RouteRenderContext) {
   if (currentPage === 'institutional_onboarding') {
     return <InstitutionalOnboardingControlCenterPage />;
   }
-  if (currentPage === 'strategic_intelligence') {
+  if (currentPage === 'strategic_governance') {
     return <InstitutionalStrategicIntelligencePage clients={clients} selectedClient={selectedClient} selectedMonth={selectedMonth} selectedYear={selectedYear} />;
   }
   if (currentPage === 'institutional_board_pack') {

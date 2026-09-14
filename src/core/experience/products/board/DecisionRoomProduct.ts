@@ -5,7 +5,7 @@ import { ExecutiveProductType } from '../ExecutiveProductType';
 export const decisionLayers: ExecutiveExperienceLayer[] = [
   { id: 'summary', name: 'Executive Summary', order: 10, rootComponentId: 'DecisionContextCard' },
   { id: 'interpretation', name: 'Strategic Interpretation', order: 20, rootComponentId: 'StrategicAlternativesPanel' },
-  { id: 'domains', name: 'Intelligence Domains', order: 30, rootComponentId: 'RiskAssessmentFramework' },
+  { id: 'domains', name: 'Governance Domains', order: 30, rootComponentId: 'RiskAssessmentFramework' },
   { id: 'questions', name: 'CFO Questions', order: 50, rootComponentId: 'RecommendationFramework' },
   { id: 'evidence', name: 'Technical Evidence', order: 100, rootComponentId: 'GovernanceRecordPanel' }
 ];
@@ -21,7 +21,7 @@ export const DecisionRoomProduct: ExecutiveProductDefinition = {
   advisoryLevel: 'RECOMMENDATION',
   capabilities: {
     intelligenceSources: [
-      { engine: 'Decision Intelligence Coordinator', context: 'decision' }
+      { engine: 'Decision Governance Coordinator', context: 'decision' }
     ],
     confidenceModel: {
       minimumRequired: 'ABSOLUTE',

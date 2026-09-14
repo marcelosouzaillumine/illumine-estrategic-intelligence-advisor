@@ -1,7 +1,7 @@
 import { describe, it } from 'node:test';
 import assert from 'node:assert';
-import { BPStrategicDiagnosisDriverMapper } from '../src/core/runtime/governance/bp/BPStrategicDiagnosisDriverMapper';
-import { StrategicOpinionConsistencyEngine, ExecutiveAnalysisContext } from '../src/core/runtime/executive-consolidation/StrategicOpinionConsistencyEngine';
+import { BPStrategicDiagnosisDriverMapper } from '../src/capabilities/runtime/governance/bp/BPStrategicDiagnosisDriverMapper';
+import { StrategicOpinionConsistencyEngine, ExecutiveAnalysisContext } from '../src/workspace/runtime/executive-consolidation/StrategicOpinionConsistencyEngine';
 import { ExecutiveDecisionSynthesisEngine } from '../src/services/FiduciaryRuntimeAdapter';
 
 describe('BPStrategicDiagnosisRenderingFlow', () => {

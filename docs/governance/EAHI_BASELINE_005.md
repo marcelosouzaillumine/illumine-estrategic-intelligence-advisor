@@ -7,7 +7,7 @@
 | :--- | :--- | :--- | :--- |
 | Constitutional Compliance | 15% | 100 | 15.00 |
 | Executive Experience | 15% | 95 | 14.25 |
-| Intelligence Quality | 15% | 100 | 15.00 |
+| Governance Quality | 15% | 100 | 15.00 |
 | Security & Isolation | 15% | 100 | 15.00 |
 | Cognitive Runtime Integrity | 15% | 100 | 15.00 |
 | Observability | 10% | 100 | 10.00 |
@@ -24,7 +24,7 @@
  "dimensions": {
    "constitutionalCompliance": 100,
    "executiveExperience": 95,
-   "intelligenceQuality": 100,
+   "governanceQuality": 100,
    "securityIsolation": 100,
    "cognitiveRuntimeIntegrity": 100,
    "observability": 100,

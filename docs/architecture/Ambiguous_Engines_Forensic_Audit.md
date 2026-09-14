@@ -9,11 +9,11 @@ Este relatório compila a investigação forense read-only de seis abstrações 
 
 ### 1. EarningsQualityEngine
 **Instâncias detectadas:**
-- `src/core/runtime/cash-intelligence/EarningsQualityEngine.ts` (60 linhas)
+- `src/core/runtime/cash-governance/EarningsQualityEngine.ts` (60 linhas)
 - `src/core/runtime/governance/dre/EarningsQualityEngine.ts` (67 linhas)
 
 **Diagnóstico:** Colisão Nominal (Abstrações Complementares).
-- A instância em `cash-intelligence/` foca na métrica de conversão de caixa (Cash Conversion), avaliando o quão bem o EBITDA e Lucro se convertem em FCO (Fluxo de Caixa Operacional). Retorna um sinal institucional.
+- A instância em `cash-governance/` foca na métrica de conversão de caixa (Cash Conversion), avaliando o quão bem o EBITDA e Lucro se convertem em FCO (Fluxo de Caixa Operacional). Retorna um sinal institucional.
 - A instância em `governance/dre/` foca na composição contábil da DRE, comparando receitas recorrentes (operações base) versus eventos não operacionais/financeiros. Retorna um *EarningsQualityAssessment*.
 **Ação Recomendada:** Renomear. Ex: `EarningsCashConversionEngine` e `EarningsCompositionEngine`.
 
@@ -21,11 +21,11 @@ Este relatório compila a investigação forense read-only de seis abstrações 
 
 ### 2. CapitalPreservationEngine
 **Instâncias detectadas:**
-- `src/core/runtime/treasury-intelligence/CapitalPreservationEngine.ts` (74 linhas)
+- `src/core/runtime/treasury-governance/CapitalPreservationEngine.ts` (74 linhas)
 - `src/core/runtime/governance/bp/CapitalPreservationEngine.ts` (207 linhas)
 
 **Diagnóstico:** Colisão Nominal.
-- A instância em `treasury-intelligence/` atua como um sistema de *scoring* global focado na preservação de tesouraria, calculando uma nota (0 a 100) baseada no declínio diário de caixa.
+- A instância em `treasury-governance/` atua como um sistema de *scoring* global focado na preservação de tesouraria, calculando uma nota (0 a 100) baseada no declínio diário de caixa.
 - A instância em `governance/bp/` atua como um gerador profundo de indicadores patrimoniais para o Balanço Patrimonial (*PatrimonialIndicator[]*), calculando CEV (Capital Erosion Velocity), EQI e Survival Index.
 **Ação Recomendada:** Renomear. Ex: `TreasuryPreservationScoringEngine` e `PatrimonialPreservationEngine`.
 
@@ -90,10 +90,10 @@ O que a base continha era **Colisão de Nomenclatura** ou **Desvio Taxonômico**
 Foi autorizado e concluído o **Desmembramento Nominal Cirúrgico** de todas as 6 colisões:
 
 1. `EarningsQualityEngine`:
-   - `cash-intelligence/...` -> `EarningsCashConversionEngine.ts`
+   - `cash-governance/...` -> `EarningsCashConversionEngine.ts`
    - `governance/dre/...` -> `EarningsCompositionEngine.ts`
 2. `CapitalPreservationEngine`:
-   - `treasury-intelligence/...` -> `TreasuryPreservationScoringEngine.ts`
+   - `treasury-governance/...` -> `TreasuryPreservationScoringEngine.ts`
    - `governance/bp/...` -> `PatrimonialPreservationEngine.ts`
 3. `ExecutiveAttentionEngine`:
    - `executive-orchestration/cognitive/...` -> `ExecutiveSignalPriorityEngine.ts`

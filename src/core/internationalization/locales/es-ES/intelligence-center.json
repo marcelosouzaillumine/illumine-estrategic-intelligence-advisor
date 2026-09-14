@@ -1,22 +1,22 @@
 {
   "hero": {
-    "label": "Executive Intelligence Center™",
+    "label": "Executive Governance Center™",
     "title": "Donde el conocimiento ejecutivo se transforma en inteligencia institucional.",
-    "narrative_1": "El Executive Intelligence Center reúne investigaciones, marcos, análisis y conocimiento aplicado para desarrollar nuevos modelos de toma de decisiones, gobernanza y evolución organizacional.",
+    "narrative_1": "El Executive Governance Center reúne investigaciones, marcos, análisis y conocimiento aplicado para desarrollar nuevos modelos de toma de decisiones, gobernanza y evolución organizacional.",
     "narrative_2": "Más que seguir tendencias, transformamos el conocimiento en instrumentos prácticos de gestión, gobernanza y creación de valor.",
     "cta": "Explorar el Centro de Inteligencia"
   },
   "knowledge_production": {
     "title": "La construcción continua de conocimiento ejecutivo.",
     "subtitle": "El conocimiento como infraestructura institucional.",
-    "narrative": "Illumine desarrolla una base intelectual propia, conectando investigación, experiencia ejecutiva y aprendizaje organizacional para crear nuevos modelos de decisión y gobernanza.<br/><br/>El Executive Intelligence Center es el núcleo donde este conocimiento se desarrolla, organiza y transforma en inteligencia aplicada."
+    "narrative": "Illumine desarrolla una base intelectual propia, conectando investigación, experiencia ejecutiva y aprendizaje organizacional para crear nuevos modelos de decisión y gobernanza.<br/><br/>El Executive Governance Center es el núcleo donde este conocimiento se desarrolla, organiza y transforma en inteligencia aplicada."
   },
   "frameworks": {
     "title": "Arquitectura Intelectual Illumine™",
     "lead": "Modelos intelectuales desarrollados por Illumine para el diagnóstico, la toma de decisiones y la evolución organizacional. Formamos una biblioteca metodológica que sustenta nuestra arquitectura tecnológica.",
     "items": [
       {
-        "name": "Executive Intelligence Framework™",
+        "name": "Executive Governance Framework™",
         "desc": "Modelo central para la orquestación de la inteligencia en la toma de decisiones."
       },
       {
@@ -103,7 +103,7 @@
       },
       {
         "tag": "White Paper",
-        "title": "Executive Intelligence: la próxima evolución de la infraestructura corporativa",
+        "title": "Executive Governance: la próxima evolución de la infraestructura corporativa",
         "meta": "35 páginas"
       },
       {
@@ -159,7 +159,7 @@
   },
   "cta": {
     "title": "La próxima ventaja competitiva de las organizaciones será su <highlight>capacidad para aprender institucionalmente.</highlight>",
-    "narrative": "El Executive Intelligence Center existe para acelerar esta evolución, compartiendo investigaciones, metodologías y conocimientos que contribuyen a una nueva generación de organizaciones más inteligentes, resilientes y preparadas para decidir.",
+    "narrative": "El Executive Governance Center existe para acelerar esta evolución, compartiendo investigaciones, metodologías y conocimientos que contribuyen a una nueva generación de organizaciones más inteligentes, resilientes y preparadas para decidir.",
     "card_title": "Comienza explorando nuestro conocimiento.",
     "card_lead": "Antes de conocer la plataforma, descubre las ideas que inspiraron su creación.",
     "btn_publications": "Leer Publicaciones",

@@ -1,8 +1,8 @@
 import { test } from 'node:test';
 import * as assert from 'node:assert';
-import { StagingValidationEngine } from '../src/core/runtime/integrations/StagingValidationEngine';
-import { ImportedDataset } from '../src/core/runtime/integrations/IntegrationGovernanceTypes';
-import { ImportPublicationEngine } from '../src/core/runtime/integrations/ImportPublicationEngine';
+import { StagingValidationEngine } from '../src/capabilities/runtime/integrations/StagingValidationEngine';
+import { ImportedDataset } from '../src/capabilities/runtime/integrations/IntegrationGovernanceTypes';
+import { ImportPublicationEngine } from '../src/capabilities/runtime/integrations/ImportPublicationEngine';
 
 const createBaseDataset = (): ImportedDataset => ({
   importId: `TEST-${Date.now()}`,

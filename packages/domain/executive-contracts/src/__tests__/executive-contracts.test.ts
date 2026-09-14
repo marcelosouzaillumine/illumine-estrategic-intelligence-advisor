@@ -6,13 +6,13 @@ describe('@illumine/executive-contracts Pure Canonical Contracts', () => {
   it('should instantiate CapabilityManifest with correct enums and cognitiveProfile', () => {
     const manifest: CapabilityManifest = {
       id: 'cap-fin-01',
-      name: 'Financial Intelligence Capability',
+      name: 'Financial Governance Capability',
       version: '1.0.0',
       maturity: Maturity.CERTIFIED,
       stability: Stability.CANONICAL,
       dependencies: {
         dependencyContracts: ['Recommendation', 'PredictionRange'],
-        dependencyCapabilities: ['accounting-intelligence']
+        dependencyCapabilities: ['accounting-governance']
       },
       cognitiveProfile: {
         reasoning: true,

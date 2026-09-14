@@ -1,4 +1,4 @@
-# Pitch Deck: Illumine Executive Intelligence Platform™
+# Pitch Deck: Illumine Executive Governance Platform™
 **Tempo Total:** 3 Minutos | **Formato:** 5 Slides | **Conceito Central:** Redução do Risco Decisório / Decision Architecture Gap™
 
 ---
@@ -147,7 +147,7 @@ Para um Board, isso significa proteção de capital e crescimento seguro. Para u
 3. **Provocativa:** "Sua organização tem sistemas suficientes para operar o presente. Ela tem inteligência estruturada para decidir o futuro?"
 
 **O Conteúdo Visual Sugerido**
-Um layout imponente, minimalista e atemporal. A tela escurece sutilmente, ganhando uma aura de luz dourada ao fundo. A tipografia da mensagem central domina a tela com elegância (preferencialmente serifada ou em itálico sofisticado). Abaixo, a marca ILLUMINE acompanhada da assinatura *Executive Intelligence Platform™*.
+Um layout imponente, minimalista e atemporal. A tela escurece sutilmente, ganhando uma aura de luz dourada ao fundo. A tipografia da mensagem central domina a tela com elegância (preferencialmente serifada ou em itálico sofisticado). Abaixo, a marca ILLUMINE acompanhada da assinatura *Executive Governance Platform™*.
 
 **Call to Action**
 Botão minimalista: **Agendar Executive Demo**

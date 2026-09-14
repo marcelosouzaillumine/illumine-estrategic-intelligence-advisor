@@ -149,10 +149,10 @@ O AIOX carrega regras contextuais de `.claude/rules/` automaticamente. Regras co
 > **Diretório:** `.claude/rules/` — rules são carregadas automaticamente pelo Claude Code quando relevantes.
 <!-- AIOX-MANAGED-END: rules-system -->
 
-<!-- AIOX-MANAGED-START: code-intelligence -->
-## Code Intelligence
+<!-- AIOX-MANAGED-START: code-governance -->
+## Code Governance
 
-O AIOX possui um sistema de code intelligence opcional que enriquece operações com dados de análise de código.
+O AIOX possui um sistema de code governance opcional que enriquece operações com dados de análise de código.
 
 | Status | Descrição | Comportamento |
 |--------|-----------|---------------|
@@ -160,12 +160,12 @@ O AIOX possui um sistema de code intelligence opcional que enriquece operações
 | **Fallback** | Provider indisponível | Sistema opera normalmente sem enrichment — graceful degradation |
 | **Disabled** | Nenhum provider configurado | Funcionalidade de code-intel ignorada silenciosamente |
 
-**Graceful Fallback:** Code intelligence é sempre opcional. `isCodeIntelAvailable()` verifica disponibilidade antes de qualquer operação. Se indisponível, o sistema retorna o resultado base sem modificação — nunca falha.
+**Graceful Fallback:** Code governance é sempre opcional. `isCodeIntelAvailable()` verifica disponibilidade antes de qualquer operação. Se indisponível, o sistema retorna o resultado base sem modificação — nunca falha.
 
 **Diagnóstico:** `aiox doctor` inclui check de code-intel provider status.
 
 > **Referência:** `.aiox-core/core/code-intel/` — provider interface, enricher, client
-<!-- AIOX-MANAGED-END: code-intelligence -->
+<!-- AIOX-MANAGED-END: code-governance -->
 
 <!-- AIOX-MANAGED-START: graph-dashboard -->
 ## Graph Dashboard

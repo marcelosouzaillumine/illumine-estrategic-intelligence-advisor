@@ -1,7 +1,7 @@
 import { test, describe } from 'node:test';
 import * as assert from 'node:assert';
-import { DFCSemanticCanonicalRootResolver } from '../src/core/runtime/lifecycle/DFCSemanticCanonicalRootResolver';
-import { DFCSemanticRenderingGuard } from '../src/core/runtime/lifecycle/DFCSemanticRenderingGuard';
+import { DFCSemanticCanonicalRootResolver } from '../src/workspace/runtime/lifecycle/DFCSemanticCanonicalRootResolver';
+import { DFCSemanticRenderingGuard } from '../src/workspace/runtime/lifecycle/DFCSemanticRenderingGuard';
 import { LegacyDFCAdapter } from '../src/runtime/adapters/LegacyDFCAdapter';
 
 describe('DFC Root Canonicalization Framework (DRCF)', () => {
@@ -97,8 +97,8 @@ describe('DFC Root Canonicalization Framework (DRCF)', () => {
     // Test the requested fields explicitly
     assert.ok(metrics.fiduciary.fcoOperacionalReal !== undefined);
     assert.ok(metrics.fiduciary.runway !== undefined);
-    assert.ok(metrics.fiduciary.cashQuality.score !== undefined);
-    assert.ok(metrics.fiduciary.earningsQuality.score !== undefined);
+    assert.ok(metrics.fiduciary.cashQuality.pureViewModel.score !== undefined);
+    assert.ok(metrics.fiduciary.earningsQuality.pureViewModel.score !== undefined);
     assert.ok(metrics.fiduciary.reconciliationGap !== undefined);
   });
 

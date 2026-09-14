@@ -2,7 +2,7 @@
 
 > **Relatório Técnico de Auditoria de Suporte à Decisão Executiva**  
 > *Horizonte Temporal: Julho de 2026 | IERA v1.0 Compliance Audit*  
-> *Documento Integrante do Pacote [`EXECUTIVE_ARCHITECTURE_AUDIT.md`](file:///Users/marcelosouza/Documents/illumine-strategic-intelligence-advisor/docs/reports/audit/EXECUTIVE_ARCHITECTURE_AUDIT.md)*  
+> *Documento Integrante do Pacote [`EXECUTIVE_ARCHITECTURE_AUDIT.md`](file:///Users/marcelosouza/Documents/illumine-strategic-governance-advisor/docs/reports/audit/EXECUTIVE_ARCHITECTURE_AUDIT.md)*  
 > *Status: Homologado*
 
 ---

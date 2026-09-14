@@ -16,7 +16,7 @@
 - **Subscription**: Active recurring cycle (plano, ciclo, status, início, renovação, cancelamento).
 
 ### Authorization & Delivery
-- **Entitlement**: The specific rights granted by a Subscription (e.g., "Financial Intelligence", "AI Agents", Limits).
+- **Entitlement**: The specific rights granted by a Subscription (e.g., "Financial Governance", "AI Agents", Limits).
 - **License**: The explicit token mapping Entitlements to a specific Tenant instance.
 
 ### Financials

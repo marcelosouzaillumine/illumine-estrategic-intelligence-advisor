@@ -60,7 +60,7 @@ Toda inteligência deverá respeitar:
 Toda evolução deverá obedecer obrigatoriamente:
 * MASTER_ARCHITECTURE.md
 * MASTER_CAUSAL_ENGINE.md
-* MASTER_CONSOLIDATED_INTELLIGENCE_ENGINE.md
+* MASTER_CONSOLIDATED_GOVERNANCE_ENGINE.md
 * INSTITUTIONAL_ACCESS_GOVERNANCE.md
 * ENTERPRISE_PRODUCTIZATION_LAYER.md
 * MULTI_TENANT_GOVERNANCE_LAYER.md
@@ -360,7 +360,7 @@ A plataforma NÃO poderá:
 ## OBJETIVO FINAL
 
 A plataforma Illumine passa a operar como:
-* Enterprise Multi-Tenant Intelligence Platform
+* Enterprise Multi-Tenant Governance Platform
 * Fiduciary Governance Infrastructure
 * Institutional Executive Operating System
 * Enterprise Advisory Environment

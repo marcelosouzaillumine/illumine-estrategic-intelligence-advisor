@@ -28,7 +28,7 @@ A Camada de Demonstrabilidade é composta por cinco módulos de runtime e compon
 
 ### A. `ExecutiveDemoScenarioRegistry`
 Repositório central de cenários homologados e imutáveis. Fornece instâncias congeladas (`Object.freeze`) para evitar mutações de propriedades em runtime.
-* Arquivo: [ExecutiveDemoScenarioRegistry.ts](file:///Users/marcelosouza/Documents/illumine-strategic-intelligence-advisor/src/core/runtime/executive/demo/ExecutiveDemoScenarioRegistry.ts)
+* Arquivo: [ExecutiveDemoScenarioRegistry.ts](file:///Users/marcelosouza/Documents/illumine-strategic-governance-advisor/src/core/runtime/executive/demo/ExecutiveDemoScenarioRegistry.ts)
 
 ### B. `GuidedBoardJourneyEngine`
 Orquestrador de navegação sequencial baseado em causalidade. Bloqueia transições fora da sequência auditada ou que tentem saltar análises essenciais de integridade.
@@ -38,15 +38,15 @@ Orquestrador de navegação sequencial baseado em causalidade. Bloqueia transiç
   3. Bloquear visualização de `RECOMMENDATIONS` sem `evidenceChain` ativa.
   4. Bloquear visualização de `TIMELINE` sem memória de runtime.
   5. Bloquear inspeção de `PROPAGATION` sem linhagem validada.
-* Arquivo: [GuidedBoardJourneyEngine.ts](file:///Users/marcelosouza/Documents/illumine-strategic-intelligence-advisor/src/core/runtime/executive/demo/GuidedBoardJourneyEngine.ts)
+* Arquivo: [GuidedBoardJourneyEngine.ts](file:///Users/marcelosouza/Documents/illumine-strategic-governance-advisor/src/core/runtime/executive/demo/GuidedBoardJourneyEngine.ts)
 
 ### C. `InstitutionalDemoDatasetGuard`
 O gatekeeper absoluto da integridade do cenário. Valida se todas as declarações e propriedades críticas (`lineage`, `confidence`, `evidenceChain`, `runtimeSnapshotReference`, `disclosure rules`, `activeViolations`) estão íntegras e correspondem aos hashes registrados na base.
-* Arquivo: [InstitutionalDemoDatasetGuard.ts](file:///Users/marcelosouza/Documents/illumine-strategic-intelligence-advisor/src/core/runtime/executive/demo/InstitutionalDemoDatasetGuard.ts)
+* Arquivo: [InstitutionalDemoDatasetGuard.ts](file:///Users/marcelosouza/Documents/illumine-strategic-governance-advisor/src/core/runtime/executive/demo/InstitutionalDemoDatasetGuard.ts)
 
 ### D. `ExecutiveDemoSession`
 Gerenciador de estado de sessão do apresentador. Controla a permissão e o consentimento de termos de fiduciary disclosure.
-* Arquivo: [ExecutiveDemoSession.ts](file:///Users/marcelosouza/Documents/illumine-strategic-intelligence-advisor/src/core/runtime/executive/demo/ExecutiveDemoSession.ts)
+* Arquivo: [ExecutiveDemoSession.ts](file:///Users/marcelosouza/Documents/illumine-strategic-governance-advisor/src/core/runtime/executive/demo/ExecutiveDemoSession.ts)
 
 ---
 
@@ -63,7 +63,7 @@ O `ExecutiveDemoScenarioRegistry` possui quatro cenários de reprodução imutá
 
 ## 4. Testes de Vetores de Falha (Fail-Closed Enforcement)
 
-A suite de testes em [executive-demo.test.ts](file:///Users/marcelosouza/Documents/illumine-strategic-intelligence-advisor/tests/executive-demo.test.ts) valida rigidamente 8 vetores de falha, garantindo o bloqueio da renderização (`fail-closed`):
+A suite de testes em [executive-demo.test.ts](file:///Users/marcelosouza/Documents/illumine-strategic-governance-advisor/tests/executive-demo.test.ts) valida rigidamente 8 vetores de falha, garantindo o bloqueio da renderização (`fail-closed`):
 
 1. **Cenário Fake**: Tentativa de injetar um objeto de cenário customizado ou não cadastrado no catálogo homologado resulta em bloqueio imediato.
 2. **Cenário Corrompido**: Cenários sem metadados obrigatórios (ausência de lineage, confidence, evidenceChain, runtimeSnapshotReference, disclosure rules ou activeViolations) são imediatamente abortados pelo guard.

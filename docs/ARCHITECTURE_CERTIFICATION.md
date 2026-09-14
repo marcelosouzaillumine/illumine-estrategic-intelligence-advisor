@@ -2,7 +2,7 @@
 
 > **Manual e Especificação do Framework de Certificação de Arquitetura da IERA v1.0**  
 > *Horizonte Temporal de Estabilidade: 10+ Anos (2026 – 2036+)*  
-> *Documentos Complementares: [`docs/ARCHITECTURE_LINTER.md`](file:///Users/marcelosouza/Documents/illumine-strategic-intelligence-advisor/docs/ARCHITECTURE_LINTER.md) | [`CERTIFICATION_BASELINE.md`](file:///Users/marcelosouza/Documents/illumine-strategic-intelligence-advisor/CERTIFICATION_BASELINE.md)*  
+> *Documentos Complementares: [`docs/ARCHITECTURE_LINTER.md`](file:///Users/marcelosouza/Documents/illumine-strategic-governance-advisor/docs/ARCHITECTURE_LINTER.md) | [`CERTIFICATION_BASELINE.md`](file:///Users/marcelosouza/Documents/illumine-strategic-governance-advisor/CERTIFICATION_BASELINE.md)*  
 > *Status: Homologado & Ativo*
 
 ---

@@ -1,6 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert';
-import { getCausalFragment } from '../../core/runtime/dre/DreSemanticRegistry';
+import { getCausalFragment } from '../../capabilities/financial/runtime/dre/DreSemanticRegistry';
 
 test('[DRE] Semantics: Panel Specific Language', () => {
   const p1Frag = getCausalFragment('VALUE_CREATION', 'UNSUSTAINABLE');

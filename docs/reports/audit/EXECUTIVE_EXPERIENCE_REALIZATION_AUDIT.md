@@ -2,7 +2,7 @@
 
 > **Relatório Oficial de Auditoria da Wave 18.2**  
 > *Autoridade Supreme: Architecture Review Board (ARB) & Experience Architecture Foundation (EAF v1.0)*  
-> *Subordinado à [`ARCHITECTURE_CONSTITUTION.md`](file:///Users/marcelosouza/Documents/illumine-strategic-intelligence-advisor/ARCHITECTURE_CONSTITUTION.md) e ADR-076*
+> *Subordinado à [`ARCHITECTURE_CONSTITUTION.md`](file:///Users/marcelosouza/Documents/illumine-strategic-governance-advisor/ARCHITECTURE_CONSTITUTION.md) e ADR-076*
 
 ---
 

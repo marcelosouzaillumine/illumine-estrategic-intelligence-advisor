@@ -1,9 +1,21 @@
 import React from 'react';
 import { ExecutiveAccordion } from '../../../ui/executive-accordion';
-import { BalanceSheetTechnicalLayerSection } from '../BalanceSheetTechnicalLayerSection';
+import { TechnicalEvidenceGrid } from '../presentation/TechnicalEvidenceGrid';
+import { ExecutiveAnalyticalMissing } from '../../../ui/executive-analytical-missing';
 
 export const TechnicalEvidenceRoot = ({ context }: any) => {
   const { pureViewModel } = context.intelligence.financialPosition;
+  const evidence = pureViewModel?.technicalEvidence;
+  if (!evidence || !evidence.available) {
+    const fallbackReason = evidence?.availabilityReason || {
+      type: "INCOMPLETE_DATA_SOURCE",
+      title: "Evidência Técnica Indisponível",
+      explanation: "Métricas insuficientes para construir as tabelas analíticas estruturais.",
+      impact: "Inspeção estrutural de baixo nível não pode ser renderizada."
+    };
+    return <ExecutiveAnalyticalMissing reason={fallbackReason} className="my-8" />;
+  }
+
   return (
     <ExecutiveAccordion
       variant="analytics"
@@ -11,9 +23,7 @@ export const TechnicalEvidenceRoot = ({ context }: any) => {
       title="Memória Analítica e Evidências Técnicas (Contabilidade Bruta)"
       subtitle="Análises horizontais, verticais, tabelas estruturais e visualizações técnicas."
     >
-      <div className="space-y-12 mt-6">
-        <BalanceSheetTechnicalLayerSection viewModel={pureViewModel?.technicalEvidence || []} />
-      </div>
+      <TechnicalEvidenceGrid viewModel={evidence} />
     </ExecutiveAccordion>
   );
 };

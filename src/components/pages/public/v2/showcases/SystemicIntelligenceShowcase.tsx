@@ -7,7 +7,7 @@ import { useExecutiveFormatter } from '../../../../../core/localization';
 
 export function SystemicIntelligenceShowcase() {
   const formatter = useExecutiveFormatter();
-  const { t } = useTranslation('showcases/systemic-intelligence');
+  const { t } = useTranslation('showcases/systemic-governance');
 
   const rawResonance = t('resonanceData', { returnObjects: true });
   const resonanceDataSubjects = Array.isArray(rawResonance) ? rawResonance as { subject: string }[] : [];
@@ -54,7 +54,7 @@ export function SystemicIntelligenceShowcase() {
   };
 
   return (
-    <InstitutionalShowcase title="Systemic Intelligence Engine (Grupo Atlas Participações)" className="max-w-6xl mx-auto">
+    <InstitutionalShowcase title="Systemic Governance Engine (Grupo Atlas Participações)" className="max-w-6xl mx-auto">
       <div className="flex flex-col gap-6 w-full text-zinc-100 font-sans">
         
         <div className="space-y-10 pb-10">

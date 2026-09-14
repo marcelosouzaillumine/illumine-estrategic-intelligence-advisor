@@ -5,7 +5,7 @@
 
 A página atualmente está fortemente acoplada. Ela busca dados transacionais diretamente do Firebase (`onSnapshot` na coleção `financial_positions`) e realiza os próprios cálculos através de um custom hook `useFinancialMath`. Toda a inteligência analítica que deveria estar na engine está vazando para o frontend.
 
-### Hardcoded Intelligence
+### Hardcoded Governance
 Textos interpretativos como:
 - "O comitê fiduciário homologa o extrato de posições financeiras..."
 - "Garantia de solidez e capacidade de liquidação..."

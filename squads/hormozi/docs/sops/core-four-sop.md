@@ -194,7 +194,7 @@ Reach out one-on-one to people who already know you. The cheapest and easiest wa
 | Field | Value |
 |-------|-------|
 | **Description** | When they respond, build rapport using Acknowledge-Compliment-Ask |
-| **Cognitive Type** | Social Intelligence |
+| **Cognitive Type** | Social Governance |
 | **Automation Potential** | LOW |
 | **Executor** | Human |
 | **Precondition** | Contact responded |
@@ -599,7 +599,7 @@ Reach out one-on-one to complete strangers. Scale warm outreach to people who do
 | Field | Value |
 |-------|-------|
 | **Description** | When strangers respond, build rapport quickly |
-| **Cognitive Type** | Social Intelligence |
+| **Cognitive Type** | Social Governance |
 | **Automation Potential** | LOW |
 | **Executor** | Human |
 | **Precondition** | Response received |

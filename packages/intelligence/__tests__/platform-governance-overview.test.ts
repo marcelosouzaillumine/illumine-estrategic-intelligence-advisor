@@ -1,7 +1,7 @@
 /// <reference types="vitest" />
 import { describe, it, expect } from 'vitest';
 
-describe('@illumine/intelligence (Wave 18.3 Platform Governance Overview)', () => {
+describe('@illumine/governance (Wave 18.3 Platform Governance Overview)', () => {
   it('should verify governance overview calculates completeness percentage and active records', () => {
     const total = 250;
     const active = 238;

@@ -1,11 +1,11 @@
 import { describe, it, beforeEach } from 'node:test';
 import assert from 'node:assert';
 
-import { CommercialGovernanceBoundary } from '../src/core/runtime/commercial-readiness/CommercialGovernanceBoundary';
-import { RuntimeQuotaAuditTrail } from '../src/core/runtime/commercial-readiness/RuntimeQuotaAuditTrail';
-import { AdvisorEthicalBoundaryGuard } from '../src/core/runtime/commercial-readiness/AdvisorEthicalBoundaryGuard';
-import { AdvisorOperatingFramework } from '../src/core/runtime/commercial-readiness/AdvisorOperatingFramework';
-import { RuntimeUsageGovernance } from '../src/core/runtime/commercial-readiness/RuntimeUsageGovernance';
+import { CommercialGovernanceBoundary } from '../src/capabilities/runtime/commercial-readiness/CommercialGovernanceBoundary';
+import { RuntimeQuotaAuditTrail } from '../src/capabilities/runtime/commercial-readiness/RuntimeQuotaAuditTrail';
+import { AdvisorEthicalBoundaryGuard } from '../src/capabilities/runtime/commercial-readiness/AdvisorEthicalBoundaryGuard';
+import { AdvisorOperatingFramework } from '../src/capabilities/runtime/commercial-readiness/AdvisorOperatingFramework';
+import { RuntimeUsageGovernance } from '../src/capabilities/runtime/commercial-readiness/RuntimeUsageGovernance';
 
 describe('RC-1.2: Commercial Readiness & Enterprise Operationalization', () => {
   beforeEach(() => {

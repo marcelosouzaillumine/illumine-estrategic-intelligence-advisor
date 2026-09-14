@@ -1,11 +1,2 @@
-import { useState } from 'react';
-
-export function useAssetManagementAdapter(clientId: string) {
-  const [loading, setLoading] = useState(false);
-  const [assets, setAssets] = useState<any[]>([]);
-
-  return {
-    assets,
-    loading
-  };
-}
+// shim
+export * from '../../../../capabilities/financial/infrastructure/adapters/ui/useAssetManagementAdapter';

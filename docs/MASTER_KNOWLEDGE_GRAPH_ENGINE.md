@@ -1,6 +1,6 @@
 # MASTER KNOWLEDGE GRAPH ENGINE
 
-Este documento estipula a arquitetura da camada de **Institutional Knowledge Graph & Semantic Intelligence**, responsável por transformar a Illumine em uma **Institutional Cognitive Intelligence Infrastructure**. O Knowledge Graph é o "cérebro relacional" da plataforma, ligando dados financeiros, governança e workflows através de uma malha semântica restrita.
+Este documento estipula a arquitetura da camada de **Institutional Knowledge Graph & Semantic Governance**, responsável por transformar a Illumine em uma **Institutional Cognitive Governance Infrastructure**. O Knowledge Graph é o "cérebro relacional" da plataforma, ligando dados financeiros, governança e workflows através de uma malha semântica restrita.
 
 ## Princípios Fiduciários do Grafo
 

@@ -40,7 +40,7 @@ function scanDirectory(dir: string) {
             file: fullPath,
             risk: 'UI component importing internal engine directly (Runtime Bypass)',
             severity: 'CRITICAL',
-            recommendation: 'Use context or API to access intelligence. Do not call engines from UI.',
+            recommendation: 'Use context or API to access governance. Do not call engines from UI.',
             action: 'Remove engine import.'
           });
         }

@@ -1,7 +1,7 @@
 import { describe, it, expect } from 'vitest';
 import { ExecutiveAgentExecutionRuntime } from '@illumine/executive-page-intelligence';
 
-describe('@illumine/intelligence (Wave 17.9 Advisory Council Activation)', () => {
+describe('@illumine/governance (Wave 17.9 Advisory Council Activation)', () => {
   it('should execute consolidated C-Level advisory council directive', () => {
     const res = ExecutiveAgentExecutionRuntime.executeAction('advisory-council', 'Emitir parecer', 'DashboardPage');
 

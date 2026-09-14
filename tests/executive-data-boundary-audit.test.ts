@@ -28,9 +28,9 @@ describe("Executive Data Boundary Audit", () => {
   it("should not leak technical codes into the visible section of a ViewModel", () => {
     const rawRuntimePayload: RuntimePayload = {
       id: "123e4567-e89b-12d3-a456-426614174000",
-      sectionId: "DFC_CAUSAL_INTELLIGENCE",
+      sectionId: "DFC_CAUSAL_GOVERNANCE",
       severityCode: "CRITICAL",
-      title: "DFC_CAUSAL_INTELLIGENCE",
+      title: "DFC_CAUSAL_GOVERNANCE",
       description: "Anomaly detected in sourceModule: core_engine",
       technicalCode: "ERR_001",
     };

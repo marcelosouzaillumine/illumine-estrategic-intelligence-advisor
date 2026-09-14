@@ -1,8 +1,8 @@
-# Intelligence Governance Constitution™
+# Governance Governance Constitution™
 
 Esta Constituição é transversal a todos os domínios da Illumine OS™ (Governance, Financial, Commercial, Operational, People e Risk). Ela rege a fronteira final entre o conhecimento analítico gerado pelas inteligências e a autoridade decisória, garantindo que o sistema atue como infraestrutura de apoio, sem usurpar a responsabilidade executiva.
 
-## 1. Intelligence Authority Boundary
+## 1. Governance Authority Boundary
 A inteligência fornecida pela plataforma, seja na forma de *insights*, *forecasts* ou *recommendations*, nunca altera estado de negócios ou diretrizes estratégicas autonomamente. O papel da plataforma é formular o contexto e as opções, parando estritamente antes da execução autônoma.
 
 ## 2. Evidence Governance
@@ -29,7 +29,7 @@ Nenhuma inteligência institucional pode existir fora de uma cadeia verificável
 
 ### Constitutional Laws
 
-**Law 1 — Identity Before Intelligence™**
+**Law 1 — Identity Before Governance™**
 A identidade institucional sempre precede a geração cognitiva.
 
 **Law 2 — Evidence Before Recommendation™**

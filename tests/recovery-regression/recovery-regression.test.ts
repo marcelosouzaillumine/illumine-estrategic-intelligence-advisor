@@ -2,8 +2,8 @@
 
 import { describe, it } from 'node:test';
 import assert from 'node:assert/strict';
-import { RecoveryRegressionGuardEngine } from '../../src/core/runtime/recovery-regression/RecoveryRegressionGuardEngine';
-import { RegressionEvaluationInput } from '../../src/core/runtime/recovery-regression/RecoveryRegressionTypes';
+import { RecoveryRegressionGuardEngine } from '../../src/capabilities/runtime/recovery-regression/RecoveryRegressionGuardEngine';
+import { RegressionEvaluationInput } from '../../src/capabilities/runtime/recovery-regression/RecoveryRegressionTypes';
 
 describe('RecoveryRegressionGuardEngine Validation', () => {
   it('Scenario 1: Should pass FULLY_STABLE without regression', () => {

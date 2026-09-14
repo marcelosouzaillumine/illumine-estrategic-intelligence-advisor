@@ -22,7 +22,7 @@ export const SEMANTIC_PRESERVATION_TERMS = [
   'Benchmarking',
   'Workflow',
   'Cash Flow',
-  'Business Intelligence',
+  'Business Governance',
   'Turnaround',
   'C-Level',
   'Enterprise',

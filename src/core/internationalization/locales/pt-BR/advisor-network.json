@@ -22,12 +22,30 @@
     "before": "Modelo Tradicional",
     "after": "O Novo Advisor",
     "comparisons": {
-      "c1": { "before": "Venda de projetos", "after": "Constrói relacionamento contínuo" },
-      "c2": { "before": "Cobra horas", "after": "Gera receita recorrente" },
-      "c3": { "before": "Entrega diagnósticos", "after": "Acompanha decisões" },
-      "c4": { "before": "Responde perguntas", "after": "Antecipa riscos" },
-      "c5": { "before": "Trabalha sozinho", "after": "Atua com metodologia" },
-      "c6": { "before": "Opinião", "after": "Evidências" }
+      "c1": {
+        "before": "Venda de projetos",
+        "after": "Constrói relacionamento contínuo"
+      },
+      "c2": {
+        "before": "Cobra horas",
+        "after": "Gera receita recorrente"
+      },
+      "c3": {
+        "before": "Entrega diagnósticos",
+        "after": "Acompanha decisões"
+      },
+      "c4": {
+        "before": "Responde perguntas",
+        "after": "Antecipa riscos"
+      },
+      "c5": {
+        "before": "Trabalha sozinho",
+        "after": "Atua com metodologia"
+      },
+      "c6": {
+        "before": "Opinião",
+        "after": "Evidências"
+      }
     }
   },
   "client_value": {
@@ -85,12 +103,30 @@
     "before": "Modelo Tradicional",
     "after": "Ecossistema Illumine",
     "comparisons": {
-      "c1": { "before": "Projetos pontuais", "after": "Advisory contínuo" },
-      "c2": { "before": "Receita irregular", "after": "Receita recorrente" },
-      "c3": { "before": "Diagnósticos isolados", "after": "Acompanhamento permanente" },
-      "c4": { "before": "Venda de horas", "after": "Venda de valor" },
-      "c5": { "before": "Pouca escalabilidade", "after": "Crescimento estruturado" },
-      "c6": { "before": "Relacionamento eventual", "after": "Parceria de longo prazo" }
+      "c1": {
+        "before": "Projetos pontuais",
+        "after": "Advisory contínuo"
+      },
+      "c2": {
+        "before": "Receita irregular",
+        "after": "Receita recorrente"
+      },
+      "c3": {
+        "before": "Diagnósticos isolados",
+        "after": "Acompanhamento permanente"
+      },
+      "c4": {
+        "before": "Venda de horas",
+        "after": "Venda de valor"
+      },
+      "c5": {
+        "before": "Pouca escalabilidade",
+        "after": "Crescimento estruturado"
+      },
+      "c6": {
+        "before": "Relacionamento eventual",
+        "after": "Parceria de longo prazo"
+      }
     }
   },
   "paths": {
@@ -151,12 +187,36 @@
         "h3": "Platform Partner"
       },
       "rows": {
-        "r1": { "label": "Como você atua?", "v1": "Em parceria com a Illumine", "v2": "Com sua própria operação" },
-        "r2": { "label": "Quem se relaciona com o cliente?", "v1": "Illumine + Advisor", "v2": "Sua empresa" },
-        "r3": { "label": "Como você gera receita?", "v1": "Participação", "v2": "Margem própria" },
-        "r4": { "label": "Ideal para", "v1": "Profissionais", "v2": "Empresas" },
-        "r5": { "label": "Escalabilidade", "v1": "Individual", "v2": "Multiempresa" },
-        "r6": { "label": "Como utiliza a plataforma", "v1": "Ferramenta profissional", "v2": "Infraestrutura operacional" }
+        "r1": {
+          "label": "Como você atua?",
+          "v1": "Em parceria com a Illumine",
+          "v2": "Com sua própria operação"
+        },
+        "r2": {
+          "label": "Quem se relaciona com o cliente?",
+          "v1": "Illumine + Advisor",
+          "v2": "Sua empresa"
+        },
+        "r3": {
+          "label": "Como você gera receita?",
+          "v1": "Participação",
+          "v2": "Margem própria"
+        },
+        "r4": {
+          "label": "Ideal para",
+          "v1": "Profissionais",
+          "v2": "Empresas"
+        },
+        "r5": {
+          "label": "Escalabilidade",
+          "v1": "Individual",
+          "v2": "Multiempresa"
+        },
+        "r6": {
+          "label": "Como utiliza a plataforma",
+          "v1": "Ferramenta profissional",
+          "v2": "Infraestrutura operacional"
+        }
       }
     }
   },
@@ -164,7 +224,7 @@
     "label": "A Credencial",
     "title_1": "Sua jornada de",
     "title_2": "certificação",
-    "lead": "Uma jornada de desenvolvimento criada para profissionais que desejam atuar com uma metodologia estruturada de Executive Intelligence Advisory™.",
+    "lead": "Uma jornada de desenvolvimento criada para profissionais que desejam atuar com uma metodologia estruturada de Executive Governance Advisory™.",
     "step1": {
       "title": "Escolha seu modelo",
       "desc": "Defina a modalidade de parceria mais aderente ao seu negócio."

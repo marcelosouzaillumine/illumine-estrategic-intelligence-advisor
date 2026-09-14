@@ -10,9 +10,9 @@ A plataforma encontra-se tecnicamente estabilizada, homologada e blindada em sua
 
 1. **Kernel & Infraestrutura Enterprise**: 49 Pacotes Corporativos Executáveis (`@illumine/*`), Multi-Tenant Context Isolation, Segurança JWT/ABAC/RBAC, Observabilidade e CI/CD.
 2. **Camada de Interface Declarativa L4 Native**: 84+ Páginas Declarativas Nativas regidas por manifestos `.page.manifest.yml`, compiladas pelo `EUCCompilerEngine` e executadas pelo ERE Runtime, com total eliminação de monólitos imperativos.
-3. **Conselho Executivo de IA & Cognição**: 12 Agentes Especializados Executivos (CFO, Strategy, Governance, Operations, People, CS, Value, Growth, Market Intelligence, Ecosystem, Sales, Implementation) orquestrados sob o princípio soberano **Human-in-the-Loop** (`requiresHumanApproval: true`).
+3. **Conselho Executivo de IA & Cognição**: 12 Agentes Especializados Executivos (CFO, Strategy, Governance, Operations, People, CS, Value, Growth, Market Governance, Ecosystem, Sales, Implementation) orquestrados sob o princípio soberano **Human-in-the-Loop** (`requiresHumanApproval: true`).
 4. **Inteligência Organizacional & Memória Institucional**: Gêmeo Digital Organizacional, Grafo AKG e o `BusinessMemoryRepository` catalogando histórico decisório e evidências de ROI em R$.
-5. **Product Intelligence & Observabilidade (Phase A v29.0)**: Telemetria comportamental, A/B Testing, Decision Trace auditável e o motor de aprendizado contínuo (`LearningEngine`).
+5. **Product Governance & Observabilidade (Phase A v29.0)**: Telemetria comportamental, A/B Testing, Decision Trace auditável e o motor de aprendizado contínuo (`LearningEngine`).
 
 ============================================================
 NOVA DIRETRIZ ESTRATÉGICA: LEARN FIRST

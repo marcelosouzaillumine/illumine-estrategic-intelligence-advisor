@@ -61,7 +61,7 @@ export function resolveExecutiveNavigation() {
     command: groups.filter(g => g.category === 'command'),
     board: groups.filter(g => g.category === 'board'),
     offices: groups.filter(g => g.category === 'executive-office'),
-    intelligence: groups.filter(g => g.category === 'intelligence'),
+    intelligence: groups.filter(g => g.category === 'governance'),
     partner: groups.filter(g => g.category === 'partner'),
     foundation: groups.filter(g => g.category === 'foundation'),
     administration: groups.filter(g => g.category === 'administration'),

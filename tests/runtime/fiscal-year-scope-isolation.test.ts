@@ -28,7 +28,7 @@ describe('Fiscal Year Scope Isolation Framework (FYSIF) v1.0', () => {
     assert.strictEqual(filteredData.some((d: any) => d.year > 2022), false);
   });
 
-  it('ExecutiveIntelligenceRuntime blocks future data leakage', () => {
+  it('ExecutiveGovernanceRuntime blocks future data leakage', () => {
     const rawData: any = {
       bpData: [{ year: 2022, category: 'Caixa', type: 'Ativo', val: 100 }],
       dreData: [{ year: 2022, category: 'Receita', type: 'DRE', val: 100 }],

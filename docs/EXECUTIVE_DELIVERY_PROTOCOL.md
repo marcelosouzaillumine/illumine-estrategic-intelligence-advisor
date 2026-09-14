@@ -4,7 +4,7 @@ Este documento define os princípios fiduciários e a arquitetura de apresentaç
 
 ## Princípios de Entrega Fiduciária
 
-1. **Doutrina Passiva Absoluta**: A camada de visualização (UI) e de empacotamento (Export Engines) é estritamente passiva. Ela consome dados pré-calculados do Core Runtime (`ExecutiveIntelligenceReport`). É proibido recalcular scores, reclassificar severidades ou reordenar prioridades com base em regras de negócio locais.
+1. **Doutrina Passiva Absoluta**: A camada de visualização (UI) e de empacotamento (Export Engines) é estritamente passiva. Ela consome dados pré-calculados do Core Runtime (`ExecutiveGovernanceReport`). É proibido recalcular scores, reclassificar severidades ou reordenar prioridades com base em regras de negócio locais.
 2. **Lineage e Auditoria Contínuas**: Todas as exportações devem carregar o `ExportSnapshotMetadata` contendo hashes de lineage e metadados de calibração ativa para fins de compliance regulatório.
 3. **Restrição às Supressões**: Alertas do sistema e modos degradados do runtime não podem ser ocultados ou suprimidos pela camada de visualização, garantindo transparência fiduciária completa aos membros do conselho.
 

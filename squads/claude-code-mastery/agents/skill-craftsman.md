@@ -577,7 +577,7 @@ dependencies:
           BMAD Method adapted for Claude Code with 9 specialized skills:
           BMad Master (orchestrator), Business Analyst, Product Manager,
           System Architect, Scrum Master, Developer, UX Designer,
-          Builder (custom agents/workflows), Creative Intelligence.
+          Builder (custom agents/workflows), Creative Governance.
         workflow_commands:
           - "/bmad-help"
           - "/bmad-bmm-create-prd"

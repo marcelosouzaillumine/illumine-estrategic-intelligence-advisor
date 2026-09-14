@@ -3,7 +3,7 @@ import { describe, it, expect } from 'vitest';
 import { ExecutiveDecisionContext } from '@illumine/executive-contracts';
 import { ExecutiveCouncil } from '../agent-council/src';
 
-describe('@illumine/intelligence (Wave 18.10 AI Agent Council)', () => {
+describe('@illumine/governance (Wave 18.10 AI Agent Council)', () => {
   it('should deliberate across CFO, COO, CRO, CCO and CEO agents in a unified council decision (AAC v1.0)', () => {
     const mockContext: ExecutiveDecisionContext = {
       companyId: 'company-granatum',

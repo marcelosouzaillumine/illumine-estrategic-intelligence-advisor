@@ -2,11 +2,11 @@ import { describe, it } from 'node:test';
 import assert from 'node:assert/strict';
 import * as fs from 'node:fs';
 import * as path from 'node:path';
-import { FiduciaryCashIntelligenceRuntime } from '../src/core/runtime/cash-intelligence/FiduciaryCashIntelligenceRuntime';
-import { InstitutionalCausalIntelligenceRuntime } from '../src/core/runtime/causal-intelligence/InstitutionalCausalIntelligenceRuntime';
-import { CausalFactor } from '../src/core/runtime/causal-intelligence/types';
+import { FiduciaryCashIntelligenceRuntime } from '../src/capabilities/financial/runtime/cash-intelligence/FiduciaryCashIntelligenceRuntime';
+import { InstitutionalCausalIntelligenceRuntime } from '../src/capabilities/financial/runtime/causal-intelligence/InstitutionalCausalIntelligenceRuntime';
+import { CausalFactor } from '../src/capabilities/financial/runtime/causal-intelligence/types';
 
-describe('Institutional Causal Intelligence - Fiduciary Logic', () => {
+describe('Institutional Causal Governance - Fiduciary Logic', () => {
 
   const createMockCashReport = (isAvailable: boolean, confidence: 'HIGH' | 'MODERATE' | 'LOW' | 'BLOCKED') => {
     return {
@@ -104,7 +104,7 @@ describe('Institutional Causal Intelligence - Fiduciary Logic', () => {
     assert.ok(report.causalOpinion.includes('Restricted causal inference') || report.causalOpinion.includes('restrita'));
   });
 
-  it('3. Should block causal intelligence if cash sustainability is BLOCKED', () => {
+  it('3. Should block causal governance if cash sustainability is BLOCKED', () => {
     const cashReport = createMockCashReport(false, 'BLOCKED'); // cash engine blocked
     const report = InstitutionalCausalIntelligenceRuntime.evaluate(
       cashReport,

@@ -1,11 +1,2 @@
-import { useState } from 'react';
-
-export function useCashFlowAdapter(clientId: string) {
-  const [loading, setLoading] = useState(false);
-  const [entries, setEntries] = useState<any[]>([]);
-
-  return {
-    entries,
-    loading
-  };
-}
+// shim
+export * from '../../capabilities/financial/infrastructure/adapters/ui/useCashFlowAdapter';

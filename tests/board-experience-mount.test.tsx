@@ -4,8 +4,8 @@ import React from 'react';
 import { renderToStaticMarkup } from 'react-dom/server';
 import { ClientExecutiveWorkspace } from '../src/components/pages/ClientExecutiveWorkspace';
 import { BoardExperienceShell } from '../src/components/executive/board/BoardExperienceShell';
-import { ExecutiveSessionContext } from '../src/core/runtime/executive/board/ExecutiveSessionContext';
-import { ExecutiveNarrativePolicy } from '../src/core/runtime/executive/ExecutiveNarrativePolicy';
+import { ExecutiveSessionContext } from '../src/workspace/runtime/executive/board/ExecutiveSessionContext';
+import { ExecutiveNarrativePolicy } from '../src/workspace/runtime/executive/ExecutiveNarrativePolicy';
 
 describe('Board Experience Mount Certification', () => {
 

@@ -1,6 +1,6 @@
 import { describe, it } from 'node:test';
 import assert from 'node:assert';
-import { PatrimonialPreservationEngine } from '../src/core/runtime/governance/bp/PatrimonialPreservationEngine';
+import { PatrimonialPreservationEngine } from '../src/capabilities/runtime/governance/bp/PatrimonialPreservationEngine';
 
 describe('CapitalConsumption Golden Test', () => {
   it('should calculate 22.5% consumed capital for Granatum 2023', () => {

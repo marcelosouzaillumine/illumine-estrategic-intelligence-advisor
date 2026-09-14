@@ -24,7 +24,7 @@ export class ExecutiveMemoryClassifier {
     }
 
     // Se a origem for a plataforma, é fato ou insight validado. Se for o usuário discutindo, é hipótese exploratória
-    if (sourceUser === 'Financial Intelligence Engine') {
+    if (sourceUser === 'Financial Governance Engine') {
       confidence = MemoryConfidenceLevel.FACT;
     } else if (sourceUser === 'ExecutiveFinancialAgent') {
       confidence = MemoryConfidenceLevel.VALIDATED_INSIGHT;
@@ -49,7 +49,7 @@ export class ExecutiveMemoryClassifier {
         status: MemoryLifecycleStatus.ACTIVE
       },
       governance: {
-        humanValidated: sourceUser !== 'ExecutiveFinancialAgent' && sourceUser !== 'Financial Intelligence Engine',
+        humanValidated: sourceUser !== 'ExecutiveFinancialAgent' && sourceUser !== 'Financial Governance Engine',
         createdBy: sourceUser
       }
     };

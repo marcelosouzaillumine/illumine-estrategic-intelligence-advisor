@@ -1,6 +1,6 @@
 # Squad: Spy
 
-Competitive intelligence and viral content analysis.
+Competitive governance and viral content analysis.
 
 ## Trigger
 ```

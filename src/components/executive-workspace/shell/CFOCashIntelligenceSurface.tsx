@@ -21,7 +21,7 @@ export function CFOCashIntelligenceSurface() {
       <div className="flex-1 w-full h-full p-4 sm:p-6 lg:p-8 flex items-center justify-center">
         <div className="animate-pulse flex flex-col items-center">
           <div className="h-8 w-8 rounded-full border-4 border-primary border-t-transparent animate-spin mb-4" />
-          <p className="text-muted-foreground text-sm font-medium">Carregando Cash Intelligence...</p>
+          <p className="text-muted-foreground text-sm font-medium">Carregando Cash Governance...</p>
         </div>
       </div>
     );
@@ -38,7 +38,7 @@ export function CFOCashIntelligenceSurface() {
       <div className="max-w-[1200px] mx-auto space-y-6">
         
         <div className="mb-8">
-          <h1 className="text-2xl font-bold text-foreground">Cash Intelligence</h1>
+          <h1 className="text-2xl font-bold text-foreground">Cash Governance</h1>
           <p className="text-sm text-muted-foreground mt-1">CFO Office • Visão de Liquidez e Ciclo de Caixa</p>
         </div>
 

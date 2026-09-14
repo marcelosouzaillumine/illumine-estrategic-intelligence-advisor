@@ -71,7 +71,7 @@ graph TD
 
 ## 3. Impacto nos Scores e Confiança Fiduciária
 
-O runtime integra os dados calculados pelo `InstitutionalMemoryProfile` no `ExecutiveIntelligenceRuntime` sob as seguintes regras fiduciárias:
+O runtime integra os dados calculados pelo `InstitutionalMemoryProfile` no `ExecutiveGovernanceRuntime` sob as seguintes regras fiduciárias:
 
 ### Penalidades de Score Composto e Estrutural
 Caso a recorrência de desvios atinja níveis elevados, penalidades são aplicadas diretamente às notas estruturais e ao score composto (refletidas harmonicamente em toda a UI):

@@ -2,7 +2,7 @@
 
 **Data**: 29 de Julho de 2026  
 **Status**: **Sub-fase 2A Diagnosticada & Registrada**  
-**ADRs Aplicáveis**: [ADR-006](file:///Users/marcelosouza/Documents/illumine-strategic-intelligence-advisor/docs/architecture/adr/ADR-006.md), [ADR-007](file:///Users/marcelosouza/Documents/illumine-strategic-intelligence-advisor/docs/architecture/adr/ADR-007.md), [ADR-008](file:///Users/marcelosouza/Documents/illumine-strategic-intelligence-advisor/docs/architecture/adr/ADR-008.md)
+**ADRs Aplicáveis**: [ADR-006](file:///Users/marcelosouza/Documents/illumine-strategic-governance-advisor/docs/architecture/adr/ADR-006.md), [ADR-007](file:///Users/marcelosouza/Documents/illumine-strategic-governance-advisor/docs/architecture/adr/ADR-007.md), [ADR-008](file:///Users/marcelosouza/Documents/illumine-strategic-governance-advisor/docs/architecture/adr/ADR-008.md)
 
 ---
 

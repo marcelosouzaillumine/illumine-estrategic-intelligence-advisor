@@ -35,8 +35,8 @@ Toda simulação deverá obedecer obrigatoriamente:
 
 * MASTER_ARCHITECTURE.md
 * MASTER_CAUSAL_ENGINE.md
-* OPERATIONAL_INTELLIGENCE_LAYER.md
-* CASH_FLOW_INTELLIGENCE_LAYER.md
+* OPERATIONAL_GOVERNANCE_LAYER.md
+* CASH_FLOW_GOVERNANCE_LAYER.md
 * WEIGHTED CAUSAL INFERENCE LAYER
 * CALIBRATION & STABILITY LAYER
 * CAUSAL_VALIDATION_SUITE.md
@@ -329,8 +329,8 @@ A plataforma não poderá:
 A plataforma Illumine passa a operar como:
 
 * Executive Scenario Simulation Platform;
-* Institutional Forecast Intelligence Engine;
-* Predictive Business Intelligence System;
+* Institutional Forecast Governance Engine;
+* Predictive Business Governance System;
 * Causal Executive Projection Engine;
 * Enterprise Stress Testing Infrastructure.
 

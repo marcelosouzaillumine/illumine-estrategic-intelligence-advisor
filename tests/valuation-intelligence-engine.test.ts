@@ -11,7 +11,7 @@ import { GovernanceDigitalTwin } from "../src/lib/governance-digital-twin-types"
 import { ESGIntelligence } from "../src/lib/esg-intelligence-types";
 import { GovernanceMemory } from "../src/lib/governance-memory-types";
 
-describe("Valuation Intelligence Layer v3.0", () => {
+describe("Valuation Governance Layer v3.0", () => {
   const createMockInput = (
     evidenceCount: number,
     esgScore: number,

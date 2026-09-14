@@ -1,4 +1,4 @@
-# Task: Company Intelligence
+# Task: Company Governance
 
 ## Contrato SINKRA
 
@@ -19,7 +19,7 @@ performance: falhar alto, registrar fontes e manter consistência entre evidênc
 ## Metadata
 ```yaml
 id: bench-company-intel
-name: "Company Intelligence"
+name: "Company Governance"
 category: benchmark-company
 agent: bench-analyst
 elicit: true
@@ -32,7 +32,7 @@ Completion Criteria: artefato concluído, validado contra checklist e pronto par
 
 ## Purpose
 
-Gather competitive intelligence on a company using publicly available data.
+Gather competitive governance on a company using publicly available data.
 Collects market position, financials, team, innovation signals, growth trajectory,
 and ecosystem data. Produces a structured inventory JSON used as input for the
 universal comparison pipeline.

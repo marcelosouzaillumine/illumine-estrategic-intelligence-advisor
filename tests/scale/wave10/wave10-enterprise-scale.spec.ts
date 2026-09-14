@@ -1,7 +1,7 @@
-import { AccountIntelligenceEngine } from '../../../packages/go-to-market-engine/src/index';
-import { EnterpriseDealRoom } from '../../../packages/enterprise-sales/src/index';
-import { IllumineDeploymentFramework } from '../../../packages/implementation-os/src/index';
-import { RenewalIntelligenceEngine } from '../../../packages/customer-operating-system/src/index';
+import { AccountIntelligenceEngine } from '../../../packages/os/go-to-market-engine/src/index';
+import { EnterpriseDealRoom } from '../../../packages/os/enterprise-sales/src/index';
+import { IllumineDeploymentFramework } from '../../../packages/os/implementation-os/src/index';
+import { RenewalIntelligenceEngine } from '../../../packages/os/customer-operating-system/src/index';
 import { CategoryAuthorityEngine } from '../../../packages/category-intelligence/src/index';
 import { GlobalizationFramework } from '../../../packages/global-platform/src/index';
 import { EnterpriseAgentOrchestrator } from '../../../packages/advisory-agents/src/index';

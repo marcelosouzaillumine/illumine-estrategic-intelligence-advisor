@@ -235,7 +235,7 @@ task_name: "Verify Deliverable Specs"
 **Use Human (HO-EP-001) when:**
 - [ ] Task requires creative judgment
 - [ ] Task involves stakeholder relationships
-- [ ] Task requires emotional intelligence
+- [ ] Task requires emotional governance
 - [ ] Task has legal/ethical implications
 - [ ] Task outcome significantly impacts business
 

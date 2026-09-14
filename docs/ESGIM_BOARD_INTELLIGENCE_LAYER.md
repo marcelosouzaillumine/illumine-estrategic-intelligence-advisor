@@ -1,11 +1,11 @@
-# ESGIM Board Intelligence Layer v1.0
+# ESGIM Board Governance Layer v1.0
 
 > [!NOTE]
-> Este documento inaugura oficialmente a categoria arquitetural **Board Intelligence Layers**. Esta camada não cria novos cálculos, mas transforma avaliações institucionais em suporte à decisão para Conselhos e Alta Administração.
+> Este documento inaugura oficialmente a categoria arquitetural **Board Governance Layers**. Esta camada não cria novos cálculos, mas transforma avaliações institucionais em suporte à decisão para Conselhos e Alta Administração.
 
 ## 1. Goal Description
 
-Estabelecer oficialmente o ESGIM Board Intelligence Layer como o primeiro Board Intelligence Layer da plataforma Illumine Governance.
+Estabelecer oficialmente o ESGIM Board Governance Layer como o primeiro Board Governance Layer da plataforma Illumine Governance.
 
 Sua responsabilidade será transformar avaliações produzidas pelos Governance Assessment Runtimes em sínteses executivas acionáveis para Conselhos, Investidores, Family Offices, Comitês e Alta Administração.
 
@@ -20,11 +20,11 @@ Seu objetivo é transformar avaliação institucional em suporte à decisão.
 
 Fica registrada oficialmente uma nova categoria arquitetural:
 
-### Board Intelligence Layers
+### Board Governance Layers
 **Definition:**
-"Board Intelligence Layers transformam avaliações institucionais em recomendações executivas, prioridades estratégicas e suporte à tomada de decisão."
+"Board Governance Layers transformam avaliações institucionais em recomendações executivas, prioridades estratégicas e suporte à tomada de decisão."
 
-*O ESGIM Board Intelligence Layer é o membro inaugural desta categoria.*
+*O ESGIM Board Governance Layer é o membro inaugural desta categoria.*
 
 ## 3. Core Mission e Central Question
 
@@ -32,14 +32,14 @@ Fica registrada oficialmente uma nova categoria arquitetural:
 "Traduzir inteligência institucional complexa em decisões executivas claras, priorizadas e acionáveis."
 
 **Central Question:**
-O ESGIM Board Intelligence Layer deverá responder: *"O que o Conselho deveria fazer diante das evidências disponíveis?"*
+O ESGIM Board Governance Layer deverá responder: *"O que o Conselho deveria fazer diante das evidências disponíveis?"*
 
 ## 4. Runtime Consumers
 
-O ESGIM Board Intelligence Layer deverá consumir as seguintes estruturas da plataforma:
+O ESGIM Board Governance Layer deverá consumir as seguintes estruturas da plataforma:
 * ESGIM Governance Assessment Runtime
-* Mission Alignment Composite Intelligence Engine
-* Seven Intelligences Interaction Framework
+* Mission Alignment Composite Governance Engine
+* Seven Governances Interaction Framework
 * Institutional Wisdom Library
 
 ## 5. Official Outputs
@@ -72,7 +72,7 @@ Todas as recomendações devem ser classificadas nas seguintes categorias de dec
 
 ### BOARD_COGNITIVE_LOAD_PROTECTION
 **Definition:**
-"O Board Intelligence Layer deverá reduzir complexidade sem ocultar riscos relevantes."
+"O Board Governance Layer deverá reduzir complexidade sem ocultar riscos relevantes."
 
 ### BOARD_TRACEABILITY_REQUIREMENT
 **Definition:**

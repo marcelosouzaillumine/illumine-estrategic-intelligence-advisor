@@ -25,13 +25,13 @@ import {
 export function ExecutivePlansPage() {
   const offices = [
     'Executive Command Center',
-    'Financial Intelligence',
-    'Governance Intelligence',
-    'Commercial Intelligence',
-    'Operational Intelligence',
-    'People Intelligence',
-    'Risk Intelligence',
-    'Institutional Intelligence',
+    'Financial Governance',
+    'Governance Governance',
+    'Commercial Governance',
+    'Operational Governance',
+    'People Governance',
+    'Risk Governance',
+    'Institutional Governance',
     'Executive AI',
     'API Hub',
     'Executive Reports',
@@ -62,8 +62,8 @@ export function ExecutivePlansPage() {
           <div className="inline-flex flex-col items-center justify-center mb-8">
             <span className="text-[10px] uppercase tracking-[0.3em] text-amber-500 font-bold mb-2">Solução Exclusiva</span>
             <span className="text-sm md:text-base font-medium text-white border border-white/10 bg-white/5 px-6 py-2 rounded-full backdrop-blur-md">
-              Executive Intelligence Platform™
-            </span>
+              Executive Governance Platform™
+                                      </span>
           </div>
 
           <h1 className="text-5xl md:text-6xl font-bold tracking-tight text-white mb-6">
@@ -82,7 +82,7 @@ export function ExecutivePlansPage() {
       <section className="py-24 bg-[#050506] border-y border-white/5 relative">
         <div className="max-w-7xl mx-auto px-6">
           <div className="text-center mb-16">
-            <h2 className="text-3xl font-bold text-white mb-4">Todas as organizações utilizam a mesma Executive Intelligence Platform™</h2>
+            <h2 className="text-3xl font-bold text-white mb-4">Todas as organizações utilizam a mesma Executive Governance Platform™</h2>
             <p className="text-lg text-slate-400 max-w-2xl mx-auto">
               Os planos diferenciam apenas a capacidade operacional licenciada e os serviços contratados. Não existem versões reduzidas.
             </p>
@@ -129,7 +129,7 @@ export function ExecutivePlansPage() {
             {/* Starter */}
             <div className="bg-[#0A0A0B] border border-white/10 rounded-3xl p-8 flex flex-col relative group hover:border-amber-500/50 transition-colors">
               <h3 className="text-2xl font-bold text-white mb-2">Starter™</h3>
-              <p className="text-sm text-slate-400 mb-8 h-10">Ideal para organizações iniciando sua jornada de Executive Intelligence.</p>
+              <p className="text-sm text-slate-400 mb-8 h-10">Ideal para organizações iniciando sua jornada de Executive Governance.</p>
               
               <div className="mb-8">
                 <div className="text-sm text-slate-500 font-semibold uppercase tracking-wider mb-2">Licenciamento</div>
@@ -149,7 +149,7 @@ export function ExecutivePlansPage() {
                 {[
                   'Até 1 unidade de negócio (empresa, filial ou organização)',
                   'Até 3 usuários licenciados',
-                  'Executive Intelligence Platform™ completa',
+                  'Executive Governance Platform™ completa',
                   'Executive AI',
                   'Dashboards Executivos',
                   'Executive Enablement™'
@@ -190,7 +190,7 @@ export function ExecutivePlansPage() {
                   'Até 3 unidades de negócio',
                   'Até 10 usuários licenciados',
                   'API Integration Ready™ incluída, quando houver estrutura de integração disponibilizada pelo sistema da organização',
-                  'Executive Intelligence Platform™ completa'
+                  'Executive Governance Platform™ completa'
                 ].map((feature, i) => (
                   <li key={i} className="flex items-start gap-2 text-sm text-slate-300 leading-tight">
                     <CheckCircle2 className="w-4 h-4 text-amber-500 shrink-0 mt-0.5" />
@@ -248,7 +248,7 @@ export function ExecutivePlansPage() {
                   'Até 10 unidades de negócio',
                   'Até 25 usuários licenciados',
                   'API Integration Ready™ incluída, quando houver estrutura de integração disponibilizada pelo sistema da organização',
-                  'Executive Intelligence Platform™ completa'
+                  'Executive Governance Platform™ completa'
                 ].map((feature, i) => (
                   <li key={i} className="flex items-start gap-2 text-sm text-slate-300 leading-tight">
                     <CheckCircle2 className="w-4 h-4 text-amber-500 shrink-0 mt-0.5" />
@@ -443,7 +443,7 @@ export function ExecutivePlansPage() {
             {[
               {
                 q: "Todos utilizam a mesma plataforma?",
-                a: "Sim. A Illumine não comercializa 'versões de software'. Toda organização tem acesso à mesma Executive Intelligence Platform™, com todos os módulos, segurança enterprise e Executive AI."
+                a: "Sim. A Illumine não comercializa 'versões de software'. Toda organização tem acesso à mesma Executive Governance Platform™, com todos os módulos, segurança enterprise e Executive AI."
               },
               {
                 q: "O que muda entre os planos?",
@@ -481,8 +481,8 @@ export function ExecutivePlansPage() {
         <div className="absolute inset-0 opacity-10 bg-[radial-gradient(circle_at_center,black_1px,transparent_1px)] [background-size:24px_24px]"></div>
         <div className="max-w-4xl mx-auto px-6 text-center relative z-10">
           <h2 className="text-4xl md:text-5xl font-bold tracking-tight mb-6">
-            Leve Executive Intelligence para sua organização.
-          </h2>
+            Leve Executive Governance para sua organização.
+                                </h2>
           <p className="text-xl font-medium opacity-80 mb-10 max-w-2xl mx-auto">
             Descubra como a Illumine pode apoiar sua organização na construção de uma gestão mais inteligente, integrada e orientada por dados.
           </p>

@@ -107,7 +107,7 @@ describe('DFC Executive Production Hardening & Final Structural Alignment v1.3 T
     assert.strictEqual(passResult.status, 'PASS');
   });
 
-  it('5. ExecutiveConsequenceIntelligenceLayer (ECIL) computes correct consequence profiles', () => {
+  it('5. ExecutiveConsequenceGovernanceLayer (ECIL) computes correct consequence profiles', () => {
     // Critical state
     const criticalProfile = FiduciaryRuntimeAdapter.ExecutiveConsequenceIntelligenceLayer.evaluate(-50000, 2, -120000);
     assert.strictEqual(criticalProfile.impactHorizon, 'Imediato (0-3 meses)');

@@ -1,7 +1,7 @@
 import { describe, it, expect } from 'vitest';
 import { ExecutiveContextProvider } from '@illumine/executive-context-engine';
 
-describe('@illumine/intelligence (Wave 18.1 Executive Context Engine)', () => {
+describe('@illumine/governance (Wave 18.1 Executive Context Engine)', () => {
   it('should build canonical ExecutiveDecisionContext with all required properties (ADR-068)', () => {
     const ctx = ExecutiveContextProvider.buildContext({
       companyId: 'comp-emporio',

@@ -2,7 +2,7 @@ import { jsPDF } from 'jspdf';
 import { ExecutiveIntelligenceReport } from '../runtime/executive-intelligence-runtime';
 import { CalibrationEngine } from '../runtime/calibration/CalibrationEngine';
 import { ExportSnapshotMetadata } from './ExportTypes';
-import { RuntimeComplianceEngine } from '../runtime/compliance/RuntimeComplianceEngine';
+import { RuntimeComplianceEngine } from '../../capabilities/financial/runtime/compliance/RuntimeComplianceEngine';
 import { ExportMetadataAdapter } from './export-metadata-adapter';
 
 export interface PdfExportOutput {
@@ -53,7 +53,7 @@ export class ExecutivePdfExportEngine {
     pdf.setFont('helvetica', 'normal');
     pdf.setFontSize(14);
     pdf.setTextColor(60, 60, 60);
-    pdf.text('Executive Intelligence Board Report', 20, 50);
+    pdf.text('Executive Governance Board Report', 20, 50);
 
     pdf.setFontSize(10);
     pdf.setTextColor(120, 120, 120);

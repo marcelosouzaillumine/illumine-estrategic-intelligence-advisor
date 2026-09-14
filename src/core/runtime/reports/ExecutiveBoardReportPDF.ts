@@ -1,7 +1,7 @@
 // src/core/runtime/reports/ExecutiveBoardReportPDF.ts
 
 import { jsPDF } from 'jspdf';
-import { ExecutiveBoardReport } from '../esgim/esgimTypes';
+import { ExecutiveBoardReport } from '../../../capabilities/runtime/esgim/esgimTypes';
 
 export class ExecutiveBoardReportPDF {
   /**
@@ -114,7 +114,7 @@ export class ExecutiveBoardReportPDF {
     doc.setFont('helvetica', 'bold');
     doc.setFontSize(12);
     doc.setTextColor(255, 255, 255);
-    doc.text('Illumine Corporate Intelligence™', margin, pageHeight - 30);
+    doc.text('Illumine Corporate Governance™', margin, pageHeight - 30);
     doc.setFont('helvetica', 'normal');
     doc.setFontSize(8);
     doc.setTextColor(150, 150, 150);

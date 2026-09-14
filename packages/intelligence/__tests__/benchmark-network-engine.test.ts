@@ -3,7 +3,7 @@ import { describe, it, expect } from 'vitest';
 import { BenchmarkQuery } from '@illumine/executive-contracts';
 import { BenchmarkEngine, OrganizationalPatternMiner } from '../benchmark-intelligence/src';
 
-describe('@illumine/intelligence (Wave 18.8 Multi-Tenant Benchmark Network Engine)', () => {
+describe('@illumine/governance (Wave 18.8 Multi-Tenant Benchmark Network Engine)', () => {
   it('should calculate industry statistics and percentile position with gap analysis (MBAI v2.0)', () => {
     const query: BenchmarkQuery = {
       metricCode: 'EBITDA_MARGIN',

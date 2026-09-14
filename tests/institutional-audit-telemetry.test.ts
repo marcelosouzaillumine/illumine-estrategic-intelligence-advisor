@@ -3,7 +3,7 @@ import assert from 'node:assert';
 import { AuditEventBus, AuditEvent } from '../src/core/security/audit/AuditEventBus';
 import { ImmutableLedger, ImmutableLedgerError } from '../src/core/security/audit/ImmutableLedger';
 import { AnomalyDetector } from '../src/core/security/audit/AnomalyDetector';
-import { DistributedAnomalyAggregator } from '../src/core/runtime/distributed/DistributedAnomalyAggregator';
+import { DistributedAnomalyAggregator } from '../src/capabilities/runtime/distributed/DistributedAnomalyAggregator';
 import { PermissionEngine } from '../src/core/security/permission-engine';
 import { GovernedRepositoryWrapper } from '../src/core/security/governed-repository';
 import { SessionGovernanceLayer } from '../src/core/security/auth/SessionGovernanceLayer';

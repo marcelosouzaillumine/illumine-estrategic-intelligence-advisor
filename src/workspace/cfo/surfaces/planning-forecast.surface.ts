@@ -8,7 +8,7 @@ export const CFO_PLANNING_FORECAST_SURFACE: DecisionSurfaceDefinition = {
   descriptionKey: 'cfo.planning.desc',
   intent: 'plan',
   capability: CAPABILITIES.EXECUTIVE_WORKSPACE_VIEW,
-  supportedEngines: ['financial-intelligence-engine'],
+  supportedEngines: ['financial-governance-engine'],
   supportedAgents: ['cfo-agent'],
   defaultLayout: 'cfo-planning-grid',
   layouts: [],

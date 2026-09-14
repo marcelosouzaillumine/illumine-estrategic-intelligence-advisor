@@ -1,7 +1,7 @@
 import { describe, it, expect } from 'vitest';
 import { ExecutiveActionResolver } from '@illumine/executive-decision-intelligence';
 
-describe('@illumine/intelligence (Wave 17.12 Decision Flow)', () => {
+describe('@illumine/governance (Wave 17.12 Decision Flow)', () => {
   it('should resolve decision actions (Investigate, Simulate, Decide) for DRE', () => {
     const actions = ExecutiveActionResolver.resolveActions({ pageId: 'DREPage' });
 

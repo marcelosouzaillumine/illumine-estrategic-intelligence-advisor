@@ -27,7 +27,7 @@ Toda Capability e Página rica obrigatoriamente terá sua ponte de dados definid
 ## 3. Regras de Services e Taxonomy
 A inteligência do sistema que não possui estado de ciclo de vida visual vive aqui.
 
-* **[MUST] Domínios Canônicos:** Todo novo service criado deve nascer dentro das pastas de domínios semânticos canônicos (`/services/financial`, `/services/intelligence`, `/services/governance`, `/services/platform`, `/services/integrations`), e **não** atirado solto na raiz do `/services/`.
+* **[MUST] Domínios Canônicos:** Todo novo service criado deve nascer dentro das pastas de domínios semânticos canônicos (`/services/financial`, `/services/governance`, `/services/governance`, `/services/platform`, `/services/integrations`), e **não** atirado solto na raiz do `/services/`.
 * **[MUST NOT] Fat Services:** Serviços não devem assumir escopo global e cruzar fronteiras financeiras com inteligência artificial, exceto via um Orchestrator (Runtime Adapter).
 
 ## 4. Regras de Runtime e Segurança Fiduciária (TFIF)

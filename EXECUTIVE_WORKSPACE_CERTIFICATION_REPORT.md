@@ -1,7 +1,7 @@
 # Executive Workspace Certification Report (Wave G5.3.2)
 
 **Certification Timestamp:** 2026-07-31T14:45:00Z
-**Target:** `packages/intelligence/executive-workspace-orchestrator` & `ExecutiveCopilotPanel.tsx`
+**Target:** `packages/governance/executive-workspace-orchestrator` & `ExecutiveCopilotPanel.tsx`
 **Evaluator:** Canonical Assurance Engine (CAE)
 **Status:** ✅ CERTIFIED FOR PRODUCTION
 
@@ -12,14 +12,14 @@
 O Pipeline B foca na validação da estrutura cognitiva e na responsabilidade de apresentação da arquitetura canônica.
 
 ### 1.1 Executive Workspace & Copilot Components Logic
-- **Desacoplamento Validado:** O componente `ExecutiveCopilotPanel` não faz mais injeção direta de motores cognitivos (ex: `WorkspaceAdvisoryEngine`) e não interage com camadas de formação de contexto (ex: `ExecutiveIntelligenceContextAssembler`).
+- **Desacoplamento Validado:** O componente `ExecutiveCopilotPanel` não faz mais injeção direta de motores cognitivos (ex: `WorkspaceAdvisoryEngine`) e não interage com camadas de formação de contexto (ex: `ExecutiveGovernanceContextAssembler`).
 - **Ponto de Contato Único:** Toda interação com a base de conhecimento e motores inferenciais passa unicamente pelo `ExecutiveWorkspaceOrchestrator`, promovendo uma forte aderência à separação de preocupações (UI "burra").
 
 ### 1.2 Snapshot Fields & Explainability Structure
 - O `ExecutiveWorkspaceSnapshot` apresenta um modelo de dados formal de estado executivo.
 - A **Explicabilidade** (Explainability) encontra-se estritamente enraizada no modelo, seguindo a diretriz de *Progressive Disclosure*, não afetando o peso da experiência inicial.
 
-### 1.3 Intelligence Density (Densidade de Inteligência)
+### 1.3 Governance Density (Densidade de Inteligência)
 - O orquestrador agora processa e afixa ao Snapshot a pontuação e os vetores de Confiança (Confidence Score) e Risco (Executive Risk Index), provendo densidade suficiente para a auditoria de decisão.
 
 ---
@@ -41,7 +41,7 @@ O Pipeline C garante que o sistema obedece a regras imutáveis de segurança de 
 
 ## 3. Conclusão da Auditoria
 
-A arquitetura alcançou o nível **Premium Executive Intelligence Experience**. O isolamento introduzido entre *Engines* (eu sei analisar) e o *Snapshot* (eu sei comunicar) criou um objeto canônico robusto de Decisão Executiva (*Executive Decision Context Object™*).
+A arquitetura alcançou o nível **Premium Executive Governance Experience**. O isolamento introduzido entre *Engines* (eu sei analisar) e o *Snapshot* (eu sei comunicar) criou um objeto canônico robusto de Decisão Executiva (*Executive Decision Context Object™*).
 
 **Próxima Fase Habilitada:**
 A Illumine OS™ atende a todos os pré-requisitos para iniciar a **Wave 15.1 — Decision Forensics Certification™**, que utilizará a fundação atual (Snapshot, Confidence, Lineage) para criar a Trilha de Auditoria de Decisões de Inteligência Artificial (*AI Decision Audit Trail™*).

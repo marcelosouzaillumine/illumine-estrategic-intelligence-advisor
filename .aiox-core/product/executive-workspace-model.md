@@ -14,11 +14,11 @@ Executive Workspace
 │
 ├── Executive Summary (KPIs macro e pulso do domínio)
 │
-├── Decision Intelligence (Visão orientada a anomalias e insights)
+├── Decision Governance (Visão orientada a anomalias e insights)
 │
 ├── Performance Monitoring (Desdobramento clássico de resultados)
 │
-├── Intelligence Insights (Visões cruzadas propostas pelas Engines)
+├── Governance Insights (Visões cruzadas propostas pelas Engines)
 │
 └── Actions & Recommendations (Próximos passos operacionais sugeridos)
 ```

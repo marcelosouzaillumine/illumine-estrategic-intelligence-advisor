@@ -66,9 +66,9 @@ As demais informações devem ser secundárias.
 Engines correlatas devem ser consolidadas.
 
 Exemplo:
-- Treasury Intelligence
-- Liquidity Intelligence
-- Working Capital Intelligence
+- Treasury Governance
+- Liquidity Governance
+- Working Capital Governance
 
 Devem convergir para:
 **ESTRUTURA FINANCEIRA.**

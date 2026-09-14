@@ -64,9 +64,9 @@ export const ADVISOR_OFFICE: ExecutiveOffice = {
 };
 
 export const INTELLIGENCE_OFFICE: ExecutiveOffice = {
-  id: 'intelligence-office',
-  nameKey: 'product.offices.intelligence.name',
-  descriptionKey: 'product.offices.intelligence.description',
+  id: 'governance-office',
+  nameKey: 'product.offices.governance.name',
+  descriptionKey: 'product.offices.governance.description',
   availability: 'foundation'
 };
 

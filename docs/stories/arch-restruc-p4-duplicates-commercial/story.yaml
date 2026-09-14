@@ -1,0 +1,122 @@
+id: arch-restruc-p4-duplicates-commercial
+title: "Reestruturação Arquitetural — Fase 4: Duplicatas, Camada Comercial e Consolidação Final"
+status: Draft
+workflow: story-development-cycle
+mode: interactive
+created_at: '2026-09-12'
+owner: architect
+
+problem: >
+  Três classes de problemas estruturais remanescentes após as Fases 2 e 3:
+  (1) Pacotes duplicados: benchmark-intelligence existe em 2 locais; institutional-memory
+  existe em 3 locais; packages/knowledge e packages/intelligence/knowledge-graph se sobrepõem.
+  (2) O modelo comercial SaaS da Illumine (billing, subscription, entitlement, licensing)
+  está tratado como domínio de negócio em packages/domain/ em vez de infraestrutura de OS.
+  (3) Os 17 pacotes architecture-governance-* vivem como pacotes de produto mas são
+  meta-tooling da arquitetura e deveriam ser parte do .aiox-core ou packages/os/tooling/.
+  Além disso, pacotes nomeados com "-os" que não são sistemas operacionais precisam ser
+  reclassificados.
+
+business_value: >
+  Resolver duplicatas elimina confusão sobre qual implementação é canônica e previne
+  divergência entre as cópias. Mover a camada comercial para o OS correto o entendimento
+  do que é "domínio do produto" versus "como o produto é vendido". Remover os architecture-
+  governance-* de product os torna utilizáveis como tooling por qualquer vertical.
+
+scope:
+  in:
+    - Consolidar benchmark-intelligence em packages/product/financial/benchmarking/.
+    - Consolidar institutional-memory + organizational-memory em packages/core/institutional-memory/ (canônico).
+    - Consolidar packages/knowledge e packages/intelligence/knowledge-graph em packages/core/knowledge-graph/.
+    - Mover packages/domain/billing|contract|entitlement|licensing|subscription → packages/os/commercial/.
+    - Mover os 17 packages/architecture-governance-* → packages/os/tooling/architecture-governance/.
+    - Reclassificar company-operating-system, customer-operating-system, customer-success-os,
+      founding-partners-os, implementation-os, revenue-intelligence-os como packages/product/operational-os/.
+    - Converter eslint rule @illumine/no-cross-layer-import de warn para error.
+    - Remover todos os re-exports temporários criados nas Fases 2 e 3.
+  out:
+    - Alterar lógica de negócio em qualquer arquivo.
+    - Renomear conceitos ou variáveis (apenas reorganização de paths).
+
+acceptance_criteria:
+  - id: AC1
+    given: packages/product/financial/benchmarking/
+    when: listado
+    then: existe uma única implementação canônica de benchmark-intelligence.
+  - id: AC2
+    given: packages/core/institutional-memory/
+    when: listado
+    then: existe uma única implementação canônica de institutional/organizational memory.
+  - id: AC3
+    given: packages/domain/
+    when: listado após a fase
+    then: não contém mais billing, contract, entitlement, licensing nem subscription.
+  - id: AC4
+    given: a eslint rule @illumine/no-cross-layer-import
+    when: executada em CI
+    then: falha o build se houver qualquer import cross-layer (mode: error).
+  - id: AC5
+    given: nenhum re-export temporário das Fases 2 e 3
+    when: o codebase é inspecionado
+    then: todos os imports são diretos para os novos paths canônicos.
+  - id: AC6
+    given: o build completo
+    when: npm run typecheck && npm run lint && npm run build são executados
+    then: passam limpos, sem errors ou warnings de cross-layer.
+
+tasks:
+  - [ ] Auditar os 3 casos de duplicação e identificar qual implementação é canônica.
+  - [ ] Consolidar benchmark-intelligence (deprecar cópia não-canônica).
+  - [ ] Consolidar institutional-memory + organizational-memory (deprecar as 2 não-canônicas).
+  - [ ] Consolidar packages/knowledge + knowledge-graph (deprecar cópia não-canônica).
+  - [ ] Mover packages/domain/billing|contract|entitlement|licensing|subscription → packages/os/commercial/.
+  - [ ] Mover os 17 architecture-governance-* → packages/os/tooling/architecture-governance/.
+  - [ ] Criar packages/product/operational-os/ e mover os 6 pacotes "-os" de produto.
+  - [ ] Atualizar todos os imports para os novos paths canônicos.
+  - [ ] Remover todos os re-exports temporários das Fases 2 e 3.
+  - [ ] Converter eslint rule para error mode.
+  - [ ] Executar full quality gate (typecheck + lint + build).
+  - [ ] Atualizar ARCHITECTURE_CONSTITUTION.md com o novo estado da estrutura.
+  - [ ] Atualizar .aiox-core/data/layer-boundaries.md com aprendizados das fases.
+
+risks:
+  - A consolidação de institutional-memory pode revelar divergências entre as 3 implementações
+    que requerem decisão arquitetural sobre qual merge realizar.
+  - Converter a eslint rule para error pode bloquear o build se houver violações remanescentes
+    não descobertas nas fases anteriores.
+  - Remover re-exports temporários pode revelar consumers que não foram atualizados.
+
+dependencies:
+  - docs/stories/arch-restruc-p3-intelligence-segregation/story.yaml (Done antes desta)
+  - .aiox-core/data/layer-boundaries.md
+  - packages/intelligence/benchmark-intelligence/
+  - packages/benchmark-intelligence/
+  - packages/intelligence/institutional-memory/
+  - packages/intelligence/organizational-memory/
+  - packages/institutional-memory/
+  - packages/knowledge/
+  - packages/intelligence/knowledge-graph/
+  - packages/domain/billing|contract|entitlement|licensing|subscription
+  - packages/architecture-governance-* (17 pacotes)
+
+pre_conditions:
+  - Fase 3 concluída (Done).
+  - eslint rule em warn mode funcionando.
+  - Zero re-exports gerando erros de typecheck.
+
+definition_of_done:
+  - [ ] Zero pacotes duplicados no codebase.
+  - [ ] packages/domain/ sem billing/subscription/entitlement/licensing.
+  - [ ] architecture-governance-* em packages/os/tooling/.
+  - [ ] eslint rule em error mode — CI falha em cross-layer imports.
+  - [ ] Zero re-exports temporários.
+  - [ ] npm run typecheck passa limpo.
+  - [ ] npm run lint passa limpo (zero warnings de cross-layer).
+  - [ ] npm run build passa limpo.
+  - [ ] ARCHITECTURE_CONSTITUTION.md atualizado.
+
+quality_gate:
+  npm_typecheck: pass_clean
+  npm_lint: pass_clean
+  npm_build: pass_clean
+  cross_layer_imports: zero

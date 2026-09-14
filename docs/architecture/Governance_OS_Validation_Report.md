@@ -5,7 +5,7 @@
 
 A **Governance OS Validation Sprint v1.0** foi executada para garantir que a arquitetura do Illumine Governance™ opere de maneira coesa, previsível e rastreável, com foco absoluto na experiência do Advisor, Executivo e Conselho, sem comprometer a rigidez fiduciária dos dados de base.
 
-Esta validação assegura a transição segura para a **Institutional Intelligence Fabric v1.0**.
+Esta validação assegura a transição segura para a **Institutional Governance Fabric v1.0**.
 
 ---
 
@@ -58,7 +58,7 @@ Todos os gates foram cruzados com sucesso durante a auditoria:
 
 O **Governance Operating System** encontra-se estruturalmente unificado. 
 
-A fundação necessária para a próxima fase — **Institutional Intelligence Fabric v1.0** — está pronta. Os objetos institucionais já possuem "CPF", "Linhagem", "Procedência" e viajam pelos diferentes ambientes mantendo a soberania do Tenant de forma nativa e protegida.
+A fundação necessária para a próxima fase — **Institutional Governance Fabric v1.0** — está pronta. Os objetos institucionais já possuem "CPF", "Linhagem", "Procedência" e viajam pelos diferentes ambientes mantendo a soberania do Tenant de forma nativa e protegida.
 
 **Assinatura:**  
 *Antigravity (AIOX Architect/Governance AI Engineer)*  

@@ -6,6 +6,7 @@ import { GovernedRepositoryWrapper } from '../../security/governed-repository';
 import { DataAccessContext } from '../../security/data-access-context';
 import { getErrorMessage } from '../../../types/runtime/RuntimeErrorGuards';
 import { ScenarioGraphAdapter } from '../../knowledge-graph/adapters/ScenarioGraphAdapter';
+import { blockedFirestoreWrite } from '../../../lib/blockedFirestoreWrite';
 
 export class ScenarioRegistry {
   static async registerScenario(context: DataAccessContext, result: ScenarioSimulationResult, propagatedViolations: GovernanceViolationRecord[]): Promise<void> {
@@ -25,7 +26,7 @@ export class ScenarioRegistry {
 
       // Salva no Firestore
       await GovernedRepositoryWrapper.execute(simulationContext, async () => {
-        await setDoc(doc(db, 'scenario_executions', result.scenarioId), record);
+        blockedFirestoreWrite(); // setDoc(doc(db, 'scenario_executions', result.scenarioId), record);
       });
 
       // [Knowledge Graph Integration] Chamada Passiva

@@ -1,4 +1,4 @@
-import { DreExecutiveViewModelBuilder } from '../core/runtime/dre/DreExecutiveViewModelBuilder.ts';
+import { DreExecutiveViewModelBuilder } from '../capabilities/financial/runtime/dre/DreExecutiveViewModelBuilder.ts';
 
 const rawPayload = {
   cascadeResult: [

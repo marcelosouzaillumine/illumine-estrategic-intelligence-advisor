@@ -1,11 +1,2 @@
-import { useState } from 'react';
-
-export function useMarketingComercialAdapter(clientId: string) {
-  const [loading, setLoading] = useState(false);
-  const [data, setData] = useState<any[]>([]);
-
-  return {
-    data,
-    loading
-  };
-}
+// shim
+export * from '../../capabilities/financial/infrastructure/adapters/ui/useMarketingComercialAdapter';

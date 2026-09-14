@@ -36,7 +36,7 @@
       "layer1": {
         "tag": "1. Capa de Datos",
         "desc_title": "La base institucional de conocimiento.",
-        "desc": "Toda inteligencia depende de la calidad del contexto. Intelligence Foundation™ reúne y organiza la información proveniente de las diferentes áreas de la organización, creando una base confiable para el análisis ejecutivo. Transformamos datos fragmentados en una base institucional confiable.",
+        "desc": "Toda inteligencia depende de la calidad del contexto. Governance Foundation™ reúne y organiza la información proveniente de las diferentes áreas de la organización, creando una base confiable para el análisis ejecutivo. Transformamos datos fragmentados en una base institucional confiable.",
         "tags": {
           "t1": "Datos financieros",
           "t2": "Información operativa",
@@ -49,7 +49,7 @@
       "layer2": {
         "tag": "2. Capa Analítica",
         "desc_title": "El motor que interpreta relaciones e identifica patrones.",
-        "desc": "Los datos aislados muestran eventos. La inteligencia revela relaciones. Intelligence Engine™ analiza tendencias, correlaciones, desviaciones, riesgos, impactos sistémicos y oportunidades. Conecta diferentes dimensiones de la organización para responder preguntas que los informes tradicionales no logran responder:",
+        "desc": "Los datos aislados muestran eventos. La inteligencia revela relaciones. Governance Engine™ analiza tendencias, correlaciones, desviaciones, riesgos, impactos sistémicos y oportunidades. Conecta diferentes dimensiones de la organización para responder preguntas que los informes tradicionales no logran responder:",
         "quotes": {
           "q1": "“¿Por qué sucedió esto?”",
           "q2": "“¿Qué impacto puede generar esta decisión?”",
@@ -72,7 +72,7 @@
         "tag": "5. Capa de Gobernanza",
         "desc_title": "La capa de confianza de la inteligencia corporativa.",
         "items": {
-          "i1_title": "Explainable Intelligence™",
+          "i1_title": "Explainable Governance™",
           "i1_desc": "Toda recomendación debe presentar su origen, premisas y evidencias.",
           "i2_title": "Trazabilidad de Decisiones",
           "i2_desc": "El historial de la decisión permanece documentado y accesible.",
@@ -99,11 +99,11 @@
       "conclusion": "La organización deja de mirar solamente el pasado y pasa a comprender las posibilidades futuras."
     },
     "practice": {
-      "label": "Executive Intelligence en la Práctica",
+      "label": "Executive Governance en la Práctica",
       "title": "De la información a la decisión.",
       "before_tag": "Informe Tradicional (Antes)",
       "before_quote": "\"El EBITDA cayó un 8% en el trimestre.\"",
-      "after_tag": "Con Illumine Executive Intelligence",
+      "after_tag": "Con Illumine Executive Governance",
       "after_quote": "\"Illumine identificó que la presión sobre el EBITDA tiene su origen en tres vectores principales: aumento de costos logísticos, ineficiencias operativas y desalineamientos estratégicos. La interacción de estos factores está drenando la generación de caja, reduciendo el margen operativo y restringiendo la capacidad de la organización para financiar su próximo ciclo de crecimiento.\""
     },
     "evolution": {

@@ -35,8 +35,8 @@ export const WorkingCapitalCapability: React.FC<WorkingCapitalCapabilityProps> =
         <div>
           <h1 className="text-2xl font-light text-slate-100 flex items-center gap-3">
             <Target className="w-6 h-6 text-amber-500" />
-            Working Capital Intelligence
-          </h1>
+            Working Capital Governance
+                                </h1>
           <p className="text-slate-400 mt-2 font-light">
             Otimização do ciclo de caixa, contas a receber e contas a pagar.
           </p>

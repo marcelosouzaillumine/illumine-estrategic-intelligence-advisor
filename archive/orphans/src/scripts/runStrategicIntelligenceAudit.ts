@@ -20,7 +20,7 @@ function checkFile(filePath: string, blockedTerms: string[], contextMessage: str
   }
 }
 
-console.log('Iniciando auditoria fiduciária: Strategic Intelligence Layer (RC-1.12)...');
+console.log('Iniciando auditoria fiduciária: Strategic Governance Layer (RC-1.12)...');
 
 const blockedTerms = [
   'estratégia errada', 
@@ -39,7 +39,7 @@ const blockedTerms = [
 ];
 
 // 1. Audit Engines
-const runtimeDir = path.resolve(process.cwd(), 'src/core/runtime/strategic-intelligence');
+const runtimeDir = path.resolve(process.cwd(), 'src/core/runtime/strategic-governance');
 if (fs.existsSync(runtimeDir)) {
   const files = fs.readdirSync(runtimeDir);
   for (const file of files) {
@@ -51,7 +51,7 @@ if (fs.existsSync(runtimeDir)) {
 }
 
 // 2. Audit UI Components
-const uiDir = path.resolve(process.cwd(), 'src/components/strategic-intelligence');
+const uiDir = path.resolve(process.cwd(), 'src/components/strategic-governance');
 if (fs.existsSync(uiDir)) {
   const files = fs.readdirSync(uiDir);
   for (const file of files) {

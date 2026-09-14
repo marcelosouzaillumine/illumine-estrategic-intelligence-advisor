@@ -7,12 +7,12 @@ import {
   BenchmarkPosition, 
   BenchmarkTargetTier, 
   ESGIMScenario 
-} from '../esgim/esgimTypes';
+} from '../../../capabilities/runtime/esgim/esgimTypes';
 import { benchmarkReadinessEngine } from './BenchmarkReadinessEngine';
 import { benchmarkComparativeEngine } from './BenchmarkComparativeEngine';
-import { esgimAssessmentEngine } from '../esgim/ESGIMAssessmentEngine';
-import { institutionalResilienceIndexEngine } from '../esgim/InstitutionalResilienceIndexEngine';
-import { decisionRegistryEngine } from '../execution/DecisionRegistryEngine';
+import { esgimAssessmentEngine } from '../../../capabilities/runtime/esgim/ESGIMAssessmentEngine';
+import { institutionalResilienceIndexEngine } from '../../../capabilities/runtime/esgim/InstitutionalResilienceIndexEngine';
+import { decisionRegistryEngine } from '../../../capabilities/runtime/execution/DecisionRegistryEngine';
 import { governanceKnowledgeEngine } from '../knowledge/GovernanceKnowledgeEngine';
 import { BenchmarkCohortRepository } from './BenchmarkCohortRepository';
 

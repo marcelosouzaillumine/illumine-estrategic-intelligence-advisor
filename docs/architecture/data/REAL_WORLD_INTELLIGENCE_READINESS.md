@@ -1,4 +1,4 @@
-# REAL_WORLD_INTELLIGENCE_READINESS.md — Prontidão para Integração de Dados Reais (Wave 17 Fase 7)
+# REAL_WORLD_GOVERNANCE_READINESS.md — Prontidão para Integração de Dados Reais (Wave 17 Fase 7)
 
 > **Manual de Integração com Sistemas Empresariais Externos (ADR-054)**
 
@@ -13,7 +13,7 @@ External Data Sources (ERP, CRM, BI, Docs, APIs, Planilhas, Bancos SQL)
               Enterprise Knowledge Fabric (@illumine/enterprise-knowledge-fabric)
                                │
                                ▼
-              Intelligence Engines (12 Executive Agents)
+              Governance Engines (12 Executive Agents)
                                │
                                ▼
               Executive Decision System (EDOS)

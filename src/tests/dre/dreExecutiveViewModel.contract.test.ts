@@ -1,6 +1,6 @@
 import { describe, it } from 'node:test';
 import assert from 'node:assert';
-import { DreExecutiveViewModelBuilder } from '../../core/runtime/dre/DreExecutiveViewModelBuilder';
+import { DreExecutiveViewModelBuilder } from '../../capabilities/financial/runtime/dre/DreExecutiveViewModelBuilder';
 
 describe('DreExecutiveViewModel Contract', () => {
   it('must return isValid = false if netRevenue is 0', () => {

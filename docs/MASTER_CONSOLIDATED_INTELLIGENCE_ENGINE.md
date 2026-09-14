@@ -1,4 +1,4 @@
-# MASTER CONSOLIDATED INTELLIGENCE ENGINE
+# MASTER CONSOLIDATED GOVERNANCE ENGINE
 
 Este documento define as diretrizes absolutas para o **Modo Multi-Entity (Inteligência Consolidada)** da plataforma Illumine. A arquitetura corporativa garante que a consolidação financeira e causal ocorra de forma transparente, isolada e isenta de intervenções manuais não auditáveis.
 
@@ -25,7 +25,7 @@ O cérebro organizacional responsável por descobrir a cadeia societária.
 ### Fase 2: Consolidated Financial Runtime
 Motor de agregação matemática rigorosa (Soma de DREs + Eliminação Intercompany).
 
-### Fase 3: Consolidated Advisory Intelligence Layer
+### Fase 3: Consolidated Advisory Governance Layer
 Motor de Causalidade Sistêmica.
 
 ### Fase 4: Consolidated Executive Presentation Layer
@@ -40,7 +40,7 @@ Módulo de modelagem institucional e cadastro das Holdings.
 ### Fase 7: Institutional Observability & Runtime Monitoring
 A infraestrutura de telemetria e Explainability Forense.
 
-### Fase 8: Scenario Intelligence & Predictive Stress Runtime
+### Fase 8: Scenario Governance & Predictive Stress Runtime
 A máquina do tempo institucional prospectiva em bolha de memória.
 
 ### Fase 9: Institutional Executive Reporting Engine
@@ -78,18 +78,18 @@ A arquitetura amadurece para **Institutional Financial Data Integration Infrastr
 - **Zero-Trust Ingestion:** Todo arquivo, conexão com ERP ou integração bancária passa pela "Alfândega" corporativa via `DataIngestionGateway` e `DataQualityGatekeeper`, barrando payloads corrompidos ou com vazamento de contexto inter-entidade.
 - **Quarentena Fiduciária:** Uploads manuais recebem selo de alerta (*LOW Trust* via `SourceTrustEngine`) e ficam em quarentena (`ImportReviewQueue`) até serem validados ou reprovados humanamente e auditados antes de ganharem passe-livre para o Runtime (*ImportPublicationEngine*).
 
-### Fase 15: Institutional Benchmarking & Intelligence Network
-A consolidação máxima do valor fiduciário em Rede. A transformação em **Institutional Benchmarking & Intelligence Network**.
+### Fase 15: Institutional Benchmarking & Governance Network
+A consolidação máxima do valor fiduciário em Rede. A transformação em **Institutional Benchmarking & Governance Network**.
 - **K-Anonymity (Privacy Guard):** Nenhum grupo com amostragem menor que 5 participantes (Threshold MVP) pode ter suas métricas vazadas estatisticamente. A UI tem Curto-Circuito (Bloqueio) provido pela `InstitutionalBenchmarkEngine`.
 - **Inteligência sem Exfiltração:** Compara Padrões de Risco Setoriais (`SectorRiskPatternAnalyzer`), Distribuição de `Confidence` e Performance sem nunca entregar dados puros para cálculos no frontend (`BenchmarkAnonymizationEngine`).
 
 ### Fase 16: Commercial Operating Model & Product Governance
-A plataforma torna-se uma **Commercially Governed Institutional Intelligence Platform**, empacotável em modelo SaaS sem perder a pureza matemática.
+A plataforma torna-se uma **Commercially Governed Institutional Governance Platform**, empacotável em modelo SaaS sem perder a pureza matemática.
 - **Scope Guard & Entitlements:** Planos comerciais (Starter, Professional, Enterprise) limitam o acesso a Módulos e Quotas sem apagar dados subjacentes nem recalcular matematicamente os *Advisories*. Tudo via `ProductGovernanceEngine`.
 - **Strict Read-Only Front-end:** O controle comercial atesta contra vazamentos e quebra de plano. Nenhuma *Feature Flag* ou *Quota Limit* é deliberadamente destravada na UI; a interface apenas consome o contexto de acessos negados ou autorizados da camada Truth.
 
-### Fase 17: Institutional Knowledge Graph & Semantic Intelligence Layer
-A plataforma eleva-se à **Institutional Cognitive Intelligence Infrastructure**, estabelecendo relações semânticas fiduciárias entre dados isolados.
+### Fase 17: Institutional Knowledge Graph & Semantic Governance Layer
+A plataforma eleva-se à **Institutional Cognitive Governance Infrastructure**, estabelecendo relações semânticas fiduciárias entre dados isolados.
 - **Semantic Lineage:** Toda aresta (edge) do grafo possui uma referência criptográfica para o evento que a originou, impossibilitando relações matemáticas sem rastreabilidade.
 - **Graph Governance Engine:** Garante isolamento estrito contra `Cross-Tenant Traversals`, impedindo que queries explorem a topologia visual cruzando empresas de bases distintas. A UI funciona de forma cega, apenas solicitando queries fiduciárias seguras e renderizando triplas.
 
@@ -98,7 +98,7 @@ A plataforma eleva-se à **Predictive Governance & Early Warning Infrastructure*
 - **Evidence-Bound Forecasting:** Nenhuma previsão existe isolada. Todo alerta antecipado é amarrado pelo `WarningEvidenceBinder` a anomalias mapeadas (falhas de Workflow, devios no Benchmark, anomalias de Grafo).
 - **Read-Only Preditivo:** O Early Warning Engine está proibido arquiteturalmente de recalcular números financeiros (BP/DRE) ou de injetar um *confidence drift* falso, operando unicamente como um consolidador passivo que cruza anomalias e computa o `Governance Deterioration Index`.
 
-### Fase 19: Institutional Strategic Simulation & Decision Intelligence Layer
+### Fase 19: Institutional Strategic Simulation & Decision Governance Layer
 A plataforma eleva-se à **Strategic Governance Simulation Infrastructure**. Transforma-se em um Sandbox de Conselho, permitindo projetar cascatas de risco e impactos sistêmicos antes de uma decisão de alto nível ser tomada.
 - **Sandbox Isolado:** Motores de trade-off e cascatas de stress operam puramente em memória temporal; jamais corrompendo as visões e auditorias da verdade histórica (*Truth Layer*).
 - **Propagação Fiduciária:** A simulação expõe os nós do Knowledge Graph que colapsariam e calcula o tempo de resiliência pós-choque baseando-se estritamente em um *Lineage Hash* gerado pelo *StrategicDecisionEvidenceBinder*.

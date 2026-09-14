@@ -15,8 +15,8 @@ export class SampleDiagnosticJourney extends ExecutiveDiagnosticJourney {
   public get descriptor(): ExecutiveDiagnostic {
     return {
       id: 'diag_sample_v1',
-      journeyId: 'sample-intelligence',
-      name: 'Sample Intelligence Diagnostic™',
+      journeyId: 'sample-governance',
+      name: 'Sample Governance Diagnostic™',
       domain: SAMPLE_DOMAIN,
       description: 'A mock diagnostic journey to test plugin architecture.',
       dimensions: SAMPLE_DIMENSIONS,

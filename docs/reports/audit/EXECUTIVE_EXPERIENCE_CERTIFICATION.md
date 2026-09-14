@@ -13,7 +13,7 @@ O **Executive Experience Certification Framework** certifica a materialização 
 
 A plataforma evoluiu da inteligência de contexto (Wave 18.1) para uma **Experiência Executiva de Decisão Integrada**, onde toda recomendação é acionável, embasada em evidências auditáveis e acompanhada por aprendizado organizacional.
 
-$$\text{Executive Digital Twin} \longrightarrow \text{Context Engine} \longrightarrow \text{Decision Intelligence} \longrightarrow \text{Action Surface} \longrightarrow \text{Organizational Memory}$$
+$$\text{Executive Digital Twin} \longrightarrow \text{Context Engine} \longrightarrow \text{Decision Governance} \longrightarrow \text{Action Surface} \longrightarrow \text{Organizational Memory}$$
 
 ```markdown
 ┌──────────────────────────────────────────────────────────┐

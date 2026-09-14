@@ -37,6 +37,7 @@ export const createSecondaryUser = async (email: string, pass: string) => {
 };
 
 export const MASTER_ADMINS = [
+  'marcelo.illumine@icloud.com',
   'marcelo.illuminecoaching@gmail.com',
   'marcelosouza.illumine@gmail.com',
   'atendimentoliminar@gmail.com',
@@ -92,14 +93,4 @@ export function handleFirestoreError(error: unknown, operationType: OperationTyp
   throw new Error(JSON.stringify(errInfo));
 }
 
-async function testConnection() {
-  try {
-    await getDocFromServer(doc(db, 'test', 'connection'));
-    console.log("Firestore connection verified.");
-  } catch (error) {
-    if (error instanceof Error && error.message.includes('the client is offline')) {
-      console.error("Please check your Firebase configuration or internet connection.");
-    }
-  }
-}
-testConnection();
+// Connection test removed to prevent Node.js environments from hanging on import

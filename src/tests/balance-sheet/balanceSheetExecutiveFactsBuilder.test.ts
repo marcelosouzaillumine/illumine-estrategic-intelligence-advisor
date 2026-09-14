@@ -1,10 +1,9 @@
-// @ts-nocheck
-import test from 'node:test';
+import { test, describe, expect, beforeAll, afterAll } from 'vitest';
 import assert from 'node:assert';
-import { BalanceSheetExecutiveFactsBuilder } from '../../core/runtime/executive-consolidation/BalanceSheetExecutiveFactsBuilder';
+import { BalanceSheetExecutiveFactsBuilder } from '../../workspace/runtime/executive-consolidation/BalanceSheetExecutiveFactsBuilder';
 
-test('BalanceSheetExecutiveFactsBuilder', async (t) => {
-  await t.test('must extract strict quantitative values for Granatum 2025', () => {
+describe('BalanceSheetExecutiveFactsBuilder', () => {
+  test('must extract strict quantitative values for Granatum 2025', () => {
     const mockReport = {
       context: { analysisYear: 2025 },
       patrimonialIntelligenceReport: {

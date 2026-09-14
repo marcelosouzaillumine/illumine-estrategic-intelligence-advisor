@@ -3,10 +3,28 @@ import { TechnicalIndicatorViewModel } from '../../../types/executive/BalanceShe
 import { ExecutiveTechnicalLayer } from '../../ui/executive-technical-layer';
 import { ExecutiveText } from '../../ui/executive-typography';
 import { ExecutiveEmptyState } from '../../ui/executive-empty-state';
+import { cn } from '../../../lib/utils';
 
 export function normalizeTechnicalLayer(viewModel: any) {
-  if (Array.isArray(viewModel)) return viewModel;
-  if (viewModel && Array.isArray(viewModel.families)) return viewModel.families;
+  if (!viewModel) return [];
+  // families always takes priority — items[] here is evidence rows, not nested data
+  if (Array.isArray(viewModel.families)) return viewModel.families;
+  let target = viewModel;
+  if (viewModel.items && Array.isArray(viewModel.items) && viewModel.items.length > 0 && viewModel.items[0]?.families) {
+    target = viewModel.items[0];
+  }
+  if (Array.isArray(target)) return target;
+  if (target && Array.isArray(target.structuralTables)) return target.structuralTables;
+  if (target && Array.isArray(target.families)) return target.families;
+  return [];
+}
+
+export function normalizeStructuralRows(viewModel: any) {
+  let target = viewModel;
+  if (viewModel && viewModel.items && Array.isArray(viewModel.items) && viewModel.items.length > 0) {
+    target = viewModel.items[0];
+  }
+  if (target && Array.isArray(target.rows)) return target.rows;
   return [];
 }
 
@@ -22,8 +40,9 @@ export function BalanceSheetTechnicalLayerSection({
   }
 
   const families = normalizeTechnicalLayer(viewModel);
+  const rows = normalizeStructuralRows(viewModel);
 
-  if (families.length === 0) {
+  if (families.length === 0 && rows.length === 0) {
     return (
       <ExecutiveTechnicalLayer
         title="Camada Técnica"
@@ -47,6 +66,60 @@ export function BalanceSheetTechnicalLayerSection({
       defaultExpanded={true}
     >
       <div className="grid grid-cols-1 gap-10">
+        
+        {rows.length > 0 && (
+          <div className="space-y-4">
+            <ExecutiveText as="h4" variant="microLabel" className="text-primary border-b border-border pb-2">Contabilidade Bruta: Balanço Patrimonial</ExecutiveText>
+            <div className="overflow-x-auto">
+              <table className="w-full text-left border-collapse min-w-[600px]">
+                <thead>
+                  <tr className="border-b border-border/50 text-executive-muted">
+                    <th className="py-3 px-4 w-[50%]">
+                      <ExecutiveText variant="label">Conta</ExecutiveText>
+                    </th>
+                    <th className="py-3 px-4 w-[50%]">
+                      <ExecutiveText variant="label">Valor Registrado</ExecutiveText>
+                    </th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {rows.map((row: any, idx: number) => {
+                    const isTotal = row.type === 'total';
+                    const isSubtotal = row.type === 'subtotal';
+                    
+                    return (
+                      <tr key={idx} className={cn(
+                        "border-b border-border/50 hover:bg-surface-high/30 transition-colors",
+                        isTotal && "bg-surface-high/50 font-semibold",
+                        isSubtotal && "bg-surface-container/30 font-medium"
+                      )}>
+                        <td className="py-3 px-4 text-executive-primary align-top">
+                          <ExecutiveText variant="bodyStandard" className={cn(
+                            !isTotal && !isSubtotal && "pl-4 text-muted-foreground",
+                            isTotal && "font-bold text-primary",
+                            isSubtotal && "font-semibold text-foreground"
+                          )}>
+                            {row.item}
+                          </ExecutiveText>
+                        </td>
+                        <td className="py-3 px-4 align-top">
+                          <ExecutiveText variant="bodyStandard" className={cn(
+                            "font-mono",
+                            !isTotal && !isSubtotal && "text-muted-foreground",
+                            (isTotal || isSubtotal) && "text-foreground font-semibold"
+                          )}>{
+                            new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(row.value)
+                          }</ExecutiveText>
+                        </td>
+                      </tr>
+                    );
+                  })}
+                </tbody>
+              </table>
+            </div>
+          </div>
+        )}
+
         {families.map((family: any) => (
           <div key={family.familyName} className="space-y-4">
             <ExecutiveText as="h4" variant="microLabel" className="text-primary border-b border-border pb-2">{family.familyName}</ExecutiveText>
@@ -82,7 +155,8 @@ export function BalanceSheetTechnicalLayerSection({
                 </thead>
                 <tbody>
                   {(family.indicators || []).map((ind: any, idx: number) => {
-                    const hasData = !isMissing(ind.value) && ind.value !== '0.00' && ind.value !== '0,00';
+                    const displayValue = ind.formattedValue ?? (typeof ind.value === 'number' ? ind.value.toFixed(2) : ind.value);
+                    const hasData = displayValue !== null && displayValue !== undefined && displayValue !== 'Não aplicável' && !isMissing(displayValue);
                     return (
                       <tr key={idx} className="border-b border-border/50 hover:bg-surface-high/30 transition-colors">
                         <td className="py-3 px-4 text-executive-primary align-top">
@@ -93,16 +167,18 @@ export function BalanceSheetTechnicalLayerSection({
                         <td className="py-3 px-4 align-top text-executive-secondary">
                           <ExecutiveText variant="microLabel" className="font-mono">{ind.formula}</ExecutiveText>
                         </td>
-                        <td className="py-3 px-4 align-top">
-                          <ExecutiveText variant="bodyStandard">{ind.value}</ExecutiveText>
+                        <td className="py-3 px-4 align-top font-mono tabular-nums">
+                          <ExecutiveText variant="bodyStandard" className="font-mono">
+                            {hasData ? displayValue : <span className="text-muted-foreground italic text-xs">Não aplicável</span>}
+                          </ExecutiveText>
                         </td>
                         <td className="py-3 px-4 align-top">
                           {hasData && ind.classificationLabel ? (
-                            <span className="inline-flex items-center px-2 py-1 rounded-md bg-surface-high text-executive-secondary border border-border">
-                              <ExecutiveText as="span" variant="microLabel">{ind.classificationLabel}</ExecutiveText>
+                            <span className={cn("inline-flex items-center px-2 py-1 rounded-md border text-xs font-medium", ind.badgeClass || 'bg-surface-high text-executive-secondary border-border')}>
+                              {ind.classificationLabel}
                             </span>
                           ) : (
-                            <ExecutiveText as="span" variant="microLabel" className="text-executive-muted">Não aplicável</ExecutiveText>
+                            <ExecutiveText as="span" variant="microLabel" className="text-executive-muted">—</ExecutiveText>
                           )}
                         </td>
                         <td className="py-3 px-4 text-executive-secondary align-top">

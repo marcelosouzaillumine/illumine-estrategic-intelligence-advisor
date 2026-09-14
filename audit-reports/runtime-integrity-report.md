@@ -2,9 +2,9 @@
 
 | Output | Present | Notes |
 |---|---|---|
-| esgIntelligence | ✅ | Verified on Mature Payload |
-| valuationIntelligence | ✅ | Verified on Mature Payload |
-| benchmarkIntelligence | ✅ | Verified on Mature Payload |
-| sectorIntelligence | ✅ | Verified on Mature Payload |
-| capitalAllocationIntelligence | ✅ | Verified on Mature Payload |
+| esgGovernance | ✅ | Verified on Mature Payload |
+| valuationGovernance | ✅ | Verified on Mature Payload |
+| benchmarkGovernance | ✅ | Verified on Mature Payload |
+| sectorGovernance | ✅ | Verified on Mature Payload |
+| capitalAllocationGovernance | ✅ | Verified on Mature Payload |
 | executiveSovereignty | ✅ | Verified on Mature Payload |

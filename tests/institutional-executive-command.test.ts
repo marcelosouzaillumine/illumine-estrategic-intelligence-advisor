@@ -2,7 +2,7 @@
 
 import { test } from 'node:test';
 import assert from 'node:assert';
-import { InstitutionalExecutiveCommandRuntime } from '../src/core/runtime/executive-command/InstitutionalExecutiveCommandRuntime';
+import { InstitutionalExecutiveCommandRuntime } from '../src/workspace/runtime/executive-command/InstitutionalExecutiveCommandRuntime';
 import { ExecutiveIntelligenceReport } from '../src/core/runtime/executive-intelligence-runtime';
 
 test('Institutional Executive Command Runtime Tests', async (t) => {

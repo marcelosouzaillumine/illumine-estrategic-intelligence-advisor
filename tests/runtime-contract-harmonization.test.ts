@@ -1,9 +1,9 @@
 import test, { describe, it } from 'node:test';
 import assert from 'node:assert/strict';
-import { TreasuryIntelligenceRuntimeOutput } from '../src/core/runtime/treasury-intelligence/types';
-import { InstitutionalOperationalGovernanceOutput } from '../src/core/runtime/operational-governance/operational-governance-types';
-import { InstitutionalBoardPackOutput } from '../src/core/runtime/institutional-reporting/institutional-reporting-types';
-import { InstitutionalDeploymentReadinessOutput } from '../src/core/runtime/deployment-readiness/DeploymentReadinessTypes';
+import { TreasuryIntelligenceRuntimeOutput } from '../src/capabilities/runtime/treasury-intelligence/types';
+import { InstitutionalOperationalGovernanceOutput } from '../src/capabilities/runtime/operational-governance/operational-governance-types';
+import { InstitutionalBoardPackOutput } from '../src/capabilities/runtime/institutional-reporting/institutional-reporting-types';
+import { InstitutionalDeploymentReadinessOutput } from '../src/capabilities/runtime/deployment-readiness/DeploymentReadinessTypes';
 
 describe('Runtime Contract Harmonization (RC-1.13A)', () => {
 

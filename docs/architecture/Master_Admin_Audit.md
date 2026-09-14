@@ -28,7 +28,7 @@ Total: 273
 | `src/app/routes.tsx` | 327 | `if (currentPage === 'clientes' || (currentPage as string) === 'clientes_root') {` |
 | `src/components/Common/Base.tsx` | 476 | `const [internalPeriodMode, setInternalPeriodMode] = React.useState<'mensal' | 'anual'>('mensal');` |
 | `src/components/Common/Base.tsx` | 478 | `const periodMode = isControlled ? periodModeProp : internalPeriodMode;` |
-| `src/components/ExecutivePerspectiveSection.tsx` | 172 | `const rc = intelligenceReport.causality.rootCause;` |
+| `src/components/ExecutivePerspectiveSection.tsx` | 172 | `const rc = governanceReport.causality.rootCause;` |
 | `src/components/executive-command/CommandExplainabilityDrawer.tsx` | 43 | `{explainability.supportingLineageHashes.map((hash, idx) => (` |
 | `src/components/executive-interaction/RuntimeLineageViewer.tsx` | 41 | `<span>{t("overlays.root_hash")} {lineageHash.substring(0, 16)}...</span>` |
 | `src/components/modals/ImportFinancialModal.tsx` | 67 | `throw new Error(t("modals.import_financial.unsupported_format"));` |
@@ -66,14 +66,14 @@ Total: 273
 | `src/components/pages/governance/ObservabilityConsolePage.tsx` | 45 | `setSelectedTenantFilter(isSuperAdmin ? 'GLOBAL' : session.tenantId);` |
 | `src/components/pages/governance/ObservabilityConsolePage.tsx` | 47 | `}, [isReady, session, isSuperAdmin]);` |
 | `src/components/pages/governance/ObservabilityConsolePage.tsx` | 187 | `{isSuperAdmin && (` |
-| `src/components/panels/causal-intelligence/InstitutionalCausalRootCausesPanel.tsx` | 7 | `rootCauses?: CausalFactor[];` |
-| `src/components/panels/causal-intelligence/InstitutionalCausalRootCausesPanel.tsx` | 10 | `export const InstitutionalCausalRootCausesPanel: React.FC<RootCausesPanelProps> = ({ rootCauses = []` |
-| `src/components/panels/causal-intelligence/InstitutionalCausalRootCausesPanel.tsx` | 28 | `<h4 className="text-[10px] font-black uppercase tracking-widest text-slate-500">{t('causal.root_caus` |
-| `src/components/panels/causal-intelligence/InstitutionalCausalRootCausesPanel.tsx` | 35 | `{rootCauses.length === 0 ? (` |
-| `src/components/panels/causal-intelligence/InstitutionalCausalRootCausesPanel.tsx` | 40 | `rootCauses.map((factor, idx) => (` |
-| `src/components/panels/causal-intelligence/SurvivabilityDependencyGraphPanel.tsx` | 16 | `const rootCauses = nodes.filter(n => n.type === 'ROOT_CAUSE');` |
-| `src/components/panels/causal-intelligence/SurvivabilityDependencyGraphPanel.tsx` | 25 | `rootCauses.forEach((node, i) => {` |
-| `src/components/panels/causal-intelligence/SurvivabilityDependencyGraphPanel.tsx` | 26 | `const spacing = height / (rootCauses.length + 1);` |
+| `src/components/panels/causal-governance/InstitutionalCausalRootCausesPanel.tsx` | 7 | `rootCauses?: CausalFactor[];` |
+| `src/components/panels/causal-governance/InstitutionalCausalRootCausesPanel.tsx` | 10 | `export const InstitutionalCausalRootCausesPanel: React.FC<RootCausesPanelProps> = ({ rootCauses = []` |
+| `src/components/panels/causal-governance/InstitutionalCausalRootCausesPanel.tsx` | 28 | `<h4 className="text-[10px] font-black uppercase tracking-widest text-slate-500">{t('causal.root_caus` |
+| `src/components/panels/causal-governance/InstitutionalCausalRootCausesPanel.tsx` | 35 | `{rootCauses.length === 0 ? (` |
+| `src/components/panels/causal-governance/InstitutionalCausalRootCausesPanel.tsx` | 40 | `rootCauses.map((factor, idx) => (` |
+| `src/components/panels/causal-governance/SurvivabilityDependencyGraphPanel.tsx` | 16 | `const rootCauses = nodes.filter(n => n.type === 'ROOT_CAUSE');` |
+| `src/components/panels/causal-governance/SurvivabilityDependencyGraphPanel.tsx` | 25 | `rootCauses.forEach((node, i) => {` |
+| `src/components/panels/causal-governance/SurvivabilityDependencyGraphPanel.tsx` | 26 | `const spacing = height / (rootCauses.length + 1);` |
 | `src/components/ui/dialog.tsx` | 40 | `"fixed inset-0 isolate z-50 bg-black/10 duration-100 supports-backdrop-filter:backdrop-blur-xs data-` |
 | `src/contexts/LanguageContext.tsx` | 118 | `'administracao': 'navigation.page.adm_root',` |
 | `src/contexts/LanguageContext.tsx` | 120 | `'contabilidade': 'navigation.page.contabil_root',` |
@@ -103,23 +103,23 @@ Total: 273
 | `src/core/runtime/benchmarking/BenchmarkDatasetBuilder.ts` | 14 | `_internalId: `T-VAREJO-${i}`, // Nunca sai daqui` |
 | `src/core/runtime/benchmarking/BenchmarkDatasetBuilder.ts` | 26 | `_internalId: `T-AERO-${i}`,` |
 | `src/core/runtime/board/BoardPrioritiesEngine.ts` | 389 | `supportingPrinciples: gklResult.principleMatches.map(pm => pm.title),` |
-| `src/core/runtime/cash-intelligence/InstitutionalContinuityEngine.ts` | 103 | `continuityRiskDrivers.push('artificial_liquidity_support');` |
-| `src/core/runtime/causal-intelligence/InstitutionalCausalIntelligenceRuntime.ts` | 64 | `rootCauses: [],` |
-| `src/core/runtime/causal-intelligence/InstitutionalCausalIntelligenceRuntime.ts` | 81 | `rootCauses: [],` |
-| `src/core/runtime/causal-intelligence/InstitutionalCausalIntelligenceRuntime.ts` | 110 | `const rootCauses = LiquidityRootCauseEngine.evaluate(` |
-| `src/core/runtime/causal-intelligence/InstitutionalCausalIntelligenceRuntime.ts` | 127 | `const dependencyGraph = SurvivabilityDependencyGraph.build(rootCauses, fco, isDfcAvailable);` |
-| `src/core/runtime/causal-intelligence/InstitutionalCausalIntelligenceRuntime.ts` | 130 | `const stressCascadePath = OperationalStressCascadeEngine.evaluate(rootCauses, fco, isDfcAvailable);` |
-| `src/core/runtime/causal-intelligence/InstitutionalCausalIntelligenceRuntime.ts` | 147 | `causalOpinion = 'Restricted causal inference due to missing DFC. Structural evidence indicates proba` |
-| `src/core/runtime/causal-intelligence/InstitutionalCausalIntelligenceRuntime.ts` | 149 | `const activeFactors = rootCauses.map(r => r.label).join(', ');` |
-| `src/core/runtime/causal-intelligence/InstitutionalCausalIntelligenceRuntime.ts` | 163 | `rootCauses,` |
-| `src/core/runtime/causal-intelligence/InstitutionalCausalityExplorer.ts` | 57 | `const supportingEvidence: CausalEvidence[] = [];` |
-| `src/core/runtime/causal-intelligence/InstitutionalCausalityExplorer.ts` | 61 | `supportingEvidence.push(` |
-| `src/core/runtime/causal-intelligence/InstitutionalCausalityExplorer.ts` | 87 | `supportingEvidence,` |
-| `src/core/runtime/causal-intelligence/causal-types.ts` | 40 | `supportingEvidence: CausalEvidence[];` |
-| `src/core/runtime/causal-intelligence/types.ts` | 60 | `rootCauses: CausalFactor[];` |
-| `src/core/runtime/decision-intelligence/ConstitutionalDecisionRuntime.ts` | 35 | `supportingMetrics: ['FCO', 'Liquidity Score'],` |
-| `src/core/runtime/decision-intelligence/ConstitutionalDecisionRuntime.ts` | 54 | `supportingMetrics: d.supportingMetrics,` |
-| `src/core/runtime/decision-intelligence/ExecutiveDecisionObject.ts` | 26 | `supportingMetrics: string[];` |
+| `src/core/runtime/cash-governance/InstitutionalContinuityEngine.ts` | 103 | `continuityRiskDrivers.push('artificial_liquidity_support');` |
+| `src/core/runtime/causal-governance/InstitutionalCausalGovernanceRuntime.ts` | 64 | `rootCauses: [],` |
+| `src/core/runtime/causal-governance/InstitutionalCausalGovernanceRuntime.ts` | 81 | `rootCauses: [],` |
+| `src/core/runtime/causal-governance/InstitutionalCausalGovernanceRuntime.ts` | 110 | `const rootCauses = LiquidityRootCauseEngine.evaluate(` |
+| `src/core/runtime/causal-governance/InstitutionalCausalGovernanceRuntime.ts` | 127 | `const dependencyGraph = SurvivabilityDependencyGraph.build(rootCauses, fco, isDfcAvailable);` |
+| `src/core/runtime/causal-governance/InstitutionalCausalGovernanceRuntime.ts` | 130 | `const stressCascadePath = OperationalStressCascadeEngine.evaluate(rootCauses, fco, isDfcAvailable);` |
+| `src/core/runtime/causal-governance/InstitutionalCausalGovernanceRuntime.ts` | 147 | `causalOpinion = 'Restricted causal inference due to missing DFC. Structural evidence indicates proba` |
+| `src/core/runtime/causal-governance/InstitutionalCausalGovernanceRuntime.ts` | 149 | `const activeFactors = rootCauses.map(r => r.label).join(', ');` |
+| `src/core/runtime/causal-governance/InstitutionalCausalGovernanceRuntime.ts` | 163 | `rootCauses,` |
+| `src/core/runtime/causal-governance/InstitutionalCausalityExplorer.ts` | 57 | `const supportingEvidence: CausalEvidence[] = [];` |
+| `src/core/runtime/causal-governance/InstitutionalCausalityExplorer.ts` | 61 | `supportingEvidence.push(` |
+| `src/core/runtime/causal-governance/InstitutionalCausalityExplorer.ts` | 87 | `supportingEvidence,` |
+| `src/core/runtime/causal-governance/causal-types.ts` | 40 | `supportingEvidence: CausalEvidence[];` |
+| `src/core/runtime/causal-governance/types.ts` | 60 | `rootCauses: CausalFactor[];` |
+| `src/core/runtime/decision-governance/ConstitutionalDecisionRuntime.ts` | 35 | `supportingMetrics: ['FCO', 'Liquidity Score'],` |
+| `src/core/runtime/decision-governance/ConstitutionalDecisionRuntime.ts` | 54 | `supportingMetrics: d.supportingMetrics,` |
+| `src/core/runtime/decision-governance/ExecutiveDecisionObject.ts` | 26 | `supportingMetrics: string[];` |
 | `src/core/runtime/esgim/esgimTypes.ts` | 90 | `supportingPrinciples?: string[];` |
 | `src/core/runtime/executive/AdvisoryCompressionEngine.ts` | 21 | `supportingMetrics: { ...narrative.supportingMetrics },` |
 | `src/core/runtime/executive/RuntimeBackedStorytelling.ts` | 10 | `supportingMetrics: RuntimeMetrics,` |
@@ -129,18 +129,18 @@ Total: 273
 | `src/core/runtime/executive-command/ExecutiveCommandExplainabilityEngine.ts` | 17 | `supportingLineageHashes: [context.lineageHash],` |
 | `src/core/runtime/executive-command/ExecutiveCommandExplainabilityEngine.ts` | 34 | `supportingLineageHashes: [context.lineageHash],` |
 | `src/core/runtime/executive-command/executive-command-types.ts` | 73 | `supportingLineageHashes: string[];` |
-| `src/core/runtime/executive-intelligence-runtime.ts` | 218 | `rootCause?: string;` |
-| `src/core/runtime/executive-intelligence-runtime.ts` | 233 | `supportingEvidence?: import('./causal-intelligence/causal-types').CausalEvidence[];` |
-| `src/core/runtime/executive-intelligence-runtime.ts` | 785 | `if (!baseCausality.rootCause.includes('INSUFFICIENT_DATA')) {` |
-| `src/core/runtime/executive-intelligence-runtime.ts` | 786 | `baseCausality.rootCause = `Indícios apontam para: ${baseCausality.rootCause}`;` |
-| `src/core/runtime/executive-intelligence-runtime.ts` | 902 | `rootCause: sanitizeNarrative(rawCausality.rootCause),` |
-| `src/core/runtime/executive-intelligence-runtime.ts` | 1238 | `const internalAuditErrors: string[] = [];` |
-| `src/core/runtime/executive-intelligence-runtime.ts` | 1242 | `internalAuditErrors.push('Divergência matemática detectada: Lucro Bruto.');` |
-| `src/core/runtime/executive-intelligence-runtime.ts` | 1252 | `breakEvenDays, indiceConversaoOperacional, ebitda, recGrowth, ebitdaGrowth, internalAuditErrors,` |
-| `src/core/runtime/executive-intelligence-runtime.ts` | 1262 | `const rootCauseReport = EBITDARootCauseEngine.evaluate(` |
-| `src/core/runtime/executive-intelligence-runtime.ts` | 1284 | `internalAuditErrors.length > 0` |
-| `src/core/runtime/executive-intelligence-runtime.ts` | 1355 | `(dreInsights as any).rootCauseReport = rootCauseReport;` |
-| `src/core/runtime/executive-intelligence-runtime.ts` | 2638 | `causalChainPresent: !!initialReport.causality?.rootCause,` |
+| `src/core/runtime/executive-governance-runtime.ts` | 218 | `rootCause?: string;` |
+| `src/core/runtime/executive-governance-runtime.ts` | 233 | `supportingEvidence?: import('./causal-governance/causal-types').CausalEvidence[];` |
+| `src/core/runtime/executive-governance-runtime.ts` | 785 | `if (!baseCausality.rootCause.includes('INSUFFICIENT_DATA')) {` |
+| `src/core/runtime/executive-governance-runtime.ts` | 786 | `baseCausality.rootCause = `Indícios apontam para: ${baseCausality.rootCause}`;` |
+| `src/core/runtime/executive-governance-runtime.ts` | 902 | `rootCause: sanitizeNarrative(rawCausality.rootCause),` |
+| `src/core/runtime/executive-governance-runtime.ts` | 1238 | `const internalAuditErrors: string[] = [];` |
+| `src/core/runtime/executive-governance-runtime.ts` | 1242 | `internalAuditErrors.push('Divergência matemática detectada: Lucro Bruto.');` |
+| `src/core/runtime/executive-governance-runtime.ts` | 1252 | `breakEvenDays, indiceConversaoOperacional, ebitda, recGrowth, ebitdaGrowth, internalAuditErrors,` |
+| `src/core/runtime/executive-governance-runtime.ts` | 1262 | `const rootCauseReport = EBITDARootCauseEngine.evaluate(` |
+| `src/core/runtime/executive-governance-runtime.ts` | 1284 | `internalAuditErrors.length > 0` |
+| `src/core/runtime/executive-governance-runtime.ts` | 1355 | `(dreInsights as any).rootCauseReport = rootCauseReport;` |
+| `src/core/runtime/executive-governance-runtime.ts` | 2638 | `causalChainPresent: !!initialReport.causality?.rootCause,` |
 | `src/core/runtime/executive-orchestration/cognitive/ExecutiveNarrativeHierarchyEngine.ts` | 11 | `level2: report.causality.rootCause || 'Sem causa raiz estrutural mapeada pelo Runtime.',` |
 | `src/core/runtime/governance/bp/BalanceSheetExecutiveRecommendationEngine.ts` | 7 | `rootCause: string` |
 | `src/core/runtime/governance/bp/BalanceSheetExecutiveRecommendationEngine.ts` | 12 | `rationale: [rootCause, 'Capital is formally preserved.']` |

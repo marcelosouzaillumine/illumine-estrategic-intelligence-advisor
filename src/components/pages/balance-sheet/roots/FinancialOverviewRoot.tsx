@@ -8,9 +8,9 @@ export const FinancialOverviewRoot = ({ context }: any) => {
       className="mb-8"
       status={{ label: 'Balanço Patrimonial', variant: pureViewModel?.overview?.healthStatus === 'HEALTHY' ? 'success' : 'neutral' }}
       question="O que a estrutura patrimonial indica sobre a situação atual da organização?"
-      observation={pureViewModel?.overview?.observation || "Estrutura patrimonial apresentada para interpretação fiduciária."}
-      evidence={pureViewModel?.overview?.evidence || ""}
-      financialMeaning={pureViewModel?.overview?.financialMeaning || ""}
+      observation={pureViewModel?.overview?.observation}
+      evidence={pureViewModel?.overview?.evidence}
+      financialMeaning={pureViewModel?.overview?.financialMeaning}
     />
   );
 };

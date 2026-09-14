@@ -1,4 +1,4 @@
-# Framework de Clones - Data Intelligence Pack
+# Framework de Clones - Data Governance Pack
 ## 04 - Tier 1: Operacionalizadores (Operationalization Layer)
 
 ---
@@ -443,5 +443,5 @@ SEU CONTEXTO:
 
 ---
 
-*Framework de Clones - Data Intelligence Pack v2.0*
+*Framework de Clones - Data Governance Pack v2.0*
 *Tier 1: Operacionalizadores (Operationalization Layer)*

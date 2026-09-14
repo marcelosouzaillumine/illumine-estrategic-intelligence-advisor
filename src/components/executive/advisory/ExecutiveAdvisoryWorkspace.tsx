@@ -1,5 +1,5 @@
 import React from 'react';
-import { AdvisoryOrchestrationResult } from '../../../../packages/intelligence/executive-advisory-engine/src';
+import { AdvisoryOrchestrationResult } from '../../../../packages/shell/executive-advisory-engine/src';
 import { ExecutiveOpportunityCard } from './ExecutiveOpportunityCard';
 import { ExecutiveRecommendationCard } from './ExecutiveRecommendationCard';
 import { ExecutiveActionPlanCard } from './ExecutiveActionPlanCard';

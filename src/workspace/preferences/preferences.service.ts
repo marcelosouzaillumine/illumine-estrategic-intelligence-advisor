@@ -5,7 +5,7 @@ const PREFS_CACHE_KEY = 'user:preferences';
 
 const DEFAULT_PREFERENCES: WorkspacePreferences = {
   favoriteOffice: 'cfo',
-  initialSurface: '/executive/workspace/cfo-office/cash-intelligence',
+  initialSurface: '/executive/workspace/cfo-office/cash-governance',
   layoutPreference: 'comfortable',
   favoriteWidgets: [],
   lastAnalyzedDecision: null,

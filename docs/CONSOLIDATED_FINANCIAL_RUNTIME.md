@@ -11,7 +11,7 @@ Integrar a *Entity Topology Layer* ao *Runtime Institucional*, permitindo a exec
 ### 1.1. ConsolidatedRuntimeOrchestrator
 O maestro da execução.
 *   **Responsabilidade**: Identificar a presença de uma *Entity Topology* (múltiplos CNPJs/Entidades conectadas).
-*   **Comportamento**: Se o payload contém múltiplas entidades, ele orquestra a chamada unitária ao `ExecutiveIntelligenceRuntime` para cada uma delas e, em seguida, dispara a esteira de consolidação. Se o payload tiver apenas uma entidade, opera em modo *pass-through* mantendo a integridade atual.
+*   **Comportamento**: Se o payload contém múltiplas entidades, ele orquestra a chamada unitária ao `ExecutiveGovernanceRuntime` para cada uma delas e, em seguida, dispara a esteira de consolidação. Se o payload tiver apenas uma entidade, opera em modo *pass-through* mantendo a integridade atual.
 
 ### 1.2. ConsolidatedRuntimeContext
 O estado global (memória) da execução multi-entidade.
@@ -19,7 +19,7 @@ O estado global (memória) da execução multi-entidade.
 
 ### 1.3. ConsolidatedRuntimeOutput
 O contrato de saída expandido.
-*   **Responsabilidade**: Estender o atual `ExecutiveIntelligenceReport` para suportar as complexidades de grupo, incluindo `consolidationPath`, rastreio por entidade e métricas já expurgadas de dupla contagem.
+*   **Responsabilidade**: Estender o atual `ExecutiveGovernanceReport` para suportar as complexidades de grupo, incluindo `consolidationPath`, rastreio por entidade e métricas já expurgadas de dupla contagem.
 
 ### 1.4. MultiEntityFinancialAdapter
 A camada de inteligência contábil de consolidação.
@@ -91,7 +91,7 @@ O contrato final emitido pela topologia:
 *   **Traceability Completa & Lineage Financeiro**: Obrigatoriedade de "explicabilidade cega". Cada linha do consolidado tem que apresentar sua fórmula matricial.
 
 ### 2.9. Compatibilidade
-*   **Backward Compatibility Total**: Se a propriedade `topology` ou `entities` estiver ausente do *payload* de entrada, a *pipeline* delega tudo para o `ExecutiveIntelligenceRuntime` original e sai em `O(1)`.
+*   **Backward Compatibility Total**: Se a propriedade `topology` ou `entities` estiver ausente do *payload* de entrada, a *pipeline* delega tudo para o `ExecutiveGovernanceRuntime` original e sai em `O(1)`.
 *   **Single-Entity Mode Intacto**: Zero regressões ao escopo dos usuários de PME (CNPJ único).
 *   **Feature Flags**: A nova *layer* operará por flag de instância.
 *   **Rollout Incremental**: Implantação faseada (Fase 1: Múltiplas DREs, Fase 2: Consolidação Balanço, Fase 3: Stress Propagation).

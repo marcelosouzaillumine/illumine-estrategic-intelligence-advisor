@@ -1,7 +1,7 @@
 import { describe, it } from 'node:test';
 import assert from 'node:assert';
 import { LegacyDFCAdapter } from '../../runtime/adapters/LegacyDFCAdapter';
-import { FiduciaryCashIntelligenceRuntime } from '../../core/runtime/cash-intelligence/FiduciaryCashIntelligenceRuntime';
+import { FiduciaryCashIntelligenceRuntime } from '../../capabilities/financial/runtime/cash-intelligence/FiduciaryCashIntelligenceRuntime';
 
 describe('DFC Reconciliation Contract', () => {
   it('Deve emitir DFC_RECONCILIATION_MISMATCH no LegacyDFCAdapter se o Caixa Final estimado divergir do Caixa Final real do BP', async () => {
@@ -26,7 +26,7 @@ describe('DFC Reconciliation Contract', () => {
     assert.ok(mismatchViolation, 'Deve emitir DFC_RECONCILIATION_MISMATCH quando a soma do fluxo de caixa difere da variação patrimonial do disponível');
   });
 
-  it('Deve bloquear a avaliação no FiduciaryCashIntelligenceRuntime via FAIL_CLOSED se a reconciliação for inconciliável', () => {
+  it('Deve bloquear a avaliação no FiduciaryCashGovernanceRuntime via FAIL_CLOSED se a reconciliação for inconciliável', () => {
     const result = FiduciaryCashIntelligenceRuntime.evaluate(
       [], // dfcData
       100000, // dreNetIncome

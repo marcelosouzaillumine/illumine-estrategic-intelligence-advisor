@@ -2,7 +2,7 @@
 
 > **Síntese Fiduciária para o Conselho de Administração sobre a Auditoria de Implementação Arquitetural**  
 > *Horizonte Temporal: Julho de 2026 | IERA v1.0 Compliance Audit*  
-> *Documento Integrante do Pacote [`EXECUTIVE_ARCHITECTURE_AUDIT.md`](file:///Users/marcelosouza/Documents/illumine-strategic-intelligence-advisor/docs/reports/audit/EXECUTIVE_ARCHITECTURE_AUDIT.md)*  
+> *Documento Integrante do Pacote [`EXECUTIVE_ARCHITECTURE_AUDIT.md`](file:///Users/marcelosouza/Documents/illumine-strategic-governance-advisor/docs/reports/audit/EXECUTIVE_ARCHITECTURE_AUDIT.md)*  
 > *Status: Homologado*
 
 ---
@@ -41,11 +41,11 @@ A plataforma não é um dashboard convencional ou sistema BI/ERP. Ela opera aute
 * **AI-02**: Substituir a tabela HTML de recebíveis em `ReceivablesPage.tsx` por `ExecutiveSurface` + `DataTable`.
 * **AI-03**: Substituir a dependência direta de fallback de severidade em `capability-advisor` pela interface estrita exposta em `executive-contracts`.
 
-### 3.3 Executive Intelligence Improvements (Melhorias na Inteligência Consultiva)
+### 3.3 Executive Governance Improvements (Melhorias na Inteligência Consultiva)
 * **EI-01**: Expandir a atribuição explícita de `Owner` e `Timeframe` em 100% dos cartões de recomendação executiva.
 * **EI-02**: Aprimorar o loop de aprendizado de `@illumine/decision-learning` para registrar retroativamente a variação observada do `ExpectedKPIShift` em reuniões de Conselho.
 
 ### 3.4 Long Term Evolution (Evolução Estratégica para Futuras Versões)
-* **LTE-01**: Implementar os Render Protocols especializados (`Platform Render Protocol`, `Operational Render Protocol`, `Intelligence Render Protocol`) nas Waves de UI subsequentes.
+* **LTE-01**: Implementar os Render Protocols especializados (`Platform Render Protocol`, `Operational Render Protocol`, `Governance Render Protocol`) nas Waves de UI subsequentes.
 * **LTE-02**: Expandir os conectores de dados em tempo real (ERP/CRM) no pipeline da Wave 18.2.
 * **LTE-03**: Manter a fundação IERA v1.0 congelada, ativando eventual versionamento superior (IERA v2.0) apenas mediante necessidade estratégica de longo prazo.

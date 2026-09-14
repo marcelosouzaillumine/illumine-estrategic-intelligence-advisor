@@ -6,14 +6,14 @@ Este documento apresenta a auditoria arquitetural da plataforma Illumine, cobrin
 A plataforma está estruturada sobre o paradigma **Runtime First**, onde todo cálculo e inferência ocorre de forma consolidada e isolada, sendo a UI um mero renderizador passivo ("Dummy Renderer"). As camadas identificadas:
 - **Core Runtime Layer**: Motor isolado de inteligência matemática e causal. Inclui o `ConsolidatedFinancialOrchestrator`, `ExecutiveOrchestrationEngine`, e `SystemicStressPropagationEngine`.
 - **Temporal Causality Engine**: Motor de análise longitudinal e diagnóstico causal.
-- **Scenario Intelligence Layer**: Camada de simulação contrafactual clonando instâncias isoladas (sandbox).
+- **Scenario Governance Layer**: Camada de simulação contrafactual clonando instâncias isoladas (sandbox).
 - **Observability Layer**: Tracing determinístico, telemetria forense, tracking de confidence e lineage.
 - **Governance Engine**: `RegressionDetectionEngine` protegendo a integridade do runtime e a passividade da UI via self-audit constante.
 - **Presentation Layer (UI/Pages/Components)**: Estritamente focada em renderizar dados. Exemplos: `Systemic Heatmap UI`.
 
 ## Fontes Únicas de Verdade
 - Contratos de Dados (`dataTypes.ts`, `advisoryTypes.ts`, `stress-types.ts`).
-- `ExecutiveIntelligenceRuntime` / `ObservedConsolidatedRuntimeService`.
+- `ExecutiveGovernanceRuntime` / `ObservedConsolidatedRuntimeService`.
 
 ## Achados e Riscos Encontrados
 
@@ -35,8 +35,8 @@ Após execução das suítes de auditoria em modo *report-only*, os seguintes ac
 
 ### MEDIUM
 1. **Documentação Master Ausente (Docs Audit)**:
-   - Faltam ou possuem nomes alternativos os arquivos: `MASTER_FINANCIAL_INTELLIGENCE_ENGINE.md` (o existente possui espaços no nome) e `CONSOLIDATED_RUNTIME_GOLDEN_DATASETS.md`.
-   - **Plano de Correção**: Renomear `Master Financial Intelligence Engine.md` para respeitar o snake_case oficial `MASTER_FINANCIAL_INTELLIGENCE_ENGINE.md`. Criar os arquivos faltantes.
+   - Faltam ou possuem nomes alternativos os arquivos: `MASTER_FINANCIAL_GOVERNANCE_ENGINE.md` (o existente possui espaços no nome) e `CONSOLIDATED_RUNTIME_GOLDEN_DATASETS.md`.
+   - **Plano de Correção**: Renomear `Master Financial Governance Engine.md` para respeitar o snake_case oficial `MASTER_FINANCIAL_GOVERNANCE_ENGINE.md`. Criar os arquivos faltantes.
 
 ### LOW
 1. **Documentação Órfã/Despadronizada (Docs Audit)**:

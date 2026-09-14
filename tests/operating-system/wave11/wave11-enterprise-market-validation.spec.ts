@@ -1,7 +1,7 @@
-import { CustomerValueRealizationEngine } from '../../../packages/customer-success-os/src/index';
-import { RevenueForecastEngine } from '../../../packages/revenue-intelligence-os/src/index';
+import { CustomerValueRealizationEngine } from '../../../packages/os/customer-success-os/src/index';
+import { RevenueForecastEngine } from '../../../packages/os/revenue-intelligence-os/src/index';
 import { ROIEvidenceRepository } from '../../../packages/value-proof-engine/src/index';
-import { ExecutiveCompanyDashboard } from '../../../packages/company-operating-system/src/index';
+import { ExecutiveCompanyDashboard } from '../../../packages/os/company-operating-system/src/index';
 import { EnterpriseAgentOrchestrator } from '../../../packages/advisory-agents/src/index';
 
 export function testWave11EnterpriseMarketActivation(): boolean {

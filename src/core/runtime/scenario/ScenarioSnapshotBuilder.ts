@@ -1,4 +1,4 @@
-import { ConsolidatedFinancialInput } from '../consolidated/types';
+import { ConsolidatedFinancialInput } from '../../../capabilities/financial/runtime/consolidated/types';
 
 export class ScenarioSnapshotBuilder {
   /**

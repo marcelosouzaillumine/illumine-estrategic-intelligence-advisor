@@ -1,8 +1,8 @@
 import { describe, it, expect } from 'vitest';
 import { ExecutiveExperienceComposer } from '../executive-experience-composer/src';
 
-describe('@illumine/intelligence (Wave 17.11 Canonical Composition Verification)', () => {
-  it('should compose 4 native intelligence layers via ExecutiveExperienceComposer (ADR-065)', () => {
+describe('@illumine/governance (Wave 17.11 Canonical Composition Verification)', () => {
+  it('should compose 4 native governance layers via ExecutiveExperienceComposer (ADR-065)', () => {
     const res = ExecutiveExperienceComposer.compose({
       companyId: 'comp-1',
       userId: 'user-1',

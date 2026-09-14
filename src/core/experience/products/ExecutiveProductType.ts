@@ -3,7 +3,7 @@ export enum ExecutiveProductType {
    * Explica a realidade, identifica sinais e apresenta evidências.
    * Não possui decisão ativa ou aprovação.
    */
-  INTELLIGENCE_PRODUCT = 'INTELLIGENCE_PRODUCT',
+  INTELLIGENCE_PRODUCT = 'GOVERNANCE_PRODUCT',
 
   /**
    * Fornece mentoria, avalia políticas e orienta a formulação de estratégias.

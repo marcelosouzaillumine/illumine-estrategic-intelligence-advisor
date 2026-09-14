@@ -1,10 +1,10 @@
-# CASH_FLOW_INTELLIGENCE_LAYER
+# CASH_FLOW_GOVERNANCE_LAYER
 
 ## FINALIDADE
 
 Este documento define oficialmente a camada de Inteligência de Fluxo de Caixa da plataforma Illumine.
 
-A CASH_FLOW_INTELLIGENCE_LAYER torna-se responsável pela interpretação causal, comportamental e institucional do Fluxo de Caixa empresarial.
+A CASH_FLOW_GOVERNANCE_LAYER torna-se responsável pela interpretação causal, comportamental e institucional do Fluxo de Caixa empresarial.
 
 A plataforma deixa oficialmente de interpretar Fluxo de Caixa apenas como:
 
@@ -38,8 +38,8 @@ Toda interpretação de fluxo de caixa deverá obedecer obrigatoriamente:
 * WEIGHTED CAUSAL INFERENCE LAYER
 * CALIBRATION & STABILITY LAYER
 * CAUSAL_VALIDATION_SUITE.md
-* OPERATIONAL_INTELLIGENCE_LAYER.md
-* CASH_FLOW_INTELLIGENCE_LAYER.md
+* OPERATIONAL_GOVERNANCE_LAYER.md
+* CASH_FLOW_GOVERNANCE_LAYER.md
 
 Nenhum módulo poderá:
 
@@ -328,11 +328,11 @@ A plataforma não poderá:
 
 A plataforma Illumine passa a operar como:
 
-* Cash Flow Behavioral Intelligence System;
-* Institutional Treasury Intelligence Engine;
+* Cash Flow Behavioral Governance System;
+* Institutional Treasury Governance Engine;
 * Dynamic Financial Survival Platform;
 * Executive Liquidity Interpretation Layer;
-* Institutional Runway Intelligence Engine.
+* Institutional Runway Governance Engine.
 
 A Illumine deverá interpretar:
 

@@ -29,7 +29,7 @@ const LEGACY_IGNORED_FILES = [
   'EnterpriseDataHealthIndexCard.tsx',
   'InstitutionalLearningWorkspace.tsx',
   'CapabilityMapCard.tsx',
-  'ExecutiveIntelligenceCommandCenter.tsx',
+  'ExecutiveGovernanceCommandCenter.tsx',
   'ExecutiveWorkflowWorkspace.tsx',
 ];
 
@@ -66,7 +66,7 @@ function scanDirectory(dir: string): string[] {
       const GOVERNANCE_NATIVE_BANNED = [
         'ExecutiveDecision', 'ExecutivePolicy', 'ExecutiveIntent', 'DecisionStatus',
         'ApprovedScenario', 'ExecutionPlan', 'GovernancePlan', 'LearningLoop',
-        'StrategicSimulator', 'ExecutiveDecisionEngine', 'ExecutiveDecisionIntelligenceMount'
+        'StrategicSimulator', 'ExecutiveDecisionEngine', 'ExecutiveDecisionGovernanceMount'
       ];
       
       if (!file.includes('ExecutiveDeliberationCenter') && !file.includes('Dashboard') && !fullPath.includes('/components/executive/')) {

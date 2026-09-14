@@ -1,10 +1,10 @@
 import { describe, it, beforeEach } from 'node:test';
 import assert from 'node:assert/strict';
-import { InstitutionalContextEngine } from '../src/core/runtime/institutional-context/InstitutionalContextEngine';
+import { InstitutionalContextEngine } from '../src/capabilities/runtime/institutional-context/InstitutionalContextEngine';
 import { executiveRuntime } from '../src/core/runtime/executive-intelligence-runtime';
 import { CalibrationEngine } from '../src/core/runtime/calibration/CalibrationEngine';
 
-describe('Institutional Context Intelligence Layer', () => {
+describe('Institutional Context Governance Layer', () => {
   beforeEach(() => {
     CalibrationEngine.resetToDefault();
   });

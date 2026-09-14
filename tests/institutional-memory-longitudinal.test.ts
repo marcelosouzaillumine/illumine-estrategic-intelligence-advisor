@@ -1,15 +1,15 @@
 import { test, describe, beforeEach } from 'node:test';
 import * as assert from 'node:assert';
-import { MultiTenantIsolationGuard } from '../src/core/runtime/institutional-memory/MultiTenantIsolationGuard';
-import { RecommendationPersistenceTracker } from '../src/core/runtime/institutional-memory/RecommendationPersistenceTracker';
-import { LongitudinalMaturityEngine } from '../src/core/runtime/institutional-memory/LongitudinalMaturityEngine';
-import { InstitutionalLearningEngine } from '../src/core/runtime/institutional-memory/InstitutionalLearningEngine';
-import { GovernanceRecurrenceEngine } from '../src/core/runtime/institutional-memory/GovernanceRecurrenceEngine';
-import { HistoricalReplayIndex } from '../src/core/runtime/institutional-memory/HistoricalReplayIndex';
-import { InstitutionalMemoryRegistry } from '../src/core/runtime/institutional-memory/InstitutionalMemoryRegistry';
-import { HistoricalCycleData } from '../src/core/runtime/institutional-memory/types';
+import { MultiTenantIsolationGuard } from '../src/capabilities/runtime/institutional-memory/MultiTenantIsolationGuard';
+import { RecommendationPersistenceTracker } from '../src/capabilities/runtime/institutional-memory/RecommendationPersistenceTracker';
+import { LongitudinalMaturityEngine } from '../src/capabilities/runtime/institutional-memory/LongitudinalMaturityEngine';
+import { InstitutionalLearningEngine } from '../src/capabilities/runtime/institutional-memory/InstitutionalLearningEngine';
+import { GovernanceRecurrenceEngine } from '../src/capabilities/runtime/institutional-memory/GovernanceRecurrenceEngine';
+import { HistoricalReplayIndex } from '../src/capabilities/runtime/institutional-memory/HistoricalReplayIndex';
+import { InstitutionalMemoryRegistry } from '../src/capabilities/runtime/institutional-memory/InstitutionalMemoryRegistry';
+import { HistoricalCycleData } from '../src/capabilities/runtime/institutional-memory/types';
 
-describe('Institutional Memory & Longitudinal Intelligence Layer', () => {
+describe('Institutional Memory & Longitudinal Governance Layer', () => {
 
   beforeEach(() => {
     InstitutionalMemoryRegistry.clearForTest();

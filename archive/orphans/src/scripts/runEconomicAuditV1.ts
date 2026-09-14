@@ -119,12 +119,14 @@ fs.writeFileSync(path.join(reportsDir, 'defensibility-report.md'), defensibility
 // --------------------------------------------------------------------------------
 let marketPositioningMd = `# Market Positioning Report\n\n`;
 marketPositioningMd += `## EVIDÊNCIAS OBSERVADAS\n`;
-marketPositioningMd += `- O sistema ingere dados contábeis, mas não para em tabelas; processa até a emissão de \`sovereigntyClassification\`, \`capabilityGaps\`, e \`capitalAllocationIntelligence\`.\n`;
+marketPositioningMd += `- O sistema ingere dados contábeis, mas não para em tabelas; processa até a emissão de `sovereigntyClassification`, `capabilityGaps`, e `capitalAllocationGovernance`.
+`;
 marketPositioningMd += `- Executa avaliações complexas de prontidão (Readiness) e gera Digital Twins sem intervenção humana.\n\n`;
 
 marketPositioningMd += `## INTERPRETAÇÕES E CONCLUSÕES\n`;
 marketPositioningMd += `### Classificação em Duas Dimensões\n`;
-marketPositioningMd += `- **Categoria Funcional:** Institutional Intelligence\n`;
+marketPositioningMd += `- **Categoria Funcional:** Institutional Governance
+`;
 marketPositioningMd += `- **Categoria Econômica:** Institutional Operating System\n\n`;
 marketPositioningMd += `**Justificativa:** A plataforma transcende o "Decision Support System" e o "BI". Ela opera como a espinha dorsal de inteligência da organização, um verdadeiro *Institutional Operating System* que absorve fluxos operacionais inteiros ligados ao Board e à alocação de capital.\n`;
 
@@ -156,9 +158,12 @@ claimValidationMd += `## INTERPRETAÇÕES E CONCLUSÕES\n`;
 claimValidationMd += `### Architecture Claim Validation\n`;
 claimValidationMd += `| Claim | Evidence | Status |\n`;
 claimValidationMd += `|---|---|---|\n`;
-claimValidationMd += `| Governance Intelligence Platform | Motores causais e relatórios determinísticos consolidados (GDT, GML) | **VALIDATED** |\n`;
+claimValidationMd += `| Governance Governance Platform | Motores causais e relatórios determinísticos consolidados (GDT, GML) | **VALIDATED** |
+`;
 claimValidationMd += `| Institutional Operating System | Conexão ponta a ponta desde contabilidade bruta até Soberania Institucional, substituindo ciclos humanos | **VALIDATED** |\n`;
-claimValidationMd += `| Executive Intelligence Platform | Produção de Board Packs, Advisory Narratives e Executive Stories | **VALIDATED** |\n\n`;
+claimValidationMd += `| Executive Governance Platform | Produção de Board Packs, Advisory Narratives e Executive Stories | **VALIDATED** |
+
+`;
 
 claimValidationMd += `### Executive Conclusion\n`;
 claimValidationMd += `Classificamos oficialmente a Illumine Governance™ como um **INSTITUTIONAL OPERATING SYSTEM**.\n`;

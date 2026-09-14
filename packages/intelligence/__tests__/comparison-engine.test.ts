@@ -3,7 +3,7 @@ import { describe, it, expect } from 'vitest';
 import { ExecutiveSignalResolver } from '@illumine/executive-decision-intelligence';
 import { ExecutiveContextProvider } from '@illumine/executive-context-engine';
 
-describe('@illumine/intelligence (Wave 18.1 Comparison Engine)', () => {
+describe('@illumine/governance (Wave 18.1 Comparison Engine)', () => {
   it('should calculate temporal comparison and delta in percentage points (ADR-068)', () => {
     const ctx = ExecutiveContextProvider.buildContext({
       companyId: 'comp-100',

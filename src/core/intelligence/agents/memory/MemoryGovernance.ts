@@ -9,7 +9,7 @@ export class MemoryGovernance {
     }
 
     // 2. Diferenciar hipótese de fato (reforçar)
-    if (artifact.source.user !== 'Financial Intelligence Engine' && artifact.confidence === MemoryConfidenceLevel.FACT) {
+    if (artifact.source.user !== 'Financial Governance Engine' && artifact.confidence === MemoryConfidenceLevel.FACT) {
       // Se um humano ou agente declarou um fato, rebaixa para hipótese validada
       artifact.confidence = MemoryConfidenceLevel.VALIDATED_INSIGHT;
     }

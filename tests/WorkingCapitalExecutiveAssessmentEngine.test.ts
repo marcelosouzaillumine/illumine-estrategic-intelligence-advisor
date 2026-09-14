@@ -1,6 +1,6 @@
 import { describe, it } from 'node:test';
 import assert from 'node:assert';
-import { WorkingCapitalExecutiveAssessmentEngine } from '../src/core/runtime/executive-consolidation/WorkingCapitalExecutiveAssessmentEngine';
+import { WorkingCapitalExecutiveAssessmentEngine } from '../src/workspace/runtime/executive-consolidation/WorkingCapitalExecutiveAssessmentEngine';
 
 describe('WorkingCapitalExecutiveAssessmentEngine - v3.1 Hotfix', () => {
   it('Should apply Severity Lock and force CRITICAL when liquidity is critical', () => {

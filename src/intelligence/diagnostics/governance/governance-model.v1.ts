@@ -4,36 +4,36 @@ export const GOVERNANCE_DOMAIN = 'governance';
 
 export const GOVERNANCE_DIMENSIONS: DiagnosticDimension[] = [
   {
-    id: 'strategic-governance',
-    name: 'Strategic Governance Intelligence™',
+    id: 'strategic-intelligence',
+    name: 'Strategic Governance Governance™',
     description: 'Clareza estratégica, processo decisório e alinhamento.',
     weight: 20,
     indicators: []
   },
   {
     id: 'leadership-accountability',
-    name: 'Leadership & Accountability Intelligence™',
+    name: 'Leadership & Accountability Governance™',
     description: 'Papéis, responsabilidades e prestação de contas.',
     weight: 20,
     indicators: []
   },
   {
     id: 'board-executive',
-    name: 'Board & Executive Governance Intelligence™',
+    name: 'Board & Executive Governance Governance™',
     description: 'Conselho, comitês e relação Conselho x Executivo.',
     weight: 20,
     indicators: []
   },
   {
     id: 'risk-compliance',
-    name: 'Risk & Compliance Intelligence™',
+    name: 'Risk & Compliance Governance™',
     description: 'Gestão de riscos, controles e compliance.',
     weight: 20,
     indicators: []
   },
   {
     id: 'institutional-culture',
-    name: 'Institutional Culture Intelligence™',
+    name: 'Institutional Culture Governance™',
     description: 'Cultura de responsabilidade, transparência e valores organizacionais.',
     weight: 20,
     indicators: []

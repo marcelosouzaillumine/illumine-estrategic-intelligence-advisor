@@ -1,8 +1,8 @@
-# EXECUTIVE_INTELLIGENCE_EXPERIENCE_REPORT.md — Relatório Executivo de Avaliação de Percepção Visual
+# EXECUTIVE_GOVERNANCE_EXPERIENCE_REPORT.md — Relatório Executivo de Avaliação de Percepção Visual
 
 > **Relatório Executivo de Certificação da Wave 17.10**  
 > *Autoridade: Architecture Review Board (ARB) & Executive Experience Governance Committee*  
-> *Maturidade Certificada: **Executive Intelligence Experience Score = 98.5 / 100**.*
+> *Maturidade Certificada: **Executive Governance Experience Score = 98.5 / 100**.*
 
 ---
 
@@ -20,6 +20,6 @@
 
 ## 2. Veredito Final de Prontidão
 
-$$\mathbf{EXECUTIVE \quad INTELLIGENCE \quad EXPERIENCE \quad SCORE \quad = \quad 98.5 / 100 \quad \ge \quad 95}$$
+$$\mathbf{EXECUTIVE \quad GOVERNANCE \quad EXPERIENCE \quad SCORE \quad = \quad 98.5 / 100 \quad \ge \quad 95}$$
 
-A Illumine OS™ atinge a maturidade total da camada visual de inteligência percebida na experiência do usuário, estando oficialmente apta para a **Wave 18 — Enterprise Data Connectivity & Real-Time Intelligence**.
+A Illumine OS™ atinge a maturidade total da camada visual de inteligência percebida na experiência do usuário, estando oficialmente apta para a **Wave 18 — Enterprise Data Connectivity & Real-Time Governance**.

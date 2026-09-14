@@ -1,8 +1,8 @@
 import { ExecutiveIntelligenceReport } from "../executive-intelligence-runtime";
 import { InstitutionalNarrativeToneGuard } from "../../enforcement/InstitutionalNarrativeToneGuard";
 import { NarrativeSemanticDeduplicator, SemanticSentence } from './NarrativeSemanticDeduplicator';
-import { SegmentCode } from '../segment-intelligence/types';
-import { SegmentNarrativeAdapter } from '../segment-intelligence/SegmentNarrativeAdapter';
+import { SegmentCode } from '../../../capabilities/runtime/segment-intelligence/types';
+import { SegmentNarrativeAdapter } from '../../../capabilities/runtime/segment-intelligence/SegmentNarrativeAdapter';
 import { InstitutionalClaimBoundary } from '../coherence/InstitutionalClaimBoundary';
 
 export type ExecutiveNarrativeInput = {

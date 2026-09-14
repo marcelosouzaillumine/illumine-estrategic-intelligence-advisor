@@ -15,8 +15,8 @@ export const AdvisorPerformanceCard: React.FC<AdvisorPerformanceCardProps> = ({ 
         <div className="flex items-center gap-2">
           <Award className="w-3.5 h-3.5 text-primary" />
           <ExecutiveText variant="bodyStandard" className="font-semibold text-foreground">
-            Advisor Performance Intelligence
-          </ExecutiveText>
+            Advisor Performance Governance
+                                </ExecutiveText>
         </div>
         <ExecutiveBadge variant="success">
           Score de Performance: {performanceScore}

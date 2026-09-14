@@ -1,8 +1,8 @@
 import { ActionEvidenceResolver } from './ActionEvidenceResolver';
 import { InstitutionalNarrativeToneGuard } from '../../enforcement/InstitutionalNarrativeToneGuard';
-import { SegmentCode } from '../segment-intelligence/types';
-import { SegmentNarrativeAdapter } from '../segment-intelligence/SegmentNarrativeAdapter';
-import { GlobalFiduciaryDistributionEnforcementEngine } from '../governance/fiduciary-enforcement/GlobalFiduciaryDistributionEnforcementEngine';
+import { SegmentCode } from '../../../capabilities/runtime/segment-intelligence/types';
+import { SegmentNarrativeAdapter } from '../../../capabilities/runtime/segment-intelligence/SegmentNarrativeAdapter';
+import { GlobalFiduciaryDistributionEnforcementEngine } from '../../../capabilities/runtime/governance/fiduciary-enforcement/GlobalFiduciaryDistributionEnforcementEngine';
 
 export interface ExecutiveActionItem {
   title: string;

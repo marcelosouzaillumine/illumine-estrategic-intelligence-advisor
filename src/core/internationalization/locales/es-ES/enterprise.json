@@ -1,12 +1,12 @@
 {
   "enterprise": {
     "hero": {
-      "title": "Executive Intelligence Platform™",
+      "title": "Executive Governance Platform™",
       "subtitle": "La infraestructura de inteligencia para organizaciones que necesitan tomar decisiones en entornos complejos.",
       "cta_primary": "Solicitar Diagnóstico Ejecutivo™",
       "cta_secondary": "Conocer la Plataforma",
       "lead": "Conectamos datos corporativos, contexto institucional e inteligencia ejecutiva para transformar información dispersa en decisiones más claras, explicables y sostenibles.",
-      "badge": "Executive Intelligence para Organizaciones Complejas"
+      "badge": "Executive Governance para Organizaciones Complejas"
     },
     "challenge": {
       "label": "El Nuevo Desafío Ejecutivo",
@@ -29,13 +29,13 @@
         "ai": "Sintetiza información."
       },
       "illumine": {
-        "title": "Illumine Executive Intelligence Platform™",
+        "title": "Illumine Executive Governance Platform™",
         "connects": "Conecta: Datos + Contexto + Conocimiento Institucional + Relaciones Causales + Juicio Ejecutivo",
         "result": "Resultado: Decisiones más fundamentadas."
       }
     },
     "architecture": {
-      "title": "Executive Intelligence Architecture™",
+      "title": "Executive Governance Architecture™",
       "layer1": {
         "title": "Foundation Layer™",
         "subtitle": "La base institucional.",
@@ -43,7 +43,7 @@
         "message": "\"Transformamos datos fragmentados en una base contextual confiable.\""
       },
       "layer2": {
-        "title": "Intelligence Engine Layer™",
+        "title": "Governance Engine Layer™",
         "subtitle": "La capa analítica.",
         "desc": "Capacidades: Identificación de patrones, Correlación entre áreas, Detección de riesgos, Simulación de escenarios, Análisis causal.",
         "message": "\"El dato muestra qué pasó. La inteligencia explica las relaciones.\""
@@ -66,7 +66,7 @@
     "offices": {
       "title": "Uma arquitetura orientada às responsabilidades executivas da organização.",
       "board": {
-        "title": "Board Intelligence™",
+        "title": "Board Governance™",
         "desc": "Suporte às deliberações estratégicas do Conselho e à governança fiduciária. Foco: Resoluções, Evidências, Accountability, Histórico decisório"
       },
       "ceo": {
@@ -131,7 +131,7 @@
     },
     "trust": {
       "title": "Confianza para decisiones críticas.",
-      "features": "Human Oversight, Explainable Intelligence™, Audit Trail, Data Governance, Fiduciary Controls",
+      "features": "Human Oversight, Explainable Governance™, Audit Trail, Data Governance, Fiduciary Controls",
       "link": "Conozca la Trust Architecture™"
     },
     "final": {

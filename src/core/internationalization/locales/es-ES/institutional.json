@@ -21,10 +21,10 @@
   "solution": {
     "title_prefix": "Entre el dato corporativo y la decisión estratégica existe una capa que históricamente nunca se ha construido:",
     "title_highlight": "inteligencia institucional.",
-    "layer1_title": "Intelligence Foundation™",
+    "layer1_title": "Governance Foundation™",
     "layer1_desc": "Crear una base institucional de datos, documentos, historial y contexto (ERP, CRM, Financiero, Operativo).",
     "layer1_quote": "\"Transformamos datos fragmentados en una base confiable.\"",
-    "layer2_title": "Intelligence Engine™",
+    "layer2_title": "Governance Engine™",
     "layer2_desc": "Interpretar relaciones, identificar patrones, detectar riesgos y generar inteligencia mediante motores analíticos y modelos predictivos.",
     "layer2_quote": "\"El dato muestra lo que sucedió. La inteligencia explica por qué.\"",
     "layer3_title": "Executive Advisory™",
@@ -43,23 +43,23 @@
     "evolve": "Evolucionar"
   },
   "domains": {
-    "label": "Executive Intelligence Network™",
+    "label": "Executive Governance Network™",
     "title": "Nueve dominios sistémicos.",
     "lead": "El Gemelo Digital Institucional simula y conecta su organización a través de 9 dominios integrados, anticipando impactos antes de que lleguen al flujo de caja.",
     "showcases": {
       "command": {
-        "tag": "Institutional Intelligence Simulation™",
+        "tag": "Institutional Governance Simulation™",
         "title": "Decisión respaldada por explicabilidad matemática.",
         "lead": "Antes de una decisión crítica de inversión, los líderes pueden comprender sus impactos sistémicos en el flujo de caja, el riesgo y el valuation con total trazabilidad.",
-        "insight_author": "Risk Intelligence™",
+        "insight_author": "Risk Governance™",
         "insight_text": "Alerta Fiduciaria: El modelo proyecta una asfixia del flujo de caja operativo en el mes 4 si la expansión se financia únicamente con capital propio.",
         "insight_date": "Análisis Simbólico en Tiempo Real"
       },
       "systemic": {
-        "tag": "Institutional Intelligence Simulation™",
+        "tag": "Institutional Governance Simulation™",
         "title": "Interpretación Sistémica y Gemelo Digital Institucional.",
         "lead": "La plataforma mapea la fricción organizacional entre Cultura y Finanzas y valora la fricción antes de que destruya el margen de la empresa.",
-        "insight_author": "Operational Intelligence™",
+        "insight_author": "Operational Governance™",
         "insight_text": "Silos operativos detectados entre Marketing y Ventas están resultando en una fricción invisible proyectada en una pérdida potencial de eficiencia.",
         "insight_date": "Simulación Sistémica"
       }
@@ -86,7 +86,7 @@
   },
   "trust": {
     "label": "Trust Architecture™",
-    "title": "AI-Augmented Executive Intelligence.",
+    "title": "AI-Augmented Executive Governance.",
     "lead": "Illumine no automatiza el juicio ejecutivo. Reduce el ruido, amplía el contexto y eleva la calidad de la decisión. Construida sobre una arquitectura de confianza fiduciaria rigurosa.",
     "principles": {
       "p1": {
@@ -94,7 +94,7 @@
         "desc": "La decisión y aprobación siguen siendo puramente humanas. La máquina interpreta, el humano juzga."
       },
       "p2": {
-        "title": "Explainable Intelligence",
+        "title": "Explainable Governance",
         "desc": "Trazabilidad desde el indicador agregado hasta el origen exacto del evento generador."
       },
       "p3": {
@@ -157,7 +157,7 @@
     "chapter5": {
       "label": "Capítulo 5",
       "lead": "La plataforma construida para crear y escalar la Inteligencia Institucional en organizaciones complejas.",
-      "c1_title": "Executive Intelligence Platform™",
+      "c1_title": "Executive Governance Platform™",
       "c1_desc": "Conecta los datos corporativos, el contexto de las decisiones y el razonamiento ejecutivo para acortar la brecha entre la información y la acción.",
       "c2_title": "Institutional Learning Architecture™",
       "c2_desc": "Transforma las decisiones pasadas en conocimiento estratégico, permitiendo que la organización aprenda continuamente."
@@ -194,7 +194,7 @@
       "lead": "La evolución del software departamental a la inteligencia institucional.",
       "table": {
         "col1": "Soluciones Tradicionales",
-        "col2": "Executive Intelligence™"
+        "col2": "Executive Governance™"
       },
       "comparisons": [
         {
@@ -255,7 +255,7 @@
           "description": "Un cambio operativo repercute automáticamente en el flujo de caja, los márgenes, el capital de trabajo, la valoración y el riesgo."
         },
         {
-          "title": "Explainable Intelligence™",
+          "title": "Explainable Governance™",
           "description": "Cada recomendación detalla las evidencias utilizadas, el nivel de confianza, las premisas y las limitaciones."
         },
         {
@@ -311,14 +311,14 @@
     },
     "advisor": {
       "title": "Executive Advisor Network™",
-      "desc": "Profesionales certificados para aplicar la disciplina de Executive Intelligence Advisory™ en organizaciones complejas.",
+      "desc": "Profesionales certificados para aplicar la disciplina de Executive Governance Advisory™ en organizaciones complejas.",
       "quote": "\"Los especialistas analizan las partes. Los Executive Advisors interpretan los sistemas.\""
     }
   },
   "home": {
     "v2": {
       "hero": {
-        "title": "Executive Intelligence Platform™",
+        "title": "Executive Governance Platform™",
         "subtitle": "La infraestructura de inteligencia entre la organización y sus decisiones críticas.",
         "lead": "Illumine conecta datos corporativos, conocimiento institucional e inteligencia ejecutiva para ampliar la capacidad de líderes y juntas directivas de comprender escenarios complejos, anticipar impactos y tomar mejores decisiones.",
         "badge": "Una nueva categoría de infraestructura corporativa.",
@@ -337,17 +337,17 @@
       },
       "layer": {
         "title": "La Nueva Capa de Inteligencia",
-        "lead": "Illumine no reemplaza sus sistemas. Amplía su valor agregando la Institutional Intelligence Layer™.",
+        "lead": "Illumine no reemplaza sus sistemas. Amplía su valor agregando la Institutional Governance Layer™.",
         "foundation_title": "Foundation Layer™",
         "foundation_desc": "La memoria institucional de la organización. Transforma datos fragmentados en una base contextual confiable.",
-        "engine_title": "Intelligence Engine Layer™",
+        "engine_title": "Governance Engine Layer™",
         "engine_desc": "La inteligencia que interpreta relaciones. El dato muestra qué sucedió. La inteligencia explica el porqué.",
         "advisory_title": "Executive Advisory Layer™",
         "advisory_desc": "Inteligencia para quienes deciden. La tecnología amplía el análisis. El liderazgo decide."
       },
       "network": {
         "title": "La Organización como Sistema Vivo",
-        "lead": "Las decisiones no ocurren de forma aislada. La Executive Intelligence Network™ simula y conecta a su organización a través de 9 inteligencias conectadas.",
+        "lead": "Las decisiones no ocurren de forma aislada. La Executive Governance Network™ simula y conecta a su organización a través de 9 inteligencias conectadas.",
         "flow_1": "Lo comercial impacta los ingresos.",
         "flow_2": "Los ingresos impactan el margen.",
         "flow_3": "El margen impacta la caja.",
@@ -359,7 +359,7 @@
         "learning_title": "Institutional Learning Architecture™",
         "learning_desc": "Cada decisión genera aprendizaje. Cada aprendizaje fortalece la próxima decisión.",
         "trust_title": "Trust Architecture™",
-        "trust_desc": "Human Oversight, Explainable Intelligence™, Audit Trail, Data Governance, Fiduciary Controls."
+        "trust_desc": "Human Oversight, Explainable Governance™, Audit Trail, Data Governance, Fiduciary Controls."
       },
       "ecosystem": {
         "title": "Ecosistema Illumine",

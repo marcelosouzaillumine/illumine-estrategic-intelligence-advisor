@@ -13,7 +13,7 @@ Para que a plataforma, componente ou agente atinja o status **ENTERPRISE COGNITI
 O Canonical Assurance Engine (CAE) avalia o sistema em 8 dimensões. Para certificação, os limites mínimos são:
 - Constitutional Compliance: >= 95
 - Executive Experience: >= 90
-- Intelligence Quality: >= 90
+- Governance Quality: >= 90
 - **Security Isolation: 100** (Fator de bloqueio)
 - Technical Health: >= 90
 - Observability: >= 85

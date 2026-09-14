@@ -2,7 +2,7 @@
 
 > **Registro Oficial de Baseline e Hash de Certificação (Level A — Frozen)**  
 > *Horizonte Temporal de Estabilidade: 10+ Anos (2026 – 2036+)*  
-> *Documentos Complementares: [`docs/ARCHITECTURE_CERTIFICATION.md`](file:///Users/marcelosouza/Documents/illumine-strategic-intelligence-advisor/docs/ARCHITECTURE_CERTIFICATION.md) | [`ARCHITECTURE_CONSTITUTION.md`](file:///Users/marcelosouza/Documents/illumine-strategic-intelligence-advisor/ARCHITECTURE_CONSTITUTION.md)*  
+> *Documentos Complementares: [`docs/ARCHITECTURE_CERTIFICATION.md`](file:///Users/marcelosouza/Documents/illumine-strategic-governance-advisor/docs/ARCHITECTURE_CERTIFICATION.md) | [`ARCHITECTURE_CONSTITUTION.md`](file:///Users/marcelosouza/Documents/illumine-strategic-governance-advisor/ARCHITECTURE_CONSTITUTION.md)*  
 > *Status: Homologado & Congelado*
 
 ---
@@ -23,25 +23,25 @@
 ## 2. Artefatos Certificados sob esta Baseline
 
 ### Artefatos de Fundação e Constituição
-* [`ARCHITECTURE_CONSTITUTION.md`](file:///Users/marcelosouza/Documents/illumine-strategic-intelligence-advisor/ARCHITECTURE_CONSTITUTION.md) (14 Princípios + 6 Leis)
-* [`ARCHITECTURE_REFERENCE.md`](file:///Users/marcelosouza/Documents/illumine-strategic-intelligence-advisor/ARCHITECTURE_REFERENCE.md) (Manual Física Monorepo)
-* [`ARCHITECTURE_COMPLIANCE.md`](file:///Users/marcelosouza/Documents/illumine-strategic-intelligence-advisor/ARCHITECTURE_COMPLIANCE.md) (Matriz de Dependências)
+* [`ARCHITECTURE_CONSTITUTION.md`](file:///Users/marcelosouza/Documents/illumine-strategic-governance-advisor/ARCHITECTURE_CONSTITUTION.md) (14 Princípios + 6 Leis)
+* [`ARCHITECTURE_REFERENCE.md`](file:///Users/marcelosouza/Documents/illumine-strategic-governance-advisor/ARCHITECTURE_REFERENCE.md) (Manual Física Monorepo)
+* [`ARCHITECTURE_COMPLIANCE.md`](file:///Users/marcelosouza/Documents/illumine-strategic-governance-advisor/ARCHITECTURE_COMPLIANCE.md) (Matriz de Dependências)
 
 ### Artefatos da Experience Architecture & Cartórios
-* [`docs/EXPERIENCE_ARCHITECTURE.md`](file:///Users/marcelosouza/Documents/illumine-strategic-intelligence-advisor/docs/EXPERIENCE_ARCHITECTURE.md) (Level A — Canonical)
-* [`docs/COGNITIVE_MAPPING.md`](file:///Users/marcelosouza/Documents/illumine-strategic-intelligence-advisor/docs/COGNITIVE_MAPPING.md) (Equivalência Cognitiva)
-* [`docs/CANONICAL_EXPERIENCE_REGISTRY.md`](file:///Users/marcelosouza/Documents/illumine-strategic-intelligence-advisor/docs/CANONICAL_EXPERIENCE_REGISTRY.md) (`EXP-001` a `EXP-004`)
-* [`docs/EXPERIENCE_REGISTRY.md`](file:///Users/marcelosouza/Documents/illumine-strategic-intelligence-advisor/docs/EXPERIENCE_REGISTRY.md) (Especialização de Render Protocols)
-* [`docs/EXPERIENCE_CLASSIFICATION_MATRIX.md`](file:///Users/marcelosouza/Documents/illumine-strategic-intelligence-advisor/docs/EXPERIENCE_CLASSIFICATION_MATRIX.md) (Classificação de Páginas)
-* [`docs/EXPERIENCE_CERTIFICATION_FRAMEWORK.md`](file:///Users/marcelosouza/Documents/illumine-strategic-intelligence-advisor/docs/EXPERIENCE_CERTIFICATION_FRAMEWORK.md) (Protocolo de Validação)
+* [`docs/EXPERIENCE_ARCHITECTURE.md`](file:///Users/marcelosouza/Documents/illumine-strategic-governance-advisor/docs/EXPERIENCE_ARCHITECTURE.md) (Level A — Canonical)
+* [`docs/COGNITIVE_MAPPING.md`](file:///Users/marcelosouza/Documents/illumine-strategic-governance-advisor/docs/COGNITIVE_MAPPING.md) (Equivalência Cognitiva)
+* [`docs/CANONICAL_EXPERIENCE_REGISTRY.md`](file:///Users/marcelosouza/Documents/illumine-strategic-governance-advisor/docs/CANONICAL_EXPERIENCE_REGISTRY.md) (`EXP-001` a `EXP-004`)
+* [`docs/EXPERIENCE_REGISTRY.md`](file:///Users/marcelosouza/Documents/illumine-strategic-governance-advisor/docs/EXPERIENCE_REGISTRY.md) (Especialização de Render Protocols)
+* [`docs/EXPERIENCE_CLASSIFICATION_MATRIX.md`](file:///Users/marcelosouza/Documents/illumine-strategic-governance-advisor/docs/EXPERIENCE_CLASSIFICATION_MATRIX.md) (Classificação de Páginas)
+* [`docs/EXPERIENCE_CERTIFICATION_FRAMEWORK.md`](file:///Users/marcelosouza/Documents/illumine-strategic-governance-advisor/docs/EXPERIENCE_CERTIFICATION_FRAMEWORK.md) (Protocolo de Validação)
 
 ### Artefatos de Tooling e Linter
-* [`docs/ARCHITECTURE_LINTER.md`](file:///Users/marcelosouza/Documents/illumine-strategic-intelligence-advisor/docs/ARCHITECTURE_LINTER.md) (Especificação do Linter)
-* [`docs/ARCHITECTURE_CERTIFICATION.md`](file:///Users/marcelosouza/Documents/illumine-strategic-intelligence-advisor/docs/ARCHITECTURE_CERTIFICATION.md) (Framework dos 5 Níveis)
+* [`docs/ARCHITECTURE_LINTER.md`](file:///Users/marcelosouza/Documents/illumine-strategic-governance-advisor/docs/ARCHITECTURE_LINTER.md) (Especificação do Linter)
+* [`docs/ARCHITECTURE_CERTIFICATION.md`](file:///Users/marcelosouza/Documents/illumine-strategic-governance-advisor/docs/ARCHITECTURE_CERTIFICATION.md) (Framework dos 5 Níveis)
 * `packages/tooling/architecture-linter/index.cjs` (CLI Runner)
 
 ### ADRs Congeladas sob esta Baseline
-* `ADR-001` a `ADR-068` (Foundation & Intelligence)
+* `ADR-001` a `ADR-068` (Foundation & Governance)
 * `ADR-069` (Experience Architecture Foundation - EAF v1.0)
 * `ADR-070` (Architecture Governance Completion - AGC v1.0)
 * `ADR-071` (Architecture Linter & Compliance Engine - ALC v1.0)

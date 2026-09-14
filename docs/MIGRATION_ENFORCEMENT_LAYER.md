@@ -114,7 +114,7 @@ INFERENCE VALIDATION
 ↓
 LIQUIDITY QUALITY
 ↓
-TEMPORAL INTELLIGENCE
+TEMPORAL GOVERNANCE
 ↓
 ACCOUNT INTERPRETATION
 ↓
@@ -225,7 +225,7 @@ A plataforma deve operar como:
 
 - Institutional Runtime System
 - Cognitive Governance Infrastructure
-- Executive Intelligence Platform
+- Executive Governance Platform
 - Advisory Execution Engine
 
 NÃO como:
@@ -255,7 +255,7 @@ Toda a plataforma deve obedecer:
 
 - MASTER_RUNTIME_ORCHESTRATOR.md
 - MASTER_INSTITUTIONAL_INFERENCE_ENGINE.md
-- MASTER_FINANCIAL_INTELLIGENCE_ENGINE.md
+- MASTER_FINANCIAL_GOVERNANCE_ENGINE.md
 - MASTER_ARCHITECTURE.md
 
 ====================================================================

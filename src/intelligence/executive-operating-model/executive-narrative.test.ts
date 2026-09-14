@@ -3,7 +3,7 @@ import { PortfolioSummaryService } from '../executive-profile/portfolio-summary.
 import { ExecutiveProfilePortfolio } from '../executive-profile/portfolio-types';
 import { describe, it, expect } from 'vitest';
 
-describe('Executive Narrative Intelligence Engine™', () => {
+describe('Executive Narrative Governance Engine™', () => {
   const summaryService = new PortfolioSummaryService();
   const narrativeService = new ExecutiveNarrativeService();
 

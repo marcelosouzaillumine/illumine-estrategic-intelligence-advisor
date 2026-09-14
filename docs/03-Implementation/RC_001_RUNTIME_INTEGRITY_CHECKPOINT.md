@@ -26,7 +26,7 @@ A raiz do repositório contém dezenas de artefatos de recuperação e triagem t
 ## Baseline atual de warnings
 - **CSS Optimization**: Aviso do Vite sobre uma regra mal formada no Tailwind e falha de resolução do arquivo `noise.png`.
 - **Node**: Frequentes avisos de obsolescência relativos a `[DEP0205] DeprecationWarning: module.register()`.
-- **Self-Audit Core**: `[WARNING] Legacy Component ClientIntelligenceService.ts violou UI rule`. Anotado para conserto futuro, mas não obstrutivo.
+- **Self-Audit Core**: `[WARNING] Legacy Component ClientGovernanceService.ts violou UI rule`. Anotado para conserto futuro, mas não obstrutivo.
 
 ## Módulos restaurados
 Os componentes executivos de UI e o FiduciaryRuntimeAdapter (responsável pela carga e diagnóstico dos payloads de governança) estão plenamente compiláveis e consistentes no escopo TypeScript.

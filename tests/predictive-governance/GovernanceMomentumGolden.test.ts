@@ -1,7 +1,7 @@
 import test from 'node:test';
 import assert from 'node:assert';
-import { GovernanceMomentumEngine } from '../../src/core/runtime/predictive-governance/GovernanceMomentumEngine';
-import { InstitutionalSnapshot } from '../../src/core/runtime/predictive-governance/PredictiveTypes';
+import { GovernanceMomentumEngine } from '../../src/capabilities/runtime/predictive-governance/GovernanceMomentumEngine';
+import { InstitutionalSnapshot } from '../../src/capabilities/runtime/predictive-governance/PredictiveTypes';
 
 test('▶ Governance Momentum Golden Tests', async (t) => {
   await t.test('✔ 1. Detects ACCELERATING momentum', () => {

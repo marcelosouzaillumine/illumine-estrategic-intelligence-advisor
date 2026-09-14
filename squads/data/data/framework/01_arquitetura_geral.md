@@ -1,11 +1,11 @@
-# Framework de Clones - Data Intelligence Pack
+# Framework de Clones - Data Governance Pack
 ## Arquitetura Geral v2.0
 
 ---
 
 ## PROPÓSITO
 
-Este framework define **6 "clones"** (mentes especializadas) para guiar a implementação do Data Intelligence Squad. Cada clone representa o melhor pensamento mundial em sua área específica.
+Este framework define **6 "clones"** (mentes especializadas) para guiar a implementação do Data Governance Squad. Cada clone representa o melhor pensamento mundial em sua área específica.
 
 **Problema que resolve:** Implementar métricas sem saber qual decisão cada uma informa. Dashboards cheios de números sem clareza estratégica.
 
@@ -71,7 +71,7 @@ Erro comum: Criar dashboard de "Health Score" sem definir primeiro quem são os 
 ## COMO USAR ESTE FRAMEWORK
 
 ### Passo 1: Identifique a Funcionalidade
-Qual parte do Data Intelligence Pack você está implementando?
+Qual parte do Data Governance Pack você está implementando?
 - Customer 360
 - Health Score
 - Churn Alerts
@@ -130,5 +130,5 @@ Este framework foi otimizado para:
 
 ---
 
-*Framework de Clones - Data Intelligence Pack v2.0*
+*Framework de Clones - Data Governance Pack v2.0*
 *Criado para Academia Lendár[IA]*

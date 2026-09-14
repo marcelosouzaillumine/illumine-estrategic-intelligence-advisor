@@ -8,7 +8,7 @@ Os datasets operacionais tornam-se a referência institucional oficial para:
 
 * validação da inteligência operacional;
 * calibração da causalidade operacional;
-* homologação da DRE Intelligence Layer;
+* homologação da DRE Governance Layer;
 * testes de regressão operacional;
 * estabilidade narrativa;
 * validação longitudinal;
@@ -19,13 +19,13 @@ Os datasets operacionais tornam-se a referência institucional oficial para:
 
 Toda alteração relevante em:
 
-* OPERATIONAL_INTELLIGENCE_LAYER.md
+* OPERATIONAL_GOVERNANCE_LAYER.md
 * MASTER_CAUSAL_ENGINE.md
 * WEIGHTED CAUSAL INFERENCE LAYER
 * CALIBRATION & STABILITY LAYER
 * Executive Advisory Engine
 * Operational Runtime
-* DRE Intelligence Services
+* DRE Governance Services
 
 deverá obrigatoriamente ser validada contra os datasets definidos neste documento.
 

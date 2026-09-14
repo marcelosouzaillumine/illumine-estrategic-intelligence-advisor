@@ -1,6 +1,6 @@
 import { describe, it } from 'node:test';
 import assert from 'node:assert/strict';
-import { ConsolidatedRuntimeOrchestrator } from '../src/core/runtime/consolidated/ConsolidatedRuntimeOrchestrator';
+import { ConsolidatedRuntimeOrchestrator } from '../src/capabilities/financial/runtime/consolidated/ConsolidatedRuntimeOrchestrator';
 
 describe('ConsolidatedRuntimeOrchestrator - Phase 2', () => {
 

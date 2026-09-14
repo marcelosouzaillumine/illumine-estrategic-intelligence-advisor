@@ -19,7 +19,7 @@ export class ExecutiveProgressionEngine implements ProgressionEngineContract {
     // Default fallback if no profile exists
     if (!latestProfile || !currentPortfolio) {
       return {
-        recommendedJourney: `${firstCore}-intelligence`,
+        recommendedJourney: `${firstCore}-governance`,
         reason: `O ponto de partida recomendado para construir a inteligência executiva da organização.`,
         expectedEvolution: `Estruturação da capacidade fundacional de ${coreFoundations[0]?.name || firstCore}.`
       };
@@ -34,7 +34,7 @@ export class ExecutiveProgressionEngine implements ProgressionEngineContract {
     if (suggestion) {
       const domainMeta = registry.getDomain(suggestion.target);
       return {
-        recommendedJourney: `${suggestion.target}-intelligence`,
+        recommendedJourney: `${suggestion.target}-governance`,
         reason: suggestion.reason,
         expectedEvolution: `Fortalecimento das capacidades de ${domainMeta?.name || suggestion.target}.`
       };
@@ -42,7 +42,7 @@ export class ExecutiveProgressionEngine implements ProgressionEngineContract {
 
     // Default next step if mapping is undefined or all complete
     return {
-      recommendedJourney: 'executive360-intelligence',
+      recommendedJourney: 'executive360-governance',
       reason: 'Sua organização mapeou os principais domínios estratégicos. O próximo passo é o ciclo 360.',
       expectedEvolution: 'Otimização transversal contínua.'
     };

@@ -6,7 +6,7 @@
 
 ## Objetivo
 
-Criar o documento arquitetural oficial que define a futura estrutura organizacional, funcional e de navegação da Illumine Executive Intelligence Platform.
+Criar o documento arquitetural oficial que define a futura estrutura organizacional, funcional e de navegação da Illumine Executive Governance Platform.
 
 Este documento estabelece o modelo de referência para a evolução da plataforma de uma arquitetura baseada em módulos e páginas para uma arquitetura baseada em:
 
@@ -96,7 +96,7 @@ Executive Command Center™
           ↓
 Executive Offices™
           ↓
-Intelligence Layer™
+Governance Layer™
           ↓
 Data Foundation™
 
@@ -298,19 +298,19 @@ Advisor Office
 
 ---
 
-## 4. Intelligence Office™ (Camada Cognitiva da Plataforma)
+## 4. Governance Office™ (Camada Cognitiva da Plataforma)
 
 Não representa um departamento, mas a **inteligência transversal da organização**.
 
 **Estrutura:**
 ```
-Intelligence Office
-├── Governance Intelligence
+Governance Office
+├── Governance Governance
 ├── ESGIM
-├── Fiduciary Intelligence
-├── Decision Intelligence
+├── Fiduciary Governance
+├── Decision Governance
 ├── Institutional Memory
-├── KPI Intelligence
+├── KPI Governance
 └── Executive Models
 ```
 
@@ -349,7 +349,7 @@ Intelligence Office
 Toda nova capacidade deve pertencer a:
 1. Um Executive Office;
 2. Uma Capability;
-3. Um Intelligence Engine;
+3. Um Governance Engine;
 4. Um fluxo decisório.
 
 ---

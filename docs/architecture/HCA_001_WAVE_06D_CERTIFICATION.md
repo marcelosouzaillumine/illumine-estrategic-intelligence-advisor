@@ -33,7 +33,7 @@ Os gates de qualidade foram executados com sucesso:
 - `npm run test` (PASS)
 
 ### 4. Conclusão & Próximos Passos
-A refatoração estabilizou a página de DRE, elevando sua resiliência e adequação à *Institutional Decision Intelligence Framework*. 
+A refatoração estabilizou a página de DRE, elevando sua resiliência e adequação à *Institutional Decision Governance Framework*. 
 O sistema validou 100% dos testes sem falhas ou regressões.
 
 A aprovação desta etapa encerra as correções do domínio fiduciário (Balance Sheet, DLPA, DFC e DRE). O próximo passo é analisar as violações sinalizadas na página `ClientsPage.tsx`.

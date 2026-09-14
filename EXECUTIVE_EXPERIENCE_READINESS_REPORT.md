@@ -22,4 +22,4 @@
 
 $$\mathbf{ENTERPRISE \quad EXECUTIVE \quad OPERATING \quad EXPERIENCE \quad - \quad READY}$$
 
-A Illumine OS™ atinge a certificação máxima de experiência operacional do usuário executivo (EES = 96.8 / 100 $\ge 95$), estando oficialmente apta para a **Wave 18 — Enterprise Data Connectivity & Real-Time Intelligence**.
+A Illumine OS™ atinge a certificação máxima de experiência operacional do usuário executivo (EES = 96.8 / 100 $\ge 95$), estando oficialmente apta para a **Wave 18 — Enterprise Data Connectivity & Real-Time Governance**.

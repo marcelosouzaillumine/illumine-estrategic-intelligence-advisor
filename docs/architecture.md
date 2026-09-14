@@ -5,13 +5,13 @@ Esta pasta contém documentação operacional, técnica e funcional derivada da 
 Em caso de conflito:
 A ARQUITETURA_MESTRA_ILLUMINE.md prevalece.
 
-## Financial Intelligence Engine
+## Financial Governance Engine
 
 Toda regra de cálculo financeiro, classificação patrimonial, análise de liquidez, estrutura de capital, capital de giro, scoring, stress tests, valuation e advisory narratives deve seguir obrigatoriamente o documento:
 
-`MASTER_FINANCIAL_INTELLIGENCE_ENGINE.md`
+`MASTER_FINANCIAL_GOVERNANCE_ENGINE.md`
 
-A Financial Intelligence Engine é a fonte oficial de:
+A Financial Governance Engine é a fonte oficial de:
 
 - indicadores financeiros;
 - fórmulas patrimoniais;
@@ -25,9 +25,9 @@ A Financial Intelligence Engine é a fonte oficial de:
 
 Nenhum módulo, dashboard, componente ou card pode criar fórmulas próprias divergentes da engine oficial.
 
-Em caso de conflito entre lógica local e a Financial Intelligence Engine, prevalece a regra definida em:
+Em caso de conflito entre lógica local e a Financial Governance Engine, prevalece a regra definida em:
 
-`MASTER_FINANCIAL_INTELLIGENCE_ENGINE.md`
+`MASTER_FINANCIAL_GOVERNANCE_ENGINE.md`
 
 ---
 

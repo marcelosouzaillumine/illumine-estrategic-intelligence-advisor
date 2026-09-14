@@ -1,13 +1,22 @@
 import { useState } from 'react';
-import { useFinancialPositionPageAdapter } from '../adapters/ui/useFinancialPositionPageAdapter.ts';
+import { CapabilityState } from '../core/experience/contracts/CapabilityState';
 
 export function useFinancialPositionPageViewModel({ clientId }: any) {
-  const { positionData, loading } = useFinancialPositionPageAdapter(clientId);
   const [activeTab, setActiveTab] = useState('position');
 
+  const capability: CapabilityState = {
+    status: 'UNAVAILABLE',
+    reason: 'FINANCIAL_POSITION_DATA_SOURCE_NOT_MIGRATED'
+  };
+
   return {
-    state: { positionData, loading, activeTab },
-    computed: { netAssetValue: 28500000 },
-    actions: { setActiveTab }
+    state: {
+      capability,
+      activeTab
+    },
+    computed: {},
+    actions: {
+      setActiveTab
+    }
   };
 }

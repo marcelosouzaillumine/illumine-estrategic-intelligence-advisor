@@ -1,15 +1,15 @@
 import { describe, it } from 'node:test';
 import * as assert from 'node:assert/strict';
-import { CashFlowCausalIntelligenceEngine } from '../src/core/runtime/cash-causal-intelligence/CashFlowCausalIntelligenceEngine';
-import { CashFlowScenarioEngine } from '../src/core/runtime/cash-scenario-intelligence/CashFlowScenarioEngine';
-import { TreasuryEarlyWarningEngine } from '../src/core/runtime/treasury-early-warning/TreasuryEarlyWarningEngine';
-import { TreasurySustainabilityEngine } from '../src/core/runtime/treasury-sustainability/TreasurySustainabilityEngine';
-import { FiduciaryCashIntelligenceRuntime } from '../src/core/runtime/cash-intelligence/FiduciaryCashIntelligenceRuntime';
-import { PRESENTATION_POLICIES } from '../src/core/runtime/presentation-governance/ExecutivePresentationPolicyRegistry';
+import { CashFlowCausalIntelligenceEngine } from '../src/capabilities/financial/runtime/cash-causal-intelligence/CashFlowCausalIntelligenceEngine';
+import { CashFlowScenarioEngine } from '../src/capabilities/financial/runtime/cash-scenario-intelligence/CashFlowScenarioEngine';
+import { TreasuryEarlyWarningEngine } from '../src/capabilities/runtime/treasury-early-warning/TreasuryEarlyWarningEngine';
+import { TreasurySustainabilityEngine } from '../src/capabilities/runtime/treasury-sustainability/TreasurySustainabilityEngine';
+import { FiduciaryCashIntelligenceRuntime } from '../src/capabilities/financial/runtime/cash-intelligence/FiduciaryCashIntelligenceRuntime';
+import { PRESENTATION_POLICIES } from '../src/workspace/runtime/presentation-governance/ExecutivePresentationPolicyRegistry';
 
-describe('DFC Cash Flow Intelligence Roadmap v1.0', () => {
+describe('DFC Cash Flow Governance Roadmap v1.0', () => {
 
-  describe('1. CashFlowCausalIntelligenceEngine', () => {
+  describe('1. CashFlowCausalGovernanceEngine', () => {
     it('should correctly calculate driver impact percentages and rank them', () => {
       // FCO = -100
       // Drivers: netIncome = -50, varClientes = -20, varEstoque = -30, varFornecedores = 10, other obligations = -10
@@ -190,7 +190,7 @@ describe('DFC Cash Flow Intelligence Roadmap v1.0', () => {
     });
   });
 
-  describe('5. FiduciaryCashIntelligenceRuntime Integration & Registry', () => {
+  describe('5. FiduciaryCashGovernanceRuntime Integration & Registry', () => {
     it('should return all roadmap outputs and respect visibility registry', () => {
       // Mock evaluating healthy scenario
       const result = FiduciaryCashIntelligenceRuntime.evaluate(
@@ -232,7 +232,7 @@ describe('DFC Cash Flow Intelligence Roadmap v1.0', () => {
       assert.ok(result.treasurySustainability);
 
       // Registry visibilities
-      const causalPolicy = PRESENTATION_POLICIES.find(p => p.section === 'DFC_CAUSAL_INTELLIGENCE');
+      const causalPolicy = PRESENTATION_POLICIES.find(p => p.section === 'DFC_CAUSAL_GOVERNANCE');
       assert.ok(causalPolicy);
       assert.strictEqual(causalPolicy.visibleIn.includes('BOARD'), false);
       assert.ok(causalPolicy.visibleIn.includes('EXECUTIVE'));

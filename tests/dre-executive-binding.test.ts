@@ -1,8 +1,8 @@
 import { test, describe } from 'node:test';
 import assert from 'node:assert/strict';
-import { DREExecutiveDataMapper } from '../src/core/runtime/dre/DREExecutiveDataMapper';
-import { EconomicBurnRateEngine } from '../src/core/runtime/dre/EconomicBurnRateEngine';
-import { BreakEvenAnalysisEngine } from '../src/core/runtime/dre/BreakEvenAnalysisEngine';
+import { DREExecutiveDataMapper } from '../src/capabilities/financial/runtime/dre/DREExecutiveDataMapper';
+import { EconomicBurnRateEngine } from '../src/capabilities/financial/runtime/dre/EconomicBurnRateEngine';
+import { BreakEvenAnalysisEngine } from '../src/capabilities/financial/runtime/dre/BreakEvenAnalysisEngine';
 
 describe('DRE Executive Binding Integration', () => {
   test('should correctly map Granatum 2022 raw DRE payload through the mapper', () => {

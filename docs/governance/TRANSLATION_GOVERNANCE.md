@@ -1,6 +1,6 @@
 # Translation Governance Registry
 
-## Princípios de Internacionalização (i18n) na Illumine Executive Intelligence Platform™
+## Princípios de Internacionalização (i18n) na Illumine Executive Governance Platform™
 
 1. **A Inteligência Amplia. A Decisão Permanece Humana.**
    A internacionalização não é apenas traduzir a interface, mas adaptar o tom executivo e os conceitos estratégicos a cada idioma e contexto cultural.
@@ -20,7 +20,7 @@ Este glossário define como termos *premium* da Illumine devem ser traduzidos co
 
 | Português (PT) | English (EN) | Español (ES) |
 |---|---|---|
-| Inteligência Executiva | Executive Intelligence | Inteligencia Ejecutiva |
+| Inteligência Executiva | Executive Governance | Inteligencia Ejecutiva |
 | Governança | Governance | Gobernanza |
 | Conselho | Board | Consejo |
 | Insight Executivo | Executive Insight | Insight Ejecutivo |

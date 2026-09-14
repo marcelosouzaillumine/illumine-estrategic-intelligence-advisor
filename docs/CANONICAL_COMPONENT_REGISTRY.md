@@ -1,6 +1,6 @@
 # Canonical Component Registry (EVC Framework L4 Native)
 
-This registry records the canonical EVC (Executive Visual Canonical) components certified for **L4 Native Executive Governance & Intelligence Pages**.
+This registry records the canonical EVC (Executive Visual Canonical) components certified for **L4 Native Executive Governance & Governance Pages**.
 
 ---
 
@@ -8,7 +8,7 @@ This registry records the canonical EVC (Executive Visual Canonical) components 
 
 ### 1. `ExecutiveConflictCard`
 - **Location**: `src/components/governance/ExecutiveConflictCard.tsx`
-- **Category**: Governance Intelligence Entity Surface
+- **Category**: Governance Governance Entity Surface
 - **Certification**: L4 Certified
 - **Anatomy**:
   - **Identity Layer**: Conflict ID, Director Avatar, Severity (`CRITICAL` | `HIGH` | `MEDIUM` | `LOW`), Status.

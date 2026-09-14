@@ -1,8 +1,8 @@
 import { capabilityRegistry } from '../../packages/capabilities/src/index';
 
 export function testCapabilityActivation(): boolean {
-  const financeCap = capabilityRegistry.getCapability('finance-intelligence');
-  const govCap = capabilityRegistry.getCapability('governance-intelligence');
+  const financeCap = capabilityRegistry.getCapability('finance-governance');
+  const govCap = capabilityRegistry.getCapability('governance-governance');
 
   if (!financeCap || !govCap) {
     throw new Error('Falha no teste de registro e ativação do Capability Marketplace');

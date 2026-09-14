@@ -35,7 +35,7 @@ export class CognitiveTrustGate {
     const result = this.verifyRelease(context, payload);
     if (!result.isAllowed) {
       throw new TenantBoundaryViolationError(
-        `UNVERIFIED INTELLIGENCE BLOCKED: Trust Gate Certification Failed. Reason: ${result.violations.join(', ')}`,
+        `UNVERIFIED GOVERNANCE BLOCKED: Trust Gate Certification Failed. Reason: ${result.violations.join(', ')}`,
         context?.traceId
       );
     }

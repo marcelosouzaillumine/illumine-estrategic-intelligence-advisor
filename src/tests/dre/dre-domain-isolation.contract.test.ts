@@ -1,7 +1,7 @@
 import test from 'node:test';
 import assert from 'node:assert';
-import { DreExecutiveViewModelBuilder } from '../../core/runtime/dre/DreExecutiveViewModelBuilder';
-import { DRE_SEMANTIC_BLACKLIST } from '../../core/runtime/dre/DreSemanticRegistry';
+import { DreExecutiveViewModelBuilder } from '../../capabilities/financial/runtime/dre/DreExecutiveViewModelBuilder';
+import { DRE_SEMANTIC_BLACKLIST } from '../../capabilities/financial/runtime/dre/DreSemanticRegistry';
 
 test('DRE Domain Isolation: Constitutional Purge Test', async (t) => {
 

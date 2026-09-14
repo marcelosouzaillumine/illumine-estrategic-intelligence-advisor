@@ -20,7 +20,7 @@ describe('GovernanceCopilotRoutingEngine', () => {
 
   it('must aggregate required sources correctly', () => {
     const sources = GovernanceCopilotRoutingEngine.getRequiredSourcesForTopics(['VALUATION', 'OUTCOMES']);
-    assert.ok(sources.includes('valuationIntelligence'));
+    assert.ok(sources.includes('valuationGovernance'));
     assert.ok(sources.includes('institutionalOutcomes'));
     assert.ok(sources.includes('governanceCopilotContext'));
   });

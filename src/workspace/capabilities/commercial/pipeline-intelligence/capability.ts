@@ -1,9 +1,9 @@
 import { ExecutiveCapability } from '../../contracts/capability.types';
 
 export const PipelineIntelligenceCapabilityDefinition: ExecutiveCapability = {
-  id: 'commercial.pipeline-intelligence',
+  id: 'commercial.pipeline-governance',
   office: 'commercial',
-  surfaces: ['pipeline-intelligence'],
+  surfaces: ['pipeline-governance'],
   requiredPermissions: ['commercial:read:pipeline'],
   intelligenceSources: ['enterprise:commercial:pipeline']
 };

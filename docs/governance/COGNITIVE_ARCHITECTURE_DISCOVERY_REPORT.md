@@ -15,12 +15,12 @@ A arquitetura cognitiva atual da Illumine OS foi mapeada através de uma auditor
 - `packages/security/adversarial-cognitive-tests`: Suíte de validação de isolamento cross-tenant.
 
 ### 2.2. Decision Forensics & Runtime Modules
-- `packages/intelligence/executive-decision-forensics`: Responsável por auditar, registrar e explicar decisões tomadas pelos engines de IA.
-- `packages/intelligence/executive-cognitive-runtime`: Ambiente centralizado planejado para execução dos modelos e cadeias de raciocínio.
+- `packages/governance/executive-decision-forensics`: Responsável por auditar, registrar e explicar decisões tomadas pelos engines de IA.
+- `packages/governance/executive-cognitive-runtime`: Ambiente centralizado planejado para execução dos modelos e cadeias de raciocínio.
 
 ### 2.3. Memory & Orchestration
-- `packages/intelligence/executive-memory`: Sistema de persistência e recuperação de contexto institucional.
-- `packages/intelligence/executive-workspace-orchestrator`: Responsável por instanciar o ambiente de trabalho e manter o `ExecutiveWorkspaceSnapshot`.
+- `packages/governance/executive-memory`: Sistema de persistência e recuperação de contexto institucional.
+- `packages/governance/executive-workspace-orchestrator`: Responsável por instanciar o ambiente de trabalho e manter o `ExecutiveWorkspaceSnapshot`.
 
 ### 2.4. Copilot UI Integration
 A interface de usuário está implementando o Copilot de forma fragmentada, gerando múltiplos pontos de entrada e possivelmente múltiplos "Runtimes" não oficiais:

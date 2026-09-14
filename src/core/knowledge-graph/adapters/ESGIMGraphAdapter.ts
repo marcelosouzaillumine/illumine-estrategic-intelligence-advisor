@@ -1,4 +1,4 @@
-import { ESGIMAssessment } from "../../runtime/esgim/esgimTypes";
+import { ESGIMAssessment } from "../../../capabilities/runtime/esgim/esgimTypes";
 import { InstitutionalNodeBuilder } from "../InstitutionalNodeBuilder";
 import { InstitutionalRelationshipBuilder } from "../InstitutionalRelationshipBuilder";
 import { InstitutionalGraphRegistry } from "../InstitutionalGraphRegistry";

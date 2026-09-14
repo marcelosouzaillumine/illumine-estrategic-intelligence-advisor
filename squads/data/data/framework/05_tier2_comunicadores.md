@@ -1,4 +1,4 @@
-# Framework de Clones - Data Intelligence Pack
+# Framework de Clones - Data Governance Pack
 ## 05 - Tier 2: Comunicadores (Communication Layer)
 
 ---
@@ -135,7 +135,7 @@ Kaushik ensina que não existe modelo perfeito. Use múltiplos e compare.
 | **Time Decay** | Mais crédito para touchpoints recentes | Vendas com ciclo definido |
 | **Position-Based** | 40% first, 40% last, 20% middle | Balanço entre discovery e close |
 
-### No Data Intelligence Pack
+### No Data Governance Pack
 
 ```sql
 -- v_attribution_funnel usa:
@@ -293,5 +293,5 @@ Kaushik é o "tradutor final" - transforma os outputs de todos os outros clones 
 
 ---
 
-*Framework de Clones - Data Intelligence Pack v2.0*
+*Framework de Clones - Data Governance Pack v2.0*
 *Tier 2: Comunicadores (Communication Layer)*

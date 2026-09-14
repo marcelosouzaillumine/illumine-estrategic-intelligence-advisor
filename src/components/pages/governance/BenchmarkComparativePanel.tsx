@@ -61,8 +61,8 @@ export function BenchmarkComparativePanel({ clientId, scenario }: BenchmarkCompa
           <div>
             <div className="flex items-center gap-2">
               <h2 className="text-xl font-bold tracking-tight text-white">
-                Benchmark Comparative Intelligence
-              </h2>
+                Benchmark Comparative Governance
+                                            </h2>
               <span className="text-[10px] font-black uppercase tracking-widest px-2 py-0.5 bg-primary border border-primary text-primary rounded-full">
                 BCI™ v1.0
               </span>

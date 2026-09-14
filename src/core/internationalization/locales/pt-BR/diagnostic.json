@@ -41,23 +41,23 @@
       "desc": "A organização opera com espelhos retrovisores, focada no que já passou."
     },
     "integrated": {
-      "level": "Integrated Intelligence",
+      "level": "Integrated Governance",
       "desc": "Existem conexões de dados, mas as decisões ainda dependem de consolidações lentas."
     },
     "executive": {
-      "level": "Executive Intelligence",
+      "level": "Executive Governance",
       "desc": "Alta capacidade analítica com visão de risco, mas a memória institucional ainda pode falhar."
     },
     "institutional": {
-      "level": "Institutional Intelligence",
+      "level": "Institutional Governance",
       "desc": "Maturidade de ponta. A empresa possui Gêmeo Digital e memória causal para cada decisão."
     }
   },
   "result": {
     "completed_label": "Diagnóstico Concluído",
-    "title": "Executive Intelligence Maturity Index™",
+    "title": "Executive Governance Maturity Index™",
     "map_title": "Institutional Evolution Map™",
-    "opportunities_title": "Intelligence Opportunities™",
+    "opportunities_title": "Governance Opportunities™",
     "opportunities": [
       "Preservação contínua de contexto decisório.",
       "Integração entre a estratégia aprovada e a execução tática.",

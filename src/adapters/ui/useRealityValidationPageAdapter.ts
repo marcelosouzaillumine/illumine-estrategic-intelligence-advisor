@@ -1,7 +1,2 @@
-import { useState } from 'react';
-
-export function useRealityValidationPageAdapter(clientId: string) {
-  const [loading, setLoading] = useState(false);
-  const [realityData, setRealityData] = useState<any>({});
-  return { realityData, loading };
-}
+// shim
+export * from '../../capabilities/financial/infrastructure/adapters/ui/useRealityValidationPageAdapter';

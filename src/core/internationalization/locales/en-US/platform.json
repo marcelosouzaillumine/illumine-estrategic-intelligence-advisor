@@ -1,11 +1,11 @@
 {
   "hero": {
     "label": "Platform",
-    "lead": "The intelligence infrastructure between the organization and its strategic decisions.",
-    "narrative_1": "Modern enterprises possess systems to record transactions, tools to visualize indicators, and artificial intelligence models capable of answering questions.",
+    "lead": "The governance infrastructure between the organization and its strategic decisions.",
+    "narrative_1": "Modern enterprises possess systems to record transactions, tools to visualize indicators, and artificial governance models capable of answering questions.",
     "narrative_2a": "But strategic decisions require more than information.",
     "narrative_2b": "They require context.",
-    "narrative_3": "Illumine builds an institutional intelligence layer that connects enterprise data, organizational knowledge, and executive judgment to transform scattered information into clearer, explainable, and sustainable decisions.",
+    "narrative_3": "Illumine builds an institutional governance layer that connects enterprise data, organizational knowledge, and executive judgment to transform scattered information into clearer, explainable, and sustainable decisions.",
     "cta_domains": "Explore the Domains"
   },
   "sections": {
@@ -31,12 +31,12 @@
     "architecture": {
       "label": "Illumine Architecture",
       "title_1": "Five layers.",
-      "title_2": "One integrated intelligence.",
+      "title_2": "One integrated governance.",
       "lead": "The platform combines five fundamental capabilities to build an institutional view of the organization.",
       "layer1": {
         "tag": "1. Data Layer",
         "desc_title": "The institutional knowledge base.",
-        "desc": "All intelligence depends on the quality of context. The Intelligence Foundation™ gathers and organizes information from different areas of the organization, creating a trusted foundation for executive analysis. We transform fragmented data into a reliable institutional base.",
+        "desc": "All governance depends on the quality of context. The Governance Foundation™ gathers and organizes information from different areas of the organization, creating a trusted foundation for executive analysis. We transform fragmented data into a reliable institutional base.",
         "tags": {
           "t1": "Financial data",
           "t2": "Operational information",
@@ -49,7 +49,7 @@
       "layer2": {
         "tag": "2. Analytical Layer",
         "desc_title": "The engine that interprets relationships and identifies patterns.",
-        "desc": "Isolated data shows events. Intelligence reveals relationships. The Intelligence Engine™ analyzes trends, correlations, deviations, risks, systemic impacts, and opportunities. It connects different dimensions of the organization to answer questions that traditional reports cannot:",
+        "desc": "Isolated data shows events. Governance reveals relationships. The Governance Engine™ analyzes trends, correlations, deviations, risks, systemic impacts, and opportunities. It connects different dimensions of the organization to answer questions that traditional reports cannot:",
         "quotes": {
           "q1": "“Why did this happen?”",
           "q2": "“What impact could this decision generate?”",
@@ -64,15 +64,15 @@
       },
       "layer4": {
         "tag": "4. Board Layer",
-        "desc_title": "Augmented intelligence for complex decisions.",
+        "desc_title": "Augmented governance for complex decisions.",
         "desc": "Illumine does not replace executives, board members, or specialists. It provides an advanced infrastructure of context, analysis, and simulation to support high-complexity decisions. The platform augments the capability of CEOs, executive teams, boards, and independent advisors.",
         "insight": "Technology augments analysis. Judgment remains human."
       },
       "layer5": {
         "tag": "5. Governance Layer",
-        "desc_title": "The trust layer of enterprise intelligence.",
+        "desc_title": "The trust layer of enterprise governance.",
         "items": {
-          "i1_title": "Explainable Intelligence™",
+          "i1_title": "Explainable Governance™",
           "i1_desc": "Every recommendation must present its origin, assumptions, and evidence.",
           "i2_title": "Decision Traceability",
           "i2_desc": "The history of the decision remains documented and accessible.",
@@ -99,17 +99,17 @@
       "conclusion": "The organization stops merely looking at the past and begins to understand future possibilities."
     },
     "practice": {
-      "label": "Executive Intelligence in Practice",
+      "label": "Executive Governance in Practice",
       "title": "From information to decision.",
       "before_tag": "Traditional Report (Before)",
       "before_quote": "\"EBITDA dropped 8% in the quarter.\"",
-      "after_tag": "With Illumine Executive Intelligence",
+      "after_tag": "With Illumine Executive Governance",
       "after_quote": "\"Illumine identified that the pressure on EBITDA originates from three primary vectors: increased logistics costs, operational inefficiencies, and strategic misalignments. The interaction of these factors is draining cash generation, reducing operational margin, and restricting the organization's ability to finance its next growth cycle.\""
     },
     "evolution": {
       "label": "Continuous Evolution",
       "title": "The platform evolves with the organization.",
-      "lead": "Illumine is built as a living institutional intelligence infrastructure.",
+      "lead": "Illumine is built as a living institutional governance infrastructure.",
       "cards": {
         "c1_tag": "Available",
         "c1_title": "Systemic Consolidation",
@@ -118,13 +118,13 @@
         "c2_title": "Cognitive Agents",
         "c2_desc": "Intelligent agents for interpretive analysis and generation of executive reports.",
         "c3_tag": "Next evolution",
-        "c3_title": "Predictive Intelligence",
+        "c3_title": "Predictive Governance",
         "c3_desc": "Advanced simulations, branching scenarios, and anticipation of structural risks."
       }
     },
     "conclusion": {
       "title": "The next competitive advantage will be the ability to learn.",
-      "desc": "Winning companies won't just be the ones with the most data. They will be the ones capable of transforming experiences, decisions, and information into institutional intelligence.",
+      "desc": "Winning companies won't just be the ones with the most data. They will be the ones capable of transforming experiences, decisions, and information into institutional governance.",
       "pre_title": "Illumine builds this capability.",
       "cta": "Conduct Executive Diagnostic Journey™™"
     }

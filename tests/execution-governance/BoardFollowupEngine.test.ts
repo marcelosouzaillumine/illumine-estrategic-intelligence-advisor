@@ -1,7 +1,7 @@
 import { test, describe } from 'node:test';
 import * as assert from 'node:assert';
-import { generateBoardFollowupAgenda } from '../../src/core/runtime/execution-governance/BoardFollowupEngine';
-import { ExecutionCommitment } from '../../src/core/runtime/execution-governance/ExecutionGovernanceTypes';
+import { generateBoardFollowupAgenda } from '../../src/capabilities/runtime/execution-governance/BoardFollowupEngine';
+import { ExecutionCommitment } from '../../src/capabilities/runtime/execution-governance/ExecutionGovernanceTypes';
 
 describe('BoardFollowupEngine', () => {
   test('should convert trackers back to MONITORAMENTO items with correct urgency', () => {

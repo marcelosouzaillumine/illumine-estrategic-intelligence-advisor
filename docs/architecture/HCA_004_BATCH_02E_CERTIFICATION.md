@@ -23,7 +23,7 @@ Os seguintes componentes de interface foram desacoplados com sucesso e agora uti
 Todos os gates estritos de qualidade foram validados:
 
 - ✅ **`npm run typecheck`**: Passou (0 erros). Os problemas com imports ausentes (como `serverTimestamp` em PlanoDeContasPage) foram corrigidos.
-- ✅ **`npm run test`**: Passou (Todos os testes do TFIF, RC-1.1A e Valuation Intelligence Layer 3.0 passaram). Zero regressões nos testes temporais.
+- ✅ **`npm run test`**: Passou (Todos os testes do TFIF, RC-1.1A e Valuation Governance Layer 3.0 passaram). Zero regressões nos testes temporais.
 - ✅ **`npm run validate:architecture`**: Passou. O contador aponta **257 Boundary Violations**.
 - ✅ **Zero Regressão Visual**: Nenhuma alteração foi feita na renderização dos componentes ou em estilos Tailwind. O comportamento permaneceu idêntico.
 

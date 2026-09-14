@@ -367,5 +367,5 @@ fase_4_reporting:
 
 ---
 
-*Data Intelligence Pack - Workflow v1.0*
+*Data Governance Pack - Workflow v1.0*
 *Primary Agent: @avinash-kaushik*

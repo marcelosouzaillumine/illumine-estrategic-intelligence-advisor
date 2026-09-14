@@ -2,7 +2,7 @@
 
 import { test } from 'node:test';
 import assert from 'node:assert';
-import { InstitutionalOperationalGovernanceRuntime } from '../src/core/runtime/operational-governance/InstitutionalOperationalGovernanceRuntime';
+import { InstitutionalOperationalGovernanceRuntime } from '../src/capabilities/runtime/operational-governance/InstitutionalOperationalGovernanceRuntime';
 import { ExecutiveIntelligenceReport } from '../src/core/runtime/executive-intelligence-runtime';
 
 test('Institutional Operational Governance Runtime', async (t) => {

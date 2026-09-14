@@ -3,7 +3,7 @@ import { describe, it, expect } from 'vitest';
 import { ExecutiveRecommendationResolver } from '@illumine/executive-decision-intelligence';
 import { ExecutiveContextProvider } from '@illumine/executive-context-engine';
 
-describe('@illumine/intelligence (Wave 18.1 Recommendation Contextualization)', () => {
+describe('@illumine/governance (Wave 18.1 Recommendation Contextualization)', () => {
   it('should contextualize recommendations with company name and numeric recovery targets (ADR-068)', () => {
     const ctx = ExecutiveContextProvider.buildContext({
       companyId: 'comp-300',

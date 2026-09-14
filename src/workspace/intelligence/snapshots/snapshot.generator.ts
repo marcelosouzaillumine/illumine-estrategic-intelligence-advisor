@@ -47,7 +47,7 @@ export class CfoSnapshotGenerator {
       snapshotHash: 'mock-hash',
       processingTime: 150,
       tenantSchemaVersion: '1.0.0',
-      source: 'financial-intelligence-pipeline',
+      source: 'financial-governance-pipeline',
       status: 'READY'
     };
 

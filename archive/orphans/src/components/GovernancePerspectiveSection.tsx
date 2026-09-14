@@ -66,8 +66,8 @@ export function GovernancePerspectiveSection({
             
             <div className="flex items-center gap-3 mb-6 text-indigo-400 font-black uppercase tracking-[0.3em] text-[10px]">
               <div className="w-1.5 h-1.5 rounded-full bg-indigo-400 animate-pulse" />
-              Parecer de Discernimento Sistêmico (Illumine Intelligence Engine)
-            </div>
+              Parecer de Discernimento Sistêmico (Illumine Governance Engine)
+                                      </div>
             
             <div className="prose prose-invert max-w-none">
               <div className="text-base md:text-lg font-medium text-slate-200 leading-relaxed italic">

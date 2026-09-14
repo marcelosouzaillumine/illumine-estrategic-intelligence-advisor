@@ -1,6 +1,6 @@
 import { describe, it } from 'node:test';
 import assert from 'node:assert';
-import { StrategicOpinionConsistencyEngine } from '../src/core/runtime/executive-consolidation/StrategicOpinionConsistencyEngine';
+import { StrategicOpinionConsistencyEngine } from '../src/workspace/runtime/executive-consolidation/StrategicOpinionConsistencyEngine';
 
 describe('StrategicDiagnosisNarrativeDifferentiation - v3.1 Hotfix', () => {
   it('Should override stage optimism in CRITICAL scenarios', () => {

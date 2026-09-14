@@ -144,56 +144,56 @@ export const CONCIERGE_LANGUAGE_LIBRARY: Record<string, ConciergeMessageTemplate
     category: 'recommendation',
     intentKey: 'financial',
     messages: [
-      'Recomendamos iniciar pela Financial Intelligence Diagnostic Journey™.',
+      'Recomendamos iniciar pela Financial Governance Diagnostic Journey™.',
     ]
   },
   'rec-governance': {
     category: 'recommendation',
     intentKey: 'governance',
     messages: [
-      'Recomendamos iniciar pela Governance Intelligence Diagnostic Journey™.',
+      'Recomendamos iniciar pela Governance Governance Diagnostic Journey™.',
     ]
   },
   'rec-operational': {
     category: 'recommendation',
     intentKey: 'operational',
     messages: [
-      'Recomendamos iniciar pela Operational Intelligence Diagnostic Journey™.',
+      'Recomendamos iniciar pela Operational Governance Diagnostic Journey™.',
     ]
   },
   'rec-commercial': {
     category: 'recommendation',
     intentKey: 'commercial',
     messages: [
-      'Recomendamos iniciar pela Commercial Intelligence Diagnostic Journey™.',
+      'Recomendamos iniciar pela Commercial Governance Diagnostic Journey™.',
     ]
   },
   'rec-people': {
     category: 'recommendation',
     intentKey: 'people',
     messages: [
-      'Recomendamos iniciar pela People Intelligence Diagnostic Journey™.',
+      'Recomendamos iniciar pela People Governance Diagnostic Journey™.',
     ]
   },
   'rec-risk': {
     category: 'recommendation',
     intentKey: 'risk',
     messages: [
-      'Recomendamos iniciar pela Risk Intelligence Diagnostic Journey™.',
+      'Recomendamos iniciar pela Risk Governance Diagnostic Journey™.',
     ]
   },
   'rec-innovation': {
     category: 'recommendation',
     intentKey: 'innovation',
     messages: [
-      'Recomendamos iniciar pela Innovation Intelligence Diagnostic Journey™.',
+      'Recomendamos iniciar pela Innovation Governance Diagnostic Journey™.',
     ]
   },
   'rec-institutional': {
     category: 'recommendation',
     intentKey: 'institutional',
     messages: [
-      'Recomendamos iniciar pela Institutional Intelligence Diagnostic Journey™.',
+      'Recomendamos iniciar pela Institutional Governance Diagnostic Journey™.',
     ]
   },
   'rec-360': {

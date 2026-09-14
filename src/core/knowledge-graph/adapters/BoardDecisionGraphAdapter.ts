@@ -1,4 +1,4 @@
-import { InstitutionalBoardPackOutput } from "../../runtime/institutional-reporting/institutional-reporting-types";
+import { InstitutionalBoardPackOutput } from "../../../capabilities/runtime/institutional-reporting/institutional-reporting-types";
 import { InstitutionalNodeBuilder } from "../InstitutionalNodeBuilder";
 import { InstitutionalRelationshipBuilder } from "../InstitutionalRelationshipBuilder";
 import { InstitutionalGraphRegistry } from "../InstitutionalGraphRegistry";
@@ -13,8 +13,8 @@ export class BoardDecisionGraphAdapter {
       const decisionNodes = boardDecisions.map(d => {
         const node = new InstitutionalNodeBuilder()
           .ofType("DECISION")
-          .withTitle(d.titulo)
-          .withDescription(d.problema)
+          .withTitle(d.titulo || "Decisão")
+          .withDescription(d.problema || d.titulo || "Não especificado")
           .build();
         InstitutionalGraphRegistry.registerNode(node);
         return node;
@@ -65,8 +65,8 @@ export class BoardDecisionGraphAdapter {
       executiveActions.forEach((action: any) => {
         const recNode = new InstitutionalNodeBuilder()
           .ofType("RECOMMENDATION")
-          .withTitle(action.titulo)
-          .withDescription(action.problema)
+          .withTitle(action.titulo || "Ação Executiva")
+          .withDescription(action.problema || action.titulo || "Não especificado")
           .build();
         InstitutionalGraphRegistry.registerNode(recNode);
 

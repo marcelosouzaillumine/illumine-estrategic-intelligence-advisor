@@ -4,8 +4,8 @@
 
 import { describe, it } from 'node:test';
 import assert from 'node:assert/strict';
-import { ExecutiveConstitutionalRuntime } from '../src/core/runtime/constitutional-governance/ExecutiveConstitutionalRuntime';
-import { FiduciaryAxiom } from '../src/core/runtime/constitutional-governance/constitutional-types';
+import { ExecutiveConstitutionalRuntime } from '../src/capabilities/runtime/constitutional-governance/ExecutiveConstitutionalRuntime';
+import { FiduciaryAxiom } from '../src/capabilities/runtime/constitutional-governance/constitutional-types';
 
 describe('Constitutional Governance Layer', () => {
 
@@ -109,7 +109,7 @@ describe('Constitutional Governance Layer', () => {
         doctrineVersion: '1.1.0',
         ruleset: { ...initial.ruleset, treasuryReserveThreshold: 150000 },
         compatibilityReferences: ['1.0.0', '1.1.0'],
-        propagationScope: ['compliance', 'decision-intelligence'],
+        propagationScope: ['compliance', 'decision-governance'],
         migrationRequirements: []
       });
 
@@ -429,11 +429,11 @@ describe('Constitutional Governance Layer', () => {
 
     it('should flag incompatibility when custom status is toggled off', () => {
       const runtime = new ExecutiveConstitutionalRuntime();
-      runtime.compatibilityEngine.setCompatibility('compliance', 'treasury_intelligence', false);
+      runtime.compatibilityEngine.setCompatibility('compliance', 'treasury_governance', false);
 
       const evaluation = runtime.compatibilityEngine.validateFrameworkCompatibility();
       assert.equal(evaluation.isFullyCompatible, false);
-      assert.equal(evaluation.incompatiblePairs[0], 'compliance <-> treasury_intelligence');
+      assert.equal(evaluation.incompatiblePairs[0], 'compliance <-> treasury_governance');
     });
   });
 

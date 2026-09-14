@@ -32,7 +32,7 @@ test('EAC Scanner V2 Acceptance Tests', async (t) => {
 
   await t.test('analytical-perfect', () => {
     const res = analyzePage(project, path.join(FIXTURES_DIR, 'analytical-perfect.tsx'), 'Executive Analytical Page');
-    assert.ok(res.score >= 90, `Score deve ser >= 90 (foi ${res.score})`);
+    assert.ok(res.pureViewModel.score >= 90, `Score deve ser >= 90 (foi ${res.pureViewModel.score})`);
     assert.strictEqual(res.penalties.length, 0, `Não deve ter penalidades (teve ${res.penalties.join(', ')})`);
     assert.ok(res.structuralFlow.indexOf('Page Identity') < res.structuralFlow.indexOf('Executive Summary'));
   });
@@ -47,7 +47,7 @@ test('EAC Scanner V2 Acceptance Tests', async (t) => {
 
   await t.test('board-incomplete', () => {
     const res = analyzePage(project, path.join(FIXTURES_DIR, 'board-incomplete.tsx'), 'Board Mode');
-    assert.ok(res.score < 60, `Score deve ser inferior a 60 (foi ${res.score})`);
+    assert.ok(res.pureViewModel.score < 60, `Score deve ser inferior a 60 (foi ${res.pureViewModel.score})`);
     const missingFiduciary = res.penalties.some((p: string) => p.includes('Fiduciary Context'));
     assert.ok(missingFiduciary, 'Blocos fiduciários ausentes devem ser registrados');
   });
@@ -56,7 +56,7 @@ test('EAC Scanner V2 Acceptance Tests', async (t) => {
     const res = analyzePage(project, path.join(FIXTURES_DIR, 'admin-without-actions.tsx'), 'Administrative/Form Page');
     const missingActions = res.penalties.some((p: string) => p.includes('Actions'));
     assert.ok(missingActions, 'Actions ausentes devem ser registradas');
-    assert.ok(res.score < 100, `Score não pode ser 100 (foi ${res.score})`);
+    assert.ok(res.pureViewModel.score < 100, `Score não pode ser 100 (foi ${res.pureViewModel.score})`);
   });
 
   await t.test('operational-without-working-area', () => {
@@ -93,7 +93,7 @@ test('EAC Scanner V2 Acceptance Tests', async (t) => {
 
   await t.test('page-with-repeated-blocks', () => {
     const res = analyzePage(project, path.join(FIXTURES_DIR, 'page-with-repeated-blocks.tsx'), 'Executive Analytical Page');
-    assert.ok(res.score >= 80, `Score deve ser >= 80 (foi ${res.score})`);
+    assert.ok(res.pureViewModel.score >= 80, `Score deve ser >= 80 (foi ${res.pureViewModel.score})`);
     assert.ok(!res.penalties.some((p: string) => p.includes('Ordem Incorreta')), 'KPIs/Analytics repetidos não geram inversão automática falsa');
   });
 

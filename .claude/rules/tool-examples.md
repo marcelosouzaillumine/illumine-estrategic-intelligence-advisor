@@ -43,7 +43,7 @@ Use for PRs, issues, and repository management. `@devops` exclusive for push/PR.
 - **List issues:** `gh issue list --state open --label bug`
 - **PR status:** `gh pr view 123 --json reviews,statusCheckRollup`
 
-### nogic — Code Intelligence (Essential)
+### nogic — Code Governance (Essential)
 Use for code analysis, dependency tracking, and usage patterns.
 - **Dependencies:** Analyze import chain for a specific module
 - **Usages:** Find all locations where a function is called

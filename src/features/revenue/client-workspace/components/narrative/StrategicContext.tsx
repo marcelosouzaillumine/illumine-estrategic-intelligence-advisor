@@ -1,13 +1,2 @@
-import React from 'react';
-
-export const StrategicContext: React.FC<{ data: any }> = ({ data }) => {
-  return (
-    <section className="animate-in fade-in slide-in-from-bottom-4 duration-700">
-      <h2 className="text-3xl font-bold mb-4">Strategic Context</h2>
-      <div className="bg-slate-800 p-8 rounded-xl border border-slate-700">
-        <p className="text-slate-300">Desafios observados e impacto estratégico justificados via Assessment.</p>
-        {/* Futuro: ExecutiveStrategicTensions */}
-      </div>
-    </section>
-  );
-};
+// shim
+export * from '../../../../../capabilities/financial/revenue/client-workspace/components/narrative/StrategicContext';

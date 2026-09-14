@@ -2,11 +2,11 @@
 
 import { test, describe } from 'node:test';
 import assert from 'node:assert';
-import { LifecycleClassificationEngine } from '../src/core/runtime/lifecycle/LifecycleClassificationEngine';
-import { LifecycleContextBuilder } from '../src/core/runtime/lifecycle/LifecycleContextBuilder';
-import { LifecycleSemanticAuthority } from '../src/core/runtime/lifecycle/LifecycleSemanticAuthority';
-import { LifecycleConsistencyValidator } from '../src/core/runtime/lifecycle/LifecycleConsistencyValidator';
-import { DLPAFiduciaryInterpretationEngine } from '../src/core/runtime/governance/dlpa/DLPAFiduciaryInterpretationEngine';
+import { LifecycleClassificationEngine } from '../src/workspace/runtime/lifecycle/LifecycleClassificationEngine';
+import { LifecycleContextBuilder } from '../src/workspace/runtime/lifecycle/LifecycleContextBuilder';
+import { LifecycleSemanticAuthority } from '../src/workspace/runtime/lifecycle/LifecycleSemanticAuthority';
+import { LifecycleConsistencyValidator } from '../src/workspace/runtime/lifecycle/LifecycleConsistencyValidator';
+import { DLPAFiduciaryInterpretationEngine } from '../src/capabilities/runtime/governance/dlpa/DLPAFiduciaryInterpretationEngine';
 import { buildGovernanceScore } from '../src/runtime/adapters/CapitalGovernanceAdapter';
 
 describe('ELSA / ELGF v2.0 - Enterprise Lifecycle Semantic Authority Tests', () => {

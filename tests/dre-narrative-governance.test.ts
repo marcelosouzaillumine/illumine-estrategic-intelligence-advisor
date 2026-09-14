@@ -6,11 +6,11 @@
 import { describe, it } from 'node:test';
 import assert from 'node:assert/strict';
 
-import { ExecutiveLabelGovernanceRegistry } from '../src/core/runtime/presentation-governance/ExecutiveLabelGovernanceRegistry';
-import { CrossStatementIsolationValidator } from '../src/core/runtime/dre/CrossStatementIsolationValidator';
-import { DREBoardDecisionSupportEngine } from '../src/core/runtime/dre/DREBoardDecisionSupportEngine';
-import { OperationalHealthExplainabilityEngine } from '../src/core/runtime/dre/OperationalHealthExplainabilityEngine';
-import { DREBoardAdvisoryEngine } from '../src/core/runtime/dre/DREBoardAdvisoryEngine';
+import { ExecutiveLabelGovernanceRegistry } from '../src/workspace/runtime/presentation-governance/ExecutiveLabelGovernanceRegistry';
+import { CrossStatementIsolationValidator } from '../src/capabilities/financial/runtime/dre/CrossStatementIsolationValidator';
+import { DREBoardDecisionSupportEngine } from '../src/capabilities/financial/runtime/dre/DREBoardDecisionSupportEngine';
+import { OperationalHealthExplainabilityEngine } from '../src/capabilities/financial/runtime/dre/OperationalHealthExplainabilityEngine';
+import { DREBoardAdvisoryEngine } from '../src/capabilities/financial/runtime/dre/DREBoardAdvisoryEngine';
 
 // Mock diagnosis for Granatum 2022
 const granatumDiagnosis = {

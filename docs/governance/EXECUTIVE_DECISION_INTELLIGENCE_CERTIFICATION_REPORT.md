@@ -1,12 +1,12 @@
-# EXECUTIVE DECISION INTELLIGENCE CERTIFICATION REPORT™
+# EXECUTIVE DECISION GOVERNANCE CERTIFICATION REPORT™
 
 **Status:** CERTIFIED
-**Maturity Level:** 11 (Executive Decision Intelligence)
+**Maturity Level:** 11 (Executive Decision Governance)
 **Date:** 2026-07-31
 
 ---
 
-## 1. Executive Decision Intelligence Overview
+## 1. Executive Decision Governance Overview
 A Illumine OS™ concluiu a homologação de sua camada executiva. O sistema deixou de ser um mero aconselhador passivo e tornou-se uma infraestrutura ativa de apoio à decisão, capaz de documentar contextos, alternativas, escolhas e garantir a integridade histórica dos julgamentos executivos corporativos.
 
 ## 2. Architectural Principles
@@ -56,4 +56,4 @@ Todo e qualquer evento de *Decision Memory* é formalmente selado com o `tenantI
 A infraestrutura garante a preservação do mandato humano, rastreabilidade profunda e escalabilidade corporativa multi-tenant segura.
 
 ## 11. Future Evolution Roadmap
-O próximo salto tecnológico (Wave G5.2) ativará a **Institutional Learning Intelligence™** (AGC Level 12), habilitando a capacidade de fechar o ciclo através da dedução autônoma de Princípios Organizacionais a partir de lições extraídas das decisões aqui governadas.
+O próximo salto tecnológico (Wave G5.2) ativará a **Institutional Learning Governance™** (AGC Level 12), habilitando a capacidade de fechar o ciclo através da dedução autônoma de Princípios Organizacionais a partir de lições extraídas das decisões aqui governadas.

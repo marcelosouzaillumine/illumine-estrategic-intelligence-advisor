@@ -31,7 +31,7 @@ if (typeof document === 'undefined') {
 const React = await import('react');
 const { renderToStaticMarkup } = await import('react-dom/server');
 const { EFOSPage } = await import('../src/components/pages/EFOSPage');
-const { isProduction } = await import('../src/core/runtime/executive-consolidation/ProductionVisibilityPolicy');
+const { isProduction } = await import('../src/workspace/runtime/executive-consolidation/ProductionVisibilityPolicy');
 const { MemoryRouter } = await import('react-router-dom');
 
 // Forbidden tokens list for BOARD and EXECUTIVE contexts

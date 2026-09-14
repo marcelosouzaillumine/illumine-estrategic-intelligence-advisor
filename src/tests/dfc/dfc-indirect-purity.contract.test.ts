@@ -1,7 +1,7 @@
 import { describe, it } from 'node:test';
 import assert from 'node:assert';
-import { DFCIndirectMethodEngine } from '../../core/runtime/cash-intelligence/DFCIndirectMethodEngine';
-import { DreCashEvidence, BalanceSheetCashEvidence } from '../../core/runtime/cash-intelligence/CashEvidenceContracts';
+import { DFCIndirectMethodEngine } from '../../capabilities/financial/runtime/cash-intelligence/DFCIndirectMethodEngine';
+import { DreCashEvidence, BalanceSheetCashEvidence } from '../../capabilities/financial/runtime/cash-intelligence/CashEvidenceContracts';
 
 describe('DFC Indirect Method Engine Purity Contract', () => {
   it('Deve ser uma função pura, não mutando as evidências de entrada', () => {

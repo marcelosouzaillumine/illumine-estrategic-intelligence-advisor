@@ -1,8 +1,2 @@
-import { useState } from 'react';
-
-export function useInstitutionalRestorationPageAdapter(clientId: string) {
-  const [loading, setLoading] = useState(false);
-  const [restorationData, setRestorationData] = useState<any>({});
-
-  return { restorationData, loading };
-}
+// shim
+export * from '../../capabilities/financial/infrastructure/adapters/ui/useInstitutionalRestorationPageAdapter';

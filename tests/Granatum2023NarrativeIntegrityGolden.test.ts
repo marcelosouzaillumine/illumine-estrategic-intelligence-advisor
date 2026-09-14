@@ -1,9 +1,9 @@
 import { describe, it } from 'node:test';
 import assert from 'node:assert';
-import { BalanceSheetExecutiveNarrativeEngine } from '../src/core/runtime/governance/bp/BalanceSheetExecutiveNarrativeEngine';
-import { BalanceSheetNarrativeTemporalAudit } from '../src/core/runtime/governance/bp/BalanceSheetNarrativeTemporalAudit';
-import { BalanceSheetHistoricalContaminationAudit } from '../src/core/runtime/governance/bp/BalanceSheetHistoricalContaminationAudit';
-import { BalanceSheetExerciseBindingGuard } from '../src/core/runtime/governance/bp/BalanceSheetExerciseBindingGuard';
+import { BalanceSheetExecutiveNarrativeEngine } from '../src/capabilities/runtime/governance/bp/BalanceSheetExecutiveNarrativeEngine';
+import { BalanceSheetNarrativeTemporalAudit } from '../src/capabilities/runtime/governance/bp/BalanceSheetNarrativeTemporalAudit';
+import { BalanceSheetHistoricalContaminationAudit } from '../src/capabilities/runtime/governance/bp/BalanceSheetHistoricalContaminationAudit';
+import { BalanceSheetExerciseBindingGuard } from '../src/capabilities/runtime/governance/bp/BalanceSheetExerciseBindingGuard';
 
 describe('Granatum 2023 Temporal Integrity Golden Test', () => {
   const granatum2023Summary = {

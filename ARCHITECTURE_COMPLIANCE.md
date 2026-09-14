@@ -11,19 +11,19 @@
 | Pacote do Monorepo | Pode Depender Exclusivamente De | Dependências Proibidas |
 | :--- | :--- | :--- |
 | **`packages/domain/core-primitives`** | **Ninguém (0 dependências de negócio)** | Todo o restante do monorepo |
-| **`packages/domain/semantic-model`** | `core-primitives` | contracts, domain, capabilities, applications, runtime, intelligence |
-| **`packages/domain/executive-contracts`** | `core-primitives` + `semantic-model` | domain, capabilities, applications, runtime, intelligence |
-| **`packages/domain/executive-domain`** | `core-primitives` + `semantic-model` + `executive-contracts` | capabilities, applications, runtime, infraestrutura, intelligence |
+| **`packages/domain/semantic-model`** | `core-primitives` | contracts, domain, capabilities, applications, runtime, governance |
+| **`packages/domain/executive-contracts`** | `core-primitives` + `semantic-model` | domain, capabilities, applications, runtime, governance |
+| **`packages/domain/executive-domain`** | `core-primitives` + `semantic-model` + `executive-contracts` | capabilities, applications, runtime, infraestrutura, governance |
 | **`packages/capabilities`** | `executive-contracts` + `executive-domain` + `core-primitives` | Outras capabilities diretamente & applications |
-| **`packages/intelligence/agent-runtime`** | `intelligence-kernel` + `core-primitives` + `semantic-model` + `executive-contracts` | Banco de dados direto |
-| **`packages/intelligence/executive-decision-workspace`**| `agent-runtime` + `advisory-workflow-engine` + `core-primitives` | Lógica de negócio duplicada |
-| **`packages/intelligence/executive-board`** | `executive-decision-workspace` + `agent-runtime` + `core-primitives` | BD direto |
+| **`packages/governance/agent-runtime`** | `governance-kernel` + `core-primitives` + `semantic-model` + `executive-contracts` | Banco de dados direto |
+| **`packages/governance/executive-decision-workspace`**| `agent-runtime` + `advisory-workflow-engine` + `core-primitives` | Lógica de negócio duplicada |
+| **`packages/governance/executive-board`** | `executive-decision-workspace` + `agent-runtime` + `core-primitives` | BD direto |
 
 ---
 
 ## 2. Pipeline de Qualidade & Enforcement de Release CI/CD (12-Step Gate)
 
-$$\text{Build} \rightarrow \text{Typecheck} \rightarrow \text{Dependency Validation} \rightarrow \text{Semantic Validation} \rightarrow \text{Contract Compatibility} \rightarrow \text{Capability Registry Validation} \rightarrow \text{Intelligence Artifact Validation} \rightarrow \text{Enterprise Graph Validation} \rightarrow \text{Human Approval Validation} \rightarrow \text{Advisory Governance Validation} \rightarrow \text{EDOS Validation} \rightarrow \text{Tests}$$
+$$\text{Build} \rightarrow \text{Typecheck} \rightarrow \text{Dependency Validation} \rightarrow \text{Semantic Validation} \rightarrow \text{Contract Compatibility} \rightarrow \text{Capability Registry Validation} \rightarrow \text{Governance Artifact Validation} \rightarrow \text{Enterprise Graph Validation} \rightarrow \text{Human Approval Validation} \rightarrow \text{Advisory Governance Validation} \rightarrow \text{EDOS Validation} \rightarrow \text{Tests}$$
 
 ---
 

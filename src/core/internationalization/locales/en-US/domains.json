@@ -1,17 +1,17 @@
 {
   "hero": {
-    "label": "Illumine Intelligence Domains™",
-    "title": "The intelligence that understands the organization as an integrated system.",
+    "label": "Illumine Governance Domains™",
+    "title": "The governance that understands the organization as an integrated system.",
     "lead": "Complex enterprises do not fail due to a lack of isolated indicators. They lose value when decisions made in one area generate unnoticed impacts in others.",
     "narrative": "Illumine connects multiple dimensions of the organization to reveal causal relationships, hidden risks, and strategic opportunities.",
     "cta": "Explore the Platform"
   },
   "architecture": {
     "label": "Domain Architecture",
-    "title": "9 Intelligence Domains™",
-    "lead": "Each domain represents a perspective of the organization, but intelligence emerges from the connection between them.",
+    "title": "9 Governance Domains™",
+    "lead": "Each domain represents a perspective of the organization, but governance emerges from the connection between them.",
     "core": {
-      "title": "Executive Intelligence Core™",
+      "title": "Executive Governance Core™",
       "lead": "The central engine for systemic processing",
       "path": {
         "p1": "Data",
@@ -31,13 +31,23 @@
           "Did the results confirm expectations?",
           "Is institutional knowledge being preserved?"
         ],
-        "applications": ["Decision Memory", "Executive Briefs", "Board Reports", "Governance Score"]
+        "applications": [
+          "Decision Memory",
+          "Executive Briefs",
+          "Board Reports",
+          "Governance Score"
+        ]
       },
       "d2": {
         "tagline": "The integrated financial view of the organization",
-        "description": "Transforms financial statements into executive intelligence. Connects Balance Sheet, Income Statement, Cash Flow, Working Capital, and Profitability.",
+        "description": "Transforms financial statements into executive governance. Connects Balance Sheet, Income Statement, Cash Flow, Working Capital, and Profitability.",
         "highlight": "What is pressuring the economic value of the organization and what decisions can alter this trajectory.",
-        "applications": ["Financial Digital Twin™", "EBITDA Scenarios", "Cash simulations", "Financial Stress Testing"]
+        "applications": [
+          "Financial Digital Twin™",
+          "EBITDA Scenarios",
+          "Cash simulations",
+          "Financial Stress Testing"
+        ]
       },
       "d3": {
         "tagline": "The real efficiency behind the results",
@@ -56,40 +66,80 @@
       "d5": {
         "tagline": "People as a strategic capability",
         "description": "Evaluates the relationship between organizational structure, productivity, and value generation. Analyzes structural costs and knowledge retention.",
-        "applications": ["Workforce Analytics", "Talent Retention", "Structure Cost"]
+        "applications": [
+          "Workforce Analytics",
+          "Talent Retention",
+          "Structure Cost"
+        ]
       },
       "d6": {
         "tagline": "Anticipating strategic vulnerabilities",
         "description": "Identifies financial, operational, and institutional risks before they become crises through dependency and concentration analysis.",
-        "applications": ["Vulnerability Matrix", "Dependency Mapping", "Risk Scenarios"]
+        "applications": [
+          "Vulnerability Matrix",
+          "Dependency Mapping",
+          "Risk Scenarios"
+        ]
       },
       "d7": {
         "tagline": "The knowledge that remains in the organization",
         "description": "Transforms accumulated experience into an institutional asset. Combats institutional amnesia by preserving context and lessons learned.",
-        "applications": ["Context Preservation", "Knowledge Base", "Pattern Recognition"]
+        "applications": [
+          "Context Preservation",
+          "Knowledge Base",
+          "Pattern Recognition"
+        ]
       },
       "d8": {
         "tagline": "Alignment between purpose and execution",
         "description": "Ensures that strategy, culture, and operations remain connected through the alignment of key indicators and objectives.",
-        "applications": ["OKR Alignment", "Culture Mapping", "Strategic Tracking"]
+        "applications": [
+          "OKR Alignment",
+          "Culture Mapping",
+          "Strategic Tracking"
+        ]
       },
       "d9": {
         "tagline": "Continuous evolution based on learning",
         "description": "Transforms data, experiments, and results into adaptability. Analyzes strategic hypotheses and new scenarios.",
-        "applications": ["Hypothesis Testing", "Adaptability Score", "Experiment Tracking"]
+        "applications": [
+          "Hypothesis Testing",
+          "Adaptability Score",
+          "Experiment Tracking"
+        ]
       }
     }
   },
   "system_value": {
     "label": "The Value of the System",
-    "title": "Intelligence is not in the domains. It is in the connections.",
+    "title": "Governance is not in the domains. It is in the connections.",
     "lead": "Traditional systems analyze isolated areas. Illumine interprets the relationships between them.",
     "steps": {
-      "s1": { "pre": "A commercial decision alters", "bold": "revenue", "post": "." },
-      "s2": { "pre": "Revenue alters", "bold": "margin", "post": "." },
-      "s3": { "pre": "Margin alters", "bold": "cash", "post": "." },
-      "s4": { "pre": "Cash alters", "bold": "investment capacity", "post": "." },
-      "s5": { "pre": "Investment capacity alters the", "bold": "strategy", "post": "." }
+      "s1": {
+        "pre": "A commercial decision alters",
+        "bold": "revenue",
+        "post": "."
+      },
+      "s2": {
+        "pre": "Revenue alters",
+        "bold": "margin",
+        "post": "."
+      },
+      "s3": {
+        "pre": "Margin alters",
+        "bold": "cash",
+        "post": "."
+      },
+      "s4": {
+        "pre": "Cash alters",
+        "bold": "investment capacity",
+        "post": "."
+      },
+      "s5": {
+        "pre": "Investment capacity alters the",
+        "bold": "strategy",
+        "post": "."
+      }
     },
     "conclusion": "Illumine captures this chain of impact and transforms organizational complexity into executive clarity."
   },

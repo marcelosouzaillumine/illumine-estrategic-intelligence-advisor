@@ -12,7 +12,7 @@ export const COMMAND_REGISTRY: ExecutiveCommand[] = [
     id: 'cmd-liquidity-risk',
     keywords: ['risco de caixa', 'liquidez', 'runway', 'caixa', 'cash'],
     title: 'Visualizar Risco de Liquidez',
-    subtitle: 'CFO Office > Cash Intelligence',
+    subtitle: 'CFO Office > Cash Governance',
     targetPath: '/finance/cash-flow', // Will map to new routes once updated
     office: 'cfo'
   },

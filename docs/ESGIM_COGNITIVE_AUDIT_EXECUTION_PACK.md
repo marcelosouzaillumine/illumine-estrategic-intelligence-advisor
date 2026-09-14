@@ -10,9 +10,9 @@ Executar oficialmente a primeira auditoria cognitiva integral da arquitetura Ill
 O objetivo desta execução é:
 * validar o comportamento das Inteligências Estruturantes;
 * validar a Constituição Cognitiva;
-* validar Composite Intelligence Engines;
+* validar Composite Governance Engines;
 * validar Governance Assessment Runtimes;
-* validar Board Intelligence Layers;
+* validar Board Governance Layers;
 * gerar evidências formais para certificação cognitiva.
 
 Esta implementação **não altera** qualquer componente da arquitetura. Sua função é exclusivamente validar e certificar.
@@ -26,10 +26,10 @@ Esta auditoria é conduzida sob autoridade do:
 
 A auditoria deverá validar:
 
-* **Structural Intelligences:** Economic, Fiduciary, Institutional, Causal, Constitutional, Missional, Prospective.
-* **Composite Intelligence Engines:** Mission Alignment Engine.
+* **Structural Governances:** Economic, Fiduciary, Institutional, Causal, Constitutional, Missional, Prospective.
+* **Composite Governance Engines:** Mission Alignment Engine.
 * **Governance Assessment Runtimes:** ESGIM Runtime.
-* **Board Intelligence Layers:** ESGIM Board Intelligence Layer.
+* **Board Governance Layers:** ESGIM Board Governance Layer.
 
 ## 4. Official Audit Execution Matrix
 
@@ -37,7 +37,7 @@ Para cada Stress Test será obrigatório registrar:
 * Test ID
 * Test Description
 * Input Scenario
-* Intelligence Responses
+* Governance Responses
 * Arbitration Applied
 * Composite Engine Response
 * ESGIM Runtime Response

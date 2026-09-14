@@ -1,10 +1,10 @@
-# INSTITUTIONAL_MEMORY_AND_LONGITUDINAL_INTELLIGENCE_LAYER
+# INSTITUTIONAL_MEMORY_AND_LONGITUDINAL_GOVERNANCE_LAYER
 
 ## FINALIDADE
 
 Este documento define oficialmente a camada de Memória Institucional, Inteligência Longitudinal e Aprendizado Estrutural da plataforma Illumine.
 
-A INSTITUTIONAL_MEMORY_AND_LONGITUDINAL_INTELLIGENCE_LAYER torna-se responsável por:
+A INSTITUTIONAL_MEMORY_AND_LONGITUDINAL_GOVERNANCE_LAYER torna-se responsável por:
 
 * memória institucional;
 * inteligência longitudinal;
@@ -22,20 +22,20 @@ A INSTITUTIONAL_MEMORY_AND_LONGITUDINAL_INTELLIGENCE_LAYER torna-se responsável
 * evolução estrutural;
 * aprendizado executivo;
 * governance recurrence;
-* intelligence persistence;
+* governance persistence;
 * institutional behavioral patterns.
 
 A plataforma Illumine deixa oficialmente de operar apenas como:
 
 * runtime institucional;
 * governance operating system;
-* intelligence platform.
+* governance platform.
 
 A Illumine passa a operar também como:
 
 * institutional memory system;
-* longitudinal intelligence infrastructure;
-* executive historical intelligence platform;
+* longitudinal governance infrastructure;
+* executive historical governance platform;
 * governance learning environment.
 
 ⸻
@@ -73,7 +73,7 @@ Toda implementação deverá obedecer:
 * INSTITUTIONAL_AUDIT_AND_TELEMETRY_LAYER.md
 * ENTERPRISE_SCALABILITY_AND_DISTRIBUTED_RUNTIME_LAYER.md
 * ENTERPRISE_EXECUTIVE_EXPERIENCE_AND_COMMERCIALIZATION_LAYER.md
-* INSTITUTIONAL_MEMORY_AND_LONGITUDINAL_INTELLIGENCE_LAYER.md
+* INSTITUTIONAL_MEMORY_AND_LONGITUDINAL_GOVERNANCE_LAYER.md
 
 ⸻
 
@@ -108,7 +108,7 @@ Toda memória deverá:
 
 ⸻
 
-### 2. LONGITUDINAL INTELLIGENCE ENGINE
+### 2. LONGITUDINAL GOVERNANCE ENGINE
 
 Criar inteligência comparativa inter-ciclos.
 
@@ -404,8 +404,8 @@ A plataforma NÃO poderá:
 A plataforma Illumine passa a operar como:
 
 * Institutional Memory Infrastructure
-* Longitudinal Governance Intelligence Platform
-* Executive Historical Intelligence System
+* Longitudinal Governance Governance Platform
+* Executive Historical Governance System
 * Institutional Learning Environment
 * Governance Evolution Operating System
 

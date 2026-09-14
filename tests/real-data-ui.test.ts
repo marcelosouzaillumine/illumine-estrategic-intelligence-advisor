@@ -2,10 +2,10 @@ import { test } from 'node:test';
 import * as assert from 'node:assert';
 import fs from 'node:fs';
 import path from 'node:path';
-import { StagingValidationEngine } from '../src/core/runtime/integrations/StagingValidationEngine';
-import { ImportPublicationEngine } from '../src/core/runtime/integrations/ImportPublicationEngine';
-import { ImportReviewQueue } from '../src/core/runtime/integrations/ImportReviewQueue';
-import { ImportedDataset } from '../src/core/runtime/integrations/IntegrationGovernanceTypes';
+import { StagingValidationEngine } from '../src/capabilities/runtime/integrations/StagingValidationEngine';
+import { ImportPublicationEngine } from '../src/capabilities/runtime/integrations/ImportPublicationEngine';
+import { ImportReviewQueue } from '../src/capabilities/runtime/integrations/ImportReviewQueue';
+import { ImportedDataset } from '../src/capabilities/runtime/integrations/IntegrationGovernanceTypes';
 
 const createBaseDataset = (isValid = true): ImportedDataset => ({
   importId: `TEST-BATCH-${Date.now()}`,

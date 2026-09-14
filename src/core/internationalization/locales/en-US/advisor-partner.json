@@ -1,7 +1,7 @@
 {
   "hero": {
     "label": "Advisor Partner™",
-    "lead": "Transform your expertise into an Executive Intelligence operation.",
+    "lead": "Transform your expertise into an Executive Governance operation.",
     "narrative": "Access a platform, methodology, and ecosystem designed to expand the value you deliver to your clients.",
     "cta_primary": "Become an Advisor Partner",
     "cta_secondary": "Schedule a presentation",
@@ -13,7 +13,7 @@
     "title": "Mais que uma plataforma.",
     "lead": "Um ecossistema para escalar sua atuação.",
     "narrative": "Ao tornar-se um Advisor Partner™, você integra um ecossistema desenvolvido para acelerar implantações, fortalecer sua atuação consultiva e ampliar sua capacidade de gerar valor aos clientes.",
-    "c1": "Executive Intelligence Platform™",
+    "c1": "Executive Governance Platform™",
     "c2": "Executive Methodology™",
     "c3": "Advisor Academy™",
     "c4": "Certification™",
@@ -21,16 +21,16 @@
     "c6": "Continuous Innovation™"
   },
   "platform": {
-    "title": "Executive Intelligence Platform™",
+    "title": "Executive Governance Platform™",
     "lead": "Uma plataforma completa ao seu dispor.",
     "f1": "Executive Command Center",
-    "f2": "Financial Intelligence",
-    "f3": "Governance Intelligence",
-    "f4": "Commercial Intelligence",
-    "f5": "Operational Intelligence",
-    "f6": "People Intelligence",
-    "f7": "Risk Intelligence",
-    "f8": "Institutional Intelligence",
+    "f2": "Financial Governance",
+    "f3": "Governance Governance",
+    "f4": "Commercial Governance",
+    "f5": "Operational Governance",
+    "f6": "People Governance",
+    "f7": "Risk Governance",
+    "f8": "Institutional Governance",
     "f9": "Executive AI Assistant",
     "f10": "API Hub",
     "f11": "Executive Reports",
@@ -232,7 +232,7 @@
     }
   },
   "cta": {
-    "title": "Transforme sua experiência em uma operação consultiva baseada em Executive Intelligence.",
+    "title": "Transforme sua experiência em uma operação consultiva baseada em Executive Governance.",
     "primary": "Quero me tornar um Advisor Partner",
     "secondary": "Agendar uma apresentação"
   }

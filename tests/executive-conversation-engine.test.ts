@@ -2,7 +2,7 @@
 
 import { describe, it } from 'node:test';
 import * as assert from 'node:assert';
-import { runExecutiveConversationAdapter } from '../src/core/runtime/governance-copilot/executive-conversation-adapter';
+import { runExecutiveConversationAdapter } from '../src/capabilities/runtime/governance-copilot/executive-conversation-adapter';
 
 describe('ExecutiveConversationEngine & Adapter', () => {
   it('must fail safely if governanceCopilotReasoning is absent (Deep Non-Interference)', () => {
@@ -22,7 +22,7 @@ describe('ExecutiveConversationEngine & Adapter', () => {
     assert.strictEqual(finalReport.executiveConversation, undefined);
   });
 
-  it('must successfully attach executiveConversation without mutating prior intelligence', () => {
+  it('must successfully attach executiveConversation without mutating prior governance', () => {
     const originalReport = {
       esgIntelligence: { overallScore: 85 },
       governanceCopilotContext: { availableTopics: ['ESG'] },

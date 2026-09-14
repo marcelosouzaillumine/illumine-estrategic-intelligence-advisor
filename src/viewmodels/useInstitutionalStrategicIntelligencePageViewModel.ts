@@ -3,7 +3,7 @@ import { useInstitutionalStrategicIntelligencePageAdapter } from '../adapters/ui
 
 export function useInstitutionalStrategicIntelligencePageViewModel({ clientId }: any) {
   const { intelligenceData, loading } = useInstitutionalStrategicIntelligencePageAdapter(clientId);
-  const [activeTab, setActiveTab] = useState('intelligence');
+  const [activeTab, setActiveTab] = useState('governance');
 
   return {
     state: { intelligenceData, loading, activeTab },

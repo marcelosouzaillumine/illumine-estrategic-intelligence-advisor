@@ -2,7 +2,7 @@
 
 > **Cartório e Registro Canônico de Experiências Homologadas (Level A — Frozen)**  
 > *Horizonte Temporal de Estabilidade: 10+ Anos (2026 – 2036+)*  
-> *Documentos Complementares: [`docs/EXPERIENCE_ARCHITECTURE.md`](file:///Users/marcelosouza/Documents/illumine-strategic-intelligence-advisor/docs/EXPERIENCE_ARCHITECTURE.md) | [`ARCHITECTURE_CONSTITUTION.md`](file:///Users/marcelosouza/Documents/illumine-strategic-intelligence-advisor/ARCHITECTURE_CONSTITUTION.md)*  
+> *Documentos Complementares: [`docs/EXPERIENCE_ARCHITECTURE.md`](file:///Users/marcelosouza/Documents/illumine-strategic-governance-advisor/docs/EXPERIENCE_ARCHITECTURE.md) | [`ARCHITECTURE_CONSTITUTION.md`](file:///Users/marcelosouza/Documents/illumine-strategic-governance-advisor/ARCHITECTURE_CONSTITUTION.md)*  
 > *Status: Homologado & Congelado*
 
 ---
@@ -47,9 +47,9 @@ Nenhuma superfície ou funcionalidade pode existir na plataforma sem estar vincu
 
 ---
 
-### EXP-004 — Intelligence Experience
-* **Nome Canônico**: `Intelligence Experience`
-* **Workspace Associado**: `Intelligence Workspace`
+### EXP-004 — Governance Experience
+* **Nome Canônico**: `Governance Experience`
+* **Workspace Associado**: `Governance Workspace`
 * **Propósito Cognitivo**: Transformar conhecimento acumulado, histórico decisório e inteligência causal em aprendizado organizacional.
 * **Pergunta Primária de Negócio**: *O que aprendemos?*
 * **Escopo de Aplicação**: Organizational Memory, Grafo de Conhecimento Causal, Decision Timeline, Aprendizado Executivo, Benchmarks Setoriais.
@@ -63,5 +63,5 @@ Nenhuma superfície ou funcionalidade pode existir na plataforma sem estar vincu
 2. **Requisitos para Novas Experiências**: A inclusão de uma eventual `EXP-005` exige obrigatoriamente:
    - Emissão de uma **Architecture Decision Record (ADR)** aprovada por unanimidade pelo Architecture Council.
    - Atualização prévia e congelamento deste registro (`CANONICAL_EXPERIENCE_REGISTRY.md`).
-   - Aditamento do documento [`docs/EXPERIENCE_ARCHITECTURE.md`](file:///Users/marcelosouza/Documents/illumine-strategic-intelligence-advisor/docs/EXPERIENCE_ARCHITECTURE.md).
+   - Aditamento do documento [`docs/EXPERIENCE_ARCHITECTURE.md`](file:///Users/marcelosouza/Documents/illumine-strategic-governance-advisor/docs/EXPERIENCE_ARCHITECTURE.md).
    - Atualização das regras do pipeline de certificação.

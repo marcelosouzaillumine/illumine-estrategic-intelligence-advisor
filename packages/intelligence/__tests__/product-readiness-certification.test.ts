@@ -2,7 +2,7 @@
 import { describe, it, expect } from 'vitest';
 import { ProductReadinessContract } from '@illumine/executive-contracts';
 
-describe('@illumine/intelligence (Wave 18.7 Product Readiness Certification)', () => {
+describe('@illumine/governance (Wave 18.7 Product Readiness Certification)', () => {
   it('should validate ProductReadinessContract with Evidence-First metrics and ARB decision (PRC v1.0 / ADR-085)', () => {
     const contract: ProductReadinessContract = {
       readinessId: 'prc-18.7-001',

@@ -5,7 +5,7 @@ import path from 'path';
 
 async function main() {
   const workspaceRoot = process.cwd();
-  console.log('Running Architecture Intelligence Engine (G3.0)...');
+  console.log('Running Architecture Governance Engine (G3.0)...');
 
   // Load Mock Snapshots from Registry
   const discoveryMock = {
@@ -40,7 +40,7 @@ async function main() {
   const generator = new IntelligenceSnapshotGenerator(workspaceRoot);
   await generator.generate(snapshot);
 
-  console.log(`Intelligence Snapshot generated with ${snapshot.insights.length} insights and ${snapshot.impacts.length} impact propagations.`);
+  console.log(`Governance Snapshot generated with ${snapshot.insights.length} insights and ${snapshot.impacts.length} impact propagations.`);
 }
 
 main().catch(console.error);

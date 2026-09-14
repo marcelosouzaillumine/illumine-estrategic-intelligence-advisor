@@ -1,8 +1,7 @@
-// @ts-nocheck
-import { describe, it } from 'node:test';
+import { describe, it, expect, beforeAll, afterAll } from 'vitest';
 import assert from 'node:assert';
-import { BalanceSheetExecutiveViewModelBuilder } from '../../../src/core/runtime/executive-consolidation/BalanceSheetExecutiveViewModelBuilder';
-import { BalanceSheetExecutiveFactsBuilder } from '../../../src/core/runtime/executive-consolidation/BalanceSheetExecutiveFactsBuilder';
+import { BalanceSheetExecutiveViewModelBuilder } from '../../workspace/runtime/executive-consolidation/BalanceSheetExecutiveViewModelBuilder';
+import { BalanceSheetExecutiveFactsBuilder } from '../../workspace/runtime/executive-consolidation/BalanceSheetExecutiveFactsBuilder';
 
 describe('BP v7.18 - Evidence Based Narratives', () => {
   it('Should inject quantitative metrics into opinion when available', () => {
@@ -15,7 +14,7 @@ describe('BP v7.18 - Evidence Based Narratives', () => {
           { metricName: 'Liquidez Seca', value: 1.0, familyName: 'Liquidez', classification: 'Saudável' },
           { metricName: 'Autonomia Financeira', value: 0.8, familyName: 'Estrutura de Capital', classification: 'Saudável' }
         ],
-        decisionPanels: {
+        analysisPanels: {
           protection: { type: 'protection', title: 'test', recommendation: 'test', status: 'HEALTHY' },
           capital: { type: 'capital', title: 'test', recommendation: 'test', status: 'HEALTHY' },
           efficiency: { type: 'efficiency', title: 'test', recommendation: 'test', status: 'HEALTHY' }

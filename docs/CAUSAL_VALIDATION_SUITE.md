@@ -126,9 +126,9 @@ A plataforma NÃO poderá:
 
 Transformar a Illumine em uma:
 
-- Institutional Behavioral Intelligence Platform;
+- Institutional Behavioral Governance Platform;
 - Executive Causal Decision System;
 - Enterprise Financial Interpretation Engine;
-- Stable Weighted Causal Intelligence Infrastructure.
+- Stable Weighted Causal Governance Infrastructure.
 
 A plataforma deverá interpretar empresas reais com coerência executiva, estabilidade institucional e causalidade proporcional.

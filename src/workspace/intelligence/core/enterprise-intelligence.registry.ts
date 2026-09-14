@@ -10,7 +10,7 @@ export const EnterpriseIntelligenceRegistry: OfficeCapabilityRegistry[] = [
     office: 'ceo',
     capabilities: [
       'strategic-performance',
-      'growth-intelligence',
+      'growth-governance',
       'risk-overview'
     ]
   },
@@ -35,16 +35,16 @@ export const EnterpriseIntelligenceRegistry: OfficeCapabilityRegistry[] = [
     office: 'commercial',
     capabilities: [
       'commercial-performance',
-      'pipeline-intelligence',
-      'customer-intelligence'
+      'pipeline-governance',
+      'customer-governance'
     ]
   },
   {
     office: 'people',
     capabilities: [
-      'workforce-intelligence',
+      'workforce-governance',
       'culture-engagement',
-      'leadership-intelligence',
+      'leadership-governance',
       'people-costs'
     ]
   },
@@ -52,7 +52,7 @@ export const EnterpriseIntelligenceRegistry: OfficeCapabilityRegistry[] = [
     office: 'risk',
     capabilities: [
       'enterprise-risk',
-      'compliance-intelligence',
+      'compliance-governance',
       'control-maturity'
     ]
   },
@@ -60,15 +60,15 @@ export const EnterpriseIntelligenceRegistry: OfficeCapabilityRegistry[] = [
     office: 'governance',
     capabilities: [
       'strategic-alignment',
-      'decision-intelligence',
-      'board-intelligence'
+      'decision-governance',
+      'board-governance'
     ]
   },
   {
     office: 'innovation',
     capabilities: [
       'innovation-portfolio',
-      'opportunity-intelligence',
+      'opportunity-governance',
       'experiment-management'
     ]
   }

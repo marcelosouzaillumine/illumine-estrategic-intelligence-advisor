@@ -2,14 +2,14 @@
 
 > **Relatório Técnico de Auditoria da Camada Executive Digital Twin**  
 > *Horizonte Temporal: Julho de 2026 | IERA v1.0 Compliance Audit*  
-> *Documento Integrante do Pacote [`EXECUTIVE_ARCHITECTURE_AUDIT.md`](file:///Users/marcelosouza/Documents/illumine-strategic-intelligence-advisor/docs/reports/audit/EXECUTIVE_ARCHITECTURE_AUDIT.md)*  
+> *Documento Integrante do Pacote [`EXECUTIVE_ARCHITECTURE_AUDIT.md`](file:///Users/marcelosouza/Documents/illumine-strategic-governance-advisor/docs/reports/audit/EXECUTIVE_ARCHITECTURE_AUDIT.md)*  
 > *Status: Homologado*
 
 ---
 
 ## 1. Escopo e Metodologia da Auditoria
 
-Esta auditoria avalia a fidelidade da implementação concreta do **Executive Digital Twin** (o modelo computacional vivo da organização) em relação à especificação canônica definida em [`ARCHITECTURE_CONSTITUTION.md`](file:///Users/marcelosouza/Documents/illumine-strategic-intelligence-advisor/ARCHITECTURE_CONSTITUTION.md).
+Esta auditoria avalia a fidelidade da implementação concreta do **Executive Digital Twin** (o modelo computacional vivo da organização) em relação à especificação canônica definida em [`ARCHITECTURE_CONSTITUTION.md`](file:///Users/marcelosouza/Documents/illumine-strategic-governance-advisor/ARCHITECTURE_CONSTITUTION.md).
 
 A postura adotada é **estritamente crítica e baseada em evidências do código-fonte**, inspecionando agregados, hooks, estutura de estado, projeções e serviços de dados.
 
@@ -27,7 +27,7 @@ A postura adotada é **estritamente crítica e baseada em evidências do código
 * **Ação Corretiva**: Migrar a calculadora do Simulador Estratégico para consumir diretamente a capability `@illumine/financial-engine`.
 
 ### 2.3 Existem páginas independentes?
-* **Constatação**: **NÃO (0 Páginas Órfãs)**. Todas as 28 páginas mapeadas em [`docs/EXPERIENCE_CLASSIFICATION_MATRIX.md`](file:///Users/marcelosouza/Documents/illumine-strategic-intelligence-advisor/docs/EXPERIENCE_CLASSIFICATION_MATRIX.md) consomem o contexto institucional centralizado.
+* **Constatação**: **NÃO (0 Páginas Órfãs)**. Todas as 28 páginas mapeadas em [`docs/EXPERIENCE_CLASSIFICATION_MATRIX.md`](file:///Users/marcelosouza/Documents/illumine-strategic-governance-advisor/docs/EXPERIENCE_CLASSIFICATION_MATRIX.md) consomem o contexto institucional centralizado.
 
 ### 2.4 Existem estados duplicados?
 * **Constatação**: **BAIXO (Severidade: Baixa)**. O estado transient do seletor de empresa e período está unificado via `ExecutiveDecisionContext`. Contudo, filtros locais de tabela em `ClientsPage.tsx` mantêm estado de busca local sem interferir no domínio.

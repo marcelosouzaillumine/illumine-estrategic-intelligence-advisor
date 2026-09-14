@@ -3,7 +3,7 @@ import { describe, it, expect } from 'vitest';
 import { ExecutiveContextProvider } from '@illumine/executive-context-engine';
 import { ExecutiveAdvisoryEngine } from '../executive-advisory-engine/src';
 
-describe('@illumine/intelligence (Wave 18.6 Advisory Governance)', () => {
+describe('@illumine/governance (Wave 18.6 Advisory Governance)', () => {
   it('should enforce strict context integrity and evidence linking in recommendations (ADR-084)', () => {
     const ctx = ExecutiveContextProvider.buildContext({
       companyId: 'comp-emporio',

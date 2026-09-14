@@ -266,11 +266,11 @@ commands:
     visibility: [full]
     description: 'Registry statistics (entity count by type, categories, health score)'
 
-  # Code Intelligence — Registry Enrichment (Story NOG-2)
+  # Code Governance — Registry Enrichment (Story NOG-2)
   - name: sync-registry-intel
     args: '[--full]'
     visibility: [full]
-    description: 'Enrich entity registry with code intelligence data (usedBy, dependencies, codeIntelMetadata). Use --full to force full resync.'
+    description: 'Enrich entity registry with code governance data (usedBy, dependencies, codeIntelMetadata). Use --full to force full resync.'
 
 # IDS Pre-Action Hooks (Story IDS-7)
 # These hooks run BEFORE *create and *modify commands as advisory (non-blocking) steps.

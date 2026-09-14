@@ -2,7 +2,7 @@
 
 > **Relatório Técnico de Auditoria de Capacidades Cognitivas**  
 > *Horizonte Temporal: Julho de 2026 | IERA v1.0 Compliance Audit*  
-> *Documento Integrante do Pacote [`EXECUTIVE_ARCHITECTURE_AUDIT.md`](file:///Users/marcelosouza/Documents/illumine-strategic-intelligence-advisor/docs/reports/audit/EXECUTIVE_ARCHITECTURE_AUDIT.md)*  
+> *Documento Integrante do Pacote [`EXECUTIVE_ARCHITECTURE_AUDIT.md`](file:///Users/marcelosouza/Documents/illumine-strategic-governance-advisor/docs/reports/audit/EXECUTIVE_ARCHITECTURE_AUDIT.md)*  
 > *Status: Homologado*
 
 ---
@@ -11,7 +11,7 @@
 
 Esta auditoria analisa a implementação, utilização, desacoplamento e integração das **6 Capacidades Cognitivas Principais** registradas em `packages/capabilities/`:
 
-1. `@illumine/capability-financial` (Financial Intelligence Capability)
+1. `@illumine/capability-financial` (Financial Governance Capability)
 2. `@illumine/capability-governance` (Governance & ESG Capability)
 3. `@illumine/capability-operational` (Operational & Efficiency Capability)
 4. `@illumine/capability-strategic` (Strategic Positioning Capability)

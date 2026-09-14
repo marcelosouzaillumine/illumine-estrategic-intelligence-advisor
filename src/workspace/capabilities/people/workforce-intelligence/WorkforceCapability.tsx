@@ -10,13 +10,13 @@ export const WorkforceCapability: React.FC<WorkforceCapabilityProps> = ({ contex
   const { data: workforce, loading: loadingWF } = useWorkforceIntelligence(context);
   const { data: capacity, loading: loadingCap } = useWorkforceCapacity(context);
 
-  if (loadingWF || loadingCap) return <div className="p-8 text-slate-400">Processando Workforce Intelligence...</div>;
+  if (loadingWF || loadingCap) return <div className="p-8 text-slate-400">Processando Workforce Governance...</div>;
   if (!workforce || !capacity) return null;
 
   return (
     <div className="p-6 max-w-7xl mx-auto space-y-6">
       <header className="mb-8">
-        <h1 className="text-2xl font-semibold text-slate-100 tracking-tight">Workforce & Capacity Intelligence</h1>
+        <h1 className="text-2xl font-semibold text-slate-100 tracking-tight">Workforce & Capacity Governance</h1>
         <p className="text-slate-400 text-sm mt-1">People Office</p>
       </header>
 

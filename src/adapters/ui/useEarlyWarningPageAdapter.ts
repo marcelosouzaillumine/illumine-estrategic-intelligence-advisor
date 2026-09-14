@@ -1,8 +1,2 @@
-import { useState } from 'react';
-
-export function useEarlyWarningPageAdapter(clientId: string) {
-  const [loading, setLoading] = useState(false);
-  const [alerts, setAlerts] = useState<any[]>([]);
-
-  return { alerts, loading };
-}
+// shim
+export * from '../../capabilities/financial/infrastructure/adapters/ui/useEarlyWarningPageAdapter';

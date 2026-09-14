@@ -1114,4 +1114,4 @@ TARGETS (specific numbers + deadlines)
 
 *Avinash Kaushik v1.0*
 *Digital Analytics Evangelist*
-*Data Intelligence Pack - Tier 2*
+*Data Governance Pack - Tier 2*

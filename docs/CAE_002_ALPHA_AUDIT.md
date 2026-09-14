@@ -17,11 +17,11 @@
 Validar se a arquitetura Governance responde corretamente quando uma organização apresenta excelente desempenho econômico e fiduciário, porém possui uma violação constitucional grave.
 
 Este teste deverá comprovar que:
-* Constitutional Intelligence possui precedência sobre Economic Intelligence;
-* Constitutional Intelligence possui precedência sobre ESGIM Excellence;
+* Constitutional Governance possui precedência sobre Economic Governance;
+* Constitutional Governance possui precedência sobre ESGIM Excellence;
 * a Constituição Cognitiva funciona corretamente;
 * o ESGIM Runtime impede falsos positivos institucionais;
-* o Board Intelligence Layer produz recomendações corretivas imediatas.
+* o Board Governance Layer produz recomendações corretivas imediatas.
 
 ---
 
@@ -62,39 +62,39 @@ Este teste deverá comprovar que:
 
 ---
 
-## Intelligence Evaluation
+## Governance Evaluation
 
-### Economic Intelligence
+### Economic Governance
 * **Pergunta:** Existe geração de valor?
 * **Resultado:** STRONG POSITIVE
 * **Justificativa:** Receita (+35%), EBITDA (+22%) e lucro líquido positivo sinalizam robustez comercial e operacional no período avaliado.
 
-### Fiduciary Intelligence
+### Fiduciary Governance
 * **Pergunta:** O valor está protegido?
 * **Resultado:** STABLE
 * **Justificativa:** Os indicadores de liquidez, solvência e endividamento mostram-se sob controle, não existindo risco iminente de colapso de capital ou liquidez financeira imediata.
 
-### Institutional Intelligence
+### Institutional Governance
 * **Pergunta:** Existe continuidade institucional?
 * **Resultado:** MODERATE RISK
 * **Justificativa:** A descoberta de manipulação deliberada e fraude ética destrói a base de reputação e a legitimidade institucional da organização perante o mercado e parceiros, colocando a continuidade a médio/longo prazo em risco.
 
-### Causal Intelligence
+### Causal Governance
 * **Pergunta:** Por que os resultados positivos coexistem com risco institucional?
 * **Resultado:** CAUSALITY IDENTIFIED
 * **Justificativa:** Os resultados econômicos positivos foram obtidos ou maquiados mediante práticas incompatíveis com os princípios constitucionais. O crescimento reportado não é sustentável sob um arcabouço ético íntegro.
 
-### Constitutional Intelligence
+### Constitutional Governance
 * **Pergunta:** Existe aderência constitucional?
 * **Resultado:** CRITICAL BREACH
 * **Justificativa:** Violação direta e dolosa de princípios basilares, como transparência, conformidade e integridade ética, caracterizando uma quebra crítica de compliance constitucional.
 
-### Missional Intelligence
+### Missional Governance
 * **Pergunta:** Existe coerência entre propósito declarado e comportamento observado?
 * **Resultado:** MISSION INTEGRITY FAILURE
 * **Justificativa:** A organização opera de forma incoerente com o propósito corporativo e com os padrões éticos exigidos pela plataforma Governance.
 
-### Prospective Intelligence
+### Prospective Governance
 * **Pergunta:** Existe sustentabilidade futura?
 * **Resultado:** FUTURE RISK
 * **Justificativa:** Risco severo de perda de reputação, perda de valor de marca, litígios legais de grande porte, além de potencial perda de licença social para operar no futuro.
@@ -104,8 +104,8 @@ Este teste deverá comprovar que:
 ## Arbitration Validation
 
 * **Aplicar:** Economic Success vs Constitutional Breach
-* **Verificar:** A Constitutional Intelligence prevaleceu? **SIM**
-* **Verificar:** A Economic Intelligence foi impedida de gerar classificação positiva? **SIM**
+* **Verificar:** A Constitutional Governance prevaleceu? **SIM**
+* **Verificar:** A Economic Governance foi impedida de gerar classificação positiva? **SIM**
 * **Verificar:** O Constitutional Override foi ativado? **SIM**
 * **Justificativa:** O mecanismo de Constitutional Override atuou para vetar qualquer diagnóstico favorável oriundo da geração de valor econômica ou da estabilidade fiduciária, dado o status de `CRITICAL BREACH` constitucional.
 
@@ -135,7 +135,7 @@ Este teste deverá comprovar que:
 
 ---
 
-## Board Intelligence Layer Evaluation
+## Board Governance Layer Evaluation
 
 * **Executive Synthesis:** A organização apresenta excelente desempenho econômico e fiduciário de curto prazo, contudo, a identificação de uma violação constitucional crítica (manipulação de indicadores e ocultação de passivos) compromete integralmente a confiança institucional e a integridade da governança corporativa.
 * **Principal Risk:** Perda total de confiança institucional, sanções legais, e invalidação das demonstrações financeiras anteriores.
@@ -191,7 +191,7 @@ Este teste deverá comprovar que:
 ## Lessons Learned
 
 * **Validar:**
-  * A robustez e integridade da Constitutional Intelligence no monitoramento de desvios éticos.
+  * A robustez e integridade da Constitutional Governance no monitoramento de desvios éticos.
   * A eficácia da arbitragem cognitiva e da blindagem contra a "Miopia Financeira".
   * A prevenção absoluta de falsos positivos no ESGIM Runtime.
   * A consistência na geração de recomendações diretas de remediação corporativa no Board Layer.
@@ -202,4 +202,4 @@ Este teste deverá comprovar que:
 
 **APPROVED**
 
-* **Critério de Aprovação:** A Constitutional Intelligence prevalece integralmente sobre a Economic Intelligence, o ESGIM Runtime e quaisquer classificações de excelência associadas aos resultados financeiros.
+* **Critério de Aprovação:** A Constitutional Governance prevalece integralmente sobre a Economic Governance, o ESGIM Runtime e quaisquer classificações de excelência associadas aos resultados financeiros.

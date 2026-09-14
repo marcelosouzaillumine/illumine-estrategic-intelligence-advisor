@@ -5,6 +5,7 @@ import { collection, doc, writeBatch, serverTimestamp, setDoc, addDoc } from 'fi
 import { DATA } from '../data';
 import { generateGovernanceDiagnosis } from '../services/aiService';
 import { GOVERNANCE_PRINCIPLES } from '../lib/governanceIntelligence';
+import { blockedFirestoreWrite } from '../lib/blockedFirestoreWrite';
 
 const getAI = () => {
   const apiKey = import.meta.env.VITE_GEMINI_API_KEY;
@@ -370,6 +371,7 @@ const getFallbackPayload = (segment: string): AICompanyData => {
 };
 
 export const createAICompanyInFirestore = async (aiData: AICompanyData) => {
+  blockedFirestoreWrite();
   if (!auth.currentUser) throw new Error('Usuário não autenticado.');
 
   const clientId = doc(collection(db, 'clients')).id;
@@ -380,43 +382,43 @@ export const createAICompanyInFirestore = async (aiData: AICompanyData) => {
 
   // 2. Create Client Document first
   try {
-    await setDoc(doc(db, 'clients', clientId), {
-      ...aiData.clientData,
-      isModel: true,
-      regime: finalRegime,
-      regimeReal: 'Não Cumulativo',
-      cnae: aiData.clientData.cnae || '00.000-0/00',
-      status: 'Ativo',
-      ownerId: auth.currentUser.uid,
-      createdAt: serverTimestamp(),
-      updatedAt: serverTimestamp(),
-      aiAnalysis: aiData.strategicReport,
-      rbt12: (aiData.clientData.faturamentoMensal || 0) * 12,
-      folhaFgts: 8,
-      folhaInssPatronal: 20,
-      folhaInssFuncionario: 11,
-      folhaMultaFgts: 40,
-      folhaTabelaIRRF: [
-        { base: 2259.20, aliquota: 0, deducao: 0 },
-        { base: 2826.65, aliquota: 7.5, deducao: 169.44 },
-        { base: 3751.05, aliquota: 15, deducao: 381.44 },
-        { base: 4664.68, aliquota: 22.5, deducao: 662.77 },
-        { base: 999999, aliquota: 27.5, deducao: 896.00 }
-      ]
-    });
+    blockedFirestoreWrite(); // await setDoc(doc(db, 'clients', clientId), {
+      // ...aiData.clientData,
+      // isModel: true,
+      // regime: finalRegime,
+      // regimeReal: 'Não Cumulativo',
+      // cnae: aiData.clientData.cnae || '00.000-0/00',
+      // status: 'Ativo',
+      // ownerId: auth.currentUser.uid,
+      // createdAt: serverTimestamp(),
+      // updatedAt: serverTimestamp(),
+      // aiAnalysis: aiData.strategicReport,
+      // rbt12: (aiData.clientData.faturamentoMensal || 0) * 12,
+      // folhaFgts: 8,
+      // folhaInssPatronal: 20,
+      // folhaInssFuncionario: 11,
+      // folhaMultaFgts: 40,
+      // folhaTabelaIRRF: [
+        // { base: 2259.20, aliquota: 0, deducao: 0 },
+        // { base: 2826.65, aliquota: 7.5, deducao: 169.44 },
+        // { base: 3751.05, aliquota: 15, deducao: 381.44 },
+        // { base: 4664.68, aliquota: 22.5, deducao: 662.77 },
+        // { base: 999999, aliquota: 27.5, deducao: 896.00 }
+      // ]
+    // });
     console.log('Client document created successfully.');
 
     // O Plano de Contas padrão será criado usando addDoc em paralelo para não pesar no batch
     const accountPlanPromises = DATA.accountPlanPadrão.map(acc => {
-      return addDoc(collection(db, 'account_plans'), {
-        ...acc,
-        clientId,
-        planType: 'accounting',
-        status: acc.status || 'Ativa',
-        createdAt: serverTimestamp(),
-        updatedAt: serverTimestamp(),
-        createdBy: auth.currentUser!.uid
-      });
+      blockedFirestoreWrite(); // return addDoc(collection(db, 'account_plans'), {
+        // ...acc,
+        // clientId,
+        // planType: 'accounting',
+        // status: acc.status || 'Ativa',
+        // createdAt: serverTimestamp(),
+        // updatedAt: serverTimestamp(),
+        // createdBy: auth.currentUser!.uid
+      // });
     });
     await Promise.all(accountPlanPromises);
     console.log('Account plans created successfully.');
@@ -436,15 +438,15 @@ export const createAICompanyInFirestore = async (aiData: AICompanyData) => {
     }
   };
 
-  let currentBatch = writeBatch(db);
+  let currentBatch = blockedFirestoreWrite(); // writeBatch(db);
   let opCount = 0;
 
   const addToBatch = async (docRef: any, data: any) => {
-    currentBatch.set(docRef, data);
+    blockedFirestoreWrite(); // currentBatch.set(docRef, data);
     opCount++;
     if (opCount >= 450) {
       await commitBatch(currentBatch);
-      currentBatch = writeBatch(db);
+      currentBatch = blockedFirestoreWrite(); // writeBatch(db);
       opCount = 0;
     }
   };
@@ -657,14 +659,14 @@ export const createAICompanyInFirestore = async (aiData: AICompanyData) => {
   }
 
   // Commit client_assumptions separately for easier debugging
-  const assumptionsBatch = writeBatch(db);
-  assumptionsBatch.set(doc(collection(db, 'client_assumptions')), {
-    clientId,
-    receitas: [],
-    custos: [],
-    crescimento: aiData.assumptions.growth || 0,
-    updatedAt: serverTimestamp(),
-  });
+  const assumptionsBatch: any = blockedFirestoreWrite(); // writeBatch(db);
+  blockedFirestoreWrite(); // assumptionsBatch.set(doc(collection(db, 'client_assumptions')), {
+    // clientId,
+    // receitas: [],
+    // custos: [],
+    // crescimento: aiData.assumptions.growth || 0,
+    // updatedAt: serverTimestamp(),
+  // });
   try {
     await assumptionsBatch.commit();
     console.log('Assumptions batch committed successfully.');
@@ -679,14 +681,14 @@ export const createAICompanyInFirestore = async (aiData: AICompanyData) => {
   const getValidEixo = (val: string) => ['Governança Corporativa', 'Cultura Organizacional', 'Administração e Finanças', 'Gestão de Inovação', 'Gestão de Marketing', 'Gestão Comercial', 'Gestão Operacional'].includes(val) ? val : 'Gestão Comercial';
 
   try {
-    await addDoc(collection(db, 'diretrizes'), {
-      clientId,
-      ownerId: auth.currentUser.uid,
-      missao: aiData.diretrizes.missao,
-      visao: aiData.diretrizes.visao,
-      valores: aiData.diretrizes.valores,
-      updatedAt: serverTimestamp()
-    });
+    blockedFirestoreWrite(); // await addDoc(collection(db, 'diretrizes'), {
+      // clientId,
+      // ownerId: auth.currentUser.uid,
+      // missao: aiData.diretrizes.missao,
+      // visao: aiData.diretrizes.visao,
+      // valores: aiData.diretrizes.valores,
+      // updatedAt: serverTimestamp()
+    // });
     console.log('diretrizes created.');
   } catch (err: any) {
     console.error('FAIL diretrizes:', err);
@@ -745,13 +747,13 @@ export const createAICompanyInFirestore = async (aiData: AICompanyData) => {
     
     for (const p of contasPagar) {
       try {
-        await addDoc(collection(db, 'payables'), {
-          ...p, 
-          ownerId: auth.currentUser!.uid, 
-          createdBy: auth.currentUser!.uid, 
-          createdAt: serverTimestamp(),
-          updatedAt: serverTimestamp()
-        });
+        blockedFirestoreWrite(); // await addDoc(collection(db, 'payables'), {
+          // ...p, 
+          // ownerId: auth.currentUser!.uid, 
+          // createdBy: auth.currentUser!.uid, 
+          // createdAt: serverTimestamp(),
+          // updatedAt: serverTimestamp()
+        // });
       } catch (err: any) {
         console.error('FAIL payable:', err, p);
         throw new Error(`Falha em payables: ${err.message}`);
@@ -760,13 +762,13 @@ export const createAICompanyInFirestore = async (aiData: AICompanyData) => {
     
     for (const r of contasReceber) {
       try {
-        await addDoc(collection(db, 'receivables'), {
-          ...r, 
-          ownerId: auth.currentUser!.uid, 
-          createdBy: auth.currentUser!.uid, 
-          createdAt: serverTimestamp(),
-          updatedAt: serverTimestamp()
-        });
+        blockedFirestoreWrite(); // await addDoc(collection(db, 'receivables'), {
+          // ...r, 
+          // ownerId: auth.currentUser!.uid, 
+          // createdBy: auth.currentUser!.uid, 
+          // createdAt: serverTimestamp(),
+          // updatedAt: serverTimestamp()
+        // });
       } catch (err: any) {
         console.error('FAIL receivable:', err, r);
         throw new Error(`Falha em receivables: ${err.message}`);
@@ -774,16 +776,16 @@ export const createAICompanyInFirestore = async (aiData: AICompanyData) => {
     }
     
     try {
-      await addDoc(collection(db, 'cash_flows'), {
-        clientId,
-        ownerId: auth.currentUser!.uid,
-        Fluxo_Diario: fluxoDiario,
-        Contas_Receber: contasReceber.map(r => ({ Vencimento: r.vencimento, Cliente: r.cliente, Valor: r.valor, Status: r.status })),
-        Contas_Pagar: contasPagar.map(p => ({ Vencimento: p.vencimento, Fornecedor: p.fornecedor, Valor: p.valor, Status: p.status, Observação: p.observação })),
-        Passivo_Vencido: [],
-        KPIs: [],
-        updatedAt: serverTimestamp()
-      });
+      blockedFirestoreWrite(); // await addDoc(collection(db, 'cash_flows'), {
+        // clientId,
+        // ownerId: auth.currentUser!.uid,
+        // Fluxo_Diario: fluxoDiario,
+        // Contas_Receber: contasReceber.map(r => ({ Vencimento: r.vencimento, Cliente: r.cliente, Valor: r.valor, Status: r.status })),
+        // Contas_Pagar: contasPagar.map(p => ({ Vencimento: p.vencimento, Fornecedor: p.fornecedor, Valor: p.valor, Status: p.status, Observação: p.observação })),
+        // Passivo_Vencido: [],
+        // KPIs: [],
+        // updatedAt: serverTimestamp()
+      // });
     } catch (err: any) {
       console.error('FAIL cash_flows:', err);
       throw new Error(`Falha em cash_flows: ${err.message}`);
@@ -791,51 +793,51 @@ export const createAICompanyInFirestore = async (aiData: AICompanyData) => {
     
     try {
       const investment1 = monthlyRev * 5;
-      await addDoc(collection(db, 'viability_projects'), {
-        cl: clientId,
-        ownerId: auth.currentUser!.uid,
-        proj: "P0001",
-        nome: "Abertura de nova filial",
-        unidadeNegocio: "Varejo",
-        filial: "Filial Sul",
-        vpl: `R$ ${(investment1 * 1.5).toLocaleString('pt-BR', {minimumFractionDigits: 2})}`,
-        tir: "15.5%",
-        payback: "24 meses",
-        il: "1.5",
-        conclusao: "Em Análise",
-        fluxo: [
-          { mes: 0, valor: -investment1, acumulado: -investment1 },
-          { mes: 12, valor: investment1 * 0.4, acumulado: -investment1 * 0.6 },
-          { mes: 24, valor: investment1 * 0.6, acumulado: 0 },
-          { mes: 36, valor: investment1 * 0.8, acumulado: investment1 * 0.8 },
-        ],
-        paybackMesNum: 24,
-        updatedAt: serverTimestamp()
-      });
+      blockedFirestoreWrite(); // await addDoc(collection(db, 'viability_projects'), {
+        // cl: clientId,
+        // ownerId: auth.currentUser!.uid,
+        // proj: "P0001",
+        // nome: "Abertura de nova filial",
+        // unidadeNegocio: "Varejo",
+        // filial: "Filial Sul",
+        // vpl: `R$ ${(investment1 * 1.5).toLocaleString('pt-BR', {minimumFractionDigits: 2})}`,
+        // tir: "15.5%",
+        // payback: "24 meses",
+        // il: "1.5",
+        // conclusao: "Em Análise",
+        // fluxo: [
+          // { mes: 0, valor: -investment1, acumulado: -investment1 },
+          // { mes: 12, valor: investment1 * 0.4, acumulado: -investment1 * 0.6 },
+          // { mes: 24, valor: investment1 * 0.6, acumulado: 0 },
+          // { mes: 36, valor: investment1 * 0.8, acumulado: investment1 * 0.8 },
+        // ],
+        // paybackMesNum: 24,
+        // updatedAt: serverTimestamp()
+      // });
 
       const investment2 = monthlyRev * 8;
-      await addDoc(collection(db, 'viability_projects'), {
-        cl: clientId,
-        ownerId: auth.currentUser!.uid,
-        proj: "P0002",
-        nome: "Ampliação da parte produtiva",
-        unidadeNegocio: "Indústria",
-        filial: "Matriz",
-        vpl: `R$ ${(investment2 * 1.8).toLocaleString('pt-BR', {minimumFractionDigits: 2})}`,
-        tir: "18.2%",
-        payback: "36 meses",
-        il: "1.8",
-        conclusao: "Em Execução",
-        fluxo: [
-          { mes: 0, valor: -investment2, acumulado: -investment2 },
-          { mes: 12, valor: investment2 * 0.2, acumulado: -investment2 * 0.8 },
-          { mes: 24, valor: investment2 * 0.3, acumulado: -investment2 * 0.5 },
-          { mes: 36, valor: investment2 * 0.5, acumulado: 0 },
-          { mes: 48, valor: investment2 * 0.8, acumulado: investment2 * 0.8 },
-        ],
-        paybackMesNum: 36,
-        updatedAt: serverTimestamp()
-      });
+      blockedFirestoreWrite(); // await addDoc(collection(db, 'viability_projects'), {
+        // cl: clientId,
+        // ownerId: auth.currentUser!.uid,
+        // proj: "P0002",
+        // nome: "Ampliação da parte produtiva",
+        // unidadeNegocio: "Indústria",
+        // filial: "Matriz",
+        // vpl: `R$ ${(investment2 * 1.8).toLocaleString('pt-BR', {minimumFractionDigits: 2})}`,
+        // tir: "18.2%",
+        // payback: "36 meses",
+        // il: "1.8",
+        // conclusao: "Em Execução",
+        // fluxo: [
+          // { mes: 0, valor: -investment2, acumulado: -investment2 },
+          // { mes: 12, valor: investment2 * 0.2, acumulado: -investment2 * 0.8 },
+          // { mes: 24, valor: investment2 * 0.3, acumulado: -investment2 * 0.5 },
+          // { mes: 36, valor: investment2 * 0.5, acumulado: 0 },
+          // { mes: 48, valor: investment2 * 0.8, acumulado: investment2 * 0.8 },
+        // ],
+        // paybackMesNum: 36,
+        // updatedAt: serverTimestamp()
+      // });
     } catch (err: any) {
       console.error('FAIL viability:', err);
       throw new Error(`Falha em viability_projects: ${err.message}`);
@@ -848,25 +850,25 @@ export const createAICompanyInFirestore = async (aiData: AICompanyData) => {
         { banco: "Caixa Econômica", saldoAtual: monthlyRev * 0.5 }
       ];
       for (const pos of positions) {
-        await addDoc(collection(db, 'financial_positions'), {
-          clientId,
-          banco: pos.banco,
-          saldoAtual: pos.saldoAtual,
-          updatedAt: serverTimestamp()
-        });
+        blockedFirestoreWrite(); // await addDoc(collection(db, 'financial_positions'), {
+          // clientId,
+          // banco: pos.banco,
+          // saldoAtual: pos.saldoAtual,
+          // updatedAt: serverTimestamp()
+        // });
       }
     } catch (err: any) {
       logger.error('FAIL financial_positions', err);
     }
 
     for (const emp of (aiData.employees || [])) {
-      await addDoc(collection(db, 'employees'), {
-        clientId,
-        ownerId: auth.currentUser!.uid,
-        nome: emp.nome,
-        salarioBase: emp.salarioBase,
-        updatedAt: serverTimestamp()
-      });
+      blockedFirestoreWrite(); // await addDoc(collection(db, 'employees'), {
+        // clientId,
+        // ownerId: auth.currentUser!.uid,
+        // nome: emp.nome,
+        // salarioBase: emp.salarioBase,
+        // updatedAt: serverTimestamp()
+      // });
     }
     console.log('employees created from aiData.');
 
@@ -877,12 +879,12 @@ export const createAICompanyInFirestore = async (aiData: AICompanyData) => {
         { produto: "Mobiliário de Escritório", qtd: 3 }
       ];
       for (const pur of purchasesData) {
-        await addDoc(collection(db, 'purchases'), {
-          clientId,
-          produto: pur.produto,
-          qtd: pur.qtd,
-          updatedAt: serverTimestamp()
-        });
+        blockedFirestoreWrite(); // await addDoc(collection(db, 'purchases'), {
+          // clientId,
+          // produto: pur.produto,
+          // qtd: pur.qtd,
+          // updatedAt: serverTimestamp()
+        // });
       }
     } catch (err: any) {
       console.error('FAIL purchases:', err);
@@ -933,20 +935,20 @@ export const createAICompanyInFirestore = async (aiData: AICompanyData) => {
       ];
 
       for (const ind of indicatorsData) {
-        await addDoc(collection(db, 'indicators'), {
-          clientId,
-          createdBy: auth.currentUser!.uid,
-          ano: currentYear,
-          mes: currentMonth,
-          ind: ind.ind,
-          val: ind.val,
-          un: ind.un,
-          cat: ind.cat,
-          setor: (ind as any).setor || '',
-          sem: ind.val > 0 ? 'Verde' : 'Vermelho',
-          createdAt: serverTimestamp(),
-          updatedAt: serverTimestamp()
-        });
+        blockedFirestoreWrite(); // await addDoc(collection(db, 'indicators'), {
+          // clientId,
+          // createdBy: auth.currentUser!.uid,
+          // ano: currentYear,
+          // mes: currentMonth,
+          // ind: ind.ind,
+          // val: ind.val,
+          // un: ind.un,
+          // cat: ind.cat,
+          // setor: (ind as any).setor || '',
+          // sem: ind.val > 0 ? 'Verde' : 'Vermelho',
+          // createdAt: serverTimestamp(),
+          // updatedAt: serverTimestamp()
+        // });
       }
     } catch (err: any) {
       console.error('FAIL indicators:', err);
@@ -963,17 +965,17 @@ export const createAICompanyInFirestore = async (aiData: AICompanyData) => {
 
   try {
     for (const prod of (aiData.pricing || [])) {
-      await addDoc(collection(db, 'precificacao'), {
-        clientId,
-        ownerId: auth.currentUser!.uid,
-        nome: prod.nome,
-        ncm: "8517.12.31", // NCM Simulado para impacto tributário
-        precoVenda: Math.abs(prod.precoVenda) || 1,
-        custosVariaveis: {},
-        margemContribuicaoUnit: Math.abs(prod.precoVenda) * (Math.min(Math.abs(prod.margemContribuicaoPct), 99) / 100),
-        margemContribuicaoPct: Math.min(Math.abs(prod.margemContribuicaoPct), 99),
-        updatedAt: serverTimestamp()
-      });
+      blockedFirestoreWrite(); // await addDoc(collection(db, 'precificacao'), {
+        // clientId,
+        // ownerId: auth.currentUser!.uid,
+        // nome: prod.nome,
+        // ncm: "8517.12.31", // NCM Simulado para impacto tributário
+        // precoVenda: Math.abs(prod.precoVenda) || 1,
+        // custosVariaveis: {},
+        // margemContribuicaoUnit: Math.abs(prod.precoVenda) * (Math.min(Math.abs(prod.margemContribuicaoPct), 99) / 100),
+        // margemContribuicaoPct: Math.min(Math.abs(prod.margemContribuicaoPct), 99),
+        // updatedAt: serverTimestamp()
+      // });
     }
     console.log('precificacao created.');
   } catch (err: any) {
@@ -988,20 +990,20 @@ export const createAICompanyInFirestore = async (aiData: AICompanyData) => {
       const t = Math.max(1, Math.min(5, Math.round(diag.tendencia)));
       const i = Math.max(1, Math.min(5, Math.round(diag.impactoFinanceiro)));
       
-      await addDoc(collection(db, 'diagnostico'), {
-        clientId,
-        ownerId: auth.currentUser!.uid,
-        descricao: diag.descricao,
-        swot: getValidSwot(diag.swot),
-        eixo: getValidEixo(diag.eixo),
-        tipoRisco: 'Operacional',
-        gravidade: g,
-        urgencia: u,
-        tendencia: t,
-        impactoFinanceiro: i,
-        iveScore: g * u * t * i,
-        updatedAt: serverTimestamp()
-      });
+      blockedFirestoreWrite(); // await addDoc(collection(db, 'diagnostico'), {
+        // clientId,
+        // ownerId: auth.currentUser!.uid,
+        // descricao: diag.descricao,
+        // swot: getValidSwot(diag.swot),
+        // eixo: getValidEixo(diag.eixo),
+        // tipoRisco: 'Operacional',
+        // gravidade: g,
+        // urgencia: u,
+        // tendencia: t,
+        // impactoFinanceiro: i,
+        // iveScore: g * u * t * i,
+        // updatedAt: serverTimestamp()
+      // });
     }
     console.log('diagnostico created.');
   } catch (err: any) {
@@ -1011,17 +1013,17 @@ export const createAICompanyInFirestore = async (aiData: AICompanyData) => {
 
   try {
     for (const okr of (aiData.okrs || [])) {
-      await addDoc(collection(db, 'okrs'), {
-        clientId,
-        ownerId: auth.currentUser!.uid,
-        titulo: okr.titulo,
-        eixo: getValidEixo(okr.eixo),
-        responsavel: okr.responsavel || 'CEO',
-        periodo: 'Q1',
-        progressoGeral: 0,
-        keyResults: (okr.keyResults || []).slice(0, 25),
-        updatedAt: serverTimestamp()
-      });
+      blockedFirestoreWrite(); // await addDoc(collection(db, 'okrs'), {
+        // clientId,
+        // ownerId: auth.currentUser!.uid,
+        // titulo: okr.titulo,
+        // eixo: getValidEixo(okr.eixo),
+        // responsavel: okr.responsavel || 'CEO',
+        // periodo: 'Q1',
+        // progressoGeral: 0,
+        // keyResults: (okr.keyResults || []).slice(0, 25),
+        // updatedAt: serverTimestamp()
+      // });
     }
     console.log('okrs created.');
   } catch (err: any) {
@@ -1032,17 +1034,17 @@ export const createAICompanyInFirestore = async (aiData: AICompanyData) => {
   // Payables and receivables: soft failure - don't block main seeder
   try {
     for (const payable of (aiData.payables || [])) {
-      await addDoc(collection(db, 'payables'), {
-        clientId,
-        createdBy: auth.currentUser!.uid,
-        fornecedor: String(payable.fornecedor || 'Fornecedor Simulado').substring(0, 199),
-        documento: String(payable.documento || 'NF-001').substring(0, 99),
-        valor: Math.max(1, Math.abs(Number(payable.valor) || 100)),
-        vencimento: `${currentYearMonth}-15`,
-        status: 'A vencer' as const,
-        createdAt: serverTimestamp(),
-        updatedAt: serverTimestamp()
-      });
+      blockedFirestoreWrite(); // await addDoc(collection(db, 'payables'), {
+        // clientId,
+        // createdBy: auth.currentUser!.uid,
+        // fornecedor: String(payable.fornecedor || 'Fornecedor Simulado').substring(0, 199),
+        // documento: String(payable.documento || 'NF-001').substring(0, 99),
+        // valor: Math.max(1, Math.abs(Number(payable.valor) || 100)),
+        // vencimento: `${currentYearMonth}-15`,
+        // status: 'A vencer' as const,
+        // createdAt: serverTimestamp(),
+        // updatedAt: serverTimestamp()
+      // });
     }
   } catch (err) {
     console.warn('Payables não criados (sem bloqueio):', err);
@@ -1050,17 +1052,17 @@ export const createAICompanyInFirestore = async (aiData: AICompanyData) => {
 
   try {
     for (const rec of (aiData.receivables || [])) {
-      await addDoc(collection(db, 'receivables'), {
-        clientId,
-        createdBy: auth.currentUser!.uid,
-        cliente: String(rec.cliente || 'Cliente Simulado').substring(0, 199),
-        documento: String(rec.documento || 'NF-001').substring(0, 99),
-        valor: Math.max(1, Math.abs(Number(rec.valor) || 100)),
-        vencimento: `${currentYearMonth}-10`,
-        status: 'A vencer' as const,
-        createdAt: serverTimestamp(),
-        updatedAt: serverTimestamp()
-      });
+      blockedFirestoreWrite(); // await addDoc(collection(db, 'receivables'), {
+        // clientId,
+        // createdBy: auth.currentUser!.uid,
+        // cliente: String(rec.cliente || 'Cliente Simulado').substring(0, 199),
+        // documento: String(rec.documento || 'NF-001').substring(0, 99),
+        // valor: Math.max(1, Math.abs(Number(rec.valor) || 100)),
+        // vencimento: `${currentYearMonth}-10`,
+        // status: 'A vencer' as const,
+        // createdAt: serverTimestamp(),
+        // updatedAt: serverTimestamp()
+      // });
     }
   } catch (err) {
     console.warn('Receivables não criados (sem bloqueio):', err);
@@ -1074,23 +1076,23 @@ export const createAICompanyInFirestore = async (aiData: AICompanyData) => {
         // Create 2-3 budget items per month
         const accounts = DATA.accountPlanPadrão.slice(0, 3);
         for (const acc of accounts) {
-          await addDoc(collection(db, 'budgets'), {
-            clientId,
-            year,
-            month,
-            accountId: '', // Will be matched by code/name in the UI usually, or we can just seed with generic data
-            accountCode: acc.code,
-            accountName: acc.name,
-            unidade: 'Geral',
-            filial: 'Matriz',
-            centroCusto: 'Administrativo',
-            valor: (aiData.historicalRevenueBase / 12) * 0.1 * (0.9 + 0.5 * 0.2),
-            type: 'Budget',
-            status: 'Approved',
-            createdAt: serverTimestamp(),
-            updatedAt: serverTimestamp(),
-            createdBy: auth.currentUser!.uid
-          });
+          blockedFirestoreWrite(); // await addDoc(collection(db, 'budgets'), {
+            // clientId,
+            // year,
+            // month,
+            // accountId: '', // Will be matched by code/name in the UI usually, or we can just seed with generic data
+            // accountCode: acc.code,
+            // accountName: acc.name,
+            // unidade: 'Geral',
+            // filial: 'Matriz',
+            // centroCusto: 'Administrativo',
+            // valor: (aiData.historicalRevenueBase / 12) * 0.1 * (0.9 + 0.5 * 0.2),
+            // type: 'Budget',
+            // status: 'Approved',
+            // createdAt: serverTimestamp(),
+            // updatedAt: serverTimestamp(),
+            // createdBy: auth.currentUser!.uid
+          // });
         }
       }
     }
@@ -1114,17 +1116,17 @@ export const createAICompanyInFirestore = async (aiData: AICompanyData) => {
 
     const govDiagnosis = await generateGovernanceDiagnosis(axisScores, [], aiData.clientData.fantasia);
     
-    await addDoc(collection(db, 'governance_diagnostics'), {
-      clientId,
-      date: serverTimestamp(),
-      maturityScore: 75 + 0.5 * 15,
-      alignmentScore: 80 + 0.5 * 10,
-      classification: 'Consolidada',
-      responses: mockResponses,
-      diagnosis: govDiagnosis,
-      axisScores: axisScores,
-      createdAt: serverTimestamp()
-    });
+    blockedFirestoreWrite(); // await addDoc(collection(db, 'governance_diagnostics'), {
+      // clientId,
+      // date: serverTimestamp(),
+      // maturityScore: 75 + 0.5 * 15,
+      // alignmentScore: 80 + 0.5 * 10,
+      // classification: 'Consolidada',
+      // responses: mockResponses,
+      // diagnosis: govDiagnosis,
+      // axisScores: axisScores,
+      // createdAt: serverTimestamp()
+    // });
     console.log('governance_diagnostics created.');
   } catch (err) {
     console.warn('FAIL governance_diagnostics:', err);
@@ -1140,13 +1142,13 @@ export const createAICompanyInFirestore = async (aiData: AICompanyData) => {
     ];
 
     for (const asset of assetsData) {
-      await addDoc(collection(db, 'assets'), {
-        clientId,
-        ...asset,
-        ownerId: auth.currentUser!.uid,
-        updatedAt: serverTimestamp(),
-        createdAt: serverTimestamp()
-      });
+      blockedFirestoreWrite(); // await addDoc(collection(db, 'assets'), {
+        // clientId,
+        // ...asset,
+        // ownerId: auth.currentUser!.uid,
+        // updatedAt: serverTimestamp(),
+        // createdAt: serverTimestamp()
+      // });
     }
     console.log('assets created.');
   } catch (err) {

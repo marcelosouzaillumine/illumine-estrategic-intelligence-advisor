@@ -9,7 +9,7 @@ import { ValuationIntelligence } from "../src/lib/valuation-intelligence-types";
 import { BenchmarkIntelligence } from "../src/lib/benchmark-intelligence-types";
 import { GovernanceDigitalTwin } from "../src/lib/governance-digital-twin-types";
 
-describe("Sector Intelligence Layer v3.0", () => {
+describe("Sector Governance Layer v3.0", () => {
   const createMockInput = (
     executionTrajectory: "HIGH" | "LOW"
   ): SectorIntelligenceInput => {

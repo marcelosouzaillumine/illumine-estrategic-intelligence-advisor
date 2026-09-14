@@ -593,7 +593,7 @@ BUSINESS IMPACT:
 | Bad pairing goes viral | Crisis Communications | Immediately |
 | Major reach decline | Marketing Leadership | Same week |
 | Audience drift (wrong type) | Strategy Team | Within month |
-| Competitor capturing associations | Competitive Intelligence | Within week |
+| Competitor capturing associations | Competitive Governance | Within week |
 | Product failing to match brand promise | Product & Brand Alignment | Immediately |
 | Pricing power declining | Leadership | Within quarter |
 

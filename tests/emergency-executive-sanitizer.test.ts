@@ -9,7 +9,7 @@ describe("Emergency Executive Sanitizer", () => {
         status: "CRITICAL",
         id: "sectionId",
       },
-      list: [{ section: "DFC_CAUSAL_INTELLIGENCE" }, { status: "NORMAL" }, "Regular text"],
+      list: [{ section: "DFC_CAUSAL_GOVERNANCE" }, { status: "NORMAL" }, "Regular text"],
     };
 
     const sanitized = sanitizeExecutivePayload(payload);

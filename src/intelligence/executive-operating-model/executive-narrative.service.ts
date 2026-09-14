@@ -44,7 +44,7 @@ export class ExecutiveNarrativeService {
     stage: OrganizationalStage,
     nextJourneyId: string
   ): string {
-    const domainPrefix = nextJourneyId.replace('-intelligence', '');
+    const domainPrefix = nextJourneyId.replace('-governance', '');
     const registry = DomainRegistry.getInstance();
     const domainMeta = registry.getDomain(domainPrefix as any);
     const domainName = domainMeta ? domainMeta.name : domainPrefix;

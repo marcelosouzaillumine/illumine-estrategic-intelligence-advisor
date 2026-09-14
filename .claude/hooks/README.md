@@ -149,7 +149,7 @@ Hooks são registrados em `.claude/settings.json` (framework, commitado) ou `.cl
 | Hook | Evento | Matcher | Descrição |
 |------|--------|---------|-----------|
 | `synapse-engine.cjs` | `UserPromptSubmit` | — | SYNAPSE context engine |
-| `code-intel-pretool.cjs` | `PreToolUse` | `Write\|Edit` | Code intelligence injection |
+| `code-intel-pretool.cjs` | `PreToolUse` | `Write\|Edit` | Code governance injection |
 | `precompact-session-digest.cjs` | `PreCompact` | — | Session digest capture |
 
 ### Exemplo de Configuração

@@ -28,7 +28,7 @@ Toda URL da Public Experience (e das futuras extensões internacionais da plataf
 [Domínio]/[Locale]/[Slug-Canônico]
 ```
 
-Exemplo: `https://illumineintelligence.com/pt/platform`
+Exemplo: `https://illuminegovernance.com/pt/platform`
 
 ### Casos de Exceção e Redirecionamentos
 
@@ -55,7 +55,7 @@ As únicas chaves permitidas para a navegação pública e que estão documentad
 | `PLATFORM`          | `/platform`          | InstitutionalPlatformPage                   |
 | `DOMAINS`           | `/domains`           | InstitutionalDomainsPage                    |
 | `GOVERNANCE`        | `/governance`        | InstitutionalGovernancePage                 |
-| `INTELLIGENCE_CENTER`| `/intelligence-center`| InstitutionalIntelligenceCenterPage       |
+| `GOVERNANCE_CENTER`| `/governance-center`| InstitutionalGovernanceCenterPage       |
 | `ASSESSMENT`        | `/assessment`        | ExecutiveAssessmentPage                     |
 | `CONTACT`           | `/contact`           | Contato Institucional / Form                |
 | `PARTNERS`          | `/partners`          | Parceiros Globais (em roadmap)              |
@@ -75,7 +75,7 @@ Eles foram registrados em um `legacyAliases` central que os intercepta via rotea
 - `/governanca` → Redireciona para `/[locale]/governance`
 - `/dominios` → Redireciona para `/[locale]/domains`
 - `/diagnostico` → Redireciona para `/[locale]/assessment`
-- `/centro-de-inteligencia` → Redireciona para `/[locale]/intelligence-center`
+- `/centro-de-inteligencia` → Redireciona para `/[locale]/governance-center`
 - `/por-que-illumine` → Redireciona para `/[locale]/why-illumine`
 - `/parceiros` → Redireciona para `/[locale]/partners`
 - `/contato` → Redireciona para `/[locale]/contact`

@@ -82,7 +82,7 @@ describe('EQE Net Income Lineage Stabilization Tests', () => {
     
     // Mismatch: DRE has 50000, DFC extracts 40000 from mockHistory
     context.inferences['LegacyDREAdapter'] = {
-      domain: 'Operational Intelligence',
+      domain: 'Operational Governance',
       metrics: {
         lucroLiq: 50000,
         recLiquida: 100000
@@ -117,7 +117,7 @@ describe('EQE Net Income Lineage Stabilization Tests', () => {
 
     const context = buildBaseContext(mockHistory);
     context.inferences['LegacyDREAdapter'] = {
-      domain: 'Operational Intelligence',
+      domain: 'Operational Governance',
       metrics: {
         lucroLiq: -10000,
         recLiquida: 100000
@@ -213,7 +213,7 @@ describe('EQE Net Income Lineage Stabilization Tests', () => {
     
     // Mock DRE matching sovereign value
     context.inferences['LegacyDREAdapter'] = {
-      domain: 'Operational Intelligence',
+      domain: 'Operational Governance',
       metrics: {
         lucroLiq: -68548.88,
         recLiquida: 382483.91

@@ -2,7 +2,7 @@
 //
 // Institutional Materiality Engine
 
-import { ExecutiveDecision } from '../decision-intelligence/decision-types';
+import { ExecutiveDecision } from '../../../capabilities/runtime/decision-intelligence/decision-types';
 import { MaterialityAssessment } from './policy-types';
 
 export class InstitutionalMaterialityEngine {

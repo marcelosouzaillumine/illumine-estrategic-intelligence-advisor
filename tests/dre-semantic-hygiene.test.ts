@@ -1,8 +1,8 @@
 import test from 'node:test';
 import assert from 'node:assert';
-import { DreContractGuard } from '../src/core/runtime/dre/DreContractGuard';
-import { DreExecutiveViewModel } from '../src/core/runtime/dre/DreExecutiveViewModelBuilder';
-import { DreEconomicScenario } from '../src/core/runtime/dre/DreScenarioClassifier';
+import { DreContractGuard } from '../src/capabilities/financial/runtime/dre/DreContractGuard';
+import { DreExecutiveViewModel } from '../src/capabilities/financial/runtime/dre/DreExecutiveViewModelBuilder';
+import { DreEconomicScenario } from '../src/capabilities/financial/runtime/dre/DreScenarioClassifier';
 
 test('DRE Semantic Hygiene', async (t) => {
   const createQ = (resp: string) => ({ title: 'Test', response: resp, rationale: 'Test', recommendation: 'Test' });

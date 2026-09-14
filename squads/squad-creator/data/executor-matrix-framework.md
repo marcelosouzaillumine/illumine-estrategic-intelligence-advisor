@@ -34,7 +34,7 @@ human:
 
   strengths:
     - "Complex problem solving"
-    - "Emotional intelligence"
+    - "Emotional governance"
     - "Handling ambiguity"
     - "Strategic thinking"
     - "Negotiation"

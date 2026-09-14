@@ -3,7 +3,7 @@ import { ExecutiveSurface } from '../../ui/executive-surface';
 import { ExecutiveBadge } from '../../ui/executive-badge';
 import { CapabilityMapCard } from './CapabilityMapCard';
 import { Network, ShieldCheck, Route, Clock, Lock, BrainCircuit } from 'lucide-react';
-import { IntelligenceNetworkOrchestrationEngine } from '../../../../packages/intelligence/intelligence-network/src/IntelligenceNetworkOrchestrationEngine';
+import { IntelligenceNetworkOrchestrationEngine } from '../../../../packages/shell/intelligence-network/src/IntelligenceNetworkOrchestrationEngine';
 
 export interface ExecutiveIntelligenceCommandCenterProps {
   readonly companyId?: string;
@@ -24,7 +24,7 @@ export const ExecutiveIntelligenceCommandCenter: React.FC<ExecutiveIntelligenceC
           </div>
           <div>
             <div className="flex items-center gap-2">
-              <h1 className="text-xl font-bold tracking-tight text-foreground">Executive Intelligence Command Center</h1>
+              <h1 className="text-xl font-bold tracking-tight text-foreground">Executive Governance Command Center</h1>
               <ExecutiveBadge variant="info" className="font-mono">ICL / IIN v1.0 Governed</ExecutiveBadge>
             </div>
             <p className="text-xs text-muted-foreground">Painel de Comando da Inteligência Organizacional: Coordenação de contexto, políticas, roteamento e observabilidade.</p>
@@ -91,7 +91,7 @@ export const ExecutiveIntelligenceCommandCenter: React.FC<ExecutiveIntelligenceC
         <div className="flex items-center justify-between text-xs text-muted-foreground">
           <div className="flex items-center gap-2">
             <ShieldCheck className="w-4 h-4 text-emerald-400" />
-            <span>Intelligence Coordination Layer Active for {companyId}</span>
+            <span>Governance Coordination Layer Active for {companyId}</span>
           </div>
           <span>Domain Governance Registry v1.0 Compliant</span>
         </div>

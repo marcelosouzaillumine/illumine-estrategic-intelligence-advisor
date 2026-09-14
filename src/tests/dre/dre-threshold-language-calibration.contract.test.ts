@@ -1,8 +1,8 @@
 import test from 'node:test';
 import assert from 'node:assert';
-import { DreExecutiveLanguageCompiler } from '../../core/runtime/dre/DreExecutiveLanguageCompiler';
-import { PanelIntent, CausalDriverFragment } from '../../core/runtime/dre/DreSemanticRegistry';
-import { NarrativeSeverity } from '../../core/runtime/dre/DreNarrativeSeverity';
+import { DreExecutiveLanguageCompiler } from '../../capabilities/financial/runtime/dre/DreExecutiveLanguageCompiler';
+import { PanelIntent, CausalDriverFragment } from '../../capabilities/financial/runtime/dre/DreSemanticRegistry';
+import { NarrativeSeverity } from '../../capabilities/financial/runtime/dre/DreNarrativeSeverity';
 
 test('DRE Threshold Language Calibration Contract', async (t) => {
 

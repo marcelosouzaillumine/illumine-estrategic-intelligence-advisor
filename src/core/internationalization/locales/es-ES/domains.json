@@ -11,7 +11,7 @@
     "title": "9 Dominios de Inteligencia™",
     "lead": "Cada dominio representa una perspectiva de la organización, pero la inteligencia surge de la conexión entre ellos.",
     "core": {
-      "title": "Executive Intelligence Core™",
+      "title": "Executive Governance Core™",
       "lead": "El motor central de procesamiento sistémico",
       "path": {
         "p1": "Datos",
@@ -31,13 +31,23 @@
           "¿Los resultados confirmaron las expectativas?",
           "¿Se está preservando el conocimiento institucional?"
         ],
-        "applications": ["Decision Memory", "Executive Briefs", "Board Reports", "Governance Score"]
+        "applications": [
+          "Decision Memory",
+          "Executive Briefs",
+          "Board Reports",
+          "Governance Score"
+        ]
       },
       "d2": {
         "tagline": "La visión financiera integrada de la organización",
         "description": "Transforma los estados financieros en inteligencia ejecutiva. Conecta Balance General, Estado de Resultados, Flujo de Caja, Capital de Trabajo y Rentabilidad.",
         "highlight": "Qué está presionando el valor económico de la organización y qué decisiones pueden alterar esta trayectoria.",
-        "applications": ["Financial Digital Twin™", "Escenarios de EBITDA", "Simulaciones de caja", "Stress Testing financiero"]
+        "applications": [
+          "Financial Digital Twin™",
+          "Escenarios de EBITDA",
+          "Simulaciones de caja",
+          "Stress Testing financiero"
+        ]
       },
       "d3": {
         "tagline": "La eficiencia real detrás de los resultados",
@@ -56,27 +66,47 @@
       "d5": {
         "tagline": "Las personas como capacidad estratégica",
         "description": "Evalúa la relación entre la estructura organizacional, la productividad y la generación de valor. Analiza el costo de la estructura y la retención del conocimiento.",
-        "applications": ["Workforce Analytics", "Talent Retention", "Structure Cost"]
+        "applications": [
+          "Workforce Analytics",
+          "Talent Retention",
+          "Structure Cost"
+        ]
       },
       "d6": {
         "tagline": "Anticipación de vulnerabilidades estratégicas",
         "description": "Identifica riesgos financieros, operativos e institucionales antes de que se conviertan en crisis mediante el análisis de dependencias y concentración.",
-        "applications": ["Vulnerability Matrix", "Dependency Mapping", "Risk Scenarios"]
+        "applications": [
+          "Vulnerability Matrix",
+          "Dependency Mapping",
+          "Risk Scenarios"
+        ]
       },
       "d7": {
         "tagline": "El conocimiento que permanece en la organización",
         "description": "Transforma la experiencia acumulada en un activo institucional. Combate la amnesia institucional al preservar el contexto y las lecciones aprendidas.",
-        "applications": ["Context Preservation", "Knowledge Base", "Pattern Recognition"]
+        "applications": [
+          "Context Preservation",
+          "Knowledge Base",
+          "Pattern Recognition"
+        ]
       },
       "d8": {
         "tagline": "Alineamiento entre propósito y ejecución",
         "description": "Garantiza que la estrategia, la cultura y las operaciones permanezcan conectadas mediante el alineamiento de indicadores clave y objetivos.",
-        "applications": ["OKR Alignment", "Culture Mapping", "Strategic Tracking"]
+        "applications": [
+          "OKR Alignment",
+          "Culture Mapping",
+          "Strategic Tracking"
+        ]
       },
       "d9": {
         "tagline": "Evolución continua basada en el aprendizaje",
         "description": "Transforma datos, experimentos y resultados en capacidad de adaptación. Analiza hipótesis estratégicas y nuevos escenarios.",
-        "applications": ["Hypothesis Testing", "Adaptability Score", "Experiment Tracking"]
+        "applications": [
+          "Hypothesis Testing",
+          "Adaptability Score",
+          "Experiment Tracking"
+        ]
       }
     }
   },
@@ -85,11 +115,31 @@
     "title": "La inteligencia no está en los dominios. Está en las conexiones.",
     "lead": "Los sistemas tradicionales analizan áreas aisladas. Illumine interpreta las relaciones entre ellas.",
     "steps": {
-      "s1": { "pre": "Una decisión comercial altera los", "bold": "ingresos", "post": "." },
-      "s2": { "pre": "Los ingresos alteran el", "bold": "margen", "post": "." },
-      "s3": { "pre": "El margen altera el", "bold": "flujo de caja", "post": "." },
-      "s4": { "pre": "El flujo de caja altera la", "bold": "capacidad de inversión", "post": "." },
-      "s5": { "pre": "La capacidad de inversión altera la", "bold": "estrategia", "post": "." }
+      "s1": {
+        "pre": "Una decisión comercial altera los",
+        "bold": "ingresos",
+        "post": "."
+      },
+      "s2": {
+        "pre": "Los ingresos alteran el",
+        "bold": "margen",
+        "post": "."
+      },
+      "s3": {
+        "pre": "El margen altera el",
+        "bold": "flujo de caja",
+        "post": "."
+      },
+      "s4": {
+        "pre": "El flujo de caja altera la",
+        "bold": "capacidad de inversión",
+        "post": "."
+      },
+      "s5": {
+        "pre": "La capacidad de inversión altera la",
+        "bold": "estrategia",
+        "post": "."
+      }
     },
     "conclusion": "Illumine captura esta cadena de impactos y transforma la complejidad organizacional en claridad ejecutiva."
   },

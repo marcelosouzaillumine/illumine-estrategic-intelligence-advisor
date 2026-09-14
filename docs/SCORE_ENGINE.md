@@ -1,7 +1,7 @@
 # SCORE_ENGINE
 
 ## Dinâmica de Score
-A lógica de score é contextual e obedece ao BUSINESS_MODEL_INTELLIGENCE_ENGINE. O motor deve:
+A lógica de score é contextual e obedece ao BUSINESS_MODEL_GOVERNANCE_ENGINE. O motor deve:
 - utilizar pesos dinâmicos por setor;
 - modular severidade conforme modelo de negócio;
 - recalibrar thresholds automaticamente.

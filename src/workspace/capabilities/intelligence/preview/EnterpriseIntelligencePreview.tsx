@@ -19,7 +19,7 @@ export const EnterpriseIntelligencePreview: React.FC<EnterpriseIntelligencePrevi
         const priorityInsights = await provider.getPriorityInsights();
         setInsights(priorityInsights);
       } catch (error) {
-        console.error('Failed to load enterprise intelligence:', error);
+        console.error('Failed to load enterprise governance:', error);
       } finally {
         setLoading(false);
       }
@@ -27,14 +27,14 @@ export const EnterpriseIntelligencePreview: React.FC<EnterpriseIntelligencePrevi
     loadIntelligence();
   }, [context]);
 
-  if (loading) return <div className="p-8 text-slate-400">Iniciando Enterprise Intelligence Fabric...</div>;
+  if (loading) return <div className="p-8 text-slate-400">Iniciando Enterprise Governance Fabric...</div>;
 
   return (
     <div className="p-6 max-w-7xl mx-auto space-y-8">
       <header className="mb-10 border-b border-slate-800 pb-6">
         <div className="flex items-center gap-3 mb-2">
           <Network className="w-8 h-8 text-indigo-400" />
-          <h1 className="text-3xl font-semibold text-slate-100 tracking-tight">Enterprise Intelligence Preview</h1>
+          <h1 className="text-3xl font-semibold text-slate-100 tracking-tight">Enterprise Governance Preview</h1>
         </div>
         <p className="text-slate-400 text-sm">Monitorando correlações cruzadas e cadeias de impacto sistêmico.</p>
       </header>

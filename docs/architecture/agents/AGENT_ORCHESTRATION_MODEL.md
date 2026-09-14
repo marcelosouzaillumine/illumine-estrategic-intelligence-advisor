@@ -8,7 +8,7 @@
 ## 1. Arquitetura da Rede Cognitiva de Agentes Executivos
 
 ```
-                 Enterprise Intelligence Orchestrator (@illumine/executive-orchestrator)
+                 Enterprise Governance Orchestrator (@illumine/executive-orchestrator)
                                            |
         -----------------------------------------------------------------------
         |                                                                     |

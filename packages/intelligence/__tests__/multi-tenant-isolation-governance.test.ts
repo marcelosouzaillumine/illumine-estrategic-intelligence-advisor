@@ -2,7 +2,7 @@
 import { describe, it, expect } from 'vitest';
 import { BenchmarkAggregation } from '@illumine/executive-contracts';
 
-describe('@illumine/intelligence (Wave 18.8 Multi-Tenant Isolation Governance)', () => {
+describe('@illumine/governance (Wave 18.8 Multi-Tenant Isolation Governance)', () => {
   it('should enforce strict anonymization and multi-tenant isolation without raw data leaks', () => {
     const agg: BenchmarkAggregation = {
       aggregationId: 'agg-001',

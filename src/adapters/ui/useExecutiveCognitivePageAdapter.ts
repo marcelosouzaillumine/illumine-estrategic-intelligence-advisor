@@ -1,8 +1,2 @@
-import { useState } from 'react';
-
-export function useExecutiveCognitivePageAdapter(clientId: string) {
-  const [loading, setLoading] = useState(false);
-  const [cognitiveInsights, setCognitiveInsights] = useState<any[]>([]);
-
-  return { cognitiveInsights, loading };
-}
+// shim
+export * from '../../capabilities/financial/infrastructure/adapters/ui/useExecutiveCognitivePageAdapter';

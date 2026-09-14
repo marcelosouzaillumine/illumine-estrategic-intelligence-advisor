@@ -37,4 +37,4 @@ Para que um risco seja validado, processado ou exibido nos relatórios instituci
 ## 4. Proibições
 - **Zero Alarmismo Genérico:** Não utilizar frases como "risco iminente de colapso" a não ser que os indicadores de continuidade apontem insolvência matemática no curtíssimo prazo.
 - **Risco sem Evidência:** Nenhum risco pode ser enumerado se o valor do indicador correspondente não for exposto lado a lado.
-- **Evitar o "Tudo é Risco":** O modelo não deve classificar oscilações operacionais normais do segmento como riscos estratégicos. A modulação de severidade deve respeitar a *BUSINESS_MODEL_INTELLIGENCE_ENGINE*.
+- **Evitar o "Tudo é Risco":** O modelo não deve classificar oscilações operacionais normais do segmento como riscos estratégicos. A modulação de severidade deve respeitar a *BUSINESS_MODEL_GOVERNANCE_ENGINE*.

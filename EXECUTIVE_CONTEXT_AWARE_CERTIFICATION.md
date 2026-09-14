@@ -2,7 +2,7 @@
 
 > **Relatório Final de Certificação da Wave 18.1**  
 > *Autoridade Supreme: Architecture Review Board (ARB) & Executive Governance Council*  
-> *Classificação Certificada: **Executive Context-Aware Intelligence Certified**.*
+> *Classificação Certificada: **Executive Context-Aware Governance Certified**.*
 
 ---
 
@@ -25,6 +25,6 @@
 
 ## 2. Veredito Final Homologado
 
-$$\mathbf{EXECUTIVE \quad CONTEXT-AWARE \quad INTELLIGENCE \quad SYSTEM \quad - \quad CERTIFIED}$$
+$$\mathbf{EXECUTIVE \quad CONTEXT-AWARE \quad GOVERNANCE \quad SYSTEM \quad - \quad CERTIFIED}$$
 
 A plataforma Illumine OS™ foi homologada com o **Context Score de 99.2 / 100 ($\ge 98$)**, estando **100% certificada** como um sistema de inteligência executiva de tomada de decisão puramente guiado por dados contextuais reais.

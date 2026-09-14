@@ -2,7 +2,7 @@
 import { describe, it, expect } from 'vitest';
 import { ForecastEngine, TrendAnalyzer, PredictionExplainer } from '../predictive-decision-engine/src';
 
-describe('@illumine/intelligence (Wave 18.9 Predictive Decision Intelligence Engine)', () => {
+describe('@illumine/governance (Wave 18.9 Predictive Decision Governance Engine)', () => {
   it('should forecast KPI trajectory for 30/60/90/180/365-day horizons with confidence intervals (PDI v1.0)', () => {
     const forecast90 = ForecastEngine.forecastKPI('EBITDA_MARGIN', 12.4, 90);
     expect(forecast90.horizonDays).toBe(90);

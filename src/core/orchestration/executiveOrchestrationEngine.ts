@@ -8,16 +8,16 @@ import { inferBusinessIdentity } from '../../lib/business-identity-engine';
 import { generateAdvisoryParecer } from '../../services/advisoryAiService';
 import { generateGovernanceParecer } from '../../services/governanceAiService';
 import { evaluateMasterCausality } from '../../lib/master-causal-engine';
-import { MetricCanonicalizationEngine, MetricCanonicalizationInput } from '../runtime/executive-consolidation/MetricCanonicalizationEngine';
-import { CanonicalDivergenceAuditEngine, CanonicalDivergenceAuditResult } from '../runtime/executive-consolidation/CanonicalDivergenceAuditEngine';
-import { CompositeScoreGovernanceEngine, CompositeScoreGovernanceResult } from '../runtime/executive-consolidation/CompositeScoreGovernanceEngine';
-import { ExecutiveStrategicSnapshotEngine, ExecutiveStrategicSnapshotResult } from '../runtime/executive-consolidation/ExecutiveStrategicSnapshotEngine';
-import { CrossStatementPropagationEngine, CrossStatementPropagationInput, CrossStatementPropagationResult, CrossStatementTension } from '../runtime/executive-consolidation/CrossStatementPropagationEngine';
-import { CrossStatementExecutiveNarrativeEngine, ExecutiveNarrativeResult } from '../runtime/executive-consolidation/CrossStatementExecutiveNarrativeEngine';
-import { ExecutiveBlockedAnalysisTranslator } from '../runtime/executive-consolidation/ExecutiveBlockedAnalysisTranslator';
-import { ExecutiveRecommendationDeduplicationEngine, ExecutiveRecommendation } from '../runtime/executive-consolidation/ExecutiveRecommendationDeduplicationEngine';
-import { CrossStatementBindingResolver } from '../runtime/executive-consolidation/CrossStatementBindingResolver';
-import { ExecutiveActionCompletenessAudit } from '../runtime/executive-consolidation/ExecutiveActionCompletenessAudit';
+import { MetricCanonicalizationEngine, MetricCanonicalizationInput } from '../../workspace/runtime/executive-consolidation/MetricCanonicalizationEngine';
+import { CanonicalDivergenceAuditEngine, CanonicalDivergenceAuditResult } from '../../workspace/runtime/executive-consolidation/CanonicalDivergenceAuditEngine';
+import { CompositeScoreGovernanceEngine, CompositeScoreGovernanceResult } from '../../workspace/runtime/executive-consolidation/CompositeScoreGovernanceEngine';
+import { ExecutiveStrategicSnapshotEngine, ExecutiveStrategicSnapshotResult } from '../../workspace/runtime/executive-consolidation/ExecutiveStrategicSnapshotEngine';
+import { CrossStatementPropagationEngine, CrossStatementPropagationInput, CrossStatementPropagationResult, CrossStatementTension } from '../../workspace/runtime/executive-consolidation/CrossStatementPropagationEngine';
+import { CrossStatementExecutiveNarrativeEngine, ExecutiveNarrativeResult } from '../../workspace/runtime/executive-consolidation/CrossStatementExecutiveNarrativeEngine';
+import { ExecutiveBlockedAnalysisTranslator } from '../../workspace/runtime/executive-consolidation/ExecutiveBlockedAnalysisTranslator';
+import { ExecutiveRecommendationDeduplicationEngine, ExecutiveRecommendation } from '../../workspace/runtime/executive-consolidation/ExecutiveRecommendationDeduplicationEngine';
+import { CrossStatementBindingResolver } from '../../workspace/runtime/executive-consolidation/CrossStatementBindingResolver';
+import { ExecutiveActionCompletenessAudit } from '../../workspace/runtime/executive-consolidation/ExecutiveActionCompletenessAudit';
 
 import { 
   enforceInstitutionalRuntime, 
@@ -65,12 +65,12 @@ export async function generateInstitutionalExecutiveReport(
     const lucroLiquidoMock = 0;
     const industryMock = clientData?.industry || 'Indefinido';
     const metrics = calculateFinancialMetrics(bpSummaryMock, ebitdaMock, lucroLiquidoMock, industryMock);
-    baseAudit.enginesExecuted?.push('FinancialIntelligenceEngine');
+    baseAudit.enginesExecuted?.push('FinancialGovernanceEngine');
 
     // 3. BusinessModelIntelligenceEngine
     onProgress('Inferindo taxonomia do modelo de negócios...');
     const identity = inferBusinessIdentity(industryMock, financialData.length, bpSummaryMock, [], clientData?.clientValidation);
-    baseAudit.enginesExecuted?.push('BusinessModelIntelligenceEngine');
+    baseAudit.enginesExecuted?.push('BusinessModelGovernanceEngine');
 
     // Construção da Série Histórica (Temporal Causality Layer)
     const historicalData = financialData.map(d => {
@@ -151,7 +151,7 @@ export function orchestrateSynchronousIntelligence(
   const result = enforceInstitutionalRuntime(
     { metrics, scores: updatedScores, causalInsights: causalInsights }, 
     {
-      enginesExecuted: ['DataValidationEngine', 'FinancialIntelligenceEngine', 'BusinessModelIntelligenceEngine', 'ExecutiveCausalityEngine', 'StrategicRiskEngine', 'BoardSynthesisEngine'],
+      enginesExecuted: ['DataValidationEngine', 'FinancialGovernanceEngine', 'BusinessModelGovernanceEngine', 'ExecutiveCausalityEngine', 'StrategicRiskEngine', 'BoardSynthesisEngine'],
       businessModel: identity.modeloDeNegocio,
       score: updatedScores.resilienciaGlobal
     }
@@ -171,7 +171,7 @@ export function orchestrateSynchronousIntelligence(
 export async function orchestrateAdvisoryNarrative(params: any): Promise<{ narrative: string, auditTrail: InstitutionalAuditTrail }> {
   let narrative = await generateAdvisoryParecer(params);
   const { sanitizedOutput, auditTrail } = enforceInstitutionalRuntime(narrative, {
-    enginesExecuted: ['FinancialIntelligenceEngine', 'BusinessModelIntelligenceEngine', 'ExecutiveCausalityEngine']
+    enginesExecuted: ['FinancialGovernanceEngine', 'BusinessModelGovernanceEngine', 'ExecutiveCausalityEngine']
   });
   return { narrative: sanitizedOutput, auditTrail };
 }
@@ -187,7 +187,7 @@ export async function orchestrateGovernanceNarrative(params: any): Promise<{ nar
 export async function orchestrateCfoParecer(params: any): Promise<{ narrative: string, auditTrail: InstitutionalAuditTrail }> {
   let narrative = await generateAdvisoryParecer(params);
   const { sanitizedOutput, auditTrail } = enforceInstitutionalRuntime(narrative, {
-    enginesExecuted: ['FinancialIntelligenceEngine', 'ExecutiveCausalityEngine']
+    enginesExecuted: ['FinancialGovernanceEngine', 'ExecutiveCausalityEngine']
   });
   return { narrative: sanitizedOutput, auditTrail };
 }
@@ -200,13 +200,13 @@ export async function orchestrateStrategicAxisNarrative(params: any): Promise<{ 
   return { narrative: sanitizedOutput, auditTrail };
 }
 
-import { ExecutiveStrategicMaturityEngine, ExecutiveStrategicMaturityInput } from '../runtime/executive-consolidation/ExecutiveStrategicMaturityEngine';
-import { BoardDecisionEscalationEngine } from '../runtime/executive-consolidation/BoardDecisionEscalationEngine';
-import { DominantRiskResolver, PriorityDecisionResolver } from '../runtime/executive-consolidation/Resolvers';
-import { BADIConsistencyEngine } from '../runtime/executive-consolidation/BADIConsistencyEngine';
-import { EFOSExecutiveConsistencyAuditEngine, ConsistencyAuditResult } from '../runtime/executive-consolidation/EFOSExecutiveConsistencyAuditEngine';
-import { BoardTop3DecisionEngine } from '../runtime/executive-prioritization/BoardTop3DecisionEngine';
-import { CapitalProtectionCanonicalResolver } from '../runtime/executive-consolidation/CapitalProtectionCanonicalResolver';
+import { ExecutiveStrategicMaturityEngine, ExecutiveStrategicMaturityInput } from '../../workspace/runtime/executive-consolidation/ExecutiveStrategicMaturityEngine';
+import { BoardDecisionEscalationEngine } from '../../workspace/runtime/executive-consolidation/BoardDecisionEscalationEngine';
+import { DominantRiskResolver, PriorityDecisionResolver } from '../../workspace/runtime/executive-consolidation/Resolvers';
+import { BADIConsistencyEngine } from '../../workspace/runtime/executive-consolidation/BADIConsistencyEngine';
+import { EFOSExecutiveConsistencyAuditEngine, ConsistencyAuditResult } from '../../workspace/runtime/executive-consolidation/EFOSExecutiveConsistencyAuditEngine';
+import { BoardTop3DecisionEngine } from '../../workspace/runtime/executive-prioritization/BoardTop3DecisionEngine';
+import { CapitalProtectionCanonicalResolver } from '../../workspace/runtime/executive-consolidation/CapitalProtectionCanonicalResolver';
 
 
 export interface ExecutiveConsolidationResult {

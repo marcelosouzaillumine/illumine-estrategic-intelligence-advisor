@@ -3,7 +3,7 @@ import { describe, it, expect } from 'vitest';
 import { ExecutiveCopilotLayer } from '../executive-experience-composer/src';
 import { ExecutiveContextProvider } from '@illumine/executive-context-engine';
 
-describe('@illumine/intelligence (Wave 18.1 Copilot Context Awareness)', () => {
+describe('@illumine/governance (Wave 18.1 Copilot Context Awareness)', () => {
   it('should generate initial copilot greeting dynamically from context data without static templates (ADR-068)', () => {
     const ctx = ExecutiveContextProvider.buildContext({
       companyId: 'comp-emporio',

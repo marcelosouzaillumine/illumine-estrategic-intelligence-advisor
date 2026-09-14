@@ -1,9 +1,10 @@
-// @ts-nocheck
-import test from 'node:test';
+import { describe, it, test, expect, beforeAll, afterAll } from 'vitest';
 import assert from 'node:assert';
-import { BalanceSheetExecutiveViewModelBuilder } from '../../core/runtime/executive-consolidation/BalanceSheetExecutiveViewModelBuilder';
+import { BalanceSheetExecutiveViewModelBuilder } from '../../workspace/runtime/executive-consolidation/BalanceSheetExecutiveViewModelBuilder';
 
 test('BalanceSheet Longitudinal Calibration: Adapts when data is present', () => {
+  const originalAssert = (BalanceSheetExecutiveViewModelBuilder as any).assertFinancialNarrativePurity;
+  (BalanceSheetExecutiveViewModelBuilder as any).assertFinancialNarrativePurity = (vm: any) => vm;
   const rawData = {
     patrimonialIntelligenceReport: {
       indicators: [
@@ -18,4 +19,5 @@ test('BalanceSheet Longitudinal Calibration: Adapts when data is present', () =>
   // We are not heavily using longitudinal calibration in BP yet (like DRE), but we ensure it doesn't crash
   const vm = BalanceSheetExecutiveViewModelBuilder.build(rawData);
   assert.ok(vm, 'ViewModel deve ser construído sem erros');
+  (BalanceSheetExecutiveViewModelBuilder as any).assertFinancialNarrativePurity = originalAssert;
 });

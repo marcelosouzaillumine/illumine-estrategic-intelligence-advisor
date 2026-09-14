@@ -2,8 +2,8 @@ import { test, describe } from 'node:test';
 import assert from 'node:assert/strict';
 import { CapitalGovernanceAdapter } from '../src/runtime/adapters/CapitalGovernanceAdapter';
 import { InstitutionalContext } from '../src/runtime/types';
-import { DLPAExecutiveRenderingGuard } from '../src/core/runtime/lifecycle/DLPAExecutiveRenderingGuard';
-import { InstitutionalBoardPackDocumentRuntime } from '../src/core/runtime/institutional-reporting/InstitutionalBoardPackDocumentRuntime';
+import { DLPAExecutiveRenderingGuard } from '../src/workspace/runtime/lifecycle/DLPAExecutiveRenderingGuard';
+import { InstitutionalBoardPackDocumentRuntime } from '../src/capabilities/runtime/institutional-reporting/InstitutionalBoardPackDocumentRuntime';
 import { ExecutiveIntelligenceReport } from '../src/core/runtime/executive-intelligence-runtime';
 
 describe('DLPA ELSA Final Rendering Consistency Tests', () => {

@@ -1,7 +1,7 @@
 # Architecture Decision Record: Executive Workspace (Wave G5.3.2)
 
 ## 1. Contexto e Motivação
-A Illumine OS™ tem evoluído de uma plataforma com assistentes dispersos (como o antigo Copilot) para uma Arquitetura Executiva Canônica (Executive Experience Layer™). Durante a Wave G5.3, identificou-se um acoplamento indesejado: a interface de usuário (`ExecutiveCopilotPanel`) estava acessando diretamente o `ExecutiveIntelligenceContextAssembler` e o `WorkspaceAdvisoryEngine`. 
+A Illumine OS™ tem evoluído de uma plataforma com assistentes dispersos (como o antigo Copilot) para uma Arquitetura Executiva Canônica (Executive Experience Layer™). Durante a Wave G5.3, identificou-se um acoplamento indesejado: a interface de usuário (`ExecutiveCopilotPanel`) estava acessando diretamente o `ExecutiveGovernanceContextAssembler` e o `WorkspaceAdvisoryEngine`. 
 Esse acoplamento fere o princípio de **Single Source of Truth** e descentraliza lógicas de confiança e explicabilidade, impedindo uma auditoria eficiente pelo Canonical Assurance Engine (CAE).
 
 O objetivo desta ADR é formalizar a criação do pacote `executive-workspace-orchestrator`, isolando a orquestração e gerando um único contrato consumível pela UI: o `ExecutiveWorkspaceSnapshot`.
@@ -15,14 +15,14 @@ ExecutiveWorkspaceSnapshot™ (Immutable, CAE-Auditable)
         ↓
 ExecutiveWorkspaceOrchestrator™
         ↓
-ExecutiveIntelligenceContextAssembler™ & AdvisoryEngine
+ExecutiveGovernanceContextAssembler™ & AdvisoryEngine
         ↓
 Enterprise Knowledge Fabric™ & Domain Engines
 ```
 
 ### 2.1 Separação de Pacotes
 - A camada de Workspace não é o Advisor. O Advisor responde "Qual recomendação fornecer?", enquanto o Workspace responde "Qual é o estado completo da organização?".
-- Criou-se o pacote isolado `packages/intelligence/executive-workspace-orchestrator`.
+- Criou-se o pacote isolado `packages/governance/executive-workspace-orchestrator`.
 
 ### 2.2 Snapshot Imutável e Rastreável
 O `ExecutiveWorkspaceSnapshot` não é apenas um container de UI; é uma fotografia criptográfica da inteligência gerada:

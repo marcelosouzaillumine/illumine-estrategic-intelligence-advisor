@@ -27,4 +27,4 @@ A fundação foi comprovadamente instrumentada. Qualquer recomendação que flua
 3. **Mecanismo Adversarial** (A Inteligência é testada contra o seu próprio Otimismo).
 
 ## 4. Aprovação Oficial
-A **Wave 15.1** cumpriu os critérios e blinda a Illumine OS™ como a arquitetura governada requerida para as próximas fases. A fundação está pronta para a introdução da *Executive Debate Network* (Wave 16) e da *Governance Intelligence* (Wave 18).
+A **Wave 15.1** cumpriu os critérios e blinda a Illumine OS™ como a arquitetura governada requerida para as próximas fases. A fundação está pronta para a introdução da *Executive Debate Network* (Wave 16) e da *Governance Governance* (Wave 18).

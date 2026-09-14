@@ -1,8 +1,8 @@
-# ORGANIZATIONAL_INTELLIGENCE_AUDIT.md — Relatório de Auditoria da Inteligência Organizacional (OIKE v1.0)
+# ORGANIZATIONAL_GOVERNANCE_AUDIT.md — Relatório de Auditoria da Inteligência Organizacional (OIKE v1.0)
 
 > **Relatório Oficial de Auditoria da Wave 18.5 (Regime Foundation & Contratos)**  
 > *Autoridade Supreme: Architecture Review Board (ARB) & Executive Governance Council*  
-> *Subordinado à [`ARCHITECTURE_CONSTITUTION.md`](file:///Users/marcelosouza/Documents/illumine-strategic-intelligence-advisor/ARCHITECTURE_CONSTITUTION.md) e ADR-081*
+> *Subordinado à [`ARCHITECTURE_CONSTITUTION.md`](file:///Users/marcelosouza/Documents/illumine-strategic-governance-advisor/ARCHITECTURE_CONSTITUTION.md) e ADR-081*
 
 ---
 

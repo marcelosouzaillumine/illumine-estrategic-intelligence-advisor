@@ -2,7 +2,7 @@
 import { describe, it, expect } from 'vitest';
 import { MarketplaceCatalogEngine } from '../platform-distribution/src';
 
-describe('@illumine/intelligence (Wave 19.2 Marketplace Catalog Engine)', () => {
+describe('@illumine/governance (Wave 19.2 Marketplace Catalog Engine)', () => {
   it('should publish items into marketplace catalog with pricing and ratings', () => {
     const item = MarketplaceCatalogEngine.publishItem('Playbook Turnaround', 'EXECUTIVE_PLAYBOOK', 4500);
     expect(item.title).toBe('Playbook Turnaround');

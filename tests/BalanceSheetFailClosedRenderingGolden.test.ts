@@ -1,7 +1,7 @@
 import { describe, it } from 'node:test';
 import assert from 'node:assert';
-import { BalanceSheetPresentationLeakAudit } from '../src/core/runtime/governance/bp/BalanceSheetPresentationLeakAudit';
-import { BalanceSheetRuntimePresentationReconciliationAudit } from '../src/core/runtime/governance/bp/BalanceSheetRuntimePresentationReconciliationAudit';
+import { BalanceSheetPresentationLeakAudit } from '../src/capabilities/runtime/governance/bp/BalanceSheetPresentationLeakAudit';
+import { BalanceSheetRuntimePresentationReconciliationAudit } from '../src/capabilities/runtime/governance/bp/BalanceSheetRuntimePresentationReconciliationAudit';
 
 describe('Balance Sheet Fail-Closed Rendering Golden Test', () => {
   it('should completely nullify executive content when blocking state is active', () => {

@@ -1,7 +1,2 @@
-import { useState } from 'react';
-
-export function useViabilityPageAdapter(clientId: string) {
-  const [loading, setLoading] = useState(false);
-  const [viabilityData, setViabilityData] = useState<any>({});
-  return { viabilityData, loading };
-}
+// shim
+export * from '../../capabilities/financial/infrastructure/adapters/ui/useViabilityPageAdapter';

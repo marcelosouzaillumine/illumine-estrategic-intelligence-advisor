@@ -1,4 +1,4 @@
-import { InstitutionalEvidenceInput, EvidenceDocument } from '../../../core/runtime/evidence-ingestion/InstitutionalEvidenceTypes';
+import { InstitutionalEvidenceInput, EvidenceDocument } from '../../../capabilities/runtime/evidence-ingestion/InstitutionalEvidenceTypes';
 
 export class InstitutionalEvidenceMockFactory {
   /**

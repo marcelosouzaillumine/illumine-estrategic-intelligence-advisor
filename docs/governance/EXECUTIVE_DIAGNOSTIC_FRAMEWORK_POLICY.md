@@ -12,13 +12,13 @@ Todos os novos diagnósticos devem obrigatoriamente estender a arquitetura `Exec
 
 ### 3.1. Informações Públicas (Permitido)
 As seguintes informações podem ser expostas na camada pública (Marketing, Concierge B2B, Landing Pages):
-- Nomes oficiais das jornadas (ex: *Financial Intelligence Diagnostic Journey™*).
+- Nomes oficiais das jornadas (ex: *Financial Governance Diagnostic Journey™*).
 - Áreas ou dimensões avaliadas em alto nível (ex: *Avaliamos a previsibilidade do seu fluxo financeiro*).
 - Os benefícios e resultados esperados após a conclusão.
 
 ### 3.2. Informações Autenticadas (Permitido)
 Resultados entregues diretamente a usuários logados ou clientes passando pela jornada:
-- Perfis de Inteligência Executiva (*Executive Intelligence Profile™*).
+- Perfis de Inteligência Executiva (*Executive Governance Profile™*).
 - Resultados individuais mapeados (*Strengths*, *Attention Points*).
 - Recomendações orientadas ao negócio.
 
@@ -28,18 +28,18 @@ Os ativos intelectuais a seguir constituem o núcleo (*core business*) da inteli
 - Fórmulas de cálculo do `ScoringEngine`.
 - Regras de corte dos modelos de maturidade (os limites de *score* que geram cada `MaturityLevel`).
 - O mapeamento lógico interno do `InterpretationEngine` (como métricas geram a linguagem executiva de saída).
-- Algoritmos internos ou parâmetros do *Diagnostic Intelligence Ownership*.
+- Algoritmos internos ou parâmetros do *Diagnostic Governance Ownership*.
 
-## 4. Diagnostic Intelligence Ownership
-Toda a taxonomia, as perguntas de avaliação, a modelagem de pesos e as recomendações sintetizadas são consideradas **ativos proprietários da Illumine**. Qualquer extensão ou integração futura por intermédio dos Executive Intelligence Agents™ deve operar lendo os resultados do `InterpretationEngine` através da abstração do Profile, preservando o sigilo corporativo das regras de negócio que originaram tais conclusões.
+## 4. Diagnostic Governance Ownership
+Toda a taxonomia, as perguntas de avaliação, a modelagem de pesos e as recomendações sintetizadas são consideradas **ativos proprietários da Illumine**. Qualquer extensão ou integração futura por intermédio dos Executive Governance Agents™ deve operar lendo os resultados do `InterpretationEngine` através da abstração do Profile, preservando o sigilo corporativo das regras de negócio que originaram tais conclusões.
 
 ## 5. Extensibilidade
 Esta arquitetura foi desenhada não apenas para coletas pontuais de questionários, mas para aceitar futuramente contextos de execução (`DiagnosticExecutionContext`) preenchidos assincronamente por Inteligência Artificial ou fluxos passivos de observabilidade de dados (via *Enterprise Data Foundation*).
 
-## Executive Intelligence Portfolio Boundary™
+## Executive Governance Portfolio Boundary™
 
 **Público (Pode ser exposto à UI e ao usuário):**
-* Nome das jornadas evolutivas (ex: Financial Intelligence Journey™)
+* Nome das jornadas evolutivas (ex: Financial Governance Journey™)
 * Áreas avaliadas (Capacidades Identificadas)
 * Insights gerais qualitativos (Executive Insights)
 * Estágio Organizacional Qualitativo (ex: Foundation Building)

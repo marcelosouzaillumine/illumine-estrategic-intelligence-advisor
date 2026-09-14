@@ -1,0 +1,90 @@
+id: arch-restruc-p1-boundary-contracts
+title: "Reestruturação Arquitetural — Fase 1: Contratos de Fronteira"
+status: Done
+workflow: story-development-cycle
+mode: yolo
+created_at: '2026-09-12'
+owner: architect
+
+problem: >
+  O codebase do Illumine Governance foi construído produto-primeiro, sem separação
+  formal entre as 4 camadas arquiteturais (OS, Core, White Label, Produto).
+  Antes de qualquer movimentação de código, é necessário estabelecer os contratos
+  formais de fronteira que definem o que pertence a cada camada, as regras de
+  dependência proibidas e a estrutura de diretórios alvo.
+
+business_value: >
+  Sem um contrato formal de fronteiras, qualquer refatoração futura corre o risco
+  de reproduzir os mesmos problemas estruturais. Estes documentos servem como
+  especificação normativa para as Fases 2, 3 e 4 e como referência permanente
+  para novos desenvolvedores e agentes.
+
+scope:
+  in:
+    - Criar .aiox-core/data/layer-boundaries.md com regras de import por camada.
+    - Criar docs/architecture/layer-target-structure.md com estrutura de dirs alvo.
+    - Criar stories formais para as Fases 2, 3 e 4.
+    - Documentar os 8 problemas estruturais identificados na engenharia reversa.
+    - Publicar artefato HTML com o mapeamento completo das 4 camadas.
+  out:
+    - Mover qualquer arquivo ou diretório.
+    - Alterar qualquer import.
+    - Modificar qualquer lógica de código.
+
+acceptance_criteria:
+  - id: AC1
+    given: o contrato de fronteiras
+    when: um desenvolvedor precisa saber onde um novo código deve ser colocado
+    then: o documento layer-boundaries.md responde sem ambiguidade para qualquer caso.
+  - id: AC2
+    given: a estrutura alvo
+    when: a equipe inicia as Fases 2, 3 ou 4
+    then: layer-target-structure.md provê o destino exato de cada diretório atual.
+  - id: AC3
+    given: os 8 problemas identificados
+    when: as Fases 2-4 são executadas
+    then: cada fase resolve os problemas listados em seu escopo.
+  - id: AC4
+    given: as stories das Fases 2, 3 e 4
+    when: a equipe inicia qualquer fase
+    then: cada story tem critérios de aceite claros e definition of done verificável.
+
+tasks:
+  - [x] Engenharia reversa do codebase completa (886 dirs, 82 packages).
+  - [x] 8 problemas estruturais identificados e documentados.
+  - [x] Criar .aiox-core/data/layer-boundaries.md.
+  - [x] Criar docs/architecture/layer-target-structure.md.
+  - [x] Criar story arch-restruc-p2-runtime-surgery.
+  - [x] Criar story arch-restruc-p3-intelligence-segregation.
+  - [x] Criar story arch-restruc-p4-duplicates-commercial.
+  - [x] Publicar artefato HTML com mapeamento das 4 camadas.
+
+risks:
+  - Os contratos podem precisar de revisão durante a execução das fases seguintes
+    à medida que casos edge são encontrados.
+  - A estrutura alvo pode divergir do que é tecnicamente viável sem quebrar o build.
+
+dependencies:
+  - ARCHITECTURE_CONSTITUTION.md
+  - docs/Arquitetura Mestra Illumine.md
+  - ILLUMINE_CANONICAL_DATA_MODEL.md
+
+definition_of_done:
+  - [x] layer-boundaries.md criado e revisado pelo @architect.
+  - [x] layer-target-structure.md criado com mapeamento completo de src/core/.
+  - [x] Stories das Fases 2, 3 e 4 criadas com AC e DoD.
+  - [x] Artefato HTML publicado para referência do time.
+  - [x] Nenhum código modificado.
+
+quality_gate:
+  no_code_changes: required
+  documents_created: required
+  stories_created: required
+
+file_list:
+  - .aiox-core/data/layer-boundaries.md
+  - docs/architecture/layer-target-structure.md
+  - docs/stories/arch-restruc-p1-boundary-contracts/story.yaml
+  - docs/stories/arch-restruc-p2-runtime-surgery/story.yaml
+  - docs/stories/arch-restruc-p3-intelligence-segregation/story.yaml
+  - docs/stories/arch-restruc-p4-duplicates-commercial/story.yaml

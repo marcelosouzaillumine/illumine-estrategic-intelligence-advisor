@@ -1,6 +1,6 @@
 # Capability Governance Model™ v1.0
 
-Este modelo define que toda nova funcionalidade da Illumine Executive Intelligence Platform deve possuir obrigatoriamente a seguinte estruturação e ontologia, sem exceções.
+Este modelo define que toda nova funcionalidade da Illumine Executive Governance Platform deve possuir obrigatoriamente a seguinte estruturação e ontologia, sem exceções.
 
 ---
 
@@ -18,7 +18,7 @@ CFO Office
 Qual capacidade executiva representa?
 
 **Exemplo:**
-Financial Performance Intelligence
+Financial Performance Governance
 
 ---
 
@@ -31,12 +31,12 @@ Qual decisão executiva suporta?
 
 ---
 
-## 4. Intelligence Engine
+## 4. Governance Engine
 **Pergunta:**
 Qual motor analítico suporta?
 
 **Exemplo:**
-Margin Intelligence Engine
+Margin Governance Engine
 
 ---
 
@@ -64,5 +64,5 @@ Nenhuma nova funcionalidade deve nascer como página isolada. Toda nova entrega 
 1. Qual Executive Office possui responsabilidade?
 2. Qual Capability representa?
 3. Qual decisão executiva melhora?
-4. Qual Intelligence Engine suporta?
+4. Qual Governance Engine suporta?
 5. Qual agente poderá utilizar?

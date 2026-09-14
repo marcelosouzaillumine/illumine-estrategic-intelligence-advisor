@@ -8,7 +8,7 @@ Os datasets de caixa tornam-se a referência institucional oficial para:
 
 * validação da inteligência de tesouraria;
 * calibração da causalidade financeira;
-* homologação da CASH_FLOW_INTELLIGENCE_LAYER;
+* homologação da CASH_FLOW_GOVERNANCE_LAYER;
 * testes de regressão institucional;
 * validação de runway financeiro;
 * interpretação de drenagem operacional;
@@ -19,13 +19,13 @@ Os datasets de caixa tornam-se a referência institucional oficial para:
 
 Toda alteração relevante em:
 
-* CASH_FLOW_INTELLIGENCE_LAYER.md
+* CASH_FLOW_GOVERNANCE_LAYER.md
 * MASTER_CAUSAL_ENGINE.md
 * WEIGHTED CAUSAL INFERENCE LAYER
 * CALIBRATION & STABILITY LAYER
 * Runtime Institucional
 * Advisory Executivo
-* cash-flow-intelligence-engine.ts
+* cash-flow-governance-engine.ts
 
 deverá obrigatoriamente ser validada contra os datasets definidos neste documento.
 

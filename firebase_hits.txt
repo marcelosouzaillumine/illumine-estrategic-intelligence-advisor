@@ -1,0 +1,168 @@
+src/components/modals/ImportFinancialModal.tsx:10:} from 'firebase/firestore';
+src/components/modals/ImportFinancialModal.tsx:11:import { db, auth } from '../../lib/firebase';
+src/components/modals/ImportBankStatementModal.tsx:9:} from 'firebase/firestore';
+src/components/modals/ImportBankStatementModal.tsx:10:import { db, auth } from '../../lib/firebase';
+src/components/modals/ImportPlanoModal.tsx:10:} from 'firebase/firestore';
+src/components/modals/ImportPlanoModal.tsx:11:import { db, auth } from '../../lib/firebase';
+src/components/modals/ImportTransactionsModal.tsx:9:} from 'firebase/firestore';
+src/components/modals/ImportTransactionsModal.tsx:10:import { db, auth } from '../../lib/firebase';
+src/components/modals/ManualFinancialModal.tsx:6:import { auth } from '../../lib/firebase';
+src/components/executive-workspace/shell/ExecutiveSidebar.tsx:4:import { logout } from '../../../lib/firebase';
+src/components/ExecutiveCommentary.tsx:18:} from 'firebase/firestore';
+src/components/ExecutiveCommentary.tsx:19:import { db, auth, handleFirestoreError, OperationType } from '../lib/firebase';
+src/components/ClientImportHistory.tsx:20:import { handleFirestoreError, OperationType } from '../lib/firebase';
+src/components/pages/PilotMonitoringDashboard.tsx:9:import { auth } from '../../lib/firebase';
+src/components/pages/ReceivablesPage.tsx:5:import { collection, addDoc, updateDoc, deleteDoc, doc, serverTimestamp, query, where, orderBy, onSnapshot, getDocs, writeBatch } from 'firebase/firestore';
+src/components/pages/ReceivablesPage.tsx:13:import { db, auth } from '../../lib/firebase';
+src/components/pages/ViabilityPage.tsx:19:import { collection, query, where, getDocs } from 'firebase/firestore';
+src/components/pages/ViabilityPage.tsx:20:import { db } from '@/lib/firebase';
+src/components/pages/LeadershipProfilePage.tsx:6:import { collection, addDoc, serverTimestamp, query, where, getDocs, orderBy, limit } from 'firebase/firestore';
+src/components/pages/LeadershipProfilePage.tsx:7:import { db, auth } from '../../lib/firebase';
+src/components/pages/IndicatorsPage.tsx:3:import { query, collection, where, onSnapshot, getDocs, limit, startAfter, orderBy } from 'firebase/firestore';
+src/components/pages/IndicatorsPage.tsx:7:import { db } from '../../lib/firebase';
+src/components/pages/PartnersPage.tsx:4:import { collection, addDoc, updateDoc, deleteDoc, doc, serverTimestamp, query, onSnapshot } from 'firebase/firestore';
+src/components/pages/PartnersPage.tsx:5:import { db, auth } from '../../lib/firebase';
+src/components/pages/FinancialPositionPage.tsx:34:} from 'firebase/firestore';
+src/components/pages/FinancialPositionPage.tsx:35:import { db } from '../../lib/firebase';
+src/components/pages/CleanupTool.tsx:2:import { db } from '../../lib/firebase';
+src/components/pages/CleanupTool.tsx:3:import { collection, query, where, getDocs, deleteDoc, doc } from 'firebase/firestore';
+src/components/pages/SupportPage/TicketChat.tsx:5:import { auth } from '../../../lib/firebase';
+src/components/pages/MaintenancePage.tsx:6:import { collection, query, getDocs, where, deleteDoc, doc, writeBatch, onSnapshot, updateDoc, serverTimestamp } from 'firebase/firestore';
+src/components/pages/MaintenancePage.tsx:7:import { db, auth } from '../../lib/firebase';
+src/components/pages/AxisDashboardPage.tsx:6:import { collection, query, where, onSnapshot, getDocs, limit } from 'firebase/firestore';
+src/components/pages/AxisDashboardPage.tsx:7:import { db, auth } from '../../lib/firebase';
+src/components/pages/PlanoDeContasPage.tsx:8:import { collection, query, where, onSnapshot, getDocs, writeBatch, doc, addDoc, updateDoc, deleteDoc, orderBy, serverTimestamp } from 'firebase/firestore';
+src/components/pages/PlanoDeContasPage.tsx:9:import { db, auth, handleFirestoreError, OperationType } from '../../lib/firebase';
+src/components/pages/TaxReformImpactPage.tsx:5:import { db } from '../../lib/firebase';
+src/components/pages/TaxReformImpactPage.tsx:6:import { query, collection, where, onSnapshot } from 'firebase/firestore';
+src/components/pages/FinancialModelingPage.tsx:3:import { collection, query, where, getDocs, orderBy, addDoc, updateDoc, doc, serverTimestamp, deleteDoc } from 'firebase/firestore';
+src/components/pages/FinancialModelingPage.tsx:4:import { db, handleFirestoreError, OperationType } from '../../lib/firebase';
+src/components/pages/PayablesPage.tsx:5:import { collection, addDoc, updateDoc, deleteDoc, doc, serverTimestamp, query, where, orderBy, onSnapshot, getDocs, writeBatch } from 'firebase/firestore';
+src/components/pages/PayablesPage.tsx:13:import { db, auth } from '../../lib/firebase';
+src/components/pages/legacy-archive/ReceivablesPage.tsx:6:import { collection, addDoc, updateDoc, deleteDoc, doc, serverTimestamp, query, where, orderBy, onSnapshot, getDocs, writeBatch } from 'firebase/firestore';
+src/components/pages/legacy-archive/ReceivablesPage.tsx:14:import { db, auth } from '../../../lib/firebase';
+src/components/pages/legacy-archive/MeetingMinutesPage.tsx:4:import { collection, query, where, getDocs, addDoc, serverTimestamp, updateDoc, doc, deleteDoc, orderBy, onSnapshot } from 'firebase/firestore';
+src/components/pages/legacy-archive/MeetingMinutesPage.tsx:5:import { db, auth } from '../../../lib/firebase';
+src/components/pages/legacy-archive/PlanoAcaoPage.tsx:7:import { collection, query, where, getDocs, addDoc, serverTimestamp, updateDoc, doc, deleteDoc, orderBy, onSnapshot } from 'firebase/firestore';
+src/components/pages/legacy-archive/PlanoAcaoPage.tsx:8:import { db, auth } from '../../../lib/firebase';
+src/components/pages/legacy-archive/FinancialModelingPage.tsx:4:import { collection, query, where, getDocs, orderBy, addDoc, updateDoc, doc, serverTimestamp, deleteDoc } from 'firebase/firestore';
+src/components/pages/legacy-archive/FinancialModelingPage.tsx:5:import { db, handleFirestoreError, OperationType } from '../../../lib/firebase';
+src/components/pages/legacy-archive/PayablesPage.tsx:6:import { collection, addDoc, updateDoc, deleteDoc, doc, serverTimestamp, query, where, orderBy, onSnapshot, getDocs, writeBatch } from 'firebase/firestore';
+src/components/pages/legacy-archive/PayablesPage.tsx:14:import { db, auth } from '../../../lib/firebase';
+src/components/pages/legacy-archive/DashboardPage.tsx:29:import { db } from '../../../lib/firebase';
+src/components/pages/GovernanceDashboardPage.tsx:6:import { collection, query, where, onSnapshot } from 'firebase/firestore';
+src/components/pages/GovernanceDashboardPage.tsx:7:import { db } from '../../lib/firebase';
+src/components/pages/FinancialAdminDashboard.tsx:5:import { collection, query, where, onSnapshot } from 'firebase/firestore';
+src/components/pages/FinancialAdminDashboard.tsx:6:import { db } from '../../lib/firebase';
+src/components/pages/StrategicSimulatorPage.tsx:12:import { collection, query, where, onSnapshot } from 'firebase/firestore';
+src/components/pages/StrategicSimulatorPage.tsx:13:import { db } from '../../lib/firebase';
+src/components/pages/CalibrationPlayground.tsx:13:import { auth } from '../../lib/firebase';
+src/components/pages/ConsolidatedGroupAdminPage.tsx:9:import { getDocs, collection } from 'firebase/firestore';
+src/components/pages/ConsolidatedGroupAdminPage.tsx:10:import { db } from '../../lib/firebase';
+src/services/intelligence/AdvisoryIntelligenceService.ts:2:import { auth } from "../../lib/firebase";
+src/services/intelligence/GovernanceIntelligenceService.ts:1:import { auth } from "../../lib/firebase";
+src/services/security/RoleManagementService.ts:2:import { getFunctions, httpsCallable } from 'firebase/functions';
+src/services/security/AccessControlService.ts:1:import { getAuth } from 'firebase/auth';
+src/services/supportService.ts:15:} from 'firebase/firestore';
+src/services/supportService.ts:16:import { ref, uploadBytesResumable, getDownloadURL } from 'firebase/storage';
+src/services/supportService.ts:17:import { db, storage } from '../lib/firebase';
+src/services/ClientExecutiveFinancialDataAdapter.ts:2:import { collection, query, where, getDocs, getFirestore, onSnapshot } from 'firebase/firestore';
+src/services/aiService.ts:3:import { db, auth } from '../lib/firebase';
+src/services/aiService.ts:4:import { collection, doc, writeBatch, serverTimestamp, setDoc, addDoc, query, where, getDocs, orderBy, limit } from 'firebase/firestore';
+src/services/governanceService.ts:1:import { serverTimestamp } from 'firebase/firestore';
+src/services/cashFlowService.ts:2:import { serverTimestamp } from 'firebase/firestore';
+src/services/cashFlowService.ts:4:import { auth } from '../lib/firebase';
+src/services/boardResolutionService.ts:2:import { collection, addDoc, query, where, getDocs, orderBy } from 'firebase/firestore';
+src/services/boardResolutionService.ts:3:import { db } from '../lib/firebase';
+src/services/digital-twin/FirestoreTwinRepository.ts:5:// For a real implementation, we would import db, collection, getDocs, setDoc, query, where from firebase/firestore
+src/services/digital-twin/FirestoreTwinRepository.ts:6:// import { db } from '../../lib/firebase';
+src/services/digital-twin/FirestoreTwinRepository.ts:7:// import { collection, query, where, getDocs, setDoc, doc } from 'firebase/firestore';
+src/lib/scenarioEngine.ts:1:import { collection, doc, setDoc, getDocs, query, where, serverTimestamp, updateDoc, getDoc, addDoc, runTransaction, Timestamp } from 'firebase/firestore';
+src/lib/scenarioEngine.ts:2:import { db, auth } from './firebase';
+src/lib/firebase.ts:1:import { initializeApp } from 'firebase/app';
+src/lib/firebase.ts:2:import { getAuth, GoogleAuthProvider, signInWithPopup, signOut, signInWithEmailAndPassword, createUserWithEmailAndPassword, sendPasswordResetEmail as fbSendPasswordResetEmail } from 'firebase/auth';
+src/lib/firebase.ts:3:import { getFirestore, doc, getDocFromServer } from 'firebase/firestore';
+src/lib/firebase.ts:4:import { getStorage } from 'firebase/storage';
+src/lib/firebase.ts:5:import firebaseConfigFromJson from '../../firebase-applet-config.json';
+src/lib/firebase.ts:7:const firebaseConfig = {
+src/lib/firebase.ts:8:  projectId: (import.meta.env?.VITE_FIREBASE_PROJECT_ID as string) || firebaseConfigFromJson.projectId,
+src/lib/firebase.ts:9:  appId: (import.meta.env?.VITE_FIREBASE_APP_ID as string) || firebaseConfigFromJson.appId,
+src/lib/firebase.ts:10:  apiKey: (import.meta.env?.VITE_FIREBASE_API_KEY as string) || firebaseConfigFromJson.apiKey,
+src/lib/firebase.ts:11:  authDomain: (import.meta.env?.VITE_FIREBASE_AUTH_DOMAIN as string) || firebaseConfigFromJson.authDomain,
+src/lib/firebase.ts:12:  firestoreDatabaseId: (import.meta.env?.VITE_FIREBASE_FIRESTORE_DATABASE_ID as string) || firebaseConfigFromJson.firestoreDatabaseId || "(default)",
+src/lib/firebase.ts:13:  storageBucket: (import.meta.env?.VITE_FIREBASE_STORAGE_BUCKET as string) || firebaseConfigFromJson.storageBucket,
+src/lib/firebase.ts:14:  messagingSenderId: (import.meta.env?.VITE_FIREBASE_MESSAGING_SENDER_ID as string) || firebaseConfigFromJson.messagingSenderId,
+src/lib/firebase.ts:15:  measurementId: (import.meta.env?.VITE_FIREBASE_MEASUREMENT_ID as string) || firebaseConfigFromJson.measurementId || ""
+src/lib/firebase.ts:18:const app = initializeApp(firebaseConfig);
+src/lib/firebase.ts:19:export const db = getFirestore(app, firebaseConfig.firestoreDatabaseId);
+src/lib/firebase.ts:20:export const storage = getStorage(app, firebaseConfig.storageBucket);
+src/lib/firebase.ts:30:const secondaryApp = initializeApp(firebaseConfig, "Secondary");
+src/lib/efosSnapshot.ts:1:import { collection, doc, setDoc, getDoc, serverTimestamp } from 'firebase/firestore';
+src/lib/efosSnapshot.ts:2:import { db } from './firebase';
+src/lib/governanceContext.tsx:2:import { User } from 'firebase/auth';
+src/lib/governanceContext.tsx:3:import { doc, getDoc, setDoc, serverTimestamp } from 'firebase/firestore';
+src/lib/governanceContext.tsx:4:import { db } from './firebase';
+src/core/security/auth/InstitutionalAuthProvider.tsx:3:import { onAuthStateChanged, User } from 'firebase/auth';
+src/core/security/auth/InstitutionalAuthProvider.tsx:4:import { auth, logout as firebaseLogout } from '../../../lib/firebase';
+src/core/security/auth/InstitutionalAuthProvider.tsx:38:    const unsubscribe = onAuthStateChanged(auth, async (firebaseUser: User | null) => {
+src/core/security/auth/InstitutionalAuthProvider.tsx:41:      if (!firebaseUser) {
+src/core/security/auth/InstitutionalAuthProvider.tsx:49:        setUser(firebaseUser);
+src/core/security/auth/InstitutionalAuthProvider.tsx:50:        const resolvedSession = await TenantResolutionEngine.resolve(firebaseUser);
+src/core/security/auth/InstitutionalAuthProvider.tsx:54:           await SessionGovernanceLayer.emitTelemetry('SESSION_START', resolvedSession.sessionId, firebaseUser.uid, {
+src/core/security/auth/InstitutionalAuthProvider.tsx:55:             email: firebaseUser.email,
+src/core/security/auth/InstitutionalAuthProvider.tsx:95:    await firebaseLogout();
+src/core/security/auth/TenantResolutionEngine.ts:1:import { db, MASTER_ADMINS } from '../../../lib/firebase';
+src/core/security/auth/TenantResolutionEngine.ts:2:import { collection, query, where, getDocs, or, doc, getDoc } from 'firebase/firestore';
+src/core/security/auth/TenantResolutionEngine.ts:3:import { User } from 'firebase/auth';
+src/core/security/auth/SessionGovernanceLayer.ts:1:import { db } from '../../../lib/firebase';
+src/core/security/auth/SessionGovernanceLayer.ts:2:import { collection, addDoc, serverTimestamp } from 'firebase/firestore';
+src/core/security/audit/ImmutableLedger.ts:1:import { db } from '../../../lib/firebase';
+src/core/security/audit/ImmutableLedger.ts:2:import { collection, addDoc } from 'firebase/firestore';
+src/core/security/audit/AnomalyDetector.ts:1:import { db } from '../../../lib/firebase';
+src/core/security/audit/AnomalyDetector.ts:2:import { collection, addDoc } from 'firebase/firestore';
+src/core/security/audit/AuditEventBus.ts:1:import { db } from '../../../lib/firebase';
+src/core/security/audit/AuditEventBus.ts:2:import { collection, addDoc } from 'firebase/firestore';
+src/core/knowledge-graph/storage/FirestoreGraphRepository.ts:10:  // Simulated collections for in-memory testing of the architecture before hooking real firebase-admin
+src/core/runtime/reporting/ReportVersionRegistry.ts:1:import { collection, doc, setDoc } from 'firebase/firestore';
+src/core/runtime/reporting/ReportVersionRegistry.ts:2:import { db } from '../../../lib/firebase';
+src/core/runtime/consolidated/data/ConsolidatedEntityRepository.ts:2:import { collection, query, where, getDocs } from 'firebase/firestore';
+src/core/runtime/consolidated/data/ConsolidatedEntityRepository.ts:3:import { db } from '../../../../lib/firebase';
+src/core/runtime/consolidated/data/GroupOnboardingRepository.ts:1:import { collection, doc, setDoc, getDocs, getDoc, updateDoc } from 'firebase/firestore';
+src/core/runtime/consolidated/data/GroupOnboardingRepository.ts:2:import { db } from '../../../../lib/firebase';
+src/core/runtime/consolidated/data/IntercompanyRelationRepository.ts:1:import { collection, doc, setDoc, getDocs, query, where, deleteDoc } from 'firebase/firestore';
+src/core/runtime/consolidated/data/IntercompanyRelationRepository.ts:2:import { db } from '../../../../lib/firebase';
+src/core/runtime/consolidated/data/GroupEntityMappingRepository.ts:1:import { collection, doc, setDoc, getDocs, query, where, deleteDoc } from 'firebase/firestore';
+src/core/runtime/consolidated/data/GroupEntityMappingRepository.ts:2:import { db } from '../../../../lib/firebase';
+src/core/runtime/consolidated/data/ConsolidatedGroupRepository.ts:1:import { collection, query, where, getDocs, doc, getDoc } from 'firebase/firestore';
+src/core/runtime/consolidated/data/ConsolidatedGroupRepository.ts:2:import { db } from '../../../../lib/firebase';
+src/core/runtime/consolidated/data/IntercompanyRelationsLoader.ts:1:import { collection, query, where, getDocs } from 'firebase/firestore';
+src/core/runtime/consolidated/data/IntercompanyRelationsLoader.ts:2:import { db } from '../../../../lib/firebase';
+src/core/runtime/distributed/AsyncJobQueue.ts:1:import { db } from '../../../lib/firebase';
+src/core/runtime/distributed/AsyncJobQueue.ts:2:import { collection, doc, addDoc, getDocs, updateDoc, query, where, limit, runTransaction } from 'firebase/firestore';
+src/core/runtime/distributed/RuntimePressureMonitor.ts:1:import { db } from '../../../lib/firebase';
+src/core/runtime/distributed/RuntimePressureMonitor.ts:2:import { collection, addDoc, getDocs, query, where } from 'firebase/firestore';
+src/core/runtime/distributed/DistributedAnomalyAggregator.ts:1:import { db } from '../../../lib/firebase';
+src/core/runtime/distributed/DistributedAnomalyAggregator.ts:2:import { collection, addDoc, getDocs, query, where } from 'firebase/firestore';
+src/core/runtime/tenancy/TenantAuditLogger.ts:1:import { collection, doc, setDoc } from 'firebase/firestore';
+src/core/runtime/tenancy/TenantAuditLogger.ts:2:import { db } from '../../../lib/firebase';
+src/core/runtime/decision-intelligence/InstitutionalDecisionLedger.ts:6:import { db } from '../../../lib/firebase';
+src/core/runtime/decision-intelligence/InstitutionalDecisionLedger.ts:7:import { collection, addDoc, getDocs, query, where } from 'firebase/firestore';
+src/core/runtime/observability/RuntimeHealthMonitor.ts:1:import { collection, doc, setDoc, getDocs, query, orderBy, limit } from 'firebase/firestore';
+src/core/runtime/observability/RuntimeHealthMonitor.ts:2:import { db } from '../../../lib/firebase';
+src/core/runtime/observability/sinks/FirebaseRuntimeTelemetrySink.ts:6:import { db } from '../../../../lib/firebase';
+src/core/runtime/observability/sinks/FirebaseRuntimeTelemetrySink.ts:7:import { collection, doc, setDoc, addDoc, getDoc } from 'firebase/firestore';
+src/core/runtime/observability/GovernanceViolationHistory.ts:1:import { collection, doc, setDoc, getDocs, query, where, orderBy } from 'firebase/firestore';
+src/core/runtime/observability/GovernanceViolationHistory.ts:2:import { db } from '../../../lib/firebase';
+src/core/runtime/observability/ConfidenceTimelineEngine.ts:1:import { collection, doc, setDoc, getDocs, query, where, orderBy } from 'firebase/firestore';
+src/core/runtime/observability/ConfidenceTimelineEngine.ts:2:import { db } from '../../../lib/firebase';
+src/core/runtime/observability/RuntimeExecutionRegistry.ts:1:import { collection, doc, setDoc, getDocs, query, where, orderBy, getDoc } from 'firebase/firestore';
+src/core/runtime/observability/RuntimeExecutionRegistry.ts:2:import { db } from '../../../lib/firebase';
+src/core/runtime/observability/ExecutionReplayEngine.ts:19:    // Para simplificar a reconstrução sem ter que salvar a árvore de view layer inteira no firebase:
+src/core/runtime/financial-governance/certification/FinancialCertificationLedger.ts:8:import { db } from '../../../../lib/firebase';
+src/core/runtime/financial-governance/certification/FinancialCertificationLedger.ts:9:import { collection, addDoc, serverTimestamp } from 'firebase/firestore';
+src/core/runtime/integrations/PilotRollbackProtocol.ts:1:import { db } from '../../../lib/firebase';
+src/core/runtime/integrations/PilotRollbackProtocol.ts:2:import { collection, query, where, getDocs, doc, writeBatch } from 'firebase/firestore';
+src/core/runtime/scenario/ScenarioExecutionLogger.ts:1:import { collection, doc, setDoc } from 'firebase/firestore';
+src/core/runtime/scenario/ScenarioExecutionLogger.ts:2:import { db } from '../../../lib/firebase';
+src/core/runtime/scenario/ScenarioRegistry.ts:1:import { collection, doc, setDoc } from 'firebase/firestore';
+src/core/runtime/scenario/ScenarioRegistry.ts:2:import { db } from '../../../lib/firebase';

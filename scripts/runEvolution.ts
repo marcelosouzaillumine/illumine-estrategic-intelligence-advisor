@@ -7,13 +7,13 @@ async function main() {
 
   // Load Mock Snapshots from Registry
   const intelV1: any = {
-    version: 'INTELLIGENCE-SNAPSHOT-v1',
+    version: 'GOVERNANCE-SNAPSHOT-v1',
     insights: [],
     impacts: []
   };
 
   const intelV2: any = {
-    version: 'INTELLIGENCE-SNAPSHOT-v2',
+    version: 'GOVERNANCE-SNAPSHOT-v2',
     insights: [],
     impacts: []
   };

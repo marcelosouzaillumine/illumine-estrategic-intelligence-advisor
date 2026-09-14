@@ -5,7 +5,7 @@ import { InstitutionalShowcase } from './InstitutionalShowcase';
 
 import { TemporalExecutiveScoreboard } from '../../../../temporal/TemporalExecutiveScoreboard';
 import { TemporalEarlyWarningBanner } from '../../../../temporal/TemporalEarlyWarningBanner';
-import { TemporalCausalityOutput } from '../../../../../core/runtime/institutional-memory/types';
+import { TemporalCausalityOutput } from '../../../../../capabilities/runtime/institutional-memory/types';
 
 export function GovernanceShowcase() {
   const { t } = useTranslation('showcases/governance');

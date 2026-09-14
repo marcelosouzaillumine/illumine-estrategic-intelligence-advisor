@@ -17,9 +17,9 @@ export const AnalyticsHealthCenterPage: React.FC = () => {
 
   const getEAMIStatus = (score: number) => {
     if (score <= 30) return { label: 'Legacy Analytics', color: 'text-rose-500' };
-    if (score <= 60) return { label: 'Transitional Intelligence', color: 'text-orange-500' };
+    if (score <= 60) return { label: 'Transitional Governance', color: 'text-orange-500' };
     if (score <= 85) return { label: 'Governed Analytics', color: 'text-blue-500' };
-    return { label: 'Executive Intelligence Certified', color: 'text-emerald-500' };
+    return { label: 'Executive Governance Certified', color: 'text-emerald-500' };
   };
 
   const status = getEAMIStatus(eamiScore);
@@ -72,8 +72,8 @@ export const AnalyticsHealthCenterPage: React.FC = () => {
         {/* 3. Intelligence Coverage */}
         <div className="bg-white rounded-xl shadow-sm border border-slate-200 p-6">
           <h3 className="font-semibold text-slate-700 mb-4 flex items-center">
-            <span className="w-2 h-2 rounded-full bg-emerald-500 mr-2"></span> Intelligence Coverage
-          </h3>
+            <span className="w-2 h-2 rounded-full bg-emerald-500 mr-2"></span> Governance Coverage
+                                </h3>
           <div className="flex flex-col h-24 justify-center items-center">
             <div className="text-4xl font-bold text-slate-800">
               {metrics.activeCapabilities} <span className="text-slate-400 text-2xl">/ {metrics.totalCapabilitiesExpected}</span>

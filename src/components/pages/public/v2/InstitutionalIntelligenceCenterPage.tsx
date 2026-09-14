@@ -17,7 +17,7 @@ import {
 import { useTranslation } from 'react-i18next';
 
 export function InstitutionalIntelligenceCenterPage() {
-  const { t } = useTranslation('intelligence-center');
+  const { t } = useTranslation('governance-center');
   const areasDeConhecimento = [
     {
       title: t('knowledge_areas.items.0.title'),

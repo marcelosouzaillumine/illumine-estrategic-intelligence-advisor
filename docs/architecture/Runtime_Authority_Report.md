@@ -15,6 +15,6 @@ Quaisquer cálculos fora destas engines não possuem peso fiduciário e devem se
 | **Constitutional Engine** | `src/core/runtime/constitutional-governance/` | Validação de restrições, Fiduciary Axioms |
 | **Scenario Engine** | `src/core/runtime/scenario/` | Simulação de stress, Valuation, Dividendos |
 | **Mission Alignment** | `src/core/governance/mission/` | Indicadores de Conformidade Estratégica |
-| **Prospective Intelligence**| `src/core/runtime/prospective/` | Projeções Fiduciárias |
+| **Prospective Governance**| `src/core/runtime/prospective/` | Projeções Fiduciárias |
 
 _Gerado via Runtime Governance Audit v1.0._

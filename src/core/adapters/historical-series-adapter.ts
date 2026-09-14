@@ -54,7 +54,14 @@ export function buildHistoricalSeries(clientId: string, allEntries: any[]): Hist
 
     let bpSummary: BPSummary = {} as BPSummary;
     if (bpEntries.length > 0) {
-      const { summary } = buildBPHierarchy(bpEntries);
+      // useAllFinancialData sets type=docType ('Balanço Patrimonial') on every entry.
+      // buildBPHierarchy reads r.type to determine 'ativo'/'passivo'/'pl'.
+      // Prefer entryType (individual accounting type) or tipo over the document-level type.
+      const normalizedBpEntries = bpEntries.map((e: any) => ({
+        ...e,
+        type: (e.entryType || e.tipo || e.type || '').toLowerCase()
+      }));
+      const { summary } = buildBPHierarchy(normalizedBpEntries);
       bpSummary = summary;
     } else {
       // Cria um mock vazio seguro

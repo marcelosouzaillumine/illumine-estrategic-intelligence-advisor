@@ -3,4 +3,6 @@ export type WorkspaceContext =
   | 'ADVISOR'
   | 'CLIENT'
   | 'PLATFORM'
-  | 'ADMINISTRATION';
+  | 'ADMINISTRATION'
+  | 'MENTOR'
+  | 'MENTEE';

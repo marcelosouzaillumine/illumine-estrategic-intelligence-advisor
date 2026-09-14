@@ -3,7 +3,7 @@ import { describe, it, expect } from 'vitest';
 import { ExecutiveRecommendationResolver } from '@illumine/executive-decision-intelligence';
 import { ExecutiveContextProvider } from '@illumine/executive-context-engine';
 
-describe('@illumine/intelligence (Wave 18.2 Recommendation Execution Binding)', () => {
+describe('@illumine/governance (Wave 18.2 Recommendation Execution Binding)', () => {
   it('should ensure all recommendations include execution targets and confidence scores', () => {
     const ctx = ExecutiveContextProvider.buildContext({
       companyId: 'comp-beta',

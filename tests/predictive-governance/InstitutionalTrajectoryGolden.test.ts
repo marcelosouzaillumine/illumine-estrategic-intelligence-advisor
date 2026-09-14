@@ -1,7 +1,7 @@
 import test from 'node:test';
 import assert from 'node:assert';
-import { InstitutionalTrajectoryEngine } from '../../src/core/runtime/predictive-governance/InstitutionalTrajectoryEngine';
-import { InstitutionalSnapshot } from '../../src/core/runtime/predictive-governance/PredictiveTypes';
+import { InstitutionalTrajectoryEngine } from '../../src/capabilities/runtime/predictive-governance/InstitutionalTrajectoryEngine';
+import { InstitutionalSnapshot } from '../../src/capabilities/runtime/predictive-governance/PredictiveTypes';
 
 test('▶ Institutional Trajectory Golden Tests', async (t) => {
   await t.test('✔ 1. Returns INSUFFICIENT_HISTORY with less than 2 cycles', () => {

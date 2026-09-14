@@ -3,7 +3,7 @@ import path from 'path';
 import { fileURLToPath } from 'url';
 import { describe, it } from 'node:test';
 import assert from 'node:assert/strict';
-import { ConstitutionalGovernanceDashboardEngine } from '../src/core/runtime/constitutional-governance/ConstitutionalGovernanceDashboardEngine';
+import { ConstitutionalGovernanceDashboardEngine } from '../src/capabilities/runtime/constitutional-governance/ConstitutionalGovernanceDashboardEngine';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);

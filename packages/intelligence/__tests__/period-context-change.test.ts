@@ -2,7 +2,7 @@
 import { describe, it, expect } from 'vitest';
 import { ExecutiveDecisionIntelligenceEngine } from '@illumine/executive-decision-intelligence';
 
-describe('@illumine/intelligence (Wave 18.1 Period Context Change)', () => {
+describe('@illumine/governance (Wave 18.1 Period Context Change)', () => {
   it('should generate different narratives when period changes (ADR-068)', () => {
     const res2025 = ExecutiveDecisionIntelligenceEngine.evaluate({
       companyId: 'comp-1',

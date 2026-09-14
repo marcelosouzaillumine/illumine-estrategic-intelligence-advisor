@@ -817,7 +817,7 @@ evolution_stages:
     - "Reactive use"
     status: "[ ] Complete"
 
-  v2_intelligence:
+  v2_governance:
     - "Calculated fields (CLV, RFM)"
     - "Health Score"
     - "Automated alerts"
@@ -993,5 +993,5 @@ Conte os ✅ completados e calcule:
 ---
 
 *Checklist Version: 1.0*
-*Data Intelligence Pack - Customer 360 Implementation*
+*Data Governance Pack - Customer 360 Implementation*
 *Primary Agents: Peter Fader, Nick Mehta, Sean Ellis*

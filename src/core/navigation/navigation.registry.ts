@@ -142,12 +142,12 @@ export const RAW_NAVIGATION_GROUPS: WorkspaceNavigationGroup[] = [
         id: 'ceo.strategic-domains', label: 'Corporate Strategy', labelKey: 'navigation.group.ceo.strategy', icon: Target,
         children: [
           { id: 'ceo.strategic-performance', label: 'Strategic Performance', labelKey: 'navigation.page.strategic_performance', icon: Target },
-          { id: 'ceo.growth-intelligence', label: 'Growth Intelligence', labelKey: 'navigation.page.growth_intelligence', icon: TrendingUp },
+          { id: 'ceo.growth-governance', label: 'Growth Governance', labelKey: 'navigation.page.growth_governance', icon: TrendingUp },
           { id: 'ceo.risk-overview', label: 'Risk & Opportunities', labelKey: 'navigation.page.risk_overview', icon: ShieldAlert }
         ]
       },
       { 
-        id: 'ceo.decision-intelligence', label: 'Decision Intelligence', labelKey: 'navigation.group.ceo.decision', icon: Brain,
+        id: 'ceo.decision-governance', label: 'Decision Governance', labelKey: 'navigation.group.ceo.decision', icon: Brain,
         children: [
           { id: 'institutional_ios', label: 'Institutional iOS', labelKey: 'navigation.page.institutional_ios', icon: Scale, masterOnly: true }
         ]
@@ -193,7 +193,7 @@ export const RAW_NAVIGATION_GROUPS: WorkspaceNavigationGroup[] = [
       {
         id: 'cfo.financial-performance', label: 'Financial Performance', labelKey: 'navigation.group.cfo.performance', icon: TrendingUp,
         children: [
-          { id: 'analise_financeira', label: 'Financial Performance Intelligence', labelKey: 'navigation.page.financial_performance_intelligence', icon: Coins }
+          { id: 'analise_financeira', label: 'Financial Performance Governance', labelKey: 'navigation.page.financial_performance_governance', icon: Coins }
         ]
       },
       {
@@ -228,7 +228,7 @@ export const RAW_NAVIGATION_GROUPS: WorkspaceNavigationGroup[] = [
       {
         id: 'coo.procurement', label: 'Procurement', labelKey: 'navigation.group.coo.procurement', icon: ShoppingBag,
         children: [
-          { id: 'coo.procurement-intelligence', label: 'Procurement Intelligence', labelKey: 'navigation.page.coo.procurement-intelligence', icon: ShoppingBag }
+          { id: 'coo.procurement-governance', label: 'Procurement Governance', labelKey: 'navigation.page.coo.procurement-governance', icon: ShoppingBag }
         ]
       }
     ]
@@ -238,18 +238,18 @@ export const RAW_NAVIGATION_GROUPS: WorkspaceNavigationGroup[] = [
     icon: ShoppingBag,
     items: [
       { id: 'commercial.executive-overview', label: 'Executive Dashboard', labelKey: 'navigation.page.commercial_overview', icon: LayoutDashboard },
-      { id: 'commercial.revenue-intelligence', label: 'Revenue Intelligence', labelKey: 'navigation.page.revenue_intelligence', icon: TrendingUp },
+      { id: 'commercial.revenue-governance', label: 'Revenue Governance', labelKey: 'navigation.page.revenue_governance', icon: TrendingUp },
       { 
         id: 'commercial.commercial-execution', label: 'Commercial Execution', labelKey: 'navigation.group.commercial.execution', icon: Target,
         children: [
-          { id: 'commercial.pipeline-intelligence', label: 'Pipeline Intelligence', labelKey: 'navigation.page.pipeline_intelligence', icon: Target },
+          { id: 'commercial.pipeline-governance', label: 'Pipeline Governance', labelKey: 'navigation.page.pipeline_governance', icon: Target },
           { id: 'commercial.opportunity-management', label: 'Opportunity Management', labelKey: 'navigation.page.opportunity_management', icon: Briefcase }
         ]
       },
       { 
-        id: 'commercial.market-customer', label: 'Market & Customer Intelligence', labelKey: 'navigation.group.commercial.customer', icon: Users,
+        id: 'commercial.market-customer', label: 'Market & Customer Governance', labelKey: 'navigation.group.commercial.customer', icon: Users,
         children: [
-          { id: 'commercial.customer-intelligence', label: 'Customer Intelligence', labelKey: 'navigation.page.customer_intelligence', icon: Users }
+          { id: 'commercial.customer-governance', label: 'Customer Governance', labelKey: 'navigation.page.customer_governance', icon: Users }
         ]
       },
       { 
@@ -261,7 +261,7 @@ export const RAW_NAVIGATION_GROUPS: WorkspaceNavigationGroup[] = [
       { 
         id: 'commercial.revenue-forecast', label: 'Revenue Forecast', labelKey: 'navigation.group.commercial.forecast', icon: LineChart,
         children: [
-          { id: 'commercial.forecast-intelligence', label: 'Forecast Intelligence', labelKey: 'navigation.page.forecast_intelligence', icon: LineChart }
+          { id: 'commercial.forecast-governance', label: 'Forecast Governance', labelKey: 'navigation.page.forecast_governance', icon: LineChart }
         ]
       }
     ]
@@ -274,7 +274,7 @@ export const RAW_NAVIGATION_GROUPS: WorkspaceNavigationGroup[] = [
       { 
         id: 'people.workforce', label: 'Workforce', labelKey: 'navigation.group.people.workforce', icon: Boxes,
         children: [
-          { id: 'people.workforce-intelligence', label: 'Workforce & Capacity', labelKey: 'navigation.page.people.workforce', icon: Boxes }
+          { id: 'people.workforce-governance', label: 'Workforce & Capacity', labelKey: 'navigation.page.people.workforce', icon: Boxes }
         ]
       },
       { 
@@ -286,7 +286,7 @@ export const RAW_NAVIGATION_GROUPS: WorkspaceNavigationGroup[] = [
       { 
         id: 'people.leadership', label: 'Leadership', labelKey: 'navigation.group.people.leadership', icon: Star,
         children: [
-          { id: 'people.leadership-intelligence', label: 'Leadership Intelligence', labelKey: 'navigation.page.people.leadership', icon: Star }
+          { id: 'people.leadership-governance', label: 'Leadership Governance', labelKey: 'navigation.page.people.leadership', icon: Star }
         ]
       },
       { 
@@ -302,9 +302,9 @@ export const RAW_NAVIGATION_GROUPS: WorkspaceNavigationGroup[] = [
         ]
       },
       { 
-        id: 'people.organizational-intelligence', label: 'Organizational Intelligence', labelKey: 'navigation.group.people.org', icon: Network,
+        id: 'people.organizational-governance', label: 'Organizational Governance', labelKey: 'navigation.group.people.org', icon: Network,
         children: [
-          { id: 'people.organizational-intelligence', label: 'Organizational Intelligence', labelKey: 'navigation.page.people.org', icon: Network }
+          { id: 'people.organizational-governance', label: 'Organizational Governance', labelKey: 'navigation.page.people.org', icon: Network }
         ]
       }
     ]
@@ -323,17 +323,17 @@ export const RAW_NAVIGATION_GROUPS: WorkspaceNavigationGroup[] = [
       { 
         id: 'governance.decision-governance', label: 'Decision Governance', labelKey: 'navigation.group.governance.decision', icon: BrainCircuit,
         children: [
-          { id: 'governance.decision-intelligence', label: 'Decision Intelligence', labelKey: 'navigation.page.governance.decision', icon: BrainCircuit }
+          { id: 'governance.decision-governance', label: 'Decision Governance', labelKey: 'navigation.page.governance.decision', icon: BrainCircuit }
         ]
       },
       { 
         id: 'governance.institutional-alignment', label: 'Institutional Alignment', labelKey: 'navigation.group.governance.alignment', icon: Users,
         children: [
-          { id: 'governance.board-intelligence', label: 'Board Intelligence', labelKey: 'navigation.page.governance.board', icon: Users }
+          { id: 'governance.board-governance', label: 'Board Governance', labelKey: 'navigation.page.governance.board', icon: Users }
         ]
       },
       { 
-        id: 'governance.decision-intelligence', label: 'Decision Intelligence', labelKey: 'navigation.group.governance.intelligence', icon: ShieldCheck,
+        id: 'governance.decision-governance', label: 'Decision Governance', labelKey: 'navigation.group.governance.governance', icon: ShieldCheck,
         children: [
           { id: 'governance.governance-maturity', label: 'Governance Maturity', labelKey: 'navigation.page.governance.maturity', icon: ShieldCheck }
         ]
@@ -355,19 +355,19 @@ export const RAW_NAVIGATION_GROUPS: WorkspaceNavigationGroup[] = [
       { 
         id: 'risk.compliance', label: 'Compliance', labelKey: 'navigation.group.risk.compliance', icon: ShieldCheck,
         children: [
-          { id: 'risk.compliance-intelligence', label: 'Compliance Intelligence', labelKey: 'navigation.page.risk.compliance', icon: ShieldCheck }
+          { id: 'risk.compliance-governance', label: 'Compliance Governance', labelKey: 'navigation.page.risk.compliance', icon: ShieldCheck }
         ]
       },
       { 
         id: 'risk.internal-audit', label: 'Internal Audit', labelKey: 'navigation.group.risk.audit', icon: FileCheck,
         children: [
-          { id: 'risk.audit-intelligence', label: 'Audit Intelligence', labelKey: 'navigation.page.risk.audit', icon: FileCheck }
+          { id: 'risk.audit-governance', label: 'Audit Governance', labelKey: 'navigation.page.risk.audit', icon: FileCheck }
         ]
       },
       { 
-        id: 'risk.decision-intelligence', label: 'Decision Intelligence', labelKey: 'navigation.group.risk.decision', icon: Compass,
+        id: 'risk.decision-governance', label: 'Decision Governance', labelKey: 'navigation.group.risk.decision', icon: Compass,
         children: [
-          { id: 'risk.risk-intelligence', label: 'Risk Intelligence', labelKey: 'navigation.page.risk.intelligence', icon: Compass },
+          { id: 'risk.risk-governance', label: 'Risk Governance', labelKey: 'navigation.page.risk.governance', icon: Compass },
           { id: 'risk.control-maturity', label: 'Control Maturity', labelKey: 'navigation.page.risk.control', icon: Lock }
         ]
       }
@@ -382,7 +382,7 @@ export const RAW_NAVIGATION_GROUPS: WorkspaceNavigationGroup[] = [
         id: 'innovation.innovation-portfolio', label: 'Innovation Portfolio', labelKey: 'navigation.group.innovation.portfolio', icon: Activity,
         children: [
           { id: 'innovation.innovation-portfolio', label: 'Innovation Portfolio', labelKey: 'navigation.page.innovation.portfolio', icon: Activity },
-          { id: 'innovation.opportunity-intelligence', label: 'Opportunity Intelligence', labelKey: 'navigation.page.innovation.opportunity', icon: Compass }
+          { id: 'innovation.opportunity-governance', label: 'Opportunity Governance', labelKey: 'navigation.page.innovation.opportunity', icon: Compass }
         ]
       },
       { 
@@ -404,9 +404,9 @@ export const RAW_NAVIGATION_GROUPS: WorkspaceNavigationGroup[] = [
         ]
       },
       { 
-        id: 'innovation.decision-intelligence', label: 'Decision Intelligence', labelKey: 'navigation.group.innovation.decision', icon: Compass,
+        id: 'innovation.decision-governance', label: 'Decision Governance', labelKey: 'navigation.group.innovation.decision', icon: Compass,
         children: [
-          { id: 'innovation.innovation-intelligence', label: 'Innovation Intelligence', labelKey: 'navigation.page.innovation.intelligence', icon: Compass }
+          { id: 'innovation.innovation-governance', label: 'Innovation Governance', labelKey: 'navigation.page.innovation.governance', icon: Compass }
         ]
       }
     ]
@@ -414,7 +414,7 @@ export const RAW_NAVIGATION_GROUPS: WorkspaceNavigationGroup[] = [
 
   // --- GOVERNANCE LAYER (Board Independence) ---
   {
-    group: 'Board Intelligence™', groupKey: 'navigation.group.board_intelligence', officeId: 'board-office', category: 'board',
+    group: 'Board Governance™', groupKey: 'navigation.group.board_governance', officeId: 'board-office', category: 'board',
     icon: Presentation,
     items: [
       { 
@@ -446,7 +446,7 @@ export const RAW_NAVIGATION_GROUPS: WorkspaceNavigationGroup[] = [
         ]
       },
       { 
-        id: 'board.fiduciary-intelligence', label: 'Fiduciary Intelligence', labelKey: 'navigation.group.board.fiduciary', icon: ShieldAlert,
+        id: 'board.fiduciary-governance', label: 'Fiduciary Governance', labelKey: 'navigation.group.board.fiduciary', icon: ShieldAlert,
         children: [
           { id: 'risk_exposure_center', label: 'Risk Exposure Center', labelKey: 'navigation.page.risk_exposure_center', icon: ShieldAlert }
         ]
@@ -467,13 +467,13 @@ export const RAW_NAVIGATION_GROUPS: WorkspaceNavigationGroup[] = [
 
   // --- COGNITIVE LAYER (Enterprise Intelligence) ---
   {
-    group: 'Enterprise Intelligence', groupKey: 'navigation.group.intelligence_domains', officeId: 'enterprise-intelligence', category: 'intelligence',
+    group: 'Enterprise Governance', groupKey: 'navigation.group.governance_domains', officeId: 'enterprise-governance', category: 'governance',
     icon: Network,
     items: [
       { 
-        id: 'enterprise.intelligence-hub', label: 'Intelligence Hub', labelKey: 'navigation.group.enterprise.hub', icon: Network,
+        id: 'enterprise.governance-hub', label: 'Governance Hub', labelKey: 'navigation.group.enterprise.hub', icon: Network,
         children: [
-          { id: 'intelligence.preview', label: 'Intelligence Preview', labelKey: 'navigation.page.intelligence_preview', icon: Network },
+          { id: 'governance.preview', label: 'Governance Preview', labelKey: 'navigation.page.governance_preview', icon: Network },
           { id: 'dashboard_inovacao', label: 'Dashboard de Inovação', labelKey: 'navigation.page.dashboard_inovacao', icon: Zap },
           { id: 'indicadores', label: 'Análise de KPIs', labelKey: 'navigation.page.indicadores', icon: TrendingUp }
         ]
@@ -486,7 +486,7 @@ export const RAW_NAVIGATION_GROUPS: WorkspaceNavigationGroup[] = [
         ]
       },
       { 
-        id: 'enterprise.governance-engines', label: 'Governance Intelligence Engines', labelKey: 'navigation.group.enterprise.governance', icon: Brain,
+        id: 'enterprise.governance-engines', label: 'Governance Governance Engines', labelKey: 'navigation.group.enterprise.governance', icon: Brain,
         children: [
           { id: 'governance_maturity_center', label: 'Governance Maturity Center', labelKey: 'navigation.page.governance_maturity_center', icon: Target },
           { id: 'fiduciary_validation_center', label: 'Fiduciary Validation Center', labelKey: 'navigation.page.fiduciary_validation_center', icon: Scale },
@@ -511,7 +511,7 @@ export const RAW_NAVIGATION_GROUPS: WorkspaceNavigationGroup[] = [
         ]
       },
       { 
-        id: 'enterprise.decision-intelligence', label: 'Decision Intelligence', labelKey: 'navigation.group.enterprise.decision', icon: GitBranchPlus,
+        id: 'enterprise.decision-governance', label: 'Decision Governance', labelKey: 'navigation.group.enterprise.decision', icon: GitBranchPlus,
         children: [
           { id: 'decision_lifecycle_center', label: 'Decision Lifecycle Center', labelKey: 'navigation.page.decision_lifecycle_center', icon: GitBranchPlus },
           { id: 'credit_committee_center', label: 'Credit Committee Simulator', labelKey: 'navigation.page.credit_committee_center', icon: Landmark }
@@ -618,15 +618,15 @@ export const RAW_NAVIGATION_GROUPS: WorkspaceNavigationGroup[] = [
         id: 'admin.revenue', label: 'Revenue Management', labelKey: 'navigation.group.admin.revenue', icon: TrendingUp,
         children: [
           { id: 'platform.revenue-center', label: 'Revenue Center', labelKey: 'navigation.page.platform_revenue', icon: TrendingUp },
-          { id: 'platform.pipeline-intelligence', label: 'Pipeline Intelligence', labelKey: 'navigation.page.platform_pipeline', icon: Target },
+          { id: 'platform.pipeline-governance', label: 'Pipeline Governance', labelKey: 'navigation.page.platform_pipeline', icon: Target },
           { id: 'platform.partner-center', label: 'Partner Center', labelKey: 'navigation.page.platform_partner', icon: Handshake },
           { id: 'revenue.command-center', label: 'Command Center', labelKey: 'navigation.page.revenue_command_center', icon: Target },
           { id: 'revenue.pipeline', label: 'Commercial Pipeline', labelKey: 'navigation.page.revenue_pipeline', icon: Briefcase },
           { id: 'revenue.deal-room', label: 'Nova Oportunidade (Deal Room)', labelKey: 'navigation.page.revenue_deal_room', icon: Target },
           { id: 'revenue.contracts', label: 'Contract Management', labelKey: 'navigation.page.revenue_contracts', icon: FileCheck },
-          { id: 'revenue.subscriptions', label: 'Subscription Intelligence', labelKey: 'navigation.page.revenue_subscriptions', icon: CircleDollarSign },
+          { id: 'revenue.subscriptions', label: 'Subscription Governance', labelKey: 'navigation.page.revenue_subscriptions', icon: CircleDollarSign },
           { id: 'revenue.billing', label: 'Billing Operations', labelKey: 'navigation.page.revenue_billing', icon: CreditCard },
-          { id: 'revenue.intelligence', label: 'Revenue Intelligence', labelKey: 'navigation.page.revenue_intelligence', icon: Brain },
+          { id: 'revenue.governance', label: 'Revenue Governance', labelKey: 'navigation.page.revenue_governance', icon: Brain },
           { id: 'revenue.partners', label: 'Partner Network', labelKey: 'navigation.page.revenue_partners', icon: Handshake },
           { id: 'revenue.advisors', label: 'Certified Advisors', labelKey: 'navigation.page.revenue_advisors', icon: Users },
           { id: 'revenue.institutions', label: 'Executive Partners', labelKey: 'navigation.page.revenue_institutions', icon: Building2 }

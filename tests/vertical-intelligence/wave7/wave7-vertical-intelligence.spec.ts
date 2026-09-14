@@ -8,23 +8,23 @@ import {
   IndustrialOperationsAdvisorAgent,
   ServicesGrowthAdvisorAgent
 } from '../../../packages/vertical-intelligence/src/index';
-import { VerticalROIEngine } from '../../../packages/commercialization/src/index';
+import { VerticalROIEngine } from '../../../packages/os/commercialization/src/index';
 
 export function testWave7VerticalIntelligence(): boolean {
   // Test 01: Vertical Engines Execution
   const healthcare = HealthcareIntelligenceEngine.calculateHospitalHealth('tnt-health');
   if (healthcare.hospitalEbitdaMarginPercentage < 15 || healthcare.bedOccupancyRatePercentage < 80) {
-    throw new Error('Falha no cálculo de métricas do Healthcare Intelligence Engine');
+    throw new Error('Falha no cálculo de métricas do Healthcare Governance Engine');
   }
 
   const family = FamilyBusinessIntelligenceEngine.calculateFamilyGovernance('tnt-family');
   if (family.familyGovernanceScore < 90 || !family.shareholderAgreementActive) {
-    throw new Error('Falha no cálculo de governança do Family Business Intelligence Engine');
+    throw new Error('Falha no cálculo de governança do Family Business Governance Engine');
   }
 
   const industrial = IndustrialIntelligenceEngine.calculateIndustrialPerformance('tnt-ind');
   if (industrial.oeePercentage < 80) {
-    throw new Error('Falha no cálculo de OEE do Industrial Intelligence Engine');
+    throw new Error('Falha no cálculo de OEE do Industrial Governance Engine');
   }
 
   const services = ProfessionalServicesEngine.calculateServicesPerformance('tnt-serv');

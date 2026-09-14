@@ -1,5 +1,5 @@
 import { InstitutionalExecutiveReport, ReportLineageMetadata } from './ReportingTypes';
-import { ConsolidatedExecutiveAdvisoryReport } from '../consolidated/advisory/advisoryTypes';
+import { ConsolidatedExecutiveAdvisoryReport } from '../../../capabilities/financial/runtime/consolidated/advisory/advisoryTypes';
 import { GovernanceViolationRecord } from '../observability/observability-types';
 
 export class InstitutionalReportBuilder {

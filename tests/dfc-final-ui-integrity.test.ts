@@ -1,8 +1,8 @@
 import { describe, it } from 'node:test';
 import assert from 'node:assert/strict';
-import { DFCCausalDriverPresentationAudit } from '../src/core/runtime/cash-causal-intelligence/DFCCausalDriverPresentationAudit';
-import { ExecutiveInformationDensityFramework } from '../src/core/runtime/presentation-governance/ExecutiveInformationDensityFramework';
-import { TreasuryEarlyWarningEngine } from '../src/core/runtime/treasury-early-warning/TreasuryEarlyWarningEngine';
+import { DFCCausalDriverPresentationAudit } from '../src/capabilities/financial/runtime/cash-causal-intelligence/DFCCausalDriverPresentationAudit';
+import { ExecutiveInformationDensityFramework } from '../src/workspace/runtime/presentation-governance/ExecutiveInformationDensityFramework';
+import { TreasuryEarlyWarningEngine } from '../src/capabilities/runtime/treasury-early-warning/TreasuryEarlyWarningEngine';
 
 describe('DFC Final UI Integrity & Executive Language Patch v1.1', () => {
 
@@ -33,7 +33,7 @@ describe('DFC Final UI Integrity & Executive Language Patch v1.1', () => {
       'DFC_CONTEXT',
       'DFC_CQS_SUMMARY',
       'DFC_EXECUTIVE_DIAGNOSIS',
-      'DFC_CAUSAL_INTELLIGENCE',
+      'DFC_CAUSAL_GOVERNANCE',
       'DFC_EARLY_WARNING',
       'DFC_REVENUE_CASH_CONVERSION',
       'DFC_SHAREHOLDER_DEPENDENCY',

@@ -1,9 +1,9 @@
-// @ts-nocheck
 import React from 'react';
 import { ExecutiveEvidenceGrid } from '../../ui/executive-evidence-grid';
 import { ExecutiveBadge } from '../../ui/executive-badge';
 import { ExecutiveDiagnosticPanel } from '../../ui/executive-diagnostic-panel';
 import { ExecutiveSurface } from '../../ui/executive-surface';
+import { ExecutiveHeading } from '../../ui/executive-heading';
 import { FinancialIndicator } from '../../../core/experience/contracts/FinancialPositionPureViewModel';
 
 export type BalanceSheetLiquiditySectionProps = {
@@ -12,13 +12,13 @@ export type BalanceSheetLiquiditySectionProps = {
 
 export const BalanceSheetLiquiditySection = ({ indicators }: BalanceSheetLiquiditySectionProps) => {
   if (!indicators || indicators.length === 0) {
-    return null;
+    return <div className="text-red-500">LIQUIDITY INDICATORS VAZIO!</div>;
   }
 
   // Map pure financial indicators to the evidence grid format
   const mappedMetrics = indicators.map(i => ({
-    label: i.name,
-    value: String(i.value),
+    name: i.name,
+    value: i.formattedValue,
     status: i.classification === 'CRITICAL' ? 'critical' : (i.classification === 'WARNING' ? 'warning' : 'success'),
     trend: 'neutral',
     insight: i.financialMeaning

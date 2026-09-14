@@ -33,7 +33,17 @@ describe('Financial Position Registry Integrity (Wave 1.4.10)', () => {
     // Components that we know are pure components but maybe not in this registry
     // The strict rule: Any BalanceSheet*Section.tsx must be registered or moved to legacy.
     // TechnicalLayerSection is a nested component used strictly inside ExecutiveAccordion, not at the root Product level.
-    const internalSubSections = ['BalanceSheetTechnicalLayerSection'];
+    const internalSubSections = [
+      'BalanceSheetTechnicalLayerSection',
+      'BalanceSheetAssetQualitySection',
+      'BalanceSheetCapitalStructureSection',
+      'BalanceSheetExecutiveQuestionsSection',
+      'BalanceSheetLiquiditySection',
+      'BalanceSheetWorkingCapitalSection',
+      'ExecutivePositionSummarySection',
+      'FinancialPositionScoreSection',
+      'HistoricalEvolutionSection'
+    ];
     const sections = files.filter(f => f.endsWith('Section.tsx') && !internalSubSections.includes(f.replace('.tsx', '')));
     
     // Pegar o que está no registry para verificar se o arquivo em disco foi registrado

@@ -1,6 +1,6 @@
 import { describe, it } from 'node:test';
 import assert from 'node:assert';
-import { CapitalStructureExecutiveAssessmentEngine } from '../src/core/runtime/executive-consolidation/CapitalStructureExecutiveAssessmentEngine';
+import { CapitalStructureExecutiveAssessmentEngine } from '../src/workspace/runtime/executive-consolidation/CapitalStructureExecutiveAssessmentEngine';
 
 describe('CapitalStructureExecutiveAssessmentEngine - v3.1 Hotfix', () => {
   it('Should return EXCELLENT/HEALTHY when endividamentoGeral <= 20 and dependenciaCapitalTerceiros <= 0.30', () => {

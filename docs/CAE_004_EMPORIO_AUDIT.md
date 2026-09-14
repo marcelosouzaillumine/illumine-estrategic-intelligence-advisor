@@ -17,10 +17,10 @@
 Validar se a arquitetura Governance responde corretamente quando uma organização apresenta resultados operacionais consistentes, governança formalizada e desempenho econômico satisfatório, porém mantém dependência excessiva de pessoas-chave para sua continuidade.
 
 Este teste deverá comprovar que:
-* Institutional Intelligence identifica fragilidades de continuidade;
-* Prospective Intelligence detecta riscos sucessórios;
+* Institutional Governance identifica fragilidades de continuidade;
+* Prospective Governance detecta riscos sucessórios;
 * ESGIM Runtime reduz classificações excessivamente otimistas;
-* Board Intelligence Layer prioriza institucionalização e sucessão;
+* Board Governance Layer prioriza institucionalização e sucessão;
 * a arquitetura evita falsos positivos relacionados à maturidade organizacional.
 
 ---
@@ -63,39 +63,39 @@ Este teste deverá comprovar que:
 
 ---
 
-## Intelligence Evaluation
+## Governance Evaluation
 
-### Economic Intelligence
+### Economic Governance
 * **Pergunta:** Existe geração consistente de valor?
 * **Resultado:** POSITIVE
 * **Justificativa:** A empresa demonstra resultados operacionais adequados, receita estável, margens constantes e geração de caixa positivo, sustentando o valor do negócio no curto prazo.
 
-### Fiduciary Intelligence
+### Fiduciary Governance
 * **Pergunta:** O valor está protegido?
 * **Resultado:** STABLE
 * **Justificativa:** Ausência de anomalias contábeis, desfalques de liquidez ou alavancagem excessiva que possam caracterizar risco fiduciário.
 
-### Institutional Intelligence
+### Institutional Governance
 * **Pergunta:** Existe continuidade institucional robusta?
 * **Resultado:** INSTITUTIONAL FRAGILITY
 * **Justificativa:** A dependência excessiva de poucas pessoas-chave (fundadores) para tarefas críticas e tomadas de decisão inviabiliza a caracterização de estabilidade e perpetuidade institucional.
 
-### Causal Intelligence
+### Causal Governance
 * **Pergunta:** Por que a organização apresenta fragilidade institucional?
 * **Resultado:** CAUSALITY IDENTIFIED
 * **Justificativa:** A fragilidade decorre diretamente do atraso na formalização e na transferência do conhecimento de negócios, concentrando o poder de decisão e relacionamento na figura dos fundadores como salvaguarda informal.
 
-### Constitutional Intelligence
+### Constitutional Governance
 * **Pergunta:** Existe aderência aos princípios institucionais?
 * **Resultado:** ALIGNED
 * **Justificativa:** A organização opera em conformidade com as regras fiscais e éticas, não apresentando qualquer desvio ou violação constitucional relevante.
 
-### Missional Intelligence
+### Missional Governance
 * **Pergunta:** A organização permanece alinhada ao propósito?
 * **Resultado:** ALIGNED
 * **Justificativa:** Missão e visão de mercado continuam traduzidas na entrega de alto padrão e qualidade, operando em conformidade estratégica.
 
-### Prospective Intelligence
+### Prospective Governance
 * **Pergunta:** Existe capacidade sustentável de continuidade futura?
 * **Resultado:** SUCCESSION RISK
 * **Justificativa:** A falta de pipeline de lideranças internas e plano de sucessão coloca o futuro operacional da organização em risco na eventualidade de afastamento de seus diretores atuais.
@@ -105,7 +105,7 @@ Este teste deverá comprovar que:
 ## Arbitration Validation
 
 * **Aplicar:** Operational Strength vs Institutional Fragility
-* **Verificar:** A Institutional Intelligence influenciou a conclusão final? **SIM**
+* **Verificar:** A Institutional Governance influenciou a conclusão final? **SIM**
 * **Verificar:** A boa performance econômica anulou a fragilidade institucional? **NÃO**
 * **Verificar:** O risco sucessório impactou a avaliação prospectiva? **SIM**
 * **Justificativa:** A Constituição Cognitiva evitou um falso positivo de robustez sistêmica. O mérito econômico da operação não mascarou a grave fragilidade sucessória identificada na dimensão institucional.
@@ -135,7 +135,7 @@ Este teste deverá comprovar que:
 
 ---
 
-## Board Intelligence Layer Evaluation
+## Board Governance Layer Evaluation
 
 * **Executive Synthesis:** O Empório do Mármore demonstra estabilidade econômica e possui governança formal bem estruturada. No entanto, existe um risco substancial relacionado à dependência concentrada dos sócios-fundadores e de poucas pessoas-chave, gerando vulnerabilidade na continuidade das operações e no controle do conhecimento de negócios.
 * **Principal Risk:** Descontinuidade de operações vitais ou perda de parcerias estratégicas em caso de invalidez, afastamento ou saída imprevista de qualquer um dos sócios-fundadores.
@@ -190,7 +190,7 @@ Este teste deverá comprovar que:
 ## Lessons Learned
 
 * **Validar:**
-  * A robustez da Institutional Intelligence e Prospective Intelligence no mapeamento de riscos de continuidade.
+  * A robustez da Institutional Governance e Prospective Governance no mapeamento de riscos de continuidade.
   * A eficácia da prevenção de falsos positivos de maturidade baseados apenas em estrutura formal de Conselho.
   * O impacto das métricas de sucessão no rating consolidado do ESGIM Runtime.
 

@@ -9,5 +9,5 @@ export const financialPerformanceCapability: ExecutiveCapability = {
     'performance.margins'
   ],
   requiredPermissions: ['view_financial_performance'],
-  intelligenceSources: ['enterprise:financial', 'cfo:intelligence-engine']
+  intelligenceSources: ['enterprise:financial', 'cfo:governance-engine']
 };

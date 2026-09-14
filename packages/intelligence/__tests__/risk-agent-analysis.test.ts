@@ -1,7 +1,7 @@
 import { describe, it, expect } from 'vitest';
 import { ExecutiveAgentExecutionRuntime } from '@illumine/executive-page-intelligence';
 
-describe('@illumine/intelligence (Wave 17.9 Risk Agent Activation)', () => {
+describe('@illumine/governance (Wave 17.9 Risk Agent Activation)', () => {
   it('should execute risk evaluation journey on Balance Sheet', () => {
     const res = ExecutiveAgentExecutionRuntime.executeAction('risk-agent', 'Avaliar riscos', 'BalançoPatrimonialPage');
 

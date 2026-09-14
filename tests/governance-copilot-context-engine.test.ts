@@ -3,7 +3,7 @@
 import { describe, it } from 'node:test';
 import * as assert from 'node:assert';
 import { GovernanceCopilotContextEngine } from '../src/lib/governance-copilot-context-engine';
-import { runGovernanceCopilotAdapter } from '../src/core/runtime/governance-copilot/governance-copilot-adapter';
+import { runGovernanceCopilotAdapter } from '../src/capabilities/runtime/governance-copilot/governance-copilot-adapter';
 import type { GovernanceCopilotContextInput } from '../src/lib/governance-copilot-types';
 
 describe('GovernanceCopilotContextEngine', () => {

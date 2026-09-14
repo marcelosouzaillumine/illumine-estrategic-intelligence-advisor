@@ -3,7 +3,7 @@ import { ExecutiveSurface } from '../../ui/executive-surface';
 import { ExecutiveBadge } from '../../ui/executive-badge';
 import { RecommendationCard } from './RecommendationCard';
 import { Lightbulb, ShieldCheck, Compass, Sliders, CheckCircle2 } from 'lucide-react';
-import { ExecutiveAdvisorEngine } from '../../../../packages/intelligence/executive-advisory-intelligence/src/ExecutiveAdvisorEngine';
+import { ExecutiveAdvisorEngine } from '../../../../packages/shell/executive-advisory-intelligence/src/ExecutiveAdvisorEngine';
 
 export interface ExecutiveAdvisoryWorkspaceProps {
   readonly companyId?: string;
@@ -24,7 +24,7 @@ export const ExecutiveAdvisoryWorkspace: React.FC<ExecutiveAdvisoryWorkspaceProp
           </div>
           <div>
             <div className="flex items-center gap-2">
-              <h1 className="text-xl font-bold tracking-tight text-foreground">Executive Advisory Intelligence Layer</h1>
+              <h1 className="text-xl font-bold tracking-tight text-foreground">Executive Advisory Governance Layer</h1>
               <ExecutiveBadge variant="info" className="font-mono">EAIL v1.0 Governed</ExecutiveBadge>
             </div>
             <p className="text-xs text-muted-foreground">Sistema de aconselhamento executivo baseado em evidências, contrapontos fiduciários e chancela humana obrigatória.</p>

@@ -1,7 +1,7 @@
 import { test, describe, beforeEach } from 'node:test';
 import assert from 'node:assert/strict';
-import { ExecutiveConstitutionalRuntime } from '../src/core/runtime/constitutional-governance/ExecutiveConstitutionalRuntime';
-import { SemanticDeterminismValidator } from '../src/core/runtime/constitutional-governance/SemanticDeterminismValidator';
+import { ExecutiveConstitutionalRuntime } from '../src/capabilities/runtime/constitutional-governance/ExecutiveConstitutionalRuntime';
+import { SemanticDeterminismValidator } from '../src/capabilities/runtime/constitutional-governance/SemanticDeterminismValidator';
 
 describe('Semantic Constitutional Compliance Framework (SCCF v1.0) Tests', () => {
 

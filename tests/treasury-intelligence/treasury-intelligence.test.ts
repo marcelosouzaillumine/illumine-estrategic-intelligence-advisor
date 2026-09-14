@@ -1,14 +1,14 @@
 import { describe, it } from 'node:test';
 import assert from 'node:assert/strict';
-import { TreasuryIntelligenceRuntime, TreasuryRuntimeInput } from '../../src/core/runtime/treasury-intelligence/TreasuryIntelligenceRuntime';
-import { TreasuryPriorityMatrixEngine } from '../../src/core/runtime/treasury-intelligence/TreasuryPriorityMatrixEngine';
-import { DistributionSustainabilityEngine } from '../../src/core/runtime/treasury-intelligence/DistributionSustainabilityEngine';
-import { FiduciaryEfficiencyEngine } from '../../src/core/runtime/treasury-intelligence/FiduciaryEfficiencyEngine';
-import { TreasuryResilienceEngine } from '../../src/core/runtime/treasury-intelligence/TreasuryResilienceEngine';
-import { TreasuryStressEngine } from '../../src/core/runtime/treasury-intelligence/TreasuryStressEngine';
-import { CashPriorityEngine } from '../../src/core/runtime/treasury-intelligence/CashPriorityEngine';
+import { TreasuryIntelligenceRuntime, TreasuryRuntimeInput } from '../../src/capabilities/runtime/treasury-intelligence/TreasuryIntelligenceRuntime';
+import { TreasuryPriorityMatrixEngine } from '../../src/capabilities/runtime/treasury-intelligence/TreasuryPriorityMatrixEngine';
+import { DistributionSustainabilityEngine } from '../../src/capabilities/runtime/treasury-intelligence/DistributionSustainabilityEngine';
+import { FiduciaryEfficiencyEngine } from '../../src/capabilities/runtime/treasury-intelligence/FiduciaryEfficiencyEngine';
+import { TreasuryResilienceEngine } from '../../src/capabilities/runtime/treasury-intelligence/TreasuryResilienceEngine';
+import { TreasuryStressEngine } from '../../src/capabilities/runtime/treasury-intelligence/TreasuryStressEngine';
+import { CashPriorityEngine } from '../../src/capabilities/runtime/treasury-intelligence/CashPriorityEngine';
 
-describe('Sovereign Treasury & Capital Stewardship Intelligence Framework', () => {
+describe('Sovereign Treasury & Capital Stewardship Governance Framework', () => {
   const baseInput: TreasuryRuntimeInput = {
     allocations: [
       { id: 'payroll', category: 'Folha de Pagamento', amount: 10000, priority: 1, strategicNecessityScore: 95 },
@@ -204,7 +204,7 @@ describe('Sovereign Treasury & Capital Stewardship Intelligence Framework', () =
     });
   });
 
-  describe('TreasuryIntelligenceRuntime Orchestration & Auditability', () => {
+  describe('TreasuryGovernanceRuntime Orchestration & Auditability', () => {
     it('should run full evaluation pipeline and generate stable severity and reproducible hashes', () => {
       const output = TreasuryIntelligenceRuntime.evaluate(baseInput);
       assert.strictEqual(output.isAvailable, true);

@@ -1,7 +1,7 @@
 {
   "hero": {
     "title": "Gobernanza Inteligente para Organizaciones que Transforman Vidas.",
-    "lead": "La primera Executive Intelligence Platform™ desarrollada para fortalecer Consejos, Directivas y Liderazgos de organizaciones orientadas por propósito.",
+    "lead": "La primera Executive Governance Platform™ desarrollada para fortalecer Consejos, Directivas y Liderazgos de organizaciones orientadas por propósito.",
     "sublead": "Illumine no fue creada para administrar organizaciones. Fue creada para fortalecer las decisiones de las organizaciones que transforman la sociedad.",
     "cta_primary": "Solicitar una demostración",
     "cta_secondary": "Conocer la Plataforma"
@@ -12,7 +12,7 @@
     "desc": "Mientras que la mayoría de las soluciones se desarrollaron para ejecutar procesos operativos, Illumine fue creada para apoyar a Consejos, Directivas y Liderazgos en la toma de decisiones estratégicas."
   },
   "architecture": {
-    "label": "EXECUTIVE INTELLIGENCE PLATFORM™",
+    "label": "EXECUTIVE GOVERNANCE PLATFORM™",
     "title": "La inteligencia nace de la integración.",
     "inputs": [
       "Datos Financieros",
@@ -23,7 +23,7 @@
       "Documentos"
     ],
     "engines": [
-      "Executive Intelligence Engine™",
+      "Executive Governance Engine™",
       "Executive AI Advisory™",
       "Executive Dashboards™"
     ],
@@ -64,7 +64,7 @@
     "title": "Executive Offices™",
     "lead": "La arquitectura EROA mapea responsabilidades ejecutivas, no departamentos operativos.",
     "board": {
-      "title": "Board Intelligence Office™",
+      "title": "Board Governance Office™",
       "desc": "Inteligencia para apoyar deliberaciones estratégicas del Consejo."
     },
     "governance": {
@@ -72,11 +72,11 @@
       "desc": "Gobernanza basada en indicadores, riesgos, cumplimiento y madurez institucional."
     },
     "financial": {
-      "title": "Financial Intelligence Office™",
+      "title": "Financial Governance Office™",
       "desc": "Análisis estratégicos sobre sostenibilidad financiera, liquidez, concentración de ingresos y tendencias."
     },
     "mission": {
-      "title": "Mission Intelligence Office™",
+      "title": "Mission Governance Office™",
       "desc": "Seguimiento ejecutivo de la evolución de la misión institucional a través de indicadores estratégicos."
     },
     "risk": {
@@ -84,7 +84,7 @@
       "desc": "Mapa ejecutivo de riesgos financieros, regulatorios, legales y reputacionales."
     },
     "compliance": {
-      "title": "Compliance Intelligence Office™",
+      "title": "Compliance Governance Office™",
       "desc": "Evaluación continua del cumplimiento y transparencia de la organización."
     },
     "ai": {
@@ -110,7 +110,7 @@
       "data": "Datos",
       "indicators": "Indicadores",
       "correlations": "Correlaciones",
-      "executive_intel": "Executive Intelligence™",
+      "executive_intel": "Executive Governance™",
       "ai_advisor": "Executive AI Advisor™",
       "decisions": "Decisiones Estratégicas",
       "impact": "Impacto Social"

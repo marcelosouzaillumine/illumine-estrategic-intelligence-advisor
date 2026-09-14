@@ -197,7 +197,7 @@ commands:
     visibility: [full, quick]
     description: 'Create new service from Handlebars template (api-integration, utility, agent-tool)'
 
-  # Workflow Intelligence (WIS-4)
+  # Workflow Governance (WIS-4)
   - name: waves
     visibility: [full, quick]
     description: 'Analyze workflow for parallel execution opportunities (--visual for ASCII art)'

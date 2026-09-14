@@ -2,7 +2,7 @@
 
 > **Manual e Especificação do Linter Arquitetural da IERA v1.0**  
 > *Horizonte Temporal de Estabilidade: 10+ Anos (2026 – 2036+)*  
-> *Documentos Complementares: [`ARCHITECTURE_COMPLIANCE.md`](file:///Users/marcelosouza/Documents/illumine-strategic-intelligence-advisor/ARCHITECTURE_COMPLIANCE.md) | [`docs/EXPERIENCE_CERTIFICATION_FRAMEWORK.md`](file:///Users/marcelosouza/Documents/illumine-strategic-intelligence-advisor/docs/EXPERIENCE_CERTIFICATION_FRAMEWORK.md)*  
+> *Documentos Complementares: [`ARCHITECTURE_COMPLIANCE.md`](file:///Users/marcelosouza/Documents/illumine-strategic-governance-advisor/ARCHITECTURE_COMPLIANCE.md) | [`docs/EXPERIENCE_CERTIFICATION_FRAMEWORK.md`](file:///Users/marcelosouza/Documents/illumine-strategic-governance-advisor/docs/EXPERIENCE_CERTIFICATION_FRAMEWORK.md)*  
 > *Status: Homologado & Ativo*
 
 ---
@@ -47,7 +47,7 @@ packages/tooling/architecture-linter/
   * `Decision` $\rightarrow$ `Executive Workspace`
   * `Registration` $\rightarrow$ `Platform Workspace`
   * `Operational` $\rightarrow$ `Operational Workspace`
-  * `Intelligence` $\rightarrow$ `Intelligence Workspace`
+  * `Governance` $\rightarrow$ `Governance Workspace`
 
 ### Engine 5: Render Validator
 * **Função**: Garantir que a árvore de componentes visuais utilize o *Render Protocol* correto.

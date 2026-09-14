@@ -23,13 +23,13 @@
     "illumine_strong": ""
   },
   "solution": {
-    "label": "Illumine Intelligence Architecture™",
+    "label": "Illumine Governance Architecture™",
     "title_prefix": "Não são módulos independentes.",
     "title_highlight": "São camadas integradas que transformam dados em decisão e decisão em aprendizado institucional.",
     "layer1_title": "Foundation Layer",
     "layer1_desc": "Criar uma base institucional de dados, documentos, histórico e contexto. (ERP, CRM, Financeiro, Operacional).",
     "layer1_quote": "\"Transformamos dados fragmentados em uma base confiável.\"",
-    "layer2_title": "Intelligence Engine Layer",
+    "layer2_title": "Governance Engine Layer",
     "layer2_desc": "Interpretar relações, identificar padrões, detectar riscos e gerar inteligência através de motores analíticos.",
     "layer2_quote": "\"O dado mostra o que aconteceu. A inteligência explica o porquê.\"",
     "layer3_title": "Executive Advisory Layer",
@@ -52,22 +52,22 @@
   },
   "domains": {
     "label": "Uma visão sistêmica da organização através de nove inteligências conectadas.",
-    "title": "Executive Intelligence Network™",
+    "title": "Executive Governance Network™",
     "lead": "O Gêmeo Digital Institucional simula e conecta a sua organização através de 9 domínios integrados, antecipando impactos antes que eles cheguem ao DFC.",
     "showcases": {
       "command": {
-        "tag": "Institutional Intelligence Simulation™",
+        "tag": "Institutional Governance Simulation™",
         "title": "A decisão amparada por explicabilidade matemática.",
         "lead": "O Gêmeo Digital Institucional representa relações, decisões, impactos e aprendizados organizacionais — não apenas dados. Antes de uma decisão crítica de investimento, líderes podem compreender seus impactos sistêmicos.",
-        "insight_author": "Risk Intelligence™",
+        "insight_author": "Risk Governance™",
         "insight_text": "Alerta Fiduciário: O modelo projeta uma asfixia de fluxo de caixa operacional no mês 4 caso a expansão seja financiada apenas com capital próprio.",
         "insight_date": "Análise Simbólica em Tempo Real"
       },
       "systemic": {
-        "tag": "Institutional Intelligence Simulation™",
+        "tag": "Institutional Governance Simulation™",
         "title": "Interpretação Sistêmica e Gêmeo Digital Institucional.",
         "lead": "A plataforma mapeia a fricção organizacional entre Cultura e Finanças e precifica o atrito antes que ele destrua a margem da companhia.",
-        "insight_author": "Operational Intelligence™",
+        "insight_author": "Operational Governance™",
         "insight_text": "Silos operacionais detectados entre Marketing e Vendas estão resultando em um atrito invisível projetado em uma perda potencial de eficiência.",
         "insight_date": "Simulação Sistêmica"
       }
@@ -94,7 +94,7 @@
   },
   "trust": {
     "label": "Trust Architecture™",
-    "title": "AI-Augmented Executive Intelligence.",
+    "title": "AI-Augmented Executive Governance.",
     "lead": "Construída sobre uma arquitetura de confiança fiduciária rigorosa, a Illumine é essencial para Conselhos, Holdings, Empresas familiares e Organizações complexas.",
     "principles": {
       "p1": {
@@ -102,7 +102,7 @@
         "desc": "A decisão e aprovação permanecem puramente humanas. A máquina interpreta, o humano julga."
       },
       "p2": {
-        "title": "Explainable Intelligence",
+        "title": "Explainable Governance",
         "desc": "Rastreabilidade desde o indicador agregado até a origem exata do evento gerador."
       },
       "p3": {
@@ -165,7 +165,7 @@
     "chapter5": {
       "label": "Capítulo 5",
       "lead": "A plataforma construída para criar Inteligência Institucional em organizações complexas e transformar decisões em aprendizado contínuo.",
-      "c1_title": "Executive Intelligence Platform™",
+      "c1_title": "Executive Governance Platform™",
       "c1_desc": "Conecta dados corporativos, contexto decisório e raciocínio executivo para transformar informação em inteligência executiva.",
       "c2_title": "Institutional Learning Architecture™",
       "c2_desc": "Transforma decisões passadas em conhecimento estratégico, permitindo que a organização aprenda continuamente. Cada decisão gera aprendizado. Cada aprendizado fortalece a próxima decisão."
@@ -202,7 +202,7 @@
       "lead": "A evolução do software departamental para a inteligência institucional.",
       "table": {
         "col1": "Soluções Tradicionais",
-        "col2": "Executive Intelligence™"
+        "col2": "Executive Governance™"
       },
       "comparisons": [
         {
@@ -263,7 +263,7 @@
           "description": "Uma alteração operacional repercute automaticamente sobre caixa, margem, capital de giro, valuation e risco."
         },
         {
-          "title": "Explainable Intelligence™",
+          "title": "Explainable Governance™",
           "description": "Cada recomendação informa evidências utilizadas, nível de confiança, premissas e limitações."
         },
         {
@@ -319,14 +319,14 @@
     },
     "advisor": {
       "title": "Executive Advisor Network™",
-      "desc": "Uma rede de especialistas preparados para implementar Executive Intelligence Advisory™ em organizações complexas.",
+      "desc": "Uma rede de especialistas preparados para implementar Executive Governance Advisory™ em organizações complexas.",
       "quote": "\"Especialistas analisam partes. Executive Advisors interpretam sistemas.\""
     }
   },
   "home": {
     "v2": {
       "hero": {
-        "title": "Executive Intelligence Platform™",
+        "title": "Executive Governance Platform™",
         "subtitle": "A infraestrutura de inteligência entre a organização e suas decisões críticas.",
         "lead": "A Illumine conecta dados corporativos, conhecimento institucional e inteligência executiva para ampliar a capacidade de líderes e conselhos compreenderem cenários complexos, anteciparem impactos e tomarem decisões melhores.",
         "badge": "Uma nova categoria de infraestrutura corporativa.",
@@ -345,17 +345,17 @@
       },
       "layer": {
         "title": "A Nova Camada de Inteligência",
-        "lead": "A Illumine não substitui seus sistemas. Ela amplia o valor deles adicionando a Institutional Intelligence Layer™.",
+        "lead": "A Illumine não substitui seus sistemas. Ela amplia o valor deles adicionando a Institutional Governance Layer™.",
         "foundation_title": "Foundation Layer™",
         "foundation_desc": "A memória institucional da organização. Transforma dados fragmentados em uma base contextual confiável.",
-        "engine_title": "Intelligence Engine Layer™",
+        "engine_title": "Governance Engine Layer™",
         "engine_desc": "A inteligência que interpreta relações. O dado mostra o que aconteceu. A inteligência explica o porquê.",
         "advisory_title": "Executive Advisory Layer™",
         "advisory_desc": "Inteligência para quem decide. A tecnologia amplia a análise. A liderança decide."
       },
       "network": {
         "title": "A Organização como Sistema Vivo",
-        "lead": "Decisões não acontecem isoladamente. A Executive Intelligence Network™ simula e conecta a sua organização através de 9 inteligências conectadas.",
+        "lead": "Decisões não acontecem isoladamente. A Executive Governance Network™ simula e conecta a sua organização através de 9 inteligências conectadas.",
         "flow_1": "Comercial impacta receita.",
         "flow_2": "Receita impacta margem.",
         "flow_3": "Margem impacta caixa.",
@@ -367,7 +367,7 @@
         "learning_title": "Institutional Learning Architecture™",
         "learning_desc": "Cada decisão gera aprendizado. Cada aprendizado fortalece a próxima decisão.",
         "trust_title": "Trust Architecture™",
-        "trust_desc": "Human Oversight, Explainable Intelligence™, Audit Trail, Data Governance, Fiduciary Controls."
+        "trust_desc": "Human Oversight, Explainable Governance™, Audit Trail, Data Governance, Fiduciary Controls."
       },
       "ecosystem": {
         "title": "Ecossistema Illumine",

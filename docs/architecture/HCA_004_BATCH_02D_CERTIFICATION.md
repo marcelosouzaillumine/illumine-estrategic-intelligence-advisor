@@ -22,7 +22,7 @@ Seguindo as diretrizes restritas:
 Os Quality Gates foram processados integralmente e validados:
 
 - **Typecheck (`npm run typecheck`):** SUCESSO (Nenhum contrato quebrado no sistema).
-- **Testes Unitários e Fiduciários (`npm test`):** SUCESSO (1450 testes passando, zero regressões em Temporal Integrity, Valuation Intelligence, e Board Presentation).
+- **Testes Unitários e Fiduciários (`npm test`):** SUCESSO (1450 testes passando, zero regressões em Temporal Integrity, Valuation Governance, e Board Presentation).
 - **Validação de Arquitetura (`npm run validate:architecture`):** SUCESSO.
 
 **Resultados do Boundary Reduction:**

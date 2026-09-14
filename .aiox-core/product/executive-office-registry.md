@@ -10,11 +10,11 @@ Chief Executive Officer
 Direção estratégica, alinhamento institucional, crescimento e execução organizacional.
 
 **Capabilities:**
-- Strategic Intelligence
+- Strategic Governance
 - Executive Planning
 - Execution Management
 - Institutional Performance
-- Growth Intelligence
+- Growth Governance
 
 **Future Agent:**
 CEO Agent
@@ -29,13 +29,13 @@ Chief Financial Officer
 Saúde financeira, geração de valor, sustentabilidade econômica e inteligência financeira.
 
 **Capabilities:**
-- Financial Performance Intelligence
-- Accounting Intelligence
+- Financial Performance Governance
+- Accounting Governance
 - Management Reporting
-- Cash Intelligence
-- Capital Intelligence
+- Cash Governance
+- Capital Governance
 - Financial Planning
-- Tax Intelligence
+- Tax Governance
 
 **Regras específicas:**
 O domínio financeiro deve preservar duas visões distintas:
@@ -65,10 +65,10 @@ Chief Operating Officer
 Excelência operacional, produtividade e execução.
 
 **Capabilities:**
-- Operational Intelligence
-- Process Intelligence
-- Production Intelligence
-- Supply Chain Intelligence
+- Operational Governance
+- Process Governance
+- Production Governance
+- Supply Chain Governance
 - Efficiency Management
 
 **Future Agent:**
@@ -84,11 +84,11 @@ Chief Commercial Officer
 Receita, mercado, relacionamento com clientes e crescimento comercial.
 
 **Capabilities:**
-- Revenue Intelligence
-- Sales Intelligence
-- Market Intelligence
-- Pricing Intelligence
-- Customer Intelligence
+- Revenue Governance
+- Sales Governance
+- Market Governance
+- Pricing Governance
+- Customer Governance
 
 **Future Agent:**
 CCO Agent
@@ -103,9 +103,9 @@ Chief People & Culture Officer
 Pessoas, cultura, liderança e desenvolvimento organizacional.
 
 **Capabilities:**
-- Culture Intelligence
-- Leadership Intelligence
-- Talent Intelligence
+- Culture Governance
+- Leadership Governance
+- Talent Governance
 - Organizational Design
 - People Analytics
 
@@ -123,8 +123,8 @@ Proteção institucional, controles, riscos e continuidade.
 
 **Capabilities:**
 - Enterprise Risk Management
-- Compliance Intelligence
-- Control Intelligence
+- Compliance Governance
+- Control Governance
 - Crisis Management
 - Business Continuity
 
@@ -142,7 +142,7 @@ Transformação, inovação e novos modelos de negócio.
 
 **Capabilities:**
 - Innovation Portfolio
-- Scenario Intelligence
+- Scenario Governance
 - New Business Modeling
 - Digital Transformation
 
@@ -158,11 +158,11 @@ Innovation Agent
 Governança superior, conselho e memória institucional.
 
 **Capabilities:**
-- Board Intelligence
+- Board Governance
 - Decision Governance
 - Capital Governance
 - Institutional Memory
-- Fiduciary Intelligence
+- Fiduciary Governance
 
 **Future Agent:**
 Board Agent
@@ -175,7 +175,7 @@ Gestão de advisors, relacionamento com empresas e execução consultiva.
 
 **Capabilities:**
 - Portfolio Management
-- Client Intelligence
+- Client Governance
 - Advisory Workflow
 - Executive Reports
 
@@ -184,19 +184,19 @@ Advisor Agent
 
 ---
 
-## Intelligence Office
+## Governance Office
 **Responsabilidade:**
 Camada cognitiva transversal da plataforma.
 Este Office NÃO representa uma área funcional.
 Ele representa a inteligência compartilhada.
 
 **Capabilities:**
-- Governance Intelligence
-- ESGIM Intelligence
-- Decision Intelligence
-- KPI Intelligence
-- Economic Intelligence
+- Governance Governance
+- ESGIM Governance
+- Decision Governance
+- KPI Governance
+- Economic Governance
 - Institutional Memory
 
 **Future Agent:**
-Intelligence Orchestrator
+Governance Orchestrator

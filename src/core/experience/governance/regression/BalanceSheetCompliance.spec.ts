@@ -4,10 +4,10 @@ import { ExecutiveOffice } from '../offices/ExecutiveOffice';
 import { ExecutiveProductType } from '../../products/ExecutiveProductType';
 
 describe('Balance Sheet Compliance Regression', () => {
-  it('must permanently secure Balance Sheet Intelligence as an INTELLIGENCE_PRODUCT', () => {
+  it('must permanently secure Balance Sheet Governance as an GOVERNANCE_PRODUCT', () => {
     expect(FinancialPositionProduct.office).toBe(ExecutiveOffice.CFO_OFFICE);
     expect(FinancialPositionProduct.productType).toBe(ExecutiveProductType.INTELLIGENCE_PRODUCT);
-    expect(FinancialPositionProduct.advisoryLevel).toBe('GUIDANCE');
+    expect(FinancialPositionProduct.advisoryLevel).toBe('DIAGNOSTIC');
     expect(FinancialPositionProduct.experience.rules.decisionAuthority).toBe(false);
   });
   

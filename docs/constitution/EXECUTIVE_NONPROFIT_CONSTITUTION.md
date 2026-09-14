@@ -1,4 +1,4 @@
-# Illumine Nonprofit Intelligence™
+# Illumine Nonprofit Governance™
 **Constituição Canônica da Vertical**
 
 *Versão 1.0*
@@ -9,7 +9,7 @@
 
 ### Propósito
 
-A vertical Illumine Nonprofit Intelligence™ representa a especialização da Illumine Executive Intelligence Platform™ para Organizações da Sociedade Civil (OSC), fundações, institutos, entidades filantrópicas, organizações religiosas com atuação social e demais instituições sem fins lucrativos.
+A vertical Illumine Nonprofit Governance™ representa a especialização da Illumine Executive Governance Platform™ para Organizações da Sociedade Civil (OSC), fundações, institutos, entidades filantrópicas, organizações religiosas com atuação social e demais instituições sem fins lucrativos.
 
 Sua missão é ampliar a capacidade de decisão de Conselhos, Diretorias e Lideranças Executivas por meio de inteligência estratégica, governança baseada em evidências e análises executivas.
 
@@ -39,7 +39,7 @@ Nossa missão não é substituir sistemas. Nossa missão é **elevar a qualidade
 
 ### Posicionamento
 
-Illumine Nonprofit Intelligence™ **não é**:
+Illumine Nonprofit Governance™ **não é**:
 - ERP
 - Sistema Financeiro
 - Sistema de Prestação de Contas
@@ -48,7 +48,7 @@ Illumine Nonprofit Intelligence™ **não é**:
 - Software de Cadastro
 - Sistema Operacional
 
-Illumine Nonprofit Intelligence™ é uma **Executive Intelligence Platform especializada em Governança Institucional**.
+Illumine Nonprofit Governance™ é uma **Executive Governance Platform especializada em Governança Institucional**.
 
 ---
 
@@ -93,11 +93,11 @@ A plataforma **nunca** deve existir para responder perguntas operacionais.
 
 ## Executive Principles
 
-- **Intelligence First**: Toda informação deve gerar inteligência. Nunca apenas armazenamento.
+- **Governance First**: Toda informação deve gerar inteligência. Nunca apenas armazenamento.
 - **Governance First**: Toda funcionalidade deve fortalecer a governança institucional.
 - **Strategy First**: A plataforma prioriza decisões estratégicas. Jamais atividades administrativas.
 - **Evidence-Based Leadership**: Toda análise deve ser baseada em indicadores verificáveis.
-- **Explainable Intelligence**: Toda conclusão produzida pela IA deve ser explicável.
+- **Explainable Governance**: Toda conclusão produzida pela IA deve ser explicável.
 - **Mission Driven**: Toda inteligência deve estar conectada à missão institucional.
 - **Board Oriented**: A plataforma existe para Conselhos, Diretorias e Lideranças. Nunca para a operação cotidiana.
 
@@ -123,11 +123,11 @@ Cada domínio representa uma responsabilidade executiva, nunca um departamento o
 - **Responsabilidade:** Apoiar a Diretoria Executiva.
 - **Indicadores:** objetivos estratégicos, iniciativas, execução do planejamento, prioridades.
 
-#### Financial Intelligence Office™
+#### Financial Governance Office™
 - **Responsabilidade:** Produzir inteligência financeira. Nunca executar rotinas financeiras.
-- **Indicadores:** Institutional Sustainability™, Liquidity Intelligence™, Revenue Concentration™, Financial Resilience™
+- **Indicadores:** Institutional Sustainability™, Liquidity Governance™, Revenue Concentration™, Financial Resilience™
 
-#### Mission Intelligence Office™
+#### Mission Governance Office™
 - **Responsabilidade:** Mensurar o avanço da missão institucional.
 - **Indicadores:** Mission Performance™, Strategic Impact™, Program Evolution™, Mission Alignment™
 
@@ -135,7 +135,7 @@ Cada domínio representa uma responsabilidade executiva, nunca um departamento o
 - **Responsabilidade:** Analisar riscos estratégicos.
 - **Categorias:** Financeiro, Jurídico, Regulatório, Reputacional, Governança, Continuidade, Dependência de Financiadores.
 
-#### Compliance Intelligence Office™
+#### Compliance Governance Office™
 - **Responsabilidade:** Avaliar conformidade institucional.
 - **Indicadores:** Compliance Maturity™, Regulatory Exposure™, Document Integrity™, Transparency Score™
 
@@ -174,7 +174,7 @@ Todos esses dados alimentam o motor de inteligência executiva.
 
 ---
 
-## Executive Intelligence Engine
+## Executive Governance Engine
 
 A inteligência deverá ser capaz de:
 
@@ -247,7 +247,7 @@ Será medido pela **capacidade de melhorar a qualidade das decisões estratégic
 
 ## Princípio Final
 
-A Illumine Nonprofit Intelligence™ não existe para administrar organizações.
+A Illumine Nonprofit Governance™ não existe para administrar organizações.
 Existe para fortalecer a governança das organizações que administram recursos, pessoas e iniciativas em favor da transformação da sociedade.
 
 Sempre que surgir uma nova funcionalidade, ela deverá ser confrontada com um único princípio:

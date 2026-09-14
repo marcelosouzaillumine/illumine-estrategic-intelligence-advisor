@@ -1,4 +1,4 @@
-# EIRA_REPORT.md — Enterprise Intelligence Readiness Assessment
+# EIRA_REPORT.md — Enterprise Governance Readiness Assessment
 
 > **Relatório Executivo de Diagnóstico Arquitetural Inter-Waves (Wave 14 $\rightarrow$ Wave 15)**  
 > *Autoridade: Architecture Review Board (ARB) & Illumine OS Executive Advisory*  
@@ -8,11 +8,11 @@
 
 ## 1. Objetivos do Diagnóstico (EIRA)
 
-O **Enterprise Intelligence Readiness Assessment (EIRA)** foi conduzido para responder de forma categórica e auditável à questão central de governança:
+O **Enterprise Governance Readiness Assessment (EIRA)** foi conduzido para responder de forma categórica e auditável à questão central de governança:
 
 > *"A plataforma possui maturidade suficiente para permitir agentes autônomos que recomendem, analisem e apoiem decisões executivas com segurança, rastreabilidade e governança?"*
 
-Este diagnóstico avalia a integridade da fundação construída entre a Wave 12 (Cognitive Foundation), Wave 13 (Executive Intelligence System) e Wave 14 (Enterprise Intelligence Network), garantindo que **nenhum agente autônomo opere sobre inteligência não governada**.
+Este diagnóstico avalia a integridade da fundação construída entre a Wave 12 (Cognitive Foundation), Wave 13 (Executive Governance System) e Wave 14 (Enterprise Governance Network), garantindo que **nenhum agente autônomo opere sobre inteligência não governada**.
 
 ---
 
@@ -22,9 +22,9 @@ O diagnóstico auditou 7 dimensões arquiteturais essenciais, atribuindo notas d
 
 ```mermaid
 graph TD
-    IFR[1. Intelligence Foundation] --> Score[EIRA Composite Score: 94.6 / 100]
-    IT[2. Intelligence Traceability] --> Score
-    DIR[3. Decision Intelligence] --> Score
+    IFR[1. Governance Foundation] --> Score[EIRA Composite Score: 94.6 / 100]
+    IT[2. Governance Traceability] --> Score
+    DIR[3. Decision Governance] --> Score
     AGR[4. Agent Governance] --> Score
     IQC[5. Quality & Confidence] --> Score
     POR[6. Platform Observability] --> Score
@@ -37,11 +37,11 @@ graph TD
 
 | Dimensão | Pontuação | Maturidade | Status | Principais Evidências |
 | :--- | :---: | :---: | :---: | :--- |
-| **1. Intelligence Foundation Readiness** | **95/100** | Canonical | ✅ **READY** | `@illumine/enterprise-knowledge-fabric` cobre os 8 domínios corporativos sem ambiguidade. |
-| **2. Intelligence Traceability** | **98/100** | Sovereign | ✅ **READY** | Rastreabilidade total com `ReasoningTrace`, `PredictionExplanation`, `ProvenanceReference` e `lineageHash`. |
-| **3. Decision Intelligence Readiness** | **96/100** | Canonical | ✅ **READY** | `ExperienceRecord` imutável em `@illumine/organizational-memory` e `ModelImprovementRequest` em `@illumine/decision-learning`. |
+| **1. Governance Foundation Readiness** | **95/100** | Canonical | ✅ **READY** | `@illumine/enterprise-knowledge-fabric` cobre os 8 domínios corporativos sem ambiguidade. |
+| **2. Governance Traceability** | **98/100** | Sovereign | ✅ **READY** | Rastreabilidade total com `ReasoningTrace`, `PredictionExplanation`, `ProvenanceReference` e `lineageHash`. |
+| **3. Decision Governance Readiness** | **96/100** | Canonical | ✅ **READY** | `ExperienceRecord` imutável em `@illumine/organizational-memory` e `ModelImprovementRequest` em `@illumine/decision-learning`. |
 | **4. Agent Governance Readiness** | **94/100** | Governed | ✅ **READY** | Princípio *Coordinator, Not Controller* em `@illumine/executive-orchestrator` via `CapabilitySelectionPolicy`. |
-| **5. Intelligence Quality & Confidence** | **95/100** | High Precision | ✅ **READY** | Explicabilidade compulsória (`PredictionExplanation`) e calibração preditiva (`PredictionCalibration`). |
+| **5. Governance Quality & Confidence** | **95/100** | High Precision | ✅ **READY** | Explicabilidade compulsória (`PredictionExplanation`) e calibração preditiva (`PredictionCalibration`). |
 | **6. Platform Observability Readiness** | **92/100** | Observable | ✅ **READY** | Métricas auditáveis de acurácia, taxa de aprovação e impacto sistêmico no grafo. |
 | **7. Enterprise Certification (EnIS Review)**| **87/100** | Networked | ✅ **READY** | Score ponderado de rede (**EnIS = 87/100**), atingindo o nível `Networked Enterprise`. |
 

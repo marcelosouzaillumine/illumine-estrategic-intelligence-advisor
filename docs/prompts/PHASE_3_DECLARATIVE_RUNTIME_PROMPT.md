@@ -56,4 +56,4 @@ FORMATO DE ENTREGA DA IA
 4. Demonstração de compilação de manifesto
 5. Testes unitários e de integração
 6. Relatório AHS/GCI
-7. Próxima etapa recomendada (v20.4 — Semantic Intelligence & Certification: `@illumine/see` & `@illumine/certification`)
+7. Próxima etapa recomendada (v20.4 — Semantic Governance & Certification: `@illumine/see` & `@illumine/certification`)

@@ -31,7 +31,7 @@ Foco no dashboard principal, menus laterais (sidebar) e workspaces dos usuários
 | `AccountModal` (Settings) | Pendente | `common` | Wave 2B |
 | *Outros Dashboards e Tabelas* | Pendente | `reports` / `metrics` | Wave 2B |
 
-## Wave 2C: Intelligence Localization
+## Wave 2C: Governance Localization
 Foco nos modelos cognitivos, prompts de IA generativa, insights executivos e narrativas.
 
 | Módulo IA | Status | Namespace Alvo | Responsável/Wave |

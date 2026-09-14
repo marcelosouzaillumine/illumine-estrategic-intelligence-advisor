@@ -1,13 +1,13 @@
 import { describe, it } from 'node:test';
 import assert from 'node:assert/strict';
 
-import { InstitutionalSurvivalHierarchyEngine } from '../../src/core/runtime/institutional-survival/InstitutionalSurvivalHierarchyEngine';
-import { SurvivalPriorityClassificationEngine } from '../../src/core/runtime/institutional-survival/SurvivalPriorityClassificationEngine';
-import { InstitutionalConflictArbitrationEngine } from '../../src/core/runtime/institutional-survival/InstitutionalConflictArbitrationEngine';
-import { SurvivalConstraintPropagationEngine } from '../../src/core/runtime/institutional-survival/SurvivalConstraintPropagationEngine';
+import { InstitutionalSurvivalHierarchyEngine } from '../../src/capabilities/runtime/institutional-survival/InstitutionalSurvivalHierarchyEngine';
+import { SurvivalPriorityClassificationEngine } from '../../src/capabilities/runtime/institutional-survival/SurvivalPriorityClassificationEngine';
+import { InstitutionalConflictArbitrationEngine } from '../../src/capabilities/runtime/institutional-survival/InstitutionalConflictArbitrationEngine';
+import { SurvivalConstraintPropagationEngine } from '../../src/capabilities/runtime/institutional-survival/SurvivalConstraintPropagationEngine';
 import { ExecutiveActionMatrixEngine } from '../../src/core/runtime/integrity/ExecutiveActionMatrixEngine';
 import { ScenarioFiduciarySimulator } from '../../src/core/runtime/scenario/ScenarioFiduciarySimulator';
-import { TreasuryPriorityMatrixEngine } from '../../src/core/runtime/treasury-intelligence/TreasuryPriorityMatrixEngine';
+import { TreasuryPriorityMatrixEngine } from '../../src/capabilities/runtime/treasury-intelligence/TreasuryPriorityMatrixEngine';
 
 // Default healthy baseline input to avoid triggering fail-closed logic
 const getHealthyInput = (): any => ({

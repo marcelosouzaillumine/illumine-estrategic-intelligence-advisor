@@ -53,25 +53,25 @@
         "./packages/domain/core-primitives/src/index.ts"
       ],
       "@illumine/architecture-governance-decision": [
-        "./packages/architecture-governance-decision/src/index.ts"
+        "./packages/tooling/architecture-governance-decision/src/index.ts"
       ],
       "@illumine/architecture-governance-discovery": [
-        "./packages/architecture-governance-discovery/src/index.ts"
+        "./packages/tooling/architecture-governance-discovery/src/index.ts"
       ],
       "@illumine/architecture-governance-evaluation": [
-        "./packages/architecture-governance-evaluation/src/index.ts"
+        "./packages/tooling/architecture-governance-evaluation/src/index.ts"
       ],
       "@illumine/architecture-governance-knowledge": [
-        "./packages/architecture-governance-knowledge/src/index.ts"
+        "./packages/tooling/architecture-governance-knowledge/src/index.ts"
       ],
       "@illumine/architecture-governance-memory": [
-        "./packages/architecture-governance-memory/src/index.ts"
+        "./packages/tooling/architecture-governance-memory/src/index.ts"
       ],
       "@illumine/architecture-governance-recommendation": [
-        "./packages/architecture-governance-recommendation/src/index.ts"
+        "./packages/tooling/architecture-governance-recommendation/src/index.ts"
       ],
       "@illumine/architecture-governance-ui": [
-        "./packages/architecture-governance-ui/src/index.ts"
+        "./packages/tooling/architecture-governance-ui/src/index.ts"
       ],
       "@illumine/semantic-model": [
         "./packages/domain/semantic-model/src/index.ts"
@@ -89,146 +89,267 @@
         "./packages/capabilities/src/index.ts"
       ],
       "@illumine/intelligence-kernel": [
-        "./packages/intelligence/intelligence-kernel/src/index.ts"
+        "./packages/core/intelligence-kernel/src/index.ts"
       ],
       "@illumine/organizational-memory": [
-        "./packages/intelligence/organizational-memory/src/index.ts"
+        "./packages/core/organizational-memory/src/index.ts"
       ],
       "@illumine/knowledge-graph": [
-        "./packages/intelligence/knowledge-graph/src/index.ts"
+        "./packages/core/knowledge-graph/src/index.ts"
       ],
       "@illumine/executive-orchestrator": [
-        "./packages/intelligence/executive-orchestrator/src/index.ts"
+        "./packages/shell/executive-orchestrator/src/index.ts"
       ],
       "@illumine/executive-advisor-runtime": [
-        "./packages/intelligence/executive-advisor-runtime/src/index.ts"
+        "./packages/shell/executive-advisor-runtime/src/index.ts"
       ],
       "@illumine/executive-workspace-orchestrator": [
-        "./packages/intelligence/executive-workspace-orchestrator/src/index.ts"
+        "./packages/shell/executive-workspace-orchestrator/src/index.ts"
       ],
       "@illumine/predictive-engine": [
-        "./packages/intelligence/predictive-engine/src/index.ts"
+        "./packages/core/predictive-engine/src/index.ts"
       ],
       "@illumine/decision-learning": [
-        "./packages/intelligence/decision-learning/src/index.ts"
+        "./packages/core/decision-learning/src/index.ts"
       ],
       "@illumine/intelligence-certification": [
-        "./packages/intelligence/intelligence-certification/src/index.ts"
+        "./packages/core/intelligence-certification/src/index.ts"
       ],
       "@illumine/enterprise-knowledge-fabric": [
-        "./packages/intelligence/enterprise-knowledge-fabric/src/index.ts"
+        "./packages/core/enterprise-knowledge-fabric/src/index.ts"
       ],
       "@illumine/organizational-intelligence-graph": [
-        "./packages/intelligence/organizational-intelligence-graph/src/index.ts"
+        "./packages/core/organizational-intelligence-graph/src/index.ts"
       ],
       "@illumine/cross-domain-intelligence": [
-        "./packages/intelligence/cross-domain-intelligence/src/index.ts"
+        "./packages/core/cross-domain-intelligence/src/index.ts"
       ],
       "@illumine/benchmark-intelligence": [
-        "./packages/intelligence/benchmark-intelligence/src/index.ts"
+        "./packages/core/benchmark-intelligence/src/index.ts"
       ],
       "@illumine/executive-network": [
-        "./packages/intelligence/executive-network/src/index.ts"
+        "./packages/shell/executive-network/src/index.ts"
       ],
       "@illumine/enterprise-certification": [
-        "./packages/intelligence/enterprise-certification/src/index.ts"
+        "./packages/core/enterprise-certification/src/index.ts"
       ],
       "@illumine/agent-runtime": [
-        "./packages/intelligence/agent-runtime/src/index.ts"
+        "./packages/product/agent-runtime/src/index.ts"
       ],
       "@illumine/human-governance-gateway": [
-        "./packages/intelligence/human-governance-gateway/src/index.ts"
+        "./packages/core/human-governance-gateway/src/index.ts"
       ],
       "@illumine/agent-impact-engine": [
-        "./packages/intelligence/agent-impact-engine/src/index.ts"
+        "./packages/product/agent-impact-engine/src/index.ts"
       ],
       "@illumine/executive-simulation-engine": [
-        "./packages/intelligence/executive-simulation-engine/src/index.ts"
+        "./packages/shell/executive-simulation-engine/src/index.ts"
       ],
       "@illumine/advisory-governance": [
-        "./packages/intelligence/advisory-governance/src/index.ts"
+        "./packages/product/advisory-governance/src/index.ts"
       ],
       "@illumine/advisory-workflow-engine": [
-        "./packages/intelligence/advisory-workflow-engine/src/index.ts"
+        "./packages/product/advisory-workflow-engine/src/index.ts"
       ],
       "@illumine/continuous-intelligence-monitor": [
-        "./packages/intelligence/continuous-intelligence-monitor/src/index.ts"
+        "./packages/core/continuous-intelligence-monitor/src/index.ts"
       ],
       "@illumine/advisory-trigger-engine": [
-        "./packages/intelligence/advisory-trigger-engine/src/index.ts"
+        "./packages/product/advisory-trigger-engine/src/index.ts"
       ],
       "@illumine/executive-insight-engine": [
-        "./packages/intelligence/executive-insight-engine/src/index.ts"
+        "./packages/shell/executive-insight-engine/src/index.ts"
       ],
       "@illumine/executive-priority-engine": [
-        "./packages/intelligence/executive-priority-engine/src/index.ts"
+        "./packages/shell/executive-priority-engine/src/index.ts"
       ],
       "@illumine/executive-decision-workspace": [
-        "./packages/intelligence/executive-decision-workspace/src/index.ts"
+        "./packages/shell/executive-decision-workspace/src/index.ts"
       ],
       "@illumine/executive-narrative-engine": [
-        "./packages/intelligence/executive-narrative-engine/src/index.ts"
+        "./packages/shell/executive-narrative-engine/src/index.ts"
       ],
       "@illumine/agent-debate-engine": [
-        "./packages/intelligence/agent-debate-engine/src/index.ts"
+        "./packages/product/agent-debate-engine/src/index.ts"
       ],
       "@illumine/executive-explainability": [
-        "./packages/intelligence/executive-explainability/src/index.ts"
+        "./packages/shell/executive-explainability/src/index.ts"
       ],
       "@illumine/executive-board": [
-        "./packages/intelligence/executive-board/src/index.ts"
+        "./packages/shell/executive-board/src/index.ts"
       ],
       "@illumine/product-value-engine": [
-        "./packages/intelligence/product-value-engine/src/index.ts"
+        "./packages/core/product-value-engine/src/index.ts"
       ],
       "@illumine/executive-home": [
-        "./packages/intelligence/executive-home/src/index.ts"
+        "./packages/shell/executive-home/src/index.ts"
       ],
       "@illumine/executive-copilot": [
-        "./packages/intelligence/executive-copilot/src/index.ts"
+        "./packages/shell/executive-copilot/src/index.ts"
       ],
       "@illumine/executive-context-engine": [
-        "./packages/intelligence/executive-context-engine/src/index.ts"
+        "./packages/shell/executive-context-engine/src/index.ts"
       ],
       "@illumine/executive-question-engine": [
-        "./packages/intelligence/executive-question-engine/src/index.ts"
+        "./packages/shell/executive-question-engine/src/index.ts"
       ],
       "@illumine/executive-insights-layer": [
-        "./packages/intelligence/executive-insights-layer/src/index.ts"
+        "./packages/shell/executive-insights-layer/src/index.ts"
       ],
       "@illumine/executive-intelligence-drawer": [
-        "./packages/intelligence/executive-intelligence-drawer/src/index.ts"
+        "./packages/shell/executive-intelligence-drawer/src/index.ts"
       ],
       "@illumine/executive-question-interface": [
-        "./packages/intelligence/executive-question-interface/src/index.ts"
+        "./packages/shell/executive-question-interface/src/index.ts"
       ],
       "@illumine/contextual-kpi-intelligence": [
-        "./packages/intelligence/contextual-kpi-intelligence/src/index.ts"
+        "./packages/core/contextual-kpi-intelligence/src/index.ts"
       ],
       "@illumine/executive-page-intelligence": [
-        "./packages/intelligence/executive-page-intelligence/src/index.ts"
+        "./packages/shell/executive-page-intelligence/src/index.ts"
       ],
       "@illumine/executive-experience-composer": [
-        "./packages/intelligence/executive-experience-composer/src/index.ts"
+        "./packages/shell/executive-experience-composer/src/index.ts"
       ],
       "@illumine/executive-decision-intelligence": [
-        "./packages/intelligence/executive-decision-intelligence/src/index.ts"
+        "./packages/shell/executive-decision-intelligence/src/index.ts"
       ],
       "@illumine/executive-intelligence-integration": [
-        "./packages/intelligence/executive-intelligence-integration/src/index.ts"
+        "./packages/shell/executive-intelligence-integration/src/index.ts"
       ],
-
       "@illumine/executive-decision-forensics": [
-        "./packages/intelligence/executive-decision-forensics/src/index.ts"
+        "./packages/shell/executive-decision-forensics/src/index.ts"
       ],
       "@illumine/institutional-learning-intelligence": [
-        "./packages/intelligence/institutional-learning-intelligence/src/index.ts"
+        "./packages/product/institutional-learning-intelligence/src/index.ts"
       ],
       "@illumine/executive-intelligence-runtime": [
         "./packages/platform/executive-intelligence-runtime/src/index.ts"
+      ],
+      "@illumine/partner-ecosystem": [
+        "./packages/core/partner-ecosystem/src/index.ts"
+      ],
+      "@illumine/saas-foundation": [
+        "./packages/core/saas-foundation/src/index.ts"
+      ],
+      "@illumine/platform-distribution": [
+        "./packages/core/platform-distribution/src/index.ts"
+      ],
+      "@illumine/learning-loop-advisor": [
+        "./packages/core/learning-loop-advisor/src/index.ts"
+      ],
+      "@illumine/predictive-decision-engine": [
+        "./packages/core/predictive-decision-engine/src/index.ts"
+      ],
+      "@illumine/maturity-index": [
+        "./packages/core/maturity-index/src/index.ts"
+      ],
+      "@illumine/enterprise-knowledge-foundation": [
+        "./packages/core/enterprise-knowledge-foundation/src/index.ts"
+      ],
+      "@illumine/enterprise-data-integration-fabric": [
+        "./packages/core/enterprise-data-integration-fabric/src/index.ts"
+      ],
+      "@illumine/learning-loop": [
+        "./packages/core/learning-loop/src/index.ts"
+      ],
+      "@illumine/executive-analytics-engine": [
+        "./packages/shell/executive-analytics-engine/src/index.ts"
+      ],
+      "@illumine/executive-semantic-layer": [
+        "./packages/shell/executive-semantic-layer/src/index.ts"
+      ],
+      "@illumine/executive-relationship-intelligence": [
+        "./packages/shell/executive-relationship-intelligence/src/index.ts"
+      ],
+      "@illumine/executive-conversation-context": [
+        "./packages/shell/executive-conversation-context/src/index.ts"
+      ],
+      "@illumine/executive-intelligence-layer": [
+        "./packages/shell/executive-intelligence-layer/src/index.ts"
+      ],
+      "@illumine/executive-knowledge-adapter": [
+        "./packages/shell/executive-knowledge-adapter/src/index.ts"
+      ],
+      "@illumine/executive-workflow-intelligence": [
+        "./packages/shell/executive-workflow-intelligence/src/index.ts"
+      ],
+      "@illumine/intelligence-network": [
+        "./packages/shell/intelligence-network/src/index.ts"
+      ],
+      "@illumine/executive-memory": [
+        "./packages/shell/executive-memory/src/index.ts"
+      ],
+      "@illumine/executive-cognitive-runtime": [
+        "./packages/shell/executive-cognitive-runtime/src/index.ts"
+      ],
+      "@illumine/executive-response-composer": [
+        "./packages/shell/executive-response-composer/src/index.ts"
+      ],
+      "@illumine/executive-advisory-engine": [
+        "./packages/shell/executive-advisory-engine/src/index.ts"
+      ],
+      "@illumine/executive-advisory-intelligence": [
+        "./packages/shell/executive-advisory-intelligence/src/index.ts"
+      ],
+      "@illumine/executive-agent-router": [
+        "./packages/shell/executive-agent-router/src/index.ts"
+      ],
+      "@illumine/executive-identity-context": [
+        "./packages/shell/executive-identity-context/src/index.ts"
+      ],
+      "@illumine/executive-rendering-engine": [
+        "./packages/shell/executive-rendering-engine/src/index.ts"
+      ],
+      "@illumine/institutional-memory": [
+        "./packages/product/institutional-memory/src/index.ts"
+      ],
+      "@illumine/decision-trust-governance": [
+        "./packages/product/decision-trust-governance/src/index.ts"
+      ],
+      "@illumine/agent-council": [
+        "./packages/product/agent-council/src/index.ts"
+      ],
+      "@illumine/architecture-governance-advisory": [
+        "./packages/tooling/architecture-governance-advisory/src/index.ts"
+      ],
+      "@illumine/architecture-governance-audit": [
+        "./packages/tooling/architecture-governance-audit/src/index.ts"
+      ],
+      "@illumine/architecture-governance-certification": [
+        "./packages/tooling/architecture-governance-certification/src/index.ts"
+      ],
+      "@illumine/architecture-governance-contracts": [
+        "./packages/tooling/architecture-governance-contracts/src/index.ts"
+      ],
+      "@illumine/architecture-governance-domain": [
+        "./packages/tooling/architecture-governance-domain/src/index.ts"
+      ],
+      "@illumine/architecture-governance-intelligence": [
+        "./packages/tooling/architecture-governance-intelligence/src/index.ts"
+      ],
+      "@illumine/architecture-governance-maturity": [
+        "./packages/tooling/architecture-governance-maturity/src/index.ts"
+      ],
+      "@illumine/architecture-governance-registry": [
+        "./packages/tooling/architecture-governance-registry/src/index.ts"
+      ],
+      "@illumine/architecture-governance-risk": [
+        "./packages/tooling/architecture-governance-risk/src/index.ts"
+      ],
+      "@illumine/architecture-governance-rules": [
+        "./packages/tooling/architecture-governance-rules/src/index.ts"
+      ],
+      "@illumine/architecture-governance-types": [
+        "./packages/tooling/architecture-governance-types/src/index.ts"
+      ],
+      "@illumine/architecture-governance-ui-contracts": [
+        "./packages/tooling/architecture-governance-ui-contracts/src/index.ts"
       ]
     },
-    "types": ["node"],
+    "types": [
+      "node"
+    ],
     "allowImportingTsExtensions": true,
     "noEmit": true
   },

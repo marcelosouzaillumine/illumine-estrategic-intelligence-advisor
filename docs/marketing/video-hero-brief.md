@@ -1,6 +1,6 @@
 # MASTER PROMPT — Vídeo Hero da Home Page
 
-**Illumine Executive Intelligence Platform™**
+**Illumine Executive Governance Platform™**
 
 ## Objetivo
 Criar um vídeo institucional premium (35–40 segundos) para a Hero Section do site da Illumine.
@@ -57,17 +57,17 @@ Voz masculina ou feminina. Tom calmo. Seguro. Executivo. Inspirador. Sem vender.
 
 ### Cena 02 — Surge a Illumine
 **Tempo:** 5–10 segundos
-**Visual:** A câmera atravessa o caos. Tudo se organiza. Surge a **Executive Intelligence Network™**. Topografia em 3D do *Institutional Learning Loop™*. Indicadores tradicionais dão lugar a diagnósticos precisos sobre Governança, Risco e Liquidez. Tudo extremamente elegante, antecipatório e focado em aprendizado organizacional.
+**Visual:** A câmera atravessa o caos. Tudo se organiza. Surge a **Executive Governance Network™**. Topografia em 3D do *Institutional Learning Loop™*. Indicadores tradicionais dão lugar a diagnósticos precisos sobre Governança, Risco e Liquidez. Tudo extremamente elegante, antecipatório e focado em aprendizado organizacional.
 **Narração:** “A Illumine transforma o caos de dados em inteligência executiva e aprendizado contínuo.”
 
 ### Cena 03 — A Plataforma
 **Tempo:** 10–20 segundos
-**Visual:** A câmera passeia pela arquitetura da plataforma. Mostrar rapidamente a **Executive Intelligence Stack™** em camadas: *Enterprise Data Foundation, Observability Layer, Motores Analíticos (Engines™), Agentes Especializados (Agents™), Institutional Learning Loop™* e, no topo, a camada de decisão (*Executive Advisory™*). Tudo conectado. Nada isolado.
+**Visual:** A câmera passeia pela arquitetura da plataforma. Mostrar rapidamente a **Executive Governance Stack™** em camadas: *Enterprise Data Foundation, Observability Layer, Motores Analíticos (Engines™), Agentes Especializados (Agents™), Institutional Learning Loop™* e, no topo, a camada de decisão (*Executive Advisory™*). Tudo conectado. Nada isolado.
 **Narração:** “Observar. Interpretar. Decidir. Executar. Medir. Aprender. O Institutional Learning Loop em ação contínua.”
 
 ### Cena 04 — Executive Copilot
 **Tempo:** 20–28 segundos
-**Visual:** Mostrar os **Executive Intelligence Agents™**. Executivo analisando: “Scenario Analysis: M&A vs Organic Growth”. Resposta instantânea da plataforma. A árvore de decisão muda. Projeções de risco aparecem. Alertas. Insights causais. Recomendações priorizadas.
+**Visual:** Mostrar os **Executive Governance Agents™**. Executivo analisando: “Scenario Analysis: M&A vs Organic Growth”. Resposta instantânea da plataforma. A árvore de decisão muda. Projeções de risco aparecem. Alertas. Insights causais. Recomendações priorizadas.
 **Narração:** “A inteligência não serve apenas para relatar o passado. Ela existe para antecipar cenários e blindar o futuro da sua organização.”
 
 ### Cena 05 — Dois Públicos
@@ -78,8 +78,8 @@ Voz masculina ou feminina. Tom calmo. Seguro. Executivo. Inspirador. Sem vender.
 ### Cena 06 — Encerramento
 **Tempo:** 34–40 segundos
 **Visual:** Toda a interface desaparece. Linhas de luz convergem. Forma-se o símbolo da Illumine. Logo completo. Glow suave. Fundo escuro. Surge o slogan: INTELIGÊNCIA EXECUTIVA PARA DECISÕES EXTRAORDINÁRIAS.
-Depois: Executive Intelligence Platform™
-Por último: Agende uma demonstração. illumineintelligence.com
+Depois: Executive Governance Platform™
+Por último: Agende uma demonstração. illuminegovernance.com
 *Fade out.*
 
 ## Sensações que o vídeo deve provocar

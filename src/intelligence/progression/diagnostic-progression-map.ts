@@ -10,15 +10,15 @@ export const DIAGNOSTIC_PROGRESSION_MAP: ProgressionMap = {
     developing: 'financial-planning',
     
     // If maturity is Structured or higher, evolve to governance
-    structured: 'governance-intelligence',
-    advanced: 'governance-intelligence',
-    excellence: 'governance-intelligence'
+    structured: 'governance-governance',
+    advanced: 'governance-governance',
+    excellence: 'governance-governance'
   },
   governance: {
-    initial: 'leadership-intelligence',
-    developing: 'leadership-intelligence',
-    structured: 'operational-intelligence',
-    advanced: 'operational-intelligence',
-    excellence: 'operational-intelligence'
+    initial: 'leadership-governance',
+    developing: 'leadership-governance',
+    structured: 'operational-governance',
+    advanced: 'operational-governance',
+    excellence: 'operational-governance'
   }
 };

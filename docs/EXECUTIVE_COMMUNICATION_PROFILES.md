@@ -31,6 +31,6 @@ Para adaptar a exibição de dados complexos para diferentes públicos sem compr
 
 ## Regras Importantes de Visualização
 
-- Todos os perfis utilizam o mesmo `ExecutiveIntelligenceReport` de forma idêntica.
+- Todos os perfis utilizam o mesmo `ExecutiveGovernanceReport` de forma idêntica.
 - Nenhuma métrica financeira é recalculada ou ocultada devido ao perfil.
 - Os perfis governam exclusivamente a formatação narrativa e densidade da interface.

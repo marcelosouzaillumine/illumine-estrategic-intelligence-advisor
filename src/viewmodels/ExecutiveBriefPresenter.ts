@@ -1,4 +1,4 @@
-import { ExecutiveEvidencePackage, NarrativeBlock, ExecutionPlanItem, RiskItem } from '../../packages/intelligence/executive-intelligence-layer/src/contracts/ExecutiveEvidencePackage';
+import { ExecutiveEvidencePackage, NarrativeBlock, ExecutionPlanItem, RiskItem } from '../../packages/shell/executive-intelligence-layer/src/contracts/ExecutiveEvidencePackage';
 
 export interface ExecutiveBriefViewModel {
   header: {
@@ -62,7 +62,7 @@ export class ExecutiveBriefPresenter {
 
     return {
       header: {
-        title: 'Executive Intelligence Brief',
+        title: 'Executive Governance Brief',
         subtitle: `Sessão Cognitiva: ${pkg.cognitiveSessionId}`,
         statusBadge: pkg.executiveContext.financialState,
         statusVariant

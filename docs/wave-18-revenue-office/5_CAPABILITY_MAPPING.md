@@ -10,4 +10,4 @@
 | **Entitlement Allocation** | Revenue | Executive Revenue Office | Illumine Admin (Automated) |
 | **License Assignment** | Provisioning | Executive Revenue Office | Customer Admin |
 | **Partner Commissioning** | Partner | Executive Revenue Office | Illumine Admin, Advisor |
-| **Revenue Analytics** | Intelligence | Executive Revenue Office | Illumine Admin, Revenue Manager |
+| **Revenue Analytics** | Governance | Executive Revenue Office | Illumine Admin, Revenue Manager |

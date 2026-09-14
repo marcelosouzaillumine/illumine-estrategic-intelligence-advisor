@@ -10,7 +10,7 @@ import { ESGIntelligence } from "../src/lib/esg-intelligence-types";
 import { ValuationIntelligence } from "../src/lib/valuation-intelligence-types";
 import { GovernanceMemory } from "../src/lib/governance-memory-types";
 
-describe("Benchmark Intelligence Layer v3.0", () => {
+describe("Benchmark Governance Layer v3.0", () => {
   const createMockInput = (
     type: "HIGH" | "LOW"
   ): BenchmarkIntelligenceInput => {

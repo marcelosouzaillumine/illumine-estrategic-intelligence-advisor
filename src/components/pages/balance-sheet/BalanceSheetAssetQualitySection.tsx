@@ -14,8 +14,8 @@ export const BalanceSheetAssetQualitySection = ({ indicators }: BalanceSheetAsse
   if (!indicators || indicators.length === 0) return null;
 
   const mappedMetrics = indicators.map(i => ({
-    label: i.name,
-    value: String(i.value),
+    name: i.name,
+    value: i.formattedValue,
     status: i.classification === 'CRITICAL' ? 'critical' : (i.classification === 'WARNING' ? 'warning' : 'success'),
     trend: 'neutral',
     insight: i.financialMeaning

@@ -28,7 +28,7 @@ export function InstitutionalNonprofitPage() {
         <Container className="relative z-10 flex flex-col items-center text-center">
           <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-white/5 border border-white/10 mb-8 backdrop-blur-sm">
             <span className="w-2 h-2 rounded-full bg-amber-500 animate-pulse" />
-            <span className="text-xs font-medium text-white uppercase tracking-widest">{brand('executiveIntelligencePlatform')}</span>
+            <span className="text-xs font-medium text-white uppercase tracking-widest">{brand('executiveGovernancePlatform')}</span>
           </div>
           
           <HeroTitle align="center" className="max-w-5xl">
@@ -322,9 +322,9 @@ export function InstitutionalNonprofitPage() {
       <Section className="border-y border-white/5 bg-[#0A0A0B] overflow-hidden">
         <Container className="relative z-10 flex flex-col items-center">
            <div className="text-center mb-20 flex flex-col items-center">
-              <SectionLabel align="center">{t('intelligence_timeline.label')}</SectionLabel>
+              <SectionLabel align="center">{t('governance_timeline.label')}</SectionLabel>
               <SectionTitle align="center" className="max-w-4xl">
-                {t('intelligence_timeline.title')}
+                {t('governance_timeline.title')}
               </SectionTitle>
            </div>
            
@@ -332,13 +332,13 @@ export function InstitutionalNonprofitPage() {
               <div className="hidden md:block absolute top-1/2 left-0 w-full h-[1px] bg-white/10 -translate-y-1/2 z-0" />
               
               {[
-                { label: t('intelligence_timeline.steps.data'), highlight: false },
-                { label: t('intelligence_timeline.steps.indicators'), highlight: false },
-                { label: t('intelligence_timeline.steps.correlations'), highlight: false },
-                { label: t('intelligence_timeline.steps.executive_intel'), highlight: true },
-                { label: t('intelligence_timeline.steps.ai_advisor'), highlight: true },
-                { label: t('intelligence_timeline.steps.decisions'), highlight: true, last: true },
-                { label: t('intelligence_timeline.steps.impact'), highlight: true, special: true }
+                { label: t('governance_timeline.steps.data'), highlight: false },
+                { label: t('governance_timeline.steps.indicators'), highlight: false },
+                { label: t('governance_timeline.steps.correlations'), highlight: false },
+                { label: t('governance_timeline.steps.executive_intel'), highlight: true },
+                { label: t('governance_timeline.steps.ai_advisor'), highlight: true },
+                { label: t('governance_timeline.steps.decisions'), highlight: true, last: true },
+                { label: t('governance_timeline.steps.impact'), highlight: true, special: true }
               ].map((step, i) => (
                 <div key={i} className="relative z-10 flex flex-col items-center mb-8 md:mb-0">
                   <div className={cn(

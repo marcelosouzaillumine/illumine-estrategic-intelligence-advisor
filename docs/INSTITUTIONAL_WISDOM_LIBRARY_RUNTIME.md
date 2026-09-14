@@ -47,9 +47,9 @@ Priorização
   ↓
 Advisory Executivo
   ↓
-Narrative Intelligence
+Narrative Governance
   ↓
-Board Intelligence
+Board Governance
 ```
 
 ## 3. Core Mission
@@ -160,13 +160,13 @@ Toda inteligência que utilizar princípios deverá registrar de forma explícit
 ## 11. Future Runtime Consumers
 
 Fica registrado oficialmente que as seguintes futuras capacidades poderão consumir a IWL:
-* Missional Intelligence
-* Prospective Intelligence
+* Missional Governance
+* Prospective Governance
 * Mission Alignment Engine
 * ESGIM Runtime
 * Executive Advisory
-* Narrative Intelligence
-* Board Intelligence
+* Narrative Governance
+* Board Governance
 
 ## 12. Expected Outcome
 

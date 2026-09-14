@@ -128,8 +128,8 @@ import { ExecutiveAppShell } from './components/executive-workspace/shell/Execut
 import { ExperienceRouter } from './navigation/ExperienceRouter';
 import { InstitutionalMemoryProvider, useInstitutionalMemory } from './context/institutional-memory/InstitutionalMemoryProvider';
 import { ExecutiveCopilotPanel } from './components/executive-copilot/ExecutiveCopilotPanel';
-import { useExecutiveUIStore } from '../packages/intelligence/executive-copilot/src/store/ExecutiveUIStore';
-import { useExecutiveConversationStore } from '../packages/intelligence/executive-copilot/src/store/ExecutiveConversationStore';
+import { useExecutiveUIStore } from '../packages/shell/executive-copilot/src/store/ExecutiveUIStore';
+import { useExecutiveConversationStore } from '../packages/shell/executive-copilot/src/store/ExecutiveConversationStore';
 import { RevenueRoutes } from './features/revenue/routes/revenue.routes';
 import { ClientWorkspaceRoutes } from './features/revenue/routes/clientWorkspace.routes';
 
@@ -170,6 +170,9 @@ import { NavigationModeProvider } from './navigation/NavigationModeProvider';
 import { AdvisorCommandCenter } from './components/advisor/AdvisorCommandCenter';
 import { AdministrationWorkspacePage } from './components/pages/AdministrationWorkspacePage';
 import { AdministrationAppShell } from './components/executive-workspace/shell/AdministrationAppShell';
+import { MentorWorkspacePage } from './capabilities/mentorship/pages/MentorWorkspacePage';
+import { MenteeWorkspacePage } from './capabilities/mentorship/pages/MenteeWorkspacePage';
+import { ProgramAdminPage } from './capabilities/mentorship/pages/ProgramAdminPage';
 import { ScenarioCommandCenter } from './components/war-room/ScenarioCommandCenter';
 import { governanceService } from './services/governanceService';
 import { DataAccessContext } from './core/security/data-access-context';
@@ -352,6 +355,11 @@ function LoginRedirect({ user, session }: { user: any; session: any }) {
     return <Navigate to="/dashboard/efos" replace />;
   }
 
+  // Mentorship routes are handled by React Router directly
+  if (landing.route.startsWith('/mentor/') || landing.route.startsWith('/mentee/') || landing.route.startsWith('/admin/programa')) {
+    return <Navigate to={landing.route} replace />;
+  }
+
   return <Navigate to={landing.route} replace />;
 }
 
@@ -372,7 +380,7 @@ function getPageComponent(key: RouteKey) {
     case 'PLATFORM': return <InstitutionalPlatformPage />;
     case 'DOMAINS': return <InstitutionalDomainsPage />;
     case 'GOVERNANCE': return <InstitutionalGovernancePage />;
-    case 'INTELLIGENCE_CENTER': return <InstitutionalIntelligenceCenterPage />;
+    case 'GOVERNANCE_CENTER': return <InstitutionalIntelligenceCenterPage />;
     case 'DIAGNOSTIC': return <ExecutiveDiagnosticJourneyPage />;
     case 'CONTACT': return (
       <div className="min-h-screen bg-[#0A0A0B] flex flex-col items-center justify-center p-6 text-center">
@@ -760,8 +768,8 @@ export default function App() {
                         <PlatformRevenueCenterPage />
                       </ExecutiveAppShell>
                     } />
-                    <Route path="/platform/workspace/pipeline-intelligence" element={
-                      <ExecutiveAppShell semanticMatch={{ isLegacyUrl: true, officeId: 'platform-workspace', surfaceId: 'platform.pipeline-intelligence' }}>
+                    <Route path="/platform/workspace/pipeline-governance" element={
+                      <ExecutiveAppShell semanticMatch={{ isLegacyUrl: true, officeId: 'platform-workspace', surfaceId: 'platform.pipeline-governance' }}>
                         <PlatformPipelinePage />
                       </ExecutiveAppShell>
                     } />
@@ -786,6 +794,44 @@ export default function App() {
                     
                     <Route path="/advisor" element={<AdvisorCommandCenter />} />
                     <Route path="/advisor/:organizationId" element={<AdvisorCommandCenter />} />
+
+                    {/* Mentorship Workspace Routes */}
+                    <Route path="/mentor/workspace/*" element={
+                      user ? (
+                        <MentorWorkspacePage
+                          mentorId={user.uid}
+                          programId={selectedClient}
+                          tenantId={selectedClient}
+                          mentorName={user.displayName ?? undefined}
+                        />
+                      ) : (
+                        <Navigate to="/login" replace />
+                      )
+                    } />
+                    <Route path="/mentee/workspace/*" element={
+                      user ? (
+                        <MenteeWorkspacePage
+                          menteeId={user.uid}
+                          programId={selectedClient}
+                          tenantId={selectedClient}
+                          menteeName={user.displayName ?? undefined}
+                        />
+                      ) : (
+                        <Navigate to="/login" replace />
+                      )
+                    } />
+                    <Route path="/admin/programa/*" element={
+                      user ? (
+                        <ProgramAdminPage
+                          programId={selectedClient}
+                          tenantId={selectedClient}
+                          adminName={user.displayName ?? undefined}
+                        />
+                      ) : (
+                        <Navigate to="/login" replace />
+                      )
+                    } />
+
                     <Route path="/administration/workspace" element={
                       <AdministrationAppShell>
                         <AdministrationWorkspacePage />
@@ -793,8 +839,8 @@ export default function App() {
                     } />
                     <Route path="/war-room" element={<ScenarioCommandCenter />} />
                     <Route path="/war-room/:scenarioId" element={<ScenarioCommandCenter />} />
-                    <Route path="/intelligence" element={<InstitutionalIntelligenceWorkspace />} />
-                    <Route path="/intelligence/:objectId" element={<InstitutionalIntelligenceWorkspace />} />
+                    <Route path="/governance" element={<InstitutionalIntelligenceWorkspace />} />
+                    <Route path="/governance/:objectId" element={<InstitutionalIntelligenceWorkspace />} />
                     <Route path="/architecture-governance/explorer" element={<ArchitectureExplorer />} />
                     <Route path="/governance/analytics-health" element={
                       isMaster || isPartner ? (

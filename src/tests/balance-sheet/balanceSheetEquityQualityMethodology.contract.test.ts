@@ -1,7 +1,6 @@
-// @ts-nocheck
-import { describe, it } from 'node:test';
+import { describe, it, expect, beforeAll, afterAll } from 'vitest';
 import assert from 'node:assert';
-import { TechnicalLayerBuilder } from '../../core/runtime/executive-consolidation/builders/TechnicalLayerBuilder';
+import { TechnicalLayerBuilder } from '../../workspace/runtime/executive-consolidation/builders/TechnicalLayerBuilder';
 
 describe('BalanceSheetEquityQualityMethodology', () => {
   it('Should apply ressalva metodológica when Capital Social is symbolic or < 5% of PL', () => {

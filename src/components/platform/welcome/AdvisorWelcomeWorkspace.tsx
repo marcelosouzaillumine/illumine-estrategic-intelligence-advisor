@@ -104,7 +104,7 @@ export const AdvisorWelcomeWorkspace: React.FC<AdvisorWelcomeWorkspaceProps> = (
         <div className="flex items-center justify-between text-xs text-muted-foreground">
           <div className="flex items-center gap-2">
             <ShieldCheck className="w-4 h-4 text-emerald-400" />
-            <span>Advisor Welcome Intelligence Protocol EWIX v1.2 Active</span>
+            <span>Advisor Welcome Governance Protocol EWIX v1.2 Active</span>
           </div>
           <span>Platform v1.0 Compliant</span>
         </div>

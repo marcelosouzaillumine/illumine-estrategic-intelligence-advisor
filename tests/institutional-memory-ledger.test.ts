@@ -1,12 +1,12 @@
 import { describe, it } from 'node:test';
 import assert from 'node:assert/strict';
-import { InstitutionalDecisionLedger } from '../src/core/runtime/institutional-memory/InstitutionalDecisionLedger';
-import { RecommendationPersistenceTracker } from '../src/core/runtime/institutional-memory/RecommendationPersistenceTracker';
-import { InstitutionalTrajectoryGuard } from '../src/core/runtime/institutional-memory/InstitutionalTrajectoryGuard';
-import { FiduciaryEvolutionEngine } from '../src/core/runtime/institutional-memory/FiduciaryEvolutionEngine';
-import { InstitutionalContinuityResolver } from '../src/core/runtime/institutional-memory/InstitutionalContinuityResolver';
+import { InstitutionalDecisionLedger } from '../src/capabilities/runtime/institutional-memory/InstitutionalDecisionLedger';
+import { RecommendationPersistenceTracker } from '../src/capabilities/runtime/institutional-memory/RecommendationPersistenceTracker';
+import { InstitutionalTrajectoryGuard } from '../src/capabilities/runtime/institutional-memory/InstitutionalTrajectoryGuard';
+import { FiduciaryEvolutionEngine } from '../src/capabilities/runtime/institutional-memory/FiduciaryEvolutionEngine';
+import { InstitutionalContinuityResolver } from '../src/capabilities/runtime/institutional-memory/InstitutionalContinuityResolver';
 
-describe('Institutional Decision Intelligence Layer', () => {
+describe('Institutional Decision Governance Layer', () => {
 
   it('deve garantir que o Ledger é append-only', () => {
     const ledger = new InstitutionalDecisionLedger();

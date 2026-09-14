@@ -5,7 +5,7 @@ import path from 'node:path';
 
 describe('DRE No Internal Metric Labels Contract', () => {
   it('must not leak internal metric variables into the UI via the compiler', () => {
-    const compilerPath = path.join(process.cwd(), 'src/core/runtime/dre/DreExecutiveLanguageCompiler.ts');
+    const compilerPath = path.join(process.cwd(), 'src/capabilities/financial/runtime/dre/DreExecutiveLanguageCompiler.ts');
     
     if (!fs.existsSync(compilerPath)) {
       return; 

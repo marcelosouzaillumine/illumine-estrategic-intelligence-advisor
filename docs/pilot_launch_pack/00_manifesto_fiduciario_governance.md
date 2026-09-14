@@ -1,6 +1,6 @@
-# Manifesto Fiduciário: Illumine Strategic Intelligence Advisor
+# Manifesto Fiduciário: Illumine Strategic Governance Advisor
 
-Este manifesto estabelece os limites institucionais, operacionais e fiduciários do **Illumine Strategic Intelligence Advisor (Governance/EFOS)**. Ele deve ser compreendido por todo C-Level, Conselho de Administração e Operadores Técnicos antes de qualquer implantação corporativa.
+Este manifesto estabelece os limites institucionais, operacionais e fiduciários do **Illumine Strategic Governance Advisor (Governance/EFOS)**. Ele deve ser compreendido por todo C-Level, Conselho de Administração e Operadores Técnicos antes de qualquer implantação corporativa.
 
 ## 1. O que a Governance/EFOS É
 

@@ -1,22 +1,22 @@
 {
   "hero": {
-    "label": "Executive Intelligence Center™",
+    "label": "Executive Governance Center™",
     "title": "Onde conhecimento executivo se transforma em inteligência institucional.",
-    "narrative_1": "O Executive Intelligence Center reúne pesquisas, frameworks, análises e conhecimento aplicado para desenvolver novos modelos de decisão, governança e evolução organizacional.",
+    "narrative_1": "O Executive Governance Center reúne pesquisas, frameworks, análises e conhecimento aplicado para desenvolver novos modelos de decisão, governança e evolução organizacional.",
     "narrative_2": "Mais do que acompanhar tendências, transformamos conhecimento em instrumentos práticos de gestão, governança e criação de valor.",
     "cta": "Explorar o Centro de Inteligência"
   },
   "knowledge_production": {
     "title": "A construção contínua de conhecimento executivo.",
     "subtitle": "Conhecimento como infraestrutura institucional.",
-    "narrative": "A Illumine desenvolve uma base intelectual própria, conectando pesquisa, experiência executiva e aprendizado organizacional para criar novos modelos de decisão e governança.<br/><br/>O Executive Intelligence Center é o núcleo onde esse conhecimento é desenvolvido, organizado e transformado em inteligência aplicada."
+    "narrative": "A Illumine desenvolve uma base intelectual própria, conectando pesquisa, experiência executiva e aprendizado organizacional para criar novos modelos de decisão e governança.<br/><br/>O Executive Governance Center é o núcleo onde esse conhecimento é desenvolvido, organizado e transformado em inteligência aplicada."
   },
   "frameworks": {
     "title": "Arquitetura Intelectual Illumine™",
     "lead": "Modelos intelectuais desenvolvidos pela Illumine para diagnóstico, tomada de decisão e evolução organizacional. Formamos uma biblioteca metodológica que embasa nossa arquitetura tecnológica.",
     "items": [
       {
-        "name": "Executive Intelligence Framework™",
+        "name": "Executive Governance Framework™",
         "desc": "Modelo central para orquestração de inteligência decisória."
       },
       {
@@ -103,7 +103,7 @@
       },
       {
         "tag": "White Paper",
-        "title": "Executive Intelligence: a próxima evolução da infraestrutura corporativa",
+        "title": "Executive Governance: a próxima evolução da infraestrutura corporativa",
         "meta": "35 páginas"
       },
       {
@@ -159,7 +159,7 @@
   },
   "cta": {
     "title": "A próxima vantagem competitiva das organizações será sua <highlight>capacidade de aprender institucionalmente.</highlight>",
-    "narrative": "O Executive Intelligence Center existe para acelerar essa evolução, compartilhando pesquisas, metodologias e conhecimento que contribuam para uma nova geração de organizações mais inteligentes, resilientes e preparadas para decidir.",
+    "narrative": "O Executive Governance Center existe para acelerar essa evolução, compartilhando pesquisas, metodologias e conhecimento que contribuam para uma nova geração de organizações mais inteligentes, resilientes e preparadas para decidir.",
     "card_title": "Comece explorando nosso conhecimento.",
     "card_lead": "Antes de conhecer a plataforma, conheça as ideias que inspiraram sua construção.",
     "btn_publications": "Ler Publicações",

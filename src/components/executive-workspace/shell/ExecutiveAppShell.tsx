@@ -145,10 +145,10 @@ export function ExecutiveAppShell({ children, semanticMatch }: ExecutiveAppShell
   const surfaceNames: Record<string, string> = {
     'overview': 'Executive Overview',
     'performance': 'Financial Performance',
-    'cash-intelligence': 'Cash Intelligence',
+    'cash-governance': 'Cash Governance',
     'planning': 'Planning & Forecast',
     'revenue-center': 'Revenue Center',
-    'pipeline-intelligence': 'Pipeline Intelligence',
+    'pipeline-governance': 'Pipeline Governance',
     'partner-center': 'Partner Center',
     'workspace': 'Global Settings',
     'profitability': 'Profitability',
@@ -204,7 +204,7 @@ export function ExecutiveAppShell({ children, semanticMatch }: ExecutiveAppShell
               {/* Native Surfaces rendered here */}
               {currentOfficeId === 'cfo-office' && currentSurfaceId === 'performance' ? (
                  <CFOPerformanceSurface />
-              ) : currentOfficeId === 'cfo-office' && currentSurfaceId === 'cash-intelligence' ? (
+              ) : currentOfficeId === 'cfo-office' && currentSurfaceId === 'cash-governance' ? (
                  <CFOCashIntelligenceSurface />
               ) : currentOfficeId === 'cfo-office' && currentSurfaceId === 'planning' ? (
                  <CFOPlanningForecastSurface />

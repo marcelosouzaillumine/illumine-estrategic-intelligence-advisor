@@ -1,8 +1,8 @@
-# Pipeline B: Executive Experience & Intelligence Assurance™
+# Pipeline B: Executive Experience & Governance Assurance™
 **CAE-BASELINE-001**
 
 ## Objective
-Evaluate whether the platform delivers executive intelligence or merely organized information.
+Evaluate whether the platform delivers executive governance or merely organized information.
 
 ## Audit Findings
 
@@ -16,8 +16,8 @@ Evaluate whether the platform delivers executive intelligence or merely organize
 | `ExecutiveSituation` | ❌ Fail | O conceito de "situação" não está globalmente rastreado nas decisões. |
 | `Recommendation Experience` | ✅ Pass | Interface clara, distinção visual entre insight e recomendação. |
 
-### 2. Executive Intelligence Density™
-The platform's Intelligence Density is scored across 8 vectors:
+### 2. Executive Governance Density™
+The platform's Governance Density is scored across 8 vectors:
 
 1. **Contexto:** 85% (Forte)
 2. **Interpretação:** 90% (Excelente, baseada em IA generativa focada no C-Level)
@@ -28,7 +28,7 @@ The platform's Intelligence Density is scored across 8 vectors:
 7. **Recomendação:** 95% (Motor de recomendação altamente aderente ao EVC)
 8. **Próximo Passo:** 90% (Botões de ação contextual `ExecutiveAction` operacionais)
 
-**Overall Intelligence Density Score:** 70.6%
+**Overall Governance Density Score:** 70.6%
 
 ### Conclusion (Pipeline B)
 The platform decisively transcends traditional BI. However, the Executive Experience suffers from a fragmentation in Historical Memory and Evidence Traceability (Decision Forensics). 

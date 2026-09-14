@@ -1,6 +1,6 @@
 // src/core/runtime/validation/ValidationDatasetFactory.ts
 
-import { ConsolidatedRuntimeInputExt } from '../consolidated/consolidated-types';
+import { ConsolidatedRuntimeInputExt } from '../../../capabilities/financial/runtime/consolidated/consolidated-types';
 
 export type RealWorldScenario = 
   | 'HEALTHY_COMPANY'

@@ -4,19 +4,19 @@ import {
   ExecutiveBoardReport, 
   ESGIMScenario, 
   ESGIMMode 
-} from '../esgim/esgimTypes';
-import { esgimAssessmentEngine } from '../esgim/ESGIMAssessmentEngine';
-import { institutionalResilienceIndexEngine } from '../esgim/InstitutionalResilienceIndexEngine';
-import { boardPrioritiesEngine } from '../board/BoardPrioritiesEngine';
+} from '../../../capabilities/runtime/esgim/esgimTypes';
+import { esgimAssessmentEngine } from '../../../capabilities/runtime/esgim/ESGIMAssessmentEngine';
+import { institutionalResilienceIndexEngine } from '../../../capabilities/runtime/esgim/InstitutionalResilienceIndexEngine';
+import { boardPrioritiesEngine } from '../../../capabilities/financial/runtime/board/BoardPrioritiesEngine';
 import { governanceRoadmapEngine } from '../roadmap/GovernanceRoadmapEngine';
 import { governanceMonitoringEngine } from '../monitoring/GovernanceMonitoringEngine';
-import { decisionRegistryEngine } from '../execution/DecisionRegistryEngine';
+import { decisionRegistryEngine } from '../../../capabilities/runtime/execution/DecisionRegistryEngine';
 import { governanceKnowledgeEngine } from '../knowledge/GovernanceKnowledgeEngine';
 import { benchmarkReadinessEngine } from '../benchmark/BenchmarkReadinessEngine';
 import { benchmarkComparativeEngine } from '../benchmark/BenchmarkComparativeEngine';
 import { benchmarkAdvisoryEngine } from '../benchmark/BenchmarkAdvisoryEngine';
 import { governanceLearningEngine } from '../learning/GovernanceLearningEngine';
-import { governanceJourneyEngine } from '../journey/GovernanceJourneyEngine';
+import { governanceJourneyEngine } from '../../../workspace/runtime/journey/GovernanceJourneyEngine';
 
 export class ExecutiveBoardReportEngine {
   private static instance: ExecutiveBoardReportEngine;
@@ -336,7 +336,7 @@ export class ExecutiveBoardReportEngine {
 
     // 11. Explainability Logs (Component 10)
     const explainability: string[] = [
-      "Inteligências Analisadas: Fiduciary Intelligence, Institutional Intelligence, Prospective Intelligence, Mission Alignment Engine.",
+      "Inteligências Analisadas: Fiduciary Governance, Institutional Governance, Prospective Governance, Mission Alignment Engine.",
       `Evidências Coletadas: Relatórios fiduciários de DRE/DFC, registros estatutários do Board e simulação de contexto: ${scenario}.`,
       "Regras Fiduciárias Aplicadas: Constituição Cognitiva com limitação de teto e overrides em caso de desvios.",
       `Modo de Monitoramento: ${mode} | Linha Temporal: ${monitoring.timelineMode}.`

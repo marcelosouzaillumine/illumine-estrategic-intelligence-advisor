@@ -2,8 +2,8 @@ import { describe, it, beforeEach } from 'node:test';
 import assert from 'node:assert/strict';
 import { CalibrationEngine } from '../src/core/runtime/calibration/CalibrationEngine';
 import { executiveRuntime } from '../src/core/runtime/executive-intelligence-runtime';
-import { StagingValidationEngine } from '../src/core/runtime/integrations/StagingValidationEngine';
-import { ImportedDataset } from '../src/core/runtime/integrations/IntegrationGovernanceTypes';
+import { StagingValidationEngine } from '../src/capabilities/runtime/integrations/StagingValidationEngine';
+import { ImportedDataset } from '../src/capabilities/runtime/integrations/IntegrationGovernanceTypes';
 import { NON_SUPPRESSIBLE_WARNINGS } from '../src/core/runtime/calibration/CalibrationTypes';
 
 describe('Phase 9: Advisory Stability & Non-Suppressible Warnings Tests', () => {

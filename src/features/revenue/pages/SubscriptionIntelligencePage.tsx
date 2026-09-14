@@ -1,10 +1,2 @@
-import React from 'react';
-
-export const SubscriptionIntelligencePage: React.FC = () => {
-  return (
-    <div className="space-y-6">
-      <h1 className="text-2xl font-bold text-gray-900">Subscription Intelligence™</h1>
-      <p className="text-gray-600">Controle da receita recorrente.</p>
-    </div>
-  );
-};
+// shim
+export * from '../../../capabilities/financial/revenue/pages/SubscriptionIntelligencePage';

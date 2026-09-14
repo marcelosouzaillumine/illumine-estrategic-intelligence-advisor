@@ -148,7 +148,7 @@ Este relatório mapeia **todos** os pontos que produzem inteligência institucio
 | `src/services/importService.ts` | **classifyAccounts** | 540 | `return classifyAccounts(accounts);` |
 | `src/services/importService.ts` | **classifyAccounts** | 572 | `resolve(classifyAccounts(accounts));` |
 | `src/services/importService.ts` | **classifyAccounts** | 709 | `export const classifyAccounts = (accounts: ImportedAccount[]): ImportedAccount[]` |
-| `src/services/intelligenceEngine.ts` | **buildBPHierarchy** | 51 | `const bpSummary = currentBp.length > 0 ? buildBPHierarchy(currentBp).summary : n` |
+| `src/services/governanceEngine.ts` | **buildBPHierarchy** | 51 | `const bpSummary = currentBp.length > 0 ? buildBPHierarchy(currentBp).summary : n` |
 | `src/services/taxService.ts` | **calculateSimplesNacional** | 18 | `export const calculateSimplesNacional = (rbt12: number, anexoStr: string, fatura` |
 | `src/services/taxService.ts` | **calculatePayrollBurdens** | 41 | `export const calculatePayrollBurdens = (salarioBase: number, config: {` |
 | `src/services/taxService.ts` | **calculateSeverance** | 70 | `export const calculateSeverance = (` |
@@ -219,7 +219,7 @@ Este relatório mapeia **todos** os pontos que produzem inteligência institucio
 | `src/components/pages/ClientExecutiveWorkspace.tsx` | **buildDataAccessContext** | 383 | `const context = buildDataAccessContext('APPROVE_BOARD_PACK', 'Workflow');` |
 | `src/components/pages/ClientExecutiveWorkspace.tsx` | **buildDataAccessContext** | 397 | `const context = buildDataAccessContext('APPROVE_BOARD_PACK', 'Workflow');` |
 | `src/components/pages/DFCPage.tsx` | **isGenerated** | 229 | `const isGenerated = metrics.isGenerated || false;` |
-| `src/components/pages/DFCPage.tsx` | **evaluate** | 729 | `const consequence = FiduciaryRuntimeAdapter.ExecutiveConsequenceIntelligenceLaye` |
+| `src/components/pages/DFCPage.tsx` | **evaluate** | 729 | `const consequence = FiduciaryRuntimeAdapter.ExecutiveConsequenceGovernanceLaye` |
 | `src/components/pages/DFCPage.tsx` | **evaluate** | 1210 | `const consistency = FiduciaryRuntimeAdapter.ScenarioSimulationConsistencyEngine.` |
 | `src/components/pages/DFCPage.tsx` | **evaluate** | 1316 | `const narrative = FiduciaryRuntimeAdapter.TreasurySustainabilityNarrativeEngine.` |
 | `src/components/pages/DLPAPage.tsx` | **build** | 429 | `const lContext = LifecycleContextBuilder.build({` |
@@ -274,7 +274,7 @@ Este relatório mapeia **todos** os pontos que produzem inteligência institucio
 | `src/components/pages/InstitutionalReportsPage.tsx` | **buildContext** | 74 | `const buildContext = (action: 'EXPORT_BOARD_PACK' | 'EXPORT_SNAPSHOT'): DataAcce` |
 | `src/components/pages/InstitutionalReportsPage.tsx` | **buildContext** | 100 | `const context = buildContext('EXPORT_BOARD_PACK');` |
 | `src/components/pages/InstitutionalReportsPage.tsx` | **buildContext** | 112 | `const context = buildContext('EXPORT_SNAPSHOT');` |
-| `src/components/pages/InstitutionalStrategicIntelligencePage.tsx` | **evaluate** | 33 | `const strategicOutput = InstitutionalStrategicIntelligenceRuntime.evaluate(dummy` |
+| `src/components/pages/InstitutionalStrategicGovernancePage.tsx` | **evaluate** | 33 | `const strategicOutput = InstitutionalStrategicGovernanceRuntime.evaluate(dummy` |
 | `src/components/pages/LeadershipProfilePage.tsx` | **setTeamAssessments** | 292 | `setTeamAssessments(snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() })));` |
 | `src/components/pages/LeadershipProfilePage.tsx` | **calculateUserDISC** | 318 | `disc: calculateUserDISC(),` |
 | `src/components/pages/LeadershipProfilePage.tsx` | **calculateUserEnneagram** | 319 | `enneagram: calculateUserEnneagram(),` |
@@ -356,7 +356,7 @@ Este relatório mapeia **todos** os pontos que produzem inteligência institucio
 | `src/components/pages/governance/GovernanceLearningPanel.tsx` | **calculateLearning** | 25 | `const learning = FiduciaryRuntimeAdapter.governanceLearningEngine.calculateLearn` |
 | `src/components/pages/governance/GovernanceLearningPanel.tsx` | **evaluateReadiness** | 26 | `const readiness = FiduciaryRuntimeAdapter.benchmarkReadinessEngine.evaluateReadi` |
 | `src/components/pages/governance/GovernanceMaturityCenter.tsx` | **calculateAxisMaturity** | 117 | `A: calculateAxisMaturity(finalResponses, e as any),` |
-| `src/components/pages/governance/GovernanceMaturityCenter.tsx` | **handleGenerateIntelligence** | 121 | `const handleGenerateIntelligence = async () => {` |
+| `src/components/pages/governance/GovernanceMaturityCenter.tsx` | **handleGenerateGovernance** | 121 | `const handleGenerateGovernance = async () => {` |
 | `src/components/pages/governance/GovernanceMaturityCenter.tsx` | **calculateAxisMaturity** | 127 | `axisScores[e] = calculateAxisMaturity(finalResponses, e as any);` |
 | `src/components/pages/governance/GovernanceMaturityCenter.tsx` | **generateGovernanceDiagnosis** | 130 | `const diagnosis = await generateGovernanceDiagnosis(axisScores, indicators, "Emp` |
 | `src/components/pages/governance/GovernanceMaturityCenter.tsx` | **calculateAxisMaturity** | 149 | `[e]: calculateAxisMaturity(finalResponses, e as any)` |
@@ -404,8 +404,8 @@ Este relatório mapeia **todos** os pontos que produzem inteligência institucio
 | `src/hooks/useBoardMode.ts` | **generateBoardAgenda** | 19 | `const agenda = BoardRuntimeAdapter.generateBoardAgenda(input, attentionItems, ri` |
 | `src/hooks/useExecutiveAdvisory.ts` | **calculateFinancialMetrics** | 39 | `const metrics = calculateFinancialMetrics(bpSummary as any, dreEbitda, dreLucro,` |
 | `src/hooks/useExecutiveAdvisory.ts` | **evaluateMasterCausality** | 47 | `const causal = evaluateMasterCausality(bpSummary, metrics, identity, 12); // Ass` |
-| `src/hooks/useExecutiveAdvisory.ts` | **analyzeOperationalIntelligence** | 78 | `const operational = analyzeOperationalIntelligence(operationalInput);` |
-| `src/hooks/useExecutiveAdvisory.ts` | **analyzeCashFlowIntelligence** | 101 | `const cashFlow = analyzeCashFlowIntelligence(cashFlowInput);` |
+| `src/hooks/useExecutiveAdvisory.ts` | **analyzeOperationalGovernance** | 78 | `const operational = analyzeOperationalGovernance(operationalInput);` |
+| `src/hooks/useExecutiveAdvisory.ts` | **analyzeCashFlowGovernance** | 101 | `const cashFlow = analyzeCashFlowGovernance(cashFlowInput);` |
 | `src/hooks/useExecutiveAdvisory.ts` | **generateExecutiveAdvisory** | 110 | `return generateExecutiveAdvisory(input);` |
 | `src/hooks/useFinancialData.ts` | **buildHistoricalSeries** | 153 | `const series = buildHistoricalSeries(clientId, allEntries);` |
 | `src/hooks/usePredictiveGovernance.ts` | **calculateTrajectory** | 45 | `const trajectory = InstitutionalTrajectoryEngine.calculateTrajectory(snapshots);` |
@@ -490,26 +490,26 @@ Este relatório mapeia **todos** os pontos que produzem inteligência institucio
 | `src/core/runtime/audit-assurance/InstitutionalAuditEngine.ts` | **systemIntegrityScore** | 76 | `const systemIntegrityScore =` |
 | `src/core/runtime/audit-assurance/InstitutionalAuditEngine.ts` | **generateCertifiedLog** | 93 | `public generateCertifiedLog(): string {` |
 | `src/core/runtime/audit-assurance/InstitutionalForensicsEngine.ts` | **analyzeTrails** | 19 | `public analyzeTrails(trails: AuditTrailEntry[]): ForensicsFinding[] {` |
-| `src/core/runtime/behavioral-intelligence/BehavioralTrajectoryEngine.ts` | **calculateCumulativeProfile** | 51 | `const olderProfile = InstitutionalBehaviorProfileEngine.calculateCumulativeProfi` |
-| `src/core/runtime/behavioral-intelligence/BehavioralTrajectoryEngine.ts` | **projectedScores** | 83 | `const projectedScores = {` |
-| `src/core/runtime/behavioral-intelligence/ExecutiveConsistencyEngine.ts` | **calculateConsistency** | 12 | `public static calculateConsistency(` |
-| `src/core/runtime/behavioral-intelligence/ExecutiveConsistencyEngine.ts` | **score** | 16 | `let score = 100;` |
-| `src/core/runtime/behavioral-intelligence/GovernanceFatigueEngine.ts` | **calculateFatigue** | 12 | `public static calculateFatigue(` |
-| `src/core/runtime/behavioral-intelligence/InstitutionalAdaptationEngine.ts` | **calculateAdaptation** | 14 | `public static calculateAdaptation(` |
-| `src/core/runtime/behavioral-intelligence/InstitutionalAdaptationEngine.ts` | **adaptationScore** | 22 | `let adaptationScore = 50;` |
-| `src/core/runtime/behavioral-intelligence/InstitutionalAdaptationEngine.ts` | **calculateConsistency** | 25 | `const currentConsistency = ExecutiveConsistencyEngine.calculateConsistency(curre` |
-| `src/core/runtime/behavioral-intelligence/InstitutionalAdaptationEngine.ts` | **calculateConsistency** | 30 | `historicalConsistencySum += ExecutiveConsistencyEngine.calculateConsistency(d, h` |
-| `src/core/runtime/behavioral-intelligence/InstitutionalBehaviorProfileEngine.ts` | **calculateCumulativeProfile** | 102 | `public static calculateCumulativeProfile(` |
-| `src/core/runtime/behavioral-intelligence/InstitutionalBehavioralIntelligenceEngine.ts` | **evaluateBehavior** | 28 | `public static evaluateBehavior(` |
-| `src/core/runtime/behavioral-intelligence/InstitutionalBehavioralIntelligenceEngine.ts` | **calculateCumulativeProfile** | 35 | `const profile = InstitutionalBehaviorProfileEngine.calculateCumulativeProfile(` |
-| `src/core/runtime/behavioral-intelligence/InstitutionalBehavioralIntelligenceEngine.ts` | **calculateConsistency** | 45 | `const consistencyScore = ExecutiveConsistencyEngine.calculateConsistency(decisio` |
-| `src/core/runtime/behavioral-intelligence/InstitutionalBehavioralIntelligenceEngine.ts` | **calculateFatigue** | 48 | `const fatigue = GovernanceFatigueEngine.calculateFatigue(history, report);` |
-| `src/core/runtime/behavioral-intelligence/InstitutionalBehavioralIntelligenceEngine.ts` | **calculateAdaptation** | 51 | `const adaptationScore = InstitutionalAdaptationEngine.calculateAdaptation(decisi` |
-| `src/core/runtime/behavioral-intelligence/InstitutionalBehavioralIntelligenceEngine.ts` | **analyzePatterns** | 54 | `const patternsResult = LongitudinalPatternEngine.analyzePatterns(history, report` |
-| `src/core/runtime/behavioral-intelligence/InstitutionalBehavioralIntelligenceEngine.ts` | **calculateMaturity** | 58 | `const maturityLevel = InstitutionalMaturityEvolutionEngine.calculateMaturity(` |
-| `src/core/runtime/behavioral-intelligence/InstitutionalBehavioralIntelligenceEngine.ts` | **BehavioralScores** | 70 | `const scores: BehavioralScores = {` |
-| `src/core/runtime/behavioral-intelligence/InstitutionalMaturityEvolutionEngine.ts` | **calculateMaturity** | 13 | `public static calculateMaturity(` |
-| `src/core/runtime/behavioral-intelligence/LongitudinalPatternEngine.ts` | **analyzePatterns** | 21 | `public static analyzePatterns(` |
+| `src/core/runtime/behavioral-governance/BehavioralTrajectoryEngine.ts` | **calculateCumulativeProfile** | 51 | `const olderProfile = InstitutionalBehaviorProfileEngine.calculateCumulativeProfi` |
+| `src/core/runtime/behavioral-governance/BehavioralTrajectoryEngine.ts` | **projectedScores** | 83 | `const projectedScores = {` |
+| `src/core/runtime/behavioral-governance/ExecutiveConsistencyEngine.ts` | **calculateConsistency** | 12 | `public static calculateConsistency(` |
+| `src/core/runtime/behavioral-governance/ExecutiveConsistencyEngine.ts` | **score** | 16 | `let score = 100;` |
+| `src/core/runtime/behavioral-governance/GovernanceFatigueEngine.ts` | **calculateFatigue** | 12 | `public static calculateFatigue(` |
+| `src/core/runtime/behavioral-governance/InstitutionalAdaptationEngine.ts` | **calculateAdaptation** | 14 | `public static calculateAdaptation(` |
+| `src/core/runtime/behavioral-governance/InstitutionalAdaptationEngine.ts` | **adaptationScore** | 22 | `let adaptationScore = 50;` |
+| `src/core/runtime/behavioral-governance/InstitutionalAdaptationEngine.ts` | **calculateConsistency** | 25 | `const currentConsistency = ExecutiveConsistencyEngine.calculateConsistency(curre` |
+| `src/core/runtime/behavioral-governance/InstitutionalAdaptationEngine.ts` | **calculateConsistency** | 30 | `historicalConsistencySum += ExecutiveConsistencyEngine.calculateConsistency(d, h` |
+| `src/core/runtime/behavioral-governance/InstitutionalBehaviorProfileEngine.ts` | **calculateCumulativeProfile** | 102 | `public static calculateCumulativeProfile(` |
+| `src/core/runtime/behavioral-governance/InstitutionalBehavioralGovernanceEngine.ts` | **evaluateBehavior** | 28 | `public static evaluateBehavior(` |
+| `src/core/runtime/behavioral-governance/InstitutionalBehavioralGovernanceEngine.ts` | **calculateCumulativeProfile** | 35 | `const profile = InstitutionalBehaviorProfileEngine.calculateCumulativeProfile(` |
+| `src/core/runtime/behavioral-governance/InstitutionalBehavioralGovernanceEngine.ts` | **calculateConsistency** | 45 | `const consistencyScore = ExecutiveConsistencyEngine.calculateConsistency(decisio` |
+| `src/core/runtime/behavioral-governance/InstitutionalBehavioralGovernanceEngine.ts` | **calculateFatigue** | 48 | `const fatigue = GovernanceFatigueEngine.calculateFatigue(history, report);` |
+| `src/core/runtime/behavioral-governance/InstitutionalBehavioralGovernanceEngine.ts` | **calculateAdaptation** | 51 | `const adaptationScore = InstitutionalAdaptationEngine.calculateAdaptation(decisi` |
+| `src/core/runtime/behavioral-governance/InstitutionalBehavioralGovernanceEngine.ts` | **analyzePatterns** | 54 | `const patternsResult = LongitudinalPatternEngine.analyzePatterns(history, report` |
+| `src/core/runtime/behavioral-governance/InstitutionalBehavioralGovernanceEngine.ts` | **calculateMaturity** | 58 | `const maturityLevel = InstitutionalMaturityEvolutionEngine.calculateMaturity(` |
+| `src/core/runtime/behavioral-governance/InstitutionalBehavioralGovernanceEngine.ts` | **BehavioralScores** | 70 | `const scores: BehavioralScores = {` |
+| `src/core/runtime/behavioral-governance/InstitutionalMaturityEvolutionEngine.ts` | **calculateMaturity** | 13 | `public static calculateMaturity(` |
+| `src/core/runtime/behavioral-governance/LongitudinalPatternEngine.ts` | **analyzePatterns** | 21 | `public static analyzePatterns(` |
 | `src/core/runtime/benchmark/BenchmarkAdvisoryEngine.ts` | **evaluateAdvisory** | 32 | `public evaluateAdvisory(` |
 | `src/core/runtime/benchmark/BenchmarkAdvisoryEngine.ts` | **evaluateReadiness** | 40 | `const readiness = benchmarkReadinessEngine.evaluateReadiness(clientId, scenario)` |
 | `src/core/runtime/benchmark/BenchmarkAdvisoryEngine.ts` | **calculateComparison** | 41 | `const comparison = benchmarkComparativeEngine.calculateComparison(clientId, mode` |
@@ -564,16 +564,16 @@ Este relatório mapeia **todos** os pontos que produzem inteligência institucio
 | `src/core/runtime/benchmarking/InstitutionalBenchmarkEngine.ts` | **calculateIndex** | 39 | `const confidenceDist = BenchmarkConfidenceIndex.calculateIndex(cohort);` |
 | `src/core/runtime/board/BoardAgendaGenerator.ts` | **generateBoardAgenda** | 18 | `export function generateBoardAgenda(` |
 | `src/core/runtime/board/BoardAgendaGenerator.ts` | **executiveRecommendation** | 32 | `if (!input.isBaseline && input.executiveRecommendation === '1º Recomendado') {` |
-| `src/core/runtime/board/BoardAttentionEngine.ts` | **generateAttentionItems** | 13 | `export function generateAttentionItems(input: BoardIntelligenceInput): BoardAtte` |
+| `src/core/runtime/board/BoardAttentionEngine.ts` | **generateAttentionItems** | 13 | `export function generateAttentionItems(input: BoardGovernanceInput): BoardAtte` |
 | `src/core/runtime/board/BoardAttentionEngine.ts` | **executiveRecommendation** | 38 | `if (input.executiveRecommendation === '1º Recomendado' && !input.isBaseline) {` |
-| `src/core/runtime/board/BoardIntelligenceAdapter.ts` | **buildBoardIntelligenceInput** | 16 | `export function buildBoardIntelligenceInput(` |
+| `src/core/runtime/board/BoardGovernanceAdapter.ts` | **buildBoardGovernanceInput** | 16 | `export function buildBoardGovernanceInput(` |
 | `src/core/runtime/board/BoardPrioritiesEngine.ts` | **generatePriorities** | 26 | `public generatePriorities(` |
 | `src/core/runtime/board/BoardPrioritiesEngine.ts` | **calculateAssessment** | 34 | `const assessment = esgimAssessmentEngine.calculateAssessment(clientId, mode, sce` |
 | `src/core/runtime/board/BoardPrioritiesEngine.ts` | **calculateResilience** | 35 | `const resilience = institutionalResilienceIndexEngine.calculateResilience(client` |
 | `src/core/runtime/board/BoardResolutionLayer.ts` | **generateBoardResolutions** | 11 | `export function generateBoardResolutions(` |
 | `src/core/runtime/board/BoardResolutionLayer.ts` | **executiveRecommendation** | 31 | `if (input.executiveRecommendation === '1º Recomendado' && !input.isBaseline) {` |
 | `src/core/runtime/board/FiduciaryRiskEngine.ts` | **calculateLevel** | 13 | `function calculateLevel(score: number, invert: boolean = false): RiskLevel {` |
-| `src/core/runtime/board/FiduciaryRiskEngine.ts` | **assessFiduciaryRisks** | 29 | `export function assessFiduciaryRisks(input: BoardIntelligenceInput): FiduciaryRi` |
+| `src/core/runtime/board/FiduciaryRiskEngine.ts` | **assessFiduciaryRisks** | 29 | `export function assessFiduciaryRisks(input: BoardGovernanceInput): FiduciaryRi` |
 | `src/core/runtime/board/FiduciaryRiskEngine.ts` | **calculateLevel** | 42 | `const instLevel = calculateLevel(input.gpiScore, true);` |
 | `src/core/runtime/board/FiduciaryRiskEngine.ts` | **calculateLevel** | 49 | `const execLevel = calculateLevel(input.ieiScore, false);` |
 | `src/core/runtime/board/FiduciaryRiskEngine.ts` | **calculateLevel** | 56 | `const govLevel = calculateLevel(input.irgScore, true);` |
@@ -642,122 +642,122 @@ Este relatório mapeia **todos** os pontos que produzem inteligência institucio
 | `src/core/runtime/capital-governance/capital-governance-adapter.ts` | **buildBoardDeck** | 708 | `const boardDeck = buildBoardDeck(boardDeckInput);` |
 | `src/core/runtime/capital-governance/capital-governance-adapter.ts` | **buildInstitutionalReportPackage** | 716 | `const institutionalReportPackage = buildInstitutionalReportPackage(institutional` |
 | `src/core/runtime/capital-governance/capital-governance-adapter.ts` | **buildGovernanceMemory** | 724 | `const governanceMemory = buildGovernanceMemory(governanceMemoryInput);` |
-| `src/core/runtime/capital-governance/capital-governance-adapter.ts` | **buildGovernanceIntelligenceNetwork** | 732 | `const governanceIntelligence = buildGovernanceIntelligenceNetwork(governanceInte` |
+| `src/core/runtime/capital-governance/capital-governance-adapter.ts` | **buildGovernanceGovernanceNetwork** | 732 | `const governanceGovernance = buildGovernanceGovernanceNetwork(governanceInte` |
 | `src/core/runtime/capital-governance/capital-governance-adapter.ts` | **buildGovernanceDigitalTwin** | 740 | `const governanceDigitalTwin = buildGovernanceDigitalTwin(governanceDigitalTwinIn` |
-| `src/core/runtime/capital-governance/capital-governance-adapter.ts` | **buildESGIntelligence** | 748 | `const esgIntelligence = buildESGIntelligence(esgInput);` |
-| `src/core/runtime/capital-governance/capital-governance-adapter.ts` | **buildValuationIntelligence** | 756 | `const valuationIntelligence = buildValuationIntelligence(valuationInput);` |
-| `src/core/runtime/capital-governance/capital-governance-adapter.ts` | **buildBenchmarkIntelligence** | 764 | `const benchmarkIntelligence = buildBenchmarkIntelligence(benchmarkInput);` |
-| `src/core/runtime/capital-governance/capital-governance-adapter.ts` | **buildSectorIntelligence** | 773 | `const sectorIntelligence = buildSectorIntelligence(sectorIntelligenceInput);` |
-| `src/core/runtime/capital-governance/capital-governance-adapter.ts` | **buildCapitalAllocationIntelligence** | 781 | `const capitalAllocationIntelligence = buildCapitalAllocationIntelligence(capital` |
+| `src/core/runtime/capital-governance/capital-governance-adapter.ts` | **buildESGGovernance** | 748 | `const esgGovernance = buildESGGovernance(esgInput);` |
+| `src/core/runtime/capital-governance/capital-governance-adapter.ts` | **buildValuationGovernance** | 756 | `const valuationGovernance = buildValuationGovernance(valuationInput);` |
+| `src/core/runtime/capital-governance/capital-governance-adapter.ts` | **buildBenchmarkGovernance** | 764 | `const benchmarkGovernance = buildBenchmarkGovernance(benchmarkInput);` |
+| `src/core/runtime/capital-governance/capital-governance-adapter.ts` | **buildSectorGovernance** | 773 | `const sectorGovernance = buildSectorGovernance(sectorGovernanceInput);` |
+| `src/core/runtime/capital-governance/capital-governance-adapter.ts` | **buildCapitalAllocationGovernance** | 781 | `const capitalAllocationGovernance = buildCapitalAllocationGovernance(capital` |
 | `src/core/runtime/capital-governance/capital-governance-adapter.ts` | **buildExecutiveSovereigntyProfile** | 790 | `const executiveSovereignty = buildExecutiveSovereigntyProfile(executiveSovereign` |
-| `src/core/runtime/cash-causal-intelligence/CashFlowCausalIntelligenceEngine.ts` | **evaluate** | 6 | `public static evaluate(` |
-| `src/core/runtime/cash-causal-intelligence/CashFlowCausalIntelligenceEngine.ts` | **classify** | 57 | `const severity = CashFlowCausalSeverityEngine.classify(impactPercent);` |
-| `src/core/runtime/cash-causal-intelligence/CashFlowCausalSeverityEngine.ts` | **classify** | 2 | `public static classify(impactPercent: number): 'LOW' | 'MODERATE' | 'HIGH' | 'CR` |
-| `src/core/runtime/cash-intelligence/ArtificialLiquidityDetector.ts` | **evaluate** | 7 | `public static evaluate(` |
-| `src/core/runtime/cash-intelligence/CashBoardDecisionSupportEngine.ts` | **evaluate** | 5 | `public static evaluate(` |
-| `src/core/runtime/cash-intelligence/CashBoardDecisionSupportEngine.ts` | **cashGenerationAssessment** | 17 | `const cashGenerationAssessment = isBurning` |
-| `src/core/runtime/cash-intelligence/CashBoardDecisionSupportEngine.ts` | **runwayAssessment** | 25 | `const runwayAssessment = (() => {` |
-| `src/core/runtime/cash-intelligence/CashBoardDecisionSupportEngine.ts` | **classify** | 27 | `const classification = RunwayClassificationEngine.classify(safeRunway);` |
-| `src/core/runtime/cash-intelligence/CashBoardDecisionSupportEngine.ts` | **revenueConversionAssessment** | 59 | `const revenueConversionAssessment = isBurning` |
-| `src/core/runtime/cash-intelligence/CashBoardDecisionSupportEngine.ts` | **boardPriorityAssessment** | 63 | `const boardPriorityAssessment = 'Reduzir a queima operacional de caixa e restaur` |
-| `src/core/runtime/cash-intelligence/CashConstraintDiagnosisEngine.ts` | **evaluate** | 4 | `public static evaluate(` |
-| `src/core/runtime/cash-intelligence/CashConversionStressEngine.ts` | **evaluate** | 4 | `public static evaluate(fco: number, ebitda: number): InstitutionalCashSignal {` |
-| `src/core/runtime/cash-intelligence/CashExecutiveAdvisoryEngine.ts` | **generatePayload** | 72 | `public static generatePayload(` |
-| `src/core/runtime/cash-intelligence/CashReinvestmentEngine.ts` | **evaluate** | 4 | `public static evaluate(` |
-| `src/core/runtime/cash-intelligence/CashSustainabilityEngine.ts` | **evaluate** | 4 | `public static evaluate(` |
-| `src/core/runtime/cash-intelligence/DFCCashAdvisoryEngine.ts` | **evaluate** | 4 | `public static evaluate(` |
-| `src/core/runtime/cash-intelligence/DFCExecutiveSnapshotEngine.ts` | **buildSnapshot** | 15 | `public static buildSnapshot(` |
-| `src/core/runtime/cash-intelligence/DFCExecutiveSnapshotEngine.ts` | **classify** | 24 | `const runwayClass = RunwayClassificationEngine.classify(safeRunway);` |
-| `src/core/runtime/cash-intelligence/DFCFiduciaryPriorityResolver.ts` | **classify** | 17 | `const runwayClass = RunwayClassificationEngine.classify(context.runwayMonths);` |
-| `src/core/runtime/cash-intelligence/DebtDependencyPressureEngine.ts` | **evaluate** | 4 | `public static evaluate(fco: number, thirdPartyFunding: number): InstitutionalCas` |
-| `src/core/runtime/cash-intelligence/EarningsCashConversionEngine.ts` | **evaluate** | 8 | `public static evaluate(` |
-| `src/core/runtime/cash-intelligence/FiduciaryCashIntelligenceRuntime.spec.ts` | **evaluate** | 9 | `const result = FiduciaryCashIntelligenceRuntime.evaluate(` |
-| `src/core/runtime/cash-intelligence/FiduciaryCashIntelligenceRuntime.spec.ts` | **evaluate** | 42 | `const result = FiduciaryCashIntelligenceRuntime.evaluate(` |
-| `src/core/runtime/cash-intelligence/FiduciaryCashIntelligenceRuntime.spec.ts` | **evaluate** | 72 | `const result = FiduciaryCashIntelligenceRuntime.evaluate(` |
-| `src/core/runtime/cash-intelligence/FiduciaryCashIntelligenceRuntime.spec.ts` | **evaluate** | 102 | `const result = FiduciaryCashIntelligenceRuntime.evaluate(` |
-| `src/core/runtime/cash-intelligence/FiduciaryCashIntelligenceRuntime.spec.ts` | **evaluate** | 141 | `const result = FiduciaryCashIntelligenceRuntime.evaluate(` |
-| `src/core/runtime/cash-intelligence/FiduciaryCashIntelligenceRuntime.ts` | **evaluate** | 42 | `public static evaluate(` |
-| `src/core/runtime/cash-intelligence/FiduciaryCashIntelligenceRuntime.ts` | **generateLineageHash** | 95 | `const lineageHash = this.generateLineageHash(hashInputs);` |
-| `src/core/runtime/cash-intelligence/FiduciaryCashIntelligenceRuntime.ts` | **evaluate** | 174 | `const universalIndicators = UniversalCashIndicatorsEngine.evaluate(` |
-| `src/core/runtime/cash-intelligence/FiduciaryCashIntelligenceRuntime.ts` | **evaluate** | 181 | `const artificial = ArtificialLiquidityDetector.evaluate(` |
-| `src/core/runtime/cash-intelligence/FiduciaryCashIntelligenceRuntime.ts` | **evaluate** | 187 | `const sustainabilityOutputs = OperationalSustainabilityRuntime.evaluate(` |
-| `src/core/runtime/cash-intelligence/FiduciaryCashIntelligenceRuntime.ts` | **evaluate** | 195 | `const continuity = InstitutionalContinuityEngine.evaluate(` |
-| `src/core/runtime/cash-intelligence/FiduciaryCashIntelligenceRuntime.ts` | **evaluate** | 207 | `const classification = LiquidityClassificationEngine.evaluate(` |
-| `src/core/runtime/cash-intelligence/FiduciaryCashIntelligenceRuntime.ts` | **evaluate** | 257 | `const cashConstraintDiagnosis = CashConstraintDiagnosisEngine.evaluate(fcoOperac` |
-| `src/core/runtime/cash-intelligence/FiduciaryCashIntelligenceRuntime.ts` | **evaluate** | 258 | `const cashBurnAnalysis = OperationalCashBurnEngine.evaluate(fcoOperacionalReal, ` |
-| `src/core/runtime/cash-intelligence/FiduciaryCashIntelligenceRuntime.ts` | **evaluate** | 259 | `const shareholderDependencyAnalysis = ShareholderDependencyEngine.evaluate(fcoOp` |
-| `src/core/runtime/cash-intelligence/FiduciaryCashIntelligenceRuntime.ts` | **evaluate** | 263 | `const cashSustainabilityAnalysis = CashSustainabilityEngine.evaluate(fcoOperacio` |
-| `src/core/runtime/cash-intelligence/FiduciaryCashIntelligenceRuntime.ts` | **evaluate** | 265 | `const cashConversionAnalysis = RevenueCashConversionEngine.evaluate(fcoOperacion` |
-| `src/core/runtime/cash-intelligence/FiduciaryCashIntelligenceRuntime.ts` | **evaluate** | 267 | `const cashBoardDecisionFramework = CashBoardDecisionSupportEngine.evaluate(fcoOp` |
-| `src/core/runtime/cash-intelligence/FiduciaryCashIntelligenceRuntime.ts` | **evaluate** | 268 | `const cashExecutiveAdvisory = DFCCashAdvisoryEngine.evaluate(fcoOperacionalReal,` |
-| `src/core/runtime/cash-intelligence/FiduciaryCashIntelligenceRuntime.ts` | **evaluate** | 269 | `const cashReinvestmentAnalysis = CashReinvestmentEngine.evaluate(fcoOperacionalR` |
-| `src/core/runtime/cash-intelligence/FiduciaryCashIntelligenceRuntime.ts` | **classify** | 274 | `const runwayClass = RunwayClassificationEngine.classify(continuity.projectedRunw` |
-| `src/core/runtime/cash-intelligence/FiduciaryCashIntelligenceRuntime.ts` | **buildSnapshot** | 278 | `const dfcExecutiveSnapshot = DFCExecutiveSnapshotEngine.buildSnapshot(` |
-| `src/core/runtime/cash-intelligence/FiduciaryCashIntelligenceRuntime.ts` | **generatePayload** | 293 | `const advisoryPayload = CashExecutiveAdvisoryEngine.generatePayload(` |
-| `src/core/runtime/cash-intelligence/FiduciaryCashIntelligenceRuntime.ts` | **evaluate** | 318 | `const causalIntelligence = CashFlowCausalIntelligenceEngine.evaluate(` |
-| `src/core/runtime/cash-intelligence/FiduciaryCashIntelligenceRuntime.ts` | **evaluate** | 327 | `const scenarioIntelligence = CashFlowScenarioEngine.evaluate(` |
-| `src/core/runtime/cash-intelligence/FiduciaryCashIntelligenceRuntime.ts` | **evaluate** | 339 | `const earlyWarningSystem = TreasuryEarlyWarningEngine.evaluate(` |
-| `src/core/runtime/cash-intelligence/FiduciaryCashIntelligenceRuntime.ts` | **evaluate** | 348 | `const treasurySustainability = TreasurySustainabilityEngine.evaluate(` |
-| `src/core/runtime/cash-intelligence/FiduciaryCashIntelligenceRuntime.ts` | **generateLineageHash** | 401 | `private static generateLineageHash(inputs: any[]): string {` |
-| `src/core/runtime/cash-intelligence/InstitutionalCashSustainabilityEngine.ts` | **evaluate** | 15 | `public static evaluate(` |
-| `src/core/runtime/cash-intelligence/InstitutionalCashSustainabilityEngine.ts` | **evaluate** | 52 | `const operatingCashIntegrity = OperatingCashIntegrityEngine.evaluate(fco, dreEbi` |
-| `src/core/runtime/cash-intelligence/InstitutionalCashSustainabilityEngine.ts` | **evaluate** | 53 | `const earningsCashConversion = EarningsCashConversionEngine.evaluate(dreNetIncom` |
-| `src/core/runtime/cash-intelligence/InstitutionalCashSustainabilityEngine.ts` | **evaluate** | 54 | `const syntheticProfitRisk = SyntheticProfitDetectionEngine.evaluate(dreNetIncome` |
-| `src/core/runtime/cash-intelligence/InstitutionalCashSustainabilityEngine.ts` | **evaluate** | 55 | `const cashConversionStress = CashConversionStressEngine.evaluate(fco, dreEbitda)` |
-| `src/core/runtime/cash-intelligence/InstitutionalCashSustainabilityEngine.ts` | **evaluate** | 56 | `const liquidityConsumptionVelocity = LiquidityConsumptionVelocityEngine.evaluate` |
-| `src/core/runtime/cash-intelligence/InstitutionalCashSustainabilityEngine.ts` | **evaluate** | 57 | `const workingCapitalPressure = WorkingCapitalDrainDetector.evaluate(workingCapit` |
-| `src/core/runtime/cash-intelligence/InstitutionalCashSustainabilityEngine.ts` | **evaluate** | 58 | `const debtDependencyPressure = DebtDependencyPressureEngine.evaluate(fco, thirdP` |
-| `src/core/runtime/cash-intelligence/InstitutionalContinuityEngine.ts` | **evaluate** | 7 | `public static evaluate(` |
-| `src/core/runtime/cash-intelligence/LiquidityClassificationEngine.ts` | **evaluate** | 7 | `public static evaluate(` |
-| `src/core/runtime/cash-intelligence/LiquidityConsumptionVelocityEngine.ts` | **evaluate** | 4 | `public static evaluate(fco: number, availableCash: number): InstitutionalCashSig` |
-| `src/core/runtime/cash-intelligence/LongitudinalCashIntelligenceEngine.spec.ts` | **evaluate** | 47 | `const result = LongitudinalCashIntelligenceEngine.evaluate([p1, p2, p3]);` |
-| `src/core/runtime/cash-intelligence/LongitudinalCashIntelligenceEngine.spec.ts` | **evaluate** | 59 | `const result = LongitudinalCashIntelligenceEngine.evaluate([p1, p2, p3]);` |
-| `src/core/runtime/cash-intelligence/LongitudinalCashIntelligenceEngine.spec.ts` | **evaluate** | 71 | `const result = LongitudinalCashIntelligenceEngine.evaluate([p1, p2, p3]);` |
-| `src/core/runtime/cash-intelligence/LongitudinalCashIntelligenceEngine.spec.ts` | **evaluate** | 80 | `const result = LongitudinalCashIntelligenceEngine.evaluate([p1, p2]);` |
-| `src/core/runtime/cash-intelligence/LongitudinalCashIntelligenceEngine.spec.ts` | **evaluate** | 90 | `const result = LongitudinalCashIntelligenceEngine.evaluate([p1, p2, p3]);` |
-| `src/core/runtime/cash-intelligence/LongitudinalCashIntelligenceEngine.test.ts` | **evaluate** | 42 | `const result = LongitudinalCashIntelligenceEngine.evaluate(cycles);` |
-| `src/core/runtime/cash-intelligence/LongitudinalCashIntelligenceEngine.test.ts` | **evaluate** | 50 | `const result = LongitudinalCashIntelligenceEngine.evaluate(cycles);` |
-| `src/core/runtime/cash-intelligence/LongitudinalCashIntelligenceEngine.test.ts` | **evaluate** | 61 | `const result = LongitudinalCashIntelligenceEngine.evaluate(cycles);` |
-| `src/core/runtime/cash-intelligence/LongitudinalCashIntelligenceEngine.test.ts` | **evaluate** | 76 | `const result = LongitudinalCashIntelligenceEngine.evaluate(cycles);` |
-| `src/core/runtime/cash-intelligence/LongitudinalCashIntelligenceEngine.test.ts` | **evaluate** | 88 | `const result = LongitudinalCashIntelligenceEngine.evaluate(cycles);` |
-| `src/core/runtime/cash-intelligence/LongitudinalCashIntelligenceEngine.test.ts` | **evaluate** | 100 | `const result = LongitudinalCashIntelligenceEngine.evaluate(cycles);` |
-| `src/core/runtime/cash-intelligence/LongitudinalCashIntelligenceEngine.test.ts` | **evaluate** | 110 | `const result = LongitudinalCashIntelligenceEngine.evaluate(cycles);` |
-| `src/core/runtime/cash-intelligence/LongitudinalCashIntelligenceEngine.ts` | **evaluate** | 5 | `public static evaluate(cycles: CashIntelligenceRuntimeOutput[]): {` |
-| `src/core/runtime/cash-intelligence/LongitudinalCashIntelligenceEngine.ts` | **longitudinalScore** | 100 | `longitudinalScore = 38; // Max 40` |
-| `src/core/runtime/cash-intelligence/LongitudinalCashIntelligenceEngine.ts` | **longitudinalScore** | 103 | `longitudinalScore = 34; // Max 35` |
-| `src/core/runtime/cash-intelligence/LongitudinalCashIntelligenceEngine.ts` | **longitudinalScore** | 110 | `longitudinalScore = 80;` |
-| `src/core/runtime/cash-intelligence/LongitudinalCashIntelligenceEngine.ts` | **longitudinalScore** | 117 | `longitudinalScore = 25; // Max 30` |
-| `src/core/runtime/cash-intelligence/LongitudinalCashIntelligenceEngine.ts` | **longitudinalScore** | 120 | `longitudinalScore = 90;` |
-| `src/core/runtime/cash-intelligence/OperatingCashIntegrityEngine.ts` | **evaluate** | 4 | `public static evaluate(fco: number, ebitda: number): InstitutionalCashSignal {` |
-| `src/core/runtime/cash-intelligence/OperationalCashBurnEngine.ts` | **evaluate** | 4 | `public static evaluate(` |
-| `src/core/runtime/cash-intelligence/OperationalSustainabilityRuntime.ts` | **evaluate** | 11 | `public static evaluate(` |
-| `src/core/runtime/cash-intelligence/OperationalSustainabilityRuntime.ts` | **resilienceScore** | 78 | `const resilienceScore = 100 - operationalFragilityIndex;` |
-| `src/core/runtime/cash-intelligence/OperationalSustainabilityRuntime.ts` | **LegacyOperationalSustainabilityAssessment** | 93 | `const legacy: LegacyOperationalSustainabilityAssessment = {` |
-| `src/core/runtime/cash-intelligence/OperationalSustainabilityRuntime.ts` | **FiduciaryOperationalSustainabilityAssessment** | 118 | `const fiduciary: FiduciaryOperationalSustainabilityAssessment = {` |
-| `src/core/runtime/cash-intelligence/RevenueCashConversionEngine.ts` | **evaluate** | 4 | `public static evaluate(` |
-| `src/core/runtime/cash-intelligence/RunwayClassificationEngine.ts` | **classify** | 7 | `public static classify(runwayMonths: number): FiduciaryRunwayClassification {` |
-| `src/core/runtime/cash-intelligence/ShareholderDependencyEngine.ts` | **evaluate** | 4 | `public static evaluate(` |
-| `src/core/runtime/cash-intelligence/SyntheticProfitDetectionEngine.ts` | **evaluate** | 4 | `public static evaluate(` |
-| `src/core/runtime/cash-intelligence/UniversalCashIndicatorsEngine.spec.ts` | **evaluate** | 8 | `const indicators = UniversalCashIndicatorsEngine.evaluate(` |
-| `src/core/runtime/cash-intelligence/UniversalCashIndicatorsEngine.spec.ts` | **evaluate** | 28 | `const indicators = UniversalCashIndicatorsEngine.evaluate(` |
-| `src/core/runtime/cash-intelligence/UniversalCashIndicatorsEngine.spec.ts` | **evaluate** | 49 | `const indicators = UniversalCashIndicatorsEngine.evaluate(` |
-| `src/core/runtime/cash-intelligence/UniversalCashIndicatorsEngine.ts` | **evaluate** | 11 | `public static evaluate(` |
-| `src/core/runtime/cash-intelligence/WorkingCapitalDrainDetector.ts` | **evaluate** | 4 | `public static evaluate(workingCapitalVariation: number, fco: number): Institutio` |
-| `src/core/runtime/cash-scenario-intelligence/CashFlowScenarioEngine.ts` | **evaluate** | 4 | `public static evaluate(` |
-| `src/core/runtime/cash-scenario-intelligence/CashFlowScenarioEngine.ts` | **buildScenarioGroup** | 16 | `const buildScenarioGroup = (` |
-| `src/core/runtime/cash-scenario-intelligence/CashFlowScenarioEngine.ts` | **fcoSimulated** | 44 | `const fcoSimulated = currentFCO + cashRelease;` |
-| `src/core/runtime/cash-scenario-intelligence/CashFlowScenarioEngine.ts` | **cashSimulated** | 45 | `const cashSimulated = Math.max(0, availableCash + cashRelease);` |
-| `src/core/runtime/cash-scenario-intelligence/CashFlowScenarioEngine.ts` | **runwaySimulated** | 47 | `let runwaySimulated = 99;` |
-| `src/core/runtime/cash-scenario-intelligence/CashFlowScenarioEngine.ts` | **runwaySimulated** | 50 | `runwaySimulated = Math.round((cashSimulated / monthlyBurn) * 10) / 10;` |
-| `src/core/runtime/cash-scenario-intelligence/CashFlowScenarioEngine.ts` | **dependencySimulated** | 56 | `let dependencySimulated = 'AUTONOMA';` |
-| `src/core/runtime/cash-scenario-intelligence/CashFlowScenarioEngine.ts` | **dependencySimulated** | 59 | `if (ratio < 0.1) dependencySimulated = 'BAIXA_DEPENDENCIA';` |
-| `src/core/runtime/cash-scenario-intelligence/CashFlowScenarioEngine.ts` | **dependencySimulated** | 60 | `else if (ratio < 0.25) dependencySimulated = 'MODERADA_DEPENDENCIA';` |
-| `src/core/runtime/cash-scenario-intelligence/CashFlowScenarioEngine.ts` | **dependencySimulated** | 61 | `else if (ratio <= 0.5) dependencySimulated = 'ALTA_DEPENDENCIA';` |
-| `src/core/runtime/cash-scenario-intelligence/CashFlowScenarioEngine.ts` | **dependencySimulated** | 62 | `else dependencySimulated = 'DEPENDENCIA_CRITICA';` |
-| `src/core/runtime/cash-scenario-intelligence/CashFlowScenarioEngine.ts` | **buildScenarioGroup** | 84 | `buildScenarioGroup('Redução de Estoques', [0.1, 0.2, 0.3], 'STOCK'),` |
-| `src/core/runtime/cash-scenario-intelligence/CashFlowScenarioEngine.ts` | **buildScenarioGroup** | 85 | `buildScenarioGroup('Redução de Overhead', [0.1, 0.2, 0.3], 'OVERHEAD'),` |
-| `src/core/runtime/cash-scenario-intelligence/CashFlowScenarioEngine.ts` | **buildScenarioGroup** | 86 | `buildScenarioGroup('Melhoria de Recebimento (PMR)', [10, 20, 30], 'PMR')` |
-| `src/core/runtime/cash-scenario-intelligence/ScenarioSimulationConsistencyEngine.ts` | **evaluate** | 13 | `public static evaluate(` |
+| `src/core/runtime/cash-causal-governance/CashFlowCausalGovernanceEngine.ts` | **evaluate** | 6 | `public static evaluate(` |
+| `src/core/runtime/cash-causal-governance/CashFlowCausalGovernanceEngine.ts` | **classify** | 57 | `const severity = CashFlowCausalSeverityEngine.classify(impactPercent);` |
+| `src/core/runtime/cash-causal-governance/CashFlowCausalSeverityEngine.ts` | **classify** | 2 | `public static classify(impactPercent: number): 'LOW' | 'MODERATE' | 'HIGH' | 'CR` |
+| `src/core/runtime/cash-governance/ArtificialLiquidityDetector.ts` | **evaluate** | 7 | `public static evaluate(` |
+| `src/core/runtime/cash-governance/CashBoardDecisionSupportEngine.ts` | **evaluate** | 5 | `public static evaluate(` |
+| `src/core/runtime/cash-governance/CashBoardDecisionSupportEngine.ts` | **cashGenerationAssessment** | 17 | `const cashGenerationAssessment = isBurning` |
+| `src/core/runtime/cash-governance/CashBoardDecisionSupportEngine.ts` | **runwayAssessment** | 25 | `const runwayAssessment = (() => {` |
+| `src/core/runtime/cash-governance/CashBoardDecisionSupportEngine.ts` | **classify** | 27 | `const classification = RunwayClassificationEngine.classify(safeRunway);` |
+| `src/core/runtime/cash-governance/CashBoardDecisionSupportEngine.ts` | **revenueConversionAssessment** | 59 | `const revenueConversionAssessment = isBurning` |
+| `src/core/runtime/cash-governance/CashBoardDecisionSupportEngine.ts` | **boardPriorityAssessment** | 63 | `const boardPriorityAssessment = 'Reduzir a queima operacional de caixa e restaur` |
+| `src/core/runtime/cash-governance/CashConstraintDiagnosisEngine.ts` | **evaluate** | 4 | `public static evaluate(` |
+| `src/core/runtime/cash-governance/CashConversionStressEngine.ts` | **evaluate** | 4 | `public static evaluate(fco: number, ebitda: number): InstitutionalCashSignal {` |
+| `src/core/runtime/cash-governance/CashExecutiveAdvisoryEngine.ts` | **generatePayload** | 72 | `public static generatePayload(` |
+| `src/core/runtime/cash-governance/CashReinvestmentEngine.ts` | **evaluate** | 4 | `public static evaluate(` |
+| `src/core/runtime/cash-governance/CashSustainabilityEngine.ts` | **evaluate** | 4 | `public static evaluate(` |
+| `src/core/runtime/cash-governance/DFCCashAdvisoryEngine.ts` | **evaluate** | 4 | `public static evaluate(` |
+| `src/core/runtime/cash-governance/DFCExecutiveSnapshotEngine.ts` | **buildSnapshot** | 15 | `public static buildSnapshot(` |
+| `src/core/runtime/cash-governance/DFCExecutiveSnapshotEngine.ts` | **classify** | 24 | `const runwayClass = RunwayClassificationEngine.classify(safeRunway);` |
+| `src/core/runtime/cash-governance/DFCFiduciaryPriorityResolver.ts` | **classify** | 17 | `const runwayClass = RunwayClassificationEngine.classify(context.runwayMonths);` |
+| `src/core/runtime/cash-governance/DebtDependencyPressureEngine.ts` | **evaluate** | 4 | `public static evaluate(fco: number, thirdPartyFunding: number): InstitutionalCas` |
+| `src/core/runtime/cash-governance/EarningsCashConversionEngine.ts` | **evaluate** | 8 | `public static evaluate(` |
+| `src/core/runtime/cash-governance/FiduciaryCashGovernanceRuntime.spec.ts` | **evaluate** | 9 | `const result = FiduciaryCashGovernanceRuntime.evaluate(` |
+| `src/core/runtime/cash-governance/FiduciaryCashGovernanceRuntime.spec.ts` | **evaluate** | 42 | `const result = FiduciaryCashGovernanceRuntime.evaluate(` |
+| `src/core/runtime/cash-governance/FiduciaryCashGovernanceRuntime.spec.ts` | **evaluate** | 72 | `const result = FiduciaryCashGovernanceRuntime.evaluate(` |
+| `src/core/runtime/cash-governance/FiduciaryCashGovernanceRuntime.spec.ts` | **evaluate** | 102 | `const result = FiduciaryCashGovernanceRuntime.evaluate(` |
+| `src/core/runtime/cash-governance/FiduciaryCashGovernanceRuntime.spec.ts` | **evaluate** | 141 | `const result = FiduciaryCashGovernanceRuntime.evaluate(` |
+| `src/core/runtime/cash-governance/FiduciaryCashGovernanceRuntime.ts` | **evaluate** | 42 | `public static evaluate(` |
+| `src/core/runtime/cash-governance/FiduciaryCashGovernanceRuntime.ts` | **generateLineageHash** | 95 | `const lineageHash = this.generateLineageHash(hashInputs);` |
+| `src/core/runtime/cash-governance/FiduciaryCashGovernanceRuntime.ts` | **evaluate** | 174 | `const universalIndicators = UniversalCashIndicatorsEngine.evaluate(` |
+| `src/core/runtime/cash-governance/FiduciaryCashGovernanceRuntime.ts` | **evaluate** | 181 | `const artificial = ArtificialLiquidityDetector.evaluate(` |
+| `src/core/runtime/cash-governance/FiduciaryCashGovernanceRuntime.ts` | **evaluate** | 187 | `const sustainabilityOutputs = OperationalSustainabilityRuntime.evaluate(` |
+| `src/core/runtime/cash-governance/FiduciaryCashGovernanceRuntime.ts` | **evaluate** | 195 | `const continuity = InstitutionalContinuityEngine.evaluate(` |
+| `src/core/runtime/cash-governance/FiduciaryCashGovernanceRuntime.ts` | **evaluate** | 207 | `const classification = LiquidityClassificationEngine.evaluate(` |
+| `src/core/runtime/cash-governance/FiduciaryCashGovernanceRuntime.ts` | **evaluate** | 257 | `const cashConstraintDiagnosis = CashConstraintDiagnosisEngine.evaluate(fcoOperac` |
+| `src/core/runtime/cash-governance/FiduciaryCashGovernanceRuntime.ts` | **evaluate** | 258 | `const cashBurnAnalysis = OperationalCashBurnEngine.evaluate(fcoOperacionalReal, ` |
+| `src/core/runtime/cash-governance/FiduciaryCashGovernanceRuntime.ts` | **evaluate** | 259 | `const shareholderDependencyAnalysis = ShareholderDependencyEngine.evaluate(fcoOp` |
+| `src/core/runtime/cash-governance/FiduciaryCashGovernanceRuntime.ts` | **evaluate** | 263 | `const cashSustainabilityAnalysis = CashSustainabilityEngine.evaluate(fcoOperacio` |
+| `src/core/runtime/cash-governance/FiduciaryCashGovernanceRuntime.ts` | **evaluate** | 265 | `const cashConversionAnalysis = RevenueCashConversionEngine.evaluate(fcoOperacion` |
+| `src/core/runtime/cash-governance/FiduciaryCashGovernanceRuntime.ts` | **evaluate** | 267 | `const cashBoardDecisionFramework = CashBoardDecisionSupportEngine.evaluate(fcoOp` |
+| `src/core/runtime/cash-governance/FiduciaryCashGovernanceRuntime.ts` | **evaluate** | 268 | `const cashExecutiveAdvisory = DFCCashAdvisoryEngine.evaluate(fcoOperacionalReal,` |
+| `src/core/runtime/cash-governance/FiduciaryCashGovernanceRuntime.ts` | **evaluate** | 269 | `const cashReinvestmentAnalysis = CashReinvestmentEngine.evaluate(fcoOperacionalR` |
+| `src/core/runtime/cash-governance/FiduciaryCashGovernanceRuntime.ts` | **classify** | 274 | `const runwayClass = RunwayClassificationEngine.classify(continuity.projectedRunw` |
+| `src/core/runtime/cash-governance/FiduciaryCashGovernanceRuntime.ts` | **buildSnapshot** | 278 | `const dfcExecutiveSnapshot = DFCExecutiveSnapshotEngine.buildSnapshot(` |
+| `src/core/runtime/cash-governance/FiduciaryCashGovernanceRuntime.ts` | **generatePayload** | 293 | `const advisoryPayload = CashExecutiveAdvisoryEngine.generatePayload(` |
+| `src/core/runtime/cash-governance/FiduciaryCashGovernanceRuntime.ts` | **evaluate** | 318 | `const causalGovernance = CashFlowCausalGovernanceEngine.evaluate(` |
+| `src/core/runtime/cash-governance/FiduciaryCashGovernanceRuntime.ts` | **evaluate** | 327 | `const scenarioGovernance = CashFlowScenarioEngine.evaluate(` |
+| `src/core/runtime/cash-governance/FiduciaryCashGovernanceRuntime.ts` | **evaluate** | 339 | `const earlyWarningSystem = TreasuryEarlyWarningEngine.evaluate(` |
+| `src/core/runtime/cash-governance/FiduciaryCashGovernanceRuntime.ts` | **evaluate** | 348 | `const treasurySustainability = TreasurySustainabilityEngine.evaluate(` |
+| `src/core/runtime/cash-governance/FiduciaryCashGovernanceRuntime.ts` | **generateLineageHash** | 401 | `private static generateLineageHash(inputs: any[]): string {` |
+| `src/core/runtime/cash-governance/InstitutionalCashSustainabilityEngine.ts` | **evaluate** | 15 | `public static evaluate(` |
+| `src/core/runtime/cash-governance/InstitutionalCashSustainabilityEngine.ts` | **evaluate** | 52 | `const operatingCashIntegrity = OperatingCashIntegrityEngine.evaluate(fco, dreEbi` |
+| `src/core/runtime/cash-governance/InstitutionalCashSustainabilityEngine.ts` | **evaluate** | 53 | `const earningsCashConversion = EarningsCashConversionEngine.evaluate(dreNetIncom` |
+| `src/core/runtime/cash-governance/InstitutionalCashSustainabilityEngine.ts` | **evaluate** | 54 | `const syntheticProfitRisk = SyntheticProfitDetectionEngine.evaluate(dreNetIncome` |
+| `src/core/runtime/cash-governance/InstitutionalCashSustainabilityEngine.ts` | **evaluate** | 55 | `const cashConversionStress = CashConversionStressEngine.evaluate(fco, dreEbitda)` |
+| `src/core/runtime/cash-governance/InstitutionalCashSustainabilityEngine.ts` | **evaluate** | 56 | `const liquidityConsumptionVelocity = LiquidityConsumptionVelocityEngine.evaluate` |
+| `src/core/runtime/cash-governance/InstitutionalCashSustainabilityEngine.ts` | **evaluate** | 57 | `const workingCapitalPressure = WorkingCapitalDrainDetector.evaluate(workingCapit` |
+| `src/core/runtime/cash-governance/InstitutionalCashSustainabilityEngine.ts` | **evaluate** | 58 | `const debtDependencyPressure = DebtDependencyPressureEngine.evaluate(fco, thirdP` |
+| `src/core/runtime/cash-governance/InstitutionalContinuityEngine.ts` | **evaluate** | 7 | `public static evaluate(` |
+| `src/core/runtime/cash-governance/LiquidityClassificationEngine.ts` | **evaluate** | 7 | `public static evaluate(` |
+| `src/core/runtime/cash-governance/LiquidityConsumptionVelocityEngine.ts` | **evaluate** | 4 | `public static evaluate(fco: number, availableCash: number): InstitutionalCashSig` |
+| `src/core/runtime/cash-governance/LongitudinalCashGovernanceEngine.spec.ts` | **evaluate** | 47 | `const result = LongitudinalCashGovernanceEngine.evaluate([p1, p2, p3]);` |
+| `src/core/runtime/cash-governance/LongitudinalCashGovernanceEngine.spec.ts` | **evaluate** | 59 | `const result = LongitudinalCashGovernanceEngine.evaluate([p1, p2, p3]);` |
+| `src/core/runtime/cash-governance/LongitudinalCashGovernanceEngine.spec.ts` | **evaluate** | 71 | `const result = LongitudinalCashGovernanceEngine.evaluate([p1, p2, p3]);` |
+| `src/core/runtime/cash-governance/LongitudinalCashGovernanceEngine.spec.ts` | **evaluate** | 80 | `const result = LongitudinalCashGovernanceEngine.evaluate([p1, p2]);` |
+| `src/core/runtime/cash-governance/LongitudinalCashGovernanceEngine.spec.ts` | **evaluate** | 90 | `const result = LongitudinalCashGovernanceEngine.evaluate([p1, p2, p3]);` |
+| `src/core/runtime/cash-governance/LongitudinalCashGovernanceEngine.test.ts` | **evaluate** | 42 | `const result = LongitudinalCashGovernanceEngine.evaluate(cycles);` |
+| `src/core/runtime/cash-governance/LongitudinalCashGovernanceEngine.test.ts` | **evaluate** | 50 | `const result = LongitudinalCashGovernanceEngine.evaluate(cycles);` |
+| `src/core/runtime/cash-governance/LongitudinalCashGovernanceEngine.test.ts` | **evaluate** | 61 | `const result = LongitudinalCashGovernanceEngine.evaluate(cycles);` |
+| `src/core/runtime/cash-governance/LongitudinalCashGovernanceEngine.test.ts` | **evaluate** | 76 | `const result = LongitudinalCashGovernanceEngine.evaluate(cycles);` |
+| `src/core/runtime/cash-governance/LongitudinalCashGovernanceEngine.test.ts` | **evaluate** | 88 | `const result = LongitudinalCashGovernanceEngine.evaluate(cycles);` |
+| `src/core/runtime/cash-governance/LongitudinalCashGovernanceEngine.test.ts` | **evaluate** | 100 | `const result = LongitudinalCashGovernanceEngine.evaluate(cycles);` |
+| `src/core/runtime/cash-governance/LongitudinalCashGovernanceEngine.test.ts` | **evaluate** | 110 | `const result = LongitudinalCashGovernanceEngine.evaluate(cycles);` |
+| `src/core/runtime/cash-governance/LongitudinalCashGovernanceEngine.ts` | **evaluate** | 5 | `public static evaluate(cycles: CashGovernanceRuntimeOutput[]): {` |
+| `src/core/runtime/cash-governance/LongitudinalCashGovernanceEngine.ts` | **longitudinalScore** | 100 | `longitudinalScore = 38; // Max 40` |
+| `src/core/runtime/cash-governance/LongitudinalCashGovernanceEngine.ts` | **longitudinalScore** | 103 | `longitudinalScore = 34; // Max 35` |
+| `src/core/runtime/cash-governance/LongitudinalCashGovernanceEngine.ts` | **longitudinalScore** | 110 | `longitudinalScore = 80;` |
+| `src/core/runtime/cash-governance/LongitudinalCashGovernanceEngine.ts` | **longitudinalScore** | 117 | `longitudinalScore = 25; // Max 30` |
+| `src/core/runtime/cash-governance/LongitudinalCashGovernanceEngine.ts` | **longitudinalScore** | 120 | `longitudinalScore = 90;` |
+| `src/core/runtime/cash-governance/OperatingCashIntegrityEngine.ts` | **evaluate** | 4 | `public static evaluate(fco: number, ebitda: number): InstitutionalCashSignal {` |
+| `src/core/runtime/cash-governance/OperationalCashBurnEngine.ts` | **evaluate** | 4 | `public static evaluate(` |
+| `src/core/runtime/cash-governance/OperationalSustainabilityRuntime.ts` | **evaluate** | 11 | `public static evaluate(` |
+| `src/core/runtime/cash-governance/OperationalSustainabilityRuntime.ts` | **resilienceScore** | 78 | `const resilienceScore = 100 - operationalFragilityIndex;` |
+| `src/core/runtime/cash-governance/OperationalSustainabilityRuntime.ts` | **LegacyOperationalSustainabilityAssessment** | 93 | `const legacy: LegacyOperationalSustainabilityAssessment = {` |
+| `src/core/runtime/cash-governance/OperationalSustainabilityRuntime.ts` | **FiduciaryOperationalSustainabilityAssessment** | 118 | `const fiduciary: FiduciaryOperationalSustainabilityAssessment = {` |
+| `src/core/runtime/cash-governance/RevenueCashConversionEngine.ts` | **evaluate** | 4 | `public static evaluate(` |
+| `src/core/runtime/cash-governance/RunwayClassificationEngine.ts` | **classify** | 7 | `public static classify(runwayMonths: number): FiduciaryRunwayClassification {` |
+| `src/core/runtime/cash-governance/ShareholderDependencyEngine.ts` | **evaluate** | 4 | `public static evaluate(` |
+| `src/core/runtime/cash-governance/SyntheticProfitDetectionEngine.ts` | **evaluate** | 4 | `public static evaluate(` |
+| `src/core/runtime/cash-governance/UniversalCashIndicatorsEngine.spec.ts` | **evaluate** | 8 | `const indicators = UniversalCashIndicatorsEngine.evaluate(` |
+| `src/core/runtime/cash-governance/UniversalCashIndicatorsEngine.spec.ts` | **evaluate** | 28 | `const indicators = UniversalCashIndicatorsEngine.evaluate(` |
+| `src/core/runtime/cash-governance/UniversalCashIndicatorsEngine.spec.ts` | **evaluate** | 49 | `const indicators = UniversalCashIndicatorsEngine.evaluate(` |
+| `src/core/runtime/cash-governance/UniversalCashIndicatorsEngine.ts` | **evaluate** | 11 | `public static evaluate(` |
+| `src/core/runtime/cash-governance/WorkingCapitalDrainDetector.ts` | **evaluate** | 4 | `public static evaluate(workingCapitalVariation: number, fco: number): Institutio` |
+| `src/core/runtime/cash-scenario-governance/CashFlowScenarioEngine.ts` | **evaluate** | 4 | `public static evaluate(` |
+| `src/core/runtime/cash-scenario-governance/CashFlowScenarioEngine.ts` | **buildScenarioGroup** | 16 | `const buildScenarioGroup = (` |
+| `src/core/runtime/cash-scenario-governance/CashFlowScenarioEngine.ts` | **fcoSimulated** | 44 | `const fcoSimulated = currentFCO + cashRelease;` |
+| `src/core/runtime/cash-scenario-governance/CashFlowScenarioEngine.ts` | **cashSimulated** | 45 | `const cashSimulated = Math.max(0, availableCash + cashRelease);` |
+| `src/core/runtime/cash-scenario-governance/CashFlowScenarioEngine.ts` | **runwaySimulated** | 47 | `let runwaySimulated = 99;` |
+| `src/core/runtime/cash-scenario-governance/CashFlowScenarioEngine.ts` | **runwaySimulated** | 50 | `runwaySimulated = Math.round((cashSimulated / monthlyBurn) * 10) / 10;` |
+| `src/core/runtime/cash-scenario-governance/CashFlowScenarioEngine.ts` | **dependencySimulated** | 56 | `let dependencySimulated = 'AUTONOMA';` |
+| `src/core/runtime/cash-scenario-governance/CashFlowScenarioEngine.ts` | **dependencySimulated** | 59 | `if (ratio < 0.1) dependencySimulated = 'BAIXA_DEPENDENCIA';` |
+| `src/core/runtime/cash-scenario-governance/CashFlowScenarioEngine.ts` | **dependencySimulated** | 60 | `else if (ratio < 0.25) dependencySimulated = 'MODERADA_DEPENDENCIA';` |
+| `src/core/runtime/cash-scenario-governance/CashFlowScenarioEngine.ts` | **dependencySimulated** | 61 | `else if (ratio <= 0.5) dependencySimulated = 'ALTA_DEPENDENCIA';` |
+| `src/core/runtime/cash-scenario-governance/CashFlowScenarioEngine.ts` | **dependencySimulated** | 62 | `else dependencySimulated = 'DEPENDENCIA_CRITICA';` |
+| `src/core/runtime/cash-scenario-governance/CashFlowScenarioEngine.ts` | **buildScenarioGroup** | 84 | `buildScenarioGroup('Redução de Estoques', [0.1, 0.2, 0.3], 'STOCK'),` |
+| `src/core/runtime/cash-scenario-governance/CashFlowScenarioEngine.ts` | **buildScenarioGroup** | 85 | `buildScenarioGroup('Redução de Overhead', [0.1, 0.2, 0.3], 'OVERHEAD'),` |
+| `src/core/runtime/cash-scenario-governance/CashFlowScenarioEngine.ts` | **buildScenarioGroup** | 86 | `buildScenarioGroup('Melhoria de Recebimento (PMR)', [10, 20, 30], 'PMR')` |
+| `src/core/runtime/cash-scenario-governance/ScenarioSimulationConsistencyEngine.ts` | **evaluate** | 13 | `public static evaluate(` |
 | `src/core/runtime/cashflow/CashConversionEngine.ts` | **calculateCashConversion** | 4 | `export function calculateCashConversion(` |
 | `src/core/runtime/cashflow/CashFlowOperationalEngine.ts` | **calculateOperationalMetrics** | 4 | `export function calculateOperationalMetrics(dfcData: any): CashFlowOperationalMe` |
 | `src/core/runtime/cashflow/FundingDependencyEngine.ts` | **calculateFundingDependency** | 4 | `export function calculateFundingDependency(` |
@@ -772,27 +772,27 @@ Este relatório mapeia **todos** os pontos que produzem inteligência institucio
 | `src/core/runtime/cashflow/cashflow-adapter.ts` | **calculateTreasuryPressure** | 54 | `const treasury = calculateTreasuryPressure(debtService, availableCash, operation` |
 | `src/core/runtime/cashflow/cashflow-adapter.ts` | **calculateLiquiditySustainability** | 55 | `const sustainability = calculateLiquiditySustainability(operational.operatingCas` |
 | `src/core/runtime/cashflow/cashflow-adapter.ts` | **calculateFundingDependency** | 56 | `const funding = calculateFundingDependency(operational.operatingCashFlow, operat` |
-| `src/core/runtime/causal-intelligence/InstitutionalCausalIntelligenceRuntime.ts` | **evaluate** | 14 | `public static evaluate(` |
-| `src/core/runtime/causal-intelligence/InstitutionalCausalIntelligenceRuntime.ts` | **evaluate** | 99 | `const pressurePropagation = InstitutionalPressurePropagationEngine.evaluate(` |
-| `src/core/runtime/causal-intelligence/InstitutionalCausalIntelligenceRuntime.ts` | **evaluate** | 110 | `const rootCauses = LiquidityRootCauseEngine.evaluate(` |
-| `src/core/runtime/causal-intelligence/InstitutionalCausalIntelligenceRuntime.ts` | **build** | 127 | `const dependencyGraph = SurvivabilityDependencyGraph.build(rootCauses, fco, isDf` |
-| `src/core/runtime/causal-intelligence/InstitutionalCausalIntelligenceRuntime.ts` | **evaluate** | 130 | `const stressCascadePath = OperationalStressCascadeEngine.evaluate(rootCauses, fc` |
-| `src/core/runtime/causal-intelligence/InstitutionalCausalIntelligenceRuntime.ts` | **evaluate** | 133 | `const fragilityCorrelations = InstitutionalFragilityCorrelationEngine.evaluate(` |
-| `src/core/runtime/causal-intelligence/InstitutionalCausalityExplorer.ts` | **generate** | 18 | `public static generate(` |
-| `src/core/runtime/causal-intelligence/InstitutionalCausalityExplorer.ts` | **determine** | 23 | `const confidenceLevel = CausalityConfidenceEngine.determine(cycles, timelineConf` |
-| `src/core/runtime/causal-intelligence/InstitutionalFragilityCorrelationEngine.ts` | **evaluate** | 7 | `public static evaluate(` |
-| `src/core/runtime/causal-intelligence/InstitutionalPressurePropagationEngine.ts` | **evaluate** | 6 | `public static evaluate(` |
-| `src/core/runtime/causal-intelligence/LiquidityRootCauseEngine.ts` | **evaluate** | 10 | `public static evaluate(` |
-| `src/core/runtime/causal-intelligence/LiquidityRootCauseEngine.ts` | **evaluate** | 28 | `const structTrends = StructuralDeteriorationMapper.evaluate(allHistData, filterY` |
-| `src/core/runtime/causal-intelligence/LiquidityRootCauseEngine.ts` | **evaluate** | 31 | `const wcTrends = WorkingCapitalCausalEngine.evaluate(` |
-| `src/core/runtime/causal-intelligence/OperationalStressCascadeEngine.ts` | **evaluate** | 6 | `public static evaluate(` |
-| `src/core/runtime/causal-intelligence/StructuralDeteriorationMapper.ts` | **evaluate** | 37 | `public static evaluate(` |
-| `src/core/runtime/causal-intelligence/SurvivabilityDependencyGraph.ts` | **build** | 6 | `public static build(` |
-| `src/core/runtime/causal-intelligence/WorkingCapitalCausalEngine.ts` | **evaluate** | 7 | `public static evaluate(` |
-| `src/core/runtime/causal-intelligence/engines/CausalityConfidenceEngine.ts` | **determine** | 7 | `public static determine(` |
-| `src/core/runtime/causal-intelligence/engines/RootCausePrioritizationEngine.ts` | **scoredChains** | 12 | `const scoredChains = chains.map(chain => {` |
-| `src/core/runtime/causal-intelligence/engines/RootCausePrioritizationEngine.ts` | **score** | 13 | `let score = 0;` |
-| `src/core/runtime/coherence/LongitudinalIntelligenceGuard.ts` | **evaluate** | 15 | `public static evaluate(historicalCyclesCount: number): LongitudinalGuardResult {` |
+| `src/core/runtime/causal-governance/InstitutionalCausalGovernanceRuntime.ts` | **evaluate** | 14 | `public static evaluate(` |
+| `src/core/runtime/causal-governance/InstitutionalCausalGovernanceRuntime.ts` | **evaluate** | 99 | `const pressurePropagation = InstitutionalPressurePropagationEngine.evaluate(` |
+| `src/core/runtime/causal-governance/InstitutionalCausalGovernanceRuntime.ts` | **evaluate** | 110 | `const rootCauses = LiquidityRootCauseEngine.evaluate(` |
+| `src/core/runtime/causal-governance/InstitutionalCausalGovernanceRuntime.ts` | **build** | 127 | `const dependencyGraph = SurvivabilityDependencyGraph.build(rootCauses, fco, isDf` |
+| `src/core/runtime/causal-governance/InstitutionalCausalGovernanceRuntime.ts` | **evaluate** | 130 | `const stressCascadePath = OperationalStressCascadeEngine.evaluate(rootCauses, fc` |
+| `src/core/runtime/causal-governance/InstitutionalCausalGovernanceRuntime.ts` | **evaluate** | 133 | `const fragilityCorrelations = InstitutionalFragilityCorrelationEngine.evaluate(` |
+| `src/core/runtime/causal-governance/InstitutionalCausalityExplorer.ts` | **generate** | 18 | `public static generate(` |
+| `src/core/runtime/causal-governance/InstitutionalCausalityExplorer.ts` | **determine** | 23 | `const confidenceLevel = CausalityConfidenceEngine.determine(cycles, timelineConf` |
+| `src/core/runtime/causal-governance/InstitutionalFragilityCorrelationEngine.ts` | **evaluate** | 7 | `public static evaluate(` |
+| `src/core/runtime/causal-governance/InstitutionalPressurePropagationEngine.ts` | **evaluate** | 6 | `public static evaluate(` |
+| `src/core/runtime/causal-governance/LiquidityRootCauseEngine.ts` | **evaluate** | 10 | `public static evaluate(` |
+| `src/core/runtime/causal-governance/LiquidityRootCauseEngine.ts` | **evaluate** | 28 | `const structTrends = StructuralDeteriorationMapper.evaluate(allHistData, filterY` |
+| `src/core/runtime/causal-governance/LiquidityRootCauseEngine.ts` | **evaluate** | 31 | `const wcTrends = WorkingCapitalCausalEngine.evaluate(` |
+| `src/core/runtime/causal-governance/OperationalStressCascadeEngine.ts` | **evaluate** | 6 | `public static evaluate(` |
+| `src/core/runtime/causal-governance/StructuralDeteriorationMapper.ts` | **evaluate** | 37 | `public static evaluate(` |
+| `src/core/runtime/causal-governance/SurvivabilityDependencyGraph.ts` | **build** | 6 | `public static build(` |
+| `src/core/runtime/causal-governance/WorkingCapitalCausalEngine.ts` | **evaluate** | 7 | `public static evaluate(` |
+| `src/core/runtime/causal-governance/engines/CausalityConfidenceEngine.ts` | **determine** | 7 | `public static determine(` |
+| `src/core/runtime/causal-governance/engines/RootCausePrioritizationEngine.ts` | **scoredChains** | 12 | `const scoredChains = chains.map(chain => {` |
+| `src/core/runtime/causal-governance/engines/RootCausePrioritizationEngine.ts` | **score** | 13 | `let score = 0;` |
+| `src/core/runtime/coherence/LongitudinalGovernanceGuard.ts` | **evaluate** | 15 | `public static evaluate(historicalCyclesCount: number): LongitudinalGuardResult {` |
 | `src/core/runtime/compliance/ESGGovernanceEngine.ts` | **calculateInstitutionalESGScore** | 18 | `public calculateInstitutionalESGScore(` |
 | `src/core/runtime/compliance/ESGGovernanceEngine.ts` | **envScore** | 25 | `let envScore = 0, envCount = 0;` |
 | `src/core/runtime/compliance/ESGGovernanceEngine.ts` | **socScore** | 26 | `let socScore = 0, socCount = 0;` |
@@ -869,140 +869,140 @@ Este relatório mapeia **todos** os pontos que produzem inteligência institucio
 | `src/core/runtime/constitutional-governance/SemanticComplianceAuditRuntime.ts` | **generateHash** | 24 | `const semanticLineageHash = SemanticLineageReport.generateHash(lineagePayload);` |
 | `src/core/runtime/constitutional-governance/SemanticLineageReport.ts` | **generateHash** | 14 | `public static generateHash(payload: SemanticLineagePayload): string {` |
 | `src/core/runtime/constitutional-governance/protocols/SemanticConstitutionProtocol.ts` | **evaluate** | 14 | `const sccfReport = SemanticComplianceAuditRuntime.evaluate(` |
-| `src/core/runtime/decision-intelligence/ConstitutionalDecisionRuntime.ts` | **evaluate** | 10 | `public static evaluate(` |
-| `src/core/runtime/decision-intelligence/ConstitutionalDecisionRuntime.ts` | **evaluatePriority** | 18 | `const priority = DecisionPrioritizationEngine.evaluatePriority(context);` |
-| `src/core/runtime/decision-intelligence/ConstitutionalDecisionRuntime.ts` | **evaluateUrgency** | 19 | `const urgency = DecisionPrioritizationEngine.evaluateUrgency(priority);` |
-| `src/core/runtime/decision-intelligence/DecisionCausalityEngine.ts` | **analyze** | 12 | `public static analyze(decision: ExecutiveDecision): {` |
-| `src/core/runtime/decision-intelligence/DecisionMemoryLayer.test.ts` | **evaluate** | 32 | `const result = DecisionMemoryLayer.evaluate([]);` |
-| `src/core/runtime/decision-intelligence/DecisionMemoryLayer.test.ts` | **evaluate** | 44 | `const result = DecisionMemoryLayer.evaluate(decisions);` |
-| `src/core/runtime/decision-intelligence/DecisionMemoryLayer.test.ts` | **evaluate** | 57 | `const result = DecisionMemoryLayer.evaluate(decisions);` |
-| `src/core/runtime/decision-intelligence/DecisionMemoryLayer.test.ts` | **evaluate** | 68 | `const result = DecisionMemoryLayer.evaluate(decisions);` |
-| `src/core/runtime/decision-intelligence/DecisionMemoryLayer.test.ts` | **evaluate** | 79 | `const result = DecisionMemoryLayer.evaluate(decisions);` |
-| `src/core/runtime/decision-intelligence/DecisionMemoryLayer.ts` | **evaluate** | 8 | `public static evaluate(decisions: ExecutiveDecisionEvent[]): DecisionMemoryOutpu` |
-| `src/core/runtime/decision-intelligence/DecisionMemoryLayer.ts` | **decisionDisciplineScore** | 61 | `decisionDisciplineScore = Math.max(10, 50 - (destructiveCount * 10));` |
-| `src/core/runtime/decision-intelligence/DecisionMemoryLayer.ts` | **decisionDisciplineScore** | 63 | `decisionDisciplineScore = Math.min(100, 50 + (correctiveCount * 15));` |
-| `src/core/runtime/decision-intelligence/DecisionPrioritizationEngine.ts` | **evaluatePriority** | 2 | `public static evaluatePriority(context: any): 'CRITICAL' | 'HIGH' | 'MEDIUM' | '` |
-| `src/core/runtime/decision-intelligence/DecisionPrioritizationEngine.ts` | **evaluateUrgency** | 22 | `public static evaluateUrgency(priority: string): 'SHORT_TERM' | 'IMMEDIATE' | 'S` |
-| `src/core/runtime/decision-intelligence/DecisionToCashCausalityEngine.test.ts` | **evaluate** | 43 | `const result = DecisionToCashCausalityEngine.evaluate(input);` |
-| `src/core/runtime/decision-intelligence/DecisionToCashCausalityEngine.test.ts` | **evaluate** | 50 | `const result = DecisionToCashCausalityEngine.evaluate(input);` |
-| `src/core/runtime/decision-intelligence/DecisionToCashCausalityEngine.test.ts` | **evaluate** | 57 | `const result = DecisionToCashCausalityEngine.evaluate(input);` |
-| `src/core/runtime/decision-intelligence/DecisionToCashCausalityEngine.test.ts` | **evaluate** | 66 | `const result = DecisionToCashCausalityEngine.evaluate(input);` |
-| `src/core/runtime/decision-intelligence/DecisionToCashCausalityEngine.test.ts` | **evaluate** | 74 | `const result = DecisionToCashCausalityEngine.evaluate(input);` |
-| `src/core/runtime/decision-intelligence/DecisionToCashCausalityEngine.test.ts` | **evaluate** | 82 | `const result = DecisionToCashCausalityEngine.evaluate(input);` |
-| `src/core/runtime/decision-intelligence/DecisionToCashCausalityEngine.test.ts` | **evaluate** | 89 | `const result = DecisionToCashCausalityEngine.evaluate(input);` |
-| `src/core/runtime/decision-intelligence/DecisionToCashCausalityEngine.test.ts` | **evaluate** | 97 | `const result = DecisionToCashCausalityEngine.evaluate(input);` |
-| `src/core/runtime/decision-intelligence/DecisionToCashCausalityEngine.test.ts` | **evaluate** | 106 | `const result = DecisionToCashCausalityEngine.evaluate(input);` |
-| `src/core/runtime/decision-intelligence/DecisionToCashCausalityEngine.ts` | **evaluate** | 10 | `public static evaluate(input: DecisionToCashCausalityInput): DecisionToCashCausa` |
-| `src/core/runtime/decision-intelligence/DecisionTradeoffEngine.ts` | **analyzeTradeoffs** | 18 | `public static analyzeTradeoffs(` |
-| `src/core/runtime/decision-intelligence/EarlyWarningEngine.test.ts` | **evaluate** | 122 | `const result = EarlyWarningEngine.evaluate(input);` |
-| `src/core/runtime/decision-intelligence/EarlyWarningEngine.test.ts` | **evaluate** | 132 | `const result = EarlyWarningEngine.evaluate(input);` |
-| `src/core/runtime/decision-intelligence/EarlyWarningEngine.test.ts` | **evaluate** | 142 | `const result = EarlyWarningEngine.evaluate(input);` |
-| `src/core/runtime/decision-intelligence/EarlyWarningEngine.test.ts` | **evaluate** | 151 | `const result = EarlyWarningEngine.evaluate(input);` |
-| `src/core/runtime/decision-intelligence/EarlyWarningEngine.test.ts` | **evaluate** | 161 | `const result = EarlyWarningEngine.evaluate(input);` |
-| `src/core/runtime/decision-intelligence/EarlyWarningEngine.test.ts` | **evaluate** | 170 | `const result = EarlyWarningEngine.evaluate(input);` |
-| `src/core/runtime/decision-intelligence/EarlyWarningEngine.test.ts` | **evaluate** | 183 | `const result = EarlyWarningEngine.evaluate(input);` |
-| `src/core/runtime/decision-intelligence/EarlyWarningEngine.ts` | **evaluate** | 8 | `public static evaluate(input: EarlyWarningIntelligenceInput): EarlyWarningIntell` |
-| `src/core/runtime/decision-intelligence/EarlyWarningEngine.ts` | **riskScore** | 35 | `let riskScore = 0; // 0 = lowest risk, 100 = critical threat` |
-| `src/core/runtime/decision-intelligence/EarlyWarningEngine.ts` | **runwayImpactAssessment** | 44 | `const runwayPressure = causalityOutput.runwayImpactAssessment === 'IMPACTO_NEGAT` |
-| `src/core/runtime/decision-intelligence/EarlyWarningEngine.ts` | **fcoImpactAssessment** | 45 | `const isFCONegative = causalityOutput.fcoImpactAssessment === 'IMPACTO_NEGATIVO_` |
-| `src/core/runtime/decision-intelligence/EarlyWarningEngine.ts` | **accountabilityScore** | 51 | `const isAccountabilityFragile = typeof accountabilityOutput.accountabilityScore ` |
-| `src/core/runtime/decision-intelligence/EarlyWarningEngine.ts` | **riskScore** | 110 | `riskScore = Math.min(100, Math.max(0, riskScore));` |
-| `src/core/runtime/decision-intelligence/ExecutiveAccountabilityEngine.test.ts` | **evaluate** | 84 | `const result = ExecutiveAccountabilityEngine.evaluate(input);` |
-| `src/core/runtime/decision-intelligence/ExecutiveAccountabilityEngine.test.ts` | **evaluate** | 91 | `const result = ExecutiveAccountabilityEngine.evaluate(input);` |
-| `src/core/runtime/decision-intelligence/ExecutiveAccountabilityEngine.test.ts` | **evaluate** | 100 | `const result = ExecutiveAccountabilityEngine.evaluate(input);` |
-| `src/core/runtime/decision-intelligence/ExecutiveAccountabilityEngine.test.ts` | **evaluate** | 110 | `const result = ExecutiveAccountabilityEngine.evaluate(input);` |
-| `src/core/runtime/decision-intelligence/ExecutiveAccountabilityEngine.test.ts` | **evaluate** | 121 | `const result = ExecutiveAccountabilityEngine.evaluate(input);` |
-| `src/core/runtime/decision-intelligence/ExecutiveAccountabilityEngine.test.ts` | **evaluate** | 131 | `const result = ExecutiveAccountabilityEngine.evaluate(input);` |
-| `src/core/runtime/decision-intelligence/ExecutiveAccountabilityEngine.test.ts` | **evaluate** | 147 | `const resWithout = ExecutiveAccountabilityEngine.evaluate(inputWithoutDrift);` |
-| `src/core/runtime/decision-intelligence/ExecutiveAccountabilityEngine.test.ts` | **evaluate** | 148 | `const resWith = ExecutiveAccountabilityEngine.evaluate(inputWithDrift);` |
-| `src/core/runtime/decision-intelligence/ExecutiveAccountabilityEngine.ts` | **evaluate** | 8 | `public static evaluate(input: ExecutiveAccountabilityInput): ExecutiveAccountabi` |
-| `src/core/runtime/decision-intelligence/ExecutiveAccountabilityEngine.ts` | **baseScore** | 33 | `let baseScore = 50;` |
-| `src/core/runtime/decision-intelligence/ExecutiveAccountabilityEngine.ts` | **accountabilityScore** | 113 | `const accountabilityScore = Math.max(0, Math.min(100, baseScore));` |
-| `src/core/runtime/decision-intelligence/ExecutiveAccountabilityEngine.ts` | **reactionSpeedAssessment** | 115 | `let reactionSpeedAssessment = 'MODERADA';` |
-| `src/core/runtime/decision-intelligence/ExecutiveAccountabilityEngine.ts` | **reactionSpeedAssessment** | 116 | `if (status === 'HIGH_EXECUTIVE_DISCIPLINE') reactionSpeedAssessment = 'RÁPIDA_E_` |
-| `src/core/runtime/decision-intelligence/ExecutiveAccountabilityEngine.ts` | **reactionSpeedAssessment** | 117 | `else if (status === 'CHRONIC_REACTION_DELAY' || status === 'REACTIVE_CORRECTION'` |
-| `src/core/runtime/decision-intelligence/ExecutiveAccountabilityEngine.ts` | **reactionSpeedAssessment** | 118 | `else if (status === 'NON_CORRECTIVE_MANAGEMENT_PATTERN') reactionSpeedAssessment` |
-| `src/core/runtime/decision-intelligence/ExecutiveConsequenceIntelligenceLayer.ts` | **evaluate** | 12 | `public static evaluate(` |
-| `src/core/runtime/decision-intelligence/GovernanceDriftDetectionEngine.test.ts` | **evaluate** | 62 | `const result = GovernanceDriftDetectionEngine.evaluate(input);` |
-| `src/core/runtime/decision-intelligence/GovernanceDriftDetectionEngine.test.ts` | **evaluate** | 72 | `const result = GovernanceDriftDetectionEngine.evaluate(input);` |
-| `src/core/runtime/decision-intelligence/GovernanceDriftDetectionEngine.test.ts` | **evaluate** | 80 | `const result = GovernanceDriftDetectionEngine.evaluate(input);` |
-| `src/core/runtime/decision-intelligence/GovernanceDriftDetectionEngine.test.ts` | **evaluate** | 88 | `const result = GovernanceDriftDetectionEngine.evaluate(input);` |
-| `src/core/runtime/decision-intelligence/GovernanceDriftDetectionEngine.test.ts` | **evaluate** | 96 | `const result = GovernanceDriftDetectionEngine.evaluate(input);` |
-| `src/core/runtime/decision-intelligence/GovernanceDriftDetectionEngine.test.ts` | **evaluate** | 104 | `const result = GovernanceDriftDetectionEngine.evaluate(input);` |
-| `src/core/runtime/decision-intelligence/GovernanceDriftDetectionEngine.test.ts` | **evaluate** | 115 | `const result = GovernanceDriftDetectionEngine.evaluate(input);` |
-| `src/core/runtime/decision-intelligence/GovernanceDriftDetectionEngine.test.ts` | **evaluate** | 123 | `const result = GovernanceDriftDetectionEngine.evaluate(input);` |
-| `src/core/runtime/decision-intelligence/GovernanceDriftDetectionEngine.test.ts` | **evaluate** | 131 | `const result = GovernanceDriftDetectionEngine.evaluate(input);` |
-| `src/core/runtime/decision-intelligence/GovernanceDriftDetectionEngine.ts` | **evaluate** | 10 | `public static evaluate(input: GovernanceDriftDetectionInput): GovernanceDriftDet` |
-| `src/core/runtime/decision-intelligence/GovernanceDriftDetectionEngine.ts` | **baseRiskScore** | 37 | `let baseRiskScore = 0;` |
-| `src/core/runtime/decision-intelligence/GovernanceDriftDetectionEngine.ts` | **fcoImpactAssessment** | 44 | `causalityOutput.fcoImpactAssessment === 'IMPACTO_NEGATIVO_OBSERVADO' ||` |
-| `src/core/runtime/decision-intelligence/GovernanceDriftDetectionEngine.ts` | **riskScore** | 135 | `const riskScore = behavioralPatterns.behavioralRiskScore;` |
-| `src/core/runtime/decision-intelligence/GovernanceDriftDetectionEngine.ts` | **isRiskScoreHigh** | 136 | `const isRiskScoreHigh = typeof riskScore === 'number' && (riskScore as number) >` |
-| `src/core/runtime/decision-intelligence/GovernanceDriftDetectionEngine.ts` | **narrativeRiskScore** | 161 | `const narrativeRiskScore = Math.min(100, baseRiskScore);` |
-| `src/core/runtime/decision-intelligence/GovernanceTrajectoryEngine.ts` | **analyzeTrajectory** | 12 | `public static analyzeTrajectory(` |
-| `src/core/runtime/decision-intelligence/InstitutionalBehavioralPatternsEngine.test.ts` | **evaluate** | 58 | `const result = InstitutionalBehavioralPatternsEngine.evaluate(input);` |
-| `src/core/runtime/decision-intelligence/InstitutionalBehavioralPatternsEngine.test.ts` | **evaluate** | 65 | `const result = InstitutionalBehavioralPatternsEngine.evaluate(input);` |
-| `src/core/runtime/decision-intelligence/InstitutionalBehavioralPatternsEngine.test.ts` | **evaluate** | 72 | `const result = InstitutionalBehavioralPatternsEngine.evaluate(input);` |
-| `src/core/runtime/decision-intelligence/InstitutionalBehavioralPatternsEngine.test.ts` | **evaluate** | 90 | `const result = InstitutionalBehavioralPatternsEngine.evaluate(input);` |
-| `src/core/runtime/decision-intelligence/InstitutionalBehavioralPatternsEngine.test.ts` | **evaluate** | 105 | `const result = InstitutionalBehavioralPatternsEngine.evaluate(input);` |
-| `src/core/runtime/decision-intelligence/InstitutionalBehavioralPatternsEngine.test.ts` | **evaluate** | 129 | `const result = InstitutionalBehavioralPatternsEngine.evaluate(input);` |
-| `src/core/runtime/decision-intelligence/InstitutionalBehavioralPatternsEngine.test.ts` | **evaluate** | 141 | `const result = InstitutionalBehavioralPatternsEngine.evaluate(input);` |
-| `src/core/runtime/decision-intelligence/InstitutionalBehavioralPatternsEngine.test.ts` | **evaluate** | 162 | `const result = InstitutionalBehavioralPatternsEngine.evaluate(input);` |
-| `src/core/runtime/decision-intelligence/InstitutionalBehavioralPatternsEngine.ts` | **evaluate** | 10 | `public static evaluate(input: InstitutionalBehavioralPatternsInput): Institution` |
-| `src/core/runtime/decision-intelligence/InstitutionalBehavioralPatternsEngine.ts` | **baseScore** | 26 | `let baseScore = 50;` |
-| `src/core/runtime/decision-intelligence/InstitutionalBehavioralPatternsEngine.ts` | **finalScore** | 129 | `let finalScore = Math.max(0, Math.min(100, baseScore));` |
-| `src/core/runtime/decision-intelligence/InstitutionalDecisionIntelligenceEngine.ts` | **evaluateDecision** | 29 | `public static async evaluateDecision(` |
-| `src/core/runtime/decision-intelligence/InstitutionalDecisionIntelligenceEngine.ts` | **calculate** | 43 | `const survivabilityScores = InstitutionalSurvivabilityEngine.calculate(report, p` |
-| `src/core/runtime/decision-intelligence/InstitutionalDecisionIntelligenceEngine.ts` | **analyze** | 50 | `const causalityResult = DecisionCausalityEngine.analyze(decision);` |
-| `src/core/runtime/decision-intelligence/InstitutionalDecisionIntelligenceEngine.ts` | **analyzeTrajectory** | 59 | `const trajectory = GovernanceTrajectoryEngine.analyzeTrajectory(historicalDecisi` |
-| `src/core/runtime/decision-intelligence/InstitutionalDecisionIntelligenceEngine.ts` | **evaluateBehavior** | 76 | `behavioralResult = InstitutionalBehavioralIntelligenceEngine.evaluateBehavior(` |
-| `src/core/runtime/decision-intelligence/InstitutionalDecisionIntelligenceEngine.ts` | **evaluatePrediction** | 106 | `predictiveResult = PredictiveGovernanceEngine.evaluatePrediction(` |
-| `src/core/runtime/decision-intelligence/InstitutionalDecisionIntelligenceEngine.ts` | **evaluateStress** | 171 | `const stress = StrategicStressEngine.evaluateStress(decision, report);` |
-| `src/core/runtime/decision-intelligence/InstitutionalDecisionIntelligenceEngine.ts` | **analyzeTradeoffs** | 174 | `const tradeoffs = DecisionTradeoffEngine.analyzeTradeoffs(decision, survivabilit` |
-| `src/core/runtime/decision-intelligence/InstitutionalDecisionIntelligenceEngine.ts` | **minScore** | 186 | `const minScore = Math.min(` |
-| `src/core/runtime/decision-intelligence/InstitutionalRiskMatrixEngine.ts` | **evaluateRisk** | 2 | `public static evaluateRisk(context: any): {` |
-| `src/core/runtime/decision-intelligence/InstitutionalStabilityEngine.test.ts` | **evaluate** | 101 | `const result = InstitutionalStabilityEngine.evaluate(input);` |
-| `src/core/runtime/decision-intelligence/InstitutionalStabilityEngine.test.ts` | **evaluate** | 108 | `const result = InstitutionalStabilityEngine.evaluate(input);` |
-| `src/core/runtime/decision-intelligence/InstitutionalStabilityEngine.test.ts` | **evaluate** | 120 | `const result = InstitutionalStabilityEngine.evaluate(input);` |
-| `src/core/runtime/decision-intelligence/InstitutionalStabilityEngine.test.ts` | **evaluate** | 132 | `const result = InstitutionalStabilityEngine.evaluate(input);` |
-| `src/core/runtime/decision-intelligence/InstitutionalStabilityEngine.test.ts` | **evaluate** | 144 | `const result = InstitutionalStabilityEngine.evaluate(input);` |
-| `src/core/runtime/decision-intelligence/InstitutionalStabilityEngine.test.ts` | **evaluate** | 158 | `const result = InstitutionalStabilityEngine.evaluate(input);` |
-| `src/core/runtime/decision-intelligence/InstitutionalStabilityEngine.test.ts` | **evaluate** | 168 | `const result = InstitutionalStabilityEngine.evaluate(input);` |
-| `src/core/runtime/decision-intelligence/InstitutionalStabilityEngine.test.ts` | **evaluate** | 182 | `const result = InstitutionalStabilityEngine.evaluate(input);` |
-| `src/core/runtime/decision-intelligence/InstitutionalStabilityEngine.ts` | **evaluate** | 10 | `public static evaluate(input: InstitutionalStabilityInput): InstitutionalStabili` |
-| `src/core/runtime/decision-intelligence/InstitutionalStabilityEngine.ts` | **score** | 41 | `let score = 100;` |
-| `src/core/runtime/decision-intelligence/InstitutionalStabilityEngine.ts` | **runwayImpactAssessment** | 51 | `const isRunwayCritical = causalityOutput.runwayImpactAssessment === 'IMPACTO_NEG` |
-| `src/core/runtime/decision-intelligence/InstitutionalStabilityEngine.ts` | **fcoImpactAssessment** | 58 | `const isFCONegative = causalityOutput.fcoImpactAssessment === 'IMPACTO_NEGATIVO_` |
-| `src/core/runtime/decision-intelligence/InstitutionalStabilityEngine.ts` | **behavioralScore** | 80 | `const behavioralScore = typeof behavioralPatterns.behavioralRiskScore === 'numbe` |
-| `src/core/runtime/decision-intelligence/InstitutionalStabilityEngine.ts` | **accountabilityScore** | 87 | `const accountabilityScore = typeof accountabilityOutput.accountabilityScore === ` |
-| `src/core/runtime/decision-intelligence/InstitutionalStabilityEngine.ts` | **score** | 108 | `score = Math.min(score, 35);` |
-| `src/core/runtime/decision-intelligence/InstitutionalStabilityEngine.ts` | **score** | 112 | `score = Math.min(score, 40);` |
-| `src/core/runtime/decision-intelligence/InstitutionalStabilityEngine.ts` | **score** | 116 | `score = Math.min(score, 30);` |
-| `src/core/runtime/decision-intelligence/InstitutionalStabilityEngine.ts` | **score** | 120 | `score = Math.min(score, 15);` |
-| `src/core/runtime/decision-intelligence/InstitutionalStabilityEngine.ts` | **score** | 125 | `score = Math.min(score, 35);` |
-| `src/core/runtime/decision-intelligence/InstitutionalStabilityEngine.ts` | **score** | 130 | `score = Math.min(score, 25);` |
-| `src/core/runtime/decision-intelligence/InstitutionalStabilityEngine.ts` | **score** | 134 | `score = Math.min(score, 20);` |
-| `src/core/runtime/decision-intelligence/InstitutionalStabilityEngine.ts` | **score** | 138 | `score = Math.min(score, 40);` |
-| `src/core/runtime/decision-intelligence/InstitutionalStabilityEngine.ts` | **score** | 142 | `score = Math.max(0, score); // Ensure min is 0` |
-| `src/core/runtime/decision-intelligence/InstitutionalStabilityEngine.ts` | **ResilienceAssessment** | 176 | `let resilienceAssessment: ResilienceAssessment = 'LOW_RESILIENCE';` |
-| `src/core/runtime/decision-intelligence/InstitutionalStabilityEngine.ts` | **resilienceAssessment** | 177 | `if (classification === 'STRUCTURALLY_STABLE') resilienceAssessment = 'HIGH_RESIL` |
-| `src/core/runtime/decision-intelligence/InstitutionalStabilityEngine.ts` | **resilienceAssessment** | 178 | `else if (classification === 'FRAGILE_STABILITY' || classification === 'STABLE_BU` |
-| `src/core/runtime/decision-intelligence/InstitutionalStabilityEngine.ts` | **resilienceAssessment** | 179 | `else if (classification === 'APPARENT_STABILITY') resilienceAssessment = 'FRAGIL` |
-| `src/core/runtime/decision-intelligence/InstitutionalStabilityEngine.ts` | **resilienceAssessment** | 180 | `else if (classification === 'COLLAPSE_RISK') resilienceAssessment = 'NO_EVIDENCE` |
-| `src/core/runtime/decision-intelligence/InstitutionalStabilityTypes.ts` | **ResilienceAssessment** | 28 | `export type ResilienceAssessment =` |
-| `src/core/runtime/decision-intelligence/InstitutionalSurvivabilityEngine.ts` | **calculate** | 13 | `public static calculate(report: any, policyContext?: PolicyContext): Survivabili` |
-| `src/core/runtime/decision-intelligence/InstitutionalSurvivabilityEngine.ts` | **financialScore** | 15 | `const financialScore = report.scores?.financial ?? 70;` |
-| `src/core/runtime/decision-intelligence/InstitutionalSurvivabilityEngine.ts` | **operationalScore** | 16 | `const operationalScore = report.scores?.operational ?? 70;` |
-| `src/core/runtime/decision-intelligence/InstitutionalSurvivabilityEngine.ts` | **governanceScore** | 17 | `const governanceScore = report.scores?.governance ?? 70;` |
-| `src/core/runtime/decision-intelligence/InstitutionalSurvivabilityEngine.ts` | **structuralScore** | 18 | `const structuralScore = report.scores?.structural ?? 70;` |
-| `src/core/runtime/decision-intelligence/InstitutionalSurvivabilityEngine.ts` | **eqsScore** | 58 | `const eqsScore =` |
-| `src/core/runtime/decision-intelligence/StrategicStressEngine.ts` | **evaluateStress** | 12 | `public static evaluateStress(` |
-| `src/core/runtime/decision-intelligence/StrategicStressEngine.ts` | **stressScoreDelta** | 21 | `let stressScoreDelta = 0;` |
-| `src/core/runtime/decision-intelligence/StrategicStressEngine.ts` | **stressScoreDelta** | 35 | `stressScoreDelta = -30;` |
-| `src/core/runtime/decision-intelligence/StrategicStressEngine.ts` | **stressScoreDelta** | 39 | `stressScoreDelta = -15;` |
-| `src/core/runtime/decision-intelligence/StrategicStressEngine.ts` | **stressScoreDelta** | 48 | `stressScoreDelta = -25;` |
-| `src/core/runtime/decision-intelligence/StrategicStressEngine.ts` | **stressScoreDelta** | 52 | `stressScoreDelta = -10;` |
-| `src/core/runtime/decision-intelligence/StrategicStressEngine.ts` | **stressScoreDelta** | 60 | `stressScoreDelta = -20;` |
-| `src/core/runtime/decision-intelligence/StrategicStressEngine.ts` | **stressScoreDelta** | 66 | `stressScoreDelta = 0;` |
+| `src/core/runtime/decision-governance/ConstitutionalDecisionRuntime.ts` | **evaluate** | 10 | `public static evaluate(` |
+| `src/core/runtime/decision-governance/ConstitutionalDecisionRuntime.ts` | **evaluatePriority** | 18 | `const priority = DecisionPrioritizationEngine.evaluatePriority(context);` |
+| `src/core/runtime/decision-governance/ConstitutionalDecisionRuntime.ts` | **evaluateUrgency** | 19 | `const urgency = DecisionPrioritizationEngine.evaluateUrgency(priority);` |
+| `src/core/runtime/decision-governance/DecisionCausalityEngine.ts` | **analyze** | 12 | `public static analyze(decision: ExecutiveDecision): {` |
+| `src/core/runtime/decision-governance/DecisionMemoryLayer.test.ts` | **evaluate** | 32 | `const result = DecisionMemoryLayer.evaluate([]);` |
+| `src/core/runtime/decision-governance/DecisionMemoryLayer.test.ts` | **evaluate** | 44 | `const result = DecisionMemoryLayer.evaluate(decisions);` |
+| `src/core/runtime/decision-governance/DecisionMemoryLayer.test.ts` | **evaluate** | 57 | `const result = DecisionMemoryLayer.evaluate(decisions);` |
+| `src/core/runtime/decision-governance/DecisionMemoryLayer.test.ts` | **evaluate** | 68 | `const result = DecisionMemoryLayer.evaluate(decisions);` |
+| `src/core/runtime/decision-governance/DecisionMemoryLayer.test.ts` | **evaluate** | 79 | `const result = DecisionMemoryLayer.evaluate(decisions);` |
+| `src/core/runtime/decision-governance/DecisionMemoryLayer.ts` | **evaluate** | 8 | `public static evaluate(decisions: ExecutiveDecisionEvent[]): DecisionMemoryOutpu` |
+| `src/core/runtime/decision-governance/DecisionMemoryLayer.ts` | **decisionDisciplineScore** | 61 | `decisionDisciplineScore = Math.max(10, 50 - (destructiveCount * 10));` |
+| `src/core/runtime/decision-governance/DecisionMemoryLayer.ts` | **decisionDisciplineScore** | 63 | `decisionDisciplineScore = Math.min(100, 50 + (correctiveCount * 15));` |
+| `src/core/runtime/decision-governance/DecisionPrioritizationEngine.ts` | **evaluatePriority** | 2 | `public static evaluatePriority(context: any): 'CRITICAL' | 'HIGH' | 'MEDIUM' | '` |
+| `src/core/runtime/decision-governance/DecisionPrioritizationEngine.ts` | **evaluateUrgency** | 22 | `public static evaluateUrgency(priority: string): 'SHORT_TERM' | 'IMMEDIATE' | 'S` |
+| `src/core/runtime/decision-governance/DecisionToCashCausalityEngine.test.ts` | **evaluate** | 43 | `const result = DecisionToCashCausalityEngine.evaluate(input);` |
+| `src/core/runtime/decision-governance/DecisionToCashCausalityEngine.test.ts` | **evaluate** | 50 | `const result = DecisionToCashCausalityEngine.evaluate(input);` |
+| `src/core/runtime/decision-governance/DecisionToCashCausalityEngine.test.ts` | **evaluate** | 57 | `const result = DecisionToCashCausalityEngine.evaluate(input);` |
+| `src/core/runtime/decision-governance/DecisionToCashCausalityEngine.test.ts` | **evaluate** | 66 | `const result = DecisionToCashCausalityEngine.evaluate(input);` |
+| `src/core/runtime/decision-governance/DecisionToCashCausalityEngine.test.ts` | **evaluate** | 74 | `const result = DecisionToCashCausalityEngine.evaluate(input);` |
+| `src/core/runtime/decision-governance/DecisionToCashCausalityEngine.test.ts` | **evaluate** | 82 | `const result = DecisionToCashCausalityEngine.evaluate(input);` |
+| `src/core/runtime/decision-governance/DecisionToCashCausalityEngine.test.ts` | **evaluate** | 89 | `const result = DecisionToCashCausalityEngine.evaluate(input);` |
+| `src/core/runtime/decision-governance/DecisionToCashCausalityEngine.test.ts` | **evaluate** | 97 | `const result = DecisionToCashCausalityEngine.evaluate(input);` |
+| `src/core/runtime/decision-governance/DecisionToCashCausalityEngine.test.ts` | **evaluate** | 106 | `const result = DecisionToCashCausalityEngine.evaluate(input);` |
+| `src/core/runtime/decision-governance/DecisionToCashCausalityEngine.ts` | **evaluate** | 10 | `public static evaluate(input: DecisionToCashCausalityInput): DecisionToCashCausa` |
+| `src/core/runtime/decision-governance/DecisionTradeoffEngine.ts` | **analyzeTradeoffs** | 18 | `public static analyzeTradeoffs(` |
+| `src/core/runtime/decision-governance/EarlyWarningEngine.test.ts` | **evaluate** | 122 | `const result = EarlyWarningEngine.evaluate(input);` |
+| `src/core/runtime/decision-governance/EarlyWarningEngine.test.ts` | **evaluate** | 132 | `const result = EarlyWarningEngine.evaluate(input);` |
+| `src/core/runtime/decision-governance/EarlyWarningEngine.test.ts` | **evaluate** | 142 | `const result = EarlyWarningEngine.evaluate(input);` |
+| `src/core/runtime/decision-governance/EarlyWarningEngine.test.ts` | **evaluate** | 151 | `const result = EarlyWarningEngine.evaluate(input);` |
+| `src/core/runtime/decision-governance/EarlyWarningEngine.test.ts` | **evaluate** | 161 | `const result = EarlyWarningEngine.evaluate(input);` |
+| `src/core/runtime/decision-governance/EarlyWarningEngine.test.ts` | **evaluate** | 170 | `const result = EarlyWarningEngine.evaluate(input);` |
+| `src/core/runtime/decision-governance/EarlyWarningEngine.test.ts` | **evaluate** | 183 | `const result = EarlyWarningEngine.evaluate(input);` |
+| `src/core/runtime/decision-governance/EarlyWarningEngine.ts` | **evaluate** | 8 | `public static evaluate(input: EarlyWarningGovernanceInput): EarlyWarningIntell` |
+| `src/core/runtime/decision-governance/EarlyWarningEngine.ts` | **riskScore** | 35 | `let riskScore = 0; // 0 = lowest risk, 100 = critical threat` |
+| `src/core/runtime/decision-governance/EarlyWarningEngine.ts` | **runwayImpactAssessment** | 44 | `const runwayPressure = causalityOutput.runwayImpactAssessment === 'IMPACTO_NEGAT` |
+| `src/core/runtime/decision-governance/EarlyWarningEngine.ts` | **fcoImpactAssessment** | 45 | `const isFCONegative = causalityOutput.fcoImpactAssessment === 'IMPACTO_NEGATIVO_` |
+| `src/core/runtime/decision-governance/EarlyWarningEngine.ts` | **accountabilityScore** | 51 | `const isAccountabilityFragile = typeof accountabilityOutput.accountabilityScore ` |
+| `src/core/runtime/decision-governance/EarlyWarningEngine.ts` | **riskScore** | 110 | `riskScore = Math.min(100, Math.max(0, riskScore));` |
+| `src/core/runtime/decision-governance/ExecutiveAccountabilityEngine.test.ts` | **evaluate** | 84 | `const result = ExecutiveAccountabilityEngine.evaluate(input);` |
+| `src/core/runtime/decision-governance/ExecutiveAccountabilityEngine.test.ts` | **evaluate** | 91 | `const result = ExecutiveAccountabilityEngine.evaluate(input);` |
+| `src/core/runtime/decision-governance/ExecutiveAccountabilityEngine.test.ts` | **evaluate** | 100 | `const result = ExecutiveAccountabilityEngine.evaluate(input);` |
+| `src/core/runtime/decision-governance/ExecutiveAccountabilityEngine.test.ts` | **evaluate** | 110 | `const result = ExecutiveAccountabilityEngine.evaluate(input);` |
+| `src/core/runtime/decision-governance/ExecutiveAccountabilityEngine.test.ts` | **evaluate** | 121 | `const result = ExecutiveAccountabilityEngine.evaluate(input);` |
+| `src/core/runtime/decision-governance/ExecutiveAccountabilityEngine.test.ts` | **evaluate** | 131 | `const result = ExecutiveAccountabilityEngine.evaluate(input);` |
+| `src/core/runtime/decision-governance/ExecutiveAccountabilityEngine.test.ts` | **evaluate** | 147 | `const resWithout = ExecutiveAccountabilityEngine.evaluate(inputWithoutDrift);` |
+| `src/core/runtime/decision-governance/ExecutiveAccountabilityEngine.test.ts` | **evaluate** | 148 | `const resWith = ExecutiveAccountabilityEngine.evaluate(inputWithDrift);` |
+| `src/core/runtime/decision-governance/ExecutiveAccountabilityEngine.ts` | **evaluate** | 8 | `public static evaluate(input: ExecutiveAccountabilityInput): ExecutiveAccountabi` |
+| `src/core/runtime/decision-governance/ExecutiveAccountabilityEngine.ts` | **baseScore** | 33 | `let baseScore = 50;` |
+| `src/core/runtime/decision-governance/ExecutiveAccountabilityEngine.ts` | **accountabilityScore** | 113 | `const accountabilityScore = Math.max(0, Math.min(100, baseScore));` |
+| `src/core/runtime/decision-governance/ExecutiveAccountabilityEngine.ts` | **reactionSpeedAssessment** | 115 | `let reactionSpeedAssessment = 'MODERADA';` |
+| `src/core/runtime/decision-governance/ExecutiveAccountabilityEngine.ts` | **reactionSpeedAssessment** | 116 | `if (status === 'HIGH_EXECUTIVE_DISCIPLINE') reactionSpeedAssessment = 'RÁPIDA_E_` |
+| `src/core/runtime/decision-governance/ExecutiveAccountabilityEngine.ts` | **reactionSpeedAssessment** | 117 | `else if (status === 'CHRONIC_REACTION_DELAY' || status === 'REACTIVE_CORRECTION'` |
+| `src/core/runtime/decision-governance/ExecutiveAccountabilityEngine.ts` | **reactionSpeedAssessment** | 118 | `else if (status === 'NON_CORRECTIVE_MANAGEMENT_PATTERN') reactionSpeedAssessment` |
+| `src/core/runtime/decision-governance/ExecutiveConsequenceGovernanceLayer.ts` | **evaluate** | 12 | `public static evaluate(` |
+| `src/core/runtime/decision-governance/GovernanceDriftDetectionEngine.test.ts` | **evaluate** | 62 | `const result = GovernanceDriftDetectionEngine.evaluate(input);` |
+| `src/core/runtime/decision-governance/GovernanceDriftDetectionEngine.test.ts` | **evaluate** | 72 | `const result = GovernanceDriftDetectionEngine.evaluate(input);` |
+| `src/core/runtime/decision-governance/GovernanceDriftDetectionEngine.test.ts` | **evaluate** | 80 | `const result = GovernanceDriftDetectionEngine.evaluate(input);` |
+| `src/core/runtime/decision-governance/GovernanceDriftDetectionEngine.test.ts` | **evaluate** | 88 | `const result = GovernanceDriftDetectionEngine.evaluate(input);` |
+| `src/core/runtime/decision-governance/GovernanceDriftDetectionEngine.test.ts` | **evaluate** | 96 | `const result = GovernanceDriftDetectionEngine.evaluate(input);` |
+| `src/core/runtime/decision-governance/GovernanceDriftDetectionEngine.test.ts` | **evaluate** | 104 | `const result = GovernanceDriftDetectionEngine.evaluate(input);` |
+| `src/core/runtime/decision-governance/GovernanceDriftDetectionEngine.test.ts` | **evaluate** | 115 | `const result = GovernanceDriftDetectionEngine.evaluate(input);` |
+| `src/core/runtime/decision-governance/GovernanceDriftDetectionEngine.test.ts` | **evaluate** | 123 | `const result = GovernanceDriftDetectionEngine.evaluate(input);` |
+| `src/core/runtime/decision-governance/GovernanceDriftDetectionEngine.test.ts` | **evaluate** | 131 | `const result = GovernanceDriftDetectionEngine.evaluate(input);` |
+| `src/core/runtime/decision-governance/GovernanceDriftDetectionEngine.ts` | **evaluate** | 10 | `public static evaluate(input: GovernanceDriftDetectionInput): GovernanceDriftDet` |
+| `src/core/runtime/decision-governance/GovernanceDriftDetectionEngine.ts` | **baseRiskScore** | 37 | `let baseRiskScore = 0;` |
+| `src/core/runtime/decision-governance/GovernanceDriftDetectionEngine.ts` | **fcoImpactAssessment** | 44 | `causalityOutput.fcoImpactAssessment === 'IMPACTO_NEGATIVO_OBSERVADO' ||` |
+| `src/core/runtime/decision-governance/GovernanceDriftDetectionEngine.ts` | **riskScore** | 135 | `const riskScore = behavioralPatterns.behavioralRiskScore;` |
+| `src/core/runtime/decision-governance/GovernanceDriftDetectionEngine.ts` | **isRiskScoreHigh** | 136 | `const isRiskScoreHigh = typeof riskScore === 'number' && (riskScore as number) >` |
+| `src/core/runtime/decision-governance/GovernanceDriftDetectionEngine.ts` | **narrativeRiskScore** | 161 | `const narrativeRiskScore = Math.min(100, baseRiskScore);` |
+| `src/core/runtime/decision-governance/GovernanceTrajectoryEngine.ts` | **analyzeTrajectory** | 12 | `public static analyzeTrajectory(` |
+| `src/core/runtime/decision-governance/InstitutionalBehavioralPatternsEngine.test.ts` | **evaluate** | 58 | `const result = InstitutionalBehavioralPatternsEngine.evaluate(input);` |
+| `src/core/runtime/decision-governance/InstitutionalBehavioralPatternsEngine.test.ts` | **evaluate** | 65 | `const result = InstitutionalBehavioralPatternsEngine.evaluate(input);` |
+| `src/core/runtime/decision-governance/InstitutionalBehavioralPatternsEngine.test.ts` | **evaluate** | 72 | `const result = InstitutionalBehavioralPatternsEngine.evaluate(input);` |
+| `src/core/runtime/decision-governance/InstitutionalBehavioralPatternsEngine.test.ts` | **evaluate** | 90 | `const result = InstitutionalBehavioralPatternsEngine.evaluate(input);` |
+| `src/core/runtime/decision-governance/InstitutionalBehavioralPatternsEngine.test.ts` | **evaluate** | 105 | `const result = InstitutionalBehavioralPatternsEngine.evaluate(input);` |
+| `src/core/runtime/decision-governance/InstitutionalBehavioralPatternsEngine.test.ts` | **evaluate** | 129 | `const result = InstitutionalBehavioralPatternsEngine.evaluate(input);` |
+| `src/core/runtime/decision-governance/InstitutionalBehavioralPatternsEngine.test.ts` | **evaluate** | 141 | `const result = InstitutionalBehavioralPatternsEngine.evaluate(input);` |
+| `src/core/runtime/decision-governance/InstitutionalBehavioralPatternsEngine.test.ts` | **evaluate** | 162 | `const result = InstitutionalBehavioralPatternsEngine.evaluate(input);` |
+| `src/core/runtime/decision-governance/InstitutionalBehavioralPatternsEngine.ts` | **evaluate** | 10 | `public static evaluate(input: InstitutionalBehavioralPatternsInput): Institution` |
+| `src/core/runtime/decision-governance/InstitutionalBehavioralPatternsEngine.ts` | **baseScore** | 26 | `let baseScore = 50;` |
+| `src/core/runtime/decision-governance/InstitutionalBehavioralPatternsEngine.ts` | **finalScore** | 129 | `let finalScore = Math.max(0, Math.min(100, baseScore));` |
+| `src/core/runtime/decision-governance/InstitutionalDecisionGovernanceEngine.ts` | **evaluateDecision** | 29 | `public static async evaluateDecision(` |
+| `src/core/runtime/decision-governance/InstitutionalDecisionGovernanceEngine.ts` | **calculate** | 43 | `const survivabilityScores = InstitutionalSurvivabilityEngine.calculate(report, p` |
+| `src/core/runtime/decision-governance/InstitutionalDecisionGovernanceEngine.ts` | **analyze** | 50 | `const causalityResult = DecisionCausalityEngine.analyze(decision);` |
+| `src/core/runtime/decision-governance/InstitutionalDecisionGovernanceEngine.ts` | **analyzeTrajectory** | 59 | `const trajectory = GovernanceTrajectoryEngine.analyzeTrajectory(historicalDecisi` |
+| `src/core/runtime/decision-governance/InstitutionalDecisionGovernanceEngine.ts` | **evaluateBehavior** | 76 | `behavioralResult = InstitutionalBehavioralGovernanceEngine.evaluateBehavior(` |
+| `src/core/runtime/decision-governance/InstitutionalDecisionGovernanceEngine.ts` | **evaluatePrediction** | 106 | `predictiveResult = PredictiveGovernanceEngine.evaluatePrediction(` |
+| `src/core/runtime/decision-governance/InstitutionalDecisionGovernanceEngine.ts` | **evaluateStress** | 171 | `const stress = StrategicStressEngine.evaluateStress(decision, report);` |
+| `src/core/runtime/decision-governance/InstitutionalDecisionGovernanceEngine.ts` | **analyzeTradeoffs** | 174 | `const tradeoffs = DecisionTradeoffEngine.analyzeTradeoffs(decision, survivabilit` |
+| `src/core/runtime/decision-governance/InstitutionalDecisionGovernanceEngine.ts` | **minScore** | 186 | `const minScore = Math.min(` |
+| `src/core/runtime/decision-governance/InstitutionalRiskMatrixEngine.ts` | **evaluateRisk** | 2 | `public static evaluateRisk(context: any): {` |
+| `src/core/runtime/decision-governance/InstitutionalStabilityEngine.test.ts` | **evaluate** | 101 | `const result = InstitutionalStabilityEngine.evaluate(input);` |
+| `src/core/runtime/decision-governance/InstitutionalStabilityEngine.test.ts` | **evaluate** | 108 | `const result = InstitutionalStabilityEngine.evaluate(input);` |
+| `src/core/runtime/decision-governance/InstitutionalStabilityEngine.test.ts` | **evaluate** | 120 | `const result = InstitutionalStabilityEngine.evaluate(input);` |
+| `src/core/runtime/decision-governance/InstitutionalStabilityEngine.test.ts` | **evaluate** | 132 | `const result = InstitutionalStabilityEngine.evaluate(input);` |
+| `src/core/runtime/decision-governance/InstitutionalStabilityEngine.test.ts` | **evaluate** | 144 | `const result = InstitutionalStabilityEngine.evaluate(input);` |
+| `src/core/runtime/decision-governance/InstitutionalStabilityEngine.test.ts` | **evaluate** | 158 | `const result = InstitutionalStabilityEngine.evaluate(input);` |
+| `src/core/runtime/decision-governance/InstitutionalStabilityEngine.test.ts` | **evaluate** | 168 | `const result = InstitutionalStabilityEngine.evaluate(input);` |
+| `src/core/runtime/decision-governance/InstitutionalStabilityEngine.test.ts` | **evaluate** | 182 | `const result = InstitutionalStabilityEngine.evaluate(input);` |
+| `src/core/runtime/decision-governance/InstitutionalStabilityEngine.ts` | **evaluate** | 10 | `public static evaluate(input: InstitutionalStabilityInput): InstitutionalStabili` |
+| `src/core/runtime/decision-governance/InstitutionalStabilityEngine.ts` | **score** | 41 | `let score = 100;` |
+| `src/core/runtime/decision-governance/InstitutionalStabilityEngine.ts` | **runwayImpactAssessment** | 51 | `const isRunwayCritical = causalityOutput.runwayImpactAssessment === 'IMPACTO_NEG` |
+| `src/core/runtime/decision-governance/InstitutionalStabilityEngine.ts` | **fcoImpactAssessment** | 58 | `const isFCONegative = causalityOutput.fcoImpactAssessment === 'IMPACTO_NEGATIVO_` |
+| `src/core/runtime/decision-governance/InstitutionalStabilityEngine.ts` | **behavioralScore** | 80 | `const behavioralScore = typeof behavioralPatterns.behavioralRiskScore === 'numbe` |
+| `src/core/runtime/decision-governance/InstitutionalStabilityEngine.ts` | **accountabilityScore** | 87 | `const accountabilityScore = typeof accountabilityOutput.accountabilityScore === ` |
+| `src/core/runtime/decision-governance/InstitutionalStabilityEngine.ts` | **score** | 108 | `score = Math.min(score, 35);` |
+| `src/core/runtime/decision-governance/InstitutionalStabilityEngine.ts` | **score** | 112 | `score = Math.min(score, 40);` |
+| `src/core/runtime/decision-governance/InstitutionalStabilityEngine.ts` | **score** | 116 | `score = Math.min(score, 30);` |
+| `src/core/runtime/decision-governance/InstitutionalStabilityEngine.ts` | **score** | 120 | `score = Math.min(score, 15);` |
+| `src/core/runtime/decision-governance/InstitutionalStabilityEngine.ts` | **score** | 125 | `score = Math.min(score, 35);` |
+| `src/core/runtime/decision-governance/InstitutionalStabilityEngine.ts` | **score** | 130 | `score = Math.min(score, 25);` |
+| `src/core/runtime/decision-governance/InstitutionalStabilityEngine.ts` | **score** | 134 | `score = Math.min(score, 20);` |
+| `src/core/runtime/decision-governance/InstitutionalStabilityEngine.ts` | **score** | 138 | `score = Math.min(score, 40);` |
+| `src/core/runtime/decision-governance/InstitutionalStabilityEngine.ts` | **score** | 142 | `score = Math.max(0, score); // Ensure min is 0` |
+| `src/core/runtime/decision-governance/InstitutionalStabilityEngine.ts` | **ResilienceAssessment** | 176 | `let resilienceAssessment: ResilienceAssessment = 'LOW_RESILIENCE';` |
+| `src/core/runtime/decision-governance/InstitutionalStabilityEngine.ts` | **resilienceAssessment** | 177 | `if (classification === 'STRUCTURALLY_STABLE') resilienceAssessment = 'HIGH_RESIL` |
+| `src/core/runtime/decision-governance/InstitutionalStabilityEngine.ts` | **resilienceAssessment** | 178 | `else if (classification === 'FRAGILE_STABILITY' || classification === 'STABLE_BU` |
+| `src/core/runtime/decision-governance/InstitutionalStabilityEngine.ts` | **resilienceAssessment** | 179 | `else if (classification === 'APPARENT_STABILITY') resilienceAssessment = 'FRAGIL` |
+| `src/core/runtime/decision-governance/InstitutionalStabilityEngine.ts` | **resilienceAssessment** | 180 | `else if (classification === 'COLLAPSE_RISK') resilienceAssessment = 'NO_EVIDENCE` |
+| `src/core/runtime/decision-governance/InstitutionalStabilityTypes.ts` | **ResilienceAssessment** | 28 | `export type ResilienceAssessment =` |
+| `src/core/runtime/decision-governance/InstitutionalSurvivabilityEngine.ts` | **calculate** | 13 | `public static calculate(report: any, policyContext?: PolicyContext): Survivabili` |
+| `src/core/runtime/decision-governance/InstitutionalSurvivabilityEngine.ts` | **financialScore** | 15 | `const financialScore = report.scores?.financial ?? 70;` |
+| `src/core/runtime/decision-governance/InstitutionalSurvivabilityEngine.ts` | **operationalScore** | 16 | `const operationalScore = report.scores?.operational ?? 70;` |
+| `src/core/runtime/decision-governance/InstitutionalSurvivabilityEngine.ts` | **governanceScore** | 17 | `const governanceScore = report.scores?.governance ?? 70;` |
+| `src/core/runtime/decision-governance/InstitutionalSurvivabilityEngine.ts` | **structuralScore** | 18 | `const structuralScore = report.scores?.structural ?? 70;` |
+| `src/core/runtime/decision-governance/InstitutionalSurvivabilityEngine.ts` | **eqsScore** | 58 | `const eqsScore =` |
+| `src/core/runtime/decision-governance/StrategicStressEngine.ts` | **evaluateStress** | 12 | `public static evaluateStress(` |
+| `src/core/runtime/decision-governance/StrategicStressEngine.ts` | **stressScoreDelta** | 21 | `let stressScoreDelta = 0;` |
+| `src/core/runtime/decision-governance/StrategicStressEngine.ts` | **stressScoreDelta** | 35 | `stressScoreDelta = -30;` |
+| `src/core/runtime/decision-governance/StrategicStressEngine.ts` | **stressScoreDelta** | 39 | `stressScoreDelta = -15;` |
+| `src/core/runtime/decision-governance/StrategicStressEngine.ts` | **stressScoreDelta** | 48 | `stressScoreDelta = -25;` |
+| `src/core/runtime/decision-governance/StrategicStressEngine.ts` | **stressScoreDelta** | 52 | `stressScoreDelta = -10;` |
+| `src/core/runtime/decision-governance/StrategicStressEngine.ts` | **stressScoreDelta** | 60 | `stressScoreDelta = -20;` |
+| `src/core/runtime/decision-governance/StrategicStressEngine.ts` | **stressScoreDelta** | 66 | `stressScoreDelta = 0;` |
 | `src/core/runtime/decision-policy/DecisionPolicyEngine.ts` | **analyzeSector** | 31 | `const sectorAnalysis = SectorGovernanceProfileEngine.analyzeSector(report);` |
 | `src/core/runtime/decision-policy/DecisionPolicyEngine.ts` | **analyzePosture** | 32 | `const postureAnalysis = StrategicPostureEngine.analyzePosture(report);` |
 | `src/core/runtime/decision-policy/DecisionPolicyEngine.ts` | **analyzeSector** | 39 | `const sectorInfo = SectorGovernanceProfileEngine.analyzeSector(report);` |
@@ -1128,7 +1128,7 @@ Este relatório mapeia **todos** os pontos que produzem inteligência institucio
 | `src/core/runtime/executive-command/InstitutionalAlignmentEngine.ts` | **score** | 45 | `let score = 100;` |
 | `src/core/runtime/executive-command/InstitutionalAlignmentEngine.ts` | **score** | 53 | `score = Math.max(0, score);` |
 | `src/core/runtime/executive-command/InstitutionalDirectiveEngine.ts` | **evaluate** | 7 | `static evaluate(context: CommandEvaluationContext): ExecutiveDirective[] {` |
-| `src/core/runtime/executive-command/InstitutionalExecutiveCommandRuntime.ts` | **evaluate** | 16 | `static evaluate(report: ExecutiveIntelligenceReport): InstitutionalExecutiveComm` |
+| `src/core/runtime/executive-command/InstitutionalExecutiveCommandRuntime.ts` | **evaluate** | 16 | `static evaluate(report: ExecutiveGovernanceReport): InstitutionalExecutiveComm` |
 | `src/core/runtime/executive-command/InstitutionalExecutiveCommandRuntime.ts` | **evaluate** | 21 | `const activeDirectives = InstitutionalDirectiveEngine.evaluate(context);` |
 | `src/core/runtime/executive-command/InstitutionalExecutiveCommandRuntime.ts` | **evaluate** | 22 | `const driftEvents = ExecutiveDriftDetectionEngine.evaluate(context, activeDirect` |
 | `src/core/runtime/executive-command/InstitutionalExecutiveCommandRuntime.ts` | **evaluate** | 23 | `const institutionalAlignment = InstitutionalAlignmentEngine.evaluate(context, ac` |
@@ -1143,147 +1143,147 @@ Este relatório mapeia **todos** os pontos que produzem inteligência institucio
 | `src/core/runtime/executive-consolidation/ExecutiveRecommendationDeduplicationEngine.ts` | **ExecutiveRecommendation** | 79 | `const sanitizedRec: ExecutiveRecommendation = {` |
 | `src/core/runtime/executive-consolidation/ExecutiveStrategicMaturityEngine.ts` | **evaluate** | 37 | `public static evaluate(input: ExecutiveStrategicMaturityInput): ExecutiveStrateg` |
 | `src/core/runtime/executive-consolidation/ExecutiveStrategicSnapshotEngine.ts` | **generateSnapshot** | 25 | `public static generateSnapshot(input: SnapshotEngineInput): ExecutiveStrategicSn` |
-| `src/core/runtime/executive-intelligence-runtime.ts` | **generateAuditTrail** | 395 | `public generateAuditTrail(report: any) {` |
-| `src/core/runtime/executive-intelligence-runtime.ts` | **generateAuditTrail** | 396 | `return RuntimeComplianceEngine.getInstance().generateAuditTrail(report);` |
-| `src/core/runtime/executive-intelligence-runtime.ts` | **generateExecutiveReport** | 403 | `public generateExecutiveReport(rawData: any, externalMetadata?: any): ExecutiveI` |
-| `src/core/runtime/executive-intelligence-runtime.ts` | **buildMemory** | 498 | `const memoryProfile = InstitutionalMemoryEngine.buildMemory(rawData.runtimeHisto` |
-| `src/core/runtime/executive-intelligence-runtime.ts` | **evaluate** | 501 | `const causalityProfile = InstitutionalCausalityOrchestrator.evaluate(rawData.run` |
-| `src/core/runtime/executive-intelligence-runtime.ts` | **evaluate** | 569 | `const evidenceReport = InstitutionalEvidenceOrchestrator.evaluate(evidenceInput)` |
-| `src/core/runtime/executive-intelligence-runtime.ts` | **buildBPHierarchy** | 602 | `const hierarchy = buildBPHierarchy(rawData.bpData);` |
-| `src/core/runtime/executive-intelligence-runtime.ts` | **calculateFinancialMetrics** | 632 | `const metrics = calculateFinancialMetrics(bpSummary, dreEbitda, dreLucro, segmen` |
-| `src/core/runtime/executive-intelligence-runtime.ts` | **evaluateMasterCausality** | 635 | `const masterCausality = hasBP ? evaluateMasterCausality(bpSummary, metrics, iden` |
-| `src/core/runtime/executive-intelligence-runtime.ts` | **calcScores** | 641 | `const calcScores = (bp: any, ebitda: number, lucroLiq: number) => {` |
-| `src/core/runtime/executive-intelligence-runtime.ts` | **scoreLiquidez** | 663 | `const scoreLiquidez = Math.min(liqCorrente * 0.5 + liqSec * 0.35 + liqImediata *` |
-| `src/core/runtime/executive-intelligence-runtime.ts` | **scoreEstrutura** | 668 | `const scoreEstrutura = Math.min(` |
-| `src/core/runtime/executive-intelligence-runtime.ts` | **scoreCapGiro** | 676 | `const scoreCapGiro = Math.min(Math.max(50 + ncgRatio * 2, 0), 100);` |
-| `src/core/runtime/executive-intelligence-runtime.ts` | **scoreSolidez** | 683 | `const scoreSolidez = Math.min(coberturaPL, 100);` |
-| `src/core/runtime/executive-intelligence-runtime.ts` | **scoreEvolucao** | 687 | `let scoreEvolucao = 60;` |
-| `src/core/runtime/executive-intelligence-runtime.ts` | **scoreEvolucao** | 690 | `scoreEvolucao = Math.min(Math.max(50 + growthPct, 0), 100);` |
-| `src/core/runtime/executive-intelligence-runtime.ts` | **scoreEvolucao** | 692 | `scoreEvolucao = 65;` |
-| `src/core/runtime/executive-intelligence-runtime.ts` | **evaluate** | 722 | `const guard = LongitudinalIntelligenceGuard.evaluate(cycles);` |
-| `src/core/runtime/executive-intelligence-runtime.ts` | **scoreEvolucao** | 734 | `scoreEvolucao = 0; // Nullify evolution impact` |
-| `src/core/runtime/executive-intelligence-runtime.ts` | **rawScores** | 770 | `const rawScores = calcScores(bpSummary, dreEbitda, dreLucro);` |
-| `src/core/runtime/executive-intelligence-runtime.ts` | **rawEvolutionScore** | 771 | `const rawEvolutionScore = rawScores.composite; // Evolution score as fallback` |
-| `src/core/runtime/executive-intelligence-runtime.ts` | **scores** | 773 | `const scores = prudencyOutput.adjustedScores;` |
-| `src/core/runtime/executive-intelligence-runtime.ts` | **analyze** | 914 | `? StructuralCapitalOrchestrator.analyze(bpSummary, institutionalContext)` |
-| `src/core/runtime/executive-intelligence-runtime.ts` | **scoreLiq** | 948 | `const scoreLiq = Math.min(liqCorr * 45 * 0.5 + liqSec * 40 * 0.35 + liqImId * 15` |
-| `src/core/runtime/executive-intelligence-runtime.ts` | **scoreEstr** | 952 | `let scoreEstr = Math.min(Math.max(autonomia2 * 0.6, 0) + Math.max((100 - endivCP` |
-| `src/core/runtime/executive-intelligence-runtime.ts` | **scoreEstr** | 956 | `scoreEstr = Math.max(scoreEstr - 15, 0);` |
-| `src/core/runtime/executive-intelligence-runtime.ts` | **scoreEstr** | 958 | `scoreEstr = Math.max(scoreEstr - 10, 0);` |
-| `src/core/runtime/executive-intelligence-runtime.ts` | **scoreEstr** | 960 | `scoreEstr = Math.max(scoreEstr - 5, 0);` |
-| `src/core/runtime/executive-intelligence-runtime.ts` | **scoreGiro** | 965 | `const scoreGiro = Math.min(Math.max(50 + (at2 > 0 ? (ncg2 / at2) * 100 * 2 : 0),` |
-| `src/core/runtime/executive-intelligence-runtime.ts` | **scoreSolid** | 968 | `const scoreSolid = Math.min(cobert2, 100);` |
-| `src/core/runtime/executive-intelligence-runtime.ts` | **scoreEvol** | 971 | `let scoreEvol = 60;` |
-| `src/core/runtime/executive-intelligence-runtime.ts` | **scoreEvol** | 973 | `scoreEvol = Math.min(Math.max(50 + ((pl2 - prevPlDec) / Math.abs(prevPlDec)) * 1` |
-| `src/core/runtime/executive-intelligence-runtime.ts` | **scoreEvol** | 975 | `scoreEvol = 65;` |
-| `src/core/runtime/executive-intelligence-runtime.ts` | **buildDreMetricsPayload** | 1028 | `const buildDreMetricsPayload = () => {` |
-| `src/core/runtime/executive-intelligence-runtime.ts` | **calculateDreCascade** | 1103 | `const cascadeResult = calculateDreCascade(allRows);` |
-| `src/core/runtime/executive-intelligence-runtime.ts` | **calcScore** | 1184 | `const calcScore = (real: number, target: number, isLowerBetter: boolean) => {` |
-| `src/core/runtime/executive-intelligence-runtime.ts` | **calcScore** | 1193 | `const eficienciaComercial  = calcScore(cmvVal, targetCmvMax, true);` |
-| `src/core/runtime/executive-intelligence-runtime.ts` | **calcScore** | 1194 | `const eficienciaOperacional= calcScore(ebitdaVal, targetEbitdaMin, false);` |
-| `src/core/runtime/executive-intelligence-runtime.ts` | **calcScore** | 1195 | `const eficienciaAdministrativa = calcScore(indiceDespesasAdministrativas, target` |
-| `src/core/runtime/executive-intelligence-runtime.ts` | **calcScore** | 1196 | `const eficienciaFinanceira = calcScore(indiceDespesasFinanceiras, targetFinMax, ` |
-| `src/core/runtime/executive-intelligence-runtime.ts` | **calcScore** | 1197 | `const eficienciaTributaria = calcScore(burdenTributarioPerc, targetTribMax, true` |
-| `src/core/runtime/executive-intelligence-runtime.ts` | **calcScore** | 1198 | `const eficienciaEstrutural = calcScore(capacidadeAbsorcaoEstrutura, targetAbsorc` |
-| `src/core/runtime/executive-intelligence-runtime.ts` | **calculateDreCascade** | 1214 | `const res = calculateDreCascade([...DRE_OFFICIAL_STRUCTURE.map((a: any) => ({ ..` |
-| `src/core/runtime/executive-intelligence-runtime.ts` | **generateDreInsights** | 1255 | `const dreInsights = generateDreInsights(dreMetrics);` |
-| `src/core/runtime/executive-intelligence-runtime.ts` | **evaluate** | 1258 | `const qualityReport = ExecutiveEconomicQualityEngine.evaluate(` |
-| `src/core/runtime/executive-intelligence-runtime.ts` | **evaluate** | 1262 | `const rootCauseReport = EBITDARootCauseEngine.evaluate(` |
-| `src/core/runtime/executive-intelligence-runtime.ts` | **evaluate** | 1266 | `const economicValueAssessment = EconomicValueIntelligenceEngine.evaluate(` |
-| `src/core/runtime/executive-intelligence-runtime.ts` | **evaluate** | 1270 | `const earningsQualityAssessment = EarningsCompositionEngine.evaluate(` |
-| `src/core/runtime/executive-intelligence-runtime.ts` | **evaluate** | 1279 | `const confidenceAssessment = InstitutionalConfidenceEngine.evaluate(` |
-| `src/core/runtime/executive-intelligence-runtime.ts` | **evaluate** | 1286 | `const managementDiscussion = ManagementDiscussionAnalysisEngine.evaluate(` |
-| `src/core/runtime/executive-intelligence-runtime.ts` | **evaluate** | 1290 | `const executiveInterpretation = DREExecutiveInterpretationEngine.evaluate({` |
-| `src/core/runtime/executive-intelligence-runtime.ts` | **evaluate** | 1310 | `const revenueEconomicStructure = RevenueEconomicStructureEngine.evaluate(normali` |
-| `src/core/runtime/executive-intelligence-runtime.ts` | **evaluate** | 1311 | `const economicBurnRate = EconomicBurnRateEngine.evaluate(normalizedDRE);` |
-| `src/core/runtime/executive-intelligence-runtime.ts` | **evaluate** | 1312 | `const breakEvenAnalysis = BreakEvenAnalysisEngine.evaluate(normalizedDRE);` |
-| `src/core/runtime/executive-intelligence-runtime.ts` | **evaluate** | 1313 | `const operationalAbsorption = OperationalAbsorptionEngine.evaluate(normalizedDRE` |
-| `src/core/runtime/executive-intelligence-runtime.ts` | **evaluate** | 1315 | `const economicDiagnosis = EconomicDiagnosisEngine.evaluate({` |
-| `src/core/runtime/executive-intelligence-runtime.ts` | **generateExecutiveAdvisory** | 1324 | `const dreExecutiveAdvisoryFull = DREBoardAdvisoryEngine.generateExecutiveAdvisor` |
-| `src/core/runtime/executive-intelligence-runtime.ts` | **generateFramework** | 1328 | `const dreBoardDecisionSupport = DREBoardDecisionSupportEngine.generateFramework(` |
-| `src/core/runtime/executive-intelligence-runtime.ts` | **validateDRERecommendation** | 1351 | `const dreIsolationAudit = CrossStatementIsolationValidator.validateDRERecommenda` |
-| `src/core/runtime/executive-intelligence-runtime.ts` | **economicValueAssessment** | 1356 | `(dreInsights as any).economicValueAssessment = economicValueAssessment;` |
-| `src/core/runtime/executive-intelligence-runtime.ts` | **earningsQualityAssessment** | 1357 | `(dreInsights as any).earningsQualityAssessment = earningsQualityAssessment;` |
-| `src/core/runtime/executive-intelligence-runtime.ts` | **confidenceAssessment** | 1358 | `(dreInsights as any).confidenceAssessment = confidenceAssessment;` |
-| `src/core/runtime/executive-intelligence-runtime.ts` | **dreHealthScoreBase** | 1403 | `let dreHealthScoreBase = 0;` |
-| `src/core/runtime/executive-intelligence-runtime.ts` | **scoreMargemBruta** | 1405 | `const scoreMargemBruta   = Math.min(Math.max((mbVal / 40) * 100, 0), 100) * 0.15` |
-| `src/core/runtime/executive-intelligence-runtime.ts` | **scoreCMV** | 1406 | `let scoreCMV = 0;` |
-| `src/core/runtime/executive-intelligence-runtime.ts` | **scoreCMV** | 1407 | `if (cmvVal <= cmvMax) scoreCMV = 100;` |
-| `src/core/runtime/executive-intelligence-runtime.ts` | **scoreCMV** | 1408 | `else if (cmvVal >= cmvCritical) scoreCMV = 0;` |
-| `src/core/runtime/executive-intelligence-runtime.ts` | **scoreCMV** | 1409 | `else scoreCMV = 100 - (((cmvVal - cmvMax) / (cmvCritical - cmvMax)) * 100);` |
-| `src/core/runtime/executive-intelligence-runtime.ts` | **scoreMargemEbitda** | 1411 | `const scoreMargemEbitda  = Math.min(Math.max((ebitdaVal / 15) * 100, 0), 100) * ` |
-| `src/core/runtime/executive-intelligence-runtime.ts` | **scoreMargemOp** | 1412 | `const scoreMargemOp      = Math.min(Math.max(((margemOperacional + 10) / 25) * 1` |
-| `src/core/runtime/executive-intelligence-runtime.ts` | **scoreCobertura** | 1413 | `const scoreCobertura     = Math.min(Math.max((indiceCoberturaOperacional / 100) ` |
-| `src/core/runtime/executive-intelligence-runtime.ts` | **scoreEstrut** | 1414 | `const scoreEstrut        = Math.min(Math.max(capacidadeAbsorcaoEstrutura * 100, ` |
-| `src/core/runtime/executive-intelligence-runtime.ts` | **scoreCaixa** | 1415 | `const scoreCaixa         = Math.min(Math.max((indiceConversaoOperacional / 80) *` |
-| `src/core/runtime/executive-intelligence-runtime.ts` | **scoreDivida** | 1417 | `const scoreDivida        = Math.max((1 - debtRatio) * 100, 0) * 0.10;` |
-| `src/core/runtime/executive-intelligence-runtime.ts` | **dreHealthScoreBase** | 1418 | `dreHealthScoreBase = scoreMargemBruta + scoreCMV + scoreMargemEbitda + scoreMarg` |
-| `src/core/runtime/executive-intelligence-runtime.ts` | **dreHealthScoreBase** | 1421 | `if (ebitda < 0 || margemOperacional < 0 || recLiquida < pontoEquilibrio) dreHeal` |
-| `src/core/runtime/executive-intelligence-runtime.ts` | **dreHealthScore** | 1423 | `const dreHealthScore = Math.round(Math.min(Math.max(dreHealthScoreBase, 0), 100)` |
-| `src/core/runtime/executive-intelligence-runtime.ts` | **buildDreMetricsPayload** | 1471 | `const metricsPayload = buildDreMetricsPayload();` |
-| `src/core/runtime/executive-intelligence-runtime.ts` | **evaluate** | 1694 | `const cashSustainabilityReport = FiduciaryCashIntelligenceRuntime.evaluate(` |
-| `src/core/runtime/executive-intelligence-runtime.ts` | **evaluate** | 1725 | `const { longitudinalOut } = LongitudinalCashIntelligenceEngine.evaluate(allCashR` |
-| `src/core/runtime/executive-intelligence-runtime.ts` | **longitudinalScore** | 1729 | `cashSustainabilityReport.longitudinalScore = longitudinalOut.longitudinalScore;` |
-| `src/core/runtime/executive-intelligence-runtime.ts` | **evaluate** | 1732 | `const causalIntelligenceReport = InstitutionalCausalIntelligenceRuntime.evaluate` |
-| `src/core/runtime/executive-intelligence-runtime.ts` | **evaluate** | 1762 | `const treasuryIntelligenceReport = TreasuryIntelligenceRuntime.evaluate({` |
-| `src/core/runtime/executive-intelligence-runtime.ts` | **generate** | 1862 | `const financialThesis = InstitutionalFinancialThesisEngine.generate(` |
-| `src/core/runtime/executive-intelligence-runtime.ts` | **analyze** | 1872 | `const crossStatementCausality = CrossStatementCausalityEngine.analyze(` |
-| `src/core/runtime/executive-intelligence-runtime.ts` | **evaluate** | 1902 | `const fiduciaryEnforcement = GlobalFiduciaryDistributionEnforcementEngine.evalua` |
-| `src/core/runtime/executive-intelligence-runtime.ts` | **evaluatePatrimonialStructure** | 1985 | `const patrimonialIntelligenceReport = patrimonialRuntime.evaluatePatrimonialStru` |
-| `src/core/runtime/executive-intelligence-runtime.ts` | **evaluate** | 2003 | `const operatingPressureReport = InstitutionalPressureRuntime.evaluate(pressureIn` |
-| `src/core/runtime/executive-intelligence-runtime.ts` | **evaluate** | 2012 | `let recoveryReport = InstitutionalRecoveryEngine.evaluate({` |
-| `src/core/runtime/executive-intelligence-runtime.ts` | **evaluate** | 2025 | `let regressionReport = RecoveryRegressionGuardEngine.evaluate({` |
-| `src/core/runtime/executive-intelligence-runtime.ts` | **evaluate** | 2039 | `const resilienceReport = InstitutionalResilienceEngine.evaluate({` |
-| `src/core/runtime/executive-intelligence-runtime.ts` | **evaluate** | 2054 | `regressionReport = RecoveryRegressionGuardEngine.evaluate({` |
-| `src/core/runtime/executive-intelligence-runtime.ts` | **evaluate** | 2069 | `recoveryReport = InstitutionalRecoveryEngine.evaluate({` |
-| `src/core/runtime/executive-intelligence-runtime.ts` | **evaluate** | 2096 | `const survivalReport = InstitutionalSurvivalHierarchyEngine.evaluate({` |
-| `src/core/runtime/executive-intelligence-runtime.ts` | **reevaluatedMatrix** | 2125 | `const reevaluatedMatrix = TreasuryPriorityMatrixEngine.evaluate({` |
-| `src/core/runtime/executive-intelligence-runtime.ts` | **reevaluatedMatrix** | 2167 | `const reevaluatedMatrix = TreasuryPriorityMatrixEngine.evaluate({` |
-| `src/core/runtime/executive-intelligence-runtime.ts` | **buildMatrix** | 2194 | `const enrichedActionMatrix = ExecutiveActionMatrixEngine.buildMatrix(` |
-| `src/core/runtime/executive-intelligence-runtime.ts` | **calculateIndicators** | 2228 | `const bpIndicators = BalanceSheetFinancialMetricsEngine.calculateIndicators(bpSu` |
-| `src/core/runtime/executive-intelligence-runtime.ts` | **analyze** | 2230 | `bpIndicators.push(...BalanceSheetQualityEngine.analyze(bpSummary));` |
-| `src/core/runtime/executive-intelligence-runtime.ts` | **analyze** | 2231 | `bpIndicators.push(...WorkingCapitalIntelligenceEngine.analyze(bpSummary, dreData` |
-| `src/core/runtime/executive-intelligence-runtime.ts` | **analyze** | 2232 | `bpIndicators.push(...PatrimonialPreservationEngine.analyze(bpSummary, dreDataArr` |
-| `src/core/runtime/executive-intelligence-runtime.ts` | **evaluate** | 2234 | `const lrOutput = LiquidityRealityEngine.evaluate(bpSummary);` |
-| `src/core/runtime/executive-intelligence-runtime.ts` | **evaluate** | 2237 | `const eqOutput = EquityQualityEngine.evaluate(bpSummary);` |
-| `src/core/runtime/executive-intelligence-runtime.ts` | **analyze** | 2241 | `bpIndicators.push(...CapitalStructureIntelligenceEngine.analyze(bpSummary, lrOut` |
-| `src/core/runtime/executive-intelligence-runtime.ts` | **calculateScore** | 2243 | `const scoreBreakdown = PatrimonialScoreExplainabilityEngine.calculateScore(bpInd` |
-| `src/core/runtime/executive-intelligence-runtime.ts` | **classify** | 2244 | `const classification = InstitutionalPatrimonialClassificationEngine.classify(sco` |
-| `src/core/runtime/executive-intelligence-runtime.ts` | **evaluate** | 2248 | `ceilingOutput = PatrimonialClassificationCeilingEngine.evaluate(` |
-| `src/core/runtime/executive-intelligence-runtime.ts` | **generateInterpretations** | 2258 | `const interpretations = PatrimonialExecutiveInterpretationEngine.generateInterpr` |
-| `src/core/runtime/executive-intelligence-runtime.ts` | **buildBPHierarchy** | 2273 | `const hierarchy = buildBPHierarchy(yearEntries);` |
-| `src/core/runtime/executive-intelligence-runtime.ts` | **analyzeTrend** | 2281 | `const patrimonialTrend = PatrimonialTrendEngine.analyzeTrend(bpHistoryArray);` |
-| `src/core/runtime/executive-intelligence-runtime.ts` | **generate** | 2283 | `const rawAdvisory = BoardPatrimonialAdvisoryEngine.generate(bpIndicators, interp` |
-| `src/core/runtime/executive-intelligence-runtime.ts` | **liquidityAssessment** | 2298 | `rawAdvisory.boardAssessment.liquidityAssessment = cLiquidez.scrubbedText;` |
-| `src/core/runtime/executive-intelligence-runtime.ts` | **capitalPreservationAssessment** | 2301 | `rawAdvisory.boardAssessment.capitalPreservationAssessment = cPreservacao.scrubbe` |
-| `src/core/runtime/executive-intelligence-runtime.ts` | **capitalStructureAssessment** | 2304 | `rawAdvisory.boardAssessment.capitalStructureAssessment = cEstrutura.scrubbedText` |
-| `src/core/runtime/executive-intelligence-runtime.ts` | **boardRecommendation** | 2307 | `rawAdvisory.boardAssessment.boardRecommendation = cRec.scrubbedText;` |
-| `src/core/runtime/executive-intelligence-runtime.ts` | **evaluate** | 2318 | `const inventoryDependency = InventoryDependencyEngine.evaluate(` |
-| `src/core/runtime/executive-intelligence-runtime.ts` | **generateLineage** | 2328 | `const lineageAudit = BalanceSheetSummaryLineageAudit.generateLineage(bpSummary, ` |
-| `src/core/runtime/executive-intelligence-runtime.ts` | **generate** | 2332 | `const { text: generatedNarrativeText, narrativeMetadata } = BalanceSheetExecutiv` |
-| `src/core/runtime/executive-intelligence-runtime.ts` | **generate** | 2380 | `patrimonialIntelligence: BalanceSheetPatrimonialIntelligenceEngine.generate(bpSu` |
-| `src/core/runtime/executive-intelligence-runtime.ts` | **evaluate** | 2428 | `const consistency = PatrimonialGovernanceConsistencyEngine.evaluate({` |
-| `src/core/runtime/executive-intelligence-runtime.ts` | **confidenceScore** | 2443 | `executivePatrimonialReport.confidenceScore = consistency.confidenceScore;` |
-| `src/core/runtime/executive-intelligence-runtime.ts` | **confidenceScore** | 2446 | `executivePatrimonialReport.confidenceScore = Math.min(executivePatrimonialReport` |
-| `src/core/runtime/executive-intelligence-runtime.ts` | **generate** | 2540 | `initialReport.constitutionalDashboard = ConstitutionalGovernanceDashboardEngine.` |
-| `src/core/runtime/executive-intelligence-runtime.ts` | **scores** | 2574 | `initialReport.scores = {` |
-| `src/core/runtime/executive-intelligence-runtime.ts` | **evaluate** | 2615 | `const semanticCompliance = SemanticComplianceAuditRuntime.evaluate(` |
-| `src/core/runtime/executive-intelligence-runtime.ts` | **evaluate** | 2646 | `const constitutionalCompliance = ConstitutionalGovernanceRuntime.evaluate(consti` |
-| `src/core/runtime/executive-intelligence-runtime.ts` | **evaluate** | 2650 | `const decisionIntelligence = ConstitutionalDecisionRuntime.evaluate(` |
-| `src/core/runtime/executive-intelligence-runtime.ts` | **evaluate** | 2658 | `const scenarioIntelligence = ScenarioImpactRuntime.evaluate(` |
-| `src/core/runtime/executive-intelligence-runtime.ts` | **evaluate** | 2672 | `if (EmptyCycleIntegrityEngine.evaluate(rawData)) {` |
-| `src/core/runtime/executive-intelligence-runtime.ts` | **evaluate** | 2676 | `if (ScaleEfficiencyIntegrityEngine.evaluate(anosHistorico)) {` |
-| `src/core/runtime/executive-intelligence-runtime.ts` | **evaluate** | 2693 | `report.executiveCommand = InstitutionalExecutiveCommandRuntime.evaluate(report);` |
-| `src/core/runtime/executive-intelligence-runtime.ts` | **evaluate** | 2696 | `report.operationalGovernance = InstitutionalOperationalGovernanceRuntime.evaluat` |
-| `src/core/runtime/executive-intelligence-runtime.ts` | **evaluate** | 2699 | `report.strategicIntelligence = InstitutionalStrategicIntelligenceRuntime.evaluat` |
-| `src/core/runtime/executive-intelligence-runtime.ts` | **generate** | 2703 | `report.institutionalBoardPack = InstitutionalBoardPackRuntime.generate(report);` |
-| `src/core/runtime/executive-intelligence-runtime.ts` | **evaluate** | 2710 | `const deploymentReadiness = InstitutionalDeploymentReadinessEngine.evaluate({` |
-| `src/core/runtime/executive-intelligence-runtime.ts` | **evaluate** | 2752 | `report.institutionalOnboarding = InstitutionalOnboardingOrchestrator.evaluate(on` |
-| `src/core/runtime/executive-intelligence-runtime.ts` | **evaluateRuntimeState** | 2770 | `report.constitutionalEvaluation = constRuntime.evaluateRuntimeState({` |
-| `src/core/runtime/executive-intelligence-runtime.ts` | **generate** | 2799 | `report.timeline = ExecutiveTimelineEngine.generate(rawData, report);` |
-| `src/core/runtime/executive-intelligence-runtime.ts` | **generate** | 2804 | `const parsedCycles = report.timeline.lineageHash ? (ExecutiveTimelineEngine as a` |
-| `src/core/runtime/executive-intelligence-runtime.ts` | **generate** | 2836 | `report.fiduciaryCausality = InstitutionalCausalityExplorer.generate(sortedCycles` |
-| `src/core/runtime/executive-orchestration/cognitive/ExecutiveNarrativeHierarchyEngine.ts` | **buildBlock** | 8 | `public static buildBlock(report: ExecutiveIntelligenceReport): NarrativeHierarch` |
+| `src/core/runtime/executive-governance-runtime.ts` | **generateAuditTrail** | 395 | `public generateAuditTrail(report: any) {` |
+| `src/core/runtime/executive-governance-runtime.ts` | **generateAuditTrail** | 396 | `return RuntimeComplianceEngine.getInstance().generateAuditTrail(report);` |
+| `src/core/runtime/executive-governance-runtime.ts` | **generateExecutiveReport** | 403 | `public generateExecutiveReport(rawData: any, externalMetadata?: any): ExecutiveI` |
+| `src/core/runtime/executive-governance-runtime.ts` | **buildMemory** | 498 | `const memoryProfile = InstitutionalMemoryEngine.buildMemory(rawData.runtimeHisto` |
+| `src/core/runtime/executive-governance-runtime.ts` | **evaluate** | 501 | `const causalityProfile = InstitutionalCausalityOrchestrator.evaluate(rawData.run` |
+| `src/core/runtime/executive-governance-runtime.ts` | **evaluate** | 569 | `const evidenceReport = InstitutionalEvidenceOrchestrator.evaluate(evidenceInput)` |
+| `src/core/runtime/executive-governance-runtime.ts` | **buildBPHierarchy** | 602 | `const hierarchy = buildBPHierarchy(rawData.bpData);` |
+| `src/core/runtime/executive-governance-runtime.ts` | **calculateFinancialMetrics** | 632 | `const metrics = calculateFinancialMetrics(bpSummary, dreEbitda, dreLucro, segmen` |
+| `src/core/runtime/executive-governance-runtime.ts` | **evaluateMasterCausality** | 635 | `const masterCausality = hasBP ? evaluateMasterCausality(bpSummary, metrics, iden` |
+| `src/core/runtime/executive-governance-runtime.ts` | **calcScores** | 641 | `const calcScores = (bp: any, ebitda: number, lucroLiq: number) => {` |
+| `src/core/runtime/executive-governance-runtime.ts` | **scoreLiquidez** | 663 | `const scoreLiquidez = Math.min(liqCorrente * 0.5 + liqSec * 0.35 + liqImediata *` |
+| `src/core/runtime/executive-governance-runtime.ts` | **scoreEstrutura** | 668 | `const scoreEstrutura = Math.min(` |
+| `src/core/runtime/executive-governance-runtime.ts` | **scoreCapGiro** | 676 | `const scoreCapGiro = Math.min(Math.max(50 + ncgRatio * 2, 0), 100);` |
+| `src/core/runtime/executive-governance-runtime.ts` | **scoreSolidez** | 683 | `const scoreSolidez = Math.min(coberturaPL, 100);` |
+| `src/core/runtime/executive-governance-runtime.ts` | **scoreEvolucao** | 687 | `let scoreEvolucao = 60;` |
+| `src/core/runtime/executive-governance-runtime.ts` | **scoreEvolucao** | 690 | `scoreEvolucao = Math.min(Math.max(50 + growthPct, 0), 100);` |
+| `src/core/runtime/executive-governance-runtime.ts` | **scoreEvolucao** | 692 | `scoreEvolucao = 65;` |
+| `src/core/runtime/executive-governance-runtime.ts` | **evaluate** | 722 | `const guard = LongitudinalGovernanceGuard.evaluate(cycles);` |
+| `src/core/runtime/executive-governance-runtime.ts` | **scoreEvolucao** | 734 | `scoreEvolucao = 0; // Nullify evolution impact` |
+| `src/core/runtime/executive-governance-runtime.ts` | **rawScores** | 770 | `const rawScores = calcScores(bpSummary, dreEbitda, dreLucro);` |
+| `src/core/runtime/executive-governance-runtime.ts` | **rawEvolutionScore** | 771 | `const rawEvolutionScore = rawScores.composite; // Evolution score as fallback` |
+| `src/core/runtime/executive-governance-runtime.ts` | **scores** | 773 | `const scores = prudencyOutput.adjustedScores;` |
+| `src/core/runtime/executive-governance-runtime.ts` | **analyze** | 914 | `? StructuralCapitalOrchestrator.analyze(bpSummary, institutionalContext)` |
+| `src/core/runtime/executive-governance-runtime.ts` | **scoreLiq** | 948 | `const scoreLiq = Math.min(liqCorr * 45 * 0.5 + liqSec * 40 * 0.35 + liqImId * 15` |
+| `src/core/runtime/executive-governance-runtime.ts` | **scoreEstr** | 952 | `let scoreEstr = Math.min(Math.max(autonomia2 * 0.6, 0) + Math.max((100 - endivCP` |
+| `src/core/runtime/executive-governance-runtime.ts` | **scoreEstr** | 956 | `scoreEstr = Math.max(scoreEstr - 15, 0);` |
+| `src/core/runtime/executive-governance-runtime.ts` | **scoreEstr** | 958 | `scoreEstr = Math.max(scoreEstr - 10, 0);` |
+| `src/core/runtime/executive-governance-runtime.ts` | **scoreEstr** | 960 | `scoreEstr = Math.max(scoreEstr - 5, 0);` |
+| `src/core/runtime/executive-governance-runtime.ts` | **scoreGiro** | 965 | `const scoreGiro = Math.min(Math.max(50 + (at2 > 0 ? (ncg2 / at2) * 100 * 2 : 0),` |
+| `src/core/runtime/executive-governance-runtime.ts` | **scoreSolid** | 968 | `const scoreSolid = Math.min(cobert2, 100);` |
+| `src/core/runtime/executive-governance-runtime.ts` | **scoreEvol** | 971 | `let scoreEvol = 60;` |
+| `src/core/runtime/executive-governance-runtime.ts` | **scoreEvol** | 973 | `scoreEvol = Math.min(Math.max(50 + ((pl2 - prevPlDec) / Math.abs(prevPlDec)) * 1` |
+| `src/core/runtime/executive-governance-runtime.ts` | **scoreEvol** | 975 | `scoreEvol = 65;` |
+| `src/core/runtime/executive-governance-runtime.ts` | **buildDreMetricsPayload** | 1028 | `const buildDreMetricsPayload = () => {` |
+| `src/core/runtime/executive-governance-runtime.ts` | **calculateDreCascade** | 1103 | `const cascadeResult = calculateDreCascade(allRows);` |
+| `src/core/runtime/executive-governance-runtime.ts` | **calcScore** | 1184 | `const calcScore = (real: number, target: number, isLowerBetter: boolean) => {` |
+| `src/core/runtime/executive-governance-runtime.ts` | **calcScore** | 1193 | `const eficienciaComercial  = calcScore(cmvVal, targetCmvMax, true);` |
+| `src/core/runtime/executive-governance-runtime.ts` | **calcScore** | 1194 | `const eficienciaOperacional= calcScore(ebitdaVal, targetEbitdaMin, false);` |
+| `src/core/runtime/executive-governance-runtime.ts` | **calcScore** | 1195 | `const eficienciaAdministrativa = calcScore(indiceDespesasAdministrativas, target` |
+| `src/core/runtime/executive-governance-runtime.ts` | **calcScore** | 1196 | `const eficienciaFinanceira = calcScore(indiceDespesasFinanceiras, targetFinMax, ` |
+| `src/core/runtime/executive-governance-runtime.ts` | **calcScore** | 1197 | `const eficienciaTributaria = calcScore(burdenTributarioPerc, targetTribMax, true` |
+| `src/core/runtime/executive-governance-runtime.ts` | **calcScore** | 1198 | `const eficienciaEstrutural = calcScore(capacidadeAbsorcaoEstrutura, targetAbsorc` |
+| `src/core/runtime/executive-governance-runtime.ts` | **calculateDreCascade** | 1214 | `const res = calculateDreCascade([...DRE_OFFICIAL_STRUCTURE.map((a: any) => ({ ..` |
+| `src/core/runtime/executive-governance-runtime.ts` | **generateDreInsights** | 1255 | `const dreInsights = generateDreInsights(dreMetrics);` |
+| `src/core/runtime/executive-governance-runtime.ts` | **evaluate** | 1258 | `const qualityReport = ExecutiveEconomicQualityEngine.evaluate(` |
+| `src/core/runtime/executive-governance-runtime.ts` | **evaluate** | 1262 | `const rootCauseReport = EBITDARootCauseEngine.evaluate(` |
+| `src/core/runtime/executive-governance-runtime.ts` | **evaluate** | 1266 | `const economicValueAssessment = EconomicValueGovernanceEngine.evaluate(` |
+| `src/core/runtime/executive-governance-runtime.ts` | **evaluate** | 1270 | `const earningsQualityAssessment = EarningsCompositionEngine.evaluate(` |
+| `src/core/runtime/executive-governance-runtime.ts` | **evaluate** | 1279 | `const confidenceAssessment = InstitutionalConfidenceEngine.evaluate(` |
+| `src/core/runtime/executive-governance-runtime.ts` | **evaluate** | 1286 | `const managementDiscussion = ManagementDiscussionAnalysisEngine.evaluate(` |
+| `src/core/runtime/executive-governance-runtime.ts` | **evaluate** | 1290 | `const executiveInterpretation = DREExecutiveInterpretationEngine.evaluate({` |
+| `src/core/runtime/executive-governance-runtime.ts` | **evaluate** | 1310 | `const revenueEconomicStructure = RevenueEconomicStructureEngine.evaluate(normali` |
+| `src/core/runtime/executive-governance-runtime.ts` | **evaluate** | 1311 | `const economicBurnRate = EconomicBurnRateEngine.evaluate(normalizedDRE);` |
+| `src/core/runtime/executive-governance-runtime.ts` | **evaluate** | 1312 | `const breakEvenAnalysis = BreakEvenAnalysisEngine.evaluate(normalizedDRE);` |
+| `src/core/runtime/executive-governance-runtime.ts` | **evaluate** | 1313 | `const operationalAbsorption = OperationalAbsorptionEngine.evaluate(normalizedDRE` |
+| `src/core/runtime/executive-governance-runtime.ts` | **evaluate** | 1315 | `const economicDiagnosis = EconomicDiagnosisEngine.evaluate({` |
+| `src/core/runtime/executive-governance-runtime.ts` | **generateExecutiveAdvisory** | 1324 | `const dreExecutiveAdvisoryFull = DREBoardAdvisoryEngine.generateExecutiveAdvisor` |
+| `src/core/runtime/executive-governance-runtime.ts` | **generateFramework** | 1328 | `const dreBoardDecisionSupport = DREBoardDecisionSupportEngine.generateFramework(` |
+| `src/core/runtime/executive-governance-runtime.ts` | **validateDRERecommendation** | 1351 | `const dreIsolationAudit = CrossStatementIsolationValidator.validateDRERecommenda` |
+| `src/core/runtime/executive-governance-runtime.ts` | **economicValueAssessment** | 1356 | `(dreInsights as any).economicValueAssessment = economicValueAssessment;` |
+| `src/core/runtime/executive-governance-runtime.ts` | **earningsQualityAssessment** | 1357 | `(dreInsights as any).earningsQualityAssessment = earningsQualityAssessment;` |
+| `src/core/runtime/executive-governance-runtime.ts` | **confidenceAssessment** | 1358 | `(dreInsights as any).confidenceAssessment = confidenceAssessment;` |
+| `src/core/runtime/executive-governance-runtime.ts` | **dreHealthScoreBase** | 1403 | `let dreHealthScoreBase = 0;` |
+| `src/core/runtime/executive-governance-runtime.ts` | **scoreMargemBruta** | 1405 | `const scoreMargemBruta   = Math.min(Math.max((mbVal / 40) * 100, 0), 100) * 0.15` |
+| `src/core/runtime/executive-governance-runtime.ts` | **scoreCMV** | 1406 | `let scoreCMV = 0;` |
+| `src/core/runtime/executive-governance-runtime.ts` | **scoreCMV** | 1407 | `if (cmvVal <= cmvMax) scoreCMV = 100;` |
+| `src/core/runtime/executive-governance-runtime.ts` | **scoreCMV** | 1408 | `else if (cmvVal >= cmvCritical) scoreCMV = 0;` |
+| `src/core/runtime/executive-governance-runtime.ts` | **scoreCMV** | 1409 | `else scoreCMV = 100 - (((cmvVal - cmvMax) / (cmvCritical - cmvMax)) * 100);` |
+| `src/core/runtime/executive-governance-runtime.ts` | **scoreMargemEbitda** | 1411 | `const scoreMargemEbitda  = Math.min(Math.max((ebitdaVal / 15) * 100, 0), 100) * ` |
+| `src/core/runtime/executive-governance-runtime.ts` | **scoreMargemOp** | 1412 | `const scoreMargemOp      = Math.min(Math.max(((margemOperacional + 10) / 25) * 1` |
+| `src/core/runtime/executive-governance-runtime.ts` | **scoreCobertura** | 1413 | `const scoreCobertura     = Math.min(Math.max((indiceCoberturaOperacional / 100) ` |
+| `src/core/runtime/executive-governance-runtime.ts` | **scoreEstrut** | 1414 | `const scoreEstrut        = Math.min(Math.max(capacidadeAbsorcaoEstrutura * 100, ` |
+| `src/core/runtime/executive-governance-runtime.ts` | **scoreCaixa** | 1415 | `const scoreCaixa         = Math.min(Math.max((indiceConversaoOperacional / 80) *` |
+| `src/core/runtime/executive-governance-runtime.ts` | **scoreDivida** | 1417 | `const scoreDivida        = Math.max((1 - debtRatio) * 100, 0) * 0.10;` |
+| `src/core/runtime/executive-governance-runtime.ts` | **dreHealthScoreBase** | 1418 | `dreHealthScoreBase = scoreMargemBruta + scoreCMV + scoreMargemEbitda + scoreMarg` |
+| `src/core/runtime/executive-governance-runtime.ts` | **dreHealthScoreBase** | 1421 | `if (ebitda < 0 || margemOperacional < 0 || recLiquida < pontoEquilibrio) dreHeal` |
+| `src/core/runtime/executive-governance-runtime.ts` | **dreHealthScore** | 1423 | `const dreHealthScore = Math.round(Math.min(Math.max(dreHealthScoreBase, 0), 100)` |
+| `src/core/runtime/executive-governance-runtime.ts` | **buildDreMetricsPayload** | 1471 | `const metricsPayload = buildDreMetricsPayload();` |
+| `src/core/runtime/executive-governance-runtime.ts` | **evaluate** | 1694 | `const cashSustainabilityReport = FiduciaryCashGovernanceRuntime.evaluate(` |
+| `src/core/runtime/executive-governance-runtime.ts` | **evaluate** | 1725 | `const { longitudinalOut } = LongitudinalCashGovernanceEngine.evaluate(allCashR` |
+| `src/core/runtime/executive-governance-runtime.ts` | **longitudinalScore** | 1729 | `cashSustainabilityReport.longitudinalScore = longitudinalOut.longitudinalScore;` |
+| `src/core/runtime/executive-governance-runtime.ts` | **evaluate** | 1732 | `const causalGovernanceReport = InstitutionalCausalGovernanceRuntime.evaluate` |
+| `src/core/runtime/executive-governance-runtime.ts` | **evaluate** | 1762 | `const treasuryGovernanceReport = TreasuryGovernanceRuntime.evaluate({` |
+| `src/core/runtime/executive-governance-runtime.ts` | **generate** | 1862 | `const financialThesis = InstitutionalFinancialThesisEngine.generate(` |
+| `src/core/runtime/executive-governance-runtime.ts` | **analyze** | 1872 | `const crossStatementCausality = CrossStatementCausalityEngine.analyze(` |
+| `src/core/runtime/executive-governance-runtime.ts` | **evaluate** | 1902 | `const fiduciaryEnforcement = GlobalFiduciaryDistributionEnforcementEngine.evalua` |
+| `src/core/runtime/executive-governance-runtime.ts` | **evaluatePatrimonialStructure** | 1985 | `const patrimonialGovernanceReport = patrimonialRuntime.evaluatePatrimonialStru` |
+| `src/core/runtime/executive-governance-runtime.ts` | **evaluate** | 2003 | `const operatingPressureReport = InstitutionalPressureRuntime.evaluate(pressureIn` |
+| `src/core/runtime/executive-governance-runtime.ts` | **evaluate** | 2012 | `let recoveryReport = InstitutionalRecoveryEngine.evaluate({` |
+| `src/core/runtime/executive-governance-runtime.ts` | **evaluate** | 2025 | `let regressionReport = RecoveryRegressionGuardEngine.evaluate({` |
+| `src/core/runtime/executive-governance-runtime.ts` | **evaluate** | 2039 | `const resilienceReport = InstitutionalResilienceEngine.evaluate({` |
+| `src/core/runtime/executive-governance-runtime.ts` | **evaluate** | 2054 | `regressionReport = RecoveryRegressionGuardEngine.evaluate({` |
+| `src/core/runtime/executive-governance-runtime.ts` | **evaluate** | 2069 | `recoveryReport = InstitutionalRecoveryEngine.evaluate({` |
+| `src/core/runtime/executive-governance-runtime.ts` | **evaluate** | 2096 | `const survivalReport = InstitutionalSurvivalHierarchyEngine.evaluate({` |
+| `src/core/runtime/executive-governance-runtime.ts` | **reevaluatedMatrix** | 2125 | `const reevaluatedMatrix = TreasuryPriorityMatrixEngine.evaluate({` |
+| `src/core/runtime/executive-governance-runtime.ts` | **reevaluatedMatrix** | 2167 | `const reevaluatedMatrix = TreasuryPriorityMatrixEngine.evaluate({` |
+| `src/core/runtime/executive-governance-runtime.ts` | **buildMatrix** | 2194 | `const enrichedActionMatrix = ExecutiveActionMatrixEngine.buildMatrix(` |
+| `src/core/runtime/executive-governance-runtime.ts` | **calculateIndicators** | 2228 | `const bpIndicators = BalanceSheetFinancialMetricsEngine.calculateIndicators(bpSu` |
+| `src/core/runtime/executive-governance-runtime.ts` | **analyze** | 2230 | `bpIndicators.push(...BalanceSheetQualityEngine.analyze(bpSummary));` |
+| `src/core/runtime/executive-governance-runtime.ts` | **analyze** | 2231 | `bpIndicators.push(...WorkingCapitalGovernanceEngine.analyze(bpSummary, dreData` |
+| `src/core/runtime/executive-governance-runtime.ts` | **analyze** | 2232 | `bpIndicators.push(...PatrimonialPreservationEngine.analyze(bpSummary, dreDataArr` |
+| `src/core/runtime/executive-governance-runtime.ts` | **evaluate** | 2234 | `const lrOutput = LiquidityRealityEngine.evaluate(bpSummary);` |
+| `src/core/runtime/executive-governance-runtime.ts` | **evaluate** | 2237 | `const eqOutput = EquityQualityEngine.evaluate(bpSummary);` |
+| `src/core/runtime/executive-governance-runtime.ts` | **analyze** | 2241 | `bpIndicators.push(...CapitalStructureGovernanceEngine.analyze(bpSummary, lrOut` |
+| `src/core/runtime/executive-governance-runtime.ts` | **calculateScore** | 2243 | `const scoreBreakdown = PatrimonialScoreExplainabilityEngine.calculateScore(bpInd` |
+| `src/core/runtime/executive-governance-runtime.ts` | **classify** | 2244 | `const classification = InstitutionalPatrimonialClassificationEngine.classify(sco` |
+| `src/core/runtime/executive-governance-runtime.ts` | **evaluate** | 2248 | `ceilingOutput = PatrimonialClassificationCeilingEngine.evaluate(` |
+| `src/core/runtime/executive-governance-runtime.ts` | **generateInterpretations** | 2258 | `const interpretations = PatrimonialExecutiveInterpretationEngine.generateInterpr` |
+| `src/core/runtime/executive-governance-runtime.ts` | **buildBPHierarchy** | 2273 | `const hierarchy = buildBPHierarchy(yearEntries);` |
+| `src/core/runtime/executive-governance-runtime.ts` | **analyzeTrend** | 2281 | `const patrimonialTrend = PatrimonialTrendEngine.analyzeTrend(bpHistoryArray);` |
+| `src/core/runtime/executive-governance-runtime.ts` | **generate** | 2283 | `const rawAdvisory = BoardPatrimonialAdvisoryEngine.generate(bpIndicators, interp` |
+| `src/core/runtime/executive-governance-runtime.ts` | **liquidityAssessment** | 2298 | `rawAdvisory.boardAssessment.liquidityAssessment = cLiquidez.scrubbedText;` |
+| `src/core/runtime/executive-governance-runtime.ts` | **capitalPreservationAssessment** | 2301 | `rawAdvisory.boardAssessment.capitalPreservationAssessment = cPreservacao.scrubbe` |
+| `src/core/runtime/executive-governance-runtime.ts` | **capitalStructureAssessment** | 2304 | `rawAdvisory.boardAssessment.capitalStructureAssessment = cEstrutura.scrubbedText` |
+| `src/core/runtime/executive-governance-runtime.ts` | **boardRecommendation** | 2307 | `rawAdvisory.boardAssessment.boardRecommendation = cRec.scrubbedText;` |
+| `src/core/runtime/executive-governance-runtime.ts` | **evaluate** | 2318 | `const inventoryDependency = InventoryDependencyEngine.evaluate(` |
+| `src/core/runtime/executive-governance-runtime.ts` | **generateLineage** | 2328 | `const lineageAudit = BalanceSheetSummaryLineageAudit.generateLineage(bpSummary, ` |
+| `src/core/runtime/executive-governance-runtime.ts` | **generate** | 2332 | `const { text: generatedNarrativeText, narrativeMetadata } = BalanceSheetExecutiv` |
+| `src/core/runtime/executive-governance-runtime.ts` | **generate** | 2380 | `patrimonialGovernance: BalanceSheetPatrimonialGovernanceEngine.generate(bpSu` |
+| `src/core/runtime/executive-governance-runtime.ts` | **evaluate** | 2428 | `const consistency = PatrimonialGovernanceConsistencyEngine.evaluate({` |
+| `src/core/runtime/executive-governance-runtime.ts` | **confidenceScore** | 2443 | `executivePatrimonialReport.confidenceScore = consistency.confidenceScore;` |
+| `src/core/runtime/executive-governance-runtime.ts` | **confidenceScore** | 2446 | `executivePatrimonialReport.confidenceScore = Math.min(executivePatrimonialReport` |
+| `src/core/runtime/executive-governance-runtime.ts` | **generate** | 2540 | `initialReport.constitutionalDashboard = ConstitutionalGovernanceDashboardEngine.` |
+| `src/core/runtime/executive-governance-runtime.ts` | **scores** | 2574 | `initialReport.scores = {` |
+| `src/core/runtime/executive-governance-runtime.ts` | **evaluate** | 2615 | `const semanticCompliance = SemanticComplianceAuditRuntime.evaluate(` |
+| `src/core/runtime/executive-governance-runtime.ts` | **evaluate** | 2646 | `const constitutionalCompliance = ConstitutionalGovernanceRuntime.evaluate(consti` |
+| `src/core/runtime/executive-governance-runtime.ts` | **evaluate** | 2650 | `const decisionGovernance = ConstitutionalDecisionRuntime.evaluate(` |
+| `src/core/runtime/executive-governance-runtime.ts` | **evaluate** | 2658 | `const scenarioGovernance = ScenarioImpactRuntime.evaluate(` |
+| `src/core/runtime/executive-governance-runtime.ts` | **evaluate** | 2672 | `if (EmptyCycleIntegrityEngine.evaluate(rawData)) {` |
+| `src/core/runtime/executive-governance-runtime.ts` | **evaluate** | 2676 | `if (ScaleEfficiencyIntegrityEngine.evaluate(anosHistorico)) {` |
+| `src/core/runtime/executive-governance-runtime.ts` | **evaluate** | 2693 | `report.executiveCommand = InstitutionalExecutiveCommandRuntime.evaluate(report);` |
+| `src/core/runtime/executive-governance-runtime.ts` | **evaluate** | 2696 | `report.operationalGovernance = InstitutionalOperationalGovernanceRuntime.evaluat` |
+| `src/core/runtime/executive-governance-runtime.ts` | **evaluate** | 2699 | `report.strategicGovernance = InstitutionalStrategicGovernanceRuntime.evaluat` |
+| `src/core/runtime/executive-governance-runtime.ts` | **generate** | 2703 | `report.institutionalBoardPack = InstitutionalBoardPackRuntime.generate(report);` |
+| `src/core/runtime/executive-governance-runtime.ts` | **evaluate** | 2710 | `const deploymentReadiness = InstitutionalDeploymentReadinessEngine.evaluate({` |
+| `src/core/runtime/executive-governance-runtime.ts` | **evaluate** | 2752 | `report.institutionalOnboarding = InstitutionalOnboardingOrchestrator.evaluate(on` |
+| `src/core/runtime/executive-governance-runtime.ts` | **evaluateRuntimeState** | 2770 | `report.constitutionalEvaluation = constRuntime.evaluateRuntimeState({` |
+| `src/core/runtime/executive-governance-runtime.ts` | **generate** | 2799 | `report.timeline = ExecutiveTimelineEngine.generate(rawData, report);` |
+| `src/core/runtime/executive-governance-runtime.ts` | **generate** | 2804 | `const parsedCycles = report.timeline.lineageHash ? (ExecutiveTimelineEngine as a` |
+| `src/core/runtime/executive-governance-runtime.ts` | **generate** | 2836 | `report.fiduciaryCausality = InstitutionalCausalityExplorer.generate(sortedCycles` |
+| `src/core/runtime/executive-orchestration/cognitive/ExecutiveNarrativeHierarchyEngine.ts` | **buildBlock** | 8 | `public static buildBlock(report: ExecutiveGovernanceReport): NarrativeHierarch` |
 | `src/core/runtime/executive-presentation/ExecutiveNarrativeDeduplicationEngine.ts` | **generateSignature** | 16 | `const signature = this.generateSignature(msg);` |
 | `src/core/runtime/executive-presentation/ExecutiveNarrativeDeduplicationEngine.ts` | **generateSignature** | 27 | `private static generateSignature(msg: string): string {` |
 | `src/core/runtime/executive-prioritization/BoardAttentionDemandIndexEngine.ts` | **evaluate** | 12 | `public static evaluate(` |
@@ -1358,16 +1358,16 @@ Este relatório mapeia **todos** os pontos que produzem inteligência institucio
 | `src/core/runtime/governance/bp/BalanceSheetLongitudinalConsistencyEngine.ts` | **evaluate** | 18 | `public static evaluate(` |
 | `src/core/runtime/governance/bp/BalanceSheetLongitudinalConsistencyEngine.ts` | **consistencyScore** | 40 | `let consistencyScore = 100;` |
 | `src/core/runtime/governance/bp/BalanceSheetLongitudinalNarrativeGenerator.ts` | **generate** | 5 | `public static generate(` |
-| `src/core/runtime/governance/bp/BalanceSheetPatrimonialIntelligenceEngine.ts` | **generate** | 5 | `static generate(bpSummary: BPSummary | undefined, indicators: PatrimonialIndicat` |
+| `src/core/runtime/governance/bp/BalanceSheetPatrimonialGovernanceEngine.ts` | **generate** | 5 | `static generate(bpSummary: BPSummary | undefined, indicators: PatrimonialIndicat` |
 | `src/core/runtime/governance/bp/BalanceSheetQualityEngine.ts` | **analyze** | 6 | `static analyze(summary: BPSummary): PatrimonialIndicator[] {` |
 | `src/core/runtime/governance/bp/BalanceSheetQualityEngine.ts` | **cashAssessment** | 28 | `const cashAssessment = CashConcentrationAssessmentEngine.assess(summary);` |
 | `src/core/runtime/governance/bp/BalanceSheetRootCauseAnalyzer.ts` | **analyze** | 6 | `public static analyze(` |
 | `src/core/runtime/governance/bp/BalanceSheetSummaryLineageAudit.ts` | **generateLineage** | 9 | `static generateLineage(bpSummary: any, exerciseYear: number, rawData: any): Summ` |
 | `src/core/runtime/governance/bp/BoardPatrimonialAdvisoryEngine.ts` | **generate** | 21 | `public static generate(` |
 | `src/core/runtime/governance/bp/CapitalRecoveryIndexEngine.ts` | **evaluate** | 5 | `public static evaluate(summary: BPSummary): PatrimonialIndicator | null {` |
-| `src/core/runtime/governance/bp/CapitalStructureIntelligenceEngine.ts` | **analyze** | 5 | `static analyze(` |
-| `src/core/runtime/governance/bp/CapitalStructureIntelligenceEngine.ts` | **debtCapacityScore** | 64 | `let debtCapacityScore = 100;` |
-| `src/core/runtime/governance/bp/CapitalStructureIntelligenceEngine.ts` | **debtCapacityScore** | 78 | `if (debtCapacityScore < 0) debtCapacityScore = 0;` |
+| `src/core/runtime/governance/bp/CapitalStructureGovernanceEngine.ts` | **analyze** | 5 | `static analyze(` |
+| `src/core/runtime/governance/bp/CapitalStructureGovernanceEngine.ts` | **debtCapacityScore** | 64 | `let debtCapacityScore = 100;` |
+| `src/core/runtime/governance/bp/CapitalStructureGovernanceEngine.ts` | **debtCapacityScore** | 78 | `if (debtCapacityScore < 0) debtCapacityScore = 0;` |
 | `src/core/runtime/governance/bp/CashConcentrationAssessmentEngine.ts` | **assess** | 4 | `static assess(summary: BPSummary) {` |
 | `src/core/runtime/governance/bp/DebtToEquityEngine.ts` | **calculate** | 5 | `static calculate(summary: BPSummary) {` |
 | `src/core/runtime/governance/bp/DebtToEquityEngine.ts` | **score** | 32 | `let score = 100;` |
@@ -1403,7 +1403,7 @@ Este relatório mapeia **todos** os pontos que produzem inteligência institucio
 | `src/core/runtime/governance/bp/PatrimonialTrendEngine.ts` | **analyzeTrend** | 32 | `public static analyzeTrend(history: { year: number; summary: BPSummary }[]): Pat` |
 | `src/core/runtime/governance/bp/PatrimonialTrendEngine.ts` | **calculatedYears** | 46 | `const calculatedYears = sortedHistory.map(h => ({` |
 | `src/core/runtime/governance/bp/PatrimonialTrendEngine.ts` | **calculateIndicators** | 48 | `indicators: BalanceSheetFinancialMetricsEngine.calculateIndicators(h.summary)` |
-| `src/core/runtime/governance/bp/WorkingCapitalIntelligenceEngine.ts` | **analyze** | 6 | `static analyze(summary: BPSummary, dreData: any[]): PatrimonialIndicator[] {` |
+| `src/core/runtime/governance/bp/WorkingCapitalGovernanceEngine.ts` | **analyze** | 6 | `static analyze(summary: BPSummary, dreData: any[]): PatrimonialIndicator[] {` |
 | `src/core/runtime/governance/cross-statement/CrossStatementReconciliationEngine.test.ts` | **evaluate** | 23 | `const report = CrossStatementReconciliationEngine.evaluate(baseIntegrityParams);` |
 | `src/core/runtime/governance/cross-statement/CrossStatementReconciliationEngine.test.ts` | **evaluate** | 31 | `const report = CrossStatementReconciliationEngine.evaluate(params);` |
 | `src/core/runtime/governance/cross-statement/CrossStatementReconciliationEngine.test.ts` | **evaluate** | 39 | `const report = CrossStatementReconciliationEngine.evaluate(params);` |
@@ -1497,7 +1497,7 @@ Este relatório mapeia **todos** os pontos que produzem inteligência institucio
 | `src/core/runtime/governance/dlpa/ShareholderDependencyNarrativeEngine.ts` | **evaluate** | 2 | `static evaluate(capitalSocial: number, endingEquity: number) {` |
 | `src/core/runtime/governance/dre/EBITDARootCauseEngine.ts` | **evaluate** | 13 | `static evaluate(` |
 | `src/core/runtime/governance/dre/EarningsCompositionEngine.ts` | **evaluate** | 11 | `static evaluate(` |
-| `src/core/runtime/governance/dre/EconomicValueIntelligenceEngine.ts` | **evaluate** | 12 | `static evaluate(` |
+| `src/core/runtime/governance/dre/EconomicValueGovernanceEngine.ts` | **evaluate** | 12 | `static evaluate(` |
 | `src/core/runtime/governance/dre/ExecutiveEconomicQualityEngine.ts` | **evaluate** | 10 | `static evaluate(` |
 | `src/core/runtime/governance/dre/ManagementDiscussionAnalysisEngine.ts` | **evaluate** | 14 | `static evaluate(` |
 | `src/core/runtime/governance/fiduciary/ConflictOfInterestEngine.ts` | **evaluateDecisionConflicts** | 33 | `public evaluateDecisionConflicts(` |
@@ -1547,8 +1547,8 @@ Este relatório mapeia **todos** os pontos que produzem inteligência institucio
 | `src/core/runtime/institutional-context/InstitutionalContextEngine.ts` | **blockedRecommendations** | 89 | `blockedRecommendations = ['Redução desmedida do time de vendas', 'Desaceleração ` |
 | `src/core/runtime/institutional-context/InstitutionalContextEngine.ts` | **blockedRecommendations** | 92 | `blockedRecommendations = [];` |
 | `src/core/runtime/institutional-context/InstitutionalContextEngine.ts` | **SegmentConfidenceScore** | 213 | `const segmentConfidence: SegmentConfidenceScore = {` |
-| `src/core/runtime/institutional-context/SegmentIntelligenceEngine.ts` | **calculateConfidenceMatrix** | 18 | `const confidenceMatrix = calculateConfidenceMatrix(profile);` |
-| `src/core/runtime/institutional-context/SegmentIntelligenceExplainability.ts` | **generateExecutiveExplanation** | 3 | `export function generateExecutiveExplanation(profile: SegmentIntelligenceProfile` |
+| `src/core/runtime/institutional-context/SegmentGovernanceEngine.ts` | **calculateConfidenceMatrix** | 18 | `const confidenceMatrix = calculateConfidenceMatrix(profile);` |
+| `src/core/runtime/institutional-context/SegmentGovernanceExplainability.ts` | **generateExecutiveExplanation** | 3 | `export function generateExecutiveExplanation(profile: SegmentGovernanceProfile` |
 | `src/core/runtime/institutional-evidence/institutional-evidence-adapter.ts` | **buildInstitutionalOutcomesDatabase** | 16 | `const institutionalOutcomes = buildInstitutionalOutcomesDatabase(evidenceInput);` |
 | `src/core/runtime/institutional-memory/ExecutiveMemoryNarrativeEngine.ts` | **generateNarrative** | 8 | `public static generateNarrative(` |
 | `src/core/runtime/institutional-memory/ExecutiveResponsivenessEngine.ts` | **evaluate** | 11 | `public static evaluate(actionMarkers: ActionMarker[]): ResponsivenessMetrics {` |
@@ -1634,7 +1634,7 @@ Este relatório mapeia **todos** os pontos que produzem inteligência institucio
 | `src/core/runtime/institutional-reporting/InstitutionalBoardPackDocumentRuntime.test.ts` | **generateDocument** | 60 | `const bankingResult = InstitutionalBoardPackDocumentRuntime.generateDocument(moc` |
 | `src/core/runtime/institutional-reporting/InstitutionalBoardPackDocumentRuntime.test.ts` | **generateDocument** | 68 | `const auditResult = InstitutionalBoardPackDocumentRuntime.generateDocument(audit` |
 | `src/core/runtime/institutional-reporting/InstitutionalBoardPackDocumentRuntime.test.ts` | **generateDocument** | 80 | `const result = InstitutionalBoardPackDocumentRuntime.generateDocument(restricted` |
-| `src/core/runtime/institutional-reporting/InstitutionalBoardPackDocumentRuntime.ts` | **generateDocument** | 30 | `public static generateDocument(report: ExecutiveIntelligenceReport, variant: Rep` |
+| `src/core/runtime/institutional-reporting/InstitutionalBoardPackDocumentRuntime.ts` | **generateDocument** | 30 | `public static generateDocument(report: ExecutiveGovernanceReport, variant: Rep` |
 | `src/core/runtime/institutional-reporting/InstitutionalBoardPackDocumentRuntime.ts` | **buildMarkdownSections** | 44 | `const markdownSections = this.buildMarkdownSections(report, formattedNarrative, ` |
 | `src/core/runtime/institutional-reporting/InstitutionalBoardPackDocumentRuntime.ts` | **buildMarkdownSections** | 94 | `private static buildMarkdownSections(` |
 | `src/core/runtime/institutional-reporting/InstitutionalBoardPackDocumentRuntime.ts` | **boardRiskScore** | 107 | `const boardRiskScore = brmMetrics.boardRiskScore ?? 70;` |
@@ -1662,7 +1662,7 @@ Este relatório mapeia **todos** os pontos que produzem inteligência institucio
 | `src/core/runtime/institutional-reporting/InstitutionalBoardPackDocumentRuntime.ts` | **Score** | 860 | ``- **Capital Governance Score (CGS)**: ${cgs}/100 (${finalCgsStatus})\n` +` |
 | `src/core/runtime/institutional-reporting/InstitutionalBoardPackDocumentRuntime.ts` | **equityResilienceAssessment** | 890 | `sections.equityResilienceAssessment = `## Equity Resilience Assessment\n\n` +` |
 | `src/core/runtime/institutional-reporting/InstitutionalBoardPackDocumentRuntime.ts` | **scores** | 1004 | ``- **Impacto Fiduciário**: Todos os scores (CQS, EQS, ENS, CGS, etc.) refletem e` |
-| `src/core/runtime/institutional-reporting/InstitutionalBoardPackRuntime.ts` | **generate** | 32 | `public static generate(report: ExecutiveIntelligenceReport): InstitutionalBoardP` |
+| `src/core/runtime/institutional-reporting/InstitutionalBoardPackRuntime.ts` | **generate** | 32 | `public static generate(report: ExecutiveGovernanceReport): InstitutionalBoardP` |
 | `src/core/runtime/institutional-reporting/InstitutionalBoardPackRuntime.ts` | **generateHash** | 48 | `const boardPackLineageHash = this.generateHash('BOARD_PACK', {` |
 | `src/core/runtime/institutional-reporting/InstitutionalBoardPackRuntime.ts` | **generate** | 84 | `const executiveSnapshot = ExecutiveSnapshotEngine.generate(report);` |
 | `src/core/runtime/institutional-reporting/InstitutionalBoardPackRuntime.ts` | **generate** | 85 | `const governanceReport = GovernanceReportingEngine.generate(report);` |
@@ -1686,9 +1686,9 @@ Este relatório mapeia **todos** os pontos que produzem inteligência institucio
 | `src/core/runtime/institutional-reporting/InstitutionalBoardPackRuntime.ts` | **generate** | 241 | `const priorityMatrix = InstitutionalPriorityMatrixEngine.generate(report);` |
 | `src/core/runtime/institutional-reporting/InstitutionalBoardPackRuntime.ts` | **generate** | 266 | `const executiveThesis = InstitutionalExecutiveThesisEngine.generate({` |
 | `src/core/runtime/institutional-reporting/InstitutionalBoardPackRuntime.ts` | **generateHash** | 501 | `private static generateHash(prefix: string, data: Record<string, string>): strin` |
-| `src/core/runtime/institutional-reporting/engines/BoardResolutionAppendixEngine.ts` | **generate** | 8 | `public static generate(report: ExecutiveIntelligenceReport): BoardResolutionAppe` |
-| `src/core/runtime/institutional-reporting/engines/ContinuityReportingEngine.ts` | **generate** | 8 | `public static generate(report: ExecutiveIntelligenceReport): ContinuitySection {` |
-| `src/core/runtime/institutional-reporting/engines/ExecutiveDirectiveReportingEngine.ts` | **generate** | 8 | `public static generate(report: ExecutiveIntelligenceReport): ExecutiveDirectiveS` |
+| `src/core/runtime/institutional-reporting/engines/BoardResolutionAppendixEngine.ts` | **generate** | 8 | `public static generate(report: ExecutiveGovernanceReport): BoardResolutionAppe` |
+| `src/core/runtime/institutional-reporting/engines/ContinuityReportingEngine.ts` | **generate** | 8 | `public static generate(report: ExecutiveGovernanceReport): ContinuitySection {` |
+| `src/core/runtime/institutional-reporting/engines/ExecutiveDirectiveReportingEngine.ts` | **generate** | 8 | `public static generate(report: ExecutiveGovernanceReport): ExecutiveDirectiveS` |
 | `src/core/runtime/institutional-reporting/engines/ExecutiveLongitudinalIntegration.spec.ts` | **calculate** | 50 | `const score = LongitudinalScoreEngine.calculate('ARTIFICIAL_TURNAROUND', 90);` |
 | `src/core/runtime/institutional-reporting/engines/ExecutiveLongitudinalIntegration.spec.ts` | **calculate** | 55 | `const score = LongitudinalScoreEngine.calculate('STRUCTURAL_IMPROVEMENT', 40);` |
 | `src/core/runtime/institutional-reporting/engines/ExecutiveLongitudinalIntegration.spec.ts` | **calculate** | 61 | `const score = LongitudinalScoreEngine.calculate('INSUFFICIENT_HISTORICAL_DATA', ` |
@@ -1698,18 +1698,18 @@ Este relatório mapeia **todos** os pontos que produzem inteligência institucio
 | `src/core/runtime/institutional-reporting/engines/ExecutiveLongitudinalIntegration.spec.ts` | **generate** | 122 | `const snapshot = ExecutiveSnapshotEngine.generate(mockReport as ExecutiveIntelli` |
 | `src/core/runtime/institutional-reporting/engines/ExecutiveLongitudinalIntegration.spec.ts` | **generateExecutiveSummary** | 134 | `const result = ExecutiveReportNarrativeOrchestrator.generateExecutiveSummary({` |
 | `src/core/runtime/institutional-reporting/engines/ExecutiveReportExportEngine.ts` | **generateDocument** | 19 | `const documentAgnostic = InstitutionalBoardPackDocumentRuntime.generateDocument(` |
-| `src/core/runtime/institutional-reporting/engines/ExecutiveSnapshotEngine.ts` | **generate** | 9 | `public static generate(report: ExecutiveIntelligenceReport): ExecutiveSnapshotSe` |
+| `src/core/runtime/institutional-reporting/engines/ExecutiveSnapshotEngine.ts` | **generate** | 9 | `public static generate(report: ExecutiveGovernanceReport): ExecutiveSnapshotSe` |
 | `src/core/runtime/institutional-reporting/engines/ExecutiveSnapshotEngine.ts` | **generateExecutiveSummary** | 18 | `const executiveSummary = ExecutiveReportNarrativeOrchestrator.generateExecutiveS` |
 | `src/core/runtime/institutional-reporting/engines/ExecutiveSnapshotEngine.ts` | **longitudinalScore** | 52 | `const longitudinalScore = report.cashSustainabilityReport?.longitudinalScore || ` |
-| `src/core/runtime/institutional-reporting/engines/GovernanceReportingEngine.ts` | **generate** | 8 | `public static generate(report: ExecutiveIntelligenceReport): GovernanceReporting` |
+| `src/core/runtime/institutional-reporting/engines/GovernanceReportingEngine.ts` | **generate** | 8 | `public static generate(report: ExecutiveGovernanceReport): GovernanceReporting` |
 | `src/core/runtime/institutional-reporting/engines/GovernanceReportingEngine.ts` | **governanceScore** | 22 | `const governanceScore = 100 - ((gov.frictions?.length || 0) * 10);` |
 | `src/core/runtime/institutional-reporting/engines/InstitutionalBoardPackEndToEnd.spec.ts` | **generateExecutiveReport** | 291 | `const report = engine.generateExecutiveReport(data, {` |
 | `src/core/runtime/institutional-reporting/engines/InstitutionalBoardPackEndToEnd.spec.ts` | **generate** | 305 | `const boardPack = InstitutionalBoardPackRuntime.generate(report, {` |
 | `src/core/runtime/institutional-reporting/engines/InstitutionalBoardPackEndToEnd.spec.ts` | **longitudinalScore** | 345 | `assert.ok(boardPack.executiveSnapshot.longitudinalScore > 50 || boardPack.execut` |
-| `src/core/runtime/institutional-reporting/engines/InstitutionalDisclosureReportingEngine.ts` | **generate** | 9 | `public static generate(report: ExecutiveIntelligenceReport, metadata: BoardPackM` |
-| `src/core/runtime/institutional-reporting/engines/InstitutionalDisclosureReportingEngine.ts` | **generateRestrictions** | 24 | `public static generateRestrictions(report: ExecutiveIntelligenceReport, metadata` |
-| `src/core/runtime/institutional-reporting/engines/InstitutionalExplainabilityAppendixEngine.ts` | **generate** | 8 | `public static generate(report: ExecutiveIntelligenceReport): ExplainabilityAppen` |
-| `src/core/runtime/institutional-reporting/engines/InstitutionalLineageAppendixEngine.ts` | **generate** | 9 | `public static generate(report: ExecutiveIntelligenceReport, boardPackHash: strin` |
+| `src/core/runtime/institutional-reporting/engines/InstitutionalDisclosureReportingEngine.ts` | **generate** | 9 | `public static generate(report: ExecutiveGovernanceReport, metadata: BoardPackM` |
+| `src/core/runtime/institutional-reporting/engines/InstitutionalDisclosureReportingEngine.ts` | **generateRestrictions** | 24 | `public static generateRestrictions(report: ExecutiveGovernanceReport, metadata` |
+| `src/core/runtime/institutional-reporting/engines/InstitutionalExplainabilityAppendixEngine.ts` | **generate** | 8 | `public static generate(report: ExecutiveGovernanceReport): ExplainabilityAppen` |
+| `src/core/runtime/institutional-reporting/engines/InstitutionalLineageAppendixEngine.ts` | **generate** | 9 | `public static generate(report: ExecutiveGovernanceReport, boardPackHash: strin` |
 | `src/core/runtime/institutional-reporting/engines/LongitudinalScoreEngine.ts` | **calculate** | 20 | `public static calculate(` |
 | `src/core/runtime/institutional-reporting/engines/LongitudinalScoreEngine.ts` | **score** | 28 | `let score = baseScore;` |
 | `src/core/runtime/institutional-reporting/engines/LongitudinalScoreEngine.ts` | **score** | 32 | `score = Math.max(85, Math.min(100, score + 20));` |
@@ -1721,9 +1721,9 @@ Este relatório mapeia **todos** os pontos que produzem inteligência institucio
 | `src/core/runtime/institutional-reporting/engines/LongitudinalScoreEngine.ts` | **score** | 50 | `score = Math.min(score - 30, 35);` |
 | `src/core/runtime/institutional-reporting/engines/LongitudinalScoreEngine.ts` | **score** | 53 | `score = Math.max(10, Math.min(30, score - 40));` |
 | `src/core/runtime/institutional-reporting/engines/LongitudinalScoreEngine.ts` | **score** | 56 | `score = Math.max(20, Math.min(45, score - 30));` |
-| `src/core/runtime/institutional-reporting/engines/OperationalGovernanceReportingEngine.ts` | **generate** | 8 | `public static generate(report: ExecutiveIntelligenceReport): OperationalGovernan` |
-| `src/core/runtime/institutional-reporting/engines/StrategicDirectionReportingEngine.ts` | **generate** | 8 | `public static generate(report: ExecutiveIntelligenceReport): StrategicDirectionS` |
-| `src/core/runtime/institutional-reporting/engines/TreasuryPressureReportingEngine.ts` | **generate** | 8 | `public static generate(report: ExecutiveIntelligenceReport): TreasurySection {` |
+| `src/core/runtime/institutional-reporting/engines/OperationalGovernanceReportingEngine.ts` | **generate** | 8 | `public static generate(report: ExecutiveGovernanceReport): OperationalGovernan` |
+| `src/core/runtime/institutional-reporting/engines/StrategicDirectionReportingEngine.ts` | **generate** | 8 | `public static generate(report: ExecutiveGovernanceReport): StrategicDirectionS` |
+| `src/core/runtime/institutional-reporting/engines/TreasuryPressureReportingEngine.ts` | **generate** | 8 | `public static generate(report: ExecutiveGovernanceReport): TreasurySection {` |
 | `src/core/runtime/institutional-resilience/AntifragilityAssessmentEngine.ts` | **evaluate** | 13 | `public static evaluate(` |
 | `src/core/runtime/institutional-resilience/AntifragilityAssessmentEngine.ts` | **score** | 23 | `let score = 0;` |
 | `src/core/runtime/institutional-resilience/AntifragilityAssessmentEngine.ts` | **score** | 74 | `score = Math.max(0, Math.min(100, score));` |
@@ -1929,19 +1929,19 @@ Este relatório mapeia **todos** os pontos que produzem inteligência institucio
 | `src/core/runtime/orchestrator/InstitutionalFinancialDomainOrchestrator.ts` | **evaluateNarrativeSafety** | 75 | `const safePrimaryEvent = InstitutionalInterpretationBoundary.evaluateNarrativeSa` |
 | `src/core/runtime/orchestrator/InstitutionalInterpretationBoundary.ts` | **evaluateNarrativeSafety** | 7 | `public static evaluateNarrativeSafety(` |
 | `src/core/runtime/orchestrator/UnifiedDisclosureEngine.ts` | **severityScore** | 44 | `let severityScore = 0;` |
-| `src/core/runtime/patrimonial-intelligence/PatrimonialContextMapper.ts` | **generateLineageHash** | 19 | `public static generateLineageHash(context: FinancialRuntimeContext): string {` |
-| `src/core/runtime/patrimonial-intelligence/PatrimonialIntelligenceRuntime.test.ts` | **evaluatePatrimonialStructure** | 22 | `const output = runtime.evaluatePatrimonialStructure(undefined, mockBP);` |
-| `src/core/runtime/patrimonial-intelligence/PatrimonialIntelligenceRuntime.test.ts` | **evaluatePatrimonialStructure** | 34 | `const output = runtime.evaluatePatrimonialStructure(context, undefined);` |
-| `src/core/runtime/patrimonial-intelligence/PatrimonialIntelligenceRuntime.test.ts` | **evaluatePatrimonialStructure** | 50 | `const output = runtime.evaluatePatrimonialStructure(context, badBP);` |
-| `src/core/runtime/patrimonial-intelligence/PatrimonialIntelligenceRuntime.test.ts` | **evaluatePatrimonialStructure** | 67 | `const output = runtime.evaluatePatrimonialStructure(context, mockBP);` |
-| `src/core/runtime/patrimonial-intelligence/PatrimonialIntelligenceRuntime.test.ts` | **evaluatePatrimonialStructure** | 85 | `const output = runtime.evaluatePatrimonialStructure(context, heavyBP);` |
-| `src/core/runtime/patrimonial-intelligence/PatrimonialIntelligenceRuntime.test.ts` | **evaluatePatrimonialStructure** | 102 | `const output = runtime.evaluatePatrimonialStructure(context, mockBP);` |
-| `src/core/runtime/patrimonial-intelligence/PatrimonialIntelligenceRuntime.test.ts` | **evaluatePatrimonialStructure** | 119 | `const output = runtime.evaluatePatrimonialStructure(context, mockBP);` |
-| `src/core/runtime/patrimonial-intelligence/PatrimonialIntelligenceRuntime.test.ts` | **evaluatePatrimonialStructure** | 135 | `const output = runtime.evaluatePatrimonialStructure(context, mockBP);` |
-| `src/core/runtime/patrimonial-intelligence/PatrimonialIntelligenceRuntime.test.ts` | **evaluatePatrimonialStructure** | 147 | `const output = runtime.evaluatePatrimonialStructure(context, mockBP);` |
-| `src/core/runtime/patrimonial-intelligence/PatrimonialIntelligenceRuntime.test.ts` | **evaluatePatrimonialStructure** | 162 | `const output = runtime.evaluatePatrimonialStructure(context, mockBP);` |
-| `src/core/runtime/patrimonial-intelligence/PatrimonialIntelligenceRuntime.ts` | **evaluatePatrimonialStructure** | 24 | `public evaluatePatrimonialStructure(` |
-| `src/core/runtime/patrimonial-intelligence/PatrimonialIntelligenceRuntime.ts` | **generateLineageHash** | 35 | `const lineageHash = PatrimonialContextMapper.generateLineageHash(context);` |
+| `src/core/runtime/patrimonial-governance/PatrimonialContextMapper.ts` | **generateLineageHash** | 19 | `public static generateLineageHash(context: FinancialRuntimeContext): string {` |
+| `src/core/runtime/patrimonial-governance/PatrimonialGovernanceRuntime.test.ts` | **evaluatePatrimonialStructure** | 22 | `const output = runtime.evaluatePatrimonialStructure(undefined, mockBP);` |
+| `src/core/runtime/patrimonial-governance/PatrimonialGovernanceRuntime.test.ts` | **evaluatePatrimonialStructure** | 34 | `const output = runtime.evaluatePatrimonialStructure(context, undefined);` |
+| `src/core/runtime/patrimonial-governance/PatrimonialGovernanceRuntime.test.ts` | **evaluatePatrimonialStructure** | 50 | `const output = runtime.evaluatePatrimonialStructure(context, badBP);` |
+| `src/core/runtime/patrimonial-governance/PatrimonialGovernanceRuntime.test.ts` | **evaluatePatrimonialStructure** | 67 | `const output = runtime.evaluatePatrimonialStructure(context, mockBP);` |
+| `src/core/runtime/patrimonial-governance/PatrimonialGovernanceRuntime.test.ts` | **evaluatePatrimonialStructure** | 85 | `const output = runtime.evaluatePatrimonialStructure(context, heavyBP);` |
+| `src/core/runtime/patrimonial-governance/PatrimonialGovernanceRuntime.test.ts` | **evaluatePatrimonialStructure** | 102 | `const output = runtime.evaluatePatrimonialStructure(context, mockBP);` |
+| `src/core/runtime/patrimonial-governance/PatrimonialGovernanceRuntime.test.ts` | **evaluatePatrimonialStructure** | 119 | `const output = runtime.evaluatePatrimonialStructure(context, mockBP);` |
+| `src/core/runtime/patrimonial-governance/PatrimonialGovernanceRuntime.test.ts` | **evaluatePatrimonialStructure** | 135 | `const output = runtime.evaluatePatrimonialStructure(context, mockBP);` |
+| `src/core/runtime/patrimonial-governance/PatrimonialGovernanceRuntime.test.ts` | **evaluatePatrimonialStructure** | 147 | `const output = runtime.evaluatePatrimonialStructure(context, mockBP);` |
+| `src/core/runtime/patrimonial-governance/PatrimonialGovernanceRuntime.test.ts` | **evaluatePatrimonialStructure** | 162 | `const output = runtime.evaluatePatrimonialStructure(context, mockBP);` |
+| `src/core/runtime/patrimonial-governance/PatrimonialGovernanceRuntime.ts` | **evaluatePatrimonialStructure** | 24 | `public evaluatePatrimonialStructure(` |
+| `src/core/runtime/patrimonial-governance/PatrimonialGovernanceRuntime.ts` | **generateLineageHash** | 35 | `const lineageHash = PatrimonialContextMapper.generateLineageHash(context);` |
 | `src/core/runtime/performance/RuntimePerformanceMonitor.ts` | **analyzeTelemetry** | 18 | `static analyzeTelemetry(telemetry: RuntimeTelemetryData) {` |
 | `src/core/runtime/performance/TenantScopedRuntimeCache.ts` | **buildKeyString** | 8 | `private buildKeyString(key: SovereignCacheKey): string {` |
 | `src/core/runtime/performance/TenantScopedRuntimeCache.ts` | **buildKeyString** | 38 | `const keyString = this.buildKeyString(key);` |
@@ -1970,35 +1970,35 @@ Este relatório mapeia **todos** os pontos que produzem inteligência institucio
 | `src/core/runtime/predictive-governance/PredictiveRecommendationEngine.ts` | **generateRecommendations** | 14 | `public static generateRecommendations(snapshots: InstitutionalSnapshot[]): Recom` |
 | `src/core/runtime/predictive-governance/PredictiveRecommendationEngine.ts` | **evaluateRisks** | 23 | `const riskOutput = PredictiveRiskEngine.evaluateRisks(snapshots);` |
 | `src/core/runtime/predictive-governance/PredictiveRiskEngine.ts` | **evaluateRisks** | 23 | `public static evaluateRisks(snapshots: InstitutionalSnapshot[]): PredictiveRiskO` |
-| `src/core/runtime/predictive-intelligence/BehavioralAccelerationEngine.ts` | **calculateAcceleration** | 20 | `public static calculateAcceleration(` |
-| `src/core/runtime/predictive-intelligence/BehavioralAccelerationEngine.ts` | **calculateFatigue** | 36 | `const firstFatigue = GovernanceFatigueEngine.calculateFatigue(rolling.slice(0, M` |
-| `src/core/runtime/predictive-intelligence/BehavioralAccelerationEngine.ts` | **calculateFatigue** | 37 | `const lastFatigue = GovernanceFatigueEngine.calculateFatigue(rolling, report);` |
-| `src/core/runtime/predictive-intelligence/DeteriorationMomentumEngine.ts` | **calculateMomentum** | 32 | `public static calculateMomentum(` |
-| `src/core/runtime/predictive-intelligence/DeteriorationMomentumEngine.ts` | **calculateCumulativeProfile** | 73 | `const profile = InstitutionalBehaviorProfileEngine.calculateCumulativeProfile(su` |
-| `src/core/runtime/predictive-intelligence/DeteriorationMomentumEngine.ts` | **calculateFatigue** | 74 | `const fatigue = GovernanceFatigueEngine.calculateFatigue(subHistory, report);` |
-| `src/core/runtime/predictive-intelligence/GovernanceRuptureEngine.ts` | **evaluateRupture** | 21 | `public static evaluateRupture(` |
-| `src/core/runtime/predictive-intelligence/GovernanceRuptureEngine.ts` | **hasImminentRuptureScores** | 32 | `const hasImminentRuptureScores = projection.isImminentRupture;` |
-| `src/core/runtime/predictive-intelligence/InstitutionalEarlyWarningEngine.ts` | **generateWarnings** | 20 | `public static generateWarnings(` |
-| `src/core/runtime/predictive-intelligence/InstitutionalResilienceEngine.ts` | **evaluateResilience** | 20 | `public static evaluateResilience(` |
-| `src/core/runtime/predictive-intelligence/PredictiveGovernanceEngine.ts` | **evaluatePrediction** | 39 | `public static evaluatePrediction(` |
-| `src/core/runtime/predictive-intelligence/PredictiveGovernanceEngine.ts` | **calculateMomentum** | 74 | `const momentum = DeteriorationMomentumEngine.calculateMomentum(history, report, ` |
-| `src/core/runtime/predictive-intelligence/PredictiveGovernanceEngine.ts` | **calculateAcceleration** | 75 | `const acceleration = BehavioralAccelerationEngine.calculateAcceleration(history,` |
-| `src/core/runtime/predictive-intelligence/PredictiveGovernanceEngine.ts` | **SurvivabilityScores** | 78 | `const currentScores: SurvivabilityScores = {` |
-| `src/core/runtime/predictive-intelligence/PredictiveGovernanceEngine.ts` | **forecast** | 89 | `const forecast = TrajectoryForecastEngine.forecastTrajectory(currentScores, mome` |
-| `src/core/runtime/predictive-intelligence/PredictiveGovernanceEngine.ts` | **evaluateResilience** | 90 | `const resilience = InstitutionalResilienceEngine.evaluateResilience(history, rep` |
-| `src/core/runtime/predictive-intelligence/PredictiveGovernanceEngine.ts` | **assessRecovery** | 91 | `const recovery = RecoveryViabilityEngine.assessRecovery(history, report, behavio` |
-| `src/core/runtime/predictive-intelligence/PredictiveGovernanceEngine.ts` | **evaluateCollapseRisk** | 92 | `const collapse = StrategicCollapseRiskEngine.evaluateCollapseRisk(history, repor` |
-| `src/core/runtime/predictive-intelligence/PredictiveGovernanceEngine.ts` | **evaluateRupture** | 93 | `const rupture = GovernanceRuptureEngine.evaluateRupture(projection, resilience, ` |
-| `src/core/runtime/predictive-intelligence/PredictiveGovernanceEngine.ts` | **generateWarnings** | 95 | `const warnings = InstitutionalEarlyWarningEngine.generateWarnings(` |
-| `src/core/runtime/predictive-intelligence/PredictiveGovernanceEngine.ts` | **simulateScenario** | 149 | `public static simulateScenario(` |
-| `src/core/runtime/predictive-intelligence/PredictiveGovernanceEngine.ts` | **calculateCumulativeProfile** | 225 | `const finalProfile = InstitutionalBehaviorProfileEngine.calculateCumulativeProfi` |
-| `src/core/runtime/predictive-intelligence/PredictiveGovernanceEngine.ts` | **calculateFatigue** | 226 | `const finalFatigue = GovernanceFatigueEngine.calculateFatigue(simHistory, dummyR` |
-| `src/core/runtime/predictive-intelligence/PredictiveGovernanceEngine.ts` | **SurvivabilityScores** | 228 | `const finalSurvivabilityScores: SurvivabilityScores = {` |
-| `src/core/runtime/predictive-intelligence/RecoveryViabilityEngine.ts` | **assessRecovery** | 22 | `public static assessRecovery(` |
-| `src/core/runtime/predictive-intelligence/StrategicCollapseRiskEngine.ts` | **evaluateCollapseRisk** | 20 | `public static evaluateCollapseRisk(` |
-| `src/core/runtime/predictive-intelligence/StrategicCollapseRiskEngine.ts` | **score** | 27 | `let score = 10; // start low` |
-| `src/core/runtime/predictive-intelligence/SurvivabilityProjectionEngine.ts` | **SurvivabilityScores** | 30 | `const projectedScores: SurvivabilityScores = {` |
-| `src/core/runtime/predictive-intelligence/TrajectoryForecastEngine.ts` | **forecastTrajectory** | 15 | `public static forecastTrajectory(` |
+| `src/core/runtime/predictive-governance/BehavioralAccelerationEngine.ts` | **calculateAcceleration** | 20 | `public static calculateAcceleration(` |
+| `src/core/runtime/predictive-governance/BehavioralAccelerationEngine.ts` | **calculateFatigue** | 36 | `const firstFatigue = GovernanceFatigueEngine.calculateFatigue(rolling.slice(0, M` |
+| `src/core/runtime/predictive-governance/BehavioralAccelerationEngine.ts` | **calculateFatigue** | 37 | `const lastFatigue = GovernanceFatigueEngine.calculateFatigue(rolling, report);` |
+| `src/core/runtime/predictive-governance/DeteriorationMomentumEngine.ts` | **calculateMomentum** | 32 | `public static calculateMomentum(` |
+| `src/core/runtime/predictive-governance/DeteriorationMomentumEngine.ts` | **calculateCumulativeProfile** | 73 | `const profile = InstitutionalBehaviorProfileEngine.calculateCumulativeProfile(su` |
+| `src/core/runtime/predictive-governance/DeteriorationMomentumEngine.ts` | **calculateFatigue** | 74 | `const fatigue = GovernanceFatigueEngine.calculateFatigue(subHistory, report);` |
+| `src/core/runtime/predictive-governance/GovernanceRuptureEngine.ts` | **evaluateRupture** | 21 | `public static evaluateRupture(` |
+| `src/core/runtime/predictive-governance/GovernanceRuptureEngine.ts` | **hasImminentRuptureScores** | 32 | `const hasImminentRuptureScores = projection.isImminentRupture;` |
+| `src/core/runtime/predictive-governance/InstitutionalEarlyWarningEngine.ts` | **generateWarnings** | 20 | `public static generateWarnings(` |
+| `src/core/runtime/predictive-governance/InstitutionalResilienceEngine.ts` | **evaluateResilience** | 20 | `public static evaluateResilience(` |
+| `src/core/runtime/predictive-governance/PredictiveGovernanceEngine.ts` | **evaluatePrediction** | 39 | `public static evaluatePrediction(` |
+| `src/core/runtime/predictive-governance/PredictiveGovernanceEngine.ts` | **calculateMomentum** | 74 | `const momentum = DeteriorationMomentumEngine.calculateMomentum(history, report, ` |
+| `src/core/runtime/predictive-governance/PredictiveGovernanceEngine.ts` | **calculateAcceleration** | 75 | `const acceleration = BehavioralAccelerationEngine.calculateAcceleration(history,` |
+| `src/core/runtime/predictive-governance/PredictiveGovernanceEngine.ts` | **SurvivabilityScores** | 78 | `const currentScores: SurvivabilityScores = {` |
+| `src/core/runtime/predictive-governance/PredictiveGovernanceEngine.ts` | **forecast** | 89 | `const forecast = TrajectoryForecastEngine.forecastTrajectory(currentScores, mome` |
+| `src/core/runtime/predictive-governance/PredictiveGovernanceEngine.ts` | **evaluateResilience** | 90 | `const resilience = InstitutionalResilienceEngine.evaluateResilience(history, rep` |
+| `src/core/runtime/predictive-governance/PredictiveGovernanceEngine.ts` | **assessRecovery** | 91 | `const recovery = RecoveryViabilityEngine.assessRecovery(history, report, behavio` |
+| `src/core/runtime/predictive-governance/PredictiveGovernanceEngine.ts` | **evaluateCollapseRisk** | 92 | `const collapse = StrategicCollapseRiskEngine.evaluateCollapseRisk(history, repor` |
+| `src/core/runtime/predictive-governance/PredictiveGovernanceEngine.ts` | **evaluateRupture** | 93 | `const rupture = GovernanceRuptureEngine.evaluateRupture(projection, resilience, ` |
+| `src/core/runtime/predictive-governance/PredictiveGovernanceEngine.ts` | **generateWarnings** | 95 | `const warnings = InstitutionalEarlyWarningEngine.generateWarnings(` |
+| `src/core/runtime/predictive-governance/PredictiveGovernanceEngine.ts` | **simulateScenario** | 149 | `public static simulateScenario(` |
+| `src/core/runtime/predictive-governance/PredictiveGovernanceEngine.ts` | **calculateCumulativeProfile** | 225 | `const finalProfile = InstitutionalBehaviorProfileEngine.calculateCumulativeProfi` |
+| `src/core/runtime/predictive-governance/PredictiveGovernanceEngine.ts` | **calculateFatigue** | 226 | `const finalFatigue = GovernanceFatigueEngine.calculateFatigue(simHistory, dummyR` |
+| `src/core/runtime/predictive-governance/PredictiveGovernanceEngine.ts` | **SurvivabilityScores** | 228 | `const finalSurvivabilityScores: SurvivabilityScores = {` |
+| `src/core/runtime/predictive-governance/RecoveryViabilityEngine.ts` | **assessRecovery** | 22 | `public static assessRecovery(` |
+| `src/core/runtime/predictive-governance/StrategicCollapseRiskEngine.ts` | **evaluateCollapseRisk** | 20 | `public static evaluateCollapseRisk(` |
+| `src/core/runtime/predictive-governance/StrategicCollapseRiskEngine.ts` | **score** | 27 | `let score = 10; // start low` |
+| `src/core/runtime/predictive-governance/SurvivabilityProjectionEngine.ts` | **SurvivabilityScores** | 30 | `const projectedScores: SurvivabilityScores = {` |
+| `src/core/runtime/predictive-governance/TrajectoryForecastEngine.ts` | **forecastTrajectory** | 15 | `public static forecastTrajectory(` |
 | `src/core/runtime/premium-ux/ExecutiveClarityEngine.ts` | **evaluate** | 4 | `static evaluate(tenantId: string, role: string): ExecutiveClarityScore {` |
 | `src/core/runtime/premium-ux/InstitutionalStorytellingOptimizer.ts` | **buildNarrative** | 5 | `static buildNarrative(dataset: GoldenDatasetProfile): StorytellingNarrative {` |
 | `src/core/runtime/prescriptive-governance/BoardAgendaEngine.ts` | **generateAgenda** | 5 | `static generateAgenda(` |
@@ -2014,7 +2014,7 @@ Este relatório mapeia **todos** os pontos que produzem inteligência institucio
 | `src/core/runtime/presentation-governance/OperationalSeverityGovernanceEngine.ts` | **classify** | 9 | `public static classify(score: number): { level: string; color: 'emerald' | 'ambe` |
 | `src/core/runtime/profiling/ExecutionLatencyAnalyzer.ts` | **analyze** | 18 | `static analyze(snapshot: RuntimeLatencySnapshot): RuntimeLatencySnapshot {` |
 | `src/core/runtime/prudency/InstitutionalPrudencyLayer.ts` | **capEvolutionScore** | 48 | `capEvolutionScore(score: number | null, cycles: number): number | null {` |
-| `src/core/runtime/prudency/InstitutionalPrudencyLayer.ts` | **evaluate** | 76 | `const longitudinalGuard = LongitudinalIntelligenceGuard.evaluate(cycles);` |
+| `src/core/runtime/prudency/InstitutionalPrudencyLayer.ts` | **evaluate** | 76 | `const longitudinalGuard = LongitudinalGovernanceGuard.evaluate(cycles);` |
 | `src/core/runtime/prudency/InstitutionalPrudencyLayer.ts` | **evolutionScore** | 79 | `let evolutionScore = rawEvolutionScore;` |
 | `src/core/runtime/prudency/InstitutionalPrudencyLayer.ts` | **evolutionScore** | 81 | `evolutionScore = null;` |
 | `src/core/runtime/prudency/InstitutionalPrudencyLayer.ts` | **evolutionScore** | 89 | `evolutionScore = this.capEvolutionScore(rawEvolutionScore, cycles);` |
@@ -2079,19 +2079,19 @@ Este relatório mapeia **todos** os pontos que produzem inteligência institucio
 | `src/core/runtime/scenario/ScenarioPropagationRuntime.ts` | **evaluateStress** | 12 | `const rawStress = PredictiveStressEngine.evaluateStress(stressedInput);` |
 | `src/core/runtime/scenario/ScenarioSnapshotBuilder.ts` | **buildClone** | 8 | `static buildClone(input: ConsolidatedFinancialInput): ConsolidatedFinancialInput` |
 | `src/core/runtime/scenario/ScenarioSnapshotBuilder.ts` | **generateHash** | 14 | `static generateHash(input: ConsolidatedFinancialInput): string {` |
-| `src/core/runtime/scenario-intelligence/InstitutionalScenarioEngine.ts` | **evaluateScenario** | 10 | `public static evaluateScenario(inputs: ScenarioInput[], contextData: any): Insti` |
-| `src/core/runtime/scenario-intelligence/InstitutionalScenarioEngine.ts` | **simulate** | 20 | `const propagationProfile = PropagationSimulationEngine.simulate(inputs, contextD` |
-| `src/core/runtime/scenario-intelligence/InstitutionalScenarioEngine.ts` | **generatePayload** | 30 | `const explainability = ScenarioExplainabilityEngine.generatePayload(contextData,` |
-| `src/core/runtime/scenario-intelligence/InstitutionalStressTestEngine.ts` | **resilienceScore** | 18 | `let resilienceScore = 100;` |
-| `src/core/runtime/scenario-intelligence/InstitutionalStressTestEngine.ts` | **resilienceScore** | 39 | `resilienceScore = Math.max(0, resilienceScore);` |
-| `src/core/runtime/scenario-intelligence/PropagationSimulationEngine.ts` | **simulate** | 5 | `public static simulate(inputs: ScenarioInput[], contextData: any): PropagationSi` |
-| `src/core/runtime/scenario-intelligence/PropagationSimulationEngine.ts` | **integrityScore** | 8 | `let integrityScore = 100;` |
-| `src/core/runtime/scenario-intelligence/ScenarioExplainabilityEngine.ts` | **generatePayload** | 6 | `public static generatePayload(` |
-| `src/core/runtime/scenario-intelligence/ScenarioHashFramework.ts` | **generateHash** | 5 | `public static generateHash(` |
-| `src/core/runtime/scenario-intelligence/ScenarioImpactRuntime.ts` | **evaluate** | 13 | `public static evaluate(` |
-| `src/core/runtime/scenario-intelligence/ScenarioImpactRuntime.ts` | **generateHash** | 30 | `const scenarioHash = ScenarioHashFramework.generateHash(` |
-| `src/core/runtime/scenario-intelligence/ScenarioStabilityEngine.ts` | **structuralIntegrityScore** | 11 | `p.structuralIntegrityScore = 20; // Hard floor to avoid panic signaling when thi` |
-| `src/core/runtime/scenario-intelligence/ThesisFutureImpactEngine.ts` | **evaluate** | 11 | `public static evaluate(` |
+| `src/core/runtime/scenario-governance/InstitutionalScenarioEngine.ts` | **evaluateScenario** | 10 | `public static evaluateScenario(inputs: ScenarioInput[], contextData: any): Insti` |
+| `src/core/runtime/scenario-governance/InstitutionalScenarioEngine.ts` | **simulate** | 20 | `const propagationProfile = PropagationSimulationEngine.simulate(inputs, contextD` |
+| `src/core/runtime/scenario-governance/InstitutionalScenarioEngine.ts` | **generatePayload** | 30 | `const explainability = ScenarioExplainabilityEngine.generatePayload(contextData,` |
+| `src/core/runtime/scenario-governance/InstitutionalStressTestEngine.ts` | **resilienceScore** | 18 | `let resilienceScore = 100;` |
+| `src/core/runtime/scenario-governance/InstitutionalStressTestEngine.ts` | **resilienceScore** | 39 | `resilienceScore = Math.max(0, resilienceScore);` |
+| `src/core/runtime/scenario-governance/PropagationSimulationEngine.ts` | **simulate** | 5 | `public static simulate(inputs: ScenarioInput[], contextData: any): PropagationSi` |
+| `src/core/runtime/scenario-governance/PropagationSimulationEngine.ts` | **integrityScore** | 8 | `let integrityScore = 100;` |
+| `src/core/runtime/scenario-governance/ScenarioExplainabilityEngine.ts` | **generatePayload** | 6 | `public static generatePayload(` |
+| `src/core/runtime/scenario-governance/ScenarioHashFramework.ts` | **generateHash** | 5 | `public static generateHash(` |
+| `src/core/runtime/scenario-governance/ScenarioImpactRuntime.ts` | **evaluate** | 13 | `public static evaluate(` |
+| `src/core/runtime/scenario-governance/ScenarioImpactRuntime.ts` | **generateHash** | 30 | `const scenarioHash = ScenarioHashFramework.generateHash(` |
+| `src/core/runtime/scenario-governance/ScenarioStabilityEngine.ts` | **structuralIntegrityScore** | 11 | `p.structuralIntegrityScore = 20; // Hard floor to avoid panic signaling when thi` |
+| `src/core/runtime/scenario-governance/ThesisFutureImpactEngine.ts` | **evaluate** | 11 | `public static evaluate(` |
 | `src/core/runtime/scenario-simulation/GovernanceForecastEngine.ts` | **generateForecast** | 33 | `public static generateForecast(input: SimulationInput): ForecastOutput {` |
 | `src/core/runtime/scenario-simulation/GovernanceForecastEngine.ts` | **generatedAt** | 39 | `const generatedAt = new Date().toISOString();` |
 | `src/core/runtime/scenario-simulation/GovernanceForecastEngine.ts` | **forecastConfidence** | 45 | `forecastConfidence = 'INSUFFICIENT_HISTORY';` |
@@ -2103,10 +2103,10 @@ Este relatório mapeia **todos** os pontos que produzem inteligência institucio
 | `src/core/runtime/scenario-simulation/ScenarioMacroProjectionEngine.ts` | **calculatedVelocity** | 116 | `const calculatedVelocity = Number((historicalVelocity * scenarioMultiplier * hor` |
 | `src/core/runtime/scenario-simulation/StrategicDecisionSandbox.ts` | **generatedAt** | 26 | `const generatedAt = new Date().toISOString();` |
 | `src/core/runtime/scenario-simulation/StrategicDecisionSandbox.ts` | **simulatedOutput** | 108 | `const simulatedOutput = ScenarioMacroProjectionEngine.run(clonedInput);` |
-| `src/core/runtime/segment-intelligence/SegmentThresholdEngine.ts` | **evaluateCurrentLiquidity** | 20 | `static evaluateCurrentLiquidity(segmentCode: SegmentCode, liquidityRatio: number` |
-| `src/core/runtime/segment-intelligence/SegmentThresholdEngine.ts` | **evaluateInventoryDependency** | 34 | `static evaluateInventoryDependency(segmentCode: SegmentCode, inventoryToAssetsRa` |
-| `src/core/runtime/segment-intelligence/SegmentThresholdEngine.ts` | **evaluateShortTermDebtPressure** | 49 | `static evaluateShortTermDebtPressure(segmentCode: SegmentCode, shortTermDebtToAs` |
-| `src/core/runtime/segment-intelligence/SegmentThresholdEngine.ts` | **evaluateCashReserveDays** | 63 | `static evaluateCashReserveDays(segmentCode: SegmentCode, cashReserveDays: number` |
+| `src/core/runtime/segment-governance/SegmentThresholdEngine.ts` | **evaluateCurrentLiquidity** | 20 | `static evaluateCurrentLiquidity(segmentCode: SegmentCode, liquidityRatio: number` |
+| `src/core/runtime/segment-governance/SegmentThresholdEngine.ts` | **evaluateInventoryDependency** | 34 | `static evaluateInventoryDependency(segmentCode: SegmentCode, inventoryToAssetsRa` |
+| `src/core/runtime/segment-governance/SegmentThresholdEngine.ts` | **evaluateShortTermDebtPressure** | 49 | `static evaluateShortTermDebtPressure(segmentCode: SegmentCode, shortTermDebtToAs` |
+| `src/core/runtime/segment-governance/SegmentThresholdEngine.ts` | **evaluateCashReserveDays** | 63 | `static evaluateCashReserveDays(segmentCode: SegmentCode, cashReserveDays: number` |
 | `src/core/runtime/semantic/EarlyStageSemanticEngine.ts` | **evaluateContext** | 19 | `public static evaluateContext(params: LifecycleClassificationParams): EarlyStage` |
 | `src/core/runtime/semantic/EarlyStageSemanticEngine.ts` | **classify** | 20 | `const lifecycleStage = LifecycleClassificationEngine.classify(params);` |
 | `src/core/runtime/semantic/EarlyStageSemanticEngine.ts` | **generateNarrative** | 38 | `public static generateNarrative(lifecycleStage: LifecycleStage, defaultNarrative` |
@@ -2123,25 +2123,25 @@ Este relatório mapeia **todos** os pontos que produzem inteligência institucio
 | `src/core/runtime/semantic-consistency/ExecutiveConsistencyReportEngine.ts` | **generateCausalExplanation** | 22 | `const causalNarrative = InstitutionalCausalAlignmentEngine.generateCausalExplana` |
 | `src/core/runtime/semantic-consistency/InstitutionalCausalAlignmentEngine.ts` | **generateCausalExplanation** | 8 | `public static generateCausalExplanation(conflicts: SemanticConflict[]): string {` |
 | `src/core/runtime/semantic-consistency/NarrativeConsistencyEngine.ts` | **evaluate** | 11 | `public static evaluate(narratives: string[]): NarrativeStatus {` |
-| `src/core/runtime/strategic-intelligence/CapitalStrategyAlignmentEngine.ts` | **evaluate** | 6 | `static evaluate(` |
-| `src/core/runtime/strategic-intelligence/ExpansionSustainabilityEngine.ts` | **evaluate** | 6 | `static evaluate(context: StrategicEvaluationContext, posture: StrategicPosture):` |
-| `src/core/runtime/strategic-intelligence/InstitutionalStrategicIntelligenceRuntime.ts` | **evaluate** | 17 | `static evaluate(report: ExecutiveIntelligenceReport): InstitutionalStrategicInte` |
-| `src/core/runtime/strategic-intelligence/InstitutionalStrategicIntelligenceRuntime.ts` | **evaluate** | 20 | `const posture = StrategicPostureEngine.evaluate(context);` |
-| `src/core/runtime/strategic-intelligence/InstitutionalStrategicIntelligenceRuntime.ts` | **evaluate** | 21 | `const vector = InstitutionalVectorEngine.evaluate(context);` |
-| `src/core/runtime/strategic-intelligence/InstitutionalStrategicIntelligenceRuntime.ts` | **evaluate** | 22 | `const contradictions = StrategicContradictionEngine.evaluate(context, posture);` |
-| `src/core/runtime/strategic-intelligence/InstitutionalStrategicIntelligenceRuntime.ts` | **evaluate** | 23 | `const sustainability = ExpansionSustainabilityEngine.evaluate(context, posture);` |
-| `src/core/runtime/strategic-intelligence/InstitutionalStrategicIntelligenceRuntime.ts` | **evaluate** | 24 | `const trajectory = LongitudinalTrajectoryEngine.evaluate(context, vector.directi` |
-| `src/core/runtime/strategic-intelligence/InstitutionalStrategicIntelligenceRuntime.ts` | **evaluate** | 25 | `const capitalAlignment = CapitalStrategyAlignmentEngine.evaluate(context, postur` |
-| `src/core/runtime/strategic-intelligence/InstitutionalStrategicIntelligenceRuntime.ts` | **evaluate** | 27 | `const thesis = StrategicInstitutionalThesisEngine.evaluate(` |
-| `src/core/runtime/strategic-intelligence/InstitutionalStrategicIntelligenceRuntime.ts` | **evaluate** | 37 | `const explainability = StrategicExplainabilityEngine.evaluate(` |
-| `src/core/runtime/strategic-intelligence/InstitutionalStrategicIntelligenceRuntime.ts` | **evaluate** | 47 | `const memorySync = StrategicMemoryEngine.evaluate(context, posture, vector.direc` |
-| `src/core/runtime/strategic-intelligence/InstitutionalVectorEngine.ts` | **evaluate** | 6 | `static evaluate(context: StrategicEvaluationContext): InstitutionalVector {` |
-| `src/core/runtime/strategic-intelligence/LongitudinalTrajectoryEngine.ts` | **evaluate** | 6 | `static evaluate(` |
-| `src/core/runtime/strategic-intelligence/StrategicContradictionEngine.ts` | **evaluate** | 6 | `static evaluate(context: StrategicEvaluationContext, posture: StrategicPosture):` |
-| `src/core/runtime/strategic-intelligence/StrategicExplainabilityEngine.ts` | **evaluate** | 14 | `static evaluate(` |
-| `src/core/runtime/strategic-intelligence/StrategicInstitutionalThesisEngine.ts` | **evaluate** | 16 | `static evaluate(` |
-| `src/core/runtime/strategic-intelligence/StrategicMemoryEngine.ts` | **evaluate** | 6 | `static evaluate(` |
-| `src/core/runtime/strategic-intelligence/StrategicPostureEngine.ts` | **evaluate** | 6 | `static evaluate(context: StrategicEvaluationContext): StrategicPosture {` |
+| `src/core/runtime/strategic-governance/CapitalStrategyAlignmentEngine.ts` | **evaluate** | 6 | `static evaluate(` |
+| `src/core/runtime/strategic-governance/ExpansionSustainabilityEngine.ts` | **evaluate** | 6 | `static evaluate(context: StrategicEvaluationContext, posture: StrategicPosture):` |
+| `src/core/runtime/strategic-governance/InstitutionalStrategicGovernanceRuntime.ts` | **evaluate** | 17 | `static evaluate(report: ExecutiveGovernanceReport): InstitutionalStrategicInte` |
+| `src/core/runtime/strategic-governance/InstitutionalStrategicGovernanceRuntime.ts` | **evaluate** | 20 | `const posture = StrategicPostureEngine.evaluate(context);` |
+| `src/core/runtime/strategic-governance/InstitutionalStrategicGovernanceRuntime.ts` | **evaluate** | 21 | `const vector = InstitutionalVectorEngine.evaluate(context);` |
+| `src/core/runtime/strategic-governance/InstitutionalStrategicGovernanceRuntime.ts` | **evaluate** | 22 | `const contradictions = StrategicContradictionEngine.evaluate(context, posture);` |
+| `src/core/runtime/strategic-governance/InstitutionalStrategicGovernanceRuntime.ts` | **evaluate** | 23 | `const sustainability = ExpansionSustainabilityEngine.evaluate(context, posture);` |
+| `src/core/runtime/strategic-governance/InstitutionalStrategicGovernanceRuntime.ts` | **evaluate** | 24 | `const trajectory = LongitudinalTrajectoryEngine.evaluate(context, vector.directi` |
+| `src/core/runtime/strategic-governance/InstitutionalStrategicGovernanceRuntime.ts` | **evaluate** | 25 | `const capitalAlignment = CapitalStrategyAlignmentEngine.evaluate(context, postur` |
+| `src/core/runtime/strategic-governance/InstitutionalStrategicGovernanceRuntime.ts` | **evaluate** | 27 | `const thesis = StrategicInstitutionalThesisEngine.evaluate(` |
+| `src/core/runtime/strategic-governance/InstitutionalStrategicGovernanceRuntime.ts` | **evaluate** | 37 | `const explainability = StrategicExplainabilityEngine.evaluate(` |
+| `src/core/runtime/strategic-governance/InstitutionalStrategicGovernanceRuntime.ts` | **evaluate** | 47 | `const memorySync = StrategicMemoryEngine.evaluate(context, posture, vector.direc` |
+| `src/core/runtime/strategic-governance/InstitutionalVectorEngine.ts` | **evaluate** | 6 | `static evaluate(context: StrategicEvaluationContext): InstitutionalVector {` |
+| `src/core/runtime/strategic-governance/LongitudinalTrajectoryEngine.ts` | **evaluate** | 6 | `static evaluate(` |
+| `src/core/runtime/strategic-governance/StrategicContradictionEngine.ts` | **evaluate** | 6 | `static evaluate(context: StrategicEvaluationContext, posture: StrategicPosture):` |
+| `src/core/runtime/strategic-governance/StrategicExplainabilityEngine.ts` | **evaluate** | 14 | `static evaluate(` |
+| `src/core/runtime/strategic-governance/StrategicInstitutionalThesisEngine.ts` | **evaluate** | 16 | `static evaluate(` |
+| `src/core/runtime/strategic-governance/StrategicMemoryEngine.ts` | **evaluate** | 6 | `static evaluate(` |
+| `src/core/runtime/strategic-governance/StrategicPostureEngine.ts` | **evaluate** | 6 | `static evaluate(context: StrategicEvaluationContext): StrategicPosture {` |
 | `src/core/runtime/strategic-simulation/DecisionRiskBalancer.ts` | **analyzeBalance** | 4 | `static analyzeBalance(simResult: StrategicSimulationResult): { isSustainable: bo` |
 | `src/core/runtime/strategic-simulation/DecisionRiskBalancer.ts` | **fragilityScore** | 6 | `const fragilityScore = simResult.risks.reduce((acc, curr) => acc + (curr.probabi` |
 | `src/core/runtime/strategic-simulation/ExecutiveScenarioEngine.ts` | **simulateAndCompare** | 26 | `public static simulateAndCompare(` |
@@ -2223,59 +2223,59 @@ Este relatório mapeia **todos** os pontos que produzem inteligência institucio
 | `src/core/runtime/tenancy/hardening/ScopedRuntimeResolver.ts` | **generateTenantScopedCacheKey** | 9 | `static generateTenantScopedCacheKey(context: TenantExecutionContext, baseKey: st` |
 | `src/core/runtime/tenancy/hardening/ScopedRuntimeResolver.ts` | **generateTenantScopedLineageKey** | 14 | `static generateTenantScopedLineageKey(context: TenantExecutionContext, lineageNo` |
 | `src/core/runtime/treasury-early-warning/TreasuryEarlyWarningEngine.ts` | **evaluate** | 4 | `public static evaluate(` |
-| `src/core/runtime/treasury-intelligence/CapitalAllocationEngine.ts` | **evaluate** | 38 | `public static evaluate(` |
-| `src/core/runtime/treasury-intelligence/CapitalAllocationEngine.ts` | **runwayPreservationScore** | 54 | `let runwayPreservationScore = 100;` |
-| `src/core/runtime/treasury-intelligence/CapitalAllocationEngine.ts` | **runwayPreservationScore** | 56 | `runwayPreservationScore = Math.max(100 - pctOfCash * 150, 0);` |
-| `src/core/runtime/treasury-intelligence/CapitalAllocationEngine.ts` | **runwayPreservationScore** | 58 | `runwayPreservationScore = Math.max(100 - pctOfCash * 50, 0);` |
-| `src/core/runtime/treasury-intelligence/CapitalAllocationEngine.ts` | **fiduciaryEfficiencyScore** | 87 | `let fiduciaryEfficiencyScore = 90;` |
-| `src/core/runtime/treasury-intelligence/CapitalAllocationEngine.ts` | **fiduciaryEfficiencyScore** | 89 | `fiduciaryEfficiencyScore = 40; // low efficiency to allocate growth under stress` |
-| `src/core/runtime/treasury-intelligence/CapitalAllocationEngine.ts` | **fiduciaryEfficiencyScore** | 91 | `fiduciaryEfficiencyScore = 60;` |
-| `src/core/runtime/treasury-intelligence/CapitalAllocationEngine.ts` | **suitabilityScore** | 105 | `let suitabilityScore = (runwayPreservationScore * 0.2) + (fiduciaryEfficiencySco` |
-| `src/core/runtime/treasury-intelligence/CapitalAllocationEngine.ts` | **suitabilityScore** | 110 | `suitabilityScore = Math.round(Math.min(Math.max(suitabilityScore, 0), 100));` |
-| `src/core/runtime/treasury-intelligence/CashPriorityEngine.ts` | **evaluate** | 17 | `public static evaluate(input: CashPriorityEvaluationInput): CashPriorityOutput {` |
-| `src/core/runtime/treasury-intelligence/CashPriorityEngine.ts` | **payrollPriorityScore** | 21 | `let payrollPriorityScore = 70;` |
-| `src/core/runtime/treasury-intelligence/CashPriorityEngine.ts` | **criticalCapexPriorityScore** | 22 | `let criticalCapexPriorityScore = 50;` |
-| `src/core/runtime/treasury-intelligence/CashPriorityEngine.ts` | **reserveProtectionPriorityScore** | 23 | `let reserveProtectionPriorityScore = 40;` |
-| `src/core/runtime/treasury-intelligence/CashPriorityEngine.ts` | **payrollPriorityScore** | 30 | `payrollPriorityScore = 100; // Absolute protection` |
-| `src/core/runtime/treasury-intelligence/CashPriorityEngine.ts` | **criticalCapexPriorityScore** | 31 | `criticalCapexPriorityScore = 10; // Frozen/De-prioritized` |
-| `src/core/runtime/treasury-intelligence/CashPriorityEngine.ts` | **reserveProtectionPriorityScore** | 32 | `reserveProtectionPriorityScore = 95; // Extreme protection` |
-| `src/core/runtime/treasury-intelligence/CashPriorityEngine.ts` | **payrollPriorityScore** | 42 | `payrollPriorityScore = 90;` |
-| `src/core/runtime/treasury-intelligence/CashPriorityEngine.ts` | **criticalCapexPriorityScore** | 43 | `criticalCapexPriorityScore = 30; // Reduced priority to protect cash` |
-| `src/core/runtime/treasury-intelligence/CashPriorityEngine.ts` | **reserveProtectionPriorityScore** | 44 | `reserveProtectionPriorityScore = 75;` |
-| `src/core/runtime/treasury-intelligence/CashPriorityEngine.ts` | **payrollPriorityScore** | 55 | `payrollPriorityScore = 70;` |
-| `src/core/runtime/treasury-intelligence/CashPriorityEngine.ts` | **criticalCapexPriorityScore** | 56 | `criticalCapexPriorityScore = 60;` |
-| `src/core/runtime/treasury-intelligence/CashPriorityEngine.ts` | **reserveProtectionPriorityScore** | 57 | `reserveProtectionPriorityScore = 50;` |
-| `src/core/runtime/treasury-intelligence/DistributionSustainabilityEngine.ts` | **evaluate** | 28 | `public static evaluate(input: DistributionEvaluationInput): DistributionSustaina` |
-| `src/core/runtime/treasury-intelligence/FiduciaryEfficiencyEngine.ts` | **evaluate** | 22 | `public static evaluate(input: EfficiencyEvaluationInput): FiduciaryEfficiencyOut` |
-| `src/core/runtime/treasury-intelligence/FiduciaryEfficiencyEngine.ts` | **adjustedScore** | 35 | `let adjustedScore = baseEfficiencyScore;` |
-| `src/core/runtime/treasury-intelligence/FiduciaryEfficiencyEngine.ts` | **adjustedScore** | 84 | `adjustedScore = Math.round(Math.max(adjustedScore, 0) * 10) / 10;` |
-| `src/core/runtime/treasury-intelligence/ReinvestmentIntelligenceEngine.ts` | **evaluate** | 17 | `public static evaluate(input: ReinvestmentEvaluationInput): ReinvestmentIntellig` |
-| `src/core/runtime/treasury-intelligence/TreasuryGovernanceEngine.ts` | **evaluate** | 24 | `public static evaluate(input: GovernanceEvaluationInput): {` |
-| `src/core/runtime/treasury-intelligence/TreasuryIntelligenceRuntime.ts` | **evaluate** | 52 | `public static evaluate(input: TreasuryRuntimeInput): TreasuryIntelligenceRuntime` |
-| `src/core/runtime/treasury-intelligence/TreasuryIntelligenceRuntime.ts` | **generateLineageHash** | 99 | `const treasuryLineageHash = this.generateLineageHash(hashInputs);` |
-| `src/core/runtime/treasury-intelligence/TreasuryIntelligenceRuntime.ts` | **evaluate** | 103 | `const distribution = DistributionSustainabilityEngine.evaluate({` |
-| `src/core/runtime/treasury-intelligence/TreasuryIntelligenceRuntime.ts` | **evaluate** | 124 | `const reinvestment = ReinvestmentIntelligenceEngine.evaluate({` |
-| `src/core/runtime/treasury-intelligence/TreasuryIntelligenceRuntime.ts` | **evaluate** | 133 | `const resilience = TreasuryResilienceEngine.evaluate({` |
-| `src/core/runtime/treasury-intelligence/TreasuryIntelligenceRuntime.ts` | **evaluate** | 145 | `const cashPriority = CashPriorityEngine.evaluate({` |
-| `src/core/runtime/treasury-intelligence/TreasuryIntelligenceRuntime.ts` | **evaluate** | 153 | `const stressSimulations = TreasuryStressEngine.evaluate({` |
-| `src/core/runtime/treasury-intelligence/TreasuryIntelligenceRuntime.ts` | **evaluate** | 176 | `const capitalPreservation = TreasuryPreservationScoringEngine.evaluate({` |
-| `src/core/runtime/treasury-intelligence/TreasuryIntelligenceRuntime.ts` | **baseEfficiencyScore** | 187 | `const baseEfficiencyScore = ebitda > 0 && availableCash > 0 ? Math.min((ebitda /` |
-| `src/core/runtime/treasury-intelligence/TreasuryIntelligenceRuntime.ts` | **evaluate** | 191 | `const fiduciaryEfficiency = FiduciaryEfficiencyEngine.evaluate({` |
-| `src/core/runtime/treasury-intelligence/TreasuryIntelligenceRuntime.ts` | **evaluate** | 204 | `const priorityMatrix = TreasuryPriorityMatrixEngine.evaluate({` |
-| `src/core/runtime/treasury-intelligence/TreasuryIntelligenceRuntime.ts` | **evaluate** | 221 | `const governance = TreasuryGovernanceEngine.evaluate({` |
-| `src/core/runtime/treasury-intelligence/TreasuryIntelligenceRuntime.ts` | **generateLineageHash** | 344 | `private static generateLineageHash(inputs: any[]): string {` |
-| `src/core/runtime/treasury-intelligence/TreasuryPreservationScoringEngine.ts` | **evaluate** | 18 | `public static evaluate(input: PreservationEvaluationInput): CapitalPreservationO` |
-| `src/core/runtime/treasury-intelligence/TreasuryPreservationScoringEngine.ts` | **preservationScore** | 34 | `let preservationScore = 100;` |
-| `src/core/runtime/treasury-intelligence/TreasuryPreservationScoringEngine.ts` | **preservationScore** | 53 | `preservationScore = Math.round(Math.min(Math.max(preservationScore, 0), 100));` |
-| `src/core/runtime/treasury-intelligence/TreasuryPriorityMatrixEngine.ts` | **evaluate** | 32 | `public static evaluate(input: PriorityEvaluationInput): {` |
-| `src/core/runtime/treasury-intelligence/TreasuryResilienceEngine.ts` | **evaluate** | 20 | `public static evaluate(input: ResilienceEvaluationInput): TreasuryResilienceOutp` |
-| `src/core/runtime/treasury-intelligence/TreasuryStressEngine.ts` | **evaluate** | 27 | `public static evaluate(input: StressSimulationInput): TreasuryStressOutput {` |
-| `src/core/runtime/treasury-intelligence/TreasuryStressEngine.ts` | **simulatedCash** | 50 | `let simulatedCash = availableCash;` |
-| `src/core/runtime/treasury-intelligence/TreasuryStressEngine.ts` | **simulatedMonthlyBurn** | 51 | `let simulatedMonthlyBurn = normalizedMonthlyCashBurn > 0 ? normalizedMonthlyCash` |
-| `src/core/runtime/treasury-intelligence/TreasuryStressEngine.ts` | **simulatedMonthlyBurn** | 59 | `simulatedMonthlyBurn = simulatedMonthlyBurn * 1.40;` |
-| `src/core/runtime/treasury-intelligence/TreasuryStressEngine.ts` | **simulatedCash** | 77 | `simulatedCash = 0;` |
-| `src/core/runtime/treasury-intelligence/TreasuryStressEngine.ts` | **dailySimulatedBurn** | 82 | `const dailySimulatedBurn = simulatedMonthlyBurn / 30;` |
-| `src/core/runtime/treasury-intelligence/TreasuryStressEngine.ts` | **simulatedExhaustionProjected** | 104 | `const simulatedExhaustionProjected = cumulativeExhaustionDays < 120 || baselineE` |
+| `src/core/runtime/treasury-governance/CapitalAllocationEngine.ts` | **evaluate** | 38 | `public static evaluate(` |
+| `src/core/runtime/treasury-governance/CapitalAllocationEngine.ts` | **runwayPreservationScore** | 54 | `let runwayPreservationScore = 100;` |
+| `src/core/runtime/treasury-governance/CapitalAllocationEngine.ts` | **runwayPreservationScore** | 56 | `runwayPreservationScore = Math.max(100 - pctOfCash * 150, 0);` |
+| `src/core/runtime/treasury-governance/CapitalAllocationEngine.ts` | **runwayPreservationScore** | 58 | `runwayPreservationScore = Math.max(100 - pctOfCash * 50, 0);` |
+| `src/core/runtime/treasury-governance/CapitalAllocationEngine.ts` | **fiduciaryEfficiencyScore** | 87 | `let fiduciaryEfficiencyScore = 90;` |
+| `src/core/runtime/treasury-governance/CapitalAllocationEngine.ts` | **fiduciaryEfficiencyScore** | 89 | `fiduciaryEfficiencyScore = 40; // low efficiency to allocate growth under stress` |
+| `src/core/runtime/treasury-governance/CapitalAllocationEngine.ts` | **fiduciaryEfficiencyScore** | 91 | `fiduciaryEfficiencyScore = 60;` |
+| `src/core/runtime/treasury-governance/CapitalAllocationEngine.ts` | **suitabilityScore** | 105 | `let suitabilityScore = (runwayPreservationScore * 0.2) + (fiduciaryEfficiencySco` |
+| `src/core/runtime/treasury-governance/CapitalAllocationEngine.ts` | **suitabilityScore** | 110 | `suitabilityScore = Math.round(Math.min(Math.max(suitabilityScore, 0), 100));` |
+| `src/core/runtime/treasury-governance/CashPriorityEngine.ts` | **evaluate** | 17 | `public static evaluate(input: CashPriorityEvaluationInput): CashPriorityOutput {` |
+| `src/core/runtime/treasury-governance/CashPriorityEngine.ts` | **payrollPriorityScore** | 21 | `let payrollPriorityScore = 70;` |
+| `src/core/runtime/treasury-governance/CashPriorityEngine.ts` | **criticalCapexPriorityScore** | 22 | `let criticalCapexPriorityScore = 50;` |
+| `src/core/runtime/treasury-governance/CashPriorityEngine.ts` | **reserveProtectionPriorityScore** | 23 | `let reserveProtectionPriorityScore = 40;` |
+| `src/core/runtime/treasury-governance/CashPriorityEngine.ts` | **payrollPriorityScore** | 30 | `payrollPriorityScore = 100; // Absolute protection` |
+| `src/core/runtime/treasury-governance/CashPriorityEngine.ts` | **criticalCapexPriorityScore** | 31 | `criticalCapexPriorityScore = 10; // Frozen/De-prioritized` |
+| `src/core/runtime/treasury-governance/CashPriorityEngine.ts` | **reserveProtectionPriorityScore** | 32 | `reserveProtectionPriorityScore = 95; // Extreme protection` |
+| `src/core/runtime/treasury-governance/CashPriorityEngine.ts` | **payrollPriorityScore** | 42 | `payrollPriorityScore = 90;` |
+| `src/core/runtime/treasury-governance/CashPriorityEngine.ts` | **criticalCapexPriorityScore** | 43 | `criticalCapexPriorityScore = 30; // Reduced priority to protect cash` |
+| `src/core/runtime/treasury-governance/CashPriorityEngine.ts` | **reserveProtectionPriorityScore** | 44 | `reserveProtectionPriorityScore = 75;` |
+| `src/core/runtime/treasury-governance/CashPriorityEngine.ts` | **payrollPriorityScore** | 55 | `payrollPriorityScore = 70;` |
+| `src/core/runtime/treasury-governance/CashPriorityEngine.ts` | **criticalCapexPriorityScore** | 56 | `criticalCapexPriorityScore = 60;` |
+| `src/core/runtime/treasury-governance/CashPriorityEngine.ts` | **reserveProtectionPriorityScore** | 57 | `reserveProtectionPriorityScore = 50;` |
+| `src/core/runtime/treasury-governance/DistributionSustainabilityEngine.ts` | **evaluate** | 28 | `public static evaluate(input: DistributionEvaluationInput): DistributionSustaina` |
+| `src/core/runtime/treasury-governance/FiduciaryEfficiencyEngine.ts` | **evaluate** | 22 | `public static evaluate(input: EfficiencyEvaluationInput): FiduciaryEfficiencyOut` |
+| `src/core/runtime/treasury-governance/FiduciaryEfficiencyEngine.ts` | **adjustedScore** | 35 | `let adjustedScore = baseEfficiencyScore;` |
+| `src/core/runtime/treasury-governance/FiduciaryEfficiencyEngine.ts` | **adjustedScore** | 84 | `adjustedScore = Math.round(Math.max(adjustedScore, 0) * 10) / 10;` |
+| `src/core/runtime/treasury-governance/ReinvestmentGovernanceEngine.ts` | **evaluate** | 17 | `public static evaluate(input: ReinvestmentEvaluationInput): ReinvestmentIntellig` |
+| `src/core/runtime/treasury-governance/TreasuryGovernanceEngine.ts` | **evaluate** | 24 | `public static evaluate(input: GovernanceEvaluationInput): {` |
+| `src/core/runtime/treasury-governance/TreasuryGovernanceRuntime.ts` | **evaluate** | 52 | `public static evaluate(input: TreasuryRuntimeInput): TreasuryGovernanceRuntime` |
+| `src/core/runtime/treasury-governance/TreasuryGovernanceRuntime.ts` | **generateLineageHash** | 99 | `const treasuryLineageHash = this.generateLineageHash(hashInputs);` |
+| `src/core/runtime/treasury-governance/TreasuryGovernanceRuntime.ts` | **evaluate** | 103 | `const distribution = DistributionSustainabilityEngine.evaluate({` |
+| `src/core/runtime/treasury-governance/TreasuryGovernanceRuntime.ts` | **evaluate** | 124 | `const reinvestment = ReinvestmentGovernanceEngine.evaluate({` |
+| `src/core/runtime/treasury-governance/TreasuryGovernanceRuntime.ts` | **evaluate** | 133 | `const resilience = TreasuryResilienceEngine.evaluate({` |
+| `src/core/runtime/treasury-governance/TreasuryGovernanceRuntime.ts` | **evaluate** | 145 | `const cashPriority = CashPriorityEngine.evaluate({` |
+| `src/core/runtime/treasury-governance/TreasuryGovernanceRuntime.ts` | **evaluate** | 153 | `const stressSimulations = TreasuryStressEngine.evaluate({` |
+| `src/core/runtime/treasury-governance/TreasuryGovernanceRuntime.ts` | **evaluate** | 176 | `const capitalPreservation = TreasuryPreservationScoringEngine.evaluate({` |
+| `src/core/runtime/treasury-governance/TreasuryGovernanceRuntime.ts` | **baseEfficiencyScore** | 187 | `const baseEfficiencyScore = ebitda > 0 && availableCash > 0 ? Math.min((ebitda /` |
+| `src/core/runtime/treasury-governance/TreasuryGovernanceRuntime.ts` | **evaluate** | 191 | `const fiduciaryEfficiency = FiduciaryEfficiencyEngine.evaluate({` |
+| `src/core/runtime/treasury-governance/TreasuryGovernanceRuntime.ts` | **evaluate** | 204 | `const priorityMatrix = TreasuryPriorityMatrixEngine.evaluate({` |
+| `src/core/runtime/treasury-governance/TreasuryGovernanceRuntime.ts` | **evaluate** | 221 | `const governance = TreasuryGovernanceEngine.evaluate({` |
+| `src/core/runtime/treasury-governance/TreasuryGovernanceRuntime.ts` | **generateLineageHash** | 344 | `private static generateLineageHash(inputs: any[]): string {` |
+| `src/core/runtime/treasury-governance/TreasuryPreservationScoringEngine.ts` | **evaluate** | 18 | `public static evaluate(input: PreservationEvaluationInput): CapitalPreservationO` |
+| `src/core/runtime/treasury-governance/TreasuryPreservationScoringEngine.ts` | **preservationScore** | 34 | `let preservationScore = 100;` |
+| `src/core/runtime/treasury-governance/TreasuryPreservationScoringEngine.ts` | **preservationScore** | 53 | `preservationScore = Math.round(Math.min(Math.max(preservationScore, 0), 100));` |
+| `src/core/runtime/treasury-governance/TreasuryPriorityMatrixEngine.ts` | **evaluate** | 32 | `public static evaluate(input: PriorityEvaluationInput): {` |
+| `src/core/runtime/treasury-governance/TreasuryResilienceEngine.ts` | **evaluate** | 20 | `public static evaluate(input: ResilienceEvaluationInput): TreasuryResilienceOutp` |
+| `src/core/runtime/treasury-governance/TreasuryStressEngine.ts` | **evaluate** | 27 | `public static evaluate(input: StressSimulationInput): TreasuryStressOutput {` |
+| `src/core/runtime/treasury-governance/TreasuryStressEngine.ts` | **simulatedCash** | 50 | `let simulatedCash = availableCash;` |
+| `src/core/runtime/treasury-governance/TreasuryStressEngine.ts` | **simulatedMonthlyBurn** | 51 | `let simulatedMonthlyBurn = normalizedMonthlyCashBurn > 0 ? normalizedMonthlyCash` |
+| `src/core/runtime/treasury-governance/TreasuryStressEngine.ts` | **simulatedMonthlyBurn** | 59 | `simulatedMonthlyBurn = simulatedMonthlyBurn * 1.40;` |
+| `src/core/runtime/treasury-governance/TreasuryStressEngine.ts` | **simulatedCash** | 77 | `simulatedCash = 0;` |
+| `src/core/runtime/treasury-governance/TreasuryStressEngine.ts` | **dailySimulatedBurn** | 82 | `const dailySimulatedBurn = simulatedMonthlyBurn / 30;` |
+| `src/core/runtime/treasury-governance/TreasuryStressEngine.ts` | **simulatedExhaustionProjected** | 104 | `const simulatedExhaustionProjected = cumulativeExhaustionDays < 120 || baselineE` |
 | `src/core/runtime/treasury-sustainability/TreasurySustainabilityEngine.ts` | **evaluate** | 4 | `public static evaluate(` |
 | `src/core/runtime/treasury-sustainability/TreasurySustainabilityEngine.ts` | **fcoScore** | 11 | `let fcoScore = 0;` |
 | `src/core/runtime/treasury-sustainability/TreasurySustainabilityEngine.ts` | **fcoScore** | 13 | `fcoScore = 100;` |

@@ -1,10 +1,10 @@
 {
   "consolidated_executive": {
-    "loading": "Loading Consolidated Intelligence...",
+    "loading": "Loading Consolidated Governance...",
     "error_title": "Consolidation Failure",
     "empty_title": "No Consolidated Report Available",
     "empty_desc": "There is no active consolidated data for the selected economic group at this moment.",
-    "header_title": "Economic Group Consolidated Intelligence",
+    "header_title": "Economic Group Consolidated Governance",
     "header_desc": "Intercompany equity consolidation, structural dependencies, and systemic risk propagation.",
     "header_badge": "Consolidated Session Enabled",
     "passive_render": "Passive View Layer Rendering (Runtime-Compliant)",

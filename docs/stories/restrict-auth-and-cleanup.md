@@ -11,7 +11,7 @@ Remove the user registration option ("Criar Conta") from the Login screen, enfor
 - [x] Import **Tilt Warp** and **Work Sans** Google Fonts inside `index.html`.
 - [x] Remove the "Inteligência financeira para decisões de alto impacto" strategic pill from the left column in `src/App.tsx`.
 - [x] Apply **Tilt Warp** to the lowercase `"illumine"` text logo.
-- [x] Replace "Assessoria Estratégica" with `"Business Intelligence"` formatted in **Work Sans** and distribute its letters dynamically to match the exact responsive width of `"illumine"`.
+- [x] Replace "Assessoria Estratégica" with `"Business Governance"` formatted in **Work Sans** and distribute its letters dynamically to match the exact responsive width of `"illumine"`.
 - [x] Redesign the right login panel into a stunning glassmorphic structure featuring radial background ambient highlights, custom SVG Google logo, and a styled Secure Environment card.
 
 ## Files

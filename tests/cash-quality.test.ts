@@ -51,7 +51,7 @@ describe('Cash Quality Score (CQS) - Engine & Integrity Tests', () => {
     assert.ok(cqs);
     
     // Deve pontuar alto
-    assert.ok(cqs.score >= 85, `Score esperado >= 85, obtido: ${cqs.score}`);
+    assert.ok(cqs.pureViewModel.score >= 85, `Score esperado >= 85, obtido: ${cqs.pureViewModel.score}`);
     assert.strictEqual(cqs.level, 'Institutional Grade Cash');
     assert.strictEqual(cqs.alerts.length, 0);
   });
@@ -104,7 +104,7 @@ describe('Cash Quality Score (CQS) - Engine & Integrity Tests', () => {
     assert.ok(cqs);
     
     // Score deve estar na faixa crítica
-    assert.ok(cqs.score < 30, `Score esperado < 30, obtido: ${cqs.score}`);
+    assert.ok(cqs.pureViewModel.score < 30, `Score esperado < 30, obtido: ${cqs.pureViewModel.score}`);
     assert.strictEqual(cqs.level, 'Critical Cash Integrity Risk');
     
     // Verifica os alertas disparados
@@ -158,7 +158,7 @@ describe('Cash Quality Score (CQS) - Engine & Integrity Tests', () => {
     assert.ok(cqs);
     
     // A dedução por aporte de capitalização deve ser de apenas 1 ponto (sustainability = 9/10)
-    assert.strictEqual(cqs.dimensions.sustainability.score, 9);
+    assert.strictEqual(cqs.dimensions.sustainability.pureViewModel.score, 9);
     
     // A narrativa gerada não pode conter termos como colapso irreversível ou insolvência definitiva
     const diag = result.inference?.narrative?.diagnostic || '';

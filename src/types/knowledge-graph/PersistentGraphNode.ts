@@ -1,10 +1,2 @@
-import { InstitutionalNode } from './InstitutionalNode';
-
-export interface PersistentGraphNode extends InstitutionalNode {
-  tenantId: string;
-  correlationId: string;
-  lineageId: string;
-  sourceEngine: string;
-  createdAt: string;
-  updatedAt: string;
-}
+// shim
+export * from '../../capabilities/financial/contracts/types/knowledge-graph/PersistentGraphNode';

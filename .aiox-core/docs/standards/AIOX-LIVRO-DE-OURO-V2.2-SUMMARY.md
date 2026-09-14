@@ -729,7 +729,7 @@ Features:
 
 ---
 
-### v4.0.4 → v2.2 (The Intelligence)
+### v4.0.4 → v2.2 (The Governance)
 
 **Focus:** Memory + Learning + Collaboration
 - ✅ Memory Layer (4 types)

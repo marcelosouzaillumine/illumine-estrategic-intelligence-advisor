@@ -27,7 +27,7 @@
 | Respeita limites humanos | ✅ Pass | Human-in-the-loop obrigatório (v29.0). |
 
 ### 3. Alignment (Marketing ➔ Implementation)
-The platform's positioning as an "Executive Intelligence Platform" is strongly matched by its architectural foundation (`Illumine OS`, `EVC`, `ERE`). The gap lies entirely in residual legacy UI and the isolated Copilot memory deficit. 
+The platform's positioning as an "Executive Governance Platform" is strongly matched by its architectural foundation (`Illumine OS`, `EVC`, `ERE`). The gap lies entirely in residual legacy UI and the isolated Copilot memory deficit. 
 
 ---
 

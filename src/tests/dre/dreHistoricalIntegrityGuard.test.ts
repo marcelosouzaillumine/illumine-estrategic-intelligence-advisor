@@ -1,5 +1,5 @@
 import { describe, it } from 'node:test';
-import { DreHistoricalIntegrityGuard } from '../../core/runtime/dre/DreHistoricalIntegrityGuard';
+import { DreHistoricalIntegrityGuard } from '../../capabilities/financial/runtime/dre/DreHistoricalIntegrityGuard';
 
 describe('DreHistoricalIntegrityGuard', () => {
   it('handles missing previous value', () => {

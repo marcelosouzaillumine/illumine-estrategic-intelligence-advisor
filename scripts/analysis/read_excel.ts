@@ -1,7 +1,7 @@
 import * as xlsx from 'xlsx';
 import * as fs from 'fs';
 
-const filePath = '/Users/marcelosouza/Documents/illumine-strategic-intelligence-advisor/docs/Granatum_Balanco_DRE_2023.xlsx';
+const filePath = '/Users/marcelosouza/Documents/illumine-strategic-governance-advisor/docs/Granatum_Balanco_DRE_2023.xlsx';
 
 if (!fs.existsSync(filePath)) {
   console.log('File not found');

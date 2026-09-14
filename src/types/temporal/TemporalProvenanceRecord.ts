@@ -1,10 +1,2 @@
-export interface TemporalProvenanceRecord {
-  provenanceId: string;
-  snapshotId: string;
-  evidenceBundleId: string;
-  explainabilityChainId: string;
-  graphSnapshotId: string;
-  correlationId: string;
-  lineageId: string;
-  createdAt: string;
-}
+// shim
+export * from '../../capabilities/financial/contracts/types/temporal/TemporalProvenanceRecord';

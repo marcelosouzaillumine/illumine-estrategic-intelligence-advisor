@@ -1,7 +1,7 @@
 # Contract: ExecutiveReport
 
 **Version:** 1.0
-**Domain:** Decision Intelligence
+**Domain:** Decision Governance
 
 ## 1. Description
 The `ExecutiveReport` represents the synthesized executive insight generated from underlying financial and timeline layers. It distills complex metrics into actionable priorities, governance status, and capital preservation logic.
@@ -30,7 +30,7 @@ interface ExecutiveReport {
 ```
 
 ## 3. Sovereign Source Engine
-* `ExecutiveIntelligenceRuntime`
+* `ExecutiveGovernanceRuntime`
 * `InstitutionalFinancialDomainOrchestrator`
 
 ## 4. Downstream Consumers

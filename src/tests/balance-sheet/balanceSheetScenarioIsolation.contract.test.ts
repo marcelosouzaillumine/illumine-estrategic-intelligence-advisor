@@ -1,7 +1,6 @@
-// @ts-nocheck
-import { describe, it } from 'node:test';
-import * as assert from 'node:assert';
-import { BalanceSheetExecutiveOpinionBuilder } from '../../core/runtime/executive-consolidation/builders/BalanceSheetExecutiveOpinionBuilder';
+import { describe, it, expect, beforeAll, afterAll } from 'vitest';
+import assert from 'node:assert';
+import { BalanceSheetExecutiveOpinionBuilder } from '../../workspace/runtime/executive-consolidation/builders/BalanceSheetExecutiveOpinionBuilder';
 
 describe('BalanceSheetScenarioIsolation v7.19', () => {
   it('Should generate strict Critical scenario grammar based on facts', () => {

@@ -14,7 +14,7 @@ A auditoria local foi executada com sucesso sobre o domínio `src/core/runtime/c
 Ignorados intencionalmente por interceptarem avaliação estrita de regras constitucionais (`evaluateReportAxioms(report: any)`). Qualquer modificação nesta engine exige o Gate Fiduciário.
 
 **Itens REVIEW_REQUIRED (20):**
-Estão concentrados puramente nas assinaturas de contratos e polimorfismo dos Protocolos Constitucionais. Assinaturas como `public validate(context: any)` e `public static extract*(runtimeOutput: any)` predominam. Esta rede aguarda a modelagem oficial de payloads executivos (ExecutiveIntelligenceReport / ComplianceReport) para migração em bloco.
+Estão concentrados puramente nas assinaturas de contratos e polimorfismo dos Protocolos Constitucionais. Assinaturas como `public validate(context: any)` e `public static extract*(runtimeOutput: any)` predominam. Esta rede aguarda a modelagem oficial de payloads executivos (ExecutiveGovernanceReport / ComplianceReport) para migração em bloco.
 
 ### Riscos Remanescentes
 O ambiente encontra-se semanticamente seguro. A base de Runtime Protocolar confia na passagem de parâmetros agnósticos que são formalmente resolvidos dentro de cada `validate`. Nenhuma intervenção destrutiva ocorreu.

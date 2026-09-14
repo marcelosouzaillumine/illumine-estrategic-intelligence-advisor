@@ -15,7 +15,7 @@ const SEO_KEY_MAP: Record<RouteKey, string> = {
   PLATFORM: 'platform',
   DOMAINS: 'domains',
   GOVERNANCE: 'governance',
-  INTELLIGENCE_CENTER: 'intelligenceCenter',
+  GOVERNANCE_CENTER: 'governanceCenter',
   DIAGNOSTIC: 'assessment',
   CONTACT: 'contact',
   PARTNERS: 'partners',
@@ -34,7 +34,7 @@ const SEO_KEY_MAP: Record<RouteKey, string> = {
 export function useSeo({ pageKey, schemaTypes }: SeoConfig) {
   const { t, i18n } = useTranslation(['seo', 'brand']);
   const currentLang = i18n.language;
-  const baseUrl = 'https://illumineintelligence.com';
+  const baseUrl = 'https://illuminegovernance.com';
 
   const tKey = SEO_KEY_MAP[pageKey] || pageKey.toLowerCase();
 

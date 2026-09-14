@@ -1,7 +1,7 @@
 export interface IntelligenceCapability {
   id: string;
   name: string;
-  layer: 'INTELLIGENCE' | 'EXPERIENCE' | 'DATA' | 'INSTITUTIONAL';
+  layer: 'GOVERNANCE' | 'EXPERIENCE' | 'DATA' | 'INSTITUTIONAL';
   version: string;
   owner: string;
 }
@@ -27,17 +27,17 @@ export const CapabilityRegistry = new Registry();
 
 // Register foundational capabilities
 CapabilityRegistry.register({
-  id: "financial.balance_sheet_intelligence",
-  name: "Balance Sheet Intelligence™",
-  layer: "INTELLIGENCE",
+  id: "financial.balance_sheet_governance",
+  name: "Balance Sheet Governance™",
+  layer: "GOVERNANCE",
   version: "1.0",
   owner: "Financial Capability"
 });
 
 CapabilityRegistry.register({
-  id: "financial.intelligence.assurance",
-  name: "Financial Intelligence Assurance Layer™",
-  layer: "INTELLIGENCE",
+  id: "financial.governance.assurance",
+  name: "Financial Governance Assurance Layer™",
+  layer: "GOVERNANCE",
   version: "1.0",
   owner: "Financial Capability"
 });

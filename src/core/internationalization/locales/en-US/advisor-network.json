@@ -20,12 +20,30 @@
     "title_2": "professional practice",
     "lead": "The infrastructure that elevates your professional practice.",
     "comparisons": {
-      "c1": { "before": "Working only on projects", "after": "Continuous relationship" },
-      "c2": { "before": "Delivering annual diagnostics", "after": "Permanent monitoring" },
-      "c3": { "before": "Charging only for consulting", "after": "New sources of recurring revenue" },
-      "c4": { "before": "Relying on memory", "after": "Client's institutional intelligence" },
-      "c5": { "before": "Gathering data manually", "after": "Continuously updated analysis" },
-      "c6": { "before": "Issuing opinions", "after": "Evidence-backed opinions" }
+      "c1": {
+        "before": "Working only on projects",
+        "after": "Continuous relationship"
+      },
+      "c2": {
+        "before": "Delivering annual diagnostics",
+        "after": "Permanent monitoring"
+      },
+      "c3": {
+        "before": "Charging only for consulting",
+        "after": "New sources of recurring revenue"
+      },
+      "c4": {
+        "before": "Relying on memory",
+        "after": "Client's institutional governance"
+      },
+      "c5": {
+        "before": "Gathering data manually",
+        "after": "Continuously updated analysis"
+      },
+      "c6": {
+        "before": "Issuing opinions",
+        "after": "Evidence-backed opinions"
+      }
     }
   },
   "client_value": {
@@ -72,24 +90,48 @@
     "label": "Evolution",
     "title_1": "Evolve your operating",
     "title_2": "model",
-    "lead": "You stop competing on hours worked and start competing on intelligence.",
+    "lead": "You stop competing on hours worked and start competing on governance.",
     "shifts": {
-      "s1": { "from": "Sells hours", "to": "Builds recurring relationships" },
-      "s2": { "from": "Delivers projects", "to": "Monitors decisions" },
-      "s3": { "from": "Answers questions", "to": "Anticipates risks" },
-      "s4": { "from": "Delivers diagnostics", "to": "Builds institutional intelligence" }
+      "s1": {
+        "from": "Sells hours",
+        "to": "Builds recurring relationships"
+      },
+      "s2": {
+        "from": "Delivers projects",
+        "to": "Monitors decisions"
+      },
+      "s3": {
+        "from": "Answers questions",
+        "to": "Anticipates risks"
+      },
+      "s4": {
+        "from": "Delivers diagnostics",
+        "to": "Builds institutional governance"
+      }
     }
   },
   "authority": {
     "label": "Strengthen your professional authority",
     "title_1": "Institutional",
     "title_2": "credibility",
-    "lead": "The Executive Intelligence Platform™ expands your technical capacity. The Illumine methodology strengthens your practice. The certification recognizes your work. Together, they elevate your credibility with clients, boards, and leadership.",
+    "lead": "The Executive Governance Platform™ expands your technical capacity. The Illumine methodology strengthens your practice. The certification recognizes your work. Together, they elevate your credibility with clients, boards, and leadership.",
     "items": {
-      "i1": { "title": "Trust", "desc": "More confidence in recommendations." },
-      "i2": { "title": "Differentiation", "desc": "Greater differentiation in the market." },
-      "i3": { "title": "Methodology", "desc": "Recognized methodology for complex decisions." },
-      "i4": { "title": "Credential", "desc": "Institutional credential that reinforces your authority." }
+      "i1": {
+        "title": "Trust",
+        "desc": "More confidence in recommendations."
+      },
+      "i2": {
+        "title": "Differentiation",
+        "desc": "Greater differentiation in the market."
+      },
+      "i3": {
+        "title": "Methodology",
+        "desc": "Recognized methodology for complex decisions."
+      },
+      "i4": {
+        "title": "Credential",
+        "desc": "Institutional credential that reinforces your authority."
+      }
     }
   },
   "community": {
@@ -101,7 +143,7 @@
       "b1": "Private community",
       "b2": "Continuous updates",
       "b3": "Exclusive research",
-      "b4": "Executive Intelligence Center™",
+      "b4": "Executive Governance Center™",
       "b5": "Peer review",
       "b6": "Qualified networking",
       "b7": "Commercial opportunities",
@@ -116,7 +158,7 @@
       "title": "Illumine Certified Advisor Network™",
       "subtitle": "Expand your practice while preserving your independence.",
       "type": "For professionals",
-      "desc": "Ideal for professionals who want to incorporate the Executive Intelligence Platform™ into their practice, participating in Illumine's methodological and commercial ecosystem.",
+      "desc": "Ideal for professionals who want to incorporate the Executive Governance Platform™ into their practice, participating in Illumine's methodological and commercial ecosystem.",
       "receives_title": "You receive",
       "receives_items": {
         "i1": "Official certification",
@@ -139,7 +181,7 @@
       "title": "Illumine Platform Partner™",
       "subtitle": "Transform your advisory firm into a scalable operation.",
       "type": "For organizations",
-      "desc": "Use the Executive Intelligence Platform™ as infrastructure to serve your own client portfolio, maintaining commercial and operational autonomy.",
+      "desc": "Use the Executive Governance Platform™ as infrastructure to serve your own client portfolio, maintaining commercial and operational autonomy.",
       "receives_title": "You receive",
       "receives_items": {
         "i1": "Multi-company platform",
@@ -166,12 +208,36 @@
         "h3": "Platform Partner"
       },
       "rows": {
-        "r1": { "label": "How do you operate?", "v1": "In partnership with Illumine", "v2": "With your own operation" },
-        "r2": { "label": "Who relates to the client?", "v1": "Illumine + Advisor", "v2": "Your company" },
-        "r3": { "label": "How do you generate revenue?", "v1": "Participation", "v2": "Own margin" },
-        "r4": { "label": "Ideal for", "v1": "Professionals", "v2": "Companies" },
-        "r5": { "label": "Scalability", "v1": "Individual", "v2": "Multi-company" },
-        "r6": { "label": "Platform usage", "v1": "Professional tool", "v2": "Operational infrastructure" }
+        "r1": {
+          "label": "How do you operate?",
+          "v1": "In partnership with Illumine",
+          "v2": "With your own operation"
+        },
+        "r2": {
+          "label": "Who relates to the client?",
+          "v1": "Illumine + Advisor",
+          "v2": "Your company"
+        },
+        "r3": {
+          "label": "How do you generate revenue?",
+          "v1": "Participation",
+          "v2": "Own margin"
+        },
+        "r4": {
+          "label": "Ideal for",
+          "v1": "Professionals",
+          "v2": "Companies"
+        },
+        "r5": {
+          "label": "Scalability",
+          "v1": "Individual",
+          "v2": "Multi-company"
+        },
+        "r6": {
+          "label": "Platform usage",
+          "v1": "Professional tool",
+          "v2": "Operational infrastructure"
+        }
       }
     }
   },
@@ -179,7 +245,7 @@
     "label": "The Credential",
     "title_1": "Become a",
     "title_2": "Certified Executive Advisor™",
-    "lead": "A development journey created for professionals who want to act with a structured methodology of Executive Intelligence Advisory™.",
+    "lead": "A development journey created for professionals who want to act with a structured methodology of Executive Governance Advisory™.",
     "step1": {
       "title": "Choose your model",
       "desc": "Define the partnership modality most adherent to your business."
@@ -190,7 +256,7 @@
     },
     "step3": {
       "title": "Earn your certification",
-      "desc": "Complete immersion in the intelligence methodology and frameworks."
+      "desc": "Complete immersion in the governance methodology and frameworks."
     },
     "step4": {
       "title": "Join the ecosystem",

@@ -2,7 +2,7 @@ import { describe, it, expect } from 'vitest';
 import * as fs from 'fs';
 import * as path from 'path';
 
-describe('@illumine/intelligence (Wave 16.5 Phase 9 Product Readiness Certification)', () => {
+describe('@illumine/governance (Wave 16.5 Phase 9 Product Readiness Certification)', () => {
   it('should verify PRODUCT_READINESS_REPORT.md has EDOS Ready certification with EPS 98.2 / 100', () => {
     const docPath = path.resolve(process.cwd(), 'PRODUCT_READINESS_REPORT.md');
     const content = fs.readFileSync(docPath, 'utf-8');

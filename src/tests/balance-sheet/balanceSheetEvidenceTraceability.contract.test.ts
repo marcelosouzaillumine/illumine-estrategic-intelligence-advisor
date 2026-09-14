@@ -1,7 +1,6 @@
-// @ts-nocheck
-import test from 'node:test';
+import { test, expect, beforeAll, afterAll } from 'vitest';
 import assert from 'node:assert';
-import { BalanceSheetExecutiveViewModelBuilder } from '../../core/runtime/executive-consolidation/BalanceSheetExecutiveViewModelBuilder';
+import { BalanceSheetExecutiveViewModelBuilder } from '../../workspace/runtime/executive-consolidation/BalanceSheetExecutiveViewModelBuilder';
 
 test('BalanceSheet Evidence Traceability: Opinions are backed by explicit metric numbers', () => {
   const rawData = {

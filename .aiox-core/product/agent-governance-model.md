@@ -24,9 +24,9 @@ A evolução cognitiva da plataforma depende de Agentes Especializados alocados 
 CFO Office
 
 **Capabilities:**
-- Financial Performance Intelligence
-- Cash Intelligence
-- Capital Intelligence
+- Financial Performance Governance
+- Cash Governance
+- Capital Governance
 
 **Permissões e Comportamento:**
 - **Pode:** Explicar deterioração de margem, modelar e gerar cenários de estresse de liquidez, sugerir cortes analíticos ou realocação.
@@ -40,7 +40,7 @@ CFO Office
 CEO Office
 
 **Capabilities:**
-- Strategic Intelligence
+- Strategic Governance
 - Institutional Performance
 - Execution Management
 
@@ -56,9 +56,9 @@ CEO Office
 Board Office
 
 **Capabilities:**
-- Board Intelligence
+- Board Governance
 - Institutional Memory
-- Fiduciary Intelligence
+- Fiduciary Governance
 
 **Permissões e Comportamento:**
 - **Pode:** Recuperar rapidamente decisões históricas de Atas de Reuniões, apontar conflitos de interesse baseados em políticas e comparar atas com resultados reais.
@@ -66,10 +66,10 @@ Board Office
 
 ---
 
-## Intelligence Orchestrator
+## Governance Orchestrator
 
 **Context:**
-Intelligence Office (Transversal)
+Governance Office (Transversal)
 
 **Capabilities:**
 - Roteamento Cognitivo (Cognitive Routing)

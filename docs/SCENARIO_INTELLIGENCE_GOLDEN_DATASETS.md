@@ -1,8 +1,8 @@
-# SCENARIO INTELLIGENCE GOLDEN DATASETS
+# SCENARIO GOVERNANCE GOLDEN DATASETS
 
 A inteligência preditiva e as simulações contrafactuais operam com rigor absoluto. Nenhuma métrica gerada deve ser considerada "aproximada", e toda simulação precisa respeitar rigorosamente a conservação de valor contábil (Ativo = Passivo + PL) e a propagação causal natural que seria inferida no passado.
 
-Este documento define os **Datasets Dourados** institucionais usados para calibrar o motor em `src/core/runtime/scenario-intelligence/`.
+Este documento define os **Datasets Dourados** institucionais usados para calibrar o motor em `src/core/runtime/scenario-governance/`.
 
 ## 1. Regras Fundamentais de Mutação
 Toda mutação obedece a um fluxo em 3 etapas:

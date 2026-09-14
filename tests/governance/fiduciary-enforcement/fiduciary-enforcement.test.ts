@@ -5,10 +5,10 @@
 
 import { describe, it } from 'node:test';
 import assert from 'node:assert/strict';
-import { DLPAFiduciaryInterpretationEngine } from '../../../src/core/runtime/governance/dlpa/DLPAFiduciaryInterpretationEngine';
-import { GlobalFiduciaryDistributionEnforcementEngine } from '../../../src/core/runtime/governance/fiduciary-enforcement/GlobalFiduciaryDistributionEnforcementEngine';
-import { FinancialRuntimeContextAdapter } from '../../../src/core/runtime/financial-context/FinancialRuntimeContextAdapter';
-import { InstitutionalBusinessProfile } from '../../../src/core/runtime/institutional-identity/InstitutionalBusinessProfile';
+import { DLPAFiduciaryInterpretationEngine } from '../../../src/capabilities/runtime/governance/dlpa/DLPAFiduciaryInterpretationEngine';
+import { GlobalFiduciaryDistributionEnforcementEngine } from '../../../src/capabilities/runtime/governance/fiduciary-enforcement/GlobalFiduciaryDistributionEnforcementEngine';
+import { FinancialRuntimeContextAdapter } from '../../../src/capabilities/financial/runtime/financial-context/FinancialRuntimeContextAdapter';
+import { InstitutionalBusinessProfile } from '../../../src/capabilities/runtime/institutional-identity/InstitutionalBusinessProfile';
 import { ExecutiveActionMatrixEngine } from '../../../src/core/runtime/integrity/ExecutiveActionMatrixEngine';
 import { ExecutivePriorityConsolidationEngine } from '../../../src/core/runtime/ExecutivePriorityConsolidationEngine';
 import { ExecutiveNarrativeOrchestrator } from '../../../src/core/runtime/ExecutiveNarrativeOrchestrator';

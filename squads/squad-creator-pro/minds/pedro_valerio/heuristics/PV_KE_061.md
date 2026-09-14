@@ -4,7 +4,7 @@ title: "O Axioma da Métrica Inerente (Instances Without Metrics Are Dead)"
 mind: "pedro_valerio"
 type: "heuristics"
 tags:
-  - "Operational Intelligence"
+  - "Operational Governance"
   - "Execution Tracking"
 pipeline_instances:
   - "hybrid-ops"

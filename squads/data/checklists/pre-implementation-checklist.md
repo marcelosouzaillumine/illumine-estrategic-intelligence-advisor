@@ -2,10 +2,10 @@
 
 ## Visão Geral
 
-Este checklist deve ser completado **ANTES** de iniciar qualquer implementação do Data Intelligence Pack. Garante que os fundamentos estão corretos e evita retrabalho.
+Este checklist deve ser completado **ANTES** de iniciar qualquer implementação do Data Governance Pack. Garante que os fundamentos estão corretos e evita retrabalho.
 
 > "Nunca implemente uma métrica sem passar por pelo menos 1 fundamentador (Tier 0)."
-> — Data Intelligence Pack Golden Rule
+> — Data Governance Pack Golden Rule
 
 ---
 
@@ -287,5 +287,5 @@ TIER 2 - COMUNICADORES (Para apresentar)
 
 ---
 
-*Data Intelligence Pack - Pre-Implementation Checklist v1.0*
+*Data Governance Pack - Pre-Implementation Checklist v1.0*
 *Last Updated: 2026-01-23*

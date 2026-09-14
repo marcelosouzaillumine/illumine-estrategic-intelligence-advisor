@@ -5,20 +5,20 @@ import { ExecutiveNarrativeService } from '../../executive-operating-model/execu
 import { ExecutiveProfilePortfolio } from '../../executive-profile/portfolio-types';
 
 describe('Phase C Extensibility - Plugin Architecture', () => {
-  it('Should seamlessly integrate a non-existent Future Domain (AI Intelligence) without modifying core engines', () => {
+  it('Should seamlessly integrate a non-existent Future Domain (AI Governance) without modifying core engines', () => {
     
     // 1. Registry (Plugin Installation)
     const registry = DomainRegistry.getInstance();
     registry.register({
       domain: 'ai' as any,
-      name: 'AI Intelligence™',
+      name: 'AI Governance™',
       isCoreFoundation: false,
       supportedEngines: ['Diagnostic']
     });
 
     const aiDomain = registry.getDomain('ai' as any);
     expect(aiDomain).toBeDefined();
-    expect(aiDomain?.name).toBe('AI Intelligence™');
+    expect(aiDomain?.name).toBe('AI Governance™');
 
     // 2. Portfolio Construction with the new plugin
     const portfolio: ExecutiveProfilePortfolio = {
@@ -53,13 +53,13 @@ describe('Phase C Extensibility - Plugin Architecture', () => {
     const summary = summaryService.generateSummary(portfolio);
     
     // Should extract AI Intelligence properly in the summary maps
-    expect(summary.attentionAreas).toContain('AI Intelligence™');
+    expect(summary.attentionAreas).toContain('AI Governance™');
 
     // 4. Narrative Engine Extensibility
     const narrativeService = new ExecutiveNarrativeService();
-    const strategicConversation = narrativeService.generateStrategicConversation(summary.organizationalStage, 'ai-intelligence');
+    const strategicConversation = narrativeService.generateStrategicConversation(summary.organizationalStage, 'ai-governance');
     
     // Narrative should dynamically insert the domain name
-    expect(strategicConversation).toContain('AI Intelligence™');
+    expect(strategicConversation).toContain('AI Governance™');
   });
 });

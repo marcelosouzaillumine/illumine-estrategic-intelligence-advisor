@@ -1,4 +1,3 @@
-// @ts-nocheck
 import { describe, it, expect } from 'vitest';
 import { SchemaValidator } from '../SchemaValidator';
 import { ExecutiveArtifact } from '../../contracts/schema/v1/ExecutiveArtifact.schema';
@@ -19,6 +18,7 @@ const createValidBaseArtifact = (): ExecutiveArtifact => ({
     knowledgePacksUsed: ['liquidity_pack'],
     knowledgeProvenance: []
   },
+  financialInsights: { observations: [], patterns: [], strengths: [], attentionPoints: [], opportunities: [] },
   reasoning: {
     facts: [{ metric: 'Current Ratio', value: 1.5, source: 'Balance Sheet' }],
     observations: [],
@@ -88,8 +88,8 @@ describe('SchemaValidator', () => {
   it('should block Recommendation without Confidence', () => {
     const artifact = createValidBaseArtifact();
     
-    // We cast to any to bypass TS compile check and simulate runtime bypass
-    const recWithoutConfidence: any = {
+    // We cast to unknown to bypass TS compile check and simulate runtime bypass
+    const recWithoutConfidence = {
       action: 'Invest',
       reason: 'Excess cash',
       priority: 'HIGH',
@@ -98,7 +98,7 @@ describe('SchemaValidator', () => {
       risk: 'Low'
     };
     
-    artifact.decision.recommendations.push(recWithoutConfidence);
+    artifact.decision.recommendations.push(recWithoutConfidence as unknown as never);
 
     // Should fail Zod structure validation first because confidenceLevel is required
     expect(() => SchemaValidator.validate(artifact)).toThrow();
@@ -106,7 +106,7 @@ describe('SchemaValidator', () => {
 
   it('should block if Overall Confidence is missing', () => {
     const artifact = createValidBaseArtifact();
-    artifact.governance.confidence = undefined as any;
+    (artifact.governance as unknown as Record<string, unknown>).confidence = undefined;
 
     expect(() => SchemaValidator.validate(artifact)).toThrow();
   });

@@ -1,7 +1,6 @@
-// @ts-nocheck
-import test from 'node:test';
+import { test, expect, beforeAll, afterAll } from 'vitest';
 import assert from 'node:assert';
-import { BalanceSheetDecisionPolicyLayer } from '../../core/runtime/executive-consolidation/BalanceSheetDecisionPolicyLayer';
+import { BalanceSheetDecisionPolicyLayer } from '../../workspace/runtime/executive-consolidation/BalanceSheetDecisionPolicyLayer';
 
 test('BalanceSheet Scenario is Output, not Input: Scenarios are derived dynamically', () => {
   const facts = {
@@ -38,8 +37,8 @@ test('BalanceSheet Scenario is Output, not Input: Scenarios are derived dynamica
   const result = BalanceSheetDecisionPolicyLayer.applyPolicies(facts);
 
   // Derivation test
-  assert.strictEqual(result.institutionalScenario?.scenario, 'CRITICAL_LIQUIDITY_STRESS', 'Scenario deve ser derivado corretamente como CRITICAL baseado nos facts.');
+  assert.strictEqual(result.institutionalScenario.scenario, 'CRITICAL_LIQUIDITY_STRESS', 'Scenario deve ser derivado corretamente como CRITICAL baseado nos facts.');
   
   // The panels must not rely on the scenario string being passed in, but instead derived internally
-  assert.ok(result.decisionPanels.protection, 'Painel de proteção deve ser compilado e derivado de facts');
+  assert.ok(result.analysisPanels.protection, 'Painel de proteção deve ser compilado e derivado de facts');
 });

@@ -34,13 +34,13 @@
 ### FASE 1 — Convergência do Design System Visual (Execução Imediata)
 Migração atômica, página por página:
 
-1. [MODIFY] [PayablesPage.tsx](file:///Users/marcelosouza/Documents/illumine-strategic-intelligence-advisor/src/components/pages/PayablesPage.tsx)
-2. [MODIFY] [ReceivablesPage.tsx](file:///Users/marcelosouza/Documents/illumine-strategic-intelligence-advisor/src/components/pages/ReceivablesPage.tsx)
-3. [MODIFY] [EFOSPage.tsx](file:///Users/marcelosouza/Documents/illumine-strategic-intelligence-advisor/src/components/pages/EFOSPage.tsx)
-4. [MODIFY] [MarketingComercialPage.tsx](file:///Users/marcelosouza/Documents/illumine-strategic-intelligence-advisor/src/components/pages/MarketingComercialPage.tsx)
-5. [MODIFY] [PlanoDeContasPage.tsx](file:///Users/marcelosouza/Documents/illumine-strategic-intelligence-advisor/src/components/pages/PlanoDeContasPage.tsx)
-6. [MODIFY] [TaxReformImpactPage.tsx](file:///Users/marcelosouza/Documents/illumine-strategic-intelligence-advisor/src/components/pages/TaxReformImpactPage.tsx)
-7. [MODIFY] [ViabilityPage.tsx](file:///Users/marcelosouza/Documents/illumine-strategic-intelligence-advisor/src/components/pages/ViabilityPage.tsx)
+1. [MODIFY] [PayablesPage.tsx](file:///Users/marcelosouza/Documents/illumine-strategic-governance-advisor/src/components/pages/PayablesPage.tsx)
+2. [MODIFY] [ReceivablesPage.tsx](file:///Users/marcelosouza/Documents/illumine-strategic-governance-advisor/src/components/pages/ReceivablesPage.tsx)
+3. [MODIFY] [EFOSPage.tsx](file:///Users/marcelosouza/Documents/illumine-strategic-governance-advisor/src/components/pages/EFOSPage.tsx)
+4. [MODIFY] [MarketingComercialPage.tsx](file:///Users/marcelosouza/Documents/illumine-strategic-governance-advisor/src/components/pages/MarketingComercialPage.tsx)
+5. [MODIFY] [PlanoDeContasPage.tsx](file:///Users/marcelosouza/Documents/illumine-strategic-governance-advisor/src/components/pages/PlanoDeContasPage.tsx)
+6. [MODIFY] [TaxReformImpactPage.tsx](file:///Users/marcelosouza/Documents/illumine-strategic-governance-advisor/src/components/pages/TaxReformImpactPage.tsx)
+7. [MODIFY] [ViabilityPage.tsx](file:///Users/marcelosouza/Documents/illumine-strategic-governance-advisor/src/components/pages/ViabilityPage.tsx)
 
 - **Exit Criteria**: 100% das páginas previstas migradas sem estados híbridos; redução de imports de `Common.tsx`; 0 regressões; Gates 100% verdes.
 

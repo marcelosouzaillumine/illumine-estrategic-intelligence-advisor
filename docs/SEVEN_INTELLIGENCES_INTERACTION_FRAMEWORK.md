@@ -1,4 +1,4 @@
-# Seven Intelligences Interaction Framework v1.0
+# Seven Governances Interaction Framework v1.0
 
 > [!NOTE]
 > Este documento é a "constituição cognitiva" da plataforma. Define como as sete inteligências dialogam, entram em conflito, cooperam e produzem uma conclusão institucional coerente.
@@ -21,34 +21,34 @@ O objetivo é definir como as inteligências estruturantes interagem para produz
 **Definition:**
 "As Inteligências Estruturantes não operam de forma isolada. Elas compõem um sistema integrado de interpretação institucional responsável por transformar evidências organizacionais em discernimento executivo."
 
-## 3. Official Intelligence System
+## 3. Official Governance System
 
 Ficam registradas oficialmente as sete inteligências da plataforma e suas perguntas centrais:
 
-1. **Economic Intelligence:** "Existe geração de valor?"
-2. **Fiduciary Intelligence:** "O valor está protegido?"
-3. **Institutional Intelligence:** "A organização preserva continuidade institucional?"
-4. **Causal Intelligence:** "Por que os fenômenos estão ocorrendo?"
-5. **Constitutional Intelligence:** "A organização permanece aderente aos seus princípios?"
-6. **Missional Intelligence:** "A organização está vivendo sua razão de existir?"
-7. **Prospective Intelligence:** "A organização será capaz de continuar cumprindo sua missão e gerar valor no futuro?"
+1. **Economic Governance:** "Existe geração de valor?"
+2. **Fiduciary Governance:** "O valor está protegido?"
+3. **Institutional Governance:** "A organização preserva continuidade institucional?"
+4. **Causal Governance:** "Por que os fenômenos estão ocorrendo?"
+5. **Constitutional Governance:** "A organização permanece aderente aos seus princípios?"
+6. **Missional Governance:** "A organização está vivendo sua razão de existir?"
+7. **Prospective Governance:** "A organização será capaz de continuar cumprindo sua missão e gerar valor no futuro?"
 
-## 4. Intelligence Hierarchy
+## 4. Governance Hierarchy
 
 Ficam registrados oficialmente três níveis de precedência:
 
 ### Tier 1: Constitutional Safeguards
-* **Constitutional Intelligence:** Responsável pela proteção dos princípios fundamentais. Possui poder de veto institucional.
-* **Fiduciary Intelligence:** Responsável pela proteção patrimonial, sobrevivência financeira e preservação de valor. Possui poder de veto fiduciário.
+* **Constitutional Governance:** Responsável pela proteção dos princípios fundamentais. Possui poder de veto institucional.
+* **Fiduciary Governance:** Responsável pela proteção patrimonial, sobrevivência financeira e preservação de valor. Possui poder de veto fiduciário.
 
 ### Tier 2: Continuity and Interpretation
-* **Institutional Intelligence:** Protege continuidade institucional.
-* **Causal Intelligence:** Explica fenômenos organizacionais.
+* **Institutional Governance:** Protege continuidade institucional.
+* **Causal Governance:** Explica fenômenos organizacionais.
 
 ### Tier 3: Performance and Direction
-* **Economic Intelligence:** Avalia geração de valor.
-* **Missional Intelligence:** Avalia alinhamento de propósito.
-* **Prospective Intelligence:** Avalia sustentabilidade futura.
+* **Economic Governance:** Avalia geração de valor.
+* **Missional Governance:** Avalia alinhamento de propósito.
+* **Prospective Governance:** Avalia sustentabilidade futura.
 
 ## 5. Official Arbitration Rules
 
@@ -72,7 +72,7 @@ Ficam registrados oficialmente três níveis de precedência:
   * *Exemplo:* Sucessão forte + Violação recorrente de princípios
   * *Resultado:* Institutional Fragility
 
-## 6. Intelligence Cooperation Framework
+## 6. Governance Cooperation Framework
 
 As inteligências cooperam de forma integrada:
 * **Economic + Fiduciary:** Criação e proteção de valor.
@@ -82,16 +82,16 @@ As inteligências cooperam de forma integrada:
 * **Missional + Prospective:** Sustentabilidade da missão.
 * **Causal + All Others:** Explicação dos fenômenos.
 
-## 7. Intelligence Conflict Resolution
+## 7. Governance Conflict Resolution
 
 Quando inteligências apresentarem conclusões conflitantes, a resolução seguirá a precedência abaixo:
-1. **Constitutional Intelligence** possui precedência máxima.
-2. **Fiduciary Intelligence** possui precedência fiduciária.
-3. **Institutional Intelligence** possui precedência de continuidade.
-4. **Causal Intelligence** explica o conflito.
+1. **Constitutional Governance** possui precedência máxima.
+2. **Fiduciary Governance** possui precedência fiduciária.
+3. **Institutional Governance** possui precedência de continuidade.
+4. **Causal Governance** explica o conflito.
 5. **Economic, Missional e Prospective** complementam a interpretação.
 
-## 8. Intelligence Explainability
+## 8. Governance Explainability
 
 Toda conclusão da plataforma deverá registrar:
 * inteligências participantes;
@@ -101,21 +101,21 @@ Toda conclusão da plataforma deverá registrar:
 * evidências observadas;
 * racional de arbitragem.
 
-## 9. Composite Intelligence Outputs
+## 9. Composite Governance Outputs
 
 Futuras engines poderão consumir múltiplas inteligências simultaneamente. Exemplos registrados oficialmente:
 
 * **Mission Alignment Engine:** Consome Missional, Constitutional, Institutional e Prospective.
 * **ESGIM Runtime:** Consome Economic, Fiduciary, Institutional, Constitutional, Missional e Prospective.
-* **Board Intelligence Layer:** Consome todas as inteligências.
+* **Board Governance Layer:** Consome todas as inteligências.
 
 ## 10. Constitutional Safeguards
 
-### INTELLIGENCE_SUPREMACY_PROHIBITION
+### GOVERNANCE_SUPREMACY_PROHIBITION
 **Definition:**
 "Nenhuma inteligência poderá invalidar unilateralmente evidências certificadas, resultados fiduciários homologados ou princípios constitucionais."
 
-### INTELLIGENCE_EXPLAINABILITY_REQUIREMENT
+### GOVERNANCE_EXPLAINABILITY_REQUIREMENT
 **Definition:**
 "Toda arbitragem entre inteligências deverá possuir rastreabilidade completa."
 

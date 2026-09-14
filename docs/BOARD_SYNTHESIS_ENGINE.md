@@ -9,7 +9,7 @@ A plataforma deve transformar múltiplos sinais financeiros, patrimoniais e oper
 Esta engine atua como a camada institucional de:
 - Executive Compression;
 - Causal Prioritization;
-- Institutional Narrative Intelligence.
+- Institutional Narrative Governance.
 
 ---
 
@@ -100,10 +100,10 @@ O tom deve ser assertivo, contido, técnico e voltado exclusivamente à decisão
 
 A Board Synthesis Engine deve consolidar os outputs de:
 
-- Business Model Intelligence;
+- Business Model Governance;
 - Executive Causality;
 - Strategic Risk;
-- Financial Intelligence;
+- Financial Governance;
 - Advisory Engine.
 
 Ela não pode remover contexto operacional, causalidade dominante ou risco principal durante a compressão executiva.

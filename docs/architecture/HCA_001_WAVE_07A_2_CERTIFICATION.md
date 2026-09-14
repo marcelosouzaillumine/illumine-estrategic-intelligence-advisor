@@ -12,7 +12,7 @@ A **Wave 07A.2** concluiu com sucesso a extração da reatividade local do compo
 - [x] Toda a lógica de negócios e estado UI foi migrada para o hook `useClientsPageViewModel`.
 - [x] O contrato estrito `{ state, computed, actions }` foi mantido perfeitamente no novo ViewModel.
 - [x] Nenhuma alteração funcional ou visual (UX/UI) foi realizada na página.
-- [x] Todo o fluxo de inteligência da IA (`ClientIntelligenceService` e lógicas derivadas) foi intencionalmente mantido fora desta etapa, garantindo o escopo seguro e iterativo.
+- [x] Todo o fluxo de inteligência da IA (`ClientGovernanceService` e lógicas derivadas) foi intencionalmente mantido fora desta etapa, garantindo o escopo seguro e iterativo.
 - [x] A esteira de qualidade (Quality Gates) foi executada e aprovada 100% verde (Typecheck, Build, Tests).
 
 ## Próximos Passos

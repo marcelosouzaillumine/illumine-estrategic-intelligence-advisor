@@ -1,5 +1,6 @@
 import { collection, doc, setDoc, getDoc, serverTimestamp } from 'firebase/firestore';
 import { db } from './firebase';
+import { blockedFirestoreWrite } from './blockedFirestoreWrite';
 
 export interface EFOSSnapshot {
   clientId: string;
@@ -21,5 +22,5 @@ export async function publishEFOSSnapshot(clientId: string, score: number, matur
     version: '3.0' // ISE v3.0 EFOS Integration
   };
 
-  await setDoc(snapshotRef, snapshotData, { merge: true });
+  blockedFirestoreWrite(); // setDoc(snapshotRef, snapshotData, { merge: true });
 }

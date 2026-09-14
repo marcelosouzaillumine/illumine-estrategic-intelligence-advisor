@@ -8,7 +8,7 @@ The EAHI is a composite score (0-100) calculated from 8 primary dimensions:
 
 1. **Constitutional Compliance (25%)**: Absolute adherence to `ARCHITECTURE_CONSTITUTION.md` and `EXECUTIVE_VISUAL_CONSTITUTION.md`.
 2. **Executive Experience (20%)**: Effectiveness of decision support, narrative generation, and layout clarity.
-3. **Intelligence Quality (15%)**: Accuracy, explainability, lack of bias, and evidence traceability of the `Executive Cognitive Runtime™`.
+3. **Governance Quality (15%)**: Accuracy, explainability, lack of bias, and evidence traceability of the `Executive Cognitive Runtime™`.
 4. **Security & Tenant Isolation (15%)**: Invulnerability of `Cognitive Tenant Isolation™` boundaries across data, embeddings, and context.
 5. **Technical Health (10%)**: Absence of legacy code, architectural drift, and technical debt.
 6. **Observability (5%)**: Coverage of logs, metrics, decision traces, and telemetry.
@@ -23,7 +23,7 @@ The EAHI is a composite score (0-100) calculated from 8 primary dimensions:
  "dimensions": {
    "constitutionalCompliance": 97,
    "executiveExperience": 95,
-   "intelligenceQuality": 98,
+   "governanceQuality": 98,
    "securityIsolation": 100,
    "technicalHealth": 94,
    "observability": 92,

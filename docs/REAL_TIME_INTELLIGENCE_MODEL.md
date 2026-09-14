@@ -1,8 +1,8 @@
-# REAL_TIME_INTELLIGENCE_MODEL.md — Real-Time Event-Driven Intelligence Model
+# REAL_TIME_GOVERNANCE_MODEL.md — Real-Time Event-Driven Governance Model
 
 > **Modelo Orientado a Eventos para Recálculo Dinâmico em Tempo Real (ADR-080)**  
 > *Autoridade Supreme: Architecture Review Board (ARB)*  
-> *Alinhado à [`ARCHITECTURE_CONSTITUTION.md`](file:///Users/marcelosouza/Documents/illumine-strategic-intelligence-advisor/ARCHITECTURE_CONSTITUTION.md) e ADR-080*
+> *Alinhado à [`ARCHITECTURE_CONSTITUTION.md`](file:///Users/marcelosouza/Documents/illumine-strategic-governance-advisor/ARCHITECTURE_CONSTITUTION.md) e ADR-080*
 
 ---
 
@@ -18,7 +18,7 @@ External System Event (ex: Venda registrada no ERP ou Novo Balancete Carga)
             Semantic Model Update (Atualização do Digital Twin)
                                │
                                ▼
-            Runtime Intelligence Recalculation (Recálculo da Decisão)
+            Runtime Governance Recalculation (Recálculo da Decisão)
                                │
                                ▼
             Proactive Executive Notification (Recomendação Preventiva)

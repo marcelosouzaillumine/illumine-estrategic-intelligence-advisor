@@ -1,6 +1,6 @@
 import { describe, it } from 'node:test';
 import assert from 'node:assert';
-import { FinancialIntegrityValidator } from '../../core/runtime/financial-governance/validation/FinancialIntegrityValidator';
+import { FinancialIntegrityValidator } from '../../capabilities/financial/runtime/financial-governance/validation/FinancialIntegrityValidator';
 import { FinancialStatementType } from '../../../packages/executive-contracts/src/financial/index';
 
 describe('CFDI v2.1 — Financial Integrity Validator Contract', () => {

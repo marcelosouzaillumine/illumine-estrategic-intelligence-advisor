@@ -1,10 +1,10 @@
 import test from 'node:test';
 import assert from 'node:assert';
-import { DreDecisionPolicyLayer } from '../../core/runtime/dre/DreDecisionPolicyLayer';
-import { DreEconomicScenario } from '../../core/runtime/dre/DreScenarioClassifier';
-import { DreExecutiveFacts } from '../../core/runtime/dre/DreExecutiveFactsBuilder';
+import { DreDecisionPolicyLayer } from '../../capabilities/financial/runtime/dre/DreDecisionPolicyLayer';
+import { DreEconomicScenario } from '../../capabilities/financial/runtime/dre/DreScenarioClassifier';
+import { DreExecutiveFacts } from '../../capabilities/financial/runtime/dre/DreExecutiveFactsBuilder';
 
-test('DRE Longitudinal Intelligence Contract', async (t) => {
+test('DRE Longitudinal Governance Contract', async (t) => {
   const baseFacts: DreExecutiveFacts = {
     grossRevenue: 1000, deductions: 0, netRevenue: 1000, cogs: 400,
     contributionMarginValue: 600, contributionMarginRate: 0.6,

@@ -1,7 +1,7 @@
 # Executive Revenue Constitution
 
 ## 1. Domain Separation Principle
-Revenue belongs strictly to the Platform Domain (Illumine). Customer operational revenue belongs strictly to the Tenant Domain (Commercial Intelligence Office). They must never intersect.
+Revenue belongs strictly to the Platform Domain (Illumine). Customer operational revenue belongs strictly to the Tenant Domain (Commercial Governance Office). They must never intersect.
 
 ## 2. Authoritative State Principle
 The Billing state is authoritative for all financial obligations. No service is provisioned without a confirmed billing state, except in explicit trial or grant conditions.

@@ -2,7 +2,7 @@
 
 > **Matriz Oficial e Exaustiva de Classificação de Páginas e Superfícies (Level A — Canonical)**  
 > *Horizonte Temporal de Estabilidade: 10+ Anos (2026 – 2036+)*  
-> *Documentos Complementares: [`docs/CANONICAL_EXPERIENCE_REGISTRY.md`](file:///Users/marcelosouza/Documents/illumine-strategic-intelligence-advisor/docs/CANONICAL_EXPERIENCE_REGISTRY.md) | [`docs/EXPERIENCE_REGISTRY.md`](file:///Users/marcelosouza/Documents/illumine-strategic-intelligence-advisor/docs/EXPERIENCE_REGISTRY.md)*  
+> *Documentos Complementares: [`docs/CANONICAL_EXPERIENCE_REGISTRY.md`](file:///Users/marcelosouza/Documents/illumine-strategic-governance-advisor/docs/CANONICAL_EXPERIENCE_REGISTRY.md) | [`docs/EXPERIENCE_REGISTRY.md`](file:///Users/marcelosouza/Documents/illumine-strategic-governance-advisor/docs/EXPERIENCE_REGISTRY.md)*  
 > *Status: Homologado & Congelado*
 
 ---
@@ -42,11 +42,11 @@ Nenhuma página pode permanecer não-classificada. Toda nova tela desenvolvida d
 | **`OKRsPage` (Acompanhamento de OKRs)** | `Operational` | `Operational` | `Operational Render Protocol` | `EXP-003` |
 | **`WorkflowsPage` (Workflows & Aprovações)** | `Operational` | `Operational` | `Operational Render Protocol` | `EXP-003` |
 | **`ProjectsPage` (Gestão de Projetos)** | `Operational` | `Operational` | `Operational Render Protocol` | `EXP-003` |
-| **`OrganizationalMemoryPage` (Memória Organizacional)**| `Intelligence` | `Intelligence` | `Intelligence Render Protocol` | `EXP-004` |
-| **`KnowledgeGraphPage` (Grafo Causal)** | `Intelligence` | `Intelligence` | `Intelligence Render Protocol` | `EXP-004` |
-| **`DecisionTimelinePage` (Linha do Tempo Decisória)**| `Intelligence` | `Intelligence` | `Intelligence Render Protocol` | `EXP-004` |
-| **`BenchmarksPage` (Benchmarks Setoriais)** | `Intelligence` | `Intelligence` | `Intelligence Render Protocol` | `EXP-004` |
-| **`EFOSPage` (Sistema de Aprendizado)** | `Intelligence` | `Intelligence` | `Intelligence Render Protocol` | `EXP-004` |
+| **`OrganizationalMemoryPage` (Memória Organizacional)**| `Governance` | `Governance` | `Governance Render Protocol` | `EXP-004` |
+| **`KnowledgeGraphPage` (Grafo Causal)** | `Governance` | `Governance` | `Governance Render Protocol` | `EXP-004` |
+| **`DecisionTimelinePage` (Linha do Tempo Decisória)**| `Governance` | `Governance` | `Governance Render Protocol` | `EXP-004` |
+| **`BenchmarksPage` (Benchmarks Setoriais)** | `Governance` | `Governance` | `Governance Render Protocol` | `EXP-004` |
+| **`EFOSPage` (Sistema de Aprendizado)** | `Governance` | `Governance` | `Governance Render Protocol` | `EXP-004` |
 
 ---
 

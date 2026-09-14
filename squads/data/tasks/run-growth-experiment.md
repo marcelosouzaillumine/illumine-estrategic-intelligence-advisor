@@ -1858,6 +1858,6 @@ changelog:
 
 ---
 
-*Data Intelligence Pack - Task: Run Growth Experiment*
+*Data Governance Pack - Task: Run Growth Experiment*
 *Primary Agent: Sean Ellis*
 *Framework: ICE + High Tempo Testing + Scientific Method*

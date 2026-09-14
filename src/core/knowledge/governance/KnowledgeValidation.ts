@@ -40,7 +40,7 @@ export class KnowledgeValidation {
    */
   static enforceAIConstraint(author: 'AI_AGENT' | 'HUMAN_EXECUTIVE' | 'SYSTEM', intent: 'CREATE_DECISION' | 'SYNTHESIZE' | 'ANALYZE' | 'SUGGEST'): void {
     if (author === 'AI_AGENT' && intent === 'CREATE_DECISION') {
-      throw new KnowledgeValidationError('AI cannot create an institutional decision. Intelligence may consume knowledge, but may not create institutional truth.');
+      throw new KnowledgeValidationError('AI cannot create an institutional decision. Governance may consume knowledge, but may not create institutional truth.');
     }
   }
 }

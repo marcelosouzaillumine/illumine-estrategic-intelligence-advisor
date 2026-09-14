@@ -21,7 +21,7 @@ export function CFOPerformanceSurface() {
       <div className="flex-1 w-full h-full p-4 sm:p-6 lg:p-8 flex items-center justify-center">
         <div className="animate-pulse flex flex-col items-center">
           <div className="h-8 w-8 rounded-full border-4 border-primary border-t-transparent animate-spin mb-4" />
-          <p className="text-muted-foreground text-sm font-medium">Carregando Executive Intelligence...</p>
+          <p className="text-muted-foreground text-sm font-medium">Carregando Executive Governance...</p>
         </div>
       </div>
     );

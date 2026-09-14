@@ -89,7 +89,7 @@ Para acompanhar o nível de maturidade do relacionamento com o cliente, a oferta
   * **SaaS Dashboards:** Acesso online diário às métricas financeiras, operacionais e fiduciárias.
   * **ESGIM™ Continuous Engine:** Monitoramento automatizado em tempo real.
   * **Predictive Warnings:** Notificações automáticas de desvios e estresse financeiro.
-  * **Board Intelligence Interface:** Geração sob demanda de sínteses executivas em PDF.
+  * **Board Governance Interface:** Geração sob demanda de sínteses executivas em PDF.
 * **Resultado Esperado:** Escala tecnológica pura e alta margem de contribuição (LTV estável).
 
 ### Tier 5: Governance Enterprise

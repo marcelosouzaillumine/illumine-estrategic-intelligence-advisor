@@ -3,6 +3,7 @@ import { db } from '../../../lib/firebase';
 import { ExecutiveBoardPack, FiduciarySnapshot, ReportVersionRecord } from './ReportingTypes';
 import { GovernedRepositoryWrapper } from '../../security/governed-repository';
 import { DataAccessContext } from '../../security/data-access-context';
+import { blockedFirestoreWrite } from '../../../lib/blockedFirestoreWrite';
 
 export class ReportVersionRegistry {
   /**
@@ -19,7 +20,7 @@ export class ReportVersionRegistry {
         inputHash: snapshot.lineage.inputHash
       };
       await GovernedRepositoryWrapper.execute(snapshotContext, async () => {
-        await setDoc(doc(db, 'fiduciary_snapshots', snapshot.snapshotId), snapshot);
+        blockedFirestoreWrite(); // setDoc(doc(db, 'fiduciary_snapshots', snapshot.snapshotId), snapshot);
       });
 
       // 2. Salva o Dossiê Formal
@@ -30,7 +31,7 @@ export class ReportVersionRegistry {
         lineageHash: pack.executiveReport.lineage.lineageHash
       };
       await GovernedRepositoryWrapper.execute(packContext, async () => {
-        await setDoc(doc(db, 'board_packs', pack.packId), pack);
+        blockedFirestoreWrite(); // setDoc(doc(db, 'board_packs', pack.packId), pack);
       });
 
       // 3. Registra a Versão na Timeline de Relatórios
@@ -52,7 +53,7 @@ export class ReportVersionRegistry {
         lineageHash: pack.executiveReport.lineage.lineageHash
       };
       await GovernedRepositoryWrapper.execute(versionContext, async () => {
-        await setDoc(doc(db, 'report_versions', versionId), versionRecord);
+        blockedFirestoreWrite(); // setDoc(doc(db, 'report_versions', versionId), versionRecord);
       });
 
     } catch (err) {

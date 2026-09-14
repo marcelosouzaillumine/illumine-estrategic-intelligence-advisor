@@ -1,0 +1,101 @@
+id: arch-restruc-p2-runtime-surgery
+title: "Reestruturação Arquitetural — Fase 2: Cirurgia em src/core/runtime"
+status: Draft
+workflow: story-development-cycle
+mode: interactive
+created_at: '2026-09-12'
+owner: architect
+
+problem: >
+  src/core/runtime contém 131 subdirectórios que misturam as 4 camadas arquiteturais:
+  runtimes financeiros do Produto (dre, cashflow, board, budget, capital-governance,
+  cash-causal-intelligence), runtimes de workspace do Shell (governance-command-center,
+  workspace-orchestrator), e infraestrutura do OS (cache, locale, config, telemetry).
+  Este é o maior ponto de dívida técnica do repositório e bloqueia qualquer separação
+  real de camadas.
+
+business_value: >
+  Separar src/core/runtime em destinos corretos por camada elimina o maior bloqueio
+  arquitetural do codebase. Após esta fase, os 4 layers terão fronteiras físicas
+  no filesystem e será possível adicionar lint rules de cross-layer com baixo ruído.
+
+scope:
+  in:
+    - Catalogar os 131 subdirs de src/core/runtime por camada (OS / Core / Shell / Produto).
+    - Mover runtimes financeiros para src/capabilities/financial/runtime/.
+    - Mover runtimes de workspace para src/workspace/runtime/.
+    - Mover runtimes de OS (cache, locale, config, telemetry) para src/platform/.
+    - Manter src/core/runtime/ com apenas primitivos cognitivos agnósticos (~18 dirs).
+    - Criar re-exports em cada path antigo para não quebrar imports existentes.
+    - Atualizar imports gradualmente após cada grupo de moves.
+  out:
+    - Mexer em packages/ (isso é Fase 3).
+    - Remover re-exports temporários (isso é tarefa pós-todas-as-fases).
+    - Alterar lógica de negócio em qualquer arquivo movido.
+
+acceptance_criteria:
+  - id: AC1
+    given: src/core/runtime após a fase
+    when: listado com find
+    then: contém no máximo 20 subdirs, todos de natureza cognitiva agnóstica.
+  - id: AC2
+    given: os runtimes de DRE, BP, DFC, DLPA, cashflow, board, budget
+    when: movidos para src/capabilities/financial/runtime/
+    then: os componentes que os importam continuam funcionando via re-exports.
+  - id: AC3
+    given: cache, locale, config, telemetry
+    when: movidos para src/platform/
+    then: os consumers continuam funcionando via re-exports.
+  - id: AC4
+    given: a build completa após os moves
+    when: npm run typecheck && npm run build são executados
+    then: passam sem erros novos.
+  - id: AC5
+    given: governance-command-center e workspace-orchestrator
+    when: movidos para src/workspace/runtime/
+    then: o workspace continua renderizando corretamente.
+
+tasks:
+  - [ ] Gerar inventário completo de src/core/runtime com classificação por camada.
+  - [ ] Criar estrutura de dirs alvo: src/capabilities/financial/runtime/, src/workspace/runtime/, src/platform/runtime/.
+  - [ ] Grupo 1: Mover runtimes OS (cache, locale, config, telemetry) → src/platform/.
+  - [ ] Grupo 2: Mover runtimes Shell (governance-command-center, workspace-orchestrator, executive-workspace) → src/workspace/runtime/.
+  - [ ] Grupo 3: Mover runtimes Produto — financeiros (dre, cashflow, board*, budget, capital-governance, cash-*, causal-intelligence, bp*, dlpa*, dfc*) → src/capabilities/financial/runtime/.
+  - [ ] Grupo 4: Mover runtimes Produto — não-financeiros → src/capabilities/.
+  - [ ] Criar re-exports em todos os paths antigos.
+  - [ ] Executar npm run typecheck e corrigir erros de import.
+  - [ ] Executar npm run build e verificar sem erros novos.
+  - [ ] Remover re-exports temporários onde imports já foram atualizados.
+  - [ ] Atualizar layer-target-structure.md com o que foi aprendido durante a execução.
+
+risks:
+  - Alguns runtimes em src/core/runtime/ podem ter acoplamento implícito com outros
+    no mesmo diretório — a análise de imports pode revelar dependências circulares.
+  - Re-exports temporários podem mascarar violações de layer que devem ser resolvidas
+    na Fase 4.
+  - O total de arquivos a mover pode gerar conflitos de merge se houver outros PRs ativos.
+
+dependencies:
+  - docs/stories/arch-restruc-p1-boundary-contracts/story.yaml (Done)
+  - .aiox-core/data/layer-boundaries.md
+  - docs/architecture/layer-target-structure.md
+  - src/core/runtime/ (131 subdirs)
+
+pre_conditions:
+  - Fase 1 concluída (Done).
+  - Branch de feature criada a partir de main ou rebrand/intelligence-to-governance.
+  - Inventário de 131 subdirs gerado e revisado.
+
+definition_of_done:
+  - [ ] src/core/runtime/ com ≤ 20 subdirs cognitivos agnósticos.
+  - [ ] Todos os runtimes realocados nos destinos corretos por camada.
+  - [ ] Re-exports criados para backward compatibility.
+  - [ ] npm run typecheck passa sem erros novos.
+  - [ ] npm run lint passa.
+  - [ ] npm run build passa sem erros novos.
+  - [ ] layer-target-structure.md atualizado com aprendizados.
+
+quality_gate:
+  npm_typecheck: pass_no_new_errors
+  npm_lint: pass
+  npm_build: pass_no_new_errors

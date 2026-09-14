@@ -1132,7 +1132,7 @@ Adapted CTA: _________________________________
 | 28 | Transformation | Family | Business_Growth_Ad_Angles.md, lines 1341-1380 | First millionaire |
 | 29 | Systems | Math reality | Business_Growth_Ad_Angles.md, lines 1383-1432 | 90% losing money |
 | 31 | Book/Knowledge | Authority | Business_Growth_Ad_Angles.md, lines 1474-1512 | Read 1000 books |
-| 32 | Comparison | Intelligence | Business_Growth_Ad_Angles.md, lines 1515-1560 | Smart vs dumb |
+| 32 | Comparison | Governance | Business_Growth_Ad_Angles.md, lines 1515-1560 | Smart vs dumb |
 | 33 | Comparison | Time | Business_Growth_Ad_Angles.md, lines 1563-1614 | Slow vs fast path |
 | 34 | Comparison | Statistics | Business_Growth_Ad_Angles.md, lines 1617-1676 | 95% vs 5% |
 | 35 | Transformation | Learning | Business_Growth_Ad_Angles.md, lines 1679-1716 | 8 years in 90 min |

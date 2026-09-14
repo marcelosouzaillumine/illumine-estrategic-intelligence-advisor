@@ -1,9 +1,9 @@
 # Implementation Plan — Executive Timeline Engine (ETE) v1.0
 
 ## Goal Description
-Build the Executive Timeline Engine (ETE) as the official longitudinal intelligence layer of the Governance Runtime.
+Build the Executive Timeline Engine (ETE) as the official longitudinal governance layer of the Governance Runtime.
 
-The ETE transforms validated multi-period runtime outputs into institutional trajectory intelligence, enabling boards and executives to understand not only current conditions but also directional evolution over time.
+The ETE transforms validated multi-period runtime outputs into institutional trajectory governance, enabling boards and executives to understand not only current conditions but also directional evolution over time.
 
 The ETE must remain deterministic, explainable, lineage-backed and fully auditable. No generative inference may occur. All conclusions must be derived from validated historical runtime outputs.
 
@@ -12,7 +12,7 @@ The ETE must remain deterministic, explainable, lineage-backed and fully auditab
 ## User Review Required
 
 > [!IMPORTANT]
-> The Executive Timeline Engine is a `LONGITUDINAL_INTELLIGENCE_LAYER`.
+> The Executive Timeline Engine is a `LONGITUDINAL_GOVERNANCE_LAYER`.
 > It does **not**:
 > * recalculate KPIs;
 > * consume raw accounting statements;
@@ -133,7 +133,7 @@ export interface ExecutiveTimelineOutput {
 
 ### Runtime and Presentation Integrations
 
-#### [MODIFY] `src/core/runtime/executive-intelligence-runtime.ts`
+#### [MODIFY] `src/core/runtime/executive-governance-runtime.ts`
 * Incorporate `ExecutiveTimelineEngine` call within the main flow.
 * Inject output under `report.timeline`.
 

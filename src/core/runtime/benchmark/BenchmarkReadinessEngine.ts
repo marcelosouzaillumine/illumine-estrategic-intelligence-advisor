@@ -4,10 +4,10 @@ import {
   BenchmarkReadinessResult, 
   BenchmarkReadinessLevel, 
   ESGIMScenario 
-} from '../esgim/esgimTypes';
-import { esgimAssessmentEngine } from '../esgim/ESGIMAssessmentEngine';
-import { institutionalResilienceIndexEngine } from '../esgim/InstitutionalResilienceIndexEngine';
-import { decisionRegistryEngine } from '../execution/DecisionRegistryEngine';
+} from '../../../capabilities/runtime/esgim/esgimTypes';
+import { esgimAssessmentEngine } from '../../../capabilities/runtime/esgim/ESGIMAssessmentEngine';
+import { institutionalResilienceIndexEngine } from '../../../capabilities/runtime/esgim/InstitutionalResilienceIndexEngine';
+import { decisionRegistryEngine } from '../../../capabilities/runtime/execution/DecisionRegistryEngine';
 import { governanceMonitoringEngine } from '../monitoring/GovernanceMonitoringEngine';
 import { governanceKnowledgeEngine } from '../knowledge/GovernanceKnowledgeEngine';
 

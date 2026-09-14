@@ -33,7 +33,7 @@ NENHUMA correção foi aplicada. Este documento serve como plano base para segme
 | `InstitutionalFinancialThesisEngine.ts` | 98 | `: any` | `cashFlowReport: any,` | 
 | `InstitutionalFinancialThesisEngine.ts` | 99 | `: any` | `capitalGovernanceReport: any,` | 
 | `InstitutionalFinancialThesisEngine.ts` | 100 | `: any` | `metrics: any` | 
-| `KPISemanticIntelligenceEngine.ts` | 54 | `: any` | `public static enrich(kpi: any, segment: string): any {` | 
+| `KPISemanticGovernanceEngine.ts` | 54 | `: any` | `public static enrich(kpi: any, segment: string): any {` | 
 | `BoardCommunicationEngine.ts` | 10 | `: any` | `public static generateBoardBriefing(report: any, validationR...` | 
 | `ConfidenceNarrativeEngine.ts` | 13 | `: any` | `report: any,` | 
 | `ExecutiveNarrativeEngine.ts` | 28 | `: any` | `report: any,` | 
@@ -64,15 +64,15 @@ NENHUMA correção foi aplicada. Este documento serve como plano base para segme
 | `GovernanceFatigueEngine.ts` | 14 | `: any` | `report: any` | 
 | `InstitutionalBehaviorProfileEngine.ts` | 51 | `: any` | `public static getDecisionTargetProfile(decision: ExecutiveDe...` | 
 | `InstitutionalBehaviorProfileEngine.ts` | 104 | `: any` | `report: any,` | 
-| `InstitutionalBehavioralIntelligenceEngine.ts` | 30 | `: any` | `report: any,` | 
+| `InstitutionalBehavioralGovernanceEngine.ts` | 30 | `: any` | `report: any,` | 
 | `LongitudinalPatternEngine.ts` | 23 | `: any` | `report: any,` | 
 | `BenchmarkAnonymizationEngine.ts` | 8 | `: any` | `static anonymizeProfile(rawTenantData: any): AnonymizedInsti...` | 
 | `BoardResolutionEngine.ts` | 20 | `: any` | `report?: any` | 
 | `CashFlowReconciliationEngine.ts` | 8 | `: any` | `dfcData: any[],` | 
 | `CashQualityExplainabilityEngine.ts` | 15 | `: any` | `public static explain(cqs: any): CQSExplanation {` | 
 | `InstitutionalCashSustainabilityEngine.ts` | 16 | `: any` | `dfcData: any[],` | 
-| `LongitudinalCashIntelligenceEngine.spec.ts` | 26 | `as any` | `classification: classification as any,` | 
-| `LongitudinalCashIntelligenceEngine.test.ts` | 7 | `: any` | `function createMockCycle(overrides: any = {}): CashIntellige...` | 
+| `LongitudinalCashGovernanceEngine.spec.ts` | 26 | `as any` | `classification: classification as any,` | 
+| `LongitudinalCashGovernanceEngine.test.ts` | 7 | `: any` | `function createMockCycle(overrides: any = {}): CashIntellige...` | 
 | `CashFlowOperationalEngine.ts` | 4 | `: any` | `export function calculateOperationalMetrics(dfcData: any): C...` | 
 | `LiquidityRootCauseEngine.ts` | 20 | `: any` | `allHistData: any[],` | 
 | `RuntimeComplianceEngine.ts` | 87 | `: any` | `public static validateBoardPack(boardPack: any): void {` | 
@@ -118,9 +118,9 @@ NENHUMA correção foi aplicada. Este documento serve como plano base para segme
 | `GovernanceDriftDetectionEngine.test.ts` | 6 | `: any` | `function mockInput(executiveNarrative: string, overrides: an...` | 
 | `GovernanceDriftDetectionEngine.test.ts` | 52 | `as any` | `} as any` | 
 | `InstitutionalBehavioralPatternsEngine.test.ts` | 6 | `: any` | `function mockInput(overrides: any = {}): InstitutionalBehavi...` | 
-| `InstitutionalDecisionIntelligenceEngine.ts` | 31 | `: any` | `report: any` | 
-| `InstitutionalDecisionIntelligenceEngine.ts` | 72 | `: any` | `let behavioralResult: any = null;` | 
-| `InstitutionalDecisionIntelligenceEngine.ts` | 73 | `: any` | `let predictiveResult: any = null;` | 
+| `InstitutionalDecisionGovernanceEngine.ts` | 31 | `: any` | `report: any` | 
+| `InstitutionalDecisionGovernanceEngine.ts` | 72 | `: any` | `let behavioralResult: any = null;` | 
+| `InstitutionalDecisionGovernanceEngine.ts` | 73 | `: any` | `let predictiveResult: any = null;` | 
 | `InstitutionalRiskMatrixEngine.ts` | 2 | `: any` | `public static evaluateRisk(context: any): {` | 
 | `InstitutionalStabilityEngine.test.ts` | 6 | `: any` | `function mockInput(overrides: any = {}): InstitutionalStabil...` | 
 | `InstitutionalSurvivabilityEngine.ts` | 13 | `: any` | `public static calculate(report: any, policyContext?: PolicyC...` | 
@@ -146,7 +146,7 @@ NENHUMA correção foi aplicada. Este documento serve como plano base para segme
 | `PatrimonialGovernanceConsistencyEngine.ts` | 121 | `: any` | `const deterioratingCount = familyTrends.filter((t: any) => t...` | 
 | `PatrimonialGovernanceConsistencyEngine.ts` | 133 | `: any` | `const allDeteriorating = patrimonialTrend?.trends?.filter((t...` | 
 | `PatrimonialPreservationEngine.ts` | 27 | `: any` | `static analyze(summary: BPSummary, dreData: any[]): Patrimon...` | 
-| `WorkingCapitalIntelligenceEngine.ts` | 6 | `: any` | `static analyze(summary: BPSummary, dreData: any[]): Patrimon...` | 
+| `WorkingCapitalGovernanceEngine.ts` | 6 | `: any` | `static analyze(summary: BPSummary, dreData: any[]): Patrimon...` | 
 | `CapitalPreservationScoreEngine.ts` | 6 | `: any` | `horizonFormattedOrObj: any,` | 
 | `CapitalRecoverabilityEngine.ts` | 2 | `: any` | `static evaluate(endingEquity: number, recoveryHorizonInput: ...` | 
 | `DLPACanonicalScoreResolver.ts` | 2 | `: any` | `public static resolve(capitalPreservationScore: any): {` | 
@@ -304,25 +304,25 @@ NENHUMA correção foi aplicada. Este documento serve como plano base para segme
 | `capital-governance-adapter.ts` | 869 | `: any` | `return rawHistory.map((h: any) => {` | 
 | `capital-governance-types.ts` | 100 | `: any` | `executiveLayer?: any;` | 
 | `DFCCausalDriverPresentationAudit.ts` | 23 | `: any` | `public static audit(rawDrivers: any[]): AuditResult {` | 
-| `CashIntelligenceTypes.ts` | 241 | `: any` | `dfcExecutiveSnapshot?: any;` | 
-| `CashIntelligenceTypes.ts` | 242 | `: any` | `cqsExplainability?: any;` | 
-| `CashIntelligenceTypes.ts` | 243 | `: any` | `compressedAdvisory?: any;` | 
-| `CashIntelligenceTypes.ts` | 244 | `: any` | `consistencyAudit?: any;` | 
-| `CashIntelligenceTypes.ts` | 245 | `: any` | `dfcPriorities?: any;` | 
-| `CashIntelligenceTypes.ts` | 258 | `: any` | `earningsQuality?: any;` | 
-| `CashIntelligenceTypes.ts` | 259 | `: any` | `cashQuality?: any;` | 
+| `CashGovernanceTypes.ts` | 241 | `: any` | `dfcExecutiveSnapshot?: any;` | 
+| `CashGovernanceTypes.ts` | 242 | `: any` | `cqsExplainability?: any;` | 
+| `CashGovernanceTypes.ts` | 243 | `: any` | `compressedAdvisory?: any;` | 
+| `CashGovernanceTypes.ts` | 244 | `: any` | `consistencyAudit?: any;` | 
+| `CashGovernanceTypes.ts` | 245 | `: any` | `dfcPriorities?: any;` | 
+| `CashGovernanceTypes.ts` | 258 | `: any` | `earningsQuality?: any;` | 
+| `CashGovernanceTypes.ts` | 259 | `: any` | `cashQuality?: any;` | 
 | `DFCExecutiveBindingAudit.ts` | 8 | `: any` | `public static audit(output: any): {` | 
-| `FiduciaryCashIntelligenceRuntime.ts` | 43 | `: any` | `dfcData: any[],` | 
-| `FiduciaryCashIntelligenceRuntime.ts` | 401 | `: any` | `private static generateLineageHash(inputs: any[]): string {` | 
+| `FiduciaryCashGovernanceRuntime.ts` | 43 | `: any` | `dfcData: any[],` | 
+| `FiduciaryCashGovernanceRuntime.ts` | 401 | `: any` | `private static generateLineageHash(inputs: any[]): string {` | 
 | `cashflow-adapter.ts` | 12 | `: any` | `dfcData: any[],` | 
 | `cashflow-types.ts` | 62 | `: any` | `operational: any;` | 
 | `cashflow-types.ts` | 63 | `: any` | `conversion: any;` | 
 | `cashflow-types.ts` | 64 | `: any` | `treasury: any;` | 
 | `cashflow-types.ts` | 65 | `: any` | `sustainability: any;` | 
 | `cashflow-types.ts` | 66 | `: any` | `funding: any;` | 
-| `InstitutionalCausalIntelligenceRuntime.ts` | 24 | `: any` | `allHistData: any[],` | 
-| `InstitutionalCausalIntelligenceRuntime.ts` | 30 | `: any` | `const yearsAvailable = [...new Set(allHistData.map((d: any) ...` | 
-| `InstitutionalCausalIntelligenceRuntime.ts` | 34 | `: any` | `const isDfcAvailable = allHistData.some((d: any) =>` | 
+| `InstitutionalCausalGovernanceRuntime.ts` | 24 | `: any` | `allHistData: any[],` | 
+| `InstitutionalCausalGovernanceRuntime.ts` | 30 | `: any` | `const yearsAvailable = [...new Set(allHistData.map((d: any) ...` | 
+| `InstitutionalCausalGovernanceRuntime.ts` | 34 | `: any` | `const isDfcAvailable = allHistData.some((d: any) =>` | 
 | `StructuralDeteriorationMapper.ts` | 22 | `: any` | `private static getVal(allHistData: any[], year: number, docT...` | 
 | `StructuralDeteriorationMapper.ts` | 23 | `: any` | `const entries = allHistData.filter((d: any) => {` | 
 | `StructuralDeteriorationMapper.ts` | 29 | `: any` | `const match = entries.find((d: any) => {` | 
@@ -360,11 +360,11 @@ NENHUMA correção foi aplicada. Este documento serve como plano base para segme
 | `ConstitutionalDecisionRuntime.ts` | 12 | `: any` | `context: any` | 
 | `DecisionToCashCausalityTypes.ts` | 51 | `: any` | `financialContext: any; // Simplified placeholder for Financi...` | 
 | `EarlyWarningTypes.ts` | 36 | `: any` | `financialContext?: any;` | 
-| `ExecutiveAccountabilityTypes.ts` | 28 | `: any` | `executiveIntelligenceReport?: any;` | 
+| `ExecutiveAccountabilityTypes.ts` | 28 | `: any` | `executiveGovernanceReport?: any;` | 
 | `ExecutiveAccountabilityTypes.ts` | 30 | `: any` | `financialContext?: any;` | 
 | `ExecutivePriorityResolver.ts` | 12 | `: any` | `public static resolve(report: any): ExecutivePriority[] {` | 
 | `ExecutivePriorityResolver.ts` | 97 | `: any` | `const currentLiquidity = kpis.find((k: any) => k.name === 'L...` | 
-| `GovernanceDriftTypes.ts` | 23 | `: any` | `executiveIntelligenceReport?: any; // Representação simplifi...` | 
+| `GovernanceDriftTypes.ts` | 23 | `: any` | `executiveGovernanceReport?: any; // Representação simplifi...` | 
 | `GovernanceDriftTypes.ts` | 29 | `: any` | `financialContext?: any;` | 
 | `InstitutionalBehavioralTypes.ts` | 36 | `: any` | `financialContext?: any;` | 
 | `InstitutionalStabilityTypes.ts` | 46 | `: any` | `financialContext?: any;` | 
@@ -394,124 +394,124 @@ NENHUMA correção foi aplicada. Este documento serve como plano base para segme
 | `ExecutiveSemanticBoundaryGuard.ts` | 69 | `: any` | `const check = (obj: any) => {` | 
 | `ExecutiveSemanticBoundaryGuard.ts` | 94 | `: any` | `const check = (obj: any) => {` | 
 | `ProductionVisibilityPolicy.ts` | 21 | `: any` | `export function isDebugAllowed(profile: any, showDebugTools:...` | 
-| `executive-intelligence-runtime.ts` | 244 | `: any` | `actionMatrix: any[];` | 
-| `executive-intelligence-runtime.ts` | 246 | `: any` | `fiduciaryEnforcement?: any;` | 
-| `executive-intelligence-runtime.ts` | 258 | `: any` | `propagationChains?: any[];` | 
-| `executive-intelligence-runtime.ts` | 259 | `: any` | `fiduciaryRationale?: any;` | 
-| `executive-intelligence-runtime.ts` | 260 | `: any` | `fiduciaryEnforcement?: any;` | 
-| `executive-intelligence-runtime.ts` | 264 | `: any` | `normalizedDRE?: any;` | 
-| `executive-intelligence-runtime.ts` | 265 | `: any` | `revenueEconomicStructure?: any;` | 
-| `executive-intelligence-runtime.ts` | 266 | `: any` | `economicBurnRate?: any;` | 
-| `executive-intelligence-runtime.ts` | 267 | `: any` | `breakEvenAnalysis?: any;` | 
-| `executive-intelligence-runtime.ts` | 268 | `: any` | `operationalAbsorption?: any;` | 
-| `executive-intelligence-runtime.ts` | 269 | `: any` | `economicDiagnosis?: any;` | 
-| `executive-intelligence-runtime.ts` | 270 | `: any` | `dreExecutiveAdvisory?: any;` | 
-| `executive-intelligence-runtime.ts` | 271 | `: any` | `dreBoardDecisionSupport?: any;` | 
-| `executive-intelligence-runtime.ts` | 272 | `: any` | `bindingAudit?: any;` | 
-| `executive-intelligence-runtime.ts` | 273 | `: any` | `[key: string]: any;` | 
-| `executive-intelligence-runtime.ts` | 303 | `: any` | `chartData: any[];` | 
-| `executive-intelligence-runtime.ts` | 312 | `: any` | `fiduciaryEnforcement?: any;` | 
-| `executive-intelligence-runtime.ts` | 316 | `: any` | `scenarioProjections?: any;` | 
-| `executive-intelligence-runtime.ts` | 326 | `: any` | `institutionalCausality?: any;` | 
-| `executive-intelligence-runtime.ts` | 337 | `: any` | `patrimonialIntelligenceReport?: any;` | 
-| `executive-intelligence-runtime.ts` | 360 | `: any` | `inferences?: Record<string, { metrics: any; narrative?: any;...` | 
-| `executive-intelligence-runtime.ts` | 362 | `: any` | `temporalAudit?: any;` | 
-| `executive-intelligence-runtime.ts` | 364 | `: any` | `featureFlags?: any;` | 
-| `executive-intelligence-runtime.ts` | 377 | `: any` | `public validateFiduciarySafety(report: any) {` | 
-| `executive-intelligence-runtime.ts` | 380 | `: any` | `public validateMathSanity(metrics: any) {` | 
-| `executive-intelligence-runtime.ts` | 383 | `: any` | `public validateSemanticSobriety(report: any) {` | 
-| `executive-intelligence-runtime.ts` | 386 | `: any` | `public verifyLineage(report: any) {` | 
-| `executive-intelligence-runtime.ts` | 389 | `: any` | `public propagateConfidence(report: any) {` | 
-| `executive-intelligence-runtime.ts` | 392 | `: any` | `public applyFailClosed(report: any, reason: string) {` | 
-| `executive-intelligence-runtime.ts` | 395 | `: any` | `public generateAuditTrail(report: any) {` | 
-| `executive-intelligence-runtime.ts` | 403 | `: any` | `public generateExecutiveReport(rawData: any, externalMetadat...` | 
-| `executive-intelligence-runtime.ts` | 412 | `: any` | `let tempValidation: any = null;` | 
-| `executive-intelligence-runtime.ts` | 584 | `: any` | `let bpSummary: any = rawData.rawFinancialData?.bpSummary || ...` | 
-| `executive-intelligence-runtime.ts` | 603 | `: any` | `const cleanHierarchySummary: any = {};` | 
-| `executive-intelligence-runtime.ts` | 625 | `: any` | `: (hasDRE ? (rawData.dreData.find((r: any) => r.category ===...` | 
-| `executive-intelligence-runtime.ts` | 628 | `: any` | `: (hasDRE ? (rawData.dreData.find((r: any) => r.category ===...` | 
-| `executive-intelligence-runtime.ts` | 641 | `: any` | `const calcScores = (bp: any, ebitda: number, lucroLiq: numbe...` | 
-| `executive-intelligence-runtime.ts` | 724 | `: any` | `let finalWeights: any = baseWeights;` | 
-| `executive-intelligence-runtime.ts` | 906 | `: any` | `insights: rawCausality.insights?.map((ins: any) => ({` | 
-| `executive-intelligence-runtime.ts` | 1021 | `: any` | `const isOfficialDfcAvailable = allHistData.some((d: any) => ...` | 
-| `executive-intelligence-runtime.ts` | 1054 | `: any` | `const yearEntries = dreRawData.filter((d: any) => {` | 
-| `executive-intelligence-runtime.ts` | 1060 | `: any` | `.sort((a: any, b: any) => (a.ordem || 0) - (b.ordem || 0))` | 
-| `executive-intelligence-runtime.ts` | 1061 | `: any` | `.map((d: any) => {` | 
-| `executive-intelligence-runtime.ts` | 1099 | `: any` | `...DRE_OFFICIAL_STRUCTURE.map((account: any) => ({ ...accoun...` | 
-| `executive-intelligence-runtime.ts` | 1106 | `: any` | `const row = cascadeResult.find((r: any) => r.id === id);` | 
-| `executive-intelligence-runtime.ts` | 1124 | `: any` | `const cmvRow = cascadeResult.find((r: any) => r.parentId ===...` | 
-| `executive-intelligence-runtime.ts` | 1125 | `: any` | `cascadeResult.find((r: any) => r.id === 'CUSTOS');` | 
-| `executive-intelligence-runtime.ts` | 1152 | `: any` | `.filter((r: any) => r.parentId === 'DESP_OPER' && (r.conta |...` | 
-| `executive-intelligence-runtime.ts` | 1153 | `: any` | `.reduce((a: any, b: any) => a + (b.computedValue || b.value ...` | 
-| `executive-intelligence-runtime.ts` | 1155 | `: any` | `.filter((r: any) => r.parentId === 'DESP_OPER' && (r.conta |...` | 
-| `executive-intelligence-runtime.ts` | 1156 | `: any` | `.reduce((a: any, b: any) => a + (b.computedValue || b.value ...` | 
-| `executive-intelligence-runtime.ts` | 1206 | `: any` | `const yearHist = allHistoryData.filter((d: any) =>` | 
-| `executive-intelligence-runtime.ts` | 1213 | `: any` | `const m = yearHist.map((d: any) => ({ ...d, value: d.val || ...` | 
-| `executive-intelligence-runtime.ts` | 1214 | `: any` | `const res = calculateDreCascade([...DRE_OFFICIAL_STRUCTURE.m...` | 
-| `executive-intelligence-runtime.ts` | 1215 | `: any` | `rl  = res.find((r: any) => r.id === 'ROL')?.computedValue ||...` | 
-| `executive-intelligence-runtime.ts` | 1216 | `: any` | `ebt = res.find((r: any) => r.id === 'EBITDA')?.computedValue...` | 
-| `executive-intelligence-runtime.ts` | 1217 | `: any` | `ll  = res.find((r: any) => r.id === 'LUCRO_LIQ')?.computedVa...` | 
-| `executive-intelligence-runtime.ts` | 1218 | `: any` | `cmv = Math.abs(res.find((r: any) => r.id === 'CUSTOS')?.comp...` | 
-| `executive-intelligence-runtime.ts` | 1221 | `: any` | `}).filter((d: any) => d.receita > 0 || d.ebitda > 0 || d.luc...` | 
-| `executive-intelligence-runtime.ts` | 1224 | `: any` | `let recGrowth = 0, ebitdaGrowth = 0, trendNote: any = null;` | 
-| `executive-intelligence-runtime.ts` | 1227 | `: any` | `const oldest  = chartData.find((d: any) => d.receita > 0) ||...` | 
-| `executive-intelligence-runtime.ts` | 1354 | `as any` | `(dreInsights as any).qualityReport = qualityReport;` | 
-| `executive-intelligence-runtime.ts` | 1355 | `as any` | `(dreInsights as any).rootCauseReport = rootCauseReport;` | 
-| `executive-intelligence-runtime.ts` | 1356 | `as any` | `(dreInsights as any).economicValueAssessment = economicValue...` | 
-| `executive-intelligence-runtime.ts` | 1357 | `as any` | `(dreInsights as any).earningsQualityAssessment = earningsQua...` | 
-| `executive-intelligence-runtime.ts` | 1358 | `as any` | `(dreInsights as any).confidenceAssessment = confidenceAssess...` | 
-| `executive-intelligence-runtime.ts` | 1359 | `as any` | `(dreInsights as any).managementDiscussion = managementDiscus...` | 
-| `executive-intelligence-runtime.ts` | 1360 | `as any` | `(dreInsights as any).executiveInterpretation = executiveInte...` | 
-| `executive-intelligence-runtime.ts` | 1363 | `as any` | `(dreInsights as any).normalizedDRE = normalizedDRE;` | 
-| `executive-intelligence-runtime.ts` | 1364 | `as any` | `(dreInsights as any).revenueEconomicStructure = revenueEcono...` | 
-| `executive-intelligence-runtime.ts` | 1365 | `as any` | `(dreInsights as any).economicBurnRate = economicBurnRate;` | 
-| `executive-intelligence-runtime.ts` | 1366 | `as any` | `(dreInsights as any).breakEvenAnalysis = breakEvenAnalysis;` | 
-| `executive-intelligence-runtime.ts` | 1367 | `as any` | `(dreInsights as any).operationalAbsorption = operationalAbso...` | 
-| `executive-intelligence-runtime.ts` | 1368 | `as any` | `(dreInsights as any).economicDiagnosis = economicDiagnosis;` | 
-| `executive-intelligence-runtime.ts` | 1369 | `as any` | `(dreInsights as any).dreExecutiveAdvisory = dreBoardAdvisory...` | 
-| `executive-intelligence-runtime.ts` | 1370 | `as any` | `(dreInsights as any).dreExecutiveAdvisoryFull = dreExecutive...` | 
-| `executive-intelligence-runtime.ts` | 1371 | `as any` | `(dreInsights as any).dreBoardDecisionSupport = dreBoardDecis...` | 
-| `executive-intelligence-runtime.ts` | 1372 | `as any` | `(dreInsights as any).healthExplainability = healthExplainabi...` | 
-| `executive-intelligence-runtime.ts` | 1373 | `as any` | `(dreInsights as any).dreIsolationAudit = dreIsolationAudit;` | 
-| `executive-intelligence-runtime.ts` | 1374 | `as any` | `(dreInsights as any).dreBindingAudit = DREExecutiveBindingAu...` | 
-| `executive-intelligence-runtime.ts` | 1455 | `as any` | `...dreInsights as any,` | 
-| `executive-intelligence-runtime.ts` | 1478 | `: any` | `: (isOfficialDfcAvailable ? allHistData.filter((d: any) => {` | 
-| `executive-intelligence-runtime.ts` | 1511 | `: any` | `const getDfcVal = (entries: any[], keywords: string[]) => {` | 
-| `executive-intelligence-runtime.ts` | 1535 | `: any` | `const yearEntries = allHistData.filter((d: any) =>` | 
-| `executive-intelligence-runtime.ts` | 1539 | `: any` | `const match = yearEntries.find((d: any) => {` | 
-| `executive-intelligence-runtime.ts` | 1547 | `: any` | `const yearEntries = allHistData.filter((d: any) =>` | 
-| `executive-intelligence-runtime.ts` | 1552 | `: any` | `yearEntries.forEach((d: any) => {` | 
-| `executive-intelligence-runtime.ts` | 1576 | `: any` | `const yearDfcEntries = allHistData.filter((d: any) =>` | 
-| `executive-intelligence-runtime.ts` | 1610 | `: any` | `const yearEntries = allHistData.filter((d: any) =>` | 
-| `executive-intelligence-runtime.ts` | 1614 | `: any` | `const match = yearEntries.find((d: any) => {` | 
-| `executive-intelligence-runtime.ts` | 1627 | `: any` | `fco = dfcDataForRuntime.filter((d: any) => d.category === 'A...` | 
-| `executive-intelligence-runtime.ts` | 1628 | `: any` | `fci = dfcDataForRuntime.filter((d: any) => d.category === 'A...` | 
-| `executive-intelligence-runtime.ts` | 1629 | `: any` | `fcf = dfcDataForRuntime.filter((d: any) => d.category === 'A...` | 
-| `executive-intelligence-runtime.ts` | 1632 | `: any` | `.filter((d: any) => {` | 
-| `executive-intelligence-runtime.ts` | 1641 | `: any` | `.reduce((acc: number, curr: any) => acc + Math.abs(curr.amou...` | 
-| `executive-intelligence-runtime.ts` | 1644 | `: any` | `.filter((d: any) => {` | 
-| `executive-intelligence-runtime.ts` | 1655 | `: any` | `.reduce((acc: number, curr: any) => acc + Math.abs(curr.amou...` | 
-| `executive-intelligence-runtime.ts` | 1657 | `: any` | `const relEntries = dfcDataForRuntime.filter((d: any) => {` | 
-| `executive-intelligence-runtime.ts` | 1662 | `: any` | `resolvedContasRelacionadas = relEntries.reduce((acc: number,...` | 
-| `executive-intelligence-runtime.ts` | 1790 | `: any` | `const totalDistributed = rawData.dlpaData ? rawData.dlpaData...` | 
-| `executive-intelligence-runtime.ts` | 1809 | `: any` | `const dlpaCapSocialEntry = (rawData.dlpaData || []).find((e:...` | 
-| `executive-intelligence-runtime.ts` | 2220 | `: any` | `bpWorkingCapitalPressure: (capitalGovernanceReport.isAvailab...` | 
-| `executive-intelligence-runtime.ts` | 2221 | `: any` | `bpHighLeverage: (capitalGovernanceReport.isAvailable && Arra...` | 
-| `executive-intelligence-runtime.ts` | 2240 | `: any` | `const lossAbsorption = bpIndicators.find((i: any) => i.metri...` | 
-| `executive-intelligence-runtime.ts` | 2266 | `: any` | `const bpHistoryArray: { year: number; summary: any }[] = [];` | 
-| `executive-intelligence-runtime.ts` | 2268 | `: any` | `const uniqueYears = [...new Set(historySource.map((h: any) =...` | 
-| `executive-intelligence-runtime.ts` | 2271 | `: any` | `const yearEntries = historySource.filter((d: any) => d.year ...` | 
-| `executive-intelligence-runtime.ts` | 2425 | `as any` | `governanceConsistency: undefined as any` | 
-| `executive-intelligence-runtime.ts` | 2519 | `as any` | `} as any,` | 
-| `executive-intelligence-runtime.ts` | 2524 | `as any` | `} as any,` | 
-| `executive-intelligence-runtime.ts` | 2532 | `as any` | `} as any` | 
-| `executive-intelligence-runtime.ts` | 2535 | `as any` | `constitutionalDashboard: undefined as any // Placeholder to ...` | 
-| `executive-intelligence-runtime.ts` | 2551 | `as any` | `} as any);` | 
-| `executive-intelligence-runtime.ts` | 2566 | `as any` | `} as any);` | 
-| `executive-intelligence-runtime.ts` | 2804 | `as any` | `const parsedCycles = report.timeline.lineageHash ? (Executiv...` | 
-| `executive-intelligence-runtime.ts` | 2826 | `: any` | `const uniqueCyclesMap: { [key: string]: any } = {};` | 
-| `executive-intelligence-runtime.ts` | 2832 | `: any` | `const sortedCycles = Object.values(uniqueCyclesMap).sort((a:...` | 
-| `FinancialRuntimeContextAdapter.test.ts` | 139 | `as any` | `} as any as SegmentIntelligenceProfile;` | 
+| `executive-governance-runtime.ts` | 244 | `: any` | `actionMatrix: any[];` | 
+| `executive-governance-runtime.ts` | 246 | `: any` | `fiduciaryEnforcement?: any;` | 
+| `executive-governance-runtime.ts` | 258 | `: any` | `propagationChains?: any[];` | 
+| `executive-governance-runtime.ts` | 259 | `: any` | `fiduciaryRationale?: any;` | 
+| `executive-governance-runtime.ts` | 260 | `: any` | `fiduciaryEnforcement?: any;` | 
+| `executive-governance-runtime.ts` | 264 | `: any` | `normalizedDRE?: any;` | 
+| `executive-governance-runtime.ts` | 265 | `: any` | `revenueEconomicStructure?: any;` | 
+| `executive-governance-runtime.ts` | 266 | `: any` | `economicBurnRate?: any;` | 
+| `executive-governance-runtime.ts` | 267 | `: any` | `breakEvenAnalysis?: any;` | 
+| `executive-governance-runtime.ts` | 268 | `: any` | `operationalAbsorption?: any;` | 
+| `executive-governance-runtime.ts` | 269 | `: any` | `economicDiagnosis?: any;` | 
+| `executive-governance-runtime.ts` | 270 | `: any` | `dreExecutiveAdvisory?: any;` | 
+| `executive-governance-runtime.ts` | 271 | `: any` | `dreBoardDecisionSupport?: any;` | 
+| `executive-governance-runtime.ts` | 272 | `: any` | `bindingAudit?: any;` | 
+| `executive-governance-runtime.ts` | 273 | `: any` | `[key: string]: any;` | 
+| `executive-governance-runtime.ts` | 303 | `: any` | `chartData: any[];` | 
+| `executive-governance-runtime.ts` | 312 | `: any` | `fiduciaryEnforcement?: any;` | 
+| `executive-governance-runtime.ts` | 316 | `: any` | `scenarioProjections?: any;` | 
+| `executive-governance-runtime.ts` | 326 | `: any` | `institutionalCausality?: any;` | 
+| `executive-governance-runtime.ts` | 337 | `: any` | `patrimonialGovernanceReport?: any;` | 
+| `executive-governance-runtime.ts` | 360 | `: any` | `inferences?: Record<string, { metrics: any; narrative?: any;...` | 
+| `executive-governance-runtime.ts` | 362 | `: any` | `temporalAudit?: any;` | 
+| `executive-governance-runtime.ts` | 364 | `: any` | `featureFlags?: any;` | 
+| `executive-governance-runtime.ts` | 377 | `: any` | `public validateFiduciarySafety(report: any) {` | 
+| `executive-governance-runtime.ts` | 380 | `: any` | `public validateMathSanity(metrics: any) {` | 
+| `executive-governance-runtime.ts` | 383 | `: any` | `public validateSemanticSobriety(report: any) {` | 
+| `executive-governance-runtime.ts` | 386 | `: any` | `public verifyLineage(report: any) {` | 
+| `executive-governance-runtime.ts` | 389 | `: any` | `public propagateConfidence(report: any) {` | 
+| `executive-governance-runtime.ts` | 392 | `: any` | `public applyFailClosed(report: any, reason: string) {` | 
+| `executive-governance-runtime.ts` | 395 | `: any` | `public generateAuditTrail(report: any) {` | 
+| `executive-governance-runtime.ts` | 403 | `: any` | `public generateExecutiveReport(rawData: any, externalMetadat...` | 
+| `executive-governance-runtime.ts` | 412 | `: any` | `let tempValidation: any = null;` | 
+| `executive-governance-runtime.ts` | 584 | `: any` | `let bpSummary: any = rawData.rawFinancialData?.bpSummary || ...` | 
+| `executive-governance-runtime.ts` | 603 | `: any` | `const cleanHierarchySummary: any = {};` | 
+| `executive-governance-runtime.ts` | 625 | `: any` | `: (hasDRE ? (rawData.dreData.find((r: any) => r.category ===...` | 
+| `executive-governance-runtime.ts` | 628 | `: any` | `: (hasDRE ? (rawData.dreData.find((r: any) => r.category ===...` | 
+| `executive-governance-runtime.ts` | 641 | `: any` | `const calcScores = (bp: any, ebitda: number, lucroLiq: numbe...` | 
+| `executive-governance-runtime.ts` | 724 | `: any` | `let finalWeights: any = baseWeights;` | 
+| `executive-governance-runtime.ts` | 906 | `: any` | `insights: rawCausality.insights?.map((ins: any) => ({` | 
+| `executive-governance-runtime.ts` | 1021 | `: any` | `const isOfficialDfcAvailable = allHistData.some((d: any) => ...` | 
+| `executive-governance-runtime.ts` | 1054 | `: any` | `const yearEntries = dreRawData.filter((d: any) => {` | 
+| `executive-governance-runtime.ts` | 1060 | `: any` | `.sort((a: any, b: any) => (a.ordem || 0) - (b.ordem || 0))` | 
+| `executive-governance-runtime.ts` | 1061 | `: any` | `.map((d: any) => {` | 
+| `executive-governance-runtime.ts` | 1099 | `: any` | `...DRE_OFFICIAL_STRUCTURE.map((account: any) => ({ ...accoun...` | 
+| `executive-governance-runtime.ts` | 1106 | `: any` | `const row = cascadeResult.find((r: any) => r.id === id);` | 
+| `executive-governance-runtime.ts` | 1124 | `: any` | `const cmvRow = cascadeResult.find((r: any) => r.parentId ===...` | 
+| `executive-governance-runtime.ts` | 1125 | `: any` | `cascadeResult.find((r: any) => r.id === 'CUSTOS');` | 
+| `executive-governance-runtime.ts` | 1152 | `: any` | `.filter((r: any) => r.parentId === 'DESP_OPER' && (r.conta |...` | 
+| `executive-governance-runtime.ts` | 1153 | `: any` | `.reduce((a: any, b: any) => a + (b.computedValue || b.value ...` | 
+| `executive-governance-runtime.ts` | 1155 | `: any` | `.filter((r: any) => r.parentId === 'DESP_OPER' && (r.conta |...` | 
+| `executive-governance-runtime.ts` | 1156 | `: any` | `.reduce((a: any, b: any) => a + (b.computedValue || b.value ...` | 
+| `executive-governance-runtime.ts` | 1206 | `: any` | `const yearHist = allHistoryData.filter((d: any) =>` | 
+| `executive-governance-runtime.ts` | 1213 | `: any` | `const m = yearHist.map((d: any) => ({ ...d, value: d.val || ...` | 
+| `executive-governance-runtime.ts` | 1214 | `: any` | `const res = calculateDreCascade([...DRE_OFFICIAL_STRUCTURE.m...` | 
+| `executive-governance-runtime.ts` | 1215 | `: any` | `rl  = res.find((r: any) => r.id === 'ROL')?.computedValue ||...` | 
+| `executive-governance-runtime.ts` | 1216 | `: any` | `ebt = res.find((r: any) => r.id === 'EBITDA')?.computedValue...` | 
+| `executive-governance-runtime.ts` | 1217 | `: any` | `ll  = res.find((r: any) => r.id === 'LUCRO_LIQ')?.computedVa...` | 
+| `executive-governance-runtime.ts` | 1218 | `: any` | `cmv = Math.abs(res.find((r: any) => r.id === 'CUSTOS')?.comp...` | 
+| `executive-governance-runtime.ts` | 1221 | `: any` | `}).filter((d: any) => d.receita > 0 || d.ebitda > 0 || d.luc...` | 
+| `executive-governance-runtime.ts` | 1224 | `: any` | `let recGrowth = 0, ebitdaGrowth = 0, trendNote: any = null;` | 
+| `executive-governance-runtime.ts` | 1227 | `: any` | `const oldest  = chartData.find((d: any) => d.receita > 0) ||...` | 
+| `executive-governance-runtime.ts` | 1354 | `as any` | `(dreInsights as any).qualityReport = qualityReport;` | 
+| `executive-governance-runtime.ts` | 1355 | `as any` | `(dreInsights as any).rootCauseReport = rootCauseReport;` | 
+| `executive-governance-runtime.ts` | 1356 | `as any` | `(dreInsights as any).economicValueAssessment = economicValue...` | 
+| `executive-governance-runtime.ts` | 1357 | `as any` | `(dreInsights as any).earningsQualityAssessment = earningsQua...` | 
+| `executive-governance-runtime.ts` | 1358 | `as any` | `(dreInsights as any).confidenceAssessment = confidenceAssess...` | 
+| `executive-governance-runtime.ts` | 1359 | `as any` | `(dreInsights as any).managementDiscussion = managementDiscus...` | 
+| `executive-governance-runtime.ts` | 1360 | `as any` | `(dreInsights as any).executiveInterpretation = executiveInte...` | 
+| `executive-governance-runtime.ts` | 1363 | `as any` | `(dreInsights as any).normalizedDRE = normalizedDRE;` | 
+| `executive-governance-runtime.ts` | 1364 | `as any` | `(dreInsights as any).revenueEconomicStructure = revenueEcono...` | 
+| `executive-governance-runtime.ts` | 1365 | `as any` | `(dreInsights as any).economicBurnRate = economicBurnRate;` | 
+| `executive-governance-runtime.ts` | 1366 | `as any` | `(dreInsights as any).breakEvenAnalysis = breakEvenAnalysis;` | 
+| `executive-governance-runtime.ts` | 1367 | `as any` | `(dreInsights as any).operationalAbsorption = operationalAbso...` | 
+| `executive-governance-runtime.ts` | 1368 | `as any` | `(dreInsights as any).economicDiagnosis = economicDiagnosis;` | 
+| `executive-governance-runtime.ts` | 1369 | `as any` | `(dreInsights as any).dreExecutiveAdvisory = dreBoardAdvisory...` | 
+| `executive-governance-runtime.ts` | 1370 | `as any` | `(dreInsights as any).dreExecutiveAdvisoryFull = dreExecutive...` | 
+| `executive-governance-runtime.ts` | 1371 | `as any` | `(dreInsights as any).dreBoardDecisionSupport = dreBoardDecis...` | 
+| `executive-governance-runtime.ts` | 1372 | `as any` | `(dreInsights as any).healthExplainability = healthExplainabi...` | 
+| `executive-governance-runtime.ts` | 1373 | `as any` | `(dreInsights as any).dreIsolationAudit = dreIsolationAudit;` | 
+| `executive-governance-runtime.ts` | 1374 | `as any` | `(dreInsights as any).dreBindingAudit = DREExecutiveBindingAu...` | 
+| `executive-governance-runtime.ts` | 1455 | `as any` | `...dreInsights as any,` | 
+| `executive-governance-runtime.ts` | 1478 | `: any` | `: (isOfficialDfcAvailable ? allHistData.filter((d: any) => {` | 
+| `executive-governance-runtime.ts` | 1511 | `: any` | `const getDfcVal = (entries: any[], keywords: string[]) => {` | 
+| `executive-governance-runtime.ts` | 1535 | `: any` | `const yearEntries = allHistData.filter((d: any) =>` | 
+| `executive-governance-runtime.ts` | 1539 | `: any` | `const match = yearEntries.find((d: any) => {` | 
+| `executive-governance-runtime.ts` | 1547 | `: any` | `const yearEntries = allHistData.filter((d: any) =>` | 
+| `executive-governance-runtime.ts` | 1552 | `: any` | `yearEntries.forEach((d: any) => {` | 
+| `executive-governance-runtime.ts` | 1576 | `: any` | `const yearDfcEntries = allHistData.filter((d: any) =>` | 
+| `executive-governance-runtime.ts` | 1610 | `: any` | `const yearEntries = allHistData.filter((d: any) =>` | 
+| `executive-governance-runtime.ts` | 1614 | `: any` | `const match = yearEntries.find((d: any) => {` | 
+| `executive-governance-runtime.ts` | 1627 | `: any` | `fco = dfcDataForRuntime.filter((d: any) => d.category === 'A...` | 
+| `executive-governance-runtime.ts` | 1628 | `: any` | `fci = dfcDataForRuntime.filter((d: any) => d.category === 'A...` | 
+| `executive-governance-runtime.ts` | 1629 | `: any` | `fcf = dfcDataForRuntime.filter((d: any) => d.category === 'A...` | 
+| `executive-governance-runtime.ts` | 1632 | `: any` | `.filter((d: any) => {` | 
+| `executive-governance-runtime.ts` | 1641 | `: any` | `.reduce((acc: number, curr: any) => acc + Math.abs(curr.amou...` | 
+| `executive-governance-runtime.ts` | 1644 | `: any` | `.filter((d: any) => {` | 
+| `executive-governance-runtime.ts` | 1655 | `: any` | `.reduce((acc: number, curr: any) => acc + Math.abs(curr.amou...` | 
+| `executive-governance-runtime.ts` | 1657 | `: any` | `const relEntries = dfcDataForRuntime.filter((d: any) => {` | 
+| `executive-governance-runtime.ts` | 1662 | `: any` | `resolvedContasRelacionadas = relEntries.reduce((acc: number,...` | 
+| `executive-governance-runtime.ts` | 1790 | `: any` | `const totalDistributed = rawData.dlpaData ? rawData.dlpaData...` | 
+| `executive-governance-runtime.ts` | 1809 | `: any` | `const dlpaCapSocialEntry = (rawData.dlpaData || []).find((e:...` | 
+| `executive-governance-runtime.ts` | 2220 | `: any` | `bpWorkingCapitalPressure: (capitalGovernanceReport.isAvailab...` | 
+| `executive-governance-runtime.ts` | 2221 | `: any` | `bpHighLeverage: (capitalGovernanceReport.isAvailable && Arra...` | 
+| `executive-governance-runtime.ts` | 2240 | `: any` | `const lossAbsorption = bpIndicators.find((i: any) => i.metri...` | 
+| `executive-governance-runtime.ts` | 2266 | `: any` | `const bpHistoryArray: { year: number; summary: any }[] = [];` | 
+| `executive-governance-runtime.ts` | 2268 | `: any` | `const uniqueYears = [...new Set(historySource.map((h: any) =...` | 
+| `executive-governance-runtime.ts` | 2271 | `: any` | `const yearEntries = historySource.filter((d: any) => d.year ...` | 
+| `executive-governance-runtime.ts` | 2425 | `as any` | `governanceConsistency: undefined as any` | 
+| `executive-governance-runtime.ts` | 2519 | `as any` | `} as any,` | 
+| `executive-governance-runtime.ts` | 2524 | `as any` | `} as any,` | 
+| `executive-governance-runtime.ts` | 2532 | `as any` | `} as any` | 
+| `executive-governance-runtime.ts` | 2535 | `as any` | `constitutionalDashboard: undefined as any // Placeholder to ...` | 
+| `executive-governance-runtime.ts` | 2551 | `as any` | `} as any);` | 
+| `executive-governance-runtime.ts` | 2566 | `as any` | `} as any);` | 
+| `executive-governance-runtime.ts` | 2804 | `as any` | `const parsedCycles = report.timeline.lineageHash ? (Executiv...` | 
+| `executive-governance-runtime.ts` | 2826 | `: any` | `const uniqueCyclesMap: { [key: string]: any } = {};` | 
+| `executive-governance-runtime.ts` | 2832 | `: any` | `const sortedCycles = Object.values(uniqueCyclesMap).sort((a:...` | 
+| `FinancialRuntimeContextAdapter.test.ts` | 139 | `as any` | `} as any as SegmentGovernanceProfile;` | 
 | `BalanceSheetHistoricalContaminationAudit.ts` | 2 | `: any` | `static audit(selectedYear: number, rawData: any): { isContam...` | 
 | `BalanceSheetNarrativeTemporalAudit.ts` | 2 | `: any` | `static audit(narrative: string, summary: any, indicators: an...` | 
 | `BalanceSheetPresentationLeakAudit.ts` | 4 | `: any` | `static audit(output: any): { hasLeak: boolean; leaks: string...` | 
@@ -549,8 +549,8 @@ NENHUMA correção foi aplicada. Este documento serve como plano base para segme
 | `RecoveryTypes.ts` | 34 | `: any` | `survivalReport?: any;` | 
 | `RecoveryTypes.ts` | 35 | `: any` | `fiduciaryOutput?: any;` | 
 | `RecoveryTypes.ts` | 36 | `: any` | `treasuryRuntime?: any;` | 
-| `RecoveryTypes.ts` | 37 | `: any` | `cashIntelligenceRuntime?: any;` | 
-| `RecoveryTypes.ts` | 38 | `: any` | `patrimonialIntelligenceRuntime?: any;` | 
+| `RecoveryTypes.ts` | 37 | `: any` | `cashGovernanceRuntime?: any;` | 
+| `RecoveryTypes.ts` | 38 | `: any` | `patrimonialGovernanceRuntime?: any;` | 
 | `RecoveryTypes.ts` | 39 | `: any` | `longitudinalRuntimeHistory?: any[];` | 
 | `RecoveryTypes.ts` | 40 | `: any` | `historicalCycles?: any[];` | 
 | `RecoveryTypes.ts` | 44 | `: any` | `memoryProfile?: any;` | 
@@ -558,10 +558,10 @@ NENHUMA correção foi aplicada. Este documento serve como plano base para segme
 | `RecoveryTypes.ts` | 46 | `: any` | `resilienceReport?: any;` | 
 | `InstitutionalBoardPackDocumentRuntime.test.ts` | 14 | `as any` | `} as any as import('../institutional-context/types').Institu...` | 
 | `InstitutionalBoardPackDocumentRuntime.test.ts` | 18 | `as any` | `} as any as import('../observability/observability-types').R...` | 
-| `InstitutionalBoardPackDocumentRuntime.test.ts` | 23 | `as any` | `} as any as ExecutiveIntelligenceReport['compliance'],` | 
-| `InstitutionalBoardPackDocumentRuntime.test.ts` | 28 | `as any` | `} as any as import('../strategic-intelligence/strategic-inte...` | 
+| `InstitutionalBoardPackDocumentRuntime.test.ts` | 23 | `as any` | `} as any as ExecutiveGovernanceReport['compliance'],` | 
+| `InstitutionalBoardPackDocumentRuntime.test.ts` | 28 | `as any` | `} as any as import('../strategic-governance/strategic-inte...` | 
 | `InstitutionalBoardPackDocumentRuntime.test.ts` | 32 | `as any` | `} as any as import('../evidence-ingestion/InstitutionalEvide...` | 
-| `InstitutionalBoardPackDocumentRuntime.test.ts` | 39 | `as any` | `} as any as import('../cash-intelligence/CashIntelligenceTyp...` | 
+| `InstitutionalBoardPackDocumentRuntime.test.ts` | 39 | `as any` | `} as any as import('../cash-governance/CashGovernanceTyp...` | 
 | `InstitutionalBoardPackDocumentRuntime.ts` | 17 | `: any` | `evidenceAppendix: any[];` | 
 | `InstitutionalBoardPackDocumentRuntime.ts` | 25 | `: any` | `temporalAudit?: any;` | 
 | `InstitutionalBoardPackDocumentRuntime.ts` | 47 | `: any` | `const evidenceTrail: any[] = [];` | 
@@ -631,7 +631,7 @@ NENHUMA correção foi aplicada. Este documento serve como plano base para segme
 | `InstitutionalBoardPackRuntime.ts` | 379 | `as any` | `constitutionalAudit: (report.constitutionalEvaluation as any...` | 
 | `InstitutionalBoardPackRuntime.ts` | 402 | `as any` | `const capReport = report.capitalGovernanceReport as any;` | 
 | `ExecutiveLongitudinalIntegration.spec.ts` | 31 | `as any` | `classification: classification as any,` | 
-| `ExecutiveLongitudinalIntegration.spec.ts` | 106 | `as any` | `strategicIntelligence: { posture: 'EXPANSION_POSTURE', traje...` | 
+| `ExecutiveLongitudinalIntegration.spec.ts` | 106 | `as any` | `strategicGovernance: { posture: 'EXPANSION_POSTURE', traje...` | 
 | `ExecutiveLongitudinalIntegration.spec.ts` | 135 | `as any` | `strategic: { posture: 'EXPANSION_POSTURE', trajectory: 'TRAJ...` | 
 | `ExecutiveLongitudinalIntegration.spec.ts` | 149 | `as any` | `} as any);` | 
 | `InstitutionalBoardPackEndToEnd.spec.ts` | 299 | `as any` | `(report.runtimeMetadata as any).lineageHash = 'canonical-has...` | 
@@ -650,8 +650,8 @@ NENHUMA correção foi aplicada. Este documento serve como plano base para segme
 | `ResilienceTypes.ts` | 38 | `: any` | `regressionReport?: any;` | 
 | `ResilienceTypes.ts` | 39 | `: any` | `fiduciaryOutput?: any;` | 
 | `ResilienceTypes.ts` | 40 | `: any` | `treasuryRuntime?: any;` | 
-| `ResilienceTypes.ts` | 41 | `: any` | `cashIntelligenceRuntime?: any;` | 
-| `ResilienceTypes.ts` | 42 | `: any` | `patrimonialIntelligenceRuntime?: any;` | 
+| `ResilienceTypes.ts` | 41 | `: any` | `cashGovernanceRuntime?: any;` | 
+| `ResilienceTypes.ts` | 42 | `: any` | `patrimonialGovernanceRuntime?: any;` | 
 | `ResilienceTypes.ts` | 43 | `: any` | `governanceTrajectoryRuntime?: any;` | 
 | `ResilienceTypes.ts` | 44 | `: any` | `historicalInstitutionalMemory?: any; // To be derived if mis...` | 
 | `ResilienceTypes.ts` | 45 | `: any` | `longitudinalRuntimeHistory?: any[];` | 
@@ -660,8 +660,8 @@ NENHUMA correção foi aplicada. Este documento serve como plano base para segme
 | `ResilienceTypes.ts` | 48 | `: any` | `operationalContinuityRuntime?: any;` | 
 | `SurvivalTypes.ts` | 29 | `: any` | `fiduciaryOutput?: any;` | 
 | `SurvivalTypes.ts` | 30 | `: any` | `treasuryRuntime?: any;` | 
-| `SurvivalTypes.ts` | 31 | `: any` | `cashIntelligenceRuntime?: any;` | 
-| `SurvivalTypes.ts` | 32 | `: any` | `patrimonialIntelligenceRuntime?: any;` | 
+| `SurvivalTypes.ts` | 31 | `: any` | `cashGovernanceRuntime?: any;` | 
+| `SurvivalTypes.ts` | 32 | `: any` | `patrimonialGovernanceRuntime?: any;` | 
 | `SurvivalTypes.ts` | 33 | `: any` | `recoveryReport?: any;` | 
 | `SurvivalTypes.ts` | 34 | `: any` | `historicalCycles?: any[];` | 
 | `SurvivalTypes.ts` | 39 | `: any` | `memoryProfile?: any;` | 
@@ -727,8 +727,8 @@ NENHUMA correção foi aplicada. Este documento serve como plano base para segme
 | `RecoveryRegressionTypes.ts` | 28 | `: any` | `survivalReport?: any;` | 
 | `RecoveryRegressionTypes.ts` | 29 | `: any` | `fiduciaryOutput?: any;` | 
 | `RecoveryRegressionTypes.ts` | 30 | `: any` | `treasuryRuntime?: any;` | 
-| `RecoveryRegressionTypes.ts` | 31 | `: any` | `cashIntelligenceRuntime?: any;` | 
-| `RecoveryRegressionTypes.ts` | 32 | `: any` | `patrimonialIntelligenceRuntime?: any;` | 
+| `RecoveryRegressionTypes.ts` | 31 | `: any` | `cashGovernanceRuntime?: any;` | 
+| `RecoveryRegressionTypes.ts` | 32 | `: any` | `patrimonialGovernanceRuntime?: any;` | 
 | `RecoveryRegressionTypes.ts` | 33 | `: any` | `liquidityStressRuntime?: any;` | 
 | `RecoveryRegressionTypes.ts` | 34 | `: any` | `longitudinalRuntimeHistory?: any[];` | 
 | `RecoveryRegressionTypes.ts` | 35 | `: any` | `operationalContinuityRuntime?: any;` | 
@@ -742,10 +742,10 @@ NENHUMA correção foi aplicada. Este documento serve como plano base para segme
 | `ScenarioImpactRuntime.ts` | 14 | `: any` | `baselineContext: any,` | 
 | `ScenarioImpactRuntime.ts` | 80 | `: any` | `private static mapDecisionToMutation(actionId: string): any ...` | 
 | `ScenarioSurvivabilityFilter.ts` | 4 | `: any` | `public static validate(baselineContext: any, mutations: Scen...` | 
-| `strategic-intelligence-adapter.ts` | 12 | `as any` | `lineageHash: report.runtimeMetadata?.lineageHash || (report ...` | 
-| `strategic-intelligence-adapter.ts` | 13 | `as any` | `tenantId: report.institutionalContext?.tenantId || (report a...` | 
-| `strategic-intelligence-adapter.ts` | 14 | `as any` | `cycleReference: report.institutionalContext?.currentCycle ||...` | 
-| `strategic-intelligence-adapter.ts` | 15 | `as any` | `historicalCyclesCount: report.runtimeMetadata?.historicalCyc...` | 
+| `strategic-governance-adapter.ts` | 12 | `as any` | `lineageHash: report.runtimeMetadata?.lineageHash || (report ...` | 
+| `strategic-governance-adapter.ts` | 13 | `as any` | `tenantId: report.institutionalContext?.tenantId || (report a...` | 
+| `strategic-governance-adapter.ts` | 14 | `as any` | `cycleReference: report.institutionalContext?.currentCycle ||...` | 
+| `strategic-governance-adapter.ts` | 15 | `as any` | `historicalCyclesCount: report.runtimeMetadata?.historicalCyc...` | 
 | `TemporalEvidenceFilter.ts` | 4 | `: any` | `filteredRawData: any;` | 
 | `TemporalEvidenceFilter.ts` | 9 | `: any` | `public static filter(rawData: any, analysisYear: number): Fi...` | 
 | `TemporalEvidenceFilter.ts` | 36 | `: any` | `const collectYears = (arr: any[]) => {` | 
@@ -755,7 +755,7 @@ NENHUMA correção foi aplicada. Este documento serve como plano base para segme
 | `TenantAuditLogger.ts` | 14 | `: any` | `metadata?: any` | 
 | `TenantGovernanceEnforcer.ts` | 35 | `: any` | `} catch (error: any) {` | 
 | `TenantGovernanceEnforcer.ts` | 45 | `: any` | `} catch (error: any) {` | 
-| `TreasuryIntelligenceRuntime.ts` | 344 | `: any` | `private static generateLineageHash(inputs: any[]): string {` | 
+| `TreasuryGovernanceRuntime.ts` | 344 | `: any` | `private static generateLineageHash(inputs: any[]): string {` | 
 | `OperationalFrictionAnalyzer.ts` | 3 | `: any` | `static analyze(tenantId: string): any {` | 
 | `UXValidationAuditLogger.ts` | 7 | `: any` | `private static logs: any[] = [];` | 
 | `MockBoardPackScenarios.ts` | 1 | `: any` | `export const MockBoardPackScenarios: any = {};` | 

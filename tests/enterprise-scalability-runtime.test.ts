@@ -1,10 +1,10 @@
 import { describe, it, beforeEach, afterEach } from 'node:test';
 import assert from 'node:assert';
-import { AsyncJobQueue, AsyncJob, ThrottlingError } from '../src/core/runtime/distributed/AsyncJobQueue';
-import { WorkerRegistry } from '../src/core/runtime/distributed/WorkerRegistry';
-import { RuntimePartitionManager } from '../src/core/runtime/distributed/RuntimePartitionManager';
-import { RuntimePressureMonitor } from '../src/core/runtime/distributed/RuntimePressureMonitor';
-import { DistributedAnomalyAggregator } from '../src/core/runtime/distributed/DistributedAnomalyAggregator';
+import { AsyncJobQueue, AsyncJob, ThrottlingError } from '../src/capabilities/runtime/distributed/AsyncJobQueue';
+import { WorkerRegistry } from '../src/capabilities/runtime/distributed/WorkerRegistry';
+import { RuntimePartitionManager } from '../src/capabilities/runtime/distributed/RuntimePartitionManager';
+import { RuntimePressureMonitor } from '../src/capabilities/runtime/distributed/RuntimePressureMonitor';
+import { DistributedAnomalyAggregator } from '../src/capabilities/runtime/distributed/DistributedAnomalyAggregator';
 import { AuditEventBus } from '../src/core/security/audit/AuditEventBus';
 import { AnomalyDetector } from '../src/core/security/audit/AnomalyDetector';
 import { DataAccessContext } from '../src/core/security/data-access-context';

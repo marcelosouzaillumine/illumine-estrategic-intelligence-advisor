@@ -1,7 +1,7 @@
 import { test, describe } from 'node:test';
 import assert from 'node:assert';
-import { InstitutionalRecoveryEngine } from '../../src/core/runtime/institutional-recovery/InstitutionalRecoveryEngine';
-import { RecoveryEvaluationInput } from '../../src/core/runtime/institutional-recovery/RecoveryTypes';
+import { InstitutionalRecoveryEngine } from '../../src/capabilities/runtime/institutional-recovery/InstitutionalRecoveryEngine';
+import { RecoveryEvaluationInput } from '../../src/capabilities/runtime/institutional-recovery/RecoveryTypes';
 
 describe('IRRE - Institutional Recovery & Reauthorization Engine', () => {
 

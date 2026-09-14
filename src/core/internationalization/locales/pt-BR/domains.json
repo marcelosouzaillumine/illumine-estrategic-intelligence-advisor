@@ -1,6 +1,6 @@
 {
   "hero": {
-    "label": "Illumine Intelligence Network™",
+    "label": "Illumine Governance Network™",
     "title": "A inteligência que compreende a organização como um sistema vivo e integrado.",
     "lead": "Empresas complexas não perdem valor pela ausência de indicadores. Elas perdem valor quando decisões tomadas em uma área geram impactos não percebidos em outras.",
     "narrative": "A Illumine conecta múltiplas dimensões da organização para revelar relações causais, riscos ocultos e oportunidades estratégicas.",
@@ -11,7 +11,7 @@
     "title": "9 perspectivas. Uma inteligência integrada.",
     "lead": "Cada inteligência representa uma perspectiva da organização. A inteligência surge quando essas perspectivas são conectadas.",
     "core": {
-      "title": "Executive Intelligence Core™",
+      "title": "Executive Governance Core™",
       "lead": "O motor central de processamento sistêmico",
       "path": {
         "p1": "Dados",
@@ -32,23 +32,41 @@
           "Os resultados confirmaram as expectativas?",
           "O conhecimento institucional está sendo preservado?"
         ],
-        "applications": ["Memória de Decisão", "Briefings Executivos", "Relatórios do Conselho", "Score de Governança"]
+        "applications": [
+          "Memória de Decisão",
+          "Briefings Executivos",
+          "Relatórios do Conselho",
+          "Score de Governança"
+        ]
       },
       "d2": {
         "tagline": "A visão econômica integrada da organização.",
         "description": "Transforma demonstrações financeiras em inteligência executiva. Conecta Balanço Patrimonial, DRE, Fluxo de Caixa, Capital de Giro e Rentabilidade.",
         "highlight": "O que está pressionando o valor econômico da organização e quais decisões podem alterar essa trajetória.",
-        "applications": ["Financial Digital Twin™", "Cenários de EBITDA", "Simulações de caixa", "Stress Testing financeiro"]
+        "applications": [
+          "Financial Digital Twin™",
+          "Cenários de EBITDA",
+          "Simulações de caixa",
+          "Stress Testing financeiro"
+        ]
       },
       "d3": {
         "tagline": "O conhecimento, contexto e memória que permanecem na organização.",
         "description": "Transforma experiência acumulada em ativo institucional. Combate a Amnésia Institucional™ preservando contexto e aprendizados.",
-        "applications": ["Preservação de Contexto", "Base de Conhecimento", "Reconhecimento de Padrões"]
+        "applications": [
+          "Preservação de Contexto",
+          "Base de Conhecimento",
+          "Reconhecimento de Padrões"
+        ]
       },
       "d4": {
         "tagline": "Antecipação de vulnerabilidades estratégicas.",
         "description": "Identifica riscos financeiros, operacionais e institucionais antes que se tornem crises através de análise de dependências e concentração.",
-        "applications": ["Matriz de Vulnerabilidades", "Mapeamento de Dependências", "Cenários de Risco"]
+        "applications": [
+          "Matriz de Vulnerabilidades",
+          "Mapeamento de Dependências",
+          "Cenários de Risco"
+        ]
       },
       "d5": {
         "tagline": "A capacidade operacional que sustenta os resultados.",
@@ -67,17 +85,29 @@
       "d7": {
         "tagline": "O capital humano como capacidade organizacional.",
         "description": "Avalia a relação entre estrutura organizacional, produtividade e geração de valor. Analisa o custo da estrutura e retenção de conhecimento.",
-        "applications": ["Analytics da Força de Trabalho", "Retenção de Talentos", "Custo de Estrutura"]
+        "applications": [
+          "Analytics da Força de Trabalho",
+          "Retenção de Talentos",
+          "Custo de Estrutura"
+        ]
       },
       "d8": {
         "tagline": "O alinhamento entre propósito, estratégia e execução.",
         "description": "Garante que identidade institucional e operações permaneçam conectadas através do alinhamento executivo.",
-        "applications": ["Alinhamento de Propósito", "Mapeamento de Cultura", "Acompanhamento Estratégico"]
+        "applications": [
+          "Alinhamento de Propósito",
+          "Mapeamento de Cultura",
+          "Acompanhamento Estratégico"
+        ]
       },
       "d9": {
         "tagline": "A evolução contínua baseada em aprendizado.",
         "description": "Transforma dados, experimentos e resultados em capacidade de adaptação. Analisa hipóteses estratégicas e novos cenários.",
-        "applications": ["Teste de Hipóteses", "Score de Adaptabilidade", "Acompanhamento de Experimentos"]
+        "applications": [
+          "Teste de Hipóteses",
+          "Score de Adaptabilidade",
+          "Acompanhamento de Experimentos"
+        ]
       }
     }
   },
@@ -86,11 +116,31 @@
     "title": "A inteligência emerge das conexões.",
     "lead": "Sistemas tradicionais analisam áreas isoladas. A Illumine interpreta as relações entre elas.",
     "steps": {
-      "s1": { "pre": "Uma decisão comercial altera", "bold": "receita", "post": "." },
-      "s2": { "pre": "A receita altera", "bold": "margem", "post": "." },
-      "s3": { "pre": "A margem altera", "bold": "caixa", "post": "." },
-      "s4": { "pre": "O caixa altera", "bold": "capacidade de investimento", "post": "." },
-      "s5": { "pre": "A capacidade de investimento altera a", "bold": "estratégia", "post": "." }
+      "s1": {
+        "pre": "Uma decisão comercial altera",
+        "bold": "receita",
+        "post": "."
+      },
+      "s2": {
+        "pre": "A receita altera",
+        "bold": "margem",
+        "post": "."
+      },
+      "s3": {
+        "pre": "A margem altera",
+        "bold": "caixa",
+        "post": "."
+      },
+      "s4": {
+        "pre": "O caixa altera",
+        "bold": "capacidade de investimento",
+        "post": "."
+      },
+      "s5": {
+        "pre": "A capacidade de investimento altera a",
+        "bold": "estratégia",
+        "post": "."
+      }
     },
     "conclusion": "A Illumine captura essa cadeia de impacto e transforma complexidade organizacional em clareza executiva."
   },

@@ -5,29 +5,29 @@ This document tracks the migration of legacy pages and components into the new *
 | Legado atual | Novo destino | Status |
 | :--- | :--- | :--- |
 | DRE | CFO Office → Financial Performance | Migrar |
-| Fluxo de Caixa | CFO Office → Cash Intelligence | Migrar |
+| Fluxo de Caixa | CFO Office → Cash Governance | Migrar |
 | Contas a pagar/receber | CFO Office → Working Capital | Bridge |
-| Clientes | Advisor Office → Client Intelligence | Migrar |
+| Clientes | Advisor Office → Client Governance | Migrar |
 | Projetos | Advisor Office → Engagement Management | Migrar |
-| Relatórios | Executive Intelligence Center | Reestruturar |
+| Relatórios | Executive Governance Center | Reestruturar |
 | Cadastros | Administration | Manter |
 
 ## CFO Office Migration
 
 - **Financial Performance**: Substitui DRE e indicadores financeiros atuais. A nova experiência segue a jornada: `Insight → KPI → Risco → Recomendação → Ação`.
-- **Cash Intelligence**: Substitui o fluxo de caixa, liquidez e análise operacional.
+- **Cash Governance**: Substitui o fluxo de caixa, liquidez e análise operacional.
 - **Planning & Forecast**: Substitui orçamento, comparativos e projeções.
 
 ## Advisor Office Migration
 
-- **Client Intelligence**: Migração de clientes, projetos, contratos e acompanhamento.
+- **Client Governance**: Migração de clientes, projetos, contratos e acompanhamento.
 - **Modelo de Jornada**: `Cliente → Diagnóstico → Plano de ação → Resultado`.
 
 ## CEO Office Migration
 
 - Estratégia, metas, OKRs e indicadores globais.
 
-## Board Intelligence Migration
+## Board Governance Migration
 
 - Governança, riscos e decisões.
 

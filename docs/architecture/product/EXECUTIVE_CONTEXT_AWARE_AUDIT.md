@@ -2,13 +2,13 @@
 
 > **Auditoria Automática de Erradicação de Inteligência Estática (Wave 18.1)**  
 > *Autoridade Normativa: Architecture Review Board (ARB)*  
-> *Subordinado à [`ARCHITECTURE_CONSTITUTION.md`](file:///Users/marcelosouza/Documents/illumine-strategic-intelligence-advisor/ARCHITECTURE_CONSTITUTION.md) e ADR-068*
+> *Subordinado à [`ARCHITECTURE_CONSTITUTION.md`](file:///Users/marcelosouza/Documents/illumine-strategic-governance-advisor/ARCHITECTURE_CONSTITUTION.md) e ADR-068*
 
 ---
 
 ## 1. Princípio Auditado (ADR-068)
 
-> *"Executive Intelligence never produces conclusions from page identity. Every conclusion must be inferred from the current business context."*
+> *"Executive Governance never produces conclusions from page identity. Every conclusion must be inferred from the current business context."*
 
 ---
 

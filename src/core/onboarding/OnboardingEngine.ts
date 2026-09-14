@@ -6,6 +6,8 @@ export type OnboardingStage =
   | 'GOVERNANCE_READINESS'
   | 'SIMULATION_ENABLEMENT'
   | 'ADVISORY_ACTIVATION'
+  | 'MENTOR_PROFILE_SETUP'
+  | 'MENTEE_CONTEXT_SETUP'
   | 'HEALTH_INITIALIZED'
   | 'COMPLETED';
 
@@ -76,26 +78,34 @@ export class OnboardingEngine {
   public static transitionTo(tenantId: string, nextStage: OnboardingStage, actorId: string): OnboardingState {
     const current = this.getOnboardingState(tenantId);
 
-    // Validate transition path
-    const stagesOrder: OnboardingStage[] = [
-      'FIRST_TENANT_SETUP',
-      'EXECUTIVE_ACTIVATION',
-      'GOVERNANCE_READINESS',
-      'SIMULATION_ENABLEMENT',
-      'ADVISORY_ACTIVATION',
-      'HEALTH_INITIALIZED',
-      'COMPLETED'
-    ];
+    // Mentorship stages branch from FIRST_TENANT_SETUP — they are not part of
+    // the executive sequence and resolve directly to COMPLETED.
+    const MENTORSHIP_STAGES: OnboardingStage[] = ['MENTOR_PROFILE_SETUP', 'MENTEE_CONTEXT_SETUP'];
+    const isMentorshipTransition =
+      MENTORSHIP_STAGES.includes(nextStage) ||
+      (MENTORSHIP_STAGES.includes(current.stage) && nextStage === 'COMPLETED');
 
-    const currentIdx = stagesOrder.indexOf(current.stage);
-    const nextIdx = stagesOrder.indexOf(nextStage);
+    if (!isMentorshipTransition) {
+      const stagesOrder: OnboardingStage[] = [
+        'FIRST_TENANT_SETUP',
+        'EXECUTIVE_ACTIVATION',
+        'GOVERNANCE_READINESS',
+        'SIMULATION_ENABLEMENT',
+        'ADVISORY_ACTIVATION',
+        'HEALTH_INITIALIZED',
+        'COMPLETED'
+      ];
 
-    if (nextIdx !== currentIdx + 1 && nextStage !== current.stage) {
-      throw new Error(`[Onboarding Engine] Transição inválida de ${current.stage} para ${nextStage}`);
+      const currentIdx = stagesOrder.indexOf(current.stage);
+      const nextIdx = stagesOrder.indexOf(nextStage);
+
+      if (nextIdx !== currentIdx + 1 && nextStage !== current.stage) {
+        throw new Error(`[Onboarding Engine] Transição inválida de ${current.stage} para ${nextStage}`);
+      }
     }
 
     // Validation rules per transition
-    if (nextStage === 'COMPLETED') {
+    if (nextStage === 'COMPLETED' && !isMentorshipTransition) {
       if (!current.topologyValidated) {
         throw new Error('[Onboarding Engine] Rejeitado: Onboarding concluído exige topologia válida.');
       }

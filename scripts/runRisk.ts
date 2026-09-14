@@ -8,7 +8,7 @@ async function main() {
   // Load Mock Advisory Context
   const context: any = {
     id: `RISK-CTX-${Date.now()}`,
-    targetSubject: 'Financial Intelligence',
+    targetSubject: 'Financial Governance',
     periodStart: '2026-01-01',
     periodEnd: '2026-03-01',
     advisorySignals: [

@@ -17,8 +17,8 @@ Os seguintes arquivos (14 no total) foram automaticamente desfeitos do archive e
 - `src/components/ScenarioLab/InstitutionalProjectionPanel.tsx`
 - `src/components/ScenarioLab/RiskPropagationMap.tsx`
 - `src/components/ScenarioLab/ScenarioControlPanel.tsx`
-- `src/components/panels/causal-intelligence/InstitutionalCausalRootCausesPanel.tsx`
-- `src/components/panels/causal-intelligence/SurvivabilityDependencyGraphPanel.tsx`
+- `src/components/panels/causal-governance/InstitutionalCausalRootCausesPanel.tsx`
+- `src/components/panels/causal-governance/SurvivabilityDependencyGraphPanel.tsx`
 - `src/components/temporal/TemporalBoardWorkflowPanel.tsx`
 - `src/components/temporal/TemporalCollaborationPanel.tsx`
 

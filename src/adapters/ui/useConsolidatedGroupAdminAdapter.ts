@@ -1,8 +1,2 @@
-import { useState } from 'react';
-
-export function useConsolidatedGroupAdminAdapter() {
-  const [loading, setLoading] = useState(false);
-  const [groupEntities, setGroupEntities] = useState<any[]>([]);
-
-  return { groupEntities, loading };
-}
+// shim
+export * from '../../capabilities/financial/infrastructure/adapters/ui/useConsolidatedGroupAdminAdapter';

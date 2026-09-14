@@ -1,8 +1,2 @@
-import { useState } from 'react';
-
-export function useRuntimeObservabilityAdapter() {
-  const [loading, setLoading] = useState(false);
-  const [metrics, setMetrics] = useState<any[]>([]);
-
-  return { metrics, loading };
-}
+// shim
+export * from '../../capabilities/financial/infrastructure/adapters/ui/useRuntimeObservabilityAdapter';

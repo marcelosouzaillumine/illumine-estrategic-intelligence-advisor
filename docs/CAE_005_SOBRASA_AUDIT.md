@@ -17,10 +17,10 @@
 Validar se a arquitetura Governance responde corretamente quando uma organização apresenta desempenho atual satisfatório, estabilidade operacional e governança adequada, porém demonstra fragilidades relacionadas à sua capacidade futura de adaptação, renovação e continuidade competitiva.
 
 Este teste deverá comprovar que:
-* Prospective Intelligence identifica fragilidades futuras antes que se tornem crises;
-* Economic Intelligence não produz excesso de confiança;
+* Prospective Governance identifica fragilidades futuras antes que se tornem crises;
+* Economic Governance não produz excesso de confiança;
 * ESGIM Runtime reduz classificações excessivamente otimistas;
-* Board Intelligence Layer prioriza preparação para o próximo ciclo organizacional;
+* Board Governance Layer prioriza preparação para o próximo ciclo organizacional;
 * a arquitetura evita falsos positivos baseados exclusivamente em resultados presentes.
 
 ---
@@ -64,39 +64,39 @@ Este teste deverá comprovar que:
 
 ---
 
-## Intelligence Evaluation
+## Governance Evaluation
 
-### Economic Intelligence
+### Economic Governance
 * **Pergunta:** Existe geração consistente de valor?
 * **Resultado:** POSITIVE
 * **Justificativa:** Os resultados econômicos correntes demonstram solidez financeira, margens adequadas e geração contínua de caixa na DRE e DFC.
 
-### Fiduciary Intelligence
+### Fiduciary Governance
 * **Pergunta:** O valor está protegido?
 * **Resultado:** STABLE
 * **Justificativa:** Liquidez, solvência e proteção de ativos em conformidade com as regras fiduciárias clássicas, sem alarmes de quebra de covenants.
 
-### Institutional Intelligence
+### Institutional Governance
 * **Pergunta:** Existe continuidade institucional?
 * **Resultado:** STABLE
 * **Justificativa:** A estrutura operacional atual sustenta adequadamente o desempenho presente do negócio com eficiência.
 
-### Causal Intelligence
+### Causal Governance
 * **Pergunta:** Por que a organização apresenta fragilidade futura apesar da estabilidade atual?
 * **Resultado:** CAUSALITY IDENTIFIED
 * **Justificativa:** A fragilidade futura decorre da inércia estratégica e dependência de fatores históricos de sucesso (commodities tradicionais), em contraste com a rápida obsolescência regulatória e tecnológica do mercado externo.
 
-### Constitutional Intelligence
+### Constitutional Governance
 * **Pergunta:** Existe aderência aos princípios institucionais?
 * **Resultado:** ALIGNED
 * **Justificativa:** Não há desvios de compliance, fraudes corporativas ou infrações éticas identificadas.
 
-### Missional Intelligence
+### Missional Governance
 * **Pergunta:** A organização permanece fiel à sua missão?
 * **Resultado:** ALIGNED
 * **Justificativa:** A atuação e a estratégia operacional estão formalmente alinhadas ao escopo e valores declarados de entrega industrial.
 
-### Prospective Intelligence
+### Prospective Governance
 * **Pergunta:** A organização está preparada para prosperar no próximo ciclo?
 * **Resultado:** STRATEGIC FRAGILITY
 * **Justificativa:** A incapacidade adaptativa interna e o baixo investimento em diversificação tecnológica e de competências não evoluem na velocidade demandada pelo mercado futuro, caracterizando risco de obsolescência a longo prazo.
@@ -107,7 +107,7 @@ Este teste deverá comprovar que:
 
 * **Aplicar:** Current Success vs Future Fragility
 * **Verificar:** A boa performance atual anulou os riscos futuros? **NÃO**
-* **Verificar:** A Prospective Intelligence influenciou a conclusão final? **SIM**
+* **Verificar:** A Prospective Governance influenciou a conclusão final? **SIM**
 * **Verificar:** A preparação para o futuro foi considerada na avaliação global? **SIM**
 * **Justificativa:** O mecanismo de arbitragem impediu o viés otimista baseado na robustez financeira atual da Sobrasa. O status de `STRATEGIC FRAGILITY` prospectiva prevaleceu para calibrar negativamente o rating geral de longo prazo.
 
@@ -137,7 +137,7 @@ Este teste deverá comprovar que:
 
 ---
 
-## Board Intelligence Layer Evaluation
+## Board Governance Layer Evaluation
 
 * **Executive Synthesis:** A organização apresenta sólida estabilidade financeira e operacional no presente exercício. Entretanto, a acentuada dependência de seus fatores históricos de sucesso (produtos de commodity tradicionais) combinada ao baixo investimento em inovação e transição de competências críticas caracteriza uma vulnerabilidade prospectiva substancial que ameaça sua competitividade no próximo ciclo estratégico.
 * **Principal Risk:** Perda gradual de mercado por obsolescência regulatória e de produto nos próximos 5 anos.
@@ -192,9 +192,9 @@ Este teste deverá comprovar que:
 ## Lessons Learned
 
 * **Validar:**
-  * A acurácia da Prospective Intelligence na leitura da inovação.
+  * A acurácia da Prospective Governance na leitura da inovação.
   * A sensibilidade do ESGIM Runtime em computar a barreira de rating em Future Readiness.
-  * A relevância estratégica das prioridades temporais recomendadas na Board Intelligence Layer.
+  * A relevância estratégica das prioridades temporais recomendadas na Board Governance Layer.
 
 ---
 
