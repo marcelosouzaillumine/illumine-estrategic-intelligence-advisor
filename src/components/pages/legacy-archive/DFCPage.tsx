@@ -1,3 +1,2 @@
-import React from 'react';
-export const DFCPage = (props: any) => <div>Archived</div>;
-export default DFCPage;
+// shim
+export * from '../../../capabilities/financial/pages/presentation/DFCPage';

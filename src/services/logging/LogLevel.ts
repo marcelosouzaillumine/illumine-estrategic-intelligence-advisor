@@ -1,7 +1,2 @@
-export enum LogLevel {
-  DEBUG = 0,
-  INFO = 1,
-  WARN = 2,
-  ERROR = 3,
-  AUDIT = 4
-}
+// shim
+export * from '../../platform/logging/LogLevel';

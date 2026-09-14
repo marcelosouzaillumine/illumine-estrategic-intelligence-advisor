@@ -1,3 +1,2 @@
-export const NotAvailable = true;
-export function ImportFinancialModal(props: any) { return null; }
-export default ImportFinancialModal;
+// shim
+export * from '../../capabilities/financial/modals/presentation/ImportFinancialModal';

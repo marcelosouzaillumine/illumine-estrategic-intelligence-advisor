@@ -1,8 +1,2 @@
-import { useState } from 'react';
-
-export function useOperacionalPageAdapter(clientId: string) {
-  const [loading, setLoading] = useState(false);
-  const [operacionalData, setOperacionalData] = useState<any>({});
-
-  return { operacionalData, loading };
-}
+// shim
+export * from '../../capabilities/financial/infrastructure/adapters/ui/useOperacionalPageAdapter';

@@ -1,11 +1,2 @@
-import { useState } from 'react';
-
-export function usePartnerSalesAdapter(clientId: string) {
-  const [loading, setLoading] = useState(false);
-  const [sales, setSales] = useState<any[]>([]);
-
-  return {
-    sales,
-    loading
-  };
-}
+// shim
+export * from '../../capabilities/financial/infrastructure/adapters/ui/usePartnerSalesAdapter';

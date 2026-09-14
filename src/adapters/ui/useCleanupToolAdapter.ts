@@ -1,1 +1,2 @@
-export const useCleanupToolAdapter = () => ({}) as any;
+// shim
+export * from '../../capabilities/financial/infrastructure/adapters/ui/useCleanupToolAdapter';

@@ -1,7 +1,2 @@
-import { useState } from 'react';
-
-export function useTaxReformImpactPageAdapter(clientId: string) {
-  const [loading, setLoading] = useState(false);
-  const [taxReformData, setTaxReformData] = useState<any>({});
-  return { taxReformData, loading };
-}
+// shim
+export * from '../../capabilities/financial/infrastructure/adapters/ui/useTaxReformImpactPageAdapter';

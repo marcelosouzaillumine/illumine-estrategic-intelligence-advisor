@@ -1,9 +1,2 @@
-import { InstitutionalNode } from "./InstitutionalNode";
-import { InstitutionalRelationship } from "./InstitutionalRelationship";
-
-export interface InstitutionalGraph {
-  graphId: string;
-  nodes: InstitutionalNode[];
-  relationships: InstitutionalRelationship[];
-  generatedAt: string;
-}
+// shim
+export * from '../../capabilities/financial/contracts/types/knowledge-graph/InstitutionalGraph';

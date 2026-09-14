@@ -1,3 +1,2 @@
-import React from 'react';
-export function ConsolidatedGroupAdminPage(props: any) { return null; }
-export default ConsolidatedGroupAdminPage;
+// shim
+export * from '../../capabilities/financial/pages/presentation/ConsolidatedGroupAdminPage';

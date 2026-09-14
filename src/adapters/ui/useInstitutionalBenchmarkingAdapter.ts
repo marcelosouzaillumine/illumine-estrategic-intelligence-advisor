@@ -1,11 +1,2 @@
-import { useState } from 'react';
-
-export function useInstitutionalBenchmarkingAdapter(clientId: string) {
-  const [loading, setLoading] = useState(false);
-  const [benchmarkData, setBenchmarkData] = useState<any[]>([]);
-
-  return {
-    benchmarkData,
-    loading
-  };
-}
+// shim
+export * from '../../capabilities/financial/infrastructure/adapters/ui/useInstitutionalBenchmarkingAdapter';

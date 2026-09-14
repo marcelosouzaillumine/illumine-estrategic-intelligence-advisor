@@ -1,3 +1,2 @@
-import React from 'react';
-export function TaxReformImpactPage(props: any) { return null; }
-export default TaxReformImpactPage;
+// shim
+export * from '../../capabilities/financial/pages/presentation/TaxReformImpactPage';

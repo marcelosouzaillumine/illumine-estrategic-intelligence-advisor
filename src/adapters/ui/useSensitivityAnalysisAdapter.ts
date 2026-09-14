@@ -1,8 +1,2 @@
-import { useState } from 'react';
-
-export function useSensitivityAnalysisAdapter(clientId: string) {
-  const [loading, setLoading] = useState(false);
-  const [scenarios, setScenarios] = useState<any[]>([]);
-
-  return { scenarios, loading };
-}
+// shim
+export * from '../../capabilities/financial/infrastructure/adapters/ui/useSensitivityAnalysisAdapter';

@@ -1,6 +1,2 @@
-import { InstitutionalObject } from '../intelligence/InstitutionalObject';
-
-export interface InvestigationContext extends InstitutionalObject {
-  userId: string;
-  snapshotId?: string; // If investigating a historical snapshot
-}
+// shim
+export * from '../../capabilities/financial/contracts/types/investigation/InvestigationContext';

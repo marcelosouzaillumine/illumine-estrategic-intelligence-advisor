@@ -1,8 +1,2 @@
-import { useState } from 'react';
-
-export function useInstitutionalKnowledgeGraphPageAdapter(clientId: string) {
-  const [loading, setLoading] = useState(false);
-  const [graphData, setGraphData] = useState<any>({});
-
-  return { graphData, loading };
-}
+// shim
+export * from '../../capabilities/financial/infrastructure/adapters/ui/useInstitutionalKnowledgeGraphPageAdapter';

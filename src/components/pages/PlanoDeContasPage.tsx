@@ -1,3 +1,2 @@
-import React from 'react';
-export function PlanoDeContasPage(props: any) { return null; }
-export default PlanoDeContasPage;
+// shim
+export * from '../../capabilities/financial/pages/presentation/PlanoDeContasPage';

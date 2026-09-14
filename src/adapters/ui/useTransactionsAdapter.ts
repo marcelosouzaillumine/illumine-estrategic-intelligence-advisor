@@ -1,11 +1,2 @@
-import { useState } from 'react';
-
-export function useTransactionsAdapter(clientId: string) {
-  const [loading, setLoading] = useState(false);
-  const [transactions, setTransactions] = useState<any[]>([]);
-
-  return {
-    transactions,
-    loading
-  };
-}
+// shim
+export * from '../../capabilities/financial/infrastructure/adapters/ui/useTransactionsAdapter';

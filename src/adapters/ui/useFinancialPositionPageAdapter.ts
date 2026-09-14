@@ -1,8 +1,2 @@
-import { useState } from 'react';
-
-export function useFinancialPositionPageAdapter(clientId: string) {
-  const [loading, setLoading] = useState(false);
-  const [positionData, setPositionData] = useState<any>({});
-
-  return { positionData, loading };
-}
+// shim
+export * from '../../capabilities/financial/infrastructure/adapters/ui/useFinancialPositionPageAdapter';

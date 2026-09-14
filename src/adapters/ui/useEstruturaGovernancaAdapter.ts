@@ -1,11 +1,2 @@
-import { useState } from 'react';
-
-export function useEstruturaGovernancaAdapter(clientId: string) {
-  const [loading, setLoading] = useState(false);
-  const [governanceStructure, setGovernanceStructure] = useState<any[]>([]);
-
-  return {
-    governanceStructure,
-    loading
-  };
-}
+// shim
+export * from '../../capabilities/financial/infrastructure/adapters/ui/useEstruturaGovernancaAdapter';

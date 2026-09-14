@@ -1,7 +1,2 @@
-import { InstitutionalObject } from '../intelligence/InstitutionalObject';
-
-export interface ScenarioReference extends InstitutionalObject {
-  executionId: string;
-  confidenceLevel: 'HIGH' | 'MEDIUM' | 'LOW';
-  category: string;
-}
+// shim
+export * from '../../capabilities/financial/contracts/types/war-room/ScenarioReference';

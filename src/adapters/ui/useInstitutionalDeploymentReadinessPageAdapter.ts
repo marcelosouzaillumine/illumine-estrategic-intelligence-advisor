@@ -1,8 +1,2 @@
-import { useState } from 'react';
-
-export function useInstitutionalDeploymentReadinessPageAdapter(clientId: string) {
-  const [loading, setLoading] = useState(false);
-  const [readinessData, setReadinessData] = useState<any>({});
-
-  return { readinessData, loading };
-}
+// shim
+export * from '../../capabilities/financial/infrastructure/adapters/ui/useInstitutionalDeploymentReadinessPageAdapter';

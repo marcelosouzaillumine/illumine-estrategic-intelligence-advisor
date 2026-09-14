@@ -1,22 +1,2 @@
-import React from 'react';
-import { cn } from '@/lib/utils';
-import { ExecutiveSurface } from './executive-surface';
-import { Lightbulb } from 'lucide-react';
-
-export interface InsightPanelProps extends Omit<React.HTMLAttributes<HTMLDivElement>, 'title'> {
-  title?: React.ReactNode;
-}
-
-export function InsightPanel({ title, children, className, ...props }: InsightPanelProps) {
-  return (
-    <ExecutiveSurface variant="insight" padding="lg" radius="lg" className={cn("flex flex-col gap-4", className)} {...props}>
-      <div className="flex items-start gap-4">
-        <Lightbulb className="w-6 h-6 text-insight shrink-0 mt-1" strokeWidth={2} />
-        <div className="flex-1 space-y-2">
-          {title && <h3 className="font-medium text-lg text-insight-foreground tracking-tight leading-none">{title}</h3>}
-          <div className="text-insight-foreground/90 text-sm leading-relaxed">{children}</div>
-        </div>
-      </div>
-    </ExecutiveSurface>
-  );
-}
+// shim
+export * from '../../capabilities/financial/ui/presentation/insight-panel';

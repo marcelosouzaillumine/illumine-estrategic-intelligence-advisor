@@ -1,11 +1,2 @@
-import { useState } from 'react';
-
-export function useInstitutionalDigitalTwinAdapter(clientId: string) {
-  const [loading, setLoading] = useState(false);
-  const [twinData, setTwinData] = useState<any[]>([]);
-
-  return {
-    twinData,
-    loading
-  };
-}
+// shim
+export * from '../../capabilities/financial/infrastructure/adapters/ui/useInstitutionalDigitalTwinAdapter';

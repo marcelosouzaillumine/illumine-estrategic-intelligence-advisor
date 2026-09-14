@@ -1,8 +1,2 @@
-import { useState } from 'react';
-
-export function useOrcamentoPageAdapter(clientId: string) {
-  const [loading, setLoading] = useState(false);
-  const [orcamentoData, setOrcamentoData] = useState<any>({});
-
-  return { orcamentoData, loading };
-}
+// shim
+export * from '../../capabilities/financial/infrastructure/adapters/ui/useOrcamentoPageAdapter';

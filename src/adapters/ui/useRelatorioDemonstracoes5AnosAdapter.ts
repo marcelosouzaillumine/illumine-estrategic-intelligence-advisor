@@ -1,7 +1,2 @@
-import { useState } from 'react';
-
-export function useRelatorioDemonstracoes5AnosAdapter(clientId: string) {
-  const [loading, setLoading] = useState(false);
-  const [report5YearsData, setReport5YearsData] = useState<any>({});
-  return { report5YearsData, loading };
-}
+// shim
+export * from '../../capabilities/financial/infrastructure/adapters/ui/useRelatorioDemonstracoes5AnosAdapter';

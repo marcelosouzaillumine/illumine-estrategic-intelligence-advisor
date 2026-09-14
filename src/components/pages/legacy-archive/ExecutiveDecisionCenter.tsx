@@ -1,2 +1,2 @@
-// LEGACY / NOT_IMPLEMENTED: Archived UI page.
-export default function ArchivedPage() { return null; }
+// shim
+export * from '../../../capabilities/financial/revenue/client-workspace/components/decision/ExecutiveDecisionCenter';

@@ -1,1 +1,2 @@
-export const NotAvailable = true;
+// shim
+export * from '../../capabilities/financial/infrastructure/adapters/ui/TaxReformAdapter';

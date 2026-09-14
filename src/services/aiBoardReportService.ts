@@ -1,5 +1,2 @@
-/**
- * @deprecated Use src/services/intelligence/BoardReportIntelligenceService.ts instead.
- * Preserved temporarily for backward compatibility.
- */
-export * from './intelligence/BoardReportIntelligenceService';
+// shim
+export * from '../capabilities/financial/governance/infrastructure/aiBoardReportService';

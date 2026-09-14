@@ -1,2 +1,2 @@
-export const NotAvailable = true;
-export default function Dummy() { return null; }
+// shim
+export * from '../../capabilities/financial/modals/presentation/ImportTransactionsModal';

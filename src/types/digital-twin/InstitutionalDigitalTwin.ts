@@ -1,8 +1,2 @@
-import { InstitutionalObject } from '../intelligence/InstitutionalObject';
-
-export interface InstitutionalDigitalTwin extends InstitutionalObject {
-  // References to other core systems
-  currentSnapshotId?: string;
-  timelineId?: string;
-  graphId?: string;
-}
+// shim
+export * from '../../capabilities/financial/contracts/types/digital-twin/InstitutionalDigitalTwin';

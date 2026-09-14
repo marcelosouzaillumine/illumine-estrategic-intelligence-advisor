@@ -1,7 +1,2 @@
-import { useState } from 'react';
-
-export function usePrecificacaoPageAdapter(clientId: string) {
-  const [loading, setLoading] = useState(false);
-  const [pricingData, setPricingData] = useState<any>({});
-  return { pricingData, loading };
-}
+// shim
+export * from '../../capabilities/financial/infrastructure/adapters/ui/usePrecificacaoPageAdapter';

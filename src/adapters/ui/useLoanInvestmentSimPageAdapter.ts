@@ -1,8 +1,2 @@
-import { useState } from 'react';
-
-export function useLoanInvestmentSimPageAdapter(clientId: string) {
-  const [loading, setLoading] = useState(false);
-  const [simData, setSimData] = useState<any>({});
-
-  return { simData, loading };
-}
+// shim
+export * from '../../capabilities/financial/infrastructure/adapters/ui/useLoanInvestmentSimPageAdapter';

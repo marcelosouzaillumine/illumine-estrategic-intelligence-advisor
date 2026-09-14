@@ -1,1 +1,2 @@
-export { useInstitutionalAuth } from '../core/security/auth/InstitutionalAuthProvider';
+// shim
+export * from '../capabilities/financial/application/hooks/useInstitutionalAuth';

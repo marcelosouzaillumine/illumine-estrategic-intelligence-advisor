@@ -1,3 +1,2 @@
-import React from 'react';
-export const DREPage = (props: any) => <div>Archived</div>;
-export default DREPage;
+// shim
+export * from '../../../capabilities/financial/pages/presentation/DREPage';

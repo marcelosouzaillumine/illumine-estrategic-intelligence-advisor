@@ -1,1 +1,2 @@
-export { useClientWorkspaceSession } from './ClientWorkspaceAuthProvider';
+// shim
+export * from '../../../../capabilities/financial/revenue/client-workspace/auth/useClientWorkspaceSession';

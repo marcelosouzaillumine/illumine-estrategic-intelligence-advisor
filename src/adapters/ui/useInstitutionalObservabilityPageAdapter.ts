@@ -1,8 +1,2 @@
-import { useState } from 'react';
-
-export function useInstitutionalObservabilityPageAdapter(clientId: string) {
-  const [loading, setLoading] = useState(false);
-  const [observabilityData, setObservabilityData] = useState<any>({});
-
-  return { observabilityData, loading };
-}
+// shim
+export * from '../../capabilities/financial/infrastructure/adapters/ui/useInstitutionalObservabilityPageAdapter';
