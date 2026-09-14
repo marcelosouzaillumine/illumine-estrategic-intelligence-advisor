@@ -1,0 +1,7 @@
+import { useState } from 'react';
+
+export function useStrategicSimulationPageAdapter(clientId: string) {
+  const [loading, setLoading] = useState(false);
+  const [simData, setSimData] = useState<any>({});
+  return { simData, loading };
+}

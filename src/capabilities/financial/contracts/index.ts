@@ -10,5 +10,6 @@ export * from './HistoricalIntelligence';
 export * from './IntelligenceSignal';
 // export * from './IntelligenceTraceability'; // TS2308: IntelligenceTraceability
 export * from './OperationalIntelligenceContract';
-export * from './governance';
+// export * from './governance'; // TS2308: EvidenceReference
 export * from './persistence';
+export * from './types';
