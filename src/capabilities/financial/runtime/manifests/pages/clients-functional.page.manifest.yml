@@ -1,0 +1,25 @@
+page:
+  id: clients-functional
+  architecture: EFA
+  certificationLevel: L4
+runtime:
+  engine: ERE
+  compiler: EUCCompilerEngine
+layout:
+  template: MasterDetailLayout
+sections:
+  - id: client-list
+    component: ClientListPanel
+    governanceLevel: OPERATIONAL
+  - id: client-detail
+    component: ClientGeneralForm
+    governanceLevel: OPERATIONAL
+intelligenceBinding:
+  knowledge:
+    enabled: true
+  digitalTwin:
+    enabled: true
+  recommendation:
+    enabled: true
+  audit:
+    enabled: true
