@@ -14,3 +14,4 @@ export * from './LegacyFinancialAdapter';
 export * from './SovereignDecisionAdapter';
 export * from './StressTestAdapter';
 export * from './setup';
+export * from './BoardRuntimeAdapter';

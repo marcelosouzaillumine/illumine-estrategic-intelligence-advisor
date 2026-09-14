@@ -16,3 +16,4 @@ export * from './languageMetadata';
 export * from './pt-BR';
 export * from './translationKeyGovernance';
 export * from './translationParityGuard';
+export * from './LanguageContext';

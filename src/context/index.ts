@@ -1,3 +1,2 @@
-export * from './BrandIdentityProvider';
-export * from './ConsolidatedExecutiveContext';
-export * from './TenancyProvider';
+// shim
+export * from '../capabilities/financial/tenancy/presentation';

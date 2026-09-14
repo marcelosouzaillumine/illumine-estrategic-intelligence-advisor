@@ -1,1 +1,3 @@
-export * from './providers';
+export * from './AdvisoryIntelligenceService';
+export * from './BoardReportIntelligenceService';
+export * from './GovernanceIntelligenceService';

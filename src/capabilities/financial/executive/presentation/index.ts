@@ -27,3 +27,4 @@ export * from './OrganizationalMemoryTimeline';
 export * from './PatternDetectionCard';
 export * from './UniversalSearchHub';
 export * from './WorkspaceHubNavigation';
+export * from './ConsolidatedExecutiveContext';
